@@ -20,19 +20,19 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from lambda_products.lambda_products_pack.lambda_core.Lens.lens_core import ΛLens as LensCore
+from products.lambda.lambda_products_pack.lambda_core.Lens.lens_core import ΛLens as LensCore
 
 # Import our modules directly
-from lambda_products.lambda_products_pack.lambda_core.Lens.parsers.code_parser import CodeParser
-from lambda_products.lambda_products_pack.lambda_core.Lens.parsers.csv_parser import CSVParser
-from lambda_products.lambda_products_pack.lambda_core.Lens.parsers.data_parser import DataParser
-from lambda_products.lambda_products_pack.lambda_core.Lens.parsers.markdown_parser import MarkdownParser
-from lambda_products.lambda_products_pack.lambda_core.Lens.parsers.pdf_parser import PDFParser
-from lambda_products.lambda_products_pack.lambda_core.Lens.parsers.text_parser import TextParser
-from lambda_products.lambda_products_pack.lambda_core.Lens.renderers.web2d_renderer import Web2DRenderer
-from lambda_products.lambda_products_pack.lambda_core.Lens.renderers.xr_renderer import XRRenderer
-from lambda_products.lambda_products_pack.lambda_core.Lens.symbols.symbol_generator import SymbolGenerator
-from lambda_products.lambda_products_pack.lambda_core.Lens.widgets.widget_factory import WidgetFactory
+from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.code_parser import CodeParser
+from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.csv_parser import CSVParser
+from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.data_parser import DataParser
+from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.markdown_parser import MarkdownParser
+from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.pdf_parser import PDFParser
+from products.lambda.lambda_products_pack.lambda_core.Lens.parsers.text_parser import TextParser
+from products.lambda.lambda_products_pack.lambda_core.Lens.renderers.web2d_renderer import Web2DRenderer
+from products.lambda.lambda_products_pack.lambda_core.Lens.renderers.xr_renderer import XRRenderer
+from products.lambda.lambda_products_pack.lambda_core.Lens.symbols.symbol_generator import SymbolGenerator
+from products.lambda.lambda_products_pack.lambda_core.Lens.widgets.widget_factory import WidgetFactory
 
 
 # Pydantic models

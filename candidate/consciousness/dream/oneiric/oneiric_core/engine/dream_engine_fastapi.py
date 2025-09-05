@@ -44,7 +44,7 @@ try:
     from dream.core.qi_dream_adapter import DreamQuantumConfig, QIDreamAdapter
 
     from bio.core import BioOrchestrator
-    from candidate.core.bio_systems.qi_inspired_layer import QIBioOscillator
+    from candidate.core.bio_systems.qi_layer import QIBioOscillator
     from candidate.core.unified_integration import UnifiedIntegration
     from lukhas.memory.core_memory.dream_memory_manager import DreamMemoryManager
 

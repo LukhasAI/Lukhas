@@ -16,14 +16,14 @@ from typing import Any, Optional
 
 # Import LUKHAS ecosystem components
 try:
-    from lambda_products.NIΛS.emotional_filter import EmotionalFilter
-    from lambda_products.WΛLLET.qi_identity_core import (
+    from products.lambda.NIΛS.emotional_filter import EmotionalFilter
+    from products.lambda.WΛLLET.qi_identity_core import (
         QIIdentityCore,
     )
-    from lambda_products.ΛSYMBOLIC.authentication.psi_protocol import (
+    from products.lambda.ΛSYMBOLIC.authentication.psi_protocol import (
         PsiProtocol,
     )
-    from lambda_products.ΛSYMBOLIC.core.lambda_id_protocol import (
+    from products.lambda.ΛSYMBOLIC.core.lambda_id_protocol import (
         LambdaIdProtocol,
     )
 

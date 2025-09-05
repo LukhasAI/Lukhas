@@ -9,7 +9,7 @@ REPO_ROOT = os.path.abspath(os.path.join(THIS_DIR, "..", "..", "..", "..", "..")
 sys.path.insert(0, REPO_ROOT)
 
 try:
-    from lambda_products.lambda_products_pack.lambda_core.Lens.api.main import app
+    from products.lambda.lambda_products_pack.lambda_core.Lens.api.main import app
 except Exception:
     # Fallback: import by file path if package import fails
     import importlib.util

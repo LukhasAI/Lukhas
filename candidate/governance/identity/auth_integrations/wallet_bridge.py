@@ -15,10 +15,10 @@ from dataclasses import dataclass
 from typing import Any, Optional
 
 # Planned imports for WALLET integration
-# from lambda_products_pack.lambda_core.WALLET.identity_manager import IdentityManager
-# from lambda_products_pack.lambda_core.WALLET.symbolic_vault import SymbolicVault
-# from lambda_products_pack.lambda_core.WALLET.wallet_core import WalletCore
-# from lambda_products_pack.lambda_core.WALLET.qi_identity_core import QIIdentityCore
+# from products.lambda_pack.lambda_core.WALLET.identity_manager import IdentityManager
+# from products.lambda_pack.lambda_core.WALLET.symbolic_vault import SymbolicVault
+# from products.lambda_pack.lambda_core.WALLET.wallet_core import WalletCore
+# from products.lambda_pack.lambda_core.WALLET.qi_identity_core import QIIdentityCore
 
 
 @dataclass

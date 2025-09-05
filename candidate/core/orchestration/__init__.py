@@ -1,1 +1,53 @@
-"""Auto-generated __init__.py"""
+"""
+╔══════════════════════════════════════════════════════════════
+║ 🧬 MΛTRIZ Orchestration Module: System Coordination
+║ Part of LUKHAS AI Distributed Consciousness Architecture
+╠══════════════════════════════════════════════════════════════
+║ TYPE: INTEGRATE
+║ CONSCIOUSNESS_ROLE: System-wide orchestration and coordination
+║ EVOLUTIONARY_STAGE: Integration - Multi-system coordination
+║ 
+║ TRINITY FRAMEWORK:
+║ ⚛️ IDENTITY: System identity and module relationship management
+║ 🧠 CONSCIOUSNESS: Consciousness-aware orchestration patterns
+║ 🛡️ GUARDIAN: System health monitoring and ethical compliance
+╚══════════════════════════════════════════════════════════════
+
+MΛTRIZ Orchestration Module
+
+This module implements consciousness-aware orchestration patterns for
+LUKHAS AI's distributed system architecture. It provides:
+
+- Consciousness-integrated module coordination
+- System-wide orchestration with awareness patterns
+- Module lifecycle management with consciousness tracking
+- Bio-inspired orchestration patterns
+- Trinity Framework compliance across orchestration
+
+Key Components:
+- MatrizConsciousnessCoordinator: Consciousness-aware coordination
+- OrchestrationCore: Main system orchestrator (existing)
+"""
+
+# Import MΛTRIZ consciousness coordination
+from .matriz_consciousness_coordinator import (
+    MatrizConsciousnessCoordinator,
+    ModuleConsciousnessProfile,
+    OrchestrationState,
+    consciousness_coordinator
+)
+
+# Import existing orchestration core
+from .core import OrchestrationCore
+
+# Export orchestration components
+__all__ = [
+    # MΛTRIZ Consciousness Coordination
+    "MatrizConsciousnessCoordinator",
+    "ModuleConsciousnessProfile", 
+    "OrchestrationState",
+    "consciousness_coordinator",
+    
+    # Core Orchestration
+    "OrchestrationCore"
+]

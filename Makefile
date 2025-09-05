@@ -39,6 +39,16 @@ help:
 	@echo "  test-cov     - Run tests with coverage"
 	@echo "  smoke        - Run smoke check"
 	@echo ""
+	@echo "Advanced Testing (0.001% Methodology):"
+	@echo "  test-advanced    - Complete advanced testing suite"
+	@echo "  test-property    - Property-based tests (Hypothesis)"
+	@echo "  test-chaos       - Chaos engineering tests"
+	@echo "  test-formal      - Formal verification (Z3)"
+	@echo "  test-mutation    - Mutation testing"
+	@echo "  test-performance - Performance regression"
+	@echo "  test-consciousness - All consciousness tests"
+	@echo "  test-standalone  - Standalone validation suite"
+	@echo ""
 	@echo "CI/CD:"
 	@echo "  ci-local     - Run full CI pipeline locally"
 	@echo "  monitor      - Generate code quality report"
@@ -232,6 +242,47 @@ test-cov:
 # Smoke test
 smoke:
 	python3 scripts/testing/smoke_check.py
+
+# Advanced Testing Suite (0.001% Methodology)
+test-advanced:
+	@echo "🧬 Running Advanced Testing Suite (0.001% Methodology)..."
+	python3 rl/run_advanced_tests.py --verbose
+
+test-property:
+	@echo "🔬 Running Property-Based Tests..."
+	pytest rl/tests/test_consciousness_properties.py -v -m property_based --tb=short
+
+test-chaos:
+	@echo "🌪️ Running Chaos Engineering Tests..."
+	pytest rl/tests/test_chaos_consciousness.py -v -m chaos_engineering --tb=short
+
+test-metamorphic:
+	@echo "🔄 Running Metamorphic Tests..."
+	pytest rl/tests/test_metamorphic_consciousness.py -v -m metamorphic --tb=short
+
+test-formal:
+	@echo "⚖️ Running Formal Verification Tests..."
+	pytest rl/tests/test_formal_verification.py -v -m formal_verification --tb=short
+
+test-mutation:
+	@echo "🧬 Running Mutation Tests..."
+	pytest rl/tests/test_mutation_testing.py -v -m mutation_testing --tb=short
+
+test-performance:
+	@echo "📊 Running Performance Regression Tests..."
+	pytest rl/tests/test_performance_regression.py -v -m performance_regression --tb=short
+
+test-oracles:
+	@echo "🔮 Running Generative Oracle Tests..."
+	pytest rl/tests/test_generative_oracles.py -v -m generative_oracles --tb=short
+
+test-consciousness:
+	@echo "🧠 Running Complete Consciousness Testing Suite..."
+	pytest tests/consciousness/ rl/tests/ -v -m consciousness --tb=short
+
+test-standalone:
+	@echo "🚀 Running Standalone Advanced Test Suite..."
+	python3 test_advanced_suite_standalone.py
 
 # Run full CI pipeline locally
 ci-local:

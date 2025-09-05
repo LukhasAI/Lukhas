@@ -1,0 +1,11 @@
+"""
+RL Multi-Agent Coordination Components
+=====================================
+
+Multi-agent coordination systems that emit MΛTRIZ DECISION nodes.
+These components coordinate consciousness decisions across distributed agents.
+"""
+
+from .multi_agent_coordination import MultiAgentCoordination, CoordinationStrategy, AgentProfile
+
+__all__ = ["MultiAgentCoordination", "CoordinationStrategy", "AgentProfile"]

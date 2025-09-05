@@ -11,13 +11,13 @@ from pathlib import Path
 # Load environment
 from dotenv import load_dotenv
 
-from lambda_products_pack.lambda_core.NIAS.dream_generator import (
+from products.lambda_pack.lambda_core.NIAS.dream_generator import (
     BioRhythm,
     DreamContext,
     DreamGenerator,
     DreamMood,
 )
-from lambda_products_pack.lambda_core.NIAS.vendor_portal import (
+from products.lambda_pack.lambda_core.NIAS.vendor_portal import (
     DreamSeed,
     DreamSeedType,
 )

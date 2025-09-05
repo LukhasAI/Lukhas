@@ -11,10 +11,10 @@ from typing import Any, Optional
 # Fixed: Converted complex relative imports to robust absolute imports with fallback chains
 try:
     # Try absolute import first
-    from lambda_products.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.interfaces.ehr_interface import (
+    from products.lambda.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.interfaces.ehr_interface import (
         EHRInterface,
     )
-    from lambda_products.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.security.security_utils import (
+    from products.lambda.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.security.security_utils import (
         AuditLogger,
         EncryptionHandler,
     )

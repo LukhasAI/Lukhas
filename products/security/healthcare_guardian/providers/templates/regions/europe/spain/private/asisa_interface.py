@@ -11,7 +11,7 @@ from typing import Any, Optional
 # Fixed: Converted complex relative imports to robust absolute imports with fallback chains
 try:
     # Try absolute import first
-    from lambda_products.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.base_provider import (
+    from products.lambda.lambda_products_pack.lambda_core.HealthcareGuardian.providers.templates.base_provider import (
         BaseHealthcareProvider,
         ProviderConfig,
         SecurityConfig,

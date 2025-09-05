@@ -11,7 +11,7 @@ from typing import Any, Callable, Optional
 
 from ...voice_integrator import VoiceIntegrator
 from ..oscillator.orchestrator import BioOrchestrator
-from ..oscillator.qi_inspired_layer import QIBioOscillator
+from ..oscillator.qi_layer import QIBioOscillator
 
 logger = logging.getLogger("qi_voice")
 
