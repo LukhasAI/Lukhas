@@ -193,7 +193,9 @@
       "Bash(if [ -d \"candidate/bio/$dir\" ])",
       "Bash(then)",
       "Bash(if [ -d \"$dir\" ])",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(do python3 -m py_compile \"$file\")"
     ],
     "deny": [],
     "ask": []

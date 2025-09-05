@@ -29,7 +29,7 @@ except ImportError:
     np = None
 
 from candidate.core.common import get_logger
-from .consciousness_environment import MatrizNode, ConsciousnessState
+from ..engine.consciousness_environment import MatrizNode, ConsciousnessState
 
 logger = get_logger(__name__)
 

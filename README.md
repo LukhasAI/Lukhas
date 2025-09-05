@@ -277,6 +277,45 @@ MD
 - `make audit-nav` – quick summary for auditors
 - `make audit-scan` – list deep search report files
 
+## 🧬 Advanced Testing Suite (0.001% Methodology)
+
+LUKHAS AI implements cutting-edge testing methodologies used by the top 0.001% of engineers:
+
+### **Mathematical Proof-Based Testing**
+- **Property-Based**: `make test-property` - Prove consciousness invariants for ALL inputs (Hypothesis)
+- **Formal Verification**: `make test-formal` - Mathematical proofs using Z3 theorem prover  
+- **Chaos Engineering**: `make test-chaos` - Systematic failure injection (Netflix approach)
+- **Mutation Testing**: `make test-mutation` - Validate test suite quality by introducing bugs
+
+### **Consciousness-Specific Testing**
+- **Metamorphic**: `make test-metamorphic` - Test relationships without expected outputs
+- **Performance Regression**: `make test-performance` - Statistical quality monitoring
+- **Generative Oracles**: `make test-oracles` - Oracle-based consciousness validation
+- **Complete Suite**: `make test-advanced` - Run all advanced methodologies
+
+### **Key Differentiators**
+**Traditional**: Test specific examples work  
+**0.001%**: **Mathematically prove** properties hold for ALL possible inputs
+
+### **Quick Start**
+```bash
+# Install advanced testing dependencies
+pip install -r requirements-test.txt
+
+# Run complete advanced testing suite
+make test-advanced
+
+# Run standalone validation (no complex dependencies)
+make test-standalone
+```
+
+### **Documentation**
+- [Complete Testing Guide](rl/tests/README.md) - Comprehensive implementation guide
+- [Testing Evolution Log](docs/testing/TESTING_EVOLUTION_LOG.md) - From baseline to 0.001%
+- [Web Testing Guide](docs/web/website_content/testing_page.md) - User-friendly overview
+
+**Result**: Mathematical guarantees about consciousness system safety rather than hoping examples work.
+
 ## Module Mapping JSONs
 
 - Repository master architecture: `LUKHAS_ARCHITECTURE_MASTER.json`
