@@ -46,11 +46,15 @@ jobs:
           fi
           ruff --version || true
 
-      - name: Run checks
+      - name: Run checks (deterministic)
         run: |
-          # Force ruff to use our config, then run the remaining make checks
-          ruff check --config pyproject.toml serve tests/contract || true
-          make check
+          set -euo pipefail
+          # Force Ruff to read our config to ensure per-file ignores apply
+          ruff check --config pyproject.toml serve tests/contract
+          # Run contract tests only for the CI check stage
+          pytest -q tests/contract --maxfail=1 --disable-warnings
+          # Run a scoped mypy check; allow mypy to fail without failing the CI job
+          mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
 
   test:
     name: Test
