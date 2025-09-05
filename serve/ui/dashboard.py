@@ -6,14 +6,15 @@ Implements passkey login, workflow transparency, feedback collection
 
 import os
 import uuid
-from datetime import datetime, timezone
 from typing import Any, Optional
 
-# Import other agents' components (absolute imports; no sys.path hacks)
-from core.identity.lambda_id_core import LukhasIdentityService
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
+
+# Import other agents' components (absolute imports; no sys.path hacks)
+from datetime import datetime, timezone
+from core.identity.lambda_id_core import LukhasIdentityService
 
 from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
 from lukhas.orchestration.context_bus_enhanced import (

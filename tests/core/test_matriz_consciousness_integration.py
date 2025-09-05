@@ -9,11 +9,11 @@ Tests the integrated consciousness system across all core modules:
 - Orchestration coordination
 """
 
-import pytest
-import asyncio
-from unittest.mock import MagicMock, AsyncMock
 import sys
 from pathlib import Path
+from unittest.mock import MagicMock
+
+import pytest
 
 # Add candidate/core to path for testing
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "candidate" / "core"))
@@ -21,17 +21,18 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "candidate" / "core
 # Test imports with graceful fallback
 try:
     from consciousness.matriz_consciousness_state import (
-        ConsciousnessType,
-        EvolutionaryStage, 
         ConsciousnessState,
+        ConsciousnessType,
+        EvolutionaryStage,
+        consciousness_state_manager,
         create_consciousness_state,
-        consciousness_state_manager
     )
-    from orchestration.matriz_consciousness_coordinator import consciousness_coordinator
     from identity.matriz_consciousness_identity import consciousness_identity_manager
-    from governance.matriz_consciousness_governance import consciousness_governance_system
-    from symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
     from matriz_integrated_demonstration import run_matriz_demonstration
+    from orchestration.matriz_consciousness_coordinator import consciousness_coordinator
+    from symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
+
+    from governance.matriz_consciousness_governance import consciousness_governance_system
     
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -208,7 +209,7 @@ class TestMatrizConsciousnessIntegration:
             }
         )
         
-        initial_stage = consciousness.evolutionary_stage
+        _initial_stage = consciousness.evolutionary_stage
         
         # Evolve consciousness multiple times
         for i in range(3):
@@ -265,17 +266,17 @@ class TestMatrizConsciousnessIntegration:
         )
         
         # Verify required MΛTRIZ pattern fields
-        assert hasattr(state, 'TYPE')
-        assert hasattr(state, 'STATE')
-        assert hasattr(state, 'LINKS')
-        assert hasattr(state, 'EVOLVES_TO')
-        assert hasattr(state, 'TRIGGERS')
-        assert hasattr(state, 'REFLECTIONS')
+        assert hasattr(state, "TYPE")
+        assert hasattr(state, "STATE")
+        assert hasattr(state, "LINKS")
+        assert hasattr(state, "EVOLVES_TO")
+        assert hasattr(state, "TRIGGERS")
+        assert hasattr(state, "REFLECTIONS")
         
         # Verify Trinity Framework compliance
-        assert hasattr(state, 'identity_signature')
-        assert hasattr(state, 'consciousness_depth') 
-        assert hasattr(state, 'guardian_approval')
+        assert hasattr(state, "identity_signature")
+        assert hasattr(state, "consciousness_depth") 
+        assert hasattr(state, "guardian_approval")
         
         # Test state validation
         assert state.identity_signature != ""

@@ -1,11 +1,7 @@
 # Auditing Directory Index
 
 ## Overview
-<<<<<<< HEAD
-This directory contains the auditing components of the ΛI system.
-=======
 This directory contains the auditing components of the lukhasI system.
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Path**: `tools/auditing/`
 **Last Updated**: 2025-06-13 01:27:18
@@ -13,11 +9,7 @@ This directory contains the auditing components of the lukhasI system.
 
 ## Files
 
-<<<<<<< HEAD
-### 📄  Λ_100_percent_connectivity_resolver.py
-=======
 ### 📄  lukhas_100_percent_connectivity_resolver.py
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Purpose**:
 
@@ -67,11 +59,7 @@ This directory contains the auditing components of the lukhasI system.
 
 **Purpose**:
 
-<<<<<<< HEAD
-**Classes**: ΛKeywordExtractor
-=======
 **Classes**: lukhasKeywordExtractor
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Functions**: extract_from_file, scan_workspace, generate_enhanced_domains, save_results, print_summary
 
@@ -123,19 +111,11 @@ This directory contains the auditing components of the lukhasI system.
 
 ---
 
-<<<<<<< HEAD
-### 📄 ΛCoreAnalyzer.py
-
-**Purpose**:
-
-**Classes**: ΛCoreAnalyzer
-=======
 ### 📄 lukhasCoreAnalyzer.py
 
 **Purpose**:
 
 **Classes**: lukhasCoreAnalyzer
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Functions**: main, analyze_lukhas_structure, generate_analysis_report
 
@@ -143,11 +123,7 @@ This directory contains the auditing components of the lukhasI system.
 
 ---
 
-<<<<<<< HEAD
-### 📄 ΛCriticalConnectivityAnalyzer.py
-=======
 ### 📄 lukhasCriticalConnectivityAnalyzer.py
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Purpose**:
 
@@ -159,11 +135,7 @@ This directory contains the auditing components of the lukhasI system.
 
 ---
 
-<<<<<<< HEAD
-### 📄 ΛDependencyConnectivityTest.py
-=======
 ### 📄 lukhasDependencyConnectivityTest.py
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Purpose**:
 
@@ -175,19 +147,11 @@ This directory contains the auditing components of the lukhasI system.
 
 ---
 
-<<<<<<< HEAD
-### 📄 ΛOrganizationScanner.py
-
-**Purpose**:
-
-**Classes**: ΛOrganizationScanner
-=======
 ### 📄 lukhasOrganizationScanner.py
 
 **Purpose**:
 
 **Classes**: lukhasOrganizationScanner
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Functions**: main, scan_pascal_case_issues, scan_directory_naming, scan_misplaced_documentation, scan_duplicate_names (+5 more)
 
@@ -195,19 +159,11 @@ This directory contains the auditing components of the lukhasI system.
 
 ---
 
-<<<<<<< HEAD
-### 📄 ΛPatternScanner.py
-
-**Purpose**:
-
-**Classes**: FunctionMatch, ΛFunctionScanner
-=======
 ### 📄 lukhasPatternScanner.py
 
 **Purpose**:
 
 **Classes**: FunctionMatch, lukhasFunctionScanner
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Functions**: main, scan_lukhas_ecosystem, print_summary, save_detailed_report
 
@@ -215,11 +171,7 @@ This directory contains the auditing components of the lukhasI system.
 
 ---
 
-<<<<<<< HEAD
-### 📄 ΛTrueCoreAnalyzer.py
-=======
 ### 📄 lukhasTrueCoreAnalyzer.py
->>>>>>> jules/ecosystem-consolidation-2025
 
 **Purpose**:
 
@@ -235,11 +187,7 @@ This directory contains the auditing components of the lukhasI system.
 ```
 tools/auditing/
 ├── INDEX.md (this file)
-<<<<<<< HEAD
-├──  Λ_100_percent_connectivity_resolver.py
-=======
-├──  lukhas_100_percent_connectivity_resolver.py
->>>>>>> jules/ecosystem-consolidation-2025
+├── lukhas_100_percent_connectivity_resolver.py
 ├── check_all_box_alignment.py
 ├── comprehensive_core_auditor.py
 ├── comprehensive_organizational_audit.py
@@ -248,19 +196,10 @@ tools/auditing/
 ├── post_consolidation_auditor.py
 ├── simple_troubleshooter.py
 ├── vscode_diagnostic.py
-<<<<<<< HEAD
-├── ΛCoreAnalyzer.py
-├── ΛCriticalConnectivityAnalyzer.py
-├── ΛDependencyConnectivityTest.py
-├── ΛOrganizationScanner.py
-├── ΛPatternScanner.py
-├── ΛTrueCoreAnalyzer.py
-=======
 ├── lukhasCoreAnalyzer.py
 ├── lukhasCriticalConnectivityAnalyzer.py
 ├── lukhasDependencyConnectivityTest.py
 ├── lukhasOrganizationScanner.py
 ├── lukhasPatternScanner.py
 ├── lukhasTrueCoreAnalyzer.py
->>>>>>> jules/ecosystem-consolidation-2025
 ```

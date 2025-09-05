@@ -4295,4 +4295,3 @@ The extensive use of placeholder logic, simplified algorithms, and conceptual in
 For an overview of how symbolic tags (especially `#ΛSEED`, `#ΛDREAM_LOOP`, `#ΛDRIFT_HOOK`) from the `learning/` module converge with `memory/` and `reasoning/`, and for broader symbolic diagnostics, refer to the [JULES10_SYMBOLIC_CONVERGENCE.md](../../docs/diagnostics/JULES10_SYMBOLIC_CONVERGENCE.md) document.
 
 For a central entry point to all convergence diagnostic efforts, see [docs/diagnostics/README_convergence.md](../../docs/diagnostics/README_convergence.md).
->>>>>>> origin/jules04-learning-symbolic-refactor

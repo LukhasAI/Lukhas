@@ -461,12 +461,8 @@
       "interface/interface/voice/eleven_tts.py",
       "interface/interface/lukhas_as_agent/docs/assets/mermaid_diagrams/core/utils/symbolic_github_export.py",
       "interface/interface/lukhas_as_agent/sys/abas/abas.py",
-      "interface/interface/voice/integrations/openai/gpt_client.py",
-<<<<<<< HEAD
-      "interface/interface/Λctl.py",
-=======
-      "interface/interface/lukhasctl.py",
->>>>>>> jules/ecosystem-consolidation-2025
+  "interface/interface/voice/integrations/openai/gpt_client.py",
+  "interface/interface/lukhasctl.py",
       "interface/interface/ui/components/replay_graphs.py",
       "interface/interface/tools/dao/dao_propose.py",
       "interface/interface/ui/adaptive/ui_orchestrator.py",
@@ -758,45 +754,6 @@
       "tests/core/symbolic_audit_viewer.py",
       "tests/benchmarks/quantum_performance_benchmark.py"
     ],
-<<<<<<< HEAD
-    "ΛiD": [
-      "ΛiD/src/personality_refiner.py",
-      "ΛiD/src/seedra_vault_manager.py",
-      "ΛiD/src/core.py",
-      "ΛiD/src/tiered_encryption_engine.py",
-      "ΛiD/src/voice_personality.py",
-      "ΛiD/src/vault/ΛiD.py",
-      "ΛiD/src/tests/test_identity.py",
-      "ΛiD/src/seedra/identity_validator.py",
-      "ΛiD/src/lukhas_es_creativo.py",
-      "ΛiD/src/lukhas_expression.py",
-      "ΛiD/src/emotional_memory.py",
-      "ΛiD/src/test_identity.py",
-      "ΛiD/src/neuro_haiku_generator.py",
-      "ΛiD/src/creative_expressions.py",
-      "ΛiD/service/lukhas_identity/security/lukhas_awareness_protocol.py",
-      "ΛiD/src/identity_manager.py",
-      "ΛiD/src/lukhas_id_manager.py",
-      "ΛiD/standardization/final_id_standardization.py",
-      "ΛiD/src/test_cretivity.py",
-      "ΛiD/src/quantum_identity_engine.py",
-      "ΛiD/src/symbolic/vocabulary.py",
-      "ΛiD/standardization/final_lambda_id_standardization.py",
-      "ΛiD/src/seedra_registry.py",
-      "ΛiD/src/enhanced_personality.py",
-      "ΛiD/src/seedra/seedra_core.py",
-      "ΛiD/src/examples/usage_demo.py",
-      "ΛiD/src/vault/memory_identity.py",
-      "ΛiD/src/personas/lukhas_empathy.py",
-      "ΛiD/src/symbolic_vault.py",
-      "ΛiD/src/personas/lukhas_personas.py",
-      "ΛiD/src/brain_identity_connector.py",
-      "ΛiD/src/unified_doc_generator.py",
-      "ΛiD/src/manager.py",
-      "ΛiD/standardization/final_lambda_standardization_complete.py",
-      "ΛiD/standardization/lambda_id_ref_standardization.py",
-      "ΛiD/service/router.py"
-=======
     "Lukhas_ID": [
       "Lukhas_ID/src/personality_refiner.py",
       "Lukhas_ID/src/seedra_vault_manager.py",
@@ -834,7 +791,6 @@
       "Lukhas_ID/standardization/final_lambda_standardization_complete.py",
       "Lukhas_ID/standardization/lambda_id_ref_standardization.py",
       "Lukhas_ID/service/router.py"
->>>>>>> jules/ecosystem-consolidation-2025
     ],
     "vision": [
       "vision/vision/core.py",
@@ -1186,11 +1142,7 @@
       "voice_renderer",
       "interfaces"
     ],
-<<<<<<< HEAD
-    "ΛiD": [
-=======
     "Lukhas_ID": [
->>>>>>> jules/ecosystem-consolidation-2025
       "biometric_engine"
     ]
   }
