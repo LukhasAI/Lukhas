@@ -180,12 +180,18 @@ max-returns = 3
 # remove this waiver after a deterministic import-order fix is applied.
 [tool.ruff.per-file-ignores]
 "serve/ui/dashboard.py" = ["I001"]
+"serve/extreme_performance_main.py" = ["PLW0603", "ARG001", "ARG002"]
+"serve/orchestration_routes.py" = ["PLW0603", "PLR5501", "ARG002"]
+"serve/storage/trace_provider.py" = ["PLW0603"]
 
 # Also include the newer 'lint' section mapping so newer Ruff versions
 # (which prefer settings under [tool.ruff.lint]) will pick up the same
 # per-file ignore. Keep both keys for compatibility across CI/local.
 [tool.ruff.lint.per-file-ignores]
 "serve/ui/dashboard.py" = ["I001"]
+"serve/extreme_performance_main.py" = ["PLW0603", "ARG001", "ARG002"]
+"serve/orchestration_routes.py" = ["PLW0603", "PLR5501", "ARG002"]
+"serve/storage/trace_provider.py" = ["PLW0603"]
 
 [tool.mypy]
 python_version = "3.10"

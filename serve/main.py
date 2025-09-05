@@ -126,7 +126,11 @@ if guardian_router is not None:
 def voice_core_available() -> bool:
     # minimal, import-only probe
     try:  # PERF203: reason=lightweight voice readiness probe; no heavy imports; added=2025-09-04; expires=2026-03-01
-        import lukhas.bridge.voice as _  # probe import only; no side effects
+        # Use importlib.import_module to perform an import-only probe without
+        # introducing a named unused symbol that linters flag (F401).
+        import importlib
+
+        importlib.import_module("lukhas.bridge.voice")  # probe import only; no side effects
 
         return True
     except Exception:
@@ -152,13 +156,12 @@ def healthz() -> dict[str, Any]:
         existing = status.get("degraded_reasons")
         if existing is None:
             status["degraded_reasons"] = ["voice"]
-        else:
+        elif isinstance(existing, list):
             # mypy: existing may be Any; assume list and append
-            if isinstance(existing, list):
-                existing.append("voice")
-            else:
-                # Fallback: overwrite with new list
-                status["degraded_reasons"] = ["voice"]
+            existing.append("voice")
+        else:
+            # Fallback: overwrite with new list
+            status["degraded_reasons"] = ["voice"]
 
     return status
 
