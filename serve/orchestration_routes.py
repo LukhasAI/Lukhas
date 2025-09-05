@@ -150,10 +150,12 @@ async def multi_ai_chat(request: MultiAIRequest):
         # Convert string providers to AIProvider enums
         providers = []
         if request.providers:
+            valid = {p.value for p in AIProvider}
             for provider_name in request.providers:
-                try:
-                    providers.append(AIProvider(provider_name.lower()))
-                except ValueError:
+                name = provider_name.lower()
+                if name in valid:
+                    providers.append(AIProvider(name))
+                else:
                     logger.warning("Unknown provider: %s", provider_name)
 
         # Convert task type
@@ -253,16 +255,15 @@ async def compare_providers(request: MultiAIRequest):
         consensus_result = await orchestrator.orchestrate(orchestration_request)
 
         # Build individual responses
-        individual_responses = []
-        for response in consensus_result.individual_responses:
-            individual_responses.append(
-                ProviderResponse(
-                    provider=response.provider.value,
-                    content=response.content,
-                    confidence=response.confidence,
-                    latency_ms=response.latency_ms,
-                )
+        individual_responses = [
+            ProviderResponse(
+                provider=response.provider.value,
+                content=response.content,
+                confidence=response.confidence,
+                latency_ms=response.latency_ms,
             )
+            for response in consensus_result.individual_responses
+        ]
 
         return {
             "consensus": {
