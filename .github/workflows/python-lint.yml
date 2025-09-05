@@ -33,6 +33,17 @@ jobs:
           pip install "ruff==0.6.9"
           pip install "pytest==8.4.2"
 
+      - name: Show Ruff config (debug)
+        run: |
+          git rev-parse HEAD || true
+          ls -la || true
+          if [ -f pyproject.toml ]; then
+            sed -n '1,220p' pyproject.toml | sed -n '1,60p' || true
+          else
+            echo "pyproject.toml not found"
+          fi
+          ruff --version || true
+
       - name: Lint only changed Python files (ruff)
         shell: bash
         run: |
@@ -44,7 +55,7 @@ jobs:
             echo "No changed .py files; skipping ruff."
             exit 0
           fi
-          echo "$CHANGED" | xargs -r ruff check
+          echo "$CHANGED" | xargs -r -n1 ruff check --config pyproject.toml
       - name: Tests (contract only)
         run: pytest -q tests/contract --maxfail=1 --disable-warnings
       - name: Scoped mypy (optional)

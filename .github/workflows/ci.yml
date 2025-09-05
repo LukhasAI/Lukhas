@@ -35,9 +35,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install "ruff==0.6.9"
 
+      - name: Verify config & version (debug)
+        run: |
+          git rev-parse HEAD || true
+          ls -la || true
+          if [ -f pyproject.toml ]; then
+            sed -n '1,220p' pyproject.toml | sed -n '1,60p' || true
+          else
+            echo "pyproject.toml not found"
+          fi
+          ruff --version || true
+
       - name: Run checks
         run: |
-          ruff --version || true
+          # Force ruff to use our config, then run the remaining make checks
+          ruff check --config pyproject.toml serve tests/contract || true
           make check
 
   test:
