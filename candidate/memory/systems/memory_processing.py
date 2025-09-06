@@ -69,7 +69,7 @@ class MemoryProcessor:
         memory = MemoryNode(
             content=content,
             context=context,
-            timestamp=datetime.datetime.now(),
+            timestamp=datetime.datetime.now(timezone.utc),
             emotional_state=emotional_state,
             importance=self._calculate_importance(context),
             metadata={"interaction_id": self.interaction_count},
@@ -99,7 +99,7 @@ class MemoryProcessor:
             context_score = context_score / max(len(context), len(memory.context))
 
             # Time decay factor (1.0 -> 0.0)
-            time_diff = (datetime.datetime.now() - memory.timestamp).total_seconds()
+            time_diff = (datetime.datetime.now(timezone.utc) - memory.timestamp).total_seconds()
             time_factor = 1.0 / (1.0 + time_diff / (24 * 3600))  # 24hr half-life
 
             return context_score * time_factor * memory.importance
@@ -149,7 +149,7 @@ class MemoryProcessor:
             return dict.fromkeys(EmotionalState, 0)
 
         if timeframe:
-            cutoff = datetime.datetime.now() - timeframe
+            cutoff = datetime.datetime.now(timezone.utc) - timeframe
             relevant_memories = [m for m in self.memories[user_id] if m.timestamp >= cutoff]
         else:
             relevant_memories = self.memories[user_id]
@@ -180,7 +180,7 @@ class MemoryProcessor:
 
         return {
             "user_id": user_id,
-            "export_timestamp": datetime.datetime.now().isoformat(),
+            "export_timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             "memory_count": len(memory_data),
             "memories": memory_data,
         }

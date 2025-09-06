@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 from ..unified_integration import MessageType, UnifiedIntegration
 
-logger = logging.getLogger("awareness_adapter")
+logger = logging.getLogger("awareness_adapter", timezone)
 
 
 class AwarenessAdapter:
@@ -80,7 +80,7 @@ class AwarenessAdapter:
         Returns:
             Dict with update results
         """
-        self.awareness_state["last_update"] = datetime.now().isoformat()
+        self.awareness_state["last_update"] = datetime.now(timezone.utc).isoformat()
 
         return await self.integration.send_message(
             source=self.component_id,
@@ -115,7 +115,7 @@ class AwarenessAdapter:
             {
                 "target": target,
                 "priority": priority,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 

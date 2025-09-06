@@ -61,7 +61,7 @@ from typing import Any, Optional
 from lukhas.core.common import get_logger
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 
 # Try to import lukhas.consciousness integration
 try:
@@ -362,7 +362,7 @@ class AdvancedHaikuGenerator:
             "style": style,
             "syllable_structure": syllable_structure,
             "consciousness_metrics": consciousness_metrics,
-            "generation_timestamp": datetime.now().isoformat(),
+            "generation_timestamp": datetime.now(timezone.utc).isoformat(),
             "expansion_depth": expansion_depth,
         }
 
@@ -399,7 +399,7 @@ class AdvancedHaikuGenerator:
             "total_haiku": len(themes) * count_per_theme,
             "themes": themes,
             "average_metrics": avg_metrics,
-            "generation_timestamp": datetime.now().isoformat(),
+            "generation_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _generate_quantum_haiku(self, theme: str, style: str) -> str:

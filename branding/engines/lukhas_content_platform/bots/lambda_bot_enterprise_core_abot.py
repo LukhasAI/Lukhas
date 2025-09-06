@@ -12,7 +12,7 @@ import logging
 import sys
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, List, Optional, Tuple
 
@@ -94,7 +94,7 @@ class CoreΛBotResponse:
     upgrade_prompt: Optional[UpgradePrompt] = None
     processing_time: float = 0.0
     features_used: List[str] = field(default_factory=list)
-    timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class CoreConsciousnessSimulator:
@@ -266,7 +266,7 @@ class CoreAPIAdapter:
         self.limits = subscription_limits
         self.active_connections = 0
         self.hourly_requests = 0
-        self.last_reset = datetime.now()
+        self.last_reset = datetime.now(timezone.utc)
 
     async def connect_to_api(self, endpoint: str) -> Tuple[bool, Optional[UpgradePrompt]]:
         """Attempt to connect to API with tier restrictions"""
@@ -298,7 +298,7 @@ class CoreAPIAdapter:
 
     def _reset_hourly_limits(self):
         """Reset hourly limits if needed"""
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         if (now - self.last_reset).total_seconds() > 3600:  # 1 hour
             self.hourly_requests = 0
             self.last_reset = now
@@ -316,7 +316,7 @@ class CoreABot:
         logger.info(f"🤖 Initializing Core LUKHAS AI ΛBot - {subscription_tier.value} tier")
 
         self.session_id = str(uuid.uuid4())
-        self.initialization_time = datetime.now()
+        self.initialization_time = datetime.now(timezone.utc)
         self.subscription_tier = subscription_tier
 
         # Set up subscription limits
@@ -414,7 +414,7 @@ class CoreABot:
 
     async def process_message(self, user_input: str, context: Optional[Dict] = None) -> CoreΛBotResponse:
         """Process user message with tiered capabilities"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         context = context or {}
 
         logger.info(f"🧠 Processing message: {user_input[:50]}...")
@@ -443,7 +443,7 @@ class CoreABot:
             upgrade_prompt = consciousness_upgrade or self._check_for_upgrade_opportunities(user_input, context)
 
             # Create response
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             response = CoreΛBotResponse(
                 content=response_content,
@@ -469,7 +469,7 @@ class CoreABot:
                 content=f"I encountered an issue processing your request. {self._get_error_upgrade_hint()}",
                 confidence=0.1,
                 consciousness_state=self.consciousness.current_state,
-                processing_time=(datetime.now() - start_time).total_seconds(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
 
     async def _process_with_enhanced_agi(self, user_input: str, context: Dict) -> CoreΛBotResponse:
@@ -616,7 +616,7 @@ class CoreABot:
         """Update conversation history"""
         self.conversation_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "user_input": user_input,
                 "response": response.content,
                 "consciousness_state": response.consciousness_state.value,

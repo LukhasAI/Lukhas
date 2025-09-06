@@ -162,7 +162,7 @@ class DataAnalyzer(CoreInterface):
 
             # Step 4: Create result
             result = AnalysisResult(
-                request_id=f"analysis_{datetime.now().timestamp()}",
+                request_id=f"analysis_{datetime.now(timezone.utc).timestamp()}",
                 findings=findings,
                 confidence=findings.get("confidence", 0.8),
                 ethical_approval=True if request.ethical_check else None,

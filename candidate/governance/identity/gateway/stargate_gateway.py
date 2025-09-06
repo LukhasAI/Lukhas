@@ -243,7 +243,7 @@ class StargateGateway:
     def log_event(self, event_type: str, **kwargs):
         """Log gateway events with symbolic glyphs"""
         event = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "event_type": event_type,
             "details": kwargs,
         }
@@ -273,7 +273,7 @@ class StargateGateway:
             logger.warning("👤 SUPERVISOR OVERRIDE ACTIVE - Bypassing standard checks")
             self.log_event("supervisor_override", user_id=payload.user_id, glyph="👤")
             self.supervisor_overrides[payload.user_id] = {
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(timezone.utc),
                 "reason": "Manual authentication override",
             }
 
@@ -345,7 +345,7 @@ class StargateGateway:
             "payload": payload,
             "session_key": session_key,  # Internal key for operations
             "public_verification_hash": session_data.get("public_verification_hash", ""),
-            "established": datetime.utcnow(),
+            "established": datetime.now(timezone.utc),
             "status": "active",
             "supervisor_override": supervisor_override,
             "session_data": session_data,  # Full session info
@@ -983,7 +983,7 @@ Wake up... but remember the dream. It holds the key.
 
         audit_data = {
             "transmission_id": f"TX_{secrets.token_hex(8)}",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "source": payload.source_agent,
             "target": payload.target_agent,
             "user_id_hash": hashlib.sha256(payload.user_id.encode()).hexdigest()[:16],
@@ -1010,7 +1010,7 @@ Wake up... but remember the dream. It holds the key.
         _ = payload
 
         log_entry = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "success": response.success,
             "audit_trail": response.audit_trail,
         }

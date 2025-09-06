@@ -43,7 +43,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.2.0"
@@ -120,7 +120,7 @@ class OrchestrationCore:
         """Initialize the flagship core system."""
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self.is_running = False
 
         # Core system components
@@ -404,7 +404,7 @@ class OrchestrationCore:
                 metadata={
                     "consciousness_level": self.consciousness_level,
                     "emotional_state": self.emotional_state,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             )
 

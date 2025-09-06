@@ -28,7 +28,7 @@ from ..id_service.entropy_engine import EntropyEngine
 from ..id_service.lambd_id_validator import LambdaIDValidator
 
 
-class CommercialTier(Enum):
+class CommercialTier(Enum, timezone):
     """Commercial tier definitions with enhanced permissions."""
 
     BUSINESS = "business"
@@ -64,7 +64,7 @@ class BrandPrefix:
 
     def is_valid(self) -> bool:
         """Check if brand prefix is currently valid."""
-        return self.status == BrandStatus.APPROVED and self.expiry_date > datetime.utcnow()
+        return self.status == BrandStatus.APPROVED and self.expiry_date > datetime.now(timezone.utc)
 
 
 @dataclass
@@ -206,7 +206,7 @@ class CommercialModule:
 
         # Create brand registration
         registration_id = f"brand_reg_{int(time.time())}"
-        expiry_date = datetime.utcnow() + timedelta(days=365)
+        expiry_date = datetime.now(timezone.utc) + timedelta(days=365)
 
         brand_prefix = BrandPrefix(
             brand_code=brand_code,
@@ -214,7 +214,7 @@ class CommercialModule:
             contact_email=contact_email,
             commercial_tier=commercial_tier,
             status=BrandStatus.PENDING,
-            registration_date=datetime.utcnow(),
+            registration_date=datetime.now(timezone.utc),
             expiry_date=expiry_date,
             verification_documents=verification_documents,
             usage_stats={
@@ -328,7 +328,7 @@ class CommercialModule:
                 lambda_id=lambda_id,
                 brand_prefix=brand_code,
                 commercial_tier=commercial_tier,
-                generation_time=datetime.utcnow(),
+                generation_time=datetime.now(timezone.utc),
                 entropy_score=entropy_score,
                 validation_result=validation_result.__dict__,
                 billing_info=billing_info,
@@ -467,10 +467,10 @@ class CommercialModule:
         if brand_code in self.registered_brands:
             brand = self.registered_brands[brand_code]
             brand.usage_stats["lambda_ids_generated"] += 1
-            brand.usage_stats["last_used"] = datetime.utcnow()
+            brand.usage_stats["last_used"] = datetime.now(timezone.utc)
 
             # Track daily usage
-            today = datetime.utcnow().strftime("%Y-%m-%d")
+            today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
             if brand_code not in self.usage_tracking:
                 self.usage_tracking[brand_code] = {}
             if today not in self.usage_tracking[brand_code]:

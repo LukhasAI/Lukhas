@@ -8,8 +8,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from candidate.orchestration.brain.unified_cognitive_orchestrator import (
-    UnifiedCognitiveOrchestrator,
-)
+    UnifiedCognitiveOrchestrator,, timezone)
 from lukhas.core.adapters.module_service_adapter import register_service_adapters
 from lukhas.core.adapters.seven_agent_adapter import register_seven_agent_services
 from lukhas.core.container.service_container import ServiceContainer, get_container
@@ -47,7 +46,7 @@ class LUKHASBootstrap:
     async def initialize(self) -> dict[str, Any]:
         """Initialize all LUKHAS services and infrastructure"""
         logger.info("🚀 Starting LUKHAS service bootstrap...")
-        self.startup_time = datetime.now()
+        self.startup_time = datetime.now(timezone.utc)
 
         try:
             # Step 1: Initialize service container
@@ -85,7 +84,7 @@ class LUKHASBootstrap:
             health_report = await self._check_system_health()
 
             self.initialized = True
-            duration = (datetime.now() - self.startup_time).total_seconds()
+            duration = (datetime.now(timezone.utc) - self.startup_time).total_seconds()
 
             logger.info(f"✅ LUKHAS bootstrap completed in {duration:.2f} seconds")
 
@@ -193,7 +192,7 @@ class LUKHASBootstrap:
     async def _check_system_health(self) -> dict[str, Any]:
         """Check health of all services"""
         health_report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "services": {},
         }
 
@@ -302,7 +301,7 @@ class LUKHASBootstrap:
                     content="Bootstrap demonstration memory",
                     metadata={
                         "type": "demo",
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     },
                 )
                 logger.info(f"  ✓ Created memory fold: {fold_id}")

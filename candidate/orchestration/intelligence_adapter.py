@@ -18,8 +18,7 @@ from typing import Any, Optional
 from candidate.orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
     IntelligenceRequestType,
-    LukhasAgentBridge,
-)
+    LukhasAgentBridge,, timezone)
 
 logger = logging.getLogger("LUKHAS.Intelligence.Orchestration")
 
@@ -120,7 +119,7 @@ class LukhasIntelligenceOrchestrationAdapter:
         if not self._initialized:
             await self.initialize()
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         logger.info(f"🎼 Coordinating intelligence operation for {agent_type.value}")
 
         try:
@@ -144,8 +143,8 @@ class LukhasIntelligenceOrchestrationAdapter:
                 agent_id=f"{agent_type.value}_001",
                 payload=orchestrated_response,
                 confidence=intelligence_response.get("confidence", 0.8),
-                processing_time=(datetime.now() - start_time).total_seconds(),
-                timestamp=datetime.now(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
+                timestamp=datetime.now(timezone.utc),
                 symbolic_effects=symbolic_effects,
             )
 
@@ -226,7 +225,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             "intelligence_core": intelligence_response,
             "orchestration_context": orchestration_context,
             "integration_metadata": {
-                "integration_timestamp": datetime.now().isoformat(),
+                "integration_timestamp": datetime.now(timezone.utc).isoformat(),
                 "orchestration_version": "1.0.0",
                 "trinity_validated": True,
             },

@@ -41,7 +41,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 # ΛEXPOSE
@@ -55,7 +55,7 @@ class MemoryCleaner:
     """
 
     def __init__(self, parent_id: str, task_data: dict[str, Any]):
-        self.agent_id = f"{parent_id}_MEMORY_{int(datetime.now().timestamp())}"
+        self.agent_id = f"{parent_id}_MEMORY_{int(datetime.now(timezone.utc).timestamp())}"
         self.parent_id = parent_id
         self.task_data = task_data
 
@@ -106,7 +106,7 @@ class MemoryCleaner:
                 "memory_id": f"mem_{i:04d}",
                 "duplicate_count": random.randint(2, 5),
                 "size_impact": random.randint(1024, 10240),
-                "last_accessed": datetime.now().timestamp() - random.randint(3600, 86400),
+                "last_accessed": datetime.now(timezone.utc).timestamp() - random.randint(3600, 86400),
             }
             for i in random.sample(range(total_segments), min(redundant_count, 10))  # Limit to 10
         ]
@@ -215,7 +215,7 @@ class MemoryCleaner:
 
         # Store cleanup results for reporting
         self.last_cleanup_stats = cleanup_stats
-        self.last_cleanup_time = datetime.now()
+        self.last_cleanup_time = datetime.now(timezone.utc)
 
         # ΛPHASE_NODE: Memory Cleanup End
         return success_rate >= 0.8  # Return True if we fixed at least 80% of issues
@@ -245,7 +245,7 @@ class MemoryCleaner:
                 "length": random.randint(5, 50),
                 "coherence_score": random.uniform(0.3, 0.9),
                 "replay_count": random.randint(0, 100),
-                "last_replay": datetime.now().timestamp() - random.randint(0, 86400),
+                "last_replay": datetime.now(timezone.utc).timestamp() - random.randint(0, 86400),
                 "fragments": random.randint(1, 10),
                 "has_redundancy": random.choice([True, False]),
                 "optimization_potential": random.uniform(0.1, 0.7),
@@ -308,7 +308,7 @@ class MemoryCleaner:
 
         # Store consolidation results
         self.last_consolidation_stats = consolidation_stats
-        self.last_consolidation_time = datetime.now()
+        self.last_consolidation_time = datetime.now(timezone.utc)
 
         # ΛPHASE_NODE: Dream Sequence Consolidation End
         return optimization_rate >= 0.3  # Success if we optimized at least 30% of sequences
@@ -567,7 +567,7 @@ class MemoryCleaner:
             "integrity_validation_results": integrity_result,
             "entropy_optimization_results": entropy_result,
             "recommendations": self._generate_health_recommendations(overall_health_score),
-            "assessment_timestamp": datetime.now().isoformat(),
+            "assessment_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.logger.info(

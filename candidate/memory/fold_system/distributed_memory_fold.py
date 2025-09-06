@@ -55,7 +55,7 @@ import numpy as np
 from candidate.core.common.config import get_config
 
 
-class NodeState(Enum):
+class NodeState(Enum, timezone):
     """States for distributed memory nodes"""
 
     FOLLOWER = "follower"
@@ -145,7 +145,7 @@ class NodeInfo:
 
     def is_alive(self, timeout_seconds: int = 30) -> bool:
         """Check if node is considered alive based on last heartbeat"""
-        return (datetime.now() - self.last_heartbeat).total_seconds() < timeout_seconds
+        return (datetime.now(timezone.utc) - self.last_heartbeat).total_seconds() < timeout_seconds
 
 
 class ConsensusProtocol:
@@ -186,13 +186,13 @@ class ConsensusProtocol:
             address="localhost",
             port=port,
             state=NodeState.FOLLOWER,
-            last_heartbeat=datetime.now(),
+            last_heartbeat=datetime.now(timezone.utc),
         )
 
         # Timing
         self.election_timeout = random.uniform(5.0, 10.0)  # seconds
         self.heartbeat_interval = 2.0  # seconds
-        self.last_heartbeat_received = datetime.now()
+        self.last_heartbeat_received = datetime.now(timezone.utc)
 
         # Consciousness metrics
         self.consciousness_level = 0.8  # This node's consciousness level
@@ -249,7 +249,7 @@ class ConsensusProtocol:
                 await self._send_heartbeats()
             elif self.state == NodeState.FOLLOWER:
                 # Check if we need to start election
-                time_since_heartbeat = (datetime.now() - self.last_heartbeat_received).total_seconds()
+                time_since_heartbeat = (datetime.now(timezone.utc) - self.last_heartbeat_received).total_seconds()
                 if time_since_heartbeat > self.election_timeout:
                     await self._start_election()
 
@@ -350,7 +350,7 @@ class ConsensusProtocol:
                 timeout=aiohttp.ClientTimeout(total=2.0),
             ) as response:
                 if response.status == 200:
-                    node_info.last_heartbeat = datetime.now()
+                    node_info.last_heartbeat = datetime.now(timezone.utc)
 
         except Exception as e:
             logger.warning(f"Failed to send heartbeat to {node_info.node_id}", error=str(e))
@@ -399,7 +399,7 @@ class ConsensusProtocol:
         if term == self.current_term:
             self.state = NodeState.FOLLOWER
             self.leader_id = leader_id
-            self.last_heartbeat_received = datetime.now()
+            self.last_heartbeat_received = datetime.now(timezone.utc)
 
             # Update leader's consciousness level
             if leader_id in self.nodes:
@@ -507,7 +507,7 @@ class ConsensusProtocol:
             address=address,
             port=port,
             state=NodeState.FOLLOWER,
-            last_heartbeat=datetime.now(),
+            last_heartbeat=datetime.now(timezone.utc),
             consciousness_level=consciousness_level,
         )
 
@@ -660,7 +660,7 @@ class DistributedMemoryFold:
                             address=address,
                             port=port,
                             state=NodeState.FOLLOWER,
-                            last_heartbeat=datetime.now(),
+                            last_heartbeat=datetime.now(timezone.utc),
                         )
                         break
 
@@ -696,7 +696,7 @@ class DistributedMemoryFold:
             )
         else:
             # Fallback: generate simple memory ID
-            memory_id = hashlib.sha256(f"{content}{datetime.now().isoformat()}".encode()).hexdigest()[:16]
+            memory_id = hashlib.sha256(f"{content}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:16]
 
         # Create distributed memory entry
         memory_data = json.dumps(
@@ -714,7 +714,7 @@ class DistributedMemoryFold:
             memory_data=memory_data,
             embedding_hash=(hashlib.sha256(embedding.tobytes()).hexdigest() if embedding is not None else ""),
             node_id=self.node_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             term=self.consensus.current_term,
             index=len(self.consensus.memory_log),
         )
@@ -830,7 +830,7 @@ class DistributedMemoryFold:
         """Query memories from other nodes in the network"""
 
         query_tasks = []
-        query_id = hashlib.sha256(f"{query}{datetime.now().isoformat()}".encode()).hexdigest()[:8]
+        query_id = hashlib.sha256(f"{query}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:8]
 
         for node_id, node_info in self.consensus.nodes.items():
             if node_id != self.node_id and node_info.is_alive():

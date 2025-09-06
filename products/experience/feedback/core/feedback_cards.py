@@ -19,7 +19,7 @@ from uuid import uuid4
 import numpy as np
 
 
-class FeedbackType(Enum):
+class FeedbackType(Enum, timezone):
     """Types of feedback"""
 
     RATING = "rating"  # 1-5 star rating
@@ -425,7 +425,7 @@ class FeedbackCardsManager:
     def _log_high_impact_alert(self, card: FeedbackCard):
         """Log high-impact feedback for monitoring and alerts"""
         alert_data = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "card_id": card.card_id,
             "user_id": card.user_id,
             "category": card.category.value,
@@ -541,7 +541,7 @@ class FeedbackCardsManager:
         quality_score = min(accuracy_feedback / max(total_feedback, 1) + 0.5, 1.0)
 
         # Factor 5: Time factor (recent activity is valued)
-        recent_feedback = sum(1 for row in history if (datetime.now().timestamp() - float(row[4])) < 604800)  # 1 week
+        recent_feedback = sum(1 for row in history if (datetime.now(timezone.utc).timestamp() - float(row[4])) < 604800)  # 1 week
         recency_score = min(recent_feedback / 5.0, 1.0)
 
         # Weighted combination

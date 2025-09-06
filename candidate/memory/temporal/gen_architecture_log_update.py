@@ -24,7 +24,7 @@ ARCHITECTURE_LOG_FILE = "logs/architecture/architecture_change_log.md"
 
 def add_architecture_log_entry(change_summary, affected_modules):
     """Appends a new change entry into the protected architecture change log."""
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    today = datetime.datetime.now(timezone.utc).strftime("%Y-%m-%d")
     entry = f"| {today} | {change_summary} | {affected_modules} |\n"
 
     try:

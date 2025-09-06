@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Any
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 logger = logging.getLogger("LukhasAIAgentTeam")
 
 
@@ -56,7 +56,7 @@ class LukhasAIAgent:
         self.name = name
         self.tier = tier
         self.capabilities = capabilities
-        self.session_id = f"{name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.session_id = f"{name}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.active = True
 
         logger.info(f"🤖 Initialized {name} - Tier: {tier.value}")
@@ -70,7 +70,7 @@ class LukhasAIAgent:
             "agent": self.name,
             "task": task,
             "status": "completed",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "tier": self.tier.value,
             "capabilities_used": self.capabilities.new_features[:2],  # Show first 2 features
         }
@@ -82,7 +82,7 @@ class LukhasAIAgentTeam:
     """Collaborative AI Agent Team for LUKHAS ecosystem consolidation"""
 
     def __init__(self):
-        self.session_id = f"team_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.session_id = f"team_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.agents = {}
         self.consolidation_results = {}
 
@@ -455,7 +455,7 @@ class LukhasAIAgentTeam:
         """Execute the complete 3-phase collaborative consolidation process"""
         logger.info("🚀 Starting Complete Collaborative Consolidation Process")
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Execute all three phases
@@ -463,7 +463,7 @@ class LukhasAIAgentTeam:
             phase_2_results = await self.execute_phase_2_consolidation()
             phase_3_results = await self.execute_phase_3_handover()
 
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             total_time = (end_time - start_time).total_seconds()
 
             # Compile final results

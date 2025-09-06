@@ -52,7 +52,7 @@ import numpy as np
 from .glyph import EmotionVector, Glyph, GlyphPriority, GlyphType
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -213,7 +213,7 @@ class SymbolicFoundry:
             compatibility_score=compatibility_score,
             stability_prediction=stability_prediction,
             risk_assessment=risk_assessment,
-            creation_timestamp=datetime.now(),
+            creation_timestamp=datetime.now(timezone.utc),
         )
 
         self.fusion_history.append(candidate)
@@ -281,7 +281,7 @@ class SymbolicFoundry:
             viability_score=viability_score,
             novelty_assessment=novelty_assessment,
             safety_classification=safety_classification,
-            mutation_timestamp=datetime.now(),
+            mutation_timestamp=datetime.now(timezone.utc),
         )
 
         self.mutation_history.append(result)
@@ -635,7 +635,7 @@ class SymbolicFoundry:
         content = self._blend_content(glyphs, "synthesis")
         content["synthesis_metadata"] = {
             "source_count": len(glyphs),
-            "synthesis_timestamp": datetime.now().isoformat(),
+            "synthesis_timestamp": datetime.now(timezone.utc).isoformat(),
             "creative_fusion": True,
         }
         return content

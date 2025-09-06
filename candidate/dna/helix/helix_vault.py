@@ -20,7 +20,7 @@ from lukhas.core.common import get_logger
 
 from .dna_healix import MemoryHelix, RepairMethod
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class HelixVault:
@@ -263,7 +263,7 @@ class HelixVault:
         """Persist vault to disk"""
         vault_data = {
             "version": "1.0",
-            "created": datetime.now().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
             "statistics": self.get_statistics(),
             "memories": {},
         }
@@ -335,7 +335,7 @@ class DriftOracle:
         drift_data = []
         for memory in self.vault.memories.values():
             drift = memory.helix_core.calculate_drift()
-            age = (datetime.now() - memory.created_at).total_seconds() / 3600  # hours
+            age = (datetime.now(timezone.utc) - memory.created_at).total_seconds() / 3600  # hours
             repairs = len(memory.helix_core.repair_history)
 
             drift_data.append(
@@ -383,7 +383,7 @@ class DriftOracle:
 
         for memory in self.vault.memories.values():
             # Calculate drift velocity
-            age_hours = (datetime.now() - memory.created_at).total_seconds() / 3600
+            age_hours = (datetime.now(timezone.utc) - memory.created_at).total_seconds() / 3600
             if age_hours > 0:
                 velocity = memory.helix_core.calculate_drift() / age_hours
 

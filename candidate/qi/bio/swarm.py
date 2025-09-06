@@ -41,8 +41,7 @@ except ImportError:
 # Import consciousness integration
 try:
     from lukhas.consciousness.systems.consciousness_colony_integration import (
-        DistributedConsciousnessEngine,
-    )
+        DistributedConsciousnessEngine,, timezone)
 
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:
@@ -272,7 +271,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
                     {
                         "stage": "preprocessing",
                         "result": preprocessing_result,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
                 data = preprocessing_result.get("processed_data", data)
@@ -287,7 +286,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
                     {
                         "stage": "anomaly_detection",
                         "result": anomaly_result,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
                 pipeline_result["anomalies_detected"] = anomaly_result.get("anomalies", [])
@@ -303,7 +302,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
                     {
                         "stage": "threshold_adaptation",
                         "result": threshold_result,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
                 data = threshold_result.get("adapted_data", data)
@@ -318,7 +317,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
                     {
                         "stage": "contextual_mapping",
                         "result": mapping_result,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
                 data = mapping_result.get("mapped_data", data)
@@ -352,7 +351,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             "total_agents": sum(len(getattr(c, "agents", {})) for c in self.colonies.values()),
             "oracle_available": self.oracle_colony is not None,
             "consciousness_available": self.consciousness_engine is not None,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _get_collective_memory(self) -> dict[str, Any]:
@@ -393,7 +392,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             {
                 "type": "task_processing",
                 "task": task,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -404,7 +403,7 @@ class BioSymbolicSwarmHub(EnhancedSwarmHub):
             "status": "completed",
             "colony_results": results,
             "synthesis_method": "basic_aggregation",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -442,7 +441,7 @@ async def demonstrate_bio_symbolic_swarm():
     print("\n4. Bio-Symbolic Pipeline Processing")
     test_data = {
         "sensor_readings": [1.2, 2.3, 15.7, 2.1, 1.9],  # Anomaly at 15.7
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "source": "test_sensor",
     }
 

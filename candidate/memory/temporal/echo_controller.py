@@ -18,7 +18,7 @@ from candidate.core.common import get_logger
 # TAG:colony
 
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class EchoController:
@@ -45,7 +45,7 @@ class EchoController:
         """
         # ΛTRACE
         logger.info("Ping received", agent_id=agent_id, data=data)
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         if agent_id not in self.ping_history:
             self.ping_history[agent_id] = []
         self.ping_history[agent_id].append(now)
@@ -72,7 +72,7 @@ class EchoController:
         {ΛDRIFT_GUARD}
         Check for silent drops from any agent.
         """
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         for agent_id, history in self.ping_history.items():
             if not history:
                 continue
@@ -90,7 +90,7 @@ class EchoController:
         # ΛTRACE
         logger.warning(f"Governance Alert: {message}")
         with open(self.alert_log_path, "a") as f:
-            f.write(f"{datetime.now().isoformat()}: {message}\n")
+            f.write(f"{datetime.now(timezone.utc).isoformat()}: {message}\n")
 
 
 # ═══════════════════════════════════════════════════════════════════════════

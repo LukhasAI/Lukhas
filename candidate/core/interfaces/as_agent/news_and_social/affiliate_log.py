@@ -25,7 +25,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-AFFILIATE_LOG_PATH = Path("LUKHAS_AGENT_PLUGIN/logs/affiliate_log.jsonl")
+AFFILIATE_LOG_PATH = Path("LUKHAS_AGENT_PLUGIN/logs/affiliate_log.jsonl", timezone)
 AFFILIATE_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
@@ -41,7 +41,7 @@ def log_referral_click(user_id, vendor, widget_type, estimated_commission=0.0, t
     - tier (int): user tier at click time
     """
     payload = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "user_id": user_id,
         "vendor": vendor,
         "widget": widget_type,

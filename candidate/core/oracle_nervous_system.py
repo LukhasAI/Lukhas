@@ -53,7 +53,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("ΛTRACE.oracle_nervous_system")
+logger = logging.getLogger("ΛTRACE.oracle_nervous_system", timezone)
 
 
 class OracleCapabilityType(Enum):
@@ -190,7 +190,7 @@ class OracleNervousSystem:
                     "system_id": self.system_id,
                     "capabilities": list(self.capabilities.keys()),
                     "integration_level": "full_nervous_system",
-                    "initialized_at": datetime.now().isoformat(),
+                    "initialized_at": datetime.now(timezone.utc).isoformat(),
                 },
             )
 
@@ -389,7 +389,7 @@ class OracleNervousSystem:
                 processing_time=processing_time,
                 providers_used=providers_used,
                 cross_colony_events=cross_colony_events,
-                generated_at=datetime.now(),
+                generated_at=datetime.now(timezone.utc),
                 metadata={
                     "nervous_system_version": "1.0",
                     "capability_health": capability.health_status,
@@ -587,7 +587,7 @@ class OracleNervousSystem:
             "event_type": event_type,
             "event_data": event_data,
             "system_id": self.system_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         await self.event_queue.put(event)
@@ -649,7 +649,7 @@ class OracleNervousSystem:
                 # Check health of all capabilities
                 for capability in self.capabilities.values():
                     # Simple health check - could be more sophisticated
-                    capability.last_health_check = datetime.now()
+                    capability.last_health_check = datetime.now(timezone.utc)
                     capability.health_status = "operational"  # Would do actual checks
 
                 # Update overall system health

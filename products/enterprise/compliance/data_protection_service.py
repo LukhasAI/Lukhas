@@ -25,7 +25,7 @@ except ImportError:
     CRYPTO_AVAILABLE = False
 
 
-class ProtectionPolicy(BaseModel):
+class ProtectionPolicy(BaseModel, timezone):
     """Data protection policy definition"""
 
     policy_id: str
@@ -115,7 +115,7 @@ class GDPRValidator:
         return GDPRAssessment(
             activity_id=activity.activity_id,
             compliance_status="Fully Compliant",
-            assessment_date=datetime.now(),
+            assessment_date=datetime.now(timezone.utc),
             lawfulness_score=1.0,
             privacy_rights_score=1.0,
             security_score=1.0,
@@ -123,7 +123,7 @@ class GDPRValidator:
             overall_score=1.0,
             violations=[],
             recommendations=[],
-            next_review_date=datetime.now() + timedelta(days=180),
+            next_review_date=datetime.now(timezone.utc) + timedelta(days=180),
         )
 
 
@@ -163,7 +163,7 @@ class DataProtectionService:
         """
         Apply data protection based on policy.
         """
-        datetime.now()
+        datetime.now(timezone.utc)
         context = context or {}
 
         if policy_id not in self.protection_policies:

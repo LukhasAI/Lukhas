@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -83,7 +83,7 @@ class LocationTracker:
                     self.location_history.pop(0)
 
             self.current_location = location
-            self.last_update_time = datetime.utcnow()
+            self.last_update_time = datetime.now(timezone.utc)
 
             # Notify callbacks
             await self._notify_callbacks(location)
@@ -98,7 +98,7 @@ class LocationTracker:
     def _should_update_location(self, new_location: LocationUpdate) -> bool:
         """Determine if location should be updated based on privacy and accuracy"""
         # Check minimum time interval
-        if self.last_update_time and (datetime.utcnow() - self.last_update_time).total_seconds() < self.minimum_time:
+        if self.last_update_time and (datetime.now(timezone.utc) - self.last_update_time).total_seconds() < self.minimum_time:
             return False
 
         # Check minimum distance if we have a previous location
@@ -158,7 +158,7 @@ class LocationTracker:
 
     async def get_location_history(self, max_age_hours: int = 24) -> list[LocationUpdate]:
         """Get recent location history"""
-        cutoff_time = datetime.utcnow() - timedelta(hours=max_age_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=max_age_hours)
         return [loc for loc in self.location_history if loc.timestamp >= cutoff_time]
 
     async def clear_history(self) -> bool:

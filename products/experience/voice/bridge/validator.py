@@ -37,7 +37,7 @@ class VoiceValidator:
     - Integrates with monitoring systems for continuous validation
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: Optional[dict] = None, timezone):
         self.config = config or {}
         self.logger = logger
         self.is_initialized = False
@@ -79,7 +79,7 @@ class VoiceValidator:
                 "component": self.__class__.__name__,
                 "category": "voice",
                 "result": result,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -88,7 +88,7 @@ class VoiceValidator:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _core_voice_processing(self, data: Any) -> Any:
@@ -162,7 +162,7 @@ class VoiceValidator:
             "category": "voice",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def shutdown(self):

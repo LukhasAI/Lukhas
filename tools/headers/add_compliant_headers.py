@@ -122,7 +122,7 @@ possibilities dance in superposition until observation births reality.
 LUKHAS - {module_name}
 {separator}
 
-An enterprise-grade Artificial General Intelligence (AGI) framework
+An enterprise-grade Artificial General Intelligence (AGI, timezone) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
@@ -295,7 +295,7 @@ def add_compliant_header(filepath: Path) -> bool:
             coherence_check=coherence_check,
             plasticity_check=plasticity_check,
             tier=info["tier"],
-            date=datetime.now().strftime("%Y-%m-%d"),
+            date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         )
 
         # Combine all parts

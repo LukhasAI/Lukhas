@@ -13,7 +13,7 @@ from typing import Any, Callable, Optional
 
 from core.common import GLYPHSymbol
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -121,14 +121,14 @@ class GLYPHRouter:
         """Get cached route if valid"""
         if cache_key in self._cache:
             timestamp = self._cache_timestamps[cache_key]
-            if datetime.utcnow() - timestamp < timedelta(seconds=60):
+            if datetime.now(timezone.utc) - timestamp < timedelta(seconds=60):
                 return self._cache[cache_key]
         return None
 
     def _cache_route(self, cache_key: str, target: str, ttl: int):
         """Cache a routing decision"""
         self._cache[cache_key] = target
-        self._cache_timestamps[cache_key] = datetime.utcnow()
+        self._cache_timestamps[cache_key] = datetime.now(timezone.utc)
 
     async def _deliver_glyph(self, glyph: GLYPHSymbol, target_module: str):
         """Deliver GLYPH to target module handlers"""
@@ -170,5 +170,5 @@ def create_glyph(symbol_type: str, payload: dict[str, Any], metadata: Optional[d
         symbol_type=symbol_type,
         symbol_data=payload,
         metadata=metadata or {},
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc),
     )

@@ -22,7 +22,7 @@ class CausalReasoningModule:
     Advanced causal reasoning for understanding cause-effect relationships
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.causal_graph = {}
         self.causal_history = []
         self.confidence_threshold = 0.7
@@ -48,7 +48,7 @@ class CausalReasoningModule:
             "valid_causes": valid_causes,
             "reasoning_path": reasoning_path,
             "confidence": primary_cause["confidence"] if primary_cause else 0.0,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self._update_history(reasoning_results)
@@ -146,7 +146,7 @@ class CausalReasoningModule:
 
     def _update_causal_graph(self, valid_causes: dict):
         """Update persistent causal graph"""
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         for chain_id, chain_data in valid_causes.items():
             if chain_id not in self.causal_graph:
                 self.causal_graph[chain_id] = {

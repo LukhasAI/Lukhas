@@ -18,8 +18,7 @@ from .dream_generator import (
     DreamContext,
     DreamGenerator,
     DreamMood,
-    GeneratedDream,
-)
+    GeneratedDream,, timezone)
 from .emotional_filter import EmotionalFilter
 from .nias_core import (
     ConsentLevel,
@@ -208,8 +207,8 @@ class DreamCommerceOrchestrator:
                 }
 
             # Create new session
-            session_id = f"dcs_{user_id}_{datetime.now().timestamp()}"
-            session = DreamCommerceSession(session_id=session_id, user_id=user_id, started_at=datetime.now())
+            session_id = f"dcs_{user_id}_{datetime.now(timezone.utc).timestamp()}"
+            session = DreamCommerceSession(session_id=session_id, user_id=user_id, started_at=datetime.now(timezone.utc))
 
             self.active_sessions[user_id] = session
 
@@ -298,7 +297,7 @@ class DreamCommerceOrchestrator:
                         {
                             "seed_id": seed_id,
                             "dream_id": dream.dream_id,
-                            "delivered_at": datetime.now().isoformat(),
+                            "delivered_at": datetime.now(timezone.utc).isoformat(),
                         }
                     )
 
@@ -368,7 +367,7 @@ class DreamCommerceOrchestrator:
                             "dream_id": dream_id,
                             "seed_id": seed_id,
                             "amount": amount,
-                            "timestamp": datetime.now().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
 
@@ -411,7 +410,7 @@ class DreamCommerceOrchestrator:
                 "ready": False,
                 "reason": "high_stress",
                 "state": "stressed",
-                "retry_after": datetime.now() + timedelta(hours=2),
+                "retry_after": datetime.now(timezone.utc) + timedelta(hours=2),
             }
 
         # Check with ABAS if available
@@ -431,7 +430,7 @@ class DreamCommerceOrchestrator:
                 "ready": False,
                 "reason": "low_attention",
                 "state": "distracted",
-                "retry_after": datetime.now() + timedelta(minutes=30),
+                "retry_after": datetime.now(timezone.utc) + timedelta(minutes=30),
             }
 
         return {
@@ -507,7 +506,7 @@ class DreamCommerceOrchestrator:
 
     def _get_current_bio_rhythm(self) -> BioRhythm:
         """Get current biological rhythm based on time"""
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
 
         if 6 <= current_hour < 10:
             return BioRhythm.MORNING_PEAK
@@ -561,7 +560,7 @@ class DreamCommerceOrchestrator:
                 message_id=message.id,
                 reason="Success",
                 delivery_method="visual",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
             )
 
             return {
@@ -653,7 +652,7 @@ class DreamCommerceOrchestrator:
 
         # Increase priority for time-sensitive offers
         if seed.expiry:
-            days_until_expiry = (seed.expiry - datetime.now()).days
+            days_until_expiry = (seed.expiry - datetime.now(timezone.utc)).days
             if days_until_expiry < 2:
                 priority += 3
             elif days_until_expiry < 7:
@@ -667,7 +666,7 @@ class DreamCommerceOrchestrator:
 
     def _get_current_season(self) -> str:
         """Get current season"""
-        month = datetime.now().month
+        month = datetime.now(timezone.utc).month
         if month in [12, 1, 2]:
             return "winter"
         elif month in [3, 4, 5]:
@@ -725,7 +724,7 @@ class DreamCommerceOrchestrator:
         """Monitor and clean up inactive sessions"""
         while True:
             try:
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 timeout_duration = timedelta(minutes=self.config["session_timeout_minutes"])
 
                 for user_id, session in list(self.active_sessions.items()):

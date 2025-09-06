@@ -15,7 +15,7 @@ class BrandIntelligenceMonitor:
     consistency tracking, and predictive brand analytics
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.monitoring_config = self._load_monitoring_config()
         self.brand_patterns = self._compile_brand_patterns()
         self.intelligence_cache = {}
@@ -222,7 +222,7 @@ class BrandIntelligenceMonitor:
                         "insights": intelligence_insights,
                         "predictions": predictions,
                         "recommendations": recommendations,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
 
@@ -286,7 +286,7 @@ class BrandIntelligenceMonitor:
         return {
             "content_id": content.get("id", "unknown"),
             "content_type": content_type,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consistency_score": consistency_score,
             "terminology_analysis": terminology_analysis,
             "trinity_analysis": trinity_analysis,
@@ -535,7 +535,7 @@ class BrandIntelligenceMonitor:
         insights = self._generate_brand_insights(aggregated_results, trends, health_metrics)
 
         return {
-            "analysis_timestamp": datetime.now().isoformat(),
+            "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
             "content_analyzed": len(content_batch),
             "aggregated_results": aggregated_results,
             "trends": trends,
@@ -551,7 +551,7 @@ class BrandIntelligenceMonitor:
         # For now, providing structure and mock intelligence
 
         return {
-            "intelligence_timestamp": datetime.now().isoformat(),
+            "intelligence_timestamp": datetime.now(timezone.utc).isoformat(),
             "dataset_size": deep_dataset.get("size", 0),
             "brand_evolution_analysis": {
                 "maturity_score": 0.84,
@@ -581,7 +581,7 @@ class BrandIntelligenceMonitor:
         """Generate brand evolution predictions"""
 
         return {
-            "prediction_timestamp": datetime.now().isoformat(),
+            "prediction_timestamp": datetime.now(timezone.utc).isoformat(),
             "prediction_horizon": "90_days",
             "brand_health_prediction": {
                 "current_score": 0.84,
@@ -641,7 +641,7 @@ class BrandIntelligenceMonitor:
                 "id": "rt_001",
                 "type": "user_interaction",
                 "text": "Welcome to LUKHAS AI consciousness platform where the Trinity Framework guides every interaction",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         ]
 
@@ -661,7 +661,7 @@ class BrandIntelligenceMonitor:
 
     def _cache_consistency_result(self, result: dict[str, Any]) -> None:
         """Cache consistency result for trend analysis"""
-        timestamp = result.get("timestamp", datetime.now().isoformat())
+        timestamp = result.get("timestamp", datetime.now(timezone.utc).isoformat())
         if "consistency_trends" not in self.intelligence_cache:
             self.intelligence_cache["consistency_trends"] = []
 
@@ -674,7 +674,7 @@ class BrandIntelligenceMonitor:
         )
 
         # Keep only recent trends (last 24 hours)
-        cutoff_time = datetime.now() - timedelta(hours=24)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
         self.intelligence_cache["consistency_trends"] = [
             trend
             for trend in self.intelligence_cache["consistency_trends"]
@@ -685,7 +685,7 @@ class BrandIntelligenceMonitor:
         """Update intelligence cache with analysis results"""
         self.intelligence_cache[analysis_type] = {
             "results": results,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _store_intelligence_results(self, intelligence_data: dict[str, Any]) -> None:
@@ -700,7 +700,7 @@ class BrandIntelligenceMonitor:
     def _generate_alert_dashboard_update(self, alert_summary: dict[str, Any]) -> dict[str, Any]:
         """Generate dashboard update with alert information"""
         return {
-            "dashboard_timestamp": datetime.now().isoformat(),
+            "dashboard_timestamp": datetime.now(timezone.utc).isoformat(),
             "alert_summary": alert_summary,
             "system_status": "monitoring_active",
         }

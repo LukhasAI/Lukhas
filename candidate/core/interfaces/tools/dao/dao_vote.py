@@ -20,7 +20,7 @@ VOTE_LOG_PATH = "dao/attestations/dao_votes_log.jsonl"
 TIER = 5  # Simulated high-trust vote
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 if not logger.handlers:
     handler = logging.StreamHandler()
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -31,7 +31,7 @@ if not logger.handlers:
 
 def cast_vote(proposal_id, vote_value, reason):
     vote_record = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "tier": TIER,
         "proposal_hash": proposal_id,
         "vote": vote_value,

@@ -47,7 +47,7 @@ import numpy as np
 # Configure structured logging
 from structlog import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Import current LUKHAS modules
 try:
@@ -547,7 +547,7 @@ class DriftRecoverySimulator:
             "total_health_loss": total_health_loss,
             "cascade_log": cascade_log,
             "dream_integration": dream_integration,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def run_benchmark_suite(self) -> dict[str, Any]:
@@ -664,7 +664,7 @@ class DriftRecoverySimulator:
 
         # Save benchmark results
         benchmark_summary = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_tests": len(test_results),
             "test_results": test_results,
             "overall_resilience": (np.mean([r["resilience_score"] for r in drift_tests]) if drift_tests else 0.0),
@@ -677,7 +677,7 @@ class DriftRecoverySimulator:
         }
 
         # Save to file
-        output_path = self.checkpoint_dir / f"benchmark_{datetime.now():%Y%m%d_%H%M%S}.json"
+        output_path = self.checkpoint_dir / f"benchmark_{datetime.now(timezone.utc):%Y%m%d_%H%M%S}.json"
         with open(output_path, "w") as f:
             json.dump(benchmark_summary, f, indent=2, default=str)
 

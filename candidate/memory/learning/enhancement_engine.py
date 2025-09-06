@@ -18,7 +18,7 @@ from typing import Any
 class EnhancementEngine:
     """Enhancement system for existing lukhas architecture"""
 
-    def __init__(self, workspace_root: str = "/Users/A_G_I/lukhas"):
+    def __init__(self, workspace_root: str = "/Users/A_G_I/lukhas", timezone):
         self.workspace_root = Path(workspace_root)
         self.enhancement_log = []
         self.current_sprint = None
@@ -34,7 +34,7 @@ class EnhancementEngine:
         """Start a new enhancement sprint"""
         self.current_sprint = {
             "name": sprint_name,
-            "start_time": datetime.now(),
+            "start_time": datetime.now(timezone.utc),
             "duration_minutes": duration,
             "enhancements": [],
         }
@@ -44,7 +44,7 @@ class EnhancementEngine:
         print("=" * 50)
 
         # Create sprint tracking file
-        sprint_file = self.enhancement_dir / f"sprint_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
+        sprint_file = self.enhancement_dir / f"sprint_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M')}.json"
         with open(sprint_file, "w") as f:
             json.dump(self.current_sprint, f, default=str, indent=2)
 
@@ -276,7 +276,7 @@ class VoiceMemoryBridge:
             print("⚠️  No active sprint to complete")
             return {}
 
-        end_time = datetime.now()
+        end_time = datetime.now(timezone.utc)
         duration = (end_time - self.current_sprint["start_time"]).total_seconds() / 60
 
         sprint_summary = {
@@ -294,7 +294,7 @@ class VoiceMemoryBridge:
         print("=" * 50)
 
         # Save sprint completion
-        sprint_file = self.enhancement_dir / f"completed_sprint_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
+        sprint_file = self.enhancement_dir / f"completed_sprint_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M')}.json"
         with open(sprint_file, "w") as f:
             json.dump(sprint_summary, f, default=str, indent=2)
 

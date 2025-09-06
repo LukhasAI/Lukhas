@@ -16,7 +16,7 @@ import sys
 from datetime import datetime
 
 # Initialize logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 def display_mood():
@@ -49,8 +49,8 @@ def voice_welcome():
 
 def launch():
     display_mood()
-    logger.info(f"Session started: {datetime.now().isoformat()}")
-    print(f"📅 Session started: {datetime.now().isoformat()}")  # Keep UI output
+    logger.info(f"Session started: {datetime.now(timezone.utc).isoformat()}")
+    print(f"📅 Session started: {datetime.now(timezone.utc).isoformat()}")  # Keep UI output
     display_system_status()
     logger.info("Auto-triggering visual prompt generation")
     print("\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback...")  # Keep UI output

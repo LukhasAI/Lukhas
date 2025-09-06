@@ -10,7 +10,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class TagCategory(Enum):
+class TagCategory(Enum, timezone):
     """Categories of tags for semantic grouping"""
 
     CORE = "core"  # Core system functionality
@@ -575,7 +575,7 @@ class TagRegistry:
             "categories": {},
             "high_priority_tags": [],
             "tag_relationships": {},
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
         # Category statistics
@@ -614,7 +614,7 @@ class TagRegistry:
             "tags": {},
             "metadata": {
                 "version": "1.0.0",
-                "exported_at": datetime.now().isoformat(),
+                "exported_at": datetime.now(timezone.utc).isoformat(),
                 "total_tags": len(self.tags),
             },
         }

@@ -32,7 +32,7 @@ from typing import Any, Optional
 from ..oscillator.orchestrator import BioOrchestrator
 from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
 
-logger = logging.getLogger("quantum_dream")
+logger = logging.getLogger("quantum_dream", timezone)
 
 
 @dataclass
@@ -127,9 +127,9 @@ class QIDreamAdapter:
             duration_seconds: Duration in seconds
         """
         try:
-            cycle_start = datetime.now()
+            cycle_start = datetime.now(timezone.utc)
 
-            while self.active and (datetime.now() - cycle_start).total_seconds() < duration_seconds:
+            while self.active and (datetime.now(timezone.utc) - cycle_start).total_seconds() < duration_seconds:
                 # Process dreams in superposition-like state
                 await self._process_quantum_dreams()
 
@@ -168,7 +168,7 @@ class QIDreamAdapter:
                 self._last_processed_state = {
                     "quantum_like_state": quantum_like_state,
                     "insights": insights,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         except Exception as e:
@@ -199,7 +199,7 @@ class QIDreamAdapter:
                         "coherence": p["coherence"],
                         "entanglement": p["entanglement"],
                     },
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
                 for p in patterns
             ]
@@ -261,7 +261,7 @@ class QIDreamAdapter:
         try:
             # Encode memories into quantum-like state
             memory_state = await self._memories_to_qubits(
-                {"memories": memories, "timestamp": datetime.utcnow().isoformat()}
+                {"memories": memories, "timestamp": datetime.now(timezone.utc).isoformat()}
             )
 
             # Apply quantum transformations
@@ -274,7 +274,7 @@ class QIDreamAdapter:
             processed_state = {
                 "quantum_like_state": transformed,
                 "insights": insights,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "coherence": await self.dream_oscillator.measure_coherence(),
             }
 
@@ -286,7 +286,7 @@ class QIDreamAdapter:
             return {
                 "quantum_like_state": None,
                 "insights": [],
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "coherence": 0.0,
                 "error": str(e),
             }
@@ -366,14 +366,14 @@ class QIDreamAdapter:
 
             return {
                 "success": True,
-                "multiverse_id": f"multiverse_{datetime.utcnow().isoformat()}",
+                "multiverse_id": f"multiverse_{datetime.now(timezone.utc).isoformat()}",
                 "parallel_paths_simulated": len(completed_dreams),
                 "dream_seed": dream_seed,
                 "parallel_dreams": completed_dreams,
                 "convergent_insights": convergent_insights,
                 "overall_coherence": overall_coherence,
                 "quantum_superposition_achieved": overall_coherence > self.config.coherence_threshold,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -381,7 +381,7 @@ class QIDreamAdapter:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _get_ethical_lens(self, path_id: int) -> str:
@@ -458,7 +458,7 @@ class QIDreamAdapter:
                 "coherence": await self.dream_oscillator.measure_coherence(),
                 "ethical_outcome": self._evaluate_ethical_outcome(path_insights, path_config),
                 "emotional_resonance": self._evaluate_emotional_resonance(path_insights, path_config),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:

@@ -25,7 +25,7 @@ from bs4 import BeautifulSoup
 
 import docker
 
-logger = logging.getLogger("ΛTRACE.tools.executor")
+logger = logging.getLogger("ΛTRACE.tools.executor", timezone)
 
 
 class ToolExecutor:
@@ -403,10 +403,10 @@ class ToolExecutor:
             return "Cannot schedule task without a description."
 
         # Create task record
-        task_id = hashlib.md5(f"{when}:{note}:{datetime.now()}".encode()).hexdigest()[:8]
+        task_id = hashlib.md5(f"{when}:{note}:{datetime.now(timezone.utc)}".encode()).hexdigest()[:8]
         task_data = {
             "id": task_id,
-            "created": datetime.now().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
             "when": when,
             "note": note,
             "status": "pending",
@@ -1088,7 +1088,7 @@ RUN chmod +x {filename}
         """Log security and execution events"""
         try:
             log_entry = {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "event": event,
                 "data": data,
             }

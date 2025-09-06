@@ -54,8 +54,7 @@ from dashboard.core.dynamic_tab_system import DynamicTabSystem
 # Dashboard system imports
 from dashboard.core.universal_adaptive_dashboard import (
     DashboardContext,
-    DashboardMorphState,
-)
+    DashboardMorphState,, timezone)
 
 logger = logging.getLogger("ΛTRACE.morphing_engine")
 
@@ -152,13 +151,13 @@ class MorphingEngine:
 
     def __init__(self, tab_system: DynamicTabSystem):
         self.tab_system = tab_system
-        self.logger = logger.bind(engine_id=f"morph_engine_{int(datetime.now().timestamp())}")
+        self.logger = logger.bind(engine_id=f"morph_engine_{int(datetime.now(timezone.utc).timestamp())}")
 
         # Morphing state
         self.current_morph_state = DashboardMorphState.OPTIMAL
         self.target_morph_state = DashboardMorphState.OPTIMAL
         self.morphing_in_progress = False
-        self.last_morph_time = datetime.now()
+        self.last_morph_time = datetime.now(timezone.utc)
 
         # Configuration libraries
         self.color_schemes: dict[str, ColorScheme] = {}
@@ -233,7 +232,7 @@ class MorphingEngine:
             return False
 
         # Check cooldown period
-        if not force and (datetime.now() - self.last_morph_time).seconds < 5:
+        if not force and (datetime.now(timezone.utc) - self.last_morph_time).seconds < 5:
             self.logger.debug("Morphing cooldown active")
             return False
 
@@ -267,12 +266,12 @@ class MorphingEngine:
             # Update state
             if morph_result["success"]:
                 self.current_morph_state = target_state
-                self.last_morph_time = datetime.now()
+                self.last_morph_time = datetime.now(timezone.utc)
 
                 # Record morph event
                 self.morph_history.append(
                     {
-                        "timestamp": datetime.now(),
+                        "timestamp": datetime.now(timezone.utc),
                         "from_state": self.current_morph_state.value,
                         "to_state": target_state.value,
                         "strategy": strategy.value,

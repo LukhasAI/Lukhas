@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("Lambda.ΛBAS")
+logger = logging.getLogger("Lambda.ΛBAS", timezone)
 
 
 class AttentionState(Enum):
@@ -65,7 +65,7 @@ class AttentionMetrics:
 
     def __post_init__(self):
         if self.last_updated is None:
-            self.last_updated = datetime.now()
+            self.last_updated = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -85,7 +85,7 @@ class AttentionBoundary:
 
     def __post_init__(self):
         if self.created_at is None:
-            self.created_at = datetime.now()
+            self.created_at = datetime.now(timezone.utc)
         if self.lambda_signature is None:
             self.lambda_signature = f"Λ-BOUNDARY-{self.id[:8].upper()}"
 
@@ -119,7 +119,7 @@ class AttentionDecision:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
         if self.lambda_trace is None:
             import hashlib
 
@@ -259,10 +259,10 @@ class ΛBAS:
         try:
             # Store previous metrics for trend analysis
             current_metrics = self.attention_metrics.get(user_id, AttentionMetrics())
-            self.attention_history[user_id].append((datetime.now(), current_metrics))
+            self.attention_history[user_id].append((datetime.now(timezone.utc), current_metrics))
 
             # Keep only recent history (last 24 hours)
-            cutoff_time = datetime.now() - timedelta(hours=24)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
             self.attention_history[user_id] = [
                 (timestamp, metric) for timestamp, metric in self.attention_history[user_id] if timestamp > cutoff_time
             ]
@@ -316,7 +316,7 @@ class ΛBAS:
             return AttentionState.FOCUSED
 
         # Recently interrupted
-        datetime.now()
+        datetime.now(timezone.utc)
         if self.attention_history.get(user_id):
             recent_metrics = self.attention_history[user_id][-3:]  # Last 3 data points
             if any(m.interruption_cost >= 0.5 for _, m in recent_metrics):
@@ -364,7 +364,7 @@ class ΛBAS:
 
             if state_evaluation["decision"] == "defer":
                 # Add to deferred queue
-                defer_until = datetime.now() + timedelta(minutes=state_evaluation.get("defer_minutes", 15))
+                defer_until = datetime.now(timezone.utc) + timedelta(minutes=state_evaluation.get("defer_minutes", 15))
                 self.deferred_requests[user_id].append((request, defer_until))
 
                 return AttentionDecision(
@@ -461,7 +461,7 @@ class ΛBAS:
         """Check if boundary is currently active"""
         # Check if recently triggered and still in duration
         if boundary.last_triggered:
-            elapsed = datetime.now() - boundary.last_triggered
+            elapsed = datetime.now(timezone.utc) - boundary.last_triggered
             if elapsed < boundary.duration:
                 return True
 
@@ -478,7 +478,7 @@ class ΛBAS:
         """Check temporal boundary violations"""
         # Implementation would depend on specific temporal rules
         # For now, simple time-of-day checking
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
 
         # Example: No interruptions during deep work hours (9-11 AM)
         return bool(9 <= current_hour <= 11 and request.urgency < 0.8)
@@ -604,7 +604,7 @@ class ΛBAS:
         if interruption_cost > 0.3:
             current_metrics.flow_probability *= 1.0 - interruption_cost
 
-        current_metrics.last_updated = datetime.now()
+        current_metrics.last_updated = datetime.now(timezone.utc)
 
     async def _process_pending_requests(self, user_id: str):
         """Process any pending requests that might now be allowable"""
@@ -638,7 +638,7 @@ class ΛBAS:
                 # Entering flow - strengthen boundaries
                 if boundary.type in [BoundaryType.COGNITIVE, BoundaryType.CREATIVE]:
                     boundary.threshold = max(0.6, boundary.threshold * 0.9)
-                    boundary.last_triggered = datetime.now()
+                    boundary.last_triggered = datetime.now(timezone.utc)
 
             elif old_state == AttentionState.FLOW_STATE and new_state != AttentionState.FLOW_STATE:
                 # Exiting flow - gradually relax boundaries

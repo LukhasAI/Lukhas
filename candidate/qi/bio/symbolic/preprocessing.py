@@ -22,7 +22,7 @@ from bio.core.symbolic_fallback_systems import get_fallback_manager
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.symbolism.tags import TagPermission, TagScope
 
-logger = logging.getLogger("ΛTRACE.bio.preprocessing")
+logger = logging.getLogger("ΛTRACE.bio.preprocessing", timezone)
 
 
 class BioPreprocessingColony(BaseColony):
@@ -117,7 +117,7 @@ class BioPreprocessingColony(BaseColony):
                 "quality_score": quality_score,
                 "quality_tag": quality_tag[0],
                 "outlier_scores": outlier_scores,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "colony_id": self.colony_id,
             }
 
@@ -308,7 +308,7 @@ class BioPreprocessingColony(BaseColony):
         self.tag_propagation_log.append(
             {
                 "tag": tag_name,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "colony": self.colony_id,
                 "action": "applied",
             }

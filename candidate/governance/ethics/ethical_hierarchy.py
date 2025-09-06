@@ -22,7 +22,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class EthicalPrinciple(Enum):
+class EthicalPrinciple(Enum, timezone):
     """Core ethical principles"""
 
     HUMAN_DIGNITY = "human_dignity"
@@ -188,7 +188,7 @@ class EthicalHierarchy:
         # Initialize evaluation result
         result = {
             "evaluation_id": evaluation_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action": action,
             "context": context,
             "stakeholders": stakeholders or [],
@@ -634,7 +634,7 @@ class EthicalHierarchy:
                     {
                         **violation,
                         "framework": framework,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
 
@@ -648,7 +648,7 @@ class EthicalHierarchy:
                         "principle": principle_str,
                         "score": score,
                         "severity": "high",
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
 
@@ -728,7 +728,7 @@ class EthicalHierarchy:
         )
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "framework_version": "lukhasAGI_Ethical_Hierarchy_v1.0",
             "active_frameworks": [f.value for f in self.legal_frameworks],
             "ethical_principles": list(self.context_weights.keys()),

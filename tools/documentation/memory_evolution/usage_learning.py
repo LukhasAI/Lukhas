@@ -8,25 +8,25 @@ from datetime import datetime
 
 
 class UserInteraction:
-    def __init__(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict):
+    def __init__(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict, timezone):
         self.user_id = user_id
         self.doc_id = doc_id
         self.interaction_type = interaction_type
         self.metadata = metadata
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone.utc)
 
 
 class InteractionPattern:
     def __init__(self):
         self.sequence: list[str] = []
         self.frequency = 0
-        self.last_observed = datetime.now()
+        self.last_observed = datetime.now(timezone.utc)
         self.success_rate = 1.0
 
     def update(self, success: bool):
         """Update pattern statistics."""
         self.frequency += 1
-        self.last_observed = datetime.now()
+        self.last_observed = datetime.now(timezone.utc)
         # Rolling average of success rate
         self.success_rate = (self.success_rate * (self.frequency - 1) + success) / self.frequency
 

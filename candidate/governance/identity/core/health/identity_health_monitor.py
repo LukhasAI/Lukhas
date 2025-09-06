@@ -23,8 +23,7 @@ from candidate.core.self_healing import HealingStrategy, HealthStatus, SelfHeali
 from governance.identity.core.events import (
     IdentityEventPriority,
     IdentityEventPublisher,
-    get_identity_event_publisher,
-)
+    get_identity_event_publisher,, timezone)
 
 logger = logging.getLogger("LUKHAS_IDENTITY_HEALTH")
 
@@ -72,7 +71,7 @@ class ComponentHealth:
 
     def add_error(self, error: str):
         """Add error to history."""
-        self.error_history.append({"timestamp": datetime.utcnow(), "error": error})
+        self.error_history.append({"timestamp": datetime.now(timezone.utc), "error": error})
 
     def calculate_health_score(self) -> float:
         """Calculate overall health score from metrics."""
@@ -106,7 +105,7 @@ class ComponentHealth:
 
         # Consider error history
         recent_errors = sum(
-            1 for error in self.error_history if error["timestamp"] > datetime.utcnow() - timedelta(minutes=5)
+            1 for error in self.error_history if error["timestamp"] > datetime.now(timezone.utc) - timedelta(minutes=5)
         )
         if recent_errors > 10:
             score *= 0.8
@@ -234,7 +233,7 @@ class IdentityHealthMonitor:
                 component_type=component_type,
                 status=HealthStatus.HEALTHY,
                 health_score=1.0,
-                last_check=datetime.utcnow(),
+                last_check=datetime.now(timezone.utc),
                 metrics={},
             )
 
@@ -244,7 +243,7 @@ class IdentityHealthMonitor:
 
         # Initialize tier-specific data
         self.component_health[component_id].tier_specific_data[tier_level] = {
-            "registered_at": datetime.utcnow(),
+            "registered_at": datetime.now(timezone.utc),
             "performance_baseline": {},
         }
 
@@ -261,14 +260,14 @@ class IdentityHealthMonitor:
 
         component = self.component_health[component_id]
         component.metrics.update(metrics)
-        component.last_check = datetime.utcnow()
+        component.last_check = datetime.now(timezone.utc)
 
         # Update tier-specific metrics
         if tier_level not in component.tier_specific_data:
             component.tier_specific_data[tier_level] = {}
 
         component.tier_specific_data[tier_level]["last_metrics"] = metrics
-        component.tier_specific_data[tier_level]["last_update"] = datetime.utcnow()
+        component.tier_specific_data[tier_level]["last_update"] = datetime.now(timezone.utc)
 
         # Calculate new health score
         old_score = component.health_score
@@ -291,7 +290,7 @@ class IdentityHealthMonitor:
         # Record in history
         self.health_history.append(
             {
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(timezone.utc),
                 "component_id": component_id,
                 "health_score": component.health_score,
                 "status": component.status.value,
@@ -326,7 +325,7 @@ class IdentityHealthMonitor:
 
         # Update error rate metric
         error_count = len(
-            [e for e in component.error_history if e["timestamp"] > datetime.utcnow() - timedelta(minutes=5)]
+            [e for e in component.error_history if e["timestamp"] > datetime.now(timezone.utc) - timedelta(minutes=5)]
         )
         # Errors per second over 5 minutes
         component.metrics[HealthMetric.ERROR_RATE] = error_count / 300
@@ -356,20 +355,20 @@ class IdentityHealthMonitor:
             return
 
         # Check healing cooldown
-        if component.last_healing and datetime.utcnow() - component.last_healing < timedelta(minutes=5):
+        if component.last_healing and datetime.now(timezone.utc) - component.last_healing < timedelta(minutes=5):
             logger.info(f"Component {component_id} in healing cooldown")
             return
 
         # Create healing plan
         plan = HealingPlan(
-            plan_id=f"heal_{component_id}_{int(datetime.utcnow().timestamp())}",
+            plan_id=f"heal_{component_id}_{int(datetime.now(timezone.utc).timestamp())}",
             component_id=component_id,
             component_type=component.component_type,
             strategy=self._determine_healing_strategy(component, tier_level),
             tier_level=tier_level,
             steps=[],
             priority=priority,
-            deadline=datetime.utcnow() + timedelta(minutes=30),
+            deadline=datetime.now(timezone.utc) + timedelta(minutes=30),
         )
 
         # Add healing steps based on component type
@@ -382,7 +381,7 @@ class IdentityHealthMonitor:
         # Add to active plans
         self.active_healing_plans[plan.plan_id] = plan
         component.healing_attempts += 1
-        component.last_healing = datetime.utcnow()
+        component.last_healing = datetime.now(timezone.utc)
 
         # Publish healing event
         await self.event_publisher.publish_healing_event(
@@ -591,7 +590,7 @@ class IdentityHealthMonitor:
 
                 for plan_id, plan in self.active_healing_plans.items():
                     # Check deadline
-                    if datetime.utcnow() > plan.deadline:
+                    if datetime.now(timezone.utc) > plan.deadline:
                         logger.error(f"Healing plan {plan_id} exceeded deadline")
                         completed_plans.append(plan_id)
                         continue
@@ -611,7 +610,7 @@ class IdentityHealthMonitor:
                     # Execute step
                     try:
                         next_step["status"] = "executing"
-                        next_step["started_at"] = datetime.utcnow()
+                        next_step["started_at"] = datetime.now(timezone.utc)
 
                         # Execute healing action
                         result = await self._execute_healing_action(
@@ -621,7 +620,7 @@ class IdentityHealthMonitor:
                         )
 
                         next_step["status"] = "completed"
-                        next_step["completed_at"] = datetime.utcnow()
+                        next_step["completed_at"] = datetime.now(timezone.utc)
                         next_step["result"] = result
 
                     except Exception as e:
@@ -703,7 +702,7 @@ class IdentityHealthMonitor:
                             await self.report_component_error(component_id, f"Health check failed: {e}", "error")
 
                     # Check for stale components
-                    if datetime.utcnow() - component.last_check > timedelta(minutes=5):
+                    if datetime.now(timezone.utc) - component.last_check > timedelta(minutes=5):
                         component.status = HealthStatus.UNKNOWN
                         logger.warning(f"Component {component_id} health check stale")
 
@@ -719,7 +718,7 @@ class IdentityHealthMonitor:
             try:
                 # Analyze recent health history
                 recent_history = [
-                    h for h in self.health_history if h["timestamp"] > datetime.utcnow() - timedelta(hours=1)
+                    h for h in self.health_history if h["timestamp"] > datetime.now(timezone.utc) - timedelta(hours=1)
                 ]
 
                 if len(recent_history) > 10:
@@ -838,7 +837,7 @@ class IdentityHealthMonitor:
             "last_check": component.last_check.isoformat(),
             "metrics": {k.value: v for k, v in component.metrics.items()},
             "recent_errors": len(
-                [e for e in component.error_history if e["timestamp"] > datetime.utcnow() - timedelta(hours=1)]
+                [e for e in component.error_history if e["timestamp"] > datetime.now(timezone.utc) - timedelta(hours=1)]
             ),
             "healing_attempts": component.healing_attempts,
             "last_healing": (component.last_healing.isoformat() if component.last_healing else None),

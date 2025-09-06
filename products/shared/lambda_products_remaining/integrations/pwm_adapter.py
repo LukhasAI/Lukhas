@@ -19,8 +19,7 @@ from plugins.plugin_base import (
     LukhasPlugin,
     PluginManifest,
     PluginPriority,
-    PluginStatus,
-)
+    PluginStatus,, timezone)
 
 # Add Lukhas  to path
 lukhas_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
@@ -328,7 +327,7 @@ class NIASPlugin(LukhasPlugin):
     async def health_check(self) -> HealthStatus:
         return HealthStatus(
             is_healthy=True,
-            last_check=datetime.now(),
+            last_check=datetime.now(timezone.utc),
             cpu_usage=5.0,
             memory_usage=50.0,
             response_time_ms=2.0,
@@ -403,7 +402,7 @@ class ABASPlugin(LukhasPlugin):
     async def health_check(self) -> HealthStatus:
         return HealthStatus(
             is_healthy=True,
-            last_check=datetime.now(),
+            last_check=datetime.now(timezone.utc),
             cpu_usage=3.0,
             memory_usage=40.0,
             response_time_ms=1.5,
@@ -476,7 +475,7 @@ class DASTPlugin(LukhasPlugin):
     async def health_check(self) -> HealthStatus:
         return HealthStatus(
             is_healthy=True,
-            last_check=datetime.now(),
+            last_check=datetime.now(timezone.utc),
             cpu_usage=8.0,
             memory_usage=120.0,
             response_time_ms=5.0,

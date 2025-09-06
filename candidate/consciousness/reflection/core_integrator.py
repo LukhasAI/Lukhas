@@ -26,7 +26,7 @@ from typing import Any, Callable, Optional  # Added Union
 # TAG:colony
 
 
-logger = logging.getLogger("ΛTRACE.core.advanced.brain.lukhas_core_integrator")
+logger = logging.getLogger("ΛTRACE.core.advanced.brain.lukhas_core_integrator", timezone)
 logger.info("ΛTRACE: Initializing lukhas_core_integrator module.")
 
 # TODO: Refactor path-based import to standard package imports if possible.
@@ -690,7 +690,7 @@ class LUKHASCoreIntegrator:
 
         try:
             trace_file.parent.mkdir(parents=True, exist_ok=True)
-            trace_data["system_time_utc"] = datetime.utcnow().isoformat()
+            trace_data["system_time_utc"] = datetime.now(timezone.utc).isoformat()
 
             with open(trace_file, "a", encoding="utf-8") as f:
                 f.write(json.dumps(trace_data) + "\n")

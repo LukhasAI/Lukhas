@@ -24,7 +24,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure transparency logging
-transparency_logger = logging.getLogger("EU.AI.Transparency")
+transparency_logger = logging.getLogger("EU.AI.Transparency", timezone)
 transparency_handler = logging.FileHandler("ai_decisions_trace.log")
 transparency_formatter = logging.Formatter("%(asctime)s [TRANSPARENCY] %(message)s")
 transparency_handler.setFormatter(transparency_formatter)
@@ -69,7 +69,7 @@ class DecisionTrace:
     ):
         self.decision_id = decision_id
         self.decision_type = decision_type
-        self.timestamp = datetime.now().isoformat()
+        self.timestamp = datetime.now(timezone.utc).isoformat()
         self.user_input = user_input
         self.context = context or {}
 
@@ -93,7 +93,7 @@ class DecisionTrace:
                 "step": step,
                 "evidence": evidence or {},
                 "weight": weight,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -111,7 +111,7 @@ class DecisionTrace:
                 "data_value": str(data_value)[:200],  # Truncate for privacy
                 "influence_level": influence_level.value,
                 "explanation": explanation,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -127,7 +127,7 @@ class DecisionTrace:
                 "alternative": alternative,
                 "reason_rejected": reason_rejected,
                 "confidence_if_chosen": confidence_if_chosen,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -148,7 +148,7 @@ class DecisionTrace:
                 "check_type": check_type,
                 "passed": result,
                 "details": details,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -286,7 +286,7 @@ class TransparencyOrchestrator:
                 [
                     trace
                     for trace in self.completed_traces
-                    if (datetime.now() - datetime.fromisoformat(trace.timestamp)).days == 0
+                    if (datetime.now(timezone.utc) - datetime.fromisoformat(trace.timestamp)).days == 0
                 ]
             ),
         }

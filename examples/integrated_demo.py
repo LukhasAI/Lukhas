@@ -26,7 +26,7 @@ class IntegratedLukhasDemo:
     def __init__(self, api_url: str = "http://localhost:8080"):
         self.api_url = api_url
         self.session_id = None
-        self.user_id = f"demo_user_{datetime.now().timestamp()}"
+        self.user_id = f"demo_user_{datetime.now(timezone.utc).timestamp()}"
         self.action_history = []
         self.feedback_history = []
 

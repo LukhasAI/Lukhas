@@ -12,7 +12,7 @@ from lukhas.emotion.models import EmotionalState, EmotionVector
 # TAG:colony
 
 
-class EmotionalColony(BaseColony):
+class EmotionalColony(BaseColony, timezone):
     """Colony for distributed emotional processing."""
 
     def __init__(self, colony_id: str):
@@ -39,7 +39,7 @@ class EmotionalColony(BaseColony):
         self.collective_emotion = collective["emotion_state"]
         self.emotion_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "stimulus": stimulus.get("type"),
                 "collective_emotion": collective,
                 "agent_count": len(agent_emotions),

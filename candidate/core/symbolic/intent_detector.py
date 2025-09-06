@@ -13,7 +13,7 @@ from identity.backend.app.crypto import generate_collapse_hash
 # TAG:neuroplastic
 # TAG:colony
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class IntentNode:
@@ -82,7 +82,7 @@ class IntentNode:
 
         # Track timestamps for performance monitoring
         processing_metadata = {
-            "input_received": datetime.now().isoformat(),
+            "input_received": datetime.now(timezone.utc).isoformat(),
         }
 
         # Accent and curiosity integration
@@ -427,7 +427,7 @@ class IntentNode:
     def _update_history(self, input_data: dict[str, Any], result: dict[str, Any]) -> None:
         """Update processing history with latest result."""
         history_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "input_type": input_data.get("type", "unknown"),
             "detected_intent": result.get("intent"),
             "confidence": result.get("confidence"),
@@ -435,7 +435,7 @@ class IntentNode:
         }
 
         self.processing_history.append(history_entry)
-        self.last_processed = datetime.now().isoformat()
+        self.last_processed = datetime.now(timezone.utc).isoformat()
 
         # Limit history size
         if len(self.processing_history) > self.config["max_history_size"]:

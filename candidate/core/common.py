@@ -8,7 +8,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Set up logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Common enums
 
@@ -38,7 +38,7 @@ class MessageType(Enum):
 
 def get_timestamp() -> str:
     """Get current timestamp in ISO format"""
-    return datetime.now().isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def validate_component_id(component_id: str) -> bool:
@@ -88,7 +88,7 @@ class BaseMessage:
         self.target = target
         self.payload = payload or {}
         self.timestamp = get_timestamp()
-        self.message_id = f"{source}_{datetime.now().timestamp()}"
+        self.message_id = f"{source}_{datetime.now(timezone.utc).timestamp()}"
 
 
 # Common exceptions

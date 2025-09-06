@@ -27,7 +27,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class NamespaceType(Enum):
+class NamespaceType(Enum, timezone):
     """Namespace type classification"""
 
     ROOT = "root"  # Root system namespaces
@@ -53,8 +53,8 @@ class NamespacePolicy:
         self.tier_restrictions = policy_data.get("tier_restrictions", [])
         self.allowed_origins = policy_data.get("allowed_origins", [])
         self.rate_limits = policy_data.get("rate_limits", {})
-        self.created_at = policy_data.get("created_at", datetime.utcnow().isoformat())
-        self.updated_at = policy_data.get("updated_at", datetime.utcnow().isoformat())
+        self.created_at = policy_data.get("created_at", datetime.now(timezone.utc).isoformat())
+        self.updated_at = policy_data.get("updated_at", datetime.now(timezone.utc).isoformat())
 
     def to_dict(self) -> dict[str, Any]:
         """Convert policy to dictionary"""
@@ -86,8 +86,8 @@ class IdentityNamespace:
         self.owner_id = namespace_data.get("owner_id", "")
         self.tenant_id = namespace_data.get("tenant_id", "")
         self.active = namespace_data.get("active", True)
-        self.created_at = namespace_data.get("created_at", datetime.utcnow().isoformat())
-        self.updated_at = namespace_data.get("updated_at", datetime.utcnow().isoformat())
+        self.created_at = namespace_data.get("created_at", datetime.now(timezone.utc).isoformat())
+        self.updated_at = namespace_data.get("updated_at", datetime.now(timezone.utc).isoformat())
         self.metadata = namespace_data.get("metadata", {})
 
         # Security properties
@@ -393,7 +393,7 @@ class NamespaceManager:
                 if hasattr(policy, key):
                     setattr(policy, key, value)
 
-            policy.updated_at = datetime.utcnow().isoformat()
+            policy.updated_at = datetime.now(timezone.utc).isoformat()
 
             # Clear policy cache
             self.policy_cache.clear()
@@ -452,7 +452,7 @@ class NamespaceManager:
             self.cross_namespace_mappings[source_namespace][target_namespace] = {
                 "identity_mapping": identity_mapping,
                 "creator_id": creator_id,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "active": True,
             }
 

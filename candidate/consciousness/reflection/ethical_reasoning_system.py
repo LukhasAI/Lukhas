@@ -2065,7 +2065,7 @@ class EthicalReasoningSystem:
         self.logger.info("ΛTRACE: Generating ethical system report.")
         # ... (original logic with more detailed logging)
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_status": "operational",
             "total_judgments_processed": len(self.moral_judgments),
             "active_constraints_count": len(self.active_constraints),
@@ -2075,7 +2075,7 @@ class EthicalReasoningSystem:
             "ethical_drift_detection_status": "monitoring",
         }  # Renamed keys for clarity
 
-        recent_judgments_24h = [j for j in self.moral_judgments if j.timestamp > datetime.now() - timedelta(hours=24)]
+        recent_judgments_24h = [j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)]
         report["recent_judgments_last_24h"] = len(recent_judgments_24h)
 
         if recent_judgments_24h:

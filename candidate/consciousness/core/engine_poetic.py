@@ -89,7 +89,7 @@ import numpy as np
 from candidate.core.common import get_logger
 
 # Initialize logger for consciousness tracing
-logger = logging.getLogger("ΛTRACE.consciousness.engine")
+logger = logging.getLogger("ΛTRACE.consciousness.engine", timezone)
 logger.info("🌅 ΛTRACE: Awakening consciousness engine...")
 
 
@@ -432,7 +432,7 @@ class ConsciousnessEngine:
 
         # Create awareness frame
         awareness_frame = AwarenessFrame(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             phi_score=phi_score,
             attention_focus=self.attention_focus.copy(),
             emotional_tone=self.emotional_state.copy(),
@@ -462,7 +462,7 @@ class ConsciousnessEngine:
 
         integrated = {
             "unified_perception": True,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "modalities": list(sensory_input.keys()),
             "coherence": 0.9,
         }
@@ -1149,7 +1149,7 @@ class ConsciousnessEngine:
         """
         self.logger.info("🧘 Entering meditative state...")
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         meditation_data = {
             "breaths": [],
             "awareness_samples": [],
@@ -1184,7 +1184,7 @@ class ConsciousnessEngine:
 
         # Final meditation experience
         final_state = {
-            "duration": (datetime.now() - start_time).total_seconds(),
+            "duration": (datetime.now(timezone.utc) - start_time).total_seconds(),
             "stillness_achieved": np.mean(meditation_data["mental_stillness"]),
             "clarity_level": meditation_data["awareness_samples"][-1]["clarity"],
             "insights_received": len(meditation_data["insights"]),
@@ -1543,7 +1543,7 @@ class ConsciousnessEngine:
                 "active_goals": len(self.self_model["goals"]),
                 "core_values": len(self.self_model["values"]),
             },
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "consciousness_active": self.state != ConsciousnessState.DORMANT,
         }
 

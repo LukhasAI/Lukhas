@@ -13,7 +13,7 @@ from cryptography.fernet import Fernet
 
 from .lukhas_id import AccessTier, LucasIDRegistry
 
-logger = logging.getLogger("v1_AGI.identity.memory")
+logger = logging.getLogger("v1_AGI.identity.memory", timezone)
 
 
 class MemoryAccessPolicy(Enum):
@@ -89,7 +89,7 @@ class MemoryIdentityIntegration:
             "access_policy": access_policy.value,
             "min_access_tier": min_access_tier.value,
             "shared_with": set(),
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "last_accessed": None,
         }
 
@@ -375,7 +375,7 @@ class MemoryIdentityIntegration:
         Returns:
             int: Number of items archived
         """
-        cutoff = datetime.now() - timedelta(days=older_than_days)
+        cutoff = datetime.now(timezone.utc) - timedelta(days=older_than_days)
         cutoff_str = cutoff.isoformat()
 
         archived = 0
@@ -386,7 +386,7 @@ class MemoryIdentityIntegration:
             if created_at < cutoff_str and not permission.get("archived", False):
                 # Mark as archived instead of deleting
                 permission["archived"] = True
-                permission["archive_date"] = datetime.now().isoformat()
+                permission["archive_date"] = datetime.now(timezone.utc).isoformat()
                 permission["archive_reason"] = "age"
                 archived += 1
 
@@ -415,7 +415,7 @@ class MemoryIdentityIntegration:
             if key in self.memory_permissions and not self.memory_permissions[key].get("archived", False):
                 # Mark the memory as archived rather than removing it
                 self.memory_permissions[key]["archived"] = True
-                self.memory_permissions[key]["archive_date"] = datetime.now().isoformat()
+                self.memory_permissions[key]["archive_date"] = datetime.now(timezone.utc).isoformat()
                 self.memory_permissions[key]["archive_reason"] = "removal_notification"
 
                 # Remove from active shared memories while preserving the record

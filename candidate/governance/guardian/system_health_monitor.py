@@ -29,7 +29,7 @@ import psutil
 # Add logging
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class HealthStatus(Enum):
@@ -237,7 +237,7 @@ class SystemHealthMonitor:
 
         # Monitoring state
         self.monitoring_active = False
-        self.last_report_time = datetime.now()
+        self.last_report_time = datetime.now(timezone.utc)
 
         logger.info("🏥 System Health Monitor initialized")
 
@@ -333,9 +333,9 @@ class SystemHealthMonitor:
 
         while self.monitoring_active:
             try:
-                if datetime.now() - self.last_report_time >= timedelta(seconds=self.report_interval):
+                if datetime.now(timezone.utc) - self.last_report_time >= timedelta(seconds=self.report_interval):
                     await self._generate_health_report()
-                    self.last_report_time = datetime.now()
+                    self.last_report_time = datetime.now(timezone.utc)
 
                 await asyncio.sleep(60)  # Check every minute
 
@@ -346,7 +346,7 @@ class SystemHealthMonitor:
     async def _collect_system_metrics(self):
         """Collect comprehensive system metrics."""
 
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         # System resource metrics
         cpu_percent = psutil.cpu_percent(interval=0.1)
@@ -430,7 +430,7 @@ class SystemHealthMonitor:
         # Simulate API performance monitoring
         # In production, this would integrate with actual API metrics
 
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         # Sample API endpoints
         endpoints = [
@@ -473,7 +473,7 @@ class SystemHealthMonitor:
     async def _monitor_trinity_framework(self):
         """Monitor Trinity Framework components (⚛️🧠🛡️)."""
 
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         # Monitor each Trinity component
         for framework_component, component_list in self.trinity_components.items():
@@ -620,7 +620,7 @@ class SystemHealthMonitor:
     async def get_health_dashboard_data(self) -> dict[str, Any]:
         """Get comprehensive health dashboard data."""
 
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Recent metrics (last 24 hours)
         recent_metrics = [m for m in self.health_metrics if current_time - m.timestamp < timedelta(hours=24)]

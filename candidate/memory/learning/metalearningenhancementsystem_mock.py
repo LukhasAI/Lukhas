@@ -11,7 +11,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class Enhancementmode(Enum):
@@ -45,7 +45,7 @@ class MockMonitorDashboard:
         self.metrics = {"accuracy": 0.85, "loss": 0.15, "convergence": 0.75}
 
     async def start_monitoring_session(self, config: dict[str, Any]) -> str:
-        session_id = f"monitor_{datetime.now().timestamp()}"
+        session_id = f"monitor_{datetime.now(timezone.utc).timestamp()}"
         self.active_sessions[session_id] = config
         return session_id
 
@@ -67,7 +67,7 @@ class MockRateModulator:
         # Simulate rate optimization
         new_rate = self.current_rate * random.uniform(0.8, 1.2)
         self.current_rate = new_rate
-        self.optimization_history.append({"rate": new_rate, "time": datetime.now()})
+        self.optimization_history.append({"rate": new_rate, "time": datetime.now(timezone.utc)})
         return new_rate
 
 
@@ -79,7 +79,7 @@ class MockSymbolicFeedback:
 
     async def process_feedback(self, feedback_data: dict[str, Any]) -> dict[str, Any]:
         processed = {
-            "feedback_id": f"fb_{datetime.now().timestamp()}",
+            "feedback_id": f"fb_{datetime.now(timezone.utc).timestamp()}",
             "processed": True,
             "symbolic_score": random.uniform(0.6, 0.95),
             "integration_points": random.randint(1, 5),
@@ -116,7 +116,7 @@ class MetaLearningEnhancementsystem:
             rate_optimization_active=False,
             symbolic_feedback_active=False,
             federation_enabled=enable_federation,
-            last_health_check=datetime.now(),
+            last_health_check=datetime.now(timezone.utc),
             integration_errors=[],
         )
 
@@ -133,7 +133,7 @@ class MetaLearningEnhancementsystem:
         self.integration_status.meta_learning_systems_found = discovered_count
 
         discovery_results = {
-            "search_initiated": datetime.now().isoformat(),
+            "search_initiated": datetime.now(timezone.utc).isoformat(),
             "systems_discovered": [],
             "enhancement_results": [],
             "integration_summary": {},
@@ -176,14 +176,14 @@ class MetaLearningEnhancementsystem:
                 "optimization": {"enabled": True, "strategy": "adaptive"},
                 "feedback": {"enabled": True, "mode": "symbolic"},
             },
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
     async def apply_dynamic_optimization(self, config: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """Apply mock optimization"""
         new_rate = await self.rate_modulator.optimize_rate(context)
         return {
-            "optimization_id": f"opt_{datetime.now().timestamp()}",
+            "optimization_id": f"opt_{datetime.now(timezone.utc).timestamp()}",
             "new_learning_rate": new_rate,
             "convergence_estimate": random.uniform(0.6, 0.95),
             "applied": True,

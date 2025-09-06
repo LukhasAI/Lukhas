@@ -34,8 +34,7 @@ from typing import Any, Callable, Optional
 try:
     from candidate.governance.consent_ledger.ledger_v1 import (
         ConsentLedgerV1,
-        PolicyVerdict,
-    )
+        PolicyVerdict,, timezone)
 except ImportError:
     PolicyVerdict = None
     ConsentLedgerV1 = None
@@ -211,7 +210,7 @@ class ComprehensiveEthicsPolicyEngine:
             "emergency_stops": 0,
             "average_evaluation_time": 0.0,
             "constitutional_compliance_rate": 1.0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize with default policies
@@ -305,7 +304,7 @@ class ComprehensiveEthicsPolicyEngine:
         """Evaluate an action against ethical frameworks and policies"""
 
         evaluation_id = f"eval_{uuid.uuid4().hex[:8]}"
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Determine applicable frameworks
@@ -874,14 +873,14 @@ class ComprehensiveEthicsPolicyEngine:
         """Generate comprehensive compliance report"""
 
         if not time_period:
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             start_time = end_time - timedelta(days=30)
             time_period = (start_time, end_time)
 
         report = {
             "report_id": f"ethics_compliance_{uuid.uuid4().hex[:8]}",
             "user_id": user_id,
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "period": {
                 "start": time_period[0].isoformat(),
                 "end": time_period[1].isoformat(),
@@ -1259,7 +1258,7 @@ class ComprehensiveEthicsPolicyEngine:
             self.metrics["emergency_stops"] += 1
 
         # Update evaluation time
-        eval_time = (datetime.now() - start_time).total_seconds()
+        eval_time = (datetime.now(timezone.utc) - start_time).total_seconds()
         current_avg = self.metrics["average_evaluation_time"]
         total_evals = self.metrics["total_evaluations"]
 
@@ -1273,7 +1272,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         self.metrics["constitutional_compliance_rate"] = compliance_count / total_evals
 
-        self.metrics["last_updated"] = datetime.now().isoformat()
+        self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     def get_metrics(self) -> dict[str, Any]:
         """Get current performance metrics"""

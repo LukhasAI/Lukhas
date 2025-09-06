@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("Lambda.DΛST")
+logger = logging.getLogger("Lambda.DΛST", timezone)
 
 
 class SymbolCategory(Enum):
@@ -76,16 +76,16 @@ class SymbolicTag:
         if self.metadata is None:
             self.metadata = {}
         if self.created_at is None:
-            self.created_at = datetime.now()
+            self.created_at = datetime.now(timezone.utc)
         if self.last_updated is None:
-            self.last_updated = datetime.now()
+            self.last_updated = datetime.now(timezone.utc)
         if self.lambda_signature is None:
             tag_hash = hashlib.sha256(f"{self.symbol}{self.category.value}".encode()).hexdigest()[:8]
             self.lambda_signature = f"Λ-SYMBOL-{tag_hash.upper()}"
 
     def is_valid(self) -> bool:
         """Check if symbolic tag is still valid"""
-        return not (self.expires_at and datetime.now() > self.expires_at)
+        return not (self.expires_at and datetime.now(timezone.utc) > self.expires_at)
 
     def update_confidence(self, new_evidence: float, source_weight: float = 1.0):
         """Update confidence based on new evidence"""
@@ -93,7 +93,7 @@ class SymbolicTag:
         total_weight = 1.0 + source_weight
         self.confidence = (self.confidence + (new_evidence * source_weight)) / total_weight
         self.confidence = min(1.0, max(0.0, self.confidence))
-        self.last_updated = datetime.now()
+        self.last_updated = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -111,7 +111,7 @@ class ContextSnapshot:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
         if self.lambda_fingerprint is None:
             context_data = f"{self.user_id}{len(self.tags)}{self.timestamp.isoformat()}"
             context_hash = hashlib.sha256(context_data.encode()).hexdigest()[:12]
@@ -280,7 +280,7 @@ class DΛST:
             # Calculate expiration
             expires_at = None
             if expires_in_hours:
-                expires_at = datetime.now() + timedelta(hours=expires_in_hours)
+                expires_at = datetime.now(timezone.utc) + timedelta(hours=expires_in_hours)
 
             # Create symbolic tag
             tag = SymbolicTag(
@@ -686,7 +686,7 @@ class DΛST:
             return
 
         context = self.user_contexts[user_id]
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         for rule in self.symbol_rules[user_id]:
             if not rule.enabled:
@@ -769,7 +769,7 @@ class DΛST:
             if target == "*":
                 # Remove symbols matching rule condition
                 context = self.user_contexts[user_id]
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
 
                 # Remove old, low-confidence symbols
                 if "symbol_age" in rule.condition and "confidence" in rule.condition:
@@ -794,7 +794,7 @@ class DΛST:
         if user_id not in self.symbol_histories:
             return {"error": "No symbol history found"}
 
-        cutoff_time = datetime.now() - timedelta(hours=hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
         recent_history = [
             (timestamp, tags) for timestamp, tags in self.symbol_histories[user_id] if timestamp > cutoff_time
         ]

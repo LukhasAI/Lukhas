@@ -52,8 +52,7 @@ except ImportError:
 # Bio-simulation
 try:
     from candidate.core.bio_systems.bio_simulation_controller import (
-        BioSimulationController,
-    )
+        BioSimulationController,, timezone)
 
     bio_sim_available = True
 except ImportError:
@@ -170,7 +169,7 @@ class MemoryFoldUniversalBridge:
         # Bridge state
         self.active_bridges: set[str] = set()
         self.bridge_metrics: dict[str, dict[str, Any]] = {}
-        self.last_narrative_synthesis = datetime.utcnow()
+        self.last_narrative_synthesis = datetime.now(timezone.utc)
 
         logger.info("Memory Fold Universal Bridge initialized")
 
@@ -357,7 +356,7 @@ class MemoryFoldUniversalBridge:
                 {
                     "emotion": emotion,
                     "context": context,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -559,7 +558,7 @@ class MemoryFoldUniversalBridge:
                 },
             )
 
-            self.last_narrative_synthesis = datetime.utcnow()
+            self.last_narrative_synthesis = datetime.now(timezone.utc)
 
             return {
                 "narrative": narrative,
@@ -580,7 +579,7 @@ class MemoryFoldUniversalBridge:
         node_type = self.config.matada_node_types.get(emotion, "COGNITIVE_GENERAL")
 
         matada_node = {
-            "id": f"matada_{memory_fold['hash'][:16]}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
+            "id": f"matada_{memory_fold['hash'][:16]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "type": node_type,
             "timestamp": memory_fold["timestamp"],
             "content": {

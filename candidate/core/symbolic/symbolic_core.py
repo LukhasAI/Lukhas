@@ -15,7 +15,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional, Union
 
-logger = logging.getLogger("lukhas_agi.symbolic")
+logger = logging.getLogger("lukhas_agi.symbolic", timezone)
 
 
 class SymbolicWorld:
@@ -73,7 +73,7 @@ class SymbolicWorld:
             {
                 "symbols": symbols,
                 "type": chain_type,
-                "created_at": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -84,14 +84,14 @@ class Symbol:
     def __init__(self, name: str, properties: dict[str, Any]):
         self.name = name
         self.properties = properties
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         self.modified_at = self.created_at
         self.access_count = 0
 
     def update_property(self, key: str, value: Any):
         """Update a property value"""
         self.properties[key] = value
-        self.modified_at = datetime.now()
+        self.modified_at = datetime.now(timezone.utc)
 
     def get_property(self, key: str, default: Any = None) -> Any:
         """Get a property value"""
@@ -126,7 +126,7 @@ class Relationship:
         self.symbol2 = symbol2
         self.type = relationship_type
         self.properties = properties
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
 
     def is_bidirectional(self) -> bool:
         """Check if relationship is bidirectional"""
@@ -188,7 +188,7 @@ class SymbolicReasoner:
                     "rule_pattern": rule["pattern"],
                     "derived_properties": derived_conclusion_props,
                     "overall_confidence": match_score * rule["confidence"],
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
                 conclusions.append(conclusion_data)
 

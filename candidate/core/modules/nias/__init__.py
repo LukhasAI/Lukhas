@@ -194,10 +194,10 @@ class DreamRecorder:
         import datetime
 
         dream_entry = {
-            "dream_id": f"dream_{len(self.dream_queue)}_{datetime.datetime.now().timestamp()}",
+            "dream_id": f"dream_{len(self.dream_queue)}_{datetime.datetime.now(timezone.utc).timestamp()}",
             "message": message,
             "context": context,
-            "recorded_at": datetime.datetime.now().isoformat(),
+            "recorded_at": datetime.datetime.now(timezone.utc).isoformat(),
             "status": "pending",
         }
 

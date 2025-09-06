@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 # Add branding modules to path
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 
 try:
     from intelligence.brand_monitor import BrandIntelligenceMonitor
@@ -93,7 +93,7 @@ class BrandOrchestrationTask:
         self.task_type = task_type
         self.priority = priority  # 1-5, where 5 is highest priority
         self.data = data
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         self.status = "pending"
         self.result = None
 
@@ -347,7 +347,7 @@ class BrandOrchestratorAgent:
         Orchestrate comprehensive content creation with brand consistency
         """
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         orchestration_id = f"orch_{start_time.strftime('%Y%m%d_%H%M%S_%f')}"
 
         # Set default quality requirements
@@ -407,11 +407,11 @@ class BrandOrchestratorAgent:
         )
 
         # Step 8: Generate orchestration report
-        orchestration_time = (datetime.now() - start_time).total_seconds() * 1000  # milliseconds
+        orchestration_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000  # milliseconds
 
         orchestration_result = {
             "orchestration_id": orchestration_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "content_request": content_request,
             "context": context,
             "final_content": final_content,
@@ -474,7 +474,7 @@ class BrandOrchestratorAgent:
         Orchestrate response to brand crisis situations
         """
 
-        crisis_id = f"crisis_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        crisis_id = f"crisis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Step 1: Assess crisis severity
         crisis_assessment = self._assess_crisis_severity(crisis_type, crisis_data)
@@ -499,7 +499,7 @@ class BrandOrchestratorAgent:
 
         crisis_response = {
             "crisis_id": crisis_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "crisis_type": crisis_type,
             "crisis_assessment": crisis_assessment,
             "response_strategy": response_strategy,
@@ -661,7 +661,7 @@ class BrandOrchestratorAgent:
         }
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "brand_metrics": brand_metrics,
             "sentiment_trends": sentiment_trends,
             "intelligence_status": intelligence_status,
@@ -753,7 +753,7 @@ class BrandOrchestratorAgent:
     async def _add_orchestration_task(self, task_type: str, data: dict[str, Any], priority: int = 3) -> None:
         """Add a task to the orchestration queue"""
 
-        task_id = f"task_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
+        task_id = f"task_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S_%f')}"
         task = BrandOrchestrationTask(task_id, task_type, priority, data)
 
         await self.task_queue.put(task)
@@ -887,7 +887,7 @@ class BrandOrchestratorAgent:
         """Get current orchestration system status"""
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "active_orchestration": self.active_orchestration,
             "orchestration_metrics": self.orchestration_metrics,
             "active_tasks": len(self.active_tasks),
@@ -1003,7 +1003,7 @@ class BrandOrchestratorAgent:
 
         return {
             "actions_executed": actions_taken,
-            "execution_timestamp": datetime.now().isoformat(),
+            "execution_timestamp": datetime.now(timezone.utc).isoformat(),
             "response_effectiveness": "monitoring_initiated",
         }
 
@@ -1040,7 +1040,7 @@ class BrandOrchestratorAgent:
     # Placeholder methods for additional orchestration loops
     async def _coordinate_intelligence_systems(self) -> dict[str, Any]:
         """Coordinate intelligence gathering across systems"""
-        return {"status": "intelligence_coordinated", "timestamp": datetime.now().isoformat()}
+        return {"status": "intelligence_coordinated", "timestamp": datetime.now(timezone.utc).isoformat()}
 
     async def _analyze_brand_trends(self, intelligence_update: dict[str, Any]) -> dict[str, Any]:
         """Analyze brand trends from intelligence data"""

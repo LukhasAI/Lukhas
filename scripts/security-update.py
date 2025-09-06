@@ -18,7 +18,7 @@ from typing import Optional
 class SecurityUpdater:
     """Handles automated security updates for Python dependencies"""
 
-    def __init__(self, dry_run: bool = False):
+    def __init__(self, dry_run: bool = False, timezone):
         self.dry_run = dry_run
         self.vulnerabilities = []
         self.updates_applied = []
@@ -189,7 +189,7 @@ class SecurityUpdater:
         print("\n🌿 Creating branch and committing changes...")
 
         # Create branch name with timestamp
-        branch_name = f"security-updates-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+        branch_name = f"security-updates-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}"
 
         # Create and checkout new branch
         code, _, _ = self.run_command(["git", "checkout", "-b", branch_name])
@@ -226,7 +226,7 @@ Automated security update by security-update.py
         """Generate a security update report"""
         report = []
         report.append("# Security Update Report")
-        report.append(f"\nGenerated: {datetime.now().isoformat()}")
+        report.append(f"\nGenerated: {datetime.now(timezone.utc).isoformat()}")
         report.append(f"\nVulnerabilities found: {len(self.vulnerabilities)}")
         report.append(f"Packages updated: {len(self.updates_applied)}")
 
