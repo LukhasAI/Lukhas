@@ -63,9 +63,7 @@ class DecisionExplanation:
     hormonal_state: dict[str, float]
     timestamp: datetime = field(default_factory=datetime.now)
 
-    def to_human_readable(
-        self, level: ExplanationLevel = ExplanationLevel.STANDARD
-    ) -> str:
+    def to_human_readable(self, level: ExplanationLevel = ExplanationLevel.STANDARD) -> str:
         """Convert explanation to human-readable text"""
         if level == ExplanationLevel.SUMMARY:
             return self.summary
@@ -74,18 +72,12 @@ class DecisionExplanation:
             parts = [f"Decision: {self.summary}", "", "Key Factors:"]
 
             # Top 3 factors
-            top_factors = sorted(
-                self.factors, key=lambda f: abs(f.weight), reverse=True
-            )[:3]
+            top_factors = sorted(self.factors, key=lambda f: abs(f.weight), reverse=True)[:3]
             for factor in top_factors:
                 influence_symbol = (
-                    "↑"
-                    if factor.influence == "positive"
-                    else "↓" if factor.influence == "negative" else "→"
+                    "↑" if factor.influence == "positive" else "↓" if factor.influence == "negative" else "→"
                 )
-                parts.append(
-                    f"  {influence_symbol} {factor.name}: {factor.explanation}"
-                )
+                parts.append(f"  {influence_symbol} {factor.name}: {factor.explanation}")
 
             parts.extend(["", f"Confidence: {self.confidence_explanation}"])
 
@@ -102,17 +94,11 @@ class DecisionExplanation:
                 "All Factors Considered:",
             ]
 
-            for factor in sorted(
-                self.factors, key=lambda f: abs(f.weight), reverse=True
-            ):
+            for factor in sorted(self.factors, key=lambda f: abs(f.weight), reverse=True):
                 influence_symbol = (
-                    "↑"
-                    if factor.influence == "positive"
-                    else "↓" if factor.influence == "negative" else "→"
+                    "↑" if factor.influence == "positive" else "↓" if factor.influence == "negative" else "→"
                 )
-                parts.append(
-                    f"  {influence_symbol} {factor.name} (weight: {factor.weight:.2f})"
-                )
+                parts.append(f"  {influence_symbol} {factor.name} (weight: {factor.weight:.2f})")
                 parts.append(f"     Value: {factor.value}")
                 parts.append(f"     Explanation: {factor.explanation}")
                 if factor.tags:
@@ -253,41 +239,27 @@ class DecisionExplainer:
             decision_type = decision_context.get("decision_type", "general")
 
             # Analyze factors that influenced the decision
-            factors = await self._analyze_decision_factors(
-                decision_context, decision_outcome
-            )
+            factors = await self._analyze_decision_factors(decision_context, decision_outcome)
 
             # Get current system state
             hormonal_state = self.endocrine_system.get_hormone_levels()
             hormonal_profile = self.endocrine_system.get_hormone_profile()
 
             # Identify relevant tags
-            relevant_tags = await self._identify_relevant_tags(
-                decision_context, factors
-            )
+            relevant_tags = await self._identify_relevant_tags(decision_context, factors)
 
             # Generate different types of explanations
             if explanation_type == ExplanationType.CAUSAL:
-                summary = await self._generate_causal_explanation(
-                    factors, decision_outcome
-                )
-                process_steps = self._trace_decision_process(
-                    decision_context, decision_outcome
-                )
+                summary = await self._generate_causal_explanation(factors, decision_outcome)
+                process_steps = self._trace_decision_process(decision_context, decision_outcome)
 
             elif explanation_type == ExplanationType.COMPARATIVE:
                 summary = await self._generate_comparative_explanation(decision_outcome)
-                alternatives_comparison = self._compare_alternatives(
-                    decision_context, decision_outcome
-                )
+                alternatives_comparison = self._compare_alternatives(decision_context, decision_outcome)
 
             elif explanation_type == ExplanationType.COUNTERFACTUAL:
-                summary = await self._generate_counterfactual_explanation(
-                    factors, decision_outcome
-                )
-                counterfactuals = self._generate_counterfactuals(
-                    factors, decision_outcome
-                )
+                summary = await self._generate_counterfactual_explanation(factors, decision_outcome)
+                counterfactuals = self._generate_counterfactuals(factors, decision_outcome)
 
             else:
                 summary = f"Decision made based on {len(factors)} factors"
@@ -309,26 +281,16 @@ class DecisionExplainer:
                 process_steps=(
                     process_steps
                     if "process_steps" in locals()
-                    else self._trace_decision_process(
-                        decision_context, decision_outcome
-                    )
+                    else self._trace_decision_process(decision_context, decision_outcome)
                 ),
-                alternatives_comparison=(
-                    alternatives_comparison
-                    if "alternatives_comparison" in locals()
-                    else {}
-                ),
-                counterfactuals=(
-                    counterfactuals if "counterfactuals" in locals() else []
-                ),
+                alternatives_comparison=(alternatives_comparison if "alternatives_comparison" in locals() else {}),
+                counterfactuals=(counterfactuals if "counterfactuals" in locals() else []),
                 relevant_tags=relevant_tags,
                 hormonal_state=hormonal_state,
                 timestamp=datetime.now(),
             )
 
-            logger.info(
-                f"Generated {explanation_type.value} explanation for decision {decision_id}"
-            )
+            logger.info(f"Generated {explanation_type.value} explanation for decision {decision_id}")
 
             return explanation
 
@@ -347,9 +309,7 @@ class DecisionExplainer:
                 hormonal_state={},
             )
 
-    async def _analyze_decision_factors(
-        self, context: dict[str, Any], outcome: dict[str, Any]
-    ) -> list[DecisionFactor]:
+    async def _analyze_decision_factors(self, context: dict[str, Any], outcome: dict[str, Any]) -> list[DecisionFactor]:
         """Analyze what factors influenced the decision"""
         factors = []
 
@@ -365,9 +325,7 @@ class DecisionExplainer:
                 influence = self._determine_influence(factor_name, value, outcome)
 
                 # Generate explanation for this factor
-                explanation = self._generate_factor_explanation(
-                    factor_name, value, influence, factor_info
-                )
+                explanation = self._generate_factor_explanation(factor_name, value, influence, factor_info)
 
                 factor = DecisionFactor(
                     name=factor_name.replace("_", " ").title(),
@@ -385,9 +343,7 @@ class DecisionExplainer:
 
         return factors
 
-    def _check_factor_relevance(
-        self, factor_name: str, context: dict, outcome: dict
-    ) -> float:
+    def _check_factor_relevance(self, factor_name: str, context: dict, outcome: dict) -> float:
         """Check how relevant a factor is to this decision"""
         relevance = 0.0
 
@@ -400,10 +356,7 @@ class DecisionExplainer:
             relevance += 0.7
         elif factor_name == "efficiency" and context.get("resource_constrained", False):
             relevance += 0.6
-        elif (
-            factor_name == "ethical_alignment"
-            and context.get("ethical_weight", 0) > 0.3
-        ):
+        elif factor_name == "ethical_alignment" and context.get("ethical_weight", 0) > 0.3:
             relevance += 0.8
         elif factor_name == "uncertainty" and outcome.get("confidence", 1.0) < 0.7:
             relevance += 0.5
@@ -413,10 +366,7 @@ class DecisionExplainer:
             relevance += 0.4  # Always somewhat relevant
         elif factor_name == "user_preference" and context.get("user_input", False):
             relevance += 0.7
-        elif (
-            factor_name == "stakeholder_impact"
-            and len(context.get("stakeholders", [])) > 1
-        ):
+        elif factor_name == "stakeholder_impact" and len(context.get("stakeholders", [])) > 1:
             relevance += 0.6
 
         return min(1.0, relevance)
@@ -451,12 +401,8 @@ class DecisionExplainer:
         elif factor_name == "efficiency":
             return "positive" if "low" in str(value) else "negative"
         elif factor_name == "ethical_alignment":
-            score = (
-                float(str(value).split(":")[1].strip()) if ":" in str(value) else 0.5
-            )
-            return (
-                "positive" if score > 0.6 else "negative" if score < 0.4 else "neutral"
-            )
+            score = float(str(value).split(":")[1].strip()) if ":" in str(value) else 0.5
+            return "positive" if score > 0.6 else "negative" if score < 0.4 else "neutral"
         elif factor_name == "uncertainty":
             conf = float(str(value).split(":")[1].strip()) if ":" in str(value) else 0.5
             return "positive" if conf > 0.7 else "negative"
@@ -474,9 +420,7 @@ class DecisionExplainer:
         else:
             return "neutral"
 
-    def _generate_factor_explanation(
-        self, factor_name: str, value: Any, influence: str, factor_info: dict
-    ) -> str:
+    def _generate_factor_explanation(self, factor_name: str, value: Any, influence: str, factor_info: dict) -> str:
         """Generate human-readable explanation for a factor"""
         template = factor_info["explanation_template"]
 
@@ -490,24 +434,16 @@ class DecisionExplainer:
             level = "highly" if influence == "positive" else "moderately"
             return template.replace("{efficiency_level}", level)
         elif factor_name == "user_preference":
-            pref_type = (
-                str(value) if value != "not specified" else "general preferences"
-            )
+            pref_type = str(value) if value != "not specified" else "general preferences"
             return template.replace("{preference_type}", pref_type)
         elif factor_name == "past_success":
             rate = "high" if influence == "positive" else "moderate"
             return template.replace("{success_rate}", rate)
         elif factor_name == "ethical_alignment":
-            principles = (
-                "fairness and transparency"
-                if influence == "positive"
-                else "core values"
-            )
+            principles = "fairness and transparency" if influence == "positive" else "core values"
             return template.replace("{ethical_principles}", principles)
         elif factor_name == "system_state":
-            state_influence = (
-                "favors" if influence == "positive" else "suggests caution for"
-            )
+            state_influence = "favors" if influence == "positive" else "suggests caution for"
             return template.replace("{state_influence}", state_influence)
         elif factor_name == "uncertainty":
             level = "low" if influence == "positive" else "moderate to high"
@@ -518,9 +454,7 @@ class DecisionExplainer:
         else:
             return f"This factor {influence}ly influenced the decision"
 
-    async def _identify_relevant_tags(
-        self, context: dict, factors: list[DecisionFactor]
-    ) -> set[str]:
+    async def _identify_relevant_tags(self, context: dict, factors: list[DecisionFactor]) -> set[str]:
         """Identify all tags relevant to this decision"""
         relevant_tags = set()
 
@@ -548,9 +482,7 @@ class DecisionExplainer:
 
         return relevant_tags
 
-    async def _generate_causal_explanation(
-        self, factors: list[DecisionFactor], outcome: dict
-    ) -> str:
+    async def _generate_causal_explanation(self, factors: list[DecisionFactor], outcome: dict) -> str:
         """Generate causal explanation (why this decision)"""
         if not factors:
             return "Decision made based on default parameters"
@@ -571,9 +503,7 @@ class DecisionExplainer:
 
         return f"Selected {selected} as it scored {score:.1%} overall, outperforming other alternatives"
 
-    async def _generate_counterfactual_explanation(
-        self, factors: list[DecisionFactor], outcome: dict
-    ) -> str:
+    async def _generate_counterfactual_explanation(self, factors: list[DecisionFactor], outcome: dict) -> str:
         """Generate counterfactual explanation (what would change decision)"""
         if not factors:
             return "No clear conditions would change this decision"
@@ -588,9 +518,7 @@ class DecisionExplainer:
         steps = []
 
         # Standard process flow
-        steps.append(
-            f"Received {context.get('decision_type', 'general')} decision request"
-        )
+        steps.append(f"Received {context.get('decision_type', 'general')} decision request")
 
         if context.get("alternatives_count", 0) > 1:
             steps.append(f"Evaluated {context.get('alternatives_count')} alternatives")
@@ -606,9 +534,7 @@ class DecisionExplainer:
         if outcome.get("confidence", 1.0) < 0.7:
             steps.append("Identified uncertainties and adjusted confidence")
 
-        steps.append(
-            f"Selected best option with {outcome.get('confidence', 0.5):.0%} confidence"
-        )
+        steps.append(f"Selected best option with {outcome.get('confidence', 0.5):.0%} confidence")
 
         return steps
 
@@ -638,9 +564,7 @@ class DecisionExplainer:
 
         return comparisons
 
-    def _generate_counterfactuals(
-        self, factors: list[DecisionFactor], outcome: dict
-    ) -> list[str]:
+    def _generate_counterfactuals(self, factors: list[DecisionFactor], outcome: dict) -> list[str]:
         """Generate counterfactual scenarios"""
         counterfactuals = []
 
@@ -695,9 +619,7 @@ class DecisionExplainer:
             .replace("{confidence}", f"{confidence:.0%}")
         )
 
-    def generate_decision_report(
-        self, explanations: list[DecisionExplanation]
-    ) -> dict[str, Any]:
+    def generate_decision_report(self, explanations: list[DecisionExplanation]) -> dict[str, Any]:
         """Generate a report summarizing multiple decision explanations"""
         if not explanations:
             return {"message": "No explanations to summarize"}
@@ -718,36 +640,24 @@ class DecisionExplainer:
             factor_counts[factor] = factor_counts.get(factor, 0) + 1
 
         # Find dominant factors
-        dominant_factors = sorted(
-            factor_counts.items(), key=lambda x: x[1], reverse=True
-        )[:5]
+        dominant_factors = sorted(factor_counts.items(), key=lambda x: x[1], reverse=True)[:5]
 
         # Calculate average confidence
-        avg_confidence = (
-            sum(confidence_levels) / len(confidence_levels) if confidence_levels else 0
-        )
+        avg_confidence = sum(confidence_levels) / len(confidence_levels) if confidence_levels else 0
 
         # Analyze hormonal patterns
         avg_hormones = {}
         for hormone in ["cortisol", "dopamine", "serotonin", "oxytocin"]:
-            values = [
-                state.get(hormone, 0) for state in hormonal_states if hormone in state
-            ]
+            values = [state.get(hormone, 0) for state in hormonal_states if hormone in state]
             avg_hormones[hormone] = sum(values) / len(values) if values else 0
 
         report = {
             "total_decisions_explained": len(explanations),
-            "dominant_factors": [
-                {"factor": f[0], "frequency": f[1]} for f in dominant_factors
-            ],
+            "dominant_factors": [{"factor": f[0], "frequency": f[1]} for f in dominant_factors],
             "average_confidence": f"{avg_confidence:.1%}",
             "hormonal_influence": {
                 "average_levels": avg_hormones,
-                "dominant_hormone": (
-                    max(avg_hormones.items(), key=lambda x: x[1])[0]
-                    if avg_hormones
-                    else "none"
-                ),
+                "dominant_hormone": (max(avg_hormones.items(), key=lambda x: x[1])[0] if avg_hormones else "none"),
             },
             "common_patterns": self._identify_decision_patterns(explanations),
             "report_timestamp": datetime.now().isoformat(),
@@ -755,9 +665,7 @@ class DecisionExplainer:
 
         return report
 
-    def _parse_confidence_from_explanation(
-        self, explanation: DecisionExplanation
-    ) -> float:
+    def _parse_confidence_from_explanation(self, explanation: DecisionExplanation) -> float:
         """Extract confidence value from explanation"""
         # Try to parse from confidence explanation
         conf_text = explanation.confidence_explanation
@@ -779,42 +687,24 @@ class DecisionExplainer:
         else:
             return 0.5
 
-    def _identify_decision_patterns(
-        self, explanations: list[DecisionExplanation]
-    ) -> list[str]:
+    def _identify_decision_patterns(self, explanations: list[DecisionExplanation]) -> list[str]:
         """Identify common patterns in decisions"""
         patterns = []
 
         # Check for stress-influenced decisions
-        stress_decisions = sum(
-            1 for exp in explanations if exp.hormonal_state.get("cortisol", 0) > 0.7
-        )
+        stress_decisions = sum(1 for exp in explanations if exp.hormonal_state.get("cortisol", 0) > 0.7)
         if stress_decisions > len(explanations) * 0.3:
-            patterns.append(
-                f"{stress_decisions} decisions influenced by elevated stress"
-            )
+            patterns.append(f"{stress_decisions} decisions influenced by elevated stress")
 
         # Check for ethical considerations
-        ethical_decisions = sum(
-            1
-            for exp in explanations
-            if any("ethics" in f.name.lower() for f in exp.factors)
-        )
+        ethical_decisions = sum(1 for exp in explanations if any("ethics" in f.name.lower() for f in exp.factors))
         if ethical_decisions > len(explanations) * 0.5:
-            patterns.append(
-                f"{ethical_decisions} decisions had significant ethical considerations"
-            )
+            patterns.append(f"{ethical_decisions} decisions had significant ethical considerations")
 
         # Check for low confidence patterns
-        low_conf_decisions = sum(
-            1
-            for exp in explanations
-            if self._parse_confidence_from_explanation(exp) < 0.6
-        )
+        low_conf_decisions = sum(1 for exp in explanations if self._parse_confidence_from_explanation(exp) < 0.6)
         if low_conf_decisions > len(explanations) * 0.4:
-            patterns.append(
-                f"{low_conf_decisions} decisions made with lower confidence"
-            )
+            patterns.append(f"{low_conf_decisions} decisions made with lower confidence")
 
         # Check for consistent factor influence
         factor_influences = {}
@@ -867,15 +757,11 @@ async def explain_decision(
         Human-readable explanation string
     """
     explainer = get_decision_explainer()
-    explanation = await explainer.explain_decision(
-        decision_context, decision_outcome, ExplanationType.CAUSAL, level
-    )
+    explanation = await explainer.explain_decision(decision_context, decision_outcome, ExplanationType.CAUSAL, level)
     return explanation.to_human_readable(level)
 
 
-async def get_decision_comparison(
-    decision_context: dict[str, Any], decision_outcome: dict[str, Any]
-) -> str:
+async def get_decision_comparison(decision_context: dict[str, Any], decision_outcome: dict[str, Any]) -> str:
     """Get explanation comparing alternatives"""
     explainer = get_decision_explainer()
     explanation = await explainer.explain_decision(
@@ -887,9 +773,7 @@ async def get_decision_comparison(
     return explanation.to_human_readable(ExplanationLevel.STANDARD)
 
 
-async def get_decision_counterfactuals(
-    decision_context: dict[str, Any], decision_outcome: dict[str, Any]
-) -> list[str]:
+async def get_decision_counterfactuals(decision_context: dict[str, Any], decision_outcome: dict[str, Any]) -> list[str]:
     """Get counterfactual scenarios that would change the decision"""
     explainer = get_decision_explainer()
     explanation = await explainer.explain_decision(
@@ -921,9 +805,7 @@ async def explain_dmb_decision(dmb_context, dmb_outcome) -> DecisionExplanation:
         "complexity": dmb_context.complexity,
         "ethical_weight": dmb_context.ethical_weight,
         "risk_level": dmb_context.constraints.get("risk_level", 0.5),
-        "resource_constrained": dmb_context.constraints.get(
-            "resource_constrained", False
-        ),
+        "resource_constrained": dmb_context.constraints.get("resource_constrained", False),
         "has_history": bool(dmb_context.metadata.get("historical_data")),
         "alternatives_count": dmb_context.metadata.get("alternatives_count", 1),
     }

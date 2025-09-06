@@ -61,7 +61,7 @@ import numpy as np
 # Configure logging for AI operations
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.FileHandler("enhanced_agi.log"),
         logging.StreamHandler(sys.stdout),
@@ -91,7 +91,7 @@ class AGIResponse:
     metacognitive_state: dict
     ethical_compliance: dict
     capability_level: AGICapabilityLevel
-    timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     processing_time: float = 0.0
 
 
@@ -171,7 +171,7 @@ class QIInspiredAttention:
         """Update entanglement relationships"""
         input_hash = hash(str(input_data))
         self.entanglement_map[input_hash] = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "attention_pattern": attended_data.get("attention_weights", {}),
         }
 
@@ -207,7 +207,7 @@ class CausalReasoningModule:
             "valid_causes": valid_causes,
             "reasoning_path": reasoning_path,
             "confidence": primary_cause["confidence"] if primary_cause else 0.0,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self._update_history(reasoning_results)
@@ -305,7 +305,7 @@ class CausalReasoningModule:
 
     def _update_causal_graph(self, valid_causes: dict):
         """Update persistent causal graph"""
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         for chain_id, chain_data in valid_causes.items():
             if chain_id not in self.causal_graph:
                 self.causal_graph[chain_id] = {
@@ -416,7 +416,7 @@ class SymbolicEngine:
             "valid_logic": valid_logic,
             "confidence": max([v.get("confidence", 0) for v in valid_logic.values()], default=0.0),
             "logic_applied": len(valid_logic) > 0,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _extract_semantic_content(self, input_data: dict) -> str:
@@ -594,7 +594,7 @@ class MetaCognitiveOrchestrator:
 
     def orchestrate(self, input_data: dict, context: Optional[dict] = None) -> dict:
         """Orchestrate all components with metacognitive awareness"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         # Self-assessment before processing
         self._assess_current_state()
@@ -622,7 +622,7 @@ class MetaCognitiveOrchestrator:
         final_result = self._synthesize_results(results, input_data, context or {})
 
         # Self-modification based on performance
-        processing_time_seconds = (datetime.now() - start_time).total_seconds()
+        processing_time_seconds = (datetime.now(timezone.utc) - start_time).total_seconds()
         self._evaluate_and_modify(final_result, processing_time_seconds)
 
         # Update capability level
@@ -642,7 +642,7 @@ class MetaCognitiveOrchestrator:
 
         # Update adaptation level based on recent modifications
         recent_modifications = len(
-            [m for m in self.modification_history if (datetime.now() - datetime.fromisoformat(m["timestamp"])).days < 7]
+            [m for m in self.modification_history if (datetime.now(timezone.utc) - datetime.fromisoformat(m["timestamp"])).days < 7]
         )
         self.metacognitive_state["adaptation_level"] = min(1.0, recent_modifications * 0.1)
 
@@ -715,7 +715,7 @@ class MetaCognitiveOrchestrator:
                         {
                             "component": component,
                             "step": step,
-                            "timestamp": datetime.now().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
 
@@ -786,14 +786,14 @@ class MetaCognitiveOrchestrator:
     def _evaluate_and_modify(self, result: dict, processing_time: float):
         """Evaluate performance and perform self-modification if needed"""
         # Record performance metrics
-        self.metacognitive_state["performance_metrics"][datetime.now().isoformat()] = {
+        self.metacognitive_state["performance_metrics"][datetime.now(timezone.utc).isoformat()] = {
             "processing_time": processing_time,
             "overall_confidence": result.get("overall_confidence", 0.0),
             "reasoning_complexity": len(result.get("reasoning_path", [])),
         }
 
         # Keep only recent metrics
-        cutoff_time = datetime.now().timestamp() - (7 * 24 * 3600)  # 7 days
+        cutoff_time = datetime.now(timezone.utc).timestamp() - (7 * 24 * 3600)  # 7 days
         self.metacognitive_state["performance_metrics"] = {
             k: v
             for k, v in self.metacognitive_state["performance_metrics"].items()
@@ -811,7 +811,7 @@ class MetaCognitiveOrchestrator:
         """Perform actual self-modification based on recommendations"""
         for rec in recommendations:
             modification = {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "type": rec["type"],
                 "target": rec["target"],
                 "description": rec["description"],
@@ -882,7 +882,7 @@ class ComplianceEngine:
             "issues": [],
             "recommendations": [],
             "confidence": 1.0,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Check for harmful content
@@ -931,7 +931,7 @@ class EnhancedAGIBot:
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.initialization_time = datetime.now()
+        self.initialization_time = datetime.now(timezone.utc)
 
         # Initialize core components
         self.attention_mechanism = QIInspiredAttention()
@@ -972,7 +972,7 @@ class EnhancedAGIBot:
         """Update conversation history"""
         self.conversation_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input": input_data.get("text", ""),
                 "response": agi_response.content,
                 "confidence": agi_response.confidence,
@@ -1002,7 +1002,7 @@ class EnhancedAGIBot:
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
                 "confidence": agi_response.confidence,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             # Keep only last 1000 patterns
             if len(self.learning_memory) > 1000:
@@ -1044,7 +1044,7 @@ class EnhancedAGIBot:
         Returns:
             AGIResponse with comprehensive AI processing results
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         logger.info(f"🔍 Processing input: {user_input[:100]}...")
 
@@ -1072,7 +1072,7 @@ class EnhancedAGIBot:
                 response_content = self._generate_safe_response(compliance_result)
 
             # Calculate processing time
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Create AI response
             agi_response = AGIResponse(
@@ -1110,7 +1110,7 @@ class EnhancedAGIBot:
             error_response = AGIResponse(
                 content=f"I encountered an error while processing your request. Error: {e!s}",
                 confidence=0.1,
-                reasoning_path=[{"error": str(e), "timestamp": datetime.now().isoformat()}],
+                reasoning_path=[{"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}],
                 metacognitive_state=self.orchestrator.metacognitive_state.copy(),
                 ethical_compliance={
                     "is_compliant": True,
@@ -1118,7 +1118,7 @@ class EnhancedAGIBot:
                     "confidence": 1.0,
                 },
                 capability_level=AGICapabilityLevel.BASIC,
-                processing_time=(datetime.now() - start_time).total_seconds(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
 
             return error_response
@@ -1206,7 +1206,7 @@ class EnhancedAGIBot:
         )
 
         return {
-            "demonstration_timestamp": datetime.now().isoformat(),
+            "demonstration_timestamp": datetime.now(timezone.utc).isoformat(),
             "agi_session_id": self.session_id,
             "current_capability_level": self.orchestrator.capability_level.value,
             "demonstrations": demonstrations,

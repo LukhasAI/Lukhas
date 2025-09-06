@@ -16,13 +16,14 @@ def get_file_hash(filepath):
         content = "".join(lines)
         return hashlib.sha256(content.encode()).hexdigest()
 
+
 def analyze_vocabularies():
     """Analyze all vocabulary files for duplicates."""
     vocab_dirs = [
         "core/symbolic",
         "symbolic/vocabularies",
         "core/symbolic_core/vocabularies",
-        "branding/unified/vocabularies"
+        "branding/unified/vocabularies",
     ]
 
     vocab_files = {}
@@ -37,11 +38,7 @@ def analyze_vocabularies():
                     if file_name not in vocab_files:
                         vocab_files[file_name] = []
 
-                    vocab_files[file_name].append({
-                        "path": str(file),
-                        "hash": file_hash,
-                        "size": file.stat().st_size
-                    })
+                    vocab_files[file_name].append({"path": str(file), "hash": file_hash, "size": file.stat().st_size})
 
     # Report findings
     print("\n=== Vocabulary File Analysis ===\n")
@@ -67,6 +64,7 @@ def analyze_vocabularies():
                 for loc in locs:
                     print(f"      - {loc['path']} ({loc['size']} bytes)")
         print()
+
 
 if __name__ == "__main__":
     analyze_vocabularies()

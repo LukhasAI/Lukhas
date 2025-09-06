@@ -19,35 +19,42 @@ from .vector_memory import MemoryImportance, MemoryType, MemoryVector, VectorMem
 
 logger = logging.getLogger(__name__)
 
+
 class EpisodeType(Enum):
     """Types of episodic memories."""
-    CONVERSATION = "conversation"       # Conversational episodes
-    TASK_COMPLETION = "task_completion" # Task or problem-solving episodes
-    LEARNING = "learning"              # Learning and discovery episodes
-    INTERACTION = "interaction"        # System interactions
-    REFLECTION = "reflection"          # Self-reflective episodes
+
+    CONVERSATION = "conversation"  # Conversational episodes
+    TASK_COMPLETION = "task_completion"  # Task or problem-solving episodes
+    LEARNING = "learning"  # Learning and discovery episodes
+    INTERACTION = "interaction"  # System interactions
+    REFLECTION = "reflection"  # Self-reflective episodes
     ERROR_RECOVERY = "error_recovery"  # Error handling and recovery episodes
-    CREATIVE_SESSION = "creative_session" # Creative work sessions
+    CREATIVE_SESSION = "creative_session"  # Creative work sessions
+
 
 class EpisodeStatus(Enum):
     """Status of episodic memories."""
-    ACTIVE = "active"         # Currently happening
-    COMPLETED = "completed"   # Successfully completed
-    INTERRUPTED = "interrupted" # Interrupted or incomplete
-    FAILED = "failed"         # Failed to complete
-    ARCHIVED = "archived"     # Archived for long-term storage
+
+    ACTIVE = "active"  # Currently happening
+    COMPLETED = "completed"  # Successfully completed
+    INTERRUPTED = "interrupted"  # Interrupted or incomplete
+    FAILED = "failed"  # Failed to complete
+    ARCHIVED = "archived"  # Archived for long-term storage
+
 
 @dataclass
 class EpisodeContext:
     """Context information for an episode."""
-    location: Optional[str] = None           # Where the episode occurred
+
+    location: Optional[str] = None  # Where the episode occurred
     participants: list[str] = field(default_factory=list)  # Who was involved
-    tools_used: list[str] = field(default_factory=list)    # Tools or systems used
-    goals: list[str] = field(default_factory=list)         # Episode goals
-    outcomes: list[str] = field(default_factory=list)      # Episode outcomes
+    tools_used: list[str] = field(default_factory=list)  # Tools or systems used
+    goals: list[str] = field(default_factory=list)  # Episode goals
+    outcomes: list[str] = field(default_factory=list)  # Episode outcomes
     emotional_state: Optional[float] = None  # Emotional state during episode
-    confidence_level: float = 1.0           # Confidence in episode accuracy
+    confidence_level: float = 1.0  # Confidence in episode accuracy
     external_references: list[str] = field(default_factory=list)  # External links/refs
+
 
 @dataclass
 class Episode:
@@ -71,7 +78,7 @@ class Episode:
     # Content and Context
     context: EpisodeContext = field(default_factory=EpisodeContext)
     memory_sequences: list[str] = field(default_factory=list)  # Ordered memory IDs
-    key_insights: list[str] = field(default_factory=list)     # Important insights gained
+    key_insights: list[str] = field(default_factory=list)  # Important insights gained
     lessons_learned: list[str] = field(default_factory=list)  # Lessons from episode
 
     # LUKHAS Integration
@@ -79,9 +86,9 @@ class Episode:
     importance: MemoryImportance = MemoryImportance.MEDIUM
 
     # Episode Metrics
-    success_score: Optional[float] = None    # How successful was the episode (0-1)
-    learning_score: Optional[float] = None   # How much was learned (0-1)
-    creativity_score: Optional[float] = None # How creative was the episode (0-1)
+    success_score: Optional[float] = None  # How successful was the episode (0-1)
+    learning_score: Optional[float] = None  # How much was learned (0-1)
+    creativity_score: Optional[float] = None  # How creative was the episode (0-1)
 
     def __post_init__(self):
         """Calculate derived fields."""
@@ -113,9 +120,12 @@ class Episode:
         if memory_id not in self.memory_sequences:
             self.memory_sequences.append(memory_id)
 
-    def complete_episode(self, end_time: Optional[datetime] = None,
-                        success_score: Optional[float] = None,
-                        lessons_learned: Optional[list[str]] = None):
+    def complete_episode(
+        self,
+        end_time: Optional[datetime] = None,
+        success_score: Optional[float] = None,
+        lessons_learned: Optional[list[str]] = None,
+    ):
         """Mark episode as completed with outcomes."""
         self.status = EpisodeStatus.COMPLETED
         self.end_time = end_time or datetime.now()
@@ -131,17 +141,20 @@ class Episode:
             duration = self.end_time - self.start_time
             self.duration_minutes = int(duration.total_seconds() / 60)
 
+
 @dataclass
 class EpisodicQuery:
     """Query for episodic memory retrieval."""
-    query_text: Optional[str] = None              # Text-based query
+
+    query_text: Optional[str] = None  # Text-based query
     episode_types: Optional[list[EpisodeType]] = None  # Filter by episode types
     time_range: Optional[tuple[datetime, datetime]] = None  # Time range filter
-    participants: Optional[list[str]] = None      # Filter by participants
-    tools_used: Optional[list[str]] = None        # Filter by tools
-    min_success_score: Optional[float] = None     # Minimum success threshold
+    participants: Optional[list[str]] = None  # Filter by participants
+    tools_used: Optional[list[str]] = None  # Filter by tools
+    min_success_score: Optional[float] = None  # Minimum success threshold
     constellation_context: Optional[dict[str, float]] = None  # Constellation relevance
-    max_results: int = 10                         # Maximum results to return
+    max_results: int = 10  # Maximum results to return
+
 
 class EpisodicMemorySystem:
     """
@@ -162,9 +175,9 @@ class EpisodicMemorySystem:
         self.temporal_index: list[tuple[datetime, str]] = []  # (start_time, episode_id)
 
         # Configuration
-        self.max_episodes = 10000          # Maximum episodes to store
-        self.auto_archive_days = 365       # Days before auto-archiving
-        self.similarity_threshold = 0.7    # Threshold for episode similarity
+        self.max_episodes = 10000  # Maximum episodes to store
+        self.auto_archive_days = 365  # Days before auto-archiving
+        self.similarity_threshold = 0.7  # Threshold for episode similarity
 
         # Statistics
         self.stats = {
@@ -173,12 +186,12 @@ class EpisodicMemorySystem:
             "completed_episodes": 0,
             "episode_types": {et.value: 0 for et in EpisodeType},
             "avg_episode_duration": 0.0,
-            "avg_success_score": 0.0
+            "avg_success_score": 0.0,
         }
 
-    async def create_episode(self, title: str, description: str,
-                           episode_type: EpisodeType,
-                           context: Optional[EpisodeContext] = None) -> str:
+    async def create_episode(
+        self, title: str, description: str, episode_type: EpisodeType, context: Optional[EpisodeContext] = None
+    ) -> str:
         """Create a new episodic memory."""
         episode_id = f"ep_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{len(self.episodes)}"
 
@@ -189,7 +202,7 @@ class EpisodicMemorySystem:
             episode_type=episode_type,
             status=EpisodeStatus.ACTIVE,
             start_time=datetime.now(),
-            context=context or EpisodeContext()
+            context=context or EpisodeContext(),
         )
 
         # Store episode
@@ -239,19 +252,19 @@ class EpisodicMemorySystem:
 
         return True
 
-    async def complete_episode(self, episode_id: str,
-                             success_score: Optional[float] = None,
-                             key_insights: Optional[list[str]] = None,
-                             lessons_learned: Optional[list[str]] = None) -> bool:
+    async def complete_episode(
+        self,
+        episode_id: str,
+        success_score: Optional[float] = None,
+        key_insights: Optional[list[str]] = None,
+        lessons_learned: Optional[list[str]] = None,
+    ) -> bool:
         """Complete an active episode."""
         if episode_id not in self.active_episodes:
             return False
 
         episode = self.active_episodes[episode_id]
-        episode.complete_episode(
-            success_score=success_score,
-            lessons_learned=lessons_learned or []
-        )
+        episode.complete_episode(success_score=success_score, lessons_learned=lessons_learned or [])
 
         if key_insights:
             episode.key_insights.extend(key_insights)
@@ -268,16 +281,16 @@ class EpisodicMemorySystem:
             total_completed = self.stats["completed_episodes"]
             current_avg = self.stats["avg_episode_duration"]
             self.stats["avg_episode_duration"] = (
-                (current_avg * (total_completed - 1) + episode.duration_minutes) / total_completed
-            )
+                current_avg * (total_completed - 1) + episode.duration_minutes
+            ) / total_completed
 
         if episode.success_score is not None:
             # Update average success score
             total_completed = self.stats["completed_episodes"]
             current_avg = self.stats["avg_success_score"]
             self.stats["avg_success_score"] = (
-                (current_avg * (total_completed - 1) + episode.success_score) / total_completed
-            )
+                current_avg * (total_completed - 1) + episode.success_score
+            ) / total_completed
 
         # Create episode summary memory
         await self._create_episode_summary_memory(episode)
@@ -364,7 +377,7 @@ class EpisodicMemorySystem:
             filtered_episodes = [episode for episode, _ in constellation_scored]
 
         # Return top results
-        return filtered_episodes[:query.max_results]
+        return filtered_episodes[: query.max_results]
 
     async def get_episode(self, episode_id: str) -> Optional[Episode]:
         """Get episode by ID."""
@@ -455,7 +468,14 @@ class EpisodicMemorySystem:
 
         # Determine importance based on success and learning
         importance = MemoryImportance.MEDIUM
-        if episode.success_score and episode.success_score > 0.8 or episode.learning_score and episode.learning_score > 0.8 or len(episode.key_insights) > 0 or len(episode.lessons_learned) > 0:
+        if (
+            episode.success_score
+            and episode.success_score > 0.8
+            or episode.learning_score
+            and episode.learning_score > 0.8
+            or len(episode.key_insights) > 0
+            or len(episode.lessons_learned) > 0
+        ):
             importance = MemoryImportance.HIGH
 
         # Create summary memory
@@ -469,7 +489,7 @@ class EpisodicMemorySystem:
             constellation_tags=episode.constellation_impact.copy(),
             source_context=f"Episode summary: {episode.title}",
             emotional_valence=episode.context.emotional_state,
-            confidence=episode.context.confidence_level
+            confidence=episode.context.confidence_level,
         )
 
         # Add to memory store
@@ -509,14 +529,15 @@ class EpisodicMemorySystem:
             **self.stats,
             "episode_distribution": {
                 "by_type": {et.value: len(ids) for et, ids in self.type_index.items() if len(ids) > 0},
-                "by_status": {}
+                "by_status": {},
             },
             "performance_metrics": {
-                "success_rate": len([e for e in completed_episodes if e.success_score and e.success_score > 0.7]) / max(1, len(completed_episodes)),
+                "success_rate": len([e for e in completed_episodes if e.success_score and e.success_score > 0.7])
+                / max(1, len(completed_episodes)),
                 "avg_success_score": np.mean(success_scores) if success_scores else 0.0,
                 "avg_duration_minutes": np.mean(durations) if durations else 0.0,
-                "completion_rate": len(completed_episodes) / max(1, self.stats["total_episodes"])
-            }
+                "completion_rate": len(completed_episodes) / max(1, self.stats["total_episodes"]),
+            },
         }
 
         # Status distribution

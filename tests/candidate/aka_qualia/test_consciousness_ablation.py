@@ -597,16 +597,22 @@ class ComponentAblationFramework:
             "trinity_violation_details": self.trinity_violations,
             "emergency_performance": {
                 "total_tests": len(self.emergency_activations),
-                "average_activation_time_ms": sum(
-                    e["activation_time_ms"] for e in self.emergency_activations if e["activation_time_ms"] is not None
-                )
-                / len(self.emergency_activations)
-                if self.emergency_activations
-                else 0,
-                "stabilization_success_rate": sum(1 for e in self.emergency_activations if e["stabilization_achieved"])
-                / len(self.emergency_activations)
-                if self.emergency_activations
-                else 0,
+                "average_activation_time_ms": (
+                    sum(
+                        e["activation_time_ms"]
+                        for e in self.emergency_activations
+                        if e["activation_time_ms"] is not None
+                    )
+                    / len(self.emergency_activations)
+                    if self.emergency_activations
+                    else 0
+                ),
+                "stabilization_success_rate": (
+                    sum(1 for e in self.emergency_activations if e["stabilization_achieved"])
+                    / len(self.emergency_activations)
+                    if self.emergency_activations
+                    else 0
+                ),
             },
         }
 

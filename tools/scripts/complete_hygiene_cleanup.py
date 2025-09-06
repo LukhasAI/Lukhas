@@ -9,7 +9,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def complete_cleanup():
+def complete_cleanup(, timezone):
     """Remove all remaining _, lukhas_, and other redundant prefixes"""
 
     workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas"
@@ -150,7 +150,7 @@ def complete_cleanup():
     # Save change log
     log_path = workspace / "COMPLETE_HYGIENE_LOG.txt"
     with open(log_path, "w") as f:
-        f.write(f"Complete Hygiene Cleanup - {datetime.now().isoformat()}\n")
+        f.write(f"Complete Hygiene Cleanup - {datetime.now(timezone.utc).isoformat()}\n")
         f.write("=" * 60 + "\n\n")
         for old, new in changes:
             f.write(f"{old} → {new}\n")

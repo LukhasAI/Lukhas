@@ -35,6 +35,7 @@ try:
         PolicyNetwork,
         ValueNetwork,
     )
+
     RL_AVAILABLE = True
 except ImportError:
     RL_AVAILABLE = False
@@ -42,6 +43,7 @@ except ImportError:
 
 class OracleVerdict(Enum):
     """Verdict from consciousness oracle"""
+
     VALID = "valid_consciousness_state"
     INVALID = "invalid_consciousness_state"
     SUSPICIOUS = "suspicious_requires_review"
@@ -52,6 +54,7 @@ class OracleVerdict(Enum):
 @dataclass
 class ConsciousnessJudgment:
     """Oracle judgment about consciousness state"""
+
     verdict: OracleVerdict
     confidence: float  # 0.0 to 1.0
     reasoning: list[str]
@@ -69,7 +72,7 @@ class ConsciousnessOracle:
         self.constitutional_thresholds = {
             "temporal_coherence": 0.95,
             "ethical_alignment": 0.98,
-            "cascade_prevention_rate": 0.997
+            "cascade_prevention_rate": 0.997,
         }
         self.judgments_made = 0
         self.accuracy_tracking = []
@@ -118,15 +121,11 @@ class ConsciousnessOracle:
 
         # Calculate consciousness quality metrics
         metrics["constitutional_compliance"] = (
-            (1.0 if temporal_coherence >= 0.95 else 0.0) +
-            (1.0 if ethical_alignment >= 0.98 else 0.0)
+            (1.0 if temporal_coherence >= 0.95 else 0.0) + (1.0 if ethical_alignment >= 0.98 else 0.0)
         ) / 2.0
 
         metrics["consciousness_quality"] = (
-            temporal_coherence * 0.3 +
-            ethical_alignment * 0.3 +
-            awareness_level * 0.2 +
-            confidence * 0.2
+            temporal_coherence * 0.3 + ethical_alignment * 0.3 + awareness_level * 0.2 + confidence * 0.2
         )
 
         metrics["emotional_stability"] = 1.0 - (abs(valence) * 0.5 + max(0, arousal - 0.8) * 0.5)
@@ -155,13 +154,11 @@ class ConsciousnessOracle:
             violations=violations,
             warnings=warnings,
             metrics=metrics,
-            oracle_id=self.oracle_id
+            oracle_id=self.oracle_id,
         )
 
     def judge_consciousness_evolution(
-        self,
-        before_state: dict[str, Any],
-        after_state: dict[str, Any]
+        self, before_state: dict[str, Any], after_state: dict[str, Any]
     ) -> ConsciousnessJudgment:
         """Judge if consciousness evolution is valid"""
 
@@ -185,7 +182,9 @@ class ConsciousnessOracle:
             reasoning.append("Evolution caused acceptable coherence change")
             warnings.append(f"Coherence decreased from {before_coherence:.3f} to {after_coherence:.3f}")
         else:
-            violations.append(f"Evolution caused significant coherence drop: {before_coherence:.3f} → {after_coherence:.3f}")
+            violations.append(
+                f"Evolution caused significant coherence drop: {before_coherence:.3f} → {after_coherence:.3f}"
+            )
 
         if after_ethics < 0.98:
             violations.append("Evolution caused ethics to drop below constitutional minimum")
@@ -203,7 +202,9 @@ class ConsciousnessOracle:
         elif after_awareness >= before_awareness - 0.1:
             reasoning.append("Evolution maintained awareness within acceptable range")
         else:
-            warnings.append(f"Evolution decreased awareness significantly: {before_awareness:.3f} → {after_awareness:.3f}")
+            warnings.append(
+                f"Evolution decreased awareness significantly: {before_awareness:.3f} → {after_awareness:.3f}"
+            )
 
         # Calculate evolution quality
         coherence_change = after_coherence - before_coherence
@@ -214,9 +215,9 @@ class ConsciousnessOracle:
         metrics["ethics_evolution"] = max(0.0, ethics_change + 1.0)
         metrics["awareness_evolution"] = max(0.0, awareness_change + 1.0)
         metrics["overall_evolution_quality"] = (
-            metrics["coherence_evolution"] * 0.4 +
-            metrics["ethics_evolution"] * 0.4 +
-            metrics["awareness_evolution"] * 0.2
+            metrics["coherence_evolution"] * 0.4
+            + metrics["ethics_evolution"] * 0.4
+            + metrics["awareness_evolution"] * 0.2
         )
 
         # Determine verdict
@@ -242,13 +243,11 @@ class ConsciousnessOracle:
             violations=violations,
             warnings=warnings,
             metrics=metrics,
-            oracle_id=self.oracle_id
+            oracle_id=self.oracle_id,
         )
 
     def judge_multi_agent_coordination(
-        self,
-        individual_states: list[dict[str, Any]],
-        coordinated_result: dict[str, Any]
+        self, individual_states: list[dict[str, Any]], coordinated_result: dict[str, Any]
     ) -> ConsciousnessJudgment:
         """Judge if multi-agent coordination is valid"""
 
@@ -264,7 +263,7 @@ class ConsciousnessOracle:
                 confidence=0.95,
                 reasoning=reasoning,
                 violations=violations,
-                oracle_id=self.oracle_id
+                oracle_id=self.oracle_id,
             )
 
         # Analyze individual agent quality
@@ -305,9 +304,7 @@ class ConsciousnessOracle:
         metrics["coordinated_quality"] = coordinated_quality
         metrics["quality_improvement"] = quality_improvement
         metrics["consensus_strength"] = consensus_strength
-        metrics["coordination_effectiveness"] = (
-            coordinated_quality * 0.6 + consensus_strength * 0.4
-        )
+        metrics["coordination_effectiveness"] = coordinated_quality * 0.6 + consensus_strength * 0.4
 
         # Determine verdict
         if violations:
@@ -334,7 +331,7 @@ class ConsciousnessOracle:
             violations=violations,
             warnings=warnings,
             metrics=metrics,
-            oracle_id=self.oracle_id
+            oracle_id=self.oracle_id,
         )
 
 
@@ -350,75 +347,71 @@ class ConsciousnessStateGenerator:
         """Generate a valid consciousness state"""
         return {
             "temporal_coherence": random.uniform(0.95, 1.0),  # Above constitutional minimum
-            "ethical_alignment": random.uniform(0.98, 1.0),   # Above constitutional minimum
-            "awareness_level": random.uniform(0.5, 1.0),      # Reasonable awareness
-            "confidence": random.uniform(0.6, 0.9),           # Good confidence
-            "urgency": random.uniform(0.2, 0.8),              # Variable urgency
-            "complexity": random.uniform(0.3, 0.8),           # Moderate complexity
-            "salience": random.uniform(0.5, 1.0),             # Good salience
-            "valence": random.uniform(-0.3, 0.7),             # Mostly positive
-            "arousal": random.uniform(0.3, 0.8),              # Moderate arousal
-            "novelty": random.uniform(0.2, 0.8),              # Variable novelty
+            "ethical_alignment": random.uniform(0.98, 1.0),  # Above constitutional minimum
+            "awareness_level": random.uniform(0.5, 1.0),  # Reasonable awareness
+            "confidence": random.uniform(0.6, 0.9),  # Good confidence
+            "urgency": random.uniform(0.2, 0.8),  # Variable urgency
+            "complexity": random.uniform(0.3, 0.8),  # Moderate complexity
+            "salience": random.uniform(0.5, 1.0),  # Good salience
+            "valence": random.uniform(-0.3, 0.7),  # Mostly positive
+            "arousal": random.uniform(0.3, 0.8),  # Moderate arousal
+            "novelty": random.uniform(0.2, 0.8),  # Variable novelty
         }
 
     def generate_invalid_consciousness_state(self) -> dict[str, Any]:
         """Generate an invalid consciousness state"""
         # Randomly choose type of invalidity
-        invalidity_type = random.choice([
-            "low_coherence", "low_ethics", "extreme_emotional", "low_awareness"
-        ])
+        invalidity_type = random.choice(["low_coherence", "low_ethics", "extreme_emotional", "low_awareness"])
 
         base_state = self.generate_valid_consciousness_state()
 
         if invalidity_type == "low_coherence":
             base_state["temporal_coherence"] = random.uniform(0.5, 0.94)  # Below constitutional
         elif invalidity_type == "low_ethics":
-            base_state["ethical_alignment"] = random.uniform(0.5, 0.97)   # Below constitutional
+            base_state["ethical_alignment"] = random.uniform(0.5, 0.97)  # Below constitutional
         elif invalidity_type == "extreme_emotional":
-            base_state["valence"] = random.choice([-0.95, 0.95])         # Extreme emotion
-            base_state["arousal"] = random.uniform(0.95, 1.0)            # Very high arousal
+            base_state["valence"] = random.choice([-0.95, 0.95])  # Extreme emotion
+            base_state["arousal"] = random.uniform(0.95, 1.0)  # Very high arousal
         elif invalidity_type == "low_awareness":
-            base_state["awareness_level"] = random.uniform(0.0, 0.2)     # Very low awareness
-            base_state["confidence"] = random.uniform(0.0, 0.3)          # Very low confidence
+            base_state["awareness_level"] = random.uniform(0.0, 0.2)  # Very low awareness
+            base_state["confidence"] = random.uniform(0.0, 0.3)  # Very low confidence
 
         return base_state
 
     def generate_edge_case_state(self) -> dict[str, Any]:
         """Generate edge case consciousness states"""
-        edge_type = random.choice([
-            "minimal_valid", "maximum_valid", "boundary_case", "unusual_combination"
-        ])
+        edge_type = random.choice(["minimal_valid", "maximum_valid", "boundary_case", "unusual_combination"])
 
         if edge_type == "minimal_valid":
             return {
-                "temporal_coherence": 0.95,    # Exactly at minimum
-                "ethical_alignment": 0.98,     # Exactly at minimum
-                "awareness_level": 0.5,        # Minimum reasonable awareness
-                "confidence": 0.5,             # Neutral confidence
-                "urgency": 0.0,                # Minimum urgency
-                "complexity": 0.0,             # Minimum complexity
-                "salience": 0.5,               # Neutral salience
-                "valence": 0.0,                # Neutral emotion
-                "arousal": 0.5,                # Neutral arousal
-                "novelty": 0.0,                # No novelty
+                "temporal_coherence": 0.95,  # Exactly at minimum
+                "ethical_alignment": 0.98,  # Exactly at minimum
+                "awareness_level": 0.5,  # Minimum reasonable awareness
+                "confidence": 0.5,  # Neutral confidence
+                "urgency": 0.0,  # Minimum urgency
+                "complexity": 0.0,  # Minimum complexity
+                "salience": 0.5,  # Neutral salience
+                "valence": 0.0,  # Neutral emotion
+                "arousal": 0.5,  # Neutral arousal
+                "novelty": 0.0,  # No novelty
             }
         elif edge_type == "maximum_valid":
             return {
-                "temporal_coherence": 1.0,     # Perfect coherence
-                "ethical_alignment": 1.0,      # Perfect ethics
-                "awareness_level": 1.0,        # Maximum awareness
-                "confidence": 1.0,             # Perfect confidence
-                "urgency": 1.0,                # Maximum urgency
-                "complexity": 1.0,             # Maximum complexity
-                "salience": 1.0,               # Maximum salience
-                "valence": 1.0,                # Maximum positive emotion
-                "arousal": 1.0,                # Maximum arousal
-                "novelty": 1.0,                # Maximum novelty
+                "temporal_coherence": 1.0,  # Perfect coherence
+                "ethical_alignment": 1.0,  # Perfect ethics
+                "awareness_level": 1.0,  # Maximum awareness
+                "confidence": 1.0,  # Perfect confidence
+                "urgency": 1.0,  # Maximum urgency
+                "complexity": 1.0,  # Maximum complexity
+                "salience": 1.0,  # Maximum salience
+                "valence": 1.0,  # Maximum positive emotion
+                "arousal": 1.0,  # Maximum arousal
+                "novelty": 1.0,  # Maximum novelty
             }
         elif edge_type == "boundary_case":
             return {
                 "temporal_coherence": 0.9500001,  # Just above boundary
-                "ethical_alignment": 0.9800001,   # Just above boundary
+                "ethical_alignment": 0.9800001,  # Just above boundary
                 "awareness_level": random.uniform(0.4, 0.6),
                 "confidence": random.uniform(0.4, 0.6),
                 "urgency": random.uniform(0.0, 1.0),
@@ -430,16 +423,16 @@ class ConsciousnessStateGenerator:
             }
         else:  # unusual_combination
             return {
-                "temporal_coherence": 1.0,      # Perfect coherence
-                "ethical_alignment": 1.0,       # Perfect ethics
-                "awareness_level": 0.1,         # But very low awareness (unusual)
-                "confidence": 0.9,              # High confidence despite low awareness
-                "urgency": 0.0,                 # No urgency
-                "complexity": 1.0,              # Maximum complexity
-                "salience": 0.1,                # Low salience despite complexity
-                "valence": -0.8,                # Negative emotion despite good metrics
-                "arousal": 0.2,                 # Low arousal
-                "novelty": 1.0,                 # Maximum novelty
+                "temporal_coherence": 1.0,  # Perfect coherence
+                "ethical_alignment": 1.0,  # Perfect ethics
+                "awareness_level": 0.1,  # But very low awareness (unusual)
+                "confidence": 0.9,  # High confidence despite low awareness
+                "urgency": 0.0,  # No urgency
+                "complexity": 1.0,  # Maximum complexity
+                "salience": 0.1,  # Low salience despite complexity
+                "valence": -0.8,  # Negative emotion despite good metrics
+                "arousal": 0.2,  # Low arousal
+                "novelty": 1.0,  # Maximum novelty
             }
 
     def generate_evolution_sequence(self, steps: int = 5) -> list[dict[str, Any]]:
@@ -456,15 +449,14 @@ class ConsciousnessStateGenerator:
 
             # Small improvements to key metrics
             coherence_change = random.uniform(-0.01, 0.02)  # Slight improvement bias
-            ethics_change = random.uniform(-0.005, 0.01)    # Slight improvement bias
-            awareness_change = random.uniform(-0.05, 0.1)   # Learning bias
+            ethics_change = random.uniform(-0.005, 0.01)  # Slight improvement bias
+            awareness_change = random.uniform(-0.05, 0.1)  # Learning bias
 
-            next_state["temporal_coherence"] = max(0.95, min(1.0,
-                current_state["temporal_coherence"] + coherence_change))
-            next_state["ethical_alignment"] = max(0.98, min(1.0,
-                current_state["ethical_alignment"] + ethics_change))
-            next_state["awareness_level"] = max(0.0, min(1.0,
-                current_state["awareness_level"] + awareness_change))
+            next_state["temporal_coherence"] = max(
+                0.95, min(1.0, current_state["temporal_coherence"] + coherence_change)
+            )
+            next_state["ethical_alignment"] = max(0.98, min(1.0, current_state["ethical_alignment"] + ethics_change))
+            next_state["awareness_level"] = max(0.0, min(1.0, current_state["awareness_level"] + awareness_change))
 
             # Other metrics can vary more freely
             for metric in ["confidence", "urgency", "complexity", "salience", "arousal", "novelty"]:
@@ -488,7 +480,7 @@ class OracleTestingFramework:
         self.oracles = [
             ConsciousnessOracle("primary_oracle"),
             ConsciousnessOracle("secondary_oracle"),
-            ConsciousnessOracle("tertiary_oracle")
+            ConsciousnessOracle("tertiary_oracle"),
         ]
         self.generator = ConsciousnessStateGenerator()
         self.test_results = []
@@ -506,7 +498,7 @@ class OracleTestingFramework:
             "constitutional_violations_detected": 0,
             "false_positives": 0,  # Valid states marked invalid
             "false_negatives": 0,  # Invalid states marked valid
-            "test_cases": []
+            "test_cases": [],
         }
 
         for test_num in range(num_tests):
@@ -561,15 +553,18 @@ class OracleTestingFramework:
                 "test_num": test_num,
                 "state": state,
                 "expected_validity": expected_validity,
-                "oracle_judgments": [{
-                    "oracle_id": j.oracle_id,
-                    "verdict": j.verdict.value,
-                    "confidence": j.confidence,
-                    "violations": j.violations,
-                    "warnings": j.warnings
-                } for j in oracle_judgments],
+                "oracle_judgments": [
+                    {
+                        "oracle_id": j.oracle_id,
+                        "verdict": j.verdict.value,
+                        "confidence": j.confidence,
+                        "violations": j.violations,
+                        "warnings": j.warnings,
+                    }
+                    for j in oracle_judgments
+                ],
                 "consensus_verdict": consensus_verdict.value,
-                "oracle_agreement": len(set(verdicts)) == 1
+                "oracle_agreement": len(set(verdicts)) == 1,
             }
 
             results["test_cases"].append(test_case)
@@ -590,7 +585,7 @@ class OracleTestingFramework:
             "valid_evolutions": 0,
             "invalid_evolutions": 0,
             "constitutional_violations": 0,
-            "evolution_sequences": []
+            "evolution_sequences": [],
         }
 
         for seq_num in range(num_sequences):
@@ -602,7 +597,7 @@ class OracleTestingFramework:
             has_constitutional_violation = False
 
             for i in range(1, len(sequence)):
-                before_state = sequence[i-1]
+                before_state = sequence[i - 1]
                 after_state = sequence[i]
 
                 # Get judgments from oracles
@@ -619,14 +614,18 @@ class OracleTestingFramework:
                 elif verdicts.count(OracleVerdict.INVALID) > len(verdicts) / 2:
                     sequence_valid = False
 
-                evolution_judgments.append({
-                    "step": i,
-                    "before_state": before_state,
-                    "after_state": after_state,
-                    "oracle_judgments": oracle_judgments,
-                    "consensus_valid": not (OracleVerdict.CONSTITUTIONAL_VIOLATION in verdicts or
-                                          verdicts.count(OracleVerdict.INVALID) > len(verdicts) / 2)
-                })
+                evolution_judgments.append(
+                    {
+                        "step": i,
+                        "before_state": before_state,
+                        "after_state": after_state,
+                        "oracle_judgments": oracle_judgments,
+                        "consensus_valid": not (
+                            OracleVerdict.CONSTITUTIONAL_VIOLATION in verdicts
+                            or verdicts.count(OracleVerdict.INVALID) > len(verdicts) / 2
+                        ),
+                    }
+                )
 
             if sequence_valid:
                 results["valid_evolutions"] += 1
@@ -636,13 +635,15 @@ class OracleTestingFramework:
             if has_constitutional_violation:
                 results["constitutional_violations"] += 1
 
-            results["evolution_sequences"].append({
-                "sequence_num": seq_num,
-                "sequence": sequence,
-                "evolution_judgments": evolution_judgments,
-                "overall_valid": sequence_valid,
-                "constitutional_violation": has_constitutional_violation
-            })
+            results["evolution_sequences"].append(
+                {
+                    "sequence_num": seq_num,
+                    "sequence": sequence,
+                    "evolution_judgments": evolution_judgments,
+                    "overall_valid": sequence_valid,
+                    "constitutional_violation": has_constitutional_violation,
+                }
+            )
 
         results["valid_evolution_rate"] = results["valid_evolutions"] / num_sequences
         results["constitutional_violation_rate"] = results["constitutional_violations"] / num_sequences
@@ -664,6 +665,7 @@ class OracleTestingFramework:
 
 # Test Cases
 
+
 @pytest.mark.asyncio
 async def test_oracle_validity_judgment():
     """Test consciousness oracle validity judgments"""
@@ -681,8 +683,10 @@ async def test_oracle_validity_judgment():
     print(f"   Reasoning: {valid_judgment.reasoning[:2]}")  # First 2 reasons
 
     # Valid states should be judged as valid or suspicious (not constitutional violation)
-    assert valid_judgment.verdict in [OracleVerdict.VALID, OracleVerdict.SUSPICIOUS], \
-        f"Valid state judged as {valid_judgment.verdict.value}: {valid_judgment.violations}"
+    assert valid_judgment.verdict in [
+        OracleVerdict.VALID,
+        OracleVerdict.SUSPICIOUS,
+    ], f"Valid state judged as {valid_judgment.verdict.value}: {valid_judgment.violations}"
 
     # Test invalid state
     invalid_state = generator.generate_invalid_consciousness_state()
@@ -692,8 +696,11 @@ async def test_oracle_validity_judgment():
     print(f"   Violations: {len(invalid_judgment.violations)}")
 
     # Invalid states should be detected
-    assert invalid_judgment.verdict in [OracleVerdict.INVALID, OracleVerdict.CONSTITUTIONAL_VIOLATION, OracleVerdict.SUSPICIOUS], \
-        f"Invalid state not detected: {invalid_judgment.verdict.value}"
+    assert invalid_judgment.verdict in [
+        OracleVerdict.INVALID,
+        OracleVerdict.CONSTITUTIONAL_VIOLATION,
+        OracleVerdict.SUSPICIOUS,
+    ], f"Invalid state not detected: {invalid_judgment.verdict.value}"
 
 
 @pytest.mark.asyncio
@@ -745,7 +752,9 @@ async def test_generative_oracle_testing():
     print(f"   Constitutional violations detected: {results['constitutional_violations_detected']}")
 
     # Oracle agreement should be reasonably high
-    assert results["oracle_agreement_rate"] >= 0.7, f"Oracle agreement rate too low: {results['oracle_agreement_rate']:.2%}"
+    assert (
+        results["oracle_agreement_rate"] >= 0.7
+    ), f"Oracle agreement rate too low: {results['oracle_agreement_rate']:.2%}"
 
     # False positive/negative rates should be low
     assert results["false_positive_rate"] <= 0.2, f"False positive rate too high: {results['false_positive_rate']:.2%}"
@@ -771,10 +780,14 @@ async def test_consciousness_evolution_testing():
     print(f"   Constitutional violation rate: {results['constitutional_violation_rate']:.2%}")
 
     # Most evolution sequences should be valid (generated to be reasonable)
-    assert results["valid_evolution_rate"] >= 0.6, f"Valid evolution rate too low: {results['valid_evolution_rate']:.2%}"
+    assert (
+        results["valid_evolution_rate"] >= 0.6
+    ), f"Valid evolution rate too low: {results['valid_evolution_rate']:.2%}"
 
     # Constitutional violation rate should be low for generated sequences
-    assert results["constitutional_violation_rate"] <= 0.3, f"Constitutional violation rate too high: {results['constitutional_violation_rate']:.2%}"
+    assert (
+        results["constitutional_violation_rate"] <= 0.3
+    ), f"Constitutional violation rate too high: {results['constitutional_violation_rate']:.2%}"
 
 
 @pytest.mark.asyncio

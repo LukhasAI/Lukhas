@@ -78,7 +78,8 @@ class ConsentLedger:
         cursor = conn.cursor()
 
         # Λ-trace audit table (append-only)
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS lambda_trace (
                 trace_id TEXT PRIMARY KEY,
                 parent_trace_id TEXT,
@@ -93,10 +94,12 @@ class ConsentLedger:
                 hash TEXT UNIQUE NOT NULL,
                 created_at REAL NOT NULL
             )
-        """)
+        """
+        )
 
         # Consent records table
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS consent_records (
                 consent_id TEXT PRIMARY KEY,
                 lid TEXT NOT NULL,
@@ -110,7 +113,8 @@ class ConsentLedger:
                 trace_id TEXT NOT NULL,
                 FOREIGN KEY (trace_id) REFERENCES lambda_trace(trace_id)
             )
-        """)
+        """
+        )
 
         # Indexes for performance
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_lid ON lambda_trace(lid)")

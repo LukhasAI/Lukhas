@@ -61,7 +61,7 @@ class TrustBinder:
     The Trust Binder.
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.stress_signal = StressSignal()
         self.stability_anchor = StabilityAnchor()
 
@@ -96,7 +96,7 @@ class TrustBinder:
         # Log entropy shifts
         with open("symbolic_entropy_log.jsonl", "a") as f:
             log_entry = {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "affect_vector": affect_vector,
                 "affect_deltas": affect_deltas,
                 "entropy_snapshot": entropy_state_snapshot([], [affect_vector]),

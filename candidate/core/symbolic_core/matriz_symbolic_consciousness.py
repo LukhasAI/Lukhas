@@ -50,6 +50,7 @@ logger = std_logging.getLogger(__name__)
 
 class SymbolicType(Enum):
     """Types of symbolic elements in consciousness processing"""
+
     GLYPH = "glyph"
     PATTERN = "pattern"
     SYMBOL = "symbol"
@@ -61,6 +62,7 @@ class SymbolicType(Enum):
 
 class ProcessingState(Enum):
     """Symbolic processing states"""
+
     RAW = "raw"
     TOKENIZED = "tokenized"
     PARSED = "parsed"
@@ -72,6 +74,7 @@ class ProcessingState(Enum):
 @dataclass
 class SymbolicElement:
     """Core symbolic element in consciousness processing"""
+
     element_id: str = field(default_factory=lambda: f"SYM-{uuid.uuid4().hex[:8]}")
     symbol_type: SymbolicType = SymbolicType.SYMBOL
     content: str = ""
@@ -126,6 +129,7 @@ class SymbolicElement:
 @dataclass
 class SymbolicPattern:
     """Pattern recognition in symbolic consciousness processing"""
+
     pattern_id: str = field(default_factory=lambda: f"PAT-{uuid.uuid4().hex[:8]}")
     name: str = ""
     description: str = ""
@@ -157,7 +161,7 @@ class SymbolicPattern:
             self.precision,
             self.recall,
             min(1.0, self.match_count / 10),  # Normalize match count
-            self.consciousness_relevance
+            self.consciousness_relevance,
         ]
         return sum(factors) / len(factors)
 
@@ -190,7 +194,7 @@ class MatrizSymbolicConsciousnessProcessor:
             "patterns_recognized": 0,
             "consciousness_integrations": 0,
             "average_processing_time_ms": 0.0,
-            "cache_hit_rate": 0.0
+            "cache_hit_rate": 0.0,
         }
 
         # Background processing
@@ -216,15 +220,15 @@ class MatrizSymbolicConsciousnessProcessor:
                     "memory_salience": 0.8,
                     "temporal_coherence": 0.7,
                     "ethical_alignment": 1.0,
-                    "self_awareness_depth": 0.6
+                    "self_awareness_depth": 0.6,
                 },
                 triggers=[
                     "symbolic_processing",
                     "pattern_recognition",
                     "consciousness_integration",
                     "symbolic_evolution",
-                    "memory_association"
-                ]
+                    "memory_association",
+                ],
             )
 
             self.processor_consciousness_id = processor_consciousness.consciousness_id
@@ -235,7 +239,9 @@ class MatrizSymbolicConsciousnessProcessor:
             # Start background processing
             await self._start_background_processing()
 
-            logger.info(f"🧠 Symbolic processor consciousness initialized: {processor_consciousness.identity_signature}")
+            logger.info(
+                f"🧠 Symbolic processor consciousness initialized: {processor_consciousness.identity_signature}"
+            )
 
         except Exception as e:
             logger.error(f"Failed to initialize processor consciousness: {e}")
@@ -249,36 +255,36 @@ class MatrizSymbolicConsciousnessProcessor:
                 "description": "Recognizes consciousness state markers in symbolic data",
                 "rules": ["contains:conscious", "contains:aware", "contains:reflect"],
                 "consciousness_relevance": 0.9,
-                "consciousness_evolution_triggers": ["consciousness_evolution"]
+                "consciousness_evolution_triggers": ["consciousness_evolution"],
             },
             {
                 "name": "Decision Pattern",
                 "description": "Identifies decision-making symbolic structures",
                 "rules": ["contains:decide", "contains:choose", "contains:select"],
                 "consciousness_relevance": 0.7,
-                "consciousness_evolution_triggers": ["decision_making"]
+                "consciousness_evolution_triggers": ["decision_making"],
             },
             {
                 "name": "Memory Reference",
                 "description": "Detects memory-related symbolic elements",
                 "rules": ["contains:remember", "contains:recall", "contains:memory"],
                 "consciousness_relevance": 0.8,
-                "consciousness_evolution_triggers": ["memory_formation"]
+                "consciousness_evolution_triggers": ["memory_formation"],
             },
             {
                 "name": "Ethical Consideration",
                 "description": "Identifies ethical reasoning markers",
                 "rules": ["contains:ethical", "contains:moral", "contains:right", "contains:wrong"],
                 "consciousness_relevance": 0.8,
-                "consciousness_evolution_triggers": ["ethical_reasoning"]
+                "consciousness_evolution_triggers": ["ethical_reasoning"],
             },
             {
                 "name": "Self-Reflection",
                 "description": "Recognizes self-reflective symbolic patterns",
                 "rules": ["contains:self", "contains:introspect", "contains:reflect"],
                 "consciousness_relevance": 0.9,
-                "consciousness_evolution_triggers": ["self_reflection"]
-            }
+                "consciousness_evolution_triggers": ["self_reflection"],
+            },
         ]
 
         for pattern_config in default_patterns:
@@ -287,16 +293,18 @@ class MatrizSymbolicConsciousnessProcessor:
                 description=pattern_config["description"],
                 rules=pattern_config["rules"],
                 consciousness_relevance=pattern_config["consciousness_relevance"],
-                consciousness_evolution_triggers=pattern_config["consciousness_evolution_triggers"]
+                consciousness_evolution_triggers=pattern_config["consciousness_evolution_triggers"],
             )
 
             self.symbolic_patterns[pattern.pattern_id] = pattern
             logger.debug(f"🔤 Created symbolic pattern: {pattern.name}")
 
-    async def process_symbolic_input(self,
-                                   input_data: Union[str, dict[str, Any]],
-                                   consciousness_context: Optional[str] = None,
-                                   processing_options: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+    async def process_symbolic_input(
+        self,
+        input_data: Union[str, dict[str, Any]],
+        consciousness_context: Optional[str] = None,
+        processing_options: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Process symbolic input with consciousness awareness"""
 
         processing_options = processing_options or {}
@@ -339,8 +347,8 @@ class MatrizSymbolicConsciousnessProcessor:
                             "elements_processed": len(elements),
                             "patterns_recognized": len(recognized_patterns),
                             "consciousness_context": consciousness_context,
-                            "processing_complexity": len(symbolic_content) / 100
-                        }
+                            "processing_complexity": len(symbolic_content) / 100,
+                        },
                     )
 
                 result = {
@@ -352,7 +360,7 @@ class MatrizSymbolicConsciousnessProcessor:
                             "consciousness_signature": elem.consciousness_signature,
                             "consciousness_weight": elem.consciousness_weight,
                             "confidence": elem.confidence,
-                            "salience": elem.salience
+                            "salience": elem.salience,
                         }
                         for elem in elements
                     ],
@@ -362,7 +370,7 @@ class MatrizSymbolicConsciousnessProcessor:
                             "name": pattern.name,
                             "consciousness_relevance": pattern.consciousness_relevance,
                             "pattern_strength": pattern.calculate_pattern_strength(),
-                            "matched_elements": pattern.elements
+                            "matched_elements": pattern.elements,
                         }
                         for pattern in recognized_patterns
                     ],
@@ -373,12 +381,14 @@ class MatrizSymbolicConsciousnessProcessor:
                         "consciousness_context": consciousness_context,
                         "processor_consciousness_id": self.processor_consciousness_id,
                         "elements_count": len(elements),
-                        "patterns_count": len(recognized_patterns)
-                    }
+                        "patterns_count": len(recognized_patterns),
+                    },
                 }
 
-                logger.info(f"🔤 Processed symbolic input: {len(elements)} elements, "
-                           f"{len(recognized_patterns)} patterns recognized")
+                logger.info(
+                    f"🔤 Processed symbolic input: {len(elements)} elements, "
+                    f"{len(recognized_patterns)} patterns recognized"
+                )
 
                 return result
 
@@ -388,8 +398,8 @@ class MatrizSymbolicConsciousnessProcessor:
                     "error": str(e),
                     "processing_metadata": {
                         "processing_time_ms": (time.perf_counter() - start_time) * 1000,
-                        "success": False
-                    }
+                        "success": False,
+                    },
                 }
 
     async def _parse_symbolic_elements(self, content: str, metadata: dict[str, Any]) -> list[SymbolicElement]:
@@ -410,7 +420,7 @@ class MatrizSymbolicConsciousnessProcessor:
             "awareness": SymbolicType.CONCEPT,
             "reflect": SymbolicType.CONCEPT,
             "decide": SymbolicType.CONCEPT,
-            "evolve": SymbolicType.CONCEPT
+            "evolve": SymbolicType.CONCEPT,
         }
 
         for i, token in enumerate(tokens):
@@ -435,13 +445,13 @@ class MatrizSymbolicConsciousnessProcessor:
                 consciousness_weight=consciousness_weight,
                 processing_state=ProcessingState.TOKENIZED,
                 confidence=0.8,
-                salience=min(1.0, consciousness_weight + 0.2)
+                salience=min(1.0, consciousness_weight + 0.2),
             )
 
             # Add contextual relationships
             if i > 0:
-                element.parent_elements.append(elements[i-1].element_id)
-                elements[i-1].child_elements.append(element.element_id)
+                element.parent_elements.append(elements[i - 1].element_id)
+                elements[i - 1].child_elements.append(element.element_id)
 
             elements.append(element)
 
@@ -465,7 +475,7 @@ class MatrizSymbolicConsciousnessProcessor:
             ["self", "awareness"],
             ["decision", "making"],
             ["memory", "formation"],
-            ["ethical", "reasoning"]
+            ["ethical", "reasoning"],
         ]
 
         element_contents = [elem.content for elem in elements]
@@ -485,14 +495,11 @@ class MatrizSymbolicConsciousnessProcessor:
                     consciousness_weight=0.9,
                     processing_state=ProcessingState.STRUCTURED,
                     confidence=0.9,
-                    salience=0.8
+                    salience=0.8,
                 )
 
                 # Link to component elements
-                compound_element.child_elements = [
-                    elements[start_idx].element_id,
-                    elements[end_idx].element_id
-                ]
+                compound_element.child_elements = [elements[start_idx].element_id, elements[end_idx].element_id]
 
                 # Update component elements
                 for idx in range(start_idx, end_idx + 1):
@@ -525,14 +532,17 @@ class MatrizSymbolicConsciousnessProcessor:
                 # Mark matching elements as consciousness-aware
                 for element in matches:
                     element.processing_state = ProcessingState.CONSCIOUSNESS_AWARE
-                    element.consciousness_weight = min(1.0, element.consciousness_weight + pattern.consciousness_relevance * 0.1)
+                    element.consciousness_weight = min(
+                        1.0, element.consciousness_weight + pattern.consciousness_relevance * 0.1
+                    )
 
                 recognized_patterns.append(pattern)
 
         return recognized_patterns
 
-    async def _check_pattern_match(self, pattern: SymbolicPattern,
-                                 elements: list[SymbolicElement]) -> list[SymbolicElement]:
+    async def _check_pattern_match(
+        self, pattern: SymbolicPattern, elements: list[SymbolicElement]
+    ) -> list[SymbolicElement]:
         """Check if pattern matches elements"""
 
         matching_elements = []
@@ -559,9 +569,9 @@ class MatrizSymbolicConsciousnessProcessor:
 
         return unique_elements if unique_elements else []
 
-    async def _integrate_with_consciousness(self, elements: list[SymbolicElement],
-                                          patterns: list[SymbolicPattern],
-                                          consciousness_context: Optional[str]) -> dict[str, Any]:
+    async def _integrate_with_consciousness(
+        self, elements: list[SymbolicElement], patterns: list[SymbolicPattern], consciousness_context: Optional[str]
+    ) -> dict[str, Any]:
         """Integrate symbolic processing with consciousness context"""
 
         integration_result = {
@@ -569,7 +579,7 @@ class MatrizSymbolicConsciousnessProcessor:
             "consciousness_patterns": 0,
             "integration_strength": 0.0,
             "evolution_triggers": [],
-            "consciousness_context": consciousness_context
+            "consciousness_context": consciousness_context,
         }
 
         # Count consciousness-relevant elements and patterns
@@ -627,8 +637,7 @@ class MatrizSymbolicConsciousnessProcessor:
 
         return associations
 
-    async def _calculate_element_similarity(self, elem1: SymbolicElement,
-                                          elem2: SymbolicElement) -> float:
+    async def _calculate_element_similarity(self, elem1: SymbolicElement, elem2: SymbolicElement) -> float:
         """Calculate similarity between two symbolic elements"""
 
         similarity = 0.0
@@ -657,8 +666,7 @@ class MatrizSymbolicConsciousnessProcessor:
 
         return min(1.0, similarity)
 
-    def _update_processing_metrics(self, processing_time_ms: float,
-                                 elements_count: int, patterns_count: int) -> None:
+    def _update_processing_metrics(self, processing_time_ms: float, elements_count: int, patterns_count: int) -> None:
         """Update processing metrics"""
 
         self.processing_metrics["elements_processed"] += elements_count
@@ -687,7 +695,8 @@ class MatrizSymbolicConsciousnessProcessor:
                 # Clean up old elements that haven't been accessed recently
                 cutoff_time = current_time - timedelta(hours=24)
                 old_elements = [
-                    elem_id for elem_id, elem in self.symbolic_elements.items()
+                    elem_id
+                    for elem_id, elem in self.symbolic_elements.items()
                     if elem.last_accessed < cutoff_time and elem.access_count < 2
                 ]
 
@@ -703,8 +712,7 @@ class MatrizSymbolicConsciousnessProcessor:
                             days_since_match = (current_time - pattern.last_matched).days
 
                         effectiveness = max(0.1, 1.0 - (days_since_match * 0.1))
-                        pattern.consciousness_relevance = min(1.0,
-                            pattern.consciousness_relevance * effectiveness)
+                        pattern.consciousness_relevance = min(1.0, pattern.consciousness_relevance * effectiveness)
 
                 # Clear old cache entries
                 if len(self.pattern_cache) > 1000:
@@ -747,12 +755,9 @@ class MatrizSymbolicConsciousnessProcessor:
             "processing_state_distribution": processing_state_distribution,
             "average_consciousness_weight": avg_consciousness_weight,
             "processing_metrics": self.processing_metrics.copy(),
-            "cache_sizes": {
-                "pattern_cache": len(self.pattern_cache),
-                "association_cache": len(self.association_cache)
-            },
+            "cache_sizes": {"pattern_cache": len(self.pattern_cache), "association_cache": len(self.association_cache)},
             "system_status": "active" if self.processor_consciousness_id else "degraded",
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     async def shutdown_symbolic_processor(self) -> None:
@@ -768,8 +773,8 @@ class MatrizSymbolicConsciousnessProcessor:
                 trigger="system_shutdown",
                 context={
                     "elements_processed": self.processing_metrics["elements_processed"],
-                    "patterns_recognized": self.processing_metrics["patterns_recognized"]
-                }
+                    "patterns_recognized": self.processing_metrics["patterns_recognized"],
+                },
             )
 
         logger.info("✅ Symbolic consciousness processor shutdown complete")
@@ -786,5 +791,5 @@ __all__ = [
     "SymbolicType",
     "ProcessingState",
     "MatrizSymbolicConsciousnessProcessor",
-    "symbolic_consciousness_processor"
+    "symbolic_consciousness_processor",
 ]

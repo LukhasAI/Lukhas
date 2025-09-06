@@ -29,7 +29,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EngineType(Enum):
@@ -193,7 +193,7 @@ class IntelligenceEngineRegistry:
                 return False
 
             # Register the engine
-            engine_info.registered_at = datetime.utcnow()
+            engine_info.registered_at = datetime.now(timezone.utc)
             engine_info.status = EngineStatus.HEALTHY
             self.engines[engine_info.engine_id] = engine_info
 
@@ -306,7 +306,7 @@ class IntelligenceEngineRegistry:
         if engine_id not in self.engines:
             return False
 
-        self.engines[engine_id].last_heartbeat = datetime.utcnow()
+        self.engines[engine_id].last_heartbeat = datetime.now(timezone.utc)
         return True
 
     def update_engine_metrics(self, engine_id: str, metrics: dict[str, Any]) -> bool:
@@ -367,10 +367,10 @@ class IntelligenceEngineRegistry:
 
     def get_registry_metrics(self) -> dict[str, Any]:
         """Get registry performance metrics"""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         healthy_engines = sum(1 for e in self.engines.values() if e.status == EngineStatus.HEALTHY)
 
-        uptime = (now - datetime.utcnow()).total_seconds() if hasattr(self, "start_time") else 0
+        uptime = (now - datetime.now(timezone.utc)).total_seconds() if hasattr(self, "start_time") else 0
 
         return {
             "total_engines": len(self.engines),
@@ -540,7 +540,7 @@ class IntelligenceEngineRegistry:
 
     def _check_engine_heartbeats(self):
         """Check for missing heartbeats"""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         timeout_threshold = timedelta(seconds=self.config.engine_timeout)
 
         for engine_id, engine_info in self.engines.items():
@@ -571,7 +571,7 @@ class IntelligenceEngineRegistry:
             health_result = asyncio.run(self.health_checker.check_health(engine_info))
 
             # Update health metrics
-            engine_info.last_health_check = datetime.utcnow()
+            engine_info.last_health_check = datetime.now(timezone.utc)
             engine_info.health_score = health_result.get("health_score", 0.0)
 
             # Update status based on health

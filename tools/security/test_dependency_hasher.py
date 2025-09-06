@@ -22,14 +22,16 @@ def test_dependency_hasher():
 
     # Create a test requirements file
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
-        f.write("""# Test Dependencies
+        f.write(
+            """# Test Dependencies
 pyyaml>=6.0.1
 requests>=2.31.0
 cryptography>=41.0.0
 
 # Testing
 pytest>=7.4.0
-""")
+"""
+        )
         test_requirements_path = Path(f.name)
 
     try:

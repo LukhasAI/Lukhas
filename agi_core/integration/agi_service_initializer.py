@@ -44,39 +44,59 @@ except ImportError as e:
     class MockAGIComponent:
         def __init__(self, name: str):
             self.name = name
-        async def initialize(self): pass
-        async def shutdown(self): pass
-        def get_health(self): return {"status": "healthy", "component": self.name}
+
+        async def initialize(self):
+            pass
+
+        async def shutdown(self):
+            pass
+
+        def get_health(self):
+            return {"status": "healthy", "component": self.name}
 
     # Create mock components
     def ChainOfThought():
         return MockAGIComponent("ChainOfThought")
+
     def TreeOfThoughts():
         return MockAGIComponent("TreeOfThoughts")
+
     def DreamIntegration():
         return MockAGIComponent("DreamIntegration")
+
     def ModelRouter():
         return MockAGIComponent("ModelRouter")
+
     def ConsensusEngine():
         return MockAGIComponent("ConsensusEngine")
+
     def CapabilityMatrix():
         return MockAGIComponent("CapabilityMatrix")
+
     def CostOptimizer():
         return MockAGIComponent("CostOptimizer")
+
     def VectorMemory():
         return MockAGIComponent("VectorMemory")
+
     def MemoryConsolidator():
         return MockAGIComponent("MemoryConsolidator")
+
     def EpisodicMemory():
         return MockAGIComponent("EpisodicMemory")
+
     def SemanticMemory():
         return MockAGIComponent("SemanticMemory")
+
     def DreamMemory():
         return MockAGIComponent("DreamMemory")
+
     def ConstitutionalAI():
         return MockAGIComponent("ConstitutionalAI")
+
     def DreamGuidedLearner():
         return MockAGIComponent("DreamGuidedLearner")
+
     def DreamGuidedTools():
         return MockAGIComponent("DreamGuidedTools")
 
@@ -84,9 +104,15 @@ except ImportError as e:
     class MockBridge:
         async def register_agi_service(self, name, comp, auto_init=True):
             return MockAGIComponent(f"Adapter_{name}")
-        async def initialize_all_services(self): return {}
-        async def start_health_monitoring(self, interval=60): pass
-        def get_service_registry_info(self): return {"status": "mock"}
+
+        async def initialize_all_services(self):
+            return {}
+
+        async def start_health_monitoring(self, interval=60):
+            pass
+
+        def get_service_registry_info(self):
+            return {"status": "mock"}
 
     class MockVocabService:
         def log_agi_operation(self, op, details="", module="agi", severity="INFO"):
@@ -96,6 +122,7 @@ except ImportError as e:
     vocabulary_service = MockVocabService()
     register_agi_service = agi_service_bridge.register_agi_service
     log_agi_operation = vocabulary_service.log_agi_operation
+
 
 class AGIServiceConfiguration:
     """Configuration for AGI service initialization."""
@@ -124,7 +151,6 @@ class AGIServiceConfiguration:
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-
             # Orchestration Services
             "agi_model_router": {
                 "component_factory": ModelRouter,
@@ -154,7 +180,6 @@ class AGIServiceConfiguration:
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-
             # Memory Services
             "agi_vector_memory": {
                 "component_factory": VectorMemory,
@@ -186,15 +211,11 @@ class AGIServiceConfiguration:
             },
             "agi_memory_consolidator": {
                 "component_factory": MemoryConsolidator,
-                "dependencies": [
-                    "agi_vector_memory", "agi_episodic_memory",
-                    "agi_semantic_memory", "agi_dream_memory"
-                ],
+                "dependencies": ["agi_vector_memory", "agi_episodic_memory", "agi_semantic_memory", "agi_dream_memory"],
                 "priority": 3,
                 "auto_initialize": True,
                 "health_monitoring": True,
             },
-
             # Safety and Learning Services
             "agi_constitutional_ai": {
                 "component_factory": ConstitutionalAI,
@@ -219,6 +240,7 @@ class AGIServiceConfiguration:
             },
         }
 
+
 class AGIServiceInitializer:
     """
     Central initializer for all AGI services within the LUKHAS ecosystem.
@@ -237,9 +259,7 @@ class AGIServiceInitializer:
         self.logger = logging.getLogger("agi_service_initializer")
         if not self.logger.handlers:
             handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - [%(levelname)s] - %(message)s"
-            )
+            formatter = logging.Formatter("%(asctime)s - %(name)s - [%(levelname)s] - %(message)s")
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
 
@@ -303,9 +323,7 @@ class AGIServiceInitializer:
 
             # Register with AGI service bridge
             adapter = await register_agi_service(
-                service_name,
-                component,
-                auto_initialize=config.get("auto_initialize", True)
+                service_name, component, auto_initialize=config.get("auto_initialize", True)
             )
 
             self.initialized_services[service_name] = adapter
@@ -348,9 +366,7 @@ class AGIServiceInitializer:
         total_count = len(results)
 
         log_agi_operation(
-            "system_init_complete",
-            f"{successful_count}/{total_count} services initialized",
-            "agi_initializer"
+            "system_init_complete", f"{successful_count}/{total_count} services initialized", "agi_initializer"
         )
 
         self.logger.info(f"AGI service initialization complete: {successful_count}/{total_count} successful")
@@ -412,17 +428,17 @@ class AGIServiceInitializer:
             "failed_service_names": self.failed_services,
             "service_registry_info": agi_service_bridge.get_service_registry_info(),
             "components_available": COMPONENTS_AVAILABLE,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
+
 
 # Global initializer instance
 agi_initializer = AGIServiceInitializer()
 
+
 # Main initialization function for external use
 async def initialize_agi_system(
-    config: Optional[AGIServiceConfiguration] = None,
-    start_monitoring: bool = True,
-    monitoring_interval: int = 60
+    config: Optional[AGIServiceConfiguration] = None, start_monitoring: bool = True, monitoring_interval: int = 60
 ) -> dict[str, Any]:
     """
     Main function to initialize the entire AGI system within LUKHAS.
@@ -457,16 +473,15 @@ async def initialize_agi_system(
 
     return status
 
+
 if __name__ == "__main__":
     # Test the AGI service initializer
     async def test_initializer():
         print("🧠 AGI Service Initializer Test")
-        print("="*50)
+        print("=" * 50)
 
         # Initialize the AGI system
-        status = await initialize_agi_system(
-            start_monitoring=False  # Disable monitoring for test
-        )
+        status = await initialize_agi_system(start_monitoring=False)  # Disable monitoring for test
 
         print("Initialization Status:")
         print(f"  Total services: {status['total_services']}")

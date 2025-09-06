@@ -354,9 +354,11 @@ async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
 
             recommendations.extend(
                 [
-                    f"Most cost-efficient: {optimized_models[0][0]}"
-                    if optimized_models
-                    else ("No models meet cost constraints"),
+                    (
+                        f"Most cost-efficient: {optimized_models[0][0]}"
+                        if optimized_models
+                        else ("No models meet cost constraints")
+                    ),
                     "Best quality/cost ratio found" if optimized_models else ("Consider relaxing cost constraints"),
                 ]
             )

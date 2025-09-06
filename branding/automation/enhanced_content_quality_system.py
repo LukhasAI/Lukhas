@@ -315,11 +315,9 @@ class EnhancedContentQualitySystem:
                 "average_quality": avg_quality,
                 "target_achievement_rate": target_achievement_rate,
                 "approval_rate": approval_rate,
-                "status": "EXCELLENT"
-                if avg_quality >= 0.90
-                else "GOOD"
-                if avg_quality >= 0.80
-                else "NEEDS_IMPROVEMENT",
+                "status": (
+                    "EXCELLENT" if avg_quality >= 0.90 else "GOOD" if avg_quality >= 0.80 else "NEEDS_IMPROVEMENT"
+                ),
             },
             "component_performance": {
                 "voice_coherence": avg_voice_coherence,

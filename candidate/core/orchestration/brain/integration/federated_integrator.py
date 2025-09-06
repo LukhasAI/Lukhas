@@ -192,9 +192,7 @@ class FederatedLearningIntegration:
         }
         self.audit_trail.append(audit_entry)
 
-        logger.info(
-            f"Node {node_id} registered with quantum signature {node.qi_signature[:8]}"
-        )
+        logger.info(f"Node {node_id} registered with quantum signature {node.qi_signature[:8]}")
         return True
 
     def share_learning_insight(
@@ -218,9 +216,7 @@ class FederatedLearningIntegration:
             privacy_preserving=True,
             ethical_audit_passed=ethical_passed,
             timestamp=datetime.now(),
-            qi_signature=self._generate_update_signature(
-                insight_type, filtered_content
-            ),
+            qi_signature=self._generate_update_signature(insight_type, filtered_content),
         )
 
         if ethical_passed:
@@ -260,9 +256,7 @@ class FederatedLearningIntegration:
                         self._update_node_trust(update.source_node_id, True)
 
         # Clear processed updates
-        self.pending_updates = [
-            u for u in self.pending_updates if u.source_node_id == self.node_id
-        ]
+        self.pending_updates = [u for u in self.pending_updates if u.source_node_id == self.node_id]
 
         return processed_updates
 
@@ -288,9 +282,7 @@ class FederatedLearningIntegration:
                 convergence_factor = signals.get("convergence_score", 0.5)
                 ethical_factor = node.ethical_compliance_score
 
-                coordinated_rate = self._calculate_coordinated_rate(
-                    base_rate, convergence_factor, ethical_factor
-                )
+                coordinated_rate = self._calculate_coordinated_rate(base_rate, convergence_factor, ethical_factor)
 
                 coordinated_rates[node_id] = coordinated_rate
 
@@ -323,9 +315,7 @@ class FederatedLearningIntegration:
             "collaborative_reasoning": self._generate_collaborative_reasoning_insights(),
         }
 
-        logger.info(
-            f"Generated {len(cross_node_insights)} cross-node symbolic insights"
-        )
+        logger.info(f"Generated {len(cross_node_insights)} cross-node symbolic insights")
         return enhancements
 
     def synchronize_federation(self) -> Dict[str, Any]:
@@ -373,30 +363,17 @@ class FederatedLearningIntegration:
         }
         self.coordination_history.append(coordination_event)
 
-        logger.info(
-            f"Federation sync completed: {sync_results['nodes_synchronized']} nodes"
-        )
+        logger.info(f"Federation sync completed: {sync_results['nodes_synchronized']} nodes")
         return sync_results
 
     def get_federation_status(self) -> Dict[str, Any]:
         """Get current federation status and health metric"""
 
-        active_nodes = [
-            node
-            for node in self.nodes.values()
-            if datetime.now() - node.last_sync < timedelta(days=1)
-        ]
+        active_nodes = [node for node in self.nodes.values() if datetime.now() - node.last_sync < timedelta(days=1)]
 
-        avg_trust = (
-            sum(node.trust_score for node in self.nodes.values()) / len(self.nodes)
-            if self.nodes
-            else 0
-        )
+        avg_trust = sum(node.trust_score for node in self.nodes.values()) / len(self.nodes) if self.nodes else 0
         avg_compliance = (
-            sum(node.ethical_compliance_score for node in self.nodes.values())
-            / len(self.nodes)
-            if self.nodes
-            else 0
+            sum(node.ethical_compliance_score for node in self.nodes.values()) / len(self.nodes) if self.nodes else 0
         )
 
         status = {
@@ -423,9 +400,7 @@ class FederatedLearningIntegration:
 
     # Integration helper methods for existing MetaLearningSystem instances
 
-    def enhance_existing_meta_learning_system(
-        self, meta_learning_instance: Any
-    ) -> Dict[str, Any]:
+    def enhance_existing_meta_learning_system(self, meta_learning_instance: Any) -> Dict[str, Any]:
         """Enhance an existing MetaLearningSystem with federation capabilitie"""
 
         enhancement_results = {
@@ -449,9 +424,7 @@ class FederatedLearningIntegration:
                 # Apply federation enhancements
                 federation_updates = self.receive_federation_updates()
                 for update in federation_updates:
-                    if self._apply_update_to_meta_learning_system(
-                        meta_learning_instance, update
-                    ):
+                    if self._apply_update_to_meta_learning_system(meta_learning_instance, update):
                         enhancement_results["received_enhancements"] += 1
 
                 enhancement_results["federation_enabled"] = True
@@ -483,19 +456,13 @@ class FederatedLearningIntegration:
 
         elif self.privacy_level == PrivacyLevel.MODERATE:
             # Selective sharing
-            return {
-                k: v
-                for k, v in content.items()
-                if k not in ["raw_data", "user_specific", "detailed_logs"]
-            }
+            return {k: v for k, v in content.items() if k not in ["raw_data", "user_specific", "detailed_logs"]}
 
         else:  # COLLABORATIVE
             # Enhanced sharing for research
             return content
 
-    def _ethical_audit_insight(
-        self, insight_type: str, content: Dict[str, Any]
-    ) -> bool:
+    def _ethical_audit_insight(self, insight_type: str, content: Dict[str, Any]) -> bool:
         """Perform ethical audit on learning insight before sharing"""
 
         # Check for sensitive information
@@ -504,10 +471,7 @@ class FederatedLearningIntegration:
             return False
 
         # Check insight type appropriateness
-        if (
-            insight_type in ["user_behavior", "personal_preferences"]
-            and self.privacy_level == PrivacyLevel.MAXIMUM
-        ):
+        if insight_type in ["user_behavior", "personal_preferences"] and self.privacy_level == PrivacyLevel.MAXIMUM:
             return False
 
         # Validate ethical compliance
@@ -516,16 +480,12 @@ class FederatedLearningIntegration:
 
         return True
 
-    def _generate_update_signature(
-        self, insight_type: str, content: Dict[str, Any]
-    ) -> str:
+    def _generate_update_signature(self, insight_type: str, content: Dict[str, Any]) -> str:
         """Generate quantum signature for federation update"""
         data = f"{self.node_id}_{insight_type}_{json.dumps(content, sort_keys=True)}_{time.time()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
-    def _process_federation_update(
-        self, update: FederatedLearningUpdate
-    ) -> Dict[str, Any]:
+    def _process_federation_update(self, update: FederatedLearningUpdate) -> Dict[str, Any]:
         """Process an incoming federation update"""
 
         processed = {
@@ -567,9 +527,7 @@ class FederatedLearningIntegration:
             node_id: {
                 "current_rate": 0.001 * node.trust_score,
                 "convergence_score": min(0.9, node.ethical_compliance_score + 0.1),
-                "performance_trend": (
-                    "improving" if node.trust_score > 0.8 else "stable"
-                ),
+                "performance_trend": ("improving" if node.trust_score > 0.8 else "stable"),
             }
             for node_id, node in self.nodes.items()
         }
@@ -612,42 +570,29 @@ class FederatedLearningIntegration:
             ],
         }
 
-    def _analyze_cross_node_patterns(
-        self, pattern_type: str, patterns: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+    def _analyze_cross_node_patterns(self, pattern_type: str, patterns: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Analyze patterns across multiple federation node"""
 
         return {
             "pattern_type": pattern_type,
             "nodes_involved": len(patterns),
-            "significance": min(
-                0.9, len(patterns) * 0.2
-            ),  # Higher significance with more nodes
+            "significance": min(0.9, len(patterns) * 0.2),  # Higher significance with more nodes
             "cross_node_insight": f"Federation pattern discovered across {len(patterns)} nodes",
-            "recommended_action": (
-                "integrate_pattern" if len(patterns) >= 3 else "monitor_pattern"
-            ),
+            "recommended_action": ("integrate_pattern" if len(patterns) >= 3 else "monitor_pattern"),
         }
 
     def _extract_federation_wisdom(self) -> Dict[str, Any]:
         """Extract collective wisdom from the federation"""
 
-        high_trust_nodes = [
-            node for node in self.nodes.values() if node.trust_score > 0.8
-        ]
-        high_ethical_nodes = [
-            node for node in self.nodes.values() if node.ethical_compliance_score > 0.85
-        ]
+        high_trust_nodes = [node for node in self.nodes.values() if node.trust_score > 0.8]
+        high_ethical_nodes = [node for node in self.nodes.values() if node.ethical_compliance_score > 0.85]
 
         return {
             "collective_trust_level": (
-                sum(node.trust_score for node in self.nodes.values()) / len(self.nodes)
-                if self.nodes
-                else 0
+                sum(node.trust_score for node in self.nodes.values()) / len(self.nodes) if self.nodes else 0
             ),
             "ethical_consensus": (
-                sum(node.ethical_compliance_score for node in self.nodes.values())
-                / len(self.nodes)
+                sum(node.ethical_compliance_score for node in self.nodes.values()) / len(self.nodes)
                 if self.nodes
                 else 0
             ),
@@ -729,9 +674,7 @@ class FederatedLearningIntegration:
 
         # Simulated synchronization - would interface with actual node
         sync_result["insights_shared"] = 1 if node.trust_score > 0.7 else 0
-        sync_result["insights_received"] = (
-            1 if node.ethical_compliance_score > 0.8 else 0
-        )
+        sync_result["insights_received"] = 1 if node.ethical_compliance_score > 0.8 else 0
 
         # Update trust based on sync success
         if sync_result["insights_shared"] > 0 or sync_result["insights_received"] > 0:
@@ -783,16 +726,12 @@ class FederatedLearningIntegration:
                         "type": "low_ethical_compliance",
                         "node_id": node_id,
                         "score": node.ethical_compliance_score,
-                        "severity": (
-                            "high" if node.ethical_compliance_score < 0.5 else "medium"
-                        ),
+                        "severity": ("high" if node.ethical_compliance_score < 0.5 else "medium"),
                     }
                 )
 
         # Check for trust issues
-        low_trust_nodes = [
-            node for node in self.nodes.values() if node.trust_score < 0.4
-        ]
+        low_trust_nodes = [node for node in self.nodes.values() if node.trust_score < 0.4]
         if len(low_trust_nodes) > len(self.nodes) * 0.3:  # More than 30% low trust
             issues.append(
                 {
@@ -847,9 +786,7 @@ class FederatedLearningIntegration:
 
         return insights
 
-    def _apply_update_to_meta_learning_system(
-        self, meta_learning_instance: Any, update: Dict[str, Any]
-    ) -> bool:
+    def _apply_update_to_meta_learning_system(self, meta_learning_instance: Any, update: Dict[str, Any]) -> bool:
         """Apply federation update to existing MetaLearningSystem"""
 
         try:
@@ -899,9 +836,7 @@ def enhance_meta_learning_with_federation(
     lukhas MetaLearningSystem implementations found across the codebase.
     """
 
-    federation = FederatedLearningIntegration(
-        node_id=node_id, federation_strategy=federation_strategy
-    )
+    federation = FederatedLearningIntegration(node_id=node_id, federation_strategy=federation_strategy)
 
     enhancement_results = {
         "systems_enhanced": 0,
@@ -913,22 +848,16 @@ def enhance_meta_learning_with_federation(
     for i, meta_system in enumerate(meta_learning_systems):
         try:
             result = federation.enhance_existing_meta_learning_system(meta_system)
-            enhancement_results["enhancement_details"].append(
-                {"system_index": i, "result": result}
-            )
+            enhancement_results["enhancement_details"].append({"system_index": i, "result": result})
 
             if result["federation_enabled"]:
                 enhancement_results["systems_enhanced"] += 1
 
         except Exception as e:
             logger.error(f"Failed to enhance meta learning system {i}: {e}")
-            enhancement_results["enhancement_details"].append(
-                {"system_index": i, "error": str(e)}
-            )
+            enhancement_results["enhancement_details"].append({"system_index": i, "error": str(e)})
 
-    enhancement_results["federation_enabled"] = (
-        enhancement_results["systems_enhanced"] > 0
-    )
+    enhancement_results["federation_enabled"] = enhancement_results["systems_enhanced"] > 0
 
     logger.info(
         f"Federation enhancement completed: {enhancement_results['systems_enhanced']}/{enhancement_results['total_systems']} systems enhanced"

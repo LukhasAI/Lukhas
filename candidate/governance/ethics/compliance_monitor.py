@@ -34,7 +34,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class ComplianceFramework(Enum):
@@ -136,7 +136,7 @@ class ComplianceAssessment:
     compliance_score: float = 0.0  # 0-100
     violations: list[ComplianceViolation] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
-    next_review_date: datetime = field(default_factory=lambda: datetime.now() + timedelta(days=30))
+    next_review_date: datetime = field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(days=30))
     risk_factors: list[str] = field(default_factory=list)
 
     # Trinity Framework integration
@@ -405,7 +405,7 @@ class ComplianceMonitor:
             "resolved_violations": 0,
             "average_resolution_time": 0.0,
             "compliance_score_trend": [],
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info("🔍 Compliance Monitor initialized")
@@ -487,7 +487,7 @@ class ComplianceMonitor:
             Comprehensive compliance assessment
         """
         assessment_id = f"assess_{uuid.uuid4().hex[:8]}"
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         logger.info(f"🔍 Performing compliance assessment: {assessment_id}")
 
@@ -771,7 +771,7 @@ class ComplianceMonitor:
         }
 
         hours = deadline_hours.get(rule.severity, 72)
-        deadline = datetime.now() + timedelta(hours=hours)
+        deadline = datetime.now(timezone.utc) + timedelta(hours=hours)
 
         violation = ComplianceViolation(
             violation_id=violation_id,
@@ -958,7 +958,7 @@ class ComplianceMonitor:
         for violation in open_violations:
             # Check if remediation deadline is approaching
             if violation.remediation_deadline:
-                time_to_deadline = violation.remediation_deadline - datetime.now()
+                time_to_deadline = violation.remediation_deadline - datetime.now(timezone.utc)
 
                 if time_to_deadline.total_seconds() < 3600:  # Less than 1 hour
                     logger.warning(f"⚠️ Remediation deadline approaching for violation {violation.violation_id}")
@@ -1027,7 +1027,7 @@ class ComplianceMonitor:
         if len(self.metrics["compliance_score_trend"]) > 100:
             self.metrics["compliance_score_trend"] = self.metrics["compliance_score_trend"][-100:]
 
-        self.metrics["last_updated"] = datetime.now().isoformat()
+        self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     def _maintain_history_size(self):
         """Maintain history size limits"""
@@ -1111,7 +1111,7 @@ class ComplianceMonitor:
 
         report = {
             "report_id": f"comp_report_{uuid.uuid4().hex[:8]}",
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "assessment_period": {
                 "from": (self.assessment_history[0].timestamp.isoformat() if self.assessment_history else None),
                 "to": latest_assessment.timestamp.isoformat(),

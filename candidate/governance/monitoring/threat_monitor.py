@@ -704,9 +704,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 # Remove resolved threats
                 current_time = time.time()
                 self.active_threats = [
-                    threat
-                    for threat in self.active_threats
-                    if current_time - threat.timestamp < 300  # 5 minutes
+                    threat for threat in self.active_threats if current_time - threat.timestamp < 300  # 5 minutes
                 ]
 
                 # Enhanced threat correlation analysis

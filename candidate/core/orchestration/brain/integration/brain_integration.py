@@ -25,7 +25,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 # Configure logging
-logger = logging.getLogger("Enhanced.BrainIntegration")
+logger = logging.getLogger("Enhanced.BrainIntegration", timezone)
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
 handler.setFormatter(formatter)
@@ -101,7 +101,7 @@ try:
             "primary_emotion": "neutral",
             "intensity": 0.5,
             "secondary_emotions": {},
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "stability": 0.8,
         }
 
@@ -137,7 +137,7 @@ try:
             }
             self.current_state["secondary_emotions"] = valid_secondary
 
-        self.current_state["last_updated"] = datetime.now().isoformat()
+        self.current_state["last_updated"] = datetime.now(timezone.utc).isoformat()
 
         # Calculate stability based on emotional change
                                                                         if self.emotional_history:
@@ -226,7 +226,7 @@ try:
             "tags": tags or [],
             "priority": priority,
             "metadata": metadata or {},
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "access_count": 0,
             "emotional_intensity": self.emotional_processor.current_state["intensity"]
         }
@@ -323,7 +323,7 @@ try:
                     "emotion": memory["emotion"],
                     "consolidation_strength": memory["emotional_intensity"] * memory["access_count"],
                     "dream_associations": self._generate_dream_associations(memory),
-                    "consolidated_at": datetime.now().isoformat()
+                    "consolidated_at": datetime.now(timezone.utc).isoformat()
                 }
 
                 consolidated_memories.append(consolidated_memory)
@@ -656,7 +656,7 @@ try:
             "memory_stats": self.memory_system.stats,
             "processing_stats": self.stats,
             "consolidation_active": self.consolidation_running,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
         # Add symphony status if available

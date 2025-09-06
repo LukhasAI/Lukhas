@@ -98,17 +98,13 @@ class NativeContentFormatter:
         description = self._generate_native_description(ad_content, format_type)
 
         # Apply contextual adaptation
-        adapted_content = self._adapt_to_context(
-            headline, description, target_context, user_context
-        )
+        adapted_content = self._adapt_to_context(headline, description, target_context, user_context)
 
         # Generate visual elements
         visual_url = self._process_visual_content(ad_content.get("image_url"))
 
         # Create CTA that feels natural
-        cta_text, cta_url = self._generate_natural_cta(
-            ad_content, format_type, target_context
-        )
+        cta_text, cta_url = self._generate_natural_cta(ad_content, format_type, target_context)
 
         # Apply native styling
         styling = self._apply_native_styling(format_type, target_context)
@@ -139,9 +135,7 @@ class NativeContentFormatter:
 
         return native_content
 
-    def format_as_story(
-        self, ad_content: dict[str, Any], feed_style: str = "social"
-    ) -> dict[str, Any]:
+    def format_as_story(self, ad_content: dict[str, Any], feed_style: str = "social") -> dict[str, Any]:
         """
         Format ad as a story in news/social feed
         Appears just like another story
@@ -189,9 +183,7 @@ class NativeContentFormatter:
 
         return story
 
-    def format_as_suggestion(
-        self, ad_content: dict[str, Any], trigger_context: str
-    ) -> dict[str, Any]:
+    def format_as_suggestion(self, ad_content: dict[str, Any], trigger_context: str) -> dict[str, Any]:
         """
         Format as helpful suggestion at the right moment
         Like tool upgrade when hitting limits
@@ -233,9 +225,7 @@ class NativeContentFormatter:
 
         return suggestion
 
-    def format_as_related_item(
-        self, ad_content: dict[str, Any], related_to: dict[str, Any]
-    ) -> dict[str, Any]:
+    def format_as_related_item(self, ad_content: dict[str, Any], related_to: dict[str, Any]) -> dict[str, Any]:
         """
         Format as related item/accessory
         Appears naturally alongside user's interest
@@ -251,9 +241,7 @@ class NativeContentFormatter:
             "content": {
                 "badge": self._generate_relationship_badge(ad_content, related_to),
                 "title": ad_content.get("title"),
-                "subtitle": self._generate_relationship_subtitle(
-                    ad_content, related_to
-                ),
+                "subtitle": self._generate_relationship_subtitle(ad_content, related_to),
                 "image": ad_content.get("thumbnail_url"),
                 "price": ad_content.get("price"),
                 "rating": ad_content.get("rating"),
@@ -273,9 +261,7 @@ class NativeContentFormatter:
 
         return related_item
 
-    def adapt_to_platform(
-        self, native_content: NativeContent, platform: str
-    ) -> dict[str, Any]:
+    def adapt_to_platform(self, native_content: NativeContent, platform: str) -> dict[str, Any]:
         """
         Adapt native content to specific platform conventions
         """
@@ -418,9 +404,7 @@ class NativeContentFormatter:
             },
         }
 
-    def _select_format_for_context(
-        self, context: ContentContext, user_context: Optional[dict]
-    ) -> ContentFormat:
+    def _select_format_for_context(self, context: ContentContext, user_context: Optional[dict]) -> ContentFormat:
         """Select best format for given context"""
         rules = self.context_rules.get(context, {})
         preferred = rules.get("preferred_formats", [ContentFormat.CARD])
@@ -433,9 +417,7 @@ class NativeContentFormatter:
 
         return preferred[0] if preferred else ContentFormat.CARD
 
-    def _generate_native_headline(
-        self, ad_content: dict, format_type: ContentFormat
-    ) -> str:
+    def _generate_native_headline(self, ad_content: dict, format_type: ContentFormat) -> str:
         """Generate headline that feels native"""
         base_headline = ad_content.get("title", "")
 
@@ -451,9 +433,7 @@ class NativeContentFormatter:
 
         return base_headline
 
-    def _generate_native_description(
-        self, ad_content: dict, format_type: ContentFormat
-    ) -> str:
+    def _generate_native_description(self, ad_content: dict, format_type: ContentFormat) -> str:
         """Generate description that feels native"""
         base_desc = ad_content.get("description", "")
 
@@ -510,9 +490,7 @@ class NativeContentFormatter:
 
         return cta_text, url
 
-    def _apply_native_styling(
-        self, format_type: ContentFormat, context: ContentContext
-    ) -> dict[str, Any]:
+    def _apply_native_styling(self, format_type: ContentFormat, context: ContentContext) -> dict[str, Any]:
         """Apply native platform styling"""
         base_style = self.style_presets.get(format_type.value, {})
 
@@ -524,9 +502,7 @@ class NativeContentFormatter:
 
         return base_style
 
-    def _generate_engagement_hints(
-        self, format_type: ContentFormat, user_context: Optional[dict]
-    ) -> list[str]:
+    def _generate_engagement_hints(self, format_type: ContentFormat, user_context: Optional[dict]) -> list[str]:
         """Generate hints to encourage engagement"""
         hints = []
 
@@ -734,9 +710,7 @@ class NativeContentFormatter:
 
         return badges.get(rel, "Related")
 
-    def _generate_relationship_subtitle(
-        self, ad_content: dict, related_to: dict
-    ) -> str:
+    def _generate_relationship_subtitle(self, ad_content: dict, related_to: dict) -> str:
         """Generate subtitle explaining relationship"""
         rel = self._determine_relationship(ad_content, related_to)
 

@@ -113,7 +113,8 @@ class SystemConsolidator:
             unified_cursor = unified_conn.cursor()
 
             # Create unified schema with Trinity Framework integration
-            unified_cursor.execute("""
+            unified_cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS lukhas_content (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     source_system TEXT,
@@ -127,9 +128,11 @@ class SystemConsolidator:
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """)
+            """
+            )
 
-            unified_cursor.execute("""
+            unified_cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS lukhas_users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     source_system TEXT,
@@ -139,9 +142,11 @@ class SystemConsolidator:
                     trinity_preferences TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """)
+            """
+            )
 
-            unified_cursor.execute("""
+            unified_cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS lukhas_analytics (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     source_system TEXT,
@@ -150,9 +155,11 @@ class SystemConsolidator:
                     trinity_component TEXT,
                     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """)
+            """
+            )
 
-            unified_cursor.execute("""
+            unified_cursor.execute(
+                """
                 CREATE TABLE IF NOT EXISTS lukhas_system_config (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     config_key TEXT UNIQUE,
@@ -160,7 +167,8 @@ class SystemConsolidator:
                     system_source TEXT,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """)
+            """
+            )
 
             unified_conn.commit()
 
@@ -293,7 +301,8 @@ class SystemConsolidator:
             # Create unified document engine main file
             engine_main = target_path / "lukhas_unified_doc_engine.py"
             with open(engine_main, "w") as f:
-                f.write('''#!/usr/bin/env python3
+                f.write(
+                    '''#!/usr/bin/env python3
 """
 LUKHAS AI Unified Document Engine
 Consolidated best-of-breed document generation from 4 systems
@@ -362,7 +371,8 @@ if __name__ == "__main__":
     print("🚀 LUKHAS AI Unified Document Engine Ready")
     print(f"📄 Available formats: {len(engine.get_available_formats())}")
     print("⚛️🧠🛡️ Trinity Framework Integrated")
-''')
+'''
+                )
 
             self.logger.info(f"✅ Document generation consolidation complete: {files_merged} files merged")
 
@@ -442,7 +452,8 @@ if __name__ == "__main__":
             # Create unified content platform main file
             platform_main = target_path / "lukhas_unified_content_platform.py"
             with open(platform_main, "w") as f:
-                f.write('''#!/usr/bin/env python3
+                f.write(
+                    '''#!/usr/bin/env python3
 """
 LUKHAS AI Unified Content Platform
 Consolidated elite content generation and management platform
@@ -502,7 +513,8 @@ if __name__ == "__main__":
     print(f"🤖 Specialist bots: {len(platform.get_specialist_bots())}")
     print(f"✨ Premium features: {len(platform.get_premium_features())}")
     print("⚛️🧠🛡️ Trinity Framework Integrated")
-''')
+'''
+                )
 
             self.logger.info(f"✅ Content platform consolidation complete: {files_merged} files merged")
 

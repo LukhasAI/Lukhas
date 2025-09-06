@@ -129,11 +129,11 @@ class AdaptiveMetaLearningSystem:
         # ΛTRACE: Strategy selected
         logger.info("strategy_selected", strategy_name=strategy_name, features=features)
 
-        start_time = datetime.datetime.now()
+        start_time = datetime.datetime.now(timezone.utc)
         # ΛDREAM_LOOP: Applying the strategy is a core part of the learning
         # adaptation cycle.
         learning_result = self._apply_strategy(strategy, available_data, context)
-        duration = (datetime.datetime.now() - start_time).total_seconds()
+        duration = (datetime.datetime.now(timezone.utc) - start_time).total_seconds()
         # ΛTRACE: Strategy applied
         logger.info(
             "strategy_applied",
@@ -234,7 +234,7 @@ class AdaptiveMetaLearningSystem:
             "meta_parameters": self.meta_parameters,
             "exploration_rate": self.exploration_rate,
             "performance_trends": self._analyze_performance_trends(),
-            "generated_at": datetime.datetime.now().isoformat(),
+            "generated_at": datetime.datetime.now(timezone.utc).isoformat(),
         }
         # ΛTRACE: Learning report generated
         logger.info("learning_report_generated", report_keys=list(report.keys()))
@@ -455,7 +455,7 @@ class AdaptiveMetaLearningSystem:
             "generalization": generalization,
             "confidence": confidence,
             "duration": duration,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
         metrics["overall_score"] = (
             metrics["accuracy"] * 0.4

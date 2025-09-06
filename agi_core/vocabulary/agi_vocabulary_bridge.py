@@ -69,6 +69,7 @@ except ImportError:
     def get_symbol(vocab: str, key: str, default: str = "❓") -> str:
         return default
 
+
 # AGI-specific vocabulary symbols
 AGI_REASONING_SYMBOLS = {
     # Chain of Thought Processing
@@ -77,21 +78,18 @@ AGI_REASONING_SYMBOLS = {
     "chain_branch": "🌿 Logic Branch",
     "chain_merge": "🔄 Convergence Point",
     "chain_complete": "✅ Chain Complete",
-
     # Tree of Thoughts
     "tree_root": "🌳 Thought Root",
     "tree_branch": "🌿 Branch Exploration",
     "tree_leaf": "🍃 Conclusion Node",
     "tree_prune": "✂️ Path Pruning",
     "tree_best": "🏆 Optimal Path",
-
     # Multi-Model Orchestration
     "model_select": "🎯 Model Selection",
     "model_route": "🗺️ Routing Decision",
     "model_consensus": "🤝 Consensus Building",
     "model_conflict": "⚔️ Model Disagreement",
     "model_synthesis": "⚗️ Response Fusion",
-
     # Capability Assessment
     "capability_eval": "📊 Capability Scan",
     "capability_match": "✨ Perfect Match",
@@ -107,14 +105,12 @@ AGI_MEMORY_SYMBOLS = {
     "vector_cluster": "🎯 Clustering",
     "vector_embed": "🧬 Embedding",
     "vector_retrieve": "📤 Retrieval",
-
     # Memory Consolidation
     "consolidate_start": "🌅 Consolidation Begin",
     "consolidate_process": "🔄 Memory Weaving",
     "consolidate_complete": "🌄 Integration Done",
     "memory_enhance": "✨ Enhancement",
     "memory_compress": "📦 Compression",
-
     # Cross-Modal Memory
     "episodic_store": "📖 Episode Storage",
     "semantic_link": "🌐 Concept Link",
@@ -130,14 +126,12 @@ AGI_SAFETY_SYMBOLS = {
     "safety_gate": "🛡️ Safety Gate",
     "ethics_review": "👁️ Ethics Scan",
     "value_align": "💎 Value Alignment",
-
     # Guardian Integration
     "guardian_alert": "🚨 Guardian Alert",
     "drift_detect": "📈 Drift Detection",
     "boundary_enforce": "🛑 Boundary Enforcement",
     "emergency_stop": "🆘 Emergency Stop",
     "safety_override": "🔒 Safety Override",
-
     # Risk Assessment
     "risk_low": "🟢 Low Risk",
     "risk_medium": "🟡 Medium Risk",
@@ -153,14 +147,12 @@ AGI_LEARNING_SYMBOLS = {
     "dream_insight": "💡 Dream Insight",
     "dream_creative": "🎨 Creative Dream",
     "dream_solve": "🔧 Dream Solution",
-
     # Learning States
     "learn_explore": "🗺️ Exploration Mode",
     "learn_exploit": "⚡ Exploitation Mode",
     "learn_adapt": "🦎 Adaptation",
     "learn_transfer": "🔄 Transfer Learning",
     "learn_meta": "🧠 Meta-Learning",
-
     # Knowledge Integration
     "knowledge_merge": "🌊 Knowledge Merge",
     "knowledge_conflict": "⚔️ Knowledge Conflict",
@@ -176,14 +168,12 @@ AGI_INTEGRATION_SYMBOLS = {
     "bridge_sync": "🤝 Synchronization",
     "bridge_conflict": "⚠️ Bridge Conflict",
     "bridge_resolve": "✅ Resolution",
-
     # Vocabulary Mapping
     "vocab_map": "🗺️ Vocabulary Map",
     "vocab_translate": "🔄 Symbol Translation",
     "vocab_enrich": "✨ Enrichment",
     "vocab_validate": "✅ Validation",
     "vocab_error": "❌ Translation Error",
-
     # System States
     "system_init": "🌅 System Initialize",
     "system_ready": "✅ System Ready",
@@ -200,6 +190,7 @@ AGI_VOCABULARY = {
     **AGI_LEARNING_SYMBOLS,
     **AGI_INTEGRATION_SYMBOLS,
 }
+
 
 class AGIVocabularyBridge:
     """
@@ -227,17 +218,14 @@ class AGIVocabularyBridge:
             "chain_complete": ("dream", "integration"),
             "tree_root": ("dream", "pattern"),
             "model_consensus": ("dream", "synthesis"),
-
             # AGI memory <-> Dream memory
             "consolidate_start": ("dream", "consolidation"),
             "memory_enhance": ("dream", "enhancement"),
             "dream_memory": ("dream", "creative"),
-
             # AGI safety <-> Bio monitoring
             "guardian_alert": ("bio", "🚨"),
             "safety_gate": ("bio", "🛡️"),
             "risk_critical": ("bio", "🚨"),
-
             # AGI learning <-> Emotion states
             "learn_explore": ("emotion", "excitement"),
             "learn_adapt": ("emotion", "focused"),
@@ -267,8 +255,7 @@ class AGIVocabularyBridge:
             return cross_ref[1]
         return "🧠"
 
-    def format_agi_message(self, operation: str, details: str = "",
-                          include_cross_ref: bool = True) -> str:
+    def format_agi_message(self, operation: str, details: str = "", include_cross_ref: bool = True) -> str:
         """Format a unified AGI message with cross-vocabulary enrichment."""
         agi_symbol = self.get_agi_symbol(operation)
         base_message = f"{agi_symbol} AGI {operation.replace('_', ' ').title()}"
@@ -295,7 +282,7 @@ class AGIVocabularyBridge:
             "agi_symbol": self.get_agi_symbol(operation),
             "operation": operation,
             "cross_references": {},
-            "enrichment": {}
+            "enrichment": {},
         }
 
         # Add cross-references
@@ -313,17 +300,10 @@ class AGIVocabularyBridge:
 
     def validate_vocabulary_consistency(self) -> dict[str, list[str]]:
         """Validate consistency across all vocabulary systems."""
-        issues = {
-            "missing_mappings": [],
-            "symbol_conflicts": [],
-            "orphaned_references": []
-        }
+        issues = {"missing_mappings": [], "symbol_conflicts": [], "orphaned_references": []}
 
         # Check for AGI operations without cross-references
-        unmapped_operations = [
-            op for op in self.agi_vocab
-            if op not in self.cross_mappings
-        ]
+        unmapped_operations = [op for op in self.agi_vocab if op not in self.cross_mappings]
         issues["missing_mappings"] = unmapped_operations
 
         # Check for symbol conflicts (same symbol used differently)
@@ -335,30 +315,36 @@ class AGIVocabularyBridge:
 
         return issues
 
+
 # Global bridge instance
 agi_bridge = AGIVocabularyBridge()
+
 
 # Convenience functions for external use
 def get_agi_symbol(operation: str, default: str = "🧠") -> str:
     """Get AGI symbol for operation."""
     return agi_bridge.get_agi_symbol(operation, default)
 
-def format_agi_message(operation: str, details: str = "",
-                      include_cross_ref: bool = True) -> str:
+
+def format_agi_message(operation: str, details: str = "", include_cross_ref: bool = True) -> str:
     """Format unified AGI message."""
     return agi_bridge.format_agi_message(operation, details, include_cross_ref)
+
 
 def get_vocabulary_context(operation: str) -> dict[str, Any]:
     """Get rich vocabulary context."""
     return agi_bridge.get_vocabulary_context(operation)
 
+
 def translate_agi_to_dream(operation: str) -> str:
     """Translate AGI operation to dream vocabulary."""
     return agi_bridge.translate_to_dream(operation)
 
+
 def translate_agi_to_bio(operation: str) -> str:
     """Translate AGI operation to bio vocabulary."""
     return agi_bridge.translate_to_bio(operation)
+
 
 # AGI operation messages with dream integration
 AGI_MESSAGES = {
@@ -378,7 +364,7 @@ if __name__ == "__main__":
     bridge = AGIVocabularyBridge()
 
     print("🧠 AGI Vocabulary Bridge Test")
-    print("="*50)
+    print("=" * 50)
 
     # Test basic symbol retrieval
     print(f"Chain start: {bridge.get_agi_symbol('chain_start')}")

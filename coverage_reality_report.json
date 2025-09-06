@@ -20,12 +20,15 @@
       "sitecustomize.py",
       "debug_proto.py",
       "lukhas_coverage_reality_check.py",
+      "ultimate_comprehensive_coverage_summary.py",
       "setup.py",
       "consciousness_validation.py",
       "fix_brain_integration.py",
+      "comprehensive_coverage_summary.py",
       "main.py",
       "fix_datetime.py",
       "targeted_syntax_fix.py",
+      "final_comprehensive_coverage_summary.py",
       "production_main.py",
       "tone/tools/demonstration_sanitizer.py",
       "tone/tools/author_reference_sanitizer.py",
@@ -4236,6 +4239,7 @@
     ],
     "test_files": [
       "test_real_consciousness_emergence.py",
+      "test_priority3_systems_functional.py",
       "comprehensive_ecosystem_test.py",
       "test_advanced_lukhas_components.py",
       "test_core_components_comprehensive.py",
@@ -4250,6 +4254,7 @@
       "test_remaining_systems.py",
       "test_api_security_functional.py",
       "test_cross_component_integration.py",
+      "test_priority4_systems_functional.py",
       "test_memory_integration_validation.py",
       "functional_test_suite.py",
       "candidate/core/identity/constellation_validation_test.py",
@@ -4406,7 +4411,7 @@
       "rl/tests/test_performance_regression.py",
       "rl/tests/test_chaos_consciousness.py"
     ],
-    "total_files": 4401
+    "total_files": 4406
   },
   "system_analysis": {
     "core": {
@@ -4573,27 +4578,27 @@
   "test_quality": {
     "categories": {
       "unit": 48,
-      "integration": 80,
+      "integration": 82,
       "functional": 22,
       "security": 8,
       "performance": 8,
       "smoke": 1,
-      "comprehensive": 89,
+      "comprehensive": 91,
       "basic": 84
     },
-    "quality_score": 2.5588235294117645,
-    "total_test_files": 170
+    "quality_score": 2.563953488372093,
+    "total_test_files": 172
   },
   "coverage_metrics": {
-    "source_files": 4231,
-    "test_files": 170,
-    "basic_file_ratio": 0.04017962656582368,
+    "source_files": 4234,
+    "test_files": 172,
+    "basic_file_ratio": 0.0406235238545111,
     "system_coverage": 0.11764705882352941,
-    "quality_adjusted": 0.02056251477192153,
-    "comprehensive_coverage": 0.06724317711012555,
+    "quality_adjusted": 0.020831365139348138,
+    "comprehensive_coverage": 0.06747450609908583,
     "systems_well_tested": 2,
     "total_systems": 17,
-    "test_quality_score": 2.5588235294117645
+    "test_quality_score": 2.563953488372093
   },
   "gaps": {
     "untested_systems": [

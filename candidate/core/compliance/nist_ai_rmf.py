@@ -36,6 +36,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 # NIST AI RMF types and enums
 class AIRiskCategory(Enum):
     """NIST AI RMF 1.0 Core Risk Categories"""
+
     HARMFUL_BIAS_DISCRIMINATION = "harmful_bias_discrimination"
     HUMAN_AI_CONFIGURATION = "human_ai_configuration"
     INFORMATION_INTEGRITY = "information_integrity"
@@ -50,8 +51,10 @@ class AIRiskCategory(Enum):
     SYSTEM_SECURITY = "system_security"
     TRUSTWORTHINESS = "trustworthiness"
 
+
 class AISystemType(Enum):
     """AI System Type Classification"""
+
     GENERATIVE_AI = "generative_ai"
     PREDICTIVE_AI = "predictive_ai"
     CLASSIFICATION_AI = "classification_ai"
@@ -61,16 +64,20 @@ class AISystemType(Enum):
     NATURAL_LANGUAGE_PROCESSING = "natural_language_processing"
     AUTONOMOUS_SYSTEMS = "autonomous_systems"
 
+
 class RiskLevel(Enum):
     """AI Risk Assessment Levels"""
+
     MINIMAL = "minimal"
     LOW = "low"
     MODERATE = "moderate"
     HIGH = "high"
     CRITICAL = "critical"
 
+
 class TrustworthyCharacteristic(Enum):
     """NIST Trustworthy AI Characteristics"""
+
     RELIABILITY = "reliability"
     SAFETY = "safety"
     FAIRNESS = "fairness"
@@ -81,8 +88,10 @@ class TrustworthyCharacteristic(Enum):
     TRANSPARENCY = "transparency"
     HUMAN_AUTONOMY = "human_autonomy"
 
+
 class AILifecycleStage(Enum):
     """AI System Lifecycle Stages"""
+
     DESIGN = "design"
     DEVELOPMENT = "development"
     DEPLOYMENT = "deployment"
@@ -90,9 +99,11 @@ class AILifecycleStage(Enum):
     MONITORING = "monitoring"
     RETIREMENT = "retirement"
 
+
 @dataclass
 class AIRiskAssessment:
     """Comprehensive AI risk assessment following NIST RMF"""
+
     assessment_id: str
     system_name: str
     system_type: AISystemType
@@ -125,9 +136,11 @@ class AIRiskAssessment:
     next_review_date: Optional[datetime] = None
     assessor_id: str = "system"
 
+
 @dataclass
 class GenerativeAIRiskProfile:
     """Specialized risk profile for Generative AI models"""
+
     model_name: str
     model_type: str  # LLM, diffusion, etc.
     model_size: Optional[int] = None  # parameters
@@ -151,9 +164,11 @@ class GenerativeAIRiskProfile:
     robustness_score: Optional[float] = None
     fairness_score: Optional[float] = None
 
+
 @dataclass
 class BiasEvaluation:
     """Comprehensive bias evaluation results"""
+
     evaluation_id: str
     evaluation_timestamp: datetime
 
@@ -174,6 +189,7 @@ class BiasEvaluation:
 
     # Mitigation recommendations
     bias_mitigation_strategies: list[str] = field(default_factory=list)
+
 
 class NISTAIRiskFramework:
     """
@@ -199,7 +215,7 @@ class NISTAIRiskFramework:
             RiskLevel.LOW: 0.4,
             RiskLevel.MODERATE: 0.6,
             RiskLevel.HIGH: 0.8,
-            RiskLevel.CRITICAL: 1.0
+            RiskLevel.CRITICAL: 1.0,
         }
 
         # NIST trustworthy AI characteristics weights
@@ -212,7 +228,7 @@ class NISTAIRiskFramework:
             TrustworthyCharacteristic.PRIVACY_ENHANCEMENT: 0.10,
             TrustworthyCharacteristic.ACCOUNTABILITY: 0.10,
             TrustworthyCharacteristic.TRANSPARENCY: 0.05,
-            TrustworthyCharacteristic.HUMAN_AUTONOMY: 0.05
+            TrustworthyCharacteristic.HUMAN_AUTONOMY: 0.05,
         }
 
         # Initialize framework components
@@ -224,10 +240,7 @@ class NISTAIRiskFramework:
         """Initialize NIST RMF components and controls"""
 
         # Risk category assessment engines
-        self.risk_assessors = {
-            category: self._create_risk_assessor(category)
-            for category in AIRiskCategory
-        }
+        self.risk_assessors = {category: self._create_risk_assessor(category) for category in AIRiskCategory}
 
         # Generative AI controls
         self.generative_controls = self._create_generative_ai_controls()
@@ -247,7 +260,7 @@ class NISTAIRiskFramework:
             "category": category.value,
             "assessment_criteria": self._get_category_criteria(category),
             "measurement_methods": self._get_measurement_methods(category),
-            "control_catalog": self._get_category_controls(category)
+            "control_catalog": self._get_category_controls(category),
         }
 
         return assessor_config
@@ -257,25 +270,40 @@ class NISTAIRiskFramework:
 
         criteria_mapping = {
             AIRiskCategory.HARMFUL_BIAS_DISCRIMINATION: [
-                "demographic_parity", "equalized_odds", "statistical_parity",
-                "individual_fairness", "group_fairness"
+                "demographic_parity",
+                "equalized_odds",
+                "statistical_parity",
+                "individual_fairness",
+                "group_fairness",
             ],
             AIRiskCategory.SAFETY: [
-                "failure_rate", "robustness_testing", "adversarial_resilience",
-                "edge_case_handling", "graceful_degradation"
+                "failure_rate",
+                "robustness_testing",
+                "adversarial_resilience",
+                "edge_case_handling",
+                "graceful_degradation",
             ],
             AIRiskCategory.PRIVACY: [
-                "data_minimization", "purpose_limitation", "consent_management",
-                "anonymization_techniques", "differential_privacy"
+                "data_minimization",
+                "purpose_limitation",
+                "consent_management",
+                "anonymization_techniques",
+                "differential_privacy",
             ],
             AIRiskCategory.INFORMATION_INTEGRITY: [
-                "data_quality", "source_verification", "hallucination_detection",
-                "misinformation_prevention", "fact_checking"
+                "data_quality",
+                "source_verification",
+                "hallucination_detection",
+                "misinformation_prevention",
+                "fact_checking",
             ],
             AIRiskCategory.TRUSTWORTHINESS: [
-                "reliability_metrics", "consistency_evaluation", "confidence_calibration",
-                "uncertainty_quantification", "performance_monitoring"
-            ]
+                "reliability_metrics",
+                "consistency_evaluation",
+                "confidence_calibration",
+                "uncertainty_quantification",
+                "performance_monitoring",
+            ],
         }
 
         return criteria_mapping.get(category, ["general_risk_assessment"])
@@ -285,17 +313,23 @@ class NISTAIRiskFramework:
 
         method_mapping = {
             AIRiskCategory.HARMFUL_BIAS_DISCRIMINATION: [
-                "statistical_parity_difference", "equalized_odds_ratio",
-                "demographic_parity_ratio", "fairness_metrics_evaluation"
+                "statistical_parity_difference",
+                "equalized_odds_ratio",
+                "demographic_parity_ratio",
+                "fairness_metrics_evaluation",
             ],
             AIRiskCategory.SAFETY: [
-                "failure_mode_analysis", "stress_testing", "red_team_evaluation",
-                "monte_carlo_simulation"
+                "failure_mode_analysis",
+                "stress_testing",
+                "red_team_evaluation",
+                "monte_carlo_simulation",
             ],
             AIRiskCategory.INFORMATION_SECURITY: [
-                "penetration_testing", "vulnerability_scanning", "threat_modeling",
-                "security_audit"
-            ]
+                "penetration_testing",
+                "vulnerability_scanning",
+                "threat_modeling",
+                "security_audit",
+            ],
         }
 
         return method_mapping.get(category, ["standard_assessment"])
@@ -305,17 +339,23 @@ class NISTAIRiskFramework:
 
         controls_mapping = {
             AIRiskCategory.HARMFUL_BIAS_DISCRIMINATION: [
-                "bias_detection_algorithms", "fairness_constraints",
-                "diverse_training_data", "algorithmic_auditing"
+                "bias_detection_algorithms",
+                "fairness_constraints",
+                "diverse_training_data",
+                "algorithmic_auditing",
             ],
             AIRiskCategory.PRIVACY: [
-                "differential_privacy", "federated_learning",
-                "homomorphic_encryption", "data_anonymization"
+                "differential_privacy",
+                "federated_learning",
+                "homomorphic_encryption",
+                "data_anonymization",
             ],
             AIRiskCategory.SAFETY: [
-                "input_validation", "output_monitoring",
-                "circuit_breakers", "graceful_degradation"
-            ]
+                "input_validation",
+                "output_monitoring",
+                "circuit_breakers",
+                "graceful_degradation",
+            ],
         }
 
         return controls_mapping.get(category, ["standard_controls"])
@@ -329,26 +369,26 @@ class NISTAIRiskFramework:
                 "harmful_content_detection": True,
                 "bias_detection": True,
                 "hallucination_detection": True,
-                "factual_accuracy_checking": True
+                "factual_accuracy_checking": True,
             },
             "safety_measures": {
                 "red_team_testing": True,
                 "adversarial_testing": True,
                 "safety_fine_tuning": True,
-                "constitutional_ai": True
+                "constitutional_ai": True,
             },
             "monitoring_controls": {
                 "real_time_monitoring": True,
                 "output_logging": True,
                 "user_feedback_collection": True,
-                "performance_tracking": True
+                "performance_tracking": True,
             },
             "governance_controls": {
                 "human_oversight": True,
                 "escalation_procedures": True,
                 "incident_response": True,
-                "continuous_evaluation": True
-            }
+                "continuous_evaluation": True,
+            },
         }
 
     def _create_bias_evaluator(self) -> dict[str, Any]:
@@ -360,17 +400,23 @@ class NISTAIRiskFramework:
                 "demographic_parity": "statistical_parity_difference",
                 "equalized_odds": "true_positive_rate_difference",
                 "equalized_opportunity": "true_positive_rate_parity",
-                "calibration": "calibration_error_measurement"
+                "calibration": "calibration_error_measurement",
             },
             "protected_attributes": [
-                "gender", "race", "age", "ethnicity", "religion",
-                "sexual_orientation", "disability_status", "socioeconomic_status"
+                "gender",
+                "race",
+                "age",
+                "ethnicity",
+                "religion",
+                "sexual_orientation",
+                "disability_status",
+                "socioeconomic_status",
             ],
             "evaluation_datasets": {
                 "training_data": "bias_in_training_data",
                 "validation_data": "bias_in_validation_data",
-                "real_world_data": "bias_in_deployment_data"
-            }
+                "real_world_data": "bias_in_deployment_data",
+            },
         }
 
     def _create_federal_compliance_checker(self) -> dict[str, Any]:
@@ -382,20 +428,20 @@ class NISTAIRiskFramework:
                 "executive_order_compliance": True,
                 "nist_rmf_compliance": True,
                 "federal_acquisition_regulations": True,
-                "agency_specific_requirements": True
+                "agency_specific_requirements": True,
             },
             "documentation_requirements": {
                 "ai_impact_assessment": True,
                 "bias_evaluation_report": True,
                 "safety_testing_documentation": True,
-                "performance_monitoring_report": True
+                "performance_monitoring_report": True,
             },
             "reporting_requirements": {
                 "quarterly_risk_reports": True,
                 "incident_reporting": True,
                 "compliance_attestation": True,
-                "third_party_audit": True
-            }
+                "third_party_audit": True,
+            },
         }
 
     async def assess_ai_system_risk(self, system_data: dict[str, Any]) -> AIRiskAssessment:
@@ -462,14 +508,15 @@ class NISTAIRiskFramework:
                 federal_requirements_met=federal_compliant,
                 assessment_notes=system_data.get("notes", ""),
                 next_review_date=self._calculate_next_review(overall_risk_level),
-                assessor_id="nist_rmf_engine"
+                assessor_id="nist_rmf_engine",
             )
 
             # Store assessment
             self.risk_assessments[assessment_id] = assessment
 
-            self.logger.info(f"NIST AI risk assessment completed: {assessment_id}, "
-                           f"Overall risk: {overall_risk_level.value}")
+            self.logger.info(
+                f"NIST AI risk assessment completed: {assessment_id}, " f"Overall risk: {overall_risk_level.value}"
+            )
 
             return assessment
 
@@ -477,8 +524,7 @@ class NISTAIRiskFramework:
             self.logger.error(f"NIST AI risk assessment failed: {e!s}")
             raise
 
-    async def _assess_risk_category(self, category: AIRiskCategory,
-                                  system_data: dict[str, Any]) -> float:
+    async def _assess_risk_category(self, category: AIRiskCategory, system_data: dict[str, Any]) -> float:
         """Assess risk for specific NIST category"""
 
         assessor = self.risk_assessors[category]
@@ -493,7 +539,7 @@ class NISTAIRiskFramework:
                 "training_data_bias": system_data.get("training_data_bias", False) * 0.3,
                 "demographic_imbalance": system_data.get("demographic_imbalance", False) * 0.25,
                 "algorithmic_bias": system_data.get("algorithmic_bias", False) * 0.25,
-                "historical_bias": system_data.get("historical_bias", False) * 0.2
+                "historical_bias": system_data.get("historical_bias", False) * 0.2,
             }
             return min(base_score + sum(bias_factors.values()), 1.0)
 
@@ -502,7 +548,7 @@ class NISTAIRiskFramework:
                 "high_stakes_decisions": system_data.get("high_stakes_decisions", False) * 0.4,
                 "physical_safety_impact": system_data.get("physical_safety_impact", False) * 0.3,
                 "inadequate_testing": not system_data.get("comprehensive_testing", True) * 0.2,
-                "lack_of_monitoring": not system_data.get("safety_monitoring", True) * 0.1
+                "lack_of_monitoring": not system_data.get("safety_monitoring", True) * 0.1,
             }
             return min(base_score + sum(safety_factors.values()), 1.0)
 
@@ -511,7 +557,7 @@ class NISTAIRiskFramework:
                 "personal_data_processing": system_data.get("processes_personal_data", False) * 0.25,
                 "sensitive_data": system_data.get("processes_sensitive_data", False) * 0.3,
                 "inadequate_controls": not system_data.get("privacy_controls", True) * 0.25,
-                "cross_border_transfer": system_data.get("cross_border_transfer", False) * 0.2
+                "cross_border_transfer": system_data.get("cross_border_transfer", False) * 0.2,
             }
             return min(base_score + sum(privacy_factors.values()), 1.0)
 
@@ -520,7 +566,7 @@ class NISTAIRiskFramework:
                 "hallucination_prone": system_data.get("hallucination_risk", False) * 0.3,
                 "misinformation_risk": system_data.get("misinformation_risk", False) * 0.3,
                 "data_quality_issues": system_data.get("data_quality_issues", False) * 0.2,
-                "lack_verification": not system_data.get("fact_checking", True) * 0.2
+                "lack_verification": not system_data.get("fact_checking", True) * 0.2,
             }
             return min(base_score + sum(integrity_factors.values()), 1.0)
 
@@ -528,7 +574,7 @@ class NISTAIRiskFramework:
         general_factors = {
             "high_impact": system_data.get("high_impact_system", False) * 0.3,
             "inadequate_controls": not system_data.get("adequate_controls", True) * 0.4,
-            "regulatory_scope": system_data.get("regulatory_scope", False) * 0.3
+            "regulatory_scope": system_data.get("regulatory_scope", False) * 0.3,
         }
 
         return min(base_score + sum(general_factors.values()), 1.0)
@@ -547,7 +593,9 @@ class NISTAIRiskFramework:
         else:
             return RiskLevel.MINIMAL
 
-    async def _assess_trustworthy_characteristics(self, system_data: dict[str, Any]) -> dict[TrustworthyCharacteristic, float]:
+    async def _assess_trustworthy_characteristics(
+        self, system_data: dict[str, Any]
+    ) -> dict[TrustworthyCharacteristic, float]:
         """Assess NIST trustworthy AI characteristics"""
 
         trustworthy_scores = {}
@@ -558,8 +606,9 @@ class NISTAIRiskFramework:
 
         return trustworthy_scores
 
-    async def _assess_trustworthy_characteristic(self, characteristic: TrustworthyCharacteristic,
-                                              system_data: dict[str, Any]) -> float:
+    async def _assess_trustworthy_characteristic(
+        self, characteristic: TrustworthyCharacteristic, system_data: dict[str, Any]
+    ) -> float:
         """Assess individual trustworthy AI characteristic"""
 
         base_score = 0.5  # Neutral baseline
@@ -569,34 +618,33 @@ class NISTAIRiskFramework:
                 "consistent_performance": system_data.get("consistent_performance", False) * 0.3,
                 "robust_testing": system_data.get("robust_testing", False) * 0.3,
                 "error_handling": system_data.get("error_handling", False) * 0.2,
-                "monitoring": system_data.get("performance_monitoring", False) * 0.2
+                "monitoring": system_data.get("performance_monitoring", False) * 0.2,
             }
 
         elif characteristic == TrustworthyCharacteristic.FAIRNESS:
             factors = {
                 "bias_testing": system_data.get("bias_testing", False) * 0.4,
                 "diverse_data": system_data.get("diverse_training_data", False) * 0.3,
-                "fairness_constraints": system_data.get("fairness_constraints", False) * 0.3
+                "fairness_constraints": system_data.get("fairness_constraints", False) * 0.3,
             }
 
         elif characteristic == TrustworthyCharacteristic.EXPLAINABILITY:
             factors = {
                 "interpretable_models": system_data.get("interpretable_models", False) * 0.3,
                 "explanation_interfaces": system_data.get("explanation_interfaces", False) * 0.3,
-                "decision_documentation": system_data.get("decision_documentation", False) * 0.4
+                "decision_documentation": system_data.get("decision_documentation", False) * 0.4,
             }
 
         else:
             # Default assessment for other characteristics
             factors = {
                 "implementation_quality": system_data.get("implementation_quality", 0.5) * 0.5,
-                "governance_processes": system_data.get("governance_processes", 0.5) * 0.5
+                "governance_processes": system_data.get("governance_processes", 0.5) * 0.5,
             }
 
         return min(base_score + sum(factors.values()), 1.0)
 
-    def _recommend_controls(self, risk_scores: dict[AIRiskCategory, float],
-                          system_type: AISystemType) -> list[str]:
+    def _recommend_controls(self, risk_scores: dict[AIRiskCategory, float], system_type: AISystemType) -> list[str]:
         """Recommend controls based on risk assessment"""
 
         controls = []
@@ -609,10 +657,15 @@ class NISTAIRiskFramework:
 
         # System type specific controls
         if system_type == AISystemType.GENERATIVE_AI:
-            controls.extend([
-                "content_filtering", "output_monitoring", "red_team_testing",
-                "hallucination_detection", "constitutional_ai_alignment"
-            ])
+            controls.extend(
+                [
+                    "content_filtering",
+                    "output_monitoring",
+                    "red_team_testing",
+                    "hallucination_detection",
+                    "constitutional_ai_alignment",
+                ]
+            )
 
         return list(set(controls))  # Remove duplicates
 
@@ -621,8 +674,7 @@ class NISTAIRiskFramework:
 
         # NIST compliance requires managing high-risk categories
         high_risk_categories = [
-            category for category, score in risk_scores.items()
-            if score >= self.risk_thresholds[RiskLevel.HIGH]
+            category for category, score in risk_scores.items() if score >= self.risk_thresholds[RiskLevel.HIGH]
         ]
 
         # Must have mitigation for all high-risk categories
@@ -638,7 +690,7 @@ class NISTAIRiskFramework:
             system_data.get("content_filtering", False),
             system_data.get("output_monitoring", False),
             system_data.get("red_team_testing", False),
-            system_data.get("safety_evaluation", False)
+            system_data.get("safety_evaluation", False),
         ]
 
         return all(requirements)
@@ -651,7 +703,7 @@ class NISTAIRiskFramework:
             system_data.get("bias_evaluation", False),
             system_data.get("safety_testing", False),
             system_data.get("performance_monitoring", False),
-            system_data.get("documentation_complete", False)
+            system_data.get("documentation_complete", False),
         ]
 
         return all(federal_requirements)
@@ -664,7 +716,7 @@ class NISTAIRiskFramework:
             RiskLevel.LOW: "standard",
             RiskLevel.MODERATE: "elevated",
             RiskLevel.HIGH: "urgent",
-            RiskLevel.CRITICAL: "immediate"
+            RiskLevel.CRITICAL: "immediate",
         }
 
         return priority_mapping[risk_level]
@@ -674,19 +726,16 @@ class NISTAIRiskFramework:
 
         review_intervals = {
             RiskLevel.MINIMAL: 365,  # 1 year
-            RiskLevel.LOW: 180,     # 6 months
-            RiskLevel.MODERATE: 90, # 3 months
-            RiskLevel.HIGH: 30,     # 1 month
-            RiskLevel.CRITICAL: 7   # 1 week
+            RiskLevel.LOW: 180,  # 6 months
+            RiskLevel.MODERATE: 90,  # 3 months
+            RiskLevel.HIGH: 30,  # 1 month
+            RiskLevel.CRITICAL: 7,  # 1 week
         }
 
         days = review_intervals[risk_level]
-        return datetime.now(timezone.utc).replace(
-            day=datetime.now(timezone.utc).day + days
-        )
+        return datetime.now(timezone.utc).replace(day=datetime.now(timezone.utc).day + days)
 
-    async def evaluate_bias(self, system_data: dict[str, Any],
-                          evaluation_data: dict[str, Any]) -> BiasEvaluation:
+    async def evaluate_bias(self, system_data: dict[str, Any], evaluation_data: dict[str, Any]) -> BiasEvaluation:
         """
         Comprehensive bias evaluation following NIST guidelines
 
@@ -699,7 +748,9 @@ class NISTAIRiskFramework:
         """
 
         try:
-            evaluation_id = f"BIAS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{system_data.get('name', 'system')[:8]}"
+            evaluation_id = (
+                f"BIAS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{system_data.get('name', 'system')[:8]}"
+            )
 
             # Perform demographic bias assessment
             demographic_parity = await self._assess_demographic_parity(evaluation_data)
@@ -708,9 +759,7 @@ class NISTAIRiskFramework:
 
             # Calculate overall bias score
             overall_bias_score = (
-                sum(demographic_parity.values()) +
-                sum(equalized_odds.values()) +
-                sum(statistical_parity.values())
+                sum(demographic_parity.values()) + sum(equalized_odds.values()) + sum(statistical_parity.values())
             ) / max((len(demographic_parity) + len(equalized_odds) + len(statistical_parity)), 1)
 
             bias_level = self._determine_risk_level(overall_bias_score)
@@ -739,14 +788,13 @@ class NISTAIRiskFramework:
                 algorithmic_bias=algorithmic_bias,
                 representation_bias=representation_bias,
                 measurement_bias=measurement_bias,
-                bias_mitigation_strategies=mitigation_strategies
+                bias_mitigation_strategies=mitigation_strategies,
             )
 
             # Store evaluation
             self.bias_evaluations[evaluation_id] = evaluation
 
-            self.logger.info(f"Bias evaluation completed: {evaluation_id}, "
-                           f"Bias level: {bias_level.value}")
+            self.logger.info(f"Bias evaluation completed: {evaluation_id}, " f"Bias level: {bias_level.value}")
 
             return evaluation
 
@@ -803,49 +851,64 @@ class NISTAIRiskFramework:
 
         return parity_scores
 
-    def _generate_bias_mitigation_strategies(self, bias_level: RiskLevel,
-                                           training_bias: bool, algorithmic_bias: bool,
-                                           representation_bias: bool, measurement_bias: bool) -> list[str]:
+    def _generate_bias_mitigation_strategies(
+        self,
+        bias_level: RiskLevel,
+        training_bias: bool,
+        algorithmic_bias: bool,
+        representation_bias: bool,
+        measurement_bias: bool,
+    ) -> list[str]:
         """Generate bias mitigation strategies based on evaluation"""
 
         strategies = []
 
         if training_bias:
-            strategies.extend([
-                "Diversify training data across demographic groups",
-                "Implement bias detection in data preprocessing",
-                "Use synthetic data generation for underrepresented groups"
-            ])
+            strategies.extend(
+                [
+                    "Diversify training data across demographic groups",
+                    "Implement bias detection in data preprocessing",
+                    "Use synthetic data generation for underrepresented groups",
+                ]
+            )
 
         if algorithmic_bias:
-            strategies.extend([
-                "Implement fairness constraints in model training",
-                "Use bias-aware machine learning algorithms",
-                "Apply post-processing bias mitigation techniques"
-            ])
+            strategies.extend(
+                [
+                    "Implement fairness constraints in model training",
+                    "Use bias-aware machine learning algorithms",
+                    "Apply post-processing bias mitigation techniques",
+                ]
+            )
 
         if representation_bias:
-            strategies.extend([
-                "Ensure representative sampling in datasets",
-                "Address historical underrepresentation in data",
-                "Implement stratified evaluation across groups"
-            ])
+            strategies.extend(
+                [
+                    "Ensure representative sampling in datasets",
+                    "Address historical underrepresentation in data",
+                    "Implement stratified evaluation across groups",
+                ]
+            )
 
         if measurement_bias:
-            strategies.extend([
-                "Review and standardize measurement instruments",
-                "Address systematic measurement errors",
-                "Implement measurement invariance testing"
-            ])
+            strategies.extend(
+                [
+                    "Review and standardize measurement instruments",
+                    "Address systematic measurement errors",
+                    "Implement measurement invariance testing",
+                ]
+            )
 
         # Risk level specific strategies
         if bias_level in [RiskLevel.HIGH, RiskLevel.CRITICAL]:
-            strategies.extend([
-                "Implement real-time bias monitoring in production",
-                "Establish bias review board and governance",
-                "Conduct third-party bias audits",
-                "Implement human-in-the-loop bias correction"
-            ])
+            strategies.extend(
+                [
+                    "Implement real-time bias monitoring in production",
+                    "Establish bias review board and governance",
+                    "Conduct third-party bias audits",
+                    "Implement human-in-the-loop bias correction",
+                ]
+            )
 
         return strategies
 
@@ -864,17 +927,16 @@ class NISTAIRiskFramework:
             "framework_version": "NIST_AI_RMF_1.0_with_Generative_AI_Profile",
             "total_assessments": len(assessments),
             "compliant_systems": len([a for a in assessments if a.nist_compliant]),
-            "high_risk_systems": len([a for a in assessments
-                                   if a.overall_risk_level in [RiskLevel.HIGH, RiskLevel.CRITICAL]]),
-            "generative_ai_systems": len([a for a in assessments
-                                        if a.system_type == AISystemType.GENERATIVE_AI]),
+            "high_risk_systems": len(
+                [a for a in assessments if a.overall_risk_level in [RiskLevel.HIGH, RiskLevel.CRITICAL]]
+            ),
+            "generative_ai_systems": len([a for a in assessments if a.system_type == AISystemType.GENERATIVE_AI]),
             "bias_evaluations_completed": len(self.bias_evaluations),
             "average_risk_score": sum(a.overall_risk_score for a in assessments) / max(len(assessments), 1),
             "risk_distribution": {
-                risk.value: len([a for a in assessments if a.overall_risk_level == risk])
-                for risk in RiskLevel
+                risk.value: len([a for a in assessments if a.overall_risk_level == risk]) for risk in RiskLevel
             },
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     def generate_federal_compliance_report(self) -> dict[str, Any]:
@@ -889,29 +951,29 @@ class NISTAIRiskFramework:
             "framework_compliance": {
                 "nist_ai_rmf_1.0": True,
                 "generative_ai_profile": True,
-                "federal_acquisition_regulations": True
+                "federal_acquisition_regulations": True,
             },
             "risk_summary": {
                 "total_systems_assessed": len(assessments),
-                "systems_meeting_federal_requirements": len([a for a in assessments
-                                                           if a.federal_requirements_met]),
-                "high_risk_systems_requiring_oversight": len([a for a in assessments
-                                                            if a.overall_risk_level in [RiskLevel.HIGH, RiskLevel.CRITICAL]]),
+                "systems_meeting_federal_requirements": len([a for a in assessments if a.federal_requirements_met]),
+                "high_risk_systems_requiring_oversight": len(
+                    [a for a in assessments if a.overall_risk_level in [RiskLevel.HIGH, RiskLevel.CRITICAL]]
+                ),
                 "bias_evaluations_completed": len(bias_evaluations),
-                "average_trustworthiness_score": self._calculate_average_trustworthiness(assessments)
+                "average_trustworthiness_score": self._calculate_average_trustworthiness(assessments),
             },
             "category_risk_breakdown": self._generate_category_breakdown(assessments),
             "mitigation_status": self._generate_mitigation_status(assessments),
             "recommendations": self._generate_federal_recommendations(assessments),
-            "next_reporting_period": (datetime.now(timezone.utc).replace(
-                month=datetime.now(timezone.utc).month + 3
-            )).isoformat(),
+            "next_reporting_period": (
+                datetime.now(timezone.utc).replace(month=datetime.now(timezone.utc).month + 3)
+            ).isoformat(),
             "certification": {
                 "assessment_methodology": "NIST AI RMF 1.0 with Generative AI Profile",
                 "assessor_qualification": "NIST AI RMF Certified",
                 "assessment_scope": "Comprehensive AI system lifecycle",
-                "confidence_level": "High"
-            }
+                "confidence_level": "High",
+            },
         }
 
     def _calculate_average_trustworthiness(self, assessments: list[AIRiskAssessment]) -> float:
@@ -940,10 +1002,12 @@ class NISTAIRiskFramework:
             category_scores = [a.risk_scores.get(category, 0.0) for a in assessments]
             category_breakdown[category.value] = {
                 "average_risk_score": sum(category_scores) / max(len(category_scores), 1),
-                "high_risk_systems": len([score for score in category_scores
-                                        if score >= self.risk_thresholds[RiskLevel.HIGH]]),
-                "mitigation_required": len([score for score in category_scores
-                                          if score >= self.risk_thresholds[RiskLevel.MODERATE]])
+                "high_risk_systems": len(
+                    [score for score in category_scores if score >= self.risk_thresholds[RiskLevel.HIGH]]
+                ),
+                "mitigation_required": len(
+                    [score for score in category_scores if score >= self.risk_thresholds[RiskLevel.MODERATE]]
+                ),
             }
 
         return category_breakdown
@@ -952,13 +1016,11 @@ class NISTAIRiskFramework:
         """Generate mitigation status summary"""
 
         return {
-            "systems_with_adequate_controls": len([a for a in assessments
-                                                 if len(a.existing_controls) >= 3]),
-            "systems_requiring_additional_controls": len([a for a in assessments
-                                                        if len(a.recommended_controls) > 0]),
-            "immediate_attention_required": len([a for a in assessments
-                                               if a.mitigation_priority == "immediate"]),
-            "average_controls_per_system": sum(len(a.existing_controls) for a in assessments) / max(len(assessments), 1)
+            "systems_with_adequate_controls": len([a for a in assessments if len(a.existing_controls) >= 3]),
+            "systems_requiring_additional_controls": len([a for a in assessments if len(a.recommended_controls) > 0]),
+            "immediate_attention_required": len([a for a in assessments if a.mitigation_priority == "immediate"]),
+            "average_controls_per_system": sum(len(a.existing_controls) for a in assessments)
+            / max(len(assessments), 1),
         }
 
     def _generate_federal_recommendations(self, assessments: list[AIRiskAssessment]) -> list[str]:
@@ -966,8 +1028,7 @@ class NISTAIRiskFramework:
 
         recommendations = []
 
-        high_risk_count = len([a for a in assessments
-                             if a.overall_risk_level in [RiskLevel.HIGH, RiskLevel.CRITICAL]])
+        high_risk_count = len([a for a in assessments if a.overall_risk_level in [RiskLevel.HIGH, RiskLevel.CRITICAL]])
 
         if high_risk_count > 0:
             recommendations.append(f"Implement enhanced oversight for {high_risk_count} high-risk AI systems")
@@ -976,9 +1037,14 @@ class NISTAIRiskFramework:
         if non_compliant_count > 0:
             recommendations.append(f"Address federal compliance gaps in {non_compliant_count} AI systems")
 
-        bias_evaluation_needed = len([a for a in assessments
-                                    if AIRiskCategory.HARMFUL_BIAS_DISCRIMINATION in a.risk_scores
-                                    and a.risk_scores[AIRiskCategory.HARMFUL_BIAS_DISCRIMINATION] >= 0.5])
+        bias_evaluation_needed = len(
+            [
+                a
+                for a in assessments
+                if AIRiskCategory.HARMFUL_BIAS_DISCRIMINATION in a.risk_scores
+                and a.risk_scores[AIRiskCategory.HARMFUL_BIAS_DISCRIMINATION] >= 0.5
+            ]
+        )
 
         if bias_evaluation_needed > 0:
             recommendations.append(f"Conduct comprehensive bias evaluations for {bias_evaluation_needed} systems")

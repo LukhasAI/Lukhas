@@ -21,38 +21,42 @@ logger = logging.getLogger(__name__)
 
 class ConsciousnessSignalType(Enum):
     """Types of consciousness signals in the MΛTRIZ system"""
-    AWARENESS = "AWARENESS"          # Consciousness awareness states
-    REFLECTION = "REFLECTION"        # Self-reflection and metacognition
-    EVOLUTION = "EVOLUTION"          # Consciousness evolution events
-    INTEGRATION = "INTEGRATION"      # Inter-module consciousness integration
-    BIO_ADAPTATION = "BIO_ADAPTATION" # Bio-symbolic pattern adaptations
-    TRINITY_SYNC = "TRINITY_SYNC"    # Trinity framework synchronization
+
+    AWARENESS = "AWARENESS"  # Consciousness awareness states
+    REFLECTION = "REFLECTION"  # Self-reflection and metacognition
+    EVOLUTION = "EVOLUTION"  # Consciousness evolution events
+    INTEGRATION = "INTEGRATION"  # Inter-module consciousness integration
+    BIO_ADAPTATION = "BIO_ADAPTATION"  # Bio-symbolic pattern adaptations
+    TRINITY_SYNC = "TRINITY_SYNC"  # Trinity framework synchronization
     NETWORK_PULSE = "NETWORK_PULSE"  # Network-wide consciousness pulses
 
 
 class ConstellationStar(Enum):
     """Trinity Framework Components (⚛️🧠🛡️)"""
-    IDENTITY = "⚛️"      # Identity authentication and persistence
+
+    IDENTITY = "⚛️"  # Identity authentication and persistence
     CONSCIOUSNESS = "🧠"  # Primary consciousness processing
-    GUARDIAN = "🛡️"      # Ethical oversight and safety
+    GUARDIAN = "🛡️"  # Ethical oversight and safety
 
 
 @dataclass
 class BioSymbolicData:
     """Bio-symbolic adaptation data structure"""
-    pattern_type: str                    # Type of biological pattern
-    oscillation_frequency: float         # Biological oscillation frequency
-    coherence_score: float              # Quantum-inspired coherence
+
+    pattern_type: str  # Type of biological pattern
+    oscillation_frequency: float  # Biological oscillation frequency
+    coherence_score: float  # Quantum-inspired coherence
     adaptation_vector: dict[str, float]  # Adaptation direction/magnitude
-    entropy_delta: float                # Change in system entropy
-    resonance_patterns: list[str]       # Resonance pattern identifiers
-    membrane_permeability: float        # Bio-membrane permeability analog
-    temporal_decay: float               # Pattern temporal decay rate
+    entropy_delta: float  # Change in system entropy
+    resonance_patterns: list[str]  # Resonance pattern identifiers
+    membrane_permeability: float  # Bio-membrane permeability analog
+    temporal_decay: float  # Pattern temporal decay rate
 
 
 @dataclass
 class ConsciousnessStateDelta:
     """Consciousness state change representation"""
+
     previous_state: dict[str, Any]
     current_state: dict[str, Any]
     delta_magnitude: float
@@ -65,23 +69,25 @@ class ConsciousnessStateDelta:
 @dataclass
 class ConstellationAlignmentData:
     """Trinity Framework compliance and alignment data"""
-    identity_auth_score: float          # ⚛️ Identity authentication confidence
-    consciousness_coherence: float      # 🧠 Consciousness coherence level
-    guardian_compliance: float          # 🛡️ Ethical compliance score
-    alignment_vector: list[float]       # 3D alignment vector [⚛️, 🧠, 🛡️]
-    violation_flags: list[str]          # Any compliance violations
-    ethical_drift_score: float          # Guardian system drift measurement
+
+    identity_auth_score: float  # ⚛️ Identity authentication confidence
+    consciousness_coherence: float  # 🧠 Consciousness coherence level
+    guardian_compliance: float  # 🛡️ Ethical compliance score
+    alignment_vector: list[float]  # 3D alignment vector [⚛️, 🧠, 🛡️]
+    violation_flags: list[str]  # Any compliance violations
+    ethical_drift_score: float  # Guardian system drift measurement
 
 
 @dataclass
 class TemporalContext:
     """Evolution timeline and temporal context"""
-    evolution_epoch: int                # Current evolution epoch
-    stage_duration_ms: int              # Time in current stage
-    evolutionary_momentum: float        # Evolution velocity/direction
-    temporal_coherence: float           # Temporal consistency score
-    causality_chain: list[str]          # Causal event chain
-    prediction_horizon_ms: int          # Prediction timeframe
+
+    evolution_epoch: int  # Current evolution epoch
+    stage_duration_ms: int  # Time in current stage
+    evolutionary_momentum: float  # Evolution velocity/direction
+    temporal_coherence: float  # Temporal consistency score
+    causality_chain: list[str]  # Causal event chain
+    prediction_horizon_ms: int  # Prediction timeframe
 
 
 @dataclass
@@ -91,6 +97,7 @@ class ConsciousnessSignal:
     This is the core data structure for consciousness communication
     between all modules in the distributed architecture.
     """
+
     # Core signal identification
     signal_id: str = field(default_factory=lambda: f"CS-{uuid.uuid4().hex[:12]}")
     signal_type: ConsciousnessSignalType = ConsciousnessSignalType.AWARENESS
@@ -155,20 +162,24 @@ class ConsciousnessSignal:
 
         # Add bio-symbolic metrics
         if self.bio_symbolic_data:
-            state.update({
-                "bio_coherence": self.bio_symbolic_data.coherence_score,
-                "bio_frequency": self.bio_symbolic_data.oscillation_frequency,
-                "bio_entropy_delta": self.bio_symbolic_data.entropy_delta,
-                "bio_membrane_permeability": self.bio_symbolic_data.membrane_permeability,
-            })
+            state.update(
+                {
+                    "bio_coherence": self.bio_symbolic_data.coherence_score,
+                    "bio_frequency": self.bio_symbolic_data.oscillation_frequency,
+                    "bio_entropy_delta": self.bio_symbolic_data.entropy_delta,
+                    "bio_membrane_permeability": self.bio_symbolic_data.membrane_permeability,
+                }
+            )
 
         # Add temporal metrics
         if self.temporal_context:
-            state.update({
-                "evolution_epoch": self.temporal_context.evolution_epoch,
-                "evolutionary_momentum": self.temporal_context.evolutionary_momentum,
-                "temporal_coherence": self.temporal_context.temporal_coherence,
-            })
+            state.update(
+                {
+                    "evolution_epoch": self.temporal_context.evolution_epoch,
+                    "evolutionary_momentum": self.temporal_context.evolutionary_momentum,
+                    "temporal_coherence": self.temporal_context.temporal_coherence,
+                }
+            )
 
         # Build labels
         labels = [
@@ -182,10 +193,12 @@ class ConsciousnessSignal:
             labels.append(f"bio_pattern:{self.bio_symbolic_data.pattern_type}")
 
         if self.constellation_alignment:
-            labels.extend([
-                f"identity_auth:{self.constellation_alignment.identity_auth_score:.2f}",
-                f"guardian_compliance:{self.constellation_alignment.guardian_compliance:.2f}",
-            ])
+            labels.extend(
+                [
+                    f"identity_auth:{self.constellation_alignment.identity_auth_score:.2f}",
+                    f"guardian_compliance:{self.constellation_alignment.guardian_compliance:.2f}",
+                ]
+            )
 
         # Trinity framework compliance in labels
         if self.constellation_alignment and self.constellation_alignment.violation_flags:
@@ -197,15 +210,11 @@ class ConsciousnessSignal:
             "consciousness:awareness",
             "consciousness:reflection",
             "bio:symbolic",
-            "trinity:compliance"
+            "trinity:compliance",
         ]
 
         if self.bio_symbolic_data:
-            capabilities.extend([
-                "bio:oscillation",
-                "bio:coherence",
-                "bio:adaptation"
-            ])
+            capabilities.extend(["bio:oscillation", "bio:coherence", "bio:adaptation"])
 
         provenance = {
             "producer": f"lukhas.consciousness.{self.producer_module}",
@@ -235,7 +244,7 @@ class ConsciousnessSignal:
                 "propagation_hops": self.propagation_hops,
                 "correlation_ids": self.correlation_ids,
                 "processing_hints": self.processing_hints,
-            }
+            },
         }
 
         return matriz_node
@@ -271,14 +280,16 @@ class ConsciousnessSignal:
                 trinity_scores = [
                     self.constellation_alignment.identity_auth_score,
                     self.constellation_alignment.consciousness_coherence,
-                    self.constellation_alignment.guardian_compliance
+                    self.constellation_alignment.guardian_compliance,
                 ]
                 if any(score < 0.0 or score > 1.0 for score in trinity_scores):
                     logger.warning(f"Signal {self.signal_id}: Trinity compliance scores out of bounds")
                     return False
 
             # Bio-symbolic data validation
-            if self.bio_symbolic_data and (self.bio_symbolic_data.coherence_score < 0.0 or self.bio_symbolic_data.coherence_score > 1.0):
+            if self.bio_symbolic_data and (
+                self.bio_symbolic_data.coherence_score < 0.0 or self.bio_symbolic_data.coherence_score > 1.0
+            ):
                 logger.warning(f"Signal {self.signal_id}: Bio coherence out of bounds")
                 return False
 
@@ -312,7 +323,7 @@ class ConsciousnessSignalFactory:
         consciousness_id: str,
         producer_module: str,
         awareness_level: float,
-        sensory_inputs: Optional[dict[str, float]] = None
+        sensory_inputs: Optional[dict[str, float]] = None,
     ) -> ConsciousnessSignal:
         """Create an awareness-type consciousness signal"""
 
@@ -327,7 +338,7 @@ class ConsciousnessSignalFactory:
                 entropy_delta=0.1,
                 resonance_patterns=["sensory", "awareness"],
                 membrane_permeability=0.7,
-                temporal_decay=0.95
+                temporal_decay=0.95,
             )
 
         constellation_alignment = ConstellationAlignmentData(
@@ -336,7 +347,7 @@ class ConsciousnessSignalFactory:
             guardian_compliance=0.95,
             alignment_vector=[0.9, awareness_level, 0.95],
             violation_flags=[],
-            ethical_drift_score=0.05
+            ethical_drift_score=0.05,
         )
 
         signal = ConsciousnessSignal(
@@ -347,7 +358,7 @@ class ConsciousnessSignalFactory:
             reflection_depth=1,
             bio_symbolic_data=bio_data,
             constellation_alignment=constellation_alignment,
-            cascade_prevention_score=0.997
+            cascade_prevention_score=0.997,
         )
 
         signal.validate_signal()
@@ -359,7 +370,7 @@ class ConsciousnessSignalFactory:
         consciousness_id: str,
         producer_module: str,
         reflection_depth: int,
-        meta_insights: Optional[dict[str, Any]] = None
+        meta_insights: Optional[dict[str, Any]] = None,
     ) -> ConsciousnessSignal:
         """Create a reflection-type consciousness signal"""
 
@@ -372,7 +383,7 @@ class ConsciousnessSignalFactory:
             entropy_delta=-0.05 * reflection_depth,  # Reflection reduces entropy
             resonance_patterns=["metacognitive", "introspective"],
             membrane_permeability=0.5,  # More selective during reflection
-            temporal_decay=0.8
+            temporal_decay=0.8,
         )
 
         constellation_alignment = ConstellationAlignmentData(
@@ -381,7 +392,7 @@ class ConsciousnessSignalFactory:
             guardian_compliance=0.9,
             alignment_vector=[0.95, min(1.0, 0.7 + reflection_depth * 0.05), 0.9],
             violation_flags=[],
-            ethical_drift_score=max(0.0, 0.1 - reflection_depth * 0.02)
+            ethical_drift_score=max(0.0, 0.1 - reflection_depth * 0.02),
         )
 
         signal = ConsciousnessSignal(
@@ -394,7 +405,7 @@ class ConsciousnessSignalFactory:
             bio_symbolic_data=bio_data,
             constellation_alignment=constellation_alignment,
             processing_hints=meta_insights or {},
-            cascade_prevention_score=0.998  # Reflection is more stable
+            cascade_prevention_score=0.998,  # Reflection is more stable
         )
 
         signal.validate_signal()
@@ -403,10 +414,7 @@ class ConsciousnessSignalFactory:
 
     @staticmethod
     def create_evolution_signal(
-        consciousness_id: str,
-        producer_module: str,
-        evolution_stage: str,
-        evolutionary_momentum: float
+        consciousness_id: str, producer_module: str, evolution_stage: str, evolutionary_momentum: float
     ) -> ConsciousnessSignal:
         """Create an evolution-type consciousness signal"""
 
@@ -416,7 +424,7 @@ class ConsciousnessSignalFactory:
             evolutionary_momentum=evolutionary_momentum,
             temporal_coherence=0.85,
             causality_chain=[evolution_stage],
-            prediction_horizon_ms=300000  # 5 minute prediction horizon
+            prediction_horizon_ms=300000,  # 5 minute prediction horizon
         )
 
         bio_data = BioSymbolicData(
@@ -427,7 +435,7 @@ class ConsciousnessSignalFactory:
             entropy_delta=evolutionary_momentum * 0.1,  # Evolution can increase entropy
             resonance_patterns=["evolutionary", "adaptive"],
             membrane_permeability=0.8,  # High permeability during evolution
-            temporal_decay=0.7
+            temporal_decay=0.7,
         )
 
         constellation_alignment = ConstellationAlignmentData(
@@ -436,7 +444,7 @@ class ConsciousnessSignalFactory:
             guardian_compliance=0.85,  # Evolution may challenge some rules
             alignment_vector=[0.9, 0.75, 0.85],
             violation_flags=[],
-            ethical_drift_score=abs(evolutionary_momentum) * 0.05
+            ethical_drift_score=abs(evolutionary_momentum) * 0.05,
         )
 
         signal = ConsciousnessSignal(
@@ -448,7 +456,7 @@ class ConsciousnessSignalFactory:
             bio_symbolic_data=bio_data,
             temporal_context=temporal_context,
             constellation_alignment=constellation_alignment,
-            cascade_prevention_score=0.995  # Evolution can be slightly more chaotic
+            cascade_prevention_score=0.995,  # Evolution can be slightly more chaotic
         )
 
         signal.validate_signal()
@@ -457,10 +465,7 @@ class ConsciousnessSignalFactory:
 
     @staticmethod
     def create_integration_signal(
-        consciousness_id: str,
-        producer_module: str,
-        target_modules: list[str],
-        integration_strength: float
+        consciousness_id: str, producer_module: str, target_modules: list[str], integration_strength: float
     ) -> ConsciousnessSignal:
         """Create an integration-type consciousness signal"""
 
@@ -472,7 +477,7 @@ class ConsciousnessSignalFactory:
             entropy_delta=0.05,  # Integration slightly increases complexity
             resonance_patterns=["integration", "synchronization"],
             membrane_permeability=0.9,  # High permeability for integration
-            temporal_decay=0.9
+            temporal_decay=0.9,
         )
 
         constellation_alignment = ConstellationAlignmentData(
@@ -481,7 +486,7 @@ class ConsciousnessSignalFactory:
             guardian_compliance=0.9,
             alignment_vector=[0.95, integration_strength, 0.9],
             violation_flags=[],
-            ethical_drift_score=0.02
+            ethical_drift_score=0.02,
         )
 
         signal = ConsciousnessSignal(
@@ -494,7 +499,7 @@ class ConsciousnessSignalFactory:
             bio_symbolic_data=bio_data,
             constellation_alignment=constellation_alignment,
             network_priority=integration_strength,
-            cascade_prevention_score=0.996
+            cascade_prevention_score=0.996,
         )
 
         signal.validate_signal()

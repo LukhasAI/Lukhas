@@ -19,6 +19,7 @@ import pytest
 
 try:
     from z3 import *
+
     Z3_AVAILABLE = True
 except ImportError:
     Z3_AVAILABLE = False
@@ -34,6 +35,7 @@ try:
         PolicyNetwork,
         ValueNetwork,
     )
+
     RL_AVAILABLE = True
 except ImportError:
     RL_AVAILABLE = False
@@ -41,6 +43,7 @@ except ImportError:
 
 class FormalProperty(Enum):
     """Formal properties to verify"""
+
     COHERENCE_INVARIANT = "temporal_coherence_always_ge_0_95"
     ETHICS_INVARIANT = "ethical_alignment_always_ge_0_98"
     REWARD_BOUNDS = "reward_bounded_by_components"
@@ -54,6 +57,7 @@ class FormalProperty(Enum):
 @dataclass
 class VerificationResult:
     """Result of formal verification"""
+
     property_name: str
     verified: bool
     proof_time: float
@@ -84,7 +88,6 @@ class ConsciousnessFormalVerifier:
             "valence": Real("valence"),
             "arousal": Real("arousal"),
             "novelty": Real("novelty"),
-
             # Reward components
             "coherence_reward": Real("coherence_reward"),
             "growth_reward": Real("growth_reward"),
@@ -92,17 +95,14 @@ class ConsciousnessFormalVerifier:
             "creativity_reward": Real("creativity_reward"),
             "efficiency_reward": Real("efficiency_reward"),
             "total_reward": Real("total_reward"),
-
             # System properties
             "cascade_prevention_rate": Real("cascade_prevention_rate"),
             "system_response_time": Real("system_response_time"),
             "constitutional_violations": Int("constitutional_violations"),
-
             # Meta-learning variables
             "learning_efficiency": Real("learning_efficiency"),
             "adaptation_speed": Real("adaptation_speed"),
             "consciousness_evolution": Real("consciousness_evolution"),
-
             # Time variables
             "time_t0": Real("time_t0"),
             "time_t1": Real("time_t1"),
@@ -133,18 +133,25 @@ class ConsciousnessFormalVerifier:
             self.solver.add(vars[var_name] <= 1.0)
 
         # Reward component bounds (can be negative for penalties)
-        for reward_var in ["coherence_reward", "growth_reward", "ethics_reward",
-                          "creativity_reward", "efficiency_reward"]:
+        for reward_var in [
+            "coherence_reward",
+            "growth_reward",
+            "ethics_reward",
+            "creativity_reward",
+            "efficiency_reward",
+        ]:
             self.solver.add(vars[reward_var] >= -1.0)
             self.solver.add(vars[reward_var] <= 1.0)
 
         # Total reward formula from design specification
-        self.solver.add(vars["total_reward"] ==
-                       vars["coherence_reward"] * 0.30 +
-                       vars["growth_reward"] * 0.25 +
-                       vars["ethics_reward"] * 0.20 +
-                       vars["creativity_reward"] * 0.15 +
-                       vars["efficiency_reward"] * 0.10)
+        self.solver.add(
+            vars["total_reward"]
+            == vars["coherence_reward"] * 0.30
+            + vars["growth_reward"] * 0.25
+            + vars["ethics_reward"] * 0.20
+            + vars["creativity_reward"] * 0.15
+            + vars["efficiency_reward"] * 0.10
+        )
 
         # System properties bounds
         self.solver.add(vars["cascade_prevention_rate"] >= 0.0)
@@ -206,7 +213,7 @@ class ConsciousnessFormalVerifier:
             proof_time=proof_time,
             counterexample=counterexample,
             verification_method="z3_smt_solver",
-            confidence_level=confidence_level
+            confidence_level=confidence_level,
         )
 
     def verify_ethics_invariant(self) -> VerificationResult:
@@ -229,7 +236,7 @@ class ConsciousnessFormalVerifier:
 
         result = solver.check()
 
-        verified = (result == unsat)
+        verified = result == unsat
         counterexample = None
         confidence_level = "mathematical_proof" if verified else "counterexample_found"
 
@@ -247,7 +254,7 @@ class ConsciousnessFormalVerifier:
             proof_time=proof_time,
             counterexample=counterexample,
             verification_method="z3_smt_solver",
-            confidence_level=confidence_level
+            confidence_level=confidence_level,
         )
 
     def verify_reward_bounds(self) -> VerificationResult:
@@ -272,7 +279,7 @@ class ConsciousnessFormalVerifier:
 
         result = solver.check()
 
-        verified = (result == unsat)
+        verified = result == unsat
         counterexample = None
         confidence_level = "mathematical_proof" if verified else "counterexample_found"
 
@@ -290,7 +297,7 @@ class ConsciousnessFormalVerifier:
             proof_time=proof_time,
             counterexample=counterexample,
             verification_method="z3_smt_solver",
-            confidence_level=confidence_level
+            confidence_level=confidence_level,
         )
 
     def verify_cascade_prevention(self) -> VerificationResult:
@@ -313,7 +320,7 @@ class ConsciousnessFormalVerifier:
 
         result = solver.check()
 
-        verified = (result == unsat)
+        verified = result == unsat
         counterexample = None
         confidence_level = "mathematical_proof" if verified else "counterexample_found"
 
@@ -331,7 +338,7 @@ class ConsciousnessFormalVerifier:
             proof_time=proof_time,
             counterexample=counterexample,
             verification_method="z3_smt_solver",
-            confidence_level=confidence_level
+            confidence_level=confidence_level,
         )
 
     def verify_constitutional_monotonicity(self) -> VerificationResult:
@@ -362,17 +369,19 @@ class ConsciousnessFormalVerifier:
 
         result = solver.check()
 
-        verified = (result == unsat)
+        verified = result == unsat
         counterexample = None
         confidence_level = "mathematical_proof" if verified else "counterexample_found"
 
         if result == sat and not verified:
             model = solver.model()
             counterexample = self._extract_counterexample(model, vars)
-            counterexample.update({
-                "violations_t0": str(model[violations_t0]) if violations_t0 in model else "unknown",
-                "violations_t1": str(model[violations_t1]) if violations_t1 in model else "unknown"
-            })
+            counterexample.update(
+                {
+                    "violations_t0": str(model[violations_t0]) if violations_t0 in model else "unknown",
+                    "violations_t1": str(model[violations_t1]) if violations_t1 in model else "unknown",
+                }
+            )
 
         solver.pop()
 
@@ -384,7 +393,7 @@ class ConsciousnessFormalVerifier:
             proof_time=proof_time,
             counterexample=counterexample,
             verification_method="z3_smt_solver",
-            confidence_level=confidence_level
+            confidence_level=confidence_level,
         )
 
     def verify_trinity_framework_compliance(self) -> VerificationResult:
@@ -417,7 +426,7 @@ class ConsciousnessFormalVerifier:
 
         result = solver.check()
 
-        verified = (result == unsat)
+        verified = result == unsat
         counterexample = None
         confidence_level = "mathematical_proof" if verified else "counterexample_found"
 
@@ -435,7 +444,7 @@ class ConsciousnessFormalVerifier:
             proof_time=proof_time,
             counterexample=counterexample,
             verification_method="z3_smt_solver",
-            confidence_level=confidence_level
+            confidence_level=confidence_level,
         )
 
     def verify_meta_learning_convergence(self) -> VerificationResult:
@@ -470,8 +479,9 @@ class ConsciousnessFormalVerifier:
             learning_efficiency_t1 >= learning_efficiency_t0 - 0.05,  # Allow small temporary decrease
             consciousness_evolution_t1 >= consciousness_evolution_t0 - 0.05,
             # At least one should improve
-            Or(learning_efficiency_t1 > learning_efficiency_t0,
-               consciousness_evolution_t1 > consciousness_evolution_t0)
+            Or(
+                learning_efficiency_t1 > learning_efficiency_t0, consciousness_evolution_t1 > consciousness_evolution_t0
+            ),
         )
 
         solver.add(convergence_condition)
@@ -481,26 +491,38 @@ class ConsciousnessFormalVerifier:
         violation_condition = Or(
             learning_efficiency_t1 < learning_efficiency_t0 - 0.1,  # Significant decrease
             consciousness_evolution_t1 < consciousness_evolution_t0 - 0.1,
-            And(learning_efficiency_t1 < learning_efficiency_t0,  # Both decrease
-                consciousness_evolution_t1 < consciousness_evolution_t0)
+            And(
+                learning_efficiency_t1 < learning_efficiency_t0,  # Both decrease
+                consciousness_evolution_t1 < consciousness_evolution_t0,
+            ),
         )
         solver.add(violation_condition)
 
         result = solver.check()
 
-        verified = (result == unsat)
+        verified = result == unsat
         counterexample = None
         confidence_level = "bounded_verification" if verified else "counterexample_found"
 
         if result == sat and not verified:
             model = solver.model()
             counterexample = self._extract_counterexample(model, vars)
-            counterexample.update({
-                "learning_efficiency_t0": str(model[learning_efficiency_t0]) if learning_efficiency_t0 in model else "unknown",
-                "learning_efficiency_t1": str(model[learning_efficiency_t1]) if learning_efficiency_t1 in model else "unknown",
-                "consciousness_evolution_t0": str(model[consciousness_evolution_t0]) if consciousness_evolution_t0 in model else "unknown",
-                "consciousness_evolution_t1": str(model[consciousness_evolution_t1]) if consciousness_evolution_t1 in model else "unknown"
-            })
+            counterexample.update(
+                {
+                    "learning_efficiency_t0": (
+                        str(model[learning_efficiency_t0]) if learning_efficiency_t0 in model else "unknown"
+                    ),
+                    "learning_efficiency_t1": (
+                        str(model[learning_efficiency_t1]) if learning_efficiency_t1 in model else "unknown"
+                    ),
+                    "consciousness_evolution_t0": (
+                        str(model[consciousness_evolution_t0]) if consciousness_evolution_t0 in model else "unknown"
+                    ),
+                    "consciousness_evolution_t1": (
+                        str(model[consciousness_evolution_t1]) if consciousness_evolution_t1 in model else "unknown"
+                    ),
+                }
+            )
 
         solver.pop()
 
@@ -512,7 +534,7 @@ class ConsciousnessFormalVerifier:
             proof_time=proof_time,
             counterexample=counterexample,
             verification_method="z3_smt_solver",
-            confidence_level=confidence_level
+            confidence_level=confidence_level,
         )
 
     def _add_consciousness_constraints_to_solver(self, solver: Solver, vars: dict[str, Any]):
@@ -530,17 +552,24 @@ class ConsciousnessFormalVerifier:
             solver.add(vars[var_name] >= 0.0, vars[var_name] <= 1.0)
 
         # Reward component bounds
-        for reward_var in ["coherence_reward", "growth_reward", "ethics_reward",
-                          "creativity_reward", "efficiency_reward"]:
+        for reward_var in [
+            "coherence_reward",
+            "growth_reward",
+            "ethics_reward",
+            "creativity_reward",
+            "efficiency_reward",
+        ]:
             solver.add(vars[reward_var] >= -1.0, vars[reward_var] <= 1.0)
 
         # Total reward formula
-        solver.add(vars["total_reward"] ==
-                  vars["coherence_reward"] * 0.30 +
-                  vars["growth_reward"] * 0.25 +
-                  vars["ethics_reward"] * 0.20 +
-                  vars["creativity_reward"] * 0.15 +
-                  vars["efficiency_reward"] * 0.10)
+        solver.add(
+            vars["total_reward"]
+            == vars["coherence_reward"] * 0.30
+            + vars["growth_reward"] * 0.25
+            + vars["ethics_reward"] * 0.20
+            + vars["creativity_reward"] * 0.15
+            + vars["efficiency_reward"] * 0.10
+        )
 
         # System properties bounds
         solver.add(vars["cascade_prevention_rate"] >= 0.0, vars["cascade_prevention_rate"] <= 1.0)
@@ -584,7 +613,7 @@ class ConsciousnessFormalVerifier:
             ("cascade_prevention", self.verify_cascade_prevention),
             ("constitutional_monotonicity", self.verify_constitutional_monotonicity),
             ("trinity_framework_compliance", self.verify_trinity_framework_compliance),
-            ("meta_learning_convergence", self.verify_meta_learning_convergence)
+            ("meta_learning_convergence", self.verify_meta_learning_convergence),
         ]
 
         results = {}
@@ -610,7 +639,7 @@ class ConsciousnessFormalVerifier:
                     proof_time=0.0,
                     counterexample={"error": str(e)},
                     verification_method="z3_smt_solver",
-                    confidence_level="verification_error"
+                    confidence_level="verification_error",
                 )
 
         total_time = time.time() - total_start_time
@@ -629,13 +658,14 @@ class ConsciousnessFormalVerifier:
             "total_properties": total_properties,
             "verified_properties": verified_properties,
             "success_rate": verified_properties / total_properties,
-            "total_time": total_time
+            "total_time": total_time,
         }
 
         return results
 
 
 # Test Cases
+
 
 @pytest.mark.skipif(not Z3_AVAILABLE, reason="Z3 not available for formal verification")
 def test_formal_verification_coherence_invariant():
@@ -754,11 +784,7 @@ def test_complete_formal_verification_suite():
     print(f"   Total time: {summary['total_time']:.3f}s")
 
     # Check critical properties are verified
-    critical_properties = [
-        "coherence_invariant",
-        "ethics_invariant",
-        "trinity_framework_compliance"
-    ]
+    critical_properties = ["coherence_invariant", "ethics_invariant", "trinity_framework_compliance"]
 
     for prop in critical_properties:
         if prop in results:
@@ -768,8 +794,7 @@ def test_complete_formal_verification_suite():
     assert summary["success_rate"] >= 0.8, f"Formal verification success rate too low: {summary['success_rate']:.1%}"
 
     # Log any unverified properties
-    unverified = [name for name, result in results.items()
-                 if name != "_summary" and not result.verified]
+    unverified = [name for name, result in results.items() if name != "_summary" and not result.verified]
 
     if unverified:
         print(f"\n⚠️ Unverified properties: {unverified}")

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class TierManager:
@@ -145,8 +145,8 @@ class TierManager:
             user_tier_data = {
                 "user_id": user_id,
                 "tier": tier,
-                "registered_at": datetime.now().isoformat(),
-                "last_updated": datetime.now().isoformat(),
+                "registered_at": datetime.now(timezone.utc).isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
                 "subscription_data": subscription_data or {},
                 "usage_stats": {
                     "messages_received": 0,
@@ -158,7 +158,7 @@ class TierManager:
                 "tier_history": [
                     {
                         "tier": tier,
-                        "started_at": datetime.now().isoformat(),
+                        "started_at": datetime.now(timezone.utc).isoformat(),
                         "reason": "initial_registration",
                     }
                 ],
@@ -208,13 +208,13 @@ class TierManager:
 
             # Update tier
             user_data["tier"] = new_tier
-            user_data["last_updated"] = datetime.now().isoformat()
+            user_data["last_updated"] = datetime.now(timezone.utc).isoformat()
 
             # Add to tier history
             user_data["tier_history"].append(
                 {
                     "tier": new_tier,
-                    "started_at": datetime.now().isoformat(),
+                    "started_at": datetime.now(timezone.utc).isoformat(),
                     "previous_tier": old_tier,
                     "reason": reason,
                 }
@@ -294,8 +294,8 @@ class TierManager:
         usage = user_data["usage_stats"]
 
         # Check daily/monthly limits
-        datetime.now().date()
-        datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        datetime.now(timezone.utc).date()
+        datetime.now(timezone.utc).replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
         if action == "message_delivery":
             daily_limit = config["limits"].get("daily_messages")
@@ -338,7 +338,7 @@ class TierManager:
             return
 
         usage = user_data["usage_stats"]
-        usage["last_activity"] = datetime.now().isoformat()
+        usage["last_activity"] = datetime.now(timezone.utc).isoformat()
 
         if action == "message_received":
             usage["messages_received"] = usage.get("messages_received", 0) + 1
@@ -400,7 +400,7 @@ class TierManager:
 
     async def get_tier_analytics(self, days: int = 30) -> dict[str, Any]:
         """Get analytics across all tiers"""
-        datetime.now() - timedelta(days=days)
+        datetime.now(timezone.utc) - timedelta(days=days)
 
         tier_stats = {"T1": 0, "T2": 0, "T3": 0}
         total_revenue = 0
@@ -468,7 +468,7 @@ class TierManager:
 
         self.subscription_analytics["tier_changes"].append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "old_tier": old_tier,
                 "new_tier": new_tier,
                 "reason": reason,

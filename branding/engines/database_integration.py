@@ -195,12 +195,14 @@ class LukhasDatabaseIntegration:
                 (system_name,),
             )
         else:
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT source_system, metric_type, metric_value, recorded_at
                 FROM lukhas_analytics
                 ORDER BY recorded_at DESC
                 LIMIT 100
-            """)
+            """
+            )
 
         rows = cursor.fetchall()
         conn.close()

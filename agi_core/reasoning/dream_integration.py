@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional, Union
 # Import dream system components
 try:
     from symbolic.vocabularies.dream_vocabulary import DreamVocabulary
+
     DREAM_VOCAB_AVAILABLE = True
 except ImportError:
     DREAM_VOCAB_AVAILABLE = False
@@ -26,17 +27,19 @@ logger = logging.getLogger(__name__)
 
 class DreamReasoningMode(Enum):
     """Different modes of dream-enhanced reasoning"""
-    PATTERN_DISCOVERY = "pattern_discovery"      # Find hidden patterns
-    CREATIVE_SYNTHESIS = "creative_synthesis"    # Combine ideas creatively
-    INSIGHT_GENERATION = "insight_generation"    # Generate novel insights
-    SCENARIO_EXPLORATION = "scenario_exploration" # Explore what-if scenarios
-    PROBLEM_REFRAMING = "problem_reframing"      # View problem differently
+
+    PATTERN_DISCOVERY = "pattern_discovery"  # Find hidden patterns
+    CREATIVE_SYNTHESIS = "creative_synthesis"  # Combine ideas creatively
+    INSIGHT_GENERATION = "insight_generation"  # Generate novel insights
+    SCENARIO_EXPLORATION = "scenario_exploration"  # Explore what-if scenarios
+    PROBLEM_REFRAMING = "problem_reframing"  # View problem differently
     SOLUTION_VALIDATION = "solution_validation"  # Test solutions in dream space
 
 
 @dataclass
 class DreamInsight:
     """A single insight from the dream system"""
+
     insight_type: str
     content: str
     confidence: float
@@ -51,6 +54,7 @@ class DreamInsight:
 @dataclass
 class DreamSession:
     """A complete dream reasoning session"""
+
     session_id: str
     problem_context: str
     mode: DreamReasoningMode
@@ -84,8 +88,7 @@ class DreamReasoningBridge:
         else:
             logger.warning("🌙 Dream vocabulary not available, using fallback mode")
 
-    async def start_dream_session(self, problem_context: str,
-                                mode: DreamReasoningMode) -> str:
+    async def start_dream_session(self, problem_context: str, mode: DreamReasoningMode) -> str:
         """
         Start a new dream reasoning session
 
@@ -97,13 +100,10 @@ class DreamReasoningBridge:
             Session ID for tracking the dream session
         """
         import time
+
         session_id = f"dream_{int(time.time() * 1000)}"
 
-        session = DreamSession(
-            session_id=session_id,
-            problem_context=problem_context,
-            mode=mode
-        )
+        session = DreamSession(session_id=session_id, problem_context=problem_context, mode=mode)
 
         self.sessions[session_id] = session
 
@@ -147,8 +147,9 @@ class DreamReasoningBridge:
                 processing_time = (end_time - start_time) * 1000
                 session.total_processing_time_ms += processing_time
 
-                logger.debug(f"🌙 Generated insight: {insight.content[:100]}... "
-                           f"(confidence: {insight.confidence:.3f})")
+                logger.debug(
+                    f"🌙 Generated insight: {insight.content[:100]}... " f"(confidence: {insight.confidence:.3f})"
+                )
 
                 return insight
 
@@ -173,11 +174,11 @@ class DreamReasoningBridge:
 
         # Dream phases from the vocabulary system
         dream_phases = [
-            "initiation",      # Gentle awakening to the problem space
-            "pattern",         # Pattern recognition and connection discovery
-            "deep_symbolic",   # Deep symbolic processing and archetypal insights
-            "creative",        # Creative synthesis and novel combinations
-            "integration"      # Integration of insights into actionable wisdom
+            "initiation",  # Gentle awakening to the problem space
+            "pattern",  # Pattern recognition and connection discovery
+            "deep_symbolic",  # Deep symbolic processing and archetypal insights
+            "creative",  # Creative synthesis and novel combinations
+            "integration",  # Integration of insights into actionable wisdom
         ]
 
         explored_phases = []
@@ -233,7 +234,7 @@ class DreamReasoningBridge:
                         "confidence": insight.confidence,
                         "patterns": insight.patterns_discovered,
                         "emotions": insight.emotions,
-                        "narrative": insight.narrative
+                        "narrative": insight.narrative,
                     }
 
                     logger.debug(f"🌙 Simulated scenario {i+1}: {scenario[:50]}...")
@@ -276,15 +277,11 @@ class DreamReasoningBridge:
             "dream_phases_explored": len(session.dream_phases),
             "creativity_score": session.creativity_score,
             "top_insights": [
-                {
-                    "content": insight.content,
-                    "confidence": insight.confidence,
-                    "patterns": insight.patterns_discovered
-                }
+                {"content": insight.content, "confidence": insight.confidence, "patterns": insight.patterns_discovered}
                 for insight in sorted(session.insights, key=lambda x: x.confidence, reverse=True)[:3]
             ],
             "dream_phase_journey": session.dream_phases,
-            "created_at": session.created_at.isoformat()
+            "created_at": session.created_at.isoformat(),
         }
 
         return summary
@@ -301,14 +298,14 @@ class DreamReasoningBridge:
         """
         if session_id in self.sessions:
             session = self.sessions[session_id]
-            logger.info(f"🌙 Ending dream session {session_id} with "
-                       f"{len(session.insights)} insights generated")
+            logger.info(f"🌙 Ending dream session {session_id} with " f"{len(session.insights)} insights generated")
             del self.sessions[session_id]
             return True
         return False
 
-    async def _generate_mode_specific_insight(self, session: DreamSession,
-                                           insight_request: str) -> Optional[DreamInsight]:
+    async def _generate_mode_specific_insight(
+        self, session: DreamSession, insight_request: str
+    ) -> Optional[DreamInsight]:
         """Generate insight based on the session mode"""
 
         mode_generators = {
@@ -317,14 +314,13 @@ class DreamReasoningBridge:
             DreamReasoningMode.INSIGHT_GENERATION: self._generate_general_insight,
             DreamReasoningMode.SCENARIO_EXPLORATION: self._generate_scenario_insight,
             DreamReasoningMode.PROBLEM_REFRAMING: self._generate_reframing_insight,
-            DreamReasoningMode.SOLUTION_VALIDATION: self._generate_validation_insight
+            DreamReasoningMode.SOLUTION_VALIDATION: self._generate_validation_insight,
         }
 
         generator = mode_generators.get(session.mode, self._generate_general_insight)
         return await generator(session, insight_request)
 
-    async def _generate_pattern_insight(self, session: DreamSession,
-                                      request: str) -> DreamInsight:
+    async def _generate_pattern_insight(self, session: DreamSession, request: str) -> DreamInsight:
         """Generate pattern discovery insights"""
 
         patterns = [
@@ -332,10 +328,11 @@ class DreamReasoningBridge:
             "temporal correlation pattern",
             "causal chain identified",
             "emergent property pattern",
-            "self-similarity observed"
+            "self-similarity observed",
         ]
 
         import random
+
         discovered_patterns = random.sample(patterns, random.randint(1, 3))
 
         content = f"Pattern analysis reveals: {', '.join(discovered_patterns)}. "
@@ -349,11 +346,10 @@ class DreamReasoningBridge:
             narrative=self._get_narrative("pattern"),
             visual_hint=self._get_visual_hint("pattern"),
             patterns_discovered=discovered_patterns,
-            emotions={"curiosity": 0.8, "excitement": 0.6}
+            emotions={"curiosity": 0.8, "excitement": 0.6},
         )
 
-    async def _generate_creative_insight(self, session: DreamSession,
-                                       request: str) -> DreamInsight:
+    async def _generate_creative_insight(self, session: DreamSession, request: str) -> DreamInsight:
         """Generate creative synthesis insights"""
 
         creative_ideas = [
@@ -361,10 +357,11 @@ class DreamReasoningBridge:
             "metaphorical bridge connection",
             "recursive elegance pattern",
             "emergent simplification",
-            "paradox resolution"
+            "paradox resolution",
         ]
 
         import random
+
         selected_ideas = random.sample(creative_ideas, random.randint(1, 2))
 
         content = f"Creative synthesis suggests: {', '.join(selected_ideas)}. "
@@ -378,21 +375,21 @@ class DreamReasoningBridge:
             narrative=self._get_narrative("creative"),
             visual_hint=self._get_visual_hint("creative"),
             patterns_discovered=selected_ideas,
-            emotions={"inspiration": 0.9, "joy": 0.7, "wonder": 0.8}
+            emotions={"inspiration": 0.9, "joy": 0.7, "wonder": 0.8},
         )
 
-    async def _generate_general_insight(self, session: DreamSession,
-                                      request: str) -> DreamInsight:
+    async def _generate_general_insight(self, session: DreamSession, request: str) -> DreamInsight:
         """Generate general insights"""
 
         insights = [
             "multidimensional perspective reveals hidden aspects",
             "system boundaries may be more fluid than assumed",
             "solution elegance emerges from constraint alignment",
-            "recursive patterns indicate self-organizing principles"
+            "recursive patterns indicate self-organizing principles",
         ]
 
         import random
+
         content = random.choice(insights)
 
         return DreamInsight(
@@ -403,11 +400,10 @@ class DreamReasoningBridge:
             narrative=self._get_narrative("integration"),
             visual_hint=self._get_visual_hint("integration"),
             patterns_discovered=["general_pattern"],
-            emotions={"understanding": 0.7, "peace": 0.6}
+            emotions={"understanding": 0.7, "peace": 0.6},
         )
 
-    async def _generate_scenario_insight(self, session: DreamSession,
-                                       request: str) -> DreamInsight:
+    async def _generate_scenario_insight(self, session: DreamSession, request: str) -> DreamInsight:
         """Generate scenario exploration insights"""
 
         scenario_outcomes = [
@@ -415,10 +411,11 @@ class DreamReasoningBridge:
             "unexpected equilibrium point",
             "phase transition threshold",
             "cascade effect propagation",
-            "emergent stability region"
+            "emergent stability region",
         ]
 
         import random
+
         outcome = random.choice(scenario_outcomes)
 
         content = f"Scenario exploration reveals: {outcome}. "
@@ -432,11 +429,10 @@ class DreamReasoningBridge:
             narrative=self._get_narrative("deep_symbolic"),
             visual_hint=self._get_visual_hint("deep_symbolic"),
             patterns_discovered=[outcome],
-            emotions={"anticipation": 0.7, "curiosity": 0.8}
+            emotions={"anticipation": 0.7, "curiosity": 0.8},
         )
 
-    async def _generate_reframing_insight(self, session: DreamSession,
-                                        request: str) -> DreamInsight:
+    async def _generate_reframing_insight(self, session: DreamSession, request: str) -> DreamInsight:
         """Generate problem reframing insights"""
 
         reframes = [
@@ -444,10 +440,11 @@ class DreamReasoningBridge:
             "problem inverts to solution",
             "local optimum reveals global pattern",
             "exception illuminates the rule",
-            "question transforms into answer"
+            "question transforms into answer",
         ]
 
         import random
+
         reframe = random.choice(reframes)
 
         content = f"Reframing perspective: {reframe}. "
@@ -461,11 +458,10 @@ class DreamReasoningBridge:
             narrative=self._get_narrative("creative"),
             visual_hint=self._get_visual_hint("creative"),
             patterns_discovered=[reframe],
-            emotions={"breakthrough": 0.9, "clarity": 0.8}
+            emotions={"breakthrough": 0.9, "clarity": 0.8},
         )
 
-    async def _generate_validation_insight(self, session: DreamSession,
-                                         request: str) -> DreamInsight:
+    async def _generate_validation_insight(self, session: DreamSession, request: str) -> DreamInsight:
         """Generate solution validation insights"""
 
         validations = [
@@ -473,10 +469,11 @@ class DreamReasoningBridge:
             "approach scales gracefully",
             "edge cases handled elegantly",
             "resource efficiency optimized",
-            "robustness criteria satisfied"
+            "robustness criteria satisfied",
         ]
 
         import random
+
         validation = random.choice(validations)
 
         content = f"Solution validation confirms: {validation}. "
@@ -490,7 +487,7 @@ class DreamReasoningBridge:
             narrative=self._get_narrative("integration"),
             visual_hint=self._get_visual_hint("integration"),
             patterns_discovered=[validation],
-            emotions={"confidence": 0.9, "satisfaction": 0.7}
+            emotions={"confidence": 0.9, "satisfaction": 0.7},
         )
 
     async def _generate_phase_insight(self, session: DreamSession, phase: str) -> Optional[DreamInsight]:
@@ -501,7 +498,7 @@ class DreamReasoningBridge:
             "pattern": "hidden connections between disparate elements emerge",
             "deep_symbolic": "archetypal patterns reveal universal principles",
             "creative": "novel combinations birth unprecedented possibilities",
-            "integration": "scattered insights crystallize into coherent wisdom"
+            "integration": "scattered insights crystallize into coherent wisdom",
         }
 
         content = phase_insights.get(phase, "phase-specific insight generated")
@@ -514,7 +511,7 @@ class DreamReasoningBridge:
             narrative=self._get_narrative(phase),
             visual_hint=self._get_visual_hint(phase),
             patterns_discovered=[f"{phase}_pattern"],
-            emotions={phase: 0.8, "flow": 0.7}
+            emotions={phase: 0.8, "flow": 0.7},
         )
 
     def _calculate_creativity_score(self, session: DreamSession) -> float:
@@ -568,5 +565,5 @@ class DreamReasoningBridge:
             "successful_insights": self.successful_insights,
             "insight_success_rate": success_rate,
             "dream_vocabulary_available": DREAM_VOCAB_AVAILABLE,
-            "supported_modes": [mode.value for mode in DreamReasoningMode]
+            "supported_modes": [mode.value for mode in DreamReasoningMode],
         }

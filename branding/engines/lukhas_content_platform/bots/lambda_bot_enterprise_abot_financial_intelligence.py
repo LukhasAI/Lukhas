@@ -10,7 +10,7 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime
 
-logger = logging.getLogger("ABotFinancialIntelligence")
+logger = logging.getLogger("ABotFinancialIntelligence", timezone)
 
 
 @dataclass
@@ -94,13 +94,13 @@ class ABotFinancialIntelligence:
 
     def _refresh_daily_budget(self):
         """Refresh daily budget and accumulate unused funds"""
-        today = datetime.now().strftime("%Y-%m-%d")
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
         if self.metrics.last_budget_refresh != today:
             # Calculate days since last refresh
             if self.metrics.last_budget_refresh:
                 last_date = datetime.strptime(self.metrics.last_budget_refresh, "%Y-%m-%d")
-                days_passed = (datetime.now() - last_date).days
+                days_passed = (datetime.now(timezone.utc) - last_date).days
             else:
                 days_passed = 1
 
@@ -259,14 +259,14 @@ class ABotFinancialIntelligence:
         self._refresh_daily_budget()
 
         # Calculate projections
-        daily_average = self.metrics.month_spent / max(datetime.now().day, 1)
+        daily_average = self.metrics.month_spent / max(datetime.now(timezone.utc).day, 1)
         monthly_projection = daily_average * 30
         days_remaining_at_current_rate = (
             self.metrics.current_balance / daily_average if daily_average > 0 else float("inf")
         )
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "budget_status": {
                 "current_balance": self.metrics.current_balance,
                 "daily_budget": self.metrics.daily_budget,

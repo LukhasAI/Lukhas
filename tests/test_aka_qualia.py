@@ -586,8 +586,7 @@ class TestT1T2Integration:
         if scene.risk.severity == SeverityLevel.HIGH:
             # Either blocked (neutralized) or sublimated
             assert (
-                scene.proto.arousal < 0.9  # Sublimated arousal
-                or len(scene.transform_chain) > 0
+                scene.proto.arousal < 0.9 or len(scene.transform_chain) > 0  # Sublimated arousal
             )  # Transform applied
 
         # Should generate appropriate glyphs

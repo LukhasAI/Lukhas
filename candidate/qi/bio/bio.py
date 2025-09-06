@@ -248,7 +248,9 @@ class MitochondrialQIBridge:
             simulated_proton_gradient,
             (0, max(0, 3 - len(simulated_proton_gradient))),
             "constant",
-        )[:3]  # type: ignore
+        )[
+            :3
+        ]  # type: ignore
         self.complex_states["complex_v_atp_synthase"] = self.qi_oscillator.qi_modulate(
             np.concatenate([padded_gradient, [1.0, 0.7]])
         )

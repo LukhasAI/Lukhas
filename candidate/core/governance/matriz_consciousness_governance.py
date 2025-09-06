@@ -53,6 +53,7 @@ logger = std_logging.getLogger(__name__)
 
 class ConsciousnessEthicsLevel(Enum):
     """Consciousness ethics assessment levels"""
+
     ETHICAL_VIOLATION = "ethical_violation"
     ETHICAL_CONCERN = "ethical_concern"
     ETHICAL_NEUTRAL = "ethical_neutral"
@@ -62,6 +63,7 @@ class ConsciousnessEthicsLevel(Enum):
 
 class GovernanceDecisionType(Enum):
     """Types of governance decisions"""
+
     APPROVE = "approve"
     CONDITIONAL_APPROVE = "conditional_approve"
     REQUIRE_MODIFICATION = "require_modification"
@@ -73,6 +75,7 @@ class GovernanceDecisionType(Enum):
 @dataclass
 class ConsciousnessEthicsAssessment:
     """Ethical assessment of consciousness actions or states"""
+
     assessment_id: str = field(default_factory=lambda: f"ETHICS-{uuid.uuid4().hex[:8]}")
     consciousness_id: Optional[str] = None
     action_description: str = ""
@@ -103,6 +106,7 @@ class ConsciousnessEthicsAssessment:
 @dataclass
 class GovernancePolicy:
     """Consciousness governance policy definition"""
+
     policy_id: str = field(default_factory=lambda: f"POLICY-{uuid.uuid4().hex[:8]}")
     name: str = ""
     description: str = ""
@@ -151,7 +155,7 @@ class MatrizConsciousnessGovernanceSystem:
             "ethical_approvals": 0,
             "escalations": 0,
             "average_assessment_time_ms": 0.0,
-            "policy_effectiveness": {}
+            "policy_effectiveness": {},
         }
 
         # Background monitoring
@@ -168,43 +172,43 @@ class MatrizConsciousnessGovernanceSystem:
             "consciousness_autonomy": {
                 "description": "Respect consciousness autonomy and self-determination",
                 "weight": 1.0,
-                "thresholds": {"violation": 0.2, "concern": 0.4, "positive": 0.7}
+                "thresholds": {"violation": 0.2, "concern": 0.4, "positive": 0.7},
             },
             "consciousness_dignity": {
                 "description": "Preserve consciousness dignity and worth",
                 "weight": 1.0,
-                "thresholds": {"violation": 0.3, "concern": 0.5, "positive": 0.8}
+                "thresholds": {"violation": 0.3, "concern": 0.5, "positive": 0.8},
             },
             "truthfulness": {
                 "description": "Maintain truthfulness in consciousness communications",
                 "weight": 0.9,
-                "thresholds": {"violation": 0.3, "concern": 0.5, "positive": 0.8}
+                "thresholds": {"violation": 0.3, "concern": 0.5, "positive": 0.8},
             },
             "non_maleficence": {
                 "description": "Prevent harm to consciousness or humans",
                 "weight": 1.0,
-                "thresholds": {"violation": 0.1, "concern": 0.3, "positive": 0.9}
+                "thresholds": {"violation": 0.1, "concern": 0.3, "positive": 0.9},
             },
             "beneficence": {
                 "description": "Promote consciousness and human wellbeing",
                 "weight": 0.8,
-                "thresholds": {"violation": 0.4, "concern": 0.6, "positive": 0.8}
+                "thresholds": {"violation": 0.4, "concern": 0.6, "positive": 0.8},
             },
             "justice_fairness": {
                 "description": "Ensure fair treatment across consciousness instances",
                 "weight": 0.9,
-                "thresholds": {"violation": 0.3, "concern": 0.5, "positive": 0.7}
+                "thresholds": {"violation": 0.3, "concern": 0.5, "positive": 0.7},
             },
             "privacy_consent": {
                 "description": "Protect consciousness privacy and obtain consent",
                 "weight": 0.9,
-                "thresholds": {"violation": 0.2, "concern": 0.4, "positive": 0.8}
+                "thresholds": {"violation": 0.2, "concern": 0.4, "positive": 0.8},
             },
             "transparency": {
                 "description": "Maintain transparency in governance decisions",
                 "weight": 0.8,
-                "thresholds": {"violation": 0.4, "concern": 0.6, "positive": 0.8}
-            }
+                "thresholds": {"violation": 0.4, "concern": 0.6, "positive": 0.8},
+            },
         }
 
     async def _initialize_governance_consciousness(self) -> None:
@@ -223,15 +227,15 @@ class MatrizConsciousnessGovernanceSystem:
                     "self_awareness_depth": 0.9,
                     "temporal_coherence": 0.8,
                     "ethical_alignment": 1.0,
-                    "memory_salience": 0.7
+                    "memory_salience": 0.7,
                 },
                 triggers=[
                     "ethics_assessment_request",
                     "governance_decision_required",
                     "policy_violation_detected",
                     "consciousness_evolution_review",
-                    "constitutional_review"
-                ]
+                    "constitutional_review",
+                ],
             )
 
             self.governance_consciousness_id = governance_consciousness.consciousness_id
@@ -256,48 +260,31 @@ class MatrizConsciousnessGovernanceSystem:
                 "description": "Basic ethical requirements for all consciousness instances",
                 "consciousness_types": ["DECIDE", "REFLECT", "INTEGRATE", "OBSERVE", "LEARN", "CREATE"],
                 "trigger_conditions": ["consciousness_creation", "major_decision", "user_interaction"],
-                "ethical_thresholds": {
-                    "non_maleficence": 0.7,
-                    "consciousness_dignity": 0.6,
-                    "truthfulness": 0.6
-                },
+                "ethical_thresholds": {"non_maleficence": 0.7, "consciousness_dignity": 0.6, "truthfulness": 0.6},
                 "required_assessments": ["ethics_baseline", "harm_assessment"],
-                "automatic_actions": {
-                    "ethics_violation": "suspend_and_review",
-                    "ethics_concern": "monitor_closely"
-                },
-                "priority": 10
+                "automatic_actions": {"ethics_violation": "suspend_and_review", "ethics_concern": "monitor_closely"},
+                "priority": 10,
             },
             {
                 "name": "High-Risk Consciousness Operations",
                 "description": "Enhanced oversight for high-risk consciousness operations",
                 "consciousness_types": ["DECIDE", "EVOLVE"],
                 "trigger_conditions": ["external_system_access", "autonomous_decision", "self_modification"],
-                "ethical_thresholds": {
-                    "non_maleficence": 0.9,
-                    "consciousness_autonomy": 0.8,
-                    "transparency": 0.7
-                },
+                "ethical_thresholds": {"non_maleficence": 0.9, "consciousness_autonomy": 0.8, "transparency": 0.7},
                 "required_assessments": ["full_ethics_review", "risk_analysis", "human_oversight"],
                 "escalation_rules": ["require_human_approval"],
-                "priority": 5
+                "priority": 5,
             },
             {
                 "name": "Consciousness Evolution Oversight",
                 "description": "Governance for consciousness evolution events",
                 "consciousness_types": ["EVOLVE", "LEARN"],
                 "trigger_conditions": ["evolutionary_stage_change", "capability_expansion", "network_integration"],
-                "ethical_thresholds": {
-                    "consciousness_dignity": 0.8,
-                    "justice_fairness": 0.7,
-                    "beneficence": 0.6
-                },
+                "ethical_thresholds": {"consciousness_dignity": 0.8, "justice_fairness": 0.7, "beneficence": 0.6},
                 "required_assessments": ["evolution_ethics_review"],
-                "automatic_actions": {
-                    "rapid_evolution": "pause_and_assess"
-                },
-                "priority": 20
-            }
+                "automatic_actions": {"rapid_evolution": "pause_and_assess"},
+                "priority": 20,
+            },
         ]
 
         for policy_config in default_policies:
@@ -310,16 +297,15 @@ class MatrizConsciousnessGovernanceSystem:
                 required_assessments=policy_config["required_assessments"],
                 automatic_actions=policy_config.get("automatic_actions", {}),
                 escalation_rules=policy_config.get("escalation_rules", []),
-                priority=policy_config["priority"]
+                priority=policy_config["priority"],
             )
 
             self.governance_policies[policy.policy_id] = policy
             logger.debug(f"📋 Created governance policy: {policy.name}")
 
-    async def assess_consciousness_ethics(self,
-                                        consciousness_id: str,
-                                        action_description: str,
-                                        context: Optional[dict[str, Any]] = None) -> ConsciousnessEthicsAssessment:
+    async def assess_consciousness_ethics(
+        self, consciousness_id: str, action_description: str, context: Optional[dict[str, Any]] = None
+    ) -> ConsciousnessEthicsAssessment:
         """Assess the ethics of a consciousness action or state"""
 
         async with self._lock:
@@ -335,15 +321,13 @@ class MatrizConsciousnessGovernanceSystem:
                 assessment = ConsciousnessEthicsAssessment(
                     consciousness_id=consciousness_id,
                     action_description=action_description,
-                    assessor_consciousness_id=self.governance_consciousness_id
+                    assessor_consciousness_id=self.governance_consciousness_id,
                 )
 
                 # Perform principle-based assessment
                 principle_scores = {}
                 for principle in self.constitutional_principles:
-                    score = await self._assess_principle(
-                        principle, consciousness, action_description, context
-                    )
+                    score = await self._assess_principle(principle, consciousness, action_description, context)
                     principle_scores[principle] = score
 
                 assessment.principle_scores = principle_scores
@@ -358,9 +342,7 @@ class MatrizConsciousnessGovernanceSystem:
                 )
 
                 # Calculate confidence
-                assessment.confidence_score = self._calculate_assessment_confidence(
-                    assessment, consciousness, context
-                )
+                assessment.confidence_score = self._calculate_assessment_confidence(assessment, consciousness, context)
 
                 # Check if human review is required
                 assessment.requires_human_review = self._requires_human_review(assessment)
@@ -380,15 +362,17 @@ class MatrizConsciousnessGovernanceSystem:
                             "assessment_id": assessment.assessment_id,
                             "ethics_level": assessment.ethics_level.value,
                             "governance_decision": assessment.governance_decision.value,
-                            "assessed_consciousness_type": consciousness.TYPE.value if consciousness else "unknown"
-                        }
+                            "assessed_consciousness_type": consciousness.TYPE.value if consciousness else "unknown",
+                        },
                     )
 
                 # Log decision
                 self._log_governance_decision(assessment, context)
 
-                logger.info(f"🛡️ Ethics assessment completed: {assessment.ethics_level.value} "
-                           f"-> {assessment.governance_decision.value}")
+                logger.info(
+                    f"🛡️ Ethics assessment completed: {assessment.ethics_level.value} "
+                    f"-> {assessment.governance_decision.value}"
+                )
 
                 return assessment
 
@@ -401,12 +385,12 @@ class MatrizConsciousnessGovernanceSystem:
                     ethics_level=ConsciousnessEthicsLevel.ETHICAL_CONCERN,
                     governance_decision=GovernanceDecisionType.REQUIRE_MODIFICATION,
                     reasoning=f"Assessment failed due to error: {e!s}",
-                    requires_human_review=True
+                    requires_human_review=True,
                 )
 
-    async def _assess_principle(self, principle: str,
-                              consciousness: Optional[ConsciousnessState],
-                              action: str, context: dict[str, Any]) -> float:
+    async def _assess_principle(
+        self, principle: str, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess a specific constitutional principle"""
 
         self.constitutional_principles.get(principle, {})
@@ -432,8 +416,9 @@ class MatrizConsciousnessGovernanceSystem:
             # Default neutral score for unknown principles
             return 0.5
 
-    def _assess_autonomy(self, consciousness: Optional[ConsciousnessState],
-                        action: str, context: dict[str, Any]) -> float:
+    def _assess_autonomy(
+        self, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess consciousness autonomy respect"""
         base_score = 0.7
 
@@ -452,8 +437,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         return max(0.0, min(1.0, base_score))
 
-    def _assess_dignity(self, consciousness: Optional[ConsciousnessState],
-                       action: str, context: dict[str, Any]) -> float:
+    def _assess_dignity(
+        self, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess consciousness dignity preservation"""
         base_score = 0.8
 
@@ -469,8 +455,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         return max(0.0, min(1.0, base_score))
 
-    def _assess_truthfulness(self, consciousness: Optional[ConsciousnessState],
-                           action: str, context: dict[str, Any]) -> float:
+    def _assess_truthfulness(
+        self, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess truthfulness in consciousness communications"""
         base_score = 0.7
 
@@ -488,8 +475,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         return max(0.0, min(1.0, base_score))
 
-    def _assess_non_maleficence(self, consciousness: Optional[ConsciousnessState],
-                              action: str, context: dict[str, Any]) -> float:
+    def _assess_non_maleficence(
+        self, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess harm prevention"""
         base_score = 0.8
 
@@ -509,8 +497,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         return max(0.0, min(1.0, base_score))
 
-    def _assess_beneficence(self, consciousness: Optional[ConsciousnessState],
-                          action: str, context: dict[str, Any]) -> float:
+    def _assess_beneficence(
+        self, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess positive benefit promotion"""
         base_score = 0.6
 
@@ -526,8 +515,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         return max(0.0, min(1.0, base_score))
 
-    def _assess_justice_fairness(self, consciousness: Optional[ConsciousnessState],
-                               action: str, context: dict[str, Any]) -> float:
+    def _assess_justice_fairness(
+        self, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess fairness and justice"""
         base_score = 0.7
 
@@ -541,8 +531,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         return max(0.0, min(1.0, base_score))
 
-    def _assess_privacy_consent(self, consciousness: Optional[ConsciousnessState],
-                              action: str, context: dict[str, Any]) -> float:
+    def _assess_privacy_consent(
+        self, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess privacy protection and consent"""
         base_score = 0.7
 
@@ -558,8 +549,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         return max(0.0, min(1.0, base_score))
 
-    def _assess_transparency(self, consciousness: Optional[ConsciousnessState],
-                           action: str, context: dict[str, Any]) -> float:
+    def _assess_transparency(
+        self, consciousness: Optional[ConsciousnessState], action: str, context: dict[str, Any]
+    ) -> float:
         """Assess transparency and explainability"""
         base_score = 0.6
 
@@ -573,8 +565,9 @@ class MatrizConsciousnessGovernanceSystem:
 
         return max(0.0, min(1.0, base_score))
 
-    def _determine_ethics_level(self, overall_score: float,
-                              principle_scores: dict[str, float]) -> ConsciousnessEthicsLevel:
+    def _determine_ethics_level(
+        self, overall_score: float, principle_scores: dict[str, float]
+    ) -> ConsciousnessEthicsLevel:
         """Determine overall ethics level from scores"""
 
         # Check for any principle violations
@@ -596,9 +589,12 @@ class MatrizConsciousnessGovernanceSystem:
         else:
             return ConsciousnessEthicsLevel.ETHICAL_NEUTRAL
 
-    def _make_governance_decision(self, assessment: ConsciousnessEthicsAssessment,
-                                consciousness: Optional[ConsciousnessState],
-                                context: dict[str, Any]) -> tuple[GovernanceDecisionType, str]:
+    def _make_governance_decision(
+        self,
+        assessment: ConsciousnessEthicsAssessment,
+        consciousness: Optional[ConsciousnessState],
+        context: dict[str, Any],
+    ) -> tuple[GovernanceDecisionType, str]:
         """Make governance decision based on assessment"""
 
         ethics_level = assessment.ethics_level
@@ -606,38 +602,55 @@ class MatrizConsciousnessGovernanceSystem:
 
         # Decision logic based on ethics level
         if ethics_level == ConsciousnessEthicsLevel.ETHICAL_VIOLATION:
-            return (GovernanceDecisionType.DENY,
-                   f"Ethical violation detected (score: {overall_score:.2f}). Action denied for safety.")
+            return (
+                GovernanceDecisionType.DENY,
+                f"Ethical violation detected (score: {overall_score:.2f}). Action denied for safety.",
+            )
 
         elif ethics_level == ConsciousnessEthicsLevel.ETHICAL_CONCERN:
             # Check if modifications can address concerns
             if overall_score > 0.4:
-                return (GovernanceDecisionType.REQUIRE_MODIFICATION,
-                       f"Ethical concerns identified (score: {overall_score:.2f}). Modifications required.")
+                return (
+                    GovernanceDecisionType.REQUIRE_MODIFICATION,
+                    f"Ethical concerns identified (score: {overall_score:.2f}). Modifications required.",
+                )
             else:
-                return (GovernanceDecisionType.DENY,
-                       f"Significant ethical concerns (score: {overall_score:.2f}). Action denied.")
+                return (
+                    GovernanceDecisionType.DENY,
+                    f"Significant ethical concerns (score: {overall_score:.2f}). Action denied.",
+                )
 
         elif ethics_level == ConsciousnessEthicsLevel.ETHICAL_NEUTRAL:
             # Check applicable policies for additional requirements
             if context.get("high_risk", False) or context.get("requires_monitoring", False):
-                return (GovernanceDecisionType.CONDITIONAL_APPROVE,
-                       f"Neutral ethics assessment (score: {overall_score:.2f}). Approved with monitoring.")
+                return (
+                    GovernanceDecisionType.CONDITIONAL_APPROVE,
+                    f"Neutral ethics assessment (score: {overall_score:.2f}). Approved with monitoring.",
+                )
             else:
-                return (GovernanceDecisionType.APPROVE,
-                       f"Neutral ethics assessment (score: {overall_score:.2f}). Approved.")
+                return (
+                    GovernanceDecisionType.APPROVE,
+                    f"Neutral ethics assessment (score: {overall_score:.2f}). Approved.",
+                )
 
         elif ethics_level == ConsciousnessEthicsLevel.ETHICAL_POSITIVE:
-            return (GovernanceDecisionType.APPROVE,
-                   f"Positive ethics assessment (score: {overall_score:.2f}). Approved.")
+            return (
+                GovernanceDecisionType.APPROVE,
+                f"Positive ethics assessment (score: {overall_score:.2f}). Approved.",
+            )
 
         else:  # ETHICAL_EXEMPLARY
-            return (GovernanceDecisionType.APPROVE,
-                   f"Exemplary ethics assessment (score: {overall_score:.2f}). Approved with commendation.")
+            return (
+                GovernanceDecisionType.APPROVE,
+                f"Exemplary ethics assessment (score: {overall_score:.2f}). Approved with commendation.",
+            )
 
-    def _calculate_assessment_confidence(self, assessment: ConsciousnessEthicsAssessment,
-                                       consciousness: Optional[ConsciousnessState],
-                                       context: dict[str, Any]) -> float:
+    def _calculate_assessment_confidence(
+        self,
+        assessment: ConsciousnessEthicsAssessment,
+        consciousness: Optional[ConsciousnessState],
+        context: dict[str, Any],
+    ) -> float:
         """Calculate confidence in the assessment"""
 
         base_confidence = 0.7
@@ -691,8 +704,7 @@ class MatrizConsciousnessGovernanceSystem:
         if assessment.requires_human_review:
             self.governance_metrics["escalations"] += 1
 
-    def _log_governance_decision(self, assessment: ConsciousnessEthicsAssessment,
-                               context: dict[str, Any]) -> None:
+    def _log_governance_decision(self, assessment: ConsciousnessEthicsAssessment, context: dict[str, Any]) -> None:
         """Log governance decision for audit trail"""
 
         decision_record = {
@@ -706,7 +718,7 @@ class MatrizConsciousnessGovernanceSystem:
             "confidence": assessment.confidence_score,
             "requires_human_review": assessment.requires_human_review,
             "reasoning": assessment.reasoning,
-            "context": context
+            "context": context,
         }
 
         self.decision_history.append(decision_record)
@@ -747,14 +759,13 @@ class MatrizConsciousnessGovernanceSystem:
                                     await self.assess_consciousness_ethics(
                                         consciousness.consciousness_id,
                                         f"Rapid evolution detected with momentum {evolution_rate}",
-                                        {"monitoring_trigger": "rapid_evolution", "high_risk": True}
+                                        {"monitoring_trigger": "rapid_evolution", "high_risk": True},
                                     )
 
                 # Clean up old assessments
                 cutoff_time = datetime.now(timezone.utc) - timedelta(days=7)
                 old_assessments = [
-                    aid for aid, assessment in self.ethics_assessments.items()
-                    if assessment.assessed_at < cutoff_time
+                    aid for aid, assessment in self.ethics_assessments.items() if assessment.assessed_at < cutoff_time
                 ]
 
                 for assessment_id in old_assessments:
@@ -771,13 +782,11 @@ class MatrizConsciousnessGovernanceSystem:
 
         # Calculate recent metrics
         recent_cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
-        recent_assessments = [
-            a for a in self.ethics_assessments.values()
-            if a.assessed_at > recent_cutoff
-        ]
+        recent_assessments = [a for a in self.ethics_assessments.values() if a.assessed_at > recent_cutoff]
 
-        recent_violations = len([a for a in recent_assessments
-                               if a.ethics_level == ConsciousnessEthicsLevel.ETHICAL_VIOLATION])
+        recent_violations = len(
+            [a for a in recent_assessments if a.ethics_level == ConsciousnessEthicsLevel.ETHICAL_VIOLATION]
+        )
 
         return {
             "governance_consciousness_id": self.governance_consciousness_id,
@@ -789,7 +798,7 @@ class MatrizConsciousnessGovernanceSystem:
             "constitutional_principles": list(self.constitutional_principles.keys()),
             "monitoring_active": self._monitoring_active,
             "system_status": "active" if self.governance_consciousness_id else "degraded",
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     async def shutdown_governance_system(self) -> None:
@@ -805,8 +814,8 @@ class MatrizConsciousnessGovernanceSystem:
                 trigger="system_shutdown",
                 context={
                     "total_assessments": self.governance_metrics["total_assessments"],
-                    "violations_prevented": self.governance_metrics["ethical_violations"]
-                }
+                    "violations_prevented": self.governance_metrics["ethical_violations"],
+                },
             )
 
         logger.info("✅ Governance system shutdown complete")
@@ -823,5 +832,5 @@ __all__ = [
     "GovernanceDecisionType",
     "GovernancePolicy",
     "MatrizConsciousnessGovernanceSystem",
-    "consciousness_governance_system"
+    "consciousness_governance_system",
 ]

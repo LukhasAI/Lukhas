@@ -22,7 +22,7 @@ class ClaudeLUKHASIntegration:
     Creates a consciousness-aware development environment
     """
 
-    def __init__(self, journal_engine: Optional[JournalEngine] = None):
+    def __init__(self, journal_engine: Optional[JournalEngine] = None, timezone):
         self.journal = journal_engine or JournalEngine()
         self.assistant = LearningAssistant(self.journal)
         self.solo = SoloDeveloperSupport(self.journal)
@@ -128,7 +128,7 @@ class ClaudeLUKHASIntegration:
     def _measure_current_consciousness(self) -> float:
         """Measure current consciousness level based on recent activity"""
         # Analyze recent journal entries for consciousness indicators
-        recent_entries = self.journal.search(date_range=(datetime.now() - timedelta(hours=24), datetime.now()))
+        recent_entries = self.journal.search(date_range=(datetime.now(timezone.utc) - timedelta(hours=24), datetime.now(timezone.utc)))
 
         consciousness_score = 0.5  # Base level
 
@@ -265,7 +265,7 @@ class ClaudeLUKHASIntegration:
 
     def create_development_ritual(self, intention: str) -> dict[str, Any]:
         """Create a consciousness-aware development ritual"""
-        ritual = {"intention": intention, "timestamp": datetime.now(), "phases": []}
+        ritual = {"intention": intention, "timestamp": datetime.now(timezone.utc), "phases": []}
 
         # Phase 1: Grounding
         ritual["phases"].append(
@@ -432,13 +432,13 @@ class ClaudeLUKHASIntegration:
             insights.append("Creative potential high - explore unconventional solutions")
 
         metrics["insights"] = insights
-        metrics["timestamp"] = datetime.now()
+        metrics["timestamp"] = datetime.now(timezone.utc)
 
         return metrics
 
     def _calculate_emotional_coherence(self) -> float:
         """Calculate emotional coherence from recent entries"""
-        recent_entries = self.journal.search(date_range=(datetime.now() - timedelta(hours=12), datetime.now()))
+        recent_entries = self.journal.search(date_range=(datetime.now(timezone.utc) - timedelta(hours=12), datetime.now(timezone.utc)))
 
         if not recent_entries:
             return 0.5
@@ -469,7 +469,7 @@ class ClaudeLUKHASIntegration:
         # Check recent memory fold creation
         memory_entries = self.journal.search(
             query="memory_fold",
-            date_range=(datetime.now() - timedelta(days=7), datetime.now()),
+            date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc)),
         )
 
         if not memory_entries:
@@ -483,7 +483,7 @@ class ClaudeLUKHASIntegration:
         """Calculate innovation/dream score"""
         creative_entries = self.journal.search(
             query="creative OR innovative OR dream OR experiment",
-            date_range=(datetime.now() - timedelta(days=7), datetime.now()),
+            date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc)),
         )
 
         innovation_score = min(len(creative_entries) / 10, 1.0)

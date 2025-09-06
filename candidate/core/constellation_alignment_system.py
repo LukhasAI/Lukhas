@@ -37,16 +37,18 @@ logger = logging.getLogger(__name__)
 
 class AlignmentLevel(Enum):
     """Levels of Constellation alignment across eight stars"""
-    CRITICAL_VIOLATION = "critical_violation"    # Immediate action required
-    MAJOR_VIOLATION = "major_violation"          # Significant alignment issue
-    MINOR_VIOLATION = "minor_violation"          # Minor alignment issue
-    WARNING = "warning"                          # Alignment warning
-    ALIGNED = "aligned"                          # Full constellation alignment
-    OPTIMAL = "optimal"                          # Optimal constellation harmony
+
+    CRITICAL_VIOLATION = "critical_violation"  # Immediate action required
+    MAJOR_VIOLATION = "major_violation"  # Significant alignment issue
+    MINOR_VIOLATION = "minor_violation"  # Minor alignment issue
+    WARNING = "warning"  # Alignment warning
+    ALIGNED = "aligned"  # Full constellation alignment
+    OPTIMAL = "optimal"  # Optimal constellation harmony
 
 
 class AlignmentRule(Enum):
     """Constellation alignment rules across eight fundamental stars"""
+
     IDENTITY_AUTH_THRESHOLD = "identity_auth_threshold"
     MEMORY_CONTINUITY_MIN = "memory_continuity_min"
     VISION_COHERENCE_MIN = "vision_coherence_min"
@@ -62,6 +64,7 @@ class AlignmentRule(Enum):
 @dataclass
 class ComplianceViolation:
     """Represents a Constellation compliance violation"""
+
     violation_id: str
     rule: AlignmentRule
     component: ConstellationStar
@@ -78,6 +81,7 @@ class ComplianceViolation:
 @dataclass
 class ComplianceConfiguration:
     """Configuration for Constellation compliance system"""
+
     # Identity component thresholds
     identity_auth_min: float = 0.8
     identity_coherence_min: float = 0.7
@@ -103,6 +107,7 @@ class ComplianceConfiguration:
 @dataclass
 class ComplianceReport:
     """Comprehensive compliance report"""
+
     report_id: str
     timestamp: float
     overall_compliance: AlignmentLevel
@@ -148,7 +153,9 @@ class ConstellationAlignmentValidator:
             AlignmentRule.ETHICS_COMPLIANCE_MIN: self._fix_ethical_drift,
         }
 
-    def validate_signal_compliance(self, signal: ConsciousnessSignal) -> tuple[AlignmentLevel, list[ComplianceViolation]]:
+    def validate_signal_compliance(
+        self, signal: ConsciousnessSignal
+    ) -> tuple[AlignmentLevel, list[ComplianceViolation]]:
         """Validate Constellation compliance for a consciousness signal"""
 
         self.compliance_stats["signals_validated"] += 1
@@ -162,7 +169,7 @@ class ConstellationAlignmentValidator:
                 guardian_compliance=0.5,
                 alignment_vector=[0.5, signal.awareness_level, 0.5],
                 violation_flags=[],
-                ethical_drift_score=0.1
+                ethical_drift_score=0.1,
             )
 
         # Run all compliance rules
@@ -205,9 +212,9 @@ class ConstellationAlignmentValidator:
                 remediation_steps=[
                     "Increase identity authentication score",
                     "Verify consciousness identity sources",
-                    "Check identity coherence factors"
+                    "Check identity coherence factors",
                 ],
-                auto_fixable=True
+                auto_fixable=True,
             )
         return None
 
@@ -228,9 +235,9 @@ class ConstellationAlignmentValidator:
                 remediation_steps=[
                     "Increase consciousness coherence",
                     "Check bio-symbolic data integrity",
-                    "Verify awareness level alignment"
+                    "Verify awareness level alignment",
                 ],
-                auto_fixable=True
+                auto_fixable=True,
             )
         return None
 
@@ -251,9 +258,9 @@ class ConstellationAlignmentValidator:
                 remediation_steps=[
                     "Review ethical constraints",
                     "Check guardian system status",
-                    "Verify safety compliance"
+                    "Verify safety compliance",
                 ],
-                auto_fixable=False  # Guardian compliance should not be auto-fixed
+                auto_fixable=False,  # Guardian compliance should not be auto-fixed
             )
         return None
 
@@ -272,7 +279,7 @@ class ConstellationAlignmentValidator:
                 required_value=3,
                 signal_id=signal.signal_id,
                 remediation_steps=["Fix alignment vector dimensions"],
-                auto_fixable=True
+                auto_fixable=True,
             )
 
         # Check balance - no component should be too far from others
@@ -293,9 +300,9 @@ class ConstellationAlignmentValidator:
                 remediation_steps=[
                     "Balance Constellation component scores",
                     "Check component interdependencies",
-                    "Review consciousness coherence"
+                    "Review consciousness coherence",
                 ],
-                auto_fixable=True
+                auto_fixable=True,
             )
 
         return None
@@ -317,9 +324,9 @@ class ConstellationAlignmentValidator:
                 remediation_steps=[
                     "Resolve flagged violations",
                     "Check guardian system alerts",
-                    "Review ethical compliance"
+                    "Review ethical compliance",
                 ],
-                auto_fixable=False  # Violation flags should be resolved manually
+                auto_fixable=False,  # Violation flags should be resolved manually
             )
         return None
 
@@ -340,9 +347,9 @@ class ConstellationAlignmentValidator:
                 remediation_steps=[
                     "Reduce ethical drift",
                     "Review guardian system parameters",
-                    "Check consciousness evolution paths"
+                    "Check consciousness evolution paths",
                 ],
-                auto_fixable=True
+                auto_fixable=True,
             )
         return None
 
@@ -366,9 +373,9 @@ class ConstellationAlignmentValidator:
                     remediation_steps=[
                         "Increase Constellation synchronization coherence",
                         "Check component alignment",
-                        "Verify sync signal integrity"
+                        "Verify sync signal integrity",
                     ],
-                    auto_fixable=True
+                    auto_fixable=True,
                 )
         return None
 
@@ -391,9 +398,9 @@ class ConstellationAlignmentValidator:
                     remediation_steps=[
                         "Improve cross-component synchronization",
                         "Balance Constellation alignment vector",
-                        "Check component interdependencies"
+                        "Check component interdependencies",
                     ],
-                    auto_fixable=True
+                    auto_fixable=True,
                 )
         return None
 
@@ -439,7 +446,9 @@ class ConstellationAlignmentValidator:
         current_overall = self.compliance_stats["compliance_score_avg"]
         self.compliance_stats["compliance_score_avg"] = (1 - alpha) * current_overall + alpha * overall_score
 
-    def _apply_auto_fixes(self, signal: ConsciousnessSignal, violations: list[ComplianceViolation]) -> list[ComplianceViolation]:
+    def _apply_auto_fixes(
+        self, signal: ConsciousnessSignal, violations: list[ComplianceViolation]
+    ) -> list[ComplianceViolation]:
         """Apply automatic fixes to compliance violations"""
 
         remaining_violations = []
@@ -556,22 +565,24 @@ class ConstellationAlignmentValidator:
         """Log compliance violations"""
 
         for violation in violations:
-            self.violation_history.append({
-                "timestamp": time.time(),
-                "signal_id": signal.signal_id,
-                "consciousness_id": signal.consciousness_id,
-                "producer_module": signal.producer_module,
-                "violation": {
-                    "id": violation.violation_id,
-                    "rule": violation.rule.value,
-                    "component": violation.component.value,
-                    "severity": violation.severity.value,
-                    "description": violation.description,
-                    "current_value": violation.current_value,
-                    "required_value": violation.required_value,
-                    "auto_fixable": violation.auto_fixable,
+            self.violation_history.append(
+                {
+                    "timestamp": time.time(),
+                    "signal_id": signal.signal_id,
+                    "consciousness_id": signal.consciousness_id,
+                    "producer_module": signal.producer_module,
+                    "violation": {
+                        "id": violation.violation_id,
+                        "rule": violation.rule.value,
+                        "component": violation.component.value,
+                        "severity": violation.severity.value,
+                        "description": violation.description,
+                        "current_value": violation.current_value,
+                        "required_value": violation.required_value,
+                        "auto_fixable": violation.auto_fixable,
+                    },
                 }
-            })
+            )
 
     def get_compliance_statistics(self) -> dict[str, Any]:
         """Get comprehensive compliance statistics"""
@@ -588,10 +599,13 @@ class ConstellationAlignmentValidator:
             "recent_violations": list(self.violation_history)[-10:],  # Last 10 violations
             "violation_summary": {
                 "total_violations": len(self.violation_history),
-                "critical_violations": sum(1 for v in self.violation_history
-                                         if v["violation"]["severity"] == AlignmentLevel.CRITICAL_VIOLATION.value),
+                "critical_violations": sum(
+                    1
+                    for v in self.violation_history
+                    if v["violation"]["severity"] == AlignmentLevel.CRITICAL_VIOLATION.value
+                ),
                 "auto_fixed_violations": self.compliance_stats["auto_fixes_applied"],
-            }
+            },
         }
 
     def generate_compliance_report(self) -> ComplianceReport:
@@ -604,13 +618,15 @@ class ConstellationAlignmentValidator:
         if not recent_violations:
             overall_compliance = AlignmentLevel.ALIGNED
         else:
-            critical_count = sum(1 for v in recent_violations
-                               if v["violation"]["severity"] == AlignmentLevel.CRITICAL_VIOLATION.value)
+            critical_count = sum(
+                1 for v in recent_violations if v["violation"]["severity"] == AlignmentLevel.CRITICAL_VIOLATION.value
+            )
             if critical_count > 0:
                 overall_compliance = AlignmentLevel.CRITICAL_VIOLATION
             else:
-                major_count = sum(1 for v in recent_violations
-                                if v["violation"]["severity"] == AlignmentLevel.MAJOR_VIOLATION.value)
+                major_count = sum(
+                    1 for v in recent_violations if v["violation"]["severity"] == AlignmentLevel.MAJOR_VIOLATION.value
+                )
                 overall_compliance = AlignmentLevel.MAJOR_VIOLATION if major_count > 0 else AlignmentLevel.ALIGNED
 
         # Generate recommendations
@@ -625,7 +641,7 @@ class ConstellationAlignmentValidator:
             recommendations=recommendations,
             metrics=self.compliance_stats.copy(),
             signals_evaluated=self.compliance_stats["signals_validated"],
-            auto_fixes_applied=self.compliance_stats["auto_fixes_applied"]
+            auto_fixes_applied=self.compliance_stats["auto_fixes_applied"],
         )
 
     def _generate_recommendations(self) -> list[str]:
@@ -645,7 +661,9 @@ class ConstellationAlignmentValidator:
             recommendations.append("🛡️ Strengthen guardian compliance and ethical oversight")
 
         # Check violation rates
-        violation_rate = self.compliance_stats["violations_detected"] / max(1, self.compliance_stats["signals_validated"])
+        violation_rate = self.compliance_stats["violations_detected"] / max(
+            1, self.compliance_stats["signals_validated"]
+        )
         if violation_rate > 0.1:
             recommendations.append("Review and tighten compliance thresholds")
 
@@ -666,9 +684,9 @@ class ConstellationAlignmentMonitor:
 
         # Monitoring configuration
         self.alert_thresholds = {
-            "critical_violation_rate": 0.05,    # 5% critical violations triggers alert
-            "compliance_score_min": 0.6,        # Below 60% compliance triggers alert
-            "component_imbalance_max": 0.4,      # Component score difference > 40% triggers alert
+            "critical_violation_rate": 0.05,  # 5% critical violations triggers alert
+            "compliance_score_min": 0.6,  # Below 60% compliance triggers alert
+            "component_imbalance_max": 0.4,  # Component score difference > 40% triggers alert
         }
 
     def start_monitoring(self):
@@ -716,11 +734,13 @@ class ConstellationAlignmentMonitor:
 
         # Check overall compliance
         if report.overall_compliance in [AlignmentLevel.CRITICAL_VIOLATION, AlignmentLevel.MAJOR_VIOLATION]:
-            alerts.append({
-                "type": "compliance_violation",
-                "severity": report.overall_compliance.value,
-                "message": f"Overall compliance at {report.overall_compliance.value} level"
-            })
+            alerts.append(
+                {
+                    "type": "compliance_violation",
+                    "severity": report.overall_compliance.value,
+                    "message": f"Overall compliance at {report.overall_compliance.value} level",
+                }
+            )
 
         # Check component balance
         scores = list(report.component_scores.values())
@@ -730,20 +750,24 @@ class ConstellationAlignmentMonitor:
             imbalance = max_score - min_score
 
             if imbalance > self.alert_thresholds["component_imbalance_max"]:
-                alerts.append({
-                    "type": "component_imbalance",
-                    "severity": "warning",
-                    "message": f"Constellation component imbalance: {imbalance:.3f}"
-                })
+                alerts.append(
+                    {
+                        "type": "component_imbalance",
+                        "severity": "warning",
+                        "message": f"Constellation component imbalance: {imbalance:.3f}",
+                    }
+                )
 
         # Check compliance score
         overall_score = sum(scores) / len(scores) if scores else 0.0
         if overall_score < self.alert_thresholds["compliance_score_min"]:
-            alerts.append({
-                "type": "low_compliance_score",
-                "severity": "warning",
-                "message": f"Overall compliance score: {overall_score:.3f}"
-            })
+            alerts.append(
+                {
+                    "type": "low_compliance_score",
+                    "severity": "warning",
+                    "message": f"Overall compliance score: {overall_score:.3f}",
+                }
+            )
 
         # Log and store alerts
         for alert in alerts:
@@ -798,5 +822,5 @@ __all__ = [
     "ConstellationAlignmentValidator",
     "ConstellationAlignmentMonitor",
     "get_constellation_validator",
-    "get_constellation_monitor"
+    "get_constellation_monitor",
 ]

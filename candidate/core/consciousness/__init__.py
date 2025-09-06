@@ -58,12 +58,10 @@ __all__ = [
     "MatrizConsciousnessStateManager",
     "consciousness_state_manager",
     "create_consciousness_state",
-
     # MΛTRIZ Orchestration
     "MatrizConsciousnessOrchestrator",
     "ConsciousnessNetworkMetrics",
     "consciousness_orchestrator",
-
     # Oracle Integration
-    "ConsciousnessOracle"
+    "ConsciousnessOracle",
 ]

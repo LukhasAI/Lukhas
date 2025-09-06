@@ -429,19 +429,23 @@ class BrandOrchestratorAgent:
                 "personality": personality_result,
                 "validation": {
                     "is_compliant": validation_result.is_compliant,
-                    "severity": validation_result.severity.value
-                    if hasattr(validation_result.severity, "value")
-                    else str(validation_result.severity),
+                    "severity": (
+                        validation_result.severity.value
+                        if hasattr(validation_result.severity, "value")
+                        else str(validation_result.severity)
+                    ),
                     "issues_count": len(validation_result.issues),
-                    "auto_corrections_applied": len(validation_result.auto_corrections)
-                    if validation_result.auto_corrections
-                    else 0,
+                    "auto_corrections_applied": (
+                        len(validation_result.auto_corrections) if validation_result.auto_corrections else 0
+                    ),
                 },
                 "sentiment": {
                     "overall_sentiment": sentiment_result.overall_sentiment,
-                    "polarity": sentiment_result.polarity.value
-                    if hasattr(sentiment_result.polarity, "value")
-                    else str(sentiment_result.polarity),
+                    "polarity": (
+                        sentiment_result.polarity.value
+                        if hasattr(sentiment_result.polarity, "value")
+                        else str(sentiment_result.polarity)
+                    ),
                     "confidence": sentiment_result.confidence,
                 },
             },
@@ -908,11 +912,9 @@ class BrandOrchestratorAgent:
         return {
             "recent_tasks_count": len(recent_tasks),
             "success_rate": success_rate,
-            "performance_trend": "improving"
-            if success_rate > 0.9
-            else "stable"
-            if success_rate > 0.7
-            else "needs_attention",
+            "performance_trend": (
+                "improving" if success_rate > 0.9 else "stable" if success_rate > 0.7 else "needs_attention"
+            ),
         }
 
     # Additional helper methods for crisis management and strategic operations
@@ -972,14 +974,16 @@ class BrandOrchestratorAgent:
                 "sentiment_monitoring_increase",
             ],
             "requires_content_response": crisis_assessment["final_severity"] >= 3,
-            "content_request": {
-                "prompt": "Generate crisis response communication emphasizing LUKHAS commitment to quality and improvement",
-                "tone_layer": "user_friendly",
-                "personality_profile": "lukhas_consciousness",
-                "emotional_context": "reassuring",
-            }
-            if crisis_assessment["final_severity"] >= 3
-            else None,
+            "content_request": (
+                {
+                    "prompt": "Generate crisis response communication emphasizing LUKHAS commitment to quality and improvement",
+                    "tone_layer": "user_friendly",
+                    "personality_profile": "lukhas_consciousness",
+                    "emotional_context": "reassuring",
+                }
+                if crisis_assessment["final_severity"] >= 3
+                else None
+            ),
             "monitoring_enhancement": "increase_frequency_by_50_percent",
             "escalation_timeline": "immediate" if urgency_level == "critical" else "1_hour",
         }

@@ -53,10 +53,7 @@ class BioPreprocessingColony(BaseColony):
         }
 
         # Rolling windows for temporal consistency
-        self.signal_history = {
-            signal: deque(maxlen=300)  # 5 minutes at 1Hz
-            for signal in self.bio_validators
-        }
+        self.signal_history = {signal: deque(maxlen=300) for signal in self.bio_validators}  # 5 minutes at 1Hz
 
         # Kalman filter states
         self.kalman_states = {}

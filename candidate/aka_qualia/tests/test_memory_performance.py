@@ -358,10 +358,7 @@ class TestMemoryUsagePerformance:
             "cfg_version": "wave_c_v1.0.0",
             "large_array": list(range(10000)),  # 10k integers
             "large_text": "x" * 50000,  # 50k characters
-            "nested_data": {
-                f"key_{i}": f"value_{i}" * 100
-                for i in range(1000)  # 1k nested items
-            },
+            "nested_data": {f"key_{i}": f"value_{i}" * 100 for i in range(1000)},  # 1k nested items
         }
 
         large_scene = create_test_scene(context=large_context)

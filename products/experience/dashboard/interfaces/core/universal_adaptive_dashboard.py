@@ -61,7 +61,7 @@ from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
 from lukhas.core.oracle_nervous_system import get_oracle_nervous_system
 from lukhas.memory.systems.healix_memory_core import HealixMemoryCore
 
-logger = logging.getLogger("ΛTRACE.universal_adaptive_dashboard")
+logger = logging.getLogger("ΛTRACE.universal_adaptive_dashboard", timezone)
 
 
 class DashboardMorphState(Enum):
@@ -600,7 +600,7 @@ class UniversalAdaptiveDashboard:
             {
                 "old_state": old_state.value,
                 "new_state": new_state.value,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "morph_rules": morph_rules,
             },
         )
@@ -654,7 +654,7 @@ class UniversalAdaptiveDashboard:
                 }
                 for tab in self.active_tabs
             ],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Broadcast to all connected clients

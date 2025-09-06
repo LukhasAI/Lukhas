@@ -721,11 +721,11 @@ class AdvancedConsciousnessEngine:
                 "entropy_level": self.metrics.entropy_level,
             },
             "healing_data": healing_data,
-            "processing_quality": "excellent"
-            if self.metrics.trinity_balance > 0.8
-            else "good"
-            if self.metrics.trinity_balance > 0.6
-            else "acceptable",
+            "processing_quality": (
+                "excellent"
+                if self.metrics.trinity_balance > 0.8
+                else "good" if self.metrics.trinity_balance > 0.6 else "acceptable"
+            ),
             "recommendations": await self._generate_processing_recommendations(),
         }
 

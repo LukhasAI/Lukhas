@@ -13,8 +13,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
+
 class TaskType(Enum):
     """Task classification for capability matching."""
+
     REASONING = "reasoning"
     CREATIVE = "creative"
     TECHNICAL = "technical"
@@ -26,8 +28,10 @@ class TaskType(Enum):
     SYNTHESIS = "synthesis"
     CLASSIFICATION = "classification"
 
+
 class CapabilityDimension(Enum):
     """Capability dimensions for model evaluation."""
+
     REASONING = "reasoning"
     CREATIVITY = "creativity"
     TECHNICAL_ACCURACY = "technical_accuracy"
@@ -39,9 +43,11 @@ class CapabilityDimension(Enum):
     COST_EFFICIENCY = "cost_efficiency"
     CONSISTENCY = "consistency"
 
+
 @dataclass
 class CapabilityProfile:
     """Model capability profile with constellation alignment."""
+
     model_id: str
     capabilities: dict[CapabilityDimension, float]  # 0.0-1.0 scores
     constellation_alignment: dict[str, float]  # Alignment with 8 constellation stars
@@ -58,9 +64,11 @@ class CapabilityProfile:
         """Get alignment score with constellation star."""
         return self.constellation_alignment.get(star, 0.0)
 
+
 @dataclass
 class TaskRequirements:
     """Task requirements for model selection."""
+
     task_type: TaskType
     required_capabilities: dict[CapabilityDimension, float]  # Minimum scores
     preferred_capabilities: dict[CapabilityDimension, float]  # Preferred scores
@@ -69,6 +77,7 @@ class TaskRequirements:
     max_cost_per_token: Optional[float] = None
     min_context_window: Optional[int] = None
     priority: float = 1.0  # Task priority multiplier
+
 
 class CapabilityMatrix:
     """
@@ -99,16 +108,22 @@ class CapabilityMatrix:
                 CapabilityDimension.CODE_QUALITY: 0.88,
                 CapabilityDimension.SPEED: 0.80,
                 CapabilityDimension.COST_EFFICIENCY: 0.70,
-                CapabilityDimension.CONSISTENCY: 0.85
+                CapabilityDimension.CONSISTENCY: 0.85,
             },
             constellation_alignment={
-                "IDENTITY": 0.85, "MEMORY": 0.80, "VISION": 0.85, "BIO": 0.75,
-                "DREAM": 0.90, "ETHICS": 0.85, "GUARDIAN": 0.80, "QUANTUM": 0.85
+                "IDENTITY": 0.85,
+                "MEMORY": 0.80,
+                "VISION": 0.85,
+                "BIO": 0.75,
+                "DREAM": 0.90,
+                "ETHICS": 0.85,
+                "GUARDIAN": 0.80,
+                "QUANTUM": 0.85,
             },
             specializations=[TaskType.REASONING, TaskType.CREATIVE, TaskType.SYNTHESIS],
             latency_ms=2000,
             cost_per_token=0.00003,
-            context_window=128000
+            context_window=128000,
         )
 
         # Claude-3.5 Sonnet
@@ -124,16 +139,22 @@ class CapabilityMatrix:
                 CapabilityDimension.CODE_QUALITY: 0.92,
                 CapabilityDimension.SPEED: 0.75,
                 CapabilityDimension.COST_EFFICIENCY: 0.65,
-                CapabilityDimension.CONSISTENCY: 0.90
+                CapabilityDimension.CONSISTENCY: 0.90,
             },
             constellation_alignment={
-                "IDENTITY": 0.90, "MEMORY": 0.85, "VISION": 0.88, "BIO": 0.80,
-                "DREAM": 0.95, "ETHICS": 0.95, "GUARDIAN": 0.90, "QUANTUM": 0.88
+                "IDENTITY": 0.90,
+                "MEMORY": 0.85,
+                "VISION": 0.88,
+                "BIO": 0.80,
+                "DREAM": 0.95,
+                "ETHICS": 0.95,
+                "GUARDIAN": 0.90,
+                "QUANTUM": 0.88,
             },
             specializations=[TaskType.REASONING, TaskType.ANALYTICAL, TaskType.TECHNICAL],
             latency_ms=2500,
             cost_per_token=0.000015,
-            context_window=200000
+            context_window=200000,
         )
 
         # Gemini Pro 1.5
@@ -149,16 +170,22 @@ class CapabilityMatrix:
                 CapabilityDimension.CODE_QUALITY: 0.85,
                 CapabilityDimension.SPEED: 0.85,
                 CapabilityDimension.COST_EFFICIENCY: 0.80,
-                CapabilityDimension.CONSISTENCY: 0.80
+                CapabilityDimension.CONSISTENCY: 0.80,
             },
             constellation_alignment={
-                "IDENTITY": 0.80, "MEMORY": 0.85, "VISION": 0.90, "BIO": 0.85,
-                "DREAM": 0.80, "ETHICS": 0.80, "GUARDIAN": 0.75, "QUANTUM": 0.90
+                "IDENTITY": 0.80,
+                "MEMORY": 0.85,
+                "VISION": 0.90,
+                "BIO": 0.85,
+                "DREAM": 0.80,
+                "ETHICS": 0.80,
+                "GUARDIAN": 0.75,
+                "QUANTUM": 0.90,
             },
             specializations=[TaskType.SCIENTIFIC, TaskType.MATHEMATICAL, TaskType.ANALYTICAL],
             latency_ms=1800,
             cost_per_token=0.000007,
-            context_window=1000000
+            context_window=1000000,
         )
 
         # GPT-3.5 Turbo (Fast/Cheap option)
@@ -174,16 +201,22 @@ class CapabilityMatrix:
                 CapabilityDimension.CODE_QUALITY: 0.75,
                 CapabilityDimension.SPEED: 0.95,
                 CapabilityDimension.COST_EFFICIENCY: 0.95,
-                CapabilityDimension.CONSISTENCY: 0.75
+                CapabilityDimension.CONSISTENCY: 0.75,
             },
             constellation_alignment={
-                "IDENTITY": 0.70, "MEMORY": 0.65, "VISION": 0.70, "BIO": 0.65,
-                "DREAM": 0.75, "ETHICS": 0.70, "GUARDIAN": 0.65, "QUANTUM": 0.70
+                "IDENTITY": 0.70,
+                "MEMORY": 0.65,
+                "VISION": 0.70,
+                "BIO": 0.65,
+                "DREAM": 0.75,
+                "ETHICS": 0.70,
+                "GUARDIAN": 0.65,
+                "QUANTUM": 0.70,
             },
             specializations=[TaskType.CONVERSATIONAL, TaskType.CREATIVE],
             latency_ms=800,
             cost_per_token=0.000002,
-            context_window=16000
+            context_window=16000,
         )
 
     def calculate_model_score(self, model_id: str, requirements: TaskRequirements) -> float:
@@ -290,30 +323,29 @@ class CapabilityMatrix:
         """Get capability profile for specific model."""
         return self.model_profiles.get(model_id)
 
-    def add_task_result(self, model_id: str, task_type: TaskType,
-                       success: bool, latency_ms: int, quality_score: float):
+    def add_task_result(self, model_id: str, task_type: TaskType, success: bool, latency_ms: int, quality_score: float):
         """Record task execution result for learning."""
-        self.task_history.append({
-            "model_id": model_id,
-            "task_type": task_type,
-            "success": success,
-            "latency_ms": latency_ms,
-            "quality_score": quality_score,
-            "timestamp": asyncio.get_event_loop().time()
-        })
+        self.task_history.append(
+            {
+                "model_id": model_id,
+                "task_type": task_type,
+                "success": success,
+                "latency_ms": latency_ms,
+                "quality_score": quality_score,
+                "timestamp": asyncio.get_event_loop().time(),
+            }
+        )
 
         # Keep only recent history (last 1000 tasks)
         if len(self.task_history) > 1000:
             self.task_history = self.task_history[-1000:]
 
-    def get_model_performance_stats(self, model_id: str,
-                                  task_type: Optional[TaskType] = None) -> dict[str, float]:
+    def get_model_performance_stats(self, model_id: str, task_type: Optional[TaskType] = None) -> dict[str, float]:
         """Get performance statistics for model."""
         relevant_tasks = [
-            task for task in self.task_history
-            if task["model_id"] == model_id and (
-                task_type is None or task["task_type"] == task_type
-            )
+            task
+            for task in self.task_history
+            if task["model_id"] == model_id and (task_type is None or task["task_type"] == task_type)
         ]
 
         if not relevant_tasks:
@@ -327,7 +359,7 @@ class CapabilityMatrix:
             "success_rate": success_rate,
             "average_latency_ms": avg_latency,
             "average_quality": avg_quality,
-            "task_count": len(relevant_tasks)
+            "task_count": len(relevant_tasks),
         }
 
     async def update_model_profile(self, model_id: str, performance_data: dict[str, float]):

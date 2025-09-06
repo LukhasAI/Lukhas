@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def load_drift_logs(file_path):
+def load_drift_logs(file_path, timezone):
     """
     Loads compliance drift logs from a CSV file.
     """
@@ -62,7 +62,7 @@ def generate_report(log_df, base_report_dir="lucas_governance/reports/"):
     """
     Generates a compliance drift report in Markdown format with a graph.
     """
-    now = datetime.now().strftime("%Y-%m-%d")
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     output_dir = os.path.join(base_report_dir, now)
     os.makedirs(output_dir, exist_ok=True)
 

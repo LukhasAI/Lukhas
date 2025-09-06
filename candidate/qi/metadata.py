@@ -42,7 +42,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class SymbolicDimension(Enum):
+class SymbolicDimension(Enum, timezone):
     """Symbolic dimensions for content classification."""
 
     KNOWLEDGE = "knowledge"
@@ -159,8 +159,8 @@ class QIMetadataManager:
             symbolic_dimensions=symbolic_dimensions,
             semantic_vector=semantic_vector,
             content_hash=content_hash,
-            creation_timestamp=datetime.now().isoformat(),
-            last_modified=datetime.now().isoformat(),
+            creation_timestamp=datetime.now(timezone.utc).isoformat(),
+            last_modified=datetime.now(timezone.utc).isoformat(),
             author_agent="ΛWebManager_LUKHAS",
             validation_status="pending",
             qi_entanglement_refs=entanglement_refs,
@@ -180,7 +180,7 @@ class QIMetadataManager:
             return hashlib.sha256(f"{content_id}:{content}".encode()).hexdigest()
 
         # Quantum-resistant signature generation (simplified)
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         signature_data = f"{content_id}:{content}:{timestamp}:qi_seed_12345"
 
         if self.signature_algorithm == "sha3-256":

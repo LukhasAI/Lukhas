@@ -742,9 +742,7 @@ class FoldLineageTracker:
 
         # Weighted combination of factors
         resilience = (
-            stability * 0.4
-            + min(1.0, causation_diversity / 3.0) * 0.3  # Normalize diversity
-            + lineage_strength * 0.3
+            stability * 0.4 + min(1.0, causation_diversity / 3.0) * 0.3 + lineage_strength * 0.3  # Normalize diversity
         )
 
         return round(resilience, 3)

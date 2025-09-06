@@ -73,13 +73,15 @@ class TestSQLQueryCorrectness:
 
         # Test custom SQL query for high-risk scenes
         with sql_memory.engine.begin() as conn:
-            query = text("""
+            query = text(
+                """
                 SELECT scene_id, json_extract(risk, '$.severity') as severity
                 FROM akaq_scene
                 WHERE user_id = :user_id
                 AND json_extract(risk, '$.severity') = 'high'
                 ORDER BY timestamp DESC
-            """)
+            """
+            )
 
             results = conn.execute(query, {"user_id": "risk_filter_test"}).fetchall()
 
@@ -147,7 +149,8 @@ class TestSQLQueryCorrectness:
 
         # Test complex join query
         with sql_memory.engine.begin() as conn:
-            query = text("""
+            query = text(
+                """
                 SELECT
                     s.scene_id,
                     s.subject,
@@ -158,7 +161,8 @@ class TestSQLQueryCorrectness:
                 WHERE s.user_id = :user_id
                 GROUP BY s.scene_id, s.subject, s.drift_phi
                 ORDER BY s.timestamp DESC
-            """)
+            """
+            )
 
             results = conn.execute(query, {"user_id": "integrity_test"}).fetchall()
 
@@ -228,13 +232,15 @@ class TestDatabaseSchemaValidation:
 
         with sql_memory.engine.begin() as conn:
             # For SQLite, use sqlite_master to check indexes
-            sqlite_index_query = text("""
+            sqlite_index_query = text(
+                """
                 SELECT name, sql
                 FROM sqlite_master
                 WHERE type = 'index'
                 AND tbl_name = 'akaq_scene'
                 AND (sql LIKE '%user_id%' OR name LIKE '%user_id%')
-            """)
+            """
+            )
 
             indexes = conn.execute(sqlite_index_query).fetchall()
 
@@ -249,10 +255,12 @@ class TestDatabaseSchemaValidation:
         with sql_memory.engine.begin() as conn:
             try:
                 conn.execute(
-                    text("""
+                    text(
+                        """
                     INSERT INTO akaq_glyph (scene_id, glyph_key, glyph_attrs)
                     VALUES ('nonexistent_scene_id', 'test:key', '{}')
-                """)
+                """
+                    )
                 )
 
                 # If we get here, foreign key constraint is not enforced
@@ -435,7 +443,8 @@ class TestComplexQueries:
 
         # Test aggregation query
         with sql_memory.engine.begin() as conn:
-            query = text("""
+            query = text(
+                """
                 SELECT
                     COUNT(*) as scene_count,
                     AVG(drift_phi) as avg_drift,
@@ -443,7 +452,8 @@ class TestComplexQueries:
                     MAX(drift_phi) as max_drift
                 FROM akaq_scene
                 WHERE user_id = :user_id
-            """)
+            """
+            )
 
             result = conn.execute(query, {"user_id": "drift_aggregation_test"}).fetchone()
 
@@ -474,7 +484,8 @@ class TestComplexQueries:
                 scene_id = f"temporal_{i}_{int(scene_time)}"
 
                 conn.execute(
-                    text("""
+                    text(
+                        """
                     INSERT INTO akaq_scene (
                         scene_id, user_id, timestamp, subject, object, proto, proto_vec,
                         risk, context, drift_phi, congruence_index, neurosis_risk,
@@ -485,7 +496,8 @@ class TestComplexQueries:
                         :congruence_index, :neurosis_risk, :repair_delta,
                         :sublimation_rate, :cfg_version
                     )
-                """),
+                """
+                    ),
                     {
                         "scene_id": scene_id,
                         "user_id": "temporal_test",
@@ -509,13 +521,15 @@ class TestComplexQueries:
         cutoff_time = base_time - 1200  # 20 minutes ago
 
         with sql_memory.engine.begin() as conn:
-            query = text("""
+            query = text(
+                """
                 SELECT scene_id, subject, timestamp
                 FROM akaq_scene
                 WHERE user_id = :user_id
                 AND timestamp >= :cutoff_time
                 ORDER BY timestamp DESC
-            """)
+            """
+            )
 
             results = conn.execute(query, {"user_id": "temporal_test", "cutoff_time": cutoff_time}).fetchall()
 

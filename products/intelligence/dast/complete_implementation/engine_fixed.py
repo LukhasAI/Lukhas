@@ -25,12 +25,14 @@ class TaskPriority(Enum):
     LOW = "low"
     DEFERRED = "deferred"
 
+
 class TaskStatus(Enum):
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     BLOCKED = "blocked"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
+
 
 @dataclass
 class Task:
@@ -47,6 +49,7 @@ class Task:
     dependencies: list[str] = field(default_factory=list)
     symbolic_reasoning: dict[str, Any] = field(default_factory=dict)
     ai_insights: dict[str, Any] = field(default_factory=dict)
+
 
 class LucasDASTEngine:
     """
@@ -82,7 +85,7 @@ class LucasDASTEngine:
             "priority_optimizer": "lucas_priority_v1.3",
             "symbolic_reasoner": "lucas_symbolic_v2.0",
             "workflow_analyzer": "lucas_workflow_v1.5",
-            "context_predictor": "lucas_context_v1.8"
+            "context_predictor": "lucas_context_v1.8",
         }
 
     def _initialize_ai_components(self):
@@ -90,6 +93,7 @@ class LucasDASTEngine:
         # Import and initialize AI components when available
         try:
             from .intelligence import ContextTracker, PriorityOptimizer, TaskIntelligence
+
             self.task_intelligence = TaskIntelligence()
             self.priority_optimizer = PriorityOptimizer()
             self.context_tracker = ContextTracker()
@@ -138,11 +142,7 @@ class LucasDASTEngine:
         self.tasks[task.id] = task
 
         # Cache result for future similar requests
-        self.context_cache[cache_key] = {
-            "task_id": task.id,
-            "timestamp": time.time(),
-            "reasoning": task.ai_insights
-        }
+        self.context_cache[cache_key] = {"task_id": task.id, "timestamp": time.time(), "reasoning": task.ai_insights}
         self.cache_misses += 1
 
         # Real-time workflow optimization
@@ -156,7 +156,7 @@ class LucasDASTEngine:
             "task_id": task.id,
             "title": task.title,
             "priority": task.priority.value,
-            "response_time_ms": operation_time * 1000
+            "response_time_ms": operation_time * 1000,
         }
 
     async def focus(self, query: Optional[str] = None, limit: int = 5) -> list[dict[str, Any]]:
@@ -176,16 +176,18 @@ class LucasDASTEngine:
         # Return top tasks with context and reasoning
         result = []
         for task in prioritized_tasks[:limit]:
-            result.append({
-                "id": task.id,
-                "title": task.title,
-                "priority": task.priority.value,
-                "status": task.status.value,
-                "ai_score": task.ai_insights.get("priority_score", 0),
-                "reasoning": task.ai_insights.get("focus_reasoning", "AI-powered prioritization"),
-                "estimated_time": task.estimated_duration,
-                "context": task.context
-            })
+            result.append(
+                {
+                    "id": task.id,
+                    "title": task.title,
+                    "priority": task.priority.value,
+                    "status": task.status.value,
+                    "ai_score": task.ai_insights.get("priority_score", 0),
+                    "reasoning": task.ai_insights.get("focus_reasoning", "AI-powered prioritization"),
+                    "estimated_time": task.estimated_duration,
+                    "context": task.context,
+                }
+            )
 
         self._record_operation_time(time.time() - start_time)
         return result
@@ -210,7 +212,7 @@ class LucasDASTEngine:
                 "total_tasks": total_tasks,
                 "completed_tasks": completed_tasks,
                 "completion_rate": completed_tasks / total_tasks if total_tasks > 0 else 0,
-                "active_tasks": total_tasks - completed_tasks
+                "active_tasks": total_tasks - completed_tasks,
             }
 
         if task_id not in self.tasks:
@@ -237,7 +239,7 @@ class LucasDASTEngine:
             "status": task.status.value,
             "ai_recommendations": ai_analysis.get("recommendations", []),
             "workflow_impact": ai_analysis.get("workflow_impact", {}),
-            "next_actions": ai_analysis.get("next_actions", [])
+            "next_actions": ai_analysis.get("next_actions", []),
         }
 
         self._record_operation_time(time.time() - start_time)
@@ -257,7 +259,7 @@ class LucasDASTEngine:
             "ai_suggestions": [],
             "human_preferences": human_input or {},
             "collaborative_plan": {},
-            "reasoning": ""
+            "reasoning": "",
         }
 
         if "plan" in request.lower():
@@ -268,14 +270,14 @@ class LucasDASTEngine:
             collaboration_result["ai_suggestions"] = [
                 f"Focus on {min(5, len(prioritized))} high-priority tasks first",
                 "Consider batching similar tasks for efficiency",
-                "Schedule critical tasks during peak hours"
+                "Schedule critical tasks during peak hours",
             ]
 
             if prioritized:
                 collaboration_result["collaborative_plan"] = {
                     "immediate_focus": [t.title for t in prioritized[:3]],
                     "this_week": [t.title for t in prioritized[3:8]],
-                    "backlog": [t.title for t in prioritized[8:]]
+                    "backlog": [t.title for t in prioritized[8:]],
                 }
 
         elif "review" in request.lower():
@@ -283,14 +285,14 @@ class LucasDASTEngine:
             collaboration_result["ai_suggestions"] = [
                 "Some tasks may need priority adjustment",
                 "Consider breaking down complex tasks",
-                "Dependencies should be addressed first"
+                "Dependencies should be addressed first",
             ]
         else:
             # General assistance
             collaboration_result["ai_suggestions"] = [
                 "I can help you prioritize, plan, and track your tasks",
                 "Try asking me to 'plan your sprint' or 'review priorities'",
-                "I use AI to optimize your workflow automatically"
+                "I use AI to optimize your workflow automatically",
             ]
 
         collaboration_result["reasoning"] = "AI analysis based on current task load and priorities"
@@ -336,7 +338,7 @@ class LucasDASTEngine:
             estimated_duration=estimated_duration,
             dependencies=dependencies,
             symbolic_reasoning=symbolic_reasoning,
-            ai_insights=ai_analysis
+            ai_insights=ai_analysis,
         )
 
         return task
@@ -347,11 +349,9 @@ class LucasDASTEngine:
         # Use TaskIntelligence if available
         if self.task_intelligence:
             try:
-                return await self.task_intelligence.analyze_task({
-                    "title": request,
-                    "description": request,
-                    "context": context
-                })
+                return await self.task_intelligence.analyze_task(
+                    {"title": request, "description": request, "context": context}
+                )
             except:
                 pass  # Fallback to simple analysis
 
@@ -364,7 +364,7 @@ class LucasDASTEngine:
             "estimated_duration": self._estimate_duration(request),
             "confidence_score": 0.85,
             "reasoning": "AI analysis based on content patterns and context",
-            "priority_score": self._calculate_priority_score(request, context)
+            "priority_score": self._calculate_priority_score(request, context),
         }
 
         # Extract due date from natural language
@@ -417,7 +417,7 @@ class LucasDASTEngine:
             "testing": ["test", "testing", "qa", "quality"],
             "documentation": ["docs", "documentation", "readme"],
             "bug": ["bug", "fix", "error", "issue"],
-            "feature": ["feature", "new", "add", "implement"]
+            "feature": ["feature", "new", "add", "implement"],
         }
 
         request_lower = request.lower()
@@ -440,10 +440,11 @@ class LucasDASTEngine:
             r"review|check": 30,
             r"implement|create|build": 120,
             r"refactor|redesign": 240,
-            r"complex|major|big": 480
+            r"complex|major|big": 480,
         }
 
         import re
+
         request_lower = request.lower()
 
         for pattern, duration in duration_patterns.items():
@@ -518,7 +519,7 @@ class LucasDASTEngine:
             "patterns_detected": ["task_creation", "priority_inference"],
             "logical_connections": ai_analysis.get("dependencies", []),
             "symbolic_tags": ai_analysis.get("tags", []),
-            "inference_confidence": ai_analysis.get("confidence_score", 0.8)
+            "inference_confidence": ai_analysis.get("confidence_score", 0.8),
         }
 
     def _ai_filter_tasks(self, query: str) -> list[Task]:
@@ -527,22 +528,25 @@ class LucasDASTEngine:
         query_lower = query.lower()
 
         for task in self.tasks.values():
-            if (query_lower in task.title.lower() or
-                query_lower in task.description.lower() or
-                any(query_lower in tag.lower() for tag in task.tags)):
+            if (
+                query_lower in task.title.lower()
+                or query_lower in task.description.lower()
+                or any(query_lower in tag.lower() for tag in task.tags)
+            ):
                 filtered.append(task)
 
         return filtered
 
     def _ai_prioritize_tasks(self, tasks: list[Task]) -> list[Task]:
         """AI-powered intelligent task prioritization"""
+
         def priority_key(task):
             priority_weights = {
                 TaskPriority.CRITICAL: 10,
                 TaskPriority.HIGH: 7,
                 TaskPriority.MEDIUM: 5,
                 TaskPriority.LOW: 3,
-                TaskPriority.DEFERRED: 1
+                TaskPriority.DEFERRED: 1,
             }
 
             base_score = priority_weights.get(task.priority, 5)
@@ -563,12 +567,7 @@ class LucasDASTEngine:
 
     async def _ai_analyze_progress(self, task: Task, notes: Optional[str]) -> dict[str, Any]:
         """AI analysis of task progress with recommendations"""
-        analysis = {
-            "progress_assessment": "on_track",
-            "recommendations": [],
-            "next_actions": [],
-            "workflow_impact": {}
-        }
+        analysis = {"progress_assessment": "on_track", "recommendations": [], "next_actions": [], "workflow_impact": {}}
 
         if task.status == TaskStatus.BLOCKED:
             analysis["recommendations"].append("Identify blockers and create unblocking tasks")
@@ -614,18 +613,15 @@ class LucasDASTEngine:
                 "workflow_efficiency": 0.85,
                 "optimization_suggestions": [
                     "Consider batching similar tasks",
-                    "Schedule during peak productivity hours"
-                ]
+                    "Schedule during peak productivity hours",
+                ],
             }
 
     def _update_workflow_metrics_sync(self, task_id: str):
         """Synchronous workflow metrics update"""
         if task_id in self.tasks:
             self.tasks[task_id]
-            self.workflow_metrics[task_id] = {
-                "creation_time": time.time(),
-                "workflow_efficiency": 0.85
-            }
+            self.workflow_metrics[task_id] = {"creation_time": time.time(), "workflow_efficiency": 0.85}
 
     def _update_workflow_metrics(self, task: Task):
         """Update workflow performance metrics"""
@@ -673,7 +669,7 @@ class LucasDASTEngine:
             "cache_hit_rate": cache_hit_rate,
             "total_operations": len(self.operation_times),
             "performance_target_met": avg_time < 0.1,
-            "total_tasks": len(self.tasks)
+            "total_tasks": len(self.tasks),
         }
 
 
@@ -683,6 +679,7 @@ class LucasDASTEngine:
 
 _dast_engine = None
 
+
 def get_dast_engine() -> LucasDASTEngine:
     """Get or create global DAST engine instance"""
     global _dast_engine
@@ -690,20 +687,24 @@ def get_dast_engine() -> LucasDASTEngine:
         _dast_engine = LucasDASTEngine()
     return _dast_engine
 
+
 async def track(request: str, context: Optional[dict] = None) -> dict[str, Any]:
     """🎯 One-line task tracking with AI intelligence"""
     engine = get_dast_engine()
     return await engine.track(request, context)
+
 
 async def focus(query: Optional[str] = None, limit: int = 5) -> list[dict[str, Any]]:
     """🎯 Get intelligently prioritized tasks for immediate attention"""
     engine = get_dast_engine()
     return await engine.focus(query, limit)
 
+
 async def progress(task_id: str, status: Optional[str] = None, notes: Optional[str] = None) -> dict[str, Any]:
     """🎯 Update task progress with AI-powered insights"""
     engine = get_dast_engine()
     return await engine.progress(task_id, status, notes)
+
 
 async def collaborate(request: str, human_input: Optional[dict] = None) -> dict[str, Any]:
     """🤝 Human-AI collaborative task management"""

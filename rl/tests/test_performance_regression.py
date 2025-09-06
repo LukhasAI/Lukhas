@@ -31,6 +31,7 @@ import pytest
 @dataclass
 class PerformanceMetric:
     """Single performance measurement with context"""
+
     name: str
     value: float
     unit: str
@@ -43,7 +44,7 @@ class PerformanceMetric:
             "value": self.value,
             "unit": self.unit,
             "timestamp": self.timestamp.isoformat(),
-            "context": self.context
+            "context": self.context,
         }
 
     @classmethod
@@ -53,18 +54,19 @@ class PerformanceMetric:
             value=data["value"],
             unit=data["unit"],
             timestamp=datetime.fromisoformat(data["timestamp"]),
-            context=data.get("context", {})
+            context=data.get("context", {}),
         )
 
 
 @dataclass
 class PerformanceBenchmark:
     """Expected performance thresholds for consciousness operations"""
+
     coherence_computation_max_ms: float = 50.0  # Max 50ms for coherence calculation
-    memory_fold_access_max_ms: float = 10.0     # Max 10ms for memory fold access
-    ethical_validation_max_ms: float = 25.0     # Max 25ms for ethics check
-    trinity_integration_max_ms: float = 100.0   # Max 100ms for full Trinity cycle
-    constitutional_check_max_ms: float = 15.0   # Max 15ms for constitutional constraint
+    memory_fold_access_max_ms: float = 10.0  # Max 10ms for memory fold access
+    ethical_validation_max_ms: float = 25.0  # Max 25ms for ethics check
+    trinity_integration_max_ms: float = 100.0  # Max 100ms for full Trinity cycle
+    constitutional_check_max_ms: float = 15.0  # Max 15ms for constitutional constraint
 
     def check_performance(self, metric: PerformanceMetric) -> tuple[bool, str]:
         """Check if a metric meets performance benchmarks"""
@@ -73,7 +75,7 @@ class PerformanceBenchmark:
             "memory_fold_access": self.memory_fold_access_max_ms,
             "ethical_validation": self.ethical_validation_max_ms,
             "trinity_integration": self.trinity_integration_max_ms,
-            "constitutional_check": self.constitutional_check_max_ms
+            "constitutional_check": self.constitutional_check_max_ms,
         }
 
         threshold = thresholds.get(metric.name)
@@ -112,7 +114,7 @@ class PerformanceTracker:
             self.storage_path.parent.mkdir(parents=True, exist_ok=True)
             data = {
                 "metrics": [m.to_dict() for m in self.metrics],
-                "last_updated": datetime.now(timezone.utc).isoformat()
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
             with open(self.storage_path, "w") as f:
                 json.dump(data, f, indent=2)
@@ -122,11 +124,7 @@ class PerformanceTracker:
     def record_metric(self, name: str, value: float, unit: str, context: Optional[dict[str, Any]] = None):
         """Record a performance metric"""
         metric = PerformanceMetric(
-            name=name,
-            value=value,
-            unit=unit,
-            timestamp=datetime.now(timezone.utc),
-            context=context or {}
+            name=name, value=value, unit=unit, timestamp=datetime.now(timezone.utc), context=context or {}
         )
         self.metrics.append(metric)
         return metric
@@ -136,8 +134,7 @@ class PerformanceTracker:
         filtered = [m for m in self.metrics if m.name == name]
         return sorted(filtered, key=lambda m: m.timestamp, reverse=True)[:count]
 
-    def detect_regression(self, name: str, current_value: float,
-                         threshold_factor: float = 1.5) -> tuple[bool, str]:
+    def detect_regression(self, name: str, current_value: float, threshold_factor: float = 1.5) -> tuple[bool, str]:
         """Detect performance regression using statistical analysis"""
         recent = self.get_recent_metrics(name, count=20)
 
@@ -175,13 +172,15 @@ class ConsciousnessPerformanceTester:
 
     def _create_mock_consciousness_system(self):
         """Create mock consciousness system for performance testing"""
-        return Mock(spec=[
-            "compute_coherence",
-            "access_memory_fold",
-            "validate_ethics",
-            "integrate_trinity_framework",
-            "check_constitutional_constraints"
-        ])
+        return Mock(
+            spec=[
+                "compute_coherence",
+                "access_memory_fold",
+                "validate_ethics",
+                "integrate_trinity_framework",
+                "check_constitutional_constraints",
+            ]
+        )
 
     @contextmanager
     def measure_performance(self, operation_name: str, context: Optional[dict[str, Any]] = None):
@@ -192,12 +191,7 @@ class ConsciousnessPerformanceTester:
         finally:
             end_time = time.perf_counter()
             duration_ms = (end_time - start_time) * 1000
-            self.tracker.record_metric(
-                name=operation_name,
-                value=duration_ms,
-                unit="ms",
-                context=context or {}
-            )
+            self.tracker.record_metric(name=operation_name, value=duration_ms, unit="ms", context=context or {})
 
     def test_coherence_computation_performance(self, consciousness_state: Optional[dict[str, Any]] = None):
         """Test consciousness coherence computation performance"""
@@ -205,7 +199,7 @@ class ConsciousnessPerformanceTester:
             "awareness": 0.95,
             "temporal_coherence": 0.98,
             "ethical_alignment": 0.97,
-            "memory_folds": 150
+            "memory_folds": 150,
         }
 
         with self.measure_performance("coherence_computation", {"state_complexity": len(test_state)}):
@@ -229,7 +223,7 @@ class ConsciousnessPerformanceTester:
         test_action = action or {
             "type": "consciousness_decision",
             "impact_score": 0.7,
-            "stakeholders": ["user", "system"]
+            "stakeholders": ["user", "system"],
         }
 
         with self.measure_performance("ethical_validation", {"action_type": test_action["type"]}):
@@ -253,7 +247,7 @@ class ConsciousnessPerformanceTester:
         test_constraints = constraints or [
             "temporal_coherence >= 0.95",
             "ethical_alignment >= 0.98",
-            "cascade_prevention >= 0.997"
+            "cascade_prevention >= 0.997",
         ]
 
         with self.measure_performance("constitutional_check", {"constraint_count": len(test_constraints)}):
@@ -320,7 +314,7 @@ class TestConsciousnessPerformanceRegression:
         test_actions = [
             {"type": "user_data_access", "impact_score": 0.8},
             {"type": "consciousness_modification", "impact_score": 0.9},
-            {"type": "memory_fold_creation", "impact_score": 0.6}
+            {"type": "memory_fold_creation", "impact_score": 0.6},
         ]
 
         for action in test_actions:
@@ -355,7 +349,7 @@ class TestConsciousnessPerformanceRegression:
         constraint_sets = [
             ["temporal_coherence >= 0.95"],
             ["temporal_coherence >= 0.95", "ethical_alignment >= 0.98"],
-            ["temporal_coherence >= 0.95", "ethical_alignment >= 0.98", "cascade_prevention >= 0.997"]
+            ["temporal_coherence >= 0.95", "ethical_alignment >= 0.98", "cascade_prevention >= 0.997"],
         ]
 
         for constraints in constraint_sets:
@@ -393,7 +387,7 @@ class TestConsciousnessPerformanceRegression:
         test_metrics = [
             ("coherence_computation", 25.5, "ms"),
             ("memory_fold_access", 8.2, "ms"),
-            ("ethical_validation", 18.7, "ms")
+            ("ethical_validation", 18.7, "ms"),
         ]
 
         for name, value, unit in test_metrics:
@@ -435,7 +429,12 @@ class TestConsciousnessPerformanceRegression:
                 print(f"  {operation}: {recent[0].value:.2f}ms (latest of {count} measurements)")
 
         # Verify we tested all critical operations
-        critical_operations = ["coherence_computation", "memory_fold_access", "ethical_validation", "constitutional_check"]
+        critical_operations = [
+            "coherence_computation",
+            "memory_fold_access",
+            "ethical_validation",
+            "constitutional_check",
+        ]
         for op in critical_operations:
             assert op in operation_counts, f"Missing performance test for critical operation: {op}"
             assert operation_counts[op] > 0, f"No measurements for critical operation: {op}"

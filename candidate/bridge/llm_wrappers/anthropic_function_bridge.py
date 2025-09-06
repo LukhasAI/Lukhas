@@ -282,9 +282,9 @@ class AnthropicFunctionBridge:
                     # Claude doesn't have "required" like OpenAI, but we can hint in system message
                     api_params["system"] += "\n\nYou MUST use one of the available tools to respond effectively."
                 elif tool_mode == ToolUseMode.SPECIFIC and specific_tool:
-                    api_params["system"] += (
-                        f"\n\nYou MUST use the '{specific_tool}' tool specifically for this request."
-                    )
+                    api_params[
+                        "system"
+                    ] += f"\n\nYou MUST use the '{specific_tool}' tool specifically for this request."
 
             # Make API request
             response = await self.client.messages.create(**api_params)

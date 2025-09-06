@@ -9,7 +9,7 @@ import asyncio
 import logging
 import random
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -21,27 +21,33 @@ from ..orchestration.model_router import ModelRouter, RoutingRequest, TaskType
 
 logger = logging.getLogger(__name__)
 
+
 class LearningMode(Enum):
     """Different modes of dream-guided learning."""
-    EXPLORATORY = "exploratory"         # Free-form exploration and discovery
-    TARGETED = "targeted"               # Goal-directed learning
-    CREATIVE = "creative"               # Creative synthesis and innovation
-    CONSOLIDATION = "consolidation"     # Memory consolidation and strengthening
-    REFLECTION = "reflection"           # Self-reflective learning
-    INTUITIVE = "intuitive"            # Intuition-based pattern recognition
+
+    EXPLORATORY = "exploratory"  # Free-form exploration and discovery
+    TARGETED = "targeted"  # Goal-directed learning
+    CREATIVE = "creative"  # Creative synthesis and innovation
+    CONSOLIDATION = "consolidation"  # Memory consolidation and strengthening
+    REFLECTION = "reflection"  # Self-reflective learning
+    INTUITIVE = "intuitive"  # Intuition-based pattern recognition
+
 
 class LearningPhase(Enum):
     """Phases of the learning process."""
-    PREPARATION = "preparation"         # Prepare for learning
-    EXPLORATION = "exploration"         # Explore new information
-    ASSIMILATION = "assimilation"      # Integrate new knowledge
-    PRACTICE = "practice"              # Practice and reinforce
-    REFLECTION = "reflection"          # Reflect on learning
-    INTEGRATION = "integration"        # Integrate with existing knowledge
+
+    PREPARATION = "preparation"  # Prepare for learning
+    EXPLORATION = "exploration"  # Explore new information
+    ASSIMILATION = "assimilation"  # Integrate new knowledge
+    PRACTICE = "practice"  # Practice and reinforce
+    REFLECTION = "reflection"  # Reflect on learning
+    INTEGRATION = "integration"  # Integrate with existing knowledge
+
 
 @dataclass
 class LearningObjective:
     """Learning objective with success criteria."""
+
     objective_id: str
     description: str
     target_concepts: list[str]
@@ -50,9 +56,11 @@ class LearningObjective:
     deadline: Optional[datetime] = None
     constellation_alignment: dict[str, float] = field(default_factory=dict)
 
+
 @dataclass
 class LearningOutcome:
     """Result of a learning session."""
+
     outcome_id: str
     session_id: str
     concepts_learned: list[str]
@@ -60,13 +68,15 @@ class LearningOutcome:
     insights_generated: list[str]
     confidence_score: float
     learning_effectiveness: float  # How effective was the learning (0-1)
-    retention_prediction: float   # Predicted retention (0-1)
-    transfer_potential: float     # Potential for transfer to other domains (0-1)
-    dream_contributions: list[str] # Contributions from dream processing
+    retention_prediction: float  # Predicted retention (0-1)
+    transfer_potential: float  # Potential for transfer to other domains (0-1)
+    dream_contributions: list[str]  # Contributions from dream processing
+
 
 @dataclass
 class LearningSession:
     """Dream-guided learning session."""
+
     session_id: str
     mode: LearningMode
     phase: LearningPhase
@@ -80,7 +90,7 @@ class LearningSession:
     # Learning content
     source_materials: list[str] = field(default_factory=list)  # Memory IDs or external sources
     generated_insights: list[dict[str, Any]] = field(default_factory=list)
-    dream_sessions: list[str] = field(default_factory=list)    # Dream session IDs
+    dream_sessions: list[str] = field(default_factory=list)  # Dream session IDs
 
     # Outcomes and metrics
     learning_outcomes: list[LearningOutcome] = field(default_factory=list)
@@ -92,6 +102,7 @@ class LearningSession:
     errors_encountered: list[str] = field(default_factory=list)
     recovery_strategies: list[str] = field(default_factory=list)
 
+
 class DreamGuidedLearner:
     """
     Advanced Dream-Guided Learning System for AGI
@@ -100,9 +111,7 @@ class DreamGuidedLearner:
     and intuition for more human-like learning experiences.
     """
 
-    def __init__(self, memory_store: VectorMemoryStore,
-                 dream_bridge: DreamMemoryBridge,
-                 model_router: ModelRouter):
+    def __init__(self, memory_store: VectorMemoryStore, dream_bridge: DreamMemoryBridge, model_router: ModelRouter):
         self.memory_store = memory_store
         self.dream_bridge = dream_bridge
         self.model_router = model_router
@@ -113,10 +122,10 @@ class DreamGuidedLearner:
         self.learning_history: list[dict[str, Any]] = []
 
         # Learning parameters
-        self.dream_integration_weight = 0.3    # How much to weight dream insights
-        self.creativity_threshold = 0.7        # Threshold for creative learning
-        self.consolidation_interval_hours = 24 # How often to consolidate learning
-        self.retention_decay_rate = 0.1        # Learning retention decay rate
+        self.dream_integration_weight = 0.3  # How much to weight dream insights
+        self.creativity_threshold = 0.7  # Threshold for creative learning
+        self.consolidation_interval_hours = 24  # How often to consolidate learning
+        self.retention_decay_rate = 0.1  # Learning retention decay rate
 
         # Learning strategies
         self.learning_strategies = {
@@ -125,7 +134,7 @@ class DreamGuidedLearner:
             LearningMode.CREATIVE: self._creative_learning,
             LearningMode.CONSOLIDATION: self._consolidation_learning,
             LearningMode.REFLECTION: self._reflection_learning,
-            LearningMode.INTUITIVE: self._intuitive_learning
+            LearningMode.INTUITIVE: self._intuitive_learning,
         }
 
         # Statistics
@@ -136,24 +145,26 @@ class DreamGuidedLearner:
             "skills_acquired": 0,
             "dream_enhanced_sessions": 0,
             "avg_learning_effectiveness": 0.0,
-            "learning_modes": {mode.value: 0 for mode in LearningMode}
+            "learning_modes": {mode.value: 0 for mode in LearningMode},
         }
 
-    async def start_learning_session(self,
-                                   objectives: list[LearningObjective],
-                                   mode: LearningMode = LearningMode.TARGETED,
-                                   source_materials: Optional[list[str]] = None) -> str:
+    async def start_learning_session(
+        self,
+        objectives: list[LearningObjective],
+        mode: LearningMode = LearningMode.TARGETED,
+        source_materials: Optional[list[str]] = None,
+    ) -> str:
         """Start a new dream-guided learning session."""
 
-        session_id = f"learn_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{len(self.active_sessions)}"
+        session_id = f"learn_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.active_sessions)}"
 
         session = LearningSession(
             session_id=session_id,
             mode=mode,
             phase=LearningPhase.PREPARATION,
             objectives=objectives,
-            start_time=datetime.now(),
-            source_materials=source_materials or []
+            start_time=datetime.now(timezone.utc),
+            source_materials=source_materials or [],
         )
 
         self.active_sessions[session_id] = session
@@ -227,7 +238,7 @@ class DreamGuidedLearner:
                 results = await self.memory_store.search_similar(
                     query_vector=await self._get_concept_vector(concept),
                     k=10,
-                    memory_types=[MemoryType.SEMANTIC, MemoryType.EPISODIC, MemoryType.PROCEDURAL]
+                    memory_types=[MemoryType.SEMANTIC, MemoryType.EPISODIC, MemoryType.PROCEDURAL],
                 )
                 relevant_memories.extend([r.memory.id for r in results])
 
@@ -236,11 +247,13 @@ class DreamGuidedLearner:
         # Set learning context based on constellation alignment
         for objective in session.objectives:
             if objective.constellation_alignment:
-                session.generated_insights.append({
-                    "type": "context_setting",
-                    "content": f"Learning objective aligned with constellation: {objective.constellation_alignment}",
-                    "phase": "preparation"
-                })
+                session.generated_insights.append(
+                    {
+                        "type": "context_setting",
+                        "content": f"Learning objective aligned with constellation: {objective.constellation_alignment}",
+                        "phase": "preparation",
+                    }
+                )
 
     async def _explore_content(self, session: LearningSession):
         """Explore learning content and generate initial insights."""
@@ -268,9 +281,7 @@ class DreamGuidedLearner:
         dream_phase = DreamPhase.CREATIVITY if session.mode == LearningMode.CREATIVE else DreamPhase.SYNTHESIS
 
         dream_session_id = await self.dream_bridge.initiate_dream_session(
-            target_memories=dream_targets,
-            phase=dream_phase,
-            session_params={"learning_context": True}
+            target_memories=dream_targets, phase=dream_phase, session_params={"learning_context": True}
         )
 
         session.dream_sessions.append(dream_session_id)
@@ -283,13 +294,15 @@ class DreamGuidedLearner:
         dream_session = self.dream_bridge.get_dream_session(dream_session_id)
         if dream_session and dream_session.success:
             for insight in dream_session.insights_generated:
-                session.generated_insights.append({
-                    "type": "dream_insight",
-                    "content": insight.get("content", ""),
-                    "confidence": insight.get("confidence", 0.5),
-                    "phase": "dream_processing",
-                    "dream_type": insight.get("type", "general")
-                })
+                session.generated_insights.append(
+                    {
+                        "type": "dream_insight",
+                        "content": insight.get("content", ""),
+                        "confidence": insight.get("confidence", 0.5),
+                        "phase": "dream_processing",
+                        "dream_type": insight.get("type", "general"),
+                    }
+                )
 
             # Apply dream patterns to learning
             for pattern in dream_session.patterns_discovered:
@@ -325,9 +338,11 @@ class DreamGuidedLearner:
             insights_generated=[i.get("content", "") for i in session.generated_insights],
             confidence_score=self._calculate_confidence_score(session),
             learning_effectiveness=0.0,  # Will be calculated later
-            retention_prediction=0.0,   # Will be calculated later
-            transfer_potential=0.0,     # Will be calculated later
-            dream_contributions=[i.get("content", "") for i in session.generated_insights if i.get("type") == "dream_insight"]
+            retention_prediction=0.0,  # Will be calculated later
+            transfer_potential=0.0,  # Will be calculated later
+            dream_contributions=[
+                i.get("content", "") for i in session.generated_insights if i.get("type") == "dream_insight"
+            ],
         )
 
         session.learning_outcomes.append(outcome)
@@ -343,7 +358,7 @@ class DreamGuidedLearner:
                     "content": f"Practice opportunity identified for skill: {skill}",
                     "skill": skill,
                     "phase": "practice",
-                    "confidence": 0.8
+                    "confidence": 0.8,
                 }
                 session.generated_insights.append(practice_insight)
 
@@ -361,7 +376,7 @@ class DreamGuidedLearner:
             "type": "reflection",
             "content": reflection_content,
             "phase": "reflection",
-            "confidence": 0.9
+            "confidence": 0.9,
         }
         session.generated_insights.append(reflection_insight)
 
@@ -380,9 +395,7 @@ class DreamGuidedLearner:
                 concept_vector = await self._get_concept_vector(concept)
                 if concept_vector is not None:
                     similar_memories = await self.memory_store.search_similar(
-                        query_vector=concept_vector,
-                        k=5,
-                        memory_types=[MemoryType.SEMANTIC, MemoryType.CONCEPTUAL]
+                        query_vector=concept_vector, k=5, memory_types=[MemoryType.SEMANTIC, MemoryType.CONCEPTUAL]
                     )
 
                     # Create associative links
@@ -407,8 +420,9 @@ class DreamGuidedLearner:
 
         for outcome in session.learning_outcomes:
             # Calculate learning effectiveness
-            concepts_score = len(outcome.concepts_learned) / max(1,
-                sum(len(obj.target_concepts) for obj in session.objectives))
+            concepts_score = len(outcome.concepts_learned) / max(
+                1, sum(len(obj.target_concepts) for obj in session.objectives)
+            )
             skills_score = len(outcome.skills_acquired) / max(1, len(session.objectives))
             dream_boost = len(outcome.dream_contributions) * self.dream_integration_weight
 
@@ -435,13 +449,13 @@ class DreamGuidedLearner:
             current_avg = self.stats["avg_learning_effectiveness"]
             total_sessions = self.stats["total_sessions"]
             self.stats["avg_learning_effectiveness"] = (
-                (current_avg * (total_sessions - 1) + session.success_score) / total_sessions
-            )
+                current_avg * (total_sessions - 1) + session.success_score
+            ) / total_sessions
 
     async def _complete_session(self, session: LearningSession):
         """Complete the learning session."""
 
-        session.end_time = datetime.now()
+        session.end_time = datetime.now(timezone.utc)
         if session.end_time:
             duration = session.end_time - session.start_time
             session.duration_minutes = int(duration.total_seconds() / 60)
@@ -455,7 +469,9 @@ class DreamGuidedLearner:
         # Create session summary memory
         await self._create_session_summary_memory(session)
 
-        logger.info(f"Completed learning session {session.session_id} with success score: {session.success_score or 0.0:.2f}")
+        logger.info(
+            f"Completed learning session {session.session_id} with success score: {session.success_score or 0.0:.2f}"
+        )
 
     # Learning strategy implementations
     async def _exploratory_learning(self, session: LearningSession):
@@ -469,12 +485,14 @@ class DreamGuidedLearner:
                 associated = await self.memory_store.get_associative_memories(material_id, depth=2)
 
                 for assoc_memory in associated[:3]:  # Explore top 3 associations
-                    session.generated_insights.append({
-                        "type": "exploration_discovery",
-                        "content": f"Explored connection: {memory.content[:50]}... -> {assoc_memory.content[:50]}...",
-                        "phase": "exploration",
-                        "confidence": 0.7
-                    })
+                    session.generated_insights.append(
+                        {
+                            "type": "exploration_discovery",
+                            "content": f"Explored connection: {memory.content[:50]}... -> {assoc_memory.content[:50]}...",
+                            "phase": "exploration",
+                            "confidence": 0.7,
+                        }
+                    )
 
     async def _targeted_learning(self, session: LearningSession):
         """Goal-directed targeted learning."""
@@ -485,20 +503,22 @@ class DreamGuidedLearner:
                 request = RoutingRequest(
                     content=f"Explain the concept: {concept}",
                     task_type=TaskType.ANALYTICAL,
-                    constellation_context=objective.constellation_alignment
+                    constellation_context=objective.constellation_alignment,
                 )
 
                 try:
                     decision, response = await self.model_router.route_request(request)
 
-                    session.generated_insights.append({
-                        "type": "concept_discovery",
-                        "content": response.content,
-                        "concept": concept,
-                        "phase": "targeted_learning",
-                        "confidence": response.quality_score,
-                        "model_used": response.model_used
-                    })
+                    session.generated_insights.append(
+                        {
+                            "type": "concept_discovery",
+                            "content": response.content,
+                            "concept": concept,
+                            "phase": "targeted_learning",
+                            "confidence": response.quality_score,
+                            "model_used": response.model_used,
+                        }
+                    )
 
                 except Exception as e:
                     session.errors_encountered.append(f"Failed to learn concept {concept}: {e}")
@@ -511,17 +531,19 @@ class DreamGuidedLearner:
         materials = [m for m in materials if m is not None]
 
         for i, memory1 in enumerate(materials):
-            for memory2 in materials[i+1:]:
+            for memory2 in materials[i + 1 :]:
                 # Look for creative connections
                 if memory1.memory_type != memory2.memory_type:  # Cross-domain creativity
-                    session.generated_insights.append({
-                        "type": "creative_connection",
-                        "content": f"Creative synthesis: {memory1.content[:30]}... + {memory2.content[:30]}...",
-                        "phase": "creative_learning",
-                        "confidence": 0.6,
-                        "memory1_id": memory1.id,
-                        "memory2_id": memory2.id
-                    })
+                    session.generated_insights.append(
+                        {
+                            "type": "creative_connection",
+                            "content": f"Creative synthesis: {memory1.content[:30]}... + {memory2.content[:30]}...",
+                            "phase": "creative_learning",
+                            "confidence": 0.6,
+                            "memory1_id": memory1.id,
+                            "memory2_id": memory2.id,
+                        }
+                    )
 
     async def _consolidation_learning(self, session: LearningSession):
         """Memory consolidation and strengthening."""
@@ -532,13 +554,15 @@ class DreamGuidedLearner:
             if memory:
                 memory.reinforce(0.2)  # Strong consolidation boost
 
-                session.generated_insights.append({
-                    "type": "consolidation",
-                    "content": f"Consolidated memory: {memory.content[:50]}...",
-                    "phase": "consolidation",
-                    "confidence": 0.9,
-                    "memory_id": memory.id
-                })
+                session.generated_insights.append(
+                    {
+                        "type": "consolidation",
+                        "content": f"Consolidated memory: {memory.content[:50]}...",
+                        "phase": "consolidation",
+                        "confidence": 0.9,
+                        "memory_id": memory.id,
+                    }
+                )
 
     async def _reflection_learning(self, session: LearningSession):
         """Self-reflective learning and meta-cognition."""
@@ -550,16 +574,19 @@ class DreamGuidedLearner:
             avg_success = np.mean([s.success_score for s in recent_sessions if s.success_score])
             most_effective_mode = max(
                 set(s.mode for s in recent_sessions),
-                key=lambda mode: np.mean([s.success_score for s in recent_sessions
-                                        if s.mode == mode and s.success_score])
+                key=lambda mode: np.mean(
+                    [s.success_score for s in recent_sessions if s.mode == mode and s.success_score]
+                ),
             )
 
-            session.generated_insights.append({
-                "type": "meta_learning",
-                "content": f"Reflection: Recent learning success rate: {avg_success:.2f}, Most effective mode: {most_effective_mode.value}",
-                "phase": "reflection",
-                "confidence": 0.8
-            })
+            session.generated_insights.append(
+                {
+                    "type": "meta_learning",
+                    "content": f"Reflection: Recent learning success rate: {avg_success:.2f}, Most effective mode: {most_effective_mode.value}",
+                    "phase": "reflection",
+                    "confidence": 0.8,
+                }
+            )
 
     async def _intuitive_learning(self, session: LearningSession):
         """Intuition-based pattern recognition learning."""
@@ -569,17 +596,18 @@ class DreamGuidedLearner:
             memory = await self.memory_store.get_memory(material_id)
             if memory:
                 # Look for intuitive patterns in constellation alignments
-                strong_alignments = [star for star, alignment in memory.constellation_tags.items()
-                                   if alignment > 0.7]
+                strong_alignments = [star for star, alignment in memory.constellation_tags.items() if alignment > 0.7]
 
                 if strong_alignments:
-                    session.generated_insights.append({
-                        "type": "intuitive_pattern",
-                        "content": f"Intuitive pattern recognized: Strong {', '.join(strong_alignments)} alignment",
-                        "phase": "intuitive_learning",
-                        "confidence": max(memory.constellation_tags[star] for star in strong_alignments),
-                        "pattern_stars": strong_alignments
-                    })
+                    session.generated_insights.append(
+                        {
+                            "type": "intuitive_pattern",
+                            "content": f"Intuitive pattern recognized: Strong {', '.join(strong_alignments)} alignment",
+                            "phase": "intuitive_learning",
+                            "confidence": max(memory.constellation_tags[star] for star in strong_alignments),
+                            "pattern_stars": strong_alignments,
+                        }
+                    )
 
     # Helper methods
     async def _get_concept_vector(self, concept: str) -> Optional[np.ndarray]:
@@ -589,8 +617,9 @@ class DreamGuidedLearner:
         vector = np.random.normal(0, 1, self.memory_store.embedding_dimension)
         return vector / np.linalg.norm(vector)
 
-    async def _analyze_for_learning(self, memory: MemoryVector,
-                                  objectives: list[LearningObjective]) -> Optional[dict[str, Any]]:
+    async def _analyze_for_learning(
+        self, memory: MemoryVector, objectives: list[LearningObjective]
+    ) -> Optional[dict[str, Any]]:
         """Analyze memory content for learning opportunities."""
 
         # Simple analysis based on memory type and constellation alignment
@@ -613,7 +642,7 @@ class DreamGuidedLearner:
                 "content": f"Learning opportunity in: {memory.content[:100]}...",
                 "score": learning_score,
                 "memory_id": memory.id,
-                "phase": "exploration"
+                "phase": "exploration",
             }
 
         return None
@@ -622,22 +651,26 @@ class DreamGuidedLearner:
         """Apply dream pattern insights to learning process."""
 
         if pattern.pattern_type == DreamInsightType.CREATIVE_CONNECTION:
-            session.generated_insights.append({
-                "type": "dream_creative_insight",
-                "content": f"Dream revealed creative connection: {pattern.insight_content}",
-                "phase": "dream_integration",
-                "confidence": pattern.confidence,
-                "pattern_id": pattern.pattern_id
-            })
+            session.generated_insights.append(
+                {
+                    "type": "dream_creative_insight",
+                    "content": f"Dream revealed creative connection: {pattern.insight_content}",
+                    "phase": "dream_integration",
+                    "confidence": pattern.confidence,
+                    "pattern_id": pattern.pattern_id,
+                }
+            )
 
         elif pattern.pattern_type == DreamInsightType.PATTERN_DISCOVERY:
-            session.generated_insights.append({
-                "type": "dream_pattern_insight",
-                "content": f"Dream discovered pattern: {pattern.insight_content}",
-                "phase": "dream_integration",
-                "confidence": pattern.confidence,
-                "pattern_id": pattern.pattern_id
-            })
+            session.generated_insights.append(
+                {
+                    "type": "dream_pattern_insight",
+                    "content": f"Dream discovered pattern: {pattern.insight_content}",
+                    "phase": "dream_integration",
+                    "confidence": pattern.confidence,
+                    "pattern_id": pattern.pattern_id,
+                }
+            )
 
     async def _create_learning_memory(self, content: str, content_type: str, session: LearningSession):
         """Create a memory for new learning."""
@@ -661,10 +694,10 @@ class DreamGuidedLearner:
             vector=vector,
             memory_type=memory_type,
             importance=MemoryImportance.HIGH,  # New learning is important
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             constellation_tags=constellation_tags,
             source_context=f"Learning session: {session.session_id}",
-            confidence=0.8
+            confidence=0.8,
         )
 
         await self.memory_store.add_memory(learning_memory)
@@ -714,8 +747,13 @@ class DreamGuidedLearner:
         base_transfer = 0.5
 
         # Higher transfer potential for abstract concepts
-        abstract_concepts = len([c for c in outcome.concepts_learned
-                               if any(keyword in c.lower() for keyword in ["pattern", "principle", "strategy"])])
+        abstract_concepts = len(
+            [
+                c
+                for c in outcome.concepts_learned
+                if any(keyword in c.lower() for keyword in ["pattern", "principle", "strategy"])
+            ]
+        )
         abstract_boost = abstract_concepts * 0.1
 
         # Creative learning has higher transfer potential
@@ -758,11 +796,15 @@ class DreamGuidedLearner:
             content=summary_content,
             vector=vector,
             memory_type=MemoryType.EPISODIC,
-            importance=MemoryImportance.HIGH if session.success_score and session.success_score > 0.8 else MemoryImportance.MEDIUM,
-            timestamp=session.end_time or datetime.now(),
+            importance=(
+                MemoryImportance.HIGH
+                if session.success_score and session.success_score > 0.8
+                else MemoryImportance.MEDIUM
+            ),
+            timestamp=session.end_time or datetime.now(timezone.utc),
             constellation_tags=constellation_tags,
             source_context="Learning session summary",
-            confidence=session.success_score or 0.5
+            confidence=session.success_score or 0.5,
         )
 
         await self.memory_store.add_memory(summary_memory)
@@ -779,7 +821,7 @@ class DreamGuidedLearner:
                 "type": "recovery_insight",
                 "content": f"Recovered with simplified analysis of {len(session.source_materials)} materials",
                 "phase": "error_recovery",
-                "confidence": 0.3
+                "confidence": 0.3,
             }
             session.generated_insights.append(simple_insight)
 
@@ -793,10 +835,17 @@ class DreamGuidedLearner:
             "active_sessions": len(self.active_sessions),
             "completed_sessions": len(self.completed_sessions),
             "recent_performance": {
-                "avg_success_score": np.mean([s.success_score for s in recent_sessions if s.success_score]) if recent_sessions else 0.0,
-                "avg_duration_minutes": np.mean([s.duration_minutes for s in recent_sessions if s.duration_minutes]) if recent_sessions else 0.0,
-                "dream_integration_rate": len([s for s in recent_sessions if s.dream_sessions]) / max(1, len(recent_sessions))
-            }
+                "avg_success_score": (
+                    np.mean([s.success_score for s in recent_sessions if s.success_score]) if recent_sessions else 0.0
+                ),
+                "avg_duration_minutes": (
+                    np.mean([s.duration_minutes for s in recent_sessions if s.duration_minutes])
+                    if recent_sessions
+                    else 0.0
+                ),
+                "dream_integration_rate": len([s for s in recent_sessions if s.dream_sessions])
+                / max(1, len(recent_sessions)),
+            },
         }
 
         return stats

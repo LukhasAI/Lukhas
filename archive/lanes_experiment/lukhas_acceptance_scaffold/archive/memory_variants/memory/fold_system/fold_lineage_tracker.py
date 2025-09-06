@@ -245,7 +245,7 @@ class FoldLineageTracker:
             metadata = {}
 
         causation_id = hashlib.sha256(  # Changed from MD5 for security
-            f"{source_fold_key}_{target_fold_key}_{causation_type.value}_{datetime.now()}".encode()
+            f"{source_fold_key}_{target_fold_key}_{causation_type.value}_{datetime.now(timezone.utc)}".encode()
         ).hexdigest()[:12]
 
         causal_link = CausalLink(
@@ -794,9 +794,7 @@ class FoldLineageTracker:
 
         # Weighted combination of factors
         resilience = (
-            stability * 0.4
-            + min(1.0, causation_diversity / 3.0) * 0.3  # Normalize diversity
-            + lineage_strength * 0.3
+            stability * 0.4 + min(1.0, causation_diversity / 3.0) * 0.3 + lineage_strength * 0.3  # Normalize diversity
         )
 
         return round(resilience, 3)

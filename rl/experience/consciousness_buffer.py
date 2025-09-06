@@ -38,6 +38,7 @@ logger = get_logger(__name__)
 @dataclass
 class RLExperience:
     """Single RL experience tuple"""
+
     state: MatrizNode
     action: MatrizNode
     reward: MatrizNode
@@ -83,7 +84,7 @@ class ConsciousnessBuffer:
             "MΛTRIZ ConsciousnessBuffer initialized",
             capabilities=self.capabilities,
             trace_id=self.trace_id,
-            capacity=capacity
+            capacity=capacity,
         )
 
     def get_module(self, module_path: str) -> Optional[Any]:
@@ -91,16 +92,20 @@ class ConsciousnessBuffer:
         try:
             if module_path == "memory.fold.v1":
                 from candidate.memory.temporal.compliance_hooks import ComplianceHooks
+
                 return ComplianceHooks()
             elif module_path == "memory.core.v1":
                 # Mock memory core for now
                 class MockMemoryCore:
                     def create_fold(self, data, **kwargs):
                         return f"fold-{uuid.uuid4().hex[:8]}"
+
                     def get_fold(self, fold_id):
                         return {"data": "mock", "id": fold_id}
+
                     def get_salience_map(self):
                         return {"recent": 0.9, "important": 0.8}
+
                 return MockMemoryCore()
         except ImportError:
             return None
@@ -134,7 +139,7 @@ class ConsciousnessBuffer:
         reward: MatrizNode,
         next_state: MatrizNode,
         done: bool = False,
-        episode_id: Optional[str] = None
+        episode_id: Optional[str] = None,
     ) -> MatrizNode:
         """
         Store RL experience using memory fold system, emit MEMORY node.
@@ -151,7 +156,7 @@ class ConsciousnessBuffer:
             done=done,
             episode_id=episode_id or f"episode-{uuid.uuid4().hex[:8]}",
             step=len(self.experiences),
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )
 
         # Calculate experience salience based on reward and consciousness coherence
@@ -173,12 +178,11 @@ class ConsciousnessBuffer:
                 "salience": salience,
                 "consciousness_coherence": self._extract_coherence(state),
                 "ethical_alignment": self._extract_ethics(state),
-                "timestamp": experience.timestamp.isoformat()
+                "timestamp": experience.timestamp.isoformat(),
             }
 
             fold_id = self.memory_fold.create_fold(
-                experience_data,
-                cascade_prevention=self.cascade_prevention_threshold
+                experience_data, cascade_prevention=self.cascade_prevention_threshold
             )
 
             self.cascade_prevention_successes += 1
@@ -197,7 +201,7 @@ class ConsciousnessBuffer:
                 "memory:type=rl_experience@1",
                 f"salience:level={salience:.2f}@1",
                 f"episode:id={experience.episode_id}@1",
-                "cascade:prevention=active@1"
+                "cascade:prevention=active@1",
             ],
             state={
                 "confidence": 0.95,  # High confidence in stored experiences
@@ -206,7 +210,6 @@ class ConsciousnessBuffer:
                 "arousal": 0.5,  # Moderate arousal for memories
                 "novelty": self._calculate_experience_novelty(experience),
                 "urgency": 0.3,  # Memories have low urgency
-
                 # Rich experience information
                 "fold_id": fold_id,
                 "experience_type": "rl_learning",
@@ -217,11 +220,11 @@ class ConsciousnessBuffer:
                 "consciousness_coherence": self._extract_coherence(state),
                 "ethical_alignment": self._extract_ethics(state),
                 "memory_efficiency": len(self.experiences) / self.capacity,
-                "cascade_prevention_rate": self.cascade_prevention_successes / max(1, self.cascade_prevention_attempts)
+                "cascade_prevention_rate": self.cascade_prevention_successes / max(1, self.cascade_prevention_attempts),
             },
             timestamps={
                 "created_ts": int(time.time() * 1000),
-                "observed_ts": int(experience.timestamp.timestamp() * 1000)
+                "observed_ts": int(experience.timestamp.timestamp() * 1000),
             },
             provenance={
                 "producer": "rl.experience.consciousness_buffer",
@@ -230,11 +233,7 @@ class ConsciousnessBuffer:
                 "trace_id": self.trace_id,
                 "consent_scopes": ["rl_memory", "experience_storage"],
                 "policy_version": "rl.memory.v1.0",
-                "colony": {
-                    "id": "rl_experience",
-                    "role": "buffer",
-                    "iteration": self.total_experiences
-                }
+                "colony": {"id": "rl_experience", "role": "buffer", "iteration": self.total_experiences},
             },
             links=[
                 {
@@ -242,58 +241,60 @@ class ConsciousnessBuffer:
                     "link_type": "temporal",
                     "weight": 0.9,
                     "direction": "bidirectional",
-                    "explanation": "Experience state component"
+                    "explanation": "Experience state component",
                 },
                 {
                     "target_node_id": action.id,
                     "link_type": "causal",
                     "weight": 0.95,
                     "direction": "unidirectional",
-                    "explanation": "Action taken in this experience"
+                    "explanation": "Action taken in this experience",
                 },
                 {
                     "target_node_id": reward.id,
                     "link_type": "causal",
                     "weight": 1.0,
                     "direction": "unidirectional",
-                    "explanation": "Reward received for action"
+                    "explanation": "Reward received for action",
                 },
                 {
                     "target_node_id": next_state.id,
                     "link_type": "temporal",
                     "weight": 0.9,
                     "direction": "bidirectional",
-                    "explanation": "Resulting state after action"
-                }
+                    "explanation": "Resulting state after action",
+                },
             ],
             evolves_to=["HYPOTHESIS", "REFLECTION", "CAUSAL"],
             triggers=[
                 {
                     "event_type": "experience_storage",
                     "effect": "memory_fold_created",
-                    "timestamp": int(time.time() * 1000)
+                    "timestamp": int(time.time() * 1000),
                 }
-            ] + ([{
-                "event_type": "episode_termination",
-                "effect": "episode_boundary_marked",
-                "timestamp": int(time.time() * 1000)
-            }] if done else []),
+            ]
+            + (
+                [
+                    {
+                        "event_type": "episode_termination",
+                        "effect": "episode_boundary_marked",
+                        "timestamp": int(time.time() * 1000),
+                    }
+                ]
+                if done
+                else []
+            ),
             reflections=[
                 {
                     "reflection_type": "self_question",
                     "timestamp": int(time.time() * 1000),
                     "cause": "How will this experience improve learning?",
                     "old_state": {"learning_potential": "unknown"},
-                    "new_state": {"learning_potential": salience}
+                    "new_state": {"learning_potential": salience},
                 }
             ],
             embeddings=[],
-            evidence=[
-                {
-                    "kind": "trace",
-                    "uri": f"memory://fold/{fold_id}"
-                }
-            ]
+            evidence=[{"kind": "trace", "uri": f"memory://fold/{fold_id}"}],
         )
 
         # Store experience and memory node
@@ -303,12 +304,14 @@ class ConsciousnessBuffer:
 
         # Track episode boundaries
         if done:
-            self.episode_boundaries.append({
-                "episode_id": experience.episode_id,
-                "end_index": len(self.experiences) - 1,
-                "total_steps": experience.step + 1,
-                "timestamp": experience.timestamp
-            })
+            self.episode_boundaries.append(
+                {
+                    "episode_id": experience.episode_id,
+                    "end_index": len(self.experiences) - 1,
+                    "total_steps": experience.step + 1,
+                    "timestamp": experience.timestamp,
+                }
+            )
 
         # Update metrics
         self.total_experiences += 1
@@ -323,7 +326,7 @@ class ConsciousnessBuffer:
             episode_id=experience.episode_id,
             step=experience.step,
             done=done,
-            memory_node_id=memory_node.id
+            memory_node_id=memory_node.id,
         )
 
         return memory_node
@@ -385,8 +388,10 @@ class ConsciousnessBuffer:
         # Prioritized sampling based on salience
         if np:
             # Calculate sampling probabilities based on salience
-            saliences = [self.memory_efficiency[i] if i < len(self.memory_efficiency) else 0.5
-                        for i in range(len(self.experiences))]
+            saliences = [
+                self.memory_efficiency[i] if i < len(self.memory_efficiency) else 0.5
+                for i in range(len(self.experiences))
+            ]
 
             # Add small epsilon to avoid zero probabilities
             probs = np.array(saliences) + 1e-6
@@ -404,10 +409,7 @@ class ConsciousnessBuffer:
 
     async def get_episode_experiences(self, episode_id: str) -> list[RLExperience]:
         """Get all experiences from a specific episode"""
-        episode_experiences = [
-            exp for exp in self.experiences
-            if exp.episode_id == episode_id
-        ]
+        episode_experiences = [exp for exp in self.experiences if exp.episode_id == episode_id]
 
         logger.info(f"Retrieved {len(episode_experiences)} experiences for episode {episode_id}")
         return episode_experiences
@@ -431,11 +433,15 @@ class ConsciousnessBuffer:
             "total_experiences": self.total_experiences,
             "buffer_utilization": len(self.experiences) / self.capacity,
             "cascade_prevention_rate": self.cascade_prevention_successes / max(1, self.cascade_prevention_attempts),
-            "average_salience": sum(self.memory_efficiency) / len(self.memory_efficiency) if self.memory_efficiency else 0.0,
+            "average_salience": (
+                sum(self.memory_efficiency) / len(self.memory_efficiency) if self.memory_efficiency else 0.0
+            ),
             "total_episodes": len(self.episode_boundaries),
-            "memory_efficiency_trend": self.memory_efficiency[-10:] if len(self.memory_efficiency) >= 10 else self.memory_efficiency,
+            "memory_efficiency_trend": (
+                self.memory_efficiency[-10:] if len(self.memory_efficiency) >= 10 else self.memory_efficiency
+            ),
             "fold_registry_size": len(self.fold_registry),
-            "trace_id": self.trace_id
+            "trace_id": self.trace_id,
         }
 
     def clear(self):

@@ -380,12 +380,14 @@ class DriveAdapter(ServiceAdapter):
                     shared_publicly=i % 5 == 0,
                     folder_path="/My Drive/" + (f"{parent_id}/" if parent_id else ""),
                     is_folder=is_folder,
-                    permissions=[
-                        {"type": "user", "role": "owner", "email": "gonzo@lukhas.com"},
-                        {"type": "user", "role": "reader", "email": "alice@example.com"},
-                    ]
-                    if i % 3 == 0
-                    else [],
+                    permissions=(
+                        [
+                            {"type": "user", "role": "owner", "email": "gonzo@lukhas.com"},
+                            {"type": "user", "role": "reader", "email": "alice@example.com"},
+                        ]
+                        if i % 3 == 0
+                        else []
+                    ),
                     version=1 + i,
                     last_viewed_at=datetime.now(timezone.utc) - timedelta(hours=i * 2),
                 )

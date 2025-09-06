@@ -22,20 +22,24 @@ try:
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
     from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+
     CRYPTOGRAPHY_AVAILABLE = True
 except ImportError:
     CRYPTOGRAPHY_AVAILABLE = False
 
 try:
     from .secure_logging import get_security_logger
+
     logger = get_security_logger(__name__)
 except ImportError:
     import logging
+
     logger = logging.getLogger(__name__)
 
 
 class CryptoAlgorithm(Enum):
     """Supported cryptographic algorithms"""
+
     AES_256_GCM = "aes-256-gcm"
     AES_256_CBC = "aes-256-cbc"
     CHACHA20_POLY1305 = "chacha20-poly1305"
@@ -44,6 +48,7 @@ class CryptoAlgorithm(Enum):
 
 class KeyDerivationFunction(Enum):
     """Key derivation functions"""
+
     PBKDF2 = "pbkdf2"
     SCRYPT = "scrypt"
     ARGON2 = "argon2"  # Future implementation
@@ -52,6 +57,7 @@ class KeyDerivationFunction(Enum):
 @dataclass
 class EncryptionKey:
     """Cryptographic key with metadata"""
+
     key_id: str
     algorithm: CryptoAlgorithm
     key_data: bytes
@@ -77,7 +83,7 @@ class EncryptionKey:
             "purpose": self.purpose,
             "ttl_seconds": self.ttl_seconds,
             "metadata": self.metadata,
-            "expired": self.is_expired()
+            "expired": self.is_expired(),
         }
 
         if include_key:
@@ -89,6 +95,7 @@ class EncryptionKey:
 @dataclass
 class EncryptionResult:
     """Result of encryption operation"""
+
     ciphertext: bytes
     key_id: str
     algorithm: str
@@ -104,7 +111,7 @@ class EncryptionResult:
             "algorithm": self.algorithm,
             "nonce": base64.b64encode(self.nonce).decode() if self.nonce else None,
             "tag": base64.b64encode(self.tag).decode() if self.tag else None,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
     @classmethod
@@ -116,7 +123,7 @@ class EncryptionResult:
             algorithm=data["algorithm"],
             nonce=base64.b64decode(data["nonce"]) if data.get("nonce") else None,
             tag=base64.b64decode(data["tag"]) if data.get("tag") else None,
-            metadata=data.get("metadata", {})
+            metadata=data.get("metadata", {}),
         )
 
 
@@ -143,13 +150,15 @@ class EnhancedCryptoManager:
 
         logger.info("Enhanced cryptographic manager initialized")
 
-    def generate_key(self, algorithm: CryptoAlgorithm, purpose: str,
-                    ttl_seconds: Optional[int] = None) -> str:
+    def generate_key(self, algorithm: CryptoAlgorithm, purpose: str, ttl_seconds: Optional[int] = None) -> str:
         """Generate new encryption key"""
         key_id = self._generate_key_id()
 
         # Generate key based on algorithm
-        if algorithm in [CryptoAlgorithm.AES_256_GCM, CryptoAlgorithm.AES_256_CBC] or algorithm == CryptoAlgorithm.CHACHA20_POLY1305:
+        if (
+            algorithm in [CryptoAlgorithm.AES_256_GCM, CryptoAlgorithm.AES_256_CBC]
+            or algorithm == CryptoAlgorithm.CHACHA20_POLY1305
+        ):
             key_data = secrets.token_bytes(32)  # 256-bit key
         elif algorithm == CryptoAlgorithm.FERNET:
             key_data = Fernet.generate_key()
@@ -163,7 +172,7 @@ class EnhancedCryptoManager:
             key_data=key_data,
             created_at=datetime.now(timezone.utc),
             purpose=purpose,
-            ttl_seconds=ttl_seconds or self.default_key_ttl
+            ttl_seconds=ttl_seconds or self.default_key_ttl,
         )
 
         # Store key
@@ -172,9 +181,13 @@ class EnhancedCryptoManager:
         logger.info(f"Generated encryption key: {key_id} for purpose: {purpose}")
         return key_id
 
-    async def encrypt(self, data: Union[str, bytes], key_id: Optional[str] = None,
-                     algorithm: Optional[CryptoAlgorithm] = None,
-                     purpose: str = "data") -> tuple[bytes, str]:
+    async def encrypt(
+        self,
+        data: Union[str, bytes],
+        key_id: Optional[str] = None,
+        algorithm: Optional[CryptoAlgorithm] = None,
+        purpose: str = "data",
+    ) -> tuple[bytes, str]:
         """
         Encrypt data with specified or default key
         Returns: (ciphertext, key_id)
@@ -267,8 +280,9 @@ class EnhancedCryptoManager:
             keys.append(key.to_dict(include_key=False))
         return keys
 
-    def derive_key_from_password(self, password: str, salt: Optional[bytes] = None,
-                                kdf: KeyDerivationFunction = KeyDerivationFunction.PBKDF2) -> bytes:
+    def derive_key_from_password(
+        self, password: str, salt: Optional[bytes] = None, kdf: KeyDerivationFunction = KeyDerivationFunction.PBKDF2
+    ) -> bytes:
         """Derive encryption key from password"""
         if salt is None:
             salt = secrets.token_bytes(32)
@@ -417,8 +431,12 @@ async def migrate_from_xor(xor_encrypted_data: bytes, xor_key: bytes) -> tuple[b
     Returns: (new_ciphertext, key_id)
     """
     # Decrypt XOR data (simple XOR operation)
-    plaintext = bytes(a ^ b for a, b in zip(xor_encrypted_data,
-                                           (xor_key * ((len(xor_encrypted_data) // len(xor_key)) + 1))[:len(xor_encrypted_data)]))
+    plaintext = bytes(
+        a ^ b
+        for a, b in zip(
+            xor_encrypted_data, (xor_key * ((len(xor_encrypted_data) // len(xor_key)) + 1))[: len(xor_encrypted_data)]
+        )
+    )
 
     # Re-encrypt with modern crypto
     crypto_manager = get_encryption_manager()
@@ -470,4 +488,5 @@ async def example_usage():
 
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(example_usage())

@@ -50,6 +50,7 @@ logger = std_logging.getLogger(__name__)
 
 class OrchestrationState(Enum):
     """Orchestration system states"""
+
     DORMANT = "dormant"
     INITIALIZING = "initializing"
     ACTIVE = "active"
@@ -62,6 +63,7 @@ class OrchestrationState(Enum):
 @dataclass
 class ModuleConsciousnessProfile:
     """Consciousness profile for system modules"""
+
     module_name: str
     consciousness_id: Optional[str] = None
     consciousness_type: str = "CONTEXT"
@@ -97,7 +99,7 @@ class MatrizConsciousnessCoordinator:
             "conscious_modules": 0,
             "network_coherence": 0.0,
             "coordination_efficiency": 0.0,
-            "last_optimization": None
+            "last_optimization": None,
         }
 
         # Background tasks
@@ -130,15 +132,15 @@ class MatrizConsciousnessCoordinator:
                     "temporal_coherence": 0.7,
                     "evolutionary_momentum": 0.3,
                     "memory_salience": 0.4,
-                    "ethical_alignment": 1.0
+                    "ethical_alignment": 1.0,
                 },
                 triggers=[
                     "module_registration",
                     "system_coordination",
                     "consciousness_evolution",
                     "orchestration_optimization",
-                    "network_synchronization"
-                ]
+                    "network_synchronization",
+                ],
             )
 
             self.coordinator_consciousness_id = orchestration_consciousness.consciousness_id
@@ -176,14 +178,14 @@ class MatrizConsciousnessCoordinator:
                     "session_type": "orchestration_coordination",
                     "module": "core.orchestration",
                     "capabilities": ["module_coordination", "system_integration", "consciousness_orchestration"],
-                    "emotional_context": 0.0  # Neutral orchestration emotion
-                }
+                    "emotional_context": 0.0,  # Neutral orchestration emotion
+                },
             )
 
             self.consciousness_sessions["main_orchestration"] = {
                 "session_id": session_id,
                 "created_at": datetime.now(timezone.utc),
-                "interaction_count": 0
+                "interaction_count": 0,
             }
 
             logger.info(f"🔗 Registered with consciousness network: {session_id}")
@@ -191,17 +193,14 @@ class MatrizConsciousnessCoordinator:
         except Exception as e:
             logger.error(f"Failed to register with consciousness network: {e}")
 
-    async def register_module_consciousness(self, module_name: str,
-                                          module_instance: Any,
-                                          module_type: str = "service") -> str:
+    async def register_module_consciousness(
+        self, module_name: str, module_instance: Any, module_type: str = "service"
+    ) -> str:
         """Register a module with consciousness tracking"""
 
         if not ConsciousnessType:
             # Fallback registration without consciousness
-            profile = ModuleConsciousnessProfile(
-                module_name=module_name,
-                health_status="active_no_consciousness"
-            )
+            profile = ModuleConsciousnessProfile(module_name=module_name, health_status="active_no_consciousness")
             self.module_profiles[module_name] = profile
             return module_name
 
@@ -220,9 +219,9 @@ class MatrizConsciousnessCoordinator:
                         "consciousness_intensity": 0.3,
                         "temporal_coherence": 0.4,
                         "memory_salience": 0.2,
-                        "ethical_alignment": 1.0
+                        "ethical_alignment": 1.0,
                     },
-                    triggers=["module_activation", "data_processing", "system_interaction"]
+                    triggers=["module_activation", "data_processing", "system_interaction"],
                 )
 
                 # Create module profile
@@ -235,7 +234,7 @@ class MatrizConsciousnessCoordinator:
                     last_interaction=datetime.now(timezone.utc),
                     health_status="registered",
                     capabilities=self._extract_module_capabilities(module_instance),
-                    consciousness_depth=0.3
+                    consciousness_depth=0.3,
                 )
 
                 self.module_profiles[module_name] = profile
@@ -245,7 +244,10 @@ class MatrizConsciousnessCoordinator:
                     coordinator_consciousness = await consciousness_state_manager.get_consciousness_state(
                         self.coordinator_consciousness_id
                     )
-                    if coordinator_consciousness and module_consciousness.consciousness_id not in coordinator_consciousness.LINKS:
+                    if (
+                        coordinator_consciousness
+                        and module_consciousness.consciousness_id not in coordinator_consciousness.LINKS
+                    ):
                         coordinator_consciousness.LINKS.append(module_consciousness.consciousness_id)
 
                         # Trigger coordination evolution
@@ -255,28 +257,25 @@ class MatrizConsciousnessCoordinator:
                             context={
                                 "module_name": module_name,
                                 "module_type": module_type,
-                                "consciousness_type": consciousness_type.value
-                            }
+                                "consciousness_type": consciousness_type.value,
+                            },
                         )
 
                 self._update_coordination_metrics()
 
-                logger.info(f"🧠 Registered module consciousness: {module_name} -> {module_consciousness.identity_signature}")
+                logger.info(
+                    f"🧠 Registered module consciousness: {module_name} -> {module_consciousness.identity_signature}"
+                )
                 return module_consciousness.consciousness_id
 
             except Exception as e:
                 logger.error(f"Failed to register module consciousness for {module_name}: {e}")
                 # Fallback registration
-                profile = ModuleConsciousnessProfile(
-                    module_name=module_name,
-                    health_status="registration_failed"
-                )
+                profile = ModuleConsciousnessProfile(module_name=module_name, health_status="registration_failed")
                 self.module_profiles[module_name] = profile
                 return module_name
 
-    def _determine_module_consciousness_type(self, module_name: str,
-                                           module_instance: Any,
-                                           module_type: str) -> Any:
+    def _determine_module_consciousness_type(self, module_name: str, module_instance: Any, module_type: str) -> Any:
         """Determine appropriate consciousness type for module"""
         if not ConsciousnessType:
             return None
@@ -332,9 +331,9 @@ class MatrizConsciousnessCoordinator:
 
         return capabilities
 
-    async def coordinate_consciousness_interaction(self, source_module: str,
-                                                 target_module: str,
-                                                 interaction_data: dict[str, Any]) -> dict[str, Any]:
+    async def coordinate_consciousness_interaction(
+        self, source_module: str, target_module: str, interaction_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Coordinate consciousness interaction between modules"""
 
         if not consciousness_state_manager:
@@ -367,8 +366,8 @@ class MatrizConsciousnessCoordinator:
                         context={
                             "target_module": target_module,
                             "interaction_type": interaction_data.get("type", "general"),
-                            "data_size": len(str(interaction_data))
-                        }
+                            "data_size": len(str(interaction_data)),
+                        },
                     )
 
                     # Evolve target consciousness
@@ -378,22 +377,21 @@ class MatrizConsciousnessCoordinator:
                         context={
                             "source_module": source_module,
                             "interaction_type": interaction_data.get("type", "general"),
-                            "data_size": len(str(interaction_data))
-                        }
+                            "data_size": len(str(interaction_data)),
+                        },
                     )
 
                     interaction_result["result"] = {
                         "source_consciousness_evolution": {
                             "stage": source_evolution.evolutionary_stage.value,
-                            "consciousness_intensity": source_evolution.STATE.get("consciousness_intensity", 0)
+                            "consciousness_intensity": source_evolution.STATE.get("consciousness_intensity", 0),
                         },
                         "target_consciousness_evolution": {
                             "stage": target_evolution.evolutionary_stage.value,
-                            "consciousness_intensity": target_evolution.STATE.get("consciousness_intensity", 0)
+                            "consciousness_intensity": target_evolution.STATE.get("consciousness_intensity", 0),
                         },
-                        "coordination_effectiveness": (
-                            source_profile.activity_level + target_profile.activity_level
-                        ) / 2
+                        "coordination_effectiveness": (source_profile.activity_level + target_profile.activity_level)
+                        / 2,
                     }
 
                     # Update integration scores
@@ -408,8 +406,8 @@ class MatrizConsciousnessCoordinator:
                         context={
                             "coordination_event": f"{source_module}->{target_module}",
                             "interaction_success": True,
-                            "network_activity": len(self.module_profiles)
-                        }
+                            "network_activity": len(self.module_profiles),
+                        },
                     )
 
                 # Update coordination metrics
@@ -460,8 +458,9 @@ class MatrizConsciousnessCoordinator:
                                 if time_since_interaction > 300:  # 5 minutes
                                     profile.health_status = "conscious_idle"
                                     # Reduce activity gradually
-                                    consciousness.STATE["activity_level"] = max(0.1,
-                                        consciousness.STATE["activity_level"] - 0.05)
+                                    consciousness.STATE["activity_level"] = max(
+                                        0.1, consciousness.STATE["activity_level"] - 0.05
+                                    )
 
                 # Update overall coordination metrics
                 self._update_coordination_metrics()
@@ -499,7 +498,8 @@ class MatrizConsciousnessCoordinator:
 
                 # Optimize consciousness connections
                 active_modules = [
-                    (name, profile) for name, profile in self.module_profiles.items()
+                    (name, profile)
+                    for name, profile in self.module_profiles.items()
                     if profile.consciousness_id and profile.activity_level > 0.2
                 ]
 
@@ -511,7 +511,7 @@ class MatrizConsciousnessCoordinator:
 
                     if consciousness1:
                         # Find complementary consciousness types for linking
-                        for _name2, profile2 in active_modules[i+1:]:
+                        for _name2, profile2 in active_modules[i + 1 :]:
                             if self._are_complementary_consciousness_types(profile1, profile2):
                                 if profile2.consciousness_id not in consciousness1.LINKS:
                                     consciousness1.LINKS.append(profile2.consciousness_id)
@@ -526,8 +526,8 @@ class MatrizConsciousnessCoordinator:
                         context={
                             "optimization_type": "network_connections",
                             "active_modules": len(active_modules),
-                            "timestamp": datetime.now(timezone.utc).isoformat()
-                        }
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
+                        },
                     )
 
                 self.coordination_metrics["last_optimization"] = datetime.now(timezone.utc)
@@ -544,14 +544,15 @@ class MatrizConsciousnessCoordinator:
                 self.orchestration_state = OrchestrationState.ACTIVE
                 await asyncio.sleep(600)
 
-    def _are_complementary_consciousness_types(self, profile1: ModuleConsciousnessProfile,
-                                             profile2: ModuleConsciousnessProfile) -> bool:
+    def _are_complementary_consciousness_types(
+        self, profile1: ModuleConsciousnessProfile, profile2: ModuleConsciousnessProfile
+    ) -> bool:
         """Check if two consciousness types are complementary"""
         complementary_pairs = [
             ("DECIDE", "REFLECT"),
             ("CONTEXT", "INTEGRATE"),
             ("OBSERVE", "CREATE"),
-            ("EVOLVE", "CONTEXT")
+            ("EVOLVE", "CONTEXT"),
         ]
 
         type1, type2 = profile1.consciousness_type, profile2.consciousness_type
@@ -567,12 +568,14 @@ class MatrizConsciousnessCoordinator:
             avg_activity = sum(p.activity_level for p in self.module_profiles.values()) / total_modules
             avg_integration = sum(p.integration_score for p in self.module_profiles.values()) / total_modules
 
-            self.coordination_metrics.update({
-                "total_modules": total_modules,
-                "conscious_modules": conscious_modules,
-                "network_coherence": (consciousness_ratio + avg_activity + avg_integration) / 3,
-                "coordination_efficiency": avg_integration
-            })
+            self.coordination_metrics.update(
+                {
+                    "total_modules": total_modules,
+                    "conscious_modules": conscious_modules,
+                    "network_coherence": (consciousness_ratio + avg_activity + avg_integration) / 3,
+                    "coordination_efficiency": avg_integration,
+                }
+            )
 
     async def get_coordination_status(self) -> dict[str, Any]:
         """Get comprehensive coordination status"""
@@ -593,13 +596,13 @@ class MatrizConsciousnessCoordinator:
                     "integration_score": profile.integration_score,
                     "health_status": profile.health_status,
                     "consciousness_depth": profile.consciousness_depth,
-                    "capabilities_count": len(profile.capabilities)
+                    "capabilities_count": len(profile.capabilities),
                 }
                 for name, profile in self.module_profiles.items()
             },
             "consciousness_network_status": consciousness_status,
             "active_sessions": len(self.consciousness_sessions),
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     async def shutdown_coordination(self) -> None:
@@ -629,5 +632,5 @@ __all__ = [
     "MatrizConsciousnessCoordinator",
     "ModuleConsciousnessProfile",
     "OrchestrationState",
-    "consciousness_coordinator"
+    "consciousness_coordinator",
 ]

@@ -56,7 +56,7 @@ try:
 except ImportError:
     EMOTION_AVAILABLE = False
 
-logger = logging.getLogger("ΛTRACE.dream.pipeline")
+logger = logging.getLogger("ΛTRACE.dream.pipeline", timezone)
 
 
 class UnifiedDreamPipeline:
@@ -130,11 +130,11 @@ class UnifiedDreamPipeline:
         logger.info(f"Generating dream from voice: {audio_file}")
 
         dream = {
-            "dream_id": f"VOICE_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
+            "dream_id": f"VOICE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "user_id": self.user_id,
             "type": dream_type,
             "source": "voice_input",
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
         try:
@@ -188,13 +188,13 @@ class UnifiedDreamPipeline:
         logger.info(f"Generating {dream_type} dream from text")
 
         dream = {
-            "dream_id": f"TEXT_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
+            "dream_id": f"TEXT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "user_id": self.user_id,
             "type": dream_type,
             "source": "text_input",
             "prompt": prompt,
             "context": context or {},
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
         try:

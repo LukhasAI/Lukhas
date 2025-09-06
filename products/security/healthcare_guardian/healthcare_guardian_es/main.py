@@ -344,13 +344,15 @@ class HealthcareGuardian:
 
 async def main():
     """Main entry point"""
-    print("""
+    print(
+        """
     ╔══════════════════════════════════════════════════════╗
     ║     🏥 LUKHAS Healthcare Guardian                    ║
     ║     Sistema de Salud para Mayores Andaluces         ║
     ║     ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian      ║
     ╚══════════════════════════════════════════════════════╝
-    """)
+    """
+    )
 
     # Create and start the guardian
     guardian = HealthcareGuardian()

@@ -35,9 +35,14 @@ try:
 except ImportError:
     # Mock classes for development
     class MockAGIComponent:
-        async def initialize(self): pass
-        async def shutdown(self): pass
-        def get_health(self): return {"status": "healthy"}
+        async def initialize(self):
+            pass
+
+        async def shutdown(self):
+            pass
+
+        def get_health(self):
+            return {"status": "healthy"}
 
     ChainOfThought = TreeOfThoughts = DreamIntegration = MockAGIComponent
     ModelRouter = ConsensusEngine = MockAGIComponent
@@ -50,6 +55,7 @@ except ImportError:
 
     vocabulary_service = MockVocabService()
     log_agi_operation = vocabulary_service.log_agi_operation
+
 
 # AGI Service Interface (compatible with LUKHAS IService)
 class IAGIService(Protocol):
@@ -67,9 +73,11 @@ class IAGIService(Protocol):
         """Get service health status."""
         ...
 
+
 @dataclass
 class ServiceRegistration:
     """Information about a registered AGI service."""
+
     name: str
     service: Any
     service_type: str
@@ -77,14 +85,17 @@ class ServiceRegistration:
     health_status: str = "unknown"
     last_health_check: Optional[datetime] = None
 
+
 @dataclass
 class ServiceMetrics:
     """Metrics for AGI service integration."""
+
     total_services: int = 0
     healthy_services: int = 0
     failed_services: int = 0
     initialization_errors: int = 0
     last_health_check: Optional[datetime] = None
+
 
 class AGIServiceAdapter:
     """
@@ -145,6 +156,7 @@ class AGIServiceAdapter:
 
         return base_health
 
+
 class AGIServiceBridge:
     """
     Central bridge service that integrates AGI capabilities with LUKHAS service architecture.
@@ -168,14 +180,13 @@ class AGIServiceBridge:
         self.logger = logging.getLogger("agi_service_bridge")
         if not self.logger.handlers:
             handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - [%(levelname)s] - %(message)s"
-            )
+            formatter = logging.Formatter("%(asctime)s - %(name)s - [%(levelname)s] - %(message)s")
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
 
-    async def register_agi_service(self, service_name: str, agi_component: Any,
-                                 auto_initialize: bool = True) -> AGIServiceAdapter:
+    async def register_agi_service(
+        self, service_name: str, agi_component: Any, auto_initialize: bool = True
+    ) -> AGIServiceAdapter:
         """
         Register an AGI component as a service in the LUKHAS ecosystem.
 
@@ -201,7 +212,7 @@ class AGIServiceBridge:
                 service=adapter,
                 service_type=type(agi_component).__name__,
                 registration_time=datetime.now(timezone.utc),
-                health_status=adapter.get_health()["status"]
+                health_status=adapter.get_health()["status"],
             )
 
             self.registered_services[service_name] = registration
@@ -308,7 +319,7 @@ class AGIServiceBridge:
                 health_results[service_name] = {
                     "status": "error",
                     "error": str(e),
-                    "timestamp": datetime.now(timezone.utc).isoformat()
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         await self._update_health_metrics()
@@ -369,34 +380,41 @@ class AGIServiceBridge:
                     "type": reg.service_type,
                     "status": reg.health_status,
                     "registration_time": reg.registration_time.isoformat(),
-                    "last_health_check": reg.last_health_check.isoformat() if reg.last_health_check else None
+                    "last_health_check": reg.last_health_check.isoformat() if reg.last_health_check else None,
                 }
                 for reg in self.registered_services.values()
             ],
             "health_monitoring": self.enable_health_monitoring,
-            "active_health_task": self._health_check_task is not None and not self._health_check_task.done()
+            "active_health_task": self._health_check_task is not None and not self._health_check_task.done(),
         }
+
 
 # Global service bridge instance
 agi_service_bridge = AGIServiceBridge()
 
+
 # Convenience functions for external use
-async def register_agi_service(service_name: str, agi_component: Any,
-                             auto_initialize: bool = True) -> AGIServiceAdapter:
+async def register_agi_service(
+    service_name: str, agi_component: Any, auto_initialize: bool = True
+) -> AGIServiceAdapter:
     """Convenience function to register an AGI service."""
     return await agi_service_bridge.register_agi_service(service_name, agi_component, auto_initialize)
+
 
 def get_agi_service(service_name: str) -> Optional[AGIServiceAdapter]:
     """Convenience function to get an AGI service."""
     return agi_service_bridge.get_agi_service(service_name)
 
+
 async def initialize_agi_services() -> dict[str, bool]:
     """Convenience function to initialize all AGI services."""
     return await agi_service_bridge.initialize_all_services()
 
+
 async def health_check_agi_services() -> dict[str, dict[str, Any]]:
     """Convenience function to health check all AGI services."""
     return await agi_service_bridge.health_check_all_services()
+
 
 if __name__ == "__main__":
     # Test the AGI service bridge
@@ -404,20 +422,23 @@ if __name__ == "__main__":
         bridge = AGIServiceBridge()
 
         print("🧠 AGI Service Bridge Test")
-        print("="*50)
+        print("=" * 50)
 
         # Create mock AGI components
         class MockChainOfThought:
             async def initialize(self):
                 print("ChainOfThought initialized")
+
             async def shutdown(self):
                 print("ChainOfThought shutdown")
+
             def get_health(self):
                 return {"status": "healthy", "reasoning_chains": 42}
 
         class MockModelRouter:
             async def initialize(self):
                 print("ModelRouter initialized")
+
             def get_health(self):
                 return {"status": "healthy", "active_models": 3}
 

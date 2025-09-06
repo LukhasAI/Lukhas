@@ -1188,9 +1188,7 @@ class EnhancedEmotionalReasoner:
             "risk_level": (
                 "low"
                 if len(inputs.emotional_triggers) <= 2
-                else "moderate"
-                if len(inputs.emotional_triggers) <= 4
-                else "high"
+                else "moderate" if len(inputs.emotional_triggers) <= 4 else "high"
             ),
             "management_strategies": [],
         }

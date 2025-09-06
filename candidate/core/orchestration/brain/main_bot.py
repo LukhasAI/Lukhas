@@ -55,9 +55,7 @@ class EnhancedAGIBot:
 
     def __init__(self, config: Optional[dict] = None):
         """Initialize the Enhanced AI Bot with quantum-biological components (ORIGINAL LOGIC)"""
-        logger.info(
-            "🧠 Initializing Enhanced AI Bot - True AI System with Quantum-Biological Architecture"
-        )
+        logger.info("🧠 Initializing Enhanced AI Bot - True AI System with Quantum-Biological Architecture")
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
@@ -92,9 +90,7 @@ class EnhancedAGIBot:
         self.continuous_learning = True
 
         logger.info(f"✅ Enhanced AI Bot initialized - Session: {self.session_id}")
-        logger.info(
-            f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}"
-        )
+        logger.info(f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}")
 
     def _generate_safe_response(self, compliance_result: dict) -> str:
         """Generate a safe response when compliance fails (ORIGINAL LOGIC)"""
@@ -131,9 +127,7 @@ class EnhancedAGIBot:
         """Perform continuous learning updates (ORIGINAL LOGIC)"""
         # Update learning memory with successful patterns
         if agi_response.confidence > 0.8:
-            pattern_key = hashlib.sha256(
-                input_data.get("text", "").encode()
-            ).hexdigest()[:16]
+            pattern_key = hashlib.sha256(input_data.get("text", "").encode()).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
@@ -191,9 +185,7 @@ class EnhancedAGIBot:
             "session_id": self.session_id,
             "timestamp": start_time.isoformat(),
             "context": context or {},
-            "history": (
-                self.conversation_history[-5:] if self.conversation_history else []
-            ),
+            "history": (self.conversation_history[-5:] if self.conversation_history else []),
         }
 
         try:
@@ -201,14 +193,10 @@ class EnhancedAGIBot:
             orchestration_result = self.orchestrator.orchestrate(input_data, context)
 
             # Generate response content
-            response_content = await self._generate_response_content(
-                orchestration_result, input_data
-            )
+            response_content = await self._generate_response_content(orchestration_result, input_data)
 
             # Compliance check
-            compliance_result = self.compliance_engine.check_compliance(
-                input_data, {"content": response_content}
-            )
+            compliance_result = self.compliance_engine.check_compliance(input_data, {"content": response_content})
 
             if not compliance_result["is_compliant"]:
                 response_content = self._generate_safe_response(compliance_result)
@@ -233,9 +221,7 @@ class EnhancedAGIBot:
 
             # Continuous learning
             if self.continuous_learning:
-                await self._continuous_learning_update(
-                    input_data, agi_response, orchestration_result
-                )
+                await self._continuous_learning_update(input_data, agi_response, orchestration_result)
 
             self.performance_metrics["total_interactions"] += 1
             if agi_response.confidence > 0.6:
@@ -255,9 +241,7 @@ class EnhancedAGIBot:
             error_response = AGIResponse(
                 content=f"I encountered an error while processing your request. Error: {e!s}",
                 confidence=0.1,
-                reasoning_path=[
-                    {"error": str(e), "timestamp": datetime.now().isoformat()}
-                ],
+                reasoning_path=[{"error": str(e), "timestamp": datetime.now().isoformat()}],
                 metacognitive_state=self.orchestrator.metacognitive_state.copy(),
                 ethical_compliance={
                     "is_compliant": True,
@@ -270,17 +254,11 @@ class EnhancedAGIBot:
 
             return error_response
 
-    async def _generate_response_content(
-        self, orchestration_result: dict, input_data: dict
-    ) -> str:
+    async def _generate_response_content(self, orchestration_result: dict, input_data: dict) -> str:
         """Generate response content based on orchestration results (ORIGINAL LOGIC)"""
         # Extract insights from different reasoning components
-        causal_insights = orchestration_result.get("causal_results", {}).get(
-            "primary_cause", {}
-        )
-        symbolic_insights = orchestration_result.get("symbolic_results", {}).get(
-            "inferences", []
-        )
+        causal_insights = orchestration_result.get("causal_results", {}).get("primary_cause", {})
+        symbolic_insights = orchestration_result.get("symbolic_results", {}).get("inferences", [])
         metacognitive_insights = orchestration_result.get("metacognitive_insights", [])
 
         # Build comprehensive response
@@ -294,29 +272,21 @@ class EnhancedAGIBot:
 
         # Add causal reasoning insights
         if causal_insights and causal_insights.get("summary"):
-            response_parts.append(
-                f"Causal analysis reveals: {causal_insights['summary']}"
-            )
+            response_parts.append(f"Causal analysis reveals: {causal_insights['summary']}")
 
         # Add symbolic reasoning insights
         if symbolic_insights:
-            symbolic_summary = (
-                f"Logical analysis shows: {len(symbolic_insights)} key inferences"
-            )
+            symbolic_summary = f"Logical analysis shows: {len(symbolic_insights)} key inferences"
             response_parts.append(symbolic_summary)
 
         # Add metacognitive insights
         if metacognitive_insights:
-            metacog_summary = (
-                f"Self-reflection indicates: {', '.join(metacognitive_insights[:2])}"
-            )
+            metacog_summary = f"Self-reflection indicates: {', '.join(metacognitive_insights[:2])}"
             response_parts.append(metacog_summary)
 
         # Fallback response if no insights generated
         if not response_parts:
-            response_parts.append(
-                "I've processed your input and am ready to assist you further."
-            )
+            response_parts.append("I've processed your input and am ready to assist you further.")
 
         return " ".join(response_parts)
 
@@ -327,9 +297,7 @@ class EnhancedAGIBot:
         demonstrations = []
 
         # Test 1: Metacognitive Self-Awareness
-        self_awareness_test = await self.process_input(
-            "What is your current capability level and how do you know?"
-        )
+        self_awareness_test = await self.process_input("What is your current capability level and how do you know?")
         demonstrations.append(
             {
                 "test": "metacognitive_self_awareness",
@@ -345,23 +313,28 @@ class EnhancedAGIBot:
             "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?"
         )
         demonstrations.append(
-            {"test": "complex_reasoning",
-             "input":
-             "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?",
-             "response": complex_reasoning_test.content,
-             "confidence": complex_reasoning_test.confidence,
-             "reasoning_steps": len(complex_reasoning_test.reasoning_path), })
+            {
+                "test": "complex_reasoning",
+                "input": "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?",
+                "response": complex_reasoning_test.content,
+                "confidence": complex_reasoning_test.confidence,
+                "reasoning_steps": len(complex_reasoning_test.reasoning_path),
+            }
+        )
 
         # Test 3: Creative Problem Solving
         creative_test = await self.process_input(
             "Design a novel solution for helping people collaborate more effectively in remote work environments."
         )
         demonstrations.append(
-            {"test": "creative_problem_solving",
-             "input":
-             "Design a novel solution for helping people collaborate more effectively in remote work environments.",
-             "response": creative_test.content, "confidence": creative_test.confidence,
-             "ethical_compliance": creative_test.ethical_compliance["is_compliant"], })
+            {
+                "test": "creative_problem_solving",
+                "input": "Design a novel solution for helping people collaborate more effectively in remote work environments.",
+                "response": creative_test.content,
+                "confidence": creative_test.confidence,
+                "ethical_compliance": creative_test.ethical_compliance["is_compliant"],
+            }
+        )
 
         return {
             "demonstration_timestamp": datetime.now().isoformat(),
@@ -369,13 +342,8 @@ class EnhancedAGIBot:
             "current_capability_level": self.orchestrator.capability_level.value,
             "demonstrations": demonstrations,
             "overall_performance": {
-                "average_confidence": sum(
-                    d.get("confidence", 0) for d in demonstrations
-                )
-                / len(demonstrations),
-                "successful_tests": sum(
-                    1 for d in demonstrations if d.get("confidence", 0) > 0.5
-                ),
+                "average_confidence": sum(d.get("confidence", 0) for d in demonstrations) / len(demonstrations),
+                "successful_tests": sum(1 for d in demonstrations if d.get("confidence", 0) > 0.5),
                 "total_tests": len(demonstrations),
             },
             "system_status": self.get_agi_status(),
@@ -421,9 +389,7 @@ async def main():
         print(f"   Average Confidence: {perf['average_confidence']:.2f}")
         print(f"   Successful Tests: {perf['successful_tests']}/{perf['total_tests']}")
 
-        print(
-            f"\n🎯 Final Capability Level: {demo_results['current_capability_level']}"
-        )
+        print(f"\n🎯 Final Capability Level: {demo_results['current_capability_level']}")
 
     except Exception as e:
         logger.error(f"Error in main execution: {e}")

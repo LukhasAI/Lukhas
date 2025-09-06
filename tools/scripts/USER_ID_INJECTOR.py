@@ -16,9 +16,9 @@ from typing import Optional
 class UserIDInjector:
     """Automatically inject user_id tracking into code."""
 
-    def __init__(self, root_path: str = "."):
+    def __init__(self, root_path: str = ".", timezone):
         self.root_path = Path(root_path)
-        self.backup_dir = self.root_path / f"user_id_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.root_path / f"user_id_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.modifications = []
 
         # Patterns for data structures that should include user_id

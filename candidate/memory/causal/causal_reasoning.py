@@ -571,7 +571,9 @@ class CausalReasoningModule:
                 # Keep a limited history of confidence scores (e.g., last 10-20).
                 self.causal_graph[chain_id_key]["historical_confidence_scores"] = self.causal_graph[chain_id_key][
                     "historical_confidence_scores"
-                ][-20:]  # Example limit
+                ][
+                    -20:
+                ]  # Example limit
                 self.causal_graph[chain_id_key]["last_observed_utc"] = current_utc_timestamp_iso  # Renamed
                 num_updated_graph_entries += 1
 

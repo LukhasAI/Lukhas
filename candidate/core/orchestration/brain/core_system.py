@@ -55,7 +55,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-# Core AGI imports (consolidated logic)
+# Core AGI imports (consolidated logic, timezone)
 try:
     from .attention.qi_attention import QIInspiredAttention
     from .compliance.ethical_engine import \
@@ -151,7 +151,7 @@ class AGIBot:
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.initialization_time = datetime.now()
+        self.initialization_time = datetime.now(timezone.utc)
         self.subsystem_id = f"LUKHAS-AI-AGI-{uuid.uuid4().hex[:8]}"
 
         # Core capability level
@@ -332,7 +332,7 @@ class AGIBot:
                 metadata={
                     "session_id": self.session_id,
                     "subsystem_id": self.subsystem_id,
-                    "processing_time": datetime.now().isoformat(),
+                    "processing_time": datetime.now(timezone.utc).isoformat(),
                     "advanced_mode": self.advanced_mode,
                     "agi_components": self._get_active_components(),
                     "meta_cognitive_state": self.meta_cognitive_state.copy(),
@@ -390,7 +390,7 @@ class AGIBot:
         """Update conversation history with reasoning path"""
         self.conversation_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "prompt": prompt,
                 "response": response,
                 "reasoning_path": reasoning_path,
@@ -411,7 +411,7 @@ class AGIBot:
             "prompt_pattern": prompt[:50],  # First 50 chars for pattern recognition
             "context_keys": list(context.keys()) if context else [],
             "reasoning_complexity": len(reasoning_path),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "session_id": self.session_id,
         }
 

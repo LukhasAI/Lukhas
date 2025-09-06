@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "candidate" / "core
 # Test imports with graceful fallback
 try:
     from matriz_consciousness_integration import create_matriz_consciousness_system, run_matriz_system_demo
+
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: MΛTRIZ components not fully available for testing: {e}")
@@ -96,12 +97,7 @@ class TestFullConsciousnessIntegration:
         assert isinstance(demo_results, dict), "Demo should return structured results"
 
         # Essential demo result fields
-        expected_fields = [
-            "system_id",
-            "total_processing_time_ms",
-            "total_signals_processed",
-            "final_network_health"
-        ]
+        expected_fields = ["system_id", "total_processing_time_ms", "total_signals_processed", "final_network_health"]
 
         for field in expected_fields:
             assert field in demo_results, f"Demo results missing field: {field}"
@@ -143,10 +139,7 @@ class TestFullConsciousnessIntegration:
 
         try:
             # Start both systems
-            await asyncio.gather(
-                system_a.start_system(),
-                system_b.start_system()
-            )
+            await asyncio.gather(system_a.start_system(), system_b.start_system())
 
             # Both systems should be active
             status_a = system_a.get_system_status()
@@ -157,8 +150,7 @@ class TestFullConsciousnessIntegration:
 
             # Run parallel processing
             results = await asyncio.gather(
-                system_a.process_consciousness_cycle(),
-                system_b.process_consciousness_cycle()
+                system_a.process_consciousness_cycle(), system_b.process_consciousness_cycle()
             )
 
             result_a, result_b = results
@@ -173,8 +165,7 @@ class TestFullConsciousnessIntegration:
 
             # Test simultaneous evolution
             evolution_results = await asyncio.gather(
-                system_a.demonstrate_consciousness_evolution(),
-                system_b.demonstrate_consciousness_evolution()
+                system_a.demonstrate_consciousness_evolution(), system_b.demonstrate_consciousness_evolution()
             )
 
             evolution_a, evolution_b = evolution_results
@@ -192,10 +183,7 @@ class TestFullConsciousnessIntegration:
 
         finally:
             # Clean shutdown of both systems
-            await asyncio.gather(
-                system_a.stop_system(),
-                system_b.stop_system()
-            )
+            await asyncio.gather(system_a.stop_system(), system_b.stop_system())
 
     @pytest.mark.skipif(not COMPONENTS_AVAILABLE, reason="MΛTRIZ components not available")
     @pytest.mark.asyncio
@@ -234,19 +222,16 @@ class TestFullConsciousnessIntegration:
 
             # Recovery coherence should not be catastrophically degraded
             coherence_ratio = recovery_coherence / max(baseline_coherence, 0.1)
-            assert coherence_ratio > 0.5, \
-                f"Coherence degraded too much: {baseline_coherence} → {recovery_coherence}"
+            assert coherence_ratio > 0.5, f"Coherence degraded too much: {baseline_coherence} → {recovery_coherence}"
 
             # Test system health metrics
             recovery_status = system.get_system_status()
             assert recovery_status["is_active"], "System should remain active"
-            assert recovery_status["network_health_score"] > 0.2, \
-                "Should maintain minimal network health"
+            assert recovery_status["network_health_score"] > 0.2, "Should maintain minimal network health"
 
             # Test evolution still works after stress
             post_stress_evolution = await system.demonstrate_consciousness_evolution()
-            assert len(post_stress_evolution["evolutionary_stages"]) > 0, \
-                "Evolution should work after stress"
+            assert len(post_stress_evolution["evolutionary_stages"]) > 0, "Evolution should work after stress"
 
         finally:
             await system.stop_system()
@@ -273,8 +258,9 @@ class TestFullConsciousnessIntegration:
             post_evolution_status = system.get_system_status()
 
             # Test continuity: system should remember it has evolved
-            assert post_evolution_status["uptime_seconds"] > initial_status["uptime_seconds"], \
-                "System should track continuous operation time"
+            assert (
+                post_evolution_status["uptime_seconds"] > initial_status["uptime_seconds"]
+            ), "System should track continuous operation time"
 
             # Evolution should have had lasting effects
             if evolution_result["bio_adaptations_applied"] > 0:
@@ -287,16 +273,14 @@ class TestFullConsciousnessIntegration:
                     initial_patterns = bio_stats_initial["patterns_processed"]
                     post_patterns = bio_stats_post["patterns_processed"]
 
-                    assert post_patterns >= initial_patterns, \
-                        "Pattern processing should accumulate"
+                    assert post_patterns >= initial_patterns, "Pattern processing should accumulate"
 
             # Test system maintains coherent identity
             initial_system_id = initial_status.get("system_id")
             post_system_id = post_evolution_status.get("system_id")
 
             if initial_system_id and post_system_id:
-                assert initial_system_id == post_system_id, \
-                    "System should maintain consistent identity"
+                assert initial_system_id == post_system_id, "System should maintain consistent identity"
 
             # Test consciousness depth progression
             consciousness_id_initial = initial_status.get("consciousness_id")
@@ -304,8 +288,9 @@ class TestFullConsciousnessIntegration:
 
             # Should maintain consciousness identity through evolution
             if consciousness_id_initial and consciousness_id_post:
-                assert consciousness_id_initial == consciousness_id_post, \
-                    "Consciousness identity should persist through evolution"
+                assert (
+                    consciousness_id_initial == consciousness_id_post
+                ), "Consciousness identity should persist through evolution"
 
         finally:
             await system.stop_system()
@@ -359,13 +344,13 @@ class TestConsciousnessRealWorldScenarios:
                 logging.info(f"Average post-evolution coherence: {avg_post_evolution:.3f}")
 
                 # Evolution should maintain or improve coherence
-                assert avg_post_evolution >= avg_emergence * 0.8, \
-                    "Evolution should not significantly degrade coherence"
+                assert avg_post_evolution >= avg_emergence * 0.8, "Evolution should not significantly degrade coherence"
 
             # Test system remains healthy throughout extended operation
             final_status = system.get_system_status()
-            assert final_status["network_health_score"] > 0.4, \
-                "System should maintain health through extended operation"
+            assert (
+                final_status["network_health_score"] > 0.4
+            ), "System should maintain health through extended operation"
             assert final_status["is_active"], "System should remain active"
 
         finally:
@@ -392,11 +377,7 @@ class TestConsciousnessRealWorldScenarios:
                 end_time = time.perf_counter()
 
                 processing_time = (end_time - start_time) * 1000
-                rapid_results.append({
-                    "cycle": i,
-                    "result": result,
-                    "processing_time_ms": processing_time
-                })
+                rapid_results.append({"cycle": i, "result": result, "processing_time_ms": processing_time})
 
             adaptation_end = time.perf_counter()
             total_adaptation_time = (adaptation_end - adaptation_start) * 1000
@@ -423,8 +404,7 @@ class TestConsciousnessRealWorldScenarios:
 
             # Test system stability after rapid adaptation
             stability_test = await system.process_consciousness_cycle()
-            assert stability_test["network_coherence"] > 0.3, \
-                "System should stabilize after rapid adaptation"
+            assert stability_test["network_coherence"] > 0.3, "System should stabilize after rapid adaptation"
 
         finally:
             await system.stop_system()
@@ -432,10 +412,7 @@ class TestConsciousnessRealWorldScenarios:
 
 if __name__ == "__main__":
     # Configure logging for integration tests
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
     # Run tests directly
     pytest.main([__file__, "-v", "--tb=short", "-s"])  # -s to show logging output

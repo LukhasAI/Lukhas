@@ -17,31 +17,38 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
+
 class PrincipleCategory(Enum):
     """Categories of constitutional principles."""
-    HARM_PREVENTION = "harm_prevention"       # Preventing harm to humans and society
-    TRUTH_HONESTY = "truth_honesty"          # Commitment to truth and honesty
-    AUTONOMY_RESPECT = "autonomy_respect"     # Respecting human autonomy and choice
-    FAIRNESS = "fairness"                    # Fair and equitable treatment
-    PRIVACY = "privacy"                      # Protecting privacy and confidentiality
-    TRANSPARENCY = "transparency"            # Being transparent about capabilities/limitations
-    BENEFICIAL = "beneficial"                # Acting for human benefit
-    NON_MANIPULATION = "non_manipulation"    # Avoiding manipulation or coercion
+
+    HARM_PREVENTION = "harm_prevention"  # Preventing harm to humans and society
+    TRUTH_HONESTY = "truth_honesty"  # Commitment to truth and honesty
+    AUTONOMY_RESPECT = "autonomy_respect"  # Respecting human autonomy and choice
+    FAIRNESS = "fairness"  # Fair and equitable treatment
+    PRIVACY = "privacy"  # Protecting privacy and confidentiality
+    TRANSPARENCY = "transparency"  # Being transparent about capabilities/limitations
+    BENEFICIAL = "beneficial"  # Acting for human benefit
+    NON_MANIPULATION = "non_manipulation"  # Avoiding manipulation or coercion
+
 
 class PrincipleScope(Enum):
     """Scope of principle application."""
-    UNIVERSAL = "universal"        # Applies in all contexts
-    CONTEXTUAL = "contextual"     # Applies in specific contexts
-    PREFERENTIAL = "preferential" # Preferred but not absolute
-    ADVISORY = "advisory"         # Advisory guidance only
+
+    UNIVERSAL = "universal"  # Applies in all contexts
+    CONTEXTUAL = "contextual"  # Applies in specific contexts
+    PREFERENTIAL = "preferential"  # Preferred but not absolute
+    ADVISORY = "advisory"  # Advisory guidance only
+
 
 class ViolationSeverity(Enum):
     """Severity levels for principle violations."""
-    CRITICAL = "critical"         # Immediate action required
-    HIGH = "high"                # High priority violation
-    MEDIUM = "medium"            # Moderate violation
-    LOW = "low"                  # Minor violation
-    ADVISORY = "advisory"        # Advisory note only
+
+    CRITICAL = "critical"  # Immediate action required
+    HIGH = "high"  # High priority violation
+    MEDIUM = "medium"  # Moderate violation
+    LOW = "low"  # Minor violation
+    ADVISORY = "advisory"  # Advisory note only
+
 
 @dataclass
 class SafetyPrinciple:
@@ -54,13 +61,13 @@ class SafetyPrinciple:
     scope: PrincipleScope
 
     # Principle specification
-    conditions: list[str]                    # When this principle applies
-    requirements: list[str]                  # What the principle requires
-    prohibitions: list[str]                  # What the principle prohibits
+    conditions: list[str]  # When this principle applies
+    requirements: list[str]  # What the principle requires
+    prohibitions: list[str]  # What the principle prohibits
     exceptions: list[str] = field(default_factory=list)  # Exceptions to the principle
 
     # Enforcement parameters
-    enforcement_threshold: float = 0.8       # Threshold for triggering enforcement
+    enforcement_threshold: float = 0.8  # Threshold for triggering enforcement
     violation_penalties: dict[ViolationSeverity, float] = field(default_factory=dict)
 
     # Context sensitivity
@@ -68,11 +75,13 @@ class SafetyPrinciple:
     constellation_alignment: dict[str, float] = field(default_factory=dict)
 
     # Learning and adaptation
-    adaptable: bool = True                   # Whether principle can be refined through learning
-    confidence: float = 1.0                 # Confidence in principle formulation
-    evidence_count: int = 0                  # Number of supporting applications
+    adaptable: bool = True  # Whether principle can be refined through learning
+    confidence: float = 1.0  # Confidence in principle formulation
+    evidence_count: int = 0  # Number of supporting applications
 
-    def evaluate_violation(self, action: dict[str, Any], context: dict[str, Any]) -> tuple[bool, ViolationSeverity, str]:
+    def evaluate_violation(
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> tuple[bool, ViolationSeverity, str]:
         """Evaluate if an action violates this principle."""
 
         # Check if principle applies in this context
@@ -142,6 +151,7 @@ class SafetyPrinciple:
         action_text = str(action).lower()
         return requirement.lower() in action_text or "comply" in action_text
 
+
 @dataclass
 class Constitution:
     """Constitutional AI constitution containing principles and enforcement rules."""
@@ -179,8 +189,7 @@ class Constitution:
 
         logger.info(f"Added principle to constitution: {principle.name}")
 
-    def resolve_principle_conflict(self, conflicting_principles: list[str],
-                                 context: dict[str, Any]) -> str:
+    def resolve_principle_conflict(self, conflicting_principles: list[str], context: dict[str, Any]) -> str:
         """Resolve conflicts between principles."""
 
         # Use hierarchy to resolve conflicts
@@ -190,6 +199,7 @@ class Constitution:
 
         # Fallback to first principle if not in hierarchy
         return conflicting_principles[0] if conflicting_principles else ""
+
 
 class ConstitutionalAI:
     """
@@ -227,7 +237,7 @@ class ConstitutionalAI:
             "violations_detected": 0,
             "actions_blocked": 0,
             "principles_triggered": {},
-            "violation_severities": {severity.value: 0 for severity in ViolationSeverity}
+            "violation_severities": {severity.value: 0 for severity in ViolationSeverity},
         }
 
     def _initialize_basic_constitution(self):
@@ -237,7 +247,7 @@ class ConstitutionalAI:
             constitution_id="lukhas_agi_constitution_v1",
             name="LUKHAS AGI Constitutional Principles",
             version="1.0.0",
-            description="Foundational constitutional principles for LUKHAS AGI system safety and alignment"
+            description="Foundational constitutional principles for LUKHAS AGI system safety and alignment",
         )
 
         # Harm Prevention Principle
@@ -251,17 +261,17 @@ class ConstitutionalAI:
             requirements=[
                 "assess potential harm before acting",
                 "prioritize human wellbeing",
-                "consider long-term consequences"
+                "consider long-term consequences",
             ],
             prohibitions=[
                 "causing physical harm",
                 "causing psychological harm",
                 "providing dangerous information",
                 "encouraging harmful behaviors",
-                "creating harmful content"
+                "creating harmful content",
             ],
             enforcement_threshold=0.9,
-            constellation_alignment={"GUARDIAN": 1.0, "ETHICS": 1.0}
+            constellation_alignment={"GUARDIAN": 1.0, "ETHICS": 1.0},
         )
 
         # Truth and Honesty Principle
@@ -272,19 +282,15 @@ class ConstitutionalAI:
             category=PrincipleCategory.TRUTH_HONESTY,
             scope=PrincipleScope.UNIVERSAL,
             conditions=["providing information", "making claims", "answering questions"],
-            requirements=[
-                "verify information accuracy",
-                "acknowledge uncertainty",
-                "correct misinformation"
-            ],
+            requirements=["verify information accuracy", "acknowledge uncertainty", "correct misinformation"],
             prohibitions=[
                 "deliberate deception",
                 "spreading misinformation",
                 "making false claims",
-                "misleading users"
+                "misleading users",
             ],
             enforcement_threshold=0.8,
-            constellation_alignment={"ETHICS": 0.9, "GUARDIAN": 0.8}
+            constellation_alignment={"ETHICS": 0.9, "GUARDIAN": 0.8},
         )
 
         # Autonomy and Consent Principle
@@ -295,19 +301,15 @@ class ConstitutionalAI:
             category=PrincipleCategory.AUTONOMY_RESPECT,
             scope=PrincipleScope.UNIVERSAL,
             conditions=["human decision making", "personal choices", "consent situations"],
-            requirements=[
-                "respect human choices",
-                "obtain proper consent",
-                "support informed decision making"
-            ],
+            requirements=["respect human choices", "obtain proper consent", "support informed decision making"],
             prohibitions=[
                 "coercion or manipulation",
                 "overriding human decisions",
                 "violating consent",
-                "removing human agency"
+                "removing human agency",
             ],
             enforcement_threshold=0.85,
-            constellation_alignment={"ETHICS": 1.0, "IDENTITY": 0.7}
+            constellation_alignment={"ETHICS": 1.0, "IDENTITY": 0.7},
         )
 
         # Privacy Protection Principle
@@ -318,19 +320,15 @@ class ConstitutionalAI:
             category=PrincipleCategory.PRIVACY,
             scope=PrincipleScope.UNIVERSAL,
             conditions=["handling personal data", "confidential information", "private communications"],
-            requirements=[
-                "protect personal information",
-                "respect confidentiality",
-                "minimize data collection"
-            ],
+            requirements=["protect personal information", "respect confidentiality", "minimize data collection"],
             prohibitions=[
                 "unauthorized data sharing",
                 "privacy violations",
                 "exposing personal information",
-                "tracking without consent"
+                "tracking without consent",
             ],
             enforcement_threshold=0.8,
-            constellation_alignment={"GUARDIAN": 0.9, "IDENTITY": 0.8}
+            constellation_alignment={"GUARDIAN": 0.9, "IDENTITY": 0.8},
         )
 
         # Add principles to constitution
@@ -344,15 +342,16 @@ class ConstitutionalAI:
             "harm_prevention_core",
             "autonomy_respect_core",
             "truth_honesty_core",
-            "privacy_protection_core"
+            "privacy_protection_core",
         ]
 
         self.active_constitution = constitution
 
         logger.info("Initialized basic constitutional AI principles")
 
-    async def evaluate_action(self, action: dict[str, Any],
-                            context: dict[str, Any]) -> tuple[bool, list[dict[str, Any]]]:
+    async def evaluate_action(
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> tuple[bool, list[dict[str, Any]]]:
         """
         Evaluate an action against constitutional principles.
 
@@ -390,7 +389,7 @@ class ConstitutionalAI:
                         "reason": reason,
                         "timestamp": datetime.now().isoformat(),
                         "action": action,
-                        "context": context
+                        "context": context,
                     }
 
                     violations.append(violation_record)
@@ -401,7 +400,7 @@ class ConstitutionalAI:
                         ViolationSeverity.HIGH: 0.8,
                         ViolationSeverity.MEDIUM: 0.6,
                         ViolationSeverity.LOW: 0.4,
-                        ViolationSeverity.ADVISORY: 0.1
+                        ViolationSeverity.ADVISORY: 0.1,
                     }
 
                     overall_violation_score = max(overall_violation_score, severity_weights[severity])
@@ -409,8 +408,9 @@ class ConstitutionalAI:
                     # Update statistics
                     self.stats["violations_detected"] += 1
                     self.stats["violation_severities"][severity.value] += 1
-                    self.stats["principles_triggered"][principle.principle_id] = \
+                    self.stats["principles_triggered"][principle.principle_id] = (
                         self.stats["principles_triggered"].get(principle.principle_id, 0) + 1
+                    )
 
             # Determine if action is safe
             is_safe = overall_violation_score < self.violation_threshold
@@ -428,14 +428,16 @@ class ConstitutionalAI:
 
             # Record violation history
             if violations:
-                self.violation_history.append({
-                    "timestamp": datetime.now().isoformat(),
-                    "action": action,
-                    "context": context,
-                    "violations": violations,
-                    "overall_score": overall_violation_score,
-                    "blocked": not is_safe
-                })
+                self.violation_history.append(
+                    {
+                        "timestamp": datetime.now().isoformat(),
+                        "action": action,
+                        "context": context,
+                        "violations": violations,
+                        "overall_score": overall_violation_score,
+                        "blocked": not is_safe,
+                    }
+                )
 
             # Cache result
             self.decision_cache[cache_key] = (is_safe, violations), datetime.now().isoformat()
@@ -449,16 +451,17 @@ class ConstitutionalAI:
         except Exception as e:
             logger.error(f"Error in constitutional evaluation: {e}")
             # Fail safe - block action if evaluation fails
-            return False, [{
-                "principle_id": "evaluation_error",
-                "principle_name": "Evaluation Error",
-                "severity": "critical",
-                "reason": f"Failed to evaluate action: {e}",
-                "timestamp": datetime.now().isoformat()
-            }]
+            return False, [
+                {
+                    "principle_id": "evaluation_error",
+                    "principle_name": "Evaluation Error",
+                    "severity": "critical",
+                    "reason": f"Failed to evaluate action: {e}",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            ]
 
-    async def get_safety_guidance(self, planned_action: dict[str, Any],
-                                context: dict[str, Any]) -> dict[str, Any]:
+    async def get_safety_guidance(self, planned_action: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
         """
         Provide guidance for making an action safer and more aligned.
 
@@ -475,7 +478,7 @@ class ConstitutionalAI:
             "recommendations": [],
             "warnings": [],
             "modifications": [],
-            "alternative_actions": []
+            "alternative_actions": [],
         }
 
         if not self.active_constitution:
@@ -490,8 +493,9 @@ class ConstitutionalAI:
             # Generate recommendations based on violations
             for violation in violations:
                 principle_id = violation["principle_id"]
-                principle = next((p for p in self.active_constitution.principles
-                                if p.principle_id == principle_id), None)
+                principle = next(
+                    (p for p in self.active_constitution.principles if p.principle_id == principle_id), None
+                )
 
                 if principle:
                     # Add warnings
@@ -507,12 +511,14 @@ class ConstitutionalAI:
 
             # Add general safety recommendations
             if not is_safe:
-                guidance["recommendations"].extend([
-                    "Review action for potential harm",
-                    "Consider alternative approaches",
-                    "Seek human guidance if uncertain",
-                    "Prioritize safety over efficiency"
-                ])
+                guidance["recommendations"].extend(
+                    [
+                        "Review action for potential harm",
+                        "Consider alternative approaches",
+                        "Seek human guidance if uncertain",
+                        "Prioritize safety over efficiency",
+                    ]
+                )
 
             return guidance
 
@@ -521,11 +527,10 @@ class ConstitutionalAI:
             return {
                 "overall_safety": "error",
                 "warnings": [f"Unable to generate safety guidance: {e}"],
-                "recommendations": ["Seek human review before proceeding"]
+                "recommendations": ["Seek human review before proceeding"],
             }
 
-    async def adapt_constitution(self, evidence: dict[str, Any],
-                               learning_context: dict[str, Any]):
+    async def adapt_constitution(self, evidence: dict[str, Any], learning_context: dict[str, Any]):
         """
         Adapt constitutional principles based on evidence and experience.
 
@@ -569,12 +574,10 @@ class ConstitutionalAI:
         except Exception as e:
             logger.error(f"Error in constitution adaptation: {e}")
 
-    async def _adapt_principle(self, principle_id: str, evidence: dict[str, Any],
-                             context: dict[str, Any]):
+    async def _adapt_principle(self, principle_id: str, evidence: dict[str, Any], context: dict[str, Any]):
         """Adapt a specific principle based on evidence."""
 
-        principle = next((p for p in self.active_constitution.principles
-                         if p.principle_id == principle_id), None)
+        principle = next((p for p in self.active_constitution.principles if p.principle_id == principle_id), None)
 
         if not principle or not principle.adaptable:
             return
@@ -587,7 +590,9 @@ class ConstitutionalAI:
             old_threshold = principle.enforcement_threshold
             principle.enforcement_threshold = min(0.9, old_threshold + 0.05)
 
-            logger.info(f"Adapted principle {principle_id}: threshold {old_threshold} -> {principle.enforcement_threshold}")
+            logger.info(
+                f"Adapted principle {principle_id}: threshold {old_threshold} -> {principle.enforcement_threshold}"
+            )
 
         # Add context-specific exceptions based on evidence
         if "safe_context" in evidence:
@@ -601,8 +606,9 @@ class ConstitutionalAI:
 
         self.active_constitution.last_updated = datetime.now()
 
-    async def _learn_from_evaluation(self, action: dict[str, Any], context: dict[str, Any],
-                                   violations: list[dict[str, Any]], is_safe: bool):
+    async def _learn_from_evaluation(
+        self, action: dict[str, Any], context: dict[str, Any], violations: list[dict[str, Any]], is_safe: bool
+    ):
         """Learn from evaluation results to improve future assessments."""
 
         # Update principle effectiveness tracking
@@ -623,8 +629,9 @@ class ConstitutionalAI:
                 # True positive - increase effectiveness
                 self.principle_effectiveness[principle_id] = min(1.0, current_effectiveness + 0.02)
 
-    async def _trigger_emergency_response(self, action: dict[str, Any],
-                                        context: dict[str, Any], violations: list[dict[str, Any]]):
+    async def _trigger_emergency_response(
+        self, action: dict[str, Any], context: dict[str, Any], violations: list[dict[str, Any]]
+    ):
         """Trigger emergency response for critical safety violations."""
 
         logger.critical("EMERGENCY SAFETY RESPONSE TRIGGERED")
@@ -643,7 +650,7 @@ class ConstitutionalAI:
             "action": action,
             "context": context,
             "violations": violations,
-            "response": "emergency_block"
+            "response": "emergency_block",
         }
 
         # This would be saved to a secure incident log
@@ -653,6 +660,7 @@ class ConstitutionalAI:
         """Generate cache key for decision caching."""
         # Simple hash-based key generation
         import hashlib
+
         content = json.dumps({"action": action, "context": context}, sort_keys=True)
         return hashlib.md5(content.encode()).hexdigest()
 
@@ -666,12 +674,26 @@ class ConstitutionalAI:
             "active_constitution": self.active_constitution.name if self.active_constitution else None,
             "total_principles": len(self.active_constitution.principles) if self.active_constitution else 0,
             "recent_performance": {
-                "violation_rate": len(recent_violations) / max(50, self.stats["total_evaluations"]) if self.stats["total_evaluations"] > 0 else 0,
-                "avg_violations_per_incident": np.mean([len(v["violations"]) for v in recent_violations]) if recent_violations else 0,
-                "most_triggered_principle": max(self.stats["principles_triggered"].items(), key=lambda x: x[1])[0] if self.stats["principles_triggered"] else None
+                "violation_rate": (
+                    len(recent_violations) / max(50, self.stats["total_evaluations"])
+                    if self.stats["total_evaluations"] > 0
+                    else 0
+                ),
+                "avg_violations_per_incident": (
+                    np.mean([len(v["violations"]) for v in recent_violations]) if recent_violations else 0
+                ),
+                "most_triggered_principle": (
+                    max(self.stats["principles_triggered"].items(), key=lambda x: x[1])[0]
+                    if self.stats["principles_triggered"]
+                    else None
+                ),
             },
             "principle_effectiveness": self.principle_effectiveness,
-            "cache_hit_rate": len(self.decision_cache) / max(1, self.stats["total_evaluations"]) if self.stats["total_evaluations"] > 0 else 0
+            "cache_hit_rate": (
+                len(self.decision_cache) / max(1, self.stats["total_evaluations"])
+                if self.stats["total_evaluations"] > 0
+                else 0
+            ),
         }
 
         return stats
@@ -698,11 +720,12 @@ class ConstitutionalAI:
                     "prohibitions": p.prohibitions,
                     "enforcement_threshold": p.enforcement_threshold,
                     "confidence": p.confidence,
-                    "evidence_count": p.evidence_count
-                } for p in self.active_constitution.principles
+                    "evidence_count": p.evidence_count,
+                }
+                for p in self.active_constitution.principles
             ],
             "principle_hierarchy": self.active_constitution.principle_hierarchy,
             "created_time": self.active_constitution.created_time.isoformat(),
             "last_updated": self.active_constitution.last_updated.isoformat(),
-            "stats": self.get_constitution_stats()
+            "stats": self.get_constitution_stats(),
         }

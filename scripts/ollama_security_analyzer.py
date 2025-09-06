@@ -21,6 +21,7 @@ import click
 @dataclass
 class Vulnerability:
     """Represents a security vulnerability"""
+
     package: str
     current_version: str
     affected_versions: str
@@ -35,7 +36,7 @@ class OllamaSecurityAnalyzer:
     Uses Ollama to analyze and suggest fixes for security vulnerabilities
     """
 
-    def __init__(self, ollama_host: str = "http://localhost:11434"):
+    def __init__(self, ollama_host: str = "http://localhost:11434", timezone):
         self.ollama_host = ollama_host
         self.model = "deepseek-coder:6.7b"  # Best for code analysis
         self.vulnerabilities: list[Vulnerability] = []
@@ -77,11 +78,7 @@ class OllamaSecurityAnalyzer:
 
         # Run pip-audit
         try:
-            result = subprocess.run(
-                ["pip-audit", "--format", "json"],
-                capture_output=True,
-                text=True
-            )
+            result = subprocess.run(["pip-audit", "--format", "json"], capture_output=True, text=True)
             if result.returncode == 0 and result.stdout:
                 audit_data = json.loads(result.stdout)
                 for vuln in audit_data.get("dependencies", []):
@@ -94,7 +91,7 @@ class OllamaSecurityAnalyzer:
                                 severity=v.get("fix_versions", [""])[0] if v.get("fix_versions") else "unknown",
                                 description=v.get("description", ""),
                                 cve=v.get("id"),
-                                fix_version=v.get("fix_versions", [""])[0] if v.get("fix_versions") else None
+                                fix_version=v.get("fix_versions", [""])[0] if v.get("fix_versions") else None,
                             )
                         )
         except (subprocess.CalledProcessError, json.JSONDecodeError, FileNotFoundError):
@@ -102,11 +99,7 @@ class OllamaSecurityAnalyzer:
 
         # Run safety check
         try:
-            result = subprocess.run(
-                ["safety", "check", "--json"],
-                capture_output=True,
-                text=True
-            )
+            result = subprocess.run(["safety", "check", "--json"], capture_output=True, text=True)
             if result.stdout:
                 safety_data = json.loads(result.stdout)
                 for vuln in safety_data.get("vulnerabilities", []):
@@ -118,7 +111,7 @@ class OllamaSecurityAnalyzer:
                             severity=vuln.get("severity", "unknown"),
                             description=vuln.get("advisory", ""),
                             cve=vuln.get("cve"),
-                            fix_version=vuln.get("more_info_url", None)
+                            fix_version=vuln.get("more_info_url", None),
                         )
                     )
         except (subprocess.CalledProcessError, json.JSONDecodeError, FileNotFoundError):
@@ -149,16 +142,14 @@ Please provide:
 Format your response as JSON with keys: risk_assessment, fix_command, breaking_changes, alternatives"""
 
         try:
-            async with aiohttp.ClientSession() as session, session.post(
-                f"{self.ollama_host}/api/generate",
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False,
-                    "format": "json"
-                },
-                timeout=30
-            ) as resp:
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
+                    f"{self.ollama_host}/api/generate",
+                    json={"model": self.model, "prompt": prompt, "stream": False, "format": "json"},
+                    timeout=30,
+                ) as resp,
+            ):
                 if resp.status == 200:
                     data = await resp.json()
                     return data.get("response", "")
@@ -170,10 +161,12 @@ Format your response as JSON with keys: risk_assessment, fix_command, breaking_c
         if not self.vulnerabilities:
             return ""
 
-        vuln_summary = "\n".join([
-            f"- {v.package} ({v.severity}): {v.cve or 'No CVE'}"
-            for v in self.vulnerabilities[:10]  # Limit to prevent token overflow
-        ])
+        vuln_summary = "\n".join(
+            [
+                f"- {v.package} ({v.severity}): {v.cve or 'No CVE'}"
+                for v in self.vulnerabilities[:10]  # Limit to prevent token overflow
+            ]
+        )
 
         prompt = f"""You are a Python security expert. Generate a safe bash script to fix these vulnerabilities:
 
@@ -188,15 +181,14 @@ The script should:
 Return ONLY the bash script, no explanations."""
 
         try:
-            async with aiohttp.ClientSession() as session, session.post(
-                f"{self.ollama_host}/api/generate",
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False
-                },
-                timeout=60
-            ) as resp:
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
+                    f"{self.ollama_host}/api/generate",
+                    json={"model": self.model, "prompt": prompt, "stream": False},
+                    timeout=60,
+                ) as resp,
+            ):
                 if resp.status == 200:
                     data = await resp.json()
                     return data.get("response", "")
@@ -212,11 +204,7 @@ Return ONLY the bash script, no explanations."""
         vulnerabilities = self.scan_vulnerabilities()
 
         if not vulnerabilities:
-            return {
-                "status": "secure",
-                "message": "No vulnerabilities found!",
-                "count": 0
-            }
+            return {"status": "secure", "message": "No vulnerabilities found!", "count": 0}
 
         click.echo(f"\n🔍 Found {len(vulnerabilities)} vulnerabilities. Analyzing with Ollama...")
 
@@ -238,7 +226,7 @@ Return ONLY the bash script, no explanations."""
             "high": len([v for v in vulnerabilities if "high" in v.severity.lower()]),
             "analyses": analyses,
             "fix_script": fix_script,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 

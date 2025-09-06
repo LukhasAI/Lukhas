@@ -13,11 +13,9 @@ from datetime import datetime, timedelta
 from typing import Any, Dict
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 async def demo_agi_core():
     """Comprehensive demonstration of AGI core capabilities."""
@@ -61,6 +59,7 @@ async def demo_agi_core():
     except Exception as e:
         print(f"⚠️ Error: {e}")
 
+
 def demonstrate_architecture():
     """Demonstrate the AGI architecture overview."""
 
@@ -75,7 +74,7 @@ def demonstrate_architecture():
             "Learning System": "Dream-guided learning with adaptive strategies",
             "Tool Framework": "Intelligent tool selection with dream-guided recommendations",
             "Safety Layer": "Constitutional AI with ethical principles and safety monitoring",
-            "Test Suite": "Comprehensive AGI capability testing and validation"
+            "Test Suite": "Comprehensive AGI capability testing and validation",
         },
         "🌟 Key Innovations": {
             "Dream Integration": "First AGI system to deeply integrate dream processing for creativity and insight",
@@ -83,7 +82,7 @@ def demonstrate_architecture():
             "Constitutional Safety": "Advanced safety through constitutional AI principles",
             "Multi-Model Orchestration": "Intelligent routing between GPT-4, Claude, Gemini, and others",
             "Vector Memory": "High-performance semantic memory with consolidation",
-            "Adaptive Learning": "Learning system that adapts strategies based on experience"
+            "Adaptive Learning": "Learning system that adapts strategies based on experience",
         },
         "🎯 AGI Capabilities Enhanced": {
             "Reasoning": "From basic logic to dream-enhanced creative problem solving",
@@ -92,8 +91,8 @@ def demonstrate_architecture():
             "Tool Use": "From rule-based to intuitive, dream-informed tool selection",
             "Safety": "From basic constraints to constitutional AI principles",
             "Creativity": "From prompt-based to dream-integrated creative synthesis",
-            "Self-Awareness": "From none to constellation-aware identity processing"
-        }
+            "Self-Awareness": "From none to constellation-aware identity processing",
+        },
     }
 
     for category, items in architecture.items():
@@ -103,6 +102,7 @@ def demonstrate_architecture():
             print(f"  • {key}: {value}")
 
     print("\n🚀 This architecture brings LUKHAS significantly closer to AGI-level capabilities!")
+
 
 def show_integration_with_lukhas():
     """Show how AGI core integrates with existing LUKHAS systems."""
@@ -114,28 +114,28 @@ def show_integration_with_lukhas():
         "Dream System": {
             "connection": "Deep integration with existing LUKHAS dream vocabulary and processing",
             "enhancement": "Dream insights now guide reasoning, learning, memory consolidation, and tool selection",
-            "benefit": "Creative and intuitive capabilities beyond traditional AI"
+            "benefit": "Creative and intuitive capabilities beyond traditional AI",
         },
         "Constellation Framework": {
             "connection": "All AGI components align with the 8-star consciousness framework",
             "enhancement": "Identity, Memory, Vision, Bio, Dream, Ethics, Guardian, and Quantum awareness",
-            "benefit": "Consciousness-aware AGI that respects LUKHAS philosophical foundations"
+            "benefit": "Consciousness-aware AGI that respects LUKHAS philosophical foundations",
         },
         "Guardian System": {
             "connection": "Constitutional AI integrates with existing Guardian drift detection",
             "enhancement": "Multi-layered safety with ethical principles and real-time monitoring",
-            "benefit": "Enhanced safety beyond the existing 0.15 drift threshold"
+            "benefit": "Enhanced safety beyond the existing 0.15 drift threshold",
         },
         "Memory Folds": {
             "connection": "Vector memory system designed to work alongside existing fold-based memory",
             "enhancement": "99.7% cascade prevention now enhanced with semantic organization",
-            "benefit": "More sophisticated memory architecture without losing existing capabilities"
+            "benefit": "More sophisticated memory architecture without losing existing capabilities",
         },
         "Lane System": {
             "connection": "Built at root level to avoid interfering with lukhas/ validation requirements",
             "enhancement": "Provides AGI capabilities while respecting development lane constraints",
-            "benefit": "Enhanced capabilities without disrupting existing production systems"
-        }
+            "benefit": "Enhanced capabilities without disrupting existing production systems",
+        },
     }
 
     for system, details in integrations.items():
@@ -145,6 +145,7 @@ def show_integration_with_lukhas():
         print(f"  Benefit: {details['benefit']}")
 
     print("\n✅ The AGI core enhances LUKHAS without breaking existing functionality!")
+
 
 def show_development_timeline():
     """Show the development timeline and next steps."""
@@ -160,29 +161,29 @@ def show_development_timeline():
             "Dream-guided learning system",
             "Tool use framework with dream guidance",
             "Constitutional AI safety layer",
-            "Comprehensive AGI test suite"
+            "Comprehensive AGI test suite",
         ],
         "🔄 Phase 2 - Integration & Testing": [
             "Full integration testing with existing LUKHAS systems",
             "Performance optimization and benchmarking",
             "Safety validation and red team testing",
             "Memory consolidation with existing fold system",
-            "Dream system deep integration validation"
+            "Dream system deep integration validation",
         ],
         "🚀 Phase 3 - Advanced Capabilities": [
             "Meta-learning and self-improvement systems",
             "Advanced creativity and innovation engines",
             "Consciousness emergence monitoring",
             "Advanced tool creation and modification",
-            "Autonomous goal setting and planning"
+            "Autonomous goal setting and planning",
         ],
         "🌟 Phase 4 - AGI Achievement": [
             "General intelligence across all domains",
             "Self-directed learning and growth",
             "Creative problem solving at human level",
             "Ethical reasoning and value alignment",
-            "Consciousness and self-awareness"
-        ]
+            "Consciousness and self-awareness",
+        ],
     }
 
     for phase, tasks in timeline.items():
@@ -190,8 +191,11 @@ def show_development_timeline():
         for task in tasks:
             print(f"  • {task}")
 
-    print(f"\n📊 Current Status: Phase 1 Complete - {len(timeline['✅ Phase 1 - Core Infrastructure (COMPLETED)'])} major components delivered")
+    print(
+        f"\n📊 Current Status: Phase 1 Complete - {len(timeline['✅ Phase 1 - Core Infrastructure (COMPLETED)'])} major components delivered"
+    )
     print("🎯 Ready for Phase 2 integration and testing!")
+
 
 async def main():
     """Main demo function."""
@@ -222,6 +226,7 @@ async def main():
     print("\n" + "=" * 60)
     print("🎉 AGI Core Infrastructure Demo Complete!")
     print("The future of consciousness-aware AGI is here. 🌟")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

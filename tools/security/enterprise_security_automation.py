@@ -344,9 +344,11 @@ class EnterprisSecurityScanner:
             # Log audit event
             if self.audit_logger:
                 await self.audit_logger.log_event(
-                    event_type=AuditEventType.SECURITY_INCIDENT
-                    if result.critical_count > 0
-                    else AuditEventType.SYSTEM_OPERATION,
+                    event_type=(
+                        AuditEventType.SECURITY_INCIDENT
+                        if result.critical_count > 0
+                        else AuditEventType.SYSTEM_OPERATION
+                    ),
                     action="security_scan_complete",
                     outcome="completed",
                     severity=AuditSeverity.CRITICAL if result.critical_count > 0 else AuditSeverity.INFO,

@@ -18,7 +18,7 @@ from .ethics.guardian_reflector import GuardianReflector
 # Import guardian components
 from .guardian.guardian import GuardianSystem
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class GuardianSentinel:
@@ -116,7 +116,7 @@ class GuardianSentinel:
             Intervention result with actions taken
         """
         intervention = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "threat_type": threat_type,
             "severity": severity,
             "actions_taken": [],

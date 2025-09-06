@@ -161,9 +161,9 @@ class SecurityAutopilot:
                         Vulnerability(
                             package=vuln.get("name", "").lower(),
                             current_version=vuln.get("version", "unknown"),
-                            fixed_version=vuln.get("fix_versions", ["latest"])[0]
-                            if vuln.get("fix_versions")
-                            else "latest",
+                            fixed_version=(
+                                vuln.get("fix_versions", ["latest"])[0] if vuln.get("fix_versions") else "latest"
+                            ),
                             severity="high",  # pip-audit doesn't provide severity
                             cve=vuln.get("id"),
                             description=vuln.get("description"),

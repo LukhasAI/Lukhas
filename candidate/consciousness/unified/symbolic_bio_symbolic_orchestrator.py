@@ -35,7 +35,7 @@ from bio.core.symbolic_preprocessing_colony import create_preprocessing_colony
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.symbolism.tags import TagPermission, TagScope
 
-logger = logging.getLogger("ΛTRACE.bio.orchestrator")
+logger = logging.getLogger("ΛTRACE.bio.orchestrator", timezone)
 
 
 @dataclass
@@ -156,7 +156,7 @@ class BioSymbolicOrchestrator(BaseColony):
             self.tracer.add_tag(span, "task_id", task_id)
             self.tracer.add_tag(span, "coherence_target", self.coherence_target)
 
-            start_time = datetime.utcnow()
+            start_time = datetime.now(timezone.utc)
 
             # Extract inputs
             bio_data = task_data.get("bio_data", {})
@@ -204,7 +204,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 await self._update_adaptive_parameters(coherence_metrics, colony_results)
 
             # Prepare final result
-            processing_time = (datetime.utcnow() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             result = {
                 "task_id": task_id,
@@ -215,7 +215,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 "pipeline_config": self.pipeline_config.__dict__,
                 "quality_assessment": self._assess_overall_quality(coherence_metrics),
                 "recommendations": self._generate_recommendations(coherence_metrics),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "orchestrator_id": self.colony_id,
             }
 
@@ -566,7 +566,7 @@ class BioSymbolicOrchestrator(BaseColony):
         # Record performance
         performance_record = {
             "coherence": coherence_metrics.overall_coherence,
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "colony_performances": {},
         }
 

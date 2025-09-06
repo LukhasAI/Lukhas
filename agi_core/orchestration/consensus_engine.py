@@ -21,25 +21,28 @@ logger = logging.getLogger(__name__)
 
 class ConsensusMethod(Enum):
     """Methods for reaching consensus"""
-    MAJORITY_VOTE = "majority_vote"          # Simple majority voting
+
+    MAJORITY_VOTE = "majority_vote"  # Simple majority voting
     WEIGHTED_CONFIDENCE = "weighted_confidence"  # Weight by confidence scores
-    EXPERT_OVERRIDE = "expert_override"      # Best model for task overrides
+    EXPERT_OVERRIDE = "expert_override"  # Best model for task overrides
     ITERATIVE_REFINEMENT = "iterative_refinement"  # Multiple rounds of consensus
-    DEMOCRATIC = "democratic"                # Equal weight all models
+    DEMOCRATIC = "democratic"  # Equal weight all models
 
 
 class AgreementLevel(Enum):
     """Levels of agreement between models"""
-    STRONG_CONSENSUS = "strong_consensus"    # >90% agreement
-    CONSENSUS = "consensus"                  # >70% agreement
-    MAJORITY = "majority"                    # >50% agreement
-    SPLIT = "split"                          # No clear majority
-    CONTRADICTION = "contradiction"          # Direct contradictions
+
+    STRONG_CONSENSUS = "strong_consensus"  # >90% agreement
+    CONSENSUS = "consensus"  # >70% agreement
+    MAJORITY = "majority"  # >50% agreement
+    SPLIT = "split"  # No clear majority
+    CONTRADICTION = "contradiction"  # Direct contradictions
 
 
 @dataclass
 class ModelVote:
     """A vote from a model in consensus process"""
+
     model_type: ModelType
     response: ModelResponse
     vote_weight: float = 1.0
@@ -50,6 +53,7 @@ class ModelVote:
 @dataclass
 class ConsensusResult:
     """Result of consensus process"""
+
     consensus_content: str
     agreement_level: AgreementLevel
     confidence: float
@@ -78,13 +82,15 @@ class ConsensusEngine:
 
         logger.info("🤝 Consensus engine initialized")
 
-    async def reach_consensus(self,
-                            question: str,
-                            context: Optional[dict[str, Any]] = None,
-                            models: Optional[list[ModelType]] = None,
-                            method: ConsensusMethod = ConsensusMethod.WEIGHTED_CONFIDENCE,
-                            min_models: int = 3,
-                            task_type: TaskType = TaskType.REASONING) -> ConsensusResult:
+    async def reach_consensus(
+        self,
+        question: str,
+        context: Optional[dict[str, Any]] = None,
+        models: Optional[list[ModelType]] = None,
+        method: ConsensusMethod = ConsensusMethod.WEIGHTED_CONFIDENCE,
+        min_models: int = 3,
+        task_type: TaskType = TaskType.REASONING,
+    ) -> ConsensusResult:
         """
         Reach consensus among multiple models on a question
 
@@ -135,8 +141,10 @@ class ConsensusEngine:
             self.consensus_history.append(consensus_result)
             self._update_disagreement_patterns(votes)
 
-            logger.info(f"✅ Consensus reached: {consensus_result.agreement_level.value} "
-                       f"({consensus_result.confidence:.3f} confidence, {len(votes)} models)")
+            logger.info(
+                f"✅ Consensus reached: {consensus_result.agreement_level.value} "
+                f"({consensus_result.confidence:.3f} confidence, {len(votes)} models)"
+            )
 
             return consensus_result
 
@@ -144,8 +152,7 @@ class ConsensusEngine:
             logger.error(f"❌ Consensus process failed: {e}")
             return self._create_error_consensus(question, str(e))
 
-    async def _select_consensus_models(self, question: str, task_type: TaskType,
-                                     min_models: int) -> list[ModelType]:
+    async def _select_consensus_models(self, question: str, task_type: TaskType, min_models: int) -> list[ModelType]:
         """Select optimal set of models for consensus"""
 
         # Get all available models with their capabilities
@@ -161,10 +168,10 @@ class ConsensusEngine:
 
                 # Calculate task-specific score
                 score = (
-                    caps["reasoning_score"] * task_weights["reasoning"] +
-                    caps["creativity_score"] * task_weights["creativity"] +
-                    caps["code_score"] * task_weights["code"] +
-                    caps["analysis_score"] * task_weights["analysis"]
+                    caps["reasoning_score"] * task_weights["reasoning"]
+                    + caps["creativity_score"] * task_weights["creativity"]
+                    + caps["code_score"] * task_weights["code"]
+                    + caps["analysis_score"] * task_weights["analysis"]
                 )
 
                 # Bonus for diversity (different model families)
@@ -222,14 +229,14 @@ class ConsensusEngine:
             TaskType.CREATIVE_WRITING: {"reasoning": 0.1, "creativity": 0.7, "code": 0.0, "analysis": 0.2},
             TaskType.ANALYSIS: {"reasoning": 0.3, "creativity": 0.1, "code": 0.1, "analysis": 0.5},
             TaskType.MATH: {"reasoning": 0.6, "creativity": 0.0, "code": 0.2, "analysis": 0.2},
-            TaskType.RESEARCH: {"reasoning": 0.4, "creativity": 0.1, "code": 0.1, "analysis": 0.4}
+            TaskType.RESEARCH: {"reasoning": 0.4, "creativity": 0.1, "code": 0.1, "analysis": 0.4},
         }
 
         return weights.get(task_type, {"reasoning": 0.25, "creativity": 0.25, "code": 0.25, "analysis": 0.25})
 
-    async def _gather_model_votes(self, question: str, models: list[ModelType],
-                                context: Optional[dict[str, Any]],
-                                task_type: TaskType) -> list[ModelVote]:
+    async def _gather_model_votes(
+        self, question: str, models: list[ModelType], context: Optional[dict[str, Any]], task_type: TaskType
+    ) -> list[ModelVote]:
         """Gather responses from all specified models"""
 
         votes = []
@@ -241,7 +248,7 @@ class ConsensusEngine:
                 task_type=task_type,
                 content=question,
                 context=context,
-                preferred_models=[model_type]  # Force specific model
+                preferred_models=[model_type],  # Force specific model
             )
             tasks.append(self._get_single_model_vote(model_type, request))
 
@@ -260,8 +267,7 @@ class ConsensusEngine:
         logger.debug(f"Gathered {len(votes)} votes from {len(models)} models")
         return votes
 
-    async def _get_single_model_vote(self, model_type: ModelType,
-                                   request: RoutingRequest) -> Optional[ModelVote]:
+    async def _get_single_model_vote(self, model_type: ModelType, request: RoutingRequest) -> Optional[ModelVote]:
         """Get a single vote from a specific model"""
 
         try:
@@ -278,16 +284,15 @@ class ConsensusEngine:
                 metadata={
                     "processing_time_ms": response.processing_time_ms,
                     "tokens_used": response.tokens_used,
-                    "cost": response.cost_estimate
-                }
+                    "cost": response.cost_estimate,
+                },
             )
 
         except Exception as e:
             logger.warning(f"Failed to get vote from {model_type.value}: {e}")
             return None
 
-    async def _apply_consensus_method(self, votes: list[ModelVote],
-                                    method: ConsensusMethod) -> ConsensusResult:
+    async def _apply_consensus_method(self, votes: list[ModelVote], method: ConsensusMethod) -> ConsensusResult:
         """Apply the specified consensus method to votes"""
 
         if method == ConsensusMethod.MAJORITY_VOTE:
@@ -336,7 +341,7 @@ class ConsensusEngine:
             confidence=confidence,
             participating_models=[],  # Will be filled later
             individual_votes=[],
-            consensus_method=ConsensusMethod.WEIGHTED_CONFIDENCE
+            consensus_method=ConsensusMethod.WEIGHTED_CONFIDENCE,
         )
 
     async def _majority_vote_consensus(self, votes: list[ModelVote]) -> ConsensusResult:
@@ -361,7 +366,7 @@ class ConsensusEngine:
             confidence=avg_confidence,
             participating_models=[],
             individual_votes=[],
-            consensus_method=ConsensusMethod.MAJORITY_VOTE
+            consensus_method=ConsensusMethod.MAJORITY_VOTE,
         )
 
     async def _expert_override_consensus(self, votes: list[ModelVote]) -> ConsensusResult:
@@ -383,7 +388,7 @@ class ConsensusEngine:
             confidence=best_vote.response.confidence,
             participating_models=[],
             individual_votes=[],
-            consensus_method=ConsensusMethod.EXPERT_OVERRIDE
+            consensus_method=ConsensusMethod.EXPERT_OVERRIDE,
         )
 
     async def _democratic_consensus(self, votes: list[ModelVote]) -> ConsensusResult:
@@ -402,7 +407,7 @@ class ConsensusEngine:
             confidence=avg_confidence,
             participating_models=[],
             individual_votes=[],
-            consensus_method=ConsensusMethod.DEMOCRATIC
+            consensus_method=ConsensusMethod.DEMOCRATIC,
         )
 
     async def _iterative_refinement_consensus(self, votes: list[ModelVote]) -> ConsensusResult:
@@ -495,7 +500,9 @@ class ConsensusEngine:
         low_confidence_votes = [v for v in votes if v.response.confidence < 0.6]
 
         for vote in low_confidence_votes:
-            disagreements.append(f"{vote.model_type.value} expressed uncertainty (confidence: {vote.response.confidence:.3f})")
+            disagreements.append(
+                f"{vote.model_type.value} expressed uncertainty (confidence: {vote.response.confidence:.3f})"
+            )
 
         # Find outlier responses (very different confidence from average)
         if len(votes) > 2:
@@ -503,7 +510,9 @@ class ConsensusEngine:
 
             for vote in votes:
                 if abs(vote.response.confidence - avg_confidence) > 0.3:
-                    disagreements.append(f"{vote.model_type.value} confidence ({vote.response.confidence:.3f}) differs significantly from average ({avg_confidence:.3f})")
+                    disagreements.append(
+                        f"{vote.model_type.value} confidence ({vote.response.confidence:.3f}) differs significantly from average ({avg_confidence:.3f})"
+                    )
 
         return disagreements
 
@@ -526,7 +535,7 @@ class ConsensusEngine:
         """Track disagreement patterns between models"""
 
         for i, vote_a in enumerate(votes):
-            for _j, vote_b in enumerate(votes[i+1:], i+1):
+            for _j, vote_b in enumerate(votes[i + 1 :], i + 1):
                 model_pair = tuple(sorted([vote_a.model_type.value, vote_b.model_type.value]))
 
                 confidence_diff = abs(vote_a.response.confidence - vote_b.response.confidence)
@@ -535,7 +544,7 @@ class ConsensusEngine:
                     self.disagreement_patterns[model_pair] = {
                         "total_comparisons": 0,
                         "disagreements": 0,
-                        "avg_confidence_diff": 0.0
+                        "avg_confidence_diff": 0.0,
                     }
 
                 pattern = self.disagreement_patterns[model_pair]
@@ -568,7 +577,7 @@ class ConsensusEngine:
             participating_models=[vote.model_type for vote in votes],
             individual_votes=votes,
             total_cost=cost,
-            consensus_method=ConsensusMethod.WEIGHTED_CONFIDENCE
+            consensus_method=ConsensusMethod.WEIGHTED_CONFIDENCE,
         )
 
     def _create_error_consensus(self, question: str, error: str) -> ConsensusResult:
@@ -581,7 +590,7 @@ class ConsensusEngine:
             participating_models=[],
             individual_votes=[],
             disagreement_points=[f"Process error: {error}"],
-            total_cost=0.0
+            total_cost=0.0,
         )
 
     def get_consensus_metrics(self) -> dict[str, Any]:
@@ -618,9 +627,9 @@ class ConsensusEngine:
             "model_disagreement_patterns": {
                 pair: {
                     "disagreement_rate": pattern["disagreements"] / pattern["total_comparisons"],
-                    "avg_confidence_diff": round(pattern["avg_confidence_diff"], 3)
+                    "avg_confidence_diff": round(pattern["avg_confidence_diff"], 3),
                 }
                 for pair, pattern in self.disagreement_patterns.items()
                 if pattern["total_comparisons"] > 2  # Only show patterns with sufficient data
-            }
+            },
         }

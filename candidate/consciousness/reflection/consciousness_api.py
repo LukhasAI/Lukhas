@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ConsciousnessLevel(Enum):
+class ConsciousnessLevel(Enum, timezone):
     """Levels of consciousness simulation"""
 
     BASIC = "basic"  # Simple awareness
@@ -145,7 +145,7 @@ class ConsciousnessPlatformAPI:
             awareness_scores=awareness_scores,
             attention_focus=attention,
             emotional_state=emotion,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             metadata={
                 "processing_depth": self._get_processing_depth(),
                 "coherence_score": await self._calculate_coherence(),
@@ -171,7 +171,7 @@ class ConsciousnessPlatformAPI:
         """
         await self.initialize()
 
-        result = {"timestamp": datetime.utcnow().isoformat(), "awareness_data": {}}
+        result = {"timestamp": datetime.now(timezone.utc).isoformat(), "awareness_data": {}}
 
         # Get current awareness for requested types
         for awareness_type in query.awareness_types:
@@ -207,7 +207,7 @@ class ConsciousnessPlatformAPI:
             "topic": request.topic,
             "depth": request.depth,
             "insights": reflection_data.get("insights", []),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add emotional context if requested
@@ -319,7 +319,7 @@ class ConsciousnessPlatformAPI:
         return {
             "score": await self._calculate_awareness_score(awareness_type),
             "active": True,
-            "last_update": datetime.utcnow().isoformat(),
+            "last_update": datetime.now(timezone.utc).isoformat(),
         }
 
     def _get_awareness_history(self, types: list[AwarenessType], window: int) -> list[dict]:

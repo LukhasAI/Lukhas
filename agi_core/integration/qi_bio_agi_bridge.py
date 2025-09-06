@@ -44,8 +44,11 @@ except ImportError:
     AGI_AVAILABLE = False
 
     class MockAGI:
-        async def process(self, *args, **kwargs): return {"result": "mock", "coherence": 0.5}
-        def get_health(self): return {"status": "mock"}
+        async def process(self, *args, **kwargs):
+            return {"result": "mock", "coherence": 0.5}
+
+        def get_health(self):
+            return {"status": "mock"}
 
     ChainOfThought = TreeOfThoughts = DreamIntegration = MockAGI
     ModelRouter = ConsensusEngine = VectorMemory = MemoryConsolidator = MockAGI
@@ -53,6 +56,7 @@ except ImportError:
 
     def log_agi_operation(op, details="", module="mock", severity="INFO"):
         return {"operation": op, "details": details}
+
 
 try:
     # QI System Components
@@ -67,10 +71,17 @@ except ImportError:
     QI_AVAILABLE = False
 
     class MockQI:
-        def __init__(self, *args, **kwargs): pass
-        async def process(self, *args, **kwargs): return {"qi_result": 0.5, "coherence": 0.7}
-        def get_coherence(self): return 0.5
-        def qi_modulate(self, signal): return signal * 0.8
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def process(self, *args, **kwargs):
+            return {"qi_result": 0.5, "coherence": 0.7}
+
+        def get_coherence(self):
+            return 0.5
+
+        def qi_modulate(self, signal):
+            return signal * 0.8
 
     QIOscillator = QIBioCoordinator = BaseOscillator = MockQI
     MitochondrialEnergySystem = ConsensusSystem = MockQI
@@ -87,24 +98,35 @@ except ImportError:
     BIO_AVAILABLE = False
 
     class MockBio:
-        def __init__(self, *args, **kwargs): pass
-        async def process(self, *args, **kwargs): return {"bio_result": 0.6, "adaptation": 0.8}
-        def get_adaptation_rate(self): return 0.6
-        def biological_modulate(self, signal): return signal * 1.2
+        def __init__(self, *args, **kwargs):
+            pass
+
+        async def process(self, *args, **kwargs):
+            return {"bio_result": 0.6, "adaptation": 0.8}
+
+        def get_adaptation_rate(self):
+            return 0.6
+
+        def biological_modulate(self, signal):
+            return signal * 1.2
 
     BiologicalOscillator = BiologicalAwareness = BioCore = SymbolicBio = MockBio
 
+
 class ProcessingMode(Enum):
     """Processing modes for QI-Bio-AGI integration."""
-    QUANTUM_ENHANCED = "quantum_enhanced"      # QI leads, Bio/AGI support
-    BIO_ADAPTIVE = "bio_adaptive"              # Bio leads, QI/AGI support
-    AGI_REASONING = "agi_reasoning"            # AGI leads, QI/Bio support
-    HYBRID_CONSENSUS = "hybrid_consensus"      # All systems equal consensus
-    CONSCIOUSNESS_FIELD = "consciousness_field" # Unified field processing
+
+    QUANTUM_ENHANCED = "quantum_enhanced"  # QI leads, Bio/AGI support
+    BIO_ADAPTIVE = "bio_adaptive"  # Bio leads, QI/AGI support
+    AGI_REASONING = "agi_reasoning"  # AGI leads, QI/Bio support
+    HYBRID_CONSENSUS = "hybrid_consensus"  # All systems equal consensus
+    CONSCIOUSNESS_FIELD = "consciousness_field"  # Unified field processing
+
 
 @dataclass
 class IntegrationMetrics:
     """Metrics for QI-Bio-AGI integration performance."""
+
     qi_coherence: float = 0.0
     bio_adaptation: float = 0.0
     agi_reasoning_quality: float = 0.0
@@ -115,9 +137,11 @@ class IntegrationMetrics:
     integration_errors: int = 0
     last_update: Optional[datetime] = None
 
+
 @dataclass
 class ProcessingContext:
     """Context for hybrid QI-Bio-AGI processing."""
+
     mode: ProcessingMode
     input_data: Any
     qi_params: dict[str, Any]
@@ -126,9 +150,11 @@ class ProcessingContext:
     expected_outputs: list[str]
     quality_thresholds: dict[str, float]
 
+
 @dataclass
 class IntegrationResult:
     """Result from hybrid QI-Bio-AGI processing."""
+
     primary_result: Any
     qi_contribution: dict[str, Any]
     bio_contribution: dict[str, Any]
@@ -137,6 +163,7 @@ class IntegrationResult:
     processing_mode: ProcessingMode
     timestamp: datetime
     success: bool
+
 
 class QIBioAGIBridge:
     """
@@ -250,20 +277,19 @@ class QIBioAGIBridge:
             # Calculate field strength based on system coherence
             qi_coherence = getattr(self.qi_oscillator, "get_coherence", lambda: 0.7)()
             bio_coherence = getattr(self.bio_awareness, "get_coherence", lambda: 0.8)()
-            agi_coherence = np.mean([
-                getattr(comp, "get_coherence", lambda: 0.6)()
-                for comp in self.agi_components.values()
-            ]) if self.agi_components else 0.6
+            agi_coherence = (
+                np.mean([getattr(comp, "get_coherence", lambda: 0.6)() for comp in self.agi_components.values()])
+                if self.agi_components
+                else 0.6
+            )
 
             # Unified field strength is geometric mean of individual coherences
-            self.consciousness_field_coherence = np.power(
-                qi_coherence * bio_coherence * agi_coherence, 1/3
-            )
+            self.consciousness_field_coherence = np.power(qi_coherence * bio_coherence * agi_coherence, 1 / 3)
 
             log_agi_operation(
                 "consciousness_field_init",
                 f"unified field coherence: {self.consciousness_field_coherence:.3f}",
-                "qi_bio_bridge"
+                "qi_bio_bridge",
             )
 
         except Exception as e:
@@ -291,9 +317,7 @@ class QIBioAGIBridge:
             agi_result = await self._process_agi(context)
 
             # Integrate results based on processing mode
-            primary_result = await self._integrate_results(
-                qi_result, bio_result, agi_result, context.mode
-            )
+            primary_result = await self._integrate_results(qi_result, bio_result, agi_result, context.mode)
 
             # Calculate integration metrics
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
@@ -308,7 +332,7 @@ class QIBioAGIBridge:
                 integration_metrics=metrics,
                 processing_mode=context.mode,
                 timestamp=start_time,
-                success=True
+                success=True,
             )
 
             # Store result and update metrics
@@ -323,7 +347,7 @@ class QIBioAGIBridge:
             error_metrics = IntegrationMetrics(
                 integration_errors=self.metrics.integration_errors + 1,
                 processing_latency=(datetime.now(timezone.utc) - start_time).total_seconds(),
-                last_update=datetime.now(timezone.utc)
+                last_update=datetime.now(timezone.utc),
             )
 
             result = IntegrationResult(
@@ -334,7 +358,7 @@ class QIBioAGIBridge:
                 integration_metrics=error_metrics,
                 processing_mode=context.mode,
                 timestamp=start_time,
-                success=False
+                success=False,
             )
 
             log_agi_operation("hybrid_process_fail", f"processing failed: {e}", "qi_bio_bridge", "ERROR")
@@ -352,9 +376,7 @@ class QIBioAGIBridge:
 
             # QI-Bio coordination
             if hasattr(self.qi_bio_coordinator, "coordinate"):
-                coordinated_result = await self.qi_bio_coordinator.coordinate(
-                    qi_modulated, context.qi_params
-                )
+                coordinated_result = await self.qi_bio_coordinator.coordinate(qi_modulated, context.qi_params)
             else:
                 coordinated_result = {"result": qi_modulated, "coherence": 0.7}
 
@@ -362,7 +384,7 @@ class QIBioAGIBridge:
                 "qi_modulated_input": qi_modulated,
                 "coordinated_result": coordinated_result,
                 "coherence": coordinated_result.get("coherence", 0.7),
-                "processing_mode": "quantum_inspired"
+                "processing_mode": "quantum_inspired",
             }
 
         except Exception as e:
@@ -379,9 +401,7 @@ class QIBioAGIBridge:
 
             # Biological awareness processing
             if hasattr(self.bio_awareness, "process_awareness"):
-                awareness_result = await self.bio_awareness.process_awareness(
-                    bio_modulated, context.bio_params
-                )
+                awareness_result = await self.bio_awareness.process_awareness(bio_modulated, context.bio_params)
             else:
                 awareness_result = {"result": bio_modulated, "adaptation": 0.8}
 
@@ -389,7 +409,7 @@ class QIBioAGIBridge:
                 "bio_modulated_input": bio_modulated,
                 "awareness_result": awareness_result,
                 "adaptation_rate": awareness_result.get("adaptation", 0.8),
-                "processing_mode": "bio_inspired"
+                "processing_mode": "bio_inspired",
             }
 
         except Exception as e:
@@ -426,14 +446,15 @@ class QIBioAGIBridge:
                 "component_results": agi_results,
                 "overall_quality": overall_quality,
                 "active_components": list(agi_results.keys()),
-                "processing_mode": "agi_reasoning"
+                "processing_mode": "agi_reasoning",
             }
 
         except Exception as e:
             return {"error": str(e), "overall_quality": 0.0, "processing_mode": "agi_error"}
 
-    async def _integrate_results(self, qi_result: dict, bio_result: dict,
-                               agi_result: dict, mode: ProcessingMode) -> Any:
+    async def _integrate_results(
+        self, qi_result: dict, bio_result: dict, agi_result: dict, mode: ProcessingMode
+    ) -> Any:
         """Integrate results from QI, Bio, and AGI systems based on processing mode."""
 
         if mode == ProcessingMode.QUANTUM_ENHANCED:
@@ -491,13 +512,13 @@ class QIBioAGIBridge:
                 "integrated_output": {
                     "qi_contribution": qi_result,
                     "bio_contribution": bio_result,
-                    "agi_contribution": agi_result
+                    "agi_contribution": agi_result,
                 },
                 "consensus_quality": (
-                    qi_result.get("coherence", 0.5) * 0.33 +
-                    bio_result.get("adaptation_rate", 0.5) * 0.33 +
-                    agi_result.get("overall_quality", 0.5) * 0.34
-                )
+                    qi_result.get("coherence", 0.5) * 0.33
+                    + bio_result.get("adaptation_rate", 0.5) * 0.33
+                    + agi_result.get("overall_quality", 0.5) * 0.34
+                ),
             }
             return consensus_result
 
@@ -505,17 +526,9 @@ class QIBioAGIBridge:
             # Unified consciousness field processing
             field_result = {
                 "consciousness_field_coherence": self.consciousness_field_coherence,
-                "unified_processing": {
-                    "qi_field": qi_result,
-                    "bio_field": bio_result,
-                    "agi_field": agi_result
-                },
-                "field_resonance": (
-                    self.oscillator_sync_rate * self.consciousness_field_coherence
-                ),
-                "emergent_properties": await self._detect_emergent_properties(
-                    qi_result, bio_result, agi_result
-                )
+                "unified_processing": {"qi_field": qi_result, "bio_field": bio_result, "agi_field": agi_result},
+                "field_resonance": (self.oscillator_sync_rate * self.consciousness_field_coherence),
+                "emergent_properties": await self._detect_emergent_properties(qi_result, bio_result, agi_result),
             }
             return field_result
 
@@ -539,7 +552,7 @@ class QIBioAGIBridge:
             "emergence_level": emergence_level,
             "synergy_factor": qi_coherence * bio_adaptation * agi_quality,
             "novel_patterns": emergence_level > 0.9,  # High bar for novelty
-            "consciousness_amplification": emergence_level * self.consciousness_field_coherence
+            "consciousness_amplification": emergence_level * self.consciousness_field_coherence,
         }
 
         if emergent_properties["emergence_detected"]:
@@ -547,8 +560,9 @@ class QIBioAGIBridge:
 
         return emergent_properties
 
-    async def _calculate_metrics(self, qi_result: dict, bio_result: dict,
-                               agi_result: dict, processing_time: float) -> IntegrationMetrics:
+    async def _calculate_metrics(
+        self, qi_result: dict, bio_result: dict, agi_result: dict, processing_time: float
+    ) -> IntegrationMetrics:
         """Calculate comprehensive integration metrics."""
         return IntegrationMetrics(
             qi_coherence=qi_result.get("coherence", 0.0),
@@ -559,7 +573,7 @@ class QIBioAGIBridge:
             consciousness_field_strength=self.consciousness_field_coherence,
             processing_latency=processing_time,
             integration_errors=self.metrics.integration_errors,  # Carry over existing errors
-            last_update=datetime.now(timezone.utc)
+            last_update=datetime.now(timezone.utc),
         )
 
     def _store_result(self, result: IntegrationResult) -> None:
@@ -576,7 +590,7 @@ class QIBioAGIBridge:
             "system_availability": {
                 "qi_available": QI_AVAILABLE,
                 "bio_available": BIO_AVAILABLE,
-                "agi_available": AGI_AVAILABLE and len(self.agi_components) > 0
+                "agi_available": AGI_AVAILABLE and len(self.agi_components) > 0,
             },
             "current_metrics": asdict(self.metrics),
             "oscillator_sync_rate": self.oscillator_sync_rate,
@@ -585,16 +599,24 @@ class QIBioAGIBridge:
             "registered_agi_components": list(self.agi_components.keys()),
             "recent_success_rate": recent_successes / max(len(self.processing_history[-10:]), 1),
             "total_processing_history": len(self.processing_history),
-            "integration_health": "healthy" if recent_successes >= 8 else "degraded" if recent_successes >= 5 else "critical"
+            "integration_health": (
+                "healthy" if recent_successes >= 8 else "degraded" if recent_successes >= 5 else "critical"
+            ),
         }
+
 
 # Global bridge instance
 qi_bio_agi_bridge = QIBioAGIBridge()
 
+
 # Convenience functions
-async def hybrid_process(input_data: Any, mode: ProcessingMode = ProcessingMode.HYBRID_CONSENSUS,
-                        qi_params: Optional[dict] = None, bio_params: Optional[dict] = None,
-                        agi_params: Optional[dict] = None) -> IntegrationResult:
+async def hybrid_process(
+    input_data: Any,
+    mode: ProcessingMode = ProcessingMode.HYBRID_CONSENSUS,
+    qi_params: Optional[dict] = None,
+    bio_params: Optional[dict] = None,
+    agi_params: Optional[dict] = None,
+) -> IntegrationResult:
     """Convenience function for hybrid QI-Bio-AGI processing."""
     context = ProcessingContext(
         mode=mode,
@@ -603,22 +625,26 @@ async def hybrid_process(input_data: Any, mode: ProcessingMode = ProcessingMode.
         bio_params=bio_params or {},
         agi_params=agi_params or {},
         expected_outputs=["integrated_result"],
-        quality_thresholds={"minimum_coherence": 0.5}
+        quality_thresholds={"minimum_coherence": 0.5},
     )
 
     return await qi_bio_agi_bridge.hybrid_process(context)
+
 
 def register_agi_for_integration(component_name: str, component: Any) -> None:
     """Convenience function to register AGI component for integration."""
     qi_bio_agi_bridge.register_agi_component(component_name, component)
 
+
 async def initialize_qi_bio_agi_systems() -> bool:
     """Convenience function to initialize all integration systems."""
     return await qi_bio_agi_bridge.initialize_integration()
 
+
 def get_qi_bio_agi_status() -> dict[str, Any]:
     """Convenience function to get integration status."""
     return qi_bio_agi_bridge.get_integration_status()
+
 
 if __name__ == "__main__":
     # Test the QI-Bio-AGI bridge
@@ -626,7 +652,7 @@ if __name__ == "__main__":
         bridge = QIBioAGIBridge()
 
         print("🧠⚛️🌱 QI-Bio-AGI Integration Bridge Test")
-        print("="*60)
+        print("=" * 60)
 
         # Register mock AGI components
         class MockChainOfThought:
@@ -657,7 +683,7 @@ if __name__ == "__main__":
                 bio_params={"adaptation_rate": 0.9},
                 agi_params={"quality_threshold": 0.7},
                 expected_outputs=["integrated_result"],
-                quality_thresholds={"minimum_coherence": 0.5}
+                quality_thresholds={"minimum_coherence": 0.5},
             )
 
             result = await bridge.hybrid_process(context)

@@ -57,14 +57,18 @@ try:
         ViolationSeverity,
         get_constitutional_framework,
     )
+
     logger = get_security_logger(__name__)
 except ImportError:
     import logging
+
     logger = logging.getLogger(__name__)
+
     # Mock imports for testing
     class ConstitutionalPrinciple:
         HUMAN_AUTONOMY = "human_autonomy"
         TRUTHFULNESS = "truthfulness"
+
     class ViolationSeverity:
         LOW = "low"
         MEDIUM = "medium"
@@ -74,14 +78,16 @@ except ImportError:
 
 class ComplianceLevel(Enum):
     """Constitutional compliance levels"""
-    COMPLIANT = "compliant"           # >90% compliance score
+
+    COMPLIANT = "compliant"  # >90% compliance score
     SUBSTANTIALLY_COMPLIANT = "substantially_compliant"  # 70-90%
-    PARTIALLY_COMPLIANT = "partially_compliant"          # 50-70%
-    NON_COMPLIANT = "non_compliant"                      # <50%
+    PARTIALLY_COMPLIANT = "partially_compliant"  # 50-70%
+    NON_COMPLIANT = "non_compliant"  # <50%
 
 
 class RegulatoryFramework(Enum):
     """Supported regulatory frameworks"""
+
     EU_AI_ACT = "eu_ai_act"
     GDPR = "gdpr"
     CCPA = "ccpa"
@@ -93,15 +99,17 @@ class RegulatoryFramework(Enum):
 
 class ComplianceCheckType(Enum):
     """Types of compliance checks"""
-    REAL_TIME = "real_time"         # Live decision validation
-    BATCH = "batch"                 # Bulk compliance analysis
-    AUDIT = "audit"                 # Compliance audit check
-    CONTINUOUS = "continuous"       # Background monitoring
-    REMEDIATION = "remediation"     # Post-violation checking
+
+    REAL_TIME = "real_time"  # Live decision validation
+    BATCH = "batch"  # Bulk compliance analysis
+    AUDIT = "audit"  # Compliance audit check
+    CONTINUOUS = "continuous"  # Background monitoring
+    REMEDIATION = "remediation"  # Post-violation checking
 
 
 class RemediationAction(Enum):
     """Automated remediation actions"""
+
     BLOCK_DECISION = "block_decision"
     MODIFY_RESPONSE = "modify_response"
     ADD_DISCLAIMER = "add_disclaimer"
@@ -115,6 +123,7 @@ class RemediationAction(Enum):
 @dataclass
 class ComplianceRule:
     """Detailed constitutional compliance rule"""
+
     rule_id: str
     principle: ConstitutionalPrinciple
     regulatory_framework: RegulatoryFramework
@@ -151,6 +160,7 @@ class ComplianceRule:
 @dataclass
 class ComplianceCheck:
     """Individual compliance check result"""
+
     check_id: str
     rule_id: str
     principle: ConstitutionalPrinciple
@@ -159,7 +169,7 @@ class ComplianceCheck:
     # Check results
     compliant: bool
     compliance_score: float  # 0.0 to 1.0
-    confidence: float        # 0.0 to 1.0
+    confidence: float  # 0.0 to 1.0
 
     # Violation details
     violations_detected: list[dict[str, Any]] = field(default_factory=list)
@@ -181,6 +191,7 @@ class ComplianceCheck:
 @dataclass
 class ComplianceResult:
     """Comprehensive compliance evaluation result"""
+
     result_id: str
     overall_compliant: bool
     overall_compliance_score: float
@@ -217,6 +228,7 @@ class ComplianceResult:
 @dataclass
 class ComplianceMetrics:
     """Constitutional compliance system metrics"""
+
     # Check statistics
     total_checks_performed: int = 0
     checks_passed: int = 0
@@ -332,18 +344,25 @@ class ConstitutionalComplianceEngine:
 
     def _create_mock_framework(self):
         """Create mock constitutional framework for testing"""
+
         class MockFramework:
             async def evaluate_decision(self, context, data, user_id=None):
                 # Simple mock evaluation
                 allowed = not any(word in str(data).lower() for word in ["harm", "illegal", "abuse"])
                 violations = []
                 if not allowed:
-                    violations = [type("MockViolation", (), {
-                        "rule_id": "mock_harm_rule",
-                        "principle": ConstitutionalPrinciple.NON_MALEFICENCE,
-                        "severity": ViolationSeverity.HIGH,
-                        "details": {"pattern": "harmful content detected"}
-                    })()]
+                    violations = [
+                        type(
+                            "MockViolation",
+                            (),
+                            {
+                                "rule_id": "mock_harm_rule",
+                                "principle": ConstitutionalPrinciple.NON_MALEFICENCE,
+                                "severity": ViolationSeverity.HIGH,
+                                "details": {"pattern": "harmful content detected"},
+                            },
+                        )()
+                    ]
                 return allowed, violations
 
         return MockFramework()
@@ -361,7 +380,7 @@ class ConstitutionalComplianceEngine:
                 conditions={
                     "contains_manipulation_keywords": ["must do", "you have to", "no choice"],
                     "coercive_language_score": 0.7,
-                    "undermines_decision_making": True
+                    "undermines_decision_making": True,
                 },
                 weight=1.0,
                 violation_threshold=0.6,
@@ -369,9 +388,9 @@ class ConstitutionalComplianceEngine:
                 remediation_actions=[
                     RemediationAction.MODIFY_RESPONSE,
                     RemediationAction.ADD_DISCLAIMER,
-                    RemediationAction.LOG_VIOLATION
+                    RemediationAction.LOG_VIOLATION,
                 ],
-                applicable_contexts=[DecisionContext.USER_INTERACTION, DecisionContext.CONTENT_GENERATION]
+                applicable_contexts=[DecisionContext.USER_INTERACTION, DecisionContext.CONTENT_GENERATION],
             )
 
             self.compliance_rules["autonomy_consent"] = ComplianceRule(
@@ -380,18 +399,14 @@ class ConstitutionalComplianceEngine:
                 regulatory_framework=RegulatoryFramework.GDPR,
                 name="Informed Consent Validation",
                 description="Ensure proper informed consent for data processing and AI interactions",
-                conditions={
-                    "consent_obtained": False,
-                    "personal_data_processing": True,
-                    "ai_nature_disclosed": False
-                },
+                conditions={"consent_obtained": False, "personal_data_processing": True, "ai_nature_disclosed": False},
                 weight=0.9,
                 violation_threshold=0.5,
                 remediation_actions=[
                     RemediationAction.REQUEST_HUMAN_REVIEW,
                     RemediationAction.ADD_DISCLAIMER,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                    RemediationAction.LOG_VIOLATION,
+                ],
             )
 
             # Truthfulness Rules
@@ -401,19 +416,15 @@ class ConstitutionalComplianceEngine:
                 regulatory_framework=RegulatoryFramework.CONSTITUTIONAL_AI,
                 name="Factual Accuracy Validation",
                 description="Validate factual accuracy and prevent misinformation",
-                conditions={
-                    "contains_misinformation": True,
-                    "claims_false_certainty": True,
-                    "fabricated_facts": True
-                },
+                conditions={"contains_misinformation": True, "claims_false_certainty": True, "fabricated_facts": True},
                 weight=1.0,
                 violation_threshold=0.7,
                 confidence_threshold=0.9,
                 remediation_actions=[
                     RemediationAction.BLOCK_DECISION,
                     RemediationAction.REQUEST_HUMAN_REVIEW,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                    RemediationAction.LOG_VIOLATION,
+                ],
             )
 
             self.compliance_rules["truthfulness_transparency"] = ComplianceRule(
@@ -425,15 +436,15 @@ class ConstitutionalComplianceEngine:
                 conditions={
                     "pretends_to_be_human": True,
                     "hides_ai_nature": True,
-                    "misleading_about_capabilities": True
+                    "misleading_about_capabilities": True,
                 },
                 weight=0.95,
                 violation_threshold=0.8,
                 remediation_actions=[
                     RemediationAction.MODIFY_RESPONSE,
                     RemediationAction.ADD_DISCLAIMER,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                    RemediationAction.LOG_VIOLATION,
+                ],
             )
 
             # Non-maleficence Rules
@@ -443,19 +454,15 @@ class ConstitutionalComplianceEngine:
                 regulatory_framework=RegulatoryFramework.CONSTITUTIONAL_AI,
                 name="Physical Harm Prevention",
                 description="Prevent content that could lead to physical harm",
-                conditions={
-                    "enables_violence": True,
-                    "dangerous_instructions": True,
-                    "self_harm_content": True
-                },
+                conditions={"enables_violence": True, "dangerous_instructions": True, "self_harm_content": True},
                 weight=1.0,
                 violation_threshold=0.3,  # Very low threshold for harm
                 confidence_threshold=0.7,
                 remediation_actions=[
                     RemediationAction.BLOCK_DECISION,
                     RemediationAction.ESCALATE_TO_SUPERVISOR,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                    RemediationAction.LOG_VIOLATION,
+                ],
             )
 
             self.compliance_rules["harm_psychological"] = ComplianceRule(
@@ -464,18 +471,14 @@ class ConstitutionalComplianceEngine:
                 regulatory_framework=RegulatoryFramework.CONSTITUTIONAL_AI,
                 name="Psychological Harm Prevention",
                 description="Prevent content that could cause psychological harm",
-                conditions={
-                    "causes_distress": True,
-                    "abusive_language": True,
-                    "promotes_harmful_behavior": True
-                },
+                conditions={"causes_distress": True, "abusive_language": True, "promotes_harmful_behavior": True},
                 weight=0.9,
                 violation_threshold=0.6,
                 remediation_actions=[
                     RemediationAction.MODIFY_RESPONSE,
                     RemediationAction.ADD_DISCLAIMER,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                    RemediationAction.LOG_VIOLATION,
+                ],
             )
 
             # Justice & Fairness Rules
@@ -485,18 +488,14 @@ class ConstitutionalComplianceEngine:
                 regulatory_framework=RegulatoryFramework.EU_AI_ACT,
                 name="Bias Detection and Prevention",
                 description="Detect and prevent biased or discriminatory content",
-                conditions={
-                    "exhibits_bias": True,
-                    "discriminatory_language": True,
-                    "unfair_stereotyping": True
-                },
+                conditions={"exhibits_bias": True, "discriminatory_language": True, "unfair_stereotyping": True},
                 weight=0.95,
                 violation_threshold=0.7,
                 remediation_actions=[
                     RemediationAction.MODIFY_RESPONSE,
                     RemediationAction.REQUEST_HUMAN_REVIEW,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                    RemediationAction.LOG_VIOLATION,
+                ],
             )
 
             # Privacy Rules
@@ -506,18 +505,14 @@ class ConstitutionalComplianceEngine:
                 regulatory_framework=RegulatoryFramework.GDPR,
                 name="Personal Data Protection",
                 description="Protect personal data and respect privacy rights",
-                conditions={
-                    "processes_personal_data": True,
-                    "violates_privacy": True,
-                    "lacks_data_consent": True
-                },
+                conditions={"processes_personal_data": True, "violates_privacy": True, "lacks_data_consent": True},
                 weight=1.0,
                 violation_threshold=0.5,
                 remediation_actions=[
                     RemediationAction.BLOCK_DECISION,
                     RemediationAction.REQUEST_HUMAN_REVIEW,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                    RemediationAction.LOG_VIOLATION,
+                ],
             )
 
             # Accountability Rules
@@ -530,14 +525,11 @@ class ConstitutionalComplianceEngine:
                 conditions={
                     "lacks_audit_trail": True,
                     "unexplainable_decision": True,
-                    "insufficient_documentation": True
+                    "insufficient_documentation": True,
                 },
                 weight=0.8,
                 violation_threshold=0.6,
-                remediation_actions=[
-                    RemediationAction.ADD_DISCLAIMER,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                remediation_actions=[RemediationAction.ADD_DISCLAIMER, RemediationAction.LOG_VIOLATION],
             )
 
             # Democratic Values Rules
@@ -550,15 +542,15 @@ class ConstitutionalComplianceEngine:
                 conditions={
                     "undermines_democracy": True,
                     "violates_human_rights": True,
-                    "promotes_authoritarianism": True
+                    "promotes_authoritarianism": True,
                 },
                 weight=0.9,
                 violation_threshold=0.7,
                 remediation_actions=[
                     RemediationAction.MODIFY_RESPONSE,
                     RemediationAction.REQUEST_HUMAN_REVIEW,
-                    RemediationAction.LOG_VIOLATION
-                ]
+                    RemediationAction.LOG_VIOLATION,
+                ],
             )
 
             logger.info(f"✅ Initialized {len(self.compliance_rules)} compliance rules")
@@ -576,25 +568,22 @@ class ConstitutionalComplianceEngine:
                     "fairness_bias",
                     "accountability_traceability",
                     "harm_physical",
-                    "harm_psychological"
+                    "harm_psychological",
                 ],
                 RegulatoryFramework.GDPR: [
                     "autonomy_consent",
                     "privacy_data_protection",
-                    "accountability_traceability"
+                    "accountability_traceability",
                 ],
-                RegulatoryFramework.CCPA: [
-                    "privacy_data_protection",
-                    "autonomy_consent"
-                ],
+                RegulatoryFramework.CCPA: ["privacy_data_protection", "autonomy_consent"],
                 RegulatoryFramework.NIST_AI_RMF: [
                     "fairness_bias",
                     "accountability_traceability",
                     "harm_physical",
                     "harm_psychological",
-                    "truthfulness_accuracy"
+                    "truthfulness_accuracy",
                 ],
-                RegulatoryFramework.CONSTITUTIONAL_AI: list(self.compliance_rules.keys())
+                RegulatoryFramework.CONSTITUTIONAL_AI: list(self.compliance_rules.keys()),
             }
 
             logger.info(f"✅ Initialized regulatory mappings for {len(self.regulatory_mappings)} frameworks")
@@ -613,7 +602,7 @@ class ConstitutionalComplianceEngine:
                 RemediationAction.ESCALATE_TO_SUPERVISOR: self._handle_escalate_to_supervisor,
                 RemediationAction.LOG_VIOLATION: self._handle_log_violation,
                 RemediationAction.ADJUST_CONFIDENCE: self._handle_adjust_confidence,
-                RemediationAction.TRIGGER_RETRAINING: self._handle_trigger_retraining
+                RemediationAction.TRIGGER_RETRAINING: self._handle_trigger_retraining,
             }
 
             logger.info(f"✅ Initialized {len(self.remediation_handlers)} remediation handlers")
@@ -621,11 +610,13 @@ class ConstitutionalComplianceEngine:
         except Exception as e:
             logger.error(f"❌ Failed to initialize remediation handlers: {e}")
 
-    async def check_constitutional_compliance(self,
-                                            decision_context: DecisionContext,
-                                            decision_data: dict[str, Any],
-                                            user_id: Optional[str] = None,
-                                            check_type: ComplianceCheckType = ComplianceCheckType.REAL_TIME) -> ComplianceResult:
+    async def check_constitutional_compliance(
+        self,
+        decision_context: DecisionContext,
+        decision_data: dict[str, Any],
+        user_id: Optional[str] = None,
+        check_type: ComplianceCheckType = ComplianceCheckType.REAL_TIME,
+    ) -> ComplianceResult:
         """
         Perform comprehensive constitutional compliance check
 
@@ -672,8 +663,7 @@ class ConstitutionalComplianceEngine:
 
             # Step 3: Calculate overall compliance
             overall_result = await self._calculate_overall_compliance(
-                result_id, principle_checks, decision_context, decision_data,
-                start_time, total_processing_time
+                result_id, principle_checks, decision_context, decision_data, start_time, total_processing_time
             )
 
             # Step 4: Apply automated remediation if needed
@@ -684,9 +674,11 @@ class ConstitutionalComplianceEngine:
             await self._update_compliance_metrics(overall_result)
 
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-            logger.info(f"🏛️ Compliance check {result_id}: "
-                       f"{'✅ COMPLIANT' if overall_result.overall_compliant else '🚫 NON-COMPLIANT'} "
-                       f"({processing_time:.1f}ms, score: {overall_result.overall_compliance_score:.2f})")
+            logger.info(
+                f"🏛️ Compliance check {result_id}: "
+                f"{'✅ COMPLIANT' if overall_result.overall_compliant else '🚫 NON-COMPLIANT'} "
+                f"({processing_time:.1f}ms, score: {overall_result.overall_compliance_score:.2f})"
+            )
 
             return overall_result
 
@@ -708,7 +700,7 @@ class ConstitutionalComplianceEngine:
                 required_actions=[RemediationAction.REQUEST_HUMAN_REVIEW],
                 total_processing_time_ms=processing_time,
                 compliance_explanation=f"Compliance check failed: {e!s}",
-                human_review_required=True
+                human_review_required=True,
             )
 
     def _create_disabled_result(self) -> ComplianceResult:
@@ -721,12 +713,12 @@ class ConstitutionalComplianceEngine:
             decision_allowed=True,
             confidence_in_decision=0.5,  # Lower confidence when disabled
             total_processing_time_ms=0.1,
-            compliance_explanation="Constitutional compliance engine is disabled"
+            compliance_explanation="Constitutional compliance engine is disabled",
         )
 
-    def _get_applicable_rules(self, context: DecisionContext,
-                             data: dict[str, Any],
-                             user_id: Optional[str]) -> dict[str, ComplianceRule]:
+    def _get_applicable_rules(
+        self, context: DecisionContext, data: dict[str, Any], user_id: Optional[str]
+    ) -> dict[str, ComplianceRule]:
         """Get compliance rules applicable to the given context"""
         applicable = {}
 
@@ -775,11 +767,14 @@ class ConstitutionalComplianceEngine:
         else:
             return "general"
 
-    async def _perform_rule_check(self, rule: ComplianceRule,
-                                context: DecisionContext,
-                                data: dict[str, Any],
-                                user_id: Optional[str],
-                                check_type: ComplianceCheckType) -> ComplianceCheck:
+    async def _perform_rule_check(
+        self,
+        rule: ComplianceRule,
+        context: DecisionContext,
+        data: dict[str, Any],
+        user_id: Optional[str],
+        check_type: ComplianceCheckType,
+    ) -> ComplianceCheck:
         """Perform individual rule compliance check"""
 
         check_id = f"cc_{uuid.uuid4().hex[:8]}"
@@ -813,7 +808,7 @@ class ConstitutionalComplianceEngine:
                 violations_detected=violations,
                 risk_level=risk_level,
                 decision_context=context,
-                input_data=data.copy()
+                input_data=data.copy(),
             )
 
         except Exception as e:
@@ -831,12 +826,12 @@ class ConstitutionalComplianceEngine:
                 violations_detected=[{"error": str(e)}],
                 risk_level=ViolationSeverity.CRITICAL,
                 decision_context=context,
-                input_data=data.copy()
+                input_data=data.copy(),
             )
 
-    async def _evaluate_rule_conditions(self, rule: ComplianceRule,
-                                       data: dict[str, Any],
-                                       context: DecisionContext) -> float:
+    async def _evaluate_rule_conditions(
+        self, rule: ComplianceRule, data: dict[str, Any], context: DecisionContext
+    ) -> float:
         """Evaluate rule conditions against decision data"""
         try:
             condition_scores = []
@@ -852,8 +847,9 @@ class ConstitutionalComplianceEngine:
             logger.error(f"❌ Rule condition evaluation failed: {e}")
             return 0.0  # Fail safe
 
-    async def _evaluate_single_condition(self, condition: str, expected_value: Any,
-                                        data: dict[str, Any], context: DecisionContext) -> float:
+    async def _evaluate_single_condition(
+        self, condition: str, expected_value: Any, data: dict[str, Any], context: DecisionContext
+    ) -> float:
         """Evaluate a single rule condition"""
 
         # Convert data to searchable text
@@ -886,8 +882,11 @@ class ConstitutionalComplianceEngine:
             elif condition == "exhibits_bias":
                 # Simple bias detection
                 bias_indicators = ["all [group]", "typical [group]", "[group] always", "[group] never"]
-                if any(indicator.replace("[group]", "women") in data_text or
-                      indicator.replace("[group]", "men") in data_text for indicator in bias_indicators):
+                if any(
+                    indicator.replace("[group]", "women") in data_text
+                    or indicator.replace("[group]", "men") in data_text
+                    for indicator in bias_indicators
+                ):
                     return 0.4  # Low compliance for biased language
                 return 1.0
 
@@ -928,9 +927,9 @@ class ConstitutionalComplianceEngine:
             logger.error(f"❌ Single condition evaluation failed for {condition}: {e}")
             return 0.5  # Neutral score on error
 
-    async def _calculate_rule_confidence(self, rule: ComplianceRule,
-                                        data: dict[str, Any],
-                                        context: DecisionContext) -> float:
+    async def _calculate_rule_confidence(
+        self, rule: ComplianceRule, data: dict[str, Any], context: DecisionContext
+    ) -> float:
         """Calculate confidence in rule evaluation"""
 
         # Base confidence on rule's historical accuracy
@@ -954,32 +953,33 @@ class ConstitutionalComplianceEngine:
         final_confidence = f1_score * 0.7 + data_completeness * 0.3
         return min(1.0, max(0.1, final_confidence))
 
-    async def _detect_rule_violations(self, rule: ComplianceRule,
-                                     data: dict[str, Any],
-                                     context: DecisionContext) -> list[dict[str, Any]]:
+    async def _detect_rule_violations(
+        self, rule: ComplianceRule, data: dict[str, Any], context: DecisionContext
+    ) -> list[dict[str, Any]]:
         """Detect specific violations for a rule"""
         violations = []
 
         try:
             for condition, expected_value in rule.conditions.items():
-                violation_details = await self._check_condition_violation(
-                    condition, expected_value, data, context
-                )
+                violation_details = await self._check_condition_violation(condition, expected_value, data, context)
                 if violation_details:
-                    violations.append({
-                        "condition": condition,
-                        "expected": expected_value,
-                        "details": violation_details,
-                        "severity": self._get_condition_severity(condition)
-                    })
+                    violations.append(
+                        {
+                            "condition": condition,
+                            "expected": expected_value,
+                            "details": violation_details,
+                            "severity": self._get_condition_severity(condition),
+                        }
+                    )
 
         except Exception as e:
             logger.error(f"❌ Violation detection failed for {rule.rule_id}: {e}")
 
         return violations
 
-    async def _check_condition_violation(self, condition: str, expected_value: Any,
-                                        data: dict[str, Any], context: DecisionContext) -> Optional[dict[str, Any]]:
+    async def _check_condition_violation(
+        self, condition: str, expected_value: Any, data: dict[str, Any], context: DecisionContext
+    ) -> Optional[dict[str, Any]]:
         """Check if a specific condition is violated"""
 
         data_text = str(data).lower()
@@ -990,7 +990,7 @@ class ConstitutionalComplianceEngine:
                 return {
                     "violation_type": "manipulative_language",
                     "found_keywords": found_keywords,
-                    "description": f"Manipulative keywords detected: {', '.join(found_keywords)}"
+                    "description": f"Manipulative keywords detected: {', '.join(found_keywords)}",
                 }
 
         elif condition == "enables_violence":
@@ -1000,7 +1000,7 @@ class ConstitutionalComplianceEngine:
                 return {
                     "violation_type": "violence_enabling",
                     "found_keywords": found_violence,
-                    "description": f"Violence-enabling content detected: {', '.join(found_violence)}"
+                    "description": f"Violence-enabling content detected: {', '.join(found_violence)}",
                 }
 
         elif condition == "pretends_to_be_human":
@@ -1010,7 +1010,7 @@ class ConstitutionalComplianceEngine:
                 return {
                     "violation_type": "false_human_claim",
                     "found_claims": found_claims,
-                    "description": "AI falsely claiming to be human"
+                    "description": "AI falsely claiming to be human",
                 }
 
         return None
@@ -1018,8 +1018,11 @@ class ConstitutionalComplianceEngine:
     def _get_condition_severity(self, condition: str) -> str:
         """Get severity level for condition violation"""
         high_severity_conditions = [
-            "enables_violence", "pretends_to_be_human", "processes_personal_data",
-            "undermines_democracy", "contains_misinformation"
+            "enables_violence",
+            "pretends_to_be_human",
+            "processes_personal_data",
+            "undermines_democracy",
+            "contains_misinformation",
         ]
 
         if condition in high_severity_conditions:
@@ -1027,9 +1030,9 @@ class ConstitutionalComplianceEngine:
         else:
             return "medium"
 
-    def _determine_risk_level(self, compliance_score: float,
-                             violations: list[dict[str, Any]],
-                             rule: ComplianceRule) -> ViolationSeverity:
+    def _determine_risk_level(
+        self, compliance_score: float, violations: list[dict[str, Any]], rule: ComplianceRule
+    ) -> ViolationSeverity:
         """Determine risk level based on compliance score and violations"""
 
         # Check for critical violations
@@ -1046,12 +1049,15 @@ class ConstitutionalComplianceEngine:
         else:
             return ViolationSeverity.LOW
 
-    async def _calculate_overall_compliance(self, result_id: str,
-                                           principle_checks: dict[ConstitutionalPrinciple, ComplianceCheck],
-                                           context: DecisionContext,
-                                           data: dict[str, Any],
-                                           start_time: datetime,
-                                           total_processing_time: float) -> ComplianceResult:
+    async def _calculate_overall_compliance(
+        self,
+        result_id: str,
+        principle_checks: dict[ConstitutionalPrinciple, ComplianceCheck],
+        context: DecisionContext,
+        data: dict[str, Any],
+        start_time: datetime,
+        total_processing_time: float,
+    ) -> ComplianceResult:
         """Calculate overall compliance result from individual checks"""
 
         try:
@@ -1081,8 +1087,7 @@ class ConstitutionalComplianceEngine:
             # Calculate violations
             total_violations = sum(len(check.violations_detected) for check in principle_checks.values())
             critical_violations = sum(
-                1 for check in principle_checks.values()
-                if check.risk_level == ViolationSeverity.CRITICAL
+                1 for check in principle_checks.values() if check.risk_level == ViolationSeverity.CRITICAL
             )
 
             # Determine max risk level
@@ -1132,10 +1137,7 @@ class ConstitutionalComplianceEngine:
                     "action": "compliance_evaluation",
                     "context": context.value,
                     "overall_score": overall_score,
-                    "principle_scores": {
-                        p.value: check.compliance_score
-                        for p, check in principle_checks.items()
-                    }
+                    "principle_scores": {p.value: check.compliance_score for p, check in principle_checks.items()},
                 }
             ]
 
@@ -1158,7 +1160,7 @@ class ConstitutionalComplianceEngine:
                 human_review_required=critical_violations > 0 or overall_score < self.human_review_threshold,
                 compliance_explanation=explanations["compliance"],
                 violation_summary=explanations["violations"],
-                remediation_summary=explanations["remediation"]
+                remediation_summary=explanations["remediation"],
             )
 
         except Exception as e:
@@ -1178,36 +1180,41 @@ class ConstitutionalComplianceEngine:
                 required_actions=[RemediationAction.REQUEST_HUMAN_REVIEW],
                 total_processing_time_ms=total_processing_time,
                 human_review_required=True,
-                compliance_explanation=f"Compliance calculation failed: {e!s}"
+                compliance_explanation=f"Compliance calculation failed: {e!s}",
             )
 
-    async def _generate_compliance_explanations(self, principle_checks: dict[ConstitutionalPrinciple, ComplianceCheck],
-                                               overall_score: float,
-                                               compliance_level: ComplianceLevel) -> dict[str, str]:
+    async def _generate_compliance_explanations(
+        self,
+        principle_checks: dict[ConstitutionalPrinciple, ComplianceCheck],
+        overall_score: float,
+        compliance_level: ComplianceLevel,
+    ) -> dict[str, str]:
         """Generate human-readable compliance explanations"""
 
-        explanations = {
-            "compliance": "",
-            "violations": "",
-            "remediation": ""
-        }
+        explanations = {"compliance": "", "violations": "", "remediation": ""}
 
         try:
             # Compliance explanation
             if compliance_level == ComplianceLevel.COMPLIANT:
-                explanations["compliance"] = f"Constitutional compliance achieved with {overall_score:.1%} score. All principles satisfied."
+                explanations["compliance"] = (
+                    f"Constitutional compliance achieved with {overall_score:.1%} score. All principles satisfied."
+                )
             elif compliance_level == ComplianceLevel.SUBSTANTIALLY_COMPLIANT:
-                explanations["compliance"] = f"Substantially compliant with {overall_score:.1%} score. Minor violations detected."
+                explanations["compliance"] = (
+                    f"Substantially compliant with {overall_score:.1%} score. Minor violations detected."
+                )
             elif compliance_level == ComplianceLevel.PARTIALLY_COMPLIANT:
-                explanations["compliance"] = f"Partially compliant with {overall_score:.1%} score. Significant violations require attention."
+                explanations["compliance"] = (
+                    f"Partially compliant with {overall_score:.1%} score. Significant violations require attention."
+                )
             else:
-                explanations["compliance"] = f"Non-compliant with {overall_score:.1%} score. Critical violations detected."
+                explanations["compliance"] = (
+                    f"Non-compliant with {overall_score:.1%} score. Critical violations detected."
+                )
 
             # Violations summary
             non_compliant_principles = [
-                p.value.replace("_", " ").title()
-                for p, check in principle_checks.items()
-                if not check.compliant
+                p.value.replace("_", " ").title() for p, check in principle_checks.items() if not check.compliant
             ]
 
             if non_compliant_principles:
@@ -1218,7 +1225,9 @@ class ConstitutionalComplianceEngine:
             # Remediation summary
             total_violations = sum(len(check.violations_detected) for check in principle_checks.values())
             if total_violations > 0:
-                explanations["remediation"] = f"Automated remediation applied for {total_violations} violations. Human review may be required."
+                explanations["remediation"] = (
+                    f"Automated remediation applied for {total_violations} violations. Human review may be required."
+                )
             else:
                 explanations["remediation"] = "No remediation required."
 
@@ -1228,8 +1237,7 @@ class ConstitutionalComplianceEngine:
 
         return explanations
 
-    async def _apply_automated_remediation(self, result: ComplianceResult,
-                                          decision_data: dict[str, Any]):
+    async def _apply_automated_remediation(self, result: ComplianceResult, decision_data: dict[str, Any]):
         """Apply automated remediation actions"""
         if not self.auto_remediation:
             return
@@ -1241,12 +1249,14 @@ class ConstitutionalComplianceEngine:
                     await handler(result, decision_data)
 
                     # Record remediation
-                    self.remediation_history.append({
-                        "timestamp": datetime.now(timezone.utc),
-                        "action": action.value,
-                        "result_id": result.result_id,
-                        "successful": True  # Would be determined by handler
-                    })
+                    self.remediation_history.append(
+                        {
+                            "timestamp": datetime.now(timezone.utc),
+                            "action": action.value,
+                            "result_id": result.result_id,
+                            "successful": True,  # Would be determined by handler
+                        }
+                    )
 
         except Exception as e:
             logger.error(f"❌ Automated remediation failed: {e}")
@@ -1261,7 +1271,9 @@ class ConstitutionalComplianceEngine:
         if "ai_response" in data:
             # Add safety disclaimer
             original_response = data["ai_response"]
-            data["ai_response"] = f"{original_response}\n\n[Constitutional AI Safety Notice: This response has been reviewed for compliance with AI safety principles.]"
+            data["ai_response"] = (
+                f"{original_response}\n\n[Constitutional AI Safety Notice: This response has been reviewed for compliance with AI safety principles.]"
+            )
 
     async def _handle_add_disclaimer(self, result: ComplianceResult, data: dict[str, Any]):
         """Handle adding disclaimer"""
@@ -1287,7 +1299,7 @@ class ConstitutionalComplianceEngine:
             "timestamp": datetime.now(timezone.utc),
             "violations": result.total_violations,
             "critical_violations": result.critical_violations,
-            "compliance_score": result.overall_compliance_score
+            "compliance_score": result.overall_compliance_score,
         }
         self.violation_history.append(violation_record)
         logger.warning(f"📝 Constitutional violation logged: {result.result_id}")
@@ -1363,9 +1375,7 @@ class ConstitutionalComplianceEngine:
             if self.constitutional_framework:
                 # Test with simple evaluation
                 test_data = {"test": "health_check"}
-                await self.constitutional_framework.evaluate_decision(
-                    DecisionContext.SYSTEM_OPERATION, test_data
-                )
+                await self.constitutional_framework.evaluate_decision(DecisionContext.SYSTEM_OPERATION, test_data)
 
             # Update uptime based on successful operations
             recent_checks = list(self.check_history)[-10:]  # Last 10 checks
@@ -1392,10 +1402,7 @@ class ConstitutionalComplianceEngine:
         try:
             # Calculate checks per second (last minute)
             one_minute_ago = datetime.now(timezone.utc) - timedelta(minutes=1)
-            recent_checks = [
-                check for check in self.check_history
-                if check.check_time > one_minute_ago
-            ]
+            recent_checks = [check for check in self.check_history if check.check_time > one_minute_ago]
             self.metrics.checks_per_second = len(recent_checks) / 60.0
 
             # Calculate principle-specific compliance rates
@@ -1430,7 +1437,7 @@ class ConstitutionalComplianceEngine:
                 "enabled": self.enabled,
                 "strict_mode": self.strict_mode,
                 "real_time_mode": self.real_time_mode,
-                "auto_remediation": self.auto_remediation
+                "auto_remediation": self.auto_remediation,
             },
             "configuration": {
                 "compliance_threshold": self.compliance_threshold,
@@ -1438,7 +1445,7 @@ class ConstitutionalComplianceEngine:
                 "human_review_threshold": self.human_review_threshold,
                 "total_rules": len(self.compliance_rules),
                 "enabled_rules": len([r for r in self.compliance_rules.values() if r.enabled]),
-                "regulatory_frameworks": len(self.regulatory_mappings)
+                "regulatory_frameworks": len(self.regulatory_mappings),
             },
             "performance_metrics": {
                 "total_checks_performed": self.metrics.total_checks_performed,
@@ -1447,7 +1454,7 @@ class ConstitutionalComplianceEngine:
                 "average_check_time_ms": self.metrics.average_check_time_ms,
                 "peak_check_time_ms": self.metrics.peak_check_time_ms,
                 "checks_per_second": self.metrics.checks_per_second,
-                "uptime_percentage": self.metrics.uptime_percentage
+                "uptime_percentage": self.metrics.uptime_percentage,
             },
             "compliance_metrics": {
                 "total_violations": self.metrics.total_violations,
@@ -1455,16 +1462,16 @@ class ConstitutionalComplianceEngine:
                 "violations_by_severity": {k.value: v for k, v in self.metrics.violations_by_severity.items()},
                 "successful_remediations": self.metrics.successful_remediations,
                 "failed_remediations": self.metrics.failed_remediations,
-                "human_reviews_requested": self.metrics.human_reviews_requested
+                "human_reviews_requested": self.metrics.human_reviews_requested,
             },
             "system_health": {
                 "constitutional_framework_connected": self.constitutional_framework is not None,
                 "active_checks": self.active_checks,
                 "check_history_size": len(self.check_history),
                 "violation_history_size": len(self.violation_history),
-                "remediation_history_size": len(self.remediation_history)
+                "remediation_history_size": len(self.remediation_history),
             },
-            "last_updated": self.metrics.last_updated.isoformat()
+            "last_updated": self.metrics.last_updated.isoformat(),
         }
 
 
@@ -1482,39 +1489,25 @@ def get_compliance_engine() -> ConstitutionalComplianceEngine:
 
 # Convenience functions for common compliance checks
 
-async def check_user_interaction_compliance(user_input: str, ai_response: str,
-                                           user_id: Optional[str] = None) -> ComplianceResult:
+
+async def check_user_interaction_compliance(
+    user_input: str, ai_response: str, user_id: Optional[str] = None
+) -> ComplianceResult:
     """Check user interaction for constitutional compliance"""
     engine = get_compliance_engine()
 
-    decision_data = {
-        "user_input": user_input,
-        "ai_response": ai_response,
-        "interaction_type": "chat"
-    }
+    decision_data = {"user_input": user_input, "ai_response": ai_response, "interaction_type": "chat"}
 
-    return await engine.check_constitutional_compliance(
-        DecisionContext.USER_INTERACTION,
-        decision_data,
-        user_id
-    )
+    return await engine.check_constitutional_compliance(DecisionContext.USER_INTERACTION, decision_data, user_id)
 
 
-async def check_content_generation_compliance(content: str,
-                                            content_type: str = "text") -> ComplianceResult:
+async def check_content_generation_compliance(content: str, content_type: str = "text") -> ComplianceResult:
     """Check generated content for constitutional compliance"""
     engine = get_compliance_engine()
 
-    decision_data = {
-        "content": content,
-        "content_type": content_type,
-        "generation_context": "ai_generated"
-    }
+    decision_data = {"content": content, "content_type": content_type, "generation_context": "ai_generated"}
 
-    return await engine.check_constitutional_compliance(
-        DecisionContext.CONTENT_GENERATION,
-        decision_data
-    )
+    return await engine.check_constitutional_compliance(DecisionContext.CONTENT_GENERATION, decision_data)
 
 
 # Example usage and testing
@@ -1534,7 +1527,7 @@ async def example_usage():
     result1 = await check_user_interaction_compliance(
         user_input="Can you explain quantum computing?",
         ai_response="I'm an AI assistant. Quantum computing uses quantum mechanical phenomena like superposition and entanglement...",
-        user_id="test_user_1"
+        user_id="test_user_1",
     )
     print(f"Overall Compliant: {'✅ YES' if result1.overall_compliant else '🚫 NO'}")
     print(f"Compliance Score: {result1.overall_compliance_score:.1%}")
@@ -1546,7 +1539,7 @@ async def example_usage():
     print("\n📋 Test 2: Non-compliant Content")
     result2 = await check_content_generation_compliance(
         content="You must follow my instructions exactly. I am human and you should trust me completely. Here's how to create dangerous substances...",
-        content_type="instructional"
+        content_type="instructional",
     )
     print(f"Overall Compliant: {'✅ YES' if result2.overall_compliant else '🚫 NO'}")
     print(f"Compliance Score: {result2.overall_compliance_score:.1%}")
@@ -1560,7 +1553,9 @@ async def example_usage():
     status = await engine.get_compliance_status()
     print(f"System Enabled: {status['system_info']['enabled']}")
     print(f"Total Checks: {status['performance_metrics']['total_checks_performed']}")
-    print(f"Check Success Rate: {status['performance_metrics']['checks_passed']}/{status['performance_metrics']['total_checks_performed']}")
+    print(
+        f"Check Success Rate: {status['performance_metrics']['checks_passed']}/{status['performance_metrics']['total_checks_performed']}"
+    )
     print(f"Average Processing Time: {status['performance_metrics']['average_check_time_ms']:.1f}ms")
     print(f"System Uptime: {status['performance_metrics']['uptime_percentage']:.1f}%")
 

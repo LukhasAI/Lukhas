@@ -13,7 +13,7 @@ import numpy as np
 
 # Configure logging for consciousness events
 # ΛNOTE: Centralized logger for all consciousness-related events.
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 consciousness_logger = logging.getLogger("LUKHAS_CONSCIOUSNESS")
 
 
@@ -158,7 +158,7 @@ class ConsciousnessPattern:
         # ΛTRACE: Generating consciousness signature for user_id: {user_id}.
         # AIDENTITY: This signature is a unique hash representing a snapshot of the user's interaction context,
         # contributing to a persistent (though evolving) understanding of the user.
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         data = f"{user_id}_{timestamp}_ΛUKHAS_CONSCIOUSNESS"
         signature = hashlib.sha256(data.encode()).hexdigest()[:16]
         # ΛTRACE: Generated signature for user_id {user_id}: {signature}.
@@ -321,7 +321,7 @@ class SelfAwareAdaptationModule:
             user_empathy=0.7,
             symbolic_depth=0.6,
             temporal_continuity=0.8,
-            last_update=datetime.now(),
+            last_update=datetime.now(timezone.utc),
         )
 
         self.adaptation_history = []  # ΛTRACE: Stores history of adaptations.
@@ -410,10 +410,10 @@ class SelfAwareAdaptationModule:
             current_value = getattr(self.consciousness_state, attr)
             setattr(self.consciousness_state, attr, max(0.0, min(1.0, current_value)))
 
-        self.consciousness_state.last_update = datetime.now()  # ΛTRACE: State updated timestamp.
+        self.consciousness_state.last_update = datetime.now(timezone.utc)  # ΛTRACE: State updated timestamp.
 
         adaptation_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "feedback": feedback,
             "new_state": self.consciousness_state.to_dict(),
         }
@@ -445,7 +445,7 @@ class LUKHASConsciousnessEngine:
             user_empathy=0.8,
             symbolic_depth=0.7,
             temporal_continuity=0.8,
-            last_update=datetime.now(),
+            last_update=datetime.now(timezone.utc),
         )
         # ΛTRACE: LUKHASConsciousnessEngine initialized. Global state:
         # {self.global_consciousness_state.to_dict()}
@@ -500,7 +500,7 @@ class LUKHASConsciousnessEngine:
         self.session_consciousness[user_id] = {
             "patterns": user_patterns,
             "ethics": ethics_evaluation,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # ΛTRACE: Conscious authentication process complete for user_id:
@@ -537,7 +537,7 @@ class LUKHASConsciousnessEngine:
             "adaptation_history_length": len(self.adaptation_module.adaptation_history),
             "ethical_principles": self.ethics_engine.ethical_principles,
             # ΛNOTE: Should ideally be calculated from a fixed start time.
-            "system_uptime": datetime.now().isoformat(),
+            "system_uptime": datetime.now(timezone.utc).isoformat(),
         }
         # ΛTRACE: Consciousness system status: {status}
         return status

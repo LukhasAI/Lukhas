@@ -331,15 +331,11 @@ class LukhasComplianceChecker:
         workspace_report = self._generate_workspace_report(module_reports)
 
         logger.info("✅ Compliance scan completed")
-        logger.info(
-            f"📊 Overall compliance: {workspace_report.overall_compliance_level.value}"
-        )
+        logger.info(f"📊 Overall compliance: {workspace_report.overall_compliance_level.value}")
 
         return workspace_report
 
-    def _find_files_to_scan(
-        self, include_patterns: Optional[list[str]] = None
-    ) -> list[Path]:
+    def _find_files_to_scan(self, include_patterns: Optional[list[str]] = None) -> list[Path]:
         """Find all files that should be scanned for compliance."""
         patterns = include_patterns or self.scan_patterns
         files = set()
@@ -365,10 +361,7 @@ class LukhasComplianceChecker:
         module_reports = []
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-            future_to_file = {
-                executor.submit(self._scan_single_file, file_path): file_path
-                for file_path in files
-            }
+            future_to_file = {executor.submit(self._scan_single_file, file_path): file_path for file_path in files}
 
             for future in concurrent.futures.as_completed(future_to_file):
                 file_path = future_to_file[future]
@@ -404,16 +397,12 @@ class LukhasComplianceChecker:
 
             # Create module report
             module_name = file_path.name
-            report = ModuleComplianceReport(
-                module_name=module_name, file_path=str(file_path)
-            )
+            report = ModuleComplianceReport(module_name=module_name, file_path=str(file_path))
 
             # Check if it's a known compliant module
             if module_name in self.compliant_modules:
                 report.compliance_level = self.compliant_modules[module_name]
-                report.jurisdictional_scores = self._get_known_module_scores(
-                    module_name
-                )
+                report.jurisdictional_scores = self._get_known_module_scores(module_name)
                 return report
 
             # Analyze file content for compliance
@@ -421,21 +410,15 @@ class LukhasComplianceChecker:
             report.violations = violations
 
             # Calculate compliance scores
-            report.jurisdictional_scores = self._calculate_jurisdictional_scores(
-                violations
-            )
-            report.compliance_level = self._determine_compliance_level(
-                report.jurisdictional_scores
-            )
+            report.jurisdictional_scores = self._calculate_jurisdictional_scores(violations)
+            report.compliance_level = self._determine_compliance_level(report.jurisdictional_scores)
             report.risk_score = self._calculate_risk_score(violations)
 
             # Generate recommendations
             report.recommendations = self._generate_recommendations(violations)
 
             # Identify compliant and missing features
-            report.compliant_features, report.missing_features = self._analyze_features(
-                content
-            )
+            report.compliant_features, report.missing_features = self._analyze_features(content)
 
             return report
 
@@ -443,9 +426,7 @@ class LukhasComplianceChecker:
             logger.warning(f"Error scanning {file_path}: {e}")
             return None
 
-    def _analyze_content_for_violations(
-        self, content: str, file_path: Path
-    ) -> list[ComplianceViolation]:
+    def _analyze_content_for_violations(self, content: str, file_path: Path) -> list[ComplianceViolation]:
         """Analyze file content for specific compliance violations."""
         violations = []
 
@@ -456,12 +437,15 @@ class LukhasComplianceChecker:
                 violations.append(
                     ComplianceViolation(
                         violation_type=ComplianceViolationType.MISSING_ENCRYPTION,
-                        severity="LOW", jurisdiction=Jurisdiction.GLOBAL,
+                        severity="LOW",
+                        jurisdiction=Jurisdiction.GLOBAL,
                         file_path=str(file_path),
                         line_number=None,
                         description="Non-critical module with potential security considerations",
                         regulation="General Security Best Practices",
-                        remediation="Review for basic security practices if handling any data",))
+                        remediation="Review for basic security practices if handling any data",
+                    )
+                )
             return violations
 
         # Full compliance analysis for critical modules
@@ -478,8 +462,7 @@ class LukhasComplianceChecker:
                     line_number=None,
                     description="Critical module missing GDPR data subject rights implementation",
                     regulation="GDPR Articles 15-22",
-                    remediation="Implement data subject rights: access, rectification, "
-                    "erasure, portability",
+                    remediation="Implement data subject rights: access, rectification, " "erasure, portability",
                 )
             )
 
@@ -488,7 +471,8 @@ class LukhasComplianceChecker:
             violations.append(
                 ComplianceViolation(
                     violation_type=ComplianceViolationType.MISSING_CCPA_RIGHTS,
-                    severity="HIGH", jurisdiction=Jurisdiction.US,
+                    severity="HIGH",
+                    jurisdiction=Jurisdiction.US,
                     file_path=str(file_path),
                     line_number=None,
                     description="Critical module missing CCPA consumer rights implementation",
@@ -498,9 +482,7 @@ class LukhasComplianceChecker:
             )
 
         # Check for missing consent management
-        if self._processes_personal_data(content) and not self._has_consent_management(
-            content
-        ):
+        if self._processes_personal_data(content) and not self._has_consent_management(content):
             violations.append(
                 ComplianceViolation(
                     violation_type=ComplianceViolationType.MISSING_CONSENT,
@@ -511,7 +493,8 @@ class LukhasComplianceChecker:
                     description="Critical module processes personal data without consent management",
                     regulation="GDPR Article 6, CCPA",
                     remediation="Implement consent collection and management system",
-                ))
+                )
+            )
 
         # Check for missing encryption
         if not self._has_encryption(content):
@@ -533,24 +516,30 @@ class LukhasComplianceChecker:
             violations.append(
                 ComplianceViolation(
                     violation_type=ComplianceViolationType.NO_AUDIT_TRAIL,
-                    severity="MEDIUM", jurisdiction=Jurisdiction.GLOBAL,
+                    severity="MEDIUM",
+                    jurisdiction=Jurisdiction.GLOBAL,
                     file_path=str(file_path),
                     line_number=None,
                     description="Critical module missing audit logging for compliance tracking",
                     regulation="GDPR Article 5, SOX Section 404",
-                    remediation="Implement comprehensive audit logging system",))
+                    remediation="Implement comprehensive audit logging system",
+                )
+            )
 
         # Check for AI transparency issues
         if self._is_ai_module(content) and not self._has_ai_transparency(content):
             violations.append(
                 ComplianceViolation(
                     violation_type=ComplianceViolationType.AI_TRANSPARENCY,
-                    severity="HIGH", jurisdiction=Jurisdiction.EU,
+                    severity="HIGH",
+                    jurisdiction=Jurisdiction.EU,
                     file_path=str(file_path),
                     line_number=None,
                     description="Critical AI system lacks required transparency and explainability",
                     regulation="EU AI Act Article 13",
-                    remediation="Implement AI decision explanation and transparency features",))
+                    remediation="Implement AI decision explanation and transparency features",
+                )
+            )
 
         return violations
 
@@ -664,18 +653,13 @@ class LukhasComplianceChecker:
         content_lower = content.lower()
         return any(indicator in content_lower for indicator in transparency_indicators)
 
-    def _calculate_jurisdictional_scores(
-        self, violations: list[ComplianceViolation]
-    ) -> dict[str, float]:
+    def _calculate_jurisdictional_scores(self, violations: list[ComplianceViolation]) -> dict[str, float]:
         """Calculate compliance scores per jurisdiction."""
         scores = {}
 
         for jurisdiction in Jurisdiction:
             jurisdiction_violations = [
-                v
-                for v in violations
-                if v.jurisdiction == jurisdiction
-                or v.jurisdiction == Jurisdiction.GLOBAL
+                v for v in violations if v.jurisdiction == jurisdiction or v.jurisdiction == Jurisdiction.GLOBAL
             ]
 
             # Base score
@@ -728,9 +712,7 @@ class LukhasComplianceChecker:
 
         return min(risk_score, 100.0)
 
-    def _generate_recommendations(
-        self, violations: list[ComplianceViolation]
-    ) -> list[str]:
+    def _generate_recommendations(self, violations: list[ComplianceViolation]) -> list[str]:
         """Generate remediation recommendations from violations."""
         recommendations = []
 
@@ -740,9 +722,7 @@ class LukhasComplianceChecker:
 
         # Add general recommendations
         if violations:
-            recommendations.append(
-                "Integrate with GlobalInstitutionalCompliantEngine for full compliance"
-            )
+            recommendations.append("Integrate with GlobalInstitutionalCompliantEngine for full compliance")
             recommendations.append("Implement comprehensive privacy impact assessment")
             recommendations.append("Regular compliance audits and monitoring")
 
@@ -759,11 +739,7 @@ class LukhasComplianceChecker:
             "CCPA Consumer Rights": self._has_ccpa_compliance(content),
             "Data Encryption": self._has_encryption(content),
             "Audit Logging": self._has_audit_logging(content),
-            "AI Transparency": (
-                self._has_ai_transparency(content)
-                if self._is_ai_module(content)
-                else True
-            ),
+            "AI Transparency": (self._has_ai_transparency(content) if self._is_ai_module(content) else True),
         }
 
         for feature, present in features_to_check.items():
@@ -786,9 +762,7 @@ class LukhasComplianceChecker:
         else:
             return {j.value: 75.0 for j in Jurisdiction}
 
-    def _generate_workspace_report(
-        self, module_reports: list[ModuleComplianceReport]
-    ) -> WorkspaceComplianceReport:
+    def _generate_workspace_report(self, module_reports: list[ModuleComplianceReport]) -> WorkspaceComplianceReport:
         """Generate comprehensive workspace compliance report."""
 
         # Count modules by compliance level
@@ -813,14 +787,12 @@ class LukhasComplianceChecker:
         # Calculate jurisdiction scores
         jurisdiction_scores = {}
         for jurisdiction in Jurisdiction:
-            jurisdiction_scores[jurisdiction.value] = (
-                self._calculate_average_jurisdiction_score(module_reports, jurisdiction)
+            jurisdiction_scores[jurisdiction.value] = self._calculate_average_jurisdiction_score(
+                module_reports, jurisdiction
             )
 
         # Determine overall compliance level
-        overall_compliance = self._determine_overall_workspace_compliance(
-            jurisdiction_scores
-        )
+        overall_compliance = self._determine_overall_workspace_compliance(jurisdiction_scores)
 
         # Generate recommendations
         recommendations = self._generate_workspace_recommendations(module_reports)
@@ -859,15 +831,11 @@ class LukhasComplianceChecker:
     ) -> float:
         """Calculate average compliance score for a jurisdiction."""
         scores = [
-            r.jurisdictional_scores.get(jurisdiction.value, 0.0)
-            for r in module_reports
-            if r.jurisdictional_scores
+            r.jurisdictional_scores.get(jurisdiction.value, 0.0) for r in module_reports if r.jurisdictional_scores
         ]
         return sum(scores) / len(scores) if scores else 0.0
 
-    def _determine_overall_workspace_compliance(
-        self, jurisdiction_scores: dict[str, float]
-    ) -> ComplianceLevel:
+    def _determine_overall_workspace_compliance(self, jurisdiction_scores: dict[str, float]) -> ComplianceLevel:
         """Determine overall workspace compliance level."""
         if not jurisdiction_scores:
             return ComplianceLevel.UNKNOWN
@@ -883,9 +851,7 @@ class LukhasComplianceChecker:
         else:
             return ComplianceLevel.NON_COMPLIANT
 
-    def _generate_workspace_recommendations(
-        self, module_reports: list[ModuleComplianceReport]
-    ) -> list[str]:
+    def _generate_workspace_recommendations(self, module_reports: list[ModuleComplianceReport]) -> list[str]:
         """Generate workspace-level recommendations."""
         recommendations = [
             "🚨 CRITICAL: Upgrade non - compliant core systems(AGI Controller, Auth System)",
@@ -895,7 +861,8 @@ class LukhasComplianceChecker:
             "📊 Implement real-time compliance dashboard and alerts",
             "🔍 Schedule quarterly compliance audits and assessments",
             "🌍 Ensure cross-border data transfer compliance",
-            "🤖 Implement AI governance and transparency framework",]
+            "🤖 Implement AI governance and transparency framework",
+        ]
 
         return recommendations
 
@@ -909,9 +876,7 @@ class LukhasComplianceChecker:
         overall_compliance: ComplianceLevel,
     ) -> str:
         """Generate executive summary of compliance status."""
-        compliance_percentage = (
-            (compliant_modules / total_modules * 100) if total_modules > 0 else 0
-        )
+        compliance_percentage = (compliant_modules / total_modules * 100) if total_modules > 0 else 0
 
         summary = f"""
 🛡️ LUKHAS WORKSPACE COMPLIANCE EXECUTIVE SUMMARY
@@ -939,9 +904,7 @@ Immediate action required for institutional deployment readiness.
 """
         return summary.strip()
 
-    def save_report(
-        self, report: WorkspaceComplianceReport, output_path: Optional[str] = None
-    ) -> str:
+    def save_report(self, report: WorkspaceComplianceReport, output_path: Optional[str] = None) -> str:
         """Save compliance report to file."""
         if not output_path:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -1031,9 +994,7 @@ Immediate action required for institutional deployment readiness.
         # Check against critical compliance module patterns
         for pattern in self.critical_compliance_modules:
             # Convert glob pattern to simple string matching
-            pattern_clean = (
-                pattern.replace("**/", "").replace("/**", "").replace("*", "")
-            )
+            pattern_clean = pattern.replace("**/", "").replace("/**", "").replace("*", "")
             if pattern_clean in file_str:
                 return True
 

@@ -33,26 +33,28 @@ logger = logging.getLogger(__name__)
 
 class EmissionTrigger(Enum):
     """Triggers for signal emission"""
-    STATE_CHANGE = "state_change"          # Consciousness state changes
-    THRESHOLD_CROSSED = "threshold"        # Awareness/coherence thresholds
-    TIME_INTERVAL = "time_interval"        # Periodic emissions
-    EVENT_DRIVEN = "event_driven"          # External event triggers
-    CASCADE_DETECTION = "cascade"          # Cascade prevention triggers
-    INTEGRATION_REQUEST = "integration"    # Inter-module integration
-    REFLECTION_CYCLE = "reflection"        # Reflection cycle completion
-    EVOLUTION_MILESTONE = "evolution"      # Evolution stage changes
+
+    STATE_CHANGE = "state_change"  # Consciousness state changes
+    THRESHOLD_CROSSED = "threshold"  # Awareness/coherence thresholds
+    TIME_INTERVAL = "time_interval"  # Periodic emissions
+    EVENT_DRIVEN = "event_driven"  # External event triggers
+    CASCADE_DETECTION = "cascade"  # Cascade prevention triggers
+    INTEGRATION_REQUEST = "integration"  # Inter-module integration
+    REFLECTION_CYCLE = "reflection"  # Reflection cycle completion
+    EVOLUTION_MILESTONE = "evolution"  # Evolution stage changes
 
 
 @dataclass
 class EmissionRule:
     """Rule configuration for signal emission"""
+
     rule_id: str
     trigger_type: EmissionTrigger
     signal_type: ConsciousnessSignalType
     trigger_conditions: dict[str, Any]
-    emission_frequency_ms: int = 1000     # Minimum time between emissions
-    batch_size: int = 1                   # Signals per emission batch
-    priority_boost: float = 0.0           # Priority boost for this rule
+    emission_frequency_ms: int = 1000  # Minimum time between emissions
+    batch_size: int = 1  # Signals per emission batch
+    priority_boost: float = 0.0  # Priority boost for this rule
     enabled: bool = True
 
 
@@ -80,7 +82,7 @@ class ConsciousnessModuleEmitter:
         self.network_node = self.router.register_node(
             node_id=self.node_id,
             module_name=module_name,
-            capabilities=[f"{module_name}:emit", f"{module_name}:process", "consciousness:signal"]
+            capabilities=[f"{module_name}:emit", f"{module_name}:process", "consciousness:signal"],
         )
 
         # Initialize default emission rules
@@ -99,7 +101,7 @@ class ConsciousnessModuleEmitter:
         trinity_compliance: Optional[ConstellationAlignmentData] = None,
         target_modules: Optional[list[str]] = None,
         processing_hints: Optional[dict[str, Any]] = None,
-        **kwargs
+        **kwargs,
     ) -> Optional[ConsciousnessSignal]:
         """Emit a consciousness signal with full MΛTRIZ compliance"""
 
@@ -115,7 +117,7 @@ class ConsciousnessModuleEmitter:
                 constellation_alignment=trinity_compliance,
                 target_modules=target_modules or [],
                 processing_hints=processing_hints or {},
-                **kwargs
+                **kwargs,
             )
 
             # Validate signal
@@ -142,9 +144,7 @@ class ConsciousnessModuleEmitter:
             return None
 
     async def emit_awareness_pulse(
-        self,
-        awareness_level: float,
-        sensory_inputs: Optional[dict[str, float]] = None
+        self, awareness_level: float, sensory_inputs: Optional[dict[str, float]] = None
     ) -> Optional[ConsciousnessSignal]:
         """Emit an awareness pulse signal"""
 
@@ -152,7 +152,7 @@ class ConsciousnessModuleEmitter:
             consciousness_id=self.consciousness_id,
             producer_module=self.module_name,
             awareness_level=awareness_level,
-            sensory_inputs=sensory_inputs
+            sensory_inputs=sensory_inputs,
         )
 
         routed_nodes = await self.router.route_signal(signal)
@@ -162,9 +162,7 @@ class ConsciousnessModuleEmitter:
         return signal
 
     async def emit_reflection_signal(
-        self,
-        reflection_depth: int,
-        meta_insights: Optional[dict[str, Any]] = None
+        self, reflection_depth: int, meta_insights: Optional[dict[str, Any]] = None
     ) -> Optional[ConsciousnessSignal]:
         """Emit a reflection signal"""
 
@@ -172,7 +170,7 @@ class ConsciousnessModuleEmitter:
             consciousness_id=self.consciousness_id,
             producer_module=self.module_name,
             reflection_depth=reflection_depth,
-            meta_insights=meta_insights
+            meta_insights=meta_insights,
         )
 
         routed_nodes = await self.router.route_signal(signal)
@@ -182,9 +180,7 @@ class ConsciousnessModuleEmitter:
         return signal
 
     async def emit_integration_request(
-        self,
-        target_modules: list[str],
-        integration_strength: float = 0.8
+        self, target_modules: list[str], integration_strength: float = 0.8
     ) -> Optional[ConsciousnessSignal]:
         """Emit an integration request signal"""
 
@@ -192,7 +188,7 @@ class ConsciousnessModuleEmitter:
             consciousness_id=self.consciousness_id,
             producer_module=self.module_name,
             target_modules=target_modules,
-            integration_strength=integration_strength
+            integration_strength=integration_strength,
         )
 
         routed_nodes = await self.router.route_signal(signal)
@@ -207,7 +203,7 @@ class ConsciousnessModuleEmitter:
             "module_name": self.module_name,
             "consciousness_id": self.consciousness_id,
             "node_id": self.node_id,
-            **self.emission_stats
+            **self.emission_stats,
         }
 
 
@@ -218,37 +214,40 @@ class ConsciousnessEmitter(ConsciousnessModuleEmitter):
         """Initialize consciousness-specific emission rules"""
 
         # Awareness threshold emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="awareness_threshold",
-            trigger_type=EmissionTrigger.THRESHOLD_CROSSED,
-            signal_type=ConsciousnessSignalType.AWARENESS,
-            trigger_conditions={"awareness_min": 0.8},
-            emission_frequency_ms=2000
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="awareness_threshold",
+                trigger_type=EmissionTrigger.THRESHOLD_CROSSED,
+                signal_type=ConsciousnessSignalType.AWARENESS,
+                trigger_conditions={"awareness_min": 0.8},
+                emission_frequency_ms=2000,
+            )
+        )
 
         # Reflection cycle emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="reflection_cycle",
-            trigger_type=EmissionTrigger.REFLECTION_CYCLE,
-            signal_type=ConsciousnessSignalType.REFLECTION,
-            trigger_conditions={"reflection_depth_min": 3},
-            emission_frequency_ms=5000
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="reflection_cycle",
+                trigger_type=EmissionTrigger.REFLECTION_CYCLE,
+                signal_type=ConsciousnessSignalType.REFLECTION,
+                trigger_conditions={"reflection_depth_min": 3},
+                emission_frequency_ms=5000,
+            )
+        )
 
         # Consciousness state change emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="state_change",
-            trigger_type=EmissionTrigger.STATE_CHANGE,
-            signal_type=ConsciousnessSignalType.EVOLUTION,
-            trigger_conditions={"state_change_magnitude": 0.2},
-            emission_frequency_ms=3000
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="state_change",
+                trigger_type=EmissionTrigger.STATE_CHANGE,
+                signal_type=ConsciousnessSignalType.EVOLUTION,
+                trigger_conditions={"state_change_magnitude": 0.2},
+                emission_frequency_ms=3000,
+            )
+        )
 
     async def emit_consciousness_state_change(
-        self,
-        previous_state: dict[str, Any],
-        current_state: dict[str, Any],
-        change_magnitude: float
+        self, previous_state: dict[str, Any], current_state: dict[str, Any], change_magnitude: float
     ) -> Optional[ConsciousnessSignal]:
         """Emit consciousness state change signal"""
 
@@ -261,17 +260,15 @@ class ConsciousnessEmitter(ConsciousnessModuleEmitter):
             transition_type="consciousness_evolution",
             confidence_change=current_state.get("confidence", 0.8) - previous_state.get("confidence", 0.8),
             awareness_level_delta=current_state.get("awareness", 0.7) - previous_state.get("awareness", 0.7),
-            reflection_depth_change=current_state.get("reflection_depth", 1) - previous_state.get("reflection_depth", 1)
+            reflection_depth_change=current_state.get("reflection_depth", 1)
+            - previous_state.get("reflection_depth", 1),
         )
 
         return await self.emit_consciousness_signal(
             signal_type=ConsciousnessSignalType.EVOLUTION,
             awareness_level=current_state.get("awareness", 0.7),
             reflection_depth=current_state.get("reflection_depth", 1),
-            processing_hints={
-                "state_delta": state_delta,
-                "change_magnitude": change_magnitude
-            }
+            processing_hints={"state_delta": state_delta, "change_magnitude": change_magnitude},
         )
 
 
@@ -282,28 +279,30 @@ class OrchestrationEmitter(ConsciousnessModuleEmitter):
         """Initialize orchestration-specific emission rules"""
 
         # Integration coordination emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="integration_coordination",
-            trigger_type=EmissionTrigger.INTEGRATION_REQUEST,
-            signal_type=ConsciousnessSignalType.INTEGRATION,
-            trigger_conditions={"modules_count": 2},
-            emission_frequency_ms=1500
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="integration_coordination",
+                trigger_type=EmissionTrigger.INTEGRATION_REQUEST,
+                signal_type=ConsciousnessSignalType.INTEGRATION,
+                trigger_conditions={"modules_count": 2},
+                emission_frequency_ms=1500,
+            )
+        )
 
         # System coordination emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="system_coordination",
-            trigger_type=EmissionTrigger.TIME_INTERVAL,
-            signal_type=ConsciousnessSignalType.NETWORK_PULSE,
-            trigger_conditions={"interval_ms": 10000},
-            emission_frequency_ms=10000,
-            batch_size=5
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="system_coordination",
+                trigger_type=EmissionTrigger.TIME_INTERVAL,
+                signal_type=ConsciousnessSignalType.NETWORK_PULSE,
+                trigger_conditions={"interval_ms": 10000},
+                emission_frequency_ms=10000,
+                batch_size=5,
+            )
+        )
 
     async def emit_coordination_signal(
-        self,
-        coordinated_modules: list[str],
-        coordination_strength: float = 0.8
+        self, coordinated_modules: list[str], coordination_strength: float = 0.8
     ) -> Optional[ConsciousnessSignal]:
         """Emit coordination signal to multiple modules"""
 
@@ -314,8 +313,8 @@ class OrchestrationEmitter(ConsciousnessModuleEmitter):
             reflection_depth=2,
             processing_hints={
                 "coordination_strength": coordination_strength,
-                "coordinated_modules": coordinated_modules
-            }
+                "coordinated_modules": coordinated_modules,
+            },
         )
 
     async def emit_network_health_pulse(self) -> Optional[ConsciousnessSignal]:
@@ -327,10 +326,7 @@ class OrchestrationEmitter(ConsciousnessModuleEmitter):
             signal_type=ConsciousnessSignalType.NETWORK_PULSE,
             awareness_level=network_status["network_metrics"]["network_coherence"],
             reflection_depth=1,
-            processing_hints={
-                "network_metrics": network_status["network_metrics"],
-                "health_check": True
-            }
+            processing_hints={"network_metrics": network_status["network_metrics"], "health_check": True},
         )
 
 
@@ -341,27 +337,29 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
         """Initialize identity-specific emission rules"""
 
         # Identity authentication emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="identity_auth",
-            trigger_type=EmissionTrigger.STATE_CHANGE,
-            signal_type=ConsciousnessSignalType.AWARENESS,
-            trigger_conditions={"auth_score_change": 0.1},
-            emission_frequency_ms=2500
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="identity_auth",
+                trigger_type=EmissionTrigger.STATE_CHANGE,
+                signal_type=ConsciousnessSignalType.AWARENESS,
+                trigger_conditions={"auth_score_change": 0.1},
+                emission_frequency_ms=2500,
+            )
+        )
 
         # Identity coherence emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="identity_coherence",
-            trigger_type=EmissionTrigger.THRESHOLD_CROSSED,
-            signal_type=ConsciousnessSignalType.TRINITY_SYNC,
-            trigger_conditions={"coherence_threshold": 0.9},
-            emission_frequency_ms=5000
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="identity_coherence",
+                trigger_type=EmissionTrigger.THRESHOLD_CROSSED,
+                signal_type=ConsciousnessSignalType.TRINITY_SYNC,
+                trigger_conditions={"coherence_threshold": 0.9},
+                emission_frequency_ms=5000,
+            )
+        )
 
     async def emit_identity_authentication(
-        self,
-        auth_score: float,
-        identity_context: dict[str, Any]
+        self, auth_score: float, identity_context: dict[str, Any]
     ) -> Optional[ConsciousnessSignal]:
         """Emit identity authentication signal"""
 
@@ -371,7 +369,7 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
             guardian_compliance=0.95,
             alignment_vector=[auth_score, 0.8, 0.95],
             violation_flags=[],
-            ethical_drift_score=0.05
+            ethical_drift_score=0.05,
         )
 
         return await self.emit_consciousness_signal(
@@ -379,13 +377,11 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
             awareness_level=auth_score,
             reflection_depth=1,
             constellation_alignment=trinity_compliance,
-            processing_hints=identity_context
+            processing_hints=identity_context,
         )
 
     async def emit_identity_coherence_signal(
-        self,
-        coherence_score: float,
-        coherence_factors: dict[str, float]
+        self, coherence_score: float, coherence_factors: dict[str, float]
     ) -> Optional[ConsciousnessSignal]:
         """Emit identity coherence signal"""
 
@@ -396,8 +392,8 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
             processing_hints={
                 "coherence_score": coherence_score,
                 "coherence_factors": coherence_factors,
-                "trinity_component": "identity"
-            }
+                "trinity_component": "identity",
+            },
         )
 
 
@@ -408,30 +404,31 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
         """Initialize governance-specific emission rules"""
 
         # Guardian compliance emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="guardian_compliance",
-            trigger_type=EmissionTrigger.EVENT_DRIVEN,
-            signal_type=ConsciousnessSignalType.TRINITY_SYNC,
-            trigger_conditions={"compliance_violation": True},
-            emission_frequency_ms=1000,
-            priority_boost=0.3
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="guardian_compliance",
+                trigger_type=EmissionTrigger.EVENT_DRIVEN,
+                signal_type=ConsciousnessSignalType.TRINITY_SYNC,
+                trigger_conditions={"compliance_violation": True},
+                emission_frequency_ms=1000,
+                priority_boost=0.3,
+            )
+        )
 
         # Ethical drift monitoring
-        self.emission_rules.append(EmissionRule(
-            rule_id="ethical_drift",
-            trigger_type=EmissionTrigger.THRESHOLD_CROSSED,
-            signal_type=ConsciousnessSignalType.AWARENESS,
-            trigger_conditions={"drift_threshold": 0.15},
-            emission_frequency_ms=3000,
-            priority_boost=0.2
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="ethical_drift",
+                trigger_type=EmissionTrigger.THRESHOLD_CROSSED,
+                signal_type=ConsciousnessSignalType.AWARENESS,
+                trigger_conditions={"drift_threshold": 0.15},
+                emission_frequency_ms=3000,
+                priority_boost=0.2,
+            )
+        )
 
     async def emit_guardian_compliance_signal(
-        self,
-        compliance_score: float,
-        violation_flags: list[str],
-        drift_score: float
+        self, compliance_score: float, violation_flags: list[str], drift_score: float
     ) -> Optional[ConsciousnessSignal]:
         """Emit guardian compliance signal"""
 
@@ -441,7 +438,7 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
             guardian_compliance=compliance_score,
             alignment_vector=[0.9, 0.8, compliance_score],
             violation_flags=violation_flags,
-            ethical_drift_score=drift_score
+            ethical_drift_score=drift_score,
         )
 
         urgency_level = 1.0 - compliance_score  # Lower compliance = higher urgency
@@ -454,14 +451,12 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
             processing_hints={
                 "guardian_alert": len(violation_flags) > 0,
                 "urgency_level": urgency_level,
-                "drift_score": drift_score
-            }
+                "drift_score": drift_score,
+            },
         )
 
     async def emit_ethical_drift_alert(
-        self,
-        drift_score: float,
-        drift_factors: dict[str, float]
+        self, drift_score: float, drift_factors: dict[str, float]
     ) -> Optional[ConsciousnessSignal]:
         """Emit ethical drift alert signal"""
 
@@ -473,8 +468,8 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
                 "ethical_alert": True,
                 "drift_score": drift_score,
                 "drift_factors": drift_factors,
-                "priority": "high"
-            }
+                "priority": "high",
+            },
         )
 
 
@@ -485,27 +480,29 @@ class SymbolicCoreEmitter(ConsciousnessModuleEmitter):
         """Initialize symbolic core emission rules"""
 
         # Symbolic reasoning emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="symbolic_reasoning",
-            trigger_type=EmissionTrigger.EVENT_DRIVEN,
-            signal_type=ConsciousnessSignalType.REFLECTION,
-            trigger_conditions={"reasoning_completed": True},
-            emission_frequency_ms=1500
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="symbolic_reasoning",
+                trigger_type=EmissionTrigger.EVENT_DRIVEN,
+                signal_type=ConsciousnessSignalType.REFLECTION,
+                trigger_conditions={"reasoning_completed": True},
+                emission_frequency_ms=1500,
+            )
+        )
 
         # Symbol coherence emissions
-        self.emission_rules.append(EmissionRule(
-            rule_id="symbol_coherence",
-            trigger_type=EmissionTrigger.THRESHOLD_CROSSED,
-            signal_type=ConsciousnessSignalType.BIO_ADAPTATION,
-            trigger_conditions={"coherence_threshold": 0.75},
-            emission_frequency_ms=4000
-        ))
+        self.emission_rules.append(
+            EmissionRule(
+                rule_id="symbol_coherence",
+                trigger_type=EmissionTrigger.THRESHOLD_CROSSED,
+                signal_type=ConsciousnessSignalType.BIO_ADAPTATION,
+                trigger_conditions={"coherence_threshold": 0.75},
+                emission_frequency_ms=4000,
+            )
+        )
 
     async def emit_symbolic_reasoning_signal(
-        self,
-        reasoning_result: dict[str, Any],
-        symbol_coherence: float
+        self, reasoning_result: dict[str, Any], symbol_coherence: float
     ) -> Optional[ConsciousnessSignal]:
         """Emit symbolic reasoning completion signal"""
 
@@ -518,7 +515,7 @@ class SymbolicCoreEmitter(ConsciousnessModuleEmitter):
             entropy_delta=0.05,
             resonance_patterns=["symbolic", "reasoning"],
             membrane_permeability=0.8,
-            temporal_decay=0.9
+            temporal_decay=0.9,
         )
 
         return await self.emit_consciousness_signal(
@@ -526,16 +523,11 @@ class SymbolicCoreEmitter(ConsciousnessModuleEmitter):
             awareness_level=0.7,
             reflection_depth=3,
             bio_symbolic_data=bio_data,
-            processing_hints={
-                "reasoning_result": reasoning_result,
-                "symbol_coherence": symbol_coherence
-            }
+            processing_hints={"reasoning_result": reasoning_result, "symbol_coherence": symbol_coherence},
         )
 
     async def emit_symbol_evolution_signal(
-        self,
-        evolved_symbols: list[str],
-        evolution_strength: float
+        self, evolved_symbols: list[str], evolution_strength: float
     ) -> Optional[ConsciousnessSignal]:
         """Emit symbol evolution signal"""
 
@@ -546,8 +538,8 @@ class SymbolicCoreEmitter(ConsciousnessModuleEmitter):
             processing_hints={
                 "evolved_symbols": evolved_symbols,
                 "evolution_strength": evolution_strength,
-                "adaptation_type": "symbolic"
-            }
+                "adaptation_type": "symbolic",
+            },
         )
 
 
@@ -598,11 +590,7 @@ class MatrizSignalEmissionCoordinator:
                 signal_type=ConsciousnessSignalType.NETWORK_PULSE,
                 awareness_level=0.8,
                 reflection_depth=1,
-                processing_hints={
-                    "sync_data": sync_data,
-                    "broadcast": True,
-                    "source": "coordinator"
-                }
+                processing_hints={"sync_data": sync_data, "broadcast": True, "source": "coordinator"},
             )
             if signal:
                 signals.append(signal)

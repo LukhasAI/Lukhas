@@ -341,6 +341,7 @@ class UniversalSymbolProtocol:
         """Lazy initialization of glyph engine to avoid circular imports"""
         if self.glyph_engine is None:
             from .glyph_engine import EnhancedGlyphEngine
+
             self.glyph_engine = EnhancedGlyphEngine()
         return self.glyph_engine
 
@@ -364,12 +365,13 @@ class UniversalSymbolProtocol:
 
         # Create base GLYPH directly
         from .glyph import EmotionVector, Glyph, GlyphPriority, GlyphType
+
         base_glyph = Glyph(
             glyph_type=GlyphType.MEMORY,
             symbol="⚛️",
             content=str(content),
             emotion_vector=EmotionVector.from_dict(emotion or {}),
-            priority=GlyphPriority.MEDIUM
+            priority=GlyphPriority.MEDIUM,
         )
 
         # Create universal symbol

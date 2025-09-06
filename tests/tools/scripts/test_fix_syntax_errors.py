@@ -5,9 +5,7 @@ import pytest
 from tools.scripts import fix_syntax_errors as fse
 
 
-def test_fix_eol_string_literal(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_fix_eol_string_literal(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     target = tmp_path / "broken.py"
     target.write_text('{"content": "hello\n}')
 

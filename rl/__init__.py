@@ -32,5 +32,5 @@ __all__ = [
     "ConsciousnessBuffer",
     "ConsciousnessRewards",
     "MultiAgentCoordination",
-    "ConsciousnessMetaLearning"
+    "ConsciousnessMetaLearning",
 ]

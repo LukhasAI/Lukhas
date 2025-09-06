@@ -303,12 +303,14 @@ class LUKHASLexicon:
 def demonstrate():
     """Show the difference between generic and LUKHAS vocabulary"""
 
-    print("""
+    print(
+        """
 ╔═══════════════════════════════════════════════════════════════╗
 ║                  THE LUKHAS LEXICON                          ║
 ║         "Every word unique. Every phrase authentic."         ║
 ╚═══════════════════════════════════════════════════════════════╝
-    """)
+    """
+    )
 
     # Show transformations
     print("📝 VOCABULARY TRANSFORMATIONS:")
@@ -352,14 +354,16 @@ def demonstrate():
 
     print("\n\n💡 THE PRINCIPLE:")
     print("─" * 60)
-    print("""
+    print(
+        """
   "If another AI project could have written it, we don't want it.
    Every line should be unmistakably, uniquely, authentically LUKHAS."
 
    - No borrowed metaphors
    - No generic descriptions
    - Only the vocabulary that emerged from lukhas_itself
-    """)
+    """
+    )
 
     print("\n" + "═" * 60)
     print("          Use what we created. Be what we are.")

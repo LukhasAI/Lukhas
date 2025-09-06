@@ -47,6 +47,7 @@ logger = std_logging.getLogger(__name__)
 
 class CoherenceMetricType(Enum):
     """Types of identity coherence metrics"""
+
     IDENTITY_STRENGTH = "identity_strength"
     CONSCIOUSNESS_DEPTH = "consciousness_depth"
     MEMORY_CONTINUITY = "memory_continuity"
@@ -59,10 +60,11 @@ class CoherenceMetricType(Enum):
 
 class CoherenceAlert(Enum):
     """Types of coherence alerts"""
-    INFO = "info"           # Informational - no action needed
-    WARNING = "warning"     # Warning - monitoring required
-    CRITICAL = "critical"   # Critical - immediate attention needed
-    EMERGENCY = "emergency" # Emergency - system intervention required
+
+    INFO = "info"  # Informational - no action needed
+    WARNING = "warning"  # Warning - monitoring required
+    CRITICAL = "critical"  # Critical - immediate attention needed
+    EMERGENCY = "emergency"  # Emergency - system intervention required
 
 
 @dataclass
@@ -175,7 +177,7 @@ class IdentityCoherenceMonitor:
         self.coherence_thresholds = {
             CoherenceAlert.WARNING: 0.6,
             CoherenceAlert.CRITICAL: 0.4,
-            CoherenceAlert.EMERGENCY: 0.2
+            CoherenceAlert.EMERGENCY: 0.2,
         }
 
         self.metric_thresholds = {
@@ -186,7 +188,7 @@ class IdentityCoherenceMonitor:
             CoherenceMetricType.BIOMETRIC_COHERENCE: {"min": 0.5, "max": 1.0},
             CoherenceMetricType.NAMESPACE_ALIGNMENT: {"min": 0.7, "max": 1.0},
             CoherenceMetricType.AUTHENTICATION_CONSISTENCY: {"min": 0.8, "max": 1.0},
-            CoherenceMetricType.BEHAVIORAL_PATTERN_STABILITY: {"min": 0.6, "max": 1.0}
+            CoherenceMetricType.BEHAVIORAL_PATTERN_STABILITY: {"min": 0.6, "max": 1.0},
         }
 
         # Performance tracking
@@ -196,7 +198,7 @@ class IdentityCoherenceMonitor:
             "anomalies_detected_24h": 0,
             "coherence_alerts_generated": 0,
             "average_coherence_score": 0.8,
-            "monitoring_latency_ms": 0.0
+            "monitoring_latency_ms": 0.0,
         }
 
         # Background processing
@@ -228,7 +230,9 @@ class IdentityCoherenceMonitor:
             logger.error(f"❌ Failed to initialize coherence monitoring: {e}")
             return False
 
-    async def start_identity_monitoring(self, identity_id: str, monitoring_config: Optional[dict[str, Any]] = None) -> bool:
+    async def start_identity_monitoring(
+        self, identity_id: str, monitoring_config: Optional[dict[str, Any]] = None
+    ) -> bool:
         """Start monitoring coherence for a specific identity"""
 
         async with self._lock:
@@ -244,8 +248,7 @@ class IdentityCoherenceMonitor:
 
                 # Initialize coherence state
                 coherence_state = CoherenceState(
-                    identity_id=identity_id,
-                    consciousness_evolution_stage="monitoring_started"
+                    identity_id=identity_id, consciousness_evolution_stage="monitoring_started"
                 )
 
                 # Apply monitoring configuration
@@ -295,69 +298,85 @@ class IdentityCoherenceMonitor:
             # Identity strength measurement
             if profile:
                 identity_strength = profile.calculate_identity_strength()
-                metrics.append(self._create_coherence_metric(
-                    CoherenceMetricType.IDENTITY_STRENGTH,
-                    identity_strength,
-                    {"profile_age_hours": profile.consciousness_age_hours}
-                ))
+                metrics.append(
+                    self._create_coherence_metric(
+                        CoherenceMetricType.IDENTITY_STRENGTH,
+                        identity_strength,
+                        {"profile_age_hours": profile.consciousness_age_hours},
+                    )
+                )
 
             # Consciousness depth measurement
             if profile:
                 consciousness_depth = profile.consciousness_depth
-                metrics.append(self._create_coherence_metric(
-                    CoherenceMetricType.CONSCIOUSNESS_DEPTH,
-                    consciousness_depth,
-                    {"consciousness_type": profile.identity_consciousness_type.value}
-                ))
+                metrics.append(
+                    self._create_coherence_metric(
+                        CoherenceMetricType.CONSCIOUSNESS_DEPTH,
+                        consciousness_depth,
+                        {"consciousness_type": profile.identity_consciousness_type.value},
+                    )
+                )
 
             # Memory continuity measurement
             if profile:
                 memory_continuity = profile.memory_continuity
-                metrics.append(self._create_coherence_metric(
-                    CoherenceMetricType.MEMORY_CONTINUITY,
-                    memory_continuity,
-                    {"memory_count": len(profile.consciousness_memories)}
-                ))
+                metrics.append(
+                    self._create_coherence_metric(
+                        CoherenceMetricType.MEMORY_CONTINUITY,
+                        memory_continuity,
+                        {"memory_count": len(profile.consciousness_memories)},
+                    )
+                )
 
             # Temporal consistency measurement
             temporal_consistency = await self._measure_temporal_consistency(identity_id, profile)
-            metrics.append(self._create_coherence_metric(
-                CoherenceMetricType.TEMPORAL_CONSISTENCY,
-                temporal_consistency,
-                {"measurement_method": "activity_pattern_analysis"}
-            ))
+            metrics.append(
+                self._create_coherence_metric(
+                    CoherenceMetricType.TEMPORAL_CONSISTENCY,
+                    temporal_consistency,
+                    {"measurement_method": "activity_pattern_analysis"},
+                )
+            )
 
             # Biometric coherence measurement
             biometric_coherence = await self._measure_biometric_coherence(identity_id, profile)
-            metrics.append(self._create_coherence_metric(
-                CoherenceMetricType.BIOMETRIC_COHERENCE,
-                biometric_coherence,
-                {"biometric_signatures_count": len(profile.consciousness_signatures) if profile else 0}
-            ))
+            metrics.append(
+                self._create_coherence_metric(
+                    CoherenceMetricType.BIOMETRIC_COHERENCE,
+                    biometric_coherence,
+                    {"biometric_signatures_count": len(profile.consciousness_signatures) if profile else 0},
+                )
+            )
 
             # Namespace alignment measurement
             namespace_alignment = await self._measure_namespace_alignment(identity_id, profile)
-            metrics.append(self._create_coherence_metric(
-                CoherenceMetricType.NAMESPACE_ALIGNMENT,
-                namespace_alignment,
-                {"namespace_id": profile.consciousness_namespace if profile else "unknown"}
-            ))
+            metrics.append(
+                self._create_coherence_metric(
+                    CoherenceMetricType.NAMESPACE_ALIGNMENT,
+                    namespace_alignment,
+                    {"namespace_id": profile.consciousness_namespace if profile else "unknown"},
+                )
+            )
 
             # Authentication consistency measurement
             auth_consistency = await self._measure_authentication_consistency(identity_id, profile)
-            metrics.append(self._create_coherence_metric(
-                CoherenceMetricType.AUTHENTICATION_CONSISTENCY,
-                auth_consistency,
-                {"authentication_tier": profile.authentication_tier if profile else "unknown"}
-            ))
+            metrics.append(
+                self._create_coherence_metric(
+                    CoherenceMetricType.AUTHENTICATION_CONSISTENCY,
+                    auth_consistency,
+                    {"authentication_tier": profile.authentication_tier if profile else "unknown"},
+                )
+            )
 
             # Behavioral pattern stability measurement
             behavioral_stability = await self._measure_behavioral_stability(identity_id, profile)
-            metrics.append(self._create_coherence_metric(
-                CoherenceMetricType.BEHAVIORAL_PATTERN_STABILITY,
-                behavioral_stability,
-                {"pattern_analysis_window_hours": 24}
-            ))
+            metrics.append(
+                self._create_coherence_metric(
+                    CoherenceMetricType.BEHAVIORAL_PATTERN_STABILITY,
+                    behavioral_stability,
+                    {"pattern_analysis_window_hours": 24},
+                )
+            )
 
             # Store metrics in history
             current_metrics = self.metric_history.get(identity_id, [])
@@ -378,23 +397,24 @@ class IdentityCoherenceMonitor:
             measurement_latency = (time.perf_counter() - start_time) * 1000
             self.monitoring_metrics["monitoring_latency_ms"] = measurement_latency
 
-            logger.debug(f"🔍 Measured identity coherence for {identity_id}: {coherence_state.overall_coherence_score:.3f}")
+            logger.debug(
+                f"🔍 Measured identity coherence for {identity_id}: {coherence_state.overall_coherence_score:.3f}"
+            )
             return coherence_state
 
         except Exception as e:
             logger.error(f"❌ Failed to measure identity coherence: {e}")
             return None
 
-    def _create_coherence_metric(self,
-                                metric_type: CoherenceMetricType,
-                                value: float,
-                                context: Optional[dict[str, Any]] = None) -> CoherenceMetric:
+    def _create_coherence_metric(
+        self, metric_type: CoherenceMetricType, value: float, context: Optional[dict[str, Any]] = None
+    ) -> CoherenceMetric:
         """Create coherence metric with trend analysis"""
 
         metric = CoherenceMetric(
             metric_type=metric_type,
             value=max(0.0, min(1.0, value)),  # Clamp to [0,1]
-            measurement_context=context or {}
+            measurement_context=context or {},
         )
 
         # Add trend analysis if previous values exist
@@ -492,7 +512,7 @@ class IdentityCoherenceMonitor:
             security_level = namespace_status.get("security_level", 0.5)
 
             # Calculate alignment score
-            alignment_score = (domain_coherence * 0.6 + security_level * 0.4)
+            alignment_score = domain_coherence * 0.6 + security_level * 0.4
 
             return alignment_score
 
@@ -518,7 +538,7 @@ class IdentityCoherenceMonitor:
                 "T2_ENHANCED": 0.7,
                 "T3_CONSCIOUSNESS": 0.8,
                 "T4_QUANTUM": 0.9,
-                "T5_TRANSCENDENT": 1.0
+                "T5_TRANSCENDENT": 1.0,
             }
 
             base_score = tier_scores.get(auth_tier, 0.6)
@@ -593,7 +613,7 @@ class IdentityCoherenceMonitor:
                     CoherenceMetricType.BIOMETRIC_COHERENCE: 0.15,
                     CoherenceMetricType.NAMESPACE_ALIGNMENT: 0.1,
                     CoherenceMetricType.AUTHENTICATION_CONSISTENCY: 0.1,
-                    CoherenceMetricType.BEHAVIORAL_PATTERN_STABILITY: 0.05
+                    CoherenceMetricType.BEHAVIORAL_PATTERN_STABILITY: 0.05,
                 }
 
                 weighted_score = 0.0
@@ -641,10 +661,9 @@ class IdentityCoherenceMonitor:
 
         return "stable"
 
-    async def _check_coherence_anomalies(self,
-                                       identity_id: str,
-                                       coherence_state: CoherenceState,
-                                       metrics: list[CoherenceMetric]) -> None:
+    async def _check_coherence_anomalies(
+        self, identity_id: str, coherence_state: CoherenceState, metrics: list[CoherenceMetric]
+    ) -> None:
         """Check for coherence anomalies and generate alerts"""
 
         try:
@@ -654,91 +673,107 @@ class IdentityCoherenceMonitor:
             overall_score = coherence_state.overall_coherence_score
 
             if overall_score <= self.coherence_thresholds[CoherenceAlert.EMERGENCY]:
-                anomalies.append(self._create_coherence_anomaly(
-                    identity_id,
-                    "emergency_coherence_loss",
-                    CoherenceAlert.EMERGENCY,
-                    overall_score,
-                    self.coherence_thresholds[CoherenceAlert.EMERGENCY],
-                    ["Critical system failure", "Security compromise", "Identity corruption"],
-                    ["Immediate intervention required", "Isolate identity", "Emergency recovery protocol"]
-                ))
+                anomalies.append(
+                    self._create_coherence_anomaly(
+                        identity_id,
+                        "emergency_coherence_loss",
+                        CoherenceAlert.EMERGENCY,
+                        overall_score,
+                        self.coherence_thresholds[CoherenceAlert.EMERGENCY],
+                        ["Critical system failure", "Security compromise", "Identity corruption"],
+                        ["Immediate intervention required", "Isolate identity", "Emergency recovery protocol"],
+                    )
+                )
             elif overall_score <= self.coherence_thresholds[CoherenceAlert.CRITICAL]:
-                anomalies.append(self._create_coherence_anomaly(
-                    identity_id,
-                    "critical_coherence_degradation",
-                    CoherenceAlert.CRITICAL,
-                    overall_score,
-                    self.coherence_thresholds[CoherenceAlert.CRITICAL],
-                    ["Significant system stress", "Authentication issues", "Memory corruption"],
-                    ["Detailed investigation required", "Enhanced monitoring", "Consider identity recovery"]
-                ))
+                anomalies.append(
+                    self._create_coherence_anomaly(
+                        identity_id,
+                        "critical_coherence_degradation",
+                        CoherenceAlert.CRITICAL,
+                        overall_score,
+                        self.coherence_thresholds[CoherenceAlert.CRITICAL],
+                        ["Significant system stress", "Authentication issues", "Memory corruption"],
+                        ["Detailed investigation required", "Enhanced monitoring", "Consider identity recovery"],
+                    )
+                )
             elif overall_score <= self.coherence_thresholds[CoherenceAlert.WARNING]:
-                anomalies.append(self._create_coherence_anomaly(
-                    identity_id,
-                    "coherence_degradation_warning",
-                    CoherenceAlert.WARNING,
-                    overall_score,
-                    self.coherence_thresholds[CoherenceAlert.WARNING],
-                    ["Minor system stress", "Temporary issues", "Environmental factors"],
-                    ["Continue monitoring", "Check for patterns", "Validate measurements"]
-                ))
+                anomalies.append(
+                    self._create_coherence_anomaly(
+                        identity_id,
+                        "coherence_degradation_warning",
+                        CoherenceAlert.WARNING,
+                        overall_score,
+                        self.coherence_thresholds[CoherenceAlert.WARNING],
+                        ["Minor system stress", "Temporary issues", "Environmental factors"],
+                        ["Continue monitoring", "Check for patterns", "Validate measurements"],
+                    )
+                )
 
             # Check individual metric anomalies
             for metric in metrics:
                 thresholds = self.metric_thresholds.get(metric.metric_type, {"min": 0.0, "max": 1.0})
 
                 if metric.value < thresholds["min"]:
-                    anomalies.append(self._create_coherence_anomaly(
-                        identity_id,
-                        f"{metric.metric_type.value}_below_threshold",
-                        CoherenceAlert.WARNING,
-                        metric.value,
-                        thresholds["min"],
-                        [f"{metric.metric_type.value} degraded"],
-                        ["Investigate specific metric", "Check data quality"]
-                    ))
+                    anomalies.append(
+                        self._create_coherence_anomaly(
+                            identity_id,
+                            f"{metric.metric_type.value}_below_threshold",
+                            CoherenceAlert.WARNING,
+                            metric.value,
+                            thresholds["min"],
+                            [f"{metric.metric_type.value} degraded"],
+                            ["Investigate specific metric", "Check data quality"],
+                        )
+                    )
                 elif metric.value > thresholds["max"]:
-                    anomalies.append(self._create_coherence_anomaly(
-                        identity_id,
-                        f"{metric.metric_type.value}_above_threshold",
-                        CoherenceAlert.INFO,
-                        metric.value,
-                        thresholds["max"],
-                        [f"{metric.metric_type.value} unexpectedly high"],
-                        ["Validate measurement accuracy", "Consider data anomaly"]
-                    ))
+                    anomalies.append(
+                        self._create_coherence_anomaly(
+                            identity_id,
+                            f"{metric.metric_type.value}_above_threshold",
+                            CoherenceAlert.INFO,
+                            metric.value,
+                            thresholds["max"],
+                            [f"{metric.metric_type.value} unexpectedly high"],
+                            ["Validate measurement accuracy", "Consider data anomaly"],
+                        )
+                    )
 
             # Store anomalies
             for anomaly in anomalies:
                 self.anomaly_history.append(anomaly)
                 if anomaly.severity != CoherenceAlert.INFO:
                     self.active_anomalies[identity_id] = anomaly
-                    coherence_state.active_alerts.append({
-                        "anomaly_id": anomaly.anomaly_id,
-                        "severity": anomaly.severity.value,
-                        "type": anomaly.anomaly_type,
-                        "detected_at": anomaly.detected_at.isoformat()
-                    })
+                    coherence_state.active_alerts.append(
+                        {
+                            "anomaly_id": anomaly.anomaly_id,
+                            "severity": anomaly.severity.value,
+                            "type": anomaly.anomaly_type,
+                            "detected_at": anomaly.detected_at.isoformat(),
+                        }
+                    )
 
             # Emit signals for critical anomalies
             if consciousness_identity_signal_emitter:
                 for anomaly in anomalies:
                     if anomaly.severity in [CoherenceAlert.CRITICAL, CoherenceAlert.EMERGENCY]:
                         # This would emit a coherence alert signal
-                        logger.warning(f"⚠️ Critical coherence anomaly detected for {identity_id}: {anomaly.anomaly_type}")
+                        logger.warning(
+                            f"⚠️ Critical coherence anomaly detected for {identity_id}: {anomaly.anomaly_type}"
+                        )
 
         except Exception as e:
             logger.error(f"❌ Failed to check coherence anomalies: {e}")
 
-    def _create_coherence_anomaly(self,
-                                identity_id: str,
-                                anomaly_type: str,
-                                severity: CoherenceAlert,
-                                trigger_value: float,
-                                threshold_value: float,
-                                possible_causes: list[str],
-                                recommended_actions: list[str]) -> CoherenceAnomaly:
+    def _create_coherence_anomaly(
+        self,
+        identity_id: str,
+        anomaly_type: str,
+        severity: CoherenceAlert,
+        trigger_value: float,
+        threshold_value: float,
+        possible_causes: list[str],
+        recommended_actions: list[str],
+    ) -> CoherenceAnomaly:
         """Create coherence anomaly record"""
 
         return CoherenceAnomaly(
@@ -750,7 +785,7 @@ class IdentityCoherenceMonitor:
             deviation_magnitude=abs(trigger_value - threshold_value),
             possible_causes=possible_causes,
             recommended_actions=recommended_actions,
-            context_data={"monitoring_system": "coherence_monitor"}
+            context_data={"monitoring_system": "coherence_monitor"},
         )
 
     async def _real_time_monitoring_loop(self) -> None:
@@ -816,7 +851,9 @@ class IdentityCoherenceMonitor:
                 for identity_id, anomaly in self.active_anomalies.items():
                     if anomaly.severity in [CoherenceAlert.CRITICAL, CoherenceAlert.EMERGENCY]:
                         # Process critical alerts
-                        logger.warning(f"🚨 Processing critical coherence alert for {identity_id}: {anomaly.anomaly_type}")
+                        logger.warning(
+                            f"🚨 Processing critical coherence alert for {identity_id}: {anomaly.anomaly_type}"
+                        )
                         alerts_generated += 1
 
                 self.monitoring_metrics["coherence_alerts_generated"] = alerts_generated
@@ -890,24 +927,28 @@ class IdentityCoherenceMonitor:
                     "monitoring_enabled": self.monitoring_enabled,
                     "real_time_monitoring": self.real_time_monitoring,
                     "anomaly_detection_enabled": self.anomaly_detection_enabled,
-                    "predictive_modeling_enabled": self.predictive_modeling_enabled
+                    "predictive_modeling_enabled": self.predictive_modeling_enabled,
                 },
                 "system_metrics": self.monitoring_metrics.copy(),
                 "coherence_overview": {
                     "total_identities": len(self.coherence_states),
                     "average_coherence_score": self.monitoring_metrics["average_coherence_score"],
-                    "trend_distribution": trend_distribution
+                    "trend_distribution": trend_distribution,
                 },
                 "anomaly_status": {
                     "active_anomalies": len(self.active_anomalies),
                     "total_anomaly_history": len(self.anomaly_history),
-                    "anomaly_severity_distribution": active_anomaly_summary
+                    "anomaly_severity_distribution": active_anomaly_summary,
                 },
                 "thresholds": {
-                    "coherence_alert_thresholds": {alert.value: threshold for alert, threshold in self.coherence_thresholds.items()},
-                    "metric_thresholds": {metric.value: thresholds for metric, thresholds in self.metric_thresholds.items()}
+                    "coherence_alert_thresholds": {
+                        alert.value: threshold for alert, threshold in self.coherence_thresholds.items()
+                    },
+                    "metric_thresholds": {
+                        metric.value: thresholds for metric, thresholds in self.metric_thresholds.items()
+                    },
                 },
-                "last_updated": datetime.now(timezone.utc).isoformat()
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -928,8 +969,9 @@ class IdentityCoherenceMonitor:
                 if identity_id in self.active_anomalies:
                     del self.active_anomalies[identity_id]
 
-                self.monitoring_metrics["total_identities_monitored"] = max(0,
-                    self.monitoring_metrics["total_identities_monitored"] - 1)
+                self.monitoring_metrics["total_identities_monitored"] = max(
+                    0, self.monitoring_metrics["total_identities_monitored"] - 1
+                )
 
                 logger.info(f"🔍 Stopped coherence monitoring for identity: {identity_id}")
                 return True
@@ -965,5 +1007,5 @@ __all__ = [
     "CoherenceMetricType",
     "CoherenceState",
     "IdentityCoherenceMonitor",
-    "identity_coherence_monitor"
+    "identity_coherence_monitor",
 ]

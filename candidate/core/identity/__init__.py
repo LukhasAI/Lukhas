@@ -65,12 +65,11 @@ __all__ = [
     "IdentityConsciousnessType",
     "MatrizConsciousnessIdentityManager",
     "consciousness_identity_manager",
-
     # Legacy Identity Components
     "LukhasIdentityService",
     "LukhasIDGenerator",
     "ΛIDNamespace",
     "ΛIDError",
     "OIDCProvider",
-    "WebAuthnPasskeyManager"
+    "WebAuthnPasskeyManager",
 ]

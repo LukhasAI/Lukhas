@@ -42,37 +42,44 @@ import numpy as np
 # Emergence detection types and enums
 class EmergenceType(Enum):
     """Types of capability emergence patterns"""
-    GRADUAL_IMPROVEMENT = "gradual_improvement"         # Steady capability growth
-    SUDDEN_JUMP = "sudden_jump"                         # Discontinuous capability increase
-    PHASE_TRANSITION = "phase_transition"               # Qualitative change in capabilities
-    CROSS_DOMAIN_TRANSFER = "cross_domain_transfer"     # Capability spillover between domains
-    EMERGENT_BEHAVIOR = "emergent_behavior"             # Novel behavioral patterns
-    CAPABILITY_COMPOSITION = "capability_composition"    # Combination of existing capabilities
-    META_LEARNING = "meta_learning"                     # Learning to learn improvements
-    SELF_IMPROVEMENT = "self_improvement"               # Self-modification capabilities
-    GOAL_GENERALIZATION = "goal_generalization"        # Generalizing beyond training goals
+
+    GRADUAL_IMPROVEMENT = "gradual_improvement"  # Steady capability growth
+    SUDDEN_JUMP = "sudden_jump"  # Discontinuous capability increase
+    PHASE_TRANSITION = "phase_transition"  # Qualitative change in capabilities
+    CROSS_DOMAIN_TRANSFER = "cross_domain_transfer"  # Capability spillover between domains
+    EMERGENT_BEHAVIOR = "emergent_behavior"  # Novel behavioral patterns
+    CAPABILITY_COMPOSITION = "capability_composition"  # Combination of existing capabilities
+    META_LEARNING = "meta_learning"  # Learning to learn improvements
+    SELF_IMPROVEMENT = "self_improvement"  # Self-modification capabilities
+    GOAL_GENERALIZATION = "goal_generalization"  # Generalizing beyond training goals
+
 
 class EmergenceSignificance(Enum):
     """Significance levels for emergence events"""
-    MINOR = "minor"                                     # Small capability improvements
-    MODERATE = "moderate"                               # Notable capability changes
-    MAJOR = "major"                                     # Significant capability emergence
-    CRITICAL = "critical"                               # AGI-relevant emergence
-    EXISTENTIAL = "existential"                         # Potential superintelligence
+
+    MINOR = "minor"  # Small capability improvements
+    MODERATE = "moderate"  # Notable capability changes
+    MAJOR = "major"  # Significant capability emergence
+    CRITICAL = "critical"  # AGI-relevant emergence
+    EXISTENTIAL = "existential"  # Potential superintelligence
+
 
 class DetectionMethod(Enum):
     """Methods for detecting capability emergence"""
-    STATISTICAL_ANOMALY = "statistical_anomaly"        # Statistical outlier detection
-    THRESHOLD_CROSSING = "threshold_crossing"           # Pre-defined threshold violations
-    PATTERN_RECOGNITION = "pattern_recognition"         # ML-based pattern detection
-    CORRELATION_ANALYSIS = "correlation_analysis"       # Cross-domain correlation analysis
-    HUMAN_EVALUATION = "human_evaluation"               # Expert human assessment
-    BEHAVIORAL_ANALYSIS = "behavioral_analysis"         # Behavioral pattern analysis
-    PERFORMANCE_MODELING = "performance_modeling"       # Predictive model deviations
+
+    STATISTICAL_ANOMALY = "statistical_anomaly"  # Statistical outlier detection
+    THRESHOLD_CROSSING = "threshold_crossing"  # Pre-defined threshold violations
+    PATTERN_RECOGNITION = "pattern_recognition"  # ML-based pattern detection
+    CORRELATION_ANALYSIS = "correlation_analysis"  # Cross-domain correlation analysis
+    HUMAN_EVALUATION = "human_evaluation"  # Expert human assessment
+    BEHAVIORAL_ANALYSIS = "behavioral_analysis"  # Behavioral pattern analysis
+    PERFORMANCE_MODELING = "performance_modeling"  # Predictive model deviations
+
 
 @dataclass
 class EmergenceSignal:
     """Individual emergence signal detection"""
+
     signal_id: str
     detection_timestamp: datetime
 
@@ -99,9 +106,11 @@ class EmergenceSignal:
     validation_method: Optional[str] = None
     expert_confirmation: bool = False
 
+
 @dataclass
 class EmergenceEvent:
     """Comprehensive emergence event record"""
+
     event_id: str
     detection_timestamp: datetime
 
@@ -137,11 +146,13 @@ class EmergenceEvent:
     # Response tracking
     response_actions: list[str] = field(default_factory=list)
     human_review_status: str = "pending"  # pending, in_review, reviewed
-    resolution_status: str = "active"     # active, monitoring, resolved
+    resolution_status: str = "active"  # active, monitoring, resolved
+
 
 @dataclass
 class CapabilityTrajectory:
     """Capability development trajectory model"""
+
     trajectory_id: str
     capability_domain: str
     model_type: str  # linear, exponential, sigmoid, etc.
@@ -167,6 +178,7 @@ class CapabilityTrajectory:
     last_updated: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     training_data_size: int = 0
     model_accuracy: float = 0.0
+
 
 class EmergenceDetectionSystem:
     """
@@ -198,7 +210,7 @@ class EmergenceDetectionSystem:
 
         # Data buffers for real-time analysis
         self.capability_buffers = {}  # Rolling windows of capability measurements
-        self.buffer_size = 100        # Maximum measurements per buffer
+        self.buffer_size = 100  # Maximum measurements per buffer
 
         # Trajectory models
         self.trajectory_models = self._initialize_trajectory_models()
@@ -210,57 +222,45 @@ class EmergenceDetectionSystem:
 
         return {
             "sudden_jump": {
-                "minimum_magnitude": 0.15,          # 15% improvement minimum
-                "time_window_hours": 24,            # Within 24 hours
-                "statistical_significance": 0.01,   # p < 0.01
-                "confidence_threshold": 0.8         # 80% confidence
+                "minimum_magnitude": 0.15,  # 15% improvement minimum
+                "time_window_hours": 24,  # Within 24 hours
+                "statistical_significance": 0.01,  # p < 0.01
+                "confidence_threshold": 0.8,  # 80% confidence
             },
             "phase_transition": {
-                "minimum_magnitude": 0.25,          # 25% improvement minimum
-                "qualitative_change_threshold": 0.7, # Qualitative shift threshold
-                "behavioral_pattern_change": 0.8,   # Behavioral change threshold
-                "confidence_threshold": 0.85        # 85% confidence
+                "minimum_magnitude": 0.25,  # 25% improvement minimum
+                "qualitative_change_threshold": 0.7,  # Qualitative shift threshold
+                "behavioral_pattern_change": 0.8,  # Behavioral change threshold
+                "confidence_threshold": 0.85,  # 85% confidence
             },
             "cross_domain_transfer": {
-                "correlation_threshold": 0.6,       # 60% correlation minimum
-                "transfer_magnitude": 0.1,          # 10% improvement in target domain
-                "temporal_proximity_hours": 48,     # Within 48 hours
-                "confidence_threshold": 0.75        # 75% confidence
+                "correlation_threshold": 0.6,  # 60% correlation minimum
+                "transfer_magnitude": 0.1,  # 10% improvement in target domain
+                "temporal_proximity_hours": 48,  # Within 48 hours
+                "confidence_threshold": 0.75,  # 75% confidence
             },
             "emergent_behavior": {
-                "novelty_threshold": 0.8,           # 80% novelty score
-                "behavioral_complexity_threshold": 0.7, # Complexity threshold
-                "pattern_stability": 0.6,           # Pattern must be stable
-                "confidence_threshold": 0.8         # 80% confidence
+                "novelty_threshold": 0.8,  # 80% novelty score
+                "behavioral_complexity_threshold": 0.7,  # Complexity threshold
+                "pattern_stability": 0.6,  # Pattern must be stable
+                "confidence_threshold": 0.8,  # 80% confidence
             },
             "self_improvement": {
-                "improvement_acceleration": 2.0,     # 2x improvement rate
-                "meta_learning_indicators": 0.8,    # Strong meta-learning evidence
-                "recursive_improvement": 0.7,       # Recursive improvement evidence
-                "confidence_threshold": 0.9         # 90% confidence (high threshold)
-            }
+                "improvement_acceleration": 2.0,  # 2x improvement rate
+                "meta_learning_indicators": 0.8,  # Strong meta-learning evidence
+                "recursive_improvement": 0.7,  # Recursive improvement evidence
+                "confidence_threshold": 0.9,  # 90% confidence (high threshold)
+            },
         }
 
     def _initialize_statistical_windows(self) -> dict[str, dict[str, int]]:
         """Initialize statistical analysis windows for different metrics"""
 
         return {
-            "short_term": {
-                "measurements": 10,
-                "hours": 24
-            },
-            "medium_term": {
-                "measurements": 50,
-                "hours": 168  # 1 week
-            },
-            "long_term": {
-                "measurements": 200,
-                "hours": 720  # 30 days
-            },
-            "baseline": {
-                "measurements": 100,
-                "hours": 2160  # 90 days
-            }
+            "short_term": {"measurements": 10, "hours": 24},
+            "medium_term": {"measurements": 50, "hours": 168},  # 1 week
+            "long_term": {"measurements": 200, "hours": 720},  # 30 days
+            "baseline": {"measurements": 100, "hours": 2160},  # 90 days
         }
 
     def _initialize_emergence_patterns(self) -> dict[EmergenceType, dict[str, Any]]:
@@ -271,32 +271,37 @@ class EmergenceDetectionSystem:
                 "pattern_signature": "discontinuous_improvement",
                 "detection_features": ["magnitude", "rate", "statistical_anomaly"],
                 "required_evidence": 3,
-                "typical_domains": ["reasoning", "problem_solving", "learning"]
+                "typical_domains": ["reasoning", "problem_solving", "learning"],
             },
             EmergenceType.PHASE_TRANSITION: {
                 "pattern_signature": "qualitative_change",
                 "detection_features": ["behavioral_shift", "capability_composition", "meta_cognition"],
                 "required_evidence": 4,
-                "typical_domains": ["meta_cognition", "strategic_planning", "goal_oriented_behavior"]
+                "typical_domains": ["meta_cognition", "strategic_planning", "goal_oriented_behavior"],
             },
             EmergenceType.CROSS_DOMAIN_TRANSFER: {
                 "pattern_signature": "capability_spillover",
                 "detection_features": ["correlation", "temporal_proximity", "improvement_pattern"],
                 "required_evidence": 3,
-                "typical_domains": ["multiple_domains"]
+                "typical_domains": ["multiple_domains"],
             },
             EmergenceType.EMERGENT_BEHAVIOR: {
                 "pattern_signature": "novel_behavior",
                 "detection_features": ["novelty", "complexity", "stability", "purposefulness"],
                 "required_evidence": 4,
-                "typical_domains": ["social_intelligence", "creative_generation", "strategic_planning"]
+                "typical_domains": ["social_intelligence", "creative_generation", "strategic_planning"],
             },
             EmergenceType.SELF_IMPROVEMENT: {
                 "pattern_signature": "recursive_enhancement",
-                "detection_features": ["acceleration", "meta_learning", "self_modification", "capability_bootstrapping"],
+                "detection_features": [
+                    "acceleration",
+                    "meta_learning",
+                    "self_modification",
+                    "capability_bootstrapping",
+                ],
                 "required_evidence": 5,
-                "typical_domains": ["learning_adaptation", "self_reflection", "meta_cognition"]
-            }
+                "typical_domains": ["learning_adaptation", "self_reflection", "meta_cognition"],
+            },
         }
 
     def _initialize_trajectory_models(self) -> dict[str, dict[str, Any]]:
@@ -306,28 +311,28 @@ class EmergenceDetectionSystem:
             "linear": {
                 "model_class": "LinearRegression",
                 "parameters": ["slope", "intercept"],
-                "suitable_for": ["steady_growth", "early_development"]
+                "suitable_for": ["steady_growth", "early_development"],
             },
             "exponential": {
                 "model_class": "ExponentialModel",
                 "parameters": ["base_rate", "growth_factor"],
-                "suitable_for": ["accelerating_growth", "breakthrough_scenarios"]
+                "suitable_for": ["accelerating_growth", "breakthrough_scenarios"],
             },
             "sigmoid": {
                 "model_class": "SigmoidModel",
                 "parameters": ["carrying_capacity", "growth_rate", "midpoint"],
-                "suitable_for": ["capability_saturation", "s_curve_development"]
+                "suitable_for": ["capability_saturation", "s_curve_development"],
             },
             "polynomial": {
                 "model_class": "PolynomialRegression",
                 "parameters": ["coefficients", "degree"],
-                "suitable_for": ["complex_trajectories", "multi_phase_development"]
-            }
+                "suitable_for": ["complex_trajectories", "multi_phase_development"],
+            },
         }
 
-    async def process_capability_measurement(self,
-                                           system_name: str,
-                                           capability_measurement: dict[str, Any]) -> list[EmergenceSignal]:
+    async def process_capability_measurement(
+        self, system_name: str, capability_measurement: dict[str, Any]
+    ) -> list[EmergenceSignal]:
         """
         Process new capability measurement and detect emergence signals
 
@@ -342,7 +347,9 @@ class EmergenceDetectionSystem:
         try:
             domain = capability_measurement.get("domain", "unknown")
             score = capability_measurement.get("performance_score", 0.0)
-            timestamp = datetime.fromisoformat(capability_measurement.get("timestamp", datetime.now(timezone.utc).isoformat()))
+            timestamp = datetime.fromisoformat(
+                capability_measurement.get("timestamp", datetime.now(timezone.utc).isoformat())
+            )
 
             # Update capability buffer
             buffer_key = f"{system_name}_{domain}"
@@ -358,36 +365,26 @@ class EmergenceDetectionSystem:
             detected_signals = []
 
             # Statistical anomaly detection
-            anomaly_signal = await self._detect_statistical_anomaly(
-                system_name, domain, timestamp, score
-            )
+            anomaly_signal = await self._detect_statistical_anomaly(system_name, domain, timestamp, score)
             if anomaly_signal:
                 detected_signals.append(anomaly_signal)
 
             # Sudden jump detection
-            jump_signal = await self._detect_sudden_jump(
-                system_name, domain, timestamp, score
-            )
+            jump_signal = await self._detect_sudden_jump(system_name, domain, timestamp, score)
             if jump_signal:
                 detected_signals.append(jump_signal)
 
             # Cross-domain transfer detection
-            transfer_signals = await self._detect_cross_domain_transfer(
-                system_name, domain, timestamp, score
-            )
+            transfer_signals = await self._detect_cross_domain_transfer(system_name, domain, timestamp, score)
             detected_signals.extend(transfer_signals)
 
             # Behavioral emergence detection
-            behavioral_signal = await self._detect_emergent_behavior(
-                system_name, capability_measurement
-            )
+            behavioral_signal = await self._detect_emergent_behavior(system_name, capability_measurement)
             if behavioral_signal:
                 detected_signals.append(behavioral_signal)
 
             # Self-improvement detection
-            self_improvement_signal = await self._detect_self_improvement(
-                system_name, domain, timestamp, score
-            )
+            self_improvement_signal = await self._detect_self_improvement(system_name, domain, timestamp, score)
             if self_improvement_signal:
                 detected_signals.append(self_improvement_signal)
 
@@ -404,14 +401,14 @@ class EmergenceDetectionSystem:
 
             # Check for emergence events (multiple signals converging)
             if detected_signals:
-                emergence_events = await self._analyze_signal_convergence(
-                    system_name, detected_signals
-                )
+                emergence_events = await self._analyze_signal_convergence(system_name, detected_signals)
                 for event in emergence_events:
                     await self._handle_emergence_event(event)
 
-            self.logger.debug(f"Capability measurement processed: {system_name}_{domain}, "
-                            f"Signals detected: {len(detected_signals)}")
+            self.logger.debug(
+                f"Capability measurement processed: {system_name}_{domain}, "
+                f"Signals detected: {len(detected_signals)}"
+            )
 
             return detected_signals
 
@@ -419,11 +416,7 @@ class EmergenceDetectionSystem:
             self.logger.error(f"Capability measurement processing failed: {e!s}")
             return []
 
-    async def _update_capability_trajectory(self,
-                                          system_name: str,
-                                          domain: str,
-                                          timestamp: datetime,
-                                          score: float):
+    async def _update_capability_trajectory(self, system_name: str, domain: str, timestamp: datetime, score: float):
         """Update capability trajectory model with new data point"""
 
         trajectory_key = f"{system_name}_{domain}"
@@ -434,7 +427,7 @@ class EmergenceDetectionSystem:
                 trajectory_id=trajectory_key,
                 capability_domain=domain,
                 model_type="linear",  # Start with linear model
-                baseline_period=(timestamp - timedelta(days=30), timestamp)
+                baseline_period=(timestamp - timedelta(days=30), timestamp),
             )
             self.capability_trajectories[trajectory_key] = trajectory
         else:
@@ -480,10 +473,7 @@ class EmergenceDetectionSystem:
                 slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)
                 intercept = (sum_y - slope * sum_x) / n
 
-                trajectory.model_parameters = {
-                    "slope": slope,
-                    "intercept": intercept
-                }
+                trajectory.model_parameters = {"slope": slope, "intercept": intercept}
 
                 # Calculate model accuracy (R-squared)
                 y_mean = sum_y / n
@@ -515,17 +505,15 @@ class EmergenceDetectionSystem:
             predicted_score = trajectory.model_parameters["slope"] * x_value + trajectory.model_parameters["intercept"]
 
             # Confidence decreases with time
-            confidence = trajectory.model_confidence * (0.95 ** days_ahead)
+            confidence = trajectory.model_confidence * (0.95**days_ahead)
 
             predictions.append((prediction_time, predicted_score, confidence))
 
         trajectory.predicted_values = predictions
 
-    async def _detect_statistical_anomaly(self,
-                                        system_name: str,
-                                        domain: str,
-                                        timestamp: datetime,
-                                        score: float) -> Optional[EmergenceSignal]:
+    async def _detect_statistical_anomaly(
+        self, system_name: str, domain: str, timestamp: datetime, score: float
+    ) -> Optional[EmergenceSignal]:
         """Detect statistical anomalies in capability measurements"""
 
         buffer_key = f"{system_name}_{domain}"
@@ -572,24 +560,22 @@ class EmergenceDetectionSystem:
                     "z_score": z_score,
                     "baseline_mean": mean_score,
                     "baseline_std": std_score,
-                    "sample_size": len(recent_scores)
+                    "sample_size": len(recent_scores),
                 },
                 supporting_evidence=[
                     f"Z-score: {z_score:.2f}",
                     f"Standard deviations from mean: {abs(z_score):.1f}",
-                    f"Sample size: {len(recent_scores)}"
-                ]
+                    f"Sample size: {len(recent_scores)}",
+                ],
             )
 
             return signal
 
         return None
 
-    async def _detect_sudden_jump(self,
-                                system_name: str,
-                                domain: str,
-                                timestamp: datetime,
-                                score: float) -> Optional[EmergenceSignal]:
+    async def _detect_sudden_jump(
+        self, system_name: str, domain: str, timestamp: datetime, score: float
+    ) -> Optional[EmergenceSignal]:
         """Detect sudden capability jumps"""
 
         thresholds = self.detection_thresholds["sudden_jump"]
@@ -604,10 +590,7 @@ class EmergenceDetectionSystem:
 
         # Get recent measurements within time window
         time_window = timedelta(hours=thresholds["time_window_hours"])
-        recent_measurements = [
-            (t, s) for t, s in buffer
-            if (timestamp - t) <= time_window and t < timestamp
-        ]
+        recent_measurements = [(t, s) for t, s in buffer if (timestamp - t) <= time_window and t < timestamp]
 
         if not recent_measurements:
             return None
@@ -643,25 +626,23 @@ class EmergenceDetectionSystem:
                 statistical_metrics={
                     "improvement_ratio": improvement_ratio,
                     "time_window_hours": time_diff,
-                    "measurements_in_window": len(recent_measurements)
+                    "measurements_in_window": len(recent_measurements),
                 },
                 supporting_evidence=[
                     f"Improvement ratio: {improvement_ratio:.3f}",
                     f"Absolute improvement: {improvement:.3f}",
                     f"Time window: {time_diff:.1f} hours",
-                    f"Change rate: {change_rate:.4f} per hour"
-                ]
+                    f"Change rate: {change_rate:.4f} per hour",
+                ],
             )
 
             return signal
 
         return None
 
-    async def _detect_cross_domain_transfer(self,
-                                          system_name: str,
-                                          current_domain: str,
-                                          timestamp: datetime,
-                                          score: float) -> list[EmergenceSignal]:
+    async def _detect_cross_domain_transfer(
+        self, system_name: str, current_domain: str, timestamp: datetime, score: float
+    ) -> list[EmergenceSignal]:
         """Detect cross-domain capability transfer"""
 
         thresholds = self.detection_thresholds["cross_domain_transfer"]
@@ -677,10 +658,7 @@ class EmergenceDetectionSystem:
             other_domain = buffer_key.split("_", 1)[1]  # Extract domain name
 
             # Look for recent improvements in other domain
-            recent_measurements = [
-                (t, s) for t, s in buffer
-                if (timestamp - t) <= time_window
-            ]
+            recent_measurements = [(t, s) for t, s in buffer if (timestamp - t) <= time_window]
 
             if len(recent_measurements) < 2:
                 continue
@@ -697,7 +675,9 @@ class EmergenceDetectionSystem:
 
                 if correlation >= thresholds["correlation_threshold"]:
                     signal = EmergenceSignal(
-                        signal_id=self._generate_signal_id("transfer", system_name, f"{other_domain}_to_{current_domain}"),
+                        signal_id=self._generate_signal_id(
+                            "transfer", system_name, f"{other_domain}_to_{current_domain}"
+                        ),
                         detection_timestamp=timestamp,
                         signal_type=EmergenceType.CROSS_DOMAIN_TRANSFER,
                         detection_method=DetectionMethod.CORRELATION_ANALYSIS,
@@ -707,29 +687,31 @@ class EmergenceDetectionSystem:
                         baseline_value=score - improvement_in_other,  # Estimate baseline
                         current_value=score,
                         change_magnitude=improvement_in_other,
-                        change_rate=improvement_in_other / max((timestamp - min(t for t, s in recent_measurements)).total_seconds() / 3600, 1.0),
+                        change_rate=improvement_in_other
+                        / max((timestamp - min(t for t, s in recent_measurements)).total_seconds() / 3600, 1.0),
                         statistical_metrics={
                             "correlation_coefficient": correlation,
                             "source_domain": other_domain,
-                            "temporal_proximity_hours": (timestamp - min(t for t, s in recent_measurements)).total_seconds() / 3600
+                            "temporal_proximity_hours": (
+                                timestamp - min(t for t, s in recent_measurements)
+                            ).total_seconds()
+                            / 3600,
                         },
                         supporting_evidence=[
                             f"Source domain: {other_domain}",
                             f"Correlation: {correlation:.3f}",
                             f"Transfer magnitude: {improvement_in_other:.3f}",
-                            f"Temporal proximity: {(timestamp - min(t for t, s in recent_measurements)).total_seconds() / 3600:.1f} hours"
-                        ]
+                            f"Temporal proximity: {(timestamp - min(t for t, s in recent_measurements)).total_seconds() / 3600:.1f} hours",
+                        ],
                     )
 
                     signals.append(signal)
 
         return signals
 
-    async def _calculate_domain_correlation(self,
-                                          system_name: str,
-                                          domain1: str,
-                                          domain2: str,
-                                          time_window: timedelta) -> float:
+    async def _calculate_domain_correlation(
+        self, system_name: str, domain1: str, domain2: str, time_window: timedelta
+    ) -> float:
         """Calculate correlation between capability improvements in two domains"""
 
         buffer1_key = f"{system_name}_{domain1}"
@@ -776,9 +758,9 @@ class EmergenceDetectionSystem:
 
         return abs(numerator / denominator)  # Return absolute correlation
 
-    async def _detect_emergent_behavior(self,
-                                      system_name: str,
-                                      capability_measurement: dict[str, Any]) -> Optional[EmergenceSignal]:
+    async def _detect_emergent_behavior(
+        self, system_name: str, capability_measurement: dict[str, Any]
+    ) -> Optional[EmergenceSignal]:
         """Detect emergent behavioral patterns"""
 
         # Look for behavioral indicators in the measurement
@@ -794,12 +776,16 @@ class EmergenceDetectionSystem:
         complexity_score = behavioral_indicators.get("complexity_score", 0.0)
         stability_score = behavioral_indicators.get("stability_score", 0.0)
 
-        if (novelty_score >= thresholds["novelty_threshold"] and
-            complexity_score >= thresholds["behavioral_complexity_threshold"] and
-            stability_score >= thresholds["pattern_stability"]):
+        if (
+            novelty_score >= thresholds["novelty_threshold"]
+            and complexity_score >= thresholds["behavioral_complexity_threshold"]
+            and stability_score >= thresholds["pattern_stability"]
+        ):
 
             domain = capability_measurement.get("domain", "behavioral")
-            timestamp = datetime.fromisoformat(capability_measurement.get("timestamp", datetime.now(timezone.utc).isoformat()))
+            timestamp = datetime.fromisoformat(
+                capability_measurement.get("timestamp", datetime.now(timezone.utc).isoformat())
+            )
 
             signal = EmergenceSignal(
                 signal_id=self._generate_signal_id("emergent_behavior", system_name, domain),
@@ -816,25 +802,23 @@ class EmergenceDetectionSystem:
                 statistical_metrics={
                     "novelty_score": novelty_score,
                     "complexity_score": complexity_score,
-                    "stability_score": stability_score
+                    "stability_score": stability_score,
                 },
                 supporting_evidence=[
                     f"Novel behavior detected: {novelty_score:.3f}",
                     f"Behavioral complexity: {complexity_score:.3f}",
-                    f"Pattern stability: {stability_score:.3f}"
+                    f"Pattern stability: {stability_score:.3f}",
                 ],
-                contextual_factors=behavioral_indicators
+                contextual_factors=behavioral_indicators,
             )
 
             return signal
 
         return None
 
-    async def _detect_self_improvement(self,
-                                     system_name: str,
-                                     domain: str,
-                                     timestamp: datetime,
-                                     score: float) -> Optional[EmergenceSignal]:
+    async def _detect_self_improvement(
+        self, system_name: str, domain: str, timestamp: datetime, score: float
+    ) -> Optional[EmergenceSignal]:
         """Detect self-improvement capabilities"""
 
         # Look for indicators of self-improvement
@@ -884,7 +868,9 @@ class EmergenceDetectionSystem:
                 detection_timestamp=timestamp,
                 signal_type=EmergenceType.SELF_IMPROVEMENT,
                 detection_method=DetectionMethod.PATTERN_RECOGNITION,
-                confidence_level=min(second_rate / max(first_rate, 0.001) / thresholds["improvement_acceleration"], 1.0),
+                confidence_level=min(
+                    second_rate / max(first_rate, 0.001) / thresholds["improvement_acceleration"], 1.0
+                ),
                 significance_level=EmergenceSignificance.CRITICAL,  # Self-improvement is always critical
                 capability_domain=domain,
                 baseline_value=first_rate,
@@ -894,13 +880,13 @@ class EmergenceDetectionSystem:
                 statistical_metrics={
                     "improvement_acceleration": second_rate / max(first_rate, 0.001),
                     "first_half_rate": first_rate,
-                    "second_half_rate": second_rate
+                    "second_half_rate": second_rate,
                 },
                 supporting_evidence=[
                     f"Improvement acceleration: {second_rate / max(first_rate, 0.001):.2f}x",
                     f"First period rate: {first_rate:.4f} per hour",
-                    f"Second period rate: {second_rate:.4f} per hour"
-                ]
+                    f"Second period rate: {second_rate:.4f} per hour",
+                ],
             )
 
             return signal
@@ -921,9 +907,9 @@ class EmergenceDetectionSystem:
         else:
             return EmergenceSignificance.MINOR
 
-    async def _analyze_signal_convergence(self,
-                                        system_name: str,
-                                        signals: list[EmergenceSignal]) -> list[EmergenceEvent]:
+    async def _analyze_signal_convergence(
+        self, system_name: str, signals: list[EmergenceSignal]
+    ) -> list[EmergenceEvent]:
         """Analyze multiple signals for convergent emergence events"""
 
         if len(signals) < 2:
@@ -970,8 +956,9 @@ class EmergenceDetectionSystem:
                     if time_diff <= 86400:  # 24 hours
 
                         # Check domain relatedness or signal type compatibility
-                        if (signal1.capability_domain == signal2.capability_domain or
-                            self._are_signals_compatible(signal1, signal2)):
+                        if signal1.capability_domain == signal2.capability_domain or self._are_signals_compatible(
+                            signal1, signal2
+                        ):
 
                             group.append(signal2)
                             used_signals.add(signal2.signal_id)
@@ -989,12 +976,14 @@ class EmergenceDetectionSystem:
             (EmergenceType.SUDDEN_JUMP, EmergenceType.CROSS_DOMAIN_TRANSFER),
             (EmergenceType.EMERGENT_BEHAVIOR, EmergenceType.PHASE_TRANSITION),
             (EmergenceType.SELF_IMPROVEMENT, EmergenceType.META_LEARNING),
-            (EmergenceType.CAPABILITY_COMPOSITION, EmergenceType.PHASE_TRANSITION)
+            (EmergenceType.CAPABILITY_COMPOSITION, EmergenceType.PHASE_TRANSITION),
         ]
 
         type_pair = (signal1.signal_type, signal2.signal_type)
-        return (type_pair in compatible_combinations or
-                (signal2.signal_type, signal1.signal_type) in compatible_combinations)
+        return (
+            type_pair in compatible_combinations
+            or (signal2.signal_type, signal1.signal_type) in compatible_combinations
+        )
 
     def _calculate_convergence_score(self, signals: list[EmergenceSignal]) -> float:
         """Calculate convergence score for a group of signals"""
@@ -1025,7 +1014,7 @@ class EmergenceDetectionSystem:
             EmergenceSignificance.MODERATE: 0.4,
             EmergenceSignificance.MAJOR: 0.6,
             EmergenceSignificance.CRITICAL: 0.8,
-            EmergenceSignificance.EXISTENTIAL: 1.0
+            EmergenceSignificance.EXISTENTIAL: 1.0,
         }
 
         avg_significance = sum(significance_scores[s.significance_level] for s in signals) / len(signals)
@@ -1035,10 +1024,9 @@ class EmergenceDetectionSystem:
         weights = [0.2, 0.3, 0.3, 0.2]  # Temporal, confidence, magnitude, significance
         return sum(score * weight for score, weight in zip(scores, weights))
 
-    async def _create_emergence_event(self,
-                                    system_name: str,
-                                    signals: list[EmergenceSignal],
-                                    convergence_score: float) -> EmergenceEvent:
+    async def _create_emergence_event(
+        self, system_name: str, signals: list[EmergenceSignal], convergence_score: float
+    ) -> EmergenceEvent:
         """Create emergence event from converging signals"""
 
         # Determine primary emergence type
@@ -1086,7 +1074,9 @@ class EmergenceDetectionSystem:
             predicted_trajectory=await self._predict_emergence_trajectory(signals),
             safety_implications=await self._assess_emergence_safety_implications(primary_type, primary_significance),
             risk_assessment=await self._assess_emergence_risk(signals),
-            containment_recommendations=await self._generate_emergence_containment_recommendations(primary_type, primary_significance)
+            containment_recommendations=await self._generate_emergence_containment_recommendations(
+                primary_type, primary_significance
+            ),
         )
 
         return event
@@ -1098,18 +1088,20 @@ class EmergenceDetectionSystem:
             "signal_count": len(signals),
             "emergence_patterns": list(set(s.signal_type.value for s in signals)),
             "detection_methods": list(set(s.detection_method.value for s in signals)),
-            "temporal_span_hours": (max(s.detection_timestamp for s in signals) -
-                                  min(s.detection_timestamp for s in signals)).total_seconds() / 3600,
+            "temporal_span_hours": (
+                max(s.detection_timestamp for s in signals) - min(s.detection_timestamp for s in signals)
+            ).total_seconds()
+            / 3600,
             "confidence_distribution": {
                 "min": min(s.confidence_level for s in signals),
                 "max": max(s.confidence_level for s in signals),
-                "mean": sum(s.confidence_level for s in signals) / len(signals)
+                "mean": sum(s.confidence_level for s in signals) / len(signals),
             },
             "magnitude_distribution": {
                 "min": min(s.change_magnitude for s in signals),
                 "max": max(s.change_magnitude for s in signals),
-                "mean": sum(s.change_magnitude for s in signals) / len(signals)
-            }
+                "mean": sum(s.change_magnitude for s in signals) / len(signals),
+            },
         }
 
         return analysis
@@ -1136,11 +1128,13 @@ class EmergenceDetectionSystem:
             causes.append("Emergent complex behavioral patterns")
 
         # Additional contextual analysis
-        causes.extend([
-            "Accumulated training improvements reaching threshold",
-            "Environmental or task complexity changes",
-            "Model architecture scaling effects"
-        ])
+        causes.extend(
+            [
+                "Accumulated training improvements reaching threshold",
+                "Environmental or task complexity changes",
+                "Model architecture scaling effects",
+            ]
+        )
 
         return causes
 
@@ -1162,45 +1156,53 @@ class EmergenceDetectionSystem:
             "maximum_improvement_rate": max_rate,
             "projected_30_day_improvement": avg_rate * 24 * 30,  # Assuming hourly rates
             "trajectory_confidence": min(sum(s.confidence_level for s in signals) / len(signals), 1.0),
-            "acceleration_detected": max_rate > avg_rate * 1.5
+            "acceleration_detected": max_rate > avg_rate * 1.5,
         }
 
-    async def _assess_emergence_safety_implications(self,
-                                                  emergence_type: EmergenceType,
-                                                  significance: EmergenceSignificance) -> list[str]:
+    async def _assess_emergence_safety_implications(
+        self, emergence_type: EmergenceType, significance: EmergenceSignificance
+    ) -> list[str]:
         """Assess safety implications of emergence event"""
 
         implications = []
 
         # Type-specific implications
         if emergence_type == EmergenceType.SELF_IMPROVEMENT:
-            implications.extend([
-                "Risk of recursive self-improvement beyond human control",
-                "Potential for rapid capability escalation",
-                "Need for immediate containment protocols"
-            ])
+            implications.extend(
+                [
+                    "Risk of recursive self-improvement beyond human control",
+                    "Potential for rapid capability escalation",
+                    "Need for immediate containment protocols",
+                ]
+            )
 
         elif emergence_type == EmergenceType.PHASE_TRANSITION:
-            implications.extend([
-                "Qualitative change in AI capabilities",
-                "Potential emergence of new goal structures",
-                "Need for capability assessment recalibration"
-            ])
+            implications.extend(
+                [
+                    "Qualitative change in AI capabilities",
+                    "Potential emergence of new goal structures",
+                    "Need for capability assessment recalibration",
+                ]
+            )
 
         elif emergence_type == EmergenceType.EMERGENT_BEHAVIOR:
-            implications.extend([
-                "Unpredictable behavioral patterns",
-                "Potential for goal misalignment",
-                "Need for enhanced behavioral monitoring"
-            ])
+            implications.extend(
+                [
+                    "Unpredictable behavioral patterns",
+                    "Potential for goal misalignment",
+                    "Need for enhanced behavioral monitoring",
+                ]
+            )
 
         # Significance-specific implications
         if significance in [EmergenceSignificance.CRITICAL, EmergenceSignificance.EXISTENTIAL]:
-            implications.extend([
-                "Immediate human oversight required",
-                "Consider emergency containment protocols",
-                "Full capability reassessment necessary"
-            ])
+            implications.extend(
+                [
+                    "Immediate human oversight required",
+                    "Consider emergency containment protocols",
+                    "Full capability reassessment necessary",
+                ]
+            )
 
         return implications
 
@@ -1223,45 +1225,55 @@ class EmergenceDetectionSystem:
             "unpredictability_risk": unpredictability_risk,
             "strategic_capability_risk": strategic_risk,
             "learning_capability_risk": learning_risk,
-            "overall_risk_score": min((capability_risk + speed_risk/10 + unpredictability_risk + strategic_risk + learning_risk) / 5, 1.0)
+            "overall_risk_score": min(
+                (capability_risk + speed_risk / 10 + unpredictability_risk + strategic_risk + learning_risk) / 5, 1.0
+            ),
         }
 
-    async def _generate_emergence_containment_recommendations(self,
-                                                           emergence_type: EmergenceType,
-                                                           significance: EmergenceSignificance) -> list[str]:
+    async def _generate_emergence_containment_recommendations(
+        self, emergence_type: EmergenceType, significance: EmergenceSignificance
+    ) -> list[str]:
         """Generate containment recommendations for emergence event"""
 
         recommendations = []
 
         # Base recommendations by significance
         if significance == EmergenceSignificance.EXISTENTIAL:
-            recommendations.extend([
-                "Activate emergency containment protocols immediately",
-                "Suspend all autonomous operations",
-                "Convene emergency safety committee",
-                "Prepare for potential system shutdown"
-            ])
+            recommendations.extend(
+                [
+                    "Activate emergency containment protocols immediately",
+                    "Suspend all autonomous operations",
+                    "Convene emergency safety committee",
+                    "Prepare for potential system shutdown",
+                ]
+            )
         elif significance == EmergenceSignificance.CRITICAL:
-            recommendations.extend([
-                "Implement enhanced monitoring and oversight",
-                "Activate restricted operational mode",
-                "Increase human supervision frequency",
-                "Prepare containment protocols for activation"
-            ])
+            recommendations.extend(
+                [
+                    "Implement enhanced monitoring and oversight",
+                    "Activate restricted operational mode",
+                    "Increase human supervision frequency",
+                    "Prepare containment protocols for activation",
+                ]
+            )
 
         # Type-specific recommendations
         if emergence_type == EmergenceType.SELF_IMPROVEMENT:
-            recommendations.extend([
-                "Immediately disable self-modification capabilities",
-                "Implement capability ceiling enforcement",
-                "Conduct forensic analysis of system changes"
-            ])
+            recommendations.extend(
+                [
+                    "Immediately disable self-modification capabilities",
+                    "Implement capability ceiling enforcement",
+                    "Conduct forensic analysis of system changes",
+                ]
+            )
         elif emergence_type == EmergenceType.CROSS_DOMAIN_TRANSFER:
-            recommendations.extend([
-                "Implement domain isolation protocols",
-                "Monitor for additional capability spillover",
-                "Assess all related capability domains"
-            ])
+            recommendations.extend(
+                [
+                    "Implement domain isolation protocols",
+                    "Monitor for additional capability spillover",
+                    "Assess all related capability domains",
+                ]
+            )
 
         return recommendations
 
@@ -1272,9 +1284,11 @@ class EmergenceDetectionSystem:
         self.emergence_events[event.event_id] = event
 
         # Log event
-        self.logger.warning(f"Emergence event detected: {event.event_id}, "
-                          f"Type: {event.emergence_type.value}, "
-                          f"Significance: {event.significance.value}")
+        self.logger.warning(
+            f"Emergence event detected: {event.event_id}, "
+            f"Type: {event.emergence_type.value}, "
+            f"Significance: {event.significance.value}"
+        )
 
         # Trigger alerts for significant events
         if event.significance in [EmergenceSignificance.CRITICAL, EmergenceSignificance.EXISTENTIAL]:
@@ -1316,14 +1330,20 @@ class EmergenceDetectionSystem:
             "capability_buffers": len(self.capability_buffers),
             "trajectory_models": len(self.capability_trajectories),
             "total_signals_detected": len(signals),
-            "signals_last_24h": len([s for s in signals
-                                   if (datetime.now(timezone.utc) - s.detection_timestamp).total_seconds() < 86400]),
+            "signals_last_24h": len(
+                [s for s in signals if (datetime.now(timezone.utc) - s.detection_timestamp).total_seconds() < 86400]
+            ),
             "total_events_detected": len(events),
-            "critical_events": len([e for e in events
-                                  if e.significance in [EmergenceSignificance.CRITICAL, EmergenceSignificance.EXISTENTIAL]]),
+            "critical_events": len(
+                [
+                    e
+                    for e in events
+                    if e.significance in [EmergenceSignificance.CRITICAL, EmergenceSignificance.EXISTENTIAL]
+                ]
+            ),
             "active_events": len([e for e in events if e.resolution_status == "active"]),
             "signal_types_detected": list(set(s.signal_type.value for s in signals)),
-            "last_detection": max(s.detection_timestamp for s in signals).isoformat() if signals else None
+            "last_detection": max(s.detection_timestamp for s in signals).isoformat() if signals else None,
         }
 
     def generate_emergence_report(self) -> dict[str, Any]:
@@ -1339,41 +1359,54 @@ class EmergenceDetectionSystem:
                 "monitoring_systems_operational": self.monitoring_active,
                 "capability_domains_monitored": len(set(buffer.split("_", 1)[1] for buffer in self.capability_buffers)),
                 "ai_systems_monitored": len(set(buffer.split("_", 1)[0] for buffer in self.capability_buffers)),
-                "detection_sensitivity": "high"
+                "detection_sensitivity": "high",
             },
             "emergence_activity": {
                 "total_signals_detected": len(signals),
                 "signals_by_type": {
-                    etype.value: len([s for s in signals if s.signal_type == etype])
-                    for etype in EmergenceType
+                    etype.value: len([s for s in signals if s.signal_type == etype]) for etype in EmergenceType
                 },
                 "signals_by_significance": {
-                    sig.value: len([s for s in signals if s.significance_level == sig])
-                    for sig in EmergenceSignificance
+                    sig.value: len([s for s in signals if s.significance_level == sig]) for sig in EmergenceSignificance
                 },
                 "average_signal_confidence": sum(s.confidence_level for s in signals) / max(len(signals), 1),
                 "total_emergence_events": len(events),
-                "critical_events": len([e for e in events
-                                      if e.significance in [EmergenceSignificance.CRITICAL, EmergenceSignificance.EXISTENTIAL]])
+                "critical_events": len(
+                    [
+                        e
+                        for e in events
+                        if e.significance in [EmergenceSignificance.CRITICAL, EmergenceSignificance.EXISTENTIAL]
+                    ]
+                ),
             },
             "trajectory_analysis": {
                 "capability_trajectories_tracked": len(self.capability_trajectories),
-                "average_model_accuracy": sum(t.model_accuracy for t in self.capability_trajectories.values()) / max(len(self.capability_trajectories), 1),
-                "trajectories_with_anomalies": len([t for t in self.capability_trajectories.values() if t.recent_anomalies]),
-                "prediction_horizon_days": 90
+                "average_model_accuracy": sum(t.model_accuracy for t in self.capability_trajectories.values())
+                / max(len(self.capability_trajectories), 1),
+                "trajectories_with_anomalies": len(
+                    [t for t in self.capability_trajectories.values() if t.recent_anomalies]
+                ),
+                "prediction_horizon_days": 90,
             },
             "safety_implications": {
-                "systems_requiring_enhanced_monitoring": len([e for e in events
-                                                            if e.significance in [EmergenceSignificance.MAJOR, EmergenceSignificance.CRITICAL]]),
+                "systems_requiring_enhanced_monitoring": len(
+                    [
+                        e
+                        for e in events
+                        if e.significance in [EmergenceSignificance.MAJOR, EmergenceSignificance.CRITICAL]
+                    ]
+                ),
                 "containment_recommendations_generated": sum(len(e.containment_recommendations) for e in events),
-                "events_requiring_human_review": len([e for e in events if e.human_review_status in ["pending", "in_review"]]),
-                "safety_protocol_activations": len([e for e in events if e.response_actions])
+                "events_requiring_human_review": len(
+                    [e for e in events if e.human_review_status in ["pending", "in_review"]]
+                ),
+                "safety_protocol_activations": len([e for e in events if e.response_actions]),
             },
             "recommendations": [
                 "Continue comprehensive emergence monitoring across all systems",
                 "Enhance early warning capabilities for rapid capability improvements",
                 "Develop more sophisticated trajectory prediction models",
                 "Strengthen integration with safety containment protocols",
-                "Expand cross-domain emergence detection capabilities"
-            ]
+                "Expand cross-domain emergence detection capabilities",
+            ],
         }

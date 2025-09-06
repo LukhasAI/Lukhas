@@ -513,10 +513,7 @@ class GLYPHGenerationAgent(SwarmAgent):
         weights = tier_weights.get(tier_level, tier_weights[0])
 
         # Calculate weighted score
-        quality_score = (
-            weights["entropy"] * (entropy / 8)  # Normalize entropy to 0-1
-            + weights["contrast"] * contrast
-        )
+        quality_score = weights["entropy"] * (entropy / 8) + weights["contrast"] * contrast  # Normalize entropy to 0-1
 
         return min(1.0, quality_score)
 

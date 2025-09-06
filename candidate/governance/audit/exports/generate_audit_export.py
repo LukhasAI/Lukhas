@@ -481,7 +481,9 @@ Based on this audit period:
 **Trinity Framework**: ⚛️🧠🛡️ **PROTECTING**
 
 *Audit complete - System under continuous protection*
-""".format(metrics["average_stabilization_time"])
+""".format(
+            metrics["average_stabilization_time"]
+        )
 
         with open(summary_file, "w", encoding="utf-8") as f:
             f.write(report)

@@ -24,7 +24,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional, Union
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DocumentationType(Enum):
@@ -457,12 +457,12 @@ class DocumentationGenerator:
 
         # Create final documentation
         documentation = GeneratedDocumentation(
-            doc_id=f"doc_{request.request_id}_{int(datetime.now().timestamp())}",
+            doc_id=f"doc_{request.request_id}_{int(datetime.now(timezone.utc).timestamp())}",
             title=self._generate_title(request, analysis_results),
             doc_type=request.doc_type,
             output_format=request.output_format,
             sections=sections,
-            generated_date=datetime.now(),
+            generated_date=datetime.now(timezone.utc),
             target_audience=request.complexity_level,
             metadata=await self._generate_metadata(request, analysis_results),
             file_paths=[],
@@ -859,7 +859,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
                 if analysis_results
                 else 0
             ),
-            "generation_time": datetime.now().isoformat(),
+            "generation_time": datetime.now(timezone.utc).isoformat(),
             "target_audience": request.complexity_level.value,
             "includes_examples": request.include_examples,
             "includes_diagrams": request.include_diagrams,

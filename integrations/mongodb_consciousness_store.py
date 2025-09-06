@@ -22,7 +22,7 @@ from typing import Any, Optional
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import TEXT, IndexModel
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class LUKHASConsciousnessStore:
@@ -137,7 +137,7 @@ class LUKHASConsciousnessStore:
             "response": response,
             "consciousness_level": consciousness_level,
             "model_used": model_used,
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "metadata": metadata or {},
             "trinity_context": {
                 "identity_strength": metadata.get("identity_strength", 0.5),
@@ -168,13 +168,13 @@ class LUKHASConsciousnessStore:
             await self._prevent_memory_cascade()
 
         fold_doc = {
-            "fold_id": f"fold_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
+            "fold_id": f"fold_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "content": content,
             "fold_type": fold_type,  # experience, learning, emotional, causal
             "importance_score": importance_score,
             "parent_fold": parent_fold,
             "emotional_context": emotional_context or {},
-            "created_at": datetime.utcnow(),
+            "created_at": datetime.now(timezone.utc),
             "access_count": 0,
             "last_accessed": None,
             "cascade_protected": True,
@@ -219,7 +219,7 @@ class LUKHASConsciousnessStore:
         """Update system consciousness state"""
 
         state_doc = {
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "system_state": system_state,
             "trinity_balance": {
                 "identity": trinity_balance.get("identity", 0.33),
@@ -273,7 +273,7 @@ class LUKHASConsciousnessStore:
         for fold in memory_folds:
             await self.collections["memory_folds"].update_one(
                 {"fold_id": fold["fold_id"]},
-                {"$inc": {"access_count": 1}, "$set": {"last_accessed": datetime.utcnow()}},
+                {"$inc": {"access_count": 1}, "$set": {"last_accessed": datetime.now(timezone.utc)}},
             )
 
         return memory_folds
@@ -281,7 +281,7 @@ class LUKHASConsciousnessStore:
     async def get_consciousness_analytics(self, days: int = 7) -> dict[str, Any]:
         """Get consciousness system analytics"""
 
-        start_date = datetime.utcnow() - timedelta(days=days)
+        start_date = datetime.now(timezone.utc) - timedelta(days=days)
 
         # Conversation analytics
         conversation_stats = (
@@ -328,7 +328,7 @@ class LUKHASConsciousnessStore:
             "trinity_balance": latest_state.get("trinity_balance", {}) if latest_state else {},
             "system_health": latest_state.get("health_score", 0) if latest_state else 0,
             "analysis_period_days": days,
-            "generated_at": datetime.utcnow(),
+            "generated_at": datetime.now(timezone.utc),
         }
 
         return analytics

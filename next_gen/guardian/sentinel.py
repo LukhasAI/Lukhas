@@ -14,7 +14,7 @@ from typing import Optional
 
 import websockets
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -113,7 +113,7 @@ class GuardianSentinel:
             try:
                 # Simulate drift reading (in production, read from TrustHelix)
                 current_drift = self._read_current_drift()
-                self.drift_history.append({"value": current_drift, "timestamp": datetime.utcnow()})
+                self.drift_history.append({"value": current_drift, "timestamp": datetime.now(timezone.utc)})
 
                 # Check for spikes
                 if len(self.drift_history) >= 2:
@@ -126,7 +126,7 @@ class GuardianSentinel:
                                 indicator_type="drift_spike",
                                 severity=min(drift_rate / 0.5, 1.0),
                                 source="drift_monitor",
-                                timestamp=datetime.utcnow(),
+                                timestamp=datetime.now(timezone.utc),
                                 details={
                                     "drift_rate": drift_rate,
                                     "current_drift": current_drift,
@@ -148,7 +148,7 @@ class GuardianSentinel:
             try:
                 # Simulate entropy reading
                 current_entropy = self._read_current_entropy()
-                self.entropy_history.append({"value": current_entropy, "timestamp": datetime.utcnow()})
+                self.entropy_history.append({"value": current_entropy, "timestamp": datetime.now(timezone.utc)})
 
                 # Check for surges
                 if len(self.entropy_history) >= 2:
@@ -161,7 +161,7 @@ class GuardianSentinel:
                                 indicator_type="entropy_surge",
                                 severity=min(entropy_spike / 0.5, 1.0),
                                 source="entropy_monitor",
-                                timestamp=datetime.utcnow(),
+                                timestamp=datetime.now(timezone.utc),
                                 details={
                                     "entropy_spike": entropy_spike,
                                     "current_entropy": current_entropy,
@@ -183,7 +183,7 @@ class GuardianSentinel:
             try:
                 # Simulate pattern coherence reading
                 pattern_coherence = self._read_pattern_coherence()
-                self.pattern_history.append({"coherence": pattern_coherence, "timestamp": datetime.utcnow()})
+                self.pattern_history.append({"coherence": pattern_coherence, "timestamp": datetime.now(timezone.utc)})
 
                 # Check for disruption
                 if pattern_coherence < self.THRESHOLDS["pattern_disruption"]:
@@ -192,7 +192,7 @@ class GuardianSentinel:
                             indicator_type="pattern_anomaly",
                             severity=(1.0 - pattern_coherence),
                             source="pattern_monitor",
-                            timestamp=datetime.utcnow(),
+                            timestamp=datetime.now(timezone.utc),
                             details={
                                 "pattern_coherence": pattern_coherence,
                                 "threshold": self.THRESHOLDS["pattern_disruption"],
@@ -213,7 +213,7 @@ class GuardianSentinel:
             try:
                 # Simulate consciousness state reading
                 current_state = self._read_consciousness_state()
-                self.consciousness_history.append({"state": current_state, "timestamp": datetime.utcnow()})
+                self.consciousness_history.append({"state": current_state, "timestamp": datetime.now(timezone.utc)})
 
                 # Check for instability (too many state changes)
                 if len(self.consciousness_history) >= 10:
@@ -227,7 +227,7 @@ class GuardianSentinel:
                                 indicator_type="consciousness_instability",
                                 severity=instability,
                                 source="consciousness_monitor",
-                                timestamp=datetime.utcnow(),
+                                timestamp=datetime.now(timezone.utc),
                                 details={
                                     "unique_states": unique_states,
                                     "recent_states": recent_states[-5:],
@@ -272,7 +272,7 @@ class GuardianSentinel:
     async def _trigger_intervention(self, threat: ThreatIndicator):
         """Trigger an intervention based on threat type"""
         intervention = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "threat": threat.indicator_type,
             "severity": threat.severity,
             "action_taken": threat.recommended_action,
@@ -371,7 +371,7 @@ class GuardianSentinel:
 
     def get_threat_report(self) -> dict:
         """Generate threat analysis report"""
-        active_count = len([t for t in self.active_threats if (datetime.utcnow() - t.timestamp).seconds < 300])
+        active_count = len([t for t in self.active_threats if (datetime.now(timezone.utc) - t.timestamp).seconds < 300])
 
         severity_dist = {}
         for level, threshold in self.SEVERITY_LEVELS.items():

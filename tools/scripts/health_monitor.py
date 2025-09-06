@@ -67,7 +67,9 @@ class SystemHealthMonitor:
                         # Detect real merge conflict blocks: must contain both start and end markers
                         if "<<<<<<<" in content and ">>>>>>>" in content:
                             # Count occurrences of conflict starts for reporting
-                            conflict_count = content.count("<<<<<<< HEAD") if "<<<<<<< HEAD" in content else content.count("<<<<<<<")
+                            conflict_count = (
+                                content.count("<<<<<<< HEAD") if "<<<<<<< HEAD" in content else content.count("<<<<<<<")
+                            )
                             conflicts.append({"file": file_path, "conflicts": conflict_count})
                     except BaseException:
                         pass
@@ -99,9 +101,7 @@ class SystemHealthMonitor:
                         # Try to parse the file
                         ast.parse(content)
                     except SyntaxError as e:
-                        errors.append(
-                            {"file": file_path, "error": str(e), "line": e.lineno}
-                        )
+                        errors.append({"file": file_path, "error": str(e), "line": e.lineno})
                     except Exception:
                         pass
 
@@ -159,14 +159,12 @@ class SystemHealthMonitor:
                 has_init = os.path.exists(os.path.join(module, "__init__.py"))
 
                 # Check for tests
-                has_tests = os.path.exists(
-                    os.path.join(module, "tests")
-                ) or os.path.exists(f"tests/{module}")
+                has_tests = os.path.exists(os.path.join(module, "tests")) or os.path.exists(f"tests/{module}")
 
                 # Check for docs
-                has_docs = os.path.exists(
-                    os.path.join(module, "docs")
-                ) or os.path.exists(os.path.join(module, "README.md"))
+                has_docs = os.path.exists(os.path.join(module, "docs")) or os.path.exists(
+                    os.path.join(module, "README.md")
+                )
 
                 self.health_status["modules"][module] = {
                     "description": description,
@@ -175,9 +173,7 @@ class SystemHealthMonitor:
                     "has_init": has_init,
                     "has_tests": has_tests,
                     "has_docs": has_docs,
-                    "health": (
-                        "HEALTHY" if has_init and len(py_files) > 0 else "UNHEALTHY"
-                    ),
+                    "health": ("HEALTHY" if has_init and len(py_files) > 0 else "UNHEALTHY"),
                 }
             else:
                 self.health_status["modules"][module] = {
@@ -198,11 +194,7 @@ class SystemHealthMonitor:
             self.health_status["overall"] = "SEVERE - NO ENTRY POINT"
         else:
             # Check module health
-            unhealthy_modules = sum(
-                1
-                for m in self.health_status["modules"].values()
-                if m.get("health") != "HEALTHY"
-            )
+            unhealthy_modules = sum(1 for m in self.health_status["modules"].values() if m.get("health") != "HEALTHY")
 
             if unhealthy_modules > 5:
                 self.health_status["overall"] = "POOR"
@@ -244,9 +236,7 @@ Generated: {self.health_status['timestamp']}
         report += "\n## 💊 Prescriptions\n"
 
         if self.health_status["merge_conflicts"] > 0:
-            report += (
-                "1. **URGENT**: Resolve merge conflicts using conflict_healer.py\n"
-            )
+            report += "1. **URGENT**: Resolve merge conflicts using conflict_healer.py\n"
 
         if len(self.health_status["syntax_errors"]) > 0:
             report += "2. **URGENT**: Fix syntax errors using syntax_doctor.py\n"
@@ -255,9 +245,7 @@ Generated: {self.health_status['timestamp']}
             report += "3. **CRITICAL**: Create main.py entry point using bootstrap.py\n"
 
         report += "\n## 🔧 Next Steps\n"
-        report += (
-            "1. Run `python healing/emergency_surgery.py` to auto-fix critical issues\n"
-        )
+        report += "1. Run `python healing/emergency_surgery.py` to auto-fix critical issues\n"
         report += "2. Run `python bootstrap.py` to create system startup sequence\n"
         report += "3. Run this health check again to verify improvements\n"
 

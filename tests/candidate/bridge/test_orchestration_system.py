@@ -330,9 +330,7 @@ class OrchestrationTestSuite:
             latency = (time.perf_counter() - test_start) * 1000
 
             # Validate response
-            success = (
-                response.content and len(response.function_calls) > 0 and latency < 2000  # 2 second timeout
-            )
+            success = response.content and len(response.function_calls) > 0 and latency < 2000  # 2 second timeout
 
             self.results.append(
                 TestResultData(
@@ -536,9 +534,7 @@ class OrchestrationTestSuite:
             latency = (time.perf_counter() - test_start) * 1000
 
             # Validate streaming
-            success = (
-                chunks_received > 0 and len(content_received) > 0 and latency < 12000  # 12 second timeout
-            )
+            success = chunks_received > 0 and len(content_received) > 0 and latency < 12000  # 12 second timeout
 
             self.results.append(
                 TestResultData(
@@ -657,9 +653,7 @@ class OrchestrationTestSuite:
             )
 
             # Success if at least 2/3 requests succeed
-            success = (
-                successful_responses >= 2 and latency < 8000  # 8 second timeout for 3 concurrent requests
-            )
+            success = successful_responses >= 2 and latency < 8000  # 8 second timeout for 3 concurrent requests
 
             self.results.append(
                 TestResultData(

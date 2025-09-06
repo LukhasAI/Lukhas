@@ -30,8 +30,7 @@ try:
         get_brand_voice,
         get_trinity_context,
         normalize_output_text,
-        validate_output,
-    )
+        validate_output)
 
     BRANDING_AVAILABLE = True
 except ImportError:
@@ -358,7 +357,7 @@ class ConsciousnessPattern:  # Continuing class definition
     def _generate_consciousness_signature(self, user_id: str, interaction_data_summary: dict[str, Any]) -> str:
         """Generates a unique consciousness signature for the user based on current interaction summary."""
         self.instance_logger.debug(f"ΛTRACE: Internal: Generating consciousness signature for user '{user_id}'.")
-        timestamp = datetime.utcnow().isoformat()  # Use UTC
+        timestamp = datetime.now(timezone.utc).isoformat()  # Use UTC
         # Create a stable string representation of the interaction summary for hashing
         # Using json.dumps with sort_keys ensures a consistent string for the same
         # dict content
@@ -473,7 +472,7 @@ class AnthropicEthicsEngine:
         if evaluation_report["violations_detected"]:
             self.ethical_violations_log.append(
                 {
-                    "timestamp_utc": datetime.utcnow().isoformat(),
+                    "timestamp_utc": datetime.now(timezone.utc).isoformat(),
                     "action_type": action_type,
                     "context_summary": {k: str(v)[:50] for k, v in context.items()},  # Summary
                     "violations": evaluation_report["violations_detected"],
@@ -771,7 +770,7 @@ class SelfAwareAdaptationModule:
             setattr(self.consciousness_state, attr_name, np.clip(current_val, 0.0, 1.0))
             # Assuming valence is not directly adapted by these feedback metrics.
 
-        self.consciousness_state.last_update = datetime.utcnow()  # Use UTC
+        self.consciousness_state.last_update = datetime.now(timezone.utc)  # Use UTC
 
         adaptation_log_entry = {
             "timestamp_utc": self.consciousness_state.last_update.isoformat(),
@@ -838,7 +837,7 @@ class LUKHASConsciousnessEngine:
             "human_like_patterns": 0.0,
             "ethical_stability": 0.0,
             "pattern_coherence": 0.0,
-            "last_measurement": datetime.utcnow(),
+            "last_measurement": datetime.now(timezone.utc),
         }
 
         print("🧠 RESEARCH-ENHANCED CONSCIOUSNESS ENGINE INITIALIZED")
@@ -930,7 +929,7 @@ class LUKHASConsciousnessEngine:
                 "human_like_patterns": user_consciousness_level_score,
                 "ethical_stability": ethics_evaluation_report.get("overall_ethical_score", 0.0),
                 "pattern_coherence": user_consciousness_patterns.get("temporal_coherence_score", 0.0),
-                "last_measurement": datetime.utcnow(),
+                "last_measurement": datetime.now(timezone.utc),
             }
         )
 
@@ -940,7 +939,7 @@ class LUKHASConsciousnessEngine:
             "last_ethics_eval": ethics_evaluation_report,
             "authenticity_score": authenticity_score,
             "consciousness_metrics": self.consciousness_metrics.copy(),
-            "timestamp_utc": datetime.utcnow().isoformat(),
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         }
 
         self.instance_logger.info(
@@ -994,7 +993,7 @@ class LUKHASConsciousnessEngine:
             "adaptation_module_history_length": len(self.adaptation_module.adaptation_history),
             "configured_ethical_principles": list(self.ethics_engine.ethical_principles.keys()),
             "system_uptime_since_init": (
-                datetime.utcnow() - getattr(self, "_initialized_at", datetime.utcnow())
+                datetime.now(timezone.utc) - getattr(self, "_initialized_at", datetime.now(timezone.utc))
             ).total_seconds(),  # Requires _initialized_at
         }
         if not hasattr(self, "_initialized_at"):  # Simple uptime if _initialized_at is not set

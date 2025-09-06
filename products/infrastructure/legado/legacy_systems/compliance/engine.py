@@ -242,9 +242,7 @@ class _CorePrivateEthicsEngine:
         reason = (
             "Strong positive utility"
             if score >= 0.8
-            else "Moderate positive utility"
-            if score >= 0.6
-            else "Mixed utility"
+            else "Moderate positive utility" if score >= 0.6 else "Mixed utility"
         )
         return {"score": score, "reason": reason}
 

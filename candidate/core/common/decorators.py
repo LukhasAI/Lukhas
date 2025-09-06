@@ -14,7 +14,7 @@ from typing import Callable, Optional, Union
 from .exceptions import ModuleTimeoutError
 from .logger import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 def retry(
@@ -258,13 +258,13 @@ def cached(ttl: Optional[float] = None, key_func: Optional[Callable] = None) -> 
             key = cache_key_func(*args, **kwargs)
 
             # Check cache
-            if key in cache and (ttl is None or (datetime.now() - cache_times[key]).total_seconds() < ttl):
+            if key in cache and (ttl is None or (datetime.now(timezone.utc) - cache_times[key]).total_seconds() < ttl):
                 return cache[key]
 
             # Cache miss or expired
             result = await func(*args, **kwargs)
             cache[key] = result
-            cache_times[key] = datetime.now()
+            cache_times[key] = datetime.now(timezone.utc)
 
             return result
 
@@ -273,13 +273,13 @@ def cached(ttl: Optional[float] = None, key_func: Optional[Callable] = None) -> 
             key = cache_key_func(*args, **kwargs)
 
             # Check cache
-            if key in cache and (ttl is None or (datetime.now() - cache_times[key]).total_seconds() < ttl):
+            if key in cache and (ttl is None or (datetime.now(timezone.utc) - cache_times[key]).total_seconds() < ttl):
                 return cache[key]
 
             # Cache miss or expired
             result = func(*args, **kwargs)
             cache[key] = result
-            cache_times[key] = datetime.now()
+            cache_times[key] = datetime.now(timezone.utc)
 
             return result
 

@@ -82,7 +82,8 @@ class MockDataStore:
         cursor = self.connection.cursor()
 
         # Aka Qualia tables
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE akaq_scene (
                 id TEXT PRIMARY KEY,
                 user_id TEXT NOT NULL,
@@ -91,9 +92,11 @@ class MockDataStore:
                 risk_score REAL,
                 proto_qualia TEXT
             )
-        """)
+        """
+        )
 
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE akaq_glyph (
                 id TEXT PRIMARY KEY,
                 scene_id TEXT,
@@ -103,10 +106,12 @@ class MockDataStore:
                 timestamp REAL,
                 FOREIGN KEY (scene_id) REFERENCES akaq_scene(id)
             )
-        """)
+        """
+        )
 
         # Memory system tables
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE memory_fold (
                 id TEXT PRIMARY KEY,
                 user_id TEXT NOT NULL,
@@ -115,10 +120,12 @@ class MockDataStore:
                 created_at REAL,
                 accessed_at REAL
             )
-        """)
+        """
+        )
 
         # Consent ledger
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE consent_ledger (
                 id TEXT PRIMARY KEY,
                 user_id TEXT NOT NULL,
@@ -127,10 +134,12 @@ class MockDataStore:
                 timestamp REAL,
                 signature TEXT
             )
-        """)
+        """
+        )
 
         # Audit logs
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE audit_log (
                 id TEXT PRIMARY KEY,
                 user_id TEXT,
@@ -139,10 +148,12 @@ class MockDataStore:
                 timestamp REAL,
                 sensitive_data TEXT
             )
-        """)
+        """
+        )
 
         # Vector embeddings cache
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE vector_cache (
                 id TEXT PRIMARY KEY,
                 user_id TEXT NOT NULL,
@@ -151,7 +162,8 @@ class MockDataStore:
                 metadata TEXT,
                 expiry REAL
             )
-        """)
+        """
+        )
 
         self.connection.commit()
 

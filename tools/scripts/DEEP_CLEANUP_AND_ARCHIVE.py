@@ -14,12 +14,12 @@ from pathlib import Path
 class WorkspaceCleanup:
     """Comprehensive workspace cleanup and archiving"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas"
         self.archive_dir = (
             Path.home()
             / "lukhas-archive"
-            / f"archive_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            / f"archive_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         )
         self.stats = {
             "files_archived": 0,
@@ -414,7 +414,7 @@ setup(
         """Create a clean zip package of the workspace"""
         print("\n📦 Creating clean package...")
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         zip_name = f"lukhas_an_{timestamp}.zip"
         zip_path = self.workspace.parent / zip_name
 
@@ -470,7 +470,7 @@ Setup.py:
         report_path = self.workspace / "CLEANUP_REPORT.md"
         with open(report_path, "w") as f:
             f.write("# Workspace Cleanup Report\n\n")
-            f.write(f"**Date:** {datetime.now().isoformat()}\n\n")
+            f.write(f"**Date:** {datetime.now(timezone.utc).isoformat()}\n\n")
             f.write("## Statistics\n\n")
             for key, value in self.stats.items():
                 f.write(f"- **{key.replace('_', ' ').title()}:** {value}\n")

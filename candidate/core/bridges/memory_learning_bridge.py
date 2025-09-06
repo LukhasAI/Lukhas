@@ -174,7 +174,7 @@ class MemoryLearningBridge:
         """Get current timestamp"""
         from datetime import datetime
 
-        return datetime.now().isoformat()
+        return datetime.now(, timezone).isoformat()
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for the bridge"""

@@ -15,6 +15,7 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
+from pydantic import BaseModel
 
 # LUKHAS Identity Integration - REQUIRED
 from identity.middleware import (
@@ -27,7 +28,6 @@ from identity.middleware import (
     require_t5,
     require_tier,
 )
-from pydantic import BaseModel
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -236,7 +236,9 @@ async def consciousness_endpoint(
 
 
 @app.post("/protected/quantum", response_model=BaseResponse, tags=["T4-Protected"])
-async def qi_endpoint(request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)) -> BaseResponse:  # noqa: B008
+async def qi_endpoint(
+    request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)
+) -> BaseResponse:  # noqa: B008
     """
     T4+ Protected quantum endpoint.
     Requires Quantum tier for quantum processing access.

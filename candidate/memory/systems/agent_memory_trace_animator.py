@@ -127,9 +127,9 @@ class AgentMemoryTraceAnimator:
 
         self.active_traces: dict[str, MemoryTrace] = {}
         self.completed_traces: dict[str, Any] = {}
-        self.visualization_cache: dict[
-            str, str
-        ] = {}  # NOTE: Caching could be a #DRIFT_POINT if cache invalidation is imperfect.
+        self.visualization_cache: dict[str, str] = (
+            {}
+        )  # NOTE: Caching could be a #DRIFT_POINT if cache invalidation is imperfect.
 
         # DRIFT_POINT: Changes to color schemes will alter visual output over time.
         self.color_schemes: dict[MemoryTraceType, dict[str, str]] = {

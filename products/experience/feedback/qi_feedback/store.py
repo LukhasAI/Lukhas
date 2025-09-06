@@ -15,7 +15,7 @@ from typing import Any
 _ORIG_OPEN = builtins.open
 
 # Storage paths
-STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
+STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state", timezone))
 FEEDBACK_DIR = os.path.join(STATE, "feedback")
 FEEDBACK_FILE = os.path.join(FEEDBACK_DIR, "feedback.jsonl")
 CLUSTERS_FILE = os.path.join(FEEDBACK_DIR, "clusters.json")
@@ -38,8 +38,8 @@ class FeedbackStore:
     def _derive_hmac_key(self) -> bytes:
         """Derive weekly HMAC key using HKDF-like derivation."""
         # Get week number for key rotation
-        week_num = datetime.utcnow().isocalendar()[1]
-        year = datetime.utcnow().year
+        week_num = datetime.now(timezone.utc).isocalendar()[1]
+        year = datetime.now(timezone.utc).year
 
         # Base secret from environment or generate
         base_secret = os.environ.get("FEEDBACK_HMAC_SECRET", "lukhas-feedback-v1")
@@ -155,7 +155,7 @@ class FeedbackStore:
     def generate_weekly_digest(self) -> dict[str, Any]:
         """Generate weekly Merkle digest with signature."""
         # Get current week
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         year, week, _ = now.isocalendar()
         week_str = f"{year}-W{week:02d}"
 

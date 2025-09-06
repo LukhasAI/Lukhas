@@ -43,9 +43,7 @@ class ToolExecutor:
         self.retrieval_enabled = os.getenv("LUKHAS_ENABLE_RETRIEVAL", "true").lower() == "true"
         self.browser_enabled = os.getenv("LUKHAS_ENABLE_BROWSER", "true").lower() == "true"
         self.scheduler_enabled = os.getenv("LUKHAS_ENABLE_SCHEDULER", "true").lower() == "true"
-        self.code_exec_enabled = (
-            os.getenv("LUKHAS_ENABLE_CODE_EXEC", "true").lower() == "true"  # Enabled for dev
-        )
+        self.code_exec_enabled = os.getenv("LUKHAS_ENABLE_CODE_EXEC", "true").lower() == "true"  # Enabled for dev
 
         # Queue directory for scheduled tasks
         self.schedule_queue_dir = Path("data/scheduled_tasks")

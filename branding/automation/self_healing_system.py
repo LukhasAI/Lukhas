@@ -609,9 +609,11 @@ if __name__ == "__main__":
             "system_status": "active",
             "total_healing_actions": len(self.healing_history),
             "recent_actions": len(recent_actions),
-            "success_rate": (len([a for a in self.healing_history if a.success]) / len(self.healing_history) * 100)
-            if self.healing_history
-            else 100,
+            "success_rate": (
+                (len([a for a in self.healing_history if a.success]) / len(self.healing_history) * 100)
+                if self.healing_history
+                else 100
+            ),
             "last_healing_cycle": recent_actions[-1].applied_at if recent_actions else None,
             "backup_system": "active",
             "rollback_available": len([a for a in self.healing_history if a.rollback_available]),

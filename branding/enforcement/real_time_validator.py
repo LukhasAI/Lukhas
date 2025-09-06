@@ -800,16 +800,14 @@ class RealTimeBrandValidator:
             "issue_distribution": issue_distribution,
             "severity_distribution": severity_distribution,
             "trend_analysis": {
-                "compliance_trend": "improving"
-                if compliance_rate > 0.9
-                else "stable"
-                if compliance_rate > 0.7
-                else "declining",
-                "performance_trend": "excellent"
-                if average_performance < 50
-                else "good"
-                if average_performance < 100
-                else "needs_optimization",
+                "compliance_trend": (
+                    "improving" if compliance_rate > 0.9 else "stable" if compliance_rate > 0.7 else "declining"
+                ),
+                "performance_trend": (
+                    "excellent"
+                    if average_performance < 50
+                    else "good" if average_performance < 100 else "needs_optimization"
+                ),
             },
         }
 
@@ -839,9 +837,11 @@ class RealTimeBrandValidator:
             "compliance_analysis": {
                 "recent_trends": trends_24h,
                 "weekly_trends": trends_7d,
-                "compliance_evolution": "improving"
-                if trends_24h.get("compliance_rate", 0) > trends_7d.get("compliance_rate", 0)
-                else "stable",
+                "compliance_evolution": (
+                    "improving"
+                    if trends_24h.get("compliance_rate", 0) > trends_7d.get("compliance_rate", 0)
+                    else "stable"
+                ),
             },
             "validation_insights": {
                 "total_rules_active": metrics["active_rules"],

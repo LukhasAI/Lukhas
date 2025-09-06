@@ -143,7 +143,7 @@ class EnhancedMemoryManager:
 
     def __init__(self, base_path: Optional[str] = None):
         # Initialize logger with manager ID
-        self.manager_id = f"mem_mgr_{datetime.now().strftime('%H%M%S')}"
+        self.manager_id = f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S')}"
         if structlog:
             self.logger = logger.bind(manager_id=self.manager_id)
         else:

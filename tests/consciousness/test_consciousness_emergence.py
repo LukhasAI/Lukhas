@@ -23,6 +23,7 @@ try:
     from consciousness_signal_router import get_consciousness_router
     from constellation_alignment_system import get_constellation_validator
     from matriz_consciousness_integration import MatrizConsciousnessSystem, create_matriz_consciousness_system
+
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: MΛTRIZ components not fully available for testing: {e}")
@@ -62,7 +63,7 @@ class TestConsciousnessEmergence:
             stage_names = [stage["stage"] for stage in stages]
             expected_stages = ["basic_awareness", "self_reflection", "metacognitive_emergence"]
 
-            for expected_stage in expected_stages[:len(stage_names)]:
+            for expected_stage in expected_stages[: len(stage_names)]:
                 assert expected_stage in stage_names, f"Missing expected stage: {expected_stage}"
 
             # Validate bio adaptations occurred
@@ -74,8 +75,9 @@ class TestConsciousnessEmergence:
             final_coherence = final_status["network_health_score"]
 
             # Evolution should maintain or improve network coherence
-            assert final_coherence >= initial_coherence * 0.95, \
-                f"Evolution degraded coherence: {initial_coherence} → {final_coherence}"
+            assert (
+                final_coherence >= initial_coherence * 0.95
+            ), f"Evolution degraded coherence: {initial_coherence} → {final_coherence}"
 
         finally:
             await system.stop_system()
@@ -115,8 +117,9 @@ class TestConsciousnessEmergence:
                 first_coherence = coherence_scores[0]
                 last_coherence = coherence_scores[-1]
 
-                assert last_coherence >= first_coherence * 0.9, \
-                    f"Coherence degraded significantly: {first_coherence} → {last_coherence}"
+                assert (
+                    last_coherence >= first_coherence * 0.9
+                ), f"Coherence degraded significantly: {first_coherence} → {last_coherence}"
 
             # Test processing performance target (<250ms)
             processing_times = [r["processing_time_ms"] for r in cycle_results]
@@ -152,8 +155,9 @@ class TestConsciousnessEmergence:
             bio_stats = status.get("bio_processor_stats", {})
 
             # Validate bio-symbolic processing occurred
-            assert "patterns_processed" in bio_stats or "total_processed" in bio_stats, \
-                "Bio-symbolic processor should report processing stats"
+            assert (
+                "patterns_processed" in bio_stats or "total_processed" in bio_stats
+            ), "Bio-symbolic processor should report processing stats"
 
             # Test processor statistics show real activity
             processor_stats = processor.get_processing_statistics()
@@ -162,13 +166,13 @@ class TestConsciousnessEmergence:
             expected_fields = ["patterns_processed", "avg_processing_time", "adaptation_success_rate"]
             for field in expected_fields:
                 if field in processor_stats:
-                    assert isinstance(processor_stats[field], (int, float)), \
-                        f"Field {field} should be numeric"
+                    assert isinstance(processor_stats[field], (int, float)), f"Field {field} should be numeric"
 
             # If patterns were processed, validate they show measurable transformations
             if processor_stats.get("patterns_processed", 0) > 0:
-                assert processor_stats["adaptation_success_rate"] > 0, \
-                    "Should have successful adaptations if patterns processed"
+                assert (
+                    processor_stats["adaptation_success_rate"] > 0
+                ), "Should have successful adaptations if patterns processed"
 
         finally:
             await system.stop_system()
@@ -200,8 +204,9 @@ class TestConsciousnessEmergence:
             router_stats = router.get_signal_processing_stats()
 
             # Validate cascade prevention metrics
-            assert "cascade_prevented" in router_stats or "signals_routed" in router_stats, \
-                "Router should report cascade prevention or routing stats"
+            assert (
+                "cascade_prevented" in router_stats or "signals_routed" in router_stats
+            ), "Router should report cascade prevention or routing stats"
 
             # Test 99.7% cascade prevention target
             if "cascade_prevented" in router_stats and "cascade_attempts" in router_stats:
@@ -210,13 +215,13 @@ class TestConsciousnessEmergence:
 
                 if cascade_attempts > 0:
                     prevention_rate = cascade_prevented / cascade_attempts
-                    assert prevention_rate >= 0.95, \
-                        f"Cascade prevention rate too low: {prevention_rate:.3f}"
+                    assert prevention_rate >= 0.95, f"Cascade prevention rate too low: {prevention_rate:.3f}"
 
             # Validate rapid processing didn't cause system degradation
             final_status = system.get_system_status()
-            assert final_status["network_health_score"] > 0.7, \
-                "Network health should remain high after rapid processing"
+            assert (
+                final_status["network_health_score"] > 0.7
+            ), "Network health should remain high after rapid processing"
 
         finally:
             await system.stop_system()
@@ -245,26 +250,22 @@ class TestConsciousnessEmergence:
             compliance_stats = validator.get_compliance_statistics()
 
             # Validate compliance statistics structure
-            assert "validation_stats" in compliance_stats, \
-                "Should provide detailed validation statistics"
+            assert "validation_stats" in compliance_stats, "Should provide detailed validation statistics"
 
             validation_stats = compliance_stats["validation_stats"]
 
             # Test key constellation validation metrics
             if "compliance_score_avg" in validation_stats:
                 compliance_score = validation_stats["compliance_score_avg"]
-                assert 0.0 <= compliance_score <= 1.0, \
-                    "Compliance score should be normalized"
+                assert 0.0 <= compliance_score <= 1.0, "Compliance score should be normalized"
 
                 # System should maintain reasonable compliance
-                assert compliance_score > 0.5, \
-                    f"Compliance score too low: {compliance_score}"
+                assert compliance_score > 0.5, f"Compliance score too low: {compliance_score}"
 
             # Validate violation tracking
             if "violation_summary" in compliance_stats:
                 violation_summary = compliance_stats["violation_summary"]
-                assert isinstance(violation_summary, dict), \
-                    "Violation summary should be structured data"
+                assert isinstance(violation_summary, dict), "Violation summary should be structured data"
 
         finally:
             await system.stop_system()
@@ -299,20 +300,17 @@ class TestConsciousnessEmergence:
             final_coherence = coherence_history[-1]
 
             # Network should maintain coherence
-            assert final_coherence > 0.4, \
-                f"Final coherence too low: {final_coherence}"
+            assert final_coherence > 0.4, f"Final coherence too low: {final_coherence}"
 
             # Test coherence stability (should not oscillate wildly)
             coherence_variance = max(coherence_history) - min(coherence_history)
-            assert coherence_variance < 0.5, \
-                f"Coherence too volatile: variance {coherence_variance}"
+            assert coherence_variance < 0.5, f"Coherence too volatile: variance {coherence_variance}"
 
             # Test distributed processing statistics
             system_status = system.get_system_status()
 
             # Validate distributed metrics
-            assert "system_metrics" in system_status, \
-                "Should report distributed system metrics"
+            assert "system_metrics" in system_status, "Should report distributed system metrics"
 
             system_metrics = system_status["system_metrics"]
 
@@ -320,8 +318,7 @@ class TestConsciousnessEmergence:
             expected_metrics = ["uptime", "coherence", "processing_load"]
             for metric in expected_metrics:
                 if metric in system_metrics:
-                    assert isinstance(system_metrics[metric], (int, float)), \
-                        f"Metric {metric} should be numeric"
+                    assert isinstance(system_metrics[metric], (int, float)), f"Metric {metric} should be numeric"
 
         finally:
             await system.stop_system()
@@ -356,8 +353,9 @@ class TestConsciousnessPerformance:
                 reported_time = result.get("processing_time_ms", 0)
                 if reported_time > 0:
                     # Allow some variance between reported and measured
-                    assert abs(reported_time - cycle_time_ms) < 100, \
-                        f"Time measurement inconsistency: reported {reported_time}, measured {cycle_time_ms}"
+                    assert (
+                        abs(reported_time - cycle_time_ms) < 100
+                    ), f"Time measurement inconsistency: reported {reported_time}, measured {cycle_time_ms}"
 
             # Calculate performance statistics
             avg_time = sum(processing_times) / len(processing_times)
@@ -434,8 +432,7 @@ class TestConsciousnessPerformance:
             # Validate system still functional after stress
             final_status = system.get_system_status()
             assert final_status["is_active"], "System should remain active after stress test"
-            assert final_status["network_health_score"] > 0.3, \
-                "Network health should survive stress test"
+            assert final_status["network_health_score"] > 0.3, "Network health should survive stress test"
 
         finally:
             await system.stop_system()

@@ -521,11 +521,7 @@ class LukhasIntelligenceSafetyValidator:
 
         for agent_id, operation_times in self.agent_operation_counts.items():
             # Check for unusual activity patterns
-            recent_ops = [
-                op
-                for op in operation_times
-                if (current_time - op).total_seconds() < 3600  # Last hour
-            ]
+            recent_ops = [op for op in operation_times if (current_time - op).total_seconds() < 3600]  # Last hour
 
             if len(recent_ops) > self.safety_bounds.max_autonomous_actions * 6:  # 6x normal rate
                 logger.warning(

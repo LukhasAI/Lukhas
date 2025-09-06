@@ -18,28 +18,33 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
+
 class NodeType(Enum):
     """Types of semantic nodes."""
-    CONCEPT = "concept"           # Abstract concepts
-    ENTITY = "entity"            # Concrete entities
-    RELATIONSHIP = "relationship" # Relationship descriptors
-    PROPERTY = "property"        # Properties and attributes
-    PROCESS = "process"          # Processes and procedures
-    PRINCIPLE = "principle"      # Rules and principles
-    FACT = "fact"               # Factual statements
+
+    CONCEPT = "concept"  # Abstract concepts
+    ENTITY = "entity"  # Concrete entities
+    RELATIONSHIP = "relationship"  # Relationship descriptors
+    PROPERTY = "property"  # Properties and attributes
+    PROCESS = "process"  # Processes and procedures
+    PRINCIPLE = "principle"  # Rules and principles
+    FACT = "fact"  # Factual statements
+
 
 class RelationType(Enum):
     """Types of relationships between semantic nodes."""
-    IS_A = "is_a"                    # Taxonomy/inheritance
-    PART_OF = "part_of"              # Composition
-    RELATED_TO = "related_to"        # General association
-    CAUSES = "causes"                # Causal relationship
-    SIMILAR_TO = "similar_to"        # Similarity
-    OPPOSITE_TO = "opposite_to"      # Opposition
-    DEPENDS_ON = "depends_on"        # Dependency
-    USED_FOR = "used_for"           # Purpose/function
-    LOCATED_IN = "located_in"       # Spatial relationship
-    OCCURS_DURING = "occurs_during" # Temporal relationship
+
+    IS_A = "is_a"  # Taxonomy/inheritance
+    PART_OF = "part_of"  # Composition
+    RELATED_TO = "related_to"  # General association
+    CAUSES = "causes"  # Causal relationship
+    SIMILAR_TO = "similar_to"  # Similarity
+    OPPOSITE_TO = "opposite_to"  # Opposition
+    DEPENDS_ON = "depends_on"  # Dependency
+    USED_FOR = "used_for"  # Purpose/function
+    LOCATED_IN = "located_in"  # Spatial relationship
+    OCCURS_DURING = "occurs_during"  # Temporal relationship
+
 
 @dataclass
 class SemanticNode:
@@ -70,9 +75,9 @@ class SemanticNode:
     access_count: int = 0
 
     # Learning and validation
-    confidence: float = 1.0          # Confidence in node accuracy
-    evidence_count: int = 0          # Number of supporting evidences
-    contradiction_count: int = 0     # Number of contradicting evidences
+    confidence: float = 1.0  # Confidence in node accuracy
+    evidence_count: int = 0  # Number of supporting evidences
+    contradiction_count: int = 0  # Number of contradicting evidences
 
     def access_node(self):
         """Record access to this node."""
@@ -95,6 +100,7 @@ class SemanticNode:
         """Get relevance score for constellation star."""
         return self.constellation_relevance.get(star, 0.0)
 
+
 @dataclass
 class SemanticRelation:
     """
@@ -107,12 +113,12 @@ class SemanticRelation:
     relation_type: RelationType
 
     # Relationship attributes
-    strength: float = 1.0            # Strength of the relationship (0-1)
-    confidence: float = 1.0          # Confidence in relationship validity
-    bidirectional: bool = False      # Whether relationship works both ways
+    strength: float = 1.0  # Strength of the relationship (0-1)
+    confidence: float = 1.0  # Confidence in relationship validity
+    bidirectional: bool = False  # Whether relationship works both ways
 
     # Context and metadata
-    context: Optional[str] = None    # Context in which relationship holds
+    context: Optional[str] = None  # Context in which relationship holds
     evidence_sources: list[str] = field(default_factory=list)
     properties: dict[str, Any] = field(default_factory=dict)
 
@@ -125,6 +131,7 @@ class SemanticRelation:
         self.last_validated = datetime.now()
         if confidence_update is not None:
             self.confidence = max(0.0, min(1.0, confidence_update))
+
 
 @dataclass
 class SemanticQuery:
@@ -139,15 +146,16 @@ class SemanticQuery:
     relation_types: Optional[list[RelationType]] = None
 
     # Graph traversal parameters
-    max_depth: int = 2               # Maximum traversal depth
-    min_confidence: float = 0.5      # Minimum confidence threshold
-    include_relations: bool = True    # Include relationship information
+    max_depth: int = 2  # Maximum traversal depth
+    min_confidence: float = 0.5  # Minimum confidence threshold
+    include_relations: bool = True  # Include relationship information
 
     # Constellation context
     constellation_filter: Optional[dict[str, float]] = None
 
     # Result parameters
     max_results: int = 20
+
 
 class SemanticMemoryGraph:
     """
@@ -169,7 +177,7 @@ class SemanticMemoryGraph:
         self.tag_index: dict[str, set[str]] = {}  # tag -> node_ids mapping
 
         # Configuration
-        self.max_nodes = 50000           # Maximum nodes to store
+        self.max_nodes = 50000  # Maximum nodes to store
         self.similarity_threshold = 0.8  # Threshold for node similarity
         self.relation_decay_rate = 0.01  # Relation confidence decay rate
 
@@ -180,7 +188,7 @@ class SemanticMemoryGraph:
             "node_types": {nt.value: 0 for nt in NodeType},
             "relation_types": {rt.value: 0 for rt in RelationType},
             "avg_node_degree": 0.0,
-            "graph_density": 0.0
+            "graph_density": 0.0,
         }
 
     async def add_node(self, node: SemanticNode) -> bool:
@@ -238,20 +246,14 @@ class SemanticMemoryGraph:
 
             # Add to NetworkX graph
             self.graph.add_edge(
-                relation.source_node_id,
-                relation.target_node_id,
-                key=relation.relation_id,
-                relation=relation
+                relation.source_node_id, relation.target_node_id, key=relation.relation_id, relation=relation
             )
 
             # Add bidirectional edge if specified
             if relation.bidirectional:
                 reverse_relation_id = f"{relation.relation_id}_reverse"
                 self.graph.add_edge(
-                    relation.target_node_id,
-                    relation.source_node_id,
-                    key=reverse_relation_id,
-                    relation=relation
+                    relation.target_node_id, relation.source_node_id, key=reverse_relation_id, relation=relation
                 )
 
             # Update statistics
@@ -261,7 +263,9 @@ class SemanticMemoryGraph:
             # Update graph metrics
             await self._update_graph_metrics()
 
-            logger.debug(f"Added relation: {relation.source_node_id} -> {relation.target_node_id} ({relation.relation_type.value})")
+            logger.debug(
+                f"Added relation: {relation.source_node_id} -> {relation.target_node_id} ({relation.relation_type.value})"
+            )
             return True
 
         except Exception as e:
@@ -318,8 +322,7 @@ class SemanticMemoryGraph:
 
         # Apply confidence filter
         if query.min_confidence > 0:
-            candidates = [(node, score) for node, score in candidates
-                         if node.confidence >= query.min_confidence]
+            candidates = [(node, score) for node, score in candidates if node.confidence >= query.min_confidence]
 
         # Apply constellation filter
         if query.constellation_filter:
@@ -346,12 +349,15 @@ class SemanticMemoryGraph:
         results = list(unique_candidates.values())
         results.sort(key=lambda x: x[1], reverse=True)
 
-        return results[:query.max_results]
+        return results[: query.max_results]
 
-    async def get_related_nodes(self, node_id: str,
-                              relation_types: Optional[list[RelationType]] = None,
-                              max_depth: int = 1,
-                              min_strength: float = 0.1) -> dict[str, list[tuple[SemanticNode, SemanticRelation]]]:
+    async def get_related_nodes(
+        self,
+        node_id: str,
+        relation_types: Optional[list[RelationType]] = None,
+        max_depth: int = 1,
+        min_strength: float = 0.1,
+    ) -> dict[str, list[tuple[SemanticNode, SemanticRelation]]]:
         """Get nodes related to the given node."""
         if node_id not in self.nodes:
             return {}
@@ -396,8 +402,9 @@ class SemanticMemoryGraph:
 
         return results
 
-    async def find_path(self, source_node_id: str, target_node_id: str,
-                       max_length: int = 5) -> Optional[list[tuple[SemanticNode, SemanticRelation]]]:
+    async def find_path(
+        self, source_node_id: str, target_node_id: str, max_length: int = 5
+    ) -> Optional[list[tuple[SemanticNode, SemanticRelation]]]:
         """Find shortest path between two nodes."""
         if source_node_id not in self.nodes or target_node_id not in self.nodes:
             return None
@@ -577,15 +584,13 @@ class SemanticMemoryGraph:
                 "high_confidence_nodes": high_confidence_nodes,
                 "high_confidence_relations": high_confidence_relations,
                 "confidence_node_ratio": high_confidence_nodes / max(1, self.stats["total_nodes"]),
-                "confidence_relation_ratio": high_confidence_relations / max(1, self.stats["total_relations"])
+                "confidence_relation_ratio": high_confidence_relations / max(1, self.stats["total_relations"]),
             },
             "connectivity": {
-                "most_connected_nodes": [
-                    (self.nodes[node_id].name, degree) for node_id, degree in top_connected
-                ],
+                "most_connected_nodes": [(self.nodes[node_id].name, degree) for node_id, degree in top_connected],
                 "isolated_nodes": sum(1 for node_id in self.graph.nodes() if self.graph.degree(node_id) == 0),
-                "strongly_connected_components": len(list(nx.strongly_connected_components(self.graph)))
-            }
+                "strongly_connected_components": len(list(nx.strongly_connected_components(self.graph))),
+            },
         }
 
         return stats
@@ -601,8 +606,9 @@ class SemanticMemoryGraph:
                         "description": node.description,
                         "properties": node.properties,
                         "importance": node.importance_score,
-                        "confidence": node.confidence
-                    } for node_id, node in self.nodes.items()
+                        "confidence": node.confidence,
+                    }
+                    for node_id, node in self.nodes.items()
                 },
                 "relations": {
                     rel_id: {
@@ -610,13 +616,11 @@ class SemanticMemoryGraph:
                         "target": rel.target_node_id,
                         "type": rel.relation_type.value,
                         "strength": rel.strength,
-                        "confidence": rel.confidence
-                    } for rel_id, rel in self.relations.items()
+                        "confidence": rel.confidence,
+                    }
+                    for rel_id, rel in self.relations.items()
                 },
-                "metadata": {
-                    "export_time": datetime.now().isoformat(),
-                    "stats": self.get_semantic_stats()
-                }
+                "metadata": {"export_time": datetime.now().isoformat(), "stats": self.get_semantic_stats()},
             }
 
             return json.dumps(export_data, indent=2)

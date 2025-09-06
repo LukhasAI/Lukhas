@@ -41,7 +41,7 @@ except ImportError:
     from . import mnemonic
 
 
-class RecoveryMethod(Enum):
+class RecoveryMethod(Enum, timezone):
     """Available recovery methods"""
 
     QR_GEO = "qr_geo"  # QR code with geo-encoding
@@ -166,7 +166,7 @@ class LambdaIDPortabilitySystem:
         package.methods_enabled = methods
         package.geo_location = geo_location
         package.security_level = security_level
-        package.created_at = datetime.now()
+        package.created_at = datetime.now(timezone.utc)
         package.expiry_date = self._calculate_expiry_date(security_level)
 
         # Generate QR-G code if requested
@@ -238,7 +238,7 @@ class LambdaIDPortabilitySystem:
             "geo_payload": geo_payload,
             "location": geo_location,
             "security_level": security_level,
-            "expiry": (datetime.now() + timedelta(days=365)).isoformat(),
+            "expiry": (datetime.now(timezone.utc) + timedelta(days=365)).isoformat(),
             "recovery_instructions": self._get_qr_recovery_instructions(),
         }
 
@@ -258,7 +258,7 @@ class LambdaIDPortabilitySystem:
         attempt = RecoveryAttempt()
         attempt.attempt_id = self._generate_attempt_id()
         attempt.method = RecoveryMethod.QR_GEO
-        attempt.timestamp = datetime.now()
+        attempt.timestamp = datetime.now(timezone.utc)
         attempt.geo_location = current_location
 
         try:
@@ -291,7 +291,7 @@ class LambdaIDPortabilitySystem:
 
             # Check expiry
             package = self.active_packages[lambda_id]
-            if package.expiry_date and datetime.now() > package.expiry_date:
+            if package.expiry_date and datetime.now(timezone.utc) > package.expiry_date:
                 attempt.status = RecoveryStatus.EXPIRED
                 attempt.failure_reasons.append("Recovery package expired")
                 return attempt
@@ -360,7 +360,7 @@ class LambdaIDPortabilitySystem:
         attempt = RecoveryAttempt()
         attempt.attempt_id = self._generate_attempt_id()
         attempt.method = RecoveryMethod.EMERGENCY_CODE
-        attempt.timestamp = datetime.now()
+        attempt.timestamp = datetime.now(timezone.utc)
 
         # Search for matching ΛiD
         matching_lambda_id = None
@@ -429,7 +429,7 @@ class LambdaIDPortabilitySystem:
         attempt = RecoveryAttempt()
         attempt.attempt_id = self._generate_attempt_id()
         attempt.method = RecoveryMethod.RECOVERY_PHRASE
-        attempt.timestamp = datetime.now()
+        attempt.timestamp = datetime.now(timezone.utc)
 
         try:
             # Validate phrase format
@@ -478,7 +478,7 @@ class LambdaIDPortabilitySystem:
             "lambda_id": lambda_id,
             "source_device": source_device,
             "target_devices": target_devices,
-            "sync_timestamp": datetime.now().isoformat(),
+            "sync_timestamp": datetime.now(timezone.utc).isoformat(),
             "successful_syncs": [],
             "failed_syncs": [],
             "sync_package": None,
@@ -526,7 +526,7 @@ class LambdaIDPortabilitySystem:
         backup_data = {
             "lambda_id": lambda_id,
             "package": package.to_dict(),
-            "backup_timestamp": datetime.now().isoformat(),
+            "backup_timestamp": datetime.now(timezone.utc).isoformat(),
             "version": "1.0",
         }
 
@@ -535,9 +535,9 @@ class LambdaIDPortabilitySystem:
 
         return {
             "backup_file": base64.b64encode(encrypted_backup).decode(),
-            "filename": f"lambda_id_backup_{lambda_id.replace('LUKHAS', 'L')}_{datetime.now().strftime('%Y%m%d')}.lbak",
+            "filename": f"lambda_id_backup_{lambda_id.replace('LUKHAS', 'L')}_{datetime.now(timezone.utc).strftime('%Y%m%d')}.lbak",
             "size_bytes": len(encrypted_backup),
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def restore_from_backup(self, backup_file: str, password: str) -> RecoveryAttempt:
@@ -554,7 +554,7 @@ class LambdaIDPortabilitySystem:
         attempt = RecoveryAttempt()
         attempt.attempt_id = self._generate_attempt_id()
         attempt.method = RecoveryMethod.BACKUP_FILE
-        attempt.timestamp = datetime.now()
+        attempt.timestamp = datetime.now(timezone.utc)
 
         try:
             # Decode backup file
@@ -664,7 +664,7 @@ class LambdaIDPortabilitySystem:
             "lambda_id": lambda_id,
             "security_level": security_level,
             "backup_version": "1.0",
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "checksum": hashlib.sha256(lambda_id.encode()).hexdigest(),
         }
 
@@ -672,13 +672,13 @@ class LambdaIDPortabilitySystem:
         """Calculate expiry date based on security level"""
         days_mapping = {"standard": 365, "high": 730, "ultra": 1095}
         days = days_mapping.get(security_level, 365)
-        return datetime.now() + timedelta(days=days)
+        return datetime.now(timezone.utc) + timedelta(days=days)
 
     def _add_security_layer(self, payload: str, security_level: str) -> str:
         """Add additional security layer to payload"""
         if security_level == "high":
             # Add timestamp and signature
-            timestamp = datetime.now().timestamp()
+            timestamp = datetime.now(timezone.utc).timestamp()
             secured_payload = f"{payload}|{timestamp}"
             return base64.b64encode(secured_payload.encode()).decode()
         elif security_level == "ultra":
@@ -722,7 +722,7 @@ class LambdaIDPortabilitySystem:
 
     def _generate_attempt_id(self) -> str:
         """Generate unique attempt ID"""
-        return f"rec_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(4)}"
+        return f"rec_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(4)}"
 
     def _get_qr_recovery_instructions(self) -> list[str]:
         """Get QR recovery instructions"""
@@ -824,7 +824,7 @@ class GeographicEncoder:
         geo_data = {
             "lambda_id": lambda_id,
             "geo_location": geo_location,
-            "timestamp": datetime.now().timestamp(),
+            "timestamp": datetime.now(timezone.utc).timestamp(),
         }
 
         encoded = base64.b64encode(json.dumps(geo_data).encode()).decode()

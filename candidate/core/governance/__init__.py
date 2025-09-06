@@ -61,8 +61,7 @@ __all__ = [
     "GovernancePolicy",
     "MatrizConsciousnessGovernanceSystem",
     "consciousness_governance_system",
-
     # Legacy Governance Components
     "ConstitutionalPrinciple",
-    "GuardianSystem"
+    "GuardianSystem",
 ]

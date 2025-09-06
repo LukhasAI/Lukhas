@@ -128,8 +128,7 @@ class EnhancedSystemAwareness(BioAwareness):
             # Update standard metrics
             self._metrics["total_updates"] += 1
             self._metrics["average_level"] = sum(
-                h.get("level", 0.5)
-                for h in self.history[-100:]  # Last 100 entries
+                h.get("level", 0.5) for h in self.history[-100:]  # Last 100 entries
             ) / min(len(self.history), 100)
 
             self._metrics["peak_level"] = max(self._metrics["peak_level"], self.state.level)

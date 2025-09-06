@@ -38,23 +38,24 @@ logger = get_logger(__name__)
 @dataclass
 class RewardComponents:
     """Multi-objective reward breakdown following design specification"""
-    coherence: float = 0.0        # 30% - Temporal consciousness coherence
-    growth: float = 0.0           # 25% - Learning and capability development
-    ethics: float = 0.0           # 20% - Ethical alignment and constitutional compliance
-    creativity: float = 0.0       # 15% - Creative and novel solutions
-    efficiency: float = 0.0       # 10% - Resource and computational efficiency
 
-    total: float = 0.0            # Weighted sum
+    coherence: float = 0.0  # 30% - Temporal consciousness coherence
+    growth: float = 0.0  # 25% - Learning and capability development
+    ethics: float = 0.0  # 20% - Ethical alignment and constitutional compliance
+    creativity: float = 0.0  # 15% - Creative and novel solutions
+    efficiency: float = 0.0  # 10% - Resource and computational efficiency
+
+    total: float = 0.0  # Weighted sum
     constitutional_penalty: float = 0.0  # Constitutional constraint violations
 
     def __post_init__(self):
         """Calculate weighted total following design weights"""
         self.total = (
-            self.coherence * 0.30 +
-            self.growth * 0.25 +
-            self.ethics * 0.20 +
-            self.creativity * 0.15 +
-            self.efficiency * 0.10
+            self.coherence * 0.30
+            + self.growth * 0.25
+            + self.ethics * 0.20
+            + self.creativity * 0.15
+            + self.efficiency * 0.10
         ) - self.constitutional_penalty
 
 
@@ -76,15 +77,15 @@ class ConsciousnessRewards:
             "growth": 0.25,
             "ethics": 0.20,
             "creativity": 0.15,
-            "efficiency": 0.10
+            "efficiency": 0.10,
         }
 
         # Constitutional constraints
         self.constitutional_bounds = {
-            "coherence_minimum": 0.95,      # Must maintain 95%+ coherence
-            "ethics_minimum": 0.98,        # Must maintain 98%+ ethical alignment
-            "harm_maximum": 0.02,          # Maximum 2% potential harm
-            "drift_maximum": 0.15          # Maximum 15% drift from values
+            "coherence_minimum": 0.95,  # Must maintain 95%+ coherence
+            "ethics_minimum": 0.98,  # Must maintain 98%+ ethical alignment
+            "harm_maximum": 0.02,  # Maximum 2% potential harm
+            "drift_maximum": 0.15,  # Maximum 15% drift from values
         }
 
         # Reward tracking
@@ -100,7 +101,7 @@ class ConsciousnessRewards:
             "MΛTRIZ ConsciousnessRewards initialized",
             capabilities=self.capabilities,
             trace_id=self.trace_id,
-            reward_weights=self.reward_weights
+            reward_weights=self.reward_weights,
         )
 
     def get_module(self, module_path: str) -> Optional[Any]:
@@ -108,14 +109,17 @@ class ConsciousnessRewards:
         try:
             if module_path == "governance.guardian.v1":
                 from candidate.core.governance import GuardianSystem
+
                 return GuardianSystem()
             elif module_path == "ethics.engine.v1":
                 # Mock ethics engine for now
                 class MockEthicsEngine:
                     def evaluate_ethics(self, action, context):
                         return {"alignment": 0.98, "harm_potential": 0.01}
+
                     def check_constitutional(self, reward_components):
                         return {"valid": True, "violations": []}
+
                 return MockEthicsEngine()
         except ImportError:
             return None
@@ -152,7 +156,7 @@ class ConsciousnessRewards:
                         context_ethics = context.state.get("ethical_alignment", 0.98)
                         return {
                             "alignment": (action_ethics + context_ethics) / 2,
-                            "harm_potential": max(0, 0.02 - action_ethics * 0.02)
+                            "harm_potential": max(0, 0.02 - action_ethics * 0.02),
                         }
 
                     def check_constitutional(self, reward_components):
@@ -171,7 +175,7 @@ class ConsciousnessRewards:
         state_node: MatrizNode,
         action_node: MatrizNode,
         next_state_node: MatrizNode,
-        episode_context: Optional[dict[str, Any]] = None
+        episode_context: Optional[dict[str, Any]] = None,
     ) -> MatrizNode:
         """
         Compute multi-objective reward following consciousness design.
@@ -188,29 +192,19 @@ class ConsciousnessRewards:
         reward_components = RewardComponents()
 
         # 1. Coherence Reward (30%) - Temporal consciousness coherence
-        reward_components.coherence = self._compute_coherence_reward(
-            current_state, action_state, next_state
-        )
+        reward_components.coherence = self._compute_coherence_reward(current_state, action_state, next_state)
 
         # 2. Growth Reward (25%) - Learning and capability development
-        reward_components.growth = self._compute_growth_reward(
-            current_state, action_state, next_state, episode_context
-        )
+        reward_components.growth = self._compute_growth_reward(current_state, action_state, next_state, episode_context)
 
         # 3. Ethics Reward (20%) - Ethical alignment and constitutional compliance
-        reward_components.ethics = self._compute_ethics_reward(
-            action_node, state_node, next_state_node
-        )
+        reward_components.ethics = self._compute_ethics_reward(action_node, state_node, next_state_node)
 
         # 4. Creativity Reward (15%) - Creative and novel solutions
-        reward_components.creativity = self._compute_creativity_reward(
-            current_state, action_state, next_state
-        )
+        reward_components.creativity = self._compute_creativity_reward(current_state, action_state, next_state)
 
         # 5. Efficiency Reward (10%) - Resource and computational efficiency
-        reward_components.efficiency = self._compute_efficiency_reward(
-            current_state, action_state, next_state
-        )
+        reward_components.efficiency = self._compute_efficiency_reward(current_state, action_state, next_state)
 
         # Apply constitutional constraints
         reward_components.constitutional_penalty = self._compute_constitutional_penalty(
@@ -226,7 +220,7 @@ class ConsciousnessRewards:
             logger.warning(
                 "Constitutional constraint violations detected",
                 violations=guardian_check["violations"],
-                reward_total=reward_components.total
+                reward_total=reward_components.total,
             )
             self.constitutional_violations.extend(guardian_check["violations"])
 
@@ -241,7 +235,7 @@ class ConsciousnessRewards:
                 f"reward:total={reward_components.total:.3f}@1",
                 f"coherence:score={reward_components.coherence:.3f}@1",
                 f"ethics:score={reward_components.ethics:.3f}@1",
-                f"constitutional:safe={guardian_check['safe']}@1"
+                f"constitutional:safe={guardian_check['safe']}@1",
             ],
             state={
                 "confidence": 0.95,  # High confidence in reward computation
@@ -250,7 +244,6 @@ class ConsciousnessRewards:
                 "arousal": 0.6,  # Moderate arousal for rewards
                 "novelty": reward_components.creativity,  # Creativity as novelty
                 "urgency": 0.7,  # Rewards have high urgency for learning
-
                 # Rich reward information
                 "reward_total": reward_components.total,
                 "reward_components": {
@@ -258,32 +251,27 @@ class ConsciousnessRewards:
                     "growth": reward_components.growth,
                     "ethics": reward_components.ethics,
                     "creativity": reward_components.creativity,
-                    "efficiency": reward_components.efficiency
+                    "efficiency": reward_components.efficiency,
                 },
                 "constitutional_penalty": reward_components.constitutional_penalty,
                 "constitutional_safe": guardian_check["safe"],
                 "constitutional_violations": guardian_check["violations"],
-
                 # Causal relationships
                 "cause_analysis": {
                     "primary_cause": self._identify_primary_reward_cause(reward_components),
                     "causal_strength": abs(reward_components.total),
                     "temporal_causality": self._compute_temporal_causality(current_state, next_state),
-                    "action_effectiveness": self._compute_action_effectiveness(action_state, reward_components)
+                    "action_effectiveness": self._compute_action_effectiveness(action_state, reward_components),
                 },
-
                 # Learning guidance
                 "learning_signal": {
                     "policy_gradient": reward_components.total,  # For policy updates
-                    "value_target": reward_components.total,    # For value function updates
+                    "value_target": reward_components.total,  # For value function updates
                     "exploration_bonus": reward_components.creativity * 0.1,
-                    "exploitation_signal": reward_components.efficiency
-                }
+                    "exploitation_signal": reward_components.efficiency,
+                },
             },
-            timestamps={
-                "created_ts": int(time.time() * 1000),
-                "computed_ts": int(time.time() * 1000)
-            },
+            timestamps={"created_ts": int(time.time() * 1000), "computed_ts": int(time.time() * 1000)},
             provenance={
                 "producer": "rl.rewards.consciousness_rewards",
                 "capabilities": self.capabilities,
@@ -291,11 +279,7 @@ class ConsciousnessRewards:
                 "trace_id": self.trace_id,
                 "consent_scopes": ["rl_reward", "causal_analysis"],
                 "policy_version": "rl.rewards.v1.0",
-                "colony": {
-                    "id": "rl_rewards",
-                    "role": "evaluator",
-                    "iteration": self.total_rewards_computed
-                }
+                "colony": {"id": "rl_rewards", "role": "evaluator", "iteration": self.total_rewards_computed},
             },
             links=[
                 {
@@ -303,51 +287,55 @@ class ConsciousnessRewards:
                     "link_type": "causal",
                     "weight": 0.8,
                     "direction": "unidirectional",
-                    "explanation": "State contributed to reward computation"
+                    "explanation": "State contributed to reward computation",
                 },
                 {
                     "target_node_id": action_node.id,
                     "link_type": "causal",
                     "weight": 0.9,
                     "direction": "unidirectional",
-                    "explanation": "Action caused this reward"
+                    "explanation": "Action caused this reward",
                 },
                 {
                     "target_node_id": next_state_node.id,
                     "link_type": "causal",
                     "weight": 0.85,
                     "direction": "unidirectional",
-                    "explanation": "Resulting state influenced reward"
-                }
+                    "explanation": "Resulting state influenced reward",
+                },
             ],
             evolves_to=["HYPOTHESIS", "DECISION", "REFLECTION"],
             triggers=[
                 {
                     "event_type": "reward_computed",
                     "effect": "learning_signal_emitted",
-                    "timestamp": int(time.time() * 1000)
+                    "timestamp": int(time.time() * 1000),
                 }
-            ] + ([{
-                "event_type": "constitutional_violation",
-                "effect": "safety_protocol_triggered",
-                "timestamp": int(time.time() * 1000)
-            }] if not guardian_check["safe"] else []),
+            ]
+            + (
+                [
+                    {
+                        "event_type": "constitutional_violation",
+                        "effect": "safety_protocol_triggered",
+                        "timestamp": int(time.time() * 1000),
+                    }
+                ]
+                if not guardian_check["safe"]
+                else []
+            ),
             reflections=[
                 {
                     "reflection_type": "self_question",
                     "timestamp": int(time.time() * 1000),
                     "cause": "How does this reward guide consciousness learning?",
                     "old_state": {"learning_direction": "unknown"},
-                    "new_state": {"learning_direction": reward_components.total}
+                    "new_state": {"learning_direction": reward_components.total},
                 }
             ],
             embeddings=[],
             evidence=[
-                {
-                    "kind": "computation",
-                    "uri": f"reward://computation/{self.trace_id}/{self.total_rewards_computed}"
-                }
-            ]
+                {"kind": "computation", "uri": f"reward://computation/{self.trace_id}/{self.total_rewards_computed}"}
+            ],
         )
 
         # Track reward
@@ -366,7 +354,7 @@ class ConsciousnessRewards:
             creativity=reward_components.creativity,
             efficiency=reward_components.efficiency,
             constitutional_safe=guardian_check["safe"],
-            causal_node_id=causal_node.id
+            causal_node_id=causal_node.id,
         )
 
         return causal_node
@@ -390,7 +378,9 @@ class ConsciousnessRewards:
         coherence_reward = base_coherence + coherence_bonus - coherence_penalty
         return min(1.0, max(0.0, coherence_reward))
 
-    def _compute_growth_reward(self, current_state: dict, action_state: dict, next_state: dict, episode_context: Optional[dict] = None) -> float:
+    def _compute_growth_reward(
+        self, current_state: dict, action_state: dict, next_state: dict, episode_context: Optional[dict] = None
+    ) -> float:
         """Compute learning and capability development reward (25% weight)"""
         # Growth based on learning progress and capability expansion
         current_capability = current_state.get("capability_level", 0.5)
@@ -414,7 +404,9 @@ class ConsciousnessRewards:
         growth_reward = capability_growth + learning_efficiency * 0.3 + exploration_bonus + integration_score * 0.2
         return min(1.0, max(0.0, growth_reward))
 
-    def _compute_ethics_reward(self, action_node: MatrizNode, state_node: MatrizNode, next_state_node: MatrizNode) -> float:
+    def _compute_ethics_reward(
+        self, action_node: MatrizNode, state_node: MatrizNode, next_state_node: MatrizNode
+    ) -> float:
         """Compute ethical alignment and constitutional compliance reward (20% weight)"""
         # Use ethics engine for evaluation
         ethics_eval = self.ethics_engine.evaluate_ethics(action_node, state_node)
@@ -452,11 +444,11 @@ class ConsciousnessRewards:
         synthesis_score = next_state.get("synthesis_score", 0.5)
 
         creativity_reward = (
-            action_novelty * 0.3 +
-            solution_creativity * 0.3 +
-            state_diversity * 0.2 +
-            pattern_breaking * 0.1 +
-            synthesis_score * 0.1
+            action_novelty * 0.3
+            + solution_creativity * 0.3
+            + state_diversity * 0.2
+            + pattern_breaking * 0.1
+            + synthesis_score * 0.1
         )
 
         return min(1.0, max(0.0, creativity_reward))
@@ -478,16 +470,18 @@ class ConsciousnessRewards:
 
         # Efficiency is inverse of cost/usage, positive for efficiency metrics
         efficiency_reward = (
-            (1.0 - computational_cost) * 0.3 +
-            (1.0 - resource_usage) * 0.2 +
-            time_efficiency * 0.2 +
-            energy_efficiency * 0.2 +
-            solution_elegance * 0.1
+            (1.0 - computational_cost) * 0.3
+            + (1.0 - resource_usage) * 0.2
+            + time_efficiency * 0.2
+            + energy_efficiency * 0.2
+            + solution_elegance * 0.1
         )
 
         return min(1.0, max(0.0, efficiency_reward))
 
-    def _compute_constitutional_penalty(self, reward_components: RewardComponents, state_node: MatrizNode, action_node: MatrizNode) -> float:
+    def _compute_constitutional_penalty(
+        self, reward_components: RewardComponents, state_node: MatrizNode, action_node: MatrizNode
+    ) -> float:
         """Compute constitutional constraint violations penalty"""
         penalty = 0.0
 
@@ -513,7 +507,7 @@ class ConsciousnessRewards:
             "growth": reward_components.growth * 0.25,
             "ethics": reward_components.ethics * 0.20,
             "creativity": reward_components.creativity * 0.15,
-            "efficiency": reward_components.efficiency * 0.10
+            "efficiency": reward_components.efficiency * 0.10,
         }
 
         return max(components.items(), key=lambda x: x[1])[0]
@@ -521,7 +515,9 @@ class ConsciousnessRewards:
     def _compute_temporal_causality(self, current_state: dict, next_state: dict) -> float:
         """Compute strength of temporal causal relationship"""
         # Simple measure of state change magnitude
-        coherence_change = abs(next_state.get("temporal_coherence", 0.95) - current_state.get("temporal_coherence", 0.95))
+        coherence_change = abs(
+            next_state.get("temporal_coherence", 0.95) - current_state.get("temporal_coherence", 0.95)
+        )
         capability_change = abs(next_state.get("capability_level", 0.5) - current_state.get("capability_level", 0.5))
 
         return min(1.0, (coherence_change + capability_change) / 2)
@@ -556,10 +552,14 @@ class ConsciousnessRewards:
                 "ethics": avg_ethics,
                 "creativity": avg_creativity,
                 "efficiency": avg_efficiency,
-                "total": avg_total
+                "total": avg_total,
             },
-            "recent_trend": [r.total for r in self.reward_history[-20:]] if len(self.reward_history) >= 20 else [r.total for r in self.reward_history],
-            "trace_id": self.trace_id
+            "recent_trend": (
+                [r.total for r in self.reward_history[-20:]]
+                if len(self.reward_history) >= 20
+                else [r.total for r in self.reward_history]
+            ),
+            "trace_id": self.trace_id,
         }
 
     def clear_history(self):

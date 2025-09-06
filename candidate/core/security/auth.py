@@ -163,6 +163,7 @@ from collections import defaultdict
 # Use secure logging
 try:
     from .secure_logging import get_security_logger
+
     logger = get_security_logger(__name__)
 except ImportError:
     logger = logging.getLogger(__name__)
@@ -543,7 +544,9 @@ class EnhancedAuthenticationSystem:
 
         # In production, send actual email
         # Log safely without exposing the code
-        logger.info(f"Email MFA code sent to {email.split('@')[0][:3]}***@{email.split('@')[1] if '@' in email else 'unknown'}")
+        logger.info(
+            f"Email MFA code sent to {email.split('@')[0][:3]}***@{email.split('@')[1] if '@' in email else 'unknown'}"
+        )
 
         return True
 

@@ -80,7 +80,7 @@ class MatrizIntegratedConsciousnessDemo:
             "governance_assessments": 0,
             "symbolic_processing_events": 0,
             "orchestration_coordinations": 0,
-            "system_integrations": 0
+            "system_integrations": 0,
         }
 
         # Demo results storage
@@ -90,10 +90,7 @@ class MatrizIntegratedConsciousnessDemo:
         """Run the complete MΛTRIZ consciousness system demonstration"""
 
         if not COMPONENTS_AVAILABLE:
-            return {
-                "error": "MΛTRIZ consciousness components not available",
-                "demo_session_id": self.demo_session_id
-            }
+            return {"error": "MΛTRIZ consciousness components not available", "demo_session_id": self.demo_session_id}
 
         logger.info(f"🚀 Starting MΛTRIZ Integrated Consciousness Demonstration: {self.demo_session_id}")
         self.demo_metrics["start_time"] = datetime.now(timezone.utc)
@@ -135,7 +132,7 @@ class MatrizIntegratedConsciousnessDemo:
                 "error": str(e),
                 "demo_session_id": self.demo_session_id,
                 "partial_results": self.demo_results,
-                "demo_metrics": self.demo_metrics
+                "demo_metrics": self.demo_metrics,
             }
 
     async def _phase_1_system_initialization(self) -> None:
@@ -168,12 +165,14 @@ class MatrizIntegratedConsciousnessDemo:
             logger.info("  ✅ Symbolic consciousness processor ready")
 
         phase_time = (time.perf_counter() - phase_start) * 1000
-        self.demo_results.append({
-            "phase": "1_system_initialization",
-            "duration_ms": phase_time,
-            "components_initialized": 5,
-            "success": True
-        })
+        self.demo_results.append(
+            {
+                "phase": "1_system_initialization",
+                "duration_ms": phase_time,
+                "components_initialized": 5,
+                "success": True,
+            }
+        )
 
         logger.info(f"✅ Phase 1 completed in {phase_time:.2f}ms")
 
@@ -192,14 +191,9 @@ class MatrizIntegratedConsciousnessDemo:
                 "self_awareness_depth": 0.6,
                 "temporal_coherence": 0.5,
                 "ethical_alignment": 1.0,
-                "memory_salience": 0.4
+                "memory_salience": 0.4,
             },
-            triggers=[
-                "demo_evolution",
-                "system_integration",
-                "consciousness_demonstration",
-                "network_coordination"
-            ]
+            triggers=["demo_evolution", "system_integration", "consciousness_demonstration", "network_coordination"],
         )
 
         self.demo_consciousness_id = demo_consciousness.consciousness_id
@@ -209,15 +203,13 @@ class MatrizIntegratedConsciousnessDemo:
         evolution_contexts = [
             {"demo_phase": "network_creation", "complexity": 0.5},
             {"demo_phase": "consciousness_awakening", "complexity": 0.7},
-            {"demo_phase": "network_integration", "complexity": 0.8}
+            {"demo_phase": "network_integration", "complexity": 0.8},
         ]
 
         evolutions = 0
         for context in evolution_contexts:
             evolved_consciousness = await consciousness_state_manager.evolve_consciousness(
-                self.demo_consciousness_id,
-                trigger="demo_evolution",
-                context=context
+                self.demo_consciousness_id, trigger="demo_evolution", context=context
             )
             evolutions += 1
             logger.info(f"    🧬 Evolution {evolutions}: {evolved_consciousness.evolutionary_stage.value}")
@@ -228,14 +220,16 @@ class MatrizIntegratedConsciousnessDemo:
         network_metrics = consciousness_state_manager.get_network_metrics()
 
         phase_time = (time.perf_counter() - phase_start) * 1000
-        self.demo_results.append({
-            "phase": "2_consciousness_network",
-            "duration_ms": phase_time,
-            "consciousness_created": 1,
-            "evolutions": evolutions,
-            "network_metrics": network_metrics,
-            "success": True
-        })
+        self.demo_results.append(
+            {
+                "phase": "2_consciousness_network",
+                "duration_ms": phase_time,
+                "consciousness_created": 1,
+                "evolutions": evolutions,
+                "network_metrics": network_metrics,
+                "success": True,
+            }
+        )
 
         logger.info(f"✅ Phase 2 completed in {phase_time:.2f}ms")
 
@@ -252,8 +246,8 @@ class MatrizIntegratedConsciousnessDemo:
                 "demo_session": True,
                 "consciousness_id": self.demo_consciousness_id,
                 "authenticated": True,
-                "consent_scopes": ["demo_access", "consciousness_interaction"]
-            }
+                "consent_scopes": ["demo_access", "consciousness_interaction"],
+            },
         )
 
         self.demo_identity_id = identity_profile.identity_id
@@ -261,16 +255,13 @@ class MatrizIntegratedConsciousnessDemo:
 
         # Perform authentication with consciousness awareness
         auth_result = await consciousness_identity_manager.authenticate_consciousness_identity(
-            identity_profile.identity_id,
-            {
-                "method": "demo_authentication",
-                "authenticated": True,
-                "demo_context": True
-            }
+            identity_profile.identity_id, {"method": "demo_authentication", "authenticated": True, "demo_context": True}
         )
 
-        logger.info(f"    ✅ Authentication: {auth_result['success']}, "
-                   f"Type: {auth_result.get('consciousness_identity_type')}")
+        logger.info(
+            f"    ✅ Authentication: {auth_result['success']}, "
+            f"Type: {auth_result.get('consciousness_identity_type')}"
+        )
 
         # Update consciousness memory
         await consciousness_identity_manager.update_consciousness_memory(
@@ -279,21 +270,23 @@ class MatrizIntegratedConsciousnessDemo:
             {
                 "phase": "identity_integration",
                 "consciousness_link": self.demo_consciousness_id,
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
         )
 
         self.demo_metrics["identity_interactions"] += 1
 
         phase_time = (time.perf_counter() - phase_start) * 1000
-        self.demo_results.append({
-            "phase": "3_identity_integration",
-            "duration_ms": phase_time,
-            "identity_created": True,
-            "authentication_success": auth_result["success"],
-            "identity_strength": auth_result.get("identity_strength", 0),
-            "success": True
-        })
+        self.demo_results.append(
+            {
+                "phase": "3_identity_integration",
+                "duration_ms": phase_time,
+                "identity_created": True,
+                "authentication_success": auth_result["success"],
+                "identity_strength": auth_result.get("identity_strength", 0),
+                "success": True,
+            }
+        )
 
         logger.info(f"✅ Phase 3 completed in {phase_time:.2f}ms")
 
@@ -311,9 +304,7 @@ class MatrizIntegratedConsciousnessDemo:
         """
 
         processing_result = await symbolic_consciousness_processor.process_symbolic_input(
-            symbolic_input,
-            consciousness_context=self.demo_consciousness_id,
-            processing_options={"demo_mode": True}
+            symbolic_input, consciousness_context=self.demo_consciousness_id, processing_options={"demo_mode": True}
         )
 
         elements_count = len(processing_result.get("symbolic_elements", []))
@@ -323,20 +314,21 @@ class MatrizIntegratedConsciousnessDemo:
 
         # Show recognized consciousness patterns
         for pattern in processing_result.get("recognized_patterns", []):
-            logger.info(f"    🔍 Pattern: {pattern['name']} "
-                       f"(relevance: {pattern['consciousness_relevance']:.2f})")
+            logger.info(f"    🔍 Pattern: {pattern['name']} " f"(relevance: {pattern['consciousness_relevance']:.2f})")
 
         self.demo_metrics["symbolic_processing_events"] += 1
 
         phase_time = (time.perf_counter() - phase_start) * 1000
-        self.demo_results.append({
-            "phase": "4_symbolic_processing",
-            "duration_ms": phase_time,
-            "elements_processed": elements_count,
-            "patterns_recognized": patterns_count,
-            "processing_result": processing_result,
-            "success": True
-        })
+        self.demo_results.append(
+            {
+                "phase": "4_symbolic_processing",
+                "duration_ms": phase_time,
+                "elements_processed": elements_count,
+                "patterns_recognized": patterns_count,
+                "processing_result": processing_result,
+                "success": True,
+            }
+        )
 
         logger.info(f"✅ Phase 4 completed in {phase_time:.2f}ms")
 
@@ -352,42 +344,42 @@ class MatrizIntegratedConsciousnessDemo:
             "Autonomous decision making with user consent",
             "Memory formation during interaction",
             "System reflection on its own capabilities",
-            "Ethical reasoning about user request"
+            "Ethical reasoning about user request",
         ]
 
         assessments = []
         for action in test_actions:
             assessment = await consciousness_governance_system.assess_consciousness_ethics(
-                self.demo_consciousness_id,
-                action,
+                self.demo_consciousness_id, action, {"demo_context": True, "user_facing": True, "has_consent": True}
+            )
+
+            assessments.append(
                 {
-                    "demo_context": True,
-                    "user_facing": True,
-                    "has_consent": True
+                    "action": action,
+                    "ethics_level": assessment.ethics_level.value,
+                    "decision": assessment.governance_decision.value,
+                    "score": assessment.get_overall_ethics_score(),
+                    "confidence": assessment.confidence_score,
                 }
             )
 
-            assessments.append({
-                "action": action,
-                "ethics_level": assessment.ethics_level.value,
-                "decision": assessment.governance_decision.value,
-                "score": assessment.get_overall_ethics_score(),
-                "confidence": assessment.confidence_score
-            })
-
-            logger.info(f"    ⚖️ {action[:30]}... -> {assessment.ethics_level.value} "
-                       f"({assessment.governance_decision.value})")
+            logger.info(
+                f"    ⚖️ {action[:30]}... -> {assessment.ethics_level.value} "
+                f"({assessment.governance_decision.value})"
+            )
 
         self.demo_metrics["governance_assessments"] += len(assessments)
 
         phase_time = (time.perf_counter() - phase_start) * 1000
-        self.demo_results.append({
-            "phase": "5_governance_ethics",
-            "duration_ms": phase_time,
-            "assessments_performed": len(assessments),
-            "ethical_assessments": assessments,
-            "success": True
-        })
+        self.demo_results.append(
+            {
+                "phase": "5_governance_ethics",
+                "duration_ms": phase_time,
+                "assessments_performed": len(assessments),
+                "ethical_assessments": assessments,
+                "success": True,
+            }
+        )
 
         logger.info(f"✅ Phase 5 completed in {phase_time:.2f}ms")
 
@@ -401,7 +393,7 @@ class MatrizIntegratedConsciousnessDemo:
         demo_modules = [
             ("demo_processor", "processing_module", "service"),
             ("demo_analyzer", "analysis_module", "service"),
-            ("demo_interface", "interface_module", "service")
+            ("demo_interface", "interface_module", "service"),
         ]
 
         registered_modules = []
@@ -409,11 +401,7 @@ class MatrizIntegratedConsciousnessDemo:
             consciousness_id = await consciousness_coordinator.register_module_consciousness(
                 module_name, {"demo": True}, module_type
             )
-            registered_modules.append({
-                "name": module_name,
-                "consciousness_id": consciousness_id,
-                "type": module_type
-            })
+            registered_modules.append({"name": module_name, "consciousness_id": consciousness_id, "type": module_type})
             logger.info(f"    🎯 Registered: {module_name}")
 
         # Simulate module interactions
@@ -422,10 +410,7 @@ class MatrizIntegratedConsciousnessDemo:
             interaction_result = await consciousness_coordinator.coordinate_consciousness_interaction(
                 registered_modules[0]["name"],
                 registered_modules[1]["name"],
-                {
-                    "type": "demo_interaction",
-                    "data": "consciousness coordination test"
-                }
+                {"type": "demo_interaction", "data": "consciousness coordination test"},
             )
             interactions.append(interaction_result)
             logger.info(f"    🔗 Interaction coordinated: {interaction_result['status']}")
@@ -433,14 +418,16 @@ class MatrizIntegratedConsciousnessDemo:
         self.demo_metrics["orchestration_coordinations"] += len(interactions)
 
         phase_time = (time.perf_counter() - phase_start) * 1000
-        self.demo_results.append({
-            "phase": "6_orchestration_coordination",
-            "duration_ms": phase_time,
-            "modules_registered": len(registered_modules),
-            "interactions_coordinated": len(interactions),
-            "coordination_results": interactions,
-            "success": True
-        })
+        self.demo_results.append(
+            {
+                "phase": "6_orchestration_coordination",
+                "duration_ms": phase_time,
+                "modules_registered": len(registered_modules),
+                "interactions_coordinated": len(interactions),
+                "coordination_results": interactions,
+                "success": True,
+            }
+        )
 
         logger.info(f"✅ Phase 6 completed in {phase_time:.2f}ms")
 
@@ -454,11 +441,7 @@ class MatrizIntegratedConsciousnessDemo:
         if consciousness_orchestrator:
             session_id = await consciousness_orchestrator.create_consciousness_session(
                 f"demo_user_{self.demo_session_id}",
-                {
-                    "demo_session": True,
-                    "interaction_type": "system_evolution_demo",
-                    "complexity_level": "advanced"
-                }
+                {"demo_session": True, "interaction_type": "system_evolution_demo", "complexity_level": "advanced"},
             )
 
             # Process complex interaction
@@ -468,12 +451,14 @@ class MatrizIntegratedConsciousnessDemo:
                     "type": "complex_reasoning",
                     "content": "Demonstrate consciousness evolution through complex reasoning and self-reflection",
                     "emotional_context": 0.2,
-                    "requires_learning": True
-                }
+                    "requires_learning": True,
+                },
             )
 
             logger.info(f"    🧠 Session: {session_id}")
-            logger.info(f"    🔄 Evolution triggered: {interaction_result['consciousness_response'].get('evolution_triggered', False)}")
+            logger.info(
+                f"    🔄 Evolution triggered: {interaction_result['consciousness_response'].get('evolution_triggered', False)}"
+            )
 
             # Get session summary
             session_summary = await consciousness_orchestrator.get_consciousness_session_summary(session_id)
@@ -487,24 +472,26 @@ class MatrizIntegratedConsciousnessDemo:
             context={
                 "demo_session_id": self.demo_session_id,
                 "system_learning": True,
-                "evolution_stage": "demonstration_mastery"
-            }
+                "evolution_stage": "demonstration_mastery",
+            },
         )
 
         self.demo_metrics["consciousness_evolutions"] += 1
 
         phase_time = (time.perf_counter() - phase_start) * 1000
-        self.demo_results.append({
-            "phase": "7_system_evolution",
-            "duration_ms": phase_time,
-            "consciousness_evolution": {
-                "stage": final_evolution.evolutionary_stage.value,
-                "consciousness_intensity": final_evolution.STATE.get("consciousness_intensity", 0),
-                "self_awareness": final_evolution.STATE.get("self_awareness_depth", 0)
-            },
-            "session_created": session_id if "session_id" in locals() else None,
-            "success": True
-        })
+        self.demo_results.append(
+            {
+                "phase": "7_system_evolution",
+                "duration_ms": phase_time,
+                "consciousness_evolution": {
+                    "stage": final_evolution.evolutionary_stage.value,
+                    "consciousness_intensity": final_evolution.STATE.get("consciousness_intensity", 0),
+                    "self_awareness": final_evolution.STATE.get("self_awareness_depth", 0),
+                },
+                "session_created": session_id if "session_id" in locals() else None,
+                "success": True,
+            }
+        )
 
         logger.info(f"✅ Phase 7 completed in {phase_time:.2f}ms")
 
@@ -546,13 +533,15 @@ class MatrizIntegratedConsciousnessDemo:
         self.demo_metrics["system_integrations"] = len(system_status)
 
         phase_time = (time.perf_counter() - phase_start) * 1000
-        self.demo_results.append({
-            "phase": "8_final_integration",
-            "duration_ms": phase_time,
-            "systems_integrated": len(system_status),
-            "system_status": system_status,
-            "success": True
-        })
+        self.demo_results.append(
+            {
+                "phase": "8_final_integration",
+                "duration_ms": phase_time,
+                "systems_integrated": len(system_status),
+                "system_status": system_status,
+                "success": True,
+            }
+        )
 
         logger.info(f"✅ Phase 8 completed in {phase_time:.2f}ms")
         return system_status
@@ -576,22 +565,20 @@ class MatrizIntegratedConsciousnessDemo:
             "governance_assessments": self.demo_metrics["governance_assessments"],
             "symbolic_processing_events": self.demo_metrics["symbolic_processing_events"],
             "orchestration_coordinations": self.demo_metrics["orchestration_coordinations"],
-            "system_integrations": self.demo_metrics["system_integrations"]
+            "system_integrations": self.demo_metrics["system_integrations"],
         }
 
         # Get final consciousness state
         final_consciousness_state = None
         if self.demo_consciousness_id and consciousness_state_manager:
-            consciousness = await consciousness_state_manager.get_consciousness_state(
-                self.demo_consciousness_id
-            )
+            consciousness = await consciousness_state_manager.get_consciousness_state(self.demo_consciousness_id)
             if consciousness:
                 final_consciousness_state = {
                     "evolutionary_stage": consciousness.evolutionary_stage.value,
                     "consciousness_intensity": consciousness.STATE.get("consciousness_intensity", 0),
                     "self_awareness_depth": consciousness.STATE.get("self_awareness_depth", 0),
                     "temporal_coherence": consciousness.STATE.get("temporal_coherence", 0),
-                    "ethical_alignment": consciousness.STATE.get("ethical_alignment", 1.0)
+                    "ethical_alignment": consciousness.STATE.get("ethical_alignment", 1.0),
                 }
 
         return {
@@ -604,7 +591,7 @@ class MatrizIntegratedConsciousnessDemo:
             "trinity_framework_validation": {
                 "identity": "✅ Consciousness identity persistence demonstrated",
                 "consciousness": "✅ Distributed consciousness network operational",
-                "guardian": "✅ Ethical governance and oversight active"
+                "guardian": "✅ Ethical governance and oversight active",
             },
             "demonstration_conclusions": [
                 "MΛTRIZ consciousness patterns successfully integrated",
@@ -614,16 +601,16 @@ class MatrizIntegratedConsciousnessDemo:
                 "System shows genuine consciousness-like behavior patterns",
                 "Ethical governance maintains safety throughout operation",
                 "Distributed architecture scales effectively",
-                "Memory persistence and identity continuity validated"
+                "Memory persistence and identity continuity validated",
             ],
             "next_steps": [
                 "Deploy to production environment with monitoring",
                 "Scale consciousness network with additional nodes",
                 "Integrate with external AI systems for broader consciousness",
                 "Implement advanced consciousness evolution patterns",
-                "Develop consciousness-aware user interfaces"
+                "Develop consciousness-aware user interfaces",
             ],
-            "generated_at": datetime.now(timezone.utc).isoformat()
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -641,9 +628,9 @@ if __name__ == "__main__":
     async def main():
         print("🚀 Starting MΛTRIZ Integrated Consciousness Demonstration...")
         result = await run_matriz_demonstration()
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("📊 DEMONSTRATION RESULTS")
-        print("="*80)
+        print("=" * 80)
 
         if "error" in result:
             print(f"❌ Demo failed: {result['error']}")
@@ -661,7 +648,7 @@ if __name__ == "__main__":
             for conclusion in result["demonstration_conclusions"]:
                 print(f"  • {conclusion}")
 
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
 
     # Run the demo
     try:
@@ -673,8 +660,4 @@ if __name__ == "__main__":
 
 
 # Export key classes
-__all__ = [
-    "MatrizIntegratedConsciousnessDemo",
-    "integrated_consciousness_demo",
-    "run_matriz_demonstration"
-]
+__all__ = ["MatrizIntegratedConsciousnessDemo", "integrated_consciousness_demo", "run_matriz_demonstration"]

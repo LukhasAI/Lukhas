@@ -38,7 +38,8 @@ class TestMemoryFoldSystem:
         config_path = "candidate/memory/fold_config.yaml"
         if not os.path.exists(config_path):
             with open(config_path, "w") as f:
-                f.write("""
+                f.write(
+                    """
 capacity:
   max_folds: 1000
 protection:
@@ -49,7 +50,8 @@ protection:
     drift_cascade_threshold: 0.75
     repair_confidence_minimum: 0.8
     restoration_safety_threshold: 0.9
-                """)
+                """
+                )
         return SymbolicQuarantineSanctum(config_path=config_path)
 
     @pytest.mark.asyncio

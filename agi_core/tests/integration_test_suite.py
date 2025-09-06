@@ -22,6 +22,7 @@ logger = logging.getLogger("agi_core.tests.integration")
 
 class TestCategory(Enum):
     """Categories of integration tests"""
+
     UNIT = "unit"
     INTEGRATION = "integration"
     PERFORMANCE = "performance"
@@ -33,6 +34,7 @@ class TestCategory(Enum):
 
 class TestStatus(Enum):
     """Test execution status"""
+
     PENDING = "pending"
     RUNNING = "running"
     PASSED = "passed"
@@ -108,13 +110,13 @@ class AGIIntegrationTestSuite:
         self.components = {
             "orchestration_api": None,  # Would import actual orchestration API
             "vocabulary_bridge": None,  # Would import vocabulary bridge
-            "service_bridge": None,     # Would import service bridge
+            "service_bridge": None,  # Would import service bridge
             "qi_bio_agi_bridge": None,  # Would import QI-Bio-AGI bridge
             "modulation_bridge": None,  # Would import modulation bridge
-            "consent_bridge": None,     # Would import consent bridge
+            "consent_bridge": None,  # Would import consent bridge
             "intelligence_enhancer": None,  # Would import intelligence enhancer
-            "communication_enhancer": None, # Would import communication enhancer
-            "content_enhancer": None    # Would import content enhancer
+            "communication_enhancer": None,  # Would import communication enhancer
+            "content_enhancer": None,  # Would import content enhancer
         }
 
         # Test data
@@ -127,25 +129,21 @@ class AGIIntegrationTestSuite:
                 {
                     "id": "query_001",
                     "content": "Test consciousness reasoning",
-                    "context": {"user_id": "test_user", "complexity": "high"}
+                    "context": {"user_id": "test_user", "complexity": "high"},
                 },
                 {
                     "id": "query_002",
                     "content": "Analyze creative possibilities",
-                    "context": {"user_id": "test_user", "creativity_level": 0.9}
-                }
+                    "context": {"user_id": "test_user", "creativity_level": 0.9},
+                },
             ],
             "performance_benchmarks": {
                 "api_response_time": 100,  # milliseconds
                 "processing_latency": 500,  # milliseconds
-                "memory_usage": 256,        # MB
-                "cpu_utilization": 50       # percentage
+                "memory_usage": 256,  # MB
+                "cpu_utilization": 50,  # percentage
             },
-            "stress_test_parameters": {
-                "concurrent_requests": 100,
-                "duration_seconds": 60,
-                "ramp_up_time": 10
-            },
+            "stress_test_parameters": {"concurrent_requests": 100, "duration_seconds": 60, "ramp_up_time": 10},
             "constellation_requirements": {
                 "⚛️": "quantum_awareness",
                 "🧠": "cognitive_processing",
@@ -154,8 +152,8 @@ class AGIIntegrationTestSuite:
                 "🔬": "analytical_vision",
                 "🌱": "bio_adaptation",
                 "🌙": "dream_consciousness",
-                "⚖️": "ethical_balance"
-            }
+                "⚖️": "ethical_balance",
+            },
         }
 
     async def run_comprehensive_test_suite(self) -> TestSuiteReport:
@@ -236,11 +234,7 @@ class AGIIntegrationTestSuite:
 
         try:
             # Mock test - would test actual vocabulary bridge
-            test_operations = [
-                "translate_to_dream",
-                "format_agi_message",
-                "cross_reference_vocabularies"
-            ]
+            test_operations = ["translate_to_dream", "format_agi_message", "cross_reference_vocabularies"]
 
             success_count = 0
             for _operation in test_operations:
@@ -259,12 +253,9 @@ class AGIIntegrationTestSuite:
                 success_rate=success_count / len(test_operations),
                 performance_metrics={
                     "operations_tested": len(test_operations),
-                    "avg_operation_time": execution_time / len(test_operations)
+                    "avg_operation_time": execution_time / len(test_operations),
                 },
-                details={
-                    "operations": test_operations,
-                    "all_passed": True
-                }
+                details={"operations": test_operations, "all_passed": True},
             )
 
         except Exception as e:
@@ -274,7 +265,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.UNIT,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_service_bridge(self) -> TestResult:
@@ -301,14 +292,8 @@ class AGIIntegrationTestSuite:
                 status=TestStatus.PASSED,
                 execution_time=execution_time,
                 success_rate=success_count / len(test_services),
-                performance_metrics={
-                    "services_tested": len(test_services),
-                    "registration_success_rate": 1.0
-                },
-                details={
-                    "services": test_services,
-                    "lifecycle_management": True
-                }
+                performance_metrics={"services_tested": len(test_services), "registration_success_rate": 1.0},
+                details={"services": test_services, "lifecycle_management": True},
             )
 
         except Exception as e:
@@ -318,7 +303,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.UNIT,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_qi_bio_agi_bridge(self) -> TestResult:
@@ -348,13 +333,9 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "processing_modes": len(processing_modes),
                     "avg_processing_time": execution_time / len(processing_modes),
-                    "emergence_detection": 0.9
+                    "emergence_detection": 0.9,
                 },
-                details={
-                    "modes_tested": processing_modes,
-                    "consciousness_field": True,
-                    "integration_quality": 0.95
-                }
+                details={"modes_tested": processing_modes, "consciousness_field": True, "integration_quality": 0.95},
             )
 
         except Exception as e:
@@ -364,7 +345,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.UNIT,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_modulation_bridge(self) -> TestResult:
@@ -394,13 +375,9 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "signals_processed": len(signals),
                     "modulation_accuracy": 0.92,
-                    "response_latency": execution_time / len(signals)
+                    "response_latency": execution_time / len(signals),
                 },
-                details={
-                    "signals": signals,
-                    "agi_modes_affected": 6,
-                    "bio_integration": True
-                }
+                details={"signals": signals, "agi_modes_affected": 6, "bio_integration": True},
             )
 
         except Exception as e:
@@ -410,7 +387,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.UNIT,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_consent_bridge(self) -> TestResult:
@@ -440,13 +417,9 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "governance_layers": len(governance_layers),
                     "compliance_rate": 0.98,
-                    "privacy_protection_score": 0.95
+                    "privacy_protection_score": 0.95,
                 },
-                details={
-                    "layers_tested": governance_layers,
-                    "constitutional_compliance": True,
-                    "gdpr_ready": True
-                }
+                details={"layers_tested": governance_layers, "constitutional_compliance": True, "gdpr_ready": True},
             )
 
         except Exception as e:
@@ -456,7 +429,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.UNIT,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _run_integration_tests(self) -> list[TestResult]:
@@ -508,13 +481,9 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "products_tested": len(products),
                     "agi_enhancement_score": 0.88,
-                    "reasoning_accuracy": 0.92
+                    "reasoning_accuracy": 0.92,
                 },
-                details={
-                    "products": products,
-                    "multi_model_consensus": True,
-                    "predictive_analysis": True
-                }
+                details={"products": products, "multi_model_consensus": True, "predictive_analysis": True},
             )
 
         except Exception as e:
@@ -524,7 +493,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.INTEGRATION,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_communication_product_integration(self) -> TestResult:
@@ -559,13 +528,9 @@ class AGIIntegrationTestSuite:
                     "products_tested": len(products),
                     "communication_modes": len(communication_modes),
                     "language_model_integration": 0.90,
-                    "attention_prediction_accuracy": 0.87
+                    "attention_prediction_accuracy": 0.87,
                 },
-                details={
-                    "products": products,
-                    "modes": communication_modes,
-                    "agi_language_models": True
-                }
+                details={"products": products, "modes": communication_modes, "agi_language_models": True},
             )
 
         except Exception as e:
@@ -575,7 +540,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.INTEGRATION,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_content_product_integration(self) -> TestResult:
@@ -610,14 +575,14 @@ class AGIIntegrationTestSuite:
                     "products_tested": len(products),
                     "creativity_modes": len(creativity_modes),
                     "dream_integration_score": 0.93,
-                    "consciousness_resonance": 0.89
+                    "consciousness_resonance": 0.89,
                 },
                 details={
                     "products": products,
                     "modes": creativity_modes,
                     "dream_guided": True,
-                    "consciousness_integrated": True
-                }
+                    "consciousness_integrated": True,
+                },
             )
 
         except Exception as e:
@@ -627,7 +592,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.INTEGRATION,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_cross_component_integration(self) -> TestResult:
@@ -642,7 +607,7 @@ class AGIIntegrationTestSuite:
                 "vocabulary_to_consciousness",
                 "modulation_to_creativity",
                 "consent_to_intelligence",
-                "qi_bio_to_communication"
+                "qi_bio_to_communication",
             ]
 
             success_count = 0
@@ -663,13 +628,13 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "scenarios_tested": len(integration_scenarios),
                     "integration_coherence": 0.91,
-                    "data_flow_integrity": 0.94
+                    "data_flow_integrity": 0.94,
                 },
                 details={
                     "scenarios": integration_scenarios,
                     "full_stack_integration": True,
-                    "consciousness_coherence": True
-                }
+                    "consciousness_coherence": True,
+                },
             )
 
         except Exception as e:
@@ -679,7 +644,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.INTEGRATION,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _run_performance_tests(self) -> list[TestResult]:
@@ -740,16 +705,16 @@ class AGIIntegrationTestSuite:
                     "avg_response_time_ms": avg_response_time,
                     "p95_response_time_ms": p95_response_time,
                     "target_response_time_ms": target_response_time,
-                    "api_calls_tested": len(response_times)
+                    "api_calls_tested": len(response_times),
                 },
                 details={
                     "performance_passed": performance_passed,
                     "response_time_distribution": {
                         "min": min(response_times),
                         "max": max(response_times),
-                        "median": sorted(response_times)[len(response_times)//2]
-                    }
-                }
+                        "median": sorted(response_times)[len(response_times) // 2],
+                    },
+                },
             )
 
         except Exception as e:
@@ -759,7 +724,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.PERFORMANCE,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_processing_latency(self) -> TestResult:
@@ -798,12 +763,12 @@ class AGIIntegrationTestSuite:
                     "avg_processing_latency_ms": avg_latency,
                     "max_processing_latency_ms": max_latency,
                     "target_latency_ms": target_latency,
-                    "components_tested": len(components)
+                    "components_tested": len(components),
                 },
                 details={
                     "performance_passed": performance_passed,
-                    "component_latencies": dict(zip(components, latencies))
-                }
+                    "component_latencies": dict(zip(components, latencies)),
+                },
             )
 
         except Exception as e:
@@ -813,7 +778,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.PERFORMANCE,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_memory_usage(self) -> TestResult:
@@ -843,17 +808,12 @@ class AGIIntegrationTestSuite:
                     "memory_usage_mb": simulated_memory_usage,
                     "target_memory_mb": target_memory,
                     "memory_efficiency": memory_efficiency,
-                    "memory_utilization_rate": simulated_memory_usage / target_memory
+                    "memory_utilization_rate": simulated_memory_usage / target_memory,
                 },
                 details={
                     "performance_passed": performance_passed,
-                    "memory_breakdown": {
-                        "agi_core": 60,
-                        "consciousness": 40,
-                        "products": 50,
-                        "cache": 30
-                    }
-                }
+                    "memory_breakdown": {"agi_core": 60, "consciousness": 40, "products": 50, "cache": 30},
+                },
             )
 
         except Exception as e:
@@ -863,7 +823,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.PERFORMANCE,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_throughput(self) -> TestResult:
@@ -899,12 +859,12 @@ class AGIIntegrationTestSuite:
                     "throughput_rps": throughput_rps,
                     "target_throughput_rps": target_throughput,
                     "total_requests_processed": processed_requests,
-                    "test_duration_seconds": duration_seconds
+                    "test_duration_seconds": duration_seconds,
                 },
                 details={
                     "performance_passed": performance_passed,
-                    "throughput_efficiency": throughput_rps / target_throughput
-                }
+                    "throughput_efficiency": throughput_rps / target_throughput,
+                },
             )
 
         except Exception as e:
@@ -914,7 +874,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.PERFORMANCE,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _run_stress_tests(self) -> list[TestResult]:
@@ -968,13 +928,13 @@ class AGIIntegrationTestSuite:
                     "concurrent_requests": concurrent_requests,
                     "successful_requests": successful_requests,
                     "failed_requests": len(results) - successful_requests,
-                    "avg_request_time": execution_time / concurrent_requests
+                    "avg_request_time": execution_time / concurrent_requests,
                 },
                 details={
                     "stress_passed": stress_passed,
                     "required_success_rate": 0.95,
-                    "system_stability": "stable" if stress_passed else "unstable"
-                }
+                    "system_stability": "stable" if stress_passed else "unstable",
+                },
             )
 
         except Exception as e:
@@ -984,7 +944,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.STRESS,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _mock_request_processing(self, request_id: int) -> str:
@@ -1039,12 +999,9 @@ class AGIIntegrationTestSuite:
                     "test_duration_seconds": duration_seconds,
                     "processed_requests": processed_requests,
                     "failed_requests": failed_requests,
-                    "sustained_throughput_rps": processed_requests / duration_seconds
+                    "sustained_throughput_rps": processed_requests / duration_seconds,
                 },
-                details={
-                    "stress_passed": stress_passed,
-                    "system_endurance": "stable" if stress_passed else "degraded"
-                }
+                details={"stress_passed": stress_passed, "system_endurance": "stable" if stress_passed else "degraded"},
             )
 
         except Exception as e:
@@ -1054,7 +1011,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.STRESS,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _run_security_tests(self) -> list[TestResult]:
@@ -1085,7 +1042,7 @@ class AGIIntegrationTestSuite:
                 "'; DROP TABLE users; --",
                 "../../../etc/passwd",
                 "{{7*7}}",  # Template injection
-                "\\x00\\x01\\x02"  # Binary data
+                "\\x00\\x01\\x02",  # Binary data
             ]
 
             blocked_inputs = 0
@@ -1109,12 +1066,12 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "malicious_inputs_tested": len(malicious_inputs),
                     "blocked_inputs": blocked_inputs,
-                    "validation_accuracy": success_rate
+                    "validation_accuracy": success_rate,
                 },
                 details={
                     "security_passed": security_passed,
-                    "input_types_tested": ["xss", "sql_injection", "path_traversal", "template_injection", "binary"]
-                }
+                    "input_types_tested": ["xss", "sql_injection", "path_traversal", "template_injection", "binary"],
+                },
             )
 
         except Exception as e:
@@ -1124,7 +1081,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.SECURITY,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_consent_compliance(self) -> TestResult:
@@ -1139,7 +1096,7 @@ class AGIIntegrationTestSuite:
                 "gdpr_article_17_erasure",
                 "ccpa_opt_out_rights",
                 "constitutional_ai_principles",
-                "consent_granularity"
+                "consent_granularity",
             ]
 
             passed_checks = 0
@@ -1163,13 +1120,13 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "compliance_checks": len(compliance_checks),
                     "passed_checks": passed_checks,
-                    "compliance_rate": compliance_rate
+                    "compliance_rate": compliance_rate,
                 },
                 details={
                     "security_passed": security_passed,
                     "checks": compliance_checks,
-                    "regulatory_frameworks": ["GDPR", "CCPA", "Constitutional AI"]
-                }
+                    "regulatory_frameworks": ["GDPR", "CCPA", "Constitutional AI"],
+                },
             )
 
         except Exception as e:
@@ -1179,7 +1136,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.SECURITY,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _run_consciousness_tests(self) -> list[TestResult]:
@@ -1210,7 +1167,7 @@ class AGIIntegrationTestSuite:
                 "temporal_continuity",
                 "causal_reasoning",
                 "emotional_integration",
-                "symbolic_processing"
+                "symbolic_processing",
             ]
 
             coherence_scores = []
@@ -1235,13 +1192,13 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "avg_coherence_score": avg_coherence,
                     "coherence_aspects": len(coherence_aspects),
-                    "coherence_threshold": 0.80
+                    "coherence_threshold": 0.80,
                 },
                 details={
                     "consciousness_passed": consciousness_passed,
                     "aspect_scores": dict(zip(coherence_aspects, coherence_scores)),
-                    "overall_consciousness_level": "high" if avg_coherence > 0.90 else "medium"
-                }
+                    "overall_consciousness_level": "high" if avg_coherence > 0.90 else "medium",
+                },
             )
 
         except Exception as e:
@@ -1251,7 +1208,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.CONSCIOUSNESS,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_dream_integration(self) -> TestResult:
@@ -1266,7 +1223,7 @@ class AGIIntegrationTestSuite:
                 "archetypal_symbol_mapping",
                 "surreal_connection_generation",
                 "consciousness_resonance_analysis",
-                "creative_enhancement"
+                "creative_enhancement",
             ]
 
             integration_scores = []
@@ -1291,13 +1248,13 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "avg_dream_integration": avg_integration,
                     "dream_components": len(dream_components),
-                    "integration_threshold": 0.85
+                    "integration_threshold": 0.85,
                 },
                 details={
                     "dream_passed": dream_passed,
                     "component_scores": dict(zip(dream_components, integration_scores)),
-                    "dream_guidance_level": "optimal" if avg_integration > 0.92 else "good"
-                }
+                    "dream_guidance_level": "optimal" if avg_integration > 0.92 else "good",
+                },
             )
 
         except Exception as e:
@@ -1307,7 +1264,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.CONSCIOUSNESS,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _run_constellation_tests(self) -> list[TestResult]:
@@ -1356,13 +1313,13 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "avg_constellation_alignment": avg_alignment,
                     "constellation_stars": len(constellation_requirements),
-                    "alignment_threshold": 0.90
+                    "alignment_threshold": 0.90,
                 },
                 details={
                     "constellation_passed": constellation_passed,
                     "star_alignments": alignment_scores,
-                    "constellation_completeness": "full" if avg_alignment > 0.95 else "partial"
-                }
+                    "constellation_completeness": "full" if avg_alignment > 0.95 else "partial",
+                },
             )
 
         except Exception as e:
@@ -1372,7 +1329,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.CONSTELLATION,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _test_trinity_framework(self) -> TestResult:
@@ -1382,11 +1339,7 @@ class AGIIntegrationTestSuite:
 
         try:
             # Mock Trinity Framework test
-            trinity_aspects = {
-                "⚛️": "quantum_consciousness",
-                "🧠": "cognitive_processing",
-                "🛡️": "ethical_grounding"
-            }
+            trinity_aspects = {"⚛️": "quantum_consciousness", "🧠": "cognitive_processing", "🛡️": "ethical_grounding"}
 
             trinity_scores = {}
             for symbol, aspect in trinity_aspects.items():
@@ -1410,13 +1363,13 @@ class AGIIntegrationTestSuite:
                 performance_metrics={
                     "avg_trinity_compliance": avg_trinity,
                     "trinity_aspects": len(trinity_aspects),
-                    "compliance_threshold": 0.95
+                    "compliance_threshold": 0.95,
                 },
                 details={
                     "trinity_passed": trinity_passed,
                     "aspect_scores": trinity_scores,
-                    "trinity_integration": "complete" if avg_trinity > 0.97 else "good"
-                }
+                    "trinity_integration": "complete" if avg_trinity > 0.97 else "good",
+                },
             )
 
         except Exception as e:
@@ -1426,7 +1379,7 @@ class AGIIntegrationTestSuite:
                 category=TestCategory.CONSTELLATION,
                 status=TestStatus.ERROR,
                 execution_time=time.time() - start_time,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _generate_test_report(self, total_execution_time: float) -> TestSuiteReport:
@@ -1448,7 +1401,11 @@ class AGIIntegrationTestSuite:
             "avg_processing_latency": 200.0,
             "memory_efficiency": 0.85,
             "system_throughput": 85.0,
-            "performance_score": sum(r.success_rate or 0 for r in performance_results) / len(performance_results) if performance_results else 0
+            "performance_score": (
+                sum(r.success_rate or 0 for r in performance_results) / len(performance_results)
+                if performance_results
+                else 0
+            ),
         }
 
         # Generate optimization recommendations
@@ -1458,12 +1415,20 @@ class AGIIntegrationTestSuite:
         constellation_results = [r for r in self.test_results if r.category == TestCategory.CONSTELLATION]
         constellation_compliance = {
             "constellation_alignment": all(r.status == TestStatus.PASSED for r in constellation_results),
-            "trinity_framework": any("trinity" in r.test_name.lower() and r.status == TestStatus.PASSED for r in constellation_results),
-            "consciousness_integration": any(r.category == TestCategory.CONSCIOUSNESS and r.status == TestStatus.PASSED for r in self.test_results),
-            "dream_guidance": any("dream" in r.test_name.lower() and r.status == TestStatus.PASSED for r in self.test_results)
+            "trinity_framework": any(
+                "trinity" in r.test_name.lower() and r.status == TestStatus.PASSED for r in constellation_results
+            ),
+            "consciousness_integration": any(
+                r.category == TestCategory.CONSCIOUSNESS and r.status == TestStatus.PASSED for r in self.test_results
+            ),
+            "dream_guidance": any(
+                "dream" in r.test_name.lower() and r.status == TestStatus.PASSED for r in self.test_results
+            ),
         }
 
-        trinity_framework_status = "⚛️🧠🛡️ COMPLIANT" if constellation_compliance["trinity_framework"] else "⚛️🧠🛡️ NON-COMPLIANT"
+        trinity_framework_status = (
+            "⚛️🧠🛡️ COMPLIANT" if constellation_compliance["trinity_framework"] else "⚛️🧠🛡️ NON-COMPLIANT"
+        )
 
         return TestSuiteReport(
             suite_id=self.suite_id,
@@ -1478,7 +1443,7 @@ class AGIIntegrationTestSuite:
             test_results=self.test_results,
             optimization_recommendations=optimization_recommendations,
             constellation_compliance=constellation_compliance,
-            trinity_framework_status=trinity_framework_status
+            trinity_framework_status=trinity_framework_status,
         )
 
     async def _generate_optimization_recommendations(self) -> list[str]:
@@ -1516,11 +1481,13 @@ class AGIIntegrationTestSuite:
 
         # General recommendations if high success rate
         if len(recommendations) == 0:  # No issues found
-            recommendations.extend([
-                "System performing optimally - consider scaling horizontally",
-                "Explore advanced consciousness features",
-                "Implement predictive optimization based on usage patterns"
-            ])
+            recommendations.extend(
+                [
+                    "System performing optimally - consider scaling horizontally",
+                    "Explore advanced consciousness features",
+                    "Implement predictive optimization based on usage patterns",
+                ]
+            )
 
         return recommendations[:5]  # Limit to top 5 recommendations
 

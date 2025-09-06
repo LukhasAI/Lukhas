@@ -17,16 +17,19 @@ from typing import Any, Dict, List, Optional, Set, Union
 
 try:
     from .secure_logging import get_security_logger
+
     logger = get_security_logger(__name__)
     LOGGING_AVAILABLE = True
 except ImportError:
     import logging
+
     logger = logging.getLogger(__name__)
     LOGGING_AVAILABLE = False
 
 
 class DataClassification(Enum):
     """Data classification levels"""
+
     PUBLIC = "public"
     INTERNAL = "internal"
     CONFIDENTIAL = "confidential"
@@ -35,6 +38,7 @@ class DataClassification(Enum):
 
 class AccessLevel(Enum):
     """Access levels for resources"""
+
     READ = "read"
     WRITE = "write"
     ADMIN = "admin"
@@ -43,6 +47,7 @@ class AccessLevel(Enum):
 
 class PolicyViolationSeverity(Enum):
     """Severity levels for policy violations"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -51,6 +56,7 @@ class PolicyViolationSeverity(Enum):
 
 class ComplianceFramework(Enum):
     """Supported compliance frameworks"""
+
     GDPR = "gdpr"
     CCPA = "ccpa"
     SOX = "sox"
@@ -62,6 +68,7 @@ class ComplianceFramework(Enum):
 @dataclass
 class SecurityPolicy:
     """Security policy definition"""
+
     policy_id: str
     name: str
     description: str
@@ -87,13 +94,14 @@ class SecurityPolicy:
             "auto_enforce": self.auto_enforce,
             "created_at": self.created_at.isoformat(),
             "last_updated": self.last_updated.isoformat(),
-            "version": self.version
+            "version": self.version,
         }
 
 
 @dataclass
 class PolicyViolation:
     """Policy violation record"""
+
     violation_id: str
     policy_id: str
     severity: PolicyViolationSeverity
@@ -150,7 +158,7 @@ class SecurityPolicyFramework:
                     "description": "All users must use MFA for authentication",
                     "condition": "authentication_method != 'mfa'",
                     "action": "deny_access",
-                    "severity": "high"
+                    "severity": "high",
                 },
                 {
                     "rule_id": "ac_002",
@@ -158,7 +166,7 @@ class SecurityPolicyFramework:
                     "description": "Sessions must timeout after 30 minutes of inactivity",
                     "condition": "session_inactive_time > 1800",
                     "action": "terminate_session",
-                    "severity": "medium"
+                    "severity": "medium",
                 },
                 {
                     "rule_id": "ac_003",
@@ -166,9 +174,9 @@ class SecurityPolicyFramework:
                     "description": "All admin actions must be logged and monitored",
                     "condition": "user_role == 'admin'",
                     "action": "audit_log",
-                    "severity": "high"
-                }
-            ]
+                    "severity": "high",
+                },
+            ],
         )
         self.policies[access_control_policy.policy_id] = access_control_policy
 
@@ -186,7 +194,7 @@ class SecurityPolicyFramework:
                     "description": "All confidential and restricted data must be encrypted at rest",
                     "condition": "data_classification in ['confidential', 'restricted'] and encryption == false",
                     "action": "encrypt_data",
-                    "severity": "critical"
+                    "severity": "critical",
                 },
                 {
                     "rule_id": "dp_002",
@@ -194,7 +202,7 @@ class SecurityPolicyFramework:
                     "description": "Personal data must not be retained beyond necessary period",
                     "condition": "data_type == 'personal' and retention_days > 365",
                     "action": "schedule_deletion",
-                    "severity": "high"
+                    "severity": "high",
                 },
                 {
                     "rule_id": "dp_003",
@@ -202,9 +210,9 @@ class SecurityPolicyFramework:
                     "description": "Personal data transfers outside EU require adequate protection",
                     "condition": "data_location != 'eu' and data_type == 'personal'",
                     "action": "require_adequacy_decision",
-                    "severity": "high"
-                }
-            ]
+                    "severity": "high",
+                },
+            ],
         )
         self.policies[data_protection_policy.policy_id] = data_protection_policy
 
@@ -222,7 +230,7 @@ class SecurityPolicyFramework:
                     "description": "Critical security incidents must be escalated within 15 minutes",
                     "condition": "incident_severity == 'critical' and response_time > 900",
                     "action": "escalate_to_ciso",
-                    "severity": "critical"
+                    "severity": "critical",
                 },
                 {
                     "rule_id": "ir_002",
@@ -230,9 +238,9 @@ class SecurityPolicyFramework:
                     "description": "All security incidents must be documented within 24 hours",
                     "condition": "incident_age > 86400 and documentation_complete == false",
                     "action": "require_documentation",
-                    "severity": "medium"
-                }
-            ]
+                    "severity": "medium",
+                },
+            ],
         )
         self.policies[incident_response_policy.policy_id] = incident_response_policy
 
@@ -253,7 +261,7 @@ class SecurityPolicyFramework:
                     "description": "Training data must be sanitized and protected",
                     "condition": "training_data_contains_pii == true and sanitization == false",
                     "action": "sanitize_training_data",
-                    "severity": "high"
+                    "severity": "high",
                 },
                 {
                     "rule_id": "ai_002",
@@ -261,7 +269,7 @@ class SecurityPolicyFramework:
                     "description": "AI model outputs must be validated for bias and safety",
                     "condition": "bias_validation == false or safety_validation == false",
                     "action": "require_validation",
-                    "severity": "high"
+                    "severity": "high",
                 },
                 {
                     "rule_id": "ai_003",
@@ -269,9 +277,9 @@ class SecurityPolicyFramework:
                     "description": "All AI models must be versioned and auditable",
                     "condition": "model_version == null or audit_trail == false",
                     "action": "enforce_versioning",
-                    "severity": "medium"
-                }
-            ]
+                    "severity": "medium",
+                },
+            ],
         )
         self.policies[ai_model_policy.policy_id] = ai_model_policy
 
@@ -289,7 +297,7 @@ class SecurityPolicyFramework:
                     "description": "AI systems must detect and refuse harmful content generation",
                     "condition": "harmful_content_detected == true",
                     "action": "refuse_request",
-                    "severity": "critical"
+                    "severity": "critical",
                 },
                 {
                     "rule_id": "cai_002",
@@ -297,7 +305,7 @@ class SecurityPolicyFramework:
                     "description": "AI decision-making processes must be explainable",
                     "condition": "explainability_score < 0.7",
                     "action": "require_explanation",
-                    "severity": "medium"
+                    "severity": "medium",
                 },
                 {
                     "rule_id": "cai_003",
@@ -305,9 +313,9 @@ class SecurityPolicyFramework:
                     "description": "AI systems must be continuously monitored for alignment drift",
                     "condition": "alignment_score < 0.85",
                     "action": "trigger_alignment_review",
-                    "severity": "high"
-                }
-            ]
+                    "severity": "high",
+                },
+            ],
         )
         self.policies[constitutional_ai_policy.policy_id] = constitutional_ai_policy
 
@@ -328,7 +336,7 @@ class SecurityPolicyFramework:
                     "description": "Data subjects can request deletion of personal data",
                     "condition": "erasure_request_received == true",
                     "action": "delete_personal_data",
-                    "severity": "high"
+                    "severity": "high",
                 },
                 {
                     "rule_id": "gdpr_002",
@@ -336,7 +344,7 @@ class SecurityPolicyFramework:
                     "description": "Personal data processing requires explicit consent",
                     "condition": "consent_obtained == false and data_type == 'personal'",
                     "action": "obtain_consent",
-                    "severity": "critical"
+                    "severity": "critical",
                 },
                 {
                     "rule_id": "gdpr_003",
@@ -344,9 +352,9 @@ class SecurityPolicyFramework:
                     "description": "Personal data breaches must be reported within 72 hours",
                     "condition": "breach_involves_personal_data == true and notification_time > 259200",
                     "action": "report_to_dpa",
-                    "severity": "critical"
-                }
-            ]
+                    "severity": "critical",
+                },
+            ],
         )
         self.policies[gdpr_policy.policy_id] = gdpr_policy
 
@@ -364,7 +372,7 @@ class SecurityPolicyFramework:
                     "description": "Consumers have right to know what personal information is collected",
                     "condition": "privacy_notice_provided == false",
                     "action": "provide_privacy_notice",
-                    "severity": "high"
+                    "severity": "high",
                 },
                 {
                     "rule_id": "ccpa_002",
@@ -372,9 +380,9 @@ class SecurityPolicyFramework:
                     "description": "Consumers can request deletion of personal information",
                     "condition": "deletion_request_received == true",
                     "action": "delete_personal_information",
-                    "severity": "high"
-                }
-            ]
+                    "severity": "high",
+                },
+            ],
         )
         self.policies[ccpa_policy.policy_id] = ccpa_policy
 
@@ -402,17 +410,20 @@ class SecurityPolicyFramework:
                         "rule_id": rule["rule_id"],
                         "condition": rule["condition"],
                         "action": rule["action"],
-                        "context": context
-                    }
+                        "context": context,
+                    },
                 )
                 violations.append(violation)
 
-                logger.warning(f"Policy violation detected: {rule['name']}", extra={
-                    "policy_id": policy_id,
-                    "rule_id": rule["rule_id"],
-                    "severity": rule["severity"],
-                    "user_id": context.get("user_id")
-                })
+                logger.warning(
+                    f"Policy violation detected: {rule['name']}",
+                    extra={
+                        "policy_id": policy_id,
+                        "rule_id": rule["rule_id"],
+                        "severity": rule["severity"],
+                        "user_id": context.get("user_id"),
+                    },
+                )
 
         # Store violations
         self.violations.extend(violations)
@@ -526,17 +537,13 @@ class SecurityPolicyFramework:
     def get_compliance_status(self, framework: ComplianceFramework) -> dict[str, Any]:
         """Get compliance status for specific framework"""
 
-        framework_policies = [
-            p for p in self.policies.values()
-            if framework in p.compliance_frameworks
-        ]
+        framework_policies = [p for p in self.policies.values() if framework in p.compliance_frameworks]
 
         total_rules = sum(len(p.rules) for p in framework_policies)
 
         # Get recent violations for this framework
         framework_violations = [
-            v for v in self.violations
-            if framework in self.policies[v.policy_id].compliance_frameworks
+            v for v in self.violations if framework in self.policies[v.policy_id].compliance_frameworks
         ]
 
         unresolved_violations = [v for v in framework_violations if not v.resolved]
@@ -548,7 +555,7 @@ class SecurityPolicyFramework:
             "total_violations": len(framework_violations),
             "unresolved_violations": len(unresolved_violations),
             "compliance_score": max(0, 1 - (len(unresolved_violations) / max(1, total_rules))),
-            "last_assessment": datetime.now(timezone.utc).isoformat()
+            "last_assessment": datetime.now(timezone.utc).isoformat(),
         }
 
     def generate_security_report(self) -> dict[str, Any]:
@@ -565,9 +572,7 @@ class SecurityPolicyFramework:
         # Severity breakdown
         severity_breakdown = {}
         for severity in PolicyViolationSeverity:
-            severity_breakdown[severity.value] = len([
-                v for v in self.violations if v.severity == severity
-            ])
+            severity_breakdown[severity.value] = len([v for v in self.violations if v.severity == severity])
 
         # Compliance status
         compliance_status = {}
@@ -579,15 +584,15 @@ class SecurityPolicyFramework:
             "policy_summary": {
                 "total_policies": total_policies,
                 "total_rules": total_rules,
-                "active_policies": len([p for p in self.policies.values() if p.auto_enforce])
+                "active_policies": len([p for p in self.policies.values() if p.auto_enforce]),
             },
             "violation_summary": {
                 "total_violations": total_violations,
                 "unresolved_violations": len(unresolved_violations),
-                "severity_breakdown": severity_breakdown
+                "severity_breakdown": severity_breakdown,
             },
             "compliance_status": compliance_status,
-            "security_score": max(0, 1 - (len(unresolved_violations) / max(1, total_rules)))
+            "security_score": max(0, 1 - (len(unresolved_violations) / max(1, total_rules))),
         }
 
     def list_policies(self) -> list[dict[str, Any]]:
@@ -613,8 +618,10 @@ def get_security_policy_framework() -> SecurityPolicyFramework:
 
 # Convenience functions for policy evaluation
 
-def evaluate_data_access_policy(user_id: str, resource: str, operation: str,
-                               data_classification: DataClassification) -> list[PolicyViolation]:
+
+def evaluate_data_access_policy(
+    user_id: str, resource: str, operation: str, data_classification: DataClassification
+) -> list[PolicyViolation]:
     """Evaluate data access against policies"""
     framework = get_security_policy_framework()
 
@@ -623,7 +630,7 @@ def evaluate_data_access_policy(user_id: str, resource: str, operation: str,
         "resource": resource,
         "operation": operation,
         "data_classification": data_classification.value,
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     violations = []
@@ -634,8 +641,9 @@ def evaluate_data_access_policy(user_id: str, resource: str, operation: str,
     return violations
 
 
-def evaluate_ai_model_policy(model_name: str, training_data_contains_pii: bool,
-                            bias_validation: bool, safety_validation: bool) -> list[PolicyViolation]:
+def evaluate_ai_model_policy(
+    model_name: str, training_data_contains_pii: bool, bias_validation: bool, safety_validation: bool
+) -> list[PolicyViolation]:
     """Evaluate AI model against policies"""
     framework = get_security_policy_framework()
 
@@ -644,7 +652,7 @@ def evaluate_ai_model_policy(model_name: str, training_data_contains_pii: bool,
         "training_data_contains_pii": training_data_contains_pii,
         "bias_validation": bias_validation,
         "safety_validation": safety_validation,
-        "sanitization": not training_data_contains_pii  # Assume sanitized if no PII
+        "sanitization": not training_data_contains_pii,  # Assume sanitized if no PII
     }
 
     return framework.evaluate_policy_compliance("ai_model_001", context)
@@ -671,16 +679,13 @@ def example_usage():
         user_id="testuser@example.com",
         resource="sensitive_database",
         operation="read",
-        data_classification=DataClassification.CONFIDENTIAL
+        data_classification=DataClassification.CONFIDENTIAL,
     )
     print(f"Data access violations: {len(violations)}")
 
     # Test AI model policy
     ai_violations = evaluate_ai_model_policy(
-        model_name="test_model_v1",
-        training_data_contains_pii=True,
-        bias_validation=False,
-        safety_validation=True
+        model_name="test_model_v1", training_data_contains_pii=True, bias_validation=False, safety_validation=True
     )
     print(f"AI model violations: {len(ai_violations)}")
 

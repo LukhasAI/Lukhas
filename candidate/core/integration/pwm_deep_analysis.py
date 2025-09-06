@@ -161,10 +161,7 @@ class ConnectivityAnalyzer:
                 "archive_candidates": len(self.isolated_files),
                 "keep_files": len(self.python_files) - len(self.isolated_files),
             },
-            "critical_hubs": [
-                {"file": f, "metrics": self.file_metrics[f]}
-                for f in self.critical_hubs[:20]  # Top 20
-            ],
+            "critical_hubs": [{"file": f, "metrics": self.file_metrics[f]} for f in self.critical_hubs[:20]],  # Top 20
             "isolated_files": [{"file": f, "metrics": self.file_metrics[f]} for f in self.isolated_files],
             "directory_analysis": self.analyze_directories(),
         }

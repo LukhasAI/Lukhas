@@ -24,5 +24,5 @@ __all__ = [
     "EpisodicQuery",
     "SemanticMemoryGraph",
     "SemanticNode",
-    "SemanticRelation"
+    "SemanticRelation",
 ]

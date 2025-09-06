@@ -67,15 +67,16 @@ try:
         class LIDCore:
             def initialize(self):
                 pass
+
 except ImportError:
     try:
         # Try alternative imports from root core
-        from identity.lid_core import LIDCore
-
         from core.glyph import GLYPHEngine
+        from identity.lid_core import LIDCore
         from lukhas.consciousness.awareness import ConsciousnessEngine
         from lukhas.governance.guardian_system import GuardianSystem
         from lukhas.memory.fold_manager import FoldManager
+
         LUKHAS_AVAILABLE = True
         print("✅ LUKHAS core available via legacy paths")
     except ImportError:
@@ -98,6 +99,7 @@ if LUKHAS_AVAILABLE:
         class DriftDetector:
             def detect_drift(self, *args, **kwargs):
                 return 0.0
+
     except:
         pass
 
@@ -159,6 +161,7 @@ try:
         ConsentManager as EnhancedConsentManager,
     )
     from lukhas.governance.security.privacy_guardian import PrivacyGuardian
+
     GOVERNANCE_AVAILABLE = True
 except ImportError:
     GOVERNANCE_AVAILABLE = False
@@ -172,11 +175,13 @@ except ImportError:
     class LambdaSymbols:
         pass
 
+
 logger = logging.getLogger(__name__)
 
 
 class ComplianceLevel(Enum):
     """Healthcare compliance levels"""
+
     HIPAA = "hipaa"
     GDPR = "gdpr"
     LOPD = "lopd"  # Spanish data protection
@@ -185,6 +190,7 @@ class ComplianceLevel(Enum):
 
 class EmergencyLevel(Enum):
     """Emergency severity levels"""
+
     INFO = "info"
     LOW = "low"
     MEDIUM = "medium"
@@ -195,6 +201,7 @@ class EmergencyLevel(Enum):
 @dataclass
 class HealthcareContext:
     """Patient healthcare context"""
+
     patient_id: str
     age: int
     conditions: list[str]
@@ -209,6 +216,7 @@ class HealthcareContext:
 @dataclass
 class MedicalDecision:
     """Medical decision with ethics tracking"""
+
     decision_id: str
     action: str
     risk_level: float
@@ -393,7 +401,7 @@ class LambdaHealthcareGuardian:
             "version": "2.0.0",
             "status": "production_ready",
             "market": "Healthcare AI",
-            "potential": "$120M"
+            "potential": "$120M",
         }
 
         # Lambda-enhanced features
@@ -418,10 +426,7 @@ class LambdaHealthcareGuardian:
         logger.info("✅ Compliance and ethics systems initialized")
 
     async def process_medical_request(
-        self,
-        request: str,
-        context: HealthcareContext,
-        emergency: bool = False
+        self, request: str, context: HealthcareContext, emergency: bool = False
     ) -> dict[str, Any]:
         """
         Process medical request with full Trinity Framework protection
@@ -440,7 +445,7 @@ class LambdaHealthcareGuardian:
             drift_score = self.guardian.check_drift(
                 current_state={"action": "medical_request"},
                 previous_state={},
-                metadata={"context": context.__dict__, "risk": self._assess_risk(request, emergency)}
+                metadata={"context": context.__dict__, "risk": self._assess_risk(request, emergency)},
             )
 
             if drift_score and drift_score > 0.5:
@@ -461,28 +466,16 @@ class LambdaHealthcareGuardian:
 
             # Store in memory fold
             if LUKHAS_AVAILABLE and self.memory_folds:
-                await self.memory_folds.store_fold(
-                    data=response,
-                    context=context.__dict__,
-                    ethics_score=ethics_score
-                )
+                await self.memory_folds.store_fold(data=response, context=context.__dict__, ethics_score=ethics_score)
 
-            return {
-                "success": True,
-                "response": response,
-                "ethics_score": ethics_score,
-                "guardian_approved": True
-            }
+            return {"success": True, "response": response, "ethics_score": ethics_score, "guardian_approved": True}
 
         except Exception as e:
             # Activate fallback
             return await self._handle_fallback(request, context, str(e))
 
     async def handle_emergency(
-        self,
-        emergency_type: str,
-        context: HealthcareContext,
-        location: Optional[dict[str, float]] = None
+        self, emergency_type: str, context: HealthcareContext, location: Optional[dict[str, float]] = None
     ) -> dict[str, Any]:
         """
         Handle medical emergency with Lambda priority and fallbacks
@@ -506,10 +499,7 @@ class LambdaHealthcareGuardian:
         # Layer 1: Primary emergency system
         try:
             response1 = await self.emergency_system.trigger_emergency(
-                emergency_type=emergency_type,
-                patient_id=context.patient_id,
-                location=location,
-                priority=priority
+                emergency_type=emergency_type, patient_id=context.patient_id, location=location, priority=priority
             )
             responses.append(response1)
         except Exception as e:
@@ -524,11 +514,7 @@ class LambdaHealthcareGuardian:
 
         # Layer 3: Notify emergency contacts
         try:
-            response3 = await self._notify_emergency_contacts(
-                context.emergency_contacts,
-                emergency_type,
-                location
-            )
+            response3 = await self._notify_emergency_contacts(context.emergency_contacts, emergency_type, location)
             responses.append(response3)
         except Exception as e:
             logger.error(f"Contact notification failed: {e}")
@@ -540,21 +526,17 @@ class LambdaHealthcareGuardian:
                 self.guardian.add_checkpoint(
                     checkpoint_type="emergency",
                     state={"type": emergency_type, "responses": len(responses)},
-                    metadata={"timestamp": datetime.now().isoformat()}
+                    metadata={"timestamp": datetime.now().isoformat()},
                 )
 
         return {
             "emergency_handled": len(responses) > 0,
             "responses": responses,
             "fallback_layers_activated": 3 - len(responses),
-            "priority": priority
+            "priority": priority,
         }
 
-    async def scan_medication(
-        self,
-        image_path: str,
-        context: HealthcareContext
-    ) -> dict[str, Any]:
+    async def scan_medication(self, image_path: str, context: HealthcareContext) -> dict[str, Any]:
         """
         Scan medication with Lambda-enhanced OCR verification
 
@@ -570,24 +552,17 @@ class LambdaHealthcareGuardian:
 
         if self.lambda_ocr_verification:
             # Double verification with GPT-5
-            verified = await self.gpt5_client.verify_medication(
-                ocr_text=ocr_result["text"],
-                image_path=image_path
-            )
+            verified = await self.gpt5_client.verify_medication(ocr_text=ocr_result["text"], image_path=image_path)
             ocr_result["lambda_verified"] = verified
 
         # Check interactions
         interactions = await self._check_interactions(
-            medication=ocr_result["medication_name"],
-            current_meds=context.medications,
-            conditions=context.conditions
+            medication=ocr_result["medication_name"], current_meds=context.medications, conditions=context.conditions
         )
 
         # Ethics check for medication
         ethics_check = await self._validate_medication_ethics(
-            medication=ocr_result["medication_name"],
-            patient_age=context.age,
-            conditions=context.conditions
+            medication=ocr_result["medication_name"], patient_age=context.age, conditions=context.conditions
         )
 
         return {
@@ -595,14 +570,11 @@ class LambdaHealthcareGuardian:
             "interactions": interactions,
             "ethics_approved": ethics_check["approved"],
             "safety_score": ethics_check["safety_score"],
-            "lambda_verified": ocr_result.get("lambda_verified", False)
+            "lambda_verified": ocr_result.get("lambda_verified", False),
         }
 
     async def book_sas_appointment(
-        self,
-        specialty: str,
-        context: HealthcareContext,
-        preferred_time: Optional[str] = None
+        self, specialty: str, context: HealthcareContext, preferred_time: Optional[str] = None
     ) -> dict[str, Any]:
         """
         Book SAS appointment with consent and fallback handling
@@ -623,17 +595,13 @@ class LambdaHealthcareGuardian:
         try:
             # Primary: SAS system
             appointment = await self.sas_connector.book_appointment(
-                patient_id=context.patient_id,
-                specialty=specialty,
-                preferred_time=preferred_time
+                patient_id=context.patient_id, specialty=specialty, preferred_time=preferred_time
             )
 
             # Store in memory
             if LUKHAS_AVAILABLE and self.memory_folds:
                 await self.memory_folds.store_fold(
-                    data=appointment,
-                    context={"action": "appointment_booked"},
-                    timestamp=datetime.now()
+                    data=appointment, context={"action": "appointment_booked"}, timestamp=datetime.now()
                 )
 
             return appointment
@@ -643,9 +611,7 @@ class LambdaHealthcareGuardian:
             return await self._provide_manual_booking(specialty, str(e))
 
     async def get_multi_country_provider(
-        self,
-        country: str,
-        provider_type: str = "public"
+        self, country: str, provider_type: str = "public"
     ) -> Optional[BaseHealthcareProvider]:
         """
         Get healthcare provider for specific country
@@ -668,7 +634,7 @@ class LambdaHealthcareGuardian:
             ("US", "private"): "kaiser_us",
             ("US", "pharmacy"): "cvs_us",
             ("AU", "public"): "medicare_au",
-            ("GLOBAL", "private"): "axa_global"
+            ("GLOBAL", "private"): "axa_global",
         }
 
         provider_id = provider_map.get((country.upper(), provider_type.lower()))
@@ -676,12 +642,7 @@ class LambdaHealthcareGuardian:
             return self.provider_registry.get_provider(provider_id)
         return None
 
-    async def verify_international_insurance(
-        self,
-        patient_id: str,
-        country: str,
-        insurance_id: str
-    ) -> dict[str, Any]:
+    async def verify_international_insurance(self, patient_id: str, country: str, insurance_id: str) -> dict[str, Any]:
         """
         Verify insurance coverage across multiple countries
 
@@ -700,25 +661,18 @@ class LambdaHealthcareGuardian:
         if provider:
             try:
                 result = await provider.verify_insurance(patient_id, insurance_id)
-                return {
-                    "verified": True,
-                    "provider": provider.config["name"],
-                    "country": country,
-                    "coverage": result
-                }
+                return {"verified": True, "provider": provider.config["name"], "country": country, "coverage": result}
             except Exception as e:
                 logger.error(f"Insurance verification failed: {e}")
 
         return {
             "verified": False,
             "error": f"No provider available for {country}",
-            "fallback": "Contact local healthcare provider"
+            "fallback": "Contact local healthcare provider",
         }
 
     async def analyze_with_bio_patterns(
-        self,
-        patient_data: dict[str, Any],
-        context: HealthcareContext
+        self, patient_data: dict[str, Any], context: HealthcareContext
     ) -> dict[str, Any]:
         """
         Analyze patient data using bio-inspired pattern recognition
@@ -735,25 +689,21 @@ class LambdaHealthcareGuardian:
                 # Use bio-oscillator for rhythm analysis
                 if hasattr(self, "bio_oscillator"):
                     rhythm_analysis = await self.bio_oscillator.analyze_patterns(
-                        patient_data.get("heart_rate", []),
-                        patient_data.get("breathing", [])
+                        patient_data.get("heart_rate", []), patient_data.get("breathing", [])
                     )
 
                 # Quantum-bio processing for complex patterns
                 qi_analysis = await self.qi_bio.process(patient_data)
 
                 # Bio-awareness for holistic assessment
-                awareness_result = await self.bio_awareness.assess(
-                    data=patient_data,
-                    context=context.__dict__
-                )
+                awareness_result = await self.bio_awareness.assess(data=patient_data, context=context.__dict__)
 
                 return {
                     "bio_patterns_detected": True,
                     "rhythm_analysis": rhythm_analysis if "rhythm_analysis" in locals() else None,
                     "qi_bio_insights": qi_analysis,
                     "awareness_assessment": awareness_result,
-                    "health_coherence": 0.85  # Example metric
+                    "health_coherence": 0.85,  # Example metric
                 }
             except Exception as e:
                 logger.error(f"Bio-pattern analysis failed: {e}")
@@ -761,10 +711,7 @@ class LambdaHealthcareGuardian:
         return {"bio_patterns_detected": False, "fallback": "Standard analysis"}
 
     async def store_in_dna_vault(
-        self,
-        patient_id: str,
-        medical_record: dict[str, Any],
-        encryption_level: str = "quantum"
+        self, patient_id: str, medical_record: dict[str, Any], encryption_level: str = "quantum"
     ) -> bool:
         """
         Store patient data in DNA helix vault for maximum security
@@ -781,16 +728,12 @@ class LambdaHealthcareGuardian:
             try:
                 # Encode in DNA memory architecture
                 encoded_data = await self.dna_memory.encode(
-                    data=medical_record,
-                    patient_id=patient_id,
-                    timestamp=datetime.now()
+                    data=medical_record, patient_id=patient_id, timestamp=datetime.now()
                 )
 
                 # Store in helix vault with quantum encryption
                 vault_id = await self.helix_vault.store(
-                    encoded_data=encoded_data,
-                    encryption=encryption_level,
-                    access_tier="medical_professional"
+                    encoded_data=encoded_data, encryption=encryption_level, access_tier="medical_professional"
                 )
 
                 logger.info(f"🧬 Patient data stored in DNA vault: {vault_id}")
@@ -802,10 +745,7 @@ class LambdaHealthcareGuardian:
         return await self._store_standard(patient_id, medical_record)
 
     async def reason_medical_decision(
-        self,
-        symptoms: list[str],
-        history: dict[str, Any],
-        context: HealthcareContext
+        self, symptoms: list[str], history: dict[str, Any], context: HealthcareContext
     ) -> dict[str, Any]:
         """
         Use causal reasoning and advanced colonies for medical decisions
@@ -824,9 +764,7 @@ class LambdaHealthcareGuardian:
         if hasattr(self, "causal_reasoner"):
             try:
                 causal_analysis = await self.causal_reasoner.analyze(
-                    inputs=symptoms,
-                    context=history,
-                    constraints={"patient_age": context.age}
+                    inputs=symptoms, context=history, constraints={"patient_age": context.age}
                 )
                 decision["causal_factors"] = causal_analysis
                 decision["confidence"] += 0.2
@@ -837,8 +775,7 @@ class LambdaHealthcareGuardian:
         if hasattr(self, "reasoning_colony"):
             try:
                 colony_reasoning = await self.reasoning_colony.process(
-                    query="medical_diagnosis",
-                    data={"symptoms": symptoms, "history": history}
+                    query="medical_diagnosis", data={"symptoms": symptoms, "history": history}
                 )
                 decision["colony_insights"] = colony_reasoning
                 decision["confidence"] += 0.15
@@ -849,8 +786,7 @@ class LambdaHealthcareGuardian:
         if hasattr(self, "creativity_colony"):
             try:
                 creative_solutions = await self.creativity_colony.generate(
-                    context="medical_treatment",
-                    constraints={"safe": True, "evidence_based": True}
+                    context="medical_treatment", constraints={"safe": True, "evidence_based": True}
                 )
                 decision["alternative_approaches"] = creative_solutions
             except Exception as e:
@@ -858,20 +794,12 @@ class LambdaHealthcareGuardian:
 
         # Validate with Guardian
         if self.guardian:
-            ethics_check = await self._validate_medical_ethics(
-                decision=decision,
-                context=context
-            )
+            ethics_check = await self._validate_medical_ethics(decision=decision, context=context)
             decision["ethics_approved"] = ethics_check
 
         return decision
 
-    async def track_patient_journey(
-        self,
-        patient_id: str,
-        event: str,
-        data: dict[str, Any]
-    ) -> bool:
+    async def track_patient_journey(self, patient_id: str, event: str, data: dict[str, Any]) -> bool:
         """
         Track patient journey using episodic memory
 
@@ -891,15 +819,12 @@ class LambdaHealthcareGuardian:
                     event=event,
                     data=data,
                     emotional_valence=data.get("emotion", "neutral"),
-                    timestamp=datetime.now()
+                    timestamp=datetime.now(),
                 )
 
                 # Consolidate memories if needed
                 if hasattr(self, "memory_consolidator"):
-                    await self.memory_consolidator.consolidate(
-                        subject=patient_id,
-                        priority="health_critical"
-                    )
+                    await self.memory_consolidator.consolidate(subject=patient_id, priority="health_critical")
 
                 return True
             except Exception as e:
@@ -912,27 +837,17 @@ class LambdaHealthcareGuardian:
         """Verify patient consent for action"""
         if self.consent_manager:
             return await self.consent_manager.verify_consent(
-                subject_id=patient_id,
-                action=action,
-                enhanced=self.lambda_consent_enhanced
+                subject_id=patient_id, action=action, enhanced=self.lambda_consent_enhanced
             )
         return True  # Default allow if no consent manager
 
     async def _validate_ethics(self, response: dict, context: HealthcareContext) -> float:
         """Validate ethical score of response"""
         if self.ethics_engine:
-            return await self.ethics_engine.evaluate(
-                action=response,
-                context=context.__dict__
-            )
+            return await self.ethics_engine.evaluate(action=response, context=context.__dict__)
         return 0.95  # Default high score
 
-    async def _handle_fallback(
-        self,
-        request: str,
-        context: HealthcareContext,
-        error: str
-    ) -> dict[str, Any]:
+    async def _handle_fallback(self, request: str, context: HealthcareContext, error: str) -> dict[str, Any]:
         """Handle fallback scenarios"""
         self.fallback_active = True
 
@@ -940,7 +855,7 @@ class LambdaHealthcareGuardian:
             "Contact healthcare provider directly",
             "Use emergency services if urgent",
             "Try again in a few minutes",
-            "Contact support at support@lukhas.ai"
+            "Contact support at support@lukhas.ai",
         ]
 
         return {
@@ -948,7 +863,7 @@ class LambdaHealthcareGuardian:
             "error": error,
             "fallback_active": True,
             "fallback_options": fallback_options,
-            "manual_guidance": self._get_manual_guidance(request)
+            "manual_guidance": self._get_manual_guidance(request),
         }
 
     def _assess_risk(self, request: str, emergency: bool) -> float:
@@ -971,26 +886,17 @@ class LambdaHealthcareGuardian:
             # Store in regular memory folds
             if self.memory_folds:
                 await self.memory_folds.store_fold(
-                    data=medical_record,
-                    context={"patient_id": patient_id},
-                    timestamp=datetime.now()
+                    data=medical_record, context={"patient_id": patient_id}, timestamp=datetime.now()
                 )
                 return True
         except:
             pass
         return False
 
-    async def _validate_medical_ethics(
-        self,
-        decision: dict[str, Any],
-        context: HealthcareContext
-    ) -> bool:
+    async def _validate_medical_ethics(self, decision: dict[str, Any], context: HealthcareContext) -> bool:
         """Validate medical decision against ethical guidelines"""
         if self.ethics_engine:
-            score = await self.ethics_engine.evaluate(
-                action=decision,
-                context=context.__dict__
-            )
+            score = await self.ethics_engine.evaluate(action=decision, context=context.__dict__)
             return score > 0.7
         return True
 
@@ -1003,8 +909,8 @@ class LambdaHealthcareGuardian:
                 "phone": "955 545 060",
                 "online": "https://www.juntadeandalucia.es/servicioandaluzdesalud/",
                 "app": "Salud Responde App",
-                "specialty": specialty
-            }
+                "specialty": specialty,
+            },
         }
 
     def _get_manual_guidance(self, request: str) -> str:
@@ -1021,6 +927,7 @@ class LambdaHealthcareGuardian:
 
 # Supporting Classes from Guardian Collection
 
+
 class ThreatMonitor:
     """Advanced threat monitoring from Guardian Dashboard"""
 
@@ -1036,12 +943,7 @@ class DashboardMetrics:
 
     def get_metrics(self) -> dict[str, float]:
         """Get current system metrics"""
-        return {
-            "system_health": 0.98,
-            "response_time_ms": 45,
-            "active_patients": 0,
-            "emergency_readiness": 1.0
-        }
+        return {"system_health": 0.98, "response_time_ms": 45, "active_patients": 0, "emergency_readiness": 1.0}
 
 
 class EthicalReflector:
@@ -1052,7 +954,7 @@ class EthicalReflector:
         return {
             "ethical_score": decision.ethical_score,
             "frameworks_applied": ["virtue_ethics", "care_ethics"],
-            "approval": decision.ethical_score > 0.7
+            "approval": decision.ethical_score > 0.7,
         }
 
 
@@ -1062,14 +964,8 @@ class MedicalProtocols:
     def get_protocol(self, condition: str) -> dict:
         """Get medical protocol for condition"""
         protocols = {
-            "cardiac_arrest": {
-                "steps": ["Call 112", "Start CPR", "Use AED if available"],
-                "priority": "critical"
-            },
-            "stroke": {
-                "steps": ["Call 112", "Note time", "FAST test"],
-                "priority": "critical"
-            }
+            "cardiac_arrest": {"steps": ["Call 112", "Start CPR", "Use AED if available"], "priority": "critical"},
+            "stroke": {"steps": ["Call 112", "Note time", "FAST test"], "priority": "critical"},
         }
         return protocols.get(condition, {"steps": ["Consult provider"], "priority": "low"})
 
@@ -1079,14 +975,12 @@ class ProviderManager:
 
     def get_provider_interface(self, provider: str):
         """Get interface for healthcare provider"""
-        providers = {
-            "sas": SASHealthcareConnector,
-            "private": None  # Placeholder for private providers
-        }
+        providers = {"sas": SASHealthcareConnector, "private": None}  # Placeholder for private providers
         return providers.get(provider)
 
 
 # Compliance Managers
+
 
 class GDPRComplianceManager:
     """EU GDPR compliance management"""
@@ -1126,7 +1020,7 @@ class FallbackManager:
         self.fallback_chains = {
             "primary": ["gpt5", "local_ai", "manual"],
             "emergency": ["112", "061", "contacts"],
-            "data": ["sas", "cache", "offline"]
+            "data": ["sas", "cache", "offline"],
         }
 
     async def execute_fallback_chain(self, chain_type: str, context: dict) -> Any:
@@ -1163,15 +1057,12 @@ async def main():
         conditions=["hypertension", "diabetes"],
         medications=["metformin", "lisinopril"],
         allergies=["penicillin"],
-        emergency_contacts=[
-            {"name": "Maria Garcia", "phone": "+34 600 123 456"}
-        ]
+        emergency_contacts=[{"name": "Maria Garcia", "phone": "+34 600 123 456"}],
     )
 
     # Test medical request
     response = await guardian.process_medical_request(
-        request="Necesito renovar mi receta de metformina",
-        context=context
+        request="Necesito renovar mi receta de metformina", context=context
     )
 
     print(f"Lambda Healthcare Guardian Response: {response}")

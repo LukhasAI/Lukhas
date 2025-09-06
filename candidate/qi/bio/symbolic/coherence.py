@@ -30,7 +30,7 @@ from typing import Any, Optional
 import numpy as np
 import structlog
 
-logger = structlog.get_logger("ΛTRACE.bio.qi_coherence")
+logger = structlog.get_logger("ΛTRACE.bio.qi_coherence", timezone)
 
 
 @dataclass
@@ -45,7 +45,7 @@ class QIState:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class QICoherenceEnhancer:
@@ -210,7 +210,7 @@ class QICoherenceEnhancer:
             },
             "drift_score": drift_score,
             "phase_alignment": phase_alignment,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.enhancement_history.append(enhancement_details)
@@ -252,7 +252,7 @@ class QICoherenceEnhancer:
         Maps biological rhythms to phase angle.
         """
         # Use timestamp for circadian phase
-        timestamp = bio_data.get("timestamp", datetime.utcnow())
+        timestamp = bio_data.get("timestamp", datetime.now(timezone.utc))
         hour = timestamp.hour + timestamp.minute / 60
         circadian_phase = 2 * np.pi * hour / 24  # 24-hour cycle
 
@@ -336,10 +336,7 @@ class QICoherenceEnhancer:
             "worst_coherence": min(coherences),
             "average_coherence": np.mean(coherences),
             "average_drift": np.mean(drifts) if drifts else 0.0,
-            "phase_alignments": [
-                e["phase_alignment"]
-                for e in self.enhancement_history[-10:]  # Last 10
-            ],
+            "phase_alignments": [e["phase_alignment"] for e in self.enhancement_history[-10:]],  # Last 10
         }
 
 

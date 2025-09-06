@@ -118,7 +118,8 @@ class SqlMemory(AkaqMemory):
         with self.engine.begin() as conn:
             # Create akaq_scene table with all required columns
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE TABLE IF NOT EXISTS akaq_scene (
                     scene_id TEXT PRIMARY KEY,
                     user_id TEXT NOT NULL,
@@ -141,12 +142,14 @@ class SqlMemory(AkaqMemory):
                     cfg_version TEXT,
                     timestamp REAL DEFAULT (julianday('now'))
                 )
-            """)
+            """
+                )
             )
 
             # Create akaq_glyph table
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE TABLE IF NOT EXISTS akaq_glyph (
                     glyph_id TEXT PRIMARY KEY,
                     scene_id TEXT,
@@ -157,12 +160,14 @@ class SqlMemory(AkaqMemory):
                     timestamp REAL DEFAULT (julianday('now')),
                     FOREIGN KEY (scene_id) REFERENCES akaq_scene(scene_id)
                 )
-            """)
+            """
+                )
             )
 
             # Create akaq_memory_ops table for audit trail
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE TABLE IF NOT EXISTS akaq_memory_ops (
                     operation_id TEXT PRIMARY KEY,
                     operation TEXT NOT NULL,
@@ -170,32 +175,41 @@ class SqlMemory(AkaqMemory):
                     metadata TEXT,
                     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """)
+            """
+                )
             )
 
             # Create indexes for performance
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE INDEX IF NOT EXISTS idx_akaq_scene_user_id ON akaq_scene(user_id)
-            """)
+            """
+                )
             )
 
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE INDEX IF NOT EXISTS idx_akaq_scene_timestamp ON akaq_scene(timestamp)
-            """)
+            """
+                )
             )
 
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE INDEX IF NOT EXISTS idx_akaq_glyph_user_id ON akaq_glyph(user_id)
-            """)
+            """
+                )
             )
 
             conn.execute(
-                text("""
+                text(
+                    """
                 CREATE INDEX IF NOT EXISTS idx_akaq_glyph_scene_id ON akaq_glyph(scene_id)
-            """)
+            """
+                )
             )
 
         logger.info("Database migration applied successfully")
@@ -321,10 +335,12 @@ class SqlMemory(AkaqMemory):
                     for glyph in glyphs:
                         glyph_id = self._generate_scene_id()  # Generate unique ID for glyph
                         tx.execute(
-                            text("""
+                            text(
+                                """
                                 INSERT INTO akaq_glyph (glyph_id, scene_id, user_id, glyph_key, glyph_attrs, priority)
                                 VALUES (:glyph_id, :scene_id, :user_id, :glyph_key, :glyph_attrs, :priority)
-                            """),
+                            """
+                            ),
                             {
                                 "glyph_id": glyph_id,
                                 "scene_id": scene_id,

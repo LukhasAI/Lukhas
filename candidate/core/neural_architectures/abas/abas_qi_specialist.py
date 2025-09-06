@@ -35,7 +35,7 @@ from ethics.core.shared_ethics_engine import SharedEthicsEngine
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - QIBioAGI - %(levelname)s - %(message)s",
+    format="%(asctime, timezone)s - QIBioAGI - %(levelname)s - %(message)s",
 )
 
 logger = logging.getLogger("QIBioAGI")
@@ -63,7 +63,7 @@ class QIBioResponse:
     cristae_topology: dict
     identity_signature: str
     processing_pathway: list[dict]
-    timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class QITunnelingEthics:
@@ -110,7 +110,7 @@ class QITunnelingEthics:
             "collapsed_decision": collapsed_ethics,
             "tunneling_probabilities": self._calculate_tunneling_probabilities(ethical_wavefunction),
             "ethical_resonance": self._calculate_ethical_resonance(collapsed_ethics),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.qi_like_states[arbitration_id] = arbitration_result
@@ -268,7 +268,7 @@ class ProtonMotiveProcessor:
             "gradient_strength": gradient_strength,
             "attention_flow": attention_flow,
             "atp_potential": self._calculate_atp_potential(gradient_strength),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.proton_gradient[gradient_id] = gradient_result
@@ -301,7 +301,7 @@ class ProtonMotiveProcessor:
             "synthesized_atp": atp_synthesized,
             "efficiency": efficiency,
             "remaining_potential": atp_potential - atp_synthesized,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.atp_synthesis_history.append(synthesis_event)
@@ -407,7 +407,7 @@ class CristaeTopologyManager:
             "optimal_configuration": optimal_config,
             "transformed_topology": transformed_topology,
             "performance_improvement": self._calculate_improvement(efficiency_analysis, optimal_config),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.cristae_structures[optimization_id] = transformed_topology
@@ -484,7 +484,7 @@ class CristaeTopologyManager:
         transformed["cristae_metadata"] = {
             "configuration": config,
             "transformation_applied": folding_pattern,
-            "optimization_timestamp": datetime.now().isoformat(),
+            "optimization_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return transformed
@@ -582,7 +582,7 @@ class QIBiologicalAGI:
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.initialization_time = datetime.now()
+        self.initialization_time = datetime.now(timezone.utc)
 
         # Initialize quantum-biological components
         self.qi_ethics = QITunnelingEthics()
@@ -621,7 +621,7 @@ class QIBiologicalAGI:
 
     async def process_with_qi_biology(self, input_text: str, context: Optional[dict] = None) -> QIBioResponse:
         """Process input using complete quantum-inspired biological pipeline"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         logger.info(f"🧬 Processing with quantum-biological architecture: {input_text[:100]}...")
 
         str(uuid.uuid4())[:8]
@@ -678,7 +678,7 @@ class QIBiologicalAGI:
             )
 
             # Step 6: Calculate Final Metrics
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             bio_confidence = self._calculate_bio_confidence(
                 [
@@ -850,7 +850,7 @@ class QIBiologicalAGI:
             "session": self.session_id,
             "capability": self.capability_level.value,
             "cellular_state": self.cellular_state,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         signature_data = json.dumps(state_data, sort_keys=True)
@@ -990,7 +990,7 @@ async def main():
     logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2)}")
 
     # Save results
-    results_file = f"qi_bio_agi_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     with open(results_file, "w") as f:
         json.dump(
             {

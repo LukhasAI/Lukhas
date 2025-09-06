@@ -13,9 +13,8 @@ from typing import Any
 
 # Import LUKHAS core systems
 try:
-    from emotion.service import EmotionService
-
     from core.glyph.glyph_engine import GlyphEngine
+    from emotion.service import EmotionService
     from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness
     from lukhas.memory.folds.memory_fold import MemoryFold
     from lukhas.qi.engines.consciousness.engine import ConsciousnessEngine

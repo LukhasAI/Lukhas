@@ -164,11 +164,13 @@ class TestGDPRErasure:
         with sql_memory.engine.begin() as conn:
             from sqlalchemy import text
 
-            delete_query = text("""
+            delete_query = text(
+                """
                 DELETE FROM akaq_scene
                 WHERE user_id = :user_id
                 AND timestamp < :cutoff_time
-            """)
+            """
+            )
 
             result = conn.execute(delete_query, {"user_id": user_id, "cutoff_time": cutoff_time})
 

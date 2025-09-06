@@ -51,8 +51,7 @@ try:
         QIWordState,
         SemanticField,
         SessionConfig,
-        UserCreativeProfile,
-    )
+        UserCreativeProfile,, timezone)
 except ImportError:
     # Fallback for direct execution
     from qi_creative_types import (
@@ -599,7 +598,7 @@ class CreativeIPProtector:
 
         # 1. Embed quantum watermark
         watermarked = await self.watermark_embedder.embed_watermark(
-            creative_work, creator_identity, timestamp=datetime.utcnow()
+            creative_work, creator_identity, timestamp=datetime.now(timezone.utc)
         )
 
         # 2. Generate cryptographic signature using standard methods
@@ -612,7 +611,7 @@ class CreativeIPProtector:
             signature,
             metadata={
                 "creator": creator_identity.name,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "content_hash": content_hash,
             },
         )
@@ -629,7 +628,7 @@ class CreativeIPProtector:
 
     async def _generate_smart_license(self, creator_identity: CreatorIdentity) -> str:
         """Generate smart license based on creator preferences"""
-        return f"Quantum Creative License - {creator_identity.name} - {datetime.now().year}"
+        return f"Quantum Creative License - {creator_identity.name} - {datetime.now(timezone.utc).year}"
 
 
 class CollaborativeCreativityOrchestrator:

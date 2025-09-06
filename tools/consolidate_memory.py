@@ -13,7 +13,7 @@ from pathlib import Path
 class MemoryConsolidator:
     """Consolidate memory module variants"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.root = Path(".")
         self.target_dir = Path("lukhas/accepted/memory")
         self.archive_dir = Path("lukhas/archive/memory_variants")
@@ -200,7 +200,7 @@ class CausalMemory:
             cause=cause_id,
             effect=effect_id,
             confidence=confidence,
-            timestamp=datetime.now()
+            timestamp=datetime.now(timezone.utc)
         )
         self.events[event.id] = event
 
@@ -440,7 +440,7 @@ class MemoryConsolidator:
         task = ConsolidationTask(
             source_memories=memory_ids,
             consolidation_type=consolidation_type,
-            scheduled_at=datetime.now() + timedelta(hours=1# Delay for stability
+            scheduled_at=datetime.now(timezone.utc) + timedelta(hours=1# Delay for stability
         )
 
         self.pending_tasks.append(task)
@@ -454,7 +454,7 @@ class MemoryConsolidator:
             "consolidated_to": 1,
             "compression_ratio": len(memory_ids),
             "method": "abstract_extraction",
-            "timestamp": datetime.now()
+            "timestamp": datetime.now(timezone.utc)
         }
 
         # Update stats
@@ -494,7 +494,7 @@ class MemoryConsolidator:
             "abstract": "Consolidated memory abstraction",
             "source_count": len(memories),
             "key_concepts": ["memory", "consolidation", "abstraction"],
-            "timestamp": datetime.now()
+            "timestamp": datetime.now(timezone.utc)
         }
 
     def run_consolidation_cycle(self):
@@ -502,7 +502,7 @@ class MemoryConsolidator:
         completed = []
 
         for task in self.pending_tasks:
-            if task.scheduled_at and task.scheduled_at <= datetime.now():
+            if task.scheduled_at and task.scheduled_at <= datetime.now(timezone.utc):
                 # Process consolidation
                 if task.consolidation_type == "compress":
                     result = self.compress_memory(task.source_memories)
@@ -947,7 +947,7 @@ if __name__ == "__main__":
         # Generate report
         report_path = Path("docs/AUDIT/MEMORY_CONSOLIDATION.md")
         report = f"""# Memory Module Consolidation Report
-Generated: {datetime.now().isoformat()}
+Generated: {datetime.now(timezone.utc).isoformat()}
 
 ## Summary
 - Modules Created: 6 (fold, causal, episodic, consolidation, colonies, unified)

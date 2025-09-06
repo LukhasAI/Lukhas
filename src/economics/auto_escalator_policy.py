@@ -404,9 +404,9 @@ class AutoEscalatorPolicy:
             "current_tier": metrics.current_tier.value,
             "next_tier": next_tier.value if next_tier else None,
             "current_split": f"{current_config.user_bps / 100:.0f}/{current_config.platform_bps / 100:.0f}",
-            "next_split": f"{next_config.user_bps / 100:.0f}/{next_config.platform_bps / 100:.0f}"
-            if next_tier
-            else None,
+            "next_split": (
+                f"{next_config.user_bps / 100:.0f}/{next_config.platform_bps / 100:.0f}" if next_tier else None
+            ),
             "requirements": requirement_results,
             "progress_to_next_tier": next_tier_progress,
             "total_value_score": metrics.total_value_score,

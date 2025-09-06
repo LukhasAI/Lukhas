@@ -20,8 +20,7 @@ from typing import Any
 # Import constitutional enforcement and other core modules
 from .constitutional_gatekeeper import (
     ConstitutionalLevel,
-    get_constitutional_gatekeeper,
-)
+    get_constitutional_gatekeeper)
 
 # Configure adaptive UI logging
 logging.basicConfig(level=logging.INFO)
@@ -140,7 +139,7 @@ class AdaptiveUIController:
             error_rate=error_rate,
             stress_indicators=stress_indicators,
             fatigue_level=fatigue_level,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         # Add to history
@@ -174,7 +173,7 @@ class AdaptiveUIController:
         performance_decline = max(0.0, earlier_avg - recent_avg)
 
         # Session duration factor
-        session_duration = (datetime.now() - self.cognitive_history[0].timestamp).total_seconds() / 3600.0  # hours
+        session_duration = (datetime.now(timezone.utc) - self.cognitive_history[0].timestamp).total_seconds() / 3600.0  # hours
         # Fatigue increases over 2 hours
         duration_fatigue = min(1.0, session_duration / 2.0)
 

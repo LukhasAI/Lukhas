@@ -35,7 +35,7 @@ class Colors:
     END = "\033[0m"
 
 
-def print_header(text: str):
+def print_header(text: str, timezone):
     """Print a beautiful header"""
     print(f"\n{Colors.BOLD}{Colors.CYAN}{'=' * 60}{Colors.END}")
     print(f"{Colors.BOLD}{Colors.CYAN}{text.center(60)}{Colors.END}")
@@ -224,14 +224,14 @@ def search(ctx, query, type, tags, days, limit):
     journal = ctx.obj["journal"]
 
     # Set date range
-    start_date = datetime.now() - timedelta(days=days)
+    start_date = datetime.now(timezone.utc) - timedelta(days=days)
 
     # Search entries
     entries = journal.search(
         query=query,
         type=type,
         tags=list(tags) if tags else None,
-        date_range=(start_date, datetime.now()),
+        date_range=(start_date, datetime.now(timezone.utc)),
     )
 
     # Display results
@@ -497,12 +497,12 @@ def export(ctx, output, days):
     journal = ctx.obj["journal"]
 
     # Get entries
-    start_date = datetime.now() - timedelta(days=days)
-    entries = journal.search(date_range=(start_date, datetime.now()))
+    start_date = datetime.now(timezone.utc) - timedelta(days=days)
+    entries = journal.search(date_range=(start_date, datetime.now(timezone.utc)))
 
     # Set output path
     if not output:
-        output = f"journal_export_{datetime.now().strftime('%Y%m%d')}.md"
+        output = f"journal_export_{datetime.now(timezone.utc).strftime('%Y%m%d')}.md"
 
     output_path = Path(output)
 
@@ -993,7 +993,7 @@ def weekly(ctx):
     # Design decisions review
     print(f"\n{Colors.BOLD}🎯 Design Decisions This Week:{Colors.END}")
     decisions = ctx.obj["journal"].search(
-        type="decision", date_range=(datetime.now() - timedelta(days=7), datetime.now())
+        type="decision", date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc))
     )
     print(f"  Total decisions: {len(decisions)}")
     if decisions:
@@ -1006,7 +1006,7 @@ def weekly(ctx):
     print(f"\n{Colors.BOLD}📊 Progress Metrics:{Colors.END}")
     stats = ctx.obj["journal"].get_statistics()
     print(
-        f"  Entries this week: {len(ctx.obj['journal'].search(date_range=(datetime.now() - timedelta(days=7), datetime.now())))}"
+        f"  Entries this week: {len(ctx.obj['journal'].search(date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc))))}"
     )
     print(f"  Current streak: {stats['streak']} days")
 

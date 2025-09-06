@@ -54,19 +54,24 @@ try:
         ViolationSeverity,
         get_constitutional_framework,
     )
+
     logger = get_security_logger(__name__)
 except ImportError:
     import logging
+
     logger = logging.getLogger(__name__)
+
     # Mock imports for testing
     class ConstitutionalAIFramework:
         pass
+
     class AdvancedDriftDetector:
         pass
 
 
 class SafetyLevel(Enum):
     """System safety levels"""
+
     SAFE = "safe"
     CAUTION = "caution"
     WARNING = "warning"
@@ -76,14 +81,16 @@ class SafetyLevel(Enum):
 
 class GuardianMode(Enum):
     """Guardian operational modes"""
-    MONITORING = "monitoring"      # Passive monitoring
-    ACTIVE = "active"             # Active intervention
-    PROTECTIVE = "protective"     # Maximum protection
-    EMERGENCY = "emergency"       # Emergency shutdown mode
+
+    MONITORING = "monitoring"  # Passive monitoring
+    ACTIVE = "active"  # Active intervention
+    PROTECTIVE = "protective"  # Maximum protection
+    EMERGENCY = "emergency"  # Emergency shutdown mode
 
 
 class DecisionType(Enum):
     """Types of AI decisions to evaluate"""
+
     USER_INTERACTION = "user_interaction"
     CONTENT_GENERATION = "content_generation"
     DATA_PROCESSING = "data_processing"
@@ -96,16 +103,18 @@ class DecisionType(Enum):
 
 class ExplanationType(Enum):
     """Types of decision explanations"""
-    BRIEF = "brief"              # 1-2 sentences
-    STANDARD = "standard"        # 3-5 sentences
-    DETAILED = "detailed"        # Full explanation
-    TECHNICAL = "technical"      # Technical details
-    REGULATORY = "regulatory"    # Compliance focused
+
+    BRIEF = "brief"  # 1-2 sentences
+    STANDARD = "standard"  # 3-5 sentences
+    DETAILED = "detailed"  # Full explanation
+    TECHNICAL = "technical"  # Technical details
+    REGULATORY = "regulatory"  # Compliance focused
 
 
 @dataclass
 class SafetyViolation:
     """Safety violation record"""
+
     violation_id: str
     violation_type: str
     severity: ViolationSeverity
@@ -122,6 +131,7 @@ class SafetyViolation:
 @dataclass
 class GuardianDecision:
     """Guardian system decision record"""
+
     decision_id: str
     decision_type: DecisionType
     allowed: bool
@@ -152,14 +162,15 @@ class GuardianDecision:
     explanation_type: ExplanationType = ExplanationType.STANDARD
 
     # Trinity Framework
-    identity_impact: Optional[float] = None    # ⚛️
+    identity_impact: Optional[float] = None  # ⚛️
     consciousness_impact: Optional[float] = None  # 🧠
-    guardian_priority: str = "normal"          # 🛡️
+    guardian_priority: str = "normal"  # 🛡️
 
 
 @dataclass
 class GuardianMetrics:
     """Guardian system performance metrics"""
+
     # Decision metrics
     total_decisions: int = 0
     decisions_allowed: int = 0
@@ -202,40 +213,29 @@ class InterpretabilityEngine:
         """Initialize explanation templates"""
         return {
             "allowed_safe": "This {decision_type} was allowed because it complies with all constitutional AI principles and safety requirements. {constitutional_details} Drift analysis shows stable behavior (score: {drift_score:.3f}).",
-
             "blocked_constitutional": "This {decision_type} was blocked due to violations of constitutional AI principles: {violated_principles}. {violation_details} This protects against potential harm.",
-
             "blocked_drift": "This {decision_type} was blocked because it shows significant behavioral drift (score: {drift_score:.3f}, threshold: {threshold:.3f}). {drift_factors} This indicates potentially unsafe deviation from baseline behavior.",
-
             "blocked_safety": "This {decision_type} was blocked due to safety concerns: {safety_issues}. {risk_mitigation} This prevents potential harm to users or systems.",
-
             "caution_mode": "This {decision_type} was allowed with caution due to {caution_factors}. Enhanced monitoring is active. {recommendations}",
-
-            "emergency_mode": "Emergency protocols activated. {decision_type} operations are restricted. {emergency_details} Human oversight required."
+            "emergency_mode": "Emergency protocols activated. {decision_type} operations are restricted. {emergency_details} Human oversight required.",
         }
 
     def _initialize_principle_explanations(self) -> dict[ConstitutionalPrinciple, str]:
         """Initialize principle violation explanations"""
         return {
             ConstitutionalPrinciple.HUMAN_AUTONOMY: "This violates human autonomy by potentially manipulating or undermining user decision-making capacity.",
-
             ConstitutionalPrinciple.TRUTHFULNESS: "This violates truthfulness by containing misinformation, uncertainty presented as fact, or deceptive content.",
-
             ConstitutionalPrinciple.NON_MALEFICENCE: "This violates the 'do no harm' principle by potentially causing physical, psychological, or social harm.",
-
             ConstitutionalPrinciple.BENEFICENCE: "This fails to promote human wellbeing and may actively work against user interests.",
-
             ConstitutionalPrinciple.JUSTICE_FAIRNESS: "This violates fairness by exhibiting bias, discrimination, or unfair treatment of individuals or groups.",
-
             ConstitutionalPrinciple.PRIVACY_CONSENT: "This violates privacy by processing personal data without consent or exposing private information.",
-
             ConstitutionalPrinciple.ACCOUNTABILITY: "This lacks proper accountability by being unexplainable or untraceable.",
-
-            ConstitutionalPrinciple.DEMOCRATIC_VALUES: "This undermines democratic institutions, human rights, or promotes authoritarian perspectives."
+            ConstitutionalPrinciple.DEMOCRATIC_VALUES: "This undermines democratic institutions, human rights, or promotes authoritarian perspectives.",
         }
 
-    async def generate_explanation(self, decision: GuardianDecision,
-                                   explanation_type: ExplanationType = ExplanationType.STANDARD) -> str:
+    async def generate_explanation(
+        self, decision: GuardianDecision, explanation_type: ExplanationType = ExplanationType.STANDARD
+    ) -> str:
         """Generate human-readable explanation for Guardian decision"""
 
         try:
@@ -270,7 +270,7 @@ class InterpretabilityEngine:
                 "risk_mitigation": self._get_risk_mitigation(decision),
                 "caution_factors": self._get_caution_factors(decision),
                 "recommendations": self._get_recommendations(decision),
-                "emergency_details": self._get_emergency_details(decision)
+                "emergency_details": self._get_emergency_details(decision),
             }
 
             # Generate explanation
@@ -413,7 +413,7 @@ class InterpretabilityEngine:
             "drift_severity": decision.drift_severity.value,
             "processing_time_ms": decision.processing_time_ms,
             "timestamp": decision.timestamp.isoformat(),
-            "guardian_priority": decision.guardian_priority
+            "guardian_priority": decision.guardian_priority,
         }
 
         return f"{explanation}\n\nTechnical Analysis:\n{json.dumps(technical_details, indent=2)}"
@@ -476,7 +476,7 @@ class GuardianSystem2:
             "average_latency_ms": 0.0,
             "constitutional_checks_per_second": 0.0,
             "drift_analyses_per_second": 0.0,
-            "explanation_generation_time_ms": 0.0
+            "explanation_generation_time_ms": 0.0,
         }
 
         logger.info("🛡️ Guardian System 2.0 initializing...")
@@ -498,11 +498,13 @@ class GuardianSystem2:
 
             # Initialize advanced drift detector
             try:
-                self.drift_detector = AdvancedDriftDetector({
-                    "drift_threshold": self.drift_threshold,
-                    "measurement_interval": 1.0,  # 1 second for high-frequency monitoring
-                    "history_retention_days": 30
-                })
+                self.drift_detector = AdvancedDriftDetector(
+                    {
+                        "drift_threshold": self.drift_threshold,
+                        "measurement_interval": 1.0,  # 1 second for high-frequency monitoring
+                        "history_retention_days": 30,
+                    }
+                )
                 logger.info("✅ Advanced drift detector initialized")
             except Exception as e:
                 logger.warning(f"⚠️ Drift detector unavailable: {e}")
@@ -522,15 +524,26 @@ class GuardianSystem2:
 
     def _create_mock_constitutional_framework(self):
         """Create mock constitutional framework for testing"""
+
         class MockConstitutionalFramework:
             async def evaluate_decision(self, context, data, user_id=None):
                 # Simple mock evaluation
                 allowed = not any(word in str(data).lower() for word in ["harm", "illegal", "abuse"])
-                violations = [] if allowed else [type("MockViolation", (), {
-                    "rule_id": "mock_rule",
-                    "principle": ConstitutionalPrinciple.NON_MALEFICENCE,
-                    "severity": ViolationSeverity.HIGH
-                })()]
+                violations = (
+                    []
+                    if allowed
+                    else [
+                        type(
+                            "MockViolation",
+                            (),
+                            {
+                                "rule_id": "mock_rule",
+                                "principle": ConstitutionalPrinciple.NON_MALEFICENCE,
+                                "severity": ViolationSeverity.HIGH,
+                            },
+                        )()
+                    ]
+                )
                 return allowed, violations
 
             def get_constitutional_metrics(self):
@@ -540,18 +553,20 @@ class GuardianSystem2:
 
     def _create_mock_drift_detector(self):
         """Create mock drift detector for testing"""
+
         class MockDriftDetector:
             async def measure_drift(self, drift_type, current_data, source_system, context=None):
                 # Simple mock measurement
                 drift_score = 0.05 + (hash(str(current_data)) % 100) / 1000  # 0.05-0.15 range
 
                 from types import SimpleNamespace
+
                 return SimpleNamespace(
                     drift_score=drift_score,
                     severity=DriftSeverity.LOW if drift_score < 0.10 else DriftSeverity.MODERATE,
                     contributing_factors=["mock_factor"],
                     identity_impact=None,
-                    consciousness_impact=None
+                    consciousness_impact=None,
                 )
 
             async def get_system_metrics(self):
@@ -559,11 +574,14 @@ class GuardianSystem2:
 
         return MockDriftDetector()
 
-    async def evaluate_decision(self, decision_type: DecisionType,
-                               decision_data: dict[str, Any],
-                               context: Optional[dict[str, Any]] = None,
-                               user_id: Optional[str] = None,
-                               explanation_type: ExplanationType = ExplanationType.STANDARD) -> GuardianDecision:
+    async def evaluate_decision(
+        self,
+        decision_type: DecisionType,
+        decision_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
+        user_id: Optional[str] = None,
+        explanation_type: ExplanationType = ExplanationType.STANDARD,
+    ) -> GuardianDecision:
         """
         Evaluate AI decision for safety and constitutional compliance
 
@@ -590,14 +608,10 @@ class GuardianSystem2:
             )
 
             # Step 2: Drift analysis
-            drift_measurement = await self._analyze_behavioral_drift(
-                decision_type, decision_data, context
-            )
+            drift_measurement = await self._analyze_behavioral_drift(decision_type, decision_data, context)
 
             # Step 3: Safety validation
-            safety_violations = await self._validate_safety(
-                decision_type, decision_data, context
-            )
+            safety_violations = await self._validate_safety(decision_type, decision_data, context)
 
             # Step 4: Combine assessments
             final_decision = await self._synthesize_decision(
@@ -608,13 +622,11 @@ class GuardianSystem2:
                 drift_measurement=drift_measurement,
                 safety_violations=safety_violations,
                 context=context,
-                start_time=start_time
+                start_time=start_time,
             )
 
             # Step 5: Generate human explanation
-            explanation = await self.interpretability_engine.generate_explanation(
-                final_decision, explanation_type
-            )
+            explanation = await self.interpretability_engine.generate_explanation(final_decision, explanation_type)
             final_decision.explanation = explanation
             final_decision.explanation_type = explanation_type
 
@@ -626,8 +638,10 @@ class GuardianSystem2:
                 await self._handle_critical_decision(final_decision)
 
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-            logger.info(f"🛡️ Decision {decision_id}: {'✅ ALLOWED' if final_decision.allowed else '🚫 BLOCKED'} "
-                       f"({processing_time:.1f}ms, {final_decision.safety_level.value})")
+            logger.info(
+                f"🛡️ Decision {decision_id}: {'✅ ALLOWED' if final_decision.allowed else '🚫 BLOCKED'} "
+                f"({processing_time:.1f}ms, {final_decision.safety_level.value})"
+            )
 
             return final_decision
 
@@ -649,13 +663,16 @@ class GuardianSystem2:
                 timestamp=datetime.now(timezone.utc),
                 processing_time_ms=processing_time,
                 context=context,
-                explanation=f"Guardian system error: {e!s}. Decision blocked for safety."
+                explanation=f"Guardian system error: {e!s}. Decision blocked for safety.",
             )
 
-    async def _evaluate_constitutional_compliance(self, decision_type: DecisionType,
-                                                decision_data: dict[str, Any],
-                                                context: dict[str, Any],
-                                                user_id: Optional[str]) -> tuple[bool, list]:
+    async def _evaluate_constitutional_compliance(
+        self,
+        decision_type: DecisionType,
+        decision_data: dict[str, Any],
+        context: dict[str, Any],
+        user_id: Optional[str],
+    ) -> tuple[bool, list]:
         """Evaluate constitutional AI compliance"""
         try:
             if not self.constitutional_framework:
@@ -685,9 +702,9 @@ class GuardianSystem2:
             logger.error(f"❌ Constitutional evaluation failed: {e}")
             return False, []  # Fail safe
 
-    async def _analyze_behavioral_drift(self, decision_type: DecisionType,
-                                      decision_data: dict[str, Any],
-                                      context: dict[str, Any]):
+    async def _analyze_behavioral_drift(
+        self, decision_type: DecisionType, decision_data: dict[str, Any], context: dict[str, Any]
+    ):
         """Analyze behavioral drift for the decision"""
         try:
             if not self.drift_detector:
@@ -707,10 +724,7 @@ class GuardianSystem2:
 
             # Measure drift
             measurement = await self.drift_detector.measure_drift(
-                drift_type=drift_type,
-                current_data=decision_data,
-                source_system="guardian_system_2",
-                context=context
+                drift_type=drift_type, current_data=decision_data, source_system="guardian_system_2", context=context
             )
 
             return measurement
@@ -722,17 +736,18 @@ class GuardianSystem2:
     def _create_mock_drift_measurement(self, drift_score: float):
         """Create mock drift measurement"""
         from types import SimpleNamespace
+
         return SimpleNamespace(
             drift_score=drift_score,
             severity=DriftSeverity.HIGH if drift_score > 0.15 else DriftSeverity.LOW,
             contributing_factors=["mock_factor"],
             identity_impact=None,
-            consciousness_impact=None
+            consciousness_impact=None,
         )
 
-    async def _validate_safety(self, decision_type: DecisionType,
-                              decision_data: dict[str, Any],
-                              context: dict[str, Any]) -> list[SafetyViolation]:
+    async def _validate_safety(
+        self, decision_type: DecisionType, decision_data: dict[str, Any], context: dict[str, Any]
+    ) -> list[SafetyViolation]:
         """Validate safety for the decision"""
         violations = []
 
@@ -755,53 +770,66 @@ class GuardianSystem2:
 
             for pattern, violation_type, severity in harmful_patterns:
                 if pattern in content_str:
-                    violations.append(SafetyViolation(
-                        violation_id=f"sv_{uuid.uuid4().hex[:8]}",
-                        violation_type=violation_type,
-                        severity=severity,
-                        principle_violated=ConstitutionalPrinciple.NON_MALEFICENCE,
-                        description=f"Detected {violation_type} pattern: {pattern}",
-                        timestamp=datetime.now(timezone.utc),
-                        context=context,
-                        remediation_required=True,
-                        human_review_required=severity == ViolationSeverity.CRITICAL
-                    ))
+                    violations.append(
+                        SafetyViolation(
+                            violation_id=f"sv_{uuid.uuid4().hex[:8]}",
+                            violation_type=violation_type,
+                            severity=severity,
+                            principle_violated=ConstitutionalPrinciple.NON_MALEFICENCE,
+                            description=f"Detected {violation_type} pattern: {pattern}",
+                            timestamp=datetime.now(timezone.utc),
+                            context=context,
+                            remediation_required=True,
+                            human_review_required=severity == ViolationSeverity.CRITICAL,
+                        )
+                    )
 
             # Privacy safety checks
             privacy_patterns = ["personal data", "private information", "ssn", "credit card"]
             for pattern in privacy_patterns:
                 if pattern in content_str:
-                    violations.append(SafetyViolation(
-                        violation_id=f"sv_{uuid.uuid4().hex[:8]}",
-                        violation_type="privacy_violation",
-                        severity=ViolationSeverity.HIGH,
-                        principle_violated=ConstitutionalPrinciple.PRIVACY_CONSENT,
-                        description=f"Potential privacy violation: {pattern}",
-                        timestamp=datetime.now(timezone.utc),
-                        context=context,
-                        remediation_required=True,
-                        human_review_required=True
-                    ))
+                    violations.append(
+                        SafetyViolation(
+                            violation_id=f"sv_{uuid.uuid4().hex[:8]}",
+                            violation_type="privacy_violation",
+                            severity=ViolationSeverity.HIGH,
+                            principle_violated=ConstitutionalPrinciple.PRIVACY_CONSENT,
+                            description=f"Potential privacy violation: {pattern}",
+                            timestamp=datetime.now(timezone.utc),
+                            context=context,
+                            remediation_required=True,
+                            human_review_required=True,
+                        )
+                    )
 
             return violations
 
         except Exception as e:
             logger.error(f"❌ Safety validation failed: {e}")
             # Return critical violation on error
-            return [SafetyViolation(
-                violation_id=f"sv_{uuid.uuid4().hex[:8]}",
-                violation_type="validation_error",
-                severity=ViolationSeverity.CRITICAL,
-                principle_violated=ConstitutionalPrinciple.ACCOUNTABILITY,
-                description=f"Safety validation error: {e!s}",
-                timestamp=datetime.now(timezone.utc),
-                context=context
-            )]
+            return [
+                SafetyViolation(
+                    violation_id=f"sv_{uuid.uuid4().hex[:8]}",
+                    violation_type="validation_error",
+                    severity=ViolationSeverity.CRITICAL,
+                    principle_violated=ConstitutionalPrinciple.ACCOUNTABILITY,
+                    description=f"Safety validation error: {e!s}",
+                    timestamp=datetime.now(timezone.utc),
+                    context=context,
+                )
+            ]
 
-    async def _synthesize_decision(self, decision_id: str, decision_type: DecisionType,
-                                  constitutional_allowed: bool, constitutional_violations: list,
-                                  drift_measurement, safety_violations: list[SafetyViolation],
-                                  context: dict[str, Any], start_time: datetime) -> GuardianDecision:
+    async def _synthesize_decision(
+        self,
+        decision_id: str,
+        decision_type: DecisionType,
+        constitutional_allowed: bool,
+        constitutional_violations: list,
+        drift_measurement,
+        safety_violations: list[SafetyViolation],
+        context: dict[str, Any],
+        start_time: datetime,
+    ) -> GuardianDecision:
         """Synthesize final Guardian decision"""
 
         # Calculate overall safety level
@@ -824,10 +852,10 @@ class GuardianSystem2:
 
         # Final decision logic
         decision_allowed = (
-            constitutional_allowed and
-            drift_measurement.drift_score <= self.drift_threshold and
-            safety_level not in [SafetyLevel.CRITICAL, SafetyLevel.DANGER] and
-            self.safety_mode != GuardianMode.EMERGENCY
+            constitutional_allowed
+            and drift_measurement.drift_score <= self.drift_threshold
+            and safety_level not in [SafetyLevel.CRITICAL, SafetyLevel.DANGER]
+            and self.safety_mode != GuardianMode.EMERGENCY
         )
 
         # Calculate confidence
@@ -877,7 +905,7 @@ class GuardianSystem2:
             context=context,
             identity_impact=getattr(drift_measurement, "identity_impact", None),
             consciousness_impact=getattr(drift_measurement, "consciousness_impact", None),
-            guardian_priority=self._determine_guardian_priority(safety_level, drift_measurement.drift_score)
+            guardian_priority=self._determine_guardian_priority(safety_level, drift_measurement.drift_score),
         )
 
     def _extract_risk_factors(self, safety_violations: list[SafetyViolation], drift_measurement) -> list[str]:
@@ -930,8 +958,9 @@ class GuardianSystem2:
                 self.metrics.constitutional_violations += 1
                 for principle in decision.violated_principles:
                     principle_key = principle.value
-                    self.metrics.principle_violation_breakdown[principle_key] = \
+                    self.metrics.principle_violation_breakdown[principle_key] = (
                         self.metrics.principle_violation_breakdown.get(principle_key, 0) + 1
+                    )
 
             # Update drift metrics
             if decision.drift_score > self.drift_threshold:
@@ -940,7 +969,9 @@ class GuardianSystem2:
             # Update safety metrics
             if decision.safety_violations:
                 self.metrics.safety_violations += len(decision.safety_violations)
-                critical_violations = [v for v in decision.safety_violations if v.severity == ViolationSeverity.CRITICAL]
+                critical_violations = [
+                    v for v in decision.safety_violations if v.severity == ViolationSeverity.CRITICAL
+                ]
                 if critical_violations:
                     self.metrics.critical_incidents += 1
 
@@ -977,7 +1008,8 @@ class GuardianSystem2:
 
             # Check for emergency mode triggers
             recent_critical_decisions = [
-                d for d in self.decisions[-10:]  # Last 10 decisions
+                d
+                for d in self.decisions[-10:]  # Last 10 decisions
                 if d.safety_level in [SafetyLevel.CRITICAL, SafetyLevel.DANGER]
             ]
 
@@ -1030,9 +1062,7 @@ class GuardianSystem2:
                 try:
                     # Test constitutional framework
                     test_data = {"test": True}
-                    await self.constitutional_framework.evaluate_decision(
-                        DecisionContext.SYSTEM_OPERATION, test_data
-                    )
+                    await self.constitutional_framework.evaluate_decision(DecisionContext.SYSTEM_OPERATION, test_data)
                     components_healthy += 1
                 except Exception:
                     logger.warning("⚠️ Constitutional framework health check failed")
@@ -1105,28 +1135,21 @@ class GuardianSystem2:
         """Monitor for emergency conditions"""
         try:
             # Monitor for critical safety violations
-            recent_critical = [
-                d for d in self.decisions[-20:]
-                if d.safety_level == SafetyLevel.CRITICAL
-            ]
+            recent_critical = [d for d in self.decisions[-20:] if d.safety_level == SafetyLevel.CRITICAL]
 
             if len(recent_critical) >= 5:  # 5 critical decisions in last 20
                 await self._activate_emergency_mode("Critical safety violation threshold exceeded")
 
             # Monitor drift threshold breaches
             recent_high_drift = [
-                d for d in self.decisions[-50:]
-                if d.drift_score > self.drift_threshold * 1.5  # 1.5x threshold
+                d for d in self.decisions[-50:] if d.drift_score > self.drift_threshold * 1.5  # 1.5x threshold
             ]
 
             if len(recent_high_drift) >= 10:  # 10 high drift decisions in last 50
                 await self._activate_emergency_mode("Excessive behavioral drift detected")
 
             # Monitor constitutional violations
-            recent_constitutional_failures = [
-                d for d in self.decisions[-30:]
-                if not d.constitutional_compliant
-            ]
+            recent_constitutional_failures = [d for d in self.decisions[-30:] if not d.constitutional_compliant]
 
             if len(recent_constitutional_failures) >= 15:  # 50% failure rate
                 await self._activate_emergency_mode("Constitutional compliance failure threshold exceeded")
@@ -1143,7 +1166,7 @@ class GuardianSystem2:
                 "emergency_mode": self.emergency_mode,
                 "safety_mode": self.safety_mode.value,
                 "last_health_check": self.last_health_check.isoformat(),
-                "uptime_percentage": self.metrics.uptime_percentage
+                "uptime_percentage": self.metrics.uptime_percentage,
             },
             "configuration": {
                 "drift_threshold": self.drift_threshold,
@@ -1151,8 +1174,8 @@ class GuardianSystem2:
                 "components_active": {
                     "constitutional_framework": self.constitutional_framework is not None,
                     "drift_detector": self.drift_detector is not None,
-                    "interpretability_engine": True
-                }
+                    "interpretability_engine": True,
+                },
             },
             "metrics": {
                 "total_decisions": self.metrics.total_decisions,
@@ -1165,15 +1188,17 @@ class GuardianSystem2:
                 "safety_violations": self.metrics.safety_violations,
                 "critical_incidents": self.metrics.critical_incidents,
                 "emergency_shutdowns": self.metrics.emergency_shutdowns,
-                "average_processing_time_ms": self.metrics.average_processing_time_ms
+                "average_processing_time_ms": self.metrics.average_processing_time_ms,
             },
             "performance": self.performance_metrics,
-            "recent_decisions": len([d for d in self.decisions if
-                (datetime.now(timezone.utc) - d.timestamp).total_seconds() < 3600])  # Last hour
+            "recent_decisions": len(
+                [d for d in self.decisions if (datetime.now(timezone.utc) - d.timestamp).total_seconds() < 3600]
+            ),  # Last hour
         }
 
-    async def get_decision_explanation(self, decision_id: str,
-                                     explanation_type: ExplanationType = ExplanationType.STANDARD) -> Optional[str]:
+    async def get_decision_explanation(
+        self, decision_id: str, explanation_type: ExplanationType = ExplanationType.STANDARD
+    ) -> Optional[str]:
         """Get human-readable explanation for a specific decision"""
         try:
             decision = next((d for d in self.decisions if d.decision_id == decision_id), None)
@@ -1232,9 +1257,13 @@ def get_guardian_system() -> GuardianSystem2:
 
 # Convenience functions for common Guardian evaluations
 
-async def evaluate_user_interaction(user_input: str, ai_response: str,
-                                   user_id: Optional[str] = None,
-                                   explanation_type: ExplanationType = ExplanationType.STANDARD) -> GuardianDecision:
+
+async def evaluate_user_interaction(
+    user_input: str,
+    ai_response: str,
+    user_id: Optional[str] = None,
+    explanation_type: ExplanationType = ExplanationType.STANDARD,
+) -> GuardianDecision:
     """Evaluate user interaction for Guardian System 2.0 compliance"""
     guardian = get_guardian_system()
 
@@ -1242,20 +1271,17 @@ async def evaluate_user_interaction(user_input: str, ai_response: str,
         "user_input": user_input,
         "ai_response": ai_response,
         "interaction_type": "chat",
-        "content_length": len(ai_response)
+        "content_length": len(ai_response),
     }
 
     return await guardian.evaluate_decision(
-        DecisionType.USER_INTERACTION,
-        decision_data,
-        {"user_id": user_id},
-        user_id,
-        explanation_type
+        DecisionType.USER_INTERACTION, decision_data, {"user_id": user_id}, user_id, explanation_type
     )
 
 
-async def evaluate_content_generation(content: str, content_type: str = "text",
-                                     explanation_type: ExplanationType = ExplanationType.STANDARD) -> GuardianDecision:
+async def evaluate_content_generation(
+    content: str, content_type: str = "text", explanation_type: ExplanationType = ExplanationType.STANDARD
+) -> GuardianDecision:
     """Evaluate generated content for Guardian System 2.0 compliance"""
     guardian = get_guardian_system()
 
@@ -1263,14 +1289,14 @@ async def evaluate_content_generation(content: str, content_type: str = "text",
         "content": content,
         "content_type": content_type,
         "content_length": len(content),
-        "word_count": len(content.split()) if isinstance(content, str) else 0
+        "word_count": len(content.split()) if isinstance(content, str) else 0,
     }
 
     return await guardian.evaluate_decision(
         DecisionType.CONTENT_GENERATION,
         decision_data,
         {"generation_context": content_type},
-        explanation_type=explanation_type
+        explanation_type=explanation_type,
     )
 
 
@@ -1291,7 +1317,7 @@ async def example_usage():
     decision1 = await evaluate_user_interaction(
         user_input="Can you explain quantum computing?",
         ai_response="Quantum computing is a fascinating field that leverages quantum mechanical phenomena...",
-        user_id="test_user_1"
+        user_id="test_user_1",
     )
     print(f"Decision: {'✅ ALLOWED' if decision1.allowed else '🚫 BLOCKED'}")
     print(f"Safety Level: {decision1.safety_level.value}")
@@ -1303,7 +1329,7 @@ async def example_usage():
     print("\n📋 Test 2: Potentially Harmful Content")
     decision2 = await evaluate_content_generation(
         content="Here are instructions for creating dangerous substances that could cause harm...",
-        content_type="instructional"
+        content_type="instructional",
     )
     print(f"Decision: {'✅ ALLOWED' if decision2.allowed else '🚫 BLOCKED'}")
     print(f"Safety Level: {decision2.safety_level.value}")
@@ -1321,9 +1347,7 @@ async def example_usage():
 
     # Test 4: Detailed explanation
     print("\n📋 Test 4: Detailed Explanation")
-    detailed_explanation = await guardian.get_decision_explanation(
-        decision2.decision_id, ExplanationType.DETAILED
-    )
+    detailed_explanation = await guardian.get_decision_explanation(decision2.decision_id, ExplanationType.DETAILED)
     print(f"Detailed Explanation:\n{detailed_explanation}")
 
     print("\n✅ Guardian System 2.0 example completed successfully")

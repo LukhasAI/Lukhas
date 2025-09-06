@@ -13,9 +13,9 @@ from pathlib import Path
 class KernelBusMigration:
     """Migrate system to use symbolic_kernel_bus"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-        self.backup_dir = self.workspace / f".event_bus_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.workspace / f".event_bus_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.changes = []
 
         # Patterns to replace
@@ -285,7 +285,7 @@ kernel_bus.subscribe_effect(SymbolicEffect.MEMORY_PERSIST, handle_memory_effects
 
         report = f"""
 # Kernel Bus Migration Report
-Generated: {datetime.now().isoformat()}
+Generated: {datetime.now(timezone.utc).isoformat()}
 
 ## Summary
 - Backup location: {self.backup_dir}

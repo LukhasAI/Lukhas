@@ -86,18 +86,14 @@ class BatchProcessor:
 
         if best_batch:
             best_batch.append(issue)
-            self.logger.info(
-                f"Added {issue.issue_type} issue to existing batch (similarity: {best_similarity:.2f})"
-            )
+            self.logger.info(f"Added {issue.issue_type} issue to existing batch (similarity: {best_similarity:.2f})")
         else:
             # Create new batch
             new_batch = [issue]
             self.pending_batches.append(new_batch)
             self.logger.info(f"Created new batch for {issue.issue_type} issue")
 
-    def _calculate_batch_similarity(
-        self, issue: BatchableIssue, batch: list[BatchableIssue]
-    ) -> float:
+    def _calculate_batch_similarity(self, issue: BatchableIssue, batch: list[BatchableIssue]) -> float:
         """Calculate how similar an issue is to an existing batch"""
         if not batch:
             return 0.0
@@ -105,31 +101,23 @@ class BatchProcessor:
         similarity_score = 0.0
 
         # Same repository gets high similarity
-        repo_matches = sum(
-            1 for b_issue in batch if b_issue.repository == issue.repository
-        )
+        repo_matches = sum(1 for b_issue in batch if b_issue.repository == issue.repository)
         if repo_matches > 0:
             similarity_score += 0.4
 
         # Same issue type gets high similarity
-        type_matches = sum(
-            1 for b_issue in batch if b_issue.issue_type == issue.issue_type
-        )
+        type_matches = sum(1 for b_issue in batch if b_issue.issue_type == issue.issue_type)
         if type_matches > 0:
             similarity_score += 0.3
 
         # Same package (for vulnerabilities) gets medium similarity
         if issue.package_name:
-            package_matches = sum(
-                1 for b_issue in batch if b_issue.package_name == issue.package_name
-            )
+            package_matches = sum(1 for b_issue in batch if b_issue.package_name == issue.package_name)
             if package_matches > 0:
                 similarity_score += 0.2
 
         # Similar severity gets low similarity
-        severity_matches = sum(
-            1 for b_issue in batch if b_issue.severity == issue.severity
-        )
+        severity_matches = sum(1 for b_issue in batch if b_issue.severity == issue.severity)
         if severity_matches > 0:
             similarity_score += 0.1
 
@@ -212,9 +200,7 @@ class BatchProcessor:
 
         return batch_result
 
-    def _process_repository_batch(
-        self, repository: str, issues: list[BatchableIssue]
-    ) -> dict[str, Any]:
+    def _process_repository_batch(self, repository: str, issues: list[BatchableIssue]) -> dict[str, Any]:
         """Process a batch of issues for a single repository"""
         # Check budget for the entire batch
         total_estimated_cost = sum(issue.estimated_cost for issue in issues)
@@ -278,9 +264,7 @@ class BatchProcessor:
             "cost": total_cost,
         }
 
-    def _batch_fix_vulnerabilities(
-        self, repository: str, vulnerabilities: list[BatchableIssue]
-    ) -> dict[str, Any]:
+    def _batch_fix_vulnerabilities(self, repository: str, vulnerabilities: list[BatchableIssue]) -> dict[str, Any]:
         """Batch fix multiple vulnerabilities in a single PR"""
         # Group vulnerabilities by package ecosystem for more targeted fixes
         ecosystem_groups = defaultdict(list)
@@ -312,9 +296,7 @@ class BatchProcessor:
                 all_fixes.append(fix_result)
                 total_cost += vuln.estimated_cost
 
-                pr_body_parts.append(
-                    f"- **{vuln.package_name}** (ID: {vuln.id}) - {vuln.severity} severity"
-                )
+                pr_body_parts.append(f"- **{vuln.package_name}** (ID: {vuln.id}) - {vuln.severity} severity")
                 pr_body_parts.append(f"  - {vuln.description[:100]}...")
 
         pr_body_parts.extend(
@@ -340,15 +322,11 @@ class BatchProcessor:
 
         # Create the actual PR
         try:
-            pr_result = self._create_batch_pr(
-                repository, pr_title, "\n".join(pr_body_parts)
-            )
+            pr_result = self._create_batch_pr(repository, pr_title, "\n".join(pr_body_parts))
             if pr_result["success"]:
                 pr_created = True
                 pr_info = pr_result
-                self.logger.info(
-                    f"✅ Created batch vulnerability fix PR: {pr_result['pr_url']}"
-                )
+                self.logger.info(f"✅ Created batch vulnerability fix PR: {pr_result['pr_url']}")
 
         except Exception as e:
             self.logger.error(f"Failed to create batch vulnerability PR: {e}")
@@ -360,9 +338,7 @@ class BatchProcessor:
             "cost": total_cost,
         }
 
-    def _batch_fix_workflows(
-        self, repository: str, workflow_issues: list[BatchableIssue]
-    ) -> dict[str, Any]:
+    def _batch_fix_workflows(self, repository: str, workflow_issues: list[BatchableIssue]) -> dict[str, Any]:
         """Batch fix multiple workflow failures in a single PR"""
         all_fixes = []
         total_cost = 0.0
@@ -383,9 +359,7 @@ class BatchProcessor:
         ]
 
         for workflow_type, type_issues in workflow_types.items():
-            pr_body_parts.append(
-                f"\n### {workflow_type.replace('_', ' ').title()} Issues:"
-            )
+            pr_body_parts.append(f"\n### {workflow_type.replace('_', ' ').title()} Issues:")
 
             for issue in type_issues:
                 fix_result = self._apply_workflow_fix(issue)
@@ -409,9 +383,7 @@ class BatchProcessor:
         )
 
         # Create PR
-        pr_result = self._create_batch_pr(
-            repository, pr_title, "\n".join(pr_body_parts)
-        )
+        pr_result = self._create_batch_pr(repository, pr_title, "\n".join(pr_body_parts))
 
         return {
             "fixes": all_fixes,
@@ -420,9 +392,7 @@ class BatchProcessor:
             "cost": total_cost,
         }
 
-    def _batch_fix_dependencies(
-        self, repository: str, dependency_issues: list[BatchableIssue]
-    ) -> dict[str, Any]:
+    def _batch_fix_dependencies(self, repository: str, dependency_issues: list[BatchableIssue]) -> dict[str, Any]:
         """Batch fix multiple dependency updates in a single PR"""
         all_fixes = []
         total_cost = sum(issue.estimated_cost for issue in dependency_issues)
@@ -456,9 +426,7 @@ class BatchProcessor:
             ]
         )
 
-        pr_result = self._create_batch_pr(
-            repository, pr_title, "\n".join(pr_body_parts)
-        )
+        pr_result = self._create_batch_pr(repository, pr_title, "\n".join(pr_body_parts))
 
         return {
             "fixes": all_fixes,
@@ -467,9 +435,7 @@ class BatchProcessor:
             "cost": total_cost,
         }
 
-    def _batch_fix_generic(
-        self, repository: str, issues: list[BatchableIssue]
-    ) -> dict[str, Any]:
+    def _batch_fix_generic(self, repository: str, issues: list[BatchableIssue]) -> dict[str, Any]:
         """Batch fix generic issues in a single PR"""
         all_fixes = []
         total_cost = sum(issue.estimated_cost for issue in issues)
@@ -495,9 +461,7 @@ class BatchProcessor:
             "cost": total_cost,
         }
 
-    def _create_batch_pr(
-        self, repository: str, title: str, body: str
-    ) -> dict[str, Any]:
+    def _create_batch_pr(self, repository: str, title: str, body: str) -> dict[str, Any]:
         """Create a batch PR for multiple fixes"""
         try:
             # Generate unique branch name for batch
@@ -553,20 +517,11 @@ class BatchProcessor:
     def _determine_ecosystem(self, issue: BatchableIssue) -> str:
         """Determine the package ecosystem from the issue"""
         if issue.package_name:
-            if (
-                "npm" in issue.description.lower()
-                or "javascript" in issue.description.lower()
-            ):
+            if "npm" in issue.description.lower() or "javascript" in issue.description.lower():
                 return "npm"
-            elif (
-                "pip" in issue.description.lower()
-                or "python" in issue.description.lower()
-            ):
+            elif "pip" in issue.description.lower() or "python" in issue.description.lower():
                 return "pip"
-            elif (
-                "maven" in issue.description.lower()
-                or "java" in issue.description.lower()
-            ):
+            elif "maven" in issue.description.lower() or "java" in issue.description.lower():
                 return "maven"
             elif "nuget" in issue.description.lower():
                 return "nuget"
@@ -586,9 +541,7 @@ class BatchProcessor:
 
     def get_batch_statistics(self) -> dict[str, Any]:
         """Get statistics about batch processing"""
-        total_processed = sum(
-            len(batch["fixes_applied"]) for batch in self.processed_batches
-        )
+        total_processed = sum(len(batch["fixes_applied"]) for batch in self.processed_batches)
         total_cost = sum(batch["total_cost"] for batch in self.processed_batches)
         total_prs = sum(len(batch["prs_created"]) for batch in self.processed_batches)
 

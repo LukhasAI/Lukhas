@@ -19,23 +19,28 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
+
 class MemoryType(Enum):
     """Types of memory content for organizational purposes."""
-    EPISODIC = "episodic"          # Personal experiences and events
-    SEMANTIC = "semantic"          # Facts and general knowledge
-    PROCEDURAL = "procedural"      # Skills and procedures
-    EMOTIONAL = "emotional"        # Emotional associations
-    CREATIVE = "creative"          # Creative insights and ideas
-    CONTEXTUAL = "contextual"      # Context-dependent information
-    DREAM = "dream"               # Dream-derived patterns and insights
+
+    EPISODIC = "episodic"  # Personal experiences and events
+    SEMANTIC = "semantic"  # Facts and general knowledge
+    PROCEDURAL = "procedural"  # Skills and procedures
+    EMOTIONAL = "emotional"  # Emotional associations
+    CREATIVE = "creative"  # Creative insights and ideas
+    CONTEXTUAL = "contextual"  # Context-dependent information
+    DREAM = "dream"  # Dream-derived patterns and insights
+
 
 class MemoryImportance(Enum):
     """Memory importance levels for retention and retrieval."""
-    CRITICAL = 5    # Never forget, highest priority
-    HIGH = 4       # Important long-term memory
-    MEDIUM = 3     # Standard memory importance
-    LOW = 2        # Low importance, may decay
+
+    CRITICAL = 5  # Never forget, highest priority
+    HIGH = 4  # Important long-term memory
+    MEDIUM = 3  # Standard memory importance
+    LOW = 2  # Low importance, may decay
     EPHEMERAL = 1  # Temporary, likely to be forgotten
+
 
 @dataclass
 class MemoryVector:
@@ -64,11 +69,11 @@ class MemoryVector:
 
     # Associative Links
     related_memories: list[str] = field(default_factory=list)  # IDs of related memories
-    causal_links: list[str] = field(default_factory=list)      # Causal chain connections
+    causal_links: list[str] = field(default_factory=list)  # Causal chain connections
 
     # Decay and Reinforcement
-    strength: float = 1.0           # Memory strength (0.0 - 1.0)
-    decay_rate: float = 0.01        # How fast this memory decays
+    strength: float = 1.0  # Memory strength (0.0 - 1.0)
+    decay_rate: float = 0.01  # How fast this memory decays
     last_reinforced: Optional[datetime] = None
 
     def __post_init__(self):
@@ -98,13 +103,16 @@ class MemoryVector:
         """Get alignment with specific constellation star."""
         return self.constellation_tags.get(star, 0.0)
 
+
 @dataclass
 class VectorSearchResult:
     """Result from vector similarity search."""
+
     memory: MemoryVector
     similarity: float
     relevance_score: float  # Composite score including recency, importance, etc.
     explanation: Optional[str] = None
+
 
 class VectorMemoryStore:
     """
@@ -114,10 +122,9 @@ class VectorMemoryStore:
     and integration with LUKHAS consciousness framework.
     """
 
-    def __init__(self,
-                 embedding_dimension: int = 768,
-                 max_memories: int = 100000,
-                 persistence_path: Optional[str] = None):
+    def __init__(
+        self, embedding_dimension: int = 768, max_memories: int = 100000, persistence_path: Optional[str] = None
+    ):
         self.embedding_dimension = embedding_dimension
         self.max_memories = max_memories
         self.persistence_path = persistence_path
@@ -137,7 +144,7 @@ class VectorMemoryStore:
             "total_memories": 0,
             "total_searches": 0,
             "avg_search_time": 0.0,
-            "memory_types": {mt.value: 0 for mt in MemoryType}
+            "memory_types": {mt.value: 0 for mt in MemoryType},
         }
 
         # Load persisted memories if available
@@ -187,13 +194,15 @@ class VectorMemoryStore:
             logger.error(f"Error adding memory {memory.id}: {e}")
             return False
 
-    async def search_similar(self,
-                           query_vector: np.ndarray,
-                           k: int = 10,
-                           memory_types: Optional[list[MemoryType]] = None,
-                           min_importance: Optional[MemoryImportance] = None,
-                           constellation_filter: Optional[dict[str, float]] = None,
-                           time_decay_factor: float = 0.1) -> list[VectorSearchResult]:
+    async def search_similar(
+        self,
+        query_vector: np.ndarray,
+        k: int = 10,
+        memory_types: Optional[list[MemoryType]] = None,
+        min_importance: Optional[MemoryImportance] = None,
+        constellation_filter: Optional[dict[str, float]] = None,
+        time_decay_factor: float = 0.1,
+    ) -> list[VectorSearchResult]:
         """
         Search for similar memories using vector similarity and additional filters.
 
@@ -255,15 +264,11 @@ class VectorMemoryStore:
                 similarity = similarities[i]
 
                 # Calculate composite relevance score
-                relevance_score = self._calculate_relevance_score(
-                    memory, similarity, time_decay_factor
-                )
+                relevance_score = self._calculate_relevance_score(memory, similarity, time_decay_factor)
 
-                results.append(VectorSearchResult(
-                    memory=memory,
-                    similarity=float(similarity),
-                    relevance_score=relevance_score
-                ))
+                results.append(
+                    VectorSearchResult(memory=memory, similarity=float(similarity), relevance_score=relevance_score)
+                )
 
             # Sort by relevance and return top k
             results.sort(key=lambda x: x.relevance_score, reverse=True)
@@ -273,9 +278,8 @@ class VectorMemoryStore:
             search_time = asyncio.get_event_loop().time() - start_time
             self.stats["total_searches"] += 1
             self.stats["avg_search_time"] = (
-                (self.stats["avg_search_time"] * (self.stats["total_searches"] - 1) + search_time) /
-                self.stats["total_searches"]
-            )
+                self.stats["avg_search_time"] * (self.stats["total_searches"] - 1) + search_time
+            ) / self.stats["total_searches"]
 
             return results
 
@@ -283,8 +287,7 @@ class VectorMemoryStore:
             logger.error(f"Error in similarity search: {e}")
             return []
 
-    def _calculate_relevance_score(self, memory: MemoryVector,
-                                 similarity: float, time_decay_factor: float) -> float:
+    def _calculate_relevance_score(self, memory: MemoryVector, similarity: float, time_decay_factor: float) -> float:
         """Calculate composite relevance score for memory."""
         # Base similarity score (40%)
         score = similarity * 0.4
@@ -306,8 +309,7 @@ class VectorMemoryStore:
 
         return min(1.0, score)
 
-    async def get_memory(self, memory_id: str,
-                        reinforce: bool = True) -> Optional[MemoryVector]:
+    async def get_memory(self, memory_id: str, reinforce: bool = True) -> Optional[MemoryVector]:
         """Retrieve memory by ID with optional reinforcement."""
         if memory_id not in self.memories:
             return None
@@ -377,8 +379,7 @@ class VectorMemoryStore:
             logger.error(f"Error deleting memory {memory_id}: {e}")
             return False
 
-    async def get_associative_memories(self, memory_id: str,
-                                     depth: int = 1) -> list[MemoryVector]:
+    async def get_associative_memories(self, memory_id: str, depth: int = 1) -> list[MemoryVector]:
         """Get memories associated with given memory through explicit links."""
         if memory_id not in self.memories:
             return []
@@ -424,7 +425,7 @@ class VectorMemoryStore:
 
         # Sort by strength and remove weakest 10%
         cleanup_candidates.sort(key=lambda x: x[1])
-        to_remove = cleanup_candidates[:max(1, len(cleanup_candidates) // 10)]
+        to_remove = cleanup_candidates[: max(1, len(cleanup_candidates) // 10)]
 
         for memory_id, _ in to_remove:
             await self.delete_memory(memory_id)
@@ -438,25 +439,28 @@ class VectorMemoryStore:
 
         try:
             data = {
-                "memories": {mid: {
-                    "content": m.content,
-                    "vector": m.vector.tolist(),
-                    "memory_type": m.memory_type.value,
-                    "importance": m.importance.value,
-                    "timestamp": m.timestamp.isoformat(),
-                    "constellation_tags": m.constellation_tags,
-                    "source_context": m.source_context,
-                    "emotional_valence": m.emotional_valence,
-                    "confidence": m.confidence,
-                    "access_count": m.access_count,
-                    "last_accessed": m.last_accessed.isoformat() if m.last_accessed else None,
-                    "related_memories": m.related_memories,
-                    "causal_links": m.causal_links,
-                    "strength": m.strength,
-                    "decay_rate": m.decay_rate,
-                    "last_reinforced": m.last_reinforced.isoformat() if m.last_reinforced else None
-                } for mid, m in self.memories.items()},
-                "stats": self.stats
+                "memories": {
+                    mid: {
+                        "content": m.content,
+                        "vector": m.vector.tolist(),
+                        "memory_type": m.memory_type.value,
+                        "importance": m.importance.value,
+                        "timestamp": m.timestamp.isoformat(),
+                        "constellation_tags": m.constellation_tags,
+                        "source_context": m.source_context,
+                        "emotional_valence": m.emotional_valence,
+                        "confidence": m.confidence,
+                        "access_count": m.access_count,
+                        "last_accessed": m.last_accessed.isoformat() if m.last_accessed else None,
+                        "related_memories": m.related_memories,
+                        "causal_links": m.causal_links,
+                        "strength": m.strength,
+                        "decay_rate": m.decay_rate,
+                        "last_reinforced": m.last_reinforced.isoformat() if m.last_reinforced else None,
+                    }
+                    for mid, m in self.memories.items()
+                },
+                "stats": self.stats,
             }
 
             with open(self.persistence_path, "w") as f:
@@ -490,12 +494,20 @@ class VectorMemoryStore:
                     emotional_valence=memory_data.get("emotional_valence"),
                     confidence=memory_data.get("confidence", 1.0),
                     access_count=memory_data.get("access_count", 0),
-                    last_accessed=datetime.fromisoformat(memory_data["last_accessed"]) if memory_data.get("last_accessed") else None,
+                    last_accessed=(
+                        datetime.fromisoformat(memory_data["last_accessed"])
+                        if memory_data.get("last_accessed")
+                        else None
+                    ),
                     related_memories=memory_data.get("related_memories", []),
                     causal_links=memory_data.get("causal_links", []),
                     strength=memory_data.get("strength", 1.0),
                     decay_rate=memory_data.get("decay_rate", 0.01),
-                    last_reinforced=datetime.fromisoformat(memory_data["last_reinforced"]) if memory_data.get("last_reinforced") else None
+                    last_reinforced=(
+                        datetime.fromisoformat(memory_data["last_reinforced"])
+                        if memory_data.get("last_reinforced")
+                        else None
+                    ),
                 )
 
                 # Use asyncio.run for the async method - not ideal but needed for initialization
@@ -517,11 +529,11 @@ class VectorMemoryStore:
             "memory_distribution": {
                 "by_type": {mt.value: len(ids) for mt, ids in self.type_index.items()},
                 "by_importance": {mi.name: len(ids) for mi, ids in self.importance_index.items()},
-                "by_constellation": {star: len(ids) for star, ids in self.constellation_index.items()}
+                "by_constellation": {star: len(ids) for star, ids in self.constellation_index.items()},
             },
             "performance": {
                 "vector_dimension": self.embedding_dimension,
                 "index_size": self.vectors.shape[0],
-                "avg_search_time_ms": self.stats["avg_search_time"] * 1000
-            }
+                "avg_search_time_ms": self.stats["avg_search_time"] * 1000,
+            },
         }

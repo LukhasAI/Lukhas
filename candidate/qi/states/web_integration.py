@@ -97,7 +97,7 @@ class QIWebSecurity:
         # Enhanced randomness combining multiple entropy sources
         sources = [
             secrets.token_bytes(64),  # Cryptographically secure
-            hashlib.sha3_256(str(datetime.now().timestamp()).encode()).digest(),
+            hashlib.sha3_256(str(datetime.now(timezone.utc).timestamp()).encode()).digest(),
             hashlib.blake2b(secrets.token_bytes(32), digest_size=32).digest(),
         ]
         combined = b"".join(sources)
@@ -355,7 +355,7 @@ async def demo_quantum_web_security():
 
     # Test request verification
     security = authenticator.security
-    test_data = {"action": "get_profile", "timestamp": datetime.now().isoformat()}
+    test_data = {"action": "get_profile", "timestamp": datetime.now(timezone.utc).isoformat()}
 
     verified = await security.verify_quantum_request(
         session_id=session_info["session_id"],

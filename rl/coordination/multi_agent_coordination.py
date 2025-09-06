@@ -15,16 +15,18 @@ from typing import Any, Dict, List, Optional, Union
 
 class CoordinationStrategy(Enum):
     """Strategies for coordinating multiple consciousness agents"""
-    CONSENSUS = "consensus"          # Require agreement between agents
-    MAJORITY = "majority"           # Use majority decision
-    HIERARCHICAL = "hierarchical"   # Use authority-based decisions
-    COLLABORATIVE = "collaborative" # Equal collaboration
-    COMPETITIVE = "competitive"     # Competitive coordination
+
+    CONSENSUS = "consensus"  # Require agreement between agents
+    MAJORITY = "majority"  # Use majority decision
+    HIERARCHICAL = "hierarchical"  # Use authority-based decisions
+    COLLABORATIVE = "collaborative"  # Equal collaboration
+    COMPETITIVE = "competitive"  # Competitive coordination
 
 
 @dataclass
 class AgentProfile:
     """Profile for a consciousness agent in coordination system"""
+
     agent_id: str
     agent_type: str
     specialization: str
@@ -40,6 +42,7 @@ class AgentProfile:
 @dataclass
 class CoordinationDecision:
     """Decision made through multi-agent coordination"""
+
     decision_id: str
     decision_type: str
     participating_agents: list[str]
@@ -81,6 +84,7 @@ class MultiAgentCoordination:
         elif self.strategy == CoordinationStrategy.MAJORITY:
             # Use majority decision
             from collections import Counter
+
             values = list(agent_proposals.values())
             value_counts = Counter(str(v) for v in values)
             most_common = value_counts.most_common(1)[0]
@@ -99,7 +103,7 @@ class MultiAgentCoordination:
             strategy_used=self.strategy,
             consensus_level=consensus_level,
             final_decision=final_decision,
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )
 
         self.decisions.append(decision)
@@ -129,7 +133,7 @@ class MultiAgentCoordination:
             "total_decisions": total_decisions,
             "average_consensus": average_consensus,
             "strategy": self.strategy.value,
-            "active_agents": len(self.agents)
+            "active_agents": len(self.agents),
         }
 
 
@@ -157,5 +161,5 @@ __all__ = [
     "CoordinationStrategy",
     "AgentProfile",
     "CoordinationDecision",
-    "ConsciousnessAgent"
+    "ConsciousnessAgent",
 ]

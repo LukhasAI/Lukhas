@@ -48,9 +48,7 @@ def is_prov(req):
     return p.startswith("/provenance/") and any(seg in p for seg in ("/stream", "/download", "/link"))
 
 
-buckets = {
-    "prov": BucketConfig(capacity=60, refill_per_sec=1.0)  # 60 requests per minute
-}
+buckets = {"prov": BucketConfig(capacity=60, refill_per_sec=1.0)}  # 60 requests per minute
 rules = [(is_prov, "prov")]
 app.add_middleware(RateLimiter, buckets=buckets, rules=rules)
 

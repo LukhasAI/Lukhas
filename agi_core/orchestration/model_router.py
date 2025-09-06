@@ -18,6 +18,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 try:
     from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
     from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+
     LUKHAS_WRAPPERS_AVAILABLE = True
 except ImportError:
     LUKHAS_WRAPPERS_AVAILABLE = False
@@ -27,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 class ModelType(Enum):
     """Supported AI model types"""
+
     GPT_4 = "gpt-4"
     GPT_4_TURBO = "gpt-4-turbo"
     GPT_4O = "gpt-4o"
@@ -39,6 +41,7 @@ class ModelType(Enum):
 
 class TaskType(Enum):
     """Types of tasks for model selection"""
+
     REASONING = "reasoning"
     CODE_GENERATION = "code_generation"
     CREATIVE_WRITING = "creative_writing"
@@ -51,23 +54,25 @@ class TaskType(Enum):
 
 class PerformanceRequirement(Enum):
     """Performance requirement levels"""
-    FAST = "fast"          # <1s response time
-    BALANCED = "balanced"   # <5s response time
-    THOROUGH = "thorough"   # <30s response time
-    DEEP = "deep"          # >30s acceptable
+
+    FAST = "fast"  # <1s response time
+    BALANCED = "balanced"  # <5s response time
+    THOROUGH = "thorough"  # <30s response time
+    DEEP = "deep"  # >30s acceptable
 
 
 @dataclass
 class ModelCapability:
     """Capabilities of a specific model"""
+
     model_type: ModelType
-    reasoning_score: float         # 0-1 reasoning capability
-    creativity_score: float        # 0-1 creativity capability
-    code_score: float             # 0-1 coding capability
-    analysis_score: float         # 0-1 analysis capability
-    speed_score: float            # 0-1 speed score
-    cost_efficiency: float        # 0-1 cost efficiency
-    context_length: int           # Maximum context tokens
+    reasoning_score: float  # 0-1 reasoning capability
+    creativity_score: float  # 0-1 creativity capability
+    code_score: float  # 0-1 coding capability
+    analysis_score: float  # 0-1 analysis capability
+    speed_score: float  # 0-1 speed score
+    cost_efficiency: float  # 0-1 cost efficiency
+    context_length: int  # Maximum context tokens
     supports_function_calls: bool = False
     supports_vision: bool = False
     supports_code_execution: bool = False
@@ -76,6 +81,7 @@ class ModelCapability:
 @dataclass
 class RoutingRequest:
     """Request for model routing"""
+
     task_type: TaskType
     content: str
     context: Optional[dict[str, Any]] = None
@@ -90,6 +96,7 @@ class RoutingRequest:
 @dataclass
 class ModelResponse:
     """Response from a model"""
+
     model_type: ModelType
     content: str
     confidence: float
@@ -103,6 +110,7 @@ class ModelResponse:
 @dataclass
 class RoutingDecision:
     """Decision made by the router"""
+
     selected_model: ModelType
     alternative_models: list[ModelType] = field(default_factory=list)
     reasoning: str = ""
@@ -145,7 +153,7 @@ class ModelRouter:
                 cost_efficiency=0.5,
                 context_length=8192,
                 supports_function_calls=True,
-                supports_vision=False
+                supports_vision=False,
             ),
             ModelType.GPT_4_TURBO: ModelCapability(
                 model_type=ModelType.GPT_4_TURBO,
@@ -157,7 +165,7 @@ class ModelRouter:
                 cost_efficiency=0.7,
                 context_length=128000,
                 supports_function_calls=True,
-                supports_vision=True
+                supports_vision=True,
             ),
             ModelType.GPT_4O: ModelCapability(
                 model_type=ModelType.GPT_4O,
@@ -169,7 +177,7 @@ class ModelRouter:
                 cost_efficiency=0.8,
                 context_length=128000,
                 supports_function_calls=True,
-                supports_vision=True
+                supports_vision=True,
             ),
             ModelType.CLAUDE_3_OPUS: ModelCapability(
                 model_type=ModelType.CLAUDE_3_OPUS,
@@ -181,7 +189,7 @@ class ModelRouter:
                 cost_efficiency=0.4,
                 context_length=200000,
                 supports_function_calls=True,
-                supports_vision=True
+                supports_vision=True,
             ),
             ModelType.CLAUDE_3_SONNET: ModelCapability(
                 model_type=ModelType.CLAUDE_3_SONNET,
@@ -193,7 +201,7 @@ class ModelRouter:
                 cost_efficiency=0.8,
                 context_length=200000,
                 supports_function_calls=True,
-                supports_vision=True
+                supports_vision=True,
             ),
             ModelType.CLAUDE_3_HAIKU: ModelCapability(
                 model_type=ModelType.CLAUDE_3_HAIKU,
@@ -205,7 +213,7 @@ class ModelRouter:
                 cost_efficiency=0.95,
                 context_length=200000,
                 supports_function_calls=True,
-                supports_vision=True
+                supports_vision=True,
             ),
             ModelType.GEMINI_PRO: ModelCapability(
                 model_type=ModelType.GEMINI_PRO,
@@ -217,7 +225,7 @@ class ModelRouter:
                 cost_efficiency=0.85,
                 context_length=30720,
                 supports_function_calls=True,
-                supports_vision=True
+                supports_vision=True,
             ),
             ModelType.GEMINI_ULTRA: ModelCapability(
                 model_type=ModelType.GEMINI_ULTRA,
@@ -229,8 +237,8 @@ class ModelRouter:
                 cost_efficiency=0.5,
                 context_length=30720,
                 supports_function_calls=True,
-                supports_vision=True
-            )
+                supports_vision=True,
+            ),
         }
 
         return capabilities
@@ -278,22 +286,25 @@ class ModelRouter:
             end_time = asyncio.get_event_loop().time()
             actual_time = (end_time - start_time) * 1000
 
-            self._update_performance_metrics(decision.selected_model, actual_time,
-                                           response.confidence)
+            self._update_performance_metrics(decision.selected_model, actual_time, response.confidence)
 
             # Step 4: Log routing decision
-            self.routing_history.append({
-                "timestamp": request.timestamp,
-                "task_type": request.task_type.value,
-                "selected_model": decision.selected_model.value,
-                "actual_time_ms": actual_time,
-                "confidence": response.confidence,
-                "tokens_used": response.tokens_used,
-                "cost": response.cost_estimate
-            })
+            self.routing_history.append(
+                {
+                    "timestamp": request.timestamp,
+                    "task_type": request.task_type.value,
+                    "selected_model": decision.selected_model.value,
+                    "actual_time_ms": actual_time,
+                    "confidence": response.confidence,
+                    "tokens_used": response.tokens_used,
+                    "cost": response.cost_estimate,
+                }
+            )
 
-            logger.info(f"✅ Routed to {decision.selected_model.value}: "
-                       f"{response.confidence:.3f} confidence, {actual_time:.0f}ms")
+            logger.info(
+                f"✅ Routed to {decision.selected_model.value}: "
+                f"{response.confidence:.3f} confidence, {actual_time:.0f}ms"
+            )
 
             return decision, response
 
@@ -308,13 +319,11 @@ class ModelRouter:
                 processing_time_ms=0.0,
                 tokens_used=0,
                 cost_estimate=0.0,
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
             fallback_decision = RoutingDecision(
-                selected_model=ModelType.GPT_4,
-                reasoning="Fallback due to routing error",
-                confidence=0.0
+                selected_model=ModelType.GPT_4, reasoning="Fallback due to routing error", confidence=0.0
             )
 
             return fallback_decision, fallback_response
@@ -335,10 +344,10 @@ class ModelRouter:
 
             # Calculate capability score
             capability_score = (
-                capability.reasoning_score * task_weights["reasoning"] +
-                capability.creativity_score * task_weights["creativity"] +
-                capability.code_score * task_weights["code"] +
-                capability.analysis_score * task_weights["analysis"]
+                capability.reasoning_score * task_weights["reasoning"]
+                + capability.creativity_score * task_weights["creativity"]
+                + capability.code_score * task_weights["code"]
+                + capability.analysis_score * task_weights["analysis"]
             )
 
             # Adjust for performance requirements
@@ -358,12 +367,7 @@ class ModelRouter:
                 dream_bonus = (capability.creativity_score + capability.reasoning_score) * 0.1
 
             # Combined score
-            total_score = (
-                capability_score * 0.5 +
-                performance_score * 0.2 +
-                cost_score * 0.2 +
-                dream_bonus * 0.1
-            )
+            total_score = capability_score * 0.5 + performance_score * 0.2 + cost_score * 0.2 + dream_bonus * 0.1
 
             model_scores[model_type] = total_score
 
@@ -388,45 +392,26 @@ class ModelRouter:
             reasoning=reasoning,
             confidence=confidence,
             expected_cost=self._estimate_cost(selected_model, len(request.content)),
-            expected_time_ms=self._estimate_time(selected_model, request.performance_requirement)
+            expected_time_ms=self._estimate_time(selected_model, request.performance_requirement),
         )
 
     def _get_task_capability_weights(self, task_type: TaskType) -> dict[str, float]:
         """Get capability weights for specific task types"""
 
         weights = {
-            TaskType.REASONING: {
-                "reasoning": 0.6, "creativity": 0.1, "code": 0.1, "analysis": 0.2
-            },
-            TaskType.CODE_GENERATION: {
-                "reasoning": 0.2, "creativity": 0.2, "code": 0.5, "analysis": 0.1
-            },
-            TaskType.CREATIVE_WRITING: {
-                "reasoning": 0.1, "creativity": 0.7, "code": 0.0, "analysis": 0.2
-            },
-            TaskType.ANALYSIS: {
-                "reasoning": 0.3, "creativity": 0.1, "code": 0.1, "analysis": 0.5
-            },
-            TaskType.CONVERSATION: {
-                "reasoning": 0.3, "creativity": 0.3, "code": 0.1, "analysis": 0.3
-            },
-            TaskType.MATH: {
-                "reasoning": 0.6, "creativity": 0.0, "code": 0.2, "analysis": 0.2
-            },
-            TaskType.RESEARCH: {
-                "reasoning": 0.4, "creativity": 0.1, "code": 0.1, "analysis": 0.4
-            },
-            TaskType.DREAM_SYNTHESIS: {
-                "reasoning": 0.3, "creativity": 0.5, "code": 0.0, "analysis": 0.2
-            }
+            TaskType.REASONING: {"reasoning": 0.6, "creativity": 0.1, "code": 0.1, "analysis": 0.2},
+            TaskType.CODE_GENERATION: {"reasoning": 0.2, "creativity": 0.2, "code": 0.5, "analysis": 0.1},
+            TaskType.CREATIVE_WRITING: {"reasoning": 0.1, "creativity": 0.7, "code": 0.0, "analysis": 0.2},
+            TaskType.ANALYSIS: {"reasoning": 0.3, "creativity": 0.1, "code": 0.1, "analysis": 0.5},
+            TaskType.CONVERSATION: {"reasoning": 0.3, "creativity": 0.3, "code": 0.1, "analysis": 0.3},
+            TaskType.MATH: {"reasoning": 0.6, "creativity": 0.0, "code": 0.2, "analysis": 0.2},
+            TaskType.RESEARCH: {"reasoning": 0.4, "creativity": 0.1, "code": 0.1, "analysis": 0.4},
+            TaskType.DREAM_SYNTHESIS: {"reasoning": 0.3, "creativity": 0.5, "code": 0.0, "analysis": 0.2},
         }
 
-        return weights.get(task_type, {
-            "reasoning": 0.25, "creativity": 0.25, "code": 0.25, "analysis": 0.25
-        })
+        return weights.get(task_type, {"reasoning": 0.25, "creativity": 0.25, "code": 0.25, "analysis": 0.25})
 
-    def _calculate_performance_score(self, capability: ModelCapability,
-                                   requirement: PerformanceRequirement) -> float:
+    def _calculate_performance_score(self, capability: ModelCapability, requirement: PerformanceRequirement) -> float:
         """Calculate performance score based on requirements"""
 
         if requirement == PerformanceRequirement.FAST:
@@ -452,7 +437,7 @@ class ModelRouter:
             ModelType.CLAUDE_3_SONNET: 0.003,
             ModelType.CLAUDE_3_HAIKU: 0.00025,
             ModelType.GEMINI_PRO: 0.0005,
-            ModelType.GEMINI_ULTRA: 0.01
+            ModelType.GEMINI_ULTRA: 0.01,
         }
 
         base_cost = base_costs.get(model_type, 0.01)
@@ -508,10 +493,7 @@ class ModelRouter:
                 processing_time_ms=processing_time,
                 tokens_used=tokens_used,
                 cost_estimate=cost_estimate,
-                metadata={
-                    "task_type": request.task_type.value,
-                    "dream_enhanced": request.dream_enhanced
-                }
+                metadata={"task_type": request.task_type.value, "dream_enhanced": request.dream_enhanced},
             )
 
         except Exception as e:
@@ -525,7 +507,7 @@ class ModelRouter:
                 processing_time_ms=0.0,
                 tokens_used=0,
                 cost_estimate=0.0,
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
     async def _call_model(self, model_type: ModelType, request: RoutingRequest) -> str:
@@ -544,7 +526,7 @@ class ModelRouter:
             TaskType.CODE_GENERATION: f"Using {model_type.value} coding capabilities: ```python\n# Generated code here\n```",
             TaskType.CREATIVE_WRITING: f"Creative output from {model_type.value} (creativity: {capability.creativity_score:.2f}): Once upon a time...",
             TaskType.ANALYSIS: f"Analysis from {model_type.value}: The data indicates...",
-            TaskType.DREAM_SYNTHESIS: f"Dream insight from {model_type.value}: In the realm of possibilities..."
+            TaskType.DREAM_SYNTHESIS: f"Dream insight from {model_type.value}: In the realm of possibilities...",
         }
 
         base_response = task_responses.get(request.task_type, f"Response from {model_type.value}")
@@ -563,7 +545,7 @@ class ModelRouter:
                 "total_requests": 0,
                 "avg_time_ms": 0.0,
                 "avg_confidence": 0.0,
-                "success_count": 0
+                "success_count": 0,
             }
 
         metrics = self.performance_metrics[model_type]
@@ -584,7 +566,7 @@ class ModelRouter:
             "total_requests_routed": len(self.routing_history),
             "models_available": len(self.capabilities),
             "models_with_clients": len(self.model_clients),
-            "model_performance": {}
+            "model_performance": {},
         }
 
         for model_type, metrics in self.performance_metrics.items():
@@ -593,7 +575,7 @@ class ModelRouter:
                 "requests": metrics["total_requests"],
                 "avg_time_ms": round(metrics["avg_time_ms"], 1),
                 "avg_confidence": round(metrics["avg_confidence"], 3),
-                "success_rate": round(success_rate, 3)
+                "success_rate": round(success_rate, 3),
             }
 
         # Recent routing patterns
@@ -624,7 +606,7 @@ class ModelRouter:
                 "context_length": capability.context_length,
                 "supports_function_calls": capability.supports_function_calls,
                 "supports_vision": capability.supports_vision,
-                "supports_code_execution": capability.supports_code_execution
+                "supports_code_execution": capability.supports_code_execution,
             }
 
         return capabilities_dict

@@ -314,10 +314,9 @@ class BrandIntelligenceMonitor:
                 forbidden_found.append(term)
 
         # Calculate compliance score
-        compliance_score = (
-            (required_found / len(required_terms)) * 0.7  # 70% weight for required terms
-            + (1.0 - (len(forbidden_found) / max(1, len(forbidden_terms)))) * 0.3  # 30% weight for avoiding forbidden
-        )
+        compliance_score = (required_found / len(required_terms)) * 0.7 + (  # 70% weight for required terms
+            1.0 - (len(forbidden_found) / max(1, len(forbidden_terms)))
+        ) * 0.3  # 30% weight for avoiding forbidden
 
         return {
             "compliance_score": min(1.0, compliance_score),

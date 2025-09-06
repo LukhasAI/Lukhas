@@ -18,7 +18,7 @@ from datetime import datetime
 from enum import Enum, auto
 from typing import Any, Callable, Optional, Union
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AgentStatus(Enum):
@@ -281,7 +281,7 @@ class AgentInterface(ABC):
                 "error": str(error),
                 "context": context,
                 "agent_id": self.metadata.agent_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             message_type="error",
             priority=10,
@@ -345,7 +345,7 @@ class SimpleAgent(AgentInterface):
                 "status": "completed",
                 "task_id": task.get("task_id", "unknown"),
                 "result": f"Processed {task_type} task",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             self.update_status(AgentStatus.ACTIVE)
@@ -394,7 +394,7 @@ class SimpleAgent(AgentInterface):
         return {
             "status": self.status.name,
             "agent_id": self.metadata.agent_id,
-            "uptime": (datetime.now() - self.metadata.created_at).total_seconds(),
+            "uptime": (datetime.now(timezone.utc) - self.metadata.created_at).total_seconds(),
             "active_tasks": (len(self.context.active_tasks) if self.context else 0),
             "capabilities": [c.value for c in self.metadata.capabilities],
             "healthy": self.status not in [AgentStatus.ERROR, AgentStatus.TERMINATED],

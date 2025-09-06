@@ -22,12 +22,13 @@ logger = logging.getLogger("agi_core.products.communication")
 
 class CommunicationMode(Enum):
     """AGI communication processing modes"""
-    EMPATHETIC = "empathetic"      # Emotional intelligence and empathy
-    PERSUASIVE = "persuasive"      # Ethical persuasion and influence
-    CLARIFYING = "clarifying"      # Clear and precise communication
-    CREATIVE = "creative"          # Creative and engaging messaging
-    ANALYTICAL = "analytical"      # Data-driven communication
-    CONTEXTUAL = "contextual"      # Context-aware adaptive messaging
+
+    EMPATHETIC = "empathetic"  # Emotional intelligence and empathy
+    PERSUASIVE = "persuasive"  # Ethical persuasion and influence
+    CLARIFYING = "clarifying"  # Clear and precise communication
+    CREATIVE = "creative"  # Creative and engaging messaging
+    ANALYTICAL = "analytical"  # Data-driven communication
+    CONTEXTUAL = "contextual"  # Context-aware adaptive messaging
 
 
 @dataclass
@@ -49,11 +50,7 @@ class CommunicationQuery:
         if self.timestamp is None:
             self.timestamp = datetime.now()
         if self.attention_requirements is None:
-            self.attention_requirements = {
-                "urgency": 0.5,
-                "cognitive_cost": 0.3,
-                "interruptibility": 0.7
-            }
+            self.attention_requirements = {"urgency": 0.5, "cognitive_cost": 0.3, "interruptibility": 0.7}
 
 
 @dataclass
@@ -103,7 +100,7 @@ class CommunicationProductsEnhancer:
             "clarity_indicators": ["specifically", "exactly", "precisely", "clearly"],
             "creative_elements": ["discover", "transform", "inspire", "create"],
             "analytical_terms": ["data", "evidence", "analysis", "insight"],
-            "contextual_adaptors": ["given", "considering", "in this case", "specifically for you"]
+            "contextual_adaptors": ["given", "considering", "in this case", "specifically for you"],
         }
 
     def _initialize_reasoning(self) -> dict[str, Any]:
@@ -114,7 +111,7 @@ class CommunicationProductsEnhancer:
             "multi_perspective": True,
             "emotional_reasoning": True,
             "contextual_adaptation": True,
-            "consensus_building": True
+            "consensus_building": True,
         }
 
     def _initialize_memory(self) -> dict[str, Any]:
@@ -124,7 +121,7 @@ class CommunicationProductsEnhancer:
             "user_preferences": {},
             "successful_strategies": {},
             "emotional_responses": {},
-            "attention_patterns": {}
+            "attention_patterns": {},
         }
 
     async def process_communication_query(self, query: CommunicationQuery) -> CommunicationResult:
@@ -165,15 +162,17 @@ class CommunicationProductsEnhancer:
                 "agi_enhanced": True,
                 "constellation_aligned": True,
                 "trinity_framework": "⚛️🧠🛡️",
-                "processing_steps": ["mode_specific", "agi_reasoning", "emotional_analysis", "attention_prediction", "alternatives"]
+                "processing_steps": [
+                    "mode_specific",
+                    "agi_reasoning",
+                    "emotional_analysis",
+                    "attention_prediction",
+                    "alternatives",
+                ],
             }
 
             # 6. Store for learning
-            self.processing_history.append({
-                "query": query,
-                "result": result,
-                "timestamp": datetime.now()
-            })
+            self.processing_history.append({"query": query, "result": result, "timestamp": datetime.now()})
 
             logger.info(f"Successfully processed communication query {query.id} in {result.processing_time:.3f}s")
             return result
@@ -190,7 +189,7 @@ class CommunicationProductsEnhancer:
                 attention_prediction={"error": 1.0},
                 alternative_versions=[],
                 metadata={"error": str(e)},
-                processing_time=time.time() - start_time
+                processing_time=time.time() - start_time,
             )
 
     async def _process_empathetic_communication(self, query: CommunicationQuery) -> CommunicationResult:
@@ -224,13 +223,13 @@ class CommunicationProductsEnhancer:
                 "Applied empathetic language patterns",
                 f"Adapted to user stress level: {user_stress}",
                 f"Considered user openness: {user_openness}",
-                "Used emotional intelligence for response crafting"
+                "Used emotional intelligence for response crafting",
             ],
             emotional_analysis={"empathy": 0.9, "warmth": 0.8, "understanding": 0.85},
             attention_prediction={"urgency": 0.3, "cognitive_cost": 0.2, "emotional_engagement": 0.9},
             alternative_versions=[],
             metadata={"empathy_mode": True},
-            processing_time=0.0
+            processing_time=0.0,
         )
 
     async def _process_persuasive_communication(self, query: CommunicationQuery) -> CommunicationResult:
@@ -263,13 +262,13 @@ class CommunicationProductsEnhancer:
                 "Applied ethical persuasion techniques",
                 f"Tailored for audience: {audience}",
                 f"Aligned with goals: {goals}",
-                "Maintained ethical boundaries"
+                "Maintained ethical boundaries",
             ],
             emotional_analysis={"influence": 0.7, "motivation": 0.8, "trust": 0.9},
             attention_prediction={"urgency": 0.6, "cognitive_cost": 0.4, "motivation": 0.8},
             alternative_versions=[],
             metadata={"persuasion_mode": True, "ethical_constraints": True},
-            processing_time=0.0
+            processing_time=0.0,
         )
 
     async def _process_clarifying_communication(self, query: CommunicationQuery) -> CommunicationResult:
@@ -302,13 +301,13 @@ class CommunicationProductsEnhancer:
                 "Maximized message clarity",
                 f"Adapted for complexity: {complexity}",
                 f"Applied constraints: {constraints}",
-                "Used precise language patterns"
+                "Used precise language patterns",
             ],
             emotional_analysis={"clarity": 0.95, "confidence": 0.85, "understanding": 0.9},
             attention_prediction={"urgency": 0.4, "cognitive_cost": 0.2, "comprehension": 0.9},
             alternative_versions=[],
             metadata={"clarity_mode": True},
-            processing_time=0.0
+            processing_time=0.0,
         )
 
     async def _process_creative_communication(self, query: CommunicationQuery) -> CommunicationResult:
@@ -341,13 +340,13 @@ class CommunicationProductsEnhancer:
                 "Enhanced with creative language",
                 f"Creative level: {creative_level}",
                 f"Inspiration source: {inspiration_source}",
-                "Applied imaginative framing"
+                "Applied imaginative framing",
             ],
             emotional_analysis={"creativity": 0.9, "inspiration": 0.85, "wonder": 0.8},
             attention_prediction={"urgency": 0.3, "cognitive_cost": 0.5, "engagement": 0.9},
             alternative_versions=[],
             metadata={"creative_mode": True, "dream_guided": True},
-            processing_time=0.0
+            processing_time=0.0,
         )
 
     async def _process_analytical_communication(self, query: CommunicationQuery) -> CommunicationResult:
@@ -380,13 +379,13 @@ class CommunicationProductsEnhancer:
                 "Applied analytical framing",
                 f"Data availability: {data_available}",
                 f"Evidence strength: {evidence_strength}",
-                "Used logical structure"
+                "Used logical structure",
             ],
             emotional_analysis={"logic": 0.9, "precision": 0.85, "confidence": 0.8},
             attention_prediction={"urgency": 0.5, "cognitive_cost": 0.6, "credibility": 0.9},
             alternative_versions=[],
             metadata={"analytical_mode": True},
-            processing_time=0.0
+            processing_time=0.0,
         )
 
     async def _process_contextual_communication(self, query: CommunicationQuery) -> CommunicationResult:
@@ -420,13 +419,13 @@ class CommunicationProductsEnhancer:
                 "Adapted to full context",
                 f"Relationship context: {relationship_context}",
                 f"Situational factors: {situational_factors}",
-                "Applied contextual intelligence"
+                "Applied contextual intelligence",
             ],
             emotional_analysis={"relevance": 0.9, "appropriateness": 0.85, "connection": 0.8},
             attention_prediction={"urgency": 0.4, "cognitive_cost": 0.3, "relevance": 0.9},
             alternative_versions=[],
             metadata={"contextual_mode": True},
-            processing_time=0.0
+            processing_time=0.0,
         )
 
     async def _process_default_communication(self, query: CommunicationQuery) -> CommunicationResult:
@@ -444,7 +443,7 @@ class CommunicationProductsEnhancer:
             attention_prediction={"standard": 0.5},
             alternative_versions=[],
             metadata={"default_mode": True},
-            processing_time=0.0
+            processing_time=0.0,
         )
 
     async def _apply_agi_reasoning(self, query: CommunicationQuery, result: CommunicationResult) -> CommunicationResult:
@@ -457,7 +456,7 @@ class CommunicationProductsEnhancer:
                 f"2. Considered target audience: {query.target_audience}",
                 f"3. Applied constraints: {query.constraints}",
                 f"4. Optimized for goals: {query.goals}",
-                "5. Enhanced with AGI language models"
+                "5. Enhanced with AGI language models",
             ]
             result.reasoning.extend(reasoning_steps)
             result.confidence_score += 0.1
@@ -477,40 +476,28 @@ class CommunicationProductsEnhancer:
 
         return result
 
-    async def _analyze_emotional_impact(self, query: CommunicationQuery, result: CommunicationResult) -> CommunicationResult:
+    async def _analyze_emotional_impact(
+        self, query: CommunicationQuery, result: CommunicationResult
+    ) -> CommunicationResult:
         """Analyze emotional impact of communication"""
 
         # Mock emotional analysis - in production would use sentiment analysis
         emotional_tone = query.emotional_tone or "neutral"
 
         if emotional_tone == "positive":
-            result.emotional_analysis.update({
-                "positivity": 0.8,
-                "energy": 0.7,
-                "optimism": 0.75
-            })
+            result.emotional_analysis.update({"positivity": 0.8, "energy": 0.7, "optimism": 0.75})
         elif emotional_tone == "calm":
-            result.emotional_analysis.update({
-                "serenity": 0.9,
-                "stability": 0.85,
-                "reassurance": 0.8
-            })
+            result.emotional_analysis.update({"serenity": 0.9, "stability": 0.85, "reassurance": 0.8})
         elif emotional_tone == "urgent":
-            result.emotional_analysis.update({
-                "urgency": 0.9,
-                "importance": 0.85,
-                "action_orientation": 0.8
-            })
+            result.emotional_analysis.update({"urgency": 0.9, "importance": 0.85, "action_orientation": 0.8})
         else:
-            result.emotional_analysis.update({
-                "balance": 0.7,
-                "professionalism": 0.8,
-                "clarity": 0.75
-            })
+            result.emotional_analysis.update({"balance": 0.7, "professionalism": 0.8, "clarity": 0.75})
 
         return result
 
-    async def _predict_attention_impact(self, query: CommunicationQuery, result: CommunicationResult) -> CommunicationResult:
+    async def _predict_attention_impact(
+        self, query: CommunicationQuery, result: CommunicationResult
+    ) -> CommunicationResult:
         """Predict attention impact for ABAS integration"""
 
         # Use attention requirements from query
@@ -518,30 +505,26 @@ class CommunicationProductsEnhancer:
 
         # Adjust based on communication mode
         if query.mode == CommunicationMode.CREATIVE:
-            result.attention_prediction.update({
-                "cognitive_engagement": 0.8,
-                "creative_stimulation": 0.9,
-                "flow_compatibility": 0.7
-            })
+            result.attention_prediction.update(
+                {"cognitive_engagement": 0.8, "creative_stimulation": 0.9, "flow_compatibility": 0.7}
+            )
         elif query.mode == CommunicationMode.EMPATHETIC:
-            result.attention_prediction.update({
-                "emotional_engagement": 0.9,
-                "stress_reduction": 0.8,
-                "connection_building": 0.85
-            })
+            result.attention_prediction.update(
+                {"emotional_engagement": 0.9, "stress_reduction": 0.8, "connection_building": 0.85}
+            )
         elif query.mode == CommunicationMode.ANALYTICAL:
-            result.attention_prediction.update({
-                "cognitive_load": 0.7,
-                "processing_depth": 0.8,
-                "decision_support": 0.9
-            })
+            result.attention_prediction.update(
+                {"cognitive_load": 0.7, "processing_depth": 0.8, "decision_support": 0.9}
+            )
 
         # Base predictions from requirements
-        result.attention_prediction.update({
-            "predicted_urgency": attention_reqs["urgency"],
-            "predicted_cognitive_cost": attention_reqs["cognitive_cost"],
-            "predicted_interruptibility": attention_reqs["interruptibility"]
-        })
+        result.attention_prediction.update(
+            {
+                "predicted_urgency": attention_reqs["urgency"],
+                "predicted_cognitive_cost": attention_reqs["cognitive_cost"],
+                "predicted_interruptibility": attention_reqs["interruptibility"],
+            }
+        )
 
         return result
 
@@ -552,29 +535,37 @@ class CommunicationProductsEnhancer:
 
         # Generate mode-specific alternatives
         if query.mode == CommunicationMode.EMPATHETIC:
-            alternatives.extend([
-                f"Gentle version: I sense this matters to you. {query.content}",
-                f"Supportive version: You're not alone in this. {query.content}",
-                f"Understanding version: This resonates with me too. {query.content}"
-            ])
+            alternatives.extend(
+                [
+                    f"Gentle version: I sense this matters to you. {query.content}",
+                    f"Supportive version: You're not alone in this. {query.content}",
+                    f"Understanding version: This resonates with me too. {query.content}",
+                ]
+            )
         elif query.mode == CommunicationMode.PERSUASIVE:
-            alternatives.extend([
-                f"Benefit-focused: Here's what this means for you: {query.content}",
-                f"Action-oriented: Ready to take the next step? {query.content}",
-                f"Value-proposition: This opportunity offers: {query.content}"
-            ])
+            alternatives.extend(
+                [
+                    f"Benefit-focused: Here's what this means for you: {query.content}",
+                    f"Action-oriented: Ready to take the next step? {query.content}",
+                    f"Value-proposition: This opportunity offers: {query.content}",
+                ]
+            )
         elif query.mode == CommunicationMode.CREATIVE:
-            alternatives.extend([
-                f"Inspiring version: Let's dream bigger: {query.content}",
-                f"Imaginative version: Picture this possibility: {query.content}",
-                f"Visionary version: Envision the potential: {query.content}"
-            ])
+            alternatives.extend(
+                [
+                    f"Inspiring version: Let's dream bigger: {query.content}",
+                    f"Imaginative version: Picture this possibility: {query.content}",
+                    f"Visionary version: Envision the potential: {query.content}",
+                ]
+            )
         else:
-            alternatives.extend([
-                f"Concise version: {query.content}",
-                f"Detailed version: Let me elaborate: {query.content}",
-                f"Question version: Have you considered: {query.content}?"
-            ])
+            alternatives.extend(
+                [
+                    f"Concise version: {query.content}",
+                    f"Detailed version: Let me elaborate: {query.content}",
+                    f"Question version: Have you considered: {query.content}?",
+                ]
+            )
 
         return alternatives[:3]  # Limit to top 3 alternatives
 
@@ -588,7 +579,7 @@ class AGIEnhancedNIAS:
             "empathy": "AGI-Empathy-Model",
             "persuasion": "AGI-Ethical-Persuasion-Model",
             "creativity": "AGI-Creative-Language-Model",
-            "analysis": "AGI-Analytical-Language-Model"
+            "analysis": "AGI-Analytical-Language-Model",
         }
         logger.info("AGI-Enhanced NIAS initialized")
 
@@ -603,7 +594,7 @@ class AGIEnhancedNIAS:
             target_audience="individual_user",
             context=user_context,
             constraints=["non_intrusive", "respectful", "consent_based"],
-            goals=["user_value", "engagement", "trust_building"]
+            goals=["user_value", "engagement", "trust_building"],
         )
 
         # Process with communication enhancer
@@ -616,7 +607,7 @@ class AGIEnhancedNIAS:
             "emotional_impact": result.emotional_analysis,
             "attention_requirements": result.attention_prediction,
             "alternatives": result.alternative_versions,
-            "agi_enhanced": True
+            "agi_enhanced": True,
         }
 
     async def generate_consent_request(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -629,7 +620,7 @@ class AGIEnhancedNIAS:
             target_audience="privacy_conscious_user",
             context=context,
             constraints=["transparent", "optional", "respectful"],
-            goals=["informed_consent", "user_control", "transparency"]
+            goals=["informed_consent", "user_control", "transparency"],
         )
 
         enhancer = CommunicationProductsEnhancer()
@@ -639,7 +630,7 @@ class AGIEnhancedNIAS:
             "consent_message": result.enhanced_content,
             "clarity_score": result.confidence_score,
             "transparency_indicators": result.metadata,
-            "agi_enhanced": True
+            "agi_enhanced": True,
         }
 
 
@@ -651,7 +642,7 @@ class AGIEnhancedABAS:
         self.attention_models = {
             "flow_protection": "AGI-Flow-State-Model",
             "overload_prevention": "AGI-Cognitive-Load-Model",
-            "boundary_negotiation": "AGI-Boundary-Communication-Model"
+            "boundary_negotiation": "AGI-Boundary-Communication-Model",
         }
         logger.info("AGI-Enhanced ABAS initialized")
 
@@ -661,7 +652,7 @@ class AGIEnhancedABAS:
         base_messages = {
             "flow_protection": "You seem to be in a focused flow state. I'll protect your concentration.",
             "overload_prevention": "I notice you might be experiencing cognitive overload. Let's pause and breathe.",
-            "recovery_period": "This looks like a good time to recover. Take a moment for yourself."
+            "recovery_period": "This looks like a good time to recover. Take a moment for yourself.",
         }
 
         query = CommunicationQuery(
@@ -671,7 +662,7 @@ class AGIEnhancedABAS:
             target_audience="user_needing_protection",
             context=user_context,
             constraints=["gentle", "protective", "non_judgmental"],
-            goals=["attention_protection", "wellbeing", "productivity"]
+            goals=["attention_protection", "wellbeing", "productivity"],
         )
 
         enhancer = CommunicationProductsEnhancer()
@@ -682,7 +673,7 @@ class AGIEnhancedABAS:
             "empathy_score": result.emotional_analysis.get("empathy", 0.5),
             "protection_level": result.confidence_score,
             "suggested_actions": result.alternative_versions,
-            "agi_enhanced": True
+            "agi_enhanced": True,
         }
 
     async def negotiate_attention_request(self, request_context: dict[str, Any]) -> dict[str, Any]:
@@ -695,7 +686,7 @@ class AGIEnhancedABAS:
             target_audience="focused_user",
             context=request_context,
             constraints=["respectful", "options_provided", "user_choice"],
-            goals=["balanced_attention", "user_control", "productivity"]
+            goals=["balanced_attention", "user_control", "productivity"],
         )
 
         enhancer = CommunicationProductsEnhancer()
@@ -706,7 +697,7 @@ class AGIEnhancedABAS:
             "context_awareness": result.confidence_score,
             "user_options": result.alternative_versions,
             "attention_impact": result.attention_prediction,
-            "agi_enhanced": True
+            "agi_enhanced": True,
         }
 
 
@@ -728,7 +719,7 @@ async def test_communication_enhancement():
         context={"emotional_state": {"stress": 0.8, "openness": 0.6}},
         constraints=["supportive", "non_judgmental"],
         goals=["stress_reduction", "encouragement"],
-        emotional_tone="calm"
+        emotional_tone="calm",
     )
 
     result = await enhancer.process_communication_query(empathy_query)
@@ -744,7 +735,7 @@ async def test_communication_enhancement():
     nias = AGIEnhancedNIAS()
     nias_result = await nias.enhance_symbolic_message(
         "New features available in your creative workspace",
-        {"user_type": "creative_professional", "current_project": "design", "stress_level": 0.3}
+        {"user_type": "creative_professional", "current_project": "design", "stress_level": 0.3},
     )
 
     print("\n🎯 AGI-Enhanced NIAS Test:")
@@ -755,8 +746,7 @@ async def test_communication_enhancement():
     # Test ABAS enhancement
     abas = AGIEnhancedABAS()
     abas_result = await abas.generate_boundary_message(
-        "flow_protection",
-        {"focus_level": 0.9, "flow_state": True, "interruption_risk": "high"}
+        "flow_protection", {"focus_level": 0.9, "flow_state": True, "interruption_risk": "high"}
     )
 
     print("\n🛡️ AGI-Enhanced ABAS Test:")

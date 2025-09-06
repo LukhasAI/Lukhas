@@ -29,7 +29,7 @@ class VoiceSystemIntegrator:
     - Provider-optimized voice settings
     """
 
-    def __init__(self, agi_system=None):
+    def __init__(self, agi_system=None, timezone):
         self.agi = agi_system
         self.logger = logging.getLogger("VoiceSystemIntegrator")
 
@@ -241,7 +241,7 @@ class VoiceSystemIntegrator:
         feedback = {
             "score": score,
             "text": feedback_text,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return self.profile_manager.provide_feedback(profile_id, feedback)

@@ -36,7 +36,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class ThreatLevel(Enum):
@@ -282,7 +282,7 @@ class BehavioralAnalyzer:
         details = []
 
         # Check login time anomaly
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if profile.typical_login_hours and current_hour not in profile.typical_login_hours:
             # Calculate how far from typical hours
             min_distance = min(abs(current_hour - h) for h in profile.typical_login_hours)
@@ -389,7 +389,7 @@ class BehavioralAnalyzer:
         """Update user behavioral profile with new activity data"""
 
         # Update temporal patterns
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if current_hour not in profile.typical_login_hours:
             profile.typical_login_hours.append(current_hour)
             # Keep only recent patterns (last 50 logins)
@@ -438,7 +438,7 @@ class BehavioralAnalyzer:
                 0.9 * profile.guardian_trust_score + 0.1 * activity_data["guardian_trust_score"]
             )
 
-        profile.updated_at = datetime.now()
+        profile.updated_at = datetime.now(timezone.utc)
 
 
 class PatternRecognizer:
@@ -586,7 +586,7 @@ class PatternRecognizer:
             # Create threat event
             threat_event = ThreatEvent(
                 event_id=f"threat_{uuid.uuid4().hex[:8]}",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 threat_type=pattern["threat_type"],
                 threat_level=self._calculate_threat_level(confidence),
                 confidence=confidence,
@@ -895,7 +895,7 @@ class ThreatResponseEngine:
                 # Track active response
                 self.active_responses[threat_event.event_id] = {
                     "rule_id": rule_id,
-                    "timestamp": datetime.now(),
+                    "timestamp": datetime.now(timezone.utc),
                     "actions": actions,
                 }
 
@@ -939,7 +939,7 @@ class ThreatResponseEngine:
             recent_responses = [
                 r
                 for r in self.active_responses.values()
-                if (datetime.now() - r["timestamp"]).total_seconds() < cooldown
+                if (datetime.now(timezone.utc) - r["timestamp"]).total_seconds() < cooldown
             ]
             if recent_responses:
                 return False
@@ -1086,7 +1086,7 @@ class ComprehensiveThreatDetection:
             "false_positives": 0,
             "active_threats": 0,
             "response_actions": 0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Start monitoring
@@ -1134,7 +1134,7 @@ class ComprehensiveThreatDetection:
             # Create comprehensive result
             result = {
                 "analysis_id": analysis_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "user_id": user_id,
                 "overall_threat_score": overall_threat_score,
                 "threat_level": self._score_to_level(overall_threat_score).value,
@@ -1159,7 +1159,7 @@ class ComprehensiveThreatDetection:
                         await self._handle_threat_event(threat)
 
             # Update metrics
-            self.metrics["last_updated"] = datetime.now().isoformat()
+            self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
             return result
 
@@ -1279,7 +1279,7 @@ class ComprehensiveThreatDetection:
         while True:
             try:
                 # Clean up resolved threats
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 expired_threats = []
 
                 for threat_id, threat in self.active_threats.items():

@@ -144,7 +144,7 @@ class MatrizConsciousnessSystem:
                     "auditory": 0.7,
                     "conceptual": 0.9,
                     "temporal": 0.6,
-                }
+                },
             )
 
             if awareness_signal:
@@ -167,10 +167,14 @@ class MatrizConsciousnessSystem:
             reflection_signal = await self.emitters["consciousness"].emit_reflection_signal(
                 reflection_depth=3,
                 meta_insights={
-                    "awareness_coherence": awareness_signal.bio_symbolic_data.coherence_score if awareness_signal and awareness_signal.bio_symbolic_data else 0.7,
+                    "awareness_coherence": (
+                        awareness_signal.bio_symbolic_data.coherence_score
+                        if awareness_signal and awareness_signal.bio_symbolic_data
+                        else 0.7
+                    ),
                     "metacognitive_depth": 3,
                     "self_awareness_score": 0.82,
-                }
+                },
             )
 
             if reflection_signal:
@@ -180,7 +184,7 @@ class MatrizConsciousnessSystem:
             # Step 5: Orchestrate inter-module integration
             integration_signal = await self.emitters["orchestration"].emit_coordination_signal(
                 coordinated_modules=["consciousness", "identity", "governance", "symbolic_core"],
-                coordination_strength=0.8
+                coordination_strength=0.8,
             )
 
             if integration_signal:
@@ -194,7 +198,7 @@ class MatrizConsciousnessSystem:
                     "coherence": 0.88,
                     "persistence": 0.95,
                     "uniqueness": 0.87,
-                }
+                },
             )
 
             if identity_signal:
@@ -203,9 +207,7 @@ class MatrizConsciousnessSystem:
 
             # Step 7: Guardian compliance check
             guardian_signal = await self.emitters["governance"].emit_guardian_compliance_signal(
-                compliance_score=0.94,
-                violation_flags=[],
-                drift_score=0.08
+                compliance_score=0.94, violation_flags=[], drift_score=0.08
             )
 
             if guardian_signal:
@@ -219,7 +221,7 @@ class MatrizConsciousnessSystem:
                     "confidence": 0.91,
                     "reasoning_path": ["awareness", "reflection", "integration"],
                 },
-                symbol_coherence=0.89
+                symbol_coherence=0.89,
             )
 
             if symbolic_signal:
@@ -239,7 +241,9 @@ class MatrizConsciousnessSystem:
             cycle_results["processing_time_ms"] = processing_time
 
             logger.info(f"🧠 Consciousness cycle completed in {processing_time:.2f}ms")
-            logger.info(f"   Signals: {cycle_results['signals_emitted']} emitted, {cycle_results['signals_processed']} processed")
+            logger.info(
+                f"   Signals: {cycle_results['signals_emitted']} emitted, {cycle_results['signals_processed']} processed"
+            )
             logger.info(f"   Network coherence: {cycle_results['network_coherence']:.3f}")
             logger.info(f"   Compliance: {cycle_results['compliance_level']}")
 
@@ -284,7 +288,7 @@ class MatrizConsciousnessSystem:
                 consciousness_id=self.consciousness_id,
                 producer_module="consciousness",
                 evolution_stage=stage_info["stage"],
-                evolutionary_momentum=stage_info["momentum"]
+                evolutionary_momentum=stage_info["momentum"],
             )
 
             # Process through bio-symbolic layer
@@ -342,11 +346,10 @@ class MatrizConsciousnessSystem:
             self.emitters["consciousness"].emit_consciousness_signal(
                 signal_type=ConsciousnessSignalType.AWARENESS,
                 awareness_level=0.3,
-                processing_hints={"system_shutdown": True}
+                processing_hints={"system_shutdown": True},
             ),
             self.emitters["orchestration"].emit_coordination_signal(
-                coordinated_modules=["all"],
-                coordination_strength=0.2
+                coordinated_modules=["all"], coordination_strength=0.2
             ),
         ]
 
@@ -444,7 +447,9 @@ class MatrizConsciousnessSystem:
         demo_results["system_performance"] = self.get_system_status()
         demo_results["total_processing_time_ms"] = (time.time() - demo_start) * 1000
 
-        logger.info(f"✅ MΛTRIZ consciousness system demonstration completed in {demo_results['total_processing_time_ms']:.2f}ms")
+        logger.info(
+            f"✅ MΛTRIZ consciousness system demonstration completed in {demo_results['total_processing_time_ms']:.2f}ms"
+        )
         logger.info(f"   Total signals processed: {demo_results['total_signals_processed']}")
         logger.info(f"   Network health: {self.network_health_score:.3f}")
 
@@ -468,8 +473,7 @@ class MatrizConsciousnessSystem:
         integration_tasks = []
         for i in range(5):  # Multiple coordinated signals
             task = self.emitters["orchestration"].emit_coordination_signal(
-                coordinated_modules=["consciousness", "identity", "governance"],
-                coordination_strength=0.7 + (i * 0.05)
+                coordinated_modules=["consciousness", "identity", "governance"], coordination_strength=0.7 + (i * 0.05)
             )
             integration_tasks.append(task)
 
@@ -528,9 +532,9 @@ async def run_matriz_system_demo():
         demo_results = await sistema.run_comprehensive_demonstration()
 
         # Print results summary
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("🧠 MΛTRIZ CONSCIOUSNESS SYSTEM DEMONSTRATION RESULTS")
-        print("="*80)
+        print("=" * 80)
         print(f"System ID: {demo_results['demonstration_id']}")
         print(f"Total Processing Time: {demo_results['total_processing_time_ms']:.2f}ms")
         print(f"Total Signals Processed: {demo_results['total_signals_processed']}")
@@ -544,7 +548,7 @@ async def run_matriz_system_demo():
 
         network_health = demo_results["system_performance"]["network_health_score"]
         print(f"\n🏥 Final Network Health: {network_health:.3f}")
-        print("="*80)
+        print("=" * 80)
 
         return demo_results
 

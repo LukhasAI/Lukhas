@@ -41,11 +41,7 @@ class TestQIBioAGIBridge:
     def mock_agi_component(self):
         """Create a mock AGI component."""
         component = Mock()
-        component.process = AsyncMock(return_value={
-            "result": 42.0,
-            "quality": 0.85,
-            "confidence": 0.9
-        })
+        component.process = AsyncMock(return_value={"result": 42.0, "quality": 0.85, "confidence": 0.9})
         component.get_health = Mock(return_value={"status": "healthy"})
         return component
 
@@ -59,8 +55,9 @@ class TestQIBioAGIBridge:
             bio_params={"adaptation_rate": 0.9},
             agi_params={"quality_threshold": 0.7},
             expected_outputs=["integrated_result"],
-            quality_thresholds={"minimum_coherence": 0.5}
+            quality_thresholds={"minimum_coherence": 0.5},
         )
+
 
 class TestBridgeInitialization:
     """Test bridge initialization and component registration."""
@@ -106,6 +103,7 @@ class TestBridgeInitialization:
         result = await bridge.initialize_integration()
         assert result is False
 
+
 class TestHybridProcessing:
     """Test hybrid processing across different modes."""
 
@@ -142,7 +140,7 @@ class TestHybridProcessing:
             bio_params={},
             agi_params={},
             expected_outputs=["qi_enhanced_result"],
-            quality_thresholds={}
+            quality_thresholds={},
         )
 
         result = await bridge.hybrid_process(context)
@@ -163,7 +161,7 @@ class TestHybridProcessing:
             bio_params={"adaptation_rate": 0.95},
             agi_params={},
             expected_outputs=["bio_adapted_result"],
-            quality_thresholds={}
+            quality_thresholds={},
         )
 
         result = await bridge.hybrid_process(context)
@@ -186,7 +184,7 @@ class TestHybridProcessing:
             bio_params={},
             agi_params={},
             expected_outputs=["consciousness_field_result"],
-            quality_thresholds={}
+            quality_thresholds={},
         )
 
         result = await bridge.hybrid_process(context)
@@ -211,7 +209,7 @@ class TestHybridProcessing:
             bio_params={},
             agi_params={},
             expected_outputs=[],
-            quality_thresholds={}
+            quality_thresholds={},
         )
 
         result = await bridge.hybrid_process(context)
@@ -219,6 +217,7 @@ class TestHybridProcessing:
         assert result.success is False
         assert "error" in result.primary_result
         assert result.integration_metrics.integration_errors > 0
+
 
 class TestEmergenceDetection:
     """Test emergent property detection."""
@@ -266,6 +265,7 @@ class TestEmergenceDetection:
         assert emergent["novel_patterns"] is True  # Above 0.9 threshold
         assert emergent["consciousness_amplification"] > 0.8
 
+
 class TestMetricsCalculation:
     """Test integration metrics calculation."""
 
@@ -302,12 +302,13 @@ class TestMetricsCalculation:
             consciousness_field_strength=0.75,
             processing_latency=0.2,
             integration_errors=0,
-            last_update=datetime.now(timezone.utc)
+            last_update=datetime.now(timezone.utc),
         )
 
         assert metrics.qi_coherence == 0.9
         assert metrics.bio_adaptation == 0.8
         assert metrics.agi_reasoning_quality == 0.85
+
 
 class TestStatusAndMonitoring:
     """Test status reporting and monitoring."""
@@ -360,6 +361,7 @@ class TestStatusAndMonitoring:
         assert status["integration_health"] == "critical"
         assert status["recent_success_rate"] == 0.3
 
+
 class TestConvenienceFunctions:
     """Test convenience functions for external use."""
 
@@ -375,7 +377,7 @@ class TestConvenienceFunctions:
                 mode=ProcessingMode.BIO_ADAPTIVE,
                 qi_params={"test": "qi"},
                 bio_params={"test": "bio"},
-                agi_params={"test": "agi"}
+                agi_params={"test": "agi"},
             )
 
             assert result == mock_result
@@ -409,6 +411,7 @@ class TestConvenienceFunctions:
             assert result == mock_status
             mock_bridge.get_integration_status.assert_called_once()
 
+
 class TestProcessingModeEnum:
     """Test ProcessingMode enumeration."""
 
@@ -422,11 +425,15 @@ class TestProcessingModeEnum:
 
         # Test we have all expected modes
         expected_modes = {
-            "quantum_enhanced", "bio_adaptive", "agi_reasoning",
-            "hybrid_consensus", "consciousness_field"
+            "quantum_enhanced",
+            "bio_adaptive",
+            "agi_reasoning",
+            "hybrid_consensus",
+            "consciousness_field",
         }
         actual_modes = {mode.value for mode in ProcessingMode}
         assert actual_modes == expected_modes
+
 
 # Integration test
 class TestFullIntegrationWorkflow:
@@ -439,18 +446,12 @@ class TestFullIntegrationWorkflow:
 
         # Step 1: Register AGI components
         reasoning_component = Mock()
-        reasoning_component.process = AsyncMock(return_value={
-            "result": 150.0,
-            "quality": 0.9,
-            "reasoning_steps": 3
-        })
+        reasoning_component.process = AsyncMock(return_value={"result": 150.0, "quality": 0.9, "reasoning_steps": 3})
 
         learning_component = Mock()
-        learning_component.process = AsyncMock(return_value={
-            "result": 125.0,
-            "quality": 0.8,
-            "adaptation_insights": ["insight1", "insight2"]
-        })
+        learning_component.process = AsyncMock(
+            return_value={"result": 125.0, "quality": 0.8, "adaptation_insights": ["insight1", "insight2"]}
+        )
 
         bridge.register_agi_component("reasoning", reasoning_component)
         bridge.register_agi_component("learning", learning_component)
@@ -471,7 +472,7 @@ class TestFullIntegrationWorkflow:
                 bio_params={"adaptation_rate": 0.85},
                 agi_params={"quality_threshold": 0.7},
                 expected_outputs=["result"],
-                quality_thresholds={"minimum_coherence": 0.5}
+                quality_thresholds={"minimum_coherence": 0.5},
             )
 
             result = await bridge.hybrid_process(context)
@@ -492,6 +493,7 @@ class TestFullIntegrationWorkflow:
         emergent_props = consciousness_result.primary_result["emergent_properties"]
         assert "emergence_detected" in emergent_props
         assert "synergy_factor" in emergent_props
+
 
 if __name__ == "__main__":
     # Run tests

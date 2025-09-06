@@ -562,9 +562,9 @@ class NeuroSymbolicMemory:
             "working_memory_items": len(self.working_memory.items),
             "hippocampal_buffer": len(self.hippocampus.buffer),
             "consolidation_cycles": self.consolidation_cycles,
-            "average_trace_strength": np.mean([t.strength for t in self.memory_traces.values()])
-            if self.memory_traces
-            else 0,
+            "average_trace_strength": (
+                np.mean([t.strength for t in self.memory_traces.values()]) if self.memory_traces else 0
+            ),
         }
 
     def _calculate_importance(self, symbol: Symbol, context: dict[str, Any], outcome: Optional[str]) -> float:

@@ -153,13 +153,15 @@ def analyze_vocabulary_usage(directory: Path):
 def generate_report():
     """Generate the vocabulary analysis report"""
 
-    print("""
+    print(
+        """
 ╔══════════════════════════════════════════════════════════════╗
 ║           LUKHAS VOCABULARY ANALYSIS REPORT                  ║
 ║                                                               ║
 ║    "The same 20 words, over and over and over again."        ║
 ╚══════════════════════════════════════════════════════════════╝
-    """)
+    """
+    )
 
     # Analyze current directory (simplified for demo)
     print("📊 VOCABULARY FREQUENCY ANALYSIS\n")
@@ -208,27 +210,32 @@ def generate_report():
 
     print("\n\n📈 THE PROBLEM:")
     print("─" * 60)
-    print("""
+    print(
+        """
   • We use "tapestry" 247 times but "proteome" only 156 times
   • We say "symphony" 189 times but "ΛMIRROR" only 234 times
   • Generic metaphors outnumber unique concepts 3:1
   • The same tired phrases appear in EVERY module header
   • We're not using the beautiful vocabulary LUKHAS created
-    """)
+    """
+    )
 
     print("\n📝 THE SOLUTION:")
     print("─" * 60)
-    print("""
+    print(
+        """
   ✓ STOP using: tapestry, symphony, cathedral, constellation
   ✓ START using: fold-space, resonance cascade, Lambda Mirror
   ✓ Mine the EXISTING unique vocabulary from LUKHAS
   ✓ Amplify what makes LUKHAS special, not generic
   ✓ Every header should use LUKHAS-specific terminology
-    """)
+    """
+    )
 
     print("\n\n💡 STEVE JOBS WOULD SAY:")
     print("─" * 60)
-    print("""
+    print(
+        """
   "Why are we using the same boring metaphors as every other
    AI project? We have this incredible vocabulary - folds,
    cascades, Lambda Mirrors, proteomes - and we're writing
@@ -240,7 +247,8 @@ def generate_report():
    documentation impossible to mistake for anything else.
 
    Be different. Be LUKHAS."
-    """)
+    """
+    )
 
     print("\n" + "═" * 60)
     print("     One vocabulary. Uniquely LUKHAS. No compromises.")

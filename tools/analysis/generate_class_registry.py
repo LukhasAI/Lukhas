@@ -13,7 +13,7 @@ from typing import Any
 
 
 class ClassRegistryGenerator:
-    def __init__(self, root_path: str = "."):
+    def __init__(self, root_path: str = ".", timezone):
         self.root_path = Path(root_path).resolve()
         self.registry = defaultdict(dict)
         self.inheritance_map = defaultdict(list)
@@ -149,7 +149,7 @@ class ClassRegistryGenerator:
         largest_classes.sort(key=lambda x: x[2], reverse=True)
 
         report = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "summary": {
                 "total_classes": total_classes,
                 "modules_with_classes": modules_with_classes,

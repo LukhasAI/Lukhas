@@ -90,7 +90,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure logging
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class VoiceMemoryHelix:
@@ -189,7 +189,7 @@ class VoiceMemoryHelix:
                 "curiosity_list": list(self.curiosity_list),
                 "location_memories": self.location_memories,
                 "stats": self.stats,
-                "last_updated": datetime.now().isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
             with open(memory_path, "w") as file:
@@ -313,13 +313,13 @@ class VoiceMemoryHelix:
                 "canonical": pronunciation,
                 "variants": {},
                 "practice_count": 0,
-                "last_practiced": datetime.now().isoformat(),
+                "last_practiced": datetime.now(timezone.utc).isoformat(),
             }
             self.stats["words_learned"] += 1
         else:
             # Update existing pronunciation
             self.pronunciation_memory[word]["practice_count"] += 1
-            self.pronunciation_memory[word]["last_practiced"] = datetime.now().isoformat()
+            self.pronunciation_memory[word]["last_practiced"] = datetime.now(timezone.utc).isoformat()
 
         # If we have accent information, update accent memory
         if accent_info:
@@ -391,7 +391,7 @@ class VoiceMemoryHelix:
         # Record practice history
         practice_entry = {
             "word": word,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "success": success,
             "correction": correction,
             "accent": accent,
@@ -403,7 +403,7 @@ class VoiceMemoryHelix:
         # Update pronunciation memory
         if word in self.pronunciation_memory:
             self.pronunciation_memory[word]["practice_count"] += 1
-            self.pronunciation_memory[word]["last_practiced"] = datetime.now().isoformat()
+            self.pronunciation_memory[word]["last_practiced"] = datetime.now(timezone.utc).isoformat()
 
             if success:
                 # If successful, strengthen this pronunciation
@@ -425,7 +425,7 @@ class VoiceMemoryHelix:
                 "canonical": (correction if correction else word),  # Fallback to word itself
                 "variants": {accent: correction} if correction else {},
                 "practice_count": 1,
-                "last_practiced": datetime.now().isoformat(),
+                "last_practiced": datetime.now(timezone.utc).isoformat(),
             }
             self.stats["words_learned"] += 1
 
@@ -493,7 +493,7 @@ class VoiceMemoryHelix:
         # 2. Number of previous practices (fewer is higher priority)
         # 3. Whether it's in the curiosity list
 
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         word_priorities = []
 
         for word, data in self.pronunciation_memory.items():

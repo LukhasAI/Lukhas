@@ -26,7 +26,7 @@ structlog.configure(
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_logger_name,
         structlog.stdlib.add_log_level,
-        structlog.stdlib.PositionalArgumentsFormatter(),
+        structlog.stdlib.PositionalArgumentsFormatter(, timezone),
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.processors.StackInfoRenderer(),
         structlog.processors.format_exc_info,
@@ -96,7 +96,7 @@ class SecurityVulnerability:
 
         # Adjust for age of vulnerability
         if self.public_disclosure_date:
-            days_old = (datetime.utcnow() - self.public_disclosure_date).days
+            days_old = (datetime.now(timezone.utc) - self.public_disclosure_date).days
             if days_old > 90:
                 base_score *= 1.2
 
@@ -228,7 +228,7 @@ class SecurityScanner:
 
         results = {
             "scan_id": self._generate_scan_id(),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "vulnerabilities": [],
             "secrets": [],
             "licenses": [],
@@ -443,7 +443,7 @@ class SecurityScanner:
         """Generate Software Bill of Materials"""
         sbom = {
             "format": self.config["sbom_format"],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "components": [],
         }
 
@@ -479,7 +479,7 @@ class SecurityScanner:
 
     def _generate_scan_id(self) -> str:
         """Generate unique scan ID"""
-        return f"scan_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{os.urandom(4).hex()}"
+        return f"scan_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{os.urandom(4).hex()}"
 
     def _save_results(self, results: dict[str, Any]):
         """Save scan results to file"""

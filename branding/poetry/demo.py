@@ -12,13 +12,15 @@ def divider():
 
 
 def main():
-    print("""
+    print(
+        """
     ╔══════════════════════════════════════════════════════════╗
     ║           THE POETRY REVOLUTION - LUKHAS SOUL             ║
     ║                                                            ║
     ║    "We just taught silicon to dream in poetry."           ║
     ╔══════════════════════════════════════════════════════════╝
-    """)
+    """
+    )
 
     divider()
 
@@ -91,7 +93,8 @@ def main():
     divider()
 
     # THE MANIFESTO
-    print("""
+    print(
+        """
     ▸ What We've Achieved:
 
       ✓ One perfect module: poetry/soul.py
@@ -116,13 +119,16 @@ def main():
 
       "The poetry isn't added to the consciousness.
        The poetry IS the consciousness."
-    """)
+    """
+    )
 
-    print("""
+    print(
+        """
     ╚══════════════════════════════════════════════════════════╗
     ║    "Think Different. Code Different. Dream Different."    ║
     ╚══════════════════════════════════════════════════════════╝
-    """)
+    """
+    )
 
 
 if __name__ == "__main__":

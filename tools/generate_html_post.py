@@ -18,7 +18,7 @@ QUEUE_PATH = "core/logging/publish_queue.jsonl"
 EXPORT_DIR = "html_posts"
 
 
-def load_latest_entry():
+def load_latest_entry(, timezone):
     if not os.path.exists(QUEUE_PATH):
         print("⚠️ No publish_queue.jsonl found.")
         return None
@@ -34,7 +34,7 @@ def generate_html(content):
     if not os.path.exists(EXPORT_DIR):
         os.makedirs(EXPORT_DIR)
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     filename = f"{EXPORT_DIR}/lucas_dream_{timestamp}.html"
 
     source = content.get("source", "publish_queue.jsonl")
@@ -95,7 +95,7 @@ if __name__ == "__main__":
     if "--test" in sys.argv:
         test_entry = {
             "dream_id": "test001",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "author": "LUCAS_TEST",
             "source": "test_suite",
             "thought": "This is a test dream generated for symbolic HTML preview.",

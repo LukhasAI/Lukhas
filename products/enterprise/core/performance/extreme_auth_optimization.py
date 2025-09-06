@@ -47,6 +47,7 @@ try:
 
     def fast_json_loads(data):
         return orjson.loads(data)
+
 except ImportError:
     import json
 
@@ -661,11 +662,11 @@ class ExtremeAuthPerformanceOptimizer:
                         f"audit_buffer: {metrics.audit_buffer_time_ms:.2f}ms",
                         f"db_query: {metrics.db_query_time_ms:.2f}ms",
                     ],
-                    "performance_level": "ultra_fast"
-                    if metrics.total_duration_ms < 10
-                    else "fast"
-                    if metrics.is_target_met()
-                    else "needs_optimization",
+                    "performance_level": (
+                        "ultra_fast"
+                        if metrics.total_duration_ms < 10
+                        else "fast" if metrics.is_target_met() else "needs_optimization"
+                    ),
                 },
                 "openai_scale_ready": metrics.is_target_met() and metrics.total_duration_ms < 15.0,
             }
@@ -717,9 +718,11 @@ class ExtremeAuthPerformanceOptimizer:
                 "p95_latency_ms": p95,
                 "p99_latency_ms": p99,
                 "target_p95_ms": self.target_p95_latency_ms,
-                "improvement_vs_target": f"{((self.target_p95_latency_ms - p95) / self.target_p95_latency_ms * 100):.1f}%"
-                if p95 <= self.target_p95_latency_ms
-                else f"{((p95 - self.target_p95_latency_ms) / self.target_p95_latency_ms * 100):.1f}% OVER target",
+                "improvement_vs_target": (
+                    f"{((self.target_p95_latency_ms - p95) / self.target_p95_latency_ms * 100):.1f}%"
+                    if p95 <= self.target_p95_latency_ms
+                    else f"{((p95 - self.target_p95_latency_ms) / self.target_p95_latency_ms * 100):.1f}% OVER target"
+                ),
             },
             "component_performance": component_stats,
             "optimization_recommendations": self._generate_optimization_recommendations(p95),

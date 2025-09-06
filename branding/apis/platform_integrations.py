@@ -93,7 +93,7 @@ class PlatformAPIManager:
     Handles authentication, rate limiting, error handling, and posting
     """
 
-    def __init__(self, credentials_path: Optional[str] = None):
+    def __init__(self, credentials_path: Optional[str] = None, timezone=None):
         self.base_path = Path(__file__).parent.parent
         self.credentials_path = credentials_path or (self.base_path / "config" / "api_credentials.json")
         self.logs_path = self.base_path / "logs"
@@ -124,7 +124,7 @@ class PlatformAPIManager:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"platform_apis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"platform_apis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -472,13 +472,13 @@ class PlatformAPIManager:
             self.rate_limits[platform] = RateLimitInfo(
                 platform=platform,
                 requests_remaining=self.default_rate_limits[platform]["requests"],
-                reset_time=datetime.now() + timedelta(seconds=self.default_rate_limits[platform]["window"]),
+                reset_time=datetime.now(timezone.utc) + timedelta(seconds=self.default_rate_limits[platform]["window"]),
                 window_duration=self.default_rate_limits[platform]["window"],
-                last_request=datetime.now() - timedelta(hours=1),
+                last_request=datetime.now(timezone.utc) - timedelta(hours=1),
             )
 
         rate_limit = self.rate_limits[platform]
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         # Reset if window has passed
         if now >= rate_limit.reset_time:
@@ -497,7 +497,7 @@ class PlatformAPIManager:
 
         if platform in self.rate_limits:
             self.rate_limits[platform].requests_remaining -= 1
-            self.rate_limits[platform].last_request = datetime.now()
+            self.rate_limits[platform].last_request = datetime.now(timezone.utc)
 
     def get_platform_status(self) -> dict[str, Any]:
         """Get status of all platform integrations"""

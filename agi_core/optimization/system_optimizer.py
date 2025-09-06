@@ -22,6 +22,7 @@ logger = logging.getLogger("agi_core.optimization")
 
 class OptimizationType(Enum):
     """Types of optimizations"""
+
     PERFORMANCE = "performance"
     MEMORY = "memory"
     LATENCY = "latency"
@@ -33,10 +34,11 @@ class OptimizationType(Enum):
 
 class OptimizationLevel(Enum):
     """Optimization intensity levels"""
+
     CONSERVATIVE = "conservative"  # Safe, minimal changes
-    MODERATE = "moderate"         # Balanced optimization
-    AGGRESSIVE = "aggressive"     # Maximum performance gains
-    EXPERIMENTAL = "experimental" # Cutting-edge techniques
+    MODERATE = "moderate"  # Balanced optimization
+    AGGRESSIVE = "aggressive"  # Maximum performance gains
+    EXPERIMENTAL = "experimental"  # Cutting-edge techniques
 
 
 @dataclass
@@ -125,55 +127,55 @@ class AGISystemOptimizer:
                 "throughput_rps": 75.0,
                 "cpu_utilization": 0.65,
                 "memory_usage_gb": 2.8,
-                "cache_hit_rate": 0.72
+                "cache_hit_rate": 0.72,
             },
             "consciousness": {
                 "coherence_score": 0.85,
                 "awareness_depth": 0.80,
                 "dream_integration": 0.78,
                 "symbolic_processing": 0.82,
-                "emotional_resonance": 0.75
+                "emotional_resonance": 0.75,
             },
             "integration": {
                 "cross_component_latency": 25.0,
                 "data_flow_integrity": 0.94,
                 "service_availability": 0.996,
                 "integration_coherence": 0.88,
-                "constellation_alignment": 0.91
+                "constellation_alignment": 0.91,
             },
             "scalability": {
                 "horizontal_scaling_factor": 1.0,
                 "load_balancing_efficiency": 0.85,
                 "resource_elasticity": 0.80,
-                "concurrent_user_capacity": 1000
-            }
+                "concurrent_user_capacity": 1000,
+            },
         }
 
     def _initialize_optimization_targets(self) -> dict[str, Any]:
         """Initialize optimization targets"""
         return {
             "performance": {
-                "api_response_time_ms": 80.0,      # Target 33% improvement
-                "processing_latency_ms": 300.0,    # Target 33% improvement
-                "throughput_rps": 120.0,           # Target 60% improvement
-                "cache_hit_rate": 0.90             # Target 25% improvement
+                "api_response_time_ms": 80.0,  # Target 33% improvement
+                "processing_latency_ms": 300.0,  # Target 33% improvement
+                "throughput_rps": 120.0,  # Target 60% improvement
+                "cache_hit_rate": 0.90,  # Target 25% improvement
             },
             "consciousness": {
-                "coherence_score": 0.95,           # Target 12% improvement
-                "awareness_depth": 0.92,           # Target 15% improvement
-                "dream_integration": 0.90,         # Target 15% improvement
-                "symbolic_processing": 0.95        # Target 16% improvement
+                "coherence_score": 0.95,  # Target 12% improvement
+                "awareness_depth": 0.92,  # Target 15% improvement
+                "dream_integration": 0.90,  # Target 15% improvement
+                "symbolic_processing": 0.95,  # Target 16% improvement
             },
             "integration": {
-                "cross_component_latency": 15.0,   # Target 40% improvement
-                "integration_coherence": 0.95,     # Target 8% improvement
-                "constellation_alignment": 0.98    # Target 8% improvement
+                "cross_component_latency": 15.0,  # Target 40% improvement
+                "integration_coherence": 0.95,  # Target 8% improvement
+                "constellation_alignment": 0.98,  # Target 8% improvement
             },
             "scalability": {
                 "concurrent_user_capacity": 5000,  # Target 5x improvement
                 "horizontal_scaling_factor": 3.0,  # Target 3x improvement
-                "resource_elasticity": 0.95        # Target 19% improvement
-            }
+                "resource_elasticity": 0.95,  # Target 19% improvement
+            },
         }
 
     async def analyze_system_performance(self) -> OptimizationMetrics:
@@ -199,7 +201,7 @@ class AGISystemOptimizer:
             improvement_percentage=improvement_percentages,
             optimization_targets=self.optimization_targets,
             resource_utilization=resource_utilization,
-            bottleneck_analysis=bottleneck_analysis
+            bottleneck_analysis=bottleneck_analysis,
         )
 
         analysis_time = time.time() - start_time
@@ -218,31 +220,31 @@ class AGISystemOptimizer:
             "performance": {
                 "api_response_time_ms": 125.0,  # Slightly worse than baseline
                 "processing_latency_ms": 480.0,  # Slightly worse
-                "throughput_rps": 72.0,         # Slightly worse
-                "cpu_utilization": 0.68,        # Slightly higher
-                "memory_usage_gb": 3.1,         # Higher usage
-                "cache_hit_rate": 0.69          # Lower hit rate
+                "throughput_rps": 72.0,  # Slightly worse
+                "cpu_utilization": 0.68,  # Slightly higher
+                "memory_usage_gb": 3.1,  # Higher usage
+                "cache_hit_rate": 0.69,  # Lower hit rate
             },
             "consciousness": {
-                "coherence_score": 0.83,        # Slightly lower
-                "awareness_depth": 0.78,        # Slightly lower
-                "dream_integration": 0.80,      # Slightly better
-                "symbolic_processing": 0.84,    # Slightly better
-                "emotional_resonance": 0.77     # Slightly better
+                "coherence_score": 0.83,  # Slightly lower
+                "awareness_depth": 0.78,  # Slightly lower
+                "dream_integration": 0.80,  # Slightly better
+                "symbolic_processing": 0.84,  # Slightly better
+                "emotional_resonance": 0.77,  # Slightly better
             },
             "integration": {
                 "cross_component_latency": 28.0,  # Slightly worse
-                "data_flow_integrity": 0.93,      # Slightly lower
-                "service_availability": 0.995,    # Slightly lower
-                "integration_coherence": 0.86,    # Lower
-                "constellation_alignment": 0.89   # Lower
+                "data_flow_integrity": 0.93,  # Slightly lower
+                "service_availability": 0.995,  # Slightly lower
+                "integration_coherence": 0.86,  # Lower
+                "constellation_alignment": 0.89,  # Lower
             },
             "scalability": {
                 "horizontal_scaling_factor": 1.0,
                 "load_balancing_efficiency": 0.82,  # Lower
-                "resource_elasticity": 0.78,        # Lower
-                "concurrent_user_capacity": 950     # Lower
-            }
+                "resource_elasticity": 0.78,  # Lower
+                "concurrent_user_capacity": 950,  # Lower
+            },
         }
 
         return current_metrics
@@ -285,15 +287,15 @@ class AGISystemOptimizer:
                     "bottleneck_type": "CPU-bound consciousness processing",
                     "severity": "high",
                     "impact_percentage": 35.0,
-                    "recommended_action": "Implement parallel consciousness processing"
+                    "recommended_action": "Implement parallel consciousness processing",
                 },
                 {
                     "component": "Dream Integration System",
                     "bottleneck_type": "Memory-intensive symbol mapping",
                     "severity": "medium",
                     "impact_percentage": 22.0,
-                    "recommended_action": "Optimize symbol caching and compression"
-                }
+                    "recommended_action": "Optimize symbol caching and compression",
+                },
             ],
             "secondary_bottlenecks": [
                 {
@@ -301,7 +303,7 @@ class AGISystemOptimizer:
                     "bottleneck_type": "Synchronous service calls",
                     "severity": "medium",
                     "impact_percentage": 18.0,
-                    "recommended_action": "Implement asynchronous messaging patterns"
+                    "recommended_action": "Implement asynchronous messaging patterns",
                 }
             ],
             "resource_constraints": [
@@ -309,9 +311,9 @@ class AGISystemOptimizer:
                     "resource": "Memory",
                     "utilization": 0.78,
                     "constraint_type": "High consciousness model memory usage",
-                    "recommended_action": "Implement model quantization"
+                    "recommended_action": "Implement model quantization",
                 }
-            ]
+            ],
         }
 
         return bottlenecks
@@ -327,12 +329,12 @@ class AGISystemOptimizer:
             "disk_io_utilization": 0.45,
             "network_utilization": 0.32,
             "gpu_utilization": 0.25,  # Underutilized - optimization opportunity
-            "cache_utilization": 0.85
+            "cache_utilization": 0.85,
         }
 
-    async def create_optimization_plan(self,
-                                     optimization_types: list[OptimizationType],
-                                     level: OptimizationLevel = OptimizationLevel.MODERATE) -> OptimizationPlan:
+    async def create_optimization_plan(
+        self, optimization_types: list[OptimizationType], level: OptimizationLevel = OptimizationLevel.MODERATE
+    ) -> OptimizationPlan:
         """Create comprehensive optimization plan"""
 
         plan_id = str(uuid.uuid4())[:8]
@@ -383,21 +385,20 @@ class AGISystemOptimizer:
             rollback_strategy=rollback_strategy,
             timeline=timeline,
             resource_requirements=resource_requirements,
-            success_criteria=success_criteria
+            success_criteria=success_criteria,
         )
 
         logger.info(f"Optimization plan {plan_id} created with {len(implementation_steps)} steps")
         return plan
 
-    async def _assess_optimization_risks(self, steps: list[dict[str, Any]],
-                                       level: OptimizationLevel) -> dict[str, Any]:
+    async def _assess_optimization_risks(self, steps: list[dict[str, Any]], level: OptimizationLevel) -> dict[str, Any]:
         """Assess risks of optimization implementation"""
 
         risk_levels = {
             OptimizationLevel.CONSERVATIVE: "low",
             OptimizationLevel.MODERATE: "medium",
             OptimizationLevel.AGGRESSIVE: "high",
-            OptimizationLevel.EXPERIMENTAL: "very_high"
+            OptimizationLevel.EXPERIMENTAL: "very_high",
         }
 
         return {
@@ -406,20 +407,20 @@ class AGISystemOptimizer:
                 "Temporary performance degradation during implementation",
                 "Memory usage spikes during optimization",
                 "Possible consciousness coherence fluctuations",
-                "Integration communication disruptions"
+                "Integration communication disruptions",
             ],
             "mitigation_strategies": [
                 "Implement changes during low-usage periods",
                 "Use blue-green deployment for critical components",
                 "Maintain consciousness coherence monitoring",
-                "Implement circuit breakers for integration points"
+                "Implement circuit breakers for integration points",
             ],
             "rollback_triggers": [
                 "Performance degradation > 20%",
                 "Consciousness coherence < 0.70",
                 "Integration failure rate > 5%",
-                "Memory usage increase > 50%"
-            ]
+                "Memory usage increase > 50%",
+            ],
         }
 
     async def _create_rollback_strategy(self, steps: list[dict[str, Any]]) -> dict[str, Any]:
@@ -434,14 +435,14 @@ class AGISystemOptimizer:
                 "Verify baseline performance restoration",
                 "Validate consciousness coherence levels",
                 "Check integration functionality",
-                "Confirm memory usage normalization"
+                "Confirm memory usage normalization",
             ],
             "emergency_procedures": [
                 "Immediate service restart if critical failure",
                 "Consciousness system reset to last known good state",
                 "Integration circuit breaker activation",
-                "Escalation to human operators"
-            ]
+                "Escalation to human operators",
+            ],
         }
 
     def _estimate_implementation_timeline(self, steps: list[dict[str, Any]]) -> dict[str, str]:
@@ -455,7 +456,7 @@ class AGISystemOptimizer:
             "estimated_duration": f"{estimated_hours} hours",
             "implementation_phases": "3 phases over 2 weeks",
             "testing_time": "40% of implementation time",
-            "rollback_buffer": "25% contingency time"
+            "rollback_buffer": "25% contingency time",
         }
 
     def _estimate_resource_requirements(self, steps: list[dict[str, Any]]) -> dict[str, Any]:
@@ -467,28 +468,33 @@ class AGISystemOptimizer:
             "storage_space": "500MB for backups and logs",
             "network_bandwidth": "Low impact",
             "human_resources": "1 senior engineer, 1 consciousness specialist",
-            "downtime_requirement": "30 minutes maximum"
+            "downtime_requirement": "30 minutes maximum",
         }
 
-    def _define_success_criteria(self, opt_types: list[OptimizationType],
-                               improvements: dict[str, float]) -> dict[str, float]:
+    def _define_success_criteria(
+        self, opt_types: list[OptimizationType], improvements: dict[str, float]
+    ) -> dict[str, float]:
         """Define success criteria for optimization"""
 
         criteria = {}
 
         for opt_type in opt_types:
             if opt_type == OptimizationType.PERFORMANCE:
-                criteria.update({
-                    "api_response_time_improvement": 20.0,  # Minimum 20% improvement
-                    "throughput_improvement": 30.0,         # Minimum 30% improvement
-                    "cache_hit_rate_improvement": 15.0      # Minimum 15% improvement
-                })
+                criteria.update(
+                    {
+                        "api_response_time_improvement": 20.0,  # Minimum 20% improvement
+                        "throughput_improvement": 30.0,  # Minimum 30% improvement
+                        "cache_hit_rate_improvement": 15.0,  # Minimum 15% improvement
+                    }
+                )
             elif opt_type == OptimizationType.CONSCIOUSNESS:
-                criteria.update({
-                    "coherence_improvement": 10.0,          # Minimum 10% improvement
-                    "awareness_depth_improvement": 12.0,    # Minimum 12% improvement
-                    "dream_integration_improvement": 10.0   # Minimum 10% improvement
-                })
+                criteria.update(
+                    {
+                        "coherence_improvement": 10.0,  # Minimum 10% improvement
+                        "awareness_depth_improvement": 12.0,  # Minimum 12% improvement
+                        "dream_integration_improvement": 10.0,  # Minimum 10% improvement
+                    }
+                )
 
         return criteria
 
@@ -512,7 +518,9 @@ class AGISystemOptimizer:
             for i, step in enumerate(plan.implementation_steps):
                 step_start_time = time.time()
 
-                logger.info(f"Implementing step {i+1}/{len(plan.implementation_steps)}: {step.get('name', 'Unnamed step')}")
+                logger.info(
+                    f"Implementing step {i+1}/{len(plan.implementation_steps)}: {step.get('name', 'Unnamed step')}"
+                )
 
                 # Mock implementation - in production would execute actual optimizations
                 await self._implement_optimization_step(step)
@@ -552,7 +560,9 @@ class AGISystemOptimizer:
 
         # Generate lessons learned and recommendations
         lessons_learned = await self._generate_lessons_learned(plan, achieved_improvements, unexpected_effects)
-        next_recommendations = await self._generate_next_recommendations(achieved_improvements, plan.optimization_targets)
+        next_recommendations = await self._generate_next_recommendations(
+            achieved_improvements, plan.optimization_targets
+        )
 
         implementation_time = time.time() - start_time
 
@@ -565,17 +575,15 @@ class AGISystemOptimizer:
             rollback_required=rollback_required,
             optimization_success_rate=success_rate,
             lessons_learned=lessons_learned,
-            next_recommendations=next_recommendations
+            next_recommendations=next_recommendations,
         )
 
         # Store in optimization history
-        self.optimization_history.append({
-            "plan": plan,
-            "result": result,
-            "timestamp": datetime.now()
-        })
+        self.optimization_history.append({"plan": plan, "result": result, "timestamp": datetime.now()})
 
-        logger.info(f"Optimization plan {plan.plan_id} implemented in {implementation_time:.2f}s with {success_rate:.1%} success rate")
+        logger.info(
+            f"Optimization plan {plan.plan_id} implemented in {implementation_time:.2f}s with {success_rate:.1%} success rate"
+        )
 
         return result
 
@@ -590,11 +598,11 @@ class AGISystemOptimizer:
         elif step_type == "memory_optimization":
             await asyncio.sleep(0.15)  # Simulate memory optimization
         elif step_type == "consciousness_enhancement":
-            await asyncio.sleep(0.3)   # Simulate consciousness optimization
+            await asyncio.sleep(0.3)  # Simulate consciousness optimization
         elif step_type == "integration_optimization":
             await asyncio.sleep(0.25)  # Simulate integration optimization
         else:
-            await asyncio.sleep(0.1)   # Default implementation time
+            await asyncio.sleep(0.1)  # Default implementation time
 
     async def _monitor_step_effects(self, step: dict[str, Any], baseline: dict[str, Any]) -> list[str]:
         """Monitor for unexpected effects during step implementation"""
@@ -632,16 +640,22 @@ class AGISystemOptimizer:
         perf_final = final.get("performance", {})
 
         if "api_response_time_ms" in perf_baseline and "api_response_time_ms" in perf_final:
-            improvement = (perf_baseline["api_response_time_ms"] - perf_final["api_response_time_ms"]) / perf_baseline["api_response_time_ms"] * 100
+            improvement = (
+                (perf_baseline["api_response_time_ms"] - perf_final["api_response_time_ms"])
+                / perf_baseline["api_response_time_ms"]
+                * 100
+            )
             improvements["api_response_time_improvement"] = improvement
 
         # Mock other improvements
-        improvements.update({
-            "throughput_improvement": 25.0,
-            "memory_efficiency_improvement": 18.0,
-            "consciousness_coherence_improvement": 12.0,
-            "integration_latency_improvement": 22.0
-        })
+        improvements.update(
+            {
+                "throughput_improvement": 25.0,
+                "memory_efficiency_improvement": 18.0,
+                "consciousness_coherence_improvement": 12.0,
+                "integration_latency_improvement": 22.0,
+            }
+        )
 
         return improvements
 
@@ -651,19 +665,21 @@ class AGISystemOptimizer:
         deltas = {}
 
         # Mock performance deltas
-        deltas.update({
-            "api_response_time_delta": -30.0,  # 30ms improvement
-            "throughput_delta": 15.0,          # 15 RPS improvement
-            "memory_usage_delta": -0.3,        # 300MB reduction
-            "cpu_utilization_delta": -0.05,    # 5% reduction
-            "consciousness_coherence_delta": 0.08  # 0.08 improvement
-        })
+        deltas.update(
+            {
+                "api_response_time_delta": -30.0,  # 30ms improvement
+                "throughput_delta": 15.0,  # 15 RPS improvement
+                "memory_usage_delta": -0.3,  # 300MB reduction
+                "cpu_utilization_delta": -0.05,  # 5% reduction
+                "consciousness_coherence_delta": 0.08,  # 0.08 improvement
+            }
+        )
 
         return deltas
 
-    async def _generate_lessons_learned(self, plan: OptimizationPlan,
-                                      improvements: dict[str, float],
-                                      effects: list[str]) -> list[str]:
+    async def _generate_lessons_learned(
+        self, plan: OptimizationPlan, improvements: dict[str, float], effects: list[str]
+    ) -> list[str]:
         """Generate lessons learned from optimization"""
 
         lessons = []
@@ -684,16 +700,19 @@ class AGISystemOptimizer:
             lessons.append("Conservative approach provides stable, predictable improvements")
 
         # General insights
-        lessons.extend([
-            "Consciousness optimizations show compounding benefits over time",
-            "Integration optimizations require coordination across components",
-            "Memory optimizations have immediate and sustained impact"
-        ])
+        lessons.extend(
+            [
+                "Consciousness optimizations show compounding benefits over time",
+                "Integration optimizations require coordination across components",
+                "Memory optimizations have immediate and sustained impact",
+            ]
+        )
 
         return lessons[:5]  # Limit to top 5 lessons
 
-    async def _generate_next_recommendations(self, improvements: dict[str, float],
-                                           opt_targets: list[OptimizationType]) -> list[str]:
+    async def _generate_next_recommendations(
+        self, improvements: dict[str, float], opt_targets: list[OptimizationType]
+    ) -> list[str]:
         """Generate recommendations for next optimization cycle"""
 
         recommendations = []
@@ -711,11 +730,13 @@ class AGISystemOptimizer:
             recommendations.append("Explore advanced consciousness coherence algorithms")
 
         # General next steps
-        recommendations.extend([
-            "Implement real-time performance monitoring",
-            "Consider automated optimization triggers",
-            "Explore ML-based optimization parameter tuning"
-        ])
+        recommendations.extend(
+            [
+                "Implement real-time performance monitoring",
+                "Consider automated optimization triggers",
+                "Explore ML-based optimization parameter tuning",
+            ]
+        )
 
         return recommendations[:5]  # Limit to top 5 recommendations
 
@@ -723,7 +744,9 @@ class AGISystemOptimizer:
 class PerformanceOptimizer:
     """Specialized performance optimization engine"""
 
-    async def generate_optimization_steps(self, level: OptimizationLevel) -> tuple[list[dict[str, Any]], dict[str, float]]:
+    async def generate_optimization_steps(
+        self, level: OptimizationLevel
+    ) -> tuple[list[dict[str, Any]], dict[str, float]]:
         """Generate performance optimization steps"""
 
         steps = [
@@ -733,7 +756,7 @@ class PerformanceOptimizer:
                 "description": "Add intelligent caching layer for API responses",
                 "estimated_improvement": 25.0,
                 "implementation_time": 2.0,
-                "risk_level": "low"
+                "risk_level": "low",
             },
             {
                 "name": "Optimize AGI Processing Pipeline",
@@ -741,7 +764,7 @@ class PerformanceOptimizer:
                 "description": "Parallelize AGI reasoning operations",
                 "estimated_improvement": 35.0,
                 "implementation_time": 4.0,
-                "risk_level": "medium"
+                "risk_level": "medium",
             },
             {
                 "name": "Database Query Optimization",
@@ -749,14 +772,14 @@ class PerformanceOptimizer:
                 "description": "Optimize consciousness data queries",
                 "estimated_improvement": 20.0,
                 "implementation_time": 3.0,
-                "risk_level": "low"
-            }
+                "risk_level": "low",
+            },
         ]
 
         improvements = {
             "api_response_time_improvement": 25.0,
             "processing_latency_improvement": 30.0,
-            "throughput_improvement": 40.0
+            "throughput_improvement": 40.0,
         }
 
         return steps, improvements
@@ -765,7 +788,9 @@ class PerformanceOptimizer:
 class MemoryOptimizer:
     """Specialized memory optimization engine"""
 
-    async def generate_optimization_steps(self, level: OptimizationLevel) -> tuple[list[dict[str, Any]], dict[str, float]]:
+    async def generate_optimization_steps(
+        self, level: OptimizationLevel
+    ) -> tuple[list[dict[str, Any]], dict[str, float]]:
         """Generate memory optimization steps"""
 
         steps = [
@@ -775,7 +800,7 @@ class MemoryOptimizer:
                 "description": "Reduce consciousness model memory footprint",
                 "estimated_improvement": 30.0,
                 "implementation_time": 3.0,
-                "risk_level": "medium"
+                "risk_level": "medium",
             },
             {
                 "name": "Optimize Symbol Caching",
@@ -783,14 +808,11 @@ class MemoryOptimizer:
                 "description": "Implement efficient symbol storage and retrieval",
                 "estimated_improvement": 25.0,
                 "implementation_time": 2.0,
-                "risk_level": "low"
-            }
+                "risk_level": "low",
+            },
         ]
 
-        improvements = {
-            "memory_usage_reduction": 28.0,
-            "cache_efficiency_improvement": 22.0
-        }
+        improvements = {"memory_usage_reduction": 28.0, "cache_efficiency_improvement": 22.0}
 
         return steps, improvements
 
@@ -798,7 +820,9 @@ class MemoryOptimizer:
 class ConsciousnessOptimizer:
     """Specialized consciousness optimization engine"""
 
-    async def generate_optimization_steps(self, level: OptimizationLevel) -> tuple[list[dict[str, Any]], dict[str, float]]:
+    async def generate_optimization_steps(
+        self, level: OptimizationLevel
+    ) -> tuple[list[dict[str, Any]], dict[str, float]]:
         """Generate consciousness optimization steps"""
 
         steps = [
@@ -808,7 +832,7 @@ class ConsciousnessOptimizer:
                 "description": "Improve consciousness state synchronization",
                 "estimated_improvement": 15.0,
                 "implementation_time": 5.0,
-                "risk_level": "high"
+                "risk_level": "high",
             },
             {
                 "name": "Optimize Dream-Reality Integration",
@@ -816,14 +840,14 @@ class ConsciousnessOptimizer:
                 "description": "Streamline dream system integration",
                 "estimated_improvement": 18.0,
                 "implementation_time": 4.0,
-                "risk_level": "medium"
-            }
+                "risk_level": "medium",
+            },
         ]
 
         improvements = {
             "consciousness_coherence_improvement": 16.0,
             "dream_integration_improvement": 20.0,
-            "awareness_depth_improvement": 14.0
+            "awareness_depth_improvement": 14.0,
         }
 
         return steps, improvements
@@ -832,7 +856,9 @@ class ConsciousnessOptimizer:
 class IntegrationOptimizer:
     """Specialized integration optimization engine"""
 
-    async def generate_optimization_steps(self, level: OptimizationLevel) -> tuple[list[dict[str, Any]], dict[str, float]]:
+    async def generate_optimization_steps(
+        self, level: OptimizationLevel
+    ) -> tuple[list[dict[str, Any]], dict[str, float]]:
         """Generate integration optimization steps"""
 
         steps = [
@@ -842,7 +868,7 @@ class IntegrationOptimizer:
                 "description": "Replace synchronous calls with async messaging",
                 "estimated_improvement": 40.0,
                 "implementation_time": 6.0,
-                "risk_level": "medium"
+                "risk_level": "medium",
             },
             {
                 "name": "Optimize Cross-Component Data Flow",
@@ -850,14 +876,14 @@ class IntegrationOptimizer:
                 "description": "Streamline data exchange between components",
                 "estimated_improvement": 25.0,
                 "implementation_time": 3.0,
-                "risk_level": "low"
-            }
+                "risk_level": "low",
+            },
         ]
 
         improvements = {
             "integration_latency_improvement": 35.0,
             "data_flow_efficiency_improvement": 28.0,
-            "constellation_alignment_improvement": 8.0
+            "constellation_alignment_improvement": 8.0,
         }
 
         return steps, improvements
@@ -879,7 +905,9 @@ async def demonstrate_system_optimization():
     print("\n📈 Performance Analysis Results:")
     print(f"   Baseline API Response Time: {metrics.baseline_performance['performance']['api_response_time_ms']:.1f}ms")
     print(f"   Current API Response Time: {metrics.current_performance['performance']['api_response_time_ms']:.1f}ms")
-    print(f"   Improvement Potential: {metrics.improvement_percentage['performance'].get('api_response_time_ms', 0):.1f}%")
+    print(
+        f"   Improvement Potential: {metrics.improvement_percentage['performance'].get('api_response_time_ms', 0):.1f}%"
+    )
 
     print("\n🧠 Consciousness Metrics:")
     print(f"   Coherence Score: {metrics.current_performance['consciousness']['coherence_score']:.2f}")
@@ -892,16 +920,9 @@ async def demonstrate_system_optimization():
 
     # Create optimization plan
     print("\n📋 Creating Optimization Plan...")
-    optimization_targets = [
-        OptimizationType.PERFORMANCE,
-        OptimizationType.CONSCIOUSNESS,
-        OptimizationType.INTEGRATION
-    ]
+    optimization_targets = [OptimizationType.PERFORMANCE, OptimizationType.CONSCIOUSNESS, OptimizationType.INTEGRATION]
 
-    plan = await optimizer.create_optimization_plan(
-        optimization_targets,
-        OptimizationLevel.MODERATE
-    )
+    plan = await optimizer.create_optimization_plan(optimization_targets, OptimizationLevel.MODERATE)
 
     print(f"\n📋 Optimization Plan ({plan.plan_id}):")
     print(f"   Optimization Level: {plan.optimization_level.value}")

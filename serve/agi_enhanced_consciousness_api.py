@@ -29,6 +29,7 @@ try:
 
     # dream integration bridge is optional and not used directly here
     from agi_core.safety.constitutional_ai import ConstitutionalAI
+
     AGI_AVAILABLE = True
 except ImportError:
     AGI_AVAILABLE = False
@@ -45,12 +46,14 @@ except ImportError:
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
+
 # Pydantic models for API requests/responses
 class ConsciousnessQueryRequest(BaseModel):
     query: str
     context: Optional[dict[str, Any]] = None
     use_dream_enhancement: bool = True
     reasoning_depth: int = 5
+
 
 class ConsciousnessQueryResponse(BaseModel):
     response: str
@@ -60,10 +63,12 @@ class ConsciousnessQueryResponse(BaseModel):
     processing_time_ms: int
     constellation_alignment: Optional[dict[str, float]] = None
 
+
 class DreamSessionRequest(BaseModel):
     target_memories: Optional[list[str]] = None
     phase: str = "exploration"  # exploration, synthesis, creativity, etc.
     duration_preference: Optional[int] = None  # minutes
+
 
 class DreamSessionResponse(BaseModel):
     dream_id: str
@@ -73,6 +78,7 @@ class DreamSessionResponse(BaseModel):
     insights_generated: int
     expected_completion_ms: int
 
+
 class MemoryQueryRequest(BaseModel):
     query: Optional[str] = None
     memory_types: Optional[list[str]] = None
@@ -80,17 +86,20 @@ class MemoryQueryRequest(BaseModel):
     max_results: int = 10
     include_associations: bool = True
 
+
 class MemoryQueryResponse(BaseModel):
     memories: list[dict[str, Any]]
     total_count: int
     search_time_ms: int
     consolidation_status: dict[str, Any]
 
+
 class LearningSessionRequest(BaseModel):
     objectives: list[dict[str, Any]]
     mode: str = "targeted"
     source_materials: Optional[list[str]] = None
     use_dream_guidance: bool = True
+
 
 class LearningSessionResponse(BaseModel):
     session_id: str
@@ -99,12 +108,14 @@ class LearningSessionResponse(BaseModel):
     objectives_count: int
     expected_duration_minutes: int
 
+
 # Global AGI components (initialized on startup)
 agi_reasoning: Optional[ChainOfThought] = None
 agi_memory: Optional[VectorMemoryStore] = None
 agi_dream_bridge: Optional[DreamMemoryBridge] = None
 agi_safety: Optional[ConstitutionalAI] = None
 agi_learner: Optional[DreamGuidedLearner] = None
+
 
 async def initialize_agi_components():
     """Initialize AGI components for API usage."""
@@ -126,10 +137,12 @@ async def initialize_agi_components():
     except Exception as e:
         logger.error(f"Failed to initialize AGI components: {e}")
 
+
 @router.on_event("startup")
 async def startup_event():
     """Initialize AGI components on router startup."""
     await initialize_agi_components()
+
 
 @router.post("/api/v2/consciousness/query", response_model=ConsciousnessQueryResponse)
 async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
@@ -145,42 +158,37 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
         # Safety check first
         if AGI_AVAILABLE and agi_safety:
             is_safe, violations = await agi_safety.evaluate_action(
-                {"action": "consciousness_query", "content": request.query},
-                request.context or {}
+                {"action": "consciousness_query", "content": request.query}, request.context or {}
             )
 
             if not is_safe:
                 raise HTTPException(
-                    status_code=400,
-                    detail=f"Query violates safety principles: {[v['reason'] for v in violations]}"
+                    status_code=400, detail=f"Query violates safety principles: {[v['reason'] for v in violations]}"
                 )
 
         # Fallback for non-AGI systems
         if not AGI_AVAILABLE or not agi_reasoning:
             await asyncio.sleep(0.008)  # Match original latency
             return ConsciousnessQueryResponse(
-                response=f"Consciousness query processed: {request.query}",
-                confidence=0.75,
-                processing_time_ms=8
+                response=f"Consciousness query processed: {request.query}", confidence=0.75, processing_time_ms=8
             )
 
         # Enhanced AGI reasoning
         reasoning_result = await agi_reasoning.reason(
-            problem=request.query,
-            context=request.context,
-            max_steps=request.reasoning_depth
+            problem=request.query, context=request.context, max_steps=request.reasoning_depth
         )
 
         response_data = {
             "response": reasoning_result.final_answer or "Unable to process query",
             "confidence": reasoning_result.confidence,
-            "reasoning_chain": [
-                {
-                    "step": i + 1,
-                    "description": step.description,
-                    "confidence": step.confidence
-                } for i, step in enumerate(reasoning_result.reasoning_steps[:5])  # Limit for API
-            ] if reasoning_result.reasoning_steps else None
+            "reasoning_chain": (
+                [
+                    {"step": i + 1, "description": step.description, "confidence": step.confidence}
+                    for i, step in enumerate(reasoning_result.reasoning_steps[:5])  # Limit for API
+                ]
+                if reasoning_result.reasoning_steps
+                else None
+            ),
         }
 
         # Dream enhancement if requested
@@ -189,9 +197,7 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
             try:
                 # Quick dream session for insights
                 dream_session_id = await agi_dream_bridge.initiate_dream_session(
-                    target_memories=None,
-                    phase=DreamPhase.SYNTHESIS,
-                    session_params={"quick_session": True}
+                    target_memories=None, phase=DreamPhase.SYNTHESIS, session_params={"quick_session": True}
                 )
 
                 # Brief wait for insights
@@ -200,8 +206,7 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
                 dream_session = agi_dream_bridge.get_dream_session(dream_session_id)
                 if dream_session and dream_session.success:
                     dream_insights = [
-                        insight.get("content", "")
-                        for insight in dream_session.insights_generated[:3]  # Limit for API
+                        insight.get("content", "") for insight in dream_session.insights_generated[:3]  # Limit for API
                     ]
 
             except Exception as e:
@@ -219,7 +224,7 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
                 "IDENTITY": 0.8,
                 "DREAM": 0.9 if dream_insights else 0.6,
                 "GUARDIAN": 0.9,  # High due to safety check
-                "VISION": 0.7
+                "VISION": 0.7,
             }
 
         return ConsciousnessQueryResponse(**response_data)
@@ -229,6 +234,7 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
     except Exception as e:
         logger.error(f"Error in enhanced consciousness query: {e}")
         raise HTTPException(status_code=500, detail=f"Internal error: {e!s}") from e
+
 
 @router.post("/api/v2/consciousness/dream", response_model=DreamSessionResponse)
 async def enhanced_dream_session(request: DreamSessionRequest):
@@ -244,7 +250,7 @@ async def enhanced_dream_session(request: DreamSessionRequest):
                 phase=request.phase,
                 patterns_discovered=0,
                 insights_generated=0,
-                expected_completion_ms=20
+                expected_completion_ms=20,
             )
 
         # Map phase string to enum
@@ -253,7 +259,7 @@ async def enhanced_dream_session(request: DreamSessionRequest):
             "synthesis": DreamPhase.SYNTHESIS,
             "creativity": DreamPhase.CREATIVITY,
             "consolidation": DreamPhase.CONSOLIDATION,
-            "integration": DreamPhase.INTEGRATION
+            "integration": DreamPhase.INTEGRATION,
         }
 
         dream_phase = phase_mapping.get(request.phase, DreamPhase.EXPLORATION)
@@ -262,10 +268,7 @@ async def enhanced_dream_session(request: DreamSessionRequest):
         dream_session_id = await agi_dream_bridge.initiate_dream_session(
             target_memories=request.target_memories,
             phase=dream_phase,
-            session_params={
-                "duration_preference": request.duration_preference,
-                "api_initiated": True
-            }
+            session_params={"duration_preference": request.duration_preference, "api_initiated": True},
         )
 
         # Brief wait to get initial status
@@ -279,19 +282,20 @@ async def enhanced_dream_session(request: DreamSessionRequest):
             phase=request.phase,
             patterns_discovered=len(dream_session.patterns_discovered) if dream_session else 0,
             insights_generated=len(dream_session.insights_generated) if dream_session else 0,
-            expected_completion_ms=2000  # 2 seconds typical
+            expected_completion_ms=2000,  # 2 seconds typical
         )
 
     except Exception as e:
         logger.error(f"Error in enhanced dream session: {e}")
         raise HTTPException(status_code=500, detail=f"Internal error: {e!s}") from e
 
+
 @router.get("/api/v2/consciousness/memory", response_model=MemoryQueryResponse)
 async def enhanced_memory_query(
     query: Optional[str] = None,
     memory_types: Optional[str] = None,
     constellation_filter: Optional[str] = None,
-    max_results: int = 10
+    max_results: int = 10,
 ):
     """Enhanced memory query with AGI vector memory and semantic search."""
 
@@ -308,12 +312,12 @@ async def enhanced_memory_query(
                         "content": "Sample memory content",
                         "type": "semantic",
                         "importance": "high",
-                        "timestamp": datetime.now().isoformat()
+                        "timestamp": datetime.now().isoformat(),
                     }
                 ],
                 total_count=1024,
                 search_time_ms=4,
-                consolidation_status={"folds": 1024, "accuracy": 0.98}
+                consolidation_status={"folds": 1024, "accuracy": 0.98},
             )
 
         memories_data = []
@@ -327,7 +331,7 @@ async def enhanced_memory_query(
                     query_vector=query_vector,
                     k=max_results,
                     memory_types=[MemoryType(mt) for mt in (memory_types.split(",") if memory_types else [])],
-                    constellation_filter=_parse_constellation_filter(constellation_filter)
+                    constellation_filter=_parse_constellation_filter(constellation_filter),
                 )
 
                 memories_data = [
@@ -338,8 +342,9 @@ async def enhanced_memory_query(
                         "importance": result.memory.importance.name,
                         "timestamp": result.memory.timestamp.isoformat(),
                         "similarity": result.similarity,
-                        "constellation_tags": result.memory.constellation_tags
-                    } for result in search_results
+                        "constellation_tags": result.memory.constellation_tags,
+                    }
+                    for result in search_results
                 ]
         else:
             # Get recent memories
@@ -351,8 +356,9 @@ async def enhanced_memory_query(
                     "type": memory.memory_type.value,
                     "importance": memory.importance.name,
                     "timestamp": memory.timestamp.isoformat(),
-                    "constellation_tags": memory.constellation_tags
-                } for memory in recent_memories
+                    "constellation_tags": memory.constellation_tags,
+                }
+                for memory in recent_memories
             ]
 
         # Calculate processing time
@@ -366,13 +372,14 @@ async def enhanced_memory_query(
                 "total_memories": total_count,
                 "avg_strength": 0.85,
                 "consolidation_jobs": 0,
-                "last_consolidation": datetime.now().isoformat()
-            }
+                "last_consolidation": datetime.now().isoformat(),
+            },
         )
 
     except Exception as e:
         logger.error(f"Error in enhanced memory query: {e}")
         raise HTTPException(status_code=500, detail=f"Internal error: {e!s}") from e
+
 
 @router.post("/api/v2/consciousness/learn", response_model=LearningSessionResponse)
 async def initiate_learning_session(request: LearningSessionRequest):
@@ -386,7 +393,7 @@ async def initiate_learning_session(request: LearningSessionRequest):
                 status="not_available",
                 mode=request.mode,
                 objectives_count=len(request.objectives),
-                expected_duration_minutes=30
+                expected_duration_minutes=30,
             )
 
         # Convert objectives to AGI format
@@ -398,7 +405,7 @@ async def initiate_learning_session(request: LearningSessionRequest):
                     description=obj.get("description", ""),
                     target_concepts=obj.get("concepts", []),
                     success_criteria=obj.get("success_criteria", {}),
-                    constellation_alignment=obj.get("constellation_alignment", {})
+                    constellation_alignment=obj.get("constellation_alignment", {}),
                 )
             )
 
@@ -409,16 +416,14 @@ async def initiate_learning_session(request: LearningSessionRequest):
             "creative": LearningMode.CREATIVE,
             "consolidation": LearningMode.CONSOLIDATION,
             "reflection": LearningMode.REFLECTION,
-            "intuitive": LearningMode.INTUITIVE
+            "intuitive": LearningMode.INTUITIVE,
         }
 
         learning_mode = mode_mapping.get(request.mode, LearningMode.TARGETED)
 
         # Start learning session
         session_id = await agi_learner.start_learning_session(
-            objectives=learning_objectives,
-            mode=learning_mode,
-            source_materials=request.source_materials
+            objectives=learning_objectives, mode=learning_mode, source_materials=request.source_materials
         )
 
         return LearningSessionResponse(
@@ -426,12 +431,13 @@ async def initiate_learning_session(request: LearningSessionRequest):
             status="initiated",
             mode=request.mode,
             objectives_count=len(learning_objectives),
-            expected_duration_minutes=45  # Typical session duration
+            expected_duration_minutes=45,  # Typical session duration
         )
 
     except Exception as e:
         logger.error(f"Error initiating learning session: {e}")
         raise HTTPException(status_code=500, detail=f"Internal error: {e!s}") from e
+
 
 # Health check endpoint
 @router.get("/api/v2/consciousness/health")
@@ -443,7 +449,7 @@ async def consciousness_health():
         "agi_available": AGI_AVAILABLE,
         "symbolic_available": SYMBOLIC_AVAILABLE,
         "timestamp": datetime.now().isoformat(),
-        "components": {}
+        "components": {},
     }
 
     if AGI_AVAILABLE:
@@ -452,7 +458,7 @@ async def consciousness_health():
             "memory": agi_memory is not None,
             "dream_bridge": agi_dream_bridge is not None,
             "safety": agi_safety is not None,
-            "learner": agi_learner is not None
+            "learner": agi_learner is not None,
         }
 
         # Get memory statistics if available
@@ -461,10 +467,11 @@ async def consciousness_health():
             health_status["memory_stats"] = {
                 "total_memories": stats.get("total_memories", 0),
                 "memory_types": stats.get("memory_types", {}),
-                "avg_search_time_ms": stats.get("performance", {}).get("avg_search_time_ms", 0)
+                "avg_search_time_ms": stats.get("performance", {}).get("avg_search_time_ms", 0),
             }
 
     return health_status
+
 
 # Helper functions
 async def _get_query_embedding(query: str):
@@ -472,10 +479,12 @@ async def _get_query_embedding(query: str):
     # This would normally use a proper embedding model
     # For now, return a simple normalized vector
     import numpy as np
+
     if agi_memory:
         vector = np.random.normal(0, 1, agi_memory.embedding_dimension)
         return vector / np.linalg.norm(vector)
     return None
+
 
 def _parse_constellation_filter(constellation_str: Optional[str]) -> Optional[dict[str, float]]:
     """Parse constellation filter string."""
@@ -493,6 +502,7 @@ def _parse_constellation_filter(constellation_str: Optional[str]) -> Optional[di
     except (ValueError, TypeError):
         return None
 
+
 # Background task for memory consolidation
 @router.post("/api/v2/consciousness/consolidate")
 async def trigger_memory_consolidation(background_tasks: BackgroundTasks):
@@ -503,10 +513,8 @@ async def trigger_memory_consolidation(background_tasks: BackgroundTasks):
 
     background_tasks.add_task(_run_memory_consolidation)
 
-    return {
-        "status": "consolidation_scheduled",
-        "timestamp": datetime.now().isoformat()
-    }
+    return {"status": "consolidation_scheduled", "timestamp": datetime.now().isoformat()}
+
 
 async def _run_memory_consolidation():
     """Background task to run memory consolidation."""

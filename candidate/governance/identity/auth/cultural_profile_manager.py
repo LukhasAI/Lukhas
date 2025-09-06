@@ -20,8 +20,7 @@ from typing import Any, Optional
 # Import constitutional enforcement
 from .constitutional_gatekeeper import (
     ConstitutionalLevel,
-    get_constitutional_gatekeeper,
-)
+    get_constitutional_gatekeeper,, timezone)
 
 # Configure cultural logging
 logging.basicConfig(level=logging.INFO)
@@ -286,8 +285,8 @@ class CulturalProfileManager:
             sensitivity_level=kwargs.get("sensitivity_level", 0.7),
             custom_exclusions=kwargs.get("custom_exclusions", []),
             custom_inclusions=kwargs.get("custom_inclusions", []),
-            created_at=datetime.now(),
-            last_updated=datetime.now(),
+            created_at=datetime.now(timezone.utc),
+            last_updated=datetime.now(timezone.utc),
         )
 
         self.cultural_profiles[user_id] = profile
@@ -504,7 +503,7 @@ class CulturalProfileManager:
             if hasattr(profile, key):
                 setattr(profile, key, value)
 
-        profile.last_updated = datetime.now()
+        profile.last_updated = datetime.now(timezone.utc)
 
         cultural_logger.info(f"Updated cultural profile for user {user_id}")
         return True

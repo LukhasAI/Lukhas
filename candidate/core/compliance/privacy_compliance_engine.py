@@ -36,6 +36,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 # Privacy framework types
 class PrivacyFramework(Enum):
     """Supported privacy regulatory frameworks"""
+
     GDPR_2018 = "gdpr_2018"
     CCPA_2020 = "ccpa_2020"
     CCPA_ADMT_2025 = "ccpa_admt_2025"
@@ -43,8 +44,10 @@ class PrivacyFramework(Enum):
     LGPD_2020 = "lgpd_2020"
     PRIVACY_ACT_1974 = "privacy_act_1974"
 
+
 class LegalBasis(Enum):
     """GDPR Article 6 legal basis for data processing"""
+
     CONSENT = "consent"
     CONTRACT = "contract"
     LEGAL_OBLIGATION = "legal_obligation"
@@ -52,8 +55,10 @@ class LegalBasis(Enum):
     PUBLIC_TASK = "public_task"
     LEGITIMATE_INTERESTS = "legitimate_interests"
 
+
 class DataCategory(Enum):
     """Categories of personal data for privacy assessment"""
+
     PERSONAL_IDENTIFIERS = "personal_identifiers"
     SENSITIVE_PERSONAL = "sensitive_personal"
     BIOMETRIC_DATA = "biometric_data"
@@ -63,24 +68,30 @@ class DataCategory(Enum):
     LOCATION_DATA = "location_data"
     COMMUNICATION_DATA = "communication_data"
 
+
 class ConsentStatus(Enum):
     """Consent status tracking"""
+
     GIVEN = "given"
     WITHDRAWN = "withdrawn"
     EXPIRED = "expired"
     PENDING = "pending"
     INVALID = "invalid"
 
+
 class PrivacyRisk(Enum):
     """Privacy impact assessment risk levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
 
+
 @dataclass
 class ConsentRecord:
     """Individual consent record with full audit trail"""
+
     subject_id: str
     purpose: str
     data_categories: list[DataCategory]
@@ -106,12 +117,14 @@ class ConsentRecord:
             "expiry_date": self.expiry_date.isoformat() if self.expiry_date else None,
             "consent_version": self.consent_version,
             "granular_permissions": self.granular_permissions,
-            "audit_trail": self.audit_trail
+            "audit_trail": self.audit_trail,
         }
+
 
 @dataclass
 class PrivacyAssessment:
     """Privacy impact assessment results"""
+
     assessment_id: str
     processing_purpose: str
     data_categories: list[DataCategory]
@@ -128,9 +141,11 @@ class PrivacyAssessment:
     compliance_status: dict[PrivacyFramework, bool] = field(default_factory=dict)
     recommendations: list[str] = field(default_factory=list)
 
+
 @dataclass
 class DataSubjectRequest:
     """Data subject rights request tracking"""
+
     request_id: str
     subject_id: str
     request_type: str  # access, rectification, erasure, portability, restriction
@@ -139,6 +154,7 @@ class DataSubjectRequest:
     completion_deadline: datetime
     processing_notes: list[str] = field(default_factory=list)
     fulfillment_data: Optional[dict[str, Any]] = None
+
 
 class PrivacyComplianceEngine:
     """
@@ -163,7 +179,7 @@ class PrivacyComplianceEngine:
             PrivacyRisk.LOW: 0.25,
             PrivacyRisk.MEDIUM: 0.50,
             PrivacyRisk.HIGH: 0.75,
-            PrivacyRisk.CRITICAL: 0.90
+            PrivacyRisk.CRITICAL: 0.90,
         }
 
         # Initialize privacy modules
@@ -193,17 +209,17 @@ class PrivacyComplianceEngine:
             "validation_rules": {
                 LegalBasis.CONSENT: {
                     "requirements": ["freely_given", "specific", "informed", "unambiguous"],
-                    "withdrawal_mechanism": "required"
+                    "withdrawal_mechanism": "required",
                 },
                 LegalBasis.CONTRACT: {
                     "requirements": ["necessary_for_contract", "contractual_relationship"],
-                    "withdrawal_mechanism": "not_applicable"
+                    "withdrawal_mechanism": "not_applicable",
                 },
                 LegalBasis.LEGITIMATE_INTERESTS: {
                     "requirements": ["balancing_test", "legitimate_interest_assessment"],
-                    "withdrawal_mechanism": "objection_right"
-                }
-            }
+                    "withdrawal_mechanism": "objection_right",
+                },
+            },
         }
 
     def _create_admt_transparency_engine(self) -> dict[str, Any]:
@@ -215,14 +231,9 @@ class PrivacyComplianceEngine:
                 "plain_language_explanation": True,
                 "opt_out_mechanism": True,
                 "decision_logic_explanation": True,
-                "human_review_process": True
+                "human_review_process": True,
             },
-            "consumer_rights": [
-                "right_to_know",
-                "right_to_opt_out",
-                "right_to_explanation",
-                "right_to_human_review"
-            ]
+            "consumer_rights": ["right_to_know", "right_to_opt_out", "right_to_explanation", "right_to_human_review"],
         }
 
     def _create_transfer_assessor(self) -> dict[str, Any]:
@@ -230,15 +241,30 @@ class PrivacyComplianceEngine:
         return {
             "assessor_version": "1.0",
             "adequacy_decisions": {
-                "eu_adequate": ["andorra", "argentina", "canada", "faroe_islands", "guernsey", "israel", "isle_of_man", "japan", "jersey", "new_zealand", "south_korea", "switzerland", "united_kingdom", "uruguay"],
+                "eu_adequate": [
+                    "andorra",
+                    "argentina",
+                    "canada",
+                    "faroe_islands",
+                    "guernsey",
+                    "israel",
+                    "isle_of_man",
+                    "japan",
+                    "jersey",
+                    "new_zealand",
+                    "south_korea",
+                    "switzerland",
+                    "united_kingdom",
+                    "uruguay",
+                ],
                 "schrems_ii_compliant": True,
-                "transfer_mechanisms": ["adequacy_decision", "sccs", "bcr", "certification", "cop"]
-            }
+                "transfer_mechanisms": ["adequacy_decision", "sccs", "bcr", "certification", "cop"],
+            },
         }
 
-    async def assess_privacy_impact(self,
-                                  processing_data: dict[str, Any],
-                                  jurisdiction: str = "auto") -> PrivacyAssessment:
+    async def assess_privacy_impact(
+        self, processing_data: dict[str, Any], jurisdiction: str = "auto"
+    ) -> PrivacyAssessment:
         """
         Comprehensive privacy impact assessment
 
@@ -273,9 +299,7 @@ class PrivacyComplianceEngine:
             profiling = processing_data.get("profiling", False)
 
             # Generate compliance status
-            compliance_status = await self._assess_framework_compliance(
-                processing_data, jurisdiction
-            )
+            compliance_status = await self._assess_framework_compliance(processing_data, jurisdiction)
 
             # Generate recommendations
             recommendations = self._generate_privacy_recommendations(
@@ -298,7 +322,7 @@ class PrivacyComplianceEngine:
                 profiling_activities=profiling,
                 assessment_timestamp=datetime.now(timezone.utc),
                 compliance_status=compliance_status,
-                recommendations=recommendations
+                recommendations=recommendations,
             )
 
             # Store assessment
@@ -324,7 +348,7 @@ class PrivacyComplianceEngine:
             "location": DataCategory.LOCATION_DATA,
             "behavioral": DataCategory.BEHAVIORAL_DATA,
             "communication": DataCategory.COMMUNICATION_DATA,
-            "sensitive": DataCategory.SENSITIVE_PERSONAL
+            "sensitive": DataCategory.SENSITIVE_PERSONAL,
         }
 
         categories = []
@@ -342,7 +366,7 @@ class PrivacyComplianceEngine:
             "legal_obligation": LegalBasis.LEGAL_OBLIGATION,
             "vital_interests": LegalBasis.VITAL_INTERESTS,
             "public_task": LegalBasis.PUBLIC_TASK,
-            "legitimate_interests": LegalBasis.LEGITIMATE_INTERESTS
+            "legitimate_interests": LegalBasis.LEGITIMATE_INTERESTS,
         }
 
         legal_basis = []
@@ -363,7 +387,7 @@ class PrivacyComplianceEngine:
             "profiling": processing_data.get("profiling", False) * 0.15,
             "cross_border": processing_data.get("cross_border_transfer", False) * 0.1,
             "large_scale": processing_data.get("large_scale_processing", False) * 0.1,
-            "vulnerable_subjects": processing_data.get("vulnerable_data_subjects", False) * 0.15
+            "vulnerable_subjects": processing_data.get("vulnerable_data_subjects", False) * 0.15,
         }
 
         total_risk = base_risk + sum(risk_factors.values())
@@ -380,8 +404,9 @@ class PrivacyComplianceEngine:
         else:
             return PrivacyRisk.LOW
 
-    def _assess_dpia_requirement(self, data_categories: list[DataCategory],
-                                risk_score: float, processing_data: dict[str, Any]) -> bool:
+    def _assess_dpia_requirement(
+        self, data_categories: list[DataCategory], risk_score: float, processing_data: dict[str, Any]
+    ) -> bool:
         """Assess if Data Protection Impact Assessment is required"""
         # GDPR Article 35 DPIA requirements
         dpia_triggers = [
@@ -391,13 +416,14 @@ class PrivacyComplianceEngine:
             processing_data.get("automated_decision_making", False),
             processing_data.get("systematic_monitoring", False),
             processing_data.get("large_scale_processing", False),
-            risk_score >= self.risk_thresholds[PrivacyRisk.HIGH]
+            risk_score >= self.risk_thresholds[PrivacyRisk.HIGH],
         ]
 
         return any(dpia_triggers)
 
-    async def _assess_framework_compliance(self, processing_data: dict[str, Any],
-                                         jurisdiction: str) -> dict[PrivacyFramework, bool]:
+    async def _assess_framework_compliance(
+        self, processing_data: dict[str, Any], jurisdiction: str
+    ) -> dict[PrivacyFramework, bool]:
         """Assess compliance against privacy frameworks"""
         compliance_status = {}
 
@@ -419,7 +445,7 @@ class PrivacyComplianceEngine:
             "data_minimization" in processing_data and processing_data["data_minimization"],
             "purpose_limitation" in processing_data and processing_data["purpose_limitation"],
             "retention_period" in processing_data,
-            "data_subject_rights" in processing_data
+            "data_subject_rights" in processing_data,
         ]
 
         return all(gdpr_requirements)
@@ -430,7 +456,7 @@ class PrivacyComplianceEngine:
             "consumer_notice" in processing_data,
             "opt_out_mechanism" in processing_data,
             "data_deletion_process" in processing_data,
-            "third_party_disclosure" in processing_data
+            "third_party_disclosure" in processing_data,
         ]
 
         return all(ccpa_requirements)
@@ -445,14 +471,14 @@ class PrivacyComplianceEngine:
             "plain_language_explanation" in processing_data,
             "opt_out_right" in processing_data,
             "human_review_process" in processing_data,
-            "decision_logic_transparency" in processing_data
+            "decision_logic_transparency" in processing_data,
         ]
 
         return all(admt_requirements)
 
-    def _generate_privacy_recommendations(self, risk_level: PrivacyRisk,
-                                        dpia_required: bool, cross_border: bool,
-                                        automated_decisions: bool) -> list[str]:
+    def _generate_privacy_recommendations(
+        self, risk_level: PrivacyRisk, dpia_required: bool, cross_border: bool, automated_decisions: bool
+    ) -> list[str]:
         """Generate privacy compliance recommendations"""
         recommendations = []
 
@@ -480,35 +506,34 @@ class PrivacyComplianceEngine:
         base_measures = [
             "Data minimization principles",
             "Privacy by design implementation",
-            "Regular compliance monitoring"
+            "Regular compliance monitoring",
         ]
 
         if risk_level == PrivacyRisk.MEDIUM:
-            base_measures.extend([
-                "Enhanced consent mechanisms",
-                "Data anonymization where possible"
-            ])
+            base_measures.extend(["Enhanced consent mechanisms", "Data anonymization where possible"])
         elif risk_level == PrivacyRisk.HIGH:
-            base_measures.extend([
-                "Advanced encryption in transit and at rest",
-                "Multi-factor authentication",
-                "Regular penetration testing"
-            ])
+            base_measures.extend(
+                [
+                    "Advanced encryption in transit and at rest",
+                    "Multi-factor authentication",
+                    "Regular penetration testing",
+                ]
+            )
         elif risk_level == PrivacyRisk.CRITICAL:
-            base_measures.extend([
-                "Zero-trust security architecture",
-                "Continuous privacy monitoring",
-                "Independent privacy audits",
-                "Executive privacy oversight"
-            ])
+            base_measures.extend(
+                [
+                    "Zero-trust security architecture",
+                    "Continuous privacy monitoring",
+                    "Independent privacy audits",
+                    "Executive privacy oversight",
+                ]
+            )
 
         return base_measures
 
     def _generate_assessment_id(self, processing_data: dict[str, Any]) -> str:
         """Generate unique assessment ID"""
-        data_hash = hashlib.sha256(
-            json.dumps(processing_data, sort_keys=True).encode()
-        ).hexdigest()[:16]
+        data_hash = hashlib.sha256(json.dumps(processing_data, sort_keys=True).encode()).hexdigest()[:16]
 
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         return f"PIA_{timestamp}_{data_hash}"
@@ -537,17 +562,19 @@ class PrivacyComplianceEngine:
                 withdrawal_mechanism=consent_data.get("withdrawal_mechanism", "email_link"),
                 expiry_date=consent_data.get("expiry_date"),
                 consent_version=consent_data.get("version", "1.0"),
-                granular_permissions=consent_data.get("granular_permissions", {})
+                granular_permissions=consent_data.get("granular_permissions", {}),
             )
 
             # Add initial audit entry
-            consent_record.audit_trail.append({
-                "action": "consent_given",
-                "timestamp": consent_record.consent_timestamp.isoformat(),
-                "details": "Initial consent granted",
-                "ip_address": consent_data.get("ip_address", "unknown"),
-                "user_agent": consent_data.get("user_agent", "unknown")
-            })
+            consent_record.audit_trail.append(
+                {
+                    "action": "consent_given",
+                    "timestamp": consent_record.consent_timestamp.isoformat(),
+                    "details": "Initial consent granted",
+                    "ip_address": consent_data.get("ip_address", "unknown"),
+                    "user_agent": consent_data.get("user_agent", "unknown"),
+                }
+            )
 
             # Store consent record
             consent_key = f"{subject_id}_{consent_data['purpose']}"
@@ -561,8 +588,7 @@ class PrivacyComplianceEngine:
             self.logger.error(f"Consent management failed: {e!s}")
             raise
 
-    async def withdraw_consent(self, subject_id: str, purpose: str,
-                             withdrawal_reason: Optional[str] = None) -> bool:
+    async def withdraw_consent(self, subject_id: str, purpose: str, withdrawal_reason: Optional[str] = None) -> bool:
         """
         Process consent withdrawal with GDPR Article 7(3) compliance
 
@@ -588,12 +614,14 @@ class PrivacyComplianceEngine:
             consent_record.status = ConsentStatus.WITHDRAWN
 
             # Add withdrawal audit entry
-            consent_record.audit_trail.append({
-                "action": "consent_withdrawn",
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "details": withdrawal_reason or "Consent withdrawn by data subject",
-                "processing_stopped": True
-            })
+            consent_record.audit_trail.append(
+                {
+                    "action": "consent_withdrawn",
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "details": withdrawal_reason or "Consent withdrawn by data subject",
+                    "processing_stopped": True,
+                }
+            )
 
             # Trigger data processing halt
             await self._halt_processing_for_subject(subject_id, purpose)
@@ -628,9 +656,7 @@ class PrivacyComplianceEngine:
             # Calculate completion deadline
             request_type = request_data["request_type"]
             deadline_days = 30 if request_type == "access" else 30  # GDPR: 1 month
-            completion_deadline = datetime.now(timezone.utc).replace(
-                day=datetime.now(timezone.utc).day + deadline_days
-            )
+            completion_deadline = datetime.now(timezone.utc).replace(day=datetime.now(timezone.utc).day + deadline_days)
 
             # Create request tracking
             dsr = DataSubjectRequest(
@@ -640,7 +666,7 @@ class PrivacyComplianceEngine:
                 request_timestamp=datetime.now(timezone.utc),
                 status="pending",
                 completion_deadline=completion_deadline,
-                processing_notes=[f"Request received: {request_type}"]
+                processing_notes=[f"Request received: {request_type}"],
             )
 
             # Store request
@@ -657,8 +683,7 @@ class PrivacyComplianceEngine:
             self.logger.error(f"Data subject request processing failed: {e!s}")
             raise
 
-    async def _initiate_dsr_processing(self, dsr: DataSubjectRequest,
-                                     request_data: dict[str, Any]):
+    async def _initiate_dsr_processing(self, dsr: DataSubjectRequest, request_data: dict[str, Any]):
         """Initiate processing for specific data subject request type"""
 
         if dsr.request_type == "erasure":
@@ -688,8 +713,7 @@ class PrivacyComplianceEngine:
         # In production: generate machine-readable data export
         dsr.processing_notes.append("Data portability export generation initiated")
 
-    async def _process_rectification_request(self, dsr: DataSubjectRequest,
-                                           request_data: dict[str, Any]):
+    async def _process_rectification_request(self, dsr: DataSubjectRequest, request_data: dict[str, Any]):
         """Process Right to Rectification (GDPR Article 16)"""
         # In production: coordinate data correction across systems
         dsr.processing_notes.append("Data rectification processing initiated")
@@ -698,17 +722,18 @@ class PrivacyComplianceEngine:
         """Get current privacy compliance status"""
         return {
             "engine_version": "1.0.0",
-            "active_consents": len([r for r in self.consent_records.values()
-                                 if r.status == ConsentStatus.GIVEN]),
-            "withdrawn_consents": len([r for r in self.consent_records.values()
-                                    if r.status == ConsentStatus.WITHDRAWN]),
-            "pending_requests": len([r for r in self.data_subject_requests.values()
-                                  if r.status in ["pending", "processing"]]),
+            "active_consents": len([r for r in self.consent_records.values() if r.status == ConsentStatus.GIVEN]),
+            "withdrawn_consents": len(
+                [r for r in self.consent_records.values() if r.status == ConsentStatus.WITHDRAWN]
+            ),
+            "pending_requests": len(
+                [r for r in self.data_subject_requests.values() if r.status in ["pending", "processing"]]
+            ),
             "completed_assessments": len(self.privacy_assessments),
             "frameworks_supported": [f.value for f in PrivacyFramework],
             "gdpr_enabled": self.gdpr_enabled,
             "ccpa_admt_enabled": self.ccpa_admt_enabled,
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     def generate_privacy_report(self, jurisdiction: Optional[str] = None) -> dict[str, Any]:
@@ -729,26 +754,26 @@ class PrivacyComplianceEngine:
             "jurisdiction": jurisdiction or "global",
             "summary": {
                 "total_assessments": len(assessments),
-                "high_risk_assessments": len([a for a in assessments
-                                           if a.risk_level in [PrivacyRisk.HIGH, PrivacyRisk.CRITICAL]]),
+                "high_risk_assessments": len(
+                    [a for a in assessments if a.risk_level in [PrivacyRisk.HIGH, PrivacyRisk.CRITICAL]]
+                ),
                 "dpia_required_count": len([a for a in assessments if a.dpia_required]),
                 "active_consents": len([c for c in consents if c.status == ConsentStatus.GIVEN]),
                 "pending_requests": len([r for r in requests if r.status in ["pending", "processing"]]),
-                "compliance_score": self._calculate_compliance_score(assessments)
+                "compliance_score": self._calculate_compliance_score(assessments),
             },
             "risk_breakdown": {
-                risk.value: len([a for a in assessments if a.risk_level == risk])
-                for risk in PrivacyRisk
+                risk.value: len([a for a in assessments if a.risk_level == risk]) for risk in PrivacyRisk
             },
             "framework_compliance": {
-                framework.value: sum(1 for a in assessments
-                                   if a.compliance_status.get(framework, False)) / max(len(assessments), 1)
+                framework.value: sum(1 for a in assessments if a.compliance_status.get(framework, False))
+                / max(len(assessments), 1)
                 for framework in PrivacyFramework
             },
             "recommendations": self._generate_report_recommendations(assessments),
-            "next_review_date": (datetime.now(timezone.utc).replace(
-                month=datetime.now(timezone.utc).month + 3
-            )).isoformat()
+            "next_review_date": (
+                datetime.now(timezone.utc).replace(month=datetime.now(timezone.utc).month + 3)
+            ).isoformat(),
         }
 
     def _calculate_compliance_score(self, assessments: list[PrivacyAssessment]) -> float:
@@ -757,12 +782,7 @@ class PrivacyComplianceEngine:
             return 0.0
 
         # Weight by risk level (lower risk = higher compliance)
-        risk_weights = {
-            PrivacyRisk.LOW: 1.0,
-            PrivacyRisk.MEDIUM: 0.8,
-            PrivacyRisk.HIGH: 0.6,
-            PrivacyRisk.CRITICAL: 0.3
-        }
+        risk_weights = {PrivacyRisk.LOW: 1.0, PrivacyRisk.MEDIUM: 0.8, PrivacyRisk.HIGH: 0.6, PrivacyRisk.CRITICAL: 0.3}
 
         total_score = sum(risk_weights[a.risk_level] for a in assessments)
         max_score = len(assessments)
@@ -773,8 +793,7 @@ class PrivacyComplianceEngine:
         """Generate privacy compliance recommendations for reporting"""
         recommendations = set()
 
-        high_risk_count = len([a for a in assessments
-                             if a.risk_level in [PrivacyRisk.HIGH, PrivacyRisk.CRITICAL]])
+        high_risk_count = len([a for a in assessments if a.risk_level in [PrivacyRisk.HIGH, PrivacyRisk.CRITICAL]])
 
         if high_risk_count > 0:
             recommendations.add("Prioritize high-risk privacy assessments for immediate review")

@@ -14,7 +14,7 @@ class VoiceParameter:
     """Mock VoiceParameter class."""
 
 
-def speak_text(text: str, params: VoiceParameter):
+def speak_text(text: str, params: VoiceParameter, timezone):
     """Mock speak_text function."""
     print(f"Speaking: {text}")
 
@@ -44,7 +44,7 @@ class VoiceSynthesisAdapter:
             **self.voice_config,
             "content": content,
             "context": metadata.get("context", {}),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Synthesize voice content
@@ -57,7 +57,7 @@ class VoiceSynthesisAdapter:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def adapt_voice(self, user_preferences: dict):

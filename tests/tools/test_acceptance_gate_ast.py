@@ -294,12 +294,14 @@ class TestImportScannerAST:
 
     def test_statement_counting(self):
         """Test statement counting for analysis."""
-        code = dedent("""
+        code = dedent(
+            """
             import os
             from pathlib import Path
             x = 1
             def func(): pass
-        """).strip()
+        """
+        ).strip()
         tree = ast.parse(code)
 
         scanner = ImportScannerAST("test.py")
@@ -324,7 +326,8 @@ class TestFacadePatternAnalysis:
 
     def test_analyze_small_import_heavy_file(self):
         """Test facade detection for small, import-heavy files."""
-        code = dedent("""
+        code = dedent(
+            """
             import os
             import sys
             from pathlib import Path
@@ -332,7 +335,8 @@ class TestFacadePatternAnalysis:
 
             # Simple wrapper
             def get_path(): return Path(".")
-        """).strip()
+        """
+        ).strip()
         tree = ast.parse(code)
 
         is_facade, score, analysis = analyze_facade_pattern(Path("test.py"), tree, code)
@@ -347,7 +351,8 @@ class TestFacadePatternAnalysis:
 
     def test_analyze_complex_file_not_facade(self):
         """Test that complex files are not flagged as facades."""
-        code = dedent("""
+        code = dedent(
+            """
             import os
             from pathlib import Path
 
@@ -376,7 +381,8 @@ class TestFacadePatternAnalysis:
 
             if __name__ == "__main__":
                 main()
-        """).strip()
+        """
+        ).strip()
         tree = ast.parse(code)
 
         is_facade, score, analysis = analyze_facade_pattern(Path("test.py"), tree, code)
@@ -389,7 +395,8 @@ class TestFacadePatternAnalysis:
 
     def test_analyze_medium_facade_score(self):
         """Test facade with medium score (around threshold)."""
-        code = dedent("""
+        code = dedent(
+            """
             import os
             from pathlib import Path
 
@@ -399,7 +406,8 @@ class TestFacadePatternAnalysis:
 
             class SimpleClass:
                 pass
-        """).strip()
+        """
+        ).strip()
         tree = ast.parse(code)
 
         is_facade, score, analysis = analyze_facade_pattern(Path("test.py"), tree, code)
@@ -429,13 +437,15 @@ class TestFileScanComprehensive:
 
     def test_scan_file_success(self):
         """Test successful file scanning."""
-        code = dedent("""
+        code = dedent(
+            """
             import os
             from pathlib import Path
 
             def main():
                 return Path(".")
-        """).strip()
+        """
+        ).strip()
 
         # Create test file in repository directory to avoid path issues
         test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
@@ -461,13 +471,15 @@ class TestFileScanComprehensive:
 
     def test_scan_file_with_violations(self):
         """Test file scanning with banned imports."""
-        code = dedent("""
+        code = dedent(
+            """
             import candidate.module
             from quarantine.test import Item
             __import__('archive.legacy')
 
             def test(): pass
-        """).strip()
+        """
+        ).strip()
 
         # Create test file in repository directory
         test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
@@ -488,7 +500,8 @@ class TestFileScanComprehensive:
 
     def test_scan_file_facade_detected(self):
         """Test file scanning with facade detection."""
-        code = dedent("""
+        code = dedent(
+            """
             import os
             import sys
             from pathlib import Path
@@ -497,7 +510,8 @@ class TestFileScanComprehensive:
 
             # Tiny wrapper
             get_path = Path
-        """).strip()
+        """
+        ).strip()
 
         # Create test file in repository directory
         test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
@@ -628,13 +642,15 @@ class TestAcceptanceGateIntegration:
 
     def test_integration_audit_trail_with_scanner(self):
         """Test integration between audit trail and scanner."""
-        code = dedent("""
+        code = dedent(
+            """
             import os
             import candidate.test
             from quarantine.old import Item
 
             def simple(): pass
-        """).strip()
+        """
+        ).strip()
 
         # Create test file in repository directory
         test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"

@@ -11,7 +11,7 @@ import tarfile
 from datetime import datetime
 
 
-def sha256_file(p: str) -> str:
+def sha256_file(p: str, timezone) -> str:
     h = hashlib.sha256()
     with open(p, "rb") as f:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
@@ -47,7 +47,7 @@ def main():
     ap.add_argument("--tag", default=None)
     args = ap.parse_args()
 
-    ts = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     tag = args.tag or ts
     os.makedirs(args.outdir, exist_ok=True)
 

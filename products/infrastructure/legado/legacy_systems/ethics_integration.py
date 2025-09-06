@@ -32,8 +32,7 @@ from ethics.meta_ethics_governor import MetaEthicsGovernor
 from ethics.security.main_node_security_engine import MainNodeSecurityEngine
 from ethics.seedra.seedra_core import SEEDRACore
 from ethics.self_reflective_debugger import (
-    EnhancedSelfReflectiveDebugger as SelfReflectiveDebugger,
-)
+    EnhancedSelfReflectiveDebugger as SelfReflectiveDebugger)
 from ethics.sentinel.ethical_drift_sentinel import EthicalDriftSentinel
 from ethics.service import EthicsService
 from ethics.stabilization.tuner import StabilizationTuner
@@ -132,8 +131,8 @@ class EthicsIntegration:
         Returns:
             Tuple of (is_permitted, reason, detailed_analysis)
         """
-        decision_id = f"{agent_id}_{datetime.now().timestamp()}"
-        start_time = datetime.now()
+        decision_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp()}"
+        start_time = datetime.now(timezone.utc)
 
         # Update synchronization
         current_time = start_time.timestamp()
@@ -313,7 +312,7 @@ class EthicsIntegration:
         """Record decision in history"""
         decision_record = {
             "decision_id": decision_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "result": result,
             "phase": self.sync_system.last_phases.get("ethics_evaluation", 0),
         }
@@ -328,7 +327,7 @@ class EthicsIntegration:
         """Get current status of the ethics system"""
         # Check phase alignment of all components
         components = ["meg", "srd", "hitlo", "compliance", "dao"]
-        current_time = datetime.now().timestamp()
+        current_time = datetime.now(timezone.utc).timestamp()
 
         for component in components:
             self.sync_system.update_phase(component, current_time)

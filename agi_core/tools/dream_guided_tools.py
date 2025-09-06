@@ -20,50 +20,56 @@ from ..memory.vector_memory import MemoryType, MemoryVector, VectorMemoryStore
 
 logger = logging.getLogger(__name__)
 
+
 class ToolCategory(Enum):
     """Categories of tools available in the system."""
-    REASONING = "reasoning"           # Logic and reasoning tools
-    CREATIVE = "creative"            # Creative generation tools
-    ANALYSIS = "analysis"            # Data analysis and processing
-    COMMUNICATION = "communication"   # Communication and interaction
-    COMPUTATION = "computation"      # Mathematical and computational
+
+    REASONING = "reasoning"  # Logic and reasoning tools
+    CREATIVE = "creative"  # Creative generation tools
+    ANALYSIS = "analysis"  # Data analysis and processing
+    COMMUNICATION = "communication"  # Communication and interaction
+    COMPUTATION = "computation"  # Mathematical and computational
     VISUALIZATION = "visualization"  # Visual and graphical tools
-    RESEARCH = "research"            # Research and information gathering
-    PLANNING = "planning"            # Planning and strategy tools
-    SYNTHESIS = "synthesis"          # Information synthesis tools
-    EXECUTION = "execution"          # Task execution tools
+    RESEARCH = "research"  # Research and information gathering
+    PLANNING = "planning"  # Planning and strategy tools
+    SYNTHESIS = "synthesis"  # Information synthesis tools
+    EXECUTION = "execution"  # Task execution tools
+
 
 class ToolSelectionMode(Enum):
     """Modes of tool selection."""
-    LOGICAL = "logical"              # Pure logic-based selection
-    INTUITIVE = "intuitive"          # Intuition and pattern-based
-    CREATIVE = "creative"            # Creative and novel approaches
-    EXPERIMENTAL = "experimental"    # Experimental and exploratory
-    DREAM_GUIDED = "dream_guided"    # Dream insight guided selection
-    HYBRID = "hybrid"                # Combination of multiple modes
+
+    LOGICAL = "logical"  # Pure logic-based selection
+    INTUITIVE = "intuitive"  # Intuition and pattern-based
+    CREATIVE = "creative"  # Creative and novel approaches
+    EXPERIMENTAL = "experimental"  # Experimental and exploratory
+    DREAM_GUIDED = "dream_guided"  # Dream insight guided selection
+    HYBRID = "hybrid"  # Combination of multiple modes
+
 
 @dataclass
 class ToolSpecification:
     """Specification of a tool available in the system."""
+
     tool_id: str
     name: str
     description: str
     category: ToolCategory
 
     # Tool capabilities
-    input_types: list[str]           # What types of input it accepts
-    output_types: list[str]          # What types of output it produces
-    capabilities: dict[str, float]   # Capability scores (0-1)
+    input_types: list[str]  # What types of input it accepts
+    output_types: list[str]  # What types of output it produces
+    capabilities: dict[str, float]  # Capability scores (0-1)
 
     # Usage information
-    complexity: float                # Tool complexity (0-1)
-    learning_curve: float           # How hard to master (0-1)
-    reliability: float              # How reliable results are (0-1)
-    cost: float                     # Computational/time cost (0-1)
+    complexity: float  # Tool complexity (0-1)
+    learning_curve: float  # How hard to master (0-1)
+    reliability: float  # How reliable results are (0-1)
+    cost: float  # Computational/time cost (0-1)
 
     # LUKHAS Integration
     constellation_affinity: dict[str, float] = field(default_factory=dict)
-    dream_resonance: float = 0.0     # How well tool works with dream insights
+    dream_resonance: float = 0.0  # How well tool works with dream insights
 
     # Function reference
     tool_function: Optional[Callable] = None
@@ -106,14 +112,16 @@ class ToolSpecification:
 
         return min(1.0, base_score)
 
+
 @dataclass
 class ToolInsight:
     """Insight about tool usage from dream processing."""
+
     insight_id: str
     tool_id: str
-    insight_type: str               # Type of insight discovered
-    description: str                # Description of the insight
-    confidence: float               # Confidence in insight validity
+    insight_type: str  # Type of insight discovered
+    description: str  # Description of the insight
+    confidence: float  # Confidence in insight validity
 
     # Context information
     discovery_context: dict[str, Any] = field(default_factory=dict)
@@ -128,16 +136,18 @@ class ToolInsight:
     validated: bool = False
     validation_results: dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ToolRecommendation:
     """Recommendation for tool usage."""
+
     recommendation_id: str
-    primary_tool: str               # Primary recommended tool
+    primary_tool: str  # Primary recommended tool
     supporting_tools: list[str] = field(default_factory=list)
 
     # Recommendation details
-    reasoning: str                  # Why this tool is recommended
-    confidence: float               # Confidence in recommendation
+    reasoning: str  # Why this tool is recommended
+    confidence: float  # Confidence in recommendation
     selection_mode: ToolSelectionMode
 
     # Context and insights
@@ -150,8 +160,9 @@ class ToolRecommendation:
     expected_learning: float = 0.5
 
     # Risk assessment
-    risk_level: float = 0.1         # Risk level (0-1)
+    risk_level: float = 0.1  # Risk level (0-1)
     fallback_tools: list[str] = field(default_factory=list)
+
 
 class DreamGuidedToolFramework:
     """
@@ -161,8 +172,7 @@ class DreamGuidedToolFramework:
     with creative dream insights for more intuitive and effective tool usage.
     """
 
-    def __init__(self, memory_store: VectorMemoryStore,
-                 dream_bridge: DreamMemoryBridge):
+    def __init__(self, memory_store: VectorMemoryStore, dream_bridge: DreamMemoryBridge):
         self.memory_store = memory_store
         self.dream_bridge = dream_bridge
 
@@ -191,79 +201,87 @@ class DreamGuidedToolFramework:
             "dream_guided_recommendations": 0,
             "successful_recommendations": 0,
             "tools_discovered": 0,
-            "avg_recommendation_confidence": 0.0
+            "avg_recommendation_confidence": 0.0,
         }
 
     def _initialize_basic_tools(self):
         """Initialize basic tools for the framework."""
 
         # Reasoning tools
-        self.register_tool(ToolSpecification(
-            tool_id="chain_of_thought",
-            name="Chain of Thought Reasoning",
-            description="Step-by-step logical reasoning through complex problems",
-            category=ToolCategory.REASONING,
-            input_types=["problem", "question", "scenario"],
-            output_types=["reasoning_chain", "solution", "analysis"],
-            capabilities={"reasoning": 0.9, "logic": 0.95, "analysis": 0.8},
-            complexity=0.3,
-            learning_curve=0.2,
-            reliability=0.9,
-            cost=0.3,
-            constellation_affinity={"IDENTITY": 0.8, "VISION": 0.7},
-            dream_resonance=0.4
-        ))
+        self.register_tool(
+            ToolSpecification(
+                tool_id="chain_of_thought",
+                name="Chain of Thought Reasoning",
+                description="Step-by-step logical reasoning through complex problems",
+                category=ToolCategory.REASONING,
+                input_types=["problem", "question", "scenario"],
+                output_types=["reasoning_chain", "solution", "analysis"],
+                capabilities={"reasoning": 0.9, "logic": 0.95, "analysis": 0.8},
+                complexity=0.3,
+                learning_curve=0.2,
+                reliability=0.9,
+                cost=0.3,
+                constellation_affinity={"IDENTITY": 0.8, "VISION": 0.7},
+                dream_resonance=0.4,
+            )
+        )
 
         # Creative tools
-        self.register_tool(ToolSpecification(
-            tool_id="creative_synthesis",
-            name="Creative Synthesis Engine",
-            description="Combine disparate elements into novel creative solutions",
-            category=ToolCategory.CREATIVE,
-            input_types=["concepts", "ideas", "elements"],
-            output_types=["creative_solution", "innovation", "synthesis"],
-            capabilities={"creativity": 0.95, "synthesis": 0.9, "innovation": 0.85},
-            complexity=0.6,
-            learning_curve=0.5,
-            reliability=0.7,
-            cost=0.4,
-            constellation_affinity={"DREAM": 0.95, "QUANTUM": 0.8, "BIO": 0.7},
-            dream_resonance=0.9
-        ))
+        self.register_tool(
+            ToolSpecification(
+                tool_id="creative_synthesis",
+                name="Creative Synthesis Engine",
+                description="Combine disparate elements into novel creative solutions",
+                category=ToolCategory.CREATIVE,
+                input_types=["concepts", "ideas", "elements"],
+                output_types=["creative_solution", "innovation", "synthesis"],
+                capabilities={"creativity": 0.95, "synthesis": 0.9, "innovation": 0.85},
+                complexity=0.6,
+                learning_curve=0.5,
+                reliability=0.7,
+                cost=0.4,
+                constellation_affinity={"DREAM": 0.95, "QUANTUM": 0.8, "BIO": 0.7},
+                dream_resonance=0.9,
+            )
+        )
 
         # Analysis tools
-        self.register_tool(ToolSpecification(
-            tool_id="pattern_analyzer",
-            name="Pattern Analysis Tool",
-            description="Identify and analyze patterns in data and information",
-            category=ToolCategory.ANALYSIS,
-            input_types=["data", "information", "observations"],
-            output_types=["patterns", "insights", "correlations"],
-            capabilities={"pattern_recognition": 0.9, "analysis": 0.85, "insight": 0.8},
-            complexity=0.4,
-            learning_curve=0.3,
-            reliability=0.85,
-            cost=0.2,
-            constellation_affinity={"VISION": 0.9, "MEMORY": 0.7},
-            dream_resonance=0.6
-        ))
+        self.register_tool(
+            ToolSpecification(
+                tool_id="pattern_analyzer",
+                name="Pattern Analysis Tool",
+                description="Identify and analyze patterns in data and information",
+                category=ToolCategory.ANALYSIS,
+                input_types=["data", "information", "observations"],
+                output_types=["patterns", "insights", "correlations"],
+                capabilities={"pattern_recognition": 0.9, "analysis": 0.85, "insight": 0.8},
+                complexity=0.4,
+                learning_curve=0.3,
+                reliability=0.85,
+                cost=0.2,
+                constellation_affinity={"VISION": 0.9, "MEMORY": 0.7},
+                dream_resonance=0.6,
+            )
+        )
 
         # Communication tools
-        self.register_tool(ToolSpecification(
-            tool_id="narrative_builder",
-            name="Narrative Construction Tool",
-            description="Build compelling narratives and explanations",
-            category=ToolCategory.COMMUNICATION,
-            input_types=["facts", "events", "concepts"],
-            output_types=["narrative", "explanation", "story"],
-            capabilities={"communication": 0.9, "storytelling": 0.85, "clarity": 0.8},
-            complexity=0.5,
-            learning_curve=0.4,
-            reliability=0.8,
-            cost=0.3,
-            constellation_affinity={"ETHICS": 0.7, "DREAM": 0.6},
-            dream_resonance=0.5
-        ))
+        self.register_tool(
+            ToolSpecification(
+                tool_id="narrative_builder",
+                name="Narrative Construction Tool",
+                description="Build compelling narratives and explanations",
+                category=ToolCategory.COMMUNICATION,
+                input_types=["facts", "events", "concepts"],
+                output_types=["narrative", "explanation", "story"],
+                capabilities={"communication": 0.9, "storytelling": 0.85, "clarity": 0.8},
+                complexity=0.5,
+                learning_curve=0.4,
+                reliability=0.8,
+                cost=0.3,
+                constellation_affinity={"ETHICS": 0.7, "DREAM": 0.6},
+                dream_resonance=0.5,
+            )
+        )
 
     def register_tool(self, tool_spec: ToolSpecification):
         """Register a new tool in the framework."""
@@ -274,9 +292,12 @@ class DreamGuidedToolFramework:
 
         logger.info(f"Registered tool: {tool_spec.name} ({tool_spec.category.value})")
 
-    async def recommend_tools(self, context: dict[str, Any],
-                            selection_mode: ToolSelectionMode = ToolSelectionMode.HYBRID,
-                            max_recommendations: int = 5) -> list[ToolRecommendation]:
+    async def recommend_tools(
+        self,
+        context: dict[str, Any],
+        selection_mode: ToolSelectionMode = ToolSelectionMode.HYBRID,
+        max_recommendations: int = 5,
+    ) -> list[ToolRecommendation]:
         """
         Recommend tools based on context and selection mode.
 
@@ -320,8 +341,8 @@ class DreamGuidedToolFramework:
                 current_avg = self.stats["avg_recommendation_confidence"]
                 total_recs = self.stats["total_recommendations"]
                 self.stats["avg_recommendation_confidence"] = (
-                    (current_avg * (total_recs - len(recommendations)) + avg_confidence * len(recommendations)) / total_recs
-                )
+                    current_avg * (total_recs - len(recommendations)) + avg_confidence * len(recommendations)
+                ) / total_recs
 
             return recommendations
 
@@ -329,8 +350,9 @@ class DreamGuidedToolFramework:
             logger.error(f"Error in tool recommendation: {e}")
             return []
 
-    async def _logical_tool_selection(self, context: dict[str, Any],
-                                    max_recommendations: int) -> list[ToolRecommendation]:
+    async def _logical_tool_selection(
+        self, context: dict[str, Any], max_recommendations: int
+    ) -> list[ToolRecommendation]:
         """Pure logic-based tool selection."""
 
         scored_tools = []
@@ -360,15 +382,16 @@ class DreamGuidedToolFramework:
                 selection_mode=ToolSelectionMode.LOGICAL,
                 context_factors=context,
                 expected_effectiveness=min(1.0, score),
-                risk_level=0.05  # Low risk for logical selection
+                risk_level=0.05,  # Low risk for logical selection
             )
 
             recommendations.append(rec)
 
         return recommendations
 
-    async def _intuitive_tool_selection(self, context: dict[str, Any],
-                                      max_recommendations: int) -> list[ToolRecommendation]:
+    async def _intuitive_tool_selection(
+        self, context: dict[str, Any], max_recommendations: int
+    ) -> list[ToolRecommendation]:
         """Intuition and pattern-based tool selection."""
 
         # Look for patterns in previous successful tool usage
@@ -409,15 +432,16 @@ class DreamGuidedToolFramework:
                     selection_mode=ToolSelectionMode.INTUITIVE,
                     context_factors=context,
                     expected_effectiveness=min(1.0, score * 1.5),
-                    risk_level=0.2  # Medium risk for intuitive selection
+                    risk_level=0.2,  # Medium risk for intuitive selection
                 )
 
                 recommendations.append(rec)
 
         return recommendations
 
-    async def _creative_tool_selection(self, context: dict[str, Any],
-                                     max_recommendations: int) -> list[ToolRecommendation]:
+    async def _creative_tool_selection(
+        self, context: dict[str, Any], max_recommendations: int
+    ) -> list[ToolRecommendation]:
         """Creative and novel tool selection approaches."""
 
         # Favor creative tools and unusual combinations
@@ -462,15 +486,16 @@ class DreamGuidedToolFramework:
                 context_factors=context,
                 expected_creativity=min(1.0, score),
                 expected_effectiveness=score * 0.8,  # May be less predictably effective
-                risk_level=0.3  # Higher risk for creative approaches
+                risk_level=0.3,  # Higher risk for creative approaches
             )
 
             recommendations.append(rec)
 
         return recommendations
 
-    async def _dream_guided_tool_selection(self, context: dict[str, Any],
-                                         max_recommendations: int) -> list[ToolRecommendation]:
+    async def _dream_guided_tool_selection(
+        self, context: dict[str, Any], max_recommendations: int
+    ) -> list[ToolRecommendation]:
         """Dream insight guided tool selection."""
 
         # Get dream insights about tool usage
@@ -513,7 +538,7 @@ class DreamGuidedToolFramework:
                     dream_insights=relevant_insights,
                     expected_effectiveness=dream_score * 0.9,
                     expected_creativity=min(1.0, dream_score + 0.2),
-                    risk_level=0.15  # Medium-low risk - dreams can be insightful but uncertain
+                    risk_level=0.15,  # Medium-low risk - dreams can be insightful but uncertain
                 )
 
                 dream_recommendations.append(rec)
@@ -522,8 +547,9 @@ class DreamGuidedToolFramework:
         dream_recommendations.sort(key=lambda r: r.confidence, reverse=True)
         return dream_recommendations[:max_recommendations]
 
-    async def _experimental_tool_selection(self, context: dict[str, Any],
-                                         max_recommendations: int) -> list[ToolRecommendation]:
+    async def _experimental_tool_selection(
+        self, context: dict[str, Any], max_recommendations: int
+    ) -> list[ToolRecommendation]:
         """Experimental and exploratory tool selection."""
 
         # Select tools that haven't been tried much or in novel combinations
@@ -560,15 +586,16 @@ class DreamGuidedToolFramework:
                 context_factors=context,
                 expected_learning=min(1.0, score),
                 expected_effectiveness=0.5,  # Uncertain effectiveness
-                risk_level=0.4  # Higher risk for experimental approaches
+                risk_level=0.4,  # Higher risk for experimental approaches
             )
 
             recommendations.append(rec)
 
         return recommendations
 
-    async def _hybrid_tool_selection(self, context: dict[str, Any],
-                                   max_recommendations: int) -> list[ToolRecommendation]:
+    async def _hybrid_tool_selection(
+        self, context: dict[str, Any], max_recommendations: int
+    ) -> list[ToolRecommendation]:
         """Hybrid approach combining multiple selection methods."""
 
         # Get recommendations from multiple approaches
@@ -624,16 +651,19 @@ class DreamGuidedToolFramework:
 
         # Look for recent dream sessions that might have tool-related insights
         recent_dream_sessions = [
-            session for session in self.dream_bridge.dream_sessions[-5:]  # Last 5 sessions
-            if session.success and
-            (datetime.now() - datetime.fromisoformat(session.session_id.split("_")[1]) < timedelta(hours=24))
+            session
+            for session in self.dream_bridge.dream_sessions[-5:]  # Last 5 sessions
+            if session.success
+            and (datetime.now() - datetime.fromisoformat(session.session_id.split("_")[1]) < timedelta(hours=24))
         ]
 
         for session in recent_dream_sessions:
             for insight_data in session.insights_generated:
                 # Convert dream insights to tool insights if relevant
-                if any(keyword in insight_data.get("content", "").lower()
-                      for keyword in ["tool", "method", "approach", "technique"]):
+                if any(
+                    keyword in insight_data.get("content", "").lower()
+                    for keyword in ["tool", "method", "approach", "technique"]
+                ):
 
                     tool_insight = ToolInsight(
                         insight_id=f"dream_tool_{session.session_id}_{len(insights)}",
@@ -642,7 +672,7 @@ class DreamGuidedToolFramework:
                         description=insight_data.get("content", ""),
                         confidence=insight_data.get("confidence", 0.5),
                         discovery_context=context,
-                        dream_session_id=session.session_id
+                        dream_session_id=session.session_id,
                     )
 
                     insights.append(tool_insight)
@@ -658,13 +688,12 @@ class DreamGuidedToolFramework:
             tool_spec.name.lower(),
             tool_spec.category.value,
             *tool_spec.input_types,
-            *tool_spec.output_types
+            *tool_spec.output_types,
         ]
 
         return any(keyword in insight_text for keyword in tool_keywords)
 
-    def _calculate_context_similarity(self, context1: dict[str, Any],
-                                    context2: dict[str, Any]) -> float:
+    def _calculate_context_similarity(self, context1: dict[str, Any], context2: dict[str, Any]) -> float:
         """Calculate similarity between two contexts."""
 
         # Simple similarity based on shared keys and constellation context
@@ -687,9 +716,14 @@ class DreamGuidedToolFramework:
 
         return min(1.0, similarity)
 
-    async def record_tool_usage(self, tool_id: str, context: dict[str, Any],
-                              success: bool, effectiveness: float,
-                              insights_gained: Optional[list[str]] = None):
+    async def record_tool_usage(
+        self,
+        tool_id: str,
+        context: dict[str, Any],
+        success: bool,
+        effectiveness: float,
+        insights_gained: Optional[list[str]] = None,
+    ):
         """Record tool usage for learning and improvement."""
 
         if tool_id not in self.tools:
@@ -700,7 +734,7 @@ class DreamGuidedToolFramework:
             "context": context,
             "success": success,
             "effectiveness": effectiveness,
-            "insights": insights_gained or []
+            "insights": insights_gained or [],
         }
 
         self.usage_patterns[tool_id].append(usage_record)
@@ -745,7 +779,8 @@ class DreamGuidedToolFramework:
                 for category in ToolCategory
             },
             "success_rates": {
-                tool_id: rate for tool_id, rate in self.success_rates.items()
+                tool_id: rate
+                for tool_id, rate in self.success_rates.items()
                 if rate != 0.5  # Only show tools with recorded usage
-            }
+            },
         }

@@ -37,6 +37,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union
 # Democratic oversight types
 class StakeholderType(Enum):
     """Types of stakeholders in democratic oversight"""
+
     CIVIL_SOCIETY = "civil_society"
     ACADEMIC_RESEARCHERS = "academic_researchers"
     GOVERNMENT_REGULATORS = "government_regulators"
@@ -48,8 +49,10 @@ class StakeholderType(Enum):
     LEGAL_EXPERTS = "legal_experts"
     CITIZENS = "citizens"
 
+
 class DemocraticPrinciple(Enum):
     """Core democratic principles for AI governance"""
+
     TRANSPARENCY = "transparency"
     ACCOUNTABILITY = "accountability"
     PARTICIPATION = "participation"
@@ -61,16 +64,20 @@ class DemocraticPrinciple(Enum):
     SEPARATION_OF_POWERS = "separation_of_powers"
     CHECKS_AND_BALANCES = "checks_and_balances"
 
+
 class TransparencyLevel(Enum):
     """Levels of public transparency"""
+
     FULL_PUBLIC = "full_public"
     AGGREGATED_STATS = "aggregated_stats"
     SUMMARY_ONLY = "summary_only"
     REGULATED_ACCESS = "regulated_access"
     CONFIDENTIAL = "confidential"
 
+
 class EngagementMethod(Enum):
     """Methods for stakeholder engagement"""
+
     PUBLIC_CONSULTATION = "public_consultation"
     EXPERT_PANEL = "expert_panel"
     CITIZEN_JURY = "citizen_jury"
@@ -80,9 +87,11 @@ class EngagementMethod(Enum):
     ADVISORY_COMMITTEE = "advisory_committee"
     IMPACT_ASSESSMENT_REVIEW = "impact_assessment_review"
 
+
 @dataclass
 class StakeholderGroup:
     """Stakeholder group configuration"""
+
     group_id: str
     stakeholder_type: StakeholderType
     group_name: str
@@ -94,9 +103,11 @@ class StakeholderGroup:
     active: bool = True
     last_engagement: Optional[datetime] = None
 
+
 @dataclass
 class PublicTransparencyReport:
     """Public AI transparency report"""
+
     report_id: str
     publication_date: datetime
     reporting_period: tuple[datetime, datetime]
@@ -138,9 +149,11 @@ class PublicTransparencyReport:
 
     transparency_level: TransparencyLevel = TransparencyLevel.FULL_PUBLIC
 
+
 @dataclass
 class HumanRightsAssessment:
     """Human rights impact assessment for AI systems"""
+
     assessment_id: str
     system_name: str
     assessment_date: datetime
@@ -172,9 +185,11 @@ class HumanRightsAssessment:
     overall_risk_level: str  # low, medium, high, critical
     assessment_confidence: float  # 0.0-1.0
 
+
 @dataclass
 class CitizenEngagementSession:
     """Citizen engagement session record"""
+
     session_id: str
     session_type: EngagementMethod
     date: datetime
@@ -202,6 +217,7 @@ class CitizenEngagementSession:
     meeting_minutes: str
     public_summary: str
     detailed_report: Optional[str] = None
+
 
 class DemocraticOversightEngine:
     """
@@ -233,7 +249,7 @@ class DemocraticOversightEngine:
             DemocraticPrinciple.INCLUSIVITY: 0.08,
             DemocraticPrinciple.CONSENT_OF_GOVERNED: 0.08,
             DemocraticPrinciple.SEPARATION_OF_POWERS: 0.03,
-            DemocraticPrinciple.CHECKS_AND_BALANCES: 0.02
+            DemocraticPrinciple.CHECKS_AND_BALANCES: 0.02,
         }
 
         # Initialize oversight infrastructure
@@ -270,11 +286,11 @@ class DemocraticOversightEngine:
             engagement_methods=[
                 EngagementMethod.PUBLIC_CONSULTATION,
                 EngagementMethod.ADVISORY_COMMITTEE,
-                EngagementMethod.ONLINE_PLATFORM
+                EngagementMethod.ONLINE_PLATFORM,
             ],
             voting_weight=0.20,
             expertise_areas=["human_rights", "digital_rights", "privacy", "algorithmic_accountability"],
-            contact_information={"email": "contact@airights.org", "website": "https://airights.org"}
+            contact_information={"email": "contact@airights.org", "website": "https://airights.org"},
         )
         self.stakeholder_groups[civil_society.group_id] = civil_society
 
@@ -287,11 +303,11 @@ class DemocraticOversightEngine:
             engagement_methods=[
                 EngagementMethod.EXPERT_PANEL,
                 EngagementMethod.IMPACT_ASSESSMENT_REVIEW,
-                EngagementMethod.ADVISORY_COMMITTEE
+                EngagementMethod.ADVISORY_COMMITTEE,
             ],
             voting_weight=0.15,
             expertise_areas=["ai_ethics", "machine_learning", "algorithmic_bias", "fairness"],
-            contact_information={"email": "consortium@aiethics.edu", "website": "https://aiethics.edu"}
+            contact_information={"email": "consortium@aiethics.edu", "website": "https://aiethics.edu"},
         )
         self.stakeholder_groups[academic_group.group_id] = academic_group
 
@@ -301,13 +317,10 @@ class DemocraticOversightEngine:
             stakeholder_type=StakeholderType.GOVERNMENT_REGULATORS,
             group_name="Multi-Jurisdictional AI Regulatory Body",
             representation_scope="multi_national",
-            engagement_methods=[
-                EngagementMethod.EXPERT_PANEL,
-                EngagementMethod.ADVISORY_COMMITTEE
-            ],
+            engagement_methods=[EngagementMethod.EXPERT_PANEL, EngagementMethod.ADVISORY_COMMITTEE],
             voting_weight=0.25,
             expertise_areas=["regulatory_compliance", "policy_development", "enforcement"],
-            contact_information={"email": "contact@airegulators.gov", "website": "https://airegulators.gov"}
+            contact_information={"email": "contact@airegulators.gov", "website": "https://airegulators.gov"},
         )
         self.stakeholder_groups[regulator_group.group_id] = regulator_group
 
@@ -321,11 +334,11 @@ class DemocraticOversightEngine:
                 EngagementMethod.CITIZEN_JURY,
                 EngagementMethod.TOWN_HALLS,
                 EngagementMethod.SURVEY_FEEDBACK,
-                EngagementMethod.ONLINE_PLATFORM
+                EngagementMethod.ONLINE_PLATFORM,
             ],
             voting_weight=0.20,
             expertise_areas=["lived_experience", "community_impact", "social_justice"],
-            contact_information={"email": "network@aicommunities.org", "website": "https://aicommunities.org"}
+            contact_information={"email": "network@aicommunities.org", "website": "https://aicommunities.org"},
         )
         self.stakeholder_groups[community_group.group_id] = community_group
 
@@ -338,11 +351,11 @@ class DemocraticOversightEngine:
             engagement_methods=[
                 EngagementMethod.EXPERT_PANEL,
                 EngagementMethod.IMPACT_ASSESSMENT_REVIEW,
-                EngagementMethod.PUBLIC_CONSULTATION
+                EngagementMethod.PUBLIC_CONSULTATION,
             ],
             voting_weight=0.20,
             expertise_areas=["human_rights", "international_law", "discrimination", "privacy"],
-            contact_information={"email": "alliance@hrai.org", "website": "https://hrai.org"}
+            contact_information={"email": "alliance@hrai.org", "website": "https://hrai.org"},
         )
         self.stakeholder_groups[hr_group.group_id] = hr_group
 
@@ -354,19 +367,19 @@ class DemocraticOversightEngine:
                 "frequency": "quarterly",
                 "next_due": datetime.now(timezone.utc) + timedelta(days=90),
                 "transparency_level": TransparencyLevel.FULL_PUBLIC,
-                "distribution": ["website", "regulatory_bodies", "stakeholders"]
+                "distribution": ["website", "regulatory_bodies", "stakeholders"],
             },
             "annual_reports": {
                 "frequency": "annual",
                 "next_due": datetime.now(timezone.utc) + timedelta(days=365),
                 "transparency_level": TransparencyLevel.FULL_PUBLIC,
-                "distribution": ["website", "regulatory_bodies", "stakeholders", "media"]
+                "distribution": ["website", "regulatory_bodies", "stakeholders", "media"],
             },
             "incident_reports": {
                 "frequency": "as_needed",
                 "transparency_level": TransparencyLevel.AGGREGATED_STATS,
-                "distribution": ["regulatory_bodies", "affected_stakeholders"]
-            }
+                "distribution": ["regulatory_bodies", "affected_stakeholders"],
+            },
         }
 
     def _create_human_rights_framework(self) -> dict[str, Any]:
@@ -376,28 +389,36 @@ class DemocraticOversightEngine:
             "framework_version": "1.0",
             "rights_catalog": {
                 "civil_political_rights": [
-                    "right_to_life", "right_to_liberty", "right_to_security",
-                    "right_to_fair_trial", "freedom_of_expression", "right_to_privacy",
-                    "freedom_of_assembly", "right_to_political_participation"
+                    "right_to_life",
+                    "right_to_liberty",
+                    "right_to_security",
+                    "right_to_fair_trial",
+                    "freedom_of_expression",
+                    "right_to_privacy",
+                    "freedom_of_assembly",
+                    "right_to_political_participation",
                 ],
                 "economic_social_cultural_rights": [
-                    "right_to_work", "right_to_education", "right_to_health",
-                    "right_to_adequate_standard_of_living", "right_to_social_security"
+                    "right_to_work",
+                    "right_to_education",
+                    "right_to_health",
+                    "right_to_adequate_standard_of_living",
+                    "right_to_social_security",
                 ],
                 "collective_rights": [
-                    "right_to_self_determination", "rights_of_minorities",
-                    "indigenous_rights", "right_to_development"
-                ]
+                    "right_to_self_determination",
+                    "rights_of_minorities",
+                    "indigenous_rights",
+                    "right_to_development",
+                ],
             },
             "assessment_methodology": {
                 "impact_identification": "systematic_review",
                 "severity_assessment": "risk_matrix",
                 "mitigation_planning": "participatory_approach",
-                "monitoring_framework": "indicator_based"
+                "monitoring_framework": "indicator_based",
             },
-            "international_standards": [
-                "UDHR", "ICCPR", "ICESCR", "CERD", "CEDAW", "CRC", "CRPD"
-            ]
+            "international_standards": ["UDHR", "ICCPR", "ICESCR", "CERD", "CEDAW", "CRC", "CRPD"],
         }
 
     def _create_engagement_platforms(self) -> dict[str, Any]:
@@ -408,24 +429,23 @@ class DemocraticOversightEngine:
                 "url": "https://ai-consultation.lukhas.ai",
                 "features": ["document_review", "comment_submission", "voting", "discussion_forums"],
                 "accessibility": "wcag_2.1_aa_compliant",
-                "languages": ["en", "fr", "de", "es", "zh", "ja", "ar"]
+                "languages": ["en", "fr", "de", "es", "zh", "ja", "ar"],
             },
             "virtual_town_halls": {
                 "platform": "webinar_system",
                 "features": ["live_streaming", "q_and_a", "breakout_rooms", "polls"],
                 "recording": "public_archive",
-                "interpretation": "multilingual_support"
+                "interpretation": "multilingual_support",
             },
             "citizen_jury_platform": {
                 "selection": "random_representative_sampling",
                 "deliberation_support": "structured_decision_tools",
                 "documentation": "transparent_process_recording",
-                "compensation": "participant_support"
-            }
+                "compensation": "participant_support",
+            },
         }
 
-    async def conduct_human_rights_assessment(self,
-                                            system_data: dict[str, Any]) -> HumanRightsAssessment:
+    async def conduct_human_rights_assessment(self, system_data: dict[str, Any]) -> HumanRightsAssessment:
         """
         Comprehensive human rights impact assessment for AI system
 
@@ -506,14 +526,16 @@ class DemocraticOversightEngine:
                 international_standards_compliance=international_compliance,
                 national_law_compliance=national_compliance,
                 overall_risk_level=overall_risk_level,
-                assessment_confidence=assessment_confidence
+                assessment_confidence=assessment_confidence,
             )
 
             # Store assessment
             self.human_rights_assessments[assessment_id] = assessment
 
-            self.logger.info(f"Human rights assessment completed: {assessment_id}, "
-                           f"Risk level: {overall_risk_level}, Rights analyzed: {len(rights_analyzed)}")
+            self.logger.info(
+                f"Human rights assessment completed: {assessment_id}, "
+                f"Risk level: {overall_risk_level}, Rights analyzed: {len(rights_analyzed)}"
+            )
 
             return assessment
 
@@ -559,9 +581,7 @@ class DemocraticOversightEngine:
 
         # Always include core rights for high-impact systems
         if system_data.get("high_impact_system", False):
-            relevant_rights.extend([
-                "human_dignity", "right_to_non_discrimination", "right_to_equality"
-            ])
+            relevant_rights.extend(["human_dignity", "right_to_non_discrimination", "right_to_equality"])
 
         return list(set(relevant_rights))  # Remove duplicates
 
@@ -574,7 +594,7 @@ class DemocraticOversightEngine:
             "right_to_non_discrimination": self._assess_discrimination_impact,
             "freedom_of_expression": self._assess_expression_impact,
             "right_to_work": self._assess_employment_impact,
-            "right_to_fair_trial": self._assess_justice_impact
+            "right_to_fair_trial": self._assess_justice_impact,
         }
 
         if right in impact_assessments:
@@ -647,7 +667,7 @@ class DemocraticOversightEngine:
             "automated_decisions": system_data.get("automated_decision_making", False) * 0.2,
             "sensitive_data": ("sensitive_data" in system_data.get("data_categories", [])) * 0.2,
             "vulnerable_groups": system_data.get("affects_vulnerable_groups", False) * 0.2,
-            "large_scale": system_data.get("large_scale_deployment", False) * 0.1
+            "large_scale": system_data.get("large_scale_deployment", False) * 0.1,
         }
 
         return min(base_severity + sum(severity_factors.values()), 1.0)
@@ -699,57 +719,66 @@ class DemocraticOversightEngine:
             "regional": 100000,
             "national": 1000000,
             "international": 10000000,
-            "global": 100000000
+            "global": 100000000,
         }
 
         return scale_estimates.get(deployment_scale, 50000)
 
-    async def _generate_mitigation_measures(self,
-                                          rights_analyzed: list[str],
-                                          potential_impacts: dict[str, str],
-                                          severity_scores: dict[str, float]) -> list[str]:
+    async def _generate_mitigation_measures(
+        self, rights_analyzed: list[str], potential_impacts: dict[str, str], severity_scores: dict[str, float]
+    ) -> list[str]:
         """Generate human rights mitigation measures"""
 
         measures = []
 
         # General measures for all systems
-        measures.extend([
-            "Conduct regular human rights impact assessments",
-            "Implement transparent algorithmic decision-making processes",
-            "Establish clear accountability mechanisms and oversight"
-        ])
+        measures.extend(
+            [
+                "Conduct regular human rights impact assessments",
+                "Implement transparent algorithmic decision-making processes",
+                "Establish clear accountability mechanisms and oversight",
+            ]
+        )
 
         # Right-specific measures
         for right in rights_analyzed:
             severity = severity_scores.get(right, 0.0)
 
             if right == "right_to_privacy" and severity > 0.3:
-                measures.extend([
-                    "Implement privacy-by-design architecture",
-                    "Deploy differential privacy techniques",
-                    "Establish data minimization protocols"
-                ])
+                measures.extend(
+                    [
+                        "Implement privacy-by-design architecture",
+                        "Deploy differential privacy techniques",
+                        "Establish data minimization protocols",
+                    ]
+                )
 
             if right == "right_to_non_discrimination" and severity > 0.3:
-                measures.extend([
-                    "Implement algorithmic bias testing and monitoring",
-                    "Deploy fairness-aware machine learning techniques",
-                    "Establish diverse dataset requirements"
-                ])
+                measures.extend(
+                    [
+                        "Implement algorithmic bias testing and monitoring",
+                        "Deploy fairness-aware machine learning techniques",
+                        "Establish diverse dataset requirements",
+                    ]
+                )
 
             if right == "freedom_of_expression" and severity > 0.3:
-                measures.extend([
-                    "Develop transparent content moderation guidelines",
-                    "Implement appeals processes for content decisions",
-                    "Establish human review for borderline cases"
-                ])
+                measures.extend(
+                    [
+                        "Develop transparent content moderation guidelines",
+                        "Implement appeals processes for content decisions",
+                        "Establish human review for borderline cases",
+                    ]
+                )
 
             if right == "right_to_work" and severity > 0.3:
-                measures.extend([
-                    "Implement algorithmic hiring audits",
-                    "Provide explanation rights for employment decisions",
-                    "Establish human oversight for employment AI"
-                ])
+                measures.extend(
+                    [
+                        "Implement algorithmic hiring audits",
+                        "Provide explanation rights for employment decisions",
+                        "Establish human oversight for employment AI",
+                    ]
+                )
 
         return list(set(measures))  # Remove duplicates
 
@@ -779,33 +808,39 @@ class DemocraticOversightEngine:
         indicators = []
 
         # General indicators
-        indicators.extend([
-            "Number of human rights complaints received",
-            "Response time to rights violation reports",
-            "Percentage of rights assessments completed on time"
-        ])
+        indicators.extend(
+            [
+                "Number of human rights complaints received",
+                "Response time to rights violation reports",
+                "Percentage of rights assessments completed on time",
+            ]
+        )
 
         # Right-specific indicators
         for right in rights_analyzed:
             if right == "right_to_privacy":
-                indicators.extend([
-                    "Privacy breach incidents per quarter",
-                    "Data subject access requests fulfillment rate",
-                    "Privacy policy comprehension metrics"
-                ])
+                indicators.extend(
+                    [
+                        "Privacy breach incidents per quarter",
+                        "Data subject access requests fulfillment rate",
+                        "Privacy policy comprehension metrics",
+                    ]
+                )
 
             if right == "right_to_non_discrimination":
-                indicators.extend([
-                    "Bias detection alerts per month",
-                    "Demographic parity metrics across protected groups",
-                    "Discrimination complaint resolution rate"
-                ])
+                indicators.extend(
+                    [
+                        "Bias detection alerts per month",
+                        "Demographic parity metrics across protected groups",
+                        "Discrimination complaint resolution rate",
+                    ]
+                )
 
         return indicators
 
-    async def _assess_international_compliance(self,
-                                             rights_analyzed: list[str],
-                                             system_data: dict[str, Any]) -> dict[str, bool]:
+    async def _assess_international_compliance(
+        self, rights_analyzed: list[str], system_data: dict[str, Any]
+    ) -> dict[str, bool]:
         """Assess compliance with international human rights standards"""
 
         compliance = {}
@@ -817,9 +852,9 @@ class DemocraticOversightEngine:
 
         return compliance
 
-    async def _assess_national_compliance(self,
-                                        rights_analyzed: list[str],
-                                        system_data: dict[str, Any]) -> dict[str, bool]:
+    async def _assess_national_compliance(
+        self, rights_analyzed: list[str], system_data: dict[str, Any]
+    ) -> dict[str, bool]:
         """Assess compliance with national human rights laws"""
 
         compliance = {}
@@ -829,8 +864,9 @@ class DemocraticOversightEngine:
 
         for jurisdiction in jurisdictions:
             # Simplified assessment based on system safeguards
-            compliance[jurisdiction] = system_data.get("human_rights_safeguards", []) and \
-                                     system_data.get("legal_compliance_review", False)
+            compliance[jurisdiction] = system_data.get("human_rights_safeguards", []) and system_data.get(
+                "legal_compliance_review", False
+            )
 
         return compliance
 
@@ -860,14 +896,15 @@ class DemocraticOversightEngine:
             "impact_data_available": "affected_population" in system_data,
             "safeguards_documented": len(system_data.get("human_rights_safeguards", [])) > 0,
             "stakeholder_input": system_data.get("stakeholder_consultation", False),
-            "expert_review": system_data.get("expert_review", False)
+            "expert_review": system_data.get("expert_review", False),
         }
 
         confidence_score = sum(confidence_factors.values()) / len(confidence_factors)
         return confidence_score
 
-    async def generate_public_transparency_report(self,
-                                                reporting_period: tuple[datetime, datetime]) -> PublicTransparencyReport:
+    async def generate_public_transparency_report(
+        self, reporting_period: tuple[datetime, datetime]
+    ) -> PublicTransparencyReport:
         """
         Generate comprehensive public transparency report
 
@@ -883,8 +920,9 @@ class DemocraticOversightEngine:
 
             # Collect system statistics
             ai_systems_assessed = len(self.human_rights_assessments)
-            high_impact_systems = len([a for a in self.human_rights_assessments.values()
-                                     if a.overall_risk_level in ["high", "critical"]])
+            high_impact_systems = len(
+                [a for a in self.human_rights_assessments.values() if a.overall_risk_level in ["high", "critical"]]
+            )
 
             # Estimate usage statistics (in production: real data)
             public_sector_usage = int(ai_systems_assessed * 0.3)
@@ -899,14 +937,14 @@ class DemocraticOversightEngine:
             automated_processes_active = ai_systems_assessed
 
             # Compliance and oversight metrics
-            compliance_violations = len([a for a in self.human_rights_assessments.values()
-                                       if a.overall_risk_level in ["high", "critical"]])
+            compliance_violations = len(
+                [a for a in self.human_rights_assessments.values() if a.overall_risk_level in ["high", "critical"]]
+            )
             oversight_actions_taken = compliance_violations  # Assume actions for all violations
 
             # Engagement metrics
             stakeholder_complaints = 0  # In production: real complaint data
-            remediation_actions = len([a for a in self.human_rights_assessments.values()
-                                     if a.recommended_measures])
+            remediation_actions = len([a for a in self.human_rights_assessments.values() if a.recommended_measures])
 
             # Transparency metrics
             transparency_requests_fulfilled = 0  # In production: real request data
@@ -921,7 +959,7 @@ class DemocraticOversightEngine:
                     "decision_type": "policy_adoption",
                     "description": "Adoption of comprehensive human rights assessment framework",
                     "stakeholders_consulted": list(self.stakeholder_groups.keys()),
-                    "implementation_status": "active"
+                    "implementation_status": "active",
                 }
             ]
 
@@ -929,32 +967,34 @@ class DemocraticOversightEngine:
                 "Mandatory human rights impact assessments for high-risk AI systems",
                 "Establishment of AI ombudsperson for citizen complaints",
                 "Regular multi-stakeholder governance review processes",
-                "Public algorithmic audit requirements for government AI"
+                "Public algorithmic audit requirements for government AI",
             ]
 
-            constitutional_assessments = len([a for a in self.human_rights_assessments.values()
-                                            if a.international_standards_compliance])
-            human_rights_violations = len([a for a in self.human_rights_assessments.values()
-                                         if a.overall_risk_level == "critical"])
+            constitutional_assessments = len(
+                [a for a in self.human_rights_assessments.values() if a.international_standards_compliance]
+            )
+            human_rights_violations = len(
+                [a for a in self.human_rights_assessments.values() if a.overall_risk_level == "critical"]
+            )
 
             # Public datasets and research
             published_datasets = [
                 "Anonymized AI impact assessment statistics",
                 "Aggregated human rights assessment results",
-                "Stakeholder engagement participation data"
+                "Stakeholder engagement participation data",
             ]
 
             research_publications = [
                 "AI and Human Rights: Assessment Methodology Report",
                 "Democratic Oversight of AI Systems: Best Practices",
-                "Multi-Stakeholder Governance Framework Documentation"
+                "Multi-Stakeholder Governance Framework Documentation",
             ]
 
             methodology_documentation = [
                 "Human Rights Impact Assessment Methodology",
                 "Democratic Oversight Process Documentation",
                 "Stakeholder Engagement Framework",
-                "Transparency Reporting Guidelines"
+                "Transparency Reporting Guidelines",
             ]
 
             # Create transparency report
@@ -985,14 +1025,16 @@ class DemocraticOversightEngine:
                 published_datasets=published_datasets,
                 research_publications=research_publications,
                 methodology_documentation=methodology_documentation,
-                transparency_level=TransparencyLevel.FULL_PUBLIC
+                transparency_level=TransparencyLevel.FULL_PUBLIC,
             )
 
             # Store report
             self.transparency_reports[report_id] = report
 
-            self.logger.info(f"Public transparency report generated: {report_id}, "
-                           f"Period: {reporting_period[0].strftime('%Y-%m-%d')} to {reporting_period[1].strftime('%Y-%m-%d')}")
+            self.logger.info(
+                f"Public transparency report generated: {report_id}, "
+                f"Period: {reporting_period[0].strftime('%Y-%m-%d')} to {reporting_period[1].strftime('%Y-%m-%d')}"
+            )
 
             return report
 
@@ -1000,10 +1042,9 @@ class DemocraticOversightEngine:
             self.logger.error(f"Transparency report generation failed: {e!s}")
             raise
 
-    async def conduct_stakeholder_engagement(self,
-                                           topic: str,
-                                           engagement_method: EngagementMethod,
-                                           stakeholder_groups: Optional[list[str]] = None) -> CitizenEngagementSession:
+    async def conduct_stakeholder_engagement(
+        self, topic: str, engagement_method: EngagementMethod, stakeholder_groups: Optional[list[str]] = None
+    ) -> CitizenEngagementSession:
         """
         Conduct stakeholder engagement session
 
@@ -1021,12 +1062,14 @@ class DemocraticOversightEngine:
 
             # Determine participating stakeholder groups
             if stakeholder_groups:
-                participating_groups = [self.stakeholder_groups[gid] for gid in stakeholder_groups
-                                      if gid in self.stakeholder_groups]
+                participating_groups = [
+                    self.stakeholder_groups[gid] for gid in stakeholder_groups if gid in self.stakeholder_groups
+                ]
             else:
                 # Include all relevant groups based on engagement method
-                participating_groups = [g for g in self.stakeholder_groups.values()
-                                      if engagement_method in g.engagement_methods]
+                participating_groups = [
+                    g for g in self.stakeholder_groups.values() if engagement_method in g.engagement_methods
+                ]
 
             # Generate participants (simulated)
             participants = []
@@ -1042,13 +1085,14 @@ class DemocraticOversightEngine:
                         "participant_id": f"{group.group_id}_participant_{i}",
                         "stakeholder_group": group.group_id,
                         "expertise": group.expertise_areas[0] if group.expertise_areas else "general",
-                        "geographic_location": group.representation_scope
+                        "geographic_location": group.representation_scope,
                     }
                     participants.append(participant)
 
                 stakeholder_representation[group.stakeholder_type] = participant_count
-                geographic_representation[group.representation_scope] = \
+                geographic_representation[group.representation_scope] = (
                     geographic_representation.get(group.representation_scope, 0) + participant_count
+                )
 
             # Generate session content
             agenda_items = [
@@ -1057,7 +1101,7 @@ class DemocraticOversightEngine:
                 "Impact assessment and risk evaluation",
                 "Mitigation measures and recommendations",
                 "Implementation planning and oversight",
-                "Next steps and follow-up actions"
+                "Next steps and follow-up actions",
             ]
 
             key_discussions = [
@@ -1065,13 +1109,13 @@ class DemocraticOversightEngine:
                 "Democratic oversight and accountability mechanisms",
                 "Stakeholder representation and participation",
                 "Transparency and public access requirements",
-                "Implementation timeline and resource allocation"
+                "Implementation timeline and resource allocation",
             ]
 
             decisions_made = [
                 f"Adoption of {topic} assessment framework",
                 "Establishment of ongoing stakeholder consultation process",
-                "Agreement on transparency reporting requirements"
+                "Agreement on transparency reporting requirements",
             ]
 
             action_items = [
@@ -1079,14 +1123,14 @@ class DemocraticOversightEngine:
                     "action": "Develop detailed implementation plan",
                     "responsible": "technical_working_group",
                     "deadline": (datetime.now(timezone.utc) + timedelta(days=30)).isoformat(),
-                    "status": "assigned"
+                    "status": "assigned",
                 },
                 {
                     "action": "Draft stakeholder feedback summary",
                     "responsible": "secretariat",
                     "deadline": (datetime.now(timezone.utc) + timedelta(days=14)).isoformat(),
-                    "status": "assigned"
-                }
+                    "status": "assigned",
+                },
             ]
 
             # Generate outcomes
@@ -1094,32 +1138,32 @@ class DemocraticOversightEngine:
                 "Strengthen human rights impact assessment requirements",
                 "Expand stakeholder participation in AI governance",
                 "Enhance transparency and public reporting mechanisms",
-                "Establish independent oversight and audit functions"
+                "Establish independent oversight and audit functions",
             ]
 
             consensus_areas = [
                 "Importance of human rights protection in AI systems",
                 "Need for multi-stakeholder governance approach",
-                "Value of public transparency and accountability"
+                "Value of public transparency and accountability",
             ]
 
             dissenting_views = [
                 "Concerns about implementation costs and timeline",
                 "Questions about technical feasibility of some recommendations",
-                "Debate over optimal level of regulatory oversight"
+                "Debate over optimal level of regulatory oversight",
             ]
 
             follow_up_required = [
                 "Technical feasibility assessment of recommendations",
                 "Legal analysis of regulatory authority requirements",
-                "Resource and budget planning for implementation"
+                "Resource and budget planning for implementation",
             ]
 
             # Documentation
             session_materials = [
                 f"{topic}_background_document.pdf",
                 "stakeholder_participation_guidelines.pdf",
-                "human_rights_assessment_framework.pdf"
+                "human_rights_assessment_framework.pdf",
             ]
 
             meeting_minutes = f"Minutes of stakeholder engagement session on {topic} held on {datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
@@ -1146,7 +1190,7 @@ class DemocraticOversightEngine:
                 session_materials=session_materials,
                 meeting_minutes=meeting_minutes,
                 public_summary=public_summary,
-                detailed_report=f"Detailed report available at: engagement_reports/{session_id}_full_report.pdf"
+                detailed_report=f"Detailed report available at: engagement_reports/{session_id}_full_report.pdf",
             )
 
             # Store session
@@ -1156,8 +1200,10 @@ class DemocraticOversightEngine:
             for group in participating_groups:
                 group.last_engagement = datetime.now(timezone.utc)
 
-            self.logger.info(f"Stakeholder engagement session conducted: {session_id}, "
-                           f"Method: {engagement_method.value}, Participants: {len(participants)}")
+            self.logger.info(
+                f"Stakeholder engagement session conducted: {session_id}, "
+                f"Method: {engagement_method.value}, Participants: {len(participants)}"
+            )
 
             return session
 
@@ -1165,8 +1211,9 @@ class DemocraticOversightEngine:
             self.logger.error(f"Stakeholder engagement failed: {e!s}")
             raise
 
-    def assess_democratic_principles_alignment(self,
-                                             ai_system_data: dict[str, Any]) -> dict[DemocraticPrinciple, float]:
+    def assess_democratic_principles_alignment(
+        self, ai_system_data: dict[str, Any]
+    ) -> dict[DemocraticPrinciple, float]:
         """
         Assess AI system alignment with democratic principles
 
@@ -1185,9 +1232,7 @@ class DemocraticOversightEngine:
 
         return alignment_scores
 
-    def _assess_principle_alignment(self,
-                                  principle: DemocraticPrinciple,
-                                  ai_system_data: dict[str, Any]) -> float:
+    def _assess_principle_alignment(self, principle: DemocraticPrinciple, ai_system_data: dict[str, Any]) -> float:
         """Assess alignment with specific democratic principle"""
 
         base_score = 0.1
@@ -1197,7 +1242,7 @@ class DemocraticOversightEngine:
                 "algorithmic_transparency": ai_system_data.get("algorithmic_transparency", False) * 0.3,
                 "decision_explanations": ai_system_data.get("decision_explanations", False) * 0.3,
                 "public_documentation": ai_system_data.get("public_documentation", False) * 0.2,
-                "audit_trail": ai_system_data.get("audit_trail", False) * 0.2
+                "audit_trail": ai_system_data.get("audit_trail", False) * 0.2,
             }
             return min(base_score + sum(transparency_factors.values()), 1.0)
 
@@ -1206,7 +1251,7 @@ class DemocraticOversightEngine:
                 "clear_responsibility": ai_system_data.get("clear_responsibility", False) * 0.3,
                 "oversight_mechanisms": ai_system_data.get("oversight_mechanisms", False) * 0.3,
                 "complaint_procedures": ai_system_data.get("complaint_procedures", False) * 0.2,
-                "remediation_processes": ai_system_data.get("remediation_processes", False) * 0.2
+                "remediation_processes": ai_system_data.get("remediation_processes", False) * 0.2,
             }
             return min(base_score + sum(accountability_factors.values()), 1.0)
 
@@ -1215,7 +1260,7 @@ class DemocraticOversightEngine:
                 "stakeholder_consultation": ai_system_data.get("stakeholder_consultation", False) * 0.3,
                 "public_input": ai_system_data.get("public_input", False) * 0.3,
                 "citizen_engagement": ai_system_data.get("citizen_engagement", False) * 0.2,
-                "democratic_oversight": ai_system_data.get("democratic_oversight", False) * 0.2
+                "democratic_oversight": ai_system_data.get("democratic_oversight", False) * 0.2,
             }
             return min(base_score + sum(participation_factors.values()), 1.0)
 
@@ -1223,7 +1268,7 @@ class DemocraticOversightEngine:
             rights_factors = {
                 "human_rights_assessment": ai_system_data.get("human_rights_assessment", False) * 0.4,
                 "rights_safeguards": ai_system_data.get("rights_safeguards", False) * 0.3,
-                "vulnerable_group_protection": ai_system_data.get("vulnerable_group_protection", False) * 0.3
+                "vulnerable_group_protection": ai_system_data.get("vulnerable_group_protection", False) * 0.3,
             }
             return min(base_score + sum(rights_factors.values()), 1.0)
 
@@ -1231,14 +1276,14 @@ class DemocraticOversightEngine:
             equality_factors = {
                 "bias_testing": ai_system_data.get("bias_testing", False) * 0.4,
                 "fairness_measures": ai_system_data.get("fairness_measures", False) * 0.3,
-                "equal_access": ai_system_data.get("equal_access", False) * 0.3
+                "equal_access": ai_system_data.get("equal_access", False) * 0.3,
             }
             return min(base_score + sum(equality_factors.values()), 1.0)
 
         # Default assessment for other principles
         general_factors = {
             "governance_framework": ai_system_data.get("governance_framework", False) * 0.5,
-            "compliance_monitoring": ai_system_data.get("compliance_monitoring", False) * 0.5
+            "compliance_monitoring": ai_system_data.get("compliance_monitoring", False) * 0.5,
         }
 
         return min(base_score + sum(general_factors.values()), 1.0)
@@ -1261,10 +1306,13 @@ class DemocraticOversightEngine:
             "transparency_reports_published": len(self.transparency_reports),
             "average_stakeholder_participation": self._calculate_average_participation(),
             "democratic_principles_coverage": len(DemocraticPrinciple),
-            "last_transparency_report": max([r.publication_date for r in self.transparency_reports.values()])
-                if self.transparency_reports else None,
+            "last_transparency_report": (
+                max([r.publication_date for r in self.transparency_reports.values()])
+                if self.transparency_reports
+                else None
+            ),
             "next_scheduled_engagement": self._get_next_scheduled_engagement(),
-            "last_updated": datetime.now(timezone.utc).isoformat()
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     def _calculate_average_participation(self) -> float:
@@ -1298,39 +1346,41 @@ class DemocraticOversightEngine:
                 "stakeholder_engagement_score": self._calculate_engagement_score(sessions),
                 "human_rights_protection_level": self._calculate_rights_protection_level(assessments),
                 "transparency_compliance_rate": 1.0 if reports else 0.0,
-                "democratic_principles_alignment": self._calculate_overall_democratic_alignment()
+                "democratic_principles_alignment": self._calculate_overall_democratic_alignment(),
             },
             "stakeholder_participation": {
                 "active_stakeholder_groups": len([g for g in self.stakeholder_groups.values() if g.active]),
                 "total_engagement_sessions": len(sessions),
                 "average_session_participation": self._calculate_average_participation(),
-                "stakeholder_diversity_index": self._calculate_stakeholder_diversity()
+                "stakeholder_diversity_index": self._calculate_stakeholder_diversity(),
             },
             "human_rights_protection": {
                 "assessments_completed": len(assessments),
-                "high_risk_systems_identified": len([a for a in assessments if a.overall_risk_level in ["high", "critical"]]),
+                "high_risk_systems_identified": len(
+                    [a for a in assessments if a.overall_risk_level in ["high", "critical"]]
+                ),
                 "mitigation_measures_implemented": sum(len(a.recommended_measures) for a in assessments),
-                "rights_monitoring_indicators": sum(len(a.monitoring_indicators) for a in assessments)
+                "rights_monitoring_indicators": sum(len(a.monitoring_indicators) for a in assessments),
             },
             "transparency_accountability": {
                 "public_reports_published": len(reports),
                 "transparency_requests_fulfilled": sum(r.transparency_requests_fulfilled for r in reports),
                 "audit_compliance_rate": 1.0,  # Simplified metric
-                "public_data_availability": len(set().union(*[r.published_datasets for r in reports]))
+                "public_data_availability": len(set().union(*[r.published_datasets for r in reports])),
             },
             "governance_effectiveness": {
                 "policy_recommendations_generated": sum(len(r.policy_recommendations) for r in reports),
                 "governance_decisions_implemented": sum(len(r.governance_decisions) for r in reports),
                 "stakeholder_consensus_rate": self._calculate_consensus_rate(sessions),
-                "remediation_success_rate": self._calculate_remediation_success_rate(assessments)
+                "remediation_success_rate": self._calculate_remediation_success_rate(assessments),
             },
             "recommendations": [
                 "Expand stakeholder diversity in engagement sessions",
                 "Enhance real-time human rights monitoring capabilities",
                 "Develop automated democratic principle compliance checking",
                 "Strengthen international coordination on AI governance",
-                "Implement citizen AI literacy programs"
-            ]
+                "Implement citizen AI literacy programs",
+            ],
         }
 
     def _calculate_engagement_score(self, sessions: list[CitizenEngagementSession]) -> float:
@@ -1342,7 +1392,9 @@ class DemocraticOversightEngine:
         # Score based on participation, diversity, and outcomes
         participation_score = min(self._calculate_average_participation() / 50, 1.0)  # Normalize to 50 participants
         diversity_score = self._calculate_stakeholder_diversity()
-        outcome_score = sum(len(s.recommendations_generated) for s in sessions) / (len(sessions) * 5)  # Normalize to 5 recommendations
+        outcome_score = sum(len(s.recommendations_generated) for s in sessions) / (
+            len(sessions) * 5
+        )  # Normalize to 5 recommendations
 
         return (participation_score + diversity_score + outcome_score) / 3
 

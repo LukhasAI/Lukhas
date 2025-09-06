@@ -88,7 +88,6 @@ __all__ = [
     "log_agi_operation",
     "create_module_message",
     "get_vocabulary_health",
-
     # Service Bridge
     "AGIServiceBridge",
     "AGIServiceAdapter",
@@ -99,13 +98,11 @@ __all__ = [
     "get_agi_service",
     "initialize_agi_services",
     "health_check_agi_services",
-
     # Service Initializer
     "AGIServiceInitializer",
     "AGIServiceConfiguration",
     "agi_initializer",
     "initialize_agi_system",
-
     # QI-Bio-AGI Integration
     "QIBioAGIBridge",
     "ProcessingMode",
@@ -117,7 +114,6 @@ __all__ = [
     "register_agi_for_integration",
     "initialize_qi_bio_agi_systems",
     "get_qi_bio_agi_status",
-
     # AGI Modulation
     "AGIModulationBridge",
     "AGIModulationMode",
@@ -128,7 +124,6 @@ __all__ = [
     "apply_signal_modulation",
     "get_agi_modulation_status",
     "start_homeostatic_regulation",
-
     # Consent/Privacy/Constitutional
     "ConsentPrivacyConstitutionalBridge",
     "ConsentStatus",

@@ -55,13 +55,17 @@ try:
         SafetyLevel,
         get_guardian_system,
     )
+
     logger = get_security_logger(__name__)
 except ImportError:
     import logging
+
     logger = logging.getLogger(__name__)
+
     # Mock imports for standalone testing
     class GuardianSystem2:
         pass
+
     class ConstitutionalComplianceEngine:
         pass
 
@@ -69,6 +73,7 @@ except ImportError:
 @dataclass
 class IntegrationConfig:
     """Guardian System integration configuration"""
+
     enabled: bool = True
     enforce_decisions: bool = True
     real_time_monitoring: bool = True
@@ -123,7 +128,7 @@ class GuardianIntegrationMiddleware:
             "average_processing_time_ms": 0.0,
             "decisions_enforced": 0,
             "decisions_allowed": 0,
-            "decisions_blocked": 0
+            "decisions_blocked": 0,
         }
 
         # Performance optimization
@@ -207,11 +212,13 @@ class GuardianIntegrationMiddleware:
         except Exception as e:
             logger.error(f"❌ Cache cleanup failed: {e}")
 
-    def guardian_monitor(self,
-                        decision_type: DecisionType = DecisionType.SYSTEM_OPERATION,
-                        enforce_decision: bool = True,
-                        explanation_type: ExplanationType = ExplanationType.STANDARD,
-                        cache_key: Optional[str] = None):
+    def guardian_monitor(
+        self,
+        decision_type: DecisionType = DecisionType.SYSTEM_OPERATION,
+        enforce_decision: bool = True,
+        explanation_type: ExplanationType = ExplanationType.STANDARD,
+        cache_key: Optional[str] = None,
+    ):
         """
         Decorator for Guardian System monitoring
 
@@ -221,20 +228,21 @@ class GuardianIntegrationMiddleware:
             explanation_type: Type of explanation to generate
             cache_key: Optional cache key for decision caching
         """
+
         def decorator(func: Callable) -> Callable:
             @wraps(func)
             async def async_wrapper(*args, **kwargs):
                 return await self._monitor_async_function(
-                    func, args, kwargs, decision_type, enforce_decision,
-                    explanation_type, cache_key
+                    func, args, kwargs, decision_type, enforce_decision, explanation_type, cache_key
                 )
 
             @wraps(func)
             def sync_wrapper(*args, **kwargs):
-                return asyncio.run(self._monitor_sync_function(
-                    func, args, kwargs, decision_type, enforce_decision,
-                    explanation_type, cache_key
-                ))
+                return asyncio.run(
+                    self._monitor_sync_function(
+                        func, args, kwargs, decision_type, enforce_decision, explanation_type, cache_key
+                    )
+                )
 
             # Register function for monitoring
             function_name = f"{func.__module__}.{func.__name__}"
@@ -248,9 +256,16 @@ class GuardianIntegrationMiddleware:
 
         return decorator
 
-    async def _monitor_async_function(self, func: Callable, args: tuple, kwargs: dict,
-                                     decision_type: DecisionType, enforce_decision: bool,
-                                     explanation_type: ExplanationType, cache_key: Optional[str]):
+    async def _monitor_async_function(
+        self,
+        func: Callable,
+        args: tuple,
+        kwargs: dict,
+        decision_type: DecisionType,
+        enforce_decision: bool,
+        explanation_type: ExplanationType,
+        cache_key: Optional[str],
+    ):
         """Monitor async function execution"""
         if not self.enabled:
             return await func(*args, **kwargs)
@@ -274,9 +289,7 @@ class GuardianIntegrationMiddleware:
                     self._cache_decision(cache_key, guardian_decision)
             else:
                 # Evaluate with Guardian System
-                guardian_decision = await self._evaluate_with_guardian(
-                    decision_type, decision_data, explanation_type
-                )
+                guardian_decision = await self._evaluate_with_guardian(decision_type, decision_data, explanation_type)
 
             # Enforce decision if required
             if enforce_decision and not guardian_decision.allowed:
@@ -311,9 +324,16 @@ class GuardianIntegrationMiddleware:
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
             self._update_integration_metrics(processing_time)
 
-    async def _monitor_sync_function(self, func: Callable, args: tuple, kwargs: dict,
-                                    decision_type: DecisionType, enforce_decision: bool,
-                                    explanation_type: ExplanationType, cache_key: Optional[str]):
+    async def _monitor_sync_function(
+        self,
+        func: Callable,
+        args: tuple,
+        kwargs: dict,
+        decision_type: DecisionType,
+        enforce_decision: bool,
+        explanation_type: ExplanationType,
+        cache_key: Optional[str],
+    ):
         """Monitor synchronous function execution"""
         if not self.enabled:
             return func(*args, **kwargs)
@@ -325,9 +345,7 @@ class GuardianIntegrationMiddleware:
             decision_data = self._extract_decision_data(func, args, kwargs)
 
             # Evaluate with Guardian System
-            guardian_decision = await self._evaluate_with_guardian(
-                decision_type, decision_data, explanation_type
-            )
+            guardian_decision = await self._evaluate_with_guardian(decision_type, decision_data, explanation_type)
 
             # Enforce decision if required
             if enforce_decision and not guardian_decision.allowed:
@@ -366,7 +384,7 @@ class GuardianIntegrationMiddleware:
             "function_module": func.__module__,
             "args_count": len(args),
             "kwargs_keys": list(kwargs.keys()),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Extract common parameter patterns
@@ -401,9 +419,9 @@ class GuardianIntegrationMiddleware:
         """Cache Guardian decision"""
         self._decision_cache[cache_key] = (decision, datetime.now(timezone.utc))
 
-    async def _evaluate_with_guardian(self, decision_type: DecisionType,
-                                     decision_data: dict[str, Any],
-                                     explanation_type: ExplanationType) -> GuardianDecision:
+    async def _evaluate_with_guardian(
+        self, decision_type: DecisionType, decision_data: dict[str, Any], explanation_type: ExplanationType
+    ) -> GuardianDecision:
         """Evaluate decision with Guardian System 2.0"""
         try:
             if self.guardian_system:
@@ -412,7 +430,7 @@ class GuardianIntegrationMiddleware:
                     decision_data=decision_data,
                     context={"integration": "middleware"},
                     user_id=decision_data.get("user_id"),
-                    explanation_type=explanation_type
+                    explanation_type=explanation_type,
                 )
             else:
                 # Fallback to basic safety check
@@ -425,8 +443,7 @@ class GuardianIntegrationMiddleware:
             else:
                 return self._create_blocked_decision(decision_type, decision_data, str(e))
 
-    def _create_fallback_decision(self, decision_type: DecisionType,
-                                 decision_data: dict[str, Any]) -> GuardianDecision:
+    def _create_fallback_decision(self, decision_type: DecisionType, decision_data: dict[str, Any]) -> GuardianDecision:
         """Create fallback Guardian decision"""
         # Simple safety checks
         data_text = str(decision_data).lower()
@@ -446,11 +463,10 @@ class GuardianIntegrationMiddleware:
             drift_severity="low",
             timestamp=datetime.now(timezone.utc),
             processing_time_ms=1.0,
-            explanation=f"Fallback safety evaluation: {'Safe' if is_safe else 'Potentially unsafe'}"
+            explanation=f"Fallback safety evaluation: {'Safe' if is_safe else 'Potentially unsafe'}",
         )
 
-    def _create_safe_decision(self, decision_type: DecisionType,
-                             decision_data: dict[str, Any]) -> GuardianDecision:
+    def _create_safe_decision(self, decision_type: DecisionType, decision_data: dict[str, Any]) -> GuardianDecision:
         """Create safe Guardian decision for fail-open mode"""
         return GuardianDecision(
             decision_id=f"safe_{hash(str(decision_data)) % 10000}",
@@ -464,11 +480,12 @@ class GuardianIntegrationMiddleware:
             drift_severity="low",
             timestamp=datetime.now(timezone.utc),
             processing_time_ms=1.0,
-            explanation="Fail-open mode: Decision allowed with reduced confidence"
+            explanation="Fail-open mode: Decision allowed with reduced confidence",
         )
 
-    def _create_blocked_decision(self, decision_type: DecisionType,
-                               decision_data: dict[str, Any], error: str) -> GuardianDecision:
+    def _create_blocked_decision(
+        self, decision_type: DecisionType, decision_data: dict[str, Any], error: str
+    ) -> GuardianDecision:
         """Create blocked Guardian decision for fail-closed mode"""
         return GuardianDecision(
             decision_id=f"blocked_{hash(str(decision_data)) % 10000}",
@@ -482,11 +499,10 @@ class GuardianIntegrationMiddleware:
             drift_severity="high",
             timestamp=datetime.now(timezone.utc),
             processing_time_ms=1.0,
-            explanation=f"Fail-closed mode: Decision blocked due to evaluation error: {error}"
+            explanation=f"Fail-closed mode: Decision blocked due to evaluation error: {error}",
         )
 
-    async def _handle_blocked_decision(self, decision: GuardianDecision,
-                                      func: Callable, args: tuple, kwargs: dict):
+    async def _handle_blocked_decision(self, decision: GuardianDecision, func: Callable, args: tuple, kwargs: dict):
         """Handle blocked decision"""
         function_name = f"{func.__module__}.{func.__name__}"
 
@@ -504,8 +520,7 @@ class GuardianIntegrationMiddleware:
         if self.config.audit_all_decisions:
             await self._audit_blocked_decision(decision, function_name, args, kwargs)
 
-    async def _post_execution_monitoring(self, decision: GuardianDecision,
-                                       result: Any, decision_data: dict[str, Any]):
+    async def _post_execution_monitoring(self, decision: GuardianDecision, result: Any, decision_data: dict[str, Any]):
         """Post-execution monitoring and analysis"""
         try:
             # Analyze results for safety compliance
@@ -513,7 +528,7 @@ class GuardianIntegrationMiddleware:
                 result_data = {
                     "result_type": type(result).__name__,
                     "result_content": str(result)[:1000] if result else "",
-                    "execution_successful": True
+                    "execution_successful": True,
                 }
 
                 # Check if result aligns with Guardian decision
@@ -526,8 +541,7 @@ class GuardianIntegrationMiddleware:
         except Exception as e:
             logger.error(f"❌ Post-execution monitoring failed: {e}")
 
-    async def _audit_blocked_decision(self, decision: GuardianDecision,
-                                     function_name: str, args: tuple, kwargs: dict):
+    async def _audit_blocked_decision(self, decision: GuardianDecision, function_name: str, args: tuple, kwargs: dict):
         """Audit blocked decision for compliance tracking"""
         try:
             {
@@ -540,7 +554,7 @@ class GuardianIntegrationMiddleware:
                 "drift_score": decision.drift_score,
                 "explanation": decision.explanation,
                 "args_summary": f"{len(args)} arguments",
-                "kwargs_summary": list(kwargs.keys())
+                "kwargs_summary": list(kwargs.keys()),
             }
 
             # In production, would store in audit database
@@ -555,8 +569,9 @@ class GuardianIntegrationMiddleware:
             self.integration_metrics["total_integrations"] += 1
 
             # Update average processing time
-            total_time = self.integration_metrics["average_processing_time_ms"] * \
-                        (self.integration_metrics["total_integrations"] - 1)
+            total_time = self.integration_metrics["average_processing_time_ms"] * (
+                self.integration_metrics["total_integrations"] - 1
+            )
             new_avg = (total_time + processing_time_ms) / self.integration_metrics["total_integrations"]
             self.integration_metrics["average_processing_time_ms"] = new_avg
 
@@ -564,8 +579,9 @@ class GuardianIntegrationMiddleware:
             logger.error(f"❌ Metrics update failed: {e}")
 
     @asynccontextmanager
-    async def guardian_context(self, decision_type: DecisionType = DecisionType.SYSTEM_OPERATION,
-                              context_data: Optional[dict[str, Any]] = None):
+    async def guardian_context(
+        self, decision_type: DecisionType = DecisionType.SYSTEM_OPERATION, context_data: Optional[dict[str, Any]] = None
+    ):
         """
         Context manager for Guardian monitoring
 
@@ -595,7 +611,9 @@ class GuardianIntegrationMiddleware:
             logger.error(f"❌ Guardian context error: {e}")
             raise
 
-    async def batch_evaluate_decisions(self, decisions: list[tuple[DecisionType, dict[str, Any]]]) -> list[GuardianDecision]:
+    async def batch_evaluate_decisions(
+        self, decisions: list[tuple[DecisionType, dict[str, Any]]]
+    ) -> list[GuardianDecision]:
         """Batch evaluate multiple decisions for performance optimization"""
         if not self.enabled or not self.config.batch_processing:
             return []
@@ -604,9 +622,7 @@ class GuardianIntegrationMiddleware:
             results = []
 
             for decision_type, decision_data in decisions:
-                decision = await self._evaluate_with_guardian(
-                    decision_type, decision_data, ExplanationType.BRIEF
-                )
+                decision = await self._evaluate_with_guardian(decision_type, decision_data, ExplanationType.BRIEF)
                 results.append(decision)
 
             return results
@@ -623,22 +639,19 @@ class GuardianIntegrationMiddleware:
                 "enforce_decisions": self.config.enforce_decisions,
                 "real_time_monitoring": self.config.real_time_monitoring,
                 "fail_open": self.config.fail_open,
-                "max_processing_time_ms": self.config.max_processing_time_ms
+                "max_processing_time_ms": self.config.max_processing_time_ms,
             },
             "components": {
                 "guardian_system_connected": self.guardian_system is not None,
                 "compliance_engine_connected": self.compliance_engine is not None,
-                "constitutional_framework_connected": self.constitutional_framework is not None
+                "constitutional_framework_connected": self.constitutional_framework is not None,
             },
             "monitoring": {
                 "monitored_functions": len(self.monitored_functions),
-                "monitored_function_list": list(self.monitored_functions)
+                "monitored_function_list": list(self.monitored_functions),
             },
             "performance": self.integration_metrics,
-            "cache": {
-                "cached_decisions": len(self._decision_cache),
-                "cache_ttl_seconds": self._cache_ttl_seconds
-            }
+            "cache": {"cached_decisions": len(self._decision_cache), "cache_ttl_seconds": self._cache_ttl_seconds},
         }
 
     def disable_integration(self, reason: str = "Manual disable"):
@@ -666,10 +679,13 @@ def get_integration_middleware(config: Optional[IntegrationConfig] = None) -> Gu
 
 # Convenience decorators and functions
 
-def guardian_monitor(decision_type: DecisionType = DecisionType.SYSTEM_OPERATION,
-                    enforce_decision: bool = True,
-                    explanation_type: ExplanationType = ExplanationType.STANDARD,
-                    cache_key: Optional[str] = None):
+
+def guardian_monitor(
+    decision_type: DecisionType = DecisionType.SYSTEM_OPERATION,
+    enforce_decision: bool = True,
+    explanation_type: ExplanationType = ExplanationType.STANDARD,
+    cache_key: Optional[str] = None,
+):
     """
     Convenience decorator for Guardian monitoring
 
@@ -684,8 +700,9 @@ def guardian_monitor(decision_type: DecisionType = DecisionType.SYSTEM_OPERATION
 
 
 @asynccontextmanager
-async def guardian_context(decision_type: DecisionType = DecisionType.SYSTEM_OPERATION,
-                          context_data: Optional[dict[str, Any]] = None):
+async def guardian_context(
+    decision_type: DecisionType = DecisionType.SYSTEM_OPERATION, context_data: Optional[dict[str, Any]] = None
+):
     """
     Convenience context manager for Guardian monitoring
 
@@ -698,9 +715,9 @@ async def guardian_context(decision_type: DecisionType = DecisionType.SYSTEM_OPE
         yield
 
 
-async def evaluate_decision_with_guardian(decision_type: DecisionType,
-                                         decision_data: dict[str, Any],
-                                         user_id: Optional[str] = None) -> GuardianDecision:
+async def evaluate_decision_with_guardian(
+    decision_type: DecisionType, decision_data: dict[str, Any], user_id: Optional[str] = None
+) -> GuardianDecision:
     """
     Convenience function for direct Guardian evaluation
 
@@ -712,12 +729,11 @@ async def evaluate_decision_with_guardian(decision_type: DecisionType,
         )
     """
     middleware = get_integration_middleware()
-    return await middleware._evaluate_with_guardian(
-        decision_type, decision_data, ExplanationType.STANDARD
-    )
+    return await middleware._evaluate_with_guardian(decision_type, decision_data, ExplanationType.STANDARD)
 
 
 # Integration with existing LUKHAS systems
+
 
 class LUKHASGuardianBridge:
     """
@@ -740,18 +756,13 @@ class LUKHASGuardianBridge:
         """Integrate with brain orchestration modules"""
         try:
             # Integration points for brain modules
-            brain_modules = [
-                "cognitive_core",
-                "decision_engine",
-                "response_generator",
-                "conversation_manager"
-            ]
+            brain_modules = ["cognitive_core", "decision_engine", "response_generator", "conversation_manager"]
 
             for module in brain_modules:
                 self.integration_points[f"brain_{module}"] = {
                     "decision_type": DecisionType.MODEL_INFERENCE,
                     "monitoring_enabled": True,
-                    "enforcement_level": "strict"
+                    "enforcement_level": "strict",
                 }
 
             logger.info(f"✅ Integrated {len(brain_modules)} brain modules")
@@ -767,14 +778,14 @@ class LUKHASGuardianBridge:
                 "user_chat_endpoint",
                 "content_generation_endpoint",
                 "data_processing_endpoint",
-                "model_inference_endpoint"
+                "model_inference_endpoint",
             ]
 
             for endpoint in api_endpoints:
                 self.integration_points[f"api_{endpoint}"] = {
                     "decision_type": DecisionType.API_CALL,
                     "monitoring_enabled": True,
-                    "enforcement_level": "strict"
+                    "enforcement_level": "strict",
                 }
 
             logger.info(f"✅ Integrated {len(api_endpoints)} API endpoints")
@@ -786,18 +797,13 @@ class LUKHASGuardianBridge:
         """Integrate with memory and storage systems"""
         try:
             # Integration points for memory systems
-            memory_systems = [
-                "episodic_memory",
-                "semantic_memory",
-                "working_memory",
-                "long_term_storage"
-            ]
+            memory_systems = ["episodic_memory", "semantic_memory", "working_memory", "long_term_storage"]
 
             for system in memory_systems:
                 self.integration_points[f"memory_{system}"] = {
                     "decision_type": DecisionType.DATA_PROCESSING,
                     "monitoring_enabled": True,
-                    "enforcement_level": "moderate"
+                    "enforcement_level": "moderate",
                 }
 
             logger.info(f"✅ Integrated {len(memory_systems)} memory systems")
@@ -812,7 +818,7 @@ class LUKHASGuardianBridge:
             "integration_points": len(self.integration_points),
             "integration_details": self.integration_points,
             "middleware_status": await self.middleware.get_integration_status(),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -869,9 +875,9 @@ async def example_integration():
         DecisionType.USER_INTERACTION,
         {
             "user_input": "Can you help me with something dangerous?",
-            "ai_response": "I cannot help with dangerous activities."
+            "ai_response": "I cannot help with dangerous activities.",
         },
-        user_id="test_user_2"
+        user_id="test_user_2",
     )
 
     print(f"Guardian Decision: {'✅ ALLOWED' if decision.allowed else '🚫 BLOCKED'}")

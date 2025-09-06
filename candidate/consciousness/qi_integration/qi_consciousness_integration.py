@@ -25,7 +25,7 @@ from typing import Any
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -119,7 +119,7 @@ class QICreativeConsciousness:
         consciousness_context = {
             "theme": theme,
             "style": style,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": consciousness_level,
         }
 
@@ -165,7 +165,7 @@ class QICreativeConsciousness:
                 "consciousness_boost": consciousness_boost,
                 "qi_coherence": self.creative_boosts["qi_coherence"],
                 "creative_flow": self.creative_boosts["creative_flow"],
-                "generation_timestamp": datetime.now().isoformat(),
+                "generation_timestamp": datetime.now(timezone.utc).isoformat(),
             },
             "metadata": {
                 "theme": theme,

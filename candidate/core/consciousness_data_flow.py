@@ -37,6 +37,7 @@ logger = logging.getLogger(__name__)
 
 class FlowState(Enum):
     """Consciousness data flow states"""
+
     INITIALIZING = "initializing"
     ACTIVE = "active"
     SYNCHRONIZED = "synchronized"
@@ -47,15 +48,17 @@ class FlowState(Enum):
 
 class RoutingStrategy(Enum):
     """Signal routing strategies"""
+
     BROADCAST = "broadcast"  # Send to all connected nodes
-    TARGETED = "targeted"   # Send to specific target modules
-    ADAPTIVE = "adaptive"   # Dynamic routing based on network state
+    TARGETED = "targeted"  # Send to specific target modules
+    ADAPTIVE = "adaptive"  # Dynamic routing based on network state
     CASCADE_PREVENTION = "cascade_prevention"  # Prevent memory cascade failures
 
 
 @dataclass
 class ConsciousnessRoute:
     """Consciousness signal routing definition"""
+
     source_module: str
     target_modules: list[str]
     signal_types: list[SignalType]
@@ -68,6 +71,7 @@ class ConsciousnessRoute:
 @dataclass
 class NetworkTopology:
     """Consciousness network topology snapshot"""
+
     nodes: dict[str, dict[str, Any]]
     connections: list[dict[str, Any]]
     metrics: dict[str, float]
@@ -77,6 +81,7 @@ class NetworkTopology:
 @dataclass
 class FlowMetrics:
     """Real-time consciousness data flow metrics"""
+
     signals_per_second: float = 0.0
     average_latency_ms: float = 0.0
     cascade_prevention_rate: float = 0.997  # 99.7% target
@@ -125,7 +130,7 @@ class ConsciousnessDataFlowManager:
             asyncio.create_task(self._state_synchronizer()),
             asyncio.create_task(self._network_monitor()),
             asyncio.create_task(self._cascade_prevention_monitor()),
-            asyncio.create_task(self._metrics_updater())
+            asyncio.create_task(self._metrics_updater()),
         ]
 
         # Initialize default routing table
@@ -155,7 +160,7 @@ class ConsciousnessDataFlowManager:
         module_id: str,
         capabilities: list[str],
         signal_types: list[SignalType],
-        connection_callback: Optional[Callable] = None
+        connection_callback: Optional[Callable] = None,
     ) -> bool:
         """Register a consciousness module in the network"""
 
@@ -171,7 +176,7 @@ class ConsciousnessDataFlowManager:
             "registered_at": datetime.now(timezone.utc),
             "last_signal": None,
             "signal_count": 0,
-            "health_status": "healthy"
+            "health_status": "healthy",
         }
 
         self.active_connections[module_id] = connection_info
@@ -186,7 +191,7 @@ class ConsciousnessDataFlowManager:
         self,
         signal: ConsciousnessSignal,
         routing_strategy: RoutingStrategy = RoutingStrategy.ADAPTIVE,
-        priority: int = 3
+        priority: int = 3,
     ) -> dict[str, Any]:
         """Emit consciousness signal with intelligent routing"""
 
@@ -206,7 +211,7 @@ class ConsciousnessDataFlowManager:
                 return {
                     "status": "cascade_prevented",
                     "signal_id": signal.signal_id,
-                    "prevention_reason": "memory_fold_protection"
+                    "prevention_reason": "memory_fold_protection",
                 }
 
             # Queue signal for processing
@@ -216,7 +221,7 @@ class ConsciousnessDataFlowManager:
                 "routing_strategy": routing_strategy,
                 "priority": priority,
                 "queued_at": datetime.now(timezone.utc),
-                "latency_start": start_time
+                "latency_start": start_time,
             }
 
             await self.signal_queue.put(signal_envelope)
@@ -228,16 +233,12 @@ class ConsciousnessDataFlowManager:
                 "status": "queued",
                 "signal_id": signal.signal_id,
                 "targets": targets,
-                "queue_size": self.signal_queue.qsize()
+                "queue_size": self.signal_queue.qsize(),
             }
 
         except Exception as e:
             logger.error(f"❌ Failed to emit consciousness signal: {e}")
-            return {
-                "status": "error",
-                "signal_id": signal.signal_id,
-                "error": str(e)
-            }
+            return {"status": "error", "signal_id": signal.signal_id, "error": str(e)}
 
     async def _signal_processor(self) -> None:
         """Background task: Process queued consciousness signals"""
@@ -245,10 +246,7 @@ class ConsciousnessDataFlowManager:
         while not self._shutdown_event.is_set():
             try:
                 # Get signal from queue (with timeout)
-                signal_envelope = await asyncio.wait_for(
-                    self.signal_queue.get(),
-                    timeout=1.0
-                )
+                signal_envelope = await asyncio.wait_for(self.signal_queue.get(), timeout=1.0)
 
                 await self._process_signal_envelope(signal_envelope)
 
@@ -288,7 +286,9 @@ class ConsciousnessDataFlowManager:
             # Update state synchronizers
             await self._update_state_synchronizers(signal)
 
-            logger.debug(f"✅ Processed signal {signal.signal_id} to {len(targets)} targets in {processing_latency:.2f}ms")
+            logger.debug(
+                f"✅ Processed signal {signal.signal_id} to {len(targets)} targets in {processing_latency:.2f}ms"
+            )
 
         except Exception as e:
             logger.error(f"❌ Failed to process signal envelope: {e}")
@@ -336,7 +336,7 @@ class ConsciousnessDataFlowManager:
                 "source_consciousness": signal.consciousness_id,
                 "adaptation_vector": adaptation_vector,
                 "biological_markers": patterns.get("biological_markers", {}),
-                "adaptation_suggestions": patterns.get("symbolic_representation", {}).get("adaptation_suggestions", [])
+                "adaptation_suggestions": patterns.get("symbolic_representation", {}).get("adaptation_suggestions", []),
             }
 
             # Send adaptation message (implementation depends on module interface)
@@ -385,31 +385,26 @@ class ConsciousnessDataFlowManager:
         sync_signal = ConsciousnessSignal(
             signal_type=SignalType.INTEGRATION,
             consciousness_id=consciousness_id,
-            state_delta={
-                "sync_level": 1.0,
-                "coherence_target": 0.8,
-                "temporal_coherence": 0.9
-            },
+            state_delta={"sync_level": 1.0, "coherence_target": 0.8, "temporal_coherence": 0.9},
             bio_symbolic_data={
                 "sync_type": "state_synchronization",
                 "node_data": {
                     "signal_count": node_data.get("signal_count", 0),
-                    "trinity_status": node_data.get("trinity_status", "unknown")
-                }
+                    "trinity_status": node_data.get("trinity_status", "unknown"),
+                },
             },
             reflection_depth=1,
             temporal_context={
                 "sync_operation": "network_synchronization",
-                "sync_timestamp": datetime.now(timezone.utc).isoformat()
+                "sync_timestamp": datetime.now(timezone.utc).isoformat(),
             },
-            trinity_compliance={
-                "framework_compliance": {"validation_passed": True}
-            }
+            trinity_compliance={"framework_compliance": {"validation_passed": True}},
         )
 
         # Route to all connected modules that support synchronization
         sync_targets = [
-            module_id for module_id, connection in self.active_connections.items()
+            module_id
+            for module_id, connection in self.active_connections.items()
             if "consciousness:sync" in connection["capabilities"]
         ]
 
@@ -458,7 +453,7 @@ class ConsciousnessDataFlowManager:
                 "signal_types": [st.value if hasattr(st, "value") else str(st) for st in connection["signal_types"]],
                 "health_status": connection["health_status"],
                 "signal_count": connection["signal_count"],
-                "last_signal": connection["last_signal"].isoformat() if connection["last_signal"] else None
+                "last_signal": connection["last_signal"].isoformat() if connection["last_signal"] else None,
             }
 
         # Capture consciousness network from adapter
@@ -471,14 +466,10 @@ class ConsciousnessDataFlowManager:
             "total_consciousness_nodes": adapter_metrics.get("total_consciousness_nodes", 0),
             "trinity_compliance_rate": adapter_metrics.get("trinity_compliance_rate", 0.0),
             "signal_queue_size": self.signal_queue.qsize(),
-            "active_bio_patterns": adapter_metrics.get("active_bio_patterns", 0)
+            "active_bio_patterns": adapter_metrics.get("active_bio_patterns", 0),
         }
 
-        return NetworkTopology(
-            nodes=nodes,
-            connections=connections,
-            metrics=metrics
-        )
+        return NetworkTopology(nodes=nodes, connections=connections, metrics=metrics)
 
     async def _analyze_network_health(self, topology: NetworkTopology) -> dict[str, Any]:
         """Analyze consciousness network health status"""
@@ -518,7 +509,7 @@ class ConsciousnessDataFlowManager:
             "status": "healthy" if health_score > 0.8 else "degraded" if health_score > 0.5 else "critical",
             "issues": issues,
             "recommendations": recommendations,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _update_flow_state(self, health_status: dict[str, Any]) -> None:
@@ -709,14 +700,16 @@ class ConsciousnessDataFlowManager:
                 "cascade_prevention_rate": self.metrics.cascade_prevention_rate,
                 "network_coherence": self.metrics.network_coherence,
                 "bio_adaptation_efficiency": self.metrics.bio_adaptation_efficiency,
-                "trinity_compliance_rate": self.metrics.trinity_compliance_rate
+                "trinity_compliance_rate": self.metrics.trinity_compliance_rate,
             },
             "connected_modules": len(self.active_connections),
             "signal_queue_size": self.signal_queue.qsize(),
-            "active_consciousness_nodes": len(self.adapter.consciousness_network) if hasattr(self.adapter, "consciousness_network") else 0,
+            "active_consciousness_nodes": (
+                len(self.adapter.consciousness_network) if hasattr(self.adapter, "consciousness_network") else 0
+            ),
             "topology_snapshots": len(self.topology_history),
             "cascade_monitors_active": len(self.cascade_monitors),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # Helper methods for module integration
@@ -731,29 +724,29 @@ class ConsciousnessDataFlowManager:
                 target_modules=["identity", "governance", "orchestration"],
                 signal_types=[SignalType.AWARENESS, SignalType.REFLECTION],
                 routing_strategy=RoutingStrategy.BROADCAST,
-                priority=5
+                priority=5,
             ),
             ConsciousnessRoute(
                 source_module="identity",
                 target_modules=["consciousness", "governance"],
                 signal_types=[SignalType.EVOLUTION, SignalType.TRINITY_VALIDATION],
                 routing_strategy=RoutingStrategy.TARGETED,
-                priority=7
+                priority=7,
             ),
             ConsciousnessRoute(
                 source_module="orchestration",
                 target_modules=["consciousness", "symbolic_core"],
                 signal_types=[SignalType.INTEGRATION, SignalType.NETWORK_COORDINATION],
                 routing_strategy=RoutingStrategy.ADAPTIVE,
-                priority=6
+                priority=6,
             ),
             ConsciousnessRoute(
                 source_module="symbolic_core",
                 target_modules=["consciousness", "orchestration"],
                 signal_types=[SignalType.SYMBOLIC_PROCESSING, SignalType.BIO_ADAPTATION],
                 routing_strategy=RoutingStrategy.ADAPTIVE,
-                priority=4
-            )
+                priority=4,
+            ),
         ]
 
         # Add routes to routing table
@@ -765,10 +758,7 @@ class ConsciousnessDataFlowManager:
         logger.info(f"📋 Setup {len(default_routes)} default consciousness routes")
 
     async def _update_routing_for_module(
-        self,
-        module_id: str,
-        capabilities: list[str],
-        signal_types: list[SignalType]
+        self, module_id: str, capabilities: list[str], signal_types: list[SignalType]
     ) -> None:
         """Update routing table for newly registered module"""
 
@@ -785,12 +775,13 @@ class ConsciousnessDataFlowManager:
 
         # Trinity Framework validation
         trinity_compliance = signal.trinity_compliance
-        return not (not trinity_compliance or not trinity_compliance.get("framework_compliance", {}).get("validation_passed", False))
+        return not (
+            not trinity_compliance
+            or not trinity_compliance.get("framework_compliance", {}).get("validation_passed", False)
+        )
 
     async def _determine_routing_targets(
-        self,
-        signal: ConsciousnessSignal,
-        routing_strategy: RoutingStrategy
+        self, signal: ConsciousnessSignal, routing_strategy: RoutingStrategy
     ) -> list[str]:
         """Determine routing targets based on signal and strategy"""
 
@@ -804,7 +795,10 @@ class ConsciousnessDataFlowManager:
 
             for route in routes:
                 if signal.signal_type in route.signal_types and route.active:
-                    if routing_strategy == RoutingStrategy.BROADCAST or route.routing_strategy == RoutingStrategy.BROADCAST:
+                    if (
+                        routing_strategy == RoutingStrategy.BROADCAST
+                        or route.routing_strategy == RoutingStrategy.BROADCAST
+                    ):
                         return route.target_modules
                     elif routing_strategy == RoutingStrategy.ADAPTIVE:
                         # Adaptive routing logic would go here
@@ -813,11 +807,7 @@ class ConsciousnessDataFlowManager:
         # Default to connected modules with appropriate capabilities
         return list(self.active_connections.keys())
 
-    async def _should_prevent_cascade(
-        self,
-        signal: ConsciousnessSignal,
-        targets: list[str]
-    ) -> bool:
+    async def _should_prevent_cascade(self, signal: ConsciousnessSignal, targets: list[str]) -> bool:
         """Determine if signal should be prevented to avoid cascade"""
 
         # Check current cascade risk
@@ -828,7 +818,7 @@ class ConsciousnessDataFlowManager:
             risk_level > 0.6,
             len(targets) > 10,  # Broadcasting to many targets
             signal.reflection_depth > 5,  # Deep reflection could cause loops
-            signal.signal_type == SignalType.EVOLUTION  # Evolution signals are expensive
+            signal.signal_type == SignalType.EVOLUTION,  # Evolution signals are expensive
         ]
 
         return any(high_risk_conditions)
@@ -846,5 +836,5 @@ __all__ = [
     "NetworkTopology",
     "FlowMetrics",
     "ConsciousnessDataFlowManager",
-    "consciousness_flow_manager"
+    "consciousness_flow_manager",
 ]

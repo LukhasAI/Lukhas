@@ -115,9 +115,7 @@ class AdvancedAutonomousGitHubManager:
 
     def fetch_all_notifications(self, max_pages: int = 145) -> list[GitHubNotification]:
         """Fetch all GitHub notifications across multiple pages"""
-        self.logger.info(
-            f"🔍 Fetching up to {max_pages} pages of GitHub notifications..."
-        )
+        self.logger.info(f"🔍 Fetching up to {max_pages} pages of GitHub notifications...")
 
         all_notifications = []
         page = 1
@@ -153,9 +151,7 @@ class AdvancedAutonomousGitHubManager:
                     if github_notif:
                         all_notifications.append(github_notif)
 
-                self.logger.info(
-                    f"📄 Processed page {page}: {len(notifications)} notifications"
-                )
+                self.logger.info(f"📄 Processed page {page}: {len(notifications)} notifications")
                 page += 1
                 time.sleep(0.1)  # Rate limiting
 
@@ -181,22 +177,13 @@ class AdvancedAutonomousGitHubManager:
             age_hours = 0
             if updated_at:
                 try:
-                    updated_time = datetime.fromisoformat(
-                        updated_at.replace("Z", "+00:00")
-                    )
-                    age_hours = int(
-                        (
-                            datetime.now(updated_time.tzinfo) - updated_time
-                        ).total_seconds()
-                        / 3600
-                    )
+                    updated_time = datetime.fromisoformat(updated_at.replace("Z", "+00:00"))
+                    age_hours = int((datetime.now(updated_time.tzinfo) - updated_time).total_seconds() / 3600)
                 except BaseException:
                     pass
 
             # Determine priority and fixability
-            priority, fixable, confidence = self.analyze_notification_priority(
-                title, notif_type, repo_name, age_hours
-            )
+            priority, fixable, confidence = self.analyze_notification_priority(title, notif_type, repo_name, age_hours)
 
             # Estimate fix cost
             estimated_cost = self.estimate_fix_cost(priority, notif_type, fixable)
@@ -246,18 +233,13 @@ class AdvancedAutonomousGitHubManager:
             confidence = 0.95
 
         # Failed workflows and CI issues
-        elif any(
-            keyword in title_lower
-            for keyword in ["failed", "error", "validation", "ci", "workflow"]
-        ):
+        elif any(keyword in title_lower for keyword in ["failed", "error", "validation", "ci", "workflow"]):
             priority = NotificationPriority.HIGH
             fixable = True
             confidence = 0.85
 
         # Dependency-related issues
-        elif any(
-            keyword in title_lower for keyword in ["dependency", "dependabot", "update"]
-        ):
+        elif any(keyword in title_lower for keyword in ["dependency", "dependabot", "update"]):
             priority = NotificationPriority.HIGH
             fixable = True
             confidence = 0.90
@@ -278,9 +260,7 @@ class AdvancedAutonomousGitHubManager:
 
         return priority, fixable, min(confidence, 1.0)
 
-    def estimate_fix_cost(
-        self, priority: NotificationPriority, notif_type: str, fixable: bool
-    ) -> float:
+    def estimate_fix_cost(self, priority: NotificationPriority, notif_type: str, fixable: bool) -> float:
         """Estimate the cost to fix this notification"""
         base_cost = 0.001
 
@@ -330,9 +310,7 @@ class AdvancedAutonomousGitHubManager:
         self, notifications: list[GitHubNotification], max_batches: int = 10
     ) -> list[BatchFixResult]:
         """Process fixes in intelligent batches"""
-        self.logger.info(
-            f"🚀 Starting batch processing of {len(notifications)} notifications..."
-        )
+        self.logger.info(f"🚀 Starting batch processing of {len(notifications)} notifications...")
 
         batch_results = []
         batch_size = self.max_notifications_per_batch
@@ -347,9 +325,7 @@ class AdvancedAutonomousGitHubManager:
             end_idx = min(start_idx + batch_size, len(notifications))
             batch = notifications[start_idx:end_idx]
 
-            self.logger.info(
-                f"📦 Processing batch {batch_num + 1}: {len(batch)} notifications"
-            )
+            self.logger.info(f"📦 Processing batch {batch_num + 1}: {len(batch)} notifications")
 
             # Check budget before batch
             if self.budget_controller.get_daily_budget_remaining() < 0.01:
@@ -374,9 +350,7 @@ class AdvancedAutonomousGitHubManager:
         self.batch_stats = batch_results
         return batch_results
 
-    def process_notification_batch(
-        self, batch: list[GitHubNotification]
-    ) -> BatchFixResult:
+    def process_notification_batch(self, batch: list[GitHubNotification]) -> BatchFixResult:
         """Process a single batch of notifications"""
         successful_fixes = 0
         prs_created = 0
@@ -388,10 +362,7 @@ class AdvancedAutonomousGitHubManager:
                 continue
 
             # Budget check for each fix
-            if (
-                self.budget_controller.get_daily_budget_remaining()
-                < notification.estimated_cost
-            ):
+            if self.budget_controller.get_daily_budget_remaining() < notification.estimated_cost:
                 errors.append(f"Budget insufficient for {notification.repository}")
                 continue
 
@@ -424,21 +395,15 @@ class AdvancedAutonomousGitHubManager:
             success_rate=success_rate,
         )
 
-    def attempt_autonomous_fix(
-        self, notification: GitHubNotification
-    ) -> dict[str, Any]:
+    def attempt_autonomous_fix(self, notification: GitHubNotification) -> dict[str, Any]:
         """Attempt to autonomously fix a notification"""
-        self.logger.info(
-            f"🔧 Attempting autonomous fix: {notification.title} in {notification.repository}"
-        )
+        self.logger.info(f"🔧 Attempting autonomous fix: {notification.title} in {notification.repository}")
 
         # Budget check
         context = APICallContext(
             user_request=True,
             urgency=(
-                CallUrgency.HIGH
-                if notification.priority == NotificationPriority.CRITICAL
-                else CallUrgency.MEDIUM
+                CallUrgency.HIGH if notification.priority == NotificationPriority.CRITICAL else CallUrgency.MEDIUM
             ),
             estimated_cost=notification.estimated_cost,
             description=f"Fix {notification.type} in {notification.repository}",
@@ -482,9 +447,7 @@ class AdvancedAutonomousGitHubManager:
         title_lower = notification.title.lower()
 
         # Workflow failures
-        if any(
-            keyword in title_lower for keyword in ["workflow", "validation", "failed"]
-        ):
+        if any(keyword in title_lower for keyword in ["workflow", "validation", "failed"]):
             return "workflow_fix"
 
         # Security issues
@@ -501,9 +464,7 @@ class AdvancedAutonomousGitHubManager:
 
         return "general_fix"
 
-    def execute_fix_strategy(
-        self, notification: GitHubNotification, strategy: str
-    ) -> dict[str, Any]:
+    def execute_fix_strategy(self, notification: GitHubNotification, strategy: str) -> dict[str, Any]:
         """Execute the specific fix strategy"""
         repo_parts = notification.repository.split("/")
         if len(repo_parts) != 2:
@@ -523,9 +484,7 @@ class AdvancedAutonomousGitHubManager:
         else:
             return self.create_general_fix_pr(owner, repo, notification)
 
-    def create_workflow_fix_pr(
-        self, owner: str, repo: str, notification: GitHubNotification
-    ) -> dict[str, Any]:
+    def create_workflow_fix_pr(self, owner: str, repo: str, notification: GitHubNotification) -> dict[str, Any]:
         """Create a PR to fix workflow issues"""
         try:
             # In a real implementation, this would:
@@ -584,32 +543,20 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         except Exception as e:
             return {"success": False, "error": str(e), "cost": 0.0}
 
-    def create_security_fix_pr(
-        self, owner: str, repo: str, notification: GitHubNotification
-    ) -> dict[str, Any]:
+    def create_security_fix_pr(self, owner: str, repo: str, notification: GitHubNotification) -> dict[str, Any]:
         """Create a PR to fix security issues"""
         # Similar implementation for security fixes
-        return self.create_workflow_fix_pr(
-            owner, repo, notification
-        )  # Simplified for now
+        return self.create_workflow_fix_pr(owner, repo, notification)  # Simplified for now
 
-    def create_dependency_update_pr(
-        self, owner: str, repo: str, notification: GitHubNotification
-    ) -> dict[str, Any]:
+    def create_dependency_update_pr(self, owner: str, repo: str, notification: GitHubNotification) -> dict[str, Any]:
         """Create a PR to update dependencies"""
         # Similar implementation for dependency updates
-        return self.create_workflow_fix_pr(
-            owner, repo, notification
-        )  # Simplified for now
+        return self.create_workflow_fix_pr(owner, repo, notification)  # Simplified for now
 
-    def create_general_fix_pr(
-        self, owner: str, repo: str, notification: GitHubNotification
-    ) -> dict[str, Any]:
+    def create_general_fix_pr(self, owner: str, repo: str, notification: GitHubNotification) -> dict[str, Any]:
         """Create a general fix PR"""
         # Similar implementation for general fixes
-        return self.create_workflow_fix_pr(
-            owner, repo, notification
-        )  # Simplified for now
+        return self.create_workflow_fix_pr(owner, repo, notification)  # Simplified for now
 
     def generate_comprehensive_report(self) -> str:
         """Generate comprehensive report of all autonomous operations"""
@@ -633,9 +580,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append(f"Successful Autonomous Fixes: {total_successful}")
         report.append(f"Pull Requests Created: {total_prs}")
         report.append(f"Total Cost: ${total_cost:.4f}")
-        report.append(
-            f"Budget Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}"
-        )
+        report.append(f"Budget Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}")
         report.append(
             f"Success Rate: {(total_successful/total_processed*100):.1f}%"
             if total_processed > 0
@@ -658,12 +603,8 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append("💰 BUDGET ANALYSIS")
         report.append(f"Initial Budget: ${self.budget_controller.INITIAL_ALLOWANCE}")
         report.append(f"Used: ${self.budget_controller.daily_spend:.4f}")
-        report.append(
-            f"Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}"
-        )
-        report.append(
-            f"Efficiency Score: {self.budget_controller.efficiency_score:.1f}/100"
-        )
+        report.append(f"Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}")
+        report.append(f"Efficiency Score: {self.budget_controller.efficiency_score:.1f}/100")
         report.append("")
 
         # Recommendations
@@ -673,9 +614,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         if total_cost < 0.1:
             report.append("💡 Budget usage is efficient - can scale operations")
         if len(self.batch_stats) > 0:
-            avg_success = sum(b.success_rate for b in self.batch_stats) / len(
-                self.batch_stats
-            )
+            avg_success = sum(b.success_rate for b in self.batch_stats) / len(self.batch_stats)
             if avg_success > 80:
                 report.append("🚀 High success rate - ready for full automation")
 
@@ -692,9 +631,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
             "batch_stats": [asdict(batch) for batch in self.batch_stats],
             "budget_used": self.budget_controller.daily_spend,
             "budget_remaining": self.budget_controller.get_daily_budget_remaining(),
-            "notifications": [
-                asdict(notif) for notif in self.all_notifications[:100]
-            ],  # Save first 100
+            "notifications": [asdict(notif) for notif in self.all_notifications[:100]],  # Save first 100
         }
 
         filename = f"advanced_autonomous_results_{timestamp}.json"
@@ -707,9 +644,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
 
 def main():
     """Enhanced main function for large-scale autonomous operations"""
-    parser = argparse.ArgumentParser(
-        description="ΛBot Advanced Autonomous GitHub Manager"
-    )
+    parser = argparse.ArgumentParser(description="ΛBot Advanced Autonomous GitHub Manager")
     parser.add_argument(
         "--fetch-all",
         action="store_true",
@@ -720,18 +655,14 @@ def main():
         action="store_true",
         help="Process autonomous fixes in batches",
     )
-    parser.add_argument(
-        "--max-pages", type=int, default=145, help="Maximum pages to fetch"
-    )
+    parser.add_argument("--max-pages", type=int, default=145, help="Maximum pages to fetch")
     parser.add_argument(
         "--max-batches",
         type=int,
         default=20,
         help="Maximum batches to process",
     )
-    parser.add_argument(
-        "--report", action="store_true", help="Generate comprehensive report"
-    )
+    parser.add_argument("--report", action="store_true", help="Generate comprehensive report")
 
     args = parser.parse_args()
 
@@ -757,9 +688,7 @@ def main():
                 print("⚠️ No notifications loaded. Run --fetch-all first.")
                 return
 
-            print(
-                f"🚀 Starting batch processing with up to {args.max_batches} batches..."
-            )
+            print(f"🚀 Starting batch processing with up to {args.max_batches} batches...")
             prioritized = manager.prioritize_notifications()
             fixable = [n for n in prioritized if n.fixable]
 
@@ -774,9 +703,7 @@ def main():
             print(f"✅ Fixes Applied: {total_successful}")
             print(f"🔄 PRs Created: {total_prs}")
             print(f"💰 Total Cost: ${total_cost:.4f}")
-            print(
-                f"💵 Budget Remaining: ${manager.budget_controller.get_daily_budget_remaining():.4f}"
-            )
+            print(f"💵 Budget Remaining: ${manager.budget_controller.get_daily_budget_remaining():.4f}")
 
         if args.report:
             print("\n" + manager.generate_comprehensive_report())

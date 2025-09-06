@@ -704,11 +704,11 @@ class BrandSentimentEngine:
             dimension_scores = [entry["brand_dimensions"].get(dimension.value, 0.0) for entry in recent_sentiments]
             dimension_trends[dimension.value] = {
                 "average": sum(dimension_scores) / len(dimension_scores),
-                "trend": "improving"
-                if dimension_scores[-1] > dimension_scores[0]
-                else "declining"
-                if len(dimension_scores) > 1
-                else "stable",
+                "trend": (
+                    "improving"
+                    if dimension_scores[-1] > dimension_scores[0]
+                    else "declining" if len(dimension_scores) > 1 else "stable"
+                ),
             }
 
         # Trinity sentiment trends
@@ -717,11 +717,11 @@ class BrandSentimentEngine:
             component_scores = [entry["trinity_sentiment"].get(component, 0.0) for entry in recent_sentiments]
             trinity_trends[component] = {
                 "average": sum(component_scores) / len(component_scores),
-                "trend": "improving"
-                if component_scores[-1] > component_scores[0]
-                else "declining"
-                if len(component_scores) > 1
-                else "stable",
+                "trend": (
+                    "improving"
+                    if component_scores[-1] > component_scores[0]
+                    else "declining" if len(component_scores) > 1 else "stable"
+                ),
             }
 
         return {
@@ -730,11 +730,11 @@ class BrandSentimentEngine:
             "overall_sentiment": {
                 "average": sum(overall_sentiments) / len(overall_sentiments),
                 "latest": overall_sentiments[-1],
-                "trend": "improving"
-                if overall_sentiments[-1] > overall_sentiments[0]
-                else "declining"
-                if len(overall_sentiments) > 1
-                else "stable",
+                "trend": (
+                    "improving"
+                    if overall_sentiments[-1] > overall_sentiments[0]
+                    else "declining" if len(overall_sentiments) > 1 else "stable"
+                ),
             },
             "average_confidence": sum(confidences) / len(confidences),
             "brand_dimension_trends": dimension_trends,
@@ -793,11 +793,9 @@ class BrandSentimentEngine:
 
             evolution_insights = {
                 "sentiment_change": sentiment_change,
-                "evolution_direction": "improving"
-                if sentiment_change > 0.05
-                else "declining"
-                if sentiment_change < -0.05
-                else "stable",
+                "evolution_direction": (
+                    "improving" if sentiment_change > 0.05 else "declining" if sentiment_change < -0.05 else "stable"
+                ),
                 "confidence_evolution": evolution_analysis[latest_period]["confidence"]
                 - evolution_analysis[previous_period]["confidence"],
                 "key_changes": [],
@@ -871,19 +869,19 @@ class BrandSentimentEngine:
                 dimension_performance[dimension.value] = {
                     "score": dimension_data["average"],
                     "trend": dimension_data["trend"],
-                    "performance_level": "excellent"
-                    if dimension_data["average"] > 0.7
-                    else "good"
-                    if dimension_data["average"] > 0.3
-                    else "needs_improvement",
+                    "performance_level": (
+                        "excellent"
+                        if dimension_data["average"] > 0.7
+                        else "good" if dimension_data["average"] > 0.3 else "needs_improvement"
+                    ),
                 }
 
         return {
             "context": context,
             "focus_dimensions_performance": dimension_performance,
-            "context_appropriateness": "high"
-            if all(perf["score"] > 0.5 for perf in dimension_performance.values())
-            else "moderate",
+            "context_appropriateness": (
+                "high" if all(perf["score"] > 0.5 for perf in dimension_performance.values()) else "moderate"
+            ),
         }
 
     def _identify_key_strength(self, trends: dict[str, Any]) -> str:

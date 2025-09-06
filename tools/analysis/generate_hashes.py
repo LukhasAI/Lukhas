@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def calculate_sha3_512(file_path: Path) -> str:
+def calculate_sha3_512(file_path: Path, timezone) -> str:
     """Calculate SHA3-512 hash of file"""
     sha3 = hashlib.sha3_512()
     with open(file_path, "rb") as f:
@@ -146,7 +146,7 @@ def generate_manifest_hash(manifest_file: str) -> dict[str, any]:
     glyph_summary = extract_symbolic_glyphs(manifest_path)
 
     # Generate timestamp
-    timestamp = datetime.utcnow().isoformat() + "Z"
+    timestamp = datetime.now(timezone.utc).isoformat() + "Z"
 
     # Generate QRGLYPH
     print("   Generating QRGLYPH...")

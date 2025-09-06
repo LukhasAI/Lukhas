@@ -863,11 +863,11 @@ class TestBioSymbolicSystems:
                         "pattern_strength": pattern_strength,
                         "categories": list(categories),
                         "has_trinity_pattern": has_trinity_pattern,
-                        "dominant_category": max(
-                            categories, key=lambda cat: sum(1 for s in symbol_analysis if s["category"] == cat)
-                        )
-                        if categories
-                        else "none",
+                        "dominant_category": (
+                            max(categories, key=lambda cat: sum(1 for s in symbol_analysis if s["category"] == cat))
+                            if categories
+                            else "none"
+                        ),
                     }
 
                 def find_symbolic_relationships(self, symbol1: str, symbol2: str) -> Dict[str, Any]:

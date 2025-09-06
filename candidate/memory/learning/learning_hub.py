@@ -9,7 +9,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Import meta-learning enhancement system
 try:
@@ -249,7 +249,7 @@ class LearningHub:
             "meta_learning_cycles": 0,
             "federated_updates": 0,
             "performance_improvements": [],
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
         logger.debug("Learning metrics initialized")
 
@@ -384,13 +384,13 @@ class LearningHub:
 
         # Update learning metrics
         self.learning_metrics["learning_sessions"] += 1
-        self.learning_metrics["last_updated"] = datetime.now().isoformat()
+        self.learning_metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
         return {
             "meta_learning": meta_result,
             "adaptive_learning": adaptive_result,
             "learning_metrics": self.learning_metrics,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processed_by": "learning_hub",
         }
 
@@ -404,12 +404,12 @@ class LearningHub:
             try:
                 result = await federated_system.process_update(update_data, source_context)
                 self.learning_metrics["federated_updates"] += 1
-                self.learning_metrics["last_updated"] = datetime.now().isoformat()
+                self.learning_metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
                 return {
                     "federated_update": result,
                     "source": source_context.get("source", "unknown"),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "processed_by": "federated_learning_system",
                 }
             except Exception as e:
@@ -451,7 +451,7 @@ class LearningHub:
             "status": "healthy",
             "services": {},
             "learning_metrics": self.learning_metrics,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "hub": "learning",
         }
 

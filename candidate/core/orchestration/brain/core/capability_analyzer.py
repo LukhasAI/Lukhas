@@ -97,7 +97,7 @@ class LUKHASCapabilityAnalyzer:
         print(" lukhas Capability Analysis & Reasoning Process Validator")
         print("=" * 70)
         print(f" Session ID: {self.session_id}")
-        print(f" Timestamp: {datetime.datetime.now().isoformat()}")
+        print(f" Timestamp: {datetime.datetime.now(timezone.utc).isoformat()}")
         print()
 
         # Test different cognitive domains
@@ -169,7 +169,7 @@ class LUKHASCapabilityAnalyzer:
                 "processing_time": processing_time,
                 "capability_usage": capability_usage,
                 "tokens_used": response.tokens_used,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             self.test_results.append(result)
@@ -226,7 +226,7 @@ class LUKHASCapabilityAnalyzer:
                 "processing_time": processing_time,
                 "capability_usage": capability_usage,
                 "tokens_used": response.tokens_used,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             self.test_results.append(result)
@@ -287,7 +287,7 @@ class LUKHASCapabilityAnalyzer:
                 "processing_time": processing_time,
                 "capability_usage": capability_usage,
                 "tokens_used": response.tokens_used,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             self.test_results.append(result)
@@ -333,7 +333,7 @@ class LUKHASCapabilityAnalyzer:
                 "processing_time": processing_time,
                 "capability_usage": capability_usage,
                 "tokens_used": response.tokens_used,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             self.test_results.append(result)
@@ -394,7 +394,7 @@ class LUKHASCapabilityAnalyzer:
                 "processing_time": processing_time,
                 "capability_usage": capability_usage,
                 "tokens_used": response.tokens_used,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             self.test_results.append(result)
@@ -454,7 +454,7 @@ class LUKHASCapabilityAnalyzer:
                 "processing_time": processing_time,
                 "capability_usage": capability_usage,
                 "tokens_used": response.tokens_used,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             self.test_results.append(result)
@@ -517,7 +517,7 @@ class LUKHASCapabilityAnalyzer:
                 "processing_time": processing_time,
                 "capability_usage": capability_usage,
                 "tokens_used": response.tokens_used,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             self.test_results.append(result)
@@ -847,7 +847,7 @@ class LUKHASCapabilityAnalyzer:
         report = {
             "session_metadata": {
                 "session_id": self.session_id,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
                 "total_tests_run": len(self.test_results),
                 "analysis_duration": (
                     time.time() - self.start_time if hasattr(self, "start_time") else 0

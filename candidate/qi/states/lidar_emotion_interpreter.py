@@ -75,7 +75,7 @@ def generate_collapse_hash(signal_strength):
     Creates a symbolic collapse record with a hash and timestamp.
     """
     collapse_id = uuid.uuid4().hex
-    timestamp = datetime.datetime.now().isoformat()
+    timestamp = datetime.datetime.now(timezone.utc).isoformat()
     return {
         "collapse_id": collapse_id,
         "strength": round(signal_strength, 4),

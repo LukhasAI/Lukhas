@@ -10,7 +10,7 @@ from datetime import datetime
 class LukhasRevenueTracker:
     """Track revenue across the LUKHAS ecosystem"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.domains = {
             "lukhas.ai": {
                 "name": "Main AI Platform",
@@ -88,7 +88,7 @@ class LukhasRevenueTracker:
         self.domains[domain]["sales"].append(
             {
                 "amount": amount,
-                "date": datetime.now().isoformat(),
+                "date": datetime.now(timezone.utc).isoformat(),
                 "commission": amount * self.domains[domain]["commission_rate"],
             }
         )
@@ -155,7 +155,7 @@ class LukhasRevenueTracker:
 
         dashboard = f"""
 # 📊 LUKHAS Revenue Dashboard
-Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
+Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")}
 
 ## 💰 Key Metrics
 

@@ -28,18 +28,21 @@ def check_dependencies() -> dict[str, bool]:
 
     try:
         import hypothesis
+
         dependencies["hypothesis"] = True
     except ImportError:
         dependencies["hypothesis"] = False
 
     try:
         import z3
+
         dependencies["z3"] = True
     except ImportError:
         dependencies["z3"] = False
 
     try:
         import torch
+
         dependencies["torch"] = True
     except ImportError:
         dependencies["torch"] = False
@@ -63,24 +66,28 @@ def run_available_tests(verbose: bool = False) -> dict[str, str]:
     # Always available tests (no external dependencies)
     available_suites = [
         ("Performance Regression Testing", "test_performance_regression.py"),
-        ("Mutation Testing Framework", "test_mutation_testing.py")
+        ("Mutation Testing Framework", "test_mutation_testing.py"),
     ]
 
     # Conditional tests based on dependencies
     if deps.get("hypothesis", False):
-        available_suites.extend([
-            ("Property-Based Testing", "test_consciousness_properties.py"),
-            ("Generative Oracle Testing", "test_generative_oracles.py")
-        ])
+        available_suites.extend(
+            [
+                ("Property-Based Testing", "test_consciousness_properties.py"),
+                ("Generative Oracle Testing", "test_generative_oracles.py"),
+            ]
+        )
 
     if deps.get("z3", False):
         available_suites.append(("Formal Verification", "test_formal_verification.py"))
 
     # Always include these (they handle their own dependencies)
-    available_suites.extend([
-        ("Metamorphic Testing", "test_metamorphic_consciousness.py"),
-        ("Chaos Engineering", "test_chaos_consciousness.py")
-    ])
+    available_suites.extend(
+        [
+            ("Metamorphic Testing", "test_metamorphic_consciousness.py"),
+            ("Chaos Engineering", "test_chaos_consciousness.py"),
+        ]
+    )
 
     print(f"🚀 Running {len(available_suites)} Test Suites:")
     print()
@@ -153,6 +160,7 @@ def run_mutation_tests(verbose: bool = False) -> str:
         # Test mutation generation
         print("  🧬 Testing mutation generation...")
         import inspect
+
         source = inspect.getsource(samples.check_temporal_coherence)
         mutations = tester.mutation_operator.generate_mutations(source)
         print(f"  🔬 Generated {len(mutations)} mutations for temporal coherence function")
@@ -223,8 +231,12 @@ def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(description="Run MΛTRIZ Advanced Testing Suite")
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
-    parser.add_argument("--suite", choices=["all", "property-based", "performance", "mutation"],
-                       default="all", help="Run specific test suite")
+    parser.add_argument(
+        "--suite",
+        choices=["all", "property-based", "performance", "mutation"],
+        default="all",
+        help="Run specific test suite",
+    )
 
     args = parser.parse_args()
 

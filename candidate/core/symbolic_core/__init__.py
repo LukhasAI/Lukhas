@@ -54,5 +54,5 @@ __all__ = [
     "SymbolicType",
     "ProcessingState",
     "MatrizSymbolicConsciousnessProcessor",
-    "symbolic_consciousness_processor"
+    "symbolic_consciousness_processor",
 ]

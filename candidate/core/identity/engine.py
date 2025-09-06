@@ -35,7 +35,7 @@ class IdentityEngine:
     100% system connectivity and consciousness computing capabilities.
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: Optional[dict] = None, timezone):
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
         self.is_initialized = False
@@ -77,7 +77,7 @@ class IdentityEngine:
                 "component": self.__class__.__name__,
                 "category": "identity",
                 "result": result,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -86,7 +86,7 @@ class IdentityEngine:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _core_identity_processing(self, data: Any) -> Any:
@@ -161,7 +161,7 @@ class IdentityEngine:
             "category": "identity",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def shutdown(self):

@@ -79,9 +79,7 @@ class ΛBotAutonomousVulnerabilityFixer:
 
         # Initialize AI clients
         self.openai_client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        self.anthropic_client = anthropic.Anthropic(
-            api_key=os.getenv("ANTHROPIC_API_KEY")
-        )
+        self.anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
         # Initialize ΛBot components
         self.budget_controller = TokenBudgetController()
@@ -109,9 +107,7 @@ class ΛBotAutonomousVulnerabilityFixer:
         context = APICallContext(
             user_request=False,
             urgency=(
-                CallUrgency.HIGH
-                if vulnerability.severity == VulnerabilitySeverity.CRITICAL
-                else CallUrgency.MEDIUM
+                CallUrgency.HIGH if vulnerability.severity == VulnerabilitySeverity.CRITICAL else CallUrgency.MEDIUM
             ),
             estimated_cost=0.02,  # AI analysis cost
             description=f"AI analysis for {vulnerability.package_name} vulnerability in {vulnerability.repository}",
@@ -119,9 +115,7 @@ class ΛBotAutonomousVulnerabilityFixer:
 
         decision = self.budget_controller.analyze_call_necessity(context)
         if not decision.should_call:
-            self.logger.warning(
-                f"AI analysis blocked for {vulnerability.id}: {decision.reason}"
-            )
+            self.logger.warning(f"AI analysis blocked for {vulnerability.id}: {decision.reason}")
             # Return basic fix strategy without AI
             return self._create_basic_fix_strategy(vulnerability)
 
@@ -243,26 +237,19 @@ class ΛBotAutonomousVulnerabilityFixer:
             ai_reasoning="Basic fix strategy - dependency update to latest version",
         )
 
-    async def autonomous_fix_vulnerability(
-        self, vulnerability: Vulnerability
-    ) -> PRCreationResult:
+    async def autonomous_fix_vulnerability(self, vulnerability: Vulnerability) -> PRCreationResult:
         """Autonomously fix a vulnerability end-to-end"""
-        self.logger.info(
-            f"🤖 Starting autonomous fix for {vulnerability.package_name} in {vulnerability.repository}"
-        )
+        self.logger.info(f"🤖 Starting autonomous fix for {vulnerability.package_name} in {vulnerability.repository}")
 
         # Get repository context
         repo_context = await self._get_repository_context(vulnerability.repository)
 
         # Use AI to analyze and create fix strategy
-        fix_strategy = await self.analyze_vulnerability_with_ai(
-            vulnerability, repo_context
-        )
+        fix_strategy = await self.analyze_vulnerability_with_ai(vulnerability, repo_context)
 
         if fix_strategy.confidence < 0.5:
             self.logger.warning(
-                f"Low confidence({fix_strategy.confidence}) for {vulnerability.id}, "
-                f"skipping autonomous fix"
+                f"Low confidence({fix_strategy.confidence}) for {vulnerability.id}, " f"skipping autonomous fix"
             )
             return PRCreationResult(
                 success=False,
@@ -277,15 +264,11 @@ class ΛBotAutonomousVulnerabilityFixer:
         # Execute the fix
         try:
             if fix_strategy.fix_method == "dependency_update":
-                return await self._execute_dependency_update(
-                    vulnerability, fix_strategy
-                )
+                return await self._execute_dependency_update(vulnerability, fix_strategy)
             elif fix_strategy.fix_method == "code_patch":
                 return await self._execute_code_patch(vulnerability, fix_strategy)
             elif fix_strategy.fix_method == "configuration_change":
-                return await self._execute_configuration_change(
-                    vulnerability, fix_strategy
-                )
+                return await self._execute_configuration_change(vulnerability, fix_strategy)
             else:
                 raise ValueError(f"Unknown fix method: {fix_strategy.fix_method}")
 
@@ -305,9 +288,7 @@ class ΛBotAutonomousVulnerabilityFixer:
         self, vulnerability: Vulnerability, fix_strategy: FixStrategy
     ) -> PRCreationResult:
         """Execute dependency update fix"""
-        self.logger.info(
-            f"📦 Executing dependency update for {vulnerability.package_name}"
-        )
+        self.logger.info(f"📦 Executing dependency update for {vulnerability.package_name}")
 
         with tempfile.TemporaryDirectory() as temp_dir:
             try:
@@ -342,24 +323,18 @@ class ΛBotAutonomousVulnerabilityFixer:
                     )
 
                 if not updated:
-                    raise Exception(
-                        f"Failed to update {vulnerability.affected_versions} dependency"
-                    )
+                    raise Exception(f"Failed to update {vulnerability.affected_versions} dependency")
 
                 # Commit changes
                 repo.git.add(A=True)
                 commit_message = (
-                    f"🔒 Fix {vulnerability.severity.value} vulnerability in {vulnerability.package_name}\n\n" +
-                    " + "
-                    f"- Updated {vulnerability.package_name} to resolve security issue\n" +
-                    " + "
-                    f"- Vulnerability ID: {vulnerability.id}\n" +
-                    " + "
-                    f"- AI Reasoning: {fix_strategy.ai_reasoning}\n" +
-                    " + "
-                    f"- Confidence: {fix_strategy.confidence:.1%}\n\n" +
-                    " + "
-                    "Automated fix by ΛBot 🤖")
+                    f"🔒 Fix {vulnerability.severity.value} vulnerability in {vulnerability.package_name}\n\n" + " + "
+                    f"- Updated {vulnerability.package_name} to resolve security issue\n" + " + "
+                    f"- Vulnerability ID: {vulnerability.id}\n" + " + "
+                    f"- AI Reasoning: {fix_strategy.ai_reasoning}\n" + " + "
+                    f"- Confidence: {fix_strategy.confidence:.1%}\n\n" + " + "
+                    "Automated fix by ΛBot 🤖"
+                )
 
                 repo.index.commit(commit_message)
 
@@ -390,9 +365,7 @@ class ΛBotAutonomousVulnerabilityFixer:
                 self.logger.error(f"Dependency update failed: {e}")
                 raise e
 
-    async def _update_npm_dependency(
-        self, repo_path: str, package_name: str, target_version: str
-    ) -> bool:
+    async def _update_npm_dependency(self, repo_path: str, package_name: str, target_version: str) -> bool:
         """Update npm dependency"""
         try:
             package_json_path = os.path.join(repo_path, "package.json")
@@ -413,9 +386,7 @@ class ΛBotAutonomousVulnerabilityFixer:
             self.logger.error(f"NPM update failed: {e}")
             return False
 
-    async def _update_pip_dependency(
-        self, repo_path: str, package_name: str, target_version: str
-    ) -> bool:
+    async def _update_pip_dependency(self, repo_path: str, package_name: str, target_version: str) -> bool:
         """Update pip dependency"""
         try:
             requirements_files = [
@@ -451,9 +422,7 @@ class ΛBotAutonomousVulnerabilityFixer:
             self.logger.error(f"Pip update failed: {e}")
             return False
 
-    async def _update_maven_dependency(
-        self, repo_path: str, package_name: str, target_version: str
-    ) -> bool:
+    async def _update_maven_dependency(self, repo_path: str, package_name: str, target_version: str) -> bool:
         """Update Maven dependency"""
         try:
             pom_path = os.path.join(repo_path, "pom.xml")
@@ -515,9 +484,7 @@ class ΛBotAutonomousVulnerabilityFixer:
 
         return pr_data
 
-    def _generate_pr_description(
-        self, vulnerability: Vulnerability, fix_strategy: FixStrategy
-    ) -> str:
+    def _generate_pr_description(self, vulnerability: Vulnerability, fix_strategy: FixStrategy) -> str:
         """Generate comprehensive PR description"""
         return f"""## 🔒 Security Vulnerability Fix
 
@@ -586,9 +553,7 @@ class ΛBotAutonomousVulnerabilityFixer:
                 "has_workflows": False,
             }
 
-    async def fix_workflow_failures(
-        self, repository: str, max_fixes: int = 5
-    ) -> list[dict[str, Any]]:
+    async def fix_workflow_failures(self, repository: str, max_fixes: int = 5) -> list[dict[str, Any]]:
         """Fix workflow failures autonomously"""
         self.logger.info(f"🔧 Analyzing workflow failures in {repository}")
 
@@ -605,9 +570,7 @@ class ΛBotAutonomousVulnerabilityFixer:
 
         return workflow_fixes
 
-    async def autonomous_security_sweep(
-        self, max_concurrent: int = 5
-    ) -> dict[str, Any]:
+    async def autonomous_security_sweep(self, max_concurrent: int = 5) -> dict[str, Any]:
         """Perform autonomous security sweep across all repositories"""
         self.logger.info("🤖 Starting autonomous security sweep...")
 
@@ -624,9 +587,7 @@ class ΛBotAutonomousVulnerabilityFixer:
             if v.severity in [VulnerabilitySeverity.CRITICAL, VulnerabilitySeverity.HIGH]
         ]
 
-        self.logger.info(
-            f"🎯 Found {len(critical_vulns)} high-priority vulnerabilities to fix"
-        )
+        self.logger.info(f"🎯 Found {len(critical_vulns)} high-priority vulnerabilities to fix")
 
         # Process vulnerabilities concurrently
         semaphore = asyncio.Semaphore(max_concurrent)
@@ -636,18 +597,12 @@ class ΛBotAutonomousVulnerabilityFixer:
                 return await self.autonomous_fix_vulnerability(vuln)
 
         # Execute fixes
-        fix_tasks = [
-            fix_with_semaphore(vuln) for vuln in critical_vulns[:20]
-        ]  # Limit to 20 for now
+        fix_tasks = [fix_with_semaphore(vuln) for vuln in critical_vulns[:20]]  # Limit to 20 for now
         fix_results = await asyncio.gather(*fix_tasks, return_exceptions=True)
 
         # Process results
-        successful_fixes = [
-            r for r in fix_results if isinstance(r, PRCreationResult) and r.success
-        ]
-        failed_fixes = [
-            r for r in fix_results if isinstance(r, PRCreationResult) and not r.success
-        ]
+        successful_fixes = [r for r in fix_results if isinstance(r, PRCreationResult) and r.success]
+        failed_fixes = [r for r in fix_results if isinstance(r, PRCreationResult) and not r.success]
         exceptions = [r for r in fix_results if isinstance(r, Exception)]
 
         summary = {
@@ -663,11 +618,10 @@ class ΛBotAutonomousVulnerabilityFixer:
                     "pr_url": r.pr_url,
                     "repository": (r.pr_url.split("/")[-3] if r.pr_url else "unknown"),
                 }
-                for r in successful_fixes if r.pr_url
+                for r in successful_fixes
+                if r.pr_url
             ],
-            "total_ai_cost": sum(
-                r.ai_cost for r in fix_results if isinstance(r, PRCreationResult)
-            ),
+            "total_ai_cost": sum(r.ai_cost for r in fix_results if isinstance(r, PRCreationResult)),
             "budget_remaining": self.budget_controller.get_daily_budget_remaining(),
         }
 

@@ -20,16 +20,19 @@ from typing import Any, Callable, Dict, List, Optional, Set
 
 try:
     from .secure_logging import get_security_logger
+
     logger = get_security_logger(__name__)
     LOGGING_AVAILABLE = True
 except ImportError:
     import logging
+
     logger = logging.getLogger(__name__)
     LOGGING_AVAILABLE = False
 
 
 class ThreatLevel(Enum):
     """Security threat levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -38,6 +41,7 @@ class ThreatLevel(Enum):
 
 class SecurityEventType(Enum):
     """Types of security events"""
+
     AUTHENTICATION_FAILURE = "auth_failure"
     MULTIPLE_FAILED_LOGINS = "multiple_failed_logins"
     SUSPICIOUS_API_USAGE = "suspicious_api_usage"
@@ -54,6 +58,7 @@ class SecurityEventType(Enum):
 @dataclass
 class SecurityEvent:
     """Security event data structure"""
+
     event_id: str
     event_type: SecurityEventType
     threat_level: ThreatLevel
@@ -75,13 +80,14 @@ class SecurityEvent:
             "user_id": self.user_id,
             "endpoint": self.endpoint,
             "details": self.details,
-            "raw_data": self.raw_data
+            "raw_data": self.raw_data,
         }
 
 
 @dataclass
 class ThreatDetectionRule:
     """Rule for detecting security threats"""
+
     rule_id: str
     name: str
     description: str
@@ -126,7 +132,7 @@ class DefenseMonitor:
             "threats_detected": 0,
             "auto_responses_triggered": 0,
             "false_positives": 0,
-            "last_scan": None
+            "last_scan": None,
         }
 
         # Configuration
@@ -138,9 +144,15 @@ class DefenseMonitor:
 
         logger.info("Defense-in-depth monitoring system initialized")
 
-    async def record_event(self, event_type: SecurityEventType, details: dict[str, Any],
-                          source_ip: Optional[str] = None, user_id: Optional[str] = None,
-                          endpoint: Optional[str] = None, threat_level: Optional[ThreatLevel] = None) -> str:
+    async def record_event(
+        self,
+        event_type: SecurityEventType,
+        details: dict[str, Any],
+        source_ip: Optional[str] = None,
+        user_id: Optional[str] = None,
+        endpoint: Optional[str] = None,
+        threat_level: Optional[ThreatLevel] = None,
+    ) -> str:
         """Record security event and analyze for threats"""
 
         # Generate event ID
@@ -155,7 +167,7 @@ class DefenseMonitor:
             source_ip=source_ip,
             user_id=user_id,
             endpoint=endpoint,
-            details=details
+            details=details,
         )
 
         # Store event
@@ -167,12 +179,15 @@ class DefenseMonitor:
         await self._analyze_event(event)
 
         # Log security event
-        logger.info(f"Security event recorded: {event_type.value}", extra={
-            "event_id": event_id,
-            "threat_level": threat_level.value if threat_level else "low",
-            "source_ip": source_ip,
-            "user_id": user_id
-        })
+        logger.info(
+            f"Security event recorded: {event_type.value}",
+            extra={
+                "event_id": event_id,
+                "threat_level": threat_level.value if threat_level else "low",
+                "source_ip": source_ip,
+                "user_id": user_id,
+            },
+        )
 
         return event_id
 
@@ -191,10 +206,7 @@ class DefenseMonitor:
 
         # Get recent events of the same type
         cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=rule.time_window_minutes)
-        recent_events = [
-            e for e in self.event_index[event.event_type.value]
-            if e.timestamp > cutoff_time
-        ]
+        recent_events = [e for e in self.event_index[event.event_type.value] if e.timestamp > cutoff_time]
 
         # Check threshold
         if len(recent_events) < rule.threshold:
@@ -230,19 +242,22 @@ class DefenseMonitor:
                 "rule_triggered": rule.rule_id,
                 "rule_name": rule.name,
                 "triggering_event": triggering_event.event_id,
-                "auto_response": rule.auto_response
-            }
+                "auto_response": rule.auto_response,
+            },
         )
 
         self.events.append(threat_event)
 
         # Log threat detection
-        logger.warning(f"THREAT DETECTED: {rule.name}", extra={
-            "rule_id": rule.rule_id,
-            "threat_level": rule.threat_level.value,
-            "auto_response": rule.auto_response,
-            "triggering_event": triggering_event.event_id
-        })
+        logger.warning(
+            f"THREAT DETECTED: {rule.name}",
+            extra={
+                "rule_id": rule.rule_id,
+                "threat_level": rule.threat_level.value,
+                "auto_response": rule.auto_response,
+                "triggering_event": triggering_event.event_id,
+            },
+        )
 
         # Execute automated response if enabled
         if rule.auto_response:
@@ -289,7 +304,7 @@ class DefenseMonitor:
         await self.record_event(
             SecurityEventType.UNAUTHORIZED_ACCESS_ATTEMPT,
             {"action": "ip_blocked", "ip": ip_address, "duration_minutes": minutes},
-            source_ip=ip_address
+            source_ip=ip_address,
         )
 
     async def _rate_limit_user(self, user_id: str, minutes: int):
@@ -300,7 +315,7 @@ class DefenseMonitor:
         await self.record_event(
             SecurityEventType.RATE_LIMIT_EXCEEDED,
             {"action": "user_rate_limited", "user_id": user_id, "duration_minutes": minutes},
-            user_id=user_id
+            user_id=user_id,
         )
 
     async def _rate_limit_ip(self, ip_address: str, minutes: int):
@@ -310,7 +325,7 @@ class DefenseMonitor:
         await self.record_event(
             SecurityEventType.RATE_LIMIT_EXCEEDED,
             {"action": "ip_rate_limited", "ip": ip_address, "duration_minutes": minutes},
-            source_ip=ip_address
+            source_ip=ip_address,
         )
 
     async def _emergency_block_user(self, user_id: str):
@@ -321,7 +336,7 @@ class DefenseMonitor:
             SecurityEventType.DATA_EXFILTRATION_ATTEMPT,
             {"action": "emergency_user_blocked", "user_id": user_id},
             user_id=user_id,
-            threat_level=ThreatLevel.CRITICAL
+            threat_level=ThreatLevel.CRITICAL,
         )
 
     # Rule condition checkers
@@ -333,8 +348,7 @@ class DefenseMonitor:
 
         # Count failures from same source
         same_source_failures = [
-            e for e in events
-            if (e.source_ip == current_event.source_ip or e.user_id == current_event.user_id)
+            e for e in events if (e.source_ip == current_event.source_ip or e.user_id == current_event.user_id)
         ]
 
         return len(same_source_failures) >= self.max_failed_logins
@@ -396,7 +410,7 @@ class DefenseMonitor:
             threshold=5,
             time_window_minutes=15,
             threat_level=ThreatLevel.MEDIUM,
-            auto_response=True
+            auto_response=True,
         )
 
         self.detection_rules["suspicious_api_usage"] = ThreatDetectionRule(
@@ -408,7 +422,7 @@ class DefenseMonitor:
             threshold=1000,
             time_window_minutes=60,
             threat_level=ThreatLevel.HIGH,
-            auto_response=True
+            auto_response=True,
         )
 
         self.detection_rules["unusual_data_access"] = ThreatDetectionRule(
@@ -420,7 +434,7 @@ class DefenseMonitor:
             threshold=1,
             time_window_minutes=60,
             threat_level=ThreatLevel.HIGH,
-            auto_response=False
+            auto_response=False,
         )
 
         self.detection_rules["privilege_escalation"] = ThreatDetectionRule(
@@ -432,7 +446,7 @@ class DefenseMonitor:
             threshold=1,
             time_window_minutes=5,
             threat_level=ThreatLevel.CRITICAL,
-            auto_response=False
+            auto_response=False,
         )
 
     def get_security_metrics(self) -> dict[str, Any]:
@@ -462,7 +476,7 @@ class DefenseMonitor:
             "active_rules": len([r for r in self.detection_rules.values() if r.enabled]),
             "threat_level_breakdown": dict(threat_breakdown),
             "event_type_breakdown": dict(event_breakdown),
-            "last_update": now.isoformat()
+            "last_update": now.isoformat(),
         }
 
     def get_threat_summary(self, hours: int = 24) -> dict[str, Any]:
@@ -471,10 +485,7 @@ class DefenseMonitor:
         recent_events = [e for e in self.events if e.timestamp > cutoff]
 
         # Find high-threat events
-        high_threats = [
-            e for e in recent_events
-            if e.threat_level in [ThreatLevel.HIGH, ThreatLevel.CRITICAL]
-        ]
+        high_threats = [e for e in recent_events if e.threat_level in [ThreatLevel.HIGH, ThreatLevel.CRITICAL]]
 
         # Top source IPs
         ip_counts = defaultdict(int)
@@ -491,7 +502,7 @@ class DefenseMonitor:
             "critical_threats": len([e for e in high_threats if e.threat_level == ThreatLevel.CRITICAL]),
             "top_source_ips": top_ips,
             "threat_events": [e.to_dict() for e in high_threats[:10]],  # Latest 10 high threats
-            "generated_at": datetime.now(timezone.utc).isoformat()
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def register_response_handler(self, event_type: SecurityEventType, handler: Callable):
@@ -519,6 +530,7 @@ def get_defense_monitor() -> DefenseMonitor:
 
 # Convenience functions for common security events
 
+
 async def record_authentication_failure(user_id: str, source_ip: str, reason: str = "invalid_credentials"):
     """Record authentication failure event"""
     monitor = get_defense_monitor()
@@ -527,12 +539,11 @@ async def record_authentication_failure(user_id: str, source_ip: str, reason: st
         {"reason": reason},
         source_ip=source_ip,
         user_id=user_id,
-        threat_level=ThreatLevel.LOW
+        threat_level=ThreatLevel.LOW,
     )
 
 
-async def record_api_request(endpoint: str, source_ip: str, user_id: Optional[str] = None,
-                           response_code: int = 200):
+async def record_api_request(endpoint: str, source_ip: str, user_id: Optional[str] = None, response_code: int = 200):
     """Record API request for monitoring"""
     monitor = get_defense_monitor()
 
@@ -547,7 +558,7 @@ async def record_api_request(endpoint: str, source_ip: str, user_id: Optional[st
         source_ip=source_ip,
         user_id=user_id,
         endpoint=endpoint,
-        threat_level=threat_level
+        threat_level=threat_level,
     )
 
 
@@ -559,7 +570,7 @@ async def record_data_access(resource: str, operation: str, user_id: str, source
         {"resource": resource, "operation": operation},
         source_ip=source_ip,
         user_id=user_id,
-        threat_level=ThreatLevel.LOW
+        threat_level=ThreatLevel.LOW,
     )
 
 
@@ -578,26 +589,19 @@ async def example_usage():
     # Multiple failed logins (should trigger threat detection)
     for i in range(6):
         await record_authentication_failure(
-            user_id="testuser@example.com",
-            source_ip="192.168.1.100",
-            reason="invalid_password"
+            user_id="testuser@example.com", source_ip="192.168.1.100", reason="invalid_password"
         )
         await asyncio.sleep(0.1)  # Small delay
 
     # Suspicious API usage
     for i in range(50):
         await record_api_request(
-            endpoint=f"/api/endpoint_{i % 10}",
-            source_ip="10.0.0.50",
-            user_id="apiuser@example.com"
+            endpoint=f"/api/endpoint_{i % 10}", source_ip="10.0.0.50", user_id="apiuser@example.com"
         )
 
     # Data access during off-hours
     await record_data_access(
-        resource="sensitive_database",
-        operation="SELECT",
-        user_id="nightuser@example.com",
-        source_ip="172.16.0.10"
+        resource="sensitive_database", operation="SELECT", user_id="nightuser@example.com", source_ip="172.16.0.10"
     )
 
     print("✅ Security events recorded")
@@ -618,7 +622,9 @@ async def example_usage():
     print(f"  Critical threats: {threat_summary['critical_threats']}")
 
     if threat_summary["top_source_ips"]:
-        print(f"  Top source IP: {threat_summary['top_source_ips'][0][0]} ({threat_summary['top_source_ips'][0][1]} events)")
+        print(
+            f"  Top source IP: {threat_summary['top_source_ips'][0][0]} ({threat_summary['top_source_ips'][0][1]} events)"
+        )
 
     print("\n✅ Defense monitoring test completed")
 

@@ -168,9 +168,7 @@ def check_dependencies() -> dict[str, Any]:
                 package_name = line.split("==")[0].split(">=")[0].split("<=")[0]
                 package_name = package_name.split("[")[0].strip()
 
-                result["dependencies"].append(
-                    {"name": package_name, "requirement": line}
-                )
+                result["dependencies"].append({"name": package_name, "requirement": line})
 
                 # Check if installed
                 try:
@@ -255,9 +253,7 @@ def quick_health_check() -> dict[str, Any]:
             "status": "healthy",
             "checks": {
                 "project_root_found": True,
-                "requirements_file_exists": (
-                    project_root / "requirements.txt"
-                ).exists(),
+                "requirements_file_exists": (project_root / "requirements.txt").exists(),
                 "config_file_exists": (project_root / "lukhas_config.yaml").exists(),
                 "main_entry_exists": (project_root / "main.py").exists(),
                 "claude_md_exists": (project_root / "CLAUDE.md").exists(),
@@ -300,9 +296,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="LUKHAS  Development Tools")
     parser.add_argument("--health", action="store_true", help="Run quick health check")
-    parser.add_argument(
-        "--report", action="store_true", help="Generate full dev report"
-    )
+    parser.add_argument("--report", action="store_true", help="Generate full dev report")
     parser.add_argument("--analyze", type=str, help="Analyze directory structure")
     parser.add_argument("--deps", action="store_true", help="Check dependencies")
     parser.add_argument("--save", action="store_true", help="Save report to file")

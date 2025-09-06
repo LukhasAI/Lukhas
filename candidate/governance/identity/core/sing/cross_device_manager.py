@@ -38,11 +38,11 @@ class DeviceTrustScore:
 
     def __init__(self):
         self.trust_factors = {
-            "registration_age": 0.25,      # How long device has been registered
-            "usage_frequency": 0.20,       # How often device is used
-            "security_features": 0.25,     # Biometric, secure enclave, etc.
-            "network_consistency": 0.15,   # Consistent network patterns
-            "successful_auths": 0.15       # History of successful authentications
+            "registration_age": 0.25,  # How long device has been registered
+            "usage_frequency": 0.20,  # How often device is used
+            "security_features": 0.25,  # Biometric, secure enclave, etc.
+            "network_consistency": 0.15,  # Consistent network patterns
+            "successful_auths": 0.15,  # History of successful authentications
         }
 
     def calculate_trust_score(self, device_data: dict) -> float:
@@ -106,23 +106,20 @@ class CrossDeviceTokenManager:
         self.trust_threshold = self.config.get("minimum_trust_threshold", 0.6)
 
         # Trinity Framework components
-        self.guardian_validator = None      # 🛡️ Guardian
-        self.consciousness_tracker = None   # 🧠 Consciousness
-        self.identity_verifier = None       # ⚛️ Identity
+        self.guardian_validator = None  # 🛡️ Guardian
+        self.consciousness_tracker = None  # 🧠 Consciousness
+        self.identity_verifier = None  # ⚛️ Identity
 
-    def sync_token_to_device(self, token: str, device_id: str, user_id: str,
-                           device_info: Optional[dict] = None) -> dict[str, Any]:
+    def sync_token_to_device(
+        self, token: str, device_id: str, user_id: str, device_info: Optional[dict] = None
+    ) -> dict[str, Any]:
         """🔄 Synchronize SSO token to specific device with security validation"""
         try:
             start_time = time.time()
 
             # Validate inputs
             if not all([token, device_id, user_id]):
-                return {
-                    "success": False,
-                    "error": "Missing required parameters",
-                    "sync_time_ms": 0
-                }
+                return {"success": False, "error": "Missing required parameters", "sync_time_ms": 0}
 
             # Initialize user device registry if needed
             if user_id not in self.device_tokens:
@@ -133,7 +130,7 @@ class CrossDeviceTokenManager:
                 return {
                     "success": False,
                     "error": f"Maximum devices ({self.max_devices_per_user}) exceeded",
-                    "sync_time_ms": (time.time() - start_time) * 1000
+                    "sync_time_ms": (time.time() - start_time) * 1000,
                 }
 
             # Get or create device data
@@ -147,7 +144,7 @@ class CrossDeviceTokenManager:
                     "success": False,
                     "error": f"Device trust score too low: {trust_score:.2f} < {self.trust_threshold}",
                     "trust_score": trust_score,
-                    "sync_time_ms": (time.time() - start_time) * 1000
+                    "sync_time_ms": (time.time() - start_time) * 1000,
                 }
 
             # 🛡️ Guardian validation
@@ -155,7 +152,7 @@ class CrossDeviceTokenManager:
                 return {
                     "success": False,
                     "error": "Guardian validation failed",
-                    "sync_time_ms": (time.time() - start_time) * 1000
+                    "sync_time_ms": (time.time() - start_time) * 1000,
                 }
 
             # Encrypt token for secure storage
@@ -171,7 +168,7 @@ class CrossDeviceTokenManager:
                 "trust_score": trust_score,
                 "device_fingerprint": self._generate_device_fingerprint(device_data),
                 "sync_method": "secure_channel",
-                "guardian_approved": True
+                "guardian_approved": True,
             }
 
             # Store token sync record
@@ -181,13 +178,15 @@ class CrossDeviceTokenManager:
             self.device_tokens[user_id][device_id].append(sync_record)
 
             # Add to sync queue for real-time propagation
-            self.sync_queue.append({
-                "action": "token_sync",
-                "user_id": user_id,
-                "device_id": device_id,
-                "sync_record": sync_record,
-                "timestamp": time.time()
-            })
+            self.sync_queue.append(
+                {
+                    "action": "token_sync",
+                    "user_id": user_id,
+                    "device_id": device_id,
+                    "sync_record": sync_record,
+                    "timestamp": time.time(),
+                }
+            )
 
             # 🧠 Update consciousness patterns
             self._update_consciousness_patterns(user_id, device_id, "token_sync")
@@ -203,18 +202,19 @@ class CrossDeviceTokenManager:
                 "expires_at": sync_record["expires_at"],
                 "sync_time_ms": sync_time,
                 "device_fingerprint": sync_record["device_fingerprint"],
-                "guardian_approved": True
+                "guardian_approved": True,
             }
 
         except Exception as e:
             return {
                 "success": False,
                 "error": f"Token sync failed: {e!s}",
-                "sync_time_ms": (time.time() - start_time) * 1000 if "start_time" in locals() else 0
+                "sync_time_ms": (time.time() - start_time) * 1000 if "start_time" in locals() else 0,
             }
 
-    def invalidate_device_tokens(self, device_id: str, user_id: str,
-                                reason: str = "manual_revocation") -> dict[str, Any]:
+    def invalidate_device_tokens(
+        self, device_id: str, user_id: str, reason: str = "manual_revocation"
+    ) -> dict[str, Any]:
         """🚫 Invalidate all tokens for a specific device"""
         try:
             start_time = time.time()
@@ -223,7 +223,7 @@ class CrossDeviceTokenManager:
                 return {
                     "success": False,
                     "error": "Device not found",
-                    "invalidation_time_ms": (time.time() - start_time) * 1000
+                    "invalidation_time_ms": (time.time() - start_time) * 1000,
                 }
 
             # Get device tokens
@@ -239,14 +239,16 @@ class CrossDeviceTokenManager:
                     invalidated_count += 1
 
             # Add to sync queue for real-time propagation
-            self.sync_queue.append({
-                "action": "token_invalidation",
-                "user_id": user_id,
-                "device_id": device_id,
-                "reason": reason,
-                "invalidated_count": invalidated_count,
-                "timestamp": time.time()
-            })
+            self.sync_queue.append(
+                {
+                    "action": "token_invalidation",
+                    "user_id": user_id,
+                    "device_id": device_id,
+                    "reason": reason,
+                    "invalidated_count": invalidated_count,
+                    "timestamp": time.time(),
+                }
+            )
 
             # 🧠 Update consciousness patterns for security event
             self._update_consciousness_patterns(user_id, device_id, "token_invalidation")
@@ -257,18 +259,17 @@ class CrossDeviceTokenManager:
                 "invalidated_count": invalidated_count,
                 "reason": reason,
                 "invalidated_at": datetime.utcnow().isoformat(),
-                "invalidation_time_ms": (time.time() - start_time) * 1000
+                "invalidation_time_ms": (time.time() - start_time) * 1000,
             }
 
         except Exception as e:
             return {
                 "success": False,
                 "error": f"Token invalidation failed: {e!s}",
-                "invalidation_time_ms": (time.time() - start_time) * 1000 if "start_time" in locals() else 0
+                "invalidation_time_ms": (time.time() - start_time) * 1000 if "start_time" in locals() else 0,
             }
 
-    def get_device_tokens(self, user_id: str, device_id: str,
-                         include_expired: bool = False) -> dict[str, Any]:
+    def get_device_tokens(self, user_id: str, device_id: str, include_expired: bool = False) -> dict[str, Any]:
         """📱 Get all active tokens for a device"""
         try:
             start_time = time.time()
@@ -278,7 +279,7 @@ class CrossDeviceTokenManager:
                     "success": False,
                     "error": "Device not found",
                     "tokens": [],
-                    "retrieval_time_ms": (time.time() - start_time) * 1000
+                    "retrieval_time_ms": (time.time() - start_time) * 1000,
                 }
 
             device_token_records = self.device_tokens[user_id][device_id]
@@ -300,20 +301,20 @@ class CrossDeviceTokenManager:
 
                 # Decrypt token for return (in real implementation,
                 # you might return token metadata instead)
-                decrypted_token = self._decrypt_token(
-                    token_record["token"], device_id
-                )
+                decrypted_token = self._decrypt_token(token_record["token"], device_id)
 
-                active_tokens.append({
-                    "token_id": token_record.get("sync_id", "unknown"),
-                    "synced_at": token_record["synced_at"],
-                    "expires_at": token_record["expires_at"],
-                    "trust_score": token_record["trust_score"],
-                    "is_expired": is_expired,
-                    "sync_method": token_record["sync_method"],
-                    # Only include actual token in secure contexts
-                    "token": decrypted_token if not is_expired else None
-                })
+                active_tokens.append(
+                    {
+                        "token_id": token_record.get("sync_id", "unknown"),
+                        "synced_at": token_record["synced_at"],
+                        "expires_at": token_record["expires_at"],
+                        "trust_score": token_record["trust_score"],
+                        "is_expired": is_expired,
+                        "sync_method": token_record["sync_method"],
+                        # Only include actual token in secure contexts
+                        "token": decrypted_token if not is_expired else None,
+                    }
+                )
 
             return {
                 "success": True,
@@ -322,7 +323,7 @@ class CrossDeviceTokenManager:
                 "tokens": active_tokens,
                 "active_count": len([t for t in active_tokens if not t["is_expired"]]),
                 "total_count": len(active_tokens),
-                "retrieval_time_ms": (time.time() - start_time) * 1000
+                "retrieval_time_ms": (time.time() - start_time) * 1000,
             }
 
         except Exception as e:
@@ -330,11 +331,12 @@ class CrossDeviceTokenManager:
                 "success": False,
                 "error": f"Token retrieval failed: {e!s}",
                 "tokens": [],
-                "retrieval_time_ms": (time.time() - start_time) * 1000 if "start_time" in locals() else 0
+                "retrieval_time_ms": (time.time() - start_time) * 1000 if "start_time" in locals() else 0,
             }
 
-    def sync_tokens_across_devices(self, user_id: str, source_device_id: str,
-                                  target_device_ids: Optional[list[str]] = None) -> dict[str, Any]:
+    def sync_tokens_across_devices(
+        self, user_id: str, source_device_id: str, target_device_ids: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """🔄 Sync tokens across multiple devices for a user"""
         try:
             start_time = time.time()
@@ -343,7 +345,7 @@ class CrossDeviceTokenManager:
                 return {
                     "success": False,
                     "error": "User has no registered devices",
-                    "sync_time_ms": (time.time() - start_time) * 1000
+                    "sync_time_ms": (time.time() - start_time) * 1000,
                 }
 
             user_devices = self.device_tokens[user_id]
@@ -351,9 +353,9 @@ class CrossDeviceTokenManager:
             # If no target devices specified, sync to all trusted devices
             if target_device_ids is None:
                 target_device_ids = [
-                    device_id for device_id, tokens in user_devices.items()
-                    if device_id != source_device_id and
-                    self._is_device_trusted(user_id, device_id)
+                    device_id
+                    for device_id, tokens in user_devices.items()
+                    if device_id != source_device_id and self._is_device_trusted(user_id, device_id)
                 ]
 
             # Get source device tokens
@@ -362,7 +364,7 @@ class CrossDeviceTokenManager:
                 return {
                     "success": False,
                     "error": f'Failed to get source device tokens: {source_tokens_result["error"]}',
-                    "sync_time_ms": (time.time() - start_time) * 1000
+                    "sync_time_ms": (time.time() - start_time) * 1000,
                 }
 
             source_tokens = source_tokens_result["tokens"]
@@ -374,17 +376,13 @@ class CrossDeviceTokenManager:
 
                 for token_data in source_tokens:
                     if token_data["token"] and not token_data["is_expired"]:
-                        sync_result = self.sync_token_to_device(
-                            token_data["token"],
-                            target_device_id,
-                            user_id
-                        )
+                        sync_result = self.sync_token_to_device(token_data["token"], target_device_id, user_id)
                         device_sync_results.append(sync_result)
 
                 sync_results[target_device_id] = {
                     "synced_tokens": len([r for r in device_sync_results if r["success"]]),
                     "failed_tokens": len([r for r in device_sync_results if not r["success"]]),
-                    "results": device_sync_results
+                    "results": device_sync_results,
                 }
 
             total_synced = sum(r["synced_tokens"] for r in sync_results.values())
@@ -397,26 +395,21 @@ class CrossDeviceTokenManager:
                 "total_synced": total_synced,
                 "total_failed": total_failed,
                 "device_results": sync_results,
-                "sync_time_ms": (time.time() - start_time) * 1000
+                "sync_time_ms": (time.time() - start_time) * 1000,
             }
 
         except Exception as e:
             return {
                 "success": False,
                 "error": f"Cross-device sync failed: {e!s}",
-                "sync_time_ms": (time.time() - start_time) * 1000 if "start_time" in locals() else 0
+                "sync_time_ms": (time.time() - start_time) * 1000 if "start_time" in locals() else 0,
             }
 
     def get_user_devices(self, user_id: str, include_trust_scores: bool = True) -> dict[str, Any]:
         """📋 Get all registered devices for a user"""
         try:
             if user_id not in self.device_tokens:
-                return {
-                    "success": True,
-                    "user_id": user_id,
-                    "devices": [],
-                    "total_devices": 0
-                }
+                return {"success": True, "user_id": user_id, "devices": [], "total_devices": 0}
 
             devices = []
             for device_id, token_records in self.device_tokens[user_id].items():
@@ -439,15 +432,11 @@ class CrossDeviceTokenManager:
                 "user_id": user_id,
                 "devices": devices,
                 "total_devices": len(devices),
-                "trusted_devices": len([d for d in devices if d.get("trust_score", 0) >= self.trust_threshold])
+                "trusted_devices": len([d for d in devices if d.get("trust_score", 0) >= self.trust_threshold]),
             }
 
         except Exception as e:
-            return {
-                "success": False,
-                "error": f"Failed to get user devices: {e!s}",
-                "devices": []
-            }
+            return {"success": False, "error": f"Failed to get user devices: {e!s}", "devices": []}
 
     # Helper methods for cross-device token management
 
@@ -470,6 +459,7 @@ class CrossDeviceTokenManager:
 
         # Fallback to base64 encoding (not secure, for development only)
         import base64
+
         return base64.b64encode(f"{token}|{device_id}".encode()).decode()
 
     def _decrypt_token(self, encrypted_token: str, device_id: str) -> Optional[str]:
@@ -488,6 +478,7 @@ class CrossDeviceTokenManager:
         # Fallback for base64 encoding
         try:
             import base64
+
             decrypted = base64.b64decode(encrypted_token.encode()).decode()
             token, stored_device_id = decrypted.split("|", 1)
             if stored_device_id == device_id:
@@ -512,7 +503,7 @@ class CrossDeviceTokenManager:
             "auth_success_rate": 0.95,  # Would be calculated from auth history
             "device_type": device_info.get("device_type", "unknown") if device_info else "unknown",
             "os_version": device_info.get("os_version", "unknown") if device_info else "unknown",
-            "app_version": device_info.get("app_version", "unknown") if device_info else "unknown"
+            "app_version": device_info.get("app_version", "unknown") if device_info else "unknown",
         }
 
         # Update with provided device info
@@ -524,7 +515,9 @@ class CrossDeviceTokenManager:
 
     def _generate_device_fingerprint(self, device_data: dict) -> str:
         """Generate unique device fingerprint"""
-        fingerprint_data = f"{device_data.get('device_id')}|{device_data.get('device_type')}|{device_data.get('os_version')}"
+        fingerprint_data = (
+            f"{device_data.get('device_id')}|{device_data.get('device_type')}|{device_data.get('os_version')}"
+        )
         return hashlib.sha256(fingerprint_data.encode()).hexdigest()[:16]
 
     def _constitutional_validation(self, user_id: str, device_id: str, device_data: dict) -> bool:
@@ -599,15 +592,11 @@ class CrossDeviceTokenManager:
             return {
                 "success": True,
                 "tokens_cleaned": total_cleaned,
-                "cleanup_time_ms": (time.time() - start_time) * 1000
+                "cleanup_time_ms": (time.time() - start_time) * 1000,
             }
 
         except Exception as e:
-            return {
-                "success": False,
-                "error": f"Cleanup failed: {e!s}",
-                "tokens_cleaned": 0
-            }
+            return {"success": False, "error": f"Cleanup failed: {e!s}", "tokens_cleaned": 0}
 
 
 # WebRTC-based real-time sync for trusted devices
@@ -623,8 +612,10 @@ class WebRTCDeviceSync:
         """Establish WebRTC sync channel between two trusted devices"""
         try:
             # Verify both devices are trusted
-            if not (self.device_manager._is_device_trusted(user_id, device_a) and
-                   self.device_manager._is_device_trusted(user_id, device_b)):
+            if not (
+                self.device_manager._is_device_trusted(user_id, device_a)
+                and self.device_manager._is_device_trusted(user_id, device_b)
+            ):
                 return False
 
             # Create sync channel identifier
@@ -635,7 +626,7 @@ class WebRTCDeviceSync:
                 "user_id": user_id,
                 "devices": [device_a, device_b],
                 "established_at": datetime.utcnow().isoformat(),
-                "status": "active"
+                "status": "active",
             }
 
             return True
@@ -643,8 +634,7 @@ class WebRTCDeviceSync:
         except Exception:
             return False
 
-    async def sync_via_webrtc(self, user_id: str, source_device: str,
-                            target_device: str, token_data: dict) -> bool:
+    async def sync_via_webrtc(self, user_id: str, source_device: str, target_device: str, token_data: dict) -> bool:
         """Sync token via WebRTC channel"""
         try:
             # Check for active channel
@@ -655,11 +645,7 @@ class WebRTCDeviceSync:
 
             # In a real implementation, this would send via WebRTC data channel
             # For now, just use the regular sync mechanism
-            result = self.device_manager.sync_token_to_device(
-                token_data["token"],
-                target_device,
-                user_id
-            )
+            result = self.device_manager.sync_token_to_device(token_data["token"], target_device, user_id)
 
             return result["success"]
 
@@ -668,8 +654,4 @@ class WebRTCDeviceSync:
 
 
 # Export main classes
-__all__ = [
-    "CrossDeviceTokenManager",
-    "DeviceTrustScore",
-    "WebRTCDeviceSync"
-]
+__all__ = ["CrossDeviceTokenManager", "DeviceTrustScore", "WebRTCDeviceSync"]

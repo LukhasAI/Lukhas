@@ -15,7 +15,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class PluginStatus(Enum):
@@ -86,8 +86,8 @@ class LukhasPlugin(ABC):
         self.manifest = manifest
         self.status = PluginStatus.UNINITIALIZED
         self.config: dict[str, Any] = {}
-        self.health_status = HealthStatus(is_healthy=False, last_check=datetime.now())
-        self._start_time = datetime.now()
+        self.health_status = HealthStatus(is_healthy=False, last_check=datetime.now(timezone.utc))
+        self._start_time = datetime.now(timezone.utc)
         self._error_handlers: list[Callable] = []
         self._event_listeners: dict[str, list[Callable]] = {}
 
@@ -180,7 +180,7 @@ class LukhasPlugin(ABC):
 
     def get_uptime(self) -> float:
         """Get plugin uptime in seconds"""
-        return (datetime.now() - self._start_time).total_seconds()
+        return (datetime.now(timezone.utc) - self._start_time).total_seconds()
 
 
 class PluginSystem:

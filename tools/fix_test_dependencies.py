@@ -28,6 +28,7 @@ def fix_urllib3_compatibility():
     """Fix urllib3 OpenSSL compatibility issues"""
     try:
         import urllib3
+
         version = urllib3.__version__
         if version.startswith("2."):
             print("⚠️ urllib3 v2 detected, downgrading for LibreSSL compatibility...")
@@ -72,7 +73,11 @@ class RiskSeverity(str, Enum):
             # Fallback: add after imports
             import_end = content.find("\n\n\nclass")
             if import_end > 0:
-                content = content[:import_end] + '\n\nclass RiskSeverity(str, Enum):\n    """Risk assessment severity levels"""\n    \n    LOW = "low"\n    MODERATE = "moderate" \n    HIGH = "high"\n    CRITICAL = "critical"\n' + content[import_end:]
+                content = (
+                    content[:import_end]
+                    + '\n\nclass RiskSeverity(str, Enum):\n    """Risk assessment severity levels"""\n    \n    LOW = "low"\n    MODERATE = "moderate" \n    HIGH = "high"\n    CRITICAL = "critical"\n'
+                    + content[import_end:]
+                )
 
     # Check if RiskGauge already exists
     if "class RiskGauge" not in content:
@@ -105,7 +110,9 @@ class RiskGauge(BaseModel):
 
         # Find a good insertion point (after RiskProfile or before PhenomenalScene)
         if "class PhenomenalScene(BaseModel):" in content:
-            content = content.replace("class PhenomenalScene(BaseModel):", risk_gauge_class + "\n\n\nclass PhenomenalScene(BaseModel):")
+            content = content.replace(
+                "class PhenomenalScene(BaseModel):", risk_gauge_class + "\n\n\nclass PhenomenalScene(BaseModel):"
+            )
         else:
             # Fallback: add at end of file
             content = content + risk_gauge_class
@@ -128,8 +135,7 @@ def fix_import_paths():
         if "from memory_noop import NoopMemory" in content:
             print("📝 Fixing memory_noop import in test_c5_observability.py...")
             content = content.replace(
-                "from memory_noop import NoopMemory",
-                "from candidate.aka_qualia.memory_noop import NoopMemory"
+                "from memory_noop import NoopMemory", "from candidate.aka_qualia.memory_noop import NoopMemory"
             )
             obs_test_file.write_text(content)
             print("✅ Fixed memory_noop import")

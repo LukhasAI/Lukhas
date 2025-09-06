@@ -16,8 +16,7 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Classical Dream API",
     description="Safe, deterministic dream exploration without quantum effects",
-    version="1.0.0",
-)
+    version="1.0.0")
 
 
 class ClassicalDreamScenario(BaseModel):
@@ -105,7 +104,7 @@ class ClassicalDreamEngine:
 
         return ClassicalDreamResponse(
             session_id=session_id,
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             original_scenario=scenario.scenario,
             branches=branches,
             convergence_metric=convergence,
@@ -116,7 +115,7 @@ class ClassicalDreamEngine:
 
     def _generate_session_id(self, scenario: str) -> str:
         """Generate deterministic session ID"""
-        hash_input = f"{scenario}_{datetime.now().strftime('%Y%m%d_%H%M')}"
+        hash_input = f"{scenario}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M')}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:12]
 
     def _create_decision_tree(self, scenario: ClassicalDreamScenario) -> DecisionNode:

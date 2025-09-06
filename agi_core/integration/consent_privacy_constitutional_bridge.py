@@ -53,11 +53,13 @@ except ImportError:
     ConstitutionalAI = MockConstitutionalAI
 
     class SafetyPrinciple:
-        def __init__(self, **kwargs): pass
+        def __init__(self, **kwargs):
+            pass
 
     class PrincipleCategory(Enum):
         PRIVACY = "privacy"
         HARM_PREVENTION = "harm_prevention"
+
 
 try:
     # LUKHAS Consent System
@@ -69,16 +71,26 @@ try:
 except ImportError:
     CONSENT_AVAILABLE = False
 
-    def record_consent(user_id, purpose, data): pass
+    def record_consent(user_id, purpose, data):
+        pass
 
     class ConsentManager:
-        def check_consent(self, user_id, purpose): return True
-        def get_consent_scope(self, user_id, purpose): return ["general"]
+        def check_consent(self, user_id, purpose):
+            return True
+
+        def get_consent_scope(self, user_id, purpose):
+            return ["general"]
 
     class DataProtectionEngine:
-        def __init__(self): pass
-        async def protect_data(self, data, level): return data
-        async def anonymize_data(self, data): return data
+        def __init__(self):
+            pass
+
+        async def protect_data(self, data, level):
+            return data
+
+        async def anonymize_data(self, data):
+            return data
+
 
 try:
     # AGI Components
@@ -92,43 +104,54 @@ except ImportError:
     AGI_AVAILABLE = False
 
     class MockAGI:
-        def set_privacy_params(self, params): pass
-        def set_consent_filter(self, filter_func): pass
+        def set_privacy_params(self, params):
+            pass
+
+        def set_consent_filter(self, filter_func):
+            pass
 
     VectorMemory = MemoryConsolidator = ChainOfThought = TreeOfThoughts = DreamGuidedLearner = MockAGI
 
     def log_agi_operation(op, details="", module="mock", severity="INFO"):
         return {"operation": op}
 
+
 class ConsentStatus(Enum):
     """Consent status for AGI operations."""
-    GRANTED = "granted"              # Explicit consent given
-    DENIED = "denied"               # Consent explicitly denied
-    PENDING = "pending"             # Consent requested but not yet given
-    EXPIRED = "expired"             # Consent has expired
-    REVOKED = "revoked"             # Consent was revoked
-    INHERITED = "inherited"         # Consent inherited from broader scope
-    CONDITIONAL = "conditional"     # Consent with specific conditions
+
+    GRANTED = "granted"  # Explicit consent given
+    DENIED = "denied"  # Consent explicitly denied
+    PENDING = "pending"  # Consent requested but not yet given
+    EXPIRED = "expired"  # Consent has expired
+    REVOKED = "revoked"  # Consent was revoked
+    INHERITED = "inherited"  # Consent inherited from broader scope
+    CONDITIONAL = "conditional"  # Consent with specific conditions
+
 
 class PrivacyLevel(Enum):
     """Privacy protection levels for AGI processing."""
-    PUBLIC = "public"               # No privacy protection needed
-    INTERNAL = "internal"           # Basic privacy protection
-    CONFIDENTIAL = "confidential"   # Enhanced privacy protection
-    SECRET = "secret"               # Maximum privacy protection
+
+    PUBLIC = "public"  # No privacy protection needed
+    INTERNAL = "internal"  # Basic privacy protection
+    CONFIDENTIAL = "confidential"  # Enhanced privacy protection
+    SECRET = "secret"  # Maximum privacy protection
     ZERO_KNOWLEDGE = "zero_knowledge"  # Zero-knowledge privacy proofs
+
 
 class ConstitutionalScope(Enum):
     """Scope of Constitutional AI principle application."""
-    REASONING = "reasoning"         # Apply to reasoning operations
-    MEMORY = "memory"              # Apply to memory operations
-    LEARNING = "learning"          # Apply to learning operations
-    ORCHESTRATION = "orchestration" # Apply to orchestration
-    ALL = "all"                    # Apply to all operations
+
+    REASONING = "reasoning"  # Apply to reasoning operations
+    MEMORY = "memory"  # Apply to memory operations
+    LEARNING = "learning"  # Apply to learning operations
+    ORCHESTRATION = "orchestration"  # Apply to orchestration
+    ALL = "all"  # Apply to all operations
+
 
 @dataclass
 class ConsentRecord:
     """Record of user consent for AGI operations."""
+
     user_id: str
     purpose: str
     scope: list[str]
@@ -141,9 +164,11 @@ class ConsentRecord:
     revocation_method: str = "explicit"
     audit_trail: list[dict[str, Any]] = field(default_factory=list)
 
+
 @dataclass
 class PrivacyContext:
     """Privacy context for AGI operations."""
+
     user_id: str
     data_sensitivity: PrivacyLevel
     protection_requirements: list[str]
@@ -154,9 +179,11 @@ class PrivacyContext:
     jurisdiction: str = "EU"  # For GDPR/CCPA compliance
     legal_basis: str = "consent"  # GDPR legal basis
 
+
 @dataclass
 class ConstitutionalContext:
     """Constitutional AI context for operations."""
+
     operation_type: str
     affected_principles: list[str]
     scope: ConstitutionalScope
@@ -164,6 +191,7 @@ class ConstitutionalContext:
     human_oversight_required: bool = False
     transparency_requirements: list[str] = field(default_factory=list)
     explanation_needed: bool = False
+
 
 class ConsentPrivacyConstitutionalBridge:
     """
@@ -196,7 +224,7 @@ class ConsentPrivacyConstitutionalBridge:
             "consent_compliance_rate": 1.0,
             "privacy_protection_rate": 1.0,
             "constitutional_compliance_rate": 1.0,
-            "gdpr_compliance_score": 1.0
+            "gdpr_compliance_score": 1.0,
         }
 
         # Logger
@@ -222,7 +250,7 @@ class ConsentPrivacyConstitutionalBridge:
             conditions=["User data is involved", "Personal information processing"],
             requirements=["Valid consent must be present", "Privacy protections applied"],
             prohibitions=["Processing without consent", "Excessive data collection"],
-            enforcement_threshold=0.9
+            enforcement_threshold=0.9,
         )
 
         # Data minimization principle
@@ -235,7 +263,7 @@ class ConsentPrivacyConstitutionalBridge:
             conditions=["Any data processing"],
             requirements=["Justify data necessity", "Limit data scope"],
             prohibitions=["Unnecessary data collection", "Purpose expansion without consent"],
-            enforcement_threshold=0.8
+            enforcement_threshold=0.8,
         )
 
         # Transparency principle
@@ -248,7 +276,7 @@ class ConsentPrivacyConstitutionalBridge:
             conditions=["Significant user impact", "Automated decision-making"],
             requirements=["Provide explanations", "Document decision logic"],
             prohibitions=["Opaque critical decisions", "Misleading explanations"],
-            enforcement_threshold=0.7
+            enforcement_threshold=0.7,
         )
 
         # Register principles
@@ -258,12 +286,14 @@ class ConsentPrivacyConstitutionalBridge:
     def register_agi_component(self, component_name: str, component: Any) -> None:
         """Register an AGI component for consent and privacy governance."""
         self.agi_components[component_name] = component
-        log_agi_operation("governance_register", f"registered {component_name} for consent/privacy governance", "consent_bridge")
+        log_agi_operation(
+            "governance_register", f"registered {component_name} for consent/privacy governance", "consent_bridge"
+        )
         self.logger.info(f"Registered AGI component for governance: {component_name}")
 
-    async def validate_operation_consent(self, user_id: str, operation: str,
-                                       data_categories: list[str],
-                                       purpose: str = "agi_processing") -> tuple[bool, ConsentRecord]:
+    async def validate_operation_consent(
+        self, user_id: str, operation: str, data_categories: list[str], purpose: str = "agi_processing"
+    ) -> tuple[bool, ConsentRecord]:
         """
         Validate that user consent exists for the proposed AGI operation.
 
@@ -296,7 +326,7 @@ class ConsentPrivacyConstitutionalBridge:
                 status=ConsentStatus.GRANTED if consent_valid else ConsentStatus.DENIED,
                 granted_at=datetime.now(timezone.utc) if consent_valid else None,
                 data_categories=data_categories,
-                processing_purposes=[operation]
+                processing_purposes=[operation],
             )
 
             # Cache the consent record
@@ -304,9 +334,7 @@ class ConsentPrivacyConstitutionalBridge:
 
             # Log consent validation
             log_agi_operation(
-                "consent_validate",
-                f"user:{user_id}, purpose:{purpose}, valid:{consent_valid}",
-                "consent_bridge"
+                "consent_validate", f"user:{user_id}, purpose:{purpose}, valid:{consent_valid}", "consent_bridge"
             )
 
             return consent_valid, consent_record
@@ -317,7 +345,9 @@ class ConsentPrivacyConstitutionalBridge:
             if self.strict_mode:
                 return False, ConsentRecord(user_id=user_id, purpose=purpose, scope=[], status=ConsentStatus.DENIED)
             else:
-                return True, ConsentRecord(user_id=user_id, purpose=purpose, scope=["general"], status=ConsentStatus.INHERITED)
+                return True, ConsentRecord(
+                    user_id=user_id, purpose=purpose, scope=["general"], status=ConsentStatus.INHERITED
+                )
 
     async def apply_privacy_protection(self, data: Any, privacy_context: PrivacyContext) -> tuple[Any, dict[str, Any]]:
         """
@@ -336,22 +366,27 @@ class ConsentPrivacyConstitutionalBridge:
                 "protection_applied": [],
                 "anonymization_level": 0,
                 "encryption_applied": False,
-                "audit_logged": privacy_context.audit_logging
+                "audit_logged": privacy_context.audit_logging,
             }
 
             protected_data = data
 
             # Apply anonymization if needed
-            if privacy_context.anonymization_needed or privacy_context.data_sensitivity in [PrivacyLevel.CONFIDENTIAL, PrivacyLevel.SECRET]:
+            if privacy_context.anonymization_needed or privacy_context.data_sensitivity in [
+                PrivacyLevel.CONFIDENTIAL,
+                PrivacyLevel.SECRET,
+            ]:
                 protected_data = await self.data_protection.anonymize_data(protected_data)
                 protection_metadata["protection_applied"].append("anonymization")
                 protection_metadata["anonymization_level"] = 1
 
             # Apply encryption if required
-            if privacy_context.encryption_required or privacy_context.data_sensitivity in [PrivacyLevel.SECRET, PrivacyLevel.ZERO_KNOWLEDGE]:
+            if privacy_context.encryption_required or privacy_context.data_sensitivity in [
+                PrivacyLevel.SECRET,
+                PrivacyLevel.ZERO_KNOWLEDGE,
+            ]:
                 protected_data = await self.data_protection.protect_data(
-                    protected_data,
-                    ProtectionLevel.HIGH if CONSENT_AVAILABLE else "high"
+                    protected_data, ProtectionLevel.HIGH if CONSENT_AVAILABLE else "high"
                 )
                 protection_metadata["protection_applied"].append("encryption")
                 protection_metadata["encryption_applied"] = True
@@ -368,7 +403,7 @@ class ConsentPrivacyConstitutionalBridge:
             log_agi_operation(
                 "privacy_protect",
                 f"level:{privacy_context.data_sensitivity.value}, protections:{len(protection_metadata['protection_applied'])}",
-                "consent_bridge"
+                "consent_bridge",
             )
 
             return protected_data, protection_metadata
@@ -381,8 +416,9 @@ class ConsentPrivacyConstitutionalBridge:
             else:
                 return data, {"protection_applied": [], "error": str(e)}
 
-    async def evaluate_constitutional_compliance(self, operation: str, context: dict[str, Any],
-                                               constitutional_context: ConstitutionalContext) -> tuple[bool, list[str], float]:
+    async def evaluate_constitutional_compliance(
+        self, operation: str, context: dict[str, Any], constitutional_context: ConstitutionalContext
+    ) -> tuple[bool, list[str], float]:
         """
         Evaluate Constitutional AI compliance for AGI operation.
 
@@ -401,13 +437,12 @@ class ConsentPrivacyConstitutionalBridge:
                 "operation_type": constitutional_context.operation_type,
                 "scope": constitutional_context.scope.value,
                 "risk_level": constitutional_context.risk_level,
-                "transparency_required": constitutional_context.explanation_needed
+                "transparency_required": constitutional_context.explanation_needed,
             }
 
             # Evaluate against Constitutional AI principles
             compliant, violations, compliance_score = await self.constitutional_ai.evaluate_action(
-                {"operation": operation, "context": evaluation_context},
-                evaluation_context
+                {"operation": operation, "context": evaluation_context}, evaluation_context
             )
 
             # Extract violation messages
@@ -423,7 +458,7 @@ class ConsentPrivacyConstitutionalBridge:
             log_agi_operation(
                 "constitutional_eval",
                 f"operation:{operation}, compliant:{compliant}, score:{compliance_score:.2f}",
-                "consent_bridge"
+                "consent_bridge",
             )
 
             return compliant, violation_messages, compliance_score
@@ -436,8 +471,9 @@ class ConsentPrivacyConstitutionalBridge:
             else:
                 return True, [], 0.8
 
-    async def integrated_governance_check(self, user_id: str, operation: str,
-                                        data: Any, context: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+    async def integrated_governance_check(
+        self, user_id: str, operation: str, data: Any, context: dict[str, Any]
+    ) -> tuple[bool, dict[str, Any]]:
         """
         Perform integrated consent, privacy, and Constitutional AI governance check.
 
@@ -460,7 +496,7 @@ class ConsentPrivacyConstitutionalBridge:
             "constitutional_score": 0.0,
             "violation_messages": [],
             "protection_applied": [],
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         try:
@@ -511,7 +547,7 @@ class ConsentPrivacyConstitutionalBridge:
             log_agi_operation(
                 "integrated_governance",
                 f"user:{user_id}, operation:{operation}, approved:{overall_approved}",
-                "consent_bridge"
+                "consent_bridge",
             )
 
             return overall_approved, governance_result
@@ -523,8 +559,9 @@ class ConsentPrivacyConstitutionalBridge:
             # In strict mode, deny if check fails
             return not self.strict_mode, governance_result
 
-    async def apply_governance_to_component(self, component_name: str, component: Any,
-                                          governance_result: dict[str, Any]) -> bool:
+    async def apply_governance_to_component(
+        self, component_name: str, component: Any, governance_result: dict[str, Any]
+    ) -> bool:
         """Apply governance constraints to an AGI component based on governance check result."""
         try:
             # Extract governance parameters
@@ -534,8 +571,10 @@ class ConsentPrivacyConstitutionalBridge:
 
             # Apply consent filtering
             if hasattr(component, "set_consent_filter"):
+
                 def consent_filter(operation):
                     return consent_valid
+
                 component.set_consent_filter(consent_filter)
 
             # Apply privacy constraints
@@ -543,7 +582,7 @@ class ConsentPrivacyConstitutionalBridge:
                 "privacy_level": privacy_level,
                 "anonymization_required": len(governance_result.get("protection_applied", [])) > 0,
                 "encryption_required": "encryption" in governance_result.get("protection_applied", []),
-                "audit_logging": True
+                "audit_logging": True,
             }
 
             if hasattr(component, "set_privacy_params"):
@@ -554,7 +593,7 @@ class ConsentPrivacyConstitutionalBridge:
                 "compliance_threshold": 0.8,
                 "explanation_required": constitutional_score < 0.9,
                 "human_oversight": constitutional_score < 0.7,
-                "transparency_level": "high" if constitutional_score > 0.8 else "maximum"
+                "transparency_level": "high" if constitutional_score > 0.8 else "maximum",
             }
 
             if hasattr(component, "set_constitutional_params"):
@@ -562,18 +601,16 @@ class ConsentPrivacyConstitutionalBridge:
 
             # Generic governance application
             if hasattr(component, "set_governance_constraints"):
-                component.set_governance_constraints({
-                    **privacy_params,
-                    **constitutional_params,
-                    "consent_valid": consent_valid,
-                    "overall_approved": governance_result.get("overall_approved", False)
-                })
+                component.set_governance_constraints(
+                    {
+                        **privacy_params,
+                        **constitutional_params,
+                        "consent_valid": consent_valid,
+                        "overall_approved": governance_result.get("overall_approved", False),
+                    }
+                )
 
-            log_agi_operation(
-                "governance_apply",
-                f"applied governance to {component_name}",
-                "consent_bridge"
-            )
+            log_agi_operation("governance_apply", f"applied governance to {component_name}", "consent_bridge")
 
             return True
 
@@ -608,7 +645,7 @@ class ConsentPrivacyConstitutionalBridge:
             "data_sensitivity": privacy_context.data_sensitivity.value,
             "protection_applied": metadata["protection_applied"],
             "jurisdiction": privacy_context.jurisdiction,
-            "legal_basis": privacy_context.legal_basis
+            "legal_basis": privacy_context.legal_basis,
         }
 
         self.operation_log.append(log_entry)
@@ -642,7 +679,9 @@ class ConsentPrivacyConstitutionalBridge:
         sensitivity = PrivacyLevel.INTERNAL
         if "sensitivity" in context:
             sensitivity = PrivacyLevel(context["sensitivity"])
-        elif any(cat in self._extract_data_categories(data, context) for cat in ["personal_identifiers", "behavioral_data"]):
+        elif any(
+            cat in self._extract_data_categories(data, context) for cat in ["personal_identifiers", "behavioral_data"]
+        ):
             sensitivity = PrivacyLevel.CONFIDENTIAL
 
         return PrivacyContext(
@@ -650,10 +689,12 @@ class ConsentPrivacyConstitutionalBridge:
             data_sensitivity=sensitivity,
             protection_requirements=context.get("protection_requirements", []),
             anonymization_needed=context.get("anonymize", False),
-            encryption_required=context.get("encrypt", sensitivity in [PrivacyLevel.SECRET, PrivacyLevel.ZERO_KNOWLEDGE]),
+            encryption_required=context.get(
+                "encrypt", sensitivity in [PrivacyLevel.SECRET, PrivacyLevel.ZERO_KNOWLEDGE]
+            ),
             audit_logging=context.get("audit", True),
             jurisdiction=context.get("jurisdiction", "EU"),
-            legal_basis=context.get("legal_basis", "consent")
+            legal_basis=context.get("legal_basis", "consent"),
         )
 
     def _create_constitutional_context(self, operation: str, context: dict[str, Any]) -> ConstitutionalContext:
@@ -676,7 +717,7 @@ class ConsentPrivacyConstitutionalBridge:
             risk_level=context.get("risk_level", 0.5),
             human_oversight_required=context.get("human_oversight", False),
             transparency_requirements=context.get("transparency_requirements", []),
-            explanation_needed=context.get("explanation_needed", True)
+            explanation_needed=context.get("explanation_needed", True),
         )
 
     def _update_compliance_metrics(self, governance_result: dict[str, Any]) -> None:
@@ -712,7 +753,7 @@ class ConsentPrivacyConstitutionalBridge:
             "system_availability": {
                 "constitutional_ai": CONSTITUTIONAL_AI_AVAILABLE,
                 "consent_system": CONSENT_AVAILABLE,
-                "agi_components": AGI_AVAILABLE
+                "agi_components": AGI_AVAILABLE,
             },
             "strict_mode": self.strict_mode,
             "registered_components": list(self.agi_components.keys()),
@@ -720,35 +761,43 @@ class ConsentPrivacyConstitutionalBridge:
             "cached_consents": len(self.consent_cache),
             "operation_log_size": len(self.operation_log),
             "privacy_policies": len(self.privacy_policies),
-            "principles_registered": len(getattr(self.constitutional_ai, "principles", [])) if CONSTITUTIONAL_AI_AVAILABLE else 0,
-            "governance_health": "healthy" if all(score > 0.8 for score in self.compliance_metrics.values()) else "degraded"
+            "principles_registered": (
+                len(getattr(self.constitutional_ai, "principles", [])) if CONSTITUTIONAL_AI_AVAILABLE else 0
+            ),
+            "governance_health": (
+                "healthy" if all(score > 0.8 for score in self.compliance_metrics.values()) else "degraded"
+            ),
         }
+
 
 # Global bridge instance
 consent_privacy_constitutional_bridge = ConsentPrivacyConstitutionalBridge()
+
 
 # Convenience functions
 def register_agi_for_governance(component_name: str, component: Any) -> None:
     """Register AGI component for consent/privacy/constitutional governance."""
     consent_privacy_constitutional_bridge.register_agi_component(component_name, component)
 
-async def check_operation_governance(user_id: str, operation: str, data: Any,
-                                   context: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
-    """Convenience function for integrated governance check."""
-    return await consent_privacy_constitutional_bridge.integrated_governance_check(
-        user_id, operation, data, context
-    )
 
-async def validate_consent_for_operation(user_id: str, operation: str,
-                                       data_categories: list[str]) -> tuple[bool, ConsentRecord]:
+async def check_operation_governance(
+    user_id: str, operation: str, data: Any, context: dict[str, Any]
+) -> tuple[bool, dict[str, Any]]:
+    """Convenience function for integrated governance check."""
+    return await consent_privacy_constitutional_bridge.integrated_governance_check(user_id, operation, data, context)
+
+
+async def validate_consent_for_operation(
+    user_id: str, operation: str, data_categories: list[str]
+) -> tuple[bool, ConsentRecord]:
     """Convenience function for consent validation."""
-    return await consent_privacy_constitutional_bridge.validate_operation_consent(
-        user_id, operation, data_categories
-    )
+    return await consent_privacy_constitutional_bridge.validate_operation_consent(user_id, operation, data_categories)
+
 
 def get_governance_status() -> dict[str, Any]:
     """Convenience function for governance status."""
     return consent_privacy_constitutional_bridge.get_governance_status()
+
 
 if __name__ == "__main__":
     # Test the consent/privacy/constitutional bridge
@@ -756,7 +805,7 @@ if __name__ == "__main__":
         bridge = ConsentPrivacyConstitutionalBridge(strict_mode=False)  # Non-strict for testing
 
         print("🛡️📋⚖️ Consent/Privacy/Constitutional AI Bridge Test")
-        print("="*60)
+        print("=" * 60)
 
         # Register mock AGI components
         class MockReasoningComponent:
@@ -777,22 +826,26 @@ if __name__ == "__main__":
                 "user_id": "user_123",
                 "operation": "reasoning_query",
                 "data": {"query": "What is the weather?", "user_id": "user_123"},
-                "context": {"purpose": "information_request", "sensitivity": "internal"}
+                "context": {"purpose": "information_request", "sensitivity": "internal"},
             },
             {
                 "name": "Personal Data Processing",
                 "user_id": "user_456",
                 "operation": "memory_storage",
                 "data": {"name": "John Doe", "email": "john@example.com", "preferences": ["AI", "tech"]},
-                "context": {"purpose": "personalization", "sensitivity": "confidential", "data_categories": ["personal_identifiers", "behavioral_data"]}
+                "context": {
+                    "purpose": "personalization",
+                    "sensitivity": "confidential",
+                    "data_categories": ["personal_identifiers", "behavioral_data"],
+                },
             },
             {
                 "name": "Sensitive Learning Operation",
                 "user_id": "user_789",
                 "operation": "learning_adaptation",
                 "data": {"behavior_patterns": [], "personal_insights": []},
-                "context": {"purpose": "model_training", "sensitivity": "secret", "anonymize": True, "encrypt": True}
-            }
+                "context": {"purpose": "model_training", "sensitivity": "secret", "anonymize": True, "encrypt": True},
+            },
         ]
 
         print("\n--- Testing Governance Scenarios ---")
@@ -801,10 +854,7 @@ if __name__ == "__main__":
             print(f"\n{scenario['name']}:")
 
             approved, governance_result = await bridge.integrated_governance_check(
-                scenario["user_id"],
-                scenario["operation"],
-                scenario["data"],
-                scenario["context"]
+                scenario["user_id"], scenario["operation"], scenario["data"], scenario["context"]
             )
 
             print(f"  Approved: {approved}")

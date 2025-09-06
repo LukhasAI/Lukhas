@@ -1157,7 +1157,9 @@ class HyperspaceDreamSimulator:
                 }
                 for tid, t in scenario.timelines.items()
                 if t.decisions or t.outcomes
-            ][-5:],  # Last 5 activities
+            ][
+                -5:
+            ],  # Last 5 activities
         }
 
     def get_system_status(self) -> dict[str, Any]:

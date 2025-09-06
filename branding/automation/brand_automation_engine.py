@@ -533,9 +533,11 @@ class BrandAutomationEngine:
             "engine_status": "active",
             "total_tasks": len(self.automation_tasks),
             "enabled_tasks": len([t for t in self.automation_tasks if t.enabled]),
-            "average_success_rate": sum(t.success_rate for t in self.automation_tasks) / len(self.automation_tasks)
-            if self.automation_tasks
-            else 0,
+            "average_success_rate": (
+                sum(t.success_rate for t in self.automation_tasks) / len(self.automation_tasks)
+                if self.automation_tasks
+                else 0
+            ),
             "tasks": [
                 {
                     "task_id": t.task_id,

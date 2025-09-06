@@ -35,7 +35,7 @@ class TestCapabilityMatrix:
         requirements = TaskRequirements(
             task_type=TaskType.REASONING,
             required_capabilities={CapabilityDimension.REASONING: 0.8},
-            preferred_capabilities={CapabilityDimension.REASONING: 0.9}
+            preferred_capabilities={CapabilityDimension.REASONING: 0.9},
         )
 
         score = matrix.calculate_model_score("claude-3-5-sonnet", requirements)
@@ -49,7 +49,7 @@ class TestCapabilityMatrix:
         requirements = TaskRequirements(
             task_type=TaskType.CREATIVE,
             required_capabilities={CapabilityDimension.CREATIVITY: 0.7},
-            preferred_capabilities={CapabilityDimension.CREATIVITY: 0.85}
+            preferred_capabilities={CapabilityDimension.CREATIVITY: 0.85},
         )
 
         rankings = matrix.rank_models(requirements)
@@ -66,7 +66,7 @@ class TestCapabilityMatrix:
             task_type=TaskType.REASONING,
             required_capabilities={CapabilityDimension.REASONING: 0.7},
             preferred_capabilities={CapabilityDimension.REASONING: 0.8},
-            constellation_context={"DREAM": 0.9, "ETHICS": 0.8}  # Dream-focused ethical reasoning
+            constellation_context={"DREAM": 0.9, "ETHICS": 0.8},  # Dream-focused ethical reasoning
         )
 
         score = matrix.calculate_model_score("claude-3-5-sonnet", requirements)
@@ -119,10 +119,7 @@ class TestCostOptimizer:
         """Test cost constraint validation."""
         optimizer = CostOptimizer()
 
-        constraints = CostConstraints(
-            max_cost_per_request=0.01,
-            max_cost_per_hour=1.0
-        )
+        constraints = CostConstraints(max_cost_per_request=0.01, max_cost_per_hour=1.0)
 
         # Should pass for reasonable cost
         assert optimizer.check_cost_constraints(0.005, constraints) is True
@@ -134,16 +131,9 @@ class TestCostOptimizer:
         """Test optimized model selection."""
         optimizer = CostOptimizer()
 
-        candidate_models = [
-            ("gpt-4-turbo", 0.90),
-            ("claude-3-5-sonnet", 0.92),
-            ("gpt-3.5-turbo", 0.75)
-        ]
+        candidate_models = [("gpt-4-turbo", 0.90), ("claude-3-5-sonnet", 0.92), ("gpt-3.5-turbo", 0.75)]
 
-        constraints = CostConstraints(
-            strategy=OptimizationStrategy.BALANCE_COST_QUALITY,
-            quality_threshold=0.7
-        )
+        constraints = CostConstraints(strategy=OptimizationStrategy.BALANCE_COST_QUALITY, quality_threshold=0.7)
 
         optimized = optimizer.optimize_model_selection(candidate_models, constraints)
 
@@ -200,10 +190,7 @@ class TestModelRouter:
     async def test_routing_decision_logic(self, router):
         """Test routing decision logic."""
         request = RoutingRequest(
-            content="Explain quantum mechanics",
-            task_type=TaskType.SCIENTIFIC,
-            priority=1.0,
-            max_cost_per_request=0.05
+            content="Explain quantum mechanics", task_type=TaskType.SCIENTIFIC, priority=1.0, max_cost_per_request=0.05
         )
 
         # Mock the model clients to avoid real API calls
@@ -214,7 +201,7 @@ class TestModelRouter:
                 latency_ms=2000,
                 cost=0.018,
                 quality_score=0.92,
-                metadata={}
+                metadata={},
             )
 
             decision, response = await router.route_request(request)
@@ -226,22 +213,23 @@ class TestModelRouter:
     @pytest.mark.asyncio
     async def test_fallback_mechanism(self, router):
         """Test fallback to alternative models on failure."""
-        request = RoutingRequest(
-            content="Simple task",
-            task_type=TaskType.CONVERSATIONAL
-        )
+        request = RoutingRequest(content="Simple task", task_type=TaskType.CONVERSATIONAL)
 
-        with patch.object(router, "_call_model", side_effect=[
-            Exception("API error"),  # First model fails
-            ModelResponse(  # Fallback succeeds
-                content="Response from fallback",
-                model_used="gpt-3.5-turbo",
-                latency_ms=800,
-                cost=0.002,
-                quality_score=0.75,
-                metadata={}
-            )
-        ]) as mock_call:
+        with patch.object(
+            router,
+            "_call_model",
+            side_effect=[
+                Exception("API error"),  # First model fails
+                ModelResponse(  # Fallback succeeds
+                    content="Response from fallback",
+                    model_used="gpt-3.5-turbo",
+                    latency_ms=800,
+                    cost=0.002,
+                    quality_score=0.75,
+                    metadata={},
+                ),
+            ],
+        ) as mock_call:
 
             decision, response = await router.route_request(request)
 
@@ -271,14 +259,14 @@ class TestConsensusEngine:
         mock_responses = [
             ModelResponse("Answer A", "gpt-4-turbo", 2000, 0.03, 0.85, {}),
             ModelResponse("Answer A", "claude-3-5-sonnet", 2500, 0.018, 0.90, {}),
-            ModelResponse("Answer B", "gemini-1.5-pro", 1800, 0.015, 0.82, {})
+            ModelResponse("Answer B", "gemini-1.5-pro", 1800, 0.015, 0.82, {}),
         ]
 
         with patch.object(engine.model_router, "route_request", side_effect=mock_responses):
             result = await engine.reach_consensus(
                 question="Test question",
                 models=["gpt-4-turbo", "claude-3-5-sonnet", "gemini-1.5-pro"],
-                method=ConsensusMethod.MAJORITY_VOTE
+                method=ConsensusMethod.MAJORITY_VOTE,
             )
 
             assert isinstance(result, ConsensusResult)
@@ -291,14 +279,14 @@ class TestConsensusEngine:
         """Test weighted consensus by model quality."""
         mock_responses = [
             ModelResponse("High quality answer", "claude-3-5-sonnet", 2500, 0.018, 0.95, {}),
-            ModelResponse("Lower quality answer", "gpt-3.5-turbo", 800, 0.002, 0.70, {})
+            ModelResponse("Lower quality answer", "gpt-3.5-turbo", 800, 0.002, 0.70, {}),
         ]
 
         with patch.object(engine.model_router, "route_request", side_effect=mock_responses):
             result = await engine.reach_consensus(
                 question="Test question",
                 models=["claude-3-5-sonnet", "gpt-3.5-turbo"],
-                method=ConsensusMethod.WEIGHTED_QUALITY
+                method=ConsensusMethod.WEIGHTED_QUALITY,
             )
 
             assert result.consensus_reached is True
@@ -312,19 +300,19 @@ class TestConsensusEngine:
             mock_dream.return_value.generate_insight.return_value = Mock(
                 content="Dream insight: The answer involves quantum principles",
                 confidence=0.85,
-                insight_type="SYNTHESIS"
+                insight_type="SYNTHESIS",
             )
 
             mock_responses = [
                 ModelResponse("Quantum answer", "gpt-4-turbo", 2000, 0.03, 0.88, {}),
-                ModelResponse("Classical answer", "claude-3-5-sonnet", 2500, 0.018, 0.85, {})
+                ModelResponse("Classical answer", "claude-3-5-sonnet", 2500, 0.018, 0.85, {}),
             ]
 
             with patch.object(engine.model_router, "route_request", side_effect=mock_responses):
                 result = await engine.reach_consensus(
                     question="Physics question",
                     models=["gpt-4-turbo", "claude-3-5-sonnet"],
-                    method=ConsensusMethod.DREAM_SYNTHESIS
+                    method=ConsensusMethod.DREAM_SYNTHESIS,
                 )
 
                 assert result.consensus_reached is True
@@ -338,7 +326,7 @@ class TestConsensusEngine:
         mock_responses = [
             ModelResponse("Answer A", "gpt-4-turbo", 2000, 0.03, 0.80, {}),
             ModelResponse("Answer B", "claude-3-5-sonnet", 2500, 0.018, 0.80, {}),
-            ModelResponse("Answer C", "gemini-1.5-pro", 1800, 0.015, 0.80, {})
+            ModelResponse("Answer C", "gemini-1.5-pro", 1800, 0.015, 0.80, {}),
         ]
 
         with patch.object(engine.model_router, "route_request", side_effect=mock_responses):
@@ -346,7 +334,7 @@ class TestConsensusEngine:
                 question="Ambiguous question",
                 models=["gpt-4-turbo", "claude-3-5-sonnet", "gemini-1.5-pro"],
                 consensus_threshold=0.8,  # High threshold
-                method=ConsensusMethod.MAJORITY_VOTE
+                method=ConsensusMethod.MAJORITY_VOTE,
             )
 
             assert result.consensus_reached is False
@@ -370,7 +358,7 @@ class TestIntegratedOrchestration:
             latency_ms=2200,
             cost=0.018,
             quality_score=0.92,
-            metadata={"orchestration": "integrated"}
+            metadata={"orchestration": "integrated"},
         )
 
         with patch.object(router, "_call_model", return_value=mock_response):
@@ -378,7 +366,7 @@ class TestIntegratedOrchestration:
             request = RoutingRequest(
                 content="Complex AGI reasoning task",
                 task_type=TaskType.REASONING,
-                constellation_context={"DREAM": 0.8, "GUARDIAN": 0.9}
+                constellation_context={"DREAM": 0.8, "GUARDIAN": 0.9},
             )
 
             decision, response = await router.route_request(request)
@@ -389,8 +377,7 @@ class TestIntegratedOrchestration:
             # Test consensus for critical decisions
             with patch.object(consensus_engine.model_router, "route_request", return_value=(decision, response)):
                 consensus_result = await consensus_engine.reach_consensus(
-                    question="Critical AGI decision",
-                    models=["claude-3-5-sonnet", "gpt-4-turbo"]
+                    question="Critical AGI decision", models=["claude-3-5-sonnet", "gpt-4-turbo"]
                 )
 
                 assert consensus_result.consensus_reached is True
@@ -403,11 +390,11 @@ class TestIntegratedOrchestration:
 
         # Test capability matrix performance
         requirements = TaskRequirements(
-            task_type=TaskType.REASONING,
-            required_capabilities={CapabilityDimension.REASONING: 0.8}
+            task_type=TaskType.REASONING, required_capabilities={CapabilityDimension.REASONING: 0.8}
         )
 
         import time
+
         start_time = time.time()
         rankings = matrix.rank_models(requirements)
         matrix_time = time.time() - start_time

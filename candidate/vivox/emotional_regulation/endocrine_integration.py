@@ -118,9 +118,7 @@ class VIVOXEndocrineIntegration:
                     HormoneType.CORTISOL: 0.8,
                     HormoneType.ADRENALINE: 0.6,
                 },
-                modulating_hormones={
-                    HormoneType.GABA: -0.3  # Reduced inhibitory response
-                },
+                modulating_hormones={HormoneType.GABA: -0.3},  # Reduced inhibitory response
                 duration_minutes=45.0,
             ),
             "joy_happiness": EmotionalHormoneMapping(

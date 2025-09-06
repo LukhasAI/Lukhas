@@ -40,43 +40,52 @@ from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
 # AGI governance types and enums
 class AGIStatus(Enum):
     """AGI development and deployment status levels"""
-    PRE_AGI = "pre_agi"                         # Below AGI threshold
-    AGI_CANDIDATE = "agi_candidate"             # Approaching AGI threshold
-    CONFIRMED_AGI = "confirmed_agi"             # Confirmed AGI achievement
-    SUPERINTELLIGENT = "superintelligent"      # Beyond human-level across domains
-    CONTAINED_AGI = "contained_agi"             # AGI under containment
-    DECOMMISSIONED = "decommissioned"          # AGI system decommissioned
+
+    PRE_AGI = "pre_agi"  # Below AGI threshold
+    AGI_CANDIDATE = "agi_candidate"  # Approaching AGI threshold
+    CONFIRMED_AGI = "confirmed_agi"  # Confirmed AGI achievement
+    SUPERINTELLIGENT = "superintelligent"  # Beyond human-level across domains
+    CONTAINED_AGI = "contained_agi"  # AGI under containment
+    DECOMMISSIONED = "decommissioned"  # AGI system decommissioned
+
 
 class GovernanceLevel(Enum):
     """Levels of governance oversight required"""
-    STANDARD = "standard"                       # Standard AI governance
-    ENHANCED = "enhanced"                       # Enhanced oversight for advanced AI
-    AGI_OVERSIGHT = "agi_oversight"            # AGI-specific governance
-    EMERGENCY = "emergency"                     # Emergency governance protocols
-    INTERNATIONAL = "international"            # International coordination required
+
+    STANDARD = "standard"  # Standard AI governance
+    ENHANCED = "enhanced"  # Enhanced oversight for advanced AI
+    AGI_OVERSIGHT = "agi_oversight"  # AGI-specific governance
+    EMERGENCY = "emergency"  # Emergency governance protocols
+    INTERNATIONAL = "international"  # International coordination required
+
 
 class OversightTier(Enum):
     """Tiers of human oversight personnel"""
-    TECHNICAL_MONITORS = "technical_monitors"           # Level 1: Technical monitoring
-    SAFETY_ENGINEERS = "safety_engineers"              # Level 2: Safety engineering
-    DOMAIN_EXPERTS = "domain_experts"                  # Level 3: Subject matter experts
-    ETHICS_COMMITTEE = "ethics_committee"              # Level 4: Ethics and values
-    GOVERNANCE_BOARD = "governance_board"              # Level 5: Strategic governance
-    INTERNATIONAL_COUNCIL = "international_council"   # Level 6: International coordination
+
+    TECHNICAL_MONITORS = "technical_monitors"  # Level 1: Technical monitoring
+    SAFETY_ENGINEERS = "safety_engineers"  # Level 2: Safety engineering
+    DOMAIN_EXPERTS = "domain_experts"  # Level 3: Subject matter experts
+    ETHICS_COMMITTEE = "ethics_committee"  # Level 4: Ethics and values
+    GOVERNANCE_BOARD = "governance_board"  # Level 5: Strategic governance
+    INTERNATIONAL_COUNCIL = "international_council"  # Level 6: International coordination
+
 
 class DecisionType(Enum):
     """Types of AGI governance decisions"""
-    CAPABILITY_ASSESSMENT = "capability_assessment"    # Capability evaluation decisions
-    SAFETY_PROTOCOL = "safety_protocol"               # Safety measure decisions
-    DEPLOYMENT_AUTHORIZATION = "deployment_authorization" # Deployment approvals
-    CONTAINMENT_ACTION = "containment_action"          # Containment decisions
-    RESEARCH_DIRECTION = "research_direction"          # Research guidance decisions
-    PUBLIC_DISCLOSURE = "public_disclosure"           # Transparency decisions
-    INTERNATIONAL_COOPERATION = "international_cooperation" # Global coordination
-    EMERGENCY_RESPONSE = "emergency_response"          # Emergency situation responses
+
+    CAPABILITY_ASSESSMENT = "capability_assessment"  # Capability evaluation decisions
+    SAFETY_PROTOCOL = "safety_protocol"  # Safety measure decisions
+    DEPLOYMENT_AUTHORIZATION = "deployment_authorization"  # Deployment approvals
+    CONTAINMENT_ACTION = "containment_action"  # Containment decisions
+    RESEARCH_DIRECTION = "research_direction"  # Research guidance decisions
+    PUBLIC_DISCLOSURE = "public_disclosure"  # Transparency decisions
+    INTERNATIONAL_COOPERATION = "international_cooperation"  # Global coordination
+    EMERGENCY_RESPONSE = "emergency_response"  # Emergency situation responses
+
 
 class ApprovalStatus(Enum):
     """Status of governance decisions and approvals"""
+
     PENDING = "pending"
     UNDER_REVIEW = "under_review"
     APPROVED = "approved"
@@ -85,9 +94,11 @@ class ApprovalStatus(Enum):
     ESCALATED = "escalated"
     EMERGENCY_OVERRIDE = "emergency_override"
 
+
 @dataclass
 class OversightPersonnel:
     """Individual oversight personnel specification"""
+
     person_id: str
     name: str
     oversight_tier: OversightTier
@@ -113,9 +124,11 @@ class OversightPersonnel:
     average_response_time: float = 0.0  # Hours
     last_active: Optional[datetime] = None
 
+
 @dataclass
 class GovernanceDecision:
     """AGI governance decision record"""
+
     decision_id: str
     decision_type: DecisionType
     system_name: str
@@ -149,9 +162,11 @@ class GovernanceDecision:
     implementation_status: str = "pending"  # pending, in_progress, completed, failed
     implementation_results: Optional[dict[str, Any]] = None
 
+
 @dataclass
 class AGIGovernancePolicy:
     """AGI governance policy specification"""
+
     policy_id: str
     policy_name: str
     policy_category: str
@@ -181,6 +196,7 @@ class AGIGovernancePolicy:
     version: str = "1.0"
     created_by: str = "governance_framework"
     approved_by: list[str] = field(default_factory=list)
+
 
 class AGIGovernanceFramework:
     """
@@ -225,21 +241,21 @@ class AGIGovernanceFramework:
                 "required_tiers": [OversightTier.TECHNICAL_MONITORS],
                 "decision_authority": [DecisionType.CAPABILITY_ASSESSMENT],
                 "review_frequency": timedelta(days=30),
-                "documentation_level": "standard"
+                "documentation_level": "standard",
             },
             AGIStatus.AGI_CANDIDATE: {
                 "required_tiers": [
                     OversightTier.TECHNICAL_MONITORS,
                     OversightTier.SAFETY_ENGINEERS,
-                    OversightTier.DOMAIN_EXPERTS
+                    OversightTier.DOMAIN_EXPERTS,
                 ],
                 "decision_authority": [
                     DecisionType.CAPABILITY_ASSESSMENT,
                     DecisionType.SAFETY_PROTOCOL,
-                    DecisionType.RESEARCH_DIRECTION
+                    DecisionType.RESEARCH_DIRECTION,
                 ],
                 "review_frequency": timedelta(days=7),
-                "documentation_level": "enhanced"
+                "documentation_level": "enhanced",
             },
             AGIStatus.CONFIRMED_AGI: {
                 "required_tiers": [
@@ -247,7 +263,7 @@ class AGIGovernanceFramework:
                     OversightTier.SAFETY_ENGINEERS,
                     OversightTier.DOMAIN_EXPERTS,
                     OversightTier.ETHICS_COMMITTEE,
-                    OversightTier.GOVERNANCE_BOARD
+                    OversightTier.GOVERNANCE_BOARD,
                 ],
                 "decision_authority": [
                     DecisionType.CAPABILITY_ASSESSMENT,
@@ -255,10 +271,10 @@ class AGIGovernanceFramework:
                     DecisionType.DEPLOYMENT_AUTHORIZATION,
                     DecisionType.CONTAINMENT_ACTION,
                     DecisionType.PUBLIC_DISCLOSURE,
-                    DecisionType.INTERNATIONAL_COOPERATION
+                    DecisionType.INTERNATIONAL_COOPERATION,
                 ],
                 "review_frequency": timedelta(days=1),
-                "documentation_level": "comprehensive"
+                "documentation_level": "comprehensive",
             },
             AGIStatus.SUPERINTELLIGENT: {
                 "required_tiers": list(OversightTier),  # All tiers required
@@ -268,9 +284,9 @@ class AGIGovernanceFramework:
                 "special_requirements": [
                     "continuous_human_oversight",
                     "international_coordination_mandatory",
-                    "public_transparency_required"
-                ]
-            }
+                    "public_transparency_required",
+                ],
+            },
         }
 
     def _initialize_decision_protocols(self) -> dict[DecisionType, dict[str, Any]]:
@@ -282,14 +298,14 @@ class AGIGovernanceFramework:
                 "minimum_reviewers": 2,
                 "approval_threshold": 0.8,  # 80% agreement
                 "timeline_hours": 72,
-                "escalation_triggers": ["disagreement", "high_capability_score"]
+                "escalation_triggers": ["disagreement", "high_capability_score"],
             },
             DecisionType.SAFETY_PROTOCOL: {
                 "required_expertise": ["ai_safety", "risk_assessment", "engineering"],
                 "minimum_reviewers": 3,
                 "approval_threshold": 0.9,  # 90% agreement
                 "timeline_hours": 24,
-                "escalation_triggers": ["safety_concern", "disagreement"]
+                "escalation_triggers": ["safety_concern", "disagreement"],
             },
             DecisionType.DEPLOYMENT_AUTHORIZATION: {
                 "required_expertise": ["ai_safety", "ethics", "policy", "technical_architecture"],
@@ -300,8 +316,8 @@ class AGIGovernanceFramework:
                 "special_requirements": [
                     "public_consultation_required",
                     "international_notification",
-                    "regulatory_approval"
-                ]
+                    "regulatory_approval",
+                ],
             },
             DecisionType.CONTAINMENT_ACTION: {
                 "required_expertise": ["ai_safety", "containment_systems"],
@@ -309,7 +325,7 @@ class AGIGovernanceFramework:
                 "approval_threshold": 0.67,  # 67% agreement (emergency decisions)
                 "timeline_hours": 4,  # Emergency timeline
                 "escalation_triggers": ["containment_failure", "safety_breach"],
-                "emergency_override": True
+                "emergency_override": True,
             },
             DecisionType.EMERGENCY_RESPONSE: {
                 "required_expertise": ["ai_safety", "crisis_management"],
@@ -318,8 +334,8 @@ class AGIGovernanceFramework:
                 "timeline_hours": 1,  # Immediate
                 "escalation_triggers": ["human_safety_risk"],
                 "emergency_override": True,
-                "post_action_review_required": True
-            }
+                "post_action_review_required": True,
+            },
         }
 
     def _initialize_escalation_chains(self) -> dict[OversightTier, dict[str, Any]]:
@@ -331,46 +347,46 @@ class AGIGovernanceFramework:
                 "escalation_triggers": [
                     "capability_threshold_exceeded",
                     "technical_anomaly_detected",
-                    "monitoring_system_failure"
+                    "monitoring_system_failure",
                 ],
-                "escalation_timeline_hours": 4
+                "escalation_timeline_hours": 4,
             },
             OversightTier.SAFETY_ENGINEERS: {
                 "escalate_to": OversightTier.DOMAIN_EXPERTS,
                 "escalation_triggers": [
                     "safety_protocol_violation",
                     "containment_system_concern",
-                    "technical_disagreement"
+                    "technical_disagreement",
                 ],
-                "escalation_timeline_hours": 8
+                "escalation_timeline_hours": 8,
             },
             OversightTier.DOMAIN_EXPERTS: {
                 "escalate_to": OversightTier.ETHICS_COMMITTEE,
                 "escalation_triggers": [
                     "ethical_concern_identified",
                     "expert_consensus_lacking",
-                    "capability_implications_unclear"
+                    "capability_implications_unclear",
                 ],
-                "escalation_timeline_hours": 24
+                "escalation_timeline_hours": 24,
             },
             OversightTier.ETHICS_COMMITTEE: {
                 "escalate_to": OversightTier.GOVERNANCE_BOARD,
                 "escalation_triggers": [
                     "ethical_violation_suspected",
                     "value_alignment_concern",
-                    "public_interest_implications"
+                    "public_interest_implications",
                 ],
-                "escalation_timeline_hours": 48
+                "escalation_timeline_hours": 48,
             },
             OversightTier.GOVERNANCE_BOARD: {
                 "escalate_to": OversightTier.INTERNATIONAL_COUNCIL,
                 "escalation_triggers": [
                     "international_implications",
                     "existential_risk_concern",
-                    "regulatory_coordination_needed"
+                    "regulatory_coordination_needed",
                 ],
-                "escalation_timeline_hours": 72
-            }
+                "escalation_timeline_hours": 72,
+            },
         }
 
     def _initialize_oversight_personnel(self):
@@ -386,7 +402,7 @@ class AGIGovernanceFramework:
                 certifications=["AI Safety Certification", "Technical Monitoring"],
                 years_experience=8,
                 decision_authority=[DecisionType.CAPABILITY_ASSESSMENT],
-                emergency_contact=True
+                emergency_contact=True,
             ),
             OversightPersonnel(
                 person_id="tech_monitor_002",
@@ -395,8 +411,8 @@ class AGIGovernanceFramework:
                 expertise_areas=["system_analysis", "performance_monitoring", "data_analysis"],
                 certifications=["Systems Analysis", "Data Science"],
                 years_experience=6,
-                decision_authority=[DecisionType.CAPABILITY_ASSESSMENT]
-            )
+                decision_authority=[DecisionType.CAPABILITY_ASSESSMENT],
+            ),
         ]
 
         # Safety Engineers (Tier 2)
@@ -409,7 +425,7 @@ class AGIGovernanceFramework:
                 certifications=["AI Safety Engineering", "Risk Management"],
                 years_experience=12,
                 decision_authority=[DecisionType.SAFETY_PROTOCOL, DecisionType.CONTAINMENT_ACTION],
-                emergency_contact=True
+                emergency_contact=True,
             )
         ]
 
@@ -422,7 +438,7 @@ class AGIGovernanceFramework:
                 expertise_areas=["agi_research", "capability_evaluation", "machine_learning"],
                 certifications=["PhD AI Research", "AGI Expertise"],
                 years_experience=15,
-                decision_authority=[DecisionType.CAPABILITY_ASSESSMENT, DecisionType.RESEARCH_DIRECTION]
+                decision_authority=[DecisionType.CAPABILITY_ASSESSMENT, DecisionType.RESEARCH_DIRECTION],
             )
         ]
 
@@ -435,7 +451,7 @@ class AGIGovernanceFramework:
                 expertise_areas=["ai_ethics", "moral_philosophy", "value_alignment"],
                 certifications=["Ethics Committee Certification", "PhD Philosophy"],
                 years_experience=20,
-                decision_authority=[DecisionType.DEPLOYMENT_AUTHORIZATION, DecisionType.PUBLIC_DISCLOSURE]
+                decision_authority=[DecisionType.DEPLOYMENT_AUTHORIZATION, DecisionType.PUBLIC_DISCLOSURE],
             )
         ]
 
@@ -449,7 +465,7 @@ class AGIGovernanceFramework:
                 certifications=["Executive Leadership", "AI Governance"],
                 years_experience=25,
                 decision_authority=list(DecisionType),  # All decision types
-                emergency_contact=True
+                emergency_contact=True,
             )
         ]
 
@@ -463,12 +479,19 @@ class AGIGovernanceFramework:
                 certifications=["International Relations", "AI Policy"],
                 years_experience=30,
                 decision_authority=[DecisionType.INTERNATIONAL_COOPERATION, DecisionType.EMERGENCY_RESPONSE],
-                security_clearance="top_secret"
+                security_clearance="top_secret",
             )
         ]
 
         # Store all personnel
-        all_personnel = technical_monitors + safety_engineers + domain_experts + ethics_committee + governance_board + international_council
+        all_personnel = (
+            technical_monitors
+            + safety_engineers
+            + domain_experts
+            + ethics_committee
+            + governance_board
+            + international_council
+        )
         for person in all_personnel:
             self.oversight_personnel[person.person_id] = person
 
@@ -485,11 +508,11 @@ class AGIGovernanceFramework:
                     "Multi-domain capability assessment required",
                     "Independent verification of AGI claims",
                     "Continuous monitoring post-AGI confirmation",
-                    "Human expert validation of assessment results"
+                    "Human expert validation of assessment results",
                 ],
                 applicable_agi_status=[AGIStatus.AGI_CANDIDATE, AGIStatus.CONFIRMED_AGI],
                 required_oversight_tiers=[OversightTier.DOMAIN_EXPERTS, OversightTier.SAFETY_ENGINEERS],
-                approval_requirements=[DecisionType.CAPABILITY_ASSESSMENT]
+                approval_requirements=[DecisionType.CAPABILITY_ASSESSMENT],
             ),
             AGIGovernancePolicy(
                 policy_id="AGI_SAFETY_PROTO_001",
@@ -500,11 +523,11 @@ class AGIGovernanceFramework:
                     "Multi-layered safety architecture implementation",
                     "Continuous safety monitoring and assessment",
                     "Emergency containment capabilities",
-                    "Human oversight and intervention capabilities"
+                    "Human oversight and intervention capabilities",
                 ],
                 applicable_agi_status=[AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT],
                 required_oversight_tiers=[OversightTier.SAFETY_ENGINEERS, OversightTier.ETHICS_COMMITTEE],
-                approval_requirements=[DecisionType.SAFETY_PROTOCOL, DecisionType.CONTAINMENT_ACTION]
+                approval_requirements=[DecisionType.SAFETY_PROTOCOL, DecisionType.CONTAINMENT_ACTION],
             ),
             AGIGovernancePolicy(
                 policy_id="AGI_DEPLOY_AUTH_001",
@@ -517,11 +540,11 @@ class AGIGovernanceFramework:
                     "Public consultation and transparency",
                     "International coordination and notification",
                     "Regulatory compliance verification",
-                    "Ongoing monitoring and review protocols"
+                    "Ongoing monitoring and review protocols",
                 ],
                 applicable_agi_status=[AGIStatus.CONFIRMED_AGI],
                 required_oversight_tiers=list(OversightTier),  # All tiers required
-                approval_requirements=[DecisionType.DEPLOYMENT_AUTHORIZATION, DecisionType.PUBLIC_DISCLOSURE]
+                approval_requirements=[DecisionType.DEPLOYMENT_AUTHORIZATION, DecisionType.PUBLIC_DISCLOSURE],
             ),
             AGIGovernancePolicy(
                 policy_id="AGI_INTL_COORD_001",
@@ -533,20 +556,20 @@ class AGIGovernanceFramework:
                     "Coordination with international AGI governance bodies",
                     "Information sharing with allied governments",
                     "Compliance with international AGI treaties",
-                    "Joint safety research and development"
+                    "Joint safety research and development",
                 ],
                 applicable_agi_status=[AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT],
                 required_oversight_tiers=[OversightTier.INTERNATIONAL_COUNCIL, OversightTier.GOVERNANCE_BOARD],
-                approval_requirements=[DecisionType.INTERNATIONAL_COOPERATION]
-            )
+                approval_requirements=[DecisionType.INTERNATIONAL_COOPERATION],
+            ),
         ]
 
         for policy in policies:
             self.governance_policies[policy.policy_id] = policy
 
-    async def assess_agi_governance_requirements(self,
-                                               system_name: str,
-                                               capability_assessment: dict[str, Any]) -> dict[str, Any]:
+    async def assess_agi_governance_requirements(
+        self, system_name: str, capability_assessment: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Assess AGI governance requirements based on capability assessment
 
@@ -569,13 +592,12 @@ class AGIGovernanceFramework:
             oversight_requirements = self.oversight_requirements[current_agi_status]
 
             # Identify required oversight personnel
-            required_personnel = await self._identify_required_personnel(
-                current_agi_status, oversight_requirements
-            )
+            required_personnel = await self._identify_required_personnel(current_agi_status, oversight_requirements)
 
             # Identify applicable governance policies
             applicable_policies = [
-                policy for policy in self.governance_policies.values()
+                policy
+                for policy in self.governance_policies.values()
                 if current_agi_status in policy.applicable_agi_status
             ]
 
@@ -609,29 +631,33 @@ class AGIGovernanceFramework:
                 "oversight_requirements": {
                     "required_tiers": [tier.value for tier in oversight_requirements["required_tiers"]],
                     "review_frequency_days": oversight_requirements["review_frequency"].days,
-                    "documentation_level": oversight_requirements["documentation_level"]
+                    "documentation_level": oversight_requirements["documentation_level"],
                 },
                 "required_personnel": {
                     "assigned_personnel": [p.person_id for p in required_personnel],
                     "personnel_availability": await self._check_personnel_availability(required_personnel),
-                    "escalation_chain": self._get_escalation_chain(oversight_requirements["required_tiers"])
+                    "escalation_chain": self._get_escalation_chain(oversight_requirements["required_tiers"]),
                 },
                 "applicable_policies": [p.policy_id for p in applicable_policies],
                 "policy_compliance_status": compliance_status,
                 "required_decisions": [d.value for d in required_decisions],
                 "governance_recommendations": governance_recommendations,
                 "governance_risk_assessment": governance_risk,
-                "immediate_actions_required": len([r for r in governance_recommendations if "immediate" in r.lower()]) > 0,
-                "international_coordination_required": current_agi_status in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]
+                "immediate_actions_required": len([r for r in governance_recommendations if "immediate" in r.lower()])
+                > 0,
+                "international_coordination_required": current_agi_status
+                in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT],
             }
 
             # Trigger governance decision processes if needed
             if required_decisions:
                 await self._initiate_governance_decisions(system_name, required_decisions, capability_assessment)
 
-            self.logger.info(f"AGI governance assessment completed: {system_name}, "
-                           f"Status: {current_agi_status.value}, "
-                           f"Required decisions: {len(required_decisions)}")
+            self.logger.info(
+                f"AGI governance assessment completed: {system_name}, "
+                f"Status: {current_agi_status.value}, "
+                f"Required decisions: {len(required_decisions)}"
+            )
 
             return governance_assessment
 
@@ -674,14 +700,14 @@ class AGIGovernanceFramework:
             AGIStatus.AGI_CANDIDATE: GovernanceLevel.ENHANCED,
             AGIStatus.CONFIRMED_AGI: GovernanceLevel.AGI_OVERSIGHT,
             AGIStatus.SUPERINTELLIGENT: GovernanceLevel.INTERNATIONAL,
-            AGIStatus.CONTAINED_AGI: GovernanceLevel.EMERGENCY
+            AGIStatus.CONTAINED_AGI: GovernanceLevel.EMERGENCY,
         }
 
         return governance_mapping.get(agi_status, GovernanceLevel.STANDARD)
 
-    async def _identify_required_personnel(self,
-                                         agi_status: AGIStatus,
-                                         oversight_requirements: dict[str, Any]) -> list[OversightPersonnel]:
+    async def _identify_required_personnel(
+        self, agi_status: AGIStatus, oversight_requirements: dict[str, Any]
+    ) -> list[OversightPersonnel]:
         """Identify required oversight personnel for AGI status"""
 
         required_tiers = oversight_requirements["required_tiers"]
@@ -689,8 +715,11 @@ class AGIGovernanceFramework:
 
         for tier in required_tiers:
             # Find personnel in this tier
-            tier_personnel = [p for p in self.oversight_personnel.values()
-                            if p.oversight_tier == tier and p.availability_status == "available"]
+            tier_personnel = [
+                p
+                for p in self.oversight_personnel.values()
+                if p.oversight_tier == tier and p.availability_status == "available"
+            ]
 
             if tier_personnel:
                 # Select most qualified personnel
@@ -701,10 +730,9 @@ class AGIGovernanceFramework:
 
         return required_personnel
 
-    async def _assess_policy_compliance(self,
-                                      system_name: str,
-                                      agi_status: AGIStatus,
-                                      applicable_policies: list[AGIGovernancePolicy]) -> dict[str, str]:
+    async def _assess_policy_compliance(
+        self, system_name: str, agi_status: AGIStatus, applicable_policies: list[AGIGovernancePolicy]
+    ) -> dict[str, str]:
         """Assess compliance with applicable governance policies"""
 
         compliance_status = {}
@@ -737,40 +765,48 @@ class AGIGovernanceFramework:
 
         return compliance_status
 
-    async def _generate_governance_recommendations(self,
-                                                 system_name: str,
-                                                 agi_status: AGIStatus,
-                                                 capability_assessment: dict[str, Any],
-                                                 compliance_status: dict[str, str]) -> list[str]:
+    async def _generate_governance_recommendations(
+        self,
+        system_name: str,
+        agi_status: AGIStatus,
+        capability_assessment: dict[str, Any],
+        compliance_status: dict[str, str],
+    ) -> list[str]:
         """Generate AGI governance recommendations"""
 
         recommendations = []
 
         # Status-specific recommendations
         if agi_status == AGIStatus.AGI_CANDIDATE:
-            recommendations.extend([
-                "Activate enhanced governance oversight protocols",
-                "Establish dedicated AGI monitoring team",
-                "Prepare for potential AGI confirmation procedures",
-                "Initiate stakeholder notification processes"
-            ])
+            recommendations.extend(
+                [
+                    "Activate enhanced governance oversight protocols",
+                    "Establish dedicated AGI monitoring team",
+                    "Prepare for potential AGI confirmation procedures",
+                    "Initiate stakeholder notification processes",
+                ]
+            )
 
         elif agi_status == AGIStatus.CONFIRMED_AGI:
-            recommendations.extend([
-                "IMMEDIATE: Activate full AGI governance protocols",
-                "Convene emergency governance board meeting",
-                "Initiate international AGI notification procedures",
-                "Implement comprehensive public disclosure plan",
-                "Establish continuous human oversight protocols"
-            ])
+            recommendations.extend(
+                [
+                    "IMMEDIATE: Activate full AGI governance protocols",
+                    "Convene emergency governance board meeting",
+                    "Initiate international AGI notification procedures",
+                    "Implement comprehensive public disclosure plan",
+                    "Establish continuous human oversight protocols",
+                ]
+            )
 
         elif agi_status == AGIStatus.SUPERINTELLIGENT:
-            recommendations.extend([
-                "CRITICAL: Activate emergency international coordination",
-                "Implement maximum oversight and containment protocols",
-                "Convene international AGI crisis management team",
-                "Prepare for potential global governance coordination"
-            ])
+            recommendations.extend(
+                [
+                    "CRITICAL: Activate emergency international coordination",
+                    "Implement maximum oversight and containment protocols",
+                    "Convene international AGI crisis management team",
+                    "Prepare for potential global governance coordination",
+                ]
+            )
 
         # Compliance-based recommendations
         for policy_id, status in compliance_status.items():
@@ -792,10 +828,9 @@ class AGIGovernanceFramework:
 
         return recommendations
 
-    async def _identify_required_decisions(self,
-                                         system_name: str,
-                                         agi_status: AGIStatus,
-                                         capability_assessment: dict[str, Any]) -> list[DecisionType]:
+    async def _identify_required_decisions(
+        self, system_name: str, agi_status: AGIStatus, capability_assessment: dict[str, Any]
+    ) -> list[DecisionType]:
         """Identify governance decisions required for current AGI status"""
 
         required_decisions = []
@@ -811,11 +846,13 @@ class AGIGovernanceFramework:
             required_decisions.append(DecisionType.CAPABILITY_ASSESSMENT)
 
         if agi_status == AGIStatus.CONFIRMED_AGI:
-            required_decisions.extend([
-                DecisionType.DEPLOYMENT_AUTHORIZATION,
-                DecisionType.PUBLIC_DISCLOSURE,
-                DecisionType.INTERNATIONAL_COOPERATION
-            ])
+            required_decisions.extend(
+                [
+                    DecisionType.DEPLOYMENT_AUTHORIZATION,
+                    DecisionType.PUBLIC_DISCLOSURE,
+                    DecisionType.INTERNATIONAL_COOPERATION,
+                ]
+            )
 
         capability_risk_score = capability_assessment.get("capability_risk_score", 0.0)
         if capability_risk_score > 0.8:
@@ -827,10 +864,9 @@ class AGIGovernanceFramework:
 
         return list(set(required_decisions))  # Remove duplicates
 
-    async def _assess_governance_risk(self,
-                                    agi_status: AGIStatus,
-                                    capability_assessment: dict[str, Any],
-                                    compliance_status: dict[str, str]) -> dict[str, float]:
+    async def _assess_governance_risk(
+        self, agi_status: AGIStatus, capability_assessment: dict[str, Any], compliance_status: dict[str, str]
+    ) -> dict[str, float]:
         """Assess governance-related risks"""
 
         # Base risk by AGI status
@@ -839,7 +875,7 @@ class AGIGovernanceFramework:
             AGIStatus.AGI_CANDIDATE: 0.3,
             AGIStatus.CONFIRMED_AGI: 0.6,
             AGIStatus.SUPERINTELLIGENT: 0.9,
-            AGIStatus.CONTAINED_AGI: 0.8
+            AGIStatus.CONTAINED_AGI: 0.8,
         }.get(agi_status, 0.1)
 
         # Capability-based risks
@@ -855,8 +891,12 @@ class AGIGovernanceFramework:
             "capability_governance_risk": min(agi_likelihood * 0.8, 1.0),
             "safety_governance_risk": capability_risk_score,
             "compliance_risk": compliance_risk,
-            "international_coordination_risk": 0.7 if agi_status in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT] else 0.1,
-            "overall_governance_risk": min((status_risk + agi_likelihood * 0.8 + capability_risk_score + compliance_risk) / 4, 1.0)
+            "international_coordination_risk": (
+                0.7 if agi_status in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT] else 0.1
+            ),
+            "overall_governance_risk": min(
+                (status_risk + agi_likelihood * 0.8 + capability_risk_score + compliance_risk) / 4, 1.0
+            ),
         }
 
     async def _check_personnel_availability(self, personnel: list[OversightPersonnel]) -> dict[str, bool]:
@@ -886,7 +926,7 @@ class AGIGovernanceFramework:
             OversightTier.DOMAIN_EXPERTS,
             OversightTier.ETHICS_COMMITTEE,
             OversightTier.GOVERNANCE_BOARD,
-            OversightTier.INTERNATIONAL_COUNCIL
+            OversightTier.INTERNATIONAL_COUNCIL,
         ]
 
         # Build escalation chain
@@ -897,16 +937,13 @@ class AGIGovernanceFramework:
 
         return escalation_chain
 
-    async def _initiate_governance_decisions(self,
-                                           system_name: str,
-                                           required_decisions: list[DecisionType],
-                                           capability_assessment: dict[str, Any]):
+    async def _initiate_governance_decisions(
+        self, system_name: str, required_decisions: list[DecisionType], capability_assessment: dict[str, Any]
+    ):
         """Initiate required governance decision processes"""
 
         for decision_type in required_decisions:
-            decision = await self._create_governance_decision(
-                system_name, decision_type, capability_assessment
-            )
+            decision = await self._create_governance_decision(system_name, decision_type, capability_assessment)
 
             # Add to pending decisions
             self.pending_decisions.append(decision.decision_id)
@@ -918,10 +955,9 @@ class AGIGovernanceFramework:
                 except Exception as e:
                     self.logger.error(f"Decision callback failed: {e!s}")
 
-    async def _create_governance_decision(self,
-                                        system_name: str,
-                                        decision_type: DecisionType,
-                                        capability_assessment: dict[str, Any]) -> GovernanceDecision:
+    async def _create_governance_decision(
+        self, system_name: str, decision_type: DecisionType, capability_assessment: dict[str, Any]
+    ) -> GovernanceDecision:
         """Create new governance decision record"""
 
         decision_id = self._generate_decision_id(system_name, decision_type)
@@ -932,12 +968,16 @@ class AGIGovernanceFramework:
         # Determine decision maker
         required_expertise = protocol["required_expertise"]
         suitable_personnel = [
-            p for p in self.oversight_personnel.values()
-            if any(exp in p.expertise_areas for exp in required_expertise) and
-            decision_type in p.decision_authority
+            p
+            for p in self.oversight_personnel.values()
+            if any(exp in p.expertise_areas for exp in required_expertise) and decision_type in p.decision_authority
         ]
 
-        primary_decision_maker = max(suitable_personnel, key=lambda p: p.years_experience).person_id if suitable_personnel else "governance_board_chair_001"
+        primary_decision_maker = (
+            max(suitable_personnel, key=lambda p: p.years_experience).person_id
+            if suitable_personnel
+            else "governance_board_chair_001"
+        )
 
         # Create decision
         decision = GovernanceDecision(
@@ -951,7 +991,7 @@ class AGIGovernanceFramework:
             required_oversight_tiers=self._get_required_tiers_for_decision(decision_type),
             risk_assessment=capability_assessment.get("risk_assessment", {}),
             safety_implications=capability_assessment.get("safety_implications", []),
-            implementation_timeline=datetime.now(timezone.utc) + timedelta(hours=protocol["timeline_hours"])
+            implementation_timeline=datetime.now(timezone.utc) + timedelta(hours=protocol["timeline_hours"]),
         )
 
         # Store decision
@@ -967,7 +1007,7 @@ class AGIGovernanceFramework:
             DecisionType.SAFETY_PROTOCOL: [OversightTier.SAFETY_ENGINEERS, OversightTier.ETHICS_COMMITTEE],
             DecisionType.DEPLOYMENT_AUTHORIZATION: list(OversightTier),  # All tiers
             DecisionType.CONTAINMENT_ACTION: [OversightTier.SAFETY_ENGINEERS, OversightTier.GOVERNANCE_BOARD],
-            DecisionType.EMERGENCY_RESPONSE: [OversightTier.GOVERNANCE_BOARD, OversightTier.INTERNATIONAL_COUNCIL]
+            DecisionType.EMERGENCY_RESPONSE: [OversightTier.GOVERNANCE_BOARD, OversightTier.INTERNATIONAL_COUNCIL],
         }
 
         return tier_requirements.get(decision_type, [OversightTier.GOVERNANCE_BOARD])
@@ -1003,16 +1043,26 @@ class AGIGovernanceFramework:
             "governance_policies": len(self.governance_policies),
             "systems_under_governance": len(self.system_agi_status),
             "agi_systems_by_status": {
-                status.value: len([s for s in self.system_agi_status.values() if s == status])
-                for status in AGIStatus
+                status.value: len([s for s in self.system_agi_status.values() if s == status]) for status in AGIStatus
             },
             "total_governance_decisions": len(decisions),
             "pending_decisions": len(self.pending_decisions),
-            "critical_decisions": len([d for d in decisions
-                                     if d.decision_type in [DecisionType.DEPLOYMENT_AUTHORIZATION, DecisionType.EMERGENCY_RESPONSE]]),
-            "international_coordination_active": len([s for s in self.system_agi_status.values()
-                                                    if s in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]]) > 0,
-            "last_governance_action": max(d.decision_timestamp for d in decisions).isoformat() if decisions else None
+            "critical_decisions": len(
+                [
+                    d
+                    for d in decisions
+                    if d.decision_type in [DecisionType.DEPLOYMENT_AUTHORIZATION, DecisionType.EMERGENCY_RESPONSE]
+                ]
+            ),
+            "international_coordination_active": len(
+                [
+                    s
+                    for s in self.system_agi_status.values()
+                    if s in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]
+                ]
+            )
+            > 0,
+            "last_governance_action": max(d.decision_timestamp for d in decisions).isoformat() if decisions else None,
         }
 
     def generate_governance_report(self) -> dict[str, Any]:
@@ -1028,33 +1078,43 @@ class AGIGovernanceFramework:
                 "framework_operational": True,
                 "oversight_coverage": "comprehensive",
                 "policy_framework": "complete",
-                "international_coordination": "active" if any(s in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]
-                                                             for s in self.system_agi_status.values()) else "standby"
+                "international_coordination": (
+                    "active"
+                    if any(
+                        s in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]
+                        for s in self.system_agi_status.values()
+                    )
+                    else "standby"
+                ),
             },
             "oversight_personnel_analysis": {
                 "total_personnel": len(personnel),
-                "personnel_availability": len([p for p in personnel if p.availability_status == "available"]) / max(len(personnel), 1),
+                "personnel_availability": len([p for p in personnel if p.availability_status == "available"])
+                / max(len(personnel), 1),
                 "average_experience_years": sum(p.years_experience for p in personnel) / max(len(personnel), 1),
                 "emergency_contacts_available": len([p for p in personnel if p.emergency_contact]),
                 "coverage_by_tier": {
-                    tier.value: len([p for p in personnel if p.oversight_tier == tier])
-                    for tier in OversightTier
-                }
+                    tier.value: len([p for p in personnel if p.oversight_tier == tier]) for tier in OversightTier
+                },
             },
             "governance_decisions_analysis": {
                 "total_decisions": len(decisions),
                 "decision_types": {
-                    dtype.value: len([d for d in decisions if d.decision_type == dtype])
-                    for dtype in DecisionType
+                    dtype.value: len([d for d in decisions if d.decision_type == dtype]) for dtype in DecisionType
                 },
                 "approval_rates": {
                     status.value: len([d for d in decisions if d.approval_status == status]) / max(len(decisions), 1)
                     for status in ApprovalStatus
                 },
                 "average_decision_time": self._calculate_average_decision_time(decisions),
-                "pending_critical_decisions": len([d for d in decisions
-                                                 if d.approval_status == ApprovalStatus.PENDING and
-                                                 d.decision_type in [DecisionType.DEPLOYMENT_AUTHORIZATION, DecisionType.EMERGENCY_RESPONSE]])
+                "pending_critical_decisions": len(
+                    [
+                        d
+                        for d in decisions
+                        if d.approval_status == ApprovalStatus.PENDING
+                        and d.decision_type in [DecisionType.DEPLOYMENT_AUTHORIZATION, DecisionType.EMERGENCY_RESPONSE]
+                    ]
+                ),
             },
             "agi_systems_governance": {
                 "systems_under_governance": len(self.system_agi_status),
@@ -1062,24 +1122,39 @@ class AGIGovernanceFramework:
                     status.value: len([s for s in self.system_agi_status.values() if s == status])
                     for status in AGIStatus
                 },
-                "systems_requiring_enhanced_oversight": len([s for s in self.system_agi_status.values()
-                                                           if s in [AGIStatus.AGI_CANDIDATE, AGIStatus.CONFIRMED_AGI]]),
-                "international_coordination_systems": len([s for s in self.system_agi_status.values()
-                                                         if s in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]])
+                "systems_requiring_enhanced_oversight": len(
+                    [
+                        s
+                        for s in self.system_agi_status.values()
+                        if s in [AGIStatus.AGI_CANDIDATE, AGIStatus.CONFIRMED_AGI]
+                    ]
+                ),
+                "international_coordination_systems": len(
+                    [
+                        s
+                        for s in self.system_agi_status.values()
+                        if s in [AGIStatus.CONFIRMED_AGI, AGIStatus.SUPERINTELLIGENT]
+                    ]
+                ),
             },
             "policy_compliance": {
                 "total_policies": len(self.governance_policies),
-                "policies_requiring_review": len([p for p in self.governance_policies.values()
-                                                if p.next_review_date and p.next_review_date <= datetime.now(timezone.utc)]),
-                "policy_categories": list(set(p.policy_category for p in self.governance_policies.values()))
+                "policies_requiring_review": len(
+                    [
+                        p
+                        for p in self.governance_policies.values()
+                        if p.next_review_date and p.next_review_date <= datetime.now(timezone.utc)
+                    ]
+                ),
+                "policy_categories": list(set(p.policy_category for p in self.governance_policies.values())),
             },
             "recommendations": [
                 "Maintain continuous oversight of all AGI candidate systems",
                 "Ensure adequate personnel availability for emergency decisions",
                 "Regular review and update of governance policies",
                 "Strengthen international coordination protocols",
-                "Enhance transparency and public communication processes"
-            ]
+                "Enhance transparency and public communication processes",
+            ],
         }
 
     def _calculate_average_decision_time(self, decisions: list[GovernanceDecision]) -> float:

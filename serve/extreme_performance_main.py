@@ -283,9 +283,7 @@ class ExtremePerformanceServer:
             response.headers["X-Performance-Level"] = (
                 "extreme"
                 if response_time_ms < 5.0
-                else "fast"
-                if response_time_ms < self.target_api_latency_p95
-                else "standard"
+                else "fast" if response_time_ms < self.target_api_latency_p95 else "standard"
             )
 
             # Cache successful GET responses
@@ -410,9 +408,7 @@ class ExtremePerformanceServer:
                         "performance_level": (
                             "extreme"
                             if auth_duration_ms < 10.0
-                            else "fast"
-                            if auth_duration_ms <= 25.0
-                            else "needs_optimization"
+                            else "fast" if auth_duration_ms <= 25.0 else "needs_optimization"
                         ),
                     },
                 }
@@ -470,9 +466,9 @@ class ExtremePerformanceServer:
                     "total_benchmark_time_seconds": round(benchmark_duration, 2),
                     "results": results,
                     "openai_scale_assessment": {
-                        "performance_level": "extreme"
-                        if results.get("benchmark_results", {}).get("openai_scale_target_met")
-                        else "good",
+                        "performance_level": (
+                            "extreme" if results.get("benchmark_results", {}).get("openai_scale_target_met") else "good"
+                        ),
                         "ready_for_production": results.get("benchmark_results", {}).get(
                             "openai_scale_target_met", False
                         ),

@@ -679,9 +679,7 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent interactions
         recent_interactions = [
-            i
-            for i in self.trinity_interactions
-            if (datetime.now() - i.timestamp).total_seconds() < 3600  # Last hour
+            i for i in self.trinity_interactions if (datetime.now() - i.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_interactions:
@@ -745,9 +743,7 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent authentication events
         recent_events = [
-            e
-            for e in self.authentication_events
-            if (datetime.now() - e.timestamp).total_seconds() < 3600  # Last hour
+            e for e in self.authentication_events if (datetime.now() - e.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_events:
@@ -775,9 +771,7 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent API metrics
         recent_metrics = [
-            m
-            for m in self.api_metrics
-            if (datetime.now() - m.timestamp).total_seconds() < 3600  # Last hour
+            m for m in self.api_metrics if (datetime.now() - m.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_metrics:
@@ -839,8 +833,7 @@ class TrinityFrameworkMonitor:
             [
                 m
                 for m in self.api_metrics
-                if (datetime.now() - m.timestamp).total_seconds() < 3600  # Last hour
-                and m.error_rate > 0
+                if (datetime.now() - m.timestamp).total_seconds() < 3600 and m.error_rate > 0  # Last hour
             ]
         )
 
@@ -1018,27 +1011,27 @@ class TrinityFrameworkMonitor:
             "trinity_components": {
                 "identity": {  # ⚛️
                     "health": health.identity_health,
-                    "status": "excellent"
-                    if health.identity_health > 0.9
-                    else "good"
-                    if health.identity_health > 0.7
-                    else "degraded",
+                    "status": (
+                        "excellent"
+                        if health.identity_health > 0.9
+                        else "good" if health.identity_health > 0.7 else "degraded"
+                    ),
                 },
                 "consciousness": {  # 🧠
                     "health": health.consciousness_health,
-                    "status": "excellent"
-                    if health.consciousness_health > 0.9
-                    else "good"
-                    if health.consciousness_health > 0.7
-                    else "degraded",
+                    "status": (
+                        "excellent"
+                        if health.consciousness_health > 0.9
+                        else "good" if health.consciousness_health > 0.7 else "degraded"
+                    ),
                 },
                 "guardian": {  # 🛡️
                     "health": health.guardian_health,
-                    "status": "excellent"
-                    if health.guardian_health > 0.9
-                    else "good"
-                    if health.guardian_health > 0.7
-                    else "degraded",
+                    "status": (
+                        "excellent"
+                        if health.guardian_health > 0.9
+                        else "good" if health.guardian_health > 0.7 else "degraded"
+                    ),
                 },
             },
             # Inter-component synchronization

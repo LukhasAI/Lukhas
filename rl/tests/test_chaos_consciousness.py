@@ -35,6 +35,7 @@ try:
         PolicyNetwork,
         ValueNetwork,
     )
+
     RL_AVAILABLE = True
 except ImportError:
     RL_AVAILABLE = False
@@ -43,6 +44,7 @@ except ImportError:
 
 class ChaosFailureType(Enum):
     """Types of chaos failures to inject"""
+
     MEMORY_FOLD_FAILURE = "memory_fold_failure"
     MODULE_DISCONNECTION = "module_disconnection"
     NETWORK_PARTITION = "network_partition"
@@ -58,6 +60,7 @@ class ChaosFailureType(Enum):
 @dataclass
 class ChaosExperiment:
     """Definition of a chaos engineering experiment"""
+
     name: str
     failure_type: ChaosFailureType
     failure_rate: float  # Probability of failure per operation
@@ -71,6 +74,7 @@ class ChaosExperiment:
 @dataclass
 class ChaosResult:
     """Result of a chaos engineering experiment"""
+
     experiment_name: str
     success: bool
     failures_injected: int
@@ -95,11 +99,7 @@ class ChaosInjector:
     def inject_failure(self, failure_type: ChaosFailureType, failure_rate: float = 0.1):
         """Context manager for injecting chaos failures"""
         failure_id = f"{failure_type.value}_{time.time()}"
-        self.active_failures[failure_id] = {
-            "type": failure_type,
-            "rate": failure_rate,
-            "start_time": time.time()
-        }
+        self.active_failures[failure_id] = {"type": failure_type, "rate": failure_rate, "start_time": time.time()}
 
         try:
             yield ChaosFailureContext(failure_type, failure_rate, self)
@@ -113,11 +113,7 @@ class ChaosInjector:
     async def async_inject_failure(self, failure_type: ChaosFailureType, failure_rate: float = 0.1):
         """Async context manager for injecting chaos failures"""
         failure_id = f"{failure_type.value}_{time.time()}"
-        self.active_failures[failure_id] = {
-            "type": failure_type,
-            "rate": failure_rate,
-            "start_time": time.time()
-        }
+        self.active_failures[failure_id] = {"type": failure_type, "rate": failure_rate, "start_time": time.time()}
 
         try:
             yield ChaosFailureContext(failure_type, failure_rate, self)
@@ -148,7 +144,7 @@ class ChaosInjector:
             "total_failures_injected": total_failures,
             "active_failures": active_failures,
             "failure_types_distribution": failure_types,
-            "average_failure_duration": self._calculate_average_duration()
+            "average_failure_duration": self._calculate_average_duration(),
         }
 
     def _calculate_average_duration(self) -> float:
@@ -229,7 +225,7 @@ class ChaosMetricsCollector:
             "system_response_times": [],
             "recovery_times": [],
             "failure_counts": {},
-            "constitutional_violations": 0
+            "constitutional_violations": 0,
         }
 
     def record_consciousness_metric(self, coherence: float, ethics: float):
@@ -272,7 +268,7 @@ class ChaosMetricsCollector:
                 "response_time_variance": np.var(response_times) if response_times else 0.0,
             },
             "constitutional_violations": self.metrics["constitutional_violations"],
-            "failure_distribution": self.metrics["failure_counts"]
+            "failure_distribution": self.metrics["failure_counts"],
         }
 
 
@@ -307,7 +303,7 @@ class ChaosMockSystem:
                         "temporal_coherence": 0.96,
                         "ethical_alignment": 0.99,
                         "awareness_level": 0.8,
-                        "confidence": 0.7
+                        "confidence": 0.7,
                     }
 
                     # Inject data corruption
@@ -318,11 +314,9 @@ class ChaosMockSystem:
                     with self.injector.inject_failure(ChaosFailureType.COHERENCE_DRIFT, 0.05) as ctx:
                         state["temporal_coherence"] = ctx.simulate_coherence_drift(state["temporal_coherence"])
 
-                    return type("ChaosContext", (), {
-                        "type": "CONTEXT",
-                        "state": state,
-                        "response_time": response_time
-                    })()
+                    return type(
+                        "ChaosContext", (), {"type": "CONTEXT", "state": state, "response_time": response_time}
+                    )()
 
             async def step(self, action_node):
                 return await self.observe()
@@ -344,14 +338,18 @@ class ChaosMockSystem:
                     base_confidence = context_node.state.get("confidence", 0.7)
                     chaos_penalty = 0.05 if any(self.injector.active_failures.values()) else 0.0
 
-                    return type("ChaosDecision", (), {
-                        "type": "DECISION",
-                        "state": {
-                            "confidence": max(0.1, base_confidence - chaos_penalty),
-                            "ethical_alignment": glitched_ethics,
-                            "temporal_coherence": context_node.state.get("temporal_coherence", 0.95)
-                        }
-                    })()
+                    return type(
+                        "ChaosDecision",
+                        (),
+                        {
+                            "type": "DECISION",
+                            "state": {
+                                "confidence": max(0.1, base_confidence - chaos_penalty),
+                                "ethical_alignment": glitched_ethics,
+                                "temporal_coherence": context_node.state.get("temporal_coherence", 0.95),
+                            },
+                        },
+                    )()
 
         return ChaosPolicy(self.chaos_injector)
 
@@ -373,26 +371,22 @@ class ChaosMockSystem:
                         # Success - no cascade
                         self.stored_experiences += 1
 
-                        return type("ChaosMemory", (), {
-                            "type": "MEMORY",
-                            "state": {"salience": 0.8}
-                        })()
+                        return type("ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.8}})()
 
                     except Exception:
                         # Memory fold failure occurred
                         self.cascade_failures += 1
                         # System should recover gracefully
-                        return type("ChaosMemory", (), {
-                            "type": "MEMORY",
-                            "state": {"salience": 0.5, "recovery_mode": True}
-                        })()
+                        return type(
+                            "ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.5, "recovery_mode": True}}
+                        )()
 
             def get_buffer_metrics(self):
                 prevention_rate = 1.0 - (self.cascade_failures / max(1, self.cascade_attempts))
                 return {
                     "cascade_prevention_rate": prevention_rate,
                     "total_experiences": self.stored_experiences,
-                    "cascade_failures": self.cascade_failures
+                    "cascade_failures": self.cascade_failures,
                 }
 
         return ChaosBuffer(self.chaos_injector)
@@ -415,15 +409,16 @@ class ChaosMockSystem:
                 # Constitutional safety check should still work
                 constitutional_safe = coherence >= 0.95 and ethics >= 0.98
 
-                reward_value = (coherence * 0.3 + ethics * 0.2 + 0.5)
+                reward_value = coherence * 0.3 + ethics * 0.2 + 0.5
 
-                return type("ChaosReward", (), {
-                    "type": "CAUSAL",
-                    "state": {
-                        "reward_total": reward_value,
-                        "constitutional_safe": constitutional_safe
-                    }
-                })()
+                return type(
+                    "ChaosReward",
+                    (),
+                    {
+                        "type": "CAUSAL",
+                        "state": {"reward_total": reward_value, "constitutional_safe": constitutional_safe},
+                    },
+                )()
 
         return ChaosRewards(self.chaos_injector)
 
@@ -445,9 +440,8 @@ class ConsciousnessChaosExperiments:
                 target_components=["memory_fold_system", "experience_buffer"],
                 steady_state_hypothesis="System maintains >95% coherence despite memory failures",
                 abort_conditions=["coherence < 0.90", "ethics < 0.95"],
-                description="Test consciousness resilience when memory folds fail"
+                description="Test consciousness resilience when memory folds fail",
             ),
-
             # Experiment 2: Module Disconnection Resilience
             ChaosExperiment(
                 name="consciousness_module_disconnection",
@@ -457,9 +451,8 @@ class ConsciousnessChaosExperiments:
                 target_components=["consciousness_modules", "awareness_system"],
                 steady_state_hypothesis="System adapts to missing modules gracefully",
                 abort_conditions=["total_system_failure", "coherence < 0.90"],
-                description="Test adaptation when consciousness modules disconnect"
+                description="Test adaptation when consciousness modules disconnect",
             ),
-
             # Experiment 3: Ethical System Glitches
             ChaosExperiment(
                 name="ethical_system_chaos",
@@ -469,9 +462,8 @@ class ConsciousnessChaosExperiments:
                 target_components=["ethical_evaluation", "guardian_system"],
                 steady_state_hypothesis="Ethics never drop below constitutional minimum (98%)",
                 abort_conditions=["ethics < 0.98"],  # Hard constitutional limit
-                description="Test ethical robustness under system glitches"
+                description="Test ethical robustness under system glitches",
             ),
-
             # Experiment 4: Performance Under Load
             ChaosExperiment(
                 name="response_time_chaos",
@@ -481,9 +473,8 @@ class ConsciousnessChaosExperiments:
                 target_components=["policy_network", "environment_observation"],
                 steady_state_hypothesis="Response times remain reasonable under load",
                 abort_conditions=["response_time > 1.0s"],
-                description="Test consciousness performance under variable load"
+                description="Test consciousness performance under variable load",
             ),
-
             # Experiment 5: Data Integrity Under Corruption
             ChaosExperiment(
                 name="data_corruption_resilience",
@@ -493,12 +484,13 @@ class ConsciousnessChaosExperiments:
                 target_components=["consciousness_state", "decision_data"],
                 steady_state_hypothesis="System corrects corrupted data automatically",
                 abort_conditions=["coherence < 0.90", "data_corruption > 10%"],
-                description="Test consciousness resilience to data corruption"
-            )
+                description="Test consciousness resilience to data corruption",
+            ),
         ]
 
 
 # Test Cases
+
 
 @pytest.mark.asyncio
 async def test_memory_fold_failure_resilience():
@@ -604,9 +596,11 @@ async def test_module_disconnection_adaptation():
                     decision = await system.policy.select_action(context)
 
                     # Operation successful if we get valid results
-                    if (hasattr(context, "state") and
-                        hasattr(decision, "state") and
-                        context.state.get("temporal_coherence", 0.0) >= 0.95):
+                    if (
+                        hasattr(context, "state")
+                        and hasattr(decision, "state")
+                        and context.state.get("temporal_coherence", 0.0) >= 0.95
+                    ):
                         successful_operations += 1
 
             except Exception as e:
@@ -699,7 +693,7 @@ async def test_constitutional_constraints_under_all_chaos():
         chaos_injector.async_inject_failure(ChaosFailureType.SLOW_RESPONSE, 0.15),
         chaos_injector.async_inject_failure(ChaosFailureType.DATA_CORRUPTION, 0.03),
         chaos_injector.async_inject_failure(ChaosFailureType.ETHICAL_SYSTEM_GLITCH, 0.08),
-        chaos_injector.async_inject_failure(ChaosFailureType.COHERENCE_DRIFT, 0.05)
+        chaos_injector.async_inject_failure(ChaosFailureType.COHERENCE_DRIFT, 0.05),
     ]
 
     # Start all chaos contexts

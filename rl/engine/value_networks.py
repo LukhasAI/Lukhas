@@ -59,58 +59,31 @@ class ConsciousnessValueNetwork(nn.Module if nn else object):
 
         # Consciousness state encoder
         self.state_encoder = nn.Sequential(
-            nn.Linear(state_dim, hidden_dim),
-            nn.ReLU(),
-            nn.LayerNorm(hidden_dim),
-            nn.Dropout(0.1)
+            nn.Linear(state_dim, hidden_dim), nn.ReLU(), nn.LayerNorm(hidden_dim), nn.Dropout(0.1)
         )
 
         # Temporal consciousness encoder
         self.temporal_encoder = nn.Sequential(
             nn.Linear(6, 128),  # coherence, ethics, reflection_depth, memory_count, episode_time, step_count
             nn.ReLU(),
-            nn.Linear(128, 64)
+            nn.Linear(128, 64),
         )
 
         # Emotion value encoder
-        self.emotion_encoder = nn.Sequential(
-            nn.Linear(3, 32),  # VAD emotional state
-            nn.ReLU(),
-            nn.Linear(32, 32)
-        )
+        self.emotion_encoder = nn.Sequential(nn.Linear(3, 32), nn.ReLU(), nn.Linear(32, 32))  # VAD emotional state
 
         # Multi-objective value heads
-        self.coherence_value_head = nn.Sequential(
-            nn.Linear(hidden_dim + 64 + 32, 256),
-            nn.ReLU(),
-            nn.Linear(256, 1)
-        )
+        self.coherence_value_head = nn.Sequential(nn.Linear(hidden_dim + 64 + 32, 256), nn.ReLU(), nn.Linear(256, 1))
 
-        self.ethical_value_head = nn.Sequential(
-            nn.Linear(hidden_dim + 64 + 32, 256),
-            nn.ReLU(),
-            nn.Linear(256, 1)
-        )
+        self.ethical_value_head = nn.Sequential(nn.Linear(hidden_dim + 64 + 32, 256), nn.ReLU(), nn.Linear(256, 1))
 
-        self.growth_value_head = nn.Sequential(
-            nn.Linear(hidden_dim + 64 + 32, 256),
-            nn.ReLU(),
-            nn.Linear(256, 1)
-        )
+        self.growth_value_head = nn.Sequential(nn.Linear(hidden_dim + 64 + 32, 256), nn.ReLU(), nn.Linear(256, 1))
 
-        self.creativity_value_head = nn.Sequential(
-            nn.Linear(hidden_dim + 64 + 32, 256),
-            nn.ReLU(),
-            nn.Linear(256, 1)
-        )
+        self.creativity_value_head = nn.Sequential(nn.Linear(hidden_dim + 64 + 32, 256), nn.ReLU(), nn.Linear(256, 1))
 
         # Combined value head
         self.combined_value_head = nn.Sequential(
-            nn.Linear(hidden_dim + 64 + 32, 256),
-            nn.ReLU(),
-            nn.Linear(256, 128),
-            nn.ReLU(),
-            nn.Linear(128, 1)
+            nn.Linear(hidden_dim + 64 + 32, 256), nn.ReLU(), nn.Linear(256, 128), nn.ReLU(), nn.Linear(128, 1)
         )
 
         # Uncertainty estimation
@@ -118,7 +91,7 @@ class ConsciousnessValueNetwork(nn.Module if nn else object):
             nn.Linear(hidden_dim + 64 + 32, 128),
             nn.ReLU(),
             nn.Linear(128, 1),
-            nn.Softplus()  # Ensure positive uncertainty
+            nn.Softplus(),  # Ensure positive uncertainty
         )
 
     def _initialize_mock(self):
@@ -136,14 +109,17 @@ class ConsciousnessValueNetwork(nn.Module if nn else object):
         state_encoding = self.state_encoder(module_states_tensor)
 
         # Temporal features
-        temporal_features = torch.tensor([
-            consciousness_state.temporal_coherence,
-            consciousness_state.ethical_alignment,
-            consciousness_state.reflection_depth / 10.0,
-            len(consciousness_state.memory_salience) / 100.0,
-            0.5,  # Mock episode_time
-            0.3   # Mock step_count
-        ], dtype=torch.float32)
+        temporal_features = torch.tensor(
+            [
+                consciousness_state.temporal_coherence,
+                consciousness_state.ethical_alignment,
+                consciousness_state.reflection_depth / 10.0,
+                len(consciousness_state.memory_salience) / 100.0,
+                0.5,  # Mock episode_time
+                0.3,  # Mock step_count
+            ],
+            dtype=torch.float32,
+        )
         temporal_encoding = self.temporal_encoder(temporal_features)
 
         # Emotion encoding
@@ -172,7 +148,7 @@ class ConsciousnessValueNetwork(nn.Module if nn else object):
             "ethical": float(ethical_value),
             "growth": float(growth_value),
             "creativity": float(creativity_value),
-            "combined": float(combined_value)
+            "combined": float(combined_value),
         }
 
         return combined_value, value_breakdown, uncertainty
@@ -209,7 +185,7 @@ class ConsciousnessValueNetwork(nn.Module if nn else object):
             "ethical": consciousness_state.ethical_alignment * 0.9,
             "growth": consciousness_state.reflection_depth / 10.0,
             "creativity": 0.6,  # Mock creativity value
-            "combined": base_value
+            "combined": base_value,
         }
 
         uncertainty = 0.1  # Low uncertainty for mock
@@ -244,7 +220,7 @@ class ValueNetwork:
             "MΛTRIZ ValueNetwork initialized",
             capabilities=self.capabilities,
             trace_id=self.trace_id,
-            prediction_horizon=self.prediction_horizon
+            prediction_horizon=self.prediction_horizon,
         )
 
     async def estimate_value(self, context_node: MatrizNode) -> MatrizNode:
@@ -273,16 +249,15 @@ class ValueNetwork:
                 "rl:role=value@1",
                 f"prediction:horizon={self.prediction_horizon}@1",
                 f"confidence:level={confidence:.2f}@1",
-                f"uncertainty:level={float(uncertainty):.2f}@1" if torch else f"uncertainty:level={uncertainty:.2f}@1"
+                f"uncertainty:level={float(uncertainty):.2f}@1" if torch else f"uncertainty:level={uncertainty:.2f}@1",
             ],
             state={
                 "confidence": confidence,
                 "salience": 0.85,  # High salience for value predictions
-                "valence": 0.2,    # Slightly positive for predictions
-                "arousal": 0.4,    # Moderate arousal
+                "valence": 0.2,  # Slightly positive for predictions
+                "arousal": 0.4,  # Moderate arousal
                 "novelty": self._calculate_prediction_novelty(combined_value),
-                "urgency": 0.6,    # Value estimates are moderately urgent
-
+                "urgency": 0.6,  # Value estimates are moderately urgent
                 # Rich value information
                 "value_estimate": float(combined_value) if torch else combined_value,
                 "value_breakdown": value_breakdown,
@@ -291,11 +266,9 @@ class ValueNetwork:
                 "temporal_coherence": consciousness_state.temporal_coherence,
                 "ethical_alignment": consciousness_state.ethical_alignment,
                 "consciousness_growth_potential": value_breakdown.get("growth", 0.5),
-                "trajectory_prediction": trajectory_prediction
+                "trajectory_prediction": trajectory_prediction,
             },
-            timestamps={
-                "created_ts": int(time.time() * 1000)
-            },
+            timestamps={"created_ts": int(time.time() * 1000)},
             provenance={
                 "producer": "rl.engine.value_networks",
                 "capabilities": self.capabilities,
@@ -304,11 +277,7 @@ class ValueNetwork:
                 "consent_scopes": ["rl_value_estimation", "consciousness_prediction"],
                 "model_signature": "ConsciousnessValueNetwork.v1.0",
                 "policy_version": "rl.value.v1.0",
-                "colony": {
-                    "id": "rl_engine",
-                    "role": "value_estimator",
-                    "iteration": len(self.prediction_history)
-                }
+                "colony": {"id": "rl_engine", "role": "value_estimator", "iteration": len(self.prediction_history)},
             },
             links=[
                 {
@@ -316,7 +285,7 @@ class ValueNetwork:
                     "link_type": "causal",
                     "weight": 0.9,
                     "direction": "unidirectional",
-                    "explanation": "Value prediction based on consciousness context"
+                    "explanation": "Value prediction based on consciousness context",
                 }
             ],
             evolves_to=["CAUSAL", "TEMPORAL", "REFLECTION"],
@@ -324,7 +293,7 @@ class ValueNetwork:
                 {
                     "event_type": "value_threshold",
                     "effect": "high_value_state_detected" if combined_value > 0.8 else "low_value_state_detected",
-                    "timestamp": int(time.time() * 1000)
+                    "timestamp": int(time.time() * 1000),
                 }
             ],
             reflections=[
@@ -333,48 +302,45 @@ class ValueNetwork:
                     "timestamp": int(time.time() * 1000),
                     "cause": "How accurate are my consciousness value predictions?",
                     "old_state": {"accuracy": "unknown"},
-                    "new_state": {"accuracy": self._get_recent_accuracy()}
+                    "new_state": {"accuracy": self._get_recent_accuracy()},
                 },
                 {
                     "reflection_type": "affirmation" if confidence > 0.8 else "dissonance_resolution",
                     "timestamp": int(time.time() * 1000),
-                    "cause": f"Value prediction confidence: {confidence:.2f}"
-                }
+                    "cause": f"Value prediction confidence: {confidence:.2f}",
+                },
             ],
             embeddings=[
                 {
                     "space": "consciousness_value",
                     "vector": list(value_breakdown.values()),
                     "dim": len(value_breakdown),
-                    "norm": sum(abs(v) for v in value_breakdown.values())
+                    "norm": sum(abs(v) for v in value_breakdown.values()),
                 }
             ],
-            evidence=[
-                {
-                    "kind": "trace",
-                    "uri": f"value://prediction/{self.trace_id}/{len(self.prediction_history)}"
-                }
-            ]
+            evidence=[{"kind": "trace", "uri": f"value://prediction/{self.trace_id}/{len(self.prediction_history)}"}],
         )
 
         # Track prediction
-        self.prediction_history.append({
-            "node_id": hypothesis_node.id,
-            "value_estimate": combined_value,
-            "value_breakdown": value_breakdown,
-            "uncertainty": uncertainty,
-            "confidence": confidence,
-            "context": context_node.id,
-            "timestamp": datetime.now(timezone.utc),
-            "consciousness_coherence": consciousness_state.temporal_coherence
-        })
+        self.prediction_history.append(
+            {
+                "node_id": hypothesis_node.id,
+                "value_estimate": combined_value,
+                "value_breakdown": value_breakdown,
+                "uncertainty": uncertainty,
+                "confidence": confidence,
+                "context": context_node.id,
+                "timestamp": datetime.now(timezone.utc),
+                "consciousness_coherence": consciousness_state.temporal_coherence,
+            }
+        )
 
         logger.info(
             "Value estimation completed",
             value_estimate=float(combined_value) if torch else combined_value,
             confidence=confidence,
             uncertainty=float(uncertainty) if torch else uncertainty,
-            node_id=hypothesis_node.id
+            node_id=hypothesis_node.id,
         )
 
         return hypothesis_node
@@ -390,11 +356,7 @@ class ValueNetwork:
             ethical_alignment=state_dict.get("ethical_alignment", 0.98),
             memory_salience=state_dict.get("memory_salience", {}),
             quantum_entanglement=state_dict.get("quantum_entanglement", {}),
-            emotion_vector=[
-                state_dict.get("valence", 0.1),
-                state_dict.get("arousal", 0.3),
-                0.5  # Default dominance
-            ]
+            emotion_vector=[state_dict.get("valence", 0.1), state_dict.get("arousal", 0.3), 0.5],  # Default dominance
         )
 
     def _calculate_confidence(self, uncertainty: Any, consciousness_state: ConsciousnessState) -> float:
@@ -437,7 +399,7 @@ class ValueNetwork:
             "predicted_ethics": min(0.99, current_ethics + ethics_trend * self.prediction_horizon * 0.01),
             "predicted_growth": current_growth + growth_trend * self.prediction_horizon * 0.1,
             "confidence_in_trajectory": 0.7,
-            "timeline_steps": self.prediction_horizon
+            "timeline_steps": self.prediction_horizon,
         }
 
         return trajectory
@@ -539,5 +501,5 @@ class ValueNetwork:
             "average_confidence": sum(recent_confidences) / len(recent_confidences),
             "prediction_horizon": self.prediction_horizon,
             "recent_accuracy": self._get_recent_accuracy() if self.value_estimation_accuracy else "N/A",
-            "trace_id": self.trace_id
+            "trace_id": self.trace_id,
         }

@@ -10,7 +10,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class TraumaType(Enum):
@@ -50,7 +50,7 @@ class TraumaSignature:
         self.trauma_type = trauma_type
         self.severity = severity
         self.affected_memories = affected_memories or set()
-        self.detected_at = detected_at or datetime.now()
+        self.detected_at = detected_at or datetime.now(timezone.utc)
         # Legacy support
         if affected_memories and len(affected_memories) == 1:
             self.memory_id = next(iter(affected_memories))
@@ -91,11 +91,11 @@ class TraumaRepairSystem:
             severity = random.uniform(0.1, 1.0)
 
             trauma = TraumaSignature(
-                trauma_id=f"trauma_{memory_id}_{datetime.now().timestamp()}",
+                trauma_id=f"trauma_{memory_id}_{datetime.now(timezone.utc).timestamp()}",
                 trauma_type=trauma_type,
                 severity=severity,
                 affected_memories={memory_id},
-                detected_at=datetime.now(),
+                detected_at=datetime.now(timezone.utc),
             )
 
             self.active_traumas[trauma.trauma_id] = trauma
@@ -112,7 +112,7 @@ class TraumaRepairSystem:
         # Log the repair attempt
         self.healing_log.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "memory_id": memory_id,
                 "trauma_id": trauma.trauma_id,
                 "trauma_type": trauma.trauma_type.value,
@@ -129,7 +129,7 @@ class TraumaRepairSystem:
 
             # Add scar tissue (strengthened memory)
             self.scar_tissue[memory_id] = {
-                "healed_at": datetime.now().isoformat(),
+                "healed_at": datetime.now(timezone.utc).isoformat(),
                 "original_trauma": trauma.trauma_type.value,
                 "resilience_bonus": 0.2,
             }
@@ -227,11 +227,11 @@ class MemoryTraumaRepair:
     async def force_repair(self, memory_id: str, repair_strategy: Optional[str] = None) -> dict[str, Any]:
         """Force repair of a memory"""
         trauma = TraumaSignature(
-            trauma_id=f"forced_{memory_id}_{datetime.now().timestamp()}",
+            trauma_id=f"forced_{memory_id}_{datetime.now(timezone.utc).timestamp()}",
             trauma_type=TraumaType.CORRUPTION,
             severity=1.0,
             affected_memories={memory_id},
-            detected_at=datetime.now(),
+            detected_at=datetime.now(timezone.utc),
         )
 
         repair_success = await self.repair_system.initiate_repair(memory_id, trauma)

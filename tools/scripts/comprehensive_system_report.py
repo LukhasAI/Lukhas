@@ -196,26 +196,43 @@ class LUKHASSystemDiagnostic:
         try:
             # Run specific health tests
             test_commands = [
-                ("Health Tests",
-                 ["python3", "-m", "pytest", "tests/", "-k", "test_health",
-                  "--tb=short", "-q",],),
-                ("Module Imports",
-                 ["python3", "-c",
-                  "import embedding, symbolic_healer, vivox; print('Core imports OK')",],),
-                ("API Test",
-                 ["python3", "-c",
-                  "import requests; r=requests.get('http://localhost:8000/health'); print(f'API: {r.status_code}')",],),]
+                (
+                    "Health Tests",
+                    [
+                        "python3",
+                        "-m",
+                        "pytest",
+                        "tests/",
+                        "-k",
+                        "test_health",
+                        "--tb=short",
+                        "-q",
+                    ],
+                ),
+                (
+                    "Module Imports",
+                    [
+                        "python3",
+                        "-c",
+                        "import embedding, symbolic_healer, vivox; print('Core imports OK')",
+                    ],
+                ),
+                (
+                    "API Test",
+                    [
+                        "python3",
+                        "-c",
+                        "import requests; r=requests.get('http://localhost:8000/health'); print(f'API: {r.status_code}')",
+                    ],
+                ),
+            ]
 
             for test_name, command in test_commands:
                 try:
-                    result = subprocess.run(
-                        command, capture_output=True, text=True, timeout=30
-                    )
+                    result = subprocess.run(command, capture_output=True, text=True, timeout=30)
 
                     self.results["test_results"][test_name] = {
-                        "status": (
-                            "✅ Passed" if result.returncode == 0 else "❌ Failed"
-                        ),
+                        "status": ("✅ Passed" if result.returncode == 0 else "❌ Failed"),
                         "return_code": result.returncode,
                         "stdout": result.stdout[:500],  # Limit output
                         "stderr": result.stderr[:500] if result.stderr else None,
@@ -307,20 +324,18 @@ class LUKHASSystemDiagnostic:
                 }
             )
         elif self.results["python_environment"]["missing_packages"]:
-            issues.append({
-                "category": "warning",
-                "component": "python_environment",
-                "issue": f"Missing packages: {', '.join(self.results['python_environment']['missing_packages'])}",
-                "impact": "Some features may not work"
-            })
+            issues.append(
+                {
+                    "category": "warning",
+                    "component": "python_environment",
+                    "issue": f"Missing packages: {', '.join(self.results['python_environment']['missing_packages'])}",
+                    "impact": "Some features may not work",
+                }
+            )
             recommendations.append("Install missing packages with pip install")
 
         # Check core modules
-        failed_modules = [
-            name
-            for name, data in self.results["core_modules"].items()
-            if data["status"] == "error"
-        ]
+        failed_modules = [name for name, data in self.results["core_modules"].items() if data["status"] == "error"]
         if failed_modules:
             issues.append(
                 {
@@ -334,9 +349,7 @@ class LUKHASSystemDiagnostic:
 
         # Check API credentials
         missing_apis = [
-            name
-            for name, data in self.results["api_credentials"].items()
-            if data["status"] == "❌ Missing"
+            name for name, data in self.results["api_credentials"].items() if data["status"] == "❌ Missing"
         ]
         if missing_apis:
             issues.append(
@@ -363,9 +376,7 @@ class LUKHASSystemDiagnostic:
 
         # Check test results
         failed_tests = [
-            name
-            for name, data in self.results["test_results"].items()
-            if data.get("status", "").startswith("❌")
+            name for name, data in self.results["test_results"].items() if data.get("status", "").startswith("❌")
         ]
         if failed_tests:
             issues.append(
@@ -386,33 +397,15 @@ class LUKHASSystemDiagnostic:
         logger.info("📊 Generating Summary...")
 
         total_modules = len(self.results["core_modules"])
-        working_modules = len(
-            [
-                m
-                for m in self.results["core_modules"].values()
-                if m["status"] == "working"
-            ]
-        )
-        module_health = (
-            (working_modules / total_modules * 100) if total_modules > 0 else 0
-        )
+        working_modules = len([m for m in self.results["core_modules"].values() if m["status"] == "working"])
+        module_health = (working_modules / total_modules * 100) if total_modules > 0 else 0
 
         total_apis = len(self.results["api_credentials"])
-        available_apis = len(
-            [
-                a
-                for a in self.results["api_credentials"].values()
-                if a["status"] == "✅ Available"
-            ]
-        )
+        available_apis = len([a for a in self.results["api_credentials"].values() if a["status"] == "✅ Available"])
         api_coverage = (available_apis / total_apis * 100) if total_apis > 0 else 0
 
-        critical_issues = len(
-            [i for i in self.results["system_issues"] if i["category"] == "critical"]
-        )
-        warning_issues = len(
-            [i for i in self.results["system_issues"] if i["category"] == "warning"]
-        )
+        critical_issues = len([i for i in self.results["system_issues"] if i["category"] == "critical"])
+        warning_issues = len([i for i in self.results["system_issues"] if i["category"] == "warning"])
 
         overall_health = "Healthy" if critical_issues == 0 else "Critical Issues"
         if critical_issues == 0 and warning_issues > 0:

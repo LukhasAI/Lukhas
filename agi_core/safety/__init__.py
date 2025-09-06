@@ -22,5 +22,5 @@ __all__ = [
     "EthicalDecision",
     "GuardianIntegration",
     "GuardianResponse",
-    "SafetyAction"
+    "SafetyAction",
 ]

@@ -64,10 +64,7 @@ except ImportError:
         return {"operation": op}
 
     async def hybrid_process(*args, **kwargs):
-        return type("MockResult", (), {
-            "primary_result": {"analysis": "mock", "confidence": 0.8},
-            "success": True
-        })()
+        return type("MockResult", (), {"primary_result": {"analysis": "mock", "confidence": 0.8}, "success": True})()
 
     class ProcessingMode(Enum):
         AGI_REASONING = "agi_reasoning"
@@ -75,7 +72,9 @@ except ImportError:
     async def check_operation_governance(*args):
         return True, {"overall_approved": True}
 
-    def register_agi_for_integration(*args): pass
+    def register_agi_for_integration(*args):
+        pass
+
 
 try:
     # LUKHAS Intelligence Products
@@ -89,7 +88,9 @@ except ImportError:
 
     # Mock intelligence products
     class ΛLens:
-        def __init__(self): pass
+        def __init__(self):
+            pass
+
         async def process_file(self, file_path, **kwargs):
             return {"symbols": [], "insights": [], "dashboard_id": "mock"}
 
@@ -99,39 +100,51 @@ except ImportError:
                 setattr(self, k, v)
 
     class TaskIntelligence:
-        def __init__(self): pass
+        def __init__(self):
+            pass
+
         def analyze_task_complexity(self, task, context):
             return {"complexity_score": 5.0, "insights": []}
 
     class PriorityOptimizer:
-        def __init__(self): pass
+        def __init__(self):
+            pass
+
         def optimize_priorities(self, tasks):
             return {"optimized_order": tasks, "efficiency_gain": 0.2}
 
     class IntegratedMonitoringSystem:
-        def __init__(self): pass
+        def __init__(self):
+            pass
+
         async def collect_metrics(self):
             return {"metrics": {}, "anomalies": []}
 
+
 class IntelligenceProductType(Enum):
     """Types of intelligence products."""
-    LENS = "lens"                    # Symbolic analysis and visualization
-    DAST = "dast"                    # Dynamic task intelligence
-    ARGUS = "argus"                  # Monitoring and observability
-    MARKET = "market"                # Market intelligence analysis
-    CUSTOM = "custom"                # Custom intelligence product
+
+    LENS = "lens"  # Symbolic analysis and visualization
+    DAST = "dast"  # Dynamic task intelligence
+    ARGUS = "argus"  # Monitoring and observability
+    MARKET = "market"  # Market intelligence analysis
+    CUSTOM = "custom"  # Custom intelligence product
+
 
 class AnalysisMode(Enum):
     """AGI analysis modes for intelligence products."""
-    QUICK = "quick"                  # Fast analysis with basic reasoning
-    COMPREHENSIVE = "comprehensive"   # Deep analysis with full reasoning
-    PREDICTIVE = "predictive"        # Focus on prediction and forecasting
-    CREATIVE = "creative"            # Dream-guided creative analysis
-    MONITORING = "monitoring"        # Real-time monitoring and alerting
+
+    QUICK = "quick"  # Fast analysis with basic reasoning
+    COMPREHENSIVE = "comprehensive"  # Deep analysis with full reasoning
+    PREDICTIVE = "predictive"  # Focus on prediction and forecasting
+    CREATIVE = "creative"  # Dream-guided creative analysis
+    MONITORING = "monitoring"  # Real-time monitoring and alerting
+
 
 @dataclass
 class IntelligenceQuery:
     """Query for AGI-enhanced intelligence analysis."""
+
     query_id: str
     product_type: IntelligenceProductType
     analysis_mode: AnalysisMode
@@ -142,9 +155,11 @@ class IntelligenceQuery:
     constraints: dict[str, Any] = field(default_factory=dict)
     expected_outputs: list[str] = field(default_factory=list)
 
+
 @dataclass
 class IntelligenceResult:
     """Result from AGI-enhanced intelligence analysis."""
+
     query_id: str
     product_type: IntelligenceProductType
     analysis_mode: AnalysisMode
@@ -158,6 +173,7 @@ class IntelligenceResult:
     processing_metadata: dict[str, Any]
     recommendations: list[dict[str, Any]]
     timestamp: datetime
+
 
 class AGIEnhancedLens:
     """
@@ -195,7 +211,7 @@ class AGIEnhancedLens:
                 "symbols": base_result.get("symbols", []),
                 "file_type": query.context.get("file_type", "unknown"),
                 "analysis_goal": query.requirements,
-                "mode": query.analysis_mode.value
+                "mode": query.analysis_mode.value,
             }
 
             # Multi-mode processing
@@ -205,13 +221,13 @@ class AGIEnhancedLens:
                     mode=ProcessingMode.CONSCIOUSNESS_FIELD,
                     qi_params={"creativity_boost": 0.8},
                     bio_params={"pattern_sensitivity": 0.9},
-                    agi_params={"reasoning_depth": 4}
+                    agi_params={"reasoning_depth": 4},
                 )
             else:
                 enhanced_result = await hybrid_process(
                     input_data=base_result,
                     mode=ProcessingMode.AGI_REASONING,
-                    agi_params={"reasoning_depth": 5 if query.analysis_mode == AnalysisMode.COMPREHENSIVE else 3}
+                    agi_params={"reasoning_depth": 5 if query.analysis_mode == AnalysisMode.COMPREHENSIVE else 3},
                 )
 
             # Extract insights and patterns
@@ -243,53 +259,64 @@ class AGIEnhancedLens:
                 processing_metadata={
                     "base_symbols": len(base_result.get("symbols", [])),
                     "agi_processing_time": enhanced_result.primary_result.get("processing_time", 0),
-                    "enhancement_quality": enhanced_result.integration_metrics.agi_reasoning_quality if hasattr(enhanced_result, "integration_metrics") else 0.8
+                    "enhancement_quality": (
+                        enhanced_result.integration_metrics.agi_reasoning_quality
+                        if hasattr(enhanced_result, "integration_metrics")
+                        else 0.8
+                    ),
                 },
                 recommendations=await self._generate_lens_recommendations(insights, predictions),
-                timestamp=datetime.now(timezone.utc)
+                timestamp=datetime.now(timezone.utc),
             )
 
         except Exception as e:
             log_agi_operation("lens_analysis_error", f"file analysis failed: {e}", "intelligence_products", "ERROR")
             return self._create_error_result(query, str(e))
 
-    async def _extract_symbolic_insights(self, base_result: dict, agi_result: dict,
-                                       context: dict) -> list[dict[str, Any]]:
+    async def _extract_symbolic_insights(
+        self, base_result: dict, agi_result: dict, context: dict
+    ) -> list[dict[str, Any]]:
         """Extract enhanced symbolic insights using AGI reasoning."""
         insights = []
 
         # Analyze symbol patterns
         symbols = base_result.get("symbols", [])
         if symbols:
-            insights.append({
-                "type": "symbolic_patterns",
-                "description": f"Identified {len(symbols)} symbolic elements with enhanced reasoning",
-                "details": {
-                    "symbol_density": len(symbols) / max(1, len(str(base_result))),
-                    "pattern_complexity": agi_result.get("complexity_score", 0.5),
-                    "symbolic_coherence": agi_result.get("coherence", 0.7)
+            insights.append(
+                {
+                    "type": "symbolic_patterns",
+                    "description": f"Identified {len(symbols)} symbolic elements with enhanced reasoning",
+                    "details": {
+                        "symbol_density": len(symbols) / max(1, len(str(base_result))),
+                        "pattern_complexity": agi_result.get("complexity_score", 0.5),
+                        "symbolic_coherence": agi_result.get("coherence", 0.7),
+                    },
                 }
-            })
+            )
 
         # AGI-enhanced relationship analysis
         if "relationships" in agi_result:
-            insights.append({
-                "type": "relationship_analysis",
-                "description": "AGI-discovered relationships and connections",
-                "details": agi_result["relationships"]
-            })
+            insights.append(
+                {
+                    "type": "relationship_analysis",
+                    "description": "AGI-discovered relationships and connections",
+                    "details": agi_result["relationships"],
+                }
+            )
 
         # Context-aware insights
         if context.get("analysis_goal"):
-            insights.append({
-                "type": "goal_alignment",
-                "description": "Analysis alignment with stated goals",
-                "details": {
-                    "goal_coverage": 0.85,  # Example metric
-                    "missing_elements": [],
-                    "optimization_suggestions": agi_result.get("optimizations", [])
+            insights.append(
+                {
+                    "type": "goal_alignment",
+                    "description": "Analysis alignment with stated goals",
+                    "details": {
+                        "goal_coverage": 0.85,  # Example metric
+                        "missing_elements": [],
+                        "optimization_suggestions": agi_result.get("optimizations", []),
+                    },
                 }
-            })
+            )
 
         return insights
 
@@ -299,18 +326,14 @@ class AGIEnhancedLens:
             "usage_trends": {
                 "predicted_access_frequency": "increasing",
                 "maintenance_needs": "moderate",
-                "complexity_evolution": "stable"
+                "complexity_evolution": "stable",
             },
-            "relationship_predictions": {
-                "new_dependencies": [],
-                "deprecated_connections": [],
-                "emerging_patterns": []
-            },
+            "relationship_predictions": {"new_dependencies": [], "deprecated_connections": [], "emerging_patterns": []},
             "optimization_opportunities": [
                 "Symbol density optimization",
                 "Relationship simplification",
-                "Context enhancement"
-            ]
+                "Context enhancement",
+            ],
         }
 
     async def _generate_creative_insights(self, base_result: dict, insights: list[dict]) -> list[str]:
@@ -318,10 +341,9 @@ class AGIEnhancedLens:
         creative_insights = []
 
         # Use dream integration for creative pattern recognition
-        dream_result = await self.dream_integration.process(base_result, {
-            "creativity_mode": True,
-            "pattern_exploration": True
-        })
+        dream_result = await self.dream_integration.process(
+            base_result, {"creativity_mode": True, "pattern_exploration": True}
+        )
 
         if hasattr(dream_result, "get") and dream_result.get("creative_patterns"):
             creative_insights.extend(dream_result["creative_patterns"])
@@ -330,37 +352,41 @@ class AGIEnhancedLens:
             creative_insights = [
                 "Symbolic structure suggests hidden narrative patterns",
                 "File organization indicates emergent architectural themes",
-                "Data relationships reveal untapped analytical dimensions"
+                "Data relationships reveal untapped analytical dimensions",
             ]
 
         return creative_insights
 
-    async def _generate_lens_recommendations(self, insights: list[dict],
-                                           predictions: dict) -> list[dict[str, Any]]:
+    async def _generate_lens_recommendations(self, insights: list[dict], predictions: dict) -> list[dict[str, Any]]:
         """Generate actionable recommendations based on analysis."""
         recommendations = []
 
         # Insight-based recommendations
         for insight in insights:
             if insight["type"] == "symbolic_patterns" and insight["details"]["symbol_density"] < 0.3:
-                recommendations.append({
-                    "type": "enhancement",
-                    "priority": "medium",
-                    "description": "Consider adding more symbolic elements for richer visualization",
-                    "action": "increase_symbol_density"
-                })
+                recommendations.append(
+                    {
+                        "type": "enhancement",
+                        "priority": "medium",
+                        "description": "Consider adding more symbolic elements for richer visualization",
+                        "action": "increase_symbol_density",
+                    }
+                )
 
         # Prediction-based recommendations
         if predictions.get("optimization_opportunities"):
             for opportunity in predictions["optimization_opportunities"]:
-                recommendations.append({
-                    "type": "optimization",
-                    "priority": "low",
-                    "description": f"Opportunity identified: {opportunity}",
-                    "action": "apply_optimization"
-                })
+                recommendations.append(
+                    {
+                        "type": "optimization",
+                        "priority": "low",
+                        "description": f"Opportunity identified: {opportunity}",
+                        "action": "apply_optimization",
+                    }
+                )
 
         return recommendations
+
 
 class AGIEnhancedDAST:
     """
@@ -373,15 +399,17 @@ class AGIEnhancedDAST:
     - Dynamic resource allocation suggestions
     """
 
-    def __init__(self, base_task_intelligence: Optional[TaskIntelligence] = None,
-                 base_priority_optimizer: Optional[PriorityOptimizer] = None):
+    def __init__(
+        self,
+        base_task_intelligence: Optional[TaskIntelligence] = None,
+        base_priority_optimizer: Optional[PriorityOptimizer] = None,
+    ):
         self.task_intelligence = base_task_intelligence or TaskIntelligence()
         self.priority_optimizer = base_priority_optimizer or PriorityOptimizer()
         self.consensus_engine = ConsensusEngine()
         self.learner = DreamGuidedLearner()
 
-    async def enhanced_task_analysis(self, task_description: str,
-                                   query: IntelligenceQuery) -> IntelligenceResult:
+    async def enhanced_task_analysis(self, task_description: str, query: IntelligenceQuery) -> IntelligenceResult:
         """Perform AGI-enhanced task analysis with predictive optimization."""
         try:
             # Governance check
@@ -393,16 +421,17 @@ class AGIEnhancedDAST:
                 return self._create_governance_denied_result(query, governance_result)
 
             # Base task analysis
-            base_analysis = self.task_intelligence.analyze_task_complexity(
-                task_description, query.context
-            )
+            base_analysis = self.task_intelligence.analyze_task_complexity(task_description, query.context)
 
             # AGI-enhanced multi-model consensus
-            consensus_result = await self.consensus_engine.build_consensus([
-                {"model": "complexity_analyzer", "result": base_analysis},
-                {"model": "pattern_matcher", "result": await self._pattern_analysis(task_description)},
-                {"model": "resource_estimator", "result": await self._resource_estimation(base_analysis)}
-            ], query.context)
+            consensus_result = await self.consensus_engine.build_consensus(
+                [
+                    {"model": "complexity_analyzer", "result": base_analysis},
+                    {"model": "pattern_matcher", "result": await self._pattern_analysis(task_description)},
+                    {"model": "resource_estimator", "result": await self._resource_estimation(base_analysis)},
+                ],
+                query.context,
+            )
 
             # Predictive optimization
             optimization_result = {}
@@ -412,34 +441,34 @@ class AGIEnhancedDAST:
                 )
 
             # Learning-based insights
-            learning_insights = await self._generate_learning_insights(
-                task_description, base_analysis, query.context
-            )
+            learning_insights = await self._generate_learning_insights(task_description, base_analysis, query.context)
 
             insights = [
                 {
                     "type": "complexity_analysis",
                     "description": f"Task complexity: {base_analysis['complexity_score']}/10",
-                    "details": base_analysis
+                    "details": base_analysis,
                 },
                 {
                     "type": "consensus_analysis",
                     "description": "Multi-model consensus on task characteristics",
-                    "details": consensus_result
+                    "details": consensus_result,
                 },
                 {
                     "type": "learning_insights",
                     "description": "Pattern-based insights from historical data",
-                    "details": learning_insights
-                }
+                    "details": learning_insights,
+                },
             ]
 
             if optimization_result:
-                insights.append({
-                    "type": "predictive_optimization",
-                    "description": "Predictive optimization recommendations",
-                    "details": optimization_result
-                })
+                insights.append(
+                    {
+                        "type": "predictive_optimization",
+                        "description": "Predictive optimization recommendations",
+                        "details": optimization_result,
+                    }
+                )
 
             return IntelligenceResult(
                 query_id=query.query_id,
@@ -455,10 +484,10 @@ class AGIEnhancedDAST:
                 processing_metadata={
                     "base_complexity": base_analysis["complexity_score"],
                     "consensus_models": len(consensus_result.get("participants", [])),
-                    "learning_patterns": len(learning_insights.get("patterns", []))
+                    "learning_patterns": len(learning_insights.get("patterns", [])),
                 },
                 recommendations=await self._generate_dast_recommendations(insights),
-                timestamp=datetime.now(timezone.utc)
+                timestamp=datetime.now(timezone.utc),
             )
 
         except Exception as e:
@@ -468,16 +497,15 @@ class AGIEnhancedDAST:
     async def _pattern_analysis(self, task_description: str) -> dict[str, Any]:
         """Analyze task patterns using AGI reasoning."""
         # Use chain of thought for pattern analysis
-        pattern_result = await self.consensus_engine.process(task_description, {
-            "analysis_type": "pattern_recognition",
-            "focus": "task_patterns"
-        })
+        pattern_result = await self.consensus_engine.process(
+            task_description, {"analysis_type": "pattern_recognition", "focus": "task_patterns"}
+        )
 
         return {
             "identified_patterns": ["complexity_pattern", "domain_pattern", "methodology_pattern"],
             "pattern_confidence": 0.75,
             "similar_tasks": [],
-            "pattern_insights": pattern_result.get("insights", [])
+            "pattern_insights": pattern_result.get("insights", []),
         }
 
     async def _resource_estimation(self, base_analysis: dict) -> dict[str, Any]:
@@ -488,40 +516,42 @@ class AGIEnhancedDAST:
             "estimated_hours": complexity * 2,
             "recommended_team_size": min(4, max(1, int(complexity / 3))),
             "skill_requirements": ["domain_knowledge", "technical_skills"],
-            "risk_mitigation_hours": complexity * 0.3
+            "risk_mitigation_hours": complexity * 0.3,
         }
 
-    async def _predictive_task_optimization(self, task_description: str,
-                                          base_analysis: dict, context: dict) -> dict[str, Any]:
+    async def _predictive_task_optimization(
+        self, task_description: str, base_analysis: dict, context: dict
+    ) -> dict[str, Any]:
         """Generate predictive optimization recommendations."""
         return {
             "optimal_scheduling": {
                 "recommended_start_time": "morning_peak_hours",
                 "estimated_duration": base_analysis.get("estimated_effort_hours", 8),
-                "break_points": ["mid_analysis", "pre_implementation"]
+                "break_points": ["mid_analysis", "pre_implementation"],
             },
             "resource_optimization": {
                 "peak_resource_needs": "implementation_phase",
                 "scaling_recommendations": ["gradual_ramp_up"],
-                "bottleneck_predictions": ["requirements_clarity", "technical_complexity"]
+                "bottleneck_predictions": ["requirements_clarity", "technical_complexity"],
             },
             "success_probability": 0.82,
-            "risk_mitigation_strategies": base_analysis.get("risk_factors", [])
+            "risk_mitigation_strategies": base_analysis.get("risk_factors", []),
         }
 
-    async def _generate_learning_insights(self, task_description: str,
-                                        base_analysis: dict, context: dict) -> dict[str, Any]:
+    async def _generate_learning_insights(
+        self, task_description: str, base_analysis: dict, context: dict
+    ) -> dict[str, Any]:
         """Generate insights using learning-based pattern recognition."""
-        learning_result = await self.learner.process(task_description, {
-            "learning_mode": "pattern_extraction",
-            "historical_context": context.get("historical_tasks", [])
-        })
+        learning_result = await self.learner.process(
+            task_description,
+            {"learning_mode": "pattern_extraction", "historical_context": context.get("historical_tasks", [])},
+        )
 
         return {
             "patterns": learning_result.get("learned_patterns", []),
             "creative_patterns": learning_result.get("creative_insights", []),
             "adaptation_suggestions": learning_result.get("adaptations", []),
-            "knowledge_gaps": learning_result.get("gaps", [])
+            "knowledge_gaps": learning_result.get("gaps", []),
         }
 
     async def _generate_dast_recommendations(self, insights: list[dict]) -> list[dict[str, Any]]:
@@ -532,22 +562,27 @@ class AGIEnhancedDAST:
             if insight["type"] == "complexity_analysis":
                 complexity = insight["details"]["complexity_score"]
                 if complexity > 7:
-                    recommendations.append({
-                        "type": "complexity_management",
-                        "priority": "high",
-                        "description": "High complexity detected - consider breaking into subtasks",
-                        "action": "decompose_task"
-                    })
+                    recommendations.append(
+                        {
+                            "type": "complexity_management",
+                            "priority": "high",
+                            "description": "High complexity detected - consider breaking into subtasks",
+                            "action": "decompose_task",
+                        }
+                    )
 
             elif insight["type"] == "predictive_optimization":
-                recommendations.append({
-                    "type": "optimization",
-                    "priority": "medium",
-                    "description": "Apply predictive optimization strategies",
-                    "action": "implement_optimization"
-                })
+                recommendations.append(
+                    {
+                        "type": "optimization",
+                        "priority": "medium",
+                        "description": "Apply predictive optimization strategies",
+                        "action": "implement_optimization",
+                    }
+                )
 
         return recommendations
+
 
 class AGIEnhancedArgus:
     """
@@ -580,21 +615,15 @@ class AGIEnhancedArgus:
             monitoring_data = await self.base_monitoring.collect_metrics()
 
             # AGI-enhanced anomaly detection
-            anomaly_analysis = await self._intelligent_anomaly_detection(
-                monitoring_data, query.analysis_mode
-            )
+            anomaly_analysis = await self._intelligent_anomaly_detection(monitoring_data, query.analysis_mode)
 
             # Predictive analysis
             predictions = {}
             if query.analysis_mode == AnalysisMode.PREDICTIVE:
-                predictions = await self._predictive_monitoring_analysis(
-                    monitoring_data, anomaly_analysis
-                )
+                predictions = await self._predictive_monitoring_analysis(monitoring_data, anomaly_analysis)
 
             # Root cause analysis for significant anomalies
-            root_causes = await self._automated_root_cause_analysis(
-                anomaly_analysis, monitoring_data
-            )
+            root_causes = await self._automated_root_cause_analysis(anomaly_analysis, monitoring_data)
 
             insights = [
                 {
@@ -603,27 +632,25 @@ class AGIEnhancedArgus:
                     "details": {
                         "total_metrics": len(monitoring_data.get("metrics", {})),
                         "anomalies_detected": len(anomaly_analysis.get("anomalies", [])),
-                        "health_score": anomaly_analysis.get("overall_health", 0.9)
-                    }
+                        "health_score": anomaly_analysis.get("overall_health", 0.9),
+                    },
                 },
                 {
                     "type": "anomaly_detection",
                     "description": "AI-powered anomaly detection results",
-                    "details": anomaly_analysis
+                    "details": anomaly_analysis,
                 },
-                {
-                    "type": "root_cause_analysis",
-                    "description": "Automated root cause analysis",
-                    "details": root_causes
-                }
+                {"type": "root_cause_analysis", "description": "Automated root cause analysis", "details": root_causes},
             ]
 
             if predictions:
-                insights.append({
-                    "type": "predictive_monitoring",
-                    "description": "Predictive monitoring insights",
-                    "details": predictions
-                })
+                insights.append(
+                    {
+                        "type": "predictive_monitoring",
+                        "description": "Predictive monitoring insights",
+                        "details": predictions,
+                    }
+                )
 
             return IntelligenceResult(
                 query_id=query.query_id,
@@ -639,40 +666,42 @@ class AGIEnhancedArgus:
                 processing_metadata={
                     "metrics_processed": len(monitoring_data.get("metrics", {})),
                     "anomaly_detection_time": 0.5,  # Example timing
-                    "reasoning_depth": len(anomaly_analysis.get("reasoning_steps", []))
+                    "reasoning_depth": len(anomaly_analysis.get("reasoning_steps", [])),
                 },
                 recommendations=await self._generate_monitoring_recommendations(insights),
-                timestamp=datetime.now(timezone.utc)
+                timestamp=datetime.now(timezone.utc),
             )
 
         except Exception as e:
-            log_agi_operation("argus_analysis_error", f"monitoring analysis failed: {e}", "intelligence_products", "ERROR")
+            log_agi_operation(
+                "argus_analysis_error", f"monitoring analysis failed: {e}", "intelligence_products", "ERROR"
+            )
             return self._create_error_result(query, str(e))
 
-    async def _intelligent_anomaly_detection(self, monitoring_data: dict,
-                                          mode: AnalysisMode) -> dict[str, Any]:
+    async def _intelligent_anomaly_detection(self, monitoring_data: dict, mode: AnalysisMode) -> dict[str, Any]:
         """Perform AI-powered anomaly detection with reasoning."""
         reasoning_depth = 5 if mode == AnalysisMode.COMPREHENSIVE else 3
 
         # Use AGI reasoning for anomaly analysis
-        reasoning_result = await self.reasoning_engine.process(monitoring_data, {
-            "analysis_type": "anomaly_detection",
-            "reasoning_depth": reasoning_depth,
-            "focus": "system_health"
-        })
+        reasoning_result = await self.reasoning_engine.process(
+            monitoring_data,
+            {"analysis_type": "anomaly_detection", "reasoning_depth": reasoning_depth, "focus": "system_health"},
+        )
 
         # Mock enhanced anomaly detection (would use real ML models in production)
         anomalies = monitoring_data.get("anomalies", [])
 
         return {
             "anomalies": anomalies,
-            "anomaly_severity": {"high": len([a for a in anomalies if a.get("severity") == "high"]),
-                                "medium": len([a for a in anomalies if a.get("severity") == "medium"]),
-                                "low": len([a for a in anomalies if a.get("severity") == "low"])},
+            "anomaly_severity": {
+                "high": len([a for a in anomalies if a.get("severity") == "high"]),
+                "medium": len([a for a in anomalies if a.get("severity") == "medium"]),
+                "low": len([a for a in anomalies if a.get("severity") == "low"]),
+            },
             "overall_health": 0.9 - (len(anomalies) * 0.1),
             "reasoning_steps": reasoning_result.get("reasoning_chain", []),
             "confidence": reasoning_result.get("confidence", 0.85),
-            "intelligent_clustering": self._cluster_related_anomalies(anomalies)
+            "intelligent_clustering": self._cluster_related_anomalies(anomalies),
         }
 
     def _cluster_related_anomalies(self, anomalies: list[dict]) -> dict[str, list[dict]]:
@@ -687,50 +716,48 @@ class AGIEnhancedArgus:
 
         return clusters
 
-    async def _predictive_monitoring_analysis(self, monitoring_data: dict,
-                                            anomaly_analysis: dict) -> dict[str, Any]:
+    async def _predictive_monitoring_analysis(self, monitoring_data: dict, anomaly_analysis: dict) -> dict[str, Any]:
         """Generate predictive monitoring insights."""
         return {
             "trend_predictions": {
                 "next_hour": {"health_score": 0.88, "anomaly_risk": "low"},
                 "next_day": {"health_score": 0.85, "anomaly_risk": "medium"},
-                "next_week": {"health_score": 0.82, "anomaly_risk": "medium"}
+                "next_week": {"health_score": 0.82, "anomaly_risk": "medium"},
             },
             "resource_predictions": {
                 "cpu_trend": "stable",
                 "memory_trend": "increasing_slightly",
                 "disk_trend": "stable",
-                "network_trend": "stable"
+                "network_trend": "stable",
             },
             "maintenance_windows": [
                 {"recommended_time": "2024-01-15T02:00:00Z", "reason": "preventive_maintenance"},
-                {"recommended_time": "2024-01-22T02:00:00Z", "reason": "system_optimization"}
-            ]
+                {"recommended_time": "2024-01-22T02:00:00Z", "reason": "system_optimization"},
+            ],
         }
 
-    async def _automated_root_cause_analysis(self, anomaly_analysis: dict,
-                                          monitoring_data: dict) -> dict[str, Any]:
+    async def _automated_root_cause_analysis(self, anomaly_analysis: dict, monitoring_data: dict) -> dict[str, Any]:
         """Perform automated root cause analysis using AGI reasoning."""
         anomalies = anomaly_analysis.get("anomalies", [])
         if not anomalies:
             return {"root_causes": [], "analysis": "No anomalies detected"}
 
         # Use reasoning engine for root cause analysis
-        rca_result = await self.reasoning_engine.process({
-            "anomalies": anomalies,
-            "system_context": monitoring_data.get("metrics", {}),
-            "historical_patterns": []  # Would include historical data
-        }, {
-            "analysis_type": "root_cause_analysis",
-            "reasoning_depth": 4
-        })
+        rca_result = await self.reasoning_engine.process(
+            {
+                "anomalies": anomalies,
+                "system_context": monitoring_data.get("metrics", {}),
+                "historical_patterns": [],  # Would include historical data
+            },
+            {"analysis_type": "root_cause_analysis", "reasoning_depth": 4},
+        )
 
         return {
             "root_causes": rca_result.get("identified_causes", []),
             "confidence_scores": rca_result.get("cause_confidence", {}),
             "causal_chains": rca_result.get("causal_reasoning", []),
             "novel_patterns": rca_result.get("creative_insights", []),
-            "mitigation_strategies": rca_result.get("recommendations", [])
+            "mitigation_strategies": rca_result.get("recommendations", []),
         }
 
     async def _generate_monitoring_recommendations(self, insights: list[dict]) -> list[dict[str, Any]]:
@@ -741,23 +768,28 @@ class AGIEnhancedArgus:
             if insight["type"] == "anomaly_detection":
                 anomaly_count = len(insight["details"].get("anomalies", []))
                 if anomaly_count > 5:
-                    recommendations.append({
-                        "type": "alerting",
-                        "priority": "high",
-                        "description": f"High anomaly count ({anomaly_count}) detected - review alerting thresholds",
-                        "action": "review_thresholds"
-                    })
+                    recommendations.append(
+                        {
+                            "type": "alerting",
+                            "priority": "high",
+                            "description": f"High anomaly count ({anomaly_count}) detected - review alerting thresholds",
+                            "action": "review_thresholds",
+                        }
+                    )
 
             elif insight["type"] == "predictive_monitoring":
                 if insight["details"].get("trend_predictions", {}).get("next_day", {}).get("anomaly_risk") == "high":
-                    recommendations.append({
-                        "type": "preventive",
-                        "priority": "medium",
-                        "description": "High anomaly risk predicted - consider preventive measures",
-                        "action": "preventive_maintenance"
-                    })
+                    recommendations.append(
+                        {
+                            "type": "preventive",
+                            "priority": "medium",
+                            "description": "High anomaly risk predicted - consider preventive measures",
+                            "action": "preventive_maintenance",
+                        }
+                    )
 
         return recommendations
+
 
 class IntelligenceProductsEnhancer:
     """
@@ -782,12 +814,7 @@ class IntelligenceProductsEnhancer:
             "total_queries": 0,
             "successful_enhancements": 0,
             "average_enhancement_quality": 0.0,
-            "product_usage": {
-                "lens": 0,
-                "dast": 0,
-                "argus": 0,
-                "market": 0
-            }
+            "product_usage": {"lens": 0, "dast": 0, "argus": 0, "market": 0},
         }
 
         # Logger
@@ -815,18 +842,14 @@ class IntelligenceProductsEnhancer:
             log_agi_operation(
                 "intelligence_query",
                 f"processing {query.product_type.value} query in {query.analysis_mode.value} mode",
-                "intelligence_products"
+                "intelligence_products",
             )
 
             # Route to appropriate enhanced product
             if query.product_type == IntelligenceProductType.LENS:
-                result = await self.enhanced_lens.enhanced_file_analysis(
-                    query.input_data, query
-                )
+                result = await self.enhanced_lens.enhanced_file_analysis(query.input_data, query)
             elif query.product_type == IntelligenceProductType.DAST:
-                result = await self.enhanced_dast.enhanced_task_analysis(
-                    query.input_data, query
-                )
+                result = await self.enhanced_dast.enhanced_task_analysis(query.input_data, query)
             elif query.product_type == IntelligenceProductType.ARGUS:
                 result = await self.enhanced_argus.enhanced_monitoring_analysis(query)
             else:
@@ -842,7 +865,7 @@ class IntelligenceProductsEnhancer:
             log_agi_operation(
                 "intelligence_complete",
                 f"completed {query.product_type.value} analysis with confidence {result.confidence_score:.2f}",
-                "intelligence_products"
+                "intelligence_products",
             )
 
             return result
@@ -856,20 +879,20 @@ class IntelligenceProductsEnhancer:
         """Handle custom intelligence product queries."""
         # For custom products, use general AGI reasoning
         enhanced_result = await hybrid_process(
-            input_data=query.input_data,
-            mode=ProcessingMode.AGI_REASONING,
-            agi_params={"reasoning_depth": 4}
+            input_data=query.input_data, mode=ProcessingMode.AGI_REASONING, agi_params={"reasoning_depth": 4}
         )
 
         return IntelligenceResult(
             query_id=query.query_id,
             product_type=query.product_type,
             analysis_mode=query.analysis_mode,
-            primary_insights=[{
-                "type": "custom_analysis",
-                "description": "Custom intelligence analysis",
-                "details": enhanced_result.primary_result
-            }],
+            primary_insights=[
+                {
+                    "type": "custom_analysis",
+                    "description": "Custom intelligence analysis",
+                    "details": enhanced_result.primary_result,
+                }
+            ],
             reasoning_chain=enhanced_result.primary_result.get("reasoning_steps", []),
             confidence_score=enhanced_result.primary_result.get("confidence", 0.7),
             uncertainty_bounds={"min": 0.5, "max": 0.9},
@@ -878,21 +901,22 @@ class IntelligenceProductsEnhancer:
             governance_approved=True,
             processing_metadata={"custom_processing": True},
             recommendations=[],
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )
 
-    def _create_governance_denied_result(self, query: IntelligenceQuery,
-                                       governance_result: dict) -> IntelligenceResult:
+    def _create_governance_denied_result(self, query: IntelligenceQuery, governance_result: dict) -> IntelligenceResult:
         """Create result for governance-denied queries."""
         return IntelligenceResult(
             query_id=query.query_id,
             product_type=query.product_type,
             analysis_mode=query.analysis_mode,
-            primary_insights=[{
-                "type": "governance_denial",
-                "description": "Query denied due to governance policies",
-                "details": governance_result
-            }],
+            primary_insights=[
+                {
+                    "type": "governance_denial",
+                    "description": "Query denied due to governance policies",
+                    "details": governance_result,
+                }
+            ],
             reasoning_chain=[],
             confidence_score=0.0,
             uncertainty_bounds={"min": 0.0, "max": 0.0},
@@ -901,7 +925,7 @@ class IntelligenceProductsEnhancer:
             governance_approved=False,
             processing_metadata={"denial_reason": governance_result.get("violation_messages", [])},
             recommendations=[],
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )
 
     def _create_error_result(self, query: IntelligenceQuery, error_message: str) -> IntelligenceResult:
@@ -910,11 +934,13 @@ class IntelligenceProductsEnhancer:
             query_id=query.query_id,
             product_type=query.product_type,
             analysis_mode=query.analysis_mode,
-            primary_insights=[{
-                "type": "processing_error",
-                "description": "Query processing failed",
-                "details": {"error": error_message}
-            }],
+            primary_insights=[
+                {
+                    "type": "processing_error",
+                    "description": "Query processing failed",
+                    "details": {"error": error_message},
+                }
+            ],
             reasoning_chain=[],
             confidence_score=0.0,
             uncertainty_bounds={"min": 0.0, "max": 0.0},
@@ -923,84 +949,87 @@ class IntelligenceProductsEnhancer:
             governance_approved=False,
             processing_metadata={"error": error_message},
             recommendations=[],
-            timestamp=datetime.now(timezone.utc)
+            timestamp=datetime.now(timezone.utc),
         )
 
     def _update_average_quality(self, new_score: float) -> None:
         """Update rolling average quality score."""
         alpha = 0.1  # Learning rate for moving average
         current_avg = self.enhancement_metrics["average_enhancement_quality"]
-        self.enhancement_metrics["average_enhancement_quality"] = (
-            current_avg * (1 - alpha) + new_score * alpha
-        )
+        self.enhancement_metrics["average_enhancement_quality"] = current_avg * (1 - alpha) + new_score * alpha
 
     def get_enhancement_status(self) -> dict[str, Any]:
         """Get comprehensive enhancement system status."""
         return {
             "system_availability": {
                 "agi_available": AGI_AVAILABLE,
-                "intelligence_products_available": INTELLIGENCE_PRODUCTS_AVAILABLE
+                "intelligence_products_available": INTELLIGENCE_PRODUCTS_AVAILABLE,
             },
             "enhancement_metrics": self.enhancement_metrics.copy(),
             "registered_products": ["lens", "dast", "argus"],
             "supported_analysis_modes": [mode.value for mode in AnalysisMode],
             "average_quality": self.enhancement_metrics["average_enhancement_quality"],
             "success_rate": (
-                self.enhancement_metrics["successful_enhancements"] /
-                max(1, self.enhancement_metrics["total_queries"])
+                self.enhancement_metrics["successful_enhancements"] / max(1, self.enhancement_metrics["total_queries"])
             ),
-            "system_health": "healthy" if self.enhancement_metrics["average_enhancement_quality"] > 0.7 else "degraded"
+            "system_health": "healthy" if self.enhancement_metrics["average_enhancement_quality"] > 0.7 else "degraded",
         }
+
 
 # Global enhancer instance
 intelligence_products_enhancer = IntelligenceProductsEnhancer()
 
+
 # Convenience functions
-async def enhance_lens_analysis(file_path: str, user_id: str,
-                              mode: AnalysisMode = AnalysisMode.COMPREHENSIVE,
-                              **kwargs) -> IntelligenceResult:
+async def enhance_lens_analysis(
+    file_path: str, user_id: str, mode: AnalysisMode = AnalysisMode.COMPREHENSIVE, **kwargs
+) -> IntelligenceResult:
     """Convenience function for AGI-enhanced ΛLens analysis."""
     query = IntelligenceQuery(
-        query_id=f"lens_{datetime.now().timestamp()}",
+        query_id=f"lens_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.LENS,
         analysis_mode=mode,
         input_data=file_path,
         context=kwargs,
-        user_id=user_id
+        user_id=user_id,
     )
     return await intelligence_products_enhancer.process_intelligence_query(query)
 
-async def enhance_task_analysis(task_description: str, user_id: str,
-                              mode: AnalysisMode = AnalysisMode.PREDICTIVE,
-                              **kwargs) -> IntelligenceResult:
+
+async def enhance_task_analysis(
+    task_description: str, user_id: str, mode: AnalysisMode = AnalysisMode.PREDICTIVE, **kwargs
+) -> IntelligenceResult:
     """Convenience function for AGI-enhanced DAST task analysis."""
     query = IntelligenceQuery(
-        query_id=f"dast_{datetime.now().timestamp()}",
+        query_id=f"dast_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.DAST,
         analysis_mode=mode,
         input_data=task_description,
         context=kwargs,
-        user_id=user_id
+        user_id=user_id,
     )
     return await intelligence_products_enhancer.process_intelligence_query(query)
 
-async def enhance_monitoring_analysis(user_id: str,
-                                    mode: AnalysisMode = AnalysisMode.MONITORING,
-                                    **kwargs) -> IntelligenceResult:
+
+async def enhance_monitoring_analysis(
+    user_id: str, mode: AnalysisMode = AnalysisMode.MONITORING, **kwargs
+) -> IntelligenceResult:
     """Convenience function for AGI-enhanced Argus monitoring analysis."""
     query = IntelligenceQuery(
-        query_id=f"argus_{datetime.now().timestamp()}",
+        query_id=f"argus_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.ARGUS,
         analysis_mode=mode,
         input_data={},
         context=kwargs,
-        user_id=user_id
+        user_id=user_id,
     )
     return await intelligence_products_enhancer.process_intelligence_query(query)
+
 
 def get_intelligence_enhancement_status() -> dict[str, Any]:
     """Get intelligence products enhancement status."""
     return intelligence_products_enhancer.get_enhancement_status()
+
 
 if __name__ == "__main__":
     # Test the intelligence products enhancer
@@ -1008,7 +1037,7 @@ if __name__ == "__main__":
         IntelligenceProductsEnhancer()
 
         print("🧠📊 Intelligence Products AGI Enhancement Test")
-        print("="*60)
+        print("=" * 60)
 
         # Test ΛLens enhancement
         print("\n--- Testing ΛLens Enhancement ---")
@@ -1017,7 +1046,7 @@ if __name__ == "__main__":
             user_id="test_user",
             mode=AnalysisMode.CREATIVE,
             file_type="pdf",
-            purpose="analysis"
+            purpose="analysis",
         )
 
         print("Lens Analysis:")
@@ -1033,7 +1062,7 @@ if __name__ == "__main__":
             user_id="test_user",
             mode=AnalysisMode.PREDICTIVE,
             complexity_context="high",
-            domain="security"
+            domain="security",
         )
 
         print("DAST Analysis:")
@@ -1045,10 +1074,7 @@ if __name__ == "__main__":
         # Test Argus enhancement
         print("\n--- Testing Argus Enhancement ---")
         argus_result = await enhance_monitoring_analysis(
-            user_id="test_user",
-            mode=AnalysisMode.MONITORING,
-            system_context="production",
-            focus="anomaly_detection"
+            user_id="test_user", mode=AnalysisMode.MONITORING, system_context="production", focus="anomaly_detection"
         )
 
         print("Argus Analysis:")

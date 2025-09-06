@@ -32,7 +32,7 @@ from typing import Any, Callable, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class DebugLevel(Enum):
@@ -251,7 +251,7 @@ class DebugInterface:
         # Create debug event
         event = DebugEvent(
             event_id=event_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             level=level,
             category=category,
             component=component,
@@ -318,7 +318,7 @@ class DebugInterface:
             "instance": component_instance,
             "version": version,
             "dependencies": dependencies or [],
-            "registered_at": datetime.now(),
+            "registered_at": datetime.now(timezone.utc),
             "debug_enabled": True,
         }
 
@@ -356,7 +356,7 @@ class DebugInterface:
 
         session = DebugSession(
             session_id=session_id,
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
             user_id=user_id,
             debug_level=debug_level,
             categories=categories or set(DebugCategory),
@@ -426,7 +426,7 @@ class DebugInterface:
             snapshot = ComponentSnapshot(
                 component_id=component_name,
                 component_name=component_name,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 state=self.component_states.get(component_name, ComponentState.UNKNOWN),
                 version=component_info["version"],
                 configuration=self._serialize_config(config),
@@ -469,7 +469,7 @@ class DebugInterface:
             Dict: Debug dashboard data
         """
 
-        end_time = datetime.now()
+        end_time = datetime.now(timezone.utc)
         start_time = end_time - timedelta(hours=time_range_hours)
 
         # Filter events by time range
@@ -544,7 +544,7 @@ class DebugInterface:
                 }
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "time_range_hours": time_range_hours,
             "session_id": session_id,
             "debug_enabled": self.debug_enabled,
@@ -609,7 +609,7 @@ class DebugInterface:
             "session_id": session_id,
             "session_name": session_name,
             "component_name": component_name,
-            "started_at": datetime.now(),
+            "started_at": datetime.now(timezone.utc),
             "samples": [],
             "active": True,
         }
@@ -634,7 +634,7 @@ class DebugInterface:
         while True:
             try:
                 # Clean up old events
-                cutoff_time = datetime.now() - timedelta(hours=self.event_retention_hours)
+                cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.event_retention_hours)
                 while self.debug_events and self.debug_events[0].timestamp < cutoff_time:
                     self.debug_events.popleft()
 
@@ -679,7 +679,7 @@ class DebugInterface:
         while True:
             try:
                 # Clean up inactive sessions
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 inactive_sessions = []
 
                 for session_id, session in self.active_sessions.items():

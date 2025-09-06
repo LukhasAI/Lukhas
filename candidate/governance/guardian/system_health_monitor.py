@@ -414,10 +414,7 @@ class SystemHealthMonitor:
                 memory_trend = self._calculate_trend(memory_values)
 
                 # Detect cascade conditions
-                if (
-                    memory_trend > 5.0  # Rising rapidly
-                    and current_memory_percent > 85.0
-                ):  # High memory usage
+                if memory_trend > 5.0 and current_memory_percent > 85.0:  # Rising rapidly  # High memory usage
                     cascade_risk = self._assess_cascade_risk(current_memory_percent, memory_trend)
 
                     if cascade_risk != CascadeRisk.MINIMAL:

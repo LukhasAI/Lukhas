@@ -623,15 +623,20 @@ class LUKHASAudioPipeline:
 
             # Emit GLYPH event
             # Create GLYPH event
-            create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "audio.pipeline.completed",
+            create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
                 {
-                    "processing_time_ms": processing_time,
-                    "stages_completed": len(output.stages_completed),
-                    "text_length": len(input_data.text),
-                    "audio_duration": output.duration_seconds,
+                    "audio.pipeline.completed",
+                    {
+                        "processing_time_ms": processing_time,
+                        "stages_completed": len(output.stages_completed),
+                        "text_length": len(input_data.text),
+                        "audio_duration": output.duration_seconds,
+                    },
                 },
-            })
+            )
 
             return output
 
@@ -643,10 +648,15 @@ class LUKHASAudioPipeline:
             output.total_processing_time_ms = (time.time() - start_time) * 1000
 
             # Create GLYPH event
-            create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
-                "audio.pipeline.error",
-                {"error": str(e), "stages_completed": len(output.stages_completed)},
-            })
+            create_glyph(
+                GLYPHSymbol.CREATE,
+                "voice_pipeline",
+                "consciousness",
+                {
+                    "audio.pipeline.error",
+                    {"error": str(e), "stages_completed": len(output.stages_completed)},
+                },
+            )
 
             return output
 

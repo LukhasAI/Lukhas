@@ -875,9 +875,7 @@ class SymbolicThresholdAutotuner:
                                 "drift_velocity",
                                 "false_positive_rate",
                             ]
-                            else "declining"
-                            if trend > 0
-                            else "stable"
+                            else "declining" if trend > 0 else "stable"
                         ),
                     }
 

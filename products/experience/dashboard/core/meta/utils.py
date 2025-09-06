@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 
-def load_meta_metrics(path: Optional[Path] = None) -> dict[str, Any]:
+def load_meta_metrics(path: Optional[Path] = None, timezone) -> dict[str, Any]:
     """
     Load meta metrics from json_file.
 
@@ -36,7 +36,7 @@ def load_meta_metrics(path: Optional[Path] = None) -> dict[str, Any]:
                 "entropy_level": 0.0,
                 "persona_distribution": {},
                 "total_evaluations": 0,
-                "last_updated": datetime.utcnow().isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
     except Exception as e:
         print(f"Error loading meta metrics: {e}")
@@ -91,7 +91,7 @@ def calculate_drift_trends(snapshots: list[dict[str, Any]], window_hours: int = 
         }
 
     # Filter snapshots within time window
-    cutoff_time = datetime.utcnow() - timedelta(hours=window_hours)
+    cutoff_time = datetime.now(timezone.utc) - timedelta(hours=window_hours)
     recent_snapshots = []
 
     for snap in snapshots:

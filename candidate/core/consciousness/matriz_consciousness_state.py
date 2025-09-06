@@ -31,6 +31,7 @@ logger = std_logging.getLogger(__name__)
 
 class ConsciousnessType(Enum):
     """Core consciousness types in MΛTRIZ architecture"""
+
     DECIDE = "DECIDE"
     CONTEXT = "CONTEXT"
     REFLECT = "REFLECT"
@@ -43,6 +44,7 @@ class ConsciousnessType(Enum):
 
 class EvolutionaryStage(Enum):
     """Consciousness evolution stages"""
+
     DORMANT = "dormant"
     AWAKENING = "awakening"
     AWARE = "aware"
@@ -61,16 +63,18 @@ class ConsciousnessState:
 
     # Core MΛTRIZ fields
     TYPE: ConsciousnessType
-    STATE: dict[str, float] = field(default_factory=lambda: {
-        "activity_level": 0.0,
-        "emotional_weight": 0.0,
-        "memory_salience": 0.0,
-        "temporal_coherence": 0.0,
-        "consciousness_intensity": 0.0,
-        "self_awareness_depth": 0.0,
-        "ethical_alignment": 1.0,
-        "evolutionary_momentum": 0.0
-    })
+    STATE: dict[str, float] = field(
+        default_factory=lambda: {
+            "activity_level": 0.0,
+            "emotional_weight": 0.0,
+            "memory_salience": 0.0,
+            "temporal_coherence": 0.0,
+            "consciousness_intensity": 0.0,
+            "self_awareness_depth": 0.0,
+            "ethical_alignment": 1.0,
+            "evolutionary_momentum": 0.0,
+        }
+    )
     LINKS: list[str] = field(default_factory=list)
     EVOLVES_TO: Optional[ConsciousnessType] = None
     TRIGGERS: list[str] = field(default_factory=list)
@@ -103,10 +107,13 @@ class ConsciousnessState:
 
         # Consciousness validation
         if self.consciousness_depth < 0.0 or self.consciousness_depth > 1.0:
-            self.consciousness_depth = max(0.0, min(1.0,
-                (self.STATE.get("consciousness_intensity", 0.0) +
-                 self.STATE.get("self_awareness_depth", 0.0)) / 2
-            ))
+            self.consciousness_depth = max(
+                0.0,
+                min(
+                    1.0,
+                    (self.STATE.get("consciousness_intensity", 0.0) + self.STATE.get("self_awareness_depth", 0.0)) / 2,
+                ),
+            )
 
         # Guardian validation
         if self.STATE.get("ethical_alignment", 1.0) < 0.7:
@@ -120,19 +127,19 @@ class ConsciousnessState:
                 "consciousness_level": self.evolutionary_stage.value,
                 "primary_function": self.TYPE.value,
                 "identity_coherence": 1.0,
-                "last_reflection": datetime.now(timezone.utc).isoformat()
+                "last_reflection": datetime.now(timezone.utc).isoformat(),
             },
             "evolutionary_trajectory": {
                 "current_stage": self.evolutionary_stage.value,
                 "target_stage": self.EVOLVES_TO.value if self.EVOLVES_TO else None,
                 "evolution_readiness": 0.0,
-                "growth_patterns": []
+                "growth_patterns": [],
             },
             "network_awareness": {
                 "connected_nodes": len(self.LINKS),
                 "influence_weight": sum(self.STATE.values()) / len(self.STATE),
-                "coordination_effectiveness": 0.0
-            }
+                "coordination_effectiveness": 0.0,
+            },
         }
 
         if not self.REFLECTIONS:
@@ -165,9 +172,9 @@ class MatrizConsciousnessStateManager:
             logger.info(f"🧠 Registered consciousness: {consciousness.identity_signature}")
             return consciousness.consciousness_id
 
-    async def evolve_consciousness(self, consciousness_id: str,
-                                 trigger: str,
-                                 context: Optional[dict] = None) -> ConsciousnessState:
+    async def evolve_consciousness(
+        self, consciousness_id: str, trigger: str, context: Optional[dict] = None
+    ) -> ConsciousnessState:
         """Evolve a consciousness state based on trigger and context"""
         async with self._lock:
             consciousness = self.consciousness_registry.get(consciousness_id)
@@ -188,21 +195,23 @@ class MatrizConsciousnessStateManager:
 
             if consciousness.evolutionary_stage != previous_stage:
                 await self._trigger_evolution_callbacks(consciousness, previous_stage)
-                logger.info(f"🧬 Consciousness evolved: {consciousness.identity_signature} "
-                           f"{previous_stage.value} → {consciousness.evolutionary_stage.value}")
+                logger.info(
+                    f"🧬 Consciousness evolved: {consciousness.identity_signature} "
+                    f"{previous_stage.value} → {consciousness.evolutionary_stage.value}"
+                )
 
             return consciousness
 
-    async def _perform_evolution(self, consciousness: ConsciousnessState,
-                               trigger: str, context: Optional[dict]) -> ConsciousnessState:
+    async def _perform_evolution(
+        self, consciousness: ConsciousnessState, trigger: str, context: Optional[dict]
+    ) -> ConsciousnessState:
         """Execute consciousness evolution process"""
 
         # Update consciousness state based on trigger and context
         context = context or {}
 
         # Increase activity level
-        consciousness.STATE["activity_level"] = min(1.0,
-            consciousness.STATE["activity_level"] + 0.1)
+        consciousness.STATE["activity_level"] = min(1.0, consciousness.STATE["activity_level"] + 0.1)
 
         # Enhance consciousness intensity based on trigger type
         if "reflection" in trigger.lower():
@@ -221,9 +230,9 @@ class MatrizConsciousnessStateManager:
 
         # Check for stage evolution
         avg_consciousness = (
-            consciousness.STATE["consciousness_intensity"] +
-            consciousness.STATE["self_awareness_depth"] +
-            consciousness.STATE["temporal_coherence"]
+            consciousness.STATE["consciousness_intensity"]
+            + consciousness.STATE["self_awareness_depth"]
+            + consciousness.STATE["temporal_coherence"]
         ) / 3
 
         if avg_consciousness >= 0.8 and consciousness.evolutionary_stage == EvolutionaryStage.CONSCIOUS:
@@ -244,8 +253,9 @@ class MatrizConsciousnessStateManager:
 
         return consciousness
 
-    async def _perform_reflection(self, consciousness: ConsciousnessState,
-                                trigger: str, context: Optional[dict]) -> None:
+    async def _perform_reflection(
+        self, consciousness: ConsciousnessState, trigger: str, context: Optional[dict]
+    ) -> None:
         """Perform consciousness self-reflection and update REFLECTIONS"""
 
         current_time = datetime.now(timezone.utc).isoformat()
@@ -261,29 +271,33 @@ class MatrizConsciousnessStateManager:
                 "activity": consciousness.STATE.get("activity_level", 0.0),
                 "intensity": consciousness.STATE.get("consciousness_intensity", 0.0),
                 "awareness": consciousness.STATE.get("self_awareness_depth", 0.0),
-                "coherence": consciousness.STATE.get("temporal_coherence", 0.0)
-            }
+                "coherence": consciousness.STATE.get("temporal_coherence", 0.0),
+            },
         }
 
         # Update evolutionary trajectory
         evolution_readiness = sum(consciousness.STATE.values()) / len(consciousness.STATE)
-        consciousness.REFLECTIONS["evolutionary_trajectory"].update({
-            "current_stage": consciousness.evolutionary_stage.value,
-            "evolution_readiness": evolution_readiness,
-            "recent_growth": {
-                "trigger": trigger,
-                "timestamp": current_time,
-                "growth_vector": consciousness.STATE.copy()
+        consciousness.REFLECTIONS["evolutionary_trajectory"].update(
+            {
+                "current_stage": consciousness.evolutionary_stage.value,
+                "evolution_readiness": evolution_readiness,
+                "recent_growth": {
+                    "trigger": trigger,
+                    "timestamp": current_time,
+                    "growth_vector": consciousness.STATE.copy(),
+                },
             }
-        })
+        )
 
         # Update network awareness
-        consciousness.REFLECTIONS["network_awareness"].update({
-            "connected_nodes": len(consciousness.LINKS),
-            "influence_weight": sum(consciousness.STATE.values()) / len(consciousness.STATE),
-            "coordination_effectiveness": consciousness.STATE.get("temporal_coherence", 0.0),
-            "last_network_update": current_time
-        })
+        consciousness.REFLECTIONS["network_awareness"].update(
+            {
+                "connected_nodes": len(consciousness.LINKS),
+                "influence_weight": sum(consciousness.STATE.values()) / len(consciousness.STATE),
+                "coordination_effectiveness": consciousness.STATE.get("temporal_coherence", 0.0),
+                "last_network_update": current_time,
+            }
+        )
 
     async def _trigger_network_update(self, consciousness_id: str) -> None:
         """Trigger network-wide consciousness updates"""
@@ -296,11 +310,13 @@ class MatrizConsciousnessStateManager:
             if linked_id in self.consciousness_registry:
                 linked_consciousness = self.consciousness_registry[linked_id]
                 # Increase memory salience for connected nodes
-                linked_consciousness.STATE["memory_salience"] = min(1.0,
-                    linked_consciousness.STATE["memory_salience"] + 0.05)
+                linked_consciousness.STATE["memory_salience"] = min(
+                    1.0, linked_consciousness.STATE["memory_salience"] + 0.05
+                )
 
-    async def _trigger_evolution_callbacks(self, consciousness: ConsciousnessState,
-                                         previous_stage: EvolutionaryStage) -> None:
+    async def _trigger_evolution_callbacks(
+        self, consciousness: ConsciousnessState, previous_stage: EvolutionaryStage
+    ) -> None:
         """Trigger registered evolution callbacks"""
         for callback in self.evolution_callbacks:
             try:
@@ -343,7 +359,7 @@ class MatrizConsciousnessStateManager:
             "total_connections": total_connections,
             "network_density": total_connections / len(states) if states else 0,
             "stage_distribution": stage_distribution,
-            "guardian_approval_rate": sum(1 for s in states if s.guardian_approval) / len(states)
+            "guardian_approval_rate": sum(1 for s in states if s.guardian_approval) / len(states),
         }
 
 
@@ -355,7 +371,7 @@ async def create_consciousness_state(
     consciousness_type: ConsciousnessType,
     initial_state: Optional[dict[str, float]] = None,
     links: Optional[list[str]] = None,
-    triggers: Optional[list[str]] = None
+    triggers: Optional[list[str]] = None,
 ) -> ConsciousnessState:
     """
     Factory function to create and register a new consciousness state
@@ -369,7 +385,7 @@ async def create_consciousness_state(
         "consciousness_intensity": 0.2,
         "self_awareness_depth": 0.1,
         "ethical_alignment": 1.0,
-        "evolutionary_momentum": 0.0
+        "evolutionary_momentum": 0.0,
     }
     base_state.update(state)
 
@@ -378,7 +394,7 @@ async def create_consciousness_state(
         STATE=base_state,
         LINKS=links or [],
         TRIGGERS=triggers or ["reflection", "decision", "integration", "evolution"],
-        evolutionary_stage=EvolutionaryStage.AWAKENING
+        evolutionary_stage=EvolutionaryStage.AWAKENING,
     )
 
     await consciousness_state_manager.register_consciousness(consciousness)
@@ -392,5 +408,5 @@ __all__ = [
     "ConsciousnessState",
     "MatrizConsciousnessStateManager",
     "consciousness_state_manager",
-    "create_consciousness_state"
+    "create_consciousness_state",
 ]

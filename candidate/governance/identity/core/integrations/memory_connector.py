@@ -541,7 +541,7 @@ class MemoryConnector:
         if isinstance(memory_types, list):
             type_list = [mt.value if hasattr(mt, "value") else str(mt) for mt in memory_types]
         else:
-            type_list = [(memory_types.value if hasattr(memory_types, "value") else str(memory_types))]
+            type_list = [memory_types.value if hasattr(memory_types, "value") else str(memory_types)]
 
         pattern = {
             "timestamp": time.time(),

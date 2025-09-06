@@ -860,12 +860,14 @@ class MultiAgentConsciousnessTrainer:
             "global_episode": self.global_episode,
             "total_training_steps": self.total_training_steps,
             "training_time": time.time() - self.training_start_time if self.training_start_time else 0.0,
-            "recent_rewards": self.global_metrics["episode_rewards"][-10:]
-            if self.global_metrics["episode_rewards"]
-            else [],
-            "consciousness_coherence": self.global_metrics["consciousness_coherence"][-10:]
-            if self.global_metrics["consciousness_coherence"]
-            else [],
+            "recent_rewards": (
+                self.global_metrics["episode_rewards"][-10:] if self.global_metrics["episode_rewards"] else []
+            ),
+            "consciousness_coherence": (
+                self.global_metrics["consciousness_coherence"][-10:]
+                if self.global_metrics["consciousness_coherence"]
+                else []
+            ),
             "module_count": len(self.module_agents),
             "active_modules": len([agent for agent in self.module_agents.values() if agent.episodes_trained > 0]),
         }

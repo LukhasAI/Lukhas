@@ -16,23 +16,29 @@ from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
+
 class CostTier(Enum):
     """Cost tier classification for model usage."""
-    PREMIUM = "premium"      # High-capability, high-cost models
-    STANDARD = "standard"    # Balanced cost/capability models
-    ECONOMY = "economy"      # Fast, low-cost models
-    BULK = "bulk"           # Very low cost for simple tasks
+
+    PREMIUM = "premium"  # High-capability, high-cost models
+    STANDARD = "standard"  # Balanced cost/capability models
+    ECONOMY = "economy"  # Fast, low-cost models
+    BULK = "bulk"  # Very low cost for simple tasks
+
 
 class OptimizationStrategy(Enum):
     """Cost optimization strategies."""
+
     MINIMIZE_COST = "minimize_cost"
     BALANCE_COST_QUALITY = "balance_cost_quality"
     MAXIMIZE_QUALITY = "maximize_quality"
     ADAPTIVE = "adaptive"
 
+
 @dataclass
 class CostProfile:
     """Model cost profile with usage patterns."""
+
     model_id: str
     cost_tier: CostTier
     cost_per_input_token: float
@@ -44,12 +50,13 @@ class CostProfile:
 
     def calculate_request_cost(self, input_tokens: int, output_tokens: int) -> float:
         """Calculate cost for specific token counts."""
-        return (input_tokens * self.cost_per_input_token +
-                output_tokens * self.cost_per_output_token)
+        return input_tokens * self.cost_per_input_token + output_tokens * self.cost_per_output_token
+
 
 @dataclass
 class CostConstraints:
     """Cost constraints for optimization."""
+
     max_cost_per_request: Optional[float] = None
     max_cost_per_hour: Optional[float] = None
     max_cost_per_day: Optional[float] = None
@@ -57,15 +64,18 @@ class CostConstraints:
     quality_threshold: float = 0.7  # Minimum acceptable quality
     strategy: OptimizationStrategy = OptimizationStrategy.BALANCE_COST_QUALITY
 
+
 @dataclass
 class UsageStats:
     """Usage statistics for cost tracking."""
+
     requests_count: int
     total_cost: float
     total_input_tokens: int
     total_output_tokens: int
     avg_quality_score: float
     time_period: timedelta
+
 
 class CostOptimizer:
     """
@@ -94,7 +104,7 @@ class CostOptimizer:
             avg_input_tokens=2000,
             avg_output_tokens=800,
             typical_cost_per_request=0.044,
-            quality_cost_ratio=20.5  # Quality/cost efficiency
+            quality_cost_ratio=20.5,  # Quality/cost efficiency
         )
 
         # Claude-3.5 Sonnet (Premium tier)
@@ -106,7 +116,7 @@ class CostOptimizer:
             avg_input_tokens=2000,
             avg_output_tokens=800,
             typical_cost_per_request=0.018,
-            quality_cost_ratio=52.8  # Excellent quality/cost ratio
+            quality_cost_ratio=52.8,  # Excellent quality/cost ratio
         )
 
         # Gemini Pro 1.5 (Standard tier)
@@ -118,7 +128,7 @@ class CostOptimizer:
             avg_input_tokens=2000,
             avg_output_tokens=800,
             typical_cost_per_request=0.0154,
-            quality_cost_ratio=57.1  # Best cost efficiency
+            quality_cost_ratio=57.1,  # Best cost efficiency
         )
 
         # GPT-3.5 Turbo (Economy tier)
@@ -130,7 +140,7 @@ class CostOptimizer:
             avg_input_tokens=1500,
             avg_output_tokens=600,
             typical_cost_per_request=0.00165,
-            quality_cost_ratio=45.5  # Good for simple tasks
+            quality_cost_ratio=45.5,  # Good for simple tasks
         )
 
         # Claude-3 Haiku (Bulk tier)
@@ -142,7 +152,7 @@ class CostOptimizer:
             avg_input_tokens=1200,
             avg_output_tokens=400,
             typical_cost_per_request=0.0008,
-            quality_cost_ratio=62.5  # Excellent for bulk tasks
+            quality_cost_ratio=62.5,  # Excellent for bulk tasks
         )
 
     def _update_usage_tracking(self):
@@ -159,8 +169,7 @@ class CostOptimizer:
             self.current_usage["day"] = 0.0
             self.last_reset["day"] = now.replace(hour=0, minute=0)
 
-    def check_cost_constraints(self, estimated_cost: float,
-                              constraints: CostConstraints) -> bool:
+    def check_cost_constraints(self, estimated_cost: float, constraints: CostConstraints) -> bool:
         """Check if estimated cost violates constraints."""
         self._update_usage_tracking()
 
@@ -193,9 +202,9 @@ class CostOptimizer:
 
         return 0.0
 
-    def optimize_model_selection(self,
-                               candidate_models: list[tuple[str, float]],
-                               constraints: CostConstraints) -> list[tuple[str, float, float]]:
+    def optimize_model_selection(
+        self, candidate_models: list[tuple[str, float]], constraints: CostConstraints
+    ) -> list[tuple[str, float, float]]:
         """
         Optimize model selection based on cost constraints and strategy.
 
@@ -259,6 +268,7 @@ class CostOptimizer:
             if daily_usage_ratio > 0.7:  # High usage - prioritize cost
                 optimized_candidates.sort(key=lambda x: -x[2])
             else:  # Normal usage - balance quality and cost
+
                 def adaptive_score(candidate):
                     model_id, quality, efficiency = candidate
                     cost_weight = min(1.0, daily_usage_ratio * 2)  # Increase cost importance
@@ -269,15 +279,14 @@ class CostOptimizer:
 
         return optimized_candidates
 
-    def select_cost_optimal_model(self,
-                                 candidate_models: list[tuple[str, float]],
-                                 constraints: CostConstraints) -> Optional[str]:
+    def select_cost_optimal_model(
+        self, candidate_models: list[tuple[str, float]], constraints: CostConstraints
+    ) -> Optional[str]:
         """Select the most cost-optimal model from candidates."""
         optimized = self.optimize_model_selection(candidate_models, constraints)
         return optimized[0][0] if optimized else None
 
-    def record_usage(self, model_id: str, input_tokens: int, output_tokens: int,
-                    quality_score: float):
+    def record_usage(self, model_id: str, input_tokens: int, output_tokens: int, quality_score: float):
         """Record model usage for cost tracking and optimization."""
         if model_id not in self.cost_profiles:
             return
@@ -297,7 +306,7 @@ class CostOptimizer:
             "input_tokens": input_tokens,
             "output_tokens": output_tokens,
             "cost": cost,
-            "quality_score": quality_score
+            "quality_score": quality_score,
         }
 
         self.usage_history.append(usage_record)
@@ -316,10 +325,7 @@ class CostOptimizer:
         else:
             time_period = timedelta(days=1)  # Default to last day
 
-        relevant_usage = [
-            record for record in self.usage_history
-            if record["timestamp"] >= cutoff_time
-        ]
+        relevant_usage = [record for record in self.usage_history if record["timestamp"] >= cutoff_time]
 
         if not relevant_usage:
             return UsageStats(0, 0.0, 0, 0, 0.0, time_period)
@@ -335,18 +341,18 @@ class CostOptimizer:
             total_input_tokens=total_input_tokens,
             total_output_tokens=total_output_tokens,
             avg_quality_score=avg_quality,
-            time_period=time_period
+            time_period=time_period,
         )
 
-    def get_model_cost_analysis(self, model_id: str,
-                               time_period: Optional[timedelta] = None) -> dict[str, Any]:
+    def get_model_cost_analysis(self, model_id: str, time_period: Optional[timedelta] = None) -> dict[str, Any]:
         """Get detailed cost analysis for specific model."""
         cutoff_time = datetime.now()
         if time_period:
             cutoff_time -= time_period
 
         model_usage = [
-            record for record in self.usage_history
+            record
+            for record in self.usage_history
             if record["model_id"] == model_id and record["timestamp"] >= cutoff_time
         ]
 
@@ -364,15 +370,16 @@ class CostOptimizer:
             "cost_std_dev": statistics.stdev(costs) if len(costs) > 1 else 0.0,
             "average_quality": statistics.mean(qualities),
             "cost_efficiency": statistics.mean(qualities) / statistics.mean(costs),
-            "total_tokens": sum(r["input_tokens"] + r["output_tokens"] for r in model_usage)
+            "total_tokens": sum(r["input_tokens"] + r["output_tokens"] for r in model_usage),
         }
 
-    def recommend_cost_optimization(self, current_usage: UsageStats,
-                                  constraints: CostConstraints) -> dict[str, Any]:
+    def recommend_cost_optimization(self, current_usage: UsageStats, constraints: CostConstraints) -> dict[str, Any]:
         """Provide cost optimization recommendations."""
         recommendations = {
-            "current_efficiency": current_usage.avg_quality_score / current_usage.total_cost if current_usage.total_cost > 0 else 0,
-            "suggestions": []
+            "current_efficiency": (
+                current_usage.avg_quality_score / current_usage.total_cost if current_usage.total_cost > 0 else 0
+            ),
+            "suggestions": [],
         }
 
         # Analyze usage patterns
@@ -381,19 +388,23 @@ class CostOptimizer:
 
             # High cost per request
             if cost_per_request > 0.02:
-                recommendations["suggestions"].append({
-                    "type": "high_cost_per_request",
-                    "message": f"Average cost per request (${cost_per_request:.4f}) is high. Consider using economy tier models for simpler tasks.",
-                    "priority": "medium"
-                })
+                recommendations["suggestions"].append(
+                    {
+                        "type": "high_cost_per_request",
+                        "message": f"Average cost per request (${cost_per_request:.4f}) is high. Consider using economy tier models for simpler tasks.",
+                        "priority": "medium",
+                    }
+                )
 
             # Low quality for cost
             if current_usage.avg_quality_score < 0.8 and cost_per_request > 0.01:
-                recommendations["suggestions"].append({
-                    "type": "poor_quality_cost_ratio",
-                    "message": "Quality/cost ratio is suboptimal. Review model selection strategy.",
-                    "priority": "high"
-                })
+                recommendations["suggestions"].append(
+                    {
+                        "type": "poor_quality_cost_ratio",
+                        "message": "Quality/cost ratio is suboptimal. Review model selection strategy.",
+                        "priority": "high",
+                    }
+                )
 
             # Budget utilization
             if constraints.max_cost_per_day:
@@ -401,17 +412,21 @@ class CostOptimizer:
                 utilization = daily_usage / constraints.max_cost_per_day
 
                 if utilization > 0.8:
-                    recommendations["suggestions"].append({
-                        "type": "high_budget_utilization",
-                        "message": f"Daily budget {utilization*100:.1f}% utilized. Consider switching to economy models.",
-                        "priority": "high"
-                    })
+                    recommendations["suggestions"].append(
+                        {
+                            "type": "high_budget_utilization",
+                            "message": f"Daily budget {utilization*100:.1f}% utilized. Consider switching to economy models.",
+                            "priority": "high",
+                        }
+                    )
                 elif utilization < 0.3:
-                    recommendations["suggestions"].append({
-                        "type": "low_budget_utilization",
-                        "message": f"Daily budget only {utilization*100:.1f}% utilized. Could use premium models for better quality.",
-                        "priority": "low"
-                    })
+                    recommendations["suggestions"].append(
+                        {
+                            "type": "low_budget_utilization",
+                            "message": f"Daily budget only {utilization*100:.1f}% utilized. Could use premium models for better quality.",
+                            "priority": "low",
+                        }
+                    )
 
         return recommendations
 

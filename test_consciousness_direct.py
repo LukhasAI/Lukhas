@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 candidate_core_path = Path(__file__).parent / "candidate" / "core"
 sys.path.insert(0, str(candidate_core_path))
 
+
 async def test_consciousness_emergence():
     """Test consciousness emergence with real outputs"""
     print("🧠 Starting MΛTRIZ Consciousness Emergence Test")
@@ -28,6 +29,7 @@ async def test_consciousness_emergence():
     try:
         # Import consciousness system
         from matriz_consciousness_integration import create_matriz_consciousness_system
+
         logger.info("✅ Successfully imported MΛTRIZ consciousness system")
 
         # Create system
@@ -39,7 +41,9 @@ async def test_consciousness_emergence():
         await system.start_system()
 
         initial_status = system.get_system_status()
-        logger.info(f"✅ System started - Active: {initial_status['is_active']}, Health: {initial_status['network_health_score']:.3f}")
+        logger.info(
+            f"✅ System started - Active: {initial_status['is_active']}, Health: {initial_status['network_health_score']:.3f}"
+        )
 
         # Test consciousness processing
         logger.info("🔄 Processing consciousness cycle...")
@@ -126,7 +130,7 @@ async def test_consciousness_emergence():
             "evolution_stages": len(evolutionary_stages),
             "avg_cycle_time_ms": avg_cycle_time,
             "avg_coherence": avg_coherence,
-            "performance_cycles": performance_cycles
+            "performance_cycles": performance_cycles,
         }
 
     except ImportError as e:
@@ -139,6 +143,7 @@ async def test_consciousness_emergence():
         logger.error(f"Traceback: {traceback.format_exc()}")
         return {"test_passed": False, "error": f"Runtime error: {e}"}
 
+
 async def test_sistema_demo():
     """Test the integrated system demonstration"""
     print("\n🌟 Starting MΛTRIZ System Demo Test")
@@ -146,6 +151,7 @@ async def test_sistema_demo():
 
     try:
         from matriz_consciousness_integration import run_matriz_system_demo
+
         logger.info("✅ Imported demo system")
 
         logger.info("🚀 Running complete MΛTRIZ system demonstration...")
@@ -184,6 +190,7 @@ async def test_sistema_demo():
         logger.error(f"❌ Demo test failed: {e}")
         logger.error(f"Traceback: {traceback.format_exc()}")
         return {"demo_passed": False, "error": str(e)}
+
 
 async def main():
     """Run all consciousness tests"""
@@ -248,6 +255,7 @@ async def main():
     print("=" * 80)
 
     return all_results
+
 
 if __name__ == "__main__":
     # Run the comprehensive test

@@ -32,9 +32,7 @@ try:
     AIOHTTP_AVAILABLE_FLAG = True
 except ImportError:
     log_init_aim_aio = structlog.get_logger(__name__)
-    log_init_aim_aio.warning(
-        "aiohttp lib not found. AIIntegrationManager async HTTP calls will use placeholder/fail."
-    )
+    log_init_aim_aio.warning("aiohttp lib not found. AIIntegrationManager async HTTP calls will use placeholder/fail.")
 
     class AIOHTTPClientSessionPH:
         async def __aenter__(self):
@@ -74,9 +72,7 @@ def lukhas_tier_required(level: int):  # Placeholder:
     return decorator
 
 
-DEFAULT_LUKHAS_AI_INTEGRATION_WORKSPACE = Path(
-    "./.lukhas_ai_integration_data"
-)  # Changed name
+DEFAULT_LUKHAS_AI_INTEGRATION_WORKSPACE = Path("./.lukhas_ai_integration_data")  # Changed name
 DEFAULT_AI_CONFIG_FILENAME_STR = "ai_services_config.json"
 DEFAULT_AI_RESPONSES_DIR_STR = "ai_service_responses"
 
@@ -113,16 +109,12 @@ class AIIntegrationManager:
         workspace_root: Optional[Union[str, Path]] = None,
         config_filename: str = DEFAULT_AI_CONFIG_FILENAME_STR,
     ):
-        self.workspace_path: Path = Path(
-            workspace_root or DEFAULT_LUKHAS_AI_INTEGRATION_WORKSPACE
-        ).resolve()
+        self.workspace_path: Path = Path(workspace_root or DEFAULT_LUKHAS_AI_INTEGRATION_WORKSPACE).resolve()
         self.workspace_path.mkdir(parents=True, exist_ok=True)
         self.cfg_file_path: Path = self.workspace_path / config_filename
         self.cfg: dict[str, Any] = self._load_ai_service_config()
         self.active_tasks_map: dict[str, AITask] = {}
-        self.responses_storage_dir: Path = (
-            self.workspace_path / DEFAULT_AI_RESPONSES_DIR_STR
-        )
+        self.responses_storage_dir: Path = self.workspace_path / DEFAULT_AI_RESPONSES_DIR_STR
         self.responses_storage_dir.mkdir(parents=True, exist_ok=True)
         log.info(
             "AIIntegrationManager initialized.",
@@ -163,9 +155,7 @@ class AIIntegrationManager:
                 ),
                 "model": os.getenv(
                     "LUKHAS_CLAUDE_MODEL",
-                    cfg_data.get("anthropic_claude", {}).get(
-                        "model", "claude-3-opus-20240229"
-                    ),
+                    cfg_data.get("anthropic_claude", {}).get("model", "claude-3-opus-20240229"),
                 ),
             }
         )  # Updated model
@@ -203,9 +193,7 @@ class AIIntegrationManager:
         )
         return cfg_data
 
-    async def _read_file_for_task(
-        self, rel_path: str, max_chars: int = 2500
-    ) -> str:  # Renamed
+    async def _read_file_for_task(self, rel_path: str, max_chars: int = 2500) -> str:  # Renamed
         full_p = self.workspace_path / rel_path
         if not full_p.is_file():
             log.warning("File not found for task.", path=str(full_p))
@@ -213,11 +201,7 @@ class AIIntegrationManager:
         try:
             with open(full_p, encoding="utf-8", errors="replace") as f:
                 content = f.read(max_chars + 100)  # Read bit more
-            return (
-                content[:max_chars] + "\n... [TRUNCATED]"
-                if len(content) > max_chars
-                else content
-            )
+            return content[:max_chars] + "\n... [TRUNCATED]" if len(content) > max_chars else content
         except Exception as e:
             log.error("Error reading file for task.", path=str(full_p), error=str(e))
             return f"[Read Error: {rel_path} - {e}]"
@@ -230,9 +214,7 @@ class AIIntegrationManager:
         key = cfg.get("api_key")
         if not key:
             log.error("Anthropic key N/A for Claude.", task=task.id)
-            return AIResponse(
-                task.id, "claude", "Error: Anthropic key missing.", {}, False
-            )
+            return AIResponse(task.id, "claude", "Error: Anthropic key missing.", {}, False)
         if not AIOHTTP_AVAILABLE_FLAG:
             log.error("aiohttp N/A for Claude.", task=task.id)
             return AIResponse(task.id, "claude", "Error: aiohttp missing.", {}, False)
@@ -267,15 +249,9 @@ class AIIntegrationManager:
                 ) as r:  # 3 min timeout
                     resp_data = await r.json()
                     if r.status == 200 and resp_data.get("content"):
-                        text = "".join(
-                            b["text"]
-                            for b in resp_data["content"]
-                            if b["type"] == "text"
-                        )
+                        text = "".join(b["text"] for b in resp_data["content"] if b["type"] == "text")
                         log.info("Claude task OK.", task=task.id, len=len(text))
-                        return AIResponse(
-                            task.id, "claude_anthropic", text, resp_data, True
-                        )
+                        return AIResponse(task.id, "claude_anthropic", text, resp_data, True)
                     else:
                         err = resp_data.get("error", {}).get("message", await r.text())
                         log.error(
@@ -307,9 +283,7 @@ class AIIntegrationManager:
                 err=str(e),
                 exc_info=True,
             )
-            return AIResponse(
-                task.id, "claude_anthropic", f"Request Err: {e}", {}, False
-            )
+            return AIResponse(task.id, "claude_anthropic", f"Request Err: {e}", {}, False)
 
     # ... Other delegate methods (OpenAI, Copilot) would be standardized similarly ...
     # Example for delegate_to_openai (conceptual, assuming OpenAI client is
@@ -320,15 +294,11 @@ class AIIntegrationManager:
         key = cfg.get("api_key")
         if not key:
             log.error("OpenAI key N/A.", task=task.id)
-            return AIResponse(
-                task.id, "openai", "Error: OpenAI key missing.", {}, False
-            )
+            return AIResponse(task.id, "openai", "Error: OpenAI key missing.", {}, False)
         # This would use an OpenAI client, e.g. from the 'openai' library
         # For this example, I'll simulate a similar structure to Claude for consistency of the example
         # Actual OpenAI SDK usage would differ.
-        log.warning(
-            "OpenAI delegation uses conceptual raw HTTP in this example; use OpenAI SDK in production."
-        )
+        log.warning("OpenAI delegation uses conceptual raw HTTP in this example; use OpenAI SDK in production.")
         if not AIOHTTP_AVAILABLE_FLAG:
             log.error("aiohttp N/A for OpenAI conceptual call.", task=task.id)
             return AIResponse(task.id, "openai", "Error: aiohttp missing.", {}, False)
@@ -344,7 +314,9 @@ class AIIntegrationManager:
             file_contents.append(f"\n\n--- File: {fp} ---\n{content}")
         files_ctx = "".join(file_contents)  # Smaller context for OpenAI
 
-        sys_prompt = "You are an expert AI assistant for LUKHΛS. Provide detailed, actionable software engineering analysis."
+        sys_prompt = (
+            "You are an expert AI assistant for LUKHΛS. Provide detailed, actionable software engineering analysis."
+        )
         user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2)}\nFiles:\n{files_ctx}\nResponse:"
         payload = {
             "model": cfg.get("model"),
@@ -489,9 +461,7 @@ class AIIntegrationManager:
             )
             return AIResponse(task.id, "gh_copilot_cli", f"Exec Err: {e}", {}, False)
 
-    async def delegate_task(
-        self, task: AITask, preferred_service: str = "auto"
-    ) -> AIResponse:
+    async def delegate_task(self, task: AITask, preferred_service: str = "auto") -> AIResponse:
         """Delegates task to the best/preferred available AI service."""
         self.active_tasks_map[task.id] = task
         log.info(
@@ -502,23 +472,17 @@ class AIIntegrationManager:
         )
         response: Optional[AIResponse] = None
         if preferred_service == "claude" or (
-            preferred_service == "auto"
-            and self.cfg.get("anthropic_claude", {}).get("api_key")
+            preferred_service == "auto" and self.cfg.get("anthropic_claude", {}).get("api_key")
         ):
             response = await self.delegate_to_claude(task)
         elif preferred_service == "openai" or (
-            preferred_service == "auto"
-            and self.cfg.get("openai_gpt", {}).get("api_key")
+            preferred_service == "auto" and self.cfg.get("openai_gpt", {}).get("api_key")
         ):
             response = await self.delegate_to_openai(task)
-        elif preferred_service == "copilot" and self.cfg.get("github_copilot", {}).get(
-            "cli_enabled"
-        ):
+        elif preferred_service == "copilot" and self.cfg.get("github_copilot", {}).get("cli_enabled"):
             # Run sync Copilot in executor for async context
             loop = asyncio.get_running_loop()
-            response = await loop.run_in_executor(
-                None, self.use_github_copilot_cli, task
-            )
+            response = await loop.run_in_executor(None, self.use_github_copilot_cli, task)
 
         if response is None:
             response = self._local_analysis_fallback(task)  # Renamed
@@ -565,9 +529,7 @@ class AIIntegrationManager:
 
 class TaskTemplates:  # Static methods, no init needed
     @staticmethod
-    def code_analysis(
-        file_paths: list[str], analysis_focus: str = "modularization"
-    ) -> AITask:  # Renamed, more params
+    def code_analysis(file_paths: list[str], analysis_focus: str = "modularization") -> AITask:  # Renamed, more params
         return AITask(
             id=f"code_analysis_{Path(file_paths[0]).stem if file_paths else 'general'}_{uuid.uuid4().hex[:6]}",
             type="code_analysis",

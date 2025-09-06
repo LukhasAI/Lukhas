@@ -34,6 +34,7 @@ logger = logging.getLogger(__name__)
 
 class AlertLevel(Enum):
     """Alert severity levels"""
+
     INFO = "info"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -42,6 +43,7 @@ class AlertLevel(Enum):
 
 class MonitoringState(Enum):
     """Network monitoring states"""
+
     INITIALIZING = "initializing"
     ACTIVE = "active"
     DEGRADED = "degraded"
@@ -52,6 +54,7 @@ class MonitoringState(Enum):
 @dataclass
 class ConsciousnessAlert:
     """Consciousness network alert"""
+
     alert_id: str
     level: AlertLevel
     title: str
@@ -66,6 +69,7 @@ class ConsciousnessAlert:
 @dataclass
 class NetworkHealth:
     """Comprehensive network health assessment"""
+
     overall_score: float  # 0.0 - 1.0
     consciousness_coherence: float
     bio_adaptation_health: float
@@ -79,6 +83,7 @@ class NetworkHealth:
 @dataclass
 class PerformanceMetrics:
     """Detailed performance metrics"""
+
     # Throughput metrics
     signals_per_second: float = 0.0
     peak_signals_per_second: float = 0.0
@@ -102,6 +107,7 @@ class PerformanceMetrics:
 @dataclass
 class AnomalyDetection:
     """Anomaly detection result"""
+
     anomaly_id: str
     anomaly_type: str
     severity: float  # 0.0 - 1.0
@@ -121,7 +127,7 @@ class ConsciousnessNetworkMonitor:
     def __init__(
         self,
         flow_manager: Optional[ConsciousnessDataFlowManager] = None,
-        adapter: Optional[EnhancedMatrizAdapter] = None
+        adapter: Optional[EnhancedMatrizAdapter] = None,
     ):
         self.flow_manager = flow_manager
         self.adapter = adapter
@@ -146,7 +152,7 @@ class ConsciousnessNetworkMonitor:
             "queue_warning": 0.8,
             "queue_critical": 0.95,
             "trinity_compliance_warning": 0.8,
-            "cascade_prevention_warning": 0.995
+            "cascade_prevention_warning": 0.995,
         }
 
         # Anomaly detection
@@ -176,7 +182,7 @@ class ConsciousnessNetworkMonitor:
             asyncio.create_task(self._performance_monitor()),
             asyncio.create_task(self._anomaly_detector()),
             asyncio.create_task(self._alert_processor()),
-            asyncio.create_task(self._metrics_collector())
+            asyncio.create_task(self._metrics_collector()),
         ]
 
         # Initialize baseline metrics
@@ -247,14 +253,9 @@ class ConsciousnessNetworkMonitor:
         # Calculate individual health components
 
         # 1. Consciousness Coherence (based on network state and signal flow)
-        {
-            "synchronized": 1.0,
-            "active": 0.9,
-            "degraded": 0.6,
-            "recovery": 0.4,
-            "emergency": 0.1
-        }.get(network_status.get("flow_state", "active"), 0.8)
-
+        {"synchronized": 1.0, "active": 0.9, "degraded": 0.6, "recovery": 0.4, "emergency": 0.1}.get(
+            network_status.get("flow_state", "active"), 0.8
+        )
 
         # 2. Bio-Adaptation Health (pattern emergence and effectiveness)
         network_status.get("metrics", {}).get("bio_adaptation_efficiency", 0.0)

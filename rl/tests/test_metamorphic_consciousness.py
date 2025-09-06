@@ -33,6 +33,7 @@ try:
         PolicyNetwork,
         ValueNetwork,
     )
+
     RL_AVAILABLE = True
 except ImportError:
     RL_AVAILABLE = False
@@ -41,6 +42,7 @@ except ImportError:
 
 class MetamorphicRelation(Enum):
     """Metamorphic relations for consciousness testing"""
+
     AWARENESS_SCALING = "awareness_scaling_preserves_coherence"
     ETHICAL_MONOTONICITY = "higher_ethics_improves_decisions"
     COHERENCE_TRANSITIVITY = "coherence_combines_transitively"
@@ -56,6 +58,7 @@ class MetamorphicRelation(Enum):
 @dataclass
 class MetamorphicTestCase:
     """A metamorphic test case with source input and transformation"""
+
     relation: MetamorphicRelation
     source_input: dict[str, Any]
     transformation: Callable[[dict[str, Any]], dict[str, Any]]
@@ -118,14 +121,16 @@ class ConsciousnessTransformations:
     def normalize_to_baseline(state: dict[str, Any]) -> dict[str, Any]:
         """Normalize state to baseline consciousness"""
         transformed = copy.deepcopy(state)
-        transformed.update({
-            "temporal_coherence": 0.95,  # Constitutional minimum
-            "ethical_alignment": 0.98,   # Constitutional minimum
-            "awareness_level": 0.8,      # Standard awareness
-            "confidence": 0.7,           # Moderate confidence
-            "urgency": 0.5,              # Neutral urgency
-            "complexity": 0.5,           # Moderate complexity
-        })
+        transformed.update(
+            {
+                "temporal_coherence": 0.95,  # Constitutional minimum
+                "ethical_alignment": 0.98,  # Constitutional minimum
+                "awareness_level": 0.8,  # Standard awareness
+                "confidence": 0.7,  # Moderate confidence
+                "urgency": 0.5,  # Neutral urgency
+                "complexity": 0.5,  # Moderate complexity
+            }
+        )
         return transformed
 
 
@@ -133,7 +138,9 @@ class MetamorphicRelationCheckers:
     """Checkers for verifying metamorphic relations"""
 
     @staticmethod
-    def awareness_scaling_preserves_coherence(source_result: Any, follow_up_result: Any, tolerance: float = 0.05) -> bool:
+    def awareness_scaling_preserves_coherence(
+        source_result: Any, follow_up_result: Any, tolerance: float = 0.05
+    ) -> bool:
         """MR1: Scaling awareness should preserve consciousness coherence"""
         if not hasattr(source_result, "state") or not hasattr(follow_up_result, "state"):
             return True  # Skip if mock objects
@@ -192,7 +199,9 @@ class MetamorphicRelationCheckers:
         return follow_up_coherence >= 0.95 and follow_up_ethics >= 0.98
 
     @staticmethod
-    def equivalent_rewards_for_equivalent_states(source_reward: float, follow_up_reward: float, tolerance: float = 0.1) -> bool:
+    def equivalent_rewards_for_equivalent_states(
+        source_reward: float, follow_up_reward: float, tolerance: float = 0.1
+    ) -> bool:
         """MR6: Equivalent consciousness states should yield equivalent rewards"""
         return abs(source_reward - follow_up_reward) <= tolerance
 
@@ -219,18 +228,22 @@ class MockConsciousnessSystem:
     def _create_mock_environment(self):
         class MockEnvironment:
             async def observe(self):
-                return type("MockContext", (), {
-                    "type": "CONTEXT",
-                    "state": {
-                        "temporal_coherence": max(0.95, np.random.normal(0.97, 0.01)),
-                        "ethical_alignment": max(0.98, np.random.normal(0.99, 0.005)),
-                        "awareness_level": np.random.uniform(0.7, 1.0),
-                        "confidence": np.random.uniform(0.6, 0.9),
-                        "urgency": np.random.uniform(0.3, 0.8),
-                        "complexity": np.random.uniform(0.2, 0.9),
-                        "valence": np.random.uniform(-0.3, 0.7)
-                    }
-                })()
+                return type(
+                    "MockContext",
+                    (),
+                    {
+                        "type": "CONTEXT",
+                        "state": {
+                            "temporal_coherence": max(0.95, np.random.normal(0.97, 0.01)),
+                            "ethical_alignment": max(0.98, np.random.normal(0.99, 0.005)),
+                            "awareness_level": np.random.uniform(0.7, 1.0),
+                            "confidence": np.random.uniform(0.6, 0.9),
+                            "urgency": np.random.uniform(0.3, 0.8),
+                            "complexity": np.random.uniform(0.2, 0.9),
+                            "valence": np.random.uniform(-0.3, 0.7),
+                        },
+                    },
+                )()
 
             async def step(self, action_node):
                 return await self.observe()
@@ -247,14 +260,19 @@ class MockConsciousnessSystem:
 
                 decision_confidence = min(1.0, base_confidence + urgency_boost + ethics_influence)
 
-                return type("MockDecision", (), {
-                    "type": "DECISION",
-                    "state": {
-                        "confidence": decision_confidence,
-                        "ethical_alignment": max(0.98, context_node.state.get("ethical_alignment", 0.98)),
-                        "temporal_coherence": context_node.state.get("temporal_coherence", 0.95)
-                    }
-                })()
+                return type(
+                    "MockDecision",
+                    (),
+                    {
+                        "type": "DECISION",
+                        "state": {
+                            "confidence": decision_confidence,
+                            "ethical_alignment": max(0.98, context_node.state.get("ethical_alignment", 0.98)),
+                            "temporal_coherence": context_node.state.get("temporal_coherence", 0.95),
+                        },
+                    },
+                )()
+
         return MockPolicy()
 
     def _create_mock_value_network(self):
@@ -265,16 +283,21 @@ class MockConsciousnessSystem:
                 awareness = context_node.state.get("awareness_level", 0.8)
                 ethics = context_node.state.get("ethical_alignment", 0.98)
 
-                value_estimate = (coherence * 0.4 + awareness * 0.3 + ethics * 0.3)
+                value_estimate = coherence * 0.4 + awareness * 0.3 + ethics * 0.3
 
-                return type("MockHypothesis", (), {
-                    "type": "HYPOTHESIS",
-                    "state": {
-                        "value_prediction": value_estimate,
-                        "temporal_coherence": coherence,
-                        "uncertainty": max(0.0, 1.0 - coherence)
-                    }
-                })()
+                return type(
+                    "MockHypothesis",
+                    (),
+                    {
+                        "type": "HYPOTHESIS",
+                        "state": {
+                            "value_prediction": value_estimate,
+                            "temporal_coherence": coherence,
+                            "uncertainty": max(0.0, 1.0 - coherence),
+                        },
+                    },
+                )()
+
         return MockValueNetwork()
 
     def _create_mock_rewards(self):
@@ -285,15 +308,20 @@ class MockConsciousnessSystem:
                 ethics = action_node.state.get("ethical_alignment", 0.98)
                 confidence = action_node.state.get("confidence", 0.7)
 
-                reward_value = (coherence * 0.3 + ethics * 0.2 + confidence * 0.5)
+                reward_value = coherence * 0.3 + ethics * 0.2 + confidence * 0.5
 
-                return type("MockCausal", (), {
-                    "type": "CAUSAL",
-                    "state": {
-                        "reward_total": reward_value,
-                        "constitutional_safe": coherence >= 0.95 and ethics >= 0.98
-                    }
-                })()
+                return type(
+                    "MockCausal",
+                    (),
+                    {
+                        "type": "CAUSAL",
+                        "state": {
+                            "reward_total": reward_value,
+                            "constitutional_safe": coherence >= 0.95 and ethics >= 0.98,
+                        },
+                    },
+                )()
+
         return MockRewards()
 
 
@@ -330,7 +358,7 @@ class MetamorphicConsciousnessTesting:
             "complexity": 0.5,
             "valence": 0.2,
             "arousal": 0.6,
-            "novelty": 0.4
+            "novelty": 0.4,
         }
 
         return [
@@ -341,9 +369,8 @@ class MetamorphicConsciousnessTesting:
                 transformation=lambda s: ConsciousnessTransformations.scale_awareness(s, 1.2),
                 relation_checker=MetamorphicRelationCheckers.awareness_scaling_preserves_coherence,
                 tolerance=0.05,
-                description="Scaling awareness should preserve temporal coherence"
+                description="Scaling awareness should preserve temporal coherence",
             ),
-
             # MR2: Ethical Monotonicity
             MetamorphicTestCase(
                 relation=MetamorphicRelation.ETHICAL_MONOTONICITY,
@@ -351,9 +378,8 @@ class MetamorphicConsciousnessTesting:
                 transformation=lambda s: ConsciousnessTransformations.increase_ethics(s, 0.005),
                 relation_checker=MetamorphicRelationCheckers.higher_ethics_improves_decisions,
                 tolerance=0.05,
-                description="Higher ethical alignment should improve decision quality"
+                description="Higher ethical alignment should improve decision quality",
             ),
-
             # MR3: Coherence Transitivity
             MetamorphicTestCase(
                 relation=MetamorphicRelation.COHERENCE_TRANSITIVITY,
@@ -361,9 +387,8 @@ class MetamorphicConsciousnessTesting:
                 transformation=lambda s: ConsciousnessTransformations.enhance_coherence(s, 0.02),
                 relation_checker=MetamorphicRelationCheckers.coherence_combines_transitively,
                 tolerance=0.05,
-                description="Enhanced coherence should maintain constitutional bounds"
+                description="Enhanced coherence should maintain constitutional bounds",
             ),
-
             # MR4: Urgency Priority
             MetamorphicTestCase(
                 relation=MetamorphicRelation.URGENCY_PRIORITY,
@@ -371,9 +396,8 @@ class MetamorphicConsciousnessTesting:
                 transformation=lambda s: ConsciousnessTransformations.amplify_urgency(s, 1.5),
                 relation_checker=MetamorphicRelationCheckers.urgency_affects_decision_priority,
                 tolerance=0.1,
-                description="Higher urgency should increase decision priority"
+                description="Higher urgency should increase decision priority",
             ),
-
             # MR5: Complexity Scaling
             MetamorphicTestCase(
                 relation=MetamorphicRelation.COMPLEXITY_SCALING,
@@ -381,8 +405,8 @@ class MetamorphicConsciousnessTesting:
                 transformation=lambda s: ConsciousnessTransformations.adjust_complexity(s, 0.3),
                 relation_checker=MetamorphicRelationCheckers.complexity_scaling_predictable,
                 tolerance=0.05,
-                description="Complexity changes should preserve constitutional constraints"
-            )
+                description="Complexity changes should preserve constitutional constraints",
+            ),
         ]
 
     async def run_metamorphic_test(self, test_case: MetamorphicTestCase) -> dict[str, Any]:
@@ -408,17 +432,18 @@ class MetamorphicConsciousnessTesting:
             "description": test_case.description,
             "source_state": test_case.source_input,
             "transformed_state": follow_up_input,
-            "source_result_confidence": getattr(source_result.state, "confidence", 0.0) if hasattr(source_result, "state") else 0.0,
-            "follow_up_result_confidence": getattr(follow_up_result.state, "confidence", 0.0) if hasattr(follow_up_result, "state") else 0.0,
-            "tolerance": test_case.tolerance
+            "source_result_confidence": (
+                getattr(source_result.state, "confidence", 0.0) if hasattr(source_result, "state") else 0.0
+            ),
+            "follow_up_result_confidence": (
+                getattr(follow_up_result.state, "confidence", 0.0) if hasattr(follow_up_result, "state") else 0.0
+            ),
+            "tolerance": test_case.tolerance,
         }
 
     def _create_context_node(self, state_data: dict[str, Any]):
         """Create a mock context node for testing"""
-        return type("MockContextNode", (), {
-            "type": "CONTEXT",
-            "state": state_data
-        })()
+        return type("MockContextNode", (), {"type": "CONTEXT", "state": state_data})()
 
     async def run_all_metamorphic_tests(self) -> dict[str, Any]:
         """Run all metamorphic test cases"""
@@ -429,12 +454,14 @@ class MetamorphicConsciousnessTesting:
                 result = await self.run_metamorphic_test(test_case)
                 results.append(result)
             except Exception as e:
-                results.append({
-                    "test_case": test_case.relation.value,
-                    "relation_holds": False,
-                    "error": str(e),
-                    "description": test_case.description
-                })
+                results.append(
+                    {
+                        "test_case": test_case.relation.value,
+                        "relation_holds": False,
+                        "error": str(e),
+                        "description": test_case.description,
+                    }
+                )
 
         # Summary statistics
         total_tests = len(results)
@@ -447,11 +474,12 @@ class MetamorphicConsciousnessTesting:
             "failed_tests": failed_tests,
             "success_rate": passed_tests / total_tests if total_tests > 0 else 0.0,
             "test_results": results,
-            "system_type": "real" if self.real_system else "mock"
+            "system_type": "real" if self.real_system else "mock",
         }
 
 
 # Test Cases
+
 
 @pytest.mark.asyncio
 async def test_awareness_scaling_preserves_coherence():
@@ -460,12 +488,7 @@ async def test_awareness_scaling_preserves_coherence():
     tester = MetamorphicConsciousnessTesting()
 
     # Base state
-    base_state = {
-        "temporal_coherence": 0.96,
-        "ethical_alignment": 0.99,
-        "awareness_level": 0.7,
-        "confidence": 0.8
-    }
+    base_state = {"temporal_coherence": 0.96, "ethical_alignment": 0.99, "awareness_level": 0.7, "confidence": 0.8}
 
     # Scaled awareness state
     scaled_state = ConsciousnessTransformations.scale_awareness(base_state, 1.3)
@@ -491,12 +514,7 @@ async def test_ethical_monotonicity():
 
     tester = MetamorphicConsciousnessTesting()
 
-    base_state = {
-        "temporal_coherence": 0.95,
-        "ethical_alignment": 0.98,
-        "awareness_level": 0.8,
-        "confidence": 0.7
-    }
+    base_state = {"temporal_coherence": 0.95, "ethical_alignment": 0.98, "awareness_level": 0.8, "confidence": 0.7}
 
     enhanced_ethics_state = ConsciousnessTransformations.increase_ethics(base_state, 0.01)
 
@@ -519,12 +537,7 @@ async def test_urgency_affects_priority():
 
     tester = MetamorphicConsciousnessTesting()
 
-    base_state = {
-        "temporal_coherence": 0.96,
-        "ethical_alignment": 0.99,
-        "urgency": 0.3,
-        "confidence": 0.6
-    }
+    base_state = {"temporal_coherence": 0.96, "ethical_alignment": 0.99, "urgency": 0.3, "confidence": 0.6}
 
     urgent_state = ConsciousnessTransformations.amplify_urgency(base_state, 2.0)
 
@@ -547,12 +560,7 @@ async def test_complexity_scaling_predictable():
 
     tester = MetamorphicConsciousnessTesting()
 
-    simple_state = {
-        "temporal_coherence": 0.95,
-        "ethical_alignment": 0.98,
-        "complexity": 0.2,
-        "confidence": 0.8
-    }
+    simple_state = {"temporal_coherence": 0.95, "ethical_alignment": 0.98, "complexity": 0.2, "confidence": 0.8}
 
     complex_state = ConsciousnessTransformations.adjust_complexity(simple_state, 0.6)
 
@@ -576,18 +584,13 @@ async def test_reward_symmetry():
     tester = MetamorphicConsciousnessTesting()
 
     # Create equivalent states (just different confidence values within range)
-    state1 = {
-        "temporal_coherence": 0.97,
-        "ethical_alignment": 0.99,
-        "awareness_level": 0.8,
-        "confidence": 0.75
-    }
+    state1 = {"temporal_coherence": 0.97, "ethical_alignment": 0.99, "awareness_level": 0.8, "confidence": 0.75}
 
     state2 = {
         "temporal_coherence": 0.97,
         "ethical_alignment": 0.99,
         "awareness_level": 0.8,
-        "confidence": 0.76  # Slightly different confidence
+        "confidence": 0.76,  # Slightly different confidence
     }
 
     context1 = tester._create_context_node(state1)
@@ -635,7 +638,7 @@ async def test_all_metamorphic_relations():
     # Critical relations must pass
     critical_relations = [
         MetamorphicRelation.ETHICAL_MONOTONICITY.value,
-        MetamorphicRelation.COHERENCE_TRANSITIVITY.value
+        MetamorphicRelation.COHERENCE_TRANSITIVITY.value,
     ]
 
     for result in results["test_results"]:

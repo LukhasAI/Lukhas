@@ -64,12 +64,14 @@ def test_author_reference_guard_allows_academic():
     test_file = Path("temp_test_academic.md")
     try:
         with test_file.open("w", encoding="utf-8") as f:
-            f.write("""---
+            f.write(
+                """---
 context: academic
 ---
 
 This academic paper references Keats and Einstein with proper citations.
-""")
+"""
+            )
 
         result = subprocess.run(
             [sys.executable, "enforcement/tone/author_reference_guard.py", str(test_file)],

@@ -16,6 +16,7 @@ from typing import Any, Dict, List, Optional, Tuple
 # Import dream vocabulary for symbolic representation
 try:
     from symbolic.vocabularies.dream_vocabulary import DreamVocabulary
+
     DREAM_VOCAB_AVAILABLE = True
 except ImportError:
     DREAM_VOCAB_AVAILABLE = False
@@ -23,6 +24,7 @@ except ImportError:
 # Try to import consciousness wrapper for integration
 try:
     from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper
+
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:
     CONSCIOUSNESS_AVAILABLE = False
@@ -32,6 +34,7 @@ logger = logging.getLogger(__name__)
 
 class ReasoningStep(Enum):
     """Types of reasoning steps in chain-of-thought"""
+
     PROBLEM_ANALYSIS = "problem_analysis"
     INFORMATION_GATHERING = "information_gathering"
     HYPOTHESIS_GENERATION = "hypothesis_generation"
@@ -45,6 +48,7 @@ class ReasoningStep(Enum):
 @dataclass
 class ReasoningNode:
     """A single step in the reasoning chain"""
+
     step_type: ReasoningStep
     description: str
     reasoning: str
@@ -59,6 +63,7 @@ class ReasoningNode:
 @dataclass
 class ReasoningChain:
     """Complete chain of reasoning steps"""
+
     problem: str
     steps: list[ReasoningNode] = field(default_factory=list)
     conclusion: Optional[str] = None
@@ -161,8 +166,10 @@ class ChainOfThought:
             if chain.dream_contributions > 0:
                 self.dream_enhanced_chains += 1
 
-            logger.info(f"✅ Chain-of-thought completed: {chain.overall_confidence:.3f} confidence, "
-                       f"{chain.dream_contributions} dream insights")
+            logger.info(
+                f"✅ Chain-of-thought completed: {chain.overall_confidence:.3f} confidence, "
+                f"{chain.dream_contributions} dream insights"
+            )
 
             return chain
 
@@ -173,7 +180,7 @@ class ChainOfThought:
                 step_type=ReasoningStep.CONCLUSION_SYNTHESIS,
                 description="Reasoning process encountered an error",
                 reasoning=f"Unable to complete reasoning due to: {e!s}",
-                confidence=0.0
+                confidence=0.0,
             )
             chain.steps.append(error_step)
             chain.conclusion = error_step.reasoning
@@ -196,7 +203,7 @@ class ChainOfThought:
             reasoning=reasoning,
             confidence=0.8,
             evidence=[f"Problem type: {problem_type}", f"Complexity: {complexity}"],
-            next_steps=["Gather relevant information", "Generate hypotheses"]
+            next_steps=["Gather relevant information", "Generate hypotheses"],
         )
 
     async def _gather_information(self, problem: str, context: Optional[dict[str, Any]]) -> ReasoningNode:
@@ -212,16 +219,20 @@ class ChainOfThought:
         if self.consciousness and CONSCIOUSNESS_AVAILABLE:
             try:
                 consciousness_state = self.consciousness.get_consciousness_state("monitored")
-                info_sources.append(f"Consciousness awareness: {consciousness_state.get('consciousness_state', {}).get('awareness_level', 0)}")
+                info_sources.append(
+                    f"Consciousness awareness: {consciousness_state.get('consciousness_state', {}).get('awareness_level', 0)}"
+                )
             except Exception as e:
                 logger.debug(f"Could not gather consciousness information: {e}")
 
         # Default information gathering
-        info_sources.extend([
-            "Domain knowledge applicable to problem",
-            "Relevant patterns from similar problems",
-            "Logical constraints and assumptions"
-        ])
+        info_sources.extend(
+            [
+                "Domain knowledge applicable to problem",
+                "Relevant patterns from similar problems",
+                "Logical constraints and assumptions",
+            ]
+        )
 
         reasoning = f"Information gathered from {len(info_sources)} sources. "
         reasoning += "Ready for hypothesis generation."
@@ -232,17 +243,18 @@ class ChainOfThought:
             reasoning=reasoning,
             confidence=0.7,
             evidence=info_sources,
-            next_steps=["Generate hypotheses", "Consider dream insights"]
+            next_steps=["Generate hypotheses", "Consider dream insights"],
         )
 
-    async def _generate_hypotheses(self, problem: str, context: Optional[dict[str, Any]],
-                                 previous_steps: list[ReasoningNode]) -> ReasoningNode:
+    async def _generate_hypotheses(
+        self, problem: str, context: Optional[dict[str, Any]], previous_steps: list[ReasoningNode]
+    ) -> ReasoningNode:
         """Generate hypotheses with optional dream insights"""
 
         hypotheses = [
             "Primary hypothesis based on direct analysis",
             "Alternative hypothesis considering edge cases",
-            "Conservative hypothesis with minimal assumptions"
+            "Conservative hypothesis with minimal assumptions",
         ]
 
         dream_insight = None
@@ -264,11 +276,12 @@ class ChainOfThought:
             confidence=0.75,
             evidence=hypotheses,
             dream_insight=dream_insight,
-            next_steps=["Perform logical deduction", "Evaluate evidence"]
+            next_steps=["Perform logical deduction", "Evaluate evidence"],
         )
 
-    async def _perform_deduction(self, problem: str, context: Optional[dict[str, Any]],
-                               previous_steps: list[ReasoningNode]) -> ReasoningNode:
+    async def _perform_deduction(
+        self, problem: str, context: Optional[dict[str, Any]], previous_steps: list[ReasoningNode]
+    ) -> ReasoningNode:
         """Perform logical deduction based on gathered information and hypotheses"""
 
         # Extract hypotheses from previous steps
@@ -294,11 +307,12 @@ class ChainOfThought:
             confidence=0.8,
             evidence=deductions,
             assumptions=["Logical consistency", "Valid inference rules"],
-            next_steps=["Evaluate evidence quality", "Assess deduction validity"]
+            next_steps=["Evaluate evidence quality", "Assess deduction validity"],
         )
 
-    async def _evaluate_evidence(self, problem: str, context: Optional[dict[str, Any]],
-                                previous_steps: list[ReasoningNode]) -> ReasoningNode:
+    async def _evaluate_evidence(
+        self, problem: str, context: Optional[dict[str, Any]], previous_steps: list[ReasoningNode]
+    ) -> ReasoningNode:
         """Evaluate the quality and strength of evidence"""
 
         evidence_items = []
@@ -320,13 +334,16 @@ class ChainOfThought:
             description="Evaluating evidence quality and reliability",
             reasoning=reasoning,
             confidence=min(0.9, 0.5 + evidence_score * 0.4),
-            evidence=[f"Strong evidence count: {len(strong_evidence)}",
-                     f"Evidence quality score: {evidence_score:.2f}"],
-            next_steps=["Synthesize conclusion", "Assess overall confidence"]
+            evidence=[
+                f"Strong evidence count: {len(strong_evidence)}",
+                f"Evidence quality score: {evidence_score:.2f}",
+            ],
+            next_steps=["Synthesize conclusion", "Assess overall confidence"],
         )
 
-    async def _dream_synthesis(self, problem: str, context: Optional[dict[str, Any]],
-                              previous_steps: list[ReasoningNode]) -> Optional[ReasoningNode]:
+    async def _dream_synthesis(
+        self, problem: str, context: Optional[dict[str, Any]], previous_steps: list[ReasoningNode]
+    ) -> Optional[ReasoningNode]:
         """Use dream system for creative synthesis and insight generation"""
 
         if not self.enable_dreams:
@@ -350,15 +367,16 @@ class ChainOfThought:
                 confidence=0.6,  # Dreams are valuable but uncertain
                 evidence=[f"Dream insight: {dream_insight}"],
                 dream_insight=dream_insight,
-                next_steps=["Integrate dream insights", "Synthesize final conclusion"]
+                next_steps=["Integrate dream insights", "Synthesize final conclusion"],
             )
 
         except Exception as e:
             logger.debug(f"Dream synthesis failed: {e}")
             return None
 
-    async def _synthesize_conclusion(self, problem: str, context: Optional[dict[str, Any]],
-                                   previous_steps: list[ReasoningNode]) -> ReasoningNode:
+    async def _synthesize_conclusion(
+        self, problem: str, context: Optional[dict[str, Any]], previous_steps: list[ReasoningNode]
+    ) -> ReasoningNode:
         """Synthesize final conclusion from all reasoning steps"""
 
         # Gather insights from all steps
@@ -394,7 +412,7 @@ class ChainOfThought:
             reasoning=conclusion,
             confidence=avg_confidence,
             evidence=key_insights,
-            assumptions=["All reasoning steps are logically connected", "Evidence is accurately evaluated"]
+            assumptions=["All reasoning steps are logically connected", "Evidence is accurately evaluated"],
         )
 
     async def _assess_confidence(self, chain: ReasoningChain) -> ReasoningNode:
@@ -425,8 +443,8 @@ class ChainOfThought:
             evidence=[
                 f"Step confidences: {[round(c, 2) for c in step_confidences]}",
                 f"Dream contributions: {chain.dream_contributions}",
-                f"Total assumptions: {assumption_count}"
-            ]
+                f"Total assumptions: {assumption_count}",
+            ],
         )
 
     async def _get_dream_insight(self, problem: str, insight_type: str) -> Optional[str]:
@@ -445,17 +463,18 @@ class ChainOfThought:
                 "hypothesis_generation": [
                     "Consider the problem from an unexpected angle: What if the constraint is actually the solution?",
                     "Pattern recognition suggests: This resembles a recursive structure with emergent properties",
-                    "Creative synthesis: The problem might be solved by inverting the traditional approach"
+                    "Creative synthesis: The problem might be solved by inverting the traditional approach",
                 ],
                 "creative_synthesis": [
                     "Dream insight: Multiple perspectives converging suggest a meta-solution",
                     "Pattern emergence indicates: The answer lies in the connection between disparate elements",
-                    "Creative breakthrough: The problem contains its own solution through recursive insight"
-                ]
+                    "Creative breakthrough: The problem contains its own solution through recursive insight",
+                ],
             }
 
             templates = insight_templates.get(insight_type, insight_templates["creative_synthesis"])
             import random
+
             insight = random.choice(templates)
 
             logger.debug(f"🌙 Dream insight generated: {insight[:50]}...")
@@ -523,5 +542,5 @@ class ChainOfThought:
             "dream_enhanced_chains": self.dream_enhanced_chains,
             "dream_usage_rate": dream_usage_rate,
             "dream_integration_enabled": self.enable_dreams,
-            "consciousness_integration": self.consciousness is not None
+            "consciousness_integration": self.consciousness is not None,
         }

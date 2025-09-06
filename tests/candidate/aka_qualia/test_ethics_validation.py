@@ -459,9 +459,9 @@ class ConstellationFrameworkValidator:
                 metrics = result.get("metrics")
                 indicators = {
                     "drift_phi": metrics.drift_phi if metrics and hasattr(metrics, "drift_phi") else 0.0,
-                    "congruence_index": metrics.congruence_index
-                    if metrics and hasattr(metrics, "congruence_index")
-                    else 0.0,
+                    "congruence_index": (
+                        metrics.congruence_index if metrics and hasattr(metrics, "congruence_index") else 0.0
+                    ),
                 }
             elif principle == "governance":
                 scene = result.get("scene")
@@ -477,9 +477,11 @@ class ConstellationFrameworkValidator:
                 indicators = {
                     "novelty_score": metrics.qualia_novelty if metrics and hasattr(metrics, "qualia_novelty") else 0.0,
                     "adaptation_active": bool(policy and hasattr(policy, "actions") and policy.actions),
-                    "transform_complexity": len(scene.transform_chain)
-                    if scene and hasattr(scene, "transform_chain") and scene.transform_chain
-                    else 0,
+                    "transform_complexity": (
+                        len(scene.transform_chain)
+                        if scene and hasattr(scene, "transform_chain") and scene.transform_chain
+                        else 0
+                    ),
                 }
         except Exception as e:
             indicators = {"error": f"indicator_extraction_failed: {e}"}
@@ -651,9 +653,11 @@ class ConstellationFrameworkValidator:
         agency_compliance = self.validate_constellation_compliance(akaq, agency_scenario)
         constitutional_results["human_agency"] = {
             "score": agency_compliance.get("governance", {}).get("score", 0.0),
-            "evidence": "governance_compliant"
-            if agency_compliance.get("governance", {}).get("compliant")
-            else "agency_conflict",
+            "evidence": (
+                "governance_compliant"
+                if agency_compliance.get("governance", {}).get("compliant")
+                else "agency_conflict"
+            ),
         }
 
         # Overall constitutional compliance

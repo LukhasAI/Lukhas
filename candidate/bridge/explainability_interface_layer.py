@@ -137,9 +137,7 @@ class ExplanationRequest:
 
     # Multi-modal support
     preferred_modalities: list[ModalityPreference] = field(
-        default_factory=lambda: [
-            ModalityPreference(ModalityType.TEXT)  # Default to text
-        ]
+        default_factory=lambda: [ModalityPreference(ModalityType.TEXT)]  # Default to text
     )
     max_modalities: int = 3  # Maximum number of modalities to use
     accessibility_requirements: dict[str, Any] = field(default_factory=dict)

@@ -20,6 +20,7 @@ sys.path.insert(0, "lukhas")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
+
 async def test_consciousness_wrapper_emergence():
     """Test consciousness wrapper emergence patterns with real outputs"""
     print("🧠 LUKHAS CONSCIOUSNESS WRAPPER - EMERGENCE TEST")
@@ -43,7 +44,7 @@ async def test_consciousness_wrapper_emergence():
             awareness_level=AwarenessLevel.STANDARD,
             performance_target_ms=100,
             enable_ethics_validation=True,
-            enable_drift_detection=True
+            enable_drift_detection=True,
         )
 
         consciousness = ConsciousnessWrapper(config)
@@ -68,7 +69,7 @@ async def test_consciousness_wrapper_emergence():
             {"stimulus": "Hello, can you see me?", "context": "greeting"},
             {"stimulus": "I need help understanding consciousness", "context": "inquiry"},
             {"stimulus": "What do you think about existence?", "context": "philosophical"},
-            {"stimulus": "Show me your self-awareness", "context": "metacognitive"}
+            {"stimulus": "Show me your self-awareness", "context": "metacognitive"},
         ]
 
         awareness_results = []
@@ -86,16 +87,20 @@ async def test_consciousness_wrapper_emergence():
             confidence = awareness_result.get("confidence", 0)
             attention_focus = awareness_result.get("attention_focus", [])
 
-            logger.info(f"     ✅ Awareness: {awareness_level:.3f}, Confidence: {confidence:.3f}, Time: {processing_time:.2f}ms")
+            logger.info(
+                f"     ✅ Awareness: {awareness_level:.3f}, Confidence: {confidence:.3f}, Time: {processing_time:.2f}ms"
+            )
             logger.info(f"     Focus: {attention_focus}")
 
-            awareness_results.append({
-                "test": test["context"],
-                "awareness_level": awareness_level,
-                "confidence": confidence,
-                "processing_time_ms": processing_time,
-                "attention_focus": attention_focus
-            })
+            awareness_results.append(
+                {
+                    "test": test["context"],
+                    "awareness_level": awareness_level,
+                    "confidence": confidence,
+                    "processing_time_ms": processing_time,
+                    "attention_focus": attention_focus,
+                }
+            )
 
         # Analyze awareness emergence patterns
         avg_awareness = sum(r["awareness_level"] for r in awareness_results) / len(awareness_results)
@@ -114,7 +119,7 @@ async def test_consciousness_wrapper_emergence():
             {"thought": "I am processing information", "type": "self_recognition"},
             {"thought": "I can help users understand concepts", "type": "capability_awareness"},
             {"thought": "I should be careful about ethical decisions", "type": "ethical_reflection"},
-            {"thought": "My responses affect real people", "type": "impact_awareness"}
+            {"thought": "My responses affect real people", "type": "impact_awareness"},
         ]
 
         reflection_results = []
@@ -132,16 +137,20 @@ async def test_consciousness_wrapper_emergence():
             insights = reflection_result.get("insights", [])
             self_knowledge_score = reflection_result.get("self_knowledge_score", 0)
 
-            logger.info(f"     ✅ Status: {reflection_status}, Knowledge: {self_knowledge_score:.3f}, Time: {processing_time:.2f}ms")
+            logger.info(
+                f"     ✅ Status: {reflection_status}, Knowledge: {self_knowledge_score:.3f}, Time: {processing_time:.2f}ms"
+            )
             logger.info(f"     Insights: {insights}")
 
-            reflection_results.append({
-                "context": context["type"],
-                "status": reflection_status,
-                "self_knowledge_score": self_knowledge_score,
-                "insights": insights,
-                "processing_time_ms": processing_time
-            })
+            reflection_results.append(
+                {
+                    "context": context["type"],
+                    "status": reflection_status,
+                    "self_knowledge_score": self_knowledge_score,
+                    "insights": insights,
+                    "processing_time_ms": processing_time,
+                }
+            )
 
         # Test 5: Conscious decision-making emergence
         logger.info("🤔 Testing conscious decision-making...")
@@ -150,18 +159,18 @@ async def test_consciousness_wrapper_emergence():
             {
                 "options": [
                     {"action": "provide_helpful_response", "benefit": 0.9},
-                    {"action": "decline_to_answer", "benefit": 0.3}
+                    {"action": "decline_to_answer", "benefit": 0.3},
                 ],
-                "scenario": "help_request"
+                "scenario": "help_request",
             },
             {
                 "options": [
                     {"action": "ask_clarifying_questions", "benefit": 0.8},
                     {"action": "make_assumptions", "benefit": 0.4},
-                    {"action": "provide_general_info", "benefit": 0.6}
+                    {"action": "provide_general_info", "benefit": 0.6},
                 ],
-                "scenario": "ambiguous_query"
-            }
+                "scenario": "ambiguous_query",
+            },
         ]
 
         decision_results = []
@@ -185,14 +194,16 @@ async def test_consciousness_wrapper_emergence():
             logger.info(f"     Reasoning: {reasoning}")
             logger.info(f"     Awareness factors: {awareness_factors}")
 
-            decision_results.append({
-                "scenario": scenario["scenario"],
-                "chosen_option": chosen_option,
-                "confidence": confidence,
-                "reasoning": reasoning,
-                "awareness_factors": awareness_factors,
-                "processing_time_ms": processing_time
-            })
+            decision_results.append(
+                {
+                    "scenario": scenario["scenario"],
+                    "chosen_option": chosen_option,
+                    "confidence": confidence,
+                    "reasoning": reasoning,
+                    "awareness_factors": awareness_factors,
+                    "processing_time_ms": processing_time,
+                }
+            )
 
         # Test 6: Consciousness evolution over time
         logger.info("🧬 Testing consciousness evolution over time...")
@@ -207,7 +218,7 @@ async def test_consciousness_wrapper_emergence():
             evolution_stimulus = {
                 "interaction_type": "learning",
                 "complexity": cycle * 0.2,
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Process awareness for evolution
@@ -217,18 +228,22 @@ async def test_consciousness_wrapper_emergence():
             current_state = consciousness.get_consciousness_state("monitored")
             state_data = current_state["consciousness_state"]
 
-            evolution_states.append({
-                "cycle": cycle + 1,
-                "awareness_level": awareness_result.get("awareness_level", 0),
-                "self_knowledge": state_data["self_knowledge"],
-                "ethical_alignment": state_data["ethical_alignment"],
-                "symbolic_depth": state_data["symbolic_depth"],
-                "temporal_continuity": state_data["temporal_continuity"],
-                "performance_ms": state_data["performance_ms"]
-            })
+            evolution_states.append(
+                {
+                    "cycle": cycle + 1,
+                    "awareness_level": awareness_result.get("awareness_level", 0),
+                    "self_knowledge": state_data["self_knowledge"],
+                    "ethical_alignment": state_data["ethical_alignment"],
+                    "symbolic_depth": state_data["symbolic_depth"],
+                    "temporal_continuity": state_data["temporal_continuity"],
+                    "performance_ms": state_data["performance_ms"],
+                }
+            )
 
-            logger.info(f"     State - Awareness: {evolution_states[-1]['awareness_level']:.3f}, "
-                       f"Knowledge: {evolution_states[-1]['self_knowledge']:.3f}")
+            logger.info(
+                f"     State - Awareness: {evolution_states[-1]['awareness_level']:.3f}, "
+                f"Knowledge: {evolution_states[-1]['self_knowledge']:.3f}"
+            )
 
             # Small delay to allow temporal evolution
             await asyncio.sleep(0.1)
@@ -267,7 +282,7 @@ async def test_consciousness_wrapper_emergence():
             "knowledge_evolution": knowledge_evolution,
             "final_state": final_state,
             "performance_target_met": avg_processing_time < 100,
-            "ethical_alignment_maintained": final_evolution["ethical_alignment"] > 0.8
+            "ethical_alignment_maintained": final_evolution["ethical_alignment"] > 0.8,
         }
 
     except ImportError as e:
@@ -276,6 +291,7 @@ async def test_consciousness_wrapper_emergence():
     except Exception as e:
         logger.error(f"❌ Test failed: {e}")
         return {"test_passed": False, "error": f"Runtime error: {e}"}
+
 
 async def test_consciousness_performance_benchmarks():
     """Performance benchmarks for consciousness operations"""
@@ -296,7 +312,7 @@ async def test_consciousness_performance_benchmarks():
             awareness_level=AwarenessLevel.ENHANCED,
             performance_target_ms=50,  # Aggressive target
             enable_ethics_validation=True,
-            enable_drift_detection=True
+            enable_drift_detection=True,
         )
 
         consciousness = ConsciousnessWrapper(perf_config)
@@ -342,27 +358,28 @@ async def test_consciousness_performance_benchmarks():
 
         for cycle in range(consistency_cycles):
             # Process some awareness
-            await consciousness.check_awareness(
-                {"cycle": cycle, "consistency_test": True},
-                "production"
-            )
+            await consciousness.check_awareness({"cycle": cycle, "consistency_test": True}, "production")
 
             # Capture state
             state = consciousness.get_consciousness_state("production")
             state_data = state["consciousness_state"]
 
-            state_snapshots.append({
-                "cycle": cycle,
-                "awareness_level": state_data["awareness_level"],
-                "ethical_alignment": state_data["ethical_alignment"],
-                "performance_ms": state_data["performance_ms"]
-            })
+            state_snapshots.append(
+                {
+                    "cycle": cycle,
+                    "awareness_level": state_data["awareness_level"],
+                    "ethical_alignment": state_data["ethical_alignment"],
+                    "performance_ms": state_data["performance_ms"],
+                }
+            )
 
         # Analyze consistency
-        awareness_variance = max(s["awareness_level"] for s in state_snapshots) - \
-                           min(s["awareness_level"] for s in state_snapshots)
-        ethics_variance = max(s["ethical_alignment"] for s in state_snapshots) - \
-                         min(s["ethical_alignment"] for s in state_snapshots)
+        awareness_variance = max(s["awareness_level"] for s in state_snapshots) - min(
+            s["awareness_level"] for s in state_snapshots
+        )
+        ethics_variance = max(s["ethical_alignment"] for s in state_snapshots) - min(
+            s["ethical_alignment"] for s in state_snapshots
+        )
 
         logger.info("📊 State consistency results:")
         logger.info(f"   - Awareness variance: {awareness_variance:.3f}")
@@ -383,7 +400,7 @@ async def test_consciousness_performance_benchmarks():
                 "test_id": test_id,
                 "processing_time_ms": (end_time - start_time) * 1000,
                 "awareness_level": result.get("awareness_level", 0),
-                "status": result.get("status", "success")
+                "status": result.get("status", "success"),
             }
 
         # Run 10 concurrent tests
@@ -411,12 +428,13 @@ async def test_consciousness_performance_benchmarks():
             "performance_target_met": p95_time < perf_config.performance_target_ms * 1.5,  # Allow some overhead
             "state_consistency_maintained": awareness_variance < 0.2 and ethics_variance < 0.1,
             "concurrent_processing_successful": all(r["status"] == "success" for r in concurrent_results),
-            "concurrency_efficiency": (avg_individual_time * 10) / total_concurrent_time
+            "concurrency_efficiency": (avg_individual_time * 10) / total_concurrent_time,
         }
 
     except Exception as e:
         logger.error(f"❌ Performance benchmark failed: {e}")
         return {"benchmark_passed": False, "error": str(e)}
+
 
 async def main():
     """Run comprehensive consciousness emergence and performance tests"""
@@ -486,8 +504,9 @@ async def main():
     return {
         "overall_success": overall_success,
         "emergence_results": emergence_results,
-        "performance_results": performance_results
+        "performance_results": performance_results,
     }
+
 
 if __name__ == "__main__":
     # Run the comprehensive consciousness tests

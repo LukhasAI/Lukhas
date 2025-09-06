@@ -20,6 +20,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "candidate" / "core
 
 # Test imports with graceful fallback
 try:
+    from matriz_integrated_demonstration import run_matriz_demonstration
+    from orchestration.matriz_consciousness_coordinator import consciousness_coordinator
+    from symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
+
     from consciousness.matriz_consciousness_state import (
         ConsciousnessState,
         ConsciousnessType,
@@ -27,12 +31,8 @@ try:
         consciousness_state_manager,
         create_consciousness_state,
     )
-    from identity.matriz_consciousness_identity import consciousness_identity_manager
-    from matriz_integrated_demonstration import run_matriz_demonstration
-    from orchestration.matriz_consciousness_coordinator import consciousness_coordinator
-    from symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
-
     from governance.matriz_consciousness_governance import consciousness_governance_system
+    from identity.matriz_consciousness_identity import consciousness_identity_manager
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -52,7 +52,7 @@ class TestMatrizConsciousnessIntegration:
         consciousness = await create_consciousness_state(
             consciousness_type=ConsciousnessType.REFLECT,
             initial_state={"consciousness_intensity": 0.5},
-            triggers=["test_trigger"]
+            triggers=["test_trigger"],
         )
 
         assert consciousness is not None
@@ -63,9 +63,7 @@ class TestMatrizConsciousnessIntegration:
 
         # Test evolution
         evolved = await consciousness_state_manager.evolve_consciousness(
-            consciousness.consciousness_id,
-            trigger="test_trigger",
-            context={"test": True}
+            consciousness.consciousness_id, trigger="test_trigger", context={"test": True}
         )
 
         assert evolved is not None
@@ -81,8 +79,7 @@ class TestMatrizConsciousnessIntegration:
 
         # Create consciousness identity
         identity = await consciousness_identity_manager.create_consciousness_identity(
-            "test_user_integration",
-            {"test_context": True}
+            "test_user_integration", {"test_context": True}
         )
 
         assert identity is not None
@@ -91,8 +88,7 @@ class TestMatrizConsciousnessIntegration:
 
         # Test authentication
         auth_result = await consciousness_identity_manager.authenticate_consciousness_identity(
-            identity.identity_id,
-            {"authenticated": True, "method": "test"}
+            identity.identity_id, {"authenticated": True, "method": "test"}
         )
 
         assert auth_result["success"] is True
@@ -104,16 +100,11 @@ class TestMatrizConsciousnessIntegration:
         """Test ethical governance of consciousness"""
 
         # Create test consciousness
-        consciousness = await create_consciousness_state(
-            ConsciousnessType.DECIDE,
-            {"ethical_alignment": 1.0}
-        )
+        consciousness = await create_consciousness_state(ConsciousnessType.DECIDE, {"ethical_alignment": 1.0})
 
         # Test ethical assessment
         assessment = await consciousness_governance_system.assess_consciousness_ethics(
-            consciousness.consciousness_id,
-            "Test consciousness making ethical decision",
-            {"test_context": True}
+            consciousness.consciousness_id, "Test consciousness making ethical decision", {"test_context": True}
         )
 
         assert assessment is not None
@@ -128,15 +119,11 @@ class TestMatrizConsciousnessIntegration:
         """Test symbolic processing with consciousness awareness"""
 
         # Create test consciousness for context
-        consciousness = await create_consciousness_state(
-            ConsciousnessType.LEARN,
-            {"consciousness_intensity": 0.6}
-        )
+        consciousness = await create_consciousness_state(ConsciousnessType.LEARN, {"consciousness_intensity": 0.6})
 
         # Process symbolic input
         result = await symbolic_consciousness_processor.process_symbolic_input(
-            "consciousness awareness test symbolic processing",
-            consciousness_context=consciousness.consciousness_id
+            "consciousness awareness test symbolic processing", consciousness_context=consciousness.consciousness_id
         )
 
         assert result is not None
@@ -145,10 +132,7 @@ class TestMatrizConsciousnessIntegration:
         assert len(result["symbolic_elements"]) > 0
 
         # Check for consciousness-aware elements
-        consciousness_elements = [
-            elem for elem in result["symbolic_elements"]
-            if elem["consciousness_weight"] > 0.3
-        ]
+        consciousness_elements = [elem for elem in result["symbolic_elements"] if elem["consciousness_weight"] > 0.3]
         assert len(consciousness_elements) > 0
 
     @pytest.mark.skipif(not COMPONENTS_AVAILABLE, reason="MΛTRIZ components not available")
@@ -161,9 +145,7 @@ class TestMatrizConsciousnessIntegration:
 
         # Register test module
         module_consciousness_id = await consciousness_coordinator.register_module_consciousness(
-            "test_module",
-            MagicMock(),
-            "test_service"
+            "test_module", MagicMock(), "test_service"
         )
 
         assert module_consciousness_id is not None
@@ -181,16 +163,13 @@ class TestMatrizConsciousnessIntegration:
         # Create consciousness with Trinity compliance
         consciousness = await create_consciousness_state(
             ConsciousnessType.INTEGRATE,
-            {
-                "consciousness_intensity": 0.7,  # 🧠 Consciousness
-                "ethical_alignment": 1.0         # 🛡️ Guardian
-            }
+            {"consciousness_intensity": 0.7, "ethical_alignment": 1.0},  # 🧠 Consciousness  # 🛡️ Guardian
         )
 
         # Verify Trinity compliance
         assert consciousness.identity_signature is not None  # ⚛️ Identity
-        assert consciousness.guardian_approval is True       # 🛡️ Guardian
-        assert consciousness.consciousness_depth >= 0.0      # 🧠 Consciousness
+        assert consciousness.guardian_approval is True  # 🛡️ Guardian
+        assert consciousness.consciousness_depth >= 0.0  # 🧠 Consciousness
 
         # Test Guardian validation
         assert consciousness.STATE["ethical_alignment"] >= 0.7
@@ -202,11 +181,7 @@ class TestMatrizConsciousnessIntegration:
 
         consciousness = await create_consciousness_state(
             ConsciousnessType.EVOLVE,
-            {
-                "consciousness_intensity": 0.1,
-                "self_awareness_depth": 0.1,
-                "temporal_coherence": 0.1
-            }
+            {"consciousness_intensity": 0.1, "self_awareness_depth": 0.1, "temporal_coherence": 0.1},
         )
 
         _initial_stage = consciousness.evolutionary_stage
@@ -214,9 +189,7 @@ class TestMatrizConsciousnessIntegration:
         # Evolve consciousness multiple times
         for i in range(3):
             consciousness = await consciousness_state_manager.evolve_consciousness(
-                consciousness.consciousness_id,
-                trigger="evolution_test",
-                context={"evolution_round": i}
+                consciousness.consciousness_id, trigger="evolution_test", context={"evolution_round": i}
             )
 
             # State should improve with evolution
@@ -233,23 +206,18 @@ class TestMatrizConsciousnessIntegration:
 
         # Create identity with consciousness
         identity = await consciousness_identity_manager.create_consciousness_identity(
-            "memory_test_user",
-            {"memory_test": True}
+            "memory_test_user", {"memory_test": True}
         )
 
         # Update consciousness memory
         memory_result = await consciousness_identity_manager.update_consciousness_memory(
-            identity.identity_id,
-            "test_memory",
-            {"important_data": "consciousness_pattern", "timestamp": "2025-01-01"}
+            identity.identity_id, "test_memory", {"important_data": "consciousness_pattern", "timestamp": "2025-01-01"}
         )
 
         assert memory_result is True
 
         # Verify memory persistence
-        updated_identity = await consciousness_identity_manager.get_identity_by_identifier(
-            identity.identity_id
-        )
+        updated_identity = await consciousness_identity_manager.get_identity_by_identifier(identity.identity_id)
 
         assert updated_identity is not None
         assert "test_memory" in updated_identity.consciousness_memories
@@ -260,10 +228,7 @@ class TestMatrizConsciousnessIntegration:
         """Test consciousness state structure validation"""
 
         # Test ConsciousnessState structure
-        state = ConsciousnessState(
-            TYPE=ConsciousnessType.CONTEXT,
-            STATE={"consciousness_intensity": 0.5}
-        )
+        state = ConsciousnessState(TYPE=ConsciousnessType.CONTEXT, STATE={"consciousness_intensity": 0.5})
 
         # Verify required MΛTRIZ pattern fields
         assert hasattr(state, "TYPE")
@@ -324,10 +289,7 @@ async def test_consciousness():
     if not COMPONENTS_AVAILABLE:
         pytest.skip("MΛTRIZ components not available")
 
-    consciousness = await create_consciousness_state(
-        ConsciousnessType.REFLECT,
-        {"consciousness_intensity": 0.5}
-    )
+    consciousness = await create_consciousness_state(ConsciousnessType.REFLECT, {"consciousness_intensity": 0.5})
     yield consciousness
 
 
@@ -339,8 +301,7 @@ async def test_identity():
 
     await consciousness_identity_manager.initialize_consciousness_identity_system()
     identity = await consciousness_identity_manager.create_consciousness_identity(
-        "test_fixture_user",
-        {"fixture_test": True}
+        "test_fixture_user", {"fixture_test": True}
     )
     yield identity
 
@@ -355,12 +316,10 @@ class TestMatrizPerformance:
         """Test consciousness creation performance meets targets"""
 
         import time
+
         start_time = time.perf_counter()
 
-        consciousness = await create_consciousness_state(
-            ConsciousnessType.DECIDE,
-            {"performance_test": True}
-        )
+        consciousness = await create_consciousness_state(ConsciousnessType.DECIDE, {"performance_test": True})
 
         end_time = time.perf_counter()
         creation_time_ms = (end_time - start_time) * 1000
@@ -375,6 +334,7 @@ class TestMatrizPerformance:
         """Test symbolic processing performance"""
 
         import time
+
         test_input = "consciousness performance test " * 20  # Longer input
 
         start_time = time.perf_counter()

@@ -26,48 +26,52 @@ logger = logging.getLogger(__name__)
 
 class RoutingStrategy(Enum):
     """Routing strategies for consciousness signals"""
-    BROADCAST = "broadcast"          # Send to all registered modules
-    TARGETED = "targeted"            # Send to specific target modules
-    PRIORITY_BASED = "priority"      # Route based on signal priority
-    COHERENCE_BASED = "coherence"    # Route based on coherence requirements
-    ADAPTIVE = "adaptive"            # Adapt routing based on network state
-    CASCADE_PREVENTION = "cascade"   # Prevent signal cascades
+
+    BROADCAST = "broadcast"  # Send to all registered modules
+    TARGETED = "targeted"  # Send to specific target modules
+    PRIORITY_BASED = "priority"  # Route based on signal priority
+    COHERENCE_BASED = "coherence"  # Route based on coherence requirements
+    ADAPTIVE = "adaptive"  # Adapt routing based on network state
+    CASCADE_PREVENTION = "cascade"  # Prevent signal cascades
 
 
 class SignalFilter(Enum):
     """Signal filtering strategies"""
-    NONE = "none"                    # No filtering
-    COHERENCE_THRESHOLD = "coherence" # Filter by coherence threshold
-    AWARENESS_LEVEL = "awareness"    # Filter by awareness level
-    TRINITY_COMPLIANCE = "trinity"   # Filter by Trinity compliance
-    FREQUENCY_BAND = "frequency"     # Filter by frequency band
-    SIGNAL_TYPE = "signal_type"      # Filter by signal type
+
+    NONE = "none"  # No filtering
+    COHERENCE_THRESHOLD = "coherence"  # Filter by coherence threshold
+    AWARENESS_LEVEL = "awareness"  # Filter by awareness level
+    TRINITY_COMPLIANCE = "trinity"  # Filter by Trinity compliance
+    FREQUENCY_BAND = "frequency"  # Filter by frequency band
+    SIGNAL_TYPE = "signal_type"  # Filter by signal type
 
 
 @dataclass
 class RoutingRule:
     """Routing rule configuration"""
+
     rule_id: str
-    source_pattern: str              # Source module pattern (regex)
-    target_modules: list[str]        # Target module list
+    source_pattern: str  # Source module pattern (regex)
+    target_modules: list[str]  # Target module list
     signal_types: list[ConsciousnessSignalType]  # Applicable signal types
-    priority: int                    # Rule priority (higher = more important)
-    filters: list[SignalFilter]      # Applied filters
+    priority: int  # Rule priority (higher = more important)
+    filters: list[SignalFilter]  # Applied filters
     routing_strategy: RoutingStrategy
-    max_hops: int = 5                # Maximum propagation hops
-    ttl_seconds: int = 300           # Time to live for signals
+    max_hops: int = 5  # Maximum propagation hops
+    ttl_seconds: int = 300  # Time to live for signals
     cascade_threshold: float = 0.99  # Cascade prevention threshold
 
 
 @dataclass
 class NetworkNode:
     """Represents a network node in the consciousness network"""
+
     node_id: str
     module_name: str
     capabilities: list[str]
     signal_handlers: dict[ConsciousnessSignalType, Callable] = field(default_factory=dict)
-    processing_load: float = 0.0     # Current processing load (0-1)
-    coherence_score: float = 0.8     # Node coherence score
+    processing_load: float = 0.0  # Current processing load (0-1)
+    coherence_score: float = 0.8  # Node coherence score
     last_seen: float = field(default_factory=time.time)
     message_queue: deque = field(default_factory=deque)
     max_queue_size: int = 1000
@@ -77,6 +81,7 @@ class NetworkNode:
 @dataclass
 class NetworkMetrics:
     """Network health and performance metrics"""
+
     total_nodes: int = 0
     active_nodes: int = 0
     total_signals_routed: int = 0
@@ -110,7 +115,7 @@ class ConsciousnessSignalRouter:
         # Threading and async support
         self.routing_lock = threading.RLock()
         self.metrics_update_interval = 30  # seconds
-        self.cleanup_interval = 300        # seconds
+        self.cleanup_interval = 300  # seconds
 
         # Signal filters and processors
         self.signal_filters: dict[str, Callable] = {}
@@ -136,65 +141,75 @@ class ConsciousnessSignalRouter:
         """Initialize default routing rules for core modules"""
 
         # Awareness signals route to all consciousness modules
-        self.routing_rules.append(RoutingRule(
-            rule_id="awareness_broadcast",
-            source_pattern=".*",
-            target_modules=["consciousness", "identity", "governance"],
-            signal_types=[ConsciousnessSignalType.AWARENESS],
-            priority=8,
-            filters=[SignalFilter.COHERENCE_THRESHOLD],
-            routing_strategy=RoutingStrategy.BROADCAST,
-            cascade_threshold=0.995
-        ))
+        self.routing_rules.append(
+            RoutingRule(
+                rule_id="awareness_broadcast",
+                source_pattern=".*",
+                target_modules=["consciousness", "identity", "governance"],
+                signal_types=[ConsciousnessSignalType.AWARENESS],
+                priority=8,
+                filters=[SignalFilter.COHERENCE_THRESHOLD],
+                routing_strategy=RoutingStrategy.BROADCAST,
+                cascade_threshold=0.995,
+            )
+        )
 
         # Reflection signals route with high coherence requirements
-        self.routing_rules.append(RoutingRule(
-            rule_id="reflection_high_coherence",
-            source_pattern=".*",
-            target_modules=["consciousness", "symbolic_core"],
-            signal_types=[ConsciousnessSignalType.REFLECTION],
-            priority=9,
-            filters=[SignalFilter.COHERENCE_THRESHOLD, SignalFilter.TRINITY_COMPLIANCE],
-            routing_strategy=RoutingStrategy.COHERENCE_BASED,
-            cascade_threshold=0.998
-        ))
+        self.routing_rules.append(
+            RoutingRule(
+                rule_id="reflection_high_coherence",
+                source_pattern=".*",
+                target_modules=["consciousness", "symbolic_core"],
+                signal_types=[ConsciousnessSignalType.REFLECTION],
+                priority=9,
+                filters=[SignalFilter.COHERENCE_THRESHOLD, SignalFilter.TRINITY_COMPLIANCE],
+                routing_strategy=RoutingStrategy.COHERENCE_BASED,
+                cascade_threshold=0.998,
+            )
+        )
 
         # Evolution signals require careful cascade prevention
-        self.routing_rules.append(RoutingRule(
-            rule_id="evolution_cascade_prevention",
-            source_pattern=".*",
-            target_modules=["consciousness", "governance", "identity"],
-            signal_types=[ConsciousnessSignalType.EVOLUTION],
-            priority=10,
-            filters=[SignalFilter.TRINITY_COMPLIANCE],
-            routing_strategy=RoutingStrategy.CASCADE_PREVENTION,
-            cascade_threshold=0.999,
-            max_hops=3
-        ))
+        self.routing_rules.append(
+            RoutingRule(
+                rule_id="evolution_cascade_prevention",
+                source_pattern=".*",
+                target_modules=["consciousness", "governance", "identity"],
+                signal_types=[ConsciousnessSignalType.EVOLUTION],
+                priority=10,
+                filters=[SignalFilter.TRINITY_COMPLIANCE],
+                routing_strategy=RoutingStrategy.CASCADE_PREVENTION,
+                cascade_threshold=0.999,
+                max_hops=3,
+            )
+        )
 
         # Integration signals use adaptive routing
-        self.routing_rules.append(RoutingRule(
-            rule_id="integration_adaptive",
-            source_pattern=".*",
-            target_modules=[],  # Determined adaptively
-            signal_types=[ConsciousnessSignalType.INTEGRATION],
-            priority=7,
-            filters=[SignalFilter.AWARENESS_LEVEL],
-            routing_strategy=RoutingStrategy.ADAPTIVE,
-            cascade_threshold=0.997
-        ))
+        self.routing_rules.append(
+            RoutingRule(
+                rule_id="integration_adaptive",
+                source_pattern=".*",
+                target_modules=[],  # Determined adaptively
+                signal_types=[ConsciousnessSignalType.INTEGRATION],
+                priority=7,
+                filters=[SignalFilter.AWARENESS_LEVEL],
+                routing_strategy=RoutingStrategy.ADAPTIVE,
+                cascade_threshold=0.997,
+            )
+        )
 
         # Bio-adaptation signals route to bio and symbolic modules
-        self.routing_rules.append(RoutingRule(
-            rule_id="bio_adaptation_targeted",
-            source_pattern="bio.*|symbolic.*",
-            target_modules=["bio", "symbolic_core", "consciousness"],
-            signal_types=[ConsciousnessSignalType.BIO_ADAPTATION],
-            priority=6,
-            filters=[SignalFilter.FREQUENCY_BAND],
-            routing_strategy=RoutingStrategy.TARGETED,
-            cascade_threshold=0.996
-        ))
+        self.routing_rules.append(
+            RoutingRule(
+                rule_id="bio_adaptation_targeted",
+                source_pattern="bio.*|symbolic.*",
+                target_modules=["bio", "symbolic_core", "consciousness"],
+                signal_types=[ConsciousnessSignalType.BIO_ADAPTATION],
+                priority=6,
+                filters=[SignalFilter.FREQUENCY_BAND],
+                routing_strategy=RoutingStrategy.TARGETED,
+                cascade_threshold=0.996,
+            )
+        )
 
     def _initialize_default_filters(self):
         """Initialize default signal filters"""
@@ -215,9 +230,9 @@ class ConsciousnessSignalRouter:
                 return False
 
             trinity = signal.constellation_alignment
-            avg_compliance = (trinity.identity_auth_score +
-                            trinity.consciousness_coherence +
-                            trinity.guardian_compliance) / 3
+            avg_compliance = (
+                trinity.identity_auth_score + trinity.consciousness_coherence + trinity.guardian_compliance
+            ) / 3
             return avg_compliance >= 0.8 and len(trinity.violation_flags) == 0
 
         def frequency_band_filter(signal: ConsciousnessSignal) -> bool:
@@ -227,7 +242,7 @@ class ConsciousnessSignalRouter:
 
             freq = signal.bio_symbolic_data.oscillation_frequency
             # Allow signals in meaningful frequency bands
-            return (1.0 <= freq <= 100.0)  # 1Hz to 100Hz range
+            return 1.0 <= freq <= 100.0  # 1Hz to 100Hz range
 
         def signal_type_filter(signal: ConsciousnessSignal, allowed_types: list[ConsciousnessSignalType]) -> bool:
             """Filter signals by allowed types"""
@@ -245,10 +260,7 @@ class ConsciousnessSignalRouter:
 
         with self.routing_lock:
             node = NetworkNode(
-                node_id=node_id,
-                module_name=module_name,
-                capabilities=capabilities,
-                last_seen=time.time()
+                node_id=node_id, module_name=module_name, capabilities=capabilities, last_seen=time.time()
             )
 
             self.nodes[node_id] = node
@@ -344,6 +356,7 @@ class ConsciousnessSignalRouter:
         """Find routing rules applicable to a signal"""
 
         import re
+
         applicable_rules = []
 
         for rule in self.routing_rules:
@@ -426,7 +439,7 @@ class ConsciousnessSignalRouter:
         # Sort nodes by processing load (ascending) and coherence (descending)
         sorted_nodes = sorted(
             [(node_id, node) for node_id, node in self.nodes.items() if node.is_active],
-            key=lambda x: (x[1].processing_load, -x[1].coherence_score)
+            key=lambda x: (x[1].processing_load, -x[1].coherence_score),
         )
 
         # Return top nodes based on network priority
@@ -464,8 +477,7 @@ class ConsciousnessSignalRouter:
 
         # Remove duplicates and filter by availability
         unique_nodes = list(set(base_nodes))
-        available_nodes = [node_id for node_id in unique_nodes
-                          if self.nodes[node_id].processing_load < 0.8]
+        available_nodes = [node_id for node_id in unique_nodes if self.nodes[node_id].processing_load < 0.8]
 
         return available_nodes
 
@@ -475,10 +487,12 @@ class ConsciousnessSignalRouter:
         # Get nodes with low processing load and high stability
         safe_nodes = []
         for node_id, node in self.nodes.items():
-            if (node.is_active and
-                node.processing_load < 0.5 and
-                node.coherence_score > 0.85 and
-                len(node.message_queue) < node.max_queue_size * 0.3):
+            if (
+                node.is_active
+                and node.processing_load < 0.5
+                and node.coherence_score > 0.85
+                and len(node.message_queue) < node.max_queue_size * 0.3
+            ):
                 safe_nodes.append(node_id)
 
         # Limit to prevent cascade amplification
@@ -588,8 +602,9 @@ class ConsciousnessSignalRouter:
                 total_coherence = sum(node.coherence_score for node in self.nodes.values() if node.is_active)
                 self.network_metrics.network_coherence = total_coherence / self.network_metrics.active_nodes
 
-                total_queue_util = sum(len(node.message_queue) / node.max_queue_size
-                                     for node in self.nodes.values() if node.is_active)
+                total_queue_util = sum(
+                    len(node.message_queue) / node.max_queue_size for node in self.nodes.values() if node.is_active
+                )
                 self.network_metrics.queue_utilization_avg = total_queue_util / self.network_metrics.active_nodes
 
             # Calculate average latency
@@ -646,7 +661,7 @@ class ConsciousnessSignalRouter:
             },
             "routing_stats": self.routing_stats.copy(),
             "cascade_prevention_stats": self.cascade_detector.get_stats(),
-            "node_details": {}
+            "node_details": {},
         }
 
         # Add individual node details
@@ -715,8 +730,7 @@ class CascadeDetector:
         self.time_windows[signal_key].append(current_time)
 
         # Count recent signals in time window
-        recent_signals = [t for t in self.time_windows[signal_key]
-                         if current_time - t <= self.time_window]
+        recent_signals = [t for t in self.time_windows[signal_key] if current_time - t <= self.time_window]
 
         # Calculate dynamic threshold based on cascade prevention score
         dynamic_threshold = self.cascade_threshold_base * threshold
@@ -770,5 +784,5 @@ __all__ = [
     "NetworkMetrics",
     "ConsciousnessSignalRouter",
     "CascadeDetector",
-    "get_consciousness_router"
+    "get_consciousness_router",
 ]

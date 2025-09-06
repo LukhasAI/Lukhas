@@ -207,7 +207,8 @@
       "Bash(PORT=3002 npm run dev)",
       "Bash(touch:*)",
       "Bash(timeout 30 npm run dev)",
-      "Bash(gtimeout 15 npm run dev)"
+      "Bash(gtimeout 15 npm run dev)",
+      "Read(//private/tmp/**)"
     ],
     "deny": [],
     "ask": []

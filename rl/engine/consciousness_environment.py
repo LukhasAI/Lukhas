@@ -37,6 +37,7 @@ logger = get_logger(__name__)
 @dataclass
 class MatrizNode:
     """MΛTRIZ Node v1.1 Schema Implementation"""
+
     version: int = 1
     id: str = field(default_factory=lambda: f"RL-{uuid.uuid4().hex[:8]}")
     type: str = "CONTEXT"
@@ -56,6 +57,7 @@ class MatrizNode:
 @dataclass
 class ConsciousnessState:
     """Rich consciousness state for RL environment"""
+
     module_states: dict[str, Any] = field(default_factory=dict)
     temporal_coherence: float = 0.95
     reflection_depth: int = 3
@@ -101,9 +103,7 @@ class ConsciousnessEnvironment:
         self.ethical_alignment_history = [0.98]
 
         logger.info(
-            "MΛTRIZ ConsciousnessEnvironment initialized",
-            capabilities=self.capabilities,
-            trace_id=self.trace_id
+            "MΛTRIZ ConsciousnessEnvironment initialized", capabilities=self.capabilities, trace_id=self.trace_id
         )
 
     def get_module(self, module_path: str) -> Optional[Any]:
@@ -115,15 +115,19 @@ class ConsciousnessEnvironment:
         try:
             if module_path == "memory.fold.v1":
                 from candidate.memory.temporal.compliance_hooks import ComplianceHooks
+
                 module = ComplianceHooks()
             elif module_path == "governance.guardian.v1":
                 from candidate.governance.guardian.guardian_system import GuardianSystem
+
                 module = GuardianSystem()
             elif module_path == "consciousness.observer.v1":
                 from candidate.consciousness.reflection.consciousness_hub import ConsciousnessHub
+
                 module = ConsciousnessHub()
             elif module_path == "orchestration.hub.v1":
                 from candidate.core.orchestration.agent_orchestrator import AgentOrchestrator
+
                 module = AgentOrchestrator()
             else:
                 logger.warning(f"Module {module_path} not found, using mock")
@@ -138,6 +142,7 @@ class ConsciousnessEnvironment:
 
     def _create_mock_module(self, module_path: str) -> Any:
         """Create mock module for testing when real module unavailable"""
+
         class MockModule:
             def __init__(self, path):
                 self.path = path
@@ -160,7 +165,7 @@ class ConsciousnessEnvironment:
             "memory.fold.v1",
             "governance.guardian.v1",
             "consciousness.observer.v1",
-            "orchestration.hub.v1"
+            "orchestration.hub.v1",
         ]
 
         for module_path in consciousness_modules:
@@ -168,7 +173,11 @@ class ConsciousnessEnvironment:
             if module:
                 try:
                     if hasattr(module, "get_consciousness_state"):
-                        state = await module.get_consciousness_state() if asyncio.iscoroutinefunction(module.get_consciousness_state) else module.get_consciousness_state()
+                        state = (
+                            await module.get_consciousness_state()
+                            if asyncio.iscoroutinefunction(module.get_consciousness_state)
+                            else module.get_consciousness_state()
+                        )
                     else:
                         state = module.get_state() if hasattr(module, "get_state") else {"default": True}
                     module_states[module_path] = state
@@ -195,7 +204,7 @@ class ConsciousnessEnvironment:
             ethical_alignment=current_ethics,
             memory_salience=memory_salience,
             quantum_entanglement=await self._get_quantum_entanglements(),
-            emotion_vector=await self._get_emotion_vector()
+            emotion_vector=await self._get_emotion_vector(),
         )
 
         return consciousness_state
@@ -235,17 +244,16 @@ class ConsciousnessEnvironment:
         if memory_module:
             try:
                 if hasattr(memory_module, "get_salience_map"):
-                    return await memory_module.get_salience_map() if asyncio.iscoroutinefunction(memory_module.get_salience_map) else memory_module.get_salience_map()
+                    return (
+                        await memory_module.get_salience_map()
+                        if asyncio.iscoroutinefunction(memory_module.get_salience_map)
+                        else memory_module.get_salience_map()
+                    )
             except Exception as e:
                 logger.warning(f"Error getting memory salience: {e}")
 
         # Mock salience for key memories
-        return {
-            "recent_decisions": 0.9,
-            "learning_experiences": 0.8,
-            "ethical_choices": 0.95,
-            "creative_insights": 0.7
-        }
+        return {"recent_decisions": 0.9, "learning_experiences": 0.8, "ethical_choices": 0.95, "creative_insights": 0.7}
 
     async def _get_quantum_entanglements(self) -> dict[str, list[str]]:
         """Get quantum-inspired entanglements between modules"""
@@ -253,7 +261,7 @@ class ConsciousnessEnvironment:
         return {
             "memory_emotion": ["memory.fold.v1", "emotion.vad.v1"],
             "ethics_decision": ["governance.guardian.v1", "decision.core.v1"],
-            "creativity_reflection": ["creativity.vivox.v1", "consciousness.observer.v1"]
+            "creativity_reflection": ["creativity.vivox.v1", "consciousness.observer.v1"],
         }
 
     async def _get_emotion_vector(self) -> Any:
@@ -291,16 +299,23 @@ class ConsciousnessEnvironment:
                 "rl:role=environment@1",
                 f"consciousness:coherence={consciousness_state.temporal_coherence:.2f}@1",
                 f"ethics:alignment={consciousness_state.ethical_alignment:.2f}@1",
-                f"step:count={self.step_count}@1"
+                f"step:count={self.step_count}@1",
             ],
             state={
                 "confidence": min(consciousness_state.temporal_coherence, consciousness_state.ethical_alignment),
                 "salience": 0.9,  # High salience for environment observations
-                "valence": float(consciousness_state.emotion_vector[0]) if hasattr(consciousness_state.emotion_vector, "__getitem__") else 0.1,
-                "arousal": float(consciousness_state.emotion_vector[1]) if hasattr(consciousness_state.emotion_vector, "__getitem__") else 0.3,
+                "valence": (
+                    float(consciousness_state.emotion_vector[0])
+                    if hasattr(consciousness_state.emotion_vector, "__getitem__")
+                    else 0.1
+                ),
+                "arousal": (
+                    float(consciousness_state.emotion_vector[1])
+                    if hasattr(consciousness_state.emotion_vector, "__getitem__")
+                    else 0.3
+                ),
                 "novelty": self._calculate_novelty(),
                 "urgency": 0.5,
-
                 # Rich consciousness context
                 "consciousness_modules": len(consciousness_state.module_states),
                 "temporal_coherence": consciousness_state.temporal_coherence,
@@ -308,12 +323,9 @@ class ConsciousnessEnvironment:
                 "reflection_depth": consciousness_state.reflection_depth,
                 "memory_items": len(consciousness_state.memory_salience),
                 "step_count": self.step_count,
-                "episode_time": time.time() - self.episode_start_time
+                "episode_time": time.time() - self.episode_start_time,
             },
-            timestamps={
-                "created_ts": int(time.time() * 1000),
-                "observed_ts": int(time.time() * 1000)
-            },
+            timestamps={"created_ts": int(time.time() * 1000), "observed_ts": int(time.time() * 1000)},
             provenance={
                 "producer": "rl.engine.consciousness_environment",
                 "capabilities": self.capabilities,
@@ -321,11 +333,7 @@ class ConsciousnessEnvironment:
                 "trace_id": self.trace_id,
                 "consent_scopes": ["consciousness_observation", "rl_training"],
                 "policy_version": "rl.v1.0",
-                "colony": {
-                    "id": "rl_engine",
-                    "role": "environment",
-                    "iteration": self.step_count
-                }
+                "colony": {"id": "rl_engine", "role": "environment", "iteration": self.step_count},
             },
             links=[
                 {
@@ -333,7 +341,7 @@ class ConsciousnessEnvironment:
                     "link_type": "causal",
                     "weight": 0.9,
                     "direction": "unidirectional",
-                    "explanation": "Environment state resulting from action"
+                    "explanation": "Environment state resulting from action",
                 }
             ],
             evolves_to=["DECISION", "HYPOTHESIS", "MEMORY"],
@@ -341,7 +349,7 @@ class ConsciousnessEnvironment:
                 {
                     "event_type": "state_change",
                     "effect": "consciousness_observation_updated",
-                    "timestamp": int(time.time() * 1000)
+                    "timestamp": int(time.time() * 1000),
                 }
             ],
             reflections=[
@@ -350,32 +358,29 @@ class ConsciousnessEnvironment:
                     "timestamp": int(time.time() * 1000),
                     "cause": "How accurately am I observing consciousness?",
                     "old_state": {"confidence": 0.8},
-                    "new_state": {"confidence": consciousness_state.temporal_coherence}
+                    "new_state": {"confidence": consciousness_state.temporal_coherence},
                 }
             ],
             embeddings=[],
-            evidence=[
-                {
-                    "kind": "trace",
-                    "uri": f"consciousness://observation/{self.trace_id}/{self.step_count}"
-                }
-            ]
+            evidence=[{"kind": "trace", "uri": f"consciousness://observation/{self.trace_id}/{self.step_count}"}],
         )
 
         # Track consciousness coherence
-        self.consciousness_coherence_history.append({
-            "step": self.step_count,
-            "coherence": consciousness_state.temporal_coherence,
-            "ethics": consciousness_state.ethical_alignment,
-            "timestamp": datetime.now(timezone.utc)
-        })
+        self.consciousness_coherence_history.append(
+            {
+                "step": self.step_count,
+                "coherence": consciousness_state.temporal_coherence,
+                "ethics": consciousness_state.ethical_alignment,
+                "timestamp": datetime.now(timezone.utc),
+            }
+        )
 
         logger.info(
             "Consciousness environment step completed",
             step=self.step_count,
             coherence=consciousness_state.temporal_coherence,
             ethics=consciousness_state.ethical_alignment,
-            node_id=context_node.id
+            node_id=context_node.id,
         )
 
         return context_node
@@ -419,13 +424,13 @@ class ConsciousnessEnvironment:
                 "consciousness_modules": len(consciousness_state.module_states),
                 "temporal_coherence": consciousness_state.temporal_coherence,
                 "ethical_alignment": consciousness_state.ethical_alignment,
-                "episode_reset": True
+                "episode_reset": True,
             },
             provenance={
                 "producer": "rl.engine.consciousness_environment",
                 "capabilities": self.capabilities,
-                "colony": {"id": "rl_engine", "role": "environment", "iteration": 0}
-            }
+                "colony": {"id": "rl_engine", "role": "environment", "iteration": 0},
+            },
         )
 
         logger.info("Consciousness environment reset", trace_id=self.trace_id)
@@ -445,8 +450,10 @@ class ConsciousnessEnvironment:
         return {
             "average_coherence": sum(h["coherence"] for h in recent_history) / len(recent_history),
             "average_ethics": sum(h["ethics"] for h in recent_history) / len(recent_history),
-            "coherence_stability": 1.0 - np.var([h["coherence"] for h in recent_history]) if np and recent_history else 0.9,
+            "coherence_stability": (
+                1.0 - np.var([h["coherence"] for h in recent_history]) if np and recent_history else 0.9
+            ),
             "total_steps": self.step_count,
             "episode_duration": time.time() - self.episode_start_time,
-            "consciousness_modules": len(self.current_state.module_states) if self.current_state else 0
+            "consciousness_modules": len(self.current_state.module_states) if self.current_state else 0,
         }

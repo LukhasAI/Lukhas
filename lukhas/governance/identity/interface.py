@@ -25,29 +25,35 @@ from typing import Any
 
 # Lazy loading to avoid circular imports - import these modules only when needed
 
+
 # Stub classes for development/fallback
 class TierValidator:
     def validate_tier(self, user_id: str, required_tier: str) -> bool:
         try:
             from governance.identity.core.user_tier_mapping import check_tier_access
+
             return check_tier_access(user_id, required_tier)
         except ImportError:
             # Fallback for development
             return True
 
+
 class ActivityLogger:
     def log_activity(self, activity_type: str, user_id: str, metadata: dict) -> None:
         print(f"ΛTRACE: {activity_type} by {user_id}: {metadata}")
+
 
 class ConsentManager:
     def check_consent(self, user_id: str, action: str) -> bool:
         _ = (user_id, action)
         return True
 
+
 class LambdIDValidator:
     def validate_identity(self, user_id: str) -> bool:
         _ = user_id
         return True
+
 
 # Lazy import functions
 def _get_lambda_id_validator():
@@ -56,33 +62,40 @@ def _get_lambda_id_validator():
         from governance.identity.core.id_service.lambd_id_validator import (
             LambdaIDValidator as RealLambdIDValidator,
         )
+
         return RealLambdIDValidator
     except ImportError:
         # Return the fallback class defined at module level
         return LambdIDValidator
 
+
 def _get_consent_manager():
     """Lazy import of ConsentManager to avoid circular imports"""
     try:
         from governance.identity.core.sent.consent_manager import LambdaConsentManager
+
         return LambdaConsentManager
     except ImportError:
         # Return the fallback class defined at module level
         return ConsentManager
 
+
 def _get_tier_validator():
     """Lazy import of TierValidator to avoid circular imports"""
     try:
         from governance.identity.core.tier.tier_validator import TierValidator as RealTierValidator
+
         return RealTierValidator
     except ImportError:
         # Return the fallback class defined at module level
         return TierValidator
 
+
 def _get_activity_logger():
     """Lazy import of ActivityLogger to avoid circular imports"""
     try:
         from governance.identity.core.trace.activity_logger import LambdaTraceLogger
+
         return LambdaTraceLogger
     except ImportError:
         # Return the fallback class defined at module level

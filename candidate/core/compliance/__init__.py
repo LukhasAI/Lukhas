@@ -37,7 +37,7 @@ __compliance_frameworks__ = [
     "NIST_AI_RMF_Generative_2024",
     "UK_Algorithmic_Transparency_2024",
     "ISO_27001_2022",
-    "SOC2_Type2"
+    "SOC2_Type2",
 ]
 
 # Import core compliance components
@@ -59,13 +59,16 @@ except ImportError:
 
     # Create placeholder classes for development
     class EUAIActClassifier:
-        def __init__(self): pass
+        def __init__(self):
+            pass
 
     class PrivacyComplianceEngine:
-        def __init__(self): pass
+        def __init__(self):
+            pass
 
     class NISTAIRiskFramework:
-        def __init__(self): pass
+        def __init__(self):
+            pass
 
 
 def get_supported_frameworks() -> list[str]:
@@ -80,7 +83,7 @@ def get_compliance_status() -> dict[str, Any]:
         "components_available": COMPLIANCE_COMPONENTS_AVAILABLE,
         "supported_frameworks": len(__compliance_frameworks__),
         "frameworks": __compliance_frameworks__,
-        "integration_ready": COMPLIANCE_COMPONENTS_AVAILABLE
+        "integration_ready": COMPLIANCE_COMPONENTS_AVAILABLE,
     }
 
 
@@ -99,8 +102,7 @@ def get_global_compliance_manager():
 
 
 # Convenience function for compliance checking
-async def check_compliance(ai_system_data: dict[str, Any],
-                          jurisdiction: str = "auto") -> dict[str, Any]:
+async def check_compliance(ai_system_data: dict[str, Any], jurisdiction: str = "auto") -> dict[str, Any]:
     """
     Convenience function for comprehensive compliance checking
 
@@ -116,16 +118,11 @@ async def check_compliance(ai_system_data: dict[str, Any],
         return {
             "compliance_status": "framework_loading",
             "message": "Compliance framework components are being initialized",
-            "supported_frameworks": __compliance_frameworks__
+            "supported_frameworks": __compliance_frameworks__,
         }
 
     compliance_manager = get_global_compliance_manager()
     if compliance_manager:
-        return await compliance_manager.comprehensive_compliance_check(
-            ai_system_data, jurisdiction
-        )
+        return await compliance_manager.comprehensive_compliance_check(ai_system_data, jurisdiction)
 
-    return {
-        "compliance_status": "unavailable",
-        "message": "Global compliance manager not available"
-    }
+    return {"compliance_status": "unavailable", "message": "Global compliance manager not available"}

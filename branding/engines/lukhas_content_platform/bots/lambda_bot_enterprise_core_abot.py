@@ -114,9 +114,9 @@ class CoreConsciousnessSimulator:
         if self._state_value(target_state) > self._state_value(self.limits.max_consciousness_state):
             upgrade_prompt = UpgradePrompt(
                 blocked_feature=f"Consciousness evolution to {target_state.value}",
-                required_tier=SubscriptionTier.PRO
-                if target_state == ConsciousnessState.FOCUSED
-                else SubscriptionTier.ENTERPRISE,
+                required_tier=(
+                    SubscriptionTier.PRO if target_state == ConsciousnessState.FOCUSED else SubscriptionTier.ENTERPRISE
+                ),
                 benefit_description=f"Unlock {target_state.value} consciousness for enhanced reasoning and creativity",
                 upgrade_cta="Upgrade to unlock higher consciousness states",
             )

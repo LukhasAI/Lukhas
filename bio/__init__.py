@@ -54,9 +54,9 @@ def get_bio_system_status() -> Dict[str, Any]:
         "bio_core": BIO_CORE_AVAILABLE,
         "bio_symbolic": BIO_SYMBOLIC_AVAILABLE,
         "bio_awareness": BIO_AWARENESS_AVAILABLE,
-        "operational_status": "READY"
-        if any([BIO_CORE_AVAILABLE, BIO_SYMBOLIC_AVAILABLE, BIO_AWARENESS_AVAILABLE])
-        else "UNAVAILABLE",
+        "operational_status": (
+            "READY" if any([BIO_CORE_AVAILABLE, BIO_SYMBOLIC_AVAILABLE, BIO_AWARENESS_AVAILABLE]) else "UNAVAILABLE"
+        ),
         "total_subsystems": sum([BIO_CORE_AVAILABLE, BIO_SYMBOLIC_AVAILABLE, BIO_AWARENESS_AVAILABLE]),
     }
 

@@ -22,5 +22,5 @@ __all__ = [
     "SkillLevel",
     "MetaLearner",
     "LearningStrategy",
-    "MetaLearningInsight"
+    "MetaLearningInsight",
 ]

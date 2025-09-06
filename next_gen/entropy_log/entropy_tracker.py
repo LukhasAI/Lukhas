@@ -14,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -136,7 +136,7 @@ class EntropyTracker:
             "metadata": {
                 "version": "1.0.0",
                 "window_size": self.window_size,
-                "last_updated": datetime.utcnow().isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
                 "total_entries": len(self.journal_entries),
             },
             "entries": [entry.to_dict() for entry in self.journal_entries],
@@ -247,7 +247,7 @@ class EntropyTracker:
 
         # Create entry
         entry = EntropyEntry(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             entropy_score=entropy_score,
             previous_state=previous_state,
             current_state=new_state,
@@ -361,7 +361,7 @@ class EntropyTracker:
             "drift_distribution": dict(drift_counts),
             "drift_vector": " → ".join(drift_vector),
             "recent_entries": [e.to_dict() for e in entries[-5:]],
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
 

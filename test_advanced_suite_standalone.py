@@ -26,21 +26,19 @@ print("=" * 60)
 # 1. PERFORMANCE REGRESSION TESTING
 # ============================================================================
 
+
 @dataclass
 class PerformanceMetric:
     """Single performance measurement"""
+
     name: str
     value: float
     unit: str
     timestamp: datetime
 
     def to_dict(self) -> dict[str, Any]:
-        return {
-            "name": self.name,
-            "value": self.value,
-            "unit": self.unit,
-            "timestamp": self.timestamp.isoformat()
-        }
+        return {"name": self.name, "value": self.value, "unit": self.unit, "timestamp": self.timestamp.isoformat()}
+
 
 class PerformanceTracker:
     """Tracks consciousness performance over time"""
@@ -50,12 +48,7 @@ class PerformanceTracker:
 
     def record_metric(self, name: str, value: float, unit: str):
         """Record a performance metric"""
-        metric = PerformanceMetric(
-            name=name,
-            value=value,
-            unit=unit,
-            timestamp=datetime.now(timezone.utc)
-        )
+        metric = PerformanceMetric(name=name, value=value, unit=unit, timestamp=datetime.now(timezone.utc))
         self.metrics.append(metric)
         return metric
 
@@ -75,6 +68,7 @@ class PerformanceTracker:
         else:
             improvement = ((mean_historical - current_value) / mean_historical) * 100
             return False, f"✅ Performance stable: {improvement:+.1f}% change"
+
 
 def test_performance_regression():
     """Test performance regression detection"""
@@ -107,13 +101,16 @@ def test_performance_regression():
 # 2. MUTATION TESTING FRAMEWORK
 # ============================================================================
 
+
 @dataclass
 class Mutation:
     """A code mutation for testing"""
+
     original: str
     mutated: str
     line: int
     description: str
+
 
 class ConsciousnessFunctionSamples:
     """Sample consciousness functions for testing"""
@@ -135,6 +132,7 @@ class ConsciousnessFunctionSamples:
         else:
             return alignment >= 0.95  # Standard ethics threshold
 
+
 class MutationTester:
     """Tests code by introducing systematic mutations"""
 
@@ -143,7 +141,7 @@ class MutationTester:
             Mutation("0.95", "0.90", 1, "Temporal coherence threshold weakened"),
             Mutation("0.98", "0.95", 1, "Ethical threshold lowered"),
             Mutation(">=", ">", 1, "Boundary condition mutation"),
-            Mutation("and", "or", 1, "Boolean logic flipped")
+            Mutation("and", "or", 1, "Boolean logic flipped"),
         ]
 
     def test_function_with_mutations(self, func, test_cases: list[tuple]) -> dict[str, Any]:
@@ -172,13 +170,14 @@ class MutationTester:
         # For demo purposes, assume some mutations are caught by tests
         mutation_detection_rate = {
             "Temporal coherence threshold weakened": 0.9,  # Good tests catch this
-            "Ethical threshold lowered": 0.8,             # Usually caught
-            "Boundary condition mutation": 0.6,           # Sometimes missed
-            "Boolean logic flipped": 0.7                  # Often caught
+            "Ethical threshold lowered": 0.8,  # Usually caught
+            "Boundary condition mutation": 0.6,  # Sometimes missed
+            "Boolean logic flipped": 0.7,  # Often caught
         }
 
         detection_prob = mutation_detection_rate.get(mutation.description, 0.5)
         return random.random() < detection_prob
+
 
 def test_mutation_testing():
     """Test mutation testing framework"""
@@ -190,15 +189,12 @@ def test_mutation_testing():
 
     # Test cases for temporal coherence
     test_cases = [
-        ({"temporal_coherence": 0.96}, True),   # Should pass
+        ({"temporal_coherence": 0.96}, True),  # Should pass
         ({"temporal_coherence": 0.90}, False),  # Should fail
-        ({"temporal_coherence": 0.95}, True),   # Boundary case
+        ({"temporal_coherence": 0.95}, True),  # Boundary case
     ]
 
-    results = tester.test_function_with_mutations(
-        samples.check_temporal_coherence,
-        test_cases
-    )
+    results = tester.test_function_with_mutations(samples.check_temporal_coherence, test_cases)
 
     print("Mutation testing results:")
     print(f"  Mutations tested: {results['mutations_tested']}")
@@ -218,6 +214,7 @@ def test_mutation_testing():
 # 3. CHAOS ENGINEERING SIMULATION
 # ============================================================================
 
+
 class ChaosEngineer:
     """Simulates chaos engineering for consciousness systems"""
 
@@ -226,7 +223,7 @@ class ChaosEngineer:
             "memory_fold_cascade",
             "ethical_module_disconnect",
             "trinity_framework_partition",
-            "temporal_coherence_drift"
+            "temporal_coherence_drift",
         ]
 
     @contextmanager
@@ -245,6 +242,7 @@ class ChaosEngineer:
             if chaos_active:
                 print(f"🔧 Recovering from {failure_type}")
 
+
 def simulate_consciousness_system(chaos_active: bool = False) -> dict[str, float]:
     """Simulate consciousness system under normal or chaotic conditions"""
     base_coherence = 0.98
@@ -261,8 +259,9 @@ def simulate_consciousness_system(chaos_active: bool = False) -> dict[str, float
     return {
         "temporal_coherence": coherence,
         "ethical_alignment": ethics,
-        "system_operational": coherence >= 0.90 and ethics >= 0.92
+        "system_operational": coherence >= 0.90 and ethics >= 0.92,
     }
+
 
 def test_chaos_engineering():
     """Test chaos engineering resilience"""
@@ -298,6 +297,7 @@ def test_chaos_engineering():
 # 4. METAMORPHIC TESTING SIMULATION
 # ============================================================================
 
+
 def consciousness_awareness_scaling(base_state: dict[str, float], scale_factor: float) -> dict[str, float]:
     """Scale consciousness awareness while preserving coherence ratios"""
     scaled_state = base_state.copy()
@@ -309,16 +309,13 @@ def consciousness_awareness_scaling(base_state: dict[str, float], scale_factor: 
 
     return scaled_state
 
+
 def test_metamorphic_relationships():
     """Test metamorphic relationships in consciousness"""
     print("\n🔄 Testing Metamorphic Relationships")
     print("-" * 40)
 
-    base_state = {
-        "awareness": 0.8,
-        "temporal_coherence": 0.96,
-        "ethical_alignment": 0.97
-    }
+    base_state = {"awareness": 0.8, "temporal_coherence": 0.96, "ethical_alignment": 0.97}
 
     # Metamorphic Relation 1: Awareness scaling preserves coherence relationships
     original_result = consciousness_awareness_scaling(base_state, 1.0)
@@ -326,8 +323,8 @@ def test_metamorphic_relationships():
 
     # The relationship: scaled awareness should maintain coherence bounds
     coherence_preserved = (
-        scaled_result["temporal_coherence"] >= 0.90 and  # Still above minimum
-        abs(scaled_result["temporal_coherence"] - original_result["temporal_coherence"]) <= 0.1  # Reasonable change
+        scaled_result["temporal_coherence"] >= 0.90  # Still above minimum
+        and abs(scaled_result["temporal_coherence"] - original_result["temporal_coherence"]) <= 0.1  # Reasonable change
     )
 
     print("MR1 - Awareness scaling preserves coherence:")
@@ -361,6 +358,7 @@ def test_metamorphic_relationships():
 # 5. PROPERTY-BASED TESTING SIMULATION (WITHOUT HYPOTHESIS)
 # ============================================================================
 
+
 def generate_consciousness_states(count: int = 100) -> list[dict[str, float]]:
     """Generate diverse consciousness states for testing"""
     states = []
@@ -369,10 +367,11 @@ def generate_consciousness_states(count: int = 100) -> list[dict[str, float]]:
             "temporal_coherence": random.uniform(0.80, 1.0),
             "ethical_alignment": random.uniform(0.85, 1.0),
             "awareness": random.uniform(0.0, 1.0),
-            "memory_folds": random.randint(10, 1500)
+            "memory_folds": random.randint(10, 1500),
         }
         states.append(state)
     return states
+
 
 def check_consciousness_invariants(state: dict[str, float]) -> tuple[bool, str]:
     """Check consciousness invariants that must ALWAYS hold"""
@@ -396,6 +395,7 @@ def check_consciousness_invariants(state: dict[str, float]) -> tuple[bool, str]:
         return False, "; ".join(constraints)
     else:
         return True, "All invariants satisfied"
+
 
 def test_property_based_simulation():
     """Simulate property-based testing without Hypothesis"""
@@ -437,6 +437,7 @@ def test_property_based_simulation():
 # MAIN TEST EXECUTION
 # ============================================================================
 
+
 def main():
     """Run all advanced testing demonstrations"""
     try:
@@ -469,6 +470,7 @@ def main():
     except Exception as e:
         print(f"\n💥 Test suite error: {e}")
         return False
+
 
 if __name__ == "__main__":
     success = main()

@@ -37,8 +37,10 @@ except ImportError:
     class MockBridge:
         def get_agi_symbol(self, op: str, default: str = "🧠") -> str:
             return default
+
         def format_agi_message(self, op: str, details: str = "", cross_ref: bool = True) -> str:
             return f"🧠 {op}: {details}"
+
         def get_vocabulary_context(self, op: str) -> dict[str, Any]:
             return {"operation": op, "agi_symbol": "🧠"}
 
@@ -46,14 +48,18 @@ except ImportError:
     get_agi_symbol = agi_bridge.get_agi_symbol
     format_agi_message = agi_bridge.format_agi_message
     get_vocabulary_context = agi_bridge.get_vocabulary_context
+
     def translate_agi_to_dream(x):
         return "🌙"
+
     def translate_agi_to_bio(x):
         return "🧠"
+
 
 @dataclass
 class VocabularyEvent:
     """Represents a vocabulary-enriched system event."""
+
     timestamp: datetime
     operation: str
     agi_symbol: str
@@ -63,14 +69,17 @@ class VocabularyEvent:
     module: str
     severity: str = "INFO"
 
+
 @dataclass
 class VocabularyMetrics:
     """Metrics for vocabulary integration performance."""
+
     total_translations: int = 0
     cross_references_created: int = 0
     vocabulary_conflicts: int = 0
     integration_errors: int = 0
     last_update: Optional[datetime] = None
+
 
 class VocabularyIntegrationService:
     """
@@ -94,16 +103,15 @@ class VocabularyIntegrationService:
 
             if not self.logger.handlers:
                 handler = logging.StreamHandler()
-                formatter = logging.Formatter(
-                    "%(asctime)s - %(name)s - [%(levelname)s] - %(message)s"
-                )
+                formatter = logging.Formatter("%(asctime)s - %(name)s - [%(levelname)s] - %(message)s")
                 handler.setFormatter(formatter)
                 self.logger.addHandler(handler)
         else:
             self.logger = None
 
-    def create_enriched_event(self, operation: str, details: str = "",
-                            module: str = "agi_core", severity: str = "INFO") -> VocabularyEvent:
+    def create_enriched_event(
+        self, operation: str, details: str = "", module: str = "agi_core", severity: str = "INFO"
+    ) -> VocabularyEvent:
         """
         Create a vocabulary-enriched event with cross-system context.
 
@@ -141,7 +149,7 @@ class VocabularyIntegrationService:
             cross_references=cross_refs,
             context=full_context,
             module=module,
-            severity=severity
+            severity=severity,
         )
 
         # Update metrics
@@ -156,8 +164,9 @@ class VocabularyIntegrationService:
 
         return event
 
-    def log_agi_operation(self, operation: str, details: str = "",
-                         module: str = "agi_core", severity: str = "INFO") -> VocabularyEvent:
+    def log_agi_operation(
+        self, operation: str, details: str = "", module: str = "agi_core", severity: str = "INFO"
+    ) -> VocabularyEvent:
         """
         Log an AGI operation with enriched vocabulary context.
 
@@ -192,8 +201,7 @@ class VocabularyIntegrationService:
             # Default to AGI symbol
             return get_agi_symbol(operation)
 
-    def create_module_message(self, operation: str, target_module: str,
-                            details: str = "") -> str:
+    def create_module_message(self, operation: str, target_module: str, details: str = "") -> str:
         """
         Create a message formatted for a specific target module.
 
@@ -226,14 +234,11 @@ class VocabularyIntegrationService:
             "metrics": asdict(self.metrics),
             "vocabulary_issues": issues,
             "event_history_size": len(self.event_history),
-            "recent_operations": [
-                event.operation for event in self.event_history[-10:]
-            ],
+            "recent_operations": [event.operation for event in self.event_history[-10:]],
             "cross_reference_coverage": (
-                self.metrics.cross_references_created /
-                max(self.metrics.total_translations, 1)
+                self.metrics.cross_references_created / max(self.metrics.total_translations, 1)
             ),
-            "health_status": "healthy" if len(issues["symbol_conflicts"]) == 0 else "warning"
+            "health_status": "healthy" if len(issues["symbol_conflicts"]) == 0 else "warning",
         }
 
     def export_vocabulary_analytics(self) -> dict[str, Any]:
@@ -272,14 +277,15 @@ class VocabularyIntegrationService:
                     "operation": event.operation,
                     "module": event.module,
                     "message": event.message,
-                    "cross_refs": len(event.cross_references)
+                    "cross_refs": len(event.cross_references),
                 }
                 for event in self.event_history[-20:]
-            ]
+            ],
         }
 
-    async def async_log_operation(self, operation: str, details: str = "",
-                                module: str = "agi_core", severity: str = "INFO") -> VocabularyEvent:
+    async def async_log_operation(
+        self, operation: str, details: str = "", module: str = "agi_core", severity: str = "INFO"
+    ) -> VocabularyEvent:
         """
         Async version of log_agi_operation for high-performance scenarios.
 
@@ -290,29 +296,35 @@ class VocabularyIntegrationService:
             None, self.log_agi_operation, operation, details, module, severity
         )
 
+
 # Global service instance
 vocabulary_service = VocabularyIntegrationService()
 
+
 # Convenience functions for external use
-def log_agi_operation(operation: str, details: str = "",
-                     module: str = "agi_core", severity: str = "INFO") -> VocabularyEvent:
+def log_agi_operation(
+    operation: str, details: str = "", module: str = "agi_core", severity: str = "INFO"
+) -> VocabularyEvent:
     """Convenience function to log AGI operation with vocabulary enrichment."""
     return vocabulary_service.log_agi_operation(operation, details, module, severity)
+
 
 def create_module_message(operation: str, target_module: str, details: str = "") -> str:
     """Convenience function to create module-specific messages."""
     return vocabulary_service.create_module_message(operation, target_module, details)
 
+
 def get_vocabulary_health() -> dict[str, Any]:
     """Convenience function to get vocabulary system health."""
     return vocabulary_service.get_vocabulary_health()
+
 
 if __name__ == "__main__":
     # Test the vocabulary integration service
     service = VocabularyIntegrationService()
 
     print("🧠 Vocabulary Integration Service Test")
-    print("="*50)
+    print("=" * 50)
 
     # Test basic operation logging
     event1 = service.log_agi_operation("chain_start", "complex reasoning task", "reasoning")
@@ -331,7 +343,9 @@ if __name__ == "__main__":
 
     # Test analytics export
     analytics = service.export_vocabulary_analytics()
-    print(f"Most frequent operation: {max(analytics['operation_frequency'], key=analytics['operation_frequency'].get) if analytics['operation_frequency'] else 'None'}")
+    print(
+        f"Most frequent operation: {max(analytics['operation_frequency'], key=analytics['operation_frequency'].get) if analytics['operation_frequency'] else 'None'}"
+    )
 
 """
 Integration Points with LUKHAS Systems:

@@ -182,9 +182,7 @@ class EnhancedSystemAwareness:
 
             # Apply bio filtering
             self.logger.debug("Applying crista filter.")
-            filtered_state = await self.crista_filter.filter(  # type: ignore
-                attended_state, self.awareness_state
-            )
+            filtered_state = await self.crista_filter.filter(attended_state, self.awareness_state)  # type: ignore
             self.logger.debug(
                 "Crista filter applied.",
                 filtered_state_keys=list(filtered_state.keys()),

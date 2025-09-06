@@ -369,7 +369,7 @@ class QIBioOscillator:
         """Get current timestamp."""
         import datetime
 
-        return datetime.datetime.now().isoformat()
+        return datetime.datetime.now(timezone.utc).isoformat()
 
     def synchronize_with_rhythm(self, rhythm_frequency: float, sync_strength: float = 0.5) -> dict[str, Any]:
         """

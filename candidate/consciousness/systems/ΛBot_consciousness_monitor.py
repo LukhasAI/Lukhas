@@ -20,7 +20,7 @@ from ΛBot_agi_core import ConsciousnessLevel, ΛBotAGICore
 from ΛBot_elite_orchestrator import ΛBotEliteOrchestrator
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ΛBot_AGI_Monitor")
 
 # Import AGI components
@@ -75,7 +75,7 @@ class ΛBotConsciousnessMonitor:
 
                 # Log consciousness state
                 consciousness_state = {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "consciousness_level": current_level.value,
                     "confidence_in_reasoning": confidence,
                     "known_biases": self.agi_core.meta_state.known_biases,

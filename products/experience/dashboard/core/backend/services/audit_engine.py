@@ -9,7 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AuditEngine:
@@ -24,7 +24,7 @@ class AuditEngine:
         """Run comprehensive system audit"""
         logger.info("Starting full system audit...")
 
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         # Check if audit script exists
         if not self.audit_script.exists():
@@ -56,7 +56,7 @@ class AuditEngine:
             # Parse audit results
             results = await self.parse_audit_results()
 
-            end_time = datetime.utcnow()
+            end_time = datetime.now(timezone.utc)
             duration = (end_time - start_time).total_seconds()
 
             return {
@@ -143,8 +143,8 @@ class AuditEngine:
             "total_audits_run": 234,
             "success_rate": 96.8,
             "average_duration_seconds": 195,
-            "last_audit": datetime.utcnow().isoformat(),
-            "next_scheduled": (datetime.utcnow() + timedelta(hours=6)).isoformat(),
+            "last_audit": datetime.now(timezone.utc).isoformat(),
+            "next_scheduled": (datetime.now(timezone.utc) + timedelta(hours=6)).isoformat(),
             "common_issues": [
                 {"issue": "Linting errors", "frequency": 45},
                 {"issue": "Missing tests", "frequency": 32},

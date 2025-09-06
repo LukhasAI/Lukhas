@@ -162,9 +162,7 @@ class ModuleRouter:
             except ImportError as err:
                 # Bind exception to a named variable for safe raise-from usage
                 if raise_on_error:
-                    raise ImportError(
-                        f"Failed to import '{module_path}' (resolved to '{actual_path}'): {err}"
-                    ) from err
+                    raise ImportError(f"Failed to import '{module_path}' (resolved to '{actual_path}'): {err}") from err
                 logger.warning(f"Failed to import '{module_path}': {err}")
                 return None
         elif raise_on_error:

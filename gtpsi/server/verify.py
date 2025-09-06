@@ -112,7 +112,8 @@ class GTΨVerificationService:
             return
 
         async with self.db_pool.acquire() as conn:
-            await conn.execute("""
+            await conn.execute(
+                """
                 CREATE SCHEMA IF NOT EXISTS gtpsi;
 
                 -- Stored gesture patterns (hashed features only)
@@ -179,7 +180,8 @@ class GTΨVerificationService:
                 CREATE INDEX IF NOT EXISTS idx_audit_lid ON gtpsi.audit_log(lid);
                 CREATE INDEX IF NOT EXISTS idx_challenges_expires ON gtpsi.challenges(expires_at);
                 CREATE INDEX IF NOT EXISTS idx_approvals_expires ON gtpsi.approvals(expires_at);
-            """)
+            """
+            )
 
     async def generate_challenge(self, lid: str, action: str, action_context: dict[str, Any]) -> GestureChallenge:
         """

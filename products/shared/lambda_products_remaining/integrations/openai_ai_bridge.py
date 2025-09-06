@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-# OpenAI imports (when available)
+# OpenAI imports (when available, timezone)
 try:
     import openai
     from openai import AsyncOpenAI
@@ -66,9 +66,9 @@ class ComputeBudget:
 
     def reset_daily(self):
         """Reset daily token allocation"""
-        if datetime.now() - self.reset_time > timedelta(days=1):
+        if datetime.now(timezone.utc) - self.reset_time > timedelta(days=1):
             self.used_tokens = 0
-            self.reset_time = datetime.now()
+            self.reset_time = datetime.now(timezone.utc)
 
 
 class OpenAILambdaBridge:
@@ -360,7 +360,7 @@ class OpenAILambdaBridge:
         enhanced_context = existing_context or {}
 
         # Add temporal context
-        enhanced_context["timestamp"] = datetime.now().isoformat()
+        enhanced_context["timestamp"] = datetime.now(timezone.utc).isoformat()
 
         # Add inferred context
         if "code" in prompt.lower():
@@ -376,7 +376,7 @@ class OpenAILambdaBridge:
         # Store for future reference
         self.context_memory[prompt_hash] = {
             "prompt_summary": prompt[:100],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return enhanced_context
@@ -443,7 +443,7 @@ class OpenAILambdaBridge:
         """
 
         preparation = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "target_model": "gpt-5",
             "expected_launch": "2025-08",
             "integration_readiness": {},
@@ -546,10 +546,10 @@ class LambdaAGIAgent:
 
         logger.info(f"AGI Agent {self.agent_id} working on: {goal}")
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         end_time = start_time + timedelta(hours=duration_hours)
 
-        while datetime.now() < end_time:
+        while datetime.now(timezone.utc) < end_time:
             # Process goal with consciousness
             await self.bridge.process_with_consciousness(
                 prompt=f"Working toward goal: {goal}. What's the next action?",

@@ -28,5 +28,5 @@ __all__ = [
     "IntegrationTestBattery",
     "IntegrationTestType",
     "PerformanceTestBattery",
-    "PerformanceBenchmark"
+    "PerformanceBenchmark",
 ]

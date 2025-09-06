@@ -24,8 +24,7 @@ from datetime import datetime
 
 
 def create_delivery_widget(
-    vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit"
-):
+    vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit", timezone):
     """
     Creates a delivery tracker widget for visualization in dashboard.
 
@@ -52,7 +51,7 @@ def create_delivery_widget(
         "delivery_id": delivery_id,
         "status": delivery_status,
         "eta": estimated_eta,
-        "created_at": datetime.utcnow().isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
         "tracking_id": str(uuid.uuid4()),
         "icon": tier_icons.get(user_tier, "📦"),
         "color": color_map.get(delivery_status, ")  # 9e9e9e",

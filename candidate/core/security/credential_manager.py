@@ -18,6 +18,7 @@ from typing import Any, Dict, List, Optional, Union
 try:
     from .enhanced_crypto import CryptoAlgorithm, get_encryption_manager
     from .secure_logging import get_security_logger
+
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
@@ -27,6 +28,7 @@ logger = get_security_logger(__name__) if CRYPTO_AVAILABLE else None
 
 class CredentialType(Enum):
     """Types of credentials managed by the system"""
+
     API_KEY = "api_key"
     SECRET_TOKEN = "secret_token"
     PASSWORD = "password"
@@ -39,6 +41,7 @@ class CredentialType(Enum):
 
 class CredentialStatus(Enum):
     """Status of credentials"""
+
     ACTIVE = "active"
     EXPIRED = "expired"
     REVOKED = "revoked"
@@ -49,6 +52,7 @@ class CredentialStatus(Enum):
 @dataclass
 class CredentialMetadata:
     """Metadata for credentials"""
+
     credential_id: str
     credential_type: CredentialType
     service_name: str
@@ -79,11 +83,7 @@ class CredentialMetadata:
 
     def add_audit_entry(self, action: str, details: Optional[dict[str, Any]] = None):
         """Add entry to audit trail"""
-        entry = {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "action": action,
-            "details": details or {}
-        }
+        entry = {"timestamp": datetime.now(timezone.utc).isoformat(), "action": action, "details": details or {}}
         self.audit_trail.append(entry)
 
         # Keep only last 100 entries
@@ -107,7 +107,7 @@ class CredentialMetadata:
             "access_policy": self.access_policy,
             "audit_trail": self.audit_trail,
             "is_expired": self.is_expired(),
-            "needs_rotation": self.needs_rotation()
+            "needs_rotation": self.needs_rotation(),
         }
 
 
@@ -142,12 +142,18 @@ class SecureCredentialManager:
 
         logger.info(f"Secure credential manager initialized with storage: {self.storage_path}")
 
-    async def store_credential(self, service_name: str, credential_type: CredentialType,
-                              credential_value: Union[str, bytes], environment: str = "prod",
-                              owner: str = "system", expires_at: Optional[datetime] = None,
-                              rotation_interval_days: Optional[int] = None,
-                              tags: Optional[list[str]] = None,
-                              access_policy: Optional[dict[str, Any]] = None) -> str:
+    async def store_credential(
+        self,
+        service_name: str,
+        credential_type: CredentialType,
+        credential_value: Union[str, bytes],
+        environment: str = "prod",
+        owner: str = "system",
+        expires_at: Optional[datetime] = None,
+        rotation_interval_days: Optional[int] = None,
+        tags: Optional[list[str]] = None,
+        access_policy: Optional[dict[str, Any]] = None,
+    ) -> str:
         """Store credential securely"""
 
         credential_id = self._generate_credential_id(service_name, credential_type)
@@ -158,8 +164,7 @@ class SecureCredentialManager:
 
         # Encrypt credential
         encrypted_data, encryption_key_id = await self.crypto.encrypt(
-            credential_value,
-            purpose=f"credential_{credential_id}"
+            credential_value, purpose=f"credential_{credential_id}"
         )
 
         # Create metadata
@@ -173,24 +178,20 @@ class SecureCredentialManager:
             expires_at=expires_at,
             rotation_interval_days=rotation_interval_days,
             tags=tags or [],
-            access_policy=access_policy or {}
+            access_policy=access_policy or {},
         )
 
-        metadata.add_audit_entry("CREATED", {
-            "encryption_key_id": encryption_key_id,
-            "environment": environment,
-            "owner": owner
-        })
+        metadata.add_audit_entry(
+            "CREATED", {"encryption_key_id": encryption_key_id, "environment": environment, "owner": owner}
+        )
 
         # Store encrypted credential
         credential_file = self.storage_path / f"{credential_id}.enc"
         with open(credential_file, "wb") as f:
             # Store encryption key ID + encrypted data
-            header = json.dumps({
-                "encryption_key_id": encryption_key_id,
-                "algorithm": "enhanced_crypto",
-                "version": "1.0"
-            }).encode()
+            header = json.dumps(
+                {"encryption_key_id": encryption_key_id, "algorithm": "enhanced_crypto", "version": "1.0"}
+            ).encode()
 
             f.write(len(header).to_bytes(4, "big"))  # Header length
             f.write(header)  # Header
@@ -289,17 +290,14 @@ class SecureCredentialManager:
 
             # Encrypt new credential
             encrypted_data, encryption_key_id = await self.crypto.encrypt(
-                new_value,
-                purpose=f"credential_{credential_id}_rotated"
+                new_value, purpose=f"credential_{credential_id}_rotated"
             )
 
             # Store new encrypted credential
             with open(old_file, "wb") as f:
-                header = json.dumps({
-                    "encryption_key_id": encryption_key_id,
-                    "algorithm": "enhanced_crypto",
-                    "version": "1.0"
-                }).encode()
+                header = json.dumps(
+                    {"encryption_key_id": encryption_key_id, "algorithm": "enhanced_crypto", "version": "1.0"}
+                ).encode()
 
                 f.write(len(header).to_bytes(4, "big"))
                 f.write(header)
@@ -308,10 +306,9 @@ class SecureCredentialManager:
             # Update metadata
             metadata.created_at = datetime.now(timezone.utc)
             metadata.status = CredentialStatus.ACTIVE
-            metadata.add_audit_entry("ROTATED", {
-                "new_encryption_key_id": encryption_key_id,
-                "backup_file": str(backup_file.name)
-            })
+            metadata.add_audit_entry(
+                "ROTATED", {"new_encryption_key_id": encryption_key_id, "backup_file": str(backup_file.name)}
+            )
 
             await self._update_metadata(credential_id, metadata)
 
@@ -347,10 +344,13 @@ class SecureCredentialManager:
         logger.info(f"Revoked credential {credential_id}: {reason}")
         return True
 
-    def list_credentials(self, environment: Optional[str] = None,
-                        service_name: Optional[str] = None,
-                        credential_type: Optional[CredentialType] = None,
-                        include_inactive: bool = False) -> list[dict[str, Any]]:
+    def list_credentials(
+        self,
+        environment: Optional[str] = None,
+        service_name: Optional[str] = None,
+        credential_type: Optional[CredentialType] = None,
+        include_inactive: bool = False,
+    ) -> list[dict[str, Any]]:
         """List credentials with filtering"""
 
         results = []
@@ -375,16 +375,14 @@ class SecureCredentialManager:
     def get_credentials_needing_rotation(self) -> list[str]:
         """Get list of credentials that need rotation"""
         return [
-            cred_id for cred_id, metadata in self.credentials.items()
+            cred_id
+            for cred_id, metadata in self.credentials.items()
             if metadata.needs_rotation() and metadata.status == CredentialStatus.ACTIVE
         ]
 
     def get_expired_credentials(self) -> list[str]:
         """Get list of expired credentials"""
-        return [
-            cred_id for cred_id, metadata in self.credentials.items()
-            if metadata.is_expired()
-        ]
+        return [cred_id for cred_id, metadata in self.credentials.items() if metadata.is_expired()]
 
     async def cleanup_old_credentials(self, days_old: int = 90) -> int:
         """Clean up old revoked/expired credentials"""
@@ -393,8 +391,10 @@ class SecureCredentialManager:
         cleaned_count = 0
 
         for cred_id, metadata in list(self.credentials.items()):
-            if (metadata.status in [CredentialStatus.REVOKED, CredentialStatus.EXPIRED] and
-                metadata.created_at < cutoff_date):
+            if (
+                metadata.status in [CredentialStatus.REVOKED, CredentialStatus.EXPIRED]
+                and metadata.created_at < cutoff_date
+            ):
 
                 # Remove files
                 for ext in [".enc", ".meta"]:
@@ -436,7 +436,7 @@ class SecureCredentialManager:
                     status=CredentialStatus(data.get("status", "active")),
                     tags=data.get("tags", []),
                     access_policy=data.get("access_policy", {}),
-                    audit_trail=data.get("audit_trail", [])
+                    audit_trail=data.get("audit_trail", []),
                 )
 
                 self.credentials[metadata.credential_id] = metadata
@@ -478,8 +478,7 @@ class SecureCredentialManager:
         # Clean old attempts
         if credential_id in self.failed_access_attempts:
             self.failed_access_attempts[credential_id] = [
-                attempt for attempt in self.failed_access_attempts[credential_id]
-                if attempt > cutoff
+                attempt for attempt in self.failed_access_attempts[credential_id] if attempt > cutoff
             ]
 
         # Check if under limit
@@ -523,7 +522,7 @@ async def store_api_key(service_name: str, api_key: str, environment: str = "pro
         credential_type=CredentialType.API_KEY,
         credential_value=api_key,
         environment=environment,
-        rotation_interval_days=90  # Rotate every 90 days
+        rotation_interval_days=90,  # Rotate every 90 days
     )
 
 
@@ -533,9 +532,7 @@ async def get_api_key(service_name: str, environment: str = "prod") -> Optional[
 
     # Find credential ID
     credentials = manager.list_credentials(
-        service_name=service_name,
-        credential_type=CredentialType.API_KEY,
-        environment=environment
+        service_name=service_name, credential_type=CredentialType.API_KEY, environment=environment
     )
 
     if not credentials:
@@ -574,7 +571,7 @@ async def example_usage():
         credential_value="sk-test-key-1234567890abcdef",
         environment="test",
         rotation_interval_days=30,
-        tags=["ai", "language-model"]
+        tags=["ai", "language-model"],
     )
     print(f"✅ Stored OpenAI API key: {openai_key_id}")
 
@@ -584,7 +581,7 @@ async def example_usage():
         credential_type=CredentialType.DATABASE_URL,
         credential_value="postgresql://user:pass@localhost:5432/lukhas",
         environment="dev",
-        access_policy={"allowed_users": ["system", "dev-team"]}
+        access_policy={"allowed_users": ["system", "dev-team"]},
     )
     print(f"✅ Stored database URL: {db_url_id}")
 
@@ -612,4 +609,5 @@ async def example_usage():
 
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(example_usage())

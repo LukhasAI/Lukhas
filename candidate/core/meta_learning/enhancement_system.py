@@ -923,7 +923,9 @@ class MetaLearningEnhancementSystem:
 
         recent_cycles = [
             event for event in self.enhancement_history if event["event_type"] == "enhancement_cycle_completed"
-        ][-5:]  # Last 5 cycles
+        ][
+            -5:
+        ]  # Last 5 cycles
 
         avg_duration = (
             sum(cycle["cycle_results"]["duration_seconds"] for cycle in recent_cycles) / len(recent_cycles)

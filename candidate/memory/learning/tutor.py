@@ -13,7 +13,7 @@ from candidate.core.common import get_logger
 
 from ..symbolic_knowledge_core.knowledge_graph import SKGNode, SystemKnowledgeGraph
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class LearningStyle(str, Enum):
@@ -102,7 +102,7 @@ class TutorEngine:
     ) -> LearningSession:
         """Create a new learning session."""
         # Generate session ID using Lukhas's identity system
-        session_id = f"session_{user_id}_{int(datetime.now().timestamp())}"
+        session_id = f"session_{user_id}_{int(datetime.now(timezone.utc).timestamp())}"
 
         # Get bio-oscillator baseline if available
         bio_metrics = {}
@@ -117,7 +117,7 @@ class TutorEngine:
             user_id=user_id,
             topic=topic,
             objectives=objectives,
-            start_time=datetime.now(),
+            start_time=datetime.now(timezone.utc),
             bio_metrics=bio_metrics,
             voice_enabled=config.get("voice_enabled", False),
         )
@@ -346,7 +346,7 @@ class TutorEngine:
 
         # Generate session summary
         summary = {
-            "duration_minutes": (datetime.now() - session.start_time).seconds // 60,
+            "duration_minutes": (datetime.now(timezone.utc) - session.start_time).seconds // 60,
             "objectives_completed": session.current_objective_index + 1,
             "total_objectives": len(session.objectives),
             "messages_exchanged": len(session.messages),

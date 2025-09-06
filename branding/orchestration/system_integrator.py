@@ -65,7 +65,8 @@ class SystemIntegrator:
         db_integration_path = self.engines_path / "database_integration.py"
 
         with open(db_integration_path, "w") as f:
-            f.write('''#!/usr/bin/env python3
+            f.write(
+                '''#!/usr/bin/env python3
 """
 LUKHAS AI Database Integration Layer
 Provides real-time database connectivity for all unified systems
@@ -242,7 +243,8 @@ class LukhasDatabaseIntegration:
 
 # Global database instance for all systems
 db = LukhasDatabaseIntegration()
-''')
+'''
+            )
 
         self.logger.info("✅ Database integration layer created")
 
@@ -594,7 +596,8 @@ if __name__ == "__main__":
         orchestrator_path = self.engines_path / "lukhas_unified_orchestrator.py"
 
         with open(orchestrator_path, "w") as f:
-            f.write('''#!/usr/bin/env python3
+            f.write(
+                '''#!/usr/bin/env python3
 """
 LUKHAS AI Unified System Orchestrator
 Master coordinator for all integrated consciousness technology systems
@@ -757,7 +760,8 @@ Generated through our unified platform with real database integration.
 if __name__ == "__main__":
     orchestrator = LukhasUnifiedOrchestrator()
     orchestrator.demonstrate_integration()
-''')
+'''
+            )
 
         self.logger.info("✅ Unified system orchestrator created")
 

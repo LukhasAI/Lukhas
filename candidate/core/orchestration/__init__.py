@@ -46,7 +46,6 @@ __all__ = [
     "ModuleConsciousnessProfile",
     "OrchestrationState",
     "consciousness_coordinator",
-
     # Core Orchestration
-    "OrchestrationCore"
+    "OrchestrationCore",
 ]

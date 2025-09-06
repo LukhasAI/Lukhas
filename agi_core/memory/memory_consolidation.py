@@ -17,28 +17,34 @@ import numpy as np
 
 from .vector_memory import MemoryImportance, MemoryType, MemoryVector, VectorMemoryStore
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
+
 
 class ConsolidationStrategy(Enum):
     """Memory consolidation strategies."""
-    TEMPORAL = "temporal"           # Time-based consolidation
-    SEMANTIC = "semantic"           # Meaning-based clustering
-    EMOTIONAL = "emotional"         # Emotion-guided consolidation
-    IMPORTANCE = "importance"       # Priority-based strengthening
-    DREAM_GUIDED = "dream_guided"   # Dream-enhanced consolidation
-    CAUSAL = "causal"              # Causal chain reinforcement
+
+    TEMPORAL = "temporal"  # Time-based consolidation
+    SEMANTIC = "semantic"  # Meaning-based clustering
+    EMOTIONAL = "emotional"  # Emotion-guided consolidation
+    IMPORTANCE = "importance"  # Priority-based strengthening
+    DREAM_GUIDED = "dream_guided"  # Dream-enhanced consolidation
+    CAUSAL = "causal"  # Causal chain reinforcement
+
 
 class ConsolidationType(Enum):
     """Types of consolidation operations."""
-    STRENGTHEN = "strengthen"       # Reinforce memory strength
-    MERGE = "merge"                # Combine similar memories
-    ASSOCIATE = "associate"        # Create associative links
-    DECAY = "decay"               # Natural memory decay
-    REORGANIZE = "reorganize"     # Restructure memory organization
+
+    STRENGTHEN = "strengthen"  # Reinforce memory strength
+    MERGE = "merge"  # Combine similar memories
+    ASSOCIATE = "associate"  # Create associative links
+    DECAY = "decay"  # Natural memory decay
+    REORGANIZE = "reorganize"  # Restructure memory organization
+
 
 @dataclass
 class ConsolidationJob:
     """Memory consolidation job specification."""
+
     strategy: ConsolidationStrategy
     consolidation_type: ConsolidationType
     target_memories: list[str]  # Memory IDs to consolidate
@@ -46,9 +52,11 @@ class ConsolidationJob:
     scheduled_time: Optional[datetime] = None
     dream_context: Optional[dict[str, Any]] = None  # Dream insights for consolidation
 
+
 @dataclass
 class ConsolidationResult:
     """Result of memory consolidation operation."""
+
     job_id: str
     success: bool
     memories_processed: int
@@ -58,6 +66,7 @@ class ConsolidationResult:
     consolidation_score: float
     processing_time_ms: int
     errors: list[str]
+
 
 class MemoryConsolidator:
     """
@@ -73,23 +82,23 @@ class MemoryConsolidator:
         self.consolidation_jobs: list[ConsolidationJob] = []
 
         # Consolidation Parameters
-        self.similarity_threshold = 0.85    # Threshold for memory merging
-        self.association_threshold = 0.7    # Threshold for creating associations
-        self.decay_rate = 0.02             # Base memory decay rate
-        self.dream_boost_factor = 0.3      # Dream consolidation enhancement
+        self.similarity_threshold = 0.85  # Threshold for memory merging
+        self.association_threshold = 0.7  # Threshold for creating associations
+        self.decay_rate = 0.02  # Base memory decay rate
+        self.dream_boost_factor = 0.3  # Dream consolidation enhancement
 
         # Statistics
         self.stats = {
             "total_consolidations": 0,
             "memories_consolidated": 0,
             "consolidation_types": {ct.value: 0 for ct in ConsolidationType},
-            "avg_consolidation_time": 0.0
+            "avg_consolidation_time": 0.0,
         }
 
     async def schedule_consolidation(self, job: ConsolidationJob) -> str:
         """Schedule a memory consolidation job."""
-        job_id = f"cons_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{len(self.consolidation_jobs)}"
-        job.scheduled_time = job.scheduled_time or datetime.now()
+        job_id = f"cons_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.consolidation_jobs)}"
+        job.scheduled_time = job.scheduled_time or datetime.now(timezone.utc)
 
         self.consolidation_jobs.append(job)
         self.consolidation_jobs.sort(key=lambda j: (j.scheduled_time, -j.priority))
@@ -100,7 +109,7 @@ class MemoryConsolidator:
     async def run_consolidation_cycle(self) -> list[ConsolidationResult]:
         """Run scheduled consolidation jobs."""
         results = []
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         # Process due jobs
         due_jobs = [job for job in self.consolidation_jobs if job.scheduled_time <= now]
@@ -116,24 +125,26 @@ class MemoryConsolidator:
 
             except Exception as e:
                 logger.error(f"Error executing consolidation job: {e}")
-                results.append(ConsolidationResult(
-                    job_id=f"failed_{now.isoformat()}",
-                    success=False,
-                    memories_processed=0,
-                    memories_strengthened=0,
-                    memories_merged=0,
-                    new_associations=0,
-                    consolidation_score=0.0,
-                    processing_time_ms=0,
-                    errors=[str(e)]
-                ))
+                results.append(
+                    ConsolidationResult(
+                        job_id=f"failed_{now.isoformat()}",
+                        success=False,
+                        memories_processed=0,
+                        memories_strengthened=0,
+                        memories_merged=0,
+                        new_associations=0,
+                        consolidation_score=0.0,
+                        processing_time_ms=0,
+                        errors=[str(e)],
+                    )
+                )
 
         return results
 
     async def _execute_consolidation_job(self, job: ConsolidationJob) -> ConsolidationResult:
         """Execute a specific consolidation job."""
         start_time = asyncio.get_event_loop().time()
-        job_id = f"exec_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        job_id = f"exec_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         result = ConsolidationResult(
             job_id=job_id,
@@ -144,7 +155,7 @@ class MemoryConsolidator:
             new_associations=0,
             consolidation_score=0.0,
             processing_time_ms=0,
-            errors=[]
+            errors=[],
         )
 
         try:
@@ -201,14 +212,14 @@ class MemoryConsolidator:
             total_jobs = self.stats["total_consolidations"]
             if total_jobs > 0:
                 self.stats["avg_consolidation_time"] = (
-                    (self.stats["avg_consolidation_time"] * (total_jobs - 1) + processing_time) /
-                    total_jobs
-                )
+                    self.stats["avg_consolidation_time"] * (total_jobs - 1) + processing_time
+                ) / total_jobs
 
         return result
 
-    async def _temporal_consolidation(self, memories: list[MemoryVector],
-                                    job: ConsolidationJob, result: ConsolidationResult):
+    async def _temporal_consolidation(
+        self, memories: list[MemoryVector], job: ConsolidationJob, result: ConsolidationResult
+    ):
         """Consolidate memories based on temporal proximity."""
         # Group memories by time windows
         time_groups = {}
@@ -232,18 +243,19 @@ class MemoryConsolidator:
 
                 # Create temporal associations
                 for i, memory1 in enumerate(time_group):
-                    for memory2 in time_group[i+1:]:
+                    for memory2 in time_group[i + 1 :]:
                         if memory2.id not in memory1.related_memories:
                             memory1.related_memories.append(memory2.id)
                             memory2.related_memories.append(memory1.id)
                             result.new_associations += 1
 
-    async def _semantic_consolidation(self, memories: list[MemoryVector],
-                                    job: ConsolidationJob, result: ConsolidationResult):
+    async def _semantic_consolidation(
+        self, memories: list[MemoryVector], job: ConsolidationJob, result: ConsolidationResult
+    ):
         """Consolidate memories based on semantic similarity."""
         # Calculate pairwise similarities
         for i, memory1 in enumerate(memories):
-            for memory2 in memories[i+1:]:
+            for memory2 in memories[i + 1 :]:
                 # Calculate cosine similarity
                 similarity = np.dot(memory1.vector, memory2.vector) / (
                     np.linalg.norm(memory1.vector) * np.linalg.norm(memory2.vector)
@@ -267,8 +279,9 @@ class MemoryConsolidator:
                         memory2.related_memories.append(memory1.id)
                         result.new_associations += 1
 
-    async def _emotional_consolidation(self, memories: list[MemoryVector],
-                                     job: ConsolidationJob, result: ConsolidationResult):
+    async def _emotional_consolidation(
+        self, memories: list[MemoryVector], job: ConsolidationJob, result: ConsolidationResult
+    ):
         """Consolidate memories based on emotional content."""
         # Group memories by emotional valence
         emotional_groups = {"positive": [], "negative": [], "neutral": []}
@@ -292,8 +305,9 @@ class MemoryConsolidator:
                     memory.reinforce(boost)
                     result.memories_strengthened += 1
 
-    async def _importance_consolidation(self, memories: list[MemoryVector],
-                                      job: ConsolidationJob, result: ConsolidationResult):
+    async def _importance_consolidation(
+        self, memories: list[MemoryVector], job: ConsolidationJob, result: ConsolidationResult
+    ):
         """Consolidate memories based on importance levels."""
         # Group by importance
         importance_groups = {}
@@ -311,8 +325,9 @@ class MemoryConsolidator:
                 memory.reinforce(boost_factor * 0.15)
                 result.memories_strengthened += 1
 
-    async def _dream_guided_consolidation(self, memories: list[MemoryVector],
-                                        job: ConsolidationJob, result: ConsolidationResult):
+    async def _dream_guided_consolidation(
+        self, memories: list[MemoryVector], job: ConsolidationJob, result: ConsolidationResult
+    ):
         """Use dream insights to guide memory consolidation."""
         if not job.dream_context:
             # Fallback to semantic consolidation
@@ -340,17 +355,19 @@ class MemoryConsolidator:
                 result.memories_strengthened += 1
 
                 # Tag with dream context
-                memory.constellation_tags["DREAM"] = min(1.0,
-                    memory.constellation_tags.get("DREAM", 0.0) + dream_relevance)
+                memory.constellation_tags["DREAM"] = min(
+                    1.0, memory.constellation_tags.get("DREAM", 0.0) + dream_relevance
+                )
 
-    async def _causal_consolidation(self, memories: list[MemoryVector],
-                                  job: ConsolidationJob, result: ConsolidationResult):
+    async def _causal_consolidation(
+        self, memories: list[MemoryVector], job: ConsolidationJob, result: ConsolidationResult
+    ):
         """Consolidate memories based on causal relationships."""
         # Identify potential causal chains based on timestamps and content similarity
         sorted_memories = sorted(memories, key=lambda m: m.timestamp)
 
         for i, memory1 in enumerate(sorted_memories):
-            for memory2 in sorted_memories[i+1:i+6]:  # Look ahead up to 5 memories
+            for memory2 in sorted_memories[i + 1 : i + 6]:  # Look ahead up to 5 memories
                 # Check if they could be causally related
                 time_diff = (memory2.timestamp - memory1.timestamp).total_seconds()
 
@@ -372,8 +389,7 @@ class MemoryConsolidator:
                         memory2.reinforce(0.1)
                         result.memories_strengthened += 2
 
-    async def _merge_memories(self, memory1: MemoryVector, memory2: MemoryVector,
-                            result: ConsolidationResult):
+    async def _merge_memories(self, memory1: MemoryVector, memory2: MemoryVector, result: ConsolidationResult):
         """Merge two highly similar memories."""
         # Create merged content (simple concatenation - could be enhanced)
         merged_content = f"{memory1.content} [MERGED] {memory2.content}"
@@ -390,8 +406,7 @@ class MemoryConsolidator:
         all_stars = set(memory1.constellation_tags.keys()) | set(memory2.constellation_tags.keys())
         for star in all_stars:
             merged_constellation[star] = max(
-                memory1.constellation_tags.get(star, 0.0),
-                memory2.constellation_tags.get(star, 0.0)
+                memory1.constellation_tags.get(star, 0.0), memory2.constellation_tags.get(star, 0.0)
             )
 
         # Update memory1 with merged data
@@ -432,16 +447,14 @@ class MemoryConsolidator:
         time_efficiency = max(0.0, 1.0 - (result.processing_time_ms / 10000))  # 10 second baseline
 
         overall_score = (
-            strengthening_score * 0.4 +
-            association_score * 0.3 +
-            merge_efficiency * 0.2 +
-            time_efficiency * 0.1
+            strengthening_score * 0.4 + association_score * 0.3 + merge_efficiency * 0.2 + time_efficiency * 0.1
         )
 
         return min(1.0, overall_score)
 
-    async def auto_consolidate_memory_type(self, memory_type: MemoryType,
-                                         strategy: ConsolidationStrategy = ConsolidationStrategy.SEMANTIC) -> str:
+    async def auto_consolidate_memory_type(
+        self, memory_type: MemoryType, strategy: ConsolidationStrategy = ConsolidationStrategy.SEMANTIC
+    ) -> str:
         """Automatically consolidate all memories of a specific type."""
         # Get all memories of this type
         target_memories = []
@@ -458,7 +471,7 @@ class MemoryConsolidator:
             strategy=strategy,
             consolidation_type=ConsolidationType.STRENGTHEN,
             target_memories=target_memories,
-            priority=0.8
+            priority=0.8,
         )
 
         return await self.schedule_consolidation(job)
@@ -466,7 +479,7 @@ class MemoryConsolidator:
     async def dream_consolidation_cycle(self, dream_insights: dict[str, Any]) -> str:
         """Run dream-guided consolidation for recent memories."""
         # Get recent memories (last 24 hours)
-        cutoff_time = datetime.now() - timedelta(hours=24)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
         recent_memories = []
 
         for memory_id, memory in self.memory_store.memories.items():
@@ -482,7 +495,7 @@ class MemoryConsolidator:
             consolidation_type=ConsolidationType.STRENGTHEN,
             target_memories=recent_memories,
             priority=1.2,  # High priority for dream consolidation
-            dream_context=dream_insights
+            dream_context=dream_insights,
         )
 
         return await self.schedule_consolidation(job)
@@ -495,10 +508,14 @@ class MemoryConsolidator:
             **self.stats,
             "pending_jobs": len(self.consolidation_jobs),
             "recent_performance": {
-                "avg_consolidation_score": statistics.mean([r.consolidation_score for r in recent_results]) if recent_results else 0.0,
+                "avg_consolidation_score": (
+                    statistics.mean([r.consolidation_score for r in recent_results]) if recent_results else 0.0
+                ),
                 "success_rate": len(recent_results) / max(1, len(self.consolidation_history[-100:])),
-                "avg_memories_per_job": statistics.mean([r.memories_processed for r in recent_results]) if recent_results else 0.0
-            }
+                "avg_memories_per_job": (
+                    statistics.mean([r.memories_processed for r in recent_results]) if recent_results else 0.0
+                ),
+            },
         }
 
         return stats

@@ -34,7 +34,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class RuleType(Enum):
@@ -203,7 +203,7 @@ class AdvancedRuleValidator:
             "average_execution_time": 0.0,
             "rule_usage_stats": {},
             "context_usage_stats": {},
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Built-in rule operators
@@ -283,7 +283,7 @@ class AdvancedRuleValidator:
         Returns:
             Comprehensive validation report
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         validation_id = f"val_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
@@ -298,7 +298,7 @@ class AdvancedRuleValidator:
                     result=ValidationResult.ERROR,
                     overall_score=0.0,
                     confidence=0.0,
-                    execution_time=(datetime.now() - start_time).total_seconds(),
+                    execution_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
                     failed_conditions=[f"Rule {rule_id} not found"],
                     suggestions=["Verify rule ID exists and is registered"],
                 )
@@ -326,7 +326,7 @@ class AdvancedRuleValidator:
                     result=ValidationResult.DEFERRED,
                     overall_score=0.0,
                     confidence=0.5,
-                    execution_time=(datetime.now() - start_time).total_seconds(),
+                    execution_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
                     missing_context=context_validation["missing"],
                     suggestions=[f"Provide missing context: {', '.join(context_validation['missing'])}"],
                 )
@@ -359,7 +359,7 @@ class AdvancedRuleValidator:
                 result=ValidationResult.ERROR,
                 overall_score=0.0,
                 confidence=0.0,
-                execution_time=(datetime.now() - start_time).total_seconds(),
+                execution_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
                 failed_conditions=[f"Validation error: {e!s}"],
                 suggestions=["Review rule definition and target data structure"],
             )
@@ -467,7 +467,7 @@ class AdvancedRuleValidator:
         # Trinity Framework integration
         trinity_factors = await self._analyze_trinity_factors(rule, target_data, context, overall_result)
 
-        execution_time = (datetime.now() - start_time).total_seconds()
+        execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         return ValidationReport(
             validation_id=validation_id,
@@ -809,7 +809,7 @@ class AdvancedRuleValidator:
             # Check if cache is still valid
             if rule.cache_duration:
                 cache_expiry = cache_time + timedelta(seconds=rule.cache_duration)
-                if datetime.now() <= cache_expiry:
+                if datetime.now(timezone.utc) <= cache_expiry:
                     cached_result.cache_hit = True
                     return cached_result
 
@@ -828,7 +828,7 @@ class AdvancedRuleValidator:
         """Cache a validation result"""
 
         cache_key = self._generate_cache_key(rule_id, target_data, context)
-        self.rule_cache[cache_key] = (result, datetime.now())
+        self.rule_cache[cache_key] = (result, datetime.now(timezone.utc))
 
         # Maintain cache size (keep last 1000 entries)
         if len(self.rule_cache) > 1000:
@@ -850,7 +850,7 @@ class AdvancedRuleValidator:
     async def _update_validation_metrics(self, rule_id: str, report: ValidationReport, start_time: datetime):
         """Update validation metrics"""
 
-        execution_time = (datetime.now() - start_time).total_seconds()
+        execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         self.metrics["total_validations"] += 1
 
@@ -864,7 +864,7 @@ class AdvancedRuleValidator:
         if rule_id in self.metrics["rule_usage_stats"]:
             stats = self.metrics["rule_usage_stats"][rule_id]
             stats["usage_count"] += 1
-            stats["last_used"] = datetime.now().isoformat()
+            stats["last_used"] = datetime.now(timezone.utc).isoformat()
 
             # Update success rate
             is_success = report.result in [
@@ -881,7 +881,7 @@ class AdvancedRuleValidator:
             new_time = ((old_time * old_count) + execution_time) / stats["usage_count"]
             stats["average_execution_time"] = new_time
 
-        self.metrics["last_updated"] = datetime.now().isoformat()
+        self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     def _maintain_history_size(self, max_size: int = 1000):
         """Maintain validation history size"""
@@ -900,7 +900,7 @@ class AdvancedRuleValidator:
         # Calculate additional statistics from history
         rule_validations = [v for v in self.validation_history if v.rule_id == rule_id]
 
-        recent_validations = [v for v in rule_validations if (datetime.now() - v.validation_timestamp).days <= 7]
+        recent_validations = [v for v in rule_validations if (datetime.now(timezone.utc) - v.validation_timestamp).days <= 7]
 
         return {
             "rule_id": rule_id,

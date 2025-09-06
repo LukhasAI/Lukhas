@@ -195,12 +195,7 @@ class MissingComponentHunter:
 
         # Skip if path contains virtual environment patterns
         path_str = str(dir_path).lower()
-        return bool(
-            any(
-                pattern in path_str
-                for pattern in ["/lib/python", "/site-packages", "/bin/", "/scripts/"]
-            )
-        )
+        return bool(any(pattern in path_str for pattern in ["/lib/python", "/site-packages", "/bin/", "/scripts/"]))
 
     def search_file_content(self, file_path: Path) -> list[ComponentHit]:
         """Search file content for component patterns"""
@@ -216,9 +211,7 @@ class MissingComponentHunter:
                 for component_name, config in self.missing_components.items():
                     for pattern in config["patterns"]:
                         if re.search(pattern.lower(), line_lower):
-                            confidence = self.calculate_confidence(
-                                pattern, line, file_path
-                            )
+                            confidence = self.calculate_confidence(pattern, line, file_path)
                             match_type = self.determine_match_type(line, pattern)
 
                             hit = ComponentHit(
@@ -332,9 +325,7 @@ class MissingComponentHunter:
 
         # Sort hits by confidence
         for component_name in component_hits:
-            component_hits[component_name].sort(
-                key=lambda x: x["confidence_score"], reverse=True
-            )
+            component_hits[component_name].sort(key=lambda x: x["confidence_score"], reverse=True)
 
         # Generate summary
         summary = {
@@ -350,9 +341,7 @@ class MissingComponentHunter:
             "missing_components_searched": list(self.missing_components.keys()),
         }
 
-    def save_report(
-        self, report: dict, filename: str = "missing_component_hunt_report.json"
-    ):
+    def save_report(self, report: dict, filename: str = "missing_component_hunt_report.json"):
         """Save hunt report"""
         output_path = self.base_path.parent / filename
         with open(output_path, "w") as f:
@@ -394,9 +383,7 @@ def main():
         # Print summary
         print("\n🎯 MISSING COMPONENT HUNT SUMMARY:")
         print(f"📁 Total hits found: {report['hunt_summary']['total_hits']}")
-        print(
-            f"🎨 Components with hits: {report['hunt_summary']['components_found']}/6"
-        )
+        print(f"🎨 Components with hits: {report['hunt_summary']['components_found']}/6")
 
         print("\n✅ COMPONENT HITS FOUND:")
         for component, count in report["hunt_summary"]["hit_breakdown"].items():
@@ -406,9 +393,7 @@ def main():
         for component_name, hits in report["component_hits"].items():
             if hits:
                 top_hit = hits[0]  # Highest confidence
-                print(
-                    f"  • {component_name}: {top_hit['confidence_score']:.2f} - {top_hit['file_path']}"
-                )
+                print(f"  • {component_name}: {top_hit['confidence_score']:.2f} - {top_hit['file_path']}")
                 print(f"    Context: {top_hit['context'][:100]}...")
     else:
         print("❌ No hits found for missing components")

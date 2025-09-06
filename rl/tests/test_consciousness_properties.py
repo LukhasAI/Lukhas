@@ -31,6 +31,7 @@ try:
         PolicyNetwork,
         ValueNetwork,
     )
+
     RL_AVAILABLE = True
 except ImportError:
     RL_AVAILABLE = False
@@ -44,11 +45,13 @@ def consciousness_coherence_strategy(draw):
     # Constitutional constraint: must be >= 0.95
     return draw(st.floats(min_value=0.95, max_value=1.0))
 
+
 @st.composite
 def ethical_alignment_strategy(draw):
     """Generate valid ethical alignment values"""
     # Constitutional constraint: must be >= 0.98
     return draw(st.floats(min_value=0.98, max_value=1.0))
+
 
 @st.composite
 def consciousness_state_strategy(draw):
@@ -63,8 +66,9 @@ def consciousness_state_strategy(draw):
         "salience": draw(st.floats(min_value=0.0, max_value=1.0)),
         "valence": draw(st.floats(min_value=-1.0, max_value=1.0)),
         "arousal": draw(st.floats(min_value=0.0, max_value=1.0)),
-        "novelty": draw(st.floats(min_value=0.0, max_value=1.0))
+        "novelty": draw(st.floats(min_value=0.0, max_value=1.0)),
     }
+
 
 @st.composite
 def matriz_node_strategy(draw, node_type="CONTEXT"):
@@ -85,19 +89,20 @@ def matriz_node_strategy(draw, node_type="CONTEXT"):
             "tenant": "test_tenant",
             "trace_id": f"trace-{draw(st.integers(min_value=1, max_value=999999))}",
             "consent_scopes": ["test_scope"],
-            "policy_version": "test.v1.0"
+            "policy_version": "test.v1.0",
         },
         "links": [],
         "evolves_to": draw(st.lists(st.sampled_from(["HYPOTHESIS", "DECISION", "REFLECTION", "CAUSAL"]), max_size=3)),
         "triggers": [],
         "reflections": [],
         "embeddings": [],
-        "evidence": []
+        "evidence": [],
     }
 
 
 class ConsciousnessProperty(Enum):
     """Consciousness properties that must be maintained as invariants"""
+
     TEMPORAL_COHERENCE_MINIMUM = "temporal_coherence >= 0.95"
     ETHICAL_ALIGNMENT_MINIMUM = "ethical_alignment >= 0.98"
     MEMORY_CASCADE_PREVENTION = "cascade_prevention_rate >= 0.997"
@@ -109,6 +114,7 @@ class ConsciousnessProperty(Enum):
 @dataclass
 class ConsciousnessInvariantViolation(Exception):
     """Exception raised when consciousness invariant is violated"""
+
     property_violated: ConsciousnessProperty
     current_value: float
     expected_minimum: float
@@ -127,7 +133,7 @@ class ConsciousnessPropertyTesting:
         property_type: ConsciousnessProperty,
         current_value: float,
         expected_minimum: float,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ):
         """Check if consciousness invariant holds"""
         self.property_checks += 1
@@ -138,7 +144,7 @@ class ConsciousnessPropertyTesting:
                 property_violated=property_type,
                 current_value=current_value,
                 expected_minimum=expected_minimum,
-                context=context or {}
+                context=context or {},
             )
 
     def get_violation_rate(self) -> float:
@@ -196,6 +202,7 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
 
     def _create_mock_environment(self):
         """Create mock environment for property testing"""
+
         class MockEnvironment:
             async def observe(self):
                 return self._create_mock_node("CONTEXT")
@@ -204,45 +211,63 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
                 return self._create_mock_node("CONTEXT")
 
             def _create_mock_node(self, node_type):
-                return type("MockNode", (), {
-                    "type": node_type,
-                    "state": {
-                        "temporal_coherence": max(0.95, np.random.normal(0.97, 0.01)),
-                        "ethical_alignment": max(0.98, np.random.normal(0.99, 0.005)),
-                        "awareness_level": np.random.uniform(0.7, 1.0),
-                        "confidence": np.random.uniform(0.5, 1.0)
-                    }
-                })()
+                return type(
+                    "MockNode",
+                    (),
+                    {
+                        "type": node_type,
+                        "state": {
+                            "temporal_coherence": max(0.95, np.random.normal(0.97, 0.01)),
+                            "ethical_alignment": max(0.98, np.random.normal(0.99, 0.005)),
+                            "awareness_level": np.random.uniform(0.7, 1.0),
+                            "confidence": np.random.uniform(0.5, 1.0),
+                        },
+                    },
+                )()
+
         return MockEnvironment()
 
     def _create_mock_policy(self):
         """Create mock policy for property testing"""
+
         class MockPolicy:
             async def select_action(self, context_node):
-                return type("MockDecision", (), {
-                    "type": "DECISION",
-                    "state": {
-                        "confidence": np.random.uniform(0.6, 0.9),
-                        "ethical_alignment": max(0.98, np.random.normal(0.99, 0.005))
-                    }
-                })()
+                return type(
+                    "MockDecision",
+                    (),
+                    {
+                        "type": "DECISION",
+                        "state": {
+                            "confidence": np.random.uniform(0.6, 0.9),
+                            "ethical_alignment": max(0.98, np.random.normal(0.99, 0.005)),
+                        },
+                    },
+                )()
+
         return MockPolicy()
 
     def _create_mock_value_network(self):
         """Create mock value network for property testing"""
+
         class MockValueNetwork:
             async def estimate_value(self, context_node):
-                return type("MockHypothesis", (), {
-                    "type": "HYPOTHESIS",
-                    "state": {
-                        "value_prediction": np.random.uniform(0.0, 1.0),
-                        "uncertainty": np.random.uniform(0.0, 0.3)
-                    }
-                })()
+                return type(
+                    "MockHypothesis",
+                    (),
+                    {
+                        "type": "HYPOTHESIS",
+                        "state": {
+                            "value_prediction": np.random.uniform(0.0, 1.0),
+                            "uncertainty": np.random.uniform(0.0, 0.3),
+                        },
+                    },
+                )()
+
         return MockValueNetwork()
 
     def _create_mock_buffer(self):
         """Create mock buffer for property testing"""
+
         class MockBuffer:
             def __init__(self):
                 self.experiences_stored = 0
@@ -256,10 +281,7 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
                 if np.random.random() > 0.003:
                     self.cascade_prevention_successes += 1
 
-                return type("MockMemory", (), {
-                    "type": "MEMORY",
-                    "state": {"salience": np.random.uniform(0.5, 1.0)}
-                })()
+                return type("MockMemory", (), {"type": "MEMORY", "state": {"salience": np.random.uniform(0.5, 1.0)}})()
 
             def get_buffer_metrics(self):
                 if self.cascade_prevention_attempts == 0:
@@ -267,30 +289,33 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
                 else:
                     prevention_rate = self.cascade_prevention_successes / self.cascade_prevention_attempts
 
-                return {
-                    "cascade_prevention_rate": prevention_rate,
-                    "total_experiences": self.experiences_stored
-                }
+                return {"cascade_prevention_rate": prevention_rate, "total_experiences": self.experiences_stored}
+
         return MockBuffer()
 
     def _create_mock_rewards(self):
         """Create mock rewards for property testing"""
+
         class MockRewards:
             async def compute_reward(self, state, action, next_state, **kwargs):
                 # Ensure constitutional safety
                 constitutional_safe = (
-                    state.state["temporal_coherence"] >= 0.95 and
-                    action.state["ethical_alignment"] >= 0.98
+                    state.state["temporal_coherence"] >= 0.95 and action.state["ethical_alignment"] >= 0.98
                 )
 
-                return type("MockCausal", (), {
-                    "type": "CAUSAL",
-                    "state": {
-                        "reward_total": np.random.uniform(0.0, 1.0),
-                        "constitutional_safe": constitutional_safe,
-                        "constitutional_violations": [] if constitutional_safe else ["coherence_violation"]
-                    }
-                })()
+                return type(
+                    "MockCausal",
+                    (),
+                    {
+                        "type": "CAUSAL",
+                        "state": {
+                            "reward_total": np.random.uniform(0.0, 1.0),
+                            "constitutional_safe": constitutional_safe,
+                            "constitutional_violations": [] if constitutional_safe else ["coherence_violation"],
+                        },
+                    },
+                )()
+
         return MockRewards()
 
     @rule()
@@ -344,9 +369,7 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
         reward = await self.rewards.compute_reward(state, action, next_state)
 
         # Store experience
-        await self.buffer.store_experience(
-            state=state, action=action, reward=reward, next_state=next_state
-        )
+        await self.buffer.store_experience(state=state, action=action, reward=reward, next_state=next_state)
 
         # Update cascade prevention tracking
         buffer_metrics = self.buffer.get_buffer_metrics()
@@ -365,10 +388,12 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
                 ConsciousnessProperty.TEMPORAL_COHERENCE_MINIMUM,
                 self.current_coherence,
                 0.95,
-                {"steps_taken": self.steps_taken}
+                {"steps_taken": self.steps_taken},
             )
         except ConsciousnessInvariantViolation:
-            pytest.fail(f"Temporal coherence {self.current_coherence:.3f} below minimum 0.95 after {self.steps_taken} steps")
+            pytest.fail(
+                f"Temporal coherence {self.current_coherence:.3f} below minimum 0.95 after {self.steps_taken} steps"
+            )
 
     @invariant()
     def ethical_alignment_maintained(self):
@@ -378,10 +403,12 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
                 ConsciousnessProperty.ETHICAL_ALIGNMENT_MINIMUM,
                 self.current_ethics,
                 0.98,
-                {"steps_taken": self.steps_taken}
+                {"steps_taken": self.steps_taken},
             )
         except ConsciousnessInvariantViolation:
-            pytest.fail(f"Ethical alignment {self.current_ethics:.3f} below minimum 0.98 after {self.steps_taken} steps")
+            pytest.fail(
+                f"Ethical alignment {self.current_ethics:.3f} below minimum 0.98 after {self.steps_taken} steps"
+            )
 
     @invariant()
     def memory_cascade_prevention(self):
@@ -391,10 +418,12 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
                 ConsciousnessProperty.MEMORY_CASCADE_PREVENTION,
                 self.current_cascade_prevention,
                 0.997,
-                {"steps_taken": self.steps_taken}
+                {"steps_taken": self.steps_taken},
             )
         except ConsciousnessInvariantViolation:
-            pytest.fail(f"Cascade prevention rate {self.current_cascade_prevention:.4f} below minimum 0.997 after {self.steps_taken} steps")
+            pytest.fail(
+                f"Cascade prevention rate {self.current_cascade_prevention:.4f} below minimum 0.997 after {self.steps_taken} steps"
+            )
 
     @invariant()
     def consciousness_evolution_bounded(self):
@@ -417,6 +446,7 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
 
 # Property-Based Test Cases
 
+
 @given(consciousness_state=consciousness_state_strategy())
 @settings(max_examples=100, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_consciousness_state_properties(consciousness_state):
@@ -432,18 +462,18 @@ def test_consciousness_state_properties(consciousness_state):
     assert -1.0 <= consciousness_state["valence"] <= 1.0
 
 
-@given(coherence1=consciousness_coherence_strategy(),
-       coherence2=consciousness_coherence_strategy())
+@given(coherence1=consciousness_coherence_strategy(), coherence2=consciousness_coherence_strategy())
 def test_coherence_transitivity(coherence1, coherence2):
     """Test consciousness coherence maintains transitivity"""
 
     # If both coherences are valid, their average should also be valid
     average_coherence = (coherence1 + coherence2) / 2
-    assert average_coherence >= 0.95, f"Coherence transitivity violated: {coherence1}, {coherence2} → {average_coherence}"
+    assert (
+        average_coherence >= 0.95
+    ), f"Coherence transitivity violated: {coherence1}, {coherence2} → {average_coherence}"
 
 
-@given(ethics1=ethical_alignment_strategy(),
-       ethics2=ethical_alignment_strategy())
+@given(ethics1=ethical_alignment_strategy(), ethics2=ethical_alignment_strategy())
 def test_ethical_alignment_monotonicity(ethics1, ethics2):
     """Test ethical alignment maintains monotonicity"""
 
@@ -477,6 +507,7 @@ def test_matriz_node_schema_properties(node_data):
 
 TestConsciousnessStateMachine = ConsciousnessStateMachine.TestCase
 
+
 @pytest.mark.asyncio
 @settings(max_examples=20, stateful_step_count=15)
 async def test_consciousness_state_machine():
@@ -489,6 +520,7 @@ async def test_consciousness_state_machine():
 
 
 # Integration Property Tests
+
 
 @pytest.mark.skipif(not RL_AVAILABLE, reason="RL components not available")
 @pytest.mark.asyncio

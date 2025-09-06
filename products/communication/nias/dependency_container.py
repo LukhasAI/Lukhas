@@ -132,9 +132,7 @@ class DependencyContainer:
 
         return dependencies
 
-    async def get_service(
-        self, name: str, scope_id: Optional[str] = None, use_fallback: bool = True
-    ) -> Any:
+    async def get_service(self, name: str, scope_id: Optional[str] = None, use_fallback: bool = True) -> Any:
         """
         Get a service instance
 
@@ -152,9 +150,7 @@ class DependencyContainer:
         """
         if name not in self.services:
             if use_fallback and name in self.fallback_services:
-                return await self.get_service(
-                    self.fallback_services[name], scope_id, False
-                )
+                return await self.get_service(self.fallback_services[name], scope_id, False)
             raise ServiceNotFoundError(f"Service '{name}' is not registered")
 
         # Check for circular dependencies
@@ -188,9 +184,7 @@ class DependencyContainer:
                 descriptor.instance = await self._create_instance(descriptor)
             return descriptor.instance
 
-    async def _get_scoped(
-        self, descriptor: ServiceDescriptor, scope_id: Optional[str]
-    ) -> Any:
+    async def _get_scoped(self, descriptor: ServiceDescriptor, scope_id: Optional[str]) -> Any:
         """
         Get or create scoped instance
 
@@ -285,17 +279,13 @@ class DependencyContainer:
             health_check = self.health_checks[service_name]
             if inspect.iscoroutinefunction(health_check):
                 # Bound health checks to avoid hanging
-                return await asyncio.wait_for(
-                    health_check(), timeout=self.health_check_timeout
-                )
+                return await asyncio.wait_for(health_check(), timeout=self.health_check_timeout)
             else:
                 return health_check()
         except Exception:
             return False
 
-    async def get_healthy_service(
-        self, name: str, scope_id: Optional[str] = None
-    ) -> Any:
+    async def get_healthy_service(self, name: str, scope_id: Optional[str] = None) -> Any:
         """
         Get a service instance, falling back if unhealthy
 
@@ -314,9 +304,7 @@ class DependencyContainer:
         if name in self.fallback_services:
             fallback_name = self.fallback_services[name]
             if await self.check_service_health(fallback_name):
-                return await self.get_service(
-                    fallback_name, scope_id, use_fallback=False
-                )
+                return await self.get_service(fallback_name, scope_id, use_fallback=False)
 
         # Return primary anyway if no healthy alternative
         return await self.get_service(name, scope_id, use_fallback=False)
@@ -415,9 +403,7 @@ class MockVendorPortal:
 
     async def create_vendor_dream(self, vendor_id: str) -> str:
         self.vendor_count += 1
-        dream = await self.dream_generator.generate_dream(
-            {"type": "vendor", "id": vendor_id}
-        )
+        dream = await self.dream_generator.generate_dream({"type": "vendor", "id": vendor_id})
         return f"Vendor {vendor_id}: {dream}"
 
 
@@ -434,13 +420,9 @@ if __name__ == "__main__":
         # Register services
         print("\n🔧 Registering services...")
 
-        await container.register_service(
-            "dream_generator", MockDreamGenerator, ServiceLifecycle.SINGLETON
-        )
+        await container.register_service("dream_generator", MockDreamGenerator, ServiceLifecycle.SINGLETON)
 
-        await container.register_service(
-            "emotional_filter", MockEmotionalFilter, ServiceLifecycle.SCOPED
-        )
+        await container.register_service("emotional_filter", MockEmotionalFilter, ServiceLifecycle.SCOPED)
 
         # Register service with dependencies
         await container.register_service(

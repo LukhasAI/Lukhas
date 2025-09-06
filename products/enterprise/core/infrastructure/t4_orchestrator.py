@@ -17,8 +17,7 @@ from typing import Any, Optional
 try:
     from enterprise.data.mongodb_atlas_integration import (
         T4MongoDBAtlasIntegration,
-        T4SystemMetrics,
-    )
+        T4SystemMetrics)
     from enterprise.monitoring.datadog_integration import (
         T4DatadogMonitoring,
         T4SLAMetrics,
@@ -133,7 +132,7 @@ class T4EnterpriseOrchestrator:
         """Initialize T4 Enterprise Orchestrator"""
         self.system_status = T4SystemStatus.INITIALIZING
         self.services: dict[str, T4ServiceStatus] = {}
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
 
         # T4 Enterprise Components
         self.datadog_monitor: Optional[T4DatadogMonitoring] = None
@@ -226,7 +225,7 @@ class T4EnterpriseOrchestrator:
                 self.services["datadog"] = T4ServiceStatus(
                     service_name="Datadog Monitoring",
                     health=T4ServiceHealth.HEALTHY,
-                    last_check=datetime.now(),
+                    last_check=datetime.now(timezone.utc),
                     response_time_ms=0.0,
                     error_count=0,
                     uptime_percentage=100.0,
@@ -242,7 +241,7 @@ class T4EnterpriseOrchestrator:
                 self.services["sentry"] = T4ServiceStatus(
                     service_name="Sentry Error Tracking",
                     health=T4ServiceHealth.HEALTHY,
-                    last_check=datetime.now(),
+                    last_check=datetime.now(timezone.utc),
                     response_time_ms=0.0,
                     error_count=0,
                     uptime_percentage=100.0,
@@ -266,7 +265,7 @@ class T4EnterpriseOrchestrator:
                 self.services["mongodb"] = T4ServiceStatus(
                     service_name="MongoDB Atlas",
                     health=T4ServiceHealth.HEALTHY,
-                    last_check=datetime.now(),
+                    last_check=datetime.now(timezone.utc),
                     response_time_ms=0.0,
                     error_count=0,
                     uptime_percentage=100.0,
@@ -305,7 +304,7 @@ class T4EnterpriseOrchestrator:
             self.services["scaling"] = T4ServiceStatus(
                 service_name="Auto-Scaling System",
                 health=T4ServiceHealth.HEALTHY,
-                last_check=datetime.now(),
+                last_check=datetime.now(timezone.utc),
                 response_time_ms=0.0,
                 error_count=0,
                 uptime_percentage=100.0,
@@ -330,7 +329,7 @@ class T4EnterpriseOrchestrator:
             self.services["safety"] = T4ServiceStatus(
                 service_name="Constitutional AI Safety",
                 health=T4ServiceHealth.HEALTHY,
-                last_check=datetime.now(),
+                last_check=datetime.now(timezone.utc),
                 response_time_ms=0.0,
                 error_count=0,
                 uptime_percentage=100.0,
@@ -356,7 +355,7 @@ class T4EnterpriseOrchestrator:
             self.services["rigor"] = T4ServiceStatus(
                 service_name="A/B Testing Platform",
                 health=T4ServiceHealth.HEALTHY,
-                last_check=datetime.now(),
+                last_check=datetime.now(timezone.utc),
                 response_time_ms=0.0,
                 error_count=0,
                 uptime_percentage=100.0,
@@ -385,7 +384,7 @@ class T4EnterpriseOrchestrator:
                 response_time = (time.time() - start_time) * 1000
 
                 # Update service status
-                service.last_check = datetime.now()
+                service.last_check = datetime.now(timezone.utc)
                 service.response_time_ms = response_time
                 service.health = health_result["health"]
                 service.details.update(health_result.get("details", {}))
@@ -393,9 +392,7 @@ class T4EnterpriseOrchestrator:
                 health_icon = (
                     "✅"
                     if service.health == T4ServiceHealth.HEALTHY
-                    else "⚠️"
-                    if service.health == T4ServiceHealth.WARNING
-                    else "❌"
+                    else "⚠️" if service.health == T4ServiceHealth.WARNING else "❌"
                 )
                 logger.info(f"   {health_icon} {service.service_name}: {service.health.value} ({response_time:.1f}ms)")
 
@@ -458,7 +455,7 @@ class T4EnterpriseOrchestrator:
         """Get comprehensive T4 enterprise metrics"""
 
         try:
-            now = datetime.now()
+            now = datetime.now(timezone.utc)
 
             # Collect metrics from all systems
             api_latency_p95 = 35.2  # Would get from actual monitoring
@@ -531,7 +528,7 @@ class T4EnterpriseOrchestrator:
             logger.error(f"Failed to collect enterprise metrics: {e}")
             # Return default metrics on error
             return T4EnterpriseMetrics(
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 api_latency_p95_ms=999.0,
                 api_latency_p99_ms=999.0,
                 concurrent_users=0,
@@ -673,7 +670,7 @@ class T4EnterpriseOrchestrator:
     def get_system_status_report(self) -> dict[str, Any]:
         """Get comprehensive T4 system status report"""
 
-        uptime_seconds = (datetime.now() - self.start_time).total_seconds()
+        uptime_seconds = (datetime.now(timezone.utc) - self.start_time).total_seconds()
 
         return {
             "system_status": self.system_status.value,

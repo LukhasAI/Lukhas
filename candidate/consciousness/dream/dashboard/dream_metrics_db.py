@@ -8,7 +8,7 @@ class DreamMetricsDB:
     """# ΛTAG: metrics_db
     Store dream scoring metrics in a SQLite database."""
 
-    def __init__(self, db_path: Optional[str] = None) -> None:
+    def __init__(self, db_path: Optional[str] = None, timezone) -> None:
         self.db_path = Path(db_path or "dream_metrics.db")
         self._init_db()
 
@@ -44,7 +44,7 @@ class DreamMetricsDB:
         timestamp: Optional[str] = None,
     ) -> None:
         """Insert metrics for a dream."""
-        ts = timestamp or datetime.utcnow().isoformat()
+        ts = timestamp or datetime.now(timezone.utc).isoformat()
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(
                 """

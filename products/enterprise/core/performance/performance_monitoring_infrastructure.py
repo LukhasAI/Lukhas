@@ -445,11 +445,11 @@ class EnterprisePerformanceMonitor:
                         current_metrics[metric_type.value] = {
                             "current": recent_values[-1] if recent_values else 0,
                             "average_10": np.mean(recent_values),
-                            "p95_10": np.percentile(recent_values, 95)
-                            if len(recent_values) > 1
-                            else recent_values[0]
-                            if recent_values
-                            else 0,
+                            "p95_10": (
+                                np.percentile(recent_values, 95)
+                                if len(recent_values) > 1
+                                else recent_values[0] if recent_values else 0
+                            ),
                         }
 
                 summary["current_performance"] = current_metrics

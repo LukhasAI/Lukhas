@@ -48,8 +48,7 @@ try:
     from candidate.governance.guardian.monitoring_dashboard import (
         AlertSeverity,
         GuardianMonitoringDashboard,
-        MonitoringScope,
-    )
+        MonitoringScope,, timezone)
 except ImportError:
     GuardianMonitoringDashboard = None
     MonitoringScope = None
@@ -273,7 +272,7 @@ class UnifiedMonitoringDashboard:
             "cache_misses": 0,
             "average_response_time": 0.0,
             "uptime_seconds": 0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize dashboard
@@ -389,8 +388,8 @@ class UnifiedMonitoringDashboard:
         session = DashboardSession(
             session_id=session_id,
             user_id=user_id,
-            created_at=datetime.now(),
-            last_active=datetime.now(),
+            created_at=datetime.now(timezone.utc),
+            last_active=datetime.now(timezone.utc),
             ip_address=ip_address,
             permissions=permissions,
         )
@@ -412,7 +411,7 @@ class UnifiedMonitoringDashboard:
 
         # Update session activity
         if session_id in self.sessions:
-            self.sessions[session_id].last_active = datetime.now()
+            self.sessions[session_id].last_active = datetime.now(timezone.utc)
             self.sessions[session_id].current_mode = mode
             self.sessions[session_id].current_view = view
 
@@ -421,7 +420,7 @@ class UnifiedMonitoringDashboard:
 
         if self.config.cache_enabled and cache_key in self.cached_data:
             cache_time = self.cache_timestamps.get(cache_key, datetime.min)
-            if (datetime.now() - cache_time).total_seconds() < self.config.refresh_interval:
+            if (datetime.now(timezone.utc) - cache_time).total_seconds() < self.config.refresh_interval:
                 self.dashboard_metrics["cache_hits"] += 1
                 return self.cached_data[cache_key]
 
@@ -432,7 +431,7 @@ class UnifiedMonitoringDashboard:
         # Cache the data
         if self.config.cache_enabled:
             self.cached_data[cache_key] = dashboard_data
-            self.cache_timestamps[cache_key] = datetime.now()
+            self.cache_timestamps[cache_key] = datetime.now(timezone.utc)
 
         # Update metrics
         self.dashboard_metrics["dashboard_requests"] += 1
@@ -444,7 +443,7 @@ class UnifiedMonitoringDashboard:
     ) -> DashboardData:
         """Generate fresh dashboard data"""
 
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         # Initialize dashboard data
         dashboard_data = DashboardData(
@@ -581,7 +580,7 @@ class UnifiedMonitoringDashboard:
                             message=alert_data.get("message", "No message"),
                             priority=self._convert_to_alert_priority(alert_data.get("severity", "info")),
                             category="guardian",
-                            created_at=datetime.fromisoformat(alert_data.get("created_at", datetime.now().isoformat())),
+                            created_at=datetime.fromisoformat(alert_data.get("created_at", datetime.now(timezone.utc).isoformat())),
                             source_data=alert_data,
                             trinity_impact={"guardian": 1.0},  # 🛡️
                         )
@@ -601,7 +600,7 @@ class UnifiedMonitoringDashboard:
                         message=f"{alerts_data['critical']} critical health issues detected",
                         priority=AlertPriority.CRITICAL,
                         category="health",
-                        created_at=datetime.now(),
+                        created_at=datetime.now(timezone.utc),
                         source_data=alerts_data,
                         trinity_impact={
                             "identity": 0.3,
@@ -625,7 +624,7 @@ class UnifiedMonitoringDashboard:
                         message=f"Stress indicators: {', '.join(stress_indicators)}",
                         priority=AlertPriority.MEDIUM,
                         category="consciousness",
-                        created_at=datetime.now(),
+                        created_at=datetime.now(timezone.utc),
                         source_data=consciousness_status,
                         trinity_impact={"consciousness": 1.0},  # 🧠
                     )
@@ -745,12 +744,12 @@ class UnifiedMonitoringDashboard:
 
                 # Only update if cache is stale
                 cache_time = self.cache_timestamps.get(cache_key, datetime.min)
-                if (datetime.now() - cache_time).total_seconds() >= self.config.refresh_interval:
+                if (datetime.now(timezone.utc) - cache_time).total_seconds() >= self.config.refresh_interval:
                     dashboard_data = await self._generate_dashboard_data(mode, view, 24)
 
                     if self.config.cache_enabled:
                         self.cached_data[cache_key] = dashboard_data
-                        self.cache_timestamps[cache_key] = datetime.now()
+                        self.cache_timestamps[cache_key] = datetime.now(timezone.utc)
 
     async def _update_dashboard_metrics(self):
         """Update dashboard performance metrics"""
@@ -759,20 +758,20 @@ class UnifiedMonitoringDashboard:
             [
                 s
                 for s in self.sessions.values()
-                if (datetime.now() - s.last_active).total_seconds() < self.config.session_timeout
+                if (datetime.now(timezone.utc) - s.last_active).total_seconds() < self.config.session_timeout
             ]
         )
 
         self.dashboard_metrics["uptime_seconds"] = (
-            datetime.now() - datetime.fromisoformat(self.dashboard_metrics["last_updated"])
+            datetime.now(timezone.utc) - datetime.fromisoformat(self.dashboard_metrics["last_updated"])
         ).total_seconds()
 
-        self.dashboard_metrics["last_updated"] = datetime.now().isoformat()
+        self.dashboard_metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     async def _cleanup_expired_sessions(self):
         """Clean up expired dashboard sessions"""
 
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         expired_sessions = []
 
         for session_id, session in self.sessions.items():
@@ -790,7 +789,7 @@ class UnifiedMonitoringDashboard:
             [
                 s
                 for s in self.sessions.values()
-                if (datetime.now() - s.last_active).total_seconds() < 300  # Active in last 5 minutes
+                if (datetime.now(timezone.utc) - s.last_active).total_seconds() < 300  # Active in last 5 minutes
             ]
         )
 
@@ -799,7 +798,7 @@ class UnifiedMonitoringDashboard:
     async def _cleanup_old_cache_data(self):
         """Clean up old cached data"""
 
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         expired_keys = []
 
         for cache_key, cache_time in self.cache_timestamps.items():
@@ -817,7 +816,7 @@ class UnifiedMonitoringDashboard:
         for alert in self.unified_alerts:
             if alert.alert_id == alert_id and not alert.acknowledged:
                 alert.acknowledged = True
-                alert.updated_at = datetime.now()
+                alert.updated_at = datetime.now(timezone.utc)
 
                 logger.info(f"✅ Alert acknowledged: {alert_id} by session {session_id}")
                 return True
@@ -830,7 +829,7 @@ class UnifiedMonitoringDashboard:
         for alert in self.unified_alerts:
             if alert.alert_id == alert_id and not alert.resolved:
                 alert.resolved = True
-                alert.resolved_at = datetime.now()
+                alert.resolved_at = datetime.now(timezone.utc)
 
                 logger.info(f"✅ Alert resolved: {alert_id} by session {session_id}")
                 return True
@@ -845,7 +844,7 @@ class UnifiedMonitoringDashboard:
             return {"error": "Insufficient permissions"}
 
         debug_data = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "dashboard_metrics": self.dashboard_metrics.copy(),
             "active_sessions": len(self.sessions),
             "cached_data_count": len(self.cached_data),
@@ -884,7 +883,7 @@ class UnifiedMonitoringDashboard:
             return {"error": "Insufficient permissions"}
 
         admin_data = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_overview": {
                 "dashboard_active": self.dashboard_active,
                 "total_sessions": len(self.sessions),

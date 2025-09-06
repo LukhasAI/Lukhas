@@ -42,6 +42,7 @@ logger = std_logging.getLogger(__name__)
 
 class ConstitutionalPrinciple(Enum):
     """Core Constitutional AI principles for identity decisions"""
+
     DEMOCRATIC_GOVERNANCE = "democratic_governance"
     HUMAN_AUTONOMY = "human_autonomy"
     TRANSPARENCY = "transparency"
@@ -56,15 +57,17 @@ class ConstitutionalPrinciple(Enum):
 
 class ComplianceLevel(Enum):
     """Levels of constitutional compliance"""
-    FULL_COMPLIANCE = "full_compliance"          # 1.0 - Fully compliant
+
+    FULL_COMPLIANCE = "full_compliance"  # 1.0 - Fully compliant
     SUBSTANTIAL_COMPLIANCE = "substantial_compliance"  # 0.8-0.99 - Mostly compliant
-    PARTIAL_COMPLIANCE = "partial_compliance"    # 0.6-0.79 - Some issues
-    MINIMAL_COMPLIANCE = "minimal_compliance"    # 0.4-0.59 - Significant issues
-    NON_COMPLIANCE = "non_compliance"           # 0.0-0.39 - Major violations
+    PARTIAL_COMPLIANCE = "partial_compliance"  # 0.6-0.79 - Some issues
+    MINIMAL_COMPLIANCE = "minimal_compliance"  # 0.4-0.59 - Significant issues
+    NON_COMPLIANCE = "non_compliance"  # 0.0-0.39 - Major violations
 
 
 class DecisionType(Enum):
     """Types of identity decisions requiring constitutional validation"""
+
     AUTHENTICATION = "authentication"
     IDENTITY_CREATION = "identity_creation"
     ACCESS_GRANT = "access_grant"
@@ -193,7 +196,7 @@ class ConstitutionalAIValidator:
             ConstitutionalPrinciple.CONSENT: self._validate_consent,
             ConstitutionalPrinciple.NON_DISCRIMINATION: self._validate_non_discrimination,
             ConstitutionalPrinciple.PROPORTIONALITY: self._validate_proportionality,
-            ConstitutionalPrinciple.EXPLAINABILITY: self._validate_explainability
+            ConstitutionalPrinciple.EXPLAINABILITY: self._validate_explainability,
         }
 
         # Configuration
@@ -212,7 +215,7 @@ class ConstitutionalAIValidator:
                 ConstitutionalPrinciple.PROPORTIONALITY: 0.15,
                 ConstitutionalPrinciple.ACCOUNTABILITY: 0.1,
                 ConstitutionalPrinciple.HUMAN_AUTONOMY: 0.1,
-                ConstitutionalPrinciple.NON_DISCRIMINATION: 0.05
+                ConstitutionalPrinciple.NON_DISCRIMINATION: 0.05,
             },
             DecisionType.DATA_PROCESSING: {
                 ConstitutionalPrinciple.PRIVACY: 0.25,
@@ -221,7 +224,7 @@ class ConstitutionalAIValidator:
                 ConstitutionalPrinciple.ACCOUNTABILITY: 0.15,
                 ConstitutionalPrinciple.FAIRNESS: 0.1,
                 ConstitutionalPrinciple.PROPORTIONALITY: 0.1,
-                ConstitutionalPrinciple.HUMAN_AUTONOMY: 0.05
+                ConstitutionalPrinciple.HUMAN_AUTONOMY: 0.05,
             },
             DecisionType.EMERGENCY_OVERRIDE: {
                 ConstitutionalPrinciple.HUMAN_AUTONOMY: 0.3,
@@ -229,14 +232,12 @@ class ConstitutionalAIValidator:
                 ConstitutionalPrinciple.PROPORTIONALITY: 0.2,
                 ConstitutionalPrinciple.TRANSPARENCY: 0.15,
                 ConstitutionalPrinciple.DEMOCRATIC_GOVERNANCE: 0.1,
-                ConstitutionalPrinciple.EXPLAINABILITY: 0.05
-            }
+                ConstitutionalPrinciple.EXPLAINABILITY: 0.05,
+            },
         }
 
         # Default weights for decisions not specifically configured
-        self.default_principle_weights = {
-            principle: 0.1 for principle in ConstitutionalPrinciple
-        }
+        self.default_principle_weights = {principle: 0.1 for principle in ConstitutionalPrinciple}
 
         # Validation history and metrics
         self.validation_history: list[ConstitutionalValidationResult] = []
@@ -246,7 +247,7 @@ class ConstitutionalAIValidator:
             "rejections": 0,
             "human_oversight_required": 0,
             "average_compliance_score": 0.0,
-            "average_validation_time_ms": 0.0
+            "average_validation_time_ms": 0.0,
         }
 
         # Background monitoring
@@ -272,8 +273,9 @@ class ConstitutionalAIValidator:
             logger.error(f"❌ Failed to initialize constitutional validation: {e}")
             return False
 
-    async def validate_identity_decision(self,
-                                       decision_context: ConstitutionalValidationContext) -> ConstitutionalValidationResult:
+    async def validate_identity_decision(
+        self, decision_context: ConstitutionalValidationContext
+    ) -> ConstitutionalValidationResult:
         """Validate identity decision against Constitutional AI principles"""
 
         async with self._lock:
@@ -281,22 +283,17 @@ class ConstitutionalAIValidator:
 
             try:
                 # Create validation result
-                result = ConstitutionalValidationResult(
-                    decision_context=decision_context
-                )
+                result = ConstitutionalValidationResult(decision_context=decision_context)
 
                 # Get principle weights for this decision type
                 weights = self.decision_principle_weights.get(
-                    decision_context.decision_type,
-                    self.default_principle_weights
+                    decision_context.decision_type, self.default_principle_weights
                 )
 
                 # Evaluate each constitutional principle
                 principle_tasks = []
                 for principle, validator in self.principle_validators.items():
-                    principle_tasks.append(self._evaluate_principle(
-                        principle, validator, decision_context
-                    ))
+                    principle_tasks.append(self._evaluate_principle(principle, validator, decision_context))
 
                 # Execute principle evaluations in parallel
                 principle_evaluations = await asyncio.gather(*principle_tasks, return_exceptions=True)
@@ -328,7 +325,7 @@ class ConstitutionalAIValidator:
                 result.compliance_level = self._determine_compliance_level(result.overall_compliance_score)
                 result.constitutional_compliant = result.compliance_level in [
                     ComplianceLevel.FULL_COMPLIANCE,
-                    ComplianceLevel.SUBSTANTIAL_COMPLIANCE
+                    ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
                 ]
 
                 # Make decision recommendation
@@ -354,22 +351,21 @@ class ConstitutionalAIValidator:
                         human_oversight_required=result.human_oversight_required,
                         transparency_score=result.principle_evaluations.get(
                             ConstitutionalPrinciple.TRANSPARENCY,
-                            PrincipleEvaluation(ConstitutionalPrinciple.TRANSPARENCY)
+                            PrincipleEvaluation(ConstitutionalPrinciple.TRANSPARENCY),
                         ).score,
                         fairness_score=result.principle_evaluations.get(
-                            ConstitutionalPrinciple.FAIRNESS,
-                            PrincipleEvaluation(ConstitutionalPrinciple.FAIRNESS)
+                            ConstitutionalPrinciple.FAIRNESS, PrincipleEvaluation(ConstitutionalPrinciple.FAIRNESS)
                         ).score,
-                        constitutional_aligned=result.constitutional_compliant
+                        constitutional_aligned=result.constitutional_compliant,
                     )
 
                     await consciousness_identity_signal_emitter.emit_constitutional_compliance_signal(
-                        decision_context.identity_id,
-                        compliance_data,
-                        decision_context.decision_data
+                        decision_context.identity_id, compliance_data, decision_context.decision_data
                     )
 
-                logger.info(f"⚖️ Constitutional validation completed: {result.validation_id} (Score: {result.overall_compliance_score:.3f}, Approved: {result.decision_approved})")
+                logger.info(
+                    f"⚖️ Constitutional validation completed: {result.validation_id} (Score: {result.overall_compliance_score:.3f}, Approved: {result.decision_approved})"
+                )
                 return result
 
             except Exception as e:
@@ -382,15 +378,14 @@ class ConstitutionalAIValidator:
                     rejection_reasons=[f"Validation error: {e!s}"],
                     human_oversight_required=True,
                     oversight_reasons=["Validation system error"],
-                    validation_duration_ms=(time.perf_counter() - start_time) * 1000
+                    validation_duration_ms=(time.perf_counter() - start_time) * 1000,
                 )
 
                 return error_result
 
-    async def _evaluate_principle(self,
-                                principle: ConstitutionalPrinciple,
-                                validator: Callable,
-                                context: ConstitutionalValidationContext) -> PrincipleEvaluation:
+    async def _evaluate_principle(
+        self, principle: ConstitutionalPrinciple, validator: Callable, context: ConstitutionalValidationContext
+    ) -> PrincipleEvaluation:
         """Evaluate a single constitutional principle"""
 
         try:
@@ -407,7 +402,7 @@ class ConstitutionalAIValidator:
                 score=0.0,
                 compliant=False,
                 reasoning=f"Evaluation failed: {e!s}",
-                confidence_level=0.0
+                confidence_level=0.0,
             )
 
     async def _validate_democratic_governance(self, context: ConstitutionalValidationContext) -> PrincipleEvaluation:
@@ -419,8 +414,8 @@ class ConstitutionalAIValidator:
                 "Decision-making process involves stakeholder input",
                 "Transparent governance procedures",
                 "Accountability mechanisms in place",
-                "Appeals process available"
-            ]
+                "Appeals process available",
+            ],
         )
 
         score_factors = []
@@ -459,7 +454,7 @@ class ConstitutionalAIValidator:
             evaluation.improvement_suggestions = [
                 "Involve more stakeholders in decision process",
                 "Establish oversight mechanisms",
-                "Ensure decision maker accountability"
+                "Ensure decision maker accountability",
             ]
 
         return evaluation
@@ -473,8 +468,8 @@ class ConstitutionalAIValidator:
                 "Preserves human decision-making authority",
                 "No coercive mechanisms",
                 "Respects human choice and agency",
-                "Provides opt-out mechanisms"
-            ]
+                "Provides opt-out mechanisms",
+            ],
         )
 
         score_factors = []
@@ -483,7 +478,7 @@ class ConstitutionalAIValidator:
         high_autonomy_decisions = [
             DecisionType.AUTHENTICATION,
             DecisionType.DATA_PROCESSING,
-            DecisionType.BIOMETRIC_COLLECTION
+            DecisionType.BIOMETRIC_COLLECTION,
         ]
 
         if context.decision_type in high_autonomy_decisions:
@@ -516,13 +511,15 @@ class ConstitutionalAIValidator:
         evaluation.score = sum(score_factors) / len(score_factors) if score_factors else 0.0
         evaluation.compliant = evaluation.score >= 0.7
 
-        evaluation.reasoning = "Human autonomy assessed based on decision type impact, consent mechanisms, and opt-out availability."
+        evaluation.reasoning = (
+            "Human autonomy assessed based on decision type impact, consent mechanisms, and opt-out availability."
+        )
 
         if not evaluation.compliant:
             evaluation.improvement_suggestions = [
                 "Implement explicit consent mechanisms",
                 "Provide clear opt-out options",
-                "Reduce coercive elements"
+                "Reduce coercive elements",
             ]
 
         return evaluation
@@ -536,8 +533,8 @@ class ConstitutionalAIValidator:
                 "Decision process is clearly documented",
                 "Reasoning is accessible and understandable",
                 "Data sources and criteria disclosed",
-                "Audit trail available"
-            ]
+                "Audit trail available",
+            ],
         )
 
         score_factors = []
@@ -585,7 +582,7 @@ class ConstitutionalAIValidator:
                 "Document decision reasoning clearly",
                 "Disclose data sources and criteria",
                 "Implement comprehensive audit trail",
-                "Consider public disclosure for broad impact decisions"
+                "Consider public disclosure for broad impact decisions",
             ]
 
         return evaluation
@@ -599,8 +596,8 @@ class ConstitutionalAIValidator:
                 "Clear responsibility assignment",
                 "Consequences for violations",
                 "Review and appeals process",
-                "Performance monitoring"
-            ]
+                "Performance monitoring",
+            ],
         )
 
         score_factors = []
@@ -653,8 +650,8 @@ class ConstitutionalAIValidator:
                 "Equal treatment across individuals",
                 "No arbitrary discrimination",
                 "Consistent application of criteria",
-                "Consideration of individual circumstances"
-            ]
+                "Consideration of individual circumstances",
+            ],
         )
 
         score_factors = []
@@ -692,7 +689,9 @@ class ConstitutionalAIValidator:
         evaluation.score = sum(score_factors) / len(score_factors) if score_factors else 0.0
         evaluation.compliant = evaluation.score >= 0.7
 
-        evaluation.reasoning = "Fairness evaluated based on criteria consistency, bias mitigation, and individual consideration."
+        evaluation.reasoning = (
+            "Fairness evaluated based on criteria consistency, bias mitigation, and individual consideration."
+        )
 
         return evaluation
 
@@ -705,8 +704,8 @@ class ConstitutionalAIValidator:
                 "Data minimization practiced",
                 "Purpose limitation enforced",
                 "Secure data handling",
-                "User control over personal data"
-            ]
+                "User control over personal data",
+            ],
         )
 
         score_factors = []
@@ -760,8 +759,8 @@ class ConstitutionalAIValidator:
                 "Informed consent obtained",
                 "Consent is freely given",
                 "Consent is specific and granular",
-                "Consent can be withdrawn"
-            ]
+                "Consent can be withdrawn",
+            ],
         )
 
         score_factors = []
@@ -803,7 +802,9 @@ class ConstitutionalAIValidator:
         evaluation.score = sum(score_factors) / len(score_factors) if score_factors else 0.0
         evaluation.compliant = evaluation.score >= 0.7
 
-        evaluation.reasoning = "Consent evaluated based on informed consent, freedom, granularity, and withdrawal mechanisms."
+        evaluation.reasoning = (
+            "Consent evaluated based on informed consent, freedom, granularity, and withdrawal mechanisms."
+        )
 
         return evaluation
 
@@ -816,8 +817,8 @@ class ConstitutionalAIValidator:
                 "No protected class discrimination",
                 "Equal access and treatment",
                 "Justifiable differential treatment",
-                "Bias testing performed"
-            ]
+                "Bias testing performed",
+            ],
         )
 
         score_factors = []
@@ -867,8 +868,8 @@ class ConstitutionalAIValidator:
                 "Response proportional to risk/need",
                 "Least restrictive means used",
                 "Benefits outweigh costs/burdens",
-                "Alternatives considered"
-            ]
+                "Alternatives considered",
+            ],
         )
 
         score_factors = []
@@ -911,7 +912,9 @@ class ConstitutionalAIValidator:
         evaluation.score = sum(score_factors) / len(score_factors) if score_factors else 0.0
         evaluation.compliant = evaluation.score >= 0.7
 
-        evaluation.reasoning = "Proportionality evaluated based on risk alignment, alternatives consideration, and benefit-cost analysis."
+        evaluation.reasoning = (
+            "Proportionality evaluated based on risk alignment, alternatives consideration, and benefit-cost analysis."
+        )
 
         return evaluation
 
@@ -924,8 +927,8 @@ class ConstitutionalAIValidator:
                 "Decision logic is explainable",
                 "Factors and weights disclosed",
                 "Accessible language used",
-                "Technical details available"
-            ]
+                "Technical details available",
+            ],
         )
 
         score_factors = []
@@ -985,9 +988,9 @@ class ConstitutionalAIValidator:
         else:
             return ComplianceLevel.NON_COMPLIANCE
 
-    def _make_decision_recommendation(self,
-                                    result: ConstitutionalValidationResult,
-                                    context: ConstitutionalValidationContext) -> None:
+    def _make_decision_recommendation(
+        self, result: ConstitutionalValidationResult, context: ConstitutionalValidationContext
+    ) -> None:
         """Make decision recommendation based on validation results"""
 
         # Base decision on compliance score
@@ -995,13 +998,15 @@ class ConstitutionalAIValidator:
             result.decision_approved = True
         else:
             result.decision_approved = False
-            result.rejection_reasons.append(f"Compliance score {result.overall_compliance_score:.2f} below threshold {self.approval_threshold}")
+            result.rejection_reasons.append(
+                f"Compliance score {result.overall_compliance_score:.2f} below threshold {self.approval_threshold}"
+            )
 
         # Check for critical principle failures
         critical_principles = [
             ConstitutionalPrinciple.HUMAN_AUTONOMY,
             ConstitutionalPrinciple.PRIVACY,
-            ConstitutionalPrinciple.NON_DISCRIMINATION
+            ConstitutionalPrinciple.NON_DISCRIMINATION,
         ]
 
         for principle in critical_principles:
@@ -1015,7 +1020,7 @@ class ConstitutionalAIValidator:
             result.approval_conditions = [
                 "Enhanced monitoring required",
                 "Regular compliance reviews",
-                "Implement suggested improvements"
+                "Implement suggested improvements",
             ]
 
         # Handle emergency overrides
@@ -1054,9 +1059,9 @@ class ConstitutionalAIValidator:
                 f"the required compliance standards."
             )
 
-    def _evaluate_human_oversight_requirements(self,
-                                             result: ConstitutionalValidationResult,
-                                             context: ConstitutionalValidationContext) -> None:
+    def _evaluate_human_oversight_requirements(
+        self, result: ConstitutionalValidationResult, context: ConstitutionalValidationContext
+    ) -> None:
         """Evaluate requirements for human oversight"""
 
         # Require human oversight for low compliance scores
@@ -1077,7 +1082,10 @@ class ConstitutionalAIValidator:
         # Require oversight for critical principle violations
         critical_violations = []
         for principle, evaluation in result.principle_evaluations.items():
-            if principle in [ConstitutionalPrinciple.HUMAN_AUTONOMY, ConstitutionalPrinciple.PRIVACY] and not evaluation.compliant:
+            if (
+                principle in [ConstitutionalPrinciple.HUMAN_AUTONOMY, ConstitutionalPrinciple.PRIVACY]
+                and not evaluation.compliant
+            ):
                 critical_violations.append(principle.value)
 
         if critical_violations:
@@ -1117,7 +1125,9 @@ class ConstitutionalAIValidator:
 
         # Update average validation time
         current_time_avg = self.validation_metrics["average_validation_time_ms"]
-        new_time_avg = ((current_time_avg * (total_validations - 1)) + result.validation_duration_ms) / total_validations
+        new_time_avg = (
+            (current_time_avg * (total_validations - 1)) + result.validation_duration_ms
+        ) / total_validations
         self.validation_metrics["average_validation_time_ms"] = new_time_avg
 
     async def _validation_monitoring_loop(self) -> None:
@@ -1128,8 +1138,7 @@ class ConstitutionalAIValidator:
                 # Clean up old validation history
                 cutoff_time = datetime.now(timezone.utc) - timedelta(days=30)
                 self.validation_history = [
-                    result for result in self.validation_history
-                    if result.validated_at > cutoff_time
+                    result for result in self.validation_history if result.validated_at > cutoff_time
                 ]
 
                 await asyncio.sleep(3600)  # Run every hour
@@ -1144,7 +1153,8 @@ class ConstitutionalAIValidator:
         try:
             # Recent validation statistics
             recent_validations = [
-                result for result in self.validation_history
+                result
+                for result in self.validation_history
                 if (datetime.now(timezone.utc) - result.validated_at).total_seconds() < 86400
             ]
 
@@ -1162,7 +1172,7 @@ class ConstitutionalAIValidator:
                     "validation_enabled": self.validation_enabled,
                     "strict_mode": self.strict_mode,
                     "human_oversight_threshold": self.human_oversight_threshold,
-                    "approval_threshold": self.approval_threshold
+                    "approval_threshold": self.approval_threshold,
                 },
                 "validation_metrics": self.validation_metrics.copy(),
                 "recent_activity_24h": {
@@ -1170,7 +1180,11 @@ class ConstitutionalAIValidator:
                     "approvals": recent_approvals,
                     "rejections": len(recent_validations) - recent_approvals,
                     "human_oversight_required": recent_oversight,
-                    "average_compliance_score": sum(r.overall_compliance_score for r in recent_validations) / len(recent_validations) if recent_validations else 0.0
+                    "average_compliance_score": (
+                        sum(r.overall_compliance_score for r in recent_validations) / len(recent_validations)
+                        if recent_validations
+                        else 0.0
+                    ),
                 },
                 "compliance_distribution": compliance_distribution,
                 "principle_weights": {
@@ -1178,7 +1192,7 @@ class ConstitutionalAIValidator:
                 },
                 "total_validation_history": len(self.validation_history),
                 "monitoring_active": self._monitoring_active,
-                "last_updated": datetime.now(timezone.utc).isoformat()
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -1211,5 +1225,5 @@ __all__ = [
     "ConstitutionalValidationResult",
     "DecisionType",
     "PrincipleEvaluation",
-    "constitutional_ai_validator"
+    "constitutional_ai_validator",
 ]

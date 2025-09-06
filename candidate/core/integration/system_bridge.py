@@ -48,7 +48,7 @@ class SystemBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logger.bind(bridge_id=f"sys_bridge_{datetime.now().strftime('%H%M%S')}")
+        self.logger = logger.bind(bridge_id=f"sys_bridge_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.is_initialized = False
         self.status = "inactive"
         self.logger.info(

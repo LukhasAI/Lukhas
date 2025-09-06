@@ -15,6 +15,7 @@ def test_healthz_voice_matrix(monkeypatch, required_env, probe_ok, expected_mode
     monkeypatch.setattr("serve.main.voice_core_available", lambda: probe_ok)
 
     from serve.main import app
+
     client = TestClient(app)
     r = client.get("/healthz")
     assert r.status_code == 200
@@ -24,4 +25,3 @@ def test_healthz_voice_matrix(monkeypatch, required_env, probe_ok, expected_mode
     reasons = data.get("degraded_reasons", [])
     has_voice = isinstance(reasons, list) and ("voice" in reasons)
     assert has_voice == expect_voice_flag
-

@@ -560,9 +560,7 @@ class Symbolicfeedbacksystem:
         coherence_category = (
             "high"
             if snapshot_record.coherence_score > 0.8
-            else "medium"
-            if snapshot_record.coherence_score > 0.5
-            else "low"
+            else "medium" if snapshot_record.coherence_score > 0.5 else "low"
         )
         pattern_key = f"memoria_coherence_{coherence_category}"
 

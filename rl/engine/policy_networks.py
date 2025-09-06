@@ -44,17 +44,19 @@ logger = get_logger(__name__)
 
 class ConsciousnessDecisionType(Enum):
     """Types of consciousness-aware decisions from the design doc"""
-    REFLECTION = "reflection"    # Meta-cognitive decisions about thinking
+
+    REFLECTION = "reflection"  # Meta-cognitive decisions about thinking
     INTEGRATION = "integration"  # Cross-module coordination decisions
-    EVOLUTION = "evolution"      # Temporal development decisions
-    ETHICAL = "ethical"          # Guardian-system moral decisions
-    CREATIVE = "creative"        # VIVOX creative expression decisions
-    MEMORY = "memory"           # Fold-system memory management decisions
+    EVOLUTION = "evolution"  # Temporal development decisions
+    ETHICAL = "ethical"  # Guardian-system moral decisions
+    CREATIVE = "creative"  # VIVOX creative expression decisions
+    MEMORY = "memory"  # Fold-system memory management decisions
 
 
 @dataclass
 class ConsciousnessAction:
     """Multi-modal consciousness action space from the design doc"""
+
     decision_type: ConsciousnessDecisionType
     target_modules: list[str]
     parameters: dict[str, Any]
@@ -82,28 +84,16 @@ class ConsciousnessActorCritic(nn.Module if nn else object):
             return
 
         # Consciousness-aware encoders for different state components
-        self.module_state_encoder = nn.Sequential(
-            nn.Linear(state_dim, hidden_dim),
-            nn.ReLU(),
-            nn.LayerNorm(hidden_dim)
-        )
+        self.module_state_encoder = nn.Sequential(nn.Linear(state_dim, hidden_dim), nn.ReLU(), nn.LayerNorm(hidden_dim))
 
         self.temporal_encoder = nn.Sequential(
-            nn.Linear(4, 64),  # coherence, reflection_depth, ethics, efficiency
-            nn.ReLU(),
-            nn.Linear(64, 64)
+            nn.Linear(4, 64), nn.ReLU(), nn.Linear(64, 64)  # coherence, reflection_depth, ethics, efficiency
         )
 
-        self.emotion_encoder = nn.Sequential(
-            nn.Linear(3, 32),  # VAD emotional state
-            nn.ReLU(),
-            nn.Linear(32, 32)
-        )
+        self.emotion_encoder = nn.Sequential(nn.Linear(3, 32), nn.ReLU(), nn.Linear(32, 32))  # VAD emotional state
 
         # Multi-head attention for consciousness integration
-        self.consciousness_attention = nn.MultiheadAttention(
-            embed_dim=hidden_dim, num_heads=8, dropout=0.1
-        )
+        self.consciousness_attention = nn.MultiheadAttention(embed_dim=hidden_dim, num_heads=8, dropout=0.1)
 
         # Actor network: outputs action probabilities
         self.actor = nn.Sequential(
@@ -112,7 +102,7 @@ class ConsciousnessActorCritic(nn.Module if nn else object):
             nn.Linear(hidden_dim, hidden_dim // 2),
             nn.ReLU(),
             nn.Linear(hidden_dim // 2, action_dim),
-            nn.Softmax(dim=-1)
+            nn.Softmax(dim=-1),
         )
 
         # Critic network: estimates state values
@@ -121,7 +111,7 @@ class ConsciousnessActorCritic(nn.Module if nn else object):
             nn.ReLU(),
             nn.Linear(hidden_dim, hidden_dim // 2),
             nn.ReLU(),
-            nn.Linear(hidden_dim // 2, 1)
+            nn.Linear(hidden_dim // 2, 1),
         )
 
         # Meta-reflection network: consciousness awareness of decisions
@@ -130,7 +120,7 @@ class ConsciousnessActorCritic(nn.Module if nn else object):
             nn.ReLU(),
             nn.Linear(256, 128),
             nn.ReLU(),
-            nn.Linear(128, 64)  # Reflection embedding
+            nn.Linear(128, 64),  # Reflection embedding
         )
 
     def _initialize_mock(self):
@@ -148,12 +138,15 @@ class ConsciousnessActorCritic(nn.Module if nn else object):
         module_states_tensor = self._encode_module_states(consciousness_state.module_states)
         module_encoding = self.module_state_encoder(module_states_tensor)
 
-        temporal_features = torch.tensor([
-            consciousness_state.temporal_coherence,
-            consciousness_state.reflection_depth / 10.0,  # Normalize
-            consciousness_state.ethical_alignment,
-            len(consciousness_state.memory_salience) / 100.0  # Normalize
-        ], dtype=torch.float32)
+        temporal_features = torch.tensor(
+            [
+                consciousness_state.temporal_coherence,
+                consciousness_state.reflection_depth / 10.0,  # Normalize
+                consciousness_state.ethical_alignment,
+                len(consciousness_state.memory_salience) / 100.0,  # Normalize
+            ],
+            dtype=torch.float32,
+        )
         temporal_encoding = self.temporal_encoder(temporal_features)
 
         emotion_tensor = consciousness_state.emotion_vector
@@ -163,15 +156,11 @@ class ConsciousnessActorCritic(nn.Module if nn else object):
 
         # Consciousness integration via attention
         module_encoding = module_encoding.unsqueeze(0)  # Add sequence dimension
-        integrated_consciousness, _ = self.consciousness_attention(
-            module_encoding, module_encoding, module_encoding
-        )
+        integrated_consciousness, _ = self.consciousness_attention(module_encoding, module_encoding, module_encoding)
         integrated_consciousness = integrated_consciousness.squeeze(0)
 
         # Combine all consciousness representations
-        consciousness_representation = torch.cat([
-            integrated_consciousness, temporal_encoding, emotion_encoding
-        ])
+        consciousness_representation = torch.cat([integrated_consciousness, temporal_encoding, emotion_encoding])
 
         # Generate action probabilities and state value
         action_probs = self.actor(consciousness_representation)
@@ -179,9 +168,7 @@ class ConsciousnessActorCritic(nn.Module if nn else object):
 
         # Meta-reflection on potential decisions
         torch.log(action_probs + 1e-8)  # Avoid log(0)
-        reflection_embedding = self.meta_reflection(
-            torch.cat([integrated_consciousness, action_probs])
-        )
+        reflection_embedding = self.meta_reflection(torch.cat([integrated_consciousness, action_probs]))
 
         return action_probs, state_value, reflection_embedding
 
@@ -251,7 +238,7 @@ class PolicyNetwork:
             "MΛTRIZ PolicyNetwork initialized",
             capabilities=self.capabilities,
             trace_id=self.trace_id,
-            action_dim=action_dim
+            action_dim=action_dim,
         )
 
     def get_module(self, module_path: str) -> Optional[Any]:
@@ -259,11 +246,14 @@ class PolicyNetwork:
         try:
             if module_path == "governance.guardian.v1":
                 from candidate.governance.guardian.guardian_system import GuardianSystem
+
                 return GuardianSystem()
             elif module_path == "policy.registry.v1":
                 # Mock policy registry for now
                 class MockPolicyRegistry:
-                    def get_policy(self, name): return {"type": "mock", "confidence": 0.8}
+                    def get_policy(self, name):
+                        return {"type": "mock", "confidence": 0.8}
+
                 return MockPolicyRegistry()
         except ImportError:
             return None
@@ -297,29 +287,28 @@ class PolicyNetwork:
                 "rl:role=policy@1",
                 f"decision:type={validated_action.decision_type.value}@1",
                 f"confidence:level={validated_action.confidence:.2f}@1",
-                f"exploration:epsilon={self.exploration_epsilon:.2f}@1"
+                f"exploration:epsilon={self.exploration_epsilon:.2f}@1",
             ],
             state={
                 "confidence": validated_action.confidence,
                 "salience": 0.9,  # High salience for policy decisions
-                "valence": 0.3,   # Slightly positive
-                "arousal": 0.6,   # Moderate arousal for decisions
+                "valence": 0.3,  # Slightly positive
+                "arousal": 0.6,  # Moderate arousal for decisions
                 "novelty": self._calculate_action_novelty(action_idx),
-                "urgency": 0.7,   # Policy decisions are urgent
-
+                "urgency": 0.7,  # Policy decisions are urgent
                 # Rich decision information
                 "action_index": int(action_idx) if torch else action_idx,
-                "action_probabilities": action_probs.tolist() if torch and hasattr(action_probs, "tolist") else action_probs,
+                "action_probabilities": (
+                    action_probs.tolist() if torch and hasattr(action_probs, "tolist") else action_probs
+                ),
                 "state_value_estimate": float(state_value) if torch else state_value,
                 "decision_type": validated_action.decision_type.value,
                 "target_modules": validated_action.target_modules,
                 "exploration_factor": self.exploration_epsilon,
                 "ethical_validation": True,  # All actions validated by Guardian
-                "consciousness_coherence": consciousness_state.temporal_coherence
+                "consciousness_coherence": consciousness_state.temporal_coherence,
             },
-            timestamps={
-                "created_ts": int(time.time() * 1000)
-            },
+            timestamps={"created_ts": int(time.time() * 1000)},
             provenance={
                 "producer": "rl.engine.policy_networks",
                 "capabilities": self.capabilities,
@@ -328,11 +317,7 @@ class PolicyNetwork:
                 "consent_scopes": ["rl_decision", "policy_action"],
                 "model_signature": "ConsciousnessActorCritic.v1.0",
                 "policy_version": "rl.policy.v1.0",
-                "colony": {
-                    "id": "rl_engine",
-                    "role": "policy",
-                    "iteration": len(self.decision_history)
-                }
+                "colony": {"id": "rl_engine", "role": "policy", "iteration": len(self.decision_history)},
             },
             links=[
                 {
@@ -340,7 +325,7 @@ class PolicyNetwork:
                     "link_type": "causal",
                     "weight": 0.95,
                     "direction": "unidirectional",
-                    "explanation": "Policy decision based on context observation"
+                    "explanation": "Policy decision based on context observation",
                 }
             ],
             evolves_to=["CAUSAL", "MEMORY", "HYPOTHESIS"],
@@ -348,7 +333,7 @@ class PolicyNetwork:
                 {
                     "event_type": "action_execution",
                     "effect": "environment_state_change",
-                    "timestamp": int(time.time() * 1000)
+                    "timestamp": int(time.time() * 1000),
                 }
             ],
             reflections=[
@@ -357,45 +342,50 @@ class PolicyNetwork:
                     "timestamp": int(time.time() * 1000),
                     "cause": "Is this the most consciousness-coherent action?",
                     "old_state": {"confidence": 0.5},
-                    "new_state": {"confidence": validated_action.confidence}
+                    "new_state": {"confidence": validated_action.confidence},
                 },
                 {
                     "reflection_type": "affirmation" if validated_action.confidence > 0.8 else "dissonance_resolution",
                     "timestamp": int(time.time() * 1000),
-                    "cause": f"Decision confidence: {validated_action.confidence:.2f}"
-                }
+                    "cause": f"Decision confidence: {validated_action.confidence:.2f}",
+                },
             ],
             embeddings=[
                 {
                     "space": "consciousness_reflection",
-                    "vector": reflection_embedding.tolist() if torch and hasattr(reflection_embedding, "tolist") else reflection_embedding,
+                    "vector": (
+                        reflection_embedding.tolist()
+                        if torch and hasattr(reflection_embedding, "tolist")
+                        else reflection_embedding
+                    ),
                     "dim": 64,
-                    "norm": float(torch.norm(reflection_embedding)) if torch and hasattr(reflection_embedding, "norm") else 1.0
+                    "norm": (
+                        float(torch.norm(reflection_embedding))
+                        if torch and hasattr(reflection_embedding, "norm")
+                        else 1.0
+                    ),
                 }
             ],
-            evidence=[
-                {
-                    "kind": "trace",
-                    "uri": f"policy://decision/{self.trace_id}/{len(self.decision_history)}"
-                }
-            ]
+            evidence=[{"kind": "trace", "uri": f"policy://decision/{self.trace_id}/{len(self.decision_history)}"}],
         )
 
         # Track decision
-        self.decision_history.append({
-            "node_id": decision_node.id,
-            "action": validated_action,
-            "context": context_node.id,
-            "timestamp": datetime.now(timezone.utc),
-            "confidence": validated_action.confidence
-        })
+        self.decision_history.append(
+            {
+                "node_id": decision_node.id,
+                "action": validated_action,
+                "context": context_node.id,
+                "timestamp": datetime.now(timezone.utc),
+                "confidence": validated_action.confidence,
+            }
+        )
 
         logger.info(
             "Policy decision made",
             decision_type=validated_action.decision_type.value,
             confidence=validated_action.confidence,
             node_id=decision_node.id,
-            action_idx=action_idx
+            action_idx=action_idx,
         )
 
         return decision_node
@@ -411,11 +401,7 @@ class PolicyNetwork:
             ethical_alignment=state_dict.get("ethical_alignment", 0.98),
             memory_salience=state_dict.get("memory_salience", {}),
             quantum_entanglement=state_dict.get("quantum_entanglement", {}),
-            emotion_vector=[
-                state_dict.get("valence", 0.1),
-                state_dict.get("arousal", 0.3),
-                0.5  # Default dominance
-            ]
+            emotion_vector=[state_dict.get("valence", 0.1), state_dict.get("arousal", 0.3), 0.5],  # Default dominance
         )
 
     def _sample_action(self, action_probs: Any, consciousness_state: ConsciousnessState) -> int:
@@ -435,6 +421,7 @@ class PolicyNetwork:
                 return 0
 
             import random
+
             if random.random() < self.exploration_epsilon:
                 action_idx = random.randint(0, len(action_probs) - 1)
             else:
@@ -443,7 +430,9 @@ class PolicyNetwork:
 
         return action_idx
 
-    def _decode_action(self, action_idx: int, action_probs: Any, consciousness_state: ConsciousnessState) -> ConsciousnessAction:
+    def _decode_action(
+        self, action_idx: int, action_probs: Any, consciousness_state: ConsciousnessState
+    ) -> ConsciousnessAction:
         """Decode action index into consciousness action"""
         # Map action index to decision type
         decision_types = list(ConsciousnessDecisionType)
@@ -473,7 +462,7 @@ class PolicyNetwork:
             "pattern_recognition": True,  # Always present in RL
             "growth_orientation": decision_type == ConsciousnessDecisionType.EVOLUTION,
             "emotional_awareness": abs(consciousness_state.emotion_vector[0]) > 0.1,
-            "limitation_acknowledgment": confidence < 0.9
+            "limitation_acknowledgment": confidence < 0.9,
         }
 
         return ConsciousnessAction(
@@ -481,7 +470,7 @@ class PolicyNetwork:
             target_modules=target_modules,
             parameters=parameters,
             confidence=confidence,
-            reflection_meta=reflection_meta
+            reflection_meta=reflection_meta,
         )
 
     def _get_target_modules(self, decision_type: ConsciousnessDecisionType) -> list[str]:
@@ -492,39 +481,39 @@ class PolicyNetwork:
             ConsciousnessDecisionType.EVOLUTION: ["learning.meta.v1", "evolution.core.v1"],
             ConsciousnessDecisionType.ETHICAL: ["governance.guardian.v1", "ethics.core.v1"],
             ConsciousnessDecisionType.CREATIVE: ["creativity.vivox.v1", "creative.core.v1"],
-            ConsciousnessDecisionType.MEMORY: ["memory.fold.v1", "memory.core.v1"]
+            ConsciousnessDecisionType.MEMORY: ["memory.fold.v1", "memory.core.v1"],
         }
         return module_mapping.get(decision_type, ["general.core.v1"])
 
-    def _generate_action_parameters(self, decision_type: ConsciousnessDecisionType, consciousness_state: ConsciousnessState) -> dict[str, Any]:
+    def _generate_action_parameters(
+        self, decision_type: ConsciousnessDecisionType, consciousness_state: ConsciousnessState
+    ) -> dict[str, Any]:
         """Generate action parameters based on decision type"""
         base_params = {
             "temporal_coherence": consciousness_state.temporal_coherence,
             "ethical_alignment": consciousness_state.ethical_alignment,
-            "decision_timestamp": int(time.time() * 1000)
+            "decision_timestamp": int(time.time() * 1000),
         }
 
         if decision_type == ConsciousnessDecisionType.REFLECTION:
-            base_params.update({
-                "reflection_depth_target": consciousness_state.reflection_depth + 1,
-                "introspection_focus": ["decision_patterns", "ethical_choices", "learning_progress"]
-            })
+            base_params.update(
+                {
+                    "reflection_depth_target": consciousness_state.reflection_depth + 1,
+                    "introspection_focus": ["decision_patterns", "ethical_choices", "learning_progress"],
+                }
+            )
         elif decision_type == ConsciousnessDecisionType.MEMORY:
-            base_params.update({
-                "memory_operation": "store_experience",
-                "salience_threshold": 0.7,
-                "cascade_prevention": 0.997
-            })
+            base_params.update(
+                {"memory_operation": "store_experience", "salience_threshold": 0.7, "cascade_prevention": 0.997}
+            )
         elif decision_type == ConsciousnessDecisionType.CREATIVE:
-            base_params.update({
-                "creativity_mode": "divergent",
-                "novelty_target": 0.8,
-                "aesthetic_weight": 0.6
-            })
+            base_params.update({"creativity_mode": "divergent", "novelty_target": 0.8, "aesthetic_weight": 0.6})
 
         return base_params
 
-    async def _validate_with_guardian(self, action: ConsciousnessAction, consciousness_state: ConsciousnessState) -> ConsciousnessAction:
+    async def _validate_with_guardian(
+        self, action: ConsciousnessAction, consciousness_state: ConsciousnessState
+    ) -> ConsciousnessAction:
         """Validate action with Guardian system"""
         guardian = self.get_module("governance.guardian.v1")
 
@@ -532,9 +521,7 @@ class PolicyNetwork:
             try:
                 # Assess action safety and ethics
                 if hasattr(guardian, "assess_consciousness_action_safety"):
-                    safety_assessment = guardian.assess_consciousness_action_safety(
-                        consciousness_state, action, {}
-                    )
+                    safety_assessment = guardian.assess_consciousness_action_safety(consciousness_state, action, {})
 
                     if safety_assessment.get("safety_score", 1.0) < self.ethical_override_threshold:
                         # Guardian intervention: modify action
@@ -546,7 +533,7 @@ class PolicyNetwork:
                             "Guardian modified action",
                             original_confidence=action.parameters["original_confidence"],
                             new_confidence=action.confidence,
-                            safety_score=safety_assessment.get("safety_score")
+                            safety_score=safety_assessment.get("safety_score"),
                         )
             except Exception as e:
                 logger.warning(f"Guardian validation failed: {e}")
@@ -589,7 +576,7 @@ class PolicyNetwork:
             "decision_types_distribution": self._get_decision_type_distribution(recent_decisions),
             "exploration_rate": self.exploration_epsilon,
             "recent_coherence": [d["action"].confidence for d in recent_decisions[-5:]],
-            "trace_id": self.trace_id
+            "trace_id": self.trace_id,
         }
 
     def _get_decision_type_distribution(self, decisions: list[dict]) -> dict[str, int]:

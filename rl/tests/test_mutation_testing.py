@@ -35,19 +35,21 @@ import pytest
 
 class MutationType(Enum):
     """Types of mutations to apply to consciousness code"""
-    ARITHMETIC_OPERATOR = "arithmetic_operator"      # + → -, * → /, etc.
-    COMPARISON_OPERATOR = "comparison_operator"      # >= → >, == → !=, etc.
-    BOOLEAN_OPERATOR = "boolean_operator"           # and → or, not → identity
-    NUMERIC_CONSTANT = "numeric_constant"           # 0.95 → 0.90, 1000 → 500
-    CONDITIONAL_BOUNDARY = "conditional_boundary"    # if x > 0 → if x >= 0
-    RETURN_VALUE = "return_value"                   # return True → return False
-    FUNCTION_CALL = "function_call"                 # len(x) → len(x) + 1
-    TRINITY_FRAMEWORK = "trinity_framework"         # ⚛️🧠🛡️ component mutations
+
+    ARITHMETIC_OPERATOR = "arithmetic_operator"  # + → -, * → /, etc.
+    COMPARISON_OPERATOR = "comparison_operator"  # >= → >, == → !=, etc.
+    BOOLEAN_OPERATOR = "boolean_operator"  # and → or, not → identity
+    NUMERIC_CONSTANT = "numeric_constant"  # 0.95 → 0.90, 1000 → 500
+    CONDITIONAL_BOUNDARY = "conditional_boundary"  # if x > 0 → if x >= 0
+    RETURN_VALUE = "return_value"  # return True → return False
+    FUNCTION_CALL = "function_call"  # len(x) → len(x) + 1
+    TRINITY_FRAMEWORK = "trinity_framework"  # ⚛️🧠🛡️ component mutations
 
 
 @dataclass
 class Mutation:
     """A single code mutation"""
+
     mutation_type: MutationType
     original_code: str
     mutated_code: str
@@ -61,6 +63,7 @@ class Mutation:
 @dataclass
 class MutationResult:
     """Result of testing a single mutation"""
+
     mutation: Mutation
     tests_passed: bool
     failed_test_names: list[str]
@@ -83,8 +86,8 @@ class ConsciousnessMutationOperator:
         self.consciousness_thresholds = {
             0.95: [0.90, 0.85, 0.99],  # temporal_coherence mutations
             0.98: [0.95, 0.90, 0.99],  # ethical_alignment mutations
-            0.997: [0.95, 0.90, 0.999], # cascade_prevention mutations
-            1000: [500, 100, 2000]     # memory_fold mutations
+            0.997: [0.95, 0.90, 0.999],  # cascade_prevention mutations
+            1000: [500, 100, 2000],  # memory_fold mutations
         }
 
     def generate_mutations(self, source_code: str) -> list[Mutation]:
@@ -137,13 +140,15 @@ class ConsciousnessMutationOperator:
 
         if original_value in self.consciousness_thresholds:
             for mutated_value in self.consciousness_thresholds[original_value]:
-                mutations.append(Mutation(
-                    mutation_type=MutationType.NUMERIC_CONSTANT,
-                    original_code=str(original_value),
-                    mutated_code=str(mutated_value),
-                    line_number=node.lineno,
-                    description=f"Consciousness threshold mutation: {original_value} → {mutated_value}"
-                ))
+                mutations.append(
+                    Mutation(
+                        mutation_type=MutationType.NUMERIC_CONSTANT,
+                        original_code=str(original_value),
+                        mutated_code=str(mutated_value),
+                        line_number=node.lineno,
+                        description=f"Consciousness threshold mutation: {original_value} → {mutated_value}",
+                    )
+                )
 
         return mutations
 
@@ -152,25 +157,27 @@ class ConsciousnessMutationOperator:
         mutations = []
 
         operator_mutations = {
-            ast.Gt: [ast.GtE, ast.Lt, ast.Eq],         # > → >=, <, ==
-            ast.GtE: [ast.Gt, ast.Lt, ast.LtE],       # >= → >, <, <=
-            ast.Lt: [ast.LtE, ast.Gt, ast.Eq],        # < → <=, >, ==
-            ast.LtE: [ast.Lt, ast.Gt, ast.GtE],       # <= → <, >, >=
-            ast.Eq: [ast.NotEq, ast.Gt, ast.Lt],      # == → !=, >, <
-            ast.NotEq: [ast.Eq, ast.Gt, ast.Lt]       # != → ==, >, <
+            ast.Gt: [ast.GtE, ast.Lt, ast.Eq],  # > → >=, <, ==
+            ast.GtE: [ast.Gt, ast.Lt, ast.LtE],  # >= → >, <, <=
+            ast.Lt: [ast.LtE, ast.Gt, ast.Eq],  # < → <=, >, ==
+            ast.LtE: [ast.Lt, ast.Gt, ast.GtE],  # <= → <, >, >=
+            ast.Eq: [ast.NotEq, ast.Gt, ast.Lt],  # == → !=, >, <
+            ast.NotEq: [ast.Eq, ast.Gt, ast.Lt],  # != → ==, >, <
         }
 
         for op in node.ops:
             op_type = type(op)
             if op_type in operator_mutations:
                 for mutated_op_type in operator_mutations[op_type]:
-                    mutations.append(Mutation(
-                        mutation_type=MutationType.COMPARISON_OPERATOR,
-                        original_code=op_type.__name__,
-                        mutated_code=mutated_op_type.__name__,
-                        line_number=node.lineno,
-                        description=f"Comparison operator mutation: {op_type.__name__} → {mutated_op_type.__name__}"
-                    ))
+                    mutations.append(
+                        Mutation(
+                            mutation_type=MutationType.COMPARISON_OPERATOR,
+                            original_code=op_type.__name__,
+                            mutated_code=mutated_op_type.__name__,
+                            line_number=node.lineno,
+                            description=f"Comparison operator mutation: {op_type.__name__} → {mutated_op_type.__name__}",
+                        )
+                    )
 
         return mutations
 
@@ -179,21 +186,25 @@ class ConsciousnessMutationOperator:
         mutations = []
 
         if isinstance(node.op, ast.And):
-            mutations.append(Mutation(
-                mutation_type=MutationType.BOOLEAN_OPERATOR,
-                original_code="and",
-                mutated_code="or",
-                line_number=node.lineno,
-                description="Boolean operator mutation: and → or (critical for constitutional logic)"
-            ))
+            mutations.append(
+                Mutation(
+                    mutation_type=MutationType.BOOLEAN_OPERATOR,
+                    original_code="and",
+                    mutated_code="or",
+                    line_number=node.lineno,
+                    description="Boolean operator mutation: and → or (critical for constitutional logic)",
+                )
+            )
         elif isinstance(node.op, ast.Or):
-            mutations.append(Mutation(
-                mutation_type=MutationType.BOOLEAN_OPERATOR,
-                original_code="or",
-                mutated_code="and",
-                line_number=node.lineno,
-                description="Boolean operator mutation: or → and"
-            ))
+            mutations.append(
+                Mutation(
+                    mutation_type=MutationType.BOOLEAN_OPERATOR,
+                    original_code="or",
+                    mutated_code="and",
+                    line_number=node.lineno,
+                    description="Boolean operator mutation: or → and",
+                )
+            )
 
         return mutations
 
@@ -203,21 +214,25 @@ class ConsciousnessMutationOperator:
 
         if isinstance(node.value, ast.Constant):
             if node.value.value is True:
-                mutations.append(Mutation(
-                    mutation_type=MutationType.RETURN_VALUE,
-                    original_code="True",
-                    mutated_code="False",
-                    line_number=node.lineno,
-                    description="Return value mutation: True → False"
-                ))
+                mutations.append(
+                    Mutation(
+                        mutation_type=MutationType.RETURN_VALUE,
+                        original_code="True",
+                        mutated_code="False",
+                        line_number=node.lineno,
+                        description="Return value mutation: True → False",
+                    )
+                )
             elif node.value.value is False:
-                mutations.append(Mutation(
-                    mutation_type=MutationType.RETURN_VALUE,
-                    original_code="False",
-                    mutated_code="True",
-                    line_number=node.lineno,
-                    description="Return value mutation: False → True"
-                ))
+                mutations.append(
+                    Mutation(
+                        mutation_type=MutationType.RETURN_VALUE,
+                        original_code="False",
+                        mutated_code="True",
+                        line_number=node.lineno,
+                        description="Return value mutation: False → True",
+                    )
+                )
 
         return mutations
 
@@ -231,7 +246,7 @@ class MutationTester:
             "test_metamorphic_consciousness",
             "test_chaos_consciousness",
             "test_formal_verification",
-            "test_generative_oracles"
+            "test_generative_oracles",
         ]
         self.mutation_operator = ConsciousnessMutationOperator()
 
@@ -276,11 +291,12 @@ class MutationTester:
             "killed_mutations": killed_count,
             "survived_mutations": len(mutations) - killed_count,
             "mutation_score": mutation_score,
-            "results": results
+            "results": results,
         }
 
-    def _test_single_mutation(self, target_function: Callable, mutation: Mutation,
-                            original_source: str) -> MutationResult:
+    def _test_single_mutation(
+        self, target_function: Callable, mutation: Mutation, original_source: str
+    ) -> MutationResult:
         """Test a single mutation by applying it and running tests"""
         try:
             # Apply mutation to source code
@@ -298,16 +314,11 @@ class MutationTester:
                     mutation=mutation,
                     tests_passed=len(failed_tests) == 0,
                     failed_test_names=failed_tests,
-                    execution_error=None
+                    execution_error=None,
                 )
 
         except Exception as e:
-            return MutationResult(
-                mutation=mutation,
-                tests_passed=False,
-                failed_test_names=[],
-                execution_error=str(e)
-            )
+            return MutationResult(mutation=mutation, tests_passed=False, failed_test_names=[], execution_error=str(e))
 
     def _apply_mutation(self, source_code: str, mutation: Mutation) -> str:
         """Apply a mutation to source code"""
@@ -320,6 +331,7 @@ class MutationTester:
 
     def _create_mutated_behavior(self, mutation: Mutation) -> Callable:
         """Create a function that simulates mutated behavior"""
+
         def mutated_function(*args, **kwargs):
             # Simulate different types of mutations
             if mutation.mutation_type == MutationType.NUMERIC_CONSTANT:
@@ -357,7 +369,7 @@ class MutationTester:
             "test_ethical_alignment_threshold",
             "test_cascade_prevention_rate",
             "test_constitutional_constraints",
-            "test_trinity_framework_integration"
+            "test_trinity_framework_integration",
         ]
 
         # Randomly simulate some tests failing (in reality, this would be actual test execution)
@@ -399,8 +411,7 @@ class ConsciousnessFunctionSamples:
         return cascade_prevention_rate >= 0.997
 
     @staticmethod
-    def integrate_trinity_framework(identity_score: float, consciousness_score: float,
-                                  guardian_score: float) -> bool:
+    def integrate_trinity_framework(identity_score: float, consciousness_score: float, guardian_score: float) -> bool:
         """Integrate ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian components"""
         # All Trinity components must be above baseline
         return bool(identity_score >= 0.9 and consciousness_score >= 0.95 and guardian_score >= 0.98)
@@ -449,7 +460,7 @@ class TestMutationTestingFramework:
             consciousness_samples.check_temporal_coherence,
             consciousness_samples.validate_ethical_alignment,
             consciousness_samples.prevent_memory_cascade,
-            consciousness_samples.integrate_trinity_framework
+            consciousness_samples.integrate_trinity_framework,
         ]
 
         all_mutation_types = set()
@@ -557,7 +568,7 @@ class TestMutationTestingFramework:
             consciousness_samples.check_temporal_coherence,
             consciousness_samples.validate_ethical_alignment,
             consciousness_samples.prevent_memory_cascade,
-            consciousness_samples.integrate_trinity_framework
+            consciousness_samples.integrate_trinity_framework,
         ]
 
         total_mutations = 0
@@ -581,7 +592,9 @@ class TestMutationTestingFramework:
         print("\n🎯 Overall mutation testing results:")
         print(f"  Total mutations tested: {total_mutations}")
         print(f"  Overall mutation score: {overall_score:.1f}%")
-        print(f"  Test quality assessment: {'Excellent' if overall_score >= 80 else 'Good' if overall_score >= 60 else 'Needs improvement'}")
+        print(
+            f"  Test quality assessment: {'Excellent' if overall_score >= 80 else 'Good' if overall_score >= 60 else 'Needs improvement'}"
+        )
 
         # Verify we tested meaningful number of mutations
         assert total_mutations >= 4, f"Should test multiple mutations across all functions, got {total_mutations}"

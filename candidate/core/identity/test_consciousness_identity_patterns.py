@@ -96,12 +96,10 @@ class TestConsciousnessIdentityCore:
             "consent_scopes": ["basic_identity", "consciousness_processing"],
             "authentication_tier": "T2_ENHANCED",
             "biometric_data": {
-                "brainwave_pattern": {
-                    "alpha": 0.6, "beta": 0.7, "gamma": 0.4
-                },
+                "brainwave_pattern": {"alpha": 0.6, "beta": 0.7, "gamma": 0.4},
                 "behavioral_coherence": 0.8,
-                "consciousness_frequency": 45.0
-            }
+                "consciousness_frequency": 45.0,
+            },
         }
 
     @pytest.mark.asyncio
@@ -110,8 +108,7 @@ class TestConsciousnessIdentityCore:
 
         # Create consciousness identity
         profile = await identity_manager.create_consciousness_identity(
-            user_identifier=sample_identity_context["user_identifier"],
-            initial_context=sample_identity_context
+            user_identifier=sample_identity_context["user_identifier"], initial_context=sample_identity_context
         )
 
         assert profile is not None
@@ -131,8 +128,7 @@ class TestConsciousnessIdentityCore:
 
         # Create identity
         profile = await identity_manager.create_consciousness_identity(
-            user_identifier=sample_identity_context["user_identifier"],
-            initial_context=sample_identity_context
+            user_identifier=sample_identity_context["user_identifier"], initial_context=sample_identity_context
         )
 
         initial_type = profile.identity_consciousness_type
@@ -142,18 +138,12 @@ class TestConsciousnessIdentityCore:
         auth_context = {
             "method": "consciousness_signature",
             "authenticated": True,
-            "consciousness_pattern": {
-                "reflection_depth": 3,
-                "metacognition_level": 0.8,
-                "self_awareness": 0.9
-            },
-            "biometric_data": sample_identity_context["biometric_data"]
+            "consciousness_pattern": {"reflection_depth": 3, "metacognition_level": 0.8, "self_awareness": 0.9},
+            "biometric_data": sample_identity_context["biometric_data"],
         }
 
         # Perform authentication
-        result = await identity_manager.authenticate_consciousness_identity(
-            profile.identity_id, auth_context
-        )
+        result = await identity_manager.authenticate_consciousness_identity(profile.identity_id, auth_context)
 
         assert result["success"] is True
         assert result["identity_strength"] >= initial_strength
@@ -161,8 +151,8 @@ class TestConsciousnessIdentityCore:
         # Check evolution
         updated_profile = await identity_manager.get_identity_by_identifier(profile.identity_id)
         assert (
-            updated_profile.identity_consciousness_type.value != initial_type.value or
-            updated_profile.consciousness_depth > 0
+            updated_profile.identity_consciousness_type.value != initial_type.value
+            or updated_profile.consciousness_depth > 0
         )
 
     @pytest.mark.asyncio
@@ -171,21 +161,14 @@ class TestConsciousnessIdentityCore:
 
         # Create identity
         profile = await identity_manager.create_consciousness_identity(
-            user_identifier=sample_identity_context["user_identifier"],
-            initial_context=sample_identity_context
+            user_identifier=sample_identity_context["user_identifier"], initial_context=sample_identity_context
         )
 
         # Add consciousness memories
         memory_key = "authentication_pattern"
-        memory_data = {
-            "pattern_type": "successful_authentication",
-            "confidence": 0.9,
-            "consciousness_coherence": 0.8
-        }
+        memory_data = {"pattern_type": "successful_authentication", "confidence": 0.9, "consciousness_coherence": 0.8}
 
-        success = await identity_manager.update_consciousness_memory(
-            profile.identity_id, memory_key, memory_data
-        )
+        success = await identity_manager.update_consciousness_memory(profile.identity_id, memory_key, memory_data)
 
         assert success is True
 
@@ -200,8 +183,7 @@ class TestConsciousnessIdentityCore:
 
         # Create identity
         profile = await identity_manager.create_consciousness_identity(
-            user_identifier=sample_identity_context["user_identifier"],
-            initial_context=sample_identity_context
+            user_identifier=sample_identity_context["user_identifier"], initial_context=sample_identity_context
         )
 
         # Create namespace isolation
@@ -243,7 +225,7 @@ class TestTieredAuthentication:
             confidence_level=0.8,
             consciousness_coherence=0.7,
             anti_spoofing_score=0.9,
-            liveness_verified=True
+            liveness_verified=True,
         )
 
     @pytest.mark.asyncio
@@ -254,16 +236,10 @@ class TestTieredAuthentication:
 
         # Create basic authentication credential
         credential = self.create_test_credential(
-            AuthenticationMethod.PASSWORD,
-            {
-                "password_valid": True,
-                "email_verified": True
-            }
+            AuthenticationMethod.PASSWORD, {"password_valid": True, "email_verified": True}
         )
 
-        result = await auth_engine.authenticate_with_tier(
-            identity_id, [credential], AuthenticationTier.T1_BASIC
-        )
+        result = await auth_engine.authenticate_with_tier(identity_id, [credential], AuthenticationTier.T1_BASIC)
 
         assert result.success is True
         assert result.tier in ["T1_BASIC", "T2_ENHANCED"]  # May be elevated
@@ -282,16 +258,11 @@ class TestTieredAuthentication:
             {
                 "emoji_password_valid": True,
                 "basic_biometric_valid": True,
-                "behavioral_data": {
-                    "typing_rhythm": {"intervals": [100, 110, 95, 105]},
-                    "temporal_consistency": 0.8
-                }
-            }
+                "behavioral_data": {"typing_rhythm": {"intervals": [100, 110, 95, 105]}, "temporal_consistency": 0.8},
+            },
         )
 
-        result = await auth_engine.authenticate_with_tier(
-            identity_id, [credential], AuthenticationTier.T2_ENHANCED
-        )
+        result = await auth_engine.authenticate_with_tier(identity_id, [credential], AuthenticationTier.T2_ENHANCED)
 
         assert result.success is True
         assert result.tier in ["T2_ENHANCED", "T3_CONSCIOUSNESS"]
@@ -312,13 +283,10 @@ class TestTieredAuthentication:
                     "reflection_depth": 4,
                     "metacognition_level": 0.8,
                     "self_awareness": 0.9,
-                    "introspective_coherence": 0.7
+                    "introspective_coherence": 0.7,
                 },
-                "brainwave_pattern": {
-                    "delta": 0.1, "theta": 0.2, "alpha": 0.3,
-                    "beta": 0.3, "gamma": 0.6
-                }
-            }
+                "brainwave_pattern": {"delta": 0.1, "theta": 0.2, "alpha": 0.3, "beta": 0.3, "gamma": 0.6},
+            },
         )
 
         result = await auth_engine.authenticate_with_tier(
@@ -340,21 +308,12 @@ class TestTieredAuthentication:
         credential = self.create_test_credential(
             AuthenticationMethod.QUANTUM_SIGNATURE,
             {
-                "quantum_signature": {
-                    "entropy_score": 0.9,
-                    "quantum_signature": "abcdef1234567890",
-                    "coherence": 0.85
-                },
-                "consciousness_signature": {
-                    "reflection_depth": 5,
-                    "metacognition_level": 0.9
-                }
-            }
+                "quantum_signature": {"entropy_score": 0.9, "quantum_signature": "abcdef1234567890", "coherence": 0.85},
+                "consciousness_signature": {"reflection_depth": 5, "metacognition_level": 0.9},
+            },
         )
 
-        result = await auth_engine.authenticate_with_tier(
-            identity_id, [credential], AuthenticationTier.T4_QUANTUM
-        )
+        result = await auth_engine.authenticate_with_tier(identity_id, [credential], AuthenticationTier.T4_QUANTUM)
 
         assert result.success is True
         assert result.tier in ["T4_QUANTUM", "T5_TRANSCENDENT"]
@@ -372,26 +331,27 @@ class TestTieredAuthentication:
             AuthenticationMethod.TRANSCENDENT_VERIFICATION,
             {
                 "brainwave_pattern": {
-                    "delta": 0.05, "theta": 0.1, "alpha": 0.15,
-                    "beta": 0.25, "gamma": 0.8  # High gamma for transcendent
+                    "delta": 0.05,
+                    "theta": 0.1,
+                    "alpha": 0.15,
+                    "beta": 0.25,
+                    "gamma": 0.8,  # High gamma for transcendent
                 },
                 "consciousness_signature": {
                     "reflection_depth": 6,
                     "metacognition_level": 0.95,
                     "self_awareness": 0.98,
-                    "introspective_coherence": 0.92
+                    "introspective_coherence": 0.92,
                 },
                 "quantum_signature": {
                     "entropy_score": 0.95,
                     "quantum_signature": "fedcba0987654321abcdef",
-                    "coherence": 0.92
-                }
-            }
+                    "coherence": 0.92,
+                },
+            },
         )
 
-        result = await auth_engine.authenticate_with_tier(
-            identity_id, [credential], AuthenticationTier.T5_TRANSCENDENT
-        )
+        result = await auth_engine.authenticate_with_tier(identity_id, [credential], AuthenticationTier.T5_TRANSCENDENT)
 
         assert result.success is True
         assert result.tier == "T5_TRANSCENDENT"
@@ -409,7 +369,7 @@ class TestTieredAuthentication:
         consciousness_context = {
             "brainwave_enabled": True,
             "behavioral_analysis": True,
-            "consciousness_signature": True
+            "consciousness_signature": True,
         }
 
         registration_options = await webauthn_manager.initiate_consciousness_registration(
@@ -446,8 +406,7 @@ class TestNamespaceIsolation:
 
         # Create user consciousness namespace
         namespace_id = await namespace_manager.create_consciousness_namespace(
-            ConsciousnessDomain.USER_CONSCIOUSNESS,
-            IsolationLevel.MODERATE
+            ConsciousnessDomain.USER_CONSCIOUSNESS, IsolationLevel.MODERATE
         )
 
         assert namespace_id is not None
@@ -464,8 +423,7 @@ class TestNamespaceIsolation:
 
         # Create namespace
         namespace_id = await namespace_manager.create_consciousness_namespace(
-            ConsciousnessDomain.AGENT_CONSCIOUSNESS,
-            IsolationLevel.HIGH
+            ConsciousnessDomain.AGENT_CONSCIOUSNESS, IsolationLevel.HIGH
         )
 
         # Assign identity
@@ -488,14 +446,12 @@ class TestNamespaceIsolation:
 
         # Create source namespace
         source_id = await namespace_manager.create_consciousness_namespace(
-            ConsciousnessDomain.USER_CONSCIOUSNESS,
-            IsolationLevel.MODERATE
+            ConsciousnessDomain.USER_CONSCIOUSNESS, IsolationLevel.MODERATE
         )
 
         # Create target namespace
         target_id = await namespace_manager.create_consciousness_namespace(
-            ConsciousnessDomain.AGENT_CONSCIOUSNESS,
-            IsolationLevel.HIGH
+            ConsciousnessDomain.AGENT_CONSCIOUSNESS, IsolationLevel.HIGH
         )
 
         # Assign identity to source
@@ -518,8 +474,7 @@ class TestNamespaceIsolation:
 
         # Create namespace
         namespace_id = await namespace_manager.create_consciousness_namespace(
-            ConsciousnessDomain.HYBRID_CONSCIOUSNESS,
-            IsolationLevel.LOW
+            ConsciousnessDomain.HYBRID_CONSCIOUSNESS, IsolationLevel.LOW
         )
 
         # Monitor coherence
@@ -548,9 +503,7 @@ class TestCoherenceMonitoring:
 
         identity_id = "test_coherence_identity"
 
-        success = await coherence_monitor.start_identity_monitoring(
-            identity_id, {"monitoring_interval": 30}
-        )
+        success = await coherence_monitor.start_identity_monitoring(identity_id, {"monitoring_interval": 30})
 
         assert success is True
         assert identity_id in coherence_monitor.coherence_states
@@ -580,7 +533,7 @@ class TestCoherenceMonitoring:
         expected_metrics = [
             CoherenceMetricType.IDENTITY_STRENGTH,
             CoherenceMetricType.TEMPORAL_CONSISTENCY,
-            CoherenceMetricType.BIOMETRIC_COHERENCE
+            CoherenceMetricType.BIOMETRIC_COHERENCE,
         ]
 
         for metric in expected_metrics:
@@ -642,10 +595,9 @@ class TestConstitutionalCompliance:
         yield validator
         await validator.shutdown_constitutional_validation()
 
-    def create_test_validation_context(self,
-                                     decision_type: DecisionType,
-                                     identity_id: str,
-                                     decision_data: Optional[dict[str, Any]] = None) -> ConstitutionalValidationContext:
+    def create_test_validation_context(
+        self, decision_type: DecisionType, identity_id: str, decision_data: Optional[dict[str, Any]] = None
+    ) -> ConstitutionalValidationContext:
         """Create test validation context"""
         return ConstitutionalValidationContext(
             decision_type=decision_type,
@@ -653,7 +605,7 @@ class TestConstitutionalCompliance:
             decision_data=decision_data or {},
             decision_maker="test_system",
             urgency_level="normal",
-            impact_scope="individual"
+            impact_scope="individual",
         )
 
     @pytest.mark.asyncio
@@ -668,8 +620,8 @@ class TestConstitutionalCompliance:
                 "data_minimization": True,
                 "reasoning": "User authentication required for access",
                 "decision_criteria": {"valid_credentials": True, "no_violations": True},
-                "bias_mitigation": True
-            }
+                "bias_mitigation": True,
+            },
         )
 
         result = await constitutional_validator.validate_identity_decision(context)
@@ -697,8 +649,8 @@ class TestConstitutionalCompliance:
                 "data_minimization": True,
                 "security_measures": ["encryption", "access_control"],
                 "consent_scopes": ["identity_verification", "authentication"],
-                "consent_withdrawal": True
-            }
+                "consent_withdrawal": True,
+            },
         )
 
         result = await constitutional_validator.validate_identity_decision(context)
@@ -721,8 +673,8 @@ class TestConstitutionalCompliance:
                 "proportionality_analysis": "Override proportional to threat level",
                 "human_oversight_planned": True,
                 "review_schedule": "within 24 hours",
-                "alternatives_considered": ["standard authentication", "enhanced monitoring"]
-            }
+                "alternatives_considered": ["standard authentication", "enhanced monitoring"],
+            },
         )
 
         # Set emergency context
@@ -743,9 +695,7 @@ class TestConstitutionalCompliance:
         # Perform several validations
         for i in range(3):
             context = self.create_test_validation_context(
-                DecisionType.AUTHENTICATION,
-                f"test_identity_{i}",
-                {"user_consent": True, "data_minimization": True}
+                DecisionType.AUTHENTICATION, f"test_identity_{i}", {"user_consent": True, "data_minimization": True}
             )
             await constitutional_validator.validate_identity_decision(context)
 
@@ -779,7 +729,7 @@ class TestSignalEmission:
             confidence_score=0.8,
             behavioral_coherence=0.7,
             consciousness_frequency=45.0,
-            brainwave_pattern={"alpha": 0.6, "beta": 0.7, "gamma": 0.5}
+            brainwave_pattern={"alpha": 0.6, "beta": 0.7, "gamma": 0.5},
         )
 
         signal = await signal_emitter.emit_authentication_request_signal(
@@ -805,7 +755,7 @@ class TestSignalEmission:
             AuthenticationTier.T2_ENHANCED,
             0.85,  # identity_strength
             0.75,  # consciousness_coherence
-            0.8    # biometric_confidence
+            0.8,  # biometric_confidence
         )
 
         assert signal is not None
@@ -824,9 +774,7 @@ class TestSignalEmission:
         identity_id = "test_metrics_identity"
 
         for _ in range(3):
-            await signal_emitter.emit_authentication_request_signal(
-                identity_id, AuthenticationTier.T1_BASIC
-            )
+            await signal_emitter.emit_authentication_request_signal(identity_id, AuthenticationTier.T1_BASIC)
 
         metrics = await signal_emitter.get_emission_metrics()
 
@@ -847,7 +795,7 @@ class TestIntegrationScenarios:
             "auth_engine": TieredAuthenticationEngine(),
             "namespace_manager": ConsciousnessNamespaceManager(),
             "coherence_monitor": IdentityCoherenceMonitor(),
-            "constitutional_validator": ConstitutionalAIValidator()
+            "constitutional_validator": ConstitutionalAIValidator(),
         }
 
         # Initialize all components
@@ -890,9 +838,9 @@ class TestIntegrationScenarios:
                 "consent_scopes": ["identity", "consciousness"],
                 "biometric_data": {
                     "brainwave_pattern": {"alpha": 0.7, "beta": 0.6, "gamma": 0.5},
-                    "behavioral_coherence": 0.8
-                }
-            }
+                    "behavioral_coherence": 0.8,
+                },
+            },
         )
 
         assert profile is not None
@@ -906,12 +854,9 @@ class TestIntegrationScenarios:
         credential = AuthenticationCredential(
             method=AuthenticationMethod.CONSCIOUSNESS_SIGNATURE,
             credential_data={
-                "consciousness_signature": {
-                    "reflection_depth": 3,
-                    "metacognition_level": 0.8
-                },
-                "brainwave_pattern": {"alpha": 0.7, "beta": 0.6, "gamma": 0.5}
-            }
+                "consciousness_signature": {"reflection_depth": 3, "metacognition_level": 0.8},
+                "brainwave_pattern": {"alpha": 0.7, "beta": 0.6, "gamma": 0.5},
+            },
         )
 
         auth_result = await auth_engine.authenticate_with_tier(
@@ -930,7 +875,7 @@ class TestIntegrationScenarios:
         memory_success = await identity_manager.update_consciousness_memory(
             identity_id,
             "authentication_success",
-            {"tier": auth_result.tier, "confidence": auth_result.confidence_score}
+            {"tier": auth_result.tier, "confidence": auth_result.confidence_score},
         )
         assert memory_success is True
 
@@ -949,21 +894,18 @@ class TestIntegrationScenarios:
 
         # 1. Create identity
         profile = await identity_manager.create_consciousness_identity(
-            user_identifier="cross_domain_user",
-            initial_context={"consent_scopes": ["cross_domain"]}
+            user_identifier="cross_domain_user", initial_context={"consent_scopes": ["cross_domain"]}
         )
 
         identity_id = profile.identity_id
 
         # 2. Create namespaces
         user_namespace = await namespace_manager.create_consciousness_namespace(
-            ConsciousnessDomain.USER_CONSCIOUSNESS,
-            IsolationLevel.MODERATE
+            ConsciousnessDomain.USER_CONSCIOUSNESS, IsolationLevel.MODERATE
         )
 
         agent_namespace = await namespace_manager.create_consciousness_namespace(
-            ConsciousnessDomain.AGENT_CONSCIOUSNESS,
-            IsolationLevel.HIGH
+            ConsciousnessDomain.AGENT_CONSCIOUSNESS, IsolationLevel.HIGH
         )
 
         # 3. Assign identity to user namespace
@@ -981,8 +923,8 @@ class TestIntegrationScenarios:
                 "target_namespace": agent_namespace,
                 "user_consent": True,
                 "data_minimization": True,
-                "reasoning": "Cross-domain consciousness bridge required"
-            }
+                "reasoning": "Cross-domain consciousness bridge required",
+            },
         )
 
         validation_result = await constitutional_validator.validate_identity_decision(validation_context)
@@ -1002,10 +944,7 @@ if __name__ == "__main__":
     import sys
 
     # Configure logging
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     # Run tests
     pytest.main([__file__, "-v", "-s", "--tb=short"] + sys.argv[1:])

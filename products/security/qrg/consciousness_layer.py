@@ -31,7 +31,7 @@ try:
     SCIPY_AVAILABLE = True
 except ImportError:
     SCIPY_AVAILABLE = False
-    logging.warning("SciPy not available - using simplified consciousness detection")
+    logging.warning("SciPy not available - using simplified consciousness detection", timezone)
 
 logger = logging.getLogger(__name__)
 
@@ -268,7 +268,7 @@ class ConsciousnessLayer:
     ) -> dict[str, Any]:
         """Collect consciousness data from available sources"""
         data = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "interaction_data": interaction_data or {},
             "user_context": user_context or {},
             "sources_enabled": [source.value for source in self.consciousness_sources],
@@ -360,7 +360,7 @@ class ConsciousnessLayer:
             arousal=arousal,
             dominance=dominance,
             confidence=confidence,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             source=primary_source,
         )
 
@@ -953,7 +953,7 @@ class ConsciousnessLayer:
         💬 User Friendly Layer: "Show insights about your emotional patterns over time"
         📚 Academic Layer: "Temporal consciousness pattern analysis and statistical summary"
         """
-        cutoff_time = datetime.now() - timedelta(hours=time_window_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=time_window_hours)
         recent_signatures = [sig for sig in self.consciousness_history if sig.vad_profile.timestamp > cutoff_time]
 
         if not recent_signatures:

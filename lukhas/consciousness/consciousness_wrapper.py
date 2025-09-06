@@ -143,9 +143,7 @@ class ConsciousnessState:
     user_empathy: float = 0.5
     symbolic_depth: float = 0.5
     temporal_continuity: float = 0.7
-    last_update: datetime = field(
-        default_factory=lambda: datetime.now(timezone.utc)
-    )  # ΛTAG: utc
+    last_update: datetime = field(default_factory=lambda: datetime.now(timezone.utc))  # ΛTAG: utc
     safety_mode: SafetyMode = SafetyMode.DRY_RUN
     performance_ms: Optional[float] = None
     drift_score: Optional[float] = None

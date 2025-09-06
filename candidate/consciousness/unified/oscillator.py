@@ -371,9 +371,7 @@ class AbstractReasoningBrainOscillator:
             "performance_trend": (
                 "improving"
                 if recent_avg > avg_coherence
-                else "stable"
-                if abs(recent_avg - avg_coherence) < 0.05
-                else "declining"
+                else "stable" if abs(recent_avg - avg_coherence) < 0.05 else "declining"
             ),
         }
 

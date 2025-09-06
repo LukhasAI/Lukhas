@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 class BioPatternType(Enum):
     """Types of biological patterns in the MΛTRIZ system"""
+
     NEURAL_OSCILLATION = "neural_oscillation"
     CELLULAR_ADAPTATION = "cellular_adaptation"
     MEMBRANE_DYNAMICS = "membrane_dynamics"
@@ -39,6 +40,7 @@ class BioPatternType(Enum):
 
 class SymbolicRepresentationType(Enum):
     """Types of symbolic representations for consciousness states"""
+
     VECTOR_SPACE = "vector_space"
     GRAPH_TOPOLOGY = "graph_topology"
     ALGEBRAIC_STRUCTURE = "algebraic_structure"
@@ -50,6 +52,7 @@ class SymbolicRepresentationType(Enum):
 @dataclass
 class BioSymbolicPattern:
     """A biological pattern with symbolic representation"""
+
     pattern_id: str
     bio_pattern_type: BioPatternType
     symbolic_representation: SymbolicRepresentationType
@@ -67,6 +70,7 @@ class BioSymbolicPattern:
 @dataclass
 class AdaptationRule:
     """Rule for bio-symbolic adaptation"""
+
     rule_id: str
     source_pattern: BioPatternType
     target_pattern: BioPatternType
@@ -111,43 +115,49 @@ class BioSymbolicProcessor:
         """Initialize default bio-symbolic adaptation rules"""
 
         # Neural oscillation to synaptic plasticity adaptation
-        self.adaptation_rules.append(AdaptationRule(
-            rule_id="neural_osc_to_plasticity",
-            source_pattern=BioPatternType.NEURAL_OSCILLATION,
-            target_pattern=BioPatternType.SYNAPTIC_PLASTICITY,
-            adaptation_strength=0.8,
-            adaptation_direction=[0.1, 0.3, 0.6],
-            trigger_conditions={"frequency_range": (8, 40), "coherence_min": 0.6},
-            success_criteria={"plasticity_increase": 0.2},
-            decay_rate=0.95,
-            learning_rate=0.02
-        ))
+        self.adaptation_rules.append(
+            AdaptationRule(
+                rule_id="neural_osc_to_plasticity",
+                source_pattern=BioPatternType.NEURAL_OSCILLATION,
+                target_pattern=BioPatternType.SYNAPTIC_PLASTICITY,
+                adaptation_strength=0.8,
+                adaptation_direction=[0.1, 0.3, 0.6],
+                trigger_conditions={"frequency_range": (8, 40), "coherence_min": 0.6},
+                success_criteria={"plasticity_increase": 0.2},
+                decay_rate=0.95,
+                learning_rate=0.02,
+            )
+        )
 
         # Cellular adaptation to membrane dynamics
-        self.adaptation_rules.append(AdaptationRule(
-            rule_id="cellular_to_membrane",
-            source_pattern=BioPatternType.CELLULAR_ADAPTATION,
-            target_pattern=BioPatternType.MEMBRANE_DYNAMICS,
-            adaptation_strength=0.7,
-            adaptation_direction=[0.2, 0.4, 0.4],
-            trigger_conditions={"adaptation_rate": 0.1},
-            success_criteria={"membrane_fluidity": 0.8},
-            decay_rate=0.9,
-            learning_rate=0.015
-        ))
+        self.adaptation_rules.append(
+            AdaptationRule(
+                rule_id="cellular_to_membrane",
+                source_pattern=BioPatternType.CELLULAR_ADAPTATION,
+                target_pattern=BioPatternType.MEMBRANE_DYNAMICS,
+                adaptation_strength=0.7,
+                adaptation_direction=[0.2, 0.4, 0.4],
+                trigger_conditions={"adaptation_rate": 0.1},
+                success_criteria={"membrane_fluidity": 0.8},
+                decay_rate=0.9,
+                learning_rate=0.015,
+            )
+        )
 
         # Metabolic flow to enzymatic cascade
-        self.adaptation_rules.append(AdaptationRule(
-            rule_id="metabolic_to_enzymatic",
-            source_pattern=BioPatternType.METABOLIC_FLOW,
-            target_pattern=BioPatternType.ENZYMATIC_CASCADE,
-            adaptation_strength=0.9,
-            adaptation_direction=[0.3, 0.3, 0.4],
-            trigger_conditions={"flow_rate": 0.5},
-            success_criteria={"cascade_efficiency": 0.75},
-            decay_rate=0.85,
-            learning_rate=0.025
-        ))
+        self.adaptation_rules.append(
+            AdaptationRule(
+                rule_id="metabolic_to_enzymatic",
+                source_pattern=BioPatternType.METABOLIC_FLOW,
+                target_pattern=BioPatternType.ENZYMATIC_CASCADE,
+                adaptation_strength=0.9,
+                adaptation_direction=[0.3, 0.3, 0.4],
+                trigger_conditions={"flow_rate": 0.5},
+                success_criteria={"cascade_efficiency": 0.75},
+                decay_rate=0.85,
+                learning_rate=0.025,
+            )
+        )
 
     def process_consciousness_signal(self, signal: ConsciousnessSignal) -> BioSymbolicData:
         """
@@ -225,7 +235,7 @@ class BioSymbolicProcessor:
             entropy_delta=0.0,
             resonance_patterns=[pattern_type],
             membrane_permeability=0.7,
-            temporal_decay=0.9
+            temporal_decay=0.9,
         )
 
     def _extract_bio_patterns(self, signal: ConsciousnessSignal, bio_data: BioSymbolicData) -> list[BioSymbolicPattern]:
@@ -246,7 +256,7 @@ class BioSymbolicProcessor:
                 entropy_measures={"shannon": abs(bio_data.entropy_delta)},
                 adaptation_coefficients=bio_data.adaptation_vector,
                 temporal_evolution=[{"t": time.time(), "coherence": bio_data.coherence_score}],
-                resonance_fingerprint=self._calculate_resonance_fingerprint(bio_data)
+                resonance_fingerprint=self._calculate_resonance_fingerprint(bio_data),
             )
             patterns.append(pattern)
 
@@ -263,7 +273,7 @@ class BioSymbolicProcessor:
                 entropy_measures={"membrane_entropy": bio_data.entropy_delta * 0.5},
                 adaptation_coefficients={"permeability": bio_data.membrane_permeability},
                 temporal_evolution=[{"t": time.time(), "permeability": bio_data.membrane_permeability}],
-                resonance_fingerprint=f"membrane_{bio_data.membrane_permeability:.3f}"
+                resonance_fingerprint=f"membrane_{bio_data.membrane_permeability:.3f}",
             )
             patterns.append(pattern)
 
@@ -281,7 +291,7 @@ class BioSymbolicProcessor:
                 entropy_measures={"metabolic_entropy": metabolism_rate * 0.2},
                 adaptation_coefficients={"metabolism": metabolism_rate},
                 temporal_evolution=[{"t": time.time(), "metabolism": metabolism_rate}],
-                resonance_fingerprint=f"metabolic_{metabolism_rate:.3f}"
+                resonance_fingerprint=f"metabolic_{metabolism_rate:.3f}",
             )
             patterns.append(pattern)
 
@@ -313,20 +323,20 @@ class BioSymbolicProcessor:
                     "type": "vector_space",
                     "dimension": vector_dim,
                     "vector": vector_repr,
-                    "norm": np.linalg.norm(vector_repr) if vector_repr else 0.0
+                    "norm": np.linalg.norm(vector_repr) if vector_repr else 0.0,
                 }
 
             elif pattern.symbolic_representation == SymbolicRepresentationType.GRAPH_TOPOLOGY:
                 # Represent as graph structure
                 nodes = list(pattern.adaptation_coefficients.keys())
-                edges = [(nodes[i], nodes[j]) for i in range(len(nodes)) for j in range(i+1, len(nodes))]
+                edges = [(nodes[i], nodes[j]) for i in range(len(nodes)) for j in range(i + 1, len(nodes))]
                 symbolic_data[f"graph_{pattern.pattern_id}"] = {
                     "type": "graph_topology",
                     "nodes": nodes,
                     "edges": edges,
                     "node_count": len(nodes),
                     "edge_count": len(edges),
-                    "density": len(edges) / (len(nodes) * (len(nodes) - 1) / 2) if len(nodes) > 1 else 0.0
+                    "density": len(edges) / (len(nodes) * (len(nodes) - 1) / 2) if len(nodes) > 1 else 0.0,
                 }
 
             elif pattern.symbolic_representation == SymbolicRepresentationType.GEOMETRIC_MANIFOLD:
@@ -337,7 +347,7 @@ class BioSymbolicProcessor:
                     "type": "geometric_manifold",
                     "dimension": manifold_dim,
                     "curvature": curvature,
-                    "coherence_matrix": pattern.coherence_matrix
+                    "coherence_matrix": pattern.coherence_matrix,
                 }
 
         return symbolic_data
@@ -358,7 +368,9 @@ class BioSymbolicProcessor:
         # Higher variance implies higher curvature
         return min(1.0, variance * 10)
 
-    def _apply_adaptations(self, bio_data: BioSymbolicData, symbolic_data: dict[str, Any], signal: ConsciousnessSignal) -> BioSymbolicData:
+    def _apply_adaptations(
+        self, bio_data: BioSymbolicData, symbolic_data: dict[str, Any], signal: ConsciousnessSignal
+    ) -> BioSymbolicData:
         """Apply bio-symbolic adaptations based on adaptation rules"""
 
         adapted_data = bio_data
@@ -379,7 +391,9 @@ class BioSymbolicProcessor:
 
         return adapted_data
 
-    def _check_adaptation_triggers(self, rule: AdaptationRule, bio_data: BioSymbolicData, signal: ConsciousnessSignal) -> bool:
+    def _check_adaptation_triggers(
+        self, rule: AdaptationRule, bio_data: BioSymbolicData, signal: ConsciousnessSignal
+    ) -> bool:
         """Check if adaptation rule triggers should fire"""
 
         try:
@@ -412,7 +426,9 @@ class BioSymbolicProcessor:
             logger.warning(f"Error checking adaptation triggers for rule {rule.rule_id}: {e}")
             return False
 
-    def _apply_single_adaptation(self, rule: AdaptationRule, bio_data: BioSymbolicData, symbolic_data: dict[str, Any]) -> BioSymbolicData:
+    def _apply_single_adaptation(
+        self, rule: AdaptationRule, bio_data: BioSymbolicData, symbolic_data: dict[str, Any]
+    ) -> BioSymbolicData:
         """Apply a single adaptation rule to bio-symbolic data"""
 
         # Create modified copy
@@ -424,22 +440,33 @@ class BioSymbolicProcessor:
             entropy_delta=bio_data.entropy_delta,
             resonance_patterns=bio_data.resonance_patterns.copy(),
             membrane_permeability=bio_data.membrane_permeability,
-            temporal_decay=bio_data.temporal_decay
+            temporal_decay=bio_data.temporal_decay,
         )
 
         # Apply adaptation based on rule type
-        if rule.source_pattern == BioPatternType.NEURAL_OSCILLATION and rule.target_pattern == BioPatternType.SYNAPTIC_PLASTICITY:
+        if (
+            rule.source_pattern == BioPatternType.NEURAL_OSCILLATION
+            and rule.target_pattern == BioPatternType.SYNAPTIC_PLASTICITY
+        ):
             # Increase frequency and coherence for synaptic plasticity
-            adapted_data.oscillation_frequency *= (1 + rule.adaptation_strength * 0.1)
+            adapted_data.oscillation_frequency *= 1 + rule.adaptation_strength * 0.1
             adapted_data.coherence_score = min(1.0, adapted_data.coherence_score + rule.adaptation_strength * 0.05)
             adapted_data.adaptation_vector["synaptic_plasticity"] = rule.adaptation_strength
 
-        elif rule.source_pattern == BioPatternType.CELLULAR_ADAPTATION and rule.target_pattern == BioPatternType.MEMBRANE_DYNAMICS:
+        elif (
+            rule.source_pattern == BioPatternType.CELLULAR_ADAPTATION
+            and rule.target_pattern == BioPatternType.MEMBRANE_DYNAMICS
+        ):
             # Adjust membrane permeability
-            adapted_data.membrane_permeability = min(1.0, adapted_data.membrane_permeability + rule.adaptation_strength * 0.1)
+            adapted_data.membrane_permeability = min(
+                1.0, adapted_data.membrane_permeability + rule.adaptation_strength * 0.1
+            )
             adapted_data.adaptation_vector["membrane_adaptation"] = rule.adaptation_strength
 
-        elif rule.source_pattern == BioPatternType.METABOLIC_FLOW and rule.target_pattern == BioPatternType.ENZYMATIC_CASCADE:
+        elif (
+            rule.source_pattern == BioPatternType.METABOLIC_FLOW
+            and rule.target_pattern == BioPatternType.ENZYMATIC_CASCADE
+        ):
             # Improve temporal decay (less decay = better cascade)
             adapted_data.temporal_decay = min(1.0, adapted_data.temporal_decay + rule.adaptation_strength * 0.05)
             adapted_data.adaptation_vector["enzymatic_cascade"] = rule.adaptation_strength
@@ -449,7 +476,9 @@ class BioSymbolicProcessor:
             if i == 0:  # Frequency component
                 adapted_data.oscillation_frequency += direction_weight * rule.learning_rate * 10
             elif i == 1:  # Coherence component
-                adapted_data.coherence_score = min(1.0, max(0.0, adapted_data.coherence_score + direction_weight * rule.learning_rate))
+                adapted_data.coherence_score = min(
+                    1.0, max(0.0, adapted_data.coherence_score + direction_weight * rule.learning_rate)
+                )
             elif i == 2:  # Entropy component
                 adapted_data.entropy_delta += direction_weight * rule.learning_rate * 0.1
 
@@ -467,7 +496,7 @@ class BioSymbolicProcessor:
             entropy_delta=bio_data.entropy_delta,
             resonance_patterns=bio_data.resonance_patterns.copy(),
             membrane_permeability=bio_data.membrane_permeability,
-            temporal_decay=bio_data.temporal_decay
+            temporal_decay=bio_data.temporal_decay,
         )
 
         # Update coherence based on signal characteristics
@@ -484,9 +513,11 @@ class BioSymbolicProcessor:
 
         # Trinity compliance affects coherence
         if signal.constellation_alignment:
-            trinity_avg = (signal.constellation_alignment.identity_auth_score +
-                          signal.constellation_alignment.consciousness_coherence +
-                          signal.constellation_alignment.guardian_compliance) / 3
+            trinity_avg = (
+                signal.constellation_alignment.identity_auth_score
+                + signal.constellation_alignment.consciousness_coherence
+                + signal.constellation_alignment.guardian_compliance
+            ) / 3
             enhanced_data.coherence_score = (enhanced_data.coherence_score + trinity_avg) / 2
 
         # Update entropy based on system state
@@ -519,7 +550,7 @@ class BioSymbolicProcessor:
             "pattern_type": bio_data.pattern_type,
             "coherence_score": bio_data.coherence_score,
             "oscillation_frequency": bio_data.oscillation_frequency,
-            "resonance_patterns": bio_data.resonance_patterns
+            "resonance_patterns": bio_data.resonance_patterns,
         }
 
     def get_processing_statistics(self) -> dict[str, Any]:
@@ -615,5 +646,5 @@ __all__ = [
     "BioSymbolicProcessor",
     "SymbolicRepresentationType",
     "create_bio_symbolic_processor",
-    "get_bio_symbolic_processor"
+    "get_bio_symbolic_processor",
 ]

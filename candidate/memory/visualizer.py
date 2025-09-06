@@ -55,7 +55,7 @@ try:
     from ...qi_processing.qi_engine import QIOscillator
     from ..bio_awareness.qi_bio_components import ProtonGradient
 
-    logger.info("Successfully imported QIOscillator and ProtonGradient.")
+    logger.info("Successfully imported QIOscillator and ProtonGradient.", timezone)
 except ImportError as e:
     logger.error(
         "Failed to import critical dependencies for MemoryVisualizer.",
@@ -101,7 +101,7 @@ class EnhancedMemoryVisualizer:
     """
 
     def __init__(self, config: Optional[VisualizationConfig] = None):
-        self.logger = logger.bind(visualizer_id=f"mem_viz_{datetime.now().strftime('%H%M%S')}")
+        self.logger = logger.bind(visualizer_id=f"mem_viz_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.config = config or VisualizationConfig()
 
         try:
@@ -284,7 +284,7 @@ class Enhanced3DVisualizer:
     """
 
     def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
-        self.logger = logger.bind(visualizer_3d_id=f"mem_viz_3d_{datetime.now().strftime('%H%M%S')}")
+        self.logger = logger.bind(visualizer_3d_id=f"mem_viz_3d_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         try:
             self.qi_oscillator = qi_oscillator or QIOscillator()
             self.logger.debug("QIOscillator initialized for 3DVisualizer.")

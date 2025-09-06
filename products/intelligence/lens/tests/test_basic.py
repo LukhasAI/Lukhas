@@ -21,7 +21,8 @@ async def test_basic_transformation():
 
     # Create a temporary test file
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
-        f.write("""
+        f.write(
+            """
         Test Document for ΛLens
 
         This is a test document to verify that ΛLens can properly transform
@@ -32,7 +33,8 @@ async def test_basic_transformation():
         - Symbolic processing
         - File transformation
         - Dashboard generation
-        """)
+        """
+        )
         test_file = f.name
 
     try:

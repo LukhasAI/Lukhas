@@ -990,9 +990,7 @@ class FeedbackWidget:
 # Example usage
 async def demo_feedback_system():
     """Demonstrate the feedback system"""
-    system = UserFeedbackSystem(
-        config={"enable_emoji": True, "min_feedback_interval": 5}  # 5 seconds for demo
-    )
+    system = UserFeedbackSystem(config={"enable_emoji": True, "min_feedback_interval": 5})  # 5 seconds for demo
 
     # Mock services
     from unittest.mock import AsyncMock, Mock

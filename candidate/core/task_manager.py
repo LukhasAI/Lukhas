@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -316,7 +316,7 @@ class LukhλsTaskManager:
 
         # Update task status
         task.status = TaskStatus.RUNNING
-        task.started_at = datetime.now()
+        task.started_at = datetime.now(timezone.utc)
 
         try:
             # Get handler function
@@ -330,7 +330,7 @@ class LukhλsTaskManager:
 
             # Update task with results
             task.status = TaskStatus.COMPLETED
-            task.completed_at = datetime.now()
+            task.completed_at = datetime.now(timezone.utc)
             task.result = result
 
             logger.info(f"✅ Task completed: {task.name} ({task_id[:8]})")
@@ -418,7 +418,7 @@ class LukhλsTaskManager:
             "active_queues": len([q for q in self.queues.values() if q.auto_start]),
             "registered_agents": len(self.agents),
             "agent_status": agent_status,
-            "system_uptime": datetime.now().isoformat(),
+            "system_uptime": datetime.now(timezone.utc).isoformat(),
         }
 
 

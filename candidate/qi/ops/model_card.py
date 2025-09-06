@@ -19,12 +19,7 @@ def generate(out_md: str):
     cal = load_json(os.path.join(STATE, "calibration.json"), {})
     pol = load_json(os.path.join(STATE, "policy_report.json"), {})
     ceval = load_json(os.path.join(STATE, "eval", "ceval.json"), {})
-    card = {
-        "title": "Lukhas Model & Safety Card",
-        "calibration": cal,
-        "policy": pol,
-        "eval": ceval
-    }
+    card = {"title": "Lukhas Model & Safety Card", "calibration": cal, "policy": pol, "eval": ceval}
     content = f"# Lukhas Model & Safety Card\n\n```json\n{json.dumps(card, indent=2)}\n```\n"
     with open(out_md, "w") as f:
         f.write(content)

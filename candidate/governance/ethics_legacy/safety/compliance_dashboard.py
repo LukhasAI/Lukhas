@@ -16,18 +16,42 @@ try:
 except ImportError:
     # Create a mock streamlit module for testing
     class MockStreamlit:
-        def set_page_config(self, **kwargs): pass
-        def title(self, text): print(f"TITLE: {text}")
-        def markdown(self, text): print(f"MARKDOWN: {text}")
-        def warning(self, text): print(f"WARNING: {text}")
-        def code(self, text, **kwargs): print(f"CODE: {text}")
-        def caption(self, text): print(f"CAPTION: {text}")
-        def multiselect(self, label, options, **kwargs): return options
-        def dataframe(self, df): print(f"DATAFRAME: {len(df) if hasattr(df, '__len__') else 'N/A'} rows")
-        def json(self, data): print(f"JSON: {data}")
-        def button(self, text): return False
-        def error(self, text): print(f"ERROR: {text}")
-        def info(self, text): print(f"INFO: {text}")
+        def set_page_config(self, **kwargs):
+            pass
+
+        def title(self, text):
+            print(f"TITLE: {text}")
+
+        def markdown(self, text):
+            print(f"MARKDOWN: {text}")
+
+        def warning(self, text):
+            print(f"WARNING: {text}")
+
+        def code(self, text, **kwargs):
+            print(f"CODE: {text}")
+
+        def caption(self, text):
+            print(f"CAPTION: {text}")
+
+        def multiselect(self, label, options, **kwargs):
+            return options
+
+        def dataframe(self, df):
+            print(f"DATAFRAME: {len(df) if hasattr(df, '__len__') else 'N/A'} rows")
+
+        def json(self, data):
+            print(f"JSON: {data}")
+
+        def button(self, text):
+            return False
+
+        def error(self, text):
+            print(f"ERROR: {text}")
+
+        def info(self, text):
+            print(f"INFO: {text}")
+
     st = MockStreamlit()
 import json
 import os
@@ -74,9 +98,7 @@ if trace_path.exists():
 
     try:
         df = pd.read_csv(trace_path)
-        filter_cols = st.multiselect(
-            "Filter Columns", df.columns.tolist(), default=df.columns.tolist()
-        )
+        filter_cols = st.multiselect("Filter Columns", df.columns.tolist(), default=df.columns.tolist())
         st.dataframe(df[filter_cols] if filter_cols else df)
 
         # Optional Summary Tools

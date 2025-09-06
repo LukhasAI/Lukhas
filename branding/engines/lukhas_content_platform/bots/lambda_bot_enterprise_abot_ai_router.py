@@ -386,15 +386,17 @@ def get_ai_router_status() -> dict:
         "cost_analysis": {
             "cheapest_cost": min(available_service_costs.values()) if available_service_costs else 0,
             "most_expensive_cost": max(available_service_costs.values()) if available_service_costs else 0,
-            "average_cost": sum(available_service_costs.values()) / len(available_service_costs)
-            if available_service_costs
-            else 0,
+            "average_cost": (
+                sum(available_service_costs.values()) / len(available_service_costs) if available_service_costs else 0
+            ),
         },
         "recommendations": [
             f"✅ {available_services}/{total_services} AI services available",
-            f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values()):.4f} per 1K tokens"
-            if available_service_costs
-            else "❌ No services available",
+            (
+                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values()):.4f} per 1K tokens"
+                if available_service_costs
+                else "❌ No services available"
+            ),
             "🚀 Use the AI router to automatically optimize costs and quality",
         ],
     }

@@ -38,7 +38,7 @@ class Console:
     CURSOR_SHOW = "\033[?25h"
 
     @staticmethod
-    def move_cursor(row: int, col: int) -> str:
+    def move_cursor(row: int, col: int, timezone) -> str:
         return f"\033[{row};{col}H"
 
     @staticmethod
@@ -355,7 +355,7 @@ class HeartbeatVisualizer:
                         data = json.load(f)
 
                     data["current_state"] = new_state
-                    data["last_update"] = datetime.utcnow().isoformat()
+                    data["last_update"] = datetime.now(timezone.utc).isoformat()
 
                     with open(self.consciousness_file, "w") as f:
                         json.dump(data, f, indent=2)

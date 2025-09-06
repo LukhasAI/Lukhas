@@ -19,33 +19,39 @@ from .vector_memory import MemoryImportance, MemoryType, MemoryVector, VectorMem
 
 logger = logging.getLogger(__name__)
 
+
 class DreamPhase(Enum):
     """Dream phases for memory processing."""
-    EXPLORATION = "exploration"     # Explore memory connections
-    SYNTHESIS = "synthesis"         # Synthesize patterns and insights
-    CONSOLIDATION = "consolidation" # Consolidate and strengthen memories
-    CREATIVITY = "creativity"       # Generate creative associations
-    INTEGRATION = "integration"     # Integrate new insights with existing knowledge
+
+    EXPLORATION = "exploration"  # Explore memory connections
+    SYNTHESIS = "synthesis"  # Synthesize patterns and insights
+    CONSOLIDATION = "consolidation"  # Consolidate and strengthen memories
+    CREATIVITY = "creativity"  # Generate creative associations
+    INTEGRATION = "integration"  # Integrate new insights with existing knowledge
+
 
 class DreamInsightType(Enum):
     """Types of dream-generated insights."""
-    PATTERN_DISCOVERY = "pattern_discovery"   # Discovered hidden patterns
-    CREATIVE_CONNECTION = "creative_connection" # Novel associations
-    EMOTIONAL_SYNTHESIS = "emotional_synthesis" # Emotional meaning integration
-    CAUSAL_INSIGHT = "causal_insight"          # Causal relationship discovery
-    CONCEPTUAL_BRIDGE = "conceptual_bridge"    # Bridging different concepts
-    TEMPORAL_PATTERN = "temporal_pattern"      # Time-based patterns
+
+    PATTERN_DISCOVERY = "pattern_discovery"  # Discovered hidden patterns
+    CREATIVE_CONNECTION = "creative_connection"  # Novel associations
+    EMOTIONAL_SYNTHESIS = "emotional_synthesis"  # Emotional meaning integration
+    CAUSAL_INSIGHT = "causal_insight"  # Causal relationship discovery
+    CONCEPTUAL_BRIDGE = "conceptual_bridge"  # Bridging different concepts
+    TEMPORAL_PATTERN = "temporal_pattern"  # Time-based patterns
+
 
 @dataclass
 class DreamMemoryPattern:
     """Pattern discovered during dream processing."""
+
     pattern_id: str
     pattern_type: DreamInsightType
     memory_ids: list[str]  # Memories involved in this pattern
-    confidence: float      # Confidence in pattern validity
-    insight_content: str   # Human-readable description
+    confidence: float  # Confidence in pattern validity
+    insight_content: str  # Human-readable description
     vector_signature: Optional[np.ndarray] = None  # Vector representation of pattern
-    emotional_tone: Optional[float] = None         # Emotional valence of pattern
+    emotional_tone: Optional[float] = None  # Emotional valence of pattern
     constellation_alignment: dict[str, float] = field(default_factory=dict)
     discovery_time: datetime = field(default_factory=datetime.now)
 
@@ -61,9 +67,11 @@ class DreamMemoryPattern:
 
         return min(1.0, base_strength + memory_boost + constellation_boost)
 
+
 @dataclass
 class DreamSession:
     """Dream processing session for memory consolidation."""
+
     session_id: str
     phase: DreamPhase
     target_memories: list[str]
@@ -72,6 +80,7 @@ class DreamSession:
     processing_time_ms: int
     success: bool
     error_message: Optional[str] = None
+
 
 class DreamMemoryBridge:
     """
@@ -87,9 +96,9 @@ class DreamMemoryBridge:
         self.discovered_patterns: dict[str, DreamMemoryPattern] = {}
 
         # Dream Processing Parameters
-        self.exploration_depth = 3          # How deep to explore memory connections
-        self.pattern_threshold = 0.7        # Threshold for pattern recognition
-        self.creativity_factor = 0.3        # How much to encourage creative connections
+        self.exploration_depth = 3  # How deep to explore memory connections
+        self.pattern_threshold = 0.7  # Threshold for pattern recognition
+        self.creativity_factor = 0.3  # How much to encourage creative connections
         self.dream_vocabulary = self._load_dream_vocabulary()
 
         # Statistics
@@ -98,7 +107,7 @@ class DreamMemoryBridge:
             "patterns_discovered": 0,
             "insights_generated": 0,
             "avg_session_time": 0.0,
-            "pattern_types": {dt.value: 0 for dt in DreamInsightType}
+            "pattern_types": {dt.value: 0 for dt in DreamInsightType},
         }
 
     def _load_dream_vocabulary(self) -> dict[str, Any]:
@@ -109,13 +118,15 @@ class DreamMemoryBridge:
             "phases": ["emergence", "drift", "synthesis", "integration", "reflection"],
             "patterns": ["spiral", "cascade", "resonance", "bridge", "vortex"],
             "emotions": ["wonder", "curiosity", "insight", "connection", "transcendence"],
-            "symbols": ["light", "flow", "network", "constellation", "transformation"]
+            "symbols": ["light", "flow", "network", "constellation", "transformation"],
         }
 
-    async def initiate_dream_session(self,
-                                   target_memories: Optional[list[str]] = None,
-                                   phase: DreamPhase = DreamPhase.EXPLORATION,
-                                   session_params: Optional[dict[str, Any]] = None) -> str:
+    async def initiate_dream_session(
+        self,
+        target_memories: Optional[list[str]] = None,
+        phase: DreamPhase = DreamPhase.EXPLORATION,
+        session_params: Optional[dict[str, Any]] = None,
+    ) -> str:
         """
         Initiate a dream processing session for memory enhancement.
 
@@ -144,7 +155,7 @@ class DreamMemoryBridge:
             patterns_discovered=[],
             insights_generated=[],
             processing_time_ms=0,
-            success=False
+            success=False,
         )
 
         try:
@@ -187,9 +198,8 @@ class DreamMemoryBridge:
             total_sessions = self.stats["total_dream_sessions"]
             if total_sessions > 0:
                 self.stats["avg_session_time"] = (
-                    (self.stats["avg_session_time"] * (total_sessions - 1) + processing_time) /
-                    total_sessions
-                )
+                    self.stats["avg_session_time"] * (total_sessions - 1) + processing_time
+                ) / total_sessions
 
         self.dream_sessions.append(session)
         logger.info(f"Dream session {session_id} completed: {session.success}")
@@ -247,9 +257,7 @@ class DreamMemoryBridge:
         # Explore associative networks
         for memory in memories_to_explore:
             # Get associative memories
-            associated = await self.memory_store.get_associative_memories(
-                memory.id, depth=self.exploration_depth
-            )
+            associated = await self.memory_store.get_associative_memories(memory.id, depth=self.exploration_depth)
 
             # Look for hidden patterns in associations
             if len(associated) >= 2:
@@ -298,8 +306,7 @@ class DreamMemoryBridge:
                     # Dream consolidation boost
                     boost = min(0.3, count * 0.1)
                     memory.reinforce(boost)
-                    memory.constellation_tags["DREAM"] = min(1.0,
-                        memory.constellation_tags.get("DREAM", 0.0) + boost)
+                    memory.constellation_tags["DREAM"] = min(1.0, memory.constellation_tags.get("DREAM", 0.0) + boost)
 
     async def _dream_creativity(self, session: DreamSession, params: dict[str, Any]):
         """Generate creative connections and novel associations."""
@@ -311,7 +318,7 @@ class DreamMemoryBridge:
 
         # Create unexpected associations
         for i, memory1 in enumerate(target_memories):
-            for memory2 in target_memories[i+1:]:
+            for memory2 in target_memories[i + 1 :]:
                 # Calculate semantic distance
                 similarity = np.dot(memory1.vector, memory2.vector) / (
                     np.linalg.norm(memory1.vector) * np.linalg.norm(memory2.vector)
@@ -338,8 +345,9 @@ class DreamMemoryBridge:
         if dream_meta_memory:
             await self.memory_store.add_memory(dream_meta_memory)
 
-    async def _discover_association_pattern(self, central_memory: MemoryVector,
-                                          associated_memories: list[MemoryVector]) -> Optional[DreamMemoryPattern]:
+    async def _discover_association_pattern(
+        self, central_memory: MemoryVector, associated_memories: list[MemoryVector]
+    ) -> Optional[DreamMemoryPattern]:
         """Discover patterns in memory associations."""
         if len(associated_memories) < 2:
             return None
@@ -369,7 +377,7 @@ class DreamMemoryBridge:
                 memory_ids=[central_memory.id] + [m.id for m in associated_memories],
                 confidence=max(strong_alignments.values()),
                 insight_content=f"Constellation convergence pattern around {central_memory.content[:100]}...",
-                constellation_alignment=strong_alignments
+                constellation_alignment=strong_alignments,
             )
 
         return None
@@ -383,11 +391,11 @@ class DreamMemoryBridge:
             # Check for temporal progression patterns
             time_diffs = []
             for i in range(len(temporal_memories) - 1):
-                diff = (temporal_memories[i+1].timestamp - temporal_memories[i].timestamp).total_seconds()
+                diff = (temporal_memories[i + 1].timestamp - temporal_memories[i].timestamp).total_seconds()
                 time_diffs.append(diff)
 
             # Look for regular intervals or accelerating/decelerating patterns
-            if len(set(int(diff/3600) for diff in time_diffs)) <= 2:  # Similar intervals (within hours)
+            if len(set(int(diff / 3600) for diff in time_diffs)) <= 2:  # Similar intervals (within hours)
                 pattern_id = f"temporal_{datetime.now().strftime('%H%M%S')}"
 
                 pattern = DreamMemoryPattern(
@@ -396,7 +404,7 @@ class DreamMemoryBridge:
                     memory_ids=[m.id for m in temporal_memories],
                     confidence=0.8,
                     insight_content="Temporal cascade pattern with regular intervals",
-                    constellation_alignment={"MEMORY": 0.8, "DREAM": 0.6}
+                    constellation_alignment={"MEMORY": 0.8, "DREAM": 0.6},
                 )
 
                 session.patterns_discovered.append(pattern)
@@ -427,7 +435,7 @@ class DreamMemoryBridge:
                     confidence=0.7,
                     insight_content="Emotional transformation arc: negative to positive",
                     emotional_tone=emotional_sequence[-1] - emotional_sequence[0],
-                    constellation_alignment={"ETHICS": 0.7, "DREAM": 0.8}
+                    constellation_alignment={"ETHICS": 0.7, "DREAM": 0.8},
                 )
 
         return None
@@ -440,7 +448,7 @@ class DreamMemoryBridge:
         for i, memory1 in enumerate(memories):
             cluster_members = [memory1]
 
-            for memory2 in memories[i+1:]:
+            for memory2 in memories[i + 1 :]:
                 similarity = np.dot(memory1.vector, memory2.vector) / (
                     np.linalg.norm(memory1.vector) * np.linalg.norm(memory2.vector)
                 )
@@ -457,35 +465,40 @@ class DreamMemoryBridge:
                     memory_ids=[m.id for m in cluster_members],
                     confidence=0.75,
                     insight_content=f"Semantic cluster around theme: {memory1.content[:50]}...",
-                    constellation_alignment={"VISION": 0.7, "DREAM": 0.6}
+                    constellation_alignment={"VISION": 0.7, "DREAM": 0.6},
                 )
 
                 clusters.append(pattern)
 
         return clusters
 
-    async def _generate_synthetic_insights(self, memories: list[MemoryVector],
-                                         patterns: list[DreamMemoryPattern]) -> list[dict[str, Any]]:
+    async def _generate_synthetic_insights(
+        self, memories: list[MemoryVector], patterns: list[DreamMemoryPattern]
+    ) -> list[dict[str, Any]]:
         """Generate synthetic insights from memories and patterns."""
         insights = []
 
         # Generate insights from patterns
         for pattern in patterns:
             if pattern.pattern_type == DreamInsightType.EMOTIONAL_SYNTHESIS:
-                insights.append({
-                    "type": "emotional_insight",
-                    "content": f"Dream reveals emotional journey: {pattern.insight_content}",
-                    "confidence": pattern.confidence,
-                    "pattern_id": pattern.pattern_id
-                })
+                insights.append(
+                    {
+                        "type": "emotional_insight",
+                        "content": f"Dream reveals emotional journey: {pattern.insight_content}",
+                        "confidence": pattern.confidence,
+                        "pattern_id": pattern.pattern_id,
+                    }
+                )
 
             elif pattern.pattern_type == DreamInsightType.PATTERN_DISCOVERY:
-                insights.append({
-                    "type": "pattern_insight",
-                    "content": f"Hidden pattern discovered: {pattern.insight_content}",
-                    "confidence": pattern.confidence,
-                    "pattern_id": pattern.pattern_id
-                })
+                insights.append(
+                    {
+                        "type": "pattern_insight",
+                        "content": f"Hidden pattern discovered: {pattern.insight_content}",
+                        "confidence": pattern.confidence,
+                        "pattern_id": pattern.pattern_id,
+                    }
+                )
 
         # Generate constellation insights
         constellation_summary = {}
@@ -499,17 +512,20 @@ class DreamMemoryBridge:
             if len(alignments) >= 2:
                 avg_alignment = np.mean(alignments)
                 if avg_alignment > 0.7:
-                    insights.append({
-                        "type": "constellation_insight",
-                        "content": f"Strong {star} constellation alignment in dream memories",
-                        "confidence": avg_alignment,
-                        "constellation": star
-                    })
+                    insights.append(
+                        {
+                            "type": "constellation_insight",
+                            "content": f"Strong {star} constellation alignment in dream memories",
+                            "confidence": avg_alignment,
+                            "constellation": star,
+                        }
+                    )
 
         return insights
 
-    async def _create_creative_connection(self, memory1: MemoryVector, memory2: MemoryVector,
-                                        similarity: float) -> Optional[DreamMemoryPattern]:
+    async def _create_creative_connection(
+        self, memory1: MemoryVector, memory2: MemoryVector, similarity: float
+    ) -> Optional[DreamMemoryPattern]:
         """Create creative connections between moderately similar memories."""
         # Find bridging concepts using dream vocabulary
         bridge_concepts = []
@@ -530,7 +546,7 @@ class DreamMemoryBridge:
                 memory_ids=[memory1.id, memory2.id],
                 confidence=similarity + 0.2,  # Boost for creativity
                 insight_content=f"Creative bridge through {bridge_description}",
-                constellation_alignment={"DREAM": 0.9, "QUANTUM": 0.7}
+                constellation_alignment={"DREAM": 0.9, "QUANTUM": 0.7},
             )
 
         return None
@@ -543,16 +559,19 @@ class DreamMemoryBridge:
         for memory in memories:
             if memory.memory_type == MemoryType.CREATIVE:
                 # Use dream vocabulary to generate metaphorical insights
-                dream_symbols = random.sample(self.dream_vocabulary.get("symbols", []),
-                                            min(2, len(self.dream_vocabulary.get("symbols", []))))
+                dream_symbols = random.sample(
+                    self.dream_vocabulary.get("symbols", []), min(2, len(self.dream_vocabulary.get("symbols", [])))
+                )
 
-                insights.append({
-                    "type": "metaphorical_insight",
-                    "content": f"Memory resonates with dream symbols: {', '.join(dream_symbols)}",
-                    "confidence": 0.6,
-                    "memory_id": memory.id,
-                    "symbols": dream_symbols
-                })
+                insights.append(
+                    {
+                        "type": "metaphorical_insight",
+                        "content": f"Memory resonates with dream symbols: {', '.join(dream_symbols)}",
+                        "confidence": 0.6,
+                        "memory_id": memory.id,
+                        "symbols": dream_symbols,
+                    }
+                )
 
         return insights
 
@@ -606,7 +625,7 @@ class DreamMemoryBridge:
             timestamp=datetime.now(),
             constellation_tags=constellation_tags,
             source_context="Dream session meta-memory",
-            confidence=0.9
+            confidence=0.9,
         )
 
         return dream_meta_memory
@@ -623,8 +642,7 @@ class DreamMemoryBridge:
         if pattern_type is None:
             return list(self.discovered_patterns.values())
 
-        return [pattern for pattern in self.discovered_patterns.values()
-                if pattern.pattern_type == pattern_type]
+        return [pattern for pattern in self.discovered_patterns.values() if pattern.pattern_type == pattern_type]
 
     def get_dream_stats(self) -> dict[str, Any]:
         """Get comprehensive dream processing statistics."""
@@ -635,10 +653,14 @@ class DreamMemoryBridge:
             "active_patterns": len(self.discovered_patterns),
             "recent_performance": {
                 "success_rate": len(recent_sessions) / max(1, len(self.dream_sessions[-50:])),
-                "avg_patterns_per_session": np.mean([len(s.patterns_discovered) for s in recent_sessions]) if recent_sessions else 0.0,
-                "avg_insights_per_session": np.mean([len(s.insights_generated) for s in recent_sessions]) if recent_sessions else 0.0
+                "avg_patterns_per_session": (
+                    np.mean([len(s.patterns_discovered) for s in recent_sessions]) if recent_sessions else 0.0
+                ),
+                "avg_insights_per_session": (
+                    np.mean([len(s.insights_generated) for s in recent_sessions]) if recent_sessions else 0.0
+                ),
             },
-            "pattern_distribution": {pt.value: count for pt, count in self.stats["pattern_types"].items() if count > 0}
+            "pattern_distribution": {pt.value: count for pt, count in self.stats["pattern_types"].items() if count > 0},
         }
 
         return stats

@@ -143,16 +143,16 @@ class AdvancedMemoryManager:
         )  # ΛSEED: Predefined emotion vectors.
         self.memory_clusters: dict[str, list[str]] = {}  # For simple keyword/tag based clustering.
 
-        self.metrics: dict[
-            str, int
-        ] = {  # ΛTRACE: Internal metrics for monitoring. #ΛDRIFT_HOOK (Metrics can indicate drift if they change unexpectedly over time)
-            "total_memories_managed": 0,
-            "successful_retrievals": 0,
-            "emotional_context_usage": 0,
-            "qi_attention_activations": 0,
-            "memories_stored": 0,
-            "searches_performed": 0,
-        }
+        self.metrics: dict[str, int] = (
+            {  # ΛTRACE: Internal metrics for monitoring. #ΛDRIFT_HOOK (Metrics can indicate drift if they change unexpectedly over time)
+                "total_memories_managed": 0,
+                "successful_retrievals": 0,
+                "emotional_context_usage": 0,
+                "qi_attention_activations": 0,
+                "memories_stored": 0,
+                "searches_performed": 0,
+            }
+        )
         # ΛTEMPORAL_HOOK: Initialization timestamp captured implicitly by log.
         logger.info(
             "AdvancedMemoryManager_initialized",
