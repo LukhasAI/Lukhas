@@ -22,7 +22,7 @@ from typing import Any, Optional
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    format="%(asctime, timezone)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
         logging.FileHandler("t4_enterprise_validation.log"),
@@ -84,7 +84,7 @@ class T4EnterpriseValidator:
     def __init__(self):
         """Initialize T4 Enterprise Validator"""
         self.results: list[ValidationResult] = []
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
 
         logger.info("🧪 T4 Enterprise Validator initialized")
         logger.info("   Validating Sam Altman (Scale) + Dario Amodei (Safety) + Demis Hassabis (Rigor)")
@@ -401,7 +401,7 @@ class T4EnterpriseValidator:
                 cpu_usage_percent=42.3,
                 drift_score=0.023,
                 security_incidents=0,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
             )
 
             # Note: In production, would actually submit to Datadog
@@ -797,7 +797,7 @@ class T4EnterpriseValidator:
         )
 
         return T4ValidationReport(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             total_tests=total_tests,
             passed_tests=passed_tests,
             failed_tests=failed_tests,
@@ -820,7 +820,7 @@ class T4EnterpriseValidator:
     def _generate_error_report(self, error: str) -> T4ValidationReport:
         """Generate error report when validation fails"""
         return T4ValidationReport(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             total_tests=len(self.results),
             passed_tests=0,
             failed_tests=len(self.results),
@@ -843,7 +843,7 @@ class T4EnterpriseValidator:
     def export_validation_report(self, report: T4ValidationReport, filename: Optional[str] = None) -> str:
         """Export validation report to JSON"""
         if not filename:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             filename = f"t4_enterprise_validation_report_{timestamp}.json"
 
         try:
@@ -856,7 +856,7 @@ class T4EnterpriseValidator:
                         "dario_amodei_safety",
                         "demis_hassabis_rigor",
                     ],
-                    "export_timestamp": datetime.now().isoformat(),
+                    "export_timestamp": datetime.now(timezone.utc).isoformat(),
                 },
                 "validation_report": asdict(report),
             }

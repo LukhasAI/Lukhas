@@ -16,7 +16,7 @@ from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface
 from core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -479,7 +479,7 @@ class EconomicRealityManipulator(CoreInterface):
         optimized["optimization_history"].append(
             {
                 "strategy": strategy.get("name"),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "impact": strategy.get("expected_impact"),
             }
         )

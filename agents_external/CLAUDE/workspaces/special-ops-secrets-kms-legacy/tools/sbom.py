@@ -5,7 +5,7 @@ Generate Software Bill of Materials (SBOM) for LUKHAS
 
 import json
 import subprocess
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def generate_sbom():

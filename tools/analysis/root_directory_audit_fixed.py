@@ -10,7 +10,7 @@ from datetime import datetime
 
 
 class RootDirectoryAuditor:
-    def __init__(self):
+    def __init__(self, timezone):
         # Define our 7 core modules
         self.core_modules = [
             "core",
@@ -204,7 +204,7 @@ class RootDirectoryAuditor:
     def generate_reorganization_plan(self):
         """Generate comprehensive reorganization plan"""
         plan = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "summary": {
                 "total_directories": len(self.directory_analysis),
                 "core_modules": len(self.categories["core_modules"]),

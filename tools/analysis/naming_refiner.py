@@ -14,7 +14,7 @@ from typing import Any
 
 
 class LukhasNamingRefiner:
-    def __init__(self, root_path: str = "."):
+    def __init__(self, root_path: str = ".", timezone):
         self.root_path = Path(root_path).resolve()
 
         # LUKHAS original concepts to preserve
@@ -277,7 +277,7 @@ class LukhasNamingRefiner:
                         all_preserved.update(item["preserved_concepts"])
 
         report = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "summary": {
                 "total_refinements": sum(len(v) for v in self.refinements.values() if isinstance(v, list)),
                 "class_refinements": len(self.refinements["classes"]),

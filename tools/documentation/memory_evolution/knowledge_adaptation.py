@@ -8,18 +8,18 @@ from typing import Optional
 
 
 class KnowledgeNode:
-    def __init__(self, content: str, metadata: dict):
+    def __init__(self, content: str, metadata: dict, timezone):
         self.content = content
         self.metadata = metadata
         self.confidence = 1.0
-        self.last_accessed = datetime.now()
+        self.last_accessed = datetime.now(timezone.utc)
         self.access_count = 0
         self.relationships: dict[str, float] = {}  # node_id -> relationship_strength
 
     def access(self):
         """Update access statistics for this node."""
         self.access_count += 1
-        self.last_accessed = datetime.now()
+        self.last_accessed = datetime.now(timezone.utc)
 
     def update_confidence(self, new_confidence: float):
         """Update the confidence score for this knowledge."""
@@ -84,7 +84,7 @@ class KnowledgeAdaptation:
 
     def decay_knowledge(self):
         """Apply time-based decay to knowledge confidence."""
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         for node in self.knowledge_graph.nodes.values():
             time_diff = (now - node.last_accessed).total_seconds() / (24 * 3600)  # Days
             decay = self.decay_rate * time_diff

@@ -44,9 +44,9 @@ class MetaLearningSystem:
         strategy = self.learning_strategies[strategy_name]
 
         # Apply strategy to learn from data
-        start_time = datetime.datetime.now()
+        start_time = datetime.datetime.now(timezone.utc)
         learning_result = self._apply_strategy(strategy, available_data, context)
-        duration = (datetime.datetime.now() - start_time).total_seconds()
+        duration = (datetime.datetime.now(timezone.utc) - start_time).total_seconds()
 
         # Evaluate strategy performance
         performance_metrics = self._evaluate_performance(strategy_name, learning_result, duration)
@@ -98,7 +98,7 @@ class MetaLearningSystem:
             },
             "adaptation_progress": self._calculate_adaptation_progress(),
             "meta_parameters": self.meta_parameters,
-            "generated_at": datetime.datetime.now().isoformat(),
+            "generated_at": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def _initialize_strategies(self) -> dict:
@@ -219,7 +219,7 @@ class MetaLearningSystem:
             "efficiency": 1.0 / (1.0 + duration),  # Higher for faster learning
             "generalization": 0.8,  # Would be estimated from validation
             "confidence": 0.9,  # Confidence in the learning outcome
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         # Calculate overall performance score

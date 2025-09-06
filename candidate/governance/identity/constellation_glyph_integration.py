@@ -37,7 +37,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ConstellationStar(Enum):
+class ConstellationStar(Enum, timezone):
     """Constellation Framework stars"""
 
     IDENTITY = "⚛️"  # The Anchor Star: Identity rhythm
@@ -78,7 +78,7 @@ class GLYPHMessage:
         self.target_modules = message_data.get("target_modules", [])
         self.payload = message_data.get("payload", {})
         self.constellation_context = message_data.get("constellation_context", {})
-        self.timestamp = message_data.get("timestamp", datetime.utcnow().isoformat())
+        self.timestamp = message_data.get("timestamp", datetime.now(timezone.utc).isoformat())
         self.priority = message_data.get("priority", "normal")  # low, normal, high, critical
         self.ttl_seconds = message_data.get("ttl_seconds", 3600)
         self.symbolic_encoding = message_data.get("symbolic_encoding", {})
@@ -109,7 +109,7 @@ class GLYPHMessage:
         try:
             message_time = datetime.fromisoformat(self.timestamp.replace("Z", "+00:00"))
             expiry_time = message_time + timedelta(seconds=self.ttl_seconds)
-            return datetime.utcnow() > expiry_time.replace(tzinfo=None)
+            return datetime.now(timezone.utc) > expiry_time.replace(tzinfo=None)
         except Exception:
             return True  # Consider expired if we can't parse timestamp
 
@@ -613,7 +613,7 @@ class GLYPHIntegrator:
                 {
                     "handler": handler_function,
                     "module": module_name,
-                    "subscribed_at": datetime.utcnow().isoformat(),
+                    "subscribed_at": datetime.now(timezone.utc).isoformat(),
                 }
             )
 

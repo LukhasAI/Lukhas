@@ -8,13 +8,13 @@ Measures progression toward elite 85%+ voice coherence targets
 import json
 import os
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
 
 
-class VoiceCoherenceLevel(Enum, timezone):
+class VoiceCoherenceLevel(Enum):
     """Voice coherence quality levels"""
 
     POOR = "poor"  # <60% - Needs major improvement

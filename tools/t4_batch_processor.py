@@ -8,13 +8,13 @@ import hashlib
 import json
 import subprocess
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
 class T4BatchProcessor:
-    def __init__(self, batch_size: int = 50, timezone):
+    def __init__(self, batch_size: int = 50):
         self.base_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
         self.verification_path = self.base_path / "verification_artifacts"
         self.verification_path.mkdir(exist_ok=True)

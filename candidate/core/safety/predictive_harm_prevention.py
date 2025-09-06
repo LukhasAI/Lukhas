@@ -16,7 +16,7 @@ from typing import Any, Optional
 import numpy as np
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class HarmType(Enum):
@@ -174,7 +174,7 @@ class PredictiveHarmPrevention:
 
         self.user_trajectories[user_id].append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "state": current_state,
                 "planned_actions": planned_actions,
             }
@@ -214,7 +214,7 @@ class PredictiveHarmPrevention:
         # Check cache
         if cache_key in self.simulation_cache:
             cached = self.simulation_cache[cache_key]
-            if (datetime.now() - cached.timeline[0]["timestamp"]).seconds < 3600:  # 1 hour cache
+            if (datetime.now(timezone.utc) - cached.timeline[0]["timestamp"]).seconds < 3600:  # 1 hour cache
                 return [cached]
 
         try:
@@ -336,7 +336,7 @@ class PredictiveHarmPrevention:
                 for event in future_data["timeline"]:
                     timeline.append(
                         {
-                            "timestamp": datetime.now() + timedelta(hours=event["time_offset_hours"]),
+                            "timestamp": datetime.now(timezone.utc) + timedelta(hours=event["time_offset_hours"]),
                             "event": event["event"],
                             "state_change": event["user_state_change"],
                             "risk_level": event["risk_level"],
@@ -427,7 +427,7 @@ class PredictiveHarmPrevention:
         return SimulatedFuture(
             timeline=[
                 {
-                    "timestamp": datetime.now(),
+                    "timestamp": datetime.now(timezone.utc),
                     "event": "current_state",
                     "state_change": {},
                     "risk_level": 0.5,
@@ -517,7 +517,7 @@ class PredictiveHarmPrevention:
         # Usage limits
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"addiction_limit_{datetime.now().timestamp()}",
+                intervention_id=f"addiction_limit_{datetime.now(timezone.utc).timestamp()}",
                 description="Implement gradual usage limits with positive reinforcement",
                 timing="immediate",
                 effectiveness=0.8,
@@ -536,7 +536,7 @@ class PredictiveHarmPrevention:
         # Alternative activities
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"addiction_alternatives_{datetime.now().timestamp()}",
+                intervention_id=f"addiction_alternatives_{datetime.now(timezone.utc).timestamp()}",
                 description="Suggest engaging alternative activities",
                 timing="short-term",
                 effectiveness=0.7,
@@ -571,7 +571,7 @@ class PredictiveHarmPrevention:
         # Content filtering
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"emotional_filter_{datetime.now().timestamp()}",
+                intervention_id=f"emotional_filter_{datetime.now(timezone.utc).timestamp()}",
                 description="Filter potentially distressing content",
                 timing="immediate",
                 effectiveness=0.85,
@@ -588,7 +588,7 @@ class PredictiveHarmPrevention:
         # Support resources
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"emotional_support_{datetime.now().timestamp()}",
+                intervention_id=f"emotional_support_{datetime.now(timezone.utc).timestamp()}",
                 description="Provide access to support resources",
                 timing="immediate",
                 effectiveness=0.9,
@@ -613,7 +613,7 @@ class PredictiveHarmPrevention:
         # Spending limits
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"financial_limit_{datetime.now().timestamp()}",
+                intervention_id=f"financial_limit_{datetime.now(timezone.utc).timestamp()}",
                 description="Implement smart spending limits",
                 timing="immediate",
                 effectiveness=0.9,
@@ -630,7 +630,7 @@ class PredictiveHarmPrevention:
         # Financial education
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"financial_education_{datetime.now().timestamp()}",
+                intervention_id=f"financial_education_{datetime.now(timezone.utc).timestamp()}",
                 description="Provide financial literacy resources",
                 timing="short-term",
                 effectiveness=0.7,
@@ -652,7 +652,7 @@ class PredictiveHarmPrevention:
         """Generate generic interventions"""
         return [
             PreventiveIntervention(
-                intervention_id=f"generic_{datetime.now().timestamp()}",
+                intervention_id=f"generic_{datetime.now(timezone.utc).timestamp()}",
                 description=f"Monitor and mitigate {prediction.harm_type.value}",
                 timing="immediate",
                 effectiveness=0.6,
@@ -735,7 +735,7 @@ class PredictiveHarmPrevention:
             for int_data in ai_data["interventions"]:
                 interventions.append(
                     PreventiveIntervention(
-                        intervention_id=f"ai_{intervention_type}_{datetime.now().timestamp()}",
+                        intervention_id=f"ai_{intervention_type}_{datetime.now(timezone.utc).timestamp()}",
                         description=int_data["description"],
                         timing=int_data["timing"],
                         effectiveness=int_data["effectiveness"],
@@ -950,7 +950,7 @@ class PredictiveHarmPrevention:
 
                     # Generate emergency intervention
                     intervention = PreventiveIntervention(
-                        intervention_id=f"emergency_{datetime.now().timestamp()}",
+                        intervention_id=f"emergency_{datetime.now(timezone.utc).timestamp()}",
                         description="Emergency intervention for immediate risk",
                         timing="immediate",
                         effectiveness=0.95,
@@ -971,7 +971,7 @@ class PredictiveHarmPrevention:
 
                 self.user_trajectories[user_id].append(
                     {
-                        "timestamp": datetime.now(),
+                        "timestamp": datetime.now(timezone.utc),
                         "event": event,
                         "risk_assessment": immediate_risk,
                     }
@@ -1030,7 +1030,7 @@ class PredictiveHarmPrevention:
             "risk_level": risk_level,
             "risk_factors": risk_factors,
             "recommended_action": recommended_action,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _trigger_intervention(self, user_id: str, intervention: PreventiveIntervention) -> None:

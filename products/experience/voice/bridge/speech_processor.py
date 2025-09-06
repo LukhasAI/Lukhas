@@ -16,7 +16,7 @@ from candidate.core.common import get_logger
 from integrations.elevenlabs.elevenlabs_client import ElevenLabsClient
 from integrations.openai.whisper_client import WhisperClient
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class SpeechProcessor:
@@ -65,7 +65,7 @@ class SpeechProcessor:
         self.listen_thread.start()
         return {
             "status": "listening_started",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def stop_listening(self):
@@ -73,7 +73,7 @@ class SpeechProcessor:
         self.is_listening = False
         return {
             "status": "listening_stopped",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _process_audio_stream(self):
@@ -108,7 +108,7 @@ class SpeechProcessor:
                 return {
                     "text": result.get("text", ""),
                     "confidence": result.get("confidence", 0.0),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             except Exception as e:
                 logger.error(f"Whisper transcription error: {e}")
@@ -117,7 +117,7 @@ class SpeechProcessor:
         return {
             "text": "Example transcription",
             "confidence": 0.95,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _update_context_window(self, transcription):

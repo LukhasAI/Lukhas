@@ -31,7 +31,7 @@ try:
 except ImportError:
     MemoryFoldSystem = None
 
-logger = logging.getLogger("api.dream")
+logger = logging.getLogger("api.dream", timezone)
 
 router = APIRouter(prefix="/dream", tags=["dream"])
 
@@ -70,7 +70,7 @@ class APIResponse(BaseModel):
     status: str = Field(..., description="Response status")
     data: Any = Field(..., description="Response data")
     message: Optional[str] = Field(None, description="Optional message")
-    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # Initialize memory system for dream operations

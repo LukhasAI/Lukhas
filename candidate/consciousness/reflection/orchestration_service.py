@@ -77,7 +77,7 @@ from lukhas.governance.identity.interface import IdentityClient
 
 
 # Add parent directory to path for identity interface
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__, timezone)))
 
 # Import message bus for cross-module communication
 message_bus_available = True
@@ -247,7 +247,7 @@ class OrchestrationService:
             # Process coordination request
             coordination_results = self._process_coordination(coordination_request, coordination_type)
 
-            coordination_id = f"coord_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            coordination_id = f"coord_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log coordination activity
             self.identity_client.log_activity(
@@ -267,7 +267,7 @@ class OrchestrationService:
                 "coordination_id": coordination_id,
                 "coordination_results": coordination_results,
                 "coordination_type": coordination_type,
-                "executed_at": datetime.utcnow().isoformat(),
+                "executed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -318,14 +318,14 @@ class OrchestrationService:
             # Execute workflow
             workflow_results = self._execute_workflow_steps(workflow_definition, execution_mode)
 
-            workflow_id = f"workflow_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            workflow_id = f"workflow_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Store active workflow
             self.active_workflows[workflow_id] = {
                 "user_id": user_id,
                 "definition": workflow_definition,
                 "execution_mode": execution_mode,
-                "started_at": datetime.utcnow().isoformat(),
+                "started_at": datetime.now(timezone.utc).isoformat(),
                 "status": workflow_results.get("status", "unknown"),
             }
 
@@ -347,7 +347,7 @@ class OrchestrationService:
                 "workflow_id": workflow_id,
                 "workflow_results": workflow_results,
                 "execution_mode": execution_mode,
-                "executed_at": datetime.utcnow().isoformat(),
+                "executed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -398,7 +398,7 @@ class OrchestrationService:
             # Process resource management
             resource_results = self._manage_module_resources(resource_request, management_action)
 
-            resource_id = f"resource_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            resource_id = f"resource_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log resource management
             self.identity_client.log_activity(
@@ -418,7 +418,7 @@ class OrchestrationService:
                 "resource_id": resource_id,
                 "resource_results": resource_results,
                 "management_action": management_action,
-                "managed_at": datetime.utcnow().isoformat(),
+                "managed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -466,7 +466,7 @@ class OrchestrationService:
             # Route event
             routing_results = self._route_inter_module_event(event_data, routing_strategy)
 
-            event_id = f"event_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            event_id = f"event_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Add to event queue
             self.event_queue.append(
@@ -475,7 +475,7 @@ class OrchestrationService:
                     "user_id": user_id,
                     "event_data": event_data,
                     "routing_strategy": routing_strategy,
-                    "routed_at": datetime.utcnow().isoformat(),
+                    "routed_at": datetime.now(timezone.utc).isoformat(),
                     "status": routing_results.get("status", "pending"),
                 }
             )
@@ -498,7 +498,7 @@ class OrchestrationService:
                 "event_id": event_id,
                 "routing_results": routing_results,
                 "routing_strategy": routing_strategy,
-                "routed_at": datetime.utcnow().isoformat(),
+                "routed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -572,7 +572,7 @@ class OrchestrationService:
             }
 
             message = Message(
-                id=f"msg_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}",
+                id=f"msg_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}",
                 type=msg_type_map.get(message_type, MessageType.EVENT),
                 source_module=source_module,
                 target_module=target_module,
@@ -603,7 +603,7 @@ class OrchestrationService:
                 "message_id": message.id,
                 "source_module": source_module,
                 "target_module": target_module,
-                "sent_at": datetime.utcnow().isoformat(),
+                "sent_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -670,14 +670,14 @@ class OrchestrationService:
                         "timestamp": message.timestamp,
                         "user_id": message.user_id,
                     },
-                    "received_at": datetime.utcnow().isoformat(),
+                    "received_at": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 return {
                     "success": True,
                     "message": None,
                     "timeout": True,
-                    "checked_at": datetime.utcnow().isoformat(),
+                    "checked_at": datetime.now(timezone.utc).isoformat(),
                 }
 
         except Exception as e:
@@ -720,7 +720,7 @@ class OrchestrationService:
 
         try:
             broadcast_results = []
-            event_id = f"event_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            event_id = f"event_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Send to all active modules
             for module_name in self.module_status:
@@ -767,7 +767,7 @@ class OrchestrationService:
                 "broadcast_results": broadcast_results,
                 "total_modules": len(broadcast_results),
                 "successful_deliveries": len([r for r in broadcast_results if r["success"]]),
-                "broadcast_at": datetime.utcnow().isoformat(),
+                "broadcast_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -817,7 +817,7 @@ class OrchestrationService:
                 "success": True,
                 "message_bus_stats": stats,
                 "communication_enabled": self.communication_enabled,
-                "retrieved_at": datetime.utcnow().isoformat(),
+                "retrieved_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -856,7 +856,7 @@ class OrchestrationService:
                 "module_status": self.module_status.copy(),
                 "active_workflows": len(self.active_workflows),
                 "event_queue_size": len(self.event_queue),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             if include_detailed and self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_3"):
@@ -883,7 +883,7 @@ class OrchestrationService:
             return {
                 "success": True,
                 "system_status": status_data,
-                "accessed_at": datetime.utcnow().isoformat(),
+                "accessed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -918,7 +918,7 @@ class OrchestrationService:
         total_time = 0.0
 
         for i, (module, action) in enumerate(zip(modules, actions)):
-            start_time = datetime.utcnow()
+            start_time = datetime.now(timezone.utc)
 
             # Simulate module action execution
             result = {
@@ -929,7 +929,7 @@ class OrchestrationService:
                 "execution_order": i + 1,
             }
 
-            execution_time = (datetime.utcnow() - start_time).total_seconds()
+            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
             result["execution_time"] = execution_time
             total_time += execution_time
 
@@ -946,7 +946,7 @@ class OrchestrationService:
     def _execute_parallel_coordination(self, modules: list[str], actions: list[dict]) -> dict[str, Any]:
         """Execute actions in parallel across modules."""
         results = []
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         # Simulate parallel execution
         for i, (module, action) in enumerate(zip(modules, actions)):
@@ -959,7 +959,7 @@ class OrchestrationService:
             }
             results.append(result)
 
-        total_time = (datetime.utcnow() - start_time).total_seconds()
+        total_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         return {
             "success": True,
@@ -981,7 +981,7 @@ class OrchestrationService:
             condition_met = conditions.get(module, True)  # Default to True if no condition
 
             if condition_met:
-                start_time = datetime.utcnow()
+                start_time = datetime.now(timezone.utc)
                 result = {
                     "module": module,
                     "action": action,
@@ -990,7 +990,7 @@ class OrchestrationService:
                     "condition_met": True,
                     "execution_order": len([r for r in results if r.get("condition_met")]) + 1,
                 }
-                execution_time = (datetime.utcnow() - start_time).total_seconds()
+                execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
                 result["execution_time"] = execution_time
                 total_time += execution_time
             else:
@@ -1021,7 +1021,7 @@ class OrchestrationService:
         total_time = 0.0
 
         for i, step in enumerate(steps):
-            start_time = datetime.utcnow()
+            start_time = datetime.now(timezone.utc)
 
             step_result = {
                 "step_id": step.get("id", f"step_{i + 1}"),
@@ -1032,7 +1032,7 @@ class OrchestrationService:
                 "step_order": i + 1,
             }
 
-            execution_time = (datetime.utcnow() - start_time).total_seconds()
+            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
             step_result["execution_time"] = execution_time
             total_time += execution_time
 
@@ -1660,7 +1660,7 @@ class OrchestrationService:
                 current_load = self.module_status[module]["load"]
                 new_load = max(0.0, current_load * (1 - load_reduction_factor))
                 self.module_status[module]["load"] = new_load
-                self.module_status[module]["last_optimized"] = datetime.utcnow().isoformat()
+                self.module_status[module]["last_optimized"] = datetime.now(timezone.utc).isoformat()
 
     def _assess_cross_module_health(self) -> dict[str, Any]:
         """Assess health of cross-module communication and coordination."""

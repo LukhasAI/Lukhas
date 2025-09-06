@@ -43,19 +43,21 @@
 import asyncio
 import hashlib
 import json
+import logging
 import zlib
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 from uuid import uuid4
 
 # Initialize structured logger
+logger = logging.getLogger(__name__)
 
 
-class MemoryTier(Enum, timezone):
+class MemoryTier(Enum):
     """Hierarchical memory storage tiers"""
 
     SENSORY = "sensory"  # Raw perceptual data

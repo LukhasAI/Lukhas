@@ -24,7 +24,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 from candidate.core.common import get_logger
 
-# Quantum Security Imports (placeholder for actual quantum crypto)
+# Quantum Security Imports (placeholder for actual quantum crypto, timezone)
 try:
     from cryptography.hazmat.primitives import hashes, serialization
     from cryptography.hazmat.primitives.asymmetric import padding, rsa
@@ -87,7 +87,7 @@ class LukhasIdEnhancedReasoningEngine:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -159,7 +159,7 @@ class LukhasIdEnhancedReasoningEngine:
             'emotional_vector': emotional_vector.to_dict(),
             'user_id': user_id,
             'lock_strength': intensity,
-            'created_at': datetime.now().isoformat()
+            'created_at': datetime.now(timezone.utc).isoformat()
         }
 
         logger.info(f"Memory locked with intensity {intensity:.2f} for user {user_id}")
@@ -394,7 +394,7 @@ class LukhasIdEnhancedReasoningEngine:
 
         # Log compliance check
         self.audit_log.append({
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'action': action,
             'region': self.region.value,
             'compliant': len(violations) == 0,
@@ -453,7 +453,7 @@ class LukhasIdEnhancedReasoningEngine:
         user_record = {
             'user_id': user_id,
             'access_tier': initial_tier,
-            'created_at': datetime.now(),
+            'created_at': datetime.now(timezone.utc),
             'emoji_seed': user_data.get('emoji_seed'),
             'biometric_hash': user_data.get('biometric_hash'),
             'sid_puzzle': user_data.get('sid_puzzle'),
@@ -509,8 +509,8 @@ class LukhasIdEnhancedReasoningEngine:
             'user_id': user_id,
             'access_tier': access_tier,
             'session_token': session_token,
-            'created_at': datetime.now(),
-            'expires_at': datetime.now() + timedelta(hours=24),
+            'created_at': datetime.now(timezone.utc),
+            'expires_at': datetime.now(timezone.utc) + timedelta(hours=24),
             'emotional_state': emotional_state.to_dict() if emotional_state else None,
             'permissions': self._identity_core.resolve_access_tier(access_tier)
         }
@@ -519,7 +519,7 @@ class LukhasIdEnhancedReasoningEngine:
 
         # Update user record
         user_record['session_count'] += 1
-        user_record['last_login'] = datetime.now()
+        user_record['last_login'] = datetime.now(timezone.utc)
         if emotional_state:
             user_record['emotional_baseline'] = emotional_state.to_dict()
 
@@ -646,7 +646,7 @@ class LukhasIdEnhancedReasoningEngine:
 
         # Generate quantum signature (mock for development)
         signature_data = self._generate_quantum_signature(
-            f"{user_id}|{component}|{action}|{datetime.now().isoformat()}"
+            f"{user_id}|{component}|{action}|{datetime.now(timezone.utc).isoformat()}"
         )
 
         qi_signature = QISignature(
@@ -655,7 +655,7 @@ class LukhasIdEnhancedReasoningEngine:
         )
 
         audit_entry = AuditLogEntry(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             user_id=user_id,
             tier=tier,
             component=component,
@@ -687,7 +687,7 @@ class LukhasIdEnhancedReasoningEngine:
         session = self.active_sessions[session_token]
 
         # Check session expiry
-        if datetime.now() > session['expires_at']:
+        if datetime.now(timezone.utc) > session['expires_at']:
             del self.active_sessions[session_token]
             return None
 
@@ -743,7 +743,7 @@ class LukhasIdEnhancedReasoningEngine:
             'recent_violations': [
                 entry for entry in self.compliance_monitor.audit_log
                 if not entry['compliant'] and
-                datetime.fromisoformat(entry['timestamp']) > datetime.now() - timedelta(hours=24)
+                datetime.fromisoformat(entry['timestamp']) > datetime.now(timezone.utc) - timedelta(hours=24)
             ]
         }
 
@@ -784,7 +784,7 @@ if __name__ == "__main__":
             arousal=0.5,
             dominance=0.6,
             trust=0.8,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             context="User feeling confident and happy"
         )
 
@@ -811,7 +811,7 @@ if __name__ == "__main__":
                 arousal=0.4,
                 dominance=0.7,
                 trust=0.8,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 context="User in similar emotional state"
             )
 

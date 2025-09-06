@@ -8,7 +8,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
-router = APIRouter()
+router = APIRouter(, timezone)
 
 
 @router.get("/compliance-matrix")
@@ -72,7 +72,7 @@ async def get_compliance_matrix() -> dict[str, Any]:
                 "priority": "medium",
             },
         ],
-        "last_updated": datetime.utcnow().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -131,7 +131,7 @@ async def get_audit_trail(limit: int = 100) -> dict[str, Any]:
         "filtered_count": limit,
         "recent_events": [
             {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "event_type": "model_deployment",
                 "actor": "deployment_system",
                 "action": "Deployed model v2.1.3",
@@ -140,7 +140,7 @@ async def get_audit_trail(limit: int = 100) -> dict[str, Any]:
                 "metadata": {"version": "2.1.3", "environment": "production"},
             },
             {
-                "timestamp": (datetime.utcnow() - timedelta(minutes=15)).isoformat(),
+                "timestamp": (datetime.now(timezone.utc) - timedelta(minutes=15)).isoformat(),
                 "event_type": "configuration_change",
                 "actor": "admin_user",
                 "action": "Updated safety thresholds",
@@ -149,7 +149,7 @@ async def get_audit_trail(limit: int = 100) -> dict[str, Any]:
                 "metadata": {"old_threshold": 0.85, "new_threshold": 0.90},
             },
             {
-                "timestamp": (datetime.utcnow() - timedelta(hours=1)).isoformat(),
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat(),
                 "event_type": "data_access",
                 "actor": "analytics_service",
                 "action": "Accessed user metrics",
@@ -236,7 +236,7 @@ async def get_policy_engine_status() -> dict[str, Any]:
         },
         "recent_violations": [
             {
-                "timestamp": (datetime.utcnow() - timedelta(hours=2)).isoformat(),
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=2)).isoformat(),
                 "policy": "data_retention_limit",
                 "severity": "low",
                 "action_taken": "data_archived",
@@ -314,8 +314,8 @@ async def get_stakeholder_dashboard(stakeholder_type: str) -> dict[str, Any]:
     return {
         "stakeholder": stakeholder_type,
         "dashboard": dashboards[stakeholder_type],
-        "last_updated": datetime.utcnow().isoformat(),
-        "next_update": (datetime.utcnow() + timedelta(hours=1)).isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
+        "next_update": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),
     }
 
 
@@ -323,7 +323,7 @@ async def get_stakeholder_dashboard(stakeholder_type: str) -> dict[str, Any]:
 async def generate_compliance_report(regulation: str) -> dict[str, Any]:
     """Generate a compliance report for specific regulation"""
     return {
-        "report_id": f"RPT-{regulation}-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}",
+        "report_id": f"RPT-{regulation}-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}",
         "regulation": regulation,
         "status": "generating",
         "estimated_completion_minutes": 15,
@@ -337,5 +337,5 @@ async def generate_compliance_report(regulation: str) -> dict[str, Any]:
             "Appendices",
         ],
         "initiated_by": "governance_team",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }

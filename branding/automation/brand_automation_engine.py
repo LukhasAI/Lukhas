@@ -9,12 +9,12 @@ import json
 import logging
 import sys
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__, timezone).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 from engines.database_integration import db
 
 

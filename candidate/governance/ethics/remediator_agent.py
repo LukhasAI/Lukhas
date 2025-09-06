@@ -43,7 +43,7 @@ from .sub_agents import EthicsGuardian, MemoryCleaner
 # Initialize logger for ΛTRACE using structlog
 
 
-class RemediationType(Enum):
+class RemediationType(Enum, timezone):
     """Types of remediation that can be performed."""
 
     ETHICAL_VIOLATION = "ethical_violation"
@@ -101,7 +101,7 @@ class RemediatorAgent:
         Returns:
             Remediation session results and spawned agent information
         """
-        session_id = f"SESSION_{int(datetime.now().timestamp())}_{uuid.uuid4().hex[:6]}"
+        session_id = f"SESSION_{int(datetime.now(timezone.utc).timestamp())}_{uuid.uuid4().hex[:6]}"
 
         self.logger.info(
             "🚨 Issue detected - starting remediation",
@@ -116,7 +116,7 @@ class RemediatorAgent:
         # Create remediation session
         session = {
             "session_id": session_id,
-            "start_time": datetime.now(),
+            "start_time": datetime.now(timezone.utc),
             "issue_data": issue_data,
             "remediation_type": remediation_type,
             "spawned_agents": [],
@@ -149,7 +149,7 @@ class RemediatorAgent:
         results = self._execute_remediation_workflow(session)
         session["results"] = results
         session["status"] = "completed"
-        session["end_time"] = datetime.now()
+        session["end_time"] = datetime.now(timezone.utc)
 
         # Store in history and remove from active sessions
         self.remediation_history.append(session.copy())
@@ -175,7 +175,7 @@ class RemediatorAgent:
         Returns:
             Agent ID of the spawned EthicsGuardian
         """
-        return self._spawn_ethics_guardian(f"MANUAL_{int(datetime.now().timestamp())}", task_data)["agent_id"]
+        return self._spawn_ethics_guardian(f"MANUAL_{int(datetime.now(timezone.utc).timestamp())}", task_data)["agent_id"]
 
     def spawn_memory_cleaner(self, task_data: dict[str, Any]) -> str:
         """
@@ -187,7 +187,7 @@ class RemediatorAgent:
         Returns:
             Agent ID of the spawned MemoryCleaner
         """
-        return self._spawn_memory_cleaner(f"MANUAL_{int(datetime.now().timestamp())}", task_data)["agent_id"]
+        return self._spawn_memory_cleaner(f"MANUAL_{int(datetime.now(timezone.utc).timestamp())}", task_data)["agent_id"]
 
     def get_agent_status(self, agent_id: str) -> Optional[dict[str, Any]]:
         """Get status information for a specific spawned agent."""
@@ -252,7 +252,7 @@ class RemediatorAgent:
                 "agent_type": "EthicsGuardian",
                 "parent_session": session_id,
                 "status": SubAgentStatus.ACTIVE,
-                "spawned_at": datetime.now(),
+                "spawned_at": datetime.now(timezone.utc),
                 "task_data": task_data,
                 "agent_instance": guardian,
             }
@@ -282,7 +282,7 @@ class RemediatorAgent:
                 "agent_type": "MemoryCleaner",
                 "parent_session": session_id,
                 "status": SubAgentStatus.ACTIVE,
-                "spawned_at": datetime.now(),
+                "spawned_at": datetime.now(timezone.utc),
                 "task_data": task_data,
                 "agent_instance": cleaner,
             }
@@ -349,7 +349,7 @@ class RemediatorAgent:
 
                 # Update agent status
                 self.spawned_agents[agent_id]["status"] = SubAgentStatus.COMPLETED
-                self.spawned_agents[agent_id]["completed_at"] = datetime.now()
+                self.spawned_agents[agent_id]["completed_at"] = datetime.now(timezone.utc)
 
             except Exception as e:
                 self.logger.error(f"Agent {agent_id} failed", error=str(e))

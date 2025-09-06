@@ -22,7 +22,7 @@ from candidate.core.common import get_logger
 
 from .voice_profiling import VoiceProfile, VoiceProfileManager
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class VoicePersonalityIntegrator:
@@ -146,7 +146,7 @@ class VoicePersonalityIntegrator:
             {
                 "emotion": emotion,
                 "intensity": intensity,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 

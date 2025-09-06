@@ -12,7 +12,7 @@ from typing import Any, Optional
 
 from .nias_core import ConsentLevel
 
-logger = logging.getLogger("Lambda.NIΛS.Consent")
+logger = logging.getLogger("Lambda.NIΛS.Consent", timezone)
 
 
 class ConsentScope(Enum):
@@ -91,7 +91,7 @@ class ConsentRecord:
 
     def is_valid(self) -> bool:
         """Check if consent record is still valid"""
-        return not (self.expires_at and datetime.now() > self.expires_at)
+        return not (self.expires_at and datetime.now(timezone.utc) > self.expires_at)
 
 
 class ConsentManager:
@@ -158,16 +158,16 @@ class ConsentManager:
             # Calculate expiration
             expires_at = None
             if duration_hours:
-                expires_at = datetime.now() + timedelta(hours=duration_hours)
+                expires_at = datetime.now(timezone.utc) + timedelta(hours=duration_hours)
             elif self.config["default_expiry_hours"]:
-                expires_at = datetime.now() + timedelta(hours=self.config["default_expiry_hours"])
+                expires_at = datetime.now(timezone.utc) + timedelta(hours=self.config["default_expiry_hours"])
 
             # Create consent record
             record = ConsentRecord(
                 user_id=user_id,
                 scope=scope,
                 level=level,
-                granted_at=datetime.now(),
+                granted_at=datetime.now(timezone.utc),
                 expires_at=expires_at,
                 context=context or {},
             )
@@ -176,7 +176,7 @@ class ConsentManager:
             record.audit_trail.append(
                 {
                     "action": "granted",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "level": level.value,
                     "context": context or {},
                 }
@@ -225,7 +225,7 @@ class ConsentManager:
                     record.audit_trail.append(
                         {
                             "action": "revoked",
-                            "timestamp": datetime.now().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                             "reason": "user_request",
                         }
                     )
@@ -347,7 +347,7 @@ class ConsentManager:
 
         # Time-based consent
         if "time_restrictions" in consent_context:
-            current_hour = datetime.now().hour
+            current_hour = datetime.now(timezone.utc).hour
             allowed_hours = consent_context["time_restrictions"].get("hours", [])
             if allowed_hours and current_hour not in allowed_hours:
                 return {
@@ -447,7 +447,7 @@ class ConsentManager:
 
         export_data = {
             "user_id": user_id,
-            "export_timestamp": datetime.now().isoformat(),
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
             "consent_records": [],
         }
 
@@ -535,7 +535,7 @@ class ConsentManager:
                     user_id=user_id,
                     scope=ConsentScope.DATA_SOURCE,
                     level=ConsentLevel.ENHANCED,
-                    granted_at=datetime.now(),
+                    granted_at=datetime.now(timezone.utc),
                     data_sources=[source],
                     restrictions=restrictions or {},
                 )
@@ -544,7 +544,7 @@ class ConsentManager:
                 record.audit_trail.append(
                     {
                         "action": "data_source_granted",
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "data_source": source.value,
                         "restrictions": restrictions or {},
                     }
@@ -579,7 +579,7 @@ class ConsentManager:
                         record.audit_trail.append(
                             {
                                 "action": "data_source_revoked",
-                                "timestamp": datetime.now().isoformat(),
+                                "timestamp": datetime.now(timezone.utc).isoformat(),
                                 "data_sources": [s.value for s in data_sources],
                             }
                         )
@@ -622,7 +622,7 @@ class ConsentManager:
 
             # Store vendor permissions
             self.vendor_permissions[user_id][vendor_id] = {
-                "granted_at": datetime.now().isoformat(),
+                "granted_at": datetime.now(timezone.utc).isoformat(),
                 "permissions": permissions,
                 "data_sources": [s.value for s in data_sources] if data_sources else [],
                 "active": True,
@@ -633,7 +633,7 @@ class ConsentManager:
                 user_id=user_id,
                 scope=ConsentScope.VENDOR,
                 level=ConsentLevel.ENHANCED,
-                granted_at=datetime.now(),
+                granted_at=datetime.now(timezone.utc),
                 vendor_ids=[vendor_id],
                 data_sources=data_sources or [],
                 context={"permissions": permissions},
@@ -643,7 +643,7 @@ class ConsentManager:
             record.audit_trail.append(
                 {
                     "action": "vendor_consent_granted",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "vendor_id": vendor_id,
                     "permissions": permissions,
                 }
@@ -710,7 +710,7 @@ class ConsentManager:
                 "generation_types": [t.value for t in generation_types],
                 "ethical_checks_required": ethical_checks,
                 "openai_api_enabled": openai_api,
-                "granted_at": datetime.now().isoformat(),
+                "granted_at": datetime.now(timezone.utc).isoformat(),
             }
 
             # Create consent record
@@ -718,7 +718,7 @@ class ConsentManager:
                 user_id=user_id,
                 scope=ConsentScope.AI_GENERATION,
                 level=ConsentLevel.FULL_SYMBOLIC,
-                granted_at=datetime.now(),
+                granted_at=datetime.now(timezone.utc),
                 ai_generation_types=generation_types,
                 context={"ethical_checks": ethical_checks, "openai_api": openai_api},
             )
@@ -727,7 +727,7 @@ class ConsentManager:
             record.audit_trail.append(
                 {
                     "action": "ai_generation_consent_granted",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "types": [t.value for t in generation_types],
                     "ethical_checks": ethical_checks,
                     "openai_api": openai_api,

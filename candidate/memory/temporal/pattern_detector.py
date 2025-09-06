@@ -32,8 +32,7 @@ class Pattern:
         frequency: str,  # daily, weekly, sporadic
         impact: str,  # positive, negative, neutral
         automation_potential: bool,
-        suggested_action: Optional[str] = None,
-    ):
+        suggested_action: Optional[str] = None,, timezone):
         self.pattern_type = pattern_type
         self.description = description
         self.occurrences = occurrences
@@ -70,8 +69,8 @@ class PatternDetector:
         self.detected_patterns = []
 
         # Get recent entries
-        start_date = datetime.now() - timedelta(days=days)
-        entries = self.journal.search(date_range=(start_date, datetime.now()))
+        start_date = datetime.now(timezone.utc) - timedelta(days=days)
+        entries = self.journal.search(date_range=(start_date, datetime.now(timezone.utc)))
 
         # Get git history for code patterns
         git_history = self._get_git_history(days)
@@ -96,7 +95,7 @@ class PatternDetector:
     def _get_git_history(self, days: int) -> list[dict[str, Any]]:
         """Get git commit history for pattern analysis"""
         try:
-            since_date = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
+            since_date = (datetime.now(timezone.utc) - timedelta(days=days)).strftime("%Y-%m-%d")
             result = subprocess.run(
                 [
                     "git",
@@ -885,7 +884,7 @@ class PatternDetector:
 
         report = f"""
 # Development Pattern Analysis Report
-*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}*
+*Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")}*
 
 ## Summary
 Found {len(self.detected_patterns)} patterns in your development workflow.

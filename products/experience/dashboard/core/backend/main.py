@@ -15,10 +15,10 @@ import uvicorn
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from infrastructure.cache.redis_client import init_redis
-from infrastructure.database.connection import init_db
 
 from api.routers import analytics, audit, governance, realtime, safety
+from infrastructure.cache.redis_client import init_redis
+from infrastructure.database.connection import init_db
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")

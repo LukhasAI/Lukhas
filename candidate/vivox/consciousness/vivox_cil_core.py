@@ -14,7 +14,7 @@ from typing import Any, Optional
 import numpy as np
 
 
-class ConsciousnessState(Enum):
+class ConsciousnessState(Enum, timezone):
     """States of consciousness"""
 
     ALERT = "alert"
@@ -114,7 +114,7 @@ class ConsciousExperience:
         return cls(
             awareness_state=suppressed_awareness,
             drift_measurement=drift_details,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
 
 
@@ -171,7 +171,7 @@ class ConsciousnessSimulator:
         consciousness_dims = self._normalize_to_consciousness_space(attended_features)
 
         return ConsciousnessVector(
-            vector_id=f"vec_{datetime.utcnow().timestamp()}",
+            vector_id=f"vec_{datetime.now(timezone.utc).timestamp()}",
             dimensions=consciousness_dims,
             attention_focus=self._extract_attention_focus(inputs),
             emotional_tone=inputs.get("emotional_state", {}),
@@ -456,7 +456,7 @@ class VectorCollapseEngine:
         # Record collapse event
         self.collapse_history.append(
             {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input_vectors": len(consciousness_vectors),
                 "filtered_vectors": len(filtered_vectors),
                 "observer_intent": observer_intent,
@@ -844,7 +844,7 @@ class VIVOXConsciousnessInterpretationLayer:
         conscious_experience = ConsciousExperience(
             awareness_state=collapsed_awareness,
             drift_measurement=drift_measurement,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             ethical_validation=mae_validation if "mae_validation" in locals() else None,
         )
 
@@ -878,7 +878,7 @@ class VIVOXConsciousnessInterpretationLayer:
             branches_considered=simulation_branches,
             emotional_resonance=emotional_resonance,
             collapsed_intention=collapsed_intention,
-            reflection_timestamp=datetime.utcnow(),
+            reflection_timestamp=datetime.now(timezone.utc),
         )
 
         # Record reflection moment with proper serialization

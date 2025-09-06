@@ -5,12 +5,12 @@ Master AI agent for coordinating all brand systems and ensuring cohesive brand e
 
 import asyncio
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Optional
 
 # Add branding modules to path
-sys.path.append(str(Path(__file__, timezone).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 try:
     from intelligence.brand_monitor import BrandIntelligenceMonitor

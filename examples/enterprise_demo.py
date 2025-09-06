@@ -112,7 +112,7 @@ class EnterpriseDemo:
         # Create security context
         security_context = await self.security_system.create_security_context(
             user_id=researcher["user_id"],
-            session_id=f"session_{datetime.now().timestamp()}",
+            session_id=f"session_{datetime.now(timezone.utc).timestamp()}",
             auth_factors=["password", "mfa", "certificate"],
         )
 
@@ -211,7 +211,7 @@ class EnterpriseDemo:
         # Create security context
         await self.security_system.create_security_context(
             user_id=enterprise_user["user_id"],
-            session_id=f"session_{datetime.now().timestamp()}",
+            session_id=f"session_{datetime.now(timezone.utc).timestamp()}",
             auth_factors=["password", "mfa"],
         )
 

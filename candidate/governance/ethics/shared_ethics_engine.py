@@ -22,7 +22,7 @@ from candidate.core.common import get_logger
 from ethics.seedra import get_seedra
 from symbolic.core import Symbol, SymbolicDomain, SymbolicType, get_symbolic_vocabulary
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class EthicalPrinciple(Enum):
@@ -483,7 +483,7 @@ class SharedEthicsEngine:
             "violation_counts": violation_counts,
             "system_requests": system_requests,
             "average_confidence": sum(e["confidence"] for e in self.decision_history) / total_decisions,
-            "report_generated": datetime.now().isoformat(),
+            "report_generated": datetime.now(timezone.utc).isoformat(),
         }
 
     async def health_check(self) -> dict[str, Any]:
@@ -494,7 +494,7 @@ class SharedEthicsEngine:
             "total_constraints": len(self.constraints),
             "decision_history_size": len(self.decision_history),
             "seedra_connected": self.seedra is not None,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 

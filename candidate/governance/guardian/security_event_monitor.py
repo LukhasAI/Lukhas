@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class SecurityEventType(Enum):
@@ -337,7 +337,7 @@ class SecurityEventMonitor:
         # Create security event
         event = SecurityEvent(
             event_id=event_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=SecurityEventType.AUTHENTICATION,
             threat_level=threat_level,
             user_id=user_id,
@@ -418,7 +418,7 @@ class SecurityEventMonitor:
         # Create security event
         event = SecurityEvent(
             event_id=event_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=event_type,
             threat_level=threat_level,
             user_id=user_id,
@@ -461,7 +461,7 @@ class SecurityEventMonitor:
         """
 
         detections = []
-        cutoff_time = datetime.now() - timedelta(minutes=time_window_minutes)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=time_window_minutes)
 
         # Get recent failed authentication events
         failed_auths = [
@@ -488,7 +488,7 @@ class SecurityEventMonitor:
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     threat_type="brute_force_attack",
                     confidence=min(1.0, len(failures) / 10.0),
                     description=f"Brute force attack detected from {ip_address}",
@@ -539,7 +539,7 @@ class SecurityEventMonitor:
         recent_events = [
             e
             for e in self.security_events
-            if (e.user_id == user_id and e.timestamp >= datetime.now() - timedelta(hours=24))
+            if (e.user_id == user_id and e.timestamp >= datetime.now(timezone.utc) - timedelta(hours=24))
         ]
 
         if not recent_events:
@@ -552,7 +552,7 @@ class SecurityEventMonitor:
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     threat_type="geographical_anomaly",
                     confidence=0.7,
                     description=f"User {user_id} logging in from unusual location",
@@ -573,7 +573,7 @@ class SecurityEventMonitor:
                 detections.append(detection)
 
         # Check for time-based anomalies
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if profile.typical_login_hours and current_hour not in profile.typical_login_hours:
             recent_auth_events = [e for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION]
 
@@ -582,7 +582,7 @@ class SecurityEventMonitor:
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     threat_type="temporal_anomaly",
                     confidence=0.6,
                     description=f"User {user_id} active during unusual hours",
@@ -615,7 +615,7 @@ class SecurityEventMonitor:
             Dict: Security dashboard data
         """
 
-        end_time = datetime.now()
+        end_time = datetime.now(timezone.utc)
         start_time = end_time - timedelta(hours=time_range_hours)
 
         # Filter events by time range
@@ -713,7 +713,7 @@ class SecurityEventMonitor:
         }
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "time_range_hours": time_range_hours,
             "monitoring_active": self.monitoring_active,
             # Event statistics
@@ -928,7 +928,7 @@ class SecurityEventMonitor:
         return {
             "user_id": user_id,
             "identity_verified": True,
-            "context_timestamp": datetime.now().isoformat(),
+            "context_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _get_guardian_context(self) -> dict[str, Any]:

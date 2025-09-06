@@ -53,7 +53,7 @@ import numpy as np
 # Note: GLYPH_MAP is now defined in __init__.py to avoid circular imports
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # {ΛGLYPH} Core glyph system initialization
 logger.info("Initializing LUKHAS Core Glyph Engine v1.0.0")
@@ -154,7 +154,7 @@ class TemporalStamp:
 
     def update_access(self):
         """Update last access timestamp and increment activation count."""
-        self.last_accessed = datetime.now()
+        self.last_accessed = datetime.now(timezone.utc)
         self.activation_count += 1
         # Increase persistence score with frequent access
         self.persistence_score = min(1.0, self.persistence_score + 0.01)
@@ -163,11 +163,11 @@ class TemporalStamp:
         """Check if glyph has expired."""
         if self.expires_at is None:
             return False
-        return datetime.now() > self.expires_at
+        return datetime.now(timezone.utc) > self.expires_at
 
     def age_seconds(self) -> float:
         """Calculate age in seconds."""
-        return (datetime.now() - self.created_at).total_seconds()
+        return (datetime.now(timezone.utc) - self.created_at).total_seconds()
 
 
 @dataclass
@@ -196,7 +196,7 @@ class CausalLink:
 
     def set_temporal_link(self, parent_timestamp: str, link_type: str = "sequential"):
         """Set temporal link to parent glyph with Task 15 requirements."""
-        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now().isoformat()}"
+        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now(timezone.utc).isoformat()}"
 
     def calculate_emotional_delta(self, parent_emotion: EmotionVector, current_emotion: EmotionVector):
         """Calculate emotional context delta from parent glyph."""
@@ -420,8 +420,8 @@ class Glyph:
         # Parse temporal stamp
         temporal_data = data.get("temporal_stamp", {})
         temporal_stamp = TemporalStamp(
-            created_at=datetime.fromisoformat(temporal_data.get("created_at", datetime.now().isoformat())),
-            last_accessed=datetime.fromisoformat(temporal_data.get("last_accessed", datetime.now().isoformat())),
+            created_at=datetime.fromisoformat(temporal_data.get("created_at", datetime.now(timezone.utc).isoformat())),
+            last_accessed=datetime.fromisoformat(temporal_data.get("last_accessed", datetime.now(timezone.utc).isoformat())),
             expires_at=(
                 datetime.fromisoformat(temporal_data["expires_at"]) if temporal_data.get("expires_at") else None
             ),

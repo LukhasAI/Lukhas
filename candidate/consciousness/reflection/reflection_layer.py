@@ -78,7 +78,7 @@ DREAM_ENGINE_AVAILABLE = DREAM_DELIVERY_AVAILABLE or DREAM_ENGINE_BASIC_AVAILABL
 
 
 # Core LUKHAS Infrastructure Imports
-# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.
+# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.
 # ΛNOTE: Fallbacks are not provided for these core infrastructure imports.
 # If they fail, the ReflectionLayer might not be fully functional or might
 # raise further errors during operation.
@@ -205,7 +205,7 @@ class ReflectionLayer:
     """
 
     def __init__(self, guardian_config: Optional[dict[str, Any]] = None):
-        self.layer_id = f"REFLECTION_LAYER_{int(datetime.now().timestamp())}"
+        self.layer_id = f"REFLECTION_LAYER_{int(datetime.now(timezone.utc).timestamp())}"
         self.config = guardian_config or {}
 
         # Setup logging first
@@ -374,7 +374,7 @@ class ReflectionLayer:
 
         # Create reflection
         reflection = ReflectiveStatement(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             reflection_type=ReflectionType.DRIFT_REFLECTION,
             symbolic_mood=mood,
             content=content,
@@ -432,7 +432,7 @@ class ReflectionLayer:
             content = random.choice(templates)
 
         reflection = ReflectiveStatement(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             reflection_type=ReflectionType.INTENT_DISSONANCE,
             symbolic_mood=mood,
             content=content,
@@ -489,7 +489,7 @@ class ReflectionLayer:
         content = template.format(symbolic_element)
 
         reflection = ReflectiveStatement(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             reflection_type=ReflectionType.EMOTIONAL_STATE,
             symbolic_mood=mood,
             content=content,
@@ -543,7 +543,7 @@ class ReflectionLayer:
             content = template
 
         reflection = ReflectiveStatement(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             reflection_type=ReflectionType.ETHICAL_CONFLICT,
             symbolic_mood=mood,
             content=content,
@@ -592,7 +592,7 @@ class ReflectionLayer:
         content = template.format(scenario_description)
 
         reflection = ReflectiveStatement(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             reflection_type=ReflectionType.FUTURE_MODELING,
             symbolic_mood=mood,
             content=content,
@@ -641,7 +641,7 @@ class ReflectionLayer:
         content = template.format(symbolic_element)
 
         reflection = ReflectiveStatement(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             reflection_type=ReflectionType.MEMORY_SYNTHESIS,
             symbolic_mood=mood,
             content=content,
@@ -925,7 +925,7 @@ class ReflectionLayer:
         recent_reflections = self.active_reflections[-10:] if self.active_reflections else []
 
         snapshot = ConscienceSnapshot(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             overall_mood=overall_mood,
             drift_score=current_drift,
             intent_alignment=intent_alignment,
@@ -1124,7 +1124,7 @@ class ReflectionLayer:
     def get_reflection_history(self, hours: int = 24) -> list[ReflectiveStatement]:
         """Get reflection history for specified time period"""
         self.logger.debug("Fetching reflection history", hours=hours)
-        cutoff = datetime.now() - timedelta(hours=hours)
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         history = [r for r in self.active_reflections if r.timestamp > cutoff]
         self.logger.info("Reflection history retrieved", count=len(history), hours=hours)
         return history
@@ -1133,7 +1133,7 @@ class ReflectionLayer:
         """Analyze consciousness trends over time period"""
         # ΛPHASE_NODE: Consciousness Trend Analysis Start
         self.logger.info("Analyzing consciousness trend", hours=hours)
-        cutoff = datetime.now() - timedelta(hours=hours)
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         recent_snapshots = [s for s in self.consciousness_history if s.timestamp > cutoff]
 
         if not recent_snapshots:

@@ -34,11 +34,11 @@ class LukhasFederatedModel:
         self.model_type = model_type
         self.parameters = initial_parameters or {}
         self.version = 1
-        self.last_updated = datetime.datetime.now()
+        self.last_updated = datetime.datetime.now(timezone.utc)
         self.contribution_count = 0
         self.client_contributions = set()
         self.performance_metrics = {}
-        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
+        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d')}"
 
     def update_with_gradients(self, gradients: dict, client_id: str, weight: float = 1.0):
         """
@@ -64,7 +64,7 @@ class LukhasFederatedModel:
 
         # Update metadata
         self.version += 1
-        self.last_updated = datetime.datetime.now()
+        self.last_updated = datetime.datetime.now(timezone.utc)
         self.contribution_count += 1
         self.client_contributions.add(client_id)
 
@@ -139,7 +139,7 @@ class LukhasFederatedLearningManager:
         self.lukhas_metadata = {
             "system": "LUKHAS",
             "transferred_from": "Lucas-Portfolio Pre-Final 2",
-            "transfer_date": datetime.datetime.now().isoformat(),
+            "transfer_date": datetime.datetime.now(timezone.utc).isoformat(),
             "enhanced_features": [
                 "lukhas_signatures",
                 "reduced_aggregation_threshold",
@@ -232,7 +232,7 @@ class LukhasFederatedLearningManager:
             if performance_metrics:
                 model.performance_metrics[client_id] = {
                     **performance_metrics,
-                    "timestamp": datetime.datetime.now().isoformat(),
+                    "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
                 }
 
             # Save updated model
@@ -268,7 +268,7 @@ class LukhasFederatedLearningManager:
         # For now, we log the event
         model = self.models[model_id]
         model.performance_metrics["last_aggregation"] = {
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             "participant_count": len(model.client_contributions),
             "version": model.version,
         }
@@ -352,7 +352,7 @@ def initialize_lukhas_federated_learning(
             initial_parameters={
                 "description": description,
                 "lukhas_version": "1.0",
-                "initialized": datetime.datetime.now().isoformat(),
+                "initialized": datetime.datetime.now(timezone.utc).isoformat(),
             },
         )
 

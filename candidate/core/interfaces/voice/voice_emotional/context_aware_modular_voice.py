@@ -441,7 +441,7 @@ class LucasVoiceSystem:
                 input=user_input,
                 context=context,
                 response=safe_response,
-                timestamp=datetime.datetime.now(),
+                timestamp=datetime.datetime.now(timezone.utc),
             )
 
         # Return final response with voice parameters

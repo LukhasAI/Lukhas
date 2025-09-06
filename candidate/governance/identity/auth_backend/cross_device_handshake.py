@@ -6,6 +6,7 @@
 import time
 
 import nacl.signing
+
 from utils.replay_protection import ReplayProtection
 
 

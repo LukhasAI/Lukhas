@@ -44,7 +44,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 
-class OrchestratorState(Enum):
+class OrchestratorState(Enum, timezone):
     """Standardized orchestrator states"""
 
     UNINITIALIZED = auto()
@@ -213,7 +213,7 @@ class BaseOrchestrator(ABC):
             await self._custom_start()
 
             self.state = OrchestratorState.RUNNING
-            self.metrics.start_time = datetime.now()
+            self.metrics.start_time = datetime.now(timezone.utc)
             self.logger.info("Orchestrator started successfully")
             return True
 
@@ -293,7 +293,7 @@ class BaseOrchestrator(ABC):
         try:
             status = await self._check_component_health(name)
             self.components[name].status = status
-            self.components[name].last_health_check = datetime.now()
+            self.components[name].last_health_check = datetime.now(timezone.utc)
             return status
         except Exception as e:
             self.logger.error(f"Health check failed for {name}: {e}")
@@ -392,7 +392,7 @@ class BaseOrchestrator(ABC):
             "name": self.config.name,
             "type": self.__class__.__name__,
             "state": self.state.name,
-            "uptime": str(datetime.now() - self.metrics.start_time),
+            "uptime": str(datetime.now(timezone.utc) - self.metrics.start_time),
             "metrics": {
                 "operations_completed": self.metrics.operations_completed,
                 "operations_failed": self.metrics.operations_failed,

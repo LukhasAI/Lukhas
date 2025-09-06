@@ -10,7 +10,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class RewardType(Enum):
+class RewardType(Enum, timezone):
     """Types of rewards users can earn"""
 
     CREDITS = "credits"
@@ -212,7 +212,7 @@ class NIASRewardEngine:
 
         # Record engagement
         engagement_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "ad_id": ad_id,
             "type": engagement_type,
             "duration": engagement_duration,
@@ -220,7 +220,7 @@ class NIASRewardEngine:
             "points_earned": points_earned,
         }
         profile.engagement_history.append(engagement_record)
-        profile.last_activity = datetime.now()
+        profile.last_activity = datetime.now(timezone.utc)
 
         # Check for unlockable content
         newly_unlocked = self._check_unlockables(profile)
@@ -461,8 +461,8 @@ class NIASRewardEngine:
         days = int(duration.split("_")[0])
 
         profile.active_benefits[feature_config["tier"]] = {
-            "activated_at": datetime.now().isoformat(),
-            "expires_at": (datetime.now() + timedelta(days=days)).isoformat(),
+            "activated_at": datetime.now(timezone.utc).isoformat(),
+            "expires_at": (datetime.now(timezone.utc) + timedelta(days=days)).isoformat(),
             "tier": feature_config["tier"],
         }
 

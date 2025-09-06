@@ -11,7 +11,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EmotionalState(Enum):
@@ -224,7 +224,7 @@ class NIASEngine:
             "message_id": message.get("message_id", f"msg_{uuid.uuid4().hex[:8]}"),
             "user_id": user_id,
             "tier": tier,
-            "start_time": datetime.now().isoformat(),
+            "start_time": datetime.now(timezone.utc).isoformat(),
             "phases": {},
         }
 
@@ -267,7 +267,7 @@ class NIASEngine:
         session: dict[str, Any],
     ) -> dict[str, Any]:
         """Phase 1: Check user consent for message delivery"""
-        phase_start = datetime.now()
+        phase_start = datetime.now(timezone.utc)
 
         try:
             # Import here to avoid circular imports
@@ -278,7 +278,7 @@ class NIASEngine:
 
             session["phases"][ProcessingPhase.CONSENT_CHECK.value] = {
                 "start_time": phase_start.isoformat(),
-                "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
+                "duration_ms": (datetime.now(timezone.utc) - phase_start).total_seconds() * 1000,
                 "result": consent_result,
             }
 
@@ -309,7 +309,7 @@ class NIASEngine:
         session: dict[str, Any],
     ) -> dict[str, Any]:
         """Phase 2: Check emotional state for appropriate timing using ΛBAS integration"""
-        phase_start = datetime.now()
+        phase_start = datetime.now(timezone.utc)
 
         try:
             # Use ABAS adapter for attention-based gating if available
@@ -324,7 +324,7 @@ class NIASEngine:
 
                         session["phases"][ProcessingPhase.EMOTIONAL_GATING.value] = {
                             "start_time": phase_start.isoformat(),
-                            "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
+                            "duration_ms": (datetime.now(timezone.utc) - phase_start).total_seconds() * 1000,
                             "emotional_state": abas_result.get("emotional_state"),
                             "attention_state": abas_result.get("attention_state"),
                             "abas_decision": abas_result.get("abas_decision"),
@@ -400,7 +400,7 @@ class NIASEngine:
 
         session["phases"][ProcessingPhase.EMOTIONAL_GATING.value] = {
             "start_time": phase_start.isoformat(),
-            "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
+            "duration_ms": (datetime.now(timezone.utc) - phase_start).total_seconds() * 1000,
             "emotional_state": emotional_state,
             "gating_config": gating_config,
             "fallback_mode": True,
@@ -415,7 +415,7 @@ class NIASEngine:
             if exception_priority is None or message_priority < exception_priority:
                 # Defer the message
                 defer_hours = gating_config.get("defer_duration_hours", 2)
-                defer_until = datetime.now() + timedelta(hours=defer_hours)
+                defer_until = datetime.now(timezone.utc) + timedelta(hours=defer_hours)
 
                 await self._defer_message(message, user_context, defer_until)
 
@@ -445,7 +445,7 @@ class NIASEngine:
         session: dict[str, Any],
     ) -> dict[str, Any]:
         """Phase 3: Apply symbolic processing using DΛST integration"""
-        phase_start = datetime.now()
+        phase_start = datetime.now(timezone.utc)
 
         try:
             # Use DAST adapter for symbolic processing if available
@@ -471,7 +471,7 @@ class NIASEngine:
                             "context_scores": symbolic_context.get("context_scores", {}),
                             "lambda_fingerprint": symbolic_context.get("lambda_fingerprint"),
                             "dast_integration": True,
-                            "processed_at": datetime.now().isoformat(),
+                            "processed_at": datetime.now(timezone.utc).isoformat(),
                         }
 
                         # Apply LUKHAS symbolic authentication
@@ -482,7 +482,7 @@ class NIASEngine:
 
                         session["phases"][ProcessingPhase.SYMBOLIC_PROCESSING.value] = {
                             "start_time": phase_start.isoformat(),
-                            "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
+                            "duration_ms": (datetime.now(timezone.utc) - phase_start).total_seconds() * 1000,
                             "dast_integration": True,
                             "symbolic_tags_count": len(symbolic_context.get("symbolic_tags", [])),
                             "primary_activity": symbolic_context.get("primary_activity"),
@@ -532,7 +532,7 @@ class NIASEngine:
             "recommended_tone": emotional_mapping["tone"],
             "dast_integration": False,
             "fallback_mode": True,
-            "processed_at": datetime.now().isoformat(),
+            "processed_at": datetime.now(timezone.utc).isoformat(),
         }
 
         # Apply LUKHAS symbolic authentication if available
@@ -541,7 +541,7 @@ class NIASEngine:
 
         session["phases"][ProcessingPhase.SYMBOLIC_PROCESSING.value] = {
             "start_time": phase_start.isoformat(),
-            "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
+            "duration_ms": (datetime.now(timezone.utc) - phase_start).total_seconds() * 1000,
             "emotional_mapping": emotional_mapping,
             "symbols_applied": len(processed_message["symbolic_processing"]["recommended_symbols"]),
             "dast_integration": False,
@@ -557,7 +557,7 @@ class NIASEngine:
         session: dict[str, Any],
     ) -> dict[str, Any]:
         """Phase 4: Apply tier-specific filtering"""
-        phase_start = datetime.now()
+        phase_start = datetime.now(timezone.utc)
 
         try:
             from .tier_manager import get_tier_manager
@@ -568,7 +568,7 @@ class NIASEngine:
 
             session["phases"][ProcessingPhase.TIER_FILTERING.value] = {
                 "start_time": phase_start.isoformat(),
-                "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
+                "duration_ms": (datetime.now(timezone.utc) - phase_start).total_seconds() * 1000,
                 "tier": user_context["tier"],
                 "processing_config": processing_config["name"],
             }
@@ -586,7 +586,7 @@ class NIASEngine:
         session: dict[str, Any],
     ) -> dict[str, Any]:
         """Phase 5: Generate appropriate widget for delivery"""
-        phase_start = datetime.now()
+        phase_start = datetime.now(timezone.utc)
 
         try:
             from .widget_engine import get_widget_engine
@@ -596,7 +596,7 @@ class NIASEngine:
 
             session["phases"][ProcessingPhase.WIDGET_GENERATION.value] = {
                 "start_time": phase_start.isoformat(),
-                "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
+                "duration_ms": (datetime.now(timezone.utc) - phase_start).total_seconds() * 1000,
                 "widget_type": widget_config.get("type", "unknown"),
                 "widget_id": widget_config.get("widget_id"),
             }
@@ -614,7 +614,7 @@ class NIASEngine:
         session: dict[str, Any],
     ) -> dict[str, Any]:
         """Phase 6: Complete message delivery"""
-        phase_start = datetime.now()
+        phase_start = datetime.now(timezone.utc)
 
         try:
             widget_config = delivery_data["widget_config"]
@@ -641,7 +641,7 @@ class NIASEngine:
 
             session["phases"][ProcessingPhase.DELIVERY.value] = {
                 "start_time": phase_start.isoformat(),
-                "duration_ms": (datetime.now() - phase_start).total_seconds() * 1000,
+                "duration_ms": (datetime.now(timezone.utc) - phase_start).total_seconds() * 1000,
                 "delivery_method": "widget" if widget_config else "basic",
                 "dast_context_updated": self.dast_adapter is not None,
             }
@@ -664,7 +664,7 @@ class NIASEngine:
 
     def _complete_processing(self, session: dict[str, Any], final_result: dict[str, Any]) -> dict[str, Any]:
         """Complete processing session with final result"""
-        session["end_time"] = datetime.now().isoformat()
+        session["end_time"] = datetime.now(timezone.utc).isoformat()
         session["total_duration_ms"] = (
             datetime.fromisoformat(session["end_time"]) - datetime.fromisoformat(session["start_time"])
         ).total_seconds() * 1000
@@ -720,7 +720,7 @@ class NIASEngine:
             return EmotionalState.OVERWHELMED.value
 
         # Check time of day
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if 9 <= current_hour <= 17:  # Work hours
             return EmotionalState.FOCUSED.value
         elif 20 <= current_hour <= 22:  # Evening relaxation
@@ -754,7 +754,7 @@ class NIASEngine:
         return {
             "authenticated": True,
             "symbolic_signature": f"lukhas_sym_{uuid.uuid4().hex[:8]}",
-            "auth_timestamp": datetime.now().isoformat(),
+            "auth_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _defer_message(
@@ -770,7 +770,7 @@ class NIASEngine:
             "defer_id": defer_id,
             "message": message,
             "user_context": user_context,
-            "deferred_at": datetime.now().isoformat(),
+            "deferred_at": datetime.now(timezone.utc).isoformat(),
             "defer_until": defer_until.isoformat(),
             "retry_count": 0,
         }
@@ -835,7 +835,7 @@ class NIASEngine:
             "approved": gating_config.get("allow_delivery", True),
             "emotional_state": emotional_state,
             "defer_until": (
-                (datetime.now() + timedelta(hours=gating_config.get("defer_duration_hours", 0))).isoformat()
+                (datetime.now(timezone.utc) + timedelta(hours=gating_config.get("defer_duration_hours", 0))).isoformat()
                 if not gating_config.get("allow_delivery", True)
                 else None
             ),
@@ -844,7 +844,7 @@ class NIASEngine:
 
     async def process_deferred_messages(self):
         """Process messages that were deferred and are now ready"""
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         ready_messages = []
 
         for defer_id, deferred_data in list(self.deferred_messages.items()):

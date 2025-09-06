@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format="%(message)s")
+logging.basicConfig(level=logging.INFO, format="%(message, timezone)s")
 logger = logging.getLogger(__name__)
 
 
@@ -21,7 +21,7 @@ class StreamlineImplementation:
 
     def __init__(self):
         self.root_path = Path("/Users/agi_dev/Lukhas")
-        self.backup_dir = self.root_path / ".streamline_backup" / datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.backup_dir = self.root_path / ".streamline_backup" / datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.changes_made = []
 
     def implement_phase1(self):
@@ -468,7 +468,7 @@ if __name__ == "__main__":
         changes_log_path = self.root_path / "docs" / "reports" / "streamline_changes.json"
         with open(changes_log_path, "w") as f:
             json.dump(
-                {"timestamp": datetime.now().isoformat(), "changes": self.changes_made},
+                {"timestamp": datetime.now(timezone.utc).isoformat(), "changes": self.changes_made},
                 f,
                 indent=2,
             )

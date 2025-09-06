@@ -14,7 +14,7 @@ import nacl.signing
 class EntropyBeacon:
     """Broadcasts low-level entropy signals from wearable devices with AGI resilience."""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.broadcasting = False
         self.contribution_history = []
         self.signing_key = nacl.signing.SigningKey.generate()
@@ -59,7 +59,7 @@ class EntropyBeacon:
 
     def get_current_time(self):
         """Get the current time for timestamping."""
-        return datetime.now().isoformat()
+        return datetime.now(timezone.utc).isoformat()
 
     def sign_broadcast(self, entropy_value):
         """Sign an entropy broadcast using Ed25519."""

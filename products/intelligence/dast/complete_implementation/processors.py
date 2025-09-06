@@ -15,7 +15,7 @@ class TaskProcessor:
     📋 AI-powered task processing with intelligent categorization and optimization
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.processing_patterns: dict[str, Any] = {}
         self.task_templates: dict[str, dict] = self._initialize_templates()
         self.processing_cache: dict[str, Any] = {}
@@ -70,7 +70,7 @@ class TaskProcessor:
 
         # Add processing metadata
         processed_task["processing_metadata"] = {
-            "processed_at": datetime.now().isoformat(),
+            "processed_at": datetime.now(timezone.utc).isoformat(),
             "processing_time_ms": (time.time() - start_time) * 1000,
             "template_applied": template["name"] if template else None,
             "ai_confidence": ai_enhancements.get("ai_confidence", 0.8),
@@ -210,7 +210,7 @@ class TaskProcessor:
                 if isinstance(task_data["due_date"], str)
                 else task_data["due_date"]
             )
-            days_until_due = (due_date - datetime.now()).days
+            days_until_due = (due_date - datetime.now(timezone.utc)).days
             if days_until_due <= 1:
                 risks["timeline_risk"] = "high"
             elif days_until_due <= 7:
@@ -494,7 +494,7 @@ class AttentionProcessor:
         base_score = 7.0
 
         # Time of day factor
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if 9 <= current_hour <= 11 or 14 <= current_hour <= 16:
             base_score += 1.0  # Peak focus hours
         elif current_hour < 8 or current_hour > 18:
@@ -526,7 +526,7 @@ class SolutionProcessor:
             "problem": problem,
             "solution": solution,
             "context": context or {},
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "solution_id": self._generate_solution_id(problem, solution),
             "categories": self._categorize_solution(problem, solution),
             "effectiveness_score": 0.0,  # Will be updated based on usage

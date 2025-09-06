@@ -18,7 +18,7 @@ class AutomatedContentGenerator:
     Automated content generation for all LUKHAS domains using constellation framework
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.platform = ContentPlatform()
         self.base_path = Path(__file__).parent.parent.parent
         self.websites_path = self.base_path / "websites"
@@ -141,7 +141,7 @@ class AutomatedContentGenerator:
             "content_id": content_id,
             "content": full_content,
             "style_guide": style_guide,
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "sections": ["hero", "philosophy", "features", "journey", "navigation"],
             "word_count": len(full_content.split()),
             "constellation_stars": domain_stars,

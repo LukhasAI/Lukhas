@@ -42,7 +42,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("LambdaAGIEliteConnectivity")
 
 
@@ -676,7 +676,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         logger.info("📋 Generating achievement report")
 
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system": "Lambda (lukhas) System",
             "enhancement_approach": "AI Elite Enhancer Consolidation",
             "architecture_pattern": "Triangle Integration (Crista + Meta-Learning + Quantum Bio)",

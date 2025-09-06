@@ -11,7 +11,7 @@ from candidate.core.swarm import SwarmHub
 # TAG:neuroplastic
 # TAG:colony
 
-router = APIRouter(prefix="/colonies", tags=["colonies"])
+router = APIRouter(prefix="/colonies", tags=["colonies"], timezone)
 
 
 class ColonySpawnRequest(BaseModel):
@@ -34,7 +34,7 @@ async def spawn_colony(request: ColonySpawnRequest):
         if request.colony_type == "reasoning":
             from candidate.core.colonies.reasoning_colony import ReasoningColony
 
-            colony = ReasoningColony(f"dynamic-reasoning-{datetime.now().timestamp()}")
+            colony = ReasoningColony(f"dynamic-reasoning-{datetime.now(timezone.utc).timestamp()}")
         else:
             raise ValueError("Unknown colony type")
         await colony.start()
