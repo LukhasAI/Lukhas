@@ -218,6 +218,9 @@ class AkaQualia:
         # Step 2: Decode to proto-qualia
         proto = self.pls.decode_protoqualia(latent, temperature=temp)
 
+        # Step 2.5: Apply signal overrides (for testing/debugging)
+        proto = self._apply_signal_overrides(proto, signals)
+
         # Step 3: TEQ Guardian risk assessment
         risk_profile = self.teq_guardian.assess(
             proto,
@@ -815,6 +818,42 @@ class AkaQualia:
             if text:
                 return text[0]
         return "stimulus"  # Default
+
+    def _apply_signal_overrides(self, proto: ProtoQualia, signals: dict[str, Any]) -> ProtoQualia:
+        """Apply signal overrides to proto-qualia for testing/debugging"""
+        # Check for override signals
+        overrides = {}
+        
+        if "arousal_override" in signals:
+            overrides["arousal"] = float(signals["arousal_override"])
+        
+        if "tone_override" in signals:
+            overrides["tone"] = float(signals["tone_override"])
+            
+        if "clarity_override" in signals:
+            overrides["clarity"] = float(signals["clarity_override"])
+            
+        if "embodiment_override" in signals:
+            overrides["embodiment"] = float(signals["embodiment_override"])
+            
+        if "narrative_gravity_override" in signals:
+            overrides["narrative_gravity"] = float(signals["narrative_gravity_override"])
+        
+        # Apply overrides if any exist
+        if overrides:
+            # Create new proto with overridden values
+            return ProtoQualia(
+                tone=overrides.get("tone", proto.tone),
+                arousal=overrides.get("arousal", proto.arousal),
+                clarity=overrides.get("clarity", proto.clarity),
+                embodiment=overrides.get("embodiment", proto.embodiment),
+                colorfield=proto.colorfield,  # Keep original colorfield
+                temporal_feel=proto.temporal_feel,  # Keep original temporal_feel
+                agency_feel=proto.agency_feel,  # Keep original agency_feel
+                narrative_gravity=overrides.get("narrative_gravity", proto.narrative_gravity),
+            )
+        
+        return proto
 
     def _default_glyph_mapper(self, scene: PhenomenalScene) -> list[PhenomenalGlyph]:
         """Default implementation of scene→glyph mapping"""

@@ -26,11 +26,13 @@ from .consciousness_wrapper import (
 
 # Alias for backward compatibility
 ConsciousnessKernel = ConsciousnessWrapper
+ConsciousnessModule = ConsciousnessWrapper  # Alias for RL integration
 
 __all__ = [
     "AwarenessLevel",
     "ConsciousnessConfig",
     "ConsciousnessKernel",  # Alias
+    "ConsciousnessModule",  # Alias for RL
     "ConsciousnessState",
     "ConsciousnessWrapper",
     "SafetyMode",

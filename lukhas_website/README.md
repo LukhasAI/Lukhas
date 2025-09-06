@@ -395,6 +395,37 @@ NODE_ENV=development
 
 ---
 
+## 📚 **CONSOLIDATED WEB DOCUMENTATION**
+
+**All web content, domain strategies, and implementation plans have been organized in the centralized documentation hub:**
+
+### **Primary Documentation Location**
+**[docs/web/content/](../docs/web/content/)** - Complete web content organization system
+
+### **Key Documentation Sections**
+- **[Domain Content](../docs/web/content/domains/)** - Individual domain strategies and content
+  - [lukhas-ai-main/](../docs/web/content/domains/lukhas-ai-main/) - Main website content and strategy
+  - [lukhas-dev/](../docs/web/content/domains/lukhas-dev/) - Developer platform documentation
+- **[Strategic Plans](../docs/web/content/plans/)** - Cross-domain planning and implementation
+  - [ecosystem-strategy/](../docs/web/content/plans/ecosystem-strategy/) - λWecosystem architecture
+  - [implementation-roadmap/](../docs/web/content/plans/implementation-roadmap/) - Technical roadmaps
+- **[Content Management](../docs/web/content/shared/CONTENT_MANAGEMENT_GUIDE.md)** - Complete workflow guide
+- **[Vocabulary Standards](../docs/web/content/shared/vocabulary-usage/)** - Terminology consistency
+
+### **Content Creation Workflow**
+1. **Find Content**: Check appropriate domain or plan directory
+2. **Create Content**: Follow [3-Layer Tone System](../branding/tone/LUKHAS_3_LAYER_TONE_SYSTEM.md) guidelines
+3. **Apply Standards**: Use [vocabulary standards](../docs/web/content/shared/vocabulary-usage/VOCABULARY_STANDARDS_QUICK_REFERENCE.md)
+4. **Validate Quality**: Follow [content management guide](../docs/web/content/shared/CONTENT_MANAGEMENT_GUIDE.md)
+
+### **Integration with This Project**
+- This Next.js implementation focuses on **technical execution**
+- Content strategy and domain planning located in **consolidated documentation**
+- Cross-reference both locations for complete understanding
+- Updates to website content should sync with centralized system
+
+---
+
 # DreamWeaver: Comprehensive Documentation
 
 This document provides a complete overview of the DreamWeaver feature, including its architecture, API, deployment guide, and test plan.

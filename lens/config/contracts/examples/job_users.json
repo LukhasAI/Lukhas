@@ -1,7 +1,0 @@
-{
-  "source_uri": "file:///data/users.csv",
-  "source_type": "data",
-  "policies": { "LLM_off": true, "redact_on": true, "offline_only": true },
-  "target_forms": ["web2d"],
-  "lid_context": { "user_id": "demo", "user_tier": "default" }
-}

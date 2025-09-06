@@ -44,7 +44,7 @@ def main() -> None:
 
         # main.py provides app as module-level `app`
         uvicorn.run(
-            "lambda_products.lambda_products_pack.lambda_core.Lens.api_new.main:app",
+            "products.intelligence.lens.api_new.main:app",
             host=args.host,
             port=args.port,
             reload=args.reload,

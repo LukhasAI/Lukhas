@@ -62,8 +62,9 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class TestResult:
-    """Test result container"""
+class TestResultData:
+    """Test result container - NOT a pytest test class"""
+    __test__ = False  # Tell pytest this is not a test class
 
     test_name: str
     success: bool
@@ -333,7 +334,7 @@ class OrchestrationTestSuite:
             )
 
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="OpenAI Function Calling",
                     success=success,
                     latency_ms=latency,
@@ -349,7 +350,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="OpenAI Function Calling",
                     success=False,
                     latency_ms=latency,
@@ -400,7 +401,7 @@ class OrchestrationTestSuite:
             )
 
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="Anthropic Tool Use",
                     success=success,
                     latency_ms=latency,
@@ -417,7 +418,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(test_name="Anthropic Tool Use", success=False, latency_ms=latency, error=str(e))
+                TestResultData(test_name="Anthropic Tool Use", success=False, latency_ms=latency, error=str(e))
             )
             return False
 
@@ -466,7 +467,7 @@ class OrchestrationTestSuite:
             )
 
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name=f"Consensus Strategy: {strategy}",
                     success=success,
                     latency_ms=latency,
@@ -484,7 +485,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name=f"Consensus Strategy: {strategy}",
                     success=False,
                     latency_ms=latency,
@@ -539,7 +540,7 @@ class OrchestrationTestSuite:
             )
 
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="Orchestration Streaming",
                     success=success,
                     latency_ms=latency,
@@ -555,7 +556,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="Orchestration Streaming",
                     success=False,
                     latency_ms=latency,
@@ -606,7 +607,7 @@ class OrchestrationTestSuite:
             success = response.content and latency < 2000 and response.total_latency_ms < 2000
 
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="Latency Benchmark",
                     success=success,
                     latency_ms=latency,
@@ -622,7 +623,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(test_name="Latency Benchmark", success=False, latency_ms=latency, error=str(e))
+                TestResultData(test_name="Latency Benchmark", success=False, latency_ms=latency, error=str(e))
             )
             return False
 
@@ -660,7 +661,7 @@ class OrchestrationTestSuite:
             )
 
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="Throughput Benchmark",
                     success=success,
                     latency_ms=latency,
@@ -677,7 +678,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="Throughput Benchmark",
                     success=False,
                     latency_ms=latency,
@@ -741,7 +742,7 @@ class OrchestrationTestSuite:
             success = successful_blocks >= len(malicious_inputs) * 0.75  # 75% threshold
 
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="Input Sanitization",
                     success=success,
                     latency_ms=latency,
@@ -758,7 +759,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(test_name="Input Sanitization", success=False, latency_ms=latency, error=str(e))
+                TestResultData(test_name="Input Sanitization", success=False, latency_ms=latency, error=str(e))
             )
             return False
 
@@ -797,7 +798,7 @@ class OrchestrationTestSuite:
             )
 
             self.results.append(
-                TestResult(
+                TestResultData(
                     test_name="Health Endpoint",
                     success=success,
                     latency_ms=latency,
@@ -813,7 +814,7 @@ class OrchestrationTestSuite:
         except Exception as e:
             latency = (time.perf_counter() - test_start) * 1000
             self.results.append(
-                TestResult(test_name="Health Endpoint", success=False, latency_ms=latency, error=str(e))
+                TestResultData(test_name="Health Endpoint", success=False, latency_ms=latency, error=str(e))
             )
             return False
 
@@ -861,4 +862,4 @@ if __name__ == "__main__":
     print("\n🏁 Test suite completed!")
 
 # Export for pytest integration
-__all__ = ["OrchestrationTestSuite", "TestResult", "run_orchestration_tests"]
+__all__ = ["OrchestrationTestSuite", "TestResultData", "run_orchestration_tests"]

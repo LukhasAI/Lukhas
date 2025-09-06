@@ -132,22 +132,14 @@ class LineageChain:
 
 # LUKHAS_TAG: fold_lineage_core
 class FoldLineageTracker:
-"""
-Advanced Fold Lineage Tracking System
+    """
+    Advanced Fold Lineage Tracking System
 
-This module provides sophisticated lineage tracking for memory folds,
-enabling comprehensive genealogy analysis and evolution patterns.
-"""
+    This module provides sophisticated lineage tracking for memory folds,
+    enabling comprehensive genealogy analysis and evolution patterns.
+    """
 
-import datetime
-import logging
-from enum import Enum
-from typing import Dict, List, Optional, Any, Tuple, Set
-import uuid
-import json
-
-# Configure logger
-logger = logging.getLogger(__name__)    def __init__(self, max_drift_rate: float = MAX_DRIFT_RATE):  # JULES05_NOTE: Loop-safe guard added
+    def __init__(self, max_drift_rate: float = MAX_DRIFT_RATE):  # JULES05_NOTE: Loop-safe guard added
         self.lineage_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_lineage_log.jsonl"
         self.causal_map_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/fold_cause_map.jsonl"
         self.lineage_graph_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/lineage_graph.jsonl"

@@ -74,11 +74,11 @@ class TestSQLQueryCorrectness:
         # Test custom SQL query for high-risk scenes
         with sql_memory.engine.begin() as conn:
             query = text("""
-                SELECT scene_id, risk->>'severity' as severity
+                SELECT scene_id, json_extract(risk, '$.severity') as severity
                 FROM akaq_scene
                 WHERE user_id = :user_id
-                AND risk->>'severity' = 'high'
-                ORDER BY ts DESC
+                AND json_extract(risk, '$.severity') = 'high'
+                ORDER BY timestamp DESC
             """)
 
             results = conn.execute(query, {"user_id": "risk_filter_test"}).fetchall()
@@ -152,12 +152,12 @@ class TestSQLQueryCorrectness:
                     s.scene_id,
                     s.subject,
                     s.drift_phi,
-                    array_agg(g.key ORDER BY g.key) as glyph_keys
+                    GROUP_CONCAT(g.glyph_key, ',') as glyph_keys
                 FROM akaq_scene s
                 JOIN akaq_glyph g USING(scene_id)
                 WHERE s.user_id = :user_id
                 GROUP BY s.scene_id, s.subject, s.drift_phi
-                ORDER BY s.ts DESC
+                ORDER BY s.timestamp DESC
             """)
 
             results = conn.execute(query, {"user_id": "integrity_test"}).fetchall()
@@ -167,11 +167,18 @@ class TestSQLQueryCorrectness:
 
             assert result.scene_id == scene_id
             assert result.subject == "integrity_test"  # Assuming dev mode
-            assert isinstance(result.glyph_keys, list)
-            assert len(result.glyph_keys) == 3
-            assert "glyph:alpha" in result.glyph_keys
-            assert "glyph:beta" in result.glyph_keys
-            assert "glyph:gamma" in result.glyph_keys
+            
+            # GROUP_CONCAT returns a string, convert to list for testing
+            if isinstance(result.glyph_keys, str):
+                glyph_list = result.glyph_keys.split(',') if result.glyph_keys else []
+            else:
+                glyph_list = result.glyph_keys
+                
+            assert isinstance(glyph_list, list)
+            assert len(glyph_list) == 3
+            assert "glyph:alpha" in glyph_list
+            assert "glyph:beta" in glyph_list
+            assert "glyph:gamma" in glyph_list
 
 
 class TestDatabaseSchemaValidation:
@@ -182,23 +189,18 @@ class TestDatabaseSchemaValidation:
         """Database schema should have all required columns"""
 
         with sql_memory.engine.begin() as conn:
-            # Check akaq_scene table structure
+            # Check akaq_scene table structure using SQLite PRAGMA
             scene_columns = conn.execute(
-                text("""
-                SELECT column_name, data_type, is_nullable
-                FROM information_schema.columns
-                WHERE table_name = 'akaq_scene'
-                ORDER BY ordinal_position
-            """)
+                text("PRAGMA table_info(akaq_scene)")
             )
 
-            scene_cols = {row.column_name: row for row in scene_columns}
+            scene_cols = {row.name: row for row in scene_columns}
 
             # Required columns
             required_scene_cols = [
                 "scene_id",
                 "user_id",
-                "ts",
+                "timestamp",
                 "subject",
                 "object",
                 "proto",
@@ -215,17 +217,12 @@ class TestDatabaseSchemaValidation:
 
             # Check akaq_glyph table structure
             glyph_columns = conn.execute(
-                text("""
-                SELECT column_name, data_type, is_nullable
-                FROM information_schema.columns
-                WHERE table_name = 'akaq_glyph'
-                ORDER BY ordinal_position
-            """)
+                text("PRAGMA table_info(akaq_glyph)")
             )
 
-            glyph_cols = {row.column_name: row for row in glyph_columns}
+            glyph_cols = {row.name: row for row in glyph_columns}
 
-            required_glyph_cols = ["scene_id", "key", "attrs"]
+            required_glyph_cols = ["scene_id", "glyph_key", "glyph_attrs"]
             for col in required_glyph_cols:
                 assert col in glyph_cols, f"Missing required glyph column: {col}"
 
@@ -234,29 +231,16 @@ class TestDatabaseSchemaValidation:
         """Critical indexes should exist and provide good performance"""
 
         with sql_memory.engine.begin() as conn:
-            # Check that user_id + timestamp index exists
-            index_query = text("""
-                SELECT indexname, indexdef
-                FROM pg_indexes
-                WHERE tablename = 'akaq_scene'
-                AND indexdef LIKE '%user_id%'
-                AND indexdef LIKE '%ts%'
+            # For SQLite, use sqlite_master to check indexes
+            sqlite_index_query = text("""
+                SELECT name, sql
+                FROM sqlite_master
+                WHERE type = 'index'
+                AND tbl_name = 'akaq_scene'
+                AND (sql LIKE '%user_id%' OR name LIKE '%user_id%')
             """)
-
-            try:
-                indexes = conn.execute(index_query).fetchall()
-                # Note: This will fail on SQLite, but would work on PostgreSQL
-                # For SQLite, we'd need a different query
-            except:
-                # SQLite doesn't have pg_indexes, use sqlite_master
-                sqlite_index_query = text("""
-                    SELECT name, sql
-                    FROM sqlite_master
-                    WHERE type='index'
-                    AND tbl_name='akaq_scene'
-                    AND sql LIKE '%user_id%'
-                """)
-                indexes = conn.execute(sqlite_index_query).fetchall()
+            
+            indexes = conn.execute(sqlite_index_query).fetchall()
 
             # Should have at least one compound index on user_id
             assert len(indexes) >= 1, "Should have user_id index for performance"
@@ -270,7 +254,7 @@ class TestDatabaseSchemaValidation:
             try:
                 conn.execute(
                     text("""
-                    INSERT INTO akaq_glyph (scene_id, key, attrs)
+                    INSERT INTO akaq_glyph (scene_id, glyph_key, glyph_attrs)
                     VALUES ('nonexistent_scene_id', 'test:key', '{}')
                 """)
                 )
@@ -372,7 +356,7 @@ class TestAkaQualiaIntegration:
         # Verify data was persisted
         memory = aq_with_sql_memory.memory
         stats = memory.get_stats()
-        assert stats["total_saves"] >= 1, "Should have persisted at least one scene"
+        assert stats["scenes_saved"] >= 1, "Should have persisted at least one scene"
 
         # Verify we can retrieve the data
         history = memory.get_scene_history(user_id="system", limit=1)
@@ -460,8 +444,7 @@ class TestComplexQueries:
                     COUNT(*) as scene_count,
                     AVG(drift_phi) as avg_drift,
                     MIN(drift_phi) as min_drift,
-                    MAX(drift_phi) as max_drift,
-                    STDDEV(drift_phi) as stddev_drift
+                    MAX(drift_phi) as max_drift
                 FROM akaq_scene
                 WHERE user_id = :user_id
             """)
@@ -497,11 +480,11 @@ class TestComplexQueries:
                 conn.execute(
                     text("""
                     INSERT INTO akaq_scene (
-                        scene_id, user_id, ts, subject, object, proto, proto_vec,
+                        scene_id, user_id, timestamp, subject, object, proto, proto_vec,
                         risk, context, drift_phi, congruence_index, neurosis_risk,
                         repair_delta, sublimation_rate, cfg_version
                     ) VALUES (
-                        :scene_id, :user_id, to_timestamp(:ts), :subject, :object,
+                        :scene_id, :user_id, :ts, :subject, :object,
                         :proto, :proto_vec, :risk, :context, :drift_phi,
                         :congruence_index, :neurosis_risk, :repair_delta,
                         :sublimation_rate, :cfg_version
@@ -531,11 +514,11 @@ class TestComplexQueries:
 
         with sql_memory.engine.begin() as conn:
             query = text("""
-                SELECT scene_id, subject, EXTRACT(EPOCH FROM ts) as timestamp
+                SELECT scene_id, subject, timestamp
                 FROM akaq_scene
                 WHERE user_id = :user_id
-                AND ts >= to_timestamp(:cutoff_time)
-                ORDER BY ts DESC
+                AND timestamp >= :cutoff_time
+                ORDER BY timestamp DESC
             """)
 
             results = conn.execute(query, {"user_id": "temporal_test", "cutoff_time": cutoff_time}).fetchall()

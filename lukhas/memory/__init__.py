@@ -16,12 +16,16 @@ try:
     from .matriz_adapter import MemoryMatrizAdapter
     from .memory_wrapper import MemoryWrapper, get_memory_manager
 
+    # Legacy aliases for backward compatibility
+    MemoryFoldSystem = FoldManager
+
     MEMORY_AVAILABLE = True
 except ImportError:
     MemoryWrapper = None
     MemoryFold = None
     FoldManager = None
     MemoryMatrizAdapter = None
+    MemoryFoldSystem = None  # Legacy alias
     MEMORY_AVAILABLE = False
 
 
@@ -110,6 +114,7 @@ __all__ = [
     "MEMORY_AVAILABLE",
     "FoldManager",
     "MemoryFold",
+    "MemoryFoldSystem",  # Legacy alias
     "MemoryMatrizAdapter",
     "MemoryWrapper",
     "access_memory",

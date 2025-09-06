@@ -383,6 +383,9 @@ class EmotionWrapper:
 # Global instance for module access
 _emotion_wrapper = None
 
+# Alias for compatibility
+EmotionalAwareness = EmotionWrapper
+
 
 def get_emotion_wrapper() -> EmotionWrapper:
     """Get the global emotion wrapper instance"""
@@ -414,6 +417,7 @@ def track_valence(window_size: int = 10) -> dict[str, Any]:
 # Export the main interface
 __all__ = [
     "EMOTION_ACTIVE",
+    "EmotionalAwareness",  # Alias for compatibility
     "EmotionWrapper",
     "get_emotion_wrapper",
     "process_emotion",

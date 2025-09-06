@@ -31,6 +31,7 @@ def main():
 
     # Prefer the fully-qualified package path that exists in the repo
     MODULE_CANDIDATES = [
+        "products.intelligence.lens.api.schemas",
         "lambda_products.lambda_products_pack.lambda_core.Lens.api.schemas",
         "api.schemas",
         "schemas",

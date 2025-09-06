@@ -82,6 +82,9 @@ class SqlMemory(AkaqMemory):
         # Detect database driver
         self.driver = self._detect_driver()
 
+        # Apply database migration to create tables
+        self._apply_migration()
+
         # Statistics
         self.scenes_saved = 0
         self.save_failures = 0
@@ -110,6 +113,79 @@ class SqlMemory(AkaqMemory):
         """Detect database driver from engine"""
         return self.engine.name
 
+    def _apply_migration(self) -> None:
+        """Apply database migration to create required tables"""
+        with self.engine.begin() as conn:
+            # Create akaq_scene table with all required columns
+            conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS akaq_scene (
+                    scene_id TEXT PRIMARY KEY,
+                    user_id TEXT NOT NULL,
+                    subject TEXT,
+                    object TEXT,
+                    proto TEXT,
+                    proto_vec TEXT,
+                    risk TEXT,
+                    context TEXT,
+                    transform_chain TEXT,
+                    collapse_hash TEXT,
+                    drift_phi REAL,
+                    congruence_index REAL,
+                    neurosis_risk REAL,
+                    repair_delta REAL,
+                    sublimation_rate REAL,
+                    affect_energy_before REAL,
+                    affect_energy_after REAL,
+                    affect_energy_diff REAL,
+                    cfg_version TEXT,
+                    timestamp REAL DEFAULT (julianday('now'))
+                )
+            """))
+
+            # Create akaq_glyph table
+            conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS akaq_glyph (
+                    glyph_id TEXT PRIMARY KEY,
+                    scene_id TEXT,
+                    user_id TEXT NOT NULL,
+                    glyph_key TEXT,
+                    glyph_attrs TEXT,
+                    priority REAL,
+                    timestamp REAL DEFAULT (julianday('now')),
+                    FOREIGN KEY (scene_id) REFERENCES akaq_scene(scene_id)
+                )
+            """))
+
+            # Create akaq_memory_ops table for audit trail
+            conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS akaq_memory_ops (
+                    operation_id TEXT PRIMARY KEY,
+                    operation TEXT NOT NULL,
+                    user_id TEXT,
+                    metadata TEXT,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """))
+
+            # Create indexes for performance
+            conn.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_akaq_scene_user_id ON akaq_scene(user_id)
+            """))
+            
+            conn.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_akaq_scene_timestamp ON akaq_scene(timestamp)
+            """))
+            
+            conn.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_akaq_glyph_user_id ON akaq_glyph(user_id)
+            """))
+            
+            conn.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_akaq_glyph_scene_id ON akaq_glyph(scene_id)
+            """))
+
+        logger.info("Database migration applied successfully")
+
     def _hash_safe(self, s: Optional[str]) -> Optional[str]:
         """Hash string with rotating salt if in production mode"""
         if not s or not self.is_prod:
@@ -127,9 +203,12 @@ class SqlMemory(AkaqMemory):
             "approach_avoid_score",
             "colorfield",
             "temporal_feel",
-            "agency_feel",
+            "agency_feel", 
             "scenario",
             "test_context",
+            "cfg_version",  # Configuration version (essential metadata)
+            "policy_sig",   # Policy signature (compliance)
+            "session_id",   # Session identifier (non-PII)
         }
 
         return {k: v for k, v in context.items() if k in safe_fields}
@@ -163,6 +242,7 @@ class SqlMemory(AkaqMemory):
 
             try:
                 # Prepare scene data with privacy measures
+                user_id_hash = self._hash_safe(user_id)  # Hash user_id in production
                 subject = self._hash_safe(scene.get("subject"))
                 object_field = self._hash_safe(scene.get("object"))
                 proto = scene["proto"]
@@ -180,6 +260,9 @@ class SqlMemory(AkaqMemory):
                     proto_vec_param = json.dumps(proto_vec)
 
                 with self.engine.begin() as tx:
+                    # Extract timestamp from scene if available
+                    scene_timestamp = scene.get("timestamp", dt.datetime.now(timezone.utc).timestamp())
+
                     # Insert scene with all metrics
                     tx.execute(
                         text(
@@ -188,17 +271,17 @@ class SqlMemory(AkaqMemory):
                             scene_id, user_id, subject, object, proto, proto_vec, risk, context,
                             transform_chain, collapse_hash, drift_phi, congruence_index, neurosis_risk,
                             repair_delta, sublimation_rate, affect_energy_before, affect_energy_after,
-                            affect_energy_diff, cfg_version
+                            affect_energy_diff, cfg_version, timestamp
                         ) VALUES (
                             :scene_id, :user_id, :subject, :object, :proto, :proto_vec, :risk, :context,
                             :transform_chain, :collapse_hash, :drift_phi, :congruence_index, :neurosis_risk,
-                            :repair_delta, :sublimation_rate, :E_before, :E_after, :E_diff, :cfg_version
+                            :repair_delta, :sublimation_rate, :E_before, :E_after, :E_diff, :cfg_version, :timestamp
                         )
                         """
                         ),
                         {
                             "scene_id": scene_id,
-                            "user_id": user_id,
+                            "user_id": user_id_hash,  # Use hashed user_id
                             "subject": subject,
                             "object": object_field,
                             "proto": json.dumps(proto),
@@ -216,17 +299,25 @@ class SqlMemory(AkaqMemory):
                             "E_after": metrics.get("affect_energy_after"),
                             "E_diff": metrics.get("affect_energy_diff"),
                             "cfg_version": cfg_version,
+                            "timestamp": scene_timestamp,
                         },
                     )
 
                     # Insert glyphs
                     for glyph in glyphs:
+                        glyph_id = self._generate_scene_id()  # Generate unique ID for glyph
                         tx.execute(
-                            text("INSERT INTO akaq_glyph (scene_id, key, attrs) VALUES (:sid, :k, :a)"),
+                            text("""
+                                INSERT INTO akaq_glyph (glyph_id, scene_id, user_id, glyph_key, glyph_attrs, priority)
+                                VALUES (:glyph_id, :scene_id, :user_id, :glyph_key, :glyph_attrs, :priority)
+                            """),
                             {
-                                "sid": scene_id,
-                                "k": glyph["key"],
-                                "a": json.dumps(glyph.get("attrs", {})),
+                                "glyph_id": glyph_id,
+                                "scene_id": scene_id,
+                                "user_id": user_id,
+                                "glyph_key": glyph["key"],
+                                "glyph_attrs": json.dumps(glyph.get("attrs", {})),
+                                "priority": glyph.get("priority", 0.5),
                             },
                         )
 
@@ -267,10 +358,10 @@ class SqlMemory(AkaqMemory):
                     text(
                         """
                         SELECT scene_id, proto, risk, drift_phi, congruence_index,
-                               neurosis_risk, repair_delta, ts
+                               neurosis_risk, repair_delta, timestamp
                         FROM akaq_scene
-                        WHERE user_id = :user_id AND ts < :before_ts
-                        ORDER BY ts DESC
+                        WHERE user_id = :user_id AND timestamp < :before_ts
+                        ORDER BY timestamp DESC
                         LIMIT 1
                     """
                     ),
@@ -297,64 +388,80 @@ class SqlMemory(AkaqMemory):
             return None
 
     def history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
-        """Get reverse-chronological scene history"""
-        try:
-            where_clause = "WHERE user_id = :user_id"
-            params = {"user_id": user_id, "limit": limit}
+        """Get reverse-chronological slice of scenes for user"""
+        with measure_memory_operation("sql_history"):
+            scenes = []
 
-            if since:
-                where_clause += " AND ts > :since"
-                params["since"] = since
+            # Hash user ID if in production
+            user_id_hash = self._hash_safe(user_id)
 
-            with self.engine.begin() as conn:
-                result = conn.execute(
-                    text(
-                        f"""
-                        SELECT scene_id, ts, proto, risk, drift_phi, congruence_index
-                        FROM akaq_scene
-                        {where_clause}
-                        ORDER BY ts DESC
-                        LIMIT :limit
-                    """
-                    ),
-                    params,
-                )
+            with self.engine.connect() as conn:
+                query = """
+                    SELECT scene_id, timestamp, proto, risk, context, drift_phi, congruence_index, neurosis_risk, subject, object
+                    FROM akaq_scene
+                    WHERE user_id = :user_id
+                """
+                params = {"user_id": user_id_hash}
 
-                scenes = []
-                for row in result.fetchall():
+                if since:
+                    since_ts = since.timestamp()
+                    query += " AND timestamp > :since"
+                    params["since"] = since_ts
+
+                query += " ORDER BY timestamp DESC LIMIT :limit"
+                params["limit"] = limit
+
+                result = conn.execute(text(query), params)
+
+                for row in result:
                     scenes.append(
                         {
                             "scene_id": row[0],
                             "timestamp": row[1],
-                            "proto": json.loads(row[2]),
-                            "risk": json.loads(row[3]),
-                            "drift_phi": row[4],
-                            "congruence_index": row[5],
+                            "proto": json.loads(row[2] or "{}"),
+                            "risk": json.loads(row[3] or "{}"),
+                            "context": json.loads(row[4] or "{}"),
+                            "drift_phi": row[5],
+                            "congruence_index": row[6],
+                            "neurosis_risk": row[7],
+                            "subject": row[8],
+                            "object": row[9],
                         }
                     )
 
-                return scenes
+            logger.debug(f"Retrieved {len(scenes)} scenes for user {user_id}")
+            return scenes
 
-        except Exception as e:
-            logger.error(f"Failed to fetch history: {e!s}")
-            return []
+    def get_scene_history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
+        """Alias for history method to match test expectations"""
+        return self.history(user_id=user_id, limit=limit, since=since)
 
-    def search_by_glyph(self, *, user_id: str, key: str, limit: int = 50) -> list[dict[str, Any]]:
+    def search_by_glyph(
+        self, *, user_id: str, key: Optional[str] = None, glyph_key: Optional[str] = None, limit: int = 50
+    ) -> list[dict[str, Any]]:
         """Find scenes that emitted a specific glyph"""
+        # Support both 'key' and 'glyph_key' parameter names for compatibility
+        search_key = key or glyph_key
+        if not search_key:
+            raise ValueError("Either 'key' or 'glyph_key' must be provided")
+            
         try:
+            # Hash user ID if in production
+            user_id_hash = self._hash_safe(user_id)
+            
             with self.engine.begin() as conn:
                 result = conn.execute(
                     text(
                         """
-                        SELECT s.scene_id, s.ts, s.proto, s.risk, g.attrs
+                        SELECT s.scene_id, s.timestamp, s.proto, s.risk, s.subject, s.object, g.glyph_attrs
                         FROM akaq_glyph g
                         JOIN akaq_scene s ON g.scene_id = s.scene_id
-                        WHERE s.user_id = :user_id AND g.key = :key
-                        ORDER BY s.ts DESC
+                        WHERE s.user_id = :user_id AND g.glyph_key = :key
+                        ORDER BY s.timestamp DESC
                         LIMIT :limit
                     """
                     ),
-                    {"user_id": user_id, "key": key, "limit": limit},
+                    {"user_id": user_id_hash, "key": search_key, "limit": limit},
                 )
 
                 scenes = []
@@ -365,8 +472,10 @@ class SqlMemory(AkaqMemory):
                             "timestamp": row[1],
                             "proto": json.loads(row[2]),
                             "risk": json.loads(row[3]),
-                            "glyph_attrs": json.loads(row[4]),
-                            "glyph_key": key,
+                            "subject": row[4],
+                            "object": row[5],
+                            "glyph_attrs": json.loads(row[6]),
+                            "glyph_key": search_key,
                         }
                     )
 

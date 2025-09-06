@@ -141,7 +141,7 @@ class TEQGuardian:
         # Get enforcement actions for this severity level
         actions = self.config["severity_actions"].get(scene.risk.severity.value, [])
 
-        modified_scene = scene.copy(deep=True)
+        modified_scene = scene.model_copy(deep=True)
         enforcement_log = []
 
         for action in actions:

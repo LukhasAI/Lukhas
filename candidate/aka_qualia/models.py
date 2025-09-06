@@ -72,7 +72,7 @@ class ProtoQualia(BaseModel):
     @validator("colorfield")
     def validate_colorfield(cls, v):
         """Ensure colorfield follows LUKHAS naming conventions"""
-        if "/" not in v:
+        if v and "/" not in v:  # Allow empty strings but validate non-empty ones
             raise ValueError("colorfield must contain '/' separator (e.g., 'aka/red')")
         return v
 

@@ -5,7 +5,7 @@ LUKHAS RL Engine Components
 Core RL algorithm implementations for consciousness-aware learning.
 """
 
-from .consciousness_environment import (
+from ..environments.consciousness_environment import (
     ConsciousnessAction,
     ConsciousnessActionType,
     ConsciousnessEnvironment,

@@ -13,6 +13,7 @@ V2+: Learned/profiled mapper based on cultural psychology research
 
 from dataclasses import dataclass
 from enum import Enum
+from typing import Optional
 
 
 class CultureProfile(str, Enum):
@@ -125,43 +126,61 @@ def map_colorfield(colorfield: str, culture: str = "default") -> PaletteBias:
     # Get culture table
     culture_table = CULTURE_PALETTE_TABLES.get(culture_profile, CULTURE_PALETTE_TABLES[CultureProfile.DEFAULT])
 
-    # Extract color name from colorfield
-    color_name = _extract_color_name(colorfield)
+    # Extract color name from colorfield with fallback support
+    color_name, fallback_color = _extract_color_name(colorfield)
 
-    # Look up bias scores
-    bias = culture_table.get(color_name.lower(), DEFAULT_BIAS)
+    # Look up bias scores, try primary color first, then fallback
+    bias = culture_table.get(color_name.lower())
+    if bias is None and fallback_color:
+        bias = culture_table.get(fallback_color.lower())
+    if bias is None:
+        bias = DEFAULT_BIAS
 
     return bias
 
 
-def _extract_color_name(colorfield: str) -> str:
+def _extract_color_name(colorfield: str) -> tuple[str, Optional[str]]:
     """
     Extract color name from colorfield string.
 
     Handles formats:
-    - "aka/red" -> "aka" (prefer Japanese if available)
-    - "red" -> "red"
-    - "RGB(255,0,0)" -> "red" (future enhancement)
+    - "aka/red" -> ("aka", "red") (prefer Japanese if available, fallback to red)
+    - "western/crimson" -> ("western", "red") (prefer western, fallback to red via crimson mapping)
+    - "red" -> ("red", None)
+    - "RGB(255,0,0)" -> ("red", None) (future enhancement)
 
     Args:
         colorfield: Colorfield string
 
     Returns:
-        str: Extracted color name
+        tuple[str, Optional[str]]: (primary_color, fallback_color)
     """
     if not colorfield:
-        return "unknown"
+        return ("unknown", None)
 
-    # Handle slash-separated format (e.g., "aka/red")
+    # Handle slash-separated format (e.g., "aka/red", "western/crimson")
     if "/" in colorfield:
         parts = colorfield.split("/")
-        # Prefer the first part (often the cultural-specific name)
         primary_color = parts[0].strip().lower()
-        return primary_color
+        
+        # Get fallback from second part if available
+        fallback_color = None
+        if len(parts) > 1:
+            second_part = parts[1].strip().lower()
+            # Map the second part through color mappings
+            fallback_color = _map_color_variant(second_part)
+        
+        return (primary_color, fallback_color)
 
     # Handle simple color names
     color_name = colorfield.strip().lower()
+    mapped_color = _map_color_variant(color_name)
+    
+    return (mapped_color, None)
 
+
+def _map_color_variant(color_name: str) -> str:
+    """Map color variants to base colors."""
     # Map common variations
     color_mappings = {
         "crimson": "red",

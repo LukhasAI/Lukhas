@@ -90,7 +90,11 @@ def test_single_domain_content():
     content_preview = result["content"][:500] + "..."
     print(f"\n📄 Content preview:\n{content_preview}")
 
-    return result
+    # Assert successful generation instead of returning
+    assert result["content_id"] is not None
+    assert result["word_count"] > 0
+    assert len(result["constellation_stars"]) > 0
+    assert len(result["sections"]) > 0
 
 
 def test_multiple_domains():
@@ -112,7 +116,10 @@ def test_multiple_domains():
             print(f"❌ Error with {domain}: {e}")
             results[domain] = {"error": str(e)}
 
-    return results
+    # Assert successful generation instead of returning
+    assert len(results) > 0
+    successful_results = [r for r in results.values() if "error" not in r]
+    assert len(successful_results) > 0, "At least one domain should generate content successfully"
 
 
 def test_style_guide_integration():

@@ -169,6 +169,7 @@ def normalize_glyph_keys(glyphs: list[PhenomenalGlyph]) -> list[PhenomenalGlyph]
             "redthreshold": "aka:red_threshold",
             "akavigilance": "aka:vigilance",
             "vigilance": "aka:vigilance",
+            "vigilancealert": "aka:vigilance",  # Handle vigilance_alert variant
             "akasoothe": "aka:soothe_anchor",
             "sootheanchor": "aka:soothe_anchor",
             "akagroundinghint": "aka:grounding_hint",

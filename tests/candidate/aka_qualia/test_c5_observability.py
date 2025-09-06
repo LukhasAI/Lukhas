@@ -154,7 +154,9 @@ def test_prometheus_metrics():
         if line and not line.startswith("#"):
             print(f"    {line}")
 
-    return len(metrics_text) > 0
+    # Assert instead of return
+    assert len(metrics_text) > 0, "Metrics data should be generated"
+    assert "akaq_" in metrics_text, "Metrics should contain akaq prefixes"
 
 
 def main():

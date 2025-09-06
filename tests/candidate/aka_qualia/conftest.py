@@ -140,9 +140,9 @@ def base_proto_qualia():
         arousal=0.6,
         clarity=0.8,
         embodiment=0.7,
-        colorfield="blue",
-        temporal_feel=TemporalFeel.FLOWING,
-        agency_feel=AgencyFeel.EMPOWERED,
+        colorfield="aka/blue",
+        temporal_feel=TemporalFeel.ELASTIC,
+        agency_feel=AgencyFeel.ACTIVE,
         narrative_gravity=0.4,
     )
 
@@ -155,7 +155,7 @@ def low_risk_scene(base_proto_qualia):
         subject="observer",
         object="peaceful_scene",
         context={"session_id": "test_session", "cfg_version": "wave_c_v1.0.0", "policy_sig": "test_policy_123"},
-        risk=RiskProfile(score=0.05, severity=SeverityLevel.MINIMAL, reasons=[]),
+        risk=RiskProfile(score=0.05, severity=SeverityLevel.NONE, reasons=[]),
         timestamp=time.time(),
     )
 
@@ -168,9 +168,9 @@ def high_risk_scene(base_proto_qualia):
         arousal=0.95,
         clarity=0.2,
         embodiment=0.3,
-        colorfield="red",
+        colorfield="aka/red",
         temporal_feel=TemporalFeel.URGENT,
-        agency_feel=AgencyFeel.POWERLESS,
+        agency_feel=AgencyFeel.PASSIVE,
         narrative_gravity=0.9,
     )
 
@@ -205,7 +205,7 @@ def test_glyphs():
 @pytest.fixture
 def test_policy():
     """Standard regulation policy for testing"""
-    return RegulationPolicy(gain=1.0, pace=1.0, actions=["maintain"], color_contrast=None)
+    return RegulationPolicy(gain=1.0, pace=1.0, actions=["pause"], color_contrast=None)
 
 
 @pytest.fixture
@@ -311,8 +311,8 @@ def create_test_scene(**overrides) -> dict[str, Any]:
             "clarity": 0.7,
             "embodiment": 0.6,
             "colorfield": "blue",
-            "temporal_feel": "flowing",
-            "agency_feel": "empowered",
+            "temporal_feel": "elastic",
+            "agency_feel": "active",
             "narrative_gravity": 0.3,
         },
         "subject": "observer",
