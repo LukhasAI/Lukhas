@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Ethical Perception
 Ensures perception respects privacy and ethical boundaries

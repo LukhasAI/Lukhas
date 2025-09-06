@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Trauma Repair Wrapper
 Integration wrapper for advanced trauma repair system

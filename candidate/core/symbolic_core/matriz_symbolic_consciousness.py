@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Symbolic Core Module: Symbolic Consciousness Processing

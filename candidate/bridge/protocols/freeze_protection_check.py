@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # LUKHAS_TAG: freeze_protection, core_trace
 import inspect
 

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: system_bridge.py
 # MODULE: core.integration.system_bridge

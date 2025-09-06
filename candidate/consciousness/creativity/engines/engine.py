@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 🎨 LUKHAS CREATE ENGINE - Advanced Content Generation System
 

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 LUKHAS AI Audio Filters System
 Advanced audio filtering with real-time capabilities and Trinity Framework integration.

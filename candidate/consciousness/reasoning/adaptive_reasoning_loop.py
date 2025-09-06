@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Adaptive Reasoning Loop
 Dynamic reasoning system that adapts strategies based on context and feedback

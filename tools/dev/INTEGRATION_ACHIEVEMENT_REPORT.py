@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+logger = logging.getLogger(__name__)
 """
 LUKHAS Integration Achievement Report
 Summary of what was successfully implemented vs. what remains blocked

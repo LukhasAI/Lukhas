@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Trace Summary Builder
 Converts reasoning traces and decision trees into symbolic narratives

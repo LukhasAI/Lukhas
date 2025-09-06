@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Consciousness Module: Core Consciousness State

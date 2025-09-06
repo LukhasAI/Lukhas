@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Learning Hub
 Central coordination for learning subsystem components with meta-learning

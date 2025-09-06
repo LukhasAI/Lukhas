@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Memory Planning Wrapper
 Provides integration layer for memory planning components

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 LUKHAS AI Audio Processing Pipeline
 Comprehensive audio processing pipeline with Trinity Framework integration.

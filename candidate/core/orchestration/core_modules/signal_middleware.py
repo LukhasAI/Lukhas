@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: signal_middleware.py
 # MODULE: orchestration.signal_middleware

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import Optional
 """
 Bio Module Consolidation Tool
 Merges 19+ bio variants into unified structure

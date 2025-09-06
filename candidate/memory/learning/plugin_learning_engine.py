@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 DocuTutor Plugin Integration with Lukhas AI
 Implements core integration patterns for connecting with Lukhas's systems.

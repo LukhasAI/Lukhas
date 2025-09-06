@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # cross_device_handshake.py
 # Placeholder for Cross-Device Handshake module
 

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Memory Profiler Mock Implementation
 Provides lightweight memory profiling functionality without PyTorch dependencies

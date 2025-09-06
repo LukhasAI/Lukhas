@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: collapse_chain_integrity.py
 # MODULE: orchestration.brain.collapse_chain_integrity

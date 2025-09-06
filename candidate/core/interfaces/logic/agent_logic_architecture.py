@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ΛTRACE: agent_logic_architecture.py
 ΛAGENT: GitHub-Copilot/Jules-Integration

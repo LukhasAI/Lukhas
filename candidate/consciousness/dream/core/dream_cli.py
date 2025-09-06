@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: lukhasdream_cli.py

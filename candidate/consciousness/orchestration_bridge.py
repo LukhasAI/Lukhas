@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Orchestration Bridge - Connects brain components to consciousness module
 """

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: connectivity_engine.py
 # MODULE: core.integration.connectivity_engine

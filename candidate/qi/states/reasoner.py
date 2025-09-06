@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: collapse_reasoner.py
 # MODULE: reasoning.collapse_reasoner

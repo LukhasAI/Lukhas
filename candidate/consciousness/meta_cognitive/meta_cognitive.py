@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: meta_cognitive.py
 # MODULE: core.integration.meta_cognitive.meta_cognitive

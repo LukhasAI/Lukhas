@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ===================================================================================
  MODULE: core.decision.decision_making_bridge

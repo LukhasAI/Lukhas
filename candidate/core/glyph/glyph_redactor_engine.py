@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: glyph_redactor_engine.py
 # MODULE: core.symbolic.security.glyph_redactor_engine

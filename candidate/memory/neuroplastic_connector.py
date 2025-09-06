@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Neuroplastic Connector for MEMORY Module
 Auto-generated connector that integrates isolated components

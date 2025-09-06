@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Endocrine System Integration
 Connects emotional regulation to biological hormone simulation

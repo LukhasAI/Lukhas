@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ⚛️🧠🛡️ TRINITY FRAMEWORK CREATIVE CORE MODULE
 

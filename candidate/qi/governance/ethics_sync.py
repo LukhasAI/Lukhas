@@ -1,3 +1,4 @@
+from typing import List
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: mito_ethics_sync.py

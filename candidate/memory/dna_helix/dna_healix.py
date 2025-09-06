@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 🧬 DNA Healix - Immutable Memory Architecture for LUKHAS
 ======================================================

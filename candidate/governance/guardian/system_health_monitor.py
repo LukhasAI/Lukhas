@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 System Health Monitor for LUKHAS AI - Comprehensive Memory Cascade and API Performance Monitoring
 

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════════
 📊 MODULE: emotion.tools.emotional_echo_detector

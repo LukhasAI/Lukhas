@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 🔐 Helix Vault - Secure Repository for DNA Helix Memories
 ========================================================

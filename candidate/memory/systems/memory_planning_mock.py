@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Memory Planning Mock Implementation
 Provides lightweight memory planning functionality without PyTorch dependencies

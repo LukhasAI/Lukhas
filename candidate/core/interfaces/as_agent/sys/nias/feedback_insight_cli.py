@@ -1,3 +1,4 @@
+from typing import Optional
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: feedback_insight_cli.py

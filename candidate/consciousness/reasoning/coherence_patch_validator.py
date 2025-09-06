@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Coherence Patch Validator
 Validates reasoning coherence and applies patches to maintain logical consistency

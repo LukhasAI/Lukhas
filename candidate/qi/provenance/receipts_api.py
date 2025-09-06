@@ -1,3 +1,4 @@
+from typing import Optional
 # path: qi/provenance/receipts_api.py
 from __future__ import annotations
 

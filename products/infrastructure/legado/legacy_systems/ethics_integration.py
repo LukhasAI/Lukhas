@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+logger = logging.getLogger(__name__)
 """
 Ethics System Integration Module
 Unifies all ethics components into a cohesive system with synchronized decision-making.

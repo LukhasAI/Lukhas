@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+logger = logging.getLogger(__name__)
 """
 Migration script to update LUKHΛS components to use the Symbolic Kernel Bus.
 Removes experimental broadcast/print-based signals and replaces with kernel events.

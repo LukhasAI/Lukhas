@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """Abstract base class for memory hooks
 
 This module defines the interface for memory management hooks that can

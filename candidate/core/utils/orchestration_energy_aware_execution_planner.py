@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════════
 📡 MODULE: core.orchestration.energy_aware_execution_planner

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Reasoning Hub
 Central coordination for reasoning subsystem components

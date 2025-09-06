@@ -1,3 +1,6 @@
+from typing import List
+import logging
+logger = logging.getLogger(__name__)
 """
 Learning System - Auto-generated entity exports
 Generated from entity activation scan

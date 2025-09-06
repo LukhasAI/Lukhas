@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import List
 """
 LUKHAS AI ΛBot Comprehensive CLI Integration
 Connects LUKHAS AI ΛBot PR Review with all documentation, web management,

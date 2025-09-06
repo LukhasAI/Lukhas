@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Neuroplastic Connector for EMOTION Module
 Auto-generated connector that integrates isolated components

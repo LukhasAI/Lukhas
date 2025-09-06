@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import Optional
 """
 Replay Drift - Emergency simulation and Guardian response verification
 Simulates emergency conditions and verifies Guardian System response

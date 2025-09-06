@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: agentic_trace.py
 # MODULE: reasoning.utils.agentic_trace

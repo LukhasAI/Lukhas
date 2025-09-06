@@ -1,3 +1,6 @@
+from datetime import datetime, timezone
+import logging
+logger = logging.getLogger(__name__)
 # LUKHAS Federated Learning System
 # Transferred from Lucas-Portfolio Pre-Final 2 (2025-05-13)
 # Enhanced for LUKHAS architecture

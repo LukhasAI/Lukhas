@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # --- LUKHΛS AI Standard Header ---
 # File: core_integrator.py
 # Path: integration/core_integrator.py

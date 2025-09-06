@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Sensory Integration
 Processes multiple sensory modalities while maintaining encryption

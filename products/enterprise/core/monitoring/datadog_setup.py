@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import Optional
 """
 LUKHAS AI Datadog Setup and Configuration
 Complete integration with Datadog monitoring for enterprise observability

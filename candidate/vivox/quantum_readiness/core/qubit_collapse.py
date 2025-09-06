@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Qubit Collapse Engine
 Quantum-enhanced collapse mechanisms for ethical decision-making

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY Integration Bridge
 Connects quantum readiness layer with other VIVOX modules

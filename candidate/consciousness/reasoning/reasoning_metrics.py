@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Reasoning Metrics
 Comprehensive metrics for measuring reasoning performance and quality

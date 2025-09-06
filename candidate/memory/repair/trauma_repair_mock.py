@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Trauma Repair Mock Implementation
 Lightweight mock implementation without dependencies

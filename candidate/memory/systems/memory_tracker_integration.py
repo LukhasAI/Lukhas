@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Memory Tracker Integration Module
 Provides integration wrapper for connecting the memory tracker to the memory hub

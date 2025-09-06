@@ -1,3 +1,4 @@
+from typing import Optional
 """
 Setup configuration for LUKHAS Lambda Products Suite
 Enterprise-ready AI modules for integration with Lukhas

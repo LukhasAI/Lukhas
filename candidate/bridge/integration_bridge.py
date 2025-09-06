@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # --- LUKHΛS AI Standard Header ---
 # File: integration_bridge.py
 # Path: integration/framework/integration_bridge.py

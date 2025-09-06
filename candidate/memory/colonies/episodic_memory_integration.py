@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Episodic Memory Colony Integration Module
 Provides integration wrapper for connecting the episodic memory colony to the memory hub

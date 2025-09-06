@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ΛORIGIN_AGENT: Jules-12
 # ΛTASK_ID: 217
 # ΛCOMMIT_WINDOW: post-visualizer

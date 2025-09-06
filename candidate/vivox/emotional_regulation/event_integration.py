@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.ERN Event Bus Integration
 Connects emotional regulation to the system-wide event architecture

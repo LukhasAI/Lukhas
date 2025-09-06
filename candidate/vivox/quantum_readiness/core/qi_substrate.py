@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY Core - Quantum Substrate
 Foundation for quantum computing compatibility

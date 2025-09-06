@@ -1,3 +1,4 @@
+from typing import Optional
 # core/interfaces/custom_llm.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Defines a Pydantic model for custom Large Language Model configurations.

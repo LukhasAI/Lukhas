@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: trace_mapper.py
 # MODULE: reasoning.diagnostics.trace_mapper

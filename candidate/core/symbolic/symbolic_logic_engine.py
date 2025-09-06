@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: symbolic_logic_engine.py
 # MODULE: reasoning.symbolic_logic_engine

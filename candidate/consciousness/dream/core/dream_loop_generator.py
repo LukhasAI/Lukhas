@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # Jules-05 Placeholder File
 # Purpose: To provide a modular and configurable way to generate dream loops. This module would likely contain a class that can be configured with different memory selection strategies, dream seeding functions, and feedback mechanisms, allowing for the creation of a variety of different dream loops for different purposes.
 # ΛPLACEHOLDER #ΛMISSING_MODULE

@@ -1,3 +1,4 @@
+from typing import List
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: lukhas_dashboard_settings.py

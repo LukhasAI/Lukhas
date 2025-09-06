@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import Optional
 """
 Candidate → Lukhas promotion helper (safe, auditable).
 

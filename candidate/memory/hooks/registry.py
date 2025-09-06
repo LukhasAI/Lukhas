@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """Hook Registry for Memory Management
 
 This module manages the registration and execution of memory hooks,

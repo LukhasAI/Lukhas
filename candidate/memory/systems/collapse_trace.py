@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # Jules-05 Placeholder File
 # Referenced in initial prompt
 # Purpose: To trace and log memory collapse events, where multiple memory states are resolved into a singular state.

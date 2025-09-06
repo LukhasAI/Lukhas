@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Symbolic Loop Harmonizer
 Harmonizes reasoning loops by detecting and correcting symbolic misalignments

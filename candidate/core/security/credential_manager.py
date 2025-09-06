@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Secure Credential Management System for LUKHAS AI
 ================================================

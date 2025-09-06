@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Resonance Module
 Auto-generated module initialization file

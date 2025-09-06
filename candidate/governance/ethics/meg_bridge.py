@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """Bridge between Meta-Ethics Governor (MEG) and Ethics Policy System
 
 

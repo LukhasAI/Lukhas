@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════
 # FILENAME: recall_handler.py
 # MODULE: memory.core_memory.recall_handler

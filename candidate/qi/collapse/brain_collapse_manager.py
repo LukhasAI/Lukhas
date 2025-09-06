@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: brain_collapse_manager.py
 # MODULE: orchestration.brain.brain_collapse_manager

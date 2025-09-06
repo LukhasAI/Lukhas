@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: entropy_probe.py
 # MODULE: orchestration.brain.entropy_probe

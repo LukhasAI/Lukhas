@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 LUKHAS Trust Scorer - Enhanced Authentication Intelligence
 Integrates behavioral analysis and risk assessment with existing LUKHAS security standards

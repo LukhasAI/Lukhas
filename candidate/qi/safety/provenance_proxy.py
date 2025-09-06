@@ -1,3 +1,4 @@
+from typing import Optional
 # path: qi/safety/provenance_proxy.py
 from __future__ import annotations
 

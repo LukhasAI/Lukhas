@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # LUKHAS_TAG: plugin_loader, orchestration_extension
 import importlib
 from pathlib import Path

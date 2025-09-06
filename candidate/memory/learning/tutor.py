@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 TutorEngine: Intelligent tutoring system that integrates with Lukhas AI capabilities.
 Combines Steve Jobs' perfect UX with Sam Altman's AI vision.

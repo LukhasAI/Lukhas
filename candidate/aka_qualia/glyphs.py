@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import List
 
 """
 Aka Qualia GLYPH Mapping System (Wave C - C1)

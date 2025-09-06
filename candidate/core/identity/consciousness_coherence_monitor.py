@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Identity Coherence Monitor: Real-time Consciousness State Monitoring

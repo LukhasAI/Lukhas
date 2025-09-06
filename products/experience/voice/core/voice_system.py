@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 LUKHAS AI Enhanced Voice Processing System
 Advanced voice processing with consciousness integration and real-time capabilities.

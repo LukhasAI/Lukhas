@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
 lukhas AI System - Core Voice Component

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════
 # FILENAME: MemoryManager.py (AdvancedMemoryManager)
 # MODULE: memory.core_memory.MemoryManager

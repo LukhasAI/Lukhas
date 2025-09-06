@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║ MODULE        : voice_personality.py                                      ║

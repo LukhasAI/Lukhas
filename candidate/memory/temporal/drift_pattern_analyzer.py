@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: drift_pattern_analyzer.py
 # MODULE: orchestration.brain.drift_pattern_analyzer

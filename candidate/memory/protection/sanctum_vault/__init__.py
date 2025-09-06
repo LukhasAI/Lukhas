@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Sanctum Vault Module
 Auto-generated module initialization file

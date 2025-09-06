@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+logger = logging.getLogger(__name__)
 """
 Simplified Ethics Integration Module
 A working integration that uses available components and provides fallbacks for missing ones.

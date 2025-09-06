@@ -1,3 +1,4 @@
+from typing import Optional
 # path: qi/docs/model_safety_card.py
 from __future__ import annotations
 

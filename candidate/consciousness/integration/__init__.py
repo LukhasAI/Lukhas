@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Integration Module
 Auto-generated module initialization file

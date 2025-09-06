@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Dev Tools Utils Module
 Provides utilities for development and debugging of LUKHAS  system

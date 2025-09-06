@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Meta-Learning Enhancement System Mock Implementation
 Lightweight mock implementation without heavy dependencies

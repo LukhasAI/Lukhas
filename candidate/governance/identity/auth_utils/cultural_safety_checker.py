@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 LUKHAS Cultural Safety Checker - Emoji Cultural Exclusion Validator
 

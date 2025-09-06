@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 lukhas AI System - Function Library
 Path: lukhas/core/dreams/dream_engine.py

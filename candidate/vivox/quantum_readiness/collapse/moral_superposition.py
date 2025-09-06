@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Moral Superposition
 Quantum superposition for exploring ethical ambiguities

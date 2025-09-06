@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+logger = logging.getLogger(__name__)
 """
 lukhasConsciousnessState.py - Consciousness Component for AI System
 

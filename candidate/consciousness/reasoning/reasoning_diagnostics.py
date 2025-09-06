@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Reasoning Diagnostics
 Comprehensive diagnostics and health checks for the reasoning system

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ΛORIGIN_AGENT: Claude-4-Harmonizer
 # ΛTASK_ID: CLAUDE_11_SYMBOLIC_DRIFT_ENGINE
 # ΛCOMMIT_WINDOW: drift-scoring-engine-implementation

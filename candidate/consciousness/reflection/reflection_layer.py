@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: reflection_layer.py
 # MODULE: core.Adaptative_AGI.GUARDIAN.reflection_layer

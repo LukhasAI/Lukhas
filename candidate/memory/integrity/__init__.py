@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Integrity Module
 Auto-generated module initialization file

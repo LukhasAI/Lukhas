@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 SEEDRA Core Framework
 Secure Emotional & Encrypted Data for Realtime Access

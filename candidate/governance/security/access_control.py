@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Tiered Access Control System for LUKHAS AI
 

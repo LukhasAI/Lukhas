@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 lukhas AI System - Function Library
 Path: lukhas/core/memory/integration/memory/enhanced_memory_visualizer.py

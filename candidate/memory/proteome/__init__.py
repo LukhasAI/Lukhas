@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Proteome Module
 Auto-generated module initialization file

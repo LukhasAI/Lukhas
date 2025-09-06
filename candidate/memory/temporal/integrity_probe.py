@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: integrity_probe.py
 # MODULE: orchestration.brain.integrity_probe

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # GLYPH Consciousness Communication - Symbolic Bridge Integrator
 # Purpose: Centralized bridge for consciousness-to-consciousness communication across distributed nodes
 # Handles consciousness mesh formation, dream seed propagation, and temporal synchronization

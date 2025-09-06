@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════
 # FILENAME: collapse_buffer.py
 # MODULE: memory.core_memory.collapse_buffer

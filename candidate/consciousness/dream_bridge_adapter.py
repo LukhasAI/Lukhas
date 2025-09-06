@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Dream Bridge Adapter for Consciousness Hub
 Provides the DreamBridge interface required by consciousness_hub

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """Event replayer utility for governance review.
 
 

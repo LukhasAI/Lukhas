@@ -1,3 +1,4 @@
+from typing import Dict
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: neuro_symbolic_engine.py

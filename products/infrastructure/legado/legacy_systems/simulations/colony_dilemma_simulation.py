@@ -1,4 +1,6 @@
 """Simulate an ethical dilemma across colonies."""
+import logging
+logger = logging.getLogger(__name__)
 
 import asyncio
 from dataclasses import dataclass

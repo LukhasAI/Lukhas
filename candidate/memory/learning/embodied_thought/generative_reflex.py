@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: generative_reflex.py
 # MODULE: learning.embodied_thought.generative_reflex

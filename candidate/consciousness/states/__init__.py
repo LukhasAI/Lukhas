@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 States Module
 Auto-generated module initialization file

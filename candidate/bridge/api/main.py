@@ -1,3 +1,4 @@
+from typing import List
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: main.py
 # MODULE: oneiric_core

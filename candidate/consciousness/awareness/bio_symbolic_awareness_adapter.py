@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 filepath: /Users/A_G_I/lukhas/bio/awareness/bio_symbolic_awareness_adapter.py
 lukhas AI System - Function Library

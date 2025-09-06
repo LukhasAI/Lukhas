@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: collapse_bridge.py
 # MODULE: orchestration.brain.collapse_bridge

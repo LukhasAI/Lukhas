@@ -1,3 +1,4 @@
+from typing import Optional
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: compliance_dashboard.py
 # 🛡️ PURPOSE: Institutional compliance viewer for emergency logs and GDPR status

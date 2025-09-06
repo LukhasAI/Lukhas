@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: memory/core_memory/bio_symbolic_memory.py
 # MODULE: memory.core_memory.bio_symbolic_memory

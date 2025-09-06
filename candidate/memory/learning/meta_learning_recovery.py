@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: meta_learning_recovery.py
 # MODULE: learning.meta_learning_recovery

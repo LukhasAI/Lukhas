@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: learn_to_learn.py

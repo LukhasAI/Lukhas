@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 Scaffold Module
 Auto-generated module initialization file

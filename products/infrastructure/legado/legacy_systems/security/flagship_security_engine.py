@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import logging
+logger = logging.getLogger(__name__)
+import logging
 
 """
 Lukhas AI Flagship - Main System Entry Point

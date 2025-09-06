@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # mypy: allow-untyped-defs
 import base64
 import io

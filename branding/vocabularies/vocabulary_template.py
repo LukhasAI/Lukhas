@@ -1,3 +1,4 @@
+from typing import Optional
 """
 LUKHAS [MODULE_NAME] Vocabulary Template
 ========================================

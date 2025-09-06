@@ -1,3 +1,4 @@
+from typing import List
 """Central plugin registry for the LUKHAS system.
 
 ΛTAG: plugin_registry

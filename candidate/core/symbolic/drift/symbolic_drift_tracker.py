@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🌀 LUKHAS AI - SYMBOLIC DRIFT TRACKER INTERFACE

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════
 # FILENAME: MemoryResonanceAnalyzer.py
 # MODULE: memory.core_memory.MemoryResonanceAnalyzer

@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 QRG 100% Coverage Integration Module
 Provides integration wrapper for connecting the comprehensive QRG test suite to the identity hub

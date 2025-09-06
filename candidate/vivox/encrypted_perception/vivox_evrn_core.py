@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Core - Encrypted Visual Recognition Node
 Handles encrypted perception without exposing decoded content

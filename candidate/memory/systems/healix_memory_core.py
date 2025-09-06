@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: memory/core_memory/healix_memory_core.py
 # MODULE: memory.core_memory.healix_memory_core

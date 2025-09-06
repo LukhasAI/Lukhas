@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 """
 ΛTRACE: consent_manager.py
 ΛAGENT: GitHub-Copilot/Jules-Integration

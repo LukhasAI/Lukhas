@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════
 # FILENAME: memory_drift_stabilizer.py
 # MODULE: memory.core_memory.memory_drift_stabilizer

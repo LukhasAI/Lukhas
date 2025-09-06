@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import List
 """
 Safe Cleanup Analysis for LUKHAS AI
 Combines usage analysis with AI/AGI value scoring to prevent accidental deletion

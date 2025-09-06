@@ -1,4 +1,6 @@
 """Misinterpretation scenario simulator for ethical tags."""
+import logging
+logger = logging.getLogger(__name__)
 
 from __future__ import annotations
 
