@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 
 const NeuralBackground = dynamic(() => import('@/components/neural-background'), { ssr: false })
 
-type Mode = "landing" | "studio"
+type Mode = "landing" | "studio" | "showcase"
 
 interface NeuralBackgroundWrapperProps {
   mode?: Mode

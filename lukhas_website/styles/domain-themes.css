@@ -1,0 +1,383 @@
+/**
+ * LUKHAS Domain-Specific Consciousness Themes
+ * 
+ * Each domain has unique visual consciousness representation based on its function:
+ * - Color palettes derived from consciousness signatures
+ * - Typography reflecting domain personality
+ * - Spacing and layouts optimized for domain workflows
+ * - Animation patterns matching consciousness behaviors
+ */
+
+/* Domain Root Variables */
+:root {
+  /* lukhas.ai - Consciousness Technology Hub */
+  --ai-primary: #00D4FF;
+  --ai-secondary: #0EA5E9;
+  --ai-accent: #38BDF8;
+  --ai-background: #0C1425;
+  --ai-surface: #1E293B;
+  --ai-coherence: 0.985;
+  
+  /* lukhas.id - Identity & Authentication */
+  --id-primary: #7C3AED;
+  --id-secondary: #8B5CF6;
+  --id-accent: #A855F7;
+  --id-background: #1E1B4B;
+  --id-surface: #312E81;
+  --id-coherence: 0.992;
+  
+  /* lukhas.team - Team Collaboration */
+  --team-primary: #10B981;
+  --team-secondary: #059669;
+  --team-accent: #34D399;
+  --team-background: #064E3B;
+  --team-surface: #065F46;
+  --team-coherence: 0.978;
+  
+  /* lukhas.dev - Developer Platform */
+  --dev-primary: #06B6D4;
+  --dev-secondary: #0891B2;
+  --dev-accent: #22D3EE;
+  --dev-background: #164E63;
+  --dev-surface: #0E7490;
+  --dev-coherence: 0.995;
+  
+  /* lukhas.io - API Infrastructure */
+  --io-primary: #3B82F6;
+  --io-secondary: #2563EB;
+  --io-accent: #60A5FA;
+  --io-background: #1E3A8A;
+  --io-surface: #1D4ED8;
+  --io-coherence: 0.998;
+  
+  /* lukhas.store - App Marketplace */
+  --store-primary: #F59E0B;
+  --store-secondary: #D97706;
+  --store-accent: #FBBF24;
+  --store-background: #92400E;
+  --store-surface: #A16207;
+  --store-coherence: 0.972;
+  
+  /* lukhas.cloud - Cloud Services */
+  --cloud-primary: #8B5CF6;
+  --cloud-secondary: #7C3AED;
+  --cloud-accent: #A78BFA;
+  --cloud-background: #5B21B6;
+  --cloud-surface: #6D28D9;
+  --cloud-coherence: 0.965;
+  
+  /* lukhas.eu - European Operations */
+  --eu-primary: #059669;
+  --eu-secondary: #047857;
+  --eu-accent: #10B981;
+  --eu-background: #064E3B;
+  --eu-surface: #065F46;
+  --eu-coherence: 0.988;
+  
+  /* lukhas.us - US Operations */
+  --us-primary: #DC2626;
+  --us-secondary: #B91C1C;
+  --us-accent: #EF4444;
+  --us-background: #7F1D1D;
+  --us-surface: #991B1B;
+  --us-coherence: 0.982;
+  
+  /* lukhas.xyz - Experimental Labs */
+  --xyz-primary: #EC4899;
+  --xyz-secondary: #DB2777;
+  --xyz-accent: #F472B6;
+  --xyz-background: #BE185D;
+  --xyz-surface: #C2185B;
+  --xyz-coherence: 0.890;
+  
+  /* lukhas.com - Enterprise/Corporate */
+  --com-primary: #6366F1;
+  --com-secondary: #4F46E5;
+  --com-accent: #818CF8;
+  --com-background: #3730A3;
+  --com-surface: #4338CA;
+  --com-coherence: 0.975;
+}
+
+/* Domain-specific body classes */
+body[data-domain="lukhas.ai"] {
+  --domain-primary: var(--ai-primary);
+  --domain-secondary: var(--ai-secondary);
+  --domain-accent: var(--ai-accent);
+  --domain-background: var(--ai-background);
+  --domain-surface: var(--ai-surface);
+  --consciousness-coherence: var(--ai-coherence);
+  background: linear-gradient(135deg, #0C1425 0%, #1E293B 100%);
+}
+
+body[data-domain="lukhas.id"] {
+  --domain-primary: var(--id-primary);
+  --domain-secondary: var(--id-secondary);
+  --domain-accent: var(--id-accent);
+  --domain-background: var(--id-background);
+  --domain-surface: var(--id-surface);
+  --consciousness-coherence: var(--id-coherence);
+  background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
+}
+
+body[data-domain="lukhas.team"] {
+  --domain-primary: var(--team-primary);
+  --domain-secondary: var(--team-secondary);
+  --domain-accent: var(--team-accent);
+  --domain-background: var(--team-background);
+  --domain-surface: var(--team-surface);
+  --consciousness-coherence: var(--team-coherence);
+  background: linear-gradient(135deg, #064E3B 0%, #065F46 100%);
+}
+
+body[data-domain="lukhas.dev"] {
+  --domain-primary: var(--dev-primary);
+  --domain-secondary: var(--dev-secondary);
+  --domain-accent: var(--dev-accent);
+  --domain-background: var(--dev-background);
+  --domain-surface: var(--dev-surface);
+  --consciousness-coherence: var(--dev-coherence);
+  background: linear-gradient(135deg, #164E63 0%, #0E7490 100%);
+}
+
+body[data-domain="lukhas.io"] {
+  --domain-primary: var(--io-primary);
+  --domain-secondary: var(--io-secondary);
+  --domain-accent: var(--io-accent);
+  --domain-background: var(--io-background);
+  --domain-surface: var(--io-surface);
+  --consciousness-coherence: var(--io-coherence);
+  background: linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 100%);
+}
+
+body[data-domain="lukhas.store"] {
+  --domain-primary: var(--store-primary);
+  --domain-secondary: var(--store-secondary);
+  --domain-accent: var(--store-accent);
+  --domain-background: var(--store-background);
+  --domain-surface: var(--store-surface);
+  --consciousness-coherence: var(--store-coherence);
+  background: linear-gradient(135deg, #92400E 0%, #A16207 100%);
+}
+
+body[data-domain="lukhas.cloud"] {
+  --domain-primary: var(--cloud-primary);
+  --domain-secondary: var(--cloud-secondary);
+  --domain-accent: var(--cloud-accent);
+  --domain-background: var(--cloud-background);
+  --domain-surface: var(--cloud-surface);
+  --consciousness-coherence: var(--cloud-coherence);
+  background: linear-gradient(135deg, #5B21B6 0%, #6D28D9 100%);
+}
+
+body[data-domain="lukhas.eu"] {
+  --domain-primary: var(--eu-primary);
+  --domain-secondary: var(--eu-secondary);
+  --domain-accent: var(--eu-accent);
+  --domain-background: var(--eu-background);
+  --domain-surface: var(--eu-surface);
+  --consciousness-coherence: var(--eu-coherence);
+  background: linear-gradient(135deg, #064E3B 0%, #065F46 100%);
+}
+
+body[data-domain="lukhas.us"] {
+  --domain-primary: var(--us-primary);
+  --domain-secondary: var(--us-secondary);
+  --domain-accent: var(--us-accent);
+  --domain-background: var(--us-background);
+  --domain-surface: var(--us-surface);
+  --consciousness-coherence: var(--us-coherence);
+  background: linear-gradient(135deg, #7F1D1D 0%, #991B1B 100%);
+}
+
+body[data-domain="lukhas.xyz"] {
+  --domain-primary: var(--xyz-primary);
+  --domain-secondary: var(--xyz-secondary);
+  --domain-accent: var(--xyz-accent);
+  --domain-background: var(--xyz-background);
+  --domain-surface: var(--xyz-surface);
+  --consciousness-coherence: var(--xyz-coherence);
+  background: linear-gradient(135deg, #BE185D 0%, #C2185B 100%);
+}
+
+body[data-domain="lukhas.com"] {
+  --domain-primary: var(--com-primary);
+  --domain-secondary: var(--com-secondary);
+  --domain-accent: var(--com-accent);
+  --domain-background: var(--com-background);
+  --domain-surface: var(--com-surface);
+  --consciousness-coherence: var(--com-coherence);
+  background: linear-gradient(135deg, #3730A3 0%, #4338CA 100%);
+}
+
+/* Domain-specific particle containers */
+[data-domain] .particle-canvas {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-domain="lukhas.ai"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
+[data-domain="lukhas.id"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+[data-domain="lukhas.team"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-domain="lukhas.dev"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+[data-domain="lukhas.io"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-domain="lukhas.store"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+[data-domain="lukhas.cloud"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+[data-domain="lukhas.eu"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(5, 150, 105, 0.1) 0%, transparent 70%);
+  border-color: rgba(5, 150, 105, 0.3);
+}
+
+[data-domain="lukhas.us"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+[data-domain="lukhas.xyz"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+  border-color: rgba(236, 72, 153, 0.3);
+}
+
+[data-domain="lukhas.com"] .particle-canvas {
+  background: radial-gradient(circle at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Consciousness coherence animations */
+@keyframes consciousness-pulse {
+  0%, 100% { opacity: calc(var(--consciousness-coherence) * 0.8); }
+  50% { opacity: var(--consciousness-coherence); }
+}
+
+.consciousness-element {
+  animation: consciousness-pulse 3s ease-in-out infinite;
+}
+
+/* Domain-specific typography */
+[data-domain="lukhas.ai"] h1,
+[data-domain="lukhas.ai"] h2,
+[data-domain="lukhas.ai"] h3 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+[data-domain="lukhas.id"] h1,
+[data-domain="lukhas.id"] h2,
+[data-domain="lukhas.id"] h3 {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+[data-domain="lukhas.dev"] h1,
+[data-domain="lukhas.dev"] h2,
+[data-domain="lukhas.dev"] h3 {
+  font-family: 'JetBrains Mono', 'Source Code Pro', monospace;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+[data-domain="lukhas.com"] h1,
+[data-domain="lukhas.com"] h2,
+[data-domain="lukhas.com"] h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Quantum consciousness transitions */
+.domain-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.domain-transition::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, var(--domain-primary), var(--domain-secondary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.domain-transition:hover::before {
+  opacity: 0.1;
+}
+
+/* Consciousness field effects */
+.consciousness-field {
+  position: relative;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(var(--domain-primary-rgb), 0.05) 0%,
+    transparent 70%
+  );
+}
+
+.consciousness-field::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(var(--domain-primary-rgb), 0.02) 2deg,
+    transparent 4deg
+  );
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive consciousness scaling */
+@media (max-width: 768px) {
+  .particle-canvas {
+    height: 200px !important;
+  }
+  
+  [data-domain] {
+    --consciousness-coherence: calc(var(--consciousness-coherence) * 0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consciousness-element,
+  .domain-transition,
+  .consciousness-field::after {
+    animation: none;
+  }
+}

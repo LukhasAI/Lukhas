@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-type Mode = "landing" | "studio";
+type Mode = "landing" | "studio" | "showcase";
 
 export default function NeuralBackground({ mode = "landing" }: { mode?: Mode }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -25,8 +25,8 @@ export default function NeuralBackground({ mode = "landing" }: { mode?: Mode }) 
     window.addEventListener("resize", resize);
 
     // intensity by mode
-    const COUNT = mode === "landing" ? 70 : 40;
-    const THRESH = mode === "landing" ? 140 : 110;
+    const COUNT = mode === "landing" ? 70 : mode === "showcase" ? 80 : 40;
+    const THRESH = mode === "landing" ? 140 : mode === "showcase" ? 150 : 110;
 
     const particles = Array.from({ length: COUNT }, () => ({
       x: Math.random() * canvas.width,

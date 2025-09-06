@@ -38,7 +38,7 @@ class LukhasLambdaIntegrator:
             # Create consciousness bridge
 
             # Connect NIAS to consciousness
-            from lambda_core.NIAS.nias_core import NIΛS
+            from products.communication.nias.core import NIΛS
 
             nias = NIΛS()
 
@@ -88,7 +88,7 @@ class LukhasLambdaIntegrator:
             # Create Guardian bridge for Lambda Products
 
             # Connect NIAS to Guardian
-            from lambda_core.NIAS.nias_core import NIΛS
+            from products.communication.nias.core import NIΛS
 
             nias = NIΛS()
 
@@ -135,7 +135,7 @@ class LukhasLambdaIntegrator:
             # Create memory bridge
 
             # Connect NIAS to memory system
-            from lambda_core.NIAS.nias_core import NIΛS
+            from products.communication.nias.core import NIΛS
 
             nias = NIΛS()
 
@@ -198,7 +198,7 @@ class LukhasLambdaIntegrator:
             print("   ✅ GLYPH symbolic communication enabled")
 
             # Connect NIAS to GLYPH system
-            from lambda_core.NIAS.nias_core import NIΛS
+            from products.communication.nias.core import NIΛS
 
             nias = NIΛS()
 
@@ -254,7 +254,7 @@ class LukhasLambdaIntegrator:
             print("   ✅ Tier-based access control configured")
 
             # Enable tier enforcement in NIAS
-            from lambda_core.NIAS.nias_core import NIΛS
+            from products.communication.nias.core import NIΛS
 
             nias = NIΛS()
 
@@ -284,7 +284,7 @@ class LukhasLambdaIntegrator:
             # Configure dream integration
 
             # Connect NIAS to dream engine
-            from lambda_core.NIAS.nias_core import NIΛS
+            from products.communication.nias.core import NIΛS
 
             nias = NIΛS()
 
@@ -397,7 +397,7 @@ class LukhasLambdaIntegrator:
             print("   ✅ Revenue tracking enabled")
 
             # Enable commercial features in NIAS
-            from lambda_core.NIAS.nias_core import NIΛS
+            from products.communication.nias.core import NIΛS
 
             nias = NIΛS()
 
