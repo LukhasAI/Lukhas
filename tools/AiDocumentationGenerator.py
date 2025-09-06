@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 # Global constant for symbolic memory directory
 SYMBOLIC_MEMORY_DIR = ".lukhas"
-os.makedirs(SYMBOLIC_MEMORY_DIR, exist_ok=True)
+os.makedirs(SYMBOLIC_MEMORY_DIR, exist_ok=True, timezone)
 
 # OpenAI imports and configuration
 try:
@@ -136,13 +136,13 @@ class AIDocumentationGenerator:
             "file": filename,
             "summary": summary,
             "tags": tags,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         with open(os.path.join(SYMBOLIC_MEMORY_DIR, "memoria.jsonl"), "a") as f:
             f.write(json.dumps(memory) + "\n")
 
     def write_symbolic_trail(self, components):
-        trail = {"timestamp": datetime.utcnow().isoformat(), "components": components}
+        trail = {"timestamp": datetime.now(timezone.utc).isoformat(), "components": components}
         with open(os.path.join(SYMBOLIC_MEMORY_DIR, "symbolic_trail.jsonl"), "a") as f:
             f.write(json.dumps(trail, indent=2) + "\n")
 

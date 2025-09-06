@@ -54,7 +54,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class QICoordinator:
@@ -71,7 +71,7 @@ class QICoordinator:
         """Initialize the system"""
         try:
             self.active = True
-            self.stats["initialized_at"] = datetime.now().isoformat()
+            self.stats["initialized_at"] = datetime.now(timezone.utc).isoformat()
             logger.info(f"Initialized {self.__class__.__name__}")
             return True
         except Exception as e:
@@ -86,7 +86,7 @@ class QICoordinator:
         try:
             # Process consciousness data through quantum systems
             result = await self._process_consciousness_quantum_enhanced(consciousness_data)
-            result["timestamp"] = datetime.now().isoformat()
+            result["timestamp"] = datetime.now(timezone.utc).isoformat()
             return result
         except Exception as e:
             logger.error(f"Quantum-inspired processing error: {e}")
@@ -94,7 +94,7 @@ class QICoordinator:
 
     async def _process_consciousness_quantum_enhanced(self, consciousness_data: Any) -> dict[str, Any]:
         """Process consciousness data through integrated quantum systems"""
-        processing_start = datetime.now()
+        processing_start = datetime.now(timezone.utc)
 
         # Initialize quantum components if not already done
         if not hasattr(self, "qi_core"):
@@ -130,7 +130,7 @@ class QICoordinator:
             consciousness_insights = self._extract_consciousness_insights(combined_output)
 
             # Update quantum coordinator statistics
-            processing_time = (datetime.now() - processing_start).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - processing_start).total_seconds()
             self._update_processing_stats(processing_time, consciousness_insights)
 
             return {
@@ -255,7 +255,7 @@ class QICoordinator:
                 "emotional_stability": consciousness_data.get("emotional_stability", 0.0),
                 "ethical_compliance": consciousness_data.get("ethical_compliance", 0.0),
                 "overall_mood": consciousness_data.get("overall_mood", "contemplative"),
-                "timestamp": consciousness_data.get("timestamp", datetime.now().isoformat()),
+                "timestamp": consciousness_data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             }
 
             # Add reflection context if available
@@ -268,7 +268,7 @@ class QICoordinator:
             return {
                 "generic_signal": str(consciousness_data)[:100],
                 "signal_type": type(consciousness_data).__name__,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _combine_quantum_outputs(self, qi_result: dict, bio_quantum_result: dict) -> dict[str, Any]:

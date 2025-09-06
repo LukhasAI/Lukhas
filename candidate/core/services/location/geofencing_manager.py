@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -130,7 +130,7 @@ class GeofencingManager:
             "current_location": self.current_location,
             "active_triggers": self.active_triggers,
             "nearby_regions": [region.name for region in await self.get_nearby_regions()],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return context

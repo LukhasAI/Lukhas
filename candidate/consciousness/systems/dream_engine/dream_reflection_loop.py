@@ -57,7 +57,7 @@ except Exception:
     metrics_db_available = False
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "3.0.0"
@@ -287,11 +287,11 @@ class DreamReflectionLoop:
         Returns:
             Processing result with reflection data
         """
-        dream_id = f"dream_{datetime.now().timestamp()}"
+        dream_id = f"dream_{datetime.now(timezone.utc).timestamp()}"
         dream_state = DreamState(
             dream_id=dream_id,
             content=dream_content,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             metadata=context or {},
         )
 
@@ -354,7 +354,7 @@ class DreamReflectionLoop:
                     self.drift_score,
                     self.entropy_delta,
                     alignment,
-                    datetime.now().isoformat(),
+                    datetime.now(timezone.utc).isoformat(),
                 )
             except Exception as e:
                 logger.warning(f"Failed to record dream metrics: {e}")
@@ -526,7 +526,7 @@ class DreamReflectionLoop:
                     consolidated = {
                         "type": "consolidated",
                         "source_count": len(cluster_memories),
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "themes": self._extract_themes(cluster_memories),
                         "importance": sum(m.get("importance", 0.5) for m in cluster_memories) / len(cluster_memories),
                     }
@@ -570,7 +570,7 @@ class DreamReflectionLoop:
                         "theme": theme,
                         "frequency": count,
                         "confidence": min(count / len(self.current_dreams), 1.0),
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                     insights.append(insight)
 
@@ -658,7 +658,7 @@ class DreamReflectionLoop:
             # Create synthesized dream
             synthesized = {
                 "type": "synthesized",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "elements": elements,
                 "narrative": f"A dream emerges from {len(elements['themes'])} themes...",
                 "coherence": elements["coherence"],
@@ -700,7 +700,7 @@ class DreamReflectionLoop:
     def _log_dream(self, dream):
         """Log dream to file for analysis."""
         try:
-            filename = self.dream_log_path / f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            filename = self.dream_log_path / f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
             with open(filename, "w") as f:
                 json.dump(dream, f, indent=2, default=str)
             logger.debug(f"Dream logged to {filename}")
@@ -893,7 +893,7 @@ class DreamReflectionLoop:
             "patterns_recognized": self.metrics["patterns_recognized"],
             "memories_consolidated": self.metrics["memory_consolidations"],
             "average_coherence": self.metrics["qi_coherence_avg"],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def dream_snapshot(self):
@@ -908,7 +908,7 @@ class DreamReflectionLoop:
                 "affect_delta": self.affect_delta,
                 "entropy_delta": self.entropy_delta,
             },
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def create_dream_snapshot(
@@ -938,7 +938,7 @@ class DreamReflectionLoop:
                 dream_state={
                     "content": content,
                     "metadata": metadata or {},
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "reflection_count": self.processed_count,
                 },
             )

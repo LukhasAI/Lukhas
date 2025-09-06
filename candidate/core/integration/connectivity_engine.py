@@ -22,7 +22,7 @@ from typing import Any, Optional
 import structlog  # Changed from logging
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.core.integration.ConnectivityEngine")
+logger = structlog.get_logger("ΛTRACE.core.integration.ConnectivityEngine", timezone)
 
 # ΛEXPOSE
 # AINTEROP: Facilitates interaction between different LUKHAS components.
@@ -42,7 +42,7 @@ class ConnectivityEngine:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logger.bind(engine_id=f"conn_eng_{datetime.now().strftime('%Y%m%d%H%M%S')}")
+        self.logger = logger.bind(engine_id=f"conn_eng_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}")
         self.is_initialized = False
         self.status = "inactive"
         self.logger.info(
@@ -109,7 +109,7 @@ class ConnectivityEngine:
                     if isinstance(result, dict)
                     else type(result).__name__
                 ),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             self.logger.info(
                 "Data processing successful.",
@@ -130,7 +130,7 @@ class ConnectivityEngine:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _core_integration_processing(self, data: Any, category: Optional[str] = None) -> Any:  # Added category
@@ -231,7 +231,7 @@ class ConnectivityEngine:
             "category": "integration",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         self.logger.info(
             "Component status retrieved.",

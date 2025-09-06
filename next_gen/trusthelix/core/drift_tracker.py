@@ -13,7 +13,7 @@ from typing import Optional
 
 import numpy as np
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -77,7 +77,7 @@ class DriftTracker:
 
         # Create event
         event = DriftEvent(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             drift_score=drift_score,
             action=action,
             user_id=user_id,
@@ -97,7 +97,7 @@ class DriftTracker:
                 "avg_drift": 0.0,
                 "max_drift": 0.0,
                 "stability_score": 1.0,
-                "last_seen": datetime.utcnow(),
+                "last_seen": datetime.now(timezone.utc),
             }
 
         profile = self.user_profiles[user_id]
@@ -106,7 +106,7 @@ class DriftTracker:
             "total_actions"
         ]
         profile["max_drift"] = max(profile["max_drift"], drift_score)
-        profile["last_seen"] = datetime.utcnow()
+        profile["last_seen"] = datetime.now(timezone.utc)
 
         # Update global drift (weighted average)
         self._update_global_drift()
@@ -126,7 +126,7 @@ class DriftTracker:
             return
 
         # Get recent events (last hour)
-        cutoff = datetime.utcnow() - self.WINDOWS["short"]
+        cutoff = datetime.now(timezone.utc) - self.WINDOWS["short"]
         recent_events = [e for e in self.history if e.timestamp > cutoff]
 
         if recent_events:
@@ -184,7 +184,7 @@ class DriftTracker:
     def get_drift_analysis(self, user_id: Optional[str] = None, window: str = "short") -> dict:
         """Get comprehensive drift analysis"""
         # Filter events
-        cutoff = datetime.utcnow() - self.WINDOWS.get(window, self.WINDOWS["short"])
+        cutoff = datetime.now(timezone.utc) - self.WINDOWS.get(window, self.WINDOWS["short"])
 
         if user_id:
             events = [e for e in self.history if e.user_id == user_id and e.timestamp > cutoff]
@@ -325,7 +325,7 @@ class DriftTracker:
     def export_report(self) -> dict:
         """Generate comprehensive drift report"""
         return {
-            "generated": datetime.utcnow().isoformat(),
+            "generated": datetime.now(timezone.utc).isoformat(),
             "global_drift": self.global_drift,
             "total_events": len(self.history),
             "active_users": len(self.user_profiles),

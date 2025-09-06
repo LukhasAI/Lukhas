@@ -22,7 +22,7 @@ import numpy as np
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.symbolism.tags import TagPermission, TagScope
 
-logger = logging.getLogger("ΛTRACE.bio.anomaly")
+logger = logging.getLogger("ΛTRACE.bio.anomaly", timezone)
 
 
 class AnomalyType(Enum):
@@ -204,7 +204,7 @@ class AnomalyFilterColony(BaseColony):
                 "recovery_actions": recovery_actions,
                 "recovered_data": recovered_data,
                 "detection_confidence": confidence,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "colony_id": self.colony_id,
             }
 
@@ -609,7 +609,7 @@ class AnomalyFilterColony(BaseColony):
                         "detector": detector_name,
                         "data": anomaly_data,
                         "severity": anomaly_data.get("severity", 1.0),
-                        "timestamp": datetime.utcnow().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
 
@@ -809,7 +809,7 @@ class AnomalyFilterColony(BaseColony):
             "type": anomaly["type"].value,
             "data_signature": self._create_data_signature(bio_data),
             "severity": anomaly["severity"],
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "validated": False,  # Would be validated through feedback
         }
 

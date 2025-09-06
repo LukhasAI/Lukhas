@@ -19,7 +19,7 @@ from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
 from candidate.bridge.llm_wrappers.openai_wrapper import OpenaiWrapper
 from candidate.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
 
-openai = OpenaiWrapper()
+openai = OpenaiWrapper(, timezone)
 anthropic = AnthropicWrapper()
 gemini = GeminiWrapper()
 perplexity = PerplexityWrapper()
@@ -43,7 +43,7 @@ def multiverse_route(task: str, task_type: TaskType = "general", debug: bool = F
     """
 
     trace_id = str(uuid.uuid4())
-    timestamp = datetime.utcnow().isoformat()
+    timestamp = datetime.now(timezone.utc).isoformat()
 
     if debug:
         print(f"[Router] Task Type: {task_type} | Trace ID: {trace_id} | Timestamp: {timestamp}")

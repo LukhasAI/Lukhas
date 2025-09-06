@@ -15,7 +15,7 @@ import aiohttp
 from candidate.core.common import get_logger
 from candidate.core.common.config import settings
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class WhisperClient:
@@ -143,7 +143,7 @@ class WhisperClient:
                         "text": text,
                         "confidence": confidence,
                         "model": self.model,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
             finally:
                 # Clean up any temporary files

@@ -17,7 +17,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class CognitiveAdapter:
@@ -90,7 +90,7 @@ class CognitiveAdapter:
         Returns:
             Processing results
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Apply quantum attention mechanism
@@ -188,7 +188,7 @@ class CognitiveAdapter:
     async def _store_memory(self, processed_data: dict[str, Any]) -> None:
         """Store processed data in appropriate memory systems"""
         # Create memory timestamp
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         # Generate memory ID
         memory_id = self.identity_encoder.encode_id(f"{timestamp}-{hash(json.dumps(processed_data))}")
@@ -267,7 +267,7 @@ class CognitiveAdapter:
 
     def _record_metrics(self, start_time: datetime) -> None:
         """Record performance metrics"""
-        (datetime.now() - start_time).total_seconds()
+        (datetime.now(timezone.utc) - start_time).total_seconds()
 
         self.metrics["memory_access"].append(len(self.cognitive_state["working_memory"]))
         self.metrics["pattern_recognition"].append(

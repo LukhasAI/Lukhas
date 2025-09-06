@@ -113,7 +113,7 @@ from threading import Lock
 from typing import Any, Optional
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.core.advanced.brain.spine.memory_fold")
+logger = logging.getLogger("ΛTRACE.core.advanced.brain.spine.memory_fold", timezone)
 logger.info("ΛTRACE: Initializing enhanced memory_fold module.")
 
 
@@ -207,7 +207,7 @@ class MemoryFoldDatabase:
         self.db_path = db_path
         self.max_folds = max_folds
         self.cleanup_interval = timedelta(hours=cleanup_interval_hours)
-        self.last_cleanup = datetime.utcnow()
+        self.last_cleanup = datetime.now(timezone.utc)
         self._lock = Lock()
 
         self._init_database()
@@ -307,7 +307,7 @@ class MemoryFoldDatabase:
                     conn.commit()
 
                 # Check if cleanup is needed
-                if datetime.utcnow() - self.last_cleanup > self.cleanup_interval:
+                if datetime.now(timezone.utc) - self.last_cleanup > self.cleanup_interval:
                     self._cleanup_old_folds()
 
                 return True
@@ -379,7 +379,7 @@ class MemoryFoldDatabase:
                     # CLAUDE_EDIT_v0.13: Fixed SQL injection vulnerability - use
                     # individual updates in transaction
                     fold_ids = [f["id"] for f in folds]
-                    timestamp = datetime.utcnow().isoformat()
+                    timestamp = datetime.now(timezone.utc).isoformat()
 
                     # Execute updates in a transaction for efficiency
                     conn.execute("BEGIN TRANSACTION")
@@ -424,7 +424,7 @@ class MemoryFoldDatabase:
 
     def _cleanup_old_folds(self):
         """Remove excess folds per user based on max_folds limit."""
-        self.last_cleanup = datetime.utcnow()
+        self.last_cleanup = datetime.now(timezone.utc)
 
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -596,14 +596,14 @@ class VisionPromptManager:
     def get_prompt_for_fold(self, fold: dict[str, Any], user_tier: int = 0) -> dict[str, Any]:
         """Generate appropriate vision prompt for a memory fold."""
         emotion = fold.get("emotion", "neutral")
-        timestamp = fold.get("timestamp", datetime.utcnow().isoformat())
+        timestamp = fold.get("timestamp", datetime.now(timezone.utc).isoformat())
 
         # Parse timestamp
         try:
             dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
         except (ValueError, AttributeError) as e:
             logger.warning(f"Failed to parse timestamp '{timestamp}': {e}. Using current time.")
-            dt = datetime.utcnow()
+            dt = datetime.now(timezone.utc)
 
         # Determine time context
         hour = dt.hour
@@ -822,7 +822,7 @@ class MemoryFoldSystem:
         Returns:
             Created memory fold dictionary
         """
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         # Ensure emotion is in vector space
         if emotion not in self.emotion_vectors:
@@ -889,7 +889,7 @@ class MemoryFoldSystem:
 
             # Calculate temporal relevance
             fold_time = datetime.fromisoformat(fold["timestamp"].replace("Z", "+00:00"))
-            time_diff = (datetime.utcnow().replace(tzinfo=fold_time.tzinfo) - fold_time).total_seconds()
+            time_diff = (datetime.now(timezone.utc).replace(tzinfo=fold_time.tzinfo) - fold_time).total_seconds()
             fold["relevance_score_time"] = max(0.0, 1.0 - (time_diff / (60 * 60 * 24 * 7)))
 
             # Apply tier-based filtering
@@ -1128,7 +1128,7 @@ class MemoryFoldSystem:
         recent_folds = self.database.get_folds(user_id=user_id, limit=max_memories)
 
         # Filter by time
-        cutoff_time = datetime.utcnow() - timedelta(hours=hours_limit)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours_limit)
         recent_folds = [
             f for f in recent_folds if datetime.fromisoformat(f["timestamp"].replace("Z", "+00:00")) > cutoff_time
         ]
@@ -1171,7 +1171,7 @@ class MemoryFoldSystem:
                         "type": "consolidated",
                         "source_count": len(base_folds) + len(related_folds),
                         "themes": themes,
-                        "consolidation_time": datetime.utcnow().isoformat(),
+                        "consolidation_time": datetime.now(timezone.utc).isoformat(),
                     },
                 )
 
@@ -1190,7 +1190,7 @@ class MemoryFoldSystem:
             "success": True,
             "consolidated_count": len(consolidated),
             "consolidated_memories": consolidated,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_system_statistics(self) -> dict[str, Any]:
@@ -1225,7 +1225,7 @@ class MemoryFoldSystem:
         # Check cache
         if cache_key in self._emotion_state_cache:
             cached_time, cached_state = self._emotion_state_cache[cache_key]
-            if datetime.utcnow() - cached_time < self._cache_timeout:
+            if datetime.now(timezone.utc) - cached_time < self._cache_timeout:
                 return cached_state
 
         # Try to get from external service
@@ -1244,7 +1244,7 @@ class MemoryFoldSystem:
             logger.error(f"Error getting emotion state: {e}")
 
         # Cache result
-        self._emotion_state_cache[cache_key] = (datetime.utcnow(), emotion_state)
+        self._emotion_state_cache[cache_key] = (datetime.now(timezone.utc), emotion_state)
 
         return emotion_state
 
@@ -1302,7 +1302,7 @@ class MemoryFoldSystem:
         # Check cache
         if cache_key in self._emotion_state_cache:
             cached_time, cached_state = self._emotion_state_cache[cache_key]
-            if datetime.utcnow() - cached_time < self._cache_timeout:
+            if datetime.now(timezone.utc) - cached_time < self._cache_timeout:
                 return cached_state
 
         # Try to get from external service
@@ -1321,7 +1321,7 @@ class MemoryFoldSystem:
             logger.error(f"Error getting emotion state: {e}")
 
         # Cache result
-        self._emotion_state_cache[cache_key] = (datetime.utcnow(), emotion_state)
+        self._emotion_state_cache[cache_key] = (datetime.now(timezone.utc), emotion_state)
 
         return emotion_state
 

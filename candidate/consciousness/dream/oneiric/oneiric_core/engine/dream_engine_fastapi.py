@@ -24,7 +24,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 # Set up logging
-logger = logging.getLogger("enhanced_dream_fastapi")
+logger = logging.getLogger("enhanced_dream_fastapi", timezone)
 
 # FastAPI imports
 
@@ -252,7 +252,7 @@ class EnhancedDreamEngine:
 
             # Start dream reflection task
             self.current_cycle = {
-                "start_time": datetime.utcnow(),
+                "start_time": datetime.now(timezone.utc),
                 "duration_minutes": duration_minutes,
                 "memories_processed": 0,
             }
@@ -299,9 +299,9 @@ class EnhancedDreamEngine:
         """
         try:
             duration_seconds = duration_minutes * 60
-            end_time = datetime.utcnow().timestamp() + duration_seconds
+            end_time = datetime.now(timezone.utc).timestamp() + duration_seconds
 
-            while datetime.utcnow().timestamp() < end_time:
+            while datetime.now(timezone.utc).timestamp() < end_time:
                 # Process quantum dream state
                 await self._process_quantum_dreams()
 
@@ -361,7 +361,7 @@ class EnhancedDreamEngine:
                         {
                             "memory_id": memory.get("id"),
                             "reflection": reflection_result,
-                            "timestamp": datetime.utcnow().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
 
@@ -427,7 +427,7 @@ class EnhancedDreamEngine:
         enhanced["qi_entanglement"] = q_state.get("entanglement", 0)
 
         # Add enhancement metadata
-        enhanced["enhanced_timestamp"] = datetime.utcnow().isoformat()
+        enhanced["enhanced_timestamp"] = datetime.now(timezone.utc).isoformat()
         enhanced["enhancement_method"] = "quantum"
 
         return enhanced
@@ -437,7 +437,7 @@ class EnhancedDreamEngine:
         if not self.current_cycle:
             return
 
-        duration = datetime.utcnow() - self.current_cycle["start_time"]
+        duration = datetime.now(timezone.utc) - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
         logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
@@ -491,7 +491,7 @@ class EnhancedDreamEngine:
             if coherence >= self.config.coherence_threshold:
                 # Create insight from high-coherence state
                 insight = {
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "type": "qi_pattern",
                     "coherence": coherence,
                     "entanglement": entanglement,
@@ -513,7 +513,7 @@ class EnhancedDreamEngine:
         try:
             for insight in insights:
                 # Add storage metadata
-                insight["storage_timestamp"] = datetime.utcnow().isoformat()
+                insight["storage_timestamp"] = datetime.now(timezone.utc).isoformat()
 
                 # Store via integration layer
                 await self.integration.store_data("dream_insights", insight)
@@ -588,7 +588,7 @@ class EnhancedDreamEngine:
         try:
             # Update dream state
             dream["state"] = "processing"
-            dream["metadata"]["last_processed"] = datetime.utcnow().isoformat()
+            dream["metadata"]["last_processed"] = datetime.now(timezone.utc).isoformat()
 
             # Get current quantum-like state
             qi_like_state = await self.qi_adapter.get_quantum_like_state()
@@ -648,7 +648,7 @@ class EnhancedDreamEngine:
                             "timestamp": qi_like_state["timestamp"],
                         },
                         "consolidation_complete": True,
-                        "consolidated_at": datetime.utcnow().isoformat(),
+                        "consolidated_at": datetime.now(timezone.utc).isoformat(),
                     },
                 }
             )
@@ -707,7 +707,7 @@ async def root():
         "status": "healthy",
         "service": "LUKHAS Dream Engine API",
         "version": "1.0.0",
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -724,7 +724,7 @@ async def process_dream(request: DreamRequest):
     - Extract user_id from authenticated user
     - Pass user_id to dream engine for tier-based features
     """
-    start_time = datetime.now()
+    start_time = datetime.now(timezone.utc)
 
     try:
         dream_engine = get_dream_engine()
@@ -753,7 +753,7 @@ async def process_dream(request: DreamRequest):
                 "symbolic_analysis": {"tags": request.symbolic_tags},
             }
 
-        processing_time = (datetime.now() - start_time).total_seconds()
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         return DreamResponse(
             dream_id=dream_id,
@@ -846,7 +846,7 @@ async def get_status():
             "engine_type": "EnhancedDreamEngine",
             "qi_enabled": hasattr(dream_engine, "qi_adapter") and dream_engine.qi_adapter is not None,
             "reflection_enabled": True,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     except Exception as e:
@@ -909,7 +909,7 @@ async def create_dream_snapshot(request: SnapshotRequest):
         return SnapshotResponse(
             snapshot_id=snapshot_id,
             fold_id=request.fold_id,
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             status="created",
         )
 
@@ -940,7 +940,7 @@ async def get_fold_snapshots(fold_id: str):
             "fold_id": fold_id,
             "snapshot_count": len(snapshots),
             "snapshots": snapshots,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     except HTTPException:
@@ -969,7 +969,7 @@ async def get_fold_statistics(fold_id: str):
         return {
             "fold_id": fold_id,
             "statistics": stats,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     except HTTPException:
@@ -998,7 +998,7 @@ async def sync_memory_fold(fold_id: str):
         return {
             "fold_id": fold_id,
             "sync_successful": success,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "status": "synchronized" if success else "failed",
         }
 

@@ -56,7 +56,7 @@ class FounderLedCommunicationStrategy:
     for LUKHAS consciousness technology positioning
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.communication_philosophy = self._establish_communication_philosophy()
         self.founder_positioning = self._create_founder_positioning()
         self.channel_strategy = self._create_channel_strategy()
@@ -309,7 +309,7 @@ class FounderLedCommunicationStrategy:
     def generate_daily_communication_plan(self, days: int = 30) -> dict[str, list[dict]]:
         """Generate daily communication plan for sustained consciousness technology thought leadership"""
         plan = {}
-        start_date = datetime.now()
+        start_date = datetime.now(timezone.utc)
 
         for day in range(days):
             current_date = start_date + timedelta(days=day)

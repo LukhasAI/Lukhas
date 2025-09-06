@@ -15,7 +15,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 logger = logging.getLogger(__name__)
 
 
@@ -180,7 +180,7 @@ class QIResonanceGlyph:
             animation_frames=animation_frames,
             qi_signature=qi_signature,
             consciousness_fingerprint=consciousness_fingerprint,
-            temporal_validity=datetime.now() + timedelta(seconds=self.config.temporal_window_seconds),
+            temporal_validity=datetime.now(timezone.utc) + timedelta(seconds=self.config.temporal_window_seconds),
         )
 
         logger.info(f"✨ Auth glyph generated: {glyph.glyph_id}")
@@ -437,7 +437,7 @@ class QIResonanceGlyph:
         }
 
         # Check temporal validity
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         verification_result["temporal_valid"] = current_time <= glyph.temporal_validity
 
         # Verify quantum signature (simplified)

@@ -8,7 +8,7 @@ import logging
 from datetime import datetime
 from typing import Any
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EthicsLoopGuard:
@@ -93,4 +93,4 @@ class EthicsLoopGuard:
         # ΛTRACE
         logger.warning(f"Governance Alert: {message}")
         with open(self.alert_log_path, "a") as f:
-            f.write(f"{datetime.now().isoformat()}: {message}\n")
+            f.write(f"{datetime.now(timezone.utc).isoformat()}: {message}\n")

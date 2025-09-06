@@ -36,7 +36,7 @@ try:
     import oqs
 
     LIBOQS_AVAILABLE = True
-    logger = logging.getLogger("LUKHAS_PQC")
+    logger = logging.getLogger("LUKHAS_PQC", timezone)
     logger.info("liboqs library loaded - using real post-quantum cryptography")
 except ImportError:
     LIBOQS_AVAILABLE = False
@@ -158,8 +158,8 @@ class PQCCryptoEngine:
             public_key=public_key,
             private_key=private_key,
             algorithm=algorithm,
-            created_at=datetime.now(),
-            expires_at=datetime.now() + timedelta(hours=self.key_rotation_hours),
+            created_at=datetime.now(timezone.utc),
+            expires_at=datetime.now(timezone.utc) + timedelta(hours=self.key_rotation_hours),
         )
 
     def generate_signature_keypair(self, algorithm: str = "Dilithium3") -> PQCKeyPair:
@@ -208,8 +208,8 @@ class PQCCryptoEngine:
             public_key=public_key,
             private_key=private_key,
             algorithm=algorithm,
-            created_at=datetime.now(),
-            expires_at=datetime.now() + timedelta(hours=self.key_rotation_hours),
+            created_at=datetime.now(timezone.utc),
+            expires_at=datetime.now(timezone.utc) + timedelta(hours=self.key_rotation_hours),
         )
 
     def encapsulate_secret(self, public_key: bytes, algorithm: str = "Kyber768") -> tuple[bytes, bytes]:
@@ -333,7 +333,7 @@ class PQCCryptoEngine:
             signature=signature_bytes,
             message_hash=message_hash,
             algorithm=algorithm,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
     def verify_signature(self, signature: PQCSignature, message: bytes, public_key: bytes) -> bool:
@@ -405,7 +405,7 @@ class PQCCryptoEngine:
         shake = hashlib.shake_256()
         shake.update(entropy_data)
         shake.update(user_context.encode("utf-8"))
-        shake.update(datetime.now().isoformat().encode("utf-8"))
+        shake.update(datetime.now(timezone.utc).isoformat().encode("utf-8"))
 
         # Derive 256-bit key
         auth_key = shake.digest(32)
@@ -500,7 +500,7 @@ class PQCCryptoEngine:
             "encryption_key": channel_keys["encryption"],
             "mac_key": channel_keys["mac"],
             "algorithm": algorithm,
-            "established_at": datetime.now().isoformat(),
+            "established_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def _derive_channel_keys(self, shared_secret: bytes) -> dict[str, bytes]:
@@ -538,7 +538,7 @@ class PQCCryptoEngine:
             New key pair
         """
         # Check if rotation is needed
-        if datetime.now() < current_keypair.expires_at:
+        if datetime.now(timezone.utc) < current_keypair.expires_at:
             logger.info("Key rotation not yet required")
             return current_keypair
 
@@ -581,7 +581,7 @@ class PQCCryptoEngine:
             "iv": iv,
             "tag": encryptor.tag,
             "algorithm": "AES-256-GCM",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def qi_safe_decrypt(self, encrypted_data: dict[str, Any], key: bytes) -> bytes:

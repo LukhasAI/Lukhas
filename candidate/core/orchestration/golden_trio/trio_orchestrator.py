@@ -18,7 +18,7 @@ from ethics.seedra import get_seedra
 from lukhas.core.audit.audit_decision_embedding_engine import DecisionAuditEngine
 from symbolic.core import get_symbolic_translator, get_symbolic_vocabulary
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class SystemType(Enum):
@@ -106,7 +106,7 @@ class SharedContextManager:
                 "nias": {"status": "idle", "active_filters": []},
             },
             "environment": {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "location": None,
                 "device": None,
                 "network_quality": "good",
@@ -149,7 +149,7 @@ class SharedContextManager:
             self.context_history.append(
                 {
                     "version": self.version,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "path": path,
                     "value": value,
                 }
@@ -326,7 +326,7 @@ class TrioOrchestrator:
                 # Process message
                 handler = self.system_handlers.get(system)
                 if handler:
-                    start_time = datetime.now()
+                    start_time = datetime.now(timezone.utc)
 
                     # Update system state
                     await self.context_manager.update_system_state(
@@ -341,7 +341,7 @@ class TrioOrchestrator:
                     result = await handler.process(message)
 
                     # Calculate processing time
-                    processing_time = (datetime.now() - start_time).total_seconds() * 1000
+                    processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
                     # Create response
                     response = TrioResponse(
@@ -372,8 +372,8 @@ class TrioOrchestrator:
         await self.message_queue[message.target].put(message)
 
         # Wait for response
-        start_time = datetime.now()
-        while (datetime.now() - start_time).total_seconds() * 1000 < message.timeout_ms:
+        start_time = datetime.now(timezone.utc)
+        while (datetime.now(timezone.utc) - start_time).total_seconds() * 1000 < message.timeout_ms:
             if "response" in message.metadata:
                 return message.metadata["response"]
             await asyncio.sleep(0.01)
@@ -521,7 +521,7 @@ class TrioOrchestrator:
         if "timestamp" not in cached_result:
             return False
 
-        age_seconds = (datetime.now() - cached_result["timestamp"]).total_seconds()
+        age_seconds = (datetime.now(timezone.utc) - cached_result["timestamp"]).total_seconds()
         return age_seconds < 60  # 1 minute cache
 
     async def get_system_status(self) -> dict[str, Any]:
@@ -546,7 +546,7 @@ class TrioOrchestrator:
             "systems_registered": len(self.system_handlers),
             "active_messages": len(self.active_messages),
             "processing_tasks": len(self.processing_tasks),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # Additional methods for DAST/ABAS/NIAS integration
@@ -581,7 +581,7 @@ class TrioOrchestrator:
         # Store task metadata
         self.performance_cache[f"task_{task_id}"] = {
             "system": system,
-            "created_at": datetime.now(),
+            "created_at": datetime.now(timezone.utc),
             "data": task_data,
             "status": "created",
         }
@@ -598,7 +598,7 @@ class TrioOrchestrator:
         if f"task_{task_id}" in self.performance_cache:
             self.performance_cache[f"task_{task_id}"].update(
                 {
-                    "completed_at": datetime.now(),
+                    "completed_at": datetime.now(timezone.utc),
                     "status": "completed",
                     "result": result,
                 }
@@ -618,7 +618,7 @@ class TrioOrchestrator:
         if f"task_{task_id}" in self.performance_cache:
             self.performance_cache[f"task_{task_id}"].update(
                 {
-                    "failed_at": datetime.now(),
+                    "failed_at": datetime.now(timezone.utc),
                     "status": "failed",
                     "error": error,
                 }
@@ -634,7 +634,7 @@ class TrioOrchestrator:
             {
                 "audit_id": getattr(audit_entry, "audit_id", "unknown"),
                 "decision_id": getattr(audit_entry, "decision_id", "unknown"),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "type": "decision_audit",
             }
         )

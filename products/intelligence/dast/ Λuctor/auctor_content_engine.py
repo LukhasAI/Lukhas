@@ -12,7 +12,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ContentType(Enum):
+class ContentType(Enum, timezone):
     """Types of content ΛUCTOR can generate"""
 
     LANDING_PAGE = "landing_page"
@@ -252,11 +252,11 @@ class AuctorContentEngine:
         # Store generated content
         self.generated_content.append(
             {
-                "id": hashlib.sha256(f"{datetime.now()}".encode()).hexdigest()[:8],
+                "id": hashlib.sha256(f"{datetime.now(timezone.utc)}".encode()).hexdigest()[:8],
                 "domain": domain.value,
                 "type": content_type.value,
                 "tone": tone.value,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "content": content,
             }
         )
@@ -374,7 +374,7 @@ class AuctorContentEngine:
             "title": topic,
             "meta_description": f"Explore {topic.lower()} and discover how Lambda Products is revolutionizing {domain.value}",
             "author": "Lambda Products Team",
-            "date": datetime.now().isoformat(),
+            "date": datetime.now(timezone.utc).isoformat(),
             "content": await self._generate_blog_content(topic, tone),
             "tags": ["AI", "Innovation", domain.value],
             "cta": {
@@ -638,7 +638,7 @@ class AuctorContentEngine:
             "type": content_type.value,
             "tone": tone.value,
             "content": f"Generated {content_type.value} for {domain.value} in {tone.value} tone",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_content_strategy(self, domain: DomainArea) -> dict[str, Any]:

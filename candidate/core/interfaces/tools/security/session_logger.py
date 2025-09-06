@@ -81,7 +81,7 @@ def log_session_event(user_id: str, event: str):
     entry = {
         "user": user_id or "anonymous",
         "event": event,
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "access_check": reason,
         "policy_compliant": allowed,
     }

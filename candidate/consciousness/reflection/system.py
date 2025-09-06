@@ -38,7 +38,7 @@ class FederatedModel:
         self.model_type = model_type
         self.parameters = initial_parameters or {}
         self.version = 1
-        self.last_updated = datetime.datetime.now()
+        self.last_updated = datetime.datetime.now(timezone.utc)
         self.contribution_count = 0
         self.client_contributions = set()
         self.performance_metrics = {}
@@ -63,7 +63,7 @@ class FederatedModel:
 
         # Update metadata
         self.version += 1
-        self.last_updated = datetime.datetime.now()
+        self.last_updated = datetime.datetime.now(timezone.utc)
         self.contribution_count += 1
         self.client_contributions.add(client_id)
 
@@ -311,7 +311,7 @@ class FederatedLearningManager:
             "client_id": client_id,
             "models": models_info,
             "contribution_count": total_contributions,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -344,7 +344,7 @@ class ReflectiveIntrospectionSystem:
         """
         # Add timestamp if not present
         if "timestamp" not in interaction_data:
-            interaction_data["timestamp"] = datetime.datetime.now().isoformat()
+            interaction_data["timestamp"] = datetime.datetime.now(timezone.utc).isoformat()
 
         self.interaction_buffer.append(interaction_data)
 
@@ -370,7 +370,7 @@ class ReflectiveIntrospectionSystem:
             return {"insights": [], "improvements": []}
 
         self.reflection_cycle += 1
-        self.last_reflection_time = datetime.datetime.now()
+        self.last_reflection_time = datetime.datetime.now(timezone.utc)
         logger.info(f"Performing reflective introspection cycle {self.reflection_cycle}")
 
         # Analyze recent interactions
@@ -450,7 +450,7 @@ class ReflectiveIntrospectionSystem:
 
         # Add timestamp
         for insight in insights:
-            insight["timestamp"] = datetime.datetime.now().isoformat()
+            insight["timestamp"] = datetime.datetime.now(timezone.utc).isoformat()
 
         return insights
 
@@ -600,7 +600,7 @@ class ReflectiveIntrospectionSystem:
         # Add timestamp and ID
         for i, improvement in enumerate(improvements):
             improvement["id"] = f"imp_{self.reflection_cycle}_{i}"
-            improvement["created_at"] = datetime.datetime.now().isoformat()
+            improvement["created_at"] = datetime.datetime.now(timezone.utc).isoformat()
 
         return improvements
 
@@ -615,7 +615,7 @@ class ReflectiveIntrospectionSystem:
             # Add to active improvements
             improvement_id = improvement["id"]
             improvement["status"] = "active"
-            improvement["implemented_at"] = datetime.datetime.now().isoformat()
+            improvement["implemented_at"] = datetime.datetime.now(timezone.utc).isoformat()
             self.active_improvements[improvement_id] = improvement
 
             logger.info(f"Implementing improvement: {improvement['description']}")
@@ -647,7 +647,7 @@ class ReflectiveIntrospectionSystem:
             "active_improvements": active_improvements,
             "completed_improvements": completed_improvements,
             "latest_insights": latest_insights,
-            "generated_at": datetime.datetime.now().isoformat(),
+            "generated_at": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -724,9 +724,9 @@ class MetaLearningSystem:
         strategy = self.learning_strategies[strategy_name]
 
         # Apply strategy to learn from data
-        start_time = datetime.datetime.now()
+        start_time = datetime.datetime.now(timezone.utc)
         learning_result = self._apply_strategy(strategy, available_data, context)
-        duration = (datetime.datetime.now() - start_time).total_seconds()
+        duration = (datetime.datetime.now(timezone.utc) - start_time).total_seconds()
 
         # Evaluate strategy performance
         performance_metrics = self._evaluate_performance(strategy_name, learning_result, duration)
@@ -816,7 +816,7 @@ class MetaLearningSystem:
             "adaptation_progress": self._calculate_adaptation_progress(),
             "meta_parameters": self.meta_parameters,
             "reflection_status": reflection_status,
-            "generated_at": datetime.datetime.now().isoformat(),
+            "generated_at": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def get_federated_model(self, model_id: str, client_id: str) -> Optional[dict]:
@@ -959,7 +959,7 @@ class MetaLearningSystem:
             "efficiency": 1.0 / (1.0 + duration),  # Higher for faster learning
             "generalization": 0.8,  # Would be estimated from validation
             "confidence": 0.9,  # Confidence in the learning outcome
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         # Add privacy preservation metric for federated learning

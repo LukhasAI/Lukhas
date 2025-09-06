@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field
 # ——— Configuration & Utilities —————————————————————————————— #
 
 
-class ComplianceStatus(Enum):
+class ComplianceStatus(Enum, timezone):
     """Compliance status for DAST institutional alignment."""
 
     PASS = "PASS"
@@ -68,7 +68,7 @@ class DastConfig:
 
 def now_iso() -> str:
     """Generate ISO timestamp for DAST logging."""
-    return datetime.utcnow().isoformat() + "Z"
+    return datetime.now(timezone.utc).isoformat() + "Z"
 
 
 def structured_log(event: str, payload: dict, level: str = "INFO"):
@@ -129,7 +129,7 @@ class AwarenessModule(ABC):
 
     def __call__(self, inputs: AwarenessInput) -> AwarenessOutput:
         """Main processing pipeline for awareness modules."""
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Core processing
@@ -145,7 +145,7 @@ class AwarenessModule(ABC):
             sustainability_score = self.calculate_sustainability_impact(result)
 
             # Create output
-            processing_time = (datetime.utcnow() - start_time).total_seconds() * 1000
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
             output = AwarenessOutput(
                 alignment=AlignmentMetric(

@@ -51,7 +51,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.bridge.external_adapters.oauth")
+logger = logging.getLogger("ΛTRACE.bridge.external_adapters.oauth", timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -168,8 +168,8 @@ class OAuthManager:
         self.state_store[state] = {
             "user_id": user_id,
             "provider": provider.value,
-            "created_at": datetime.utcnow(),
-            "expires_at": datetime.utcnow() + timedelta(minutes=15),  # 15 minute expiry
+            "created_at": datetime.now(timezone.utc),
+            "expires_at": datetime.now(timezone.utc) + timedelta(minutes=15),  # 15 minute expiry
         }
 
         logger.debug("Generated auth state for user %s, provider %s", user_id, provider.value)
@@ -194,7 +194,7 @@ class OAuthManager:
                 return False
 
             # Check expiry
-            if datetime.utcnow() > state_data["expires_at"]:
+            if datetime.now(timezone.utc) > state_data["expires_at"]:
                 logger.warning("State parameter expired")
                 del self.state_store[state]  # Cleanup expired state
                 return False
@@ -236,8 +236,8 @@ class OAuthManager:
             credential_data = {
                 "provider": provider.value,
                 "credentials": credentials,
-                "stored_at": datetime.utcnow().isoformat(),
-                "expires_at": (datetime.utcnow() + timedelta(hours=self.token_ttl_hours)).isoformat(),
+                "stored_at": datetime.now(timezone.utc).isoformat(),
+                "expires_at": (datetime.now(timezone.utc) + timedelta(hours=self.token_ttl_hours)).isoformat(),
                 "status": TokenStatus.ACTIVE.value,
             }
 
@@ -248,7 +248,7 @@ class OAuthManager:
                 "encrypted_data": encrypted_data,
                 "user_id": user_id,
                 "provider": provider.value,
-                "stored_at": datetime.utcnow(),
+                "stored_at": datetime.now(timezone.utc),
                 "last_accessed": None,
             }
 
@@ -287,7 +287,7 @@ class OAuthManager:
 
             # Check expiry
             expires_at = datetime.fromisoformat(credential_data["expires_at"])
-            if datetime.utcnow() > expires_at:
+            if datetime.now(timezone.utc) > expires_at:
                 logger.info(
                     "Credentials expired for user %s, provider %s",
                     user_id,
@@ -297,7 +297,7 @@ class OAuthManager:
                 return None
 
             # Update last accessed
-            stored_data["last_accessed"] = datetime.utcnow()
+            stored_data["last_accessed"] = datetime.now(timezone.utc)
 
             logger.debug(
                 "Retrieved credentials for user %s, provider %s",
@@ -389,7 +389,7 @@ class OAuthManager:
 
     def _check_auth_rate_limit(self, user_id: str) -> bool:
         """Check if user is within auth rate limits"""
-        current_time = datetime.utcnow()
+        current_time = datetime.now(timezone.utc)
         one_hour_ago = current_time - timedelta(hours=1)
 
         # Initialize or clean up old attempts
@@ -410,7 +410,7 @@ class OAuthManager:
     async def cleanup_expired_tokens(self):
         """Clean up expired tokens and states"""
         try:
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
 
             # Clean up expired states
             expired_states = [state for state, data in self.state_store.items() if current_time > data["expires_at"]]
@@ -454,7 +454,7 @@ class OAuthManager:
                         credential_data = self._decrypt_token_data(stored_data["encrypted_data"])
                         expires_at = datetime.fromisoformat(credential_data["expires_at"])
 
-                        if datetime.utcnow() <= expires_at:
+                        if datetime.now(timezone.utc) <= expires_at:
                             providers.append(stored_data["provider"])
                     except Exception:
                         continue
@@ -468,7 +468,7 @@ class OAuthManager:
     async def health_check(self) -> dict[str, Any]:
         """Health check for OAuth manager"""
         try:
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
 
             # Count active tokens
             active_tokens = 0

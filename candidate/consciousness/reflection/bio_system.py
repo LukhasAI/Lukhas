@@ -43,7 +43,7 @@ from candidate.core.common import get_logger
 # Use existing quantum engines - fixed import paths
 from qi.systems.qi_engine import Quantumoscillator as QIOscillator
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class MitochondrialQIBridge:
@@ -279,7 +279,7 @@ class SelfAwareAgent:
         # Record performance for self-learning
         self.performance_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "coherence": coherence,
                 "context": context,
                 "output_type": type(output).__name__,
@@ -434,7 +434,7 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
             "metadata": processing_metadata,
             "input_shape": input_signal.shape,
             "output_shape": output_signal.shape,
-            "processing_timestamp": datetime.now().isoformat(),
+            "processing_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Self-assessment if expected output provided
@@ -445,7 +445,7 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
             output["consciousness_metadata"] = {
                 "coherence_score": coherence,
                 "consciousness_level": self.self_aware_agent.get_self_assessment_report()["consciousness_level"],
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         return output

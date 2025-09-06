@@ -29,7 +29,7 @@ try:
     import os
     import sys
 
-    sys.path.append(os.path.dirname(os.path.dirname(__file__)))  # Add enterprise/ to path
+    sys.path.append(os.path.dirname(os.path.dirname(__file__, timezone)))  # Add enterprise/ to path
     from observability.instantiate import obs_stack
 
     OBSERVABILITY_AVAILABLE = True
@@ -150,7 +150,7 @@ class UnifiedConsciousnessLayer:
         - Multi-AI orchestration (Agent #7)
         - Enterprise observability (Jules)
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         # Step 1: Security & Constitutional AI validation (Agent #2)
         if self.constitutional_ai:
@@ -190,7 +190,7 @@ class UnifiedConsciousnessLayer:
             quality_metrics = {"validated": True, "quality_score": 0.8}
 
         # Step 5: Enterprise observability (Jules)
-        processing_time = (datetime.now() - start_time).total_seconds() * 1000
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
         self.observability_stack.submit_metric("histogram", "lukhas.consciousness.request_duration_ms", processing_time)
 
         return {
@@ -279,7 +279,7 @@ class UnifiedConsciousnessLayer:
     async def get_unified_system_status(self) -> UnifiedSystemStatus:
         """Get complete system status across all integrated components"""
         return UnifiedSystemStatus(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             performance_metrics={
                 "auth_latency_ms": 26.0,  # From Agent #1 performance work
                 "throughput_rps": 31240,  # From performance validation

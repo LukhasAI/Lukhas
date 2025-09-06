@@ -342,7 +342,7 @@ class BioQuantumRadarVisualizer:
             )
 
             # Save visualization
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             filename = f"bio_quantum_radar_{timestamp}.html"
             filepath = self.output_dir / filename
 
@@ -720,7 +720,7 @@ class BioQuantumRadarIntegration:
             Path to exported file
         """
         if not filepath:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             filepath = f"/Users/A_G_I/LUKHAS/ΛBrains/radar_outputs/bio_quantum_session_{timestamp}.json"
             filepath = f"/Users/A_G_I/lukhas/lukhasBrains/radar_outputs/bio_quantum_session_{timestamp}.json"
 

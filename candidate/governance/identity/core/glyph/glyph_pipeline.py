@@ -36,7 +36,7 @@ try:
     from ..visualization.lukhas_orb import LUKHASOrb, OrbState
     from .steganographic_id import SteganographicIdentityEmbedder
 except ImportError:
-    print("Warning: Some LUKHAS components not available. GLYPH pipeline may be limited.")
+    print("Warning: Some LUKHAS components not available. GLYPH pipeline may be limited.", timezone)
 
 logger = logging.getLogger("LUKHAS_GLYPH_PIPELINE")
 
@@ -270,7 +270,7 @@ class GLYPHPipeline:
                     "glyph_type": request.glyph_type.value,
                     "qrg_type": qrg_type.value,
                     "processing_time": processing_time,
-                    "generation_timestamp": datetime.now().isoformat(),
+                    "generation_timestamp": datetime.now(timezone.utc).isoformat(),
                     "pipeline_version": "1.0.0",
                 },
             )
@@ -340,7 +340,7 @@ class GLYPHPipeline:
             "qi_verified": qi_verified,
             "steganographic_verified": steganographic_verified,
             "identity_verified": identity_verified,
-            "verification_timestamp": datetime.now().isoformat(),
+            "verification_timestamp": datetime.now(timezone.utc).isoformat(),
             "glyph_metadata": glyph_result.generation_metadata,
         }
 
@@ -358,7 +358,7 @@ class GLYPHPipeline:
             "glyph_id": f"pending_{int(time.time())}",
             "glyph_type": request.glyph_type.value,
             "security_level": request.security_level.value,
-            "generation_timestamp": datetime.now().isoformat(),
+            "generation_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add requested fields
@@ -390,7 +390,7 @@ class GLYPHPipeline:
             identity_data["custom_symbols"] = request.custom_symbols
 
         # Add expiry
-        expiry_time = datetime.now() + timedelta(hours=request.expiry_hours)
+        expiry_time = datetime.now(timezone.utc) + timedelta(hours=request.expiry_hours)
         identity_data["expires_at"] = expiry_time.isoformat()
 
         return identity_data

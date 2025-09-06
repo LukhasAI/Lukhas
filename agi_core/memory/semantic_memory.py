@@ -8,7 +8,7 @@ concepts, and their relationships in a graph-based structure.
 import json
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -80,7 +80,7 @@ class SemanticNode:
 
     def access_node(self):
         """Record access to this node."""
-        self.last_accessed = datetime.now()
+        self.last_accessed = datetime.now(timezone.utc)
         self.access_count += 1
 
     def add_evidence(self, supporting: bool = True):
@@ -127,7 +127,7 @@ class SemanticRelation:
 
     def validate_relation(self, confidence_update: Optional[float] = None):
         """Validate and update relationship confidence."""
-        self.last_validated = datetime.now()
+        self.last_validated = datetime.now(timezone.utc)
         if confidence_update is not None:
             self.confidence = max(0.0, min(1.0, confidence_update))
 
@@ -619,7 +619,7 @@ class SemanticMemoryGraph:
                     }
                     for rel_id, rel in self.relations.items()
                 },
-                "metadata": {"export_time": datetime.now().isoformat(), "stats": self.get_semantic_stats()},
+                "metadata": {"export_time": datetime.now(timezone.utc).isoformat(), "stats": self.get_semantic_stats()},
             }
 
             return json.dumps(export_data, indent=2)

@@ -22,7 +22,7 @@ from typing import Any
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -64,7 +64,7 @@ class QIConsciousnessVisualizer:
         return {
             "neural_field": f"NeRF visualization for: {seed_phrase}",
             "consciousness_level": consciousness_level,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def render_symbolic_layer(self, symbols: list[str]) -> dict[str, Any]:

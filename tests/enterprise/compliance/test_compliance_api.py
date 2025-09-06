@@ -46,8 +46,8 @@ def mock_dp_service():
         gdpr_article_32=True,
         cache_encrypted=False,
         background_processing=True,
-        created_at=datetime.now(),
-        updated_at=datetime.now(),
+        created_at=datetime.now(, timezone),
+        updated_at=datetime.now(timezone.utc),
         version="1.0",
     )
     service.protection_policies = {"pii_protection": mock_policy}
@@ -60,7 +60,7 @@ def mock_dp_service():
     mock_assessment = GDPRAssessment(
         activity_id="test",
         compliance_status="Fully Compliant",
-        assessment_date=datetime.now(),
+        assessment_date=datetime.now(timezone.utc),
         lawfulness_score=1.0,
         privacy_rights_score=1.0,
         security_score=1.0,
@@ -68,7 +68,7 @@ def mock_dp_service():
         overall_score=1.0,
         violations=[],
         recommendations=[],
-        next_review_date=datetime.now() + timedelta(days=180),
+        next_review_date=datetime.now(timezone.utc) + timedelta(days=180),
     )
     service.assess_processing_activity = AsyncMock(return_value=mock_assessment)
     service.get_user_data = AsyncMock(return_value=[])

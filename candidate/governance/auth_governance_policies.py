@@ -27,7 +27,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class PolicySeverity(Enum):
+class PolicySeverity(Enum, timezone):
     """Policy violation severity levels"""
 
     LOW = "low"
@@ -580,14 +580,14 @@ class AuthGovernancePolicyEngine:
 
                 if not compliance_result["compliant"]:
                     violation = PolicyViolation(
-                        id=f"violation_{datetime.now().timestamp()}",
+                        id=f"violation_{datetime.now(timezone.utc).timestamp()}",
                         policy_rule_id=policy.id,
                         user_id=auth_context.get("user_id", "unknown"),
                         violation_type=compliance_result["violation_type"],
                         severity=policy.enforcement_level,
                         description=compliance_result["description"],
                         context=auth_context,
-                        detected_at=datetime.now(),
+                        detected_at=datetime.now(timezone.utc),
                     )
                     violations.append(violation)
 
@@ -617,7 +617,7 @@ class AuthGovernancePolicyEngine:
                 violations=violations,
                 recommendations=list(set(recommendations)),  # Remove duplicates
                 risk_score=risk_score,
-                assessment_timestamp=datetime.now(),
+                assessment_timestamp=datetime.now(timezone.utc),
             )
 
         except Exception as e:
@@ -627,7 +627,7 @@ class AuthGovernancePolicyEngine:
                 violations=[],
                 recommendations=[f"Assessment error: {e!s}"],
                 risk_score=1.0,
-                assessment_timestamp=datetime.now(),
+                assessment_timestamp=datetime.now(timezone.utc),
             )
 
     async def _check_policy_compliance(self, policy: PolicyRule, auth_context: dict[str, Any]) -> dict[str, Any]:
@@ -906,7 +906,7 @@ class AuthGovernancePolicyEngine:
 
     def get_violation_summary(self, days: int = 30, by_category: bool = True) -> dict[str, Any]:
         """Get summary of policy violations"""
-        cutoff_date = datetime.now() - timedelta(days=days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
         recent_violations = [v for v in self.policy_violations if v.detected_at >= cutoff_date]
 
         summary = {
@@ -952,7 +952,7 @@ class AuthGovernancePolicyEngine:
         policies = self.get_policies_by_category(category) if category else list(self.policy_rules.values())
 
         return {
-            "export_timestamp": datetime.now().isoformat(),
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
             "total_policies": len(policies),
             "category_filter": category.value if category else None,
             "policies": [asdict(policy) for policy in policies],

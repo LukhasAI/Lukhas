@@ -35,7 +35,7 @@ try:
 except ImportError:
     PerplexityWrapper = None
 
-logger = logging.getLogger("ΛTRACE.tools.orchestrator")
+logger = logging.getLogger("ΛTRACE.tools.orchestrator", timezone)
 
 
 class MultiAIConsensus:
@@ -370,7 +370,7 @@ class ToolOrchestrator:
                 "guardian_validation": guardian_result,
                 "consensus_evaluation": consensus_result,
                 "consensus_time": consensus_time,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "cache_key": cache_key,
             }
 
@@ -415,7 +415,7 @@ class ToolOrchestrator:
             "success": False,
             "error": error,
             "execution_time": time.time() - start_time,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _create_guardian_blocked_result(
@@ -430,7 +430,7 @@ class ToolOrchestrator:
             "recommendations": guardian_result.get("recommendations", []),
             "ethical_concerns": guardian_result.get("ethical_concerns", []),
             "execution_time": time.time() - start_time,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _update_execution_metrics(self, execution_time: float, consensus_time: float, success: bool):

@@ -14,7 +14,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-ETHICS_LOG_PATH = Path("../../logs/ethics/ethics_drift_log_2025_04_28.json")
+ETHICS_LOG_PATH = Path("../../logs/ethics/ethics_drift_log_2025_04_28.json", timezone)
 DEI_LOG_PATH = Path("../../logs/ethics/self_reflection_log.json")
 
 
@@ -38,7 +38,7 @@ def ethics_drift_detect(decision_data, ethical_threshold=0.85):
         status = "drift_detected"
 
     return {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "drift_ratio": drift_ratio,
         "status": status,
         "ethical_threshold": ethical_threshold,
@@ -87,7 +87,7 @@ def self_reflection_report(decisions: list, compliance_threshold: float = 0.9) -
             demographics[demo] = demographics.get(demo, 0) + 1
 
     report = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "compliance": compliant / max(1, total),
         "total_decisions": total,
         "demographic_distribution": demographics,

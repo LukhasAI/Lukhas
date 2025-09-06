@@ -34,7 +34,7 @@ import requests
 from cryptography.fernet import Fernet
 
 
-class AuthenticationMethod(Enum):
+class AuthenticationMethod(Enum, timezone):
     """Supported authentication methods."""
 
     SAML_SSO = "saml_sso"
@@ -524,7 +524,7 @@ class EnterpriseAuthenticationModule:
             payload = jwt.decode(token, self.jwt_secret, algorithms=[self.jwt_algorithm])
 
             # Check expiration
-            if datetime.fromtimestamp(payload.get("exp", 0)) < datetime.utcnow():
+            if datetime.fromtimestamp(payload.get("exp", 0)) < datetime.now(timezone.utc):
                 return self._failed_auth_result(session_id, "Token expired")
 
             # Get user from payload
@@ -722,7 +722,7 @@ class EnterpriseAuthenticationModule:
             return None
 
         # Check session expiry
-        if datetime.utcnow() > session["expires_at"]:
+        if datetime.now(timezone.utc) > session["expires_at"]:
             del self.active_sessions[session_id]
             return None
 
@@ -755,13 +755,13 @@ class EnterpriseAuthenticationModule:
         payload = {
             "user_id": user_id,
             "token_type": "mfa",
-            "exp": datetime.utcnow() + timedelta(minutes=10),
+            "exp": datetime.now(timezone.utc) + timedelta(minutes=10),
         }
         return jwt.encode(payload, self.jwt_secret, algorithm=self.jwt_algorithm)
 
     def _generate_tokens(self, user: EnterpriseUser) -> tuple[str, str, datetime]:
         """Generate access and refresh tokens."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         expires_at = now + timedelta(hours=self.token_expiry_hours)
 
         # Access token
@@ -795,9 +795,9 @@ class EnterpriseAuthenticationModule:
         self.active_sessions[session_id] = {
             "user": user,
             "access_token": access_token,
-            "created_at": datetime.utcnow(),
-            "expires_at": datetime.utcnow() + timedelta(hours=self.config.get("session_timeout_hours", 8)),
-            "last_activity": datetime.utcnow(),
+            "created_at": datetime.now(timezone.utc),
+            "expires_at": datetime.now(timezone.utc) + timedelta(hours=self.config.get("session_timeout_hours", 8)),
+            "last_activity": datetime.now(timezone.utc),
         }
 
     def _failed_auth_result(self, session_id: str, error_message: str) -> AuthenticationResult:
@@ -914,8 +914,8 @@ class EnterpriseAuthenticationModule:
             lambda_id=None,  # To be assigned/linked
             authentication_methods=[AuthenticationMethod.LDAP],
             last_login=None,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
             is_active=True,
             requires_mfa=False,
             ldap_dn=ldap_entry.entry_dn,
@@ -941,8 +941,8 @@ class EnterpriseAuthenticationModule:
             lambda_id=None,
             authentication_methods=[AuthenticationMethod.OAUTH2_OIDC],
             last_login=None,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
             is_active=True,
             requires_mfa=False,
             ldap_dn=None,
@@ -968,8 +968,8 @@ class EnterpriseAuthenticationModule:
             lambda_id=None,
             authentication_methods=[AuthenticationMethod.SAML_SSO],
             last_login=None,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
             is_active=True,
             requires_mfa=False,
             ldap_dn=None,
@@ -995,8 +995,8 @@ class EnterpriseAuthenticationModule:
             lambda_id=None,
             authentication_methods=[AuthenticationMethod.JWT_TOKEN],
             last_login=None,
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
             is_active=True,
             requires_mfa=False,
             ldap_dn=None,

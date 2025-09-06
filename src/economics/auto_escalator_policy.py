@@ -14,7 +14,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EscalatorTier(Enum):
@@ -471,7 +471,7 @@ class AutoEscalatorPolicy:
             "new_split": f"{new_config.user_bps / 100:.0f}/{new_config.platform_bps / 100:.0f}",
             "new_benefits": new_config.tier_benefits,
             "escalation_record_id": f"escalation_{int(time.time())}",
-            "effective_date": datetime.utcnow().isoformat(),
+            "effective_date": datetime.now(timezone.utc).isoformat(),
         }
 
     async def calculate_transaction_split(
@@ -513,7 +513,7 @@ class AutoEscalatorPolicy:
             "bonuses_applied": bonuses,
             "split_ratio": f"{tier_config.user_bps / 100:.0f}/{tier_config.platform_bps / 100:.0f}",
             "opportunity_id": opportunity_id,
-            "calculated_at": datetime.utcnow().isoformat(),
+            "calculated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     async def generate_escalation_transparency_report(self, user_id: str) -> dict[str, Any]:
@@ -530,7 +530,7 @@ class AutoEscalatorPolicy:
 
         report = {
             "user_id": user_id,
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "current_status": {
                 "tier": metrics.current_tier.value,
                 "split_ratio": f"{current_config.user_bps / 100:.0f}/{current_config.platform_bps / 100:.0f}",

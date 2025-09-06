@@ -22,7 +22,7 @@ from typing import Optional
 class UserContext:
     """User context for ID generation."""
 
-    def __init__(self, user_id=None, metadata=None):
+    def __init__(self, user_id=None, metadata=None, timezone):
         self.user_id = user_id
         self.metadata = metadata or {}
 
@@ -151,7 +151,7 @@ class LambdaIDGenerator:
             base_entropy += context_str
 
         # Add tier-specific salt
-        tier_salt = f"tier_{tier.value}_{datetime.now().isoformat()}"
+        tier_salt = f"tier_{tier.value}_{datetime.now(timezone.utc).isoformat()}"
         combined_entropy = base_entropy + tier_salt
 
         # Generate hash
@@ -204,7 +204,7 @@ class LambdaIDGenerator:
     def _log_generation(self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None) -> None:
         """Log ΛiD generation event for audit trail"""
         {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "lambda_id": lambda_id,
             "tier": tier.value,
             "context": user_context or {},

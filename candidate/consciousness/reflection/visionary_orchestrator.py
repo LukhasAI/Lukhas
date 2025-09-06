@@ -60,7 +60,7 @@ from typing import Any, Callable, Optional
 
 import yaml
 
-# lukhas Core Imports (based on audit findings)
+# lukhas Core Imports (based on audit findings, timezone)
 try:
     from common.exceptions import SafetyViolationError
 
@@ -161,7 +161,7 @@ class VisionaryAGIOrchestrator:
         self.mode = mode
         self.consciousness_target = consciousness_target
         self.safety_override = safety_override
-        self.started_at = datetime.now()
+        self.started_at = datetime.now(timezone.utc)
 
         # Initialize logging with appropriate verbosity
         self.logger = self._setup_visionary_logging()
@@ -535,7 +535,7 @@ class VisionaryAGIOrchestrator:
                 "query": query,
                 "user_context": context or {},
                 "user_id": user_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "consciousness_level": self.current_consciousness_level.name,
                 "mode": self.mode.name,
             }
@@ -688,7 +688,7 @@ class VisionaryAGIOrchestrator:
         # Update metrics
         await self._update_visionary_metrics()
 
-        uptime = datetime.now() - self.started_at
+        uptime = datetime.now(timezone.utc) - self.started_at
 
         status = {
             "system": {

@@ -21,7 +21,7 @@ from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -722,7 +722,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "patterns_detected": len(sensitive_patterns),
                     "trinity_impact": classification.trinity_impact,
                     "governance_validated": classification.governance_validated,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -1070,7 +1070,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "data_size": len(data_str),
                     "governance_validated": self.governance_enabled,
                     "trinity_protected": encryption_level == "trinity_protected",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -1146,7 +1146,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         """Enhanced privacy audit event logging with governance integration"""
         try:
             event["event_id"] = str(uuid.uuid4())
-            event["timestamp"] = event.get("timestamp", datetime.now().isoformat())
+            event["timestamp"] = event.get("timestamp", datetime.now(timezone.utc).isoformat())
             event["governance_enabled"] = self.governance_enabled
 
             self.audit_events.append(event)

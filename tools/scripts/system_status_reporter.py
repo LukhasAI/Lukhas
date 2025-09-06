@@ -364,7 +364,7 @@ def main():
     report = generate_system_report()
 
     # Save detailed report
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     report_file = f"data/system_status_report_{timestamp}.json"
 
     Path(report_file).parent.mkdir(parents=True, exist_ok=True)

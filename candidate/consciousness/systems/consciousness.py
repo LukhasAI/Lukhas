@@ -23,7 +23,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -88,7 +88,7 @@ class MetaCognition:
                 "component": self.__class__.__name__,
                 "category": "consciousness",
                 "result": result,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -97,7 +97,7 @@ class MetaCognition:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _core_consciousness_processing(self, data: Any) -> Any:
@@ -169,7 +169,7 @@ class MetaCognition:
             "category": "consciousness",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def shutdown(self):

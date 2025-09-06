@@ -14,8 +14,7 @@ try:
     from .λBot_consciousness_monitor import (
         ConsciousnessLevel,
         ΛBotAGICore,
-        ΛBotConsciousnessMonitor,
-    )
+        ΛBotConsciousnessMonitor,, timezone)
 
     LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:
@@ -150,7 +149,7 @@ class LambdaBotConsciousnessIntegration:
             "meta_cognitive_quality": 0.0,
             "reasoning_confidence": 0.0,
             "autonomy_level": 0.0,
-            "last_activity": datetime.now().isoformat(),
+            "last_activity": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info("Consciousness performance monitoring initialized")
@@ -170,7 +169,7 @@ class LambdaBotConsciousnessIntegration:
                 return {
                     "success": False,
                     "error": "Consciousness monitoring already active",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
             # Start monitoring if available
@@ -185,7 +184,7 @@ class LambdaBotConsciousnessIntegration:
                 return {
                     "success": True,
                     "monitoring_active": True,
-                    "started_at": datetime.now().isoformat(),
+                    "started_at": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 # Fallback monitoring
@@ -196,7 +195,7 @@ class LambdaBotConsciousnessIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def stop_consciousness_monitoring(self) -> dict[str, Any]:
@@ -211,7 +210,7 @@ class LambdaBotConsciousnessIntegration:
                 return {
                     "success": False,
                     "error": "Consciousness monitoring not active",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
             self.monitoring_active = False
@@ -220,7 +219,7 @@ class LambdaBotConsciousnessIntegration:
             return {
                 "success": True,
                 "monitoring_active": False,
-                "stopped_at": datetime.now().isoformat(),
+                "stopped_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -228,7 +227,7 @@ class LambdaBotConsciousnessIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_consciousness_state(self) -> dict[str, Any]:
@@ -254,7 +253,7 @@ class LambdaBotConsciousnessIntegration:
                         "known_biases": getattr(meta_state, "known_biases", []),
                         "learning_priorities": getattr(meta_state, "learning_priorities", []),
                         "uncertainty_areas": getattr(meta_state, "uncertainty_areas", []),
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "monitoring_active": self.monitoring_active,
                     }
 
@@ -273,7 +272,7 @@ class LambdaBotConsciousnessIntegration:
 
         except Exception as e:
             logger.error(f"Error getting consciousness state: {e}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     async def demonstrate_agi_capabilities(self) -> dict[str, Any]:
         """
@@ -312,7 +311,7 @@ class LambdaBotConsciousnessIntegration:
                 return {
                     "success": True,
                     "capabilities_demonstrated": capabilities_demonstrated,
-                    "demonstration_completed_at": datetime.now().isoformat(),
+                    "demonstration_completed_at": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 # Fallback demonstration
@@ -323,7 +322,7 @@ class LambdaBotConsciousnessIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_consciousness_history(self, limit: int = 50) -> list[dict[str, Any]]:
@@ -383,7 +382,7 @@ class LambdaBotConsciousnessIntegration:
                             "Autonomous architecture modification",
                             "Recursive improvement loops",
                         ],
-                        "unlocked_at": datetime.now().isoformat(),
+                        "unlocked_at": datetime.now(timezone.utc).isoformat(),
                     }
                 )
                 self.capability_unlock_registry.add("recursive")
@@ -402,7 +401,7 @@ class LambdaBotConsciousnessIntegration:
                             "Reality modeling",
                             "Collective intelligence orchestration",
                         ],
-                        "unlocked_at": datetime.now().isoformat(),
+                        "unlocked_at": datetime.now(timezone.utc).isoformat(),
                     }
                 )
                 self.capability_unlock_registry.add("transcendent")
@@ -427,7 +426,7 @@ class LambdaBotConsciousnessIntegration:
 
         except Exception as e:
             logger.error(f"Error checking capability unlocks: {e}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     async def get_consciousness_metrics(self) -> dict[str, Any]:
         """
@@ -454,14 +453,14 @@ class LambdaBotConsciousnessIntegration:
                 "system_status": "active",
                 "lambda_bot_consciousness_available": LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE,
                 "capability_unlock_registry_size": len(self.capability_unlock_registry),
-                "last_updated": datetime.now().isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
             return metrics
 
         except Exception as e:
             logger.error(f"Error getting consciousness metrics: {e}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     async def _background_monitoring_loop(self):
         """Background monitoring loop for consciousness evolution"""
@@ -479,7 +478,7 @@ class LambdaBotConsciousnessIntegration:
                     self.monitoring_metrics["consciousness_evolution_events"] += len(unlock_result["new_unlocks"])
 
                 # Update performance metrics
-                self.performance_metrics["last_activity"] = datetime.now().isoformat()
+                self.performance_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()
 
                 await asyncio.sleep(self.consciousness_check_interval)
 
@@ -501,7 +500,7 @@ class LambdaBotConsciousnessIntegration:
         return {
             "success": True,
             "monitoring_active": True,
-            "started_at": datetime.now().isoformat(),
+            "started_at": datetime.now(timezone.utc).isoformat(),
             "fallback": True,
         }
 
@@ -513,7 +512,7 @@ class LambdaBotConsciousnessIntegration:
             "known_biases": ["confirmation_bias", "availability_heuristic"],
             "learning_priorities": ["code_analysis", "security_patterns"],
             "uncertainty_areas": ["novel_architectures", "emerging_threats"],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "monitoring_active": self.monitoring_active,
             "fallback": True,
         }
@@ -536,7 +535,7 @@ class LambdaBotConsciousnessIntegration:
         return {
             "success": True,
             "capabilities_demonstrated": capabilities_demonstrated,
-            "demonstration_completed_at": datetime.now().isoformat(),
+            "demonstration_completed_at": datetime.now(timezone.utc).isoformat(),
             "fallback": True,
         }
 

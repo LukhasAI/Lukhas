@@ -62,7 +62,7 @@ import structlog
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "consciousness_service"
 
-logger.info("ΛTRACE: Initializing consciousness_service.py module.", module_path=__file__)
+logger.info("ΛTRACE: Initializing consciousness_service.py module.", module_path=__file__, timezone)
 
 
 # Standardized LUKHAS Tier Decorator (Conceptual - Tier Logic Not Implemented)
@@ -286,7 +286,7 @@ class ConsciousnessService:
             "active_focus_points": [],
             "active_processing_threads_info": [],
             "current_introspection_level": 0.0,
-            "last_state_update_timestamp_utc": datetime.utcnow().isoformat(),
+            "last_state_update_timestamp_utc": datetime.now(timezone.utc).isoformat(),
         }
         self.instance_logger.info("ΛTRACE: ConsciousnessService instance initialized successfully.")
 
@@ -411,7 +411,7 @@ class ConsciousnessService:
             )  # Update internal state based on processing
 
             # Generate a unique ID for this awareness processing event.
-            awareness_event_id = f"awareproc_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
+            awareness_event_id = f"awareproc_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful activity with relevant metadata.
             activity_log_details = {
@@ -433,7 +433,7 @@ class ConsciousnessService:
                 "awareness_event_id": awareness_event_id,
                 "processed_awareness_data": processed_awareness_data,
                 "current_system_consciousness_state": self.current_internal_state.copy(),
-                "event_timestamp_utc": datetime.utcnow().isoformat(),
+                "event_timestamp_utc": datetime.now(timezone.utc).isoformat(),
                 "requested_processing_level": requested_awareness_level_key,
             }
         except Exception as e:
@@ -516,7 +516,7 @@ class ConsciousnessService:
                 requested_depth_level,
                 introspection_method_type,
             )
-            introspection_event_id = f"introspect_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
+            introspection_event_id = f"introspect_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful introspection activity.
             activity_log_details = {
@@ -540,7 +540,7 @@ class ConsciousnessService:
                 "introspection_analysis_data": introspection_analysis_data,
                 "requested_focus_area": introspection_focus_area,  # Renamed for clarity
                 "requested_depth": requested_depth_level,
-                "event_timestamp_utc": datetime.utcnow().isoformat(),
+                "event_timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             error_message_str = f"Introspection process failed: {e!s}"
@@ -675,7 +675,7 @@ class ConsciousnessService:
             return {
                 "success": True,
                 "consciousness_state_report": report_state_data,
-                "report_timestamp_utc": datetime.utcnow().isoformat(),
+                "report_timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             error_message_str = f"Consciousness state report access failed: {e!s}"
@@ -763,9 +763,9 @@ class ConsciousnessService:
             # Update the service's current state regarding focus.
             self.current_internal_state["active_focus_points"] = new_focus_targets
             self.current_internal_state["current_focus_intensity"] = focus_intensity_level  # Added to state
-            self.current_internal_state["last_state_update_timestamp_utc"] = datetime.utcnow().isoformat()
+            self.current_internal_state["last_state_update_timestamp_utc"] = datetime.now(timezone.utc).isoformat()
 
-            attention_event_id = f"focusapply_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
+            attention_event_id = f"focusapply_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful attention direction.
             activity_log_details = {
@@ -790,7 +790,7 @@ class ConsciousnessService:
                 "attention_application_result_details": attention_application_result,
                 "confirmed_focus_targets": new_focus_targets,
                 "confirmed_focus_intensity": focus_intensity_level,
-                "event_timestamp_utc": datetime.utcnow().isoformat(),
+                "event_timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             error_message_str = f"Attention focus direction failed: {e!s}"
@@ -869,7 +869,7 @@ class ConsciousnessService:
             metacognitive_results_data = self._execute_metacognitive_processing(
                 topic_for_metacognition, requested_analysis_depth_key
             )
-            metacognition_event_id = f"metaproc_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}_{user_id}"
+            metacognition_event_id = f"metaproc_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful metacognitive engagement.
             activity_log_details = {
@@ -892,7 +892,7 @@ class ConsciousnessService:
                 "metacognitive_analysis_results": metacognitive_results_data,
                 "original_analysis_topic": topic_for_metacognition,
                 "requested_depth_key": requested_analysis_depth_key,
-                "event_timestamp_utc": datetime.utcnow().isoformat(),
+                "event_timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             error_message_str = f"Metacognitive analysis failed: {e!s}"
@@ -970,7 +970,7 @@ class ConsciousnessService:
                     "simulated_active_consciousness_threads",
                     self.current_internal_state["active_processing_threads_info"],
                 ),  # Example update
-                "last_state_update_timestamp_utc": datetime.utcnow().isoformat(),
+                "last_state_update_timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
         )
         self.instance_logger.debug(
@@ -1021,13 +1021,13 @@ class ConsciousnessService:
         # significant operations.
         return [
             {
-                "event_timestamp_utc": (datetime.utcnow() - timedelta(minutes=1)).isoformat(),
+                "event_timestamp_utc": (datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat(),
                 "event_type": "awareness_stream_processing",
                 "summary": "Processed high-intensity sensory data.",
                 "outcome_metric": 0.82,
             },
             {
-                "event_timestamp_utc": (datetime.utcnow() - timedelta(minutes=5)).isoformat(),
+                "event_timestamp_utc": (datetime.now(timezone.utc) - timedelta(minutes=5)).isoformat(),
                 "event_type": "introspection_cycle_completed",
                 "summary": "Focused on emotional response patterns.",
                 "outcome_metric": 0.71,

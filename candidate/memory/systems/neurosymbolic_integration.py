@@ -66,7 +66,7 @@ from typing import Any, Optional
 import numpy as np
 
 
-class SymbolicRelationType(Enum):
+class SymbolicRelationType(Enum, timezone):
     """Types of symbolic relationships between entities"""
 
     ISA = "isa"  # Hierarchical relationship (dog isa animal)
@@ -392,7 +392,7 @@ class NeuralSymbolicExtractor:
                     extraction_context={
                         "source_content": memory_content[:200],
                         "extraction_method": "nlp_pattern_matching",
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     },
                 )
 

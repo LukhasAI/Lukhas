@@ -13,7 +13,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class CacheType(Enum):
+class CacheType(Enum, timezone):
     """Types of cached consciousness data."""
 
     CONSCIOUSNESS_PROFILE = "consciousness_profile"
@@ -90,14 +90,14 @@ class ConsciousnessCacheManager:
         # Determine expiration
         ttl = timedelta(hours=ttl_hours) if ttl_hours else self.ttl_policies.get(cache_type, timedelta(hours=24))
 
-        expires_at = datetime.now() + ttl
+        expires_at = datetime.now(timezone.utc) + ttl
 
         # Create cache entry
         entry = CacheEntry(
             cache_key=cache_key,
             cache_type=cache_type,
             data=consciousness_data.copy(),
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
             expires_at=expires_at,
             context_hash=context_hash,
             user_id=user_id,
@@ -139,7 +139,7 @@ class ConsciousnessCacheManager:
             return None
 
         # Check expiration
-        if datetime.now() > entry.expires_at:
+        if datetime.now(timezone.utc) > entry.expires_at:
             # Clean up expired entry
             del self.cache[cache_key]
             self.hit_stats["misses"] += 1
@@ -147,7 +147,7 @@ class ConsciousnessCacheManager:
 
         # Update access stats
         entry.hit_count += 1
-        entry.last_accessed = datetime.now()
+        entry.last_accessed = datetime.now(timezone.utc)
         self.hit_stats["hits"] += 1
 
         return entry.data.copy()
@@ -180,7 +180,7 @@ class ConsciousnessCacheManager:
                     {
                         "cache_key": cache_key,
                         "cache_type": entry.cache_type.value,
-                        "age_hours": (datetime.now() - entry.created_at).total_seconds() / 3600,
+                        "age_hours": (datetime.now(timezone.utc) - entry.created_at).total_seconds() / 3600,
                     }
                 )
 
@@ -196,7 +196,7 @@ class ConsciousnessCacheManager:
 
     async def get_cache_analytics(self) -> dict[str, Any]:
         """Get comprehensive cache performance analytics."""
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         # Calculate hit rate
         total_requests = self.hit_stats["hits"] + self.hit_stats["misses"]

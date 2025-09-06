@@ -23,7 +23,7 @@ Evaluates actions and content against ethical frameworks
 """
 
 
-logger = logging.getLogger("v1_AGI.compliance.ethics")
+logger = logging.getLogger("v1_AGI.compliance.ethics", timezone)
 
 
 class EthicsEngine:
@@ -198,7 +198,7 @@ class EthicsEngine:
         # Record decision in history
         self._add_to_history(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "action_type": action_type,
                 "is_ethical": is_ethical,
                 "score": final_score,

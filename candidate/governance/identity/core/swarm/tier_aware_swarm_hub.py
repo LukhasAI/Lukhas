@@ -19,8 +19,7 @@ from candidate.core.swarm import SwarmTask, TaskPriority
 from governance.identity.core.colonies import (
     BiometricVerificationColony,
     ConsciousnessVerificationColony,
-    DreamVerificationColony,
-)
+    DreamVerificationColony,, timezone)
 
 # Import identity components
 from governance.identity.core.events import (
@@ -228,7 +227,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         for colony_name in self.colonies:
             self.colony_health[colony_name] = {
                 "status": "healthy",
-                "last_check": datetime.utcnow(),
+                "last_check": datetime.now(timezone.utc),
                 "success_rate": 1.0,
                 "active_tasks": 0,
             }
@@ -263,7 +262,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         # Create identity swarm task
         task = IdentitySwarmTask(
-            task_id=f"id_verify_{lambda_id}_{int(datetime.utcnow().timestamp())}",
+            task_id=f"id_verify_{lambda_id}_{int(datetime.now(timezone.utc).timestamp())}",
             task_type=f"identity_{verification_type}",
             priority=adjusted_priority,
             lambda_id=lambda_id,
@@ -321,7 +320,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         if target_tier <= current_tier:
             raise ValueError("Target tier must be higher than current tier")
 
-        migration_id = f"migrate_{lambda_id}_{current_tier}_to_{target_tier}_{int(datetime.utcnow().timestamp())}"
+        migration_id = f"migrate_{lambda_id}_{current_tier}_to_{target_tier}_{int(datetime.now(timezone.utc).timestamp())}"
 
         # Create migration request
         migration_request = {
@@ -330,7 +329,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             "current_tier": current_tier,
             "target_tier": target_tier,
             "reason": migration_reason,
-            "requested_at": datetime.utcnow(),
+            "requested_at": datetime.now(timezone.utc),
             "verification_data": verification_data,
             "status": "pending",
             "verification_tasks": [],
@@ -506,7 +505,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             logger.error(f"No orchestration found for task {task.task_id}")
             return
 
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
         results = {}
         success = True
 
@@ -593,7 +592,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                     overall_confidence = sum(confidences) / len(confidences)
 
             # Update tier metrics
-            duration = (datetime.utcnow() - start_time).total_seconds()
+            duration = (datetime.now(timezone.utc) - start_time).total_seconds()
             self._update_tier_metrics(task.tier_level, success, duration)
 
             # Publish completion event
@@ -682,7 +681,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
             # Update migration status
             migration_request["status"] = "approved" if migration_approved else "denied"
-            migration_request["completed_at"] = datetime.utcnow()
+            migration_request["completed_at"] = datetime.now(timezone.utc)
             migration_request["avg_confidence"] = avg_confidence
 
             # Move to history
@@ -727,7 +726,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         # Mark affected colonies for healing
         for colony_name in orchestration.colonies:
             self.colony_health[colony_name]["status"] = "healing"
-            self.colony_health[colony_name]["last_failure"] = datetime.utcnow()
+            self.colony_health[colony_name]["last_failure"] = datetime.now(timezone.utc)
 
     async def _colony_health_monitor(self):
         """Monitor colony health and trigger healing when needed."""
@@ -742,7 +741,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                     colony_status = colony.get_colony_health_status()
 
                     # Update health tracking
-                    health["last_check"] = datetime.utcnow()
+                    health["last_check"] = datetime.now(timezone.utc)
                     health["success_rate"] = colony_status.get("performance_metrics", {}).get("success_rate", 1.0)
 
                     # Check if healing is needed

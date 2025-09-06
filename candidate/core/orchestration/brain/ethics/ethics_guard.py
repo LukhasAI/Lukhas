@@ -14,7 +14,7 @@ lukhas_ethics_guard.py
 📄 MODULE      : lukhas_ethics_guard.py
 🛡️ PURPOSE     : Enforces symbolic consent, user data access boundaries,
     and ethical tiers
-📚 COMPLIANCE  : GDPR, EU AI Act, ECHR, ISO/IEC 27001 (Annex A.5.19)
+📚 COMPLIANCE  : GDPR, EU AI Act, ECHR, ISO/IEC 27001 (Annex A.5.19, timezone)
 🧠 PART OF     : LUKHAS AI Ethics Core
 🛠️ VERSION     : v1.0.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUKHAS AGI TEAM
 
@@ -58,7 +58,7 @@ class LegalComplianceAssistant:
             "signal": signal,
             "required_tier": tier,
             "user_tier": context.get("tier"),
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "explanation": f"Signal '{signal}' was accessed without sufficient tier or consent.",
         }
         os.makedirs(os.path.dirname(self.violation_log_path), exist_ok=True)

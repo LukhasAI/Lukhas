@@ -22,7 +22,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Add parent directory to path for identity interface
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__, timezone)))
 
 try:
     from governance.identity.interface import IdentityClient
@@ -198,7 +198,7 @@ class EthicsService:
                     "decision": decision,
                     "reasoning": reasoning,
                     "context": context,
-                    "audit_timestamp": datetime.utcnow().isoformat(),
+                    "audit_timestamp": datetime.now(timezone.utc).isoformat(),
                     "ethics_version": self._get_ethics_version(),
                 },
             )
@@ -337,7 +337,7 @@ class EthicsService:
         self.identity_client.log_activity(
             "ethics_observer_registered",
             "system",
-            {"observer_id": observer_id, "timestamp": datetime.utcnow().isoformat()},
+            {"observer_id": observer_id, "timestamp": datetime.now(timezone.utc).isoformat()},
         )
 
     async def register_privacy_handler(self, handler_id: str, handler: Any) -> None:
@@ -351,7 +351,7 @@ class EthicsService:
         self.identity_client.log_activity(
             "privacy_handler_registered",
             "system",
-            {"handler_id": handler_id, "timestamp": datetime.utcnow().isoformat()},
+            {"handler_id": handler_id, "timestamp": datetime.now(timezone.utc).isoformat()},
         )
 
     async def register_ethics_observer(self, observer: Any) -> None:
@@ -367,7 +367,7 @@ class EthicsService:
             "system",
             {
                 "observer_type": type(observer).__name__,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
 
@@ -383,7 +383,7 @@ class EthicsService:
         self.identity_client.log_activity(
             "ethics_validator_registered",
             "system",
-            {"validator_id": validator_id, "timestamp": datetime.utcnow().isoformat()},
+            {"validator_id": validator_id, "timestamp": datetime.now(timezone.utc).isoformat()},
         )
 
     async def setup_decision_intercept_chain(self) -> None:
@@ -403,7 +403,7 @@ class EthicsService:
             "system",
             {
                 "config": self.decision_intercept_config,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
 

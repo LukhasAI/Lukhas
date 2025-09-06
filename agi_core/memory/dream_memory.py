@@ -9,7 +9,7 @@ import asyncio
 import logging
 import random
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -138,7 +138,7 @@ class DreamMemoryBridge:
         Returns:
             Session ID for tracking
         """
-        session_id = f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{len(self.dream_sessions)}"
+        session_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.dream_sessions)}"
         start_time = asyncio.get_event_loop().time()
 
         # Auto-select memories if not provided
@@ -209,7 +209,7 @@ class DreamMemoryBridge:
     async def _select_dream_targets(self) -> list[str]:
         """Automatically select memories for dream processing."""
         candidates = []
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         # Select recent memories with interesting characteristics
         for memory_id, memory in self.memory_store.memories.items():
@@ -369,7 +369,7 @@ class DreamMemoryBridge:
                     strong_alignments[star] = avg_alignment
 
         if strong_alignments:
-            pattern_id = f"assoc_{central_memory.id}_{datetime.now().strftime('%H%M%S')}"
+            pattern_id = f"assoc_{central_memory.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
             return DreamMemoryPattern(
                 pattern_id=pattern_id,
@@ -396,7 +396,7 @@ class DreamMemoryBridge:
 
             # Look for regular intervals or accelerating/decelerating patterns
             if len(set(int(diff / 3600) for diff in time_diffs)) <= 2:  # Similar intervals (within hours)
-                pattern_id = f"temporal_{datetime.now().strftime('%H%M%S')}"
+                pattern_id = f"temporal_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
                 pattern = DreamMemoryPattern(
                     pattern_id=pattern_id,
@@ -426,7 +426,7 @@ class DreamMemoryBridge:
             # Look for emotional narrative arc
             if emotional_sequence[0] < 0 and emotional_sequence[-1] > 0:
                 # Negative to positive arc
-                pattern_id = f"emotional_arc_{datetime.now().strftime('%H%M%S')}"
+                pattern_id = f"emotional_arc_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
                 return DreamMemoryPattern(
                     pattern_id=pattern_id,
@@ -457,7 +457,7 @@ class DreamMemoryBridge:
                     cluster_members.append(memory2)
 
             if len(cluster_members) >= 2:
-                pattern_id = f"cluster_{i}_{datetime.now().strftime('%H%M%S')}"
+                pattern_id = f"cluster_{i}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
                 pattern = DreamMemoryPattern(
                     pattern_id=pattern_id,
@@ -622,7 +622,7 @@ class DreamMemoryBridge:
             vector=vector,
             memory_type=MemoryType.DREAM,
             importance=MemoryImportance.HIGH,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             constellation_tags=constellation_tags,
             source_context="Dream session meta-memory",
             confidence=0.9,

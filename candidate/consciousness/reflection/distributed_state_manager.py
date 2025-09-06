@@ -62,7 +62,7 @@ from typing import Any, Optional
 from candidate.core.cluster_sharding import ShardManager
 from candidate.core.common import get_logger
 from candidate.core.event_sourcing import (Event, EventStore,
-                                           get_global_event_store)
+                                           get_global_event_store, timezone)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -308,7 +308,7 @@ class DistributedStateManager:
             metadata={
                 "node_id": self.node_id,
                 "shard_id": shard_id,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             timestamp=time.time(),
             version=self.event_counter + 1,
@@ -391,7 +391,7 @@ class DistributedStateManager:
             metadata={
                 "node_id": self.node_id,
                 "shard_id": shard_id,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             timestamp=time.time(),
             version=self.event_counter + 1,
@@ -468,7 +468,7 @@ class DistributedStateManager:
             event_version=self.event_counter,
             metadata={
                 "node_id": self.node_id,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
             },
         )
 

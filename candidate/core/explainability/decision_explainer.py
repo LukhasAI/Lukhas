@@ -13,7 +13,7 @@ from typing import Any, Optional
 from lukhas.core.endocrine import get_endocrine_system
 from lukhas.core.tags import get_tag_registry
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ExplanationLevel(Enum):
@@ -287,7 +287,7 @@ class DecisionExplainer:
                 counterfactuals=(counterfactuals if "counterfactuals" in locals() else []),
                 relevant_tags=relevant_tags,
                 hormonal_state=hormonal_state,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
             )
 
             logger.info(f"Generated {explanation_type.value} explanation for decision {decision_id}")
@@ -660,7 +660,7 @@ class DecisionExplainer:
                 "dominant_hormone": (max(avg_hormones.items(), key=lambda x: x[1])[0] if avg_hormones else "none"),
             },
             "common_patterns": self._identify_decision_patterns(explanations),
-            "report_timestamp": datetime.now().isoformat(),
+            "report_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return report

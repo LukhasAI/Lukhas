@@ -26,8 +26,7 @@ try:
         generate_authentication_options,
         generate_registration_options,
         verify_authentication_response,
-        verify_registration_response,
-    )
+        verify_registration_response,, timezone)
     from webauthn.helpers import structs
 
     WEBAUTHN_AVAILABLE = True
@@ -46,7 +45,7 @@ class WebAuthnCredential:
         self.sign_count = credential_data.get("sign_count", 0)
         self.user_id = credential_data.get("user_id", "")
         self.authenticator_data = credential_data.get("authenticator_data", {})
-        self.created_at = credential_data.get("created_at", datetime.utcnow().isoformat())
+        self.created_at = credential_data.get("created_at", datetime.now(timezone.utc).isoformat())
         self.last_used = credential_data.get("last_used")
         self.tier_level = credential_data.get("tier_level", 0)
         self.device_type = credential_data.get("device_type", "unknown")
@@ -161,8 +160,8 @@ class WebAuthnManager:
                 "challenge_b64": challenge_b64,
                 "user_id": user_id,
                 "user_tier": user_tier,
-                "created_at": datetime.utcnow().isoformat(),
-                "expires_at": (datetime.utcnow() + timedelta(minutes=5)).isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "expires_at": (datetime.now(timezone.utc) + timedelta(minutes=5)).isoformat(),
             }
 
             # 🧠 Update consciousness patterns
@@ -201,7 +200,7 @@ class WebAuthnManager:
 
             # Check expiration
             expires_at = datetime.fromisoformat(pending_reg["expires_at"])
-            if datetime.utcnow() > expires_at:
+            if datetime.now(timezone.utc) > expires_at:
                 del self.pending_registrations[registration_id]
                 return {"success": False, "error": "Registration expired"}
 
@@ -325,8 +324,8 @@ class WebAuthnManager:
                 "challenge_b64": challenge_b64,
                 "user_id": user_id,
                 "tier_level": tier_level,
-                "created_at": datetime.utcnow().isoformat(),
-                "expires_at": (datetime.utcnow() + timedelta(minutes=5)).isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "expires_at": (datetime.now(timezone.utc) + timedelta(minutes=5)).isoformat(),
             }
 
             # 🧠 Update consciousness patterns
@@ -366,7 +365,7 @@ class WebAuthnManager:
 
             # Check expiration
             expires_at = datetime.fromisoformat(pending_auth["expires_at"])
-            if datetime.utcnow() > expires_at:
+            if datetime.now(timezone.utc) > expires_at:
                 del self.pending_authentications[authentication_id]
                 return {"success": False, "error": "Authentication expired"}
 
@@ -416,7 +415,7 @@ class WebAuthnManager:
                     return {"success": False, "error": "Origin mismatch"}
 
                 # Update credential usage
-                credential.last_used = datetime.utcnow().isoformat()
+                credential.last_used = datetime.now(timezone.utc).isoformat()
                 credential.sign_count += 1
 
                 # Clean up pending authentication
@@ -516,7 +515,7 @@ class WebAuthnManager:
                 "success": True,
                 "user_id": user_id,
                 "credential_id": credential_id[:16] + "...",
-                "revoked_at": datetime.utcnow().isoformat(),
+                "revoked_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -574,7 +573,7 @@ class WebAuthnManager:
     def _update_consciousness_patterns(self, user_id: str, action: str):
         """🧠 Update consciousness patterns for security analysis"""
         # This would integrate with the consciousness tracking system
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         print(f"Consciousness update: {user_id} | {action} | {timestamp}")
 
     def webauthn_health_check(self) -> dict[str, Any]:
@@ -585,7 +584,7 @@ class WebAuthnManager:
             len(self.pending_authentications)
 
             # Clean expired pending operations
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
             expired_regs = 0
             expired_auths = 0
 

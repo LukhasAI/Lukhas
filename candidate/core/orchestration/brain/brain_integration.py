@@ -25,7 +25,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 # Configure logging
-logger = logging.getLogger("Enhanced.BrainIntegration")
+logger = logging.getLogger("Enhanced.BrainIntegration", timezone)
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
 handler.setFormatter(formatter)
@@ -147,7 +147,7 @@ except ImportError:
             "primary_emotion": "neutral",
             "intensity": 0.5,
             "secondary_emotions": {},
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "stability": 0.8,
         }
 
@@ -180,7 +180,7 @@ except ImportError:
             }
             self.current_state["secondary_emotions"] = valid_secondary
 
-        self.current_state["last_updated"] = datetime.now().isoformat()
+        self.current_state["last_updated"] = datetime.now(timezone.utc).isoformat()
 
         # Calculate stability based on emotional change
                                                                                     if self.emotional_history:
@@ -269,7 +269,7 @@ except ImportError:
             "tags": tags or [],
             "priority": priority,
             "metadata": metadata or {},
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "access_count": 0,
             "emotional_intensity": self.emotional_processor.current_state["intensity"]
         }
@@ -366,7 +366,7 @@ except ImportError:
                     "emotion": memory["emotion"],
                     "consolidation_strength": memory["emotional_intensity"] * memory["access_count"],
                     "dream_associations": self._generate_dream_associations(memory),
-                    "consolidated_at": datetime.now().isoformat()
+                    "consolidated_at": datetime.now(timezone.utc).isoformat()
                 }
 
                 consolidated_memories.append(consolidated_memory)
@@ -568,7 +568,7 @@ except ImportError:
         result = {
             "status": "processing",
             "input_received": True,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processing_stages": {},
             "agi_enhancements": {}
         }

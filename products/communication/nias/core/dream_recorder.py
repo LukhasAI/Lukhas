@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DreamRecorder:
@@ -59,7 +59,7 @@ class DreamRecorder:
 
     def _generate_session_id(self) -> str:
         """Generate a unique session ID"""
-        return f"nias_session_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
+        return f"nias_session_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
 
     async def record_dream_seed(
         self,
@@ -88,7 +88,7 @@ class DreamRecorder:
                 "brand_id": brand_id,
                 "user_id": user_id,
                 "session_id": self.session_id,
-                "planted_at": datetime.now().isoformat(),
+                "planted_at": datetime.now(timezone.utc).isoformat(),
                 "dream_seed": dream_seed,
                 "consent_context": consent_context,
                 "status": "planted",
@@ -144,7 +144,7 @@ class DreamRecorder:
                 "user_id": user_id,
                 "interaction_type": interaction_type,
                 "interaction_data": interaction_data,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Add to seed's interaction history
@@ -200,7 +200,7 @@ class DreamRecorder:
                 "narrative_id": narrative_id,
                 "user_id": user_id,
                 "session_id": self.session_id,
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "dream_narrative": dream_narrative,
                 "source_seeds": source_seeds,
                 "user_rating": None,
@@ -338,7 +338,7 @@ class DreamRecorder:
 
     async def get_dream_analytics(self, user_id: Optional[str] = None, days: int = 30) -> dict[str, Any]:
         """Get comprehensive dream analytics"""
-        cutoff_date = datetime.now() - timedelta(days=days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
 
         # Filter seeds by date and user if specified
         recent_seeds = []
@@ -408,7 +408,7 @@ class DreamRecorder:
             "seeds_recorded": len(self.dream_seeds),
             "narratives_recorded": len(self.recorded_dreams),
             "storage_readable": self.storage_path.exists() and self.storage_path.is_dir(),
-            "last_activity": datetime.now().isoformat(),
+            "last_activity": datetime.now(timezone.utc).isoformat(),
         }
 
 

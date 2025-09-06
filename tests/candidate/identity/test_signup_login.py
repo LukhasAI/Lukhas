@@ -16,9 +16,9 @@ try:
     from identity_legacy_backup.login import login_user, signup, validate_password
 except ImportError:
     # Create stub functions for testing
-    def signup(email, password):
+    def signup(email, password, timezone):
         """Mock fallback for signup"""
-        timestamp = int(datetime.now().timestamp())
+        timestamp = int(datetime.now(timezone.utc).timestamp())
         user_id = email.split("@")[0] if email and "@" in email else f"test_{timestamp}"
         return {
             "success": True,
@@ -29,7 +29,7 @@ except ImportError:
 
     def login_user(email, password):
         """Mock fallback for login_user"""
-        timestamp = int(datetime.now().timestamp())
+        timestamp = int(datetime.now(timezone.utc).timestamp())
         user_id = email.split("@")[0] if email and "@" in email else f"test_{timestamp}"
         return {
             "success": True,
@@ -63,7 +63,7 @@ class TestIdentityFlow(unittest.TestCase):
     def test_signup_login_jwt_cycle(self):
         """Test complete signup → login → JWT decode → validation cycle."""
         # Use timestamp to ensure unique email
-        timestamp = int(datetime.now().timestamp())
+        timestamp = int(datetime.now(timezone.utc).timestamp())
         email = f"test_{timestamp}@lukhas.ai"
         password = PLACEHOLDER_PASSWORD
 

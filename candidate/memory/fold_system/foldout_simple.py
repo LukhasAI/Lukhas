@@ -17,7 +17,7 @@ from typing import Any
 MAGIC = b"LKF\x01"
 
 
-async def export_folds(folds: Iterable[dict[str, Any]], path: str, codec: str = "gzip") -> dict[str, Any]:
+async def export_folds(folds: Iterable[dict[str, Any]], path: str, codec: str = "gzip", timezone) -> dict[str, Any]:
     """Export memory folds using built-in compression"""
 
     # Convert to list to count
@@ -26,7 +26,7 @@ async def export_folds(folds: Iterable[dict[str, Any]], path: str, codec: str = 
     # Prepare data
     data = {
         "version": "1.0",
-        "created": datetime.utcnow().isoformat() + "Z",
+        "created": datetime.now(timezone.utc).isoformat() + "Z",
         "entries": len(folds_list),
         "folds": folds_list,
     }
@@ -58,7 +58,7 @@ async def export_folds(folds: Iterable[dict[str, Any]], path: str, codec: str = 
 
 def create_fold_bundle(folds, bundle_name, output_dir, **kwargs):
     """Create a memory fold bundle"""
-    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     filename = f"{bundle_name}_{timestamp}.lkf"
     output_path = Path(output_dir) / filename
 

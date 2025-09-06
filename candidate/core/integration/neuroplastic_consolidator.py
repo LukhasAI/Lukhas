@@ -17,8 +17,8 @@ from pathlib import Path
 
 
 class NeuroplasticConsolidator:
-    def __init__(self):
-        self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    def __init__(self, timezone):
+        self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.changes = []
         self.connections_made = 0
 

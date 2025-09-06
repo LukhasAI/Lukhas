@@ -25,7 +25,7 @@ except ImportError:
     # Fallback for environments without numpy
     class MockNumpy:
         @staticmethod
-        def mean(x):
+        def mean(x, timezone):
             return sum(x) / len(x) if x else 0.0
 
         @staticmethod
@@ -279,7 +279,7 @@ class BioSymbolicAwarenessAdapter:
         return {
             "recovery_pattern": qi_enhanced,
             "bio_fingerprint": bio_fingerprint,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def get_system_status(self) -> dict[str, Any]:
@@ -437,7 +437,7 @@ class BioSymbolicAwarenessAdapter:
 
             # Store successful state
             self.qi_like_state["fallback_states"].append(
-                {"state": state.copy(), "timestamp": datetime.utcnow().isoformat()}
+                {"state": state.copy(), "timestamp": datetime.now(timezone.utc).isoformat()}
             )
 
             # Trim fallback states
@@ -589,7 +589,7 @@ class BioSymbolicAwarenessAdapter:
         """Create new ion channel"""
         channel_id = self._get_ion_channel(data)
         self.security_state["ion_channels"][channel_id] = {
-            "created": datetime.utcnow().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
             "integrity": 1.0,
             "signature": self._generate_cardiolipin_code(data),
         }
@@ -598,7 +598,7 @@ class BioSymbolicAwarenessAdapter:
     def _generate_cardiolipin_code(self, data: Any) -> str:
         """Generate unique cardiolipin signature"""
         base = hashlib.sha256(str(data).encode()).hexdigest()
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         return hashlib.sha256(f"{base}:{timestamp}".encode()).hexdigest()
 
     async def _adapt_parameters(self) -> None:
@@ -609,7 +609,7 @@ class BioSymbolicAwarenessAdapter:
         # Record current state
         self.safety_state["adaptation_history"].append(
             {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "metrics": self.bio_metrics.copy(),
                 "resources": self.resource_pools.copy(),
             }
@@ -643,7 +643,7 @@ class BioSymbolicAwarenessAdapter:
                 [
                     {
                         "type": v,
-                        "timestamp": datetime.utcnow().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "metrics": self.bio_metrics.copy(),
                     }
                     for v in violations
@@ -740,7 +740,7 @@ class BioSymbolicAwarenessAdapter:
         recent_violations = sum(
             1
             for v in self.safety_state["violations"]
-            if (datetime.utcnow() - datetime.fromisoformat(v["timestamp"])).seconds < 3600
+            if (datetime.now(timezone.utc) - datetime.fromisoformat(v["timestamp"])).seconds < 3600
         )
 
         violation_penalty = 0.1 * recent_violations

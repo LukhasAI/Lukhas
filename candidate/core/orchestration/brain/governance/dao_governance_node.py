@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ProposalType(Enum):
+class ProposalType(Enum, timezone):
     """Types of governance proposals"""
 
     SYSTEM_UPDATE = "system_update"
@@ -572,7 +572,7 @@ class DAOGovernanceNode:
         )
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "council_members": len(self.council_members),
             "governance_config": self.governance_config,
             "proposal_statistics": {
@@ -658,7 +658,7 @@ class DAOGovernanceNode:
             "proposal_id": proposal_id,
             "reason": reason,
             "action": action,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "status": "emergency_override_executed",
         }
 
