@@ -34,7 +34,7 @@ class IntegrationBridge:
         print("\n📬 Setting up NIAS Integration...")
 
         try:
-            from lambda_core.NIAS.nias_core import NIΛS
+            from products.communication.nias.core import NIΛS
 
             # Initialize NIAS
             nias = NIΛS()
