@@ -70,7 +70,7 @@ from uuid import uuid4
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.drift_monitoring")
+logger = structlog.get_logger("lukhas.drift_monitoring", timezone)
 
 
 class DriftType(Enum):
@@ -132,7 +132,7 @@ class DriftAlert:
     threshold_breached: float = 0.0
     message: str = ""
     recommendations: list[str] = field(default_factory=list)
-    created_at: datetime = field(default_factory=lambda: datetime.now())
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     acknowledged: bool = False
     resolved: bool = False
 
@@ -260,7 +260,7 @@ class MetricCollector:
         """
         self.max_history_hours = max_history_hours
         self.metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
-        self.last_cleanup = datetime.now()
+        self.last_cleanup = datetime.now(timezone.utc)
 
     async def collect_metric(
         self,
@@ -271,7 +271,7 @@ class MetricCollector:
     ):
         """Collect a metric data point"""
         data_point = MetricDataPoint(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             value=value,
             source=source,
             metadata=metadata or {},
@@ -280,30 +280,30 @@ class MetricCollector:
         self.metrics[metric_name].append(data_point)
 
         # Periodic cleanup
-        if (datetime.now() - self.last_cleanup).total_seconds() > 3600:  # Every hour
+        if (datetime.now(timezone.utc) - self.last_cleanup).total_seconds() > 3600:  # Every hour
             await self._cleanup_old_metrics()
 
     def get_recent_values(self, metric_name: str, hours: int = 24) -> list[float]:
         """Get recent metric values within time window"""
-        cutoff_time = datetime.now() - timedelta(hours=hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
         recent_points = [point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time]
         return [point.value for point in recent_points]
 
     def get_metric_history(self, metric_name: str, hours: int = 24) -> list[MetricDataPoint]:
         """Get complete metric history within time window"""
-        cutoff_time = datetime.now() - timedelta(hours=hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
         return [point for point in self.metrics[metric_name] if point.timestamp >= cutoff_time]
 
     async def _cleanup_old_metrics(self):
         """Remove old metric data points to prevent memory growth"""
-        cutoff_time = datetime.now() - timedelta(hours=self.max_history_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.max_history_hours)
 
         for points in self.metrics.values():
             # Remove old points
             while points and points[0].timestamp < cutoff_time:
                 points.popleft()
 
-        self.last_cleanup = datetime.now()
+        self.last_cleanup = datetime.now(timezone.utc)
         logger.debug("ΛDRIFT: Metric cleanup completed")
 
 
@@ -316,7 +316,7 @@ class DriftDetector:
         self.analyzer = StatisticalAnalyzer()
 
         # Detection state
-        self.last_baseline_calculation = datetime.now() - timedelta(hours=25)
+        self.last_baseline_calculation = datetime.now(timezone.utc) - timedelta(hours=25)
         self.current_baseline: Optional[float] = None
         self.baseline_std: Optional[float] = None
 
@@ -410,7 +410,7 @@ class DriftDetector:
 
     async def _update_baseline_if_needed(self, metric_collector: MetricCollector):
         """Update baseline metrics if sufficient time has passed"""
-        hours_since_baseline = (datetime.now() - self.last_baseline_calculation).total_seconds() / 3600
+        hours_since_baseline = (datetime.now(timezone.utc) - self.last_baseline_calculation).total_seconds() / 3600
 
         if hours_since_baseline >= self.config.baseline_window_hours:
             baseline_values = metric_collector.get_recent_values(
@@ -426,7 +426,7 @@ class DriftDetector:
                     logger.warning(f"Failed to calculate standard deviation: {e}")
                     self.baseline_std = 0.0
 
-                self.last_baseline_calculation = datetime.now()
+                self.last_baseline_calculation = datetime.now(timezone.utc)
 
                 logger.info(
                     "ΛDRIFT: Baseline updated",
@@ -586,7 +586,7 @@ class AlertManager:
         suppression_key = f"{alert.drift_type.value}_{alert.metric_name}"
         if suppression_key in self.alert_suppression:
             last_alert = self.alert_suppression[suppression_key]
-            if (datetime.now() - last_alert).total_seconds() < 300:  # 5 minute suppression
+            if (datetime.now(timezone.utc) - last_alert).total_seconds() < 300:  # 5 minute suppression
                 return
 
         # Send through all configured channels
@@ -604,7 +604,7 @@ class AlertManager:
                 )
 
         # Update suppression tracking
-        self.alert_suppression[suppression_key] = datetime.now()
+        self.alert_suppression[suppression_key] = datetime.now(timezone.utc)
 
         logger.info(
             "ΛDRIFT: Alert processed",
@@ -853,7 +853,7 @@ class DriftMonitoringAPI:
                     await self._analyze_metric(metric_key)
 
                 analysis_time = time.time() - start_time
-                self.monitoring_stats["last_analysis_time"] = datetime.now()
+                self.monitoring_stats["last_analysis_time"] = datetime.now(timezone.utc)
 
                 # Adaptive sleep based on analysis time
                 sleep_time = max(30, 60 - analysis_time)  # At least 30s, adjust for analysis time
@@ -894,7 +894,7 @@ class DriftMonitoringAPI:
         while self._running:
             try:
                 # Clean up resolved alerts older than 24 hours
-                cutoff_time = datetime.now() - timedelta(hours=24)
+                cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
 
                 for detector in self.drift_detectors.values():
                     resolved_alerts = [

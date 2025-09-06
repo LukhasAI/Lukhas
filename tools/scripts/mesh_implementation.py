@@ -11,7 +11,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class TagType(Enum):
+class TagType(Enum, timezone):
     ENDOCRINE = "endocrine"
     QUANTUM = "quantum"
     EMOTIONAL = "emotional"
@@ -166,7 +166,7 @@ class UniversalMesh:
             name=hormone,
             value=level,
             origin="endocrine_system",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             ttl=float("inf"),  # System-wide
             strength=1.0,
         )
@@ -183,7 +183,7 @@ class UniversalMesh:
                 "type": "endocrine_broadcast",
                 "hormone": hormone,
                 "level": level,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 

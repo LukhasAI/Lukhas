@@ -38,7 +38,7 @@ class BatchableIssue:
     estimated_cost: float = 0.001
 
 
-class IssueType(Enum):
+class IssueType(Enum, timezone):
     """Types of issues that can be batched"""
 
     VULNERABILITY = "vulnerability"
@@ -147,7 +147,7 @@ class BatchProcessor:
 
     def _process_single_batch(self, batch: list[BatchableIssue]) -> dict[str, Any]:
         """Process a single batch of issues"""
-        batch_start_time = datetime.now()
+        batch_start_time = datetime.now(timezone.utc)
 
         # Group by repository for more efficient processing
         repo_groups = defaultdict(list)
@@ -465,7 +465,7 @@ class BatchProcessor:
         """Create a batch PR for multiple fixes"""
         try:
             # Generate unique branch name for batch
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             branch_name = f"λbot/batch-fix-{timestamp}"
 
             # Simulate PR creation (in production, would use actual GitHub API)

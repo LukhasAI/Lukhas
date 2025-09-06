@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Set up paths
-LUKHAS_H = Path(__file__).parent
+LUKHAS_H = Path(__file__, timezone).parent
 LAMBDA_PRODUCTS_PATH = LUKHAS_H / "lambda_products_pack"
 
 sys.path.insert(0, str(LUKHAS_H))
@@ -24,7 +24,7 @@ class LukhasLambdaIntegrator:
 
     def __init__(self):
         self.integration_status = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "components": {},
             "connections": {},
             "features": {},

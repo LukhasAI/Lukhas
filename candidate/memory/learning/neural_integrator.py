@@ -82,8 +82,7 @@ try:
 
     from ..consciousness.consciousness_integrator import (
         ConsciousnessEvent,
-        ConsciousnessIntegrator,
-    )
+        ConsciousnessIntegrator,, timezone)
     from ..memory.enhanced_memory_manager import EnhancedMemoryManager
 except ImportError as e:
     logging.warning(f"Some core components not available: {e}")
@@ -251,7 +250,7 @@ class AdaptiveNeuralNetwork(nn.Module):
         # Record adaptation
         self.adaptation_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "new_architecture": new_hidden_sizes,
                 "reason": "performance_optimization",
             }
@@ -269,7 +268,7 @@ class NeuralIntegrator:
 
     def __init__(self, config_path: Optional[str] = None):
         self.integrator_id = str(uuid.uuid4())
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self.current_mode = NeuralMode.INFERENCE
 
         # Core component references
@@ -453,7 +452,7 @@ class NeuralIntegrator:
             if self.consciousness_integrator:
                 event = ConsciousnessEvent(
                     id=str(uuid.uuid4()),
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     event_type="neural_mode_change",
                     source_module="neural",
                     data={
@@ -514,8 +513,8 @@ class NeuralIntegrator:
             pattern_type=pattern_data.get("type", "unknown"),
             features=features,
             confidence=pattern_data.get("confidence", 0.5),
-            created_at=datetime.now(),
-            last_accessed=datetime.now(),
+            created_at=datetime.now(timezone.utc),
+            last_accessed=datetime.now(timezone.utc),
             access_count=1,
             associations=pattern_data.get("associations", []),
             emotional_weight=pattern_data.get("emotional_weight", 0.0),
@@ -588,7 +587,7 @@ class NeuralIntegrator:
 
             event = ConsciousnessEvent(
                 id=str(uuid.uuid4()),
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 event_type="neural_insights",
                 source_module="neural",
                 data=neural_insights,
@@ -750,7 +749,7 @@ class NeuralIntegrator:
             },
             "pattern_database_size": len(self.pattern_database),
             "queue_size": self.processing_queue.qsize(),
-            "uptime": (datetime.now() - self.start_time).total_seconds(),
+            "uptime": (datetime.now(timezone.utc) - self.start_time).total_seconds(),
         }
 
     async def shutdown(self):

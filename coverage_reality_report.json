@@ -3008,6 +3008,7 @@
       "tools/modulation_example.py",
       "tools/DependencyConnectivityTest.py",
       "tools/CoreAnalyzer.py",
+      "tools/fix_f821_batch.py",
       "tools/safe_cleanup_analysis.py",
       "tools/migrate_module.py",
       "tools/llm_code_fixer.py",
@@ -4413,7 +4414,7 @@
       "rl/tests/test_performance_regression.py",
       "rl/tests/test_chaos_consciousness.py"
     ],
-    "total_files": 4408
+    "total_files": 4409
   },
   "system_analysis": {
     "core": {
@@ -4523,9 +4524,9 @@
     "tools": {
       "exists": true,
       "description": "Development and analysis tools",
-      "source_files": 258,
+      "source_files": 259,
       "test_files": 4,
-      "coverage_ratio": 0.015503875968992248,
+      "coverage_ratio": 0.015444015444015444,
       "status": "\ud83d\udd34 Untested"
     },
     "docs": {
@@ -4592,12 +4593,12 @@
     "total_test_files": 172
   },
   "coverage_metrics": {
-    "source_files": 4236,
+    "source_files": 4237,
     "test_files": 172,
-    "basic_file_ratio": 0.04060434372049103,
+    "basic_file_ratio": 0.04059476044371017,
     "system_coverage": 0.11764705882352941,
-    "quality_adjusted": 0.020821529745042495,
-    "comprehensive_coverage": 0.06746486696661667,
+    "quality_adjusted": 0.020816615529856034,
+    "comprehensive_coverage": 0.06746005081286703,
     "systems_well_tested": 2,
     "total_systems": 17,
     "test_quality_score": 2.563953488372093

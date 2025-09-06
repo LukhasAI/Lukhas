@@ -14,7 +14,7 @@ from typing import Any, Dict, List, Optional
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Security domains
 SECURITY_DOMAINS = {
@@ -45,7 +45,7 @@ def get_security_status() -> Dict[str, Any]:
             "scanning": scanning_exists,
             "vault": vault_exists,
         },
-        "last_updated": datetime.now().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
         "security_active": True,
     }
 
@@ -57,9 +57,9 @@ def scan_consciousness_security() -> Dict[str, Any]:
         scanning_path = Path(__file__).parent / "scanning"
 
         scan_results = {
-            "scan_id": f"consciousness_scan_{int(datetime.now().timestamp())}",
+            "scan_id": f"consciousness_scan_{int(datetime.now(timezone.utc).timestamp())}",
             "scan_type": "consciousness_security",
-            "started_at": datetime.now().isoformat(),
+            "started_at": datetime.now(timezone.utc).isoformat(),
             "status": "running",
         }
 
@@ -99,7 +99,7 @@ def scan_consciousness_security() -> Dict[str, Any]:
 
         scan_results.update(
             {
-                "completed_at": datetime.now().isoformat(),
+                "completed_at": datetime.now(timezone.utc).isoformat(),
                 "status": "completed",
                 "threats_detected": len(threats_detected),
                 "threat_details": threats_detected,
@@ -114,8 +114,8 @@ def scan_consciousness_security() -> Dict[str, Any]:
         return {
             "status": "error",
             "error": str(e),
-            "scan_id": f"failed_scan_{int(datetime.now().timestamp())}",
-            "completed_at": datetime.now().isoformat(),
+            "scan_id": f"failed_scan_{int(datetime.now(timezone.utc).timestamp())}",
+            "completed_at": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -125,12 +125,12 @@ def create_security_incident(
     """Create security incident record"""
     try:
         incident = {
-            "incident_id": f"sec_{int(datetime.now().timestamp())}_{hash(description)}",
+            "incident_id": f"sec_{int(datetime.now(timezone.utc).timestamp())}_{hash(description)}",
             "severity": severity,
             "description": description,
             "source": source,
             "metadata": metadata or {},
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "open",
             "assigned_to": "security_team",
         }
@@ -167,13 +167,13 @@ def get_security_dashboard() -> Dict[str, Any]:
             "security_score": max(0, security_score),
             "system_status": status,
             "latest_scan": scan_results,
-            "dashboard_generated": datetime.now().isoformat(),
+            "dashboard_generated": datetime.now(timezone.utc).isoformat(),
             "status": "ready",
         }
 
     except Exception as e:
         logger.error(f"Security dashboard generation failed: {e}")
-        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now(timezone.utc).isoformat()}
 
 
 __all__ = [

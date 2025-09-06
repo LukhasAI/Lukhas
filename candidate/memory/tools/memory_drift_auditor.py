@@ -98,7 +98,7 @@ class MemoryDriftAuditor:
 
         # Audit metadata
         self.audit_session_id = hashlib.sha256(
-            f"audit_{datetime.now().isoformat()}".encode()
+            f"audit_{datetime.now(timezone.utc).isoformat()}".encode()
         ).hexdigest()[:16]
 
         logger.info(

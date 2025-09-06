@@ -20,7 +20,7 @@ import structlog
 # import asyncpg  # External dependency
 
 # Configure structured logging
-logger = structlog.get_logger()
+logger = structlog.get_logger(, timezone)
 
 
 class HealthStatus(str, Enum):
@@ -54,7 +54,7 @@ class HealthCheckResult:
     latency_ms: float
     message: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
-    checked_at: datetime = field(default_factory=lambda: datetime.utcnow())
+    checked_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
@@ -179,7 +179,7 @@ class HealthCheckSystem:
 
     async def check_all(self) -> dict[str, Any]:
         """Run all registered health checks"""
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
         results = []
 
         # Run all checks concurrently
@@ -230,8 +230,8 @@ class HealthCheckSystem:
         # Build response
         response = {
             "status": overall_status.value,
-            "timestamp": datetime.utcnow().isoformat(),
-            "duration_ms": (datetime.utcnow() - start_time).total_seconds() * 1000,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "duration_ms": (datetime.now(timezone.utc) - start_time).total_seconds() * 1000,
             "checks_total": len(results),
             "checks_healthy": sum(1 for r in results if r.status == HealthStatus.HEALTHY),
             "checks_degraded": sum(1 for r in results if r.status == HealthStatus.DEGRADED),
@@ -247,7 +247,7 @@ class HealthCheckSystem:
 
     async def _run_check(self, name: str, check_func: Callable) -> HealthCheckResult:
         """Run individual health check"""
-        start = datetime.utcnow()
+        start = datetime.now(timezone.utc)
 
         try:
             # Run the check
@@ -259,12 +259,12 @@ class HealthCheckSystem:
                     component=name,
                     component_type=self.check_metadata[name]["type"],
                     status=HealthStatus.HEALTHY if result else HealthStatus.UNHEALTHY,
-                    latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
+                    latency_ms=(datetime.now(timezone.utc) - start).total_seconds() * 1000,
                 )
             else:
                 # Update latency if not set
                 if result.latency_ms == 0:
-                    result.latency_ms = (datetime.utcnow() - start).total_seconds() * 1000
+                    result.latency_ms = (datetime.now(timezone.utc) - start).total_seconds() * 1000
 
             return result
 
@@ -274,7 +274,7 @@ class HealthCheckSystem:
                 component=name,
                 component_type=self.check_metadata[name]["type"],
                 status=HealthStatus.UNHEALTHY,
-                latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
+                latency_ms=(datetime.now(timezone.utc) - start).total_seconds() * 1000,
                 message=f"Exception: {e!s}",
             )
 
@@ -423,7 +423,7 @@ class HealthCheckSystem:
 
     async def get_history(self, minutes: int = 60, component: Optional[str] = None) -> list[dict[str, Any]]:
         """Get health check history"""
-        cutoff = datetime.utcnow() - timedelta(minutes=minutes)
+        cutoff = datetime.now(timezone.utc) - timedelta(minutes=minutes)
 
         filtered_history = []
         for entry in self.check_history:
@@ -458,7 +458,7 @@ class DatabaseHealthCheck:
         self.timeout = timeout
 
     async def __call__(self) -> HealthCheckResult:
-        start = datetime.utcnow()
+        start = datetime.now(timezone.utc)
 
         try:
             # Connect with timeout
@@ -468,7 +468,7 @@ class DatabaseHealthCheck:
             await conn.fetchval("SELECT 1")
             await conn.close()
 
-            latency = (datetime.utcnow() - start).total_seconds() * 1000
+            latency = (datetime.now(timezone.utc) - start).total_seconds() * 1000
 
             return HealthCheckResult(
                 component="postgresql",
@@ -491,7 +491,7 @@ class DatabaseHealthCheck:
                 component="postgresql",
                 component_type=ComponentType.DATABASE,
                 status=HealthStatus.UNHEALTHY,
-                latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
+                latency_ms=(datetime.now(timezone.utc) - start).total_seconds() * 1000,
                 message=f"Connection failed: {e!s}",
             )
 
@@ -504,7 +504,7 @@ class RedisHealthCheck:
         self.timeout = timeout
 
     async def __call__(self) -> HealthCheckResult:
-        start = datetime.utcnow()
+        start = datetime.now(timezone.utc)
 
         try:
             # Connect to Redis
@@ -518,7 +518,7 @@ class RedisHealthCheck:
 
             await client.close()
 
-            latency = (datetime.utcnow() - start).total_seconds() * 1000
+            latency = (datetime.now(timezone.utc) - start).total_seconds() * 1000
 
             return HealthCheckResult(
                 component="redis",
@@ -538,7 +538,7 @@ class RedisHealthCheck:
                 component="redis",
                 component_type=ComponentType.CACHE,
                 status=HealthStatus.UNHEALTHY,
-                latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
+                latency_ms=(datetime.now(timezone.utc) - start).total_seconds() * 1000,
                 message=f"Connection failed: {e!s}",
             )
 
@@ -559,7 +559,7 @@ class HTTPHealthCheck:
         self.headers = headers or {}
 
     async def __call__(self) -> HealthCheckResult:
-        start = datetime.utcnow()
+        start = datetime.now(timezone.utc)
 
         try:
             async with (
@@ -570,7 +570,7 @@ class HTTPHealthCheck:
                     timeout=aiohttp.ClientTimeout(total=self.timeout),
                 ) as response,
             ):
-                latency = (datetime.utcnow() - start).total_seconds() * 1000
+                latency = (datetime.now(timezone.utc) - start).total_seconds() * 1000
 
                 if response.status == self.expected_status:
                     return HealthCheckResult(
@@ -596,7 +596,7 @@ class HTTPHealthCheck:
                 component=self.url,
                 component_type=ComponentType.API,
                 status=HealthStatus.UNHEALTHY,
-                latency_ms=(datetime.utcnow() - start).total_seconds() * 1000,
+                latency_ms=(datetime.now(timezone.utc) - start).total_seconds() * 1000,
                 message=f"Request failed: {e!s}",
             )
 

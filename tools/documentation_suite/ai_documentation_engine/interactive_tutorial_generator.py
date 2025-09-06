@@ -20,7 +20,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class TutorialType(Enum):
@@ -246,7 +246,7 @@ class TutorialGenerator:
             learning_objectives=learning_objectives,
             assessment_criteria=await self._generate_assessment_criteria(learning_objectives),
             metadata={
-                "created_at": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "topic": topic,
                 "adaptive": True,
                 "interactive": True,

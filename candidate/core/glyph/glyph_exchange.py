@@ -24,7 +24,7 @@ from pydantic import BaseModel, Field
 from lukhas.core.glyph.glyph_memory_integration import get_glyph_memory_system
 from symbolic.features.glyphs import GLYPH_MAP
 
-logger = logging.getLogger("api.glyph_exchange")
+logger = logging.getLogger("api.glyph_exchange", timezone)
 
 router = APIRouter(prefix="/glyph", tags=["glyph"])
 
@@ -48,7 +48,7 @@ class APIResponse(BaseModel):
     status: str = Field(..., description="Response status")
     data: Any = Field(..., description="Response data")
     message: str | None = Field(None, description="Optional message")
-    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 GlyphImportItem.model_rebuild()

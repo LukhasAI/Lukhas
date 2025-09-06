@@ -40,7 +40,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure consciousness logging
-logger = logging.getLogger("ΛTRACE.consciousness.memory_reflection")
+logger = logging.getLogger("ΛTRACE.consciousness.memory_reflection", timezone)
 logger.info("ΛTRACE: Initializing Memory Reflection Consciousness System v2.0.0")
 
 
@@ -350,7 +350,7 @@ class MemoryReflectionSystem:
     def _retrieve_relevant_folds(self, signal: dict[str, Any], context: ReflectionContext) -> list[MemoryFold]:
         """Retrieve memory folds relevant to the current reflection"""
         relevant_folds = []
-        current_time = datetime.utcnow()
+        current_time = datetime.now(timezone.utc)
         time_cutoff = current_time.timestamp() - context.time_horizon
 
         # Filter by time horizon
@@ -1003,7 +1003,7 @@ class MemoryReflectionSystem:
         # Update reflection history
         history_entry = {
             "reflection_id": context.reflection_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processed_folds": len(result.get("processed_folds", [])),
             "insights_generated": len(result.get("new_insights", [])),
             "causal_links": len(result.get("causal_links", [])),
@@ -1084,7 +1084,7 @@ class MemoryReflectionSystem:
             "detailed_insights": result.get("new_insights", [])[:5],  # Top 5 insights
             "validation_issues": validation.get("issues", []),
             # Meta information
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_version": self.version,
             "memory_usage": f"{len(self.memory_folds)}/{self.max_folds} folds",
         }
@@ -1099,7 +1099,7 @@ class MemoryReflectionSystem:
             "consciousness_state": self.current_state.value,
             "guardian_reason": "Ethical violations or cascade risk detected",
             "cascade_prevention_rate": self.cascade_prevention_rate,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_version": self.version,
         }
 
@@ -1111,7 +1111,7 @@ class MemoryReflectionSystem:
             "processing_time_seconds": 0.0,
             "consciousness_state": self.current_state.value,
             "error_message": error_message,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_version": self.version,
         }
 

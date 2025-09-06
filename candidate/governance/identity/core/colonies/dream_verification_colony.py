@@ -31,8 +31,7 @@ from governance.identity.core.auth.dream_auth import (
     DreamAuthenticator,
     DreamPattern,
     DreamSeed,
-    DreamSymbol,
-)
+    DreamSymbol,, timezone)
 
 # Import identity events
 from governance.identity.core.events import IdentityEventPublisher, IdentityEventType
@@ -654,7 +653,7 @@ class DreamVerificationColony(BaseColony):
                 symbolic_matches=collective_insights["symbolic_convergence"],
                 temporal_consistency=collective_insights["temporal_alignment"],
                 consciousness_signature=self._generate_consciousness_signature(analysis_results),
-                authentication_timestamp=datetime.now(),
+                authentication_timestamp=datetime.now(timezone.utc),
                 multiverse_correlation=qi_result["multiverse_correlation"],
                 verification_method="multiverse_dream_colony",
             )
@@ -705,7 +704,7 @@ class DreamVerificationColony(BaseColony):
                 symbolic_matches=[],
                 temporal_consistency=0.0,
                 consciousness_signature="",
-                authentication_timestamp=datetime.now(),
+                authentication_timestamp=datetime.now(timezone.utc),
                 error_message=str(e),
             )
 

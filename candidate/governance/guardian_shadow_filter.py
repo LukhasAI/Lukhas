@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 logger = logging.getLogger(__name__)
 
 
@@ -349,7 +349,7 @@ class GuardianShadowFilter:
             "transformations_last_day": day_transformations,
             "blocked_personas": list(self.blocked_personas),
             "constraint_types": [ct.value for ct in ConstraintType],
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         }
 
 

@@ -31,7 +31,7 @@ import logging
 import uuid
 from datetime import datetime
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EmotionalMemoryVector:
@@ -59,7 +59,7 @@ class EmotionalMemoryVector:
             "arousal": 0.0,  # Calm/excited (0.0 to 1.0)
             "dominance": 0.5,  # Submissive/dominant (0.0 to 1.0)
             "trust": 0.5,  # Distrust/trust (0.0 to 1.0)
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Simple keyword-based emotion extraction
@@ -171,7 +171,7 @@ class EmotionalMemoryVector:
                 composite[key] += vector[key] * weight
 
         # Update timestamp
-        composite["timestamp"] = datetime.now().isoformat()
+        composite["timestamp"] = datetime.now(timezone.utc).isoformat()
 
         # Store updated composite
         self.vectors[user_id]["composite"] = composite
@@ -213,7 +213,7 @@ class SymbolicIdentityHash:
         return {
             "hash": hash_value,
             "version": self.hash_version,
-            "created": datetime.now().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
         }
 
     def store_hash(self, user_id, hash_data):
@@ -335,7 +335,7 @@ class TraumaLock:
             self.locked_memories[lock_id] = {
                 "vector": memory_vector.copy(),
                 "trauma_score": trauma_score,
-                "locked_at": datetime.now().isoformat(),
+                "locked_at": datetime.now(timezone.utc).isoformat(),
             }
 
             # Store unlock code
@@ -365,7 +365,7 @@ class TraumaLock:
 
         # Add unlock metadata
         original["unlocked"] = True
-        original["unlocked_at"] = datetime.now().isoformat()
+        original["unlocked_at"] = datetime.now(timezone.utc).isoformat()
 
         return original, "Memory unlocked"
 
@@ -421,7 +421,7 @@ class AdvancedIdentityManager:
             # Create new user entry
             new_user = {
                 "user_id": user_id,
-                "created_at": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "interaction_count": 0,
                 "last_interaction": None,
                 "verified": False,
@@ -476,7 +476,7 @@ class AdvancedIdentityManager:
         # Update or create user entry
         if user_id in self.users:
             self.users[user_id]["interaction_count"] += 1
-            self.users[user_id]["last_interaction"] = datetime.now().isoformat()
+            self.users[user_id]["last_interaction"] = datetime.now(timezone.utc).isoformat()
             self.users[user_id]["verified"] = True
 
             # Log update event
@@ -485,9 +485,9 @@ class AdvancedIdentityManager:
             # Create new user entry
             new_user = {
                 "user_id": user_id,
-                "created_at": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "interaction_count": 1,
-                "last_interaction": datetime.now().isoformat(),
+                "last_interaction": datetime.now(timezone.utc).isoformat(),
                 "verified": True,
             }
             self.users[user_id] = new_user
@@ -518,7 +518,7 @@ class AdvancedIdentityManager:
         # Update user entry
         if user_id in self.users:
             self.users[user_id]["interaction_count"] += 1
-            self.users[user_id]["last_interaction"] = datetime.now().isoformat()
+            self.users[user_id]["last_interaction"] = datetime.now(timezone.utc).isoformat()
 
         return True
 
@@ -533,7 +533,7 @@ class AdvancedIdentityManager:
         event = {
             "event_type": event_type,
             "user_id": user_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "data": data or {},
         }
         self.identity_events.append(event)

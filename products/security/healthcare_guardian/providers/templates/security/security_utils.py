@@ -10,7 +10,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EncryptionHandler:
@@ -42,7 +42,7 @@ class AuditLogger:
 
     def log_access(self, user_id: str, action: str, resource_id: str, details: Optional[dict[str, Any]] = None) -> None:
         """Log access to protected health information"""
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         log_entry = {
             "timestamp": timestamp,
             "user_id": user_id,
@@ -56,7 +56,7 @@ class AuditLogger:
 
     def log_security_event(self, event_type: str, severity: str, details: dict[str, Any]) -> None:
         """Log security-related events"""
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         log_entry = {
             "timestamp": timestamp,
             "event_type": event_type,

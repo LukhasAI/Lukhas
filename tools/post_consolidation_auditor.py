@@ -26,9 +26,9 @@ from typing import Any
 class PostConsolidationAuditor:
     """Comprehensive lukhasuditor for post-consolidation workspace analysis"""
 
-    def __init__(self, workspace_root: str):
+    def __init__(self, workspace_root: str, timezone):
         self.workspace_root = Path(workspace_root)
-        self.audit_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.audit_timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
         # Directories to audit
         self.audit_directories = [
@@ -181,7 +181,7 @@ class PostConsolidationAuditor:
                         analysis["largest_files"].append((str(relative_file_path), file_size))
 
                         # Track recently modified files
-                        if (datetime.now() - file_modified).days <= 7:
+                        if (datetime.now(timezone.utc) - file_modified).days <= 7:
                             analysis["recently_modified"].append(
                                 {
                                     "path": str(relative_file_path),
@@ -710,7 +710,7 @@ class PostConsolidationAuditor:
 ---
 
 *lukhas Post-Consolidation Audit Report*
-*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+*Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}*
 """
 
         return report

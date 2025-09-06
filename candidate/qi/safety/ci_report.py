@@ -25,7 +25,7 @@ def _mut_summary(results):
     return f"**Mutation violation**: {mv['allowed_count']} > cap {mv['cap']} ❌"
 
 def render_markdown(report: dict) -> str:
-    ts = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+    ts = datetime.datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     steps = report.get("steps", [])
     rows = _summarize(steps)
     lines = []

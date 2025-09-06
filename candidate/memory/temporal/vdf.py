@@ -14,7 +14,7 @@ from pathlib import Path
 MODULUS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD97
 
 
-def generate_vdf_proof(data: bytes, iterations: int = 10000) -> dict:
+def generate_vdf_proof(data: bytes, iterations: int = 10000, timezone) -> dict:
     seed = int(hashlib.sha256(data).hexdigest(), 16)
     result = seed
     for _ in range(iterations):
@@ -23,7 +23,7 @@ def generate_vdf_proof(data: bytes, iterations: int = 10000) -> dict:
         "seed": seed,
         "iterations": iterations,
         "result": result,
-        "generated_at": datetime.utcnow().isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "data_hash": hashlib.sha256(data).hexdigest(),
     }
     return proof

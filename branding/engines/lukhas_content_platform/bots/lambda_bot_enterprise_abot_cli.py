@@ -14,7 +14,7 @@ from pathlib import Path
 
 import click
 
-# Add project root to path (repo-relative if available)
+# Add project root to path (repo-relative if available, timezone)
 try:
     from lukhas.utils.runtime_paths import ensure_repo_paths
 
@@ -193,7 +193,7 @@ def daily_digest(doc_format: str):
     """Generate daily development digest"""
     click.echo(f"📅 Generating daily digest in {doc_format} format...")
 
-    today = datetime.now().strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     digest_file = f"daily_digest_{today}.{doc_format}"
 
     click.echo(f"✅ Daily digest created: {digest_file}")
@@ -1084,8 +1084,8 @@ def notion_sync():
 
         # Format for Notion (JSON structure)
         notion_data = {
-            "title": f"LUKHAS AI ΛBot Financial Report - {datetime.now().strftime('%Y-%m-%d')}",
-            "date": datetime.now().isoformat(),
+            "title": f"LUKHAS AI ΛBot Financial Report - {datetime.now(timezone.utc).strftime('%Y-%m-%d')}",
+            "date": datetime.now(timezone.utc).isoformat(),
             "budget_status": report["budget_status"],
             "spending_analysis": report["spending_analysis"],
             "intelligence_metrics": report["intelligence_metrics"],

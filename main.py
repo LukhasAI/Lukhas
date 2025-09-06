@@ -15,8 +15,7 @@ try:
     from candidate.core.bootstrap import (
         get_bootstrap,
         initialize_lukhas,
-        shutdown_lukhas,
-    )
+        shutdown_lukhas,, timezone)
 except ImportError:
     try:
         from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
@@ -154,7 +153,7 @@ class LUKHAS:
         """
         )
 
-        self.startup_time = datetime.now()
+        self.startup_time = datetime.now(timezone.utc)
 
         # Check health
         if not await self.check_system_health():
@@ -179,7 +178,7 @@ class LUKHAS:
             )
             logger.info(
                 "  - Startup time: %.2fs",
-                (datetime.now() - self.startup_time).total_seconds(),
+                (datetime.now(timezone.utc) - self.startup_time).total_seconds(),
             )
 
         self.is_running = True
@@ -242,7 +241,7 @@ Available commands:
     async def show_status(self):
         """Show system status"""
         print("\n🔹 LUKHAS Status (Professional Architecture)")
-        print(f"Uptime: {(datetime.now() - self.startup_time).total_seconds():.1f}s")
+        print(f"Uptime: {(datetime.now(timezone.utc) - self.startup_time).total_seconds():.1f}s")
 
         if self.bootstrap:
             health = await self.bootstrap.check_system_health()  # Remove protected member access

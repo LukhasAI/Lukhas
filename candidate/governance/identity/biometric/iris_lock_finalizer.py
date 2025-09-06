@@ -35,7 +35,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional, Union
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class IrisQuality(Enum):
@@ -196,7 +196,7 @@ class StargateIrisLock:
             "emotional_markers": iris_scan_data.emotional_markers,
             "quality_assessment": quality_level.value,
             "symbolic_warnings": symbolic_warnings,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Create result
@@ -331,7 +331,7 @@ class StargateIrisLock:
             warnings.append("📉 Scan quality degraded - clean sensor and retry")
 
         # Time-based warning (late night/early morning)
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if current_hour < 6 or current_hour > 22:
             warnings.append("🌙 Off-peak scan - additional verification may be required")
 
@@ -383,7 +383,7 @@ class StargateIrisLock:
         """Store audit record for compliance"""
         audit_record = {
             "audit_id": audit_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "success": result.success,
             "match_score": result.match_score,
             "quality_level": result.quality_level.value,
@@ -429,7 +429,7 @@ class StargateIrisLock:
             raw_hash=iris_hash,
             quality_score=quality_score,
             eye_openness=eye_openness,
-            scan_timestamp=datetime.utcnow(),
+            scan_timestamp=datetime.now(timezone.utc),
             consciousness_state="focused",  # Default state
             emotional_markers=emotional_markers,
             cultural_region="universal",

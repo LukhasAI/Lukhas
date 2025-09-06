@@ -16,8 +16,7 @@ try:
         DataFlowNode,
         OpTree,
         SchemaMatcher,
-        SizeMap,
-    )
+        SizeMap,, timezone)
 
     MEMORY_PROFILER_AVAILABLE = True
 except ImportError as e:
@@ -46,7 +45,7 @@ class MemoryProfiler:
     def record_allocation(self, tensor_id: str, size: int, category: Optional[Category] = None) -> None:
         """Record a memory allocation event"""
         event = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "action": Action.CREATE,
             "tensor_id": tensor_id,
             "size": size,
@@ -65,7 +64,7 @@ class MemoryProfiler:
     def record_deallocation(self, tensor_id: str) -> None:
         """Record a memory deallocation event"""
         event = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "action": Action.DELETE,
             "tensor_id": tensor_id,
         }

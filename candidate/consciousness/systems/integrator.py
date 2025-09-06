@@ -49,7 +49,7 @@ from typing import Any, Optional
 try:
     from candidate.core.common import get_logger
 
-    logger = get_logger("consciousness")
+    logger = get_logger("consciousness", timezone)
 except ImportError:
     logger = logging.getLogger("consciousness")
 
@@ -168,7 +168,7 @@ class ConsciousnessIntegrator:
 
     def __init__(self, config_path: Optional[str] = None):
         self.integrator_id = str(uuid.uuid4())
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self.current_state = ConsciousnessState.AWARE
 
         # Core component references
@@ -368,7 +368,7 @@ class ConsciousnessIntegrator:
                 self.current_context.memory_context.update(
                     {
                         "recent_patterns": patterns,
-                        "last_consolidation": datetime.now().isoformat(),
+                        "last_consolidation": datetime.now(timezone.utc).isoformat(),
                     }
                 )
 
@@ -528,7 +528,7 @@ class ConsciousnessIntegrator:
         """Notify all components of consciousness state change"""
         notification_event = ConsciousnessEvent(
             id=str(uuid.uuid4()),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type="consciousness_state_change",
             source_module="consciousness",
             data={
@@ -596,7 +596,7 @@ class ConsciousnessIntegrator:
 
             event_type = event_data.get("type", "general")
             event_content = event_data.get("content", {})
-            timestamp = datetime.now().isoformat()
+            timestamp = datetime.now(timezone.utc).isoformat()
 
             # Create a simple consciousness event record
             processed_event = {
@@ -633,7 +633,7 @@ class ConsciousnessIntegrator:
                 "success": False,
                 "error": str(e),
                 "message": "Event processing failed",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_consciousness_status(self) -> dict[str, Any]:
@@ -644,7 +644,7 @@ class ConsciousnessIntegrator:
             "active_integrations": self.active_integrations,
             "event_queue_size": self.event_queue.qsize(),
             "integration_history_size": len(self.integration_history),
-            "uptime": (datetime.now() - self.start_time).total_seconds(),
+            "uptime": (datetime.now(timezone.utc) - self.start_time).total_seconds(),
             "current_context": (asdict(self.current_context) if self.current_context else None),
         }
 
@@ -686,7 +686,7 @@ if __name__ == "__main__":
         # Submit a test event
         test_event = ConsciousnessEvent(
             id=str(uuid.uuid4()),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type="test_event",
             source_module="test",
             data={"message": "Hello, consciousness!"},

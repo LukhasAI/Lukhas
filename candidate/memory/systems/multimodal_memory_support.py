@@ -77,7 +77,7 @@ except ImportError:
     VIDEO_AVAILABLE = False
 
 
-class ModalityType(Enum):
+class ModalityType(Enum, timezone):
     """Supported modality types for AGI memory"""
 
     TEXT = "text"
@@ -897,7 +897,7 @@ async def create_multimodal_memory(
     )
 
     # Generate memory ID
-    memory_id = hashlib.sha256(f"{datetime.now().isoformat()}_{id(multimodal_data)}".encode()).hexdigest()[:16]
+    memory_id = hashlib.sha256(f"{datetime.now(timezone.utc).isoformat()}_{id(multimodal_data)}".encode()).hexdigest()[:16]
 
     # Create multi-modal wrapper
     return MultiModalMemoryItem(

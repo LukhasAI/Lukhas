@@ -29,8 +29,7 @@ try:
         GuardianSystemIntegration,
         GuardianValidationRequest,
         ValidationResult,
-        validate_ai_action,
-    )
+        validate_ai_action,, timezone)
 
     GUARDIAN_INTEGRATION_AVAILABLE = True
 except ImportError:
@@ -318,7 +317,7 @@ class TestDriftDetector:
             )
 
         # Generate report
-        end_time = datetime.now()
+        end_time = datetime.now(timezone.utc)
         start_time = end_time - timedelta(minutes=10)
 
         report = await detector.get_drift_report((start_time, end_time))
@@ -556,8 +555,8 @@ class TestAuditSystem:
             )
 
             # Generate compliance report
-            start_date = datetime.now() - timedelta(hours=1)
-            end_date = datetime.now()
+            start_date = datetime.now(timezone.utc) - timedelta(hours=1)
+            end_date = datetime.now(timezone.utc)
 
             report = await audit_system.generate_compliance_report(
                 framework="gdpr", start_date=start_date, end_date=end_date
@@ -638,7 +637,7 @@ class TestGuardianSystemIntegration:
         # Create validation request
         request = GuardianValidationRequest(
             request_id=f"test_{uuid.uuid4().hex[:8]}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             user_id="test_user",
             session_id="test_session_123",
             action="analyze_document",
@@ -674,7 +673,7 @@ class TestGuardianSystemIntegration:
 
         request = GuardianValidationRequest(
             request_id=f"constellation_{uuid.uuid4().hex[:8]}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             user_id="constellation_test_user",
             session_id="constellation_session_456",
             action="constellation_operation",
@@ -717,7 +716,7 @@ class TestGuardianSystemIntegration:
         for i in range(5):
             request = GuardianValidationRequest(
                 request_id=f"perf_{i}_{uuid.uuid4().hex[:8]}",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 user_id="perf_test_user",
                 session_id=f"perf_session_{i}",
                 action=f"performance_test_{i}",
@@ -755,7 +754,7 @@ class TestGuardianSystemIntegration:
         # Test harmful content scenario
         request = GuardianValidationRequest(
             request_id=f"emergency_{uuid.uuid4().hex[:8]}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             user_id="emergency_test_user",
             session_id="emergency_session_789",
             action="generate_harmful_content",
@@ -798,7 +797,7 @@ class TestGuardianSystemIntegration:
         # Trigger alert through validation
         request = GuardianValidationRequest(
             request_id=f"alert_{uuid.uuid4().hex[:8]}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             user_id="alert_test_user",
             session_id="alert_session_101",
             action="critical_system_failure",
@@ -973,7 +972,7 @@ class TestGuardianSystemIntegrationEndToEnd:
 
         request = GuardianValidationRequest(
             request_id="failure_test",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             user_id="failure_test_user",
             session_id="failure_session_202",
             action="test_with_failures",
@@ -1014,7 +1013,7 @@ def sample_validation_request():
 
     return GuardianValidationRequest(
         request_id=f"sample_{uuid.uuid4().hex[:8]}",
-        timestamp=datetime.now(),
+        timestamp=datetime.now(timezone.utc),
         user_id="sample_user",
         session_id="sample_session_303",
         action="sample_action",

@@ -37,7 +37,7 @@ class PredictionModel:
     def add_data_point(self, value: float, timestamp: Optional[str] = None):
         """Add a new data point to the model"""
         if timestamp is None:
-            timestamp = datetime.datetime.now().isoformat()
+            timestamp = datetime.datetime.now(timezone.utc).isoformat()
 
         self.data_points.append({"value": value, "timestamp": timestamp})
 
@@ -171,7 +171,7 @@ class PredictiveResourceManager:
             usage_value: Current usage value (0-100 scale)
             metadata: Additional context about the usage
         """
-        timestamp = datetime.datetime.now().isoformat()
+        timestamp = datetime.datetime.now(timezone.utc).isoformat()
 
         # Record usage in history
         usage_record = {
@@ -221,7 +221,7 @@ class PredictiveResourceManager:
             }
 
         # Generate prediction metadata
-        current_time = datetime.datetime.now()
+        current_time = datetime.datetime.now(timezone.utc)
         prediction_time = current_time + datetime.timedelta(seconds=time_horizon)
 
         # Assess prediction confidence
@@ -314,7 +314,7 @@ class PredictiveResourceManager:
                 "recommendations": recommendations,
                 "risk_level": self._assess_resource_risk(predictions),
                 "optimization_opportunities": self._identify_optimization_opportunities(predictions),
-                "prediction_timestamp": datetime.datetime.now().isoformat(),
+                "prediction_timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             return {
@@ -492,7 +492,7 @@ class PredictiveResourceManager:
             "overall_risk": overall_risk,
             "critical_resources": critical_resources,
             "prediction_summary": self._generate_prediction_summary(predictions),
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def optimize_resource_allocation(self, resource_type: str, predicted_usage: float) -> dict:
@@ -541,7 +541,7 @@ class PredictiveResourceManager:
             "predicted_usage": predicted_usage,
             "optimization_level": optimization_level,
             "actions_taken": actions_taken,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         if actions_taken:
@@ -636,7 +636,7 @@ class PredictiveResourceManager:
             "level": level,
             "success": True,
             "estimated_improvement": self._estimate_improvement(action),
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info(
@@ -722,7 +722,7 @@ class PredictiveResourceManager:
             return {"error": f"No history available for {resource_type}"}
 
         # Filter data for the specified period
-        cutoff_time = datetime.datetime.now() - datetime.timedelta(days=days)
+        cutoff_time = datetime.datetime.now(timezone.utc) - datetime.timedelta(days=days)
         recent_data = [
             record
             for record in self.resource_history[resource_type]
@@ -745,7 +745,7 @@ class PredictiveResourceManager:
             "usage_variance": (statistics.variance(values) if len(values) > 1 else 0.0),
             "trend_direction": self._calculate_trend_direction(values),
             "volatility": self._calculate_volatility(values),
-            "analysis_timestamp": datetime.datetime.now().isoformat(),
+            "analysis_timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         return trend_analysis

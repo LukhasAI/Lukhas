@@ -18,7 +18,7 @@ from datetime import datetime
 
 class Goal:
 
-    def __init__(self, name, priority):
+    def __init__(self, name, priority, timezone):
         self.name = name
         self.priority = priority
 
@@ -220,7 +220,7 @@ EMOTION_VOICE_MAP = {
 
 
 def timestamp():
-    return datetime.now().isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def log_publish_queue(entry: dict):

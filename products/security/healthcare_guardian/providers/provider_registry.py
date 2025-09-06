@@ -175,7 +175,7 @@ class NHSProvider(BaseHealthcareProvider):
     ) -> dict[str, Any]:
         """Book NHS appointment via e-Referral Service"""
         return {
-            "booking_reference": f"NHS-{patient_id}-{datetime.now().isoformat()}",
+            "booking_reference": f"NHS-{patient_id}-{datetime.now(timezone.utc).isoformat()}",
             "status": "confirmed",
         }
 

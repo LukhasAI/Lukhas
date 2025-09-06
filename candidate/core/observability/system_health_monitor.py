@@ -37,7 +37,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class HealthStatus(Enum):
@@ -297,11 +297,11 @@ class SystemHealthMonitor:
             "average_system_health": 1.0,
             "uptime_percentage": 100.0,
             "last_critical_issue": None,
-            "monitoring_start_time": datetime.now().isoformat(),
+            "monitoring_start_time": datetime.now(timezone.utc).isoformat(),
         }
 
         # System start time for uptime calculation
-        self.system_start_time = datetime.now()
+        self.system_start_time = datetime.now(timezone.utc)
 
         # Component monitoring configurations
         self.component_configs = self._initialize_component_configs()
@@ -388,7 +388,7 @@ class SystemHealthMonitor:
                 component_id=component_id,
                 component_type=component_type,
                 name=component_type.value.title(),
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 overall_health=1.0,
                 health_status=HealthStatus.EXCELLENT,
                 is_operational=True,
@@ -459,7 +459,7 @@ class SystemHealthMonitor:
 
         try:
             snapshot_id = f"health_{uuid.uuid4().hex[:8]}"
-            timestamp = datetime.now()
+            timestamp = datetime.now(timezone.utc)
 
             # Collect system-wide metrics
             system_metrics = await self._collect_system_metrics()
@@ -627,7 +627,7 @@ class SystemHealthMonitor:
         component.overall_health = max(0.0, min(1.0, base_health + health_variation))
         component.health_status = self._determine_health_status(component.overall_health)
         component.is_operational = component.overall_health > 0.3
-        component.timestamp = datetime.now()
+        component.timestamp = datetime.now(timezone.utc)
 
         # Update specific metrics based on component type
         await self._update_component_specific_metrics(component_type, component)
@@ -777,7 +777,7 @@ class SystemHealthMonitor:
     async def _calculate_uptime(self) -> float:
         """Calculate system uptime percentage"""
 
-        uptime_seconds = (datetime.now() - self.system_start_time).total_seconds()
+        uptime_seconds = (datetime.now(timezone.utc) - self.system_start_time).total_seconds()
 
         # Simulate minor downtime
         simulated_downtime = max(0, uptime_seconds * 0.001)  # 0.1% downtime
@@ -942,7 +942,7 @@ class SystemHealthMonitor:
     async def _cleanup_old_health_data(self):
         """Clean up old health monitoring data"""
 
-        cutoff_time = datetime.now() - timedelta(hours=self.health_retention_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.health_retention_hours)
 
         # Clean health snapshots
         while self.health_snapshots and self.health_snapshots[0].timestamp < cutoff_time:
@@ -994,7 +994,7 @@ class SystemHealthMonitor:
             name=name,
             value=value,
             unit=unit,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             component=component,
             metric_type=metric_type,
             health_score=health_score,
@@ -1027,7 +1027,7 @@ class SystemHealthMonitor:
         """Get current system health status"""
 
         if not self.current_health:
-            return {"status": "no_data", "timestamp": datetime.now().isoformat()}
+            return {"status": "no_data", "timestamp": datetime.now(timezone.utc).isoformat()}
 
         return {
             "timestamp": self.current_health.timestamp.isoformat(),
@@ -1079,7 +1079,7 @@ class SystemHealthMonitor:
         """Generate comprehensive health report"""
 
         if not time_period:
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             start_time = end_time - timedelta(hours=24)
             time_period = (start_time, end_time)
 
@@ -1089,7 +1089,7 @@ class SystemHealthMonitor:
         if not period_snapshots:
             return HealthReport(
                 report_id=f"report_{uuid.uuid4().hex[:8]}",
-                generated_at=datetime.now(),
+                generated_at=datetime.now(timezone.utc),
                 time_period=time_period,
                 overall_system_health=1.0,
                 health_trend="stable",
@@ -1120,7 +1120,7 @@ class SystemHealthMonitor:
         # Generate report
         report = HealthReport(
             report_id=f"report_{uuid.uuid4().hex[:8]}",
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_system_health=overall_system_health,
             health_trend=health_trend,
@@ -1170,7 +1170,7 @@ class SystemHealthMonitor:
     async def get_monitoring_metrics(self) -> dict[str, Any]:
         """Get system monitoring metrics"""
 
-        self.system_metrics["last_updated"] = datetime.now().isoformat()
+        self.system_metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
         return self.system_metrics.copy()
 

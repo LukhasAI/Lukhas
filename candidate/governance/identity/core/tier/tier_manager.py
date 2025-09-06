@@ -26,7 +26,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-logger = logging.getLogger("ΛTRACE.TierManager")
+logger = logging.getLogger("ΛTRACE.TierManager", timezone)
 
 
 class TierLevel(Enum):
@@ -237,7 +237,7 @@ class LambdaTierManager:
                 "requested_tier": requested_tier,
                 "missing_requirements": missing_requirements,
                 "recommendations": recommendations,
-                "validation_timestamp": datetime.utcnow().isoformat(),
+                "validation_timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except ValueError as e:
@@ -245,14 +245,14 @@ class LambdaTierManager:
             return {
                 "access_granted": False,
                 "error": f"Invalid tier level: {e}",
-                "validation_timestamp": datetime.utcnow().isoformat(),
+                "validation_timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             logger.error(f"ΛTRACE: Tier validation error: {e}")
             return {
                 "access_granted": False,
                 "error": str(e),
-                "validation_timestamp": datetime.utcnow().isoformat(),
+                "validation_timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def calculate_eligible_tier_qrs(self, qrs_profile: dict) -> dict:
@@ -405,7 +405,7 @@ class LambdaTierManager:
             }
 
         # Perform tier upgrade
-        upgrade_timestamp = datetime.utcnow().isoformat()
+        upgrade_timestamp = datetime.now(timezone.utc).isoformat()
 
         # Update user tier data
         self.user_tiers[user_id].update(
@@ -733,7 +733,7 @@ class LambdaTierManager:
         """Initialize tier data for new user"""
         return {
             "current_tier": 0,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "entropy_score": 0.0,
             "progression_history": [],
         }

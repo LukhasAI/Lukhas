@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("Lambda.NIΛS.UserData")
+logger = logging.getLogger("Lambda.NIΛS.UserData", timezone)
 
 
 class DataSource(Enum):
@@ -57,7 +57,7 @@ class UserDataPreferences:
 
     def __post_init__(self):
         if self.last_updated is None:
-            self.last_updated = datetime.now()
+            self.last_updated = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -334,7 +334,7 @@ class UserDataIntegrator:
         )
 
         # Check if sync needed
-        if not force_refresh and profile.last_sync and datetime.now() - profile.last_sync < timedelta(hours=24):
+        if not force_refresh and profile.last_sync and datetime.now(timezone.utc) - profile.last_sync < timedelta(hours=24):
             logger.info(f"Using cached profile for {user_id}")
             return profile
 
@@ -378,7 +378,7 @@ class UserDataIntegrator:
         # Calculate data completeness
         total_sources = len(DataSource)
         profile.data_completeness = data_points / total_sources
-        profile.last_sync = datetime.now()
+        profile.last_sync = datetime.now(timezone.utc)
 
         # Anonymize if required
         if prefs.anonymize_by_default:
@@ -499,7 +499,7 @@ class UserDataIntegrator:
         """Clean up data older than retention period"""
         for user_id, prefs in self.data_preferences.items():
             days = retention_days or prefs.retention_days
-            cutoff = datetime.now() - timedelta(days=days)
+            cutoff = datetime.now(timezone.utc) - timedelta(days=days)
 
             if user_id in self.user_profiles:
                 profile = self.user_profiles[user_id]

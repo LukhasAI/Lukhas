@@ -38,7 +38,7 @@ class AudioEngine:
     - Manages audio device interfaces and stream synchronization
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: Optional[dict] = None, timezone):
         self.config = config or {}
         self.logger = logger
         self.is_initialized = False
@@ -80,7 +80,7 @@ class AudioEngine:
                 "component": self.__class__.__name__,
                 "category": "voice",
                 "result": result,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -89,7 +89,7 @@ class AudioEngine:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _core_voice_processing(self, data: Any) -> Any:
@@ -163,7 +163,7 @@ class AudioEngine:
             "category": "voice",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def shutdown(self):

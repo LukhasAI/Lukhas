@@ -12,8 +12,7 @@ import numpy as np
 from .bio_quantum_engine import (
     BioQuantumSymbolicReasoner,
     BrainSymphony,
-    BrainSymphonyConfig,
-)
+    BrainSymphonyConfig,, timezone)
 from .confidence_calibrator import AdvancedConfidenceCalibrator
 
 # Import brain components with graceful fallback
@@ -209,7 +208,7 @@ class AbstractReasoningBrainCore:
                     "reasoning_type": reasoning_type,
                     "bio_quantum_enhanced": True,
                     "multi_brain_orchestration": True,
-                    "processing_timestamp": datetime.now().isoformat(),
+                    "processing_timestamp": datetime.now(timezone.utc).isoformat(),
                     "brain_symphony_coherence": reasoning_result.get("metadata", {}).get("cross_brain_coherence", 0.0),
                 },
             }
@@ -230,7 +229,7 @@ class AbstractReasoningBrainCore:
                 "brain_id": self.brain_id,
                 "error": str(e),
                 "error_type": "abstract_reasoning_failure",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def orchestrate_cross_brain_reasoning(
@@ -296,7 +295,7 @@ class AbstractReasoningBrainCore:
             "brain_results": brain_results,
             "cross_brain_coherence": coherence,
             "orchestrator": self.brain_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info(f"🎼 Cross-brain orchestration completed with coherence: {coherence:.3f}")

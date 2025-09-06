@@ -9,7 +9,7 @@ from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 
-router = APIRouter()
+router = APIRouter(, timezone)
 
 REPORTS_DIR = Path("reports")
 
@@ -52,7 +52,7 @@ async def trigger_audit(background_tasks: BackgroundTasks) -> dict[str, Any]:
         return {
             "status": "triggered",
             "message": "Audit has been triggered and will run in the background",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -97,7 +97,7 @@ async def get_audit_summary() -> dict[str, Any]:
         return {
             "health_score": health_score,
             "metrics": metrics,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -155,7 +155,7 @@ async def get_audit_trends() -> dict[str, Any]:
                 "trend": "improving",
             },
         },
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 

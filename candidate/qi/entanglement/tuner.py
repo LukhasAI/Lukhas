@@ -30,7 +30,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Add parent directories to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__, timezone), "../.."))
 
 try:
     from ethics.qi_mesh_integrator import QIEthicsMeshIntegrator
@@ -321,7 +321,7 @@ class AdaptiveEntanglementStabilizer:
         logger.info("Generating synthetic entanglement data")
 
         entries = []
-        base_time = datetime.now().timestamp()
+        base_time = datetime.now(timezone.utc).timestamp()
 
         for i in range(window):
             # Simulate degrading entanglement over time
@@ -443,7 +443,7 @@ class AdaptiveEntanglementStabilizer:
 
     def _in_cooldown_period(self, pair: tuple[str, str]) -> bool:
         """Check if pair is in stabilization cooldown period"""
-        current_time = datetime.now().timestamp()
+        current_time = datetime.now(timezone.utc).timestamp()
 
         for action in reversed(self.stabilization_history):
             if action.subsystem_pair == pair:
@@ -568,7 +568,7 @@ class AdaptiveEntanglementStabilizer:
         justification = self._generate_justification(pair, applied_tags)
 
         action = StabilizationAction(
-            timestamp=datetime.now().timestamp(),
+            timestamp=datetime.now(timezone.utc).timestamp(),
             subsystem_pair=pair,
             instability_type="multi_factor",
             severity=severity,
@@ -649,7 +649,7 @@ class AdaptiveEntanglementStabilizer:
             entry: Stabilization action data to log
         """
         log_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "ΛTAG": "ΛTUNE",
             "module": "adaptive_entanglement_stabilizer",
             "action": "stabilization_applied",

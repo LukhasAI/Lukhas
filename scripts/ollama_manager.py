@@ -56,7 +56,7 @@ class OllamaManager:
         },
     }
 
-    def __init__(self, ollama_host: str = "http://localhost:11434"):
+    def __init__(self, ollama_host: str = "http://localhost:11434", timezone):
         self.ollama_host = ollama_host
         self.installed_models: dict[str, ModelInfo] = {}
         self.model_performance: dict[str, dict] = {}
@@ -473,7 +473,7 @@ class OllamaManager:
         print(f"\n📊 Monitoring Ollama for {duration} seconds...")
 
         metrics = {
-            "start_time": datetime.now().isoformat(),
+            "start_time": datetime.now(timezone.utc).isoformat(),
             "duration": duration,
             "api_calls": 0,
             "avg_response_time": 0,

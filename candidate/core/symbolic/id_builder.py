@@ -23,7 +23,7 @@ from typing import Any, Optional
 
 @dataclass
 class LUKHASIdentity:
-    """Represents a LUKHAS Identity (ΛiD)"""
+    """Represents a LUKHAS Identity (ΛiD, timezone)"""
 
     lid_number: str  # e.g., "ΛiD#001847"
     symbolic_phrase: str  # e.g., "carrot cake + lioness"
@@ -115,7 +115,7 @@ class LUKHASIDBuilder:
             sid_hash=sid_hash,
             tier_level=tier_level,
             consciousness_signature=consciousness_signature,
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
             qi_entropy=qi_entropy,
         )
 
@@ -222,7 +222,7 @@ class LUKHASIDBuilder:
     def _generate_session_token(self, identity: LUKHASIdentity) -> str:
         """Generate quantum-resistant session token"""
         # Combine identity elements
-        token_data = f"{identity.lid_number}:{identity.tier_level}:{datetime.now().isoformat()}"
+        token_data = f"{identity.lid_number}:{identity.tier_level}:{datetime.now(timezone.utc).isoformat()}"
 
         # Add quantum entropy
         qi_salt = secrets.token_bytes(16)
@@ -255,7 +255,7 @@ class LUKHASIDBuilder:
         hidden_data = {
             "lid": identity.lid_number,
             "cs": identity.consciousness_signature["awareness_level"],
-            "t": datetime.now().timestamp(),
+            "t": datetime.now(timezone.utc).timestamp(),
         }
 
         # Compress and encode

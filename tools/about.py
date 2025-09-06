@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 
 
-def main():
+def main(, timezone):
     print("\033[95m🌿 WELCOME TO LUCAS AGI — Symbolic Neuro-Symbolic AI\033[0m")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 Project: LUKHAS_AGI v0.1.0")
@@ -51,7 +51,7 @@ def main():
         print("⚠️ ETHICS.md not found.")
 
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print(f"📅 Timestamp: {datetime.utcnow().isoformat()}Z")
+    print(f"📅 Timestamp: {datetime.now(timezone.utc).isoformat()}Z")
     print("🔏 Signed by: LUCAS CLI Core")
     print("💬 'A symbol is not a thing, but a promise.'\n")
 

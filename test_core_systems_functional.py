@@ -22,7 +22,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Add project root to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__, timezone).parent))
 
 
 class TestCoreSystems(unittest.TestCase):
@@ -203,7 +203,7 @@ class TestIdentitySystems(unittest.TestCase):
                 "id": "test_lambda_id_001",
                 "tier": 1,
                 "permissions": ["read", "write"],
-                "created": datetime.now().isoformat(),
+                "created": datetime.now(timezone.utc).isoformat(),
             }
 
             # Validate identity structure
@@ -292,7 +292,7 @@ class TestMemorySystems(unittest.TestCase):
             # Mock memory persistence operations
             test_memory = {
                 "session_id": "test_session_001",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "data": {"key": "value", "consciousness_state": "active"},
                 "metadata": {"type": "session", "priority": "high"},
             }

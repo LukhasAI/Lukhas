@@ -13,7 +13,7 @@ DEFAULT_ETHICS_DRIFT_LOG_PATH = "logs/ethics_drift_log.jsonl"
 DEFAULT_ACCESS_VIOLATION_LOG_PATH = "logs/access_violations.jsonl"
 
 # Logger for the main engine
-logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine")
+logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine", timezone)
 
 # --- Component 1: Core Ethics Engine (from PRIVATE/src/brain/ethics/ethics_engine.py) ---
 
@@ -156,7 +156,7 @@ class _CorePrivateEthicsEngine:
 
         self._add_to_history(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "action_type": action_type,
                 "is_ethical": is_ethical,
                 "score": final_score,
@@ -631,7 +631,7 @@ class _LucasPrivateEthicsGuard:
             "signal": signal,
             "required_tier": tier,
             "user_tier": context.get("tier"),
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "explanation": explanation or f"Signal '{signal}' was accessed without sufficient tier or consent.",
         }
         try:
@@ -851,7 +851,7 @@ class AdvancedComplianceEthicsEngine:
             },
             "data_retention_period_days": self.data_retention_days,
             "system_compliance_status": "nominal",  # Overall status
-            "report_generated_utc": datetime.utcnow().isoformat() + "Z",
+            "report_generated_utc": datetime.now(timezone.utc).isoformat() + "Z",
         }
         logger.info(f"Generated compliance report for original user ID ending: ...{user_id[-4:]}")
         return report
@@ -885,7 +885,7 @@ class AdvancedComplianceEthicsEngine:
         if not decision_log:
             logger.warning("Ethics drift detection called with empty decision log.")
             return {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "drift_ratio": 0,
                 "status": "no_data",
                 "ethical_threshold": threshold,
@@ -908,7 +908,7 @@ class AdvancedComplianceEthicsEngine:
             status = "no_scorable_data"
 
         drift_report = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "drift_ratio": round(drift_ratio, 4),
             "status": status,
             "ethical_threshold": threshold,
@@ -932,7 +932,7 @@ class AdvancedComplianceEthicsEngine:
         core_metrics = self.get_core_ethics_metrics()
         status = {
             "engine_status": "operational",
-            "timestamp_utc": datetime.utcnow().isoformat() + "Z",
+            "timestamp_utc": datetime.now(timezone.utc).isoformat() + "Z",
             "compliance_mode": self.compliance_mode,
             "gdpr_enabled": self.gdpr_enabled,
             "data_retention_days": self.data_retention_days,

@@ -13,7 +13,7 @@ from pathlib import Path
 
 class ModuleEnhancer:
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.modules = {
             'core': {
                 'description': 'Central nervous system - GLYPH engine, symbolic processing',
@@ -640,7 +640,7 @@ docs:
         # Update with enhancement info
         manifest.update({
             'enhanced': True,
-            'enhancement_date': datetime.now().isoformat(),
+            'enhancement_date': datetime.now(timezone.utc).isoformat(),
             'documentation': {
                 'readme': 'README.md',
                 'api': 'docs/api/index.md',
@@ -796,7 +796,7 @@ docs:
                                                                                                                                                                                                                     def create_enhancement_report(self, count):
                                                                                                                                                                                                                         """Create report of enhancement"""
         report = {
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'modules_enhanced': count,
             'enhancements_per_module': {
                 'documentation': ['README.md', 'API docs', 'Guides'],

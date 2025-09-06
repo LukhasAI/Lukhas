@@ -425,7 +425,7 @@ async def create_consolidation_plan(
         # Generate execution token if actions are available
         execution_token = None
         if plan.recommended_actions:
-            execution_token = f"exec_{request.lid}_{datetime.now().timestamp()}"
+            execution_token = f"exec_{request.lid}_{datetime.now(timezone.utc).timestamp()}"
 
         message = (
             f"Found {len(plan.duplicate_groups)} duplicate groups, "

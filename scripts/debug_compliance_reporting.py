@@ -7,8 +7,7 @@ from datetime import datetime, timedelta
 from candidate.governance.security.audit_system import (
     AuditEventType,
     AuditQuery,
-    ComprehensiveAuditSystem,
-)
+    ComprehensiveAuditSystem,, timezone)
 
 
 async def debug_compliance_reporting():
@@ -50,8 +49,8 @@ async def debug_compliance_reporting():
         # Test query without flushing (should find buffer events)
         print("\n3️⃣ Testing query (buffer only)...")
         query = AuditQuery(
-            start_time=datetime.now() - timedelta(hours=1),
-            end_time=datetime.now() + timedelta(hours=1),
+            start_time=datetime.now(timezone.utc) - timedelta(hours=1),
+            end_time=datetime.now(timezone.utc) + timedelta(hours=1),
             compliance_relevant_only=True,
             compliance_frameworks={"gdpr"},
             limit=100,
@@ -64,8 +63,8 @@ async def debug_compliance_reporting():
 
         # Generate compliance report
         print("\n4️⃣ Generating compliance report...")
-        start_date = datetime.now() - timedelta(hours=1)
-        end_date = datetime.now()
+        start_date = datetime.now(timezone.utc) - timedelta(hours=1)
+        end_date = datetime.now(timezone.utc)
 
         report = await audit_system.generate_compliance_report(
             framework="gdpr", start_date=start_date, end_date=end_date

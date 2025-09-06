@@ -8,7 +8,7 @@ including reasoning, creativity, memory, safety, and integration.
 import asyncio
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -24,7 +24,7 @@ from ..reasoning.dream_integration import DreamReasoningBridge
 from ..safety.constitutional_ai import ConstitutionalAI
 from ..tools.dream_guided_tools import DreamGuidedToolFramework
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class TestCategory(Enum):

@@ -24,7 +24,7 @@ FLASHBACK_LOG_PATH = "logs/flashbacks/flashback_trace.jsonl"
 OUTPUT_LOG = "logs/expressions/lukhas_expression_log.jsonl"
 
 
-def load_latest_flashback():
+def load_latest_flashback(, timezone):
     if not os.path.exists(FLASHBACK_LOG_PATH):
         print("❌ No flashbacks found.")
         return None
@@ -47,7 +47,7 @@ def synthesize_expression(fb: dict):
         "Abstract dreamscape showing introspection and cognitive resonance.",
     )
     return {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "theme": theme,
         "summary": summary,
         "visual_prompt": visual_prompt,

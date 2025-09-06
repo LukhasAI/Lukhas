@@ -26,7 +26,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Import personality components
 try:
@@ -283,7 +283,7 @@ class VoicePersonalityIntegrator:
         # Record this adaptation
         self.personality_memory.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "traits": self.personality_traits.copy(),
                 "interaction_type": interaction_data.get("type", "unknown"),
             }

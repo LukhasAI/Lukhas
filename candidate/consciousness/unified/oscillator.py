@@ -17,7 +17,7 @@ import time
 from datetime import datetime
 from typing import Any
 
-logger = logging.getLogger("AbstractReasoningOscillator")
+logger = logging.getLogger("AbstractReasoningOscillator", timezone)
 
 
 class AbstractReasoningBrainOscillator:
@@ -134,7 +134,7 @@ class AbstractReasoningBrainOscillator:
             "synchronization_results": synchronization_results,
             "master_coherence": self.master_coherence,
             "orchestrator": self.brain_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Record synchronization event
@@ -334,7 +334,7 @@ class AbstractReasoningBrainOscillator:
             "current_coherence": self.master_coherence,
             "adjustments_made": adjustments_made,
             "coherence_achieved": self.master_coherence >= target_coherence,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info(f"🎯 Coherence maintenance result: {self.master_coherence:.3f}")

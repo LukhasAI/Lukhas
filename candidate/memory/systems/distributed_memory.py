@@ -20,7 +20,7 @@ from candidate.core.event_sourcing import EventStore
 from candidate.core.swarm import SwarmHub
 from memory.distributed_state_manager import DistributedStateManager, StateType
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class MemoryType(Enum):
@@ -245,7 +245,7 @@ class DistributedMemorySystem:
 
             # Update access count and last accessed
             memory.access_count += 1
-            memory.last_accessed = datetime.now()
+            memory.last_accessed = datetime.now(timezone.utc)
 
             # Update in state manager
             await self.state_manager.set(
@@ -299,7 +299,7 @@ class DistributedMemorySystem:
                     "threshold": threshold,
                 }
 
-                task = colony.execute_task(f"search-{datetime.now().timestamp()}", search_task)
+                task = colony.execute_task(f"search-{datetime.now(timezone.utc).timestamp()}", search_task)
                 search_tasks.append((memory_type, task))
 
         # Gather results from all colonies
@@ -374,7 +374,7 @@ class DistributedMemorySystem:
         """
         self.logger.info(f"Starting memory consolidation for window: {time_window}")
 
-        cutoff_time = datetime.now() - time_window
+        cutoff_time = datetime.now(timezone.utc) - time_window
         consolidation_tasks = []
 
         for memory_type, colony in self.memory_colonies.items():
@@ -427,7 +427,7 @@ class DistributedMemorySystem:
         """Generate a unique ID for a memory."""
         content_str = json.dumps(content, sort_keys=True)
         type_str = memory_type.value
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         hash_input = f"{content_str}:{type_str}:{timestamp}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:16]

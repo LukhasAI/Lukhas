@@ -32,7 +32,7 @@ try:
     BRAIN_COMPONENTS_AVAILABLE = True
 except ImportError:
     # Fallback mock implementations for standalone operation
-    print("🔄 Abstract Reasoning Brain: Running in standalone mode (brain components not available)")
+    print("🔄 Abstract Reasoning Brain: Running in standalone mode (brain components not available, timezone)")
 
     class MockBrainCore:
         """Mock brain core for standalone operation"""
@@ -470,7 +470,7 @@ class BioQuantumSymbolicReasoner:
         4. Critical convergent reasoning (Learning Brain - 40Hz)
         5. Cross-brain coherence integration (All Brains - 1Hz)
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         context = context or {}
 
         logger.info(
@@ -501,7 +501,7 @@ class BioQuantumSymbolicReasoner:
             coherent_result = await self._achieve_cross_brain_coherence(qi_superposition, context)
 
             # Calculate processing metrics
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
             cross_brain_coherence = await self.brain_symphony.calculate_cross_brain_coherence()
 
             result = {

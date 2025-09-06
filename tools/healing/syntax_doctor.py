@@ -14,7 +14,7 @@ from pathlib import Path
 class SyntaxDoctor:
     """Heals syntax errors in Python files"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.fixed_count = 0
         self.failed_count = 0
         self.backup_dir = Path("healing/syntax_backups")
@@ -97,7 +97,7 @@ class SyntaxDoctor:
     def fix_file(self, filepath):
         """Attempt to fix syntax errors in a file"""
         # Create backup
-        backup_path = self.backup_dir / (Path(filepath).name + f".{datetime.now().strftime('%Y%m%d_%H%M%S')}.backup")
+        backup_path = self.backup_dir / (Path(filepath).name + f".{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.backup")
         shutil.copy2(filepath, backup_path)
 
         try:
@@ -255,7 +255,7 @@ class SyntaxDoctor:
     def generate_report(self, errors_found, errors_fixed):
         """Generate healing report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_errors": len(errors_found),
             "fixed": self.fixed_count,
             "failed": self.failed_count,

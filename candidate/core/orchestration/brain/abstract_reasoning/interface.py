@@ -17,7 +17,7 @@ try:
     RADAR_INTEGRATION_AVAILABLE = True
 except ImportError:
     RADAR_INTEGRATION_AVAILABLE = False
-    logging.warning("Radar integration not available")
+    logging.warning("Radar integration not available", timezone)
 
 logger = logging.getLogger("AbstractReasoningInterface")
 
@@ -119,7 +119,7 @@ class AbstractReasoningBrainInterface:
             "problem_space": problem_space,
             "context": context or {},
             "reasoning_type": reasoning_type,
-            "interface_timestamp": datetime.now().isoformat(),
+            "interface_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         try:
@@ -145,7 +145,7 @@ class AbstractReasoningBrainInterface:
                 "error": str(e),
                 "solution": None,
                 "confidence": 0.0,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def orchestrate_brains(
@@ -178,7 +178,7 @@ class AbstractReasoningBrainInterface:
             return {
                 "error": str(e),
                 "orchestration_failed": True,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def analyze_confidence(self, reasoning_result: dict[str, Any]) -> dict[str, Any]:
@@ -276,7 +276,7 @@ class AbstractReasoningBrainInterface:
 
         feedback_context = {
             "feedback_notes": feedback_notes,
-            "feedback_timestamp": datetime.now().isoformat(),
+            "feedback_timestamp": datetime.now(timezone.utc).isoformat(),
             "outcome_type": "binary_correctness",
         }
 

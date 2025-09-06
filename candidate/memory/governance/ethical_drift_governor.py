@@ -344,7 +344,7 @@ class EthicalDriftGovernor:
                     severity = EthicalSeverity.MEDIUM
 
         # Generate concern
-        concern_id = hashlib.md5(f"{fold_key}_{rule.rule_id}_{datetime.now()}".encode()).hexdigest()[:12]
+        concern_id = hashlib.md5(f"{fold_key}_{rule.rule_id}_{datetime.now(timezone.utc)}".encode()).hexdigest()[:12]
 
         return EthicalConcern(
             concern_id=concern_id,
@@ -396,7 +396,7 @@ class EthicalDriftGovernor:
     def _execute_intervention(self, concern: EthicalConcern) -> dict[str, Any]:
         """Execute the recommended intervention for an ethical concern."""
         intervention_id = hashlib.md5(
-            f"{concern.concern_id}_{concern.recommended_intervention.value}_{datetime.now()}".encode()
+            f"{concern.concern_id}_{concern.recommended_intervention.value}_{datetime.now(timezone.utc)}".encode()
         ).hexdigest()[:10]
 
         intervention_result = {

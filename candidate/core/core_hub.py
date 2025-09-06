@@ -24,8 +24,7 @@ try:
         Event,
         EventStore,
         EventType,
-        SnapshotStore,
-    )
+        SnapshotStore,, timezone)
     from candidate.core.id import LukhosIDManager
     from candidate.core.integrator import (
         BioOrchestrator,
@@ -513,7 +512,7 @@ class CoreHub:
         return {
             "hub": self.name,
             "received": True,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "message_id": message.get("id", "unknown"),
         }
 

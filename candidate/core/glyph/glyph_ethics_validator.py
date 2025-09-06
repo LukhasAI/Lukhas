@@ -49,7 +49,7 @@ from typing import Any, Optional
 from ..core.symbolic.glyphs.glyph import Glyph, GlyphPriority, GlyphType
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EthicalViolationType(Enum):
@@ -162,7 +162,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"create_{glyph.id}_{datetime.now().strftime('%H%M%S')}"
+        validation_id = f"create_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
         violations = []
         warnings = []
@@ -207,7 +207,7 @@ class GlyphEthicsValidator:
             recommendations=recommendations,
             ethical_score=ethical_score,
             safety_score=safety_score,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         self.validation_history[validation_id] = report
@@ -241,7 +241,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"mutate_{source_glyph.id}_{datetime.now().strftime('%H%M%S')}"
+        validation_id = f"mutate_{source_glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
         violations = []
         warnings = []
@@ -290,7 +290,7 @@ class GlyphEthicsValidator:
             recommendations=recommendations,
             ethical_score=ethical_score,
             safety_score=safety_score,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         self.validation_history[validation_id] = report
@@ -319,7 +319,7 @@ class GlyphEthicsValidator:
             ValidationReport with assessment results
         """
         validation_id = (
-            f"fuse_{len(source_glyphs)}way_{datetime.now().strftime('%H%M%S')}"
+            f"fuse_{len(source_glyphs)}way_{datetime.now(timezone.utc).strftime('%H%M%S')}"
         )
 
         violations = []
@@ -371,7 +371,7 @@ class GlyphEthicsValidator:
             recommendations=recommendations,
             ethical_score=ethical_score,
             safety_score=safety_score,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         self.validation_history[validation_id] = report
@@ -395,7 +395,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"decay_{glyph.id}_{datetime.now().strftime('%H%M%S')}"
+        validation_id = f"decay_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
         violations = []
         warnings = []
@@ -438,7 +438,7 @@ class GlyphEthicsValidator:
             recommendations=recommendations,
             ethical_score=ethical_score,
             safety_score=safety_score,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         self.validation_history[validation_id] = report

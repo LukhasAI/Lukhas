@@ -232,7 +232,7 @@ class DreamTraceLinker:
         logger.info(f"Linking dream to memory: dream_id={dream_id}")
 
         # Generate trace ID
-        trace_id = f"ΛTRACE::MEM.{hashlib.md5(f'{dream_id}_{datetime.now()}'.encode()).hexdigest()[:5].upper()}"
+        trace_id = f"ΛTRACE::MEM.{hashlib.md5(f'{dream_id}_{datetime.now(timezone.utc)}'.encode()).hexdigest()[:5].upper()}"
 
         # Extract GLYPH signatures
         glyph_signatures = self._extract_glyph_signatures(dream_content, dream_metadata)
@@ -262,7 +262,7 @@ class DreamTraceLinker:
 
         # Create dream trace link
         dream_trace = DreamTraceLink(
-            link_id=hashlib.md5(f"{dream_id}_{trace_id}_{datetime.now()}".encode()).hexdigest()[:12],
+            link_id=hashlib.md5(f"{dream_id}_{trace_id}_{datetime.now(timezone.utc)}".encode()).hexdigest()[:12],
             dream_id=dream_id,
             trace_id=trace_id,
             drift_score=drift_metrics["drift_score"],
@@ -390,7 +390,7 @@ class DreamTraceLinker:
                     emotional_bridge = self._create_emotional_bridge(source_emotion, target_emotion, dream_metadata)
 
                     echo = EmotionalEcho(
-                        echo_id=hashlib.md5(f"{source_emotion}_{target_emotion}_{datetime.now()}".encode()).hexdigest()[
+                        echo_id=hashlib.md5(f"{source_emotion}_{target_emotion}_{datetime.now(timezone.utc)}".encode()).hexdigest()[
                             :8
                         ],
                         source_emotion=source_emotion,
@@ -1019,7 +1019,7 @@ class DreamTraceLinker:
     def _detect_entanglement_feedback_loops(self, dream_id: str) -> float:
         """Detect feedback loops in entanglement patterns."""
         # Simplified implementation - would need more sophisticated graph analysis
-        current_session = f"session_{datetime.now().date()}"
+        current_session = f"session_{datetime.now(timezone.utc).date()}"
         entangled_dreams = len(self.entanglement_nodes.get(current_session, set()))
 
         # Check if this dream is creating cycles in the entanglement graph
@@ -1043,7 +1043,7 @@ class DreamTraceLinker:
         cycling_risk = min((reference_count - 1) / 5.0, 1.0)
 
         # Decay old references
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         if not hasattr(self, "_last_reference_cleanup"):
             self._last_reference_cleanup = current_time
 
@@ -1081,11 +1081,11 @@ class DreamTraceLinker:
     def _update_session_tracking(self, dream_trace: DreamTraceLink):
         """Update session tracking for safeguards."""
         # Update entanglement node tracking
-        session_id = f"session_{datetime.now().date()}"
+        session_id = f"session_{datetime.now(timezone.utc).date()}"
         self.entanglement_nodes[session_id].add(dream_trace.dream_id)
 
         # Clean old sessions
-        current_date = datetime.now().date()
+        current_date = datetime.now(timezone.utc).date()
         old_sessions = [session for session in self.entanglement_nodes if session != f"session_{current_date}"]
         for session in old_sessions:
             del self.entanglement_nodes[session]
@@ -1294,7 +1294,7 @@ class DreamTraceLinker:
 
     def get_session_analytics(self) -> dict[str, Any]:
         """Get analytics for current session."""
-        current_date = datetime.now().date()
+        current_date = datetime.now(timezone.utc).date()
         session_id = f"session_{current_date}"
 
         return {

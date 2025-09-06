@@ -415,7 +415,7 @@ class QIDreamAdapter:
         """Get current timestamp."""
         import datetime
 
-        return datetime.datetime.now().isoformat()
+        return datetime.datetime.now(timezone.utc).isoformat()
 
     def _apply_measurement_decoherence(self):
         """Apply decoherence due to measurement."""

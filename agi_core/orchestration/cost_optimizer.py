@@ -9,11 +9,11 @@ for ethical cost management.
 import logging
 import statistics
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class CostTier(Enum):

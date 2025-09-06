@@ -19,7 +19,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -122,7 +122,7 @@ class TPMFallback:
         data = {
             "version": "1.0.0",
             "tpm_simulation": True,
-            "last_updated": datetime.utcnow().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "keys": {},
             "key_data": {},
         }
@@ -202,7 +202,7 @@ class TPMFallback:
         self.keys[key_id] = TPMKey(
             key_id=key_id,
             key_type="rsa",
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
             metadata={"key_size": key_size, "algorithm": "RSA"},
         )
 
@@ -227,7 +227,7 @@ class TPMFallback:
         self.keys[key_id] = TPMKey(
             key_id=key_id,
             key_type="aes",
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
             metadata={"key_size": key_size, "algorithm": "AES"},
         )
 
@@ -261,7 +261,7 @@ class TPMFallback:
 
             # Update usage statistics
             self.keys[key_id].usage_count += 1
-            self.keys[key_id].last_used = datetime.utcnow()
+            self.keys[key_id].last_used = datetime.now(timezone.utc)
             self._save_keystore()
 
             return signature
@@ -319,7 +319,7 @@ class TPMFallback:
 
             # Update usage statistics
             self.keys[key_id].usage_count += 1
-            self.keys[key_id].last_used = datetime.utcnow()
+            self.keys[key_id].last_used = datetime.now(timezone.utc)
             self._save_keystore()
 
             # Return IV + tag + ciphertext
@@ -364,7 +364,7 @@ class TPMFallback:
         """Generate platform attestation (simulated)"""
         # Create attestation data
         attestation_data = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "nonce": base64.b64encode(nonce).decode(),
             "platform_measurements": self.platform_measurements,
             "tpm_capabilities": self.TPM_CAPABILITIES,

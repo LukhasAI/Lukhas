@@ -11,7 +11,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 
-class FailureType(Enum):
+class FailureType(Enum, timezone):
     """Types of system failures"""
 
     MEMORY_OVERFLOW = "memory_overflow"
@@ -76,7 +76,7 @@ class ComponentHealth:
     def record_failure(self):
         """Record component failure"""
         self.failure_count += 1
-        self.last_failure = datetime.utcnow()
+        self.last_failure = datetime.now(timezone.utc)
         self.health_score *= 0.9  # Decay health
 
     def record_recovery(self):
@@ -86,7 +86,7 @@ class ComponentHealth:
 
     def update_metrics(self, metrics: dict[str, float]):
         """Update component metrics"""
-        self.metrics_history.append({"timestamp": datetime.utcnow(), "metrics": metrics})
+        self.metrics_history.append({"timestamp": datetime.now(timezone.utc), "metrics": metrics})
 
 
 class SelfHealingSystem:
@@ -196,7 +196,7 @@ class SelfHealingSystem:
             type=self._classify_failure(error),
             component=component,
             error=error,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             context=context or {},
             severity=self._assess_severity(component, error),
         )
@@ -224,7 +224,7 @@ class SelfHealingSystem:
     async def check_system_health(self) -> dict[str, Any]:
         """Check overall system health"""
         health_report = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "overall_health": self._calculate_overall_health(),
             "components": {},
             "active_issues": [],
@@ -263,13 +263,13 @@ class SelfHealingSystem:
 
         # Try strategies in order
         for strategy in strategies:
-            start_time = datetime.utcnow()
+            start_time = datetime.now(timezone.utc)
 
             try:
                 success = await self._execute_healing_strategy(failure, strategy)
 
                 # Record healing action
-                duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+                duration_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
                 action = HealingAction(
                     failure_id=failure.id,
                     strategy=strategy,
@@ -405,7 +405,7 @@ class SelfHealingSystem:
             await asyncio.sleep(300)  # Every 5 minutes
 
             # Analyze recent failures
-            recent_failures = [f for f in self.failure_history if f.timestamp > datetime.utcnow() - timedelta(hours=1)]
+            recent_failures = [f for f in self.failure_history if f.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)]
 
             patterns = self._detect_failure_patterns(recent_failures)
 
@@ -562,7 +562,7 @@ class CircuitBreaker:
         """Check if circuit is open"""
         if self.state == "open":
             # Check if timeout has passed
-            if datetime.utcnow() - self.last_failure_time > self.timeout:
+            if datetime.now(timezone.utc) - self.last_failure_time > self.timeout:
                 self.state = "half-open"
                 return False
             return True
@@ -571,7 +571,7 @@ class CircuitBreaker:
     def trip(self):
         """Trip the circuit breaker"""
         self.failure_count += 1
-        self.last_failure_time = datetime.utcnow()
+        self.last_failure_time = datetime.now(timezone.utc)
 
         if self.failure_count >= self.failure_threshold:
             self.state = "open"
@@ -606,7 +606,7 @@ class HealingLearner:
             {
                 "failure_type": failure.type,
                 "success": success,
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(timezone.utc),
             }
         )
 

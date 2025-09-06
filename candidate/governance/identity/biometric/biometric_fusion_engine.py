@@ -26,7 +26,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class BiometricModality(Enum):
@@ -248,7 +248,7 @@ class BiometricFusionEngine:
             cultural_alignment=self._calculate_overall_cultural_alignment(cultural_context),
             session_vector=session_vector,
             metadata={
-                "fusion_timestamp": datetime.utcnow().isoformat(),
+                "fusion_timestamp": datetime.now(timezone.utc).isoformat(),
                 "sample_count": len(samples),
                 "consciousness_state": consciousness_state,
                 "quality_scores": [s.quality_score for s in samples],
@@ -629,14 +629,14 @@ class BiometricFusionEngine:
             vector_components.append(sample.compute_hash()[:16])
 
         vector_components.append(consciousness_state)
-        vector_components.append(datetime.utcnow().isoformat())
+        vector_components.append(datetime.now(timezone.utc).isoformat())
 
         vector_string = "|".join(vector_components)
         return hashlib.blake2b(vector_string.encode(), digest_size=32).hexdigest()
 
     def _generate_fallback_session_vector(self, fallback_type: str, consciousness_state: str) -> str:
         """Generate session vector for fallback authentication"""
-        vector_data = f"{fallback_type}|{consciousness_state}|{datetime.utcnow().isoformat()}"
+        vector_data = f"{fallback_type}|{consciousness_state}|{datetime.now(timezone.utc).isoformat()}"
         return hashlib.blake2b(vector_data.encode(), digest_size=32).hexdigest()
 
     def _verify_emoji_consciousness(self, emoji_sequence: str, consciousness_state: str) -> float:

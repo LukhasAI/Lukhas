@@ -55,8 +55,7 @@ from candidate.bridge.openai_core_service import (
     ModelType,
     OpenAICapability,
     OpenAICoreService,
-    OpenAIRequest,
-)
+    OpenAIRequest,, timezone)
 
 logger = logging.getLogger("ΛTRACE.memory.openai_adapter")
 
@@ -375,7 +374,7 @@ async def demo_memory_adapter():
         "type": "episodic",
         "content": "Standing at the edge of the cliff, watching the sunset paint the sky in brilliant oranges and purples. The wind carried the scent of ocean salt.",
         "emotional_context": "peaceful wonder",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     print("🧠 Memory OpenAI Adapter Demo")

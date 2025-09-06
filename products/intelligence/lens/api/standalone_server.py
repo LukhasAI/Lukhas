@@ -213,7 +213,7 @@ async def process_file_async(content: str, file_type: str, job_id: str) -> dict[
                 "title": f"ΛLens Dashboard - {file_type.upper()}",
                 "symbols": symbols,
                 "widgets": widgets,
-                "metadata": {"file_type": file_type, "processed_at": datetime.utcnow().isoformat(), "job_id": job_id},
+                "metadata": {"file_type": file_type, "processed_at": datetime.now(timezone.utc).isoformat(), "job_id": job_id},
             }
         )
 

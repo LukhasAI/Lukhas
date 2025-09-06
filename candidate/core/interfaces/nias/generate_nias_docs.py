@@ -11,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 if not logger.handlers:
     handler = logging.StreamHandler()
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -49,7 +49,7 @@ def generate_nias_documentation():
         "title": "NIAS Modular Plugin System: Comprehensive Documentation",
         "subtitle": "Lukhas-Enhanced with EU/US Compliance & AGI Socio-Economic Alignment",
         "version": "3.0",
-        "last_updated": datetime.now().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
         "compliance_status": "Full EU AI Act, GDPR, Multi-State US Privacy Laws",
         "agi_readiness": "Phase 1 Implementation Ready",
         "document_type": "Strategic Architecture & Implementation Guide",
@@ -152,7 +152,7 @@ def generate_nias_documentation():
 title: "NIAS Modular Plugin System: Strategic Plan & Architecture"
 subtitle: "Lukhas-Enhanced with Comprehensive EU/US Compliance & AGI Socio-Economic Alignment"
 version: "3.0"
-date: "{datetime.now().strftime("%Y-%m-%d")}"
+date: "{datetime.now(timezone.utc).strftime("%Y-%m-%d")}"
 compliance_status: "Full EU AI Act, GDPR, Multi-State US Privacy Laws"
 agi_readiness: "Phase 1 Implementation Ready"
 document_type: "Strategic Architecture & Implementation Guide"

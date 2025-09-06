@@ -25,8 +25,7 @@ from candidate.core.swarm import AgentState, SwarmAgent
 # Import identity components
 from governance.identity.core.events import (
     IdentityEventType,
-    get_identity_event_publisher,
-)
+    get_identity_event_publisher,, timezone)
 from governance.identity.core.visualization.lukhas_orb import OrbVisualization
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
@@ -129,7 +128,7 @@ class GLYPHGenerationAgent(SwarmAgent):
     async def generate_fragment(self, task: GLYPHGenerationTask, fragment_params: dict[str, Any]) -> GLYPHFragment:
         """Generate a GLYPH fragment based on specialization."""
 
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         try:
             if self.specialization == "pattern":
@@ -159,7 +158,7 @@ class GLYPHGenerationAgent(SwarmAgent):
                     "complexity": task.complexity.name,
                     "generation_params": fragment_params,
                 },
-                generation_time=(datetime.utcnow() - start_time).total_seconds(),
+                generation_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
                 quality_score=quality_score,
             )
 
@@ -296,7 +295,7 @@ class GLYPHGenerationAgent(SwarmAgent):
                 "lambda_id": task.lambda_id,
                 "tier_level": task.tier_level,
                 "glyph_type": task.glyph_type.value,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 **task.steganographic_data,
             }
 
@@ -586,7 +585,7 @@ class DistributedGLYPHColony(BaseColony):
 
         # Create generation task
         task = GLYPHGenerationTask(
-            task_id=f"glyph_{lambda_id}_{glyph_type.value}_{int(datetime.utcnow().timestamp())}",
+            task_id=f"glyph_{lambda_id}_{glyph_type.value}_{int(datetime.now(timezone.utc).timestamp())}",
             lambda_id=lambda_id,
             glyph_type=glyph_type,
             tier_level=tier_level,
@@ -594,7 +593,7 @@ class DistributedGLYPHColony(BaseColony):
             identity_data=identity_data,
             orb_state=orb_state,
             steganographic_data=steganographic_data,
-            deadline=datetime.utcnow() + timedelta(seconds=self.assembly_timeout),
+            deadline=datetime.now(timezone.utc) + timedelta(seconds=self.assembly_timeout),
         )
 
         # Add quantum/consciousness data for higher tiers
@@ -668,7 +667,7 @@ class DistributedGLYPHColony(BaseColony):
 
             # Update metrics
             generation_time = (
-                datetime.utcnow() - task.deadline + timedelta(seconds=self.assembly_timeout)
+                datetime.now(timezone.utc) - task.deadline + timedelta(seconds=self.assembly_timeout)
             ).total_seconds()
             self.average_generation_time = (
                 self.average_generation_time * (self.total_glyphs_generated - 1) + generation_time
@@ -748,7 +747,7 @@ class DistributedGLYPHColony(BaseColony):
 
         # Create GLYPH
         glyph = GeneratedGLYPH(
-            glyph_id=f"{task.lambda_id}_{task.glyph_type.value}_{int(datetime.utcnow().timestamp())}",
+            glyph_id=f"{task.lambda_id}_{task.glyph_type.value}_{int(datetime.now(timezone.utc).timestamp())}",
             lambda_id=task.lambda_id,
             glyph_type=task.glyph_type,
             tier_level=task.tier_level,
@@ -764,7 +763,7 @@ class DistributedGLYPHColony(BaseColony):
             fragments_used=[f.fragment_id for f in selected_fragments],
             consensus_achieved=len(selected_fragments) >= len(fragments_by_type) * 0.8,
             quality_metrics=quality_metrics,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         return glyph
@@ -898,7 +897,7 @@ class DistributedGLYPHColony(BaseColony):
     def _generate_quantum_seed(self, lambda_id: str, session_id: Optional[str]) -> bytes:
         """Generate quantum seed for GLYPH generation."""
         # Combine identity and session for uniqueness
-        seed_data = f"{lambda_id}:{session_id or 'default'}:{datetime.utcnow().isoformat()}"
+        seed_data = f"{lambda_id}:{session_id or 'default'}:{datetime.now(timezone.utc).isoformat()}"
         return hashlib.sha256(seed_data.encode()).digest()
 
     def _extract_consciousness_pattern(self, orb_state: OrbVisualization) -> np.ndarray:

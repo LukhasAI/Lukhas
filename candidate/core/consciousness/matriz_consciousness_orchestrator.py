@@ -407,7 +407,7 @@ class MatrizConsciousnessOrchestrator:
                 [
                     event
                     for event in self.evolution_history
-                    if datetime.fromisoformat(event["timestamp"]).date() == datetime.now().date()
+                    if datetime.fromisoformat(event["timestamp"]).date() == datetime.now(timezone.utc).date()
                 ]
             ),
             "last_updated": datetime.now(timezone.utc).isoformat(),

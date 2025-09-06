@@ -15,8 +15,7 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Memory Fold API",
     description="Quantum-inspired memory storage with emotional vectors and causal chains",
-    version="1.0.0",
-)
+    version="1.0.0",, timezone)
 
 
 class MemoryInput(BaseModel):
@@ -95,7 +94,7 @@ class QIMemoryEngine:
         """Create a new memory fold in the helix"""
 
         # Generate unique fold ID
-        fold_id = f"fold_{uuid.uuid4().hex[:8]}_{int(datetime.now().timestamp())}"
+        fold_id = f"fold_{uuid.uuid4().hex[:8]}_{int(datetime.now(timezone.utc).timestamp())}"
 
         # Calculate quantum state based on emotional vector
         qi_state = self._calculate_quantum_state(memory_input.emotional_state, memory_input.importance)
@@ -112,7 +111,7 @@ class QIMemoryEngine:
         # Create the fold
         fold = MemoryFold(
             fold_id=fold_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             content=memory_input.content,
             emotional_vector=memory_input.emotional_state,
             causal_chain=memory_input.causal_links,
@@ -321,7 +320,7 @@ class QIMemoryEngine:
         if not memories:
             return 0.0
 
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         total_drift = 0.0
 
         for memory in memories:
@@ -413,7 +412,7 @@ class QIMemoryEngine:
         text_score = self._calculate_text_similarity(query, fold.content)
 
         # Recent memories slightly favored
-        age_days = (datetime.now() - fold.timestamp).total_seconds() / 86400
+        age_days = (datetime.now(timezone.utc) - fold.timestamp).total_seconds() / 86400
         recency_score = np.exp(-age_days / 30)  # 30-day half-life
 
         # Importance from qi coherence
@@ -429,8 +428,8 @@ class QIMemoryEngine:
                 helix_coherence=1.0,
                 emotional_balance={},
                 qi_stability=1.0,
-                oldest_memory=datetime.now(),
-                newest_memory=datetime.now(),
+                oldest_memory=datetime.now(timezone.utc),
+                newest_memory=datetime.now(timezone.utc),
                 compression_ratio=0.0,
             )
 

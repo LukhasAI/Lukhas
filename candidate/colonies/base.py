@@ -12,7 +12,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ColonyRole(Enum):
+class ColonyRole(Enum, timezone):
     """Standard colony roles"""
 
     COORDINATOR = "coordinator"
@@ -74,7 +74,7 @@ class BaseColony(ABC):
         self.completed_tasks: dict[str, ColonyTask] = {}
         self.status = ColonyStatus.INITIALIZING
         self.trinity_aligned = True
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         self._initialize_colony()
 
     def _initialize_colony(self):
@@ -177,7 +177,7 @@ class BaseColony(ABC):
                 task.status = "processing"
                 task.result = self.process_task(task)
                 task.status = "completed"
-                task.completed_at = datetime.now()
+                task.completed_at = datetime.now(timezone.utc)
 
                 # Reduce agent load
                 if task.assigned_agent and task.assigned_agent in self.agents:
@@ -189,7 +189,7 @@ class BaseColony(ABC):
             except Exception as e:
                 task.status = "failed"
                 task.error = str(e)
-                task.completed_at = datetime.now()
+                task.completed_at = datetime.now(timezone.utc)
                 failed += 1
 
                 # Reduce agent load even on failure
@@ -213,7 +213,7 @@ class BaseColony(ABC):
             "queue_size": len(self.task_queue),
             "completed_tasks": len(self.completed_tasks),
             "trinity_aligned": self.trinity_aligned,
-            "uptime": (datetime.now() - self.created_at).total_seconds(),
+            "uptime": (datetime.now(timezone.utc) - self.created_at).total_seconds(),
         }
 
     def trinity_sync(self) -> dict[str, Any]:

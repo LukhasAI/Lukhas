@@ -11,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Add LUKHAS to path
-sys.path.append(str(Path(__file__).parent.parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent.parent))
 
 try:
     from candidate.core.symbolic_tokens import SymbolicToken
@@ -45,7 +45,7 @@ class ClaudeContextMemory:
                     symbol=f"CLAUDE_{msg['role'].upper()}",
                     content=msg["content"],
                     metadata={
-                        "timestamp": msg.get("timestamp", datetime.now().isoformat()),
+                        "timestamp": msg.get("timestamp", datetime.now(timezone.utc).isoformat()),
                         "role": msg["role"],
                         "context": "claude_code_chat",
                     },
@@ -57,7 +57,7 @@ class ClaudeContextMemory:
                 fold_type="claude_context",
                 data={
                     "session_id": context_data.get("session_id"),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "tokens": [t.to_dict() for t in tokens],
                     "metadata": context_data.get("metadata", {}),
                 },
@@ -77,7 +77,7 @@ class ClaudeContextMemory:
 
     def save_fallback(self, context_data):
         """Fallback storage when memory system is unavailable."""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         filename = f"claude_context_{timestamp}.json"
         filepath = self.memory_dir / filename
 
@@ -89,13 +89,13 @@ class ClaudeContextMemory:
 
     def create_markdown_export(self, context_data):
         """Export context as markdown for easy reading."""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         filename = f"claude_context_{timestamp}.md"
         filepath = self.memory_dir / filename
 
         with open(filepath, "w") as f:
             f.write(
-                f"# Claude Memory Integration Export\n**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+                f"# Claude Memory Integration Export\n**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n"
             )
 
             # Session info
@@ -129,22 +129,22 @@ def main():
 
     # Example context structure
     example_context = {
-        "session_id": datetime.now().strftime("%Y%m%d_%H%M%S"),
+        "session_id": datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S"),
         "metadata": {
             "repository": "LUKHAS ",
-            "date": datetime.now().strftime("%Y-%m-%d"),
+            "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "purpose": "Save Claude Code chat context",
         },
         "messages": [
             {
                 "role": "user",
                 "content": "How can I save the context of a current frozen Claude Code chat?",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             {
                 "role": "assistant",
                 "content": "I'll help you save the context...",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         ],
         "files_modified": [],

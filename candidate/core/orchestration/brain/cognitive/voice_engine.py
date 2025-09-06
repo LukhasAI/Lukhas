@@ -14,7 +14,7 @@ from lukhas.memory.systems.helix_mapper import HelixMapper
 class CognitiveVoiceEngine:
     """Advanced AGI voice processing and synthesis system"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.memory = HelixMapper()
 
         # Add voice modulation components
@@ -57,7 +57,7 @@ class CognitiveVoiceEngine:
                 "emotion": emotional_state,
                 "modulation": modulation,
                 "adaptation": adaptation,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             ("cognitive", "voice"),
         )
@@ -112,7 +112,7 @@ class CognitiveVoiceEngine:
         # Update neural patterns
         self.neural_patterns["voice_memory"].append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "patterns": voice_data.get("patterns", {}),
                 "emotional_impact": emotional_state,
             }

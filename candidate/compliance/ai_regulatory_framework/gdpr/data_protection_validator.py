@@ -14,7 +14,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class LawfulBasis(Enum):
+class LawfulBasis(Enum, timezone):
     """GDPR lawful basis for processing"""
 
     CONSENT = "consent"
@@ -128,7 +128,7 @@ class GDPRValidator:
 
         return GDPRAssessment(
             activity_id=activity.activity_id,
-            assessment_date=datetime.now(),
+            assessment_date=datetime.now(timezone.utc),
             overall_score=max(0.0, min(1.0, score)),
             violations=violations,
             recommendations=recommendations,

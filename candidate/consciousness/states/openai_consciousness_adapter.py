@@ -27,8 +27,7 @@ from candidate.bridge.openai_core_service import (
     ModelType,
     OpenAICapability,
     OpenAICoreService,
-    OpenAIRequest,
-)
+    OpenAIRequest,, timezone)
 
 logger = logging.getLogger("ΛTRACE.consciousness.openai_adapter")
 
@@ -154,7 +153,7 @@ Keep it under 300 words."""
                 "text": narrative,
                 "voice": voice,
                 "speed": 0.9,  # Slightly slower for contemplative tone
-                "output_path": f"consciousness_narration_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.mp3",
+                "output_path": f"consciousness_narration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.mp3",
             },
         )
 
@@ -213,7 +212,7 @@ Provide recommendations for improved attention management."""
         if response.success:
             return {
                 "analysis": response.data["content"],
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         else:
             return {"error": "Pattern analysis failed"}
@@ -367,7 +366,7 @@ Be philosophical and probing."""
             return {
                 "meta_insights": response.data["content"],
                 "depth_level": depth_level,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         else:
             return {"error": "Meta-reflection failed"}

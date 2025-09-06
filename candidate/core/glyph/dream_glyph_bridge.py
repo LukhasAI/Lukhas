@@ -53,8 +53,7 @@ from symbolic.glyphs.glyph import (
     Glyph,
     GlyphFactory,
     GlyphPriority,
-    GlyphType,
-)
+    GlyphType,, timezone)
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -186,7 +185,7 @@ class DreamGlyphBridge:
         symbolic_intensity = min(1.0, base_intensity * intensity_multiplier)
 
         # Create dream seed
-        seed_id = f"dream_seed_{glyph.id[:8]}_{datetime.now().strftime('%H%M%S')}"
+        seed_id = f"dream_seed_{glyph.id[:8]}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
         dream_seed = DreamSeed(
             seed_id=seed_id,
@@ -197,7 +196,7 @@ class DreamGlyphBridge:
             archetypal_resonance=archetypal_resonance,
             narrative_fragments=narrative_fragments,
             symbolic_intensity=symbolic_intensity,
-            creation_timestamp=datetime.now(),
+            creation_timestamp=datetime.now(timezone.utc),
         )
 
         self.dream_seeds[seed_id] = dream_seed
@@ -294,7 +293,7 @@ class DreamGlyphBridge:
         # Add dream narrative to content
         memory_glyph.content["dream_narrative"] = dream_narrative
         memory_glyph.content["consolidated_traces"] = len(memory_traces)
-        memory_glyph.content["consolidation_timestamp"] = datetime.now().isoformat()
+        memory_glyph.content["consolidation_timestamp"] = datetime.now(timezone.utc).isoformat()
 
         memory_glyph.update_symbolic_hash()
 

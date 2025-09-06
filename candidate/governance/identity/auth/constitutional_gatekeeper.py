@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure constitutional logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 constitutional_logger = logging.getLogger("LUKHAS_CONSTITUTIONAL")
 
 
@@ -64,7 +64,7 @@ class ConstitutionalGatekeeper:
         self.enforcement_level = enforcement_level
         self.thresholds = ConstitutionalThresholds()
         self.violation_history: list[dict] = []
-        self.startup_time = datetime.now()
+        self.startup_time = datetime.now(timezone.utc)
 
         constitutional_logger.info(f"Constitutional Gatekeeper initialized with {enforcement_level.value} enforcement")
 
@@ -375,7 +375,7 @@ class ConstitutionalGatekeeper:
             details: Detailed information about the action
         """
         log_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action_type": action_type,
             "enforcement_level": self.enforcement_level.value,
             "details": details,
@@ -403,7 +403,7 @@ class ConstitutionalGatekeeper:
             "current_thresholds": asdict(self.thresholds),
             "total_actions": len(self.violation_history),
             "action_history": self.violation_history[-50:],  # Last 50 actions
-            "uptime_hours": (datetime.now() - self.startup_time).total_seconds() / 3600,
+            "uptime_hours": (datetime.now(timezone.utc) - self.startup_time).total_seconds() / 3600,
         }
 
     def emergency_lockdown(self, reason: str) -> dict[str, Any]:
@@ -430,7 +430,7 @@ class ConstitutionalGatekeeper:
 
         emergency_report = {
             "emergency_activated": True,
-            "activation_time": datetime.now().isoformat(),
+            "activation_time": datetime.now(timezone.utc).isoformat(),
             "reason": reason,
             "new_thresholds": asdict(self.thresholds),
             "previous_level": self.enforcement_level.value,

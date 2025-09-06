@@ -13,7 +13,7 @@ from typing import Any
 class UniversalMeshArchitecture:
     """Design the universal mesh communication system"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.mesh_components = {
             "tagging_system": {
                 "description": "Mycelium-inspired universal tagging network",
@@ -126,7 +126,7 @@ class UniversalMeshArchitecture:
         print("=" * 60)
 
         architecture = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "vision": "A living, breathing SGI with mycelium-like universal mesh communication",
             "core_principle": "Every module talks to every module through tags, not hierarchy",
             "components": self.mesh_components,
@@ -467,7 +467,7 @@ class UniversalMesh:
             name=hormone,
             value=level,
             origin="endocrine_system",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             ttl=float('inf'),  # System-wide
             strength=1.0
         )
@@ -483,7 +483,7 @@ class UniversalMesh:
             'type': 'endocrine_broadcast',
             'hormone': hormone,
             'level': level,
-            'timestamp': datetime.now().isoformat()
+            'timestamp': datetime.now(timezone.utc).isoformat()
         })
 
 # Example usage

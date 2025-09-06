@@ -15,7 +15,7 @@ from candidate.orchestration.brain.spine.trait_manager import load_traits
 from symbolic.lukhas_unified_self import run as unified_self_run
 
 # Configure OpenAI API
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY", timezone)
 
 # File Paths
 REPORT_PATH = "logs/lukhas_agri_report.jsonl"
@@ -60,7 +60,7 @@ def generate_report():
 
     # Compile Report Data
     report_data = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "traits_snapshot": traits,
         "meta_reflections": reflections,
         "unified_self_synthesis": unified_self,

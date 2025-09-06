@@ -16,7 +16,7 @@ from ..symbolic_ai.memory import SymbolicMemoryEngine
 class DreamProcessor:
     """Enhanced dream processing system with OXN pattern recognition"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.memory_engine = SymbolicMemoryEngine()
         self.pattern_confidence_threshold = 0.65  # Lower threshold during dreams for creative connections
 
@@ -43,7 +43,7 @@ class DreamProcessor:
 
         # Consolidate findings
         dream_insights = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "patterns_discovered": dream_patterns,
             "relationships_found": cross_memory_relationships,
             "memory_consolidation": self._consolidate_memories(recent_memories),
@@ -61,7 +61,7 @@ class DreamProcessor:
                 "memory1_id": memory1.get("id"),
                 "memory2_id": memory2.get("id"),
                 "confidence": confidence,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         return None
 

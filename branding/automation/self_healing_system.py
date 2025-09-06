@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 from engines.database_integration import db
 
 
@@ -70,7 +70,7 @@ class SelfHealingSystem:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"self_healing_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"self_healing_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -101,7 +101,7 @@ class SelfHealingSystem:
     def _save_healing_config(self):
         """Save healing configuration and history"""
         config_data = {
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "healing_history": [asdict(action) for action in self.healing_history[-100:]],  # Keep last 100 actions
         }
 
@@ -113,7 +113,7 @@ class SelfHealingSystem:
         """Create backup before making changes"""
         try:
             self.backup_path.mkdir(exist_ok=True)
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
             if target_path.is_file():
                 backup_file = self.backup_path / f"{target_path.name}_{timestamp}.backup"
@@ -305,11 +305,11 @@ class SelfHealingSystem:
 
         if not suggested_name or suggested_name == issue["current_name"]:
             return HealingAction(
-                action_id=f"naming_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 action_type="naming_fix",
                 target=issue["path"],
                 description="Skipped - no valid suggestion",
-                applied_at=datetime.now().isoformat(),
+                applied_at=datetime.now(timezone.utc).isoformat(),
                 success=False,
             )
 
@@ -322,11 +322,11 @@ class SelfHealingSystem:
             current_path.rename(new_path)
 
             action = HealingAction(
-                action_id=f"naming_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 action_type="naming_fix",
                 target=issue["path"],
                 description=f"Renamed {issue['current_name']} → {suggested_name}",
-                applied_at=datetime.now().isoformat(),
+                applied_at=datetime.now(timezone.utc).isoformat(),
                 success=True,
                 backup_created=backup_path is not None,
                 rollback_available=True,
@@ -337,11 +337,11 @@ class SelfHealingSystem:
 
         except Exception as e:
             action = HealingAction(
-                action_id=f"naming_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 action_type="naming_fix",
                 target=issue["path"],
                 description=f"Failed: {e!s}",
-                applied_at=datetime.now().isoformat(),
+                applied_at=datetime.now(timezone.utc).isoformat(),
                 success=False,
             )
 
@@ -437,11 +437,11 @@ if __name__ == "__main__":
                 action_description = "Marked for manual review"
 
             action = HealingAction(
-                action_id=f"empty_dir_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"empty_dir_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 action_type="empty_directory",
                 target=empty_dir["path"],
                 description=action_description,
-                applied_at=datetime.now().isoformat(),
+                applied_at=datetime.now(timezone.utc).isoformat(),
                 success=True,
             )
 
@@ -450,11 +450,11 @@ if __name__ == "__main__":
 
         except Exception as e:
             action = HealingAction(
-                action_id=f"empty_dir_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"empty_dir_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 action_type="empty_directory",
                 target=empty_dir["path"],
                 description=f"Failed: {e!s}",
-                applied_at=datetime.now().isoformat(),
+                applied_at=datetime.now(timezone.utc).isoformat(),
                 success=False,
             )
 
@@ -480,11 +480,11 @@ if __name__ == "__main__":
                 )
 
             action = HealingAction(
-                action_id=f"brand_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"brand_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 action_type="brand_consistency",
                 target=f"content_{content_id}",
                 description=action_description,
-                applied_at=datetime.now().isoformat(),
+                applied_at=datetime.now(timezone.utc).isoformat(),
                 success=True,
             )
 
@@ -493,11 +493,11 @@ if __name__ == "__main__":
 
         except Exception as e:
             action = HealingAction(
-                action_id=f"brand_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"brand_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 action_type="brand_consistency",
                 target=f"content_{content_id}",
                 description=f"Failed: {e!s}",
-                applied_at=datetime.now().isoformat(),
+                applied_at=datetime.now(timezone.utc).isoformat(),
                 success=False,
             )
 
@@ -509,7 +509,7 @@ if __name__ == "__main__":
         self.logger.info("🔧 Starting comprehensive self-healing cycle...")
 
         healing_results = {
-            "cycle_started": datetime.now().isoformat(),
+            "cycle_started": datetime.now(timezone.utc).isoformat(),
             "actions_performed": [],
             "issues_detected": {},
             "issues_fixed": {},
@@ -582,7 +582,7 @@ if __name__ == "__main__":
             "system_health": "excellent" if success_rate > 90 else "good" if success_rate > 70 else "needs_attention",
         }
 
-        healing_results["cycle_completed"] = datetime.now().isoformat()
+        healing_results["cycle_completed"] = datetime.now(timezone.utc).isoformat()
 
         # Save configuration
         self._save_healing_config()
