@@ -25,7 +25,7 @@ from typing import Optional
 
 import structlog
 
-logger = structlog.get_logger(__name__)
+logger = structlog.get_logger(__name__, timezone)
 
 
 class RestabilizationIndex:
@@ -69,7 +69,7 @@ class RestabilizationIndex:
                 str: The unique ID of the registered recovery event.
         """
         event_id = str(uuid.uuid4())
-        timestamp = datetime.utcnow().isoformat() + "Z"
+        timestamp = datetime.now(timezone.utc).isoformat() + "Z"
 
         recovery_event_data = {
             "event_id": event_id,

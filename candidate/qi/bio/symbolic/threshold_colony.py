@@ -22,7 +22,7 @@ import numpy as np
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.symbolism.tags import TagPermission, TagScope
 
-logger = logging.getLogger("ΛTRACE.bio.threshold")
+logger = logging.getLogger("ΛTRACE.bio.threshold", timezone)
 
 
 class AdaptiveThresholdColony(BaseColony):
@@ -146,7 +146,7 @@ class AdaptiveThresholdColony(BaseColony):
                 "thresholds": adapted_thresholds,
                 "confidence": confidence,
                 "context_modifiers": await self._get_modifier_values(context, bio_data),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "colony_id": self.colony_id,
             }
 
@@ -235,7 +235,7 @@ class AdaptiveThresholdColony(BaseColony):
 
     def _calculate_circadian_modifier(self, context: dict[str, Any], bio_data: dict[str, Any]) -> float:
         """Calculate circadian rhythm modifier."""
-        current_hour = datetime.utcnow().hour
+        current_hour = datetime.now(timezone.utc).hour
 
         # Simple circadian model (peak at noon, trough at midnight)
         circadian_value = 0.5 + 0.5 * np.sin((current_hour - 6) * np.pi / 12)
@@ -276,7 +276,7 @@ class AdaptiveThresholdColony(BaseColony):
         cache_key = f"{json.dumps(sorted(bio_data.items()))}"
         if cache_key in self.colony_consensus_cache:
             cached_time, cached_value = self.colony_consensus_cache[cache_key]
-            if datetime.utcnow() - cached_time < self.consensus_ttl:
+            if datetime.now(timezone.utc) - cached_time < self.consensus_ttl:
                 return cached_value
 
         # Simulate colony consensus (in real implementation, query other colonies)
@@ -285,7 +285,7 @@ class AdaptiveThresholdColony(BaseColony):
         consensus_value = 0.5 + 0.5 * min(data_completeness, 1.0)
 
         # Cache the result
-        self.colony_consensus_cache[cache_key] = (datetime.utcnow(), consensus_value)
+        self.colony_consensus_cache[cache_key] = (datetime.now(timezone.utc), consensus_value)
 
         return consensus_value
 
@@ -389,7 +389,7 @@ class AdaptiveThresholdColony(BaseColony):
             "state": context,
             "thresholds": thresholds,
             "reward": feedback.get("reward", 0.0),
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         self.learning_config["experience_buffer"].append(experience)

@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Any
 
 # Add Lukhas LUKHAS AI ΛBot path
-sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
+sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot", timezone)
 
 # Import all 4 enhanced ΛBots
 try:
@@ -223,7 +223,7 @@ class MasterΛBotOrchestrator:
         session = MasterOrchestrationSession(
             session_id=session_id,
             mode=mode,
-            start_time=datetime.now(),
+            start_time=datetime.now(timezone.utc),
             target_path=target_path,
         )
 

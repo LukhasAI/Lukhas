@@ -42,7 +42,7 @@ from typing import Any, Optional
 from core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -304,7 +304,7 @@ class VoicePersonalityIntegrator:
         # Record this adaptation
         self.personality_memory.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "traits": self.personality_traits.copy(),
                 "interaction_type": interaction_data.get("type", "unknown"),
             }

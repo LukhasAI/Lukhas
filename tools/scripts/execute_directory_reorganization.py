@@ -11,7 +11,7 @@ from datetime import datetime
 
 
 class DirectoryReorganizer:
-    def __init__(self):
+    def __init__(self, timezone):
         # Directory mappings from audit
         self.moves = {
             # Directories to move into modules
@@ -59,7 +59,7 @@ class DirectoryReorganizer:
                 # Check if target exists
                 if os.path.exists(target):
                     # Rename with timestamp
-                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
                     target = f"{target}_{timestamp}"
 
                 # Move directory
@@ -80,7 +80,7 @@ class DirectoryReorganizer:
         archive_base = "archive"
         os.makedirs(archive_base, exist_ok=True)
 
-        timestamp = datetime.now().strftime("%Y%m%d")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d")
         archive_path = f"{archive_base}/{timestamp}/{directory}"
 
         try:
@@ -94,7 +94,7 @@ class DirectoryReorganizer:
                 note_path = f"{archive_path}/ARCHIVE_NOTE.txt"
                 with open(note_path, "w") as f:
                     f.write(f"Archived from: {directory}\n")
-                    f.write(f"Archive date: {datetime.now().isoformat()}\n")
+                    f.write(f"Archive date: {datetime.now(timezone.utc).isoformat()}\n")
                     f.write("Reason: Unclear purpose or temporary directory\n")
 
                 return True
@@ -120,7 +120,7 @@ class DirectoryReorganizer:
                     manifest["integrated_directories"] = []
 
                 manifest["integrated_directories"].extend(new_subdirs)
-                manifest["last_reorganization"] = datetime.now().isoformat()
+                manifest["last_reorganization"] = datetime.now(timezone.utc).isoformat()
 
                 with open(manifest_path, "w") as f:
                     json.dump(manifest, f, indent=2)
@@ -267,7 +267,7 @@ grep -r "from \\(api\\|architectures\\|bio\\|creativity\\|dream\\|ethics\\|ident
     def create_summary_report(self):
         """Create reorganization summary"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "directories_moved": self.moved_count,
             "directories_archived": self.archived_count,
             "errors": self.errors,

@@ -74,8 +74,7 @@ try:
         EmotionVector,
         Glyph,
         GlyphFactory,
-        GlyphType,
-    )
+        GlyphType,, timezone)
     from candidate.core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
 except ImportError:
     # Fallback imports if core modules not available
@@ -324,7 +323,7 @@ class EmotionalFoldingEngine:
         )
 
         # Filter by time window
-        cutoff_time = datetime.utcnow() - time_window
+        cutoff_time = datetime.now(timezone.utc) - time_window
         recent_folds = [
             f for f in all_folds if datetime.fromisoformat(f["timestamp"].replace("Z", "+00:00")) > cutoff_time
         ]
@@ -406,7 +405,7 @@ class EmotionalFoldingEngine:
                 "source_count": len(memory_group),
                 "emotion_delta": emotion_delta.tolist(),
                 "parent_hashes": [m["hash"] for m in memory_group],
-                "folding_timestamp": datetime.utcnow().isoformat(),
+                "folding_timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
 
@@ -493,7 +492,7 @@ class EmotionalFoldingEngine:
             parent_key=source_memories[0]["hash"] if source_memories else None,
             emotion_delta=emotion_delta,
             compression_ratio=compression_ratio,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             glyphs=all_glyphs,
             salience_score=np.mean([m.get("relevance_score", 0.5) for m in source_memories]),
         )
@@ -503,7 +502,7 @@ class EmotionalFoldingEngine:
         # Add to compression history
         self.compression_history.append(
             {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "fold_key": fold_key,
                 "compression_type": compression_type.value,
                 "source_count": len(source_memories),

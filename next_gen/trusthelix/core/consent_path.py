@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -115,7 +115,7 @@ class ConsentPathLogger:
 
         # Create genesis entry
         genesis = ConsentEntry(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             user_id="system",
             glyphs=["🌿", "🪷", "🔐"],
             action="genesis",
@@ -179,7 +179,7 @@ class ConsentPathLogger:
 
         # Create new entry
         entry = ConsentEntry(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             user_id=user_id,
             glyphs=glyphs,
             action=action,
@@ -360,7 +360,7 @@ class ConsentPathLogger:
                 },
                 "action_distribution": action_counts,
                 "outcome_distribution": outcome_counts,
-                "generated_at": datetime.utcnow().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
             }
 
 

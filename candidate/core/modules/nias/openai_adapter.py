@@ -17,7 +17,7 @@ import cv2  # For image processing
 import numpy as np
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ModalityType(Enum):
@@ -101,7 +101,7 @@ class NIASOpenAIAdapter:
                 "fusion_result": fusion_result,
                 "interpretation": interpretation,
                 "confidence": self._calculate_fusion_confidence(processed_streams),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -853,7 +853,7 @@ class NIASOpenAIAdapter:
             },
             "interpretation": "Basic fusion applied without AI enhancement",
             "confidence": 0.3,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _extract_attention_metrics(self, analysis: str) -> dict[str, float]:

@@ -28,7 +28,7 @@ try:
     DATADOG_CLIENT_INSTALLED = True
 except ImportError:
     DATADOG_CLIENT_INSTALLED = False
-    print("⚠️  Datadog API client not installed")
+    print("⚠️  Datadog API client not installed", timezone)
     print("Installing: pip install datadog-api-client")
     subprocess.check_call([sys.executable, "-m", "pip", "install", "datadog-api-client"])
     # Try importing again after installation
@@ -130,7 +130,7 @@ class LUKHASDatadogSetup:
                         Series(
                             metric="lukhas.test.connection",
                             type="gauge",
-                            points=[Point([datetime.now().timestamp(), 1])],
+                            points=[Point([datetime.now(timezone.utc).timestamp(), 1])],
                             tags=[
                                 f"service:{self.config.service}",
                                 f"env:{self.config.env}",

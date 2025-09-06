@@ -34,7 +34,7 @@ from lukhas.core.budget.token_controller import TokenBudgetController
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.FileHandler("pr_security_review.log"),
         logging.StreamHandler(sys.stdout),
@@ -377,7 +377,7 @@ class PRSecurityReviewTask:
 
     def process_all_repositories(self) -> dict[str, Any]:
         """Process all repositories to find and fix security issues in PRs"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         # Get all repositories
         repos = self.get_all_repositories()
@@ -418,10 +418,10 @@ class PRSecurityReviewTask:
                         )
 
         # Prepare results
-        processing_time = (datetime.now() - start_time).total_seconds()
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         results = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "repositories_processed": len(repos),
             "total_security_prs": len(total_security_prs),
             "critical_security_prs": len(
@@ -444,7 +444,7 @@ class PRSecurityReviewTask:
     ) -> None:
         """Generate a detailed report of security issues found"""
         report_file = (
-            f"pr_security_review_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            f"pr_security_review_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         )
 
         report_data = {

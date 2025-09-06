@@ -53,8 +53,7 @@ from typing import Any, Callable, Optional
 
 from dashboard.core.dashboard_colony_agent import (
     DashboardAgentRole,
-    DashboardColonyAgent,
-)
+    DashboardColonyAgent,, timezone)
 from dashboard.core.self_healing_manager import SelfHealingManager
 
 # Import existing LUKHAS systems
@@ -148,7 +147,7 @@ class DashboardFallbackSystem:
     """
 
     def __init__(self):
-        self.system_id = f"fallback_system_{int(datetime.now().timestamp())}"
+        self.system_id = f"fallback_system_{int(datetime.now(timezone.utc).timestamp())}"
         self.logger = logger.bind(system_id=self.system_id)
 
         # Integration with existing LUKHAS systems
@@ -162,7 +161,7 @@ class DashboardFallbackSystem:
         # Current fallback state
         self.current_state = FallbackState(
             current_level=DashboardFallbackLevel.OPTIMAL,
-            active_since=datetime.now(),
+            active_since=datetime.now(timezone.utc),
             trigger_reason="system_initialization",
             affected_components=set(),
             available_features=self._get_optimal_features(),
@@ -411,7 +410,7 @@ class DashboardFallbackSystem:
     async def evaluate_fallback_need(self, context: dict[str, Any]) -> Optional[DashboardFallbackLevel]:
         """Evaluate if fallback activation is needed based on current context."""
 
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         recommended_level = None
         highest_severity = 0.0
 
@@ -468,7 +467,7 @@ class DashboardFallbackSystem:
             from_level=self.current_state.current_level,
             to_level=target_level,
             trigger=trigger,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             details={
                 "reason": reason,
                 "affected_components": list(affected_components or []),
@@ -494,7 +493,7 @@ class DashboardFallbackSystem:
             previous_state = self.current_state
             self.current_state = FallbackState(
                 current_level=target_level,
-                active_since=datetime.now(),
+                active_since=datetime.now(timezone.utc),
                 trigger_reason=reason,
                 affected_components=affected_components or set(),
                 available_features=self.level_configurations[target_level]["features"],
@@ -574,7 +573,7 @@ class DashboardFallbackSystem:
             from_level=self.current_state.current_level,
             to_level=DashboardFallbackLevel.OPTIMAL,  # Target optimal
             trigger=FallbackTrigger.MANUAL_OVERRIDE,  # Recovery trigger
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             details={
                 "strategy": strategy.value,
                 "attempt": self.current_state.recovery_attempts + 1,
@@ -609,13 +608,13 @@ class DashboardFallbackSystem:
                 # Update metrics
                 if target_level == DashboardFallbackLevel.OPTIMAL:
                     self.metrics["successful_recoveries"] += 1
-                    duration = (datetime.now() - self.current_state.active_since).total_seconds()
+                    duration = (datetime.now(timezone.utc) - self.current_state.active_since).total_seconds()
                     self._update_average_fallback_duration(duration)
 
                 # Record successful event
                 event.to_level = target_level
                 event.success = True
-                event.duration_seconds = (datetime.now() - event.timestamp).total_seconds()
+                event.duration_seconds = (datetime.now(timezone.utc) - event.timestamp).total_seconds()
 
                 # Notify handlers
                 for handler in self.recovery_success_handlers:
@@ -635,7 +634,7 @@ class DashboardFallbackSystem:
             else:
                 # Recovery failed
                 self.current_state.recovery_attempts += 1
-                self.current_state.next_recovery_attempt = datetime.now() + timedelta(
+                self.current_state.next_recovery_attempt = datetime.now(timezone.utc) + timedelta(
                     seconds=min(300, 30 * self.current_state.recovery_attempts)
                 )
 
@@ -737,7 +736,7 @@ class DashboardFallbackSystem:
                 if (
                     self.current_state.current_level != DashboardFallbackLevel.OPTIMAL
                     and self.current_state.next_recovery_attempt
-                    and datetime.now() >= self.current_state.next_recovery_attempt
+                    and datetime.now(timezone.utc) >= self.current_state.next_recovery_attempt
                 ):
                     await self.attempt_recovery()
 
@@ -877,7 +876,7 @@ class DashboardFallbackSystem:
     async def _schedule_recovery_attempt(self):
         """Schedule next recovery attempt."""
         # Implementation would schedule recovery based on current conditions
-        self.current_state.next_recovery_attempt = datetime.now() + timedelta(seconds=60)
+        self.current_state.next_recovery_attempt = datetime.now(timezone.utc) + timedelta(seconds=60)
 
     async def _analyze_fallback_patterns(self):
         """Analyze fallback patterns for optimization."""

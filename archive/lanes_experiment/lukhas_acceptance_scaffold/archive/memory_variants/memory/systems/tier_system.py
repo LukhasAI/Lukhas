@@ -285,7 +285,7 @@ class DynamicTierSystem:
             AccessDecision with grant/deny result and reasoning
         """
         decision_id = hashlib.sha256(  # Changed from MD5 for security
-            f"{context.user_id}_{context.operation_type.value}_{context.resource_id}_{datetime.now()}".encode()
+            f"{context.user_id}_{context.operation_type.value}_{context.resource_id}_{datetime.now(timezone.utc)}".encode()
         ).hexdigest()[:12]
 
         # Get current tier for user/session
@@ -461,7 +461,7 @@ class DynamicTierSystem:
             Result of elevation attempt with success status and details
         """
         elevation_id = hashlib.sha256(  # Changed from MD5 for security
-            f"{session_id}_{target_tier.value}_{datetime.now()}".encode()
+            f"{session_id}_{target_tier.value}_{datetime.now(timezone.utc)}".encode()
         ).hexdigest()[:10]
 
         current_tier = self._get_current_tier(None, session_id)

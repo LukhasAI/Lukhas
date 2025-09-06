@@ -20,7 +20,7 @@ from typing import Any
 import yaml
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 logger = logging.getLogger(__name__)
 
 
@@ -400,7 +400,7 @@ class LukhasEmbedding:
         try:
             # Add metadata
             log_entry = {
-                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                 "mode": self.mode.value,
                 "assessment": output_dict,
             }

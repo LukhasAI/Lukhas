@@ -23,7 +23,7 @@ except ImportError:
     # Fallback implementation for numpy functions
     class np:
         @staticmethod
-        def mean(values):
+        def mean(values, timezone):
             return sum(values) / len(values) if values else 0.0
 
 
@@ -172,7 +172,7 @@ class NISTAIRiskManager:
 
             return RiskAssessment(
                 system_id=system_id,
-                assessment_date=datetime.now(),
+                assessment_date=datetime.now(timezone.utc),
                 lifecycle_stage=lifecycle_stage,
                 risk_level=risk_level,
                 trustworthy_scores=trustworthy_scores,
@@ -424,13 +424,13 @@ class NISTAIRiskManager:
     def _calculate_next_assessment_date(self, risk_level: RiskLevel) -> datetime:
         """Calculate next assessment date based on risk level"""
         if risk_level == RiskLevel.CRITICAL:
-            return datetime.now() + timedelta(days=30)  # Monthly
+            return datetime.now(timezone.utc) + timedelta(days=30)  # Monthly
         elif risk_level == RiskLevel.HIGH:
-            return datetime.now() + timedelta(days=90)  # Quarterly
+            return datetime.now(timezone.utc) + timedelta(days=90)  # Quarterly
         elif risk_level == RiskLevel.MEDIUM:
-            return datetime.now() + timedelta(days=180)  # Semi-annually
+            return datetime.now(timezone.utc) + timedelta(days=180)  # Semi-annually
         else:
-            return datetime.now() + timedelta(days=365)  # Annually
+            return datetime.now(timezone.utc) + timedelta(days=365)  # Annually
 
     async def generate_trustworthy_ai_scorecard(self, assessment: RiskAssessment) -> dict[str, Any]:
         """Generate trustworthy AI scorecard"""

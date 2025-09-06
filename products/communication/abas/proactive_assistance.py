@@ -11,7 +11,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class UserState(Enum):
+class UserState(Enum, timezone):
     """User behavioral states"""
 
     ACTIVE = "active"
@@ -141,7 +141,7 @@ class ProactiveAssistanceSystem:
             self.user_states[user_id] = UserState.ACTIVE
 
         action = UserAction(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             action_type=action_type,
             target=target,
             success=success,
@@ -375,7 +375,7 @@ class ProactiveAssistanceSystem:
         # Check for idle
         if recent_actions:
             last_action = recent_actions[-1]
-            idle_time = (datetime.now() - last_action.timestamp).total_seconds()
+            idle_time = (datetime.now(timezone.utc) - last_action.timestamp).total_seconds()
             if idle_time > self.idle_threshold:
                 self.user_states[user_id] = UserState.IDLE
                 return
@@ -489,14 +489,14 @@ class ProactiveAssistanceSystem:
             return 0.0
 
         last_action = self.action_history[user_id][-1]
-        return (datetime.now() - last_action.timestamp).total_seconds()
+        return (datetime.now(timezone.utc) - last_action.timestamp).total_seconds()
 
     def _check_assistance_cooldown(self, user_id: str) -> bool:
         """Check if enough time passed since last assistance"""
         if user_id not in self.last_assistance_time:
             return True
 
-        time_since_last = (datetime.now() - self.last_assistance_time[user_id]).total_seconds()
+        time_since_last = (datetime.now(timezone.utc) - self.last_assistance_time[user_id]).total_seconds()
         return time_since_last > self.assistance_cooldown
 
     def _generate_stuck_assistance(self, user_id: str) -> Optional[AssistanceOffer]:

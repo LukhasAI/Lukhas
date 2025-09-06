@@ -27,7 +27,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -72,7 +72,7 @@ class GlyphTimelineGenerator:
     def generate_mock_events(self, num_events: int = 100) -> list[GlyphEvent]:
         """Generate mock authentication events for testing"""
         events = []
-        base_time = datetime.utcnow() - timedelta(hours=24)
+        base_time = datetime.now(timezone.utc) - timedelta(hours=24)
 
         users = [
             "t1_user_001",

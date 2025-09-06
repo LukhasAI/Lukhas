@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EntityType(Enum):
@@ -298,7 +298,7 @@ class EntityExtractor:
 
             elif subtype == "relative_day":
                 day = match.group(0).lower()
-                now = datetime.utcnow()
+                now = datetime.now(timezone.utc)
                 if day == "yesterday":
                     return now - timedelta(days=1)
                 elif day == "today":
@@ -310,13 +310,13 @@ class EntityExtractor:
                 amount = int(match.group(1))
                 unit = match.group(2).lower()
                 delta_kwargs = {f"{unit}s": amount}
-                return datetime.utcnow() - timedelta(**delta_kwargs)
+                return datetime.now(timezone.utc) - timedelta(**delta_kwargs)
 
             elif subtype == "relative_future":
                 amount = int(match.group(1))
                 unit = match.group(2).lower()
                 delta_kwargs = {f"{unit}s": amount}
-                return datetime.utcnow() + timedelta(**delta_kwargs)
+                return datetime.now(timezone.utc) + timedelta(**delta_kwargs)
 
         except Exception as e:
             logger.warning(f"Failed to parse time value: {e}")

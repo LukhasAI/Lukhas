@@ -17,7 +17,7 @@ from typing import Optional
 import websockets
 from websockets.server import WebSocketServerProtocol
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -132,7 +132,7 @@ class ConsciousnessBroadcaster:
 
             # Check GDPR consent
             gdpr = data.get("gdpr_consent", {})
-            if gdpr.get("streaming_authorized") and datetime.fromisoformat(gdpr["expires"]) > datetime.utcnow():
+            if gdpr.get("streaming_authorized") and datetime.fromisoformat(gdpr["expires"]) > datetime.now(timezone.utc):
                 self.gdpr_consent["global"] = gdpr
         else:
             # Generate simulated state
@@ -170,12 +170,12 @@ class ConsciousnessBroadcaster:
             attention = random.uniform(0.7, 0.85)
 
         # Create privacy mask
-        mask_content = f"{new_state}_{datetime.utcnow().isoformat()}_{random.random()}"
+        mask_content = f"{new_state}_{datetime.now(timezone.utc).isoformat()}_{random.random()}"
         privacy_mask = f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest()[:16]}..."
 
         return ConsciousnessState(
             current_state=new_state,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             confidence=random.uniform(0.85, 0.98),
             previous_state=previous,
             transition_duration_ms=transition_ms,
@@ -224,7 +224,7 @@ class ConsciousnessBroadcaster:
                 self.gdpr_consent[client_id] = {
                     "authorized": data.get("authorized", False),
                     "include_biometrics": data.get("include_biometrics", False),
-                    "expires": (datetime.utcnow() + timedelta(hours=24)).isoformat(),
+                    "expires": (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat(),
                 }
 
                 # Send acknowledgment
@@ -255,7 +255,7 @@ class ConsciousnessBroadcaster:
                 self.current_state = await self.load_state()
 
                 # Check throttling
-                now = datetime.utcnow()
+                now = datetime.now(timezone.utc)
                 time_since_last = (now - self.last_broadcast).total_seconds() * 1000
 
                 if time_since_last >= self.throttle_ms and self.connected_clients:

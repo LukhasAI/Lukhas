@@ -562,7 +562,7 @@ class BaseServiceAdapter(ABC):
         }
 
         # Check for temporal anomalies (unusual timing)
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if current_hour < 6 or current_hour > 22:  # Late night/early morning
             duress_indicators["temporal_anomalies"].append("unusual_time_access")
             duress_indicators["risk_score"] += 0.3

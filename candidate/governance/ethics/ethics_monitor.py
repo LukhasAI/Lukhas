@@ -14,7 +14,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-ETHICS_LOG_PATH = Path("../../logs/ethics/ethics_drift_log_2025_04_28.json")
+ETHICS_LOG_PATH = Path("../../logs/ethics/ethics_drift_log_2025_04_28.json", timezone)
 
 
 def ethics_drift_detect(decision_data, ethical_threshold=0.85):
@@ -37,7 +37,7 @@ def ethics_drift_detect(decision_data, ethical_threshold=0.85):
         status = "drift_detected"
 
     return {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "drift_ratio": drift_ratio,
         "status": status,
         "ethical_threshold": ethical_threshold,

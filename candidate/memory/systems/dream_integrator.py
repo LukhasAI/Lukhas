@@ -26,7 +26,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -174,7 +174,7 @@ class DreamIntegrator:
                 return None
 
             # Generate dream ID
-            dream_id = f"dream_{uuid.uuid4().hex[:8]}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            dream_id = f"dream_{uuid.uuid4().hex[:8]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
             # Create dream session
             dream_session = DreamSession(
@@ -184,7 +184,7 @@ class DreamIntegrator:
                 fragments=[],
                 memory_fold_ids=set(memory_fold_ids),
                 emotional_signature=emotional_context or {},
-                started_at=datetime.now().isoformat(),
+                started_at=datetime.now(timezone.utc).isoformat(),
                 completed_at=None,
                 integration_score=0.0,
                 insights_generated=[],
@@ -230,7 +230,7 @@ class DreamIntegrator:
                 memory_sources=memory_sources or [],
                 emotional_intensity=emotional_intensity,
                 symbolic_weight=self._calculate_symbolic_weight(content),
-                timestamp=datetime.now().isoformat(),
+                timestamp=datetime.now(timezone.utc).isoformat(),
                 integration_status="pending",
             )
 
@@ -269,7 +269,7 @@ class DreamIntegrator:
             dream_session.integration_score = integration_score
 
             # Mark as completed
-            dream_session.completed_at = datetime.now().isoformat()
+            dream_session.completed_at = datetime.now(timezone.utc).isoformat()
             dream_session.state = DreamState.ARCHIVED
 
             # Archive the dream
@@ -339,7 +339,7 @@ class DreamIntegrator:
                 "integration_timeout": self.integration_timeout,
                 "max_active_dreams": self.max_active_dreams,
             },
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # Private methods
@@ -428,7 +428,7 @@ class DreamIntegrator:
                     "type": "emotional_processing",
                     "insight": "High emotional intensity detected - significant emotional processing occurred",
                     "confidence": analysis["emotional_intensity_avg"],
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -439,7 +439,7 @@ class DreamIntegrator:
                     "type": "symbolic_integration",
                     "insight": "Strong symbolic content - deeper meaning integration in progress",
                     "confidence": analysis["symbolic_weight_avg"],
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -450,7 +450,7 @@ class DreamIntegrator:
                     "type": "memory_consolidation",
                     "insight": "Effective memory consolidation - multiple memory sources integrated",
                     "confidence": analysis["memory_integration_strength"],
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -461,7 +461,7 @@ class DreamIntegrator:
                     "type": "pattern_recognition",
                     "insight": f"Complex thematic patterns identified: {', '.join(analysis['content_themes'][:3])}",
                     "confidence": min(1.0, len(analysis["content_themes"]) / 10.0),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 

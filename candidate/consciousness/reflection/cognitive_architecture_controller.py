@@ -74,7 +74,7 @@ import numpy as np
 # from prometheus_client import Counter, Histogram, Gauge
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.consciousness.cognitive_architecture_controller")
+logger = logging.getLogger("ΛTRACE.consciousness.cognitive_architecture_controller", timezone)
 
 # Module constants
 MODULE_VERSION = "2.0.0"
@@ -432,7 +432,7 @@ class WorkingMemory(MemorySystem):
             if key in self.items:
                 item = self.items[key]
                 item.access_count += 1
-                item.timestamp = datetime.utcnow()
+                item.timestamp = datetime.now(timezone.utc)
 
                 # Update access order
                 if key in self.access_order:
@@ -458,7 +458,7 @@ class WorkingMemory(MemorySystem):
         """Apply decay and remove items below threshold."""
         with self.lock:
             forgetting_threshold = self.config.get_float("memory", "forgetting_threshold", 0.1)
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
             keys_to_forget = []
 
             for key, item in self.items.items():
@@ -542,7 +542,7 @@ class EpisodicMemory(MemorySystem):
     def consolidate(self):
         """Consolidate episodic memories based on importance and recency."""
         with self.lock:
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
             forgetting_threshold = self.config.get_float("memory", "forgetting_threshold", 0.1)
             keys_to_forget = []
 
@@ -704,7 +704,7 @@ class ProceduralMemory(MemorySystem):
             self.procedures[key] = {
                 "content": content,
                 "skill_type": skill_type,
-                "created_at": datetime.utcnow(),
+                "created_at": datetime.now(timezone.utc),
                 "execution_count": 0,
                 "success_count": 0,
                 "metadata": kwargs,
@@ -754,7 +754,7 @@ class ProceduralMemory(MemorySystem):
         """Consolidate procedural memory based on skill decay."""
         with self.lock:
             # Skills decay without practice
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
             keys_to_forget = []
 
             for key, procedure in self.procedures.items():
@@ -967,7 +967,7 @@ class CognitiveProcessScheduler:
         """Execute a cognitive process."""
         try:
             process.state = ProcessState.RUNNING
-            process.started_at = datetime.utcnow()
+            process.started_at = datetime.now(timezone.utc)
 
             # Update attention allocation metric
             ATTENTION_ALLOCATION.labels(process_id=process.process_id).set(
@@ -990,7 +990,7 @@ class CognitiveProcessScheduler:
             process.state = ProcessState.FAILED
 
         finally:
-            process.completed_at = datetime.utcnow()
+            process.completed_at = datetime.now(timezone.utc)
 
             # Release resources
             self.resource_manager.release(process.allocated_resources)
@@ -1014,7 +1014,7 @@ class CognitiveProcessScheduler:
     def _check_completed_processes(self):
         """Check for any stuck or long-running processes."""
         with self.lock:
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
             timeout = self.config.get_int("processes", "default_process_timeout", 300)
 
             for process_id, process in list(self.running_processes.items()):
@@ -1160,7 +1160,7 @@ class CognitiveProcessScheduler:
         # Simulate feature extraction
         features = {
             "modality": modality,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "raw_features": [],
         }
 
@@ -1237,7 +1237,7 @@ class CognitiveProcessScheduler:
         # Simulate action execution
         result = {
             "action": action,
-            "executed_at": datetime.utcnow().isoformat(),
+            "executed_at": datetime.now(timezone.utc).isoformat(),
             "status": "completed",
         }
 
@@ -1261,7 +1261,7 @@ class CognitiveProcessScheduler:
 
         insights = {
             "target": reflection_target,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "observations": [],
         }
 
@@ -1271,7 +1271,7 @@ class CognitiveProcessScheduler:
                 recent_processes = [
                     p
                     for p in self.completed_processes
-                    if p.completed_at and (datetime.utcnow() - p.completed_at).total_seconds() < time_window
+                    if p.completed_at and (datetime.now(timezone.utc) - p.completed_at).total_seconds() < time_window
                 ]
 
             if recent_processes:
@@ -1492,7 +1492,7 @@ class CognitiveMonitor:
         """Check for unhealthy processes."""
         long_running_threshold = self.config.get_int("monitoring", "long_running_threshold_seconds", 120)
 
-        current_time = datetime.utcnow()
+        current_time = datetime.now(timezone.utc)
 
         with self.scheduler.lock:
             for process_id, process in self.scheduler.running_processes.items():

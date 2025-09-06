@@ -11,7 +11,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 
-class ValidationSeverity(Enum):
+class ValidationSeverity(Enum, timezone):
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -432,8 +432,8 @@ class RealTimeBrandValidator:
         Perform real-time validation of content with optional auto-correction
         """
 
-        start_time = datetime.now()
-        validation_id = f"val_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
+        start_time = datetime.now(timezone.utc)
+        validation_id = f"val_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S_%f')}"
 
         all_issues = []
         all_suggestions = []
@@ -479,7 +479,7 @@ class RealTimeBrandValidator:
                             auto_corrections.update(corrections)
 
         # Calculate performance impact
-        end_time = datetime.now()
+        end_time = datetime.now(timezone.utc)
         performance_impact = (end_time - start_time).total_seconds() * 1000  # milliseconds
 
         # Calculate confidence based on rule coverage and certainty
@@ -672,7 +672,7 @@ class RealTimeBrandValidator:
 
         self.validation_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "validation_id": result.validation_id,
                 "content_id": result.content_id,
                 "content_type": content_type,
@@ -759,13 +759,13 @@ class RealTimeBrandValidator:
 
         # Parse time period
         if time_period == "1h":
-            cutoff_time = datetime.now() - timedelta(hours=1)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=1)
         elif time_period == "24h":
-            cutoff_time = datetime.now() - timedelta(hours=24)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
         elif time_period == "7d":
-            cutoff_time = datetime.now() - timedelta(days=7)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(days=7)
         else:
-            cutoff_time = datetime.now() - timedelta(hours=24)  # Default to 24h
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)  # Default to 24h
 
         # Filter recent validation history
         recent_validations = [
@@ -828,7 +828,7 @@ class RealTimeBrandValidator:
                 issue_types["terminology"] = issue_types.get("terminology", 0) + 1
 
         return {
-            "report_timestamp": datetime.now().isoformat(),
+            "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "system_status": {
                 "active_monitoring": self.active_monitoring,
                 "performance_metrics": metrics["performance_metrics"],

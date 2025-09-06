@@ -13,7 +13,7 @@ from typing import Any, Optional
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel
 
-# Third-party / local AGI imports (graceful fallback)
+# Third-party / local AGI imports (graceful fallback, timezone)
 try:
     from agi_core.learning.dream_guided_learner import (
         DreamGuidedLearner,
@@ -152,7 +152,7 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
     Provides advanced reasoning capabilities while maintaining compatibility
     with existing consciousness API expectations.
     """
-    start_time = datetime.now()
+    start_time = datetime.now(timezone.utc)
 
     try:
         # Safety check first
@@ -215,7 +215,7 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
         response_data["dream_insights"] = dream_insights if dream_insights else None
 
         # Calculate processing time
-        processing_time = (datetime.now() - start_time).total_seconds() * 1000
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
         response_data["processing_time_ms"] = int(processing_time)
 
         # Add constellation alignment if available
@@ -245,7 +245,7 @@ async def enhanced_dream_session(request: DreamSessionRequest):
         if not AGI_AVAILABLE or not agi_dream_bridge:
             await asyncio.sleep(0.02)  # Match original latency
             return DreamSessionResponse(
-                dream_id=f"dream-{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                dream_id=f"dream-{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 status="generating",
                 phase=request.phase,
                 patterns_discovered=0,
@@ -299,7 +299,7 @@ async def enhanced_memory_query(
 ):
     """Enhanced memory query with AGI vector memory and semantic search."""
 
-    start_time = datetime.now()
+    start_time = datetime.now(timezone.utc)
 
     try:
         # Fallback for non-AGI systems
@@ -312,7 +312,7 @@ async def enhanced_memory_query(
                         "content": "Sample memory content",
                         "type": "semantic",
                         "importance": "high",
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 ],
                 total_count=1024,
@@ -362,7 +362,7 @@ async def enhanced_memory_query(
             ]
 
         # Calculate processing time
-        processing_time = (datetime.now() - start_time).total_seconds() * 1000
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         return MemoryQueryResponse(
             memories=memories_data,
@@ -372,7 +372,7 @@ async def enhanced_memory_query(
                 "total_memories": total_count,
                 "avg_strength": 0.85,
                 "consolidation_jobs": 0,
-                "last_consolidation": datetime.now().isoformat(),
+                "last_consolidation": datetime.now(timezone.utc).isoformat(),
             },
         )
 
@@ -389,7 +389,7 @@ async def initiate_learning_session(request: LearningSessionRequest):
         # Fallback for non-AGI systems
         if not AGI_AVAILABLE or not agi_learner:
             return LearningSessionResponse(
-                session_id=f"learn-{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                session_id=f"learn-{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 status="not_available",
                 mode=request.mode,
                 objectives_count=len(request.objectives),
@@ -448,7 +448,7 @@ async def consciousness_health():
         "status": "healthy",
         "agi_available": AGI_AVAILABLE,
         "symbolic_available": SYMBOLIC_AVAILABLE,
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "components": {},
     }
 
@@ -513,7 +513,7 @@ async def trigger_memory_consolidation(background_tasks: BackgroundTasks):
 
     background_tasks.add_task(_run_memory_consolidation)
 
-    return {"status": "consolidation_scheduled", "timestamp": datetime.now().isoformat()}
+    return {"status": "consolidation_scheduled", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 async def _run_memory_consolidation():

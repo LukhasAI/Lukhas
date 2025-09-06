@@ -16,7 +16,7 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class PrivacyManager:
@@ -251,7 +251,7 @@ class PrivacyManager:
         retention_days = self.data_retention_policies.get(data_type, 30)
 
         # Calculate cutoff date
-        cutoff_date = datetime.now() - timedelta(days=retention_days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=retention_days)
         cutoff_timestamp = cutoff_date.timestamp()
 
         # Filter data based on timestamp
@@ -305,7 +305,7 @@ class PrivacyManager:
         # Simplified implementation
         report = {
             "user_id": user_id,
-            "report_generated": datetime.now().isoformat(),
+            "report_generated": datetime.now(timezone.utc).isoformat(),
             "data_categories": [
                 {
                     "category": "user_profile",
@@ -339,7 +339,7 @@ class PrivacyManager:
 
         # Add timestamp if not present
         if "timestamp" not in event:
-            event["timestamp"] = datetime.now().isoformat()
+            event["timestamp"] = datetime.now(timezone.utc).isoformat()
 
         # Add event to log
         self.privacy_log.append(event)

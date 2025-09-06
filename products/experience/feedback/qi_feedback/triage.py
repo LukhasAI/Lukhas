@@ -15,7 +15,7 @@ from qi.feedback.store import get_store
 class FeedbackTriage:
     """Deduplication and clustering for feedback cards."""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.store = get_store()
         self.dedup_window_minutes = 5  # Dedup window
         self.min_cluster_size = 3  # Minimum samples for clustering
@@ -39,7 +39,7 @@ class FeedbackTriage:
             try:
                 ts = datetime.fromisoformat(ts_str.replace("Z", ""))
             except:
-                ts = datetime.utcnow()
+                ts = datetime.now(timezone.utc)
 
             if key in seen:
                 last_ts = seen[key]

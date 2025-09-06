@@ -13,7 +13,7 @@ from typing import Any, Callable, Optional
 
 from lukhas.core.events.contracts import SystemStressLevelChanged
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class HormoneType(Enum):
@@ -45,7 +45,7 @@ class HormoneLevel:
         # Natural decay towards baseline
         decay = (self.level - self.baseline) * self.decay_rate * delta_time
         self.level = max(0.0, min(1.0, self.level - decay))
-        self.last_update = datetime.now()
+        self.last_update = datetime.now(timezone.utc)
         return self.level
 
 
@@ -181,11 +181,11 @@ class EndocrineSystem:
 
     async def _update_loop(self):
         """Main update loop for hormone levels"""
-        last_update = datetime.now()
+        last_update = datetime.now(timezone.utc)
 
         while self.active:
             try:
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 delta_time = (current_time - last_update).total_seconds()
 
                 # Update all hormone levels
@@ -235,7 +235,7 @@ class EndocrineSystem:
             {
                 "type": "stress_response",
                 "intensity": intensity,
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "hormones_affected": ["cortisol", "adrenaline"],
             }
         )
@@ -255,7 +255,7 @@ class EndocrineSystem:
             {
                 "type": "reward_response",
                 "intensity": intensity,
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "hormones_affected": ["dopamine", "endorphin", "serotonin"],
             }
         )
@@ -275,7 +275,7 @@ class EndocrineSystem:
             {
                 "type": "social_bonding",
                 "intensity": intensity,
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "hormones_affected": ["oxytocin", "serotonin", "cortisol"],
             }
         )
@@ -296,7 +296,7 @@ class EndocrineSystem:
             {
                 "type": "rest_cycle",
                 "intensity": intensity,
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "hormones_affected": [
                     "melatonin",
                     "gaba",
@@ -439,7 +439,7 @@ class EndocrineSystem:
         profile = {
             "levels": self.get_hormone_levels(),
             "effects": self.get_active_effects(),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "dominant_state": self._determine_dominant_state(),
         }
 

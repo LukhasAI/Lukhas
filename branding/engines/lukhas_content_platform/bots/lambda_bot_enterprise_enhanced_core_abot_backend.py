@@ -32,8 +32,7 @@ from sqlalchemy import (
     String,
     Table,
     Text,
-    create_engine,
-)
+    create_engine,, timezone)
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 
@@ -301,7 +300,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Security(
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     """Create JWT access token"""
     to_encode = data.copy()
-    expire = datetime.utcnow() + expires_delta if expires_delta else datetime.utcnow() + timedelta(days=7)
+    expire = datetime.now(timezone.utc) + expires_delta if expires_delta else datetime.now(timezone.utc) + timedelta(days=7)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm="HS256")
     return encoded_jwt
@@ -938,7 +937,7 @@ async def send_chat_message(message: ChatMessage, current_user=Depends(get_curre
         role="assistant",
         content=response_content,
         metadata={"platform": message.platform},
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
     )
 
 
@@ -1007,7 +1006,7 @@ async def create_content(content_data: ContentCreate, current_user=Depends(get_c
         target_platforms=content_data.target_platforms,
         ai_generated=False,
         review_status="pending",
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
         scheduled_for=content_data.scheduled_for,
         media_urls=[],
         hashtags=content_data.hashtags,
@@ -1211,7 +1210,7 @@ async def health_check():
     """API health check"""
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow(),
+        "timestamp": datetime.now(timezone.utc),
         "version": "2.0.0",
         "services": {
             "database": "connected",

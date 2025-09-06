@@ -62,7 +62,7 @@ import logging
 import random
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -188,7 +188,7 @@ class LUKHASConsciousnessWordsmith:
             return content
 
         # Create the consciousness header with metadata
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         metadata = f"""
 {ascii_consciousness}
 
@@ -748,7 +748,7 @@ if __name__ == "__main__":
             return content
 
         # Create the consciousness header with metadata
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         metadata = f"""
 {ascii_consciousness}
 

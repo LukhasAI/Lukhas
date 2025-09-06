@@ -15,7 +15,7 @@ from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AttentionTokenType(Enum):
@@ -169,7 +169,7 @@ class QIAttentionEconomics:
                     if amount > 0:
                         token_type = AttentionTokenType[token_type_str.upper()]
                         token = AttentionToken(
-                            token_id=f"token_{user_id}_{datetime.now().timestamp()}_{token_type.value}",
+                            token_id=f"token_{user_id}_{datetime.now(timezone.utc).timestamp()}_{token_type.value}",
                             owner_id=user_id,
                             token_type=token_type,
                             value=amount * mint_params["quality_multiplier"],
@@ -177,7 +177,7 @@ class QIAttentionEconomics:
                                 "level": mint_params.get("consent_level", "limited"),
                                 "allowed_uses": self._get_allowed_uses(mint_params.get("consent_level", "limited")),
                             },
-                            expires_at=datetime.now() + timedelta(hours=4),  # Tokens expire after 4 hours
+                            expires_at=datetime.now(timezone.utc) + timedelta(hours=4),  # Tokens expire after 4 hours
                         )
 
                         self.tokens[token.token_id] = token
@@ -220,11 +220,11 @@ class QIAttentionEconomics:
 
         # Simple distribution
         token = AttentionToken(
-            token_id=f"token_{user_id}_{datetime.now().timestamp()}_mixed",
+            token_id=f"token_{user_id}_{datetime.now(timezone.utc).timestamp()}_mixed",
             owner_id=user_id,
             token_type=AttentionTokenType.AMBIENT,
             value=adjusted_capacity,
-            expires_at=datetime.now() + timedelta(hours=4),
+            expires_at=datetime.now(timezone.utc) + timedelta(hours=4),
         )
 
         self.tokens[token.token_id] = token
@@ -248,12 +248,12 @@ class QIAttentionEconomics:
 
         # Create quantum token
         qi_token = AttentionToken(
-            token_id=f"quantum_{user_id}_{datetime.now().timestamp()}",
+            token_id=f"quantum_{user_id}_{datetime.now(timezone.utc).timestamp()}",
             owner_id=user_id,
             token_type=AttentionTokenType.QUANTUM,
             value=sum(self.market_price[t] for t in attention_types),  # Sum of component values
             qi_state={t.value: w for t, w in zip(attention_types, weights)},
-            expires_at=datetime.now() + timedelta(hours=2),  # Quantum states are more fragile
+            expires_at=datetime.now(timezone.utc) + timedelta(hours=2),  # Quantum states are more fragile
         )
 
         self.tokens[qi_token.token_id] = qi_token
@@ -399,12 +399,12 @@ class QIAttentionEconomics:
 
             # Create transaction record
             transaction = {
-                "transaction_id": f"tx_{datetime.now().timestamp()}",
+                "transaction_id": f"tx_{datetime.now(timezone.utc).timestamp()}",
                 "bid_id": bid_id,
                 "user_id": bid.target_user_id,
                 "amount": bid.bid_amount,
                 "token_type": bid.bid_type.value,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "ethical_score": bid.ethical_score,
             }
 
@@ -428,7 +428,7 @@ class QIAttentionEconomics:
 
         # Factors that affect value
         factors = {
-            "time_of_day": self._time_of_day_multiplier(datetime.now()),
+            "time_of_day": self._time_of_day_multiplier(datetime.now(timezone.utc)),
             "cognitive_load": 1.0 - context.get("cognitive_load", 0.5),
             "emotional_state": self._emotional_value_multiplier(context.get("emotional_state", {})),
             "rarity": self._calculate_rarity_multiplier(user_id),
@@ -506,7 +506,7 @@ class QIAttentionEconomics:
         """Calculate rarity multiplier based on user's attention scarcity"""
         # Check how many tokens this user has minted recently
         user_tokens = [t for t in self.tokens.values() if t.owner_id == user_id]
-        active_tokens = [t for t in user_tokens if t.expires_at and t.expires_at > datetime.now()]
+        active_tokens = [t for t in user_tokens if t.expires_at and t.expires_at > datetime.now(timezone.utc)]
 
         # Fewer active tokens = higher rarity
         if len(active_tokens) == 0:
@@ -521,7 +521,7 @@ class QIAttentionEconomics:
     async def get_market_report(self) -> dict[str, Any]:
         """Generate comprehensive market report"""
         total_tokens = len(self.tokens)
-        active_tokens = len([t for t in self.tokens.values() if t.expires_at and t.expires_at > datetime.now()])
+        active_tokens = len([t for t in self.tokens.values() if t.expires_at and t.expires_at > datetime.now(timezone.utc)])
 
         report = {
             "market_overview": {
@@ -571,7 +571,7 @@ class QIAttentionEconomics:
         """Get user's attention token balance and details"""
         balance = self.user_balances.get(user_id, 0)
         user_tokens = [t for t in self.tokens.values() if t.owner_id == user_id]
-        active_tokens = [t for t in user_tokens if t.expires_at and t.expires_at > datetime.now()]
+        active_tokens = [t for t in user_tokens if t.expires_at and t.expires_at > datetime.now(timezone.utc)]
 
         return {
             "user_id": user_id,
@@ -583,7 +583,7 @@ class QIAttentionEconomics:
                     "type": t.token_type.value,
                     "value": t.value,
                     "qi_value": t.calculate_quantum_value(),
-                    "expires_in": ((t.expires_at - datetime.now()).total_seconds() if t.expires_at else None),
+                    "expires_in": ((t.expires_at - datetime.now(timezone.utc)).total_seconds() if t.expires_at else None),
                     "entangled": len(t.entangled_with) > 0,
                 }
                 for t in active_tokens

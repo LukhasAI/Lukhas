@@ -10,7 +10,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ImprovementDomain(Enum):
+class ImprovementDomain(Enum, timezone):
     """Domains for self-improvement"""
 
     REASONING = "reasoning"
@@ -178,7 +178,7 @@ class SelfImprovementEngine:
             await self.set_goal(
                 emergent["domain"],
                 0.7,  # Target proficiency
-                datetime.utcnow() + timedelta(days=30),
+                datetime.now(timezone.utc) + timedelta(days=30),
             )
 
             return capability_id
@@ -192,7 +192,7 @@ class SelfImprovementEngine:
             try:
                 # Assess current state
                 for goal in list(self.goals.values()):
-                    if goal.active and datetime.utcnow() < goal.deadline:
+                    if goal.active and datetime.now(timezone.utc) < goal.deadline:
                         # Execute improvement strategy
                         await self.improvement_strategies[goal.domain](goal)
 
@@ -332,13 +332,13 @@ class SelfImprovementEngine:
         steps = 5
         increment = (target - current) / steps
 
-        time_increment = (deadline - datetime.utcnow()) / steps
+        time_increment = (deadline - datetime.now(timezone.utc)) / steps
 
         for i in range(1, steps + 1):
             milestones.append(
                 {
                     "capability_target": current + (increment * i),
-                    "deadline": datetime.utcnow() + (time_increment * i),
+                    "deadline": datetime.now(timezone.utc) + (time_increment * i),
                     "achieved": False,
                 }
             )
@@ -352,7 +352,7 @@ class SelfImprovementEngine:
             "goal_id": goal.id,
             "domain": goal.domain.value,
             "improvement": goal.target_capability - goal.current_capability,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Reinforce successful strategies
@@ -363,7 +363,7 @@ class SelfImprovementEngine:
         error_pattern = {
             "type": type(error).__name__,
             "message": str(error),
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # Develop error prevention strategy

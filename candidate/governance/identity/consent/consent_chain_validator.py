@@ -37,7 +37,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ConsentType(Enum):
@@ -105,7 +105,7 @@ class ConsentNode:
         """Check if consent has expired"""
         if not self.expiry:
             return False
-        return datetime.utcnow() > self.expiry
+        return datetime.now(timezone.utc) > self.expiry
 
 
 @dataclass
@@ -416,7 +416,7 @@ class ConsentChainValidator:
             chain = ConsentChain(
                 chain_id=f"CHAIN_{secrets.token_hex(8)}",
                 user_id=user_id,
-                created_at=datetime.utcnow(),
+                created_at=datetime.now(timezone.utc),
             )
             self.consent_chains[user_id] = chain
         return self.consent_chains[user_id]
@@ -452,7 +452,7 @@ class ConsentChainValidator:
             return False
         try:
             expiry = datetime.fromisoformat(expiry_str)
-            return datetime.utcnow() > expiry
+            return datetime.now(timezone.utc) > expiry
         except BaseException:
             return False
 
@@ -474,7 +474,7 @@ class ConsentChainValidator:
         elif consent_type == ConsentType.BIOMETRIC_STORAGE:
             expiry_hours = 24 * 30  # 30 days for biometric consent
 
-        expiry = datetime.utcnow() + timedelta(hours=expiry_hours)
+        expiry = datetime.now(timezone.utc) + timedelta(hours=expiry_hours)
 
         # Create consent data
         consent_data = {
@@ -483,7 +483,7 @@ class ConsentChainValidator:
             "iris_match_score": iris_verification.get("match_score", 0.0),
             "consciousness_coherence": 0.85,  # Would be calculated
             "cultural_alignment": cultural_context.get("cultural_type", "unknown"),
-            "granted_at": datetime.utcnow().isoformat(),
+            "granted_at": datetime.now(timezone.utc).isoformat(),
         }
 
         # Generate ethical hash
@@ -495,7 +495,7 @@ class ConsentChainValidator:
             node_id=node_id,
             consent_type=consent_type,
             user_id=user_id,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             expiry=expiry,
             consent_data=consent_data,
             consciousness_state=consciousness_state,
@@ -670,7 +670,7 @@ class ConsentChainValidator:
     def _store_audit_record(self, decision: ConsentDecision):
         """Store audit record of consent validation"""
         audit_record = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "decision_id": decision.decision_id,
             "valid": decision.valid,
             "symbol": decision.consent_symbol.value,
@@ -694,7 +694,7 @@ class ConsentChainValidator:
         for node in chain.nodes:
             if node.consent_type in consent_types and not node.is_expired():
                 # Mark as expired
-                node.expiry = datetime.utcnow()
+                node.expiry = datetime.now(timezone.utc)
                 revoked_count += 1
 
         # Update chain

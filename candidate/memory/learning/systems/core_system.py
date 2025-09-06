@@ -17,8 +17,8 @@ from symbolic.memoria import log_memory
 
 
 # Entry point for symbolic loop
-def process_user_input(user_input):
-    timestamp = datetime.utcnow().isoformat() + "Z"
+def process_user_input(user_input, timezone):
+    timestamp = datetime.now(timezone.utc).isoformat() + "Z"
     print(f"\n🧠 [{timestamp}] User said: {user_input}")
 
     # Load current KYI tier

@@ -19,7 +19,7 @@ from datetime import datetime
 import numpy as np
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 logger = logging.getLogger(__name__)
 
 
@@ -59,7 +59,7 @@ class SimpleQIProcessor:
 
         # Log the decision
         decision_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "context": context,
             "decision": final_decision,
             "confidence": final_decision.get("confidence", 0.5),

@@ -16,7 +16,7 @@ from typing import Any
 import psutil
 
 # Configure structured logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -54,9 +54,9 @@ class EliteProductionDeployment:
     """
 
     def __init__(self):
-        self.deployment_id = hashlib.sha256(f"{datetime.now().isoformat()}".encode()).hexdigest()[:8]
+        self.deployment_id = hashlib.sha256(f"{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:8]
 
-        self.metrics = DeploymentMetrics(start_time=datetime.now())
+        self.metrics = DeploymentMetrics(start_time=datetime.now(timezone.utc))
         self.stage = DeploymentStage.CANARY
         self.rollback_threshold = {
             "error_rate": 0.05,  # 5% error rate
@@ -145,7 +145,7 @@ class EliteProductionDeployment:
                 "status": "success",
                 "deployment_id": self.deployment_id,
                 "metrics": self.get_metrics(),
-                "duration": (datetime.now() - self.metrics.start_time).total_seconds(),
+                "duration": (datetime.now(timezone.utc) - self.metrics.start_time).total_seconds(),
             }
 
         except Exception as e:
@@ -223,9 +223,9 @@ class EliteProductionDeployment:
         """
         logger.info(f"📊 Monitoring deployment for {duration}s")
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
-        while (datetime.now() - start_time).total_seconds() < duration:
+        while (datetime.now(timezone.utc) - start_time).total_seconds() < duration:
             # Collect metrics
             self.metrics.cpu_usage = psutil.cpu_percent()
             self.metrics.memory_usage = psutil.virtual_memory().percent
@@ -312,7 +312,7 @@ class EliteProductionDeployment:
         incident = {
             "id": hashlib.sha256(str(error).encode()).hexdigest()[:8],
             "deployment_id": self.deployment_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "error": str(error),
             "severity": "HIGH",
             "metrics": self.get_metrics(),
@@ -375,7 +375,7 @@ class EliteProductionDeployment:
             "cpu_usage": f"{self.metrics.cpu_usage:.1f}%",
             "memory_usage": f"{self.metrics.memory_usage:.1f}%",
             "replicas": self.deployment_config["replicas"]["current"],
-            "uptime": str(datetime.now() - self.metrics.start_time),
+            "uptime": str(datetime.now(timezone.utc) - self.metrics.start_time),
         }
 
     # Stub methods for elite features

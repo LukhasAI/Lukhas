@@ -17,7 +17,7 @@ from candidate.core.common import get_logger
 
 # Initialize ΛTRACE logger for this controller
 # Note: The class will create a child logger for its instance.
-logger = logging.getLogger("ΛTRACE.lukhas_id.api.controllers.lambd_id_controller")
+logger = logging.getLogger("ΛTRACE.lukhas_id.api.controllers.lambd_id_controller", timezone)
 logger.info("ΛTRACE: Initializing lambd_id_controller module.")
 
 # Attempt to import core LUKHAS services
@@ -278,7 +278,7 @@ class LambdaIDController:
                 "tier_info": tier_info_data,
                 "symbolic_representation": symbolic_repr,
                 "generation_metadata": {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "tier": user_tier,
                     # Default min_score to 0.0
                     "entropy_requirements_met": entropy_score_val >= ent_reqs.get("min_score", 0.0),
@@ -477,7 +477,7 @@ class LambdaIDController:
                     "method": calculation_method,
                     "tier": tier,
                     "symbolic_count": len(symbolic_input),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             }
             self.logger.info(
@@ -671,7 +671,7 @@ class LambdaIDController:
                 "old_tier": current_tier_val,
                 "new_tier": target_tier,
                 "upgrade_details": {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "entropy_score_new_id": new_id_generation_result.get("entropy_score"),
                     # Simplified
                     "new_tier_permissions_summary": self._resolve_access_tier(target_tier).get("description", "N/A"),
@@ -747,7 +747,7 @@ class LambdaIDController:
             final_status = {
                 "overall_status": "healthy" if overall_health_is_good else "degraded",
                 "service_details": service_health_statuses,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "controller_version": controller_version_info,
             }
             self.logger.info(
@@ -757,7 +757,7 @@ class LambdaIDController:
 
         except Exception as e:
             self.logger.error(f"ΛTRACE ({req_id}): General health check procedure failed: {e}", exc_info=True)
-            return {"overall_status": "unhealthy", "error_details": str(e), "timestamp": datetime.now().isoformat()}
+            return {"overall_status": "unhealthy", "error_details": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     # --- Private Helper Methods ---
     # Human-readable comment: Validates if a given tier is within the acceptable range.
@@ -837,7 +837,7 @@ class LambdaIDController:
         return {
             "collision_detected": False,
             "checked_against_source": "simulated_database_check",
-            "check_timestamp": datetime.now().isoformat(),
+            "check_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # Human-readable comment: Placeholder for Lambda ID pattern analysis.

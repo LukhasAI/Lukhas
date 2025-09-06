@@ -18,7 +18,7 @@ from typing import Any
 
 
 class IsolatedFilesAssessor:
-    def __init__(self):
+    def __init__(self, timezone):
         self.valuable_keywords = [
             "prototype",
             "experiment",
@@ -76,7 +76,7 @@ class IsolatedFilesAssessor:
         print(f"🔍 Assessing {len(isolated_files)} isolated files...")
 
         assessment = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "total_isolated": len(isolated_files),
             "valuable_prototypes": [],
             "archive_candidates": [],

@@ -14,7 +14,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EmergencyType(Enum):
@@ -290,7 +290,7 @@ class EmergencyResponseSystem:
             incident_id=str(uuid.uuid4()),
             emergency_type=emergency_type,
             severity=EmergencySeverity.HIGH,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             location=location or self.last_known_location,
             location_address=await self._get_address_from_location(location),
             description=description,
@@ -363,7 +363,7 @@ class EmergencyResponseSystem:
         """
         logger.critical(f"DISPATCHING EMERGENCY: {incident.incident_id}")
 
-        incident.actions_taken.append(f"Emergency dispatch initiated at {datetime.now()}")
+        incident.actions_taken.append(f"Emergency dispatch initiated at {datetime.now(timezone.utc)}")
 
         # Call 112
         if self.auto_dispatch:
@@ -423,7 +423,7 @@ class EmergencyResponseSystem:
         }
 
         # Log the call
-        incident.actions_taken.append(f"Emergency services called at {datetime.now()}: {self.emergency_number}")
+        incident.actions_taken.append(f"Emergency services called at {datetime.now(timezone.utc)}: {self.emergency_number}")
         incident.contacts_notified.append(self.emergency_number)
 
         # In production, this would make actual call
@@ -565,7 +565,7 @@ class EmergencyResponseSystem:
         if incident_id in self.active_incidents:
             incident = self.active_incidents[incident_id]
             incident.status = "cancelled"
-            incident.actions_taken.append(f"Emergency cancelled at {datetime.now()}")
+            incident.actions_taken.append(f"Emergency cancelled at {datetime.now(timezone.utc)}")
 
             # Notify contacts of cancellation
             for contact in self.emergency_contacts:

@@ -11,7 +11,7 @@ from pathlib import Path
 
 from lukhas.memory.emotional import EmotionalMemory
 
-REPLAY_QUEUE_PATH = Path("core/logs/replay_queue.jsonl")
+REPLAY_QUEUE_PATH = Path("core/logs/replay_queue.jsonl", timezone)
 
 
 class DreamEmotionBridge:
@@ -65,7 +65,7 @@ class DreamEmotionBridge:
                         "score": 0,
                         "emoji": "🧠",
                         "notes": f"Dream replay triggered by emotion: {emotion}",
-                        "timestamp": datetime.utcnow().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "source_widget": "DreamEmotionBridge",
                         "tier": 1,
                         "emotion_vector": {

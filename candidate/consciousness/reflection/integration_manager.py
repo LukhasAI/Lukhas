@@ -31,7 +31,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("LukhasAGIIntegration")
 
 
@@ -268,7 +268,7 @@ class LukhasAGIIntegrationManager:
         if not self.integration_active:
             await self.initialize_complete_integration()
 
-        processing_start = datetime.now()
+        processing_start = datetime.now(timezone.utc)
         request_id = f"unified_{int(processing_start.timestamp())}"
 
         logger.info(f" Processing unified AGI request: {request_id}")
@@ -363,13 +363,13 @@ class LukhasAGIIntegrationManager:
             "causal_reasoning": causal_result,
             "theory_of_mind": theory_of_mind_result,
             "consciousness_level": github_agi.meta_state.consciousness_level.value,
-            "processing_timestamp": datetime.now().isoformat(),
+            "processing_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _compile_unified_result(self, **kwargs) -> dict[str, Any]:
         """Compile unified result from all component"""
 
-        processing_time = (datetime.now() - kwargs["processing_start"]).total_seconds()
+        processing_time = (datetime.now(timezone.utc) - kwargs["processing_start"]).total_seconds()
 
         return {
             "request_id": kwargs["request_id"],
@@ -398,7 +398,7 @@ class LukhasAGIIntegrationManager:
             },
             "performance": {
                 "processing_time": processing_time,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "metrics": self.performance_metrics,
             },
             "metadata": {
@@ -573,7 +573,7 @@ class LukhasAGIIntegrationManager:
             try:
                 # Generate health report
                 health_report = {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "integration_status": self.integration_status,
                     "performance_metrics": self.performance_metrics,
                     "system_coherence": await self._calculate_system_coherence(),
@@ -631,7 +631,7 @@ class LukhasAGIIntegrationManager:
                 list(self.communication_channels.keys()) if hasattr(self, "communication_channels") else []
             ),
             "background_tasks_running": len(getattr(self, "background_tasks", [])),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def stop_integration(self):

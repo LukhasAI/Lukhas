@@ -50,7 +50,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ΛBot_Quantum_Security")
 
 # Import brain system components for bio-symbolic threat detection
@@ -137,7 +137,7 @@ class PostQuantumCryptographyEngine:
             "private_key": key_pair["private"],
             "qi_resistant": True,
             "nist_approved": algorithm in ["kyber", "dilithium", "falcon", "sphincs"],
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     async def qi_encrypt(self, data: bytes, public_key: str, algorithm: str = "kyber") -> dict[str, Any]:
@@ -151,7 +151,7 @@ class PostQuantumCryptographyEngine:
             "algorithm": algorithm,
             "qi_resistant": True,
             "entropy_source": "qi_enhanced",
-            "encryption_timestamp": datetime.utcnow().isoformat(),
+            "encryption_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def qi_decrypt(self, encrypted_data: bytes, private_key: str, algorithm: str = "kyber") -> bytes:
@@ -230,7 +230,7 @@ class BioSymbolicThreatDetector:
                 qi_signature=threat_data.get("qi_patterns", {}),
                 bio_patterns=threat_data.get("bio_patterns", {}),
                 confidence=threat_data.get("confidence", 0.5),
-                detected_at=datetime.utcnow().isoformat(),
+                detected_at=datetime.now(timezone.utc).isoformat(),
             )
             threats.append(threat)
 
@@ -328,7 +328,7 @@ class QIVulnerabilityAnalyzer:
                     },
                     bio_patterns={},
                     confidence=0.95,
-                    detected_at=datetime.utcnow().isoformat(),
+                    detected_at=datetime.now(timezone.utc).isoformat(),
                     mitigation_strategy="migrate_to_post_quantum_crypto",
                 )
             )
@@ -347,7 +347,7 @@ class QIVulnerabilityAnalyzer:
                     },
                     bio_patterns={},
                     confidence=0.90,
-                    detected_at=datetime.utcnow().isoformat(),
+                    detected_at=datetime.now(timezone.utc).isoformat(),
                     mitigation_strategy="double_key_length",
                 )
             )

@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -143,7 +143,7 @@ class SASHealthcareConnector:
             # For now, simulate connection
             self.current_nuhsa = nuhsa
             self.connected = True
-            self.last_sync = datetime.now()
+            self.last_sync = datetime.now(timezone.utc)
 
             # Load cached data if available
             await self._load_cached_data(nuhsa)
@@ -182,7 +182,7 @@ class SASHealthcareConnector:
                 patient_nuhsa=nuhsa,
                 doctor_name="Dr. García Martínez",
                 specialty="Cardiología",
-                date=datetime.now() + timedelta(days=7),
+                date=datetime.now(timezone.utc) + timedelta(days=7),
                 time="10:30",
                 location="Consulta 5, Planta 2",
                 centro_salud="Centro de Salud Alameda",
@@ -194,7 +194,7 @@ class SASHealthcareConnector:
                 patient_nuhsa=nuhsa,
                 doctor_name="Dra. López Ruiz",
                 specialty="Medicina Familiar",
-                date=datetime.now() + timedelta(days=30),
+                date=datetime.now(timezone.utc) + timedelta(days=30),
                 time="09:00",
                 location="Consulta 2",
                 centro_salud="Centro de Salud Alameda",
@@ -212,8 +212,8 @@ class SASHealthcareConnector:
                 frequency="1 vez al día",
                 duration="Crónico",
                 prescriber="Dr. García Martínez",
-                date_prescribed=datetime.now() - timedelta(days=30),
-                date_expires=datetime.now() + timedelta(days=60),
+                date_prescribed=datetime.now(timezone.utc) - timedelta(days=30),
+                date_expires=datetime.now(timezone.utc) + timedelta(days=60),
                 dispensed=True,
                 refills_remaining=3,
             ),
@@ -224,8 +224,8 @@ class SASHealthcareConnector:
                 frequency="2 veces al día",
                 duration="Crónico",
                 prescriber="Dr. García Martínez",
-                date_prescribed=datetime.now() - timedelta(days=30),
-                date_expires=datetime.now() + timedelta(days=60),
+                date_prescribed=datetime.now(timezone.utc) - timedelta(days=30),
+                date_expires=datetime.now(timezone.utc) + timedelta(days=60),
                 dispensed=True,
                 refills_remaining=3,
             ),
@@ -263,7 +263,7 @@ class SASHealthcareConnector:
         appointments = self.appointment_cache.get(self.current_nuhsa, [])
 
         # Find next future appointment
-        future_appointments = [apt for apt in appointments if apt.date > datetime.now() and apt.status != "cancelled"]
+        future_appointments = [apt for apt in appointments if apt.date > datetime.now(timezone.utc) and apt.status != "cancelled"]
 
         if not future_appointments:
             return None
@@ -312,11 +312,11 @@ class SASHealthcareConnector:
 
             # Calculate next available date
             if urgency == "urgente":
-                apt_date = datetime.now() + timedelta(days=1)
+                apt_date = datetime.now(timezone.utc) + timedelta(days=1)
             elif urgency == "preferente":
-                apt_date = datetime.now() + timedelta(days=7)
+                apt_date = datetime.now(timezone.utc) + timedelta(days=7)
             else:
-                apt_date = datetime.now() + timedelta(days=14)
+                apt_date = datetime.now(timezone.utc) + timedelta(days=14)
 
             # Determine time based on preference
             if preferred_time == "mañana":
@@ -328,7 +328,7 @@ class SASHealthcareConnector:
 
             # Create new appointment
             new_appointment = SASAppointment(
-                appointment_id=f"CIT-{datetime.now().strftime('%Y%m%d%H%M')}",
+                appointment_id=f"CIT-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M')}",
                 patient_nuhsa=self.current_nuhsa,
                 doctor_name="Por asignar",
                 specialty=specialty,
@@ -383,7 +383,7 @@ class SASHealthcareConnector:
         prescriptions = self.prescription_cache.get(self.current_nuhsa, [])
 
         # Filter active prescriptions
-        active = [presc for presc in prescriptions if presc.date_expires > datetime.now()]
+        active = [presc for presc in prescriptions if presc.date_expires > datetime.now(timezone.utc)]
 
         return active
 
@@ -405,7 +405,7 @@ class SASHealthcareConnector:
         for presc in prescriptions:
             if presc.prescription_id == prescription_id:
                 # Extend expiration date
-                presc.date_expires = datetime.now() + timedelta(days=90)
+                presc.date_expires = datetime.now(timezone.utc) + timedelta(days=90)
                 presc.refills_remaining += 3
                 logger.info(f"Prescription renewed: {prescription_id}")
                 return True

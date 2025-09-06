@@ -53,7 +53,7 @@ from .workflow_monitor import WorkflowMonitor
 from .workflow_transparency import WorkflowTransparency
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.bridge.workflow.orchestrator")
+logger = logging.getLogger("ΛTRACE.bridge.workflow.orchestrator", timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -224,7 +224,7 @@ class WorkflowOrchestrator:
 
             # Start workflow execution
             workflow.status = WorkflowStatus.RUNNING
-            workflow.started_at = datetime.utcnow()
+            workflow.started_at = datetime.now(timezone.utc)
 
             # Start transparency tracking
             await self.transparency.start_workflow_tracking(workflow_id)
@@ -235,7 +235,7 @@ class WorkflowOrchestrator:
             await self._execute_workflow_tasks(workflow)
 
             # Complete workflow
-            workflow.completed_at = datetime.utcnow()
+            workflow.completed_at = datetime.now(timezone.utc)
             workflow.execution_time_ms = (workflow.completed_at - workflow.started_at).total_seconds() * 1000
 
             # Check if workflow succeeded
@@ -268,7 +268,7 @@ class WorkflowOrchestrator:
         except Exception as e:
             workflow.status = WorkflowStatus.FAILED
             workflow.errors.append(str(e))
-            workflow.completed_at = datetime.utcnow()
+            workflow.completed_at = datetime.now(timezone.utc)
 
             await self.transparency.complete_workflow_tracking(workflow_id, WorkflowStatus.FAILED)
 
@@ -298,7 +298,7 @@ class WorkflowOrchestrator:
                         running_tasks[task.id] = running_task
 
                         task.status = TaskStatus.RUNNING
-                        task.started_at = datetime.utcnow()
+                        task.started_at = datetime.now(timezone.utc)
 
                         # Update transparency
                         await self.transparency.update_task_status(workflow.id, task.id, TaskStatus.RUNNING)
@@ -343,7 +343,7 @@ class WorkflowOrchestrator:
                                     )
                                     completed_tasks.add(task_id)  # Skip non-critical failures
 
-                            task.completed_at = datetime.utcnow()
+                            task.completed_at = datetime.now(timezone.utc)
                             task.execution_time_ms = (task.completed_at - task.started_at).total_seconds() * 1000
 
                             # Update transparency
@@ -594,7 +594,7 @@ class WorkflowOrchestrator:
 
         workflow = self.active_workflows[workflow_id]
         workflow.status = WorkflowStatus.CANCELLED
-        workflow.completed_at = datetime.utcnow()
+        workflow.completed_at = datetime.now(timezone.utc)
 
         # Move to history
         self.workflow_history[workflow_id] = workflow

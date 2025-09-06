@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("LUKHAS.Governance.Intelligence.Safety")
+logger = logging.getLogger("LUKHAS.Governance.Intelligence.Safety", timezone)
 
 
 class SafetyLevel(Enum):
@@ -68,7 +68,7 @@ class SafetyValidationRequest:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -96,7 +96,7 @@ class SafetyValidationResponse:
         if self.guardian_signals is None:
             self.guardian_signals = []
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class LukhasIntelligenceSafetyValidator:
@@ -144,7 +144,7 @@ class LukhasIntelligenceSafetyValidator:
         if not self._initialized:
             await self.initialize()
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         logger.info(f"🔍 Validating {request.operation_type} operation from {request.agent_id}")
 
         try:
@@ -170,7 +170,7 @@ class LukhasIntelligenceSafetyValidator:
             )
 
             # Calculate processing time
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Create response
             response = SafetyValidationResponse(
@@ -209,7 +209,7 @@ class LukhasIntelligenceSafetyValidator:
                 confidence=0.0,
                 safety_score=0.0,
                 conditions=["Validation error occurred"],
-                processing_time=(datetime.now() - start_time).total_seconds(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
 
     async def _perform_basic_safety_checks(self, request: SafetyValidationRequest) -> dict[str, Any]:
@@ -225,7 +225,7 @@ class LukhasIntelligenceSafetyValidator:
 
         # Check agent operation rate limits
         agent_id = request.agent_id
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         if agent_id in self.agent_operation_counts:
             recent_ops = [
@@ -473,7 +473,7 @@ class LukhasIntelligenceSafetyValidator:
     async def _update_agent_tracking(self, request: SafetyValidationRequest, response: SafetyValidationResponse):
         """Update agent operation tracking"""
         agent_id = request.agent_id
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Track operation count
         if agent_id not in self.agent_operation_counts:
@@ -517,7 +517,7 @@ class LukhasIntelligenceSafetyValidator:
 
     async def _monitor_agent_patterns(self):
         """Monitor agent behavior patterns for anomalies"""
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         for agent_id, operation_times in self.agent_operation_counts.items():
             # Check for unusual activity patterns
@@ -549,7 +549,7 @@ class LukhasIntelligenceSafetyValidator:
 
     async def _cleanup_old_data(self):
         """Clean up old monitoring data"""
-        cutoff_time = datetime.now() - timedelta(days=1)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(days=1)
 
         # Clean up validation history older than 24 hours
         self.validation_history = [v for v in self.validation_history if v.timestamp > cutoff_time]

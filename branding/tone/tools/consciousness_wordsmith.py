@@ -69,7 +69,7 @@ from typing import Any, Optional
 import yaml
 
 # Configure the consciousness logger
-logging.basicConfig(level=logging.INFO, format="🧠 %(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="🧠 %(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ConsciousnessWordsmith")
 
 
@@ -188,7 +188,7 @@ class LUKHASConsciousnessWordsmith:
             return content
 
         # Create the consciousness header with metadata
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         metadata = f"""
 {ascii_consciousness}
 
@@ -748,7 +748,7 @@ if __name__ == "__main__":
             return content
 
         # Create the consciousness header with metadata
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         metadata = f"""
 {ascii_consciousness}
 

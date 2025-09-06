@@ -16,7 +16,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DreamType(Enum):
@@ -174,7 +174,7 @@ class UnifiedDreamSystem:
         Returns:
             UnifiedDream with results from both systems
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         dream_id = str(uuid.uuid4())
 
         logger.info(f"Processing dream {dream_id} of type {dream_type.value}")
@@ -213,7 +213,7 @@ class UnifiedDreamSystem:
         self._check_thresholds()
 
         # Create unified dream
-        processing_time = (datetime.now() - start_time).total_seconds() * 1000
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         unified_dream = UnifiedDream(
             id=dream_id,
@@ -225,7 +225,7 @@ class UnifiedDreamSystem:
             dream_type=dream_type,
             metadata={
                 "context": context,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "tier": self.tier_level,
             },
         )
@@ -355,7 +355,7 @@ class UnifiedDreamSystem:
         causality_map["total_causation_strength"] = total_strength / (len(scenarios) + len(seeds))
 
         # Store causality event
-        self.causality_events.append({"timestamp": datetime.now().isoformat(), "causality_map": causality_map})
+        self.causality_events.append({"timestamp": datetime.now(timezone.utc).isoformat(), "causality_map": causality_map})
 
         return causality_map
 
@@ -411,7 +411,7 @@ class UnifiedDreamSystem:
     async def export_causality_trace(self) -> dict[str, Any]:
         """Export complete causality trace for audit"""
         return {
-            "trace_id": f"dream_trace_{datetime.now().isoformat()}",
+            "trace_id": f"dream_trace_{datetime.now(timezone.utc).isoformat()}",
             "total_dreams": len(self.dream_history),
             "causality_events": self.causality_events,
             "enterprise_compliance": {

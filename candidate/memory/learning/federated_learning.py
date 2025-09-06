@@ -10,7 +10,7 @@ class FederatedLearningManager:
     Handles model registration, gradient contributions, and model persistence.
     """
 
-    def __init__(self, storage_path: str):
+    def __init__(self, storage_path: str, timezone):
         self.storage_path = storage_path
         self.models = {}  # In-memory model cache
         self._ensure_storage_exists()
@@ -22,7 +22,7 @@ class FederatedLearningManager:
             "model_type": model_type,
             "weights": initial_weights,
             "version": 1,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "contributors": set(),  # Track unique contributors
         }
 
@@ -67,7 +67,7 @@ class FederatedLearningManager:
                 weights[key] = self._weighted_update(weights[key], gradient)
 
         model["version"] += 1
-        model["last_updated"] = datetime.now().isoformat()
+        model["last_updated"] = datetime.now(timezone.utc).isoformat()
 
         if metrics:
             model["metrics"] = metrics

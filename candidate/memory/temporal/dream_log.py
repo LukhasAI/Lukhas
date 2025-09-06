@@ -28,7 +28,7 @@ from datetime import datetime
 LOG_PATH = "data/dream_log.jsonl"
 
 
-def log_dream(dream_data: dict):
+def log_dream(dream_data: dict, timezone):
     """
     Appends a symbolic dream to the dream log as a JSON line.
     Adds a timestamp automatically if not present.
@@ -37,7 +37,7 @@ def log_dream(dream_data: dict):
         os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
 
         if "timestamp" not in dream_data:
-            dream_data["timestamp"] = datetime.utcnow().isoformat()
+            dream_data["timestamp"] = datetime.now(timezone.utc).isoformat()
 
         with open(LOG_PATH, "a", encoding="utf-8") as f:
             json.dump(dream_data, f)

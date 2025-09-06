@@ -17,8 +17,7 @@ from .identity_event_types import (
     IdentityEventPriority,
     IdentityEventType,
     TierChangeContext,
-    VerificationResult,
-)
+    VerificationResult,, timezone)
 
 logger = logging.getLogger("LUKHAS_IDENTITY_EVENTS")
 
@@ -96,7 +95,7 @@ class IdentityEventPublisher:
                 "risk_level": self._calculate_risk_level(auth_context.risk_score),
                 "requires_monitoring": auth_context.risk_score > 0.7,
             },
-            processing_start=datetime.utcnow(),
+            processing_start=datetime.now(timezone.utc),
         )
 
         # Set consensus requirements based on tier
@@ -362,7 +361,7 @@ class IdentityEventPublisher:
             source_component="identity_benefits_system",
             data={
                 "activated_benefits": benefits,
-                "activation_timestamp": datetime.utcnow().isoformat(),
+                "activation_timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
 
@@ -377,7 +376,7 @@ class IdentityEventPublisher:
 
         # Calculate processing duration if end time is set
         if event.processing_start:
-            event.processing_end = datetime.utcnow()
+            event.processing_end = datetime.now(timezone.utc)
             event.calculate_processing_duration()
 
         # Convert to event bus format

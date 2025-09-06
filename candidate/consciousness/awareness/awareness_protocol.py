@@ -190,7 +190,7 @@ class LUKHASAwarenessProtocol:
             "recovery_signature_summary": {
                 k: (f"{str(v)[:30]}..." if isinstance(v, (dict, list, str)) else v) for k, v in recovery_sig.items()
             },  # Summarize complex parts
-            "timestamp": self.session_data.get("timestamp", datetime.utcnow().isoformat()),
+            "timestamp": self.session_data.get("timestamp", datetime.now(timezone.utc).isoformat()),
         }
         self.instance_logger.debug(f"ΛTRACE: Logging awareness trace for '{self.user_id}'. Data: {trace_log_data}")
         if hasattr(self.symbolic_trace, "log_awareness_trace") and callable(self.symbolic_trace.log_awareness_trace):
@@ -218,7 +218,7 @@ class LUKHASAwarenessProtocol:
                         session_timestamp_str.replace("Z", "+00:00")
                     )  # Ensure timezone aware for comparison
                     session_age_seconds = (
-                        datetime.utcnow().replace(tzinfo=session_dt.tzinfo) - session_dt
+                        datetime.now(timezone.utc).replace(tzinfo=session_dt.tzinfo) - session_dt
                     ).total_seconds()
                 except ValueError:
                     self.instance_logger.warning(
@@ -357,7 +357,7 @@ class LUKHASAwarenessProtocol:
 # HOW TO USE:
 #   from candidate.core.advanced.brain.awareness.lukhas_awareness_protocol import LUKHASAwarenessProtocol
 #   # Assuming symbolic_tracer and memory_ctx are available instances:
-#   protocol = LUKHASAwarenessProtocol(user_id="test_user", session_data={"timestamp": datetime.utcnow().isoformat()},
+#   protocol = LUKHASAwarenessProtocol(user_id="test_user", session_data={"timestamp": datetime.now(timezone.utc).isoformat()},
 #                                     symbolic_trace_engine=symbolic_tracer, memory_context=memory_ctx)
 #   assigned_tier_str = await protocol.assess_awareness()
 # INTEGRATION NOTES: This protocol relies heavily on BioSymbolicAwarenessAdapter and a

@@ -9,7 +9,7 @@ from enum import Enum
 from typing import Any
 
 # Configure logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 if not logger.handlers:
     handler = logging.StreamHandler()
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -120,7 +120,7 @@ class UnifiedBot:
             "response": f"Processing {task_type.value} task classically",
             "mode": "classic",
             "task_type": task_type.value,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _process_ai(self, prompt: str, task_type: TaskType, **kwargs) -> dict[str, Any]:
@@ -141,7 +141,7 @@ class UnifiedBot:
                 "mode": "ai",
                 "model": model,
                 "task_type": task_type.value,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             logger.error(f"AI processing failed: {e}")

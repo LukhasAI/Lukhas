@@ -31,7 +31,7 @@ import numpy as np
 # LUKHAS core imports
 from ..lukhas_id_enhanced import AccessTier, LukhosIDManager
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class QIInspiredAttention:
@@ -179,7 +179,7 @@ class QIInspiredAttention:
             "original": input_data,
             "attention_weights": dict(zip(self.attention_gates.keys(), attention_weights)),
             "attended_content": {},
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processing_id": str(uuid.uuid4()),
         }
 
@@ -216,7 +216,7 @@ class QIInspiredAttention:
         # Store the relationship between input and attended data
         self.entanglement_map[input_hash] = {
             "user_id": user_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "attention_signature": {
                 k: float(v)
                 for k, v in zip(
@@ -322,7 +322,7 @@ class CausalReasoningModule:
             "confidence": (max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0),
             "reasoning_path": self._extract_reasoning_path(valid_causes),
             "original_attended_data": attended_data,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "user_id": user_id,
             "processing_id": str(uuid.uuid4()),
         }
@@ -455,7 +455,7 @@ class CausalReasoningModule:
         """Update the internal causal graph with new validated causes"""
         # This would maintain a persistent graph of causal relationships
         # Simplified implementation for now
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         for chain_id, chain_data in valid_causes.items():
             graph_key = f"{user_id}_{chain_id}"
@@ -597,7 +597,7 @@ class QINeuroSymbolicEngine:
             "type": "text",
             "user_id": user_id,
             "context": context or {},
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # If emotional content is available in context, include it
@@ -624,11 +624,11 @@ class QINeuroSymbolicEngine:
                 "user_id": user_id,
                 "response_type": response.get("response_type"),
                 "confidence": response.get("confidence"),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "processing_id": response.get("processing_id"),
             }
         )
-        self.last_processed = datetime.now().isoformat()
+        self.last_processed = datetime.now(timezone.utc).isoformat()
 
         # Limit history size
         if len(self.processing_history) > 1000:
@@ -684,7 +684,7 @@ class QINeuroSymbolicEngine:
             return {
                 "status": "error",
                 "message": f"Unsupported input type: {input_type}",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _generate_response(self, reasoning_results: dict, input_data: dict, user_id: str) -> dict:
@@ -709,7 +709,7 @@ class QINeuroSymbolicEngine:
             "user_id": user_id,
             "confidence": confidence,
             "reasoning_path": reasoning_results.get("reasoning_path", []),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processing_id": str(uuid.uuid4()),
             "engine_version": "LUKHAS_QNS_v1.0.0",
         }

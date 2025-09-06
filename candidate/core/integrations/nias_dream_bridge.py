@@ -15,7 +15,7 @@ from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DreamInjectionMode(Enum):
@@ -41,7 +41,7 @@ class DreamMessage:
 
     def __post_init__(self):
         if self.created_at is None:
-            self.created_at = datetime.now()
+            self.created_at = datetime.now(timezone.utc)
 
 
 class NIASDreamBridge:
@@ -105,7 +105,7 @@ class NIASDreamBridge:
 
             # Create dream message
             dream_msg = DreamMessage(
-                message_id=f"nias_dream_{datetime.now().timestamp()}",
+                message_id=f"nias_dream_{datetime.now(timezone.utc).timestamp()}",
                 original_message=message,
                 symbolic_interpretation=dream_analysis["interpretation"],
                 emotional_context=dream_analysis["emotional_context"],
@@ -260,7 +260,7 @@ class NIASDreamBridge:
         """Check if conditions are right for dream injection"""
         # TODO: Check actual dream state from dream adapter
         # For now, simple time-based check
-        age = (datetime.now() - dream_msg.created_at).total_seconds()
+        age = (datetime.now(timezone.utc) - dream_msg.created_at).total_seconds()
 
         # High priority messages can be injected sooner
         min_age = 60 * (1 - dream_msg.priority)  # 0-60 seconds based on priority
@@ -334,7 +334,7 @@ class NIASDreamBridge:
     async def extract_dream_insights(self, user_id: str, time_window: int = 3600) -> dict[str, Any]:
         """Extract insights from recent dream processing"""
         recent_dreams = [
-            msg for msg in self.dream_queue if (datetime.now() - msg.created_at).total_seconds() < time_window
+            msg for msg in self.dream_queue if (datetime.now(timezone.utc) - msg.created_at).total_seconds() < time_window
         ]
 
         insights = {
@@ -447,7 +447,7 @@ class NIASDreamBridge:
             "mode_distribution": mode_counts,
             "average_priority": avg_priority,
             "oldest_dream_age": (
-                (datetime.now() - min(msg.created_at for msg in self.dream_queue)).total_seconds()
+                (datetime.now(timezone.utc) - min(msg.created_at for msg in self.dream_queue)).total_seconds()
                 if self.dream_queue
                 else 0
             ),

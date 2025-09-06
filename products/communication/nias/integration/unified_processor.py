@@ -21,7 +21,7 @@ except ImportError:
     ADAPTERS_AVAILABLE = False
 
 # Import NIAS components
-nias_path = Path(__file__).parent.parent
+nias_path = Path(__file__, timezone).parent.parent
 sys.path.insert(0, str(nias_path))
 
 try:
@@ -63,7 +63,7 @@ class UnifiedProcessingContext:
 
     def __post_init__(self):
         if self.start_time is None:
-            self.start_time = datetime.now()
+            self.start_time = datetime.now(timezone.utc)
         if not self.lambda_trace:
             import hashlib
 
@@ -369,12 +369,12 @@ class UnifiedMessageProcessor:
             "confidence": decision.get("confidence"),
             "lambda_trace": context.lambda_trace,
             "unified_processing": True,
-            "processing_time_ms": (datetime.now() - context.start_time).total_seconds() * 1000,
+            "processing_time_ms": (datetime.now(timezone.utc) - context.start_time).total_seconds() * 1000,
         }
 
     def _finalize_processing(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Finalize unified processing with complete results"""
-        context.end_time = datetime.now()
+        context.end_time = datetime.now(timezone.utc)
         context.total_processing_time_ms = (context.end_time - context.start_time).total_seconds() * 1000
 
         # Update average processing time
@@ -411,7 +411,7 @@ class UnifiedMessageProcessor:
 
     def _handle_processing_error(self, context: UnifiedProcessingContext, error: Exception) -> dict[str, Any]:
         """Handle processing errors with graceful degradation"""
-        processing_time = (datetime.now() - context.start_time).total_seconds() * 1000
+        processing_time = (datetime.now(timezone.utc) - context.start_time).total_seconds() * 1000
 
         return {
             "status": "error",
@@ -433,7 +433,7 @@ class UnifiedMessageProcessor:
 
     def _fallback_symbolic_context(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Fallback symbolic context when DΛST is unavailable"""
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
 
         return {
             "symbolic_tags": ["general", "available"],
@@ -454,7 +454,7 @@ class UnifiedMessageProcessor:
 
     def _fallback_attention_decision(self, context: UnifiedProcessingContext) -> dict[str, Any]:
         """Fallback attention decision when ΛBAS is unavailable"""
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         message_priority = context.message.get("priority", 1)
 
         # Simple time-based decision

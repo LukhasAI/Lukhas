@@ -24,7 +24,7 @@ from typing import Any, Optional
 
 from gpt_oss_brain import GPTOSSBrainSpecialist
 
-sys.path.append(str(Path(__file__).parent.parent.parent / "agi-integration/brain-modules"))
+sys.path.append(str(Path(__file__, timezone).parent.parent.parent / "agi-integration/brain-modules"))
 
 logger = logging.getLogger("LambdaProducts.GPTOSSAdapter")
 
@@ -135,7 +135,7 @@ class QRGAdapter:
             symbolic_signature=symbolic_signature,
             recommendations=lambda_enhanced["recommendations"],
             insights=lambda_enhanced["key_insights"],
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         logger.info(f"QRG processing complete: {request_id} in {processing_time}ms")
@@ -342,7 +342,7 @@ class NIASAdapter:
             symbolic_signature=symbolic_signature,
             recommendations=lambda_enhanced["recommendations"],
             insights=lambda_enhanced["neural_insights"],
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         logger.info(f"NIAS processing complete: {request_id}")
@@ -559,7 +559,7 @@ class ABASAdapter:
             symbolic_signature=symbolic_signature,
             recommendations=lambda_enhanced["strategic_recommendations"],
             insights=lambda_enhanced["business_insights"],
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         logger.info(f"ABAS processing complete: {request_id}")
@@ -803,7 +803,7 @@ class DASTAdapter:
             symbolic_signature=symbolic_signature,
             recommendations=lambda_enhanced["strategic_actions"],
             insights=lambda_enhanced["data_insights"],
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         logger.info(f"DAST processing complete: {request_id}")

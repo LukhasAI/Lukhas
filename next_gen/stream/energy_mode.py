@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -151,7 +151,7 @@ class EnergyManager:
             try:
                 # Collect system metrics
                 metrics = SystemMetrics(
-                    timestamp=datetime.utcnow(),
+                    timestamp=datetime.now(timezone.utc),
                     cpu_percent=psutil.cpu_percent(interval=1),
                     memory_percent=psutil.virtual_memory().percent,
                     disk_io=(sum(psutil.disk_io_counters()[:2]) if psutil.disk_io_counters() else 0),
@@ -375,7 +375,7 @@ class EnergyManager:
         metadata: Optional[dict] = None,
     ) -> str:
         """Queue an operation for energy-aware execution"""
-        operation_id = f"op_{datetime.utcnow().timestamp()}_{operation_type}"
+        operation_id = f"op_{datetime.now(timezone.utc).timestamp()}_{operation_type}"
 
         operation = {
             "id": operation_id,
@@ -383,7 +383,7 @@ class EnergyManager:
             "duration": duration,
             "priority": priority,
             "metadata": metadata or {},
-            "queued_at": datetime.utcnow().isoformat(),
+            "queued_at": datetime.now(timezone.utc).isoformat(),
             "profile_at_queue": self.current_profile.profile_name,
         }
 
@@ -413,7 +413,7 @@ class EnergyManager:
     def _log_energy_event(self, event_type: str, data: dict):
         """Log energy management events"""
         event = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "event": event_type,
             "profile": self.current_profile.profile_name,
             "data": data,

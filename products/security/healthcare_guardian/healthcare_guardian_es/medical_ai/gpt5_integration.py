@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -232,7 +232,7 @@ class GPT5HealthcareClient:
             "safety_level": "maximum",
             "response_style": "simple, caring, non-technical",
             "medical_context": user_context or {},
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add user's medication list if available
@@ -468,7 +468,7 @@ class GPT5HealthcareClient:
         ]
 
         # Format schedule for voice output
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
 
         if current_hour < 12 or current_hour < 20:
             pass

@@ -10,7 +10,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class Category(Enum):
@@ -64,7 +64,7 @@ class MemoryProfiler:
             category = Category.TEMPORARY
 
         event = MemoryEvent(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             action=Action.CREATE,
             tensor_id=tensor_id,
             size=size,
@@ -99,7 +99,7 @@ class MemoryProfiler:
         category = tensor_info["category"]
 
         event = MemoryEvent(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             action=Action.DELETE,
             tensor_id=tensor_id,
             size=size,
@@ -150,7 +150,7 @@ class MemoryProfiler:
             tensor_id: {
                 "size_mb": info["size"] / (1024 * 1024),
                 "category": info["category"].name,
-                "lifetime_seconds": (datetime.now() - info["allocated_at"]).total_seconds(),
+                "lifetime_seconds": (datetime.now(timezone.utc) - info["allocated_at"]).total_seconds(),
             }
             for tensor_id, info in self.tensor_registry.items()
         }
@@ -191,7 +191,7 @@ class MemoryProfiler:
         # Long-lived tensors
         long_lived = []
         for tensor_id, info in self.tensor_registry.items():
-            lifetime = (datetime.now() - info["allocated_at"]).total_seconds()
+            lifetime = (datetime.now(timezone.utc) - info["allocated_at"]).total_seconds()
             if lifetime > 300:  # 5 minutes
                 long_lived.append(
                     {

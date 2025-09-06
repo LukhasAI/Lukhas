@@ -52,7 +52,7 @@ import networkx as nx
 import numpy as np
 
 
-class CausalRelationType(Enum):
+class CausalRelationType(Enum, timezone):
     """Types of causal relationships between memories"""
 
     DIRECT_CAUSE = "direct_cause"  # A directly causes B
@@ -119,7 +119,7 @@ class CausalRelation:
     def add_evidence(self, evidence: CausalEvidence):
         """Add supporting evidence to this causal relation"""
         self.evidence.append(evidence)
-        self.last_updated = datetime.now()
+        self.last_updated = datetime.now(timezone.utc)
 
         # Update strength based on accumulated evidence
         self._update_strength()
@@ -135,7 +135,7 @@ class CausalRelation:
 
         for evidence in self.evidence:
             # Recency weighting (newer evidence gets more weight)
-            days_old = (datetime.now() - evidence.timestamp).days
+            days_old = (datetime.now(timezone.utc) - evidence.timestamp).days
             recency_weight = max(0.1, 1.0 - (days_old * 0.01))  # Decay over time
 
             weight = evidence.confidence * recency_weight
@@ -290,7 +290,7 @@ class TemporalCausalAnalyzer:
             evidence_type="temporal",
             strength=causal_strength,
             confidence=min(0.9, causal_strength + 0.2),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             source_memories=[memory_a["id"], memory_b["id"]],
             description=f"Temporal sequence analysis: {time_diff.total_seconds():.1f}s gap",
         )
@@ -584,7 +584,7 @@ class CausalGraphBuilder:
         confidence = total_confidence / len(causal_relations)
 
         # Generate chain ID
-        chain_id = hashlib.sha256(f"{'->'.join(memory_path)}{datetime.now().isoformat()}".encode()).hexdigest()[:16]
+        chain_id = hashlib.sha256(f"{'->'.join(memory_path)}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:16]
 
         return CausalChain(
             chain_id=chain_id,
@@ -693,7 +693,7 @@ class CausalReasoningEngine:
             "content": content,
             "tags": tags or [],
             "embedding": embedding.tolist() if embedding is not None else None,
-            "timestamp": timestamp or datetime.now(),
+            "timestamp": timestamp or datetime.now(timezone.utc),
             "metadata": metadata or {},
         }
 
@@ -719,7 +719,7 @@ class CausalReasoningEngine:
 
         # Filter by time window if specified
         if time_window:
-            cutoff_time = datetime.now() - time_window
+            cutoff_time = datetime.now(timezone.utc) - time_window
             memories = [m for m in memories if m["timestamp"] >= cutoff_time]
 
         if not memories:
@@ -932,7 +932,7 @@ class CausalMemoryWrapper:
                 content=data,
                 tags=tags,
                 embedding=embedding,
-                timestamp=timestamp or datetime.now(),
+                timestamp=timestamp or datetime.now(timezone.utc),
             )
 
             # Analyze causal relationships periodically
@@ -1020,25 +1020,25 @@ async def example_causal_reasoning():
             "id": "mem_1",
             "content": "I decided to study machine learning to improve my AI capabilities",
             "tags": ["decision", "learning", "ai"],
-            "timestamp": datetime.now() - timedelta(days=10),
+            "timestamp": datetime.now(timezone.utc) - timedelta(days=10),
         },
         {
             "id": "mem_2",
             "content": "I started reading research papers on neural networks and deep learning",
             "tags": ["study", "research", "neural_networks"],
-            "timestamp": datetime.now() - timedelta(days=9),
+            "timestamp": datetime.now(timezone.utc) - timedelta(days=9),
         },
         {
             "id": "mem_3",
             "content": "My understanding of artificial intelligence concepts significantly improved",
             "tags": ["improvement", "understanding", "ai"],
-            "timestamp": datetime.now() - timedelta(days=7),
+            "timestamp": datetime.now(timezone.utc) - timedelta(days=7),
         },
         {
             "id": "mem_4",
             "content": "I was able to implement a neural network from scratch successfully",
             "tags": ["implementation", "success", "neural_networks"],
-            "timestamp": datetime.now() - timedelta(days=5),
+            "timestamp": datetime.now(timezone.utc) - timedelta(days=5),
         },
     ]
 

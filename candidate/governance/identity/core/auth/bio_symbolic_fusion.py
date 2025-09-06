@@ -32,8 +32,7 @@ try:
         BiometricData,
         CognitiveMetrics,
         ConsciousnessMapper,
-        ConsciousnessState,
-    )
+        ConsciousnessState,, timezone)
     from .biometric_integration import BiometricIntegrationManager, BiometricType
 except ImportError:
     print("Warning: LUKHAS core components not fully available. Some features may be limited.")
@@ -69,7 +68,7 @@ class EmotionalAnchor:
 
     def __post_init__(self):
         if self.created_at is None:
-            self.created_at = datetime.now()
+            self.created_at = datetime.now(timezone.utc)
 
 
 @dataclass

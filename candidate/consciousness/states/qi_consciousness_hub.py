@@ -26,7 +26,7 @@ from candidate.core.common import get_logger
 from candidate.orchestration.brain.consciousness_core import ConsciousnessCore
 from qi.attention_economics import QIAttentionEconomics
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class ConsciousnessState(Enum):
@@ -223,7 +223,7 @@ class QIConsciousnessHub:
         # Create dream deferral entry
         dream_entry = {
             "agent_id": agent_id,
-            "deferred_at": datetime.now().isoformat(),
+            "deferred_at": datetime.now(timezone.utc).isoformat(),
             "original_event": event_data,
             "reason": "emotional_safety",
             "dream_priority": "gentle",
@@ -353,7 +353,7 @@ class QIConsciousnessHub:
                 "mode": "direct",
                 "symbolic_meaning": interpretation["symbolic_meaning"],
                 "resonance": interpretation["emotional_resonance"],
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
 
@@ -689,7 +689,7 @@ class QIConsciousnessHub:
         base_coherence = state.coherence
 
         # Reduce coherence for rapid state changes
-        recent_states = [s for s in self.state_history[-10:] if s.timestamp > datetime.now().timestamp() - 300]
+        recent_states = [s for s in self.state_history[-10:] if s.timestamp > datetime.now(timezone.utc).timestamp() - 300]
         state_changes = len({s.state_type for s in recent_states})
 
         coherence_penalty = (state_changes - 1) * 0.1

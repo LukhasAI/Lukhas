@@ -35,7 +35,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class RepairType(Enum):
@@ -187,7 +187,7 @@ class AutomatedRepairSystem:
             "emergency_repairs": 0,
             "proactive_repairs": 0,
             "repair_effectiveness": 0.0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize system
@@ -287,7 +287,7 @@ class AutomatedRepairSystem:
         try:
             # Update status and timing
             operation.status = RepairStatus.IN_PROGRESS
-            operation.started_at = datetime.now()
+            operation.started_at = datetime.now(timezone.utc)
             self.active_repairs[operation_id] = operation
 
             # Get repair handler
@@ -305,7 +305,7 @@ class AutomatedRepairSystem:
                 success = False
 
             # Update operation status
-            operation.completed_at = datetime.now()
+            operation.completed_at = datetime.now(timezone.utc)
             operation.status = RepairStatus.COMPLETED if success else RepairStatus.FAILED
 
             # Calculate metrics
@@ -332,7 +332,7 @@ class AutomatedRepairSystem:
 
         except Exception as e:
             operation.status = RepairStatus.FAILED
-            operation.completed_at = datetime.now()
+            operation.completed_at = datetime.now(timezone.utc)
             operation.audit_log.append(f"Repair failed: {e!s}")
 
             if operation_id in self.active_repairs:

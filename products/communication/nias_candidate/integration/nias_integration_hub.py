@@ -4,7 +4,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class NIASIntegrationHub:
@@ -35,7 +35,7 @@ class NIASIntegrationHub:
             {
                 "name": hub_name,
                 "instance": hub_instance,
-                "connected_at": datetime.now(),
+                "connected_at": datetime.now(timezone.utc),
             }
         )
         logger.info(f"NIAS hub connected to: {hub_name}")

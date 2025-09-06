@@ -25,7 +25,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger("ΛTRACE.bio.fallback")
+logger = logging.getLogger("ΛTRACE.bio.fallback", timezone)
 
 
 class FallbackLevel(Enum):
@@ -190,7 +190,7 @@ class BioSymbolicFallbackManager:
         Returns:
             Fallback result that maintains system functionality
         """
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
 
         # Determine fallback level based on error severity and component health
         fallback_level = self._determine_fallback_level(component, error, context)
@@ -209,7 +209,7 @@ class BioSymbolicFallbackManager:
             fallback_result = await fallback_strategy(context, original_task, error)
 
             # Calculate recovery time
-            recovery_time = (datetime.utcnow() - start_time).total_seconds() * 1000
+            recovery_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
             # Record fallback event
             fallback_event = FallbackEvent(
@@ -245,7 +245,7 @@ class BioSymbolicFallbackManager:
             # Fallback itself failed - escalate to critical
             logger.error(f"❌ Fallback failed for {component}: {fallback_error!s}")
 
-            recovery_time = (datetime.utcnow() - start_time).total_seconds() * 1000
+            recovery_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
             fallback_event = FallbackEvent(
                 timestamp=start_time,
@@ -306,7 +306,7 @@ class BioSymbolicFallbackManager:
         if breaker["failures"] >= self.thresholds["circuit_breaker_threshold"]:
             # Check if enough time has passed for recovery attempt
             if breaker["last_failure"]:
-                time_since_failure = datetime.utcnow() - breaker["last_failure"]
+                time_since_failure = datetime.now(timezone.utc) - breaker["last_failure"]
                 if time_since_failure < timedelta(minutes=5):
                     return True
 
@@ -343,7 +343,7 @@ class BioSymbolicFallbackManager:
 
             # Update circuit breaker
             self.circuit_breakers[component]["failures"] += 1
-            self.circuit_breakers[component]["last_failure"] = datetime.utcnow()
+            self.circuit_breakers[component]["last_failure"] = datetime.now(timezone.utc)
 
     # Preprocessing Fallback Strategies
     async def _fallback_preprocessing_minimal(
@@ -372,7 +372,7 @@ class BioSymbolicFallbackManager:
             "quality_score": 0.6,
             "quality_tag": "ΛQUALITY_FALLBACK_MINIMAL",
             "outlier_scores": dict.fromkeys(validated_data.keys(), 0.1),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "preprocessing_fallback",
         }
 
@@ -404,7 +404,7 @@ class BioSymbolicFallbackManager:
             "quality_score": 0.5,
             "quality_tag": "ΛQUALITY_FALLBACK_MODERATE",
             "outlier_scores": outlier_scores,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "preprocessing_fallback",
         }
 
@@ -421,7 +421,7 @@ class BioSymbolicFallbackManager:
             "quality_score": 0.3,
             "quality_tag": "ΛQUALITY_FALLBACK_SEVERE",
             "outlier_scores": dict.fromkeys(validated_data.keys(), 0.5),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "preprocessing_fallback",
         }
 
@@ -435,7 +435,7 @@ class BioSymbolicFallbackManager:
             "quality_score": 0.1,
             "quality_tag": "ΛQUALITY_FALLBACK_CRITICAL",
             "outlier_scores": {"heart_rate": 0.8},
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "preprocessing_fallback",
         }
 
@@ -454,7 +454,7 @@ class BioSymbolicFallbackManager:
             },
             "confidence": 0.6,
             "context_modifiers": {},
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "thresholds_fallback",
         }
 
@@ -467,7 +467,7 @@ class BioSymbolicFallbackManager:
             "thresholds": {"tier1": {"heart_rate": {"low": 0.4, "high": 0.6, "critical": 0.8}}},
             "confidence": 0.4,
             "context_modifiers": {},
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "thresholds_fallback",
         }
 
@@ -480,7 +480,7 @@ class BioSymbolicFallbackManager:
             "thresholds": {"tier1": {"heart_rate": {"low": 0.5, "high": 0.5, "critical": 0.7}}},
             "confidence": 0.2,
             "context_modifiers": {},
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "thresholds_fallback",
         }
 
@@ -493,7 +493,7 @@ class BioSymbolicFallbackManager:
             "thresholds": {"tier1": {}},
             "confidence": 0.1,
             "context_modifiers": {},
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "thresholds_fallback",
         }
 
@@ -521,7 +521,7 @@ class BioSymbolicFallbackManager:
             "glyph_probabilities": {primary_glyph[0]: primary_glyph[1]},
             "context_features": {"fallback": "minimal"},
             "confidence": 0.6,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "mapping_fallback",
         }
 
@@ -536,7 +536,7 @@ class BioSymbolicFallbackManager:
             "glyph_probabilities": {"ΛHOMEO_BALANCED": 0.5},
             "context_features": {"fallback": "moderate"},
             "confidence": 0.4,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "mapping_fallback",
         }
 
@@ -549,7 +549,7 @@ class BioSymbolicFallbackManager:
             "glyph_probabilities": {"ΛPOWER_CONSERVE": 0.3},
             "context_features": {"fallback": "severe"},
             "confidence": 0.2,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "mapping_fallback",
         }
 
@@ -564,7 +564,7 @@ class BioSymbolicFallbackManager:
             "glyph_probabilities": {},
             "context_features": {"fallback": "critical"},
             "confidence": 0.1,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "mapping_fallback",
         }
 
@@ -582,7 +582,7 @@ class BioSymbolicFallbackManager:
             "anomaly_details": [],
             "recovered_data": bio_data,
             "detection_confidence": 0.6,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "filtering_fallback",
         }
 
@@ -599,7 +599,7 @@ class BioSymbolicFallbackManager:
             "anomaly_details": [{"type": "UNKNOWN", "severity": 0.3}],
             "recovered_data": bio_data,
             "detection_confidence": 0.4,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "filtering_fallback",
         }
 
@@ -618,7 +618,7 @@ class BioSymbolicFallbackManager:
             ],
             "recovered_data": self.emergency_values["bio_data_defaults"],
             "detection_confidence": 0.2,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "filtering_fallback",
         }
 
@@ -633,7 +633,7 @@ class BioSymbolicFallbackManager:
             "anomaly_details": [{"type": "SYSTEM_FAILURE", "severity": 1.0}],
             "recovered_data": {},
             "detection_confidence": 0.1,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": "filtering_fallback",
         }
 
@@ -659,7 +659,7 @@ class BioSymbolicFallbackManager:
             "pipeline_config": {"fallback_mode": True},
             "quality_assessment": "MODERATE",
             "recommendations": ["System in fallback mode - check component health"],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "orchestrator_id": "orchestrator_fallback",
         }
 
@@ -685,7 +685,7 @@ class BioSymbolicFallbackManager:
             "pipeline_config": {"fallback_mode": True},
             "quality_assessment": "POOR",
             "recommendations": ["System degraded - immediate attention required"],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "orchestrator_id": "orchestrator_fallback",
         }
 
@@ -709,7 +709,7 @@ class BioSymbolicFallbackManager:
             "pipeline_config": {"fallback_mode": True, "emergency_mode": True},
             "quality_assessment": "CRITICAL",
             "recommendations": ["EMERGENCY: System failure - restart required"],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "orchestrator_id": "orchestrator_fallback",
         }
 
@@ -737,7 +737,7 @@ class BioSymbolicFallbackManager:
             "pipeline_config": {"fallback_mode": True, "critical_failure": True},
             "quality_assessment": "SYSTEM_FAILURE",
             "recommendations": ["CRITICAL SYSTEM FAILURE - IMMEDIATE INTERVENTION REQUIRED"],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "orchestrator_id": "orchestrator_fallback_critical",
         }
 
@@ -753,7 +753,7 @@ class BioSymbolicFallbackManager:
                 "activated": True,
                 "level": "CRITICAL_SYSTEM_FAILURE",
                 "reason": "ALL_FALLBACKS_FAILED",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             "emergency_response": "SYSTEM_SHUTDOWN_RECOMMENDED",
             "contact_support": True,
@@ -763,7 +763,7 @@ class BioSymbolicFallbackManager:
         """Generate comprehensive system health report."""
         total_fallbacks = len(self.fallback_history)
         recent_fallbacks = [
-            event for event in self.fallback_history if event.timestamp > datetime.utcnow() - timedelta(hours=1)
+            event for event in self.fallback_history if event.timestamp > datetime.now(timezone.utc) - timedelta(hours=1)
         ]
 
         fallback_by_level = defaultdict(int)
@@ -774,7 +774,7 @@ class BioSymbolicFallbackManager:
             fallback_by_component[event.component] += 1
 
         return {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "overall_health": (min(self.component_health.values()) if self.component_health else 1.0),
             "component_health": dict(self.component_health),
             "total_fallbacks": total_fallbacks,
@@ -805,7 +805,7 @@ class BioSymbolicFallbackManager:
 
         # Check recent fallback activity
         recent_fallbacks = [
-            event for event in self.fallback_history if event.timestamp > datetime.utcnow() - timedelta(minutes=30)
+            event for event in self.fallback_history if event.timestamp > datetime.now(timezone.utc) - timedelta(minutes=30)
         ]
 
         if len(recent_fallbacks) > 10:

@@ -52,7 +52,7 @@ class MemoryServicesAPI:
     Provides memory storage and retrieval without exposing internal complexity
     """
 
-    def __init__(self, storage_backend: str = "standard"):
+    def __init__(self, storage_backend: str = "standard", timezone):
         """
         Initialize Memory Services
 
@@ -109,7 +109,7 @@ class MemoryServicesAPI:
             type=request.type,
             tags=request.tags or [],
             metadata=request.metadata or {},
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             importance=request.importance,
         )
 

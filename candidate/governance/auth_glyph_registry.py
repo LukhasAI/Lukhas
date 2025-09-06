@@ -40,7 +40,7 @@ except ImportError:
     SymbolicGlyphEngine = None
 
 
-class AuthGlyphCategory(Enum):
+class AuthGlyphCategory(Enum, timezone):
     """Categories of authentication GLYPHs"""
 
     IDENTITY = "identity"  # User identity and persona
@@ -71,7 +71,7 @@ class AuthGlyph:
         if self.metadata is None:
             self.metadata = {}
         if self.created_at is None:
-            self.created_at = datetime.now()
+            self.created_at = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -420,7 +420,7 @@ class AuthGlyphRegistry:
                     "session_context": session_context,
                     "glyph_version": "1.0.0",
                 },
-                created_at=datetime.now(),
+                created_at=datetime.now(timezone.utc),
             )
 
             # Store symbolic identity
@@ -440,7 +440,7 @@ class AuthGlyphRegistry:
                 trinity_glyph="⚛️🧠🛡️",
                 composite_glyph="GLYPH[🏆🔍🔓📜:ERROR]",
                 metadata={"error": str(e)},
-                created_at=datetime.now(),
+                created_at=datetime.now(timezone.utc),
             )
 
     def _create_trinity_glyph(self, access_context: dict[str, Any], session_context: dict[str, Any]) -> str:
@@ -674,7 +674,7 @@ class AuthGlyphRegistry:
             "symbolic_identities": len(self.symbolic_identities),
             "trinity_glyphs": 0,
             "security_glyphs": 0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Count by category

@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -256,7 +256,7 @@ class SecurityAutopilot:
         total_packages = len(json.loads(stdout)) if stdout else 0
 
         report = SecurityReport(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             vulnerabilities=list(unique_vulns.values()),
             scan_duration=time.time() - start_time,
             scanners_used=scanners_used,
@@ -264,7 +264,7 @@ class SecurityAutopilot:
         )
 
         # Save report
-        report_file = self.reports_dir / f"security-report-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+        report_file = self.reports_dir / f"security-report-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}.json"
         with open(report_file, "w") as f:
             f.write(report.to_json())
 
@@ -277,7 +277,7 @@ class SecurityAutopilot:
         if not self.config["backup_before_fix"]:
             return None
 
-        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
         backup_file = self.backup_dir / f"requirements-{timestamp}.txt"
 
         if self.requirements_file.exists():

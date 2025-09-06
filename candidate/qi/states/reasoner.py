@@ -567,7 +567,7 @@ class QICollapseEngine:
         try:
             # Ensure audit directory exists (this would be handled by system
             # initialization)
-            (f"audit/collapse_events_{datetime.now().strftime('%Y%m%d')}.jsonl")
+            (f"audit/collapse_events_{datetime.now(timezone.utc).strftime('%Y%m%d')}.jsonl")
 
             # In a real implementation, this would use proper file handling
             # For now, we'll use the logger as the persistent store

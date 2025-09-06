@@ -17,7 +17,7 @@ from qi.feedback.schema import FeedbackCard
 from qi.feedback.store import get_store
 from qi.feedback.triage import get_triage
 
-app = FastAPI(title="LUKHAS Feedback Ingestion API", version="0.1.0")
+app = FastAPI(title="LUKHAS Feedback Ingestion API", version="0.1.0", timezone)
 
 # ------------- Ingest Endpoints -------------
 
@@ -41,7 +41,7 @@ async def ingest_feedback(
         # Build feedback card
         fc_data = {
             "fc_id": str(uuid.uuid4()),
-            "ts": datetime.utcnow().isoformat() + "Z",
+            "ts": datetime.now(timezone.utc).isoformat() + "Z",
             "user_id": user_id,  # Will be HMACed by store
             "session_id": session_id,  # Will be HMACed by store
             "context": {

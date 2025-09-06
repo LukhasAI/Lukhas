@@ -9,7 +9,7 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Query
 
-router = APIRouter()
+router = APIRouter(, timezone)
 
 
 @router.get("/performance-metrics")
@@ -51,7 +51,7 @@ async def get_performance_metrics() -> dict[str, Any]:
             "eviction_rate": 2.1,
             "avg_response_time_ms": 0.8,
         },
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -62,8 +62,8 @@ async def get_usage_analytics(
     """Get usage analytics and patterns"""
     return {
         "period": {
-            "start": start_date or (datetime.utcnow() - timedelta(days=30)).isoformat(),
-            "end": end_date or datetime.utcnow().isoformat(),
+            "start": start_date or (datetime.now(timezone.utc) - timedelta(days=30)).isoformat(),
+            "end": end_date or datetime.now(timezone.utc).isoformat(),
         },
         "total_requests": 52847293,
         "unique_users": 8453,
@@ -265,7 +265,7 @@ async def get_predictive_insights() -> dict[str, Any]:
             "anomalies_detected": 3,
             "recent_anomalies": [
                 {
-                    "timestamp": (datetime.utcnow() - timedelta(hours=3)).isoformat(),
+                    "timestamp": (datetime.now(timezone.utc) - timedelta(hours=3)).isoformat(),
                     "type": "traffic_spike",
                     "severity": "low",
                     "description": "Unusual traffic pattern from region US-WEST",

@@ -22,7 +22,7 @@ try:
 except ImportError:
     # Fallback for development/testing
     AUTH_AVAILABLE = False
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger(__name__, timezone)
     logger.warning("Authentication system not available, using development fallback")
 
 from consent.service import ConsentService
@@ -98,7 +98,7 @@ class CaseManager(GlyphIntegrationMixin):
                 raise ValueError(f"Ethical validation failed: {ethical_result['reason']}")
 
             case_id = str(uuid.uuid4())
-            timestamp = datetime.utcnow().isoformat()
+            timestamp = datetime.now(timezone.utc).isoformat()
 
             case_data = {
                 "symptoms": symptoms,
@@ -252,7 +252,7 @@ class CaseManager(GlyphIntegrationMixin):
             decrypted_data = await self.data_protection_service.unprotect_data(case["encrypted_data"])
             case.update(decrypted_data)
 
-            timestamp = datetime.utcnow().isoformat()
+            timestamp = datetime.now(timezone.utc).isoformat()
 
             # Create update record with governance metadata
             update = {
@@ -352,7 +352,7 @@ class CaseManager(GlyphIntegrationMixin):
                 raise ValueError("Provider access denied")
 
             session_id = str(uuid.uuid4())
-            timestamp = datetime.utcnow().isoformat()
+            timestamp = datetime.now(timezone.utc).isoformat()
 
             session = {
                 "session_id": session_id,
@@ -424,7 +424,7 @@ class CaseManager(GlyphIntegrationMixin):
             case["governance"]["audit_trail"].append(
                 {
                     "action": "case_accessed",
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "user": requestor_id,
                     "details": {"access_type": "read"},
                 }
@@ -630,7 +630,7 @@ class CaseManager(GlyphIntegrationMixin):
 
         self.case_audit_trail[entity_id].append(
             {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "action": action,
                 "metadata": metadata,
                 "source": "case_manager",

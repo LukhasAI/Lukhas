@@ -21,7 +21,7 @@ from lukhas.core.emotional_state import get_tone
 from lukhas.core.event_bus import subscribe
 
 # Initialize logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 def speak(message: str):
@@ -35,7 +35,7 @@ def speak(message: str):
     tone = get_tone()
     # TODO: Route to appropriate voice engine based on tier or emotion index
     print(f"🗣️ [{tone}] {message}")  # Keep UI output
-    timestamp = datetime.utcnow().isoformat()
+    timestamp = datetime.now(timezone.utc).isoformat()
     log_event(
         "lukhas_voice",
         {

@@ -68,7 +68,7 @@ def _utc_timestamp() -> str:
     try:
         import datetime as _dt
 
-        return _dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+        return _dt.datetime.now(timezone.utc).replace(microsecond=0).isoformat() + "Z"
     except Exception:
         return "TBD"
 

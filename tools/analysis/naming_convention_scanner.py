@@ -13,7 +13,7 @@ from typing import Any
 
 
 class NamingConventionScanner:
-    def __init__(self, root_path: str = "."):
+    def __init__(self, root_path: str = ".", timezone):
         self.root_path = Path(root_path).resolve()
         self.violations = {"classes": [], "functions": [], "files": [], "modules": []}
         self.lukhas_terms = {
@@ -197,7 +197,7 @@ class NamingConventionScanner:
     def _generate_report(self) -> dict[str, Any]:
         """Generate comprehensive naming convention report"""
         report = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "summary": {
                 "total_violations": sum(len(v) for v in self.violations.values()),
                 "class_violations": len(self.violations["classes"]),

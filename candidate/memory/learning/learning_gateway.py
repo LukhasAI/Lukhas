@@ -21,9 +21,9 @@ class LearningRequest:
     context: Optional[dict[str, Any]] = None
     timestamp: Optional[datetime] = None
 
-    def __post_init__(self):
+    def __post_init__(self, timezone):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -111,14 +111,14 @@ class LearningGateway(LearningGatewayInterface):
             return LearningResponse(
                 success=True,
                 result=result,
-                metadata={"timestamp": datetime.now().isoformat()},
+                metadata={"timestamp": datetime.now(timezone.utc).isoformat()},
             )
 
         except Exception as e:
             return LearningResponse(
                 success=False,
                 error=str(e),
-                metadata={"timestamp": datetime.now().isoformat()},
+                metadata={"timestamp": datetime.now(timezone.utc).isoformat()},
             )
 
     async def get_learning_status(self, agent_id: str) -> dict[str, Any]:

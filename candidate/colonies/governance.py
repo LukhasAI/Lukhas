@@ -10,7 +10,7 @@ from typing import Any
 from .base import BaseColony, ColonyAgent, ColonyRole, ColonyTask
 
 
-class GovernanceColony(BaseColony):
+class GovernanceColony(BaseColony, timezone):
     """Colony for ethical governance and oversight"""
 
     def __init__(self, max_agents: int = 15):
@@ -75,7 +75,7 @@ class GovernanceColony(BaseColony):
             "violations": [],
             "recommendations": [],
             "approved": True,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # Check for common ethical concerns
@@ -105,7 +105,7 @@ class GovernanceColony(BaseColony):
                 "type": "ethics_check",
                 "operation": operation.get("id", "unknown"),
                 "result": result,
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
             }
         )
 
@@ -143,7 +143,7 @@ class GovernanceColony(BaseColony):
             "compliance_status": "compliant",
             "findings": [],
             "risk_level": "low",
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # Check compliance factors
@@ -208,7 +208,7 @@ class GovernanceColony(BaseColony):
             "target": target,
             "action_taken": "none",
             "success": False,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         if intervention_type == "stop_operation":
@@ -222,7 +222,7 @@ class GovernanceColony(BaseColony):
             result["success"] = True
 
         # Log intervention
-        self.audit_trail.append({"type": "intervention", "details": result, "timestamp": datetime.now()})
+        self.audit_trail.append({"type": "intervention", "details": result, "timestamp": datetime.now(timezone.utc)})
 
         return result
 

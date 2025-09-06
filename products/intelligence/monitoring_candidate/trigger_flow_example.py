@@ -474,7 +474,7 @@ class LukhasDataFeeder:
                 threshold -= adaptation_factor
 
         # 3. CIRCADIAN RHYTHM: Time-based adjustments
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if trigger_type == "stress":
             # Higher stress sensitivity during typical stress hours
             if 9 <= current_hour <= 17:  # Work hours

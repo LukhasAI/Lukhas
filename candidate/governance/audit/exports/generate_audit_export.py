@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 # Add parent directories to path for imports
-sys.path.append(str(Path(__file__).parent.parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent.parent))
 sys.path.append(str(Path(__file__).parent.parent.parent / "next_gen"))
 
 logger = logging.getLogger(__name__)
@@ -29,7 +29,7 @@ class GuardianAuditExporter:
     def __init__(self, output_dir: str = "guardian_audit/exports"):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        self.export_timestamp = datetime.utcnow()
+        self.export_timestamp = datetime.now(timezone.utc)
 
         logger.info("🛡️ Guardian Audit Exporter initialized")
         logger.info(f"   Output directory: {self.output_dir}")
