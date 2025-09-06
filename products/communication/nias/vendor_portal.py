@@ -15,7 +15,7 @@ from typing import Any, Optional
 
 from .user_data_integrator import UserDataIntegrator
 
-logger = logging.getLogger("Lambda.NIΛS.VendorPortal")
+logger = logging.getLogger("Lambda.NIΛS.VendorPortal", timezone)
 
 
 class VendorTier(Enum):
@@ -60,7 +60,7 @@ class VendorProfile:
     def generate_api_credentials(self) -> tuple[str, str]:
         """Generate new API credentials for vendor"""
         api_key = f"vk_{uuid.uuid4().hex}"
-        api_secret = hashlib.sha256(f"{self.vendor_id}_{datetime.now().isoformat()}".encode()).hexdigest()
+        api_secret = hashlib.sha256(f"{self.vendor_id}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()
         return api_key, api_secret
 
 
@@ -87,7 +87,7 @@ class DreamSeed:
 
     def is_valid(self) -> bool:
         """Check if dream seed is still valid"""
-        if self.expiry and datetime.now() > self.expiry:
+        if self.expiry and datetime.now(timezone.utc) > self.expiry:
             return False
         return self.ethical_validation.get("approved", False)
 
@@ -166,7 +166,7 @@ class VendorPortal:
                 vendor_id=vendor_id,
                 company_name=company_name,
                 tier=tier,
-                created_at=datetime.now(),
+                created_at=datetime.now(timezone.utc),
                 api_key="",
                 api_secret="",
                 domains=domains,
@@ -242,7 +242,7 @@ class VendorPortal:
                 targeting_criteria=seed_data.get("targeting_criteria", {}),
                 affiliate_link=seed_data.get("affiliate_link", ""),
                 one_click_data=seed_data.get("one_click_data", {}),
-                expiry=datetime.now() + timedelta(days=seed_data.get("validity_days", 30)),
+                expiry=datetime.now(timezone.utc) + timedelta(days=seed_data.get("validity_days", 30)),
             )
 
             # Validate dream seed ethically
@@ -391,7 +391,7 @@ class VendorPortal:
             self.performance_tracker[tracking_id] = {
                 "vendor_id": vendor_id,
                 "product_id": product_id,
-                "created_at": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "user_segment": user_context.get("segment", "default"),
             }
 

@@ -21,7 +21,7 @@ from infrastructure.database.connection import init_db
 from api.routers import analytics, audit, governance, realtime, safety
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -69,7 +69,7 @@ async def health_check():
     """System health check endpoint"""
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "service": "lukhas-agi-dashboard",
         "version": "1.0.0",
     }
@@ -89,7 +89,7 @@ async def get_agi_readiness() -> dict[str, Any]:
             "scalability_readiness": 89,
         },
         "trend": "improving",
-        "last_updated": datetime.utcnow().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -136,7 +136,7 @@ async def websocket_endpoint(websocket: WebSocket):
                         "active_users": 1247,
                         "requests_per_sec": 3892,
                         "gpu_usage": 87,
-                        "timestamp": datetime.utcnow().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     },
                 }
             )

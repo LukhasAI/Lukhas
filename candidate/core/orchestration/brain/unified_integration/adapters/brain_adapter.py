@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 from ..unified_integration import MessageType, UnifiedIntegration
 
-logger = logging.getLogger("brain_adapter")
+logger = logging.getLogger("brain_adapter", timezone)
 
 
 class BrainAdapter:
@@ -95,7 +95,7 @@ class BrainAdapter:
         finally:
             self.cognitive_states["processing"] = False
             self.cognitive_states["current_task"] = None
-            self.cognitive_states["last_activity"] = datetime.now().isoformat()
+            self.cognitive_states["last_activity"] = datetime.now(timezone.utc).isoformat()
 
     async def consolidate_memories(self, hours_limit: float = 24.0, max_memories: int = 100) -> dict[str, Any]:
         """Consolidate recent memories

@@ -20,7 +20,7 @@ import numpy as np
 from ..bio_symbolic import CristaFilter, ProtonGradient, QIAttentionGate
 from .unified_node import UnifiedNode
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class OscillatorAdapter:
@@ -100,7 +100,7 @@ class OscillatorAdapter:
         Returns:
             Processed signal results
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Apply quantum attention
@@ -119,7 +119,7 @@ class OscillatorAdapter:
             integrated_response = self._integrate_responses(responses)
 
             # Record metrics
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
             self._record_metrics(processing_time)
 
             return integrated_response

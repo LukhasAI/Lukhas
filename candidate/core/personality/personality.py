@@ -43,7 +43,7 @@ from typing import Any, Optional
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.personality")
+logger = structlog.get_logger("lukhas.personality", timezone)
 
 
 class InteractionContext(Enum):
@@ -276,7 +276,7 @@ class PersonalityManager:
         self.social_confidence = 0.6  # 0-1 scale
 
         # Interaction tracking
-        self.session_start_time = datetime.now()
+        self.session_start_time = datetime.now(timezone.utc)
         self.interaction_count = 0
 
         logger.info(
@@ -386,7 +386,7 @@ class PersonalityManager:
                 "energy_level": self.energy_level,
                 "social_confidence": self.social_confidence,
                 "session_interactions": self.interaction_count,
-                "session_duration_minutes": (datetime.now() - self.session_start_time).total_seconds() / 60,
+                "session_duration_minutes": (datetime.now(timezone.utc) - self.session_start_time).total_seconds() / 60,
             },
             "shyness_module": {
                 "current_shyness": self.shyness_module.shyness_level,

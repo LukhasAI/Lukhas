@@ -25,7 +25,7 @@ MODULE_TIERS = {
 
 # API endpoint patterns to protect
 API_PATTERNS = [
-    r"@app\.(get|post|put|delete|patch)\(",
+    r"@app\.(get|post|put|delete|patch, timezone)\(",
     r"@router\.(get|post|put|delete|patch)\(",
     r"@[a-zA-Z_]+\.(get|post|put|delete|patch)\(",
 ]
@@ -47,7 +47,7 @@ USER_CONTEXT_FUNCTIONS = [
 class AutoIdentityFixer:
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
-        self.backup_dir = self.root_path / f"identity_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.root_path / f"identity_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.fixes_applied = []
         self.errors = []
 

@@ -24,7 +24,7 @@ except ImportError:
     PostResult = None
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 from automation.content_quality_validator import ContentQualityValidator
 from automation.vocabulary_integration import VocabularyIntegration
 from engines.database_integration import db
@@ -131,7 +131,7 @@ class SocialMediaOrchestrator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"social_media_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"social_media_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -178,7 +178,7 @@ class SocialMediaOrchestrator:
     def _save_configuration(self):
         """Save content queue configuration"""
         queue_data = {
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "posts": [asdict(post) for post in self.content_queue],
         }
 
@@ -228,7 +228,7 @@ class SocialMediaOrchestrator:
             "#TechInnovation",
         ]
 
-        post_id = f"insight_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        post_id = f"insight_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         return ContentPost(
             post_id=post_id,
@@ -237,7 +237,7 @@ class SocialMediaOrchestrator:
             title="Daily Consciousness Technology Insight",
             content=enhanced_content,
             hashtags=hashtags,
-            scheduled_time=datetime.now().isoformat(),
+            scheduled_time=datetime.now(timezone.utc).isoformat(),
         )
 
     async def generate_dream_post(self) -> Optional[ContentPost]:
@@ -296,7 +296,7 @@ class SocialMediaOrchestrator:
             "#AIPhilosophy",
         ]
 
-        post_id = f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        post_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         return ContentPost(
             post_id=post_id,
@@ -306,7 +306,7 @@ class SocialMediaOrchestrator:
             content=enhanced_content,
             media_path=str(selected_image),
             hashtags=hashtags,
-            scheduled_time=datetime.now().isoformat(),
+            scheduled_time=datetime.now(timezone.utc).isoformat(),
         )
 
     async def generate_news_commentary(self) -> Optional[ContentPost]:
@@ -382,7 +382,7 @@ class SocialMediaOrchestrator:
                 "#TechAnalysis",
             ]
 
-            post_id = f"news_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            post_id = f"news_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
             return ContentPost(
                 post_id=post_id,
@@ -391,7 +391,7 @@ class SocialMediaOrchestrator:
                 title=f"LUKHAS AI Analysis: {news_item['title'][:80]}...",
                 content=enhanced_content,
                 hashtags=hashtags,
-                scheduled_time=datetime.now().isoformat(),
+                scheduled_time=datetime.now(timezone.utc).isoformat(),
             )
 
         except Exception as e:
@@ -444,7 +444,7 @@ class SocialMediaOrchestrator:
             "#ArtificialIntelligence",
         ]
 
-        post_id = f"philosophy_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        post_id = f"philosophy_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         return ContentPost(
             post_id=post_id,
@@ -453,7 +453,7 @@ class SocialMediaOrchestrator:
             title=selected["title"],
             content=enhanced_content,
             hashtags=hashtags,
-            scheduled_time=datetime.now().isoformat(),
+            scheduled_time=datetime.now(timezone.utc).isoformat(),
         )
 
     async def generate_technical_insight(self) -> ContentPost:
@@ -516,7 +516,7 @@ class SocialMediaOrchestrator:
             "#ArtificialIntelligence",
         ]
 
-        post_id = f"technical_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        post_id = f"technical_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         return ContentPost(
             post_id=post_id,
@@ -525,7 +525,7 @@ class SocialMediaOrchestrator:
             title=selected["title"],
             content=enhanced_content,
             hashtags=hashtags,
-            scheduled_time=datetime.now().isoformat(),
+            scheduled_time=datetime.now(timezone.utc).isoformat(),
         )
 
     async def generate_daily_content_batch(self) -> list[ContentPost]:

@@ -21,7 +21,7 @@ class IntegrationConfig:
     async_processing: bool = True
     component_isolation: bool = True
 
-    def __post_init__(self):
+    def __post_init__(self, timezone):
         """Validate configuration."""
         self.max_concurrent_operations = max(1, min(100, self.max_concurrent_operations))
         self.timeout_seconds = max(1, min(300, self.timeout_seconds))
@@ -37,7 +37,7 @@ class IntegrationResult:
     error_message: Optional[str] = None
     execution_time: float = 0.0
     component_id: Optional[str] = None
-    timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class UnifiedIntegration:
@@ -109,7 +109,7 @@ class UnifiedIntegration:
                 self.components[component_id] = {
                     "instance": component,
                     "metadata": metadata or {},
-                    "registered_at": datetime.now().isoformat(),
+                    "registered_at": datetime.now(timezone.utc).isoformat(),
                     "active": True,
                 }
 
@@ -188,7 +188,7 @@ class UnifiedIntegration:
         Returns:
             Integration result
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             if component_id not in self.components:
@@ -218,7 +218,7 @@ class UnifiedIntegration:
 
             result = method(*args, **kwargs)
 
-            execution_time = (datetime.now() - start_time).total_seconds()
+            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             self.logger.info(f"Successfully invoked {component_id}.{method_name}")
 
@@ -233,7 +233,7 @@ class UnifiedIntegration:
             )
 
         except Exception as e:
-            execution_time = (datetime.now() - start_time).total_seconds()
+            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             self.logger.error(f"Failed to invoke {component_id}.{method_name}: {e!s}")
 
@@ -271,7 +271,7 @@ class UnifiedIntegration:
                 {
                     "operation": operation,
                     "result": result,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -300,7 +300,7 @@ class UnifiedIntegration:
             pipeline = {
                 "id": pipeline_id,
                 "steps": steps,
-                "created_at": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "active": True,
             }
 
@@ -331,7 +331,7 @@ class UnifiedIntegration:
         Returns:
             Integration result
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             if pipeline_id not in self.integration_handlers:
@@ -372,7 +372,7 @@ class UnifiedIntegration:
                 # Update current data for next step
                 current_data = step_result.result_data.get("method_result", current_data)
 
-            execution_time = (datetime.now() - start_time).total_seconds()
+            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             self.logger.info(f"Successfully executed pipeline: {pipeline_id}")
 
@@ -388,7 +388,7 @@ class UnifiedIntegration:
             )
 
         except Exception as e:
-            execution_time = (datetime.now() - start_time).total_seconds()
+            execution_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             return IntegrationResult(
                 success=False,
@@ -501,7 +501,7 @@ class UnifiedIntegration:
                 "async_processing": self.config.async_processing,
                 "component_isolation": self.config.component_isolation,
             },
-            "export_timestamp": datetime.now().isoformat(),
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def import_configuration(self, config_data: dict[str, Any]) -> IntegrationResult:

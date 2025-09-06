@@ -55,7 +55,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure logging with CEO-level metrics
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - 💰 %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - 💰 %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -401,7 +401,7 @@ class QIResonanceGlyph:
 
         # Calculate temporal validity (TIME-LOCKED SOVEREIGNTY)
         validity_window = timedelta(seconds=self.config.temporal_window_seconds)
-        temporal_validity = datetime.now() + validity_window
+        temporal_validity = datetime.now(timezone.utc) + validity_window
 
         # Generate patents for this glyph
         patents = self._generate_patents_for_glyph(user_identity, security_tier)

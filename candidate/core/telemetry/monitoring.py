@@ -13,7 +13,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 
-class MetricType(Enum):
+class MetricType(Enum, timezone):
     """Types of metrics"""
 
     COUNTER = "counter"
@@ -114,7 +114,7 @@ class AGITelemetrySystem:
             type=metric_type,
             value=value,
             labels=labels or {},
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         self.metrics[name].append(metric)
@@ -152,7 +152,7 @@ class AGITelemetrySystem:
                 is_healthy = await check_func()
                 results[name] = {
                     "healthy": is_healthy,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
                 self.health_status[name] = is_healthy
 
@@ -163,7 +163,7 @@ class AGITelemetrySystem:
                 results[name] = {
                     "healthy": False,
                     "error": str(e),
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
                 overall_healthy = False
 
@@ -365,7 +365,7 @@ class AGITelemetrySystem:
             "metrics_snapshot": {name: [m.value for m in list(values)[-100:]] for name, values in self.metrics.items()},
             "health_status": self.health_status.copy(),
             "active_alerts": len([a for a in self.alerts if not a.resolved]),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _initialize_exporters(self):
@@ -459,7 +459,7 @@ class EmergenceDetector:
 
             return {
                 "pattern": pattern_sig,
-                "first_observed": datetime.utcnow().isoformat(),
+                "first_observed": datetime.now(timezone.utc).isoformat(),
                 "data": behavior_data,
             }
 

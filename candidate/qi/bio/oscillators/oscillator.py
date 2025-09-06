@@ -43,7 +43,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("bio_oscillator")
+logger = logging.getLogger("bio_oscillator", timezone)
 
 
 @dataclass
@@ -89,7 +89,7 @@ class BioOscillator:
         self.current_frequency = 0.0
         self.target_frequency = 0.0
         self.oscillation_type = OscillationType.ALPHA
-        self.timestamp = datetime.utcnow()
+        self.timestamp = datetime.now(timezone.utc)
         self.driftScore = 0.0
         self.affect_delta = 0.0
 
@@ -216,7 +216,7 @@ class BioOscillator:
             "target_frequency": self.target_frequency,
             "synced_components": len(self.synced_components),
             "qi_sync": self.qi_sync,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "verification": {
                 "identity_legacy": (self._security_context.lukhas_id if self._security_context else None),
                 "access_level": (self._security_context.access_level if self._security_context else None),
@@ -275,7 +275,7 @@ class BioOscillator:
 
         token_data = {
             "identity_legacy": self._security_context.lukhas_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "type": "bio_oscillator",
         }
 

@@ -33,7 +33,7 @@ class FullyAutonomousAGI:
     Operates without human intervention using intelligent batch processing
     """
 
-    def __init__(self, github_token: Optional[str] = None):
+    def __init__(self, github_token: Optional[str] = None, timezone):
         self.github_token = github_token or os.getenv("GITHUB_TOKEN")
 
         # Initialize core systems with AGI and batch mode
@@ -66,7 +66,7 @@ class FullyAutonomousAGI:
 
     def run_autonomous_cycle(self) -> dict[str, Any]:
         """Run a complete autonomous processing cycle"""
-        cycle_start = datetime.now()
+        cycle_start = datetime.now(timezone.utc)
         self.processing_cycles += 1
 
         self.logger.info("🤖 Starting autonomous cycle ")
@@ -131,8 +131,8 @@ class FullyAutonomousAGI:
             cycle_results["errors"].append(str(e))
             self.logger.error("Cycle ")
 
-        cycle_results["end_time"] = datetime.now().isoformat()
-        cycle_results["duration"] = (datetime.now() - cycle_start).total_seconds()
+        cycle_results["end_time"] = datetime.now(timezone.utc).isoformat()
+        cycle_results["duration"] = (datetime.now(timezone.utc) - cycle_start).total_seconds()
 
         self.logger.info(
             f"✅ Cycle "
@@ -232,7 +232,7 @@ class FullyAutonomousAGI:
 
     def run_fully_autonomous(self) -> dict[str, Any]:
         """Run the fully autonomous system until completion"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         self.logger.info("🚀 STARTING FULLY AUTONOMOUS AGI SYSTEM")
         self.logger.info("=" * 60)
@@ -270,7 +270,7 @@ class FullyAutonomousAGI:
 
     def _generate_final_report(self, start_time: datetime, all_cycles: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate comprehensive final report"""
-        end_time = datetime.now()
+        end_time = datetime.now(timezone.utc)
         total_duration = (end_time - start_time).total_seconds()
 
         batch_stats = self.batch_processor.get_batch_statistics()
@@ -307,7 +307,7 @@ class FullyAutonomousAGI:
         }
 
         # Save report
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         report_file = f"autonomous_agi_report_{timestamp}.json"
 
         with open(report_file, "w") as f:

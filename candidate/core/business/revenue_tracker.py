@@ -23,7 +23,7 @@ class ConversionEvent:
     user_earnings: float
     platform_earnings: float
     timestamp: datetime
-    consciousness_context: dict[str, any] = field(default_factory=dict)
+    consciousness_context: dict[str, any] = field(default_factory=dict, timezone)
     product_metadata: dict[str, any] = field(default_factory=dict)
     verified: bool = False
 
@@ -116,18 +116,18 @@ class RevenueTracker:
         platform_earnings = total_commission * (self.profit_sharing_config["platform_percentage"] / 100.0)
 
         # Generate conversion ID
-        conversion_id = self._generate_conversion_id(user_id, ad_id, datetime.now())
+        conversion_id = self._generate_conversion_id(user_id, ad_id, datetime.now(timezone.utc))
 
         # Create conversion event
         conversion_event = ConversionEvent(
             conversion_id=conversion_id,
             user_id=user_id,
-            ad_id=ad_id or f"unknown_{datetime.now().timestamp()}",
+            ad_id=ad_id or f"unknown_{datetime.now(timezone.utc).timestamp()}",
             conversion_value=conversion_value,
             commission_rate=commission_rate,
             user_earnings=user_earnings,
             platform_earnings=platform_earnings,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             consciousness_context=consciousness_context or {},
             product_metadata=product_metadata or {},
             verified=True,  # In production, this would require verification
@@ -176,7 +176,7 @@ class RevenueTracker:
         eligible_for_payout = user_earnings.pending_payout >= self.profit_sharing_config["minimum_payout"]
 
         # Calculate recent performance (last 30 days)
-        thirty_days_ago = datetime.now() - timedelta(days=30)
+        thirty_days_ago = datetime.now(timezone.utc) - timedelta(days=30)
         recent_conversions = [c for c in user_earnings.earnings_history if c.timestamp > thirty_days_ago]
         recent_earnings = sum(c.user_earnings for c in recent_conversions)
 
@@ -229,7 +229,7 @@ class RevenueTracker:
 
         # In production, this would integrate with payment processors
         payout_amount = user_earnings.pending_payout
-        payout_id = self._generate_payout_id(user_id, datetime.now())
+        payout_id = self._generate_payout_id(user_id, datetime.now(timezone.utc))
 
         # Update earnings record
         user_earnings.paid_out += payout_amount
@@ -240,7 +240,7 @@ class RevenueTracker:
             "payout_id": payout_id,
             "payout_amount": payout_amount,
             "payout_method": payout_method.get("type", "unknown"),
-            "processed_at": datetime.now().isoformat(),
+            "processed_at": datetime.now(timezone.utc).isoformat(),
             "new_total_paid": user_earnings.paid_out,
         }
 

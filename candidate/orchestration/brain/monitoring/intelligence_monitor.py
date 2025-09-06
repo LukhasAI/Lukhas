@@ -20,7 +20,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger("LUKHAS.Orchestration.Monitoring.Intelligence")
+logger = logging.getLogger("LUKHAS.Orchestration.Monitoring.Intelligence", timezone)
 
 
 class MetricType(Enum):
@@ -76,7 +76,7 @@ class AlertEvent:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -212,7 +212,7 @@ class LukhasIntelligenceMonitor:
                 metric_name=metric_name,
                 value=value,
                 unit=unit,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 agent_id=agent_id,
                 intelligence_engine=intelligence_engine,
                 metadata=metadata or {},
@@ -244,7 +244,7 @@ class LukhasIntelligenceMonitor:
             "agent_id": agent_id,
             "intelligence_engine": intelligence_engine,
             "start_time": start_time,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # Store operation start
@@ -321,7 +321,7 @@ class LukhasIntelligenceMonitor:
                     "processing_time": processing_time,
                     "success": success,
                     "confidence": confidence,
-                    "timestamp": datetime.now(),
+                    "timestamp": datetime.now(timezone.utc),
                 }
             )
 
@@ -332,7 +332,7 @@ class LukhasIntelligenceMonitor:
                     "processing_time": processing_time,
                     "success": success,
                     "confidence": confidence,
-                    "timestamp": datetime.now(),
+                    "timestamp": datetime.now(timezone.utc),
                 }
             )
 
@@ -349,7 +349,7 @@ class LukhasIntelligenceMonitor:
         metadata: Optional[dict[str, Any]] = None,
     ):
         """Record Trinity Framework compliance scores"""
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         trinity_data = {
             "identity": identity_score,
@@ -623,7 +623,7 @@ class LukhasIntelligenceMonitor:
                 await asyncio.sleep(60)  # Check every minute
 
                 # Auto-resolve alerts that are no longer triggered
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 alerts_to_resolve = []
 
                 for alert_id, alert in self.active_alerts.items():
@@ -643,7 +643,7 @@ class LukhasIntelligenceMonitor:
             try:
                 await asyncio.sleep(3600)  # Clean up every hour
 
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 cutoff_time = current_time - timedelta(hours=24)
 
                 # Clean up metrics history
@@ -760,15 +760,15 @@ class LukhasIntelligenceMonitor:
     ) -> dict[str, Any]:
         """Export metrics for external analysis"""
         if start_time is None:
-            start_time = datetime.now() - timedelta(hours=1)
+            start_time = datetime.now(timezone.utc) - timedelta(hours=1)
         if end_time is None:
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
 
         exported_data = {
             "export_info": {
                 "start_time": start_time.isoformat(),
                 "end_time": end_time.isoformat(),
-                "exported_at": datetime.now().isoformat(),
+                "exported_at": datetime.now(timezone.utc).isoformat(),
             },
             "metrics": {},
             "alerts": [],

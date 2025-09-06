@@ -42,7 +42,7 @@ try:
 except ImportError:
     # Create placeholders if the modules don't exist
     class QIDreamAdapter:
-        def __init__(self, *args, **kwargs):
+        def __init__(self, *args, **kwargs, timezone):
             pass
 
         def adapt(self, *args, **kwargs):
@@ -176,7 +176,7 @@ class EnhancedDreamEngine:
 
             # Start dream reflection task
             self.current_cycle = {
-                "start_time": datetime.utcnow(),
+                "start_time": datetime.now(timezone.utc),
                 "duration_minutes": duration_minutes,
                 "memories_processed": 0,
             }
@@ -223,9 +223,9 @@ class EnhancedDreamEngine:
         """
         try:
             duration_seconds = duration_minutes * 60
-            end_time = datetime.utcnow().timestamp() + duration_seconds
+            end_time = datetime.now(timezone.utc).timestamp() + duration_seconds
 
-            while datetime.utcnow().timestamp() < end_time:
+            while datetime.now(timezone.utc).timestamp() < end_time:
                 # Process quantum dream state
                 await self._process_quantum_dreams()
 
@@ -297,7 +297,7 @@ class EnhancedDreamEngine:
         enhanced["qi_entanglement"] = q_state.get("entanglement", 0)
 
         # Add enhancement metadata
-        enhanced["enhanced_timestamp"] = datetime.utcnow().isoformat()
+        enhanced["enhanced_timestamp"] = datetime.now(timezone.utc).isoformat()
         enhanced["enhancement_method"] = "quantum"
 
         return enhanced
@@ -307,7 +307,7 @@ class EnhancedDreamEngine:
         if not self.current_cycle:
             return
 
-        duration = datetime.utcnow() - self.current_cycle["start_time"]
+        duration = datetime.now(timezone.utc) - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
         logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
@@ -361,7 +361,7 @@ class EnhancedDreamEngine:
             if coherence >= self.config.coherence_threshold:
                 # Create insight from high-coherence state
                 insight = {
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "type": "qi_pattern",
                     "coherence": coherence,
                     "entanglement": entanglement,
@@ -383,7 +383,7 @@ class EnhancedDreamEngine:
         try:
             for insight in insights:
                 # Add storage metadata
-                insight["storage_timestamp"] = datetime.utcnow().isoformat()
+                insight["storage_timestamp"] = datetime.now(timezone.utc).isoformat()
 
                 # Store via integration layer
                 await self.integration.store_data("dream_insights", insight)
@@ -430,7 +430,7 @@ class EnhancedDreamEngine:
         try:
             # Update dream state
             dream["state"] = "processing"
-            dream["metadata"]["last_processed"] = datetime.utcnow().isoformat()
+            dream["metadata"]["last_processed"] = datetime.now(timezone.utc).isoformat()
 
             # Get current quantum-like state
             qi_like_state = await self.qi_adapter.get_quantum_like_state()
@@ -490,7 +490,7 @@ class EnhancedDreamEngine:
                             "timestamp": qi_like_state["timestamp"],
                         },
                         "consolidation_complete": True,
-                        "consolidated_at": datetime.utcnow().isoformat(),
+                        "consolidated_at": datetime.now(timezone.utc).isoformat(),
                     },
                 }
             )

@@ -17,7 +17,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def get_claude_context():
+def get_claude_context(, timezone):
     """
     Attempts to retrieve Claude Code chat context.
     Note: This is a placeholder - Claude Code doesn't expose chat history via API.
@@ -34,7 +34,7 @@ def save_context_manually():
     """
     Guide user to manually save context.
     """
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
     # Create contexts directory
     context_dir = Path("/Users/agi_dev/Lukhas/docs/claude_contexts")
@@ -49,12 +49,12 @@ def save_context_manually():
     print("3. Paste your conversation content when prompted\n")
 
     # Create template
-    template = f"""# Claude Code Context - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+    template = f"""# Claude Code Context - {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 
 ## Session Information
 - Repository: LUKHAS
-- Date: {datetime.now().strftime("%Y-%m-%d")}
-- Time: {datetime.now().strftime("%H:%M:%S")}
+- Date: {datetime.now(timezone.utc).strftime("%Y-%m-%d")}
+- Time: {datetime.now(timezone.utc).strftime("%H:%M:%S")}
 
 ## Conversation Context
 

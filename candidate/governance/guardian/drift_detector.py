@@ -36,7 +36,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DriftType(Enum):
@@ -259,7 +259,7 @@ class AdvancedDriftDetector:
             "forecasts_generated": 0,
             "prediction_accuracy": 0.0,
             "system_stability_score": 1.0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Monitoring control
@@ -307,7 +307,7 @@ class AdvancedDriftDetector:
                 baseline = {
                     "baseline_id": baseline_id,
                     "drift_type": drift_type.value,
-                    "created_at": datetime.now(),
+                    "created_at": datetime.now(timezone.utc),
                     "values": {"mean": 0.5, "std": 0.1, "count": 100},
                     "statistical_profile": {
                         "response_time": {
@@ -347,7 +347,7 @@ class AdvancedDriftDetector:
                         "window_size": 100,
                         "sensitivity": 0.1,
                     },
-                    "trained_at": datetime.now(),
+                    "trained_at": datetime.now(timezone.utc),
                     "performance": {
                         "accuracy": 0.85,
                         "precision": 0.80,
@@ -492,7 +492,7 @@ class AdvancedDriftDetector:
             "baseline_id": baseline_id,
             "drift_type": drift_type.value,
             "source_system": source_system,
-            "created_at": datetime.now(),
+            "created_at": datetime.now(timezone.utc),
             "values": baseline_values,
             "statistical_profile": self._calculate_statistical_profile(baseline_values),
         }
@@ -575,7 +575,7 @@ class AdvancedDriftDetector:
         """Cleanup old drift data"""
 
         # Remove old measurements beyond retention period
-        cutoff_time = datetime.now() - timedelta(days=self.history_retention_days)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(days=self.history_retention_days)
 
         # Clean measurement history
         for drift_type in self.measurement_history:
@@ -665,7 +665,7 @@ class AdvancedDriftDetector:
                 severity=severity,
                 confidence=confidence,
                 source_system=source_system,
-                measurement_time=datetime.now(),
+                measurement_time=datetime.now(timezone.utc),
                 reference_baseline=baseline.get("baseline_id"),
                 contributing_factors=contributing_factors,
                 statistical_measures=drift_scores,
@@ -673,7 +673,7 @@ class AdvancedDriftDetector:
                 method_parameters={
                     "threshold": self.drift_threshold,
                     "methods_used": list(drift_scores.keys()),
-                    "baseline_age": (datetime.now() - baseline.get("created_at", datetime.now())).total_seconds(),
+                    "baseline_age": (datetime.now(timezone.utc) - baseline.get("created_at", datetime.now(timezone.utc))).total_seconds(),
                 },
             )
 
@@ -719,7 +719,7 @@ class AdvancedDriftDetector:
                 severity=DriftSeverity.MINIMAL,
                 confidence=0.0,
                 source_system=source_system,
-                measurement_time=datetime.now(),
+                measurement_time=datetime.now(timezone.utc),
                 contributing_factors=[f"Measurement error: {e!s}"],
             )
 
@@ -1209,7 +1209,7 @@ class AdvancedDriftDetector:
             recent_measurements = [
                 m.drift_score
                 for m in self.drift_measurements
-                if (datetime.now() - m.measurement_time).total_seconds() < 86400
+                if (datetime.now(timezone.utc) - m.measurement_time).total_seconds() < 86400
             ]
 
             if recent_measurements:
@@ -1219,7 +1219,7 @@ class AdvancedDriftDetector:
         """Generate comprehensive drift report"""
 
         if not time_period:
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             start_time = end_time - timedelta(hours=24)
             time_period = (start_time, end_time)
         else:
@@ -1231,7 +1231,7 @@ class AdvancedDriftDetector:
         if not period_measurements:
             return DriftReport(
                 report_id=f"report_{uuid.uuid4().hex[:8]}",
-                generated_at=datetime.now(),
+                generated_at=datetime.now(timezone.utc),
                 time_period=time_period,
                 overall_drift_score=0.0,
                 max_drift_score=0.0,
@@ -1276,7 +1276,7 @@ class AdvancedDriftDetector:
 
         report = DriftReport(
             report_id=f"report_{uuid.uuid4().hex[:8]}",
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_drift_score=overall_drift_score,
             max_drift_score=max_drift_score,

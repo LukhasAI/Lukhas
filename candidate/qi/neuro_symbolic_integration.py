@@ -13,8 +13,7 @@ try:
     from .neuro_symbolic_engine import (
         CausalReasoningModule,
         QIInspiredAttention,
-        QINeuroSymbolicEngine,
-    )
+        QINeuroSymbolicEngine,, timezone)
 
     NEURO_SYMBOLIC_AVAILABLE = True
 except ImportError as e:
@@ -106,7 +105,7 @@ class NeuroSymbolicIntegration:
                         "user_id": user_id,
                         "session_token": session_token,
                         "access_tier": MockAccessTier(),
-                        "timestamp": datetime.now(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                     self.active_sessions[session_token] = session
                     return session
@@ -249,7 +248,7 @@ class NeuroSymbolicIntegration:
             if self.cache_settings["enable_result_caching"]:
                 self.processing_cache[cache_key] = {
                     "result": result,
-                    "timestamp": datetime.now(),
+                    "timestamp": datetime.now(timezone.utc),
                     "user_id": user_id,
                 }
 
@@ -265,7 +264,7 @@ class NeuroSymbolicIntegration:
             return {
                 "status": "error",
                 "message": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "user_id": user_id,
             }
 
@@ -278,7 +277,7 @@ class NeuroSymbolicIntegration:
             "user_id": user_id,
             "session_token": session_token,
             "access_tier": type("MockTier", (), {"value": 2})(),
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "anonymous": True,
         }
 
@@ -301,7 +300,7 @@ class NeuroSymbolicIntegration:
         if not timestamp:
             return False
 
-        age_seconds = (datetime.now() - timestamp).total_seconds()
+        age_seconds = (datetime.now(timezone.utc) - timestamp).total_seconds()
         return age_seconds < self.cache_settings["cache_ttl_seconds"]
 
     def _cleanup_cache(self):
@@ -354,7 +353,7 @@ class NeuroSymbolicIntegration:
                 "has_question": has_question,
                 "has_emotion_words": has_emotion_words,
             },
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processing_id": str(uuid.uuid4()),
             "engine_version": "LUKHAS_QNS_FALLBACK_v1.0.0",
             "fallback_mode": True,
@@ -397,7 +396,7 @@ class NeuroSymbolicIntegration:
             return {
                 "status": "error",
                 "message": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _fallback_attention_processing(
@@ -418,7 +417,7 @@ class NeuroSymbolicIntegration:
                 "semantic": {"content": input_data.get("text", ""), "weight": 0.4},
                 "emotional": {"content": input_data.get("emotion", {}), "weight": 0.3},
             },
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processing_id": str(uuid.uuid4()),
             "fallback_mode": True,
         }
@@ -456,7 +455,7 @@ class NeuroSymbolicIntegration:
             return {
                 "status": "error",
                 "message": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _fallback_causal_reasoning(self, attended_data: dict[str, Any], user_id: str) -> dict[str, Any]:
@@ -484,7 +483,7 @@ class NeuroSymbolicIntegration:
                 }
             ],
             "original_attended_data": attended_data,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "user_id": user_id,
             "processing_id": str(uuid.uuid4()),
             "fallback_mode": True,
@@ -511,7 +510,7 @@ class NeuroSymbolicIntegration:
 
     async def cleanup_sessions(self):
         """Clean up expired sessions"""
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         expired_sessions = []
 
         for token, session in self.session_registry.items():

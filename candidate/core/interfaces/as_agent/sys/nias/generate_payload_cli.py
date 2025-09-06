@@ -23,7 +23,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-DEST_DIR = Path("core/sample_payloads/")
+DEST_DIR = Path("core/sample_payloads/", timezone)
 DEST_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -60,7 +60,7 @@ def generate_payload():
         "source_widget": widget,
         "dream_fallback": dream_fallback,
         "allow_replay": allow_replay,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     file_path = DEST_DIR / f"{message_id}.json"

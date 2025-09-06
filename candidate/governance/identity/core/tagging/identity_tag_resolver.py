@@ -22,8 +22,7 @@ from candidate.core.tagging_system import Tag, TagManager, TagType
 from governance.identity.core.events import (
     IdentityEventPublisher,
     IdentityEventType,
-    get_identity_event_publisher,
-)
+    get_identity_event_publisher,, timezone)
 
 logger = logging.getLogger("LUKHAS_IDENTITY_TAG_RESOLVER")
 
@@ -72,7 +71,7 @@ class TrustRelationship:
     def update_interaction(self, positive: bool):
         """Update trust based on interaction."""
         self.interaction_count += 1
-        self.last_interaction = datetime.utcnow()
+        self.last_interaction = datetime.now(timezone.utc)
 
         if positive:
             self.positive_interactions += 1
@@ -84,7 +83,7 @@ class TrustRelationship:
             base_score = self.positive_interactions / self.interaction_count
 
             # Apply decay for old relationships
-            age_days = (datetime.utcnow() - self.established_at).days
+            age_days = (datetime.now(timezone.utc) - self.established_at).days
             decay_factor = 1.0 / (1.0 + age_days / 365)  # Yearly decay
 
             self.trust_score = base_score * (0.7 + 0.3 * decay_factor)
@@ -218,7 +217,7 @@ class IdentityTagResolver:
             tier_required=tier_level,
             consensus_required=require_consensus,
             issuer_id=issuer_id or "system",
-            expiry_time=(datetime.utcnow() + timedelta(hours=expiry_hours) if expiry_hours else None),
+            expiry_time=(datetime.now(timezone.utc) + timedelta(hours=expiry_hours) if expiry_hours else None),
         )
 
         # Check if consensus is required
@@ -231,7 +230,7 @@ class IdentityTagResolver:
                 return ""
 
             # Create consensus request
-            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.utcnow().timestamp())}"
+            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.now(timezone.utc).timestamp())}"
             consensus_request = TagConsensusRequest(
                 request_id=request_id,
                 requester_id=issuer_id,
@@ -239,7 +238,7 @@ class IdentityTagResolver:
                 tag=tag,
                 trust_network=trust_network[:10],  # Limit to 10 trusted identities
                 required_votes=min(5, len(trust_network)),
-                deadline=datetime.utcnow() + timedelta(minutes=5),
+                deadline=datetime.now(timezone.utc) + timedelta(minutes=5),
             )
 
             self.active_consensus_requests[request_id] = consensus_request
@@ -267,7 +266,7 @@ class IdentityTagResolver:
             # Record in history
             self.tag_history.append(
                 {
-                    "timestamp": datetime.utcnow(),
+                    "timestamp": datetime.now(timezone.utc),
                     "lambda_id": lambda_id,
                     "tag": tag,
                     "action": "assigned",
@@ -304,7 +303,7 @@ class IdentityTagResolver:
         if relationship_key in self.trust_relationships:
             # Update existing relationship
             relationship = self.trust_relationships[relationship_key]
-            relationship.last_interaction = datetime.utcnow()
+            relationship.last_interaction = datetime.now(timezone.utc)
             if trust_factors:
                 relationship.trust_factors.update(trust_factors)
         else:
@@ -314,8 +313,8 @@ class IdentityTagResolver:
                 to_identity=to_identity,
                 trust_level=initial_trust,
                 trust_score=initial_trust.value,
-                established_at=datetime.utcnow(),
-                last_interaction=datetime.utcnow(),
+                established_at=datetime.now(timezone.utc),
+                last_interaction=datetime.now(timezone.utc),
                 trust_factors=trust_factors or {},
             )
             self.trust_relationships[relationship_key] = relationship
@@ -407,7 +406,7 @@ class IdentityTagResolver:
         # Filter valid tags (not expired, tier appropriate)
         valid_tags = []
         for tag in identity_tags:
-            if tag.expiry_time and tag.expiry_time < datetime.utcnow():
+            if tag.expiry_time and tag.expiry_time < datetime.now(timezone.utc):
                 continue
             if tag.tier_required and tier_level < tag.tier_required:
                 continue
@@ -581,7 +580,7 @@ class IdentityTagResolver:
         """Background processor for consensus requests."""
         while True:
             try:
-                current_time = datetime.utcnow()
+                current_time = datetime.now(timezone.utc)
                 completed_requests = []
 
                 for request_id, request in self.active_consensus_requests.items():

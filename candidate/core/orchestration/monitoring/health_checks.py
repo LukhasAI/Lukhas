@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional, Union
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class HealthStatus(Enum):
@@ -132,7 +132,7 @@ class HealthCheck:
                 elif status == HealthStatus.UNHEALTHY:
                     message += f" (failed {self.consecutive_failures} consecutive times)"
 
-            self.last_run = datetime.now()
+            self.last_run = datetime.now(timezone.utc)
 
             return ComponentHealth(
                 component_name=self.name,
@@ -152,7 +152,7 @@ class HealthCheck:
                 component_name=self.name,
                 status=(HealthStatus.CRITICAL if self.critical else HealthStatus.UNHEALTHY),
                 message=f"{self.name} check timed out after {self.timeout_seconds}s",
-                last_check=datetime.now(),
+                last_check=datetime.now(timezone.utc),
                 response_time_ms=response_time_ms,
                 error_count=self.consecutive_failures,
                 metadata={"timeout": True},
@@ -166,7 +166,7 @@ class HealthCheck:
                 component_name=self.name,
                 status=(HealthStatus.CRITICAL if self.critical else HealthStatus.UNHEALTHY),
                 message=f"{self.name} check failed: {e!s}",
-                last_check=datetime.now(),
+                last_check=datetime.now(timezone.utc),
                 response_time_ms=response_time_ms,
                 error_count=self.consecutive_failures,
                 metadata={
@@ -191,7 +191,7 @@ class HealthCheck:
             return True
 
         next_run = self.last_run + timedelta(seconds=self.interval_seconds)
-        return datetime.now() >= next_run
+        return datetime.now(timezone.utc) >= next_run
 
 
 class HealthChecker:
@@ -263,7 +263,7 @@ class HealthChecker:
                     component_name=name,
                     status=HealthStatus.CRITICAL,
                     message=f"Health check execution failed: {e!s}",
-                    last_check=datetime.now(),
+                    last_check=datetime.now(timezone.utc),
                     error_count=1,
                     metadata={"error": str(e)},
                 )
@@ -403,7 +403,7 @@ class HealthChecker:
         return {
             "overall_health": self.get_overall_health(),
             "components": {name: health.to_dict() for name, health in self.health_status.items()},
-            "report_timestamp": datetime.now().isoformat(),
+            "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "monitoring_active": self.running,
         }
 

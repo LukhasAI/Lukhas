@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -92,7 +92,7 @@ class MemorySpindle:
                 "entropy_score": entropy_score,
                 "entropy_class": entropy_class,
                 "content": content,
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(timezone.utc),
             }
         )
 
@@ -142,7 +142,7 @@ class MemorySpindle:
             entropy_class=dominant_class,
             pattern_strength=pattern_strength,
             active_memories=len(self.memory_window),
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         # Check for emergent patterns
@@ -234,7 +234,7 @@ class MemorySpindle:
         if strength > self.PATTERN_THRESHOLDS["strong"]:
             # Strong pattern detected
             emergence = {
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(timezone.utc),
                 "strength": strength,
                 "type": "crystallized" if strength > 0.9 else "strong",
                 "dominant_pattern": patterns[0] if patterns else None,
@@ -292,13 +292,13 @@ class MemorySpindle:
             entropy_class="stable",
             pattern_strength=0.0,
             active_memories=0,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
 
     def _log_event(self, event_type: str, data: dict):
         """Log spindle events to file"""
         log_entry = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "event": event_type,
             "data": data,
         }

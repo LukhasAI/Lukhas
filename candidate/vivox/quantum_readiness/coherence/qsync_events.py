@@ -14,7 +14,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class SyncType(Enum):
@@ -314,7 +314,7 @@ class QISynchronizer:
             agent_ids=agent_ids,
             sync_type=sync_type,
             correlation_strength=correlation,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             qi_states=states.copy(),
             metadata={
                 "agent_count": len(agent_ids),
@@ -410,7 +410,7 @@ class QISynchronizer:
                         agent_ids=list(agent_combo),
                         sync_type=SyncType.EMERGENT,
                         correlation_strength=correlation,
-                        timestamp=datetime.now(),
+                        timestamp=datetime.now(timezone.utc),
                         qi_states=states,
                         metadata={
                             "spontaneous": True,
@@ -512,7 +512,7 @@ class QISynchronizer:
 
     def _generate_event_id(self) -> str:
         """Generate unique event ID"""
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         random_bytes = np.random.bytes(8)
         return f"qsync_{hashlib.sha256(f'{timestamp}{random_bytes}'.encode()).hexdigest()[:16]}"
 

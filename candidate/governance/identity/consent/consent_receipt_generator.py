@@ -28,7 +28,7 @@ from typing import Any, Optional
 
 import qrcode
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ConsentReceiptGenerator:
@@ -240,7 +240,7 @@ class ConsentReceiptGenerator:
             raise ValueError("No consent events provided")
 
         # Aggregate data
-        timestamp = datetime.utcnow()
+        timestamp = datetime.now(timezone.utc)
         glyph_trail = []
         tiers = set()
 
@@ -315,7 +315,7 @@ def main():
     receipt_path = generator.generate_receipt(
         user_id="t5_user_000",
         consent_hash=f"trusthelix:{hashlib.sha256(b'demo_consent').hexdigest()[:24]}",
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc),
         tier="T5",
         consciousness_state="flow_state",
         cultural_region="asia",
@@ -333,20 +333,20 @@ def main():
             "tier": "T3",
             "consciousness_state": "meditative",
             "glyphs": ["🧘", "🌸", "☮️"],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         },
         {
             "tier": "T4",
             "consciousness_state": "analytical",
             "glyphs": ["📊", "🔬", "🧮"],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         },
         {
             "tier": "T5",
             "consciousness_state": "flow_state",
             "glyphs": ["🌊", "🏄", "🚀"],
             "cultural_region": "americas",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         },
     ]
 

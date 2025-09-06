@@ -18,7 +18,7 @@ from typing import Any
 class ComplianceEngine:
     """Base class for compliance engines."""
 
-    def __init__(self, config: dict[str, Any]):
+    def __init__(self, config: dict[str, Any], timezone):
         self.config = config
         self.compliance_rules = []
         self.violations = []
@@ -71,7 +71,7 @@ class ComplianceViolation:
         self.rule_id = rule_id
         self.violation_type = violation_type
         self.details = details
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone.utc)
         self.severity = "medium"
 
     def to_dict(self) -> dict[str, Any]:

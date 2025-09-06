@@ -59,12 +59,15 @@ IDEA: Add predictive causal modeling based on historical lineage patterns
 
 import hashlib
 import json
+import logging
 import os
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
 
 # JULES05_NOTE: Loop-safe guard added
 MAX_DRIFT_RATE = 0.85

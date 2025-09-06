@@ -12,7 +12,7 @@ from typing import Any, Optional
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Business domains
 BUSINESS_DOMAINS = {
@@ -32,7 +32,7 @@ def get_business_status() -> dict[str, Any]:
         "domains": BUSINESS_DOMAINS,
         "total_domains": len(BUSINESS_DOMAINS),
         "operational_status": "READY",
-        "last_updated": datetime.now().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -47,7 +47,7 @@ def create_business_strategy(domain: str, objectives: list[str], timeline: str =
             "description": BUSINESS_DOMAINS[domain],
             "objectives": objectives,
             "timeline": timeline,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "created",
             "strategy_id": f"strategy_{domain}_{hash(str(objectives))}",
         }
@@ -78,7 +78,7 @@ def analyze_business_metrics(domain: str, metrics: dict[str, Any]) -> dict[str, 
                 f"Monitor trends in {domain} metrics",
                 f"Optimize {domain} operations based on data",
             ],
-            "analyzed_at": datetime.now().isoformat(),
+            "analyzed_at": datetime.now(timezone.utc).isoformat(),
             "status": "completed",
         }
         logger.info(f"Business metrics analyzed for {domain}")
@@ -98,7 +98,7 @@ def manage_partnership(
             "partnership_type": partnership_type,
             "terms": terms or {},
             "status": "active",
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "partnership_id": f"partnership_{partner_name}_{hash(partnership_type)}",
         }
         logger.info(f"Partnership managed: {partner_name} ({partnership_type})")
@@ -117,7 +117,7 @@ def get_compliance_status() -> dict[str, Any]:
             "ethical_compliance": "constellation_framework_integrated",
             "data_privacy": "gdpr_compliant",
             "security_standards": "iso_27001_aligned",
-            "last_audit": datetime.now().isoformat(),
+            "last_audit": datetime.now(timezone.utc).isoformat(),
             "status": "compliant",
         }
         logger.info("Compliance status retrieved")
@@ -141,7 +141,7 @@ def execute_marketing_campaign(
                 "conversion": "optimize_for_quality",
                 "retention": "focus_on_long_term",
             },
-            "launched_at": datetime.now().isoformat(),
+            "launched_at": datetime.now(timezone.utc).isoformat(),
             "status": "active",
             "campaign_id": f"campaign_{campaign_name}_{hash(str(channels))}",
         }

@@ -49,7 +49,7 @@ try:
     CRYPTO_AVAILABLE = True
 except ImportError:
     CRYPTO_AVAILABLE = False
-    logging.warning("Cryptography library not available. Using basic protection only.")
+    logging.warning("Cryptography library not available. Using basic protection only.", timezone)
 
 logger = logging.getLogger(__name__)
 
@@ -235,7 +235,7 @@ class AdvancedDataProtection:
             "policy_violations": 0,
             "average_processing_time": 0.0,
             "security_level_distribution": {},
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize crypto backend
@@ -348,7 +348,7 @@ class AdvancedDataProtection:
         Returns:
             Tuple of (protected_data, protection_result)
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         operation_id = f"protect_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
@@ -386,7 +386,7 @@ class AdvancedDataProtection:
             )
 
             # Create protection result
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             result = ProtectionResult(
                 operation_id=operation_id,
@@ -435,7 +435,7 @@ class AdvancedDataProtection:
                 protected_size=len(str(data).encode()),
                 protection_level=ProtectionLevel.NONE,
                 methods_applied=["error"],
-                processing_time=(datetime.now() - start_time).total_seconds(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
                 audit_trail=[f"Protection failed: {e!s}"],
             )
 
@@ -491,7 +491,7 @@ class AdvancedDataProtection:
 
             unprotection_info = {
                 "operation_id": operation_id,
-                "unprotected_at": datetime.now().isoformat(),
+                "unprotected_at": datetime.now(timezone.utc).isoformat(),
                 "unprotected_by": context.get("user_id", "system"),
                 "methods_reversed": protection_result.methods_applied,
                 "audit_trail": [
@@ -912,9 +912,9 @@ class AdvancedDataProtection:
             key_type=policy.encryption_type,
             algorithm=algorithm,
             key_size=key_size,
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
             expires_at=(
-                datetime.now() + timedelta(days=policy.key_rotation_days) if policy.key_rotation_days > 0 else None
+                datetime.now(timezone.utc) + timedelta(days=policy.key_rotation_days) if policy.key_rotation_days > 0 else None
             ),
             key_material=key_material,
             public_key=public_key,
@@ -938,7 +938,7 @@ class AdvancedDataProtection:
                 and policy.policy_id in key.authorized_systems
             ):
                 # Check if key is expired
-                if key.expires_at and datetime.now() > key.expires_at:
+                if key.expires_at and datetime.now(timezone.utc) > key.expires_at:
                     key.status = "expired"
                     continue
 
@@ -964,7 +964,7 @@ class AdvancedDataProtection:
             key_type=EncryptionType.SYMMETRIC,
             algorithm="SHA-256",
             key_size=256,
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
             expires_at=None,  # Long-lived for consistency
             key_material=key_material,
             authorized_systems=[policy.policy_id],
@@ -1039,7 +1039,7 @@ class AdvancedDataProtection:
             self.metrics["security_level_distribution"].get(level, 0) + 1
         )
 
-        self.metrics["last_updated"] = datetime.now().isoformat()
+        self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     def _maintain_history_size(self, max_size: int = 1000):
         """Maintain protection history size"""
@@ -1054,7 +1054,7 @@ class AdvancedDataProtection:
         """Rotate encryption keys"""
 
         rotated_count = 0
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         keys_to_rotate = []
 

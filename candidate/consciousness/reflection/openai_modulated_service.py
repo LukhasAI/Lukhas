@@ -23,8 +23,7 @@ from consciousness.reflection.openai_core_service import (
     OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-    OpenAIResponse,
-)
+    OpenAIResponse,, timezone)
 
 logger = logging.getLogger(__name__)
 
@@ -315,7 +314,7 @@ class OpenAIModulatedService:
     ):
         """Log modulation for analysis"""
         modulation_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "module": request.module,
             "capability": request.capability.value,
             "signal_context": signal_context,

@@ -20,7 +20,7 @@ from typing import Optional
 import yaml
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -99,7 +99,7 @@ class FileOrganizer:
                     "from": str(source.parent),
                     "to": str(destination),
                     "description": description,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -184,7 +184,7 @@ class FileOrganizer:
         archive_rules = self.config.get("cleanup", {}).get("archive_after_days", {})
 
         for pattern, days in archive_rules.items():
-            cutoff_date = datetime.now() - timedelta(days=days)
+            cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
             pattern_regex = pattern.replace("*", ".*")
 
             for file_path in self.root_path.rglob("*"):
@@ -194,7 +194,7 @@ class FileOrganizer:
                     if mtime < cutoff_date:
                         archive_path = self.root_path / "archive" / "aged" / file_path.name
                         logger.info(
-                            f"📦 Archiving old file: {file_path.name} (age: {(datetime.now() - mtime).days} days)"
+                            f"📦 Archiving old file: {file_path.name} (age: {(datetime.now(timezone.utc) - mtime).days} days)"
                         )
                         if not self.dry_run:
                             archive_path.parent.mkdir(parents=True, exist_ok=True)
@@ -228,7 +228,7 @@ class FileOrganizer:
 
         report = [
             "# File Organization Report",
-            f"\nGenerated: {datetime.now().isoformat()}",
+            f"\nGenerated: {datetime.now(timezone.utc).isoformat()}",
             "\n## Summary",
             f"- Total files moved: {sum(self.stats.values())}",
             f"- Dry run: {self.dry_run}",

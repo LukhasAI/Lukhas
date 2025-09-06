@@ -7,7 +7,7 @@ from ..diagnostic_engine.engine import DiagnosticEngine
 from ..user_interface_manager.text_handler import TextHandler
 from ..user_interface_manager.voice_handler import VoiceHandler
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class SymptomReporter:
@@ -125,7 +125,7 @@ class SymptomReporter:
                 {
                     "symptoms_reported": symptoms,
                     "interaction_count": interaction_count,
-                    "last_update": datetime.now().isoformat(),
+                    "last_update": datetime.now(timezone.utc).isoformat(),
                 },
             )
 
@@ -186,7 +186,7 @@ class SymptomReporter:
         """Gracefully handles failed interactions (Jobs: never leave users stranded)"""
         self.data_manager.update_diagnostic_session(
             session_id,
-            {"status": "failed", "end_time": datetime.now().isoformat()},
+            {"status": "failed", "end_time": datetime.now(timezone.utc).isoformat()},
         )
         return {
             "status": "error",
@@ -212,7 +212,7 @@ class SymptomReporter:
             {
                 "status": status,
                 "symptoms_reported": symptoms,
-                "end_time": datetime.now().isoformat(),
+                "end_time": datetime.now(timezone.utc).isoformat(),
             },
         )
 

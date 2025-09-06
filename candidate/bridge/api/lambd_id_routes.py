@@ -535,7 +535,7 @@ def health_check_route():  # Renamed:
                 "controller_version", "N/A"
             ),  # Assuming controller provides its version
             "timestamp": health_status_details.get(
-                "timestamp", datetime.now().isoformat()
+                "timestamp", datetime.now(timezone.utc).isoformat()
             ),
             "services_checked": health_status_details.get("service_details", {}),
         }
@@ -557,7 +557,7 @@ def health_check_route():  # Renamed:
                 {
                     "status": "unhealthy",
                     "error_details": str(e),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             ),
             503,
