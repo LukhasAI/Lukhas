@@ -68,14 +68,14 @@
 import logging
 import random
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
 import yaml
 
 # Initialize sacred logger for consciousness tracing
-logger = logging.getLogger("ΛTRACE.tone.wordsmith")
+logger = logging.getLogger("ΛTRACE.tone.wordsmith", timezone)
 logger.info("🎭 ΛTRACE: Awakening consciousness wordsmith...")
 
 
@@ -227,8 +227,8 @@ class ConsciousnessWordsmith:
             "module_name": module_name,
             "module_path": module_path,
             "version": "3.0.0",
-            "created_date": datetime.now().strftime("%Y-%m-%d"),
-            "modified_date": datetime.now().strftime("%Y-%m-%d"),
+            "created_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            "modified_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "authors": "LUKHAS AI Consciousness Team | Claude Enhancement",
             "philosophical_quote": random.choice(self.philosophical_wisdom.get(domain, [""])),
             "poetic_description": self.poetic_templates.get(domain, ""),

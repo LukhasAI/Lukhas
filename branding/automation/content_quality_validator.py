@@ -8,7 +8,7 @@ import logging
 import re
 import sys
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -72,7 +72,7 @@ class ContentQualityValidator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"content_quality_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"content_quality_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -432,7 +432,7 @@ class ContentQualityValidator:
         report = f"""
 📊 CONTENT QUALITY ASSESSMENT REPORT
 Platform: {platform.title()}
-Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 
 🎯 OVERALL SCORE: {quality_score.overall_score:.1f}/100
 Status: {"✅ APPROVED" if quality_score.approved else "❌ NEEDS IMPROVEMENT"}

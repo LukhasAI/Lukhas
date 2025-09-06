@@ -58,7 +58,7 @@ from symbolic.glyphs.glyph import EmotionVector, Glyph, GlyphFactory
 from .memory_fold import MemoryFoldSystem
 
 # Configure logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 @dataclass
@@ -72,7 +72,7 @@ class GlyphMemoryIndex:
 
     def __post_init__(self):
         if not hasattr(self, "last_updated"):
-            self.last_updated = datetime.now()
+            self.last_updated = datetime.now(timezone.utc)
 
 
 class GlyphMemoryBridge:
@@ -89,7 +89,7 @@ class GlyphMemoryBridge:
             glyph_to_memory=defaultdict(set),
             memory_to_glyph=defaultdict(set),
             binding_strength={},
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
         )
         self.active_glyphs: dict[str, Glyph] = {}
         self.drift_anchors: dict[str, float] = {}  # memory_key -> drift_anchor_score
@@ -359,7 +359,7 @@ class GlyphMemoryBridge:
         """
         filter_config = {
             "name": filter_name,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "criteria": glyph_criteria,
             "usage_count": 0,
             "last_used": None,
@@ -403,7 +403,7 @@ class GlyphMemoryBridge:
         self.glyph_index.glyph_to_memory[glyph_id].add(memory_key)
         self.glyph_index.memory_to_glyph[memory_key].add(glyph_id)
         self.glyph_index.binding_strength[(glyph_id, memory_key)] = strength
-        self.glyph_index.last_updated = datetime.now()
+        self.glyph_index.last_updated = datetime.now(timezone.utc)
 
         # Store active glyph
         self.active_glyphs[glyph_id] = glyph

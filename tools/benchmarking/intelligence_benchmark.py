@@ -22,8 +22,7 @@ import psutil
 
 from lukhas.governance.intelligence_safety_validator import (
     SafetyLevel,
-    get_safety_validator,
-)
+    get_safety_validator,, timezone)
 from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
     IntelligenceRequestType,
@@ -175,7 +174,7 @@ class LukhasIntelligenceBenchmarking:
         if not self._initialized:
             await self.initialize()
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         logger.info(f"🏁 Starting benchmark: {config.scenario.value} ({config.iterations} iterations)")
 
         # Initialize result tracking
@@ -262,7 +261,7 @@ class LukhasIntelligenceBenchmarking:
             # Generate recommendations
             recommendations = await self._generate_recommendations(statistics_data, system_metrics, config)
 
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             total_duration = (end_time - start_time).total_seconds()
 
             # Create benchmark result
@@ -946,7 +945,7 @@ class LukhasIntelligenceBenchmarking:
     async def export_benchmark_results(self, file_path: str):
         """Export benchmark results to file"""
         export_data = {
-            "export_timestamp": datetime.now().isoformat(),
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
             "performance_targets": self.performance_targets,
             "baseline_metrics": self.baseline_metrics,
             "benchmark_results": [result.to_dict() for result in self.benchmark_results],

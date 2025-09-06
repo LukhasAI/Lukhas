@@ -6,7 +6,7 @@ LUKHAS Classical Emotional Intelligence API - Non-Quantum Alternative
 Bio-symbolic emotional processing without quantum enhancement
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
@@ -17,7 +17,7 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Classical Emotional Intelligence API",
     description="Safe, predictable emotional intelligence without quantum effects",
-    version="1.0.0",, timezone)
+    version="1.0.0")
 
 
 class EmotionModel(str, Enum):

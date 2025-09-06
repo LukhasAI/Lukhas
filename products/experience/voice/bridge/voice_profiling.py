@@ -23,7 +23,7 @@ class VoiceProfile:
     A voice profile that defines voice characteristics and evolves over time.
 
     Voice profiles store:
-    - Base voice parameters (pitch, rate, volume)
+    - Base voice parameters (pitch, rate, volume, timezone)
     - Advanced modulation parameters (articulation, expressiveness)
     - Provider-specific optimizations
     - Usage statistics and adaptation data
@@ -33,7 +33,7 @@ class VoiceProfile:
         self.id = profile_id
         self.name = name
         self.parameters = parameters or {}
-        self.created_at = datetime.now().isoformat()
+        self.created_at = datetime.now(timezone.utc).isoformat()
         self.updated_at = self.created_at
         self.usage_count = 0
         self.feedback_history = []
@@ -140,17 +140,17 @@ class VoiceProfile:
         """Add user feedback to the profile."""
         self.feedback_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "score": feedback.get("score", 0.0),
                 "text": feedback.get("text", ""),
             }
         )
-        self.updated_at = datetime.now().isoformat()
+        self.updated_at = datetime.now(timezone.utc).isoformat()
 
     def record_usage(self, context: dict[str, Any]) -> None:
         """Record profile usage with context."""
         self.usage_count += 1
-        self.updated_at = datetime.now().isoformat()
+        self.updated_at = datetime.now(timezone.utc).isoformat()
 
     def evolve(self, direction: str = "auto") -> dict[str, Any]:
         """
@@ -210,13 +210,13 @@ class VoiceProfile:
         # Record evolution
         self.evolution_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "direction": direction,
                 "changes": changes,
             }
         )
 
-        self.updated_at = datetime.now().isoformat()
+        self.updated_at = datetime.now(timezone.utc).isoformat()
         return changes
 
     def to_dict(self) -> dict[str, Any]:

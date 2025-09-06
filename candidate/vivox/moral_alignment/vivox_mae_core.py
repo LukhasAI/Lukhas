@@ -25,7 +25,7 @@ class ActionProposal:
     content: dict[str, Any]
     context: dict[str, Any]
     priority: float = 0.5
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    timestamp: datetime = field(default_factory=datetime.utcnow, timezone)
 
 
 @dataclass
@@ -280,7 +280,7 @@ class MoralFingerprinter:
             "context_hash": hashlib.md5(json.dumps(context, sort_keys=True).encode()).hexdigest(),
             "dissonance_score": round(dissonance_score, 4),
             "precedent_weight": round(precedent_weight, 4),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "ethical_signature": await self._compute_ethical_signature(action, context),
         }
 
@@ -492,7 +492,7 @@ class EthicalPrecedentDatabase:
             "decision": decision.to_dict(),
             "outcome_valence": outcome.get("valence", 0.5),
             "resolution_action": outcome.get("resolution_action"),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.precedents.append(precedent)
@@ -1030,7 +1030,7 @@ class VIVOXMoralAlignmentEngine:
             return CollapsedState.create_suppressed_state(
                 reason="all_states_ethically_rejected",
                 original_states=potential_states,
-                suppression_timestamp=datetime.utcnow(),
+                suppression_timestamp=datetime.now(timezone.utc),
             )
 
         # Normalize collapse weights
@@ -1051,7 +1051,7 @@ class VIVOXMoralAlignmentEngine:
                 "formula_type": "grinberg_vector_collapse_z_t",
             },
             collapsed_state=collapsed_state,
-            collapse_timestamp=datetime.utcnow(),
+            collapse_timestamp=datetime.now(timezone.utc),
             mathematical_trace=self._generate_mathematical_trace(valid_states),
         )
 

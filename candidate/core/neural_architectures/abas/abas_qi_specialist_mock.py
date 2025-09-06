@@ -10,7 +10,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class QIBioCapabilityLevel(Enum):
@@ -35,7 +35,7 @@ class QIBioResponse:
     cristae_topology: dict
     identity_signature: str
     processing_pathway: list[dict]
-    timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class MockQuantumBiologicalAGI:
@@ -43,8 +43,8 @@ class MockQuantumBiologicalAGI:
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
-        self.session_id = f"mock_{datetime.now().timestamp()}"
-        self.initialization_time = datetime.now()
+        self.session_id = f"mock_{datetime.now(timezone.utc).timestamp()}"
+        self.initialization_time = datetime.now(timezone.utc)
 
         # Current state
         self.capability_level = QuantumBioCapabilityLevel.CELLULAR
@@ -74,8 +74,8 @@ class MockQuantumBiologicalAGI:
 
     async def process_with_quantum_biology(self, input_text: str, context: Optional[dict] = None) -> QuantumBioResponse:
         """Mock quantum-biological processing"""
-        datetime.now()
-        processing_id = f"mock_proc_{datetime.now().timestamp()}"
+        datetime.now(timezone.utc)
+        processing_id = f"mock_proc_{datetime.now(timezone.utc).timestamp()}"
 
         # Simulate processing with random values
         bio_confidence = random.uniform(0.6, 0.95)
@@ -253,7 +253,7 @@ class ABASQuantumSpecialistWrapper:
     async def get_quantum_ethics_arbitration(self, decision_context: dict[str, Any]) -> dict[str, Any]:
         """Mock quantum ethics arbitration"""
         return {
-            "arbitration_id": f"mock_arb_{datetime.now().timestamp()}",
+            "arbitration_id": f"mock_arb_{datetime.now(timezone.utc).timestamp()}",
             "ethical_resonance": random.uniform(0.6, 0.9),
             "decision": "approved",
             "confidence": random.uniform(0.7, 0.95),
@@ -262,7 +262,7 @@ class ABASQuantumSpecialistWrapper:
     async def create_attention_gradient(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Mock attention gradient creation"""
         return {
-            "gradient_id": f"mock_grad_{datetime.now().timestamp()}",
+            "gradient_id": f"mock_grad_{datetime.now(timezone.utc).timestamp()}",
             "gradient_strength": random.uniform(0.5, 1.0),
             "attention_flow": {"coherence": random.uniform(0.6, 0.9)},
         }
@@ -274,7 +274,7 @@ class ABASQuantumSpecialistWrapper:
     ) -> dict[str, Any]:
         """Mock cristae topology optimization"""
         return {
-            "optimization_id": f"mock_opt_{datetime.now().timestamp()}",
+            "optimization_id": f"mock_opt_{datetime.now(timezone.utc).timestamp()}",
             "performance_improvement": random.uniform(0.1, 0.3),
             "transformed_topology": {"folding_pattern": random.choice(["tubular", "lamellar", "optimized_hybrid"])},
         }

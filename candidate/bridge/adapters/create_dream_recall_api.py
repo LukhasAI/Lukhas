@@ -4,7 +4,7 @@ LUKHAS Dream Recall API - Multiverse Scenario Exploration
 Allows any AI to explore parallel outcomes through LUKHAS dream engine
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Dream Recall API",
     description="Explore parallel universe scenarios through dream-based learning",
-    version="1.0.0",, timezone)
+    version="1.0.0")
 
 
 class DreamScenario(BaseModel):

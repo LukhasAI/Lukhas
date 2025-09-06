@@ -18,7 +18,7 @@ from candidate.core.common import get_logger
 from candidate.core.swarm import SwarmHub
 from consciousness.systems.engine import LUKHASConsciousnessEngine
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
@@ -126,7 +126,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         """
         self.logger.info(f"Processing distributed consciousness task: {task_type}")
 
-        task_id = f"{task_type}-{datetime.now().timestamp()}"
+        task_id = f"{task_type}-{datetime.now(timezone.utc).timestamp()}"
 
         try:
             if task_type == "reflection":
@@ -186,7 +186,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         # Process and integrate results
         integrated_result = {
             "task_id": task_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "reasoning_analysis": (results[0] if not isinstance(results[0], Exception) else {"error": str(results[0])}),
             "memory_context": (results[1] if not isinstance(results[1], Exception) else {"error": str(results[1])}),
             "creative_insights": (results[2] if not isinstance(results[2], Exception) else {"error": str(results[2])}),
@@ -380,7 +380,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             "awareness": awareness_result,
             "context": {
                 "current_state": self.global_consciousness_state.to_dict(),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         }
 
@@ -422,7 +422,7 @@ async def demo_distributed_consciousness():
             "type": "user_interaction",
             "content": "Complex philosophical question about consciousness",
             "emotional_context": {"curiosity": 0.8, "confusion": 0.3},
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Perform distributed reflection

@@ -55,7 +55,7 @@ from lukhas.core.symbolism.tags import TagPermission, TagScope
 
 # Dashboard integration
 
-logger = logging.getLogger("ΛTRACE.dashboard_colony_agent")
+logger = logging.getLogger("ΛTRACE.dashboard_colony_agent", timezone)
 
 
 class DashboardAgentRole(Enum):
@@ -106,7 +106,7 @@ class DashboardColonyAgent(BaseColony):
 
     def __init__(self, agent_role: DashboardAgentRole = DashboardAgentRole.COORDINATOR):
         super().__init__(
-            colony_id=f"dashboard_{agent_role.value}_{int(datetime.now().timestamp())}",
+            colony_id=f"dashboard_{agent_role.value}_{int(datetime.now(timezone.utc).timestamp())}",
             capabilities=[
                 "dashboard_coordination",
                 "cross_colony_intelligence",
@@ -443,7 +443,7 @@ class DashboardColonyAgent(BaseColony):
             health_status=intelligence_data.get("colony_status", {}),
             recommendations=recommendations,
             confidence_score=confidence_score,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
     async def _gather_oracle_intelligence(self) -> dict[str, Any]:
@@ -514,7 +514,7 @@ class DashboardColonyAgent(BaseColony):
                 "component": healing_request.component,
                 "strategy": strategy,
                 "result": healing_result,
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
             }
         )
 

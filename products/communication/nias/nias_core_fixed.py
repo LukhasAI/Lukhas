@@ -9,7 +9,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class EmotionalState(Enum):
+class EmotionalState(Enum, timezone):
     """Emotional states for messages"""
 
     CALM = "calm"
@@ -181,7 +181,7 @@ class NIΛS:
             {
                 "user_id": user_id,
                 "message_id": message.id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "method": delivery_method,
             }
         )
@@ -205,7 +205,7 @@ class NIΛS:
         return DeliveryResult(
             status="delivered",
             delivery_method=delivery_method,
-            timestamp=datetime.now().timestamp(),
+            timestamp=datetime.now(timezone.utc).timestamp(),
         )
 
     def _select_delivery_method(self, emotional_state: dict[str, float]) -> str:

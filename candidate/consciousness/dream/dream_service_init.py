@@ -80,8 +80,7 @@ def initialize_consciousness_services():
 
                 from consciousness.dream.parallel_reality_simulator import (
                     RealityBranch,
-                    RealityType,
-                )
+                    RealityType,, timezone)
 
                 return type(
                     "Simulation",
@@ -92,7 +91,7 @@ def initialize_consciousness_services():
                                 branch_id=f"branch_{i}",
                                 probability=0.8 - i * 0.1,
                                 reality_type=RealityType.OPTIMISTIC,
-                                timestamp=datetime.now(),
+                                timestamp=datetime.now(timezone.utc),
                                 ethical_score=0.9,
                                 causal_chain=[],
                                 divergence_point={"summary": f"path {i + 1}"},

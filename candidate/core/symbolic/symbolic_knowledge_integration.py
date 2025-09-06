@@ -47,8 +47,7 @@ from typing import Any, Optional
 try:
     from ...tools.parsers.knowledge_loader import (
         SymbolicConcept,
-        SymbolicKnowledgeLoader,
-    )
+        SymbolicKnowledgeLoader,, timezone)
 except ImportError:
     # Fallback for relative imports
     import sys
@@ -119,7 +118,7 @@ class SymbolicKnowledgeIntegrator:
             integration_results = await self._distribute_knowledge(all_concepts)
 
             # Update status
-            self.last_sync_timestamp = datetime.now().isoformat()
+            self.last_sync_timestamp = datetime.now(timezone.utc).isoformat()
 
             result = {
                 "status": "initialized",

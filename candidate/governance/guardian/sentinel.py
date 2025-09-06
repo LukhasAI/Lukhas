@@ -35,7 +35,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class SentinelStatus(Enum):
@@ -106,7 +106,7 @@ class GuardianSentinel:
             "false_positive_rate": 0.0,
             "detection_accuracy": 0.95,
             "average_response_time": 0.0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize
@@ -173,7 +173,7 @@ class GuardianSentinel:
                     severity="high" if current_value > threshold * 1.5 else "medium",
                     alert_type=f"threshold_breach_{metric_name}",
                     message=f"{metric_name} exceeded threshold: {current_value} > {threshold}",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     source_component=profile.name,
                     confidence_score=0.9,
                 )
@@ -203,7 +203,7 @@ class GuardianSentinel:
         return {
             "status": self.status.value,
             "active_profiles": len(self.monitoring_profiles),
-            "recent_alerts": len([a for a in self.alerts if (datetime.now() - a.detected_at).seconds < 3600]),
+            "recent_alerts": len([a for a in self.alerts if (datetime.now(timezone.utc) - a.detected_at).seconds < 3600]),
             "metrics": self.metrics,
         }
 

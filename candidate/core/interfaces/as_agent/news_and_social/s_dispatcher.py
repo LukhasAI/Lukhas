@@ -17,7 +17,7 @@ from uuid import uuid4
 
 from modules.voice.lukhas_voice_agent import speak
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__, timezone), "../../")))
 
 # 📄 MODULE: lukhas_news_dispatcher.py
 # 🔎 PURPOSE: Dispatch symbolic cognition from queue into simulated publication stream
@@ -51,7 +51,7 @@ def simulate_publish(post):
     print(post["summary"])
     print(f"📎 Link: {post['html_url']}\n")
     post["published"] = True
-    post["published_at"] = datetime.utcnow().isoformat() + "Z"
+    post["published_at"] = datetime.now(timezone.utc).isoformat() + "Z"
     return post
 
 

@@ -11,7 +11,7 @@ from enum import Enum
 from typing import Any
 
 
-class AnalyticsMetric(Enum):
+class AnalyticsMetric(Enum, timezone):
     """Types of analytics metrics tracked"""
 
     TASK_COMPLETION_TIME = "task_completion_time"
@@ -127,7 +127,7 @@ class UsageAnalyticsLoop:
         event = {
             "user_id": user_id,
             "event_type": event_type,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "data": event_data,
         }
 
@@ -422,8 +422,8 @@ class UsageAnalyticsLoop:
                     pattern_type="low_adoption",
                     frequency=count,
                     users_affected=count,
-                    first_detected=datetime.now(),
-                    last_occurrence=datetime.now(),
+                    first_detected=datetime.now(timezone.utc),
+                    last_occurrence=datetime.now(timezone.utc),
                     context={
                         "feature": feature,
                         "usage_rate": usage_rate,
@@ -728,7 +728,7 @@ class UsageAnalyticsLoop:
         for pain_point in self.pain_points.values():
             # Check if still occurring
             recent_occurrence = any(
-                (datetime.now() - p.last_occurrence).total_seconds() < 3600 for p in pain_point.patterns
+                (datetime.now(timezone.utc) - p.last_occurrence).total_seconds() < 3600 for p in pain_point.patterns
             )
 
             if recent_occurrence:

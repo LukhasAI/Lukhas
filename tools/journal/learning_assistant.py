@@ -23,8 +23,7 @@ class LearningAssistant:
     def __init__(
         self,
         journal_engine: Optional[JournalEngine] = None,
-        personality: str = "encouraging_technical_mentor",
-    ):
+        personality: str = "encouraging_technical_mentor",, timezone):
         self.journal = journal_engine or JournalEngine()
         self.decision_tracker = DecisionTracker(self.journal)
         self.insight_analyzer = InsightAnalyzer(self.journal)
@@ -163,7 +162,7 @@ class LearningAssistant:
             {
                 "question": question,
                 "answer": response["answer"],
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "confidence": response["confidence"],
             }
         )
@@ -501,7 +500,7 @@ class LearningAssistant:
         skill_data = {
             "skill": skill,
             "level": level or self._assess_skill_level(skill),
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "evidence": self._gather_skill_evidence(skill),
         }
 
@@ -651,8 +650,8 @@ class LearningAssistant:
         plan = {
             "goals": goals,
             "timeframe": timeframe_days,
-            "start_date": datetime.now(),
-            "end_date": datetime.now() + timedelta(days=timeframe_days),
+            "start_date": datetime.now(timezone.utc),
+            "end_date": datetime.now(timezone.utc) + timedelta(days=timeframe_days),
             "daily_tasks": [],
             "weekly_milestones": [],
             "resources": [],
@@ -797,7 +796,7 @@ class LearningAssistant:
         # Generate check-in message
         message = f"""
 # Daily Learning Check-in
-*{datetime.now().strftime("%A, %B %d, %Y")}*
+*{datetime.now(timezone.utc).strftime("%A, %B %d, %Y")}*
 
 ## Today's Activity
 - Entries: {today_summary['total_entries']}
@@ -870,7 +869,7 @@ class LearningAssistant:
         # Pick based on day
         import random
 
-        random.seed(datetime.now().toordinal()# Same tip for same day
+        random.seed(datetime.now(timezone.utc).toordinal()# Same tip for same day
         return random.choice(tips)
 
     def mentor_response(self, situation: str) -> str:

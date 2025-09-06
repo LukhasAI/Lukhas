@@ -26,7 +26,7 @@ from typing import Any, Optional
 from ΛBot_auditor import ΛBotAuditor
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ΛBot_Advanced_Reasoning")
 
 # Add brain system to path
@@ -198,7 +198,7 @@ class ΛBotAdvancedReasoningOrchestrator:
                 "depth": "comprehensive",
             },
             priority="high",
-            created_at=datetime.utcnow().isoformat(),
+            created_at=datetime.now(timezone.utc).isoformat(),
         )
 
         self.active_requests[request_id] = request

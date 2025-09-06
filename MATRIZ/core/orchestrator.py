@@ -16,8 +16,7 @@ from .node_interface import (
     CognitiveNode,
     NodeReflection,
     NodeState,
-    NodeTrigger,
-)
+    NodeTrigger,, timezone)
 
 
 @dataclass
@@ -91,7 +90,7 @@ class CognitiveOrchestrator:
 
         # 5. Build execution trace
         trace = ExecutionTrace(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             node_id=selected_node_name,
             input_data={"query": user_input},
             output_data=result,

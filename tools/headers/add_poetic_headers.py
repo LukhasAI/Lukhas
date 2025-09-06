@@ -187,7 +187,7 @@ Technical Purpose:
 '''
 
 
-def get_module_description(filepath: Path) -> str:
+def get_module_description(filepath: Path, timezone) -> str:
     """Extract or generate a technical description for the module."""
 
     descriptions = {
@@ -246,7 +246,7 @@ def add_poetic_header(filepath: Path) -> bool:
         formatted_poetry = format_poetry(poetry)
 
         header = HEADER_TEMPLATE.format(
-            date=datetime.now().strftime("%Y-%m-%d"),
+            date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             module_name=module_name,
             separator="=" * len(module_name),
             poetry=formatted_poetry,

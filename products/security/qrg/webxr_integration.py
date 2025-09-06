@@ -28,7 +28,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-# WebXR and 3D graphics libraries (optional imports)
+# WebXR and 3D graphics libraries (optional imports, timezone)
 try:
     # In production, would use actual WebXR libraries
     # import three  # Three.js Python wrapper
@@ -319,7 +319,7 @@ class WebXRIntegration:
             interaction_zones=interaction_zones,
             consciousness_adaptations=consciousness_adaptations,
             temporal_dynamics=temporal_dynamics,
-            created_timestamp=datetime.now(),
+            created_timestamp=datetime.now(timezone.utc),
         )
 
         # Cache holographic glyph
@@ -935,7 +935,7 @@ class WebXRIntegration:
             "animation_data": animation_data,
             "consciousness_effects": consciousness_effects,
             "platform_commands": platform_commands,
-            "render_timestamp": datetime.now().isoformat(),
+            "render_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info("✨ Holographic scene rendering completed")

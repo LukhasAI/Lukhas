@@ -31,7 +31,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class AnalyticsType(Enum):
@@ -191,7 +191,7 @@ class DocumentationAnalytics:
         print(f"📊 Generating {analytics_type.value} analytics report...")
 
         if time_period is None:
-            end_date = datetime.now()
+            end_date = datetime.now(timezone.utc)
             start_date = end_date - timedelta(days=30)
             time_period = (start_date, end_date)
 
@@ -291,9 +291,9 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"quality_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"quality_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             analytics_type=AnalyticsType.QUALITY_ANALYSIS,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             summary=summary,
             detailed_findings=detailed_findings,
@@ -374,9 +374,9 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"usage_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"usage_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             analytics_type=AnalyticsType.USAGE_PATTERNS,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             summary=summary,
             detailed_findings=detailed_findings,
@@ -439,9 +439,9 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"gaps_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"gaps_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             analytics_type=AnalyticsType.CONTENT_GAPS,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             summary=summary,
             detailed_findings=detailed_findings,
@@ -508,9 +508,9 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"behavior_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"behavior_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             analytics_type=AnalyticsType.USER_BEHAVIOR,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             summary=summary,
             detailed_findings=detailed_findings,
@@ -597,9 +597,9 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"performance_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"performance_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             analytics_type=AnalyticsType.PERFORMANCE_METRICS,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             summary=summary,
             detailed_findings=detailed_findings,
@@ -668,10 +668,10 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"accessibility_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"accessibility_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             analytics_type=AnalyticsType.ACCESSIBILITY_AUDIT,
-            generated_at=datetime.now(),
-            time_period=(datetime.now(), datetime.now()),  # Point in time audit
+            generated_at=datetime.now(timezone.utc),
+            time_period=(datetime.now(timezone.utc), datetime.now(timezone.utc)),  # Point in time audit
             summary=summary,
             detailed_findings=detailed_findings,
             recommendations=recommendations,
@@ -936,7 +936,7 @@ class DocumentationAnalytics:
         try:
             file_path = Path(content_path)
             last_modified = datetime.fromtimestamp(file_path.stat().st_mtime)
-            days_old = (datetime.now() - last_modified).days
+            days_old = (datetime.now(timezone.utc) - last_modified).days
 
             # Freshness score decreases with age
             freshness_score = max(0, 100 - (days_old / 30) * 20)

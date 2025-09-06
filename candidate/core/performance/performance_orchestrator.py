@@ -30,7 +30,7 @@ import numpy as np
 
 
 # Performance Status and Strategy Enums
-class PerformanceStatus(Enum):
+class PerformanceStatus(Enum, timezone):
     """Performance monitoring status indicators."""
 
     OPTIMAL = "optimal"
@@ -171,7 +171,7 @@ class PerformanceOrchestrator:
                 "user_id": user_id,
                 "modules": modules or self._get_default_modules(),
                 "monitoring_interval": monitoring_interval,
-                "started_at": datetime.utcnow().isoformat(),
+                "started_at": datetime.now(timezone.utc).isoformat(),
                 "status": "active",
                 "systems_enabled": {},
             }
@@ -266,7 +266,7 @@ class PerformanceOrchestrator:
                 >= self.quantum_coherence_threshold,
                 "cascade_prevention_maintained": post_metrics.get("cascade_prevention_rate", 0)
                 >= self.cascade_prevention_target,
-                "optimized_at": datetime.utcnow().isoformat(),
+                "optimized_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -296,7 +296,7 @@ class PerformanceOrchestrator:
                 "success": True,
                 "performance_status": performance_status.value,
                 "overall_score": current_metrics.get("overall_score", 0),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "monitoring_active": self.monitoring_active,
                 "active_monitoring_sessions": len(self.monitoring_sessions),
                 # Trinity Framework status
@@ -482,7 +482,7 @@ class PerformanceOrchestrator:
             )
 
             return {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "overall_score": overall_score,
                 "latency_ms": base_latency,
                 "throughput_ops_sec": base_throughput,
@@ -499,7 +499,7 @@ class PerformanceOrchestrator:
         except Exception as e:
             self.logger.error(f"❌ Metrics collection failed: {e}")
             return {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "overall_score": 0,
                 "error": str(e),
             }
@@ -577,7 +577,7 @@ class PerformanceOrchestrator:
                     consciousness_impact="High - May affect real-time awareness",
                     recommended_action="Execute real-time optimization",
                     trinity_component="consciousness",
-                    timestamp=datetime.utcnow().isoformat(),
+                    timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
 
@@ -595,7 +595,7 @@ class PerformanceOrchestrator:
                     consciousness_impact="Medium - Bio-rhythm disruption",
                     recommended_action="Execute bio-synchronized optimization",
                     trinity_component="consciousness",
-                    timestamp=datetime.utcnow().isoformat(),
+                    timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
 
@@ -613,7 +613,7 @@ class PerformanceOrchestrator:
                     consciousness_impact="Critical - Memory fold instability",
                     recommended_action="Execute memory fold optimization",
                     trinity_component="consciousness",
-                    timestamp=datetime.utcnow().isoformat(),
+                    timestamp=datetime.now(timezone.utc).isoformat(),
                 )
             )
 
