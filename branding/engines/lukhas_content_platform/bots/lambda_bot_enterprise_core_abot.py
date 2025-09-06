@@ -14,7 +14,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional, Tuple
 
 # Add the brain directory to import the Enhanced AI Bot
 sys.path.append("/Users/A_G_I/Λ/brain")

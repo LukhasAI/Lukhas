@@ -9,7 +9,7 @@ import asyncio
 import logging
 import statistics
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
 
@@ -17,7 +17,7 @@ import numpy as np
 
 from .vector_memory import MemoryImportance, MemoryType, MemoryVector, VectorMemoryStore
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class ConsolidationStrategy(Enum):

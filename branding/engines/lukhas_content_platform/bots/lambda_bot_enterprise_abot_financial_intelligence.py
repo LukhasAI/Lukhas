@@ -8,9 +8,9 @@ import json
 import logging
 import os
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 
-logger = logging.getLogger("ABotFinancialIntelligence", timezone)
+logger = logging.getLogger("ABotFinancialIntelligence")
 
 
 @dataclass

@@ -2990,6 +2990,7 @@
       "tools/consolidate_memory.py",
       "tools/dashboard_alternatives.py",
       "tools/keyword_extractor.py",
+      "tools/fix_datetime_utc.py",
       "tools/validate_examples.py",
       "tools/radical_simplifier.py",
       "tools/AiDocumentationGenerator.py",
@@ -3035,6 +3036,7 @@
       "tools/PatternScanner.py",
       "tools/generate_shims.py",
       "tools/collapse_replay.py",
+      "tools/fix_syntax_batch.py",
       "tools/t4_batch_processor_integrated.py",
       "tools/command_registry.py",
       "tools/commands.py",
@@ -4411,7 +4413,7 @@
       "rl/tests/test_performance_regression.py",
       "rl/tests/test_chaos_consciousness.py"
     ],
-    "total_files": 4406
+    "total_files": 4408
   },
   "system_analysis": {
     "core": {
@@ -4521,9 +4523,9 @@
     "tools": {
       "exists": true,
       "description": "Development and analysis tools",
-      "source_files": 256,
+      "source_files": 258,
       "test_files": 4,
-      "coverage_ratio": 0.015625,
+      "coverage_ratio": 0.015503875968992248,
       "status": "\ud83d\udd34 Untested"
     },
     "docs": {
@@ -4590,12 +4592,12 @@
     "total_test_files": 172
   },
   "coverage_metrics": {
-    "source_files": 4234,
+    "source_files": 4236,
     "test_files": 172,
-    "basic_file_ratio": 0.0406235238545111,
+    "basic_file_ratio": 0.04060434372049103,
     "system_coverage": 0.11764705882352941,
-    "quality_adjusted": 0.020831365139348138,
-    "comprehensive_coverage": 0.06747450609908583,
+    "quality_adjusted": 0.020821529745042495,
+    "comprehensive_coverage": 0.06746486696661667,
     "systems_well_tested": 2,
     "total_systems": 17,
     "test_quality_score": 2.563953488372093

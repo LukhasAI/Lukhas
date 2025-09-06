@@ -86,7 +86,7 @@ def convert_numpy_to_serializable(obj: Any) -> Any:
         # Handle custom objects by converting their attributes
         return {
             key: convert_numpy_to_serializable(value)
-            for key, value in obj.__dict__.items():
+            for key, value in obj.__dict__.items()
         }
     else:
         return obj
@@ -179,8 +179,7 @@ async def create_memory(request: MemoryCreateRequest):
         return APIResponse(
             status="success",
             data=serializable_result,
-            message=f"Memory fold created with ID: {serializable_result.get('fold_id',"}
-                                                                            'unknown')}",
+            message=f"Memory fold created with ID: {serializable_result.get('fold_id', 'unknown')}",
         )
 
     except Exception as e:

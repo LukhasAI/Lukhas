@@ -656,7 +656,7 @@ def create_module_structure(module_name: str, module_config: dict[str, Any]):
     # Generate detailed concepts description
     lukhas_concepts_detailed = "\n".join(
         [
-            f"##"_', ' ').title()}\n{module_config.get('concept_descriptions', {}).get(concept, 'Core LUKHAS concept integrated into this module.')}\n"
+            f"## {concept.replace('_', ' ').title()}\n{module_config.get('concept_descriptions', {}).get(concept, 'Core LUKHAS concept integrated into this module.')}\n"
             for concept in lukhas_concepts
         ]
     )
@@ -684,7 +684,7 @@ def create_module_structure(module_name: str, module_config: dict[str, Any]):
         "config_fields": module_config.get(
             "config_fields", "# Add configuration fields"
         ),
-        "model_fields": module_config.get("model_fields", ")  #  Add model fields",
+        "model_fields": module_config.get("model_fields", "# Add model fields"),
         "module_config": module_config.get(
             "yaml_config", "# Add module-specific configuration"
         ),

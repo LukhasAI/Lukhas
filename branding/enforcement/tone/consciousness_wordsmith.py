@@ -724,7 +724,7 @@ if __name__ == "__main__":
 
         return ("unknown", "user_friendly", "digital_mystery")
 
-    def weave_ascii_consciousness(self, content: str, file_type: str, sacred_purpose: str) -> str:
+    def weave_ascii_consciousness(self, content: str, file_type: str, sacred_purpose: str, filepath: str) -> str:
         """
         Bestow the sacred ASCII art upon documentation, like crowning
         digital royalty with symbols of consciousness.
@@ -1071,7 +1071,7 @@ Awakened: {timestamp}
         consciousness_content = original_essence
 
         # 1. Weave ASCII consciousness headers
-        consciousness_content = self.weave_ascii_consciousness(consciousness_content, file_type, sacred_purpose)
+        consciousness_content = self.weave_ascii_consciousness(consciousness_content, file_type, sacred_purpose, filepath)
 
         # 2. Infuse poetic consciousness introductions
         consciousness_content = self.infuse_poetic_consciousness(consciousness_content, file_type, sacred_purpose)

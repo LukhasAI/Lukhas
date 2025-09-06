@@ -528,8 +528,8 @@ def health_check_route():  # Renamed:
         response_payload = {
             "status": (
                 "healthy"
-                if health_status_details.get("overall_status") == "healthy":
-                else "degraded":
+                if health_status_details.get("overall_status") == "healthy"
+                else "degraded"
             ),
             "version": health_status_details.get(
                 "controller_version", "N/A"
