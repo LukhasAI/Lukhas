@@ -204,7 +204,10 @@
       "Bash(npx tsc:*)",
       "Bash(git prune:*)",
       "Bash(lsof:*)",
-      "Bash(PORT=3002 npm run dev)"
+      "Bash(PORT=3002 npm run dev)",
+      "Bash(touch:*)",
+      "Bash(timeout 30 npm run dev)",
+      "Bash(gtimeout 15 npm run dev)"
     ],
     "deny": [],
     "ask": []

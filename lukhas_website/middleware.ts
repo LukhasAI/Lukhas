@@ -631,22 +631,26 @@ export async function middleware(request: NextRequest) {
     }
     
     // PHASE 3: Create Domain-Aware Response
-    // Special handling for domain showcase and development
+    // Conservative routing - only rewrite paths that explicitly need domain context
     let rewritePath = pathname;
+    
+    // Keep showcase pages at root level
     if (pathname.startsWith('/showcase')) {
-      // Showcase pages are at root level
       rewritePath = pathname;
-    } else if (hostname?.includes('localhost') && pathname === '/') {
-      // For localhost root, redirect to domain experience
-      rewritePath = `/${experience.route}`;
-    } else if (!pathname.startsWith('/ai') && !pathname.startsWith('/id') && !pathname.startsWith('/team') && 
-               !pathname.startsWith('/dev') && !pathname.startsWith('/io') && !pathname.startsWith('/store') &&
-               !pathname.startsWith('/cloud') && !pathname.startsWith('/eu') && !pathname.startsWith('/us') &&
-               !pathname.startsWith('/xyz') && !pathname.startsWith('/com') && !pathname.startsWith('/experience') &&
-               pathname !== '/' && !pathname.startsWith('/showcase')) {
-      // For non-domain paths, prefix with domain route
-      rewritePath = `/${experience.route}${pathname}`;
     }
+    // For localhost root, redirect to domain experience  
+    else if (hostname?.includes('localhost') && pathname === '/') {
+      rewritePath = `/${experience.route}`;
+    }
+    // Only rewrite specific paths that need domain routing (much more conservative)
+    else if (pathname.startsWith('/consciousness') || 
+             pathname.startsWith('/trinity') || 
+             pathname.startsWith('/tools') ||
+             pathname.startsWith('/api-docs')) {
+      // Only these specific AI-related paths get routed to /ai
+      rewritePath = `/ai${pathname}`;
+    }
+    // All other paths remain unchanged - let Next.js handle them normally
     
     const url = new URL(rewritePath, request.url);
     const response = NextResponse.rewrite(url);
