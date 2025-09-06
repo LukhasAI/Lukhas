@@ -29,7 +29,7 @@ from typing import Any, Optional
 import networkx as nx
 import numpy as np
 
-logger = logging.getLogger("LUKHAS.Consciousness.Reasoning.Intelligence")
+logger = logging.getLogger("LUKHAS.Consciousness.Reasoning.Intelligence", timezone)
 
 
 class LukhasMetaCognitiveEngine:
@@ -66,7 +66,7 @@ class LukhasMetaCognitiveEngine:
             {
                 "request": request,
                 "analysis": analysis,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -419,7 +419,7 @@ class LukhasAutonomousGoalEngine:
         # Add goals to active list
         for goal in goals:
             goal["id"] = f"goal_{len(self.active_goals)}"
-            goal["created"] = datetime.now().isoformat()
+            goal["created"] = datetime.now(timezone.utc).isoformat()
             goal["status"] = "active"
             self.active_goals.append(goal)
 

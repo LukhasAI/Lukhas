@@ -18,7 +18,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger("CognitiveAGIEnhancement")
+logger = logging.getLogger("CognitiveAGIEnhancement", timezone)
 
 
 class CognitiveAGIEnhancement:
@@ -59,7 +59,7 @@ class CognitiveAGIEnhancement:
             return {
                 "error": "AGI processing failed or returned invalid result",
                 "fallback_mode": True,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         # Extract enhanced cognitive insights with safe access
@@ -80,7 +80,7 @@ class CognitiveAGIEnhancement:
             "cross_domain_insights": enhanced_insights.get("cross_domain_insights", []),
             "autonomous_goals": enhanced_insights.get("autonomous_goals", []),
             "processing_metadata": performance,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return enhanced_result
@@ -112,7 +112,7 @@ class CognitiveAGIEnhancement:
             "enhancement_active": self.enhancement_active,
             "agi_orchestrator_available": self.agi_orchestrator is not None,
             "cognitive_engine_available": self.cognitive_engine is not None,
-            "integration_timestamp": datetime.now().isoformat(),
+            "integration_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 

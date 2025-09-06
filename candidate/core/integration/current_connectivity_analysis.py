@@ -19,7 +19,7 @@ from typing import Any
 
 
 class ConnectivityAnalyzer:
-    def __init__(self, root_path: str = "."):
+    def __init__(self, root_path: str = ".", timezone):
         self.root_path = Path(root_path).resolve()
         self.module_imports = defaultdict(set)
         self.module_imported_by = defaultdict(set)
@@ -210,7 +210,7 @@ class ConnectivityAnalyzer:
 
         # Create report
         report = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "analysis_summary": {
                 "total_python_files": len(self.file_metrics),
                 "connected_files": len(self.file_metrics) - len(truly_isolated),

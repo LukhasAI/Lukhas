@@ -19,7 +19,7 @@ from datetime import datetime
 from typing import Any, Optional  # List not used in signatures but kept
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_processor")
+logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_processor", timezone)
 logger.info("ΛTRACE: Initializing awareness_processor module.")
 
 
@@ -158,7 +158,7 @@ class AwarenessProcessor:
                 return {
                     "status": "error",
                     "error": "Component not initialized",
-                    "timestamp_utc": datetime.utcnow().isoformat(),
+                    "timestamp_utc": datetime.now(timezone.utc).isoformat(),
                 }
 
         try:
@@ -177,7 +177,7 @@ class AwarenessProcessor:
                 "component": self.__class__.__name__,
                 "category_processed": category,
                 "result": result,
-                "timestamp_utc": datetime.utcnow().isoformat(),
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             self.instance_logger.error(
@@ -189,7 +189,7 @@ class AwarenessProcessor:
                 "component": self.__class__.__name__,
                 "error_message": str(e),
                 "exception_type": type(e).__name__,
-                "timestamp_utc": datetime.utcnow().isoformat(),
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
 
     # Human-readable comment: Core internal processing logic dispatch based on
@@ -288,7 +288,7 @@ class AwarenessProcessor:
             "module_category": "awareness_processor",  # More specific category
             "current_status": self.status,
             "is_initialized": self.is_initialized,
-            "timestamp_utc": datetime.utcnow().isoformat(),
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         }
 
     # Monitoring System Implementation Methods
@@ -304,7 +304,7 @@ class AwarenessProcessor:
             "guardian_compliance": 0.0,  # 🛡️ Guardian tracking
             "response_latency": 0.0,
             "error_rate": 0.0,
-            "last_updated": datetime.utcnow().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize alerting thresholds
@@ -332,7 +332,7 @@ class AwarenessProcessor:
             "emotional_state": 0.0,  # Emotional processing stability
             "symbolic_coherence": 0.0,  # GLYPH system coherence
             "temporal_consistency": 0.0,  # Time perception stability
-            "last_consciousness_update": datetime.utcnow().isoformat(),
+            "last_consciousness_update": datetime.now(timezone.utc).isoformat(),
         }
 
         # Trinity Framework monitoring
@@ -454,7 +454,7 @@ class AwarenessProcessor:
                 if metric_name in self.awareness_metrics:
                     old_value = self.awareness_metrics[metric_name]
                     self.awareness_metrics[metric_name] = value
-                    self.awareness_metrics["last_updated"] = datetime.utcnow().isoformat()
+                    self.awareness_metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
                     # Check thresholds and generate alerts if needed
                     await self._check_metric_threshold(metric_name, value, old_value)
@@ -505,11 +505,11 @@ class AwarenessProcessor:
 
     async def _generate_alert(self, source: str, severity: str, message: str, metric_value: float):
         """Generate and store awareness alert."""
-        alert_id = f"AWARE_{int(datetime.utcnow().timestamp() * 1000)}"
+        alert_id = f"AWARE_{int(datetime.now(timezone.utc).timestamp() * 1000)}"
 
         alert = {
             "id": alert_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "source": source,
             "severity": severity,
             "message": message,
@@ -547,7 +547,7 @@ class AwarenessProcessor:
         status = {
             "component_name": self.__class__.__name__,
             "monitoring_active": hasattr(self, "awareness_metrics"),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add awareness metrics if available

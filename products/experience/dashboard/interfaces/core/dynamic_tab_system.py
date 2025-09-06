@@ -54,8 +54,7 @@ from typing import Any, Callable, Optional
 from dashboard.core.universal_adaptive_dashboard import (
     AdaptiveTab,
     DashboardContext,
-    TabPriority,
-)
+    TabPriority,, timezone)
 
 logger = logging.getLogger("ΛTRACE.dynamic_tab_system")
 
@@ -134,7 +133,7 @@ class DynamicTabSystem:
 
     def __init__(self, dashboard_context: DashboardContext):
         self.dashboard_context = dashboard_context
-        self.logger = logger.bind(system_id=f"tab_system_{int(datetime.now().timestamp())}")
+        self.logger = logger.bind(system_id=f"tab_system_{int(datetime.now(timezone.utc).timestamp())}")
 
         # Tab registry and state
         self.registered_tabs: dict[str, AdaptiveTab] = {}
@@ -214,7 +213,7 @@ class DynamicTabSystem:
             emotional_state_correlation={},
             time_of_day_pattern={},
             sequence_patterns=[],
-            last_accessed=datetime.now(),
+            last_accessed=datetime.now(timezone.utc),
             satisfaction_score=0.5,
         )
 
@@ -258,7 +257,7 @@ class DynamicTabSystem:
         # Record morph event
         self.morph_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "old_state": old_morph_state.value,
                 "new_state": new_context.morph_state.value,
                 "tab_changes": tab_changes,
@@ -289,7 +288,7 @@ class DynamicTabSystem:
         # Update interaction metrics
         if interaction_type == "tab_access":
             pattern.access_frequency += 1
-            pattern.last_accessed = datetime.now()
+            pattern.last_accessed = datetime.now(timezone.utc)
 
         elif interaction_type == "dwell_time":
             dwell_time = interaction_data.get("duration", 0)
@@ -308,7 +307,7 @@ class DynamicTabSystem:
             pattern.context_correlation[context_key] += 0.1
 
         # Update time-of-day patterns
-        hour = datetime.now().hour
+        hour = datetime.now(timezone.utc).hour
         if hour not in pattern.time_of_day_pattern:
             pattern.time_of_day_pattern[hour] = 0.0
         pattern.time_of_day_pattern[hour] += 0.1
@@ -330,7 +329,7 @@ class DynamicTabSystem:
         """Predict which tabs the user will need in the near future."""
 
         predictions = []
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Analyze patterns for each tab
         for tab_id, pattern in self.interaction_patterns.items():

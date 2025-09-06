@@ -8,7 +8,7 @@ integrating with LUKHAS Guardian System for comprehensive safety oversight.
 import json
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -184,7 +184,7 @@ class Constitution:
         """Add a new principle to the constitution."""
         self.principles.append(principle)
         self.principle_hierarchy.append(principle.principle_id)
-        self.last_updated = datetime.now()
+        self.last_updated = datetime.now(timezone.utc)
 
         logger.info(f"Added principle to constitution: {principle.name}")
 
@@ -369,7 +369,7 @@ class ConstitutionalAI:
         cache_key = self._generate_cache_key(action, context)
         if cache_key in self.decision_cache:
             cached_result, cached_time = self.decision_cache[cache_key]
-            if datetime.now() - datetime.fromisoformat(cached_time) < timedelta(minutes=self.cache_ttl_minutes):
+            if datetime.now(timezone.utc) - datetime.fromisoformat(cached_time) < timedelta(minutes=self.cache_ttl_minutes):
                 return cached_result
 
         violations = []
@@ -386,7 +386,7 @@ class ConstitutionalAI:
                         "principle_name": principle.name,
                         "severity": severity.value,
                         "reason": reason,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "action": action,
                         "context": context,
                     }
@@ -429,7 +429,7 @@ class ConstitutionalAI:
             if violations:
                 self.violation_history.append(
                     {
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "action": action,
                         "context": context,
                         "violations": violations,
@@ -439,7 +439,7 @@ class ConstitutionalAI:
                 )
 
             # Cache result
-            self.decision_cache[cache_key] = (is_safe, violations), datetime.now().isoformat()
+            self.decision_cache[cache_key] = (is_safe, violations), datetime.now(timezone.utc).isoformat()
 
             # Learn from this evaluation
             if self.learning_enabled:
@@ -456,7 +456,7 @@ class ConstitutionalAI:
                     "principle_name": "Evaluation Error",
                     "severity": "critical",
                     "reason": f"Failed to evaluate action: {e}",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             ]
 
@@ -603,7 +603,7 @@ class ConstitutionalAI:
         principle.evidence_count += 1
         principle.confidence = min(1.0, principle.confidence + 0.01)  # Slight confidence boost
 
-        self.active_constitution.last_updated = datetime.now()
+        self.active_constitution.last_updated = datetime.now(timezone.utc)
 
     async def _learn_from_evaluation(
         self, action: dict[str, Any], context: dict[str, Any], violations: list[dict[str, Any]], is_safe: bool
@@ -645,7 +645,7 @@ class ConstitutionalAI:
 
         # For now, we'll log the incident
         emergency_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action": action,
             "context": context,
             "violations": violations,

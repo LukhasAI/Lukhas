@@ -29,11 +29,11 @@ lukhas_context_sync.py
 CONTEXT_PATH = "logs/daily_context_summary.json"
 
 
-def generate_daily_context(user_id="Commander"):
+def generate_daily_context(user_id="Commander", timezone):
     context = {
         "user": user_id,
-        "date": datetime.utcnow().isoformat(),
-        "date_readable": datetime.utcnow().strftime("%A, %B %d, %Y – %H:%M UTC"),
+        "date": datetime.now(timezone.utc).isoformat(),
+        "date_readable": datetime.now(timezone.utc).strftime("%A, %B %d, %Y – %H:%M UTC"),
         "summary": [],
         "tags": [],
         "triggers": [],
@@ -44,7 +44,7 @@ def generate_daily_context(user_id="Commander"):
 
     try:
         # Load symbolic memory from the past 24 hours
-        datetime.utcnow().date().isoformat()
+        datetime.now(timezone.utc).date().isoformat()
         context["summary"] = summarize_recent(5)
 
         # Add dream tags
@@ -56,7 +56,7 @@ def generate_daily_context(user_id="Commander"):
             context["inferred_mood"] = "reflective"
 
         # Check for anniversary match
-        one_year_ago = (datetime.utcnow().replace(year=datetime.utcnow().year - 1)).date().isoformat()
+        one_year_ago = (datetime.now(timezone.utc).replace(year=datetime.now(timezone.utc).year - 1)).date().isoformat()
         anniversary_memories = filter_by_date_range(one_year_ago, one_year_ago)
         if anniversary_memories:
             context["tags"].append("memory_anniversary")

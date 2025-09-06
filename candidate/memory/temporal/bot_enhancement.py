@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-logger = logging.getLogger("BotEnhancement")
+logger = logging.getLogger("BotEnhancement", timezone)
 
 
 @dataclass
@@ -34,7 +34,7 @@ class EnhancementRequest:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -50,7 +50,7 @@ class EnhancementResponse:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class BotEnhancementEngine:

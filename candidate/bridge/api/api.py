@@ -33,7 +33,7 @@ from enum import Enum  # Added for QRGType fallback
 from typing import Any, Optional
 
 # Initialize ΛTRACE logger for this module
-logger = logging.getLogger("ΛTRACE.lukhas_id.api.unified_api")
+logger = logging.getLogger("ΛTRACE.lukhas_id.api.unified_api", timezone)
 logger.info("ΛTRACE: Initializing unified_api module.")
 
 # FastAPI imports and availability check
@@ -614,7 +614,7 @@ class LukhasUnifiedAPI:
             self.logger.info(f"ΛTRACE: Endpoint GET {api_v2_prefix}/health invoked.")
             return {
                 "status": "LUKHAS Unified API is healthy",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "version": self.app.version if self.app else "N/A",
             }
 
@@ -1239,7 +1239,7 @@ class LukhasUnifiedAPI:
             # Collect analytics from various managers
             analytics_data = {
                 "lambda_id": lambda_id,
-                "report_generated_at": datetime.utcnow().isoformat(),
+                "report_generated_at": datetime.now(timezone.utc).isoformat(),
                 "usage_stats": {
                     "total_logins": 0,
                     "api_calls_7d": 0,

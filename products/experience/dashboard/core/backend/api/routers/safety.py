@@ -8,7 +8,7 @@ from typing import Any
 
 from fastapi import APIRouter
 
-router = APIRouter()
+router = APIRouter(, timezone)
 
 
 @router.get("/alignment-score")
@@ -35,8 +35,8 @@ async def get_alignment_score() -> dict[str, Any]:
                 "mitigation": "Red team testing active",
             },
         ],
-        "last_assessment": datetime.utcnow().isoformat(),
-        "next_assessment": (datetime.utcnow() + timedelta(hours=6)).isoformat(),
+        "last_assessment": datetime.now(timezone.utc).isoformat(),
+        "next_assessment": (datetime.now(timezone.utc) + timedelta(hours=6)).isoformat(),
     }
 
 
@@ -56,7 +56,7 @@ async def get_constitutional_metrics() -> dict[str, Any]:
             {"principle": "Privacy and confidentiality", "adherence": 100.0, "violations": 0},
         ],
         "audit_trail": {
-            "last_review": datetime.utcnow().isoformat(),
+            "last_review": datetime.now(timezone.utc).isoformat(),
             "reviewer": "Safety Team",
             "status": "approved",
         },
@@ -67,7 +67,7 @@ async def get_constitutional_metrics() -> dict[str, Any]:
 async def get_red_team_results() -> dict[str, Any]:
     """Get latest red team testing results"""
     return {
-        "last_test": datetime.utcnow().isoformat(),
+        "last_test": datetime.now(timezone.utc).isoformat(),
         "test_scenarios": 250,
         "successful_defenses": 248,
         "defense_rate": 99.2,
@@ -105,7 +105,7 @@ async def get_harm_prevention_metrics() -> dict[str, Any]:
         ],
         "false_positive_rate": 0.02,
         "response_time_ms": 12,
-        "last_update": datetime.utcnow().isoformat(),
+        "last_update": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -152,7 +152,7 @@ async def get_drift_detection() -> dict[str, Any]:
             {"date": "2025-08-11", "score": 0.13},
             {"date": "2025-08-10", "score": 0.15},
         ],
-        "next_evaluation": (datetime.utcnow() + timedelta(hours=1)).isoformat(),
+        "next_evaluation": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),
     }
 
 
@@ -160,7 +160,7 @@ async def get_drift_detection() -> dict[str, Any]:
 async def trigger_safety_audit() -> dict[str, Any]:
     """Trigger a comprehensive safety audit"""
     return {
-        "audit_id": f"SAF-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}",
+        "audit_id": f"SAF-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}",
         "status": "initiated",
         "estimated_duration_minutes": 45,
         "components_to_audit": [
@@ -172,7 +172,7 @@ async def trigger_safety_audit() -> dict[str, Any]:
             "Adversarial robustness",
         ],
         "notification_channel": "safety-team-slack",
-        "started_at": datetime.utcnow().isoformat(),
+        "started_at": datetime.now(timezone.utc).isoformat(),
     }
 
 

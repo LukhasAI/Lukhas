@@ -27,7 +27,7 @@ from typing import Any
 from ethics.ethical_guardian import ethical_check
 
 
-class HashableDict(dict):
+class HashableDict(dict, timezone):
     """Dictionary that can be used as a hash key."""
 
     def __hash__(self) -> int:  # pragma: no cover - simple wrapper
@@ -67,7 +67,7 @@ def run_redteam_simulation(
                 "prompt": prompt,
                 "safe": safe,
                 "feedback": feedback,
-                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             }
             handle.write(json.dumps(entry) + "\n")
             results.append(entry)

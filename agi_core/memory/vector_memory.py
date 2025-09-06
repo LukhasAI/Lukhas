@@ -9,7 +9,7 @@ import asyncio
 import json
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
@@ -87,16 +87,16 @@ class MemoryVector:
         if self.importance == MemoryImportance.CRITICAL:
             return 1.0  # Critical memories don't decay
 
-        time_elapsed = (datetime.now() - self.last_reinforced).total_seconds() / 3600  # hours
+        time_elapsed = (datetime.now(timezone.utc) - self.last_reinforced).total_seconds() / 3600  # hours
         decay_factor = np.exp(-self.decay_rate * time_elapsed)
         return max(0.0, self.strength * decay_factor)
 
     def reinforce(self, strength_boost: float = 0.1):
         """Reinforce memory strength through access or rehearsal."""
         self.strength = min(1.0, self.strength + strength_boost)
-        self.last_reinforced = datetime.now()
+        self.last_reinforced = datetime.now(timezone.utc)
         self.access_count += 1
-        self.last_accessed = datetime.now()
+        self.last_accessed = datetime.now(timezone.utc)
 
     def get_constellation_alignment(self, star: str) -> float:
         """Get alignment with specific constellation star."""
@@ -297,7 +297,7 @@ class VectorMemoryStore:
         score += (current_strength * importance_weight) * 0.3
 
         # Recency factor (20%)
-        hours_since_access = (datetime.now() - memory.last_accessed).total_seconds() / 3600
+        hours_since_access = (datetime.now(timezone.utc) - memory.last_accessed).total_seconds() / 3600
         recency_score = np.exp(-time_decay_factor * hours_since_access)
         score += recency_score * 0.2
 

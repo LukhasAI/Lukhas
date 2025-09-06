@@ -24,7 +24,7 @@ class AuditSafetyChecker:
     """Verify audit safety conditions before running tests."""
 
     @staticmethod
-    def verify_audit_mode():
+    def verify_audit_mode(, timezone):
         """Verify system is in audit mode."""
         required_env = {
             "LUKHAS_DRY_RUN_MODE": "true",
@@ -94,7 +94,7 @@ class AuditMockRegistry:
         return {
             "ok": True,
             "consent_id": f"audit_consent_{hash(str(consent_data)) % 10000}",
-            "recorded_at": datetime.utcnow().isoformat(),
+            "recorded_at": datetime.now(timezone.utc).isoformat(),
             "dry_run": True,
             "audit_safe": True,
             "scopes": consent_data.get("scopes", []),
@@ -110,7 +110,7 @@ class AuditMockRegistry:
             "context_id": f"audit_context_{hash(str(context_data)) % 10000}",
             "session": context_data.get("session_id", "audit_session"),
             "tenant": context_data.get("tenant", "audit_tenant"),
-            "built_at": datetime.utcnow().isoformat(),
+            "built_at": datetime.now(timezone.utc).isoformat(),
             "dry_run": True,
             "audit_safe": True,
         }
@@ -328,7 +328,7 @@ def generate_e2e_audit_report() -> dict[str, Any]:
             "test_suite": "e2e_audit_dry_run",
             "version": "1.0.0-audit-prep",
             "purpose": "pre_post_matriz_validation",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         },
         "safety_verification": {
             "audit_mode_active": os.getenv("LUKHAS_AUDIT_MODE") == "true",

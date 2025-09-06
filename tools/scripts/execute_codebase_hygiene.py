@@ -13,9 +13,9 @@ from pathlib import Path
 class CodebaseHygieneExecutor:
     """Execute comprehensive codebase naming cleanup"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-        self.backup_dir = self.workspace / f".hygiene_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.workspace / f".hygiene_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.changes_log = []
         self.import_updates = {}
 
@@ -232,7 +232,7 @@ class CodebaseHygieneExecutor:
         print("\n📊 Generating hygiene report...")
 
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "backup_location": str(self.backup_dir),
             "changes": self.changes_log,
             "summary": {

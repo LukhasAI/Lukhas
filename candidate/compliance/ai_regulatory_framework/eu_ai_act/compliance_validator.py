@@ -16,7 +16,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AISystemRiskCategory(Enum):
@@ -140,7 +140,7 @@ class EUAIActValidator:
                 system_id=system_profile.system_id,
                 risk_category=risk_category,
                 compliance_status=compliance_status,
-                assessment_date=datetime.now(),
+                assessment_date=datetime.now(timezone.utc),
                 requirements=requirements,
                 violations=violations,
                 recommendations=recommendations,
@@ -319,11 +319,11 @@ class EUAIActValidator:
         from datetime import timedelta
 
         if risk_category == AISystemRiskCategory.HIGH_RISK:
-            return datetime.now() + timedelta(days=90)  # Quarterly
+            return datetime.now(timezone.utc) + timedelta(days=90)  # Quarterly
         elif risk_category == AISystemRiskCategory.LIMITED_RISK:
-            return datetime.now() + timedelta(days=180)  # Semi-annually
+            return datetime.now(timezone.utc) + timedelta(days=180)  # Semi-annually
         else:
-            return datetime.now() + timedelta(days=365)  # Annually
+            return datetime.now(timezone.utc) + timedelta(days=365)  # Annually
 
     async def generate_compliance_report(self, assessment: ComplianceAssessment) -> dict[str, Any]:
         """Generate comprehensive compliance report"""

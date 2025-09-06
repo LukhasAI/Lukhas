@@ -7,8 +7,7 @@ from datetime import datetime, timedelta
 from candidate.governance.security.audit_system import (
     AuditEventType,
     AuditQuery,
-    ComprehensiveAuditSystem,
-)
+    ComprehensiveAuditSystem,, timezone)
 
 
 async def debug_audit_system():
@@ -49,8 +48,8 @@ async def debug_audit_system():
         # Query events
         print("\n6️⃣ Querying stored events...")
         query = AuditQuery(
-            start_time=datetime.now() - timedelta(hours=1),
-            end_time=datetime.now() + timedelta(hours=1),
+            start_time=datetime.now(timezone.utc) - timedelta(hours=1),
+            end_time=datetime.now(timezone.utc) + timedelta(hours=1),
             limit=100,
         )
         events = await audit_system.query_events(query)

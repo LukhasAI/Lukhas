@@ -27,9 +27,9 @@ from typing import Any, Optional
 class ComprehensiveCoreAuditor:
     """Complete audit system for all core components in lukhas workspace"""
 
-    def __init__(self, workspace_root: str):
+    def __init__(self, workspace_root: str, timezone):
         self.workspace_root = Path(workspace_root)
-        self.audit_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.audit_timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
         # ALL possible core directories to audit
         self.core_directories = [
@@ -559,7 +559,7 @@ class ComprehensiveCoreAuditor:
         report = f"""
 # 🔍 COMPREHENSIVE lukhas CORE AUDIT REPORT
 
-**Generated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+**Generated:** {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 **Workspace:** {self.workspace_root}
 **Audit ID:** {self.audit_timestamp}
 
@@ -709,7 +709,7 @@ class ComprehensiveCoreAuditor:
 
 ## ✅ AUDIT COMPLETION STATUS
 
-- **Scan Completed:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+- **Scan Completed:** {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 - **Total Processing Time:** ~{len(self.audit_results["directories_scanned"]) * 2} seconds
 - **Coverage:** 100% of accessible core directories
 - **Accuracy:** Machine learning categorization with manual validation needed

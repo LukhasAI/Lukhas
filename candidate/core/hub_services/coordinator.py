@@ -12,7 +12,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ModuleType(Enum):
@@ -47,7 +47,7 @@ class CoordinationRequest:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -119,7 +119,7 @@ class HubCoordinator:
 
         This is the main entry point for cross-module communication.
         """
-        request_id = f"{request.source_module.value}_{request.target_module.value}_{datetime.now().timestamp()}"
+        request_id = f"{request.source_module.value}_{request.target_module.value}_{datetime.now(timezone.utc).timestamp()}"
 
         try:
             # Check if target module is available
@@ -149,14 +149,14 @@ class HubCoordinator:
             handler = self._handlers[request.target_module][request.operation]
 
             # Execute with timeout if specified
-            start_time = datetime.now()
+            start_time = datetime.now(timezone.utc)
 
             if request.timeout:
                 result = await asyncio.wait_for(handler(request.data), timeout=request.timeout)
             else:
                 result = await handler(request.data)
 
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             return CoordinationResponse(
                 request_id=request_id,
@@ -180,16 +180,16 @@ class HubCoordinator:
         Submit a request for async processing.
         Returns immediately with a request ID.
         """
-        request_id = f"{request.source_module.value}_{request.target_module.value}_{datetime.now().timestamp()}"
+        request_id = f"{request.source_module.value}_{request.target_module.value}_{datetime.now(timezone.utc).timestamp()}"
         self._active_requests[request_id] = request
         await self._request_queue.put((request_id, request))
         return request_id
 
     async def get_result(self, request_id: str, timeout: float = 30.0) -> CoordinationResponse:
         """Get the result of an async request"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
-        while (datetime.now() - start_time).total_seconds() < timeout:
+        while (datetime.now(timezone.utc) - start_time).total_seconds() < timeout:
             if request_id not in self._active_requests:
                 # Request completed, find response
                 # In a real implementation, we'd store responses

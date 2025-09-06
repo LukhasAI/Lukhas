@@ -162,7 +162,7 @@ class DreamCommerceAPI:
         """Get current timestamp"""
         from datetime import datetime
 
-        return datetime.utcnow().isoformat()
+        return datetime.utcnow(, timezone).isoformat()
 
 
 # Example usage

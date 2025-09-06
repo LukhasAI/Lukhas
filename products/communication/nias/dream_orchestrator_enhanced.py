@@ -14,7 +14,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Set up logger
-logger = logging.getLogger("Lambda.NIΛS.DreamOrchestrator.Enhanced")
+logger = logging.getLogger("Lambda.NIΛS.DreamOrchestrator.Enhanced", timezone)
 
 # Handle imports for both module and standalone execution
 if __name__ == "__main__":
@@ -268,11 +268,11 @@ class EnhancedDreamOrchestrator:
                         self.service_health[service_name] = ServiceHealth(
                             service_name=service_name,
                             status=(ServiceStatus.HEALTHY if is_healthy else ServiceStatus.UNAVAILABLE),
-                            last_check=datetime.now(),
+                            last_check=datetime.now(timezone.utc),
                         )
                     else:
                         health = self.service_health[service_name]
-                        health.last_check = datetime.now()
+                        health.last_check = datetime.now(timezone.utc)
 
                         if is_healthy:
                             health.status = ServiceStatus.HEALTHY
@@ -322,7 +322,7 @@ class EnhancedDreamOrchestrator:
                 session = {
                     "session_id": session_id,
                     "user_id": user_id,
-                    "started_at": datetime.now().isoformat(),
+                    "started_at": datetime.now(timezone.utc).isoformat(),
                     "active": True,
                     "dreams_delivered": [],
                     "vendor_interactions": {},
@@ -392,7 +392,7 @@ class EnhancedDreamOrchestrator:
             session = {
                 "session_id": session_id,
                 "user_id": user_id,
-                "started_at": datetime.now().isoformat(),
+                "started_at": datetime.now(timezone.utc).isoformat(),
                 "active": True,
                 "dreams_delivered": [],
                 "vendor_interactions": {},
@@ -428,7 +428,7 @@ class EnhancedDreamOrchestrator:
             self.active_sessions[user_id] = {
                 "session_id": session_id,
                 "user_id": user_id,
-                "started_at": datetime.now().isoformat(),
+                "started_at": datetime.now(timezone.utc).isoformat(),
                 "active": True,
                 "recovery_mode": True,
                 "original_error": error,
@@ -475,7 +475,7 @@ class EnhancedDreamOrchestrator:
                 return {
                     "ready": False,
                     "reason": "High stress detected",
-                    "retry_after": datetime.now() + timedelta(minutes=30),
+                    "retry_after": datetime.now(timezone.utc) + timedelta(minutes=30),
                 }
 
         except Exception as e:
@@ -509,7 +509,7 @@ class EnhancedDreamOrchestrator:
                 session.setdefault("conversion_events", []).append(
                     {
                         "type": "click",
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "data": data,
                     }
                 )
@@ -563,7 +563,7 @@ class EnhancedDreamOrchestrator:
                 dream_id = f"fast_{uuid.uuid4().hex[:8]}"
                 vendor_interactions.setdefault(vendor_id, []).append(
                     {
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "dream_id": dream_id,
                     }
                 )
@@ -597,7 +597,7 @@ class EnhancedDreamOrchestrator:
             vendor_interactions = session.setdefault("vendor_interactions", {})
             vendor_interactions.setdefault(vendor_id, []).append(
                 {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "dream_id": (dream.dream_id if hasattr(dream, "dream_id") else "unknown"),
                 }
             )
@@ -730,7 +730,7 @@ if __name__ == "__main__":
         action_result = await orchestrator.process_user_action(
             "test_user_123",
             "click",
-            {"element": "dream_product", "timestamp": datetime.now().isoformat()},
+            {"element": "dream_product", "timestamp": datetime.now(timezone.utc).isoformat()},
         )
         print(f"Action result: {action_result}")
 

@@ -28,7 +28,7 @@ personality_refiner
 
 
 class PersonalityRefiner:
-    def __init__(self, user_id, profile_path="data_legacy/personality_traits.json"):
+    def __init__(self, user_id, profile_path="data_legacy/personality_traits.json", timezone):
         self.user_id = user_id
         self.profile_path = Path(profile_path)
         self.profile = self._load_profile()
@@ -59,7 +59,7 @@ class PersonalityRefiner:
                     "trait": trait,
                     "delta": adjustment,
                     "source": feedback_entry.get("source", "user"),
-                    "timestamp": datetime.utcnow().isoformat() + "Z",
+                    "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
                 }
             )
             self._save_profile()
@@ -76,5 +76,5 @@ class PersonalityRefiner:
         return {
             "user_id": self.user_id,
             "vector": self.profile["traits"],
-            "last_updated": datetime.utcnow().isoformat() + "Z",
+            "last_updated": datetime.now(timezone.utc).isoformat() + "Z",
         }

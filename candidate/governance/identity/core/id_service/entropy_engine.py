@@ -28,7 +28,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class EntropyLevel(Enum):
+class EntropyLevel(Enum, timezone):
     """Entropy quality levels"""
 
     VERY_LOW = "very_low"  # < 1.0
@@ -147,7 +147,7 @@ class LambdaIDEntropyEngine:
 
             # Add metadata
             analysis.metadata = {
-                "analyzed_at": datetime.now().isoformat(),
+                "analyzed_at": datetime.now(timezone.utc).isoformat(),
                 "tier": tier,
                 "component_count": len(analysis.component_scores),
                 "boost_count": len(analysis.boost_factors),

@@ -11,7 +11,7 @@ from candidate.core.common import get_logger
 
 try:
     from .qi_consciousness_integration import (MODULE_NAME, MODULE_VERSION,
-                                               QICreativeConsciousness)
+                                               QICreativeConsciousness, timezone)
 
     QUANTUM_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:
@@ -70,7 +70,7 @@ class QIConsciousnessIntegration:
             "qi_coherence_average": 0.0,
             "creative_flow_average": 0.0,
             "sessions_completed": 0,
-            "last_activity": datetime.now().isoformat(),
+            "last_activity": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info(
@@ -203,7 +203,7 @@ class QIConsciousnessIntegration:
 
                 # Record session information
                 self.content_generation_sessions[session_id] = {
-                    "started_at": datetime.now().isoformat(),
+                    "started_at": datetime.now(timezone.utc).isoformat(),
                     "content_type": content_type,
                     "theme": theme,
                     "style": style,
@@ -222,7 +222,7 @@ class QIConsciousnessIntegration:
                     "content": result["content"],
                     "consciousness_metrics": result["consciousness_metrics"],
                     "metadata": result["metadata"],
-                    "generated_at": datetime.now().isoformat(),
+                    "generated_at": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 # Fallback content generation
@@ -236,7 +236,7 @@ class QIConsciousnessIntegration:
                 "success": False,
                 "error": str(e),
                 "session_id": session_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_consciousness_status(self) -> dict[str, Any]:
@@ -271,7 +271,7 @@ class QIConsciousnessIntegration:
                         ),
                     },
                     "system_status": "active",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 # Fallback status
@@ -282,7 +282,7 @@ class QIConsciousnessIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def enhance_consciousness_level(
@@ -320,7 +320,7 @@ class QIConsciousnessIntegration:
                     "current_level": self.qi_consciousness.consciousness_level,
                     "target_level": target_level,
                     "enhancement_applied": enhancement_applied,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 # Fallback enhancement
@@ -330,7 +330,7 @@ class QIConsciousnessIntegration:
                     "target_level": target_level,
                     "enhancement_applied": True,
                     "fallback": True,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         except Exception as e:
@@ -338,7 +338,7 @@ class QIConsciousnessIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_content_generation_sessions(self) -> list[dict[str, Any]]:
@@ -397,14 +397,14 @@ class QIConsciousnessIntegration:
                     ),
                 },
                 "system_status": "active",
-                "last_updated": datetime.now().isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
             return metrics
 
         except Exception as e:
             logger.error(f"Error getting consciousness metrics: {e}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     def _is_content_type_supported(self, content_type: str) -> bool:
         """Check if content type is supported"""
@@ -447,7 +447,7 @@ class QIConsciousnessIntegration:
                 + creative_flow
             ) / current_sessions
 
-            self.consciousness_metrics["last_activity"] = datetime.now().isoformat()
+            self.consciousness_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()
 
         except Exception as e:
             logger.warning(f"Failed to update consciousness metrics: {e}")
@@ -473,7 +473,7 @@ class QIConsciousnessIntegration:
 
         # Record session
         self.content_generation_sessions[session_id] = {
-            "started_at": datetime.now().isoformat(),
+            "started_at": datetime.now(timezone.utc).isoformat(),
             "content_type": content_type,
             "theme": theme,
             "style": style,
@@ -500,7 +500,7 @@ class QIConsciousnessIntegration:
                 "consciousness_level": consciousness_level,
             },
             "fallback": True,
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _fallback_get_status(self) -> dict[str, Any]:
@@ -525,7 +525,7 @@ class QIConsciousnessIntegration:
             },
             "system_status": "fallback",
             "fallback": True,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 

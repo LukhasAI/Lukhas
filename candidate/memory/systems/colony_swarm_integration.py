@@ -279,7 +279,7 @@ class SwarmConsensusManager:
             if colony_id in self.colony_validators:
                 validator = self.colony_validators[colony_id]
                 vote = await validator.validate_memory(
-                    f"proposed_{proposing_colony}_{datetime.now().timestamp()}",
+                    f"proposed_{proposing_colony}_{datetime.now(timezone.utc).timestamp()}",
                     memory_data,
                 )
                 votes[colony_id] = vote

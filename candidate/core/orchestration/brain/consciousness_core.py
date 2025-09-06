@@ -9,8 +9,7 @@ from datetime import datetime
 from typing import Any
 
 from candidate.orchestration.core_modules.orchestration_service import (
-    ConsciousnessLevel,
-)
+    ConsciousnessLevel,, timezone)
 from lukhas.core.common.config import LukhasConfig
 
 logger = logging.getLogger("LukhasConsciousness")
@@ -44,7 +43,7 @@ class ConsciousnessCore:
 
     def __init__(self, config: LukhasConfig):
         self.config = config
-        self.current_state = ConsciousnessState(level=ConsciousnessLevel.DORMANT, activated_at=datetime.now())
+        self.current_state = ConsciousnessState(level=ConsciousnessLevel.DORMANT, activated_at=datetime.now(timezone.utc))
         self.evolution_history: list[ConsciousnessState] = []
         self.active_processes: dict[str, Any] = {}
 
@@ -86,7 +85,7 @@ class ConsciousnessCore:
 
         self.current_state = ConsciousnessState(
             level=new_level,
-            activated_at=datetime.now(),
+            activated_at=datetime.now(timezone.utc),
             evolution_count=old_state.evolution_count + 1,
             active_processes=old_state.active_processes.copy(),
             memory_size=old_state.memory_size,
@@ -98,7 +97,7 @@ class ConsciousnessCore:
         """Register an active process"""
         self.active_processes[process_name] = {
             "data": process_data,
-            "started_at": datetime.now().isoformat(),
+            "started_at": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": self.current_state.level,
         }
 

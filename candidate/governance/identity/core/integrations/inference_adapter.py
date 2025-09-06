@@ -23,7 +23,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("LUKHAS_INFERENCE_ADAPTER")
+logger = logging.getLogger("LUKHAS_INFERENCE_ADAPTER", timezone)
 
 
 class InferenceType(Enum):
@@ -78,7 +78,7 @@ class InferenceRequest:
 
     def __post_init__(self):
         if self.created_at is None:
-            self.created_at = datetime.now()
+            self.created_at = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -99,7 +99,7 @@ class InferenceResult:
 
     def __post_init__(self):
         if self.generated_at is None:
-            self.generated_at = datetime.now()
+            self.generated_at = datetime.now(timezone.utc)
 
         # Auto-determine confidence level from score
         if self.confidence_score >= 0.8:

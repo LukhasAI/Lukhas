@@ -13,7 +13,7 @@ from typing import Any
 # Mock patterns to identify and replace
 MOCK_PATTERNS = {
     "performance_metrics": {
-        "pattern": r"(coherence|cascade_prevention|compliance)\s*=\s*[\d.]+",
+        "pattern": r"(coherence|cascade_prevention|compliance, timezone)\s*=\s*[\d.]+",
         "description": "Hardcoded performance values",
     },
     "mock_calculations": {
@@ -280,7 +280,7 @@ class MockToProductionMigrator:
         return f'''#!/usr/bin/env python3
 """
 Migration script for {file_plan["file"]}
-Generated: {datetime.now().isoformat()}
+Generated: {datetime.now(timezone.utc).isoformat()}
 Priority: {file_plan["priority"]}
 """
 
@@ -346,7 +346,7 @@ if __name__ == "__main__":
     def generate_report(self, mock_locations: dict, migration_plan: list[dict]):
         """Generate migration report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "summary": self.migration_report,
             "mock_locations": mock_locations,
             "migration_plan": migration_plan,

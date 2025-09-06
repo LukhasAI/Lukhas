@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class WidgetType(Enum):
@@ -205,7 +205,7 @@ class WidgetEngine:
                 "widget_id": widget_id,
                 "type": widget_type.value,
                 "tier": tier,
-                "created_at": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "expires_at": self._calculate_expiry(tier),
                 "template": template,
                 "content": await self._process_content(message, tier),
@@ -384,7 +384,7 @@ class WidgetEngine:
 
     def _get_current_season(self) -> str:
         """Determine current season based on date"""
-        month = datetime.now().month
+        month = datetime.now(timezone.utc).month
 
         if 3 <= month <= 5:
             return "spring"
@@ -447,13 +447,13 @@ class WidgetEngine:
         """Calculate widget expiry based on tier"""
         if tier == "T1":
             # Unlimited duration for premium
-            return (datetime.now() + timedelta(days=365)).isoformat()
+            return (datetime.now(timezone.utc) + timedelta(days=365)).isoformat()
         elif tier == "T2":
             # 14 days for enhanced
-            return (datetime.now() + timedelta(days=14)).isoformat()
+            return (datetime.now(timezone.utc) + timedelta(days=14)).isoformat()
         else:  # T3
             # 7 days for basic
-            return (datetime.now() + timedelta(days=7)).isoformat()
+            return (datetime.now(timezone.utc) + timedelta(days=7)).isoformat()
 
     async def _generate_fallback_widget(self, message: dict[str, Any], tier: str) -> dict[str, Any]:
         """Generate a simple fallback widget if main generation fails"""
@@ -461,7 +461,7 @@ class WidgetEngine:
             "widget_id": f"fallback_{uuid.uuid4().hex[:8]}",
             "type": WidgetType.BASIC_CARD.value,
             "tier": tier,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "content": {
                 "title": message.get("title", "Message"),
                 "description": message.get("description", ""),
@@ -519,7 +519,7 @@ class WidgetEngine:
                 "widget_id": widget_id,
                 "user_id": user_id,
                 "interaction_type": interaction_type,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "data": interaction_data or {},
             }
 
@@ -622,7 +622,7 @@ class WidgetEngine:
 
     async def get_widget_analytics(self, days: int = 30) -> dict[str, Any]:
         """Get analytics for widget performance"""
-        cutoff_date = datetime.now() - timedelta(days=days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
 
         recent_interactions = [
             i for i in self.interaction_history if datetime.fromisoformat(i["timestamp"]) >= cutoff_date
@@ -661,7 +661,7 @@ class WidgetEngine:
 
     async def cleanup_expired_widgets(self):
         """Remove expired widgets from active widgets"""
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         expired_widgets = []
 
         for widget_id, widget in list(self.active_widgets.items()):

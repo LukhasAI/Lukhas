@@ -21,7 +21,7 @@ class GlobalComplianceFramework:
     ├──────────────────────────────────────────────────────────────────────┤
     │ - COMPLIANCE_PROFILES: Defines regional legal constraints.            │
     │   e.g., EU prohibits facial_recognition_db and social_scoring.        │
-    │ - check_compliance(): Applies the appropriate profile based on        │
+    │ - check_compliance(, timezone): Applies the appropriate profile based on        │
     │   the 'region' flag from context. Defaults to 'Global' profile.       │
     │ - Scoring: 0.5 per violation. Threshold >1.5 triggers safeguards.     │
     │ - Adjust COMPLIANCE_PROFILES to reflect updated international laws.   │
@@ -95,7 +95,7 @@ class GlobalComplianceFramework:
 
     def log_violation(self, message):
         """Maintain auditable trail of compliance events"""
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         self.audit_log.append(f"{timestamp} - COMPLIANCE VIOLATION: {message}")
         logging.warning(message)
 

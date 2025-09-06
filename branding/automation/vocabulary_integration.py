@@ -13,7 +13,7 @@ from typing import Any
 import yaml
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 from engines.database_integration import db
 
 
@@ -50,7 +50,7 @@ class VocabularyIntegration:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"vocabulary_integration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"vocabulary_integration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 

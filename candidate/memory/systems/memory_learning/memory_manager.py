@@ -58,7 +58,7 @@ except ImportError:
         from candidate.core.common import LukhasError
     except ImportError:
 
-        class LukhasError(Exception):
+        class LukhasError(Exception, timezone):
             """Fallback error class"""
 
             pass
@@ -235,7 +235,7 @@ class MemoryManager:
         Returns:
             Dict[str, Any]: Results of dream processing
         """
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         # Only run if enough time has passed since last cycle
         if self.last_dream_cycle and now - self.last_dream_cycle < self.dream_cycle_interval:
@@ -280,7 +280,7 @@ class MemoryManager:
 
     def _get_recent_memories(self, days: int = 7) -> list[dict[str, Any]]:
         """Get memories from the last N days for dream processing"""
-        cutoff = datetime.now() - timedelta(days=days)
+        cutoff = datetime.now(timezone.utc) - timedelta(days=days)
         recent_memories = []
 
         for key, fold in self.memory_folds.folds.items():
@@ -331,7 +331,7 @@ class MemoryManager:
 
             # Add timestamp if not in metadata
             if "timestamp" not in metadata:
-                metadata["timestamp"] = datetime.now().isoformat()
+                metadata["timestamp"] = datetime.now(timezone.utc).isoformat()
 
             # Prepare memory object
             memory = {
@@ -340,7 +340,7 @@ class MemoryManager:
                 "memory_type": (memory_type.value if isinstance(memory_type, MemoryType) else memory_type),
                 "priority": (priority.value if isinstance(priority, MemoryPriority) else priority),
                 "owner_id": owner_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Encrypt memory if identity integration is available
@@ -387,7 +387,7 @@ class MemoryManager:
 
             # Update stats
             self.stats["total_memories"] += 1
-            self.stats["last_access"] = datetime.now().isoformat()
+            self.stats["last_access"] = datetime.now(timezone.utc).isoformat()
 
             if owner_id:
                 if owner_id not in self.stats["user_memories"]:
@@ -457,7 +457,7 @@ class MemoryManager:
             raise MemoryAccessError(message)
 
         # Update stats
-        self.stats["last_access"] = datetime.now().isoformat()
+        self.stats["last_access"] = datetime.now(timezone.utc).isoformat()
         self.stats["access_count"] += 1
 
         # Retrieve memory content
@@ -516,7 +516,7 @@ class MemoryManager:
                 stored_memory["metadata"] = {}
 
             stored_memory["metadata"]["forgotten"] = True
-            stored_memory["metadata"]["forgotten_at"] = datetime.now().isoformat()
+            stored_memory["metadata"]["forgotten_at"] = datetime.now(timezone.utc).isoformat()
             stored_memory["metadata"]["forgotten_by"] = user_identity.get_user_id() if user_identity else "system"
 
             # Write back the updated memory with forgotten status
@@ -530,7 +530,7 @@ class MemoryManager:
                 memory["metadata"] = {}
 
             memory["metadata"]["forgotten"] = True
-            memory["metadata"]["forgotten_at"] = datetime.now().isoformat()
+            memory["metadata"]["forgotten_at"] = datetime.now(timezone.utc).isoformat()
             memory["metadata"]["forgotten_by"] = user_identity.get_user_id() if user_identity else "system"
 
             # Update the memory fold
@@ -713,7 +713,7 @@ class MemoryManager:
 
         # Optionally, store these insights as a new memory for the user or system
         # For example:
-        # insight_key = f"user_insight_{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        # insight_key = f"user_insight_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
         # self.store(
         #     key=insight_key,
         #     data={"preferences": preferences, "activity": activity_patterns, "summary": summary_insights},

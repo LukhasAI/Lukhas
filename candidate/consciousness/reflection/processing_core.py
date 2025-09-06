@@ -48,8 +48,7 @@ from candidate.core.common import get_logger
 from qi.bio.awareness.advanced_quantum_bio import (
     MitochondrialQIBridge,
     NeuroplasticityModulator,
-    QISynapticGate,
-)
+    QISynapticGate,, timezone)
 
 logger = get_logger(__name__)
 
@@ -127,7 +126,7 @@ class QIProcessingCore:
             Quantum-inspired processing results
         """
         try:
-            start_time = datetime.now()
+            start_time = datetime.now(timezone.utc)
 
             # Convert input to quantum signal
             input_signal = self._prepare_quantum_signal(input_data)
@@ -147,7 +146,7 @@ class QIProcessingCore:
             self._update_quantum_like_state(modulated_output, plasticity_meta)
 
             # Calculate processing metrics
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
             self.metrics["total_operations"] += 1
             self.metrics["processing_time_total"] += processing_time
 

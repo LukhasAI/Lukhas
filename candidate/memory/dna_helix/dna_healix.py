@@ -31,7 +31,7 @@ from candidate.core.common import get_logger
 # from sklearn.metrics.pairwise import cosine_similarity  # Optional dependency
 
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 def cosine_similarity(v1: np.ndarray, v2: np.ndarray) -> float:
@@ -293,7 +293,7 @@ class DNAHealixCore:
             repair_method=method,
             cause=cause,
             confidence=1.0 - drift_after,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             drift_before=drift_before,
             drift_after=drift_after,
             glyphs_repaired=glyphs_repaired,
@@ -489,7 +489,7 @@ class MemoryHelix:
         self.strands = {}  # For storing named strands
 
         # Metadata
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         self.access_count = 0
         self.last_accessed = None
         self.tags: set[str] = set()
@@ -504,7 +504,7 @@ class MemoryHelix:
             raise PermissionError(f"Memory {self.memory_id} is locked")
 
         self.access_count += 1
-        self.last_accessed = datetime.now()
+        self.last_accessed = datetime.now(timezone.utc)
 
         return {
             "memory_id": self.memory_id,
@@ -596,7 +596,7 @@ class MemoryHelix:
             raise PermissionError(f"Memory {self.memory_id} is locked")
 
         self.access_count += 1
-        self.last_accessed = datetime.now()
+        self.last_accessed = datetime.now(timezone.utc)
         return self.strands.get(strand_id)
 
     async def verify_integrity(self) -> dict[str, Any]:

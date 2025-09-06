@@ -23,7 +23,7 @@ emergency_override.py
 EMERGENCY_LOG_PATH = "logs/emergency_log.jsonl"
 
 
-def check_safety_flags(user_context=None):
+def check_safety_flags(user_context=None, timezone):
     """
     Checks safety flags and tier permissions based on user context.
     """
@@ -53,7 +53,7 @@ def log_incident(reason, user_context=None):
     Append emergency incident details to a secure audit log, including compliance flags.
     """
     log_entry = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "reason": reason,
         "source": "lukhas_emergency_override",
         "user": user_context.get("user", "unknown") if user_context else "unknown",

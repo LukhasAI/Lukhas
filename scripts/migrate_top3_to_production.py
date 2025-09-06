@@ -9,7 +9,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Base paths
-LUKHAS_ROOT = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
+LUKHAS_ROOT = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas", timezone)
 ARCHIVE_BASE = LUKHAS_ROOT / "lukhas/acceptance/archive"
 ACCEPTED_BASE = LUKHAS_ROOT / "lukhas/acceptance/accepted"
 
@@ -173,11 +173,11 @@ warnings.warn(
 def create_migration_log():
     """Create a log of the migration"""
 
-    log_path = LUKHAS_ROOT / "docs/migration_logs" / f"migration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+    log_path = LUKHAS_ROOT / "docs/migration_logs" / f"migration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     log_content = f"""# Migration Log - Top 3 Modules to Production
-Date: {datetime.now().isoformat()}
+Date: {datetime.now(timezone.utc).isoformat()}
 
 ## Migrated Modules
 

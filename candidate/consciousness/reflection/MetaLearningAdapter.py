@@ -29,7 +29,7 @@ from typing import Any
 
 import numpy as np
 
-logger = logging.getLogger("MetaLearningAdapter")
+logger = logging.getLogger("MetaLearningAdapter", timezone)
 
 
 class LearningPhase(Enum):
@@ -394,7 +394,7 @@ class MetaLearningEnhancementAdapter:
 
         # Update symbolic feedback buffer
         feedback_entry = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "symbolic_quality": symbolic_quality,
             "intent_integration": intent_integration,
             "memoria_coupling": memoria_coupling,
@@ -445,7 +445,7 @@ class MetaLearningEnhancementAdapter:
 
         # Add to performance history
         performance_entry = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "overall_performance": overall_performance,
             "adaptation_speed": adaptation_speed,
             "stability_score": stability_score,
@@ -537,7 +537,7 @@ class MetaLearningEnhancementAdapter:
     async def _update_current_metrics(self) -> None:
         """Update current metrics from underlying system"""
         # Update timestamp
-        self.current_metrics.timestamp = datetime.now()
+        self.current_metrics.timestamp = datetime.now(timezone.utc)
 
         # Calculate optimal rate distance
         current_rate = self.current_metrics.current_learning_rate
@@ -584,7 +584,7 @@ class MetaLearningEnhancementAdapter:
     async def _integrate_biological_symbolic_feedback(self, bio_signals: dict[str, Any]) -> None:
         """Integrate biological signals into symbolic feedback"""
         bio_symbolic_entry = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "type": "biological_integration",
             "energy_availability": bio_signals.get("energy_availability", 0.0),
             "system_stability": bio_signals.get("system_stability", 0.0),
@@ -625,7 +625,7 @@ class MetaLearningEnhancementAdapter:
                 "id": f"node_{len(self.active_learning_nodes) + i}",
                 "status": "connected",
                 "performance": np.random.uniform(0.6, 0.9),
-                "last_update": datetime.now(),
+                "last_update": datetime.now(timezone.utc),
             }
             new_nodes.append(node)
 
@@ -841,5 +841,5 @@ class MetaLearningEnhancementAdapter:
             "enhancement_factor": 1.0,
             "current_phase": "exploration",
             "federated_state": "disconnected",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }

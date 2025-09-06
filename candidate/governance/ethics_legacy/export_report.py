@@ -50,7 +50,7 @@ class EthicsReportExporter:
         if formats is None:
             formats = ["json", "yaml", "csv"]
         if base_filename is None:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             trace_index = result.get("trace_index", "unknown")
             base_filename = f"ethics_drift_{trace_index}_{timestamp}"
 
@@ -288,7 +288,7 @@ class EthicsReportExporter:
 
         # Export dashboard data
         dashboard_file = (
-            self.output_base_dir / "dashboard" / f"dashboard_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            self.output_base_dir / "dashboard" / f"dashboard_data_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         )
         with open(dashboard_file, "w") as f:
             json.dump(dashboard_data, f, indent=2)
@@ -317,7 +317,7 @@ class EthicsReportExporter:
         """Generate comprehensive audit trail entry."""
         audit_entry = {
             "audit_id": hashlib.sha256(
-                f"{result.get('trace_index', '')}_{datetime.now().isoformat()}".encode()
+                f"{result.get('trace_index', '')}_{datetime.now(timezone.utc).isoformat()}".encode()
             ).hexdigest()[:16],
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "trace_index": result.get("trace_index", ""),
@@ -375,7 +375,7 @@ class EthicsReportExporter:
         }
 
         # Export governance summary
-        governance_file = self.output_base_dir / f"governance_summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        governance_file = self.output_base_dir / f"governance_summary_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(governance_file, "w") as f:
             json.dump(governance_summary, f, indent=2)
 

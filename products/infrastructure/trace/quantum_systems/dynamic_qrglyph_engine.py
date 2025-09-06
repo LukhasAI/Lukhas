@@ -33,7 +33,7 @@ from typing import Any, Optional
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class GLYPHType(Enum):
@@ -198,7 +198,7 @@ class DynamicQRGLYPHEngine:
         # Create consciousness binding
         consciousness_binding = {
             "state": consciousness_state,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "coherence_level": consent_data.get("consciousness_coherence", 0.8),
             "attention_signature": self._generate_attention_signature(consciousness_state),
         }
@@ -213,7 +213,7 @@ class DynamicQRGLYPHEngine:
         payload = {
             "user_id": user_id,
             "glyph_id": glyph_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consent_hash": self._hash_consent_data(consent_data),
             "consciousness_state": consciousness_state,
             "cultural_region": cultural_context.get("region", "universal"),
@@ -227,8 +227,8 @@ class DynamicQRGLYPHEngine:
         # Create metadata
         metadata = GLYPHMetadata(
             glyph_type=glyph_type,
-            creation_time=datetime.utcnow(),
-            expiration_time=datetime.utcnow() + self._get_glyph_lifetime(glyph_type),
+            creation_time=datetime.now(timezone.utc),
+            expiration_time=datetime.now(timezone.utc) + self._get_glyph_lifetime(glyph_type),
             consciousness_binding=consciousness_binding,
             cultural_symbols=cultural_symbols,
             biometric_hash=biometric_hash,
@@ -275,7 +275,7 @@ class DynamicQRGLYPHEngine:
             qrglyph = DynamicQRGLYPH.from_base64(qrglyph_base64)
 
             # Check expiration
-            if datetime.utcnow() > qrglyph.metadata.expiration_time:
+            if datetime.now(timezone.utc) > qrglyph.metadata.expiration_time:
                 return False, {"error": "QRGLYPH expired"}
 
             # Verify signature
@@ -316,7 +316,7 @@ class DynamicQRGLYPHEngine:
                 "consciousness_coherence": qrglyph.metadata.consciousness_binding.get("coherence_level", 0),
                 "cultural_symbols": qrglyph.metadata.cultural_symbols,
                 "rotation_count": qrglyph.metadata.rotation_count,
-                "remaining_lifetime": (qrglyph.metadata.expiration_time - datetime.utcnow()).total_seconds(),
+                "remaining_lifetime": (qrglyph.metadata.expiration_time - datetime.now(timezone.utc)).total_seconds(),
             }
 
         except Exception as e:
@@ -335,7 +335,7 @@ class DynamicQRGLYPHEngine:
         proof_data = {
             "statement": "I possess valid QRGLYPH credentials",
             "glyph_id": qrglyph.glyph_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_hash": hashlib.sha256(
                 json.dumps(qrglyph.metadata.consciousness_binding).encode()
             ).hexdigest(),
@@ -405,8 +405,8 @@ class DynamicQRGLYPHEngine:
 
         new_metadata = GLYPHMetadata(
             glyph_type=old_glyph.metadata.glyph_type,
-            creation_time=datetime.utcnow(),
-            expiration_time=datetime.utcnow() + self._get_glyph_lifetime(old_glyph.metadata.glyph_type),
+            creation_time=datetime.now(timezone.utc),
+            expiration_time=datetime.now(timezone.utc) + self._get_glyph_lifetime(old_glyph.metadata.glyph_type),
             consciousness_binding=old_glyph.metadata.consciousness_binding,
             cultural_symbols=old_glyph.metadata.cultural_symbols,
             biometric_hash=old_glyph.metadata.biometric_hash,
@@ -551,7 +551,7 @@ class DynamicQRGLYPHEngine:
         commitment_data = {
             "payload_hash": hashlib.sha256(json.dumps(payload).encode()).hexdigest(),
             "consciousness_hash": hashlib.sha256(json.dumps(consciousness_binding).encode()).hexdigest(),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return hashlib.sha256(json.dumps(commitment_data).encode()).hexdigest()
@@ -593,7 +593,7 @@ async def main():
     cultural_context = {"region": "asia", "cultural_type": "high_context"}
     consent_data = {
         "consent_type": "full_authentication",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "consciousness_coherence": 0.85,
     }
 
@@ -612,7 +612,7 @@ async def main():
     print(f"🎭 Type: {qrglyph.metadata.glyph_type.value}")
     print(f"🧠 Consciousness: {qrglyph.metadata.consciousness_binding['state']}")
     print(f"🌏 Cultural Symbols: {' '.join(qrglyph.metadata.cultural_symbols)}")
-    print(f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.utcnow()).seconds} seconds")
+    print(f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.now(timezone.utc)).seconds} seconds")
 
     # Serialize to base64
     qrglyph_base64 = qrglyph.to_base64()

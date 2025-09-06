@@ -34,7 +34,7 @@ class HealixVisualizer:
     Creates stunning DNA helix visualizations and interactive UX
     """
 
-    def __init__(self, healix_mapper: HealixMapper):
+    def __init__(self, healix_mapper: HealixMapper, timezone):
         self.healix = healix_mapper
         self.colors = {
             "EMOTIONAL": "#FF6B6B",  # Warm red
@@ -233,7 +233,7 @@ class HealixVisualizer:
                     {
                         "resonance": memory["resonance"],
                         "strand": strand_type.value,
-                        "age_hours": (datetime.utcnow() - datetime.fromisoformat(memory["created"])).total_seconds()
+                        "age_hours": (datetime.now(timezone.utc) - datetime.fromisoformat(memory["created"])).total_seconds()
                         / 3600,
                         "mutations": len(memory.get("mutations", [])),
                     }
@@ -283,7 +283,7 @@ class HealixVisualizer:
             fig.add_trace(
                 go.Scatter(
                     x=[
-                        datetime.fromisoformat(datetime.utcnow().isoformat())
+                        datetime.fromisoformat(datetime.now(timezone.utc).isoformat())
                         - datetime.timedelta(hours=mem["age_hours"])
                         for mem in all_memories
                     ],

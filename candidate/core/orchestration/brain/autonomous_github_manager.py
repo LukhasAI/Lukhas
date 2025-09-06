@@ -33,7 +33,7 @@ from lukhas.core.budget.token_controller import APICallContext, CallUrgency, Tok
 from lukhas.core.common.config import settings
 
 
-class NotificationPriority(Enum):
+class NotificationPriority(Enum, timezone):
     """Priority levels for GitHub notifications"""
 
     CRITICAL = "critical"  # Security issues, critical workflows
@@ -565,7 +565,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
 
         report = []
         report.append("🧠 ΛBot Advanced Autonomous GitHub Management Report")
-        report.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        report.append(f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
         report.append("=" * 60)
         report.append("")
 
@@ -622,7 +622,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
 
     def save_results(self) -> str:
         """Save all results to files"""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
         # Save comprehensive results
         results = {

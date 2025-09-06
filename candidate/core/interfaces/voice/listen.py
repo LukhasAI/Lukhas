@@ -13,7 +13,7 @@ from traits.trait_manager import load_traits
 from voice.lukhas_voice import speak
 
 # Initialize logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Init GPT client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -78,12 +78,12 @@ def loop_symbolic_conversation():
 
 
 def log_daily_entry(input_text, traits, gpt_reply):
-    date = datetime.utcnow().strftime("%Y-%m-%d")
+    date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     log_path = Path(f"logs/journal/{date}.jsonl")
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     log_entry = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "input": input_text,
         "traits": traits,
         "gpt_reply": gpt_reply,

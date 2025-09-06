@@ -24,7 +24,7 @@ from datetime import datetime
 DREAM_LOG_PATH = "logs/dream_log.jsonl"
 
 
-def load_latest_dream(path=DREAM_LOG_PATH):
+def load_latest_dream(path=DREAM_LOG_PATH, timezone):
     if not os.path.exists(path):
         print("❌ No dream log found.")
         return None
@@ -40,7 +40,7 @@ def mutate_emotional_wave(original_wave):
 def mutate_dream(dream):
     mutated = dict(dream)
     mutated["dream_id"] = f"MUT_{dream['dream_id']}"
-    mutated["created_at"] = datetime.utcnow().isoformat() + "Z"
+    mutated["created_at"] = datetime.now(timezone.utc).isoformat() + "Z"
     mutated["emotional_wave"] = mutate_emotional_wave(dream.get("emotional_wave", [0.5] * 5))
     mutated["mutation_of"] = dream["dream_id"]
     mutated["mutation_type"] = "emotional_wave_adjustment"

@@ -44,7 +44,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure Trinity Framework logging
-logger = logging.getLogger("ΛTRACE.consciousness.constellation.framework")
+logger = logging.getLogger("ΛTRACE.consciousness.constellation.framework", timezone)
 logger.info("ΛTRACE: Initializing Trinity Framework Integration System v1.0.0")
 
 
@@ -903,7 +903,7 @@ class TrinityFrameworkIntegration:
             "violations_resolved_total": self.violations_resolved_total,
             "balance_adjustments_made": self.balance_adjustments_made,
             "active_violations": len(self.active_violations),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         if latest_report:

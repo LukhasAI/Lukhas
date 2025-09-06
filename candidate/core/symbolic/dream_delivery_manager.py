@@ -18,8 +18,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice import (
-    VoiceModulator,
-)
+    VoiceModulator,, timezone)
 
 # Voice components
 from .voice_parameter import VoiceParameter
@@ -162,7 +161,7 @@ class DreamDeliveryManager:
             channels = self.output_channels
 
         # Extract information from dream content
-        dream_id = dream_content.get("dream_id", f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        dream_id = dream_content.get("dream_id", f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}")
         dream_text = dream_content.get("content", "")
         dream_emotions = dream_content.get("emotional_context", {})
         intent = dream_content.get("intent", "share_dream")
@@ -184,7 +183,7 @@ class DreamDeliveryManager:
         # Create delivery context
         delivery_context = {
             "dream_id": dream_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "channels": channels,
             "dream_emotions": dream_emotions,
             "dream_length": len(dream_text) if dream_text else 0,
@@ -218,7 +217,7 @@ class DreamDeliveryManager:
         self.delivery_history.append(
             {
                 "dream_id": dream_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "channels": channels,
                 "results": delivery_results,
             }
@@ -725,7 +724,7 @@ class DreamDeliveryManager:
         # For demonstration, we'll just return a pending status
         logger.info("[📧 EMAIL] Dream content prepared for email delivery")
 
-        return {"status": "pending", "scheduled": datetime.now().isoformat()}
+        return {"status": "pending", "scheduled": datetime.now(timezone.utc).isoformat()}
 
     def _deliver_notification(self, dream_content: dict[str, Any]) -> dict[str, Any]:
         """
@@ -756,7 +755,7 @@ class DreamDeliveryManager:
 
         try:
             # Create symbol for this delivery event
-            timestamp = datetime.now()
+            timestamp = datetime.now(timezone.utc)
             delivery_id = f"dream_delivery_{timestamp.strftime('%Y%m%d_%H%M%S')}"
 
             # Extract dream attributes for symbolic representation

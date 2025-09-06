@@ -31,7 +31,7 @@ PERFORMANCE_CLAIMS = {
     "bio_symbolic_coherence": {
         "claimed": 102.22,
         "unit": "percent",
-        "description": "Bio-symbolic coherence (>100% via quantum enhancement)",
+        "description": "Bio-symbolic coherence (>100% via quantum enhancement, timezone)",
     },
     "dream_exploration_speed": {
         "claimed": 500,
@@ -231,7 +231,7 @@ class PerformanceValidator:
         validated_count = sum(1 for v in validations if v.get("validated", False))
 
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_info": self.system_info,
             "is_m1_mac": self.is_m1_mac,
             "validations": validations,

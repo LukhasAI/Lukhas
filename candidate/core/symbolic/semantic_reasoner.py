@@ -17,7 +17,7 @@ from typing import Optional
 
 from .symbolic_core import SymbolicWorld  # Added import
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class SymbolicReasoningEngine:
@@ -119,7 +119,7 @@ class SymbolicReasoningEngine:
             "confidence": (max([v["confidence"] for v in valid_logic.values()]) if valid_logic else 0.0),
             "reasoning_path": self._extract_symbolic_reasoning_path(valid_logic),
             "symbolic_structure": self._extract_symbolic_structure(valid_logic),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add to history
@@ -468,7 +468,7 @@ class SymbolicReasoningEngine:
 
     def _update_reasoning_graph(self, valid_logic: dict) -> None:
         """Update the internal reasoning graph"""
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         for chain_id, chain_data in valid_logic.items():
             relation_type = chain_data.get("relation_type", "unknown")

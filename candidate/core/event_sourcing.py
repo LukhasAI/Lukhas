@@ -29,7 +29,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Set up logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 logger = logging.getLogger(__name__)
 
 
@@ -277,7 +277,7 @@ class EventSourcedAggregate(ABC):
             data=data,
             metadata={
                 "source": self.__class__.__name__,
-                "raised_at": datetime.utcnow().isoformat(),
+                "raised_at": datetime.now(timezone.utc).isoformat(),
             },
             timestamp=time.time(),
             version=self.version + 1,

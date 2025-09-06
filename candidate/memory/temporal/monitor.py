@@ -15,7 +15,7 @@ Monitor the autonomous AGI system in real-time
 import json
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def monitor_agi_system():
@@ -38,7 +38,7 @@ def monitor_agi_system():
                     with open(latest_file) as f:
                         status = json.load(f)
 
-                    print(f"\n🕐 {datetime.now().strftime('%H:%M:%S')} - Latest Status:")
+                    print(f"\n🕐 {datetime.now(timezone.utc).strftime('%H:%M:%S')} - Latest Status:")
                     print(f"📊 Tasks: {status.get('completed', 0)} completed, {status.get('failed', 0)} failed")
                     print(f"💰 Budget Used: ${status.get('budget_used', 0):.4f}")
 

@@ -14,7 +14,7 @@ from pathlib import Path
 class SystemHealthMonitor:
     """The system's self-awareness - monitors health and reports issues"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.health_status = {
             "overall": "CRITICAL",
             "modules": {},
@@ -23,7 +23,7 @@ class SystemHealthMonitor:
             "broken_imports": [],
             "missing_files": [],
             "circular_dependencies": [],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def check_vital_signs(self) -> dict:
@@ -258,7 +258,7 @@ Generated: {self.health_status['timestamp']}
         os.makedirs("health_reports", exist_ok=True)
 
         # Save JSON data
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         json_path = f"health_reports/health_check_{timestamp}.json"
 
         with open(json_path, "w") as f:

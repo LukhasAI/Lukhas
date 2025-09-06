@@ -143,7 +143,7 @@ class IdentityLineageBridge:
             operation_metadata = {}
 
         validation_id = hashlib.sha256(
-            f"{fold_key}_{operation_type}_{datetime.now().isoformat()}".encode()
+            f"{fold_key}_{operation_type}_{datetime.now(timezone.utc).isoformat()}".encode()
         ).hexdigest()[:12]
 
         # Get identity stability report for the memory fold
@@ -216,7 +216,7 @@ class IdentityLineageBridge:
 
             # Log protection action
             protection_action = ProtectionAction(
-                action_id=hashlib.sha256(f"protect_{anchor_id}_{datetime.now().isoformat()}".encode()).hexdigest()[:12],
+                action_id=hashlib.sha256(f"protect_{anchor_id}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:12],
                 action_type="anchor_protection",
                 target_anchor_id=anchor_id,
                 source_threat_id="manual",
@@ -263,7 +263,7 @@ class IdentityLineageBridge:
         stability_score = lineage_analysis.get("stability_metrics", {}).get("stability_score", 1.0)
         if stability_score < 0.3:
             threat = IdentityThreat(
-                threat_id=hashlib.sha256(f"collapse_{fold_key}_{datetime.now().isoformat()}".encode()).hexdigest()[:12],
+                threat_id=hashlib.sha256(f"collapse_{fold_key}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:12],
                 threat_type=ThreatType.MEMORY_COLLAPSE,
                 severity_level=1.0 - stability_score,
                 affected_anchors=self._get_affected_anchors(fold_key),
@@ -277,7 +277,7 @@ class IdentityLineageBridge:
         # Check for trauma cascade threats
         if len(trauma_markers) > 2:
             threat = IdentityThreat(
-                threat_id=hashlib.sha256(f"trauma_{fold_key}_{datetime.now().isoformat()}".encode()).hexdigest()[:12],
+                threat_id=hashlib.sha256(f"trauma_{fold_key}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:12],
                 threat_type=ThreatType.TRAUMA_CASCADE,
                 severity_level=min(1.0, len(trauma_markers) / 10.0),
                 affected_anchors=self._get_affected_anchors(fold_key),
@@ -296,7 +296,7 @@ class IdentityLineageBridge:
                 if anchor.stability_score < 0.4:
                     threat = IdentityThreat(
                         threat_id=hashlib.sha256(
-                            f"corruption_{anchor_id}_{datetime.now().isoformat()}".encode()
+                            f"corruption_{anchor_id}_{datetime.now(timezone.utc).isoformat()}".encode()
                         ).hexdigest()[:12],
                         threat_type=ThreatType.ANCHOR_CORRUPTION,
                         severity_level=1.0 - anchor.stability_score,
@@ -341,7 +341,7 @@ class IdentityLineageBridge:
             recovery_protocol_id: ID of the created recovery protocol
         """
         recovery_protocol_id = hashlib.sha256(
-            f"recovery_{threatened_anchor_id}_{threat_type.value}_{datetime.now().isoformat()}".encode()
+            f"recovery_{threatened_anchor_id}_{threat_type.value}_{datetime.now(timezone.utc).isoformat()}".encode()
         ).hexdigest()[:12]
 
         # Find stable anchors to use as recovery sources
@@ -473,7 +473,7 @@ class IdentityLineageBridge:
         if stability_report["overall_stability"] < 0.5:
             threat = IdentityThreat(
                 threat_id=hashlib.sha256(
-                    f"op_threat_{fold_key}_{operation_type}_{datetime.now().isoformat()}".encode()
+                    f"op_threat_{fold_key}_{operation_type}_{datetime.now(timezone.utc).isoformat()}".encode()
                 ).hexdigest()[:12],
                 threat_type=ThreatType.SYMBOLIC_DRIFT,
                 severity_level=1.0 - stability_report["overall_stability"],

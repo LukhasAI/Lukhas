@@ -99,7 +99,7 @@ class EnhancedMemoryManager:
     """
 
     def __init__(self, base_path: Optional[str] = None):
-        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now().strftime('%H%M%S')}")
+        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S')}")
 
         # ΛSEED: Default configurations for memory fold and visualization.
         self.memory_fold_config = MemoryFoldConfig()

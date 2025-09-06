@@ -19,8 +19,7 @@ from candidate.core.agi.self_healing import (
     FailureType,
     HealingAction,
     HealingStrategy,
-    SystemFailure,
-)
+    SystemFailure,, timezone)
 from lukhas.governance.guardian import GuardianSystem
 
 logger = logging.getLogger(__name__)
@@ -98,7 +97,7 @@ class CodeQualityHealer:
         python_files = list(self.workspace_path.rglob("*.py"))
 
         logger.info(f"Scanning {len(python_files)} Python files...")
-        self.metrics.last_scan = datetime.now()
+        self.metrics.last_scan = datetime.now(timezone.utc)
 
         async with self.llm_fixer as fixer:
             for file_path in python_files:
@@ -114,7 +113,7 @@ class CodeQualityHealer:
                         type=self._map_issue_to_failure(issue.issue_type),
                         component=str(file_path),
                         error=Exception(issue.message),
-                        timestamp=datetime.now(),
+                        timestamp=datetime.now(timezone.utc),
                         context={
                             "line": issue.line_number,
                             "code_context": issue.code_context,
@@ -178,7 +177,7 @@ class CodeQualityHealer:
             failure_id=failure.id,
             strategy=strategy,
             component=failure.component,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             success=success,
             details={
                 "metrics": self.metrics.__dict__,
@@ -312,7 +311,7 @@ class CodeQualityHealer:
 
         self.fix_patterns[pattern_key].append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "original": fix.original_code,
                 "fixed": fix.fixed_code,
                 "confidence": fix.confidence,

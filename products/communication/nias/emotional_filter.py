@@ -12,7 +12,7 @@ from typing import Any, Optional
 
 from .nias_core import EmotionalState, SymbolicMessage
 
-logger = logging.getLogger("Lambda.NIΛS.EmotionalFilter")
+logger = logging.getLogger("Lambda.NIΛS.EmotionalFilter", timezone)
 
 
 class EmotionalProtectionLevel(Enum):
@@ -50,7 +50,7 @@ class EmotionalVector:
 
     def __post_init__(self):
         if self.last_updated is None:
-            self.last_updated = datetime.now()
+            self.last_updated = datetime.now(timezone.utc)
 
         # Auto-calculate attention capacity based on stress and stability
         self.attention_capacity = max(0.1, (1.0 - self.stress) * self.stability)
@@ -183,17 +183,17 @@ class EmotionalFilter:
             # Calculate emotional momentum
             if self.emotional_history.get(user_id):
                 last_timestamp, last_vector = self.emotional_history[user_id][-1]
-                time_delta = (datetime.now() - last_timestamp).total_seconds() / 60.0  # minutes
+                time_delta = (datetime.now(timezone.utc) - last_timestamp).total_seconds() / 60.0  # minutes
 
                 if time_delta > 0:
                     stress_change = emotional_vector.stress - last_vector.stress
                     emotional_vector.emotional_momentum = stress_change / max(1.0, time_delta)
 
             # Store in history
-            self.emotional_history[user_id].append((datetime.now(), emotional_vector))
+            self.emotional_history[user_id].append((datetime.now(timezone.utc), emotional_vector))
 
             # Keep only recent history (last 24 hours)
-            cutoff_time = datetime.now() - timedelta(hours=24)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
             self.emotional_history[user_id] = [
                 (timestamp, vector) for timestamp, vector in self.emotional_history[user_id] if timestamp > cutoff_time
             ]
@@ -463,7 +463,7 @@ class EmotionalFilter:
         self, message: SymbolicMessage, profile: EmotionalProfile
     ) -> dict[str, Any]:
         """Check circadian rhythm compatibility"""
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         circadian_prefs = profile.circadian_preferences
 
         # Night protection
@@ -541,7 +541,7 @@ class EmotionalFilter:
         if user_id not in self.emotional_history:
             return {"error": "No emotional history found"}
 
-        cutoff_time = datetime.now() - timedelta(hours=hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
         recent_history = [
             (timestamp, vector) for timestamp, vector in self.emotional_history[user_id] if timestamp > cutoff_time
         ]

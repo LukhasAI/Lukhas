@@ -233,7 +233,7 @@ class AGIController:
 
     def __init__(self, config_path: Optional[str] = None):
         self.controller_id = str(uuid.uuid4())
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self.current_state = AGIState.OFFLINE
 
         # 🛡️ Initialize Compliance Components First (Security First Architecture)
@@ -488,7 +488,7 @@ class AGIController:
 
                 response = AGIResponse(
                     request_id=request.id,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     success=True,
                     response_data=response_data,
                     emotional_context=emotional_context,
@@ -498,7 +498,7 @@ class AGIController:
             else:
                 response = AGIResponse(
                     request_id=request.id,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     success=False,
                     response_data={},
                     emotional_context={},
@@ -515,7 +515,7 @@ class AGIController:
                 {
                     "request": asdict(request),
                     "response": asdict(response),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -524,7 +524,7 @@ class AGIController:
         except Exception as e:
             response = AGIResponse(
                 request_id=request.id,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 success=False,
                 response_data={},
                 emotional_context={},
@@ -598,7 +598,7 @@ class AGIController:
             # Process the text as a conversation
             conversation_request = AGIRequest(
                 id=str(uuid.uuid4()),
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 user_id=request.user_id,
                 session_id=request.session_id,
                 request_type="conversation",
@@ -813,7 +813,7 @@ class AGIController:
 
     async def _process_session_timeouts(self):
         """Process session timeouts"""
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         timeout_duration = timedelta(seconds=self.config["agi"]["session_timeout"])
 
         sessions_to_remove = []
@@ -906,7 +906,7 @@ class AGIController:
 
         # Check if data is within retention period
         retention_end = request.timestamp + timedelta(days=request.compliance_context.retention_period)
-        return datetime.now() <= retention_end
+        return datetime.now(timezone.utc) <= retention_end
 
     async def _validate_cross_border_transfer(self, request: AGIRequest) -> bool:
         """Validate cross-border data transfer compliance"""
@@ -1063,7 +1063,7 @@ if __name__ == "__main__":
 
         request = AGIRequest(
             id=str(uuid.uuid4()),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             user_id="test_user",
             session_id=session_id,
             request_type="chat",
@@ -1071,7 +1071,7 @@ if __name__ == "__main__":
             context={},
             compliance_context=compliance_context,
             privacy_controls=privacy_controls,
-            consent_timestamp=datetime.now(),
+            consent_timestamp=datetime.now(timezone.utc),
         )
 
         # Validate compliance before processing

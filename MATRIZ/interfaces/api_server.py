@@ -28,8 +28,7 @@ from fastapi import (
     FastAPI,
     HTTPException,
     WebSocket,
-    WebSocketDisconnect,
-)
+    WebSocketDisconnect,, timezone)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, validator
@@ -235,7 +234,7 @@ async def global_exception_handler(request, exc):
         content={
             "error": "Internal server error",
             "detail": str(exc),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "trace_id": str(uuid.uuid4()),
         },
     )
@@ -256,7 +255,7 @@ async def health_check():
 
     return HealthResponse(
         status="healthy",
-        timestamp=datetime.now().isoformat(),
+        timestamp=datetime.now(timezone.utc).isoformat(),
         version="1.0.0",
         uptime_seconds=time.time() - start_time,
         registered_nodes=len(orchestrator.available_nodes) if orchestrator else 0,
@@ -271,13 +270,13 @@ async def readiness_check():
     if orchestrator is None or len(orchestrator.available_nodes) == 0:
         raise HTTPException(status_code=503, detail="Service not ready")
 
-    return {"status": "ready", "timestamp": datetime.now().isoformat()}
+    return {"status": "ready", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 @app.get("/health/live", tags=["Health"])
 async def liveness_check():
     """Liveness check for container orchestration"""
-    return {"status": "alive", "timestamp": datetime.now().isoformat()}
+    return {"status": "alive", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 # Query processing endpoints
@@ -313,7 +312,7 @@ async def process_query(
             "confidence": result.get("confidence", 0.0),
             "processing_time": time.time() - start_time_req,
             "trace_id": trace_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Include optional data based on request
@@ -353,7 +352,7 @@ async def process_query(
                 "error": "Query processing failed",
                 "message": str(e),
                 "trace_id": trace_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
 
@@ -480,7 +479,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "message": "Connected to MATRIZ-AGI WebSocket",
                 "available_nodes": (list(orchestrator.available_nodes.keys()) if orchestrator else []),
             },
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
     )
 
@@ -500,7 +499,7 @@ async def websocket_endpoint(websocket: WebSocket):
                         {
                             "type": "pong",
                             "data": ws_message.data,
-                            "timestamp": datetime.now().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
 
@@ -514,7 +513,7 @@ async def websocket_endpoint(websocket: WebSocket):
                             {
                                 "type": "error",
                                 "data": {"error": "No query provided"},
-                                "timestamp": datetime.now().isoformat(),
+                                "timestamp": datetime.now(timezone.utc).isoformat(),
                             }
                         )
                         continue
@@ -536,7 +535,7 @@ async def websocket_endpoint(websocket: WebSocket):
                                 "reasoning_chain": result.get("reasoning_chain", []),
                             },
                             "trace_id": ws_message.trace_id or str(uuid.uuid4()),
-                            "timestamp": datetime.now().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
 
@@ -563,7 +562,7 @@ async def websocket_endpoint(websocket: WebSocket):
                                 "total_queries": total_queries,
                                 "uptime_seconds": time.time() - start_time,
                             },
-                            "timestamp": datetime.now().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
 
@@ -573,7 +572,7 @@ async def websocket_endpoint(websocket: WebSocket):
                         {
                             "type": "error",
                             "data": {"error": f"Unknown message type: {ws_message.type}"},
-                            "timestamp": datetime.now().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
 
@@ -583,7 +582,7 @@ async def websocket_endpoint(websocket: WebSocket):
                     {
                         "type": "error",
                         "data": {"error": str(e)},
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
 

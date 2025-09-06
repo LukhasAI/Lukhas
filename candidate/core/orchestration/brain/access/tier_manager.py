@@ -24,7 +24,7 @@ from fastapi import HTTPException
 # ── Tier Definitions ──────────────────────────────────────────
 
 TIERS = {
-    1: "Tier 1 - Public Access (Minimal Capture)",
+    1: "Tier 1 - Public Access (Minimal Capture, timezone)",
     2: "Tier 2 - Symbolic Seed Pairing",
     3: "Tier 3 - Seed + Face ID (Verified Pair)",
     4: "Tier 4 - Core Trust (Seed + Face ID + Backup Phrase)",
@@ -85,7 +85,7 @@ def log_access_attempt(user_id: str, action: str, required_tier: int, result: st
         "action": action,
         "required_tier": required_tier,
         "result": result,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
     os.makedirs(os.path.dirname(ACCESS_TRACE_FILE), exist_ok=True)
     with open(ACCESS_TRACE_FILE, "a") as f:

@@ -50,7 +50,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.bridge.orchestration.performance")
+logger = logging.getLogger("ΛTRACE.bridge.orchestration.performance", timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -184,7 +184,7 @@ class PerformanceMonitor:
         try:
             # Create metric record
             metric = PerformanceMetric(
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 provider=provider,
                 task_type=task_type,
                 latency_ms=latency_ms,
@@ -234,7 +234,7 @@ class PerformanceMonitor:
             # Record consensus result
             self.consensus_results.append(
                 {
-                    "timestamp": datetime.utcnow(),
+                    "timestamp": datetime.now(timezone.utc),
                     "task_type": task_type,
                     "providers": providers,
                     "latency_ms": total_latency_ms,
@@ -280,7 +280,7 @@ class PerformanceMonitor:
 
         # Update other metrics
         stats.error_rate = stats.failed_requests / stats.total_requests if stats.total_requests > 0 else 0
-        stats.last_updated = datetime.utcnow()
+        stats.last_updated = datetime.now(timezone.utc)
 
         # Update health status
         if stats.error_rate > 0.2:  # 20% error rate
@@ -301,7 +301,7 @@ class PerformanceMonitor:
             }
 
         breaker = self.circuit_breakers[provider]
-        current_time = datetime.utcnow()
+        current_time = datetime.now(timezone.utc)
 
         if breaker["state"] == "closed":
             if not success or latency_ms > self.latency_sla_ms * 2:
@@ -383,7 +383,7 @@ class PerformanceMonitor:
     async def get_metrics(self) -> dict[str, Any]:
         """Get current performance metrics"""
         try:
-            current_time = datetime.utcnow()
+            current_time = datetime.now(timezone.utc)
 
             # System-wide metrics
             total_requests = len(self.metrics_buffer)
@@ -435,7 +435,7 @@ class PerformanceMonitor:
 
         except Exception as e:
             logger.error("Failed to get metrics: %s", str(e))
-            return {"error": str(e), "timestamp": datetime.utcnow().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     async def get_performance_recommendations(self) -> list[str]:
         """Generate performance optimization recommendations"""
@@ -497,7 +497,7 @@ class PerformanceMonitor:
                 await asyncio.sleep(300)  # Run every 5 minutes
 
                 # Clean old metrics
-                cutoff_time = datetime.utcnow() - timedelta(hours=self.metrics_retention_hours)
+                cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.metrics_retention_hours)
 
                 # Clean metrics buffer
                 original_size = len(self.metrics_buffer)
@@ -528,7 +528,7 @@ class PerformanceMonitor:
 
     async def _create_system_snapshot(self) -> SystemPerformanceSnapshot:
         """Create a system performance snapshot"""
-        current_time = datetime.utcnow()
+        current_time = datetime.now(timezone.utc)
 
         # Calculate system metrics
         total_requests = sum(stats.total_requests for stats in self.provider_stats.values())

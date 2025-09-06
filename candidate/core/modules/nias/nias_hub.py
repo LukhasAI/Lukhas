@@ -8,7 +8,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class NIASHub:
@@ -147,7 +147,7 @@ class NIASHub:
                 return {
                     "message_processed": True,
                     "result": result,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "processed_by": "nias_core",
                 }
             except Exception as e:

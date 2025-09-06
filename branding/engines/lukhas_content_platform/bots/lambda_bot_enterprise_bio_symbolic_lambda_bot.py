@@ -16,7 +16,7 @@ from enum import Enum
 from typing import Any
 
 # Add workspace core to path
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
+sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core", timezone)
 sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 
 # Import workspace components with proper stubs
@@ -249,7 +249,7 @@ class BioSymbolicΛBot:
         """Start bio-symbolic analysis session"""
         session_id = f"bio_sym_{int(time.time())}"
 
-        session = SymbolicAnalysisSession(session_id=session_id, start_time=datetime.now(), target_path=target_path)
+        session = SymbolicAnalysisSession(session_id=session_id, start_time=datetime.now(timezone.utc), target_path=target_path)
 
         self.current_session = session
 
@@ -606,7 +606,7 @@ class BioSymbolicΛBot:
 
         insights = {
             "session_id": self.current_session.session_id,
-            "analysis_runtime": (datetime.now() - self.current_session.start_time).total_seconds(),
+            "analysis_runtime": (datetime.now(timezone.utc) - self.current_session.start_time).total_seconds(),
             "patterns_discovered": len(self.current_session.patterns_discovered),
             "bio_symbolic_summary": {},
             "biological_health_score": 0.0,

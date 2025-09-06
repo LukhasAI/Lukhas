@@ -37,7 +37,7 @@ class QREntropyGenerator:
     security in LUKHAS authentication.
     """
 
-    def __init__(self, encryption_key: Optional[bytes] = None):
+    def __init__(self, encryption_key: Optional[bytes] = None, timezone):
         self.entropy_layers = 3  # Number of steganographic layers
         self.refresh_interval = 2.0  # Seconds between refreshes
         self.active_codes: dict[str, dict] = {}  # Session -> QR data
@@ -83,8 +83,8 @@ class QREntropyGenerator:
             # Generate base QR code with session data
             base_qr_data = {
                 "session_id": session_id,
-                "timestamp": datetime.utcnow().isoformat(),
-                "expires_at": (datetime.utcnow() + timedelta(seconds=self.max_code_lifetime)).isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "expires_at": (datetime.now(timezone.utc) + timedelta(seconds=self.max_code_lifetime)).isoformat(),
                 "challenge": secrets.token_urlsafe(32),
             }
 
@@ -112,7 +112,7 @@ class QREntropyGenerator:
                 "base_data": base_qr_data,
                 "entropy_hash": hashlib.sha256(entropy_data).hexdigest()[:16],
                 "refresh_token": refresh_token,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "scan_count": 0,
                 "max_scans": user_context.get("max_scans", 5) if user_context else 5,
             }
@@ -220,7 +220,7 @@ class QREntropyGenerator:
 
             # Validate timing constraints
             expires_at = datetime.fromisoformat(code_data["base_data"]["expires_at"])
-            if datetime.utcnow() > expires_at:
+            if datetime.now(timezone.utc) > expires_at:
                 self._invalidate_session(session_id, "expired")
                 return False
 
@@ -254,7 +254,7 @@ class QREntropyGenerator:
 
             # Update scan count
             code_data["scan_count"] += 1
-            code_data["last_scan"] = datetime.utcnow().isoformat()
+            code_data["last_scan"] = datetime.now(timezone.utc).isoformat()
 
             # Performance tracking
             validation_time = time.time() - start_time
@@ -342,7 +342,7 @@ class QREntropyGenerator:
 
     def _generate_refresh_token(self, session_id: str) -> str:
         """Generate refresh token for dynamic QR updates"""
-        token_data = f"{session_id}:{datetime.utcnow().isoformat()}:{secrets.token_hex(16)}"
+        token_data = f"{session_id}:{datetime.now(timezone.utc).isoformat()}:{secrets.token_hex(16)}"
         return hashlib.sha256(token_data.encode()).hexdigest()[:32]
 
     def _constitutional_validation(self, qr_data: dict, entropy_data: Any) -> bool:
@@ -368,7 +368,7 @@ class QREntropyGenerator:
             if "timestamp" in qr_data:
                 try:
                     timestamp = datetime.fromisoformat(qr_data["timestamp"])
-                    age = (datetime.utcnow() - timestamp).total_seconds()
+                    age = (datetime.now(timezone.utc) - timestamp).total_seconds()
                     if age > 300:  # 5 minute max age
                         return False
                 except (ValueError, TypeError):
@@ -390,7 +390,7 @@ class QREntropyGenerator:
 
     def _cleanup_expired_codes(self):
         """Remove expired QR codes from active sessions"""
-        current_time = datetime.utcnow()
+        current_time = datetime.now(timezone.utc)
         expired_sessions = []
 
         for session_id, code_data in self.active_codes.items():
@@ -409,7 +409,7 @@ class QREntropyGenerator:
         if session_id in self.active_codes:
             self.active_codes[session_id]["invalidated"] = True
             self.active_codes[session_id]["invalidation_reason"] = reason
-            self.active_codes[session_id]["invalidated_at"] = datetime.utcnow().isoformat()
+            self.active_codes[session_id]["invalidated_at"] = datetime.now(timezone.utc).isoformat()
 
             # Remove expired sessions immediately, but keep scan limit exceeded for audit
             if reason == "expired":
@@ -445,7 +445,7 @@ class QREntropyGenerator:
             return {"success": False, "error": "Invalid refresh token"}
 
         # Extend expiration time
-        new_expires_at = datetime.utcnow() + timedelta(seconds=self.max_code_lifetime)
+        new_expires_at = datetime.now(timezone.utc) + timedelta(seconds=self.max_code_lifetime)
         code_data["base_data"]["expires_at"] = new_expires_at.isoformat()
 
         # Generate new challenge

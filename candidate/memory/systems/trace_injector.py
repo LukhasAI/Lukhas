@@ -24,7 +24,7 @@ class MemoryTrace:
     metadata: dict[str, Any]
     agent_id: Optional[str] = None
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self, timezone) -> dict[str, Any]:
         """Convert trace to dictionary for serialization."""
         return asdict(self)
 
@@ -39,7 +39,7 @@ class TraceInjector:
 
     def generate_trace_id(self, operation_type: str, memory_address: str) -> str:
         """Generate unique trace ID for operation."""
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         trace_input = f"{operation_type}:{memory_address}:{timestamp}:{self.agent_id}"
         # SECURITY: Use SHA-256 instead of MD5 for better security
         return hashlib.sha256(trace_input.encode()).hexdigest()[:16]
@@ -56,7 +56,7 @@ class TraceInjector:
 
         trace = MemoryTrace(
             trace_id=trace_id,
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             operation_type=operation_type,
             memory_address=memory_address,
             symbolic_tag=symbolic_tag,

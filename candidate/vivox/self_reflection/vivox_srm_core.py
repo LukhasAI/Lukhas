@@ -16,7 +16,7 @@ from typing import Any, Optional
 import numpy as np
 
 
-class DecisionType(Enum):
+class DecisionType(Enum, timezone):
     """Types of decisions tracked"""
 
     ACTION_TAKEN = "action_taken"
@@ -339,11 +339,11 @@ class ForkMapper:
         decision_context: dict[str, Any],
     ):
         """Map a decision fork point"""
-        fork_id = f"fork_{datetime.utcnow().timestamp()}"
+        fork_id = f"fork_{datetime.now(timezone.utc).timestamp()}"
 
         fork_data = {
             "fork_id": fork_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "chosen_path": chosen_path,
             "rejected_paths": rejected_paths,
             "context": decision_context,
@@ -457,11 +457,11 @@ class AuditQueryEngine:
         # Simplified time extraction
         if "today" in query:
             return {
-                "start_time": datetime.utcnow().replace(hour=0, minute=0),
-                "end_time": datetime.utcnow(),
+                "start_time": datetime.now(timezone.utc).replace(hour=0, minute=0),
+                "end_time": datetime.now(timezone.utc),
             }
         elif "yesterday" in query:
-            yesterday = datetime.utcnow().replace(hour=0, minute=0)
+            yesterday = datetime.now(timezone.utc).replace(hour=0, minute=0)
             return {
                 "start_time": yesterday.replace(day=yesterday.day - 1),
                 "end_time": yesterday,
@@ -607,7 +607,7 @@ class VIVOXSelfReflectiveMemory:
         """Log hesitation events"""
         hesitation_entry = CollapseLogEntry(
             collapse_id=f"hesitation_{self._get_next_id()}",
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             collapse_type="hesitation",
             initial_states=[{"action": action, "confidence": "low"}],
             final_decision=resolution,
@@ -661,7 +661,7 @@ class VIVOXSelfReflectiveMemory:
     def _get_next_id(self) -> str:
         """Generate next log ID"""
         self._log_counter += 1
-        return f"{datetime.utcnow().timestamp()}_{self._log_counter}"
+        return f"{datetime.now(timezone.utc).timestamp()}_{self._log_counter}"
 
     async def _analyze_suppression_patterns(self, suppression: SuppressionRecord) -> dict[str, Any]:
         """Analyze patterns in suppression"""

@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ComplianceLevel(Enum):
@@ -167,7 +167,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         cache_key = f"{subject_id}:{purpose}:{':'.join(data_types)}"
         if cache_key in self.consent_cache:
             consent_data = self.consent_cache[cache_key]
-            if consent_data["expires"] > datetime.utcnow():
+            if consent_data["expires"] > datetime.now(timezone.utc):
                 return consent_data["valid"]
 
         # Validate consent for each framework
@@ -182,7 +182,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         # Cache result
         self.consent_cache[cache_key] = {
             "valid": consent_valid,
-            "expires": datetime.utcnow() + timedelta(hours=1),
+            "expires": datetime.now(timezone.utc) + timedelta(hours=1),
         }
 
         return consent_valid
@@ -225,7 +225,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         """Log data access for audit purposes"""
 
         access_log = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "user_id": user_id,
             "subject_id": subject_id,
             "data_accessed": data_accessed,

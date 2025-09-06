@@ -30,7 +30,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class LearningType(Enum):
@@ -143,7 +143,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
                 "adaptation_steps": self.num_adaptation_steps,
                 "adaptation_quality": adaptation_quality,
                 "task_context": task_context,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Store adaptation history
@@ -372,7 +372,7 @@ class FewShotLearner:
             self.support_examples[task_id] = {
                 "examples": examples[:k_shot],
                 "labels": labels[:k_shot],
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
             }
 
             # Learn based on strategy
@@ -418,7 +418,7 @@ class FewShotLearner:
         memory_entry = {
             "task_id": task_id,
             "prototypes": class_prototypes,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "k_shot": k_shot,
         }
         self.memory_bank.append(memory_entry)
@@ -456,7 +456,7 @@ class FewShotLearner:
                 "example_id": i,
                 "label": label,
                 "synaptic_strength": 0.8 + (i * 0.05),  # Increasing strength
-                "consolidation_time": datetime.now() + timedelta(minutes=30),
+                "consolidation_time": datetime.now(timezone.utc) + timedelta(minutes=30),
             }
             synaptic_changes.append(change)
 
@@ -523,7 +523,7 @@ class FewShotLearner:
 
         # Add metadata
         prototype["_prototype_size"] = len(examples)
-        prototype["_computed_at"] = datetime.now().isoformat()
+        prototype["_computed_at"] = datetime.now(timezone.utc).isoformat()
 
         return prototype
 
@@ -568,7 +568,7 @@ class ContinualLearner:
             # Store current task
             self.learned_tasks[task_id] = {
                 "task_data": task_data,
-                "learned_at": datetime.now(),
+                "learned_at": datetime.now(timezone.utc),
                 "importance": 1.0,
             }
 
@@ -753,7 +753,7 @@ class AdvancedLearningSystem:
                 "few_shot_tasks": 0,
                 "continual_learning_tasks": 0,
                 "overall_performance": 0.0,
-                "last_update": datetime.now().isoformat(),
+                "last_update": datetime.now(timezone.utc).isoformat(),
             }
 
             logger.info("✅ Advanced Learning System initialized successfully")
@@ -833,7 +833,7 @@ class AdvancedLearningSystem:
 
             # Update learning history
             learning_entry = {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "learning_type": learning_type.value,
                 "episodes_count": len(episodes),
                 "result": result,
@@ -858,7 +858,7 @@ class AdvancedLearningSystem:
     ) -> dict[str, Any]:
         """Adapt to a new task using available learning mechanisms"""
         try:
-            task_id = task_definition.get("task_id", f"task_{datetime.now().timestamp()}")
+            task_id = task_definition.get("task_id", f"task_{datetime.now(timezone.utc).timestamp()}")
             logger.info(f"🎯 Adapting to new task: {task_id}")
 
             adaptation_results = {}
@@ -895,7 +895,7 @@ class AdvancedLearningSystem:
                 "adaptation_methods": list(adaptation_results.keys()),
                 "adaptation_results": adaptation_results,
                 "overall_success": all(result.get("status") != "failed" for result in adaptation_results.values()),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Store as active learning task
@@ -929,7 +929,7 @@ class AdvancedLearningSystem:
                 "few_shot_learning": few_shot_analytics,
                 "continual_learning": continual_analytics,
                 "active_tasks": len(self.active_learning_tasks),
-                "analysis_timestamp": datetime.now().isoformat(),
+                "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -1000,7 +1000,7 @@ class AdvancedLearningSystem:
             overall = (meta_performance + few_shot_performance + continual_performance) / 3.0
 
             self.performance_metrics["overall_performance"] = overall
-            self.performance_metrics["last_update"] = datetime.now().isoformat()
+            self.performance_metrics["last_update"] = datetime.now(timezone.utc).isoformat()
 
         except Exception as e:
             logger.error(f"Performance update failed: {e}")
@@ -1015,7 +1015,7 @@ class AdvancedLearningSystem:
                 self.learning_history = self.learning_history[-100:]
 
             # Clear old active tasks
-            current_time = datetime.now()
+            current_time = datetime.now(timezone.utc)
             old_tasks = [
                 task_id
                 for task_id, task_data in self.active_learning_tasks.items()

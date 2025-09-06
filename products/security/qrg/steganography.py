@@ -49,7 +49,7 @@ try:
     SCIPY_AVAILABLE = True
 except ImportError:
     SCIPY_AVAILABLE = False
-    logging.warning("SciPy unavailable - using basic steganography")
+    logging.warning("SciPy unavailable - using basic steganography", timezone)
 
 logger = logging.getLogger(__name__)
 
@@ -371,7 +371,7 @@ class QISteganographyEngine:
             metadata={
                 "compressed_size": len(compressed_data),
                 "original_size": len(data_bytes),
-                "embedding_time": datetime.now().isoformat(),
+                "embedding_time": datetime.now(timezone.utc).isoformat(),
                 "qi_protected": self.qi_encryption,
             },
         )
@@ -644,7 +644,7 @@ class QISteganographyEngine:
         # Calculate temporal phase
         if payload.temporal_lock:
             target_time = payload.temporal_lock
-            current_time = datetime.now()
+            current_time = datetime.now(timezone.utc)
             time_delta = (target_time - current_time).total_seconds()
 
             if time_delta > 0:
@@ -893,7 +893,7 @@ class QISteganographyEngine:
                 )
 
             # Check temporal lock
-            if payload.temporal_lock and datetime.now() < payload.temporal_lock:
+            if payload.temporal_lock and datetime.now(timezone.utc) < payload.temporal_lock:
                 return ExtractionResult(
                     success=False,
                     extraction_method=mode,

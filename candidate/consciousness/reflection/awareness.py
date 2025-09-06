@@ -21,8 +21,7 @@ from ..bio_symbolic import (
     CardiolipinEncoder,
     CristaFilter,
     ProtonGradient,
-    QIAttentionGate,
-)
+    QIAttentionGate,, timezone)
 
 logger = get_logger(__name__)
 
@@ -88,7 +87,7 @@ class SystemAwareness:
         Returns:
             Monitoring results and recommendations
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Apply quantum attention to system state
@@ -243,7 +242,7 @@ class SystemAwareness:
     def _reflect_on_state(self, processed_data: dict[str, Any], health_status: dict[str, Any]) -> dict[str, Any]:
         """Generate reflection on current state"""
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": self.awareness_state["consciousness_level"],
             "attention_focus": list(self.awareness_state["attention_focus"].keys()),
             "active_processes": len(self.awareness_state["active_processes"]),
@@ -256,7 +255,7 @@ class SystemAwareness:
     def _reflect_on_error(self, error_data: dict[str, Any]) -> dict[str, Any]:
         """Generate reflection on error state"""
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "error_type": error_data.get("type", "unknown"),
             "severity": error_data.get("severity", "unknown"),
             "affected_processes": list(
@@ -345,7 +344,7 @@ class SystemAwareness:
 
     def _record_metrics(self, start_time: datetime) -> None:
         """Record performance metrics"""
-        processing_time = (datetime.now() - start_time).total_seconds()
+        processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         self.metrics["consciousness_stability"].append(self.awareness_state["consciousness_level"])
         self.metrics["resource_efficiency"].append(

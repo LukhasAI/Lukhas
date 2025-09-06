@@ -17,7 +17,7 @@ from typing import Any, Optional
 class AgentMemory:
     """Simple shared memory for agents"""
 
-    def __init__(self, agent_id: str = "default"):
+    def __init__(self, agent_id: str = "default", timezone):
         """Initialize agent memory"""
         self.agent_id = agent_id
         self.memory_dir = Path("/Users/A_G_I/Lukhas/lukhas_shared_memory/data")
@@ -48,7 +48,7 @@ class AgentMemory:
         if key not in self._memory:
             self._memory[key] = []
 
-        entry = {"timestamp": datetime.now().isoformat(), "data": data}
+        entry = {"timestamp": datetime.now(timezone.utc).isoformat(), "data": data}
         self._memory[key].append(entry)
         self._save_memory()
 

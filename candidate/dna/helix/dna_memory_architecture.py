@@ -26,7 +26,7 @@ from uuid import uuid4
 import numpy as np
 
 
-class NodeType(Enum):
+class NodeType(Enum, timezone):
     """MATADA cognitive node types"""
 
     SENSORY_IMG = "sensory_img"
@@ -175,7 +175,7 @@ class MemoryNode:
         self.reflections.append(
             {
                 "type": reflection_type,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "cause": cause,
                 "old_state": old_state,
                 "new_state": new_state,
@@ -356,7 +356,7 @@ class DNAHelixMemory:
         """Log access for audit trail"""
         self.access_log.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "action": action,
                 "target": target,
             }

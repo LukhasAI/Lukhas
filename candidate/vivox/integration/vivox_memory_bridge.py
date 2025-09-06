@@ -15,8 +15,7 @@ from typing import Any, Optional
 from ..memory_expansion.vivox_me_core import (
     EmotionalDNA,
     MemoryHelixEntry,
-    VIVOXMemoryExpansion,
-)
+    VIVOXMemoryExpansion,, timezone)
 
 
 @dataclass
@@ -130,11 +129,11 @@ class HelixMemoryAdapter:
             try:
                 return datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
             except BaseException:
-                return datetime.utcnow()
+                return datetime.now(timezone.utc)
         elif isinstance(timestamp, (int, float)):
             return datetime.fromtimestamp(timestamp)
         else:
-            return datetime.utcnow()
+            return datetime.now(timezone.utc)
 
 
 class VIVOXMemoryBridge:

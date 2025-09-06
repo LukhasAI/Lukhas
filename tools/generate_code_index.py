@@ -16,7 +16,7 @@ from pathlib import Path
 class CodeIndexer:
     """Generate comprehensive code index for migration"""
 
-    def __init__(self, root_path="."):
+    def __init__(self, root_path=".", timezone):
         self.root = Path(root_path)
         self.conn = sqlite3.connect("tools/code_index.sqlite")
         self.setup_database()
@@ -460,7 +460,7 @@ Generated: {}
 
 ## Lane Distribution
 """.format(
-            datetime.now().isoformat(),
+            datetime.now(timezone.utc).isoformat(),
             self.module_stats["total_files"],
             self.module_stats["total_lines"],
             self.module_stats["has_tests"],
@@ -526,7 +526,7 @@ Generated: {}
 
         # Generate MIGRATION_GUIDE.md
         migration_content = f"""# LUKHAS AI Migration Guide
-Generated: {datetime.now().isoformat()}
+Generated: {datetime.now(timezone.utc).isoformat()}
 
 ## Import Mappings
 

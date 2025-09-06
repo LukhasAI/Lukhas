@@ -536,7 +536,7 @@ class LambdaVaultCore:
             event
             for event in self.security_events
             if datetime.fromisoformat(event["λ_timestamp"])
-            > datetime.now(timezone.utc).replace(day=datetime.now().day - 7)
+            > datetime.now(timezone.utc).replace(day=datetime.now(timezone.utc).day - 7)
         ]
 
         return {

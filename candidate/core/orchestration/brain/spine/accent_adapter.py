@@ -31,7 +31,7 @@ from typing import Any, Optional
 from cryptography.fernet import Fernet
 
 from lukhas.core.identity.vault.lukhas_id import (get_encryption_key,
-                                                  has_access, log_access)
+                                                  has_access, log_access, timezone)
 
 # Initialize logger
 logger = logging.getLogger("accent_adapter")
@@ -154,7 +154,7 @@ class AccentAdapter:
 
         # Ensure recall_count and last_rehearsed fields are present
         record.setdefault("recall_count", 0)
-        record.setdefault("last_rehearsed", datetime.now().isoformat())
+        record.setdefault("last_rehearsed", datetime.now(timezone.utc).isoformat())
         # Add support for new type tags if provided
         valid_types = {
             "general",
@@ -221,7 +221,7 @@ class AccentAdapter:
         interaction = {
             "word": word,
             "cultural_context": cultural_context,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "response": response,
         }
         encrypted_record = self._encrypt_record(interaction, prev_hash)
@@ -264,8 +264,8 @@ class AccentAdapter:
         location_memory = {
             "type": "location",
             "location": location,
-            "first_visited": datetime.now().isoformat(),
-            "last_visited": datetime.now().isoformat(),
+            "first_visited": datetime.now(timezone.utc).isoformat(),
+            "last_visited": datetime.now(timezone.utc).isoformat(),
             "visit_count": 1,
             "accents": [accent_detected] if accent_detected else [],
             "words": words_learned or [],
@@ -374,7 +374,7 @@ class AccentAdapter:
         Simulate memory rehearsal by incrementing recall count and updating timestamp.
         """
         memory["recall_count"] += 1
-        memory["last_rehearsed"] = datetime.now().isoformat()
+        memory["last_rehearsed"] = datetime.now(timezone.utc).isoformat()
         return memory
 
     # Other methods remain unchanged

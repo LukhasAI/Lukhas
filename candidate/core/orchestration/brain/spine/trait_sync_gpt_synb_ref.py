@@ -22,7 +22,7 @@ from candidate.orchestration.brain.spine.trait_manager import load_traits
 NODE_ID = "lukhas_london"
 TRAIT_SYNC_FOLDER = "sync/traits/"
 TRAIT_FILE_NAME = f"{NODE_ID}_traits.json"
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY", timezone)
 
 # Ensure folder exists
 Path(TRAIT_SYNC_FOLDER).mkdir(parents=True, exist_ok=True)
@@ -34,7 +34,7 @@ def export_traits():
     traits = load_traits()
     data = {
         "node": NODE_ID,
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "traits": traits,
     }
     with open(os.path.join(TRAIT_SYNC_FOLDER, TRAIT_FILE_NAME), "w") as f:

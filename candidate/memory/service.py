@@ -48,7 +48,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -121,7 +121,7 @@ class MemoryService:
 
         try:
             # Generate memory ID
-            memory_id = f"mem_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{hash(str(content)) % 10000:04d}"
+            memory_id = f"mem_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{hash(str(content)) % 10000:04d}"
 
             # Store memory with metadata
             memory_record = {
@@ -130,7 +130,7 @@ class MemoryService:
                 "type": memory_type,
                 "content": content,
                 "access_level": access_level,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "metadata": {
                     "size": len(str(content)),
                     "content_type": type(content).__name__,
@@ -387,7 +387,7 @@ class MemoryService:
                     "memory_type": memory_record["type"],
                     "access_level": memory_record["access_level"],
                     "owner_id": memory_record["user_id"],
-                    "deletion_timestamp": datetime.utcnow().isoformat(),
+                    "deletion_timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             )
 
@@ -397,7 +397,7 @@ class MemoryService:
             return {
                 "success": True,
                 "memory_id": memory_id,
-                "deleted_at": datetime.utcnow().isoformat(),
+                "deleted_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -512,7 +512,7 @@ class MemoryService:
         if module not in self.memory_store:
             self.memory_store[f"_module_{module}"] = {
                 "config": config,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "storage_type": config.get("type"),
                 "data": {},
             }

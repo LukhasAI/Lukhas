@@ -72,7 +72,7 @@ class VIVOXEmotionalShift(VIVOXEmotionalEvent):
         **kwargs,
     ):
         super().__init__(
-            event_id=f"vivox_shift_{user_id}_{int(datetime.now().timestamp())}",
+            event_id=f"vivox_shift_{user_id}_{int(datetime.now(timezone.utc).timestamp())}",
             user_id=user_id,
             event_type="vivox_emotional_shift",
         )
@@ -103,7 +103,7 @@ class VIVOXRegulationApplied(VIVOXEmotionalEvent):
 
     def __init__(self, user_id: str, regulation_response: RegulationResponse):
         super().__init__(
-            event_id=f"vivox_regulation_{user_id}_{int(datetime.now().timestamp())}",
+            event_id=f"vivox_regulation_{user_id}_{int(datetime.now(timezone.utc).timestamp())}",
             user_id=user_id,
             event_type="vivox_regulation_applied",
         )
@@ -122,7 +122,7 @@ class VIVOXEmotionalMemoryStored(VIVOXEmotionalEvent):
 
     def __init__(self, user_id: str, memory_data: dict[str, Any]):
         super().__init__(
-            event_id=f"vivox_memory_{user_id}_{int(datetime.now().timestamp())}",
+            event_id=f"vivox_memory_{user_id}_{int(datetime.now(timezone.utc).timestamp())}",
             user_id=user_id,
             event_type="vivox_emotional_memory_stored",
         )
@@ -138,7 +138,7 @@ class VIVOXNeuroplasticUpdate(VIVOXEmotionalEvent):
 
     def __init__(self, user_id: str, update_data: dict[str, Any]):
         super().__init__(
-            event_id=f"vivox_neuroplastic_{user_id}_{int(datetime.now().timestamp())}",
+            event_id=f"vivox_neuroplastic_{user_id}_{int(datetime.now(timezone.utc).timestamp())}",
             user_id=user_id,
             event_type="vivox_neuroplastic_update",
         )

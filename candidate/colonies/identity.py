@@ -10,7 +10,7 @@ from typing import Any
 from .base import BaseColony, ColonyTask
 
 
-class IdentityColony(BaseColony):
+class IdentityColony(BaseColony, timezone):
     """Colony for identity management and verification"""
 
     def __init__(self, max_agents: int = 8):
@@ -40,11 +40,11 @@ class IdentityColony(BaseColony):
         elif task_type == "authenticate":
             return {
                 "authenticated": True,
-                "session_id": f"session_{datetime.now().timestamp()}",
+                "session_id": f"session_{datetime.now(timezone.utc).timestamp()}",
             }
         elif task_type == "register_identity":
             identity_id = payload.get("identity_id")
-            self.identity_registry[identity_id] = {"registered_at": datetime.now()}
+            self.identity_registry[identity_id] = {"registered_at": datetime.now(timezone.utc)}
             return {"registered": True, "identity_id": identity_id}
         else:
             return {"status": "unknown_task_type", "task_type": task_type}

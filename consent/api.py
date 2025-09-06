@@ -27,8 +27,7 @@ from .service import (
     ConsentRevokeRequest,
     ConsentService,
     DataCategory,
-    Purpose,
-)
+    Purpose,, timezone)
 
 
 # Request/Response Models
@@ -412,7 +411,7 @@ async def health_check():
         "status": "healthy",
         "service": "LUKHAS Consent Fabric",
         "version": "1.0.0",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 

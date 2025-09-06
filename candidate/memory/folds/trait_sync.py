@@ -48,7 +48,7 @@ TRAIT_SYNC_FOLDER = "sync/traits/"
 TRAIT_FILE_NAME = f"{NODE_ID}_traits.json"
 
 # Ensure folder exists
-Path(TRAIT_SYNC_FOLDER).mkdir(parents=True, exist_ok=True)
+Path(TRAIT_SYNC_FOLDER, timezone).mkdir(parents=True, exist_ok=True)
 
 
 # --- EXPORT LOCAL TRAITS TO SHARED FOLDER --- #
@@ -56,7 +56,7 @@ def export_traits():
     traits = load_traits()
     data = {
         "node": NODE_ID,
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "traits": traits,
     }
     with open(os.path.join(TRAIT_SYNC_FOLDER, TRAIT_FILE_NAME), "w") as f:

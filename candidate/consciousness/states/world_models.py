@@ -31,7 +31,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class WorldModelType(Enum):
@@ -94,7 +94,7 @@ class PhysicsEngine:
         """Simulate physics for given duration"""
         try:
             new_state = WorldState(
-                state_id=f"{state.state_id}_physics_{datetime.now().timestamp()}",
+                state_id=f"{state.state_id}_physics_{datetime.now(timezone.utc).timestamp()}",
                 timestamp=state.timestamp + timedelta(seconds=duration),
                 entities=state.entities.copy(),
                 relationships=state.relationships.copy(),
@@ -155,7 +155,7 @@ class TemporalDynamicsModel:
                 "causality_relationships": causality,
                 "predicted_trends": trends,
                 "confidence": self._calculate_temporal_confidence(history),
-                "analysis_timestamp": datetime.now().isoformat(),
+                "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -372,8 +372,8 @@ class WorldModels:
 
             # Create initial world state
             initial_state = WorldState(
-                state_id=f"initial_{datetime.now().timestamp()}",
-                timestamp=datetime.now(),
+                state_id=f"initial_{datetime.now(timezone.utc).timestamp()}",
+                timestamp=datetime.now(timezone.utc),
                 entities={},
                 relationships=[],
                 physics_properties={},
@@ -408,8 +408,8 @@ class WorldModels:
         """Create a new world state"""
         try:
             state = WorldState(
-                state_id=f"state_{datetime.now().timestamp()}_{len(self.world_states)}",
-                timestamp=datetime.now(),
+                state_id=f"state_{datetime.now(timezone.utc).timestamp()}_{len(self.world_states)}",
+                timestamp=datetime.now(timezone.utc),
                 entities=entities,
                 relationships=relationships or [],
                 physics_properties=physics_properties or {},
@@ -439,7 +439,7 @@ class WorldModels:
         """Simulate world state forward in time"""
         try:
             accuracy = accuracy or self.config["simulation_accuracy"]
-            simulation_id = f"sim_{datetime.now().timestamp()}"
+            simulation_id = f"sim_{datetime.now(timezone.utc).timestamp()}"
 
             logger.info(f"🎯 Starting forward simulation: {simulation_id}")
 
@@ -648,7 +648,7 @@ class WorldModels:
                 "temporal_analysis": temporal_analysis,
                 "simulation_metrics": simulation_metrics,
                 "configuration": self.config,
-                "analysis_timestamp": datetime.now().isoformat(),
+                "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:

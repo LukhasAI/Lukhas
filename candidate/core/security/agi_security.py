@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class SecurityLevel(Enum):
+class SecurityLevel(Enum, timezone):
     """Security clearance levels"""
 
     PUBLIC = "public"
@@ -278,7 +278,7 @@ class AGISecuritySystem:
         investigation = {
             "operation": operation,
             "user_id": context.user_id,
-            "timestamp": datetime.utcnow(),
+            "timestamp": datetime.now(timezone.utc),
             "data_hash": hashlib.sha256(str(data).encode()).hexdigest(),
         }
 
@@ -415,7 +415,7 @@ class SessionManager:
     async def create_session(self, context: SecurityContext):
         """Create new session"""
         self.sessions[context.session_id] = context
-        self.session_activity[context.session_id] = datetime.utcnow()
+        self.session_activity[context.session_id] = datetime.now(timezone.utc)
 
     async def get_session(self, session_id: str) -> Optional[SecurityContext]:
         """Get session if valid"""
@@ -424,12 +424,12 @@ class SessionManager:
 
         # Check timeout
         last_activity = self.session_activity.get(session_id)
-        if last_activity and datetime.utcnow() - last_activity > self.session_timeout:
+        if last_activity and datetime.now(timezone.utc) - last_activity > self.session_timeout:
             await self.terminate_session(session_id)
             return None
 
         # Update activity
-        self.session_activity[session_id] = datetime.utcnow()
+        self.session_activity[session_id] = datetime.now(timezone.utc)
 
         return self.sessions.get(session_id)
 
@@ -485,7 +485,7 @@ class ThreatDetectionSystem:
                         severity=0.8,
                         source=context.user_id,
                         target=operation,
-                        timestamp=datetime.utcnow(),
+                        timestamp=datetime.now(timezone.utc),
                         details={"pattern": pattern},
                         blocked=True,
                     )
@@ -573,7 +573,7 @@ class RateLimiter:
         max_requests, window_seconds = self.limits[limit_key]
 
         key = f"{user_id}:{operation}"
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Clean old requests
         self.requests[key] = [req for req in self.requests[key] if now - req < timedelta(seconds=window_seconds)]
@@ -638,7 +638,7 @@ class SecureChannel:
             {
                 "sender": sender,
                 "encrypted_message": encrypted,
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(timezone.utc),
             }
         )
 

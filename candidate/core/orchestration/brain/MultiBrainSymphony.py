@@ -19,7 +19,7 @@ import time
 from datetime import datetime
 from typing import Any
 
-logger = logging.getLogger("MultiBrainSymphony")
+logger = logging.getLogger("MultiBrainSymphony", timezone)
 
 
 class SpecializedBrainCore:
@@ -98,7 +98,7 @@ class DreamBrainSpecialist(SpecializedBrainCore):
             "dream_analysis": dream_analysis,
             "symbolic_patterns": self._extract_symbolic_patterns(data),
             "creative_insights": self._generate_creative_insights(data),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _fallback_creative_processing(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -168,7 +168,7 @@ class MemoryBrainSpecialist(SpecializedBrainCore):
             "memory_analysis": memory_analysis,
             "associative_patterns": self._analyze_associative_patterns(data),
             "consolidation_status": self._get_consolidation_status(),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _fallback_memory_processing(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -194,7 +194,7 @@ class MemoryBrainSpecialist(SpecializedBrainCore):
         return {
             "queue_size": len(self.memory_consolidation_queue),
             "consolidation_active": True,
-            "last_consolidation": datetime.now().isoformat(),
+            "last_consolidation": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -218,7 +218,7 @@ class LearningBrainSpecialist(SpecializedBrainCore):
             "learning_analysis": self._analyze_learning_patterns(data),
             "adaptation_recommendations": self._generate_adaptation_recommendations(data),
             "meta_cognitive_insights": self._extract_meta_cognitive_insights(data),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _analyze_learning_patterns(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -334,7 +334,7 @@ class MultiBrainSymphonyOrchestrator:
                 {
                     "input": input_data,
                     "result": symphony_result,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -408,7 +408,7 @@ class MultiBrainSymphonyOrchestrator:
             "emotional_context": emotional_context,
             "synthesized_insights": [],
             "coordination_quality": 0.0,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Process results from each brain

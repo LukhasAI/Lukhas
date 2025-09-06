@@ -42,7 +42,7 @@ from typing import Any, Callable, Optional
 import numpy as np
 
 # Configure quantum consciousness logging
-logger = logging.getLogger("ΛTRACE.consciousness.quantum.superposition")
+logger = logging.getLogger("ΛTRACE.consciousness.quantum.superposition", timezone)
 logger.info("ΛTRACE: Initializing Quantum Superposition Consciousness Processor v1.0.0")
 
 
@@ -121,7 +121,7 @@ class QuantumState:
     def measure_state(self) -> dict[str, Any]:
         """Measure quantum state (causes collapse)"""
         self.measurement_count += 1
-        self.last_measured = datetime.utcnow()
+        self.last_measured = datetime.now(timezone.utc)
 
         # Measurement causes decoherence
         decoherence_factor = min(1.0, self.decoherence_rate * self.measurement_count)
@@ -417,7 +417,7 @@ class QuantumSuperpositionProcessor:
                 "processing_results": processing_results,
                 "states_processed": len(processing_results),
                 "coherence_maintained": await self._check_superposition_coherence(superposition_id),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -585,7 +585,7 @@ class QuantumSuperpositionProcessor:
                 ),
                 "contributing_states": list(processing_results.keys()),
                 "insight_synthesis": self._synthesize_tunneling_insight(processing_results),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             logger.info(f"ΛTRACE: Quantum tunneling event detected! Confidence: {average_confidence:.3f}")
@@ -668,7 +668,7 @@ class QuantumSuperpositionProcessor:
                 "final_awareness": collapsed_state.awareness_level,
                 "final_emotion": collapsed_state.emotional_resonance,
                 "measurement_result": measurement_result,
-                "collapse_timestamp": datetime.utcnow().isoformat(),
+                "collapse_timestamp": datetime.now(timezone.utc).isoformat(),
                 "states_collapsed": len(collapse_candidates),
             }
 
@@ -771,7 +771,7 @@ class QuantumSuperpositionProcessor:
                         quantum_state = self.active_states[state_id]
 
                         # Check coherence time
-                        elapsed_time = (datetime.utcnow() - quantum_state.created_at).total_seconds()
+                        elapsed_time = (datetime.now(timezone.utc) - quantum_state.created_at).total_seconds()
                         if elapsed_time < quantum_state.coherence_time:
                             coherent_states.append(state_id)
                         else:
@@ -806,7 +806,7 @@ class QuantumSuperpositionProcessor:
         for state_id in state_ids:
             if state_id in self.active_states:
                 quantum_state = self.active_states[state_id]
-                elapsed_time = (datetime.utcnow() - quantum_state.created_at).total_seconds()
+                elapsed_time = (datetime.now(timezone.utc) - quantum_state.created_at).total_seconds()
                 if elapsed_time < quantum_state.coherence_time:
                     coherent_count += 1
 
@@ -826,7 +826,7 @@ class QuantumSuperpositionProcessor:
             {
                 "type": "hadamard_superposition",
                 "amplitude": complex(new_amplitude.real, -new_amplitude.imag),
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -929,7 +929,7 @@ class QuantumSuperpositionProcessor:
             "tunneling_events": self.tunneling_events,
             "interference_interactions": self.interference_interactions,
             "measurement_history_length": len(self.measurement_history),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 

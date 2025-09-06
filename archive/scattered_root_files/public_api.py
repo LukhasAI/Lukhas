@@ -34,8 +34,7 @@ from candidate.core.security.auth import get_auth_system
 from lukhas.branding_bridge import (
     get_system_signature,
     get_trinity_context,
-    initialize_branding,
-)
+    initialize_branding,, timezone)
 
 # Configure logging
 logging.basicConfig(
@@ -537,7 +536,7 @@ async def health_check(request: Request):
         "status": "healthy",
         "service": "LUKHAS AI",
         "version": "2.0.0",
-        "timestamp": datetime.now(),
+        "timestamp": datetime.now(timezone.utc),
         "trinity": "⚛️🧠🛡️",
     }
 

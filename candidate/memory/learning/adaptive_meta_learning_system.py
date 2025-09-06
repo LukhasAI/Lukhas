@@ -83,9 +83,9 @@ class AdaptiveMetaLearningSystem:
         logger.info(f"🎯 Selected strategy: {strategy_name}")
 
         # Apply strategy to learn from data
-        start_time = datetime.datetime.now()
+        start_time = datetime.datetime.now(timezone.utc)
         learning_result = self._apply_strategy(strategy, available_data, context)
-        duration = (datetime.datetime.now() - start_time).total_seconds()
+        duration = (datetime.datetime.now(timezone.utc) - start_time).total_seconds()
 
         # Evaluate strategy performance
         performance_metrics = self._evaluate_performance(strategy_name, learning_result, duration)
@@ -152,7 +152,7 @@ class AdaptiveMetaLearningSystem:
             "meta_parameters": self.meta_parameters,
             "exploration_rate": self.exploration_rate,
             "performance_trends": self._analyze_performance_trends(),
-            "generated_at": datetime.datetime.now().isoformat(),
+            "generated_at": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info("📊 Learning report generated")
@@ -342,7 +342,7 @@ class AdaptiveMetaLearningSystem:
             "generalization": generalization,
             "confidence": confidence,
             "duration": duration,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         # Calculate overall performance score

@@ -22,7 +22,7 @@ from datetime import datetime
 TRAIT_FILE = "logs/lukhas_traits.json"
 
 
-def default_traits():
+def default_traits(, timezone):
     return {
         "openness": 0.87,
         "conscientiousness": 0.76,
@@ -75,7 +75,7 @@ def adjust_traits_from_context(traits, context):
 
 def log_trait_shift(input_text, new_traits):
     log_entry = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "input": input_text,
         "traits": new_traits,
     }

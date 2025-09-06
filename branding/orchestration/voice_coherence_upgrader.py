@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 # Add branding modules to path
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 
 from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
@@ -69,7 +69,7 @@ class EliteVoiceCoherenceUpgrader:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"voice_upgrade_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = logs_dir / f"voice_upgrade_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -388,7 +388,7 @@ class EliteVoiceCoherenceUpgrader:
 
         report_content = f"""# 🎯 LUKHAS AI Elite Voice Coherence Upgrade Report
 
-*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+*Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Executive Summary
 

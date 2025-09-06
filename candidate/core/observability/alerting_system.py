@@ -39,7 +39,7 @@ from email.mime.text import MimeText
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AlertSeverity(Enum):
@@ -342,7 +342,7 @@ class ComprehensiveAlertingSystem:
 
         # Performance tracking
         self.metrics = AlertingMetrics()
-        self.system_start_time = datetime.now()
+        self.system_start_time = datetime.now(timezone.utc)
 
         # System state
         self.alerting_active = True
@@ -630,7 +630,7 @@ LUKHAS AI Monitoring System
             message=message,
             severity=severity,
             category=category,
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
             source_system=source_system,
             source_metric=source_metric,
             triggered_value=triggered_value,
@@ -768,7 +768,7 @@ LUKHAS AI Monitoring System
             # Create audit entry
             audit_entry = ComplianceAuditEntry(
                 entry_id=entry_id,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 event_type="alert_triggered",
                 event_description=f"Alert triggered: {alert.title}",
                 alert_id=alert.alert_id,
@@ -792,7 +792,7 @@ LUKHAS AI Monitoring System
                     f"Review {alert.source_system} system compliance",
                     "Implement corrective measures if needed",
                 ],
-                remediation_deadline=datetime.now() + timedelta(days=7 if violation_severity == "medium" else 1),
+                remediation_deadline=datetime.now(timezone.utc) + timedelta(days=7 if violation_severity == "medium" else 1),
             )
 
             # Store audit entry
@@ -842,7 +842,7 @@ LUKHAS AI Monitoring System
 
         # Check notification cooldown
         if alert.last_notification_sent:
-            time_since_last = (datetime.now() - alert.last_notification_sent).total_seconds()
+            time_since_last = (datetime.now(timezone.utc) - alert.last_notification_sent).total_seconds()
             if time_since_last < rule.notification_cooldown:
                 return
 
@@ -851,13 +851,13 @@ LUKHAS AI Monitoring System
             notification = {
                 "alert_id": alert.alert_id,
                 "channel": channel,
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "attempt": 1,
             }
 
             self.notification_queue.append(notification)
 
-        alert.last_notification_sent = datetime.now()
+        alert.last_notification_sent = datetime.now(timezone.utc)
         alert.notification_count += 1
 
     async def _process_notification_queue(self):
@@ -883,7 +883,7 @@ LUKHAS AI Monitoring System
                 # Retry logic
                 if notification["attempt"] < 3:
                     notification["attempt"] += 1
-                    notification["timestamp"] = datetime.now() + timedelta(seconds=60)
+                    notification["timestamp"] = datetime.now(timezone.utc) + timedelta(seconds=60)
                     self.notification_queue.append(notification)
 
     async def _send_notification(self, notification: dict[str, Any]):
@@ -929,7 +929,7 @@ LUKHAS AI Monitoring System
         notification_record = {
             "channel": channel.value,
             "config_id": config.config_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "success": success,
             "attempt": notification["attempt"],
         }
@@ -969,7 +969,7 @@ LUKHAS AI Monitoring System
         # Simple rate limiting implementation
         # In production, would use more sophisticated rate limiting
 
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Check recent notifications for this config
         recent_notifications = [
@@ -1101,9 +1101,9 @@ LUKHAS AI Monitoring System
             return False
 
         alert.status = AlertStatus.ACKNOWLEDGED
-        alert.acknowledged_at = datetime.now()
+        alert.acknowledged_at = datetime.now(timezone.utc)
         alert.acknowledgment_user = user_id
-        alert.updated_at = datetime.now()
+        alert.updated_at = datetime.now(timezone.utc)
 
         # Create compliance audit entry for acknowledgment
         if alert.compliance_relevant:
@@ -1127,10 +1127,10 @@ LUKHAS AI Monitoring System
         alert = self.active_alerts[alert_id]
 
         alert.status = AlertStatus.RESOLVED
-        alert.resolved_at = datetime.now()
+        alert.resolved_at = datetime.now(timezone.utc)
         alert.resolution_user = user_id
         alert.resolution_notes = resolution_notes
-        alert.updated_at = datetime.now()
+        alert.updated_at = datetime.now(timezone.utc)
 
         # Remove from active alerts
         del self.active_alerts[alert_id]
@@ -1153,7 +1153,7 @@ LUKHAS AI Monitoring System
 
         audit_entry = ComplianceAuditEntry(
             entry_id=entry_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type="alert_acknowledged",
             event_description=f"Alert acknowledged: {alert.title}",
             alert_id=alert.alert_id,
@@ -1188,7 +1188,7 @@ LUKHAS AI Monitoring System
 
         audit_entry = ComplianceAuditEntry(
             entry_id=entry_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type="alert_resolved",
             event_description=f"Alert resolved: {alert.title}",
             alert_id=alert.alert_id,
@@ -1209,7 +1209,7 @@ LUKHAS AI Monitoring System
                 }
             },
             status="resolved",
-            resolved_at=datetime.now(),
+            resolved_at=datetime.now(timezone.utc),
             resolution_notes=resolution_notes or "Alert resolved",
             remediation_required=False,
         )
@@ -1229,7 +1229,7 @@ LUKHAS AI Monitoring System
     async def _check_alert_escalations(self):
         """Check for alerts that need escalation"""
 
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         for alert in self.active_alerts.values():
             if alert.status not in [AlertStatus.ACTIVE, AlertStatus.ACKNOWLEDGED]:
@@ -1279,7 +1279,7 @@ LUKHAS AI Monitoring System
         ]
 
         # Check for overdue remediation
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         for entry in self.audit_trail:
             if entry.status == "open" and entry.remediation_deadline and current_time > entry.remediation_deadline:
@@ -1304,7 +1304,7 @@ LUKHAS AI Monitoring System
     async def _update_alert_metrics(self):
         """Update alerting system metrics"""
 
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Update basic counts
         self.metrics.active_alerts_count = len(self.active_alerts)
@@ -1332,7 +1332,7 @@ LUKHAS AI Monitoring System
     async def _cleanup_old_alerts(self):
         """Clean up old alerts"""
 
-        cutoff_date = datetime.now() - timedelta(days=self.alert_retention_days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=self.alert_retention_days)
 
         # Clean alert history
         old_alerts = [a for a in self.alert_history if a.created_at < cutoff_date]
@@ -1343,7 +1343,7 @@ LUKHAS AI Monitoring System
     async def _cleanup_old_audit_entries(self):
         """Clean up old audit entries"""
 
-        cutoff_date = datetime.now() - timedelta(days=self.audit_retention_days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=self.audit_retention_days)
 
         # Clean audit trail (keep for 7 years for compliance)
         old_entries = [e for e in self.audit_trail if e.timestamp < cutoff_date]

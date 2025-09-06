@@ -44,7 +44,7 @@ from typing import Any, Optional, Union
 try:
     from candidate.core.common import get_logger
 
-    logger = get_logger("ΛTRACE.bridge.openai_core")
+    logger = get_logger("ΛTRACE.bridge.openai_core", timezone)
 except ImportError:
     logger = logging.getLogger("ΛTRACE.bridge.openai_core")
 
@@ -203,7 +203,7 @@ class OpenAICoreService:
         Returns:
             Standardized OpenAI response
         """
-        start_time = datetime.utcnow()
+        start_time = datetime.now(timezone.utc)
         request_id = self._generate_request_id(request)
 
         logger.info(f"Processing request {request_id} from {request.module}")
@@ -235,7 +235,7 @@ class OpenAICoreService:
             response.request_id = request_id
             response.module = request.module
             response.capability = request.capability
-            response.latency_ms = int((datetime.utcnow() - start_time).total_seconds() * 1000)
+            response.latency_ms = int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000)
 
             # Cache successful responses
             if response.success and cache_key:
@@ -262,7 +262,7 @@ class OpenAICoreService:
                 capability=request.capability,
                 success=False,
                 error=str(e),
-                latency_ms=int((datetime.utcnow() - start_time).total_seconds() * 1000),
+                latency_ms=int((datetime.now(timezone.utc) - start_time).total_seconds() * 1000),
             )
 
     async def _process_real_request(self, request: OpenAIRequest) -> OpenAIResponse:
@@ -572,7 +572,7 @@ class OpenAICoreService:
 
     def _generate_request_id(self, request: OpenAIRequest) -> str:
         """Generate unique request ID."""
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         data_hash = hashlib.sha256(  # Changed from MD5 for security
             json.dumps(asdict(request), sort_keys=True).encode()
         ).hexdigest()[:8]
@@ -623,7 +623,7 @@ class OpenAICoreService:
             "summary": self.usage_stats,
             "by_module": self.usage_stats["by_module"],
             "cache_stats": {"size": len(self.cache), "hit_rate": "Not implemented"},
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -797,7 +797,7 @@ class RateLimiter:
 
     async def check_rate_limit(self, request: OpenAIRequest):
         """Check if request is within rate limits."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Clean old requests
         cutoff = now - timedelta(days=1)

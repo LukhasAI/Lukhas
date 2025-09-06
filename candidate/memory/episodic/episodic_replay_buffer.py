@@ -65,8 +65,7 @@ Experience = namedtuple(
         "priority",
         "memory_id",
         "consciousness_level",
-    ],
-)
+    ],, timezone)
 
 
 class ReplayStrategy(Enum):
@@ -130,7 +129,7 @@ class EpisodicMemory:
         # Update learning value based on replay frequency and recency
         recency_factor = 1.0
         if self.last_replayed:
-            days_since_replay = (datetime.now() - self.last_replayed).days
+            days_since_replay = (datetime.now(timezone.utc) - self.last_replayed).days
             recency_factor = max(0.1, 1.0 - (days_since_replay * 0.1))
 
         # Diminishing returns on replay count
@@ -141,7 +140,7 @@ class EpisodicMemory:
     def mark_replayed(self):
         """Mark this memory as having been replayed"""
         self.replay_count += 1
-        self.last_replayed = datetime.now()
+        self.last_replayed = datetime.now(timezone.utc)
 
         # Strengthen consolidation
         self.consolidation_strength = min(1.0, self.consolidation_strength + 0.1)
@@ -241,7 +240,7 @@ class PrioritizedReplayBuffer:
         """Add a new experience to the replay buffer"""
 
         # Generate memory ID
-        memory_id = f"exp_{self.total_samples}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        memory_id = f"exp_{self.total_samples}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Create experience
         experience = Experience(
@@ -250,7 +249,7 @@ class PrioritizedReplayBuffer:
             reward=reward,
             next_state=next_state,
             done=done,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             priority=1.0,  # Initial priority
             memory_id=memory_id,
             consciousness_level=consciousness_level,
@@ -479,7 +478,7 @@ class PrioritizedReplayBuffer:
             recent_memories = [
                 m
                 for m in self.memories.values()
-                if (datetime.now() - m.experience.timestamp).total_seconds() < 300  # 5 minutes
+                if (datetime.now(timezone.utc) - m.experience.timestamp).total_seconds() < 300  # 5 minutes
             ]
 
             if recent_memories:
@@ -721,7 +720,7 @@ class DreamStateReplay:
         logger.info("Entering dream state for memory consolidation")
 
         dream_results = {
-            "session_id": f"dream_{self.dream_sessions}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            "session_id": f"dream_{self.dream_sessions}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "cycles_completed": 0,
             "memories_replayed": 0,
             "insights_generated": 0,

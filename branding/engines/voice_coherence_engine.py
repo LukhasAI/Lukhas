@@ -17,7 +17,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 
 from profiles.brand_voice_profiles import (
     AudienceType,
@@ -316,7 +316,7 @@ class LUKHASVoiceCoherenceEngine:
             trinity_balance=trinity_balance,
             suggested_improvements=suggestions,
             confidence=confidence,
-            analysis_timestamp=datetime.now().isoformat(),
+            analysis_timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
         # Update performance tracking

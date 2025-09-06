@@ -21,7 +21,7 @@ from datetime import datetime
 from typing import Optional
 
 # Add brain directory to path for imports
-brain_dir = os.path.dirname(os.path.abspath(__file__))
+brain_dir = os.path.dirname(os.path.abspath(__file__, timezone))
 if brain_dir not in sys.path:
     sys.path.insert(0, brain_dir)
 
@@ -186,7 +186,7 @@ class CognitiveEngine:
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.initialization_time = datetime.now()
+        self.initialization_time = datetime.now(timezone.utc)
 
         # Initialize core components (ORIGINAL LOGIC)
         self.attention_mechanism = QIInspiredAttention()
@@ -245,7 +245,7 @@ class CognitiveEngine:
 
         self.conversation_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input": input_data.get("text", ""),
                 "response": agi_response.content,
                 "confidence": agi_response.confidence,
@@ -285,7 +285,7 @@ class CognitiveEngine:
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
                 "confidence": agi_response.confidence,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             # Keep only last 1000 patterns
             if len(self.learning_memory) > 1000:
@@ -327,7 +327,7 @@ class CognitiveEngine:
         Returns:
             AGIResponse with comprehensive AI processing results
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         # 🇪🇺 EU AI Act Transparency - Start decision trace
         trace_id = None
@@ -454,7 +454,7 @@ class CognitiveEngine:
                 response_content = self._generate_safe_response(compliance_result)
 
             # Calculate processing time
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Create AI response
             agi_response = AGIResponse(
@@ -638,7 +638,7 @@ class CognitiveEngine:
                 content=f"I encountered an error while processing your request. Error: {str(e)}",
                 confidence=0.1,
                 reasoning_path=[
-                    {"error": str(e), "timestamp": datetime.now().isoformat()}
+                    {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
                 ],
                 metacognitive_state=self.orchestrator.metacognitive_state.copy(),
                 ethical_compliance={
@@ -647,7 +647,7 @@ class CognitiveEngine:
                     "confidence": 1.0,
                 },
                 capability_level=AGICapabilityLevel.BASIC,
-                processing_time=(datetime.now() - start_time).total_seconds(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
 
             # Add transparency to error response
@@ -789,7 +789,7 @@ class CognitiveEngine:
              "ethical_compliance": creative_test.ethical_compliance["is_compliant"], })
 
         return {
-            "demonstration_timestamp": datetime.now().isoformat(),
+            "demonstration_timestamp": datetime.now(timezone.utc).isoformat(),
             "agi_session_id": self.session_id,
             "current_capability_level": self.orchestrator.capability_level.value,
             "demonstrations": demonstrations,

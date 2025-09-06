@@ -9,7 +9,7 @@ from typing import Any, Optional
 
 from ..event_system.event_bus import NIASEventType, get_global_nias_event_bus
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class NIASHub:
@@ -233,7 +233,7 @@ class NIASHub:
                     "delivery_method": "widget",
                     "widget_config": widget_config,
                     "tier": user_tier,
-                    "processed_at": datetime.now().isoformat(),
+                    "processed_at": datetime.now(timezone.utc).isoformat(),
                 }
 
             # Fallback: basic delivery
@@ -242,7 +242,7 @@ class NIASHub:
                 "delivery_method": "basic",
                 "message": message,
                 "tier": user_tier,
-                "processed_at": datetime.now().isoformat(),
+                "processed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -250,7 +250,7 @@ class NIASHub:
             return {
                 "status": "error",
                 "error": str(e),
-                "processed_at": datetime.now().isoformat(),
+                "processed_at": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _register_with_lambda_products(self):

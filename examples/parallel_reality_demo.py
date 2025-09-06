@@ -13,8 +13,7 @@ from typing import Any
 from core.common import get_logger
 from lukhas.consciousness.dream.parallel_reality_simulator import (
     ParallelRealitySimulator,
-    RealityType,
-)
+    RealityType,, timezone)
 
 logger = get_logger(__name__)
 
@@ -192,7 +191,7 @@ class ParallelRealityDemo:
         # Create temporal scenario
         origin = {
             "event": "critical_decision",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "timeline": "primary",
             "causality_anchors": ["event_a", "event_b", "event_c"],
         }

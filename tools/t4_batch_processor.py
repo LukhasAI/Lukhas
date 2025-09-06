@@ -14,7 +14,7 @@ from typing import Any
 
 
 class T4BatchProcessor:
-    def __init__(self, batch_size: int = 50):
+    def __init__(self, batch_size: int = 50, timezone):
         self.base_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
         self.verification_path = self.base_path / "verification_artifacts"
         self.verification_path.mkdir(exist_ok=True)
@@ -32,7 +32,7 @@ class T4BatchProcessor:
             )
             return result.stdout.strip()[:8]
         except Exception:
-            return hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]
+            return hashlib.md5(str(datetime.now(timezone.utc)).encode()).hexdigest()[:8]
 
     def get_ruff_issues(self) -> list[dict[str, Any]]:
         """Get detailed Ruff issues for batch processing"""
@@ -99,7 +99,7 @@ class T4BatchProcessor:
     def create_batch_artifact(self, batch_info: dict[str, Any]) -> str:
         """SCIENTIFIC RIGOR: Create SHA-bound batch verification"""
         sha = self.get_current_sha()
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         artifact = {
             "batch_id": f"batch_{self.batch_number:03d}",
@@ -126,7 +126,7 @@ class T4BatchProcessor:
         """T4 LENS: Comprehensive validation of batch processing"""
 
         validation = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "batch_number": self.batch_number,
             "category": category,
             "issues_processed": issues_processed,

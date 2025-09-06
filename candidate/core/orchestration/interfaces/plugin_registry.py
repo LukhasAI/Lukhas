@@ -21,7 +21,7 @@ from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class PluginType(Enum):
@@ -589,7 +589,7 @@ class PluginRegistry:
                 for name, plugin in self.plugins.items()
             },
             "signal_handlers": self._signal_handlers,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         with open(file_path, "w") as f:
@@ -655,7 +655,7 @@ class ExamplePlugin(PluginInterface):
         result = {
             "plugin": self.metadata.name,
             "signal_type": signal_type,
-            "processed_at": datetime.now().isoformat(),
+            "processed_at": datetime.now(timezone.utc).isoformat(),
             "result": f"Processed {len(str(data))} bytes of data",
         }
 
