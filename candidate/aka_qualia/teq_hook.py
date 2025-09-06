@@ -9,7 +9,7 @@ with transparent, auditable decision-making aligned with Guardian System v1.0.0.
 """
 
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import yaml
 

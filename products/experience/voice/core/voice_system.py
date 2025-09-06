@@ -16,7 +16,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 from candidate.consciousness.awareness.awareness_engine import AwarenessEngine
-from candidate.core.common.glyph import GLYPHSymbol, GLYPHToken, create_glyph, create_glyphToken
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.emotion.emotion_hub import EmotionHub
 from candidate.governance.guardian import GuardianValidator

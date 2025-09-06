@@ -6,7 +6,7 @@ Handles structured data files like JSON, YAML, and XML
 
 import json
 import xml.etree.ElementTree as ET
-from typing import Any, Dict
+from typing import Any
 
 from .base_parser import BaseParser
 

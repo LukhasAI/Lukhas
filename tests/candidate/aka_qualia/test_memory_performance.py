@@ -19,7 +19,6 @@ import gc
 import statistics
 import time
 from concurrent.futures import ThreadPoolExecutor
-from typing import List
 
 import psutil
 import pytest

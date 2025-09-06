@@ -21,16 +21,10 @@ from .constellation_alignment_system import (
     get_constellation_validator,
 )
 from .matriz_consciousness_signals import (
-    ConsciousnessSignal,
     ConsciousnessSignalFactory,
     ConsciousnessSignalType,
 )
 from .matriz_signal_emitters import (
-    create_consciousness_emitter,
-    create_governance_emitter,
-    create_identity_emitter,
-    create_orchestration_emitter,
-    create_symbolic_emitter,
     get_emission_coordinator,
 )
 

@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -168,7 +168,7 @@ class GlyphTrailRenderer:
             "category": category,
             "mutation": f"{from_glyph}→{to_glyph}",
             "is_reversal": is_reversal,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         self.global_patterns.append(pattern)
 
@@ -246,7 +246,7 @@ class GlyphTrailRenderer:
     def export_visual_manifest(self) -> dict:
         """Export complete visual manifest"""
         manifest = {
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "total_users": len(self.user_trails),
             "total_mutations": len(self.global_patterns),
             "user_journeys": {},
@@ -331,7 +331,7 @@ if __name__ == "__main__":
     print("=" * 60)
 
     for from_g, to_g, reason in mutations:
-        renderer.track_mutation(user_id, from_g, to_g, datetime.utcnow(), reason)
+        renderer.track_mutation(user_id, from_g, to_g, datetime.now(timezone.utc), reason)
 
     # Render journey
     journey = renderer.render_user_journey(user_id)

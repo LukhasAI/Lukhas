@@ -23,7 +23,7 @@ from ..symbolic_ai.memory import SymbolicMemoryEngine
 class NeuralSymbolicBridge:
     """Bridge between neural networks and symbolic reasoning from OXN"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.memory_engine = SymbolicMemoryEngine()
         self.dream_processor = DreamProcessor()
         self.integration_threshold = 0.7
@@ -96,7 +96,7 @@ class NeuralSymbolicBridge:
             "neural_component": neural_output,
             "symbolic_component": symbolic_result,
             "confidence": combined_conf,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _calculate_symbolic_confidence(self, result: dict[str, Any]) -> float:

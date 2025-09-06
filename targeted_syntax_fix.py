@@ -7,7 +7,6 @@ Focus on common fixable patterns while avoiding complex issues
 import ast
 import os
 import re
-import sys
 
 
 def fix_simple_patterns(content):

@@ -51,7 +51,7 @@ from typing import Any, Callable, Optional
 from .glyph import Glyph, GlyphPriority, GlyphType
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DecayState(Enum):
@@ -140,7 +140,7 @@ class GlyphSentinel:
 
         # Operational state
         self.is_monitoring = False
-        self.last_cleanup = datetime.now()
+        self.last_cleanup = datetime.now(timezone.utc)
         self.monitoring_thread: Optional[threading.Thread] = None
 
         # Event handlers
@@ -186,7 +186,7 @@ class GlyphSentinel:
             decay_state=DecayState.FRESH,
             decay_rate=self._calculate_initial_decay_rate(glyph),
             integrity_score=1.0,
-            last_accessed=datetime.now(),
+            last_accessed=datetime.now(timezone.utc),
             access_frequency=0.0,
             stability_trend=[glyph.stability_index],
             predicted_expiry=None,
@@ -236,7 +236,7 @@ class GlyphSentinel:
             return False
 
         metrics = self.decay_metrics[glyph_id]
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Update access metrics
         time_since_last = (current_time - metrics.last_accessed).total_seconds()
@@ -504,9 +504,9 @@ class GlyphSentinel:
                 self._perform_monitoring_cycle()
 
                 # Check if cleanup is needed
-                if (datetime.now() - self.last_cleanup).total_seconds() >= self.cleanup_interval:
+                if (datetime.now(timezone.utc) - self.last_cleanup).total_seconds() >= self.cleanup_interval:
                     self._perform_cleanup_cycle()
-                    self.last_cleanup = datetime.now()
+                    self.last_cleanup = datetime.now(timezone.utc)
 
                 # Calculate sleep time
                 cycle_time = time.time() - start_time
@@ -524,7 +524,7 @@ class GlyphSentinel:
     def _perform_monitoring_cycle(self):
         """Perform one monitoring cycle."""
         self.monitoring_cycles += 1
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         for glyph_id, glyph in self.monitored_glyphs.items():
             try:
@@ -668,10 +668,10 @@ class GlyphSentinel:
         # Reset decay metrics
         metrics.integrity_score = 1.0
         metrics.decay_state = DecayState.FRESH
-        metrics.last_accessed = datetime.now()
+        metrics.last_accessed = datetime.now(timezone.utc)
 
         # Reset glyph temporal properties
-        glyph.temporal_stamp.last_accessed = datetime.now()
+        glyph.temporal_stamp.last_accessed = datetime.now(timezone.utc)
         glyph.temporal_stamp.update_access()
 
         logger.debug(f"Refreshed glyph {glyph_id}")

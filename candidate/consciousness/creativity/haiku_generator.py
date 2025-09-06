@@ -68,8 +68,7 @@ try:
         get_brand_voice,
         get_constellation_context,
         normalize_output_text,
-        validate_output,
-    )
+        validate_output,, timezone)
 
     BRANDING_BRIDGE_AVAILABLE = True
 except ImportError:
@@ -426,7 +425,7 @@ class AdvancedHaikuGenerator:
             "style": style,
             "syllable_structure": syllable_structure,
             "consciousness_metrics": consciousness_metrics,
-            "generation_timestamp": datetime.now().isoformat(),
+            "generation_timestamp": datetime.now(timezone.utc).isoformat(),
             "expansion_depth": expansion_depth,
         }
 
@@ -463,7 +462,7 @@ class AdvancedHaikuGenerator:
             "total_haiku": len(themes) * count_per_theme,
             "themes": themes,
             "average_metrics": avg_metrics,
-            "generation_timestamp": datetime.now().isoformat(),
+            "generation_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _generate_quantum_haiku(self, theme: str, style: str) -> str:

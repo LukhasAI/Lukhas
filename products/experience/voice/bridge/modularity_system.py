@@ -62,7 +62,7 @@ class LUKHASVoiceSystem:
                 input=user_input,
                 context=context,
                 response=safe_response,
-                timestamp=datetime.datetime.now(),
+                timestamp=datetime.datetime.now(timezone.utc),
             )
         return {
             "response": safe_response,

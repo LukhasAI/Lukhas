@@ -7,7 +7,7 @@ Test all product components and document working vs broken state
 import sys
 import traceback
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 
 @dataclass

@@ -46,11 +46,11 @@ class GuardianSystemAdapter:
     - Audit trail generation
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.drift_threshold = 0.15
         self.violations_cache = []
         self.current_drift = 0.0
-        self.last_drift_check = datetime.now()
+        self.last_drift_check = datetime.now(timezone.utc)
 
     async def check_content_ethics(self, content: dict[str, Any], user_context: dict[str, Any]) -> dict[str, Any]:
         """
@@ -68,7 +68,7 @@ class GuardianSystemAdapter:
                     violation_type="manipulative_content",
                     severity=0.8,
                     description="Content contains potentially manipulative language",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     content_hash=self._hash_content(content),
                 )
             )
@@ -79,7 +79,7 @@ class GuardianSystemAdapter:
                     violation_type="vulnerability_exploitation",
                     severity=0.9,
                     description="Content appears to exploit user vulnerabilities",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     content_hash=self._hash_content(content),
                     user_id=user_context.get("user_id"),
                 )
@@ -91,7 +91,7 @@ class GuardianSystemAdapter:
                     violation_type="consent_violation",
                     severity=0.7,
                     description="Content violates user consent preferences",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     content_hash=self._hash_content(content),
                     user_id=user_context.get("user_id"),
                 )
@@ -114,7 +114,7 @@ class GuardianSystemAdapter:
     async def get_drift_metrics(self) -> DriftMetrics:
         """Get current Guardian System drift metrics."""
         # Count violations in last 24 hours
-        cutoff_time = datetime.now() - timedelta(hours=24)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
         recent_violations = len([v for v in self.violations_cache if v.detected_at > cutoff_time])
 
         # Determine trend
@@ -129,7 +129,7 @@ class GuardianSystemAdapter:
             current_drift=self.current_drift,
             threshold=self.drift_threshold,
             trend=trend,
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
             violation_count_24h=recent_violations,
         )
 
@@ -295,7 +295,7 @@ class GuardianIntegratedPlatform:
             "user_id": user_id,
             "ad_id": ad_id,
             "conversion_value": conversion_value,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "product_metadata": product_metadata,
         }
 

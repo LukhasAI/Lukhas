@@ -23,17 +23,12 @@ Integration:
 - Democratic oversight for AGI governance decisions
 """
 
-import asyncio
-import json
 import logging
 import math
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
-
-import numpy as np
+from typing import Any, Optional
 
 
 # AGI capability types and enums

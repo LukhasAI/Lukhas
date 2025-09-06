@@ -8,7 +8,7 @@ and follows security best practices for audit trails and compliance.
 import hashlib
 import logging
 import re
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional
 
 
 class SecurityLogFilter(logging.Filter):

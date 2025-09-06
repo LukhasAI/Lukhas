@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import asyncio
-import sys
 import traceback
 
 from candidate.aka_qualia.core import AkaQualia

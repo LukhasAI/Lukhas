@@ -4,8 +4,6 @@ Comprehensive test suite for AGI Multi-Model Orchestration Hub.
 Tests all components: ModelRouter, ConsensusEngine, CapabilityMatrix, CostOptimizer.
 """
 
-import asyncio
-from typing import Any, Dict
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest

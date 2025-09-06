@@ -15,7 +15,7 @@ import argparse
 import json
 import logging
 from datetime import datetime, timezone  # ΛTAG: utc
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from sqlalchemy import create_engine, text

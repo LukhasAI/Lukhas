@@ -39,7 +39,7 @@ from .auth_governance_policies import auth_governance_policy_engine
 from .auth_guardian_integration import AuthenticationGuardian, AuthEventType
 
 # Set up logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 logger = logging.getLogger(__name__)
 
 
@@ -102,7 +102,7 @@ class LUKHASAuthIntegrationSystem:
         """
         self.config = config or self._get_default_config()
         self.system_id = str(uuid.uuid4())
-        self.startup_time = datetime.now()
+        self.startup_time = datetime.now(timezone.utc)
 
         # Integration components
         self.guardian_enabled = enable_guardian
@@ -138,7 +138,7 @@ class LUKHASAuthIntegrationSystem:
             drift_score_average=0.0,
             compliance_rate=1.0,
             integration_uptime=0.0,
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
         )
 
         # Health monitoring
@@ -150,7 +150,7 @@ class LUKHASAuthIntegrationSystem:
             cross_module_status="unknown",
             compliance_score=0.0,
             active_alerts=[],
-            last_checked=datetime.now(),
+            last_checked=datetime.now(timezone.utc),
         )
 
         # Alert thresholds
@@ -249,7 +249,7 @@ class LUKHASAuthIntegrationSystem:
             Complete integration result with all component outputs
         """
         try:
-            integration_start = datetime.now()
+            integration_start = datetime.now(timezone.utc)
             result = {
                 "user_id": user_id,
                 "event_type": event_type,
@@ -447,7 +447,7 @@ class LUKHASAuthIntegrationSystem:
                     await self.cross_module_integrator.cleanup_user_contexts(user_id)
 
             # Phase 6: Final Integration Assessment
-            integration_duration = (datetime.now() - integration_start).total_seconds()
+            integration_duration = (datetime.now(timezone.utc) - integration_start).total_seconds()
 
             # Calculate overall status
             has_critical_alerts = any(alert.get("severity") == "critical" for alert in result["alerts"])
@@ -485,7 +485,7 @@ class LUKHASAuthIntegrationSystem:
                 "user_id": user_id,
                 "event_type": event_type,
                 "overall_status": "error",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _convert_to_auth_event_type(self, event_type: str) -> AuthEventType:
@@ -568,10 +568,10 @@ class LUKHASAuthIntegrationSystem:
             self.integration_metrics.drift_score_average = (current_avg * (total_auth - 1) + drift_score) / total_auth
 
         # Update uptime
-        uptime_seconds = (datetime.now() - self.startup_time).total_seconds()
+        uptime_seconds = (datetime.now(timezone.utc) - self.startup_time).total_seconds()
         self.integration_metrics.integration_uptime = uptime_seconds / 3600  # Convert to hours
 
-        self.integration_metrics.last_updated = datetime.now()
+        self.integration_metrics.last_updated = datetime.now(timezone.utc)
 
     async def _handle_cross_module_message(self, message: Any) -> None:
         """Handle incoming cross-module messages"""
@@ -656,7 +656,7 @@ class LUKHASAuthIntegrationSystem:
             else:
                 self.health_status.overall_status = "healthy"
 
-            self.health_status.last_checked = datetime.now()
+            self.health_status.last_checked = datetime.now(timezone.utc)
 
         except Exception as e:
             logger.error(f"Error updating health status: {e}")
@@ -713,7 +713,7 @@ class LUKHASAuthIntegrationSystem:
             "version": "1.0.0",
             "phase": "Phase 7 - Registry Updates and Policy Integration",
             "trinity_framework": "⚛️🧠🛡️",
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     async def export_integration_report(
@@ -722,7 +722,7 @@ class LUKHASAuthIntegrationSystem:
         """Export comprehensive integration report"""
         report = {
             "report_id": str(uuid.uuid4()),
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "system_status": await self.get_integration_status(),
             "summary": {
                 "total_authentications": self.integration_metrics.total_authentications,

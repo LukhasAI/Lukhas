@@ -24,7 +24,7 @@ class SensoryEcho:
 class SymbolicNervousSystem:
     """Map sensory input to memory tags and attach echoes to dreams."""
 
-    def __init__(self, memory_manager: Optional[Any] = None):
+    def __init__(self, memory_manager: Optional[Any] = None, timezone):
         self.memory_manager = memory_manager
 
     # ΛTAG: sensory_mapping
@@ -56,7 +56,7 @@ class SymbolicNervousSystem:
             temperature=temperature,
             light=light,
             tags=tags,
-            timestamp=datetime.utcnow().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
         dream.setdefault("sensory_echoes", []).append(asdict(echo))

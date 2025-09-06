@@ -14,7 +14,7 @@ from typing import Optional
 import numpy as np
 from scipy import signal
 
-from candidate.core.common.glyph import GLYPHSymbol, GLYPHToken, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import AudioBuffer

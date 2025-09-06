@@ -7,13 +7,12 @@ Replaces legacy XOR encryption with proper cryptographic primitives.
 """
 
 import base64
-import hashlib
 import os
 import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 try:
     from cryptography.fernet import Fernet

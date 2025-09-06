@@ -71,7 +71,7 @@ class CausalReasoningModule:
             "confidence": (max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0),
             "reasoning_path": self._extract_reasoning_path(valid_causes),
             "original_attended_data": attended_data,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         # Add to history
@@ -251,7 +251,7 @@ class CausalReasoningModule:
 
     def _update_causal_graph(self, valid_causes):
         """Update the internal causal graph with new validated cause"""
-        timestamp = datetime.datetime.now().isoformat()
+        timestamp = datetime.datetime.now(timezone.utc).isoformat()
 
         for chain_id, chain_data in valid_causes.items():
             if chain_id not in self.causal_graph:
@@ -333,7 +333,7 @@ class CausalReasoningModule:
             "reasoning_cycles": len(self.causal_history),
             "confidence_threshold": self.confidence_threshold,
             "recent_insights": self.causal_history[-5:] if self.causal_history else [],
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def analyze_counterfactuals(self, scenario: dict) -> dict:
@@ -369,7 +369,7 @@ class CausalReasoningModule:
         return {
             "original_scenario": scenario,
             "counterfactuals": counterfactuals,
-            "analysis_timestamp": datetime.datetime.now().isoformat(),
+            "analysis_timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def _estimate_likelihood(self, scenario: dict) -> float:
@@ -448,7 +448,7 @@ class CausalReasoningModule:
                 "causal_chain_count": len(reasoning_results.get("causal_chains", {})),
                 "reasoning_depth": self._calculate_reasoning_depth(reasoning_results),
                 "temporal_relationships": self._extract_temporal_relationships(input_data, context),
-                "analysis_timestamp": datetime.datetime.now().isoformat(),
+                "analysis_timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             return {

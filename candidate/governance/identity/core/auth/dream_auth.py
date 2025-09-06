@@ -33,7 +33,7 @@ try:
     from ...auth_backend.pqc_crypto_engine import PQCCryptoEngine
     from ...backend.dream_engine.dream_injector import create_dream_proposal
 except ImportError:
-    print("Warning: Some LUKHAS components not available. Dream authentication may be limited.")
+    print("Warning: Some LUKHAS components not available. Dream authentication may be limited.", timezone)
 
 logger = logging.getLogger("LUKHAS_DREAM_AUTH")
 
@@ -228,7 +228,7 @@ class DreamAuthenticationEngine:
             vividness_score=vividness_score,
             personal_significance=personal_significance,
             archetypal_content=archetypal_content,
-            dream_timestamp=datetime.now(),
+            dream_timestamp=datetime.now(timezone.utc),
             verification_hash=verification_hash,
         )
 
@@ -304,8 +304,8 @@ class DreamAuthenticationEngine:
             consciousness_target=consciousness_target,
             difficulty_level=difficulty_level,
             cultural_context=None,  # Auto-detect from user profile
-            created_at=datetime.now(),
-            expires_at=datetime.now() + timedelta(hours=24),  # 24-hour expiry
+            created_at=datetime.now(timezone.utc),
+            expires_at=datetime.now(timezone.utc) + timedelta(hours=24),  # 24-hour expiry
         )
 
         # Store seed
@@ -355,7 +355,7 @@ class DreamAuthenticationEngine:
                 )
 
             # Check seed expiry
-            if datetime.now() > seed.expires_at:
+            if datetime.now(timezone.utc) > seed.expires_at:
                 return DreamAuthenticationResult(
                     success=False,
                     confidence_score=0.0,

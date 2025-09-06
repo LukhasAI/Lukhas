@@ -19,7 +19,7 @@ import time
 import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 # Test environment setup
 TEST_MODE = True
@@ -30,7 +30,7 @@ os.environ["WEBAUTHN_ACTIVE"] = "false"  # Use mock mode for testing
 class TestIdentitySystem:
     """🔐 Test Lambda ID authentication and user management"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.test_results = []
         self.user_ids = []
 
@@ -38,7 +38,7 @@ class TestIdentitySystem:
         """Test ΛID authentication with various scenarios"""
         try:
             # Import identity components
-            from lukhas.identity.lambda_id import authenticate, register_passkey
+            from lukhas.identity.lambda_id import authenticate
 
             print("    🔍 Testing ΛID authentication...")
 
@@ -645,8 +645,8 @@ class TestEncryptionGovernance:
                 "user_id": "LUK-TEST-001",
                 "purpose": "data_processing",
                 "granted": True,
-                "timestamp": datetime.now().isoformat(),
-                "expiry": (datetime.now() + timedelta(days=365)).isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "expiry": (datetime.now(timezone.utc) + timedelta(days=365)).isoformat(),
                 "scope": ["profile", "analytics"],
                 "legal_basis": "consent",
                 "jurisdiction": "GDPR",
@@ -660,7 +660,7 @@ class TestEncryptionGovernance:
 
             # Test consent expiry logic
             expiry_date = datetime.fromisoformat(consent_record["expiry"])
-            current_date = datetime.now()
+            current_date = datetime.now(timezone.utc)
 
             if expiry_date <= current_date:
                 raise Exception("Consent expiry logic validation failed")
@@ -796,7 +796,7 @@ class TestEncryptionGovernance:
             audit_entries = []
 
             base_entry = {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "user_id": "LUK-TEST-001",
                 "action": "data_access",
                 "resource": "user_profile",

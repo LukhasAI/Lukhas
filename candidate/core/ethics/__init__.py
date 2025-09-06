@@ -14,7 +14,7 @@ from typing import Any, Optional
 import structlog
 
 # ΛTRACE: Initializing logger for core.ethics
-log = structlog.get_logger(__name__)
+log = structlog.get_logger(__name__, timezone)
 log.info("core.ethics module initialized")  # ΛNOTE: Core ethics module coming online.
 
 # --- Ethical Models & Principles ---
@@ -156,7 +156,7 @@ def evaluate_ethics(payload: dict[str, Any], context: Optional[dict[str, Any]] =
 
     # ΛTRACE: Ethical evaluation complete
     result = {
-        "evaluation_timestamp_utc": datetime.utcnow().isoformat() + "Z",
+        "evaluation_timestamp_utc": datetime.now(timezone.utc).isoformat() + "Z",
         "action_advisability": action_advisability,
         "confidence": confidence,
         "ethical_concerns_identified": ethical_concerns,

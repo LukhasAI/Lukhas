@@ -10,7 +10,7 @@ from typing import Any
 from .base import BaseColony, ColonyTask, get_colony_registry
 
 
-class OrchestratorColony(BaseColony):
+class OrchestratorColony(BaseColony, timezone):
     """Meta-colony that coordinates other colonies"""
 
     def __init__(self, max_agents: int = 6):
@@ -45,7 +45,7 @@ class OrchestratorColony(BaseColony):
 
     def _execute_workflow(self, workflow_spec: dict[str, Any]) -> dict[str, Any]:
         """Execute a multi-colony workflow"""
-        workflow_id = f"wf_{datetime.now().timestamp()}"
+        workflow_id = f"wf_{datetime.now(timezone.utc).timestamp()}"
         steps = workflow_spec.get("steps", [])
 
         workflow_result = {
@@ -53,7 +53,7 @@ class OrchestratorColony(BaseColony):
             "steps_completed": 0,
             "results": [],
             "status": "running",
-            "started_at": datetime.now(),
+            "started_at": datetime.now(timezone.utc),
         }
 
         registry = get_colony_registry()

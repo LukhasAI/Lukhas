@@ -15,18 +15,14 @@
 """
 
 import asyncio
-import hashlib
-import json
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
-import secrets
-import time
 import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any, Optional
 
 # Import consciousness components
 try:

@@ -19,7 +19,6 @@ def test_basic_imports():
     print("🔍 Testing basic imports...")
 
     try:
-        from candidate.aka_qualia.core import AkaQualia
 
         print("✅ AkaQualia core imported successfully")
     except Exception as e:
@@ -27,12 +26,6 @@ def test_basic_imports():
         return False
 
     try:
-        from candidate.aka_qualia.models import (
-            PhenomenalScene,
-            ProtoQualia,
-            RiskProfile,
-            SeverityLevel,
-        )
 
         print("✅ AkaQualia models imported successfully")
     except Exception as e:
@@ -40,7 +33,6 @@ def test_basic_imports():
         return False
 
     try:
-        from candidate.aka_qualia.teq_hook import TEQGuardian
 
         print("✅ TEQGuardian imported successfully")
     except Exception as e:

@@ -42,7 +42,7 @@ from datetime import datetime
 from typing import Any, Optional  # List not used in signatures but kept
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine")
+logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine", timezone)
 logger.info("ΛTRACE: Initializing awareness_engine module.")
 
 
@@ -176,7 +176,7 @@ class AwarenessEngine:
                 return {
                     "status": "error",
                     "error": "Component not initialized",
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         try:
@@ -193,7 +193,7 @@ class AwarenessEngine:
                 "component": self.__class__.__name__,
                 "category_processed": category,
                 "result": result,  # Added category_processed
-                "timestamp_utc": datetime.utcnow().isoformat(),  # Use UTC
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),  # Use UTC
             }
         except Exception as e:
             self.instance_logger.error(
@@ -205,7 +205,7 @@ class AwarenessEngine:
                 "component": self.__class__.__name__,
                 "error_message": str(e),
                 "exception_type": type(e).__name__,  # Added more error detail
-                "timestamp_utc": datetime.utcnow().isoformat(),
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
 
     # Human-readable comment: Core internal processing logic dispatch based on category.
@@ -315,7 +315,7 @@ class AwarenessEngine:
             "module_category": "consciousness_engine",  # Renamed
             "current_status": self.status,  # Renamed
             "is_initialized": self.is_initialized,
-            "timestamp_utc": datetime.utcnow().isoformat(),
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         }
 
     # Human-readable comment: Gracefully shuts down the component.

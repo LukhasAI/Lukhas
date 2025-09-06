@@ -46,7 +46,7 @@ import sys
 from datetime import datetime
 from typing import Any, Optional
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__, timezone)))
 
 try:
     from identity.interface import IdentityClient
@@ -99,7 +99,7 @@ class QIService:
             "superposition_states": {},
             "qi_coherence": 1.0,
             "decoherence_rate": 0.001,
-            "last_quantum_update": datetime.utcnow(),
+            "last_quantum_update": datetime.now(timezone.utc),
         }
 
     def qi_compute(
@@ -144,7 +144,7 @@ class QIService:
             # Update quantum-like state
             self._update_quantum_like_state(computation_results)
 
-            computation_id = f"qcomp_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            computation_id = f"qcomp_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log quantum computation
             self.identity_client.log_activity(
@@ -165,7 +165,7 @@ class QIService:
                 "computation_id": computation_id,
                 "computation_results": computation_results,
                 "qi_algorithm": qi_algorithm,
-                "executed_at": datetime.utcnow().isoformat(),
+                "executed_at": datetime.now(timezone.utc).isoformat(),
                 "qi_like_state": self._get_quantum_like_state_summary(),
             }
 
@@ -222,13 +222,13 @@ class QIService:
             )
 
             # Register entangled pair
-            entanglement_id = f"entangle_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            entanglement_id = f"entangle_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
             entangled_pair = {
                 "entanglement_id": entanglement_id,
                 "systems": target_systems,
                 "type": entanglement_type,
                 "strength": entanglement_strength,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "bell_state": entanglement_results.get("bell_state", "unknown"),
             }
             self.qi_like_state["entangled_pairs"].append(entangled_pair)
@@ -253,7 +253,7 @@ class QIService:
                 "entanglement_results": entanglement_results,
                 "target_systems": target_systems,
                 "entanglement_type": entanglement_type,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -304,7 +304,7 @@ class QIService:
             # Create consciousness-quantum bridge
             bridge_results = self._create_consciousness_quantum_bridge(consciousness_state, qi_interface)
 
-            bridge_id = f"qbridge_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            bridge_id = f"qbridge_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log quantum consciousness bridge
             self.identity_client.log_activity(
@@ -324,7 +324,7 @@ class QIService:
                 "bridge_id": bridge_id,
                 "bridge_results": bridge_results,
                 "qi_interface": qi_interface,
-                "bridged_at": datetime.utcnow().isoformat(),
+                "bridged_at": datetime.now(timezone.utc).isoformat(),
                 "qi_consciousness_state": bridge_results.get("qi_like_state", {}),
             }
 
@@ -372,13 +372,13 @@ class QIService:
             # Create superposition-like state
             superposition_results = self._create_quantum_superposition(superposition_states, collapse_probability)
 
-            superposition_id = f"qsuper_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            superposition_id = f"qsuper_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Store superposition state
             self.qi_like_state["superposition_states"][superposition_id] = {
                 "states": superposition_states,
                 "collapse_probability": collapse_probability,
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
                 "coherence": superposition_results.get("coherence", 0.0),
             }
 
@@ -400,7 +400,7 @@ class QIService:
                 "superposition_id": superposition_id,
                 "superposition_results": superposition_results,
                 "state_count": len(superposition_states),
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -450,7 +450,7 @@ class QIService:
             # Update quantum-like state based on observation
             self._apply_observation_effects(observation_results)
 
-            observation_id = f"qobs_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            observation_id = f"qobs_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log quantum observation
             self.identity_client.log_activity(
@@ -470,7 +470,7 @@ class QIService:
                 "observation_id": observation_id,
                 "observation_results": observation_results,
                 "observation_type": observation_type,
-                "observed_at": datetime.utcnow().isoformat(),
+                "observed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -533,7 +533,7 @@ class QIService:
             return {
                 "success": True,
                 "qi_metrics": metrics_data,
-                "accessed_at": datetime.utcnow().isoformat(),
+                "accessed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -564,7 +564,7 @@ class QIService:
         """Update quantum-like state based on computation."""
         self.qi_like_state["active_qubits"] = len(computation_results.get("output_qubits", []))
         self.qi_like_state["qi_coherence"] = computation_results.get("coherence", 0.9)
-        self.qi_like_state["last_quantum_update"] = datetime.utcnow()
+        self.qi_like_state["last_quantum_update"] = datetime.now(timezone.utc)
 
     def _get_quantum_like_state_summary(self) -> dict[str, Any]:
         """Get summary of current quantum-like state."""

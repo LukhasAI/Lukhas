@@ -228,7 +228,6 @@ class LukhasLambdaIntegrator:
             # Configure tier mappings
 
             # Apply tier system to Lambda Products
-            from integrations.lukhas_pter import LukhasIgronAdapter
 
             adapter = LukhasegrationAdapter()
 

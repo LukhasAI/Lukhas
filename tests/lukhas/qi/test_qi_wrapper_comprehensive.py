@@ -1,9 +1,6 @@
 # Comprehensive Coverage Test for QI Wrapper (875 lines, 52% coverage → 80%+ target)
 # Phase B: Aggressive coverage push for quantum-inspired processing
 
-from datetime import datetime, timezone
-from unittest.mock import Mock, patch
-from uuid import uuid4
 
 import pytest
 

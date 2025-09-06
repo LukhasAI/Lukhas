@@ -21,7 +21,7 @@ try:
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
-    logger.warning("OpenAI library not available. Install with: pip install openai")
+    logger.warning("OpenAI library not available. Install with: pip install openai", timezone)
 
 from .consent_manager import AIGenerationType
 from .vendor_portal import DreamSeed, DreamSeedType
@@ -139,13 +139,13 @@ class DreamGenerator:
             Generated dream with narrative and visuals
         """
         try:
-            dream_id = f"dream_{hashlib.md5(f'{context.user_id}_{datetime.now()}'.encode()).hexdigest()[:12]}"
+            dream_id = f"dream_{hashlib.md5(f'{context.user_id}_{datetime.now(timezone.utc)}'.encode()).hexdigest()[:12]}"
 
             # Check cache
             cache_key = self._get_cache_key(context)
             if cache_key in self.dream_cache:
                 cached_dream = self.dream_cache[cache_key]
-                if (datetime.now() - cached_dream.created_at).seconds < self.config["cache_duration_minutes"] * 60:
+                if (datetime.now(timezone.utc) - cached_dream.created_at).seconds < self.config["cache_duration_minutes"] * 60:
                     logger.info(f"Returning cached dream: {cached_dream.dream_id}")
                     return cached_dream
 
@@ -611,7 +611,7 @@ Guidelines:
     def _create_fallback_dream(self, context: DreamContext) -> GeneratedDream:
         """Create a safe fallback dream when generation fails"""
         return GeneratedDream(
-            dream_id=f"fallback_{datetime.now().timestamp()}",
+            dream_id=f"fallback_{datetime.now(timezone.utc).timestamp()}",
             narrative=self._generate_fallback_narrative(context),
             visual_prompt="A peaceful, dreamlike scene",
             emotional_profile={"joy": 0.5, "calm": 0.7, "stress": 0.0, "longing": 0.3},

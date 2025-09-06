@@ -12,7 +12,7 @@ from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ClinicalDecisionSupport(GlyphIntegrationMixin):
@@ -87,7 +87,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
         # Governance metadata for guidelines
         self.guideline_governance = {
-            "last_updated": datetime.utcnow().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "validation_status": "approved",
             "evidence_level": "high",
             "ethical_review": "completed",
@@ -135,7 +135,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
             # Perform analysis with safety checks
             analysis = {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "case_id": case_data.get("case_id"),
                 "differential_diagnosis": await self._generate_differential(symptoms, medical_history, patient_context),
                 "risk_assessment": await self._assess_risk(symptoms, medical_history, patient_context),
@@ -217,7 +217,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                 "treatment": await self._generate_treatment_plan(analysis, case_data, context),
                 "follow_up": await self._suggest_follow_up(analysis, case_data),
                 "governance": {
-                    "recommendation_timestamp": datetime.utcnow().isoformat(),
+                    "recommendation_timestamp": datetime.now(timezone.utc).isoformat(),
                     "human_oversight_required": analysis["governance"]["human_review_required"],
                     "safety_validated": True,
                     "ethical_approved": True,
@@ -527,7 +527,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
     async def _log_governance_action(self, action: str, case_id: Optional[str], metadata: dict[str, Any]):
         """Log action in governance audit trail"""
         audit_entry = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action": action,
             "case_id": case_id,
             "metadata": metadata,

@@ -10,7 +10,7 @@ from datetime import datetime
 
 import numpy as np
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class QIInspiredAttention:
@@ -141,7 +141,7 @@ class QIInspiredAttention:
             "original": input_data,
             "attention_weights": dict(zip(self.attention_gates.keys(), attention_weights)),
             "attended_content": {},
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Apply semantic attention
@@ -176,7 +176,7 @@ class QIInspiredAttention:
 
         # Store the relationship between input and attended data
         self.entanglement_map[input_hash] = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "attention_signature": {
                 k: float(v)
                 for k, v in zip(
@@ -245,7 +245,7 @@ class CausalReasoningModule:
             "confidence": (max([v["confidence"] for v in valid_causes.values()]) if valid_causes else 0.0),
             "reasoning_path": self._extract_reasoning_path(valid_causes),
             "original_attended_data": attended_data,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add to history
@@ -376,7 +376,7 @@ class CausalReasoningModule:
         """Update the internal causal graph with new validated causes"""
         # This would maintain a persistent graph of causal relationships
         # Simplified implementation for now
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         for chain_id, chain_data in valid_causes.items():
             if chain_id not in self.causal_graph:
@@ -473,7 +473,7 @@ class NeuroSymbolicEngine:
             "type": "text",
             "user_id": user_id,
             "context": context or {},
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # If emotional content is available in context, include it
@@ -500,10 +500,10 @@ class NeuroSymbolicEngine:
                 "user_id": user_id,
                 "response_type": response.get("response_type"),
                 "confidence": response.get("confidence"),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
-        self.last_processed = datetime.now().isoformat()
+        self.last_processed = datetime.now(timezone.utc).isoformat()
 
         # Limit history size
         if len(self.processing_history) > 1000:
@@ -554,7 +554,7 @@ class NeuroSymbolicEngine:
             return {
                 "status": "error",
                 "message": f"Unsupported input type: {input_type}",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _generate_response(self, reasoning_results, input_data):
@@ -578,7 +578,7 @@ class NeuroSymbolicEngine:
             "user_id": input_data.get("user_id", "unknown"),
             "confidence": confidence,
             "reasoning_path": reasoning_results.get("reasoning_path", []),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Generate appropriate response based on input and reasoning

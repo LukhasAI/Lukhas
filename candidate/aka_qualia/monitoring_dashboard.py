@@ -12,7 +12,7 @@ import threading
 import time
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from typing import Any, Dict
+from typing import Any
 from urllib.parse import urlparse
 
 from observability import CONTENT_TYPE_LATEST, get_observability

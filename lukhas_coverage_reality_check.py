@@ -9,9 +9,7 @@ This provides a realistic view of test coverage across the entire LUKHAS ecosyst
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-import os
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 def analyze_lukhas_system_scope():

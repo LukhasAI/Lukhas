@@ -19,7 +19,7 @@ class SoloDeveloperSupport:
     Provides pair programming, motivation tracking, and burnout prevention
     """
 
-    def __init__(self, journal_engine: Optional[JournalEngine] = None):
+    def __init__(self, journal_engine: Optional[JournalEngine] = None, timezone):
         self.journal = journal_engine or JournalEngine()
         self.assistant = LearningAssistant(self.journal)
         self.detector = PatternDetector(self.journal)
@@ -43,7 +43,7 @@ class SoloDeveloperSupport:
     def daily_standup(self) -> dict[str, Any]:
         """AI-powered daily standup"""
         standup = {
-            "date": datetime.now().strftime("%Y-%m-%d"),
+            "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "yesterday": self._review_yesterday(),
             "today": self._plan_today(),
             "blockers": self._identify_blockers(),
@@ -64,7 +64,7 @@ class SoloDeveloperSupport:
 
     def _review_yesterday(self) -> dict[str, Any]:
         """Review yesterday's accomplishments"""
-        yesterday = datetime.now() - timedelta(days=1)
+        yesterday = datetime.now(timezone.utc) - timedelta(days=1)
         entries = self.journal.search(
             date_range=(
                 yesterday.replace(hour=0, minute=0),
@@ -98,7 +98,7 @@ class SoloDeveloperSupport:
         # Look for open questions and pending decisions
         recent_questions = self.journal.search(
             type="question",
-            date_range=(datetime.now() - timedelta(days=7), datetime.now()),
+            date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc)),
         )
 
         # Get patterns to consider
@@ -120,7 +120,7 @@ class SoloDeveloperSupport:
 
         # Check for recurring challenges
         recent_entries = self.journal.search(
-            date_range=(datetime.now() - timedelta(days=3), datetime.now())
+            date_range=(datetime.now(timezone.utc) - timedelta(days=3), datetime.now(timezone.utc))
         )
 
         challenge_keywords = [
@@ -147,7 +147,7 @@ class SoloDeveloperSupport:
         """Check current mood and energy levels"""
         # Analyze recent emotional states
         recent_entries = self.journal.search(
-            date_range=(datetime.now() - timedelta(hours=24), datetime.now())
+            date_range=(datetime.now(timezone.utc) - timedelta(hours=24), datetime.now(timezone.utc))
         )
 
         emotional_data = []
@@ -196,8 +196,8 @@ class SoloDeveloperSupport:
     def _estimate_energy_level(self) -> str:
         """Estimate energy level based on activity patterns"""
         # Check recent activity frequency
-        last_hour = datetime.now() - timedelta(hours=1)
-        recent_activity = self.journal.search(date_range=(last_hour, datetime.now()))
+        last_hour = datetime.now(timezone.utc) - timedelta(hours=1)
+        recent_activity = self.journal.search(date_range=(last_hour, datetime.now(timezone.utc)))
 
         if len(recent_activity) > 5:
             return "high"
@@ -238,7 +238,7 @@ class SoloDeveloperSupport:
         # Check recent wins
         recent_wins = self.journal.search(
             query="success",
-            date_range=(datetime.now() - timedelta(days=7), datetime.now()),
+            date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc)),
         )
 
         if recent_wins:
@@ -251,7 +251,7 @@ class SoloDeveloperSupport:
     def _suggest_daily_focus(self) -> str:
         """Suggest what to focus on today"""
         # Check day of week
-        weekday = datetime.now().strftime("%A")
+        weekday = datetime.now(timezone.utc).strftime("%A")
 
         suggestions = {
             "Monday": "Start fresh - tackle that feature you've been planning",
@@ -267,7 +267,7 @@ class SoloDeveloperSupport:
 
     def _generate_schedule(self) -> list[dict[str, str]]:
         """Generate recommended daily schedule"""
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
 
         schedule = []
         work_hours = 8
@@ -385,7 +385,7 @@ class SoloDeveloperSupport:
 This is win #{self._count_recent_wins()} this week! Your momentum is building!
 
 Impact: {impact.upper()}
-Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}
+Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')}
 
 Keep crushing it! 💪
 """
@@ -401,7 +401,7 @@ Keep crushing it! 💪
         """Count wins in the last week"""
         wins = self.journal.search(
             query="WIN:",
-            date_range=(datetime.now() - timedelta(days=7), datetime.now()),
+            date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc)),
         )
         return len(wins)
 
@@ -445,7 +445,7 @@ Keep crushing it! 💪
             "indicators": burnout_indicators,
             "score": risk_score,
             "recommendations": recommendations,
-            "next_check": (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d"),
+            "next_check": (datetime.now(timezone.utc) + timedelta(days=3)).strftime("%Y-%m-%d"),
         }
 
     def _burnout_recommendations(
@@ -494,7 +494,7 @@ Keep crushing it! 💪
         """Start an AI pair programming session"""
         session = {
             "task": task,
-            "start_time": datetime.now(),
+            "start_time": datetime.now(timezone.utc),
             "approach": self._suggest_approach(task),
             "checklist": self._create_task_checklist(task),
             "rubber_duck": self._enhance_rubber_duck(task),

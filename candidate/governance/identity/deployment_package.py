@@ -47,7 +47,7 @@ class DeploymentConfig:
     """Deployment configuration and constants"""
 
     VERSION = "1.0.0"
-    BUILD_DATE = datetime.now().isoformat()
+    BUILD_DATE = datetime.now(, timezone).isoformat()
 
     REQUIRED_PYTHON_VERSION = (3, 7)
     REQUIRED_MODULES = [

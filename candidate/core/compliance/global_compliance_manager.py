@@ -24,19 +24,16 @@ Integration:
 - Secure logging for international regulatory audit trails
 """
 
-import asyncio
-import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional
 
 # Import compliance engines
-from .eu_ai_act_classifier import AIRiskTier, EUAIActClassifier
-from .nist_ai_rmf import AIRiskCategory, NISTAIRiskFramework
-from .privacy_compliance_engine import PrivacyComplianceEngine, PrivacyFramework
+from .eu_ai_act_classifier import EUAIActClassifier
+from .nist_ai_rmf import NISTAIRiskFramework
+from .privacy_compliance_engine import PrivacyComplianceEngine
 
 
 # Global compliance types

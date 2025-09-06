@@ -56,19 +56,12 @@
 
 import asyncio  # For asynchronous operations, simulating work.
 from datetime import datetime, timezone  # For timestamping events.
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Third-Party Imports
-import structlog  # ΛTRACE: Standardized logging.
-from fromfromfromcandidate.core.common import (
-    GuardianRejectionError,
-    LukhasError,
-    MemoryDriftError,
-)
 
 # ΛTRACE: Initialize logger for this module. #ΛTEMPORAL_HOOK (Logger init
 # time) #AIDENTITY_BRIDGE (Module identity as 'dream_memory_manager')
-from candidate.core.common import get_logger
 
 # LUKHAS Core Imports
 # from ..core.decorators import core_tier_required # Conceptual

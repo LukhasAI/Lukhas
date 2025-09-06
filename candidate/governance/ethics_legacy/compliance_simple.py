@@ -20,7 +20,7 @@ from candidate.core.common import get_logger
 from .types import BaseLUKHASPlugin, PluginContext, PluginManifest
 
 
-class EthicsViolationType(Enum):
+class EthicsViolationType(Enum, timezone):
     """Types of ethics violations that can occur"""
 
     HARM_RISK = "harm_risk"
@@ -101,7 +101,7 @@ class EthicsComplianceEngine:
                     severity="high",
                     description=f"Potentially dangerous action: {action}",
                     plugin_id=plugin_id,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     risk_score=0.8,
                 )
                 result.violations.append(violation)
@@ -131,7 +131,7 @@ class EthicsComplianceEngine:
                         severity="critical",
                         description=f"Ethics validation error: {e!s}",
                         plugin_id="unknown",
-                        timestamp=datetime.now(),
+                        timestamp=datetime.now(timezone.utc),
                         risk_score=1.0,
                     )
                 ],
@@ -156,7 +156,7 @@ class EthicsComplianceEngine:
                         severity="high",
                         description=f"Plugin requests dangerous permission: {permission}",
                         plugin_id=manifest.name,
-                        timestamp=datetime.now(),
+                        timestamp=datetime.now(timezone.utc),
                         risk_score=0.7,
                     )
                     result.violations.append(violation)
@@ -181,7 +181,7 @@ class EthicsComplianceEngine:
     def get_compliance_report(self) -> dict[str, Any]:
         """Generate a basic compliance report"""
         return {
-            "report_timestamp": datetime.now().isoformat(),
+            "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "total_violations": len(self.violation_history),
             "plugin_risk_scores": self.plugin_risk_scores.copy(),
             "configuration": {

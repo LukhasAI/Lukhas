@@ -57,8 +57,7 @@ from ..orchestration_src.human_in_the_loop_orchestrator import (
     DecisionPriority,
     DecisionStatus,
     HumanInTheLoopOrchestrator,
-    ReviewResponse,
-)
+    ReviewResponse,, timezone)
 from .policy_engines.base import Decision, EthicsEvaluation
 
 logger = get_logger(__name__)
@@ -219,18 +218,18 @@ class EthicsHITLOBridge:
 
         # Create decision context for HITLO
         context = DecisionContext(
-            decision_id=f"ethics_{decision.requester_id}_{int(datetime.now().timestamp())}",
+            decision_id=f"ethics_{decision.requester_id}_{int(datetime.now(timezone.utc).timestamp())}",
             decision_type="ethics_evaluation",
             description=f"Ethics review: {decision.action}",
             data=self._create_review_context(decision, evaluation, rule),
             priority=rule.decision_priority,
-            urgency_deadline=(datetime.now() + timedelta(minutes=timeout_minutes) if timeout_minutes else None),
+            urgency_deadline=(datetime.now(timezone.utc) + timedelta(minutes=timeout_minutes) if timeout_minutes else None),
             ethical_implications=evaluation.risk_flags,
             ai_recommendation="DENY" if not evaluation.allowed else "APPROVE",
             ai_confidence=evaluation.confidence,
         )
 
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Submit for human review
@@ -240,7 +239,7 @@ class EthicsHITLOBridge:
             review_result = await self._wait_for_decision(decision_id, timeout_minutes)
 
             # Update metrics
-            review_time = (datetime.now() - start_time).total_seconds() / 60.0
+            review_time = (datetime.now(timezone.utc) - start_time).total_seconds() / 60.0
             self._update_metrics(review_result, review_time)
 
             logger.info(f"Human review completed: {review_result.decision} (confidence: {review_result.confidence})")
@@ -261,9 +260,9 @@ class EthicsHITLOBridge:
 
     async def _wait_for_decision(self, decision_id: str, timeout_minutes: int) -> ReviewResponse:
         """Wait for HITLO decision to complete or timeout"""
-        end_time = datetime.now() + timedelta(minutes=timeout_minutes)
+        end_time = datetime.now(timezone.utc) + timedelta(minutes=timeout_minutes)
 
-        while datetime.now() < end_time:
+        while datetime.now(timezone.utc) < end_time:
             decision_record = self.hitlo.decisions.get(decision_id)
             if not decision_record:
                 await asyncio.sleep(1)

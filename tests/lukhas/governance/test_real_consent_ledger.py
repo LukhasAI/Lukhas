@@ -1,9 +1,7 @@
 # REAL CONSENT LEDGER TESTING - 1,250 lines of actual functionality
 # Phase C: Real components, real coverage, real value
 
-import os
 import tempfile
-from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest

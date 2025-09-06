@@ -5,7 +5,7 @@ Generates glTF/WebXR scene descriptions
 """
 
 import json
-from typing import Any, Dict
+from typing import Any
 
 from ..symbols.glyph_types import GlyphSymbol
 

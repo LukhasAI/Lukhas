@@ -44,7 +44,7 @@ def log_emotion(state, source="manual"):
     entry = {
         "state": state,
         "source": source,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.utcnow(, timezone).isoformat(),
     }
     emotion_db["current"] = state
     emotion_db["log"].append(entry)
@@ -64,7 +64,7 @@ def decay_emotion(threshold_minutes=60):
         return
     last_entry = emotion_db["log"][-1]
     last_time = datetime.fromisoformat(last_entry["timestamp"])
-    if datetime.utcnow() - last_time > timedelta(minutes=threshold_minutes):
+    if datetime.now(timezone.utc) - last_time > timedelta(minutes=threshold_minutes):
         log_emotion("neutral", source="decay")
 
 

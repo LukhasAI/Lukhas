@@ -16,7 +16,7 @@ import json
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from candidate.aka_qualia.models import PhenomenalScene, RegulationPolicy
 

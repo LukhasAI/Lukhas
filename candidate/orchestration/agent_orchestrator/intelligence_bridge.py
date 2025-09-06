@@ -24,8 +24,7 @@ from lukhas.consciousness.reasoning.advanced_engines.intelligence_engines import
     LukhasMetaCognitiveEngine,
     LukhasNarrativeIntelligenceEngine,
     LukhasSubsystemOrchestrator,
-    LukhasTheoryOfMindEngine,
-)
+    LukhasTheoryOfMindEngine,, timezone)
 
 logger = logging.getLogger("LUKHAS.Orchestration.Agent.Bridge")
 
@@ -69,7 +68,7 @@ class AgentRequest:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -88,7 +87,7 @@ class IntelligenceResponse:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class LukhasAgentBridge:
@@ -378,7 +377,7 @@ class LukhasAgentBridge:
         total_requests = metrics["total_requests"]
         metrics["average_response_time"] = (current_avg * (total_requests - 1) + processing_time) / total_requests
 
-        metrics["last_request_time"] = datetime.now()
+        metrics["last_request_time"] = datetime.now(timezone.utc)
 
     async def get_agent_performance_metrics(self, agent_type: Optional[AgentType] = None) -> dict[str, Any]:
         """Get performance metrics for agents"""

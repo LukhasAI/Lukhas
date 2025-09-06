@@ -31,8 +31,7 @@ def suggest_travel_action(
     current_location="Home",
     meeting_location="City Centre",
     meeting_time="10:00",
-    user_tier=2,
-):
+    user_tier=2,, timezone):
     """
     Suggests a local travel method or alert based on symbolic context.
 
@@ -48,7 +47,7 @@ def suggest_travel_action(
     if user_tier < 3:
         return "Travel suggestions available for Tier 3+ users."
 
-    now = datetime.now().strftime("%H:%M")
+    now = datetime.now(timezone.utc).strftime("%H:%M")
     if now >= "09:45" and meeting_time == "10:00":
         return "🚗 Uber can pick you up in 5 minutes. Tap to confirm."
     elif now < "09:30":
@@ -92,8 +91,8 @@ def suggest_long_distance_travel(intent_context=None, user_tier=3):
         "ethics_score": "💚 88%",  # placeholder ethics scoring
         "DST_metadata": {
             "tracking_id": str(uuid.uuid4()),
-            "last_checked": datetime.utcnow().isoformat(),
-            "next_check_due": (datetime.utcnow() + timedelta(hours=2)).isoformat(),
+            "last_checked": datetime.now(timezone.utc).isoformat(),
+            "next_check_due": (datetime.now(timezone.utc) + timedelta(hours=2)).isoformat(),
             "tracking_window": "active",
         },
     }

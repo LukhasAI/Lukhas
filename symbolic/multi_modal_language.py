@@ -17,7 +17,7 @@ import time
 from collections.abc import Awaitable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple, cast
+from typing import Any, Callable, Optional
 
 import numpy as np
 from PIL import Image

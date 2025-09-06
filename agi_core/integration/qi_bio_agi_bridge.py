@@ -26,7 +26,7 @@ import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Tuple, Union
+from typing import Any, Optional
 
 import numpy as np
 

@@ -12,7 +12,7 @@ enabling closed-loop phenomenological control with narrative feedback.
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from urllib.parse import urljoin
 
 import requests

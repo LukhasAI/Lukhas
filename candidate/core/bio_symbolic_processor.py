@@ -10,13 +10,11 @@ This module implements the M⌾TRIZ bio-symbolic adaptation layer, providing:
 """
 
 import asyncio
-import json
 import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional
 
 import numpy as np
 

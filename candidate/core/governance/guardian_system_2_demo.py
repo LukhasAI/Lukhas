@@ -27,10 +27,8 @@ Built following AGI-ready safety standards from:
 """
 
 import asyncio
-import json
 import logging
 from datetime import datetime, timezone
-from typing import Any, Dict, List
 
 # Configure logging for demo
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

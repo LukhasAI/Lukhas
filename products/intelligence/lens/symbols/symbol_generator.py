@@ -5,7 +5,7 @@ Converts parsed content into GLYPH symbols
 """
 
 import math
-from typing import Any, List
+from typing import Any
 
 from .glyph_types import GlyphSymbol, SymbolType
 

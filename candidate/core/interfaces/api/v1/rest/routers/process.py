@@ -6,7 +6,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends
 from interfaces.api.v1.common.errors import ProcessingError, ValidationError
 from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
 
-router = APIRouter()
+router = APIRouter(, timezone)
 
 
 def get_lukhas_core():
@@ -47,7 +47,7 @@ async def process_request(
 
         return ProcessResponse(
             request_id=request_id,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             result=result,
             symbolic_state=symbolic_state,
             metadata={"mode": request.mode.value, "version": "1.0.0"},

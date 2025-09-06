@@ -11,11 +11,11 @@ import statistics
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
-from .vector_memory import MemoryImportance, MemoryType, MemoryVector, VectorMemoryStore
+from .vector_memory import MemoryType, MemoryVector, VectorMemoryStore
 
 logger = logging.getLogger(__name__)
 

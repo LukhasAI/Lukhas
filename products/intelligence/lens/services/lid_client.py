@@ -7,7 +7,7 @@ Lambda Identity (ΛID) management and access control
 import hashlib
 import json
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class LIDClient:

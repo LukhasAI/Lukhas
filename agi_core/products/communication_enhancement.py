@@ -8,14 +8,13 @@ Implements Phase 2C: Communication product integration with AGI language models
 """
 
 import asyncio
-import json
 import logging
 import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger("agi_core.products.communication")
 

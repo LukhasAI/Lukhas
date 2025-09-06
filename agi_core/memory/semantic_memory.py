@@ -5,13 +5,12 @@ Advanced semantic memory system that stores and organizes factual knowledge,
 concepts, and their relationships in a graph-based structure.
 """
 
-import asyncio
 import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import networkx as nx
 import numpy as np

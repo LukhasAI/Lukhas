@@ -31,8 +31,7 @@ try:
         BiometricData,
         CognitiveMetrics,
         ConsciousnessState,
-        EmotionalState,
-    )
+        EmotionalState,, timezone)
     from ..visualization.lukhas_orb import LUKHASOrb, OrbState
 except ImportError:
     print("Warning: Consciousness visualization components not available")
@@ -165,13 +164,13 @@ class ConsciousnessBridge:
             sync_state = ConsciousnessSync(
                 lambda_id=lambda_id,
                 sync_mode=sync_mode,
-                last_sync=datetime.now(),
+                last_sync=datetime.now(timezone.utc),
                 sync_frequency=self._get_sync_frequency(sync_mode),
                 coherence_score=1.0,
                 drift_detection=False,
                 anomaly_count=0,
                 sync_metadata={
-                    "established_at": datetime.now().isoformat(),
+                    "established_at": datetime.now(timezone.utc).isoformat(),
                     "sync_mode": sync_mode.value,
                     "initial_baseline": True,
                 },
@@ -259,7 +258,7 @@ class ConsciousnessBridge:
             anomaly_detected = self._detect_consciousness_anomalies(lambda_id, consciousness_state)
 
             # Update sync state
-            sync_state.last_sync = datetime.now()
+            sync_state.last_sync = datetime.now(timezone.utc)
             sync_state.coherence_score = coherence_analysis["coherence_score"]
 
             if anomaly_detected:
@@ -319,7 +318,7 @@ class ConsciousnessBridge:
                 return {"patterns_available": False, "total_states": 0}
 
             # Filter by time window
-            cutoff_time = datetime.now() - analysis_window
+            cutoff_time = datetime.now(timezone.utc) - analysis_window
             recent_states = [
                 state
                 for state in user_states[-100:]  # Last 100 states
@@ -576,7 +575,7 @@ class ConsciousnessBridge:
             event_type=event_type,
             consciousness_state=consciousness_state,
             event_data=event_data,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             confidence=0.8,
             metadata={},
         )

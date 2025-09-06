@@ -13,12 +13,8 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import asyncio
-import json
-import tempfile
-import time
 import uuid
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any, Dict, List
 
 # Test environment setup
@@ -221,7 +217,7 @@ class TestGLYPHCommunication:
     def test_glyph_token_creation(self) -> bool:
         """Test GLYPH token creation and basic functionality"""
         try:
-            from lukhas.core.common.glyph import GLYPHContext, GLYPHPriority, GLYPHSymbol, GLYPHToken, create_glyph
+            from lukhas.core.common.glyph import GLYPHPriority, GLYPHSymbol, GLYPHToken, create_glyph
 
             print("    🎫 Testing GLYPH token creation...")
 

@@ -4,7 +4,7 @@ PDF Parser for ΛLens
 Handles PDF files and extracts text content
 """
 
-from typing import Any, Dict
+from typing import Any
 
 from .base_parser import BaseParser
 

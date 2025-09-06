@@ -4,7 +4,6 @@ Fix logging imports in MΛTRIZ consciousness modules to avoid conflicts
 with candidate/core/logging directory
 """
 
-import os
 import re
 from pathlib import Path
 

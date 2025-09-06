@@ -5,7 +5,7 @@ Handles source code files and extracts functions, classes, and structure
 """
 
 import re
-from typing import Any, Dict, List
+from typing import Any
 
 from .base_parser import BaseParser
 

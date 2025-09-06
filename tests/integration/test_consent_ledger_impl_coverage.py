@@ -2,8 +2,6 @@
 # Phase B: Aggressive coverage push targeting this huge file
 
 from datetime import datetime, timezone
-from unittest.mock import Mock, patch
-from uuid import uuid4
 
 import pytest
 

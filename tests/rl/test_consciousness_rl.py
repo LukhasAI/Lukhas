@@ -7,11 +7,9 @@ Comprehensive tests for consciousness RL framework.
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-import asyncio
 import sys
 from pathlib import Path
-from typing import Any, Dict
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import AsyncMock, Mock
 
 import numpy as np
 import pytest

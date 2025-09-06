@@ -13,7 +13,7 @@ priority = min(1.0, max(0.0, narrative_gravity * 0.7 + risk_score * 0.3))
 
 import logging
 from abc import abstractmethod
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Optional, Protocol
 
 from candidate.aka_qualia.models import PhenomenalGlyph, PhenomenalScene
 

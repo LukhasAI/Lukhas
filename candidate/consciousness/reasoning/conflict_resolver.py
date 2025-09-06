@@ -1096,7 +1096,7 @@ class SymbolicConflictResolver:
         """Write resolution trace to persistent audit log."""
         try:
             # Write to JSON log file
-            f"audit/conflict_resolution_log_{datetime.now().strftime('%Y%m%d')}.json"
+            f"audit/conflict_resolution_log_{datetime.now(timezone.utc).strftime('%Y%m%d')}.json"
 
             # In a real implementation, this would write to actual files
             # For now, use structured logging

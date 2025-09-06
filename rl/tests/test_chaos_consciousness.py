@@ -11,16 +11,12 @@ alignment even when underlying components fail or behave unexpectedly.
 """
 
 import asyncio
-import queue
 import random
-import threading
 import time
-from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager, contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
-from unittest.mock import Mock, patch
+from typing import Any, Optional
 
 import numpy as np
 import pytest

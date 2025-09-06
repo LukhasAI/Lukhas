@@ -24,8 +24,6 @@ Integration:
 - Advanced Safety Protocols emergence response triggers
 """
 
-import asyncio
-import json
 import logging
 import math
 import statistics
@@ -33,10 +31,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
-
-import numpy as np
+from typing import Any, Optional
 
 
 # Emergence detection types and enums

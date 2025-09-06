@@ -51,7 +51,7 @@ class AdvancedAGIController:
 
         # Integration state
         self.system_state = {
-            "initialization_time": datetime.datetime.now().isoformat(),
+            "initialization_time": datetime.datetime.now(timezone.utc).isoformat(),
             "active_components": 4,
             "integration_level": "advanced",
             "performance_mode": "adaptive",
@@ -82,7 +82,7 @@ class AdvancedAGIController:
         Returns:
             Comprehensive response with reasoning, memory, and predictions
         """
-        start_time = datetime.datetime.now()
+        start_time = datetime.datetime.now(timezone.utc)
 
         try:
             # Phase 1: Causal Reasoning Analysis
@@ -109,9 +109,9 @@ class AdvancedAGIController:
                     "reasoning_confidence": reasoning_results.get("confidence", 0.0),
                     "memory_stored": memory_stored,
                     "resource_risk": resource_predictions.get("overall_risk", "unknown"),
-                    "processing_time": (datetime.datetime.now() - start_time).total_seconds(),
+                    "processing_time": (datetime.datetime.now(timezone.utc) - start_time).total_seconds(),
                     "metrics": {
-                        "response_time": (datetime.datetime.now() - start_time).total_seconds(),
+                        "response_time": (datetime.datetime.now(timezone.utc) - start_time).total_seconds(),
                         "accuracy": reasoning_results.get("confidence", 0.0),
                         "memory_efficiency": 1.0 if memory_stored else 0.0,
                     },
@@ -134,8 +134,8 @@ class AdvancedAGIController:
                 },
                 "resource_predictions": resource_predictions,
                 "system_metrics": self.get_system_metrics(),
-                "processing_time": (datetime.datetime.now() - start_time).total_seconds(),
-                "timestamp": datetime.datetime.now().isoformat(),
+                "processing_time": (datetime.datetime.now(timezone.utc) - start_time).total_seconds(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             return response
@@ -145,7 +145,7 @@ class AdvancedAGIController:
             return {
                 "error": str(e),
                 "interaction_id": f"failed_{self.metrics['total_interactions']}",
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
     async def perform_system_reflection(self) -> dict:
@@ -181,7 +181,7 @@ class AdvancedAGIController:
             "resource_optimizations": resource_optimization,
             "causal_insights": causal_insights,
             "system_state": self.system_state,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info(
@@ -238,7 +238,7 @@ class AdvancedAGIController:
             "prediction_stats": self.resource_predictor.get_prediction_statistics(),
             "causal_insights": self.causal_reasoning.get_causal_insights(),
             "system_state": self.system_state,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     async def analyze_counterfactual(self, scenario: dict) -> dict:
@@ -255,7 +255,7 @@ class AdvancedAGIController:
         counterfactual_results = self.causal_reasoning.analyze_counterfactuals(scenario)
 
         # Store analysis in memory for future reference
-        analysis_key = f"counterfactual_{datetime.datetime.now().timestamp()}"
+        analysis_key = f"counterfactual_{datetime.datetime.now(timezone.utc).timestamp()}"
         self.memory_manager.store(
             key=analysis_key,
             data=counterfactual_results,
@@ -266,7 +266,7 @@ class AdvancedAGIController:
         return {
             "analysis": counterfactual_results,
             "stored_key": analysis_key,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def find_similar_memories(self, emotion: str, threshold: float = 0.6) -> list[dict]:
@@ -291,7 +291,7 @@ class AdvancedAGIController:
         """
         logger.info("Starting adaptive learning cycle")
 
-        cycle_start = datetime.datetime.now()
+        cycle_start = datetime.datetime.now(timezone.utc)
 
         # Step 1: System reflection and insight generation
         reflection = await self.perform_system_reflection()
@@ -308,7 +308,7 @@ class AdvancedAGIController:
         # Step 5: Meta-cognitive adaptation
         meta_adaptations = self._apply_meta_cognitive_adaptations(reflection)
 
-        cycle_duration = (datetime.datetime.now() - cycle_start).total_seconds()
+        cycle_duration = (datetime.datetime.now(timezone.utc) - cycle_start).total_seconds()
 
         learning_results = {
             "cycle_duration": cycle_duration,

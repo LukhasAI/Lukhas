@@ -16,7 +16,7 @@ Provides real-time observability into:
 """
 
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from prometheus_client import (
     CONTENT_TYPE_LATEST,

@@ -53,7 +53,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger("QIHealix")
+logger = logging.getLogger("QIHealix", timezone)
 
 
 class MemoryStrand(Enum):
@@ -315,8 +315,8 @@ class QIHealixMapper:
             mutations=[],
             stability_score=stability_score,
             gdpr_compliant=await self._ensure_gdpr_compliance(content, compression, user_consent),
-            created_timestamp=datetime.utcnow().timestamp(),
-            last_accessed=datetime.utcnow().timestamp(),
+            created_timestamp=datetime.now(timezone.utc).timestamp(),
+            last_accessed=datetime.now(timezone.utc).timestamp(),
         )
 
         # Store in memory and database
@@ -361,7 +361,7 @@ class QIHealixMapper:
                 base=nucleotide_base,
                 position=position,
                 strand=strand,
-                timestamp=datetime.utcnow().timestamp(),
+                timestamp=datetime.now(timezone.utc).timestamp(),
                 emotional_charge=emotional_charge,
                 qi_like_state=qi_like_state,
                 bonds=[],  # Will be calculated later for hydrogen bonding
@@ -409,7 +409,7 @@ class QIHealixMapper:
                     features.update({f"user_{k}": v for k, v in user_ctx.items()})
 
         # Add timestamp features
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         features["hour"] = now.hour
         features["day_of_week"] = now.weekday()
         features["month"] = now.month
@@ -488,7 +488,7 @@ class QIHealixMapper:
         state_data = {
             "position": position,
             "feature_value": str(feature_value),
-            "timestamp": datetime.utcnow().timestamp(),
+            "timestamp": datetime.now(timezone.utc).timestamp(),
         }
 
         # Generate quantum signature
@@ -558,7 +558,7 @@ class QIHealixMapper:
         # Combine sequence and emotional data
         sequence_data = "".join([n.base for n in sequence])
         vector_data = emotional_vector.tobytes()
-        timestamp_data = str(datetime.utcnow().timestamp()).encode()
+        timestamp_data = str(datetime.now(timezone.utc).timestamp()).encode()
 
         # Create quantum signature
         combined_data = sequence_data.encode() + vector_data + timestamp_data
@@ -670,7 +670,7 @@ class QIHealixMapper:
 
         # Generate mutation ID
         mutation_id = hashlib.sha256(
-            f"{fold_id}{mutation_type.value}{datetime.utcnow().timestamp()}".encode()
+            f"{fold_id}{mutation_type.value}{datetime.now(timezone.utc).timestamp()}".encode()
         ).hexdigest()[:16]
 
         # Apply mutation based on type
@@ -707,7 +707,7 @@ class QIHealixMapper:
                 target_position=None,
                 original_sequence=original_sequence,
                 mutated_sequence=mutated_sequence,
-                timestamp=datetime.utcnow().timestamp(),
+                timestamp=datetime.now(timezone.utc).timestamp(),
                 trigger_emotion=trigger_emotion,
                 qi_signature=await self._generate_quantum_signature(memory_fold.sequence, memory_fold.emotional_vector),
             )
@@ -747,7 +747,7 @@ class QIHealixMapper:
             base=new_base,
             position=position,
             strand=old_nucleotide.strand,
-            timestamp=datetime.utcnow().timestamp(),
+            timestamp=datetime.now(timezone.utc).timestamp(),
             emotional_charge=old_nucleotide.emotional_charge,
             qi_like_state=old_nucleotide.qi_like_state,
             bonds=[],  # Will be recalculated
@@ -775,7 +775,7 @@ class QIHealixMapper:
             base=new_base,
             position=position,
             strand=(memory_fold.sequence[0].strand if memory_fold.sequence else MemoryStrand.EMOTIONAL),
-            timestamp=datetime.utcnow().timestamp(),
+            timestamp=datetime.now(timezone.utc).timestamp(),
             emotional_charge=0.0,
             qi_like_state=await self._generate_position_quantum_like_state(new_base, position),
         )
@@ -943,7 +943,7 @@ class QIHealixMapper:
             (
                 sequence_data,
                 memory_fold.stability_score,
-                datetime.utcnow().timestamp(),
+                datetime.now(timezone.utc).timestamp(),
                 memory_fold.fold_id,
             ),
         )
@@ -985,7 +985,7 @@ class QIHealixMapper:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        log_id = hashlib.sha256(f"{fold_id}{action}{datetime.utcnow().timestamp()}".encode()).hexdigest()[:16]
+        log_id = hashlib.sha256(f"{fold_id}{action}{datetime.now(timezone.utc).timestamp()}".encode()).hexdigest()[:16]
 
         cursor.execute(
             """
@@ -996,7 +996,7 @@ class QIHealixMapper:
                 fold_id,
                 action,
                 reason,
-                datetime.utcnow().timestamp(),
+                datetime.now(timezone.utc).timestamp(),
                 int(user_consent),
                 self.gdpr_retention_policy.get("emotional", 365 * 24 * 3600),  # Default 1 year
             ),
@@ -1011,7 +1011,7 @@ class QIHealixMapper:
         id_data = {
             "content_hash": hashlib.sha256(json.dumps(content, sort_keys=True).encode()).hexdigest(),
             "strand": strand.value,
-            "timestamp": datetime.utcnow().timestamp(),
+            "timestamp": datetime.now(timezone.utc).timestamp(),
         }
 
         fold_id = hashlib.sha256(json.dumps(id_data, sort_keys=True).encode()).hexdigest()

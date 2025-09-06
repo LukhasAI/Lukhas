@@ -24,7 +24,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class CognitiveLoadLevel(Enum):
@@ -268,7 +268,7 @@ class CognitiveLoadEstimator:
             indicators=indicators,
             confidence=confidence,
             recommendations=recommendations,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         # Update history

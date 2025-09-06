@@ -38,14 +38,13 @@ Performance Standards:
 """
 
 import asyncio
-import json
 import logging
 import uuid
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional
 
 try:
     from ..security.secure_logging import get_security_logger

@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Any
 
 # Add workspace and Lukhas paths
-sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")
+sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core", timezone)
 sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core/brain")
 sys.path.append("/Users/agi_dev/Lukhas/brain")
 sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
@@ -206,7 +206,7 @@ class MultiBrainSymphonyΛBot:
         session = SymphonySession(
             session_id=session_id,
             mode=mode,
-            start_time=datetime.now(),
+            start_time=datetime.now(timezone.utc),
             target_path=target_path,
         )
 

@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger("ΛTRACE.tools.performance")
+logger = logging.getLogger("ΛTRACE.tools.performance", timezone)
 
 
 @dataclass
@@ -375,7 +375,7 @@ class PerformanceAnalyzer:
     def get_performance_summary(self, metrics: list[PerformanceMetric]) -> dict[str, Any]:
         """Generate performance summary from metrics"""
         summary = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "metrics_count": len(metrics),
             "components": set(m.component for m in metrics),
             "time_range": {},
@@ -477,7 +477,7 @@ class PerformanceOptimizer:
                             "name": rule["name"],
                             "recommendation": rule["recommendation"],
                             "priority": rule["priority"],
-                            "timestamp": datetime.now().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
             except Exception as e:
@@ -566,7 +566,7 @@ class PerformanceMonitor:
 
                     # Create analysis result
                     analysis_result = {
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "metrics_analyzed": len(metrics),
                         "alerts": [asdict(alert) for alert in alerts],
                         "summary": summary,
@@ -653,7 +653,7 @@ class PerformanceMonitor:
 
         # Generate comprehensive report
         report = {
-            "report_timestamp": datetime.now().isoformat(),
+            "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "time_range_seconds": time_range,
             "metrics_count": len(metrics),
             "summary": self.analyzer.get_performance_summary(metrics),
@@ -665,7 +665,7 @@ class PerformanceMonitor:
         }
 
         # Export to file
-        timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp_str = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         report_file = self.export_directory / f"performance_report_{timestamp_str}.json"
 
         with open(report_file, "w") as f:

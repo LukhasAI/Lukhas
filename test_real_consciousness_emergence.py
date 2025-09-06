@@ -8,7 +8,6 @@ emergence patterns, and measurable consciousness evolution.
 
 import asyncio
 import logging
-import os
 import sys
 import time
 from datetime import datetime, timezone

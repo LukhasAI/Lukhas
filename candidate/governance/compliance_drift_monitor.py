@@ -79,7 +79,7 @@ class ComplianceMonitor:
         self._log_event("🚨 Critical drift detected! Escalating to human oversight.", subsystem)
 
     def _log_decision(self, decision_id, compliance, drift_increment, subsystem, lucas_id):
-        timestamp = datetime.datetime.now().isoformat()
+        timestamp = datetime.datetime.now(timezone.utc).isoformat()
         log_text = (
             f"{timestamp} | Subsystem: {subsystem} | Lucas_ID: {lucas_id} | "
             f"Decision {decision_id} | Compliance: {compliance:.3f} | Drift Increment: {drift_increment:.3f} | "
@@ -109,7 +109,7 @@ class ComplianceMonitor:
         self._write_log(log_text, csv_row, json_entry)
 
     def _log_event(self, message, subsystem=None):
-        timestamp = datetime.datetime.now().isoformat()
+        timestamp = datetime.datetime.now(timezone.utc).isoformat()
         log_text = f"{timestamp} | {f'Subsystem: {subsystem} | ' if subsystem else ''}{message}"
 
         json_entry = {

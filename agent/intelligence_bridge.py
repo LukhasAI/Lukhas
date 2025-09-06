@@ -16,11 +16,6 @@ import contextlib
 # Import intelligence bridge system
 _available = False
 with contextlib.suppress(ImportError):
-    from candidate.orchestration.agent_orchestrator.intelligence_bridge import (
-        AgentIntelligenceBridge,
-        AgentType,
-        IntelligenceRequestType,
-    )
 
     _available = True
 

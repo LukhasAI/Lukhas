@@ -127,9 +127,9 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
     # Assign DST tracking metadata
     widget["status"] = "sleeping"  # Default state
     widget["DST_metadata"] = {
-        "tracking_id": str(uuid.uuid4()),
-        "last_checked": datetime.utcnow().isoformat(),
-        "next_check_due": (datetime.utcnow() + timedelta(hours=1)).isoformat(),
+        "tracking_id": str(uuid.uuid4(, timezone)),
+        "last_checked": datetime.now(timezone.utc).isoformat(),
+        "next_check_due": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),
         "tracking_window": "active",  # Could be 'active', 'expired', 'failed'
     }
 

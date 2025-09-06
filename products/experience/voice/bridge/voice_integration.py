@@ -14,7 +14,7 @@ Performance: 94% emotional state classification accuracy
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
 

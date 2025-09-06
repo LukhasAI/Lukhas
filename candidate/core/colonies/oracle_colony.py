@@ -35,8 +35,7 @@ from typing import Any, Optional
 from candidate.bridge.openai_core_service import (
     ModelType,
     OpenAICoreService,
-    OpenAIRequest,
-)
+    OpenAIRequest,, timezone)
 from lukhas.core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")
@@ -140,12 +139,12 @@ class OracleAgent:
             confidence = 0.65
 
         return OracleResponse(
-            query_id=f"pred_{datetime.now().timestamp()}",
+            query_id=f"pred_{datetime.now(timezone.utc).timestamp()}",
             response_type="prediction",
             content=prediction_content,
             confidence=confidence,
             temporal_scope=query.time_horizon,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             metadata={
                 "agent_id": self.agent_id,
                 "specialization": self.specialization,
@@ -196,12 +195,12 @@ class OracleAgent:
             confidence = 0.70
 
         return OracleResponse(
-            query_id=f"dream_{datetime.now().timestamp()}",
+            query_id=f"dream_{datetime.now(timezone.utc).timestamp()}",
             response_type="dream",
             content=dream_content,
             confidence=confidence,
             temporal_scope=query.time_horizon,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             metadata={
                 "agent_id": self.agent_id,
                 "specialization": self.specialization,
@@ -252,12 +251,12 @@ class OracleAgent:
             confidence = 0.68
 
         return OracleResponse(
-            query_id=f"prophecy_{datetime.now().timestamp()}",
+            query_id=f"prophecy_{datetime.now(timezone.utc).timestamp()}",
             response_type="prophecy",
             content=prophecy_content,
             confidence=confidence,
             temporal_scope=query.time_horizon,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             metadata={
                 "agent_id": self.agent_id,
                 "specialization": self.specialization,
@@ -276,12 +275,12 @@ class OracleAgent:
         }
 
         return OracleResponse(
-            query_id=f"analysis_{datetime.now().timestamp()}",
+            query_id=f"analysis_{datetime.now(timezone.utc).timestamp()}",
             response_type="analysis",
             content=analysis_content,
             confidence=0.75,
             temporal_scope=query.time_horizon,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             metadata={
                 "agent_id": self.agent_id,
                 "specialization": self.specialization,

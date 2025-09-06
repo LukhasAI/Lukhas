@@ -15,13 +15,12 @@
 """
 
 import asyncio
-import json
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import all MΛTRIZ consciousness components
 try:

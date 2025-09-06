@@ -10,12 +10,11 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from __future__ import annotations
 
-import asyncio
 import logging
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any
 
 import numpy as np
 import torch
@@ -25,8 +24,8 @@ import torch.optim as optim
 from lukhas.consciousness import ConsciousnessModule
 from lukhas.governance import GuardianSystem
 from lukhas.observability.matriz_decorators import instrument
-from lukhas.rl.engine.policy_networks import ConsciousnessActorCritic, ConsciousnessPolicy, ConsciousnessValueNetwork
-from lukhas.rl.environments.consciousness_environment import ConsciousnessActionType, ConsciousnessEnvironment
+from lukhas.rl.engine.policy_networks import ConsciousnessActorCritic
+from lukhas.rl.environments.consciousness_environment import ConsciousnessEnvironment
 from lukhas.rl.experience.consciousness_buffer import ConsciousnessReplayBuffer, EpisodicConsciousnessBuffer
 
 logger = logging.getLogger(__name__)

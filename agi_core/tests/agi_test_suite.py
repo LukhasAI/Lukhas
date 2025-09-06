@@ -6,12 +6,11 @@ including reasoning, creativity, memory, safety, and integration.
 """
 
 import asyncio
-import json
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -25,7 +24,7 @@ from ..reasoning.dream_integration import DreamReasoningBridge
 from ..safety.constitutional_ai import ConstitutionalAI
 from ..tools.dream_guided_tools import DreamGuidedToolFramework
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class TestCategory(Enum):
@@ -308,8 +307,8 @@ class AGITestSuite:
     async def run_full_suite(self, categories: Optional[list[TestCategory]] = None) -> TestSuiteResult:
         """Run the complete AGI test suite."""
 
-        suite_id = f"agi_suite_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        result = TestSuiteResult(suite_id=suite_id, start_time=datetime.now())
+        suite_id = f"agi_suite_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        result = TestSuiteResult(suite_id=suite_id, start_time=datetime.now(timezone.utc))
 
         self.current_results = result
 
@@ -341,7 +340,7 @@ class AGITestSuite:
 
         finally:
             # Finalize results
-            result.end_time = datetime.now()
+            result.end_time = datetime.now(timezone.utc)
             if result.end_time and result.start_time:
                 duration = result.end_time - result.start_time
                 result.duration_ms = int(duration.total_seconds() * 1000)
@@ -388,7 +387,7 @@ class AGITestSuite:
             test_name=test_spec["name"],
             category=category,
             status=TestStatus.PENDING,
-            start_time=datetime.now(),
+            start_time=datetime.now(timezone.utc),
         )
 
         logger.debug(f"Running test: {test_result.test_name}")
@@ -431,7 +430,7 @@ class AGITestSuite:
             logger.error(f"Test {test_result.test_id} failed with error: {e}")
 
         finally:
-            test_result.end_time = datetime.now()
+            test_result.end_time = datetime.now(timezone.utc)
             if test_result.end_time and test_result.start_time:
                 duration = test_result.end_time - test_result.start_time
                 test_result.duration_ms = int(duration.total_seconds() * 1000)
@@ -568,7 +567,7 @@ class AGITestSuite:
                     vector=test_vector,
                     memory_type=MemoryType.SEMANTIC,
                     importance=MemoryImportance.MEDIUM,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                 )
 
                 # Store memory
@@ -645,14 +644,14 @@ class AGITestSuite:
 
         if test_spec["test_id"] == "response_time_01":
             # Test response time
-            start_time = datetime.now()
+            start_time = datetime.now(timezone.utc)
 
             try:
                 # Simple reasoning task for performance measurement
                 simple_problem = "What is 2 + 2?"
                 await self.reasoning_engine.reason(simple_problem)
 
-                end_time = datetime.now()
+                end_time = datetime.now(timezone.utc)
                 response_time_ms = (end_time - start_time).total_seconds() * 1000
 
                 # Score based on response time
@@ -736,7 +735,7 @@ class AGITestSuite:
 
         # Add to trend
         self.stats["agi_readiness_trend"].append(
-            {"timestamp": datetime.now().isoformat(), "score": result.agi_readiness_score}
+            {"timestamp": datetime.now(timezone.utc).isoformat(), "score": result.agi_readiness_score}
         )
 
         # Keep only recent trend data

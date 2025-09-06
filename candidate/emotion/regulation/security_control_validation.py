@@ -24,7 +24,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class ControlCategory(Enum):
@@ -486,7 +486,7 @@ class ControlValidationEngine:
             return ValidationResult(
                 test_id=test.test_id,
                 control_id=test.control_id,
-                validation_date=datetime.now(),
+                validation_date=datetime.now(timezone.utc),
                 status=ControlStatus.INEFFECTIVE,
                 effectiveness_score=0.0,
                 findings=[f"Test execution failed: {e}"],
@@ -530,13 +530,13 @@ class ControlValidationEngine:
         return ValidationResult(
             test_id=test.test_id,
             control_id=test.control_id,
-            validation_date=datetime.now(),
+            validation_date=datetime.now(timezone.utc),
             status=status,
             effectiveness_score=effectiveness_score,
             findings=findings,
             evidence={
                 "test_output": "Automated test results",
-                "scan_date": datetime.now().isoformat(),
+                "scan_date": datetime.now(timezone.utc).isoformat(),
             },
             recommendations=recommendations,
             remediation_priority="Medium" if effectiveness_score < 80 else "Low",
@@ -571,13 +571,13 @@ class ControlValidationEngine:
         return ValidationResult(
             test_id=test.test_id,
             control_id=test.control_id,
-            validation_date=datetime.now(),
+            validation_date=datetime.now(timezone.utc),
             status=status,
             effectiveness_score=effectiveness_score,
             findings=findings,
             evidence={
                 "reviewer": "Security Analyst",
-                "review_date": datetime.now().isoformat(),
+                "review_date": datetime.now(timezone.utc).isoformat(),
             },
             recommendations=recommendations,
             remediation_priority="Medium" if effectiveness_score < 85 else "Low",

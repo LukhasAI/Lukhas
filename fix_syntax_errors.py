@@ -6,7 +6,6 @@ Fix common syntax errors in the LUKHAS codebase
 import ast
 import os
 import re
-import sys
 from pathlib import Path
 
 

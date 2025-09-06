@@ -22,7 +22,7 @@ from typing import Any, Optional, Union
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class AuditEventType(Enum):
@@ -206,14 +206,14 @@ class AuditLogger:
         constitutional_context = {
             "enforcement_type": enforcement_type,
             "constitutional_authority": "LUKHAS_CONSTITUTIONAL_GATEKEEPER",
-            "enforcement_timestamp": datetime.now().isoformat(),
+            "enforcement_timestamp": datetime.now(timezone.utc).isoformat(),
             "transparency_required": True,
             "immutable_decision": True,
         }
 
         event = AuditEvent(
             event_id=self._generate_event_id(),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=AuditEventType.CONSTITUTIONAL_ENFORCEMENT,
             severity=AuditSeverity.CONSTITUTIONAL,
             source_component="constitutional_gatekeeper",
@@ -269,7 +269,7 @@ class AuditLogger:
 
         event = AuditEvent(
             event_id=self._generate_event_id(),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=AuditEventType.AUTHENTICATION_ATTEMPT,
             severity=severity,
             source_component="authentication_system",
@@ -309,7 +309,7 @@ class AuditLogger:
         """
         event = AuditEvent(
             event_id=self._generate_event_id(),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=AuditEventType.POLICY_VIOLATION,
             severity=AuditSeverity.WARNING,
             source_component="policy_engine",
@@ -373,7 +373,7 @@ class AuditLogger:
 
         event = AuditEvent(
             event_id=self._generate_event_id(),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=AuditEventType.SYSTEM_OVERRIDE,
             severity=AuditSeverity.CRITICAL,
             source_component=override_authority,
@@ -428,7 +428,7 @@ class AuditLogger:
         """
         event = AuditEvent(
             event_id=self._generate_event_id(),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=AuditEventType.PERFORMANCE_METRIC,
             severity=AuditSeverity.INFO,
             source_component="performance_monitor",
@@ -440,7 +440,7 @@ class AuditLogger:
                 "metric_value": metric_value,
                 "metric_unit": metric_unit,
                 "context": context,
-                "collection_timestamp": datetime.now().isoformat(),
+                "collection_timestamp": datetime.now(timezone.utc).isoformat(),
             },
             constitutional_context=None,
             compliance_tags=[ComplianceFramework.SOC2],
@@ -514,7 +514,7 @@ class AuditLogger:
 
     def _get_current_log_file(self) -> Path:
         """Get current audit log file path."""
-        current_date = datetime.now().strftime("%Y-%m-%d")
+        current_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         return self.log_file_path / f"audit_log_{current_date}.jsonl"
 
     async def _check_file_rotation(self, log_file: Path):
@@ -524,7 +524,7 @@ class AuditLogger:
 
             if log_file.exists() and log_file.stat().st_size > max_size_bytes:
                 # Rotate file
-                timestamp = datetime.now().strftime("%H%M%S")
+                timestamp = datetime.now(timezone.utc).strftime("%H%M%S")
                 rotated_name = f"{log_file.stem}_{timestamp}{log_file.suffix}"
                 rotated_path = log_file.parent / rotated_name
                 log_file.rename(rotated_path)
@@ -867,7 +867,7 @@ class AuditLogger:
             Count of authentication attempts
         """
         try:
-            cutoff_time = datetime.now() - timedelta(hours=hours)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
 
             # Search through buffered events first
             count = 0
@@ -902,7 +902,7 @@ class AuditLogger:
             Count of authentication failures
         """
         try:
-            cutoff_time = datetime.now() - timedelta(hours=hours)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
 
             # Search through buffered events
             count = 0

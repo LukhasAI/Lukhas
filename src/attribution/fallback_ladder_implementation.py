@@ -12,7 +12,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 class AttributionMethod(Enum):

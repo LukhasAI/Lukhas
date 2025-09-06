@@ -12,22 +12,17 @@ Advanced monitoring, analytics, and visualization for consciousness data flows
 """
 
 import asyncio
-import json
 import logging
-import statistics
-import time
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Union
+from typing import Optional
 
-import numpy as np
-
-from .consciousness_data_flow import ConsciousnessDataFlowManager, FlowMetrics, FlowState, NetworkTopology
+from .consciousness_data_flow import ConsciousnessDataFlowManager, FlowMetrics
 
 # Import consciousness components
-from .enhanced_matriz_adapter import EnhancedMatrizAdapter, SignalType
+from .enhanced_matriz_adapter import EnhancedMatrizAdapter
 
 logger = logging.getLogger(__name__)
 

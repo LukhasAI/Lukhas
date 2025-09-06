@@ -14,16 +14,13 @@ all consciousness signals maintain proper alignment across eight fundamental sta
 ⚛️ QUANTUM - The Ambiguity Star: quantum-inspired uncertainty as fertile ground
 """
 
-import asyncio
-import json
 import logging
 import threading
 import time
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from .matriz_consciousness_signals import (
     ConsciousnessSignal,

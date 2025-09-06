@@ -20,7 +20,7 @@ import click
 class SecurityIssueFixer:
     """Automated security issue fixer with Ollama intelligence"""
 
-    def __init__(self, ollama_host: str = "http://localhost:11434"):
+    def __init__(self, ollama_host: str = "http://localhost:11434", timezone):
         self.ollama_host = ollama_host
         self.model = "deepseek-coder:6.7b"
         self.security_issues = []
@@ -158,7 +158,7 @@ Focus on practical, secure solutions that maintain functionality.
 
     def create_backup(self, file_path: str) -> str:
         """Create backup of file before modification"""
-        backup_dir = Path(f".security_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        backup_dir = Path(f".security_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}")
         backup_dir.mkdir(exist_ok=True)
 
         source_file = Path(file_path)
@@ -364,11 +364,11 @@ Focus on practical, secure solutions that maintain functionality.
                 click.echo(f"   • {fix['type']} in {fix['file']}:{fix['line']} ({fix['severity']})")
 
         # Save detailed report
-        report_file = f"security_issue_fix_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        report_file = f"security_issue_fix_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w") as f:
             json.dump(
                 {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "total_issues_found": len(high_issues) + len(medium_issues) + len(low_issues),
                     "high_severity": len(high_issues),
                     "medium_severity": len(medium_issues),

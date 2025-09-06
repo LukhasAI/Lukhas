@@ -24,7 +24,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("LUKHAS_MEMORY_CONNECTOR")
+logger = logging.getLogger("LUKHAS_MEMORY_CONNECTOR", timezone)
 
 
 class MemoryType(Enum):
@@ -447,8 +447,8 @@ class MemoryConnector:
             content=memory_data["content"],
             emotional_weight=memory_data.get("emotional_weight", 0.5),
             consciousness_markers=memory_data.get("consciousness_markers", {}),
-            creation_timestamp=datetime.now(),
-            last_accessed=datetime.now(),
+            creation_timestamp=datetime.now(timezone.utc),
+            last_accessed=datetime.now(timezone.utc),
             access_count=0,
             integrity_hash=content_hash,
             encryption_level=memory_data.get("encryption_level", "standard"),
@@ -466,7 +466,7 @@ class MemoryConnector:
         """Decrypt memory record for access"""
         # In full implementation, would decrypt content
         # For now, just return the record
-        record.last_accessed = datetime.now()
+        record.last_accessed = datetime.now(timezone.utc)
         record.access_count += 1
         return record
 
@@ -517,7 +517,7 @@ class MemoryConnector:
             score = 0.0
 
             # Recent memories score higher
-            days_old = (datetime.now() - memory.creation_timestamp).days
+            days_old = (datetime.now(timezone.utc) - memory.creation_timestamp).days
             recency_score = max(0, 1.0 - (days_old / 365))  # Decay over year
             score += recency_score * 0.3
 

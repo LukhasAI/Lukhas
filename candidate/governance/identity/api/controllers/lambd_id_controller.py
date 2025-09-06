@@ -11,9 +11,7 @@
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-
-from candidate.core.common import get_logger
+from typing import Any, Optional
 
 # Initialize ΛTRACE logger for this controller
 # Note: The class will create a child logger for its instance.

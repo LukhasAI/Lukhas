@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -26,7 +26,7 @@ class Message:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class MessageQueue:
@@ -82,7 +82,7 @@ class MessageQueue:
                 priority, message = await asyncio.wait_for(queue.get(), timeout=1.0)
 
                 # Calculate latency
-                latency = (datetime.utcnow() - message.timestamp).total_seconds() * 1000
+                latency = (datetime.now(timezone.utc) - message.timestamp).total_seconds() * 1000
                 self._update_latency(latency)
 
                 # Process message
@@ -163,7 +163,7 @@ class CacheLayer:
         """Get value from cache"""
         if key in self._cache:
             timestamp = self._timestamps[key]
-            if (datetime.utcnow() - timestamp).total_seconds() < self._ttl:
+            if (datetime.now(timezone.utc) - timestamp).total_seconds() < self._ttl:
                 self._hits += 1
                 return self._cache[key]
             else:
@@ -177,7 +177,7 @@ class CacheLayer:
     def set(self, key: str, value: Any):
         """Set value in cache"""
         self._cache[key] = value
-        self._timestamps[key] = datetime.utcnow()
+        self._timestamps[key] = datetime.now(timezone.utc)
 
     def clear(self):
         """Clear cache"""

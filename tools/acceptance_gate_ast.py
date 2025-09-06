@@ -19,7 +19,7 @@ import json
 import pathlib
 import sys
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 ACCEPTED = REPO / "lukhas"

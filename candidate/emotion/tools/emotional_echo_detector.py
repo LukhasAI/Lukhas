@@ -59,7 +59,7 @@ from typing import Any, Optional, Union
 import numpy as np
 
 # Add parent directories to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__, timezone), "../.."))
 
 try:
     from ethics.governor.lambda_governor import (
@@ -540,7 +540,7 @@ class EmotionalEchoDetector:
 
         return EmotionalSequence(
             sequence_id=f"DREAM_{int(time.time())}_{hash(dream_content) % 10000}",
-            timestamp=data.get("timestamp", datetime.now().isoformat()),
+            timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="dream",
             emotions=emotions,
             symbols=symbols,
@@ -572,7 +572,7 @@ class EmotionalEchoDetector:
 
         return EmotionalSequence(
             sequence_id=f"MEMORY_{int(time.time())}_{hash(str(data)) % 10000}",
-            timestamp=data.get("timestamp", datetime.now().isoformat()),
+            timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="memory",
             emotions=emotions,
             symbols=symbols,
@@ -608,7 +608,7 @@ class EmotionalEchoDetector:
 
         return EmotionalSequence(
             sequence_id=f"DRIFT_{int(time.time())}_{hash(str(data)) % 10000}",
-            timestamp=data.get("timestamp", datetime.now().isoformat()),
+            timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="drift_log",
             emotions=emotions,
             symbols=symbols,
@@ -630,7 +630,7 @@ class EmotionalEchoDetector:
 
         return EmotionalSequence(
             sequence_id=f"GENERIC_{int(time.time())}_{hash(str(data)) % 10000}",
-            timestamp=data.get("timestamp", datetime.now().isoformat()),
+            timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="generic",
             emotions=emotions if isinstance(emotions, list) else [emotions],
             symbols=(symbols if isinstance(symbols, list) else [symbols] if symbols else []),
@@ -756,7 +756,7 @@ class EmotionalEchoDetector:
 
                 if existing_motif:
                     # Update existing motif
-                    existing_motif.last_seen = datetime.now().isoformat()
+                    existing_motif.last_seen = datetime.now(timezone.utc).isoformat()
                     existing_motif.frequency += 1
                     motifs.append(existing_motif)
                 else:
@@ -765,8 +765,8 @@ class EmotionalEchoDetector:
                         motif_id=motif_id,
                         pattern=list(gram),
                         occurrences=[],
-                        first_seen=datetime.now().isoformat(),
-                        last_seen=datetime.now().isoformat(),
+                        first_seen=datetime.now(timezone.utc).isoformat(),
+                        last_seen=datetime.now(timezone.utc).isoformat(),
                         frequency=1,
                         intensity_trend="stable",
                     )
@@ -885,7 +885,7 @@ class EmotionalEchoDetector:
             window_minutes = self.window_hours * 60
 
         # Filter sequences by time window
-        cutoff_time = datetime.now() - timedelta(minutes=window_minutes)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=window_minutes)
         recent_sequences = [
             seq for seq in self.emotional_sequences if self._parse_timestamp(seq.timestamp) >= cutoff_time
         ]
@@ -915,7 +915,7 @@ class EmotionalEchoDetector:
         # Create report
         report = LoopReport(
             report_id=f"ECHO_REPORT_{int(time.time())}",
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             analysis_window=f"{window_minutes} minutes",
             sequences_analyzed=len(recent_sequences),
             motifs_detected=len(motifs),
@@ -950,7 +950,7 @@ class EmotionalEchoDetector:
             return datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
         except (ValueError, TypeError, AttributeError) as e:
             logger.warning(f"Failed to parse timestamp: {e}")
-            return datetime.now()
+            return datetime.now(timezone.utc)
 
     def _determine_severity(self, eli: float, ris: float, motifs: list[RecurringMotif]) -> EchoSeverity:
         """Determine severity level based on scores and motifs."""
@@ -994,7 +994,7 @@ class EmotionalEchoDetector:
 
             alert = {
                 "alert_id": f"ARCH_ALERT_{int(time.time())}_{hash(motif.motif_id) % 1000}",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "archetype": motif.archetype_match.value,
                 "description": archetype_info.get("description", "Unknown archetype"),
                 "pattern": " → ".join(motif.pattern),
@@ -1242,7 +1242,7 @@ class EmotionalEchoDetector:
 
         alert = {
             "alert_id": f"ECHO_ALERT_{int(time.time())}_{hash(str(archetype)) % 10000}",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "alert_level": alert_level,
             "score": score,
             "archetype": archetype.value if archetype else None,
@@ -1578,7 +1578,7 @@ async def _continuous_watch(detector: EmotionalEchoDetector, interval: int, thre
 
             combined_score = (eli + ris) / 2
 
-            current_time = datetime.now().strftime("%H:%M:%S")
+            current_time = datetime.now(timezone.utc).strftime("%H:%M:%S")
 
             if combined_score >= threshold:
                 print(f"⚠️ {current_time} - HIGH RISK: ELI={eli:.3f}, RIS={ris:.3f}, Score={combined_score:.3f}")
@@ -1637,7 +1637,7 @@ def _generate_synthetic_emotional_data(count: int = 50, high_risk: bool = False)
 
     patterns = risk_patterns if high_risk else normal_patterns + risk_patterns[:2]
 
-    base_time = datetime.now()
+    base_time = datetime.now(timezone.utc)
 
     for i in range(count):
         # Select pattern

@@ -20,7 +20,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-sys.path.append(str(Path(__file__).parent.parent.parent.parent / "organized/ai-core/brain/brain"))
+sys.path.append(str(Path(__file__, timezone).parent.parent.parent.parent / "organized/ai-core/brain/brain"))
 try:
     from MultiBrainSymphony import SpecializedBrainCore
 except ImportError:
@@ -262,7 +262,7 @@ class GPTOSSBrainSpecialist(SpecializedBrainCore):
                 "latency_ms": int(latency * 1000),
                 "confidence": self._calculate_confidence(enhanced_result),
                 "lukhas_integration": self._check_lukhas_patterns(enhanced_result),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Cache result
@@ -396,7 +396,7 @@ Provide clear, structured, and insightful reasoning."""
 
         # Create context entry
         context_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "input_type": data.get("type", "unknown"),
             "summary": result.get("raw_output", "")[:200],
             "insights": result.get("key_insights", [])[:3],
@@ -470,7 +470,7 @@ Provide clear, structured, and insightful reasoning."""
                 "confidence_factors": {"fallback_mode": True},
             },
             "confidence": 0.3,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_metrics(self) -> dict[str, Any]:

@@ -18,7 +18,7 @@ from lukhas.core.config.env_validator import validate_environment
 from lukhas.core.module_manager import ModulePriority, ModuleStatus, get_module_manager
 
 # Add project root to path
-project_root = Path(__file__).parent.parent
+project_root = Path(__file__, timezone).parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
@@ -278,7 +278,7 @@ class LUKHASSystem:
 
         # Timing
         print(f"\n⏱️  Initialization time: {init_time:.2f} seconds")
-        print(f"📅 Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"📅 Started at: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
 
         print("\n" + "=" * 70)
         print("System ready for operation")

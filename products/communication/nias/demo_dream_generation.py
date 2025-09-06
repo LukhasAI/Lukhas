@@ -15,8 +15,7 @@ from products.lambda_pack.lambda_core.NIAS.dream_generator import (
     BioRhythm,
     DreamContext,
     DreamGenerator,
-    DreamMood,
-)
+    DreamMood,, timezone)
 from products.lambda_pack.lambda_core.NIAS.vendor_portal import (
     DreamSeed,
     DreamSeedType,
@@ -35,10 +34,10 @@ async def generate_demo_dream():
     print("\n" + "=" * 80)
     print("🌙 NIAS DREAM COMMERCE - LIVE DEMONSTRATION")
     print("=" * 80)
-    print(f"Time: {datetime.now().strftime('%I:%M %p')}")
+    print(f"Time: {datetime.now(timezone.utc).strftime('%I:%M %p')}")
 
     # Determine current bio-rhythm
-    hour = datetime.now().hour
+    hour = datetime.now(timezone.utc).hour
     if 6 <= hour < 10:
         bio_rhythm = BioRhythm.MORNING_PEAK
     elif 17 <= hour < 21:

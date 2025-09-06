@@ -5,18 +5,16 @@ Integrates dream processing with tool selection for creative and intuitive
 tool usage patterns that go beyond traditional rule-based selection.
 """
 
-import asyncio
-import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional, Set
 
 import numpy as np
 
-from ..memory.dream_memory import DreamInsightType, DreamMemoryBridge, DreamPhase
-from ..memory.vector_memory import MemoryType, MemoryVector, VectorMemoryStore
+from ..memory.dream_memory import DreamMemoryBridge
+from ..memory.vector_memory import VectorMemoryStore
 
 logger = logging.getLogger(__name__)
 
@@ -375,7 +373,7 @@ class DreamGuidedToolFramework:
             tool_spec = self.tools[tool_id]
 
             rec = ToolRecommendation(
-                recommendation_id=f"logical_{datetime.now().strftime('%H%M%S')}_{tool_id}",
+                recommendation_id=f"logical_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
                 primary_tool=tool_id,
                 reasoning=f"Logical selection based on capability match and experience (score: {score:.2f})",
                 confidence=min(0.95, score),
@@ -425,7 +423,7 @@ class DreamGuidedToolFramework:
         for tool_id, score in sorted_tools[:max_recommendations]:
             if score > 0.1:  # Only recommend if there's some intuitive basis
                 rec = ToolRecommendation(
-                    recommendation_id=f"intuitive_{datetime.now().strftime('%H%M%S')}_{tool_id}",
+                    recommendation_id=f"intuitive_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
                     primary_tool=tool_id,
                     reasoning="Intuitive selection based on pattern recognition and past success",
                     confidence=min(0.8, score * 2),  # Scale confidence
@@ -478,7 +476,7 @@ class DreamGuidedToolFramework:
         recommendations = []
         for tool_id, score in sorted_tools[:max_recommendations]:
             rec = ToolRecommendation(
-                recommendation_id=f"creative_{datetime.now().strftime('%H%M%S')}_{tool_id}",
+                recommendation_id=f"creative_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
                 primary_tool=tool_id,
                 reasoning="Creative selection emphasizing novelty and creative potential",
                 confidence=min(0.7, score),
@@ -529,7 +527,7 @@ class DreamGuidedToolFramework:
                 dream_scores[tool_id] = dream_score
 
                 rec = ToolRecommendation(
-                    recommendation_id=f"dream_{datetime.now().strftime('%H%M%S')}_{tool_id}",
+                    recommendation_id=f"dream_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
                     primary_tool=tool_id,
                     reasoning=f"Dream-guided selection based on {len(relevant_insights)} insights",
                     confidence=min(0.85, dream_score),
@@ -578,7 +576,7 @@ class DreamGuidedToolFramework:
         recommendations = []
         for tool_id, score in sorted_tools[:max_recommendations]:
             rec = ToolRecommendation(
-                recommendation_id=f"experimental_{datetime.now().strftime('%H%M%S')}_{tool_id}",
+                recommendation_id=f"experimental_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
                 primary_tool=tool_id,
                 reasoning="Experimental selection for exploration and learning",
                 confidence=0.6,  # Moderate confidence for experimental approaches
@@ -654,7 +652,7 @@ class DreamGuidedToolFramework:
             session
             for session in self.dream_bridge.dream_sessions[-5:]  # Last 5 sessions
             if session.success
-            and (datetime.now() - datetime.fromisoformat(session.session_id.split("_")[1]) < timedelta(hours=24))
+            and (datetime.now(timezone.utc) - datetime.fromisoformat(session.session_id.split("_")[1]) < timedelta(hours=24))
         ]
 
         for session in recent_dream_sessions:
@@ -730,7 +728,7 @@ class DreamGuidedToolFramework:
             return
 
         usage_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "context": context,
             "success": success,
             "effectiveness": effectiveness,

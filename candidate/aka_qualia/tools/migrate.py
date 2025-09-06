@@ -13,7 +13,7 @@ Usage:
 
 import argparse
 import logging
-from typing import Any, Dict
+from typing import Any
 from urllib.parse import urlparse
 
 try:

@@ -6,15 +6,14 @@ maintaining quality thresholds. Integrates with LUKHAS Guardian system
 for ethical cost management.
 """
 
-import asyncio
 import logging
 import statistics
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class CostTier(Enum):
@@ -89,7 +88,7 @@ class CostOptimizer:
         self.cost_profiles: dict[str, CostProfile] = {}
         self.usage_history: list[dict[str, Any]] = []
         self.current_usage: dict[str, float] = {"hour": 0.0, "day": 0.0}
-        self.last_reset = {"hour": datetime.now(), "day": datetime.now().replace(hour=0, minute=0)}
+        self.last_reset = {"hour": datetime.now(timezone.utc), "day": datetime.now(timezone.utc).replace(hour=0, minute=0)}
         self._initialize_cost_profiles()
 
     def _initialize_cost_profiles(self):
@@ -157,7 +156,7 @@ class CostOptimizer:
 
     def _update_usage_tracking(self):
         """Update usage tracking with time-based resets."""
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         # Reset hourly usage
         if now - self.last_reset["hour"] >= timedelta(hours=1):
@@ -301,7 +300,7 @@ class CostOptimizer:
 
         # Record in history
         usage_record = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "model_id": model_id,
             "input_tokens": input_tokens,
             "output_tokens": output_tokens,
@@ -319,7 +318,7 @@ class CostOptimizer:
 
     def get_usage_statistics(self, time_period: Optional[timedelta] = None) -> UsageStats:
         """Get usage statistics for specified time period."""
-        cutoff_time = datetime.now()
+        cutoff_time = datetime.now(timezone.utc)
         if time_period:
             cutoff_time -= time_period
         else:
@@ -346,7 +345,7 @@ class CostOptimizer:
 
     def get_model_cost_analysis(self, model_id: str, time_period: Optional[timedelta] = None) -> dict[str, Any]:
         """Get detailed cost analysis for specific model."""
-        cutoff_time = datetime.now()
+        cutoff_time = datetime.now(timezone.utc)
         if time_period:
             cutoff_time -= time_period
 

@@ -8,16 +8,15 @@ Implements Phase 2C: Content product creativity boost with dream-guided AGI
 """
 
 import asyncio
-import json
 import logging
 import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
-logger = logging.getLogger("agi_core.products.content")
+logger = logging.getLogger("agi_core.products.content", timezone)
 
 
 class CreativityMode(Enum):
@@ -73,7 +72,7 @@ class ContentQuery:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
         if self.inspiration_sources is None:
             self.inspiration_sources = []
 
@@ -100,7 +99,7 @@ class ContentResult:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class ContentProductsEnhancer:
@@ -251,7 +250,7 @@ class ContentProductsEnhancer:
 
             # 7. Store for learning and evolution
             self.processing_history.append(
-                {"query": query, "result": result, "dream_insights": dream_insights, "timestamp": datetime.now()}
+                {"query": query, "result": result, "dream_insights": dream_insights, "timestamp": datetime.now(timezone.utc)}
             )
 
             logger.info(f"Successfully processed content query {query.id} in {result.processing_time:.3f}s")

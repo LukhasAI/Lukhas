@@ -28,11 +28,7 @@ from pathlib import Path
 from typing import Optional
 
 try:
-    from core import (
-        EthicalDecision,
-        EthicalSeverity,
-        GovernanceAction,
-        LucasGovernanceModule)
+    from core import EthicalDecision, EthicalSeverity, GovernanceAction, LucasGovernanceModule
 except ImportError:
     # Fallback for relative import
     try:

@@ -9,16 +9,13 @@ Created: 2025-09-05
 Part of Phase 2B: QI and Bio system integration with AGI capabilities
 """
 
-import asyncio
 from datetime import datetime, timezone
 from unittest.mock import AsyncMock, Mock, patch
 
-import numpy as np
 import pytest
 
 from agi_core.integration.qi_bio_agi_bridge import (
     IntegrationMetrics,
-    IntegrationResult,
     ProcessingContext,
     ProcessingMode,
     QIBioAGIBridge,

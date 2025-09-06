@@ -14,15 +14,14 @@
 ╚══════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import math
 import random
 import time
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional
 
 try:
     import numpy as np
@@ -31,7 +30,7 @@ except ImportError:
 
 from candidate.core.common import get_logger
 
-from ..engine.consciousness_environment import ConsciousnessState, MatrizNode
+from ..engine.consciousness_environment import MatrizNode
 
 logger = get_logger(__name__)
 

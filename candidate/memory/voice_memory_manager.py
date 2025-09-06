@@ -119,7 +119,7 @@ class MemoryManager:
         preference = {
             "parameters": parameters,
             "feedback": feedback,
-            "timestamp": datetime.datetime.now(),
+            "timestamp": datetime.datetime.now(timezone.utc),
         }
 
         self.voice_preferences[user_id].append(preference)

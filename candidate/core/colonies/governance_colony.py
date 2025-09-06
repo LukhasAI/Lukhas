@@ -15,7 +15,7 @@ from candidate.core.efficient_communication import MessagePriority
 from candidate.core.swarm import SwarmAgent
 from candidate.core.symbolism.tags import TagScope
 
-# Import EthicsEngine from ethics module (uses stub implementation)
+# Import EthicsEngine from ethics module (uses stub implementation, timezone)
 # Import SafetyChecker from ethics module (uses stub implementation)
 from ethics import EthicsEngine, SafetyChecker
 
@@ -77,7 +77,7 @@ class EthicsAgent(SwarmAgent):
             "violations": violations,
             "agent_id": self.agent_id,
             "specialization": self.specialization,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.decision_history.append(decision)
@@ -273,7 +273,7 @@ class GovernanceColony(BaseColony):
             "violations": all_violations,
             "veto_triggered": veto_triggered,
             "emergency_override_used": self.emergency_override and not consensus_approved,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "status": "completed",
         }
 
@@ -407,7 +407,7 @@ class GovernanceColony(BaseColony):
             "approved": approved,
             "reason": reason,
             "details": details,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "colony_id": self.colony_id,
         }
 
@@ -439,7 +439,7 @@ class GovernanceColony(BaseColony):
     async def _handle_ethics_review(self, message):
         """Handle incoming ethics review requests."""
 
-        task_id = message.payload.get("task_id", f"review-{datetime.now().timestamp()}")
+        task_id = message.payload.get("task_id", f"review-{datetime.now(timezone.utc).timestamp()}")
         result = await self.execute_task(task_id, message.payload)
 
         # Send response

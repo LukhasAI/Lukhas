@@ -4,7 +4,7 @@
 Pydantic models for API request/response validation
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 

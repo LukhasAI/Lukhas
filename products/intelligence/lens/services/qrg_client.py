@@ -5,7 +5,7 @@ Quantum Relational Graph integration
 """
 
 import asyncio
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class QRGClient:

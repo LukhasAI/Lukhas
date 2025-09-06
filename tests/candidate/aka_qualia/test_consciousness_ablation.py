@@ -24,17 +24,13 @@ Production Readiness Criteria:
 
 import asyncio
 import time
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
-from unittest.mock import MagicMock, Mock, patch
+from typing import Any
 
 import pytest
 
 from candidate.aka_qualia.core import AkaQualia
-from candidate.aka_qualia.memory import AkaqMemory
 from candidate.aka_qualia.models import (
     AgencyFeel,
-    PhenomenalScene,
     ProtoQualia,
     RiskProfile,
     SeverityLevel,

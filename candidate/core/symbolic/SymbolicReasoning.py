@@ -30,7 +30,7 @@ class SymbolicEngine:
     Symbolic reasoning engine with logic operators and confidence metrics
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.confidence_threshold = 0.8
         self.reasoning_graph = {}
         self.reasoning_history = []
@@ -98,7 +98,7 @@ class SymbolicEngine:
                 default=0.0,
             ),
             "logic_applied": len(valid_logic) > 0,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _extract_semantic_content(self, input_data: dict) -> str:

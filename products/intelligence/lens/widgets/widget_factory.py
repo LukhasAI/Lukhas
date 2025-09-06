@@ -4,7 +4,7 @@ Widget Factory for ΛLens
 Maps GLYPH symbols to UI widgets
 """
 
-from typing import Any, Dict, List
+from typing import Any
 
 from ..symbols.glyph_types import GlyphSymbol, SymbolType
 

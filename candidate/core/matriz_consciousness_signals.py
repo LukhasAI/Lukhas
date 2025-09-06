@@ -7,14 +7,12 @@ bio-symbolic adaptation, and inter-module coordination across the distributed
 consciousness architecture.
 """
 
-import json
 import logging
 import time
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 

@@ -17,8 +17,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import pkg_resources
-import requests
 from packaging import version
 
 # Suppress pkg_resources deprecation warning

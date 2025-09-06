@@ -7,19 +7,16 @@ for consciousness signals across the distributed architecture, ensuring
 proper flow control, cascade prevention, and network health monitoring.
 """
 
-import asyncio
-import json
 import logging
 import threading
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
-from .bio_symbolic_processor import BioSymbolicProcessor, get_bio_symbolic_processor
-from .matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType, ConstellationStar
+from .bio_symbolic_processor import get_bio_symbolic_processor
+from .matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
 
 logger = logging.getLogger(__name__)
 

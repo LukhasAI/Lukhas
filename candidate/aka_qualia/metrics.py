@@ -18,7 +18,7 @@ Key Formulas:
 import math
 from collections import defaultdict, deque
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from candidate.aka_qualia.models import Metrics, PhenomenalScene, ProtoQualia
 

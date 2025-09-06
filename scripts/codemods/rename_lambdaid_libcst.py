@@ -18,12 +18,10 @@ from __future__ import annotations
 
 import argparse
 import contextlib
-import sys
 from collections.abc import Iterable
 from pathlib import Path
 
 import libcst as cst
-from libcst import matchers as m
 
 
 class LambdaIdTransformer(cst.CSTTransformer):

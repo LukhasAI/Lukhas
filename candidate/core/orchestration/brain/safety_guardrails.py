@@ -16,7 +16,7 @@ import re
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger("v1_AGI.compliance.guardrails")
+logger = logging.getLogger("v1_AGI.compliance.guardrails", timezone)
 
 
 class SafetyGuardrails:
@@ -174,7 +174,7 @@ class SafetyGuardrails:
             "overall_risk": overall_risk,
             "filter_results": content_filter_results,
             "safeguard_results": safeguard_results,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add reason if not safe

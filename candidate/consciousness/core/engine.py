@@ -30,7 +30,8 @@ try:
         get_brand_voice,
         get_trinity_context,
         normalize_output_text,
-        validate_output)
+        validate_output,
+    )
 
     BRANDING_AVAILABLE = True
 except ImportError:

@@ -29,7 +29,7 @@ try:
 except ImportError:
     MemoryFoldSystem = None
 
-logger = logging.getLogger("api.emotion")
+logger = logging.getLogger("api.emotion", timezone)
 
 router = APIRouter(prefix="/emotion", tags=["emotion"])
 
@@ -69,7 +69,7 @@ class APIResponse(BaseModel):
     status: str = Field(..., description="Response status")
     data: Any = Field(..., description="Response data")
     message: Optional[str] = Field(None, description="Optional message")
-    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # Initialize memory system for emotion operations

@@ -15,16 +15,11 @@ Components tested:
 Trinity Framework: ⚛️🧠🛡️
 """
 
-import contextlib
-import json
 import logging
 import os
-import sqlite3
 import sys
 import tempfile
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from typing import Any, Optional
+from datetime import datetime, timezone
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -43,7 +38,7 @@ class TestActorSystem:
     def test_actor_creation_and_registration(self):
         """Test creating and registering actors in the system."""
         try:
-            from core.actor_system import Actor, ActorSystem, AIAgentActor
+            from core.actor_system import Actor, ActorSystem
 
             # Create actor system
             system = ActorSystem()

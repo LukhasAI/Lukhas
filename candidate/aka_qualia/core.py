@@ -16,7 +16,7 @@ Usage:
 import logging
 import time
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 from candidate.aka_qualia.glyphs import map_scene_to_glyphs, normalize_glyph_keys
 from candidate.aka_qualia.memory import AkaqMemory, create_memory_client

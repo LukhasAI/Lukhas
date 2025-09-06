@@ -24,14 +24,11 @@ Integration:
 - Secure logging for public accountability audit trails
 """
 
-import asyncio
-import json
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional
 
 
 # Democratic oversight types

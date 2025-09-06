@@ -11,7 +11,7 @@ import json
 import os
 import subprocess
 import sys
-from typing import Any, Dict, Optional
+from typing import Optional
 
 # ΛTAG: core, router, config
 from candidate.core.common.config import config

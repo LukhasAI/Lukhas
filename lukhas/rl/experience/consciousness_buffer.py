@@ -16,8 +16,8 @@ import logging
 import pickle
 import random
 from collections import deque, namedtuple
-from dataclasses import dataclass, field
-from typing import Any, Optional, Union
+from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 import torch

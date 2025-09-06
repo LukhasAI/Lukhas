@@ -68,7 +68,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger("ΛTRACE.dream.data_sources")
+logger = logging.getLogger("ΛTRACE.dream.data_sources", timezone)
 
 
 class DreamDataCollector:
@@ -129,7 +129,7 @@ class DreamDataCollector:
                 "recent_memories": recent_memories,
                 "themes": memory_themes,
                 "emotional_traces": self._extract_emotional_traces(recent_memories),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except ImportError:
@@ -174,7 +174,7 @@ class DreamDataCollector:
                 for i in range(3)
             ],
             "themes": ["exploration", "transformation", "connection"],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # ═══════════════════════════════════════════════════════════════════
@@ -206,7 +206,7 @@ class DreamDataCollector:
                 "reflection_depth": current_state.get("reflection_depth", 0.3),
                 "cognitive_load": current_state.get("cognitive_load", 0.4),
                 "active_thoughts": self._get_active_thoughts(current_state),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except ImportError:
@@ -237,7 +237,7 @@ class DreamDataCollector:
             ],
             "reflection_depth": round(random.uniform(0.3, 0.7), 2),
             "cognitive_load": round(random.uniform(0.2, 0.6), 2),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # ═══════════════════════════════════════════════════════════════════
@@ -273,7 +273,7 @@ class DreamDataCollector:
                 "dominant_emotions": self._get_dominant_emotions(current_emotion),
                 "emotional_complexity": self._calculate_emotional_complexity(current_emotion),
                 "resonance_patterns": self._get_resonance_patterns(),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except ImportError:
@@ -318,7 +318,7 @@ class DreamDataCollector:
             },
             "dominant_emotions": [("curiosity", 0.7), ("peace", 0.6), ("wonder", 0.5)],
             "emotional_complexity": 0.65,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # ═══════════════════════════════════════════════════════════════════
@@ -354,7 +354,7 @@ class DreamDataCollector:
                 "active_glyphs": active_glyphs,
                 "symbolic_resonance": self._calculate_symbolic_resonance(active_glyphs),
                 "qi_possibilities": self._get_quantum_possibilities(),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except ImportError:
@@ -389,7 +389,7 @@ class DreamDataCollector:
                 "memory_entanglement",
                 "future_collapse",
             ],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # ═══════════════════════════════════════════════════════════════════
@@ -408,7 +408,7 @@ class DreamDataCollector:
         """
         logger.info("Collecting external data for dreams")
 
-        current_time = datetime.utcnow()
+        current_time = datetime.now(timezone.utc)
 
         external_data = {
             "source": "external",
@@ -492,7 +492,7 @@ class DreamDataCollector:
             "artistic_themes": self._get_artistic_themes(),
             "cultural_elements": self._get_cultural_elements(),
             "inspiration_sources": self._get_inspiration_sources(),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return creative_data
@@ -607,7 +607,7 @@ class DreamDataCollector:
 
         # Create final data package
         dream_data = {
-            "collection_id": f"COLLECT_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
+            "collection_id": f"COLLECT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "sources": data_collection,
             "synthesis": {
                 "dream_seeds": dream_seeds,
@@ -616,7 +616,7 @@ class DreamDataCollector:
                 "suggested_themes": self._suggest_themes(data_collection),
                 "emotional_palette": self._create_emotional_palette(data_collection),
             },
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Log collection

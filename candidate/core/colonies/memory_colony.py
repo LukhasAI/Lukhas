@@ -16,7 +16,7 @@ from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.efficient_communication import MessagePriority
 from lukhas.core.swarm import SwarmAgent
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class MemoryAgent(SwarmAgent):
@@ -35,7 +35,7 @@ class MemoryAgent(SwarmAgent):
             self.local_storage[memory_id] = {
                 "content": content,
                 "tags": tags,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "access_count": 0,
                 "memory_type": self.memory_type,
             }
@@ -57,7 +57,7 @@ class MemoryAgent(SwarmAgent):
             self.access_log.append(
                 {
                     "memory_id": memory_id,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "action": "retrieve",
                 }
             )

@@ -18,16 +18,11 @@ Mutation operators for consciousness systems:
 """
 
 import ast
-import copy
 import inspect
 import random
-import sys
-import tempfile
-import traceback
 from dataclasses import dataclass
 from enum import Enum
-from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Callable, Optional
 from unittest.mock import Mock, patch
 
 import pytest

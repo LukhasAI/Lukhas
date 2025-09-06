@@ -15,9 +15,7 @@ from typing import Any, Optional
 
 # T4 Enterprise component imports
 try:
-    from enterprise.data.mongodb_atlas_integration import (
-        T4MongoDBAtlasIntegration,
-        T4SystemMetrics)
+    from enterprise.data.mongodb_atlas_integration import T4MongoDBAtlasIntegration, T4SystemMetrics
     from enterprise.monitoring.datadog_integration import (
         T4DatadogMonitoring,
         T4SLAMetrics,

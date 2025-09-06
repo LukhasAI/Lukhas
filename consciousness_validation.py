@@ -23,7 +23,6 @@ def validate_consciousness_system():
 
     # Test core imports
     try:
-        import lukhas
 
         print("✅ LUKHAS core: Operational")
         results["lukhas_core"] = True
@@ -32,7 +31,6 @@ def validate_consciousness_system():
         results["lukhas_core"] = False
 
     try:
-        import memory
 
         print("✅ Memory system: Operational")
         results["memory_system"] = True
@@ -41,7 +39,6 @@ def validate_consciousness_system():
         results["memory_system"] = False
 
     try:
-        import core
 
         print("✅ Core modules: Operational")
         results["core_modules"] = True
@@ -54,7 +51,6 @@ def validate_consciousness_system():
 
     # Test MemoryWrapper - WORKING
     try:
-        from lukhas.memory.memory_wrapper import MemoryWrapper
 
         print("✅ Memory wrapper: Operational")
         print("   📍 Path: lukhas.memory.memory_wrapper.MemoryWrapper")

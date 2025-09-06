@@ -11,21 +11,18 @@ Real-time consciousness signal routing, state synchronization, and network coord
 """
 
 import asyncio
-import json
 import logging
 import time
-import uuid
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Union
+from typing import Any, Callable, Optional
 
 import numpy as np
 
 # Import enhanced MATRIZ components
 from .enhanced_matriz_adapter import (
-    BioSymbolicPattern,
     ConsciousnessSignal,
     EnhancedMatrizAdapter,
     SignalType,

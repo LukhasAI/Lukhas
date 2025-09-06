@@ -22,11 +22,10 @@ Follows constitutional AI methodology:
 - Scalable oversight
 """
 
-import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional
 
 try:
     from ..security.secure_logging import get_security_logger

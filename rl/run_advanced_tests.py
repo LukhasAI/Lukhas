@@ -15,7 +15,6 @@ Usage:
 import argparse
 import sys
 from pathlib import Path
-from typing import Dict, List
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -116,7 +115,7 @@ def run_available_tests(verbose: bool = False) -> dict[str, str]:
 def run_performance_tests(verbose: bool = False) -> str:
     """Run performance regression tests"""
     try:
-        from rl.tests.test_performance_regression import ConsciousnessPerformanceTester, PerformanceBenchmark
+        from rl.tests.test_performance_regression import ConsciousnessPerformanceTester
 
         tester = ConsciousnessPerformanceTester()
 

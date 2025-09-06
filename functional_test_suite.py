@@ -4,9 +4,6 @@
 Tests actual functionality, not just imports
 """
 
-import os
-import sys
-import traceback
 from datetime import datetime
 
 
@@ -16,7 +13,7 @@ def test_memory_functionality():
     print("-" * 35)
 
     try:
-        from lukhas.memory import MEMORY_AVAILABLE, MemoryWrapper, access_memory, create_fold, dump_state
+        from lukhas.memory import MEMORY_AVAILABLE, access_memory, create_fold, dump_state
 
         print(f"   Memory Available: {MEMORY_AVAILABLE}")
 
@@ -47,7 +44,6 @@ def test_agent_functionality():
     print("-" * 32)
 
     try:
-        import agent.core
         from agent import get_agent_system_status
 
         # Test agent status

@@ -15,13 +15,12 @@
 """
 
 import asyncio
-import json
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from .matriz_consciousness_state import (
     ConsciousnessState,

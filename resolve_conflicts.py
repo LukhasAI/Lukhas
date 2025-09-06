@@ -8,7 +8,6 @@ and main branch already has the improved syntax.
 import os
 import re
 import subprocess
-from pathlib import Path
 
 
 def find_conflict_files():

@@ -5,7 +5,7 @@ Handles plain text files and extracts content
 """
 
 import re
-from typing import Any, Dict
+from typing import Any
 
 from .base_parser import BaseParser
 

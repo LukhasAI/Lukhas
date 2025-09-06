@@ -14,7 +14,7 @@ import json
 import logging
 import os
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.aka_qualia.core import AkaQualia
 from candidate.aka_qualia.glyphs import map_scene_to_glyphs

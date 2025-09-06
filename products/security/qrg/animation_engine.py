@@ -53,7 +53,7 @@ try:
 except ImportError:
     SCIPY_AVAILABLE = False
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AnimationType(Enum):
@@ -349,7 +349,7 @@ class TemporalAnimationEngine:
 
         # Generate each frame
         for frame_idx in range(frame_count):
-            datetime.now() + timedelta(seconds=frame_idx / self.default_fps)
+            datetime.now(timezone.utc) + timedelta(seconds=frame_idx / self.default_fps)
 
             # Generate frame based on animation type
             if animation_type == AnimationType.QUANTUM_PULSE:
@@ -459,7 +459,7 @@ class TemporalAnimationEngine:
 
         return TemporalFrame(
             frame_id=f"QP_{frame_idx:06d}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             visual_matrix=pulsed_matrix,
             motion_vectors=motion_vectors,
             temporal_hash=temporal_hash,
@@ -518,7 +518,7 @@ class TemporalAnimationEngine:
 
         return TemporalFrame(
             frame_id=f"CW_{frame_idx:06d}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             visual_matrix=wave_matrix,
             motion_vectors=motion_vectors,
             temporal_hash=temporal_hash,
@@ -566,7 +566,7 @@ class TemporalAnimationEngine:
 
         return TemporalFrame(
             frame_id=f"FIB_{frame_idx:06d}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             visual_matrix=spiral_matrix,
             motion_vectors=motion_vectors,
             temporal_hash=temporal_hash,
@@ -635,7 +635,7 @@ class TemporalAnimationEngine:
 
         return TemporalFrame(
             frame_id=f"LAM_{frame_idx:06d}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             visual_matrix=morph_matrix,
             motion_vectors=motion_vectors,
             temporal_hash=temporal_hash,
@@ -686,7 +686,7 @@ class TemporalAnimationEngine:
 
         return TemporalFrame(
             frame_id=f"SOV_{frame_idx:06d}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             visual_matrix=sovereign_matrix,
             motion_vectors=motion_vectors,
             temporal_hash=temporal_hash,
@@ -750,7 +750,7 @@ class TemporalAnimationEngine:
 
         return TemporalFrame(
             frame_id=f"MKT_{frame_idx:06d}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             visual_matrix=disruption_matrix,
             motion_vectors=motion_vectors,
             temporal_hash=temporal_hash,
@@ -775,7 +775,7 @@ class TemporalAnimationEngine:
 
         return TemporalFrame(
             frame_id=f"DEF_{frame_idx:06d}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             visual_matrix=frame_matrix,
             motion_vectors=motion_vectors,
             temporal_hash=temporal_hash,
@@ -808,8 +808,8 @@ class TemporalAnimationEngine:
         # Create token
         token = TemporalAuthToken(
             token_id=self._generate_token_id(),
-            creation_time=datetime.now(),
-            expiration_time=datetime.now() + validity_duration,
+            creation_time=datetime.now(timezone.utc),
+            expiration_time=datetime.now(timezone.utc) + validity_duration,
             frame_hashes=frame_hashes[:10],  # First 10 frames for efficiency
             temporal_proof=temporal_proof,
             qi_signature=self._generate_quantum_signature(temporal_proof),
@@ -831,7 +831,7 @@ class TemporalAnimationEngine:
         🚀 CEO: "TIME ITSELF VALIDATES YOUR IDENTITY"
         """
         # Check token expiration
-        if datetime.now() > token.expiration_time:
+        if datetime.now(timezone.utc) > token.expiration_time:
             return False, "Token expired - time waits for no one"
 
         # Verify frame hash is in sequence
@@ -859,7 +859,7 @@ class TemporalAnimationEngine:
         """Generate unique temporal seed"""
         seed_data = {
             "matrix_hash": hashlib.sha256(base_matrix.tobytes()).hexdigest()[:16],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness": consciousness_context or {},
             "market": market_state or {},
         }

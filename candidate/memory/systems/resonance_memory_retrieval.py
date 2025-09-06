@@ -246,7 +246,7 @@ class ResonanceGate:
 
         # Create memory ID
         memory_content = json.dumps(memory_data) if not isinstance(memory_data, str) else memory_data
-        memory_id = hashlib.sha3_256((memory_content + str(datetime.now())).encode()).hexdigest()[:16]
+        memory_id = hashlib.sha3_256((memory_content + str(datetime.now(timezone.utc))).encode()).hexdigest()[:16]
 
         # Create resonant memory
         resonant_memory = ResonantMemory(

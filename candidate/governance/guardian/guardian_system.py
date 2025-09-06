@@ -36,7 +36,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class GuardianStatus(Enum):
@@ -240,7 +240,7 @@ class EnhancedGuardianSystem:
             "drift_score_current": 0.0,
             "constitutional_compliance_rate": 1.0,
             "emergency_activations": 0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Event handlers
@@ -371,7 +371,7 @@ class EnhancedGuardianSystem:
             # Create threat detection record
             detection = ThreatDetection(
                 detection_id=detection_id,
-                detected_at=datetime.now(),
+                detected_at=datetime.now(timezone.utc),
                 threat_type=threat_type,
                 threat_level=threat_analysis["level"],
                 threat_score=threat_analysis["score"],
@@ -447,7 +447,7 @@ class EnhancedGuardianSystem:
                 threat_id=threat_id,
                 responding_agent=responding_agent,
                 actions_taken=actions,
-                started_at=datetime.now(),
+                started_at=datetime.now(timezone.utc),
             )
 
             self.active_responses[response_id] = response
@@ -461,7 +461,7 @@ class EnhancedGuardianSystem:
                 response.audit_trail.append(f"Executed {action.value}: {result['status']}")
 
             # Evaluate response effectiveness
-            response.completed_at = datetime.now()
+            response.completed_at = datetime.now(timezone.utc)
             response.execution_time = (response.completed_at - response.started_at).total_seconds()
             response.success = all(r["success"] for r in execution_results)
             response.threat_neutralized = await self._evaluate_threat_neutralization(threat, execution_results)
@@ -876,7 +876,7 @@ class EnhancedGuardianSystem:
 
         while self.monitoring_active:
             try:
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
 
                 for agent in self.guardian_agents.values():
                     # Check agent heartbeat
@@ -990,7 +990,7 @@ class EnhancedGuardianSystem:
             "drift_threshold": self.drift_threshold,
             "constitutional_enforcement": self.constitutional_enforcement_active,
             "system_uptime": (
-                datetime.now() - datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                datetime.now(timezone.utc) - datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
             ).total_seconds(),
         }
 

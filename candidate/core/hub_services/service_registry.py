@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Any, Callable, Optional, TypeVar
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 T = TypeVar("T")
 
@@ -60,7 +60,7 @@ class ServiceRegistry:
         self._services[name] = service
         self._initialized[name] = True
         self._metadata[name] = metadata or {
-            "registered_at": datetime.now().isoformat(),
+            "registered_at": datetime.now(timezone.utc).isoformat(),
             "type": type(service).__name__,
         }
 
@@ -83,7 +83,7 @@ class ServiceRegistry:
         self._factories[name] = factory
         self._initialized[name] = False
         self._metadata[name] = metadata or {
-            "registered_at": datetime.now().isoformat(),
+            "registered_at": datetime.now(timezone.utc).isoformat(),
             "type": "factory",
             "lazy": True,
         }
@@ -110,7 +110,7 @@ class ServiceRegistry:
             service = self._factories[name]()
             self._services[name] = service
             self._initialized[name] = True
-            self._metadata[name]["initialized_at"] = datetime.now().isoformat()
+            self._metadata[name]["initialized_at"] = datetime.now(timezone.utc).isoformat()
             logger.info(f"Lazy initialized service: {name}")
 
         if name not in self._services:

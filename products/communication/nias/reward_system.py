@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class RewardType(Enum):
+class RewardType(Enum, timezone):
     """Types of rewards available in the system"""
 
     DREAM_CREDITS = "dream_credits"  # Virtual currency
@@ -285,7 +285,7 @@ class RewardEngine:
         profile.lifetime_earnings += reward_value
         profile.experience_points += int(reward_value * 10)
         profile.reward_history.append(reward)
-        profile.last_activity = datetime.now()
+        profile.last_activity = datetime.now(timezone.utc)
 
         # Check for level up
         self._check_level_up(profile)
@@ -327,7 +327,7 @@ class RewardEngine:
             value=cost,
             description=item["description"],
             metadata=item,
-            expires_at=datetime.now() + timedelta(days=30),  # 30 day expiry
+            expires_at=datetime.now(timezone.utc) + timedelta(days=30),  # 30 day expiry
         )
 
         profile.pending_rewards.append(reward)
@@ -347,7 +347,7 @@ class RewardEngine:
 
         # Check if last activity was within 24 hours
         last_activity = profile.last_activity
-        return (datetime.now() - last_activity).days <= 1
+        return (datetime.now(timezone.utc) - last_activity).days <= 1
 
     def _check_level_up(self, profile: UserRewardProfile) -> bool:
         """Check if user has leveled up"""

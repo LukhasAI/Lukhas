@@ -7,15 +7,11 @@ ensuring proper MΛTRIZ signal emission at all consciousness boundaries
 and enabling seamless inter-module communication.
 """
 
-import asyncio
-import json
 import logging
-import time
 from collections import defaultdict, deque
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Optional
 
 from .bio_symbolic_processor import get_bio_symbolic_processor
 from .consciousness_signal_router import get_consciousness_router
@@ -25,7 +21,6 @@ from .matriz_consciousness_signals import (
     ConsciousnessSignalFactory,
     ConsciousnessSignalType,
     ConstellationAlignmentData,
-    TemporalContext,
 )
 
 logger = logging.getLogger(__name__)

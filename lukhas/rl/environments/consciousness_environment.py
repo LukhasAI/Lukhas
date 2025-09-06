@@ -17,14 +17,13 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, ClassVar, Optional, Union
+from typing import Any, ClassVar
 
 # Third-party
 import gymnasium as gym
 import numpy as np
 import torch
 from gymnasium import spaces
-from torch import nn
 
 # Local imports
 from lukhas.consciousness import ConsciousnessModule

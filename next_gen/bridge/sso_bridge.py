@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import urlencode
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -161,7 +161,7 @@ class SSOBridge:
         """Create default SSO configuration with sample providers"""
         default_config = {
             "version": "1.0.0",
-            "created": datetime.utcnow().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
             "providers": {
                 "azure_ad": {
                     "provider_id": "azure_ad",
@@ -253,7 +253,7 @@ class SSOBridge:
         """Save active SSO sessions"""
         data = {
             "version": "1.0.0",
-            "updated": datetime.utcnow().isoformat(),
+            "updated": datetime.now(timezone.utc).isoformat(),
             "sessions": {},
         }
 
@@ -305,7 +305,7 @@ class SSOBridge:
             nonce=nonce,
             redirect_uri=redirect_uri,
             requested_scopes=scopes,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         self.transactions[transaction_id] = transaction
@@ -362,7 +362,7 @@ class SSOBridge:
         assigned_glyphs = self._map_claims_to_glyphs(user_info, provider.glyph_mapping)
 
         # Create session
-        session_id = f"sso_{datetime.utcnow().timestamp()}_{provider.provider_id}"
+        session_id = f"sso_{datetime.now(timezone.utc).timestamp()}_{provider.provider_id}"
         session = SSOSession(
             session_id=session_id,
             provider_id=provider.provider_id,
@@ -371,19 +371,19 @@ class SSOBridge:
             access_token=token_response["access_token"],
             refresh_token=token_response.get("refresh_token"),
             token_type=token_response.get("token_type", "Bearer"),
-            expires_at=datetime.utcnow() + timedelta(seconds=token_response.get("expires_in", 3600)),
+            expires_at=datetime.now(timezone.utc) + timedelta(seconds=token_response.get("expires_in", 3600)),
             scopes=transaction.requested_scopes,
             user_claims=user_info,
             assigned_glyphs=assigned_glyphs,
-            created_at=datetime.utcnow(),
-            last_activity=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            last_activity=datetime.now(timezone.utc),
         )
 
         # Store session
         self.active_sessions[session_id] = session
 
         # Complete transaction
-        transaction.completed_at = datetime.utcnow()
+        transaction.completed_at = datetime.now(timezone.utc)
         transaction.success = True
 
         # Save sessions
@@ -490,14 +490,14 @@ class SSOBridge:
         session = self.active_sessions[session_id]
 
         # Check if session is expired
-        if datetime.utcnow() > session.expires_at:
+        if datetime.now(timezone.utc) > session.expires_at:
             logger.info(f"🕐 Session expired: {session_id}")
             del self.active_sessions[session_id]
             self._save_sessions()
             return None
 
         # Update last activity
-        session.last_activity = datetime.utcnow()
+        session.last_activity = datetime.now(timezone.utc)
         self._save_sessions()
 
         return session
@@ -546,7 +546,7 @@ class SSOBridge:
         expired_sessions = 0
 
         for session in self.active_sessions.values():
-            if datetime.utcnow() > session.expires_at:
+            if datetime.now(timezone.utc) > session.expires_at:
                 expired_sessions += 1
 
         # Provider statistics

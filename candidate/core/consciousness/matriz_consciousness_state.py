@@ -15,16 +15,14 @@
 """
 
 import asyncio
-import json
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
-import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 logger = std_logging.getLogger(__name__)
 

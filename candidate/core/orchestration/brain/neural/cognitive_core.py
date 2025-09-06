@@ -30,7 +30,7 @@ from typing import Optional
 from candidate.orchestration.brain.core.capability_levels import AGICapabilityLevel
 from candidate.orchestration.brain.core.response_types import AGIResponse
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(__file__, timezone)))
 
 # Basic components that should be available
 
@@ -124,7 +124,7 @@ class NeuralIntelligenceSystem:
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.initialization_time = datetime.now()
+        self.initialization_time = datetime.now(timezone.utc)
 
         # Initialize standard cognitive components
         self._initialize_core_components()
@@ -415,7 +415,7 @@ class NeuralIntelligenceSystem:
         """Update conversation history"""
         self.conversation_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input": input_data.get("text", ""),
                 "response": agi_response.content,
                 "confidence": agi_response.confidence,
@@ -449,7 +449,7 @@ class NeuralIntelligenceSystem:
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
                 "confidence": agi_response.confidence,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "lukhas_enhanced": LUKHAS_INNOVATIONS_AVAILABLE,
             }
             # Keep only last 1000 patterns

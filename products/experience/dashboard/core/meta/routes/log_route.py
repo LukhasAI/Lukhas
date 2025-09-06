@@ -18,7 +18,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from identity import AuthContext, get_current_user, require_t3_or_above
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Create router for log endpoints
 log_router = APIRouter(prefix="/api/meta", tags=["meta-logs"])
@@ -266,7 +266,7 @@ async def export_logs(format: str = "json", user: AuthContext = Depends(require_
         if format == "json":
             return {
                 "format": "json",
-                "exported_at": datetime.utcnow().isoformat(),
+                "exported_at": datetime.now(timezone.utc).isoformat(),
                 "exported_by": user.email,
                 "data": enriched_logs,
             }

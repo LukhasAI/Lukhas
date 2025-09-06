@@ -9,7 +9,7 @@ Provides the same interface as SqlMemory but stores nothing and returns empty re
 
 import datetime as dt
 import uuid
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .memory import AkaqMemory
 

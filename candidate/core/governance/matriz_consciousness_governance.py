@@ -15,7 +15,6 @@
 """
 
 import asyncio
-import json
 
 # Explicit logging import to avoid conflicts with candidate/core/logging
 import logging as std_logging
@@ -23,7 +22,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 # Import consciousness components
 try:

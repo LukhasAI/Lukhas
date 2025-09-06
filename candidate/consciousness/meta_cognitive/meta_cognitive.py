@@ -33,7 +33,7 @@ try:
     # Assuming 'dast' is a sibling directory to 'meta_cognitive' under 'integration'
     from ..dast.enhanced_dast_orchestrator import EnhancedDASTOrchestrator
 
-    logger.info("Successfully imported dependencies for MetaCognitiveOrchestrator.")
+    logger.info("Successfully imported dependencies for MetaCognitiveOrchestrator.", timezone)
 except ImportError as e:
     logger.error(
         "Failed to import critical dependencies for MetaCognitiveOrchestrator.",
@@ -67,7 +67,7 @@ class EnhancedMetaCognitiveOrchestrator:
     """
 
     def __init__(self):
-        self.logger = logger.bind(orchestrator_id=f"meta_cog_orch_{datetime.now().strftime('%H%M%S')}")
+        self.logger = logger.bind(orchestrator_id=f"meta_cog_orch_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.logger.info("Initializing EnhancedMetaCognitiveOrchestrator.")
 
         # Initialize key components

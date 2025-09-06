@@ -5,7 +5,7 @@ Handles Markdown files and extracts structure
 """
 
 import re
-from typing import Any, Dict, List
+from typing import Any
 
 from .base_parser import BaseParser
 

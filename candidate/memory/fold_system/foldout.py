@@ -51,8 +51,7 @@ def export_folds(
     path: Path,
     codec: str = DEFAULT_CODEC,
     compression_level: Optional[int] = None,
-    metadata: Optional[dict[str, Any]] = None,
-) -> dict[str, Any]:
+    metadata: Optional[dict[str, Any]] = None,, timezone) -> dict[str, Any]:
     """
     Export memory folds to LKF-Pack v1 format.
 
@@ -73,7 +72,7 @@ def export_folds(
     # Initialize header
     header = {
         "spec": "1.0",
-        "created": datetime.utcnow().isoformat() + "Z",
+        "created": datetime.now(timezone.utc).isoformat() + "Z",
         "entries": 0,
         "codec": codec,
         "compression_level": compression_level,
@@ -238,7 +237,7 @@ def create_fold_bundle(
     Returns:
         Path to created bundle
     """
-    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     filename = f"{bundle_name}_{timestamp}.lkf"
     output_path = output_dir / filename
 

@@ -6,13 +6,12 @@ combining their outputs with confidence weighting and disagreement analysis.
 """
 
 import asyncio
-import json
 import logging
 import statistics
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from .model_router import ModelResponse, ModelRouter, ModelType, RoutingRequest, TaskType
 

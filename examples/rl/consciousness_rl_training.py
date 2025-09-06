@@ -12,7 +12,7 @@ import asyncio
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import numpy as np
 import torch
@@ -20,10 +20,6 @@ import torch
 # Add LUKHAS to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from lukhas.consciousness import ConsciousnessModule
-from lukhas.emotion import EmotionalAwareness
-from lukhas.governance import GuardianSystem
-from lukhas.memory import MemoryFoldSystem
 from lukhas.rl import (
     ConsciousnessEnvironment,
     ConsciousnessReplayBuffer,

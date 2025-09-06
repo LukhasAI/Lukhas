@@ -11,7 +11,7 @@ Future versions can replace with learned models while maintaining interface.
 """
 
 import random
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from .models import AgencyFeel, PLSLatent, ProtoQualia, TemporalFeel
 

@@ -15,7 +15,6 @@ Implements 5 core phenomenological glyph patterns:
 - soothe_anchor: positive calm states
 """
 
-from typing import List
 
 from .models import PhenomenalGlyph, PhenomenalScene
 

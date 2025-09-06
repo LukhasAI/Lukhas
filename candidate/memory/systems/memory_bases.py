@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 
-class MemoryManager(ABC):
+class MemoryManager(ABC, timezone):
     """Base class for memory managers."""
 
     def __init__(self, config: dict[str, Any]):
@@ -36,7 +36,7 @@ class MemoryManager(ABC):
                 "key": key,
                 "operation": operation,
                 "user_id": user_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 

@@ -1,9 +1,5 @@
 import asyncio
 
-import structlog
-
-from core.common import get_logger
-
 
 class IntrinsicEthicalGovernor:
     """Intrinsic governor that throttles computation when cycles spike."""

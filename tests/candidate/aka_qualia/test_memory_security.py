@@ -15,10 +15,7 @@ Security-focused tests covering:
 Target: Production-grade resilience validation
 """
 
-import asyncio
-import sqlite3
 import time
-from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 from sqlalchemy.exc import DatabaseError, IntegrityError, OperationalError

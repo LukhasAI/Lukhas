@@ -19,7 +19,7 @@ import websockets
 
 from ..common import GlyphIntegrationMixin
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -197,7 +197,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                         "value": adjusted_drift,
                         "raw_value": current_drift,
                         "governance_factor": governance_factor,
-                        "timestamp": datetime.utcnow(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                 )
 
@@ -212,7 +212,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                                 indicator_type="drift_spike",
                                 severity=min(drift_rate / 0.5, 1.0),
                                 source="drift_monitor",
-                                timestamp=datetime.utcnow(),
+                                timestamp=datetime.now(timezone.utc),
                                 details={
                                     "drift_rate": drift_rate,
                                     "current_drift": adjusted_drift,
@@ -250,7 +250,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                         "value": adjusted_entropy,
                         "raw_value": current_entropy,
                         "trinity_factor": trinity_entropy_factor,
-                        "timestamp": datetime.utcnow(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                 )
 
@@ -265,7 +265,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                                 indicator_type="entropy_surge",
                                 severity=min(entropy_spike / 0.5, 1.0),
                                 source="entropy_monitor",
-                                timestamp=datetime.utcnow(),
+                                timestamp=datetime.now(timezone.utc),
                                 details={
                                     "entropy_spike": entropy_spike,
                                     "current_entropy": adjusted_entropy,
@@ -303,7 +303,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                         "coherence": combined_coherence,
                         "pattern_coherence": pattern_coherence,
                         "symbolic_integrity": symbolic_integrity,
-                        "timestamp": datetime.utcnow(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                 )
 
@@ -314,7 +314,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                             indicator_type="pattern_anomaly",
                             severity=(1.0 - combined_coherence),
                             source="pattern_monitor",
-                            timestamp=datetime.utcnow(),
+                            timestamp=datetime.now(timezone.utc),
                             details={
                                 "pattern_coherence": pattern_coherence,
                                 "symbolic_integrity": symbolic_integrity,
@@ -352,7 +352,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                         "state": current_state,
                         "coherence": coherence_level,
                         "trinity_alignment": trinity_alignment,
-                        "timestamp": datetime.utcnow(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                 )
 
@@ -371,7 +371,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                                 indicator_type="consciousness_instability",
                                 severity=min(adjusted_instability, 1.0),
                                 source="consciousness_monitor",
-                                timestamp=datetime.utcnow(),
+                                timestamp=datetime.now(timezone.utc),
                                 details={
                                     "unique_states": unique_states,
                                     "recent_states": recent_states[-5:],
@@ -414,7 +414,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                         "health": governance_health,
                         "policy_compliance": policy_compliance,
                         "escalation_efficiency": escalation_efficiency,
-                        "timestamp": datetime.utcnow(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                 )
 
@@ -425,7 +425,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                             indicator_type="governance_drift",
                             severity=1.0 - governance_health,
                             source="governance_monitor",
-                            timestamp=datetime.utcnow(),
+                            timestamp=datetime.now(timezone.utc),
                             details={
                                 "governance_health": governance_health,
                                 "policy_compliance": policy_compliance,
@@ -463,7 +463,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                         "sync_level": sync_level,
                         "component_health": component_health,
                         "cross_impact": cross_impact,
-                        "timestamp": datetime.utcnow(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                 )
 
@@ -474,7 +474,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                             indicator_type="trinity_desync",
                             severity=1.0 - sync_level,
                             source="trinity_monitor",
-                            timestamp=datetime.utcnow(),
+                            timestamp=datetime.now(timezone.utc),
                             details={
                                 "sync_level": sync_level,
                                 "component_health": component_health,
@@ -512,7 +512,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                         "integrity": identity_integrity,
                         "auth_health": auth_system_health,
                         "coherence": identity_coherence,
-                        "timestamp": datetime.utcnow(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                 )
 
@@ -528,7 +528,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                             indicator_type="identity_compromise",
                             severity=1.0 - overall_identity_health,
                             source="identity_monitor",
-                            timestamp=datetime.utcnow(),
+                            timestamp=datetime.now(timezone.utc),
                             details={
                                 "identity_integrity": identity_integrity,
                                 "auth_health": auth_system_health,
@@ -566,7 +566,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                         "effectiveness": guardian_effectiveness,
                         "coverage": protection_coverage,
                         "response": response_capability,
-                        "timestamp": datetime.utcnow(),
+                        "timestamp": datetime.now(timezone.utc),
                     }
                 )
 
@@ -582,7 +582,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                             indicator_type="guardian_malfunction",
                             severity=1.0 - overall_guardian_health,
                             source="guardian_monitor",
-                            timestamp=datetime.utcnow(),
+                            timestamp=datetime.now(timezone.utc),
                             details={
                                 "effectiveness": guardian_effectiveness,
                                 "coverage": protection_coverage,
@@ -655,7 +655,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
     async def _handle_governance_escalation(self, threat: ThreatIndicator):
         """Handle governance-specific threat escalation"""
         escalation = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "threat_id": f"GOV-{int(time.time())}",
             "threat_type": threat.indicator_type,
             "severity": threat.severity,
@@ -698,7 +698,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
     async def _trigger_intervention(self, threat: ThreatIndicator):
         """Trigger enhanced intervention with governance validation"""
         intervention = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "threat": threat.indicator_type,
             "severity": threat.severity,
             "action_taken": threat.recommended_action,
@@ -1014,7 +1014,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
 
     def get_enhanced_threat_report(self) -> dict:
         """Generate enhanced threat analysis report with governance and Trinity metrics"""
-        active_count = len([t for t in self.active_threats if (datetime.utcnow() - t.timestamp).seconds < 300])
+        active_count = len([t for t in self.active_threats if (datetime.now(timezone.utc) - t.timestamp).seconds < 300])
 
         # Enhanced severity distribution
         severity_dist = {}

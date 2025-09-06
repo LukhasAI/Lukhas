@@ -9,7 +9,7 @@ and data transformations used by the memory system.
 
 import hashlib
 import json
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
 def to_proto_vec(proto: dict[str, Any]) -> list[float]:

@@ -38,7 +38,7 @@
 
 import os
 import sys
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional
 
 # Add symbolic vocabularies to path
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../symbolic/vocabularies"))

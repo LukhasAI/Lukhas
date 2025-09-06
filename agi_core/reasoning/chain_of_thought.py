@@ -6,12 +6,11 @@ Breaks down complex problems into logical steps while leveraging
 the LUKHAS dream system for creative insights.
 """
 
-import asyncio
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 # Import dream vocabulary for symbolic representation
 try:

@@ -208,7 +208,8 @@
       "Bash(touch:*)",
       "Bash(timeout 30 npm run dev)",
       "Bash(gtimeout 15 npm run dev)",
-      "Read(//private/tmp/**)"
+      "Read(//private/tmp/**)",
+      "Read(//Users/agi_dev/Downloads/**)"
     ],
     "deny": [],
     "ask": []

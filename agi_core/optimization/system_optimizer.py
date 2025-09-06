@@ -8,14 +8,13 @@ Implements Phase 2D: System optimization and performance enhancement
 """
 
 import asyncio
-import json
 import logging
 import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 logger = logging.getLogger("agi_core.optimization")
 

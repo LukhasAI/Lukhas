@@ -6,7 +6,7 @@ Handles CSV files and extracts tabular data
 
 import csv
 import re
-from typing import Any, Dict, List
+from typing import Any
 
 from .base_parser import BaseParser
 

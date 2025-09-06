@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 class EcosystemReinforcer:
-    def __init__(self):
+    def __init__(self, timezone):
         self.modules = [
             "core",
             "consciousness",
@@ -681,7 +681,7 @@ See {module}/examples/ for usage examples.
     def generate_report(self):
         """Generate reinforcement report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "imports_fixed": len(self.import_fixes),
             "bridges_created": len(self.bridges_created),
             "duplicates_found": len(self.duplicates_found),

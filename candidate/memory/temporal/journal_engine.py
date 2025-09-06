@@ -42,7 +42,7 @@ class JournalEngine:
     Integrates with LUKHAS concepts like memory_fold and emotional_vectors
     """
 
-    def __init__(self, base_path: Optional[Path] = None):
+    def __init__(self, base_path: Optional[Path] = None, timezone):
         self.base_path = base_path or Path.home() / ".claude" / "journal"
         self.config_path = Path.home() / ".claude" / "config.yaml"
         self._ensure_directories()
@@ -96,7 +96,7 @@ class JournalEngine:
         linked_files: Optional[list[str]] = None,
     ) -> JournalEntry:
         """Add a new entry to the journal"""
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
         entry_id = self._generate_entry_id(content, timestamp)
 
         entry = JournalEntry(
@@ -267,7 +267,7 @@ class JournalEngine:
     def get_daily_summary(self, date: Optional[datetime] = None) -> dict[str, Any]:
         """Get summary of journal entries for a specific day"""
         if date is None:
-            date = datetime.now()
+            date = datetime.now(timezone.utc)
 
         start_of_day = date.replace(hour=0, minute=0, second=0, microsecond=0)
         end_of_day = start_of_day + timedelta(days=1)
@@ -324,8 +324,8 @@ class JournalEngine:
             return {}
 
         memory_fold = {
-            "fold_id": f"MF_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
-            "created_at": datetime.now().isoformat(),
+            "fold_id": f"MF_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "entry_count": len(entries),
             "time_span": {
                 "start": min(e.timestamp for e in entries).isoformat(),
@@ -491,7 +491,7 @@ class JournalEngine:
 
     def _calculate_streak(self) -> int:
         """Calculate current journaling streak in days"""
-        today = datetime.now().date()
+        today = datetime.now(timezone.utc).date()
         streak = 0
 
         while True:

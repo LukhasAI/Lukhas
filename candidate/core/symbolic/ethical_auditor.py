@@ -67,8 +67,7 @@ import openai
 # Import LUKHAS core modules
 try:
     from lukhas.consciousness.dream.oneiric.oneiric_core.analysis.drift_score import (
-        SymbolicTrustScorer,
-    )
+        SymbolicTrustScorer,, timezone)
     from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
         AIConstitutionChecker,
         EmotionalSecureLogger,
@@ -347,7 +346,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
         Returns:
             Comprehensive audit result with traceability
         """
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         symbolic_tags = symbolic_tags or ["ethical_core", "agi_governed"]
 
         # Create audit context

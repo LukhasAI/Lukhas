@@ -147,7 +147,7 @@ class EnhancedPolicyBoard:
     """
 
     def __init__(self):
-        self.logger = logger.bind(board_id=f"policy_board_{datetime.now().strftime('%H%M%S')}")
+        self.logger = logger.bind(board_id=f"policy_board_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.qi_oscillator = QIOscillator()
         self.awareness = EnhancedSystemAwareness()  # Assumes default init is fine
 
@@ -323,7 +323,7 @@ class EnhancedPolicyBoard:
         )
         try:
             log_entry = {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "event_type": event_type,
                 "board_id": self.logger.get_bound_vars().get("board_id", "unknown"),  # Get bound board_id
                 "data": data,
