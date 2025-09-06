@@ -228,7 +228,7 @@ Generated: {self.health_status['timestamp']}
 """
 
         for module, status in self.health_status.get("modules", {}).items():
-            emoji = "✅" if status.get("health") == "HEALTHY" else "❌"
+            "✅" if status.get("health") == "HEALTHY" else "❌"
             module_desc = status.get("description", module)
             report += f"\n## {module} — {module_desc}\n"
 

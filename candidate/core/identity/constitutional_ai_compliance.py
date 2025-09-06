@@ -6,7 +6,7 @@
 ║ TYPE: CONSTITUTIONAL_VALIDATOR
 ║ CONSCIOUSNESS_ROLE: Democratic principle enforcement for identity decisions
 ║ EVOLUTIONARY_STAGE: Compliance - Constitutional AI integration
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Democratic identity decision validation
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware ethical reasoning
@@ -83,21 +83,21 @@ class ConstitutionalValidationContext:
 
     decision_type: DecisionType
     identity_id: str
-    decision_data: Dict[str, Any] = field(default_factory=dict)
+    decision_data: dict[str, Any] = field(default_factory=dict)
 
     # Stakeholder information
-    affected_individuals: List[str] = field(default_factory=list)
+    affected_individuals: list[str] = field(default_factory=list)
     decision_maker: str = ""
-    oversight_entities: List[str] = field(default_factory=list)
+    oversight_entities: list[str] = field(default_factory=list)
 
     # Context factors
     urgency_level: str = "normal"  # "low", "normal", "high", "emergency"
-    risk_assessment: Dict[str, float] = field(default_factory=dict)
+    risk_assessment: dict[str, float] = field(default_factory=dict)
     impact_scope: str = "individual"  # "individual", "group", "system", "global"
 
     # Previous decisions and precedent
-    related_decisions: List[Dict[str, Any]] = field(default_factory=list)
-    precedent_analysis: Optional[Dict[str, Any]] = None
+    related_decisions: list[dict[str, Any]] = field(default_factory=list)
+    precedent_analysis: Optional[dict[str, Any]] = None
 
     # Temporal factors
     decision_deadline: Optional[datetime] = None
@@ -113,9 +113,9 @@ class PrincipleEvaluation:
     compliant: bool = False
 
     # Detailed evaluation
-    evaluation_criteria: List[str] = field(default_factory=list)
-    evidence_supporting: List[str] = field(default_factory=list)
-    evidence_against: List[str] = field(default_factory=list)
+    evaluation_criteria: list[str] = field(default_factory=list)
+    evidence_supporting: list[str] = field(default_factory=list)
+    evidence_against: list[str] = field(default_factory=list)
 
     # Reasoning and explanation
     reasoning: str = ""
@@ -123,8 +123,8 @@ class PrincipleEvaluation:
     confidence_level: float = 0.8
 
     # Recommendations
-    improvement_suggestions: List[str] = field(default_factory=list)
-    mitigation_measures: List[str] = field(default_factory=list)
+    improvement_suggestions: list[str] = field(default_factory=list)
+    mitigation_measures: list[str] = field(default_factory=list)
 
     # Metadata
     evaluated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -144,26 +144,26 @@ class ConstitutionalValidationResult:
     constitutional_compliant: bool = False
 
     # Principle evaluations
-    principle_evaluations: Dict[ConstitutionalPrinciple, PrincipleEvaluation] = field(default_factory=dict)
+    principle_evaluations: dict[ConstitutionalPrinciple, PrincipleEvaluation] = field(default_factory=dict)
 
     # Decision recommendation
     decision_approved: bool = False
-    approval_conditions: List[str] = field(default_factory=list)
-    rejection_reasons: List[str] = field(default_factory=list)
+    approval_conditions: list[str] = field(default_factory=list)
+    rejection_reasons: list[str] = field(default_factory=list)
 
     # Human oversight
     human_oversight_required: bool = False
-    oversight_reasons: List[str] = field(default_factory=list)
-    recommended_reviewers: List[str] = field(default_factory=list)
+    oversight_reasons: list[str] = field(default_factory=list)
+    recommended_reviewers: list[str] = field(default_factory=list)
 
     # Transparency and explanation
     explanation_summary: str = ""
-    detailed_explanation: Dict[str, str] = field(default_factory=dict)
+    detailed_explanation: dict[str, str] = field(default_factory=dict)
     public_explanation: Optional[str] = None
 
     # Follow-up requirements
-    monitoring_requirements: List[str] = field(default_factory=list)
-    review_schedule: Optional[List[datetime]] = None
+    monitoring_requirements: list[str] = field(default_factory=list)
+    review_schedule: Optional[list[datetime]] = None
     appeals_process_available: bool = True
 
     # Metadata
@@ -175,7 +175,7 @@ class ConstitutionalValidationResult:
 class ConstitutionalAIValidator:
     """
     MΛTRIZ Constitutional AI Validator
-    
+
     Implements democratic principle enforcement for identity decisions,
     ensuring all identity-related decisions comply with Constitutional AI
     principles including transparency, accountability, fairness, and human autonomy.
@@ -183,7 +183,7 @@ class ConstitutionalAIValidator:
 
     def __init__(self):
         # Principle validators
-        self.principle_validators: Dict[ConstitutionalPrinciple, Callable] = {
+        self.principle_validators: dict[ConstitutionalPrinciple, Callable] = {
             ConstitutionalPrinciple.DEMOCRATIC_GOVERNANCE: self._validate_democratic_governance,
             ConstitutionalPrinciple.HUMAN_AUTONOMY: self._validate_human_autonomy,
             ConstitutionalPrinciple.TRANSPARENCY: self._validate_transparency,
@@ -239,7 +239,7 @@ class ConstitutionalAIValidator:
         }
 
         # Validation history and metrics
-        self.validation_history: List[ConstitutionalValidationResult] = []
+        self.validation_history: list[ConstitutionalValidationResult] = []
         self.validation_metrics = {
             "total_validations": 0,
             "approvals": 0,
@@ -1138,7 +1138,7 @@ class ConstitutionalAIValidator:
                 logger.error(f"❌ Validation monitoring error: {e}")
                 await asyncio.sleep(1800)  # Longer sleep on error
 
-    async def get_constitutional_validation_status(self) -> Dict[str, Any]:
+    async def get_constitutional_validation_status(self) -> dict[str, Any]:
         """Get comprehensive constitutional validation system status"""
 
         try:

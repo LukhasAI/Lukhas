@@ -78,9 +78,10 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+from pydantic import BaseModel, Field
+
 # Import base framework
 from identity.backend.app.institution_manager import global_timestamp
-from pydantic import BaseModel, Field
 
 # ——— Research Framework Enums ——————————————————————————————————— #
 

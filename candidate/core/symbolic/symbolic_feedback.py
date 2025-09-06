@@ -39,8 +39,8 @@ from typing import Any, Optional
 
 import numpy as np
 
-from .monitor_dashboard import MetaLearningMonitorDashboard
-from .rate_modulator import AdaptationStrategy, DynamicLearningRateModulator
+from ..meta_learning.monitor_dashboard import MetaLearningMonitorDashboard
+from ..meta_learning.rate_modulator import AdaptationStrategy, DynamicLearningRateModulator
 
 logger = logging.getLogger("LUKHAS.MetaLearning.SymbolicFeedback")
 
@@ -57,7 +57,7 @@ __meta__ = {
 }
 
 
-class Feedbacktype(Enum):
+class FeedbackType(Enum):
     """Types of symbolic feedback"""
 
     SUCCESS = "success"
@@ -67,7 +67,7 @@ class Feedbacktype(Enum):
     REHEARSAL = "rehearsal"
 
 
-class Symboliccontext(Enum):
+class SymbolicContext(Enum):
     """Context types for symbolic operations"""
 
     INTENT_RESOLUTION = "intent_resolution"
@@ -947,8 +947,8 @@ def simulate_intent_node_integration(
 
 
 if __name__ == "__main__":
-    from .monitor_dashboard import MetaLearningMonitorDashboard
-    from .rate_modulator import AdaptationStrategy, DynamicLearningRateModulator
+    from ..meta_learning.monitor_dashboard import MetaLearningMonitorDashboard
+    from ..meta_learning.rate_modulator import AdaptationStrategy, DynamicLearningRateModulator
 
     # Initialize integrated system
     dashboard = MetaLearningMonitorDashboard()

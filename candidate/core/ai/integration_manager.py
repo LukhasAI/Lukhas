@@ -12,6 +12,7 @@ Version: 1.0 (Standardized)
 
 import asyncio
 import json
+
 # Standard Library Imports
 import os  # For example
 import subprocess
@@ -342,7 +343,7 @@ class AIIntegrationManager:
             content = await self._read_file_for_task(fp, 1500)
             file_contents.append(f"\n\n--- File: {fp} ---\n{content}")
         files_ctx = "".join(file_contents)  # Smaller context for OpenAI
-        
+
         sys_prompt = "You are an expert AI assistant for LUKHΛS. Provide detailed, actionable software engineering analysis."
         user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2)}\nFiles:\n{files_ctx}\nResponse:"
         payload = {

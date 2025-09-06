@@ -22,7 +22,7 @@ def find_project_root() -> Path:
     key_files = ["CLAUDE.md", "lukhas_config.yaml", "requirements.txt"]
 
     # Search up the directory tree
-    for path in [current_path] + list(current_path.parents):
+    for path in [current_path, *list(current_path.parents)]:
         if any((path / key_file).exists() for key_file in key_files):
             return path
 

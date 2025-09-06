@@ -5,15 +5,15 @@ Advanced memory system for AGI that integrates with LUKHAS fold-based memory
 and dream system for persistent, contextual, and associative memory storage.
 """
 
-from .vector_memory import VectorMemoryStore, MemoryVector, VectorSearchResult
-from .memory_consolidation import MemoryConsolidator, ConsolidationStrategy
 from .dream_memory import DreamMemoryBridge, DreamMemoryPattern
-from .episodic_memory import EpisodicMemorySystem, Episode, EpisodicQuery
+from .episodic_memory import Episode, EpisodicMemorySystem, EpisodicQuery
+from .memory_consolidation import ConsolidationStrategy, MemoryConsolidator
 from .semantic_memory import SemanticMemoryGraph, SemanticNode, SemanticRelation
+from .vector_memory import MemoryVector, VectorMemoryStore, VectorSearchResult
 
 __all__ = [
     "VectorMemoryStore",
-    "MemoryVector", 
+    "MemoryVector",
     "VectorSearchResult",
     "MemoryConsolidator",
     "ConsolidationStrategy",

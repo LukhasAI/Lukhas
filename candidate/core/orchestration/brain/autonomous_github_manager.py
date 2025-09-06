@@ -29,8 +29,7 @@ from typing import Any, Optional
 import requests
 
 # Import ΛBot components
-from lukhas.core.budget.token_controller import (APICallContext, CallUrgency,
-                                                 TokenBudgetController)
+from lukhas.core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
 from lukhas.core.common.config import settings
 
 
@@ -411,7 +410,7 @@ class AdvancedAutonomousGitHubManager:
                     )
 
             except Exception as e:
-                errors.append(f"Exception fixing {notification.repository}: {str(e)}")
+                errors.append(f"Exception fixing {notification.repository}: {e!s}")
 
         success_rate = (successful_fixes / len(batch)) * 100 if batch else 0
 
@@ -564,7 +563,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
             }
 
             # Simulate successful PR creation
-            pr_number = f"PR"
+            pr_number = "PR"
             pr_url = f"https://github.com/{owner}/{repo}/pull/{pr_number}"
 
             self.logger.info(f"✅ Created workflow fix PR: {pr_url}")

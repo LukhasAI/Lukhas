@@ -19,6 +19,7 @@ try:
     from agi_core.orchestration.consensus_engine import ConsensusEngine, ConsensusMethod
     from agi_core.orchestration.cost_optimizer import CostConstraints, CostOptimizer, OptimizationStrategy
     from agi_core.orchestration.model_router import ModelRouter, RoutingRequest, TaskType
+
     AGI_ORCHESTRATION_AVAILABLE = True
 except ImportError:
     AGI_ORCHESTRATION_AVAILABLE = False
@@ -27,12 +28,14 @@ except ImportError:
 # Existing LUKHAS orchestration (graceful fallback)
 try:
     from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
+
     LUKHAS_ORCHESTRATION_AVAILABLE = True
 except ImportError:
     LUKHAS_ORCHESTRATION_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
 
 # Pydantic models
 class OrchestrationRequest(BaseModel):
@@ -45,6 +48,7 @@ class OrchestrationRequest(BaseModel):
     constellation_context: Optional[dict[str, float]] = None
     priority: float = 1.0
 
+
 class OrchestrationResponse(BaseModel):
     response: str
     model_used: str
@@ -55,6 +59,7 @@ class OrchestrationResponse(BaseModel):
     quality_score: float
     metadata: dict[str, Any]
 
+
 class ConsensusRequest(BaseModel):
     question: str
     models: list[str]
@@ -62,6 +67,7 @@ class ConsensusRequest(BaseModel):
     consensus_threshold: float = 0.7
     max_attempts: int = 3
     constellation_context: Optional[dict[str, float]] = None
+
 
 class ConsensusResponse(BaseModel):
     consensus_reached: bool
@@ -72,21 +78,25 @@ class ConsensusResponse(BaseModel):
     disagreements: list[str]
     processing_time_ms: int
 
+
 class ModelCapabilitiesRequest(BaseModel):
     task_requirements: dict[str, float]
     constellation_filter: Optional[dict[str, float]] = None
     cost_constraints: Optional[dict[str, Any]] = None
+
 
 class ModelCapabilitiesResponse(BaseModel):
     ranked_models: list[dict[str, Any]]
     recommendations: list[str]
     cost_analysis: dict[str, Any]
 
+
 # Global orchestration components
 agi_model_router: Optional[ModelRouter] = None
 agi_consensus_engine: Optional[ConsensusEngine] = None
 agi_capability_matrix: Optional[CapabilityMatrix] = None
 agi_cost_optimizer: Optional[CostOptimizer] = None
+
 
 async def initialize_orchestration_components():
     """Initialize AGI orchestration components."""
@@ -107,10 +117,12 @@ async def initialize_orchestration_components():
     except Exception as e:
         logger.error(f"Failed to initialize AGI orchestration components: {e}")
 
+
 @router.on_event("startup")
 async def startup_event():
     """Initialize orchestration components on router startup."""
     await initialize_orchestration_components()
+
 
 @router.post("/api/v2/orchestration/route", response_model=OrchestrationResponse)
 async def intelligent_model_routing(request: OrchestrationRequest):
@@ -135,7 +147,7 @@ async def intelligent_model_routing(request: OrchestrationRequest):
                     confidence=result.get("confidence", 0.5),
                     latency_ms=result.get("latency_ms", 0),
                     quality_score=0.7,
-                    metadata={"source": "lukhas_orchestration"}
+                    metadata={"source": "lukhas_orchestration"},
                 )
             else:
                 # Basic fallback
@@ -146,7 +158,7 @@ async def intelligent_model_routing(request: OrchestrationRequest):
                     confidence=0.5,
                     latency_ms=100,
                     quality_score=0.5,
-                    metadata={"source": "fallback"}
+                    metadata={"source": "fallback"},
                 )
 
         # Map task type string to enum
@@ -160,7 +172,7 @@ async def intelligent_model_routing(request: OrchestrationRequest):
             "mathematical": TaskType.MATH,
             "scientific": TaskType.SCIENTIFIC,
             "synthesis": TaskType.SYNTHESIS,
-            "classification": TaskType.CLASSIFICATION
+            "classification": TaskType.CLASSIFICATION,
         }
 
         task_type = task_type_mapping.get(request.task_type, TaskType.REASONING)
@@ -171,7 +183,7 @@ async def intelligent_model_routing(request: OrchestrationRequest):
             task_type=task_type,
             priority=request.priority,
             max_cost_per_request=request.max_cost_per_request,
-            constellation_context=request.constellation_context
+            constellation_context=request.constellation_context,
         )
 
         # Route request through AGI system
@@ -199,6 +211,7 @@ async def intelligent_model_routing(request: OrchestrationRequest):
         logger.error(f"Error in intelligent model routing: {e}")
         raise HTTPException(status_code=500, detail=f"Routing error: {e!s}") from e
 
+
 @router.post("/api/v2/orchestration/consensus", response_model=ConsensusResponse)
 async def multi_model_consensus(request: ConsensusRequest):
     """
@@ -219,7 +232,7 @@ async def multi_model_consensus(request: ConsensusRequest):
                 confidence_score=0.5,
                 individual_responses=[],
                 disagreements=[],
-                processing_time_ms=200
+                processing_time_ms=200,
             )
 
         # Map consensus method string to enum
@@ -228,7 +241,7 @@ async def multi_model_consensus(request: ConsensusRequest):
             "weighted_quality": ConsensusMethod.WEIGHTED_QUALITY,
             "confidence_threshold": ConsensusMethod.CONFIDENCE_THRESHOLD,
             "iterative_refinement": ConsensusMethod.ITERATIVE_REFINEMENT,
-            "dream_synthesis": ConsensusMethod.DREAM_SYNTHESIS
+            "dream_synthesis": ConsensusMethod.DREAM_SYNTHESIS,
         }
 
         consensus_method = method_mapping.get(request.method, ConsensusMethod.MAJORITY_VOTE)
@@ -240,7 +253,7 @@ async def multi_model_consensus(request: ConsensusRequest):
             method=consensus_method,
             consensus_threshold=request.consensus_threshold,
             max_attempts=request.max_attempts,
-            constellation_context=request.constellation_context
+            constellation_context=request.constellation_context,
         )
 
         # Calculate processing time
@@ -268,6 +281,7 @@ async def multi_model_consensus(request: ConsensusRequest):
         logger.error(f"Error in multi-model consensus: {e}")
         raise HTTPException(status_code=500, detail=f"Consensus error: {e!s}") from e
 
+
 @router.post("/api/v2/orchestration/capabilities", response_model=ModelCapabilitiesResponse)
 async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
     """
@@ -280,16 +294,9 @@ async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
         # Fallback if AGI not available
         if not AGI_ORCHESTRATION_AVAILABLE or not agi_capability_matrix:
             return ModelCapabilitiesResponse(
-                ranked_models=[
-                    {
-                        "model_id": "fallback-model",
-                        "score": 0.5,
-                        "capabilities": {},
-                        "cost_estimate": 0.01
-                    }
-                ],
+                ranked_models=[{"model_id": "fallback-model", "score": 0.5, "capabilities": {}, "cost_estimate": 0.01}],
                 recommendations=["AGI capability analysis not available"],
-                cost_analysis={"status": "unavailable"}
+                cost_analysis={"status": "unavailable"},
             )
 
         # Convert requirements to capability dimensions
@@ -306,7 +313,7 @@ async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
                 "code_quality": CapabilityDimension.CODE_QUALITY,
                 "speed": CapabilityDimension.SPEED,
                 "cost_efficiency": CapabilityDimension.COST_EFFICIENCY,
-                "consistency": CapabilityDimension.CONSISTENCY
+                "consistency": CapabilityDimension.CONSISTENCY,
             }
 
             if capability_name in capability_mapping:
@@ -319,7 +326,7 @@ async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
             task_type=None,  # Will be inferred
             required_capabilities=required_capabilities,
             preferred_capabilities=required_capabilities,
-            constellation_context=request.constellation_filter
+            constellation_context=request.constellation_filter,
         )
 
         # Get model rankings
@@ -333,7 +340,7 @@ async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
             # Create cost constraints
             constraints = CostConstraints(
                 max_cost_per_request=request.cost_constraints.get("max_cost_per_request"),
-                strategy=OptimizationStrategy.BALANCE_COST_QUALITY
+                strategy=OptimizationStrategy.BALANCE_COST_QUALITY,
             )
 
             # Optimize model selection
@@ -342,32 +349,34 @@ async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
             cost_analysis = {
                 "status": "optimized",
                 "optimization_strategy": constraints.strategy.value,
-                "cost_efficient_models": [model[0] for model in optimized_models[:3]]
+                "cost_efficient_models": [model[0] for model in optimized_models[:3]],
             }
 
-            recommendations.extend([
-                f"Most cost-efficient: {optimized_models[0][0]}" if optimized_models else (
-                    "No models meet cost constraints"
-                ),
-                "Best quality/cost ratio found" if optimized_models else (
-                    "Consider relaxing cost constraints"
-                )
-            ])
+            recommendations.extend(
+                [
+                    f"Most cost-efficient: {optimized_models[0][0]}"
+                    if optimized_models
+                    else ("No models meet cost constraints"),
+                    "Best quality/cost ratio found" if optimized_models else ("Consider relaxing cost constraints"),
+                ]
+            )
 
         # Format response
         ranked_models_data = []
         for model_id, score in rankings[:10]:  # Top 10
             model_profile = agi_capability_matrix.get_model_capabilities(model_id)
             if model_profile:
-                ranked_models_data.append({
-                    "model_id": model_id,
-                    "score": score,
-                    "capabilities": {dim.value: score for dim, score in model_profile.capabilities.items()},
-                    "specializations": [spec.value for spec in model_profile.specializations],
-                    "cost_per_token": model_profile.cost_per_token,
-                    "latency_ms": model_profile.latency_ms,
-                    "constellation_alignment": model_profile.constellation_alignment
-                })
+                ranked_models_data.append(
+                    {
+                        "model_id": model_id,
+                        "score": score,
+                        "capabilities": {dim.value: score for dim, score in model_profile.capabilities.items()},
+                        "specializations": [spec.value for spec in model_profile.specializations],
+                        "cost_per_token": model_profile.cost_per_token,
+                        "latency_ms": model_profile.latency_ms,
+                        "constellation_alignment": model_profile.constellation_alignment,
+                    }
+                )
 
         if not recommendations:
             recommendations = [
@@ -376,18 +385,17 @@ async def analyze_model_capabilities(request: ModelCapabilitiesRequest):
                     "Consider constellation context for better alignment"
                     if not request.constellation_filter
                     else "Constellation alignment applied"
-                )
+                ),
             ]
 
         return ModelCapabilitiesResponse(
-            ranked_models=ranked_models_data,
-            recommendations=recommendations,
-            cost_analysis=cost_analysis
+            ranked_models=ranked_models_data, recommendations=recommendations, cost_analysis=cost_analysis
         )
 
     except Exception as e:
         logger.error(f"Error in capability analysis: {e}")
         raise HTTPException(status_code=500, detail=f"Analysis error: {e!s}") from e
+
 
 @router.get("/api/v2/orchestration/models")
 async def list_available_models():
@@ -395,34 +403,29 @@ async def list_available_models():
 
     try:
         if not AGI_ORCHESTRATION_AVAILABLE or not agi_capability_matrix:
-            return {
-                "models": [],
-                "total_count": 0,
-                "status": "AGI orchestration not available"
-            }
+            return {"models": [], "total_count": 0, "status": "AGI orchestration not available"}
 
         models_data = []
         for model_id, profile in agi_capability_matrix.model_profiles.items():
-            models_data.append({
-                "model_id": model_id,
-                "name": profile.name if hasattr(profile, "name") else model_id,
-                "capabilities": {dim.value: score for dim, score in profile.capabilities.items()},
-                "specializations": [spec.value for spec in profile.specializations],
-                "cost_per_token": profile.cost_per_token,
-                "context_window": profile.context_window,
-                "constellation_alignment": profile.constellation_alignment,
-                "performance": agi_capability_matrix.get_model_performance_stats(model_id)
-            })
+            models_data.append(
+                {
+                    "model_id": model_id,
+                    "name": profile.name if hasattr(profile, "name") else model_id,
+                    "capabilities": {dim.value: score for dim, score in profile.capabilities.items()},
+                    "specializations": [spec.value for spec in profile.specializations],
+                    "cost_per_token": profile.cost_per_token,
+                    "context_window": profile.context_window,
+                    "constellation_alignment": profile.constellation_alignment,
+                    "performance": agi_capability_matrix.get_model_performance_stats(model_id),
+                }
+            )
 
-        return {
-            "models": models_data,
-            "total_count": len(models_data),
-            "status": "active"
-        }
+        return {"models": models_data, "total_count": len(models_data), "status": "active"}
 
     except Exception as e:
         logger.error(f"Error listing models: {e}")
         raise HTTPException(status_code=500, detail=f"Error: {e!s}") from e
+
 
 @router.post("/api/v2/orchestration/feedback")
 async def record_model_feedback(
@@ -448,7 +451,7 @@ async def record_model_feedback(
                 "creative": AGITaskType.CREATIVE,
                 "technical": AGITaskType.TECHNICAL,
                 "analytical": AGITaskType.ANALYTICAL,
-                "conversational": AGITaskType.CONVERSATIONAL
+                "conversational": AGITaskType.CONVERSATIONAL,
             }
 
             agi_task_type = task_type_mapping.get(task_type, AGITaskType.REASONING)
@@ -471,6 +474,7 @@ async def record_model_feedback(
         logger.error(f"Error recording feedback: {e}")
         raise HTTPException(status_code=500, detail=f"Feedback error: {e!s}") from e
 
+
 @router.get("/api/v2/orchestration/stats")
 async def get_orchestration_stats():
     """Get comprehensive orchestration statistics and performance metrics."""
@@ -487,7 +491,7 @@ async def get_orchestration_stats():
                 matrix_stats = agi_capability_matrix.get_model_performance_stats("gpt-4-turbo")  # Example
                 stats["capability_matrix"] = {
                     "total_models": len(agi_capability_matrix.model_profiles),
-                    "performance_tracking": bool(matrix_stats)
+                    "performance_tracking": bool(matrix_stats),
                 }
 
             if agi_cost_optimizer:
@@ -495,7 +499,7 @@ async def get_orchestration_stats():
                 stats["cost_optimization"] = {
                     "requests_tracked": cost_stats.requests_count,
                     "total_cost": cost_stats.total_cost,
-                    "avg_quality": cost_stats.avg_quality_score
+                    "avg_quality": cost_stats.avg_quality_score,
                 }
 
             if agi_consensus_engine:
@@ -506,10 +510,13 @@ async def get_orchestration_stats():
                 )
                 stats["consensus"] = {
                     "available_methods": [
-                        "majority_vote", "weighted_quality", "confidence_threshold",
-                        "iterative_refinement", "dream_synthesis"
+                        "majority_vote",
+                        "weighted_quality",
+                        "confidence_threshold",
+                        "iterative_refinement",
+                        "dream_synthesis",
                     ],
-                    "stats": consensus_stats
+                    "stats": consensus_stats,
                 }
 
         return stats

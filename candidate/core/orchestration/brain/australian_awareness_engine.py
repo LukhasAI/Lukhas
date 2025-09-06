@@ -41,6 +41,8 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+from pydantic import Field
+
 # Import global framework
 from identity.backend.app.institution_manager import (
     DataCategory,
@@ -50,7 +52,6 @@ from identity.backend.app.institution_manager import (
     LegalBasis,
     global_timestamp,
 )
-from pydantic import Field
 
 # ——— Australian-Specific Regulatory Framework ——————————————————————— #
 

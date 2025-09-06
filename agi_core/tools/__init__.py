@@ -6,14 +6,14 @@ consciousness system for intelligent tool selection based on context,
 experience, and dream insights.
 """
 
-from .tool_selector import ToolSelector, ToolSelection, SelectionCriteria
-from .dream_guided_tools import DreamGuidedToolFramework, ToolInsight, ToolRecommendation  
-from .tool_orchestrator import ToolOrchestrator, ToolChain, ExecutionPlan
-from .tool_learning import ToolLearningEngine, ToolExperience, ToolMastery
+from .dream_guided_tools import DreamGuidedToolFramework, ToolInsight, ToolRecommendation
+from .tool_learning import ToolExperience, ToolLearningEngine, ToolMastery
+from .tool_orchestrator import ExecutionPlan, ToolChain, ToolOrchestrator
+from .tool_selector import SelectionCriteria, ToolSelection, ToolSelector
 
 __all__ = [
     "ToolSelector",
-    "ToolSelection", 
+    "ToolSelection",
     "SelectionCriteria",
     "DreamGuidedToolFramework",
     "ToolInsight",
@@ -22,6 +22,6 @@ __all__ = [
     "ToolChain",
     "ExecutionPlan",
     "ToolLearningEngine",
-    "ToolExperience", 
+    "ToolExperience",
     "ToolMastery"
 ]

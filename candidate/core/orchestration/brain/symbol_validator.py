@@ -358,10 +358,7 @@ class LukhasComplianceChecker:
 
     def _should_exclude_file(self, file_path: Path) -> bool:
         """Check if a file should be excluded from scanning."""
-        for exclude_pattern in self.exclude_patterns:
-            if file_path.match(exclude_pattern):
-                return True
-        return False
+        return any(file_path.match(exclude_pattern) for exclude_pattern in self.exclude_patterns)
 
     def _scan_files_parallel(self, files: list[Path]) -> list[ModuleComplianceReport]:
         """Scan files in parallel for better performance."""
@@ -943,7 +940,7 @@ Immediate action required for institutional deployment readiness.
         return summary.strip()
 
     def save_report(
-        self, report: WorkspaceComplianceReport, output_path: str = None
+        self, report: WorkspaceComplianceReport, output_path: Optional[str] = None
     ) -> str:
         """Save compliance report to file."""
         if not output_path:

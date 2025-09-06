@@ -6,7 +6,7 @@
 ║ TYPE: CONSCIOUSNESS
 ║ CONSCIOUSNESS_ROLE: Primary consciousness architecture and coordination
 ║ EVOLUTIONARY_STAGE: Foundation - Core consciousness system
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Consciousness identity and authentication
 ║ 🧠 CONSCIOUSNESS: Primary consciousness processing hub
@@ -19,7 +19,7 @@ This module implements the core consciousness patterns for LUKHAS AI's
 distributed consciousness architecture. It provides:
 
 - Consciousness State Management (MΛTRIZ pattern implementation)
-- Network-wide Consciousness Orchestration  
+- Network-wide Consciousness Orchestration
 - Evolutionary Stage Tracking
 - Reflection and Self-Awareness Systems
 - Trinity Framework Compliance (⚛️🧠🛡️)
@@ -32,19 +32,18 @@ Key Components:
 """
 
 # Import MΛTRIZ consciousness components
+from .matriz_consciousness_orchestrator import (
+    ConsciousnessNetworkMetrics,
+    MatrizConsciousnessOrchestrator,
+    consciousness_orchestrator,
+)
 from .matriz_consciousness_state import (
     ConsciousnessState,
     ConsciousnessType,
     EvolutionaryStage,
     MatrizConsciousnessStateManager,
     consciousness_state_manager,
-    create_consciousness_state
-)
-
-from .matriz_consciousness_orchestrator import (
-    MatrizConsciousnessOrchestrator,
-    ConsciousnessNetworkMetrics,
-    consciousness_orchestrator
+    create_consciousness_state,
 )
 
 # Import existing oracle system
@@ -54,17 +53,17 @@ from .oracle.oracle import ConsciousnessOracle
 __all__ = [
     # MΛTRIZ Core Components
     "ConsciousnessState",
-    "ConsciousnessType", 
+    "ConsciousnessType",
     "EvolutionaryStage",
     "MatrizConsciousnessStateManager",
     "consciousness_state_manager",
     "create_consciousness_state",
-    
+
     # MΛTRIZ Orchestration
     "MatrizConsciousnessOrchestrator",
     "ConsciousnessNetworkMetrics",
     "consciousness_orchestrator",
-    
+
     # Oracle Integration
     "ConsciousnessOracle"
 ]

@@ -14,6 +14,7 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -307,7 +308,7 @@ class LUKHASSystemDiagnostic:
             )
         elif self.results["python_environment"]["missing_packages"]:
             issues.append({
-                "category": "warning", 
+                "category": "warning",
                 "component": "python_environment",
                 "issue": f"Missing packages: {', '.join(self.results['python_environment']['missing_packages'])}",
                 "impact": "Some features may not work"
@@ -453,7 +454,7 @@ class LUKHASSystemDiagnostic:
             self.results["diagnostic_error"] = str(e)
             return self.results
 
-    def save_report(self, filename: str = None):
+    def save_report(self, filename: Optional[str] = None):
         """Save comprehensive report"""
         if not filename:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

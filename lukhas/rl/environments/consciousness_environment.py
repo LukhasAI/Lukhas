@@ -19,12 +19,13 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, ClassVar, Optional, Union
 
-# Third-party
-import gymnasium as gym
 import numpy as np
 import torch
-from gymnasium import spaces
 from torch import nn
+
+# Third-party
+import gymnasium as gym
+from gymnasium import spaces
 
 # Local imports
 from lukhas.consciousness import ConsciousnessModule

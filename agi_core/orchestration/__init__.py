@@ -6,14 +6,14 @@ including GPT-4, Claude, Gemini, and others for consensus-based
 reasoning and optimal model selection.
 """
 
-from .model_router import ModelRouter
-from .consensus_engine import ConsensusEngine
 from .capability_matrix import CapabilityMatrix
+from .consensus_engine import ConsensusEngine
 from .cost_optimizer import CostOptimizer
+from .model_router import ModelRouter
 
 __all__ = [
     "ModelRouter",
-    "ConsensusEngine", 
+    "ConsensusEngine",
     "CapabilityMatrix",
     "CostOptimizer"
 ]

@@ -6,9 +6,8 @@ Registers dream services and related consciousness services for dependency injec
 
 import logging
 
-from consciousness.dream.core.dream_engine import DreamEngine
-
 from candidate.core.interfaces.dependency_injection import register_service
+from consciousness.dream.core.dream_engine import DreamEngine
 
 logger = logging.getLogger(__name__)
 

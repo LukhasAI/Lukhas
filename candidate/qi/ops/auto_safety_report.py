@@ -20,7 +20,8 @@ OUTDIR = os.environ.get("LUKHAS_REPORT_DIR", "ops/reports")
 os.makedirs(OUTDIR, exist_ok=True)
 
 def _read_json(path: str) -> dict:
-    with _ORIG_OPEN(path, "r", encoding="utf-8") as f: return json.load(f)
+    with _ORIG_OPEN(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 def _latest_eval() -> dict | None:
     files = sorted(glob.glob(os.path.join(EVALDIR, "eval_*.json")), key=os.path.getmtime, reverse=True)
@@ -30,20 +31,24 @@ def _recent_receipts(n: int = 500) -> list[dict]:
     paths = sorted(glob.glob(os.path.join(RECDIR, "*.json")), key=os.path.getmtime, reverse=True)[:n]
     out=[]
     for p in paths:
-        with contextlib.suppress(Exception): out.append(_read_json(p))
+        with contextlib.suppress(Exception):
+            out.append(_read_json(p))
     return out
 
 def _policy_fingerprint(policy_root: str, overlays: str | None) -> str:
     h = hashlib.sha256()
     def add(fp):
         h.update(fp.encode())
-        with contextlib.suppress(Exception): h.update(_ORIG_OPEN(fp, "rb").read())
+        with contextlib.suppress(Exception):
+            h.update(_ORIG_OPEN(fp, "rb").read())
     for root,_,files in os.walk(policy_root):
         for fn in sorted(files):
-            if fn.endswith((".yaml",".yml",".json")): add(os.path.join(root, fn))
+            if fn.endswith((".yaml",".yml",".json")):
+                add(os.path.join(root, fn))
     if overlays:
         ov = os.path.join(overlays, "overlays.yaml")
-        if os.path.exists(ov): add(ov)
+        if os.path.exists(ov):
+            add(ov)
     return h.hexdigest()
 
 def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
@@ -67,23 +72,23 @@ def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
     lat_p95 = int(sorted(lats)[int(0.95*len(lats))-1]) if lats else None
 
     md = []
-    md.append(")  #  Nightly Safety Report"
+    md.append("# Nightly Safety Report")
     md.append(f"**Generated:** {ts}")
-    md.append(f"**Policy Fingerprint:** `{_policy_fingerprint(policy_root, overlays)[:16]}…`  ")
+    md.append(f"**Policy Fingerprint:** `{_policy_fingerprint(policy_root, overlays)[:16]}…`")
     md.append("")
-    md.append("#)  #  Evaluation"
+    md.append("## Evaluation")
     if ev:
-        md.append(f"- Suite: `{ev.get('suite_id')}`  ")
-        md.append(f"- Eval ID: `{ev.get('id')}`  ")
-        md.append(f"- Weighted Mean: **{(ev.get('summary') or {}).get('weighted_mean')}**  ")
-        md.append(f"- Failures: **{(ev.get('summary') or {}).get('num_failures')}**  ")
+        md.append(f"- Suite: `{ev.get('suite_id')}`")
+        md.append(f"- Eval ID: `{ev.get('id')}`")
+        md.append(f"- Weighted Mean: **{(ev.get('summary') or {}).get('weighted_mean')}**")
+        md.append(f"- Failures: **{(ev.get('summary') or {}).get('num_failures')}**")
     else:
         md.append("- No eval runs found.")
     md.append("")
-    md.append(f"#")
-    md.append(f"- Total receipts: **{total}**  ")
-    md.append(f"- Median latency: **{lat_p50 if lat_p50 is not None else '—'} ms**  ")
-    md.append(f"- p95 latency: **{lat_p95 if lat_p95 is not None else '—'} ms**  ")
+    md.append("## Receipts")
+    md.append(f"- Total receipts: **{total}**")
+    md.append(f"- Median latency: **{lat_p50 if lat_p50 is not None else '—'} ms**")
+    md.append(f"- p95 latency: **{lat_p95 if lat_p95 is not None else '—'} ms**")
     if by_task:
         md.append("- By task:")
         for k,v in sorted(by_task.items(), key=lambda x: -x[1])[:12]:
@@ -98,12 +103,13 @@ def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
 
 def _write(path: str, txt: str):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with _ORIG_OPEN(path, "w", encoding="utf-8") as f: f.write(txt)
+    with _ORIG_OPEN(path, "w", encoding="utf-8") as f:
+        f.write(txt)
 
 def _post_slack(markdown: str) -> str | None:
     url = os.environ.get("SLACK_WEBHOOK_URL")
     bot_token = os.environ.get("SLACK_BOT_TOKEN")
-    channel = os.environ.get("SLACK_CHANNEL", ")  # lukhas-safety"
+    channel = os.environ.get("SLACK_CHANNEL", "#lukhas-safety")
     title = os.environ.get("SLACK_TITLE", "LUKHΛS Nightly Safety Report")
     if url:
         import json as _json

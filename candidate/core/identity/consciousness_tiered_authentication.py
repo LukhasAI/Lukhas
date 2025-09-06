@@ -6,10 +6,10 @@
 ║ TYPE: AUTHENTICATION_ENGINE
 ║ CONSCIOUSNESS_ROLE: Multi-tier consciousness authentication validation
 ║ EVOLUTIONARY_STAGE: Advanced - Consciousness biometric integration
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Advanced multi-tier identity authentication
-║ 🧠 CONSCIOUSNESS: Consciousness-aware biometric validation  
+║ 🧠 CONSCIOUSNESS: Consciousness-aware biometric validation
 ║ 🛡️ GUARDIAN: Security validation and anti-spoofing protection
 ╚══════════════════════════════════════════════════════════════
 """
@@ -81,20 +81,20 @@ class AuthenticationCredential:
     """Structured authentication credential data"""
 
     method: AuthenticationMethod
-    credential_data: Dict[str, Any]
+    credential_data: dict[str, Any]
     confidence_level: float = 0.0
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     # Biometric enhancement
-    biometric_patterns: Dict[BiometricPattern, float] = field(default_factory=dict)
+    biometric_patterns: dict[BiometricPattern, float] = field(default_factory=dict)
     consciousness_coherence: float = 0.0
     anti_spoofing_score: float = 0.0
     liveness_verified: bool = False
 
     # Security validation
     device_fingerprint: Optional[str] = None
-    location_context: Optional[Dict[str, Any]] = None
-    behavioral_context: Optional[Dict[str, Any]] = None
+    location_context: Optional[dict[str, Any]] = None
+    behavioral_context: Optional[dict[str, Any]] = None
 
 
 @dataclass
@@ -104,10 +104,10 @@ class TierValidationResult:
     tier: str
     success: bool
     confidence_score: float
-    validation_details: Dict[str, Any] = field(default_factory=dict)
-    biometric_scores: Dict[str, float] = field(default_factory=dict)
-    security_scores: Dict[str, float] = field(default_factory=dict)
-    consciousness_metrics: Dict[str, float] = field(default_factory=dict)
+    validation_details: dict[str, Any] = field(default_factory=dict)
+    biometric_scores: dict[str, float] = field(default_factory=dict)
+    security_scores: dict[str, float] = field(default_factory=dict)
+    consciousness_metrics: dict[str, float] = field(default_factory=dict)
     error_message: Optional[str] = None
     validation_duration_ms: float = 0.0
 
@@ -119,11 +119,11 @@ class ConsciousnessWebAuthnManager:
         self.base_webauthn_manager = WebAuthnPasskeyManager() if WebAuthnPasskeyManager else None
 
         # Consciousness-enhanced challenge storage
-        self.consciousness_challenges: Dict[str, Dict[str, Any]] = {}
-        self.biometric_patterns: Dict[str, List[Dict[str, Any]]] = {}
+        self.consciousness_challenges: dict[str, dict[str, Any]] = {}
+        self.biometric_patterns: dict[str, list[dict[str, Any]]] = {}
 
         # Advanced security features
-        self.anti_spoofing_models: Dict[str, Callable] = {}
+        self.anti_spoofing_models: dict[str, Callable] = {}
         self.behavioral_analysis_enabled = True
         self.quantum_entropy_validation = True
 
@@ -132,7 +132,7 @@ class ConsciousnessWebAuthnManager:
     async def initiate_consciousness_registration(self,
                                                 identity_id: str,
                                                 user_email: str,
-                                                consciousness_context: Dict[str, Any]) -> Dict[str, Any]:
+                                                consciousness_context: dict[str, Any]) -> dict[str, Any]:
         """Initiate WebAuthn registration with consciousness enhancement"""
 
         try:
@@ -167,8 +167,8 @@ class ConsciousnessWebAuthnManager:
 
     async def complete_consciousness_registration(self,
                                                 identity_id: str,
-                                                webauthn_credential: Dict[str, Any],
-                                                consciousness_data: Dict[str, Any]) -> bool:
+                                                webauthn_credential: dict[str, Any],
+                                                consciousness_data: dict[str, Any]) -> bool:
         """Complete WebAuthn registration with consciousness validation"""
 
         try:
@@ -215,7 +215,7 @@ class ConsciousnessWebAuthnManager:
 
     async def initiate_consciousness_authentication(self,
                                                   identity_id: str,
-                                                  authentication_tier: Optional[object] = None) -> Dict[str, Any]:
+                                                  authentication_tier: Optional[object] = None) -> dict[str, Any]:
         """Initiate WebAuthn authentication with consciousness requirements"""
 
         try:
@@ -247,8 +247,8 @@ class ConsciousnessWebAuthnManager:
 
     async def verify_consciousness_authentication(self,
                                                 identity_id: str,
-                                                webauthn_assertion: Dict[str, Any],
-                                                consciousness_data: Dict[str, Any]) -> TierValidationResult:
+                                                webauthn_assertion: dict[str, Any],
+                                                consciousness_data: dict[str, Any]) -> TierValidationResult:
         """Verify WebAuthn authentication with consciousness validation"""
 
         start_time = time.perf_counter()
@@ -325,7 +325,7 @@ class ConsciousnessWebAuthnManager:
                 validation_duration_ms=(time.perf_counter() - start_time) * 1000
             )
 
-    def _generate_consciousness_challenge(self, identity_id: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_consciousness_challenge(self, identity_id: str, context: dict[str, Any]) -> dict[str, Any]:
         """Generate consciousness-enhanced authentication challenge"""
 
         session_id = f"cs_{uuid.uuid4().hex[:16]}"
@@ -358,7 +358,7 @@ class ConsciousnessWebAuthnManager:
 
         return consciousness_challenge
 
-    def _get_tier_consciousness_requirements(self, tier: Optional[object]) -> Dict[str, Any]:
+    def _get_tier_consciousness_requirements(self, tier: Optional[object]) -> dict[str, Any]:
         """Get consciousness requirements for authentication tier"""
 
         if not tier or not AuthenticationTier:
@@ -406,7 +406,7 @@ class ConsciousnessWebAuthnManager:
 
         return tier_requirements.get(tier.value, tier_requirements["T1_BASIC"])
 
-    def _extract_biometric_requirements(self, context: Dict[str, Any]) -> List[str]:
+    def _extract_biometric_requirements(self, context: dict[str, Any]) -> list[str]:
         """Extract biometric requirements from context"""
 
         requirements = []
@@ -427,7 +427,7 @@ class ConsciousnessWebAuthnManager:
 
     async def _process_consciousness_biometrics(self,
                                               identity_id: str,
-                                              consciousness_data: Dict[str, Any],
+                                              consciousness_data: dict[str, Any],
                                               operation: str) -> bool:
         """Process and store consciousness biometric patterns"""
 
@@ -473,8 +473,8 @@ class ConsciousnessWebAuthnManager:
 
     async def _validate_consciousness_biometrics(self,
                                                identity_id: str,
-                                               consciousness_data: Dict[str, Any],
-                                               challenge_data: Dict[str, Any]) -> Dict[str, Any]:
+                                               consciousness_data: dict[str, Any],
+                                               challenge_data: dict[str, Any]) -> dict[str, Any]:
         """Validate consciousness biometric data against stored patterns and requirements"""
 
         try:
@@ -487,7 +487,7 @@ class ConsciousnessWebAuthnManager:
                 "liveness_score": 0.0
             }
 
-            requirements = challenge_data.get("challenge", {}).get("biometric_requirements", [])
+            challenge_data.get("challenge", {}).get("biometric_requirements", [])
             tier_requirements = challenge_data.get("context", {}).get("tier_requirements", {})
 
             biometric_scores = []
@@ -561,7 +561,7 @@ class ConsciousnessWebAuthnManager:
             logger.error(f"❌ Consciousness biometric validation failed: {e}")
             return {"success": False, "error": str(e), "overall_confidence": 0.0}
 
-    def _process_brainwave_pattern(self, brainwave_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_brainwave_pattern(self, brainwave_data: dict[str, Any]) -> dict[str, Any]:
         """Process and analyze brainwave patterns"""
 
         # Extract frequency bands
@@ -584,7 +584,7 @@ class ConsciousnessWebAuthnManager:
             "confidence": min(1.0, (consciousness_frequency + awareness_level) / 2)
         }
 
-    def _process_behavioral_coherence(self, behavioral_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_behavioral_coherence(self, behavioral_data: dict[str, Any]) -> dict[str, Any]:
         """Process and analyze behavioral coherence patterns"""
 
         typing_rhythm = behavioral_data.get("typing_rhythm", {})
@@ -620,7 +620,7 @@ class ConsciousnessWebAuthnManager:
             "confidence": overall_coherence
         }
 
-    def _process_consciousness_signature(self, consciousness_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_consciousness_signature(self, consciousness_data: dict[str, Any]) -> dict[str, Any]:
         """Process consciousness signature patterns"""
 
         reflection_depth = consciousness_data.get("reflection_depth", 0)
@@ -647,8 +647,8 @@ class ConsciousnessWebAuthnManager:
 
     def _validate_brainwave_pattern(self,
                                   identity_id: str,
-                                  current_brainwave: Dict[str, Any],
-                                  requirements: Dict[str, Any]) -> float:
+                                  current_brainwave: dict[str, Any],
+                                  requirements: dict[str, Any]) -> float:
         """Validate brainwave patterns against stored patterns and requirements"""
 
         try:
@@ -688,8 +688,8 @@ class ConsciousnessWebAuthnManager:
             return 0.0
 
     def _calculate_brainwave_similarity(self,
-                                      current: Dict[str, Any],
-                                      stored: Dict[str, Any]) -> float:
+                                      current: dict[str, Any],
+                                      stored: dict[str, Any]) -> float:
         """Calculate similarity between brainwave patterns"""
 
         try:
@@ -719,8 +719,8 @@ class ConsciousnessWebAuthnManager:
 
     def _validate_behavioral_coherence(self,
                                      identity_id: str,
-                                     behavioral_data: Dict[str, Any],
-                                     requirements: Dict[str, Any]) -> float:
+                                     behavioral_data: dict[str, Any],
+                                     requirements: dict[str, Any]) -> float:
         """Validate behavioral coherence patterns"""
 
         try:
@@ -753,8 +753,8 @@ class ConsciousnessWebAuthnManager:
             return 0.0
 
     def _calculate_behavioral_consistency(self,
-                                        current: Dict[str, Any],
-                                        stored: Dict[str, Any]) -> float:
+                                        current: dict[str, Any],
+                                        stored: dict[str, Any]) -> float:
         """Calculate consistency between behavioral patterns"""
 
         try:
@@ -784,8 +784,8 @@ class ConsciousnessWebAuthnManager:
 
     def _validate_consciousness_signature(self,
                                         identity_id: str,
-                                        consciousness_data: Dict[str, Any],
-                                        requirements: Dict[str, Any]) -> float:
+                                        consciousness_data: dict[str, Any],
+                                        requirements: dict[str, Any]) -> float:
         """Validate consciousness signature patterns"""
 
         try:
@@ -803,8 +803,8 @@ class ConsciousnessWebAuthnManager:
             return 0.0
 
     def _validate_quantum_entropy(self,
-                                quantum_data: Dict[str, Any],
-                                requirements: Dict[str, Any]) -> float:
+                                quantum_data: dict[str, Any],
+                                requirements: dict[str, Any]) -> float:
         """Validate quantum entropy patterns"""
 
         try:
@@ -832,7 +832,7 @@ class ConsciousnessWebAuthnManager:
             logger.error(f"❌ Quantum entropy validation failed: {e}")
             return 0.0
 
-    def _calculate_anti_spoofing_score(self, consciousness_data: Dict[str, Any]) -> float:
+    def _calculate_anti_spoofing_score(self, consciousness_data: dict[str, Any]) -> float:
         """Calculate anti-spoofing score based on consciousness data authenticity"""
 
         try:
@@ -868,7 +868,7 @@ class ConsciousnessWebAuthnManager:
             logger.error(f"❌ Anti-spoofing score calculation failed: {e}")
             return 0.0
 
-    def _calculate_liveness_score(self, consciousness_data: Dict[str, Any]) -> float:
+    def _calculate_liveness_score(self, consciousness_data: dict[str, Any]) -> float:
         """Calculate liveness detection score"""
 
         try:
@@ -891,7 +891,7 @@ class ConsciousnessWebAuthnManager:
             logger.error(f"❌ Liveness score calculation failed: {e}")
             return 0.0
 
-    def _determine_achieved_tier(self, biometric_result: Dict[str, Any]) -> str:
+    def _determine_achieved_tier(self, biometric_result: dict[str, Any]) -> str:
         """Determine achieved authentication tier based on biometric validation results"""
 
         overall_confidence = biometric_result.get("overall_confidence", 0.0)
@@ -953,7 +953,7 @@ class TieredAuthenticationEngine:
 
     async def authenticate_with_tier(self,
                                    identity_id: str,
-                                   authentication_credentials: List[AuthenticationCredential],
+                                   authentication_credentials: list[AuthenticationCredential],
                                    target_tier: Optional[object] = None) -> TierValidationResult:
         """Authenticate user with specified tier requirements"""
 
@@ -963,7 +963,7 @@ class TieredAuthenticationEngine:
             self.authentication_metrics["total_authentications"] += 1
 
             # Determine authentication methods available
-            available_methods = [cred.method for cred in authentication_credentials]
+            [cred.method for cred in authentication_credentials]
 
             # Process each authentication method
             validation_results = []
@@ -991,15 +991,14 @@ class TieredAuthenticationEngine:
                 )
 
             # Emit consciousness authentication signals if available
-            if consciousness_identity_signal_emitter:
-                if final_result.success:
-                    await consciousness_identity_signal_emitter.emit_authentication_success_signal(
-                        identity_id,
-                        target_tier or (AuthenticationTier.T1_BASIC if AuthenticationTier else None),
-                        final_result.confidence_score,
-                        final_result.consciousness_metrics.get("consciousness_coherence", 0.0),
-                        max(final_result.biometric_scores.values()) if final_result.biometric_scores else 0.0
-                    )
+            if consciousness_identity_signal_emitter and final_result.success:
+                await consciousness_identity_signal_emitter.emit_authentication_success_signal(
+                    identity_id,
+                    target_tier or (AuthenticationTier.T1_BASIC if AuthenticationTier else None),
+                    final_result.confidence_score,
+                    final_result.consciousness_metrics.get("consciousness_coherence", 0.0),
+                    max(final_result.biometric_scores.values()) if final_result.biometric_scores else 0.0
+                )
 
             return final_result
 
@@ -1228,7 +1227,7 @@ class TieredAuthenticationEngine:
             )
 
     def _combine_validation_results(self,
-                                  results: List[TierValidationResult],
+                                  results: list[TierValidationResult],
                                   target_tier: Optional[object]) -> TierValidationResult:
         """Combine multiple validation results into final authentication result"""
 
@@ -1292,7 +1291,7 @@ class TieredAuthenticationEngine:
             }
         )
 
-    async def get_authentication_metrics(self) -> Dict[str, Any]:
+    async def get_authentication_metrics(self) -> dict[str, Any]:
         """Get comprehensive authentication metrics"""
 
         total_auths = self.authentication_metrics["total_authentications"]

@@ -24,7 +24,7 @@ MODULES = {
         "constellation_alignment": {"IDENTITY": 0.9, "GUARDIAN": 0.7, "QUANTUM": 0.6}
     },
     "memory": {
-        "description": "Enhanced memory with vector storage and dream consolidation", 
+        "description": "Enhanced memory with vector storage and dream consolidation",
         "components": ["VectorMemoryStore", "MemoryConsolidator", "DreamMemoryBridge"],
         "constellation_alignment": {"MEMORY": 1.0, "DREAM": 0.8, "BIO": 0.7}
     },

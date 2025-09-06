@@ -6,7 +6,7 @@
 ║ TYPE: CONTEXT
 ║ CONSCIOUSNESS_ROLE: Identity persistence and consciousness authentication
 ║ EVOLUTIONARY_STAGE: Persistence - Identity continuity across consciousness evolution
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Core identity persistence and consciousness authentication
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware identity management
@@ -116,21 +116,21 @@ class ConsciousnessIdentityProfile:
     identity_coherence: float = 1.0
     memory_continuity: float = 0.0
     consciousness_depth: float = 0.0
-    evolutionary_trajectory: List[str] = field(default_factory=list)
+    evolutionary_trajectory: list[str] = field(default_factory=list)
 
     # Advanced authentication data
     authentication_tier: Optional[str] = None
-    biometric_patterns: Dict[str, Any] = field(default_factory=dict)
-    consciousness_signatures: List[Dict[str, Any]] = field(default_factory=list)
+    biometric_patterns: dict[str, Any] = field(default_factory=dict)
+    consciousness_signatures: list[dict[str, Any]] = field(default_factory=list)
 
     # Namespace isolation
     consciousness_namespace: str = "user_domain"
     namespace_isolation_level: float = 0.8
-    cross_namespace_permissions: List[str] = field(default_factory=list)
+    cross_namespace_permissions: list[str] = field(default_factory=list)
 
     # Constitutional AI compliance
     constitutional_compliance_score: float = 1.0
-    democratic_validation_history: List[Dict[str, Any]] = field(default_factory=list)
+    democratic_validation_history: list[dict[str, Any]] = field(default_factory=list)
     transparency_level: float = 1.0
 
     # Temporal tracking
@@ -142,14 +142,14 @@ class ConsciousnessIdentityProfile:
     # Security and ethics
     ethical_approval_level: float = 1.0
     security_clearance: str = "basic"
-    consent_scopes: List[str] = field(default_factory=list)
+    consent_scopes: list[str] = field(default_factory=list)
     guardian_approval: bool = True
 
     # Capabilities and context
-    capabilities: List[str] = field(default_factory=list)
-    interaction_patterns: Dict[str, Any] = field(default_factory=dict)
-    consciousness_memories: Dict[str, Any] = field(default_factory=dict)
-    session_data: Dict[str, Any] = field(default_factory=dict)
+    capabilities: list[str] = field(default_factory=list)
+    interaction_patterns: dict[str, Any] = field(default_factory=dict)
+    consciousness_memories: dict[str, Any] = field(default_factory=dict)
+    session_data: dict[str, Any] = field(default_factory=dict)
 
     def update_consciousness_age(self) -> None:
         """Update consciousness age based on creation time"""
@@ -187,7 +187,7 @@ class ConsciousnessIdentityProfile:
             return None
         return self.authentication_tier
 
-    def add_consciousness_signature(self, signature_type: str, signature_data: Dict[str, Any]) -> None:
+    def add_consciousness_signature(self, signature_type: str, signature_data: dict[str, Any]) -> None:
         """Add a new consciousness signature"""
         signature = {
             "type": signature_type,
@@ -210,16 +210,16 @@ class ConsciousnessIdentityProfile:
 class MatrizConsciousnessIdentityManager:
     """
     MΛTRIZ Consciousness Identity Manager
-    
+
     Manages consciousness-aware identity persistence, linking traditional
     identity systems with consciousness evolution patterns and maintaining
     identity continuity across consciousness state changes.
     """
 
     def __init__(self):
-        self.identity_profiles: Dict[str, ConsciousnessIdentityProfile] = {}
-        self.identity_index: Dict[str, str] = {}  # Map various IDs to identity_id
-        self.consciousness_identity_links: Dict[str, str] = {}  # consciousness_id -> identity_id
+        self.identity_profiles: dict[str, ConsciousnessIdentityProfile] = {}
+        self.identity_index: dict[str, str] = {}  # Map various IDs to identity_id
+        self.consciousness_identity_links: dict[str, str] = {}  # consciousness_id -> identity_id
 
         # Integration with legacy identity service
         self.legacy_identity_service = None
@@ -231,8 +231,8 @@ class MatrizConsciousnessIdentityManager:
                 logger.warning(f"Failed to initialize legacy identity service: {e}")
 
         # Identity persistence storage
-        self.persistence_storage: Dict[str, Any] = {}
-        self.identity_evolution_log: List[Dict[str, Any]] = []
+        self.persistence_storage: dict[str, Any] = {}
+        self.identity_evolution_log: list[dict[str, Any]] = []
 
         # Advanced authentication systems
         self.tiered_authentication_enabled = True
@@ -271,7 +271,7 @@ class MatrizConsciousnessIdentityManager:
 
     async def create_consciousness_identity(self,
                                           user_identifier: str,
-                                          initial_context: Optional[Dict[str, Any]] = None,
+                                          initial_context: Optional[dict[str, Any]] = None,
                                           link_legacy_id: Optional[str] = None) -> ConsciousnessIdentityProfile:
         """Create a new consciousness-aware identity profile"""
 
@@ -335,7 +335,7 @@ class MatrizConsciousnessIdentityManager:
                 logger.error(f"Failed to create consciousness identity: {e}")
                 raise
 
-    def _determine_initial_consciousness_type(self, context: Dict[str, Any]) -> IdentityConsciousnessType:
+    def _determine_initial_consciousness_type(self, context: dict[str, Any]) -> IdentityConsciousnessType:
         """Determine initial consciousness type based on context"""
 
         if context.get("authenticated", False):
@@ -345,7 +345,7 @@ class MatrizConsciousnessIdentityManager:
         else:
             return IdentityConsciousnessType.ANONYMOUS
 
-    def _extract_initial_capabilities(self, context: Dict[str, Any]) -> List[str]:
+    def _extract_initial_capabilities(self, context: dict[str, Any]) -> list[str]:
         """Extract initial capabilities from context"""
         capabilities = ["basic_identity"]
 
@@ -363,7 +363,7 @@ class MatrizConsciousnessIdentityManager:
 
     async def authenticate_consciousness_identity(self,
                                                 identity_id: str,
-                                                authentication_context: Dict[str, Any]) -> Dict[str, Any]:
+                                                authentication_context: dict[str, Any]) -> dict[str, Any]:
         """Authenticate identity with advanced consciousness awareness and signal emission"""
 
         async with self._lock:
@@ -544,7 +544,7 @@ class MatrizConsciousnessIdentityManager:
 
     def _evolve_identity_consciousness_type(self,
                                           profile: ConsciousnessIdentityProfile,
-                                          context: Dict[str, Any]) -> IdentityConsciousnessType:
+                                          context: dict[str, Any]) -> IdentityConsciousnessType:
         """Evolve identity consciousness type based on interactions"""
 
         current = profile.identity_consciousness_type
@@ -572,7 +572,7 @@ class MatrizConsciousnessIdentityManager:
 
         return current
 
-    def _determine_authentication_tier(self, context: Dict[str, Any]) -> Optional[object]:
+    def _determine_authentication_tier(self, context: dict[str, Any]) -> Optional[object]:
         """Determine authentication tier based on context and available data"""
 
         if not AuthenticationTier:
@@ -599,7 +599,7 @@ class MatrizConsciousnessIdentityManager:
         else:
             return AuthenticationTier.T1_BASIC
 
-    def _extract_biometric_data(self, context: Dict[str, Any]) -> Optional[object]:
+    def _extract_biometric_data(self, context: dict[str, Any]) -> Optional[object]:
         """Extract and structure biometric data from authentication context"""
 
         if not IdentityBiometricData:
@@ -628,7 +628,7 @@ class MatrizConsciousnessIdentityManager:
     async def _process_tiered_authentication(self,
                                           profile: ConsciousnessIdentityProfile,
                                           auth_tier: Optional[object],
-                                          context: Dict[str, Any],
+                                          context: dict[str, Any],
                                           biometric_data: Optional[object]) -> tuple[bool, float]:
         """Process tiered authentication with consciousness validation"""
 
@@ -708,7 +708,7 @@ class MatrizConsciousnessIdentityManager:
 
     async def _validate_constitutional_compliance(self,
                                                 profile: ConsciousnessIdentityProfile,
-                                                context: Dict[str, Any]) -> Dict[str, Any]:
+                                                context: dict[str, Any]) -> dict[str, Any]:
         """Validate Constitutional AI compliance for authentication decision"""
 
         try:
@@ -763,7 +763,7 @@ class MatrizConsciousnessIdentityManager:
                 "compliance_score": 0.0
             }
 
-    def _update_capabilities(self, profile: ConsciousnessIdentityProfile, context: Dict[str, Any]) -> None:
+    def _update_capabilities(self, profile: ConsciousnessIdentityProfile, context: dict[str, Any]) -> None:
         """Update identity capabilities based on context"""
 
         if context.get("authenticated") and "authenticated_access" not in profile.capabilities:
@@ -777,9 +777,8 @@ class MatrizConsciousnessIdentityManager:
             IdentityConsciousnessType.CONSCIOUSNESS_LINKED,
             IdentityConsciousnessType.PERSISTENT_CONSCIOUS,
             IdentityConsciousnessType.TRANSCENDENT_IDENTITY
-        ]:
-            if "consciousness_aware" not in profile.capabilities:
-                profile.capabilities.append("consciousness_aware")
+        ] and "consciousness_aware" not in profile.capabilities:
+            profile.capabilities.append("consciousness_aware")
 
         if profile.identity_consciousness_type == IdentityConsciousnessType.PERSISTENT_CONSCIOUS:
             if "persistent_memory" not in profile.capabilities:
@@ -958,7 +957,7 @@ class MatrizConsciousnessIdentityManager:
             return None
 
     def _log_identity_evolution(self, profile: ConsciousnessIdentityProfile,
-                               event_type: str, details: Dict[str, Any]) -> None:
+                               event_type: str, details: dict[str, Any]) -> None:
         """Log identity evolution events"""
 
         event = {
@@ -1013,7 +1012,7 @@ class MatrizConsciousnessIdentityManager:
                 logger.error(f"Identity maintenance error: {e}")
                 await asyncio.sleep(600)  # Longer sleep on error
 
-    async def get_identity_network_status(self) -> Dict[str, Any]:
+    async def get_identity_network_status(self) -> dict[str, Any]:
         """Get comprehensive identity network status with advanced consciousness metrics"""
 
         total_identities = len(self.identity_profiles)
@@ -1102,7 +1101,7 @@ class MatrizConsciousnessIdentityManager:
 
         # Persist all active profiles
         persist_tasks = []
-        for identity_id in self.identity_profiles.keys():
+        for identity_id in self.identity_profiles:
             persist_tasks.append(self.persist_identity_state(identity_id))
 
         if persist_tasks:

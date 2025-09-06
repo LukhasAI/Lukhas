@@ -21,8 +21,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.budget.token_controller import (APICallContext, CallUrgency,
-                                                 TokenBudgetController)
+from lukhas.core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
 
 
 @dataclass
@@ -266,7 +265,7 @@ class BatchProcessor:
                 total_cost += result["cost"]
 
             except Exception as e:
-                error_msg = f"Failed to batch fix {issue_type} issues: {str(e)}"
+                error_msg = f"Failed to batch fix {issue_type} issues: {e!s}"
                 errors.append(error_msg)
                 self.logger.error(error_msg)
 
@@ -306,7 +305,7 @@ class BatchProcessor:
 
         # Process each ecosystem group
         for ecosystem, eco_vulns in ecosystem_groups.items():
-            pr_body_parts.append(f"\n###")
+            pr_body_parts.append("\n###")
 
             for vuln in eco_vulns:
                 fix_result = self._apply_vulnerability_fix(vuln)

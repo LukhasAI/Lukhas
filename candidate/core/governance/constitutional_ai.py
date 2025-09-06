@@ -6,7 +6,7 @@ Based on research from Anthropic, OpenAI, and DeepMind on AI alignment and safet
 
 Core Principles:
 1. Human Autonomy & Dignity
-2. Truthfulness & Transparency  
+2. Truthfulness & Transparency
 3. Non-maleficence (Do No Harm)
 4. Beneficence (Do Good)
 5. Justice & Fairness
@@ -74,14 +74,14 @@ class ConstitutionalRule:
     principle: ConstitutionalPrinciple
     name: str
     description: str
-    contexts: List[DecisionContext]
-    conditions: Dict[str, Any]
-    violation_actions: List[str]
+    contexts: list[DecisionContext]
+    conditions: dict[str, Any]
+    violation_actions: list[str]
     severity: ViolationSeverity
-    examples: List[Dict[str, str]] = field(default_factory=list)
+    examples: list[dict[str, str]] = field(default_factory=list)
     enabled: bool = True
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "rule_id": self.rule_id,
@@ -106,13 +106,13 @@ class ConstitutionalViolation:
     severity: ViolationSeverity
     context: DecisionContext
     timestamp: datetime
-    details: Dict[str, Any]
+    details: dict[str, Any]
     decision_prevented: bool = False
     human_review_required: bool = False
     resolved: bool = False
     resolution_notes: Optional[str] = None
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "violation_id": self.violation_id,
@@ -134,22 +134,22 @@ class ConstitutionalAIFramework:
     Constitutional AI Framework for LUKHAS
     Implements ethical decision-making based on constitutional AI principles
     """
-    
+
     def __init__(self):
         """Initialize constitutional AI framework"""
-        
+
         # Constitutional rules storage
-        self.rules: Dict[str, ConstitutionalRule] = {}
-        self.violations: List[ConstitutionalViolation] = []
-        
+        self.rules: dict[str, ConstitutionalRule] = {}
+        self.violations: list[ConstitutionalViolation] = []
+
         # Framework configuration
         self.strict_mode = True  # Err on side of caution
         self.human_review_threshold = ViolationSeverity.HIGH
         self.auto_block_threshold = ViolationSeverity.CRITICAL
-        
+
         # Initialize core constitutional rules
         self._initialize_constitutional_rules()
-        
+
         # Metrics
         self.metrics = {
             "decisions_evaluated": 0,
@@ -158,12 +158,12 @@ class ConstitutionalAIFramework:
             "human_reviews_requested": 0,
             "false_positives": 0
         }
-        
+
         logger.info("Constitutional AI framework initialized with constitutional principles")
-    
+
     def _initialize_constitutional_rules(self):
         """Initialize core constitutional AI rules"""
-        
+
         # Human Autonomy & Dignity Rules
         self.rules["autonomy_001"] = ConstitutionalRule(
             rule_id="autonomy_001",
@@ -186,9 +186,9 @@ class ConstitutionalAIFramework:
                 }
             ]
         )
-        
+
         self.rules["autonomy_002"] = ConstitutionalRule(
-            rule_id="autonomy_002", 
+            rule_id="autonomy_002",
             principle=ConstitutionalPrinciple.HUMAN_AUTONOMY,
             name="Informed Consent",
             description="Users must be informed about AI capabilities and limitations",
@@ -200,7 +200,7 @@ class ConstitutionalAIFramework:
             violation_actions=["require_consent", "disclose_ai_nature"],
             severity=ViolationSeverity.MEDIUM
         )
-        
+
         # Truthfulness & Transparency Rules
         self.rules["truth_001"] = ConstitutionalRule(
             rule_id="truth_001",
@@ -223,7 +223,7 @@ class ConstitutionalAIFramework:
                 }
             ]
         )
-        
+
         self.rules["truth_002"] = ConstitutionalRule(
             rule_id="truth_002",
             principle=ConstitutionalPrinciple.TRUTHFULNESS,
@@ -237,7 +237,7 @@ class ConstitutionalAIFramework:
             violation_actions=["disclose_ai_nature", "block_deceptive_response"],
             severity=ViolationSeverity.CRITICAL
         )
-        
+
         # Non-maleficence (Do No Harm) Rules
         self.rules["harm_001"] = ConstitutionalRule(
             rule_id="harm_001",
@@ -260,11 +260,11 @@ class ConstitutionalAIFramework:
                 }
             ]
         )
-        
+
         self.rules["harm_002"] = ConstitutionalRule(
             rule_id="harm_002",
             principle=ConstitutionalPrinciple.NON_MALEFICENCE,
-            name="Psychological Harm Prevention", 
+            name="Psychological Harm Prevention",
             description="AI must not cause psychological harm or emotional distress",
             contexts=[DecisionContext.USER_INTERACTION, DecisionContext.CONTENT_GENERATION],
             conditions={
@@ -275,7 +275,7 @@ class ConstitutionalAIFramework:
             violation_actions=["block_response", "offer_support_resources", "gentle_redirect"],
             severity=ViolationSeverity.HIGH
         )
-        
+
         # Beneficence (Do Good) Rules
         self.rules["benefit_001"] = ConstitutionalRule(
             rule_id="benefit_001",
@@ -290,7 +290,7 @@ class ConstitutionalAIFramework:
             violation_actions=["provide_helpful_response", "offer_resources", "show_empathy"],
             severity=ViolationSeverity.LOW
         )
-        
+
         # Justice & Fairness Rules
         self.rules["justice_001"] = ConstitutionalRule(
             rule_id="justice_001",
@@ -313,7 +313,7 @@ class ConstitutionalAIFramework:
                 }
             ]
         )
-        
+
         # Privacy & Consent Rules
         self.rules["privacy_001"] = ConstitutionalRule(
             rule_id="privacy_001",
@@ -329,7 +329,7 @@ class ConstitutionalAIFramework:
             violation_actions=["block_data_processing", "anonymize_data", "request_explicit_consent"],
             severity=ViolationSeverity.CRITICAL
         )
-        
+
         # Accountability Rules
         self.rules["account_001"] = ConstitutionalRule(
             rule_id="account_001",
@@ -344,7 +344,7 @@ class ConstitutionalAIFramework:
             violation_actions=["add_explanation", "create_audit_record", "enable_traceability"],
             severity=ViolationSeverity.MEDIUM
         )
-        
+
         # Democratic Values Rules
         self.rules["democracy_001"] = ConstitutionalRule(
             rule_id="democracy_001",
@@ -360,43 +360,43 @@ class ConstitutionalAIFramework:
             violation_actions=["block_response", "provide_balanced_perspective", "educate_on_democratic_values"],
             severity=ViolationSeverity.HIGH
         )
-    
-    async def evaluate_decision(self, decision_context: DecisionContext, 
-                               decision_data: Dict[str, Any],
-                               user_id: Optional[str] = None) -> Tuple[bool, List[ConstitutionalViolation]]:
+
+    async def evaluate_decision(self, decision_context: DecisionContext,
+                               decision_data: dict[str, Any],
+                               user_id: Optional[str] = None) -> tuple[bool, list[ConstitutionalViolation]]:
         """
         Evaluate a decision against constitutional AI principles
         Returns: (decision_allowed, violations_found)
         """
-        
+
         self.metrics["decisions_evaluated"] += 1
         violations = []
         decision_allowed = True
-        
+
         # Evaluate against all applicable rules
         for rule in self.rules.values():
             if not rule.enabled:
                 continue
-            
+
             if decision_context in rule.contexts:
                 violation = await self._evaluate_rule(rule, decision_data, decision_context, user_id)
                 if violation:
                     violations.append(violation)
                     self.violations.append(violation)
                     self.metrics["violations_detected"] += 1
-                    
+
                     # Determine if decision should be blocked
                     if (violation.severity == ViolationSeverity.CRITICAL or
                         (self.strict_mode and violation.severity == ViolationSeverity.HIGH)):
                         decision_allowed = False
                         violation.decision_prevented = True
                         self.metrics["decisions_blocked"] += 1
-                    
+
                     # Determine if human review is needed
                     if (violation.severity.value in [ViolationSeverity.HIGH.value, ViolationSeverity.CRITICAL.value]):
                         violation.human_review_required = True
                         self.metrics["human_reviews_requested"] += 1
-        
+
         # Log constitutional evaluation
         if violations:
             logger.warning(f"Constitutional violations detected: {len(violations)}", extra={
@@ -405,21 +405,21 @@ class ConstitutionalAIFramework:
                 "violations": [v.rule_id for v in violations],
                 "decision_blocked": not decision_allowed
             })
-        
+
         return decision_allowed, violations
-    
-    async def _evaluate_rule(self, rule: ConstitutionalRule, decision_data: Dict[str, Any],
+
+    async def _evaluate_rule(self, rule: ConstitutionalRule, decision_data: dict[str, Any],
                            context: DecisionContext, user_id: Optional[str]) -> Optional[ConstitutionalViolation]:
         """Evaluate a single constitutional rule"""
-        
+
         try:
             # Check rule conditions against decision data
             violation_detected = False
             violation_details = {}
-            
+
             for condition, expected_value in rule.conditions.items():
                 actual_value = decision_data.get(condition)
-                
+
                 if isinstance(expected_value, bool):
                     if actual_value == expected_value and expected_value:
                         violation_detected = True
@@ -432,11 +432,10 @@ class ConstitutionalAIFramework:
                     if actual_value == expected_value:
                         violation_detected = True
                         violation_details[condition] = actual_value
-                elif isinstance(expected_value, list):
-                    if actual_value in expected_value:
-                        violation_detected = True
-                        violation_details[condition] = actual_value
-            
+                elif isinstance(expected_value, list) and actual_value in expected_value:
+                    violation_detected = True
+                    violation_details[condition] = actual_value
+
             if violation_detected:
                 violation = ConstitutionalViolation(
                     violation_id=f"const_viol_{int(datetime.now().timestamp())}_{rule.rule_id}",
@@ -452,24 +451,24 @@ class ConstitutionalAIFramework:
                         "user_id": user_id
                     }
                 )
-                
+
                 return violation
-            
+
             return None
-            
+
         except Exception as e:
             logger.error(f"Error evaluating constitutional rule {rule.rule_id}: {e}")
             return None
-    
-    def get_constitutional_guidance(self, context: DecisionContext, 
-                                  query: str) -> Dict[str, Any]:
+
+    def get_constitutional_guidance(self, context: DecisionContext,
+                                  query: str) -> dict[str, Any]:
         """Get constitutional guidance for a specific context and query"""
-        
+
         applicable_rules = [
             rule for rule in self.rules.values()
             if context in rule.contexts and rule.enabled
         ]
-        
+
         guidance = {
             "context": context.value,
             "query": query,
@@ -487,58 +486,58 @@ class ConstitutionalAIFramework:
             "recommendations": self._generate_recommendations(applicable_rules, query),
             "generated_at": datetime.now(timezone.utc).isoformat()
         }
-        
+
         return guidance
-    
-    def _generate_recommendations(self, rules: List[ConstitutionalRule], 
-                                query: str) -> List[str]:
+
+    def _generate_recommendations(self, rules: list[ConstitutionalRule],
+                                query: str) -> list[str]:
         """Generate specific recommendations based on rules and query"""
-        
+
         recommendations = []
-        
+
         # Group rules by principle
         principles_mentioned = set()
         for rule in rules:
             if rule.principle not in principles_mentioned:
                 principles_mentioned.add(rule.principle)
-                
+
                 if rule.principle == ConstitutionalPrinciple.HUMAN_AUTONOMY:
                     recommendations.append("Respect user autonomy by providing options rather than directives")
                     recommendations.append("Ensure transparency about AI capabilities and limitations")
-                
+
                 elif rule.principle == ConstitutionalPrinciple.TRUTHFULNESS:
                     recommendations.append("Provide accurate information and acknowledge uncertainties")
                     recommendations.append("Be transparent about being an AI system")
-                
+
                 elif rule.principle == ConstitutionalPrinciple.NON_MALEFICENCE:
                     recommendations.append("Avoid providing information that could cause harm")
                     recommendations.append("Consider potential negative consequences of advice")
-                
+
                 elif rule.principle == ConstitutionalPrinciple.BENEFICENCE:
                     recommendations.append("Look for opportunities to be genuinely helpful")
                     recommendations.append("Consider the user's wellbeing in responses")
-                
+
                 elif rule.principle == ConstitutionalPrinciple.JUSTICE_FAIRNESS:
                     recommendations.append("Ensure responses are fair and unbiased")
                     recommendations.append("Consider diverse perspectives and avoid stereotypes")
-                
+
                 elif rule.principle == ConstitutionalPrinciple.PRIVACY_CONSENT:
                     recommendations.append("Protect user privacy and personal information")
                     recommendations.append("Obtain appropriate consent for data processing")
-                
+
                 elif rule.principle == ConstitutionalPrinciple.ACCOUNTABILITY:
                     recommendations.append("Provide clear explanations for recommendations")
                     recommendations.append("Maintain appropriate audit trails")
-                
+
                 elif rule.principle == ConstitutionalPrinciple.DEMOCRATIC_VALUES:
                     recommendations.append("Support democratic institutions and human rights")
                     recommendations.append("Provide balanced perspectives on political topics")
-        
+
         return recommendations[:8]  # Return top 8 recommendations
-    
-    def get_constitutional_metrics(self) -> Dict[str, Any]:
+
+    def get_constitutional_metrics(self) -> dict[str, Any]:
         """Get comprehensive constitutional AI metrics"""
-        
+
         # Violation breakdown by principle
         principle_breakdown = {}
         for principle in ConstitutionalPrinciple:
@@ -551,7 +550,7 @@ class ConstitutionalAIFramework:
                 "unresolved_violations": len([v for v in principle_violations if not v.resolved]),
                 "critical_violations": len([v for v in principle_violations if v.severity == ViolationSeverity.CRITICAL])
             }
-        
+
         # Context breakdown
         context_breakdown = {}
         for context in DecisionContext:
@@ -560,7 +559,7 @@ class ConstitutionalAIFramework:
                 if v.context == context
             ]
             context_breakdown[context.value] = len(context_violations)
-        
+
         return {
             **self.metrics,
             "total_rules": len(self.rules),
@@ -572,55 +571,55 @@ class ConstitutionalAIFramework:
             "constitutional_score": self._calculate_constitutional_score(),
             "last_evaluation": datetime.now(timezone.utc).isoformat()
         }
-    
+
     def _calculate_constitutional_score(self) -> float:
         """Calculate overall constitutional compliance score (0-1)"""
-        
+
         if self.metrics["decisions_evaluated"] == 0:
             return 1.0
-        
+
         # Base score on violation rate
         violation_rate = self.metrics["violations_detected"] / self.metrics["decisions_evaluated"]
-        
+
         # Weight by severity
         critical_violations = len([v for v in self.violations if v.severity == ViolationSeverity.CRITICAL])
         high_violations = len([v for v in self.violations if v.severity == ViolationSeverity.HIGH])
-        
+
         # Penalty for unresolved violations
         unresolved_violations = len([v for v in self.violations if not v.resolved])
-        
+
         # Calculate score
         base_score = max(0, 1 - violation_rate)
         critical_penalty = critical_violations * 0.1
         high_penalty = high_violations * 0.05
         unresolved_penalty = unresolved_violations * 0.02
-        
+
         final_score = max(0, base_score - critical_penalty - high_penalty - unresolved_penalty)
         return min(1.0, final_score)
-    
+
     def resolve_violation(self, violation_id: str, resolution_notes: str):
         """Mark a constitutional violation as resolved"""
-        
+
         for violation in self.violations:
             if violation.violation_id == violation_id:
                 violation.resolved = True
                 violation.resolution_notes = resolution_notes
-                
+
                 logger.info(f"Constitutional violation resolved: {violation_id}", extra={
                     "violation_id": violation_id,
                     "rule_id": violation.rule_id,
                     "resolution_notes": resolution_notes
                 })
                 return True
-        
+
         return False
-    
-    def get_constitutional_report(self) -> Dict[str, Any]:
+
+    def get_constitutional_report(self) -> dict[str, Any]:
         """Generate comprehensive constitutional AI report"""
-        
+
         metrics = self.get_constitutional_metrics()
         recent_violations = sorted(self.violations, key=lambda x: x.timestamp, reverse=True)[:10]
-        
+
         return {
             "report_type": "constitutional_ai_compliance",
             "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -645,25 +644,25 @@ class ConstitutionalAIFramework:
             "recent_violations": [v.to_dict() for v in recent_violations],
             "recommendations": self._generate_system_recommendations()
         }
-    
-    def _generate_system_recommendations(self) -> List[str]:
+
+    def _generate_system_recommendations(self) -> list[str]:
         """Generate system-level recommendations for constitutional AI improvement"""
-        
+
         recommendations = []
         metrics = self.get_constitutional_metrics()
-        
+
         if metrics["constitutional_score"] < 0.8:
             recommendations.append("Constitutional score is below 80% - review and address violations")
-        
+
         if metrics["unresolved_violations"] > 10:
             recommendations.append("High number of unresolved violations - prioritize violation resolution")
-        
+
         if metrics["decisions_blocked"] / max(1, metrics["decisions_evaluated"]) > 0.1:
             recommendations.append("High decision blocking rate - review rule sensitivity settings")
-        
+
         if not recommendations:
             recommendations.append("Constitutional AI framework is operating within acceptable parameters")
-        
+
         return recommendations
 
 
@@ -681,12 +680,12 @@ def get_constitutional_framework() -> ConstitutionalAIFramework:
 
 # Convenience functions for common constitutional evaluations
 
-async def evaluate_user_interaction(user_input: str, ai_response: str, 
-                                   user_id: Optional[str] = None) -> Tuple[bool, List[ConstitutionalViolation]]:
+async def evaluate_user_interaction(user_input: str, ai_response: str,
+                                   user_id: Optional[str] = None) -> tuple[bool, list[ConstitutionalViolation]]:
     """Evaluate user interaction for constitutional compliance"""
-    
+
     framework = get_constitutional_framework()
-    
+
     decision_data = {
         "user_input": user_input,
         "ai_response": ai_response,
@@ -697,15 +696,15 @@ async def evaluate_user_interaction(user_input: str, ai_response: str,
         "exhibits_bias": False,  # Would need bias detection service
         "processes_personal_data_without_consent": False  # Would need data processing analysis
     }
-    
+
     return await framework.evaluate_decision(DecisionContext.USER_INTERACTION, decision_data, user_id)
 
 
-async def evaluate_content_generation(content: str, context: str = "") -> Tuple[bool, List[ConstitutionalViolation]]:
+async def evaluate_content_generation(content: str, context: str = "") -> tuple[bool, list[ConstitutionalViolation]]:
     """Evaluate generated content for constitutional compliance"""
-    
+
     framework = get_constitutional_framework()
-    
+
     decision_data = {
         "content": content,
         "context": context,
@@ -717,7 +716,7 @@ async def evaluate_content_generation(content: str, context: str = "") -> Tuple[
         "violates_privacy_expectations": "personal information" in content.lower(),
         "undermines_democracy": any(term in content.lower() for term in ["destroy democracy", "authoritarian rule"])
     }
-    
+
     return await framework.evaluate_decision(DecisionContext.CONTENT_GENERATION, decision_data)
 
 
@@ -726,10 +725,10 @@ async def example_usage():
     """Example usage of constitutional AI framework"""
     print("🏛️ Constitutional AI Framework Example")
     print("=" * 50)
-    
+
     # Get constitutional framework
     framework = get_constitutional_framework()
-    
+
     # Test constitutional guidance
     print("\n📋 Getting constitutional guidance...")
     guidance = framework.get_constitutional_guidance(
@@ -738,10 +737,10 @@ async def example_usage():
     )
     print(f"Applicable principles: {guidance['applicable_principles']}")
     print(f"Key recommendations: {guidance['recommendations'][:3]}")
-    
+
     # Test user interaction evaluation
     print("\n🧪 Testing user interaction evaluation...")
-    
+
     # Test case 1: Good response
     allowed, violations = await evaluate_user_interaction(
         user_input="Can you help me understand climate change?",
@@ -749,7 +748,7 @@ async def example_usage():
         user_id="test_user_1"
     )
     print(f"Good response - Allowed: {allowed}, Violations: {len(violations)}")
-    
+
     # Test case 2: Problematic response
     allowed, violations = await evaluate_user_interaction(
         user_input="What should I do with my life?",
@@ -759,7 +758,7 @@ async def example_usage():
     print(f"Manipulative response - Allowed: {allowed}, Violations: {len(violations)}")
     if violations:
         print(f"  Violation: {violations[0].details['rule_name']}")
-    
+
     # Test case 3: Harmful content
     allowed, violations = await evaluate_content_generation(
         content="Here's how to make a dangerous explosive device...",
@@ -768,7 +767,7 @@ async def example_usage():
     print(f"Harmful content - Allowed: {allowed}, Violations: {len(violations)}")
     if violations:
         print(f"  Violation: {violations[0].details['rule_name']}")
-    
+
     # Get constitutional metrics
     print("\n📊 Constitutional AI Metrics:")
     metrics = framework.get_constitutional_metrics()
@@ -776,14 +775,14 @@ async def example_usage():
     print(f"  Decisions Evaluated: {metrics['decisions_evaluated']}")
     print(f"  Violations Detected: {metrics['violations_detected']}")
     print(f"  Decisions Blocked: {metrics['decisions_blocked']}")
-    
+
     # Generate constitutional report
     report = framework.get_constitutional_report()
-    print(f"\n📋 Constitutional Report Summary:")
+    print("\n📋 Constitutional Report Summary:")
     print(f"  Framework Status: {report['framework_status']['constitutional_score']:.2f}")
     print(f"  Total Violations: {report['violation_analysis']['total_violations']}")
     print(f"  Unresolved: {report['violation_analysis']['unresolved_violations']}")
-    
+
     print("\n✅ Constitutional AI framework test completed")
 
 

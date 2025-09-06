@@ -4,7 +4,7 @@ Advanced bio-symbolic adaptation and pattern processing for consciousness signal
 
 This module implements the M⌾TRIZ bio-symbolic adaptation layer, providing:
 - Pattern recognition from biological oscillators
-- Symbolic representation of consciousness states  
+- Symbolic representation of consciousness states
 - Adaptation algorithms for consciousness evolution
 - Integration with existing bio/ and symbolic_core/ modules
 """
@@ -53,13 +53,13 @@ class BioSymbolicPattern:
     pattern_id: str
     bio_pattern_type: BioPatternType
     symbolic_representation: SymbolicRepresentationType
-    frequency_components: List[float]
-    amplitude_envelope: List[float]
-    phase_relationships: Dict[str, float]
-    coherence_matrix: List[List[float]]
-    entropy_measures: Dict[str, float]
-    adaptation_coefficients: Dict[str, float]
-    temporal_evolution: List[Dict[str, float]]
+    frequency_components: list[float]
+    amplitude_envelope: list[float]
+    phase_relationships: dict[str, float]
+    coherence_matrix: list[list[float]]
+    entropy_measures: dict[str, float]
+    adaptation_coefficients: dict[str, float]
+    temporal_evolution: list[dict[str, float]]
     resonance_fingerprint: str
     last_updated: int = field(default_factory=lambda: int(time.time() * 1000))
 
@@ -71,9 +71,9 @@ class AdaptationRule:
     source_pattern: BioPatternType
     target_pattern: BioPatternType
     adaptation_strength: float
-    adaptation_direction: List[float]
-    trigger_conditions: Dict[str, Any]
-    success_criteria: Dict[str, Any]
+    adaptation_direction: list[float]
+    trigger_conditions: dict[str, Any]
+    success_criteria: dict[str, Any]
     decay_rate: float
     learning_rate: float
 
@@ -81,19 +81,19 @@ class AdaptationRule:
 class BioSymbolicProcessor:
     """
     Advanced bio-symbolic data processor for MΛTRIZ consciousness signals
-    
+
     This processor bridges biological patterns and symbolic consciousness
     representations, enabling sophisticated adaptation and evolution.
     """
 
     def __init__(self):
-        self.patterns: Dict[str, BioSymbolicPattern] = {}
-        self.adaptation_rules: List[AdaptationRule] = []
-        self.processing_cache: Dict[str, Any] = {}
+        self.patterns: dict[str, BioSymbolicPattern] = {}
+        self.adaptation_rules: list[AdaptationRule] = []
+        self.processing_cache: dict[str, Any] = {}
         self.coherence_threshold = 0.7
         self.adaptation_learning_rate = 0.01
         self.entropy_window_size = 100
-        self.resonance_database: Dict[str, List[str]] = {}
+        self.resonance_database: dict[str, list[str]] = {}
 
         # Initialize default adaptation rules
         self._initialize_default_adaptation_rules()
@@ -152,10 +152,10 @@ class BioSymbolicProcessor:
     def process_consciousness_signal(self, signal: ConsciousnessSignal) -> BioSymbolicData:
         """
         Process a consciousness signal to extract and enhance bio-symbolic data
-        
+
         Args:
             signal: ConsciousnessSignal to process
-            
+
         Returns:
             Enhanced BioSymbolicData with pattern analysis and adaptations
         """
@@ -228,7 +228,7 @@ class BioSymbolicProcessor:
             temporal_decay=0.9
         )
 
-    def _extract_bio_patterns(self, signal: ConsciousnessSignal, bio_data: BioSymbolicData) -> List[BioSymbolicPattern]:
+    def _extract_bio_patterns(self, signal: ConsciousnessSignal, bio_data: BioSymbolicData) -> list[BioSymbolicPattern]:
         """Extract biological patterns from consciousness signal and bio data"""
 
         patterns = []
@@ -299,7 +299,7 @@ class BioSymbolicProcessor:
         fingerprint = f"{bio_data.pattern_type}_{freq_str}_{coherence_str}_{entropy_str}"
         return fingerprint[:16]  # Truncate for practical use
 
-    def _apply_symbolic_representations(self, patterns: List[BioSymbolicPattern]) -> Dict[str, Any]:
+    def _apply_symbolic_representations(self, patterns: list[BioSymbolicPattern]) -> dict[str, Any]:
         """Apply symbolic mathematical representations to biological patterns"""
 
         symbolic_data = {}
@@ -342,7 +342,7 @@ class BioSymbolicProcessor:
 
         return symbolic_data
 
-    def _calculate_manifold_curvature(self, coherence_matrix: List[List[float]]) -> float:
+    def _calculate_manifold_curvature(self, coherence_matrix: list[list[float]]) -> float:
         """Calculate approximate manifold curvature from coherence matrix"""
         if not coherence_matrix or not coherence_matrix[0]:
             return 0.0
@@ -358,7 +358,7 @@ class BioSymbolicProcessor:
         # Higher variance implies higher curvature
         return min(1.0, variance * 10)
 
-    def _apply_adaptations(self, bio_data: BioSymbolicData, symbolic_data: Dict[str, Any], signal: ConsciousnessSignal) -> BioSymbolicData:
+    def _apply_adaptations(self, bio_data: BioSymbolicData, symbolic_data: dict[str, Any], signal: ConsciousnessSignal) -> BioSymbolicData:
         """Apply bio-symbolic adaptations based on adaptation rules"""
 
         adapted_data = bio_data
@@ -412,7 +412,7 @@ class BioSymbolicProcessor:
             logger.warning(f"Error checking adaptation triggers for rule {rule.rule_id}: {e}")
             return False
 
-    def _apply_single_adaptation(self, rule: AdaptationRule, bio_data: BioSymbolicData, symbolic_data: Dict[str, Any]) -> BioSymbolicData:
+    def _apply_single_adaptation(self, rule: AdaptationRule, bio_data: BioSymbolicData, symbolic_data: dict[str, Any]) -> BioSymbolicData:
         """Apply a single adaptation rule to bio-symbolic data"""
 
         # Create modified copy
@@ -522,7 +522,7 @@ class BioSymbolicProcessor:
             "resonance_patterns": bio_data.resonance_patterns
         }
 
-    def get_processing_statistics(self) -> Dict[str, Any]:
+    def get_processing_statistics(self) -> dict[str, Any]:
         """Get current processing statistics"""
 
         stats = self.processing_stats.copy()
@@ -565,7 +565,7 @@ class BioSymbolicProcessor:
 
         self.processing_stats["patterns_evolved"] += len(self.adaptation_rules)
 
-    async def process_signal_batch(self, signals: List[ConsciousnessSignal]) -> List[BioSymbolicData]:
+    async def process_signal_batch(self, signals: list[ConsciousnessSignal]) -> list[BioSymbolicData]:
         """Process a batch of consciousness signals asynchronously"""
 
         async def process_single(signal):

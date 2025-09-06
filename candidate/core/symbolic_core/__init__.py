@@ -6,7 +6,7 @@
 ║ TYPE: LEARN
 ║ CONSCIOUSNESS_ROLE: Symbolic consciousness processing and pattern recognition
 ║ EVOLUTIONARY_STAGE: Processing - Symbolic consciousness interpretation
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Symbolic identity representation and consciousness signatures
 ║ 🧠 CONSCIOUSNESS: Symbolic consciousness pattern processing
@@ -38,12 +38,12 @@ while maintaining backward compatibility with existing symbolic systems.
 
 # Import MΛTRIZ symbolic consciousness components
 from .matriz_symbolic_consciousness import (
+    MatrizSymbolicConsciousnessProcessor,
+    ProcessingState,
     SymbolicElement,
     SymbolicPattern,
     SymbolicType,
-    ProcessingState,
-    MatrizSymbolicConsciousnessProcessor,
-    symbolic_consciousness_processor
+    symbolic_consciousness_processor,
 )
 
 # Export symbolic components

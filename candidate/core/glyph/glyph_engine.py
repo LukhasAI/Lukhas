@@ -12,10 +12,10 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional, cast
 
-from lukhas.core.events.contracts import GlyphCreated, SymbolTranslated
+from ..events.contracts import GlyphCreated, SymbolTranslated
 
 # Import event system for integration
-from lukhas.core.events.typed_event_bus import get_typed_event_bus
+from ..events.typed_event_bus import get_typed_event_bus
 
 # Import existing GLYPH components
 from .glyph import EmotionVector, Glyph, GlyphFactory, GlyphType

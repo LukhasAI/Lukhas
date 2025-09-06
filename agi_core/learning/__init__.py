@@ -5,14 +5,14 @@ Advanced learning system that integrates with LUKHAS dream architecture
 for creative learning, pattern discovery, and skill acquisition.
 """
 
-from .dream_guided_learner import DreamGuidedLearner, LearningSession, LearningOutcome
-from .pattern_learning import PatternLearner, LearningPattern, PatternType
-from .skill_acquisition import SkillAcquisitionEngine, Skill, SkillLevel
-from .meta_learning import MetaLearner, LearningStrategy, MetaLearningInsight
+from .dream_guided_learner import DreamGuidedLearner, LearningOutcome, LearningSession
+from .meta_learning import LearningStrategy, MetaLearner, MetaLearningInsight
+from .pattern_learning import LearningPattern, PatternLearner, PatternType
+from .skill_acquisition import Skill, SkillAcquisitionEngine, SkillLevel
 
 __all__ = [
     "DreamGuidedLearner",
-    "LearningSession", 
+    "LearningSession",
     "LearningOutcome",
     "PatternLearner",
     "LearningPattern",

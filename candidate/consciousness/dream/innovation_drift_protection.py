@@ -27,12 +27,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from consciousness.states.symbolic_drift_tracker import (
-    DriftPhase,
-    DriftScore,
-    SymbolicDriftTracker,
-    SymbolicState,
-)
 from vivox.emotional_regulation.vivox_ern_core import (
     RegulationStrategy,
     VIVOXEmotionalRegulationNetwork as VivoxERN,
@@ -47,6 +41,12 @@ from candidate.core.monitoring.drift_monitor import (
     DriftType,
     InterventionType,
     UnifiedDriftMonitor,
+)
+from consciousness.states.symbolic_drift_tracker import (
+    DriftPhase,
+    DriftScore,
+    SymbolicDriftTracker,
+    SymbolicState,
 )
 
 # Import existing drift and integrity systems
