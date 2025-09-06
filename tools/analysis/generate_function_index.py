@@ -13,7 +13,7 @@ from typing import Any
 
 
 class FunctionIndexGenerator:
-    def __init__(self, root_path: str = "."):
+    def __init__(self, root_path: str = ".", timezone):
         self.root_path = Path(root_path).resolve()
         self.index = defaultdict(dict)
         self.decorator_usage = defaultdict(list)
@@ -202,7 +202,7 @@ class FunctionIndexGenerator:
         complex_functions.sort(key=lambda x: x[2], reverse=True)
 
         report = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "summary": {
                 "total_functions": total_functions,
                 "modules_with_functions": modules_with_functions,

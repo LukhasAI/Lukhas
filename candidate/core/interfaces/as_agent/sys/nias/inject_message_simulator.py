@@ -41,7 +41,7 @@ dream_options = [
     ("Lukhas exhaled the memory.", "🫁🧠"),
 ]
 text, emotion = random.choice(dream_options)
-message_id = f"lukhas_dream_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}"
+message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f')}"
 with open(queue_file, "a") as f:
     f.write(
         json.dumps(
@@ -68,7 +68,7 @@ try:
                 narrated_dreams.append(
                     {
                         "message_id": dream.get("message_id")
-                        or f"lukhas_dream_{datetime.now().strftime('%Y%m%d_%H%M%S%f')}",
+                        or f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f')}",
                         "text": dream["text"],
                         "timestamp": dream["timestamp"],
                         "narrated_at": datetime.now(timezone.utc).isoformat(),

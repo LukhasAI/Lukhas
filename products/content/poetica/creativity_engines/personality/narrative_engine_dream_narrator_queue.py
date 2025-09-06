@@ -53,7 +53,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-DREAM_LOG = Path("core/logs/dream_log.jsonl")
+DREAM_LOG = Path("core/logs/dream_log.jsonl", timezone)
 QUEUE_FILE = Path("core/logs/narration_queue.jsonl")
 
 
@@ -71,7 +71,7 @@ def filter_narratable_dreams(dreams):
 def save_to_queue(filtered):
     with open(QUEUE_FILE, "a") as f:
         for entry in filtered:
-            entry["queued_at"] = datetime.utcnow().isoformat()
+            entry["queued_at"] = datetime.now(timezone.utc).isoformat()
             f.write(json.dumps(entry) + "\n")
 
 

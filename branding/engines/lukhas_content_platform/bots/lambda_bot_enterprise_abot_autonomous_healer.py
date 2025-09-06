@@ -11,7 +11,7 @@ import sys
 import time
 from datetime import datetime
 
-sys.path.append("/Users/A_G_I/Λ")
+sys.path.append("/Users/A_G_I/Λ", timezone)
 
 
 class ABotAutonomousHealer:
@@ -24,7 +24,7 @@ class ABotAutonomousHealer:
         """Log all healing actions"""
         self.healing_log.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "action": action,
                 "result": result,
                 "cost": cost,

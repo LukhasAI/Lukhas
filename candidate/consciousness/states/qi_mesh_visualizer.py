@@ -36,7 +36,7 @@ try:
     HAS_MATPLOTLIB = True
 except ImportError:
     HAS_MATPLOTLIB = False
-    print("Warning: matplotlib/seaborn not available. Some visualizations disabled.")
+    print("Warning: matplotlib/seaborn not available. Some visualizations disabled.", timezone)
 
 try:
     import plotly.express as px
@@ -161,7 +161,7 @@ class QIMeshVisualizer:
         conflicts = integrator.detect_ethics_phase_conflict(entanglement_matrix)
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "unified_field": unified_field,
             "entanglement_matrix": entanglement_matrix,
             "conflicts": conflicts,
@@ -243,7 +243,7 @@ class QIMeshVisualizer:
         risk_level = risk_levels[min(2, len(conflicts))]
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "unified_field": {
                 "mesh_ethics_score": mesh_score,
                 "coherence": np.mean([s["coherence"] for s in subsystem_states.values()]),
@@ -592,7 +592,7 @@ class QIMeshVisualizer:
             )
 
         # 3. Risk timeline (synthetic data for demo)
-        timestamps = [datetime.now() - timedelta(hours=i) for i in range(24, 0, -1)]
+        timestamps = [datetime.now(timezone.utc) - timedelta(hours=i) for i in range(24, 0, -1)]
         risk_values = np.random.uniform(0.1, 0.8, 24)  # Synthetic risk over time
 
         fig.add_trace(
@@ -659,7 +659,7 @@ class QIMeshVisualizer:
 
         # Update layout
         fig.update_layout(
-            title_text=f"Quantum Ethics Mesh Dashboard - {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+            title_text=f"Quantum Ethics Mesh Dashboard - {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')}",
             title_x=0.5,
             showlegend=False,
             height=800,
@@ -728,7 +728,7 @@ class QIMeshVisualizer:
 
         markdown = []
         markdown.append("#  Quantum Ethics Mesh Report")
-        markdown.append(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        markdown.append(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
         markdown.append(f"**Data Timestamp:** {data.get('timestamp', 'Unknown')}")
         markdown.append("")
 
@@ -805,7 +805,7 @@ class QIMeshVisualizer:
         """Export JSON snapshot"""
         # Add metadata
         export_data = {
-            "export_timestamp": datetime.now().isoformat(),
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
             "mesh_data": data,
         }
 
@@ -847,7 +847,7 @@ class QIMeshVisualizer:
     <div class="container">
         <div class="header">
             <h1>🔗 Quantum Ethics Mesh Dashboard</h1>
-            <p>Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+            <p>Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}</p>
             <span class="risk-badge">{unified_field["risk_level"]}</span>
         </div>
 

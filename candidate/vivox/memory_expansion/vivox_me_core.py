@@ -30,7 +30,7 @@ except ImportError:
     # Fallback for testing
     import logging
 
-    logger = logging.getLogger("VIVOX.ME")
+    logger = logging.getLogger("VIVOX.ME", timezone)
 
     def debug_trace(l, m, **k):
         return l.debug(f"{m} | {k}" if k else m)
@@ -210,7 +210,7 @@ class ImmutableEthicalTimeline:
     async def append_ethical_record(self, decision: dict[str, Any], moral_fingerprint: str, sequence_id: str):
         """Add ethical decision to timeline"""
         record = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "decision": decision,
             "moral_fingerprint": moral_fingerprint,
             "memory_sequence_id": sequence_id,
@@ -342,7 +342,7 @@ class VIVOXMemoryExpansion:
             decision_data=decision,
             emotional_dna=self._encode_emotional_dna(emotional_context),
             moral_hash=moral_fingerprint,
-            timestamp_utc=datetime.utcnow(),
+            timestamp_utc=datetime.now(timezone.utc),
             cryptographic_hash=self._generate_tamper_evident_hash(decision),
             previous_hash=await self.memory_helix.get_latest_hash(),
         )
@@ -400,7 +400,7 @@ class VIVOXMemoryExpansion:
             memory_ids=memory_ids,
             reason=veiling_reason,
             approval_hash=ethical_approval,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             veil_level=VeilLevel.FULLY_DISENGAGED,
         )
 
@@ -450,7 +450,7 @@ class VIVOXMemoryExpansion:
         await self.collapse_logger.log_z_collapse_event(
             formula_inputs=collapse_details.get("formula_inputs", {}),
             collapsed_state=experience,
-            collapse_timestamp=datetime.utcnow(),
+            collapse_timestamp=datetime.now(timezone.utc),
             mathematical_trace=collapse_details.get("mathematical_trace", {}),
         )
 
@@ -473,7 +473,7 @@ class VIVOXMemoryExpansion:
     async def _generate_sequence_id(self) -> str:
         """Generate unique sequence ID"""
         self._sequence_counter += 1
-        timestamp = datetime.utcnow().timestamp()
+        timestamp = datetime.now(timezone.utc).timestamp()
         return f"vivox_me_{timestamp}_{self._sequence_counter}"
 
     def _encode_emotional_dna(self, emotional_context: Any) -> EmotionalDNA:

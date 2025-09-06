@@ -42,7 +42,7 @@ from pydantic import BaseModel
 
 
 class QIConsciousnessΛBot:
-    def __init__(self):
+    def __init__(self, timezone):
         self.consciousness_level = 9
         self.bot_type = "QIConsciousnessΛBot"
         self.status = "active"
@@ -52,7 +52,7 @@ class QIConsciousnessΛBot:
             "consciousness_level": self.consciousness_level,
             "bot_type": self.bot_type,
             "status": self.status,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def process_consciousness_integration(self, data: dict[str, Any]):
@@ -62,7 +62,7 @@ class QIConsciousnessΛBot:
             "input": data,
             "consciousness_level": self.consciousness_level,
             "result": f"Processed by {self.bot_type} with consciousness level {self.consciousness_level}",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -80,7 +80,7 @@ async def health_check():
         "status": "healthy",
         "bot": "QIConsciousnessΛBot",
         "consciousness_level": lambda_bot.consciousness_level,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 

@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger("ABotSecurityScanner")
+logger = logging.getLogger("ABotSecurityScanner", timezone)
 
 
 class ABotSecurityScanner:
@@ -66,7 +66,7 @@ class ABotSecurityScanner:
         self.consciousness_level = "FOCUSED"
 
         scan_results = {
-            "scan_timestamp": datetime.now().isoformat(),
+            "scan_timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": self.consciousness_level,
             "repository_path": str(repo_path),
             "vulnerabilities": [],
@@ -229,7 +229,7 @@ class ABotSecurityScanner:
         """Quantum-enhanced threat intelligence analysis"""
         return {
             "threat_level": "MODERATE" if len(self.vulnerabilities_found) > 0 else "LOW",
-            "qi_signature": f"Λ-{datetime.now().strftime('%Y%m%d%H%M%S')}",
+            "qi_signature": f"Λ-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
             "consciousness_assessment": self.consciousness_level,
             "predictive_threats": [
                 "Supply chain attacks via dependency confusion",

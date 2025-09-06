@@ -55,7 +55,7 @@ try:
 except ImportError:
     HAS_PSUTIL = False
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EnergyComponent(Enum):
@@ -621,7 +621,7 @@ class EnergyConsumptionAnalyzer:
             stats = self.get_energy_statistics()
 
             export_data = {
-                "export_timestamp": datetime.now().isoformat(),
+                "export_timestamp": datetime.now(timezone.utc).isoformat(),
                 "statistics": stats,
                 "metrics": metrics_data,
                 "model_parameters": dict(self.energy_model.model_params),

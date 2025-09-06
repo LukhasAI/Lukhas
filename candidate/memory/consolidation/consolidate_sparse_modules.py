@@ -36,9 +36,9 @@ CONSOLIDATION_MAP = {
 }
 
 
-def backup_directory(source_path: Path, backup_base: Path = Path("backups")):
+def backup_directory(source_path: Path, backup_base: Path = Path("backups", timezone)):
     """Create backup before consolidation"""
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     backup_path = backup_base / f"consolidation_backup_{timestamp}" / source_path.name
 
     if source_path.exists():
@@ -190,7 +190,7 @@ def update_imports(base_path: Path = Path(".")):
 def generate_consolidation_report(base_path: Path = Path(".")):
     """Generate a report of the consolidation"""
     report = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "consolidations": {},
         "summary": {"modules_consolidated": 0, "files_moved": 0, "imports_updated": 0},
     }

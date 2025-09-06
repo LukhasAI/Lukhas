@@ -14,7 +14,7 @@ from enum import Enum
 from typing import Any
 
 
-class ComplianceLevel(Enum):
+class ComplianceLevel(Enum, timezone):
     """Compliance assessment levels"""
 
     COMPLIANT = "compliant"
@@ -90,7 +90,7 @@ class AIComplianceManager:
         """Validate AI action against all applicable regulations"""
 
         result = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action_id": action.get("id", "unknown"),
             "compliant": True,
             "compliance_level": ComplianceLevel.COMPLIANT.value,
@@ -466,7 +466,7 @@ class AIComplianceManager:
         """Generate comprehensive transparency report for AI system"""
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "compliance_framework": "lukhas AI Compliance System",
             "region": self.region,
             "compliance_level": self.level,
@@ -506,7 +506,7 @@ class AIComplianceManager:
     async def generate_compliance_report(self, hours: int = 24) -> dict[str, Any]:
         """Generate compliance report for recent assessments"""
 
-        cutoff_time = datetime.now() - timedelta(hours=hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
         recent_assessments = [
             a for a in self.assessment_history if datetime.fromisoformat(a["timestamp"]) >= cutoff_time
         ]
@@ -515,7 +515,7 @@ class AIComplianceManager:
             return {
                 "status": "no_recent_assessments",
                 "time_period_hours": hours,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         # Calculate compliance metrics
@@ -545,7 +545,7 @@ class AIComplianceManager:
 
         return {
             "time_period_hours": hours,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_assessments": total_assessments,
             "compliant_assessments": compliant_assessments,
             "compliance_rate": compliance_rate,
@@ -602,7 +602,7 @@ class AIComplianceManager:
         self.logger.critical(f"🚨 Emergency compliance shutdown triggered: {reason}")
 
         shutdown_result = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "reason": reason,
             "status": "emergency_shutdown_initiated",
             "actions_taken": [
@@ -625,7 +625,7 @@ class AIComplianceManager:
                 "type": "emergency_shutdown",
                 "reason": reason,
                 "severity": "critical",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "requires_manual_intervention": True,
             }
         )

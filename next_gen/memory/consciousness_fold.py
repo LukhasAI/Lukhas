@@ -14,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -170,12 +170,12 @@ class ConsciousnessMemory:
         traits = self.STATE_MEMORY_TRAITS.get(self.current_state, {"retention": 0.5, "clarity": 0.5, "emotion": 0.0})
 
         # Generate fold ID
-        fold_id = f"fold_{datetime.utcnow().timestamp()}_{self.current_state[:3]}"
+        fold_id = f"fold_{datetime.now(timezone.utc).timestamp()}_{self.current_state[:3]}"
 
         # Create fold
         fold = MemoryFold(
             fold_id=fold_id,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             consciousness_state=self.current_state,
             trust_glyphs=trust_glyphs,
             entropy_score=entropy_score,

@@ -11,7 +11,7 @@ from hub.service_registry import get_service
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class APIServiceBase:
@@ -55,7 +55,7 @@ class MemoryAPIService(APIServiceBase):
             "content": content,
             "context": context or {},
             "metadata": metadata or {},
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
         result = await self._service.store(agent_id, memory_data, "api_memory")
@@ -133,7 +133,7 @@ class DreamAPIService(APIServiceBase):
             "theme": theme or "spontaneous",
             "intensity": intensity,
             "lucidity": lucidity,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
         result = await self._service.synthesize(agent_id, dream_params)
@@ -165,7 +165,7 @@ class ConsciousnessAPIService(APIServiceBase):
             "agent_id": agent_id,
             "awareness_level": state.get("level", 0.0),
             "state": state,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
     async def process_stimulus(self,
@@ -182,7 +182,7 @@ class ConsciousnessAPIService(APIServiceBase):
         stimulus = {
             "type": stimulus_type,
             "data": stimulus_data,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
         result = await self._service.process_awareness(agent_id, stimulus)
@@ -219,7 +219,7 @@ class EmotionAPIService(APIServiceBase):
                 "dominance": 0.0
             },
             "primary_emotion": "neutral",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
     async def update_emotion(self,
@@ -287,7 +287,7 @@ class LearningAPIService(APIServiceBase):
         return {
             "agent_id": agent_id,
             "status": status,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
 

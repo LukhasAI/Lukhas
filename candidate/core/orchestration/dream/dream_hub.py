@@ -8,7 +8,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DreamHub:
@@ -105,7 +105,7 @@ class DreamHub:
                 return {
                     "dream_recorded": True,
                     "result": result,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "processed_by": "dream_recorder",
                 }
             except Exception as e:

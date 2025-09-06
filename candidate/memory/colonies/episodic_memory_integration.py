@@ -15,7 +15,7 @@ try:
 
     EPISODIC_COLONY_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"Episodic memory colony not available: {e}")
+    logging.warning(f"Episodic memory colony not available: {e}", timezone)
     EPISODIC_COLONY_AVAILABLE = False
 
     # Create fallback mock classes
@@ -120,7 +120,7 @@ class EpisodicMemoryIntegration:
             "episodes_replayed": 0,
             "consolidation_ready": 0,
             "average_significance": 0.0,
-            "last_activity": datetime.now().isoformat(),
+            "last_activity": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info("Episodic memory monitoring initialized")
@@ -166,20 +166,20 @@ class EpisodicMemoryIntegration:
                         "content": content,
                         "event_type": event_type,
                         "context": context or {},
-                        "created_at": datetime.now().isoformat(),
+                        "created_at": datetime.now(timezone.utc).isoformat(),
                         "access_count": 0,
                     }
 
                     # Update metrics
                     self.performance_metrics["episodes_created"] += 1
-                    self.performance_metrics["last_activity"] = datetime.now().isoformat()
+                    self.performance_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()
 
                     logger.info(f"Episodic memory created: {memory_id}")
                     return {
                         "success": True,
                         "memory_id": memory_id,
                         "event_type": event_type,
-                        "created_at": datetime.now().isoformat(),
+                        "created_at": datetime.now(timezone.utc).isoformat(),
                     }
 
             # Fallback creation
@@ -190,7 +190,7 @@ class EpisodicMemoryIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def retrieve_episodic_memory(self, memory_id: str, include_related: bool = False) -> dict[str, Any]:
@@ -227,13 +227,13 @@ class EpisodicMemoryIntegration:
 
                     # Update metrics
                     self.performance_metrics["episodes_retrieved"] += 1
-                    self.performance_metrics["last_activity"] = datetime.now().isoformat()
+                    self.performance_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()
 
                     return {
                         "success": True,
                         "memory_id": memory_id,
                         "content": content,
-                        "retrieved_at": datetime.now().isoformat(),
+                        "retrieved_at": datetime.now(timezone.utc).isoformat(),
                     }
 
             # Fallback retrieval
@@ -244,7 +244,7 @@ class EpisodicMemoryIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def search_episodic_memories(self, query: dict[str, Any], limit: int = 50) -> list[dict[str, Any]]:
@@ -273,7 +273,7 @@ class EpisodicMemoryIntegration:
                     results = getattr(response, "content", [])
 
                     # Update metrics
-                    self.performance_metrics["last_activity"] = datetime.now().isoformat()
+                    self.performance_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()
 
                     return results
 
@@ -319,14 +319,14 @@ class EpisodicMemoryIntegration:
                     self.replay_metrics["total_replays"] += len(replayed_memories)
                     self.replay_metrics["successful_replays"] += len(replayed_memories)
                     self.performance_metrics["episodes_replayed"] += len(replayed_memories)
-                    self.performance_metrics["last_activity"] = datetime.now().isoformat()
+                    self.performance_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()
 
                     logger.info(f"Episode replay completed: {len(replayed_memories)} memories")
                     return {
                         "success": True,
                         "replayed_count": len(replayed_memories),
                         "replayed_memories": replayed_memories,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
 
             # Fallback replay
@@ -337,7 +337,7 @@ class EpisodicMemoryIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_consolidation_candidates(self) -> list[dict[str, Any]]:
@@ -415,14 +415,14 @@ class EpisodicMemoryIntegration:
                 "system_status": "active",
                 "episodic_colony_available": EPISODIC_COLONY_AVAILABLE,
                 "episode_registry_size": len(self.episode_registry),
-                "last_updated": datetime.now().isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
             return metrics
 
         except Exception as e:
             logger.error(f"Error getting episodic metrics: {e}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     def _create_mock_operation(self, operation_type: str, **kwargs):
         """Create a mock operation object for colony interaction"""
@@ -459,7 +459,7 @@ class EpisodicMemoryIntegration:
             "content": content,
             "event_type": event_type,
             "context": context or {},
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "access_count": 0,
             "personal_significance": 0.5,
             "replay_count": 0,
@@ -470,7 +470,7 @@ class EpisodicMemoryIntegration:
             "success": True,
             "memory_id": memory_id,
             "event_type": event_type,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "fallback": True,
         }
 
@@ -484,14 +484,14 @@ class EpisodicMemoryIntegration:
                 "success": True,
                 "memory_id": memory_id,
                 "content": episode,
-                "retrieved_at": datetime.now().isoformat(),
+                "retrieved_at": datetime.now(timezone.utc).isoformat(),
                 "fallback": True,
             }
         else:
             return {
                 "success": False,
                 "error": "Episode not found",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _fallback_search_episodes(self, query: dict[str, Any], limit: int) -> list[dict[str, Any]]:
@@ -545,7 +545,7 @@ class EpisodicMemoryIntegration:
         return {
             "success": True,
             "replayed_count": replayed_count,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "fallback": True,
         }
 
@@ -561,7 +561,7 @@ class EpisodicMemoryIntegration:
                         "consolidation_readiness": 0.7,
                         "personal_significance": episode.get("personal_significance", 0.5),
                         "replay_count": episode.get("replay_count", 0),
-                        "last_accessed": episode.get("created_at", datetime.now().isoformat()),
+                        "last_accessed": episode.get("created_at", datetime.now(timezone.utc).isoformat()),
                     }
                 )
 

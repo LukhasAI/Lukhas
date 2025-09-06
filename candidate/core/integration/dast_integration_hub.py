@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 # Add parent directory to path for imports
-parent_dir = Path(__file__).parent.parent.parent
+parent_dir = Path(__file__, timezone).parent.parent.parent
 sys.path.insert(0, str(parent_dir))
 
 try:
@@ -209,7 +209,7 @@ class DASTIntegrationHub:
         return {
             "hub": self.name,
             "received": True,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "message_id": message.get("id", "unknown"),
         }
 

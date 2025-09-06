@@ -52,6 +52,7 @@ IDEA: Add predictive dream significance scoring based on symbolic pattern densit
 
 import hashlib
 import json
+import logging
 import os
 import re
 from collections import Counter, defaultdict
@@ -61,6 +62,8 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 from ..compression.symbolic_delta import (
     AdvancedSymbolicDeltaCompressor,

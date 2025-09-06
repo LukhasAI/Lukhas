@@ -12,7 +12,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class SymbolicTerm(Enum):
@@ -50,7 +50,7 @@ class SymbolicOperation:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 @dataclass
@@ -191,7 +191,7 @@ class SymbolicLoopController:
 
     async def _route_operation(self, operation: SymbolicOperation) -> SymbolicResult:
         """Route operation to appropriate loop handler"""
-        operation_id = f"{operation.term.value}_{operation.agent_id}_{datetime.now().timestamp()}"
+        operation_id = f"{operation.term.value}_{operation.agent_id}_{datetime.now(timezone.utc).timestamp()}"
 
         try:
             # Check if loop is available
@@ -215,13 +215,13 @@ class SymbolicLoopController:
 
             # Track operation
             self._active_operations[operation_id] = operation
-            start_time = datetime.now()
+            start_time = datetime.now(timezone.utc)
 
             # Route based on term
             result = await self._execute_term_operation(handler, operation)
 
             # Calculate processing time
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Update statistics
             self._update_loop_statistics(operation.loop_type, processing_time)
@@ -291,7 +291,7 @@ class SymbolicLoopController:
         stats["average_processing_time"] = (avg * (n - 1) + processing_time) / n
 
         # Update last operation time
-        stats["last_operation"] = datetime.now().isoformat()
+        stats["last_operation"] = datetime.now(timezone.utc).isoformat()
 
     async def _process_operations(self):
         """Background processor for queued operations"""

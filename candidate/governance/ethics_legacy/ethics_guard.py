@@ -24,7 +24,7 @@ class LegalComplianceAssistant:
     """Real-time EU legal compliance checker using ECHR guidelines and symbolic tiers.
     Also filters context using cultural vocabulary filters."""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.legal_graph = self._build_legal_knowledge_graph()
         self.violation_log_path = "logs/ethics/violations.jsonl"
 
@@ -41,7 +41,7 @@ class LegalComplianceAssistant:
             "signal": signal,
             "required_tier": tier,
             "user_tier": context.get("tier"),
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "explanation": f"Signal '{signal}' was accessed without sufficient tier or consent.",
         }
         os.makedirs(os.path.dirname(self.violation_log_path), exist_ok=True)

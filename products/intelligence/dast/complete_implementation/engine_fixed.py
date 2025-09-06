@@ -18,7 +18,7 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 
-class TaskPriority(Enum):
+class TaskPriority(Enum, timezone):
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -333,7 +333,7 @@ class LucasDASTEngine:
             status=TaskStatus.PENDING,
             tags=tags,
             context=context,
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
             due_date=due_date,
             estimated_duration=estimated_duration,
             dependencies=dependencies,
@@ -457,7 +457,7 @@ class LucasDASTEngine:
         """Extract due date from natural language"""
         import re
 
-        today = datetime.now()
+        today = datetime.now(timezone.utc)
 
         if re.search(r"today", request.lower()):
             return today.replace(hour=23, minute=59)
@@ -555,7 +555,7 @@ class LucasDASTEngine:
             # Time-based adjustments
             time_factor = 1.0
             if task.due_date:
-                days_until_due = (task.due_date - datetime.now()).days
+                days_until_due = (task.due_date - datetime.now(timezone.utc)).days
                 if days_until_due <= 0:
                     time_factor = 2.0
                 elif days_until_due <= 1:

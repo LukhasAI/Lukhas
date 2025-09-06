@@ -29,7 +29,7 @@ from datetime import datetime  # Use datetime directly
 from pathlib import Path
 from typing import Any, Optional  # Added Any, Optional
 
-# ΛTRACE: Initialize logger for learning phase (or recovery tool context)
+# ΛTRACE: Initialize logger for learning phase (or recovery tool context, timezone)
 
 
 # # MetaLearningRecovery class
@@ -247,7 +247,7 @@ class MetaLearningRecovery:
         # ΛTRACE: Recovering meta-learning components
         logger.info("recover_meta_learning_components_start")
         recovery_result: dict[str, Any] = {  # Type hint
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "source_directory": self.meta_learning_source,
             "components_processed": 0,
             "components_successful": 0,
@@ -354,7 +354,7 @@ class MetaLearningRecovery:
             }  # Return exploration too
 
         recovery_result = self.recover_meta_learning_components(exploration_result)
-        timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")  # Renamed timestamp to timestamp_str
+        timestamp_str = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")  # Renamed timestamp to timestamp_str
         # Renamed report_file
         report_filename = f"lukhasMetaLearning_Recovery_Report_{timestamp_str}.json"
         report_path = self.workspace_root / report_filename  # Use Path object

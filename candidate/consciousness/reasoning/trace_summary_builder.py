@@ -10,7 +10,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class TraceNode:
@@ -22,7 +22,7 @@ class TraceNode:
         self.content = content
         self.children = []
         self.metadata = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "depth": 0,
             "confidence": 0.0,
         }
@@ -101,7 +101,7 @@ class TraceSummaryBuilder:
                 "recommendations": recommendations,
                 "metadata": {
                     "style": style,
-                    "generated_at": datetime.now().isoformat(),
+                    "generated_at": datetime.now(timezone.utc).isoformat(),
                     "tree_depth": self._calculate_tree_depth(root_node),
                     "node_count": self._count_nodes(root_node),
                 },
@@ -125,7 +125,7 @@ class TraceSummaryBuilder:
     def _parse_trace_tree(self, tree_data: dict[str, Any]) -> TraceNode:
         """Parse raw trace data into TraceNode structure"""
         node_type = tree_data.get("type", "unknown")
-        node_id = tree_data.get("id", f"node_{datetime.now().timestamp()}")
+        node_id = tree_data.get("id", f"node_{datetime.now(timezone.utc).timestamp()}")
         content = tree_data.get("content", tree_data.get("reason", {}))
 
         root = TraceNode(node_id, node_type, content)

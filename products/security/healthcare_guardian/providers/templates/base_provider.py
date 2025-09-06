@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -115,7 +115,7 @@ class BaseHealthcareProvider(ABC):
     ) -> None:
         """Log audit event"""
         event_data = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "provider_id": self.config.provider_id,
             "event_type": event_type,
             "user_id": user_id,

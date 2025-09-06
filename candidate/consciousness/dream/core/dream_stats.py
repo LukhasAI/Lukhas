@@ -11,7 +11,7 @@ from typing import Any
 class DreamStatistics:
     """Mock DreamStatistics class"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.stats = {
             "total_dreams": 0,
             "avg_duration": 0.0,
@@ -36,7 +36,7 @@ class DreamStatistics:
         """Mock get_trends method"""
         trends = []
         for i in range(days):
-            date = datetime.utcnow() - timedelta(days=i)
+            date = datetime.now(timezone.utc) - timedelta(days=i)
             trends.append(
                 {
                     "date": date.isoformat(),

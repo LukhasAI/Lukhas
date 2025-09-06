@@ -35,8 +35,7 @@ from typing import Any, Optional
 from candidate.bridge.openai_core_service import (
     ModelType,
     OpenAICoreService,
-    OpenAIRequest,
-)
+    OpenAIRequest,, timezone)
 
 logger = logging.getLogger("ΛTRACE.oracle.openai_adapter")
 
@@ -261,7 +260,7 @@ For each analysis:
                 "raw_response": response.content,
                 "model_used": str(template.model),
                 "confidence_score": prediction_data.get("confidence_level", 75) / 100,
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "time_horizon": time_horizon,
                 "context_hash": hash(str(context)),
             }
@@ -304,7 +303,7 @@ For each analysis:
                 "raw_response": response.content,
                 "model_used": str(template.model),
                 "symbolic_weight": prophecy_data.get("symbolic_intensity", 0.7),
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "time_horizon": time_horizon,
                 "focus_type": focus_type,
             }
@@ -347,7 +346,7 @@ For each analysis:
                 "raw_response": response.content,
                 "model_used": str(template.model),
                 "symbolic_elements": dream_data.get("symbols", []),
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "emotional_state": emotional_state,
                 "life_situation": life_situation,
             }
@@ -393,7 +392,7 @@ For each analysis:
                 "raw_response": response.content,
                 "model_used": str(template.model),
                 "analysis_type": analysis_type,
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "focus_areas": focus_areas,
             }
         except Exception as e:
@@ -440,7 +439,7 @@ For each analysis:
                 "raw_response": response.content,
                 "model_used": str(template.model),
                 "horizons_analyzed": horizons,
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "focus_areas": focus_areas,
             }
         except Exception as e:

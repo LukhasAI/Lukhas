@@ -60,7 +60,7 @@ import numpy as np
 
 from lukhas.core.colonies.base_colony import BaseColony
 
-logger = logging.getLogger("ΛTRACE.ethics_swarm_colony")
+logger = logging.getLogger("ΛTRACE.ethics_swarm_colony", timezone)
 
 
 class EthicalDecisionType(Enum):
@@ -875,7 +875,7 @@ class EthicsSwarmColony(BaseColony):
                 decision_record = {
                     "request_id": request.request_id,
                     "decision": decision_data,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "colony_id": self.colony_id,
                 }
 
@@ -971,7 +971,7 @@ class EthicsSwarmColony(BaseColony):
         """Update collective swarm memory with decision."""
 
         memory_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "request_type": request.decision_type.value,
             "decision": response.decision,
             "confidence": response.confidence,
@@ -1015,7 +1015,7 @@ class EthicsSwarmColony(BaseColony):
                         "request_id": request.request_id,
                         "decision": response.decision,
                         "confidence": response.confidence,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
 
@@ -1062,7 +1062,7 @@ class EthicsSwarmColony(BaseColony):
                 self.current_drift_score = current_drift
                 self.drift_history.append(
                     {
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "drift_score": current_drift,
                     }
                 )
@@ -1199,7 +1199,7 @@ class EthicsSwarmColony(BaseColony):
 
         # Record correction event
         correction_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "drift_score": drift_score,
             "drift_level": drift_level.value,
             "actions_taken": correction_actions,
@@ -1229,7 +1229,7 @@ class EthicsSwarmColony(BaseColony):
                 "emergency_policy_review_required",
                 {
                     "drift_score": drift_score,
-                    "trigger_timestamp": datetime.now().isoformat(),
+                    "trigger_timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             )
 

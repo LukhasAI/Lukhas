@@ -15,7 +15,7 @@ class LUKHASClient:
     LUKHAS API Client for easy integration
 
     Example:
-        async with LUKHASClient('http://localhost:8000', api_key='your-key') as client:
+        async with LUKHASClient('http://localhost:8000', api_key='your-key', timezone) as client:
             # Consciousness query
             response = await client.consciousness.query("What is the meaning of existence?")
 
@@ -347,7 +347,7 @@ async def example_usage():
         memory_id = await client.memory.store(
             {
                 "event": "First successful API call",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "emotion": "excited",
             }
         )

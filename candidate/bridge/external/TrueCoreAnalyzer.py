@@ -16,7 +16,7 @@ from datetime import datetime
 
 
 class TrueCoreAnalyzer:
-    def __init__(self, workspace_path: str):
+    def __init__(self, workspace_path: str, timezone):
         self.workspace_path = workspace_path
         self.Λ_path = os.path.join(workspace_path, "lukhas")
 
@@ -148,11 +148,11 @@ class TrueCoreAnalyzer:
 
     def generate_analysis_report(self):
         """Generate analysis showing true core vs bloat"""
-        report_path = f"{self.workspace_path}/TRUE_CORE_ANALYSIS_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+        report_path = f"{self.workspace_path}/TRUE_CORE_ANALYSIS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
 
         with open(report_path, "w") as f:
             f.write("# lukhas True Core Analysis\n")
-            f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            f.write(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 
             f.write("## 📊 File Distribution Summary\n\n")
             total_files = sum(len(files) for files in self.categories.values())

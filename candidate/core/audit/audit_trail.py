@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 
-class AuditEventType(Enum):
+class AuditEventType(Enum, timezone):
     """Comprehensive audit event types for AGI operations"""
 
     # Consciousness events
@@ -183,7 +183,7 @@ class AuditTrail:
 
         # Session management
         self.session_id = str(uuid.uuid4())
-        self.session_start = datetime.now()
+        self.session_start = datetime.now(timezone.utc)
 
         # Event tracking
         self.event_count = 0
@@ -276,7 +276,7 @@ class AuditTrail:
 
         event = AuditEvent(
             id=event_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             session_id=self.session_id,
             event_type=event_type,
             actor=actor,
@@ -465,7 +465,7 @@ class AuditTrail:
                 "source": source,
                 "action_taken": action_taken,
                 "blocked": blocked,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             severity=severity,
             tags={"security", "threat", threat_type},
@@ -613,7 +613,7 @@ class AuditTrail:
 
         return ComplianceReport(
             report_id="",
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             period_start=start_date,
             period_end=end_date,
             report_type="security_compliance",
@@ -664,7 +664,7 @@ class AuditTrail:
 
     async def _archive_old_events(self):
         """Archive events older than retention period"""
-        cutoff_date = datetime.now() - timedelta(days=self.retention_days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=self.retention_days)
 
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -767,7 +767,7 @@ class AuditTrail:
         """Get real-time analytics summary"""
         return {
             "session_id": self.session_id,
-            "session_duration": (datetime.now() - self.session_start).total_seconds(),
+            "session_duration": (datetime.now(timezone.utc) - self.session_start).total_seconds(),
             "total_events": self.event_count,
             "event_types": dict(self.event_counters),
             "severity_distribution": dict(self.severity_counters),
