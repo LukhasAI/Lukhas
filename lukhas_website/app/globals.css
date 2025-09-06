@@ -1,6 +1,73 @@
+/* CSS Cascade Layers - Define order explicitly for layout stability */
+@layer reset, base, components, utilities, overrides;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Emergency Layout Fixes - Critical z-index and positioning */
+@layer overrides {
+  /* Sidebar visibility emergency fix */
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    transform: translateZ(0) !important;
+    will-change: transform !important;
+  }
+  
+  /* Dialog portal emergency fix */
+  .dialog-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  /* Main content accommodation for sidebar */
+  .main-content {
+    margin-left: var(--sidebar-width, 250px) !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+  
+  /* Content area positioning fix */
+  .content-area {
+    flex: 1 !important;
+    background: white !important;
+    padding: var(--content-padding, 2rem) !important;
+    overflow-y: auto !important;
+    transform: none !important;
+  }
+  
+  /* Force visibility for debugging */
+  .force-visible {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/* Reset Layer */
+@layer reset {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    height: 100%;
+    overflow-x: hidden;
+  }
+}
 
 /* Using Helvetica Neue system fonts - no external font loading needed */
 
@@ -21,9 +88,15 @@
     --text-tertiary: 128, 128, 128;
     --glass: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
-    --trinity-identity: 107, 70, 193;
-    --trinity-consciousness: 168, 85, 247;
-    --trinity-guardian: 34, 197, 94;
+    /* Constellation Framework - 8 Star Navigation */
+    --constellation-identity: 107, 70, 193;    /* Identity Star - The Anchor */
+    --constellation-memory: 139, 69, 19;       /* Memory Star - The Trail */
+    --constellation-vision: 168, 85, 247;      /* Vision Star - The Horizon */
+    --constellation-bio: 34, 197, 94;          /* Bio Star - The Living */
+    --constellation-dream: 236, 72, 153;       /* Dream Star - The Drift */
+    --constellation-ethics: 59, 130, 246;      /* Ethics Star - The North */
+    --constellation-guardian: 251, 146, 60;    /* Guardian Star - The Watch */
+    --constellation-quantum: 168, 162, 158;    /* Quantum Star - The Ambiguity */
     --accent-gold: 251, 191, 36;
     
     /* Typography */
@@ -121,17 +194,50 @@
     color: inherit;
   }
 
-  /* Allow specific color overrides */
+  /* Constellation Framework Color Utilities */
+  .text-constellation-identity {
+    color: rgb(var(--constellation-identity)) !important;
+  }
+
+  .text-constellation-memory {
+    color: rgb(var(--constellation-memory)) !important;
+  }
+
+  .text-constellation-vision {
+    color: rgb(var(--constellation-vision)) !important;
+  }
+
+  .text-constellation-bio {
+    color: rgb(var(--constellation-bio)) !important;
+  }
+
+  .text-constellation-dream {
+    color: rgb(var(--constellation-dream)) !important;
+  }
+
+  .text-constellation-ethics {
+    color: rgb(var(--constellation-ethics)) !important;
+  }
+
+  .text-constellation-guardian {
+    color: rgb(var(--constellation-guardian)) !important;
+  }
+
+  .text-constellation-quantum {
+    color: rgb(var(--constellation-quantum)) !important;
+  }
+
+  /* Legacy Trinity classes - maintain backward compatibility */
   .text-trinity-identity {
-    color: rgb(107, 70, 193) !important;
+    color: rgb(var(--constellation-identity)) !important;
   }
 
   .text-trinity-consciousness {
-    color: rgb(168, 85, 247) !important;
+    color: rgb(var(--constellation-vision)) !important;
   }
 
   .text-trinity-guardian {
-    color: rgb(34, 197, 94) !important;
+    color: rgb(var(--constellation-guardian)) !important;
   }
 
   .text-accent-gold {

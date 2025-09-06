@@ -802,10 +802,11 @@ export default function ExperiencePage() {
 
       {/* Main Visualization Area with Perfect Centering */}
       <main
-        className="h-screen pt-16 flex items-center justify-center relative transition-[padding] duration-300"
+        className="main-content h-screen pt-16 flex items-center justify-center relative transition-[padding] duration-300"
         style={{
           ['--rpw' as any]: `${RIGHT_PANEL_WIDTH}px`,
-          paddingRight: rightPanelOpen ? `${RIGHT_PANEL_WIDTH}px` : '0'
+          paddingRight: rightPanelOpen ? `${RIGHT_PANEL_WIDTH}px` : '0',
+          marginLeft: sidebarCollapsed ? '10px' : '320px'
         }}
         data-panel-open={rightPanelOpen ? '1' : '0'}
       >

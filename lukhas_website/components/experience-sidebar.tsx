@@ -629,7 +629,7 @@ export default function ExperienceSidebar({
         initial={{ width: 320 }}
         animate={{ width: isCollapsed ? 10 : 320 }}
         transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-        className="fixed left-0 top-16 bottom-0 z-30 flex"
+        className="sidebar fixed left-0 top-16 bottom-0 z-30 flex"
       >
         {/* Main Sidebar Content */}
         <div className={`flex-1 bg-black/60 backdrop-blur-2xl border-r border-white/10 overflow-y-auto ${isCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>

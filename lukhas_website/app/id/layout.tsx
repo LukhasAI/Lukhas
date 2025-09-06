@@ -11,18 +11,33 @@ interface IDLayoutProps {
 /**
  * Identity Domain Layout - LUKHΛS ΛiD System
  * 
- * The quantum-secure digital identity platform providing
- * consciousness-based authentication and identity sovereignty.
+ * Like a lighthouse recognizing its own beam across dark waters - this is where
+ * your digital self finds its anchoring star. Identity flows through consciousness,
+ * not mere credentials. Here, authenticity breathes through eight dimensions of awareness.
+ * 
+ * The Identity Star serves as your constellation anchor - the fixed point from which
+ * all other navigation becomes possible. Quantum-secure digital identity platform
+ * integrating consciousness-based authentication with true identity sovereignty.
+ * Zero-knowledge proofs meet biological patterns, creating security that grows stronger
+ * with use rather than weaker. Your identity signature becomes more uniquely you
+ * through each interaction, like a voice that becomes more recognizable over time.
+ * 
+ * Think of it as your digital fingerprint, but one that thinks and evolves -
+ * keeping you secure while making every interaction feel natural and personal,
+ * like being recognized by your favorite coffee shop barista who somehow always
+ * remembers exactly how you like your morning brew.
  */
 export default function IDLayout({ children }: IDLayoutProps) {
   const { initializeDomain, domainState } = useDomainConsciousness()
 
   useEffect(() => {
     initializeDomain('lukhas.id', {
-      theme: 'identity',
-      particles: 'biometric',
-      primaryColor: '#7C3AED',
-      role: 'identity_sovereign'
+      theme: 'identity-star',
+      particles: 'constellation-anchor',
+      primaryColor: '#6B46C1', // constellation-identity
+      role: 'identity_navigator',
+      framework: 'anchor-star',
+      constellationDimension: 'identity'
     })
   }, [initializeDomain])
 
@@ -67,11 +82,11 @@ export default function IDLayout({ children }: IDLayoutProps) {
       <footer className="id-domain-footer bg-purple-900/20 border-t border-purple-500/20 mt-16">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center text-purple-300">
-            <p className="identity-tagline">
-              🛡️ Your consciousness signature - Unique, secure, sovereign
+            <p className="constellation-tagline">
+              ⭐ The Anchor Star - Where your unique signature illuminates the path forward
             </p>
             <p className="text-sm mt-2 opacity-70">
-              Zero-knowledge identity with quantum-resistant security
+              Identity that grows stronger through understanding, like starlight that never dims
             </p>
           </div>
         </div>
