@@ -20,7 +20,7 @@ from pathlib import Path
 class IdentityAutomationSuite:
     """Master coordinator for identity integration automation."""
 
-    def __init__(self, root_path: str = "."):
+    def __init__(self, root_path: str = ".", timezone):
         self.root_path = Path(root_path)
         self.tools_dir = self.root_path / "tools" / "scripts"
         self.analysis_dir = self.root_path / "tools" / "analysis"
@@ -30,7 +30,7 @@ class IdentityAutomationSuite:
 
         print("🚀 LUKHAS  Identity Integration Automation Suite")
         print("=" * 60)
-        print(f"📅 Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"📅 Started: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
         print(f"🧪 Mode: {'DRY RUN' if dry_run else 'LIVE FIXES'}")
         print()
 

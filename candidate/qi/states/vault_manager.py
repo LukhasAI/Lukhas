@@ -52,7 +52,7 @@ from typing import Any, Optional
 
 from cryptography.fernet import Fernet
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("QIVault")
 
 
@@ -142,7 +142,7 @@ class QIVaultManager:
             qi_salt = secrets.token_hex(32)
 
         # Quantum-resistant hashing
-        hash_input = f"{user_id}_{qi_salt}_{datetime.now().isoformat()}"
+        hash_input = f"{user_id}_{qi_salt}_{datetime.now(timezone.utc).isoformat()}"
         qi_hash = hashlib.sha3_256(hash_input.encode()).hexdigest()
 
         return qi_hash[:32]  # Truncated for storage efficiency
@@ -167,8 +167,8 @@ class QIVaultManager:
             hidden_qr_data=hidden_qr_data,
             qi_signature=qi_signature,
             user_id_hash=user_id_hash,
-            creation_timestamp=datetime.now().isoformat(),
-            expiry_timestamp=(datetime.now() + timedelta(hours=24)).isoformat(),
+            creation_timestamp=datetime.now(timezone.utc).isoformat(),
+            expiry_timestamp=(datetime.now(timezone.utc) + timedelta(hours=24)).isoformat(),
         )
 
     def _generate_artistic_glyph(self) -> str:
@@ -211,7 +211,7 @@ class QIVaultManager:
         qi_salt = secrets.token_hex(32)
 
         # Encrypt the API key with quantum-resistant encryption
-        key_data = f"{api_key}_{qi_salt}_{datetime.now().isoformat()}"
+        key_data = f"{api_key}_{qi_salt}_{datetime.now(timezone.utc).isoformat()}"
         encrypted_key = self.fernet.encrypt(key_data.encode()).decode()
 
         # Create VeriFold QR for authentication
@@ -274,7 +274,7 @@ class QIVaultManager:
             api_key = decrypted_data.split("_")[0]  # Extract original key
 
             # Update last used timestamp
-            encrypted_api_key.last_used = datetime.now().isoformat()
+            encrypted_api_key.last_used = datetime.now(timezone.utc).isoformat()
             with open(key_file, "w") as f:
                 json.dump(asdict(encrypted_api_key), f, indent=2)
 
@@ -304,7 +304,7 @@ class QIVaultManager:
             seed_phrase_access="seed_phrase" in requested_access,
             cold_wallet_access="cold_wallet" in requested_access,
             trading_platform_tokens={},
-            session_expiry=(datetime.now() + timedelta(hours=8)).isoformat(),
+            session_expiry=(datetime.now(timezone.utc) + timedelta(hours=8)).isoformat(),
         )
 
         # Store session (no user ID stored for anonymity)
@@ -382,7 +382,7 @@ class QIVaultManager:
 
             # Check expiry
             expiry_time = datetime.fromisoformat(verification_qr.expiry_timestamp)
-            return not datetime.now() > expiry_time
+            return not datetime.now(timezone.utc) > expiry_time
 
         except Exception as e:
             logger.error(f"QR verification error: {e}")
@@ -397,7 +397,7 @@ class QIVaultManager:
         session = self.active_sessions[session_id]
 
         # Check session expiry
-        if datetime.now() > datetime.fromisoformat(session.session_expiry):
+        if datetime.now(timezone.utc) > datetime.fromisoformat(session.session_expiry):
             del self.active_sessions[session_id]
             logger.error("❌ Session expired")
             return None
@@ -426,7 +426,7 @@ class QIVaultManager:
             "active_anonymous_sessions": len(self.active_sessions),
             "qi_security_level": "post-quantum",
             "encryption_standard": "Fernet + SHA3 + BLAKE2",
-            "last_audit": datetime.now().isoformat(),
+            "last_audit": datetime.now(timezone.utc).isoformat(),
             "security_features": [
                 "ΛiD quantum authentication",
                 "VeriFold QR verification",
@@ -438,7 +438,7 @@ class QIVaultManager:
         }
 
         # Save report
-        report_file = self.vault_path / f"vault_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        report_file = self.vault_path / f"vault_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 

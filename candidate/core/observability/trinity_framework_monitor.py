@@ -35,7 +35,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class TrinityComponent(Enum):
@@ -308,7 +308,7 @@ class TrinityFrameworkMonitor:
             "average_framework_health": 1.0,
             "total_api_requests": 0,
             "monitoring_uptime": 0.0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize monitoring
@@ -342,7 +342,7 @@ class TrinityFrameworkMonitor:
         for component in TrinityComponent:
             self.component_states[component] = {
                 "health": 1.0,
-                "last_update": datetime.now(),
+                "last_update": datetime.now(timezone.utc),
                 "response_time": 0.0,
                 "error_rate": 0.0,
                 "throughput": 0.0,
@@ -441,7 +441,7 @@ class TrinityFrameworkMonitor:
 
         interaction = TrinityInteraction(
             interaction_id=interaction_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             source_component=source_component,
             target_component=target_component,
             interaction_type=interaction_type,
@@ -492,7 +492,7 @@ class TrinityFrameworkMonitor:
 
         auth_event = AuthenticationEvent(
             event_id=event_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=event_type,
             user_id=user_id,
             session_id=session_id,
@@ -542,7 +542,7 @@ class TrinityFrameworkMonitor:
 
         api_metric = APIPerformanceMetric(
             metric_id=metric_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             endpoint=endpoint,
             method=method,
             response_time=response_time,
@@ -572,7 +572,7 @@ class TrinityFrameworkMonitor:
 
         try:
             snapshot_id = f"health_{uuid.uuid4().hex[:12]}"
-            timestamp = datetime.now()
+            timestamp = datetime.now(timezone.utc)
 
             # Calculate component health scores
             identity_health = await self._calculate_component_health(TrinityComponent.IDENTITY)
@@ -679,7 +679,7 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent interactions
         recent_interactions = [
-            i for i in self.trinity_interactions if (datetime.now() - i.timestamp).total_seconds() < 3600  # Last hour
+            i for i in self.trinity_interactions if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_interactions:
@@ -712,7 +712,7 @@ class TrinityFrameworkMonitor:
         recent_interactions = [
             i
             for i in self.trinity_interactions
-            if (datetime.now() - i.timestamp).total_seconds() < 1800  # Last 30 minutes
+            if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 1800  # Last 30 minutes
             and (
                 (i.source_component == component1 and i.target_component == component2)
                 or (i.source_component == component2 and i.target_component == component1)
@@ -743,7 +743,7 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent authentication events
         recent_events = [
-            e for e in self.authentication_events if (datetime.now() - e.timestamp).total_seconds() < 3600  # Last hour
+            e for e in self.authentication_events if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_events:
@@ -771,7 +771,7 @@ class TrinityFrameworkMonitor:
 
         # Analyze recent API metrics
         recent_metrics = [
-            m for m in self.api_metrics if (datetime.now() - m.timestamp).total_seconds() < 3600  # Last hour
+            m for m in self.api_metrics if (datetime.now(timezone.utc) - m.timestamp).total_seconds() < 3600  # Last hour
         ]
 
         if not recent_metrics:
@@ -821,7 +821,7 @@ class TrinityFrameworkMonitor:
             [
                 e
                 for e in self.authentication_events
-                if (datetime.now() - e.timestamp).total_seconds() < 86400  # Last 24 hours
+                if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < 86400  # Last 24 hours
                 and (e.anomaly_detected or not e.success)
             ]
         )
@@ -833,13 +833,13 @@ class TrinityFrameworkMonitor:
             [
                 m
                 for m in self.api_metrics
-                if (datetime.now() - m.timestamp).total_seconds() < 3600 and m.error_rate > 0  # Last hour
+                if (datetime.now(timezone.utc) - m.timestamp).total_seconds() < 3600 and m.error_rate > 0  # Last hour
             ]
         )
 
         if recent_api_errors > 0:
             total_recent_api = len(
-                [m for m in self.api_metrics if (datetime.now() - m.timestamp).total_seconds() < 3600]
+                [m for m in self.api_metrics if (datetime.now(timezone.utc) - m.timestamp).total_seconds() < 3600]
             )
 
             api_error_rate = recent_api_errors / max(1, total_recent_api)
@@ -874,7 +874,7 @@ class TrinityFrameworkMonitor:
 
         # Update interaction count
         state["recent_interactions"] = state.get("recent_interactions", 0) + 1
-        state["last_update"] = datetime.now()
+        state["last_update"] = datetime.now(timezone.utc)
 
     async def _analyze_component_interactions(self):
         """Analyze Trinity component interaction patterns"""
@@ -883,7 +883,7 @@ class TrinityFrameworkMonitor:
         recent_interactions = [
             i
             for i in self.trinity_interactions
-            if (datetime.now() - i.timestamp).total_seconds() < 1800  # Last 30 minutes
+            if (datetime.now(timezone.utc) - i.timestamp).total_seconds() < 1800  # Last 30 minutes
         ]
 
         if len(recent_interactions) < 5:
@@ -916,7 +916,7 @@ class TrinityFrameworkMonitor:
         recent_events = [
             e
             for e in self.authentication_events
-            if (datetime.now() - e.timestamp).total_seconds() < 300  # Last 5 minutes
+            if (datetime.now(timezone.utc) - e.timestamp).total_seconds() < 300  # Last 5 minutes
         ]
 
         if not recent_events:
@@ -980,14 +980,14 @@ class TrinityFrameworkMonitor:
     async def _cleanup_old_monitoring_data(self):
         """Clean up old monitoring data"""
 
-        cutoff_time = datetime.now() - timedelta(hours=self.interaction_retention_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.interaction_retention_hours)
 
         # Clean interactions
         while self.trinity_interactions and self.trinity_interactions[0].timestamp < cutoff_time:
             self.trinity_interactions.popleft()
 
         # Clean authentication events
-        auth_cutoff = datetime.now() - timedelta(hours=self.performance_retention_hours)
+        auth_cutoff = datetime.now(timezone.utc) - timedelta(hours=self.performance_retention_hours)
         while self.authentication_events and self.authentication_events[0].timestamp < auth_cutoff:
             self.authentication_events.popleft()
 
@@ -999,7 +999,7 @@ class TrinityFrameworkMonitor:
         """Get current Trinity Framework health status"""
 
         if not self.current_health:
-            return {"status": "no_data", "timestamp": datetime.now().isoformat()}
+            return {"status": "no_data", "timestamp": datetime.now(timezone.utc).isoformat()}
 
         health = self.current_health
 
@@ -1075,7 +1075,7 @@ class TrinityFrameworkMonitor:
         """Generate comprehensive Trinity Framework report"""
 
         if not time_period:
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             start_time = end_time - timedelta(hours=24)
             time_period = (start_time, end_time)
 
@@ -1112,7 +1112,7 @@ class TrinityFrameworkMonitor:
         # Generate report
         report = TrinityReport(
             report_id=f"trinity_report_{uuid.uuid4().hex[:12]}",
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_framework_health=overall_framework_health,
             health_trend=health_trend,
@@ -1191,10 +1191,10 @@ class TrinityFrameworkMonitor:
     async def get_monitoring_metrics(self) -> dict[str, Any]:
         """Get Trinity monitoring system metrics"""
 
-        self.framework_metrics["last_updated"] = datetime.now().isoformat()
+        self.framework_metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
         self.framework_metrics["monitoring_uptime"] = (
             (
-                datetime.now()
+                datetime.now(timezone.utc)
                 - datetime.fromisoformat(self.framework_metrics["last_updated"].replace("T", " ").replace("Z", ""))
             ).total_seconds()
             if "last_updated" in self.framework_metrics

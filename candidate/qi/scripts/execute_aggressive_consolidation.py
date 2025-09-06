@@ -10,7 +10,7 @@ import shutil
 from datetime import datetime
 
 
-def load_consolidation_plan():
+def load_consolidation_plan(, timezone):
     """Load the consolidation plan"""
     plan_path = "docs/planning/_AGGRESSIVE_CONSOLIDATION_PLAN.json"
     with open(plan_path) as f:
@@ -344,7 +344,7 @@ def main():
 
     # Save consolidation report
     report = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "manifests_created": manifests,
         "hybrid_components": hybrids,
         "files_moved": moved,

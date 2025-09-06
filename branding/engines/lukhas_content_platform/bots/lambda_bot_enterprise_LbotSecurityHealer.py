@@ -31,7 +31,7 @@ except ImportError:
     class ΛTraceLogger:
         def trace_event(self, event, data, security_tier=1, encrypt=False):
             logger.info(f"🔍 TRACE: {event} - {data}")
-            return f"trace_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            return f"trace_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
 
 logger = logging.getLogger("ΛBotSecurityHealer")
@@ -460,7 +460,7 @@ class ΛBotAutonomousSecurityHealer:
 
                     if test_success:
                         fix_plan.success = True
-                        fix_plan.applied_at = datetime.now()
+                        fix_plan.applied_at = datetime.now(timezone.utc)
                         logger.info(f"✅ Successfully fixed {fix_plan.vulnerability.package}")
                     else:
                         # Rollback on test failure

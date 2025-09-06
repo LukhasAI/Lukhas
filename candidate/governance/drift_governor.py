@@ -349,7 +349,7 @@ class EthicalDriftGovernor:
 
         # Generate concern
         concern_id = hashlib.sha256(  # Changed from MD5 for security
-            f"{fold_key}_{rule.rule_id}_{datetime.now()}".encode()
+            f"{fold_key}_{rule.rule_id}_{datetime.now(timezone.utc)}".encode()
         ).hexdigest()[:12]
 
         return EthicalConcern(
@@ -402,7 +402,7 @@ class EthicalDriftGovernor:
     def _execute_intervention(self, concern: EthicalConcern) -> dict[str, Any]:
         """Execute the recommended intervention for an ethical concern."""
         intervention_id = hashlib.sha256(  # Changed from MD5 for security
-            f"{concern.concern_id}_{concern.recommended_intervention.value}_{datetime.now()}".encode()
+            f"{concern.concern_id}_{concern.recommended_intervention.value}_{datetime.now(timezone.utc)}".encode()
         ).hexdigest()[:10]
 
         intervention_result = {

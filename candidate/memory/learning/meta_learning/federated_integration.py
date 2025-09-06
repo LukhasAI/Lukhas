@@ -27,7 +27,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-# Integration imports (would resolve to existing LUKHAS components)
+# Integration imports (would resolve to existing LUKHAS components, timezone)
 # from .monitor_dashboard import MetaLearningMonitorDashboard, LearningMetrics
 # from .rate_modulator import DynamicLearningRateModulator, ConvergenceSignal
 # from .symbolic_feedback import SymbolicFeedbackSystem
@@ -123,7 +123,7 @@ class FederatedLearningIntegration:
 
         # Coordination state
         self.sync_interval = timedelta(hours=6)  # Conservative default
-        self.last_federation_sync = datetime.now()
+        self.last_federation_sync = datetime.now(timezone.utc)
         self.coordination_history: list[dict[str, Any]] = []
 
         # Privacy and security
@@ -159,7 +159,7 @@ class FederatedLearningIntegration:
             node_id=node_id,
             node_type=node_type,
             ethical_compliance_score=ethical_compliance_score,
-            last_sync=datetime.now(),
+            last_sync=datetime.now(timezone.utc),
             capabilities=capabilities,
         )
 
@@ -169,7 +169,7 @@ class FederatedLearningIntegration:
         audit_entry = {
             "action": "node_registration",
             "node_id": node_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "qi_signature": node.qi_signature,
             "compliance_score": ethical_compliance_score,
         }
@@ -198,7 +198,7 @@ class FederatedLearningIntegration:
             content=filtered_content,
             privacy_preserving=True,
             ethical_audit_passed=ethical_passed,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             qi_signature=self._generate_update_signature(insight_type, filtered_content),
         )
 
@@ -303,14 +303,14 @@ class FederatedLearningIntegration:
     def synchronize_federation(self) -> dict[str, Any]:
         """Perform periodic federation synchronization"""
 
-        if datetime.now() - self.last_federation_sync < self.sync_interval:
+        if datetime.now(timezone.utc) - self.last_federation_sync < self.sync_interval:
             return {
                 "status": "sync_not_due",
                 "next_sync": self.last_federation_sync + self.sync_interval,
             }
 
         sync_results = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "nodes_synchronized": 0,
             "insights_shared": 0,
             "patterns_discovered": 0,
@@ -325,7 +325,7 @@ class FederatedLearningIntegration:
                 sync_results["insights_shared"] += node_sync.get("insights_shared", 0)
 
                 # Update node sync time
-                node.last_sync = datetime.now()
+                node.last_sync = datetime.now(timezone.utc)
 
         # Discover new cross-federation patterns
         new_patterns = self._discover_federation_patterns()
@@ -335,7 +335,7 @@ class FederatedLearningIntegration:
         ethical_issues = self._federation_ethical_audit()
         sync_results["ethical_issues"] = ethical_issues
 
-        self.last_federation_sync = datetime.now()
+        self.last_federation_sync = datetime.now(timezone.utc)
 
         # Log coordination event
         coordination_event = {
@@ -351,7 +351,7 @@ class FederatedLearningIntegration:
     def get_federation_status(self) -> dict[str, Any]:
         """Get current federation status and health metrics"""
 
-        active_nodes = [node for node in self.nodes.values() if datetime.now() - node.last_sync < timedelta(days=1)]
+        active_nodes = [node for node in self.nodes.values() if datetime.now(timezone.utc) - node.last_sync < timedelta(days=1)]
 
         avg_trust = sum(node.trust_score for node in self.nodes.values()) / len(self.nodes) if self.nodes else 0
         avg_compliance = (
@@ -622,7 +622,7 @@ class FederatedLearningIntegration:
             return False
 
         # Check sync frequency
-        time_since_sync = datetime.now() - node.last_sync
+        time_since_sync = datetime.now(timezone.utc) - node.last_sync
         if time_since_sync < timedelta(hours=1):  # Minimum sync interval
             return False
 

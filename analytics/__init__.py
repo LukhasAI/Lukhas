@@ -12,7 +12,7 @@ from typing import Any, Optional
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Import from candidate lane system
 try:
@@ -44,7 +44,7 @@ def get_analytics_status() -> dict[str, Any]:
         "operational_status": "READY" if METRICS_AVAILABLE else "DEGRADED",
         "metrics_available": METRICS_AVAILABLE,
         "prometheus_compatible": METRICS_AVAILABLE,
-        "last_updated": datetime.now().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
         "analytics_active": True,
     }
 
@@ -56,7 +56,7 @@ def collect_consciousness_metrics() -> dict[str, Any]:
             return {
                 "status": "unavailable",
                 "error": "metrics_collector_not_available",
-                "collection_time": datetime.now().isoformat(),
+                "collection_time": datetime.now(timezone.utc).isoformat(),
             }
 
         collector = get_metrics_collector()
@@ -75,13 +75,13 @@ def collect_consciousness_metrics() -> dict[str, Any]:
         return {
             "consciousness_metrics": consciousness_metrics,
             "metrics_size_bytes": len(metrics_data) if metrics_data else 0,
-            "collection_time": datetime.now().isoformat(),
+            "collection_time": datetime.now(timezone.utc).isoformat(),
             "status": "collected",
         }
 
     except Exception as e:
         logger.error(f"Consciousness metrics collection failed: {e}")
-        return {"status": "error", "error": str(e), "collection_time": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "collection_time": datetime.now(timezone.utc).isoformat()}
 
 
 def generate_performance_report() -> dict[str, Any]:
@@ -91,7 +91,7 @@ def generate_performance_report() -> dict[str, Any]:
             return {
                 "status": "unavailable",
                 "error": "metrics_collector_not_available",
-                "report_time": datetime.now().isoformat(),
+                "report_time": datetime.now(timezone.utc).isoformat(),
             }
 
         collector = get_metrics_collector()
@@ -104,15 +104,15 @@ def generate_performance_report() -> dict[str, Any]:
             "system_health": "healthy" if len(alerts) == 0 else "degraded",
             "active_alerts": len(alerts),
             "alert_details": alerts,
-            "metrics_collector_uptime": datetime.now().isoformat(),
+            "metrics_collector_uptime": datetime.now(timezone.utc).isoformat(),
             "prometheus_metrics_available": True,
         }
 
-        return {"performance_report": report, "report_time": datetime.now().isoformat(), "status": "generated"}
+        return {"performance_report": report, "report_time": datetime.now(timezone.utc).isoformat(), "status": "generated"}
 
     except Exception as e:
         logger.error(f"Performance report generation failed: {e}")
-        return {"status": "error", "error": str(e), "report_time": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "report_time": datetime.now(timezone.utc).isoformat()}
 
 
 def get_prometheus_metrics() -> bytes:
@@ -136,12 +136,12 @@ def create_analytics_alert(
     """Create analytics alert"""
     try:
         alert = {
-            "alert_id": f"analytics_{int(datetime.now().timestamp())}_{hash(message)}",
+            "alert_id": f"analytics_{int(datetime.now(timezone.utc).timestamp())}_{hash(message)}",
             "severity": severity,
             "message": message,
             "metric_name": metric_name,
             "threshold": threshold,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "active",
             "source": "analytics_system",
         }
@@ -185,13 +185,13 @@ def get_analytics_dashboard() -> dict[str, Any]:
             "consciousness_analytics": consciousness_data,
             "performance_analytics": performance_data,
             "prometheus_available": METRICS_AVAILABLE,
-            "dashboard_generated": datetime.now().isoformat(),
+            "dashboard_generated": datetime.now(timezone.utc).isoformat(),
             "status": "ready",
         }
 
     except Exception as e:
         logger.error(f"Analytics dashboard generation failed: {e}")
-        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now(timezone.utc).isoformat()}
 
 
 # Convenience functions for metrics recording

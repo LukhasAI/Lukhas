@@ -44,7 +44,7 @@ from enum import Enum
 from typing import Any
 
 # Configure module logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -111,7 +111,7 @@ class BaseHealthMonitor:
                 }
                 for check in self._checks
             ],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def clear_checks(self) -> None:

@@ -25,7 +25,7 @@ from typing import Any, Optional
 class TierValidationResult:
     """Detailed tier validation result"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.valid = False
         self.current_tier = 0
         self.requested_tier = 0
@@ -236,7 +236,7 @@ class TierValidator:
 
             report = {
                 "user_id": user_id,
-                "generated_at": datetime.utcnow().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "current_tier": {
                     "level": current_tier,
                     "name": self._get_tier_name(current_tier),
@@ -289,7 +289,7 @@ class TierValidator:
             return {
                 "error": f"Failed to generate tier report: {e!s}",
                 "user_id": user_id,
-                "generated_at": datetime.utcnow().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
             }
 
     def validate_tier(self, user_id: str, required_tier: str) -> bool:
@@ -408,7 +408,7 @@ class TierValidator:
             "enterprise_sponsored": False,
             "developer_certified": False,
             "activity_start_date": "2024-01-01",
-            "last_active": datetime.utcnow().isoformat(),
+            "last_active": datetime.now(timezone.utc).isoformat(),
             "daily_generations": 5,
             "daily_validations": 20,
             "daily_api_calls": 100,
@@ -419,7 +419,7 @@ class TierValidator:
         """Calculate user activity days"""
         try:
             start_date = datetime.fromisoformat(user_data.get("activity_start_date", "2024-01-01"))
-            return (datetime.utcnow() - start_date).days
+            return (datetime.now(timezone.utc) - start_date).days
         except (ValueError, TypeError):
             return 0
 

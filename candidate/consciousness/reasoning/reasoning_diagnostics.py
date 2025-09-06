@@ -17,7 +17,7 @@ from reasoning.reasoning_engine import SymbolicEngine
 from reasoning.reasoning_metrics import get_metrics_calculator
 from reasoning.trace_summary_builder import TraceSummaryBuilder
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class DiagnosticLevel(Enum):
@@ -43,7 +43,7 @@ class DiagnosticResult:
         self.level = level
         self.message = message
         self.details = details or {}
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone.utc)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -81,7 +81,7 @@ class ReasoningDiagnostics:
         logger.info("Starting full reasoning diagnostics")
 
         results = []
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         # Component health checks
         results.extend(await self._check_component_health())
@@ -104,8 +104,8 @@ class ReasoningDiagnostics:
         # Create summary
         summary = {
             "status": self.health_status,
-            "timestamp": datetime.now().isoformat(),
-            "duration": (datetime.now() - start_time).total_seconds(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "duration": (datetime.now(timezone.utc) - start_time).total_seconds(),
             "total_checks": len(results),
             "results_by_level": self._summarize_by_level(results),
             "critical_issues": [r for r in results if r.level == DiagnosticLevel.CRITICAL],
@@ -113,9 +113,9 @@ class ReasoningDiagnostics:
         }
 
         # Store results
-        self.diagnostic_history.append({"timestamp": datetime.now(), "results": results, "summary": summary})
+        self.diagnostic_history.append({"timestamp": datetime.now(timezone.utc), "results": results, "summary": summary})
 
-        self.last_check_time = datetime.now()
+        self.last_check_time = datetime.now(timezone.utc)
 
         return summary
 
@@ -561,7 +561,7 @@ class ReasoningDiagnostics:
 
     async def quick_health_check(self) -> dict[str, Any]:
         """Perform a quick health check"""
-        if self.last_check_time and datetime.now() - self.last_check_time < self.check_interval:
+        if self.last_check_time and datetime.now(timezone.utc) - self.last_check_time < self.check_interval:
             # Return cached status
             return {
                 "status": self.health_status,
@@ -585,7 +585,7 @@ class ReasoningDiagnostics:
 
         return {
             "status": self.health_status,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "cached": False,
         }
 

@@ -42,7 +42,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class AccessTier(Enum):
@@ -177,7 +177,7 @@ class AccessSession:
     # Session details
     created_at: datetime = field(default_factory=datetime.now)
     last_activity: datetime = field(default_factory=datetime.now)
-    expires_at: datetime = field(default_factory=lambda: datetime.now() + timedelta(hours=8))
+    expires_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc) + timedelta(hours=8))
 
     # Authentication context
     auth_method: AuthenticationMethod = AuthenticationMethod.PASSWORD
@@ -511,7 +511,7 @@ class SessionManager:
         """Create a new access session"""
 
         session_id = f"sess_{uuid.uuid4().hex}"
-        expires_at = datetime.now() + self.session_timeout
+        expires_at = datetime.now(timezone.utc) + self.session_timeout
 
         session = AccessSession(
             session_id=session_id,
@@ -537,7 +537,7 @@ class SessionManager:
         self.active_sessions[session_id] = session
 
         # Update user last login
-        user.last_login = datetime.now()
+        user.last_login = datetime.now(timezone.utc)
 
         logger.info(f"✅ Created session {session_id} for user {user.user_id} (tier: T{user.current_tier.value})")
         return session
@@ -552,7 +552,7 @@ class SessionManager:
             risk_score += user.failed_attempts * 0.1
 
         if user.last_login:
-            days_since_login = (datetime.now() - user.last_login).days
+            days_since_login = (datetime.now(timezone.utc) - user.last_login).days
             if days_since_login > 30:
                 risk_score += 0.2
 
@@ -582,12 +582,12 @@ class SessionManager:
 
         if session and session.status == SessionStatus.ACTIVE:
             # Check if expired
-            if datetime.now() > session.expires_at:
+            if datetime.now(timezone.utc) > session.expires_at:
                 session.status = SessionStatus.EXPIRED
                 return None
 
             # Update last activity
-            session.last_activity = datetime.now()
+            session.last_activity = datetime.now(timezone.utc)
             return session
 
         return None
@@ -625,7 +625,7 @@ class SessionManager:
         """Background task to clean up expired sessions"""
         while True:
             try:
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 expired_sessions = []
 
                 for session_id, session in self.active_sessions.items():
@@ -675,7 +675,7 @@ class AccessControlEngine:
             "active_sessions": 0,
             "failed_authentications": 0,
             "security_incidents": 0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         self._initialize_system_users()
@@ -959,7 +959,7 @@ class AccessControlEngine:
             else:
                 self.metrics["denied_requests"] += 1
 
-            self.metrics["last_updated"] = datetime.now().isoformat()
+            self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
             logger.debug(f"Access check: {decision.value} - {reason}")
             return decision, reason
@@ -1051,7 +1051,7 @@ class AccessControlEngine:
         """Apply additional security policies"""
 
         # Time-based restrictions
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if current_hour < 6 or current_hour > 22:  # Outside business hours
             if user.current_tier.value < 4:  # Non-privileged users
                 return (
@@ -1247,7 +1247,7 @@ class AccessControlEngine:
 
             old_tier = user.current_tier
             user.current_tier = new_tier
-            user.updated_at = datetime.now()
+            user.updated_at = datetime.now(timezone.utc)
 
             # Update roles based on new tier
             # This is simplified - in practice might need more sophisticated role management
@@ -1287,7 +1287,7 @@ class AccessControlEngine:
 
         report = {
             "report_id": f"access_report_{uuid.uuid4().hex[:8]}",
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "system_status": await self.get_access_status(),
             "recent_activity": [
                 {

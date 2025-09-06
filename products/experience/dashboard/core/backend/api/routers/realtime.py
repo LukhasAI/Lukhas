@@ -9,7 +9,7 @@ from typing import Any
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
-router = APIRouter()
+router = APIRouter(, timezone)
 
 
 # Store active WebSocket connections
@@ -44,7 +44,7 @@ async def websocket_live_metrics(websocket: WebSocket):
             # Generate live metrics
             metrics = {
                 "type": "metrics_update",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "data": {
                     "api_latency": random.randint(35, 55),
                     "requests_per_second": random.randint(3500, 4500),
@@ -97,11 +97,11 @@ async def websocket_alerts(websocket: WebSocket):
                 alert_type = random.choice(alert_types)
                 alert = {
                     "type": "alert",
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "data": {
                         "severity": alert_type,
                         "message": random.choice(alert_messages[alert_type]),
-                        "id": f"ALR-{datetime.utcnow().strftime('%Y%m%d%H%M%S')}",
+                        "id": f"ALR-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
                         "requires_action": alert_type in ["warning", "critical"],
                     },
                 }
@@ -132,7 +132,7 @@ async def websocket_audit_progress(websocket: WebSocket):
         for i, step in enumerate(audit_steps):
             progress = {
                 "type": "audit_progress",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "data": {
                     "current_step": step,
                     "step_number": i + 1,
@@ -148,7 +148,7 @@ async def websocket_audit_progress(websocket: WebSocket):
         await websocket.send_json(
             {
                 "type": "audit_complete",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "data": {
                     "status": "success",
                     "duration_seconds": len(audit_steps) * 10,
@@ -171,7 +171,7 @@ async def websocket_logs(websocket: WebSocket):
         while True:
             log_entry = {
                 "type": "log",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "data": {
                     "level": random.choice(log_levels),
                     "source": random.choice(log_sources),

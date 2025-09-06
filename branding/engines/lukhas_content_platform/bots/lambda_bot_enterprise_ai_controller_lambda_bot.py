@@ -13,7 +13,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-# Ensure repo-relative paths (avoid absolute user paths)
+# Ensure repo-relative paths (avoid absolute user paths, timezone)
 try:
     from lukhas.utils.runtime_paths import ensure_repo_paths
 
@@ -161,7 +161,7 @@ class AGIControllerΛBot:
 
         session = ModularizationSession(
             session_id=session_id,
-            start_time=datetime.now(),
+            start_time=datetime.now(timezone.utc),
             consciousness_level=ConsciousnessState.AWAKENING,
         )
 
@@ -201,7 +201,7 @@ class AGIControllerΛBot:
 
         analysis_results = {
             "session_id": self.current_session.session_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": self.current_session.consciousness_level.value,
             "analysis_target": analysis_target,
             "consciousness_insights": {},
@@ -429,7 +429,7 @@ class AGIControllerΛBot:
 
         session_status = {
             "session_id": self.current_session.session_id,
-            "runtime": (datetime.now() - self.current_session.start_time).total_seconds(),
+            "runtime": (datetime.now(timezone.utc) - self.current_session.start_time).total_seconds(),
             "consciousness_level": self.current_session.consciousness_level.value,
             "compliance_status": self.current_session.compliance_status,
             "ethical_checkpoints": len(self.current_session.ethical_checkpoints),

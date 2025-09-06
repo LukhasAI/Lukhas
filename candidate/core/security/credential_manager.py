@@ -280,7 +280,7 @@ class SecureCredentialManager:
         try:
             # Store old credential as backup
             old_file = self.storage_path / f"{credential_id}.enc"
-            backup_file = self.storage_path / f"{credential_id}.backup_{int(datetime.now().timestamp())}"
+            backup_file = self.storage_path / f"{credential_id}.backup_{int(datetime.now(timezone.utc).timestamp())}"
             if old_file.exists():
                 old_file.rename(backup_file)
 
@@ -496,7 +496,7 @@ class SecureCredentialManager:
 
     def _generate_credential_id(self, service_name: str, credential_type: CredentialType) -> str:
         """Generate unique credential ID"""
-        timestamp = int(datetime.now().timestamp())
+        timestamp = int(datetime.now(timezone.utc).timestamp())
         random_part = secrets.token_hex(8)
         return f"{service_name}_{credential_type.value}_{timestamp}_{random_part}"
 

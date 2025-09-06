@@ -27,8 +27,7 @@ from .interfaces.agent_interface import (
     AgentContext,
     AgentInterface,
     AgentMessage,
-    AgentStatus,
-)
+    AgentStatus,, timezone)
 from .interfaces.orchestration_protocol import (
     MessageBuilder,
     MessageType,
@@ -58,7 +57,7 @@ class AgentOrchestrator:
     def __init__(self, orchestrator_id: str = "main_orchestrator"):
         """Initialize the orchestrator"""
         self.orchestrator_id = orchestrator_id
-        self.session_id = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.session_id = f"session_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Agent management
         self.agents: dict[str, AgentInterface] = {}
@@ -77,7 +76,7 @@ class AgentOrchestrator:
 
         # System state
         self.is_running = False
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self._logger = logger
 
         # Configuration
@@ -382,7 +381,7 @@ class AgentOrchestrator:
 
     async def _execute_agent_task(self, agent: AgentInterface, task: TaskDefinition) -> None:
         """Execute a task on an agent"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Set timeout
@@ -396,7 +395,7 @@ class AgentOrchestrator:
                 task_id=task.task_id,
                 status="success",
                 result_data=result_data,
-                execution_time=(datetime.now() - start_time).total_seconds(),
+                execution_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
 
         except asyncio.TimeoutError:
@@ -404,14 +403,14 @@ class AgentOrchestrator:
                 task_id=task.task_id,
                 status="timeout",
                 error="Task execution timed out",
-                execution_time=(datetime.now() - start_time).total_seconds(),
+                execution_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
         except Exception as e:
             result = TaskResult(
                 task_id=task.task_id,
                 status="failure",
                 error=str(e),
-                execution_time=(datetime.now() - start_time).total_seconds(),
+                execution_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
 
         # Clean up
@@ -586,7 +585,7 @@ class AgentOrchestrator:
             "orchestrator_id": self.orchestrator_id,
             "session_id": self.session_id,
             "is_running": self.is_running,
-            "uptime": (datetime.now() - self.start_time).total_seconds(),
+            "uptime": (datetime.now(timezone.utc) - self.start_time).total_seconds(),
             "agents": {
                 "total": len(self.agents),
                 "by_status": self._count_agents_by_status(),

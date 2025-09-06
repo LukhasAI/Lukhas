@@ -21,8 +21,7 @@ from .autonomous_agent_framework import (
     AgentGoal,
     AgentPriority,
     AgentTask,
-    AutonomousAgent,
-)
+    AutonomousAgent,, timezone)
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +66,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         employees_monitored = params.get("employee_count", 100)
 
         emotional_data = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "employees_analyzed": employees_monitored,
             "average_stress_level": random.uniform(0.3, 0.7),
             "average_satisfaction": random.uniform(0.6, 0.9),
@@ -139,7 +138,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         for employee in at_risk_employees:
             self.intervention_history.append(
                 {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "employee_id": employee["employee_id"],
                     "action_taken": "burnout_prevention",
                     "autonomous": True,
@@ -176,9 +175,9 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         intervention_type = params.get("type", "general")
 
         intervention = {
-            "id": f"intervention_{datetime.now().timestamp()}",
+            "id": f"intervention_{datetime.now(timezone.utc).timestamp()}",
             "type": intervention_type,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "target_employees": random.randint(10, 50),
             "components": random.sample(
                 [
@@ -591,7 +590,7 @@ class LambdaWorkforceOrchestrator:
         """Generate executive report on AI workforce performance"""
 
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "executive_summary": {
                 "agents_active": len(self.agents),
                 "total_value_generated": sum(agent.metrics["value_generated"] for agent in self.agents.values()),

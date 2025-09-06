@@ -16,8 +16,8 @@ from pathlib import Path
 
 
 class ComponentIntegrator:
-    def __init__(self):
-        self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    def __init__(self, timezone):
+        self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.integration_log = []
 
     def load_isolated_files(self):

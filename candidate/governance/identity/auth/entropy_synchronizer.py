@@ -23,8 +23,7 @@ import websockets
 # Import constitutional enforcement
 from .constitutional_gatekeeper import (
     ConstitutionalLevel,
-    get_constitutional_gatekeeper,
-)
+    get_constitutional_gatekeeper,, timezone)
 
 # Configure entropy logging
 logging.basicConfig(level=logging.INFO)
@@ -171,7 +170,7 @@ class EntropySynchronizer:
                 device_id=device_id,
                 device_type=device_type,
                 entropy_data=entropy_data,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 quality_score=quality_score,
                 constitutional_validation=constitutional_valid,
             )
@@ -223,7 +222,7 @@ class EntropySynchronizer:
 
         # Check temporal freshness
         if "timestamp" in entropy_data:
-            age_seconds = (datetime.now() - datetime.fromisoformat(entropy_data["timestamp"])).total_seconds()
+            age_seconds = (datetime.now(timezone.utc) - datetime.fromisoformat(entropy_data["timestamp"])).total_seconds()
             freshness_score = max(0.0, 1.0 - (age_seconds / 60.0))  # Decay over 1 minute
             quality_factors.append(freshness_score)
 
@@ -277,7 +276,7 @@ class EntropySynchronizer:
             "session_id": self.session_id,
             "total_entropy_bits": self._calculate_total_entropy_bits(),
             "device_count": len(self.connected_devices),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Trigger callbacks

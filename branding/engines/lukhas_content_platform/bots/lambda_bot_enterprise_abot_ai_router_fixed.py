@@ -11,7 +11,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-logger = logging.getLogger("ABotAIRouter")
+logger = logging.getLogger("ABotAIRouter", timezone)
 
 
 class TaskType(Enum):
@@ -373,7 +373,7 @@ def get_ai_router_status() -> dict:
     )
 
     return {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "services_overview": {
             "total_services": total_services,
             "available_services": available_services,

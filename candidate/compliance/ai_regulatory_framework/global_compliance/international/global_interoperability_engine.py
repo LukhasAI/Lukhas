@@ -16,7 +16,7 @@ from candidate.core.container.service_container import ServiceContainer
 from candidate.core.interfaces import CoreInterface
 from candidate.core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -144,7 +144,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
             # Check cache first
             if framework in self.compliance_cache:
                 cache_entry = self.compliance_cache[framework]
-                if (datetime.now() - cache_entry["timestamp"]).days < 30:
+                if (datetime.now(timezone.utc) - cache_entry["timestamp"]).days < 30:
                     compliance_results[framework] = cache_entry["result"]
                     continue
 
@@ -185,7 +185,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
             # Cache result
             self.compliance_cache[framework] = {
                 "result": compliance_results[framework],
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
             }
 
         # Emit compliance completion event

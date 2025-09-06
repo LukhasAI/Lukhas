@@ -20,7 +20,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("healix")
+logger = logging.getLogger("healix", timezone)
 
 
 class MemoryStrand(Enum):
@@ -87,7 +87,7 @@ class HealixMapper:
         encoded_memory = {
             "id": memory_id,
             "data": memory,
-            "created": datetime.utcnow().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
             "mutations": [],
             "resonance": await self._calculate_resonance(memory),
             "context": context,
@@ -133,7 +133,7 @@ class HealixMapper:
                 {
                     "type": strategy.value,
                     "data": mutation,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -226,7 +226,7 @@ class HealixMapper:
             if "timestamp" in memory:
                 try:
                     memory_time = datetime.fromisoformat(memory["timestamp"])
-                    time_diff = (datetime.utcnow() - memory_time).total_seconds()
+                    time_diff = (datetime.now(timezone.utc) - memory_time).total_seconds()
                     recency_factor = max(0.1, 1.0 / (1.0 + time_diff / 86400))  # Decay over days
                 except (ValueError, TypeError, AttributeError) as e:
                     logger.warning(f"Failed to parse memory timestamp: {e}")
@@ -256,7 +256,7 @@ class HealixMapper:
         # Create deterministic ID based on content and timestamp
         content_hash = hashlib.sha256(json.dumps(memory, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
-        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         random_suffix = f"{random.randint(1000, 9999)}"
 
         return f"{strand_type.value}_{timestamp}_{content_hash}_{random_suffix}"
@@ -538,7 +538,7 @@ class HealixMapper:
             # Recency factor
             try:
                 memory_date = datetime.fromisoformat(memory["created"])
-                days_old = (datetime.utcnow() - memory_date).days
+                days_old = (datetime.now(timezone.utc) - memory_date).days
                 recency_score = max(0.0, 1.0 - (days_old / 365))  # Decay over a year
                 score += recency_score * 0.2
             except (ValueError, TypeError, AttributeError) as e:
@@ -584,7 +584,7 @@ class HealixMapper:
                 memory["access_history"] = []
 
             # Add access timestamp
-            memory["access_history"].append(datetime.utcnow().isoformat())
+            memory["access_history"].append(datetime.now(timezone.utc).isoformat())
 
             # Keep only recent accesses (last 100)
             memory["access_history"] = memory["access_history"][-100:]
@@ -594,7 +594,7 @@ class HealixMapper:
                 [
                     access
                     for access in memory["access_history"]
-                    if (datetime.utcnow() - datetime.fromisoformat(access)).days <= 30
+                    if (datetime.now(timezone.utc) - datetime.fromisoformat(access)).days <= 30
                 ]
             )
 
@@ -731,7 +731,7 @@ class HealixMapper:
                 {
                     "type": "consolidation",
                     "data": {"merged_memory_id": merge_memory["id"]},
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -767,7 +767,7 @@ class HealixMapper:
             mutations = memory.get("mutations", [])
 
             # Filter emotional mutations within time window
-            cutoff_date = datetime.utcnow() - timedelta(days=time_window_days)
+            cutoff_date = datetime.now(timezone.utc) - timedelta(days=time_window_days)
             emotional_mutations = []
 
             for mutation in mutations:
@@ -855,7 +855,7 @@ class HealixMapper:
         try:
             strands_to_analyze = [strand_type] if strand_type else list(MemoryStrand)
             pattern_analysis = {
-                "extraction_timestamp": datetime.utcnow().isoformat(),
+                "extraction_timestamp": datetime.now(timezone.utc).isoformat(),
                 "pattern_depth": pattern_depth,
                 "strand_patterns": {},
                 "cross_strand_patterns": [],
@@ -1113,7 +1113,7 @@ class HealixMapper:
                         {
                             "resonance": memory["resonance"],
                             "strand": strand.value,
-                            "age_days": (datetime.utcnow() - datetime.fromisoformat(memory["created"])).days,
+                            "age_days": (datetime.now(timezone.utc) - datetime.fromisoformat(memory["created"])).days,
                             "mutation_count": len(memory.get("mutations", [])),
                         }
                     )
@@ -1152,7 +1152,7 @@ class HealixMapper:
         """Create a comprehensive snapshot of the current memory state"""
         try:
             snapshot = {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "total_memories": 0,
                 "strand_statistics": {},
                 "overall_health": {},
@@ -1218,7 +1218,7 @@ class HealixMapper:
             logger.error(f"Memory snapshot creation error: {e}")
             return {
                 "error": str(e),
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
 

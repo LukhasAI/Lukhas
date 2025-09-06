@@ -203,7 +203,7 @@ class ComprehensiveCoverageSummary:
         )
         print(f"🧪 Total Test Coverage: {progress['total_test_files']} files")
 
-        print(f"\n🏗️ SYSTEM COVERAGE PROGRESS:")
+        print("\n🏗️ SYSTEM COVERAGE PROGRESS:")
         print(
             f"  Previous: {coverage_data['baseline']['systems_tested']}/{coverage_data['baseline']['total_systems']} systems ({coverage_data['baseline']['systems_tested']/coverage_data['baseline']['total_systems']*100:.1f}%)"
         )
@@ -214,7 +214,7 @@ class ComprehensiveCoverageSummary:
             f"  Improvement: +{progress['systems_now_covered'] - coverage_data['baseline']['systems_tested']} systems covered"
         )
 
-        print(f"\n🎯 COVERAGE METRICS:")
+        print("\n🎯 COVERAGE METRICS:")
         print(f"  Baseline Coverage: {coverage_data['baseline']['baseline_coverage']:.1f}%")
         print(f"  Improved Coverage: {progress['comprehensive_coverage']:.1f}%")
         print(f"  Quality Score: {progress['average_success_rate']:.1f}%")
@@ -238,7 +238,7 @@ class ComprehensiveCoverageSummary:
         partial_systems = [name for name, status in system_status.items() if "🟡" in status["status"]]
         untested_systems = [name for name, status in system_status.items() if "🔴" in status["status"]]
 
-        print(f"\n📈 COVERAGE LEVEL SUMMARY:")
+        print("\n📈 COVERAGE LEVEL SUMMARY:")
         print(f"  ✅ Comprehensive Coverage: {len(excellent_systems)} systems - {', '.join(excellent_systems)}")
         print(f"  🟡 Partial Coverage: {len(partial_systems)} systems - {', '.join(partial_systems)}")
         print(
@@ -260,11 +260,11 @@ class ComprehensiveCoverageSummary:
         print(f"\n🏆 OVERALL ASSESSMENT: {assessment}")
         print(f"📊 Comprehensive Coverage: {total_coverage_percentage:.1f}%")
 
-        print(f"\n🎯 NEXT PRIORITIES:")
-        print(f"  1. Fix core system import structure (currently 50% success)")
-        print(f"  2. Implement emotion and bio system functional tests")
-        print(f"  3. Add monitoring system comprehensive testing")
-        print(f"  4. Expand tools system coverage beyond 1.6%")
+        print("\n🎯 NEXT PRIORITIES:")
+        print("  1. Fix core system import structure (currently 50% success)")
+        print("  2. Implement emotion and bio system functional tests")
+        print("  3. Add monitoring system comprehensive testing")
+        print("  4. Expand tools system coverage beyond 1.6%")
 
         print("\n⚛️🧠🛡️ Comprehensive Coverage Summary Complete!")
 

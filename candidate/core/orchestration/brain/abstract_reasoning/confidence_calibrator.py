@@ -15,7 +15,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger("ConfidenceCalibration")
+logger = logging.getLogger("ConfidenceCalibration", timezone)
 
 
 class UncertaintyType(Enum):
@@ -570,7 +570,7 @@ class MetaLearningCalibrator:
             reasoning_complexity=reasoning_complexity,
             brain_coherence=context_features.get("brain_coherence", 0.5),
             uncertainty_types=context_features.get("uncertainty_types", []),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             context_features=context_features,
         )
 

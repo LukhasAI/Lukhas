@@ -614,7 +614,7 @@ class SystemHealthAnalyzer:
     def save_report(self, filename: Optional[str] = None):
         """Save the comprehensive report"""
         if not filename:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             filename = f"data/system_status_report_{timestamp}.json"
 
         Path(filename).parent.mkdir(parents=True, exist_ok=True)

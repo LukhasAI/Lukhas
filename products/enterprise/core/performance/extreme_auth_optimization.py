@@ -35,7 +35,7 @@ from typing import Any, Optional, Union
 try:
     import uvloop  # 2-4x faster than default asyncio loop
 
-    uvloop.install()
+    uvloop.install(, timezone)
 except ImportError:
     pass
 
@@ -345,7 +345,7 @@ class AsyncAuditBuffer:
 
         # Add timestamp and ID if not present
         if "timestamp" not in event_data:
-            event_data["timestamp"] = datetime.utcnow().isoformat()
+            event_data["timestamp"] = datetime.now(timezone.utc).isoformat()
         if "event_id" not in event_data:
             event_data["event_id"] = str(uuid.uuid4())[:8]
 
@@ -617,7 +617,7 @@ class ExtremeAuthPerformanceOptimizer:
             auth_data = {
                 "agent_id": agent_id,
                 "operation": operation,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "context": context or {},
             }
 

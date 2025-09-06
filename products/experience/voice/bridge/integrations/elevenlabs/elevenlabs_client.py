@@ -14,7 +14,7 @@ import aiohttp
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class ElevenLabsClient:
@@ -118,7 +118,7 @@ class ElevenLabsClient:
                     "audio_path": file_path,
                     "text": text,
                     "voice_id": voice_id,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         except Exception as e:
@@ -192,7 +192,7 @@ class ElevenLabsClient:
         """
         try:
             # Create a filename based on text and timestamp
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             safe_text = "".join(c if c.isalnum() else "_" for c in text[:30])
             filename = f"{safe_text}_{timestamp}.mp3"
             filepath = os.path.join(self.audio_storage_path, filename)

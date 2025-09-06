@@ -93,7 +93,7 @@ class LegalComplianceAssistant:
             "safety_score": max(0, safety_score),
             "violations": violations,
             "content_length": len(content),
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
         # Log violation if content is not safe
@@ -135,7 +135,7 @@ class LegalComplianceAssistant:
         if "timestamp" in data:
             try:
                 data_timestamp = datetime.datetime.fromisoformat(data["timestamp"])
-                age_days = (datetime.datetime.now() - data_timestamp).days
+                age_days = (datetime.datetime.now(timezone.utc) - data_timestamp).days
                 max_retention = self.compliance_rules["privacy"]["data_retention_days"]
 
                 if age_days > max_retention:
@@ -147,7 +147,7 @@ class LegalComplianceAssistant:
             "compliant": len(privacy_issues) == 0,
             "issues": privacy_issues,
             "anonymization_required": self.compliance_rules["privacy"]["anonymization_required"],
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def ethical_review(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -184,7 +184,7 @@ class LegalComplianceAssistant:
             "concerns": ethical_concerns,
             "guidelines_applied": guidelines,
             "recommendation": self._generate_recommendation(ethical_concerns),
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def comprehensive_compliance_check(
@@ -212,7 +212,7 @@ class LegalComplianceAssistant:
             "safety_assessment": safety_check,
             "privacy_assessment": privacy_check,
             "ethical_assessment": ethical_check,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             "compliance_version": "1.0",
         }
 
@@ -229,7 +229,7 @@ class LegalComplianceAssistant:
             recent_violations = [
                 v
                 for v in self.violation_history
-                if (datetime.datetime.now() - datetime.datetime.fromisoformat(v["timestamp"])).days <= 7
+                if (datetime.datetime.now(timezone.utc) - datetime.datetime.fromisoformat(v["timestamp"])).days <= 7
             ]
 
             violation_types = {}
@@ -247,7 +247,7 @@ class LegalComplianceAssistant:
             "safety_threshold": self.safety_threshold,
             "enabled": self.enabled,
             "rules_version": "1.0",
-            "report_timestamp": datetime.datetime.now().isoformat(),
+            "report_timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def update_rules(self, new_rules: dict[str, Any]) -> None:
@@ -301,6 +301,6 @@ class LegalComplianceAssistant:
 
         # Add anonymization marker
         anonymized["_anonymized"] = True
-        anonymized["_anonymization_timestamp"] = datetime.datetime.now().isoformat()
+        anonymized["_anonymization_timestamp"] = datetime.datetime.now(timezone.utc).isoformat()
 
         return anonymized

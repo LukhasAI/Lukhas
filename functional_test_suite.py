@@ -7,7 +7,7 @@ Tests actual functionality, not just imports
 from datetime import datetime
 
 
-def test_memory_functionality():
+def test_memory_functionality(, timezone):
     """Test memory system actual functionality"""
     print("🧠 MEMORY SYSTEM FUNCTIONAL TEST:")
     print("-" * 35)
@@ -183,7 +183,7 @@ def main():
     print("🧪 COMPREHENSIVE FUNCTIONAL TESTING")
     print("=" * 50)
     print("Testing actual functionality, not just imports!")
-    print(f'Started: {datetime.now().strftime("%H:%M:%S")}')
+    print(f'Started: {datetime.now(timezone.utc).strftime("%H:%M:%S")}')
     print()
 
     # Run functional tests

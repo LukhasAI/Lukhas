@@ -669,7 +669,7 @@ class TestDataSystems:
             for metrics_file in metrics_files[:5]:  # Check first 5 files
                 try:
                     if metrics_file.suffix == ".json":
-                        with open(metrics_file, "r") as f:
+                        with open(metrics_file) as f:
                             data = json.load(f)
                             if isinstance(data, dict) and len(data) > 0:
                                 valid_metrics_found = True
@@ -1036,7 +1036,7 @@ if __name__ == "__main__":
             poor_systems.append(system_name)
 
     # Quality summary
-    print(f"\n🏆 QUALITY SUMMARY:")
+    print("\n🏆 QUALITY SUMMARY:")
     if excellent_systems:
         print(f"  🌟 Excellent ({len(excellent_systems)}): {', '.join([s.split()[1] for s in excellent_systems])}")
     if good_systems:

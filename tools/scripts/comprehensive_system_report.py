@@ -450,7 +450,7 @@ class LUKHASSystemDiagnostic:
     def save_report(self, filename: Optional[str] = None):
         """Save comprehensive report"""
         if not filename:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             filename = f"data/comprehensive_system_report_{timestamp}.json"
 
         Path(filename).parent.mkdir(parents=True, exist_ok=True)

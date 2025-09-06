@@ -15,7 +15,7 @@ import yaml
 
 
 class KeatsianReplacer:
-    def __init__(self, branding_root: str = "branding"):
+    def __init__(self, branding_root: str = "branding", timezone):
         self.branding_root = Path(branding_root)
         self.replacements = self._load_replacement_patterns()
         self.processed_files = []
@@ -326,7 +326,7 @@ def main():
 
     if not args.dry_run:
         # Generate report
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         report = {
             "timestamp": timestamp,
             "philosophy": "keatsian_negative_capability",

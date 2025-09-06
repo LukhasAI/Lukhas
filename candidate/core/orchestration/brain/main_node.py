@@ -14,7 +14,7 @@ from datetime import datetime
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
         logging.FileHandler("adaptive_agi.log"),
@@ -65,7 +65,7 @@ class AdaptiveAGISystem:
         # System state
         self.system_state = {
             "status": "initializing",
-            "start_time": datetime.now().isoformat(),
+            "start_time": datetime.now(timezone.utc).isoformat(),
             "active_sessions": {},
             "system_health": {},
         }
@@ -118,7 +118,7 @@ class AdaptiveAGISystem:
 
     async def create_session(self, user_id, context=None):
         """Create a new user session with the system"""
-        session_id = f"session_{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        session_id = f"session_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
 
         # Check privacy and security
         privacy_check = self.privacy_manager.check_permissions(user_id, "create_session")
@@ -132,7 +132,7 @@ class AdaptiveAGISystem:
         # Initialize session state
         self.system_state["active_sessions"][session_id] = {
             "user_id": user_id,
-            "start_time": datetime.now().isoformat(),
+            "start_time": datetime.now(timezone.utc).isoformat(),
             "context": context or {},
             "state": "active",
             "interactions": 0,
@@ -246,7 +246,7 @@ class AdaptiveAGISystem:
 
         # Update session state
         session["state"] = "ended"
-        session["end_time"] = datetime.now().isoformat()
+        session["end_time"] = datetime.now(timezone.utc).isoformat()
 
         # Perform any cleanup
         learning_report = self.meta_learning.generate_learning_report()
@@ -286,7 +286,7 @@ class AdaptiveAGISystem:
 
                 # Update system health
                 self.system_state["system_health"] = {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "components": component_health,
                     "active_sessions": len(self.system_state["active_sessions"]),
                     "memory_usage": self._get_memory_usage(),
@@ -328,7 +328,7 @@ class AdaptiveAGISystem:
 
         # Final system state update
         self.system_state["status"] = "shutdown"
-        self.system_state["end_time"] = datetime.now().isoformat()
+        self.system_state["end_time"] = datetime.now(timezone.utc).isoformat()
 
         # Save any necessary state
         self._save_system_state()

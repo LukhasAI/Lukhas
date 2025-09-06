@@ -13,7 +13,7 @@ from typing import Any
 
 
 class RootDirectoryAuditor:
-    def __init__(self, repo_root: Path | None = None) -> None:
+    def __init__(self, repo_root: Path | None = None, timezone) -> None:
         self.repo_root = repo_root or Path.cwd()
         self.core_modules = [
             "core",
@@ -164,7 +164,7 @@ class RootDirectoryAuditor:
 
     def generate_reorganization_plan(self) -> dict[str, Any]:
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "summary": {
                 "total_directories": len(self.directory_analysis),
                 "core_modules": len(self.categories["core_modules"]),

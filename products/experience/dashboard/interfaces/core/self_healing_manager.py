@@ -53,8 +53,7 @@ from typing import Any, Callable, Optional
 # Dashboard system imports
 from dashboard.core.dashboard_colony_agent import (
     DashboardAgentRole,
-    DashboardColonyAgent,
-)
+    DashboardColonyAgent,, timezone)
 
 from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 
@@ -153,7 +152,7 @@ class SelfHealingManager:
     """
 
     def __init__(self):
-        self.manager_id = f"healing_manager_{int(datetime.now().timestamp())}"
+        self.manager_id = f"healing_manager_{int(datetime.now(timezone.utc).timestamp())}"
         self.logger = logger.bind(manager_id=self.manager_id)
 
         # Integrate existing LUKHAS systems
@@ -170,7 +169,7 @@ class SelfHealingManager:
         # Component health tracking
         self.component_health: dict[str, ComponentHealth] = {}
         self.health_check_interval = 5  # seconds
-        self.last_health_check = datetime.now()
+        self.last_health_check = datetime.now(timezone.utc)
 
         # Healing coordination
         self.active_healing_tasks: dict[str, HealingTask] = {}
@@ -291,7 +290,7 @@ class SelfHealingManager:
             component_type=component_type,
             health_score=1.0,
             status=ComponentHealthStatus.OPTIMAL,
-            last_check=datetime.now(),
+            last_check=datetime.now(timezone.utc),
             dependencies=dependencies or [],
         )
 
@@ -323,8 +322,8 @@ class SelfHealingManager:
         component.status = self._calculate_health_status(component.health_score)
 
         # Add failure indicator
-        component.failure_indicators.append(f"{issue_type}:{datetime.now().isoformat()}")
-        component.last_check = datetime.now()
+        component.failure_indicators.append(f"{issue_type}:{datetime.now(timezone.utc).isoformat()}")
+        component.last_check = datetime.now(timezone.utc)
 
         self.logger.warning(
             "Component issue reported",
@@ -367,7 +366,7 @@ class SelfHealingManager:
 
         # Create healing task
         healing_task = HealingTask(
-            task_id=f"healing_{component_id}_{int(datetime.now().timestamp())}",
+            task_id=f"healing_{component_id}_{int(datetime.now(timezone.utc).timestamp())}",
             component_id=component_id,
             healing_strategy=strategy,
             priority=priority,
@@ -375,7 +374,7 @@ class SelfHealingManager:
             required_resources=await self._determine_required_resources(component_id, strategy),
             dependencies=self.component_health[component_id].dependencies,
             colony_coordination_required=await self._requires_colony_coordination(component_id, strategy),
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
         )
 
         # Add to active healing tasks
@@ -401,7 +400,7 @@ class SelfHealingManager:
     ) -> HealingPlan:
         """Create a comprehensive healing plan for multiple components."""
 
-        plan_id = f"healing_plan_{int(datetime.now().timestamp())}"
+        plan_id = f"healing_plan_{int(datetime.now(timezone.utc).timestamp())}"
         healing_tasks = []
 
         # Analyze each component and create healing tasks
@@ -422,7 +421,7 @@ class SelfHealingManager:
                         required_resources=await self._determine_required_resources(component_id, strategy),
                         dependencies=component.dependencies,
                         colony_coordination_required=await self._requires_colony_coordination(component_id, strategy),
-                        created_at=datetime.now(),
+                        created_at=datetime.now(timezone.utc),
                     )
 
                     healing_tasks.append(task)
@@ -450,7 +449,7 @@ class SelfHealingManager:
             risk_assessment=risk_assessment,
             colony_coordination_plan=colony_plan,
             fallback_plan=fallback_plan,
-            created_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
         )
 
         self.logger.info(
@@ -475,7 +474,7 @@ class SelfHealingManager:
 
         execution_results = {
             "plan_id": healing_plan.plan_id,
-            "started_at": datetime.now(),
+            "started_at": datetime.now(timezone.utc),
             "task_results": {},
             "overall_success": False,
             "fallback_activated": False,
@@ -520,7 +519,7 @@ class SelfHealingManager:
             if execution_results["overall_success"]:
                 self.healing_metrics["successful_healings"] += 1
 
-            execution_results["completed_at"] = datetime.now()
+            execution_results["completed_at"] = datetime.now(timezone.utc)
             execution_results["duration_seconds"] = (
                 execution_results["completed_at"] - execution_results["started_at"]
             ).total_seconds()
@@ -620,7 +619,7 @@ class SelfHealingManager:
                 for component_id in self.component_health:
                     await self._check_component_health(component_id)
 
-                self.last_health_check = datetime.now()
+                self.last_health_check = datetime.now(timezone.utc)
 
                 # Update adaptive thresholds based on patterns
                 await self._update_adaptive_thresholds()

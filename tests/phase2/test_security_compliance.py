@@ -205,7 +205,7 @@ class TestComplianceEngine:
         user_data = {
             "user_id": "test_user",
             "email": "test@example.com",
-            "consent_timestamp": datetime.datetime.utcnow().isoformat(),
+            "consent_timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             "processing_purposes": ["service_delivery", "analytics"],
         }
 

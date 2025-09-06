@@ -36,7 +36,7 @@ except ImportError:
 class OAuthClient:
     """OAuth2 client registration data"""
 
-    def __init__(self, client_data: dict):
+    def __init__(self, client_data: dict, timezone):
         self.client_id = client_data.get("client_id", "")
         self.client_secret = client_data.get("client_secret", "")
         self.client_name = client_data.get("client_name", "")
@@ -45,7 +45,7 @@ class OAuthClient:
         self.grant_types = set(client_data.get("grant_types", ["authorization_code"]))
         self.response_types = set(client_data.get("response_types", ["code"]))
         self.tier_level = client_data.get("tier_level", 0)
-        self.created_at = client_data.get("created_at", datetime.utcnow().isoformat())
+        self.created_at = client_data.get("created_at", datetime.now(timezone.utc).isoformat())
         self.trusted = client_data.get("trusted", False)
 
     def to_dict(self) -> dict:
@@ -385,7 +385,7 @@ class OAuth2OIDCProvider:
 
                 # Check expiration
                 expires_at = datetime.fromisoformat(token_data["expires_at"])
-                if datetime.utcnow() > expires_at:
+                if datetime.now(timezone.utc) > expires_at:
                     return {"active": False}
 
                 # Check client authorization to introspect
@@ -425,7 +425,7 @@ class OAuth2OIDCProvider:
 
             # Check expiration
             expires_at = datetime.fromisoformat(token_data["expires_at"])
-            if datetime.utcnow() > expires_at:
+            if datetime.now(timezone.utc) > expires_at:
                 return self._error_response("invalid_token", "Token expired")
 
             # Check if openid scope is present
@@ -449,7 +449,7 @@ class OAuth2OIDCProvider:
                         "tier_symbol": self._get_tier_symbol(user_tier),
                         "picture": f"{self.issuer}/avatar/{user_id}",
                         "profile": f"{self.issuer}/profile/{user_id}",
-                        "updated_at": int(datetime.utcnow().timestamp()),
+                        "updated_at": int(datetime.now(timezone.utc).timestamp()),
                     }
                 )
 
@@ -491,7 +491,7 @@ class OAuth2OIDCProvider:
         """🔑 Get JSON Web Key Set (JWKS)"""
         try:
             # Check cache
-            if self.jwks_cache and self.jwks_cache_expires and datetime.utcnow() < self.jwks_cache_expires:
+            if self.jwks_cache and self.jwks_cache_expires and datetime.now(timezone.utc) < self.jwks_cache_expires:
                 return self.jwks_cache
 
             # Generate JWKS
@@ -523,7 +523,7 @@ class OAuth2OIDCProvider:
 
             # Cache for 1 hour
             self.jwks_cache = jwks
-            self.jwks_cache_expires = datetime.utcnow() + timedelta(hours=1)
+            self.jwks_cache_expires = datetime.now(timezone.utc) + timedelta(hours=1)
 
             return jwks
 
@@ -568,7 +568,7 @@ class OAuth2OIDCProvider:
             return {
                 "client_id": client_id,
                 "client_secret": client_secret,
-                "client_id_issued_at": int(datetime.utcnow().timestamp()),
+                "client_id_issued_at": int(datetime.now(timezone.utc).timestamp()),
                 "client_secret_expires_at": 0,  # Never expires
                 "redirect_uris": redirect_uris,
                 "grant_types": client_data["grant_types"],
@@ -696,8 +696,8 @@ class OAuth2OIDCProvider:
             "nonce": nonce,
             "code_challenge": code_challenge,
             "code_challenge_method": code_challenge_method,
-            "issued_at": datetime.utcnow().isoformat(),
-            "expires_at": (datetime.utcnow() + timedelta(minutes=10)).isoformat(),
+            "issued_at": datetime.now(timezone.utc).isoformat(),
+            "expires_at": (datetime.now(timezone.utc) + timedelta(minutes=10)).isoformat(),
         }
 
         return {"code": auth_code, "state": state, "redirect_uri": redirect_uri}
@@ -738,8 +738,8 @@ class OAuth2OIDCProvider:
             "user_id": code_data["user_id"],
             "user_tier": code_data["user_tier"],
             "scope": code_data["scope"],
-            "issued_at": datetime.utcnow().isoformat(),
-            "expires_at": (datetime.utcnow() + timedelta(hours=1)).isoformat(),
+            "issued_at": datetime.now(timezone.utc).isoformat(),
+            "expires_at": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),
             "lambda_id": f"LUKHAS{code_data['user_tier']}-DEMO-○-ABCD",
         }
 
@@ -783,7 +783,7 @@ class OAuth2OIDCProvider:
         if not JWT_AVAILABLE or not self.private_key:
             return None
 
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         payload = {
             "iss": self.issuer,
             "sub": token_data["user_id"],
@@ -822,8 +822,8 @@ class OAuth2OIDCProvider:
                 "user_id": user_id,
                 "user_tier": user_tier,
                 "scope": list(scopes),
-                "issued_at": datetime.utcnow().isoformat(),
-                "expires_at": (datetime.utcnow() + timedelta(hours=1)).isoformat(),
+                "issued_at": datetime.now(timezone.utc).isoformat(),
+                "expires_at": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),
             }
 
             self.access_tokens[access_token] = token_data
@@ -889,8 +889,8 @@ class OAuth2OIDCProvider:
         new_token_data = token_data.copy()
         new_token_data.update(
             {
-                "issued_at": datetime.utcnow().isoformat(),
-                "expires_at": (datetime.utcnow() + timedelta(hours=1)).isoformat(),
+                "issued_at": datetime.now(timezone.utc).isoformat(),
+                "expires_at": (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat(),
             }
         )
 
@@ -918,8 +918,8 @@ class OAuth2OIDCProvider:
             "user_id": client.client_id,  # Client acts as user
             "user_tier": client.tier_level,
             "scope": final_scopes,
-            "issued_at": datetime.utcnow().isoformat(),
-            "expires_at": (datetime.utcnow() + timedelta(hours=24)).isoformat(),
+            "issued_at": datetime.now(timezone.utc).isoformat(),
+            "expires_at": (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat(),
         }
 
         self.access_tokens[access_token] = token_data

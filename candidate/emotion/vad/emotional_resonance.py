@@ -38,7 +38,7 @@ import matplotlib.pyplot as plt
 try:
     from memory_folds import create_memory_fold
 except ImportError:
-    print("Warning: lukhas_memory_folds module not found, memory integration will be limited")
+    print("Warning: lukhas_memory_folds module not found, memory integration will be limited", timezone)
 
 try:
     from v1_AGI.memory.memory_emotion_mapper import EmotionalState
@@ -174,7 +174,7 @@ class EmotionalResonance:
         self.valence = 0.5  # Neutral valence
         self.arousal = 0.5  # Moderate arousal
         self.emotional_history = []
-        self.last_update = datetime.now()
+        self.last_update = datetime.now(timezone.utc)
         self.emotional_contagion_factor = 0.3  # How much external emotions influence
         self.emotional_inertia = 0.7  # Resistance to emotional change
 
@@ -283,7 +283,7 @@ class EmotionalResonance:
         self.current_intensity = intensity
 
         # Record in emotional history
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
         self.emotional_history.append(
             {
                 "timestamp": timestamp,
@@ -510,7 +510,7 @@ class EmotionalResonance:
         Returns:
             Dictionary containing trend analysis
         """
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         time_delta = now - timedelta(hours=time_window_hours)
 
         # Filter history for the given time window
@@ -870,7 +870,7 @@ Last Updated: {self.last_update.strftime("%H:%M:%S")}
                     params[param] = value
 
         # Record voice modulation in history for trend analysis
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
         self.voice_modulation_history.append(
             {
                 "timestamp": timestamp,

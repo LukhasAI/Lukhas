@@ -58,8 +58,7 @@ try:
     from candidate.core.neural_architectures.neural_integrator import (
         NeuralContext,
         NeuralIntegrator,
-        NeuralMode,
-    )
+        NeuralMode,, timezone)
     from lukhas.consciousness.core_consciousness.consciousness_integrator import (
         ConsciousnessEvent,
         ConsciousnessIntegrator,
@@ -143,7 +142,7 @@ class SystemCoordinator:
 
     def __init__(self, config_path: Optional[str] = None):
         self.coordinator_id = str(uuid.uuid4())
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self.current_state = SystemState.INITIALIZING
         self.integration_level = IntegrationLevel.BASIC
 
@@ -346,7 +345,7 @@ class SystemCoordinator:
 
                 response = SystemResponse(
                     request_id=request.id,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     success=True,
                     data=result,
                     processing_time=time.time() - start_time,
@@ -354,7 +353,7 @@ class SystemCoordinator:
             else:
                 response = SystemResponse(
                     request_id=request.id,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     success=False,
                     data={},
                     error=f"No handler for request type: {request.request_type}",
@@ -376,7 +375,7 @@ class SystemCoordinator:
         except Exception as e:
             response = SystemResponse(
                 request_id=request.id,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 success=False,
                 data={},
                 error=str(e),
@@ -512,7 +511,7 @@ class SystemCoordinator:
         event_data = request.data
         event = ConsciousnessEvent(
             id=str(uuid.uuid4()),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=event_data.get("event_type"),
             source_module=event_data.get("source_module"),
             data=event_data.get("data", {}),
@@ -588,7 +587,7 @@ class SystemCoordinator:
 
         event = ConsciousnessEvent(
             id=str(uuid.uuid4()),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type="system_status_update",
             source_module="system_coordinator",
             data=system_status,
@@ -717,7 +716,7 @@ class SystemCoordinator:
             "integration_level": self.integration_level.value,
             "active_components": self.active_components,
             "component_states": self.component_states,
-            "uptime": (datetime.now() - self.start_time).total_seconds(),
+            "uptime": (datetime.now(timezone.utc) - self.start_time).total_seconds(),
             "queue_size": self.request_queue.qsize(),
             "cache_size": len(self.response_cache),
         }
@@ -782,7 +781,7 @@ if __name__ == "__main__":
         # Create a test request
         test_request = SystemRequest(
             id=str(uuid.uuid4()),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             request_type="system_status",
             source="test",
             data={},

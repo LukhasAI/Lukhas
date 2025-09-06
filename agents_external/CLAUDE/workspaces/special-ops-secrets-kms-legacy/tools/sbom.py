@@ -13,7 +13,7 @@ def generate_sbom():
     sbom = {
         "spdxVersion": "SPDX-2.3",
         "creationInfo": {
-            "created": datetime.now().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
             "creators": ["Tool: lukhas-sbom-generator"],
         },
         "name": "LUKHAS AI System",

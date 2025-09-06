@@ -11,7 +11,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DriftState(Enum):
@@ -184,7 +184,7 @@ class SymbolicMutationTree:
             # Record mutation if changed
             if new_glyph != glyph:
                 mutation = GlyphMutation(
-                    timestamp=datetime.utcnow(),
+                    timestamp=datetime.now(timezone.utc),
                     from_glyph=glyph,
                     to_glyph=new_glyph,
                     action=action,
@@ -201,7 +201,7 @@ class SymbolicMutationTree:
 
         # Create consent node
         node = ConsentNode(
-            node_id=f"{user_id}_{datetime.utcnow().timestamp()}",
+            node_id=f"{user_id}_{datetime.now(timezone.utc).timestamp()}",
             glyphs=mutated_glyphs,
             action=action,
             outcome=outcome,

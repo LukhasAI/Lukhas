@@ -14,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def generate_final_coverage_summary():
+def generate_final_coverage_summary(, timezone):
     """Generate final comprehensive coverage summary including Priority 3 systems"""
 
     # Baseline coverage (from original analysis)
@@ -85,7 +85,7 @@ def generate_final_coverage_summary():
 
     # Generate comprehensive summary
     summary = {
-        "analysis_timestamp": datetime.now().isoformat(),
+        "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
         "coverage_progression": {
             "baseline": {
                 "coverage_percentage": baseline_coverage["coverage_percentage"],

@@ -10,7 +10,7 @@ from typing import Any
 from .base import BaseColony, ColonyTask
 
 
-class ConsciousnessColony(BaseColony):
+class ConsciousnessColony(BaseColony, timezone):
     """Colony for consciousness and awareness processing"""
 
     def __init__(self, max_agents: int = 10):
@@ -38,7 +38,7 @@ class ConsciousnessColony(BaseColony):
                 "state": self.consciousness_state,
             }
         elif task_type == "reflection":
-            reflection = {"input": payload, "timestamp": datetime.now(), "insights": []}
+            reflection = {"input": payload, "timestamp": datetime.now(timezone.utc), "insights": []}
             self.reflection_history.append(reflection)
             return reflection
         elif task_type == "state_update":

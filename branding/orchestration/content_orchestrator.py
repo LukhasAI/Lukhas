@@ -14,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Add branding modules to path
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 
 from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
@@ -92,7 +92,7 @@ class EliteContentOrchestrator:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"elite_orchestration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = logs_dir / f"elite_orchestration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -166,7 +166,7 @@ class EliteContentOrchestrator:
                 trinity_integration=trinity_integration,
                 consciousness_tech_focus=consciousness_tech_focus,
                 elite_ready=elite_ready,
-                last_updated=datetime.now().isoformat(),
+                last_updated=datetime.now(timezone.utc).isoformat(),
             )
 
         except Exception as e:
@@ -180,7 +180,7 @@ class EliteContentOrchestrator:
                 trinity_integration=False,
                 consciousness_tech_focus=False,
                 elite_ready=False,
-                last_updated=datetime.now().isoformat(),
+                last_updated=datetime.now(timezone.utc).isoformat(),
             )
 
     async def _calculate_system_voice_coherence(self, system_path: str) -> float:
@@ -306,7 +306,7 @@ class EliteContentOrchestrator:
                 systems_processed=len(systems),
                 voice_coherence_avg=avg_coherence,
                 elite_systems_count=len(elite_systems),
-                timestamp=datetime.now().isoformat(),
+                timestamp=datetime.now(timezone.utc).isoformat(),
             )
 
         except Exception as e:
@@ -317,7 +317,7 @@ class EliteContentOrchestrator:
                 systems_processed=0,
                 voice_coherence_avg=0.0,
                 elite_systems_count=0,
-                timestamp=datetime.now().isoformat(),
+                timestamp=datetime.now(timezone.utc).isoformat(),
             )
 
     async def _generate_orchestration_report(self, systems: list[ContentSystem], avg_coherence: float):
@@ -326,7 +326,7 @@ class EliteContentOrchestrator:
 
         report_content = f"""# 🎯 LUKHAS AI Elite Content Orchestration Report
 
-*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+*Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Executive Summary
 
@@ -399,7 +399,7 @@ class EliteContentOrchestrator:
         config_path = self.base_path / "elite_systems_configuration.json"
 
         config_data = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_systems": len(systems),
             "elite_threshold": self.elite_threshold,
             "systems": [asdict(system) for system in systems],

@@ -55,7 +55,7 @@ import numpy as np
 from memory.consolidation.consolidation_orchestrator import SleepStage
 
 
-class CircadianPhase(Enum):
+class CircadianPhase(Enum, timezone):
     """Circadian rhythm phase"""
 
     MORNING = "morning"  # 6am-12pm
@@ -378,7 +378,7 @@ class SleepCycleManager:
     def _get_circadian_phase(self) -> CircadianPhase:
         """Get current circadian phase"""
 
-        hour = datetime.now().hour
+        hour = datetime.now(timezone.utc).hour
 
         if 6 <= hour < 12:
             return CircadianPhase.MORNING

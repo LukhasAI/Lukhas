@@ -21,7 +21,7 @@ class APIResponse:
     request_id: str
 
 
-class UserRegistrationRequest(BaseModel):
+class UserRegistrationRequest(BaseModel, timezone):
     """User registration request model"""
 
     username: str = Field(..., min_length=3, max_length=50)
@@ -45,7 +45,7 @@ class APIHandler:
         self.active_sessions = {}
         self.registered_users = {}
         self.system_metrics = {
-            "uptime": datetime.now(),
+            "uptime": datetime.now(timezone.utc),
             "total_requests": 0,
             "active_sessions": 0,
             "health_status": "healthy",
@@ -56,8 +56,8 @@ class APIHandler:
         self.system_metrics["total_requests"] += 1
         return {
             "status": "healthy",
-            "timestamp": datetime.now().isoformat(),
-            "uptime": (datetime.now() - self.system_metrics["uptime"]).total_seconds(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "uptime": (datetime.now(timezone.utc) - self.system_metrics["uptime"]).total_seconds(),
             "version": "1.0.0",
         }
 
@@ -77,7 +77,7 @@ class APIHandler:
             "username": request.username,
             "email": request.email,
             "preferences": request.preferences,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "active",
         }
 
@@ -105,7 +105,7 @@ class APIHandler:
             "duration": request.duration,
             "intensity": request.intensity,
             "status": "initiated",
-            "started_at": datetime.now().isoformat(),
+            "started_at": datetime.now(timezone.utc).isoformat(),
             "progress": 0.0,
         }
 
@@ -115,7 +115,7 @@ class APIHandler:
         return {
             "session_id": session_id,
             "status": "initiated",
-            "estimated_completion": datetime.now().isoformat(),
+            "estimated_completion": datetime.now(timezone.utc).isoformat(),
             "dream_parameters": {
                 "type": request.dream_type,
                 "duration": request.duration,
@@ -138,7 +138,7 @@ class APIHandler:
             "total_sessions": len(user_sessions),
             "active_sessions": len([s for s in user_sessions if s["status"] == "initiated"]),
             "dream_preferences": self.registered_users[user_id]["preferences"],
-            "last_activity": datetime.now().isoformat(),
+            "last_activity": datetime.now(timezone.utc).isoformat(),
             "performance_metrics": {
                 "avg_session_duration": 45.0,
                 "success_rate": 0.92,
@@ -151,12 +151,12 @@ class APIHandler:
         self.system_metrics["total_requests"] += 1
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_health": self.system_metrics["health_status"],
             "performance": {
                 "total_requests": self.system_metrics["total_requests"],
                 "active_sessions": self.system_metrics["active_sessions"],
-                "uptime_seconds": (datetime.now() - self.system_metrics["uptime"]).total_seconds(),
+                "uptime_seconds": (datetime.now(timezone.utc) - self.system_metrics["uptime"]).total_seconds(),
                 "memory_usage": "78%",
                 "cpu_usage": "45%",
             },
@@ -179,7 +179,7 @@ class APIHandler:
         session = self.active_sessions[session_id]
 
         # Simulate progress
-        elapsed = (datetime.now() - datetime.fromisoformat(session["started_at"])).total_seconds()
+        elapsed = (datetime.now(timezone.utc) - datetime.fromisoformat(session["started_at"])).total_seconds()
         progress = min(elapsed / (session["duration"] * 60), 1.0)
         session["progress"] = progress
 
@@ -197,7 +197,7 @@ class APIHandler:
 
         session = self.active_sessions[session_id]
         session["status"] = "terminated"
-        session["ended_at"] = datetime.now().isoformat()
+        session["ended_at"] = datetime.now(timezone.utc).isoformat()
 
         # Remove from active sessions
         del self.active_sessions[session_id]

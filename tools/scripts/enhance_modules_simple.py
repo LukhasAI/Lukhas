@@ -8,7 +8,7 @@ import os
 from datetime import datetime
 
 
-def enhance_module(module_name, description):
+def enhance_module(module_name, description, timezone):
     """Enhance a single module with proper structure"""
     print(f"\n🔧 Enhancing {module_name.upper()} module...")
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         manifest = {"module": module_name.upper()}
 
     manifest["enhanced"] = True
-    manifest["enhancement_date"] = datetime.now().isoformat()
+    manifest["enhancement_date"] = datetime.now(timezone.utc).isoformat()
 
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)

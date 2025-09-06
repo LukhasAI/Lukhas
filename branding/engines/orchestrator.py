@@ -9,7 +9,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__, timezone).parent))
 
 from database_integration import db
 from lukhas_content_platform.content_platform import ContentPlatform
@@ -87,7 +87,7 @@ Generated through our integrated platform with real database integration.
             "voice_coherence": doc_result["voice_coherence"],
             "trinity_integration": True,
             "systems_interconnected": True,
-            "workflow_completed": datetime.now().isoformat(),
+            "workflow_completed": datetime.now(timezone.utc).isoformat(),
         }
 
         # Log workflow completion
@@ -125,7 +125,7 @@ Generated through our integrated platform with real database integration.
                 "specialist_bots": len(self.content_platform.get_specialist_bots()),
                 "document_formats": len(self.doc_engine.get_available_formats()),
             },
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         return dashboard

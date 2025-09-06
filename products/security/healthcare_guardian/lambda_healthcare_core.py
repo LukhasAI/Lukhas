@@ -28,8 +28,7 @@ try:
     from lukhas.acceptance.accepted.bio.quantum import QIBioProcessor
     from lukhas.acceptance.accepted.bio.voice import VoiceResonance
     from lukhas.acceptance.accepted.colonies.consciousness import (
-        ConsciousnessColony as ConsciousnessEngine,
-    )
+        ConsciousnessColony as ConsciousnessEngine,, timezone)
 
     # Advanced Colonies
     from lukhas.acceptance.accepted.colonies.creativity import CreativityColony
@@ -526,7 +525,7 @@ class LambdaHealthcareGuardian:
                 self.guardian.add_checkpoint(
                     checkpoint_type="emergency",
                     state={"type": emergency_type, "responses": len(responses)},
-                    metadata={"timestamp": datetime.now().isoformat()},
+                    metadata={"timestamp": datetime.now(timezone.utc).isoformat()},
                 )
 
         return {
@@ -601,7 +600,7 @@ class LambdaHealthcareGuardian:
             # Store in memory
             if LUKHAS_AVAILABLE and self.memory_folds:
                 await self.memory_folds.store_fold(
-                    data=appointment, context={"action": "appointment_booked"}, timestamp=datetime.now()
+                    data=appointment, context={"action": "appointment_booked"}, timestamp=datetime.now(timezone.utc)
                 )
 
             return appointment
@@ -728,7 +727,7 @@ class LambdaHealthcareGuardian:
             try:
                 # Encode in DNA memory architecture
                 encoded_data = await self.dna_memory.encode(
-                    data=medical_record, patient_id=patient_id, timestamp=datetime.now()
+                    data=medical_record, patient_id=patient_id, timestamp=datetime.now(timezone.utc)
                 )
 
                 # Store in helix vault with quantum encryption
@@ -819,7 +818,7 @@ class LambdaHealthcareGuardian:
                     event=event,
                     data=data,
                     emotional_valence=data.get("emotion", "neutral"),
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                 )
 
                 # Consolidate memories if needed
@@ -886,7 +885,7 @@ class LambdaHealthcareGuardian:
             # Store in regular memory folds
             if self.memory_folds:
                 await self.memory_folds.store_fold(
-                    data=medical_record, context={"patient_id": patient_id}, timestamp=datetime.now()
+                    data=medical_record, context={"patient_id": patient_id}, timestamp=datetime.now(timezone.utc)
                 )
                 return True
         except:

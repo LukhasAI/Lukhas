@@ -20,7 +20,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure logging
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Import personality components
 try:
@@ -277,7 +277,7 @@ class VoicePersonalityCreativityEngine:
         # Record this adaptation
         self.personality_memory.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "traits": self.personality_traits.copy(),
                 "interaction_type": interaction_data.get("type", "unknown"),
             }

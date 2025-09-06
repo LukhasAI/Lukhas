@@ -907,7 +907,7 @@ Immediate action required for institutional deployment readiness.
     def save_report(self, report: WorkspaceComplianceReport, output_path: Optional[str] = None) -> str:
         """Save compliance report to file."""
         if not output_path:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             output_path = f"LUKHAS_COMPLIANCE_REPORT_{timestamp}.json"
 
         # Convert report to dict for JSON serialization

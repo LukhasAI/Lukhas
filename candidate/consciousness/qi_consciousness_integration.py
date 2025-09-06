@@ -48,7 +48,7 @@ from datetime import datetime
 from typing import Any, Optional, Union
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.consciousness.qi_consciousness_integration")
+logger = logging.getLogger("ΛTRACE.consciousness.qi_consciousness_integration", timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -266,7 +266,7 @@ class QICreativeConsciousness:
         consciousness_context_data = {  # Renamed
             "theme": theme,
             "style": style,
-            "timestamp_utc": datetime.utcnow().isoformat(),
+            "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "requested_consciousness_level": consciousness_level_setting,  # Renamed
         }
 
@@ -338,7 +338,7 @@ class QICreativeConsciousness:
                 "creative_flow_state_factor": self.creative_boosts[
                     "creative_flow_state_factor"
                 ],
-                "generation_timestamp_utc": datetime.utcnow().isoformat(),
+                "generation_timestamp_utc": datetime.now(timezone.utc).isoformat(),
             },
             "request_metadata": {  # Renamed
                 "theme": theme,
@@ -637,7 +637,7 @@ class QICreativeConsciousness:
         entanglement = {
             "source": source,
             "target": target,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "active",
         }
 

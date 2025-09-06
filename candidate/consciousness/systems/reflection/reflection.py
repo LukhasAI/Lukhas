@@ -6,14 +6,14 @@ from typing import Optional
 # from Lukhas_ID.lid_ref import sign_with_lid  # Adjust import path based
 # on actual project structure
 
-AUDIT_LOG_PATH = Path(__file__).parent / "audits" / "audit_log.jsonl"
+AUDIT_LOG_PATH = Path(__file__, timezone).parent / "audits" / "audit_log.jsonl"
 
 
 def write_reflection_event(event_type: str, details: dict, lid_signature: Optional[str] = None):
     """Logs a symbolic AI event with timestamp and optional ΛiD trace signature."""
     """Logs a symbolic AI event with timestamp and optional Lukhas_ID trace signature."""
     log_entry = {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "event_type": event_type,
         "details": details,
         "lid_signature": lid_signature or sign_with_lid(details),

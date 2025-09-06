@@ -36,12 +36,12 @@ class ComplianceMonitor:
         Logs drift events to the compliance log file.
         """
         import json
-        from datetime import datetime
+        from datetime import datetime, timezone
         from pathlib import Path
 
         log_path = Path("../../logs/compliance/compliance_log_2025_04_28.json")
         event = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "decision_compliance": decision_compliance,
             "drift_increment": drift_increment,
             "cumulative_drift_score": self.drift_score,

@@ -26,7 +26,7 @@ from memory.core import HybridMemoryFold
 
 
 # Pydantic models for API
-class MemoryFoldRequest(BaseModel):
+class MemoryFoldRequest(BaseModel, timezone):
     """Request model for memory folding."""
 
     experience: dict[str, Any] = Field(..., description="Experience data to store")
@@ -151,7 +151,7 @@ async def fold_memory(request: MemoryFoldRequest):
         data = {
             "experience": request.experience,
             "context": request.context,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Store memory
@@ -162,7 +162,7 @@ async def fold_memory(request: MemoryFoldRequest):
             memory_id=memory_id,
             vector_hash=f"sha256:{memory_id[:16]}",  # Simplified
             drift_score=0.0,  # Initial drift is 0
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
 
     except Exception as e:
@@ -335,7 +335,7 @@ async def force_collapse(request: CollapseRequest):
             "new_memory_id": new_memory_id,
             "parent_memories": request.memory_ids,
             "reason": request.reason,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     except HTTPException:
@@ -384,7 +384,7 @@ async def health_check():
         "status": "healthy",
         "active_agents": len(memory_systems),
         "total_memories": sum(len(ms.memories) for ms in memory_systems.values()),
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 

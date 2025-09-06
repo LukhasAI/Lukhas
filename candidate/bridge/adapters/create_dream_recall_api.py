@@ -14,8 +14,7 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Dream Recall API",
     description="Explore parallel universe scenarios through dream-based learning",
-    version="1.0.0",
-)
+    version="1.0.0",, timezone)
 
 
 class DreamScenario(BaseModel):
@@ -198,7 +197,7 @@ async def dream_recall(scenario: DreamScenario):
     """
     try:
         # Generate request ID
-        request_id = f"dream_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{np.random.randint(1000)}"
+        request_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{np.random.randint(1000)}"
 
         # Explore multiverse
         dream_outcomes = await dream_engine.explore_multiverse(scenario)
@@ -211,7 +210,7 @@ async def dream_recall(scenario: DreamScenario):
 
         return DreamRecallResponse(
             request_id=request_id,
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             original_scenario=scenario.scenario,
             scenarios=dream_outcomes,
             qi_coherence=coherence,

@@ -13,7 +13,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class LearningStrategy(Enum):
+class LearningStrategy(Enum, timezone):
     """Learning strategies"""
 
     EXPLORATION = "exploration"  # Discover new knowledge
@@ -149,7 +149,7 @@ class AutonomousLearningPipeline:
             knowledge_type=knowledge_type,
             target_proficiency=target_proficiency,
             strategy=strategy,
-            deadline=datetime.utcnow() + timedelta(days=7),  # Default 1 week
+            deadline=datetime.now(timezone.utc) + timedelta(days=7),  # Default 1 week
             prerequisites=self._identify_prerequisites(topic),
             resources=self._identify_resources(topic),
         )
@@ -204,7 +204,7 @@ class AutonomousLearningPipeline:
 
             # Create learning experience
             experience = LearningExperience(
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 goal_id="supervised",
                 activity="direct_teaching",
                 knowledge_gained={concept: knowledge},
@@ -276,7 +276,7 @@ class AutonomousLearningPipeline:
 
         # Record experience
         experience = LearningExperience(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             goal_id=goal.id,
             activity=f"{goal.strategy.value}_learning",
             knowledge_gained=knowledge_gained,
@@ -488,8 +488,8 @@ class AutonomousLearningPipeline:
             {
                 "content": knowledge,
                 "confidence": confidence,
-                "acquired": datetime.utcnow().isoformat(),
-                "last_accessed": datetime.utcnow().isoformat(),
+                "acquired": datetime.now(timezone.utc).isoformat(),
+                "last_accessed": datetime.now(timezone.utc).isoformat(),
             }
         )
 

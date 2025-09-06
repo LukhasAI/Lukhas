@@ -38,7 +38,7 @@ from enum import Enum
 from typing import Optional
 
 
-class EntropyLevel(Enum):
+class EntropyLevel(Enum, timezone):
     """Entropy quality levels"""
 
     VERY_LOW = "very_low"
@@ -405,7 +405,7 @@ class LambdaIDEntropy:
         """Store entropy analysis for temporal tracking"""
         self.entropy_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "lambda_id": lambda_id,
                 "shannon_entropy": analysis.shannon_entropy,
                 "normalized_entropy": analysis.normalized_entropy,

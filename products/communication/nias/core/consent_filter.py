@@ -10,7 +10,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ConsentType(Enum):
@@ -189,10 +189,10 @@ class ConsentFilter:
         """
         try:
             consent_request = {
-                "request_id": f"consent_req_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                "request_id": f"consent_req_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 "user_id": user_id,
                 "tier": tier,
-                "requested_at": datetime.now().isoformat(),
+                "requested_at": datetime.now(timezone.utc).isoformat(),
                 "consent_items": [],
                 "privacy_notice": self._get_privacy_notice(tier),
                 "user_rights": self.privacy_policies["user_rights"],
@@ -260,11 +260,11 @@ class ConsentFilter:
 
                 if granted:
                     # Grant consent
-                    expiry_date = datetime.now() + timedelta(days=template["duration_days"])
+                    expiry_date = datetime.now(timezone.utc) + timedelta(days=template["duration_days"])
 
                     user_consent_data["consents"][consent_type] = {
                         "status": ConsentStatus.GRANTED.value,
-                        "granted_at": datetime.now().isoformat(),
+                        "granted_at": datetime.now(timezone.utc).isoformat(),
                         "expires_at": expiry_date.isoformat(),
                         "request_id": request_id,
                         "version": "1.0",
@@ -275,7 +275,7 @@ class ConsentFilter:
                     # Deny consent
                     user_consent_data["consents"][consent_type] = {
                         "status": ConsentStatus.DENIED.value,
-                        "denied_at": datetime.now().isoformat(),
+                        "denied_at": datetime.now(timezone.utc).isoformat(),
                         "request_id": request_id,
                         "version": "1.0",
                     }
@@ -286,12 +286,12 @@ class ConsentFilter:
                     {
                         "consent_type": consent_type,
                         "action": "granted" if granted else "denied",
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                         "request_id": request_id,
                     }
                 )
 
-            user_consent_data["last_updated"] = datetime.now().isoformat()
+            user_consent_data["last_updated"] = datetime.now(timezone.utc).isoformat()
 
             # Save to persistent storage
             await self._save_user_consent_data(user_id)
@@ -306,7 +306,7 @@ class ConsentFilter:
                 "request_id": request_id,
                 "granted_consents": granted_consents,
                 "denied_consents": denied_consents,
-                "processed_at": datetime.now().isoformat(),
+                "processed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -386,7 +386,7 @@ class ConsentFilter:
                 elif status == ConsentStatus.GRANTED.value:
                     # Check expiry
                     expires_at = datetime.fromisoformat(consent_info["expires_at"])
-                    if datetime.now() > expires_at:
+                    if datetime.now(timezone.utc) > expires_at:
                         consent_results[consent_key] = {
                             "status": "expired",
                             "approved": False,
@@ -417,7 +417,7 @@ class ConsentFilter:
                 "user_id": user_id,
                 "consent_results": consent_results,
                 "required_consents": [ct.value for ct in required_consents],
-                "checked_at": datetime.now().isoformat(),
+                "checked_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -493,19 +493,19 @@ class ConsentFilter:
 
             # Update consent status
             consent_info["status"] = ConsentStatus.WITHDRAWN.value
-            consent_info["withdrawn_at"] = datetime.now().isoformat()
+            consent_info["withdrawn_at"] = datetime.now(timezone.utc).isoformat()
 
             # Add to history
             self.user_consents[user_id]["consent_history"].append(
                 {
                     "consent_type": consent_key,
                     "action": "withdrawn",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "reason": "user_request",
                 }
             )
 
-            self.user_consents[user_id]["last_updated"] = datetime.now().isoformat()
+            self.user_consents[user_id]["last_updated"] = datetime.now(timezone.utc).isoformat()
 
             # Save changes
             await self._save_user_consent_data(user_id)
@@ -571,7 +571,7 @@ class ConsentFilter:
             if status == ConsentStatus.GRANTED.value:
                 # Check if still active
                 expires_at = datetime.fromisoformat(consent_info["expires_at"])
-                if datetime.now() <= expires_at:
+                if datetime.now(timezone.utc) <= expires_at:
                     consent_summary["active_consents"].append(consent_type)
                 else:
                     consent_summary["expired_consents"].append(consent_type)

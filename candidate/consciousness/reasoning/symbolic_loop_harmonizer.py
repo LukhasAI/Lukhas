@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class HarmonizerMode(Enum):
@@ -39,7 +39,7 @@ class SymbolicPatch:
         self.target_symbol = target_symbol
         self.correction = correction
         self.confidence = confidence
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone.utc)
         self.applied = False
         self.impact = {}
 
@@ -138,7 +138,7 @@ class SymbolicLoopHarmonizer:
             "patches_applied": len(applied_patches),
             "harmony_score": harmony_score,
             "mode": self.mode.value,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.harmony_history.append(result)
@@ -372,7 +372,7 @@ class SymbolicLoopHarmonizer:
                     # Auto-define if needed
                     self.symbol_registry[symbol] = {
                         "definition": f"auto_defined_{symbol}",
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
 
         elif patch.patch_type == "resonance_tuning":

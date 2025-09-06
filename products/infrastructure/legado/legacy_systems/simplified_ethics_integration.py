@@ -14,7 +14,7 @@ from ethics.meta_ethics_governor import MetaEthicsGovernor
 from ethics.seedra.seedra_core import SEEDRACore
 from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class SimplifiedEthicsIntegration:
@@ -61,13 +61,13 @@ class SimplifiedEthicsIntegration:
         Evaluate the ethical implications of an action.
         """
         try:
-            decision_id = f"eth_dec_{int(datetime.now().timestamp())}"
+            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp())}"
 
             result = {
                 "decision_id": decision_id,
                 "action": action,
                 "context": context or {},
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "status": "approved",
                 "confidence": 0.8,
                 "reasoning": [],
@@ -111,7 +111,7 @@ class SimplifiedEthicsIntegration:
                 },
                 "recent_decisions": len(self.decision_history),
                 "active_decisions": len(self.active_decisions),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             return status

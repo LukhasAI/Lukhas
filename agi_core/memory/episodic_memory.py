@@ -7,7 +7,7 @@ events, and contextual information with temporal and spatial awareness.
 
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -126,7 +126,7 @@ class Episode:
     ):
         """Mark episode as completed with outcomes."""
         self.status = EpisodeStatus.COMPLETED
-        self.end_time = end_time or datetime.now()
+        self.end_time = end_time or datetime.now(timezone.utc)
 
         if success_score is not None:
             self.success_score = success_score
@@ -191,7 +191,7 @@ class EpisodicMemorySystem:
         self, title: str, description: str, episode_type: EpisodeType, context: Optional[EpisodeContext] = None
     ) -> str:
         """Create a new episodic memory."""
-        episode_id = f"ep_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{len(self.episodes)}"
+        episode_id = f"ep_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.episodes)}"
 
         episode = Episode(
             episode_id=episode_id,
@@ -199,7 +199,7 @@ class EpisodicMemorySystem:
             description=description,
             episode_type=episode_type,
             status=EpisodeStatus.ACTIVE,
-            start_time=datetime.now(),
+            start_time=datetime.now(timezone.utc),
             context=context or EpisodeContext(),
         )
 
@@ -387,7 +387,7 @@ class EpisodicMemorySystem:
 
     async def get_recent_episodes(self, days: int = 7) -> list[Episode]:
         """Get episodes from recent time period."""
-        cutoff_time = datetime.now() - timedelta(days=days)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(days=days)
 
         recent_episodes = []
         for episode in self.episodes.values():
@@ -483,7 +483,7 @@ class EpisodicMemorySystem:
             vector=episode_vector,
             memory_type=MemoryType.EPISODIC,
             importance=importance,
-            timestamp=episode.end_time or datetime.now(),
+            timestamp=episode.end_time or datetime.now(timezone.utc),
             constellation_tags=episode.constellation_impact.copy(),
             source_context=f"Episode summary: {episode.title}",
             emotional_valence=episode.context.emotional_state,
@@ -498,7 +498,7 @@ class EpisodicMemorySystem:
     async def archive_old_episodes(self, days_threshold: Optional[int] = None) -> int:
         """Archive episodes older than threshold."""
         threshold_days = days_threshold or self.auto_archive_days
-        cutoff_time = datetime.now() - timedelta(days=threshold_days)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(days=threshold_days)
 
         archived_count = 0
         episodes_to_archive = []

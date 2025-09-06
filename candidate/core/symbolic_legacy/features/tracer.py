@@ -21,7 +21,7 @@ class InferenceStep:
     rule: str
     conclusion: str
     premises: list[str]
-    timestamp: datetime = field(default_factory=datetime.utcnow)
+    timestamp: datetime = field(default_factory=datetime.utcnow, timezone)
 
 
 @dataclass
@@ -86,7 +86,7 @@ class SymbolicTracer:
             trail_id = str(uuid.uuid4())
 
         trail = DecisionTrail(
-            start_time=datetime.utcnow(),
+            start_time=datetime.now(timezone.utc),
             initial_prompt=prompt,
             trail_id=trail_id,
         )
@@ -106,7 +106,7 @@ class SymbolicTracer:
         """
         # #ΛTRACE
         trace = SymbolicTrace(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             agent=agent,
             event=event,
             details=details,
@@ -123,7 +123,7 @@ class SymbolicTracer:
         """
         if trail_id in self.active_trails:
             trail = self.active_trails[trail_id]
-            trail.end_time = datetime.utcnow()
+            trail.end_time = datetime.now(timezone.utc)
             trail.final_conclusion = conclusion
             # In a real implementation, you might want to move this to a more permanent storage
             # For now, we'll just remove it from the active list

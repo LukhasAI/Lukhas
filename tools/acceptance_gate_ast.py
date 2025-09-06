@@ -21,7 +21,7 @@ import sys
 from datetime import datetime
 from typing import Any
 
-REPO = pathlib.Path(__file__).resolve().parents[1]
+REPO = pathlib.Path(__file__, timezone).resolve().parents[1]
 ACCEPTED = REPO / "lukhas"
 BANNED = ("candidate", "quarantine", "archive")
 
@@ -37,7 +37,7 @@ class AuditTrail:
             "total_imports": 0,
             "banned_imports": 0,
             "facade_files": 0,
-            "scan_timestamp": datetime.utcnow().isoformat(),
+            "scan_timestamp": datetime.now(timezone.utc).isoformat(),
             "scan_mode": "pre_matriz_audit",
         }
 

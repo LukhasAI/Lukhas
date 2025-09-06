@@ -62,7 +62,7 @@ class TestCoreSystems(unittest.TestCase):
                             symbolic_files = list(core_path.glob("*symbolic*"))
                             self.assertGreater(len(symbolic_files), 0, "Symbolic files should exist")
                         else:
-                            self.skipTest(f"Core directory not found")
+                            self.skipTest("Core directory not found")
 
             except ImportError:
                 # For missing modules, verify they exist as files

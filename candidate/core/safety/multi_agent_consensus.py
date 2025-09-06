@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AgentRole(Enum):
@@ -289,7 +289,7 @@ class MultiAgentSafetyConsensus:
         proposal = {
             "action_type": action_type,
             "action_data": action_data,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Determine which agents should vote

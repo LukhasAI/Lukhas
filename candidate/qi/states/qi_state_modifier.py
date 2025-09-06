@@ -13,7 +13,7 @@ from qi.service import QIService
 # TAG:colony
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -43,7 +43,7 @@ class QILikeStateModifier:
             thread.metadata["qi_mod"] = {
                 "superposition": sup,
                 "observation": obs,
-                "modified_at": datetime.utcnow().isoformat(),
+                "modified_at": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:  # pragma: no cover - safeguard
             logger.error(f"Quantum modification failed: {e}")
