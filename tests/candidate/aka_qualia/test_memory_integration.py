@@ -167,13 +167,13 @@ class TestSQLQueryCorrectness:
 
             assert result.scene_id == scene_id
             assert result.subject == "integrity_test"  # Assuming dev mode
-            
+
             # GROUP_CONCAT returns a string, convert to list for testing
             if isinstance(result.glyph_keys, str):
-                glyph_list = result.glyph_keys.split(',') if result.glyph_keys else []
+                glyph_list = result.glyph_keys.split(",") if result.glyph_keys else []
             else:
                 glyph_list = result.glyph_keys
-                
+
             assert isinstance(glyph_list, list)
             assert len(glyph_list) == 3
             assert "glyph:alpha" in glyph_list
@@ -190,9 +190,7 @@ class TestDatabaseSchemaValidation:
 
         with sql_memory.engine.begin() as conn:
             # Check akaq_scene table structure using SQLite PRAGMA
-            scene_columns = conn.execute(
-                text("PRAGMA table_info(akaq_scene)")
-            )
+            scene_columns = conn.execute(text("PRAGMA table_info(akaq_scene)"))
 
             scene_cols = {row.name: row for row in scene_columns}
 
@@ -216,9 +214,7 @@ class TestDatabaseSchemaValidation:
                 assert col in scene_cols, f"Missing required column: {col}"
 
             # Check akaq_glyph table structure
-            glyph_columns = conn.execute(
-                text("PRAGMA table_info(akaq_glyph)")
-            )
+            glyph_columns = conn.execute(text("PRAGMA table_info(akaq_glyph)"))
 
             glyph_cols = {row.name: row for row in glyph_columns}
 
@@ -239,7 +235,7 @@ class TestDatabaseSchemaValidation:
                 AND tbl_name = 'akaq_scene'
                 AND (sql LIKE '%user_id%' OR name LIKE '%user_id%')
             """)
-            
+
             indexes = conn.execute(sqlite_index_query).fetchall()
 
             # Should have at least one compound index on user_id

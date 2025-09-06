@@ -15,6 +15,8 @@ import { createVoiceAnalyzer, isVoiceAnalysisSupported, type VoiceMetrics, type 
 import { processMessageForGlyph, globalGlyphQueue } from '@/lib/intentGlyph'
 import { mulberry32, seedFromString } from '@/lib/prng'
 import Footer from '@/components/footer'
+import CanvasCarousel from '@/components/canvas-carousel'
+import type { ResultCardData } from '@/components/result-card'
 
 // Toast helper for API error notifications
 function showToast(title: string, desc?: string, type: 'error' | 'info' | 'success' = 'info') {
@@ -33,11 +35,8 @@ function showToast(title: string, desc?: string, type: 'error' | 'info' | 'succe
   setTimeout(() => t.remove(), 3400)
 }
 
-// Dynamic imports for better performance
-const ExperienceSidebar = dynamic(() => import('@/components/experience-sidebar'), {
-  ssr: false,
-  loading: () => <div className="fixed left-0 top-16 bottom-0 w-80 bg-black/40 animate-pulse" />
-})
+// Experience page has NO sidebar - pure immersive consciousness interface
+// Sidebar only exists in /studio according to lukhas-website-visual-studio.json
 
 const ChatInterface = dynamic(() => import('@/components/chat-interface'), {
   ssr: false
@@ -222,10 +221,16 @@ function runMorphScriptPlan(plan: any) {
 }
 // --- end heuristic + hook ---
 
-type VisualizationMode = 'morphing' | 'trinity' | 'hybrid'
+type VisualizationMode = 'morphing' | 'constellation' | 'hybrid'
 
 export default function ExperiencePage() {
-  // Constants for layout
+  // Force bypass state layout by setting skipState in URL if not already present
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !window.location.search.includes('skipState=true')) {
+      window.location.href = '/experience?skipState=true'
+    }
+  }, [])
+  // Constants for layout  
   const RIGHT_PANEL_WIDTH = 360 // px
 
   // Motion preferences
@@ -251,11 +256,12 @@ export default function ExperiencePage() {
   const [voiceEnabled, setVoiceEnabled] = useState(false)
   const [voiceSupported, setVoiceSupported] = useState(false)
 
-  // New state for enhanced features
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  // Experience page state - no sidebars, pure immersive interface
   const [rightPanelOpen, setRightPanelOpen] = useState(false)
   const [messages, setMessages] = useState<{ id: string; role: 'user'|'assistant'; content: string; timestamp: Date; model?: string }[]>([])
   const [usage, setUsage] = useState({ tokens: 0, costUSD: 0, creditsRemaining: 1000 })
+  const [resultCards, setResultCards] = useState<ResultCardData[]>([])
+  const [showCarousel, setShowCarousel] = useState(false)
   const [lastPlan, setLastPlan] = useState<any | null>(null)
 
   // Plan1 features state
@@ -279,10 +285,15 @@ export default function ExperiencePage() {
     morphSpeed: 0.02,
     voiceSensitivity: 0.5,
     consciousnessMode: 'aware',
-    trinityIdentity: true,
-    trinityConsciousness: true,
+    constellationIdentity: true,    // ⭐ Identity Star
+    constellationMemory: true,      // ✦ Memory Star  
+    constellationVision: true,      // 🔬 Vision Star
+    constellationBio: true,         // 🌱 Bio Star
+    constellationDream: true,       // 🌙 Dream Star
+    constellationEthics: true,      // ⚖️ Ethics Star
+    constellationGuardian: true,    // 🛡️ Guardian Star
+    constellationQuantum: true,     // ⚛️ Quantum Star
     glyphText: '', // for glyph rendering
-    trinityGuardian: true,
     activeModel: 'lukhas',
     tempo: 1.0,
     accentColor: '#8b5cf6'
@@ -365,8 +376,7 @@ export default function ExperiencePage() {
   const handleSendMessage = async (message: string) => {
     setIsProcessing(true)
 
-    // Auto-layout tweaks
-    setSidebarCollapsed(true)
+    // Auto-layout for experience page
     setRightPanelOpen(true)
 
     // Heuristic: msg → intent (shape/text)
@@ -508,6 +518,18 @@ export default function ExperiencePage() {
           model: response.model
         }
         setMessages(prev => [...prev, assistantMessage])
+
+        // Create result card for carousel
+        const resultCard: ResultCardData = {
+          id: `result-${Date.now()}`,
+          kind: response.content.length > 500 ? 'draft' : 'text',
+          title: `${response.model || 'AI'} Response`,
+          body: response.content,
+          model: response.model,
+          ts: Date.now()
+        }
+        setResultCards(prev => [resultCard, ...prev].slice(0, 10)) // Keep last 10 results
+        setShowCarousel(true)
       } else {
         // Handle API errors with toast notifications
         if (response?.error) {
@@ -533,14 +555,27 @@ export default function ExperiencePage() {
         ]
 
         const responseRng = mulberry32(Date.now())
+        const fallbackContent = fallbackResponses[Math.floor(responseRng() * fallbackResponses.length)]
         const fallbackMessage = {
           id: `msg-${Date.now()}`,
           role: 'assistant' as const,
-          content: fallbackResponses[Math.floor(responseRng() * fallbackResponses.length)],
+          content: fallbackContent,
           timestamp: new Date(),
           model: 'LUKHAS'
         }
         setMessages(prev => [...prev, fallbackMessage])
+
+        // Create result card for fallback response
+        const resultCard: ResultCardData = {
+          id: `result-${Date.now()}`,
+          kind: 'validation',
+          title: 'LUKHAS System Response',
+          body: fallbackContent,
+          model: 'LUKHAS',
+          ts: Date.now()
+        }
+        setResultCards(prev => [resultCard, ...prev].slice(0, 10))
+        setShowCarousel(true)
 
         setUsage(prev => ({
           tokens: prev.tokens + 120,
@@ -725,7 +760,7 @@ export default function ExperiencePage() {
             {/* Center: Modes (segmented) */}
             <div className="flex items-center justify-center">
               <div className="inline-flex rounded-xl border border-white/10 bg-white/[0.04] p-1">
-                {['morphing', 'trinity', 'hybrid'].map(m => (
+                {['morphing', 'constellation', 'hybrid'].map(m => (
                   <button
                     key={m}
                     className={`px-3 md:px-4 py-1.5 text-xs rounded-lg capitalize transition-all ${
@@ -736,7 +771,7 @@ export default function ExperiencePage() {
                     onClick={() => setVisualizationMode(m as any)}
                   >
                     {m === 'morphing' && <Cpu className="w-3.5 h-3.5 inline mr-1.5" />}
-                    {m === 'trinity' && <Layers className="w-3.5 h-3.5 inline mr-1.5" />}
+                    {m === 'constellation' && <Sparkles className="w-3.5 h-3.5 inline mr-1.5" />}
                     {m === 'hybrid' && <Activity className="w-3.5 h-3.5 inline mr-1.5" />}
                     {m}
                   </button>
@@ -788,27 +823,18 @@ export default function ExperiencePage() {
         </div>
       </header>
 
-      {/* Sidebar */}
-      <ExperienceSidebar
-        config={config}
-        onConfigChange={handleConfigChange}
-        apiKeys={apiKeys}
-        onApiKeyChange={handleApiKeyChange}
-        collapsed={sidebarCollapsed}
-        onCollapsedChange={setSidebarCollapsed}
-        usage={usage}
-        onEncryptKey={(provider, glyph) => { console.log('Encrypted GLYPH for', provider, glyph) }}
-      />
+      {/* Experience page has no sidebar - pure immersive interface */}
 
-      {/* Main Visualization Area with Perfect Centering */}
+      {/* Main Visualization Area - Full Screen Immersive Experience */}
       <main
         className="main-content h-screen pt-16 flex items-center justify-center relative transition-[padding] duration-300"
         style={{
           ['--rpw' as any]: `${RIGHT_PANEL_WIDTH}px`,
-          paddingRight: rightPanelOpen ? `${RIGHT_PANEL_WIDTH}px` : '0',
-          marginLeft: sidebarCollapsed ? '10px' : '320px'
+          paddingRight: rightPanelOpen ? `${RIGHT_PANEL_WIDTH}px` : '0'
         }}
         data-panel-open={rightPanelOpen ? '1' : '0'}
+        data-page="experience"
+        data-framework="constellation"
       >
         <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14 h-full py-8">
           <motion.div
@@ -850,9 +876,9 @@ export default function ExperiencePage() {
                   </motion.div>
                 )}
 
-                {visualizationMode === 'trinity' && (
+                {visualizationMode === 'constellation' && (
                   <motion.div
-                    key="trinity"
+                    key="constellation"
                     initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
@@ -938,12 +964,37 @@ export default function ExperiencePage() {
         </div>
       </main>
 
+      {/* Results Carousel */}
+      {showCarousel && resultCards.length > 0 && (
+        <div className="fixed bottom-32 left-0 right-0 z-30 px-6 md:px-10 lg:px-14">
+          <div className="mx-auto w-full max-w-screen-2xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl p-4"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-medium text-white/80">AI Responses</h3>
+                <button
+                  onClick={() => setShowCarousel(false)}
+                  className="text-white/40 hover:text-white/80 text-sm"
+                >
+                  Hide
+                </button>
+              </div>
+              <CanvasCarousel cards={resultCards} />
+            </motion.div>
+          </div>
+        </div>
+      )}
+
       {/* Chat Interface */}
       <ChatInterface
         onSendMessage={handleSendMessage}
         selectedModel={selectedModel}
         isProcessing={isProcessing}
-        onTyping={() => { setSidebarCollapsed(true); setRightPanelOpen(true) }}
+        onTyping={() => { setRightPanelOpen(true) }}
         onMessage={(m) => {
           setMessages(prev => [...prev, m])
 
@@ -1059,61 +1110,24 @@ export default function ExperiencePage() {
         </div>
       )}
 
-      {/* Dev Telemetry Overlay */}
+      {/* Dev Telemetry Overlay - Compact version to prevent screen space issues */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="fixed bottom-4 left-4 pointer-events-none">
-          <div className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-lg p-3 text-xs font-mono">
-            <div className="text-white/60 mb-2">🔧 DEV TELEMETRY</div>
-
-            {/* Voice Analytics */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${voiceEnabled ? 'bg-green-500' : 'bg-red-500'}`} />
-                <span className="text-white/80">
-                  Voice: {voiceEnabled ? 'Active' : 'Inactive'}
+        <div className="fixed bottom-4 left-4 pointer-events-none z-30">
+          <div className="bg-black/90 backdrop-blur-xl border border-white/20 rounded-lg p-2 text-[10px] font-mono max-w-[200px]">
+            <div className="text-white/50 mb-1 text-[9px] tracking-wider">DEV</div>
+            <div className="space-y-0.5">
+              <div className="flex items-center gap-1.5">
+                <div className={`w-1.5 h-1.5 rounded-full ${voiceEnabled ? 'bg-green-500' : 'bg-red-500'}`} />
+                <span className="text-white/70 text-[9px]">
+                  Voice {voiceEnabled ? 'ON' : 'OFF'}
                 </span>
               </div>
-
-              {voiceMetrics && (
-                <>
-                  <div className="text-green-400">
-                    Intensity: {(voiceMetrics.intensity * 100).toFixed(1)}%
-                  </div>
-                  <div className="text-blue-400">
-                    Frequency: {Math.round(voiceMetrics.dominantFreq)}Hz
-                  </div>
-                  <div className="text-purple-400">
-                    Clarity: {(voiceMetrics.clarity * 100).toFixed(1)}%
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Particle System */}
-            <div className="mt-3 pt-2 border-t border-white/10">
-              <div className="text-cyan-400">
-                Particles: {config.particleCount || 12000}
+              <div className="text-cyan-300 text-[9px]">
+                P: {config.particleCount || 12000} | {currentMode}
               </div>
-              <div className="text-yellow-400">
-                Mode: {currentMode}
+              <div className="text-orange-300 text-[9px]">
+                Q: {globalGlyphQueue.getStatus().queued}
               </div>
-              {quotedText && (
-                <div className="text-pink-400">
-                  Glyph: "{quotedText.slice(0, 15)}..."
-                </div>
-              )}
-            </div>
-
-            {/* Glyph Queue Status */}
-            <div className="mt-3 pt-2 border-t border-white/10">
-              <div className="text-orange-400">
-                Queue: {globalGlyphQueue.getStatus().queued} pending
-              </div>
-              {globalGlyphQueue.getCurrentText() && (
-                <div className="text-green-400">
-                  Current: "{globalGlyphQueue.getCurrentText()}"
-                </div>
-              )}
             </div>
           </div>
         </div>

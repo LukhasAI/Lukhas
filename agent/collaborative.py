@@ -26,6 +26,7 @@ with contextlib.suppress(ImportError):
         LukhasAIAgent,
         LukhasAIAgentTeam,
     )
+
     _available = True
 
 if _available:
@@ -38,6 +39,7 @@ if _available:
     ]
 else:
     __all__ = []
+
 
 def is_available() -> bool:
     """Check if collaborative agent system is available"""

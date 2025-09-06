@@ -1,12 +1,10 @@
 import os
 import sys
+
 import pytest
 
 # Skip this test module if Python version < 3.10 (matriz requirement)
-pytestmark = pytest.mark.skipif(
-    sys.version_info < (3, 10), 
-    reason="matriz module requires Python 3.10+"
-)
+pytestmark = pytest.mark.skipif(sys.version_info < (3, 10), reason="matriz module requires Python 3.10+")
 
 # Ensure repository root is on the path when running from tests/
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
@@ -21,21 +19,24 @@ except ImportError:
     class CognitiveNode:
         def __init__(self, node_name, capabilities):
             pass
+
         def process(self, input_data):
             return {}
+
         def validate_matriz_node(self, node):
             return True
-    
+
     class CognitiveOrchestrator:
         def register_node(self, name, node):
             pass
+
         def process_query(self, query):
             return {"matriz_nodes": []}
-    
+
     class MathNode(CognitiveNode):
         def process(self, input_data):
             return {"matriz_node": {"type": "COMPUTATION"}}
-    
+
     class ValidatorNode(CognitiveNode):
         pass
 

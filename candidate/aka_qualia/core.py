@@ -823,22 +823,22 @@ class AkaQualia:
         """Apply signal overrides to proto-qualia for testing/debugging"""
         # Check for override signals
         overrides = {}
-        
+
         if "arousal_override" in signals:
             overrides["arousal"] = float(signals["arousal_override"])
-        
+
         if "tone_override" in signals:
             overrides["tone"] = float(signals["tone_override"])
-            
+
         if "clarity_override" in signals:
             overrides["clarity"] = float(signals["clarity_override"])
-            
+
         if "embodiment_override" in signals:
             overrides["embodiment"] = float(signals["embodiment_override"])
-            
+
         if "narrative_gravity_override" in signals:
             overrides["narrative_gravity"] = float(signals["narrative_gravity_override"])
-        
+
         # Apply overrides if any exist
         if overrides:
             # Create new proto with overridden values
@@ -852,7 +852,7 @@ class AkaQualia:
                 agency_feel=proto.agency_feel,  # Keep original agency_feel
                 narrative_gravity=overrides.get("narrative_gravity", proto.narrative_gravity),
             )
-        
+
         return proto
 
     def _default_glyph_mapper(self, scene: PhenomenalScene) -> list[PhenomenalGlyph]:

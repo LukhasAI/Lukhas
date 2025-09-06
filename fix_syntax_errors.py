@@ -22,7 +22,6 @@ def fix_broken_strings(content: str) -> str:
         (r'logger\.warning\("[\n\r]', 'logger.warning("'),
         (r'logger\.error\("[\n\r]', 'logger.error("'),
         (r'print\("[\n\r]', 'print("'),
-
         # Fix lines that start with emojis and close quote
         (r'^([🎯🔐🛡️✅❌⚡🧠⚛️🌟🔧📊💡🎭🚀]+[^"]*")\)', r'logger.info("\1)'),
     ]

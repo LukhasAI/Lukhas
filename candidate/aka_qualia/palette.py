@@ -162,20 +162,20 @@ def _extract_color_name(colorfield: str) -> tuple[str, Optional[str]]:
     if "/" in colorfield:
         parts = colorfield.split("/")
         primary_color = parts[0].strip().lower()
-        
+
         # Get fallback from second part if available
         fallback_color = None
         if len(parts) > 1:
             second_part = parts[1].strip().lower()
             # Map the second part through color mappings
             fallback_color = _map_color_variant(second_part)
-        
+
         return (primary_color, fallback_color)
 
     # Handle simple color names
     color_name = colorfield.strip().lower()
     mapped_color = _map_color_variant(color_name)
-    
+
     return (mapped_color, None)
 
 

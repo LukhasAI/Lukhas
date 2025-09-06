@@ -21,13 +21,19 @@ with contextlib.suppress(ImportError):
         AgentType,
         IntelligenceRequestType,
     )
+
     _available = True
 
-__all__ = [
-    "AgentIntelligenceBridge",
-    "AgentType",
-    "IntelligenceRequestType",
-] if _available else []
+__all__ = (
+    [
+        "AgentIntelligenceBridge",
+        "AgentType",
+        "IntelligenceRequestType",
+    ]
+    if _available
+    else []
+)
+
 
 def is_available() -> bool:
     """Check if intelligence bridge is available"""

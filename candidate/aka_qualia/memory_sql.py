@@ -117,7 +117,8 @@ class SqlMemory(AkaqMemory):
         """Apply database migration to create required tables"""
         with self.engine.begin() as conn:
             # Create akaq_scene table with all required columns
-            conn.execute(text("""
+            conn.execute(
+                text("""
                 CREATE TABLE IF NOT EXISTS akaq_scene (
                     scene_id TEXT PRIMARY KEY,
                     user_id TEXT NOT NULL,
@@ -140,10 +141,12 @@ class SqlMemory(AkaqMemory):
                     cfg_version TEXT,
                     timestamp REAL DEFAULT (julianday('now'))
                 )
-            """))
+            """)
+            )
 
             # Create akaq_glyph table
-            conn.execute(text("""
+            conn.execute(
+                text("""
                 CREATE TABLE IF NOT EXISTS akaq_glyph (
                     glyph_id TEXT PRIMARY KEY,
                     scene_id TEXT,
@@ -154,10 +157,12 @@ class SqlMemory(AkaqMemory):
                     timestamp REAL DEFAULT (julianday('now')),
                     FOREIGN KEY (scene_id) REFERENCES akaq_scene(scene_id)
                 )
-            """))
+            """)
+            )
 
             # Create akaq_memory_ops table for audit trail
-            conn.execute(text("""
+            conn.execute(
+                text("""
                 CREATE TABLE IF NOT EXISTS akaq_memory_ops (
                     operation_id TEXT PRIMARY KEY,
                     operation TEXT NOT NULL,
@@ -165,24 +170,33 @@ class SqlMemory(AkaqMemory):
                     metadata TEXT,
                     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
-            """))
+            """)
+            )
 
             # Create indexes for performance
-            conn.execute(text("""
+            conn.execute(
+                text("""
                 CREATE INDEX IF NOT EXISTS idx_akaq_scene_user_id ON akaq_scene(user_id)
-            """))
-            
-            conn.execute(text("""
+            """)
+            )
+
+            conn.execute(
+                text("""
                 CREATE INDEX IF NOT EXISTS idx_akaq_scene_timestamp ON akaq_scene(timestamp)
-            """))
-            
-            conn.execute(text("""
+            """)
+            )
+
+            conn.execute(
+                text("""
                 CREATE INDEX IF NOT EXISTS idx_akaq_glyph_user_id ON akaq_glyph(user_id)
-            """))
-            
-            conn.execute(text("""
+            """)
+            )
+
+            conn.execute(
+                text("""
                 CREATE INDEX IF NOT EXISTS idx_akaq_glyph_scene_id ON akaq_glyph(scene_id)
-            """))
+            """)
+            )
 
         logger.info("Database migration applied successfully")
 
@@ -203,12 +217,12 @@ class SqlMemory(AkaqMemory):
             "approach_avoid_score",
             "colorfield",
             "temporal_feel",
-            "agency_feel", 
+            "agency_feel",
             "scenario",
             "test_context",
             "cfg_version",  # Configuration version (essential metadata)
-            "policy_sig",   # Policy signature (compliance)
-            "session_id",   # Session identifier (non-PII)
+            "policy_sig",  # Policy signature (compliance)
+            "session_id",  # Session identifier (non-PII)
         }
 
         return {k: v for k, v in context.items() if k in safe_fields}
@@ -432,7 +446,9 @@ class SqlMemory(AkaqMemory):
             logger.debug(f"Retrieved {len(scenes)} scenes for user {user_id}")
             return scenes
 
-    def get_scene_history(self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None) -> list[dict[str, Any]]:
+    def get_scene_history(
+        self, *, user_id: str, limit: int = 50, since: Optional[dt.datetime] = None
+    ) -> list[dict[str, Any]]:
         """Alias for history method to match test expectations"""
         return self.history(user_id=user_id, limit=limit, since=since)
 
@@ -444,11 +460,11 @@ class SqlMemory(AkaqMemory):
         search_key = key or glyph_key
         if not search_key:
             raise ValueError("Either 'key' or 'glyph_key' must be provided")
-            
+
         try:
             # Hash user ID if in production
             user_id_hash = self._hash_safe(user_id)
-            
+
             with self.engine.begin() as conn:
                 result = conn.execute(
                     text(
@@ -492,7 +508,7 @@ class SqlMemory(AkaqMemory):
                 result = conn.execute(
                     text(
                         """
-                        SELECT scene_id, ts, proto, drift_phi, congruence_index
+                        SELECT scene_id, timestamp, proto, drift_phi, congruence_index
                         FROM akaq_scene
                         WHERE user_id = :user_id AND drift_phi IS NOT NULL
                         ORDER BY drift_phi DESC

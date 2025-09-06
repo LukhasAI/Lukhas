@@ -64,6 +64,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class TestResultData:
     """Test result container - NOT a pytest test class"""
+
     __test__ = False  # Tell pytest this is not a test class
 
     test_name: str

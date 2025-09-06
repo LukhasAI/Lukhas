@@ -642,8 +642,8 @@ export async function middleware(request: NextRequest) {
     } else if (!pathname.startsWith('/ai') && !pathname.startsWith('/id') && !pathname.startsWith('/team') && 
                !pathname.startsWith('/dev') && !pathname.startsWith('/io') && !pathname.startsWith('/store') &&
                !pathname.startsWith('/cloud') && !pathname.startsWith('/eu') && !pathname.startsWith('/us') &&
-               !pathname.startsWith('/xyz') && !pathname.startsWith('/com') && pathname !== '/' && 
-               !pathname.startsWith('/showcase')) {
+               !pathname.startsWith('/xyz') && !pathname.startsWith('/com') && !pathname.startsWith('/experience') &&
+               pathname !== '/' && !pathname.startsWith('/showcase')) {
       // For non-domain paths, prefix with domain route
       rewritePath = `/${experience.route}${pathname}`;
     }

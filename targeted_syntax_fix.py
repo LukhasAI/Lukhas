@@ -16,7 +16,6 @@ def fix_simple_patterns(content):
     fixed_lines = []
 
     for line in lines:
-
         # Fix 1: Function definition with colon at start: "def add_connection(:"
         if re.match(r"^(\s*def\s+\w+)\(:$", line):
             line = re.sub(r"^(\s*def\s+\w+)\(:$", r"\1(self:", line)
@@ -43,6 +42,7 @@ def fix_simple_patterns(content):
 
     return "\n".join(fixed_lines)
 
+
 def can_fix_file(filepath):
     """Check if file has fixable syntax errors"""
     try:
@@ -63,7 +63,7 @@ def can_fix_file(filepath):
                 "Generator expression must be parenthesized",
                 "unmatched",
                 "closing parenthesis",
-                "unexpected indent"
+                "unexpected indent",
             ]
 
             if any(pattern in error_msg for pattern in fixable_patterns):
@@ -73,6 +73,7 @@ def can_fix_file(filepath):
 
     except Exception as e:
         return False, f"Read error: {e}"
+
 
 def fix_file(filepath):
     """Fix a single file"""
@@ -95,6 +96,7 @@ def fix_file(filepath):
 
     except Exception as e:
         return False, f"Error processing file: {e}"
+
 
 def main():
     """Main execution"""
@@ -132,6 +134,7 @@ def main():
 
     print("\n" + "=" * 50)
     print(f"📊 Results: {fixed_count} fixed, {failed_count} failed, {skipped_count} skipped")
+
 
 if __name__ == "__main__":
     main()

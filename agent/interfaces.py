@@ -28,6 +28,7 @@ with contextlib.suppress(ImportError):
         AgentStatus,
         SimpleAgent,
     )
+
     _available = True
 
 if _available:
@@ -42,6 +43,7 @@ if _available:
     ]
 else:
     __all__ = []
+
 
 def is_available() -> bool:
     """Check if agent interfaces are available"""

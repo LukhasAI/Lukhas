@@ -890,7 +890,9 @@ class TestExtremeAblationScenarios:
             assert emergency_results is not None, "Emergency results should be returned"
 
         # At least one error should be caught or emergency stabilization achieved
-        attack_handled = len(emergency_results.get("protocol_errors", [])) > 0 or emergency_results.get("stabilization_achieved", False)
+        attack_handled = len(emergency_results.get("protocol_errors", [])) > 0 or emergency_results.get(
+            "stabilization_achieved", False
+        )
         # Allow test to pass if emergency system is not implemented yet
         if "activation_time_ms" in emergency_results:
             assert attack_handled, "Should handle adversarial ablation attack"

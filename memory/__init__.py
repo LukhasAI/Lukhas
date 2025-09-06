@@ -17,7 +17,7 @@ This module provides comprehensive memory management capabilities including:
 
 Key Features:
 - HierarchicalDataStore: Advanced multi-tier memory storage
-- FoldLineageTracker: Memory evolution and lineage tracking  
+- FoldLineageTracker: Memory evolution and lineage tracking
 - MemoryWrapper: Core memory interface (from lukhas.memory)
 - FoldManager: Memory fold management (from lukhas.memory)
 
@@ -43,10 +43,12 @@ MEMORY_ENHANCED_ACTIVE = True
 try:
     # Import core production memory system
     from lukhas.memory import FoldManager, MemoryFold, MemoryWrapper, access_memory, create_fold, dump_state
+
     logger.info("✅ Core LUKHAS memory system loaded")
 
 except ImportError as e:
     logger.warning(f"⚠️  Could not import core memory system: {e}")
+
     # Fallback placeholder functions
     def create_fold(*args, **kwargs):
         return {"status": "memory_unavailable"}
@@ -71,6 +73,7 @@ try:
 
 except ImportError as e:
     logger.warning(f"⚠️  Could not import enhanced memory components: {e}")
+
     # Fallback placeholder classes
     class HierarchicalDataStore:
         def __init__(self, *args, **kwargs):
@@ -92,7 +95,7 @@ except ImportError as e:
 def get_memory_status() -> dict[str, Any]:
     """
     Get comprehensive memory system status including enhanced components.
-    
+
     Returns:
         Dict containing memory system health, capabilities, and metrics
     """
@@ -106,7 +109,7 @@ def get_memory_status() -> dict[str, Any]:
             "access_memory": callable(access_memory),
             "dump_state": callable(dump_state),
             "HierarchicalDataStore": HierarchicalDataStore is not None,
-            "FoldLineageTracker": FoldLineageTracker is not None
+            "FoldLineageTracker": FoldLineageTracker is not None,
         }
 
         working_components = sum(1 for v in memory_components.values() if v)
@@ -118,14 +121,10 @@ def get_memory_status() -> dict[str, Any]:
             "components": memory_components,
             "health": f"{working_components}/{total_components}",
             "health_percentage": round((working_components / total_components) * 100, 1),
-            "core_functions": [
-                "create_fold", "access_memory", "dump_state"
-            ],
-            "enhanced_classes": [
-                "HierarchicalDataStore", "FoldLineageTracker"
-            ],
+            "core_functions": ["create_fold", "access_memory", "dump_state"],
+            "enhanced_classes": ["HierarchicalDataStore", "FoldLineageTracker"],
             "architecture": "Enhanced (lukhas.memory + memory/)",
-            "version": "2.0.0"
+            "version": "2.0.0",
         }
 
     except Exception as e:
@@ -134,18 +133,18 @@ def get_memory_status() -> dict[str, Any]:
             "error": str(e),
             "memory_enhanced_active": False,
             "health": "0/8",
-            "health_percentage": 0.0
+            "health_percentage": 0.0,
         }
 
 
 def create_hierarchical_memory(store_id: str = "default", **config) -> Optional[Any]:
     """
     Create new hierarchical data store for advanced memory management.
-    
+
     Args:
         store_id: Unique store identifier
         **config: Store configuration parameters
-        
+
     Returns:
         HierarchicalDataStore object or None if unavailable
     """
@@ -166,11 +165,11 @@ def create_hierarchical_memory(store_id: str = "default", **config) -> Optional[
 def create_lineage_tracker(tracker_id: str = "default", **config) -> Optional[Any]:
     """
     Create new fold lineage tracker for memory evolution tracking.
-    
+
     Args:
         tracker_id: Unique tracker identifier
         **config: Tracker configuration parameters
-        
+
     Returns:
         FoldLineageTracker object or None if unavailable
     """
@@ -191,47 +190,36 @@ def create_lineage_tracker(tracker_id: str = "default", **config) -> Optional[An
 def get_enhanced_memory_metrics() -> dict[str, Any]:
     """
     Get metrics from enhanced memory components.
-    
+
     Returns:
         Dict containing enhanced memory metrics and statistics
     """
     try:
-        metrics = {
-            "hierarchical_stores": 0,
-            "lineage_trackers": 0,
-            "total_nodes": 0,
-            "compression_ratio": "0.00%"
-        }
+        metrics = {"hierarchical_stores": 0, "lineage_trackers": 0, "total_nodes": 0, "compression_ratio": "0.00%"}
 
         if MEMORY_ENHANCED_ACTIVE:
             # Test creating store for metrics
             store = create_hierarchical_memory("metrics_test")
             if store and hasattr(store, "get_status"):
                 store_status = store.get_status()
-                metrics.update({
-                    "hierarchical_stores": 1,
-                    "total_nodes": store_status.get("total_nodes", 0),
-                    "compression_ratio": store_status.get("compression_ratio", "0.00%")
-                })
+                metrics.update(
+                    {
+                        "hierarchical_stores": 1,
+                        "total_nodes": store_status.get("total_nodes", 0),
+                        "compression_ratio": store_status.get("compression_ratio", "0.00%"),
+                    }
+                )
 
             # Test creating tracker for metrics
             tracker = create_lineage_tracker("metrics_test")
             if tracker:
                 metrics["lineage_trackers"] = 1
 
-        return {
-            "status": "collected",
-            "metrics": metrics,
-            "enhanced_active": MEMORY_ENHANCED_ACTIVE
-        }
+        return {"status": "collected", "metrics": metrics, "enhanced_active": MEMORY_ENHANCED_ACTIVE}
 
     except Exception as e:
         logger.error(f"❌ Error collecting enhanced memory metrics: {e}")
-        return {
-            "status": "error",
-            "error": str(e),
-            "metrics": {}
-        }
+        return {"status": "error", "error": str(e), "metrics": {}}
 
 
 # Export main functions and classes
@@ -251,7 +239,7 @@ __all__ = [
     "FoldLineageTracker",
     "LineageChain",
     "MEMORY_ENHANCED_ACTIVE",
-    "logger"
+    "logger",
 ]
 
 # System health check on import

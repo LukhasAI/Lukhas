@@ -201,7 +201,10 @@
       "Bash(open http://localhost:3000/showcase)",
       "Bash(open http://localhost:3001/showcase)",
       "Bash(npx next build:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(git prune:*)",
+      "Bash(lsof:*)",
+      "Bash(PORT=3002 npm run dev)"
     ],
     "deny": [],
     "ask": []

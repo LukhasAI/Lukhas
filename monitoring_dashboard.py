@@ -33,7 +33,7 @@ class MonitoringDashboard:
             "status": "operational",
             "uptime": (datetime.now(tz=timezone.utc) - self.start_time).total_seconds(),
             "components": self.health_status,
-            "timestamp": datetime.now(tz=timezone.utc).isoformat()
+            "timestamp": datetime.now(tz=timezone.utc).isoformat(),
         }
 
     def get_metrics(self) -> dict[str, Any]:
@@ -41,22 +41,16 @@ class MonitoringDashboard:
         return {
             "performance": self.metrics,
             "health": self.get_system_health(),
-            "timestamp": datetime.now(tz=timezone.utc).isoformat()
+            "timestamp": datetime.now(tz=timezone.utc).isoformat(),
         }
 
     def update_metric(self, key: str, value: Any) -> None:
         """Update a specific metric."""
-        self.metrics[key] = {
-            "value": value,
-            "timestamp": datetime.now(tz=timezone.utc).isoformat()
-        }
+        self.metrics[key] = {"value": value, "timestamp": datetime.now(tz=timezone.utc).isoformat()}
 
     def update_health_status(self, component: str, status: str) -> None:
         """Update health status for a component."""
-        self.health_status[component] = {
-            "status": status,
-            "timestamp": datetime.now(tz=timezone.utc).isoformat()
-        }
+        self.health_status[component] = {"status": status, "timestamp": datetime.now(tz=timezone.utc).isoformat()}
 
 
 # Default dashboard instance

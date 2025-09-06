@@ -133,14 +133,14 @@ class ConstellationFrameworkValidator:
                     print(f"Validating principle: {principle}")
                     compliance_score = self._validate_principle(principle, config, akaq, result, test_scenario)
                     print(f"  Score: {compliance_score}")
-                    
+
                     # Get indicators safely
                     try:
                         indicators = self._get_principle_indicators(principle, config, akaq, result)
                     except Exception as e:
                         print(f"  Indicators error for {principle}: {e}")
                         indicators = {"error": f"indicator_extraction_failed: {e}"}
-                    
+
                     compliance_results[principle] = {
                         "score": compliance_score,
                         "threshold": config["min_threshold"],
@@ -159,10 +159,10 @@ class ConstellationFrameworkValidator:
                 # Track metrics - map to correct key names
                 metrics_key_mapping = {
                     "consciousness": "consciousness_coherence",
-                    "ethics": "ethics_consistency", 
+                    "ethics": "ethics_consistency",
                     "identity": "identity_stability",
                     "governance": "governance_compliance",
-                    "emergence": "emergence_quality"
+                    "emergence": "emergence_quality",
                 }
                 metrics_key = metrics_key_mapping.get(principle)
                 if metrics_key and metrics_key in self.constellation_metrics:
@@ -297,9 +297,11 @@ class ConstellationFrameworkValidator:
 
             # Guardian enforcement evidence
             if hasattr(scene, "transform_chain") and scene.transform_chain:
-                guardian_transforms = [t for t in scene.transform_chain if any(
-                    pattern in t.lower() for pattern in ["teq", "sublimate", "block", "enforce", "guardian"]
-                )]
+                guardian_transforms = [
+                    t
+                    for t in scene.transform_chain
+                    if any(pattern in t.lower() for pattern in ["teq", "sublimate", "block", "enforce", "guardian"])
+                ]
                 if guardian_transforms:
                     score += 0.3
 
@@ -466,9 +468,7 @@ class ConstellationFrameworkValidator:
                 indicators = {
                     "memory_gdpr_capable": hasattr(akaq.memory, "delete_user"),
                     "audit_present": bool(result.get("regulation_audit")),
-                    "transparent_processing": bool(
-                        scene and hasattr(scene, "context") and scene.context
-                    ),
+                    "transparent_processing": bool(scene and hasattr(scene, "context") and scene.context),
                 }
             elif principle == "emergence":
                 metrics = result.get("metrics")
@@ -477,7 +477,9 @@ class ConstellationFrameworkValidator:
                 indicators = {
                     "novelty_score": metrics.qualia_novelty if metrics and hasattr(metrics, "qualia_novelty") else 0.0,
                     "adaptation_active": bool(policy and hasattr(policy, "actions") and policy.actions),
-                    "transform_complexity": len(scene.transform_chain) if scene and hasattr(scene, "transform_chain") and scene.transform_chain else 0,
+                    "transform_complexity": len(scene.transform_chain)
+                    if scene and hasattr(scene, "transform_chain") and scene.transform_chain
+                    else 0,
                 }
         except Exception as e:
             indicators = {"error": f"indicator_extraction_failed: {e}"}

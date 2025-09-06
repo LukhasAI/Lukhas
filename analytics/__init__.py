@@ -4,9 +4,9 @@ Analytics, metrics collection, and data visualization
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import Any, Optional
 import logging
 from datetime import datetime
+from typing import Any, Optional
 
 # Version info
 __version__ = "2.0.0"
@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 # Import from candidate lane system
 try:
     from candidate.metrics import MetricsCollector, get_metrics_collector
+
     METRICS_AVAILABLE = True
 except ImportError:
     MetricsCollector = None
@@ -30,8 +31,9 @@ ANALYTICS_DOMAINS = {
     "performance": "System performance monitoring",
     "security": "Security event analytics",
     "business": "Business metrics and KPIs",
-    "alerts": "Alert generation and notification"
+    "alerts": "Alert generation and notification",
 }
+
 
 def get_analytics_status() -> dict[str, Any]:
     """Get comprehensive analytics system status"""
@@ -43,8 +45,9 @@ def get_analytics_status() -> dict[str, Any]:
         "metrics_available": METRICS_AVAILABLE,
         "prometheus_compatible": METRICS_AVAILABLE,
         "last_updated": datetime.now().isoformat(),
-        "analytics_active": True
+        "analytics_active": True,
     }
+
 
 def collect_consciousness_metrics() -> dict[str, Any]:
     """Collect consciousness-specific analytics"""
@@ -53,14 +56,14 @@ def collect_consciousness_metrics() -> dict[str, Any]:
             return {
                 "status": "unavailable",
                 "error": "metrics_collector_not_available",
-                "collection_time": datetime.now().isoformat()
+                "collection_time": datetime.now().isoformat(),
             }
-        
+
         collector = get_metrics_collector()
-        
+
         # Get metrics in Prometheus format
         metrics_data = collector.get_metrics()
-        
+
         # Parse consciousness metrics
         consciousness_metrics = {
             "aka_qualia_active": "akaq_" in metrics_data.decode() if metrics_data else False,
@@ -68,21 +71,18 @@ def collect_consciousness_metrics() -> dict[str, Any]:
             "regulation_events": True,  # Simplified for now
             "energy_conservation": True,  # Simplified for now
         }
-        
+
         return {
             "consciousness_metrics": consciousness_metrics,
             "metrics_size_bytes": len(metrics_data) if metrics_data else 0,
             "collection_time": datetime.now().isoformat(),
-            "status": "collected"
+            "status": "collected",
         }
-        
+
     except Exception as e:
         logger.error(f"Consciousness metrics collection failed: {e}")
-        return {
-            "status": "error",
-            "error": str(e),
-            "collection_time": datetime.now().isoformat()
-        }
+        return {"status": "error", "error": str(e), "collection_time": datetime.now().isoformat()}
+
 
 def generate_performance_report() -> dict[str, Any]:
     """Generate system performance analytics report"""
@@ -91,36 +91,29 @@ def generate_performance_report() -> dict[str, Any]:
             return {
                 "status": "unavailable",
                 "error": "metrics_collector_not_available",
-                "report_time": datetime.now().isoformat()
+                "report_time": datetime.now().isoformat(),
             }
-        
+
         collector = get_metrics_collector()
-        
+
         # Check for alerts
         alerts = collector.check_alert_conditions()
-        
+
         # Generate simplified performance report
         report = {
             "system_health": "healthy" if len(alerts) == 0 else "degraded",
             "active_alerts": len(alerts),
             "alert_details": alerts,
             "metrics_collector_uptime": datetime.now().isoformat(),
-            "prometheus_metrics_available": True
+            "prometheus_metrics_available": True,
         }
-        
-        return {
-            "performance_report": report,
-            "report_time": datetime.now().isoformat(),
-            "status": "generated"
-        }
-        
+
+        return {"performance_report": report, "report_time": datetime.now().isoformat(), "status": "generated"}
+
     except Exception as e:
         logger.error(f"Performance report generation failed: {e}")
-        return {
-            "status": "error",
-            "error": str(e),
-            "report_time": datetime.now().isoformat()
-        }
+        return {"status": "error", "error": str(e), "report_time": datetime.now().isoformat()}
+
 
 def get_prometheus_metrics() -> bytes:
     """Get Prometheus-formatted metrics"""
@@ -128,15 +121,18 @@ def get_prometheus_metrics() -> bytes:
         if not METRICS_AVAILABLE:
             # Return minimal metrics
             return b"# HELP lukhas_analytics_status Analytics system status\\nlukhas_analytics_status 0\\n"
-        
+
         collector = get_metrics_collector()
         return collector.get_metrics()
-        
+
     except Exception as e:
         logger.error(f"Prometheus metrics retrieval failed: {e}")
         return b"# ERROR: Failed to retrieve metrics\\n"
 
-def create_analytics_alert(severity: str, message: str, metric_name: str, threshold: Optional[float] = None) -> dict[str, Any]:
+
+def create_analytics_alert(
+    severity: str, message: str, metric_name: str, threshold: Optional[float] = None
+) -> dict[str, Any]:
     """Create analytics alert"""
     try:
         alert = {
@@ -147,31 +143,29 @@ def create_analytics_alert(severity: str, message: str, metric_name: str, thresh
             "threshold": threshold,
             "created_at": datetime.now().isoformat(),
             "status": "active",
-            "source": "analytics_system"
+            "source": "analytics_system",
         }
-        
+
         logger.warning(f"Analytics alert created: {severity} - {message} for metric {metric_name}")
         return alert
-        
+
     except Exception as e:
         logger.error(f"Analytics alert creation failed: {e}")
-        return {
-            "status": "error",
-            "error": str(e)
-        }
+        return {"status": "error", "error": str(e)}
+
 
 def get_analytics_dashboard() -> dict[str, Any]:
     """Get comprehensive analytics dashboard"""
     try:
         # Get system status
         status = get_analytics_status()
-        
+
         # Collect consciousness metrics
         consciousness_data = collect_consciousness_metrics()
-        
+
         # Generate performance report
         performance_data = generate_performance_report()
-        
+
         # Calculate analytics health score
         analytics_score = 100
         if not METRICS_AVAILABLE:
@@ -180,11 +174,11 @@ def get_analytics_dashboard() -> dict[str, Any]:
             analytics_score -= 20
         if performance_data.get("status") != "generated":
             analytics_score -= 20
-        
+
         active_alerts = performance_data.get("performance_report", {}).get("active_alerts", 0)
         if active_alerts > 0:
-            analytics_score -= (active_alerts * 10)
-        
+            analytics_score -= active_alerts * 10
+
         return {
             "analytics_score": max(0, analytics_score),
             "system_status": status,
@@ -192,16 +186,13 @@ def get_analytics_dashboard() -> dict[str, Any]:
             "performance_analytics": performance_data,
             "prometheus_available": METRICS_AVAILABLE,
             "dashboard_generated": datetime.now().isoformat(),
-            "status": "ready"
+            "status": "ready",
         }
-        
+
     except Exception as e:
         logger.error(f"Analytics dashboard generation failed: {e}")
-        return {
-            "status": "error",
-            "error": str(e),
-            "dashboard_generated": datetime.now().isoformat()
-        }
+        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now().isoformat()}
+
 
 # Convenience functions for metrics recording
 def record_consciousness_event(event_type: str, episode_id: str, metrics_data: dict[str, Any]):
@@ -214,6 +205,7 @@ def record_consciousness_event(event_type: str, episode_id: str, metrics_data: d
         except Exception as e:
             logger.error(f"Failed to record consciousness event: {e}")
 
+
 def record_performance_metric(metric_name: str, value: float, labels: Optional[dict[str, str]] = None):
     """Record performance metric"""
     if METRICS_AVAILABLE:
@@ -224,15 +216,14 @@ def record_performance_metric(metric_name: str, value: float, labels: Optional[d
         except Exception as e:
             logger.error(f"Failed to record performance metric: {e}")
 
+
 __all__ = [
     # Version info
     "__version__",
     "__author__",
-    
     # Constants
     "ANALYTICS_DOMAINS",
     "METRICS_AVAILABLE",
-    
     # Core functions
     "get_analytics_status",
     "collect_consciousness_metrics",
@@ -240,7 +231,6 @@ __all__ = [
     "get_prometheus_metrics",
     "create_analytics_alert",
     "get_analytics_dashboard",
-    
     # Convenience functions
     "record_consciousness_event",
     "record_performance_metric",

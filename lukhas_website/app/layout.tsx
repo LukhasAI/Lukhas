@@ -68,11 +68,7 @@ export default function RootLayout({
           <QuantumIdentityProvider>
             <LayoutBoundary layoutName="QuantumIdentityProvider">
               {bgEnabled && <NeuralBackgroundWrapper mode="landing" />}
-              <LayoutBoundary layoutName="StateLayout">
-                <StateLayout>
-                  {children}
-                </StateLayout>
-              </LayoutBoundary>
+              {children}
               <Toaster richColors />
               {!isAppRoute && <CMP />}
             </LayoutBoundary>

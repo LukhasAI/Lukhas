@@ -24,6 +24,7 @@ from typing import Any, Optional
 try:
     from lukhas.core.actor_system import AIAgentActor
     from lukhas.core.supervisor_agent import SupervisorAgent, get_supervisor_agent
+
     _core_agents_available = True
 except ImportError as e:
     print(f"Warning: Core agents not available: {e}")
@@ -41,6 +42,7 @@ with contextlib.suppress(ImportError):
         AgentStatus,
         SimpleAgent,
     )
+
     _agent_interfaces_available = True
 
 # Collaborative agent system
@@ -52,6 +54,7 @@ with contextlib.suppress(ImportError):
         LukhasAIAgent,
         LukhasAIAgentTeam,
     )
+
     _collaborative_agents_available = True
 
 # Intelligence bridge
@@ -62,6 +65,7 @@ with contextlib.suppress(ImportError):
         AgentType,
         IntelligenceRequestType,
     )
+
     _intelligence_bridge_available = True
 
 __version__ = "2.0.0"
@@ -70,45 +74,56 @@ __version__ = "2.0.0"
 __all__ = []
 
 if _core_agents_available:
-    __all__.extend([
-        "AIAgentActor",
-        "SupervisorAgent",
-        "get_supervisor_agent",
-    ])
+    __all__.extend(
+        [
+            "AIAgentActor",
+            "SupervisorAgent",
+            "get_supervisor_agent",
+        ]
+    )
 
 if _agent_interfaces_available:
-    __all__.extend([
-        "AgentInterface",
-        "SimpleAgent",
-        "AgentStatus",
-        "AgentCapability",
-        "AgentMetadata",
-        "AgentMessage",
-        "AgentContext",
-    ])
+    __all__.extend(
+        [
+            "AgentInterface",
+            "SimpleAgent",
+            "AgentStatus",
+            "AgentCapability",
+            "AgentMetadata",
+            "AgentMessage",
+            "AgentContext",
+        ]
+    )
 
 if _collaborative_agents_available:
-    __all__.extend([
-        "LukhasAIAgent",
-        "LukhasAIAgentTeam",
-        "AgentTier",
-        "AgentCapabilities",
-    ])
+    __all__.extend(
+        [
+            "LukhasAIAgent",
+            "LukhasAIAgentTeam",
+            "AgentTier",
+            "AgentCapabilities",
+        ]
+    )
 
 if _intelligence_bridge_available:
-    __all__.extend([
-        "AgentType",
-        "IntelligenceRequestType",
-        "AgentIntelligenceBridge",
-    ])
+    __all__.extend(
+        [
+            "AgentType",
+            "IntelligenceRequestType",
+            "AgentIntelligenceBridge",
+        ]
+    )
 
 # Export availability flags for runtime checks
-__all__.extend([
-    "_core_agents_available",
-    "_agent_interfaces_available",
-    "_collaborative_agents_available",
-    "_intelligence_bridge_available",
-])
+__all__.extend(
+    [
+        "_core_agents_available",
+        "_agent_interfaces_available",
+        "_collaborative_agents_available",
+        "_intelligence_bridge_available",
+    ]
+)
+
 
 # Agent system status
 def get_agent_system_status() -> dict[str, Any]:
@@ -120,7 +135,8 @@ def get_agent_system_status() -> dict[str, Any]:
         "collaborative_agents": _collaborative_agents_available,
         "intelligence_bridge": _intelligence_bridge_available,
         "total_components": len(__all__),
-        "operational_status": "READY" if _core_agents_available else "LIMITED"
+        "operational_status": "READY" if _core_agents_available else "LIMITED",
     }
+
 
 __all__.append("get_agent_system_status")

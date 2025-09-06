@@ -31,7 +31,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
   const domainRoutes = ['/ai', '/id', '/team', '/dev', '/io', '/store', '/cloud', '/eu', '/us', '/xyz', '/com']
   const isDomainRoute = domainRoutes.includes(pathname)
     
-  const shouldSkip = isAppRoute || pathname === '/showcase' || skipState || (isDomainRoute && skipState)
+  const shouldSkip = isAppRoute || pathname === '/showcase' || pathname === '/experience' || pathname === '/' || pathname === '/test-simple' || skipState || (isDomainRoute && skipState)
   
   // Always declare ALL hooks first (Rules of Hooks)
   const [currentState, setCurrentState] = useState<LayoutState>('BOOT')
@@ -145,8 +145,8 @@ export default function StateLayout({ children }: StateLayoutProps) {
   }, [currentState, shouldSkip])
 
 
-  // Early return for app routes, showcase, and skipState AFTER all hooks are declared
-  if (shouldSkip) {
+  // Early return for app routes, showcase, skipState, and homepage AFTER all hooks are declared
+  if (shouldSkip || pathname === '/') {
     return <>{children}</>
   }
   
@@ -202,23 +202,23 @@ export default function StateLayout({ children }: StateLayoutProps) {
 
           {/* Navigation Options */}
           <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
-            <div className="flex items-center space-x-4 bg-black/20 backdrop-blur-md rounded-full px-6 py-3 border border-white/10">
+            <div className="flex items-center space-x-4 bg-black/40 backdrop-blur-xl rounded-xl px-6 py-4 border border-white/20">
               <button
                 onClick={() => setCurrentState('MARKETING_MODE')}
-                className="px-4 py-2 text-white/80 hover:text-white transition-colors text-sm"
+                className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-lg transition-colors text-sm font-medium"
               >
                 Explore LUKHAS
               </button>
-              <div className="w-px h-4 bg-white/20" />
+              <div className="w-px h-6 bg-white/30" />
               <a
                 href="/studio"
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors text-sm"
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium"
               >
                 Enter LUKHΛS Studio
               </a>
               <a
                 href="/settings/layout"
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors text-sm"
+                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm font-medium"
               >
                 Settings
               </a>
@@ -256,7 +256,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
                 <div className="flex items-center space-x-4">
                   <a
                     href="/login"
-                    className="text-white/80 hover:text-white transition-colors"
+                    className="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2 rounded-md transition-colors"
                   >
                     Sign In
                   </a>

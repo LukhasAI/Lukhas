@@ -31,6 +31,7 @@ try:
         get_agent_system_status,
         get_supervisor_agent,
     )
+
     _core_agents_available = True
 except ImportError as e:
     print(f"Warning: Core agents not available: {e}")
@@ -48,6 +49,7 @@ with contextlib.suppress(ImportError):
         AgentStatus,
         SimpleAgent,
     )
+
     _agent_interfaces_available = True
 
 # Import collaborative agents
@@ -59,6 +61,7 @@ with contextlib.suppress(ImportError):
         LukhasAIAgent,
         LukhasAIAgentTeam,
     )
+
     _collaborative_agents_available = True
 
 # Import intelligence bridge
@@ -69,6 +72,7 @@ with contextlib.suppress(ImportError):
         AgentType,
         IntelligenceRequestType,
     )
+
     _intelligence_bridge_available = True
 
 __version__ = "2.0.0"
@@ -77,46 +81,56 @@ __version__ = "2.0.0"
 __all__ = []
 
 if _core_agents_available:
-    __all__.extend([
-        "AIAgentActor",
-        "SupervisorAgent",
-        "get_supervisor_agent",
-        "get_agent_system_status",
-    ])
+    __all__.extend(
+        [
+            "AIAgentActor",
+            "SupervisorAgent",
+            "get_supervisor_agent",
+            "get_agent_system_status",
+        ]
+    )
 
 if _agent_interfaces_available:
-    __all__.extend([
-        "AgentInterface",
-        "SimpleAgent",
-        "AgentStatus",
-        "AgentCapability",
-        "AgentMetadata",
-        "AgentMessage",
-        "AgentContext",
-    ])
+    __all__.extend(
+        [
+            "AgentInterface",
+            "SimpleAgent",
+            "AgentStatus",
+            "AgentCapability",
+            "AgentMetadata",
+            "AgentMessage",
+            "AgentContext",
+        ]
+    )
 
 if _collaborative_agents_available:
-    __all__.extend([
-        "LukhasAIAgent",
-        "LukhasAIAgentTeam",
-        "AgentTier",
-        "AgentCapabilities",
-    ])
+    __all__.extend(
+        [
+            "LukhasAIAgent",
+            "LukhasAIAgentTeam",
+            "AgentTier",
+            "AgentCapabilities",
+        ]
+    )
 
 if _intelligence_bridge_available:
-    __all__.extend([
-        "AgentType",
-        "IntelligenceRequestType",
-        "AgentIntelligenceBridge",
-    ])
+    __all__.extend(
+        [
+            "AgentType",
+            "IntelligenceRequestType",
+            "AgentIntelligenceBridge",
+        ]
+    )
 
 # Export availability flags for runtime checks
-__all__.extend([
-    "_core_agents_available",
-    "_agent_interfaces_available",
-    "_collaborative_agents_available",
-    "_intelligence_bridge_available",
-])
+__all__.extend(
+    [
+        "_core_agents_available",
+        "_agent_interfaces_available",
+        "_collaborative_agents_available",
+        "_intelligence_bridge_available",
+    ]
+)
 
 # Note: This bridge module provides access to the consolidated agent system
 # Real LUKHAS agents are in /agent directory (not /agents_external)

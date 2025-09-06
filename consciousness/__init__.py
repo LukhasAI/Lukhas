@@ -4,9 +4,9 @@ Core consciousness processing and awareness systems
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import Any, Optional
 import logging
 from datetime import datetime
+from typing import Any, Optional
 
 # Version info
 __version__ = "2.0.0"
@@ -21,16 +21,18 @@ ConsciousnessAPI = None
 
 # Try lukhas lane first (production) - use what actually works
 try:
-    from lukhas.consciousness import ConsciousnessKernel, ConsciousnessWrapper, ConsciousnessConfig
+    from lukhas.consciousness import ConsciousnessConfig, ConsciousnessKernel, ConsciousnessWrapper
+
     CONSCIOUSNESS_AVAILABLE = True
     CONSCIOUSNESS_SOURCE = "lukhas"
     # Map to expected names for compatibility
     ConsciousnessCore = ConsciousnessKernel
     ConsciousnessAPI = ConsciousnessWrapper
 except ImportError:
-    # Try candidate lane (development)  
+    # Try candidate lane (development)
     try:
-        from candidate.consciousness import ConsciousnessCore, ConsciousnessAPI
+        from candidate.consciousness import ConsciousnessAPI, ConsciousnessCore
+
         if ConsciousnessCore is not None and ConsciousnessAPI is not None:
             CONSCIOUSNESS_AVAILABLE = True
             CONSCIOUSNESS_SOURCE = "candidate"
@@ -46,12 +48,13 @@ except ImportError:
 # Consciousness domains
 CONSCIOUSNESS_DOMAINS = {
     "core": "Core consciousness processing",
-    "awareness": "Awareness and perception systems", 
+    "awareness": "Awareness and perception systems",
     "reflection": "Self-reflection and meta-cognition",
     "streams": "Consciousness stream processing",
     "integration": "Integration with other systems",
-    "qi_integration": "Quantum-inspired consciousness"
+    "qi_integration": "Quantum-inspired consciousness",
 }
+
 
 def get_consciousness_status() -> dict[str, Any]:
     """Get comprehensive consciousness system status"""
@@ -65,8 +68,9 @@ def get_consciousness_status() -> dict[str, Any]:
         "core_available": ConsciousnessCore is not None,
         "api_available": ConsciousnessAPI is not None,
         "last_updated": datetime.now().isoformat(),
-        "consciousness_active": CONSCIOUSNESS_AVAILABLE
+        "consciousness_active": CONSCIOUSNESS_AVAILABLE,
     }
+
 
 def process_consciousness_stream(input_data: dict[str, Any]) -> dict[str, Any]:
     """Process consciousness stream data"""
@@ -75,9 +79,9 @@ def process_consciousness_stream(input_data: dict[str, Any]) -> dict[str, Any]:
             return {
                 "status": "unavailable",
                 "error": "consciousness_system_not_available",
-                "processing_time": datetime.now().isoformat()
+                "processing_time": datetime.now().isoformat(),
             }
-        
+
         # Simulate consciousness processing
         result = {
             "stream_id": f"consciousness_stream_{int(datetime.now().timestamp())}",
@@ -87,18 +91,15 @@ def process_consciousness_stream(input_data: dict[str, Any]) -> dict[str, Any]:
             "integration_status": "partial",
             "qi_resonance": 0.60,  # Placeholder
             "processing_time": datetime.now().isoformat(),
-            "status": "processed"
+            "status": "processed",
         }
-        
+
         return result
-        
+
     except Exception as e:
         logger.error(f"Consciousness stream processing failed: {e}")
-        return {
-            "status": "error",
-            "error": str(e),
-            "processing_time": datetime.now().isoformat()
-        }
+        return {"status": "error", "error": str(e), "processing_time": datetime.now().isoformat()}
+
 
 def activate_consciousness_layer(layer_name: str, parameters: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Activate specific consciousness layer"""
@@ -107,9 +108,9 @@ def activate_consciousness_layer(layer_name: str, parameters: Optional[dict[str,
             return {
                 "status": "unavailable",
                 "error": "consciousness_system_not_available",
-                "activation_time": datetime.now().isoformat()
+                "activation_time": datetime.now().isoformat(),
             }
-        
+
         # Simulate layer activation
         activation_result = {
             "layer_id": f"consciousness_layer_{layer_name}_{int(datetime.now().timestamp())}",
@@ -119,18 +120,15 @@ def activate_consciousness_layer(layer_name: str, parameters: Optional[dict[str,
             "resonance_frequency": 0.75,  # Placeholder
             "integration_points": ["awareness", "reflection", "qi_integration"],
             "activation_time": datetime.now().isoformat(),
-            "status": "activated"
+            "status": "activated",
         }
-        
+
         return activation_result
-        
+
     except Exception as e:
         logger.error(f"Consciousness layer activation failed: {e}")
-        return {
-            "status": "error",
-            "error": str(e),
-            "activation_time": datetime.now().isoformat()
-        }
+        return {"status": "error", "error": str(e), "activation_time": datetime.now().isoformat()}
+
 
 def reflect_on_experience(experience_data: dict[str, Any]) -> dict[str, Any]:
     """Process experience through consciousness reflection"""
@@ -139,9 +137,9 @@ def reflect_on_experience(experience_data: dict[str, Any]) -> dict[str, Any]:
             return {
                 "status": "unavailable",
                 "error": "consciousness_system_not_available",
-                "reflection_time": datetime.now().isoformat()
+                "reflection_time": datetime.now().isoformat(),
             }
-        
+
         # Simulate consciousness reflection
         reflection = {
             "reflection_id": f"consciousness_reflection_{int(datetime.now().timestamp())}",
@@ -151,25 +149,22 @@ def reflect_on_experience(experience_data: dict[str, Any]) -> dict[str, Any]:
             "integration_success": True,
             "next_actions": ["deepen_awareness", "expand_integration"],
             "reflection_time": datetime.now().isoformat(),
-            "status": "reflected"
+            "status": "reflected",
         }
-        
+
         return reflection
-        
+
     except Exception as e:
         logger.error(f"Consciousness reflection failed: {e}")
-        return {
-            "status": "error",
-            "error": str(e),
-            "reflection_time": datetime.now().isoformat()
-        }
+        return {"status": "error", "error": str(e), "reflection_time": datetime.now().isoformat()}
+
 
 def get_consciousness_dashboard() -> dict[str, Any]:
     """Get comprehensive consciousness dashboard"""
     try:
         # Get system status
         status = get_consciousness_status()
-        
+
         # Generate consciousness metrics
         metrics = {
             "awareness_level": 0.85,
@@ -177,9 +172,9 @@ def get_consciousness_dashboard() -> dict[str, Any]:
             "qi_resonance": 0.60,
             "reflection_capacity": 0.90,
             "growth_rate": 0.05,
-            "system_coherence": 0.80
+            "system_coherence": 0.80,
         }
-        
+
         # Calculate consciousness health score
         consciousness_score = 100
         if not CONSCIOUSNESS_AVAILABLE:
@@ -188,7 +183,7 @@ def get_consciousness_dashboard() -> dict[str, Any]:
             # Base score on metrics
             avg_metric = sum(metrics.values()) / len(metrics)
             consciousness_score = int(avg_metric * 100)
-        
+
         return {
             "consciousness_score": consciousness_score,
             "system_status": status,
@@ -196,16 +191,13 @@ def get_consciousness_dashboard() -> dict[str, Any]:
             "active_layers": ["awareness", "reflection", "integration"],
             "consciousness_source": CONSCIOUSNESS_SOURCE,
             "dashboard_generated": datetime.now().isoformat(),
-            "status": "ready"
+            "status": "ready",
         }
-        
+
     except Exception as e:
         logger.error(f"Consciousness dashboard generation failed: {e}")
-        return {
-            "status": "error",
-            "error": str(e),
-            "dashboard_generated": datetime.now().isoformat()
-        }
+        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now().isoformat()}
+
 
 # Attempt to initialize consciousness if available
 def initialize_consciousness() -> bool:
@@ -222,20 +214,18 @@ def initialize_consciousness() -> bool:
         logger.error(f"Consciousness initialization failed: {e}")
         return False
 
+
 __all__ = [
     # Version info
     "__version__",
     "__author__",
-    
     # Constants
     "CONSCIOUSNESS_DOMAINS",
-    "CONSCIOUSNESS_AVAILABLE", 
+    "CONSCIOUSNESS_AVAILABLE",
     "CONSCIOUSNESS_SOURCE",
-    
     # Core classes (may be None)
     "ConsciousnessCore",
     "ConsciousnessAPI",
-    
     # Core functions
     "get_consciousness_status",
     "process_consciousness_stream",

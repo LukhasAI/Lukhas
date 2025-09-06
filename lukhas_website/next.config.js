@@ -22,6 +22,8 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const nextConfig = {
   reactStrictMode: true,
+  // Fix workspace root detection issue
+  outputFileTracingRoot: __dirname,
   images: {
     domains: [
       'localhost', 
