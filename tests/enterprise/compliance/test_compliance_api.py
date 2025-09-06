@@ -46,7 +46,7 @@ def mock_dp_service():
         gdpr_article_32=True,
         cache_encrypted=False,
         background_processing=True,
-        created_at=datetime.now(, timezone),
+        created_at=datetime.now(timezone.utc),
         updated_at=datetime.now(timezone.utc),
         version="1.0",
     )

@@ -6,7 +6,7 @@ unit economics while providing consciousness-aware advertising.
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 
@@ -16,7 +16,7 @@ class BudgetTier:
 
     name: str
     daily_limit: float
-    features: list[str] = field(default_factory=list, timezone)
+    features: list[str] = field(default_factory=list)
 
 
 @dataclass

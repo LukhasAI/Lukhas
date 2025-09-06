@@ -8,12 +8,12 @@ API costs by 70% while maintaining accuracy through smart invalidation.
 import hashlib
 import json
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
 
-class CacheType(Enum, timezone):
+class CacheType(Enum):
     """Types of cached consciousness data."""
 
     CONSCIOUSNESS_PROFILE = "consciousness_profile"

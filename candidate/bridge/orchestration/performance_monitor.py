@@ -45,12 +45,12 @@ import statistics
 import time
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.bridge.orchestration.performance", timezone)
+logger = logging.getLogger("ΛTRACE.bridge.orchestration.performance")
 
 # Module constants
 MODULE_VERSION = "1.0.0"

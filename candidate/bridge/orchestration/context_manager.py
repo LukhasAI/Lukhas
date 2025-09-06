@@ -44,12 +44,12 @@ import logging
 import time
 from collections import OrderedDict
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 from uuid import uuid4
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.bridge.orchestration.context", timezone)
+logger = logging.getLogger("ΛTRACE.bridge.orchestration.context")
 
 # Module constants
 MODULE_VERSION = "1.0.0"

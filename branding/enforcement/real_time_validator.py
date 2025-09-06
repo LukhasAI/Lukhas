@@ -6,12 +6,12 @@ Live brand compliance checking and automatic correction system
 import asyncio
 import re
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
 
-class ValidationSeverity(Enum, timezone):
+class ValidationSeverity(Enum):
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
