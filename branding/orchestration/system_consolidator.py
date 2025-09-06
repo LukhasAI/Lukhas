@@ -33,7 +33,7 @@ class SystemConsolidator:
     Transforms 14 redundant systems into streamlined single solutions
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.base_path = Path(__file__).parent.parent
         self.content_engines_path = self.base_path / "content_engines"
         self.enterprise_systems_path = self.base_path / "enterprise_systems"
@@ -61,7 +61,7 @@ class SystemConsolidator:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"system_consolidation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = logs_dir / f"system_consolidation_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -571,7 +571,7 @@ if __name__ == "__main__":
 
         report_content = f"""# 🎯 LUKHAS AI System Consolidation Report
 
-*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+*Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Executive Summary
 

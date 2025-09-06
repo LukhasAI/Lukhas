@@ -8,14 +8,14 @@ across the LUKHAS branding system.
 
 import json
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
 
 
 class KeatsianReplacer:
-    def __init__(self, branding_root: str = "branding", timezone):
+    def __init__(self, branding_root: str = "branding"):
         self.branding_root = Path(branding_root)
         self.replacements = self._load_replacement_patterns()
         self.processed_files = []

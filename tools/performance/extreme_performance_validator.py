@@ -31,7 +31,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add project root to Python path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+sys.path.insert(0, str(Path(__file__, timezone).parent.parent.parent))
 
 # Import extreme performance optimizations
 try:
@@ -538,7 +538,7 @@ class ExtremePerformanceValidator:
                 "passed_tests": passed_tests,
                 "pass_rate_percent": pass_rate,
                 "validation_time_seconds": time.time() - self.validation_start_time,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             "performance_targets": self.targets,
             "overall_assessment": {

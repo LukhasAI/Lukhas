@@ -19,7 +19,7 @@ from typing import Any, Optional, Union
 
 📌 Description:
     This module connects the LUKHAS brain integration system with the identity
-    management system (LUKHAS_ID), ensuring that memory operations respect
+    management system (LUKHAS_ID, timezone), ensuring that memory operations respect
     appropriate access tiers and identity-based permissions.
 
     The connector enforces permissions for memory access, modification, and
@@ -370,7 +370,7 @@ class BrainIdentityConnector:
             reason: Optional reason for authorization decision
         """
         log_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "user_id": user_id,
             "operation": str(operation),
             "memory_key": memory_key,
@@ -456,7 +456,7 @@ class MemoryIdentityIntegration:
         # Add metadata about encryption
         content["_meta"] = {
             "encrypted": True,
-            "encryption_timestamp": datetime.now().isoformat(),
+            "encryption_timestamp": datetime.now(timezone.utc).isoformat(),
             "encryption_version": "1.0",
         }
 
@@ -479,7 +479,7 @@ class MemoryIdentityIntegration:
         if "_meta" in content:
             meta = content["_meta"].copy()
             meta["encrypted"] = False
-            meta["decryption_timestamp"] = datetime.now().isoformat()
+            meta["decryption_timestamp"] = datetime.now(timezone.utc).isoformat()
             content["_meta"] = meta
 
         return content

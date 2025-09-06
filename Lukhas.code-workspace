@@ -18,6 +18,7 @@
         "url": "https://github.com/LukhasAI/Lukhas"
       }
     ],
-    "gitlens.defaultRemote": "Github.com/Lukhas"
+    "gitlens.defaultRemote": "Github.com/Lukhas",
+    "liveServer.settings.multiRootWorkspaceName": "Lukhas"
   }
 }

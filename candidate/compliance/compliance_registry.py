@@ -8,7 +8,7 @@ from typing import Any, Optional
 class ComplianceRegistry:
     """Central registry for LUCAS AGI compliance management"""
 
-    def __init__(self, registry_path: Optional[str] = None):
+    def __init__(self, registry_path: Optional[str] = None, timezone):
         self.logger = logging.getLogger("compliance_registry")
         self.registry_path = registry_path or Path(__file__).parent / "compliance_data"
         self.registry_path.mkdir(exist_ok=True)
@@ -42,7 +42,7 @@ class ComplianceRegistry:
     async def register_component(self, component_id: str, compliance_data: dict[str, Any]) -> None:
         """Register a component's compliance information"""
         self.component_registry[component_id] = {
-            "registration_date": datetime.now().isoformat(),
+            "registration_date": datetime.now(timezone.utc).isoformat(),
             "compliance_data": compliance_data,
             "last_audit": None,
         }
@@ -52,11 +52,11 @@ class ComplianceRegistry:
     async def generate_compliance_report(self) -> dict[str, Any]:
         """Generate comprehensive compliance report"""
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_status": "compliant",
             "active_regulations": self.active_regulations,
             "registered_components": len(self.component_registry),
-            "last_assessment": datetime.now().isoformat(),
+            "last_assessment": datetime.now(timezone.utc).isoformat(),
             "compliance_officer": "LUCAS_OVERSIGHT",
             "documentation_links": {
                 "full_assessment": "/compliance/full_assessment.pdf",
@@ -71,7 +71,7 @@ class ComplianceRegistry:
         with open(registry_file, "w") as f:
             json.dump(
                 {
-                    "last_updated": datetime.now().isoformat(),
+                    "last_updated": datetime.now(timezone.utc).isoformat(),
                     "components": self.component_registry,
                     "regulations": self.active_regulations,
                 },

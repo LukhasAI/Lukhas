@@ -6,14 +6,14 @@ Intelligent integration of the comprehensive vocabulary system with automation
 
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__, timezone).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 from engines.database_integration import db
 
 

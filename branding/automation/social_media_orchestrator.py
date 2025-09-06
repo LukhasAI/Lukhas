@@ -10,7 +10,7 @@ import logging
 import random
 import sys
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -24,7 +24,7 @@ except ImportError:
     PostResult = None
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__, timezone).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 from automation.content_quality_validator import ContentQualityValidator
 from automation.vocabulary_integration import VocabularyIntegration
 from engines.database_integration import db

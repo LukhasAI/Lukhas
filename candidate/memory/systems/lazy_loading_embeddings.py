@@ -60,7 +60,7 @@ class EmbeddingCacheEntry:
 
     embedding: np.ndarray
     access_count: int = 0
-    last_accessed: datetime = field(default_factory=datetime.now)
+    last_accessed: datetime = field(default_factory=datetime.now, timezone)
     memory_id: str = ""
     size_bytes: int = 0
 
@@ -119,7 +119,7 @@ class LRUEmbeddingCache:
             if memory_id in self._cache:
                 entry = self._cache[memory_id]
                 entry.access_count += 1
-                entry.last_accessed = datetime.now()
+                entry.last_accessed = datetime.now(timezone.utc)
 
                 # Move to end (most recently used)
                 self._cache.move_to_end(memory_id)
@@ -291,8 +291,8 @@ class EmbeddingStorage:
                     str(file_path),
                     embedding.shape[0],
                     str(embedding.dtype),
-                    datetime.now().isoformat(),
-                    datetime.now().isoformat(),
+                    datetime.now(timezone.utc).isoformat(),
+                    datetime.now(timezone.utc).isoformat(),
                     0,
                 ),
             )
@@ -324,7 +324,7 @@ class EmbeddingStorage:
                     SET last_accessed = ?, access_count = ?
                     WHERE memory_id = ?
                 """,
-                    (datetime.now().isoformat(), access_count + 1, memory_id),
+                    (datetime.now(timezone.utc).isoformat(), access_count + 1, memory_id),
                 )
                 conn.commit()
 
@@ -362,7 +362,7 @@ class EmbeddingStorage:
                         SET last_accessed = ?, access_count = ?
                         WHERE memory_id = ?
                     """,
-                        (datetime.now().isoformat(), access_count + 1, memory_id),
+                        (datetime.now(timezone.utc).isoformat(), access_count + 1, memory_id),
                     )
 
                 except Exception as e:

@@ -35,7 +35,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class MonitoringScope(Enum):
@@ -261,7 +261,7 @@ class GuardianMonitoringDashboard:
             "compliance_checks": 0,
             "average_response_time": 0.0,
             "uptime_seconds": 0,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Threshold configurations
@@ -305,7 +305,7 @@ class GuardianMonitoringDashboard:
 
         self.system_health = SystemHealthStatus(
             status_id=f"health_{uuid.uuid4().hex[:8]}",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             overall_health=1.0,
             guardian_health=1.0,
             consciousness_health=1.0,
@@ -415,7 +415,7 @@ class GuardianMonitoringDashboard:
             name=name,
             value=value,
             unit=unit,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             source=source,
             category=category,
             scope=scope,
@@ -477,7 +477,7 @@ class GuardianMonitoringDashboard:
             threat_id=threat_id,
             threat_type=threat_type,
             description=description,
-            detected_at=datetime.now(),
+            detected_at=datetime.now(timezone.utc),
             threat_level=threat_level,
             confidence=confidence,
             false_positive_probability=1.0 - confidence,
@@ -528,7 +528,7 @@ class GuardianMonitoringDashboard:
             regulation=regulation,
             violation_type=violation_type,
             description=description,
-            detected_at=datetime.now(),
+            detected_at=datetime.now(timezone.utc),
             severity=severity,
             legal_risk=legal_risk,
             business_impact=business_impact,
@@ -576,7 +576,7 @@ class GuardianMonitoringDashboard:
             self.performance_metrics["dashboard_requests"] += 1
 
             # Calculate time range
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             start_time = end_time - timedelta(hours=time_range_hours)
 
             # Filter data by time range and scope
@@ -615,7 +615,7 @@ class GuardianMonitoringDashboard:
 
             # Dashboard data structure
             dashboard_data = {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "scope": scope.value,
                 "time_range_hours": time_range_hours,
                 # System health
@@ -718,7 +718,7 @@ class GuardianMonitoringDashboard:
 
         except Exception as e:
             logger.error(f"❌ Dashboard data generation failed: {e}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     def _determine_alert_severity(self, metric_name: str, value: float, threshold: float) -> AlertSeverity:
         """Determine alert severity based on metric value and threshold"""
@@ -836,7 +836,7 @@ class GuardianMonitoringDashboard:
             self.system_health.active_alerts = len(self.active_alerts)
 
             # Update timestamp
-            self.system_health.timestamp = datetime.now()
+            self.system_health.timestamp = datetime.now(timezone.utc)
 
         except Exception as e:
             logger.error(f"❌ System health update failed: {e}")
@@ -854,7 +854,7 @@ class GuardianMonitoringDashboard:
         """Process and manage active alerts"""
 
         # Remove expired alerts
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         expired_alerts = []
 
         for alert_id, alert in self.active_alerts.items():
@@ -868,7 +868,7 @@ class GuardianMonitoringDashboard:
     async def _cleanup_old_data(self):
         """Clean up old monitoring data"""
 
-        cutoff_time = datetime.now() - timedelta(hours=self.metrics_retention_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.metrics_retention_hours)
 
         # Clean metrics history
         while self.metrics_history and self.metrics_history[0].timestamp < cutoff_time:
@@ -894,7 +894,7 @@ class GuardianMonitoringDashboard:
             "message": f"Metric '{metric.name}' exceeded threshold: {metric.value} {metric.unit}",
             "source": metric.source,
             "metric_id": metric.metric_id,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "acknowledged": False,
             "resolved": False,
         }
@@ -924,7 +924,7 @@ class GuardianMonitoringDashboard:
             "message": f"Security threat detected: {threat.threat_type} (confidence: {threat.confidence:.2f})",
             "source": threat.source_system,
             "threat_id": threat.threat_id,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "acknowledged": False,
             "resolved": False,
         }
@@ -946,7 +946,7 @@ class GuardianMonitoringDashboard:
             "message": f"Compliance violation: {violation.regulation} - {violation.violation_type}",
             "source": "compliance_monitor",
             "violation_id": violation.violation_id,
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "acknowledged": False,
             "resolved": False,
         }
@@ -1082,7 +1082,7 @@ class GuardianMonitoringDashboard:
         }
 
         days = deadline_days.get(severity, 30)
-        return datetime.now() + timedelta(days=days)
+        return datetime.now(timezone.utc) + timedelta(days=days)
 
     async def get_monitoring_report(
         self,
@@ -1092,7 +1092,7 @@ class GuardianMonitoringDashboard:
         """Generate comprehensive monitoring report"""
 
         if not time_period:
-            end_time = datetime.now()
+            end_time = datetime.now(timezone.utc)
             start_time = end_time - timedelta(hours=24)
             time_period = (start_time, end_time)
 
@@ -1108,7 +1108,7 @@ class GuardianMonitoringDashboard:
         # Generate report
         report = MonitoringReport(
             report_id=report_id,
-            generated_at=datetime.now(),
+            generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             scope=scope,
             total_metrics=len(period_metrics),

@@ -16,7 +16,7 @@ from .anomaly_detection import AnomalyDetector
 from .vector_encryption import PerceptualEncryptor
 from .vivox_evrn_core import EncryptedPerception, PerceptualVector
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class SensoryModality(Enum):
@@ -148,7 +148,7 @@ class TextureAnalyzer:
             "pattern_matches": pattern_matches,
             "anomalies": anomalies,
             "confidence": self._calculate_confidence(features),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return features, metadata
@@ -366,7 +366,7 @@ class MotionDetector:
             "confidence": self._calculate_motion_confidence(features),
             "time_delta": time_delta,
             "sequence_length": len(encrypted_sequence),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return features, metadata
@@ -655,10 +655,10 @@ class MultimodalFusion:
 
         # Create fused perception
         fused_perception = EncryptedPerception(
-            perception_id=f"fused_{datetime.now().timestamp()}",
+            perception_id=f"fused_{datetime.now(timezone.utc).timestamp()}",
             encrypted_features=fused_vector,
             modality="multimodal",
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             ethical_compliance=True,  # Ethical compliance is enforced at encryption level
             privacy_level="maximum",
         )
@@ -877,7 +877,7 @@ class SensoryCalibrator:
                 "min": np.min(samples_array, axis=0),
                 "max": np.max(samples_array, axis=0),
             },
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Store calibration

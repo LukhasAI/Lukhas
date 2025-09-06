@@ -45,7 +45,7 @@ import numpy as np
 # Ethical reasoning libraries
 
 
-class EthicalFramework(Enum):
+class EthicalFramework(Enum, timezone):
     """Major ethical frameworks for moral reasoning."""
 
     DEONTOLOGICAL = auto()  # Duty-based ethics (Kant)
@@ -2001,11 +2001,11 @@ class EthicalReasoningSystem:
         """Generate comprehensive report on ethical reasoning system status."""
 
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_status": "operational",
             "total_judgments": len(self.moral_judgments),
             "recent_judgments_24h": len(
-                [j for j in self.moral_judgments if j.timestamp > datetime.now() - timedelta(hours=24)]
+                [j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)]
             ),
             "active_constraints": len(self.active_constraints),
             "value_alignment": {},
@@ -2016,7 +2016,7 @@ class EthicalReasoningSystem:
 
         if self.moral_judgments:
             # Calculate confidence statistics
-            recent_judgments = [j for j in self.moral_judgments if j.timestamp > datetime.now() - timedelta(hours=24)]
+            recent_judgments = [j for j in self.moral_judgments if j.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)]
 
             if recent_judgments:
                 confidences = [j.confidence_score for j in recent_judgments]

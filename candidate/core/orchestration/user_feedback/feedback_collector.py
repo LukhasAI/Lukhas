@@ -15,7 +15,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-FEEDBACK_LOG_PATH = Path("logs/symbolic_feedback_log.json")
+FEEDBACK_LOG_PATH = Path("logs/symbolic_feedback_log.json", timezone)
 FEEDBACK_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
@@ -26,7 +26,7 @@ def collect_feedback(user_id: str, module_name: str, rating: int, comment: str) 
         "module": module_name,
         "rating": rating,
         "comment": comment,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
     return feedback
 

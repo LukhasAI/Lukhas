@@ -63,7 +63,7 @@ try:
 except ImportError:
     metrics_view = None
 
-logger = logging.getLogger("api.memory")
+logger = logging.getLogger("api.memory", timezone)
 
 
 def convert_numpy_to_serializable(obj: Any) -> Any:
@@ -139,13 +139,13 @@ class APIResponse(BaseModel):
     status: str = Field(..., description="Response status")
     data: Any = Field(..., description="Response data")
     message: Optional[str] = Field(None, description="Optional message")
-    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class ErrorResponse(BaseModel):
     status: str = "error"
     error: str = Field(..., description="Error message")
-    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # Initialize memory system

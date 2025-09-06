@@ -16,7 +16,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -50,7 +50,7 @@ class GlyphPair:
     def measure_state(self, observer_id: str) -> str:
         """Measure quantum state (collapses to deterministic glyph)"""
         # Quantum measurement simulation
-        measurement_seed = f"{self.pair_id}_{observer_id}_{datetime.utcnow().timestamp()}"
+        measurement_seed = f"{self.pair_id}_{observer_id}_{datetime.now(timezone.utc).timestamp()}"
         measurement_hash = hashlib.blake3(measurement_seed.encode()).hexdigest()
 
         # Use hash to determine which glyph is observed
@@ -58,7 +58,7 @@ class GlyphPair:
 
         # Update usage statistics
         self.usage_count += 1
-        self.last_used = datetime.utcnow()
+        self.last_used = datetime.now(timezone.utc)
 
         return observed_glyph
 
@@ -180,7 +180,7 @@ class QIGlyphSystem:
         """Save glyph pairs to storage"""
         data = {
             "version": "1.0.0",
-            "created": datetime.utcnow().isoformat(),
+            "created": datetime.now(timezone.utc).isoformat(),
             "qi_system": True,
             "pairs": {},
             "statistics": {
@@ -230,13 +230,13 @@ class QIGlyphSystem:
         entanglement_key = base64.b64encode(entropy).decode()
 
         # Create pair
-        pair_id = f"qpair_{datetime.utcnow().timestamp()}_{family}"
+        pair_id = f"qpair_{datetime.now(timezone.utc).timestamp()}_{family}"
         pair = GlyphPair(
             pair_id=pair_id,
             primary_glyph=primary_glyph,
             secondary_glyph=secondary_glyph,
             entanglement_key=entanglement_key,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
             trust_score=1.0,  # New pairs start with full trust
             metadata={"family": family, "entropy_bits": 256},
         )
@@ -309,13 +309,13 @@ class QIGlyphSystem:
         expected_correlation = self.correlation_matrix.get((challenge_pair_id, response_pair_id), 0.0)
 
         # Create authentication
-        auth_id = f"qauth_{datetime.utcnow().timestamp()}"
+        auth_id = f"qauth_{datetime.now(timezone.utc).timestamp()}"
         auth = QIAuthentication(
             auth_id=auth_id,
             challenge_pair=challenge_pair,
             response_pair=response_pair,
             expected_correlation=expected_correlation,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             challenger_id=challenger_id,
             respondent_id=respondent_id,
         )
@@ -375,7 +375,7 @@ class QIGlyphSystem:
 
         if correlation_diff <= tolerance:
             auth.verified = True
-            auth.verification_time = datetime.utcnow()
+            auth.verification_time = datetime.now(timezone.utc)
 
             # Update trust scores
             auth.challenge_pair.trust_score = min(1.0, auth.challenge_pair.trust_score + 0.1)

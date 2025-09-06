@@ -70,7 +70,7 @@ try:
     from candidate.core.elite.emotional_secure_logger import EmotionalSecureLogger
     from candidate.core.elite.symbolic_trust_scorer import SymbolicTrustScorer
 except ImportError:
-    print("Warning: Elite modules not found. Some features may be limited.")
+    print("Warning: Elite modules not found. Some features may be limited.", timezone)
     SymbolicTrustScorer = None
     AIConstitutionChecker = None
     EmotionalSecureLogger = None
@@ -343,7 +343,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
         Returns:
             Comprehensive audit result with traceability
         """
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         symbolic_tags = symbolic_tags or ["ethical_core", "agi_governed"]
 
         # Create audit context

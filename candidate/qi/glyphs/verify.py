@@ -68,8 +68,8 @@ def check_expiry(seal: dict[str, Any]) -> bool:
     from datetime import datetime
 
     try:
-        expiry = datetime.fromisoformat(seal["expiry"].replace("Z", "+00:00"))
-        now = datetime.utcnow().replace(tzinfo=expiry.tzinfo)
+        expiry = datetime.fromisoformat(seal["expiry"].replace("Z", "+00:00", timezone))
+        now = datetime.now(timezone.utc).replace(tzinfo=expiry.tzinfo)
 
         if now > expiry:
             print(f"Seal expired on {seal['expiry']}")

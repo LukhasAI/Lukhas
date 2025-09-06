@@ -5,7 +5,7 @@ Provides real-time database connectivity for all unified systems
 """
 
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -56,7 +56,7 @@ class LukhasDatabaseIntegration:
                 "🧠 LUKHAS AI consciousness technology platform",
                 "🛡️ Ethical consciousness technology protection",
                 voice_coherence,
-                datetime.now().isoformat(),
+                datetime.now(timezone.utc).isoformat(),
             ),
         )
 
@@ -149,7 +149,7 @@ class LukhasDatabaseIntegration:
             SET voice_coherence = ?, updated_at = ?
             WHERE id = ?
         """,
-            (new_coherence, datetime.now().isoformat(), content_id),
+            (new_coherence, datetime.now(timezone.utc).isoformat(), content_id),
         )
 
         conn.commit()
@@ -171,7 +171,7 @@ class LukhasDatabaseIntegration:
                 activity_type,
                 metric_value,
                 "⚛️🧠🛡️ Trinity Framework",
-                datetime.now().isoformat(),
+                datetime.now(timezone.utc).isoformat(),
             ),
         )
 

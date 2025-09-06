@@ -12,7 +12,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 @dataclass
@@ -86,7 +86,7 @@ class ReasoningMetricsCalculator:
 
         # Add metadata
         metrics.metadata = {
-            "calculated_at": datetime.now().isoformat(),
+            "calculated_at": datetime.now(timezone.utc).isoformat(),
             "trace_id": reasoning_trace.get("id", "unknown"),
             "overall_score": self._calculate_overall_score(metrics),
         }

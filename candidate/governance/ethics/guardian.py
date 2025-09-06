@@ -27,7 +27,7 @@ from pathlib import Path
 from typing import Optional
 
 # Add ethics module to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__, timezone).parent.parent))
 
 try:
     from red_team import LUKHASRedTeamProtocol
@@ -134,7 +134,7 @@ class EnhancedLUKHASWorkspaceGuardian:
             },
             "intent": "productivity",
             "impact": "local",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             **context,
         }
 
@@ -193,7 +193,7 @@ class EnhancedLUKHASWorkspaceGuardian:
         """Run comprehensive security validation using red team protocols."""
 
         security_report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "workspace_root": self.workspace_root,
             "security_posture": self.security_posture,
             "guardian_version": "ENHANCED-2.0.0",
@@ -304,7 +304,7 @@ class EnhancedLUKHASWorkspaceGuardian:
             "red_team_available": self.red_team is not None,
             "issues": issues,
             "recommendations": recommendations,
-            "last_check": datetime.now().isoformat(),
+            "last_check": datetime.now(timezone.utc).isoformat(),
             "symbolic": self._get_enhanced_health_symbol(self.workspace_health_score),
         }
 

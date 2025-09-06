@@ -21,7 +21,7 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
 # Configure structured logging
-logger = structlog.get_logger()
+logger = structlog.get_logger(, timezone)
 
 
 class SeverityLevel(Enum):
@@ -386,7 +386,7 @@ class ObservabilitySystem:
 
             try:
                 # Fetch historical data (last 7 days)
-                end_time = datetime.utcnow()
+                end_time = datetime.now(timezone.utc)
                 start_time = end_time - timedelta(days=7)
 
                 data = self.prom_client.custom_query_range(
@@ -652,7 +652,7 @@ class ObservabilitySystem:
         # Parse duration (e.g., "5m" -> 5 minutes)
         if duration.endswith("m"):
             minutes = int(duration[:-1])
-            cutoff = datetime.utcnow() - timedelta(minutes=minutes)
+            cutoff = datetime.now(timezone.utc) - timedelta(minutes=minutes)
         else:
             return []
 
@@ -673,7 +673,7 @@ class ObservabilitySystem:
             # Use ML-based detection
             latest_value = values[-1]
             is_anomaly, score, _ = self.anomaly_detector.detect_anomaly(
-                rule.metric_query, latest_value, datetime.utcnow()
+                rule.metric_query, latest_value, datetime.now(timezone.utc)
             )
             return is_anomaly
         else:
@@ -700,7 +700,7 @@ class ObservabilitySystem:
         if alert_key not in self.active_alerts:
             anomaly = MetricAnomaly(
                 metric_name=rule.metric_query,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 actual_value=values[-1] if values else 0,
                 expected_value=rule.threshold,
                 deviation_score=(
