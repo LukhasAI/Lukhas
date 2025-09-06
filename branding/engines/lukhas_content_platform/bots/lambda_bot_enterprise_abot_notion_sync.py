@@ -135,7 +135,7 @@ class ABotNotionSync:
     def get_system_health(self) -> dict[str, Any]:
         """Get overall system health data"""
         health_data = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "uptime_hours": 24,  # Mock data
             "memory_usage": 45.2,  # Mock data
             "cpu_usage": 12.5,  # Mock data
@@ -239,7 +239,7 @@ class ABotNotionSync:
 
         # Create report
         report = DailyReport(
-            date=datetime.now().strftime("%Y-%m-%d"),
+            date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             financial_data=financial_data,
             ai_routing_data=ai_routing_data,
             system_health=system_health,
@@ -316,7 +316,7 @@ class ABotNotionSync:
         reports = []
         try:
             for i in range(days):
-                date = (datetime.now() - timedelta(days=i)).strftime("%Y-%m-%d")
+                date = (datetime.now(timezone.utc) - timedelta(days=i)).strftime("%Y-%m-%d")
                 filepath = self.output_path / f"abot_daily_report_{date}.json"
 
                 if filepath.exists():

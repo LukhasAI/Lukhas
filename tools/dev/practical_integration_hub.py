@@ -15,7 +15,7 @@ from datetime import datetime
 from typing import Any
 
 # Set up logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class PracticalIntegrationHub:
@@ -174,7 +174,7 @@ class PracticalIntegrationHub:
             result = {
                 "status": "success",
                 "request_type": request_type,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Route through appropriate system
@@ -203,7 +203,7 @@ class PracticalIntegrationHub:
                 "status": "error",
                 "error": str(e),
                 "request_type": request_type,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _process_consciousness_request(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -243,7 +243,7 @@ class PracticalIntegrationHub:
         total_components = len(self.integration_status)
 
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "working_components": working_components,
             "total_components": total_components,
             "connectivity_percentage": ((working_components / total_components) * 100 if total_components > 0 else 0),

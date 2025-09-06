@@ -10,7 +10,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class WorkflowState(Enum):
+class WorkflowState(Enum, timezone):
     """User workflow states"""
 
     IDLE = "idle"
@@ -107,7 +107,7 @@ class NaturalBreakpointDetector:
     def track_activity(self, action_type: str, context: Optional[dict[str, Any]] = None) -> None:
         """Track user activity for pattern detection"""
         activity = UserActivity(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             action_type=action_type,
             duration=0.0,
             context=context or {},
@@ -216,7 +216,7 @@ class NaturalBreakpointDetector:
         request = {
             "type": "permission_request",
             "context": context,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "message": self._generate_permission_message(context, incentive),
             "incentive": incentive,
             "options": {
@@ -231,7 +231,7 @@ class NaturalBreakpointDetector:
         self.breakpoint_history.append(
             {
                 "type": "permission_request",
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "context": context,
             }
         )
@@ -245,10 +245,10 @@ class NaturalBreakpointDetector:
         user_response: Optional[str] = None,
     ) -> None:
         """Record when an ad was displayed"""
-        self.last_ad_time = datetime.now()
+        self.last_ad_time = datetime.now(timezone.utc)
 
         record = {
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
             "ad_id": ad_id,
             "breakpoint_type": breakpoint_type.value,
             "workflow_state": self.current_workflow.state.value,
@@ -289,7 +289,7 @@ class NaturalBreakpointDetector:
 
     def _update_workflow_state(self, action_type: str, context: dict):
         """Update current workflow state based on activity"""
-        self.current_workflow.last_activity = datetime.now()
+        self.current_workflow.last_activity = datetime.now(timezone.utc)
         self.current_workflow.activity_count += 1
 
         # State transitions
@@ -337,7 +337,7 @@ class NaturalBreakpointDetector:
     def _record_task_completion(self):
         """Record task completion for pattern learning"""
         if self.current_workflow.task_type:
-            duration = (datetime.now() - self.current_workflow.start_time).total_seconds()
+            duration = (datetime.now(timezone.utc) - self.current_workflow.start_time).total_seconds()
 
             if self.current_workflow.task_type not in self.task_patterns:
                 self.task_patterns[self.current_workflow.task_type] = []
@@ -349,7 +349,7 @@ class NaturalBreakpointDetector:
         if not self.last_ad_time:
             return True
 
-        time_since_last = (datetime.now() - self.last_ad_time).total_seconds()
+        time_since_last = (datetime.now(timezone.utc) - self.last_ad_time).total_seconds()
         return time_since_last >= self.cooldown_period
 
     def _check_user_permission(self) -> bool:
@@ -357,7 +357,7 @@ class NaturalBreakpointDetector:
         # Check for recent explicit permission
         for record in reversed(self.breakpoint_history[-10:]):
             if record.get("type") == "permission_granted":
-                time_diff = (datetime.now() - record["timestamp"]).total_seconds()
+                time_diff = (datetime.now(timezone.utc) - record["timestamp"]).total_seconds()
                 if time_diff < 300:  # Permission valid for 5 minutes
                     return True
         return False
@@ -368,11 +368,11 @@ class NaturalBreakpointDetector:
             return False, None
 
         # Check if we just transitioned to completion
-        time_since_activity = (datetime.now() - self.current_workflow.last_activity).total_seconds()
+        time_since_activity = (datetime.now(timezone.utc) - self.current_workflow.last_activity).total_seconds()
         if time_since_activity < 2.0:  # Within 2 seconds of completion
             task_data = {
                 "task_type": self.current_workflow.task_type,
-                "task_duration": (datetime.now() - self.current_workflow.start_time).total_seconds(),
+                "task_duration": (datetime.now(timezone.utc) - self.current_workflow.start_time).total_seconds(),
             }
             return True, task_data
 
@@ -382,7 +382,7 @@ class NaturalBreakpointDetector:
         """Check if user is in a natural pause"""
         if self.current_workflow.state != WorkflowState.PAUSED:
             # Check for pause based on inactivity
-            time_since_activity = (datetime.now() - self.current_workflow.last_activity).total_seconds()
+            time_since_activity = (datetime.now(timezone.utc) - self.current_workflow.last_activity).total_seconds()
             if time_since_activity > self.pause_threshold:
                 self.current_workflow.state = WorkflowState.PAUSED
                 return True, time_since_activity
@@ -413,7 +413,7 @@ class NaturalBreakpointDetector:
 
     def _check_idle_state(self) -> tuple[bool, float]:
         """Check if user is idle"""
-        time_since_activity = (datetime.now() - self.current_workflow.last_activity).total_seconds()
+        time_since_activity = (datetime.now(timezone.utc) - self.current_workflow.last_activity).total_seconds()
         is_idle = time_since_activity > self.idle_threshold
         return is_idle, time_since_activity if is_idle else 0.0
 
@@ -474,7 +474,7 @@ class NaturalBreakpointDetector:
 
         # If recently showed ad, enforce cooldown
         if self.last_ad_time:
-            time_since_last = (datetime.now() - self.last_ad_time).total_seconds()
+            time_since_last = (datetime.now(timezone.utc) - self.last_ad_time).total_seconds()
             if time_since_last < self.cooldown_period:
                 base_wait = max(base_wait, self.cooldown_period - time_since_last)
 

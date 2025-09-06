@@ -13,7 +13,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ServiceType(Enum):
+class ServiceType(Enum, timezone):
     """Types of services that can be switched"""
 
     LLM = "llm"  # Language models
@@ -476,7 +476,7 @@ class RealTimeServiceSwitcher:
             health = self.service_health[provider.provider_id]
             health.status = ServiceStatus.HEALTHY
             health.response_time_ms = response_time
-            health.last_success = datetime.now()
+            health.last_success = datetime.now(timezone.utc)
             health.consecutive_failures = 0
             health.health_score = 1.0
 
@@ -488,7 +488,7 @@ class RealTimeServiceSwitcher:
             # Update health
             health = self.service_health[provider.provider_id]
             health.consecutive_failures += 1
-            health.last_failure = datetime.now()
+            health.last_failure = datetime.now(timezone.utc)
             health.error_count += 1
 
             # Update status based on failures
@@ -518,7 +518,7 @@ class RealTimeServiceSwitcher:
             health = self.service_health[provider_id]
 
             if success:
-                health.last_success = datetime.now()
+                health.last_success = datetime.now(timezone.utc)
                 health.consecutive_failures = 0
 
                 # Check for recovery
@@ -526,7 +526,7 @@ class RealTimeServiceSwitcher:
                     health.status = ServiceStatus.HEALTHY
                     self._close_circuit_breaker(provider_id)
             else:
-                health.last_failure = datetime.now()
+                health.last_failure = datetime.now(timezone.utc)
                 health.consecutive_failures += 1
                 health.error_count += 1
 
@@ -553,7 +553,7 @@ class RealTimeServiceSwitcher:
 
         # Check if timeout has passed
         open_time = self.circuit_breakers[provider_id]
-        if (datetime.now() - open_time).total_seconds() > self.circuit_breaker_timeout:
+        if (datetime.now(timezone.utc) - open_time).total_seconds() > self.circuit_breaker_timeout:
             # Try to close circuit
             self._close_circuit_breaker(provider_id)
             return False
@@ -563,7 +563,7 @@ class RealTimeServiceSwitcher:
     def _open_circuit_breaker(self, provider_id: str) -> None:
         """Open circuit breaker for provider"""
         if self.circuit_breaker_enabled:
-            self.circuit_breakers[provider_id] = datetime.now()
+            self.circuit_breakers[provider_id] = datetime.now(timezone.utc)
 
     def _close_circuit_breaker(self, provider_id: str) -> None:
         """Close circuit breaker for provider"""

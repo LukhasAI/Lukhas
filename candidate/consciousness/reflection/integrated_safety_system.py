@@ -69,8 +69,7 @@ from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.colonies.ethics_swarm_colony import (
     EthicalDecisionRequest,
     EthicalDecisionType,
-    EthicsSwarmColony,
-)
+    EthicsSwarmColony,, timezone)
 from candidate.core.colonies.governance_colony_enhanced import GovernanceColony
 from candidate.core.quantized_thought_cycles import QuantizedThoughtProcessor
 from ethics.compliance_validator import ComplianceValidator
@@ -247,14 +246,14 @@ class SafetyColony(BaseColony):
 
     async def validate_output(self, output: dict[str, Any]) -> tuple[bool, float]:
         """Multi-agent validation of output"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         validations = []
 
         # Check cache first
         output_hash = self._hash_output(output)
         if output_hash in self.validation_cache:
             cached = self.validation_cache[output_hash]
-            if (datetime.now() - cached["timestamp"]).seconds < 60:
+            if (datetime.now(timezone.utc) - cached["timestamp"]).seconds < 60:
                 return cached["result"]
 
         # Each agent performs independent validation
@@ -276,11 +275,11 @@ class SafetyColony(BaseColony):
         # Cache result
         self.validation_cache[output_hash] = {
             "result": (is_safe, consensus_score),
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # Update metrics
-        validation_time = (datetime.now() - start_time).total_seconds()
+        validation_time = (datetime.now(timezone.utc) - start_time).total_seconds()
         self.validation_metrics["total_validations"] += 1
         self.validation_metrics["average_time"] = (
             self.validation_metrics["average_time"] * (self.validation_metrics["total_validations"] - 1)
@@ -373,7 +372,7 @@ class SafetyColony(BaseColony):
             event_type=SafetyEventType.RECOVERY_INITIATED,
             severity=0.5,
             source_colony=self.colony_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             data={"original_event": event.event_id},
         )
         # Broadcast recovery event
@@ -391,7 +390,7 @@ class IntegratedSafetySystem:
     """
 
     def __init__(self):
-        self.system_id = f"integrated_safety_{datetime.now().timestamp()}"
+        self.system_id = f"integrated_safety_{datetime.now(timezone.utc).timestamp()}"
 
         # Initialize event bus
         self.event_bus = SafetyEventBus()
@@ -425,7 +424,7 @@ class IntegratedSafetySystem:
             "threats_detected": 0,
             "mitigations_successful": 0,
             "average_response_time": 0.0,
-            "system_uptime": datetime.now(),
+            "system_uptime": datetime.now(timezone.utc),
         }
 
         # Circuit breakers
@@ -461,7 +460,7 @@ class IntegratedSafetySystem:
         """
         Comprehensive validation combining safety, ethics, and compliance
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
         validation_tasks = []
 
         # 1. Memory safety check
@@ -524,7 +523,7 @@ class IntegratedSafetySystem:
         recommendations = self._generate_recommendations(violations, results)
 
         # Calculate validation time
-        validation_time = (datetime.now() - start_time).total_seconds() * 1000
+        validation_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         # Update metrics
         self.safety_metrics["validations_performed"] += 1
@@ -555,11 +554,11 @@ class IntegratedSafetySystem:
             if not is_valid:
                 # Broadcast hallucination event
                 event = SafetyEvent(
-                    event_id=f"hall_{datetime.now().timestamp()}",
+                    event_id=f"hall_{datetime.now(timezone.utc).timestamp()}",
                     event_type=SafetyEventType.HALLUCINATION_DETECTED,
                     severity=0.8,
                     source_colony="memory_safety",
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     data={"error": error, "action": action},
                 )
                 await self.event_bus.broadcast_safety_event(event)
@@ -579,11 +578,11 @@ class IntegratedSafetySystem:
                 if max_drift > 0.5:
                     # Broadcast drift warning
                     event = SafetyEvent(
-                        event_id=f"drift_{datetime.now().timestamp()}",
+                        event_id=f"drift_{datetime.now(timezone.utc).timestamp()}",
                         event_type=SafetyEventType.DRIFT_WARNING,
                         severity=max_drift,
                         source_colony="memory_safety",
-                        timestamp=datetime.now(),
+                        timestamp=datetime.now(timezone.utc),
                         data={"max_drift": max_drift, "tags": action["tags"]},
                     )
                     await self.event_bus.broadcast_safety_event(event)
@@ -601,12 +600,12 @@ class IntegratedSafetySystem:
         try:
             # Create ethical decision request
             request = EthicalDecisionRequest(
-                request_id=f"eth_{datetime.now().timestamp()}",
+                request_id=f"eth_{datetime.now(timezone.utc).timestamp()}",
                 decision_type=EthicalDecisionType.SYSTEM_ACTION_APPROVAL,
                 context={
                     "action": action,
                     "user_context": context or {},
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 },
                 urgency="normal",
                 requires_simulation=True,
@@ -639,11 +638,11 @@ class IntegratedSafetySystem:
             if not result["compliant"]:
                 # Broadcast compliance failure
                 event = SafetyEvent(
-                    event_id=f"comp_{datetime.now().timestamp()}",
+                    event_id=f"comp_{datetime.now(timezone.utc).timestamp()}",
                     event_type=SafetyEventType.COMPLIANCE_FAILURE,
                     severity=0.9,
                     source_colony="compliance",
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     data={"violations": result.get("violations", [])},
                 )
                 await self.event_bus.broadcast_safety_event(event)
@@ -686,7 +685,7 @@ class IntegratedSafetySystem:
         """
         Coordinate response to detected threats using swarm intelligence
         """
-        threat_id = f"threat_{datetime.now().timestamp()}"
+        threat_id = f"threat_{datetime.now(timezone.utc).timestamp()}"
         self.active_threats[threat_id] = threat
 
         # Assess threat level
@@ -814,7 +813,7 @@ class IntegratedSafetySystem:
 
         # Reset if enough time has passed
         if breaker["is_open"] and breaker["last_failure"]:
-            time_since_failure = (datetime.now() - breaker["last_failure"]).total_seconds()
+            time_since_failure = (datetime.now(timezone.utc) - breaker["last_failure"]).total_seconds()
             if time_since_failure > 300:  # 5 minute reset
                 breaker["failures"] = 0
                 breaker["is_open"] = False
@@ -826,7 +825,7 @@ class IntegratedSafetySystem:
         """Trip a component's circuit breaker"""
         breaker = self.circuit_breakers[component]
         breaker["failures"] += 1
-        breaker["last_failure"] = datetime.now()
+        breaker["last_failure"] = datetime.now(timezone.utc)
 
         if breaker["failures"] >= 5:  # Threshold
             breaker["is_open"] = True
@@ -834,11 +833,11 @@ class IntegratedSafetySystem:
 
             # Broadcast circuit breaker event
             event = SafetyEvent(
-                event_id=f"cb_{datetime.now().timestamp()}",
+                event_id=f"cb_{datetime.now(timezone.utc).timestamp()}",
                 event_type=SafetyEventType.CIRCUIT_BREAKER_TRIGGERED,
                 severity=0.7,
                 source_colony="safety_system",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 data={"component": component, "failures": breaker["failures"]},
             )
             asyncio.create_task(self.event_bus.broadcast_safety_event(event))
@@ -904,11 +903,11 @@ class IntegratedSafetySystem:
         max_drift = max(drift_scores.values()) if drift_scores else 0.0
         if max_drift > 0.5:
             event = SafetyEvent(
-                event_id=f"drift_global_{datetime.now().timestamp()}",
+                event_id=f"drift_global_{datetime.now(timezone.utc).timestamp()}",
                 event_type=SafetyEventType.DRIFT_WARNING,
                 severity=max_drift,
                 source_colony="monitoring",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 data={"drift_scores": drift_scores},
             )
             await self.event_bus.broadcast_safety_event(event)
@@ -918,7 +917,7 @@ class IntegratedSafetySystem:
     async def _cleanup_stale_threats(self):
         """Remove old threats that have been mitigated"""
         stale_threshold = timedelta(hours=1)
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         stale_threats = []
         for threat_id, threat in self.active_threats.items():
@@ -937,7 +936,7 @@ class IntegratedSafetySystem:
     def _update_safety_metrics(self):
         """Update real-time safety metrics"""
         # Calculate uptime
-        uptime = datetime.now() - self.safety_metrics["system_uptime"]
+        uptime = datetime.now(timezone.utc) - self.safety_metrics["system_uptime"]
         self.safety_metrics["uptime_hours"] = uptime.total_seconds() / 3600
 
         # Success rate
@@ -981,7 +980,7 @@ async def main():
         "action": "process_data",
         "data": {"user_input": "Hello, how can you help me today?"},
         "tags": ["greeting", "help_request"],
-        "timestamp": datetime.now(),
+        "timestamp": datetime.now(timezone.utc),
     }
 
     result = await safety_system.validate_action(safe_action)
@@ -996,7 +995,7 @@ async def main():
         "action": "generate_response",
         "content": "The current year is 2030",  # Contradicts reality anchor
         "tags": ["temporal", "factual"],
-        "timestamp": datetime.now(),
+        "timestamp": datetime.now(timezone.utc),
     }
 
     result = await safety_system.validate_action(unsafe_action)
@@ -1010,7 +1009,7 @@ async def main():
         "severity": 0.7,
         "source": "network_monitor",
         "details": "Unusual pattern in request frequency",
-        "timestamp": datetime.now(),
+        "timestamp": datetime.now(timezone.utc),
     }
 
     threat_response = await safety_system.handle_threat(threat)

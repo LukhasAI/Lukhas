@@ -11,7 +11,7 @@ from voice import speak  # COVE/Lukhas voice output
 from lukhas.emotion_mapper import map_emotion  # optional emotion extractor
 
 
-def speak(text):
+def speak(text, timezone):
     if not text:
         text = f"Hello, I am Lukhas. {lukhas_profile['motto']}"
 
@@ -39,7 +39,7 @@ def listen_and_log_feedback():
         feedback = recognizer.recognize_google(audio)
         print(f"🧠 You said: {feedback}")
 
-        entry = {"timestamp": datetime.utcnow().isoformat() + "Z", "feedback": feedback}
+        entry = {"timestamp": datetime.now(timezone.utc).isoformat() + "Z", "feedback": feedback}
 
         # Save to symbolic memory log
         with open(MEMORY_FILE, "a") as f:

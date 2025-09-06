@@ -27,7 +27,7 @@ class ConstellationContent:
 class ConstellationGenerator:
     """Generates content using LUKHAS Constellation Framework Navigation System"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.framework_path = Path(__file__).parent / "communication_framework.json"
         self.framework = self._load_framework()
 
@@ -56,7 +56,7 @@ class ConstellationGenerator:
         layer_3 = self._generate_technical_layer(feature_name, technical_details, code_examples)
 
         metadata = {
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "feature_name": feature_name,
             "framework_version": self.framework["lukhas_communication_framework"]["version"],
         }
@@ -227,7 +227,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
 """
 
         metadata = {
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "api_name": api_spec["name"],
             "documentation_type": "api",
         }

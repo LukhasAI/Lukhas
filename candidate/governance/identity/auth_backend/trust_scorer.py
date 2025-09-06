@@ -16,7 +16,7 @@ class LukhasTrustScorer:
     Provides multi-factor trust assessment while maintaining cryptographic security.
     """
 
-    def __init__(self, entropy_validator, session_manager, audit_logger):
+    def __init__(self, entropy_validator, session_manager, audit_logger, timezone):
         self.entropy_validator = entropy_validator
         self.session_manager = session_manager
         self.audit_logger = audit_logger
@@ -165,15 +165,15 @@ class LukhasTrustScorer:
                 "geolocation_patterns": [],
                 "session_durations": [],
                 "anomaly_count": 0,
-                "first_seen": datetime.now(),
-                "last_update": datetime.now(),
+                "first_seen": datetime.now(timezone.utc),
+                "last_update": datetime.now(timezone.utc),
             }
 
         patterns = self.behavioral_patterns[user_id]
-        patterns["last_update"] = datetime.now()
+        patterns["last_update"] = datetime.now(timezone.utc)
 
         score = 25.0  # Base behavioral score
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # 1. Temporal pattern analysis
         current_hour = current_time.hour
@@ -407,7 +407,7 @@ class LukhasTrustScorer:
             Float score (0-20 points)
         """
         score = 15.0  # Base contextual score
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Time-based risk assessment
         hour = current_time.hour
@@ -573,7 +573,7 @@ class LukhasTrustScorer:
                 "risk_multiplier": risk_multiplier,
                 "thresholds": self.thresholds,
                 "calculation_time_ms": round(calculation_time * 1000, 2),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             # Log trust calculation for audit trail
@@ -596,7 +596,7 @@ class LukhasTrustScorer:
                     "contextual": 0,
                 },
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def update_risk_factors(self, user_id: str, risk_level: str, reason: str, expiry_hours: int = 24):
@@ -609,12 +609,12 @@ class LukhasTrustScorer:
             reason: Reason for risk factor
             expiry_hours: Hours until risk factor expires
         """
-        expiry_time = datetime.now() + timedelta(hours=expiry_hours)
+        expiry_time = datetime.now(timezone.utc) + timedelta(hours=expiry_hours)
 
         self.risk_factors[user_id] = {
             "level": risk_level,
             "reason": reason,
-            "created": datetime.now(),
+            "created": datetime.now(timezone.utc),
             "expires": expiry_time,
         }
 
@@ -651,7 +651,7 @@ class LukhasTrustScorer:
 
     def cleanup_expired_data(self):
         """Remove expired risk factors and old behavioral data."""
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Clean expired risk factors
         expired_users = []

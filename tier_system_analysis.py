@@ -100,7 +100,7 @@ def analyze_tier_system_output():
 
     fallback_info = """
     The tier system implements a sophisticated fallback hierarchy:
-    
+
     1. PRIMARY: Try to use identity.core.user_tier_mapping service
     2. FALLBACK: Use prefix-based user ID analysis
        - system_* → SYSTEM tier
@@ -108,7 +108,7 @@ def analyze_tier_system_output():
        - authenticated users → AUTHENTICATED tier
        - anonymous → PUBLIC tier
     3. DEFAULT: PUBLIC tier for safety
-    
+
     This is EXACTLY how production systems should work!
     """
 

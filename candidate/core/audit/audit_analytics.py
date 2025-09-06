@@ -15,8 +15,7 @@ from .audit_trail import (
     AuditEventType,
     AuditQuery,
     AuditSeverity,
-    AuditTrail,
-)
+    AuditTrail,, timezone)
 
 
 class AnomalyType(Enum):
@@ -183,7 +182,7 @@ class AuditAnalytics:
                             anomaly_type=AnomalyType.UNUSUAL_ACTIVITY_PATTERN,
                             severity="MEDIUM",
                             description=f"Unusual spike in activity: {len(hour_events)} events in hour {hour}",
-                            detected_at=datetime.now(),
+                            detected_at=datetime.now(timezone.utc),
                             events=[e.id for e in hour_events[:10]],  # Sample
                             confidence=0.8,
                             recommended_action="Investigate cause of activity spike",
@@ -211,7 +210,7 @@ class AuditAnalytics:
                         anomaly_type=AnomalyType.EXCESSIVE_ERROR_RATE,
                         severity="HIGH",
                         description=f"Component {component} has {error_rate:.1%} error rate",
-                        detected_at=datetime.now(),
+                        detected_at=datetime.now(timezone.utc),
                         events=[
                             e.id for e in comp_events if e.severity in [AuditSeverity.ERROR, AuditSeverity.CRITICAL]
                         ][:10],
@@ -249,7 +248,7 @@ class AuditAnalytics:
                             anomaly_type=AnomalyType.CONSCIOUSNESS_INSTABILITY,
                             severity="HIGH",
                             description="Rapid consciousness state changes detected",
-                            detected_at=datetime.now(),
+                            detected_at=datetime.now(timezone.utc),
                             events=[
                                 consciousness_events[i - 1].id,
                                 consciousness_events[i].id,
@@ -272,7 +271,7 @@ class AuditAnalytics:
                         anomaly_type=AnomalyType.CONSCIOUSNESS_INSTABILITY,
                         severity="CRITICAL",
                         description=f"Consciousness coherence dropped below {self.consciousness_stability_threshold}",
-                        detected_at=datetime.now(),
+                        detected_at=datetime.now(timezone.utc),
                         events=[
                             e.id
                             for e in consciousness_events
@@ -303,7 +302,7 @@ class AuditAnalytics:
                     anomaly_type=AnomalyType.ABNORMAL_DECISION_PATTERN,
                     severity="MEDIUM",
                     description=f"High decision reversal rate: {reversal_count} reversals out of {len(decision_events)} decisions",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     events=[e.id for e in decision_events if e.event_type == AuditEventType.DECISION_REVERSED],
                     confidence=0.75,
                     recommended_action="Review decision-making logic",
@@ -322,7 +321,7 @@ class AuditAnalytics:
                     anomaly_type=AnomalyType.ABNORMAL_DECISION_PATTERN,
                     severity="MEDIUM",
                     description=f"{len(low_confidence_decisions)} decisions made with confidence < 50%",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     events=[e.id for e in low_confidence_decisions[:10]],
                     confidence=0.8,
                     recommended_action="Improve decision confidence mechanisms",
@@ -349,7 +348,7 @@ class AuditAnalytics:
                         anomaly_type=AnomalyType.UNAUTHORIZED_ACCESS_ATTEMPT,
                         severity="HIGH",
                         description=f"Multiple access denials for user {user}: {len(denials)} attempts",
-                        detected_at=datetime.now(),
+                        detected_at=datetime.now(timezone.utc),
                         events=[e.id for e in denials[:10]],
                         confidence=0.9,
                         recommended_action=f"Investigate potential unauthorized access by {user}",
@@ -364,7 +363,7 @@ class AuditAnalytics:
                     anomaly_type=AnomalyType.SECURITY_BREACH_ATTEMPT,
                     severity="CRITICAL",
                     description=f"{len(security_violations)} security violations detected",
-                    detected_at=datetime.now(),
+                    detected_at=datetime.now(timezone.utc),
                     events=[e.id for e in security_violations[:10]],
                     confidence=0.95,
                     recommended_action="Immediate security review required",

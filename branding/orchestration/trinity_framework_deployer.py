@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 # Add branding modules to path
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 
 from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
 
@@ -136,7 +136,7 @@ class TrinityFrameworkDeployer:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"trinity_deployment_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = logs_dir / f"trinity_deployment_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -471,7 +471,7 @@ class TrinityFrameworkDeployer:
 
         report_content = f"""# ⚛️🧠🛡️ LUKHAS AI Trinity Framework Deployment Report
 
-*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+*Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Executive Summary
 

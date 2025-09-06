@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 logger = logging.getLogger(__name__)
 
 
@@ -56,7 +56,7 @@ class ModuleIntrospector:
         """
         analysis = {
             "module_path": module_path,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "symbolic_tags": {},
             "functions": [],
             "classes": [],

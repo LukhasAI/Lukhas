@@ -24,7 +24,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Add parent directory to path for identity interface
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__, timezone)))
 
 try:
     from lukhas.governance.identity.interface import IdentityClient
@@ -112,13 +112,13 @@ class CreativityService:
             generated_content = self._generate_creative_content(content_type, prompt, style, parameters)
 
             # Create content metadata
-            content_id = f"creative_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{random.randint(1000, 9999)}"
+            content_id = f"creative_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{random.randint(1000, 9999)}"
             content_metadata = {
                 "content_id": content_id,
                 "type": content_type,
                 "prompt": prompt,
                 "style": style,
-                "generated_at": datetime.utcnow().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "user_id": user_id,
                 "parameters": parameters,
                 "word_count": (len(generated_content.get("text", "").split()) if "text" in generated_content else 0),
@@ -187,7 +187,7 @@ class CreativityService:
             # Process dream data
             synthesized_dream = self._process_dream_content(dream_data, synthesis_type)
 
-            dream_id = f"dream_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            dream_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log dream synthesis
             self.identity_client.log_activity(
@@ -206,7 +206,7 @@ class CreativityService:
                 "dream_id": dream_id,
                 "synthesized_content": synthesized_dream,
                 "synthesis_type": synthesis_type,
-                "processed_at": datetime.utcnow().isoformat(),
+                "processed_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -255,7 +255,7 @@ class CreativityService:
             # Generate emotionally-aware content
             emotional_content = self._generate_emotional_content(emotion, context, output_format)
 
-            content_id = f"emotional_{emotion}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
+            content_id = f"emotional_{emotion}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
             # Log emotional content generation
             self.identity_client.log_activity(
@@ -276,7 +276,7 @@ class CreativityService:
                 "emotional_content": emotional_content,
                 "target_emotion": emotion,
                 "output_format": output_format,
-                "generated_at": datetime.utcnow().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -346,7 +346,7 @@ class CreativityService:
                 "project_id": project_id,
                 "collaboration_result": collaboration_result,
                 "user_contribution": contribution,
-                "collaborated_at": datetime.utcnow().isoformat(),
+                "collaborated_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:

@@ -40,12 +40,12 @@ emotion_logging_enabled = True  # Default to enabled, but allow users to opt out
 last_logged_time = None
 
 
-def log_emotion(state, source="manual", intensity=1):
+def log_emotion(state, source="manual", intensity=1, timezone):
     global last_logged_time
-    if last_logged_time and datetime.utcnow() - last_logged_time < timedelta(seconds=10):
+    if last_logged_time and datetime.now(timezone.utc) - last_logged_time < timedelta(seconds=10):
         logging.warning("Emotion logging rate limit exceeded.")
         return None
-    last_logged_time = datetime.utcnow()
+    last_logged_time = datetime.now(timezone.utc)
     """
     Logs emotional state and updates current mood.
 
@@ -63,7 +63,7 @@ def log_emotion(state, source="manual", intensity=1):
         "state": state,
         "source": source,
         "intensity": intensity,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
     emotion_db["current"] = state
     emotion_db["log"].append(entry)
@@ -78,7 +78,7 @@ def decay_emotion(threshold_minutes=60):
         return
     last_entry = emotion_db["log"][-1]
     last_time = datetime.fromisoformat(last_entry["timestamp"])
-    if datetime.utcnow() - last_time > timedelta(minutes=threshold_minutes) and emotion_db["current"] != "neutral":
+    if datetime.now(timezone.utc) - last_time > timedelta(minutes=threshold_minutes) and emotion_db["current"] != "neutral":
         log_emotion("neutral", source="decay")
 
 

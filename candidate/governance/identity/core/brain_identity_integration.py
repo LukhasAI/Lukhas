@@ -16,8 +16,7 @@ try:
         BrainIdentityConnector,
         MemoryAccessPolicy,
         MemoryIdentityIntegration,
-        MemoryOperation,
-    )
+        MemoryOperation,, timezone)
 
     BRAIN_IDENTITY_AVAILABLE = True
 except ImportError as e:
@@ -316,7 +315,7 @@ class BrainIdentityIntegration:
                 "operation": operation,
                 "memory_key": memory_key,
                 "memory_type": memory_type,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "session_id": self._get_user_session(user_id),
             }
 
@@ -331,7 +330,7 @@ class BrainIdentityIntegration:
             return {
                 "authorized": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _create_mock_identity(self, user_id: str):
@@ -450,14 +449,14 @@ class BrainIdentityIntegration:
                 "type": memory_type,
                 "access_policy": access_policy,
                 "min_tier": min_tier,
-                "registered_at": datetime.now().isoformat(),
+                "registered_at": datetime.now(timezone.utc).isoformat(),
             }
 
             logger.info(f"Memory registered: {memory_key} by {memory_owner}")
             return {
                 "success": success,
                 "memory_key": memory_key,
-                "registered_at": datetime.now().isoformat(),
+                "registered_at": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -465,7 +464,7 @@ class BrainIdentityIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _fallback_register_memory(
@@ -511,7 +510,7 @@ class BrainIdentityIntegration:
         """Get fallback access logs"""
         return [
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "user_id": "mock_user",
                 "operation": "read",
                 "memory_key": "mock_memory",
@@ -544,7 +543,7 @@ class BrainIdentityIntegration:
                     "brain_identity_available": BRAIN_IDENTITY_AVAILABLE,
                     "memory_registry_size": len(self.memory_registry),
                     "active_sessions": len(self.user_sessions),
-                    "last_updated": datetime.now().isoformat(),
+                    "last_updated": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -552,7 +551,7 @@ class BrainIdentityIntegration:
 
         except Exception as e:
             logger.error(f"Error getting access metrics: {e}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     def _get_fallback_metrics(self) -> dict[str, Any]:
         """Get fallback access metrics"""
@@ -595,7 +594,7 @@ class BrainIdentityIntegration:
         """Fallback encryption (mock implementation)"""
         content_copy = content.copy()
         content_copy["_encrypted"] = True
-        content_copy["_encryption_timestamp"] = datetime.now().isoformat()
+        content_copy["_encryption_timestamp"] = datetime.now(timezone.utc).isoformat()
         content_copy["_encryption_key"] = memory_key
         return content_copy
 
@@ -632,7 +631,7 @@ class BrainIdentityIntegration:
         content_copy = content.copy()
         if "_encrypted" in content_copy:
             content_copy["_encrypted"] = False
-            content_copy["_decryption_timestamp"] = datetime.now().isoformat()
+            content_copy["_decryption_timestamp"] = datetime.now(timezone.utc).isoformat()
         return content_copy
 
 

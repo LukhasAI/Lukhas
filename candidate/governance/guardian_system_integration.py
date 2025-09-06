@@ -264,7 +264,7 @@ class GuardianSystemIntegration:
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.guardian_id = f"guardian_{uuid.uuid4().hex[:8]}"
-        self.startup_time = datetime.now()
+        self.startup_time = datetime.now(timezone.utc)
 
         # System status
         self.status = GuardianStatus.MAINTENANCE
@@ -385,7 +385,7 @@ class GuardianSystemIntegration:
         response = GuardianValidationResponse(
             request_id=request.request_id,
             response_id=response_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             result=ValidationResult.DENIED,  # Start with deny, must prove approval
         )
 
@@ -969,7 +969,7 @@ class GuardianSystemIntegration:
         self.metrics.average_validation_time_ms = sum(self.validation_times) / len(self.validation_times)
 
         # Update rates
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         self.recent_validations.append(current_time)
 
         # Keep only last minute of validations
@@ -1095,7 +1095,7 @@ class GuardianSystemIntegration:
                 await asyncio.sleep(60)  # Update every minute
 
                 # Update uptime
-                self.metrics.uptime_seconds = (datetime.now() - self.startup_time).total_seconds()
+                self.metrics.uptime_seconds = (datetime.now(timezone.utc) - self.startup_time).total_seconds()
 
                 # Update component health scores
                 self.metrics.consent_system_health = 1.0 if self.consent_ledger else 0.0
@@ -1120,7 +1120,7 @@ class GuardianSystemIntegration:
             try:
                 await asyncio.sleep(300)  # Health check every 5 minutes
 
-                self.metrics.last_health_check = datetime.now()
+                self.metrics.last_health_check = datetime.now(timezone.utc)
 
                 # Comprehensive health check
                 health_issues = []
@@ -1218,7 +1218,7 @@ class GuardianSystemIntegration:
                 "glyph_engine": self.glyph_engine is not None,
             },
             "metrics": asdict(self.metrics),
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     def register_alert_handler(self, level: GuardianAlertLevel, handler: Callable):
@@ -1276,7 +1276,7 @@ async def validate_ai_action(
 
     request = GuardianValidationRequest(
         request_id=f"req_{uuid.uuid4().hex[:8]}",
-        timestamp=datetime.now(),
+        timestamp=datetime.now(timezone.utc),
         user_id=user_id,
         session_id=f"session_{uuid.uuid4().hex[:8]}",
         action=action,

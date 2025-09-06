@@ -26,7 +26,7 @@ SECURITY_DOMAINS = {
 }
 
 
-def get_security_status() -> Dict[str, Any]:
+def get_security_status() -> dict[str, Any]:
     """Get comprehensive security system status"""
 
     # Check if security components exist
@@ -50,7 +50,7 @@ def get_security_status() -> Dict[str, Any]:
     }
 
 
-def scan_consciousness_security() -> Dict[str, Any]:
+def scan_consciousness_security() -> dict[str, Any]:
     """Run consciousness-specific security scans"""
     try:
         # Import scanning module if available
@@ -120,8 +120,8 @@ def scan_consciousness_security() -> Dict[str, Any]:
 
 
 def create_security_incident(
-    severity: str, description: str, source: str, metadata: Optional[Dict[str, Any]] = None
-) -> Dict[str, Any]:
+    severity: str, description: str, source: str, metadata: Optional[dict[str, Any]] = None
+) -> dict[str, Any]:
     """Create security incident record"""
     try:
         incident = {
@@ -143,7 +143,7 @@ def create_security_incident(
         return {"status": "error", "error": str(e)}
 
 
-def get_security_dashboard() -> Dict[str, Any]:
+def get_security_dashboard() -> dict[str, Any]:
     """Get comprehensive security dashboard"""
     try:
         # Get system status

@@ -21,8 +21,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.bridges.memory_consciousness_bridge import (
-    get_memory_consciousness_bridge,
-)
+    get_memory_consciousness_bridge,, timezone)
 from candidate.core.bridges.memory_learning_bridge import MemoryLearningBridge
 from candidate.core.common import get_logger
 from lukhas.memory.core.base_manager import BaseMemoryManager
@@ -692,7 +691,7 @@ class MemoryHub:
         return {
             "hub": self.name,
             "received": True,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "message_id": message.get("id", "unknown"),
         }
 

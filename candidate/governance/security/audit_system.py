@@ -37,7 +37,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class AuditLevel(Enum):
@@ -517,7 +517,7 @@ class AuditEventProcessor:
 
         processing_result = {
             "event_id": event.event_id,
-            "processed_at": datetime.now().isoformat(),
+            "processed_at": datetime.now(timezone.utc).isoformat(),
             "alerts": [],
             "patterns": [],
             "recommendations": [],
@@ -569,7 +569,7 @@ class AuditEventProcessor:
         self.statistics.events_by_type[type_key] = self.statistics.events_by_type.get(type_key, 0) + 1
 
         # Time-based statistics (simplified - would use proper time windows in production)
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         if event.timestamp > now - timedelta(hours=1):
             self.statistics.events_last_hour += 1
         if event.timestamp > now - timedelta(days=1):
@@ -816,7 +816,7 @@ class ComprehensiveAuditSystem:
         # Create audit event
         event = AuditEvent(
             event_id=event_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=event_type,
             category=category,
             level=level,
@@ -923,7 +923,7 @@ class ComprehensiveAuditSystem:
             RetentionPolicy.PERMANENT: None,  # Never delete
         }
 
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         for policy, period in retention_periods.items():
             if period is None:  # Permanent retention
@@ -963,7 +963,7 @@ class ComprehensiveAuditSystem:
 
         verification_result = {
             "verification_id": f"verify_{uuid.uuid4().hex[:8]}",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_events_checked": 0,
             "integrity_violations": 0,
             "chain_breaks": 0,
@@ -983,8 +983,8 @@ class ComprehensiveAuditSystem:
 
             # Also check recently stored events
             recent_query = AuditQuery(
-                start_time=datetime.now() - timedelta(hours=24),
-                end_time=datetime.now(),
+                start_time=datetime.now(timezone.utc) - timedelta(hours=24),
+                end_time=datetime.now(timezone.utc),
                 limit=1000,
             )
             stored_events = await self.storage.query_events(recent_query)
@@ -1035,7 +1035,7 @@ class ComprehensiveAuditSystem:
             "report_id": report_id,
             "framework": framework,
             "period": {"start": start_date.isoformat(), "end": end_date.isoformat()},
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "summary": {
                 "total_events": len(events),
                 "compliance_violations": len([e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]),
@@ -1111,7 +1111,7 @@ class ComprehensiveAuditSystem:
         if format.lower() == "json":
             export_data = {
                 "export_metadata": {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "query": asdict(query),
                     "total_events": len(events),
                 },

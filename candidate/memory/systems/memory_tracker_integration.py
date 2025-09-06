@@ -16,7 +16,7 @@ try:
 
     MEMORY_TRACKER_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"Memory tracker not available: {e}")
+    logging.warning(f"Memory tracker not available: {e}", timezone)
     MEMORY_TRACKER_AVAILABLE = False
 
     # Create fallback mock class
@@ -65,7 +65,7 @@ class MemoryTrackerIntegration:
             "operators_tracked": 0,
             "peak_memory_usage_mb": 0.0,
             "alerts_triggered": 0,
-            "last_activity": datetime.now().isoformat(),
+            "last_activity": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info("MemoryTrackerIntegration initialized with config: %s", self.config)
@@ -158,7 +158,7 @@ class MemoryTrackerIntegration:
                 return {
                     "success": False,
                     "error": f"Session {session_id} already active",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
             # Start tracking if memory tracker is available
@@ -172,7 +172,7 @@ class MemoryTrackerIntegration:
 
                 # Record tracking session
                 self.tracking_sessions[session_id] = {
-                    "started_at": datetime.now().isoformat(),
+                    "started_at": datetime.now(timezone.utc).isoformat(),
                     "tracking_type": tracking_type,
                     "root_module": (str(type(root_module).__name__) if root_module else "system"),
                     "status": "active",
@@ -186,7 +186,7 @@ class MemoryTrackerIntegration:
                     "success": True,
                     "session_id": session_id,
                     "tracking_type": tracking_type,
-                    "started_at": datetime.now().isoformat(),
+                    "started_at": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 # Fallback tracking
@@ -197,7 +197,7 @@ class MemoryTrackerIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def stop_memory_tracking(self, session_id: str) -> dict[str, Any]:
@@ -219,7 +219,7 @@ class MemoryTrackerIntegration:
                 return {
                     "success": False,
                     "error": f"Session {session_id} not found",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
             session = self.tracking_sessions[session_id]
@@ -238,7 +238,7 @@ class MemoryTrackerIntegration:
                     await self._save_session_stats(session_id)
 
                 # Update session record
-                session["stopped_at"] = datetime.now().isoformat()
+                session["stopped_at"] = datetime.now(timezone.utc).isoformat()
                 session["status"] = "completed"
                 session["summary"] = summary_data
 
@@ -248,7 +248,7 @@ class MemoryTrackerIntegration:
                 return {
                     "success": True,
                     "session_id": session_id,
-                    "stopped_at": datetime.now().isoformat(),
+                    "stopped_at": datetime.now(timezone.utc).isoformat(),
                     "summary": summary_data,
                 }
             else:
@@ -260,7 +260,7 @@ class MemoryTrackerIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_memory_summary(self, session_id: Optional[str] = None, top_ops: int = 20) -> dict[str, Any]:
@@ -288,7 +288,7 @@ class MemoryTrackerIntegration:
                     "success": True,
                     "session_id": session_id,
                     "summary": summary_data,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             else:
                 # Fallback summary
@@ -299,7 +299,7 @@ class MemoryTrackerIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def visualize_memory_traces(
@@ -323,7 +323,7 @@ class MemoryTrackerIntegration:
                 return {
                     "success": False,
                     "error": "Trace visualization disabled in config",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
             if MEMORY_TRACKER_AVAILABLE and hasattr(self.memory_tracker, "show_traces"):
@@ -338,7 +338,7 @@ class MemoryTrackerIntegration:
                         "success": True,
                         "session_id": session_id,
                         "trace_path": trace_path,
-                        "generated_at": datetime.now().isoformat(),
+                        "generated_at": datetime.now(timezone.utc).isoformat(),
                     }
                 except Exception as viz_error:
                     logger.warning(f"Visualization failed: {viz_error}")
@@ -356,7 +356,7 @@ class MemoryTrackerIntegration:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def get_tracking_sessions(self) -> list[dict[str, Any]]:
@@ -404,14 +404,14 @@ class MemoryTrackerIntegration:
                     "alert_threshold_mb": self.config.get("memory_alert_threshold_mb", 1000.0),
                 },
                 "system_status": "active",
-                "last_updated": datetime.now().isoformat(),
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
             return metrics
 
         except Exception as e:
             logger.error(f"Error getting memory metrics: {e}")
-            return {"error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     async def _extract_summary_data(self, top_ops: int) -> dict[str, Any]:
         """Extract summary data from memory tracker"""
@@ -454,7 +454,7 @@ class MemoryTrackerIntegration:
                 "duration_seconds": 0,  # Would calculate from start/stop times
                 "operators_tracked": getattr(self.memory_tracker, "_op_index", 0),
                 "cuda_retries": getattr(self.memory_tracker, "_num_cuda_retries", 0),
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
             }
 
             return summary
@@ -481,7 +481,7 @@ class MemoryTrackerIntegration:
     async def _fallback_start_tracking(self, session_id: str, root_module) -> dict[str, Any]:
         """Fallback tracking start when main tracker is not available"""
         self.tracking_sessions[session_id] = {
-            "started_at": datetime.now().isoformat(),
+            "started_at": datetime.now(timezone.utc).isoformat(),
             "tracking_type": "fallback_tracking",
             "root_module": str(type(root_module).__name__) if root_module else "system",
             "status": "active",
@@ -494,14 +494,14 @@ class MemoryTrackerIntegration:
             "success": True,
             "session_id": session_id,
             "tracking_type": "fallback_tracking",
-            "started_at": datetime.now().isoformat(),
+            "started_at": datetime.now(timezone.utc).isoformat(),
             "fallback": True,
         }
 
     async def _fallback_stop_tracking(self, session_id: str) -> dict[str, Any]:
         """Fallback tracking stop"""
         session = self.tracking_sessions[session_id]
-        session["stopped_at"] = datetime.now().isoformat()
+        session["stopped_at"] = datetime.now(timezone.utc).isoformat()
         session["status"] = "completed"
 
         self.monitoring_active = False
@@ -510,7 +510,7 @@ class MemoryTrackerIntegration:
         return {
             "success": True,
             "session_id": session_id,
-            "stopped_at": datetime.now().isoformat(),
+            "stopped_at": datetime.now(timezone.utc).isoformat(),
             "fallback": True,
         }
 
@@ -536,7 +536,7 @@ class MemoryTrackerIntegration:
                 "total_operators": 2,
                 "peak_memory_mb": 200.0,
             },
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "fallback": True,
         }
 
@@ -547,7 +547,7 @@ class MemoryTrackerIntegration:
             "session_id": session_id,
             "message": "Trace visualization not available - using fallback",
             "fallback": True,
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
 
 

@@ -55,7 +55,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 
 
 class ArchetypalFamily(Enum):
@@ -1286,7 +1286,7 @@ class ΛSage:
                             symbol=match.group(),
                             source_file=str(file_path),
                             context=context,
-                            timestamp=datetime.now().isoformat(),
+                            timestamp=datetime.now(timezone.utc).isoformat(),
                             system_origin=system_origin,
                             frequency=1,
                         )
@@ -1317,7 +1317,7 @@ class ΛSage:
                             symbol=match.group(),
                             source_file=str(file_path),
                             context=line.strip(),
-                            timestamp=datetime.now().isoformat(),
+                            timestamp=datetime.now(timezone.utc).isoformat(),
                             system_origin="glyph_lineage",
                             glyph_lineage=match.group(),
                         )
@@ -1356,7 +1356,7 @@ class ΛSage:
                                         symbol=glyph_name,
                                         source_file="taxonomy.json",
                                         context=f"{family_name} - {class_name}",
-                                        timestamp=datetime.now().isoformat(),
+                                        timestamp=datetime.now(timezone.utc).isoformat(),
                                         system_origin="taxonomy",
                                         frequency=glyph_data.get("frequency", 1),
                                     )
@@ -1930,7 +1930,7 @@ class ΛSage:
 
         report = f"""# ΛSAGE Archetypal Resonance Analysis Report
 
-**Generated:** {datetime.now().isoformat()}
+**Generated:** {datetime.now(timezone.utc).isoformat()}
 **Session ID:** {session_id or 'global_analysis'}
 **ΛSAGE Version:** 1.0
 **Symbols Analyzed:** {len(self.archetypal_mappings)}
@@ -2158,7 +2158,7 @@ class ΛSage:
 
         report_data = {
             "metadata": {
-                "generated_timestamp": datetime.now().isoformat(),
+                "generated_timestamp": datetime.now(timezone.utc).isoformat(),
                 "session_id": session_id or "global_analysis",
                 "sage_version": "1.0",
                 "system": "LUKHAS AGI",
@@ -2263,7 +2263,7 @@ class ΛSage:
         if output_path is None:
             output_path = (
                 self.output_directory
-                / f"archetype_mappings_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+                / f"archetype_mappings_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.csv"
             )
         else:
             output_path = Path(output_path)

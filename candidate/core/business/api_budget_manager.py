@@ -16,7 +16,7 @@ class BudgetTier:
 
     name: str
     daily_limit: float
-    features: list[str] = field(default_factory=list)
+    features: list[str] = field(default_factory=list, timezone)
 
 
 @dataclass
@@ -106,7 +106,7 @@ class APIBudgetManager:
 
         # Add to usage history
         usage_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "operation": operation,
             "cost": cost,
             "metadata": metadata or {},
@@ -131,7 +131,7 @@ class APIBudgetManager:
             return {"error": "User not found"}
 
         # Calculate daily averages over last 7 days
-        seven_days_ago = datetime.now() - timedelta(days=7)
+        seven_days_ago = datetime.now(timezone.utc) - timedelta(days=7)
         recent_usage = [
             entry for entry in usage.usage_history if datetime.fromisoformat(entry["timestamp"]) > seven_days_ago
         ]
@@ -211,11 +211,11 @@ class APIBudgetManager:
 
     def _should_reset_budget(self, usage: UserBudgetUsage) -> bool:
         """Check if budget should be reset (new day)."""
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         return now.date() > usage.last_reset.date()
 
     async def _reset_daily_budget(self, usage: UserBudgetUsage) -> None:
         """Reset user's daily budget for new day."""
         usage.current_usage = 0.0
-        usage.last_reset = datetime.now()
+        usage.last_reset = datetime.now(timezone.utc)
         # Keep usage history but mark the reset point

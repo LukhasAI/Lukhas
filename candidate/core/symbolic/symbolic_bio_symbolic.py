@@ -22,7 +22,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("ΛBIO.SYMBOLIC")
+logger = logging.getLogger("ΛBIO.SYMBOLIC", timezone)
 
 
 class SymbolicGlyph(Enum):
@@ -139,7 +139,7 @@ class BioSymbolic:
             "frequency": 1 / period,
             "symbolic_phase": f"{phase}_symbolic",
             "coherence": amplitude * 0.9,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.bio_states.append({"type": "rhythm", "biological": data, "symbolic": result})
@@ -183,7 +183,7 @@ class BioSymbolic:
             "efficiency": efficiency,
             "stress_impact": stress,
             "coherence": (atp_level + efficiency) / 2 * (1 - stress),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.symbolic_mappings.append({"type": "mitochondrial", "biological": data, "symbolic": result})
@@ -223,7 +223,7 @@ class BioSymbolic:
             "gc_content": gc_content,
             "complexity": len(set(sequence)) / 4 if sequence else 0,
             "coherence": 0.8 if function != "unknown" else 0.5,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.symbolic_mappings.append({"type": "dna_glyph", "biological": data, "symbolic": result})
@@ -263,7 +263,7 @@ class BioSymbolic:
             "stress_type": stress_type,
             "resilience_factor": 1 - level + protection,
             "coherence": protection * 0.9,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.bio_states.append({"type": "stress_response", "biological": data, "symbolic": result})
@@ -309,7 +309,7 @@ class BioSymbolic:
                 "glucose": glucose_dev,
             },
             "coherence": balance_score,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.symbolic_mappings.append({"type": "homeostatic", "biological": data, "symbolic": result})
@@ -361,7 +361,7 @@ class BioSymbolic:
                 "integration",
                 "revelation",
             ],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         self.integration_events.append({"type": "bio_dream", "biological": data, "symbolic": result})
@@ -379,7 +379,7 @@ class BioSymbolic:
             "symbol": "ΛGENERIC",
             "data": data,
             "coherence": min(avg_value, 1.0),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.debug("Generic data processed")
@@ -457,7 +457,7 @@ class BioSymbolic:
             "bio_data": biological_data,
             "symbolic_mappings": results,
             "integration_quality": ("high" if overall_coherence > self.coherence_threshold else "moderate"),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "context": context or {},
         }
 

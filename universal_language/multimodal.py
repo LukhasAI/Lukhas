@@ -8,7 +8,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class ModalityType(Enum):
@@ -26,9 +26,9 @@ class ModalityProcessor:
     """Processes different modalities in universal language"""
 
     def __init__(self):
-        self.processed_items: list[Dict[str, Any]] = []
+        self.processed_items: list[dict[str, Any]] = []
 
-    def process(self, data: Any, modality: ModalityType) -> Dict[str, Any]:
+    def process(self, data: Any, modality: ModalityType) -> dict[str, Any]:
         """Process data according to modality type"""
         result = {"modality": modality.value, "data": data, "processed": True, "metadata": {}}
 

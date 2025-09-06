@@ -20,7 +20,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AgentState(Enum):
@@ -117,7 +117,7 @@ class AutonomousAgent:
         }
         self.is_running = False
         self.start_time = None
-        self.last_human_interaction = datetime.now()
+        self.last_human_interaction = datetime.now(timezone.utc)
 
     async def initialize(self, config: dict[str, Any]) -> bool:
         """Initialize the agent with configuration"""
@@ -129,7 +129,7 @@ class AutonomousAgent:
         self.learning_rate = config.get("learning_rate", 0.1)
 
         self.state = AgentState.IDLE
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
 
         return True
 
@@ -227,7 +227,7 @@ class AutonomousAgent:
 
     async def should_request_human_input(self) -> bool:
         """Determine if human oversight is needed"""
-        time_since_human = datetime.now() - self.last_human_interaction
+        time_since_human = datetime.now(timezone.utc) - self.last_human_interaction
 
         # Request human input if:
         # 1. Been running autonomously for too long
@@ -248,7 +248,7 @@ class AutonomousAgent:
         self.state = AgentState.PAUSED
         # In production, this would send notifications
         # For now, just log
-        self.last_human_interaction = datetime.now()
+        self.last_human_interaction = datetime.now(timezone.utc)
 
     async def update_state(self):
         """Update agent state based on current conditions"""
@@ -370,7 +370,7 @@ class AutonomousAgent:
     async def update_metrics(self):
         """Update agent metrics"""
         if self.start_time:
-            uptime = datetime.now() - self.start_time
+            uptime = datetime.now(timezone.utc) - self.start_time
             self.metrics["uptime_hours"] = uptime.total_seconds() / 3600
 
         # Calculate value generated (domain-specific)
@@ -396,7 +396,7 @@ class AutonomousAgent:
 
         # Log error for learning
         self.learning_memory["last_error"] = str(error)
-        self.learning_memory["error_timestamp"] = datetime.now().isoformat()
+        self.learning_memory["error_timestamp"] = datetime.now(timezone.utc).isoformat()
 
     async def shutdown(self):
         """Gracefully shutdown the agent"""
@@ -425,7 +425,7 @@ class AutonomousAgent:
             ],
             "metrics": self.metrics,
             "learning_memory": self.learning_memory,
-            "last_save": datetime.now().isoformat(),
+            "last_save": datetime.now(timezone.utc).isoformat(),
         }
 
         with open(state_file, "w") as f:
@@ -546,7 +546,7 @@ if __name__ == "__main__":
                 "stress_levels": 0.3,
                 "communication_effectiveness": 0.85,
             },
-            deadline=datetime.now() + timedelta(days=30),
+            deadline=datetime.now(timezone.utc) + timedelta(days=30),
             priority=AgentPriority.HIGH,
         )
 

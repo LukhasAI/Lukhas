@@ -13,7 +13,7 @@ Simple Conflict Healer - Fixes merge conflicts
 import os
 import re
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def find_conflicts():
@@ -108,7 +108,7 @@ def main():
 
     # Save report
     report = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "total_conflicts": len(conflicts),
         "healed": healed,
         "failed": len(conflicts) - healed,

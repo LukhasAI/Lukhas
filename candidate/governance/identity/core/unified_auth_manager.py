@@ -35,7 +35,7 @@ from pathlib import Path
 from typing import Any, Optional, Union
 
 from governance.identity.lambda_id_auth import (AuthCredentials, AuthTier,
-                                                LambdaIDSystem)
+                                                LambdaIDSystem, timezone)
 from governance.security.secret_manager import get_secret_manager
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
@@ -393,7 +393,7 @@ class DreamStateAuthenticator:
         dream_data = {
             "user_id": context.user_id,
             "dream_type": dream_type,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "coherence": context.dream_state_indicators.get("coherence", 0.0),
         }
 
@@ -757,7 +757,7 @@ class RevolutionaryAuthManager:
         )
 
         expires_at = (
-            datetime.utcnow() + base_duration + consciousness_bonus + cultural_bonus
+            datetime.now(timezone.utc) + base_duration + consciousness_bonus + cultural_bonus
         )
 
         # Create rich session metadata
@@ -776,7 +776,7 @@ class RevolutionaryAuthManager:
             ),
             "dream_authentication": bool(dream_result and dream_result.get("success")),
             "qi_signature": lambda_result.get("crypto_version"),
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "session_type": "revolutionary_consciousness_aware",
         }
 

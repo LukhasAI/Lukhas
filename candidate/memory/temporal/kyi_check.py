@@ -22,11 +22,11 @@ from datetime import datetime
 interaction_registry = {}
 
 
-def record_interaction(user_id: int, interaction: str):
+def record_interaction(user_id: int, interaction: str, timezone):
     """
     Log user interaction with timestamp for symbolic trace.
     """
-    timestamp = str(datetime.utcnow())
+    timestamp = str(datetime.now(timezone.utc))
     if user_id not in interaction_registry:
         interaction_registry[user_id] = []
     interaction_registry[user_id].append((interaction, timestamp))

@@ -16,8 +16,7 @@ from vivox.encrypted_perception import (
     MultimodalFusion,
     PerceptualVector,
     TextureAnalyzer,
-    create_vivox_evrn_system,
-)
+    create_vivox_evrn_system,, timezone)
 
 sys.path.append("/Users/agi_dev/Lukhas")
 
@@ -235,7 +234,7 @@ class VIVOXEVRNDemo:
                 vector_id="demo_visual",
                 encrypted_features=visual_enc,
                 modality="visual",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 vector_signature=demo_hashlib.sha256(visual_enc.tobytes()).hexdigest(),
             )
         )
@@ -249,7 +248,7 @@ class VIVOXEVRNDemo:
                 vector_id="demo_thermal",
                 encrypted_features=thermal_enc,
                 modality="thermal",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 vector_signature=demo_hashlib.sha256(thermal_enc.tobytes()).hexdigest(),
             )
         )
@@ -263,7 +262,7 @@ class VIVOXEVRNDemo:
                 vector_id="demo_motion",
                 encrypted_features=motion_enc,
                 modality="motion",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 vector_signature=demo_hashlib.sha256(motion_enc.tobytes()).hexdigest(),
             )
         )
@@ -277,7 +276,7 @@ class VIVOXEVRNDemo:
                 vector_id="demo_texture",
                 encrypted_features=texture_enc,
                 modality="texture",
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 vector_signature=demo_hashlib.sha256(texture_enc.tobytes()).hexdigest(),
             )
         )
@@ -418,7 +417,7 @@ class VIVOXEVRNDemo:
         with open("vivox_evrn_demo_results.json", "w") as f:
             json.dump(
                 {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "results": self.results,
                     "summary": {
                         "total_demos": total,

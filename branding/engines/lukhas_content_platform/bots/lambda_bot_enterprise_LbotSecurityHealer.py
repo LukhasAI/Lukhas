@@ -15,7 +15,7 @@ import warnings
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from packaging import version
 
@@ -48,7 +48,7 @@ class SecurityVulnerability:
     severity: str
     cve_id: Optional[str] = None
     description: str = ""
-    affected_files: List[str] = None
+    affected_files: list[str] = None
     fix_confidence: float = 0.0
     auto_fixable: bool = False
 
@@ -59,9 +59,9 @@ class SecurityFix:
 
     vulnerability: SecurityVulnerability
     fix_type: str  # 'version_upgrade', 'dependency_replace', 'config_change'
-    changes: List[Dict[str, Any]]
-    test_commands: List[str]
-    rollback_plan: Dict[str, Any]
+    changes: list[dict[str, Any]]
+    test_commands: list[str]
+    rollback_plan: dict[str, Any]
     risk_assessment: str
     success: bool = False
     applied_at: Optional[datetime] = None
@@ -101,7 +101,7 @@ class ΛBotAutonomousSecurityHealer:
             "minor_security": r"(\d+\.)(\d+)(\.0)",  # X.Y.0 -> X.Y+1.0 for security
         }
 
-    async def autonomous_security_heal(self, scan_scope: str = "all") -> Dict[str, Any]:
+    async def autonomous_security_heal(self, scan_scope: str = "all") -> dict[str, Any]:
         """
         Main autonomous healing workflow
         """
@@ -157,7 +157,7 @@ class ΛBotAutonomousSecurityHealer:
             )
             raise
 
-    async def _detect_all_vulnerabilities(self) -> List[SecurityVulnerability]:
+    async def _detect_all_vulnerabilities(self) -> list[SecurityVulnerability]:
         """
         Comprehensive vulnerability detection using multiple sources
         """
@@ -184,7 +184,7 @@ class ΛBotAutonomousSecurityHealer:
         logger.info(f"🎯 Found {len(vulnerabilities)} total vulnerabilities")
         return vulnerabilities
 
-    async def _scan_python_dependencies(self) -> List[SecurityVulnerability]:
+    async def _scan_python_dependencies(self) -> list[SecurityVulnerability]:
         """Enhanced Python dependency vulnerability scanning"""
         vulnerabilities = []
 
@@ -205,7 +205,7 @@ class ΛBotAutonomousSecurityHealer:
 
         return vulnerabilities
 
-    async def _scan_requirements_file(self, req_file: Path) -> List[SecurityVulnerability]:
+    async def _scan_requirements_file(self, req_file: Path) -> list[SecurityVulnerability]:
         """Scan a specific requirements file for vulnerabilities"""
         vulnerabilities = []
 
@@ -257,7 +257,7 @@ class ΛBotAutonomousSecurityHealer:
 
         return None
 
-    async def _query_vulnerability_database(self, package: str, version: str) -> Optional[Dict[str, Any]]:
+    async def _query_vulnerability_database(self, package: str, version: str) -> Optional[dict[str, Any]]:
         """Query vulnerability databases for package information"""
 
         # Known vulnerabilities database (in production, this would query real APIs)
@@ -317,7 +317,7 @@ class ΛBotAutonomousSecurityHealer:
             return False
         return False
 
-    def _calculate_fix_confidence(self, package: str, current_version: str, vuln_data: Dict) -> float:
+    def _calculate_fix_confidence(self, package: str, current_version: str, vuln_data: dict) -> float:
         """Calculate confidence score for automatic fixing"""
         confidence = 0.5  # Base confidence
 
@@ -344,12 +344,12 @@ class ΛBotAutonomousSecurityHealer:
 
         return min(1.0, max(0.0, confidence))
 
-    def _is_auto_fixable(self, package: str, current_version: str, vuln_data: Dict) -> bool:
+    def _is_auto_fixable(self, package: str, current_version: str, vuln_data: dict) -> bool:
         """Determine if vulnerability can be safely auto-fixed"""
         confidence = self._calculate_fix_confidence(package, current_version, vuln_data)
         return confidence >= self.safety_threshold
 
-    async def _analyze_and_plan_fixes(self, vulnerabilities: List[SecurityVulnerability]) -> List[SecurityFix]:
+    async def _analyze_and_plan_fixes(self, vulnerabilities: list[SecurityVulnerability]) -> list[SecurityFix]:
         """AI-powered analysis and fix planning"""
         logger.info("🧠 AI analyzing vulnerabilities and planning fixes...")
 
@@ -412,7 +412,7 @@ class ΛBotAutonomousSecurityHealer:
             risk_assessment=risk_assessment,
         )
 
-    def _optimize_fix_order(self, fix_plans: List[SecurityFix]) -> List[SecurityFix]:
+    def _optimize_fix_order(self, fix_plans: list[SecurityFix]) -> list[SecurityFix]:
         """AI-optimized fix ordering to minimize conflicts"""
 
         # Sort by dependency order and risk level
@@ -438,7 +438,7 @@ class ΛBotAutonomousSecurityHealer:
 
         return sorted(fix_plans, key=fix_priority)
 
-    async def _execute_autonomous_fixes(self, fix_plans: List[SecurityFix]) -> List[SecurityFix]:
+    async def _execute_autonomous_fixes(self, fix_plans: list[SecurityFix]) -> list[SecurityFix]:
         """Execute fixes autonomously with safety checks"""
         logger.info(f"🔧 Autonomously executing {len(fix_plans)} security fixes...")
 
@@ -528,7 +528,7 @@ class ΛBotAutonomousSecurityHealer:
 
         return True
 
-    async def _validate_fixes(self, fix_results: List[SecurityFix]) -> Dict[str, Any]:
+    async def _validate_fixes(self, fix_results: list[SecurityFix]) -> dict[str, Any]:
         """Comprehensive validation of all fixes"""
         logger.info("🔍 Validating all fixes...")
 
@@ -547,7 +547,7 @@ class ΛBotAutonomousSecurityHealer:
 
         return validation_result
 
-    async def _commit_fixes(self, fix_results: List[SecurityFix], validation: Dict[str, Any]) -> Dict[str, Any]:
+    async def _commit_fixes(self, fix_results: list[SecurityFix], validation: dict[str, Any]) -> dict[str, Any]:
         """Commit fixes and create PR if needed"""
         successful_fixes = [fix for fix in fix_results if fix.success]
 
@@ -572,7 +572,7 @@ class ΛBotAutonomousSecurityHealer:
             logger.error(f"Failed to commit fixes: {e}")
             return {"success": False, "error": str(e)}
 
-    def _generate_commit_message(self, fixes: List[SecurityFix]) -> str:
+    def _generate_commit_message(self, fixes: list[SecurityFix]) -> str:
         """Generate intelligent commit message"""
         if len(fixes) == 1:
             fix = fixes[0]
@@ -581,7 +581,7 @@ class ΛBotAutonomousSecurityHealer:
             package_list = ", ".join([fix.vulnerability.package for fix in fixes])
             return f"🔒 Security fixes: Autonomous upgrade of {len(fixes)} packages\n\nPackages updated: {package_list}\n\nAll fixes applied and tested automatically by LUKHAS AI ΛBot Autonomous Security Healer"
 
-    async def _update_learning_patterns(self, fix_results: List[SecurityFix]):
+    async def _update_learning_patterns(self, fix_results: list[SecurityFix]):
         """Update AI learning patterns based on fix results"""
         for fix in fix_results:
             fix_type = fix.fix_type
@@ -637,7 +637,7 @@ class ΛBotAutonomousSecurityHealer:
         # Basic stability check - could be enhanced
         return True
 
-    async def _measure_performance_impact(self) -> Dict[str, Any]:
+    async def _measure_performance_impact(self) -> dict[str, Any]:
         """Measure performance impact of fixes"""
         return {"impact": "minimal", "metrics": {}}
 
@@ -650,7 +650,7 @@ class ΛBotAutonomousSecurityHealer:
             json.dump(self.fix_patterns, f, indent=2)
 
     def _generate_heal_summary(
-        self, vulnerabilities: List[SecurityVulnerability], fix_results: List[SecurityFix]
+        self, vulnerabilities: list[SecurityVulnerability], fix_results: list[SecurityFix]
     ) -> str:
         """Generate human-readable summary"""
         successful = sum(1 for fix in fix_results if fix.success)
@@ -668,17 +668,17 @@ class ΛBotAutonomousSecurityHealer:
         return "24 hours"
 
     # JavaScript/Node.js scanning methods
-    async def _scan_javascript_dependencies(self) -> List[SecurityVulnerability]:
+    async def _scan_javascript_dependencies(self) -> list[SecurityVulnerability]:
         """Scan JavaScript dependencies for vulnerabilities"""
         # Implementation for npm audit, yarn audit, etc.
         return []
 
-    async def _scan_system_dependencies(self) -> List[SecurityVulnerability]:
+    async def _scan_system_dependencies(self) -> list[SecurityVulnerability]:
         """Scan system-level dependencies"""
         # Implementation for OS packages, etc.
         return []
 
-    async def _scan_container_dependencies(self) -> List[SecurityVulnerability]:
+    async def _scan_container_dependencies(self) -> list[SecurityVulnerability]:
         """Scan container dependencies if applicable"""
         # Implementation for Docker, etc.
         return []

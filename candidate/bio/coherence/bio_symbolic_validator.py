@@ -42,7 +42,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure bio-symbolic logging
-logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator")
+logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator", timezone)
 logger.info("ΛTRACE: Initializing Bio-Symbolic Coherence Validation System v1.0.0")
 
 
@@ -123,7 +123,7 @@ class BioRhythm:
             self.amplitude *= 1 - self.homeostatic_pressure * 0.01
 
         # Update metadata
-        self.last_updated = datetime.utcnow()
+        self.last_updated = datetime.now(timezone.utc)
         self.update_count += 1
         self.phase_history.append(self.phase)
 
@@ -982,7 +982,7 @@ class BioSymbolicCoherenceValidator:
             "synchronization_events": self.synchronization_events,
             "coherence_violations": self.coherence_violations,
             "critical_interventions": self.critical_interventions,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         if current_report:

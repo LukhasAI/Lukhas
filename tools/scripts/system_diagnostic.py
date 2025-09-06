@@ -20,7 +20,7 @@ from typing import Any
 class SystemDiagnostic:
     """Run comprehensive system diagnostics."""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.results = {
             "modules": {},
             "api_endpoints": {},
@@ -218,7 +218,7 @@ class SystemDiagnostic:
 ═══════════════════════════════════════════════════════════════
         🧠 LUKHΛS System Diagnostic Report
 ═══════════════════════════════════════════════════════════════
-Generated: {datetime.utcnow().isoformat()}Z
+Generated: {datetime.now(timezone.utc).isoformat()}Z
 Trinity Framework: ⚛️ 🧠 🛡️
 
 Overall Functionality: {functionality_percentage:.1f}%

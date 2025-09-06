@@ -11,7 +11,7 @@ from typing import Any, Optional
 
 import structlog
 
-logger = structlog.get_logger(__name__)
+logger = structlog.get_logger(__name__, timezone)
 
 
 def find_project_root() -> Path:
@@ -188,7 +188,7 @@ def generate_dev_report() -> dict[str, Any]:
     project_root = find_project_root()
 
     report = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "project_root": str(project_root),
         "system_info": {
             "python_version": sys.version,
@@ -223,7 +223,7 @@ def generate_dev_report() -> dict[str, Any]:
 def save_report(report: dict[str, Any], filename: Optional[str] = None) -> str:
     """Save a development report to a JSON file."""
     if filename is None:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         filename = f"dev_report_{timestamp}.json"
 
     project_root = find_project_root()

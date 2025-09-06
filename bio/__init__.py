@@ -47,7 +47,7 @@ except ImportError as e:
     logger.warning(f"Bio Awareness not available: {e}")
 
 
-def get_bio_system_status() -> Dict[str, Any]:
+def get_bio_system_status() -> dict[str, Any]:
     """Get comprehensive bio system status"""
     return {
         "version": __version__,
@@ -61,7 +61,7 @@ def get_bio_system_status() -> Dict[str, Any]:
     }
 
 
-def create_bio_memory_fold(content: Any, bio_patterns: Optional[List[str]] = None) -> Optional[Dict[str, Any]]:
+def create_bio_memory_fold(content: Any, bio_patterns: Optional[list[str]] = None) -> Optional[dict[str, Any]]:
     """Create bio-inspired memory fold"""
     if not BIO_CORE_AVAILABLE:
         logger.warning("Bio Core not available for memory fold creation")
@@ -82,7 +82,7 @@ def create_bio_memory_fold(content: Any, bio_patterns: Optional[List[str]] = Non
         return None
 
 
-def process_bio_symbolic_pattern(pattern: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def process_bio_symbolic_pattern(pattern: str, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Process bio-symbolic patterns"""
     if not BIO_SYMBOLIC_AVAILABLE:
         logger.warning("Bio Symbolic not available for pattern processing")
@@ -104,7 +104,7 @@ def process_bio_symbolic_pattern(pattern: str, context: Optional[Dict[str, Any]]
         return {"status": "error", "error": str(e)}
 
 
-def enhance_bio_awareness(input_data: Any, awareness_level: str = "standard") -> Dict[str, Any]:
+def enhance_bio_awareness(input_data: Any, awareness_level: str = "standard") -> dict[str, Any]:
     """Enhance bio-inspired awareness processing"""
     if not BIO_AWARENESS_AVAILABLE:
         logger.warning("Bio Awareness not available for enhancement")

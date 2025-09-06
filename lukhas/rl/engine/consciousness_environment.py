@@ -12,7 +12,7 @@ Provides consciousness-aware reinforcement learning environment with:
 - Trinity Framework compliance
 """
 
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -54,7 +54,7 @@ class ConsciousnessEnvironment:
             self.observation_space = None
             self.action_space = None
 
-    def reset(self, seed: Optional[int] = None, **kwargs) -> Tuple[np.ndarray, Dict[str, Any]]:
+    def reset(self, seed: Optional[int] = None, **kwargs) -> tuple[np.ndarray, dict[str, Any]]:
         """Reset environment to initial state"""
         if seed is not None:
             np.random.seed(seed)
@@ -71,7 +71,7 @@ class ConsciousnessEnvironment:
 
         return self.state.copy(), info
 
-    def step(self, action: int) -> Tuple[np.ndarray, float, bool, bool, Dict[str, Any]]:
+    def step(self, action: int) -> tuple[np.ndarray, float, bool, bool, dict[str, Any]]:
         """Execute one environment step"""
         self.current_step += 1
 

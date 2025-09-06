@@ -14,7 +14,7 @@ from enum import Enum
 from typing import Any
 
 
-class StreamType(Enum):
+class StreamType(Enum, timezone):
     """Types of consciousness streams"""
 
     THOUGHTS = "thoughts"
@@ -200,7 +200,7 @@ class ConsciousnessStreamServer:
             data = await self._capture_creativity()
 
         return ConsciousnessFrame(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             stream_type=stream_type,
             data=data,
             intensity=self._calculate_intensity(data),
@@ -217,7 +217,7 @@ class ConsciousnessStreamServer:
                 recent_frames[frame.stream_type.value] = frame.data
 
         return ConsciousnessFrame(
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
             stream_type=StreamType.FULL,
             data=recent_frames,
             intensity=0.7,

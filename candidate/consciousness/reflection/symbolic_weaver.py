@@ -46,7 +46,7 @@ import numpy as np
 from dream.modifiers.qi_like_state_modifier import QILikeStateModifier
 
 # Configure structured logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, timezone)
 
 # Add parent directories to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -579,7 +579,7 @@ class SymbolicWeaver:
 
             fragment_data = {
                 "content": content,
-                "timestamp": metadata.get("timestamp", datetime.now().isoformat()),
+                "timestamp": metadata.get("timestamp", datetime.now(timezone.utc).isoformat()),
                 "source": metadata.get("source", "markdown"),
                 "metadata": metadata,
             }
@@ -629,7 +629,7 @@ class SymbolicWeaver:
 
         fragment = SymbolicFragment(
             fragment_id=f"FRAG_{int(time.time())}_{hash(content) % 10000}",
-            timestamp=data.get("timestamp", datetime.now().isoformat()),
+            timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source=source_type,
             content=content,
             symbols=symbols,
@@ -694,31 +694,31 @@ class SymbolicWeaver:
             {
                 "content": "I dreamed of walking through a dark forest, where shadows danced between ancient trees. A mysterious threshold appeared, glowing with inner light. I felt both fear and wonder as I approached the sacred doorway.",
                 "source": "dream",
-                "timestamp": (datetime.now() - timedelta(hours=8)).isoformat(),
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=8)).isoformat(),
                 "metadata": {"dream_type": "archetypal", "lucidity": 0.3},
             },
             {
                 "content": "Memory surfaces: childhood home, the smell of grandmother's kitchen, warmth and love surrounding me. But also sadness - the realization that this sacred space exists only in memory now. Nostalgia washes over me like gentle waves.",
                 "source": "memory",
-                "timestamp": (datetime.now() - timedelta(hours=6)).isoformat(),
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=6)).isoformat(),
                 "metadata": {"memory_type": "childhood", "emotional_intensity": 0.8},
             },
             {
                 "content": "Journey continues. Each step forward requires leaving something behind. The old self dissolves like morning mist as transformation unfolds. Death of who I was, birth of who I am becoming. The mirror reflects a stranger who is somehow more familiar than before.",
                 "source": "symbolic_trace",
-                "timestamp": (datetime.now() - timedelta(hours=4)).isoformat(),
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=4)).isoformat(),
                 "metadata": {"trace_type": "transformation", "symbolic_density": 0.9},
             },
             {
                 "content": "Conflict arises within. Shadow aspects demand recognition. What I have rejected about myself stands before me, demanding integration. Fear and anger surface, but beneath them lies wisdom waiting to be claimed.",
                 "source": "emotion",
-                "timestamp": (datetime.now() - timedelta(hours=2)).isoformat(),
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=2)).isoformat(),
                 "metadata": {"emotional_theme": "shadow_work", "intensity": 0.7},
             },
             {
                 "content": "The quest reaches its climax. All trials have led to this moment of revelation. The treasure sought externally was always within. Return now begins - how to share this wisdom with the community? The hero's journey completes its arc.",
                 "source": "symbolic_trace",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "metadata": {
                     "narrative_phase": "return",
                     "archetypal_pattern": "monomyth",
@@ -1260,7 +1260,7 @@ class SymbolicWeaver:
         evaluation = {
             "thread_id": thread.thread_id,
             "thread_title": thread.title,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "identity_alignment": {
                 "score": thread.identity_alignment,
                 "threshold": self.identity_threshold,
@@ -1568,12 +1568,12 @@ class SymbolicWeaver:
             drift_score=drift_score,
             resonance_rating=resonance_rating,
             validation_results=validation_results,
-            weaving_timestamp=datetime.now().isoformat(),
+            weaving_timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
         # Log with ΛTAG structure
         log_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "ΛTAG": ["ΛWEAVER", "ΛTHREAD_METADATA", "ΛNARRATIVE_TRACE"],
             "thread_id": thread.thread_id,
             "thread_title": thread.title,
@@ -1800,7 +1800,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
                 "coherence_score": thread.coherence_score,
                 "identity_alignment": thread.identity_alignment,
                 "ethical_alignment": thread.ethical_alignment,
-                "generation_timestamp": datetime.now().isoformat(),
+                "generation_timestamp": datetime.now(timezone.utc).isoformat(),
             },
             "symbols_analysis": {
                 "symbols_used": thread_trace.symbols_used,
@@ -2001,7 +2001,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
                 }
                 for thread in self.woven_threads[-5:]
             ],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 

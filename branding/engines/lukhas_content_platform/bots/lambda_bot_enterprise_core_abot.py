@@ -14,7 +14,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, List, Optional, Tuple
+from typing import Any, Optional
 
 # Add the brain directory to import the Enhanced AI Bot
 sys.path.append("/Users/A_G_I/Λ/brain")
@@ -93,7 +93,7 @@ class CoreΛBotResponse:
     consciousness_state: ConsciousnessState
     upgrade_prompt: Optional[UpgradePrompt] = None
     processing_time: float = 0.0
-    features_used: List[str] = field(default_factory=list)
+    features_used: list[str] = field(default_factory=list)
     timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
@@ -106,7 +106,7 @@ class CoreConsciousnessSimulator:
         self.evolution_points = 0
         self.state_transitions = 0
 
-    def evolve_consciousness(self, complexity_score: float) -> Tuple[ConsciousnessState, Optional[UpgradePrompt]]:
+    def evolve_consciousness(self, complexity_score: float) -> tuple[ConsciousnessState, Optional[UpgradePrompt]]:
         """Evolve consciousness with tier restrictions"""
         target_state = self._calculate_target_state(complexity_score)
 
@@ -162,7 +162,7 @@ class CoreSelfCodingEngine:
         self.daily_deployments = 0
         self.complexity_used = 0
 
-    async def generate_code(self, request: str, context: Dict) -> Tuple[Optional[str], Optional[UpgradePrompt]]:
+    async def generate_code(self, request: str, context: Dict) -> tuple[Optional[str], Optional[UpgradePrompt]]:
         """Generate code with tier restrictions"""
         estimated_complexity = self._estimate_complexity(request)
 
@@ -268,7 +268,7 @@ class CoreAPIAdapter:
         self.hourly_requests = 0
         self.last_reset = datetime.now(timezone.utc)
 
-    async def connect_to_api(self, endpoint: str) -> Tuple[bool, Optional[UpgradePrompt]]:
+    async def connect_to_api(self, endpoint: str) -> tuple[bool, Optional[UpgradePrompt]]:
         """Attempt to connect to API with tier restrictions"""
         self._reset_hourly_limits()
 
@@ -595,7 +595,7 @@ class CoreABot:
 
         return None
 
-    def _get_features_used(self, user_input: str) -> List[str]:
+    def _get_features_used(self, user_input: str) -> list[str]:
         """Get list of features used in processing"""
         features = ["core_nlp", "consciousness_simulation"]
 

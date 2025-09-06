@@ -19,7 +19,7 @@ from typing import Any, Optional
 # ==================== PLUGIN ENUMS ====================
 
 
-class PluginType(Enum):
+class PluginType(Enum, timezone):
     """Plugin category types"""
 
     ETHICS_GUARDIAN = "ethics_guardian"
@@ -257,9 +257,9 @@ class PluginManifest:
 
         # Set timestamps
         if self.created_at is None:
-            self.created_at = datetime.now().isoformat()
+            self.created_at = datetime.now(timezone.utc).isoformat()
         if self.updated_at is None:
-            self.updated_at = datetime.now().isoformat()
+            self.updated_at = datetime.now(timezone.utc).isoformat()
 
 
 # ==================== EXECUTION CONTEXT ====================
@@ -557,4 +557,4 @@ class LoadedPlugin:
 
     def __post_init__(self):
         if not hasattr(self, "load_time"):
-            self.load_time = datetime.now()
+            self.load_time = datetime.now(timezone.utc)

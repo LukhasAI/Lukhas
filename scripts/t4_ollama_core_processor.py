@@ -22,7 +22,7 @@ from pathlib import Path
 
 
 class T4OllamaCoreProcessor:
-    def __init__(self, workspace_path="/Users/agi_dev/LOCAL-REPOS/Lukhas"):
+    def __init__(self, workspace_path="/Users/agi_dev/LOCAL-REPOS/Lukhas", timezone):
         self.workspace = Path(workspace_path)
         self.core_dirs = ["lukhas", "identity", "api"]
         self.batch_size = 10
@@ -203,7 +203,7 @@ CONSTRAINTS:
             # Store verification artifact
             verification = {
                 "file": str(file_path),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "original_hash": original_hash,
                 "llm_analysis": analysis_result,
                 "fixes_applied": fixes_applied,
@@ -213,7 +213,7 @@ CONSTRAINTS:
 
             verification_file = (
                 self.verification_dir
-                / f"ollama_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
+                / f"ollama_analysis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
             )
             with open(verification_file, "w") as f:
                 json.dump(verification, f, indent=2)

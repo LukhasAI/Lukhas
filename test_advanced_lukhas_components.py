@@ -19,7 +19,7 @@ import time
 import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Test environment setup
 TEST_MODE = True
@@ -136,7 +136,7 @@ class TestIdentitySystem:
             print(f"    ❌ Credential management failed: {e}")
             return False
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive identity system tests"""
         print("🔐 TESTING IDENTITY SYSTEM")
         print("=" * 50)
@@ -347,7 +347,7 @@ class TestMemoryFoldSystem:
             print(f"    ❌ Performance metrics failed: {e}")
             return False
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive memory fold system tests"""
         print("🧠 TESTING MEMORY FOLD SYSTEM")
         print("=" * 50)
@@ -587,7 +587,7 @@ class TestDreamSystem:
         if self.temp_dream_log and self.temp_dream_log.exists():
             self.temp_dream_log.unlink()
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive dream system tests"""
         print("🌙 TESTING DREAM SYSTEM")
         print("=" * 50)
@@ -856,7 +856,7 @@ class TestEncryptionGovernance:
             print(f"    ❌ Audit trail generation failed: {e}")
             return False
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive encryption and governance tests"""
         print("🛡️ TESTING ENCRYPTION & GOVERNANCE")
         print("=" * 50)

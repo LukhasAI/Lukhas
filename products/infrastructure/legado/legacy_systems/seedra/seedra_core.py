@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 from core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class ConsentLevel(Enum):
@@ -96,7 +96,7 @@ class SEEDRACore:
     ) -> dict[str, Any]:
         """Register or update user consent preferences"""
         async with self._lock:
-            timestamp = datetime.now()
+            timestamp = datetime.now(timezone.utc)
             expiry = timestamp + timedelta(days=duration_days)
 
             consent_record = {
@@ -180,7 +180,7 @@ class SEEDRACore:
                     "data_type": data_type,
                     "operation": operation,
                     "allowed": allowed,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -237,8 +237,8 @@ class SEEDRACore:
                 "session_id": session_id,
                 "user_id": user_id,
                 "session_type": session_type,
-                "created_at": datetime.now().isoformat(),
-                "last_activity": datetime.now().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "last_activity": datetime.now(timezone.utc).isoformat(),
                 "metadata": metadata or {},
                 "access_log": [],
             }
@@ -251,7 +251,7 @@ class SEEDRACore:
                     "session_id": session_id,
                     "user_id": user_id,
                     "session_type": session_type,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -273,7 +273,7 @@ class SEEDRACore:
                 return
 
             access_record = {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "data_type": data_type,
                 "operation": operation,
                 "sensitivity": data_sensitivity.name,
@@ -282,7 +282,7 @@ class SEEDRACore:
             }
 
             self.active_sessions[session_id]["access_log"].append(access_record)
-            self.active_sessions[session_id]["last_activity"] = datetime.now().isoformat()
+            self.active_sessions[session_id]["last_activity"] = datetime.now(timezone.utc).isoformat()
 
             # Also log to audit trail
             await self._log_audit_event(
@@ -293,7 +293,7 @@ class SEEDRACore:
                     "operation": operation,
                     "sensitivity": data_sensitivity.name,
                     "success": success,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             )
 
@@ -343,7 +343,7 @@ class SEEDRACore:
                         "event_type": "consent_revoked",
                         "user_id": user_id,
                         "sessions_ended": sessions_ended,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 )
 
@@ -361,7 +361,7 @@ class SEEDRACore:
             return False
 
         expiry = datetime.fromisoformat(expiry_str)
-        return datetime.now() < expiry
+        return datetime.now(timezone.utc) < expiry
 
     def _check_consent_level(self, consent_level: ConsentLevel, data_type: str, operation: str) -> bool:
         """Check if consent level allows specific operation"""
@@ -390,7 +390,7 @@ class SEEDRACore:
 
     def _generate_session_id(self, user_id: str, session_type: str) -> str:
         """Generate unique session ID"""
-        data = f"{user_id}:{session_type}:{datetime.now().isoformat()}:{id(self)}"
+        data = f"{user_id}:{session_type}:{datetime.now(timezone.utc).isoformat()}:{id(self)}"
         return hashlib.sha256(data.encode()).hexdigest()[:32]
 
     def _calculate_data_age(self, data_content: dict[str, Any]) -> int:
@@ -400,7 +400,7 @@ class SEEDRACore:
             return 0
 
         created_date = datetime.fromisoformat(created_at)
-        return (datetime.now() - created_date).days
+        return (datetime.now(timezone.utc) - created_date).days
 
     async def _log_audit_event(self, event: dict[str, Any]) -> None:
         """Log event to audit trail"""
@@ -435,7 +435,7 @@ class SEEDRACore:
             "active_sessions": len(self.active_sessions),
             "audit_log_size": len(self.audit_log),
             "ethical_constraints": len(self.ethical_constraints),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 

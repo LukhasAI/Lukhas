@@ -44,7 +44,7 @@ from candidate.core.common import get_logger
 # Import LUKHAS core components
 # Import lukhas core components
 try:
-    # Try importing core components (currently not available)
+    # Try importing core components (currently not available, timezone)
     pass
     #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE
     #     from ...CORE.memory.memory_manager import MemoryManager  # TODO: Install or implement CORE
@@ -184,7 +184,7 @@ class GuardianReflector:
         if not self.is_active:
             raise RuntimeError("Guardian Reflector not initialized")
 
-        decision_id = decision_id or f"decision_{datetime.now().isoformat()}"
+        decision_id = decision_id or f"decision_{datetime.now(timezone.utc).isoformat()}"
 
         logger.info(f"Performing ethical reflection on decision: {decision_id}")
 
@@ -212,7 +212,7 @@ class GuardianReflector:
             justification=justification,
             concerns=concerns,
             recommendations=recommendations,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             consciousness_impact=consciousness_impact,
         )
 
@@ -238,7 +238,7 @@ class GuardianReflector:
             MoralDrift analysis results
         """
         time_window = time_window or timedelta(days=7)
-        cutoff_time = datetime.now() - time_window
+        cutoff_time = datetime.now(timezone.utc) - time_window
 
         # Get recent reflections
         recent_reflections = [r for r in self.reflection_history if r.timestamp >= cutoff_time]
@@ -304,7 +304,7 @@ class GuardianReflector:
             "threat_level": threat_level,
             "protections_activated": protections,
             "protection_results": protection_results,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         logger.info(f"Consciousness protection response: {len(protections)} protections activated")
@@ -495,7 +495,7 @@ class GuardianReflector:
         if self.integration_layer:
             await self.integration_layer.publish(
                 "ethical_emergency",
-                {"reflection": reflection, "timestamp": datetime.now().isoformat()},
+                {"reflection": reflection, "timestamp": datetime.now(timezone.utc).isoformat()},
             )
 
     # Helper methods for specific assessments
@@ -615,7 +615,7 @@ class GuardianReflector:
         return {
             "protection": protection,
             "status": "activated",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _on_decision_request(self, event_data: dict[str, Any]) -> None:
@@ -627,7 +627,7 @@ class GuardianReflector:
             if self.integration_layer:
                 await self.integration_layer.publish(
                     "ethical_reflection",
-                    {"reflection": reflection, "timestamp": datetime.now().isoformat()},
+                    {"reflection": reflection, "timestamp": datetime.now(timezone.utc).isoformat()},
                 )
         except Exception as e:
             logger.error(f"Error handling decision request: {e}")

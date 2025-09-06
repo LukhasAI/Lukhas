@@ -75,7 +75,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Quantum-Bio Integration Components
 try:
@@ -300,7 +300,7 @@ class EnhancedQIEngine:
                 self.entanglement_map[signature] = {
                     "states": [state1.tolist(), state2.tolist()],
                     "strength": self.config["entanglement_strength"],
-                    "created_at": datetime.now().isoformat(),
+                    "created_at": datetime.now(timezone.utc).isoformat(),
                 }
 
             # Process entangled states

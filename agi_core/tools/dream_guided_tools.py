@@ -9,7 +9,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable, Optional, Set
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -182,7 +182,7 @@ class DreamGuidedToolFramework:
         # Learning and adaptation
         self.usage_patterns: dict[str, list[dict[str, Any]]] = {}
         self.success_rates: dict[str, float] = {}
-        self.dream_enhanced_tools: Set[str] = set()
+        self.dream_enhanced_tools: set[str] = set()
 
         # Configuration
         self.insight_confidence_threshold = 0.6

@@ -1165,7 +1165,7 @@ class SymbolicDeltaCompressionManager:
         """Predict system load for compression scheduling"""
 
         # Simulate system load prediction
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
 
         # Model daily load patterns (higher during business hours)
         if 9 <= current_hour <= 17:

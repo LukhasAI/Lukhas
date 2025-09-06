@@ -37,7 +37,7 @@ from typing import Optional
 import yaml
 
 # Configure consciousness logger
-logging.basicConfig(level=logging.INFO, format="🗂️ %(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="🗂️ %(asctime, timezone)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("OrganizationOracle")
 
 
@@ -209,7 +209,7 @@ class LUKHASFileOrganizationOracle:
 
             # Log the organization action
             action = {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "source": str(file_path),
                 "destination": str(dest_path),
                 "reason": reason,
@@ -273,7 +273,7 @@ class LUKHASFileOrganizationOracle:
         report_dir = self.workspace_root / "data" / "organization"
         report_dir.mkdir(parents=True, exist_ok=True)
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         report_file = report_dir / f"organization_report_{timestamp}.yaml"
 
         with open(report_file, "w") as f:

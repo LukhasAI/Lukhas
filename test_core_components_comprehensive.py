@@ -367,7 +367,7 @@ class TestMemorySQL:
     def setup_test_database(self):
         """Create a temporary test database."""
         temp_dir = tempfile.gettempdir()
-        self.test_db_path = os.path.join(temp_dir, f"test_memory_{datetime.now().strftime('%Y%m%d_%H%M%S')}.db")
+        self.test_db_path = os.path.join(temp_dir, f"test_memory_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.db")
         return f"sqlite:///{self.test_db_path}"
 
     def cleanup_test_database(self):

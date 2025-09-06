@@ -24,7 +24,7 @@ class ConsolidationTask:
 class MemoryConsolidator:
     """Consolidates memories for long-term storage"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.pending_tasks: list[ConsolidationTask] = []
         self.completed_tasks: list[ConsolidationTask] = []
         self.consolidation_stats = {
@@ -38,7 +38,7 @@ class MemoryConsolidator:
         task = ConsolidationTask(
             source_memories=memory_ids,
             consolidation_type=consolidation_type,
-            scheduled_at=datetime.now() + timedelta(hours=1),  # Delay for stability
+            scheduled_at=datetime.now(timezone.utc) + timedelta(hours=1),  # Delay for stability
         )
 
         self.pending_tasks.append(task)
@@ -52,7 +52,7 @@ class MemoryConsolidator:
             "consolidated_to": 1,
             "compression_ratio": len(memory_ids),
             "method": "abstract_extraction",
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # Update stats
@@ -92,7 +92,7 @@ class MemoryConsolidator:
             "abstract": "Consolidated memory abstraction",
             "source_count": len(memories),
             "key_concepts": ["memory", "consolidation", "abstraction"],
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
     def run_consolidation_cycle(self):
@@ -100,7 +100,7 @@ class MemoryConsolidator:
         completed = []
 
         for task in self.pending_tasks:
-            if task.scheduled_at and task.scheduled_at <= datetime.now():
+            if task.scheduled_at and task.scheduled_at <= datetime.now(timezone.utc):
                 # Process consolidation
                 if task.consolidation_type == "compress":
                     result = self.compress_memory(task.source_memories)

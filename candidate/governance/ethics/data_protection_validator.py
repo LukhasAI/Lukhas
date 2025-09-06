@@ -24,7 +24,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class LawfulBasis(Enum):
@@ -177,7 +177,7 @@ class GDPRValidator:
             return GDPRAssessment(
                 activity_id=activity.activity_id,
                 compliance_status=compliance_status,
-                assessment_date=datetime.now(),
+                assessment_date=datetime.now(timezone.utc),
                 lawfulness_score=lawfulness_score,
                 privacy_rights_score=rights_score,
                 security_score=security_score,
@@ -359,11 +359,11 @@ class GDPRValidator:
     def _calculate_next_review_date(self, overall_score: float) -> datetime:
         """Calculate next compliance review date"""
         if overall_score >= 0.9:
-            return datetime.now() + timedelta(days=180)  # 6 months
+            return datetime.now(timezone.utc) + timedelta(days=180)  # 6 months
         elif overall_score >= 0.7:
-            return datetime.now() + timedelta(days=90)  # 3 months
+            return datetime.now(timezone.utc) + timedelta(days=90)  # 3 months
         else:
-            return datetime.now() + timedelta(days=30)  # 1 month
+            return datetime.now(timezone.utc) + timedelta(days=30)  # 1 month
 
     async def generate_dpia_assessment(self, activity: DataProcessingActivity) -> dict[str, Any]:
         """

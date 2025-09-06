@@ -9,7 +9,7 @@ import time
 from datetime import datetime
 
 
-def test_import(module_name, description=""):
+def test_import(module_name, description="", timezone):
     """Test if a module can be imported"""
     try:
         if "." in module_name:
@@ -42,7 +42,7 @@ def main():
             lukhas_dirs.append(item)
 
     print(f"🔍 Discovered {len(lukhas_dirs)} top-level directories")
-    print(f'🚀 Ecosystem scan started: {datetime.now().strftime("%H:%M:%S")}')
+    print(f'🚀 Ecosystem scan started: {datetime.now(timezone.utc).strftime("%H:%M:%S")}')
     print()
 
     # Comprehensive system testing

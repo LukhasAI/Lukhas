@@ -70,7 +70,7 @@ from lukhas.core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 # LUKHAS system imports
 from lukhas.core.oracle_nervous_system import get_oracle_nervous_system
 
-logger = logging.getLogger("ΛTRACE.websocket_server")
+logger = logging.getLogger("ΛTRACE.websocket_server", timezone)
 
 
 class StreamType(Enum):
@@ -123,7 +123,7 @@ class DashboardWebSocketServer:
     def __init__(self, host: str = "localhost", port: int = 8765):
         self.host = host
         self.port = port
-        self.server_id = f"dashboard_ws_{int(datetime.now().timestamp())}"
+        self.server_id = f"dashboard_ws_{int(datetime.now(timezone.utc).timestamp())}"
         self.logger = logger.bind(server_id=self.server_id)
 
         # FastAPI application
@@ -184,7 +184,7 @@ class DashboardWebSocketServer:
                 "status": "healthy",
                 "server_id": self.server_id,
                 "connected_clients": len(self.clients),
-                "uptime": ((datetime.now() - self.start_time).total_seconds() if hasattr(self, "start_time") else 0),
+                "uptime": ((datetime.now(timezone.utc) - self.start_time).total_seconds() if hasattr(self, "start_time") else 0),
             }
 
         # Metrics endpoint
@@ -199,7 +199,7 @@ class DashboardWebSocketServer:
 
     async def initialize(self):
         """Initialize the WebSocket server and dashboard components."""
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self.logger.info("Initializing Dashboard WebSocket Server")
 
         try:
@@ -318,8 +318,8 @@ class DashboardWebSocketServer:
                 subscribed_streams=(
                     {requested_stream} if requested_stream != StreamType.ALL_STREAMS else set(StreamType)
                 ),
-                connected_at=datetime.now(),
-                last_activity=datetime.now(),
+                connected_at=datetime.now(timezone.utc),
+                last_activity=datetime.now(timezone.utc),
             )
 
             # Add to clients
@@ -342,7 +342,7 @@ class DashboardWebSocketServer:
                 while True:
                     message = await websocket.receive_text()
                     await self._handle_client_message(client, message)
-                    client.last_activity = datetime.now()
+                    client.last_activity = datetime.now(timezone.utc)
 
             except WebSocketDisconnect:
                 self.logger.info("Client disconnected", client_id=client_id)
@@ -372,7 +372,7 @@ class DashboardWebSocketServer:
             "server_id": self.server_id,
             "subscribed_streams": [stream.value for stream in client.subscribed_streams],
             "server_capabilities": [stream.value for stream in StreamType],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         await client.websocket.send_text(json.dumps(welcome_data))
@@ -457,7 +457,7 @@ class DashboardWebSocketServer:
             message_id=str(uuid.uuid4()),
             stream_type=stream_type,
             data=data,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             priority=priority,
             target_clients=target_clients,
         )
@@ -555,7 +555,7 @@ class DashboardWebSocketServer:
         """Background task to clean up disconnected clients."""
         while True:
             try:
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 cleanup_threshold = timedelta(minutes=5)
 
                 clients_to_remove = []
@@ -610,7 +610,7 @@ class DashboardWebSocketServer:
             status = await self.oracle_nervous_system.get_system_status()
             return {
                 "oracle_status": status,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             self.logger.error("Oracle metrics stream error", error=str(e))
@@ -625,7 +625,7 @@ class DashboardWebSocketServer:
             status = await self.ethics_swarm.get_system_status()
             return {
                 "ethics_status": status,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             self.logger.error("Ethics swarm stream error", error=str(e))
@@ -640,7 +640,7 @@ class DashboardWebSocketServer:
             health_status = await self.healing_manager.get_system_health_status()
             return {
                 "system_health": health_status,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             self.logger.error("System health stream error", error=str(e))
@@ -674,7 +674,7 @@ class DashboardWebSocketServer:
                     }
                     for agent in self.colony_agents
                 ],
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             return coordination_data
         except Exception as e:
@@ -687,7 +687,7 @@ class DashboardWebSocketServer:
         """Handle performance metrics stream."""
         return {
             "server_metrics": self.performance_metrics.copy(),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _handle_predictions_stream(self) -> Optional[dict[str, Any]]:
@@ -702,7 +702,7 @@ class DashboardWebSocketServer:
             return {
                 "tab_predictions": tab_predictions,
                 "morph_predictions": morph_predictions,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             self.logger.error("Predictions stream error", error=str(e))

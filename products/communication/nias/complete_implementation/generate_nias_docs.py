@@ -11,8 +11,7 @@ from pathlib import Path
 
 # Add the LukhasDoc plugin to path for import
 ladoc_path = Path(
-    "/Users/A_G_I/LUKHAS_REBIRTH_Workspace/Lucas_Private/Lukhas-Flagship-Prototype-Pre-Modularitation/prot2/plugins/ladoc"
-)
+    "/Users/A_G_I/LUKHAS_REBIRTH_Workspace/Lucas_Private/Lukhas-Flagship-Prototype-Pre-Modularitation/prot2/plugins/ladoc", timezone)
 if ladoc_path.exists():
     sys.path.insert(0, str(ladoc_path))
 
@@ -39,7 +38,7 @@ def generate_nias_documentation():
         "title": "NIAS Modular Plugin System: Comprehensive Documentation",
         "subtitle": "Lucas-Enhanced with EU/US Compliance & AGI Socio-Economic Alignment",
         "version": "3.0",
-        "last_updated": datetime.now().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
         "compliance_status": "Full EU AI Act, GDPR, Multi-State US Privacy Laws",
         "agi_readiness": "Phase 1 Implementation Ready",
         "document_type": "Strategic Architecture & Implementation Guide",
@@ -142,7 +141,7 @@ def generate_nias_documentation():
 title: "NIAS Modular Plugin System: Strategic Plan & Architecture"
 subtitle: "Lucas-Enhanced with Comprehensive EU/US Compliance & AGI Socio-Economic Alignment"
 version: "3.0"
-date: "{datetime.now().strftime("%Y-%m-%d")}"
+date: "{datetime.now(timezone.utc).strftime("%Y-%m-%d")}"
 compliance_status: "Full EU AI Act, GDPR, Multi-State US Privacy Laws"
 agi_readiness: "Phase 1 Implementation Ready"
 document_type: "Strategic Architecture & Implementation Guide"

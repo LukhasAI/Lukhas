@@ -71,7 +71,7 @@ try:
 except ImportError:
     # Mock imports for standalone testing
     DreamMemoryManager = None
-    DriftPhase = Enum("DriftPhase", "EARLY MIDDLE LATE CASCADE")
+    DriftPhase = Enum("DriftPhase", "EARLY MIDDLE LATE CASCADE", timezone)
     DriftScore = None
     EthicalDriftDetector = None
     Glyph = None
@@ -336,7 +336,7 @@ class SymbolicDriftAnalyzer:
             # Update global tracking
             for tag in tags:
                 self.global_tag_counts[tag] += 1
-                self.tag_timestamps[tag].append(dream.get("timestamp", datetime.now()))
+                self.tag_timestamps[tag].append(dream.get("timestamp", datetime.now(timezone.utc)))
 
             # Track co-occurrences
             for i, tag1 in enumerate(tags):
@@ -408,7 +408,7 @@ class SymbolicDriftAnalyzer:
         if not self.tag_timestamps:
             return 0.0
 
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         recent_window = timedelta(hours=24)
 
         recent_tags = set()
@@ -435,7 +435,7 @@ class SymbolicDriftAnalyzer:
     def _identify_emerging_tags(self, window_hours: int = 24) -> list[str]:
         """Identify tags that are increasing in frequency"""
         emerging = []
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         window = timedelta(hours=window_hours)
 
         for tag, timestamps in self.tag_timestamps.items():
@@ -453,7 +453,7 @@ class SymbolicDriftAnalyzer:
     def _identify_declining_tags(self, window_hours: int = 24) -> list[str]:
         """Identify tags that are decreasing in frequency"""
         declining = []
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         window = timedelta(hours=window_hours)
 
         for tag, timestamps in self.tag_timestamps.items():
@@ -588,7 +588,7 @@ class SymbolicDriftAnalyzer:
 
         for dream in dreams:
             tags.extend(dream.get("tags", []))
-            timestamps.append(dream.get("timestamp", datetime.now()))
+            timestamps.append(dream.get("timestamp", datetime.now(timezone.utc)))
             contents.append(dream.get("content", {}))
 
         entropy_metrics = EntropyMetrics(
@@ -636,7 +636,7 @@ class SymbolicDriftAnalyzer:
         # Prepare results
         results = {
             "status": "analyzed",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "dreams_analyzed": len(dreams),
             "total_dreams_analyzed": self.total_dreams_analyzed,
             "current_drift_phase": self.current_drift_phase.value,
@@ -913,7 +913,7 @@ class SymbolicDriftAnalyzer:
         ]
 
         dreams = []
-        base_time = datetime.now() - timedelta(days=7)
+        base_time = datetime.now(timezone.utc) - timedelta(days=7)
 
         for i in range(count):
             # Simulate drift by changing tag distribution over time
@@ -1093,7 +1093,7 @@ class SymbolicDriftAnalyzer:
         """Export comprehensive analysis report"""
         report = {
             "metadata": {
-                "generated_at": datetime.now().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "analyzer_version": "1.0.0",
                 "total_dreams_analyzed": self.total_dreams_analyzed,
                 "current_phase": self.current_drift_phase.value,

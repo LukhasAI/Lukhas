@@ -22,7 +22,7 @@ INTENT_DICTIONARY = {
 }
 
 
-def interpret_intent(text):
+def interpret_intent(text, timezone):
     text_lower = text.lower()
     for intent, keywords in INTENT_DICTIONARY.items():
         if any(kw in text_lower for kw in keywords):
@@ -31,7 +31,7 @@ def interpret_intent(text):
 
 
 def log_interpretation(text, intent):
-    log = {"text": text, "intent": intent, "timestamp": datetime.now().isoformat()}
+    log = {"text": text, "intent": intent, "timestamp": datetime.now(timezone.utc).isoformat()}
     with open("symbolic_ai/memoria/intent_log.jsonl", "a") as f:
         f.write(json.dumps(log) + "\n")
 

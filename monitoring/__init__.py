@@ -33,7 +33,7 @@ class SystemMetrics:
     """System resource metrics collector"""
 
     @staticmethod
-    def get_cpu_metrics() -> Dict[str, Any]:
+    def get_cpu_metrics() -> dict[str, Any]:
         """Get CPU usage metrics"""
         return {
             "cpu_percent": psutil.cpu_percent(interval=1),
@@ -43,7 +43,7 @@ class SystemMetrics:
         }
 
     @staticmethod
-    def get_memory_metrics() -> Dict[str, Any]:
+    def get_memory_metrics() -> dict[str, Any]:
         """Get memory usage metrics"""
         memory = psutil.virtual_memory()
         return {
@@ -55,7 +55,7 @@ class SystemMetrics:
         }
 
     @staticmethod
-    def get_disk_metrics() -> Dict[str, Any]:
+    def get_disk_metrics() -> dict[str, Any]:
         """Get disk usage metrics"""
         disk = psutil.disk_usage("/")
         return {
@@ -71,7 +71,7 @@ class ConsciousnessMonitor:
     """Monitor consciousness module health"""
 
     @staticmethod
-    def check_memory_system() -> Dict[str, Any]:
+    def check_memory_system() -> dict[str, Any]:
         """Check memory system health"""
         try:
             from lukhas.memory import MEMORY_AVAILABLE, create_fold
@@ -89,7 +89,7 @@ class ConsciousnessMonitor:
             return {"status": "error", "error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     @staticmethod
-    def check_agent_system() -> Dict[str, Any]:
+    def check_agent_system() -> dict[str, Any]:
         """Check agent system health"""
         try:
             from agent import get_agent_system_status
@@ -105,7 +105,7 @@ class ConsciousnessMonitor:
             return {"status": "error", "error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
-def get_monitoring_status() -> Dict[str, Any]:
+def get_monitoring_status() -> dict[str, Any]:
     """Get comprehensive monitoring system status"""
     return {
         "version": __version__,
@@ -117,7 +117,7 @@ def get_monitoring_status() -> Dict[str, Any]:
     }
 
 
-def collect_system_metrics() -> Dict[str, Any]:
+def collect_system_metrics() -> dict[str, Any]:
     """Collect comprehensive system metrics"""
     try:
         metrics = SystemMetrics()
@@ -134,7 +134,7 @@ def collect_system_metrics() -> Dict[str, Any]:
         return {"status": "error", "error": str(e), "collection_time": datetime.now(timezone.utc).isoformat()}
 
 
-def monitor_consciousness_health() -> Dict[str, Any]:
+def monitor_consciousness_health() -> dict[str, Any]:
     """Monitor consciousness system health"""
     try:
         monitor = ConsciousnessMonitor()
@@ -151,7 +151,7 @@ def monitor_consciousness_health() -> Dict[str, Any]:
         return {"status": "error", "error": str(e), "check_time": datetime.now(timezone.utc).isoformat()}
 
 
-def create_alert(severity: str, message: str, source: str, metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def create_alert(severity: str, message: str, source: str, metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Create monitoring alert"""
     try:
         alert = {
@@ -171,7 +171,7 @@ def create_alert(severity: str, message: str, source: str, metadata: Optional[Di
         return {"status": "error", "error": str(e)}
 
 
-def get_health_dashboard() -> Dict[str, Any]:
+def get_health_dashboard() -> dict[str, Any]:
     """Get comprehensive health dashboard"""
     try:
         system_metrics = collect_system_metrics()

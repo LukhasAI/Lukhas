@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class SafetyViolationType(Enum):
@@ -474,7 +474,7 @@ class NIASConstitutionalSafety:
     def _log_violation(self, action_type: str, evaluation: SafetyEvaluation) -> None:
         """Log safety violations for learning and auditing"""
         violation = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "action_type": action_type,
             "violated_principles": evaluation.violated_principles,
             "risk_score": evaluation.risk_score,
@@ -691,7 +691,7 @@ class NIASConstitutionalSafety:
 
     def _calculate_recent_safety_rate(self, hours: int = 24) -> float:
         """Calculate safety rate for recent evaluations"""
-        cutoff = datetime.now().timestamp() - (hours * 3600)
+        cutoff = datetime.now(timezone.utc).timestamp() - (hours * 3600)
         recent = [d for d in self.safety_decisions if d.timestamp.timestamp() > cutoff]
 
         if not recent:

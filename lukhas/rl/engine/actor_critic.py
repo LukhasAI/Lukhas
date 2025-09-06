@@ -12,7 +12,6 @@ Implements consciousness-aware RL actors and critics with:
 - Trinity Framework compliance
 """
 
-from typing import Tuple
 
 import torch
 import torch.nn as nn
@@ -58,7 +57,7 @@ class ConsciousnessActorCritic(nn.Module):
             nn.Linear(hidden_dim, 1),
         )
 
-    def forward(self, state: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def forward(self, state: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         """
         Forward pass through consciousness-aware actor-critic
 
@@ -77,7 +76,7 @@ class ConsciousnessActorCritic(nn.Module):
 
         return action_probs, state_value
 
-    def get_action(self, state: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def get_action(self, state: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
         """Sample action from policy"""
         action_probs, state_value = self.forward(state)
         action_dist = torch.distributions.Categorical(action_probs)
@@ -86,7 +85,7 @@ class ConsciousnessActorCritic(nn.Module):
 
     def evaluate_action(
         self, state: torch.Tensor, action: torch.Tensor
-    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Evaluate action log probability and entropy"""
         action_probs, state_value = self.forward(state)
         action_dist = torch.distributions.Categorical(action_probs)

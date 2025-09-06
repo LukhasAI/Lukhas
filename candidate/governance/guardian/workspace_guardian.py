@@ -32,8 +32,7 @@ try:
         EthicalDecision,
         EthicalSeverity,
         GovernanceAction,
-        LucasGovernanceModule,
-    )
+        LucasGovernanceModule,, timezone)
 except ImportError:
     # Fallback for relative import
     try:
@@ -105,7 +104,7 @@ class WorkspaceGuardian:
         self.critical_directories = {".git", ".github", "governance", "core"}
 
         self.workspace_health_score = 1.0
-        self.last_cleanup_check = datetime.now()
+        self.last_cleanup_check = datetime.now(timezone.utc)
 
     async def initialize(self):
         """Initialize the  workspace guardian."""
@@ -129,7 +128,7 @@ class WorkspaceGuardian:
                 "workspace_root": self.workspace_root,
                 "user_id": "_user",
                 "access_tier": 5,  # High trust for workspace owner
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 **context,
             },
         }
@@ -212,7 +211,7 @@ class WorkspaceGuardian:
             "critical_files_ratio": critical_ratio,
             "issues": issues,
             "recommendations": recommendations,
-            "last_check": datetime.now().isoformat(),
+            "last_check": datetime.now(timezone.utc).isoformat(),
             "symbolic": self._get_health_symbol(self.workspace_health_score),
         }
 
@@ -279,7 +278,7 @@ class WorkspaceGuardian:
 
         # Check for archive opportunities
         old_files = []
-        cutoff_date = datetime.now().timestamp() - (90 * 24 * 60 * 60)  # 90 days ago
+        cutoff_date = datetime.now(timezone.utc).timestamp() - (90 * 24 * 60 * 60)  # 90 days ago
 
         for file_path in Path(self.workspace_root).rglob("*.md"):
             if file_path.is_file() and file_path.stat().st_mtime < cutoff_date:
@@ -299,7 +298,7 @@ class WorkspaceGuardian:
             "suggestions": suggestions,
             "cleanup_candidates": len(cleanup_candidates),
             "archive_candidates": len(old_files),
-            "last_check": datetime.now().isoformat(),
+            "last_check": datetime.now(timezone.utc).isoformat(),
             "workspace_health": self.workspace_health_score,
         }
 
@@ -318,7 +317,7 @@ class WorkspaceGuardian:
         governance_health = await self.governance.get_health_status()
 
         protection_report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "workspace_root": self.workspace_root,
             "workspace_health": health,
             "cleanup_suggestions": cleanup,

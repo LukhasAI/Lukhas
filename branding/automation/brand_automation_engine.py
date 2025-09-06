@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 from engines.database_integration import db
 
 
@@ -66,7 +66,7 @@ class BrandAutomationEngine:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"brand_automation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"brand_automation_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -141,7 +141,7 @@ class BrandAutomationEngine:
     def _save_automation_config(self):
         """Save automation configuration"""
         config_data = {
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "tasks": [asdict(task) for task in self.automation_tasks],
         }
 
@@ -442,7 +442,7 @@ class BrandAutomationEngine:
         actions = []
 
         # Get content older than 30 days
-        thirty_days_ago = datetime.now() - timedelta(days=30)
+        thirty_days_ago = datetime.now(timezone.utc) - timedelta(days=30)
         all_content = db.get_all_content(100)
 
         outdated_count = 0
@@ -487,7 +487,7 @@ class BrandAutomationEngine:
                     result = {"error": f"Unknown task type: {task.task_type}"}
 
                 cycle_results[task.task_id] = result
-                task.last_run = datetime.now().isoformat()
+                task.last_run = datetime.now(timezone.utc).isoformat()
 
                 # Update success rate
                 if "error" not in result:
@@ -508,7 +508,7 @@ class BrandAutomationEngine:
         total_tasks = len(cycle_results)
 
         summary = {
-            "cycle_completed": datetime.now().isoformat(),
+            "cycle_completed": datetime.now(timezone.utc).isoformat(),
             "tasks_run": total_tasks,
             "tasks_successful": successful_tasks,
             "success_rate": (successful_tasks / total_tasks * 100) if total_tasks > 0 else 0,

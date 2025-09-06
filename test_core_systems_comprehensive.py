@@ -15,7 +15,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 import asyncio
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 # Test environment setup
 TEST_MODE = True
@@ -175,7 +175,7 @@ class TestSupervisorAgent:
             print(f"    ❌ Escalation tracking failed: {e}")
             return False
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive supervisor agent tests"""
         print("🎭 TESTING SUPERVISOR AGENT")
         print("=" * 50)
@@ -380,7 +380,7 @@ class TestGLYPHCommunication:
             print(f"    ❌ GLYPH communication patterns failed: {e}")
             return False
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive GLYPH communication tests"""
         print("🔤 TESTING GLYPH COMMUNICATION SYSTEM")
         print("=" * 50)
@@ -425,7 +425,7 @@ class TestGuardianSecurity:
             print("    🛡️ Testing Guardian security validation...")
 
             # Test input validation patterns (manual implementation for testing)
-            def validate_user_input(user_input: str) -> Dict[str, Any]:
+            def validate_user_input(user_input: str) -> dict[str, Any]:
                 """Mock security validation"""
 
                 # Basic validation rules
@@ -489,7 +489,7 @@ class TestGuardianSecurity:
                     user_perms = self.user_permissions.get(user_id, [])
                     return required_permission in user_perms
 
-                def validate_operation(self, user_id: str, operation: str) -> Dict[str, Any]:
+                def validate_operation(self, user_id: str, operation: str) -> dict[str, Any]:
                     permission_map = {
                         "read_data": "read",
                         "write_data": "write",
@@ -552,7 +552,7 @@ class TestGuardianSecurity:
                 def __init__(self):
                     self.audit_log = []
 
-                def log_security_event(self, event_type: str, user_id: str, details: Dict[str, Any]) -> str:
+                def log_security_event(self, event_type: str, user_id: str, details: dict[str, Any]) -> str:
                     audit_entry = {
                         "event_id": f"audit_{uuid.uuid4().hex[:8]}",
                         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -576,7 +576,7 @@ class TestGuardianSecurity:
                     }
                     return severity_map.get(event_type, "info")
 
-                def get_security_summary(self) -> Dict[str, Any]:
+                def get_security_summary(self) -> dict[str, Any]:
                     if not self.audit_log:
                         return {"total_events": 0}
 
@@ -632,7 +632,7 @@ class TestGuardianSecurity:
             print(f"    ❌ Security audit trails failed: {e}")
             return False
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive Guardian security tests"""
         print("🔐 TESTING GUARDIAN SECURITY CORE")
         print("=" * 50)
@@ -682,7 +682,7 @@ class TestBioSymbolicSystems:
                     self.neural_patterns = {}
                     self.symbolic_mappings = {}
 
-                def process_biological_pattern(self, pattern_data: Dict[str, Any]) -> Dict[str, Any]:
+                def process_biological_pattern(self, pattern_data: dict[str, Any]) -> dict[str, Any]:
                     """Process biological-inspired patterns"""
 
                     pattern_type = pattern_data.get("type", "unknown")
@@ -696,7 +696,7 @@ class TestBioSymbolicSystems:
                     else:
                         return {"success": False, "reason": "unknown_pattern_type"}
 
-                def _process_neural_pathway(self, data: Dict[str, Any]) -> Dict[str, Any]:
+                def _process_neural_pathway(self, data: dict[str, Any]) -> dict[str, Any]:
                     """Simulate neural pathway processing"""
                     neurons = data.get("neurons", [])
                     connections = data.get("connections", [])
@@ -714,7 +714,7 @@ class TestBioSymbolicSystems:
                         "processed_connections": len(connections),
                     }
 
-                def _process_genetic_algorithm(self, data: Dict[str, Any]) -> Dict[str, Any]:
+                def _process_genetic_algorithm(self, data: dict[str, Any]) -> dict[str, Any]:
                     """Simulate genetic algorithm processing"""
                     population = data.get("population", [])
                     generations = data.get("generations", 1)
@@ -731,7 +731,7 @@ class TestBioSymbolicSystems:
                         "average_fitness": avg_fitness,
                     }
 
-                def _process_swarm_intelligence(self, data: Dict[str, Any]) -> Dict[str, Any]:
+                def _process_swarm_intelligence(self, data: dict[str, Any]) -> dict[str, Any]:
                     """Simulate swarm intelligence processing"""
                     agents = data.get("agents", [])
                     collective_behavior = data.get("behavior", "exploration")
@@ -815,7 +815,7 @@ class TestBioSymbolicSystems:
                         "🔮": {"meaning": "prediction", "category": "intelligence", "weight": 0.6},
                     }
 
-                def analyze_symbolic_pattern(self, symbols: List[str]) -> Dict[str, Any]:
+                def analyze_symbolic_pattern(self, symbols: list[str]) -> dict[str, Any]:
                     """Analyze a sequence of symbols for patterns"""
 
                     if not symbols:
@@ -866,7 +866,7 @@ class TestBioSymbolicSystems:
                         ),
                     }
 
-                def find_symbolic_relationships(self, symbol1: str, symbol2: str) -> Dict[str, Any]:
+                def find_symbolic_relationships(self, symbol1: str, symbol2: str) -> dict[str, Any]:
                     """Find relationships between symbols"""
 
                     if symbol1 not in self.symbol_database or symbol2 not in self.symbol_database:
@@ -947,8 +947,8 @@ class TestBioSymbolicSystems:
                     self.bio_rhythms = {}
 
                 def integrate_bio_consciousness(
-                    self, bio_data: Dict[str, Any], consciousness_data: Dict[str, Any]
-                ) -> Dict[str, Any]:
+                    self, bio_data: dict[str, Any], consciousness_data: dict[str, Any]
+                ) -> dict[str, Any]:
                     """Integrate biological patterns with consciousness data"""
 
                     # Extract bio rhythm
@@ -997,7 +997,7 @@ class TestBioSymbolicSystems:
                     }
                     return recommendations.get(state, "Monitor state changes")
 
-                def analyze_consciousness_evolution(self) -> Dict[str, Any]:
+                def analyze_consciousness_evolution(self) -> dict[str, Any]:
                     """Analyze how consciousness patterns evolve over time"""
 
                     if not self.consciousness_patterns:
@@ -1070,7 +1070,7 @@ class TestBioSymbolicSystems:
             print(f"    ❌ Bio-consciousness integration failed: {e}")
             return False
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run comprehensive bio-symbolic systems tests"""
         print("🧬 TESTING BIO-SYMBOLIC SYSTEMS")
         print("=" * 50)

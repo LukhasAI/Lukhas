@@ -39,7 +39,7 @@ try:
 except ImportError:
     MitochondrialQIBridge = None
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class HormoneType(Enum):
@@ -261,7 +261,7 @@ class BioEngine:
                     self.current_state = SystemState.ACTIVE
 
                 # Record state change
-                self.state_history.append((datetime.now(), self.current_state))
+                self.state_history.append((datetime.now(timezone.utc), self.current_state))
                 if len(self.state_history) > 1000:
                     self.state_history = self.state_history[-1000:]
 
@@ -359,7 +359,7 @@ class BioEngine:
     async def get_bio_report(self) -> dict[str, Any]:
         """Generate comprehensive bio-system report"""
         # Phase synchronization check
-        current_time = datetime.now().timestamp()
+        current_time = datetime.now(timezone.utc).timestamp()
         self.mito_sync.update_phase("bio_engine", current_time)
 
         # Calculate system fitness

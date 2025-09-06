@@ -11,7 +11,7 @@ from functools import wraps
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class DecisionAuditEngine:
@@ -57,7 +57,7 @@ class DecisionAuditEngine:
 
         audit_entry = {
             "decision_id": decision_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "decision_type": decision_type,
             "source": source,
             "context": context,
@@ -86,7 +86,7 @@ class DecisionAuditEngine:
         """Track the outcome of a decision"""
         outcome_entry = {
             "decision_id": decision_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "outcome": str(outcome),
             "success": success,
             "error": error,
@@ -135,7 +135,7 @@ class DecisionAuditEngine:
         await self._persist_audit_cache()
 
         report = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_decisions": self.decision_count,
             "decision_types": {},
             "sources": {},
@@ -170,7 +170,7 @@ class DecisionAuditEngine:
 
     def _generate_decision_id(self, decision_type: str, source: str) -> str:
         """Generate unique decision ID"""
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         data = f"{decision_type}:{source}:{timestamp}:{self.decision_count}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
@@ -178,7 +178,7 @@ class DecisionAuditEngine:
         """Get or create session ID for source"""
         if source not in self.active_sessions:
             self.active_sessions[source] = hashlib.sha256(
-                f"{source}:{datetime.utcnow().isoformat()}".encode()
+                f"{source}:{datetime.now(timezone.utc).isoformat()}".encode()
             ).hexdigest()[:8]
         return self.active_sessions[source]
 
@@ -187,7 +187,7 @@ class DecisionAuditEngine:
         if not self.audit_cache:
             return
 
-        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         audit_file = self.audit_dir / f"audit_{timestamp}.json"
 
         with open(audit_file, "w") as f:

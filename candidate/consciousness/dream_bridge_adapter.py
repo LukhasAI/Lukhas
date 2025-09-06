@@ -10,7 +10,7 @@ from candidate.core.common import get_logger
 
 from .dream_bridge import DreamConsciousnessBridge
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class DreamBridge:
@@ -52,7 +52,7 @@ class DreamBridge:
         dream_result = await self.bridge.process_consciousness_to_dream(state)
 
         # Store active dream
-        dream_id = f"dream_{datetime.now().timestamp()}"
+        dream_id = f"dream_{datetime.now(timezone.utc).timestamp()}"
         self.active_dreams[dream_id] = dream_result
 
         return {"dream_id": dream_id, "dream_data": dream_result, "status": "active"}
@@ -73,7 +73,7 @@ class DreamBridge:
                 "dream_id": dream_id,
                 "feedback": feedback,
                 "consciousness_result": consciousness_result,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 

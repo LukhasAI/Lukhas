@@ -29,7 +29,7 @@ class SystemIntegrator:
     Ensures database content is actively used and updated by all platforms
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.base_path = Path(__file__).parent.parent
         self.db_path = self.base_path / "databases" / "lukhas_unified.db"
         self.engines_path = self.base_path / "engines"
@@ -44,7 +44,7 @@ class SystemIntegrator:
         logs_dir = self.base_path / "logs"
         logs_dir.mkdir(exist_ok=True)
 
-        log_file = logs_dir / f"system_integration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = logs_dir / f"system_integration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -116,7 +116,7 @@ class LukhasDatabaseIntegration:
             "🧠 Elite consciousness technology platform",
             "🛡️ Ethical consciousness technology protection",
             voice_coherence,
-            datetime.now().isoformat()
+            datetime.now(timezone.utc).isoformat()
         ))
 
         content_id = cursor.lastrowid
@@ -189,7 +189,7 @@ class LukhasDatabaseIntegration:
             UPDATE lukhas_content
             SET voice_coherence = ?, updated_at = ?
             WHERE id = ?
-        """, (new_coherence, datetime.now().isoformat(), content_id))
+        """, (new_coherence, datetime.now(timezone.utc).isoformat(), content_id))
 
         conn.commit()
         conn.close()
@@ -209,7 +209,7 @@ class LukhasDatabaseIntegration:
             activity_type,
             metric_value,
             "⚛️🧠🛡️ Trinity Framework",
-            datetime.now().isoformat()
+            datetime.now(timezone.utc).isoformat()
         ))
 
         conn.commit()
@@ -688,7 +688,7 @@ Generated through our unified platform with real database integration.
             'voice_coherence': doc_result['voice_coherence'],
             'trinity_integration': True,
             'systems_interconnected': True,
-            'workflow_completed': datetime.now().isoformat()
+            'workflow_completed': datetime.now(timezone.utc).isoformat()
         }
 
         # Log workflow completion
@@ -722,7 +722,7 @@ Generated through our unified platform with real database integration.
                 'specialist_bots': len(self.content_platform.get_specialist_bots()),
                 'document_formats': len(self.doc_engine.get_available_formats())
             },
-            'last_updated': datetime.now().isoformat()
+            'last_updated': datetime.now(timezone.utc).isoformat()
         }
 
         return dashboard
@@ -800,7 +800,7 @@ if __name__ == "__main__":
 
         report_content = f"""# 🔗 LUKHAS AI System Integration Report
 
-*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
+*Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}*
 
 ## 📊 Integration Results
 

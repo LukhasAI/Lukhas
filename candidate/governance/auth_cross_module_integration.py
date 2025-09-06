@@ -43,7 +43,7 @@ except ImportError:
     SymbolicKernelBus = None
 
 
-class ModuleType(Enum):
+class ModuleType(Enum, timezone):
     """LUKHAS AI module types"""
 
     CONSCIOUSNESS = "consciousness"
@@ -222,7 +222,7 @@ class AuthCrossModuleIntegrator:
             "messages_received": 0,
             "active_sessions": 0,
             "module_connections": 0,
-            "last_updated": datetime.now(),
+            "last_updated": datetime.now(timezone.utc),
         }
 
         # Initialize module adapters
@@ -255,7 +255,7 @@ class AuthCrossModuleIntegrator:
             # Register module
             self.registered_modules[module_type] = {
                 "config": module_config,
-                "registered_at": datetime.now(),
+                "registered_at": datetime.now(timezone.utc),
                 "active": True,
                 "message_count": 0,
                 "last_message": None,
@@ -267,7 +267,7 @@ class AuthCrossModuleIntegrator:
 
             # Update statistics
             self.integration_stats["module_connections"] = len(self.registered_modules)
-            self.integration_stats["last_updated"] = datetime.now()
+            self.integration_stats["last_updated"] = datetime.now(timezone.utc)
 
             # Send registration confirmation
             if auth_glyph_registry:
@@ -282,7 +282,7 @@ class AuthCrossModuleIntegrator:
                     "registration_confirmed",
                     {
                         "glyph": registration_glyph,
-                        "timestamp": datetime.now().isoformat(),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
                     },
                 )
 
@@ -358,7 +358,7 @@ class AuthCrossModuleIntegrator:
             symbolic_identity=symbolic_identity,
             constitutional_status=constitutional_status,
             guardian_status=guardian_status,
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
             metadata=auth_context,
         )
 
@@ -401,7 +401,7 @@ class AuthCrossModuleIntegrator:
                 glyph_encoding=glyph_message,
                 payload=await adapter["prepare_payload"](auth_context),
                 constellation_context=constellation_context,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 priority=self._determine_message_priority(auth_event),
             )
 
@@ -411,7 +411,7 @@ class AuthCrossModuleIntegrator:
             # Update module statistics
             if success and module_type in self.registered_modules:
                 self.registered_modules[module_type]["message_count"] += 1
-                self.registered_modules[module_type]["last_message"] = datetime.now()
+                self.registered_modules[module_type]["last_message"] = datetime.now(timezone.utc)
 
             return success
 
@@ -503,7 +503,7 @@ class AuthCrossModuleIntegrator:
                 glyph_encoding="GLYPH[SYSTEM]",
                 payload=payload,
                 constellation_context={"aspect": "system", "symbol": "⚙️"},
-                timestamp=datetime.now(),
+                timestamp=datetime.now(timezone.utc),
                 priority="normal",
             )
 
@@ -757,7 +757,7 @@ class AuthCrossModuleIntegrator:
             "constellation_integration": self.constellation_integration.get_constellation_context_for_module(
                 ModuleType.CORE, context.metadata
             ),
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
     async def cleanup_user_contexts(self, user_id: str) -> bool:
@@ -794,7 +794,7 @@ class AuthCrossModuleIntegrator:
             "glyph_communication": auth_glyph_registry is not None,
             "kernel_bus_available": self.kernel_bus is not None,
             "statistics": self.integration_stats,
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
 

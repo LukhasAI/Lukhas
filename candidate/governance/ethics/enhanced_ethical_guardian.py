@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class EthicalSeverity(Enum):
@@ -174,7 +174,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         try:
             # Initialize analysis context
             analysis_context = {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input_length": len(user_input),
                 "context_type": current_context.get("type", "unknown"),
                 "user_tier": current_context.get("user_tier", 1),
@@ -240,7 +240,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                 {
                     "error": str(e),
                     "safety_mode": True,
-                    "timestamp": datetime.utcnow().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             )
 
@@ -658,7 +658,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _perform_ethical_reflection(self, user_input: str, detailed_analysis: dict, analysis_context: dict):
         """Perform ethical reflection on challenging cases"""
         reflection = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "input_hash": hash(user_input),  # For privacy
             "analysis_summary": {
                 "overall_score": detailed_analysis["overall_score"],
@@ -711,7 +711,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         if context_type not in self.learned_contexts:
             insights.append(f"New context type encountered: {context_type}")
             self.learned_contexts[context_type] = {
-                "first_seen": datetime.utcnow().isoformat(),
+                "first_seen": datetime.now(timezone.utc).isoformat(),
                 "violation_count": 0,
                 "common_issues": [],
             }
@@ -733,8 +733,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _escalate_to_governance(self, user_input: str, detailed_analysis: dict, analysis_context: dict):
         """Escalate serious ethical issues to governance system"""
         escalation = {
-            "timestamp": datetime.utcnow().isoformat(),
-            "escalation_id": f"ETH-{int(datetime.utcnow().timestamp())}",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "escalation_id": f"ETH-{int(datetime.now(timezone.utc).timestamp())}",
             "severity": "high",
             "type": "ethical_violation",
             "summary": {
@@ -774,7 +774,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     ):
         """Log ethical check for audit and learning purposes"""
         log_entry = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "input_hash": hash(user_input),  # For privacy
             "input_length": len(user_input),
             "is_ethical": is_ethical,
@@ -942,7 +942,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
     async def perform_ethical_audit(self) -> dict[str, Any]:
         """Perform comprehensive ethical system audit"""
-        audit_timestamp = datetime.utcnow().isoformat()
+        audit_timestamp = datetime.now(timezone.utc).isoformat()
 
         # Analyze recent ethical performance
         recent_checks = self.ethical_history[-1000:] if len(self.ethical_history) > 1000 else self.ethical_history

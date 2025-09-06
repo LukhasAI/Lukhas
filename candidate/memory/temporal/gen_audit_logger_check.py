@@ -71,7 +71,7 @@ def update_manifest_with_audit_hash():
             json.dump(manifest, f, indent=2)
             # Also append to historical log
             log_entry = {
-                "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat() + "Z",
                 "new_hash": new_hash,
                 "trigger": "audit_logger_check",
             }

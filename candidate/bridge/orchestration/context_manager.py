@@ -49,7 +49,7 @@ from typing import Any, Optional
 from uuid import uuid4
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.bridge.orchestration.context")
+logger = logging.getLogger("ΛTRACE.bridge.orchestration.context", timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -201,7 +201,7 @@ class ContextManager:
             # Create new context entry
             entry = ContextEntry(
                 id=str(uuid4()),
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 prompt=prompt,
                 response=response,
                 metadata=metadata or {},
@@ -285,7 +285,7 @@ class ContextManager:
                 return False
 
             # Find entries older than compression threshold
-            cutoff_time = datetime.utcnow() - timedelta(hours=1)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=1)
             old_entries = [e for e in entries if e.timestamp < cutoff_time]
 
             if len(old_entries) < 10:  # Need minimum entries for meaningful compression
@@ -372,7 +372,7 @@ class ContextManager:
         if not entries:
             return []
 
-        cutoff_time = datetime.utcnow() - timedelta(hours=self.max_context_age_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.max_context_age_hours)
 
         relevant_entries = []
         for entry in entries:
@@ -397,7 +397,7 @@ class ContextManager:
         if not summaries:
             return []
 
-        cutoff_time = datetime.utcnow() - timedelta(hours=self.max_context_age_hours * 2)  # Keep summaries longer
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=self.max_context_age_hours * 2)  # Keep summaries longer
 
         relevant_summaries = []
         for summary in summaries:
@@ -417,7 +417,7 @@ class ContextManager:
 
     def _calculate_time_decay(self, timestamp: datetime) -> float:
         """Calculate time-based relevance decay"""
-        age_hours = (datetime.utcnow() - timestamp).total_seconds() / 3600
+        age_hours = (datetime.now(timezone.utc) - timestamp).total_seconds() / 3600
         decay_factor = max(0.1, 1.0 - (age_hours * self.relevance_decay_rate / 24))
         return decay_factor
 
@@ -428,7 +428,7 @@ class ContextManager:
                 await asyncio.sleep(300)  # Run every 5 minutes
 
                 # Clean up old contexts
-                current_time = datetime.utcnow()
+                current_time = datetime.now(timezone.utc)
                 cutoff_time = current_time - timedelta(hours=self.max_context_age_hours * 2)
 
                 # Clean context cache
