@@ -69,7 +69,7 @@ def _get_consent_manager():
     """Lazy import of ConsentManager to avoid circular imports"""
     try:
         from governance.identity.core.sent.consent_manager import (
-            LambdaConsentManager as LambdaConsentManager,
+            LambdaConsentManager,
         )
         return LambdaConsentManager
     except ImportError:
@@ -89,7 +89,7 @@ def _get_activity_logger():
     """Lazy import of ActivityLogger to avoid circular imports"""
     try:
         from governance.identity.core.trace.activity_logger import (
-            LambdaTraceLogger as LambdaTraceLogger,
+            LambdaTraceLogger,
         )
         return LambdaTraceLogger
     except ImportError:
@@ -118,7 +118,7 @@ class IdentityClient:
             ActivityLoggerClass = _get_activity_logger()
             ConsentManagerClass = _get_consent_manager()
             LambdIDValidatorClass = _get_lambda_id_validator()
-            
+
             # Try to initialize real components with fallback configurations
             self.tier_validator = TierValidatorClass(config={})
             try:

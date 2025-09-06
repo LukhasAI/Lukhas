@@ -47,12 +47,12 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
-from consciousness.awareness.awareness_engine import AwarenessEngine
 from dream.core import DreamPhase
 
 from bio.qi_layer import QIBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from candidate.core.unified.integration import UnifiedIntegration
+from consciousness.awareness.awareness_engine import AwarenessEngine
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
 from qi.processing_core import QIProcessingCore
 

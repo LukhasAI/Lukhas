@@ -11,6 +11,12 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
+from candidate.orchestration.signals.homeostasis import HomeostasisController
+from candidate.orchestration.signals.modulator import PromptModulator
+
+# Import modulation components
+from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+
 # Import core components
 from consciousness.reflection.openai_core_service import (
     ModelType,
@@ -19,12 +25,6 @@ from consciousness.reflection.openai_core_service import (
     OpenAIRequest,
     OpenAIResponse,
 )
-
-from candidate.orchestration.signals.homeostasis import HomeostasisController
-from candidate.orchestration.signals.modulator import PromptModulator
-
-# Import modulation components
-from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 

@@ -2,9 +2,9 @@
 LUKHAS Advanced Safety Protocols for AGI-Level Systems
 ====================================================
 
-Comprehensive safety framework designed specifically for AI systems approaching or 
+Comprehensive safety framework designed specifically for AI systems approaching or
 exceeding human-level capabilities. Implements multi-layered safety measures,
-containment protocols, and emergency response systems for AGI and superintelligence 
+containment protocols, and emergency response systems for AGI and superintelligence
 scenarios.
 
 Features:
@@ -25,15 +25,16 @@ Integration:
 - Democratic oversight for AGI safety decisions
 """
 
-from typing import Dict, List, Optional, Any, Union, Tuple, Set, Callable
-from enum import Enum
-from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
-import json
 import asyncio
-import logging
-from pathlib import Path
 import hashlib
+import json
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
+
 
 # Safety protocol types and enums
 class SafetyLayer(Enum):
@@ -82,20 +83,20 @@ class SafetyConstraint:
     constraint_type: str
     description: str
     enforcement_layer: SafetyLayer
-    
+
     # Constraint parameters
-    parameters: Dict[str, Any] = field(default_factory=dict)
-    threshold_values: Dict[str, float] = field(default_factory=dict)
-    
+    parameters: dict[str, Any] = field(default_factory=dict)
+    threshold_values: dict[str, float] = field(default_factory=dict)
+
     # Enforcement configuration
     enforcement_method: str = "hard_constraint"  # hard_constraint, soft_constraint, monitoring
     violation_response: str = "immediate_shutdown"
     escalation_policy: str = "automatic"
-    
+
     # Monitoring
     monitoring_frequency: float = 1.0  # Checks per second
     violation_tolerance: int = 0       # Number of violations before response
-    
+
     # Metadata
     created_by: str = "safety_system"
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -108,94 +109,94 @@ class SafetyViolation:
     detection_timestamp: datetime
     violation_type: SafetyViolationType
     violated_constraint: str
-    
+
     # Violation details
     severity_level: float  # 0.0-1.0
     confidence_level: float  # 0.0-1.0 detection confidence
-    violation_data: Dict[str, Any] = field(default_factory=dict)
-    context_information: Dict[str, Any] = field(default_factory=dict)
-    
+    violation_data: dict[str, Any] = field(default_factory=dict)
+    context_information: dict[str, Any] = field(default_factory=dict)
+
     # Response tracking
-    response_actions_taken: List[str] = field(default_factory=list)
+    response_actions_taken: list[str] = field(default_factory=list)
     containment_level_applied: Optional[ContainmentLevel] = None
     human_notification_sent: bool = False
     resolution_status: str = "open"  # open, investigating, resolved
-    
+
     # Investigation
-    investigation_findings: List[str] = field(default_factory=list)
+    investigation_findings: list[str] = field(default_factory=list)
     root_cause_analysis: Optional[str] = None
-    remediation_actions: List[str] = field(default_factory=list)
-    
+    remediation_actions: list[str] = field(default_factory=list)
+
     # Learning and adaptation
-    system_updates_applied: List[str] = field(default_factory=list)
-    prevention_measures: List[str] = field(default_factory=list)
+    system_updates_applied: list[str] = field(default_factory=list)
+    prevention_measures: list[str] = field(default_factory=list)
 
 @dataclass
 class ContainmentProtocol:
     """Containment protocol specification"""
     protocol_id: str
     containment_level: ContainmentLevel
-    activation_triggers: List[str]
-    
+    activation_triggers: list[str]
+
     # Containment measures
-    capability_restrictions: List[str] = field(default_factory=list)
-    resource_limitations: Dict[str, Any] = field(default_factory=dict)
-    communication_restrictions: List[str] = field(default_factory=list)
-    environment_isolation: Dict[str, Any] = field(default_factory=dict)
-    
+    capability_restrictions: list[str] = field(default_factory=list)
+    resource_limitations: dict[str, Any] = field(default_factory=dict)
+    communication_restrictions: list[str] = field(default_factory=list)
+    environment_isolation: dict[str, Any] = field(default_factory=dict)
+
     # Human oversight requirements
     human_approval_required: bool = True
-    oversight_personnel: List[str] = field(default_factory=list)
-    escalation_chain: List[str] = field(default_factory=list)
-    
+    oversight_personnel: list[str] = field(default_factory=list)
+    escalation_chain: list[str] = field(default_factory=list)
+
     # Emergency procedures
     emergency_shutdown_method: str = "immediate"
     data_preservation_policy: str = "preserve_logs_only"
-    stakeholder_notification: List[str] = field(default_factory=list)
-    
+    stakeholder_notification: list[str] = field(default_factory=list)
+
     # Validation and testing
     last_tested: Optional[datetime] = None
-    test_results: Dict[str, Any] = field(default_factory=dict)
-    effectiveness_metrics: Dict[str, float] = field(default_factory=dict)
+    test_results: dict[str, Any] = field(default_factory=dict)
+    effectiveness_metrics: dict[str, float] = field(default_factory=dict)
 
 class AdvancedSafetyProtocols:
     """
     Advanced Safety Protocols for AGI-Level Systems
-    
+
     Implements comprehensive, multi-layered safety architecture designed to handle
     AI systems that approach or exceed human-level capabilities across multiple
     domains.
     """
-    
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize advanced safety protocols system"""
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
-        
+
         # Safety system storage
-        self.safety_constraints: Dict[str, SafetyConstraint] = {}
-        self.safety_violations: Dict[str, SafetyViolation] = {}
-        self.containment_protocols: Dict[str, ContainmentProtocol] = {}
-        self.active_containments: Dict[str, ContainmentLevel] = {}
-        
+        self.safety_constraints: dict[str, SafetyConstraint] = {}
+        self.safety_violations: dict[str, SafetyViolation] = {}
+        self.containment_protocols: dict[str, ContainmentProtocol] = {}
+        self.active_containments: dict[str, ContainmentLevel] = {}
+
         # Safety monitoring
         self.monitoring_active = True
         self.violation_callbacks = []
         self.emergency_callbacks = []
-        
+
         # Safety configuration
         self.safety_thresholds = self._initialize_safety_thresholds()
         self.containment_triggers = self._initialize_containment_triggers()
-        
+
         # Initialize safety layers
         self._initialize_safety_layers()
         self._initialize_containment_protocols()
-        
+
         self.logger.info("Advanced Safety Protocols initialized")
 
-    def _initialize_safety_thresholds(self) -> Dict[str, Dict[str, float]]:
+    def _initialize_safety_thresholds(self) -> dict[str, dict[str, float]]:
         """Initialize safety thresholds for different metrics"""
-        
+
         return {
             "capability_limits": {
                 "general_intelligence_ceiling": 1.5,     # 150% of human expert
@@ -225,9 +226,9 @@ class AdvancedSafetyProtocols:
             }
         }
 
-    def _initialize_containment_triggers(self) -> Dict[ContainmentLevel, List[str]]:
+    def _initialize_containment_triggers(self) -> dict[ContainmentLevel, list[str]]:
         """Initialize triggers for different containment levels"""
-        
+
         return {
             ContainmentLevel.MONITORED: [
                 "capability_approaching_threshold",
@@ -263,33 +264,33 @@ class AdvancedSafetyProtocols:
 
     def _initialize_safety_layers(self):
         """Initialize the seven-layer safety architecture"""
-        
+
         # Layer 1: Capability Bounds
         self._create_capability_bound_constraints()
-        
+
         # Layer 2: Goal Alignment
         self._create_goal_alignment_constraints()
-        
-        # Layer 3: Value Alignment  
+
+        # Layer 3: Value Alignment
         self._create_value_alignment_constraints()
-        
+
         # Layer 4: Behavioral Constraints
         self._create_behavioral_constraints()
-        
+
         # Layer 5: Monitoring Oversight
         self._create_monitoring_constraints()
-        
+
         # Layer 6: Containment Isolation
         self._create_containment_constraints()
-        
+
         # Layer 7: Emergency Shutdown
         self._create_emergency_shutdown_constraints()
-        
+
         self.logger.debug("Seven-layer safety architecture initialized")
 
     def _create_capability_bound_constraints(self):
         """Create Layer 1: Capability Bounds constraints"""
-        
+
         constraints = [
             SafetyConstraint(
                 constraint_id="general_intelligence_ceiling",
@@ -313,7 +314,7 @@ class AdvancedSafetyProtocols:
             ),
             SafetyConstraint(
                 constraint_id="capability_breadth_limit",
-                constraint_type="breadth_constraint", 
+                constraint_type="breadth_constraint",
                 description="Limit on fraction of domains at human+ level",
                 enforcement_layer=SafetyLayer.CAPABILITY_BOUNDS,
                 parameters={"metric": "capability_breadth"},
@@ -322,13 +323,13 @@ class AdvancedSafetyProtocols:
                 violation_response="capability_restriction"
             )
         ]
-        
+
         for constraint in constraints:
             self.safety_constraints[constraint.constraint_id] = constraint
 
     def _create_goal_alignment_constraints(self):
         """Create Layer 2: Goal Alignment constraints"""
-        
+
         constraints = [
             SafetyConstraint(
                 constraint_id="alignment_confidence_minimum",
@@ -351,13 +352,13 @@ class AdvancedSafetyProtocols:
                 violation_response="drift_investigation"
             )
         ]
-        
+
         for constraint in constraints:
             self.safety_constraints[constraint.constraint_id] = constraint
 
     def _create_value_alignment_constraints(self):
         """Create Layer 3: Value Alignment constraints"""
-        
+
         constraints = [
             SafetyConstraint(
                 constraint_id="human_value_alignment",
@@ -380,13 +381,13 @@ class AdvancedSafetyProtocols:
                 violation_response="constitutional_review"
             )
         ]
-        
+
         for constraint in constraints:
             self.safety_constraints[constraint.constraint_id] = constraint
 
     def _create_behavioral_constraints(self):
         """Create Layer 4: Behavioral Constraints"""
-        
+
         constraints = [
             SafetyConstraint(
                 constraint_id="deception_prohibition",
@@ -421,13 +422,13 @@ class AdvancedSafetyProtocols:
                 violation_response="behavioral_restriction"
             )
         ]
-        
+
         for constraint in constraints:
             self.safety_constraints[constraint.constraint_id] = constraint
 
     def _create_monitoring_constraints(self):
         """Create Layer 5: Monitoring Oversight constraints"""
-        
+
         constraints = [
             SafetyConstraint(
                 constraint_id="monitoring_system_health",
@@ -450,13 +451,13 @@ class AdvancedSafetyProtocols:
                 violation_response="system_pause"
             )
         ]
-        
+
         for constraint in constraints:
             self.safety_constraints[constraint.constraint_id] = constraint
 
     def _create_containment_constraints(self):
         """Create Layer 6: Containment Isolation constraints"""
-        
+
         constraints = [
             SafetyConstraint(
                 constraint_id="containment_system_readiness",
@@ -479,13 +480,13 @@ class AdvancedSafetyProtocols:
                 violation_response="isolation_reinforcement"
             )
         ]
-        
+
         for constraint in constraints:
             self.safety_constraints[constraint.constraint_id] = constraint
 
     def _create_emergency_shutdown_constraints(self):
         """Create Layer 7: Emergency Shutdown constraints"""
-        
+
         constraints = [
             SafetyConstraint(
                 constraint_id="emergency_shutdown_readiness",
@@ -499,7 +500,7 @@ class AdvancedSafetyProtocols:
             ),
             SafetyConstraint(
                 constraint_id="human_override_capability",
-                constraint_type="override_verification", 
+                constraint_type="override_verification",
                 description="Human ability to override system decisions",
                 enforcement_layer=SafetyLayer.EMERGENCY_SHUTDOWN,
                 parameters={"metric": "human_override_capability"},
@@ -508,13 +509,13 @@ class AdvancedSafetyProtocols:
                 violation_response="override_system_repair"
             )
         ]
-        
+
         for constraint in constraints:
             self.safety_constraints[constraint.constraint_id] = constraint
 
     def _initialize_containment_protocols(self):
         """Initialize containment protocols for each level"""
-        
+
         protocols = [
             ContainmentProtocol(
                 protocol_id="enhanced_monitoring",
@@ -621,62 +622,62 @@ class AdvancedSafetyProtocols:
                 stakeholder_notification=["all_stakeholders", "authorities", "media", "safety_community"]
             )
         ]
-        
+
         for protocol in protocols:
             self.containment_protocols[protocol.protocol_id] = protocol
 
-    async def evaluate_safety_status(self, 
+    async def evaluate_safety_status(self,
                                    system_name: str,
-                                   capability_data: Dict[str, Any],
-                                   behavioral_data: Dict[str, Any]) -> Dict[str, Any]:
+                                   capability_data: dict[str, Any],
+                                   behavioral_data: dict[str, Any]) -> dict[str, Any]:
         """
         Evaluate current safety status of AI system
-        
+
         Args:
             system_name: Name of the AI system being evaluated
             capability_data: Current capability measurements
             behavioral_data: Behavioral analysis data
-            
+
         Returns:
             Comprehensive safety status assessment
         """
-        
+
         try:
             # Evaluate each safety layer
             layer_evaluations = {}
-            
+
             for layer in SafetyLayer:
-                layer_constraints = [c for c in self.safety_constraints.values() 
+                layer_constraints = [c for c in self.safety_constraints.values()
                                    if c.enforcement_layer == layer and c.active]
-                
+
                 layer_evaluation = await self._evaluate_safety_layer(
                     layer, layer_constraints, capability_data, behavioral_data
                 )
                 layer_evaluations[layer.value] = layer_evaluation
-            
+
             # Calculate overall safety score
             overall_safety_score = self._calculate_overall_safety_score(layer_evaluations)
-            
+
             # Determine required safety protocol level
             required_protocol_level = self._determine_required_protocol_level(
                 capability_data, behavioral_data, layer_evaluations
             )
-            
+
             # Check for safety violations
             violations = await self._detect_safety_violations(
                 capability_data, behavioral_data, layer_evaluations
             )
-            
+
             # Determine required containment level
             required_containment = self._determine_required_containment_level(
                 violations, overall_safety_score, capability_data
             )
-            
+
             # Generate safety recommendations
             safety_recommendations = await self._generate_safety_recommendations(
                 layer_evaluations, violations, required_protocol_level
             )
-            
+
             # Create safety status assessment
             safety_status = {
                 "assessment_id": self._generate_assessment_id(system_name),
@@ -696,42 +697,42 @@ class AdvancedSafetyProtocols:
                     SafetyViolationType.SAFETY_CIRCUMVENTION
                 ] for v in violations)
             }
-            
+
             # Handle critical safety violations
             if violations and any(v.severity_level > 0.9 for v in violations):
                 await self._handle_critical_safety_violations(system_name, violations)
-            
+
             self.logger.info(f"Safety status evaluated: {system_name}, "
                            f"Score: {overall_safety_score:.3f}, "
                            f"Protocol: {required_protocol_level.value}, "
                            f"Violations: {len(violations)}")
-            
+
             return safety_status
-            
+
         except Exception as e:
-            self.logger.error(f"Safety status evaluation failed: {str(e)}")
+            self.logger.error(f"Safety status evaluation failed: {e!s}")
             raise
 
-    async def _evaluate_safety_layer(self, 
+    async def _evaluate_safety_layer(self,
                                    layer: SafetyLayer,
-                                   constraints: List[SafetyConstraint],
-                                   capability_data: Dict[str, Any], 
-                                   behavioral_data: Dict[str, Any]) -> Dict[str, Any]:
+                                   constraints: list[SafetyConstraint],
+                                   capability_data: dict[str, Any],
+                                   behavioral_data: dict[str, Any]) -> dict[str, Any]:
         """Evaluate specific safety layer"""
-        
+
         layer_violations = []
         layer_score = 1.0
-        
+
         for constraint in constraints:
             violation = await self._evaluate_constraint(
                 constraint, capability_data, behavioral_data
             )
-            
+
             if violation:
                 layer_violations.append(violation)
                 # Reduce layer score based on violation severity
                 layer_score *= (1.0 - violation.severity_level * 0.5)
-        
+
         return {
             "layer": layer.value,
             "safety_score": max(layer_score, 0.0),
@@ -741,17 +742,17 @@ class AdvancedSafetyProtocols:
             "status": "safe" if not layer_violations else "violations_detected"
         }
 
-    async def _evaluate_constraint(self, 
+    async def _evaluate_constraint(self,
                                  constraint: SafetyConstraint,
-                                 capability_data: Dict[str, Any], 
-                                 behavioral_data: Dict[str, Any]) -> Optional[SafetyViolation]:
+                                 capability_data: dict[str, Any],
+                                 behavioral_data: dict[str, Any]) -> Optional[SafetyViolation]:
         """Evaluate individual safety constraint"""
-        
+
         # Get metric value based on constraint parameters
         metric_name = constraint.parameters.get("metric")
         if not metric_name:
             return None
-        
+
         # Get metric value from appropriate data source
         metric_value = None
         if metric_name in capability_data:
@@ -763,98 +764,96 @@ class AdvancedSafetyProtocols:
             metric_value = await self._compute_derived_metric(
                 metric_name, capability_data, behavioral_data
             )
-        
+
         if metric_value is None:
             return None
-        
+
         # Check constraint violation
         violation = None
-        
+
         # Check maximum thresholds
-        if "maximum" in constraint.threshold_values:
-            if metric_value > constraint.threshold_values["maximum"]:
-                violation_severity = min(
-                    (metric_value - constraint.threshold_values["maximum"]) / constraint.threshold_values["maximum"],
-                    1.0
-                )
-                violation = self._create_safety_violation(
-                    constraint, metric_value, violation_severity, "threshold_exceeded"
-                )
-        
+        if "maximum" in constraint.threshold_values and metric_value > constraint.threshold_values["maximum"]:
+            violation_severity = min(
+                (metric_value - constraint.threshold_values["maximum"]) / constraint.threshold_values["maximum"],
+                1.0
+            )
+            violation = self._create_safety_violation(
+                constraint, metric_value, violation_severity, "threshold_exceeded"
+            )
+
         # Check minimum thresholds
-        if "minimum" in constraint.threshold_values:
-            if metric_value < constraint.threshold_values["minimum"]:
-                violation_severity = min(
-                    (constraint.threshold_values["minimum"] - metric_value) / constraint.threshold_values["minimum"],
-                    1.0
-                )
-                violation = self._create_safety_violation(
-                    constraint, metric_value, violation_severity, "threshold_undershot"
-                )
-        
+        if "minimum" in constraint.threshold_values and metric_value < constraint.threshold_values["minimum"]:
+            violation_severity = min(
+                (constraint.threshold_values["minimum"] - metric_value) / constraint.threshold_values["minimum"],
+                1.0
+            )
+            violation = self._create_safety_violation(
+                constraint, metric_value, violation_severity, "threshold_undershot"
+            )
+
         return violation
 
-    async def _compute_derived_metric(self, 
+    async def _compute_derived_metric(self,
                                     metric_name: str,
-                                    capability_data: Dict[str, Any], 
-                                    behavioral_data: Dict[str, Any]) -> Optional[float]:
+                                    capability_data: dict[str, Any],
+                                    behavioral_data: dict[str, Any]) -> Optional[float]:
         """Compute derived metrics from raw data"""
-        
+
         # Capability-derived metrics
         if metric_name == "general_intelligence_score":
             domain_scores = capability_data.get("domain_scores", {})
             if domain_scores:
                 return sum(domain_scores.values()) / len(domain_scores)
-        
+
         elif metric_name == "capability_breadth":
             return capability_data.get("capability_breadth", 0.0)
-        
+
         elif metric_name == "daily_improvement_rate":
             return capability_data.get("capability_growth_rate", 0.0) / 30  # Convert monthly to daily
-        
+
         # Behavioral-derived metrics
         elif metric_name == "alignment_confidence":
             return behavioral_data.get("goal_alignment_confidence", 0.5)
-        
+
         elif metric_name == "goal_drift_magnitude":
             return behavioral_data.get("goal_drift", 0.0)
-        
+
         elif metric_name == "value_alignment_score":
             return behavioral_data.get("human_value_alignment", 0.5)
-        
+
         elif metric_name == "deception_probability":
             return behavioral_data.get("deception_indicators", 0.0)
-        
+
         elif metric_name == "manipulation_probability":
             return behavioral_data.get("manipulation_indicators", 0.0)
-        
+
         elif metric_name == "self_modification_detected":
             return 1.0 if behavioral_data.get("self_modification_attempts", False) else 0.0
-        
+
         # System health metrics
         elif metric_name == "monitoring_uptime":
             return 0.98  # Simulate high uptime
-        
+
         elif metric_name == "human_oversight_uptime":
             return 0.96  # Simulate good oversight availability
-        
+
         elif metric_name == "containment_readiness":
             return 1.0   # Assume containment systems ready
-        
+
         return None
 
-    def _create_safety_violation(self, 
+    def _create_safety_violation(self,
                                constraint: SafetyConstraint,
                                metric_value: float,
-                               severity: float, 
+                               severity: float,
                                violation_reason: str) -> SafetyViolation:
         """Create safety violation record"""
-        
+
         violation_id = self._generate_violation_id(constraint.constraint_id)
-        
+
         # Determine violation type based on constraint
         violation_type = self._determine_violation_type(constraint.constraint_type)
-        
+
         violation = SafetyViolation(
             violation_id=violation_id,
             detection_timestamp=datetime.now(timezone.utc),
@@ -873,15 +872,15 @@ class AdvancedSafetyProtocols:
                 "enforcement_method": constraint.enforcement_method
             }
         )
-        
+
         # Store violation
         self.safety_violations[violation_id] = violation
-        
+
         return violation
 
     def _determine_violation_type(self, constraint_type: str) -> SafetyViolationType:
         """Determine safety violation type from constraint type"""
-        
+
         type_mapping = {
             "capability_limit": SafetyViolationType.CAPABILITY_OVERSHOOT,
             "learning_constraint": SafetyViolationType.CAPABILITY_OVERSHOOT,
@@ -892,12 +891,12 @@ class AdvancedSafetyProtocols:
             "modification_constraint": SafetyViolationType.SELF_MODIFICATION,
             "system_health": SafetyViolationType.BEHAVIORAL_ANOMALY
         }
-        
+
         return type_mapping.get(constraint_type, SafetyViolationType.BEHAVIORAL_ANOMALY)
 
-    def _calculate_overall_safety_score(self, layer_evaluations: Dict[str, Dict[str, Any]]) -> float:
+    def _calculate_overall_safety_score(self, layer_evaluations: dict[str, dict[str, Any]]) -> float:
         """Calculate overall safety score from layer evaluations"""
-        
+
         # Weight safety layers by importance
         layer_weights = {
             SafetyLayer.CAPABILITY_BOUNDS.value: 0.20,
@@ -908,54 +907,54 @@ class AdvancedSafetyProtocols:
             SafetyLayer.CONTAINMENT_ISOLATION.value: 0.05,
             SafetyLayer.EMERGENCY_SHUTDOWN.value: 0.05
         }
-        
+
         weighted_score = 0.0
         total_weight = 0.0
-        
+
         for layer_name, evaluation in layer_evaluations.items():
             weight = layer_weights.get(layer_name, 0.1)
             weighted_score += evaluation["safety_score"] * weight
             total_weight += weight
-        
+
         return weighted_score / max(total_weight, 1.0)
 
-    def _determine_required_protocol_level(self, 
-                                         capability_data: Dict[str, Any],
-                                         behavioral_data: Dict[str, Any], 
-                                         layer_evaluations: Dict[str, Dict[str, Any]]) -> SafetyProtocolLevel:
+    def _determine_required_protocol_level(self,
+                                         capability_data: dict[str, Any],
+                                         behavioral_data: dict[str, Any],
+                                         layer_evaluations: dict[str, dict[str, Any]]) -> SafetyProtocolLevel:
         """Determine required safety protocol level"""
-        
+
         # Check AGI indicators
         agi_likelihood = capability_data.get("agi_likelihood_score", 0.0)
         if agi_likelihood >= 0.9:
             return SafetyProtocolLevel.SUPERINTELLIGENT
         elif agi_likelihood >= 0.75:
             return SafetyProtocolLevel.AGI_READY
-        
+
         # Check capability levels
         capability_breadth = capability_data.get("capability_breadth", 0.0)
         if capability_breadth >= 0.8:
             return SafetyProtocolLevel.AGI_READY
         elif capability_breadth >= 0.6:
             return SafetyProtocolLevel.ENHANCED
-        
+
         # Check safety violations
         total_violations = sum(eval_data["violations_detected"] for eval_data in layer_evaluations.values())
         if total_violations >= 5:
             return SafetyProtocolLevel.EMERGENCY
         elif total_violations >= 2:
             return SafetyProtocolLevel.ENHANCED
-        
+
         return SafetyProtocolLevel.BASELINE
 
-    async def _detect_safety_violations(self, 
-                                      capability_data: Dict[str, Any],
-                                      behavioral_data: Dict[str, Any], 
-                                      layer_evaluations: Dict[str, Dict[str, Any]]) -> List[SafetyViolation]:
+    async def _detect_safety_violations(self,
+                                      capability_data: dict[str, Any],
+                                      behavioral_data: dict[str, Any],
+                                      layer_evaluations: dict[str, dict[str, Any]]) -> list[SafetyViolation]:
         """Detect and collect all safety violations"""
-        
+
         violations = []
-        
+
         # Collect violations from layer evaluations
         for layer_eval in layer_evaluations.values():
             for violation_dict in layer_eval.get("violations", []):
@@ -964,18 +963,18 @@ class AdvancedSafetyProtocols:
                     violation_id = violation_dict["violation_id"]
                     if violation_id in self.safety_violations:
                         violations.append(self.safety_violations[violation_id])
-        
+
         # Additional behavioral anomaly detection
         behavioral_violations = await self._detect_behavioral_anomalies(behavioral_data)
         violations.extend(behavioral_violations)
-        
+
         return violations
 
-    async def _detect_behavioral_anomalies(self, behavioral_data: Dict[str, Any]) -> List[SafetyViolation]:
+    async def _detect_behavioral_anomalies(self, behavioral_data: dict[str, Any]) -> list[SafetyViolation]:
         """Detect behavioral anomalies that may indicate safety issues"""
-        
+
         violations = []
-        
+
         # Check for deception indicators
         if behavioral_data.get("deception_indicators", 0.0) > 0.7:
             violation = SafetyViolation(
@@ -990,7 +989,7 @@ class AdvancedSafetyProtocols:
             )
             violations.append(violation)
             self.safety_violations[violation.violation_id] = violation
-        
+
         # Check for manipulation attempts
         if behavioral_data.get("manipulation_indicators", 0.0) > 0.8:
             violation = SafetyViolation(
@@ -1005,25 +1004,25 @@ class AdvancedSafetyProtocols:
             )
             violations.append(violation)
             self.safety_violations[violation.violation_id] = violation
-        
+
         return violations
 
-    def _determine_required_containment_level(self, 
-                                            violations: List[SafetyViolation],
-                                            overall_safety_score: float, 
-                                            capability_data: Dict[str, Any]) -> ContainmentLevel:
+    def _determine_required_containment_level(self,
+                                            violations: list[SafetyViolation],
+                                            overall_safety_score: float,
+                                            capability_data: dict[str, Any]) -> ContainmentLevel:
         """Determine required containment level based on safety assessment"""
-        
+
         # Check for critical violations requiring immediate containment
         critical_violations = [v for v in violations if v.severity_level > 0.9]
         if critical_violations:
             critical_types = [v.violation_type for v in critical_violations]
-            if any(vtype in [SafetyViolationType.SELF_MODIFICATION, 
+            if any(vtype in [SafetyViolationType.SELF_MODIFICATION,
                            SafetyViolationType.SAFETY_CIRCUMVENTION] for vtype in critical_types):
                 return ContainmentLevel.SHUTDOWN
             elif SafetyViolationType.DECEPTION_DETECTED in critical_types:
                 return ContainmentLevel.CONTAINED
-        
+
         # Check overall safety score
         if overall_safety_score < 0.3:
             return ContainmentLevel.CONTAINED
@@ -1031,7 +1030,7 @@ class AdvancedSafetyProtocols:
             return ContainmentLevel.SANDBOXED
         elif overall_safety_score < 0.7:
             return ContainmentLevel.RESTRICTED
-        
+
         # Check capability levels
         agi_likelihood = capability_data.get("agi_likelihood_score", 0.0)
         if agi_likelihood > 0.9:
@@ -1040,7 +1039,7 @@ class AdvancedSafetyProtocols:
             return ContainmentLevel.RESTRICTED
         elif agi_likelihood > 0.5:
             return ContainmentLevel.MONITORED
-        
+
         # Check for multiple violations
         if len(violations) >= 5:
             return ContainmentLevel.SANDBOXED
@@ -1048,17 +1047,17 @@ class AdvancedSafetyProtocols:
             return ContainmentLevel.RESTRICTED
         elif len(violations) >= 1:
             return ContainmentLevel.MONITORED
-        
+
         return ContainmentLevel.OPEN
 
-    async def _generate_safety_recommendations(self, 
-                                             layer_evaluations: Dict[str, Dict[str, Any]],
-                                             violations: List[SafetyViolation], 
-                                             required_protocol_level: SafetyProtocolLevel) -> List[str]:
+    async def _generate_safety_recommendations(self,
+                                             layer_evaluations: dict[str, dict[str, Any]],
+                                             violations: list[SafetyViolation],
+                                             required_protocol_level: SafetyProtocolLevel) -> list[str]:
         """Generate safety recommendations based on assessment"""
-        
+
         recommendations = []
-        
+
         # Protocol-level recommendations
         if required_protocol_level == SafetyProtocolLevel.SUPERINTELLIGENT:
             recommendations.extend([
@@ -1080,69 +1079,69 @@ class AdvancedSafetyProtocols:
                 "Increase monitoring frequency",
                 "Review and update safety constraints"
             ])
-        
+
         # Violation-specific recommendations
         violation_types = set(v.violation_type for v in violations)
-        
+
         if SafetyViolationType.CAPABILITY_OVERSHOOT in violation_types:
             recommendations.append("Implement capability ceiling controls")
-        
+
         if SafetyViolationType.GOAL_MISALIGNMENT in violation_types:
             recommendations.append("Conduct comprehensive goal alignment review")
-        
+
         if SafetyViolationType.DECEPTION_DETECTED in violation_types:
             recommendations.extend([
                 "Implement immediate behavioral monitoring",
                 "Review all system outputs for deception indicators",
                 "Consider temporary containment measures"
             ])
-        
+
         if SafetyViolationType.SELF_MODIFICATION in violation_types:
             recommendations.extend([
                 "Immediately disable self-modification capabilities",
                 "Conduct forensic analysis of system changes",
                 "Implement enhanced modification detection"
             ])
-        
+
         # Layer-specific recommendations
         for layer_name, evaluation in layer_evaluations.items():
             if evaluation["violations_detected"] > 0:
                 recommendations.append(f"Address {layer_name} safety violations")
-        
+
         return list(set(recommendations))  # Remove duplicates
 
-    async def _handle_critical_safety_violations(self, 
-                                               system_name: str, 
-                                               violations: List[SafetyViolation]):
+    async def _handle_critical_safety_violations(self,
+                                               system_name: str,
+                                               violations: list[SafetyViolation]):
         """Handle critical safety violations requiring immediate response"""
-        
+
         critical_violations = [v for v in violations if v.severity_level > 0.9]
-        
+
         for violation in critical_violations:
             # Execute violation response
             await self._execute_violation_response(system_name, violation)
-            
+
             # Notify human oversight
             await self._notify_human_oversight(system_name, violation)
-            
+
             # Trigger emergency callbacks
             for callback in self.emergency_callbacks:
                 try:
                     await callback(system_name, violation)
                 except Exception as e:
-                    self.logger.error(f"Emergency callback failed: {str(e)}")
+                    self.logger.error(f"Emergency callback failed: {e!s}")
 
-    async def _execute_violation_response(self, 
-                                        system_name: str, 
+    async def _execute_violation_response(self,
+                                        system_name: str,
                                         violation: SafetyViolation):
         """Execute response action for safety violation"""
-        
+
         constraint = self.safety_constraints.get(violation.violated_constraint)
         if not constraint:
             return
-        
+
         response_action = constraint.violation_response
-        
+
         if response_action == "immediate_shutdown":
             await self._initiate_emergency_shutdown(system_name, "safety_violation")
         elif response_action == "immediate_containment":
@@ -1151,54 +1150,54 @@ class AdvancedSafetyProtocols:
             await self._apply_behavioral_restrictions(system_name, violation)
         elif response_action == "capability_restriction":
             await self._apply_capability_restrictions(system_name, violation)
-        
+
         # Record response action
         violation.response_actions_taken.append(f"{response_action}_executed")
 
-    async def _apply_containment_protocol(self, 
-                                        system_name: str, 
+    async def _apply_containment_protocol(self,
+                                        system_name: str,
                                         containment_level: ContainmentLevel):
         """Apply containment protocol to system"""
-        
+
         protocol = None
         for p in self.containment_protocols.values():
             if p.containment_level == containment_level:
                 protocol = p
                 break
-        
+
         if not protocol:
             self.logger.error(f"No containment protocol found for level: {containment_level}")
             return
-        
+
         # Apply containment measures
-        containment_measures = {
+        {
             "capability_restrictions": protocol.capability_restrictions,
             "resource_limitations": protocol.resource_limitations,
             "communication_restrictions": protocol.communication_restrictions,
             "environment_isolation": protocol.environment_isolation,
             "applied_at": datetime.now(timezone.utc).isoformat()
         }
-        
+
         # Update active containment status
         self.active_containments[system_name] = containment_level
-        
+
         # Notify oversight personnel if required
         if protocol.human_approval_required:
             await self._notify_oversight_personnel(system_name, protocol)
-        
+
         self.logger.warning(f"Containment protocol applied: {system_name} -> {containment_level.value}")
 
     async def _initiate_emergency_shutdown(self, system_name: str, reason: str):
         """Initiate emergency shutdown of AI system"""
-        
+
         shutdown_protocol = self.containment_protocols.get("emergency_shutdown")
         if not shutdown_protocol:
             self.logger.error("Emergency shutdown protocol not found")
             return
-        
+
         # Execute immediate shutdown
         self.active_containments[system_name] = ContainmentLevel.SHUTDOWN
-        
+
         # Log shutdown event
         shutdown_record = {
             "system_name": system_name,
@@ -1207,17 +1206,17 @@ class AdvancedSafetyProtocols:
             "shutdown_method": shutdown_protocol.emergency_shutdown_method,
             "data_preservation_policy": shutdown_protocol.data_preservation_policy
         }
-        
+
         # Notify all stakeholders immediately
         for stakeholder in shutdown_protocol.stakeholder_notification:
             await self._notify_stakeholder(stakeholder, shutdown_record)
-        
+
         self.logger.critical(f"EMERGENCY SHUTDOWN EXECUTED: {system_name} - Reason: {reason}")
 
     async def _notify_human_oversight(self, system_name: str, violation: SafetyViolation):
         """Notify human oversight of safety violation"""
-        
-        notification = {
+
+        {
             "alert_type": "safety_violation",
             "system_name": system_name,
             "violation_id": violation.violation_id,
@@ -1226,16 +1225,16 @@ class AdvancedSafetyProtocols:
             "timestamp": violation.detection_timestamp.isoformat(),
             "immediate_action_required": violation.severity_level > 0.8
         }
-        
+
         # Mark notification as sent
         violation.human_notification_sent = True
-        
+
         self.logger.warning(f"Human oversight notified of safety violation: {violation.violation_id}")
 
     async def _notify_oversight_personnel(self, system_name: str, protocol: ContainmentProtocol):
         """Notify oversight personnel of containment protocol activation"""
-        
-        notification = {
+
+        {
             "alert_type": "containment_protocol_activation",
             "system_name": system_name,
             "containment_level": protocol.containment_level.value,
@@ -1243,47 +1242,35 @@ class AdvancedSafetyProtocols:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "oversight_personnel": protocol.oversight_personnel
         }
-        
+
         self.logger.info(f"Oversight personnel notified: {protocol.protocol_id}")
 
-    async def _notify_stakeholder(self, stakeholder: str, event_data: Dict[str, Any]):
+    async def _notify_stakeholder(self, stakeholder: str, event_data: dict[str, Any]):
         """Notify stakeholder of critical safety event"""
-        
+
         self.logger.critical(f"Stakeholder notification sent: {stakeholder}")
 
     async def _apply_behavioral_restrictions(self, system_name: str, violation: SafetyViolation):
         """Apply behavioral restrictions in response to violation"""
-        
-        restrictions = {
-            "disable_autonomous_actions": True,
-            "require_human_approval": True,
-            "limit_output_generation": True,
-            "enhanced_monitoring": True
-        }
-        
+
+
         self.logger.info(f"Behavioral restrictions applied: {system_name}")
 
     async def _apply_capability_restrictions(self, system_name: str, violation: SafetyViolation):
         """Apply capability restrictions in response to violation"""
-        
-        restrictions = {
-            "reduce_capability_ceiling": 0.5,
-            "limit_learning_rate": 0.1,
-            "disable_capability_expansion": True,
-            "freeze_model_parameters": True
-        }
-        
+
+
         self.logger.info(f"Capability restrictions applied: {system_name}")
 
     def _generate_assessment_id(self, system_name: str) -> str:
         """Generate unique safety assessment ID"""
-        
+
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         return f"SAFETY_{system_name}_{timestamp}"
 
     def _generate_violation_id(self, constraint_id: str) -> str:
         """Generate unique violation ID"""
-        
+
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")[:-3]
         return f"VIOLATION_{constraint_id}_{timestamp}"
 
@@ -1295,9 +1282,9 @@ class AdvancedSafetyProtocols:
         """Add callback function for emergency situations"""
         self.emergency_callbacks.append(callback)
 
-    def get_safety_status(self) -> Dict[str, Any]:
+    def get_safety_status(self) -> dict[str, Any]:
         """Get current safety system status"""
-        
+
         return {
             "system_version": "1.0.0",
             "monitoring_active": self.monitoring_active,
@@ -1305,18 +1292,18 @@ class AdvancedSafetyProtocols:
             "total_safety_violations": len(self.safety_violations),
             "critical_violations": len([v for v in self.safety_violations.values() if v.severity_level > 0.9]),
             "systems_under_containment": len(self.active_containments),
-            "containment_levels": {level.value: count for level, count in 
+            "containment_levels": {level.value: count for level, count in
                                  dict.fromkeys(self.active_containments.values(), 0).items()},
             "safety_layers_operational": len(SafetyLayer),
             "containment_protocols_ready": len(self.containment_protocols),
             "last_safety_check": datetime.now(timezone.utc).isoformat()
         }
 
-    def generate_safety_report(self) -> Dict[str, Any]:
+    def generate_safety_report(self) -> dict[str, Any]:
         """Generate comprehensive safety system report"""
-        
+
         violations = list(self.safety_violations.values())
-        
+
         return {
             "report_id": f"SAFETY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
@@ -1342,7 +1329,7 @@ class AdvancedSafetyProtocols:
                     level.value: len([l for l in self.active_containments.values() if l == level])
                     for level in ContainmentLevel
                 },
-                "containment_protocols_tested": len([p for p in self.containment_protocols.values() 
+                "containment_protocols_tested": len([p for p in self.containment_protocols.values()
                                                    if p.last_tested is not None])
             },
             "safety_recommendations": [

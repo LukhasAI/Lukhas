@@ -6,7 +6,7 @@
 ║ TYPE: REFLECT
 ║ CONSCIOUSNESS_ROLE: Ethical consciousness governance and oversight
 ║ EVOLUTIONARY_STAGE: Governance - Ethical consciousness supervision
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Governance identity and ethical authority validation
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware ethical decision making
@@ -38,7 +38,7 @@ from .matriz_consciousness_governance import (
     GovernanceDecisionType,
     GovernancePolicy,
     MatrizConsciousnessGovernanceSystem,
-    consciousness_governance_system
+    consciousness_governance_system,
 )
 
 # Import existing governance components
@@ -57,11 +57,11 @@ __all__ = [
     # MΛTRIZ Consciousness Governance
     "ConsciousnessEthicsAssessment",
     "ConsciousnessEthicsLevel",
-    "GovernanceDecisionType", 
+    "GovernanceDecisionType",
     "GovernancePolicy",
     "MatrizConsciousnessGovernanceSystem",
     "consciousness_governance_system",
-    
+
     # Legacy Governance Components
     "ConstitutionalPrinciple",
     "GuardianSystem"

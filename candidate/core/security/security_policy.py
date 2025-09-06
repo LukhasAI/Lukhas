@@ -66,15 +66,15 @@ class SecurityPolicy:
     name: str
     description: str
     classification: DataClassification
-    compliance_frameworks: List[ComplianceFramework]
-    rules: List[Dict[str, Any]]
-    exceptions: List[Dict[str, Any]] = field(default_factory=list)
+    compliance_frameworks: list[ComplianceFramework]
+    rules: list[dict[str, Any]]
+    exceptions: list[dict[str, Any]] = field(default_factory=list)
     auto_enforce: bool = True
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_updated: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     version: str = "1.0"
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "policy_id": self.policy_id,
@@ -101,7 +101,7 @@ class PolicyViolation:
     user_id: Optional[str]
     resource: Optional[str]
     timestamp: datetime
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
     resolved: bool = False
     resolution_notes: Optional[str] = None
 
@@ -111,31 +111,31 @@ class SecurityPolicyFramework:
     Comprehensive security policy framework with automated enforcement
     Implements defense-in-depth through layered policy controls
     """
-    
+
     def __init__(self):
         """Initialize security policy framework"""
-        
+
         # Policy storage
-        self.policies: Dict[str, SecurityPolicy] = {}
-        self.violations: List[PolicyViolation] = []
-        
+        self.policies: dict[str, SecurityPolicy] = {}
+        self.violations: list[PolicyViolation] = []
+
         # Access control matrix
-        self.role_permissions: Dict[str, Set[str]] = {}
-        self.resource_classifications: Dict[str, DataClassification] = {}
-        
+        self.role_permissions: dict[str, set[str]] = {}
+        self.resource_classifications: dict[str, DataClassification] = {}
+
         # Compliance tracking
-        self.compliance_status: Dict[ComplianceFramework, Dict[str, Any]] = {}
-        
+        self.compliance_status: dict[ComplianceFramework, dict[str, Any]] = {}
+
         # Initialize default policies
         self._initialize_core_policies()
         self._initialize_ai_policies()
         self._initialize_compliance_policies()
-        
+
         logger.info("Security policy framework initialized")
-    
+
     def _initialize_core_policies(self):
         """Initialize core security policies"""
-        
+
         # Access Control Policy
         access_control_policy = SecurityPolicy(
             policy_id="access_control_001",
@@ -171,7 +171,7 @@ class SecurityPolicyFramework:
             ]
         )
         self.policies[access_control_policy.policy_id] = access_control_policy
-        
+
         # Data Protection Policy
         data_protection_policy = SecurityPolicy(
             policy_id="data_protection_001",
@@ -207,7 +207,7 @@ class SecurityPolicyFramework:
             ]
         )
         self.policies[data_protection_policy.policy_id] = data_protection_policy
-        
+
         # Incident Response Policy
         incident_response_policy = SecurityPolicy(
             policy_id="incident_response_001",
@@ -235,10 +235,10 @@ class SecurityPolicyFramework:
             ]
         )
         self.policies[incident_response_policy.policy_id] = incident_response_policy
-    
+
     def _initialize_ai_policies(self):
         """Initialize AI-specific security policies"""
-        
+
         # AI Model Security Policy
         ai_model_policy = SecurityPolicy(
             policy_id="ai_model_001",
@@ -274,7 +274,7 @@ class SecurityPolicyFramework:
             ]
         )
         self.policies[ai_model_policy.policy_id] = ai_model_policy
-        
+
         # Constitutional AI Policy
         constitutional_ai_policy = SecurityPolicy(
             policy_id="constitutional_ai_001",
@@ -310,10 +310,10 @@ class SecurityPolicyFramework:
             ]
         )
         self.policies[constitutional_ai_policy.policy_id] = constitutional_ai_policy
-    
+
     def _initialize_compliance_policies(self):
         """Initialize compliance-specific policies"""
-        
+
         # GDPR Compliance Policy
         gdpr_policy = SecurityPolicy(
             policy_id="gdpr_001",
@@ -349,7 +349,7 @@ class SecurityPolicyFramework:
             ]
         )
         self.policies[gdpr_policy.policy_id] = gdpr_policy
-        
+
         # CCPA Compliance Policy
         ccpa_policy = SecurityPolicy(
             policy_id="ccpa_001",
@@ -377,17 +377,17 @@ class SecurityPolicyFramework:
             ]
         )
         self.policies[ccpa_policy.policy_id] = ccpa_policy
-    
-    def evaluate_policy_compliance(self, policy_id: str, context: Dict[str, Any]) -> List[PolicyViolation]:
+
+    def evaluate_policy_compliance(self, policy_id: str, context: dict[str, Any]) -> list[PolicyViolation]:
         """Evaluate context against policy rules"""
-        
+
         policy = self.policies.get(policy_id)
         if not policy:
             logger.error(f"Policy not found: {policy_id}")
             return []
-        
+
         violations = []
-        
+
         for rule in policy.rules:
             if self._evaluate_rule_condition(rule["condition"], context):
                 violation = PolicyViolation(
@@ -406,22 +406,22 @@ class SecurityPolicyFramework:
                     }
                 )
                 violations.append(violation)
-                
+
                 logger.warning(f"Policy violation detected: {rule['name']}", extra={
                     "policy_id": policy_id,
                     "rule_id": rule["rule_id"],
                     "severity": rule["severity"],
                     "user_id": context.get("user_id")
                 })
-        
+
         # Store violations
         self.violations.extend(violations)
-        
+
         return violations
-    
-    def _evaluate_rule_condition(self, condition: str, context: Dict[str, Any]) -> bool:
+
+    def _evaluate_rule_condition(self, condition: str, context: dict[str, Any]) -> bool:
         """Evaluate rule condition against context"""
-        
+
         try:
             # Simple condition evaluation (in production, use safer evaluation)
             # Replace context variables in condition
@@ -430,7 +430,7 @@ class SecurityPolicyFramework:
                     condition = condition.replace(key, f"'{value}'")
                 else:
                     condition = condition.replace(key, str(value))
-            
+
             # Safe evaluation of basic conditions
             if "==" in condition or "!=" in condition or "<" in condition or ">" in condition:
                 # Basic comparisons are safe
@@ -438,26 +438,26 @@ class SecurityPolicyFramework:
             elif " in " in condition:
                 # List membership checks
                 return eval(condition)
-            
+
             return False
-            
+
         except Exception as e:
             logger.error(f"Error evaluating condition '{condition}': {e}")
             return False
-    
+
     def enforce_policy_action(self, violation: PolicyViolation) -> bool:
         """Enforce policy action based on violation"""
-        
+
         policy = self.policies.get(violation.policy_id)
         if not policy or not policy.auto_enforce:
             return False
-        
+
         rule = next((r for r in policy.rules if r["rule_id"] == violation.details["rule_id"]), None)
         if not rule:
             return False
-        
+
         action = rule["action"]
-        
+
         try:
             if action == "deny_access":
                 return self._deny_access(violation)
@@ -475,72 +475,72 @@ class SecurityPolicyFramework:
                 return self._require_explanation(violation)
             elif action == "escalate_to_ciso":
                 return self._escalate_to_ciso(violation)
-            
+
             logger.warning(f"Unknown policy action: {action}")
             return False
-            
+
         except Exception as e:
             logger.error(f"Failed to enforce policy action '{action}': {e}")
             return False
-    
+
     def _deny_access(self, violation: PolicyViolation) -> bool:
         """Deny access action"""
         logger.info(f"Access denied for violation: {violation.violation_id}")
         return True
-    
+
     def _terminate_session(self, violation: PolicyViolation) -> bool:
         """Terminate session action"""
         logger.info(f"Session terminated for violation: {violation.violation_id}")
         return True
-    
+
     def _audit_log(self, violation: PolicyViolation) -> bool:
         """Audit log action"""
         logger.info(f"Audit logged for violation: {violation.violation_id}")
         return True
-    
+
     def _encrypt_data(self, violation: PolicyViolation) -> bool:
         """Encrypt data action"""
         logger.info(f"Data encryption triggered for violation: {violation.violation_id}")
         return True
-    
+
     def _schedule_deletion(self, violation: PolicyViolation) -> bool:
         """Schedule deletion action"""
         logger.info(f"Data deletion scheduled for violation: {violation.violation_id}")
         return True
-    
+
     def _refuse_request(self, violation: PolicyViolation) -> bool:
         """Refuse request action"""
         logger.info(f"Request refused for violation: {violation.violation_id}")
         return True
-    
+
     def _require_explanation(self, violation: PolicyViolation) -> bool:
         """Require explanation action"""
         logger.info(f"Explanation required for violation: {violation.violation_id}")
         return True
-    
+
     def _escalate_to_ciso(self, violation: PolicyViolation) -> bool:
         """Escalate to CISO action"""
         logger.critical(f"ESCALATION TO CISO: {violation.violation_id}")
         return True
-    
-    def get_compliance_status(self, framework: ComplianceFramework) -> Dict[str, Any]:
+
+    def get_compliance_status(self, framework: ComplianceFramework) -> dict[str, Any]:
         """Get compliance status for specific framework"""
-        
+
         framework_policies = [
             p for p in self.policies.values()
             if framework in p.compliance_frameworks
         ]
-        
+
         total_rules = sum(len(p.rules) for p in framework_policies)
-        
+
         # Get recent violations for this framework
         framework_violations = [
             v for v in self.violations
             if framework in self.policies[v.policy_id].compliance_frameworks
         ]
-        
+
         unresolved_violations = [v for v in framework_violations if not v.resolved]
-        
+
         return {
             "framework": framework.value,
             "total_policies": len(framework_policies),
@@ -550,30 +550,30 @@ class SecurityPolicyFramework:
             "compliance_score": max(0, 1 - (len(unresolved_violations) / max(1, total_rules))),
             "last_assessment": datetime.now(timezone.utc).isoformat()
         }
-    
-    def generate_security_report(self) -> Dict[str, Any]:
+
+    def generate_security_report(self) -> dict[str, Any]:
         """Generate comprehensive security report"""
-        
+
         # Policy summary
         total_policies = len(self.policies)
         total_rules = sum(len(p.rules) for p in self.policies.values())
-        
+
         # Violation summary
         total_violations = len(self.violations)
         unresolved_violations = [v for v in self.violations if not v.resolved]
-        
+
         # Severity breakdown
         severity_breakdown = {}
         for severity in PolicyViolationSeverity:
             severity_breakdown[severity.value] = len([
                 v for v in self.violations if v.severity == severity
             ])
-        
+
         # Compliance status
         compliance_status = {}
         for framework in ComplianceFramework:
             compliance_status[framework.value] = self.get_compliance_status(framework)
-        
+
         return {
             "report_generated": datetime.now(timezone.utc).isoformat(),
             "policy_summary": {
@@ -589,11 +589,11 @@ class SecurityPolicyFramework:
             "compliance_status": compliance_status,
             "security_score": max(0, 1 - (len(unresolved_violations) / max(1, total_rules)))
         }
-    
-    def list_policies(self) -> List[Dict[str, Any]]:
+
+    def list_policies(self) -> list[dict[str, Any]]:
         """List all security policies"""
         return [policy.to_dict() for policy in self.policies.values()]
-    
+
     def get_policy(self, policy_id: str) -> Optional[SecurityPolicy]:
         """Get specific policy by ID"""
         return self.policies.get(policy_id)
@@ -613,11 +613,11 @@ def get_security_policy_framework() -> SecurityPolicyFramework:
 
 # Convenience functions for policy evaluation
 
-def evaluate_data_access_policy(user_id: str, resource: str, operation: str, 
-                               data_classification: DataClassification) -> List[PolicyViolation]:
+def evaluate_data_access_policy(user_id: str, resource: str, operation: str,
+                               data_classification: DataClassification) -> list[PolicyViolation]:
     """Evaluate data access against policies"""
     framework = get_security_policy_framework()
-    
+
     context = {
         "user_id": user_id,
         "resource": resource,
@@ -625,20 +625,20 @@ def evaluate_data_access_policy(user_id: str, resource: str, operation: str,
         "data_classification": data_classification.value,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
-    
+
     violations = []
     for policy_id in framework.policies:
         policy_violations = framework.evaluate_policy_compliance(policy_id, context)
         violations.extend(policy_violations)
-    
+
     return violations
 
 
 def evaluate_ai_model_policy(model_name: str, training_data_contains_pii: bool,
-                            bias_validation: bool, safety_validation: bool) -> List[PolicyViolation]:
+                            bias_validation: bool, safety_validation: bool) -> list[PolicyViolation]:
     """Evaluate AI model against policies"""
     framework = get_security_policy_framework()
-    
+
     context = {
         "model_name": model_name,
         "training_data_contains_pii": training_data_contains_pii,
@@ -646,7 +646,7 @@ def evaluate_ai_model_policy(model_name: str, training_data_contains_pii: bool,
         "safety_validation": safety_validation,
         "sanitization": not training_data_contains_pii  # Assume sanitized if no PII
     }
-    
+
     return framework.evaluate_policy_compliance("ai_model_001", context)
 
 
@@ -655,17 +655,17 @@ def example_usage():
     """Example usage of security policy framework"""
     print("🛡️ Security Policy Framework Example")
     print("=" * 50)
-    
+
     # Get policy framework
     framework = get_security_policy_framework()
-    
+
     # List policies
     policies = framework.list_policies()
     print(f"📋 Total policies loaded: {len(policies)}")
-    
+
     # Test policy evaluation
     print("\n🧪 Testing policy evaluation...")
-    
+
     # Test data access policy
     violations = evaluate_data_access_policy(
         user_id="testuser@example.com",
@@ -674,7 +674,7 @@ def example_usage():
         data_classification=DataClassification.CONFIDENTIAL
     )
     print(f"Data access violations: {len(violations)}")
-    
+
     # Test AI model policy
     ai_violations = evaluate_ai_model_policy(
         model_name="test_model_v1",
@@ -683,18 +683,18 @@ def example_usage():
         safety_validation=True
     )
     print(f"AI model violations: {len(ai_violations)}")
-    
+
     # Generate security report
     report = framework.generate_security_report()
-    print(f"\n📊 Security Report:")
+    print("\n📊 Security Report:")
     print(f"  Security score: {report['security_score']:.2f}")
     print(f"  Total policies: {report['policy_summary']['total_policies']}")
     print(f"  Total violations: {report['violation_summary']['total_violations']}")
-    
+
     # Check GDPR compliance
     gdpr_status = framework.get_compliance_status(ComplianceFramework.GDPR)
     print(f"  GDPR compliance score: {gdpr_status['compliance_score']:.2f}")
-    
+
     print("\n✅ Security policy framework test completed")
 
 

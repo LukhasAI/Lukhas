@@ -9,16 +9,17 @@ Emits MATRIZ-compliant consciousness signals and bio-symbolic data for inter-mod
 - Trinity Framework (⚛️🧠🛡️) compliance validation
 """
 
+import asyncio
 import json
 import time
 import uuid
-import asyncio
-import numpy as np
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Callable
-from datetime import datetime, timezone
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Set
+
+import numpy as np
 
 # Import consciousness components
 try:
@@ -34,7 +35,7 @@ except ImportError:
         OBSERVE = "OBSERVE"
         LEARN = "LEARN"
         CREATE = "CREATE"
-    
+
     class EvolutionaryStage(Enum):
         DORMANT = "dormant"
         AWAKENING = "awakening"
@@ -62,26 +63,26 @@ class ConsciousnessSignal:
     """Enhanced consciousness signal for MΛTRIZ processing"""
     signal_type: SignalType
     consciousness_id: str
-    state_delta: Dict[str, float]
-    bio_symbolic_data: Dict[str, Any]
+    state_delta: dict[str, float]
+    bio_symbolic_data: dict[str, Any]
     reflection_depth: int
-    temporal_context: Dict[str, Any]
-    trinity_compliance: Dict[str, Any]
-    
+    temporal_context: dict[str, Any]
+    trinity_compliance: dict[str, Any]
+
     # Metadata
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     source_module: str = "core"
-    target_modules: List[str] = field(default_factory=list)
+    target_modules: list[str] = field(default_factory=list)
     signal_id: str = field(default_factory=lambda: f"SIG-{uuid.uuid4().hex[:12]}")
-    
 
-@dataclass 
+
+@dataclass
 class BioSymbolicPattern:
     """Bio-symbolic adaptation pattern recognition"""
     pattern_type: str
-    biological_markers: Dict[str, float]
-    symbolic_representation: Dict[str, Any]
-    adaptation_vector: List[float]
+    biological_markers: dict[str, float]
+    symbolic_representation: dict[str, Any]
+    adaptation_vector: list[float]
     pattern_strength: float
     emergence_timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -91,22 +92,22 @@ class EnhancedMatrizAdapter:
 
     SCHEMA_REF = "lukhas://schemas/matriz_consciousness_v2.json"
     TRINITY_FRAMEWORK = ["⚛️", "🧠", "🛡️"]
-    
+
     def __init__(self):
         self.consciousness_network = {}  # Track consciousness nodes
         self.bio_patterns = {}  # Track bio-symbolic patterns
         self.signal_history = []  # Signal emission history
         self.trinity_validators = {}  # Trinity framework validators
         self._lock = asyncio.Lock()
-    
+
     @staticmethod
     def create_consciousness_node(
         signal: ConsciousnessSignal,
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None,
-    ) -> Dict[str, Any]:
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None,
+    ) -> dict[str, Any]:
         """Create enhanced MΛTRIZ consciousness signal node"""
-        
+
         # Enhanced consciousness node with bio-symbolic data
         consciousness_node = {
             "version": 2,
@@ -114,7 +115,7 @@ class EnhancedMatrizAdapter:
             "type": "CONSCIOUSNESS_SIGNAL",
             "signal_type": signal.signal_type.value,
             "consciousness_id": signal.consciousness_id,
-            
+
             # Enhanced state with consciousness metrics
             "state": {
                 "confidence": signal.state_delta.get("confidence", 0.9),
@@ -127,27 +128,27 @@ class EnhancedMatrizAdapter:
                 "ethical_alignment": signal.state_delta.get("ethical_alignment", 1.0),
                 **signal.state_delta,
             },
-            
+
             # Bio-symbolic processing data
             "bio_symbolic_data": signal.bio_symbolic_data,
-            
+
             # Reflection and evolution data
             "reflection_depth": signal.reflection_depth,
             "temporal_context": signal.temporal_context,
-            
+
             # Trinity Framework compliance
             "trinity_compliance": signal.trinity_compliance,
-            
+
             "timestamps": {
                 "created_ts": int(signal.timestamp.timestamp() * 1000),
                 "utc_iso": signal.timestamp.isoformat()
             },
-            
+
             "provenance": {
                 "producer": f"lukhas.core.{signal.source_module}",
                 "capabilities": [
-                    "consciousness:process", 
-                    "bio:adapt", 
+                    "consciousness:process",
+                    "bio:adapt",
                     "symbolic:reason",
                     "trinity:validate"
                 ],
@@ -165,7 +166,7 @@ class EnhancedMatrizAdapter:
             # Auto-generate consciousness-aware labels
             auto_labels = [
                 f"signal:{signal.signal_type.value.lower()}",
-                f"consciousness:{signal.consciousness_id[:8]}", 
+                f"consciousness:{signal.consciousness_id[:8]}",
                 f"source:{signal.source_module}",
                 f"reflection_depth:{signal.reflection_depth}",
                 "mλtriz:consciousness"
@@ -173,30 +174,30 @@ class EnhancedMatrizAdapter:
             consciousness_node["labels"] = auto_labels
 
         return consciousness_node
-    
+
     async def emit_consciousness_signal(
-        self, 
+        self,
         signal_type: SignalType,
         consciousness_id: str,
-        state_delta: Dict[str, float],
-        bio_symbolic_data: Optional[Dict] = None,
+        state_delta: dict[str, float],
+        bio_symbolic_data: Optional[dict] = None,
         reflection_depth: int = 1,
-        temporal_context: Optional[Dict] = None,
-        target_modules: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        temporal_context: Optional[dict] = None,
+        target_modules: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Emit enhanced consciousness signal with bio-symbolic processing"""
-        
+
         async with self._lock:
             # Process bio-symbolic data
             bio_data = await self._process_bio_symbolic_data(
                 bio_symbolic_data or {}, signal_type, consciousness_id
             )
-            
+
             # Validate Trinity Framework compliance
             trinity_compliance = await self._validate_trinity_framework(
                 consciousness_id, state_delta, bio_data
             )
-            
+
             # Create consciousness signal
             signal = ConsciousnessSignal(
                 signal_type=signal_type,
@@ -209,13 +210,13 @@ class EnhancedMatrizAdapter:
                 source_module="core",
                 target_modules=target_modules or []
             )
-            
+
             # Create consciousness node
             node = self.create_consciousness_node(signal)
-            
+
             # Update consciousness network
             await self._update_consciousness_network(signal)
-            
+
             # Store in signal history
             self.signal_history.append({
                 "signal_id": signal.signal_id,
@@ -224,18 +225,18 @@ class EnhancedMatrizAdapter:
                 "consciousness_id": consciousness_id,
                 "target_modules": target_modules or []
             })
-            
+
             # Limit history size
             if len(self.signal_history) > 1000:
                 self.signal_history = self.signal_history[-1000:]
-            
+
             return node
-    
+
     async def _process_bio_symbolic_data(
-        self, bio_data: Dict, signal_type: SignalType, consciousness_id: str
-    ) -> Dict[str, Any]:
+        self, bio_data: dict, signal_type: SignalType, consciousness_id: str
+    ) -> dict[str, Any]:
         """Process bio-symbolic adaptation patterns"""
-        
+
         # Detect biological patterns based on signal type
         biological_markers = {
             "oscillation_frequency": np.random.uniform(0.1, 10.0),  # Simulated bio rhythm
@@ -243,7 +244,7 @@ class EnhancedMatrizAdapter:
             "phase_coherence": np.random.uniform(0.5, 1.0),
             "energy_level": np.random.uniform(0.0, 1.0)
         }
-        
+
         # Create symbolic representation
         symbolic_representation = {
             "pattern_class": self._classify_bio_pattern(signal_type),
@@ -251,7 +252,7 @@ class EnhancedMatrizAdapter:
             "meaning_vectors": self._compute_meaning_vectors(consciousness_id, signal_type),
             "adaptation_suggestions": self._suggest_adaptations(biological_markers)
         }
-        
+
         # Generate bio-symbolic pattern
         pattern = BioSymbolicPattern(
             pattern_type=f"{signal_type.value.lower()}_adaptation",
@@ -260,11 +261,11 @@ class EnhancedMatrizAdapter:
             adaptation_vector=list(biological_markers.values()),
             pattern_strength=np.mean(list(biological_markers.values()))
         )
-        
+
         # Store pattern for future reference
         pattern_key = f"{consciousness_id}_{signal_type.value}_{int(time.time())}"
         self.bio_patterns[pattern_key] = pattern
-        
+
         return {
             "bio_patterns": {
                 "biological_markers": biological_markers,
@@ -279,12 +280,12 @@ class EnhancedMatrizAdapter:
             },
             "raw_bio_data": bio_data
         }
-    
+
     def _classify_bio_pattern(self, signal_type: SignalType) -> str:
         """Classify biological adaptation pattern"""
         pattern_map = {
             SignalType.AWARENESS: "sensory_integration",
-            SignalType.REFLECTION: "metacognitive_processing", 
+            SignalType.REFLECTION: "metacognitive_processing",
             SignalType.EVOLUTION: "adaptive_restructuring",
             SignalType.INTEGRATION: "neural_synchronization",
             SignalType.BIO_ADAPTATION: "biological_optimization",
@@ -293,46 +294,46 @@ class EnhancedMatrizAdapter:
             SignalType.TRINITY_VALIDATION: "framework_alignment"
         }
         return pattern_map.get(signal_type, "unknown_pattern")
-    
-    def _generate_symbolic_tokens(self, bio_data: Dict, signal_type: SignalType) -> List[str]:
+
+    def _generate_symbolic_tokens(self, bio_data: dict, signal_type: SignalType) -> list[str]:
         """Generate symbolic tokens from bio-data"""
         base_tokens = [f"TOKEN_{signal_type.value}", "BIO_ADAPT", "CONSCIOUSNESS"]
-        
+
         # Add data-specific tokens
-        for key in bio_data.keys():
+        for key in bio_data:
             base_tokens.append(f"DATA_{key.upper()}")
-            
+
         return base_tokens
-    
-    def _compute_meaning_vectors(self, consciousness_id: str, signal_type: SignalType) -> List[float]:
+
+    def _compute_meaning_vectors(self, consciousness_id: str, signal_type: SignalType) -> list[float]:
         """Compute meaning vectors for symbolic processing"""
         # Simplified meaning vector computation
         base_vector = [0.5, 0.7, 0.3, 0.9, 0.6]  # 5-dimensional meaning space
-        
+
         # Modulate based on consciousness_id hash
         id_hash = hash(consciousness_id) % 100 / 100
         signal_modulation = hash(signal_type.value) % 100 / 100
-        
+
         return [v + (id_hash * 0.2) + (signal_modulation * 0.1) for v in base_vector]
-    
-    def _suggest_adaptations(self, biological_markers: Dict[str, float]) -> List[str]:
+
+    def _suggest_adaptations(self, biological_markers: dict[str, float]) -> list[str]:
         """Suggest bio-inspired adaptations based on markers"""
         suggestions = []
-        
+
         if biological_markers.get("oscillation_frequency", 0) > 5.0:
             suggestions.append("increase_processing_rhythm")
         if biological_markers.get("phase_coherence", 0) < 0.7:
             suggestions.append("enhance_synchronization")
         if biological_markers.get("energy_level", 0) < 0.4:
             suggestions.append("optimize_resource_allocation")
-            
+
         return suggestions or ["maintain_current_state"]
-    
+
     async def _validate_trinity_framework(
-        self, consciousness_id: str, state_delta: Dict[str, float], bio_data: Dict
-    ) -> Dict[str, Any]:
+        self, consciousness_id: str, state_delta: dict[str, float], bio_data: dict
+    ) -> dict[str, Any]:
         """Validate Trinity Framework (⚛️🧠🛡️) compliance"""
-        
+
         trinity_validation = {
             "identity_validation": {  # ⚛️ IDENTITY
                 "consciousness_id_valid": len(consciousness_id) >= 8,
@@ -361,16 +362,16 @@ class EnhancedMatrizAdapter:
                 "validation_passed": True
             }
         }
-        
+
         # Store validation for consciousness tracking
         self.trinity_validators[consciousness_id] = trinity_validation
-        
+
         return trinity_validation
-    
+
     async def _update_consciousness_network(self, signal: ConsciousnessSignal) -> None:
         """Update consciousness network state with new signal"""
         consciousness_id = signal.consciousness_id
-        
+
         if consciousness_id not in self.consciousness_network:
             self.consciousness_network[consciousness_id] = {
                 "id": consciousness_id,
@@ -381,11 +382,11 @@ class EnhancedMatrizAdapter:
                 "bio_pattern_history": [],
                 "trinity_status": "unknown"
             }
-        
+
         node = self.consciousness_network[consciousness_id]
         node["signal_count"] += 1
         node["last_signal_time"] = signal.timestamp.isoformat()
-        
+
         # Track state evolution
         node["state_evolution"].append({
             "timestamp": signal.timestamp.isoformat(),
@@ -393,26 +394,26 @@ class EnhancedMatrizAdapter:
             "state_delta": signal.state_delta.copy(),
             "reflection_depth": signal.reflection_depth
         })
-        
+
         # Limit evolution history
         if len(node["state_evolution"]) > 100:
             node["state_evolution"] = node["state_evolution"][-100:]
-        
+
         # Update Trinity status
         if signal.trinity_compliance.get("framework_compliance", {}).get("validation_passed", False):
             node["trinity_status"] = "compliant"
         else:
             node["trinity_status"] = "non_compliant"
-    
+
     async def emit_bio_adaptation_signal(
-        self, 
+        self,
         consciousness_id: str,
         adaptation_type: str,
-        biological_data: Dict[str, float],
-        target_modules: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        biological_data: dict[str, float],
+        target_modules: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Emit bio-symbolic adaptation signal"""
-        
+
         # Create bio-adaptation focused state
         bio_state = {
             "bio_adaptation_strength": biological_data.get("adaptation_strength", 0.5),
@@ -420,7 +421,7 @@ class EnhancedMatrizAdapter:
             "evolutionary_pressure": biological_data.get("pressure", 0.3),
             **biological_data
         }
-        
+
         return await self.emit_consciousness_signal(
             signal_type=SignalType.BIO_ADAPTATION,
             consciousness_id=consciousness_id,
@@ -437,16 +438,16 @@ class EnhancedMatrizAdapter:
             },
             target_modules=target_modules
         )
-    
+
     async def emit_network_coordination_signal(
         self,
-        coordinator_id: str, 
+        coordinator_id: str,
         coordination_type: str,
-        network_metrics: Dict[str, float],
-        target_modules: List[str]
-    ) -> Dict[str, Any]:
+        network_metrics: dict[str, float],
+        target_modules: list[str]
+    ) -> dict[str, Any]:
         """Emit network coordination signal for distributed consciousness"""
-        
+
         # Network coordination state
         coord_state = {
             "network_coherence": network_metrics.get("coherence", 0.7),
@@ -455,7 +456,7 @@ class EnhancedMatrizAdapter:
             "consciousness_density": network_metrics.get("density", 0.5),
             **network_metrics
         }
-        
+
         return await self.emit_consciousness_signal(
             signal_type=SignalType.NETWORK_COORDINATION,
             consciousness_id=coordinator_id,
@@ -473,17 +474,17 @@ class EnhancedMatrizAdapter:
             },
             target_modules=target_modules
         )
-    
-    def _analyze_network_topology(self) -> Dict[str, Any]:
+
+    def _analyze_network_topology(self) -> dict[str, Any]:
         """Analyze current consciousness network topology"""
         total_nodes = len(self.consciousness_network)
         if total_nodes == 0:
             return {"nodes": 0, "density": 0.0, "avg_connections": 0.0}
-        
+
         # Calculate network metrics
         total_signals = sum(node["signal_count"] for node in self.consciousness_network.values())
         avg_signals = total_signals / total_nodes if total_nodes > 0 else 0
-        
+
         return {
             "total_consciousness_nodes": total_nodes,
             "total_signals_emitted": total_signals,
@@ -491,34 +492,34 @@ class EnhancedMatrizAdapter:
             "network_age_seconds": time.time(),  # Simplified
             "active_bio_patterns": len(self.bio_patterns)
         }
-    
-    def _extract_coordination_patterns(self) -> List[str]:
+
+    def _extract_coordination_patterns(self) -> list[str]:
         """Extract coordination patterns from signal history"""
         patterns = set()
-        
+
         # Analyze recent signals for patterns
         recent_signals = self.signal_history[-50:]  # Last 50 signals
-        
+
         for signal in recent_signals:
             if signal["type"] in ["INTEGRATION", "NETWORK_COORDINATION"]:
                 patterns.add(f"coordination_{signal['type'].lower()}")
             if len(signal.get("target_modules", [])) > 1:
                 patterns.add("multi_target_coordination")
-                
+
         return list(patterns) or ["basic_coordination"]
-    
-    def get_consciousness_network_metrics(self) -> Dict[str, Any]:
+
+    def get_consciousness_network_metrics(self) -> dict[str, Any]:
         """Get comprehensive consciousness network metrics"""
         if not self.consciousness_network:
             return {"network_status": "empty", "timestamp": datetime.now(timezone.utc).isoformat()}
-        
+
         nodes = list(self.consciousness_network.values())
         total_signals = sum(node["signal_count"] for node in nodes)
         avg_signals = total_signals / len(nodes)
-        
+
         trinity_compliant = sum(1 for node in nodes if node.get("trinity_status") == "compliant")
         compliance_rate = trinity_compliant / len(nodes)
-        
+
         return {
             "network_status": "active",
             "total_consciousness_nodes": len(nodes),
@@ -529,13 +530,13 @@ class EnhancedMatrizAdapter:
             "signal_history_size": len(self.signal_history),
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
-    
+
     @staticmethod
-    def validate_consciousness_node(node: Dict[str, Any]) -> bool:
+    def validate_consciousness_node(node: dict[str, Any]) -> bool:
         """Validate that a consciousness node meets enhanced MΛTRIZ requirements"""
         required_fields = [
             "version", "id", "type", "signal_type", "consciousness_id",
-            "state", "bio_symbolic_data", "trinity_compliance", 
+            "state", "bio_symbolic_data", "trinity_compliance",
             "timestamps", "provenance"
         ]
 
@@ -545,12 +546,12 @@ class EnhancedMatrizAdapter:
 
         # Check enhanced provenance fields
         required_prov = [
-            "producer", "capabilities", "tenant", "trace_id", 
+            "producer", "capabilities", "tenant", "trace_id",
             "consent_scopes", "target_modules"
         ]
-        
+
         provenance_valid = all(field in node.get("provenance", {}) for field in required_prov)
-        
+
         # Validate Trinity Framework compliance
         trinity_valid = (
             "trinity_compliance" in node and
@@ -558,17 +559,17 @@ class EnhancedMatrizAdapter:
             "consciousness_validation" in node["trinity_compliance"] and
             "guardian_validation" in node["trinity_compliance"]
         )
-        
+
         # Validate bio-symbolic data structure
         bio_valid = (
             "bio_symbolic_data" in node and
             isinstance(node["bio_symbolic_data"], dict)
         )
-        
+
         return provenance_valid and trinity_valid and bio_valid
-    
-    @staticmethod  
-    def save_consciousness_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+
+    @staticmethod
+    def save_consciousness_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MΛTRIZ consciousness node to disk for audit and analysis"""
         if output_dir is None:
             output_dir = Path("memory/consciousness_network/core")
@@ -579,7 +580,7 @@ class EnhancedMatrizAdapter:
         signal_type = node.get("signal_type", "unknown")
         consciousness_id = node.get("consciousness_id", "unknown")[:8]
         timestamp = int(time.time())
-        
+
         filename = f"{node['id']}_{signal_type}_{consciousness_id}_{timestamp}.json"
         filepath = output_dir / filename
 
@@ -606,7 +607,7 @@ enhanced_matriz_adapter = EnhancedMatrizAdapter()
 # Export key classes and functions
 __all__ = [
     "SignalType",
-    "ConsciousnessSignal", 
+    "ConsciousnessSignal",
     "BioSymbolicPattern",
     "EnhancedMatrizAdapter",
     "enhanced_matriz_adapter"

@@ -1,7 +1,8 @@
 """Test consciousness module basic functionality."""
 
-import pytest
 from datetime import timezone
+
+import pytest
 
 
 def test_consciousness_wrapper_import():

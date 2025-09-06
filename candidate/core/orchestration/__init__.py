@@ -6,7 +6,7 @@
 ║ TYPE: INTEGRATE
 ║ CONSCIOUSNESS_ROLE: System-wide orchestration and coordination
 ║ EVOLUTIONARY_STAGE: Integration - Multi-system coordination
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: System identity and module relationship management
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware orchestration patterns
@@ -30,24 +30,23 @@ Key Components:
 """
 
 # Import MΛTRIZ consciousness coordination
+# Import existing orchestration core
+from .core import OrchestrationCore
 from .matriz_consciousness_coordinator import (
     MatrizConsciousnessCoordinator,
     ModuleConsciousnessProfile,
     OrchestrationState,
-    consciousness_coordinator
+    consciousness_coordinator,
 )
-
-# Import existing orchestration core
-from .core import OrchestrationCore
 
 # Export orchestration components
 __all__ = [
     # MΛTRIZ Consciousness Coordination
     "MatrizConsciousnessCoordinator",
-    "ModuleConsciousnessProfile", 
+    "ModuleConsciousnessProfile",
     "OrchestrationState",
     "consciousness_coordinator",
-    
+
     # Core Orchestration
     "OrchestrationCore"
 ]

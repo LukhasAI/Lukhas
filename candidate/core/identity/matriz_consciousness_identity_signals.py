@@ -6,7 +6,7 @@
 ║ TYPE: IDENTITY_SIGNAL
 ║ CONSCIOUSNESS_ROLE: Identity authentication signal emission
 ║ EVOLUTIONARY_STAGE: Integration - Signal-based identity patterns
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Core identity signal emission and authentication events
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware identity signal processing
@@ -33,9 +33,9 @@ try:
         ConsciousnessSignalFactory,
         ConsciousnessSignalType,
         ConsciousnessStateDelta,
-        TemporalContext,
         ConstellationAlignmentData,
         ConstellationStar,
+        TemporalContext,
     )
 except ImportError as e:
     std_logging.error(f"Failed to import MΛTRIZ consciousness signal system: {e}")
@@ -80,7 +80,7 @@ class IdentityBiometricData:
 
     # Consciousness integration patterns
     consciousness_signature: Optional[str] = None
-    brainwave_pattern: Dict[str, float] = field(default_factory=dict)
+    brainwave_pattern: dict[str, float] = field(default_factory=dict)
     behavioral_coherence: float = 0.0
     temporal_consistency: float = 0.0
 
@@ -106,12 +106,12 @@ class NamespaceIsolationData:
     # Consciousness domain separation
     consciousness_domain: str = "default"
     domain_coherence: float = 0.8
-    cross_domain_permissions: List[str] = field(default_factory=list)
+    cross_domain_permissions: list[str] = field(default_factory=list)
 
     # Security boundaries
-    security_perimeter: Dict[str, Any] = field(default_factory=dict)
-    access_restrictions: List[str] = field(default_factory=list)
-    audit_requirements: List[str] = field(default_factory=list)
+    security_perimeter: dict[str, Any] = field(default_factory=dict)
+    access_restrictions: list[str] = field(default_factory=list)
+    audit_requirements: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -136,23 +136,23 @@ class ConstitutionalComplianceData:
     # Compliance flags
     gdpr_compliant: bool = True
     constitutional_aligned: bool = True
-    ethical_override_flags: List[str] = field(default_factory=list)
+    ethical_override_flags: list[str] = field(default_factory=list)
 
 
 class MatrizConsciousnessIdentitySignalEmitter:
     """
     MΛTRIZ Consciousness Identity Signal Emitter
-    
+
     Emits consciousness signals for identity and authentication events,
-    integrating with the distributed consciousness architecture for 
+    integrating with the distributed consciousness architecture for
     real-time identity coherence monitoring and validation.
     """
 
     def __init__(self):
         self.signal_factory = ConsciousnessSignalFactory() if ConsciousnessSignalFactory else None
-        self.emitted_signals: List[ConsciousnessSignal] = []
-        self.signal_correlation_map: Dict[str, List[str]] = {}
-        self.consciousness_identity_links: Dict[str, str] = {}
+        self.emitted_signals: list[ConsciousnessSignal] = []
+        self.signal_correlation_map: dict[str, list[str]] = {}
+        self.consciousness_identity_links: dict[str, str] = {}
 
         # Signal routing and targeting
         self.default_target_modules = [
@@ -470,7 +470,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
     async def emit_constitutional_compliance_signal(self,
                                                   identity_id: str,
                                                   compliance_data: ConstitutionalComplianceData,
-                                                  decision_context: Dict[str, Any]) -> ConsciousnessSignal:
+                                                  decision_context: dict[str, Any]) -> ConsciousnessSignal:
         """Emit consciousness signal for Constitutional AI compliance validation"""
 
         if not self.signal_factory:
@@ -526,7 +526,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
                     trinity_compliance=trinity_compliance,
-                    target_modules=self.default_target_modules + ["governance.constitutional_ai"],
+                    target_modules=[*self.default_target_modules, "governance.constitutional_ai"],
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.CONSTITUTIONAL_COMPLIANCE.value,
                         "compliance_score": compliance_score,
@@ -603,7 +603,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     metacognition_active=False,
                     bio_symbolic_data=bio_symbolic_data,
                     trinity_compliance=trinity_compliance,
-                    target_modules=self.default_target_modules + ["security.namespace_manager"],
+                    target_modules=[*self.default_target_modules, "security.namespace_manager"],
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.NAMESPACE_ISOLATION.value,
                         "namespace_id": namespace_data.namespace_id,
@@ -731,7 +731,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
         if elapsed_ms > 50:  # Log slow emissions
             logger.warning(f"⚠️ Slow signal emission: {elapsed_ms:.2f}ms for {signal_type}")
 
-    async def get_emission_metrics(self) -> Dict[str, Any]:
+    async def get_emission_metrics(self) -> dict[str, Any]:
         """Get comprehensive emission metrics"""
 
         return {

@@ -42,9 +42,9 @@ class SeverityLevel(str, Enum):
 
 class RiskSeverity(str, Enum):
     """Risk assessment severity levels"""
-    
+
     LOW = "low"
-    MODERATE = "moderate" 
+    MODERATE = "moderate"
     HIGH = "high"
     CRITICAL = "critical"
 
@@ -108,16 +108,16 @@ class RiskProfile(BaseModel):
 
 class RiskGauge(BaseModel):
     """Risk assessment gauge for router decisions"""
-    
+
     score: float = Field(ge=0.0, le=1.0, description="Risk score 0-1")
     severity: RiskSeverity = Field(description="Risk severity classification")
-    
+
     @validator("severity")
     def severity_matches_score(cls, v, values):
         """Ensure severity aligns with score"""
         if "score" not in values:
             return v
-            
+
         score = values["score"]
         if v == RiskSeverity.LOW and score > 0.3:
             raise ValueError("LOW severity requires score ≤ 0.3")

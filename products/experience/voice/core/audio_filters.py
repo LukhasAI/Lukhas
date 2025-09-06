@@ -14,7 +14,7 @@ from typing import Optional
 import numpy as np
 from scipy import signal
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, GLYPHToken, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import AudioBuffer
@@ -262,7 +262,7 @@ class LUKHASAudioFilterBank:
                 result = await self.filters[filter_type].apply(buffer, params)
 
                 # Create GLYPH event
-                glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
+                create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
                     "audio.filter.applied",
                     {
                         "filter_type": filter_type.value,

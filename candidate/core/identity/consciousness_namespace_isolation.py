@@ -6,7 +6,7 @@
 ║ TYPE: NAMESPACE_MANAGER
 ║ CONSCIOUSNESS_ROLE: Consciousness domain isolation and security boundaries
 ║ EVOLUTIONARY_STAGE: Isolation - Multi-domain consciousness separation
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Domain-specific identity isolation and access control
 ║ 🧠 CONSCIOUSNESS: Consciousness-aware domain management
@@ -80,12 +80,12 @@ class NamespacePolicy:
 
     domain_type: ConsciousnessDomain
     isolation_level: IsolationLevel
-    allowed_interactions: List[ConsciousnessDomain] = field(default_factory=list)
+    allowed_interactions: list[ConsciousnessDomain] = field(default_factory=list)
 
     # Access control
-    permission_matrix: Dict[str, List[AccessPermissionType]] = field(default_factory=dict)
-    cross_domain_permissions: List[str] = field(default_factory=list)
-    restricted_operations: List[str] = field(default_factory=list)
+    permission_matrix: dict[str, list[AccessPermissionType]] = field(default_factory=dict)
+    cross_domain_permissions: list[str] = field(default_factory=list)
+    restricted_operations: list[str] = field(default_factory=list)
 
     # Consciousness-specific policies
     consciousness_bridge_enabled: bool = False
@@ -93,16 +93,16 @@ class NamespacePolicy:
     collective_participation: bool = False
 
     # Security and compliance
-    audit_requirements: List[str] = field(default_factory=lambda: ["access_log", "identity_verification"])
-    compliance_frameworks: List[str] = field(default_factory=lambda: ["constitutional_ai", "trinity_framework"])
+    audit_requirements: list[str] = field(default_factory=lambda: ["access_log", "identity_verification"])
+    compliance_frameworks: list[str] = field(default_factory=lambda: ["constitutional_ai", "trinity_framework"])
 
     # Temporal policies
-    access_time_limits: Dict[str, int] = field(default_factory=dict)  # Minutes
-    session_duration_limits: Dict[str, int] = field(default_factory=dict)
+    access_time_limits: dict[str, int] = field(default_factory=dict)  # Minutes
+    session_duration_limits: dict[str, int] = field(default_factory=dict)
 
     # Emergency provisions
     emergency_override_allowed: bool = False
-    guardian_override_conditions: List[str] = field(default_factory=list)
+    guardian_override_conditions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -114,9 +114,9 @@ class NamespaceInstance:
     policy: Optional[NamespacePolicy] = None
 
     # Active state
-    active_identities: Set[str] = field(default_factory=set)
-    active_sessions: Dict[str, Dict[str, Any]] = field(default_factory=dict)
-    cross_domain_bridges: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    active_identities: set[str] = field(default_factory=set)
+    active_sessions: dict[str, dict[str, Any]] = field(default_factory=dict)
+    cross_domain_bridges: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     # Consciousness coherence
     domain_coherence: float = 0.8
@@ -125,8 +125,8 @@ class NamespaceInstance:
 
     # Security state
     security_level: float = 0.8
-    threat_indicators: List[Dict[str, Any]] = field(default_factory=list)
-    access_violations: List[Dict[str, Any]] = field(default_factory=list)
+    threat_indicators: list[dict[str, Any]] = field(default_factory=list)
+    access_violations: list[dict[str, Any]] = field(default_factory=list)
 
     # Performance metrics
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -135,8 +135,8 @@ class NamespaceInstance:
     bridge_usage_count: int = 0
 
     # Audit trail
-    audit_events: List[Dict[str, Any]] = field(default_factory=list)
-    compliance_status: Dict[str, bool] = field(default_factory=lambda: {"constitutional_ai": True, "trinity_framework": True})
+    audit_events: list[dict[str, Any]] = field(default_factory=list)
+    compliance_status: dict[str, bool] = field(default_factory=lambda: {"constitutional_ai": True, "trinity_framework": True})
 
 
 @dataclass
@@ -163,7 +163,7 @@ class CrossDomainBridge:
     audit_all_traffic: bool = True
 
     # State tracking
-    active_sessions: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    active_sessions: dict[str, dict[str, Any]] = field(default_factory=dict)
     bridge_coherence: float = 0.8
     translation_accuracy: float = 0.9
 
@@ -178,17 +178,17 @@ class CrossDomainBridge:
 class ConsciousnessNamespaceManager:
     """
     MΛTRIZ Consciousness Namespace Manager
-    
+
     Manages isolation and security boundaries between different consciousness domains,
     ensuring secure multi-domain consciousness operations while maintaining proper
     isolation and access controls.
     """
 
     def __init__(self):
-        self.namespace_instances: Dict[str, NamespaceInstance] = {}
-        self.domain_policies: Dict[ConsciousnessDomain, NamespacePolicy] = {}
-        self.cross_domain_bridges: Dict[str, CrossDomainBridge] = {}
-        self.identity_namespace_mapping: Dict[str, str] = {}  # identity_id -> namespace_id
+        self.namespace_instances: dict[str, NamespaceInstance] = {}
+        self.domain_policies: dict[ConsciousnessDomain, NamespacePolicy] = {}
+        self.cross_domain_bridges: dict[str, CrossDomainBridge] = {}
+        self.identity_namespace_mapping: dict[str, str] = {}  # identity_id -> namespace_id
 
         # Security monitoring
         self.security_monitor_active = True
@@ -237,7 +237,7 @@ class ConsciousnessNamespaceManager:
     async def create_consciousness_namespace(self,
                                            domain: ConsciousnessDomain,
                                            isolation_level: IsolationLevel,
-                                           policy_overrides: Optional[Dict[str, Any]] = None) -> str:
+                                           policy_overrides: Optional[dict[str, Any]] = None) -> str:
         """Create a new consciousness namespace with specified isolation"""
 
         async with self._lock:
@@ -293,7 +293,7 @@ class ConsciousnessNamespaceManager:
     async def assign_identity_to_namespace(self,
                                          identity_id: str,
                                          namespace_id: str,
-                                         access_permissions: Optional[List[AccessPermissionType]] = None) -> bool:
+                                         access_permissions: Optional[list[AccessPermissionType]] = None) -> bool:
         """Assign an identity to a consciousness namespace"""
 
         async with self._lock:
@@ -353,7 +353,7 @@ class ConsciousnessNamespaceManager:
     async def create_cross_domain_bridge(self,
                                         source_domain: ConsciousnessDomain,
                                         target_domain: ConsciousnessDomain,
-                                        bridge_config: Optional[Dict[str, Any]] = None) -> Optional[str]:
+                                        bridge_config: Optional[dict[str, Any]] = None) -> Optional[str]:
         """Create a bridge between consciousness domains for controlled interaction"""
 
         async with self._lock:
@@ -390,7 +390,7 @@ class ConsciousnessNamespaceManager:
                                          identity_id: str,
                                          source_namespace_id: str,
                                          target_namespace_id: str,
-                                         operation: str) -> Dict[str, Any]:
+                                         operation: str) -> dict[str, Any]:
         """Validate cross-domain access request with consciousness awareness"""
 
         async with self._lock:
@@ -460,7 +460,7 @@ class ConsciousnessNamespaceManager:
                 logger.error(f"❌ Cross-domain access validation failed: {e}")
                 return {"allowed": False, "error": str(e)}
 
-    async def monitor_namespace_coherence(self, namespace_id: str) -> Dict[str, Any]:
+    async def monitor_namespace_coherence(self, namespace_id: str) -> dict[str, Any]:
         """Monitor consciousness coherence within a namespace"""
 
         namespace = self.namespace_instances.get(namespace_id)
@@ -620,7 +620,7 @@ class ConsciousnessNamespaceManager:
 
         logger.info(f"✅ Created default system namespaces: {system_namespace_id}, {meta_namespace_id}")
 
-    def _apply_policy_overrides(self, base_policy: NamespacePolicy, overrides: Dict[str, Any]) -> NamespacePolicy:
+    def _apply_policy_overrides(self, base_policy: NamespacePolicy, overrides: dict[str, Any]) -> NamespacePolicy:
         """Apply policy overrides to base policy"""
 
         # Create a copy of the base policy
@@ -660,7 +660,7 @@ class ConsciousnessNamespaceManager:
 
         return f"cs_{signature_hash[:16]}"
 
-    def _log_namespace_audit_event(self, namespace: NamespaceInstance, event_type: str, details: Dict[str, Any]) -> None:
+    def _log_namespace_audit_event(self, namespace: NamespaceInstance, event_type: str, details: dict[str, Any]) -> None:
         """Log namespace audit event"""
 
         event = {
@@ -688,7 +688,7 @@ class ConsciousnessNamespaceManager:
         # Check if target domain is in allowed interactions
         return target_domain in source_policy.allowed_interactions
 
-    def _apply_bridge_config(self, bridge: CrossDomainBridge, config: Dict[str, Any]) -> None:
+    def _apply_bridge_config(self, bridge: CrossDomainBridge, config: dict[str, Any]) -> None:
         """Apply configuration to cross-domain bridge"""
 
         for key, value in config.items():
@@ -711,7 +711,7 @@ class ConsciousnessNamespaceManager:
     async def _check_consciousness_compatibility(self,
                                                source_namespace: NamespaceInstance,
                                                target_namespace: NamespaceInstance,
-                                               identity_id: str) -> Dict[str, Any]:
+                                               identity_id: str) -> dict[str, Any]:
         """Check consciousness compatibility between namespaces"""
 
         try:
@@ -746,7 +746,7 @@ class ConsciousnessNamespaceManager:
                                            source_namespace: NamespaceInstance,
                                            target_namespace: NamespaceInstance,
                                            identity_id: str,
-                                           operation: str) -> Dict[str, Any]:
+                                           operation: str) -> dict[str, Any]:
         """Validate security constraints for cross-domain access"""
 
         try:
@@ -824,7 +824,7 @@ class ConsciousnessNamespaceManager:
                 logger.error(f"❌ Namespace maintenance error: {e}")
                 await asyncio.sleep(600)  # Longer sleep on error
 
-    async def get_namespace_system_status(self) -> Dict[str, Any]:
+    async def get_namespace_system_status(self) -> dict[str, Any]:
         """Get comprehensive namespace system status"""
 
         try:

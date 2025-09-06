@@ -29,12 +29,10 @@ from typing import Any, Optional
 import anthropic
 import git
 import openai
-from github_vulnerability_manager import (GitHubVulnerabilityManager,
-                                          Vulnerability, VulnerabilitySeverity)
+from github_vulnerability_manager import GitHubVulnerabilityManager, Vulnerability, VulnerabilitySeverity
 
 # Import ΛBot components
-from lukhas.core.budget.token_controller import (APICallContext, CallUrgency,
-                                                 TokenBudgetController)
+from lukhas.core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
 
 
 @dataclass
@@ -438,10 +436,7 @@ class ΛBotAutonomousVulnerabilityFixer:
                     import re
 
                     pattern = f"{package_name}[>=<~!]*[0-9.]+"
-                    if target_version == "latest":
-                        replacement = package_name
-                    else:
-                        replacement = f"{package_name}>={target_version}"
+                    replacement = package_name if target_version == "latest" else f"{package_name}>={target_version}"
 
                     new_content = re.sub(pattern, replacement, content)
 

@@ -9,8 +9,32 @@ Features:
 - Multi-modal symbol encoding (text, audio, visual, quantum)
 - Cross-domain symbol translation
 - Semantic compression and expansion
-- Emotion-aware symbolic communication
-- Quantum-resistant symbol encryption
+- Emotion-aware symbolic communicat                       # Add entropy from emotional state
+        if symbol.emotional_state:
+            emotion_values = [
+                getattr(symbol.emotional_state, attr, 0)
+                for attr in ["joy", "sadness", "anger", "fear", "surprise", "disgust", "trust", "anticipation"]
+                if hasattr(symbol.emotional_state, attr)
+            ]
+            emotion_values = [v for v in emotion_values if isinstance(v, (int, float))]
+            emotion_entropy = -sum([v * np.log(v + 1e-10) for v in emotion_values if v > 0])
+            entropy += emotion_entropy * 0.2ropy from emotional state
+        if symbol.emotional_state:
+            emotion_values = [
+                getattr(symbol.emotional_state, attr, 0)
+                for attr in ['joy', 'sadness', 'anger', 'fear', 'surprise', 'disgust', 'trust', 'anticipation']
+                if hasattr(symbol.emotional_state, attr)
+            ]
+            emotion_entropy = -sum([v * np.log(v + 1e-10) for v in emotion_values if isinstance(v, (int, float)) and v > 0])
+            entropy += emotion_entropy * 0.2tropy from emotional state
+        if symbol.emotional_state:
+            emotion_values = [
+                getattr(symbol.emotional_state, attr, 0)
+                for attr in ['joy', 'sadness', 'anger', 'fear', 'surprise', 'disgust', 'trust', 'anticipation']
+                if hasattr(symbol.emotional_state, attr)
+            ]
+            emotion_entropy = -sum([v * np.log(v + 1e-10) for v in emotion_values if isinstance(v, (int, float)) and v > 0])
+            entropy += emotion_entropy * 0.2ntum-resistant symbol encryption
 """
 
 import hashlib
@@ -25,7 +49,6 @@ import numpy as np
 
 # Import existing GLYPH components
 from .glyph import EmotionVector, Glyph
-from .glyph_engine import GlyphEngine
 
 
 class SymbolModality(Enum):
@@ -305,7 +328,7 @@ class UniversalSymbolProtocol:
     """
 
     def __init__(self):
-        self.glyph_engine = GlyphEngine()
+        self.glyph_engine = None  # Will be lazily initialized
         self.translator = SymbolTranslator()
         self.symbol_registry: dict[str, UniversalSymbol] = {}
         self.semantic_cache: dict[str, np.ndarray] = {}
@@ -313,6 +336,13 @@ class UniversalSymbolProtocol:
         # Symbol compression settings
         self.compression_threshold = 0.7
         self.max_symbol_depth = 10
+
+    def _get_glyph_engine(self):
+        """Lazy initialization of glyph engine to avoid circular imports"""
+        if self.glyph_engine is None:
+            from .glyph_engine import EnhancedGlyphEngine
+            self.glyph_engine = EnhancedGlyphEngine()
+        return self.glyph_engine
 
     def create_symbol(
         self,
@@ -332,9 +362,15 @@ class UniversalSymbolProtocol:
         if not domains:
             domains = {SymbolDomain.UNIVERSAL}
 
-        # Create base GLYPH
-        glyph_repr = self.glyph_engine.encode_concept(str(content), emotion)
-        base_glyph = self.glyph_engine.decode_glyph(glyph_repr)
+        # Create base GLYPH directly
+        from .glyph import EmotionVector, Glyph, GlyphPriority, GlyphType
+        base_glyph = Glyph(
+            glyph_type=GlyphType.MEMORY,
+            symbol="⚛️",
+            content=str(content),
+            emotion_vector=EmotionVector.from_dict(emotion or {}),
+            priority=GlyphPriority.MEDIUM
+        )
 
         # Create universal symbol
         symbol = UniversalSymbol(
@@ -396,9 +432,10 @@ class UniversalSymbolProtocol:
         if symbol.emotional_state:
             emotion_values = [
                 getattr(symbol.emotional_state, attr, 0)
-                for attr in dir(symbol.emotional_state)
-                if not attr.startswith("_") and attr != "intensity"
+                for attr in ["joy", "sadness", "anger", "fear", "surprise", "disgust", "trust", "anticipation"]
+                if hasattr(symbol.emotional_state, attr)
             ]
+            emotion_values = [v for v in emotion_values if isinstance(v, (int, float))]
             emotion_entropy = -sum([v * np.log(v + 1e-10) for v in emotion_values if v > 0])
             entropy += emotion_entropy * 0.2
 
@@ -450,12 +487,13 @@ class UniversalSymbolProtocol:
             for symbol in symbols:
                 if symbol.emotional_state:
                     emotion_count += 1
-                    for attr in dir(symbol.emotional_state):
-                        if not attr.startswith("_"):
+                    for attr in ["joy", "sadness", "anger", "fear", "surprise", "disgust", "trust", "anticipation"]:
+                        if hasattr(symbol.emotional_state, attr):
                             val = getattr(symbol.emotional_state, attr, 0)
-                            if attr not in emotion_sum:
-                                emotion_sum[attr] = 0
-                            emotion_sum[attr] += val
+                            if isinstance(val, (int, float)):
+                                if attr not in emotion_sum:
+                                    emotion_sum[attr] = 0
+                                emotion_sum[attr] += val
 
             if emotion_count > 0:
                 avg_emotions = {k: v / emotion_count for k, v in emotion_sum.items()}

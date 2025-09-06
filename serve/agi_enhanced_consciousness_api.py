@@ -135,7 +135,7 @@ async def startup_event():
 async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
     """
     Enhanced consciousness query with AGI reasoning and dream integration.
-    
+
     Provides advanced reasoning capabilities while maintaining compatibility
     with existing consciousness API expectations.
     """
@@ -228,7 +228,7 @@ async def enhanced_consciousness_query(request: ConsciousnessQueryRequest):
         raise
     except Exception as e:
         logger.error(f"Error in enhanced consciousness query: {e}")
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Internal error: {e!s}") from e
 
 @router.post("/api/v2/consciousness/dream", response_model=DreamSessionResponse)
 async def enhanced_dream_session(request: DreamSessionRequest):
@@ -284,7 +284,7 @@ async def enhanced_dream_session(request: DreamSessionRequest):
 
     except Exception as e:
         logger.error(f"Error in enhanced dream session: {e}")
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Internal error: {e!s}") from e
 
 @router.get("/api/v2/consciousness/memory", response_model=MemoryQueryResponse)
 async def enhanced_memory_query(
@@ -372,7 +372,7 @@ async def enhanced_memory_query(
 
     except Exception as e:
         logger.error(f"Error in enhanced memory query: {e}")
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Internal error: {e!s}") from e
 
 @router.post("/api/v2/consciousness/learn", response_model=LearningSessionResponse)
 async def initiate_learning_session(request: LearningSessionRequest):
@@ -431,7 +431,7 @@ async def initiate_learning_session(request: LearningSessionRequest):
 
     except Exception as e:
         logger.error(f"Error initiating learning session: {e}")
-        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}") from e
+        raise HTTPException(status_code=500, detail=f"Internal error: {e!s}") from e
 
 # Health check endpoint
 @router.get("/api/v2/consciousness/health")

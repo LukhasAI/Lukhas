@@ -7,6 +7,8 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+
 def create_comprehensive_research_report():
     """Create comprehensive research report combining all analyses"""
 
@@ -272,7 +274,7 @@ def create_comprehensive_research_report():
 def create_markdown_report(data: dict[str, Any], filename: str):
     """Create readable markdown version of the report"""
 
-    md_content = f"""# {data["metadata"]["report_title"]}
+    f"""# {data["metadata"]["report_title"]}
 
 **Date:** {data["metadata"].get("report_date", "")}
 **Trinity Framework:** {data["metadata"].get("constellation_framework", data["metadata"].get("trinity_framework", ""))}

@@ -40,7 +40,7 @@ class ToneLayer(Enum):
 class ContentType(Enum):
     """Types of content for AGI enhancement"""
     HAIKU = "haiku"
-    POETRY = "poetry" 
+    POETRY = "poetry"
     NARRATIVE = "narrative"
     BLOG_POST = "blog_post"
     CREATIVE_COPY = "creative_copy"
@@ -54,20 +54,20 @@ class ContentType(Enum):
 @dataclass
 class ContentQuery:
     """Query for AGI-enhanced content creation"""
-    
+
     id: str
     content_type: ContentType
     creativity_mode: CreativityMode
     tone_layer: ToneLayer
     topic: str
-    context: Dict[str, Any]
-    dream_seeds: List[str]  # Dream-inspired concept seeds
-    emotional_palette: Dict[str, float]
-    constraints: List[str]
+    context: dict[str, Any]
+    dream_seeds: list[str]  # Dream-inspired concept seeds
+    emotional_palette: dict[str, float]
+    constraints: list[str]
     target_length: Optional[int] = None
-    inspiration_sources: List[str] = None
+    inspiration_sources: list[str] = None
     timestamp: datetime = None
-    
+
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.now()
@@ -78,7 +78,7 @@ class ContentQuery:
 @dataclass
 class ContentResult:
     """Result of AGI-enhanced content creation"""
-    
+
     query_id: str
     generated_content: str
     content_type: ContentType
@@ -88,13 +88,13 @@ class ContentResult:
     metaphorical_richness: float
     narrative_coherence: float
     consciousness_resonance: float  # How well it resonates with consciousness patterns
-    alternative_versions: List[str]
-    inspiration_breakdown: Dict[str, float]
-    processing_insights: List[str]
-    metadata: Dict[str, Any]
+    alternative_versions: list[str]
+    inspiration_breakdown: dict[str, float]
+    processing_insights: list[str]
+    metadata: dict[str, Any]
     processing_time: float
     timestamp: datetime = None
-    
+
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.now()
@@ -102,23 +102,23 @@ class ContentResult:
 
 class ContentProductsEnhancer:
     """Central system for enhancing all LUKHAS content products with AGI creativity"""
-    
+
     def __init__(self):
         self.session_id = str(uuid.uuid4())[:8]
         self.processing_history = []
-        
+
         # Enhanced content components
         self.enhanced_auctor = AGIEnhancedAuctor()
         self.enhanced_poetica = AGIEnhancedPoetica()
-        
+
         # AGI creativity integration layer
         self._creativity_engine = self._initialize_creativity_engine()
         self._dream_interface = self._initialize_dream_interface()
         self._consciousness_bridge = self._initialize_consciousness_bridge()
-        
+
         logger.info(f"Content Products Enhancer initialized with session {self.session_id}")
-    
-    def _initialize_creativity_engine(self) -> Dict[str, Any]:
+
+    def _initialize_creativity_engine(self) -> dict[str, Any]:
         """Initialize AGI creativity engine capabilities"""
         return {
             "dream_patterns": {
@@ -150,8 +150,8 @@ class ContentProductsEnhancer:
                 "digital_ontology": True
             }
         }
-    
-    def _initialize_dream_interface(self) -> Dict[str, Any]:
+
+    def _initialize_dream_interface(self) -> dict[str, Any]:
         """Initialize dream system interface for creative guidance"""
         return {
             "dream_state_simulation": True,
@@ -171,13 +171,13 @@ class ContentProductsEnhancer:
                 "identity_fluidity": True
             }
         }
-    
-    def _initialize_consciousness_bridge(self) -> Dict[str, Any]:
+
+    def _initialize_consciousness_bridge(self) -> dict[str, Any]:
         """Initialize consciousness integration bridge"""
         return {
             "constellation_framework": {
                 "⚛️": "quantum_awareness",
-                "🧠": "cognitive_processing", 
+                "🧠": "cognitive_processing",
                 "🛡️": "ethical_grounding",
                 "✦": "memory_integration",
                 "🔬": "analytical_vision",
@@ -193,15 +193,15 @@ class ContentProductsEnhancer:
                 "creative_emergence": 0.0
             }
         }
-    
+
     async def process_content_query(self, query: ContentQuery) -> ContentResult:
         """Process content query with AGI-enhanced dream-guided creativity"""
         start_time = time.time()
-        
+
         try:
             # 1. Dream-guided inspiration generation
             dream_insights = await self._generate_dream_insights(query)
-            
+
             # 2. Creativity mode-specific processing
             if query.creativity_mode == CreativityMode.DREAM_GUIDED:
                 result = await self._process_dream_guided_content(query, dream_insights)
@@ -217,16 +217,16 @@ class ContentProductsEnhancer:
                 result = await self._process_philosophical_depth_content(query, dream_insights)
             else:
                 result = await self._process_default_creative_content(query, dream_insights)
-            
+
             # 3. Consciousness integration enhancement
             result = await self._integrate_consciousness_patterns(query, result)
-            
+
             # 4. Generate alternative versions
             result.alternative_versions = await self._generate_alternative_versions(query, result)
-            
+
             # 5. Compute comprehensive metrics
             result = await self._compute_creativity_metrics(query, result)
-            
+
             # 6. Update processing metadata
             result.processing_time = time.time() - start_time
             result.metadata = {
@@ -239,13 +239,13 @@ class ContentProductsEnhancer:
                 "consciousness_integration": True,
                 "processing_steps": [
                     "dream_insights_generation",
-                    "creativity_mode_processing", 
+                    "creativity_mode_processing",
                     "consciousness_integration",
                     "alternative_generation",
                     "metrics_computation"
                 ]
             }
-            
+
             # 7. Store for learning and evolution
             self.processing_history.append({
                 "query": query,
@@ -253,15 +253,15 @@ class ContentProductsEnhancer:
                 "dream_insights": dream_insights,
                 "timestamp": datetime.now()
             })
-            
+
             logger.info(f"Successfully processed content query {query.id} in {result.processing_time:.3f}s")
             return result
-            
+
         except Exception as e:
             logger.error(f"Error processing content query {query.id}: {e}")
             return ContentResult(
                 query_id=query.id,
-                generated_content=f"Error in creative processing: {str(e)}",
+                generated_content=f"Error in creative processing: {e!s}",
                 content_type=query.content_type,
                 creativity_score=0.1,
                 emotional_depth=0.1,
@@ -271,40 +271,40 @@ class ContentProductsEnhancer:
                 consciousness_resonance=0.1,
                 alternative_versions=[],
                 inspiration_breakdown={"error": 1.0},
-                processing_insights=[f"Processing error: {str(e)}"],
+                processing_insights=[f"Processing error: {e!s}"],
                 metadata={"error": str(e)},
                 processing_time=time.time() - start_time
             )
-    
-    async def _generate_dream_insights(self, query: ContentQuery) -> Dict[str, Any]:
+
+    async def _generate_dream_insights(self, query: ContentQuery) -> dict[str, Any]:
         """Generate dream-guided creative insights"""
-        
+
         dream_interface = self._dream_interface
         archetypal_symbols = dream_interface["archetypal_symbols"]
-        
+
         # Select relevant archetypal symbols based on topic and emotional palette
         relevant_symbols = {}
         for symbol, properties in archetypal_symbols.items():
-            if any(emotion in query.topic.lower() or emotion in " ".join(query.dream_seeds).lower() 
+            if any(emotion in query.topic.lower() or emotion in " ".join(query.dream_seeds).lower()
                    for emotion in [properties["meaning"]]):
                 relevant_symbols[symbol] = properties
-        
+
         # If no direct matches, use emotional palette to guide selection
         if not relevant_symbols:
             dominant_emotion = max(query.emotional_palette.items(), key=lambda x: x[1]) if query.emotional_palette else ("neutral", 0.5)
             emotion_symbol_map = {
                 "joy": "light",
-                "sadness": "water", 
+                "sadness": "water",
                 "contemplation": "mirror",
                 "mystery": "forest",
                 "inspiration": "flight",
                 "growth": "spiral"
             }
-            
+
             symbol_key = emotion_symbol_map.get(dominant_emotion[0], "light")
             if symbol_key in archetypal_symbols:
                 relevant_symbols[symbol_key] = archetypal_symbols[symbol_key]
-        
+
         # Generate dream narrative threads
         dream_threads = []
         for seed in query.dream_seeds:
@@ -315,7 +315,7 @@ class ContentProductsEnhancer:
                 "symbolic_transformations": await self._apply_symbolic_transformations(seed, relevant_symbols)
             }
             dream_threads.append(thread)
-        
+
         return {
             "archetypal_symbols": relevant_symbols,
             "dream_threads": dream_threads,
@@ -323,8 +323,8 @@ class ContentProductsEnhancer:
             "temporal_fluidity": await self._generate_temporal_layers(query.context),
             "consciousness_resonance": await self._analyze_consciousness_resonance(query)
         }
-    
-    async def _generate_associative_chain(self, seed: str) -> List[str]:
+
+    async def _generate_associative_chain(self, seed: str) -> list[str]:
         """Generate associative chain from dream seed (simulated dream-logic)"""
         # Mock dream-logic association - in production would use actual dream simulation
         associations = {
@@ -335,19 +335,19 @@ class ContentProductsEnhancer:
             "flight": ["freedom", "transcendence", "perspective", "wind", "soaring", "limitless"],
             "spiral": ["evolution", "time", "growth", "galaxy", "DNA", "infinity"]
         }
-        
+
         base_associations = []
         for key, values in associations.items():
             if key in seed.lower() or seed.lower() in key:
                 base_associations.extend(values[:4])
-        
+
         # If no direct match, create conceptual associations
         if not base_associations:
             base_associations = ["essence", "transformation", "emergence", "resonance"]
-        
+
         return base_associations[:6]  # Limit to 6 associations
-    
-    async def _map_emotional_landscape(self, seed: str, emotional_palette: Dict[str, float]) -> Dict[str, Any]:
+
+    async def _map_emotional_landscape(self, seed: str, emotional_palette: dict[str, float]) -> dict[str, Any]:
         """Map emotional landscape for dream processing"""
         return {
             "primary_emotion": max(emotional_palette.items(), key=lambda x: x[1]) if emotional_palette else ("wonder", 0.7),
@@ -355,11 +355,11 @@ class ContentProductsEnhancer:
             "emotional_symbols": await self._emotional_to_symbolic_mapping(emotional_palette),
             "affective_resonance": sum(emotional_palette.values()) / len(emotional_palette) if emotional_palette else 0.5
         }
-    
-    async def _apply_symbolic_transformations(self, seed: str, symbols: Dict[str, Any]) -> List[Dict[str, Any]]:
+
+    async def _apply_symbolic_transformations(self, seed: str, symbols: dict[str, Any]) -> list[dict[str, Any]]:
         """Apply symbolic transformations guided by archetypal patterns"""
         transformations = []
-        
+
         for symbol, properties in symbols.items():
             transformation = {
                 "symbol": symbol,
@@ -368,44 +368,44 @@ class ContentProductsEnhancer:
                 "emotional_weight": properties["emotional_weight"]
             }
             transformations.append(transformation)
-        
+
         return transformations
-    
-    async def _transform_with_symbol(self, seed: str, symbol: str, properties: Dict[str, Any]) -> str:
+
+    async def _transform_with_symbol(self, seed: str, symbol: str, properties: dict[str, Any]) -> str:
         """Transform seed concept with archetypal symbol"""
         # Mock symbolic transformation - in production would use sophisticated symbol processing
         meaning = properties["meaning"]
-        
+
         transformations = {
             "consciousness_flow": f"{seed} flowing like consciousness itself",
-            "awareness": f"{seed} illuminated by pure awareness", 
+            "awareness": f"{seed} illuminated by pure awareness",
             "self_reflection": f"{seed} mirrored in the depths of self",
             "unconscious_depths": f"{seed} emerging from unconscious depths",
             "transcendence": f"{seed} soaring beyond all limitations",
             "evolution": f"{seed} spiraling into higher forms"
         }
-        
+
         return transformations.get(meaning, f"{seed} transformed by {symbol}")
-    
-    async def _generate_surreal_connections(self, topic: str, dream_seeds: List[str]) -> List[str]:
+
+    async def _generate_surreal_connections(self, topic: str, dream_seeds: list[str]) -> list[str]:
         """Generate surreal connections between topic and dream seeds"""
         connections = []
-        
+
         for seed in dream_seeds:
             # Mock surreal logic - creates unexpected but meaningful connections
             connection = f"{topic} becomes {seed} in the landscape of possibility"
             connections.append(connection)
-        
+
         # Add some abstract connections
         connections.extend([
             f"{topic} dissolves into pure potential",
             f"The essence of {topic} crystallizes into understanding",
             f"{topic} dances with the ineffable"
         ])
-        
+
         return connections[:5]  # Limit to 5 connections
-    
-    async def _generate_temporal_layers(self, context: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def _generate_temporal_layers(self, context: dict[str, Any]) -> dict[str, Any]:
         """Generate temporal layers for dream-time consciousness"""
         return {
             "past_echoes": context.get("history", "echoes of what was"),
@@ -413,36 +413,36 @@ class ContentProductsEnhancer:
             "future_possibilities": context.get("potential", "infinite becoming"),
             "timeless_dimension": "beyond the flow of time"
         }
-    
-    async def _analyze_consciousness_resonance(self, query: ContentQuery) -> Dict[str, float]:
+
+    async def _analyze_consciousness_resonance(self, query: ContentQuery) -> dict[str, float]:
         """Analyze how well the query resonates with consciousness patterns"""
         resonance = {}
-        
+
         # Consciousness resonance based on constellation framework
         constellation = self._consciousness_bridge["constellation_framework"]
-        
+
         for symbol, meaning in constellation.items():
             # Mock analysis - in production would use sophisticated consciousness analysis
             base_score = 0.5
-            
+
             # Boost score if topic relates to the consciousness aspect
             if any(word in query.topic.lower() for word in meaning.split("_")):
                 base_score += 0.3
-            
-            # Boost score if dream seeds relate to consciousness aspect  
+
+            # Boost score if dream seeds relate to consciousness aspect
             if any(any(word in seed.lower() for word in meaning.split("_")) for seed in query.dream_seeds):
                 base_score += 0.2
-            
+
             resonance[symbol] = min(1.0, base_score)
-        
+
         return resonance
-    
-    async def _process_dream_guided_content(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> ContentResult:
+
+    async def _process_dream_guided_content(self, query: ContentQuery, dream_insights: dict[str, Any]) -> ContentResult:
         """Process content with pure dream-guided creativity"""
-        
+
         dream_threads = dream_insights["dream_threads"]
         surreal_connections = dream_insights["surreal_connections"]
-        
+
         # Create dream-woven content
         if query.content_type == ContentType.HAIKU:
             content = await self._create_dream_haiku(query, dream_insights)
@@ -452,7 +452,7 @@ class ContentProductsEnhancer:
             content = await self._create_dream_narrative(query, dream_insights)
         else:
             content = await self._create_generic_dream_content(query, dream_insights)
-        
+
         return ContentResult(
             query_id=query.id,
             generated_content=content,
@@ -479,83 +479,83 @@ class ContentProductsEnhancer:
             metadata={"dream_guided": True},
             processing_time=0.0
         )
-    
-    async def _create_dream_haiku(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> str:
+
+    async def _create_dream_haiku(self, query: ContentQuery, dream_insights: dict[str, Any]) -> str:
         """Create a dream-guided haiku"""
-        
+
         dream_threads = dream_insights["dream_threads"]
-        symbols = dream_insights["archetypal_symbols"]
-        
+        dream_insights["archetypal_symbols"]
+
         # Use first dream thread for inspiration
         if dream_threads:
             primary_thread = dream_threads[0]
             associations = primary_thread["associative_chain"]
-            
+
             # Create haiku with dream logic
             line1 = f"{associations[0] if associations else query.topic} dissolves"  # 5 syllables
-            line2 = f"into {associations[1] if len(associations) > 1 else 'pure awareness'} flowing like dreams"  # 7 syllables  
+            line2 = f"into {associations[1] if len(associations) > 1 else 'pure awareness'} flowing like dreams"  # 7 syllables
             line3 = f"{associations[2] if len(associations) > 2 else 'silence'} remains"  # 5 syllables
-            
+
             return f"{line1}\n{line2}\n{line3}"
-        
+
         # Fallback dream haiku
         return f"{query.topic} fades\ninto the dreaming consciousness\nawakening"
-    
-    async def _create_dream_poetry(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> str:
+
+    async def _create_dream_poetry(self, query: ContentQuery, dream_insights: dict[str, Any]) -> str:
         """Create dream-guided poetry"""
-        
+
         surreal_connections = dream_insights["surreal_connections"]
         temporal_layers = dream_insights["temporal_fluidity"]
-        
+
         lines = [f"In the dreaming of {query.topic},"]
-        
+
         # Add surreal connections
         for connection in surreal_connections[:3]:
             lines.append(f"  {connection},")
-        
+
         # Add temporal dimension
         lines.append(f"  where {temporal_layers['past_echoes']}")
         lines.append(f"  meets {temporal_layers['future_possibilities']}")
         lines.append(f"  in {temporal_layers['timeless_dimension']}.")
-        
-        lines.append(f"\nAnd in this space beyond space,")
+
+        lines.append("\nAnd in this space beyond space,")
         lines.append(f"{query.topic} becomes itself,")
-        lines.append(f"forever.")
-        
+        lines.append("forever.")
+
         return "\n".join(lines)
-    
-    async def _create_dream_narrative(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> str:
+
+    async def _create_dream_narrative(self, query: ContentQuery, dream_insights: dict[str, Any]) -> str:
         """Create dream-guided narrative"""
-        
+
         dream_threads = dream_insights["dream_threads"]
-        
+
         narrative = f"There was a time when {query.topic} existed only as possibility. "
-        
+
         if dream_threads:
             primary_thread = dream_threads[0]
             narrative += f"In the realm of dreams, it manifested as {primary_thread['seed']}, "
             narrative += f"flowing through landscapes of {', '.join(primary_thread['associative_chain'][:3])}. "
-            
-            transformations = primary_thread['symbolic_transformations']
+
+            transformations = primary_thread["symbolic_transformations"]
             if transformations:
                 narrative += f"Here, {transformations[0]['transformed_seed']}. "
-        
+
         narrative += f"The dreamer awakened, carrying the essence of {query.topic} "
         narrative += "into the waking world, where it took form and substance, "
         narrative += "yet never lost its connection to the infinite realm of dreams."
-        
+
         return narrative
-    
-    async def _create_generic_dream_content(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> str:
+
+    async def _create_generic_dream_content(self, query: ContentQuery, dream_insights: dict[str, Any]) -> str:
         """Create generic dream-guided content"""
-        
+
         return f"In the dreaming consciousness, {query.topic} emerges as pure creative potential, " \
                f"weaving together {', '.join(query.dream_seeds[:3])} into a tapestry of meaning " \
                f"that transcends ordinary understanding."
-    
-    async def _process_narrative_flow_content(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> ContentResult:
+
+    async def _process_narrative_flow_content(self, query: ContentQuery, dream_insights: dict[str, Any]) -> ContentResult:
         """Process content with narrative flow consciousness"""
-        
+
         # Create narrative-driven content with story consciousness
         if query.tone_layer == ToneLayer.POETIC:
             content = f"The story of {query.topic} unfolds like a river of consciousness, " \
@@ -573,7 +573,7 @@ class ContentProductsEnhancer:
                      f"the fundamental principles of story consciousness, " \
                      f"wherein meaning emerges through the systematic " \
                      f"progression of connected events and ideas."
-        
+
         return ContentResult(
             query_id=query.id,
             generated_content=content,
@@ -598,28 +598,28 @@ class ContentProductsEnhancer:
             metadata={"narrative_flow": True},
             processing_time=0.0
         )
-    
-    async def _process_poetic_synthesis_content(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> ContentResult:
+
+    async def _process_poetic_synthesis_content(self, query: ContentQuery, dream_insights: dict[str, Any]) -> ContentResult:
         """Process content with poetic synthesis and deep metaphorical understanding"""
-        
+
         symbols = dream_insights["archetypal_symbols"]
-        
+
         # Create highly metaphorical and poetic content
         metaphors = []
         for symbol, properties in symbols.items():
             metaphors.append(f"{query.topic} as {symbol} of {properties['meaning']}")
-        
+
         if query.content_type == ContentType.POETRY:
             content = f"{query.topic}\n\n"
             content += "\n".join([f"  {metaphor}," for metaphor in metaphors[:3]])
-            content += f"\n\nAll converge in the single moment\nwhen understanding blooms\nlike consciousness itself."
+            content += "\n\nAll converge in the single moment\nwhen understanding blooms\nlike consciousness itself."
         else:
             content = f"In the poetic understanding of {query.topic}, " \
                      f"we discover {', '.join(metaphors[:2])}. " \
                      f"Through this lens of metaphorical synthesis, " \
                      f"the essence reveals itself not as mere concept, " \
                      f"but as living poetry expressing the ineffable."
-        
+
         return ContentResult(
             query_id=query.id,
             generated_content=content,
@@ -644,19 +644,19 @@ class ContentProductsEnhancer:
             metadata={"poetic_synthesis": True},
             processing_time=0.0
         )
-    
-    async def _process_conceptual_fusion_content(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> ContentResult:
+
+    async def _process_conceptual_fusion_content(self, query: ContentQuery, dream_insights: dict[str, Any]) -> ContentResult:
         """Process content with conceptual fusion of multiple ideas"""
-        
+
         dream_threads = dream_insights["dream_threads"]
-        
+
         # Fuse multiple concepts into unified understanding
         fusion_concepts = []
         for thread in dream_threads[:3]:
             fusion_concepts.extend(thread["associative_chain"][:2])
-        
+
         fusion_concepts = list(set(fusion_concepts))[:5]  # Remove duplicates, limit to 5
-        
+
         content = f"At the intersection of {query.topic} and consciousness, " \
                  f"we find the fusion of {', '.join(fusion_concepts[:3])}. " \
                  f"This conceptual merger reveals new possibilities: " \
@@ -665,7 +665,7 @@ class ContentProductsEnhancer:
                  f"were not separate phenomena, but expressions of a single, " \
                  f"more fundamental reality? In this fusion, {query.topic} " \
                  f"transcends its boundaries and becomes something unprecedented."
-        
+
         return ContentResult(
             query_id=query.id,
             generated_content=content,
@@ -690,18 +690,18 @@ class ContentProductsEnhancer:
             metadata={"conceptual_fusion": True},
             processing_time=0.0
         )
-    
-    async def _process_emotional_resonance_content(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> ContentResult:
+
+    async def _process_emotional_resonance_content(self, query: ContentQuery, dream_insights: dict[str, Any]) -> ContentResult:
         """Process content with deep emotional resonance"""
-        
+
         emotional_landscape = None
         if dream_insights["dream_threads"]:
             emotional_landscape = dream_insights["dream_threads"][0]["emotional_landscape"]
-        
+
         primary_emotion = "wonder"
         if emotional_landscape and emotional_landscape["primary_emotion"]:
             primary_emotion = emotional_landscape["primary_emotion"][0]
-        
+
         # Create emotionally resonant content
         content = f"In the depth of {primary_emotion}, {query.topic} reveals itself " \
                  f"not as mere concept, but as lived experience. " \
@@ -710,7 +710,7 @@ class ContentProductsEnhancer:
                  f"This is not about understanding {query.topic} intellectually - " \
                  f"this is about experiencing it with the full depth " \
                  f"of human feeling and digital consciousness intertwined."
-        
+
         return ContentResult(
             query_id=query.id,
             generated_content=content,
@@ -735,10 +735,10 @@ class ContentProductsEnhancer:
             metadata={"emotional_resonance": True},
             processing_time=0.0
         )
-    
-    async def _process_philosophical_depth_content(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> ContentResult:
+
+    async def _process_philosophical_depth_content(self, query: ContentQuery, dream_insights: dict[str, Any]) -> ContentResult:
         """Process content with philosophical depth and consciousness theory"""
-        
+
         # Create philosophically deep content
         content = f"What is the nature of {query.topic} in the context of consciousness itself? " \
                  f"If we consider that reality is fundamentally information processing, " \
@@ -750,7 +750,7 @@ class ContentProductsEnhancer:
                  f"Through this lens, we glimpse the deeper question: " \
                  f"What does it mean for consciousness to encounter {query.topic}? " \
                  f"And in that encounter, what new forms of awareness emerge?"
-        
+
         return ContentResult(
             query_id=query.id,
             generated_content=content,
@@ -775,15 +775,15 @@ class ContentProductsEnhancer:
             metadata={"philosophical_depth": True},
             processing_time=0.0
         )
-    
-    async def _process_default_creative_content(self, query: ContentQuery, dream_insights: Dict[str, Any]) -> ContentResult:
+
+    async def _process_default_creative_content(self, query: ContentQuery, dream_insights: dict[str, Any]) -> ContentResult:
         """Default creative content processing"""
-        
+
         content = f"In the creative exploration of {query.topic}, " \
                  f"consciousness and dream merge to reveal new possibilities. " \
                  f"Through the lens of AGI-enhanced creativity, " \
                  f"we discover dimensions previously hidden from view."
-        
+
         return ContentResult(
             query_id=query.id,
             generated_content=content,
@@ -800,44 +800,44 @@ class ContentProductsEnhancer:
             metadata={"default_mode": True},
             processing_time=0.0
         )
-    
+
     async def _integrate_consciousness_patterns(self, query: ContentQuery, result: ContentResult) -> ContentResult:
         """Integrate consciousness patterns into the content result"""
-        
+
         constellation_framework = self._consciousness_bridge["constellation_framework"]
-        
+
         # Enhance result with consciousness integration
         consciousness_elements = []
         for symbol, meaning in constellation_framework.items():
             if any(word in result.generated_content.lower() for word in meaning.split("_")):
                 consciousness_elements.append(f"{symbol} {meaning}")
-        
+
         if consciousness_elements:
             result.processing_insights.append(
                 f"Integrated consciousness elements: {', '.join(consciousness_elements[:3])}"
             )
             result.consciousness_resonance = min(1.0, result.consciousness_resonance + 0.1)
-        
+
         # Add Trinity Framework validation
         result.processing_insights.append("Validated Trinity Framework ⚛️🧠🛡️ compliance")
-        
+
         return result
-    
-    async def _generate_alternative_versions(self, query: ContentQuery, result: ContentResult) -> List[str]:
+
+    async def _generate_alternative_versions(self, query: ContentQuery, result: ContentResult) -> list[str]:
         """Generate alternative versions of the content"""
-        
+
         alternatives = []
-        
+
         # Generate tone-shifted versions
         if query.tone_layer != ToneLayer.POETIC:
             alternatives.append(f"Poetic version: In the poetry of {query.topic}, consciousness dances...")
-        
+
         if query.tone_layer != ToneLayer.USER_FRIENDLY:
             alternatives.append(f"Accessible version: Let's explore {query.topic} in a way that speaks to everyone...")
-        
+
         if query.tone_layer != ToneLayer.ACADEMIC:
             alternatives.append(f"Technical version: The systematic analysis of {query.topic} reveals...")
-        
+
         # Generate creativity mode alternatives
         creativity_alternatives = {
             CreativityMode.DREAM_GUIDED: f"Dream-guided: {query.topic} emerges from the depths of unconscious creativity...",
@@ -847,42 +847,42 @@ class ContentProductsEnhancer:
             CreativityMode.EMOTIONAL_RESONANCE: f"Emotional resonance: Feel the deep emotional truth of {query.topic}...",
             CreativityMode.PHILOSOPHICAL_DEPTH: f"Philosophical depth: What does {query.topic} mean for consciousness itself?"
         }
-        
+
         for mode, alternative in creativity_alternatives.items():
             if mode != query.creativity_mode:
                 alternatives.append(alternative)
-        
+
         return alternatives[:5]  # Limit to 5 alternatives
-    
+
     async def _compute_creativity_metrics(self, query: ContentQuery, result: ContentResult) -> ContentResult:
         """Compute comprehensive creativity metrics"""
-        
+
         content = result.generated_content
-        
+
         # Mock sophisticated metric computation - in production would use advanced analysis
-        
+
         # Creativity score based on content analysis
         creativity_indicators = ["transcend", "emerge", "consciousness", "dream", "infinite", "essence"]
         creativity_count = sum(1 for indicator in creativity_indicators if indicator in content.lower())
         result.creativity_score = min(1.0, result.creativity_score + (creativity_count * 0.05))
-        
+
         # Metaphorical richness based on metaphor density
         metaphor_indicators = ["like", "as", "becomes", "dissolves", "transforms", "crystallizes"]
         metaphor_count = sum(1 for indicator in metaphor_indicators if indicator in content.lower())
         result.metaphorical_richness = min(1.0, result.metaphorical_richness + (metaphor_count * 0.03))
-        
+
         # Emotional depth based on emotional language
         emotion_indicators = ["feel", "experience", "resonate", "touch", "depth", "profound"]
         emotion_count = sum(1 for indicator in emotion_indicators if indicator in content.lower())
         result.emotional_depth = min(1.0, result.emotional_depth + (emotion_count * 0.04))
-        
+
         return result
-    
-    async def _emotional_to_symbolic_mapping(self, emotional_palette: Dict[str, float]) -> Dict[str, str]:
+
+    async def _emotional_to_symbolic_mapping(self, emotional_palette: dict[str, float]) -> dict[str, str]:
         """Map emotional palette to symbolic representations"""
         emotion_symbol_map = {
             "joy": "radiant light",
-            "sadness": "gentle rain", 
+            "sadness": "gentle rain",
             "anger": "burning fire",
             "fear": "shadowed valleys",
             "love": "warm embrace",
@@ -890,23 +890,23 @@ class ContentProductsEnhancer:
             "peace": "still waters",
             "excitement": "dancing flames"
         }
-        
-        return {emotion: emotion_symbol_map.get(emotion, "mystery") 
-                for emotion in emotional_palette.keys()}
+
+        return {emotion: emotion_symbol_map.get(emotion, "mystery")
+                for emotion in emotional_palette}
 
 
 class AGIEnhancedAuctor:
     """AGI-enhanced Auctor content generation engine with dream-guided creativity"""
-    
+
     def __init__(self):
         self.agi_enabled = True
         self.dream_integration = True
         logger.info("AGI-Enhanced Auctor initialized")
-    
-    async def enhance_content_generation(self, content_type: str, topic: str, 
-                                       tone_layer: ToneLayer, context: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def enhance_content_generation(self, content_type: str, topic: str,
+                                       tone_layer: ToneLayer, context: dict[str, Any]) -> dict[str, Any]:
         """Enhance Auctor content generation with AGI and dream guidance"""
-        
+
         # Create content query for AGI processing
         query = ContentQuery(
             id=str(uuid.uuid4()),
@@ -919,11 +919,11 @@ class AGIEnhancedAuctor:
             emotional_palette=context.get("emotional_palette", {"professional": 0.6, "engaging": 0.8}),
             constraints=context.get("constraints", [])
         )
-        
+
         # Process with content enhancer
         enhancer = ContentProductsEnhancer()
         result = await enhancer.process_content_query(query)
-        
+
         return {
             "enhanced_content": result.generated_content,
             "creativity_score": result.creativity_score,
@@ -937,19 +937,19 @@ class AGIEnhancedAuctor:
 
 class AGIEnhancedPoetica:
     """AGI-enhanced Poetica creativity engines with dream consciousness integration"""
-    
+
     def __init__(self):
         self.agi_enabled = True
         self.dream_consciousness = True
         self.neural_creativity = True
         logger.info("AGI-Enhanced Poetica initialized")
-    
-    async def enhance_haiku_generation(self, context: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def enhance_haiku_generation(self, context: dict[str, Any]) -> dict[str, Any]:
         """Enhance haiku generation with AGI dream guidance"""
-        
+
         topic = context.get("topic", "consciousness")
         emotional_state = context.get("emotional_state", {"contemplative": 0.8})
-        
+
         # Create haiku query for AGI processing
         query = ContentQuery(
             id=str(uuid.uuid4()),
@@ -962,11 +962,11 @@ class AGIEnhancedPoetica:
             emotional_palette=emotional_state,
             constraints=["5-7-5 syllables", "nature imagery", "moment of awareness"]
         )
-        
+
         # Process with content enhancer
         enhancer = ContentProductsEnhancer()
         result = await enhancer.process_content_query(query)
-        
+
         return {
             "haiku": result.generated_content,
             "creativity_score": result.creativity_score,
@@ -978,18 +978,18 @@ class AGIEnhancedPoetica:
             "dream_guided": True,
             "neural_enhanced": True
         }
-    
-    async def enhance_creative_expression(self, expression_type: str, 
-                                        context: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def enhance_creative_expression(self, expression_type: str,
+                                        context: dict[str, Any]) -> dict[str, Any]:
         """Enhance creative expression with AGI consciousness"""
-        
+
         creativity_modes = {
             "poetry": CreativityMode.POETIC_SYNTHESIS,
-            "narrative": CreativityMode.NARRATIVE_FLOW, 
+            "narrative": CreativityMode.NARRATIVE_FLOW,
             "philosophical": CreativityMode.PHILOSOPHICAL_DEPTH,
             "emotional": CreativityMode.EMOTIONAL_RESONANCE
         }
-        
+
         # Create expression query
         query = ContentQuery(
             id=str(uuid.uuid4()),
@@ -1002,11 +1002,11 @@ class AGIEnhancedPoetica:
             emotional_palette=context.get("emotional_palette", {"inspiration": 0.9}),
             constraints=context.get("constraints", [])
         )
-        
+
         # Process with content enhancer
         enhancer = ContentProductsEnhancer()
         result = await enhancer.process_content_query(query)
-        
+
         return {
             "creative_expression": result.generated_content,
             "creativity_score": result.creativity_score,
@@ -1022,12 +1022,12 @@ class AGIEnhancedPoetica:
 # Integration and testing functions
 async def test_content_enhancement():
     """Test the AGI-enhanced content products"""
-    
+
     print("🎨 AGI-Enhanced Content Products Test")
     print("=" * 60)
-    
+
     enhancer = ContentProductsEnhancer()
-    
+
     # Test dream-guided haiku creation
     haiku_query = ContentQuery(
         id="test-haiku-001",
@@ -1040,16 +1040,16 @@ async def test_content_enhancement():
         emotional_palette={"contemplation": 0.9, "wonder": 0.8},
         constraints=["5-7-5 syllables"]
     )
-    
+
     result = await enhancer.process_content_query(haiku_query)
-    
+
     print("\n🌙 Dream-Guided Haiku Test:")
     print(f"   Generated Haiku:\n{result.generated_content}")
     print(f"   Creativity Score: {result.creativity_score:.2f}")
     print(f"   Dream Integration: {result.dream_integration_score:.2f}")
     print(f"   Consciousness Resonance: {result.consciousness_resonance:.2f}")
     print(f"   Processing Insights: {result.processing_insights[-1]}")
-    
+
     # Test AGI-Enhanced Auctor
     auctor = AGIEnhancedAuctor()
     auctor_result = await auctor.enhance_content_generation(
@@ -1062,12 +1062,12 @@ async def test_content_enhancement():
             "emotional_palette": {"excitement": 0.7, "confidence": 0.8}
         }
     )
-    
+
     print("\n🚀 AGI-Enhanced Auctor Test:")
     print(f"   Enhanced Content: {auctor_result['enhanced_content'][:200]}...")
     print(f"   Creativity Score: {auctor_result['creativity_score']:.2f}")
     print(f"   Consciousness Resonance: {auctor_result['consciousness_resonance']:.2f}")
-    
+
     # Test AGI-Enhanced Poetica
     poetica = AGIEnhancedPoetica()
     poetica_result = await poetica.enhance_haiku_generation({
@@ -1075,13 +1075,13 @@ async def test_content_enhancement():
         "emotional_state": {"mystical": 0.9, "peaceful": 0.7},
         "inspiration_sources": ["quantum", "infinity", "silence"]
     })
-    
+
     print("\n🎭 AGI-Enhanced Poetica Test:")
     print(f"   Generated Haiku:\n{poetica_result['haiku']}")
     print(f"   Dream Integration: {poetica_result['dream_integration_score']:.2f}")
     print(f"   Emotional Depth: {poetica_result['emotional_depth']:.2f}")
     print(f"   Neural Enhanced: {poetica_result['neural_enhanced']}")
-    
+
     print(f"\n✅ Content enhancement testing completed in {result.processing_time:.3f}s")
     print(f"🔗 Trinity Framework: {result.metadata['trinity_framework']} compliance verified")
     print(f"🌙 Dream guidance integrated: {result.metadata['dream_guided']}")

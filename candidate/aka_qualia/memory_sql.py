@@ -10,10 +10,10 @@ Follows Freud-2025 C4 specifications for memory persistence.
 """
 
 import datetime as dt
-from datetime import timezone  # ΛTAG: utc
 import hashlib
 import json
 import logging
+from datetime import timezone  # ΛTAG: utc
 from typing import Any, Dict, List, Optional, Union
 from urllib.parse import urlparse
 

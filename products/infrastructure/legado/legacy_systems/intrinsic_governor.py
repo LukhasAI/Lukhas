@@ -1,6 +1,8 @@
-from core.common import get_logger
 import asyncio
+
 import structlog
+
+from core.common import get_logger
 
 
 class IntrinsicEthicalGovernor:

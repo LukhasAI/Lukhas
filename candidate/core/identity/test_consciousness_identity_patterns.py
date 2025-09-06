@@ -6,7 +6,7 @@
 ║ TYPE: TEST_SUITE
 ║ CONSCIOUSNESS_ROLE: Comprehensive testing of consciousness identity patterns
 ║ EVOLUTIONARY_STAGE: Testing - Pattern validation and system verification
-║ 
+║
 ║ TRINITY FRAMEWORK:
 ║ ⚛️ IDENTITY: Identity pattern testing and validation
 ║ 🧠 CONSCIOUSNESS: Consciousness integration testing
@@ -601,7 +601,7 @@ class TestCoherenceMonitoring:
 
         try:
             # Measure coherence (should trigger anomaly)
-            coherence_state = await coherence_monitor.measure_identity_coherence(identity_id)
+            await coherence_monitor.measure_identity_coherence(identity_id)
 
             # Check for anomalies
             assert len(coherence_monitor.anomaly_history) > 0
@@ -645,7 +645,7 @@ class TestConstitutionalCompliance:
     def create_test_validation_context(self,
                                      decision_type: DecisionType,
                                      identity_id: str,
-                                     decision_data: dict[str, Any] = None) -> ConstitutionalValidationContext:
+                                     decision_data: Optional[dict[str, Any]] = None) -> ConstitutionalValidationContext:
         """Create test validation context"""
         return ConstitutionalValidationContext(
             decision_type=decision_type,

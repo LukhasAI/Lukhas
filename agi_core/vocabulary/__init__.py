@@ -15,21 +15,21 @@ Status: ACTIVE - Phase 2A Core Integration
 """
 
 from .agi_vocabulary_bridge import (
+    AGI_INTEGRATION_SYMBOLS,
+    AGI_LEARNING_SYMBOLS,
+    AGI_MEMORY_SYMBOLS,
+    AGI_MESSAGES,
+    AGI_REASONING_SYMBOLS,
+    AGI_SAFETY_SYMBOLS,
+    AGI_VOCABULARY,
     AGIVocabularyBridge,
     agi_bridge,
-    AGI_VOCABULARY,
-    AGI_REASONING_SYMBOLS,
-    AGI_MEMORY_SYMBOLS,
-    AGI_SAFETY_SYMBOLS,
-    AGI_LEARNING_SYMBOLS,
-    AGI_INTEGRATION_SYMBOLS,
-    AGI_MESSAGES,
+    format_agi_message,
     # Convenience functions
     get_agi_symbol,
-    format_agi_message,
     get_vocabulary_context,
-    translate_agi_to_dream,
     translate_agi_to_bio,
+    translate_agi_to_dream,
 )
 
 __all__ = [
@@ -39,7 +39,7 @@ __all__ = [
     # Symbol dictionaries
     "AGI_VOCABULARY",
     "AGI_REASONING_SYMBOLS",
-    "AGI_MEMORY_SYMBOLS", 
+    "AGI_MEMORY_SYMBOLS",
     "AGI_SAFETY_SYMBOLS",
     "AGI_LEARNING_SYMBOLS",
     "AGI_INTEGRATION_SYMBOLS",

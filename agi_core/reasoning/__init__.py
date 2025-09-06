@@ -8,14 +8,14 @@ Implements sophisticated reasoning capabilities including:
 - Dream integration for insight-driven reasoning
 """
 
-from .chain_of_thought import ChainOfThought
-from .tree_of_thoughts import TreeOfThoughts  
 from .causal_inference import CausalInferenceEngine
+from .chain_of_thought import ChainOfThought
 from .dream_integration import DreamReasoningBridge
+from .tree_of_thoughts import TreeOfThoughts
 
 __all__ = [
     "ChainOfThought",
     "TreeOfThoughts",
-    "CausalInferenceEngine", 
+    "CausalInferenceEngine",
     "DreamReasoningBridge"
 ]

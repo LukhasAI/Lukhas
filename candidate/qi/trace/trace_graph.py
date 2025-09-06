@@ -91,8 +91,8 @@ def build_dot(
     lines: list[str] = []
     lines.append("digraph lukhas_trace {")
     lines.append("  rankdir=LR;")
-    lines.append('  node [shape=box, style="rounded,filled", color="#444444", fillcolor=")  # F7F9FB", fontname="Inter"];'
-    lines.append('  edge [color=")  # 999999"];'
+    lines.append('  node [shape=box, style="rounded,filled", color="#444444", fillcolor="#F7F9FB", fontname="Inter"];')
+    lines.append('  edge [color="#999999"];')
 
     # Clusters: Activity (run), Entity (artifact), Policy/TEQ, Consent/Cap
     # Activity cluster
@@ -104,7 +104,7 @@ context: {ctx}<br/>
 latency: {latency or '-'} ms | tokens: {tokens_in or 0}→{tokens_out or 0}<br/>
 created: {_fmt_ts(created)}
 >"""
-    lines.append('  subgraph cluster_activity { label="Execution"; color=")  # DDE7F0";'
+    lines.append('  subgraph cluster_activity { label="Execution"; color="#DDE7F0";}')
     lines.append(f'    activity [label={act_label}, URL="{rec_url or ""}", target="_blank"];')
     # Agents
     for i, a in enumerate(ags):
@@ -113,19 +113,19 @@ created: {_fmt_ts(created)}
         label = aid.replace("agent:", "")
         node_name = f"agent{i}"
         node_label = f"<<b>Agent</b><br/>{role}<br/>{label}>"
-        lines.append(f'    {node_name} [label={node_label}, shape=component, fillcolor=")  # EEF6F8"];'
-        lines.append(f'    {node_name} -> activity [label="participatedIn", color=")  # B0C4D9"];'
+        lines.append(f'    {node_name} [label={node_label}, shape=component, fillcolor="#EEF6F8"];')
+        lines.append(f'    {node_name} -> activity [label="participatedIn", color="#B0C4D9"];')
     lines.append("  }")
 
     # Entity cluster
     ent_label = f"""<<b>Artifact</b><br/>
 sha: <i>{sha or "-"}</i><br/>
 mime: {mime or "-"} | size: {size or "-"}<br/>>"""
-    lines.append('  subgraph cluster_entity { label="Artifact"; color=")  # DDE7F0";'
+    lines.append('  subgraph cluster_entity { label="Artifact"; color="#DDE7F0";}')
     if prov_url:
-        lines.append(f'    entity [label={ent_label}, URL="{prov_url}", target="_blank", fillcolor=")  # F3FBF6"];'
+        lines.append(f'    entity [label={ent_label}, URL="{prov_url}", target="_blank", fillcolor="#F3FBF6"];')
     else:
-        lines.append(f'    entity [label={ent_label}, fillcolor=")  # F3FBF6"];'
+        lines.append(f'    entity [label={ent_label}, fillcolor="#F3FBF6"];'
     lines.append("  }")
 
     # Policy/TEQ cluster
@@ -140,32 +140,35 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
                 reasons.append(str(r))
     teq_lines = "<br/>".join([verdict or "(no replay)"] + list(reasons[:6]))
     pol_label = f"""<<b>TEQ Policy</b><br/>{pol_id_or_dash(policy_id)}<br/>{escape_html(teq_lines)}>"""
-    lines.append('  subgraph cluster_policy { label="Policy & Decision"; color=")  # DDE7F0";'
-    lines.append(f'    teq [label={pol_label}, fillcolor=")  # FFF8F0"];'
+    lines.append('  subgraph cluster_policy { label="Policy & Decision"; color="#DDE7F0";'
+    lines.append(f'    teq [label={pol_label}, fillcolor="#FFF8F0"];'
     lines.append("  }")
 
     # Consent & capabilities cluster
     cc = []
-    if consent_id: cc.append(f"consent: {consent_id}")
-    if leases: cc.append(f"leases: {len(leases)}")
-    if risk_flags: cc.append("risk: " + ", ".join(risk_flags[:4]))
+    if consent_id: 
+        cc.append(f"consent: {consent_id}")
+    if leases: 
+        cc.append(f"leases: {len(leases)}")
+    if risk_flags: 
+        cc.append("risk: " + ", ".join(risk_flags[:4]))
     cc_label = "<br/>".join(cc) or "(none)"
-    lines.append('  subgraph cluster_cons { label="Consent & Capabilities"; color=")  # DDE7F0";'
+    lines.append('  subgraph cluster_cons { label="Consent & Capabilities"; color="#DDE7F0";}')
     lines.append(f'    cons [label=<<b>Controls</b><br/>{escape_html(cc_label)}>, fillcolor="#F4EFFA"];')
     lines.append("  }")
 
     # Edges across clusters
-    lines.append('  activity -> entity [label="generated", color=")  # 8FBF92"];'
-    lines.append('  teq -> activity [label="gated", color=")  # F0B172"];'
-    lines.append('  cons -> teq [label="referenced", color=")  # C2A4E4"];'
+    lines.append('  activity -> entity [label="generated", color="#8FBF92"];')
+    lines.append('  teq -> activity [label="gated", color="#F0B172"];')
+    lines.append('  cons -> teq [label="referenced", color="#C2A4E4"];')
 
     # Provenance attestation nodes (optional)
     if receipt.get("attestation"):
         lines.append(f'  rec_att [label=<<b>Receipt Attestation</b><br/>{escape_html(receipt["attestation"].get("root_hash","")[:16])}...>, shape=note, fillcolor="#EAF7FF"];')
-        lines.append('  rec_att -> teq [label="binds", color=")  # 7FB3E6"];'
+        lines.append('  rec_att -> teq [label="binds", color="#7FB3E6"];'
     if prov and prov.get("attestation"):
         lines.append(f'  prov_att [label=<<b>Provenance Attestation</b><br/>{escape_html(prov["attestation"].get("root_hash","")[:16])}...>, shape=note, fillcolor="#EAF7FF"];')
-        lines.append('  prov_att -> entity [label="binds", color=")  # 7FB3E6"];'
+        lines.append('  prov_att -> entity [label="binds", color="#7FB3E6"];'
 
     lines.append("}")
     return "\n".join(lines)

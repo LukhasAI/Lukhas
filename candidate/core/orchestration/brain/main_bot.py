@@ -25,6 +25,7 @@ from typing import Optional
 
 from .attention.qi_attention import QIInspiredAttention
 from .compliance.ethical_engine import ComplianceEngine
+
 # Import our organized components
 from .core.capability_levels import AGICapabilityLevel
 from .core.response_types import AGIResponse
@@ -252,7 +253,7 @@ class EnhancedAGIBot:
 
             # Generate error response with partial capability
             error_response = AGIResponse(
-                content=f"I encountered an error while processing your request. Error: {str(e)}",
+                content=f"I encountered an error while processing your request. Error: {e!s}",
                 confidence=0.1,
                 reasoning_path=[
                     {"error": str(e), "timestamp": datetime.now().isoformat()}

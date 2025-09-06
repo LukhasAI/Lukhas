@@ -16,7 +16,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, GLYPHToken, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 from candidate.voice.audio_processing import (
@@ -623,7 +623,7 @@ class LUKHASAudioPipeline:
 
             # Emit GLYPH event
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
+            create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
                 "audio.pipeline.completed",
                 {
                     "processing_time_ms": processing_time,
@@ -643,7 +643,7 @@ class LUKHASAudioPipeline:
             output.total_processing_time_ms = (time.time() - start_time) * 1000
 
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
+            create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
                 "audio.pipeline.error",
                 {"error": str(e), "stages_completed": len(output.stages_completed)},
             })

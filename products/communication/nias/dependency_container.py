@@ -331,7 +331,7 @@ class DependencyContainer:
         async with self._lock:
             if scope_id in self.scoped_instances:
                 # Call dispose on any services that have it
-                for _service_name, instance in self.scoped_instances[scope_id].items():
+                for instance in self.scoped_instances[scope_id].values():
                     if hasattr(instance, "dispose"):
                         if inspect.iscoroutinefunction(instance.dispose):
                             await instance.dispose()
