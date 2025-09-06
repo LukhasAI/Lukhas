@@ -12,12 +12,12 @@ Improvement targets:
 import asyncio
 import sys
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__, timezone).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 from automation.content_quality_validator import ContentQualityValidator, QualityScore
 from engines.voice_coherence_engine import (

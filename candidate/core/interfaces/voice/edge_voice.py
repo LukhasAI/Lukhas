@@ -18,7 +18,7 @@ from datetime import datetime
 # from edge_tts import Communicate  # TODO: Install or implement edge_tts
 
 # Initialize logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Symbolic tier/narrator voice mapping (expand as needed)
 VOICE_MAP = {
@@ -107,7 +107,7 @@ async def speak(
                             "voice": voice,
                             "tier": tier,
                             "narrator": narrator,
-                            "timestamp": datetime.utcnow().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     )
                     + "\n"

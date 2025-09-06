@@ -1094,7 +1094,7 @@ class AwarenessMonitoringSystem:
 
         self.system_metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
         self.system_metrics["monitoring_uptime"] = (
-            datetime.now() - datetime.fromisoformat(self.system_metrics["last_updated"].split(".")[0])
+            datetime.now(timezone.utc) - datetime.fromisoformat(self.system_metrics["last_updated"].split(".")[0])
         ).total_seconds()
 
         return self.system_metrics.copy()

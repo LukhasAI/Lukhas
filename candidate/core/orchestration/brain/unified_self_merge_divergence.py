@@ -30,7 +30,7 @@ TRAIT_SYNC_FOLDER = "sync/traits/"
 META_SYNC_FOLDER = "sync/meta_reflections/"
 SNAPSHOT_LOG = "logs/unified_self_snapshots.jsonl"
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY", timezone)
 
 
 def load_traits():
@@ -97,7 +97,7 @@ def run_gpt(prompt):
 
 
 def save_snapshot(text):
-    entry = {"timestamp": datetime.utcnow().isoformat() + "Z", "output": text}
+    entry = {"timestamp": datetime.now(timezone.utc).isoformat() + "Z", "output": text}
     Path("logs").mkdir(parents=True, exist_ok=True)
     with open(SNAPSHOT_LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")

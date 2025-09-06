@@ -29,7 +29,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class ZKCircuitType(Enum):
@@ -174,7 +174,7 @@ class MultiModalZKEngine:
             temporal_proof=temporal_proof,
             aggregated_proof=aggregated_proof,
             verification_key=verification_key,
-            proof_timestamp=datetime.utcnow(),
+            proof_timestamp=datetime.now(timezone.utc),
             validity_window=timedelta(minutes=10),
         )
 
@@ -196,12 +196,12 @@ class MultiModalZKEngine:
 
         verification_results = {
             "proof_id": proof.proof_id,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "checks": {},
         }
 
         # Check proof freshness
-        if datetime.utcnow() > proof.proof_timestamp + proof.validity_window:
+        if datetime.now(timezone.utc) > proof.proof_timestamp + proof.validity_window:
             verification_results["checks"]["freshness"] = False
             return False, {"error": "Proof expired", "results": verification_results}
         else:
@@ -293,7 +293,7 @@ class MultiModalZKEngine:
                 modality=modality,
                 commitment_hash=commitment_hash,
                 nullifier=nullifier,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 quality_score=quality_score,
                 consciousness_binding=consciousness_binding,
             )
@@ -335,7 +335,7 @@ class MultiModalZKEngine:
             "public_state": consciousness_data.get("state"),
             "coherence_score": consciousness_data.get("coherence", 0.8),
             "proof_data": proof_data,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _generate_cultural_proof(self, cultural_context: dict[str, Any]) -> dict[str, Any]:
@@ -364,7 +364,7 @@ class MultiModalZKEngine:
             "proof_type": "cultural_knowledge",
             "cultural_region": cultural_context.get("region"),
             "proof_data": proof_data,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _generate_temporal_proof(
@@ -397,7 +397,7 @@ class MultiModalZKEngine:
             "proof_type": "temporal_consistency",
             "consistency_window": self.t5_requirements["temporal_consistency_window"].total_seconds(),
             "proof_data": proof_data,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _generate_constitutional_proof(self, constitutional_responses: dict[str, Any]) -> dict[str, Any]:
@@ -426,7 +426,7 @@ class MultiModalZKEngine:
             "proof_type": "constitutional_alignment",
             "alignment_score": constitutional_responses.get("alignment_score", 0.9),
             "proof_data": proof_data,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _aggregate_proofs(self, proofs: list[Optional[dict[str, Any]]]) -> bytes:
@@ -439,7 +439,7 @@ class MultiModalZKEngine:
         aggregation_data = {
             "proof_count": len(valid_proofs),
             "proof_types": [p["proof_type"] for p in valid_proofs],
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "proofs": valid_proofs,
         }
 
@@ -594,7 +594,7 @@ class MultiModalZKEngine:
         self.commitment_store[user_id].extend(commitments)
 
         # Keep only recent commitments
-        cutoff_time = datetime.utcnow() - timedelta(hours=24)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
         self.commitment_store[user_id] = [c for c in self.commitment_store[user_id] if c.timestamp > cutoff_time]
 
     def _is_nullifier_used(self, nullifier: str) -> bool:

@@ -18,8 +18,7 @@ from .multimodal_memory_support import (
     ModalityType,
     MultiModalMemoryData,
     MultiModalMemoryProcessor,
-    create_multimodal_memory,
-)
+    create_multimodal_memory,, timezone)
 
 logger = get_logger(__name__)
 
@@ -187,14 +186,14 @@ class MultimodalMemoryIntegration:
         )
 
         # Store in cache
-        memory_id = f"mm_{datetime.now().timestamp()}"
+        memory_id = f"mm_{datetime.now(timezone.utc).timestamp()}"
         self.memory_cache[memory_id] = memory_item
 
         return {
             "memory_id": memory_id,
             "modalities": self._get_present_modalities(text, image_bytes, audio_bytes, video_bytes),
             "tags": tags or [],
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
     async def _load_file_if_path(self, data: Union[bytes, str, Path]) -> bytes:

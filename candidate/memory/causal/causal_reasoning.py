@@ -69,7 +69,7 @@ class CausalReasoningModule:
     # into a structured symbolic representation of causality.
 
     Performs advanced causal reasoning to understand cause-effect relationships
-    from input data (primarily text) and associated context. It identifies causal
+    from input data (primarily text, timezone) and associated context. It identifies causal
     elements, builds causal chains, calculates confidences for these chains,
     and maintains a history of reasoning sessions.
     """
@@ -136,7 +136,7 @@ class CausalReasoningModule:
                             - "error" (str, optional): Error message if processing failed.
         """
         # Generate a unique request ID using UTC timestamp for better traceability.
-        processing_request_id = f"reason_causal_{datetime.utcnow().strftime('%Y%m%d%H%M%S%f')}"
+        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')}"
         reason_logger = self.logger.bind(
             request_id=processing_request_id
         )  # Bind request_id for all logs in this method
@@ -195,7 +195,7 @@ class CausalReasoningModule:
                 "primary_cause_confidence_score": (
                     primary_cause_details["confidence_score"] if primary_cause_details else 0.0
                 ),
-                "reasoning_timestamp_utc": datetime.utcnow().isoformat(),  # Use UTC
+                "reasoning_timestamp_utc": datetime.now(timezone.utc).isoformat(),  # Use UTC
                 "processing_request_id": processing_request_id,
             }
 
@@ -219,7 +219,7 @@ class CausalReasoningModule:
                 "all_valid_causal_chains": {},
                 "extracted_reasoning_path_summary": [],
                 "primary_cause_confidence_score": 0.0,
-                "reasoning_timestamp_utc": datetime.utcnow().isoformat(),
+                "reasoning_timestamp_utc": datetime.now(timezone.utc).isoformat(),
                 "error": f"Causal reasoning process failed: {e!s}",
                 "processing_request_id": processing_request_id,
             }
@@ -548,7 +548,7 @@ class CausalReasoningModule:
             num_valid_chains_to_process=len(valid_causal_chains_map),
         )
 
-        current_utc_timestamp_iso = datetime.utcnow().isoformat()  # Use UTC
+        current_utc_timestamp_iso = datetime.now(timezone.utc).isoformat()  # Use UTC
         num_new_graph_entries = 0
         num_updated_graph_entries = 0
 
@@ -808,7 +808,7 @@ class CausalReasoningModule:
             "total_reasoning_sessions_logged_in_history": len(self.causal_history),
             "current_causal_graph_node_count": len(self.causal_graph),  # Number of unique causal chains stored
             "observed_recent_confidence_trend": confidence_trend_description,
-            "insights_generation_timestamp_utc": datetime.utcnow().isoformat(),
+            "insights_generation_timestamp_utc": datetime.now(timezone.utc).isoformat(),
         }
         insights_logger.info(
             "ΛTRACE: Causal reasoning insights generated.",

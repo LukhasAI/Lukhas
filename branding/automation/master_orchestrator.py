@@ -10,12 +10,12 @@ import logging
 import sys
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__, timezone).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 from automation.brand_automation_engine import BrandAutomationEngine
 from automation.self_healing_system import SelfHealingSystem
 from engines.database_integration import db

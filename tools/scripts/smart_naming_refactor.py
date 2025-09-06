@@ -14,10 +14,10 @@ from pathlib import Path
 
 
 class SmartNamingRefactor:
-    def __init__(self, dry_run: bool = True):
+    def __init__(self, dry_run: bool = True, timezone):
         self.dry_run = dry_run
         self.changes_made = []
-        self.backup_dir = Path(".naming_backup") / datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.backup_dir = Path(".naming_backup") / datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
         # Load LUKHAS concepts from our conventions
         self.lukhas_concepts = {
@@ -217,7 +217,7 @@ class SmartNamingRefactor:
     def generate_report(self):
         """Generate detailed report of changes"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "mode": "dry_run" if self.dry_run else "applied",
             "changes": self.changes_made,
             "summary": {

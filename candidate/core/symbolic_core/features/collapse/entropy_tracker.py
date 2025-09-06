@@ -50,7 +50,7 @@ import structlog
 from lukhas.core.monitoring.drift_monitor import DriftDimension, UnifiedDriftMonitor
 
 # Configure structured logging
-logger = structlog.get_logger(__name__)
+logger = structlog.get_logger(__name__, timezone)
 
 
 class CollapsePhase(Enum):
@@ -218,7 +218,7 @@ class CollapseEntropyTracker:
             field = self.collapse_fields[field_id]
             field.entropy = entropy_value
             field.affected_nodes.update(affected_nodes)
-            field.last_update = datetime.now()
+            field.last_update = datetime.now(timezone.utc)
             if metadata:
                 field.metadata.update(metadata)
         else:
@@ -228,8 +228,8 @@ class CollapseEntropyTracker:
                 entropy=entropy_value,
                 collapse_score=0.0,  # Will be calculated
                 affected_nodes=affected_nodes.copy(),
-                creation_time=datetime.now(),
-                last_update=datetime.now(),
+                creation_time=datetime.now(timezone.utc),
+                last_update=datetime.now(timezone.utc),
                 metadata=metadata or {},
             )
             self.collapse_fields[field_id] = field
@@ -238,7 +238,7 @@ class CollapseEntropyTracker:
         # Store entropy history
         self.entropy_history[field_id].append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "value": entropy_value,
                 "node_count": len(affected_nodes),
             }
@@ -293,7 +293,7 @@ class CollapseEntropyTracker:
             return 0.0
 
         # Get measurements within time window
-        cutoff_time = datetime.now() - time_window
+        cutoff_time = datetime.now(timezone.utc) - time_window
         recent_measurements = [m for m in history if m["timestamp"] >= cutoff_time]
 
         if len(recent_measurements) < 2:
@@ -441,7 +441,7 @@ class CollapseEntropyTracker:
         density_score = min(1.0, len(field.affected_nodes) / 10) * self.field_density_weight
 
         # Temporal contribution (field age)
-        age = (datetime.now() - field.creation_time).total_seconds() / 3600  # Hours
+        age = (datetime.now(timezone.utc) - field.creation_time).total_seconds() / 3600  # Hours
         temporal_score = min(1.0, age / 24) * self.temporal_weight  # Max at 24 hours
 
         # Combine scores
@@ -462,7 +462,7 @@ class CollapseEntropyTracker:
 
     def _generate_trace(self, field: CollapseField, phase: CollapsePhase) -> CollapseTrace:
         """Generate collapse trace for audit trail."""
-        trace_id = f"collapse_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{field.field_id}"
+        trace_id = f"collapse_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{field.field_id}"
 
         # Calculate entropy slope
         entropy_slope = self.calculate_entropy_slope(field.field_id)
@@ -492,7 +492,7 @@ class CollapseEntropyTracker:
 
         trace = CollapseTrace(
             trace_id=trace_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             field_id=field.field_id,
             phase=phase,
             entropy_value=field.entropy,
@@ -503,7 +503,7 @@ class CollapseEntropyTracker:
             metadata={
                 "field_type": field.field_type.value,
                 "affected_node_count": len(field.affected_nodes),
-                "field_age_hours": (datetime.now() - field.creation_time).total_seconds() / 3600,
+                "field_age_hours": (datetime.now(timezone.utc) - field.creation_time).total_seconds() / 3600,
             },
         )
 
@@ -699,7 +699,7 @@ class CollapseEntropyTracker:
             "entropy_slope": slope,
             "phase": phase.value,
             "affected_nodes": list(field.affected_nodes),
-            "age_hours": (datetime.now() - field.creation_time).total_seconds() / 3600,
+            "age_hours": (datetime.now(timezone.utc) - field.creation_time).total_seconds() / 3600,
             "last_update": field.last_update.isoformat(),
         }
 
@@ -708,7 +708,7 @@ class CollapseEntropyTracker:
         active_fields = list(self.collapse_fields.values())
 
         metrics = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "active_fields": len(active_fields),
             "total_traces": self.metrics["traces_generated"],
             "cascades_prevented": self.metrics["cascades_prevented"],
@@ -749,7 +749,7 @@ class CollapseEntropyTracker:
 
         # Convert to serializable format
         export_data = {
-            "export_timestamp": datetime.now().isoformat(),
+            "export_timestamp": datetime.now(timezone.utc).isoformat(),
             "trace_count": len(filtered_traces),
             "traces": [
                 {
@@ -775,7 +775,7 @@ class CollapseEntropyTracker:
 
     def clear_inactive_fields(self, inactive_hours: float = 24):
         """Clear fields that have been inactive for specified hours."""
-        cutoff_time = datetime.now() - timedelta(hours=inactive_hours)
+        cutoff_time = datetime.now(timezone.utc) - timedelta(hours=inactive_hours)
 
         fields_to_remove = []
         for field_id, field in self.collapse_fields.items():

@@ -18,7 +18,7 @@ EXPRESSION_LOG = "logs/expressions/lukhas_expression_log.jsonl"
 OUTPUT_DIR = "logs/publication_simulation"
 
 
-def load_latest_expression():
+def load_latest_expression(, timezone):
     if not os.path.exists(EXPRESSION_LOG):
         print("❌ No expression log found.")
         return None
@@ -59,7 +59,7 @@ def format_caption(entry):
 
 def save_formats(entry, dry_run=False):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     entry["trace_id"] = f"TRACE_{ts}"
     entry["reviewed_by"] = "LUKHAS_ΛGI_3"
     entry["html_url"] = f"https://www.whoislukhas.com/posts/{entry['trace_id']}.html"

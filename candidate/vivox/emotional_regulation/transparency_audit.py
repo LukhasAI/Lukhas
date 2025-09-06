@@ -658,7 +658,7 @@ class VIVOXAuditSystem:
 
     def _generate_event_id(self) -> str:
         """Generate unique event ID"""
-        timestamp = datetime.now().timestamp()
+        timestamp = datetime.now(timezone.utc).timestamp()
         random_part = os.urandom(4).hex()
         return f"vivox_audit_{int(timestamp)}_{random_part}"
 
@@ -792,7 +792,7 @@ class VIVOXAuditSystem:
 
         if events_to_archive:
             # Save to file
-            archive_file = Path(self.storage_path) / f"audit_archive_{datetime.now().strftime('%Y%m%d')}.json"
+            archive_file = Path(self.storage_path) / f"audit_archive_{datetime.now(timezone.utc).strftime('%Y%m%d')}.json"
 
             archive_data = {
                 "archived_at": datetime.now(timezone.utc).isoformat(),

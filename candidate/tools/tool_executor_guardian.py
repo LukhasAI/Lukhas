@@ -19,7 +19,7 @@ try:
 except ImportError:
     AGISecuritySystem = None
 
-logger = logging.getLogger("ΛTRACE.tools.guardian")
+logger = logging.getLogger("ΛTRACE.tools.guardian", timezone)
 
 
 class ToolExecutorGuardian:
@@ -68,7 +68,7 @@ class ToolExecutorGuardian:
         Returns:
             Validation result with approval status and recommendations
         """
-        validation_start = datetime.now()
+        validation_start = datetime.now(timezone.utc)
 
         # Prepare action data for Guardian validation
         action_data = {
@@ -154,7 +154,7 @@ class ToolExecutorGuardian:
             validation_result["recommendations"].extend(ethical_result["recommendations"])
 
         # Calculate validation time
-        validation_end = datetime.now()
+        validation_end = datetime.now(timezone.utc)
         validation_result["validation_time"] = (validation_end - validation_start).total_seconds()
 
         # Log validation result
@@ -258,7 +258,7 @@ class ToolExecutorGuardian:
     ):
         """Log the complete execution decision for audit and learning"""
         audit_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "tool_name": tool_name,
             "arguments": arguments,
             "validation": validation_result,

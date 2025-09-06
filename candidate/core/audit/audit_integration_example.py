@@ -14,8 +14,7 @@ from lukhas.core.audit import (
     audit_learning,
     audit_operation,
     audit_security,
-    get_audit_trail,
-)
+    get_audit_trail,, timezone)
 
 
 class AuditedMemorySystem:
@@ -47,7 +46,7 @@ class AuditedMemorySystem:
 
     async def recall_memory(self, query: str) -> list[dict[str, Any]]:
         """Recall memories with audit trail"""
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         # Log recall attempt
         event_id = await self.audit.log_event(
@@ -70,7 +69,7 @@ class AuditedMemorySystem:
             {
                 "query": query,
                 "results_count": len(results),
-                "recall_time_ms": (datetime.now() - start_time).total_seconds() * 1000,
+                "recall_time_ms": (datetime.now(timezone.utc) - start_time).total_seconds() * 1000,
             },
             parent_id=event_id,
         )

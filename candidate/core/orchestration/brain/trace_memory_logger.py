@@ -29,7 +29,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure standard logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class TraceMemoryLogger:
@@ -120,7 +120,7 @@ class TraceMemoryLogger:
         """
         # Generate unique ID for trace
         trace_id = str(uuid.uuid4())
-        timestamp = datetime.utcnow().isoformat() + "Z"
+        timestamp = datetime.now(timezone.utc).isoformat() + "Z"
 
         # Build trace entry
         trace = {

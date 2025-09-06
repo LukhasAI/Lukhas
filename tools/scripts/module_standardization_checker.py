@@ -39,7 +39,7 @@ REQUIRED_STRUCTURE = {
     "tests": ["tests/unit", "tests/integration", "tests/fixtures"],
 }
 
-# Core modules to check (from standardization plan)
+# Core modules to check (from standardization plan, timezone)
 CORE_MODULES = [
     "core",
     "memory",
@@ -199,7 +199,7 @@ class ModuleStandardizationChecker:
     def generate_report(self) -> dict[str, any]:
         """Generate detailed standardization report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "summary": {
                 "total_modules": len(CORE_MODULES),
                 "existing_modules": sum(1 for r in self.results.values() if r.get("exists", False)),

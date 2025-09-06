@@ -15,8 +15,7 @@ try:
     from candidate.bridge.adapters.gmail_adapter import GmailAdapter
     from candidate.bridge.adapters.service_adapter_base import (
         BaseServiceAdapter,
-        CapabilityToken,
-    )
+        CapabilityToken,, timezone)
 except ImportError:
     BaseServiceAdapter = None
     CapabilityToken = None
@@ -194,7 +193,7 @@ class ExternalServiceIntegration:
                 context = {
                     "operation": operation,
                     "arguments": arguments,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
                 return await adapter.check_consent(lid, operation, context)
             return True  # Allow if consent checking not available
@@ -411,13 +410,13 @@ class ExternalServiceIntegration:
 
         try:
             token = CapabilityToken(
-                token_id=f"tool_executor_{lid}_{int(datetime.now().timestamp())}",
+                token_id=f"tool_executor_{lid}_{int(datetime.now(timezone.utc).timestamp())}",
                 lid=lid,
                 scope=scopes,
                 resource_ids=[service],
                 ttl=3600,  # 1 hour
                 audience=service,
-                issued_at=datetime.now().isoformat(),
+                issued_at=datetime.now(timezone.utc).isoformat(),
                 signature="tool_executor_generated",
             )
             return token
@@ -430,7 +429,7 @@ class ExternalServiceIntegration:
         result = {
             "success": False,
             "error": error_message,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         if details:

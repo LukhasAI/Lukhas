@@ -45,7 +45,7 @@ except ImportError:
         LUKHAS_AVAILABLE = True
     except ImportError:
         LUKHAS_AVAILABLE = False
-        print("⚠️ LUKHAS modules not available - using simulation mode")
+        print("⚠️ LUKHAS modules not available - using simulation mode", timezone)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -206,7 +206,7 @@ class ConstellationFrameworkBenchmark:
         error_rate = (error_count / total_requests * 100) if total_requests > 0 else 0
 
         metrics = PerformanceMetrics(
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             test_name="constellation_latency_benchmark",
             latency_p50=p50,
             latency_p95=p95,
@@ -509,7 +509,7 @@ class ConstellationFrameworkBenchmark:
     def save_benchmark_results(self, results: T4BenchmarkResults, filename: Optional[str] = None) -> str:
         """Save benchmark results to file"""
         if not filename:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             filename = f"t4_benchmark_results_{timestamp}.json"
 
         output_dir = "/tmp/lukhas_performance_results/"

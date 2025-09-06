@@ -36,7 +36,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union
 from candidate.core.common import get_logger
 
 # Configure logging
-logger = logging.getLogger("lucas.brain")
+logger = logging.getLogger("lucas.brain", timezone)
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
 handler.setFormatter(formatter)
@@ -190,7 +190,7 @@ class EmotionalOscillator:
             "primary_emotion": "neutral",
             "intensity": 0.5,
             "secondary_emotions": {},  # emotion -> intensity
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "stability": 0.8,  # How stable the emotion is (0-1)
         }
         self.emotional_trend = []  # Track emotional changes over time
@@ -227,7 +227,7 @@ class EmotionalOscillator:
             self.current_state["secondary_emotions"] = valid_secondary
 
         # Update timestamp
-        self.current_state["last_updated"] = datetime.now().isoformat()
+        self.current_state["last_updated"] = datetime.now(timezone.utc).isoformat()
 
         # Update stability based on how much the emotion changed
         if self.emotional_trend:
@@ -388,7 +388,7 @@ class MemoryEmotionalIntegrator:
 
         # Create basic metadata
         metadata = additional_metadata or {}
-        metadata["timestamp"] = datetime.now().isoformat()
+        metadata["timestamp"] = datetime.now(timezone.utc).isoformat()
         metadata["emotion"] = emotion
 
         # Add emotional vector
@@ -468,7 +468,7 @@ class MemoryEmotionalIntegrator:
             "key": key,
             "emotion": emotion,
             "status": status,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
     def retrieve_with_emotional_context(self,
@@ -546,7 +546,7 @@ class MemoryEmotionalIntegrator:
             "success": True,
             "memory": memory,
             "emotional_context": emotional_context,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
     def find_emotionally_similar_memories(self,
@@ -658,7 +658,7 @@ class MemoryEmotionalIntegrator:
                 continue
 
             # Check if memory is recent enough
-            time_diff = (datetime.now() - fold.created_at).total_seconds()
+            time_diff = (datetime.now(timezone.utc) - fold.created_at).total_seconds()
             if time_diff <= (hours_limit * 3600):  # Convert hours to seconds:
                 recent_memories.append(key)
 
@@ -692,7 +692,7 @@ class MemoryEmotionalIntegrator:
                 "central_memory": central_key,
                 "common_topics": common_tags,
                 "emotional_context": emotional_context,
-                "consolidation_time": datetime.now().isoformat()
+                "consolidation_time": datetime.now(timezone.utc).isoformat()
             }
 
             # Determine primary emotion if available
@@ -732,7 +732,7 @@ class MemoryEmotionalIntegrator:
             "success": True,
             "consolidated_count": len(consolidated),
             "consolidated_memories": consolidated,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
 
@@ -1025,7 +1025,7 @@ class LucasBrainIntegration:
             return {
                 "status": "error",
                 "error": f"Unknown action: {action}",
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
 
     def start_consolidation_thread(self, interval_minutes: int = 60) -> bool:

@@ -10,7 +10,7 @@ from pathlib import Path
 import yaml
 
 
-def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_ARMY/tasks"):
+def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_ARMY/tasks", timezone):
     """Extract all tasks from Claude_6.yml and create comprehensive task files"""
 
     # Load the YAML configuration
@@ -38,7 +38,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             f.write(f"# Tasks for {agent_name}\n\n")
             f.write(f"**Role**: {agent.get('role', 'Not specified')}\n")
             f.write(f"**Description**: {agent.get('description', 'Not specified')}\n")
-            f.write(f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            f.write(f"**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 
             # Core Mission
             f.write("## 🎯 Core Mission\n")
@@ -160,7 +160,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             f.write("_Add implementation notes, blockers, and decisions here_\n\n")
 
             f.write("---\n")
-            f.write(f"*Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n")
+            f.write(f"*Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}*\n")
 
         agents_processed.append({"agent": agent_key, "name": agent_name, "file": str(task_file)})
         print(f"✅ Created comprehensive task file: {task_file}")
@@ -169,7 +169,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
     coord_file = Path(output_dir) / "coordination_framework_tasks.md"
     with open(coord_file, "w") as f:
         f.write("# 🎭 Coordination Framework Tasks\n")
-        f.write(f"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        f.write(f"**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 
         if "coordination_framework" in config:
             coord = config["coordination_framework"]
@@ -214,7 +214,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             f.write(config["phase_1_completion_definition"].strip() + "\n\n")
 
         f.write("---\n")
-        f.write(f"*Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n")
+        f.write(f"*Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}*\n")
 
     print(f"✅ Created coordination framework tasks: {coord_file}")
 
@@ -223,7 +223,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
     with open(summary_file, "w") as f:
         json.dump(
             {
-                "extraction_date": datetime.now().isoformat(),
+                "extraction_date": datetime.now(timezone.utc).isoformat(),
                 "source_file": config_file,
                 "agents_processed": agents_processed,
                 "coordination_file": str(coord_file),

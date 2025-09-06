@@ -56,7 +56,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -116,7 +116,7 @@ class MemoryEvolutionEngine:
             # Placeholder consolidation logic
             consolidated = {
                 "original": memory_data,
-                "consolidated_at": datetime.now().isoformat(),
+                "consolidated_at": datetime.now(timezone.utc).isoformat(),
                 "consolidation_strength": 0.8,
                 "key_features": self._extract_key_features(memory_data),
             }
@@ -130,7 +130,7 @@ class MemoryEvolutionEngine:
         try:
             # Placeholder adaptation logic
             adapted = memory_data.copy()
-            adapted["adapted_at"] = datetime.now().isoformat()
+            adapted["adapted_at"] = datetime.now(timezone.utc).isoformat()
             adapted["adaptation_score"] = 0.7
             adapted["adaptive_features"] = self._calculate_adaptive_features(memory_data)
             return adapted
@@ -144,7 +144,7 @@ class MemoryEvolutionEngine:
             # Placeholder strengthening logic
             strengthened = memory_data.copy()
             strengthened["strength"] = strengthened.get("strength", 0.5) + 0.1
-            strengthened["strengthened_at"] = datetime.now().isoformat()
+            strengthened["strengthened_at"] = datetime.now(timezone.utc).isoformat()
             return strengthened
         except Exception as e:
             logger.error("Failed to strengthen memory: %s", e)
@@ -156,7 +156,7 @@ class MemoryEvolutionEngine:
             # Placeholder decay logic
             decayed = memory_data.copy()
             decayed["strength"] = max(0.1, decayed.get("strength", 1.0) - 0.1)
-            decayed["decayed_at"] = datetime.now().isoformat()
+            decayed["decayed_at"] = datetime.now(timezone.utc).isoformat()
             return decayed
         except Exception as e:
             logger.error("Failed to decay memory: %s", e)
@@ -167,7 +167,7 @@ class MemoryEvolutionEngine:
         try:
             # Placeholder integration logic
             integrated = memory_data.copy()
-            integrated["integrated_at"] = datetime.now().isoformat()
+            integrated["integrated_at"] = datetime.now(timezone.utc).isoformat()
             integrated["integration_links"] = self._find_integration_links(memory_data)
             return integrated
         except Exception as e:
@@ -247,7 +247,7 @@ class MemoryEvolutionEngine:
                     id=event_id,
                     memory_id=memory_id,
                     evolution_type=evolution_type,
-                    timestamp=datetime.now(),
+                    timestamp=datetime.now(timezone.utc),
                     parameters={"original_data": memory_data},
                 )
 

@@ -28,7 +28,7 @@ import numpy as np
 from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.symbolism.tags import TagPermission, TagScope
 
-logger = logging.getLogger("ΛTRACE.bio.mapping")
+logger = logging.getLogger("ΛTRACE.bio.mapping", timezone)
 
 
 class ContextLayer(Enum):
@@ -140,7 +140,7 @@ class ContextualMappingColony(BaseColony):
                 "glyph_probabilities": qi_glyphs,
                 "context_features": self._summarize_context(context_features),
                 "confidence": confidence,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "colony_id": self.colony_id,
             }
 
@@ -222,7 +222,7 @@ class ContextualMappingColony(BaseColony):
         features = {}
 
         # Time-based features
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         features["hour_of_day"] = now.hour
         features["day_of_week"] = now.weekday()
         features["is_weekend"] = now.weekday() >= 5
@@ -510,10 +510,10 @@ class ContextualMappingColony(BaseColony):
     ) -> dict[str, float]:
         """Get colony consensus on GLYPH mappings."""
         # Check cache
-        cache_key = f"{sorted(glyphs.items())}_{datetime.utcnow().minute}"
+        cache_key = f"{sorted(glyphs.items())}_{datetime.now(timezone.utc).minute}"
         if cache_key in self.consensus_cache:
             cached_time, cached_value = self.consensus_cache[cache_key]
-            if datetime.utcnow() - cached_time < self.consensus_ttl:
+            if datetime.now(timezone.utc) - cached_time < self.consensus_ttl:
                 return cached_value
 
         # Simulate colony voting (in production, query other colonies)
@@ -539,7 +539,7 @@ class ContextualMappingColony(BaseColony):
             consensus[glyph] = np.mean(votes)
 
         # Cache result
-        self.consensus_cache[cache_key] = (datetime.utcnow(), consensus)
+        self.consensus_cache[cache_key] = (datetime.now(timezone.utc), consensus)
 
         return consensus
 
@@ -633,7 +633,7 @@ class ContextualMappingColony(BaseColony):
 
     def _update_glyph_history(self, glyphs: list[tuple[str, float]]):
         """Update GLYPH evolution history."""
-        timestamp = datetime.utcnow()
+        timestamp = datetime.now(timezone.utc)
 
         for glyph, activation in glyphs:
             self.glyph_evolution_history[glyph].append({"timestamp": timestamp, "activation": activation})
@@ -664,7 +664,7 @@ class ContextualMappingColony(BaseColony):
 
     def _extract_temporal_features(self, context: dict[str, Any]) -> dict[str, float]:
         """Extract temporal context features."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         features = {
             "hour_sin": np.sin(2 * np.pi * now.hour / 24),
             "hour_cos": np.cos(2 * np.pi * now.hour / 24),

@@ -227,7 +227,7 @@ def export_ethics_report(result: dict, config: dict) -> Optional[str]:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     trace_index = result.get("trace_index", "unknown")
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     filename = f"ethics_drift_{trace_index}_{timestamp}.json"
     filepath = output_dir / filename
 

@@ -18,7 +18,7 @@ from typing import Any
 class DreamProcessorIntegration:
     """Integrates pattern recognition and dream processing capabilities"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.pattern_confidence_threshold = 0.65  # Lower threshold during dreams
         self.memory_relationships = {}
 
@@ -38,7 +38,7 @@ class DreamProcessorIntegration:
                 "patterns": patterns,
                 "relationships": relationships,
                 "emotional_context": emotional_context,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             print(f"Error analyzing dream patterns: {e}")

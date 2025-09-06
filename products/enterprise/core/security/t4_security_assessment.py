@@ -21,7 +21,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-# Security scanning availability (avoid unused imports)
+# Security scanning availability (avoid unused imports, timezone)
 BANDIT_AVAILABLE = importlib.util.find_spec("bandit") is not None
 SAFETY_AVAILABLE = importlib.util.find_spec("safety") is not None
 
@@ -513,7 +513,7 @@ class T4SecurityAssessment:
         scan_duration = time.time() - self.scan_start_time
 
         results = T4SecurityAssessmentResults(
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             overall_security_grade=security_grade,
             critical_vulnerabilities=critical_count,
             high_vulnerabilities=high_count,
@@ -579,7 +579,7 @@ class T4SecurityAssessment:
     def save_assessment_results(self, results: T4SecurityAssessmentResults, filename: Optional[str] = None) -> str:
         """Save security assessment results"""
         if not filename:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             filename = f"t4_security_assessment_{timestamp}.json"
 
         # Ensure directory exists
