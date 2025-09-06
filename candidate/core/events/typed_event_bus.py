@@ -14,7 +14,7 @@ from typing import Any, Callable, Optional, TypeVar, Union, cast
 from ..container.service_container import ServiceLifetime, injectable
 from .contracts import DomainEvent, EventPriority
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 T = TypeVar("T", bound=DomainEvent)
 
@@ -108,9 +108,9 @@ class TypedEventBus:
         """Publish a typed domain event"""
         # Set metadata if not already set
         if not event.event_id:
-            event.event_id = f"evt_{event.__class__.__name__}_{datetime.now().timestamp()}"
+            event.event_id = f"evt_{event.__class__.__name__}_{datetime.now(timezone.utc).timestamp()}"
         if not event.timestamp:
-            event.timestamp = datetime.now()
+            event.timestamp = datetime.now(timezone.utc)
 
         self._events_published += 1
 

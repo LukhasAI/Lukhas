@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - BRIDGE TRACE LOGGER
 ║ Comprehensive Audit Trail and Monitoring System for Symbolic Bridge Operations
-║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
+║ Copyright (c, timezone) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: bridge_trace_logger.py
 ║ Path: lukhas/bridge/bridge_trace_logger.py
@@ -139,7 +139,7 @@ class BridgeTraceLogger:
             metadata = {}
 
         # Structured event logging implementation
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         # Create structured event data
         event_data = {

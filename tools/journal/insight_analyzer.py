@@ -23,8 +23,7 @@ class Insight:
         impact_level: str,  # high, medium, low
         actionable: bool,
         related_files: Optional[list[str]] = None,
-        tags: Optional[list[str]] = None,
-    ):
+        tags: Optional[list[str]] = None,, timezone):
         self.content = content
         self.category = category
         self.sentiment = sentiment
@@ -32,7 +31,7 @@ class Insight:
         self.actionable = actionable
         self.related_files = related_files or []
         self.tags = tags or []
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone.utc)
         self.applied = False  # Track if insight was acted upon
 
 
@@ -289,7 +288,7 @@ class InsightAnalyzer:
     def analyze_daily_insights(self, date: Optional[datetime] = None) -> dict[str, Any]:
         """Analyze insights from a specific day"""
         if date is None:
-            date = datetime.now()
+            date = datetime.now(timezone.utc)
 
         # Get insights from the day
         start_of_day = date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -363,9 +362,9 @@ class InsightAnalyzer:
 
     def find_patterns(self, days: int = 30) -> dict[str, Any]:
         """Find patterns in insights over time"""
-        start_date = datetime.now() - timedelta(days=days)
+        start_date = datetime.now(timezone.utc) - timedelta(days=days)
         insights = self.journal.search(
-            type="insight", date_range=(start_date, datetime.now())
+            type="insight", date_range=(start_date, datetime.now(timezone.utc))
         )
 
         patterns = {
@@ -428,7 +427,7 @@ class InsightAnalyzer:
         # Group by week
         weeks = defaultdict(int)
         for insight in learning_insights:
-            week_num = (datetime.now() - insight.timestamp).days // 7
+            week_num = (datetime.now(timezone.utc) - insight.timestamp).days // 7
             weeks[week_num] += 1
 
         # Calculate velocity metrics
@@ -520,7 +519,7 @@ class InsightAnalyzer:
             # Simple check - look for references in subsequent entries
             subsequent = self.journal.search(
                 query=insight.id[:8],  # Search for partial ID
-                date_range=(insight.timestamp, datetime.now()),
+                date_range=(insight.timestamp, datetime.now(timezone.utc)),
             )
             if len(subsequent) > 1:  # More than just the original
                 completed += 1
@@ -538,10 +537,10 @@ class InsightAnalyzer:
 
         # Check success/failure ratio over time
         early_insights = [
-            i for i in insights if (datetime.now() - i.timestamp).days > 15
+            i for i in insights if (datetime.now(timezone.utc) - i.timestamp).days > 15
         ]
         recent_insights = [
-            i for i in insights if (datetime.now() - i.timestamp).days <= 15
+            i for i in insights if (datetime.now(timezone.utc) - i.timestamp).days <= 15
         ]
 
         early_success_rate = sum(
@@ -600,7 +599,7 @@ class InsightAnalyzer:
         # Get last 7 days of insights
         week_analysis = {}
         for i in range(7):
-            date = datetime.now() - timedelta(days=i)
+            date = datetime.now(timezone.utc) - timedelta(days=i)
             week_analysis[date.strftime("%A")] = self.analyze_daily_insights(date)
 
         # Find patterns
@@ -609,7 +608,7 @@ class InsightAnalyzer:
         # Generate reflection
         reflection = f"""
 # Weekly Learning Reflection
-*Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}*
+*Generated: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")}*
 
 ## Overview
 This week you captured {sum(day['total_insights'] for day in week_analysis.values())} insights.

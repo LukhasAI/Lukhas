@@ -29,8 +29,7 @@ from typing import Any, Optional
 from lukhas.core.budget.token_controller import (
     APICallContext,
     CallUrgency,
-    TokenBudgetController,
-)
+    TokenBudgetController,, timezone)
 
 
 @dataclass
@@ -217,7 +216,7 @@ class ΛBotAutonomousWorkflowFixer:
         failed_fixes = [r for r in fix_results if not r.success]
 
         summary = {
-            "autonomous_fix_timestamp": datetime.now().isoformat(),
+            "autonomous_fix_timestamp": datetime.now(timezone.utc).isoformat(),
             "notifications_analyzed": len(issues),
             "high_priority_identified": len(high_priority_issues),
             "fixes_attempted": len(fix_results),
@@ -316,7 +315,7 @@ class ΛBotAutonomousWorkflowFixer:
                 repo_path = temp_dir
 
                 # Create fix branch
-                branch_name = f"{self.pr_branch_prefix}/workflow-{workflow_name.lower().replace(' ', '-')}-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+                branch_name = f"{self.pr_branch_prefix}/workflow-{workflow_name.lower().replace(' ', '-')}-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}"
 
                 # Apply common fixes based on workflow name patterns
                 if "symbol" in workflow_name.lower():
@@ -501,7 +500,7 @@ class ΛBotAutonomousWorkflowFixer:
             "head": {"ref": branch_name},
             "base": {"ref": "main"},
             "state": "open",
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def _generate_workflow_fix_description(self, workflow_name: str, fixes_applied: list[str]) -> str:
@@ -538,7 +537,7 @@ class ΛBotAutonomousWorkflowFixer:
 
     def save_autonomous_fix_results(self, results: dict[str, Any]) -> None:
         """Save autonomous fix results to file"""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         filename = f"autonomous_fix_results_{timestamp}.json"
 
         with open(filename, "w") as f:

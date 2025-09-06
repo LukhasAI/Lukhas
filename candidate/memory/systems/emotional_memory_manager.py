@@ -160,4 +160,4 @@ class EmotionalModulator:
         """Get current timestamp for logging."""
         import datetime
 
-        return datetime.datetime.now().isoformat()
+        return datetime.datetime.now(timezone.utc).isoformat()

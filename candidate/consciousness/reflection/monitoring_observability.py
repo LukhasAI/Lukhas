@@ -51,7 +51,7 @@ import redis.asyncio as aioredis
 # from prometheus_client import Counter, Histogram, Gauge, Summary, CollectorRegistry
 import torch
 
-# Custom imports (would be actual imports in production)
+# Custom imports (would be actual imports in production, timezone)
 from datadog import DogStatsdClient, statsd
 from elasticsearch import Elasticsearch
 from opentelemetry import trace
@@ -591,7 +591,7 @@ class AlertManager:
 
         alert = self.active_alerts[alert_id]
         alert.resolved = True
-        alert.resolution_time = datetime.now()
+        alert.resolution_time = datetime.now(timezone.utc)
 
         del self.active_alerts[alert_id]
 
@@ -799,7 +799,7 @@ class ObservabilitySystem:
             return
 
         event = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "model_id": model_id,
             "execution_time_ms": execution_time_ms,
             "request_size": len(str(request_data)),
@@ -813,7 +813,7 @@ class ObservabilitySystem:
                 None,
                 self.elasticsearch.index,
                 {
-                    "index": f"ai-inference-{datetime.now().strftime('%Y.%m')}",
+                    "index": f"ai-inference-{datetime.now(timezone.utc).strftime('%Y.%m')}",
                     "body": event,
                 },
             )
@@ -832,7 +832,7 @@ class ObservabilitySystem:
     async def get_system_health(self) -> dict[str, Any]:
         """Get comprehensive system health status."""
         health = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "services": {
                 "elasticsearch": await self._check_elasticsearch_health(),
                 "redis": await self._check_redis_health(),
@@ -843,7 +843,7 @@ class ObservabilitySystem:
                 [
                     alert
                     for alert in self.alert_manager.alert_history
-                    if alert.timestamp > datetime.now() - timedelta(hours=24)
+                    if alert.timestamp > datetime.now(timezone.utc) - timedelta(hours=24)
                 ]
             ),
             "performance_summary": self.profiler.get_performance_summary(),

@@ -54,7 +54,7 @@ from typing import Any, Optional
 from uuid import uuid4
 
 # Initialize structured logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class MemoryTier(Enum):
@@ -91,8 +91,8 @@ class MemoryNode:
     compression_level: CompressionLevel = CompressionLevel.NONE
     importance_score: float = 1.0
     access_count: int = 0
-    last_accessed: datetime = field(default_factory=lambda: datetime.now())
-    created_at: datetime = field(default_factory=lambda: datetime.now())
+    last_accessed: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     decay_rate: float = 0.1
     is_compressed: bool = False
     checksum: Optional[str] = None
@@ -331,7 +331,7 @@ class HierarchicalDataStore:
 
         # Update access metrics
         node.access_count += 1
-        node.last_accessed = datetime.now()
+        node.last_accessed = datetime.now(timezone.utc)
         self.metrics["total_accesses"] += 1
 
         # Check cache
@@ -356,8 +356,8 @@ class HierarchicalDataStore:
         if node.importance_score > 5.0:
             return False
 
-        age = (datetime.now() - node.created_at).days
-        recency = (datetime.now() - node.last_accessed).days
+        age = (datetime.now(timezone.utc) - node.created_at).days
+        recency = (datetime.now(timezone.utc) - node.last_accessed).days
 
         # Compress based on age and access patterns
         return (age > 7 and recency > 3) or (age > 30)
@@ -434,7 +434,7 @@ class HierarchicalDataStore:
         summary = {
             "type": "semantic_summary",
             "key_concepts": str(content)[:100],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         return json.dumps(summary).encode()
 
@@ -517,7 +517,7 @@ class HierarchicalDataStore:
 
     def _recency_factor(self, node: MemoryNode) -> float:
         """Calculate recency factor for ranking"""
-        age_days = (datetime.now() - node.last_accessed).days
+        age_days = (datetime.now(timezone.utc) - node.last_accessed).days
         return 1.0 / (1.0 + age_days * node.decay_rate)
 
     def _calculate_checksum(self, content: Any) -> str:
@@ -539,7 +539,7 @@ class HierarchicalDataStore:
     async def _prune_memories(self) -> int:
         """Prune low-importance, old memories"""
         pruned = 0
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Collect candidates for pruning
         candidates = []
@@ -744,7 +744,7 @@ class HierarchicalDataStore:
         node.collapse_alert_level = alert_level
 
         # Add to collapse score history
-        node.collapse_score_history.append((datetime.now(), collapse_score))
+        node.collapse_score_history.append((datetime.now(timezone.utc), collapse_score))
 
         # Limit history size to prevent memory bloat
         if len(node.collapse_score_history) > 100:

@@ -34,7 +34,7 @@ from utils.trace_logger import log_symbolic_trace
 
 
 class SymbolicActionProtocol:
-    def __init__(self, user_id, consent_level):
+    def __init__(self, user_id, consent_level, timezone):
         self.user_id = user_id
         self.consent_level = consent_level
         self.tier_config = ConsentTierManager.load(consent_level)
@@ -52,7 +52,7 @@ class SymbolicActionProtocol:
         log_symbolic_trace(self.user_id, action_type, symbolic_trigger, allowed)
 
         proposal["permitted"] = allowed
-        proposal["timestamp_evaluated"] = datetime.utcnow().isoformat()
+        proposal["timestamp_evaluated"] = datetime.now(timezone.utc).isoformat()
         return proposal
 
     def _check_permissions(self, action_type, cost):

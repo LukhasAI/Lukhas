@@ -21,7 +21,7 @@ from typing import Optional
 class ConsentHistoryManager:
     """Manage immutable consent history with symbolic trails"""
 
-    def __init__(self, config, trace_logger=None):
+    def __init__(self, config, trace_logger=None, timezone):
         self.config = config
         self.trace_logger = trace_logger
         self.consent_chain = {}
@@ -29,7 +29,7 @@ class ConsentHistoryManager:
 
     def record_consent_event(self, user_id: str, event_type: str, scope_data: dict, metadata: dict) -> str:
         """Record a consent event in immutable history"""
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
 
         # Create consent record
         consent_record = {

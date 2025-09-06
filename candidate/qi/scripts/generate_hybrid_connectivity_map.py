@@ -16,7 +16,7 @@ import os
 from datetime import datetime
 
 
-def generate_connectivity_json():
+def generate_connectivity_json(, timezone):
     """Generate the master connectivity index"""
 
     # Load the hybrid component mapping
@@ -24,7 +24,7 @@ def generate_connectivity_json():
         hybrid_data = json.load(f)
 
     connectivity = {
-        "generated_at": datetime.now().isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "system_name": "LUKHAS AI - Neuroplastic Architecture",
         "total_modules": 7,
         "total_hybrid_components": (

@@ -18,8 +18,7 @@ from lukhas.core.interfaces.services import (
     IEmotionService,
     IGovernanceService,
     IMemoryService,
-    IQuantumService,
-)
+    IQuantumService,, timezone)
 
 logger = logging.getLogger(__name__)
 
@@ -82,7 +81,7 @@ class MemoryServiceAdapter(IMemoryService):
             fold_id = await self._fold_system.store({"content": content, "metadata": metadata})
         else:
             # Fallback implementation
-            fold_id = f"fold_{datetime.now().timestamp()}"
+            fold_id = f"fold_{datetime.now(timezone.utc).timestamp()}"
 
         # Emit event through existing event bus
         try:
@@ -208,7 +207,7 @@ class ConsciousnessServiceAdapter(IConsciousnessService):
 
         # Basic reflection
         return {
-            "reflection_id": f"ref_{datetime.now().timestamp()}",
+            "reflection_id": f"ref_{datetime.now(timezone.utc).timestamp()}",
             "insights": ["Basic reflection completed"],
             "self_awareness_delta": 0.05,
         }
@@ -223,7 +222,7 @@ class ConsciousnessServiceAdapter(IConsciousnessService):
         # Simple decision making
         selected = options[0] if options else {}
         return {
-            "decision_id": f"dec_{datetime.now().timestamp()}",
+            "decision_id": f"dec_{datetime.now(timezone.utc).timestamp()}",
             "selected_option": selected,
             "confidence": 0.7,
             "reasoning": "Default selection",
@@ -273,7 +272,7 @@ class DreamServiceAdapter(IDreamService):
 
         # Fallback dream generation
         return {
-            "dream_id": f"dream_{datetime.now().timestamp()}",
+            "dream_id": f"dream_{datetime.now(timezone.utc).timestamp()}",
             "content": f"Generated from seed: {seed}",
             "vividness": 0.5,
             "coherence": 0.6,
@@ -352,7 +351,7 @@ class QIServiceAdapter(IQuantumService):
 
         # Simulated superposition
         return {
-            "state_id": f"super_{datetime.now().timestamp()}",
+            "state_id": f"super_{datetime.now(timezone.utc).timestamp()}",
             "states": states,
             "coherence": 0.8,
         }
@@ -365,7 +364,7 @@ class QIServiceAdapter(IQuantumService):
             return await self._oscillator.entangle(state1, state2)
 
         return {
-            "entanglement_id": f"ent_{datetime.now().timestamp()}",
+            "entanglement_id": f"ent_{datetime.now(timezone.utc).timestamp()}",
             "state1": state1,
             "state2": state2,
             "correlation": 0.9,
@@ -449,7 +448,7 @@ class EmotionServiceAdapter(IEmotionService):
 
         vad = await self.analyze_emotion(context)
         return {
-            "response_id": f"emo_{datetime.now().timestamp()}",
+            "response_id": f"emo_{datetime.now(timezone.utc).timestamp()}",
             "vad": vad,
             "expression": "neutral",
             "intensity": 0.5,
@@ -549,7 +548,7 @@ class GovernanceServiceAdapter(IGovernanceService):
             return await self._guardian.apply_policy(request)
 
         return {
-            "policy_id": f"pol_{datetime.now().timestamp()}",
+            "policy_id": f"pol_{datetime.now(timezone.utc).timestamp()}",
             "decision": "allowed",
             "conditions": [],
             "audit_trail": [],
@@ -563,7 +562,7 @@ class GovernanceServiceAdapter(IGovernanceService):
             await self._guardian.audit(action)
 
         # Log audit event
-        logger.info(f"Audit: {action.get('type', 'unknown')} at {datetime.now()}")
+        logger.info(f"Audit: {action.get('type', 'unknown')} at {datetime.now(timezone.utc)}")
 
 
 @injectable(ServiceLifetime.SINGLETON)
@@ -616,7 +615,7 @@ class BridgeServiceAdapter(IBridgeService):
         return {
             "sent": True,
             "destination": destination,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "response": None,
         }
 

@@ -23,7 +23,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler(f"pr_security_review_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"),
+        logging.FileHandler(f"pr_security_review_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"),
     ],
 )
 logger = logging.getLogger("pr_security_review")
@@ -86,7 +86,7 @@ def main():
 
         # Generate a report
         report = {
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             "repository": github_repository,
             "event": github_event_name,
             "pr_number": pr_number,
@@ -94,7 +94,7 @@ def main():
             "status": "success",
         }
 
-        report_file = f"security_report_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        report_file = f"security_report_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 

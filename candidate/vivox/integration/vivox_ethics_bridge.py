@@ -11,8 +11,7 @@ from typing import Any, Callable, Optional
 from ..moral_alignment.vivox_mae_core import (
     ActionProposal,
     MAEDecision,
-    VIVOXMoralAlignmentEngine,
-)
+    VIVOXMoralAlignmentEngine,, timezone)
 
 
 @dataclass
@@ -319,7 +318,7 @@ class VIVOXEthicsBridge:
     async def ethical_drift_analysis(self) -> dict[str, Any]:
         """Analyze ethical drift across systems"""
         analysis = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "drift_indicators": [],
             "alignment_score": 1.0,
         }

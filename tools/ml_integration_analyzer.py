@@ -57,7 +57,7 @@ class Audit:
     def log(self, action: str, **data: Any) -> None:
         self.events.append(
             {
-                "ts": _dt.datetime.utcnow().isoformat() + "Z",
+                "ts": _dt.datetime.now(timezone.utc).isoformat() + "Z",
                 "action": action,
                 **data,
             }
@@ -1056,7 +1056,7 @@ jobs:
 
         # System metadata
         sysmeta = {
-            "analysis_timestamp": _dt.datetime.utcnow().isoformat() + "Z",
+            "analysis_timestamp": _dt.datetime.now(timezone.utc).isoformat() + "Z",
             "analyzer_version": "2.2.0",
             "confidence_threshold": self.confidence_threshold,
             "model_versions": model_versions

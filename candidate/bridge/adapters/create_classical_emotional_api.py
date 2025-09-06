@@ -17,8 +17,7 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Classical Emotional Intelligence API",
     description="Safe, predictable emotional intelligence without quantum effects",
-    version="1.0.0",
-)
+    version="1.0.0",, timezone)
 
 
 class EmotionModel(str, Enum):
@@ -119,7 +118,7 @@ class ClassicalEmotionEngine:
     async def analyze_emotional_coherence(self, context: ClassicalEmotionalContext) -> ClassicalCoherenceResponse:
         """Analyze emotional coherence using classical methods"""
 
-        analysis_id = f"classical_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        analysis_id = f"classical_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Extract emotions using chosen model
         emotional_state = await self._extract_emotions(context.text, context.emotion_model)
@@ -146,7 +145,7 @@ class ClassicalEmotionEngine:
 
         return ClassicalCoherenceResponse(
             analysis_id=analysis_id,
-            timestamp=datetime.now().isoformat(),
+            timestamp=datetime.now(timezone.utc).isoformat(),
             coherence_score=coherence,
             emotional_state=emotional_state,
             physiological_indicators=physiological,

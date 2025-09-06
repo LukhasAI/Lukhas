@@ -15,7 +15,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class NeuroSymbolicIntegrator:
@@ -93,7 +93,7 @@ class NeuroSymbolicIntegrator:
                 "results": None,
                 "confidence": 0.0,
                 "error": "No symbolic engine provided",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         try:
@@ -103,7 +103,7 @@ class NeuroSymbolicIntegrator:
                 "type": "symbolic",
                 "results": symbolic_results,
                 "confidence": symbolic_results.get("confidence", 0.5),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             logger.error(f"Error in symbolic processing: {e!s}")
@@ -112,7 +112,7 @@ class NeuroSymbolicIntegrator:
                 "results": None,
                 "confidence": 0.0,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _process_neural(
@@ -129,7 +129,7 @@ class NeuroSymbolicIntegrator:
                 "results": None,
                 "confidence": 0.0,
                 "error": "No neural engine provided",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         try:
@@ -139,7 +139,7 @@ class NeuroSymbolicIntegrator:
                 "type": "neural",
                 "results": neural_results,
                 "confidence": neural_results.get("confidence", 0.5),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
             logger.error(f"Error in neural processing: {e!s}")
@@ -148,7 +148,7 @@ class NeuroSymbolicIntegrator:
                 "results": None,
                 "confidence": 0.0,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     def _integrate_results(
@@ -172,7 +172,7 @@ class NeuroSymbolicIntegrator:
                 "message": "Both symbolic and neural processing failed",
                 "symbolic_error": symbolic_results.get("error"),
                 "neural_error": neural_results.get("error"),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         # Extract confidences
@@ -249,7 +249,7 @@ class NeuroSymbolicIntegrator:
             "symbolic_results": symbolic_results,
             "neural_results": neural_results,
             "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _maximal_integration(
@@ -292,7 +292,7 @@ class NeuroSymbolicIntegrator:
             "symbolic_results": symbolic_results,
             "neural_results": neural_results,
             "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _adaptive_integration(
@@ -369,7 +369,7 @@ class NeuroSymbolicIntegrator:
             "neural_results": neural_results,
             "confidence_gap": confidence_gap,
             "reasoning_trace": self._extract_reasoning_trace(symbolic_results, neural_results, primary_source),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _extract_reasoning_trace(
@@ -478,7 +478,7 @@ class NeuroSymbolicIntegrator:
         """Update processing history"""
         # Create minimal history entry to reduce memory usage
         history_entry = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "input_type": input_data.get("type", "unknown"),
             "symbolic_confidence": symbolic_results.get("confidence", 0.0),
             "neural_confidence": neural_results.get("confidence", 0.0),
@@ -488,7 +488,7 @@ class NeuroSymbolicIntegrator:
 
         # Add to history
         self.processing_history.append(history_entry)
-        self.last_processed = datetime.now().isoformat()
+        self.last_processed = datetime.now(timezone.utc).isoformat()
 
         # Limit history size
         if len(self.processing_history) > 50:  # Reduced for efficiency

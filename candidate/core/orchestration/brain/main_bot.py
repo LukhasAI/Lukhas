@@ -34,7 +34,7 @@ from .reasoning.causal_reasoning import CausalReasoningModule
 from .reasoning.symbolic_reasoning import SymbolicEngine
 
 # Configure logging
-logger = logging.getLogger("EnhancedAGI")
+logger = logging.getLogger("EnhancedAGI", timezone)
 
 
 class EnhancedAGIBot:
@@ -59,7 +59,7 @@ class EnhancedAGIBot:
 
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.initialization_time = datetime.now()
+        self.initialization_time = datetime.now(timezone.utc)
 
         # Initialize core components (ORIGINAL LOGIC)
         self.attention_mechanism = QIInspiredAttention()
@@ -100,7 +100,7 @@ class EnhancedAGIBot:
         """Update conversation history (ORIGINAL LOGIC)"""
         self.conversation_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "input": input_data.get("text", ""),
                 "response": agi_response.content,
                 "confidence": agi_response.confidence,
@@ -132,7 +132,7 @@ class EnhancedAGIBot:
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
                 "confidence": agi_response.confidence,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             # Keep only last 1000 patterns
             if len(self.learning_memory) > 1000:
@@ -174,7 +174,7 @@ class EnhancedAGIBot:
         Returns:
             AGIResponse with comprehensive AI processing results
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         logger.info(f"🔍 Processing input: {user_input[:100]}...")
 
@@ -202,7 +202,7 @@ class EnhancedAGIBot:
                 response_content = self._generate_safe_response(compliance_result)
 
             # Calculate processing time
-            processing_time = (datetime.now() - start_time).total_seconds()
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
             # Create AI response
             agi_response = AGIResponse(
@@ -241,7 +241,7 @@ class EnhancedAGIBot:
             error_response = AGIResponse(
                 content=f"I encountered an error while processing your request. Error: {e!s}",
                 confidence=0.1,
-                reasoning_path=[{"error": str(e), "timestamp": datetime.now().isoformat()}],
+                reasoning_path=[{"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}],
                 metacognitive_state=self.orchestrator.metacognitive_state.copy(),
                 ethical_compliance={
                     "is_compliant": True,
@@ -249,7 +249,7 @@ class EnhancedAGIBot:
                     "confidence": 1.0,
                 },
                 capability_level=AGICapabilityLevel.BASIC,
-                processing_time=(datetime.now() - start_time).total_seconds(),
+                processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
 
             return error_response
@@ -337,7 +337,7 @@ class EnhancedAGIBot:
         )
 
         return {
-            "demonstration_timestamp": datetime.now().isoformat(),
+            "demonstration_timestamp": datetime.now(timezone.utc).isoformat(),
             "agi_session_id": self.session_id,
             "current_capability_level": self.orchestrator.capability_level.value,
             "demonstrations": demonstrations,

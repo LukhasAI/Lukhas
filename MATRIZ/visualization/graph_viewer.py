@@ -32,7 +32,7 @@ from pathlib import Path
 from typing import Any, Optional, Union
 
 # Suppress Plotly warnings for cleaner output
-warnings.filterwarnings("ignore", category=UserWarning, module="plotly")
+warnings.filterwarnings("ignore", category=UserWarning, module="plotly", timezone)
 
 try:
     import networkx as nx
@@ -887,7 +887,7 @@ class MATRIZGraphViewer:
                     "graph": nx.node_link_data(export_graph),
                     "matriz_nodes": self.node_data,
                     "metadata": {
-                        "created_at": datetime.now().isoformat(),
+                        "created_at": datetime.now(timezone.utc).isoformat(),
                         "node_count": export_graph.number_of_nodes(),
                         "edge_count": export_graph.number_of_edges(),
                         "layout_type": layout_type if include_layout else None,

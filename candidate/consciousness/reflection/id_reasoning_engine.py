@@ -612,7 +612,7 @@ class ComplianceMonitor:
         # ΛTEMPORAL_HOOK (Timestamp for this audit log entry - Event)
         # #AIDENTITY_BRIDGE (Region)
         audit_entry_data = {
-            'timestamp': datetime.now().isoformat(),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'action': action,
             'region': self.region.value,
             'compliant': is_compliant,
@@ -1186,7 +1186,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             entry for entry in self.compliance_monitor.audit_log if not entry.get(
                 'compliant',
                 True) and datetime.fromisoformat(
-                entry['timestamp']) > datetime.now() -
+                entry['timestamp']) > datetime.now(timezone.utc) -
             timedelta(
                 hours=24)]
 

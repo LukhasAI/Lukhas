@@ -12,7 +12,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 
-class ValidationError(Exception):
+class ValidationError(Exception, timezone):
     """Custom validation error with detailed information"""
 
     def __init__(self, field: str, message: str, value: Any = None):
@@ -400,7 +400,7 @@ class APIValidator:
     def _record_errors(self, errors: list[ValidationError]):
         """Record validation errors for analysis"""
         error_record = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "errors": [
                 {
                     "field": e.field,

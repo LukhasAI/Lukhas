@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("Lambda.NIΛS")
+logger = logging.getLogger("Lambda.NIΛS", timezone)
 
 
 class ConsentLevel(Enum):
@@ -116,7 +116,7 @@ class DeliveryResult:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class NIΛS:
@@ -315,7 +315,7 @@ class NIΛS:
 
     async def _check_rate_limits(self, user_id: str) -> bool:
         """Check if user has exceeded message rate limits"""
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
         cutoff_time = current_time - timedelta(seconds=self.config["cooldown_period"])
 
         # Clean old entries
@@ -434,7 +434,7 @@ class NIΛS:
 
         # Schedule for next wake cycle (simplified - would integrate with sleep
         # tracking)
-        scheduled_time = datetime.now() + timedelta(hours=8)
+        scheduled_time = datetime.now(timezone.utc) + timedelta(hours=8)
 
         return DeliveryResult(
             status="deferred",
@@ -448,7 +448,7 @@ class NIΛS:
     async def _schedule_for_later(self, message: SymbolicMessage, user_id: str, reason: str) -> DeliveryResult:
         """Schedule message for later delivery"""
         # Simple scheduling - would integrate with more sophisticated timing
-        scheduled_time = datetime.now() + timedelta(minutes=30)
+        scheduled_time = datetime.now(timezone.utc) + timedelta(minutes=30)
 
         return DeliveryResult(
             status="deferred",
@@ -476,7 +476,7 @@ class NIΛS:
         # Record delivery timestamp
         if context.user_id not in self.session_limits:
             self.session_limits[context.user_id] = []
-        self.session_limits[context.user_id].append(datetime.now())
+        self.session_limits[context.user_id].append(datetime.now(timezone.utc))
 
         return DeliveryResult(
             status="delivered",
@@ -501,7 +501,7 @@ class NIΛS:
     async def _create_quantum_audit_entry(self, user_id: str, message: SymbolicMessage, result: DeliveryResult):
         """Create quantum-secured audit entry"""
         audit_data = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "user_id": hashlib.sha256(user_id.encode()).hexdigest()[:16],  # Privacy hash
             "message_id": message.id,
             "result_status": result.status,

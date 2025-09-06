@@ -251,7 +251,7 @@ class FoldLineageTracker:
             metadata = {}
 
         causation_id = hashlib.sha256(  # Changed from MD5 for security
-            f"{source_fold_key}_{target_fold_key}_{causation_type.value}_{datetime.now()}".encode()
+            f"{source_fold_key}_{target_fold_key}_{causation_type.value}_{datetime.now(timezone.utc)}".encode()
         ).hexdigest()[:12]
 
         causal_link = CausalLink(

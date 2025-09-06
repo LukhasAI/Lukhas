@@ -27,7 +27,7 @@ except ImportError:
     MemoryFoldSystem = None
     UnifiedOpenAIClient = None
 
-logger = logging.getLogger("api.consciousness")
+logger = logging.getLogger("api.consciousness", timezone)
 
 router = APIRouter(prefix="/consciousness", tags=["consciousness"])
 
@@ -71,7 +71,7 @@ class APIResponse(BaseModel):
     status: str = Field(..., description="Response status")
     data: Any = Field(..., description="Response data")
     message: Optional[str] = Field(None, description="Optional message")
-    timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # Initialize systems
@@ -177,7 +177,7 @@ async def synthesize_consciousness(request: PatternSynthesisRequest):
             "synthesis_type": request.synthesis_type,
             "data_sources": request.data_sources,
             "complexity_level": request.complexity_level,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Generate local consciousness synthesis
@@ -264,7 +264,7 @@ async def integrate_patterns(
                     "type": "consciousness_pattern",
                     "integration_depth": integration_depth,
                     "pattern_index": i,
-                    "integration_timestamp": datetime.now().isoformat(),
+                    "integration_timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             )
             integrated_patterns.append(

@@ -36,9 +36,9 @@ class SymbolicState:
     emergent_meaning: Optional[dict[str, Any]] = None
     timestamp: datetime = None
 
-    def __post_init__(self):
+    def __post_init__(self, timezone):
         if self.timestamp is None:
-            self.timestamp = datetime.now()
+            self.timestamp = datetime.now(timezone.utc)
 
 
 class SymbolicLoopEngine:
@@ -79,7 +79,7 @@ class SymbolicLoopEngine:
             SymbolicState with grounding at each level
         """
         state = SymbolicState(symbol=symbol)
-        loop_id = f"{symbol}_{datetime.now().timestamp()}"
+        loop_id = f"{symbol}_{datetime.now(timezone.utc).timestamp()}"
 
         async with self._lock:
             self.active_loops[loop_id] = state
@@ -137,11 +137,11 @@ class SymbolicLoopEngine:
                 self.emergent_vocabulary[symbol] = {
                     "meanings": [],
                     "groundings": [],
-                    "first_seen": datetime.now(),
+                    "first_seen": datetime.now(timezone.utc),
                 }
 
             self.emergent_vocabulary[symbol]["meanings"].append(meaning)
-            self.emergent_vocabulary[symbol]["last_updated"] = datetime.now()
+            self.emergent_vocabulary[symbol]["last_updated"] = datetime.now(timezone.utc)
 
     async def process_symbolic_network(
         self, symbols: list[str], relationships: list[tuple[str, str, str]]
@@ -196,7 +196,7 @@ class SymbolicLoopEngine:
             "bio_binding": bio_relation,
             "qi_entanglement": qi_relation,
             "conscious_integration": conscious_relation,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
     async def _extract_patterns(

@@ -25,13 +25,13 @@ import os
 from datetime import datetime
 
 DREAM_LOG_PATH = "core/logs/dream_log.jsonl"
-os.makedirs(os.path.dirname(DREAM_LOG_PATH), exist_ok=True)
+os.makedirs(os.path.dirname(DREAM_LOG_PATH, timezone), exist_ok=True)
 
 
 def record_dream_message(message, user_context=None):
     log_entry = {
         "message_id": message.get("message_id"),
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "tags": message.get("tags", []),
         "emotion_vector": message.get("emotion_vector", {}),
         "source_widget": message.get("source_widget", "unknown"),

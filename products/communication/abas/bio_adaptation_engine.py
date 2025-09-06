@@ -9,7 +9,7 @@ from enum import Enum
 from typing import Any
 
 
-class BiometricType(Enum):
+class BiometricType(Enum, timezone):
     """Types of biometric data"""
 
     HEART_RATE = "heart_rate"
@@ -141,7 +141,7 @@ class BioAdaptationEngine:
 
         return {
             "user_id": user_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "patterns": patterns,
             "overall_score": overall_score,
             "adaptation_needed": overall_score < 0.7,
@@ -201,7 +201,7 @@ class BioAdaptationEngine:
                 "sleep_adjustment": patterns["sleep"]["status"],
             },
             "adaptation_confidence": analysis["overall_score"],
-            "adapted_at": datetime.now().isoformat(),
+            "adapted_at": datetime.now(timezone.utc).isoformat(),
         }
 
         return adapted_params
@@ -310,8 +310,8 @@ class BioAdaptationEngine:
                 attention_span=biometric_data.get("attention", 0.7),
                 temperature_norm=biometric_data.get("temperature", 37.0),
                 sleep_pattern={"quality": biometric_data.get("sleep_quality", 0.8)},
-                created_at=datetime.now(),
-                updated_at=datetime.now(),
+                created_at=datetime.now(timezone.utc),
+                updated_at=datetime.now(timezone.utc),
             )
         else:
             # Update existing profile with moving averages
@@ -343,7 +343,7 @@ class BioAdaptationEngine:
             current_sleep = biometric_data.get("sleep_quality", profile.sleep_pattern["quality"])
             profile.sleep_pattern["quality"] = alpha * current_sleep + (1 - alpha) * profile.sleep_pattern["quality"]
 
-            profile.updated_at = datetime.now()
+            profile.updated_at = datetime.now(timezone.utc)
 
         # Return profile summary
         profile = self.user_profiles[user_id]
@@ -358,6 +358,6 @@ class BioAdaptationEngine:
                 "temperature_norm": profile.temperature_norm,
                 "sleep_quality": profile.sleep_pattern["quality"],
             },
-            "profile_age_days": (datetime.now() - profile.created_at).days,
+            "profile_age_days": (datetime.now(timezone.utc) - profile.created_at).days,
             "last_updated": profile.updated_at.isoformat(),
         }

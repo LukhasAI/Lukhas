@@ -57,8 +57,7 @@ from ..bio_core.bio_symbolic import (
     CardiolipinEncoder,
     CristaFilter,
     ProtonGradient,
-    QIAttentionGate,
-)
+    QIAttentionGate,, timezone)
 
 logger = get_logger(__name__)
 
@@ -124,7 +123,7 @@ class SystemAwareness:
         Returns:
             Monitoring results and recommendations
         """
-        start_time = datetime.now()
+        start_time = datetime.now(timezone.utc)
 
         try:
             # Apply quantum attention to system state
@@ -273,7 +272,7 @@ class SystemAwareness:
     def _reflect_on_state(self, processed_data: dict[str, Any], health_status: dict[str, Any]) -> dict[str, Any]:
         """Generate system reflection"""
         reflection = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": self.awareness_state["consciousness_level"],
             "focus_areas": list(self.awareness_state["attention_focus"].keys()),
             "health_summary": {component: status["status"] for component, status in health_status.items()},
@@ -333,7 +332,7 @@ class SystemAwareness:
 
     def _record_metrics(self, start_time: datetime) -> None:
         """Record performance metrics"""
-        response_time = (datetime.now() - start_time).total_seconds()
+        response_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         self.metrics["consciousness_stability"].append(self.awareness_state["consciousness_level"])
         self.metrics["resource_efficiency"].append(1.0 - max(self.awareness_state["resource_state"].values()))
@@ -366,7 +365,7 @@ class SystemAwareness:
     def _reflect_on_error(self, error_data: dict[str, Any], error_context: dict[str, Any]) -> dict[str, Any]:
         """Generate reflection on error"""
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "error_type": error_data.get("type"),
             "severity": error_data.get("severity"),
             "system_state": error_context["system_state"],

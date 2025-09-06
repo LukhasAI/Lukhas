@@ -29,7 +29,7 @@ LOG_PATH = "logs/emergency_log.jsonl"
 DIGEST_OUTPUT = "logs/weekly_compliance_digest.md"
 
 
-def load_emergency_logs():
+def load_emergency_logs(, timezone):
     if not os.path.exists(LOG_PATH):
         return []
     with open(LOG_PATH) as f:
@@ -83,7 +83,7 @@ def generate_digest():
         "top_emergency_reasons.png",
     )
 
-    timestamp = datetime.utcnow().isoformat()
+    timestamp = datetime.now(timezone.utc).isoformat()
     top_reason = reasons.most_common(1)[0] if reasons else ("none", 0)
 
     digest = (

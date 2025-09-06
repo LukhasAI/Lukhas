@@ -880,13 +880,13 @@ class MemoryHealthDashboard:
             return False
 
         cache_time = self.metrics_cache[cache_key]["timestamp"]
-        return (datetime.now().timestamp() - cache_time) < self.cache_expiry
+        return (datetime.now(timezone.utc).timestamp() - cache_time) < self.cache_expiry
 
     def _cache_data(self, cache_key: str, data: Any):
         """Cache data with timestamp."""
         self.metrics_cache[cache_key] = {
             "data": data,
-            "timestamp": datetime.now().timestamp(),
+            "timestamp": datetime.now(timezone.utc).timestamp(),
         }
 
 

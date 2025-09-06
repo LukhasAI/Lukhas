@@ -63,7 +63,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -264,7 +264,7 @@ class MemoryReplayer:
     ) -> Optional[str]:
         """Create a new replay sequence from memory folds."""
         try:
-            sequence_id = f"seq_{uuid.uuid4().hex[:8]}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            sequence_id = f"seq_{uuid.uuid4().hex[:8]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
             # Create snapshots from memory folds
             snapshots = self._create_memory_snapshots(memory_fold_ids, quality)
@@ -288,7 +288,7 @@ class MemoryReplayer:
                 direction=direction,
                 total_duration=duration,
                 coherence_score=coherence,
-                created_at=datetime.now().isoformat(),
+                created_at=datetime.now(timezone.utc).isoformat(),
                 metadata={
                     "source_memory_count": len(memory_fold_ids),
                     "snapshot_count": len(ordered_snapshots),
@@ -330,7 +330,7 @@ class MemoryReplayer:
             sequence = self.sequence_cache[sequence_id]
 
             # Create session
-            session_id = f"session_{uuid.uuid4().hex[:6]}_{datetime.now().strftime('%H%M%S')}"
+            session_id = f"session_{uuid.uuid4().hex[:6]}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
             session = ReplaySession(
                 session_id=session_id,
@@ -339,8 +339,8 @@ class MemoryReplayer:
                 playback_speed=playback_speed or self.default_playback_speed,
                 loop_mode=loop_mode,
                 filters=filters or {},
-                started_at=datetime.now().isoformat(),
-                last_accessed=datetime.now().isoformat(),
+                started_at=datetime.now(timezone.utc).isoformat(),
+                last_accessed=datetime.now(timezone.utc).isoformat(),
                 access_count=0,
             )
 
@@ -362,7 +362,7 @@ class MemoryReplayer:
                 return None
 
             session = self.active_sessions[session_id]
-            session.last_accessed = datetime.now().isoformat()
+            session.last_accessed = datetime.now(timezone.utc).isoformat()
             session.access_count += 1
 
             # Check if we've reached the end
@@ -408,7 +408,7 @@ class MemoryReplayer:
 
             if 0 <= position < len(session.sequence.snapshots):
                 session.current_position = position
-                session.last_accessed = datetime.now().isoformat()
+                session.last_accessed = datetime.now(timezone.utc).isoformat()
                 return True
 
             return False
@@ -499,7 +499,7 @@ class MemoryReplayer:
                 session = self.active_sessions[session_id]
 
                 # Update metrics
-                session_duration = (datetime.now() - datetime.fromisoformat(session.started_at)).total_seconds()
+                session_duration = (datetime.now(timezone.utc) - datetime.fromisoformat(session.started_at)).total_seconds()
                 self.total_replay_time += session_duration
 
                 # Remove session
@@ -533,7 +533,7 @@ class MemoryReplayer:
                 "default_playback_speed": self.default_playback_speed,
                 "cache_size_limit": self.cache_size_limit,
             },
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     # Private methods
@@ -546,7 +546,7 @@ class MemoryReplayer:
             # Mock snapshot creation (would integrate with actual memory system)
             snapshot = MemorySnapshot(
                 snapshot_id=f"snap_{uuid.uuid4().hex[:6]}",
-                timestamp=datetime.now().isoformat(),
+                timestamp=datetime.now(timezone.utc).isoformat(),
                 memory_fold_id=memory_fold_id,
                 content={"mock_content": f"Content for {memory_fold_id}"},
                 emotional_state={"valence": 0.5, "arousal": 0.3},

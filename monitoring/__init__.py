@@ -16,7 +16,7 @@ import psutil
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Monitoring domains
 MONITORING_DOMAINS = {
@@ -39,7 +39,7 @@ class SystemMetrics:
             "cpu_percent": psutil.cpu_percent(interval=1),
             "cpu_count": psutil.cpu_count(),
             "load_average": os.getloadavg() if hasattr(os, "getloadavg") else [0, 0, 0],
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     @staticmethod
@@ -51,7 +51,7 @@ class SystemMetrics:
             "available_gb": round(memory.available / (1024**3), 2),
             "used_gb": round(memory.used / (1024**3), 2),
             "percent_used": memory.percent,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     @staticmethod
@@ -63,7 +63,7 @@ class SystemMetrics:
             "used_gb": round(disk.used / (1024**3), 2),
             "free_gb": round(disk.free / (1024**3), 2),
             "percent_used": round((disk.used / disk.total) * 100, 2),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
 
@@ -83,10 +83,10 @@ class ConsciousnessMonitor:
                 "status": "healthy",
                 "memory_available": MEMORY_AVAILABLE,
                 "test_fold_created": test_fold is not None,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
-            return {"status": "error", "error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"status": "error", "error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     @staticmethod
     def check_agent_system() -> Dict[str, Any]:
@@ -99,10 +99,10 @@ class ConsciousnessMonitor:
             return {
                 "status": "healthy" if status.get("operational_status") == "READY" else "degraded",
                 "agent_status": status,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
-            return {"status": "error", "error": str(e), "timestamp": datetime.now().isoformat()}
+            return {"status": "error", "error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 def get_monitoring_status() -> Dict[str, Any]:
@@ -112,7 +112,7 @@ def get_monitoring_status() -> Dict[str, Any]:
         "domains": MONITORING_DOMAINS,
         "total_domains": len(MONITORING_DOMAINS),
         "operational_status": "READY",
-        "last_updated": datetime.now().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
         "monitoring_active": True,
     }
 
@@ -126,12 +126,12 @@ def collect_system_metrics() -> Dict[str, Any]:
             "cpu": metrics.get_cpu_metrics(),
             "memory": metrics.get_memory_metrics(),
             "disk": metrics.get_disk_metrics(),
-            "collection_time": datetime.now().isoformat(),
+            "collection_time": datetime.now(timezone.utc).isoformat(),
             "status": "collected",
         }
     except Exception as e:
         logger.error(f"System metrics collection failed: {e}")
-        return {"status": "error", "error": str(e), "collection_time": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "collection_time": datetime.now(timezone.utc).isoformat()}
 
 
 def monitor_consciousness_health() -> Dict[str, Any]:
@@ -143,12 +143,12 @@ def monitor_consciousness_health() -> Dict[str, Any]:
             "memory_system": monitor.check_memory_system(),
             "agent_system": monitor.check_agent_system(),
             "overall_health": "healthy",
-            "check_time": datetime.now().isoformat(),
+            "check_time": datetime.now(timezone.utc).isoformat(),
             "status": "completed",
         }
     except Exception as e:
         logger.error(f"Consciousness health monitoring failed: {e}")
-        return {"status": "error", "error": str(e), "check_time": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "check_time": datetime.now(timezone.utc).isoformat()}
 
 
 def create_alert(severity: str, message: str, source: str, metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
@@ -160,7 +160,7 @@ def create_alert(severity: str, message: str, source: str, metadata: Optional[Di
             "message": message,
             "source": source,
             "metadata": metadata or {},
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "active",
         }
 
@@ -192,12 +192,12 @@ def get_health_dashboard() -> Dict[str, Any]:
             "health_score": max(0, health_score),
             "system_metrics": system_metrics,
             "consciousness_health": consciousness_health,
-            "dashboard_generated": datetime.now().isoformat(),
+            "dashboard_generated": datetime.now(timezone.utc).isoformat(),
             "status": "ready",
         }
     except Exception as e:
         logger.error(f"Health dashboard generation failed: {e}")
-        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now(timezone.utc).isoformat()}
 
 
 __all__ = [

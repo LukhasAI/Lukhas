@@ -34,7 +34,7 @@ import numpy as np
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -203,7 +203,7 @@ class SecurityContext:
         self.user_tier = user_tier
         self.permissions = permissions or set()
         self.authenticated = True
-        self.timestamp = datetime.utcnow()
+        self.timestamp = datetime.now(timezone.utc)
 
     def has_permission(self, permission: str) -> bool:
         """Check if user has specific permission."""
@@ -264,7 +264,7 @@ class MetaLearningSystem:
         return {
             "data_type": type(data.get("content", "")).__name__,
             "complexity": len(str(data.get("content", ""))),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "context_keys": list(data.get("context", {}).keys()),
         }
 
@@ -294,7 +294,7 @@ class MetaLearningSystem:
             }
 
             # Track performance
-            self.performance_history.append({"timestamp": datetime.utcnow(), "success": True, "features": features})
+            self.performance_history.append({"timestamp": datetime.now(timezone.utc), "success": True, "features": features})
 
     def _calculate_confidence(self, features: dict[str, Any]) -> float:
         """Calculate confidence in processing."""
@@ -369,7 +369,7 @@ class HelixMapper:
         # Time-based relevance
         if "timestamp" in memory:
             memory_time = datetime.fromisoformat(memory["timestamp"])
-            age_days = (datetime.utcnow() - memory_time).days
+            age_days = (datetime.now(timezone.utc) - memory_time).days
             time_score = np.exp(-0.01 * age_days)  # Exponential decay
             score += time_score * 0.3
 
@@ -400,7 +400,7 @@ class HelixMapper:
         self.logger.debug(f"Mapping memory of type {strand_type}")
 
         # Generate unique strand ID
-        strand_id = f"{strand_type}_{datetime.utcnow().timestamp()}_{np.random.randint(1000)}"
+        strand_id = f"{strand_type}_{datetime.now(timezone.utc).timestamp()}_{np.random.randint(1000)}"
 
         # Create memory strand
         self.memory_strands[strand_id] = {
@@ -408,10 +408,10 @@ class HelixMapper:
             "type": strand_type,
             "owner": owner,
             "content": data,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "encoding_strength": encoding_strength,
             "access_count": 0,
-            "last_accessed": datetime.utcnow().isoformat(),
+            "last_accessed": datetime.now(timezone.utc).isoformat(),
         }
 
         # Save to storage
@@ -550,7 +550,7 @@ class CognitiveAdapter(CoreComponent):
             attention_variance = np.var(attention_values)
             if attention_variance > 0.1:
                 self.detected_patterns["attention_instability"] = {
-                    "detected_at": datetime.utcnow(),
+                    "detected_at": datetime.now(timezone.utc),
                     "variance": attention_variance,
                 }
 
@@ -561,7 +561,7 @@ class CognitiveAdapter(CoreComponent):
             avg_change = np.mean(valence_changes) if valence_changes else 0
             if avg_change > 0.3:
                 self.detected_patterns["emotional_volatility"] = {
-                    "detected_at": datetime.utcnow(),
+                    "detected_at": datetime.now(timezone.utc),
                     "average_change": avg_change,
                 }
 
@@ -623,7 +623,7 @@ class CognitiveAdapter(CoreComponent):
             "meta_learning": meta_result,
             "memory_integration": memory_result,
             "detected_patterns": dict(self.detected_patterns),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _update_state_from_input(self, data: dict[str, Any]):
@@ -692,7 +692,7 @@ class CognitiveAdapter(CoreComponent):
         # Use actual user context for memory search
         memory_context = {
             "user_id": context.get("user_id", self.user_id_context or "default"),
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         relevant_memories = await self.memory_mapper.search_memories(search_query, memory_context)
@@ -897,7 +897,7 @@ class CognitiveAdapter(CoreComponent):
         # Calculate activity level
         if self.state_history:
             recent_time = self.state_history[-1].timestamp
-            time_since_last = (datetime.utcnow() - recent_time).total_seconds()
+            time_since_last = (datetime.now(timezone.utc) - recent_time).total_seconds()
             is_active = time_since_last < activity_threshold
         else:
             is_active = False

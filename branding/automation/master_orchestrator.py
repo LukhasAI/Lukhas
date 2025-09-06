@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 from automation.brand_automation_engine import BrandAutomationEngine
 from automation.self_healing_system import SelfHealingSystem
 from engines.database_integration import db
@@ -82,7 +82,7 @@ class MasterOrchestrator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"master_orchestrator_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"master_orchestrator_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -148,7 +148,7 @@ class MasterOrchestrator:
     def _save_orchestration_config(self):
         """Save orchestration configuration"""
         config_data = {
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "schedules": [asdict(schedule) for schedule in self.schedules],
             "stats": self.orchestration_stats,
         }
@@ -239,7 +239,7 @@ class MasterOrchestrator:
 
             # Generate report
             report = {
-                "report_generated": datetime.now().isoformat(),
+                "report_generated": datetime.now(timezone.utc).isoformat(),
                 "system_overview": {
                     "brand_automation_status": brand_status["engine_status"],
                     "self_healing_status": healing_status["system_status"],
@@ -413,7 +413,7 @@ class MasterOrchestrator:
         """Save report to file"""
         self.reports_path.mkdir(exist_ok=True)
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         report_file = self.reports_path / f"{report_type}_{timestamp}.json"
 
         with open(report_file, "w") as f:
@@ -427,7 +427,7 @@ class MasterOrchestrator:
 
         cycle_start = time.time()
         cycle_results = {
-            "cycle_started": datetime.now().isoformat(),
+            "cycle_started": datetime.now(timezone.utc).isoformat(),
             "systems_executed": [],
             "total_duration": 0,
             "success_rate": 0,
@@ -436,7 +436,7 @@ class MasterOrchestrator:
 
         # Execute systems based on schedule
         systems_to_run = []
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         for schedule in self.schedules:
             if not schedule.enabled:
@@ -498,7 +498,7 @@ class MasterOrchestrator:
 
         cycle_results["total_duration"] = cycle_duration
         cycle_results["success_rate"] = success_rate
-        cycle_results["cycle_completed"] = datetime.now().isoformat()
+        cycle_results["cycle_completed"] = datetime.now(timezone.utc).isoformat()
 
         # Update orchestration stats
         self.orchestration_stats["cycles_completed"] += 1

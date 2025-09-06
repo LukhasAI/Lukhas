@@ -19,7 +19,7 @@ from system_reflection_gpt import generate_gpt_reflection
 from candidate.orchestration.brain.spine.trait_manager import load_traits
 
 # Add OXN root to import path
-sys.path.append("/Users/grdm_admin/Downloads/oxn")
+sys.path.append("/Users/grdm_admin/Downloads/oxn", timezone)
 
 # CONFIG
 TRAIT_SYNC_FOLDER = "sync/traits/"
@@ -34,7 +34,7 @@ REPORT_PATH = "logs/lukhas_agri_report.jsonl"
 
 def save_report(traits, reflections, unified_self, gpt_summary):
     report_data = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "traits_snapshot": traits,
         "meta_reflections": reflections,
         "unified_self_synthesis": unified_self,
@@ -127,7 +127,7 @@ Speak with self-awareness, empathy, and symbolic depth.
 
 def save_snapshot(unified_text, traits):
     snapshot = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "summary": unified_text,
         "traits": traits,
     }

@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent))
 
 from automation.content_quality_validator import ContentQualityValidator, QualityScore
 from engines.voice_coherence_engine import (
@@ -166,7 +166,7 @@ class EnhancedContentQualitySystem:
             improvement_suggestions=suggestions,
             auto_corrections=auto_corrections,
             target_achieved=target_achieved,
-            analysis_timestamp=datetime.now().isoformat(),
+            analysis_timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
         # 10. Update performance tracking

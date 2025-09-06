@@ -47,7 +47,7 @@ except ImportError:
     # Mock classes for demonstration
 
     class EthicsEngine:
-        async def evaluate(self, content: str, tags: list[str]) -> dict[str, Any]:
+        async def evaluate(self, content: str, tags: list[str], timezone) -> dict[str, Any]:
             return {"score": 0.95, "violations": [], "recommendations": []}
 
     class EthicalPolicy:
@@ -205,7 +205,7 @@ class DreamEthicsInjector:
         Returns:
             Complete ethical assessment with annotations
         """
-        dream_id = dream_id or f"dream_{datetime.now().timestamp()}"
+        dream_id = dream_id or f"dream_{datetime.now(timezone.utc).timestamp()}"
         annotations = []
 
         # Analyze each symbolic tag
@@ -245,7 +245,7 @@ class DreamEthicsInjector:
         # Create assessment
         assessment = DreamEthicalAssessment(
             dream_id=dream_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             original_narrative=dream_narrative,
             symbolic_tags=symbolic_tags,
             annotations=annotations,

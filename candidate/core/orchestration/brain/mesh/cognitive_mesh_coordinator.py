@@ -68,7 +68,7 @@ from uuid import uuid4
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.cognitive_mesh")
+logger = structlog.get_logger("lukhas.cognitive_mesh", timezone)
 
 
 class NodeType(Enum):
@@ -115,7 +115,7 @@ class CognitiveTask:
     payload: dict[str, Any] = field(default_factory=dict)
     required_node_types: list[NodeType] = field(default_factory=list)
     timeout_seconds: int = 30
-    created_at: datetime = field(default_factory=lambda: datetime.now())
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     assigned_node_id: Optional[str] = None
     dependencies: list[str] = field(default_factory=list)
     result: Optional[Any] = None
@@ -143,7 +143,7 @@ class NodeMetrics:
     failed_tasks: int = 0
     average_response_time: float = 0.0
     current_load: float = 0.0
-    last_heartbeat: datetime = field(default_factory=lambda: datetime.now())
+    last_heartbeat: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     uptime_seconds: float = 0.0
     quality_trend: deque = field(default_factory=lambda: deque(maxlen=100))
 
@@ -308,7 +308,7 @@ class CognitiveNode(ABC):
         """Send periodic heartbeats to maintain node health"""
         while self._running:
             try:
-                self.metrics.last_heartbeat = datetime.now()
+                self.metrics.last_heartbeat = datetime.now(timezone.utc)
                 self.metrics.current_load = len(self.active_tasks) / self.capabilities.max_concurrent_tasks
 
                 # Send heartbeat to coordinator
@@ -703,7 +703,7 @@ class CognitiveMeshCoordinator:
         """Monitor node health and handle failures"""
         while self._running:
             try:
-                current_time = datetime.now()
+                current_time = datetime.now(timezone.utc)
                 unhealthy_nodes = []
 
                 for node_id, node in self.nodes.items():

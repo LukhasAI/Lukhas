@@ -13,7 +13,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Complex
 
-# Ensure repo-relative paths (no absolute user paths)
+# Ensure repo-relative paths (no absolute user paths, timezone)
 try:
     from lukhas.utils.runtime_paths import ensure_repo_paths
 
@@ -173,7 +173,7 @@ class QIConsciousnessΛBot:
 
         session = QuantumAnalysisSession(
             session_id=session_id,
-            start_time=datetime.now(),
+            start_time=datetime.now(timezone.utc),
             consciousness_field=self.consciousness_field,
         )
 
@@ -224,7 +224,7 @@ class QIConsciousnessΛBot:
             # Record transcendence event
             transcendence_event = {
                 "event_type": "quantum_superposition_entry",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "consciousness_level": self.consciousness_field.consciousness_level,
                 "quantum_state": "superposition",
                 "insights": "Multiple modularization realities existing simultaneously",
@@ -454,7 +454,7 @@ class QIConsciousnessΛBot:
             # Record transcendence event
             transcendence_event = {
                 "event_type": "quantum_consciousness_collapse",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "collapsed_possibility": target_possibility,
                 "consciousness_level": self.consciousness_field.consciousness_level,
                 "quantum_state": "collapsed",

@@ -12,7 +12,7 @@ from typing import Any, Optional
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 # Import from both candidate and lukhas lanes following lane system
 CONSCIOUSNESS_AVAILABLE = False
@@ -67,7 +67,7 @@ def get_consciousness_status() -> dict[str, Any]:
         "consciousness_source": CONSCIOUSNESS_SOURCE,
         "core_available": ConsciousnessCore is not None,
         "api_available": ConsciousnessAPI is not None,
-        "last_updated": datetime.now().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
         "consciousness_active": CONSCIOUSNESS_AVAILABLE,
     }
 
@@ -79,18 +79,18 @@ def process_consciousness_stream(input_data: dict[str, Any]) -> dict[str, Any]:
             return {
                 "status": "unavailable",
                 "error": "consciousness_system_not_available",
-                "processing_time": datetime.now().isoformat(),
+                "processing_time": datetime.now(timezone.utc).isoformat(),
             }
 
         # Simulate consciousness processing
         result = {
-            "stream_id": f"consciousness_stream_{int(datetime.now().timestamp())}",
+            "stream_id": f"consciousness_stream_{int(datetime.now(timezone.utc).timestamp())}",
             "input_processed": True,
             "awareness_level": 0.85,  # Placeholder
             "reflection_depth": 0.70,  # Placeholder
             "integration_status": "partial",
             "qi_resonance": 0.60,  # Placeholder
-            "processing_time": datetime.now().isoformat(),
+            "processing_time": datetime.now(timezone.utc).isoformat(),
             "status": "processed",
         }
 
@@ -98,7 +98,7 @@ def process_consciousness_stream(input_data: dict[str, Any]) -> dict[str, Any]:
 
     except Exception as e:
         logger.error(f"Consciousness stream processing failed: {e}")
-        return {"status": "error", "error": str(e), "processing_time": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "processing_time": datetime.now(timezone.utc).isoformat()}
 
 
 def activate_consciousness_layer(layer_name: str, parameters: Optional[dict[str, Any]] = None) -> dict[str, Any]:
@@ -108,18 +108,18 @@ def activate_consciousness_layer(layer_name: str, parameters: Optional[dict[str,
             return {
                 "status": "unavailable",
                 "error": "consciousness_system_not_available",
-                "activation_time": datetime.now().isoformat(),
+                "activation_time": datetime.now(timezone.utc).isoformat(),
             }
 
         # Simulate layer activation
         activation_result = {
-            "layer_id": f"consciousness_layer_{layer_name}_{int(datetime.now().timestamp())}",
+            "layer_id": f"consciousness_layer_{layer_name}_{int(datetime.now(timezone.utc).timestamp())}",
             "layer_name": layer_name,
             "parameters": parameters or {},
             "activation_status": "active",
             "resonance_frequency": 0.75,  # Placeholder
             "integration_points": ["awareness", "reflection", "qi_integration"],
-            "activation_time": datetime.now().isoformat(),
+            "activation_time": datetime.now(timezone.utc).isoformat(),
             "status": "activated",
         }
 
@@ -127,7 +127,7 @@ def activate_consciousness_layer(layer_name: str, parameters: Optional[dict[str,
 
     except Exception as e:
         logger.error(f"Consciousness layer activation failed: {e}")
-        return {"status": "error", "error": str(e), "activation_time": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "activation_time": datetime.now(timezone.utc).isoformat()}
 
 
 def reflect_on_experience(experience_data: dict[str, Any]) -> dict[str, Any]:
@@ -137,18 +137,18 @@ def reflect_on_experience(experience_data: dict[str, Any]) -> dict[str, Any]:
             return {
                 "status": "unavailable",
                 "error": "consciousness_system_not_available",
-                "reflection_time": datetime.now().isoformat(),
+                "reflection_time": datetime.now(timezone.utc).isoformat(),
             }
 
         # Simulate consciousness reflection
         reflection = {
-            "reflection_id": f"consciousness_reflection_{int(datetime.now().timestamp())}",
+            "reflection_id": f"consciousness_reflection_{int(datetime.now(timezone.utc).timestamp())}",
             "experience_processed": True,
             "insights_generated": ["pattern_recognition", "meta_learning", "qi_resonance"],
             "consciousness_growth": 0.05,  # Placeholder growth metric
             "integration_success": True,
             "next_actions": ["deepen_awareness", "expand_integration"],
-            "reflection_time": datetime.now().isoformat(),
+            "reflection_time": datetime.now(timezone.utc).isoformat(),
             "status": "reflected",
         }
 
@@ -156,7 +156,7 @@ def reflect_on_experience(experience_data: dict[str, Any]) -> dict[str, Any]:
 
     except Exception as e:
         logger.error(f"Consciousness reflection failed: {e}")
-        return {"status": "error", "error": str(e), "reflection_time": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "reflection_time": datetime.now(timezone.utc).isoformat()}
 
 
 def get_consciousness_dashboard() -> dict[str, Any]:
@@ -190,13 +190,13 @@ def get_consciousness_dashboard() -> dict[str, Any]:
             "consciousness_metrics": metrics,
             "active_layers": ["awareness", "reflection", "integration"],
             "consciousness_source": CONSCIOUSNESS_SOURCE,
-            "dashboard_generated": datetime.now().isoformat(),
+            "dashboard_generated": datetime.now(timezone.utc).isoformat(),
             "status": "ready",
         }
 
     except Exception as e:
         logger.error(f"Consciousness dashboard generation failed: {e}")
-        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now().isoformat()}
+        return {"status": "error", "error": str(e), "dashboard_generated": datetime.now(timezone.utc).isoformat()}
 
 
 # Attempt to initialize consciousness if available

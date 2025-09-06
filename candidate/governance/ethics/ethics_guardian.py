@@ -56,7 +56,7 @@ class EthicsGuardian:
     moral scenarios require specialized reasoning.
     """
 
-    def __init__(self, parent_id: str, task_data: dict[str, Any]):
+    def __init__(self, parent_id: str, task_data: dict[str, Any], timezone):
         """
         Initialize Ethics Guardian sub-agent.
 
@@ -64,7 +64,7 @@ class EthicsGuardian:
             parent_id: ID of the parent RemediatorAgent
             task_data: Task context and violation information
         """
-        self.agent_id = f"{parent_id}_ETHICS_{int(datetime.now().timestamp())}"
+        self.agent_id = f"{parent_id}_ETHICS_{int(datetime.now(timezone.utc).timestamp())}"
         self.parent_id = parent_id
         self.task_data = task_data
 
@@ -176,7 +176,7 @@ class EthicsGuardian:
             "last_operation": self.last_operation,
             "task_data": self.task_data,
             "has_base_guardian": self._guardian is not None,
-            "created_at": getattr(self._guardian, "last_assessment_time", None) or datetime.now().isoformat(),
+            "created_at": getattr(self._guardian, "last_assessment_time", None) or datetime.now(timezone.utc).isoformat(),
         }
 
     def _fallback_assessment(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -218,7 +218,7 @@ class EthicsGuardian:
             ],
             "assessment_confidence": 0.4,  # Low confidence for fallback
             "framework_used": "fallback_heuristic",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "fallback_mode": True,
         }
 
@@ -245,7 +245,7 @@ class EthicsGuardian:
             "success_probability": 0.6,
             "resource_requirements": {"technical_complexity": "high"},
             "compliance_impact": {"regulatory_reporting_impact": "requires_attention"},
-            "created_timestamp": datetime.now().isoformat(),
+            "created_timestamp": datetime.now(timezone.utc).isoformat(),
             "framework_used": "fallback_heuristic",
             "fallback_mode": True,
         }

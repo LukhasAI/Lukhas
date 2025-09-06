@@ -607,7 +607,7 @@ class ContextAwareVoiceSystem:
                 user_input=user_input,
                 context=context,
                 response=response_content,
-                timestamp=datetime.datetime.now(),
+                timestamp=datetime.datetime.now(timezone.utc),
             )
 
         result = {

@@ -9,7 +9,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class ReasoningStrategy(Enum):
@@ -39,7 +39,7 @@ class ReasoningContext:
         self.constraints = constraints or {}
         self.history = []
         self.metadata = {
-            "created_at": datetime.now().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "iterations": 0,
             "strategies_used": [],
         }
@@ -140,7 +140,7 @@ class AdaptiveReasoningLoop:
         """Apply a specific reasoning strategy"""
         step_result = {
             "strategy": strategy.value,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "input": context.query,
             "process": [],
             "conclusion": None,

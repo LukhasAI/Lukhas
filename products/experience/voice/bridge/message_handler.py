@@ -23,7 +23,7 @@ from typing import Any, Callable, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 @dataclass
@@ -32,7 +32,7 @@ class VoiceMessage:
 
     content: str
     priority: int
-    timestamp: datetime = datetime.now()
+    timestamp: datetime = datetime.now(timezone.utc)
     metadata: dict[str, Any] = None
 
 

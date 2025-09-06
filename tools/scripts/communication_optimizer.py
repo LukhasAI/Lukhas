@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format="%(message)s")
+logging.basicConfig(level=logging.INFO, format="%(message, timezone)s")
 logger = logging.getLogger(__name__)
 
 
@@ -98,7 +98,7 @@ class Event:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(timezone.utc)
         if self.payload is None:
             self.payload = {}
 
@@ -421,14 +421,14 @@ class GLYPHRouter:
         """Get cached route if valid"""
         if cache_key in self._cache:
             timestamp = self._cache_timestamps[cache_key]
-            if datetime.utcnow() - timestamp < timedelta(seconds=60):
+            if datetime.now(timezone.utc) - timestamp < timedelta(seconds=60):
                 return self._cache[cache_key]
         return None
 
     def _cache_route(self, cache_key: str, target: str, ttl: int):
         """Cache a routing decision"""
         self._cache[cache_key] = target
-        self._cache_timestamps[cache_key] = datetime.utcnow()
+        self._cache_timestamps[cache_key] = datetime.now(timezone.utc)
 
     async def _deliver_glyph(self, glyph: GLYPHSymbol, target_module: str):
         """Deliver GLYPH to target module handlers"""
@@ -468,7 +468,7 @@ def create_glyph(symbol_type: str, payload: Dict[str, Any], metadata: Dict[str,
         symbol_type=symbol_type,
         symbol_data=payload,
         metadata=metadata or {},
-        timestamp=datetime.utcnow()
+        timestamp=datetime.now(timezone.utc)
     )
 '''
 
@@ -518,7 +518,7 @@ class Message:
 
     def __post_init__(self):
         if self.timestamp is None:
-            self.timestamp = datetime.utcnow()
+            self.timestamp = datetime.now(timezone.utc)
 
 class MessageQueue:
     """Priority message queue for module communication"""
@@ -575,7 +575,7 @@ class MessageQueue:
                 )
 
                 # Calculate latency
-                latency = (datetime.utcnow() - message.timestamp).total_seconds() * 1000
+                latency = (datetime.now(timezone.utc) - message.timestamp).total_seconds() * 1000
                 self._update_latency(latency)
 
                 # Process message
@@ -660,7 +660,7 @@ class CacheLayer:
         """Get value from cache"""
         if key in self._cache:
             timestamp = self._timestamps[key]
-            if (datetime.utcnow() - timestamp).total_seconds() < self._ttl:
+            if (datetime.now(timezone.utc) - timestamp).total_seconds() < self._ttl:
                 self._hits += 1
                 return self._cache[key]
             else:
@@ -674,7 +674,7 @@ class CacheLayer:
     def set(self, key: str, value: Any):
         """Set value in cache"""
         self._cache[key] = value
-        self._timestamps[key] = datetime.utcnow()
+        self._timestamps[key] = datetime.now(timezone.utc)
 
     def clear(self):
         """Clear cache"""
@@ -1051,7 +1051,7 @@ def create_orchestration_adapter(module):
     def generate_report(self) -> dict[str, Any]:
         """Generate optimization report"""
         report = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "phases_completed": self.phase_status,
             "optimizations_made": self.optimizations_made,
             "new_components": [

@@ -56,8 +56,7 @@ try:
         BotProtocol,
         QIBotConfig,
         QIDecisionEngine,
-        ReasoningContext,
-    )
+        ReasoningContext,, timezone)
 
     ΛBOT_INTEGRATION = True
     print("🤖 ΛBot Elite integration active")
@@ -547,7 +546,7 @@ class ΛDependaBoT(BotProtocol):
 
             # Create comprehensive report
             report = ΛModularityReport(
-                timestamp=datetime.now().isoformat(),
+                timestamp=datetime.now(timezone.utc).isoformat(),
                 qi_modularity_score=qi_modularity,
                 architectural_insights=insights,
                 dependency_profiles=list(self.module_profiles.values()),
@@ -928,7 +927,7 @@ class ΛDependaBoT(BotProtocol):
             {
                 "file_path": str(file_path),
                 "error": error,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -947,7 +946,7 @@ class ΛDependaBoT(BotProtocol):
                 "file_path": str(file_path),
                 "error_message": error_message,
                 "line_number": line_number,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 
@@ -1313,7 +1312,7 @@ class ΛDependaBoT(BotProtocol):
                             success_rate=1.0,
                             healing_method=strategy.__name__.replace("_try_", "").replace("_healing", ""),
                             confidence_level=0.8,
-                            timestamp=datetime.now().isoformat(),
+                            timestamp=datetime.now(timezone.utc).isoformat(),
                             verification_status="verified",
                         )
                         self.healing_actions.append(healing_action)

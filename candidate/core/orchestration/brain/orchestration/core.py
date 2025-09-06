@@ -64,8 +64,7 @@ try:
 except ImportError:
     try:
         from candidate.memory.systems.memory_learning.memory_manager import (
-            MemoryManager,
-        )
+            MemoryManager,, timezone)
     except ImportError:
         MemoryManager = None
 
@@ -126,7 +125,7 @@ class OrchestrationCore:
         """Initialize the flagship core system."""
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
-        self.start_time = datetime.now()
+        self.start_time = datetime.now(timezone.utc)
         self.is_running = False
 
         # Core system components
@@ -410,7 +409,7 @@ class OrchestrationCore:
                 metadata={
                     "consciousness_level": self.consciousness_level,
                     "emotional_state": self.emotional_state,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 },
             )
 

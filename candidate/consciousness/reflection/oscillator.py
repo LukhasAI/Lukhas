@@ -43,7 +43,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger("qi.enhanced")
+logger = logging.getLogger("qi.enhanced", timezone)
 
 
 class OscillatorState(Enum):
@@ -149,7 +149,7 @@ class FresnelErrorCorrector:
         self.power_savings += power_savings
         self.correction_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "power_savings": power_savings,
                 "signal_length": len(signal),
             }
@@ -332,7 +332,7 @@ class BiomimeticResonanceEngine:
         resonance_score = await self._calculate_moral_coherence(moral_patterns)
 
         # Update ethical harmonics
-        self.ethical_harmonics[datetime.now().isoformat()] = {
+        self.ethical_harmonics[datetime.now(timezone.utc).isoformat()] = {
             "context": context,
             "resonance_score": resonance_score,
             "moral_patterns": moral_patterns,
@@ -429,7 +429,7 @@ class EnhancedBaseOscillator(ABC):
             Enhanced processing results with quantum optimizations
         """
         async with self._lock:
-            start_time = datetime.now()
+            start_time = datetime.now(timezone.utc)
 
             # Validate and prepare signal
             if not await self._validate_quantum_signal(signal):
@@ -469,7 +469,7 @@ class EnhancedBaseOscillator(ABC):
             enhanced_pattern = await self._generate_quantum_wave(qi_like_state)
 
             # Update metrics
-            processing_time = (datetime.now() - start_time).total_seconds() * 1000  # ms
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000  # ms
             await self._update_quantum_metrics(qi_like_state, processing_time)
 
             # Prepare result
@@ -642,7 +642,7 @@ class EnhancedBaseOscillator(ABC):
         # Record performance history
         self.performance_history.append(
             {
-                "timestamp": datetime.now(),
+                "timestamp": datetime.now(timezone.utc),
                 "metrics": self.metrics,
                 "qi_like_state": qi_like_state,
             }

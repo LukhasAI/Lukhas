@@ -23,7 +23,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class AwarenessType(Enum):
@@ -191,7 +191,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             raise ValueError(f"Session {input_data.session_id} not found")
 
         # Update session activity
-        session.last_activity = datetime.utcnow()
+        session.last_activity = datetime.now(timezone.utc)
         session.assessment_count += 1
         session.status = ProtocolStatus.ASSESSING
 
@@ -209,7 +209,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             session.status = ProtocolStatus.COMPLETE
 
             # Set expiration
-            output.expires_at = datetime.utcnow() + timedelta(hours=self.config.get("tier_validity_hours", 24))
+            output.expires_at = datetime.now(timezone.utc) + timedelta(hours=self.config.get("tier_validity_hours", 24))
 
             self.logger.info(
                 f"Assessment complete: {input_data.user_id} -> "
@@ -231,7 +231,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
 
         # Update metadata
         session.metadata.update(update_data)
-        session.last_activity = datetime.utcnow()
+        session.last_activity = datetime.now(timezone.utc)
 
         return session
 
@@ -248,7 +248,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
         session = self.sessions.get(session_id)
         if session:
             # Check for timeout
-            if datetime.utcnow() - session.last_activity > self.session_timeout:
+            if datetime.now(timezone.utc) - session.last_activity > self.session_timeout:
                 session.status = ProtocolStatus.SUSPENDED
         return session
 

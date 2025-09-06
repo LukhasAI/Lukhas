@@ -15,7 +15,7 @@ class TaskIntelligence:
     🧠 AI-powered task intelligence for smart categorization and analysis
     """
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.learning_patterns: dict[str, Any] = {}
         self.task_embeddings: dict[str, list[float]] = {}
 
@@ -118,7 +118,7 @@ class PriorityOptimizer:
             due_date = (
                 datetime.fromisoformat(task["due_date"]) if isinstance(task["due_date"], str) else task["due_date"]
             )
-            days_until_due = (due_date - datetime.now()).days
+            days_until_due = (due_date - datetime.now(timezone.utc)).days
             if days_until_due <= 0:
                 base_score += 5.0  # Overdue
             elif days_until_due <= 1:
@@ -157,7 +157,7 @@ class PriorityOptimizer:
             due_date = (
                 datetime.fromisoformat(task["due_date"]) if isinstance(task["due_date"], str) else task["due_date"]
             )
-            days_until_due = (due_date - datetime.now()).days
+            days_until_due = (due_date - datetime.now(timezone.utc)).days
             if days_until_due <= 0:
                 explanations.append("OVERDUE - immediate attention required")
             elif days_until_due <= 1:
@@ -544,5 +544,5 @@ class WorkflowAnalyzer:
         elif not isinstance(created_at, datetime):
             return 0.0
 
-        age = datetime.now() - created_at
+        age = datetime.now(timezone.utc) - created_at
         return age.total_seconds() / (24 * 3600)  # Convert to days

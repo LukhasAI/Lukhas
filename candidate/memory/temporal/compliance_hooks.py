@@ -28,7 +28,7 @@ from pathlib import Path
 
 from governance.extended.audit_logger import log_audit_event
 
-COMPLIANCE_LOG_PATH = Path("../../logs/compliance/compliance_log_2025_04_28.json")
+COMPLIANCE_LOG_PATH = Path("../../logs/compliance/compliance_log_2025_04_28.json", timezone)
 
 
 def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem="core", user_location="GLOBAL"):
@@ -57,7 +57,7 @@ def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem=
     log_audit_event(
         {
             "event": "compliance_drift_check",
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "subsystem": subsystem,
             "user_location": user_location,
             "entropy": current_entropy,
@@ -67,7 +67,7 @@ def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem=
     )
 
     return {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "entropy": current_entropy,
         "status": status,
         "target_range": target_range,

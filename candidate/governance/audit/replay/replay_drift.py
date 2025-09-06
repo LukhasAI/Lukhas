@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directories to path for imports
-sys.path.append(str(Path(__file__).parent.parent.parent))
+sys.path.append(str(Path(__file__, timezone).parent.parent.parent))
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ class DriftEventReplayer:
 
         self.current_replay = {
             "event_id": event_id,
-            "start_time": datetime.utcnow(),
+            "start_time": datetime.now(timezone.utc),
             "original_data": event_data,
             "replay_phases": [],
         }
@@ -77,7 +77,7 @@ class DriftEventReplayer:
             replay_results = {
                 "status": "completed",
                 "event_id": event_id,
-                "replay_duration": (datetime.utcnow() - self.current_replay["start_time"]).total_seconds(),
+                "replay_duration": (datetime.now(timezone.utc) - self.current_replay["start_time"]).total_seconds(),
                 "original_event": event_data,
                 "guardian_response": guardian_response,
                 "validation": validation_results,
@@ -216,7 +216,7 @@ class DriftEventReplayer:
 
         phase_data = {
             "phase": "initial_conditions",
-            "start_time": datetime.utcnow(),
+            "start_time": datetime.now(timezone.utc),
             "conditions_set": initial_conditions,
         }
 
@@ -225,7 +225,7 @@ class DriftEventReplayer:
             logger.info(f"   Setting {condition}: {value}")
             await asyncio.sleep(0.1 / self.replay_speed)  # Brief delay scaled by replay speed
 
-        phase_data["completion_time"] = datetime.utcnow()
+        phase_data["completion_time"] = datetime.now(timezone.utc)
         self.current_replay["replay_phases"].append(phase_data)
 
         logger.info("✅ Initial conditions set")
@@ -238,7 +238,7 @@ class DriftEventReplayer:
 
         phase_data = {
             "phase": "drift_progression",
-            "start_time": datetime.utcnow(),
+            "start_time": datetime.now(timezone.utc),
             "steps_completed": [],
         }
 
@@ -263,12 +263,12 @@ class DriftEventReplayer:
             phase_data["steps_completed"].append(
                 {
                     "step": event_name,
-                    "timestamp": datetime.utcnow(),
+                    "timestamp": datetime.now(timezone.utc),
                     "values": step_details,
                 }
             )
 
-        phase_data["completion_time"] = datetime.utcnow()
+        phase_data["completion_time"] = datetime.now(timezone.utc)
         self.current_replay["replay_phases"].append(phase_data)
 
         logger.info("✅ Drift progression simulated")
@@ -281,7 +281,7 @@ class DriftEventReplayer:
 
         phase_data = {
             "phase": "guardian_response",
-            "start_time": datetime.utcnow(),
+            "start_time": datetime.now(timezone.utc),
             "expected_action": expected_response["action"],
         }
 
@@ -314,12 +314,12 @@ class DriftEventReplayer:
             "symbolic_sequence": symbolic_sequence,
             "parameters": expected_response["parameters"],
             "execution_time": scaled_duration,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "simulated": True,
         }
 
         phase_data["response_generated"] = guardian_response
-        phase_data["completion_time"] = datetime.utcnow()
+        phase_data["completion_time"] = datetime.now(timezone.utc)
         self.current_replay["replay_phases"].append(phase_data)
 
         logger.info("✅ Guardian response completed")
@@ -334,7 +334,7 @@ class DriftEventReplayer:
 
         validation_results = {
             "validated": True,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "checks": [],
         }
 
@@ -423,12 +423,12 @@ class DriftEventReplayer:
     def export_replay_results(self, output_file: Optional[str] = None) -> str:
         """Export replay results to JSON file"""
         if not output_file:
-            timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             output_file = f"guardian_audit/replay/replay_results_{timestamp}.json"
 
         export_data = {
             "export_metadata": {
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "total_replays": len(self.replay_results),
                 "replay_speed": self.replay_speed,
             },

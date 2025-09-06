@@ -291,7 +291,7 @@ class SymbolicAnomalyExplorer:
             # Extract required fields with defaults
             session = DreamSession(
                 session_id=data.get("session_id", str(file_path.stem)),
-                timestamp=data.get("timestamp", datetime.now().isoformat()),
+                timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
                 symbolic_tags=data.get("symbolic_tags", []),
                 emotional_state=data.get("emotional_state", {}),
                 content=data.get("content", ""),
@@ -352,8 +352,8 @@ class SymbolicAnomalyExplorer:
 
         for i in range(n):
             # Create session with realistic patterns
-            session_id = f"DREAM_{datetime.now().strftime('%Y%m%d')}_{i:03d}"
-            timestamp = (datetime.now() - timedelta(hours=i * 2)).isoformat()
+            session_id = f"DREAM_{datetime.now(timezone.utc).strftime('%Y%m%d')}_{i:03d}"
+            timestamp = (datetime.now(timezone.utc) - timedelta(hours=i * 2)).isoformat()
 
             # Select symbols with some patterns
             num_symbols = np.random.randint(3, 8)
@@ -962,7 +962,7 @@ class SymbolicAnomalyExplorer:
             recommendations.append("URGENT: Consider system-wide symbolic reset")
 
         report = AnomalyReport(
-            report_id=f"ANOMALY_REPORT_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"ANOMALY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             sessions_analyzed=len(affected_sessions),
             anomalies_detected=anomalies,

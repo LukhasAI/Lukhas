@@ -22,7 +22,7 @@ from typing import Optional
 class LambdaSSOEngine:
     """Symbolic SSO engine for cross-service authentication with multi-device sync"""
 
-    def __init__(self, config, trace_logger=None, tier_manager=None):
+    def __init__(self, config, trace_logger=None, tier_manager=None, timezone):
         self.config = config
         self.trace_logger = trace_logger
         self.tier_manager = tier_manager
@@ -69,8 +69,8 @@ class LambdaSSOEngine:
             "token_id": token_id,
             "user_id": user_id,
             "service_scope": service_scope,
-            "created_at": datetime.utcnow().isoformat(),
-            "expires_at": (datetime.utcnow() + timedelta(hours=self.token_expiry_hours)).isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "expires_at": (datetime.now(timezone.utc) + timedelta(hours=self.token_expiry_hours)).isoformat(),
             "device_info": device_info or {},
             "symbolic_signature": self._generate_symbolic_signature(user_id, service_scope),
             "platform_compatibility": self._determine_platform_compatibility(device_info),
@@ -324,7 +324,7 @@ class LambdaSSOEngine:
         return {
             "success": True,
             "token_id": token_id,
-            "revoked_at": datetime.utcnow().isoformat(),
+            "revoked_at": datetime.now(timezone.utc).isoformat(),
             "affected_services": token_data.get("service_scope", []),
         }
 
@@ -338,7 +338,7 @@ class LambdaSSOEngine:
             "required_scopes": service_config.get("required_scopes", []),
             "symbolic_integration": service_config.get("symbolic_integration", False),
             "platform_support": service_config.get("platform_support", ["web"]),
-            "registered_at": datetime.utcnow().isoformat(),
+            "registered_at": datetime.now(timezone.utc).isoformat(),
         }
 
         return {
@@ -439,7 +439,7 @@ class LambdaSSOEngine:
     def _is_token_expired(self, token_data: dict) -> bool:
         """Check if token is expired"""
         expires_at = datetime.fromisoformat(token_data["expires_at"])
-        return datetime.utcnow() > expires_at
+        return datetime.now(timezone.utc) > expires_at
 
     def _invalidate_token(self, token_id: str, reason: str):
         """Invalidate token with reason"""
@@ -483,7 +483,7 @@ class LambdaSSOEngine:
 
         self.device_registry[user_id][device_id] = {
             "device_info": device_info,
-            "first_seen": datetime.utcnow().isoformat(),
+            "first_seen": datetime.now(timezone.utc).isoformat(),
             "last_token": token_id,
             "trust_level": 0.5,  # Initial trust level
         }
@@ -515,7 +515,7 @@ class LambdaSSOEngine:
     def _calculate_remaining_time(self, token_data: dict) -> int:
         """Calculate remaining time in seconds for token"""
         expires_at = datetime.fromisoformat(token_data["expires_at"])
-        remaining = expires_at - datetime.utcnow()
+        remaining = expires_at - datetime.now(timezone.utc)
         return max(0, int(remaining.total_seconds()))
 
     def _create_symbolic_challenge(self, token_data: dict) -> str:
@@ -564,7 +564,7 @@ class LambdaSSOEngine:
             from datetime import datetime
 
             expires_at = datetime.fromisoformat(glyph_payload["expires_at"])
-            if datetime.utcnow() > expires_at:
+            if datetime.now(timezone.utc) > expires_at:
                 raise ValueError("QR-G code has expired")
 
             # Validate glyph ID format

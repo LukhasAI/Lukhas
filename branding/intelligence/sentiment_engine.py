@@ -10,7 +10,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class SentimentPolarity(Enum):
+class SentimentPolarity(Enum, timezone):
     VERY_POSITIVE = "very_positive"
     POSITIVE = "positive"
     NEUTRAL = "neutral"
@@ -656,7 +656,7 @@ class BrandSentimentEngine:
 
         self.sentiment_history.append(
             {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "text_length": len(text),
                 "context": context,
                 "overall_sentiment": result.overall_sentiment,
@@ -678,13 +678,13 @@ class BrandSentimentEngine:
 
         # Parse time period
         if time_period == "24h":
-            cutoff_time = datetime.now() - timedelta(hours=24)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)
         elif time_period == "7d":
-            cutoff_time = datetime.now() - timedelta(days=7)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(days=7)
         elif time_period == "30d":
-            cutoff_time = datetime.now() - timedelta(days=30)
+            cutoff_time = datetime.now(timezone.utc) - timedelta(days=30)
         else:
-            cutoff_time = datetime.now() - timedelta(hours=24)  # Default to 24h
+            cutoff_time = datetime.now(timezone.utc) - timedelta(hours=24)  # Default to 24h
 
         # Filter recent sentiment history
         recent_sentiments = [
@@ -834,7 +834,7 @@ class BrandSentimentEngine:
         context_insights = self._generate_context_specific_insights(context, recent_trends)
 
         return {
-            "report_timestamp": datetime.now().isoformat(),
+            "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "context": context,
             "executive_summary": {
                 "overall_brand_sentiment": recent_trends.get("overall_sentiment", {}).get("average", 0.0),

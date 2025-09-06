@@ -14,7 +14,7 @@ from pathlib import Path
 class BioConsolidator:
     """Consolidate bio module variants"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.root = Path(".")
         self.target_dir = Path("lukhas/accepted/bio")
         self.archive_dir = Path("lukhas/archive/bio_variants")
@@ -175,7 +175,7 @@ class BioConsolidator:
         content = f'''"""
 LUKHAS AI Bio Module - {category_name.title()}
 Consolidated from {len(file_paths)} variants
-Generated: {datetime.now().isoformat()}
+Generated: {datetime.now(timezone.utc).isoformat()}
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
@@ -368,7 +368,7 @@ if __name__ == "__main__":
     def generate_report(self):
         """Generate consolidation report"""
         report = f"""# Bio Module Consolidation Report
-Generated: {datetime.now().isoformat()}
+Generated: {datetime.now(timezone.utc).isoformat()}
 
 ## Summary
 - Files Merged: {len(self.merged_files)}

@@ -59,7 +59,7 @@ from typing import Any, Optional
 import numpy as np
 
 
-class PatternType(Enum):
+class PatternType(Enum, timezone):
     """Types of meta-learning patterns that can be extracted"""
 
     SKILL_ACQUISITION = "skill_acquisition"
@@ -718,7 +718,7 @@ class PatternExtractor:
             cognitive_load=0.5,  # Moderate cognitive load
             source_episodes=[],  # Would need episode IDs
             confidence_score=min(1.0, len(trajectories) / 10.0),
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
         )
 
     async def _extract_strategy_pattern(
@@ -808,7 +808,7 @@ class PatternExtractor:
             cognitive_load=0.4,  # Lower cognitive load once learned
             source_episodes=[],
             confidence_score=min(1.0, len(top_strategies) / 5.0),
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
         )
 
     async def _extract_attention_pattern(
@@ -926,7 +926,7 @@ class PatternExtractor:
             cognitive_load=0.3,  # Low cognitive load once mastered
             source_episodes=[],
             confidence_score=min(1.0, len(top_patterns) / 3.0),
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
         )
 
     async def _extract_meta_patterns(self, base_patterns: list[MetaLearningPattern]) -> list[MetaLearningPattern]:
@@ -1009,7 +1009,7 @@ class PatternExtractor:
             cognitive_load=(pattern_a.cognitive_load + pattern_b.cognitive_load) * 0.8,  # Some efficiency
             source_episodes=list(set(pattern_a.source_episodes + pattern_b.source_episodes)),
             confidence_score=min(pattern_a.confidence_score, pattern_b.confidence_score) * 0.9,
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
         )
 
     async def _analyze_pattern_evolution(self, patterns: list[MetaLearningPattern]) -> Optional[MetaLearningPattern]:
@@ -1087,7 +1087,7 @@ class PatternExtractor:
             cognitive_load=0.7,  # Higher cognitive load for meta-learning
             source_episodes=[],
             confidence_score=min(1.0, evolution_score),
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
         )
 
     def _calculate_acceleration(self, trajectories: list[dict[str, Any]]) -> float:
@@ -1288,7 +1288,7 @@ class MetaLearningPatternSystem:
             if len(memories) >= 3:  # Minimum for trajectory analysis
                 trajectory = []
 
-                for memory in sorted(memories, key=lambda m: m.get("timestamp", datetime.now())):
+                for memory in sorted(memories, key=lambda m: m.get("timestamp", datetime.now(timezone.utc))):
                     learning_event = await self._memory_to_learning_event(memory, domain)
                     if learning_event:
                         trajectory.append(learning_event)
@@ -1401,7 +1401,7 @@ class MetaLearningPatternSystem:
         try:
             content = memory.get("content", "")
             metadata = memory.get("metadata", {})
-            timestamp = memory.get("timestamp", datetime.now())
+            timestamp = memory.get("timestamp", datetime.now(timezone.utc))
 
             if isinstance(timestamp, str):
                 timestamp = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
@@ -1881,7 +1881,7 @@ async def example_meta_learning_usage():
                 "success_rate": 0.3 + (i * 0.1),
                 "type": "learning",
             },
-            "timestamp": datetime.now() - timedelta(days=10 - i),
+            "timestamp": datetime.now(timezone.utc) - timedelta(days=10 - i),
         }
         for i in range(5)
     ]
@@ -1898,7 +1898,7 @@ async def example_meta_learning_usage():
                     "success_rate": 0.4,
                     "type": "learning",
                 },
-                "timestamp": datetime.now() - timedelta(days=5),
+                "timestamp": datetime.now(timezone.utc) - timedelta(days=5),
             },
             {
                 "id": "memory_music_2",
@@ -1909,7 +1909,7 @@ async def example_meta_learning_usage():
                     "success_rate": 0.7,
                     "type": "learning",
                 },
-                "timestamp": datetime.now() - timedelta(days=4),
+                "timestamp": datetime.now(timezone.utc) - timedelta(days=4),
             },
         ]
     )

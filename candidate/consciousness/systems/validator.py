@@ -21,7 +21,7 @@ class ConsciousnessValidator:
     100% system connectivity and consciousness computing capabilities.
     """
 
-    def __init__(self, config: Optional[dict] = None):
+    def __init__(self, config: Optional[dict] = None, timezone):
         self.config = config or {}
         self.logger = get_logger(__name__)
         self.is_initialized = False
@@ -63,7 +63,7 @@ class ConsciousnessValidator:
                 "component": self.__class__.__name__,
                 "category": "consciousness",
                 "result": result,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -72,7 +72,7 @@ class ConsciousnessValidator:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
     async def _core_consciousness_processing(self, data: Any) -> Any:
@@ -144,7 +144,7 @@ class ConsciousnessValidator:
             "category": "consciousness",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def shutdown(self):

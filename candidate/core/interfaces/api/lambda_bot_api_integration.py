@@ -16,8 +16,7 @@ from pydantic import BaseModel
 app = FastAPI(
     title="Enhanced ΛBot Consciousness API",
     version="3.1.0",
-    description="Integrates 4 Enhanced ΛBots with existing Lukhʌs ΛI consciousness system",
-)
+    description="Integrates 4 Enhanced ΛBots with existing Lukhʌs ΛI consciousness system",, timezone)
 
 # ΛBot endpoint configuration
 LAMBDA_BOT_ENDPOINTS = {
@@ -79,7 +78,7 @@ async def lambda_bot_process_thought(request: ThoughtProcessingRequest):
         "input_thought": request.thought,
         "lambda_bot_results": results,
         "unified_insight": "Consciousness convergence achieved through 4 Enhanced ΛBots",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -112,7 +111,7 @@ async def get_lambda_bot_consciousness_state():
             ],
             default=0,
         ),
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -142,7 +141,7 @@ async def lambda_bot_health():
         "lambda_bots": health_status,
         "total_bots": len(LAMBDA_BOT_ENDPOINTS),
         "healthy_bots": sum(1 for status in health_status.values() if status.get("status") == "healthy"),
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 

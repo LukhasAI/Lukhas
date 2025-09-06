@@ -23,9 +23,9 @@ import sys
 from datetime import datetime
 
 
-def run_security_review():
+def run_security_review(, timezone):
     """Run the security review task"""
-    print(f"[{datetime.now().isoformat()}] Starting PR Security Review")
+    print(f"[{datetime.now(timezone.utc).isoformat()}] Starting PR Security Review")
 
     script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pr_security_review_task.py")
 
@@ -34,14 +34,14 @@ def run_security_review():
         result = subprocess.run([sys.executable, script_path], capture_output=True, text=True)
 
         if result.returncode == 0:
-            print(f"[{datetime.now().isoformat()}] PR Security Review completed successfully")
+            print(f"[{datetime.now(timezone.utc).isoformat()}] PR Security Review completed successfully")
             print(result.stdout)
         else:
-            print(f"[{datetime.now().isoformat()}] PR Security Review failed with code {result.returncode}")
+            print(f"[{datetime.now(timezone.utc).isoformat()}] PR Security Review failed with code {result.returncode}")
             print(f"Error: {result.stderr}")
 
     except Exception as e:
-        print(f"[{datetime.now().isoformat()}] Error running PR Security Review: {e}")
+        print(f"[{datetime.now(timezone.utc).isoformat()}] Error running PR Security Review: {e}")
 
 
 if __name__ == "__main__":

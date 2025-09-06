@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 
-def validate_pr_security_review():
+def validate_pr_security_review(, timezone):
     """Validate that the PR security review system is working"""
     print("=" * 60)
     print("ΛBot PR Security Review Validation")
@@ -51,7 +51,7 @@ def validate_pr_security_review():
         timestamp = datetime.strptime(timestamp_str, "%a %b %d %H:%M:%S %Z %Y")
 
         # Check if the last entry is recent (within the last 24 hours)
-        if datetime.now() - timestamp < timedelta(hours=24):
+        if datetime.now(timezone.utc) - timestamp < timedelta(hours=24):
             print("✅ PR security review ran recently:")
             print(f"   Last run: {timestamp_str}")
         else:

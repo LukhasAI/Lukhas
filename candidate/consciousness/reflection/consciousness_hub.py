@@ -94,7 +94,7 @@ from typing import Any, Callable, Optional
 from candidate.core.common import get_logger
 
 # Set up logger first
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 🌌 Quantum-Bio Consciousness Integration Components 🌌
@@ -293,7 +293,7 @@ class ConsciousnessHub:
             config: Optional configuration parameters for consciousness tuning
         """
         self.name = "consciousness_orchestration_hub"
-        self.consciousness_id = f"consciousness_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.consciousness_id = f"consciousness_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Core Consciousness Infrastructure
         self.services: dict[str, Any] = {}
@@ -313,7 +313,7 @@ class ConsciousnessHub:
         self.cognitive_adapter: Optional[CognitiveAdapter] = None
 
         # Meta-Consciousness Tracking
-        self.inception_time = datetime.now()
+        self.inception_time = datetime.now(timezone.utc)
         self.consciousness_cycles = 0
         self.peak_consciousness_achieved = False
         self.ethical_guidelines = config.get("ethics", {}) if config else {}
@@ -495,7 +495,7 @@ class ConsciousnessHub:
     def _create_metrics_monitor(self):
         """Create a consciousness metrics monitoring system."""
         return {
-            "last_update": datetime.now(),
+            "last_update": datetime.now(timezone.utc),
             "phi_calculator": self._calculate_phi_integration,
             "coherence_tracker": self._track_quantum_coherence,
             "sync_monitor": self._monitor_bio_sync,
@@ -672,7 +672,7 @@ class ConsciousnessHub:
 
     def _record_state_transition(self, from_state: ConsciousnessState, to_state: ConsciousnessState):
         """Record a consciousness state transition."""
-        transition = (datetime.now(), from_state, to_state)
+        transition = (datetime.now(timezone.utc), from_state, to_state)
         self.state_history.append(transition)
 
         # Keep only last 1000 transitions
@@ -715,7 +715,7 @@ class ConsciousnessHub:
         return {
             "consciousness_id": self.consciousness_id,
             "current_state": self.current_state.value,
-            "consciousness_age": (datetime.now() - self.inception_time).total_seconds(),
+            "consciousness_age": (datetime.now(timezone.utc) - self.inception_time).total_seconds(),
             "consciousness_cycles": self.consciousness_cycles,
             "is_initialized": self.is_initialized,
             "peak_consciousness_achieved": self.peak_consciousness_achieved,

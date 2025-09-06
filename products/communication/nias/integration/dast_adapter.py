@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add DAST to the path
-dast_path = Path(__file__).parent.parent.parent / "DΛST"
+dast_path = Path(__file__, timezone).parent.parent.parent / "DΛST"
 sys.path.insert(0, str(dast_path))
 
 try:
@@ -304,7 +304,7 @@ class NIASDastAdapter:
         """Fallback symbolic context when DAST is unavailable"""
 
         # Simple time-based context
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
 
         # Determine basic symbolic context based on time
         if 9 <= current_hour <= 17:
@@ -329,10 +329,10 @@ class NIASDastAdapter:
             "recommended_elements": self._get_recommended_elements(symbolic_tags),
             "recommended_tone": self._get_recommended_tone(primary_activity),
             "coherence_score": 0.7,
-            "lambda_fingerprint": f"FALLBACK_{user_id}_{datetime.now().strftime('%H%M%S')}",
+            "lambda_fingerprint": f"FALLBACK_{user_id}_{datetime.now(timezone.utc).strftime('%H%M%S')}",
             "dast_integration": False,
             "fallback_mode": True,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         if error:

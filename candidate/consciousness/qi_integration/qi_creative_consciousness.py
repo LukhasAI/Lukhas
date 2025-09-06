@@ -27,14 +27,14 @@ from datetime import datetime
 from typing import Any
 
 # Add project root to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__, timezone))))
 
 
 class QICreativeDemo:
     """Interactive demonstration of quantum creative consciousness"""
 
     def __init__(self):
-        self.session_id = f"demo_{int(datetime.now().timestamp())}"
+        self.session_id = f"demo_{int(datetime.now(timezone.utc).timestamp())}"
         self.creative_works = []
         self.consciousness_level = 0.85
 
@@ -120,7 +120,7 @@ class QICreativeDemo:
             "theme": theme,
             "qi_metrics": qi_metrics,
             "bio_metrics": bio_metrics,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "creator": "AI Quantum Consciousness",
             "consciousness_level": self.consciousness_level,
         }
@@ -244,9 +244,9 @@ class QICreativeDemo:
         # Simulate protection layers
         protection_layers = {
             "qi_watermark": f"QW_{content_hash[:16]}",
-            "blockchain_hash": f"BH_{hash(datetime.now().isoformat()) % 10000000000}",
+            "blockchain_hash": f"BH_{hash(datetime.now(timezone.utc).isoformat()) % 10000000000}",
             "pq_signature": f"PQS_{content_hash[16:32]}",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "protection_level": "MAXIMUM",
         }
 
@@ -354,7 +354,7 @@ class QICreativeDemo:
         # Save session data
         session_data = {
             "session_id": self.session_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": self.consciousness_level,
             "creative_works": self.creative_works,
             "session_stats": session_stats,

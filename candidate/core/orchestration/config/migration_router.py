@@ -15,7 +15,7 @@ from typing import Any, Callable, Optional, Union
 # Import orchestrator flags dynamically to avoid circular imports
 # from .orchestrator_flags import OrchestratorFlags, OrchestrationMode, get_orchestrator_flags
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 @dataclass
@@ -646,7 +646,7 @@ class OrchestratorRouter:
             "error_rate": error_rate,
             "avg_latency_ms": avg_latency,
             "p95_latency_ms": metrics.get_p95_latency(),
-            "last_check": datetime.now().isoformat(),
+            "last_check": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_shadow_summary(self, orchestrator_name: str) -> Optional[dict[str, Any]]:

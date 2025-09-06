@@ -54,7 +54,7 @@ from datetime import datetime, timedelta
 from typing import Any, Optional  # Added Any, Optional
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection")
+logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection", timezone)
 logger.info("ΛTRACE: Initializing reflective_introspection module.")
 
 
@@ -133,7 +133,7 @@ class ReflectiveIntrospectionSystem:
 
         self.config = config or {}  # Store config
         self.interaction_history: deque[dict[str, Any]] = deque(maxlen=max_history)
-        self.last_reflection_time: datetime = datetime.utcnow()  # Use UTC
+        self.last_reflection_time: datetime = datetime.now(timezone.utc)  # Use UTC
 
         reflection_interval_minutes = self.config.get("reflection_interval_minutes", 30)
         self.reflection_interval: timedelta = timedelta(minutes=reflection_interval_minutes)
@@ -168,7 +168,7 @@ class ReflectiveIntrospectionSystem:
             )
             return
 
-        interaction_data["logged_at_utc"] = datetime.utcnow().isoformat()  # Use UTC and consistent key
+        interaction_data["logged_at_utc"] = datetime.now(timezone.utc).isoformat()  # Use UTC and consistent key
         self.interaction_history.append(interaction_data)
         self.instance_logger.debug(f"ΛTRACE: Interaction logged. History size: {len(self.interaction_history)}.")
 
@@ -192,7 +192,7 @@ class ReflectiveIntrospectionSystem:
             self.instance_logger.info("ΛTRACE: No interaction history to analyze.")
             return {"requires_adaptation": False, "message": "No interaction history."}
 
-        now_utc = datetime.utcnow()
+        now_utc = datetime.now(timezone.utc)
         if now_utc - self.last_reflection_time < self.reflection_interval:
             self.instance_logger.debug(
                 f"ΛTRACE: Reflection interval not yet met. Last reflection: {self.last_reflection_time.isoformat()}. Interval: {self.reflection_interval.total_seconds()}s."
