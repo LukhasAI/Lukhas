@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add ABAS to the path
-abas_path = Path(__file__).parent.parent.parent / "ΛBAS"
+abas_path = Path(__file__, timezone).parent.parent.parent / "ΛBAS"
 sys.path.insert(0, str(abas_path))
 
 try:
@@ -232,7 +232,7 @@ class NIASABASAdapter:
             context_tags.append("urgent")
 
         return AttentionRequest(
-            id=message.get("message_id", f"nias_{datetime.now().strftime('%Y%m%d_%H%M%S')}"),
+            id=message.get("message_id", f"nias_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"),
             source="nias_message_delivery",
             urgency=urgency,
             cognitive_cost=cognitive_cost,
@@ -293,7 +293,7 @@ class NIASABASAdapter:
         """Fallback attention check when ABAS is unavailable"""
 
         # Simple heuristic-based attention check
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         recent_interactions = len(user_context.get("recent_interactions", []))
 
         # Determine basic emotional state
@@ -324,7 +324,7 @@ class NIASABASAdapter:
             "defer_until": None,
             "reason": reason,
             "confidence": 0.6,  # Lower confidence for fallback
-            "lambda_trace": f"FALLBACK_{user_id}_{datetime.now().strftime('%H%M%S')}",
+            "lambda_trace": f"FALLBACK_{user_id}_{datetime.now(timezone.utc).strftime('%H%M%S')}",
             "abas_decision": "fallback",
         }
 
@@ -341,7 +341,7 @@ class NIASABASAdapter:
             flow_probability=metrics_dict.get("flow_probability", 0.0),
             recovery_rate=metrics_dict.get("recovery_rate", 1.0),
             multitask_penalty=metrics_dict.get("multitask_penalty", 0.0),
-            last_updated=datetime.now(),
+            last_updated=datetime.now(timezone.utc),
         )
 
     async def update_user_attention_metrics(self, user_id: str, metrics: dict[str, Any]) -> bool:

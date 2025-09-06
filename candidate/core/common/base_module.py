@@ -29,7 +29,7 @@ class ModuleState:
     TERMINATED = "terminated"
 
 
-class BaseModule(ABC):
+class BaseModule(ABC, timezone):
     """
     Base class for all LUKHAS modules.
 
@@ -103,7 +103,7 @@ class BaseModule(ABC):
             # Mark as ready
             async with self._state_lock:
                 self.state = ModuleState.READY
-                self.initialized_at = datetime.utcnow()
+                self.initialized_at = datetime.now(timezone.utc)
 
             self.logger.info(f"✅ {self.module_name} initialized successfully")
 
@@ -158,7 +158,7 @@ class BaseModule(ABC):
             )
 
         # Update metrics
-        self.last_activity = datetime.utcnow()
+        self.last_activity = datetime.now(timezone.utc)
         self.metrics["requests_processed"] += 1
 
         # Add to trace
@@ -194,7 +194,7 @@ class BaseModule(ABC):
         """
         uptime = 0.0
         if self.initialized_at:
-            uptime = (datetime.utcnow() - self.initialized_at).total_seconds()
+            uptime = (datetime.now(timezone.utc) - self.initialized_at).total_seconds()
 
         return {
             "module_name": self.module_name,
@@ -332,7 +332,7 @@ class StatefulModule(BaseModule):
             "module_name": self.module_name,
             "state_version": self._state_version,
             "state_data": self._state_data.copy(),
-            "exported_at": datetime.utcnow().isoformat(),
+            "exported_at": datetime.now(timezone.utc).isoformat(),
         }
 
     async def import_state(self, state_export: dict[str, Any]) -> None:

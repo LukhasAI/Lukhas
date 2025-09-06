@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 # Load environment
-load_dotenv()
+load_dotenv(, timezone)
 
 
 async def generate_and_save_dream_images():
@@ -90,7 +90,7 @@ async def generate_and_save_dream_images():
 
             if image_response.status_code == 200:
                 # Save with timestamp and scenario name
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
                 filename = f"dream_{scenario['name']}_{timestamp}.png"
                 filepath = images_dir / filename
 

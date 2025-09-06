@@ -43,6 +43,7 @@
 import asyncio
 import hashlib
 import json
+import logging
 import math
 import random
 import time
@@ -50,6 +51,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 from uuid import uuid4
+
+logger = logging.getLogger(__name__)
 
 # Import LUKHAS components
 try:

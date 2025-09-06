@@ -11,7 +11,7 @@ from typing import Any
 
 
 class AIComplianceManager:
-    def __init__(self):
+    def __init__(self, timezone):
         self.logger = logging.getLogger("ai_compliance")
         self.compliance_rules = {
             "EU": {
@@ -61,7 +61,7 @@ class AIComplianceManager:
     def get_transparency_report(self) -> dict[str, Any]:
         """Generate transparency report for AI system"""
         return {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "compliance_status": self.compliance_rules,
             "assessment_history": [],
             "data_processing_purposes": self._get_processing_purposes(),

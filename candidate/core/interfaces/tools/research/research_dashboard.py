@@ -23,14 +23,14 @@ from datetime import datetime
 # import streamlit as st  # TODO: Install or implement streamlit
 from pathlib import Path
 
-st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide")
+st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide", timezone)
 
 # Session tracking (simplified for local prototyping)
 session_log_path = Path("logs/session_log.jsonl")
 session_event = {
     "user": st.session_state.get("identity_legacy", "anonymous"),
     "event": "session_start",
-    "timestamp": datetime.now().isoformat(),
+    "timestamp": datetime.now(timezone.utc).isoformat(),
 }
 session_log_path.parent.mkdir(parents=True, exist_ok=True)
 with session_log_path.open("a") as f:
@@ -295,7 +295,7 @@ def log_session_end():
     session_event = {
         "user": st.session_state.get("identity_legacy", "anonymous"),
         "event": "session_end",
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
     with session_log_path.open("a") as f:
         f.write(json.dumps(session_event) + "\n")

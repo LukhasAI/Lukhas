@@ -21,7 +21,7 @@ from pathlib import Path
 
 
 class T4CoreBatchProcessor:
-    def __init__(self, workspace_path="/Users/agi_dev/LOCAL-REPOS/Lukhas"):
+    def __init__(self, workspace_path="/Users/agi_dev/LOCAL-REPOS/Lukhas", timezone):
         self.workspace = Path(workspace_path)
         self.core_dirs = ["lukhas", "identity", "api"]
         self.batch_size = 10
@@ -118,7 +118,7 @@ class T4CoreBatchProcessor:
                 # Store verification artifact
                 verification = {
                     "file": str(file_path),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "original_hash": original_hash,
                     "new_hash": new_hash,
                     "fixes_applied": fixes_applied,
@@ -127,7 +127,7 @@ class T4CoreBatchProcessor:
 
                 verification_file = (
                     self.verification_dir
-                    / f"fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
+                    / f"fix_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
                 )
                 with open(verification_file, "w") as f:
                     json.dump(verification, f, indent=2)

@@ -15,7 +15,7 @@ import aiohttp
 from candidate.core.common import get_logger
 from candidate.core.common.config import settings
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class DALLEClient:
@@ -112,7 +112,7 @@ class DALLEClient:
                     "urls": image_urls,
                     "local_paths": saved_paths,
                     "prompt": prompt,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         except Exception as e:
@@ -135,7 +135,7 @@ class DALLEClient:
         for i, url in enumerate(urls):
             try:
                 # Create a filename based on prompt and timestamp
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
                 safe_prompt = "".join(c if c.isalnum() else "_" for c in prompt[:30])
                 filename = f"{safe_prompt}_{timestamp}_{i}.png"
                 filepath = os.path.join(self.image_storage_path, filename)
@@ -230,7 +230,7 @@ class DALLEClient:
                     "urls": image_urls,
                     "local_paths": saved_paths,
                     "prompt": prompt,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         except Exception as e:

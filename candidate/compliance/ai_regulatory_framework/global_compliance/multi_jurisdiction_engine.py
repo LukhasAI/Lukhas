@@ -21,7 +21,7 @@ from ..eu_ai_act.compliance_validator import AISystemProfile, EUAIActValidator
 from ..gdpr.data_protection_validator import DataProcessingActivity, GDPRValidator
 from ..nist.ai_risk_management import AISystemMetrics, NISTAIRiskManager
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class Jurisdiction(Enum):
@@ -166,7 +166,7 @@ class GlobalComplianceEngine:
 
             return GlobalComplianceReport(
                 system_id=profile.system_id,
-                assessment_date=datetime.now(),
+                assessment_date=datetime.now(timezone.utc),
                 overall_status=overall_status,
                 jurisdiction_compliance=jurisdiction_compliance,
                 framework_compliance=framework_compliance,
@@ -500,11 +500,11 @@ class GlobalComplianceEngine:
     def _calculate_next_assessment_date(self, overall_status: str) -> datetime:
         """Calculate next global assessment date"""
         if overall_status == "Non-Compliant":
-            return datetime.now() + timedelta(days=30)  # Monthly
+            return datetime.now(timezone.utc) + timedelta(days=30)  # Monthly
         elif overall_status == "Partially Compliant":
-            return datetime.now() + timedelta(days=90)  # Quarterly
+            return datetime.now(timezone.utc) + timedelta(days=90)  # Quarterly
         else:
-            return datetime.now() + timedelta(days=180)  # Semi-annually
+            return datetime.now(timezone.utc) + timedelta(days=180)  # Semi-annually
 
     async def generate_compliance_dashboard(self, report: GlobalComplianceReport) -> dict[str, Any]:
         """Generate compliance dashboard data"""
@@ -555,7 +555,7 @@ class GlobalComplianceEngine:
                     "priority": "High",
                     "category": "Cross-Jurisdiction",
                     "description": issue,
-                    "deadline": (datetime.now() + timedelta(days=30)).isoformat(),
+                    "deadline": (datetime.now(timezone.utc) + timedelta(days=30)).isoformat(),
                 }
             )
 
@@ -567,7 +567,7 @@ class GlobalComplianceEngine:
                         "priority": "Medium",
                         "category": "Framework Compliance",
                         "description": f"Improve {framework.value} compliance",
-                        "deadline": (datetime.now() + timedelta(days=60)).isoformat(),
+                        "deadline": (datetime.now(timezone.utc) + timedelta(days=60)).isoformat(),
                     }
                 )
 
@@ -578,7 +578,7 @@ class GlobalComplianceEngine:
                     "priority": "Low",
                     "category": "Harmonization",
                     "description": recommendation,
-                    "deadline": (datetime.now() + timedelta(days=90)).isoformat(),
+                    "deadline": (datetime.now(timezone.utc) + timedelta(days=90)).isoformat(),
                 }
             )
 

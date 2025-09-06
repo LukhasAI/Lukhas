@@ -73,7 +73,7 @@ from uuid import uuid4
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.cpi_api")
+logger = structlog.get_logger("lukhas.cpi_api", timezone)
 
 
 class CodeLanguage(Enum):
@@ -123,7 +123,7 @@ class CodeGenerationRequest:
     test_requirements: list[str] = field(default_factory=list)
     security_level: str = "medium"
     user_id: Optional[str] = None
-    created_at: datetime = field(default_factory=lambda: datetime.now())
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 @dataclass
@@ -276,7 +276,7 @@ class PythonCodeGenerator(CodeGenerator):
         """Generate file header"""
         return f'''"""
 Generated Code: {description}
-Created: {datetime.now().isoformat()}
+Created: {datetime.now(timezone.utc).isoformat()}
 Generator: LUKHAS CPI API v1.0.0
 
 # Notes: Auto-generated code following LUKHAS standards
@@ -319,7 +319,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
 
         result = {{
             "processed": True,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }}
 
         return {endpoint_name.capitalize()}Response(
@@ -419,7 +419,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
     def __init__(self, **kwargs):
         """Initialize {class_name} with optional parameters"""
         self.config = kwargs
-        self.created_at = datetime.now()
+        self.created_at = datetime.now(timezone.utc)
         logger.info("LUKHAS{class_name.upper()}: Instance created", config=self.config)
 
     async def process(self, data: Any) -> Dict[str, Any]:
@@ -430,7 +430,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
             # Implement processing logic
             result = {{
                 "input": data,
-                "processed_at": datetime.now().isoformat(),
+                "processed_at": datetime.now(timezone.utc).isoformat(),
                 "success": True
             }}
 
@@ -506,7 +506,7 @@ class Test{request.context.get("class_name", "Generated")}:
         result = {{
             "input": input_data,
             "processed": True,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }}
 
         logger.info("ΛGENERATED: Function execution completed")

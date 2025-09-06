@@ -98,7 +98,7 @@ class StandaloneMonitoringDemo:
         historical_factor = (recent_avg - historical_avg) * 0.3
 
         # Factor 2: Circadian rhythm adjustment
-        hour = datetime.now().hour
+        hour = datetime.now(timezone.utc).hour
         if trigger_type == "stress_adaptation" and 9 <= hour <= 17:
             circadian_factor = -0.1  # More sensitive during work hours
         elif trigger_type == "recovery_consolidation" and (hour >= 19 or hour <= 8):
@@ -292,7 +292,7 @@ class StandaloneMonitoringDemo:
             )
 
         # Sleep/recovery alert
-        if hormones.get("melatonin", 0.5) < 0.3 and datetime.now().hour >= 22:
+        if hormones.get("melatonin", 0.5) < 0.3 and datetime.now(timezone.utc).hour >= 22:
             alerts.append(
                 AlertMessage(
                     level=AlertLevel.MEDIUM,
@@ -340,7 +340,7 @@ class StandaloneMonitoringDemo:
             )
 
         # Recovery prediction
-        current_hour = datetime.now().hour
+        current_hour = datetime.now(timezone.utc).hour
         if hormones.get("melatonin", 0.5) > 0.6 and 20 <= current_hour <= 23:
             insights.append(
                 PredictiveInsight(

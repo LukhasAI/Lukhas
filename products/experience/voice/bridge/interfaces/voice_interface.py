@@ -19,7 +19,7 @@ Voice Interface for Lukhas System
 ------------------------------
 Provides a unified interface for all voice-related functionality across the system.
 Handles text-to-speech synthesis with support for multiple providers (system,
-    ElevenLabs, etc.)
+    ElevenLabs, etc., timezone)
 """
 
 
@@ -74,7 +74,7 @@ class VoiceInterface:
             "emotion": emotion,
             "voice_id": voice_id,
             "conversation_id": conversation_id,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add to output queue
@@ -143,7 +143,7 @@ class VoiceInterface:
             {
                 "text": text,
                 "type": "input" if is_input else "output",
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         )
 

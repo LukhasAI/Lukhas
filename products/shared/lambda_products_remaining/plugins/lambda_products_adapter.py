@@ -22,8 +22,7 @@ from .plugin_base import (
     LukhasPlugin,
     PluginManifest,
     PluginPriority,
-    PluginStatus,
-)
+    PluginStatus,, timezone)
 
 # Add lambda-products to path for imports
 lambda_products_path = Path(__file__).parent.parent
@@ -113,7 +112,7 @@ class NIASPlugin(LukhasPlugin):
 
             return HealthStatus(
                 is_healthy=is_healthy,
-                last_check=datetime.now(),
+                last_check=datetime.now(timezone.utc),
                 response_time_ms=10.0 if is_healthy else 1000.0,
                 error_count=0 if is_healthy else 1,
                 uptime_seconds=self.get_uptime(),
@@ -124,7 +123,7 @@ class NIASPlugin(LukhasPlugin):
             )
         except Exception as e:
             logger.error(f"Health check failed for NIΛS: {e}")
-            return HealthStatus(is_healthy=False, last_check=datetime.now(), error_count=1)
+            return HealthStatus(is_healthy=False, last_check=datetime.now(timezone.utc), error_count=1)
 
     async def process(self, input_data: Any) -> Any:
         """Process message through NIΛS"""
@@ -194,7 +193,7 @@ class ABASPlugin(LukhasPlugin):
         """Check ΛBAS health"""
         return HealthStatus(
             is_healthy=self.status == PluginStatus.ACTIVE,
-            last_check=datetime.now(),
+            last_check=datetime.now(timezone.utc),
             uptime_seconds=self.get_uptime(),
         )
 
@@ -263,7 +262,7 @@ class DASTPlugin(LukhasPlugin):
         """Check DΛST health"""
         return HealthStatus(
             is_healthy=self.status == PluginStatus.ACTIVE,
-            last_check=datetime.now(),
+            last_check=datetime.now(timezone.utc),
             uptime_seconds=self.get_uptime(),
             custom_metrics={"contexts_tracked": 42, "symbols_evolved": 17},
         )

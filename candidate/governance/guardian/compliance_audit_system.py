@@ -31,7 +31,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class DataProcessingPurpose(Enum):
@@ -392,7 +392,7 @@ class ComplianceAuditSystem:
         # Create audit event
         audit_event = ComplianceAuditEvent(
             event_id=event_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             event_type=event_type,
             regulation=regulation,
             data_subject_id=data_subject_id,
@@ -471,7 +471,7 @@ class ComplianceAuditSystem:
         consent_record = ConsentRecord(
             consent_id=consent_id,
             data_subject_id=data_subject_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             purposes=purposes,
             data_categories=data_categories,
             consent_method=consent_method,
@@ -533,7 +533,7 @@ class ComplianceAuditSystem:
 
         # Mark consent as withdrawn
         consent_record.active = False
-        consent_record.withdrawn_at = datetime.now()
+        consent_record.withdrawn_at = datetime.now(timezone.utc)
         consent_record.withdrawal_method = withdrawal_method
 
         # Log audit event
@@ -579,13 +579,13 @@ class ComplianceAuditSystem:
         request_id = f"dsr_{uuid.uuid4().hex[:8]}"
 
         # Calculate due date based on regulation
-        due_date = datetime.now() + timedelta(days=self.subject_rights_sla_days)
+        due_date = datetime.now(timezone.utc) + timedelta(days=self.subject_rights_sla_days)
 
         # Create subject request
         subject_request = DataSubjectRequest(
             request_id=request_id,
             data_subject_id=data_subject_id,
-            timestamp=datetime.now(),
+            timestamp=datetime.now(timezone.utc),
             right_type=right_type,
             request_description=request_description,
             verification_method=verification_method,
@@ -593,7 +593,7 @@ class ComplianceAuditSystem:
             assigned_to=metadata.get("assigned_to"),
             communications=[
                 {
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                     "type": "request_received",
                     "message": "Data subject rights request received and logged",
                 }
@@ -651,8 +651,8 @@ class ComplianceAuditSystem:
         # Create PIA
         pia = PrivacyImpactAssessment(
             pia_id=pia_id,
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
             project_name=project_name,
             description=description,
             data_categories=data_categories,
@@ -720,7 +720,7 @@ class ComplianceAuditSystem:
         requests_in_period = [r for r in self.subject_requests.values() if start_date <= r.timestamp <= end_date]
 
         completed_requests = [r for r in requests_in_period if r.status == "completed"]
-        overdue_requests = [r for r in requests_in_period if r.due_date < datetime.now() and r.status != "completed"]
+        overdue_requests = [r for r in requests_in_period if r.due_date < datetime.now(timezone.utc) and r.status != "completed"]
 
         # Compliance violations
         violations_in_period = [
@@ -736,7 +736,7 @@ class ComplianceAuditSystem:
 
         return {
             "report_id": f"compliance_report_{uuid.uuid4().hex[:8]}",
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "regulation": regulation.value,
             "reporting_period": {
                 "start_date": start_date.isoformat(),
@@ -875,7 +875,7 @@ class ComplianceAuditSystem:
         while self.monitoring_active:
             try:
                 # Clean up old audit events beyond retention period
-                cutoff_date = datetime.now() - timedelta(days=self.audit_retention_years * 365)
+                cutoff_date = datetime.now(timezone.utc) - timedelta(days=self.audit_retention_years * 365)
 
                 # Keep audit events within retention period
                 retained_events = deque(maxlen=self.max_audit_events)
@@ -915,7 +915,7 @@ class ComplianceAuditSystem:
         # Create base64 encoded consent string
         import base64
 
-        consent_data = f"{purpose_bits}|{category_bits}|{datetime.now().isoformat()}"
+        consent_data = f"{purpose_bits}|{category_bits}|{datetime.now(timezone.utc).isoformat()}"
         consent_string = base64.b64encode(consent_data.encode()).decode()
 
         return consent_string

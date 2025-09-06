@@ -16,8 +16,7 @@ from functools import wraps
 from typing import (
     Any,  # Added Callable
     Callable,
-    Optional,
-)
+    Optional,, timezone)
 
 from flask import Flask, jsonify, request
 
@@ -171,7 +170,7 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
                             "success": False,
                             "error": "Authentication required: Missing X-User-ID header.",
                             "error_code": "AUTH_MISSING_USER_ID",
-                            "timestamp": datetime.utcnow().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     ),
                     401,
@@ -197,7 +196,7 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
                             "success": False,
                             "error": f"Access denied: Insufficient tier. Required: {required_tier}.",
                             "error_code": "AUTH_INSUFFICIENT_TIER",
-                            "timestamp": datetime.utcnow().isoformat(),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
                         }
                     ),
                     403,
@@ -251,7 +250,7 @@ def handle_api_error(error: Exception, endpoint: str, user_id: Optional[str]) ->
             "endpoint": endpoint,
             "error_message": error_message,
             "error_type": error_type_name,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             # "traceback_snippet": detailed_traceback.splitlines()[-3:] # Example snippet
         },
     )
@@ -263,7 +262,7 @@ def handle_api_error(error: Exception, endpoint: str, user_id: Optional[str]) ->
         "error_code": "API_INTERNAL_SERVER_ERROR",
         "endpoint_errored": endpoint,
         "error_details": {"type": error_type_name},  # Avoid exposing full traceback in response for security
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -885,7 +884,7 @@ def system_health_check_endpoint():  # Renamed:
         "success": True,
         "status": "healthy",
         "api_version": API_VERSION,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "module_statuses": {  # Example, could be dynamic
             "ethics": "available",
             "memory": "available",
@@ -916,7 +915,7 @@ def system_api_info_endpoint():  # Renamed:
         "api_name": "LUKHAS AGI API",
         "api_version": API_VERSION,
         "base_path": BASE_PATH,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "module_endpoints": {
             "ethics": {
                 "base": "/ethics",
@@ -984,7 +983,7 @@ def handle_not_found_error(error: Exception) -> Any:  # error type is werkzeug.e
                 "error": "The requested API endpoint was not found.",
                 "error_code": "ENDPOINT_NOT_FOUND",
                 "path": request.path,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         ),
         404,
@@ -1004,7 +1003,7 @@ def handle_method_not_allowed_error(error: Exception) -> Any:  # error type is w
                 "error": f"The method '{request.method}' is not allowed for this endpoint.",
                 "error_code": "METHOD_NOT_ALLOWED",
                 "path": request.path,
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         ),
         405,
@@ -1036,7 +1035,7 @@ def handle_internal_server_error(error: Exception) -> Any:  # Catches general in
                 "success": False,
                 "error": "An unexpected internal server error occurred. The LUKHAS team has been notified.",
                 "error_code": "UNHANDLED_INTERNAL_SERVER_ERROR",
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         ),
         500,

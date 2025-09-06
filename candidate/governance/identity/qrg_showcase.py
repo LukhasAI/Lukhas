@@ -30,7 +30,7 @@ from typing import Any
 from qrg_integration import LukhusQRGIntegrator, QRGType
 
 # Add current directory to path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.abspath(__file__, timezone)))
 
 
 def create_ascii_qr_pattern(size: int = 25, density: float = 0.5, style: str = "standard") -> str:
@@ -68,7 +68,7 @@ class QRGShowcase:
             "types_demonstrated": set(),
             "user_profiles_tested": 0,
             "performance_metrics": [],
-            "start_time": datetime.now(),
+            "start_time": datetime.now(timezone.utc),
         }
 
         print("🎪 LUKHAS QRG Showcase System Initialized")
@@ -538,13 +538,13 @@ class QRGShowcase:
 
     def save_showcase_results(self, summary: dict[str, Any]):
         """Save showcase results to file"""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         filename = f"lukhus_qrg_showcase_{timestamp}.json"
 
         # Prepare data for JSON serialization
         json_data = {
             "showcase_summary": summary,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_info": {
                 "version": "LUKHAS QRG Showcase v1.0",
                 "integrator_config": self.integrator.config,

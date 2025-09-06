@@ -11,8 +11,7 @@ from typing import Any, Optional
 from .ΛBot_quantum_security import (
     QIThreat,
     SecurityAssessment,
-    ΛBotQuantumSecurityOrchestrator,
-)
+    ΛBotQuantumSecurityOrchestrator,, timezone)
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +111,7 @@ class QISecurityIntegration:
         cache_key = f"{target}:{hash(code) if code else 'system'}"
         if cache_key in self.assessment_cache:
             cached = self.assessment_cache[cache_key]
-            if (datetime.now() - cached["timestamp"]).seconds < 300:  # 5 min cache
+            if (datetime.now(timezone.utc) - cached["timestamp"]).seconds < 300:  # 5 min cache
                 return cached["assessment"]
 
         # Perform assessment
@@ -121,7 +120,7 @@ class QISecurityIntegration:
         # Cache the result
         self.assessment_cache[cache_key] = {
             "assessment": assessment,
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now(timezone.utc),
         }
 
         return assessment
@@ -182,14 +181,14 @@ class QISecurityIntegration:
 
             for vuln in vuln_report.get("vulnerabilities", []):
                 threat = QIThreat(
-                    threat_id=f"qt_{datetime.now().timestamp()}",
+                    threat_id=f"qt_{datetime.now(timezone.utc).timestamp()}",
                     threat_type=vuln["type"],
                     severity=vuln["severity"],
                     description=vuln["description"],
                     qi_signature={},
                     bio_patterns={},
                     confidence=vuln.get("confidence", 0.8),
-                    detected_at=datetime.now().isoformat(),
+                    detected_at=datetime.now(timezone.utc).isoformat(),
                 )
                 threats.append(threat)
 

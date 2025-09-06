@@ -45,7 +45,7 @@ from typing import Any, Optional
 # ΛNOTE: Enterprise symbolic drift tracking with multi-dimensional analysis
 
 
-class DriftPhase(Enum):
+class DriftPhase(Enum, timezone):
     """Symbolic drift phase classification"""
 
     EARLY = "EARLY"  # Initial deviation (0.0-0.25)
@@ -123,7 +123,7 @@ class SymbolicDriftTracker:
 
         # Drift analysis cache
         self.drift_cache: dict[str, DriftScore] = {}
-        self.last_cache_cleanup = datetime.now()
+        self.last_cache_cleanup = datetime.now(timezone.utc)
 
         logger.info(
             f"SymbolicDriftTracker initialized with enterprise configuration - config: {self.config}, thresholds: {self.drift_thresholds}"
@@ -228,7 +228,7 @@ class SymbolicDriftTracker:
             symbols: Current GLYPH/ΛTAG symbolic state
             metadata: Additional state context (emotions, ethics, timestamps)
         """
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         # Calculate state entropy
         entropy = self._calculate_state_entropy(symbols, metadata)
@@ -337,7 +337,7 @@ class SymbolicDriftTracker:
                 )
 
                 # Store pattern for analysis
-                pattern_key = f"recursive_{datetime.now().isoformat()}"
+                pattern_key = f"recursive_{datetime.now(timezone.utc).isoformat()}"
                 self.recursive_patterns[pattern_key] = loop_indicators
 
             return has_recursion
@@ -362,7 +362,7 @@ class SymbolicDriftTracker:
             score: Drift score (0.0-1.0)
             context: Alert context including session info and metadata
         """
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone.utc)
 
         # Determine alert level based on thresholds
         if score >= self.drift_thresholds["cascade"]:
@@ -741,7 +741,7 @@ class SymbolicDriftTracker:
 
     def _implement_symbolic_quarantine(self, session_id: str) -> None:
         """Implement symbolic quarantine for unstable sessions."""
-        quarantine_marker = f"ΛQUARANTINE_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        quarantine_marker = f"ΛQUARANTINE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         if session_id in self.symbolic_states:
             # Mark latest state with quarantine
@@ -761,7 +761,7 @@ class SymbolicDriftTracker:
         alert_payload = {
             "alert_type": "SYMBOLIC_DRIFT_CASCADE",
             "drift_score": score,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "session_id": context.get("session_id"),
             "context": context,
             "recommended_action": "IMMEDIATE_INTERVENTION",
@@ -823,8 +823,8 @@ class SymbolicDriftTracker:
             "prior_emotional_vector": reference_state.get("emotional_vector", [0.0, 0.0, 0.0]),
             "current_ethical_alignment": current_state.get("ethical_alignment", 0.5),
             "prior_ethical_alignment": reference_state.get("ethical_alignment", 0.5),
-            "timestamp": datetime.now(),
-            "prior_timestamp": datetime.now() - timedelta(hours=1),
+            "timestamp": datetime.now(timezone.utc),
+            "prior_timestamp": datetime.now(timezone.utc) - timedelta(hours=1),
         }
 
         drift_score = self.calculate_symbolic_drift(current_symbols, reference_symbols, drift_context)
@@ -846,7 +846,7 @@ class SymbolicDriftTracker:
         drift_event = {
             "drift_magnitude": drift_magnitude,
             "metadata": metadata,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         self.drift_records.append(drift_event)
 
@@ -913,7 +913,7 @@ class SymbolicDriftTracker:
 
     def summarize_drift(self, time_window: str = "all") -> dict:
         """Generate comprehensive drift summary with analytics."""
-        current_time = datetime.now()
+        current_time = datetime.now(timezone.utc)
 
         # Parse time window
         if time_window == "all":
@@ -1073,8 +1073,8 @@ if __name__ == "__main__":
         "prior_emotional_vector": initial_metadata["emotional_vector"],
         "current_ethical_alignment": evolved_metadata["ethical_alignment"],
         "prior_ethical_alignment": initial_metadata["ethical_alignment"],
-        "timestamp": datetime.now(),
-        "prior_timestamp": datetime.now() - timedelta(hours=2),
+        "timestamp": datetime.now(timezone.utc),
+        "prior_timestamp": datetime.now(timezone.utc) - timedelta(hours=2),
     }
 
     drift_score = tracker.calculate_symbolic_drift(evolved_symbols, initial_symbols, drift_context)

@@ -47,7 +47,7 @@ class ReflectiveIntrospectionSystem:
         """
         # Add timestamp if not present
         if "timestamp" not in interaction_data:
-            interaction_data["timestamp"] = datetime.datetime.now().isoformat()
+            interaction_data["timestamp"] = datetime.datetime.now(timezone.utc).isoformat()
 
         self.interaction_buffer.append(interaction_data)
 
@@ -73,7 +73,7 @@ class ReflectiveIntrospectionSystem:
             return {"insights": [], "improvements": []}
 
         self.reflection_cycle += 1
-        self.last_reflection_time = datetime.datetime.now()
+        self.last_reflection_time = datetime.datetime.now(timezone.utc)
         logger.info(f"Performing reflective introspection cycle {self.reflection_cycle}")
 
         # Analyze recent interactions
@@ -153,7 +153,7 @@ class ReflectiveIntrospectionSystem:
 
         # Add timestamp
         for insight in insights:
-            insight["timestamp"] = datetime.datetime.now().isoformat()
+            insight["timestamp"] = datetime.datetime.now(timezone.utc).isoformat()
 
         return insights
 
@@ -292,7 +292,7 @@ class ReflectiveIntrospectionSystem:
         # Add timestamp and ID
         for i, improvement in enumerate(improvements):
             improvement["id"] = f"imp_{self.reflection_cycle}_{i}"
-            improvement["created_at"] = datetime.datetime.now().isoformat()
+            improvement["created_at"] = datetime.datetime.now(timezone.utc).isoformat()
 
         return improvements
 
@@ -307,7 +307,7 @@ class ReflectiveIntrospectionSystem:
             # Add to active improvements
             improvement_id = improvement["id"]
             improvement["status"] = "active"
-            improvement["implemented_at"] = datetime.datetime.now().isoformat()
+            improvement["implemented_at"] = datetime.datetime.now(timezone.utc).isoformat()
             self.active_improvements[improvement_id] = improvement
 
             logger.info(f"Implementing improvement: {improvement['description']}")
@@ -339,7 +339,7 @@ class ReflectiveIntrospectionSystem:
             "active_improvements": active_improvements,
             "completed_improvements": completed_improvements,
             "latest_insights": latest_insights,
-            "generated_at": datetime.datetime.now().isoformat(),
+            "generated_at": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def analyze_system_performance(self) -> dict:
@@ -355,7 +355,7 @@ class ReflectiveIntrospectionSystem:
         return {
             "bottlenecks": bottlenecks,
             "adaptations": adaptations,
-            "timestamp": datetime.datetime.now().isoformat(),
+            "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
         }
 
     def identify_bottlenecks(self) -> list[dict]:
@@ -417,7 +417,7 @@ class ReflectiveIntrospectionSystem:
                 "target_metric": metric,
                 "adaptation_type": "optimization",
                 "severity": severity,
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             if metric == "response_time":
@@ -457,7 +457,7 @@ class ReflectiveIntrospectionSystem:
                 "input_data": str(input_data)[:200],  # Truncate for storage
                 "context": context,
                 "processing_status": processing_result.get("status", "unknown"),
-                "timestamp": datetime.datetime.now().isoformat(),
+                "timestamp": datetime.datetime.now(timezone.utc).isoformat(),
                 "metrics": {
                     "processing_time": processing_result.get("processing_time", 0),
                     "complexity": self._assess_complexity(input_data),
@@ -476,7 +476,7 @@ class ReflectiveIntrospectionSystem:
                 "learning_opportunities": self._identify_learning_opportunities(input_data, context, processing_result),
                 "cognitive_load": self._estimate_cognitive_load(context),
                 "adaptation_suggestions": self._generate_adaptation_suggestions(processing_result),
-                "meta_timestamp": datetime.datetime.now().isoformat(),
+                "meta_timestamp": datetime.datetime.now(timezone.utc).isoformat(),
             }
 
             return reflection

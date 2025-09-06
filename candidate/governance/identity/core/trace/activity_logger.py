@@ -24,7 +24,7 @@ from typing import Any
 class LambdaTraceLogger:
     """Symbolic activity logger for LUKHAS ecosystem with enterprise forensic support"""
 
-    def __init__(self, config, consent_manager=None):
+    def __init__(self, config, consent_manager=None, timezone):
         self.config = config
         self.consent_manager = consent_manager
         self.trace_buffer = []
@@ -50,7 +50,7 @@ class LambdaTraceLogger:
         if self.consent_manager and not self._check_logging_consent(user_id, activity_type):
             return None
 
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         event_symbol = self.symbolic_map.get(activity_type, "❓")
 
         # Create comprehensive trace record
@@ -106,7 +106,7 @@ class LambdaTraceLogger:
             "new_tier": new_tier,
             "change_reason": change_reason,
             "progression_symbol": f"T{old_tier}→T{new_tier}",
-            "timestamp_change": datetime.utcnow().isoformat(),
+            "timestamp_change": datetime.now(timezone.utc).isoformat(),
         }
         return self.log_activity(user_id, "tier_change", symbolic_data)
 

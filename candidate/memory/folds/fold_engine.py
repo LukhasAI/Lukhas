@@ -703,7 +703,7 @@ class MemoryFold:
         self.entropyDelta = new_importance - self._calculate_initial_importance()
         if self.driftScore > 0.3:
             self.collapseHash = hashlib.md5(
-                f"{self.key}_{datetime.now()}".encode()
+                f"{self.key}_{datetime.now(timezone.utc)}".encode()
             ).hexdigest()[:8]
             # Log significant drift events to integrity ledger
             MemoryIntegrityLedger.log_drift_event(
@@ -834,7 +834,7 @@ def fold_dream_experience(:
 
         # Create primary dream fold
         dream_fold = MemoryFold(
-            key=f"DREAM_{dream_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            key=f"DREAM_{dream_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             content={
                 "dream_content": dream_content,
                 "dream_metadata": dream_metadata,

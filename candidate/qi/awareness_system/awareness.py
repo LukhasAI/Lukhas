@@ -20,7 +20,7 @@ from typing import Any, Optional
 import structlog
 
 # Initialize logger for ΛTRACE using structlog
-logger = structlog.get_logger("ΛTRACE.core.integration.bio_awareness.Awareness")
+logger = structlog.get_logger("ΛTRACE.core.integration.bio_awareness.Awareness", timezone)
 
 # AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring
 # into more accessible shared libraries or services.
@@ -81,7 +81,7 @@ class EnhancedSystemAwareness:
     """
 
     def __init__(self):
-        self.logger = logger.bind(awareness_system_id=f"esa_{datetime.now().strftime('%Y%m%d%H%M%S')}")
+        self.logger = logger.bind(awareness_system_id=f"esa_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}")
         self.logger.info("Initializing EnhancedSystemAwareness.")
 
         # Initialize quantum components
@@ -158,7 +158,7 @@ class EnhancedSystemAwareness:
             "Starting system monitoring cycle.",
             context_keys=list(context.keys()) if context else [],
         )
-        start_time_dt = datetime.now()  # Use datetime for duration calculation consistency
+        start_time_dt = datetime.now(timezone.utc)  # Use datetime for duration calculation consistency
 
         try:
             # ΛCAUTION: Relies on potentially uninitialized components if __init__
@@ -241,7 +241,7 @@ class EnhancedSystemAwareness:
     def _update_metrics(self, start_time_dt: datetime) -> None:
         """Update performance metrics"""
         # ΛNOTE: Placeholder for _update_metrics. Needs full implementation.
-        processing_time_ms = (datetime.now() - start_time_dt).total_seconds() * 1000
+        processing_time_ms = (datetime.now(timezone.utc) - start_time_dt).total_seconds() * 1000
         self.logger.debug(
             "Updating performance metrics (placeholder).",
             processing_time_ms=processing_time_ms,

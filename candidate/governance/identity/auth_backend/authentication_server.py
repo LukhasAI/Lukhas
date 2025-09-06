@@ -386,7 +386,7 @@ class AuthenticationServer:
             self.audit_logger.log_event(f"Exception in client connection: {e}", constitutional_tag=True)
 
     def create_authentication_session(self, user_id: str) -> str:
-        session_id = hashlib.sha256(f"{user_id}{datetime.now()}".encode()).hexdigest()
+        session_id = hashlib.sha256(f"{user_id}{datetime.now(timezone.utc)}".encode()).hexdigest()
         entropy_sync = EntropySynchronizer()
         entropy_sync.last_active = time.time()
         self.active_sessions[session_id] = entropy_sync

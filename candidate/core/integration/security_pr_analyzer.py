@@ -55,7 +55,7 @@ class PRAnalysis:
 class SecurityScanner:
     """Advanced security scanner for repositories"""
 
-    def __init__(self, github_token: Optional[str] = None):
+    def __init__(self, github_token: Optional[str] = None, timezone):
         self.github_token = github_token or os.getenv("GITHUB_TOKEN")
         self.session = requests.Session()
         if self.github_token:
@@ -70,7 +70,7 @@ class SecurityScanner:
         """Comprehensive security scan of repository"""
 
         results = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "repo_path": repo_path,
             "security_issues": [],
             "dependency_vulnerabilities": [],
@@ -533,7 +533,7 @@ class PRAnalyzer:
             return {"error": "GitHub token required for PR analysis"}
 
         results = {
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "repository": repo_info["full_name"],
             "analysis_period_days": days_back,
             "total_prs": 0,
@@ -545,7 +545,7 @@ class PRAnalyzer:
 
         try:
             # Get recent PRs
-            since_date = (datetime.now() - timedelta(days=days_back)).isoformat()
+            since_date = (datetime.now(timezone.utc) - timedelta(days=days_back)).isoformat()
             url = f"https://api.github.com/repos/{repo_info['full_name']}/pulls"
 
             params = {"state": "all", "sort": "updated", "per_page": 100}
@@ -726,7 +726,7 @@ def main():
         repo_info = None
 
     results = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "repository": repo_info["full_name"] if repo_info else repo_path,
     }
 
@@ -755,7 +755,7 @@ def main():
             print(f"   High Risk PRs: {pr_results['high_risk_prs']}")
 
     # Save results
-    output_file = f"security_pr_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    output_file = f"security_pr_analysis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     with open(output_file, "w") as f:
         json.dump(results, f, indent=2, default=str)
 

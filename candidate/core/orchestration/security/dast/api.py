@@ -25,7 +25,7 @@ class LucasDASTAPI:
     - AGI-ready: Future-proof architecture
     """
 
-    def __init__(self, dast_engine):
+    def __init__(self, dast_engine, timezone):
         self.dast_engine = dast_engine
         self.api_version = "v2.0"
         self.request_log: list[dict] = []
@@ -346,7 +346,7 @@ class LucasDASTAPI:
             health_status = {
                 "status": "healthy",
                 "version": self.api_version,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "performance": performance_stats,
                 "system_metrics": {
                     "active_tasks": len(self.dast_engine.tasks),
@@ -647,7 +647,7 @@ class LucasDASTAPI:
             "success": True,
             "status_code": status_code,
             "data": data,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "api_version": self.api_version,
         }
 
@@ -658,7 +658,7 @@ class LucasDASTAPI:
             "status_code": status_code,
             "error": {
                 "message": message,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "api_version": self.api_version,
             },
         }

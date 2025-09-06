@@ -13,7 +13,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class QINoiseType(Enum):
@@ -410,7 +410,7 @@ class QISubstrate:
 
     def _generate_state_id(self) -> str:
         """Generate unique state ID"""
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(timezone.utc).isoformat()
         random_bytes = np.random.bytes(8)
         return f"qstate_{hashlib.sha256(f'{timestamp}{random_bytes}'.encode()).hexdigest()[:16]}"
 

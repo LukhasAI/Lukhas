@@ -14,7 +14,7 @@ from pathlib import Path
 class AdvancedSyntaxFixer:
     """Advanced fixer for complex syntax errors"""
 
-    def __init__(self):
+    def __init__(self, timezone):
         self.fixed_count = 0
         self.failed_count = 0
         self.backup_dir = Path("healing/advanced_backups")
@@ -100,7 +100,7 @@ class AdvancedSyntaxFixer:
         """Fix a file with advanced techniques"""
         # Create backup
         backup_path = self.backup_dir / (
-            Path(filepath).name + f'.{datetime.now().strftime("%Y%m%d_%H%M%S")}.backup'
+            Path(filepath).name + f'.{datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")}.backup'
         )
 
         try:

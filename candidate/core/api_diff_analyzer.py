@@ -499,7 +499,7 @@ if __name__ == "__main__":
         """Get current timestamp"""
         from datetime import datetime
 
-        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        return datetime.now(, timezone).strftime("%Y-%m-%d %H:%M:%S")
 
 
 def main():

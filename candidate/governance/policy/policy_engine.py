@@ -34,7 +34,7 @@ from typing import Any, Callable, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, timezone)
 
 
 class PolicyType(Enum):
@@ -556,7 +556,7 @@ class PolicyEnforcementEngine:
             "rules_active": 0,
             "average_evaluation_time": 0.0,
             "policy_effectiveness": {},
-            "last_updated": datetime.now().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
         # Initialize standard policies
@@ -718,7 +718,7 @@ class PolicyEnforcementEngine:
         Returns:
             Policy evaluation result with actions and violations
         """
-        evaluation_start = datetime.now()
+        evaluation_start = datetime.now(timezone.utc)
         evaluation_id = f"eval_{uuid.uuid4().hex[:8]}"
 
         logger.debug(f"🔍 Evaluating policies: {evaluation_id}")
@@ -757,7 +757,7 @@ class PolicyEnforcementEngine:
             )
 
             # Calculate evaluation metrics
-            evaluation_time = (datetime.now() - evaluation_start).total_seconds()
+            evaluation_time = (datetime.now(timezone.utc) - evaluation_start).total_seconds()
 
             # Create evaluation result
             result = PolicyEvaluationResult(
@@ -792,7 +792,7 @@ class PolicyEnforcementEngine:
             logger.error(f"❌ Policy evaluation failed: {e}")
 
             # Return conservative result on error
-            evaluation_time = (datetime.now() - evaluation_start).total_seconds()
+            evaluation_time = (datetime.now(timezone.utc) - evaluation_start).total_seconds()
             return PolicyEvaluationResult(
                 evaluation_id=f"error_{uuid.uuid4().hex[:8]}",
                 context=context,
@@ -811,7 +811,7 @@ class PolicyEnforcementEngine:
             {
                 "operation": operation,
                 "user_id": user_id,
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "evaluation_request": True,
             }
         )
@@ -826,14 +826,14 @@ class PolicyEnforcementEngine:
         )
 
         # Add system context
-        enhanced.update({"system_time": datetime.now().isoformat(), "policy_engine_version": "1.0.0"})
+        enhanced.update({"system_time": datetime.now(timezone.utc).isoformat(), "policy_engine_version": "1.0.0"})
 
         return enhanced
 
     async def _evaluate_rule(self, rule: PolicyRule, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate a single policy rule"""
 
-        rule_start = datetime.now()
+        rule_start = datetime.now(timezone.utc)
 
         try:
             # Check if rule is triggered
@@ -868,10 +868,10 @@ class PolicyEnforcementEngine:
             if triggered:
                 # Update rule statistics
                 rule.execution_count += 1
-                rule.last_executed = datetime.now()
+                rule.last_executed = datetime.now(timezone.utc)
 
                 # Calculate execution time
-                execution_time = (datetime.now() - rule_start).total_seconds()
+                execution_time = (datetime.now(timezone.utc) - rule_start).total_seconds()
                 if rule.average_execution_time == 0:
                     rule.average_execution_time = execution_time
                 else:
@@ -1084,7 +1084,7 @@ class PolicyEnforcementEngine:
             elif result.final_action in [PolicyAction.WARN, PolicyAction.LOG]:
                 self.metrics["policy_effectiveness"][rule_id]["effectiveness"] += 0.5
 
-        self.metrics["last_updated"] = datetime.now().isoformat()
+        self.metrics["last_updated"] = datetime.now(timezone.utc).isoformat()
 
     def _maintain_history_size(self):
         """Maintain history size limits"""
@@ -1117,7 +1117,7 @@ class PolicyEnforcementEngine:
                 if field in allowed_updates:
                     setattr(rule, field, value)
 
-            rule.updated_at = datetime.now()
+            rule.updated_at = datetime.now(timezone.utc)
             logger.info(f"✅ Updated policy rule: {rule_id}")
             return True
 
@@ -1160,7 +1160,7 @@ class PolicyEnforcementEngine:
 
         report = {
             "report_id": f"policy_report_{uuid.uuid4().hex[:8]}",
-            "generated_at": datetime.now().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "policy_status": await self.get_policy_status(),
             "active_policies": [
                 {

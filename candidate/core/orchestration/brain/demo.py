@@ -27,7 +27,7 @@ from datetime import datetime
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
         logging.FileHandler("adaptive_agi_demo.log"),
@@ -82,7 +82,7 @@ class AdaptiveAGIDemo:
         # Demo state
         self.demo_state = {
             "status": "initializing",
-            "start_time": datetime.now().isoformat(),
+            "start_time": datetime.now(timezone.utc).isoformat(),
             "active_session": None,
             "interaction_count": 0,
             "demo_mode": "interactive",  # or "guided"
@@ -440,7 +440,7 @@ class AdaptiveAGIDemo:
 
     async def create_session(self, user_id):
         """Create a demo session"""
-        session_id = f"session_{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        session_id = f"session_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
 
         context = {
             "device_info": {"type": "desktop", "orientation": "landscape"},
@@ -454,7 +454,7 @@ class AdaptiveAGIDemo:
         self.demo_state["active_session"] = {
             "session_id": session_id,
             "user_id": user_id,
-            "start_time": datetime.now().isoformat(),
+            "start_time": datetime.now(timezone.utc).isoformat(),
             "context": context,
             "interactions": [],
         }
@@ -468,7 +468,7 @@ class AdaptiveAGIDemo:
             return {"status": "no_active_session"}
 
         session = self.demo_state["active_session"]
-        session["end_time"] = datetime.now().isoformat()
+        session["end_time"] = datetime.now(timezone.utc).isoformat()
 
         # Calculate session duration
         start_time = datetime.fromisoformat(session["start_time"])
@@ -515,7 +515,7 @@ class AdaptiveAGIDemo:
             "emotion": emotion_context.get("primary_emotion", "neutral"),
             "urgency": emotion_context.get("intensity", 0.5),
             "formality": session["context"].get("formality", 0.5),
-            "time_context": {"is_evening": datetime.now().hour >= 17},
+            "time_context": {"is_evening": datetime.now(timezone.utc).hour >= 17},
         }
 
         # Generate cognitive response

@@ -8,7 +8,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, timezone)
 
 
 class SafetyHub:
@@ -283,7 +283,7 @@ class SafetyHub:
                     "action_type": action_type,
                     "validation_result": safety_decision,
                     "validated_by": "ai_safety_orchestrator",
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             except Exception as e:
                 logger.error(f"Safety orchestrator validation error: {e}")
@@ -294,7 +294,7 @@ class SafetyHub:
                         "reason": f"Safety validation error: {e}",
                     },
                     "error": str(e),
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         # Fallback safety validation
@@ -305,7 +305,7 @@ class SafetyHub:
                 "reason": "No safety orchestrator available",
             },
             "warning": "Safety validation not fully operational",
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     async def process_event(self, event_type: str, data: dict[str, Any]) -> dict[str, Any]:
@@ -324,7 +324,7 @@ class SafetyHub:
                     "blocked": True,
                     "reason": "Safety validation failed",
                     "validation_details": validation_result,
-                    "timestamp": datetime.now().isoformat(),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
 
         # Process through registered handlers
@@ -343,7 +343,7 @@ class SafetyHub:
             "event_type": event_type,
             "results": results,
             "safety_validated": True,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "processed_by": "safety_hub",
         }
 
@@ -353,7 +353,7 @@ class SafetyHub:
             "status": "healthy",
             "services": {},
             "safety_policies": self.safety_policies,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "hub": "safety",
         }
 
@@ -378,7 +378,7 @@ class SafetyHub:
         safety_status = {
             "hub_services": len(self.services),
             "policies_active": len([p for p in self.safety_policies.values() if p.get("enabled", False)]),
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Get orchestrator status

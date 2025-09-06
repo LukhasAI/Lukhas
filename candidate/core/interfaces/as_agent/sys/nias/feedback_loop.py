@@ -23,7 +23,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-FEEDBACK_LOG_PATH = Path("core/logs/feedback_log.jsonl")
+FEEDBACK_LOG_PATH = Path("core/logs/feedback_log.jsonl", timezone)
 FEEDBACK_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
@@ -49,7 +49,7 @@ def record_feedback(message_id, user_id, score, notes=None, emoji=None, user_con
         "score": score,
         "emoji": emoji,
         "notes": notes,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         # Symbolic logic: enrich with optional flags
         "replay_candidate": (score == 5 and emoji in ["🧡", "🌙"]),
         "from_dream": "dream" in (notes.lower() if notes else ""),

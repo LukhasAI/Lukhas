@@ -869,7 +869,7 @@ if __name__ == "__main__":
     print(f"  Total Time: {results.get('total_time_ms', 0):.2f}ms")
 
     # Save results to file
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     results_file = f"orchestration_test_results_{timestamp}.json"
 
     try:

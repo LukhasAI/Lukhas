@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Optional
 
 
-class AttributionMethod(Enum):
+class AttributionMethod(Enum, timezone):
     AFFILIATE_LINK = "affiliate_link"
     S2S_POSTBACK = "s2s_postback"
     RECEIPT_MATCHING = "receipt_matching"
@@ -167,7 +167,7 @@ class AttributionFallbackLadder:
         click_timestamp = tracking_params.get("timestamp")
         if click_timestamp:
             click_time = datetime.fromtimestamp(int(click_timestamp))
-            if datetime.now() - click_time > self.attribution_windows[AttributionMethod.AFFILIATE_LINK]:
+            if datetime.now(timezone.utc) - click_time > self.attribution_windows[AttributionMethod.AFFILIATE_LINK]:
                 return None
 
         # High confidence for direct affiliate attribution
@@ -186,8 +186,8 @@ class AttributionFallbackLadder:
                 "tracking_params": tracking_params,
                 "direct_path": self._verify_direct_click_path(user_context),
             },
-            timestamp=datetime.now(),
-            expires_at=datetime.now() + self.attribution_windows[AttributionMethod.AFFILIATE_LINK],
+            timestamp=datetime.now(timezone.utc),
+            expires_at=datetime.now(timezone.utc) + self.attribution_windows[AttributionMethod.AFFILIATE_LINK],
         )
 
     async def _try_s2s_attribution(self, conversion_event: dict, user_context: dict) -> Optional[AttributionResult]:
@@ -208,7 +208,7 @@ class AttributionFallbackLadder:
 
                 # Verify postback timestamp within window
                 postback_time = datetime.fromisoformat(s2s_record["timestamp"])
-                if datetime.now() - postback_time <= self.attribution_windows[AttributionMethod.S2S_POSTBACK]:
+                if datetime.now(timezone.utc) - postback_time <= self.attribution_windows[AttributionMethod.S2S_POSTBACK]:
                     # Validate postback signature
                     if self._validate_postback_signature(s2s_record):
                         confidence = 0.90 if self._match_conversion_details(s2s_record, conversion_event) else 0.85
@@ -224,8 +224,8 @@ class AttributionFallbackLadder:
                                 "postback_data": s2s_record,
                                 "value_match": self._match_conversion_details(s2s_record, conversion_event),
                             },
-                            timestamp=datetime.now(),
-                            expires_at=datetime.now() + self.attribution_windows[AttributionMethod.S2S_POSTBACK],
+                            timestamp=datetime.now(timezone.utc),
+                            expires_at=datetime.now(timezone.utc) + self.attribution_windows[AttributionMethod.S2S_POSTBACK],
                         )
 
         return None
@@ -268,8 +268,8 @@ class AttributionFallbackLadder:
                     "match_factors": self._get_match_factors(purchase_details, best_match),
                     "match_confidence": best_confidence,
                 },
-                timestamp=datetime.now(),
-                expires_at=datetime.now() + self.attribution_windows[AttributionMethod.RECEIPT_MATCHING],
+                timestamp=datetime.now(timezone.utc),
+                expires_at=datetime.now(timezone.utc) + self.attribution_windows[AttributionMethod.RECEIPT_MATCHING],
             )
 
         return None
@@ -303,8 +303,8 @@ class AttributionFallbackLadder:
                         "inference_factors": behavioral_data["factors"],
                         "pattern_match": likely_opportunity,
                     },
-                    timestamp=datetime.now(),
-                    expires_at=datetime.now() + self.attribution_windows[AttributionMethod.BEHAVIORAL_INFERENCE],
+                    timestamp=datetime.now(timezone.utc),
+                    expires_at=datetime.now(timezone.utc) + self.attribution_windows[AttributionMethod.BEHAVIORAL_INFERENCE],
                 )
 
         return None
@@ -323,8 +323,8 @@ class AttributionFallbackLadder:
 
         if last_interaction:
             interaction_time = datetime.fromisoformat(last_interaction["timestamp"])
-            if datetime.now() - interaction_time <= self.attribution_windows[AttributionMethod.LAST_TOUCH]:
-                confidence = 0.50 if interaction_time > datetime.now() - timedelta(hours=6) else 0.40
+            if datetime.now(timezone.utc) - interaction_time <= self.attribution_windows[AttributionMethod.LAST_TOUCH]:
+                confidence = 0.50 if interaction_time > datetime.now(timezone.utc) - timedelta(hours=6) else 0.40
 
                 return AttributionResult(
                     method=AttributionMethod.LAST_TOUCH,
@@ -335,10 +335,10 @@ class AttributionFallbackLadder:
                     conversion_value_usd=conversion_event.get("value_usd", 0.0),
                     attribution_data={
                         "last_interaction": last_interaction,
-                        "time_gap_hours": (datetime.now() - interaction_time).total_seconds() / 3600,
+                        "time_gap_hours": (datetime.now(timezone.utc) - interaction_time).total_seconds() / 3600,
                     },
-                    timestamp=datetime.now(),
-                    expires_at=datetime.now() + self.attribution_windows[AttributionMethod.LAST_TOUCH],
+                    timestamp=datetime.now(timezone.utc),
+                    expires_at=datetime.now(timezone.utc) + self.attribution_windows[AttributionMethod.LAST_TOUCH],
                 )
 
         return None
@@ -361,8 +361,8 @@ class AttributionFallbackLadder:
                 "fallback_reason": "No higher-confidence attribution available",
                 "default_data": default_attribution,
             },
-            timestamp=datetime.now(),
-            expires_at=datetime.now() + self.attribution_windows[AttributionMethod.DEFAULT_FALLBACK],
+            timestamp=datetime.now(timezone.utc),
+            expires_at=datetime.now(timezone.utc) + self.attribution_windows[AttributionMethod.DEFAULT_FALLBACK],
         )
 
     # Helper methods
@@ -432,7 +432,7 @@ class AttributionFallbackLadder:
 
         # Check timing - conversion should happen within reasonable time of postback
         postback_time = datetime.fromisoformat(s2s_record["timestamp"])
-        conversion_time = datetime.fromisoformat(conversion_event.get("timestamp", datetime.now().isoformat()))
+        conversion_time = datetime.fromisoformat(conversion_event.get("timestamp", datetime.now(timezone.utc).isoformat()))
         time_match = abs((conversion_time - postback_time).total_seconds()) <= 3600  # 1 hour
 
         return value_match and time_match
@@ -448,7 +448,7 @@ class AttributionFallbackLadder:
                 "merchant_id": "merchant_789",
                 "product": "Premium Headphones",
                 "price": 299.99,
-                "timestamp": (datetime.now() - timedelta(hours=2)).isoformat(),
+                "timestamp": (datetime.now(timezone.utc) - timedelta(hours=2)).isoformat(),
                 "interaction_type": "view",
             }
         ]
@@ -532,7 +532,7 @@ class AttributionFallbackLadder:
             "publisher_id": "pub_last_456",
             "merchant_id": "merchant_last_789",
             "interaction_type": "click",
-            "timestamp": (datetime.now() - timedelta(hours=3)).isoformat(),
+            "timestamp": (datetime.now(timezone.utc) - timedelta(hours=3)).isoformat(),
         }
 
     async def _get_default_attribution(self, user_id: str) -> dict:
@@ -579,7 +579,7 @@ class S2SPostbackHandler:
             "publisher_id": publisher_id,
             "merchant_id": merchant_id,
             "expected_value": expected_value,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "signature": signature,
             "data": postback_data,
         }
@@ -595,7 +595,7 @@ class S2SPostbackHandler:
         return {
             "status": "success",
             "postback_id": s2s_record["postback_id"],
-            "cached_until": (datetime.now() + timedelta(days=7)).isoformat(),
+            "cached_until": (datetime.now(timezone.utc) + timedelta(days=7)).isoformat(),
         }
 
     def _validate_signature(self, postback_data: dict, signature: str) -> bool:
@@ -623,7 +623,7 @@ async def main():
     conversion_event = {
         "conversion_id": "conv_123456",
         "value_usd": 299.99,
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "merchant": "merchant_789",
         "products": ["Premium Wireless Headphones"],
         "user_agent": "Mozilla/5.0...",
