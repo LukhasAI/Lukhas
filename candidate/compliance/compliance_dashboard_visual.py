@@ -70,7 +70,8 @@ st.divider()
 st.markdown("## ⏰ Scheduling & Mobile Optimization")
 
 st.markdown(
-    "To enable automated compliance digests every Sunday at 8:00 AM, integrate this script with your system scheduler (e.g. `cron`, `launchd`, or GitHub Actions)."
+    "To enable automated compliance digests every Sunday at 8:00 AM, "
+    "integrate this script with your system scheduler (e.g. `cron`, `launchd`, or GitHub Actions)."
 )
 
 st.code(

@@ -4,27 +4,6 @@ Original: dynamic_adaptive_dashboard.py
 Advanced: dynamic_adaptive_dashboard.py
 Integration Date: 2025-05-31T07:55:27.756467
 """
-from typing import List
-import streamlit as st
-
-"""
-Adaptive Dashboard for Aethios AGI
-
-This module implements a sophisticated dashboard that integrates the DAST (Dynamic Alignment &
-Symbolic Tasking), ABAS (Adaptive Behavioral Arbitration System), and NIAS (Non-Intrusive Ad System)
-components into a unified adaptive interface.
-
-The dashboard dynamically adjusts its components, layout, and functionality based on:
-1. User's tier level
-2. Emotional context
-3. Device capabilities
-4. Usage patterns
-5. Ethical constraints
-
-Author: Aethios AGI Team
-Date: May 4, 2025
-"""
-
 import asyncio
 import json
 import logging
@@ -33,6 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
 
+import streamlit as st
 from aethios.core.context_analyzer import ContextAnalyzer
 from aethios.interface.voice.emotional_fingerprinter import EmotionalFingerprinter
 from aethios.interface.voice.speech_processor import SpeechProcessor
@@ -43,17 +23,13 @@ from aethios.interface.voice.speech_processor import SpeechProcessor
 try:
     # DAST (Dynamic Alignment & Symbolic Tasking) components
     # ABAS (Adaptive Behavioral Arbitration System) components
-    from V1.systems.core.modules.abas.abas import (
-        evaluate_emotional_state,
-        is_allowed_now,
-    )
-    from V1.systems.core.modules.dast.dast_logger import log_task_event
+    from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO: Install or implement AGENT
 
     # NIAS (Non-Intrusive Ad System) components
     # Widget system from agent_folder
-    #     from AGENT.lukhas_widget_engine import WidgetEngine  # TODO: Install or implement AGENT
-    # from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO:
-    # Install or implement AGENT
+    from AGENT.lukhas_widget_engine import WidgetEngine  # TODO: Install or implement AGENT
+    from V1.systems.core.modules.abas.abas import evaluate_emotional_state, is_allowed_now
+    from V1.systems.core.modules.dast.dast_logger import log_task_event
 
     V1_COMPONENTS_AVAILABLE = True
 except ImportError:
@@ -113,10 +89,10 @@ class AdaptiveDashboard:
                     return json.load(f)
             else:
                 self.logger.warning(f"Widget registry file not found: {registry_path}")
-                return {"widget_types": {}
+                return {"widget_types": {}}
         except Exception as e:
             self.logger.error(f"Error loading widget registry: {e}")
-            return {"widget_types": {}
+            return {"widget_types": {}}
 
     async def generate_dashboard(
         self, user_profile: UserProfile, context: Optional[dict[str, Any]] = None
@@ -178,7 +154,7 @@ class AdaptiveDashboard:
                     widget["nias_reason"] = ad_permission.get("reason", "")
 
                     if not widget["show_ads"]:
-                        self.logger.info(f"NIAS blocked ads for {widget_type} widget: {ad_permission.get('reason'}}")
+                        self.logger.info(f"NIAS blocked ads for {widget_type} widget: {ad_permission.get('reason')}")
                 except Exception as e:
                     self.logger.error(f"Error evaluating NIAS permissions: {e}")
                     widget["show_ads"] = False
@@ -199,7 +175,6 @@ class AdaptiveDashboard:
             "widgets": processed_widgets,
             "layout": layout,
             "emotional_state": emotional_state,
-            "context": context,
             "theme": self._determine_theme(context, emotional_state),
         }
 
@@ -523,7 +498,7 @@ class AdaptiveDashboard:
                 if not abas_result.get("allowed", True):
                     return {
                         "status": "blocked",
-                        "message": f"ABAS blocked interaction: {abas_result.get('reason', 'Unknown reason'}}",
+                        "message": f"ABAS blocked interaction: {abas_result.get('reason', 'Unknown reason')}",
                         "recommended_action": abas_result.get("recommended_action"),
                     }
             except Exception as e:
@@ -590,9 +565,9 @@ async def main():
     )
 
     # Generate dashboard
-    result = await dashboard.generate_dashboard(user, {"time_context": {"is_night": True})
+    result = await dashboard.generate_dashboard(user, {"time_context": {"is_night": True}})
 
-    print(f"Generated dashboard with {len(result['widgets']}} widgets")
+    print(f"Generated dashboard with {len(result['widgets'])} widgets")
     print(f"Layout type: {result['layout']['type']}")
     print("Widgets:")
     for widget in result["widgets"]:
