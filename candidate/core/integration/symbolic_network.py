@@ -83,7 +83,7 @@ class NodeType(Enum):
 
 
 logger.info(
-    f"ΛTRACE: NodeType Enum defined with values: {[ntype}"
+    f"ΛTRACE: NodeType Enum defined with values: {[ntype.value for ntype in NodeType]}"
 )
 
 # Enum for Connection Types
@@ -102,7 +102,7 @@ class ConnectionType(Enum):
 
 
 logger.info(
-    f"ΛTRACE: ConnectionType Enum defined with values: {[ctype}"
+    f"ΛTRACE: ConnectionType Enum defined with values: {[ctype.value for ctype in ConnectionType]}"
 )
 
 # Dataclass for a Symbolic Node

@@ -544,7 +544,7 @@ class EmotionalEchoDetector:
             return None
 
         return EmotionalSequence(
-            sequence_id=f"DREAM_{int(time.time())}_{hash(dream_content)} % 10000}",
+            sequence_id=f"DREAM_{int(time.time())}_{hash(dream_content) % 10000}",
             timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="dream",
             emotions=emotions,
@@ -576,7 +576,7 @@ class EmotionalEchoDetector:
             return None
 
         return EmotionalSequence(
-            sequence_id=f"MEMORY_{int(time.time())}_{hash(str(data)} % 10000}",
+            sequence_id=f"MEMORY_{int(time.time())}_{hash(str(data)) % 10000}",
             timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="memory",
             emotions=emotions,
@@ -612,7 +612,7 @@ class EmotionalEchoDetector:
             return None
 
         return EmotionalSequence(
-            sequence_id=f"DRIFT_{int(time.time())}_{hash(str(data)} % 10000}",
+            sequence_id=f"DRIFT_{int(time.time())}_{hash(str(data)) % 10000}",
             timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="drift_log",
             emotions=emotions,
@@ -634,7 +634,7 @@ class EmotionalEchoDetector:
             return None
 
         return EmotionalSequence(
-            sequence_id=f"GENERIC_{int(time.time())}_{hash(str(data)} % 10000}",
+            sequence_id=f"GENERIC_{int(time.time())}_{hash(str(data)) % 10000}",
             timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="generic",
             emotions=emotions if isinstance(emotions, list) else [emotions],
@@ -754,7 +754,7 @@ class EmotionalEchoDetector:
 
             for gram in n_grams:
                 pattern_str = " -> ".join(gram)
-                motif_id = f"MOTIF_{hash(pattern_str)} % 100000}"
+                motif_id = f"MOTIF_{hash(pattern_str) % 100000}"
 
                 # Check if this motif already exists
                 existing_motif = self.detected_motifs.get(motif_id)
@@ -919,7 +919,7 @@ class EmotionalEchoDetector:
 
         # Create report
         report = LoopReport(
-            report_id=f"ECHO_REPORT_{int(time.time()}",
+            report_id=f"ECHO_REPORT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             analysis_window=f"{window_minutes} minutes",
             sequences_analyzed=len(recent_sequences),
@@ -998,7 +998,7 @@ class EmotionalEchoDetector:
             archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(motif.archetype_match, {})
 
             alert = {
-                "alert_id": f"ARCH_ALERT_{int(time.time())}_{hash(motif.motif_id)} % 1000}",
+                "alert_id": f"ARCH_ALERT_{int(time.time())}_{hash(motif.motif_id) % 1000}",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "archetype": motif.archetype_match.value,
                 "description": archetype_info.get("description", "Unknown archetype"),
@@ -1246,7 +1246,7 @@ class EmotionalEchoDetector:
         tags.append(alert_level)
 
         alert = {
-            "alert_id": f"ECHO_ALERT_{int(time.time())}_{hash(str(archetype)} % 10000}",
+            "alert_id": f"ECHO_ALERT_{int(time.time())}_{hash(str(archetype)) % 10000}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "alert_level": alert_level,
             "score": score,
