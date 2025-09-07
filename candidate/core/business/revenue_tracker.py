@@ -23,7 +23,7 @@ class ConversionEvent:
     user_earnings: float
     platform_earnings: float
     timestamp: datetime
-    consciousness_context: dict[str, any] = field(default_factory=dict, timezone)
+    consciousness_context: dict[str, any] = field(default_factory=dict)
     product_metadata: dict[str, any] = field(default_factory=dict)
     verified: bool = False
 
