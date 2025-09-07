@@ -117,7 +117,7 @@ class ConsciousnessBuffer:
                 # Create mock memory fold
                 class MockMemoryFold:
                     def create_fold(self, data, cascade_prevention=0.997):
-                        fold_id = f"fold-{uuid.uuid4()}.hex[:8]}"
+                        fold_id = f"fold-{uuid.uuid4().hex[:8]}"
                         logger.info(f"Mock memory fold created: {fold_id}")
                         return fold_id
 

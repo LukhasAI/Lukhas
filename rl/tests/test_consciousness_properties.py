@@ -85,7 +85,7 @@ def matriz_node_strategy(draw, node_type="CONTEXT"):
             "producer": "test.property_testing",
             "capabilities": draw(st.lists(st.text(min_size=1, max_size=30), min_size=1, max_size=5)),
             "tenant": "test_tenant",
-            "trace_id": f"trace-{draw(st.integers(min_value=1, max_value=999999)}",
+            "trace_id": f"trace-{draw(st.integers(min_value=1, max_value=999999))}",
             "consent_scopes": ["test_scope"],
             "policy_version": "test.v1.0",
         },
