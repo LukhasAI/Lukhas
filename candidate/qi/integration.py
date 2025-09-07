@@ -2,6 +2,8 @@
 """
 Integration module for QI (Quantum-Inspired) components with LUKHAS AI
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import logging
 from pathlib import Path

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from typing import Optional
 import logging
+import streamlit as st
+from consciousness.qi import qi
 logger = logging.getLogger(__name__)
 
 """

@@ -4,6 +4,8 @@ Enhanced voice integration layer incorporating quantum features.
 This module combines the voice integration capabilities from both prot1 and prot2,
 with quantum enhancement features for improved emotional processing and voice synthesis.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import logging
 import time

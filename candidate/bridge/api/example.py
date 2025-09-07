@@ -7,6 +7,7 @@
 
 Memory Services API Example
 """
+import streamlit as st
 
 import asyncio
 

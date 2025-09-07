@@ -6,5 +6,6 @@ This module provides component integration and orchestration including:
 - Result synthesis
 - Workflow management
 """
+import streamlit as st
 
 __all__ = []

@@ -4,6 +4,9 @@ Quick Cleanup Script for LUKHAS
 ====================================
 Focuses on main module duplicates and conflicts.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import shutil
 from pathlib import Path

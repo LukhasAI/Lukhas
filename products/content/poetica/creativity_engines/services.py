@@ -3,6 +3,7 @@
 Creativity Services
 Dependency injection services for the creativity module.
 """
+import streamlit as st
 
 from typing import Any, Optional
 

@@ -5,6 +5,7 @@
 # ΛUDIT: Added demo main
 
 from .glyph_redactor_engine import GlyphRedactorEngine
+import streamlit as st
 
 
 def demo():

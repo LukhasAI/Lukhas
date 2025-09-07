@@ -4,6 +4,8 @@ Original: dream_processor.py
 Advanced: dream_processor.py
 Integration Date: 2025-05-31T07:55:29.948738
 """
+import streamlit as st
+from datetime import timezone
 
 from datetime import datetime
 from typing import Any

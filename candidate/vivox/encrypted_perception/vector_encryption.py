@@ -2,6 +2,9 @@
 VIVOX.EVRN Vector Encryption
 Non-reversible encryption for perceptual vectors
 """
+import time
+import random
+import streamlit as st
 
 import hashlib
 from dataclasses import dataclass

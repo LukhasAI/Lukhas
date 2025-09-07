@@ -6,5 +6,6 @@
 - legado_pack/    - Alternative LEGADO implementation
 - nimbus_pack/    - Alternative NIMBUS implementation
 """
+import streamlit as st
 
 __all__ = ["trace", "legado", "nimbus", "legado_pack", "nimbus_pack"]

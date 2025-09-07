@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 import psutil
+import streamlit as st
 
 
 @dataclass

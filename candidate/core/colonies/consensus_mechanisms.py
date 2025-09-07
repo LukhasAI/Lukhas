@@ -6,6 +6,7 @@ Implements voting, confidence scoring, and hormone-based consensus.
 
 Based on GPT5 audit recommendations and existing colony architecture.
 """
+import streamlit as st
 
 import asyncio
 import logging

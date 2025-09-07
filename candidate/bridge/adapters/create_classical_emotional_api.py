@@ -5,6 +5,9 @@ from typing import Any
 LUKHAS Classical Emotional Intelligence API - Non-Quantum Alternative
 Bio-symbolic emotional processing without quantum enhancement
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 from datetime import datetime, timezone
 from enum import Enum

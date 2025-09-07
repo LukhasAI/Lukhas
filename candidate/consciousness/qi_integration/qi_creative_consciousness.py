@@ -17,6 +17,9 @@ Creator: Gonzalo R. Dominguez Marchan
 Demo Date: June 11, 2025
 Status: QUANTUM CREATIVE CONSCIOUSNESS ACHIEVED ✅
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import json

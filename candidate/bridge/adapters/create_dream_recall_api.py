@@ -3,6 +3,10 @@
 LUKHAS Dream Recall API - Multiverse Scenario Exploration
 Allows any AI to explore parallel outcomes through LUKHAS dream engine
 """
+from consciousness.qi import qi
+import time
+import random
+import streamlit as st
 
 from datetime import datetime, timezone
 from typing import Any, Optional

@@ -33,6 +33,7 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
+import streamlit as st
 
 __module_name__ = "Quantum Voice Enhancer"
 __version__ = "2.0.0"

@@ -4,6 +4,7 @@ Original: lukhas_widget_archive.py
 Advanced: lukhas_widget_archive.py
 Integration Date: 2025-05-31T07:55:30.482556
 """
+import streamlit as st
 
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

@@ -4,6 +4,8 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
+import random
+import streamlit as st
 
 import logging
 from typing import Any, Optional, Union

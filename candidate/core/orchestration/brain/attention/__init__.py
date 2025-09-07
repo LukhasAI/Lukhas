@@ -6,6 +6,7 @@ This module provides quantum-inspired attention mechanisms including:
 - Attention gate logic
 - Superposition matrix operations
 """
+import streamlit as st
 
 from .qi_attention import QIInspiredAttention
 

@@ -9,6 +9,9 @@
 LUKHAS-ID (ΛiD) Authentication System Builder
 Implements the revolutionary authentication vision from QRG.md
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import base64
 import hashlib

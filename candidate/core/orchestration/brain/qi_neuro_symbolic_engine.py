@@ -18,6 +18,10 @@ Date: May 30, 2025
 Version: v1.0.0-integration
 Compliance: EU AI Act, GDPR, US NIST AI Framework
 """
+from consciousness.qi import qi
+from typing import Dict
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import hashlib

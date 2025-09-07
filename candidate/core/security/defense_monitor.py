@@ -8,6 +8,7 @@ Comprehensive security monitoring system implementing multiple layers of defense
 - Automated Threat Response
 - Compliance Monitoring
 """
+import streamlit as st
 
 import asyncio
 import hashlib

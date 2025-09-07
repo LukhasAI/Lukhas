@@ -41,6 +41,7 @@
 ║ Symbolic Tags: {ΛSYMBOLIC}, {ΛMEMORY}, {ΛINTEGRATION}, {ΛDRIFT}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 # Module imports
 import logging

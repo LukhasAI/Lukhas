@@ -11,6 +11,8 @@ Features:
 - Randomness validation
 - Security strength assessment
 """
+import random
+import streamlit as st
 
 import math
 import secrets

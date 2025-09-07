@@ -3,6 +3,8 @@
 Learning Gateway - Dependency Firewall for Learning Services
 This abstraction layer ensures core modules remain agnostic to learning implementation details.
 """
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 from abc import ABC, abstractmethod

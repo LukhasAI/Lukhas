@@ -5,6 +5,7 @@ EMOTION - regulation Submodule
 #TAG:regulation
 #TAG:standard
 """
+import streamlit as st
 
 # Colony base for propagation
 from typing import Any

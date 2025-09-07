@@ -3,6 +3,9 @@
 LUKHAS Concept Validation Tool
 Ensures LUKHAS original concepts are preserved throughout the codebase
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import json
 import re

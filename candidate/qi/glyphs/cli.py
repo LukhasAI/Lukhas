@@ -5,6 +5,8 @@ LUKHAS AI GLYPH CLI
 Comprehensive command-line interface for creating, verifying, and managing
 cryptographic seals for AI artifacts.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from __future__ import annotations
 

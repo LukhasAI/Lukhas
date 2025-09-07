@@ -4,6 +4,7 @@ Red-team harness skeleton for MATRIZ graphs.
 Provides adversarial trigger payloads and topology perturbations for testing
 constitutional compliance and graceful degradation.
 """
+import streamlit as st
 
 from __future__ import annotations
 

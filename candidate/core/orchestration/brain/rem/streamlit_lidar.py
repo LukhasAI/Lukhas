@@ -4,6 +4,7 @@ Original: streamlit_lidar.py
 Advanced: streamlit_lidar.py
 Integration Date: 2025-5-31T07:55:28.206052
 """
+import time
 
 """
 streamlit_lidar.py

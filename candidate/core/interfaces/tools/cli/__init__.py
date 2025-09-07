@@ -7,11 +7,14 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.tools.cli` package.
 This file marks the `cli` directory (within `tools`) as a Python package.
 It is intended to house command-line interface tools related to the Lukhas system.
 """
+import logging
+import streamlit as st
 
 # AIMPORTS_START
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging

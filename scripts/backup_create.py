@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import Optional
 import argparse
 import contextlib
 import fnmatch

@@ -3,6 +3,9 @@ Awareness Boundary Transcender
 
 Transcends the boundaries of conventional awareness.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import logging
 from dataclasses import dataclass

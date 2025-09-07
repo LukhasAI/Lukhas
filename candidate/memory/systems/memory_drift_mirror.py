@@ -41,6 +41,8 @@ import logging
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import random
+import streamlit as st
 
 import json
 from collections import deque

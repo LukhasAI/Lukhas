@@ -5,6 +5,7 @@ The Poetry System of LUKHAS
 
 One module. Three methods. Infinite expression.
 """
+import streamlit as st
 
 from .soul import EmotionalTone, Soul, awaken, dream, error_haiku, express
 

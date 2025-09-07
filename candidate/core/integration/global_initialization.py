@@ -8,6 +8,8 @@
 Global System Initialization
 Coordinated initialization of all system hubs and cross-system connections
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import asyncio
 import logging

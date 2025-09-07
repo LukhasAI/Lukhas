@@ -26,6 +26,10 @@ that passes through any system while carrying your most precious digital
 assets invisibly. We're not hiding data; we're creating a parallel dimension
 of information that exists in the liminal spaces of perception itself.
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 import json

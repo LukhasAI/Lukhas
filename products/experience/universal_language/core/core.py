@@ -5,6 +5,7 @@ Universal Language Core
 Central unified language system that provides the foundation for all
 symbolic communication in LUKHAS.
 """
+import streamlit as st
 
 import hashlib
 import json

@@ -2,6 +2,8 @@
 Quantum Service Adapter - Connects QIM module to main system
 Trinity Framework: ⚛️🧠🛡️
 """
+import time
+import streamlit as st
 
 import logging
 from typing import Any

@@ -3,6 +3,7 @@ from typing import Any, Callable, Optional
 
 from candidate.bridge.message_bus import MessageBus
 from candidate.core.colonies.base_colony import BaseColony
+import streamlit as st
 
 
 class InterColonyBridge:

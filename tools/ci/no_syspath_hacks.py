@@ -14,6 +14,7 @@ Exit codes:
   1 = violations found
   2 = invalid invocation
 """
+import streamlit as st
 
 from __future__ import annotations
 

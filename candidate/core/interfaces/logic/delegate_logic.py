@@ -11,6 +11,7 @@ import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 # ΛCREATED_DATE: Original unknown, Header date 2025-04-21
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Enhanced Core TypeScript - Integrated from Advanced Systems
 # Original: delegate_logic.py
@@ -28,6 +29,10 @@ intent, user trust tier, emotional state, and memory alignment.
             but not explicitly implemented in the provided stubs.
             Error handling for missing keys in `user_profile` could be more robust.
 """
+from typing import Optional
+from typing import Dict
+import logging
+import streamlit as st
 
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

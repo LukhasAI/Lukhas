@@ -5,6 +5,7 @@ EMOTION - vad Submodule
 #TAG:vad
 #TAG:standard
 """
+import streamlit as st
 
 # Colony base for propagation
 from typing import Any

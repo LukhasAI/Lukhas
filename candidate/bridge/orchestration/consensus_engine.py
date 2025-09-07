@@ -38,6 +38,8 @@
 ║ Symbolic Tags: {ΛCONSENSUS}, {ΛVOTING}, {ΛSYNTHESIS}, {ΛQUALITY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from typing import List
+import streamlit as st
 
 import logging
 import time

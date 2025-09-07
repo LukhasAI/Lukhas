@@ -1,6 +1,7 @@
 """
 Base class for all agent colonies.
 """
+import streamlit as st
 
 import logging
 import time

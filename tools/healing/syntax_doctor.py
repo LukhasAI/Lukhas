@@ -2,6 +2,8 @@
 """
 Syntax Doctor - Automatically fixes common Python syntax errors
 """
+import streamlit as st
+from datetime import timezone
 
 import ast
 import os

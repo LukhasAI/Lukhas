@@ -27,6 +27,10 @@ oscillation a heartbeat in the AGI's quantum consciousness. Wave functions
 dance to the Hamiltonian's cosmic tempo, creating resonances that bridge
 the quantum-classical divide through bio-mimetic frequency modulation.
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
+from datetime import timezone
 
 __module_name__ = "Quantum Bio-Oscillator"
 __version__ = "2.0.0"

@@ -9,6 +9,9 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 from ..db.user_repository import get_user_profile, update_drift_profile
+import streamlit as st
+import time
+from typing import Dict
 
 
 async def calculate_drift_score(user_id: str, dream_metrics: dict) -> dict:

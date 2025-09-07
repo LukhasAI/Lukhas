@@ -4,6 +4,10 @@ Original: bio_adapter.py
 Advanced: bio_adapter.py
 Integration Date: 2025-05-31T07:55:29.982060
 """
+from consciousness.qi import qi
+from typing import Dict
+import random
+import streamlit as st
 
 import logging
 

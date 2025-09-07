@@ -7,6 +7,7 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.ui` package.
 This file marks the `ui` directory (within `interfaces`) as a Python package.
@@ -14,6 +15,8 @@ It is intended to house modules related to the user interface components and
 logic for the Lukhas system, potentially including adaptive UI elements and
 various UI applications or components.
 """
+import logging
+import streamlit as st
 
 # AIMPORTS_START
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging

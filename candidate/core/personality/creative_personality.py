@@ -27,6 +27,7 @@
 ║ Symbolic Tags: {ΛCREATIVITY}, {ΛMETA_LEARNING}, {ΛETHICS}, {ΛHAIKU}, {ΛHARMONY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import logging
 

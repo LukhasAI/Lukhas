@@ -3,6 +3,10 @@
 Quantum Auth Glyph Pairs - Quantum-entangled symbolic authentication
 Creates cryptographic pairs of glyphs for secure multi-party authentication ⚛️
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
+from datetime import timezone
 
 import base64
 import contextlib

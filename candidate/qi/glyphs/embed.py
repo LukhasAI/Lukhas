@@ -4,6 +4,9 @@ GLYPH Seal Embedding
 
 Embed and extract GLYPH seals in various media formats.
 """
+from consciousness.qi import qi
+from typing import Dict
+import streamlit as st
 
 from __future__ import annotations
 

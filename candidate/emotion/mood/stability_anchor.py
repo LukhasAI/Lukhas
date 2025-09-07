@@ -18,6 +18,7 @@ Suppresses: Anxiety, irritability
 # ΛMODULE: inner_rhythm
 # ΛORIGIN_AGENT: Jules-04
 """
+import streamlit as st
 
 
 # LUKHAS_TAG: hormonal_feedback

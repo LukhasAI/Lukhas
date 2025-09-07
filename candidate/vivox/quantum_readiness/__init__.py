@@ -2,6 +2,8 @@
 VIVOX.QREADY - Quantum Readiness Interface
 Prepares VIVOX for future quantum computing substrates
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from typing import Optional
 

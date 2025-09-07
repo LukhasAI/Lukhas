@@ -3,6 +3,7 @@
 PII Linter for LUKHAS AI
 Detects potential PII patterns in Python source files
 """
+import streamlit as st
 
 import pathlib
 import re

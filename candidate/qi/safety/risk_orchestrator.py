@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from typing import Any
 
 import yaml
+import streamlit as st
+from consciousness.qi import qi
 
 DEFAULT_CFG = {
     "weights": {

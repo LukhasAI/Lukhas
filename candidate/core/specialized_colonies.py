@@ -5,6 +5,7 @@ Addresses Phase Δ, Step 3 (Integration)
 This module provides placeholder classes for specialized colonies, such as
 the ReasoningColony, MemoryColony, and CreativityColony.
 """
+import streamlit as st
 
 from lukhas.core.swarm import AgentColony
 

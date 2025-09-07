@@ -3,6 +3,7 @@
 
 Usage: python3 tools/csv_profiler.py /path/to/file.csv
 """
+from typing import Dict
 
 import csv
 import sys

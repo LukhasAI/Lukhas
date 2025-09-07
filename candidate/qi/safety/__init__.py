@@ -1,6 +1,7 @@
 """
 TEQ Safety Module for LUKHAS AI
 """
+import streamlit as st
 
 # Import the unified version that has both Enum-based states and policy support
 from .teq_unified import (

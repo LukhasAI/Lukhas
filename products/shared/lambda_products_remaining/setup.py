@@ -3,6 +3,8 @@ from typing import Optional
 Setup configuration for LUKHAS Lambda Products Suite
 Enterprise-ready AI modules for integration with Lukhas
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import os
 

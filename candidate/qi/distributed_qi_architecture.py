@@ -2,6 +2,8 @@
 from typing import Dict
 from typing import List
 import logging
+import streamlit as st
+from consciousness.qi import qi
 logger = logging.getLogger(__name__)
 
 """

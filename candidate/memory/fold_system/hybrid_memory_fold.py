@@ -39,6 +39,10 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from typing import List
+import time
+import random
+import streamlit as st
 
 import hashlib
 import math

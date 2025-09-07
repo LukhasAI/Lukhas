@@ -4,6 +4,7 @@ Original: dream_narrator_queue.py
 Advanced: dream_narrator_queue.py
 Integration Date: 2025-05-31T07:55:30.506963
 """
+import streamlit as st
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

@@ -2,6 +2,7 @@
 
 ΛTAG: builtin_codex_agent
 """
+import streamlit as st
 
 from ..interfaces.agent_interface import (
     AgentCapability,

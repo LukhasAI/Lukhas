@@ -2,6 +2,7 @@
 LUKHAS Real-Time Brand Validator - Trinity Framework (⚛️🧠🛡️)
 Live brand compliance checking and automatic correction system
 """
+import streamlit as st
 
 import asyncio
 import re

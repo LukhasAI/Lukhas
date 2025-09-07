@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 import logging
+import streamlit as st
+import random
+import time
+from consciousness.qi import qi
+from quantum.creative import QuantumCreativeComponent
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════

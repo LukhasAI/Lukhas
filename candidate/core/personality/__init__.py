@@ -24,6 +24,8 @@
 ║ Symbolic Tags: {ΛPERSONALITY}, {ΛINIT}, {ΛPACKAGE}
 ╚══════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 # Package imports
 import logging

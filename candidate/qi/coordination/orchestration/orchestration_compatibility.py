@@ -20,6 +20,8 @@ Usage:
 
 Created: 2025-07-26
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import warnings
 

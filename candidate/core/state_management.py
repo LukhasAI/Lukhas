@@ -6,6 +6,7 @@ This module provides a simple implementation of a state manager that uses
 event sourcing and snapshotting to manage state in a distributed,
 stateless environment.
 """
+import streamlit as st
 
 import json
 import os

@@ -3,6 +3,7 @@ LUKHAS AI Memory - MATRIZ Adapter
 Provides MATRIZ instrumentation for memory operations
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+import streamlit as st
 
 import time
 import uuid

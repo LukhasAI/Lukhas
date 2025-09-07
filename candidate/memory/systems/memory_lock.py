@@ -8,6 +8,8 @@ Author: lukhas AI Team
 
 TAGS: [CRITICAL, KeyFile, Memory]
 """
+import random
+import streamlit as st
 
 import logging
 

@@ -21,6 +21,7 @@ components for comprehensive AGI system monitoring.
 
 For more information, visit: https://lukhas.ai
 """
+import streamlit as st
 
 # ΛTRACE: Core monitoring module initialization
 # ΛORIGIN_AGENT: Claude Code

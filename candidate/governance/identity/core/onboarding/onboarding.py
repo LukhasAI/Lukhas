@@ -19,6 +19,7 @@
 ║ QRS manager and biometric systems.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import logging
 import random

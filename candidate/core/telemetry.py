@@ -3,6 +3,7 @@ OpenTelemetry Minimal Tracing for LUKHAS AI
 Provides lightweight instrumentation with noop fallback
 Trinity Framework: ⚛️🧠🛡️
 """
+import streamlit as st
 
 import os
 import time

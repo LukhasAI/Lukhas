@@ -3,6 +3,10 @@
 ΛUCTOR - Advanced Content Generation Engine
 Creates commercial content for domains using Lambda Products' 3-Layer Tone System
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import hashlib

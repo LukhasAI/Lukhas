@@ -4,6 +4,7 @@ import argparse
 import json
 import time
 from typing import Any
+import streamlit as st
 
 
 def build_trace(nodes: list[dict[str, Any]]) -> dict[str, Any]:

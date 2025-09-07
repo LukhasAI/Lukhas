@@ -2,6 +2,7 @@
 Infrastructure Module
 Auto-generated module initialization file
 """
+import streamlit as st
 
 import logging
 

@@ -11,3 +11,4 @@ Components:
 - Session replay management
 - Security and expiry controls
 """
+import streamlit as st

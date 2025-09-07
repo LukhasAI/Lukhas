@@ -6,6 +6,9 @@ LUKHAS Module Description Fixer
 Fixes overly verbose descriptions and ensures they follow the
 3-4 line format with academic-poetic blend.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import re
 from pathlib import Path

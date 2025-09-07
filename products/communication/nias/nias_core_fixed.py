@@ -2,6 +2,8 @@
 """
 NIAS Core - Fixed version with proper emotional state handling
 """
+import streamlit as st
+from datetime import timezone
 
 from dataclasses import dataclass
 from datetime import datetime

@@ -24,6 +24,9 @@ Author: LUKHΛS AI Systems
 Version: 4.0.0 - Stargate Iris Lock
 Created: 2025-08-03
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import base64

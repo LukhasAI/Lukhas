@@ -9,6 +9,8 @@
 Mock dream_utils module
 Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
+import time
+import streamlit as st
 
 import random
 from typing import Any

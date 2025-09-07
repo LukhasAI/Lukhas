@@ -4,6 +4,9 @@ Quantum Bio-Oscillator Layer for LUKHAS Voice System
 This module provides quantum-enhanced oscillator functionality for voice processing.
 Created as mock implementation for voice system integration.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import asyncio
 import logging

@@ -6,6 +6,7 @@ import os
 import time
 from dataclasses import dataclass
 from typing import Any
+import streamlit as st
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 BUDGET_FILE = os.path.join(STATE, "budget_state.json")

@@ -3,6 +3,8 @@
 ConsentGuard: GDPR-compliant consent management with TEQ integration
 Designed by: Gonzalo Dominguez - Lukhas AI
 """
+from typing import List
+import streamlit as st
 
 from __future__ import annotations
 

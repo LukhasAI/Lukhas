@@ -3,6 +3,8 @@
 LUKHAS Naming Convention Application Tool
 Applies industry-standard naming while preserving LUKHAS's unique concepts and personality
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import json
 import re

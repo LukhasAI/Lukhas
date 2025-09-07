@@ -11,6 +11,7 @@ DEPENDENCIES:
 - lukhas_voice_duet.py
 - lukhas_gatekeeper.py
 """
+import streamlit as st
 
 
 def manage_voice_handoff(user_query, context_state):

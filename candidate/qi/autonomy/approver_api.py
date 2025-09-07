@@ -6,6 +6,8 @@ import builtins
 import os
 
 from fastapi import FastAPI, Header, HTTPException, Query
+import streamlit as st
+from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open
 

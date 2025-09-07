@@ -3,6 +3,9 @@
 LUKHAS  Root Directory Audit and Reorganization Plan
 Analyzes all root directories and creates a comprehensive reorganization plan
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import json
 import os

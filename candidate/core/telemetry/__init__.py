@@ -2,6 +2,7 @@
 LUKHAS Telemetry and Monitoring
 Production-grade observability for AGI systems
 """
+import streamlit as st
 
 from .monitoring import (
     AGITelemetrySystem,

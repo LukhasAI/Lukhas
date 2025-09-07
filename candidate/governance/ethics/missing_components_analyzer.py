@@ -10,6 +10,8 @@
  LUKHAS Missing Components Analyzer
 Identifies gaps in ethics, compliance, and governance that might exist in the prototype
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from pathlib import Path
 

@@ -4,6 +4,7 @@ Original location: ./memory/systems/optimized_memory_item.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/memory/systems/optimized_memory_item.py
 """
+import streamlit as st
 
 
 # Placeholder to prevent import errors

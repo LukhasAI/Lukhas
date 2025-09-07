@@ -8,6 +8,9 @@ Inspired by Hiroki Asai's Apple design philosophy:
 - Premium aesthetic: elegance in every detail
 - Scalable design language: consistent across all touchpoints
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 from dataclasses import dataclass
 

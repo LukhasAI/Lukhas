@@ -35,6 +35,8 @@
 ║ Symbolic Tags: {ΛBASE}, {ΛMODULE}, {ΛLIFECYCLE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 import logging
 

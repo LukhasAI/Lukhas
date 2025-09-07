@@ -7,6 +7,7 @@
 
 Setup script for LUKHAS Dream Commerce API
 """
+import streamlit as st
 
 from setuptools import find_packages, setup
 

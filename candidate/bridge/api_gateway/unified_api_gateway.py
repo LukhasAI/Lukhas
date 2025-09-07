@@ -37,6 +37,7 @@
 ║ Symbolic Tags: {ΛGATEWAY}, {ΛAPI}, {ΛROUTING}, {ΛPERFORMANCE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import logging
 import time

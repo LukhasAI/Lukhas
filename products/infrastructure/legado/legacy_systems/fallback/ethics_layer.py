@@ -2,6 +2,7 @@
 
 #REVIVED_25_07_2025
 """
+import streamlit as st
 
 from __future__ import annotations
 

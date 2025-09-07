@@ -3,6 +3,7 @@ Sovereignty Preservation System
 
 Ensures data sovereignty and jurisdictional compliance.
 """
+import streamlit as st
 
 import logging
 from typing import Any

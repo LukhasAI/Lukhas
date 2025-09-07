@@ -6,6 +6,8 @@ The LUKHAS Lexicon
 This is the authoritative vocabulary of LUKHAS - mined from the actual codebase,
 not invented, not generic, but the REAL language that emerged organically.
 """
+import time
+import streamlit as st
 
 
 class LUKHASLexicon:

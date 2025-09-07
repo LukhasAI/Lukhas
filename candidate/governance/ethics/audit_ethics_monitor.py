@@ -9,6 +9,7 @@
 
 Quick audit script for ethics monitor without terminal complications.
 """
+import streamlit as st
 
 import sys
 

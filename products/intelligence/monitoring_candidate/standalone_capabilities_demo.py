@@ -4,6 +4,7 @@ Standalone Enhanced Monitoring System Capabilities Demo
 ======================================================
 Demonstrates all monitoring capabilities without external dependencies
 """
+import streamlit as st
 
 import asyncio
 import math

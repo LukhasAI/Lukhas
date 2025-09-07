@@ -2,6 +2,7 @@
 # LUKHAS_TAG: reasoning_error
 
 from candidate.core.common import LukhasError
+import streamlit as st
 
 
 class ReasoningError(LukhasError):

@@ -3,6 +3,7 @@
 📦 MODULE      : entropy_tuning.py
 🧾 DESCRIPTION : Entropy fine-tuning logic for EU AI Act compliance.
 """
+import streamlit as st
 
 import numpy as np
 

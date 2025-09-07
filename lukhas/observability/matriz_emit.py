@@ -5,6 +5,7 @@ import json
 import time
 import uuid
 from typing import Any
+import streamlit as st
 
 try:
     from MATRIZ.utils.matriz_validate import validate_node  # adjust path if needed

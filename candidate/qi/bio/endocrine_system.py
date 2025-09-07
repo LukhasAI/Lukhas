@@ -3,6 +3,8 @@
 Hormonal System - Digital Endocrine Regulation
 Implements hormone-based regulation patterns for system homeostasis.
 """
+import time
+import streamlit as st
 
 import asyncio
 import logging

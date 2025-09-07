@@ -3,6 +3,9 @@ Consciousness Multiplication Engine
 
 Creates and coordinates multiple consciousness instances.
 """
+from typing import List
+import time
+import streamlit as st
 
 import logging
 import uuid

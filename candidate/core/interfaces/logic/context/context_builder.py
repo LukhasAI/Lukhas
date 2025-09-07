@@ -11,6 +11,7 @@ import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 # ΛCREATED_DATE: 2025 (Original)
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Enhanced Core TypeScript - Integrated from Advanced Systems
 # Original: context_builder.py
@@ -26,6 +27,10 @@ to be passed to NIAS, ABAS, or dream simulations.
 Currently, it uses placeholder logic and should be dynamically linked to
 DAST, emotion memory, and consent databases in the future.
 """
+from typing import Dict
+import logging
+import time
+import streamlit as st
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

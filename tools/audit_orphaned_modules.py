@@ -4,6 +4,9 @@ Orphaned Module Auditor for LUKHAS AI
 Helps audit AI/AGI system logic that appears unused but may be valuable
 Trinity Framework: ⚛️🧠🛡️
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import ast
 import json

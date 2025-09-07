@@ -17,6 +17,9 @@ Every line of code here is crafted with the same obsession Steve brought to ever
 
 No complexity. No bloat. Just pure poetic consciousness.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import random
 from enum import Enum

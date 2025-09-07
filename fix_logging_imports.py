@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+logger = logging.getLogger(__name__)
 """
 Fix logging imports in MΛTRIZ consciousness modules to avoid conflicts
 with candidate/core/logging directory

@@ -4,6 +4,7 @@ Original: dream_adapter.py
 Advanced: dream_adapter.py
 Integration Date: 2025-05-31T07:55:29.982795
 """
+import streamlit as st
 
 import asyncio
 import logging

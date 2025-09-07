@@ -17,6 +17,8 @@ Usage:
         initialize_branding, get_system_signature
     )
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import logging
 import re

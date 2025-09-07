@@ -5,6 +5,10 @@ Optimized OpenAI API Wrapper for LUKHAS
 Implements caching, rate limiting, and intelligent retries.
 Based on GPT5 audit recommendations.
 """
+from typing import List
+from typing import Dict
+import random
+import streamlit as st
 
 import asyncio
 import hashlib

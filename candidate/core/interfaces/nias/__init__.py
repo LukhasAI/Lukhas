@@ -7,6 +7,7 @@
 # ΛCREATED_DATE: Unknown
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: NIAS (Non-Intrusive Ad System) Plugin for Lukhas AGI System
 
@@ -16,6 +17,8 @@ integrating DAST, ABAS, and Lukhas Systems for safe, consensual interactions.
 This `__init__.py` file makes the NIAS components available for import and
 defines the public API of the NIAS package.
 """
+import logging
+import streamlit as st
 
 # AIMPORTS_START
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging

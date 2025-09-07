@@ -4,6 +4,10 @@ Original: voice_synthesis.py
 Advanced: voice_synthesis.py
 Integration Date: 2025-05-31T07:55:28.339501
 """
+from typing import List
+from typing import Dict
+import time
+import streamlit as st
 
 import logging
 import os

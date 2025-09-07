@@ -10,6 +10,7 @@ Original location: ./orchestration/specialized/LambdaDependaBoT_robust.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/orchestration/specialized/LambdaDependaBoT_robust.py
 """
+import streamlit as st
 
 # Placeholder to prevent import errors
 

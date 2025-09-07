@@ -21,6 +21,8 @@ Module for visualizer core functionality
 
 For more information, visit: https://lukhas.ai
 """
+from consciousness.qi import qi
+import streamlit as st
 
 # 📄 MODULE: visualizer.py
 # 🔎 PURPOSE: Convert flashbacks into visual prompts for OpenAI DALL·E or other generators

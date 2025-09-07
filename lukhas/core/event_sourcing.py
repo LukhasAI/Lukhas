@@ -16,6 +16,7 @@
 ║ and aggregate pattern for AI agent state reconstruction.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import json
 import logging

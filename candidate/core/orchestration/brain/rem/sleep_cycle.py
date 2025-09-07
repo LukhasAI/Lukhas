@@ -4,6 +4,7 @@ Original: sleep_cycle.py
 Advanced: sleep_cycle.py
 Integration Date: 2025-05-31T07:55:28.215788
 """
+import streamlit as st
 
 """
 sleep_cycle.py

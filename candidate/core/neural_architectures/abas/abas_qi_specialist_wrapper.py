@@ -2,6 +2,8 @@
 ABAS Quantum Specialist Wrapper
 Integration wrapper for quantum-biological AI specialist
 """
+import time
+import streamlit as st
 
 import logging
 from typing import Any, Optional

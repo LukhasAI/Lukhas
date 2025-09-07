@@ -9,6 +9,8 @@
 
 Simple Conflict Healer - Fixes merge conflicts
 """
+import time
+import streamlit as st
 
 import os
 import re

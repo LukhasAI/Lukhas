@@ -10,6 +10,7 @@ Specialized cognitive nodes for the MATRIZ architecture:
 All nodes implement the CognitiveNode interface and maintain
 full traceability through the MATRIZ node format.
 """
+import streamlit as st
 
 from .fact_node import FactNode
 from .math_node import MathNode

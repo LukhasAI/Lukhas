@@ -5,6 +5,9 @@ Original: neuro_symbolic_engine.py
 Advanced: neuro_symbolic_engine.py
 Integration Date: 2025-05-31T07:55:28.235481
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import logging
 from datetime import datetime

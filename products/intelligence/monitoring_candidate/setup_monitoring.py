@@ -3,6 +3,7 @@
 Setup script for LUKHAS  monitoring infrastructure
 Configures and starts all monitoring components
 """
+import streamlit as st
 
 import argparse
 import logging

@@ -2,6 +2,8 @@
 DocuTutor Plugin Integration with Lukhas AGI
 Implements core integration patterns for connecting with Lukhas's systems.
 """
+import time
+import streamlit as st
 
 import logging
 from enum import Enum

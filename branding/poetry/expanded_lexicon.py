@@ -9,6 +9,9 @@ A massively enriched vocabulary system combining:
 - LUKHAS-specific innovations
 - Cross-cultural poetic forms
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import random
 from dataclasses import dataclass

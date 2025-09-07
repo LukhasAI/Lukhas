@@ -8,6 +8,8 @@ ethical constraint integration.
 
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+from typing import Dict
+import streamlit as st
 
 from __future__ import annotations
 

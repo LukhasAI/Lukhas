@@ -3,6 +3,7 @@
 🧪 Products Smoke Test Suite
 Test all product components and document working vs broken state
 """
+import streamlit as st
 
 import sys
 import traceback

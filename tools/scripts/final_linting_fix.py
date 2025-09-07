@@ -3,6 +3,7 @@
 Final comprehensive linting fix script.
 Handles syntax errors, undefined names, and other critical issues.
 """
+import streamlit as st
 
 import ast
 import re

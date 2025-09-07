@@ -4,6 +4,7 @@
 
 Provides symbolic glyph hashing and entropy delta computation.
 """
+import streamlit as st
 
 from __future__ import annotations
 

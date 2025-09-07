@@ -3,6 +3,7 @@ symbolic_tuner.py
 Fine-tunes symbolic parameters within compliance bounds using user feedback.
 # ΛTAG: feedback
 """
+import streamlit as st
 
 import json
 import os

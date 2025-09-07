@@ -3,6 +3,7 @@
 Integration Bridge for Lambda Products + Lukhas
 Provides the actual integration using existing APIs
 """
+import streamlit as st
 
 import asyncio
 import sys

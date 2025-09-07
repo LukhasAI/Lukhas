@@ -119,3 +119,4 @@ How can error correction mechanisms in cells be used to enhance AGI resilience
 
 What biological systems exhibit quantum-like behavior that could inspire AGI architectures
 """
+import streamlit as st

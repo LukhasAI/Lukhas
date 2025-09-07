@@ -4,6 +4,7 @@ Original location: ./dream/dream_export_streamlit.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/dream/dream_export_streamlit.py
 """
+import streamlit as st
 
 
 # Placeholder to prevent import errors

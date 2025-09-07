@@ -8,6 +8,9 @@
 Symbolic Hub
 Central coordination for symbolic processing subsystem components
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import asyncio
 import logging

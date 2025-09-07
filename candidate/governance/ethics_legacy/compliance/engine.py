@@ -20,6 +20,8 @@ logger = logging.getLogger("prot2.AdvancedComplianceEthicsEngine", timezone)
 
 class _CorePrivateEthicsEngine:
     """Core Ethics Engine, adapted from PRIVATE/src/brain/ethics/ethics_engine.py.
+import streamlit as st
+from datetime import timezone
     import logging
         Evaluates actions and content against ethical frameworks.
     """

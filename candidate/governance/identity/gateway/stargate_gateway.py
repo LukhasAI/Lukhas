@@ -22,6 +22,8 @@ Author: LUKHΛS AI Systems
 Version: 1.0.0 - Stargate Gateway
 Created: 2025-08-03
 """
+import time
+import streamlit as st
 
 import asyncio
 import hashlib

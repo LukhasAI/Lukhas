@@ -5,6 +5,10 @@ Trinity Framework: ⚛️🧠🛡️
 
 This module consolidates emotional memory functionality from various locations.
 """
+from typing import List
+from typing import Dict
+import time
+import streamlit as st
 
 import logging
 from datetime import datetime, timezone

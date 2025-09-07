@@ -3,6 +3,7 @@ LUKHAS Feedback System
 ======================
 Human-in-the-loop learning with feedback cards and bounded adaptation.
 """
+import streamlit as st
 
 from .card_system import (
     FeedbackCard,

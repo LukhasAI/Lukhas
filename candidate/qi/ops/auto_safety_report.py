@@ -10,6 +10,8 @@ import json
 import os
 import statistics
 import time
+import streamlit as st
+from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open
 

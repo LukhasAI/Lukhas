@@ -7,6 +7,8 @@ from typing import Optional
 =====================
 Safely removes identified redundant code while preserving functionality.
 """
+import time
+import streamlit as st
 
 import ast
 import json

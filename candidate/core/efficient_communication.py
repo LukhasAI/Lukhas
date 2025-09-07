@@ -5,6 +5,7 @@ Addresses TODO 142: Optimized dual EDA/P2P communication
 This module implements an energy-efficient communication fabric that
 minimizes network overhead and maximizes resource utilization.
 """
+import streamlit as st
 
 import asyncio
 import json

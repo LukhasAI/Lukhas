@@ -4,6 +4,8 @@ Servicio Andaluz de Salud (SAS) Integration Template
 This module provides specific integration points for the Spanish
 healthcare system SAS (Servicio Andaluz de Salud).
 """
+import time
+import streamlit as st
 
 from datetime import datetime
 from typing import Any, Optional

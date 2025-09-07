@@ -11,6 +11,8 @@ Original: intent_inference.py
 Advanced: intent_inference.py
 Integration Date: 2025-05-31T07:55:29.968898
 """
+from consciousness.qi import qi
+import streamlit as st
 
 # intent_inference.py
 from collections import Counter

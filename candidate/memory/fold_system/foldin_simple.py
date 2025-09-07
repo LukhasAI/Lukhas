@@ -2,6 +2,7 @@
 """
 Simple version of foldin without external dependencies
 """
+import streamlit as st
 
 import gzip
 import json

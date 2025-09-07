@@ -4,6 +4,7 @@ Biometric Verification Colony
 Distributed colony of specialized agents for parallel biometric analysis,
 consensus-based verification, and self-healing sensor failure recovery.
 """
+import streamlit as st
 
 import asyncio
 import hashlib

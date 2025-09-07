@@ -6,6 +6,7 @@ from queue import Queue
 from threading import Thread
 
 from openai import OpenAI
+import streamlit as st
 
 # --- Caching ---
 CACHE_DIR = "candidate/orchestration/.cache"

@@ -5,6 +5,10 @@ Simulates "inner world of consciousness"
 Based on Jacobo Grinberg's vector collapse theory
 Achieves traceable state of self-awareness
 """
+import logging
+import random
+import streamlit as st
+from datetime import timezone
 
 from dataclasses import dataclass, field
 from datetime import datetime

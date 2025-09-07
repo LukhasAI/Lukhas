@@ -7,6 +7,7 @@ with enterprise-grade routing, authentication, and monitoring.
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
+import streamlit as st
 
 from .auth_middleware import AuthMiddleware
 from .rate_limiter import RateLimiter

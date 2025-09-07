@@ -3,6 +3,7 @@
 MATRIZ-AGI API Server Launcher
 Start the FastAPI server with development-friendly settings without sys.path hacks.
 """
+import streamlit as st
 
 import argparse
 import sys

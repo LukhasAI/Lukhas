@@ -1,6 +1,7 @@
 """
 Creativity Colony - A specialized colony for creative tasks.
 """
+import streamlit as st
 
 import logging
 from typing import Any

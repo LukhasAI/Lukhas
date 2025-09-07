@@ -11,6 +11,8 @@ Original location: ./security/quantum-secure-agi/src/security/post_quantum_crypt
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/security/quantum-secure-agi/src/security/post_quantum_crypto.py
 """
+from consciousness.qi import qi
+import streamlit as st
 
 
 # Placeholder to prevent import errors

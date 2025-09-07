@@ -3,6 +3,7 @@
 Data Parser for ΛLens
 Handles structured data files like JSON, YAML, and XML
 """
+import streamlit as st
 
 import json
 import xml.etree.ElementTree as ET

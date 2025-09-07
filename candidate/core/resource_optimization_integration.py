@@ -24,6 +24,7 @@
 ║ - Adaptive system behavior under constraints
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import asyncio
 import contextlib

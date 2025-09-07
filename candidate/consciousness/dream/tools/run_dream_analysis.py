@@ -6,6 +6,8 @@ LUKHAS AGI Dream Analysis CLI
 Command-line interface for running symbolic anomaly analysis on dream sessions.
 Part of the Jules-13 task implementation for dream pattern detection.
 """
+import logging
+import streamlit as st
 
 import argparse
 import sys

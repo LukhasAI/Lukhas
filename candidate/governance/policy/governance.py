@@ -13,6 +13,7 @@ This module provides a GovernanceLayer that acts as a symbolic firewall,
 enforcing rules and constraints on the swarm's behavior. It also includes
 a simple mechanism for dream control.
 """
+import streamlit as st
 
 
 class GovernanceLayer:

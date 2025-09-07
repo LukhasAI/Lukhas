@@ -14,6 +14,8 @@ Module for dream viewer functionality
 
 For more information, visit: https://lukhas.ai
 """
+import time
+import streamlit as st
 
 """
 dream_viewer.py

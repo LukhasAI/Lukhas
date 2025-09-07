@@ -25,6 +25,10 @@ Features:
 #TAG:gdpr
 #TAG:trinity
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import base64

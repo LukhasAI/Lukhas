@@ -3,6 +3,7 @@
 """
 Test script for Guardian Security Dependency Hasher
 """
+import streamlit as st
 
 import sys
 import tempfile

@@ -67,6 +67,9 @@ Version: 1.0.0 - Research Experimental Edition
 Date: June 2025
 Classification: RESEARCH GRADE - EXPERIMENTAL & FLEXIBLE
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import json
 import logging

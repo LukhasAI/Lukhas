@@ -5,6 +5,8 @@ Universal Translator for Cross-Modal and Cross-Domain Translation
 Enables translation between different representations, modalities,
 and domains within the Universal Language system.
 """
+from typing import List
+import streamlit as st
 
 import hashlib
 import logging

@@ -15,6 +15,10 @@ DEPENDENCIES:
   - core/memory/memory_manager.py
   - core/identity/identity_manager.py
 """
+from typing import List
+from typing import Dict
+import streamlit as st
+from datetime import timezone
 
 # 📄 MODULE: voice_profiling.py
 # 🔎 PURPOSE: Advanced voice profiling for personalized and adaptive speech synthesis

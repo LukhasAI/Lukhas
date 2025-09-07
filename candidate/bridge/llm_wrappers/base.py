@@ -1,6 +1,7 @@
 """
 Base classes for LLM wrappers.
 """
+import streamlit as st
 
 from abc import ABC, abstractmethod
 from enum import Enum

@@ -16,6 +16,7 @@
 ║ fault tolerance, and reduced latency for high-bandwidth agent communication.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import asyncio
 import json

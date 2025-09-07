@@ -43,6 +43,10 @@ import logging
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+from typing import Dict
+import streamlit as st
+from datetime import timezone
 
 from datetime import datetime
 from typing import Any, Optional

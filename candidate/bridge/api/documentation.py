@@ -18,6 +18,7 @@ Features:
 - Healthcare compliance documentation
 - Rate limiting and cost information
 """
+import streamlit as st
 
 import json
 import logging

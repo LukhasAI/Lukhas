@@ -5,6 +5,8 @@ Homeostasis Controller for LUKHAS Endocrine System
 Manages hormone-like signals to maintain system balance and health.
 Based on GPT5 audit recommendations lines 271-275.
 """
+from typing import List
+import streamlit as st
 
 import asyncio
 import json

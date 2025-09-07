@@ -2,6 +2,7 @@
 Minimal feature flags core (internal)
 Provides Flags class used by analytics and other modules.
 """
+import streamlit as st
 
 from __future__ import annotations
 

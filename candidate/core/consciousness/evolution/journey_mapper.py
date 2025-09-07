@@ -5,6 +5,8 @@ Consciousness Journey Mapper for the Consciousness Oracle.
 This module tracks the long-term evolution of a user's consciousness,
 predicting major life transitions and shifts in values.
 """
+import time
+import streamlit as st
 
 import datetime
 import random

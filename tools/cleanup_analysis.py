@@ -4,6 +4,7 @@ Cleanup Analysis for LUKHAS AI
 Identifies truly unused code vs test/experimental/backup code
 Trinity Framework: ⚛️🧠🛡️
 """
+import streamlit as st
 
 import contextlib
 import json

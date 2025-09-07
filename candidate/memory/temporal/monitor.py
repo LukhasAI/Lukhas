@@ -11,6 +11,7 @@
 ===============================
 Monitor the autonomous AGI system in real-time
 """
+import streamlit as st
 
 import json
 import os

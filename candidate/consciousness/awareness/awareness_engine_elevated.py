@@ -22,6 +22,9 @@ Author: Lukhas AI Research Team
 Version: 2.0.0 - Elevated Edition
 Date: June 2025
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import json

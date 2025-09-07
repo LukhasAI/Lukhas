@@ -3,6 +3,7 @@
 LUCAS DAST Module Verification
 Quick verification that all modules can be imported and initialized
 """
+import streamlit as st
 
 import os
 import sys

@@ -4,6 +4,8 @@ Original: nodeset.py
 Advanced: nodeset.py
 Integration Date: 2025-05-31T07:55:28.130965
 """
+from consciousness.qi import qi
+import streamlit as st
 
 """
 Node Set Registration for the Adaptive AGI Interface

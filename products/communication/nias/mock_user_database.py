@@ -3,6 +3,8 @@
 Rich Mock User Database for NIAS Testing
 Includes realistic shopping data from major retailers and ethical edge cases
 """
+import time
+import streamlit as st
 
 import random
 from typing import Any, Optional

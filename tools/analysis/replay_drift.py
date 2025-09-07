@@ -4,6 +4,7 @@ from typing import Optional
 Replay Drift - Emergency simulation and Guardian response verification
 Simulates emergency conditions and verifies Guardian System response
 """
+import streamlit as st
 
 import asyncio
 import json

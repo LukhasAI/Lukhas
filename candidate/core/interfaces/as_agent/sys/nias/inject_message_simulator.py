@@ -4,6 +4,8 @@ Original: inject_message_simulator.py
 Advanced: inject_message_simulator.py
 Integration Date: 2025-05-31T07:55:30.532087
 """
+import time
+import streamlit as st
 
 import argparse
 import json

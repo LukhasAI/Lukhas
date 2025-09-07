@@ -5,5 +5,6 @@
 - universal_language/ - Linguistic framework (vocabulary, grammar, glyph systems)
 - dashboard/          - Visualization and dashboard systems
 """
+import streamlit as st
 
 __all__ = ["voice", "feedback", "universal_language", "dashboard"]

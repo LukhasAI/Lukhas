@@ -2,6 +2,8 @@
 """
 Smart Linting Fix - Only fixes critical issues without breaking code
 """
+import time
+import streamlit as st
 
 import json
 import re

@@ -2,6 +2,7 @@
 """
 Update all Python imports to use the new poetry system location
 """
+import streamlit as st
 
 import os
 import re

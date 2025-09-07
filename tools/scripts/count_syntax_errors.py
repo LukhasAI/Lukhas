@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import streamlit as st
 """Count remaining syntax errors in Python files"""
 
 import ast

@@ -12,6 +12,7 @@ DESCRIPTION:
     It logs outcomes per message: DELIVERED | DREAM | REJECTED
 
 """
+import streamlit as st
 
 import json
 import os

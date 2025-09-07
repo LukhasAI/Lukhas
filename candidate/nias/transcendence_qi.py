@@ -4,6 +4,7 @@ The NIAS Transcendence Qi Platform.
 This module integrates all 12 visionary components into a single,
 unified platform for consciousness evolution through ethical advertising.
 """
+import streamlit as st
 
 from typing import Any
 

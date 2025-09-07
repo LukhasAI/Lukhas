@@ -3,6 +3,7 @@ from typing import Any, Optional
 from lukhas.colony.contracts import ConsensusResult
 from lukhas.dna.interfaces import DNAWriteReceipt, HelixMemory
 from lukhas.flags import is_enabled
+import streamlit as st
 
 
 def persist_consensus_to_dna(

@@ -7,6 +7,7 @@ Sam Altman AGI Vision: "AI should understand context and provide proactive assis
 This module provides the enhanced DAST (Dynamic Attention & Symbolic Tagging) system
 with AI-powered task management, intelligent prioritization, and symbolic reasoning.
 """
+import streamlit as st
 
 from typing import Optional
 

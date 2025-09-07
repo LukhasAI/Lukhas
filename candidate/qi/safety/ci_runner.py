@@ -5,6 +5,8 @@ import json
 import os
 import subprocess
 import sys
+import streamlit as st
+from consciousness.qi import qi
 
 HERE = os.path.dirname(__file__)
 POLICY_ROOT = os.path.join(HERE, "policy_packs")

@@ -35,6 +35,7 @@ TODO[T4-AUDIT]:triage - Large legacy symbolic processing system preserved.
 Integration with MΛTRIZ consciousness patterns provides enhanced capabilities
 while maintaining backward compatibility with existing symbolic systems.
 """
+import streamlit as st
 
 # Import MΛTRIZ symbolic consciousness components
 from .matriz_symbolic_consciousness import (

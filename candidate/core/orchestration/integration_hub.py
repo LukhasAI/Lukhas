@@ -4,6 +4,7 @@ System Integration Hub with Oscillator Pattern
 Central connection point for all major LUKHAS subsystems.
 Enhanced with quantum oscillator synchronization and mito-inspired health monitoring.
 """
+import streamlit as st
 
 import asyncio
 import logging

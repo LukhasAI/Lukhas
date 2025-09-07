@@ -7,6 +7,7 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.logic.voice` package.
 This file marks the `voice` directory as a Python package, facilitating
@@ -14,6 +15,8 @@ the organization and import of voice-related logic modules, such as
 `voice_renderer` and `voice_narration_player`.
 It may be expanded to selectively expose functionalities from its submodules.
 """
+import logging
+import streamlit as st
 
 # AIMPORTS_START
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging

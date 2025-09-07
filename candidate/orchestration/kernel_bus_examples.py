@@ -4,6 +4,7 @@ Symbolic Kernel Bus Integration Examples
 
 Common patterns for using the new kernel bus in LUKHΛS components.
 """
+import streamlit as st
 
 import time
 

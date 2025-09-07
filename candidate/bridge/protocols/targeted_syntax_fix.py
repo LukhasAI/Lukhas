@@ -8,6 +8,7 @@
 
 Targeted Syntax Fix - Fixes specific known syntax errors
 """
+import streamlit as st
 
 import os
 import re

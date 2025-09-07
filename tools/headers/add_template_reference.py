@@ -6,6 +6,8 @@ LUKHAS Template Reference Adder
 This script adds the @lukhas/HEADER_FOOTER_TEMPLATE.py reference
 right after the ASCII art in all Python files.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import re
 from pathlib import Path

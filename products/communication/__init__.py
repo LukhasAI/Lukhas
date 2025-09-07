@@ -5,5 +5,6 @@
 - nias_candidate/  - Development version of NIAS
 - abas_candidate/  - Development version of ABAS
 """
+import streamlit as st
 
 __all__ = ["nias", "abas", "nias_candidate", "abas_candidate"]

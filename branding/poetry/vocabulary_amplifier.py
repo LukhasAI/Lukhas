@@ -14,6 +14,8 @@ Enhanced with:
 - Context-aware selection algorithms
 - Multi-layered metaphor generation
 """
+import time
+import streamlit as st
 
 import random
 import re

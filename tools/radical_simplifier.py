@@ -3,6 +3,7 @@
 The Jobs Simplifier - Radical Simplification Tool
 "Simplicity is the ultimate sophistication" - Leonardo da Vinci (Steve's favorite quote)
 """
+import streamlit as st
 
 import ast
 import hashlib

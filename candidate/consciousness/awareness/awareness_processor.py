@@ -13,6 +13,9 @@ import logging
 lukhasAwarenessProcessor.py - Consciousness Component for LUKHAS AI System
 This component handles consciousness data processing functionality in the LUKHAS AI system.
 """
+from typing import Dict
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 from datetime import datetime

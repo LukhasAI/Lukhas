@@ -11,6 +11,9 @@ Integrates with:
 - MemoryEmotionalIntegrator (existing component)
 - Dream engine integration (existing component)
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import logging

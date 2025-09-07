@@ -2,6 +2,8 @@
 Enhanced Memory Colony - Full implementation with actual memory capabilities
 Replaces the dummy implementation with real functionality
 """
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import hashlib

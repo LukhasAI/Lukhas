@@ -9,9 +9,12 @@ Inspired by Lulu Cheng Meservey's approach:
 - Crisis-proof messaging and reputation management
 - Building founder authority as consciousness technology pioneer
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 @dataclass

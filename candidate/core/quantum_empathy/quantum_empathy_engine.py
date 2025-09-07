@@ -4,6 +4,8 @@ Quantum Empathy Engine for the NIAS Transcendence Platform.
 This module understands and mirrors human consciousness at a quantum level,
 analyzing emotional resonance from multi-modal inputs.
 """
+import time
+import streamlit as st
 
 import random
 from typing import Any

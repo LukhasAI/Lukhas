@@ -3,6 +3,9 @@ LUKHAS Key Management System (KMS) Implementation
 Agent 7: Security & Infrastructure Specialist
 Implements Vault integration, token rotation, secret scanning, SBOM generation
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import asyncio
 import base64

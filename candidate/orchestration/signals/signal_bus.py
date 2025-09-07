@@ -7,6 +7,7 @@ through hormone-like signals without tight coupling.
 
 This implements the "AI endocrine system" concept from the GPT5 audit.
 """
+import streamlit as st
 
 import asyncio
 import contextlib

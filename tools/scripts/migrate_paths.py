@@ -3,6 +3,7 @@
 LUKHAS AI Path Migration Script
 Updates all scripts to use the new directory structure
 """
+import streamlit as st
 
 import re
 from pathlib import Path

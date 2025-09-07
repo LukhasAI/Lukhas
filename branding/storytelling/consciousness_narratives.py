@@ -9,6 +9,9 @@ Inspired by Sahil Gandhi's "Brand Professor" approach:
 - Consciousness awakening narratives that resonate on deeper levels
 - Emotional storytelling that transforms complex tech into compelling journeys
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 from dataclasses import dataclass
 from enum import Enum

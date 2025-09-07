@@ -6,6 +6,9 @@ Provides emotional modulation capabilities for memory processing.
 DEPRECATED: This module is deprecated and will be removed in v2.0.0.
 Please use lukhas.memory.EmotionalMemoryManager instead.
 """
+import logging
+import time
+import streamlit as st
 
 import warnings
 from typing import Any, Optional

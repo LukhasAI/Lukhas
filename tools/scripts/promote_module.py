@@ -20,6 +20,7 @@ Notes:
 - This does not delete anything in `candidate/`.
 - Run tests/smoke before and after; see AUTHORATIVE_PROMOTION_PROCESS.md
 """
+import streamlit as st
 
 from __future__ import annotations
 

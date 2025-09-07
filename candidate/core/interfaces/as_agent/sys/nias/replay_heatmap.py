@@ -4,6 +4,7 @@ Original: replay_heatmap.py
 Advanced: replay_heatmap.py
 Integration Date: 2025-05-31T07:55:30.530721
 """
+import streamlit as st
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

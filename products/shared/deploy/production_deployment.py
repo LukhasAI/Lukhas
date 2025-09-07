@@ -3,6 +3,9 @@
 Elite Production Deployment Pipeline for Lambda Products
 Implements best practices: monitoring, scaling, health checks, rollback
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import hashlib

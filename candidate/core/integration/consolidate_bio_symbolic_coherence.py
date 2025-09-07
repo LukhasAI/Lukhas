@@ -3,6 +3,7 @@
 LUKHAS 2030 Bio Symbolic Coherence Consolidation
 Perfect harmony between biological and symbolic
 """
+import streamlit as st
 
 from pathlib import Path
 

@@ -3,6 +3,7 @@ Bio-signals integration for LUKHAS
 =====================================
 Minimal implementation to support dream and consciousness systems.
 """
+import streamlit as st
 
 import logging
 

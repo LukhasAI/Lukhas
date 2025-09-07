@@ -10,6 +10,9 @@ This ensures rich, varied expression by:
 3. Preserving beautiful metaphors when appropriate
 4. Enriching with LUKHAS-specific terms
 """
+from typing import List
+import time
+import streamlit as st
 
 import random
 import re

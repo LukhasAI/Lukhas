@@ -5,6 +5,8 @@ GLYPH Engine for Universal Language
 Consolidates GLYPH token processing from /core/glyph/glyphs.py
 and various symbolic implementations.
 """
+import time
+import streamlit as st
 
 import hashlib
 import logging

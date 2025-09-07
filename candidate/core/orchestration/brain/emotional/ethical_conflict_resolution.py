@@ -14,6 +14,8 @@ Module for ethical conflict resolution functionality
 
 For more information, visit: https://lukhas.ai
 """
+import time
+import streamlit as st
 
 
 def resolve_ethical_conflict(self, protest_id: str):

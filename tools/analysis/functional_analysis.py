@@ -3,6 +3,8 @@
  Functional Analysis - Identify what actually WORKS vs what's just connected
 Analyzes functional capabilities, dependencies, and operational readiness
 """
+import time
+import streamlit as st
 
 import ast
 import json

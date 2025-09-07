@@ -11,6 +11,9 @@ Based on specification:
 - Consent: ZK-compatible QRGLYPH
 - Tiers: T1-T5 with biometric progression
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import base64
 import json

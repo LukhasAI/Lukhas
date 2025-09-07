@@ -4,6 +4,9 @@ Qi Empathy Engine for the NIAS Transcendence Platform.
 This module understands and mirrors human consciousness at a qi level,
 analyzing emotional resonance from multi-modal inputs.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import random
 from typing import Any

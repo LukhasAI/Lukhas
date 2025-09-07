@@ -1,6 +1,7 @@
 """
 Basic tests for ΛLens functionality
 """
+import streamlit as st
 
 import asyncio
 import os

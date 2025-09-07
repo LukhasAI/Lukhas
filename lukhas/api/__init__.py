@@ -14,6 +14,7 @@ This module serves as the stable interface to:
 Author: LUKHAS AI API Systems
 Version: 1.0.0
 """
+import streamlit as st
 
 # Standard library imports
 import contextlib

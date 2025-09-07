@@ -6,6 +6,7 @@ Please update imports to: lukhas.candidate.vivox
 NOTE: This is a candidate module. Enable with feature flag:
   VIVOX_LITE=true
 """
+import streamlit as st
 
 import contextlib
 import os

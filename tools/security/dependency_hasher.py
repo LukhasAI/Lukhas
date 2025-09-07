@@ -10,6 +10,9 @@ Implements dependency pinning with SHA256 verification as required by Guardian S
 This tool addresses the Guardian Security requirement for dependency pinning with cryptographic hashes
 to prevent supply chain attacks and ensure integrity of all dependencies.
 """
+from typing import List
+from typing import Dict
+import streamlit as st
 
 import json
 import subprocess

@@ -4,6 +4,8 @@ Planetary Consciousness Network for the NIAS Transcendence Platform.
 This module coordinates advertising with global consciousness evolution,
 analyzing global events, moods, and other planetary-scale phenomena.
 """
+from typing import List
+import streamlit as st
 
 import random
 from typing import Any

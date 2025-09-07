@@ -4,6 +4,7 @@
 ======================
 Focused redundancy analysis and streamlining recommendations for LUKHAS
 """
+import streamlit as st
 
 import ast
 import json

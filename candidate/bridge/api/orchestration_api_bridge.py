@@ -19,6 +19,7 @@ Features:
 - Rate limiting and cost management
 - Security validation and ethical oversight
 """
+import streamlit as st
 
 import asyncio
 import logging

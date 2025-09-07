@@ -6,6 +6,7 @@ historical `lambda_id` and the preferred short form `lid`/`l_id`.
 Use these helpers to read external inputs and to produce outputs that
 include both keys where necessary for backwards compatibility.
 """
+import streamlit as st
 
 from collections.abc import Mapping
 from typing import Any, Optional

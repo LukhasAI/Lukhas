@@ -21,6 +21,9 @@ logger = get_logger(__name__)
 
 def simulate_misinterpretation_scenarios() -> list[dict[str, Any]]:
     """Simulate several ethical tag misinterpretations.
+from typing import List
+from typing import Dict
+import streamlit as st
 
     Returns
     -------

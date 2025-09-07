@@ -8,6 +8,7 @@ Fixes the remaining API mismatches in research_validation_pack.py:
 3. total_messages attribute access
 4. send_large_data() parameters
 """
+import streamlit as st
 
 import re
 from pathlib import Path

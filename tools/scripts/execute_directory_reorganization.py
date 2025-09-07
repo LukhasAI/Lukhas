@@ -3,6 +3,9 @@
 Execute the directory reorganization plan
 Moves directories into appropriate modules and archives others
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import json
 import os

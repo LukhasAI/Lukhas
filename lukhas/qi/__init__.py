@@ -48,6 +48,7 @@ Usage:
         "user_id": "user123"
     })
 """
+import streamlit as st
 
 import logging
 import os

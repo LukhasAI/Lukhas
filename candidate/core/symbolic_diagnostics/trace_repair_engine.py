@@ -33,6 +33,8 @@
 ║ Symbolic Tags: {ΛTRACE}, {ΛREPAIR}, {ΛDIAGNOSTICS}, {ΛINTEGRITY}, {ΛCORE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 from typing import Any
 

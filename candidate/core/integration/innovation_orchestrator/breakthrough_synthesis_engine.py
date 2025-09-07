@@ -3,6 +3,8 @@ Breakthrough Synthesis Engine
 
 Synthesizes breakthroughs from multiple innovation sources.
 """
+from typing import Optional
+import streamlit as st
 
 import logging
 import uuid

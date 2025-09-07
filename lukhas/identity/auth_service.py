@@ -4,6 +4,9 @@ LUKHAS Identity Authentication Service
 Unified authentication service that bridges legacy systems with modern identity management.
 Provides secure authentication with fallback support and progressive enhancement.
 """
+from consciousness.qi import qi
+from typing import List
+import streamlit as st
 
 import asyncio
 import hashlib

@@ -2,6 +2,7 @@
 LUKHAS AGI Enterprise Audit Trail System
 Complete auditing and compliance for AGI operations
 """
+import streamlit as st
 
 from .audit_analytics import (
     AnomalyDetector,

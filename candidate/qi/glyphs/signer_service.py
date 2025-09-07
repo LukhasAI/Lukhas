@@ -5,6 +5,8 @@ LUKHAS AI GLYPH Signer Service
 Production-ready FastAPI microservice for creating cryptographic seals.
 Designed for deployment behind KMS/HSM for key management.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from __future__ import annotations
 

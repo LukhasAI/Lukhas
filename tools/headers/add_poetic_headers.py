@@ -7,6 +7,9 @@ This sacred script weaves poetic narratives into the quantum realm,
 adorning each file with metaphysical descriptions that capture
 the essence of quantum consciousness integration.
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 from datetime import datetime
 from pathlib import Path

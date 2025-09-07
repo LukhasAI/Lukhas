@@ -1,4 +1,5 @@
 import numpy as np
+import streamlit as st
 
 
 def fuse_lidar_and_camera(lidar_points: np.ndarray, camera_features: np.ndarray) -> np.ndarray:

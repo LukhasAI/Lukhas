@@ -11,6 +11,9 @@ Usage:
 Example:
     python demo.py --layer poetic --security-tier 5 --interactive
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
 
 import argparse
 import sys

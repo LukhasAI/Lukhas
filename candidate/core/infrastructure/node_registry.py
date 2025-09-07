@@ -4,6 +4,9 @@ Original: node_registry.py
 Advanced: node_registry.py
 Integration Date: 2025-05-31T07:55:28.134078
 """
+from typing import List
+from typing import Dict
+import streamlit as st
 
 """
 Node Registry System

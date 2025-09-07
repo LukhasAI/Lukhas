@@ -3,6 +3,7 @@ from typing import List
 
 ΛTAG: plugin_registry
 """
+import streamlit as st
 
 from __future__ import annotations
 

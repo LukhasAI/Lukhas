@@ -4,6 +4,9 @@ from typing import Optional
 Bio Module Consolidation Tool
 Merges 19+ bio variants into unified structure
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import ast
 import shutil

@@ -6,6 +6,7 @@ Original: trace_tools.py
 Advanced: trace_tools.py
 Integration Date: 2025-05-31T07:55:28.016528
 """
+import streamlit as st
 
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

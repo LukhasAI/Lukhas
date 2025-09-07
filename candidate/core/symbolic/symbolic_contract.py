@@ -12,6 +12,7 @@ This module defines the SymbolicContract class, which provides a formal
 definition for how symbolic tags are interpreted, propagated, and managed
 across the LUKHΛS ecosystem.
 """
+import streamlit as st
 
 from dataclasses import dataclass, field
 from typing import Any

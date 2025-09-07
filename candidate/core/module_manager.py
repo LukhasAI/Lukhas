@@ -4,6 +4,9 @@ LUKHAS Module Manager - Long-term Dependency Management
 Provides robust module loading with proper fallbacks and health checks.
 Solves the root cause of import warnings and missing modules.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import importlib
 import logging

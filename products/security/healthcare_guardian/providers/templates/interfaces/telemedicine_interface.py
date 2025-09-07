@@ -4,6 +4,7 @@ Telemedicine Interface Template for Health Advisor Provider Plugin
 This module defines the required interfaces for telemedicine integration.
 Providers must implement these interfaces to enable virtual consultations.
 """
+import streamlit as st
 
 from abc import ABC, abstractmethod
 from typing import Any, Optional

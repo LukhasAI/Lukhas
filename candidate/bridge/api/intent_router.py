@@ -7,6 +7,8 @@ Integrates with Trinity Framework for symbolic understanding.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
+import time
+import streamlit as st
 
 import logging
 import re

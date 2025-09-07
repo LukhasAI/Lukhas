@@ -3,6 +3,7 @@
 Consent Escalation Resolver - Advanced trust path recovery and consent management
 Handles complex consent scenarios with symbolic trust path reconstruction
 """
+import streamlit as st
 
 import asyncio
 import json

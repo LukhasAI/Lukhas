@@ -4,6 +4,7 @@ Original: agent_self.py
 Advanced: agent_self.py
 Integration Date: 2025-05-31T07:55:30.358880
 """
+import time
 
 import os
 

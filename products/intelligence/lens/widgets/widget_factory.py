@@ -3,6 +3,7 @@
 Widget Factory for ΛLens
 Maps GLYPH symbols to UI widgets
 """
+import streamlit as st
 
 from typing import Any
 

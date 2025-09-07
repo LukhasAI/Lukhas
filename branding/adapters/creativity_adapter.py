@@ -2,6 +2,8 @@
 LUKHAS Brand Creativity Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to consciousness/creativity/ systems for brand-aware creative operations
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import sys
 from pathlib import Path

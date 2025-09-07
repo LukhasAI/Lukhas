@@ -2,6 +2,7 @@
 Minimal mnemonic module stub for testing purposes.
 This is a placeholder for the actual mnemonic library.
 """
+import streamlit as st
 
 
 class Mnemonic:

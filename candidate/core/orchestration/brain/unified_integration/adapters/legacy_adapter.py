@@ -4,6 +4,7 @@ Original: legacy_adapter.py
 Advanced: legacy_adapter.py
 Integration Date: 2025-05-31T07:55:29.984497
 """
+import streamlit as st
 
 import logging
 import time

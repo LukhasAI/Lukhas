@@ -14,6 +14,8 @@ from symbolic.lukhas_reflector import recall_last_interaction
 from symbolic.lukhas_visualizer import visualize_dream_output  # optional
 from symbolic.lukhas_voice import speak
 from symbolic.memoria import log_memory
+from datetime import timezone
+import streamlit as st
 
 
 # Entry point for symbolic loop

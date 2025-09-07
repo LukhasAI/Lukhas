@@ -3,6 +3,9 @@
 Generate compatibility shims for LUKHAS AI migration
 Creates backward-compatible imports with deprecation warnings
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import sqlite3
 from datetime import datetime

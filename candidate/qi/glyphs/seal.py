@@ -4,6 +4,10 @@ LUKHAS GLYPH Seal Creation
 
 Cryptographically sealed provenance with canonical JSON and COSE signatures.
 """
+from consciousness.qi import qi
+from typing import Optional
+from typing import Dict
+import streamlit as st
 
 from __future__ import annotations
 

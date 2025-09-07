@@ -51,6 +51,10 @@ VERSION: 2.0.0-CONSOLIDATED
 CREATED: 2025-07-29
 AUTHORS: LUKHAS AI Team (Consolidated)
 """
+from consciousness.qi import qi
+from typing import Dict
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import random

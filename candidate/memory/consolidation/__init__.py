@@ -2,6 +2,7 @@
 Memory Consolidation System
 Orchestrates transfer from hippocampus to neocortex during sleep cycles
 """
+import streamlit as st
 
 from .consolidation_orchestrator import (
     ConsolidationMode,

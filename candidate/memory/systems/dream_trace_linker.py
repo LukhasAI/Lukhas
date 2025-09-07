@@ -1,4 +1,9 @@
 import logging
+import streamlit as st
+import random
+import time
+from typing import List
+from consciousness.qi import qi
 logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════════

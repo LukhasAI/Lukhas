@@ -3,6 +3,7 @@ Resource Allocation Optimizer
 
 Optimizes resource allocation across innovation engines.
 """
+import streamlit as st
 
 import logging
 from typing import Any

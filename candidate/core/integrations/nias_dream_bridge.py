@@ -4,6 +4,9 @@ NIAS-Dream Bridge
 Connects NIAS symbolic message processing with Dream quantum states.
 Enables consent-aware dream injection and quantum consciousness integration.
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import json

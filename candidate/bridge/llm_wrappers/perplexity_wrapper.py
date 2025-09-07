@@ -38,6 +38,8 @@
 ║ Symbolic Tags: {ΛPERPLEXITY}, {ΛWEB}, {ΛREALTIME}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 import logging
 

@@ -4,6 +4,7 @@ Original: lukhas_hash.py
 Advanced: lukhas_hash.py
 Integration Date: 2025-05-31T07:55:28.115896
 """
+import streamlit as st
 
 # ===============================================================
 # 📂 FILE: core/spine/lukhas_hash.py

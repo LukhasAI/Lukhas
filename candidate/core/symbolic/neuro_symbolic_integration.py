@@ -10,6 +10,8 @@ Original: neuro_symbolic_integration.py
 Advanced: neuro_symbolic_integration.py
 Integration Date: 2025-05-31T07:55:28.234588
 """
+from typing import Dict
+import streamlit as st
 
 """
 Neuro-Symbolic Integration for v1_AGI

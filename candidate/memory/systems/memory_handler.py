@@ -1,4 +1,5 @@
 from typing import Optional
+import streamlit as st
 memory_handler.py
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

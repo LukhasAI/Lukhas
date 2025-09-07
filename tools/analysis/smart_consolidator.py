@@ -3,6 +3,9 @@
 LUKHAS 2030 Smart Consolidator
 Consolidates duplicate logic while preserving SGI architecture vision
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import ast
 import json

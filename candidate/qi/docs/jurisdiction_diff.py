@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 from typing import Any
+import streamlit as st
+from consciousness.qi import qi
 
 
 def _diff_dict(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:

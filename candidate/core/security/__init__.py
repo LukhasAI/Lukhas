@@ -2,6 +2,7 @@
 LUKHAS AGI Security System
 Enterprise-grade security for AGI operations
 """
+import streamlit as st
 
 # Try to import from ethics module, fallback to local implementations
 try:

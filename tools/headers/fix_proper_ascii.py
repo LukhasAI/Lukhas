@@ -6,6 +6,8 @@ LUKHAS Proper ASCII Art Fixer
 This script fixes the ASCII art to properly display "LUKHAS"
 with correct alignment and characters.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import re
 from pathlib import Path

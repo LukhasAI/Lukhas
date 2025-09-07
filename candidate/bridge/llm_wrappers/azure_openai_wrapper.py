@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛAZURE}, {ΛOPENAI}, {ΛENTERPRISE}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import logging
 

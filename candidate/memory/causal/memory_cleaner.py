@@ -29,6 +29,8 @@
 │   - Coordinates with quantum memory management systems         │
 └───────────────────────────────────────────────────────────────┘
 """
+import streamlit as st
+from datetime import timezone
 
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py or by the

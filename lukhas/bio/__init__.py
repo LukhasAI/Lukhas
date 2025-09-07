@@ -3,6 +3,7 @@ LUKHAS AI Bio Module
 Biological-inspired processing and utilities
 Trinity Framework: ⚛️🧠🛡️
 """
+import streamlit as st
 
 # Import utilities
 # Import core bio-symbolic components

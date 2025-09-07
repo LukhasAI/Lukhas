@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 from datetime import datetime, timezone
 import logging
+import streamlit as st
+import time
+from typing import Dict
+from typing import List
+from consciousness.qi import qi
 logger = logging.getLogger(__name__)
 
 """

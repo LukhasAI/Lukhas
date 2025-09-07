@@ -9,6 +9,8 @@
 📦 MODULE      : ethics_monitor.py
 🧾 DESCRIPTION : Ethics drift detection and correction logic for LUKHAS_AGI_3.8.
 """
+import streamlit as st
+from datetime import timezone
 
 import json
 from datetime import datetime

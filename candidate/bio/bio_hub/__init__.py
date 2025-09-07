@@ -3,6 +3,7 @@ Compatibility shim for bio.bio_hub
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.accepted.bio.hub
 """
+import streamlit as st
 
 import warnings
 

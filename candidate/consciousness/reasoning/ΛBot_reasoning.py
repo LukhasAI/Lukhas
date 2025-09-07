@@ -13,6 +13,9 @@ Bio-Quantum Symbolic Reasoning Engine and Multi-Brain Symphony Architecture.
 Created: 2025-07-02
 Status: PRODUCTION READY
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import os

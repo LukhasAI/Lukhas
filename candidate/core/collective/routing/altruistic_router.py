@@ -4,6 +4,7 @@ Altruistic Ad Router for the Collective Intelligence Layer.
 This module routes recommendations through trusted social connections,
 based on consent and mutual benefit.
 """
+import streamlit as st
 
 import random
 from typing import Any

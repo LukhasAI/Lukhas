@@ -28,6 +28,8 @@ identity, and learning systems.
 #ΛARCH_NODE: This `__init__.py` serves as the primary entry point and public API for the `core_consciousness` package.
 #ΛEXPOSE: Exports key classes like `ConsciousnessIntegrator` and `ConsciousnessState`.
 """
+import time
+import streamlit as st
 
 
 # Initialize logger for ΛTRACE

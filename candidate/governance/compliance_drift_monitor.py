@@ -11,6 +11,9 @@ from datetime import datetime, timezone
 │   - Lucas Governance Standards (EU AI Act 2025, GDPR, OECD AI)       │
 └─────────────────────────────────────────────────────────────────────┘
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import csv
 import datetime

@@ -10,6 +10,9 @@ import hashlib
 import json
 import os
 from typing import Any
+import streamlit as st
+from typing import Optional
+from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open
 

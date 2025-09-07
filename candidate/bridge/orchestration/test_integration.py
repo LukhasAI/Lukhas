@@ -4,6 +4,7 @@ Simple integration validation for LUKHAS AI Multi-AI Orchestration System
 
 Basic validation script to ensure the orchestration components work together.
 """
+import streamlit as st
 
 import asyncio
 import sys

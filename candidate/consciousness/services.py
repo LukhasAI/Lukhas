@@ -3,6 +3,8 @@
 Consciousness Services
 Dependency injection services for the consciousness module.
 """
+import time
+import streamlit as st
 
 from typing import Any
 

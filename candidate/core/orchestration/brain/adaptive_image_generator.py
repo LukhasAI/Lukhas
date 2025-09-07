@@ -4,6 +4,8 @@ Original: adaptive_image_generator.py
 Advanced: adaptive_image_generator.py
 Integration Date: 2025-05-31T07:55:27.762144
 """
+import time
+import streamlit as st
 
 import asyncio
 import logging

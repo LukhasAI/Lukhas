@@ -9,6 +9,7 @@
 LUKHAS Automated Naming Refactoring Script
 Applies naming refinements while preserving LUKHAS concepts
 """
+import streamlit as st
 
 
 def apply_refinements():

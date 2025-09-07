@@ -3,6 +3,8 @@
 Markdown Parser for ΛLens
 Handles Markdown files and extracts structure
 """
+from typing import List
+import streamlit as st
 
 import re
 from typing import Any

@@ -15,6 +15,9 @@ Features:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import base64
 import hashlib

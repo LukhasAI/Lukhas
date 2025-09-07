@@ -5,6 +5,7 @@ Supports dream coordination, priority queues, and correlation tracking
 This is adapted from the lukhas--advanced event bus system
 specifically for the Lambda Products NIAS implementation.
 """
+import streamlit as st
 
 import asyncio
 import contextlib

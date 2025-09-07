@@ -4,6 +4,8 @@ Original: the_oscillator.py
 Advanced: the_oscillator.py
 Integration Date: 2025-05-31T07:55:28.259803
 """
+import time
+import streamlit as st
 
 import logging
 from datetime import datetime

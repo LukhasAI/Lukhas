@@ -2,6 +2,7 @@
 """
 Test script for ΛLens API functionality
 """
+import streamlit as st
 
 import os
 import sys

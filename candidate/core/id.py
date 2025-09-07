@@ -10,6 +10,10 @@ Date: May 30, 2025 | Updated: July 27, 2025
 Version: v1.0.0-integration | Consolidated from 4 duplicate files
 Compliance: EU AI Act, GDPR, US NIST AI Framework
 """
+from consciousness.qi import qi
+import time
+import random
+import streamlit as st
 
 import asyncio
 import base64

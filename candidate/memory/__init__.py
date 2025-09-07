@@ -9,6 +9,7 @@ This module consolidates all memory-related components:
 - Memory interfaces and bridges
 - Colony systems
 """
+import streamlit as st
 
 # Version info
 __version__ = "2.0.0"

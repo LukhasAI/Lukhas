@@ -8,6 +8,9 @@
 This module exposes FastAPI endpoints to export and import symbolic GLYPHs
 and to receive compressed dream tags from external systems.
 """
+from typing import Optional
+import streamlit as st
+from datetime import timezone
 
 from __future__ import annotations
 

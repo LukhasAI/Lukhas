@@ -5,6 +5,9 @@ Signal-to-Prompt Modulation System
 Maps endocrine signals to OpenAI API parameters for adaptive behavior.
 Based on the GPT5 audit recommendations.
 """
+from typing import List
+from typing import Dict
+import streamlit as st
 
 import logging
 import time

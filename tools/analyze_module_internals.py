@@ -4,6 +4,8 @@ Analyze internal connections within each module
 Find internal orphans - files not connected within their own module
 Trinity Framework: ⚛️🧠🛡️
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import ast
 import json

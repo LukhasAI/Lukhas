@@ -9,6 +9,7 @@
 Benchmarking utility for Symbiotic Swarm actor/event bus system.
 Measures message throughput and demonstrates energy-efficient computation.
 """
+import streamlit as st
 
 import asyncio
 import time

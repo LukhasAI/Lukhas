@@ -3,6 +3,7 @@
 Guardian Override Visual - Console visualization for Guardian lockdown states
 Shows real-time security status with symbolic chevron animations
 """
+import streamlit as st
 
 import asyncio
 import math

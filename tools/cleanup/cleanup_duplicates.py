@@ -2,6 +2,8 @@
 """
 Auto-generated cleanup script for duplicate code
 """
+from consciousness.qi import qi
+import streamlit as st
 
 
 def cleanup_duplicates():

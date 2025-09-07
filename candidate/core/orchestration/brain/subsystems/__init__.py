@@ -4,6 +4,7 @@ Original: __init__.py
 Advanced: __init__.py
 Integration Date: 2025-05-31T07:55:28.258202
 """
+import streamlit as st
 
 
 def __init__(self, drift_thresholds=None, log_file="compliance_drift_log.txt"):

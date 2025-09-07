@@ -11,6 +11,7 @@ Original location: ./ethics/governance_validator.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/ethics/governance_validator.py
 """
+import streamlit as st
 
 # Placeholder to prevent import errors
 

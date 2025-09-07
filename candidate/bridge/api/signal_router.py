@@ -22,6 +22,7 @@
 ║ signal type and an optional target.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 from typing import Any, Optional
 

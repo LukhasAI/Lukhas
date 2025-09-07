@@ -3,6 +3,8 @@
 LUKHAS 2030 Duplicate Logic Detector
 Finds duplicate functionality while preserving the SGI vision
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import ast
 import json

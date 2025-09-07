@@ -5,6 +5,8 @@ Privacy-Preserving Symbol System for Universal Language
 Implements device-local private language with end-to-end privacy.
 Based on Universal Language spec from /Users/agi_dev/LOCAL-REPOS/Universal_Language/.
 """
+import random
+import streamlit as st
 
 import hashlib
 import json

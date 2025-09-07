@@ -3,6 +3,8 @@
 Dream Interpreter Web App - Flask version
 A web-based dream interpreter with multi-language support
 """
+import time
+import streamlit as st
 
 import json
 import os

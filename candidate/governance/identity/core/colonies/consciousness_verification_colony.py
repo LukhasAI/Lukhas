@@ -4,6 +4,7 @@ Consciousness Verification Colony
 Distributed colony for consciousness state validation, emergent pattern recognition,
 and collective consciousness coherence checking with self-healing capabilities.
 """
+import streamlit as st
 
 import asyncio
 import logging

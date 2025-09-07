@@ -3,6 +3,10 @@
 LUKHAS Classical Dream API - Non-Quantum Alternative
 Provides dream-based exploration without quantum interference
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 from dataclasses import dataclass

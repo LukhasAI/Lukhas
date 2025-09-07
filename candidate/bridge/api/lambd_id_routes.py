@@ -6,6 +6,7 @@ the staged migration to the canonical module name.
 
 Do not add heavy logic here — keep this shim thin and import-only.
 """
+import streamlit as st
 
 from .lambda_id_routes import lambda_id_bp
 

@@ -8,6 +8,8 @@
 Service Discovery System
 Enables cross-system service discovery and communication
 """
+from typing import List
+import streamlit as st
 
 import logging
 from typing import Any, Optional

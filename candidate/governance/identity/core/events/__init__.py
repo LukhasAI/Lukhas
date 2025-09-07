@@ -3,6 +3,7 @@ Identity System Events Module
 ==============================
 Provides event types and publishers for the identity system.
 """
+import streamlit as st
 
 import time
 from dataclasses import dataclass

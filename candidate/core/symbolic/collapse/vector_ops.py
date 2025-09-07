@@ -9,6 +9,7 @@ from lukhas.core.symbolism.tags import TagScope
 
 def vector_collapse(vector: list[float]) -> TagScope:
     """Collapse a numeric vector to a :class:`TagScope` outcome.
+import streamlit as st
 
     The collapse is a simplified mapping of average vector magnitude to
     symbolic tag scope. Positive high magnitude implies global relevance,

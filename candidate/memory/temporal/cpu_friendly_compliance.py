@@ -10,6 +10,7 @@
 🖥️ CPU-Friendly Compliance Scanner
 Monitor CPU usage and run compliance scan when safe
 """
+import streamlit as st
 
 import subprocess
 import sys

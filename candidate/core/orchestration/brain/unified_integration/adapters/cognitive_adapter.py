@@ -4,6 +4,9 @@ Original: cognitive_adapter.py
 Advanced: cognitive_adapter.py
 Integration Date: 2025-05-31T07:55:29.985615
 """
+from typing import List
+import streamlit as st
+from datetime import timezone
 
 """
 Brain-inspired adapter that manages cognitive state transformations and memory integration

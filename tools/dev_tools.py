@@ -15,6 +15,7 @@
 ║ DESCRIPTION: Advanced development and debugging utilities             ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
+import streamlit as st
 
 import asyncio
 import os

@@ -27,6 +27,9 @@
 ║ 6. Memory Storage → Dream Archive
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import json

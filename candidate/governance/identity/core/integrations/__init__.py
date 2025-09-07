@@ -4,6 +4,7 @@ LUKHAS AGI Core System Integration
 This module provides integration between the identity system and LUKHAS AGI
 core systems including memory, consciousness, and inference engines.
 """
+import streamlit as st
 
 from .consciousness_bridge import ConsciousnessBridge, ConsciousnessSync
 from .inference_adapter import InferenceAdapter, InferenceRequest, InferenceResult

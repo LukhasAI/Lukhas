@@ -12,6 +12,8 @@
 │ - Compliance Alignment: EU AI Act, GDPR, OECD AI Principles   │
 ╰────────────────────────────────────────────────────────────────╯
 """
+import logging
+import streamlit as st
 
 import subprocess
 from typing import Optional

@@ -33,6 +33,8 @@
 ║ ΛTAG: ΛIDENTITY, ΛQUANTUM, ΛAGI, ΛSECURITY, ΛTIER
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import hashlib
 import logging

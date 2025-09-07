@@ -9,6 +9,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 This module implements RL specifically designed for consciousness architecture,
 enabling 692 distributed modules to learn, coordinate, and evolve together.
 """
+import streamlit as st
 
 from .coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer
 from .engine.actor_critic import ConsciousnessActorCritic

@@ -8,6 +8,9 @@
 
 Neuroplastic Consolidator - Connects isolated files and creates unified modules
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import json
 import os

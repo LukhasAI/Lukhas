@@ -1,6 +1,7 @@
 """
 VIVOX.QREADY Core Components
 """
+import streamlit as st
 
 from .qi_substrate import QIEnvironment, QINoiseType, QIState, QIStateType, QISubstrate
 from .qubit_collapse import (

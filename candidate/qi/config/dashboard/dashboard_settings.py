@@ -12,6 +12,8 @@ Original: settings.py
 Advanced: settings.py
 Integration Date: 2025-05-31T07:55:27.732621
 """
+from consciousness.qi import qi
+import streamlit as st
 
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

@@ -8,5 +8,6 @@
 - guardian_pack/      - Alternative Guardian implementation
 - wallet_pack/        - Alternative Wallet implementation
 """
+import streamlit as st
 
 __all__ = ["guardian", "wallet", "healthcare_guardian", "qrg", "vault", "guardian_pack", "wallet_pack"]

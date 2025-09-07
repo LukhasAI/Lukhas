@@ -1,3 +1,4 @@
+import streamlit as st
 class SpeechFramework:
     def __init__(self):
         self.recognition_engine = self.initialize_recognition_engine()

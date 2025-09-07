@@ -12,6 +12,7 @@ SMART CONSOLIDATION - Only merge truly compatible files
 This script analyzes file content and purpose before merging,
 avoiding incompatible combinations like trauma repair + API services.
 """
+import streamlit as st
 
 import ast
 from collections import defaultdict

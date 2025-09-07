@@ -8,6 +8,7 @@ including the fractal, multi-layered design of agents, colonies, and the swarm.
 MIGRATION NOTE: This module now imports from enhanced_swarm for improved functionality
 while maintaining backward compatibility.
 """
+import streamlit as st
 
 import time
 from enum import Enum

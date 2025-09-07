@@ -14,6 +14,10 @@ Autonomous module for stabilizing inter-subsystem entanglement coherence
 MODULE_ID: ethics.stabilization.tuner
 COLLAPSE_READY: True
 """
+from typing import List
+import random
+import streamlit as st
+from datetime import timezone
 
 import argparse
 import asyncio

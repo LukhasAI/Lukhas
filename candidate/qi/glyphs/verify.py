@@ -5,6 +5,9 @@ GLYPH Seal Verifier CLI
 
 Offline-first verification of GLYPH seals.
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import argparse
 import json

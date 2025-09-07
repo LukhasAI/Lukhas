@@ -12,6 +12,9 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 """
 Meta-Learning Enhancement System - Federated Learning Integration

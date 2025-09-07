@@ -3,6 +3,9 @@ LUKHAS AI Bio Module - Oscillator
 Consolidated from 9 variants
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass

@@ -15,6 +15,8 @@ The ORB adapts its appearance based on:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
+import random
+import streamlit as st
 
 import hashlib
 import math

@@ -5,6 +5,7 @@ Chains LukhasEmbedding → SymbolicHealer for live output processing
 
 Trinity Framework: ⚛️🧠🛡️
 """
+import streamlit as st
 
 import hashlib
 import json

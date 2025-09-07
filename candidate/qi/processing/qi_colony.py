@@ -2,6 +2,8 @@
 Quantum-Inspired Colony for Advanced Processing
 Implements quantum-like properties in colony architecture
 """
+import random
+import streamlit as st
 
 import asyncio
 import cmath

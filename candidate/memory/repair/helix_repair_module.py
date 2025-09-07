@@ -1,3 +1,5 @@
+log = logging.getLogger(__name__)
+import logging
 """Autonomous repair routines for the Healix memory helix."""
 
 from datetime import datetime, timezone

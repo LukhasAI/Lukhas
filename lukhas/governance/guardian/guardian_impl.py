@@ -9,6 +9,7 @@ Note: This is a placeholder implementation that would be loaded when the
 feature flag is active. The real implementation would integrate with the
 full Guardian System v1.0.0 from candidate/governance/guardian/.
 """
+import streamlit as st
 
 from __future__ import annotations
 

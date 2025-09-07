@@ -3,6 +3,7 @@
 T4 Lens Batch Processing System
 Processes code quality issues in batches with comprehensive validation
 """
+import streamlit as st
 
 import hashlib
 import json

@@ -4,6 +4,7 @@ Original: gui_launcher.py
 Advanced: gui_launcher.py
 Integration Date: 2025-05-31T07:55:28.291189
 """
+import streamlit as st
 
 # ===============================================================
 # 📂 FILE: gui_launcher.py

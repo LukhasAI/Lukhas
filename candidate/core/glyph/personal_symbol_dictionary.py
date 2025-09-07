@@ -5,6 +5,10 @@ Personal Symbol Dictionary for LUKHAS
 User-specific symbolic communication and personalization.
 Based on GPT5 audit recommendations.
 """
+from typing import List
+from typing import Dict
+import random
+import streamlit as st
 
 import pickle
 import time

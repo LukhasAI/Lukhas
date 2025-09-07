@@ -4,6 +4,9 @@
 Provides quantum-grade randomness for cryptographic operations and consciousness-aware
 pattern generation in Quantum Resonance Glyphs.
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
 
 import hashlib
 import logging

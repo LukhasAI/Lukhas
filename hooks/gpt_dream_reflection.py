@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import List
 """
 LUKHΛS Phase 6 - GPT Symbolic Bridge Hook
 Let GPT comment on collapsed glyphs symbolically for future harmony interface.

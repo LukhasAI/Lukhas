@@ -38,6 +38,8 @@
 ║ Symbolic Tags: {ΛGEMINI}, {ΛGOOGLE}, {ΛMULTIMODAL}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 import logging
 

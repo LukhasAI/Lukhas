@@ -37,6 +37,7 @@
 ║ ΛTAG: ΛVALIDATION, ΛCOLONY, ΛCONSENSUS, ΛBYZANTINE, ΛINTEGRITY
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import asyncio
 import hashlib

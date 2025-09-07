@@ -3,6 +3,10 @@
 TPM Simulation Fallback - Software-based Trusted Platform Module simulation
 Provides cryptographic operations when hardware TPM is unavailable
 """
+from typing import List
+import random
+import streamlit as st
+from datetime import timezone
 
 import base64
 import hashlib

@@ -6,6 +6,8 @@ This module provides specialized signal emitters for each core module,
 ensuring proper MΛTRIZ signal emission at all consciousness boundaries
 and enabling seamless inter-module communication.
 """
+import time
+import streamlit as st
 
 import logging
 from collections import defaultdict, deque

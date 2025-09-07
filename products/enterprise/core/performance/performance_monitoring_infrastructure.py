@@ -19,6 +19,8 @@ Features:
 - Performance regression prevention system
 - Load testing infrastructure for 10K+ concurrent users
 """
+import random
+import streamlit as st
 
 import asyncio
 import logging

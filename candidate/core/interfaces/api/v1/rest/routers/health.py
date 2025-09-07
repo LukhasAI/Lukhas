@@ -1,5 +1,7 @@
 from fastapi import APIRouter
 from interfaces.api.v1.rest.models import HealthStatus
+import streamlit as st
+import time
 
 router = APIRouter()
 

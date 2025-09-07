@@ -3,6 +3,7 @@
 LID Client for ΛLens
 Lambda Identity (ΛID) management and access control
 """
+import streamlit as st
 
 import hashlib
 import json

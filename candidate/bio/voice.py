@@ -4,6 +4,8 @@ Consolidated from 4 variants
 Generated: 2025-08-12T19:38:03.079565
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+import time
+import streamlit as st
 
 from datetime import datetime, timezone
 

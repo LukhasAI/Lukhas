@@ -6,6 +6,7 @@ LUKHAS ASCII Art Header Fixer
 This script fixes the ASCII art in headers to properly display "LUKHAS"
 instead of "LUKHAS AI" or other incorrect variations.
 """
+import streamlit as st
 
 import re
 from pathlib import Path

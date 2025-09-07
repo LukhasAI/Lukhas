@@ -4,6 +4,7 @@ import time
 from typing import Any, TypedDict
 
 import requests
+import streamlit as st
 
 
 class LukhasError(RuntimeError):

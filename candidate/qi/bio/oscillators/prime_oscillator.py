@@ -4,6 +4,8 @@ Prime Harmonic Oscillator implementation.
 This module implements the core bio-inspired oscillator that uses prime number ratios
 for harmonic synchronization, inspired by biological rhythms and quantum phenomena.
 """
+import time
+import streamlit as st
 
 import logging
 import math

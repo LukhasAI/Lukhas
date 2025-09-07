@@ -4,6 +4,10 @@ Original: voice_profiling.py
 Advanced: voice_profiling.py
 Integration Date: 2025-05-31T07:55:27.760932
 """
+from typing import List
+from typing import Dict
+import streamlit as st
+from datetime import timezone
 
 # 📄 MODULE: voice_profiling.py
 # 🔎 PURPOSE: Advanced voice profiling for personalized and adaptive speech synthesis

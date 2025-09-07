@@ -14,6 +14,8 @@ Advanced circular QR encoding system implementing polar coordinate transformatio
 radial data distribution, and angular sector allocation for enhanced visual appeal
 and improved error correction through geometric redundancy.
 """
+from typing import Dict
+import streamlit as st
 
 import logging
 import math

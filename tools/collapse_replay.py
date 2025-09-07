@@ -8,6 +8,9 @@ Usage:
     python3 collapse_replay.py --session <id> --summary
     python3 collapse_replay.py --list-sessions
 """
+from consciousness.qi import qi
+from typing import List
+import streamlit as st
 
 import argparse
 import json

@@ -4,6 +4,7 @@
 ======================
 Identifies and analyzes redundant code across the LUKHAS debase.
 """
+import streamlit as st
 
 import ast
 import difflib

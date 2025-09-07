@@ -3,6 +3,7 @@ Healthcare Provider Interface Templates
 
 Standard interfaces that all healthcare provider implementations must follow.
 """
+import streamlit as st
 
 from .ehr_interface import EHRInterface, ProviderNotificationInterface
 from .telemedicine_interface import TelemedicineInterface, TelemedicineSecurityHandler

@@ -21,6 +21,9 @@ Author: LUKHAS AI System
 Version: 2.0.0
 Constellation Framework: ✨🌟⭐🔥💎⚖️🛡️🌌
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import uuid
 from dataclasses import asdict, dataclass

@@ -5,6 +5,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 TODO[T4-AUDIT]:triage - Colony system implementation status unclear. Need integration assessment with actor system.
 """
+import streamlit as st
 
 __version__ = "1.0.0"
 __trinity__ = "⚛️🧠🛡️"

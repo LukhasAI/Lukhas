@@ -7,6 +7,7 @@ Contains:
 - System configuration parameters
 - Identity system settings
 """
+import streamlit as st
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI System"

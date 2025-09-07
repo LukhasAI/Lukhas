@@ -3,6 +3,7 @@
 Lambda Products Installation Verification Script
 Checks that all components are properly installed and functional
 """
+import streamlit as st
 
 import sys
 from pathlib import Path

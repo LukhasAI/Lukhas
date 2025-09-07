@@ -3,6 +3,7 @@ LUKHAS Signal System
 ====================
 Colony-wide endocrine-inspired signal system for adaptive behavior modulation.
 """
+import streamlit as st
 
 from .homeostasis import (
     AuditTrail,

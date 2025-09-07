@@ -13,6 +13,7 @@ Components:
 
 Part of the LUKHAS AI Trinity Framework ⚛️🧠🛡️
 """
+import streamlit as st
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI"

@@ -4,6 +4,7 @@ Original: dream_cli.py
 Advanced: dream_cli.py
 Integration Date: 2025-05-31T07:55:29.950112
 """
+import streamlit as st
 
 # ╭──────────────────────────────────────────────────────────────────────────────╮
 # │                            LUCΛS :: DREAM CLI                                │

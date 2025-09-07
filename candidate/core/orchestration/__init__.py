@@ -28,6 +28,7 @@ Key Components:
 - MatrizConsciousnessCoordinator: Consciousness-aware coordination
 - OrchestrationCore: Main system orchestrator (existing)
 """
+import streamlit as st
 
 # Import MΛTRIZ consciousness coordination
 # Import existing orchestration core

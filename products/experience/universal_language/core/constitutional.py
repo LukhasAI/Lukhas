@@ -5,6 +5,7 @@ Constitutional Constraints Layer for Universal Language
 Implements Constitutional AI principles for safe symbol generation and usage.
 Based on what Dario Amodei/Anthropic would implement.
 """
+import streamlit as st
 
 import hashlib
 import logging

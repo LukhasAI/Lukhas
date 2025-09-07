@@ -14,6 +14,7 @@ Symbolic Scopes:
 - 📊 Analytics consent (behavioral analysis)
 - 🔗 Integration consent (third-party services)
 """
+import streamlit as st
 
 
 class SymbolicScopesManager:

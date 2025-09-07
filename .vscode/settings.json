@@ -93,5 +93,16 @@
   "github.copilot.chat.localeOverride": "en",
   "github.copilot.renameSuggestions.enabled": false,
   "github.copilot.editor.enableAutoCompletions": true,
-  "github.copilot.editor.iterativeFixMode": false
+  "github.copilot.editor.iterativeFixMode": false,
+
+  // Stability Settings for TypeScript Language Service
+  "github.copilot.chat.experimental.workspaceContext": false,
+  "github.copilot.chat.experimental.terminalIntegration": false,
+  "github.copilot.chat.experimental.smartActions": false,
+  "github.copilot.chat.languageContext.typescript.enabled": false,
+  "github.copilot.chat.languageContext.inline.typescript.enabled": false,
+  "github.copilot.chat.editor.temporalContext.enabled": false,
+  "github.copilot.chat.edits.temporalContext.enabled": false,
+  "typescript.preferences.includePackageJsonAutoImports": "off",
+  "typescript.suggest.autoImports": false
 }

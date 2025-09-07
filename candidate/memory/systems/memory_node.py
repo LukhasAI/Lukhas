@@ -8,6 +8,10 @@ Design inspired by:
 - Apple's privacy-focused approach to personal data
 - OpenAI's sophisticated vector-based memory architectures
 """
+from typing import List
+from typing import Dict
+import random
+import streamlit as st
 
 import hashlib
 import logging

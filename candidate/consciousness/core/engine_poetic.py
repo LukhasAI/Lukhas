@@ -76,6 +76,10 @@ import logging
 ║ Symbolic Tags: {ΛCONSCIOUSNESS}, {ΛMIRROR}, {ΛPHI}, {ΛQUALIA}, {ΛAWARENESS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 from collections import deque

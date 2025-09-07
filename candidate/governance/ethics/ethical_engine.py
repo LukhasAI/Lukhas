@@ -11,6 +11,7 @@ Original location: ./orchestration/brain/compliance/ethical_engine.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/orchestration/brain/compliance/ethical_engine.py
 """
+import streamlit as st
 
 # Placeholder to prevent import errors
 

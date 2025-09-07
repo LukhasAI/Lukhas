@@ -2,6 +2,7 @@
 Integration patches for supervision system with existing actor system
 This bridges the supervision module with the base actor system
 """
+import streamlit as st
 
 import asyncio
 import logging

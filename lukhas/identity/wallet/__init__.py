@@ -2,6 +2,9 @@
 LUKHAS AI - WALLET Integration Bridge
 Production integration for WALLET identity management components
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import logging
 from typing import Any

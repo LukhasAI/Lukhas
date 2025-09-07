@@ -14,6 +14,7 @@ Consolidated from 4 files:
 - memory/colonies/base_memory_colony.py
 - memory/colonies/episodic_memory_colony.py
 """
+import streamlit as st
 
 import logging
 import time

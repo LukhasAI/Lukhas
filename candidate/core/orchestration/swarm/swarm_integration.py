@@ -3,6 +3,7 @@
 Colony-Swarm Integration
 Connects the colony coordination and swarm intelligence systems.
 """
+import streamlit as st
 
 from typing import Any
 

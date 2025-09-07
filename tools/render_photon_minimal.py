@@ -3,6 +3,7 @@
 
 Usage: python3 tools/render_photon_minimal.py examples/photon_users.json > /tmp/preview.html
 """
+import streamlit as st
 
 import json
 import sys

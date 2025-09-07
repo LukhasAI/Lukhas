@@ -6,6 +6,7 @@ Inter-Agent Simulation Module
 This module provides inter-agent simulation functionality for the LUKHAS AGI system.
 It handles communication and coordination between different agents.
 """
+import streamlit as st
 
 import asyncio
 import json

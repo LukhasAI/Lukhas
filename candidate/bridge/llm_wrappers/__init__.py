@@ -6,6 +6,7 @@ contract and optional provider-specific optimizations.
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
+import streamlit as st
 
 # Module imports
 import logging

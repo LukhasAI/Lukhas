@@ -3,6 +3,7 @@ LUKHAS AI Core Module
 Foundational systems for symbolic processing, GLYPH engine, and Trinity Framework
 Trinity Framework: Identity, Consciousness, Guardian
 """
+import streamlit as st
 
 # Actor system imports
 from .actor_system import (

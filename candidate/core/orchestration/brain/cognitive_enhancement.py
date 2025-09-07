@@ -13,6 +13,8 @@ This module extends brain/cognitive_core.py with:
 
 Enhanced: 2025-7-2
 """
+import streamlit as st
+from datetime import timezone
 
 import logging
 from datetime import datetime

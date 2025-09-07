@@ -38,6 +38,8 @@
 ║ Symbolic Tags: {ΛPERSONALITY}, {ΛADAPTIVE}, {ΛEMOTION}, {ΛCULTURAL}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 import logging
 

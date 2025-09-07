@@ -3,6 +3,7 @@ LUKHAS AI Bio Module - Core Engine
 Central bio processing engine
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+import streamlit as st
 
 from typing import Any
 

@@ -3,6 +3,7 @@
 Identity System Connector
 Ensures all systems properly integrate with identity and safety checks.
 """
+import streamlit as st
 
 import functools
 from typing import Any, Callable

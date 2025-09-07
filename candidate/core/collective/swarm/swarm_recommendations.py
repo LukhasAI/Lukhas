@@ -4,6 +4,7 @@ Swarm Recommendation System for the Collective Intelligence Layer.
 This module generates recommendations based on the collective wisdom of
 consciousness clusters, finding what has elevated similar users.
 """
+import streamlit as st
 
 import random
 from typing import Any

@@ -35,6 +35,8 @@
 ║ Symbolic Tags: {ΛLOG}, {ΛTRACE}, {ΛDEBUG}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 # Module imports
 import logging

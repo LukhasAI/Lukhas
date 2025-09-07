@@ -10,6 +10,8 @@ Combining:
 
 Copyright (c) 2025 LUKHAS AI. Trinity Framework (⚛️🧠🛡️) Enhanced.
 """
+import time
+import streamlit as st
 
 import ast
 import logging

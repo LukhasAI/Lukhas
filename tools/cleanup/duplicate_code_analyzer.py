@@ -4,6 +4,7 @@ Duplicate Code Analyzer for LUKHAS
 =======================================
 Identifies duplicate and conflicting code patterns for cleanup.
 """
+import streamlit as st
 
 import ast
 import hashlib

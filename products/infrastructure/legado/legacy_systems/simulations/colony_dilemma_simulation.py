@@ -1,3 +1,4 @@
+import streamlit as st
 """Simulate an ethical dilemma across colonies."""
 import logging
 logger = logging.getLogger(__name__)

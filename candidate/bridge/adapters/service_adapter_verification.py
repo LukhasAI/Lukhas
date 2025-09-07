@@ -4,6 +4,8 @@
 
 Verifies the enhanced Service Adapter Base with Trinity Framework integration.
 """
+import logging
+import streamlit as st
 
 import asyncio
 import os

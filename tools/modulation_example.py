@@ -15,6 +15,7 @@ Requirements:
 Environment:
     export OPENAI_API_KEY="your-api-key-here"
 """
+import streamlit as st
 
 import asyncio
 import os

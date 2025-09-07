@@ -8,6 +8,7 @@ from learning.meta_adaptive import MetaLearner
 
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.swarm import SwarmAgent
+import streamlit as st
 
 
 class LearningAgent(SwarmAgent):

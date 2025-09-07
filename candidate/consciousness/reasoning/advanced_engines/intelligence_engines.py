@@ -18,6 +18,8 @@ Architecture: Pure Lukhas implementation - no external dependencies
 Created: 2025-07-02
 Status: ADVANCED AGI CAPABILITIES INTEGRATED
 """
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import logging

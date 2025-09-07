@@ -3,6 +3,7 @@ LUKHAS AI VIVOX Module
 Production-safe wrapper for VIVOX consciousness system
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+import streamlit as st
 
 from .vivox_wrapper import ConsciousnessLevel, VivoxConfig, VivoxWrapper
 

@@ -3,6 +3,8 @@
 Code Quality Dashboard Generator
 Creates an HTML dashboard with real-time code quality metrics
 """
+import time
+import streamlit as st
 
 import json
 import subprocess

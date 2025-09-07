@@ -6,6 +6,7 @@ maintaining competitive advantage across global markets.
 
 Part of the Trinity Framework (⚛️🧠🛡️)
 """
+import streamlit as st
 
 from .global_deployment_orchestrator import GlobalDeploymentOrchestrator
 from .global_interoperability_engine import GlobalInteroperabilityEngine

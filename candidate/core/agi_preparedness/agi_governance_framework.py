@@ -25,6 +25,8 @@ Integration:
 - Capability Evaluation Framework AGI status determination
 - Advanced Safety Protocols AGI safety governance triggers
 """
+import time
+import streamlit as st
 
 import logging
 from dataclasses import dataclass, field

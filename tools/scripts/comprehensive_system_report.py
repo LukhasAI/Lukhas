@@ -6,6 +6,8 @@ Complete system diagnostic and status report
 Date: August 5, 2025
 Trinity Framework: ⚛️🧠🛡️
 """
+import time
+import streamlit as st
 
 import json
 import logging

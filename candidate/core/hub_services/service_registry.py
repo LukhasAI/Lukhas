@@ -3,6 +3,10 @@
 Service Registry
 Central registry for dependency injection to break circular dependencies.
 """
+from consciousness.qi import qi
+from typing import List
+import streamlit as st
+from datetime import timezone
 
 import logging
 from abc import ABC, abstractmethod

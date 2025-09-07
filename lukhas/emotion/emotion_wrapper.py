@@ -7,6 +7,8 @@ LUKHAS AI Emotion Wrapper
 Advanced emotion wrapper that integrates with memory and consciousness systems.
 Provides budget-optimized emotion processing with memory integration.
 """
+import time
+import streamlit as st
 
 import logging
 from typing import Any, Optional

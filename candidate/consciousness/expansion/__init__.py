@@ -4,6 +4,7 @@ Consciousness Expansion Module
 Provides systematic consciousness expansion and transcendence capabilities.
 Part of the LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
+import streamlit as st
 
 from .awareness_boundary_transcender import AwarenessBoundaryTranscender
 from .consciousness_dimensionality_expander import ConsciousnessDimensionalityExpander

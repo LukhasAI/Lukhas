@@ -13,6 +13,7 @@ Production-ready logging system with:
 Author: LUKHAS AI T4 Team
 Version: 1.0.0
 """
+import streamlit as st
 
 import logging
 import logging.config

@@ -11,6 +11,8 @@ Integration Points:
 - consciousness_layer.py: Consciousness-aware QR patterns
 - qi_entropy.py: QI-enhanced QR entropy
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from dataclasses import dataclass
 from enum import Enum

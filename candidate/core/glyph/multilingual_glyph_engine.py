@@ -4,6 +4,8 @@ LUKHΛS Multilingual Glyph Engine
 Cross-cultural symbolic translation system
 Trinity Framework: ⚛️🧠🛡️
 """
+from typing import List
+import streamlit as st
 
 import json
 import logging

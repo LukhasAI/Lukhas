@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
+log = logging.getLogger(__name__)
 import logging
+import streamlit as st
+import random
 logger = logging.getLogger(__name__)
 
 """

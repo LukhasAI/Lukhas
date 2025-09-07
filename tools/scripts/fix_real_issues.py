@@ -3,6 +3,7 @@
 Fix real linting issues - not just formatting.
 Focuses on undefined names, imports, and actual errors.
 """
+import streamlit as st
 
 import subprocess
 from collections import defaultdict

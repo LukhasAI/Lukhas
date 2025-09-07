@@ -3,6 +3,8 @@
 Consciousness Fold - Memory system linked to consciousness states and trust glyphs
 Creates temporal folds that preserve context across state transitions
 """
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 import json

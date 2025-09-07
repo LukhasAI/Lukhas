@@ -7,6 +7,7 @@ and memory signals. Implements symbolic routing with automatic handler connectio
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
+import streamlit as st
 
 import asyncio
 import logging

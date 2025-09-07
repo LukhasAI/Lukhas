@@ -12,6 +12,8 @@ Components:
 - Symbolic collapse visualization
 - Persona distribution analytics
 """
+import time
+import streamlit as st
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS AGI"

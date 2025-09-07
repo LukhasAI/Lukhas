@@ -14,6 +14,10 @@
 ║ Advanced awareness protocol with quantum-biological features.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+from typing import Dict
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import logging

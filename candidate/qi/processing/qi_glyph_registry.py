@@ -5,6 +5,9 @@ distributed dream recombination.
 
 # ΛTAG: qi_glyph_registry, distributed_dream
 """
+from consciousness.qi import qi
+from typing import List
+import streamlit as st
 
 from __future__ import annotations
 

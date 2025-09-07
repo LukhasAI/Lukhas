@@ -3,6 +3,7 @@
 Lambda Products Quick Setup Script
 Automatically integrates Lambda Products with Lukhas
 """
+import streamlit as st
 
 import asyncio
 import os

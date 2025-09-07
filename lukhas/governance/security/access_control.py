@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+log = logging.getLogger(__name__)
 """
 LUKHAS Production Access Control System
 Enterprise-grade tiered access control with constitutional AI compliance
@@ -6,6 +7,9 @@ Enterprise-grade tiered access control with constitutional AI compliance
 This module provides production-ready access control suitable for government
 and enterprise deployment with comprehensive audit trails and T1-T5 tier system.
 """
+import logging
+import time
+import streamlit as st
 
 import uuid
 from dataclasses import dataclass, field

@@ -5,6 +5,8 @@ Real-Time Governance Dashboard - Advanced Guardian monitoring interface
 Provides comprehensive threat visualization with symbolic analysis, predictive modeling,
 and governance oversight. Integrated with LUKHAS Trinity Framework (⚛️🧠🛡️).
 """
+import random
+import streamlit as st
 
 import asyncio
 import math

@@ -22,6 +22,8 @@ Version: 1.0.0 - GDPR/AI Act Edition
 Date: June 2025
 License: EU-FOSS Compliant
 """
+import time
+import streamlit as st
 
 import json
 import logging

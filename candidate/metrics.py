@@ -2,6 +2,7 @@
 LUKHAS Metrics Collection ⚛️📊
 Prometheus-compatible metrics for monitoring and alerting.
 """
+import streamlit as st
 
 import time
 

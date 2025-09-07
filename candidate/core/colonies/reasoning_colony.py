@@ -24,6 +24,7 @@
 ║ - Dream-inspired creative reasoning paths
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import asyncio
 import logging

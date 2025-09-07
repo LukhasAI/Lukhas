@@ -35,6 +35,9 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 __module_name__ = "Quantum Abas Quantum Specialist"
 __version__ = "2.0.0"

@@ -3,6 +3,7 @@ import logging
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+import streamlit as st
 
 try:
     from interfaces.api.v1.common.errors import APIError

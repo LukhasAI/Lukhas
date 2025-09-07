@@ -1,6 +1,7 @@
 """
 Common interfaces to break circular dependencies
 """
+import streamlit as st
 
 from abc import ABC, abstractmethod
 from typing import Any

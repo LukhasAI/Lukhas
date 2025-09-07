@@ -11,6 +11,9 @@ Features:
 - Quantum-resistant signature schemes
 - GDPR-compliant audit logging
 """
+from typing import Dict
+import logging
+import streamlit as st
 
 import base64
 import hashlib

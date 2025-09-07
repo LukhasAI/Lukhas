@@ -18,6 +18,10 @@ Author: LUKHAS QRG Development Team
 License: Proprietary - See LUKHAS_LICENSE.md
 Version: 2.0.0
 """
+from consciousness.qi import qi
+from typing import Dict
+import random
+import streamlit as st
 
 import base64
 import hashlib

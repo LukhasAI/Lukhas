@@ -5,6 +5,7 @@ that provides simple text-based intent inference.
 
 # ΛTAG: codex, intent
 """
+import streamlit as st
 
 from __future__ import annotations
 

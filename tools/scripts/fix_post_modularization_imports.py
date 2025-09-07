@@ -4,6 +4,8 @@ Import Connectivity Fixer
 ========================
 Fixes import issues post-modularization.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from pathlib import Path
 

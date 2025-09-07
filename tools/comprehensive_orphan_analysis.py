@@ -4,6 +4,11 @@ Comprehensive Orphaned File/Directory Analysis for LUKHAS AI
 Excludes libraries, virtual environments, and system files
 Trinity Framework: ⚛️🧠🛡️
 """
+from consciousness.qi import qi
+import logging
+import time
+import random
+import streamlit as st
 
 import ast
 import json

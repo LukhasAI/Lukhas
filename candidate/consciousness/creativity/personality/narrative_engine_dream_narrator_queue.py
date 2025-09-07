@@ -21,6 +21,8 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
+import time
+import streamlit as st
 
 # +──────────────────────────────────────────────────────────────────────────────+
 # +──────────────────────────────────────────────────────────────────────────────+

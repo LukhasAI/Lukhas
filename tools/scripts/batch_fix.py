@@ -3,6 +3,7 @@
 Batch fix for the most common linting issues
 Processes files in batches to avoid overwhelming the system
 """
+import streamlit as st
 
 import subprocess
 import sys

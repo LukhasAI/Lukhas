@@ -4,6 +4,8 @@ Original: speak.py
 Advanced: speak.py
 Integration Date: 2025-5-31T07:55:30.780336
 """
+import streamlit as st
+from datetime import timezone
 
 # ===============================================================
 #  FILE: tools/speak.py

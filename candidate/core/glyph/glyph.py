@@ -28,6 +28,8 @@ and symbolic reasoning throughout the LUKHAS AGI system.
 
 For more information, visit: https://lukhas.ai
 """
+import streamlit as st
+from datetime import timezone
 
 # ΛTRACE: Core glyph engine initialization
 # ΛORIGIN_AGENT: Claude Code

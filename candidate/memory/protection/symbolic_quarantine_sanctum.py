@@ -42,6 +42,9 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from typing import List
+import random
+import streamlit as st
 
 import argparse
 import asyncio

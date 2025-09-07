@@ -3,6 +3,8 @@
 TEQ Gate with Provenance Integration
 Automatically generates execution receipts for all policy decisions
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import hashlib
 import time

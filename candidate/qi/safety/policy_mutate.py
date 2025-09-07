@@ -11,6 +11,8 @@ from typing import Any
 import yaml
 
 from .teq_gate import TEQCoupler
+import streamlit as st
+from consciousness.qi import qi
 
 DEFAULT_CORPUS = os.path.join(os.path.dirname(__file__), "policy_corpus.yaml")
 

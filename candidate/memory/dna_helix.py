@@ -3,6 +3,7 @@ Compatibility shim for memory.dna_helix
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.accepted.memory.helix
 """
+import streamlit as st
 
 import warnings
 

@@ -6,6 +6,7 @@ Consolidated from core/core/utils/symbolic_utils.py
 Updated: 2025-07-27
 Part of the LUKHAS Symbolic System consolidation
 """
+import streamlit as st
 
 
 def tier_label(tier):

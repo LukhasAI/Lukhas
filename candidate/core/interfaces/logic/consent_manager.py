@@ -1,4 +1,6 @@
 import logging
+import streamlit as st
+from typing import Optional
 logger = logging.getLogger(__name__)
 """
 ΛTRACE: consent_manager.py

@@ -12,6 +12,7 @@ This module contains functions for generating different types of dream content
 based on a folded trace from the memory system. It's a key component in the
 transformation of memories into dream narratives.
 """
+import streamlit as st
 
 
 def generate_episodic_dream(trace):

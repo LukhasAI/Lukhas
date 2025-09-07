@@ -10,6 +10,8 @@ import yaml  # pip install pyyaml
 
 # Reuse your confidence-based planner
 from qi.router.confidence_router import ConfidenceRouter
+import streamlit as st
+from consciousness.qi import qi
 
 PRESETS_PATH_ENV = "LUKHAS_ROUTER_PRESETS"
 DEFAULT_PRESETS_PATH = os.path.join("qi", "router", "presets.yaml")

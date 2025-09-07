@@ -11,6 +11,8 @@
 │ - Compliance Alignment: EU AI Act, GDPR, OECD AI Principles   │
 ╰────────────────────────────────────────────────────────────────╯
 """
+import time
+import streamlit as st
 
 from datetime import date
 

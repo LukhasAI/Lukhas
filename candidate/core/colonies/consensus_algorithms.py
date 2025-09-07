@@ -13,6 +13,8 @@ Features:
 - Multi-stage consensus pipelines
 - DNA-based genetic consensus
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import asyncio
 import logging

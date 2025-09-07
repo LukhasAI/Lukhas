@@ -6,6 +6,9 @@ import builtins
 import json
 import os
 from typing import Any
+import streamlit as st
+import time
+from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open
 

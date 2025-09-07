@@ -3,6 +3,9 @@
 Aggressive File Consolidator
 Actually moves the 923 consolidation candidates to their proper modules
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import builtins
 import contextlib

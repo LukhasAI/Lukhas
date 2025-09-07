@@ -23,6 +23,9 @@ Integration Points:
 Author: LUKHAS Meta-Learning Enhancement System
 Created: January 2025
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import asyncio
 import json

@@ -13,6 +13,7 @@ Symbolic Communication Protocol for Lukhas AGI System
 This module defines the symbolic handshake patterns and communication signals
 between the orchestrator and sub-agents (dream, intent, emotion, memory).
 """
+import streamlit as st
 
 import logging
 import time

@@ -6,6 +6,7 @@ Trinity Framework: ⚛️🧠🛡️
 This module provides efficient communication patterns for the LUKHAS ecosystem,
 supporting event-driven messaging, P2P transfers, and energy optimization.
 """
+import streamlit as st
 
 import asyncio
 import json

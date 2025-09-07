@@ -11,6 +11,11 @@ Original: qi_attention.py
 Advanced: qi_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
+from consciousness.qi import qi
+from typing import Dict
+import logging
+import random
+import streamlit as st
 
 from typing import Any, Optional
 

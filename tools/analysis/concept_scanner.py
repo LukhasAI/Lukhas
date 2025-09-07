@@ -3,6 +3,8 @@
 LUKHAS Concept Scanner
 Finds and reports on LUKHAS-specific concepts throughout the codebase
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import ast
 import re

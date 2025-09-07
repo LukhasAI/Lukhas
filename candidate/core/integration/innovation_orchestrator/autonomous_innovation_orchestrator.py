@@ -6,6 +6,9 @@ breakthrough generation without human intervention.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
+from consciousness.qi import qi
+from typing import List
+import streamlit as st
 
 import asyncio
 import logging

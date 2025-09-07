@@ -10,6 +10,7 @@ Shared Ethics Utilities
 
 Common ethics-related functions used across the AGI system.
 """
+import streamlit as st
 
 from typing import Any
 

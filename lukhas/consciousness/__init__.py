@@ -15,6 +15,7 @@ This module provides controlled access to consciousness capabilities with:
 Author: LUKHAS AI Consciousness Systems Architect
 Version: 1.0.0
 """
+import streamlit as st
 
 from .consciousness_wrapper import (
     AwarenessLevel,

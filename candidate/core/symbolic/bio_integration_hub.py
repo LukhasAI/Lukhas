@@ -9,6 +9,8 @@
 Bio-Symbolic Integration Hub
 Connects all bio-inspired components with symbolic processing.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import logging
 from typing import Any

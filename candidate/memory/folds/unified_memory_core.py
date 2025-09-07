@@ -134,6 +134,8 @@ Consolidated from 124 files:
 - tests/memory_stress_tests_light.py
 - tools/activation_modules/memory_activation.py
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import hashlib
 import logging

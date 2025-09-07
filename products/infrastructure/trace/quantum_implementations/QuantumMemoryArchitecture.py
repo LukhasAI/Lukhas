@@ -17,6 +17,9 @@
 │   3. Retrieve memories using QI associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
+from consciousness.qi import qi
+from typing import Dict
+import streamlit as st
 
 from typing import Optional
 

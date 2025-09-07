@@ -6,6 +6,7 @@ Trinity Framework: ⚛️🧠🛡️
 This module provides symbolic tagging and processing capabilities for LUKHAS AI,
 including tag scopes, permissions, and methylation models for tag lifecycle management.
 """
+import streamlit as st
 
 from .methylation_model import MethylationModel, get_methylation_model
 from .tags import SymbolicTag, TagManager, TagPermission, TagScope, get_tag_manager

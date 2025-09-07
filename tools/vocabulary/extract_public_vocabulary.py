@@ -3,6 +3,7 @@
 LUKHAS Lexicon Extractor
 Extracts public-safe vocabulary from the dual-stream lexicon.
 """
+import streamlit as st
 
 import re
 from pathlib import Path

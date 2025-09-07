@@ -3,6 +3,7 @@ LUKHAS AI Memory Wrapper
 Production-safe wrapper for memory operations with feature flag control
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+import streamlit as st
 
 import os
 import time

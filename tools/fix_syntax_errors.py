@@ -3,6 +3,7 @@
 Comprehensive Python Syntax Error Fixer
 Automatically detects and fixes common Python syntax errors at scale
 """
+import streamlit as st
 
 import argparse
 import ast

@@ -1,3 +1,4 @@
+log = logging.getLogger(__name__)
 """
 LUKHAS AI System - "Lukhas" Symbolic Memory Recall Utility (# ΛLEGACY)
 File: memory_recall.py
@@ -9,6 +10,10 @@ Note: This utility uses the name "Lukhas" for memory operations. It is considere
       legacy or for a specific "Lukhas" context. The primary symbolic recall
       utility is `memory_recall.py`.
 """
+import logging
+from typing import List
+import time
+import streamlit as st
 
 # Standard Library Imports
 import json

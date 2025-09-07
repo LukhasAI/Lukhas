@@ -5,6 +5,8 @@ Trinity Framework: ⚛️🧠🛡️
 
 This module intentionally avoids any cross-lane imports from `candidate`.
 """
+from typing import List
+import streamlit as st
 
 import importlib
 import importlib.util

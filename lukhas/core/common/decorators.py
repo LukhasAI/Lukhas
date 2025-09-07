@@ -1,8 +1,11 @@
+log = logging.getLogger(__name__)
 """
 🎭 Common Decorators
 ===================
 Reusable decorators for LUKHAS modules.
 """
+import logging
+import streamlit as st
 
 import asyncio
 import functools

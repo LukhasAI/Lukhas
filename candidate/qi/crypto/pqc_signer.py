@@ -6,6 +6,9 @@ import hashlib
 import json
 import os
 from typing import Any
+import streamlit as st
+import random
+from consciousness.qi import qi
 
 # Check for PQC library availability
 try:

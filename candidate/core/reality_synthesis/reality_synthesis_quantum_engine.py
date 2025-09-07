@@ -4,6 +4,7 @@ Reality Synthesis Quantum Engine for the NIAS Transcendence Platform.
 This module creates coherent consciousness messages that unfold across all
 reality layers, from the physical to the dream world.
 """
+import streamlit as st
 
 import random
 from typing import Any

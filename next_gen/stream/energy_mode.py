@@ -3,6 +3,8 @@
 Energy-conscious Mode - Adaptive throttling and resource management
 Monitors system load and adjusts operation intensity with moon symbol 🌙
 """
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import json

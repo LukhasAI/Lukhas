@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from lukhas.feedback.store import get_lut, record_feedback
+import streamlit as st
 
 router = APIRouter(prefix="/feedback", tags=["feedback"])
 

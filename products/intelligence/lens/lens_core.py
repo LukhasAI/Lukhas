@@ -3,6 +3,7 @@
 ΛLens Core - Symbolic File Dashboard Engine
 Transforms files into interactive AR/VR-ready symbolic representations
 """
+import streamlit as st
 
 import asyncio
 import hashlib

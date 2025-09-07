@@ -4,6 +4,7 @@ Consciousness Clustering Engine for the Collective Intelligence Layer.
 This module groups users into clusters based on their consciousness evolution
 patterns, using privacy-preserving techniques.
 """
+import streamlit as st
 
 import random
 

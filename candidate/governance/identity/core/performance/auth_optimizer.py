@@ -13,6 +13,8 @@ Features:
 - Performance monitoring and auto-tuning
 - Trinity Framework compliance (⚛️🧠🛡️)
 """
+from typing import Dict
+import streamlit as st
 
 import asyncio
 import hashlib

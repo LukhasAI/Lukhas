@@ -10,6 +10,10 @@ import time
 from typing import Any
 
 from qi.provenance.receipt_standard import build_receipt, to_json
+import streamlit as st
+from typing import Dict
+from typing import Optional
+from consciousness.qi import qi
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 OUT_DIR = os.path.join(STATE, "provenance", "exec_receipts")

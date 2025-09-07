@@ -4,6 +4,8 @@ Emergency Response System for Healthcare Guardian
 Handles medical emergencies, fall detection, and automatic dispatch for elderly users
 Consolidated from Enhanced Guardian Medical emergency_aid.py
 """
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import json

@@ -7,5 +7,6 @@
 - dast_candidate/  - Development version of DAST
 - argus_pack/      - Alternative ARGUS implementation
 """
+import streamlit as st
 
 __all__ = ["argus", "dast", "lens", "dast_enhanced", "dast_candidate", "argus_pack"]

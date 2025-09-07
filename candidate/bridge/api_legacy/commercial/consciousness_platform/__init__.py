@@ -2,6 +2,7 @@
 Consciousness Platform Commercial API
 Advanced consciousness simulation and awareness tracking
 """
+import streamlit as st
 
 from .consciousness_api import (
     AwarenessQuery,

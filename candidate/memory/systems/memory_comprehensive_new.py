@@ -24,6 +24,8 @@ from typing import Dict
 ║ Advanced Cognitive Architecture for Artificial General Intelligence
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 import logging
 import sys

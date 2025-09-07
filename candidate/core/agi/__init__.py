@@ -2,6 +2,7 @@
 LUKHAS AGI Core Systems
 Advanced AGI capabilities for autonomous operation
 """
+import streamlit as st
 
 from .autonomous_learning import (
     AutonomousLearningPipeline,

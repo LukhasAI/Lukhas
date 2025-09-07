@@ -18,6 +18,7 @@ Purpose:
 - Coordinates corrective behavior when feedback loops diverge
 - Supports Jules-03 ↔ Jules-05 loop through introspective convergence
 """
+import streamlit as st
 
 from lukhas.memory.emotional import EmotionalMemory
 

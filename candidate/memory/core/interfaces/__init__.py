@@ -2,6 +2,7 @@
 Memory Interface Definitions
 Standard interfaces for all memory types with colony compatibility
 """
+import streamlit as st
 
 from .episodic_interface import (
     EpisodicContext,

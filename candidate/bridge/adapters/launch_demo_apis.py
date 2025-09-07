@@ -3,6 +3,7 @@
 LUKHAS Demo API Launcher
 Starts all demo APIs for showcase presentations
 """
+import streamlit as st
 
 import signal
 import subprocess

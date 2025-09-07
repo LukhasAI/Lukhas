@@ -4,6 +4,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+import streamlit as st
 
 try:
     import tomllib  # py3.11+

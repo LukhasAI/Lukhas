@@ -1,3 +1,4 @@
+log = logging.getLogger(__name__)
 """
 LUKHAS AI System - Helix DNA Memory Module
 File: helix_dna.py
@@ -6,6 +7,9 @@ Created: Unknown (Original by LUKHAS AI Team)
 Modified: 2024-07-26
 Version: 1.0
 """
+import logging
+import time
+import streamlit as st
 
 # Standard Library Imports
 import hashlib

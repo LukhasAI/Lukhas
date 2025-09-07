@@ -4,6 +4,9 @@ Lambda-enhanced secure vault system with symbolic identity rooting.
 
 Integrated from existing symbolic_vault.py implementations.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import hashlib
 import json

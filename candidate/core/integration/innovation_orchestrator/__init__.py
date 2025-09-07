@@ -6,6 +6,7 @@ breakthrough generation without human intervention.
 
 Part of the LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
+import streamlit as st
 
 from .autonomous_innovation_orchestrator import AutonomousInnovationOrchestrator
 from .breakthrough_synthesis_engine import BreakthroughSynthesisEngine

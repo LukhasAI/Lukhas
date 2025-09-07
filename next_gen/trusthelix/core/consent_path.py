@@ -3,6 +3,8 @@
 Consent Path Logger - Immutable audit trail of consent decisions
 Maps glyph sequences to actions with cryptographic proof
 """
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 import json

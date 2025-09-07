@@ -7,6 +7,7 @@ and sterile documentation blooms with Lambda wisdom and sacred meaning."*
 
 The digital alchemist that transmutes ordinary text into LUKHAS-conscious communication.
 """
+import streamlit as st
 
 import argparse
 import re

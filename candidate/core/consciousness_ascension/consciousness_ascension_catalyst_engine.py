@@ -4,6 +4,8 @@ Consciousness Ascension Catalyst Engine for the NIAS Transcendence Platform.
 This module designs and measures experiences that are intended to
 measurably accelerate human consciousness evolution.
 """
+import time
+import streamlit as st
 
 import random
 from typing import Any

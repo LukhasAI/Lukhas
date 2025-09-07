@@ -21,6 +21,7 @@ Module for dream seed functionality
 
 For more information, visit: https://lukhas.ai
 """
+import streamlit as st
 
 from typing import Optional
 

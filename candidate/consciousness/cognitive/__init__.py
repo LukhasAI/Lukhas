@@ -14,6 +14,7 @@
 ║ Initialization for cognitive subpackage.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import logging
 

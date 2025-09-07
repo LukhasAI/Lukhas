@@ -2,6 +2,9 @@
 """
 Simple module enhancer - creates proper structure for all modules
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import json
 import os

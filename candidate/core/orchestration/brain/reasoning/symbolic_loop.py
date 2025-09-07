@@ -4,6 +4,7 @@ Original location: ./orchestration/brain/reasoning/symbolic_loop.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/orchestration/brain/reasoning/symbolic_loop.py
 """
+import streamlit as st
 
 # Placeholder to prevent import errors
 

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+logger = logging.getLogger(__name__)
 """
 Targeted syntax fixer for LUKHAS repository
 Focus on common fixable patterns while avoiding complex issues

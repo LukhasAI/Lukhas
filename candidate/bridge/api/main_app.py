@@ -20,6 +20,7 @@ Features:
 - Interactive API documentation
 - Comprehensive monitoring and metrics
 """
+import streamlit as st
 
 import logging
 import os

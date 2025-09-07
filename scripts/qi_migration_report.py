@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import List
 """
 🧬 LUKHAS Quantum → QI Module Migration Report
 Summary of quantum module structure update to QI (Quantum Intelligence)

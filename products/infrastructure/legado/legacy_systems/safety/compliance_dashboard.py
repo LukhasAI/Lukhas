@@ -5,6 +5,7 @@ Original: compliance_dashboard.py
 Advanced: compliance_dashboard.py
 Integration Date: 2025-05-31T07:55:27.745437
 """
+import time
 
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: compliance_dashboard.py

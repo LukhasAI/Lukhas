@@ -4,6 +4,8 @@ Original: cli.py
 Advanced: cli.py
 Integration Date: 2025-05-31T07:55:27.732053
 """
+import streamlit as st
+from datetime import timezone
 
 # 📄 MODULE: cli.py
 # 🔎 PURPOSE: Main symbolic entrypoint to launch LUKHAS agent and system ops

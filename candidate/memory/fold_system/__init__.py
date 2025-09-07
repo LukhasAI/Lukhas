@@ -5,6 +5,7 @@ LUKHAS Memory Fold System
 Central memory fold architecture implementing the research paper's
 memory fold concept with optimized hybrid implementations.
 """
+import streamlit as st
 
 import logging
 

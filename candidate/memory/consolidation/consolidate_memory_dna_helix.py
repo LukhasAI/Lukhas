@@ -3,6 +3,7 @@
 LUKHAS 2030 Memory Dna Helix Consolidation
 DNA-like immutable memory with emotional vectors
 """
+import streamlit as st
 
 from pathlib import Path
 

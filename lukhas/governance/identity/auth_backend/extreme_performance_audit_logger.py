@@ -18,6 +18,8 @@ PERFORMANCE OPTIMIZATIONS APPLIED:
 EXPECTED IMPROVEMENT: 60-80ms → <1ms per audit event (98%+ reduction)
 TARGET: Support 100,000+ events/second with <1ms latency
 """
+import logging
+import streamlit as st
 
 import asyncio
 import json

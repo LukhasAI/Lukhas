@@ -3,6 +3,8 @@ Meta-Consciousness Developer
 
 Develops meta-cognitive and self-referential consciousness capabilities.
 """
+import time
+import streamlit as st
 
 import asyncio
 import logging

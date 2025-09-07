@@ -3,6 +3,7 @@
 Aggressive Linting Fix - Fixes all auto-fixable issues
 USE WITH CAUTION - Review changes before committing
 """
+import streamlit as st
 
 import subprocess
 import sys

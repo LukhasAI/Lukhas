@@ -19,6 +19,7 @@ Features:
 
 Phase 2 Core Implementation - Context Orchestrator & Backend Logic Specialist
 """
+import streamlit as st
 
 import asyncio
 import logging

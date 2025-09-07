@@ -3,6 +3,7 @@ Compatibility shim for orchestration.brain
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.accepted.orchestrator.brain
 """
+import streamlit as st
 
 import warnings
 

@@ -38,6 +38,7 @@
 ║ Symbolic Tags: {ΛDREAM}, {ΛSYMBOL}, {ΛNARRATIVE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 # No external dependencies - standalone vocabulary definitions
 

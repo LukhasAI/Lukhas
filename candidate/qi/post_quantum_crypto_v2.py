@@ -26,6 +26,11 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
+from consciousness.qi import qi
+log = logging.getLogger(__name__)
+import time
+import random
+import streamlit as st
 
 __module_name__ = "Quantum Post Quantum Crypto Enhanced"
 __version__ = "2.0.0"

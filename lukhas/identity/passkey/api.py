@@ -4,6 +4,7 @@ from typing import Any
 from lukhas.observability.matriz_decorators import instrument
 
 from .registry import get_provider
+import streamlit as st
 
 FEATURE = os.getenv("FEATURE_IDENTITY_PASSKEY", "false").lower() == "true"
 

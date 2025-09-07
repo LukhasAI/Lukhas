@@ -6,6 +6,7 @@ This module provides a SwarmResourceScheduler that dynamically assigns
 tasks to colonies based on their resource state, memory load, and
 symbolic tag density.
 """
+import streamlit as st
 
 
 class SwarmResourceScheduler:

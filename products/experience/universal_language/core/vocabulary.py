@@ -4,6 +4,8 @@ Unified Vocabulary System for Universal Language
 
 Consolidates all domain vocabularies from scattered implementations.
 """
+import time
+import streamlit as st
 
 import json
 import logging

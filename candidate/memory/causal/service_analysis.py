@@ -12,6 +12,7 @@ Addresses REALITY_TODO tasks 9 and 12.
 Provides functions to evaluate digital friction from inter-service
 communication and to compute a modularity score based on coupling.
 """
+import streamlit as st
 
 from __future__ import annotations
 

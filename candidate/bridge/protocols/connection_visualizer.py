@@ -12,6 +12,7 @@ Memory System Connection Visualizer
 Simple script to visualize how all the JSON specifications connect together.
 Creates a visual map of relationships and dependencies.
 """
+import streamlit as st
 
 import json
 from pathlib import Path

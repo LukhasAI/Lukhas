@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: read_settings.py
 # MODULE: core.config.read_settings

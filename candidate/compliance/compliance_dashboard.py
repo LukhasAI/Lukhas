@@ -13,6 +13,7 @@ import pandas as pd
 import streamlit as st
 
 from candidate.core.tracing import trace_tools  # assuming trace_tools.py is importable
+import time
 
 LOG_PATH = "logs/emergency_log.jsonl"
 

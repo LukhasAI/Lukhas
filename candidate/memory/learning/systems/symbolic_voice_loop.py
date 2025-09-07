@@ -9,6 +9,8 @@ from dream_generator import generate_dreams  # hypothetical dream engine
 from voice import speak  # COVE/Lukhas voice output
 
 from lukhas.emotion_mapper import map_emotion  # optional emotion extractor
+from datetime import timezone
+import streamlit as st
 
 
 def speak(text, timezone):

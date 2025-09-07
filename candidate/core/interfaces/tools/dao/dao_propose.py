@@ -4,6 +4,8 @@ Original: dao_propose.py
 Advanced: dao_propose.py
 Integration Date: 2025-05-31T07:55:30.758022
 """
+import time
+import streamlit as st
 
 # ===============================================================
 # 📂 FILE: tools/dao_propose.py

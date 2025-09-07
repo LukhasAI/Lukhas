@@ -4,6 +4,7 @@ Organize Root Directory
 ======================
 Moves files from root to appropriate subdirectories.
 """
+import streamlit as st
 
 import shutil
 from pathlib import Path

@@ -2,6 +2,9 @@
 Consciousness-Quantum Bridge
 Bidirectional communication bridge between Consciousness and Quantum systems
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import logging
 from typing import Any

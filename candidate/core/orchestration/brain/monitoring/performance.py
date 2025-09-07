@@ -4,6 +4,7 @@
 ║ DESCRIPTION: Performance monitoring, optimization, and profiling     ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
+import streamlit as st
 
 import asyncio
 import functools

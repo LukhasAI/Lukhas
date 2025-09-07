@@ -6,6 +6,8 @@ Universal symbolic language system for MΛTRIZ integration.
 This script provides a bridge function to convert the state of a
 SymbolicWorld object into a valid MΛTRIZ node.
 """
+import time
+import streamlit as st
 
 import hashlib
 import json

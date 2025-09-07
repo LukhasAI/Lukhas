@@ -3,6 +3,8 @@
 LUKHAS 2030 Quantum Sgi Core Consolidation
 Quantum-inspired SGI processing core
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from pathlib import Path
 

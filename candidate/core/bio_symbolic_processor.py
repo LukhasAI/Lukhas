@@ -8,6 +8,7 @@ This module implements the M⌾TRIZ bio-symbolic adaptation layer, providing:
 - Adaptation algorithms for consciousness evolution
 - Integration with existing bio/ and symbolic_core/ modules
 """
+import streamlit as st
 
 import asyncio
 import logging

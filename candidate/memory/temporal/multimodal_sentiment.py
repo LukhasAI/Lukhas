@@ -25,6 +25,8 @@
 ║ Returns a unified sentiment score and label.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 from typing import Optional
 

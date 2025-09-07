@@ -5,6 +5,8 @@ import json
 import os
 import time
 from typing import Any
+import streamlit as st
+from consciousness.qi import qi
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE, "provenance", "receipts")

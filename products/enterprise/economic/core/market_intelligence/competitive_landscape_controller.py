@@ -3,6 +3,10 @@ Competitive Landscape Controller
 
 Controls and manages competitive positioning strategies.
 """
+from consciousness.qi import qi
+from typing import List
+import time
+import streamlit as st
 
 import logging
 from dataclasses import dataclass

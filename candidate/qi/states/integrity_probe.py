@@ -13,6 +13,8 @@ Integrity Probe
 
 Runs consistency checks on DriftScore deltas and collapse recovery logic.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from dataclasses import dataclass
 

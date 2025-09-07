@@ -8,6 +8,7 @@ Dream states are mutated through embedded ethical adjustments and
 symbolic divergence is scored via DriftScore. The system tracks
 symbolic entanglements and resulting value drift.
 """
+import streamlit as st
 
 from trace.drift_metrics import DriftTracker, compute_drift_score
 from typing import Any

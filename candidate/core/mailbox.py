@@ -9,6 +9,7 @@ This module implements sophisticated mailbox functionality including:
 - Message persistence options
 - Bounded and unbounded variants
 """
+import streamlit as st
 
 import asyncio
 import heapq

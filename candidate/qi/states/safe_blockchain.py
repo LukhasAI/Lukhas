@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 from typing import List
 import logging
+import streamlit as st
+import time
+from consciousness.qi import qi
 logger = logging.getLogger(__name__)
 
 """

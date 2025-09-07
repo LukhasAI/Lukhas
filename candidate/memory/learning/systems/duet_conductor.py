@@ -16,6 +16,7 @@
 ║ logic based on context state, user tier, and urgency conditions.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 
 def manage_voice_handoff(user_query, context_state):

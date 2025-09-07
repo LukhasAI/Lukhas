@@ -7,6 +7,7 @@ ensuring that technical precision dances harmoniously with poetic soul."*
 
 The automated guardian of LUKHAS AI's distinctive 3-Layer Tone System.
 """
+import streamlit as st
 
 import argparse
 import re

@@ -19,6 +19,9 @@
 ║ purposes within the LUKHAS ecosystem.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
 
 import hashlib
 import json

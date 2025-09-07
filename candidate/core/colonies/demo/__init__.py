@@ -2,6 +2,7 @@
 Colony Demo Scripts
 Moved from main modules to prevent import side-effects
 """
+import streamlit as st
 
 
 def run_governance_demo():

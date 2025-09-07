@@ -3,6 +3,10 @@ Market Intelligence Engine
 
 Provides comprehensive market analysis and opportunity detection capabilities.
 """
+from consciousness.qi import qi
+from typing import List
+import time
+import streamlit as st
 
 import logging
 from dataclasses import dataclass

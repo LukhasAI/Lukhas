@@ -3,6 +3,8 @@
 LUKHAS Emotional Coherence API - Bio-Symbolic Emotional Intelligence
 Adds genuine emotional understanding to any AI response
 """
+from consciousness.qi import qi
+import streamlit as st
 
 from typing import Optional
 

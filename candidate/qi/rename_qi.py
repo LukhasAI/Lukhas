@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import os
+import streamlit as st
+from consciousness.qi import qi
 
 # First, rename all files
 for root, dirs, files in os.walk("."):

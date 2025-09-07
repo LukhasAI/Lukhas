@@ -6,6 +6,9 @@ This hub coordinates all quantum subsystem components and provides
 a unified interface for external systems to interact with quantum.
 
 """
+from consciousness.qi import qi
+from typing import List
+import streamlit as st
 
 import asyncio
 import logging

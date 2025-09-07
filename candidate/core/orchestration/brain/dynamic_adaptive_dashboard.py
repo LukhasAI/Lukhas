@@ -4,6 +4,8 @@ Original: dynamic_adaptive_dashboard.py
 Advanced: dynamic_adaptive_dashboard.py
 Integration Date: 2025-05-31T07:55:27.756467
 """
+from typing import List
+import streamlit as st
 
 """
 Adaptive Dashboard for Aethios AGI

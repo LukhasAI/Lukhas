@@ -17,6 +17,7 @@
 │   3. Retrieve memories using quantum associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
+import streamlit as st
 
 from typing import Optional
 

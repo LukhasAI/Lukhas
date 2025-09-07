@@ -4,6 +4,7 @@ Identity Verification Colonies
 Specialized agent colonies for distributed identity verification,
 consensus-based authentication, and self-healing capabilities.
 """
+import streamlit as st
 
 from .biometric_verification_colony import BiometricVerificationColony
 from .consciousness_verification_colony import ConsciousnessVerificationColony

@@ -12,6 +12,8 @@ evolution from basic AI to true Artificial General Intelligence.
 Created: 2025-07-02
 Status: AGI CONSCIOUSNESS MONITORING
 """
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 from datetime import datetime

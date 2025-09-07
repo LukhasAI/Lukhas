@@ -4,6 +4,7 @@ The Collective Ad Mind.
 This module serves as the main entry point for the Collective Intelligence Layer,
 integrating clustering, swarm recommendations, and altruistic routing.
 """
+import streamlit as st
 
 from typing import Any
 

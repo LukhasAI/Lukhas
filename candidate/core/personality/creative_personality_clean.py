@@ -34,6 +34,8 @@
 ║ Symbolic Tags: {ΛCREATIVITY}, {ΛCLEAN}, {ΛOPTIMIZED}, {ΛETHICS}, {ΛHARMONY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 import logging
 

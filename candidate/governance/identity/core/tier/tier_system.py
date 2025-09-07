@@ -4,6 +4,7 @@ LUKHAS Identity Tier System - Access Control Interface
 This module provides high-level functions for tier-based access control,
 wrapping the tier validator for easier use by other modules.
 """
+import streamlit as st
 
 from typing import Any, Union
 

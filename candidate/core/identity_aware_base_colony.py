@@ -27,6 +27,8 @@
 ║ ΛTAG: ΛIDENTITY, ΛCOLONY, ΛQUANTUM, ΛAGI, ΛSECURITY
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import logging
 import time

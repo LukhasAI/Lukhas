@@ -6,6 +6,8 @@
 Simple pattern-based scanner that identifies specialized lukhas functions
 without importing modules (to avoid dependency issues).
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import re
 from dataclasses import dataclass

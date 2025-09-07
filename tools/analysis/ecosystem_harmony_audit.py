@@ -4,6 +4,9 @@ LUKHAS  Ecosystem Harmony Audit
 Comprehensive analysis to ensure all systems are pulling their weight
 and working in harmonious synchrony
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import ast
 import json

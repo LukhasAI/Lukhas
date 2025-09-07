@@ -2,6 +2,7 @@
 LUKHAS Explainability Module
 Provides human-readable explanations for system decisions and behaviors
 """
+import streamlit as st
 
 from .decision_explainer import (
     DecisionExplainer,

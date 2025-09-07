@@ -2,6 +2,7 @@
 MATRIZ Adapter for Emotion Module
 Emits MATRIZ-compliant nodes for emotional states and affect events
 """
+import streamlit as st
 
 import json
 import time

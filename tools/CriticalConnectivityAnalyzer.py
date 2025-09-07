@@ -4,6 +4,7 @@ lukhas SYSTEM CRITICAL CONNECTIVITY ISSUES ANALYZER
 ==============================================
 Identifies and categorizes the most critical connectivity issues in the lukhas system.
 """
+import streamlit as st
 
 import json
 from collections import Counter, defaultdict

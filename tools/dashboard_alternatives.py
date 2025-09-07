@@ -4,6 +4,7 @@ Dashboard Alternatives for LUKHAS AI
 Lightweight web dashboard alternatives when Streamlit is not available.
 Provides simple HTML/JS dashboards with JSON data binding and basic interactivity.
 """
+import streamlit as st
 
 import json
 import logging

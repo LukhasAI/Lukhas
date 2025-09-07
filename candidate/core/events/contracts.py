@@ -2,6 +2,9 @@
 LUKHAS Event Contracts - Typed events for professional module communication
 Replaces direct module calls with well-defined event contracts
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import uuid
 from abc import ABC, abstractmethod

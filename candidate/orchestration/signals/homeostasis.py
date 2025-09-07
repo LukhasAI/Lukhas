@@ -4,6 +4,8 @@ Homeostasis Controller for LUKHAS Signal Regulation
 Maintains system balance through signal regulation, preventing oscillations
 and ensuring stable, adaptive behavior across the colony.
 """
+from typing import List
+import streamlit as st
 
 import logging
 import os

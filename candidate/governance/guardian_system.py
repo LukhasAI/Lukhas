@@ -11,6 +11,7 @@ Integrated with LUKHAS Constellation Framework - Guardian (Watch Star) & Ethics 
 Author: LUKHAS AI System
 Version: 1.0.0
 """
+import streamlit as st
 
 # Import core Guardian components
 try:

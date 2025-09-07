@@ -3,6 +3,7 @@ AI Capability Level Definitions
 
 This module defines the different levels of AI capability that the system can achieve.
 """
+import streamlit as st
 
 from enum import Enum
 

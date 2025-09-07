@@ -11,6 +11,8 @@ compatibility with existing memory fold systems and consciousness data flows.
 This adapter ensures that "nothing gets stored without a signature and a path
 back to cfg_version" as required by Guardian Security Doctrine v1.0.0.
 """
+import random
+import streamlit as st
 
 import hashlib
 import json

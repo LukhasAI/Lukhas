@@ -5,6 +5,9 @@ Template for creating tier-protected API endpoints with proper authentication.
 
 Copy this template when creating new API endpoints.
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 # Configure logging
 import logging

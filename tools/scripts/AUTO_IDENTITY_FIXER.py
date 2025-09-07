@@ -7,6 +7,8 @@ Adds authentication, tier protection, and user ID linking where needed.
 
 SAFETY: Creates backups before modifying files.
 """
+import streamlit as st
+from datetime import timezone
 
 import re
 import shutil

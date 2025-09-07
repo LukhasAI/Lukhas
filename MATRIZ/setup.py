@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import streamlit as st
 """Setup configuration for MATRIZ"""
 
 from setuptools import find_packages, setup

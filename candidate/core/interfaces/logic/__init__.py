@@ -7,6 +7,7 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.logic` package.
 This file marks the `logic` directory as a Python package, allowing its modules
@@ -17,6 +18,8 @@ functionalities from its submodules.
           This has been retained and expanded upon.
           Considered for exposing: AgentCore, context_builder, consent_manager, etc.
 """
+import logging
+import streamlit as st
 
 # AIMPORTS_START
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging

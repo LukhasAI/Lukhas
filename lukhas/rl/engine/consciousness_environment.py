@@ -11,6 +11,8 @@ Provides consciousness-aware reinforcement learning environment with:
 - Memory fold interaction
 - Trinity Framework compliance
 """
+import random
+import streamlit as st
 
 from typing import Any, Optional
 

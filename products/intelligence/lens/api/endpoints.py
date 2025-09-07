@@ -3,6 +3,7 @@
 ΛLens API Endpoints
 FastAPI routes for ΛLens operations
 """
+import streamlit as st
 
 import os
 

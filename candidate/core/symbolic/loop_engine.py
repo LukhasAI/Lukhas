@@ -10,6 +10,9 @@ Symbolic Loop Engine
 Manages the intentional Symbolic → Bio → Quantum → Consciousness → Symbolic cycle.
 This creates symbol grounding through biological and quantum-inspired processes.
 """
+from typing import List
+import streamlit as st
+from datetime import timezone
 # intentional_cycle: Symbolic → Bio → Quantum → Consciousness → Symbolic
 
 import asyncio

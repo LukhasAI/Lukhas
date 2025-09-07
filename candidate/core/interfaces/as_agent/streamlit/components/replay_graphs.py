@@ -4,6 +4,7 @@ Original: replay_graphs.py
 Advanced: replay_graphs.py
 Integration Date: 2025-05-31T07:55:30.619528
 """
+import time
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

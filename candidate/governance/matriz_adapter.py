@@ -2,6 +2,7 @@
 MATRIZ Adapter for Governance Module
 Emits MATRIZ-compliant nodes for governance, ethics, and guardian events
 """
+import streamlit as st
 
 import json
 import time

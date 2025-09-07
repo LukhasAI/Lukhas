@@ -1,3 +1,4 @@
+import streamlit as st
 # cognitive_sync_adapter.py
 # Placeholder for Cognitive Sync Adapter module
 

@@ -1,6 +1,7 @@
 """
 Tests for the TutorEngine component.
 """
+import streamlit as st
 
 from typing import Any
 

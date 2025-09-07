@@ -7,6 +7,8 @@ Steve Jobs would have fired us all."
 
 This script analyzes how repetitive our poetic language has become.
 """
+import time
+import streamlit as st
 
 import os
 import re

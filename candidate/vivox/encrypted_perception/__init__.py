@@ -2,6 +2,7 @@
 VIVOX.EVRN - Encrypted Visual Recognition Node
 Handles encrypted perception with ethical privacy preservation
 """
+import streamlit as st
 
 from typing import Optional
 

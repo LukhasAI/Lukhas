@@ -5,6 +5,8 @@ Comprehensive Audit Trail System for LUKHAS
 Provides complete transparency and traceability for all AI decisions.
 Based on GPT5 audit recommendations.
 """
+from typing import List
+import streamlit as st
 
 import hashlib
 import json

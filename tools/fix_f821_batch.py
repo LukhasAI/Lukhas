@@ -3,6 +3,11 @@
 F821 undefined-name batch fixer for LUKHAS codebase.
 Fixes common undefined name patterns systematically.
 """
+from typing import Optional
+from typing import List
+from typing import Dict
+import time
+import streamlit as st
 
 import json
 import re

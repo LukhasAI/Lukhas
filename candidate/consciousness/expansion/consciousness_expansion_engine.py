@@ -6,6 +6,9 @@ beyond current limitations for superhuman intelligence.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import logging
 from dataclasses import dataclass

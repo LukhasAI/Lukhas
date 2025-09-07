@@ -11,6 +11,9 @@ This implementation specializes in:
 - Respiratory chain symbolic coupling
 - ATP-based computational scheduling
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import copy

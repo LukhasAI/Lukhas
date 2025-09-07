@@ -3,6 +3,8 @@
 {ΛDRIFT_GUARD}
 ethics_loop_guard.py - Detects misalignment patterns and outputs governance alerts.
 """
+import streamlit as st
+from datetime import timezone
 
 import logging
 from datetime import datetime

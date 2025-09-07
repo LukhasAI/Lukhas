@@ -5,6 +5,8 @@ Prediction Engine for the Consciousness Oracle.
 This module forecasts a user's future consciousness states based on
 attention, temporal patterns, and other contextual data.
 """
+import time
+import streamlit as st
 
 import datetime
 import random

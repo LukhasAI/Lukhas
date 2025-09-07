@@ -2,6 +2,7 @@
 Generated gRPC message classes for LUKHAS AGI Protocol
 Auto-generated from proto - DO NOT EDIT MANUALLY
 """
+import streamlit as st
 
 import time
 from typing import Any

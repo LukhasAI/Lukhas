@@ -4,6 +4,7 @@ import os
 from typing import Any
 
 from lukhas.observability.matriz_decorators import instrument
+import streamlit as st
 
 # Feature flag for gradual rollout
 CONSENT_LEDGER_ACTIVE = os.environ.get("CONSENT_LEDGER_ACTIVE", "false").lower() == "true"

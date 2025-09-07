@@ -10,6 +10,8 @@ from fastapi.responses import FileResponse, RedirectResponse
 from qi.safety.provenance_links import presign_for_record
 from qi.safety.provenance_receipts import write_receipt
 from qi.safety.provenance_uploader import load_record_by_sha
+import streamlit as st
+from consciousness.qi import qi
 
 app = FastAPI(title="Lukhas Provenance Proxy", version="1.0.0")
 

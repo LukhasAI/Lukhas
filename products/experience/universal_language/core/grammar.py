@@ -5,6 +5,7 @@ Grammar Engine for Universal Language
 Implements the missing LUKHAS Grammar system with syntax rules,
 validation, and parsing capabilities.
 """
+import streamlit as st
 
 import logging
 import re

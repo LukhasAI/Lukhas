@@ -25,6 +25,8 @@ Features:
 Author: LUKHAS AI System
 License: LUKHAS Commercial License
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import os
 import sys

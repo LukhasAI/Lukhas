@@ -24,6 +24,9 @@
 ║ primary gateway for all identity-related operations.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import logging
 import os  # Added for ENV variable access example for API version

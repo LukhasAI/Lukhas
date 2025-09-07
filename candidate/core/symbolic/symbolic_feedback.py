@@ -27,6 +27,10 @@ __meta__ = {
     "version": "0.1.0"
 }
 """
+from consciousness.qi import qi
+import time
+import random
+import streamlit as st
 
 import hashlib
 import json

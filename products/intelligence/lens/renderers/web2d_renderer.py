@@ -3,6 +3,7 @@
 Web 2D Renderer for ΛLens
 Generates JSON model for the React UI
 """
+import streamlit as st
 
 import json
 from typing import Any

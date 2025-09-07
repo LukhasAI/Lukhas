@@ -10,6 +10,7 @@ Migration Path:
 
 This module provides compatibility shims to support both patterns.
 """
+import streamlit as st
 
 import importlib
 import logging

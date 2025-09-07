@@ -17,6 +17,11 @@ Quantum Resonance Glyphs as interactive three-dimensional holographic
 objects with spatial tracking, gesture recognition, and consciousness-aware
 adaptation in augmented and virtual reality environments.
 """
+from consciousness.qi import qi
+from typing import Dict
+import random
+import streamlit as st
+from datetime import timezone
 
 import logging
 import math

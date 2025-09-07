@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Any, Optional
+import streamlit as st
 
 
 @dataclass(frozen=True)

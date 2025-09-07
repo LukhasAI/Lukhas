@@ -30,6 +30,7 @@ Key Components:
 - MatrizConsciousnessOrchestrator: Network coordination
 - ConsciousnessOracle: Prediction and analysis (existing)
 """
+import streamlit as st
 
 # Import MΛTRIZ consciousness components
 from .matriz_consciousness_orchestrator import (

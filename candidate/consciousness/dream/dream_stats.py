@@ -14,6 +14,7 @@ Module for dream stats functionality
 
 For more information, visit: https://lukhas.ai
 """
+import streamlit as st
 
 """
 dream_stats.py

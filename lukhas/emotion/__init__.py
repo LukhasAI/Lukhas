@@ -9,6 +9,9 @@ for human-AI empathetic interactions.
 
 Trinity Framework Component: 🧠 Consciousness
 """
+from typing import Dict
+import time
+import streamlit as st
 
 import logging
 import os

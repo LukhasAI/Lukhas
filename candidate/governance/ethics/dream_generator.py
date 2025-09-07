@@ -22,6 +22,8 @@ Module for dream generator functionality with OpenAI integration
 
 For more information, visit: https://lukhas.ai
 """
+import time
+import streamlit as st
 
 # dream_generator.py
 import asyncio

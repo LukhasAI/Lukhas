@@ -14,6 +14,11 @@ Advanced emotional state recognition and adaptation system implementing VAD
 (Valence-Arousal-Dominance) psychological modeling with real-time biometric
 analysis for consciousness-aware quantum resonance glyph generation.
 """
+from consciousness.qi import qi
+from typing import List
+import random
+import streamlit as st
+from datetime import timezone
 
 import logging
 import time

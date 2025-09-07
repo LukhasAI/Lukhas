@@ -5,6 +5,7 @@ LUKHAS AGI Protocol Interfaces
 This package contains interface definitions and implementations for
 various protocols used throughout the LUKHAS AGI system.
 """
+import streamlit as st
 
 from .awareness_protocol import (
     AwarenessAssessor,

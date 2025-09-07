@@ -24,6 +24,7 @@ from __future__ import annotations
 ║ reentry.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 
 def bootstrap_seed_chain(seed: str, depth: int = 3) -> list[str]:

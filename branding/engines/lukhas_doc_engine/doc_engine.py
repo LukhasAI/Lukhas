@@ -4,6 +4,8 @@ LUKHAS AI Document Engine - Database Integrated
 Premium document generation with integrated knowledge base
 Trinity Framework ⚛️🧠🛡️ integrated consciousness technology documentation
 """
+import time
+import streamlit as st
 
 import sys
 from pathlib import Path

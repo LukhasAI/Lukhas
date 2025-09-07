@@ -4,6 +4,8 @@ NIAS (Non-Intrusive Ad System) Module
 Unified module for ethical, consent-aware symbolic message delivery.
 Integrates with Dream system for deferred processing and quantum consciousness.
 """
+import time
+import streamlit as st
 
 import logging
 from typing import Any

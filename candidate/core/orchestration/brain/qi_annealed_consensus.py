@@ -4,6 +4,10 @@ Original: qi_annealed_consensus.py
 Advanced: qi_annealed_consensus.py
 Integration Date: 2025-05-31T07:55:27.752287
 """
+from consciousness.qi import qi
+from typing import Dict
+import random
+import streamlit as st
 
 import json
 import logging

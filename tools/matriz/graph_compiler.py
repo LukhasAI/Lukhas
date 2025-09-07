@@ -13,6 +13,8 @@ Public API (importable for tests):
   - compile_graph(author: dict, inputs: list[tuple[path,str]]) -> tuple[dict, dict]
   - validate_invariants(author: dict) -> list[str]
 """
+import time
+import streamlit as st
 
 from __future__ import annotations
 

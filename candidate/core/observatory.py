@@ -7,6 +7,7 @@ Provides a sandboxed environment for structured external scrutiny by accredited 
 This module allows for read-only introspection of the AI's reasoning and memory,
 without risking the integrity of the live system.
 """
+import streamlit as st
 
 from typing import Any, Optional
 

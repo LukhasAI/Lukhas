@@ -36,6 +36,7 @@
 ║ Symbolic Tags: {ΛETHICS}, {ΛSAFETY}, {ΛPRINCIPLES}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 # Module imports
 import logging

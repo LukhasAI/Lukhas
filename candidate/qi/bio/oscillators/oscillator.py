@@ -33,6 +33,9 @@
 ║ ΛTAG: synchronization
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import hashlib

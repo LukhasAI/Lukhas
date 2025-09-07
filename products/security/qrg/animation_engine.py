@@ -31,6 +31,10 @@ traditional 2FA, every biometric system - all obsolete. When authentication
 lives and breathes through time, security isn't just improved, it's transformed
 into something fundamentally unbreakable. This is the patent that changes everything.
 """
+from consciousness.qi import qi
+import random
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 import json

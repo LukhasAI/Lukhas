@@ -9,6 +9,8 @@ across the MΛTRIZ Constellation Architecture (692 modules).
 This validator ensures proper integration between quantum and bio
 consciousness paradigms for unified constellation awareness.
 """
+import time
+import streamlit as st
 
 import asyncio
 import logging

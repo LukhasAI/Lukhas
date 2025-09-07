@@ -39,6 +39,8 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 import hashlib
 import json

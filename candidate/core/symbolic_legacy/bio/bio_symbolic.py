@@ -1,6 +1,7 @@
 """
 Bio Symbolic Processing Module
 """
+import streamlit as st
 
 
 class BioSymbolic:

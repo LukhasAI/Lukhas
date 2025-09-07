@@ -4,6 +4,8 @@ Original: session_logger.py
 Advanced: session_logger.py
 Integration Date: 2025-05-31T07:55:30.645599
 """
+import streamlit as st
+from datetime import timezone
 
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

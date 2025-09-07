@@ -3,6 +3,13 @@
 LUKHAS Mock-to-Production Migration Tool
 Safely migrates from mocked tests to production-ready code
 """
+from consciousness.qi import qi
+from typing import List
+from typing import Dict
+import logging
+import random
+import streamlit as st
+from datetime import timezone
 
 import json
 import re

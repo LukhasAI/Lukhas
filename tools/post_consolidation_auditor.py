@@ -14,6 +14,11 @@ Author: lukhas AI Enhancement Team
 Date: 2025-06-05
 Version: 1.0.0
 """
+from consciousness.qi import qi
+from typing import List
+import logging
+import streamlit as st
+from datetime import timezone
 
 import json
 import os

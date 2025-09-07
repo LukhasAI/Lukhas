@@ -1,3 +1,5 @@
+import streamlit as st
+import random
 # ===============================================================
 # 📂 FILE: tools/manifesto.py
 # 🧠 PURPOSE: Terminal CLI to print the symbolic LUCAS AGI manifesto

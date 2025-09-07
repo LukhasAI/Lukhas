@@ -17,6 +17,11 @@ Date: June 2025
 Purpose: NIST-approved post-quantum cryptography implementation
 Status: ENHANCED - Full implementation with fallback to simulation mode
 """
+from consciousness.qi import qi
+from typing import Dict
+import random
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 import logging

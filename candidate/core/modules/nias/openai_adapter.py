@@ -4,6 +4,8 @@ NIAS OpenAI Adapter
 Provides comprehensive OpenAI integration for NIAS multimodal data fusion.
 Handles visual, textual, audio, and contextual data processing.
 """
+import streamlit as st
+from datetime import timezone
 
 import base64
 import json

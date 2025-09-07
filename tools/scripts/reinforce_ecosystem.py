@@ -4,6 +4,9 @@ LUKHAS Ecosystem Reinforcement Script
 Makes the system leaner, quicker to react, and more flexible
 without losing capabilities
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import ast
 import json

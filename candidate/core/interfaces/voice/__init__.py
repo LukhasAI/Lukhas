@@ -7,12 +7,15 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.voice` package.
 This file marks the `voice` directory (within `interfaces`) as a Python package.
 It is intended to house modules related to voice interaction, synthesis,
 and emotional voice modulation for the Lukhas system.
 """
+import logging
+import streamlit as st
 
 # AIMPORTS_START
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging

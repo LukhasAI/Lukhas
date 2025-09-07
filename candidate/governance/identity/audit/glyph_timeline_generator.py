@@ -17,6 +17,10 @@ Author: LUKHΛS AI Systems
 Version: 1.0.0 - Red Team Glyph Map
 Created: 2025-08-03
 """
+from consciousness.qi import qi
+from typing import Dict
+import streamlit as st
+from datetime import timezone
 
 import csv
 import json

@@ -26,6 +26,8 @@
 ║ ΛTAG: ΛIDENTITY, ΛPROXY, ΛCOLONY, ΛQUANTUM, ΛTIER
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import asyncio
 import inspect

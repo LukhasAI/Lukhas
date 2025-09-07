@@ -4,6 +4,8 @@
 ============================
 Fixes remaining critical import errors and syntax issues.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import logging
 import re

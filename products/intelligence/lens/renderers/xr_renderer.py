@@ -3,6 +3,7 @@
 XR Renderer for ΛLens
 Generates glTF/WebXR scene descriptions
 """
+import streamlit as st
 
 import json
 from typing import Any

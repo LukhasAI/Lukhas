@@ -3,6 +3,8 @@
 Memory Spindle - Simulates symbolic pattern emergence through spinning memory states
 Based on entropy class and glyph recurrence patterns
 """
+import streamlit as st
+from datetime import timezone
 
 import json
 import logging

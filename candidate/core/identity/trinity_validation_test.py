@@ -3,6 +3,8 @@
 ✨🌟⭐🔥💎🚀🌌🎯 Constellation Framework Integration Validation Test
 Comprehensive validation of Constellation Framework integration across identity consciousness systems
 """
+import logging
+import streamlit as st
 
 import asyncio
 import os

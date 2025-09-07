@@ -9,6 +9,7 @@ This module provides:
 - Endocrine system integration for biological authenticity
 - Comprehensive audit trails and user transparency
 """
+import streamlit as st
 
 from typing import Optional
 

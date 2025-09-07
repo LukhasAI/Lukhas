@@ -14,6 +14,7 @@ Key Components:
 All components ensure complete traceability and governance through
 the MATRIZ node format.
 """
+import streamlit as st
 
 from .node_interface import (
     CognitiveNode,

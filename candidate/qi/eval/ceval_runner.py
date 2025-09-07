@@ -5,6 +5,7 @@ Continuous Evaluation Loop (C-EVAL) for Lukhas.
 - Prometheus metrics (exporter)
 - Drift check vs baseline
 """
+import streamlit as st
 
 from __future__ import annotations
 

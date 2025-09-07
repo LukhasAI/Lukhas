@@ -17,6 +17,9 @@ Author: LUKHΛS AI Systems
 Version: 1.0.0 - Consent Receipt Generator
 Created: 2025-08-03
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 import json

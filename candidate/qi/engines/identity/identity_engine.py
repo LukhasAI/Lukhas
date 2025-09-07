@@ -4,6 +4,7 @@ Original location: ./qim/core/identity_engine.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/qim/core/identity_engine.py
 """
+from consciousness.qi import qi
 
 
 # Placeholder to prevent import errors

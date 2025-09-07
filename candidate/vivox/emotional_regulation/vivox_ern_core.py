@@ -5,6 +5,7 @@ The emotional homeostasis guardian
 Maintains emotional equilibrium through adaptive regulation strategies
 Integrates with neuroplastic systems, event bus, and endocrine signals
 """
+import streamlit as st
 
 import math
 import time

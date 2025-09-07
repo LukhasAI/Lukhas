@@ -2,6 +2,8 @@
 Consciousness-Colony Integration Module
 Enables distributed consciousness processing through colony architecture
 """
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import logging

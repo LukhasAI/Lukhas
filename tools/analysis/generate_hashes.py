@@ -3,6 +3,9 @@
 Generate Hashes - LUKHAS manifest integrity verification
 Creates comprehensive hash digests with symbolic proof generation
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 import json

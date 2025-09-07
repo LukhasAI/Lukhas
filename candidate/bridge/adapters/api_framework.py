@@ -3,6 +3,9 @@
 LUKHAS Enterprise API Framework
 Production-grade API with versioning, type safety, and OpenAPI documentation
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import hashlib
 import logging

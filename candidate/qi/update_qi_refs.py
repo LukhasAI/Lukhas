@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import os
 import re
+import streamlit as st
+from consciousness.qi import qi
 
 count = 0
 for root, _dirs, files in os.walk("."):

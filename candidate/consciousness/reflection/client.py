@@ -13,6 +13,8 @@ Original: client.py
 Advanced: client.py
 Integration Date: 2025-05-31T07:55:28.035055
 """
+from typing import Dict
+import streamlit as st
 
 import datetime
 import enum

@@ -1,7 +1,10 @@
+log = logging.getLogger(__name__)
 """
 Service implementations for LUKHAS core modules
 Connects to real implementations replacing stubs
 """
+import logging
+import streamlit as st
 
 import warnings
 from typing import Any

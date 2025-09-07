@@ -40,6 +40,9 @@ of OWNING HUMAN IDENTITY IN THE DIGITAL AGE.
 - Licensing revenue potential: $100B/year
 - Government contracts: $500B over 10 years
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import hashlib
 import json

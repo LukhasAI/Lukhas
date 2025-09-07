@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from typing import List
 """
 LUKHAS MCP Server - Simplified Version
 Provides basic consciousness module access without heavy dependencies

@@ -13,6 +13,9 @@ import secrets
 from typing import Optional
 
 from pydantic import BaseSettings, Field, validator
+import streamlit as st
+import time
+from consciousness.qi import qi
 
 # TAG:bridge
 # TAG:api

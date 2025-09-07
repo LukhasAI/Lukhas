@@ -4,6 +4,8 @@ Qi Financial Consciousness Engine for the NIAS Transcendence Platform.
 This module transcends traditional monetary exchange by valuing and
 transacting based on consciousness contribution and collective abundance.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import random
 from typing import Any

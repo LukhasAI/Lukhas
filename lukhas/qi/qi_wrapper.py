@@ -18,6 +18,10 @@ This module provides:
 
 Default mode: DRY-RUN (simulation only) with QI_ACTIVE feature flag required.
 """
+from consciousness.qi import qi
+import time
+import random
+import streamlit as st
 
 import logging
 import os

@@ -5,6 +5,9 @@ LLM Integration Layer for Universal Language
 Bridges symbolic language with Large Language Models (GPT, Claude, etc.)
 Based on what Sam Altman/OpenAI would implement.
 """
+import time
+import random
+import streamlit as st
 
 import hashlib
 import logging

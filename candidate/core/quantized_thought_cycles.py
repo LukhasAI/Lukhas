@@ -8,6 +8,8 @@ than continuous flows. Each cycle transforms data in a clear, auditable way.
 
 ΛTAG: ΛBIO, ΛCOGNITION, ΛQUANTUM, ΛCYCLE
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import asyncio
 import json

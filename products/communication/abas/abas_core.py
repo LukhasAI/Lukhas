@@ -6,6 +6,9 @@ Advanced attention management and cognitive boundary protection
 Part of the Lambda Products Suite by LUKHAS AI
 Commercial Version - Ready for Enterprise Deployment
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import asyncio
 import logging

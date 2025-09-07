@@ -4,6 +4,8 @@ LUKHΛS Symbolic API
 Complete integration of embedding and healing chain
 Trinity Framework: ⚛️🧠🛡️
 """
+import time
+import streamlit as st
 
 import json
 import logging

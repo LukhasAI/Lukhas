@@ -4,6 +4,7 @@ Identity Import Bridge - Custom Import Finder
 Provides a PEP 302 compliant import finder/loader to handle
 the old identity.* import paths and redirect them to governance.identity.*
 """
+import streamlit as st
 
 import importlib
 import importlib.abc

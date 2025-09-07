@@ -1,3 +1,4 @@
+log = logging.getLogger(__name__)
 """
 LUKHAS Memory Tier System
 
@@ -13,6 +14,9 @@ Metadata:
 License:
   OpenAI-aligned AGI Symbolic Framework (internal use)
 """
+import logging
+import time
+import streamlit as st
 
 import hashlib
 import json

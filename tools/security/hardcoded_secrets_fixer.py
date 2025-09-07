@@ -6,6 +6,7 @@ Automated tool to find and replace hardcoded secrets with secure alternatives.
 
 This addresses the 289 hardcoded secrets identified in the security audit.
 """
+import streamlit as st
 
 import logging
 import re

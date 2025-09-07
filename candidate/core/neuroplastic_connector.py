@@ -2,6 +2,7 @@
 Neuroplastic Connector for CORE Module
 Auto-generated connector that integrates isolated components
 """
+import streamlit as st
 
 import logging
 from typing import Any

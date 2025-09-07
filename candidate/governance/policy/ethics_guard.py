@@ -10,6 +10,10 @@ from datetime import datetime, timezone
 Lukhas Ethics Guard - Legal Compliance Assistant
 Provides ethical compliance checking and safety monitoring for AI systems.
 """
+from typing import List
+from typing import Dict
+import time
+import streamlit as st
 
 import datetime
 from typing import Any, Optional

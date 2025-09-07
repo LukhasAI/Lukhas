@@ -26,6 +26,8 @@
 ║ • Comprehensive error handling and fallbacks
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import time
+import streamlit as st
 
 import asyncio
 import base64

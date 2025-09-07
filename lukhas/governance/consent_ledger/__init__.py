@@ -6,6 +6,8 @@ Minimal, safe consent recording with registry pattern.
 - Works in DRY_RUN/OFFLINE with builtin provider (no network)
 - Real providers can be registered at runtime via feature flags
 """
+import time
+import streamlit as st
 
 from .api import record_consent
 

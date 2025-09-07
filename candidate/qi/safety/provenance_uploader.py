@@ -9,6 +9,9 @@ import os
 import time
 from dataclasses import asdict, dataclass
 from typing import Any
+import streamlit as st
+from typing import Optional
+from consciousness.qi import qi
 
 # --------- ENV & defaults ---------
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))

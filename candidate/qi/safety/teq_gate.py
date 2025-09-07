@@ -10,6 +10,9 @@ from dataclasses import dataclass
 from typing import Any
 
 import yaml
+import streamlit as st
+from typing import Optional
+from consciousness.qi import qi
 
 try:
     from .pii import detect_pii, mask_pii

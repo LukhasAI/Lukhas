@@ -1,3 +1,4 @@
+log = logging.getLogger(__name__)
 """
 LUKHAS AI System - Meta-Learning System Module (Learn-to-Learn)
 File: learn_to_learn.py
@@ -6,6 +7,10 @@ Created: 2025-06-05 (Original by LUKHAS AI Team)
 Modified: 2024-07-26
 Version: 1.1 (Standardized)
 """
+import logging
+import time
+import random
+import streamlit as st
 
 # Standard Library Imports
 from datetime import datetime, timezone

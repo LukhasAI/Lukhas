@@ -3,6 +3,8 @@
 NUCLEAR FIX - The most aggressive fix possible
 This WILL modify your code significantly!
 """
+import time
+import streamlit as st
 
 import re
 import subprocess

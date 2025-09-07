@@ -6,6 +6,8 @@ This demonstrates how to implement the CognitiveNode interface
 to create a simple mathematical reasoning node that emits
 complete MATRIZ format nodes.
 """
+from typing import Dict
+import streamlit as st
 
 import re
 import time

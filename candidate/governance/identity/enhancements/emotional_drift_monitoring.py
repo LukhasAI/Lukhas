@@ -16,6 +16,8 @@ Author: LUKHAS AI Systems & Claude Code
 Version: 1.0.0 - Emotional Intelligence
 Created: 2025-08-03
 """
+import time
+import streamlit as st
 
 import asyncio
 import logging

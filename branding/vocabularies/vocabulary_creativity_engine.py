@@ -11,6 +11,9 @@ This module defines the symbolic vocabulary for the Lukhas Vision Module,
 providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
+from core.symbolic import VisualSymbol
+import time
+import streamlit as st
 
 from dataclasses import dataclass
 from typing import Any

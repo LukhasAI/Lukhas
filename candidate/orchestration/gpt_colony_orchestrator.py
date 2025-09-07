@@ -6,6 +6,7 @@ Enables hybrid AI decision-making with both centralized and distributed intellig
 
 Based on GPT5 audit recommendations for parallel AI orchestration.
 """
+import streamlit as st
 
 import asyncio
 import logging

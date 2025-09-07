@@ -4,6 +4,8 @@ Common Compliance Manager for Healthcare Providers
 This module provides shared compliance functionality across different
 regulatory frameworks (GDPR, HIPAA, LOPD, etc.).
 """
+import streamlit as st
+from datetime import timezone
 
 import logging
 from abc import ABC, abstractmethod

@@ -39,6 +39,7 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 from typing import Any, Optional
 

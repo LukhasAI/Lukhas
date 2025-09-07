@@ -1,6 +1,7 @@
 """
 Unified Security Engine for LUKHAS AGI
 """
+import streamlit as st
 
 from .secure_utils import sanitize_input
 

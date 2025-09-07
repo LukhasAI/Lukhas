@@ -3,6 +3,8 @@
 SAS (Servicio Andaluz de Salud) Healthcare Connector
 Integrates with Andalusian healthcare system for appointments, prescriptions, and records
 """
+import streamlit as st
+from datetime import timezone
 
 import logging
 from dataclasses import dataclass

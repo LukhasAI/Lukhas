@@ -3,6 +3,7 @@
 ΛLens API Server
 FastAPI application for ΛLens symbolic file processing
 """
+import streamlit as st
 
 import uvicorn
 from fastapi import FastAPI

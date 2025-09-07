@@ -56,6 +56,9 @@ TRINITY: ⚛️🧠🛡️
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import argparse
 import logging

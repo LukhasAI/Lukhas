@@ -14,6 +14,8 @@ PERFORMANCE OPTIMIZATIONS APPLIED:
 TARGET: <25ms P95 authentication latency (currently 87ms - need 3.5x improvement)
 EXPECTED IMPROVEMENT: 83-117ms → <5ms authentication flow (95%+ reduction)
 """
+import logging
+import streamlit as st
 
 import asyncio
 import functools

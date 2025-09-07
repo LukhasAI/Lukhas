@@ -5,6 +5,7 @@ Safe Cleanup Analysis for LUKHAS AI
 Combines usage analysis with AI/AGI value scoring to prevent accidental deletion
 Trinity Framework: ⚛️🧠🛡️
 """
+import streamlit as st
 
 import json
 from pathlib import Path

@@ -7,11 +7,14 @@
 # ΛCREATED_DATE: Unknown (original auto-generation)
 # ΛMODIFIED_DATE: 2024-07-30
 
+log = logging.getLogger(__name__)
 """
 # ΛDOC: Auto-generated __init__.py for the `core.interfaces.as_agent.utils` package.
 This file marks the `utils` directory (within `as_agent`) as a Python package.
 It is intended to house utility modules supporting Lukhas's agent functionalities.
 """
+import logging
+import streamlit as st
 
 # AIMPORTS_START
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging

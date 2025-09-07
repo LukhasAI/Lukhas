@@ -6,6 +6,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+import streamlit as st
 
 try:
     import tomllib

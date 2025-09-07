@@ -41,6 +41,11 @@ Key Consolidated Features:
 
 All operations respect user consent, tier access, and LUKHAS identity requirements.
 """
+from typing import Dict
+import logging
+import random
+import streamlit as st
+from datetime import timezone
 
 # === CONSOLIDATED IMPORTS ===
 # from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID

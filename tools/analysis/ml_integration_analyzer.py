@@ -23,6 +23,10 @@ Design Notes
 - External tools (git, semgrep) are optional. The analyzer gracefully degrades.
 
 """
+from typing import Optional
+import logging
+import time
+import streamlit as st
 
 from __future__ import annotations
 

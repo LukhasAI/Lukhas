@@ -10,6 +10,11 @@ from datetime import datetime, timezone
 Quantum Layer for Bio Systems
 Provides quantum-enhanced bio-oscillator functionality.
 """
+from consciousness.qi import qi
+from typing import List
+from typing import Dict
+import time
+import streamlit as st
 
 import math
 import random

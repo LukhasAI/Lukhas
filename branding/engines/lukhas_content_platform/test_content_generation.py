@@ -3,6 +3,7 @@
 Test LUKHAS AI Content Generation without database dependency
 Demonstrates the automated content generator with mock database functionality
 """
+import streamlit as st
 
 import sys
 from pathlib import Path

@@ -13,6 +13,7 @@ Known Issues from validation_report.json:
 4. DistributedAIAgent missing from integrated_system.py
 5. DistributedAIAgent.process_task() → should use colony.execute_task()
 """
+import streamlit as st
 
 import re
 from pathlib import Path

@@ -4,6 +4,7 @@ Original: symbolic_utils.py
 Advanced: symbolic_utils.py
 Integration Date: 2025-05-31T07:55:30.440601
 """
+import streamlit as st
 
 # ╭──────────────────────────────────────────────────────────────────────────────╮
 # │                        LUCΛS :: SYMBOLIC UTILITY FUNCTIONS                   │

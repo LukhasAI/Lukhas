@@ -10,6 +10,9 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
 
 import logging
 from collections import defaultdict, deque

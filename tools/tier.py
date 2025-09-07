@@ -4,6 +4,7 @@
 # ===============================================================
 
 import argparse
+import streamlit as st
 
 TIER_DATA = {
     1: {

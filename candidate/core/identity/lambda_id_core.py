@@ -4,6 +4,8 @@ Agent 1: Identity & Authentication Specialist
 Implements namespace schema, OIDC provider, WebAuthn passkeys
 Performance target: <100ms p95 latency
 """
+from typing import Dict
+import streamlit as st
 
 import base64
 import hashlib

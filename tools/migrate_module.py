@@ -3,6 +3,7 @@
 Module Migration Helper for LUKHAS AI
 Automates the migration of modules to lukhas/ (accepted)
 """
+import streamlit as st
 
 import json
 import re

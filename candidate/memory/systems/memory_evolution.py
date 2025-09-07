@@ -43,6 +43,7 @@ import logging
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛSTANDARD, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
 
 import time
 from typing import Optional

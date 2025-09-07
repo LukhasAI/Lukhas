@@ -3,6 +3,9 @@
 LUKHAS  Aggressive Consolidation Analyzer
 Identifies and maps all files for aggressive modular consolidation
 """
+from consciousness.qi import qi
+import time
+import streamlit as st
 
 import ast
 import json

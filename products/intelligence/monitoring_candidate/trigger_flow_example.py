@@ -4,6 +4,7 @@ Trigger Flow Example
 ===================
 Demonstrates how the monitoring system triggers adaptations from real LUKHAS data
 """
+import streamlit as st
 
 import asyncio
 import time
