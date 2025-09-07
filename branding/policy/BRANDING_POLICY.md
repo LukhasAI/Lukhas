@@ -17,7 +17,50 @@
   - Alignment with OpenAI, ethics, and compliance
   - Identifying areas for growth and potential blind spots
 
-- All messaging must reflect the Constellation Framework (8-star navigation system) and use only approved branding, terminology, and glyphs from this directory or as specified in `/branding/constellation/CONSTELLATION_INDEX.md`.
+## 🌟 Framework Usage Requirements
+
+### Trinity Framework vs Constellation Framework
+
+LUKHAS uses **two distinct frameworks** depending on audience and context:
+
+**Trinity Framework (⚛️🧠🛡️) - INTERNAL/TECHNICAL USE**:
+- **When**: Internal documentation, technical specs, code comments, architecture discussions
+- **Audience**: Developers, architects, internal team members
+- **Elements**: 3 pillars - ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+- **Tone**: Technical precision, implementation-focused
+
+**Constellation Framework (🌟) - USER-FACING/PUBLIC USE**:
+- **When**: Public documentation, marketing, user interfaces, external communications  
+- **Audience**: Users, customers, general public, media
+- **Elements**: 8-star navigation system with domain mapping
+- **Tone**: Accessible metaphors, user benefits, navigation guidance
+
+### Mandatory Usage Rules
+
+- **Public websites and marketing**: MUST use Constellation Framework
+- **Technical documentation**: SHOULD use Trinity Framework  
+- **Mixed-audience content**: Choose primary audience framework, note distinction
+- **All content creators**: Reference `/branding/constellation/FRAMEWORK_USAGE_GUIDE.md`
+
+### Current Terminology Standards
+
+**Company Naming**:
+- **LUKHΛS** (display with Λ) / **Lukhas** (plain text)
+- Never "LUKHAS AGI" - always "LUKHAS AI"
+
+**Product Naming**:
+- **MΛTRIZ** (display with Λ) / **Matriz** (plain text)  
+- Historical "MATADA" is deprecated
+
+**Λ Glyph Usage**:
+- **Use**: Logos, wordmarks, display contexts
+- **Don't use**: Body content, documentation text
+
+**Approved Technical Language**:
+- "Quantum-inspired" (not "quantum processing")
+- "Bio-inspired" (not "bio processes")
+- "Consciousness technology" (not "AGI technology")
+- "Awareness systems" (not "sentient systems")
 
 ## 🛡️ Enforcement
 
