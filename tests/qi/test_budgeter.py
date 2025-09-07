@@ -15,5 +15,13 @@ def test_plan_and_check_defaults(tmp_path):
     b = budgeter_mod.Budgeter()
     plan = b.plan(text="hello", model="default")
     assert plan["tokens_planned"] > 0
+    assert plan["energy_wh"] > 0
     verdict = b.check(user_id=None, task=None, plan=plan)
     assert verdict["ok"]
+    b.commit(
+        user_id="u",
+        task="t",
+        actual_tokens=plan["tokens_planned"],
+        latency_ms=plan["latency_est_ms"],
+    )
+    assert b.state["runs"]
