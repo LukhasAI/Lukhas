@@ -7,6 +7,8 @@ Tests for Aka Qualia GLYPH Mapping (Wave C - C1)
 Comprehensive test suite for deterministic PhenomenalScene → PhenomenalGlyphs conversion.
 Tests all branches, idempotency, cultural palette mapping, and loop camouflaging defenses.
 """
+import time
+import streamlit as st
 
 import pytest
 

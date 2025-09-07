@@ -8,6 +8,7 @@ privacy hashing, and vector similarity support.
 
 Follows Freud-2025 C4 specifications for memory persistence.
 """
+import streamlit as st
 
 import datetime as dt
 import hashlib

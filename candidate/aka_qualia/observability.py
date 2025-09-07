@@ -13,6 +13,7 @@ Provides comprehensive observability for:
 - Router dispatch performance
 - Oneiric feedback quality
 """
+import streamlit as st
 
 import threading
 import time

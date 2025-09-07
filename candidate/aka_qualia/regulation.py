@@ -10,6 +10,8 @@ Enhanced regulation system for Aka Qualia with:
 - Comprehensive audit trail logging
 - Configurable policy rules and thresholds
 """
+import logging
+import streamlit as st
 
 import hashlib
 import json

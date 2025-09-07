@@ -6,6 +6,7 @@ Simple Test for Wave C Memory System Validation
 
 Minimal test to validate the C4.4 test infrastructure is working.
 """
+import streamlit as st
 
 import pytest
 from memory_noop import NoopMemory

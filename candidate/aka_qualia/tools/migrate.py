@@ -10,6 +10,8 @@ Usage:
     python -m candidate.aka_qualia.tools.migrate --dsn "sqlite:///./data/akaq.db"
     python -m candidate.aka_qualia.tools.migrate --dsn "postgresql://user:pass@host/db"
 """
+import time
+import streamlit as st
 
 import argparse
 import logging

@@ -7,6 +7,7 @@ Test C4.3: AkaQualia Memory Integration
 Validate that the Wave C memory persistence is properly integrated
 into the AkaQualia consciousness pipeline.
 """
+import streamlit as st
 
 import asyncio
 import contextlib

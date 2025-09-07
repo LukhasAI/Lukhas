@@ -14,6 +14,7 @@ Synthetic test scenarios for validating Wave B completion criteria:
 Creates recurrent stimuli patterns designed to trigger neurosis loops,
 then measures the effectiveness of regulation policies in breaking them.
 """
+import streamlit as st
 
 import asyncio
 import random

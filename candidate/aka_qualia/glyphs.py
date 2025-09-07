@@ -15,6 +15,7 @@ Implements 5 core phenomenological glyph patterns:
 - grounding_hint: stabilization recommendations
 - soothe_anchor: positive calm states
 """
+import streamlit as st
 
 
 from .models import PhenomenalGlyph, PhenomenalScene

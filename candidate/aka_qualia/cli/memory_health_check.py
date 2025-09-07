@@ -5,6 +5,7 @@ Wave C C4 Memory System Health Check Tool
 Comprehensive health monitoring for the Aka Qualia memory system.
 Validates database connectivity, schema integrity, and performance metrics.
 """
+import streamlit as st
 
 import argparse
 import sys

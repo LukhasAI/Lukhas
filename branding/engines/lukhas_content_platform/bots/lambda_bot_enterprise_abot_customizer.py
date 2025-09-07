@@ -5,6 +5,7 @@ LUKHAS AI ΛBot Status Bar Customizer
 Interactive tool to customize your LUKHAS AI ΛBot status bar appearance and behavior.
 Apply changes instantly to see the results.
 """
+import streamlit as st
 
 import json
 import sys
@@ -353,7 +354,7 @@ def main():
     """Main entry point."""
     print("🚀 Starting LUKHAS AI ΛBot Status Bar Customizer...")
 
-    customizer = ΛBotCustomizer()
+    customizer = LambdaBotCustomizer()
 
     try:
         customizer.show_menu()

@@ -11,6 +11,7 @@ Comprehensive test runner for Wave C6 components:
 Validates consciousness system robustness, ethical compliance, and
 Constellation Framework principles under various test conditions.
 """
+import streamlit as st
 
 import subprocess
 import sys

@@ -9,6 +9,8 @@ Ensures Freud-2025 Wave C specification compliance for routing integration.
 
 Tests priority monotonicity: higher narrative_gravity ⇒ higher priority
 """
+import time
+import streamlit as st
 
 from unittest.mock import Mock, patch
 

@@ -7,6 +7,7 @@ Wave C C4.4 Test Suite Runner
 Comprehensive test runner for the Wave C memory system with detailed reporting.
 Validates production readiness across all test categories.
 """
+import streamlit as st
 
 import subprocess
 import sys

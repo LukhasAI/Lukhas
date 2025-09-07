@@ -4,12 +4,14 @@
 Enhanced LUKHAS AI ΛBot with Consciousness-Level Control Integration
 Integrates workspace AGI Controller for enterprise-grade modularization
 """
+import streamlit as st
 
 import asyncio
 import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
+from datetime import timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -33,7 +35,7 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import CoreΛBot, SubscriptionTier
+    from core_ΛBot import CoreLambdaBot, SubscriptionTier
 
     LAMBDA_BOT_AVAILABLE = True
 except ImportError as e:
@@ -106,7 +108,7 @@ class AGIControllerΛBot:
         self.base_lambda_bot = None
         if LAMBDA_BOT_AVAILABLE:
             try:
-                self.base_lambda_bot = CoreΛBot()
+                self.base_lambda_bot = CoreLambdaBot()
                 logger.info("✅ Base LUKHAS AI ΛBot integration successful")
             except Exception as e:
                 logger.error(f"❌ Base LUKHAS AI ΛBot integration failed: {e}")

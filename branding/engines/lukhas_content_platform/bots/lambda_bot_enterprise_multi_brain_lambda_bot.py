@@ -4,6 +4,8 @@
 Enhanced LUKHAS AI ΛBot with Bio-Rhythmic Multi-Brain Coordination
 Integrates workspace MultiBrainSymphony for agent synchronization
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import asyncio
 import logging
@@ -30,7 +32,7 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import CoreΛBot, SubscriptionTier
+    from core_ΛBot import CoreLambdaBot, SubscriptionTier
 
     LAMBDA_BOT_AVAILABLE = True
 except ImportError as e:
@@ -88,7 +90,7 @@ class MultiBrainΛBot:
         self.base_lambda_bot = None
         if LAMBDA_BOT_AVAILABLE:
             try:
-                self.base_lambda_bot = CoreΛBot()
+                self.base_lambda_bot = CoreLambdaBot()
                 logger.info("✅ Base LUKHAS AI ΛBot integration successful")
             except Exception as e:
                 logger.error(f"❌ Base LUKHAS AI ΛBot integration failed: {e}")

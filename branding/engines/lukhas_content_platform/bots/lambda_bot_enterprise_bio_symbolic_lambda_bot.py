@@ -4,6 +4,8 @@
 Enhanced LUKHAS AI ΛBot with Bio-Symbolic Pattern Recognition Integration
 Integrates workspace bio-symbolic processing for intelligent modularization
 """
+from consciousness.qi import qi
+import streamlit as st
 # type: ignore
 
 import asyncio
@@ -12,6 +14,7 @@ import sys
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
+from datetime import timezone
 from enum import Enum
 from typing import Any
 
@@ -45,14 +48,14 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import CoreΛBot  # type: ignore
+    from core_ΛBot import CoreLambdaBot  # type: ignore
 
     LAMBDA_BOT_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Base LUKHAS AI ΛBot not available: {e}")
 
     # Create stub class for type safety
-    class CoreΛBot:  # type: ignore
+    class CoreLambdaBot:  # type: ignore
         def __init__(self):
             pass
 
@@ -140,7 +143,7 @@ class BioSymbolicΛBot:
         self.base_lambda_bot = None
         if LAMBDA_BOT_AVAILABLE:
             try:
-                self.base_lambda_bot = CoreΛBot()
+                self.base_lambda_bot = CoreLambdaBot()
                 logger.info("✅ Base LUKHAS AI ΛBot integration successful")
             except Exception as e:
                 logger.error(f"❌ Base LUKHAS AI ΛBot integration failed: {e}")

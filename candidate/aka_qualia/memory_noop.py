@@ -6,6 +6,8 @@ Aka Qualia No-Op Memory Implementation (C4.2)
 No-operation memory client for testing and environments where persistence is not needed.
 Provides the same interface as SqlMemory but stores nothing and returns empty results.
 """
+import time
+import streamlit as st
 
 import datetime as dt
 import uuid

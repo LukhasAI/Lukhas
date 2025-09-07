@@ -5,6 +5,7 @@ LUKHAS AI ΛBot Status Bar Designer
 Customize the appearance and behavior of your LUKHAS AI ΛBot status bar indicator.
 This script provides examples and options for different designs.
 """
+import streamlit as st
 
 from pathlib import Path
 
@@ -104,7 +105,7 @@ Click for quick actions"""
 
 # Example usage and design templates
 if __name__ == "__main__":
-    designer = ΛBotStatusDesigner(".")
+    designer = LambdaBotStatusDesigner(".")
 
     # Example designs
     examples = {

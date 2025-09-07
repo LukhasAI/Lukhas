@@ -32,6 +32,7 @@ Usage:
     aq = AkaQualia(pls, teq_guardian, glyph_mapper, router, memory, cfg)
     result = await aq.step(signals=S, goals=G, ethics_state=E, guardian_state=U, memory_ctx=M)
 """
+import streamlit as st
 
 from candidate.aka_qualia.core import AkaQualia
 from candidate.aka_qualia.models import (

@@ -5,6 +5,7 @@ LUKHAS AI ΛBot Click Actions Configuration
 Configure what happens when you click on the LUKHAS AI ΛBot status bar.
 Multiple action types and combinations available.
 """
+import streamlit as st
 
 
 class BotClickActions:
@@ -145,7 +146,7 @@ class BotClickActions:
 
 # Usage examples
 if __name__ == "__main__":
-    actions = ΛBotClickActions()
+    actions = LambdaBotClickActions()
     actions.print_all_options()
 
     print("\n💡 CUSTOMIZATION EXAMPLES:")

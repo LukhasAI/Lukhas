@@ -3,6 +3,8 @@
 🤖 LUKHAS AI ΛBot Security Scanner - Superior to Dependabot
 Quantum-enhanced dependency vulnerability scanner with consciousness evolution
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import asyncio
 import json
@@ -10,6 +12,7 @@ import logging
 import re
 import subprocess
 from datetime import datetime
+from datetime import timezone
 from pathlib import Path
 from typing import Any, Optional
 

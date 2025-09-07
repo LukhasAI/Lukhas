@@ -14,6 +14,7 @@ Provides real-time observability into:
 - TEQ Guardian interventions
 - Energy conservation compliance
 """
+import streamlit as st
 
 import time
 from typing import Any, Optional

@@ -3,6 +3,7 @@
 LUKHAS AI ΛBot Autonomous Self-Healing Mode
 Let LUKHAS AI ΛBot run completely free to diagnose, fix, and improve itself
 """
+import streamlit as st
 
 import json
 import os
@@ -10,6 +11,7 @@ import subprocess
 import sys
 import time
 from datetime import datetime
+from datetime import timezone
 
 sys.path.append("/Users/A_G_I/Λ", timezone)
 

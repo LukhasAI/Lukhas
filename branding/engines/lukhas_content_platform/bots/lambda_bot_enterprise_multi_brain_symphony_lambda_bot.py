@@ -4,6 +4,7 @@
 Enhanced LUKHAS AI ΛBot with Multi-Brain Symphony Integration + Lukhas AGI Orchestration
 Combines workspace MultiBrainSymphony with Lukhas native AGI coordination
 """
+import streamlit as st
 
 import asyncio
 import logging
@@ -11,6 +12,7 @@ import sys
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
+from datetime import timezone
 from enum import Enum
 from typing import Any
 
@@ -42,7 +44,7 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import CoreΛBot, SubscriptionTier
+    from core_ΛBot import CoreLambdaBot, SubscriptionTier
 
     LAMBDA_BOT_AVAILABLE = True
 except ImportError as e:
@@ -130,7 +132,7 @@ class MultiBrainSymphonyΛBot:
         self.base_lambda_bot = None
         if LAMBDA_BOT_AVAILABLE:
             try:
-                self.base_lambda_bot = CoreΛBot()
+                self.base_lambda_bot = CoreLambdaBot()
                 logger.info("✅ Base LUKHAS AI ΛBot integrated")
             except Exception as e:
                 logger.error(f"❌ Base LUKHAS AI ΛBot integration failed: {e}")

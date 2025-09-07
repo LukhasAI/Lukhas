@@ -14,6 +14,8 @@ Privacy and compliance tests covering:
 
 Target: 100% regulatory compliance validation
 """
+import logging
+import streamlit as st
 
 import time
 

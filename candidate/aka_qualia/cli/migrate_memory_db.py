@@ -5,6 +5,7 @@ Wave C C4 Database Migration Tool
 Manages database schema for the Aka Qualia memory system.
 Supports SQLite and PostgreSQL with safe migration procedures.
 """
+import streamlit as st
 
 import argparse
 import sys

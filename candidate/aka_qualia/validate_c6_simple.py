@@ -7,6 +7,7 @@ Wave C6 Simple Validation
 Simplified validation of C6.1 Ablation Framework and C6.2 Ethics Validation
 that works with current environment constraints.
 """
+import streamlit as st
 
 import asyncio
 import sys

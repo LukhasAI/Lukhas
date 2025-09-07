@@ -10,6 +10,7 @@ Comprehensive fixture setup for testing the C4 memory system with:
 - Test data generation
 - Performance benchmarking utilities
 """
+import streamlit as st
 
 import contextlib
 import tempfile

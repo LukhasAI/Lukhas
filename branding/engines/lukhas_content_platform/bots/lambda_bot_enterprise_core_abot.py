@@ -6,6 +6,8 @@ Building the freemium base for the LUKHAS AI ΛBot ecosystem
 This implementation extracts the core capabilities from the Enhanced AI Bot
 and implements tiered access for freemium monetization.
 """
+from consciousness.qi import qi
+import streamlit as st
 
 import asyncio
 import logging
@@ -13,8 +15,9 @@ import sys
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from datetime import timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Optional, Dict
 
 # Add the brain directory to import the Enhanced AI Bot
 sys.path.append("/Users/A_G_I/Λ/brain")
@@ -663,7 +666,7 @@ async def demonstrate_core_lambda_bot():
         print(f"\n🎯 Testing {tier.value.upper()} tier:")
         print("-" * 30)
 
-        bot = CoreΛBot(tier)
+        bot = CoreLambdaBot(tier)
 
         # Test messages
         test_messages = [

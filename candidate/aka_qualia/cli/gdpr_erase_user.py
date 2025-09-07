@@ -6,6 +6,9 @@ Removes all user data from the Aka Qualia memory system in compliance
 with GDPR Article 17 (Right to Erasure). Provides comprehensive logging
 and verification of data removal.
 """
+import logging
+import time
+import streamlit as st
 
 import argparse
 import sys

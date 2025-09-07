@@ -2,6 +2,7 @@
 """
 Free LUKHAS AI ΛBot Direct Mode - Bypass router issues and let LUKHAS AI ΛBot work directly
 """
+import streamlit as st
 
 import subprocess
 import sys

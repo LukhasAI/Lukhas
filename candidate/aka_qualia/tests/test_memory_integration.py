@@ -13,6 +13,7 @@ Integration tests covering:
 
 Target: Real database operations, complex scenarios
 """
+import streamlit as st
 
 import time
 

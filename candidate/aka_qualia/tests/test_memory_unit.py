@@ -13,6 +13,7 @@ Fast, isolated unit tests covering:
 
 Target: < 2s total runtime, 100% coverage
 """
+import streamlit as st
 
 import json
 import time

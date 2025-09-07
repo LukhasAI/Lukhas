@@ -9,6 +9,8 @@ dream seed → PhenomenalScene → RegulationPolicy → OneiricHook hints
 
 Demonstrates the complete Wave C integration pipeline with narrative feedback.
 """
+from typing import List
+import streamlit as st
 
 import json
 import logging

@@ -14,6 +14,7 @@ Performance benchmarks and stress tests covering:
 
 Target: Production SLA validation
 """
+import streamlit as st
 
 import gc
 import statistics
