@@ -469,7 +469,7 @@ class UniversalSymbolProtocol:
 
         # Create compressed symbol
         compressed = UniversalSymbol(
-            symbol_id=f"compressed_{uuid.uuid4()}.hex[:8]}",
+            symbol_id=f"compressed_{uuid.uuid4().hex[:8]}",
             modalities=all_modalities,
             domains=all_domains,
             causal_links=list(set(all_causal_links)),
@@ -626,7 +626,7 @@ class UniversalSymbolProtocol:
         """
         if merge_strategy == "union":
             merged = UniversalSymbol(
-                symbol_id=f"merged_{uuid.uuid4()}.hex[:8]}",
+                symbol_id=f"merged_{uuid.uuid4().hex[:8]}",
                 modalities=symbol1.modalities | symbol2.modalities,
                 domains=symbol1.domains | symbol2.domains,
                 causal_links=list(set(symbol1.causal_links + symbol2.causal_links)),

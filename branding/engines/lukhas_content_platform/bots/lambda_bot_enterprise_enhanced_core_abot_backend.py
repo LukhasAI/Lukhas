@@ -515,7 +515,7 @@ class SocialMediaService:
 class LinkedInIntegration:
     async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # LinkedIn OAuth implementation
-        return {"user_id": "linkedin_user", "access_token": "token", "user_data": {}
+        return {"user_id": "linkedin_user", "access_token": "token", "user_data": {}}
 
     async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # LinkedIn publishing implementation
@@ -525,7 +525,7 @@ class LinkedInIntegration:
 class InstagramIntegration:
     async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # Instagram OAuth implementation
-        return {"user_id": "instagram_user", "access_token": "token", "user_data": {}
+        return {"user_id": "instagram_user", "access_token": "token", "user_data": {}}
 
     async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # Instagram publishing implementation
@@ -535,7 +535,7 @@ class InstagramIntegration:
 class EmailIntegration:
     async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # Email service authentication
-        return {"user_id": "email_user", "access_token": "token", "user_data": {}
+        return {"user_id": "email_user", "access_token": "token", "user_data": {}}
 
     async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # Email sending implementation
@@ -545,7 +545,7 @@ class EmailIntegration:
 class TwitterIntegration:
     async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # Twitter OAuth implementation
-        return {"user_id": "twitter_user", "access_token": "token", "user_data": {}
+        return {"user_id": "twitter_user", "access_token": "token", "user_data": {}}
 
     async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # Twitter publishing implementation

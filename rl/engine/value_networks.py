@@ -201,7 +201,7 @@ class ValueNetwork:
     def __init__(self, state_dim: int = 692, hidden_dim: int = 512):
         self.capabilities = ["rl.value", "prediction.temporal", "hypothesis.consciousness"]
         self.node_type = "HYPOTHESIS"
-        self.trace_id = f"rl-value-{uuid.uuid4()}.hex[:12]}"
+        self.trace_id = f"rl-value-{uuid.uuid4().hex[:12]}"
 
         # Initialize consciousness value network
         self.value_network = ConsciousnessValueNetwork(state_dim, hidden_dim)

@@ -1,0 +1,1 @@
+TODO[JULES-3]: Fix 19 F821 undefined name errors - QI/quantum entanglement fixes, quantum state references, mathematical function definitions

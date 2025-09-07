@@ -250,7 +250,7 @@ class BioSymbolicΛBot:
 
     async def start_bio_symbolic_analysis(self, target_path: str) -> SymbolicAnalysisSession:
         """Start bio-symbolic analysis session"""
-        session_id = f"bio_sym_{int(time.time()}"
+        session_id = f"bio_sym_{int(time.time())}"
 
         session = SymbolicAnalysisSession(session_id=session_id, start_time=datetime.now(timezone.utc), target_path=target_path)
 

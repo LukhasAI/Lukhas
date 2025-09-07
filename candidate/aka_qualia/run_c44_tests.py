@@ -64,13 +64,13 @@ def main():
     test_categories = [
         {
             "name": "Simple Validation Tests",
-            "cmd": ["python", "candidate/aka_qualia/test_simple.py"],
+            "cmd": ["python3", "candidate/aka_qualia/test_simple.py"],
             "critical": True,
         },
         {
             "name": "Unit Tests - Fast Feedback",
             "cmd": [
-                "python",
+                "python3",
                 "-m",
                 "pytest",
                 "candidate/aka_qualia/tests/test_memory_unit.py",
@@ -83,7 +83,7 @@ def main():
         {
             "name": "Contract Tests - Business Rules",
             "cmd": [
-                "python",
+                "python3",
                 "-m",
                 "pytest",
                 "candidate/aka_qualia/tests/",
@@ -97,7 +97,7 @@ def main():
         {
             "name": "Integration Tests - Database Operations",
             "cmd": [
-                "python",
+                "python3",
                 "-m",
                 "pytest",
                 "candidate/aka_qualia/tests/test_memory_integration.py",
@@ -110,7 +110,7 @@ def main():
         {
             "name": "Security Tests - Fault Injection",
             "cmd": [
-                "python",
+                "python3",
                 "-m",
                 "pytest",
                 "candidate/aka_qualia/tests/test_memory_security.py",
@@ -124,7 +124,7 @@ def main():
         {
             "name": "GDPR Compliance Tests",
             "cmd": [
-                "python",
+                "python3",
                 "-m",
                 "pytest",
                 "candidate/aka_qualia/tests/test_memory_gdpr.py",
@@ -137,7 +137,7 @@ def main():
         {
             "name": "Performance Tests - Benchmarks",
             "cmd": [
-                "python",
+                "python3",
                 "-m",
                 "pytest",
                 "candidate/aka_qualia/tests/test_memory_performance.py",
@@ -216,7 +216,7 @@ def main():
     for test_file in test_files:
         path = Path(test_file)
         if path.exists():
-            print(f"   ✅ {path.name} - {path.stat()}.st_size} bytes")
+            print(f"   ✅ {path.name} - {path.stat().st_size} bytes")
         else:
             print(f"   ❌ {path.name} - MISSING")
 

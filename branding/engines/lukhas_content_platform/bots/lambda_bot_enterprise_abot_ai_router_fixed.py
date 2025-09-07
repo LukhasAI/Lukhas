@@ -316,10 +316,10 @@ class ABotIntelligentAIRouter:
     def get_available_services(self) -> list[str]:
         """Get list of currently available AI services"""
         available = []
-        for service in self.services.values():
+        for service_id, service in self.services.items():
             api_key = self._get_keychain_value(service.keychain_service)
             if api_key and len(api_key.strip()) > 10:
-                available.append(service.name)
+                available.append(service_id)
         return available
 
 
@@ -394,7 +394,7 @@ def get_ai_router_status() -> dict:
         "recommendations": [
             f"✅ {available_services}/{total_services} AI services available",
             (
-                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values(}}:.1f.4f))} per 1K tokens"
+                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values()):.4f} per 1K tokens"
                 if available_service_costs
                 else "❌ No services available"
             ),

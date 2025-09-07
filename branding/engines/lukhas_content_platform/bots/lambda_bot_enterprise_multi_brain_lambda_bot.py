@@ -180,7 +180,7 @@ class MultiBrainΛBot:
             await self._start_bio_rhythmic_sync()
 
         analysis_results = {
-            "session_id": f"multi_brain_{int(time.time()}",
+                "session_id": f"multi_brain_{int(time.time())}",
             "timestamp": datetime.now().isoformat(),
             "brain_states": {},
             "coordination_results": {},

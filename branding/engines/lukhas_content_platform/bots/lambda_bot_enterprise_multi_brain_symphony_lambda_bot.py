@@ -203,7 +203,7 @@ class MultiBrainSymphonyΛBot:
         mode: BrainSymphonyMode = BrainSymphonyMode.UNIFIED_SYMPHONY,
     ) -> SymphonySession:
         """Start multi-brain symphony analysis session"""
-        session_id = f"symphony_{int(time.time()}"
+        session_id = f"symphony_{int(time.time())}"
 
         session = SymphonySession(
             session_id=session_id,

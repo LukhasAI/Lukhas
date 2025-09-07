@@ -178,7 +178,7 @@ class StargateActivator:
             bar = power_bars[: i + 1]
             percentage = ((i + 1) / len(power_bars)) * 100
 
-            sys.stdout.write(f"\rPower: {''.join(bar)}{' ' * (8 - len(bar)} [{percentage:>3.0f}%]")
+            sys.stdout.write(f"\rPower: {''.join(bar)}{' ' * (8 - len(bar))} [{percentage:>3.0f}%]")
             sys.stdout.flush()
 
             # Increasing frequency beeps

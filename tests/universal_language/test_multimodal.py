@@ -20,14 +20,14 @@ ModalityType = mm.ModalityType
 def test_process_color_hex_parsing():
     mp = ModalityProcessor()
     mf = mp.process("#1a2b3c", ModalityType.COLOR)
-assert mf.metadata["rgb"] == (26, 43, 60)
-h, s, v = mf.metadata["hsv"]
-assert 0 <= h <= 360
-assert 0 <= s <= 1 and 0 <= v <= 1
+    assert mf.metadata["rgb"] == (26, 43, 60)
+    h, s, v = mf.metadata["hsv"]
+    assert 0 <= h <= 360
+    assert 0 <= s <= 1 and 0 <= v <= 1
 
 
 def test_process_color_tuple_rgb():
-    ModalityProcessor()
-mf = mp.process((255, 0, 128), ModalityType.COLOR)
-assert mf.metadata["rgb"] == (255, 0, 128)
-assert "luminance" in mf.metadata
+    mp = ModalityProcessor()
+    mf = mp.process((255, 0, 128), ModalityType.COLOR)
+    assert mf.metadata["rgb"] == (255, 0, 128)
+    assert "luminance" in mf.metadata

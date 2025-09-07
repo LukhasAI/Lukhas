@@ -569,7 +569,7 @@ class ConsentLedgerV1:
                     parent_trace_id=None,
                     action="system_error",
                     resource=resource,
-                    purpose=f"Error handling: {str(e)}[:100]}",
+                    purpose=f"Error handling: {str(e)[:100]}",
                     timestamp=datetime.now(timezone.utc).isoformat(),
                     policy_verdict=PolicyVerdict.DENY,
                     capability_token_id=None,

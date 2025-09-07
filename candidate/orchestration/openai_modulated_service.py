@@ -1,0 +1,1 @@
+TODO[JULES-1]: Fix 19 F821 undefined name errors - Focus on service integration patterns, fix_later placeholders, and import fallbacks

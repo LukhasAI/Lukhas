@@ -450,7 +450,7 @@ class DynamicQRGLYPHEngine:
         ]
 
         combined = "|".join(components)
-        return f"QRGLYPH_{hashlib.sha256(combined.encode()).hexdigest()}[:16]}"
+        return f"QRGLYPH_{hashlib.sha256(combined.encode()).hexdigest()[:16]}"
 
     def _generate_attention_signature(self, consciousness_state: str) -> str:
         """Generate attention signature based on consciousness state"""
@@ -621,7 +621,7 @@ async def main():
     print(f"🎭 Type: {qrglyph.metadata.glyph_type.value}")
     print(f"🧠 Consciousness: {qrglyph.metadata.consciousness_binding['state']}")
     print(f"🌏 Cultural Symbols: {' '.join(qrglyph.metadata.cultural_symbols)}")
-    print(f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.now(tz=timezone.utc)}.seconds} seconds")
+    print(f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.now(tz=timezone.utc)).seconds} seconds")
 
     # Serialize to base64
     qrglyph_base64 = qrglyph.to_base64()

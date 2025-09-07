@@ -1116,7 +1116,7 @@ async def create_glyph_payload(
         symbolic_glyphs=["🧬", "🧿", "🔺", "🌌", "🔐"],
         cultural_signature=cultural_map.get(cultural_region, cultural_map["universal"]),
         consciousness_state=consciousness_state,
-        ethical_hash=f"trusthelix:{hashlib.sha256(prompt.encode()).hexdigest()}[:12]}",
+        ethical_hash=f"trusthelix:{hashlib.sha256(prompt.encode()).hexdigest()[:12]}",
         intent="cross-context symbolic communication",
         prompt_payload={
             "topic": prompt,

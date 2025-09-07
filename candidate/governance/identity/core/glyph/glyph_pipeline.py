@@ -358,7 +358,7 @@ class GLYPHPipeline:
         includes = template.get("includes", ["lambda_id", "timestamp"])
 
         identity_data = {
-            "glyph_id": f"pending_{int(time.time()}",
+            "glyph_id": f"pending_{int(time.time())}",
             "glyph_type": request.glyph_type.value,
             "security_level": request.security_level.value,
             "generation_timestamp": datetime.now(timezone.utc).isoformat(),

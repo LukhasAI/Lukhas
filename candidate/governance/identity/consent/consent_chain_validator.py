@@ -491,7 +491,7 @@ class ConsentChainValidator:
 
         # Generate ethical hash
         ethical_content = f"{consent_type.value}|{consciousness_state}|{json.dumps(consent_data)}"
-        ethical_hash = f"trusthelix:{hashlib.sha256(ethical_content.encode()).hexdigest()}[:12]}"
+        ethical_hash = f"trusthelix:{hashlib.sha256(ethical_content.encode()).hexdigest()[:12]}"
 
         # Create node
         node = ConsentNode(

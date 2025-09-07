@@ -220,7 +220,7 @@ class PolicyNetwork:
     def __init__(self, state_dim: int = 692, action_dim: int = 50, hidden_dim: int = 512):
         self.capabilities = ["rl.policy", "neural.decision", "consciousness.action"]
         self.node_type = "DECISION"
-        self.trace_id = f"rl-policy-{uuid.uuid4()}.hex[:12]}"
+        self.trace_id = f"rl-policy-{uuid.uuid4().hex[:12]}"
 
         # Initialize consciousness actor-critic from design doc
         self.actor_critic = ConsciousnessActorCritic(state_dim, action_dim, hidden_dim)

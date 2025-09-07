@@ -173,7 +173,7 @@ class QIConsciousnessΛBot:
 
     async def start_quantum_consciousness_analysis(self, target_path: str) -> QuantumAnalysisSession:
         """Start quantum consciousness analysis session"""
-        session_id = f"quantum_consciousness_{int(time.time()}"
+        session_id = f"quantum_consciousness_{int(time.time())}"
 
         session = QuantumAnalysisSession(
             session_id=session_id,

@@ -438,7 +438,7 @@ class OnboardingCLI:
         if "completion_report" in result:
             report = result["completion_report"]
             print("\n📊 Session Statistics:")
-            print(f"  ⏱️  Duration: {report.get('onboarding_duration_minutes', 0)}:.1f} minutes")
+            print(f"  ⏱️  Duration: {report.get('onboarding_duration_minutes', 0):.1f} minutes")
             print(f"  📋 Stages: {report.get('stages_completed', 0)}")
             print(f"  🔮 Symbolic Elements: {report.get('symbolic_vault_size', 0)}")
             print(f"  🎭 Personality: {report.get('personality_type', 'N/A').title()}")

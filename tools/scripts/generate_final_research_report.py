@@ -128,12 +128,12 @@ def generate_comprehensive_report():
         api_exec_time = perf_metrics.get("lukhas_embedding", {}).get("execution_time", "N/A")
         exec_summary_section["key_findings"].extend(
             [
-                ("System Health Score: " f"{exec_summary.get('overall_health_score', 0)}:.1f} / 100"),
+                (f"System Health Score: {exec_summary.get('overall_health_score', 0):.1f} / 100"),
                 ("All 7 core modules operational: " f"{core_modules_operational == 7}"),
                 "VIVOX consciousness system: All 5 components working",
                 (
                     "Identity system: "
-                    f"{system_data.get('identity_systems', {)}).get('python_files', 0)} files configured"
+                    f"{system_data.get('identity_systems', {}).get('python_files', 0)} files configured"
                 ),
                 f"API response time: {api_exec_time}s",
             ]
