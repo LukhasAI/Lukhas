@@ -6,10 +6,12 @@ This component handles consciousness functionality in the AI consciousness compu
 """
 
 import asyncio
-from datetime import datetime
+import logging
+from datetime import datetime, timezone
 from typing import Any, Optional
 
-from candidate.core.common import get_logger
+# from candidate.core.common import get_logger
+get_logger = logging.getLogger
 
 
 class SelfReflectionEngine:
@@ -79,7 +81,7 @@ class SelfReflectionEngine:
         """Core consciousness processing logic"""
         # Implement specific consciousness processing
         # This is a placeholder that should be enhanced based on requirements
-
+        category = data.get("category")
         if category == "consciousness":
             return await self._process_consciousness(data)
         elif category == "governance":
@@ -157,32 +159,17 @@ class SelfReflectionEngine:
 # Factory function for easy instantiation
 def create_consciousness_component(
     config: Optional[dict] = None,
-) -> ΛSelfReflectionEngine:
+) -> "SelfReflectionEngine":
     """Create and return a consciousness component instance"""
-    return ΛSelfReflectionEngine(config)
+    return SelfReflectionEngine(config)
 
 
 # Async factory function
 async def create_and_initialize_consciousness_component(
     config: Optional[dict] = None,
-) -> ΛSelfReflectionEngine:
+) -> "SelfReflectionEngine":
     """Create, initialize and return a consciousness component instance"""
-    ΛSelfReflectionEngine(config)
-
-
-def create_consciousness_component(
-    config: Optional[dict] = None,
-) -> lukhasSelfReflectionEngine:
-    """Create and return a consciousness component instance"""
-    return lukhasSelfReflectionEngine(config)
-
-
-# Async factory function
-async def create_and_initialize_consciousness_component(
-    config: Optional[dict] = None,
-) -> lukhasSelfReflectionEngine:
-    """Create, initialize and return a consciousness component instance"""
-    component = lukhasSelfReflectionEngine(config)
+    component = SelfReflectionEngine(config)
     await component.initialize()
     return component
 
@@ -192,8 +179,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛSelfReflectionEngine()
-        component = lukhasSelfReflectionEngine()
+        component = SelfReflectionEngine()
 
         # Initialize
         success = await component.initialize()

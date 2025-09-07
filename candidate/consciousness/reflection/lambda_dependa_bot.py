@@ -24,13 +24,7 @@ autonomous architectural optimization and modular intelligence.
 - Elite-tier performance monitoring
 - Integration with ΛBot fleet coordination
 
-Part of TODO #10: Module Dependency Analysis and Network-Based M        self.excluded_dirs = {
-            '__pycache__', '.git', '.vscode', 'node_modules',
-            '.pytest_cache', '.mypy_cache', 'venv', 'env', '.venv', '.env',
-            'temp', 'tmp', 'backup', 'old', 'archive', 'archives',
-            'build', 'dist', '.tox', 'htmlcov', '.coverage',
-            'site-packages', 'lib/python', 'Scripts', 'bin'
-        }rization
+Part of TODO #10: Module Dependency Analysis and Network-Based Modularization
 Integrates with: ΛBot Elite Orchestrator, TODO #8 Performance, TODO #9 Index System
 
 Author: LUKHAS ΛBot System
@@ -44,8 +38,8 @@ import json
 import os
 import sys
 from collections import defaultdict
-from dataclasses import asdict, dataclass
-from datetime import datetime
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -82,7 +76,7 @@ except ImportError:
     class QIBotConfig:
         name: str = "ΛDependaBoT"
         type: str = "dependency_analysis"
-        capabilities: list[str] = None
+        capabilities: list[str] = field(default_factory=list)
         autonomy_level: float = 0.85
         qi_enabled: bool = True
         bio_symbolic_processing: bool = True
@@ -418,6 +412,13 @@ class ΛDependaBoT(BotProtocol):
             bio_symbolic_processing=True,
             self_evolving=True,
         )
+        self.excluded_dirs = {
+            '__pycache__', '.git', '.vscode', 'node_modules',
+            '.pytest_cache', '.mypy_cache', 'venv', 'env', '.venv', '.env',
+            'temp', 'tmp', 'backup', 'old', 'archive', 'archives',
+            'build', 'dist', '.tox', 'htmlcov', '.coverage',
+            'site-packages', 'lib/python', 'Scripts', 'bin'
+        }
 
         # Initialize ΛBot systems
         self.qi_engine = None
@@ -1113,22 +1114,7 @@ class ΛDependaBoT(BotProtocol):
     # Helper Methods
     def _should_exclude_file(self, file_path: Path) -> bool:
         """Enhanced file exclusion logic."""
-        excluded_dirs = {
-            "__pycache__",
-            ".git",
-            ".vscode",
-            "node_modules",
-            ".pytest_cache",
-            ".mypy_cache",
-            "venv",
-            "env",
-            "temp",
-            "tmp",
-            "backup",
-            "old",
-            "archive",
-        }
-        return any(excluded in file_path.parts for excluded in excluded_dirs)
+        return any(excluded in file_path.parts for excluded in self.excluded_dirs)
 
     def _get_module_name(self, file_path: Path) -> str:
         """Get quantum-enhanced module name."""
@@ -1618,7 +1604,7 @@ class OllamaCodeFixer(CodeFixerBase):
 
     def __init__(self):
         from candidate.core.common.config import get_config
-
+        self.logger = logging.getLogger(__name__)
         config = get_config()
         self.base_url = config.ollama_url
         self.model = "deepseek-coder:6.7b"  # Default code model
@@ -1756,6 +1742,7 @@ class OpenAICodeFixer(CodeFixerBase):
 
     def __init__(self):
         self.client = None
+        self.logger = logging.getLogger(__name__)
 
     async def initialize(self):
         try:
@@ -1919,4 +1906,5 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    # asyncio.run(main())
+    pass

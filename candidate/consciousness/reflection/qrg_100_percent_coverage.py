@@ -25,8 +25,8 @@ Features:
 Author: LUKHAS AI System
 License: LUKHAS Commercial License
 """
-from consciousness.qi import qi
-import streamlit as st
+# from consciousness.qi import qi
+# import streamlit as st
 
 import os
 import sys
@@ -34,13 +34,13 @@ import threading
 import time
 import unittest
 
-from qrg_integration import LukhusQRGIntegrator, QRGType
+# from qrg_integration import LukhusQRGIntegrator, QRGType
 
-from lukhas.qi.steganographic_demo import (
-    GlyphStyle,
-    QIQRInfluencer,
-    SteganographicGlyphGenerator,
-)
+# from lukhas.qi.steganographic_demo import (
+#     GlyphStyle,
+#     QIQRInfluencer,
+#     SteganographicGlyphGenerator,
+# )
 
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -345,8 +345,8 @@ class TestQRGCulturalValidation(unittest.TestCase):
     def test_cultural_safety_edge_cases(self):
         """Test cultural safety with edge cases"""
         edge_cases = [
-            {"region": "", "preferences": {},
-            {"region": "unknown_culture", "preferences": {"invalid": "value"},
+            {"region": "", "preferences": {}},
+            {"region": "unknown_culture", "preferences": {"invalid": "value"}},
             {"region": None, "preferences": None},
         ]
 
@@ -645,8 +645,8 @@ def run_100_percent_coverage_suite():
     print("\n📊 100% Coverage Test Results:")
     print(f"   🧪 Total tests: {total_run}")
     print(f"   ✅ Passed: {total_passed}")
-    print(f"   ❌ Failed: {len(result.failures}}")
-    print(f"   🚨 Errors: {len(result.errors}}")
+    print(f"   ❌ Failed: {len(result.failures)}")
+    print(f"   🚨 Errors: {len(result.errors)}")
     print(f"   📈 Coverage: {coverage_percentage:.1f}%")
     print(f"   ⚡ Runtime: {end_time - start_time:.2f}s")
 
@@ -654,12 +654,12 @@ def run_100_percent_coverage_suite():
     if result.failures:
         print("\n❌ Test Failures:")
         for test, error in result.failures:
-            print(f"   • {test}: {error.split('AssertionError:')[-1].strip(}}[:100]}...")
+            print(f"   • {test}: {error.split('AssertionError:')[-1].strip()}[:100]...")
 
     if result.errors:
         print("\n🚨 Test Errors:")
         for test, error in result.errors:
-            print(f"   • {test}: {error.split('Error:')[-1].strip(}}[:100]}...")
+            print(f"   • {test}: {error.split('Error:')[-1].strip()}[:100]...")
 
     # Coverage analysis
     print("\n🎯 Coverage Analysis:")

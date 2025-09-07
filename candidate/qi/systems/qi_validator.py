@@ -34,7 +34,7 @@ __tier__ = 2
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 
@@ -105,7 +105,7 @@ class QIValidator:
         """Core quantum-inspired processing logic"""
         # Implement specific quantum-inspired processing
         # This is a placeholder that should be enhanced based on requirements
-
+        category = data.get("category")
         if category == "consciousness":
             return await self._process_consciousness(data)
         elif category == "governance":
@@ -181,30 +181,17 @@ class QIValidator:
 
 
 # Factory function for easy instantiation
-def create_quantum_component(config: Optional[dict] = None) -> ΛQuantumValidator:
+def create_quantum_component(config: Optional[dict] = None) -> QIValidator:
     """Create and return a quantum component instance"""
-    return ΛQuantumValidator(config)
+    return QIValidator(config)
 
 
 # Async factory function
 async def create_and_initialize_quantum_component(
     config: Optional[dict] = None,
-) -> ΛQuantumValidator:
+) -> QIValidator:
     """Create, initialize and return a quantum component instance"""
-    ΛQuantumValidator(config)
-
-
-def create_quantum_component(config: Optional[dict] = None) -> lukhasQuantumValidator:
-    """Create and return a quantum component instance"""
-    return lukhasQuantumValidator(config)
-
-
-# Async factory function
-async def create_and_initialize_quantum_component(
-    config: Optional[dict] = None,
-) -> lukhasQuantumValidator:
-    """Create, initialize and return a quantum component instance"""
-    component = lukhasQuantumValidator(config)
+    component = QIValidator(config)
     await component.initialize()
     return component
 
@@ -214,8 +201,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛQuantumValidator()
-        component = lukhasQuantumValidator()
+        component = QIValidator()
 
         # Initialize
         success = await component.initialize()
@@ -246,6 +232,7 @@ if __name__ == "__main__":
 
 def __validate_module__():
     """Validate module initialization and compliance."""
+    logger = logging.getLogger(__name__)
     validations = {
         "qi_coherence": True,
         "neuroplasticity_enabled": False,

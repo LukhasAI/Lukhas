@@ -34,7 +34,7 @@ __tier__ = 2
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 
@@ -105,7 +105,7 @@ class QIEntanglement:
         """Core quantum-inspired processing logic"""
         # Implement specific quantum-inspired processing
         # This is a placeholder that should be enhanced based on requirements
-
+        category = data.get("category")
         if category == "consciousness":
             return await self._process_consciousness(data)
         elif category == "governance":
@@ -181,32 +181,17 @@ class QIEntanglement:
 
 
 # Factory function for easy instantiation
-def create_quantum_component(config: Optional[dict] = None) -> ΛQuantumEntanglement:
+def create_quantum_component(config: Optional[dict] = None) -> QIEntanglement:
     """Create and return a quantum component instance"""
-    return ΛQuantumEntanglement(config)
+    return QIEntanglement(config)
 
 
 # Async factory function
 async def create_and_initialize_quantum_component(
     config: Optional[dict] = None,
-) -> ΛQuantumEntanglement:
+) -> QIEntanglement:
     """Create, initialize and return a quantum component instance"""
-    ΛQuantumEntanglement(config)
-
-
-def create_quantum_component(
-    config: Optional[dict] = None,
-) -> lukhasQuantumEntanglement:
-    """Create and return a quantum component instance"""
-    return lukhasQuantumEntanglement(config)
-
-
-# Async factory function
-async def create_and_initialize_quantum_component(
-    config: Optional[dict] = None,
-) -> lukhasQuantumEntanglement:
-    """Create, initialize and return a quantum component instance"""
-    component = lukhasQuantumEntanglement(config)
+    component = QIEntanglement(config)
     await component.initialize()
     return component
 
@@ -216,8 +201,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛQuantumEntanglement()
-        component = lukhasQuantumEntanglement()
+        component = QIEntanglement()
 
         # Initialize
         success = await component.initialize()
@@ -248,6 +232,7 @@ if __name__ == "__main__":
 
 def __validate_module__():
     """Validate module initialization and compliance."""
+    logger = logging.getLogger(__name__)
     validations = {
         "qi_coherence": True,
         "neuroplasticity_enabled": False,
