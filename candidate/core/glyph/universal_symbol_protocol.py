@@ -637,7 +637,7 @@ class UniversalSymbolProtocol:
             )
         elif merge_strategy == "intersection":
             merged = UniversalSymbol(
-                symbol_id=f"merged_{uuid.uuid4()}.hex[:8]}",
+                symbol_id=f"merged_{uuid.uuid4().hex[:8]}",
                 modalities=symbol1.modalities & symbol2.modalities or {SymbolModality.TEXT},
                 domains=symbol1.domains & symbol2.domains or {SymbolDomain.UNIVERSAL},
                 metadata={

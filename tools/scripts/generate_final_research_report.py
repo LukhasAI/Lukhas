@@ -146,7 +146,7 @@ def generate_comprehensive_report():
         drift_data = component_reports["drift_test"]
 
         exec_summary_section["drift_analysis_completed"] = True
-        exec_summary_section["multi_model_comparison"] = f"{len(drift_data.get('summary', {)}))} providers tested"
+        exec_summary_section["multi_model_comparison"] = f"{len(drift_data.get('summary', {}))} providers tested"
 
         comprehensive_report["drift_testing"] = drift_data
 
@@ -292,14 +292,14 @@ def print_report_summary(report):
         for i, finding in enumerate(summary["key_findings"][:5], 1):
             print(f"  {i}. {finding}")
         if len(summary["key_findings"]) > 5:
-            print(f"  ... and {len(summary['key_findings'])} - 5} more")
+            print(f"  ... and {len(summary['key_findings']) - 5} more")
 
     if summary.get("critical_issues"):
         print(f"\n⚠️ CRITICAL ISSUES ({len(summary['critical_issues'])})")
         for i, issue in enumerate(summary["critical_issues"][:3], 1):
             print(f"  {i}. {issue}")
         if len(summary["critical_issues"]) > 3:
-            print(f"  ... and {len(summary['critical_issues'])} - 3} more")
+            print(f"  ... and {len(summary['critical_issues']) - 3} more")
 
     print("\n🎯 RESEARCH CONTRIBUTIONS")
     conclusions = report.get("conclusions", {})

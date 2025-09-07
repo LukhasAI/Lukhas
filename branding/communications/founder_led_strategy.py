@@ -447,7 +447,7 @@ class ConsciousnessContentGenerator:
         """Generate crisis response using Lulu Cheng Meservey's transparent approach"""
         crisis_plan = self.strategy.crisis_communication.get(crisis_type, {})
 
-        return {}
+        return {
             "immediate_response": f"Direct acknowledgment of {specific_details} with commitment to transparent dialogue about consciousness technology development",
             "detailed_explanation": f"Comprehensive response addressing {specific_details} with technical evidence and Trinity Framework safeguards",
             "community_engagement": f"Open invitation for dialogue about {specific_details} and consciousness technology implications",
