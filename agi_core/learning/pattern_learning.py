@@ -4,11 +4,11 @@ Advanced pattern recognition and learning system for consciousness development.
 ⚛️🧠🛡️ Trinity Framework: Identity-Consciousness-Guardian
 """
 
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
-from enum import Enum
 import asyncio
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 
 class PatternType(Enum):
@@ -158,7 +158,7 @@ class PatternLearningEngine:
         # Simplified confidence calculation
         base_confidence = 0.5
         
-        if hasattr(data, '__len__'):
+        if hasattr(data, "__len__"):
             # Longer sequences tend to be more reliable
             length_factor = min(len(data) / 100.0, 0.3)
             base_confidence += length_factor
