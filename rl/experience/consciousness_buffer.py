@@ -58,7 +58,7 @@ class ConsciousnessBuffer:
     def __init__(self, capacity: int = 10000):
         self.capabilities = ["rl.experience", "memory.fold", "buffer.replay"]
         self.node_type = "MEMORY"
-        self.trace_id = f"rl-buffer-{uuid.uuid4()}.hex[:12]}"
+        self.trace_id = f"rl-buffer-{uuid.uuid4().hex[:12]}"
 
         # Buffer configuration
         self.capacity = capacity

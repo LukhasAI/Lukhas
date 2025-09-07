@@ -18,7 +18,7 @@ try:
 except ImportError:
     AGISecuritySystem = None
 
-logger = logging.getLogger("ΛTRACE.tools.guardian", timezone)
+logger = logging.getLogger("ΛTRACE.tools.guardian")
 
 
 class ToolExecutorGuardian:

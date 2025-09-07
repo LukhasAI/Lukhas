@@ -811,7 +811,7 @@ class ComprehensiveAuditSystem:
             Event ID
         """
 
-        event_id = f"audit_{uuid.uuid4()}.hex}"
+        event_id = f"audit_{uuid.uuid4().hex}"
 
         # Filter kwargs to only include valid AuditEvent fields
         valid_fields = AuditEvent.__annotations__.keys()
