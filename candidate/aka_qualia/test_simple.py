@@ -25,7 +25,7 @@ def test_noop_memory_basic():
     scene_id = memory.save(
         user_id="test_user",
         scene={"subject": "test", "object": "test"},
-        glyphs=[{"key": "test:glyph", "attrs": {}],
+        glyphs=[{"key": "test:glyph", "attrs": {}}],
         policy={"gain": 1.0},
         metrics={"drift_phi": 0.9},
         cfg_version="wave_c_v1.0.0",
