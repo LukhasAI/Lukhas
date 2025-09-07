@@ -1072,7 +1072,7 @@ class BrandOrchestratorAgent:
         self, strategy_review: dict[str, Any], recommendations: list[dict[str, str]]
     ) -> None:
         """Store strategic review results"""
-        print(f"Storing strategic review: {len(recommendations})} recommendations")
+        print(f"Storing strategic review: {len(recommendations)} recommendations")
 
 
 # Example usage and testing
