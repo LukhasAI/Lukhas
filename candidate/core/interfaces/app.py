@@ -19,7 +19,40 @@ Integration Date: 2025-05-31T07:55:27.733339
 import re
 import subprocess
 
-# import streamlit as st  # TODO: Install or implement streamlit
+try:
+    import streamlit as st
+except ImportError:
+    # Fallback for when streamlit is not available
+    class MockStreamlit:
+        def __init__(self):
+            self.session_state = {}
+        
+        def set_page_config(self, **kwargs): pass
+        def error(self, msg): print(f"ERROR: {msg}")
+        def stop(self): return
+        def title(self, msg): print(f"TITLE: {msg}")
+        def sidebar(self): return self
+        def tabs(self, tabs): return [MockTab() for _ in tabs]
+        def header(self, msg): print(f"HEADER: {msg}")
+        def write(self, content): print(f"WRITE: {content}")
+        def markdown(self, content, **kwargs): print(f"MARKDOWN: {content[:50]}...")
+        def success(self, msg): print(f"SUCCESS: {msg}")
+        def info(self, msg): print(f"INFO: {msg}")
+        def warning(self, msg): print(f"WARNING: {msg}")
+        def button(self, label, **kwargs): return False
+        def columns(self, specs): return [MockColumn() for _ in specs]
+        def text_area(self, label, value="", **kwargs): return value
+        def selectbox(self, label, options, **kwargs): return options[0] if options else None
+    
+    class MockTab:
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+    
+    class MockColumn:
+        def button(self, label, **kwargs): return False
+        def markdown(self, content, **kwargs): print(f"COL MARKDOWN: {content[:50]}...")
+    
+    st = MockStreamlit()
 from pathlib import Path
 
 st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide")

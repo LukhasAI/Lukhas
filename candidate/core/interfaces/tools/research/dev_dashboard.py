@@ -19,7 +19,27 @@ Integration Date: 2025-05-31T07:55:30.643311
 import re
 import subprocess
 
-# import streamlit as st  # TODO: Install or implement streamlit
+try:
+    import streamlit as st
+except ImportError:
+    # Fallback for when streamlit is not available
+    class MockStreamlit:
+        def __init__(self):
+            self.session_state = {}
+        
+        def set_page_config(self, **kwargs): pass
+        def error(self, msg): print(f"ERROR: {msg}")
+        def stop(self): return
+        def title(self, msg): print(f"TITLE: {msg}")
+        def sidebar(self): return self
+        def tabs(self, tabs): return [MockTab() for _ in tabs]
+        def header(self, msg): print(f"HEADER: {msg}")
+    
+    class MockTab:
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+    
+    st = MockStreamlit()
 from pathlib import Path
 
 st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide")

@@ -13,7 +13,7 @@ from ..core import VoiceEmotion, VoiceProvider
 
 
 @dataclass
-class Voicesymbol:
+class VoiceSymbol:
     """Represents a voice-related symbolic element."""
 
     symbol: str
@@ -23,7 +23,7 @@ class Voicesymbol:
     usage_contexts: list[str]
 
 
-class Voicesymbolicvocabulary:
+class VoiceSymbolicVocabulary:
     """Symbolic vocabulary for voice synthesis and expression."""
 
     def __init__(self):
