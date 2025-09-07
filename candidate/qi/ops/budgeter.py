@@ -4,10 +4,10 @@ import json
 import math
 import os
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
-
 import streamlit as st
+
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 BUDGET_FILE = os.path.join(STATE, "budget_state.json")
@@ -18,17 +18,20 @@ CONF_FILE = os.path.join(STATE, "budget_config.json")
 class BudgetConfig:
     default_token_cap: int = 200_000  # per-run soft cap
     default_latency_ms: int = 10_000
-    user_overrides: dict[str, dict[str, Any]] = None  # {user_id: {"token_cap":..., "latency_ms":...}
-    task_overrides: dict[str, dict[str, Any]] = None  # {task: {...}
-    model_costs: dict[str, dict[str, float]] = None  # {model: {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}
+    user_overrides: dict[str, dict[str, Any]] = field(default_factory=dict)
+    task_overrides: dict[str, dict[str, Any]] = field(default_factory=dict)
+    model_costs: dict[str, dict[str, float]] = field(
+        default_factory=lambda: {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
+    )
 
     def to_dict(self):
         return {
             "default_token_cap": self.default_token_cap,
             "default_latency_ms": self.default_latency_ms,
-            "user_overrides": self.user_overrides or {},
-            "task_overrides": self.task_overrides or {},
-            "model_costs": self.model_costs or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}},
+            "user_overrides": self.user_overrides,
+            "task_overrides": self.task_overrides,
+            # ΛTAG: cost_defaults
+            "model_costs": self.model_costs,
         }
 
 
@@ -61,6 +64,7 @@ class Budgeter:
     def save(self):
         _save_json(CONF_FILE, self.conf.to_dict())
         _save_json(BUDGET_FILE, self.state)
+        # TODO[codex]: implement persistence cleanup for old runs
 
     # ---- planning ----
     def plan(
@@ -70,9 +74,9 @@ class Budgeter:
         model: str = "default",
         target_tokens: int | None = None,
     ) -> dict[str, Any]:
-        # Ensure model_costs has default
-        if not self.conf.model_costs:
-            self.conf.model_costs = {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
+
+        # ΛTAG: cost_defaults
+
         costs = self.conf.model_costs.get(model) or self.conf.model_costs.get(
             "default", {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}
         )
