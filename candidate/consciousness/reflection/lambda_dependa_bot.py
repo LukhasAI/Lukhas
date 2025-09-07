@@ -34,6 +34,7 @@ Enhanced: ΛBot Elite Integration
 import ast
 import asyncio
 import json
+import logging
 import os
 import sys
 from collections import defaultdict
@@ -41,6 +42,9 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+# Setup module logger
+logger = logging.getLogger(__name__)
 
 # ΛBot Elite Integration
 try:
