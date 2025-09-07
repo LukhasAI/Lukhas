@@ -6,6 +6,8 @@ import os
 import time
 from dataclasses import dataclass, field
 from typing import Any
+import streamlit as st
+
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 BUDGET_FILE = os.path.join(STATE, "budget_state.json")
@@ -72,7 +74,9 @@ class Budgeter:
         model: str = "default",
         target_tokens: int | None = None,
     ) -> dict[str, Any]:
+
         # ΛTAG: cost_defaults
+
         costs = self.conf.model_costs.get(model) or self.conf.model_costs.get(
             "default", {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}
         )

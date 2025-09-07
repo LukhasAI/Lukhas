@@ -636,7 +636,7 @@ class QICertificateManager:
         )
         now_utc = datetime.now(timezone.utc)
         expires_utc = now_utc + timedelta(days=self.config.get("emergency_cert_validity_days", 7))  # Short validity
-        cert_id = f"emergency_self_{uuid.uuid4()}.hex[:12]}"
+        cert_id = f"emergency_self_{uuid.uuid4().hex[:12]}"
         # ΛNOTE: Self-signing logic is highly simplified for this simulation.
         # A real self-signed cert would involve using the private key to sign the
         # public key and attributes.
