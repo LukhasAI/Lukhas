@@ -49,7 +49,7 @@ import logging
 import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
@@ -1601,7 +1601,7 @@ class ΛSage:
 
         for _symbol, mapping in mappings.items():
             for mythic_system, resonance in mapping.mythic_resonances.items():
-                if resonance > 0.1:  # Only include meaningful resonances:
+                if resonance > 0.1:  # Only include meaningful resonances
                     system_resonances[mythic_system].append(resonance)
 
         # Calculate average resonance per system
@@ -1867,8 +1867,8 @@ class ΛSage:
             mythic_resonances = mapping.mythic_resonances
             strong_resonances = [
                 (system, strength)
-                for system, strength in mythic_resonances.items():
-                if strength > 0.6:
+                for system, strength in mythic_resonances.items()
+                if strength > 0.6
             ]
 
             if len(strong_resonances) > 2:
@@ -1968,7 +1968,7 @@ class ΛSage:
 """
 
         # Add archetype analysis
-        for archetype, analysis in sorted(:
+        for archetype, analysis in sorted(
             resonance_analysis["archetype_analysis"].items(),
             key=lambda x: x[1]["average_strength"],
             reverse=True
@@ -2011,8 +2011,7 @@ class ΛSage:
                 "christian": "✝️",
             }.get(mythic_system.value, "🌟")
 
-            report += f"** {system_emoji} {mythic_system.value.replace('_', ' ')} ({resonance:.3f})"
-                                                                       ' ').title()}**: {resonance: .3f}\n"
+            report += f"**{system_emoji} {mythic_system.value.replace('_', ' ').title()}**: {resonance:.3f}\n"
 
         report += f"""
 ---
@@ -2030,7 +2029,7 @@ class ΛSage:
         arch_volatility = volatility_analysis.get("archetype_volatility", {})
         if arch_volatility:
             report += "### Per-Archetype Volatility\n\n"
-            for archetype, vol in sorted(:
+            for archetype, vol in sorted(
                 arch_volatility.items(), key=lambda x: x[1], reverse=True
             ):
                 vol_category = self._categorize_volatility(vol)
@@ -2040,7 +2039,7 @@ class ΛSage:
                     "volatile": "🟠",
                     "chaotic": "🔴",
                 }.get(vol_category, "⚪")
-                report += f"- **{vol_emoji} {archetype.title(}}**: {vol:.3f} ({vol_category})\n"
+                report += f"- **{vol_emoji} {archetype.title()}**: {vol:.3f} ({vol_category})\n"
 
         report += f"""
 ---
@@ -2058,19 +2057,18 @@ class ΛSage:
                 conflict_types[conflict["conflict_type"]].append(conflict)
 
             for conflict_type, conflicts in conflict_types.items():
-                report += f"##"_', ' ').title()} ({len(conflicts)} conflicts)\n\n"
+                report += f"## {conflict_type.replace('_', ' ').title()} ({len(conflicts)} conflicts)\n\n"
 
-                for conflict in conflicts[:5]:  # Show top 5 conflicts per type:
+                for conflict in conflicts[:5]:  # Show top 5 conflicts per type
                     severity_emoji = {
                         "high": "🔴",
                         "medium": "🟡",
                         "low": "🟢",
                     }.get(conflict.get("severity", "medium"), "⚪")
-                    report += f"** {severity_emoji} {conflict.get('symbol',}}
-                                                                  'Unknown Symbol')} **\n"
-                    report += f"- {conflict.get('description', 'No description'}}\n"
+                    report += f"**{severity_emoji} {conflict.get('symbol', 'Unknown Symbol')}**\n"
+                    report += f"- {conflict.get('description', 'No description')}\n"
                     if "primary_archetype" in conflict:
-                        report += f"- Primary: {conflict['primary_archetype']} vs Conflicting: {conflict.get('conflicting_archetype', 'unknown'}}\n"
+                        report += f"- Primary: {conflict['primary_archetype']} vs Conflicting: {conflict.get('conflicting_archetype', 'unknown')}\n"
                     report += "\n"
         else:
             report += "✅ No significant integration conflicts detected.\n"
@@ -2092,7 +2090,7 @@ class ΛSage:
         pattern_counts = Counter(all_patterns)
         for pattern, count in pattern_counts.most_common(10):
             report += (
-                f"- **{pattern.replace('_', ' ').title(}}**: {count} occurrences\n"
+                f"- **{pattern.replace('_', ' ').title()}**: {count} occurrences\n"
             )
 
         report += """
@@ -2107,8 +2105,8 @@ class ΛSage:
         # Show high-confidence mappings
         high_confidence = [
             (symbol, mapping)
-            for symbol, mapping in self.archetypal_mappings.items():
-            if mapping.confidence_score > 0.7:
+            for symbol, mapping in self.archetypal_mappings.items()
+            if mapping.confidence_score > 0.7
         ]
         high_confidence.sort(key=lambda x: x[1].resonance_strength, reverse=True)
 
@@ -2180,13 +2178,13 @@ class ΛSage:
             "archetypal_analysis": resonance_analysis,
             "mythic_resonances": {
                 system.value: resonance
-                for system, resonance in mythic_resonances.items():
+                for system, resonance in mythic_resonances.items()
             },
             "volatility_analysis": volatility_analysis,
             "integration_conflicts": integration_conflicts,
             "symbol_mappings": {
                 symbol: mapping.to_dict()
-                for symbol, mapping in self.archetypal_mappings.items():
+                for symbol, mapping in self.archetypal_mappings.items()
             },
         }
 
@@ -2230,9 +2228,9 @@ class ΛSage:
             )
 
         # Mythic resonance recommendations
-        if not any(:
+        if not any(
             resonance > 0.5
-            for resonance in volatility_analysis.get(:
+            for resonance in volatility_analysis.get(
                 "archetype_volatility", {}
             ).values()
         ):
@@ -2291,8 +2289,8 @@ class ΛSage:
                 # Find top mythic system
                 top_mythic = (
                     max(mapping.mythic_resonances.items(), key=lambda x: x[1])
-                    if mapping.mythic_resonances:
-                    else (None, 0.0):
+                    if mapping.mythic_resonances
+                    else (None, 0.0)
                 )
 
                 row = {

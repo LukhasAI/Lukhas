@@ -153,7 +153,7 @@ class ConsciousnessBuffer:
             reward=reward,
             next_state=next_state,
             done=done,
-            episode_id=episode_id or f"episode-{uuid.uuid4()}.hex[:8]}",
+            episode_id=episode_id or f"episode-{uuid.uuid4().hex[:8]}",
             step=len(self.experiences),
             timestamp=datetime.now(timezone.utc),
         )
@@ -188,7 +188,7 @@ class ConsciousnessBuffer:
 
         except Exception as e:
             logger.error(f"Memory fold creation failed: {e}")
-            fold_id = f"emergency-fold-{uuid.uuid4()}.hex[:8]}"
+            fold_id = f"emergency-fold-{uuid.uuid4().hex[:8]}"
 
         # Create MEMORY node
         memory_node = MatrizNode(

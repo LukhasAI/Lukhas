@@ -279,7 +279,7 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
                 if np.random.random() > 0.003:
                     self.cascade_prevention_successes += 1
 
-                return type("MockMemory", (), {"type": "MEMORY", "state": {"salience": np.random.uniform(0.5, 1.0)})()
+                return type("MockMemory", (), {"type": "MEMORY", "state": {"salience": np.random.uniform(0.5, 1.0)}})()
 
             def get_buffer_metrics(self):
                 if self.cascade_prevention_attempts == 0:

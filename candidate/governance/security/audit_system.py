@@ -1021,7 +1021,7 @@ class ComprehensiveAuditSystem:
     ) -> dict[str, Any]:
         """Generate compliance audit report"""
 
-        report_id = f"compliance_{framework}_{uuid.uuid4()}.hex[:8]}"
+        report_id = f"compliance_{framework}_{uuid.uuid4().hex[:8]}"
 
         # Query compliance-relevant events
         query = AuditQuery(

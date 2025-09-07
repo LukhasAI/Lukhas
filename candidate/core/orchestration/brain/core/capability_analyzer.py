@@ -19,7 +19,7 @@ class LUKHASCapabilityAnalyzer:
 
     def __init__(self):
         self.bio_client = BioAIClient()
-        self.session_id = f"capability_analysis_{int(time.time()}"
+        self.session_id = f"capability_analysis_{int(time.time())}"
 
         # Source code capabilities discovered from architecture analysis
         self.available_capabilities = {
@@ -143,8 +143,8 @@ class LUKHASCapabilityAnalyzer:
                     "drift_sensitivity": 0.9,
                 },
                 "test_description": "Meaning Collapse Processing",
-                "prompt": "Given multiple interpretations of 'consciousness',"
-                perform symbolic collapse to the most resonant meaning for AI development",
+                "prompt": "Given multiple interpretations of 'consciousness', "
+                "perform symbolic collapse to the most resonant meaning for AI development",
             },
         ]
 
@@ -201,8 +201,8 @@ class LUKHASCapabilityAnalyzer:
                 },
                 "sensor_data": {"logical_rigor": 0.9, "proof_depth": 0.85},
                 "test_description": "Formal Logic Proof",
-                "prompt": "Prove: If consciousness emerges from information integration,
-                then higher Phi values indicate greater consciousness. Use symbolic logic.",
+                "prompt": "Prove: If consciousness emerges from information integration, "
+                "then higher Phi values indicate greater consciousness. Use symbolic logic.",
             },
         ]
 
@@ -774,8 +774,8 @@ class LUKHASCapabilityAnalyzer:
         # Calculate utilization metrics
         utilization_rate = (
             len(all_detected_capabilities) / total_capabilities_available
-            if total_capabilities_available > 0:
-            else 0:
+            if total_capabilities_available > 0
+            else 0
         )
 
         analysis = {
@@ -833,12 +833,12 @@ class LUKHASCapabilityAnalyzer:
 
         avg_processing_times = {
             test_type: sum(times) / len(times)
-            for test_type, times in processing_times.items():
+            for test_type, times in processing_times.items()
         }
 
         avg_token_usage = {
             test_type: sum(tokens) / len(tokens)
-            for test_type, tokens in token_usage.items():
+            for test_type, tokens in token_usage.items()
         }
 
         # Generate recommendations
@@ -972,7 +972,7 @@ async def main():
             f" Capabilities Detected: {report['capability_analysis']['capabilities_detected']}"
         )
         print(
-            f" Average Processing Time: {sum(report['performance_metrics']['average_processing_times'].values()) / len(report['performance_metrics']['average_processing_times'])}:.3f}s"
+            f" Average Processing Time: {sum(report['performance_metrics']['average_processing_times'].values()) / len(report['performance_metrics']['average_processing_times']):.3f}s"
         )
         print(
             f" Total Tokens Used: {report['performance_metrics']['total_tokens_used']}"

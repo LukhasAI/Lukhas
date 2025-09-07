@@ -85,7 +85,7 @@ class ConsciousnessMetaLearning:
     def __init__(self, max_experiences: int = 1000):
         self.capabilities = ["rl.meta_learning", "reflection.analysis", "learning.optimization"]
         self.node_type = "REFLECTION"
-        self.trace_id = f"rl-meta-{uuid.uuid4()}.hex[:12]}"
+        self.trace_id = f"rl-meta-{uuid.uuid4().hex[:12]}"
 
         # Meta-learning configuration
         self.max_experiences = max_experiences
@@ -785,7 +785,7 @@ class ConsciousnessMetaLearning:
         """Create empty reflection node when no experiences are available"""
         empty_node = MatrizNode(
             version=1,
-            id=f"RL-EMPTY-REFLECTION-{self.trace_id}-{int(time.time()}",
+            id=f"RL-EMPTY-REFLECTION-{self.trace_id}-{int(time.time())}",
             type="REFLECTION",
             labels=["rl:role=meta_learning@1", "reflection:type=empty@1", f"reason:{reason}@1"],
             state={

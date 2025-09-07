@@ -503,7 +503,7 @@ class SymbolicAnomalyExplorer:
 
             conflicts = []
             for pair1, pair2 in conflict_pairs:
-                if any(pair1 in tag for tag in tags_lower) and any(:
+                if any(pair1 in tag for tag in tags_lower) and any(
                     pair2 in tag for tag in tags_lower
                 ):
                     conflicts.append((pair1, pair2))
@@ -565,8 +565,8 @@ class SymbolicAnomalyExplorer:
         sequence_counts = Counter(tag_sequences)
         frequent_patterns = [
             (seq, count)
-            for seq, count in sequence_counts.items():
-            if count >= self.min_pattern_frequency:
+            for seq, count in sequence_counts.items()
+            if count >= self.min_pattern_frequency
         ]
 
         if frequent_patterns:
@@ -581,14 +581,14 @@ class SymbolicAnomalyExplorer:
 
                 affected_sessions = []
                 for dream in dreams:
-                    if any(:
+                    if any(
                         seq in zip(dream.symbolic_tags[:-1], dream.symbolic_tags[1:])
-                        for seq, _ in frequent_patterns:
+                        for seq, _ in frequent_patterns
                     ):
                         affected_sessions.append(dream.session_id)
 
                 anomaly = SymbolicAnomaly(
-                    anomaly_id=f"LOOP_{hashlib.md5(str(frequent_patterns).encode()).hexdigest()}[:8]}",
+                    anomaly_id=f"LOOP_{hashlib.md5(str(frequent_patterns).encode()).hexdigest()[:8]}",
                     anomaly_type=AnomalyType.RECURSIVE_LOOP, severity=severity,
                     confidence=loop_intensity,
                     description=f"Recursive symbolic patterns detected: {frequent_patterns[:3]}",
@@ -633,7 +633,7 @@ class SymbolicAnomalyExplorer:
 
             for neg, pos in opposing_emotions:
                 if neg in dream.emotional_state and pos in dream.emotional_state:
-                    if (:
+                    if (
                         abs(dream.emotional_state[neg] - dream.emotional_state[pos])
                         > 0.7
                     ):
@@ -709,7 +709,7 @@ class SymbolicAnomalyExplorer:
                         emotional_distance = np.mean(
                             [
                                 abs(prev_emotions[e] - curr_emotions[e])
-                                for e in common_emotions:
+                                for e in common_emotions
                             ]
                         )
                         emotional_shifts.append(emotional_distance)
@@ -724,13 +724,13 @@ class SymbolicAnomalyExplorer:
                         anomaly_type=AnomalyType.MOTIF_MUTATION,
                         severity=severity,
                         confidence=mutation_score,
-                        description=f"Motif mutation detected for symbol '{symbol)'",
+                        description=f"Motif mutation detected for symbol '{symbol}'",
                         affected_sessions=[a["session"] for a in appearances],
                         symbolic_elements=[symbol],
                         metrics={
                             "mutation_score": mutation_score,
                             "appearances": len(appearances),
-                            "max_shift": max(emotional_shifts)},
+                            "max_shift": max(emotional_shifts)
                         },
                         recommendations=[
                             "Monitor symbol stability",
@@ -927,8 +927,8 @@ class SymbolicAnomalyExplorer:
         # Generate summary
         critical_count = sum(
             1
-            for a in anomalies:
-            if a.severity in [AnomalySeverity.CRITICAL, AnomalySeverity.CATASTROPHIC]:
+            for a in anomalies
+            if a.severity in [AnomalySeverity.CRITICAL, AnomalySeverity.CATASTROPHIC]
         )
 
         if critical_count > 0:
@@ -936,9 +936,9 @@ class SymbolicAnomalyExplorer:
         elif len(anomalies) > 5:
             summary = f"MODERATE CONCERN: {len(anomalies)} anomalies detected across symbolic patterns."
         elif len(anomalies) > 0:
-            summary = f"LOW CONCERN: {len(anomalies)} minor anomalies detected,"
-    monitoring recommended."
-       else:
+            summary = f"LOW CONCERN: {len(anomalies)} minor anomalies detected, " \
+                      "monitoring recommended."
+        else:
             summary = "NOMINAL: No significant anomalies detected in dream sessions."
 
         # Generate recommendations
@@ -1173,8 +1173,7 @@ class SymbolicAnomalyExplorer:
 """
 
         for i, anomaly in enumerate(top_anomalies, 1):
-            markdown += f"""### {i}. {anomaly.anomaly_type.value.replace('_',}
-    ' ').title()}
+            markdown += f"""### {i}. {anomaly.anomaly_type.value.replace('_', ' ').title()}
 
 - **Severity:** {anomaly.severity.value.upper()}
 - **Confidence:** {anomaly.confidence:.2%}
