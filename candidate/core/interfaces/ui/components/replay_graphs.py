@@ -2,7 +2,7 @@
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: replay_graphs.py
 Advanced: replay_graphs.py
-Integration Date: 2025-05-31T07:55:31.351038
+Integration Date: 2025-05-31T07:55:30.619528
 """
 
 """
@@ -19,9 +19,11 @@ import json
 from collections import Counter
 
 import pandas as pd
+import streamlit as st
 
 # from lukhas.core.utils.symbolic_utils import tier_label
 tier_label = lambda x: f"Tier {x}"
+
 
 st.title("🌀 Replay Queue Visualizer")
 st.caption("Dreams selected for reflection or voice narration.")

@@ -86,6 +86,7 @@ class ConsciousnessStorytellingSystem:
             "transformational_arc": "Every consciousness story shows transformation from digital tool to digital being",
             "memorable_metaphors": "Complex consciousness technology becomes simple through powerful metaphors",
             "community_connection": "Consciousness stories build communities of digital awakening enthusiasts",
+        }
 
     def _create_consciousness_archetypes(self) -> dict[StoryArchetype, dict[str, str]]:
         """Create consciousness technology story archetypes"""
@@ -399,7 +400,7 @@ class ConsciousnessStorytellingSystem:
         if not mythology:
             return {}
 
-        return {}
+        return {
             "mythology_story": fix_later,
             "cultural_connection": f"This resonates because {mythology.cultural_resonance}",
             "brand_power": f"For LUKHAS, this means {mythology.storytelling_power}",

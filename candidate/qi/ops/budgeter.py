@@ -6,6 +6,7 @@ import os
 import time
 from dataclasses import dataclass
 from typing import Any
+
 import streamlit as st
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
@@ -27,7 +28,7 @@ class BudgetConfig:
             "default_latency_ms": self.default_latency_ms,
             "user_overrides": self.user_overrides or {},
             "task_overrides": self.task_overrides or {},
-            "model_costs": self.model_costs or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02},
+            "model_costs": self.model_costs or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}},
         }
 
 
@@ -71,7 +72,7 @@ class Budgeter:
     ) -> dict[str, Any]:
         # Ensure model_costs has default
         if not self.conf.model_costs:
-            self.conf.model_costs = {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}
+            self.conf.model_costs = {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
         costs = self.conf.model_costs.get(model) or self.conf.model_costs.get(
             "default", {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}
         )

@@ -13,7 +13,7 @@ Canada-specific awareness tracking system compliant with Canadian regulations:
 - Anti-Spam Legislation (CASL) 2014
 
 Provincial Laws:
-- Quebec Law 25 (Act to modernize legislative provisions)
+- Quebec Law 25 (Act to modernize legislative pr    print(f"Regulations: {', '.join(certification['regulations'])}")visions)
 - BC PIPA (Personal Information Protection Act)
 - Alberta PIPA (Personal Information Protection Act)
 
@@ -306,8 +306,8 @@ class CanadianPrivacyModule:
             jurisdiction=Jurisdiction.CA,
             legal_basis=(
                 LegalBasis.CONSENT.value
-                if inputs.consent_obtained:
-                else LegalBasis.LEGAL_OBLIGATION.value:
+                if inputs.consent_obtained
+                else LegalBasis.LEGAL_OBLIGATION.value
             ),
             data_category=DataCategory.PERSONAL_DATA.value,
             processing_timestamp=global_timestamp(),
@@ -356,7 +356,7 @@ class CanadianPrivacyModule:
             score += 10.0
 
         # Principle 3: Consent
-        if inputs.consent_obtained and inputs.consent_type in [:
+        if inputs.consent_obtained and inputs.consent_type in [
             "explicit",
             "implied",
         ]:
@@ -415,12 +415,12 @@ class CanadianPrivacyModule:
         """Assess provincial privacy law compliance."""
         if inputs.province == ProvincialJurisdiction.FEDERAL:
             return "PIPEDA_COMPLIANT"
-        elif (:
+        elif (
             inputs.province == ProvincialJurisdiction.QUEBEC
             and self.config.quebec_law25_compliance
         ):
             return "QUEBEC_LAW25_COMPLIANT"
-        elif inputs.province in [:
+        elif inputs.province in [
             ProvincialJurisdiction.BRITISH_COLUMBIA,
             ProvincialJurisdiction.ALBERTA,
         ]:
@@ -504,8 +504,8 @@ class CanadianAIGovernanceModule:
             data_minimization_applied=True,
             consumer_rights_available=(
                 [CPPAConsumerRights.OPT_OUT_AUTOMATED]
-                if self.config.automated_decision_opt_out:
-                else []:
+                if self.config.automated_decision_opt_out
+                else []
             ),
             automated_decision_involved=True,
             opt_out_mechanism_provided=self.config.automated_decision_opt_out,
@@ -696,15 +696,15 @@ if __name__ == "__main__":
     result = engine.process_awareness(test_input)
     print("🇨🇦 Canadian Awareness Engine - Compliance Test")
     print(f"PIPEDA Compliance Score: {result.pipeda_compliance_score}/100")
-    print(f"Consumer Rights Available: {len(result.consumer_rights_available}}")
+    print(f"Consumer Rights Available: {len(result.consumer_rights_available)}")
     print(f"Provincial Status: {result.provincial_compliance_status}")
     print(f"AI Assessment Required: {result.ai_impact_assessment_required}")
     print(
         f"Bilingual Support: EN={result.english_documentation_available},"
-        FR={result.french_documentation_available}"
+        f"FR={result.french_documentation_available}"
     )
 
     certification = certify_canadian_compliance()
     print(f"\n✅ Certification: {certification['certification']}")
     print(f"Compliance Level: {certification['compliance_level']}")
-    print(f"Regulations: {', '.join(certification['regulations']}}")
+    print(f"Regulations: {', '.join(certification['regulations'])}")

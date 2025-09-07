@@ -66,7 +66,7 @@ class ConsciousnessRewards:
     def __init__(self):
         self.capabilities = ["rl.rewards", "causal.analysis", "ethics.constraint"]
         self.node_type = "CAUSAL"
-        self.trace_id = f"rl-rewards-{uuid.uuid4()}.hex[:12]}"
+        self.trace_id = f"rl-rewards-{uuid.uuid4().hex[:12]}"
 
         # Reward configuration from design specification
         self.reward_weights = {
@@ -530,7 +530,7 @@ class ConsciousnessRewards:
     async def get_reward_statistics(self) -> dict[str, Any]:
         """Get reward system performance statistics"""
         if not self.reward_history:
-            return {"total_rewards": 0, "average_components": {}
+            return {"total_rewards": 0, "average_components": {}}
 
         # Calculate averages
         avg_coherence = sum(r.coherence for r in self.reward_history) / len(self.reward_history)

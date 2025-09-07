@@ -37,7 +37,7 @@ try:
 except ImportError:
     PerplexityWrapper = None
 
-logger = logging.getLogger("ΛTRACE.tools.orchestrator", timezone)
+logger = logging.getLogger("ΛTRACE.tools.orchestrator")
 
 
 class MultiAIConsensus:
@@ -70,7 +70,7 @@ class MultiAIConsensus:
             "overall_score": 0.0-1.0,
             "concerns": ["list", "of", "concerns"],
             "recommendations": ["list", "of", "recommendations"]
-        }
+        }}
         """
 
         evaluations = {}
@@ -298,7 +298,7 @@ class ToolOrchestrator:
             return self._create_error_result(execution_id, f"Invalid JSON arguments: {e}", execution_start)
 
         # Check cache first
-        cache_key = f"{tool_name}_{hash(str(args)}"
+        cache_key = f"{tool_name}_{hash(str(args))}"
         if cache_key in self.results_cache:
             cache_entry = self.results_cache[cache_key]
             if time.time() - cache_entry["timestamp"] < self.cache_ttl:

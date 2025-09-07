@@ -66,9 +66,12 @@ class NetworkConfig:
     max_nodes: int = 1000  # Maximum allowable nodes in the network
     min_nodes: int = 10  # Minimum allowable nodes in the network
     entropy_balance_weight: float = 0.1  # Weight for entropy balancing adjustments
-    logger.info(
-        f"ΛTRACE: NetworkConfig defined with default values: fission_threshold={fission_threshold}, etc."
-    )
+
+    def __post_init__(self):
+        """Log configuration after initialization"""
+        logger.info(
+            f"ΛTRACE: NetworkConfig defined with values: fission_threshold={self.fission_threshold}, etc."
+        )
 
 
 # Class representing a Symbolic Processing Node
@@ -116,12 +119,12 @@ class SymbolicNode:
             List[SymbolicNode]: A list containing the two new child nodes.
         """
         self.logger.info(
-            f"ΛTRACE: Attempting to split SymbolicNode '{self.node_id)' using style '{style)'."
+            f"ΛTRACE: Attempting to split SymbolicNode '{self.node_id}' using style '{style}'."
         )
         child_nodes: list[SymbolicNode] = []
         split_weight = self.symbolic_weight / 2
 
-        for i in range(2}}:  # Typically splits into two:
+        for i in range(2):  # Typically splits into two
             child_id = f"{self.node_id}_split_{i}"
             child = SymbolicNode(child_id, split_weight)
             child.connections = (
@@ -129,11 +132,11 @@ class SymbolicNode:
             )  # Children inherit connections initially
             child_nodes.append(child)
             self.logger.info(
-                f"ΛTRACE: Created child node '{child_id)' during split of '{self.node_id)'."
+                f"ΛTRACE: Created child node '{child_id}' during split of '{self.node_id}'."
             )
 
         self.logger.info(
-            f"ΛTRACE: SymbolicNode '{self.node_id)' successfully split into {len(child_nodes}} nodes."
+            f"ΛTRACE: SymbolicNode '{self.node_id}' successfully split into {len(child_nodes)} nodes."
         )
         return child_nodes
 
@@ -151,8 +154,8 @@ class SymbolicNode:
         self.activity_level = activity
         self.entropy = entropy
         self.logger.debug(
-            f"ΛTRACE: Metrics updated for SymbolicNode '{self.node_id}': Error={error},"
-            Activity={activity}, Entropy={entropy}"
+            f"ΛTRACE: Metrics updated for SymbolicNode '{self.node_id}': Error={error}, "
+            f"Activity={activity}, Entropy={entropy}"
         )
 
 
@@ -187,7 +190,7 @@ class SymbolicNetwork:
 
     def add_node(self, node: SymbolicNode) -> None:
         """Adds a SymbolicNode to the network."""
-        self.logger.debug(f"ΛTRACE: Adding node '{node.node_id)' to SymbolicNetwork.")
+        self.logger.debug(f"ΛTRACE: Adding node '{node.node_id}' to SymbolicNetwork.")
         self.nodes[node.node_id] = node
 
     # Method to remove a node
@@ -197,7 +200,7 @@ class SymbolicNetwork:
         Removes a SymbolicNode from the network by its ID, also cleaning up its connections.
         """
         self.logger.debug(
-            f"ΛTRACE: Attempting to remove node '{node_id)' from SymbolicNetwork."
+            f"ΛTRACE: Attempting to remove node '{node_id}' from SymbolicNetwork."
         )
         if node_id in self.nodes:
             del self.nodes[node_id]
@@ -208,11 +211,11 @@ class SymbolicNetwork:
                 if src != node_id and dst != node_id:
             ]
             self.logger.info(
-                f"ΛTRACE: Node '{node_id)' and its connections removed from SymbolicNetwork."
+                f"ΛTRACE: Node '{node_id}' and its connections removed from SymbolicNetwork."
             )
         else:
             self.logger.warning(
-                f"ΛTRACE: Attempted to remove non-existent node '{node_id)'."
+                f"ΛTRACE: Attempted to remove non-existent node '{node_id}'."
             )
 
     # Method to find high-error nodes
@@ -273,7 +276,7 @@ class SymbolicNetwork:
                 merged_id = f"{node1.node_id}_merged_with_{node2.node_id}"
                 merged_weight = node1.symbolic_weight + node2.symbolic_weight
                 merged_node = SymbolicNode(merged_id, merged_weight)
-                self.logger.debug(f"ΛTRACE: Creating merged node '{merged_id)'.")
+                self.logger.debug(f"ΛTRACE: Creating merged node '{merged_id}'.")
 
                 # Combine connections (simple union, could be more complex)
                 merged_node.connections = list(
@@ -286,7 +289,7 @@ class SymbolicNetwork:
                 self.add_node(merged_node)  # add_node already logs
 
                 self.logger.info(
-                    f"ΛTRACE: Successfully merged nodes '{node1.node_id)' and '{node2.node_id)' into '{merged_id}'."
+                    f"ΛTRACE: Successfully merged nodes '{node1.node_id}' and '{node2.node_id}' into '{merged_id}'."
                 }
                 merged_count += 1
             else:
@@ -591,7 +594,7 @@ class CristaOptimizer:
         for node in high_error_nodes[:5]:
             if len(self.network.nodes) < self.config.max_nodes:
                 self.logger.debug(
-                    f"ΛTRACE: Attempting fission for high-error node '{node.node_id)'."
+                    f"ΛTRACE: Attempting fission for high-error node '{node.node_id}'."
                 )
                 child_nodes = node.split(
                     style="crista_junction"
@@ -604,7 +607,7 @@ class CristaOptimizer:
                 nodes_split_count += 1
             else:
                 self.logger.warning(
-                    f"ΛTRACE: Max node count ({self.config.max_nodes}) reached. Skipping fission for node '{node.node_id)'."
+                    f"ΛTRACE: Max node count ({self.config.max_nodes}) reached. Skipping fission for node '{node.node_id}'."
                 )
                 break
 

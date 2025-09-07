@@ -811,7 +811,7 @@ class ComprehensiveAuditSystem:
             Event ID
         """
 
-        event_id = f"audit_{uuid.uuid4()}.hex}"
+        event_id = f"audit_{uuid.uuid4().hex}"
 
         # Filter kwargs to only include valid AuditEvent fields
         valid_fields = AuditEvent.__annotations__.keys()
@@ -966,7 +966,7 @@ class ComprehensiveAuditSystem:
         """Verify integrity of audit trail"""
 
         verification_result = {
-            "verification_id": f"verify_{uuid.uuid4()}.hex[:8]}",
+            "verification_id": f"verify_{uuid.uuid4().hex[:8]}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_events_checked": 0,
             "integrity_violations": 0,
@@ -1021,7 +1021,7 @@ class ComprehensiveAuditSystem:
     ) -> dict[str, Any]:
         """Generate compliance audit report"""
 
-        report_id = f"compliance_{framework}_{uuid.uuid4()}.hex[:8]}"
+        report_id = f"compliance_{framework}_{uuid.uuid4().hex[:8]}"
 
         # Query compliance-relevant events
         query = AuditQuery(

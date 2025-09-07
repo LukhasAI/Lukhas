@@ -28,12 +28,32 @@
 
 ---
 
-### **🤖 CODEX AGENTS - Medium Complexity Battalion**
+### **🤖 CODEX AGENTS- Medium Complexity Battalion**
 **ROLE**: Systematic pattern fixes (50-99 errors each)
 **STRATEGY**: Pattern recognition and bulk corrections
-**TARGETS** (8 files, ~744 total errors):
+
+**Operational Update (now)**
+- Clean compile achieved for critical packages:
+  - `candidate/consciousness/awareness/` ✅
+  - `candidate/governance/ethics/` ✅
+  - `candidate/governance/guardian/` ✅
+  - `candidate/governance/identity/` ✅ (and `interface.get_lambda_id_validator` confirmed importable)
+- Primary fixes applied: f-string brace mismatches, `.hex` usage, timestamp f-strings, stray logger f-strings, minor indentation/typos, and safe logging/message formatting.
+
+**Active Targets (next 48h)**
+- High-impact lanes with recurring patterns:
+  1) `candidate/bio/` (oscillators, adapters) — brace/`.hex`/timestamp patterns
+  2) `candidate/memory/` (fold systems) — id generation + logging f-strings
+  3) Top-10 error hotspots across repo — rapid reduction sprint
+
+**Execution Playbook**
+- Scan → precise patch → compile-verify per package.
+- Prefer minimal, compilable substitutions over semantic rewrites.
+- Keep public APIs/stubs intact; avoid behavioral changes unless obviously safe.
+
+**Original Target Files (maintained backlog)**
 1. `symbolic_fallback_systems.py` (98 errors)
-2. `context_aware_modular_voice.py` (97 errors) 
+2. `context_aware_modular_voice.py` (97 errors)
 3. `cognitive_core.py` (93 errors)
 4. `emotional_echo_detector.py` (93 errors)
 5. `budgeter.py` (92 errors)
@@ -41,9 +61,9 @@
 7. `awareness_system.py` (84 errors)
 8. `guardian_integration.py` (81 errors)
 
-**APPROACH**:
+**APPROACH**
 - Apply proven patterns: `fix_later` → proper variables
-- Fix undefined class/function references 
+- Fix undefined class/function references
 - Standardize import structures
 - Use batch processing for similar error types
 

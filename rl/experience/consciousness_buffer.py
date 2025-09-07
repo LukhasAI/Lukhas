@@ -58,7 +58,7 @@ class ConsciousnessBuffer:
     def __init__(self, capacity: int = 10000):
         self.capabilities = ["rl.experience", "memory.fold", "buffer.replay"]
         self.node_type = "MEMORY"
-        self.trace_id = f"rl-buffer-{uuid.uuid4()}.hex[:12]}"
+        self.trace_id = f"rl-buffer-{uuid.uuid4().hex[:12]}"
 
         # Buffer configuration
         self.capacity = capacity
@@ -97,7 +97,7 @@ class ConsciousnessBuffer:
                 # Mock memory core for now
                 class MockMemoryCore:
                     def create_fold(self, data, **kwargs):
-                        return f"fold-{uuid.uuid4()}.hex[:8]}"
+                        return f"fold-{uuid.uuid4().hex[:8]}"
 
                     def get_fold(self, fold_id):
                         return {"data": "mock", "id": fold_id}
@@ -117,7 +117,7 @@ class ConsciousnessBuffer:
                 # Create mock memory fold
                 class MockMemoryFold:
                     def create_fold(self, data, cascade_prevention=0.997):
-                        fold_id = f"fold-{uuid.uuid4()}.hex[:8]}"
+                        fold_id = f"fold-{uuid.uuid4().hex[:8]}"
                         logger.info(f"Mock memory fold created: {fold_id}")
                         return fold_id
 
@@ -153,7 +153,7 @@ class ConsciousnessBuffer:
             reward=reward,
             next_state=next_state,
             done=done,
-            episode_id=episode_id or f"episode-{uuid.uuid4()}.hex[:8]}",
+            episode_id=episode_id or f"episode-{uuid.uuid4().hex[:8]}",
             step=len(self.experiences),
             timestamp=datetime.now(timezone.utc),
         )
@@ -188,7 +188,7 @@ class ConsciousnessBuffer:
 
         except Exception as e:
             logger.error(f"Memory fold creation failed: {e}")
-            fold_id = f"emergency-fold-{uuid.uuid4()}.hex[:8]}"
+            fold_id = f"emergency-fold-{uuid.uuid4().hex[:8]}"
 
         # Create MEMORY node
         memory_node = MatrizNode(

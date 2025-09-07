@@ -40,7 +40,7 @@ except ImportError:
 
     class AGIResponse:
 
-        def __init__(**kwargs, self, content: str = "", confidence: float = 1.0):
+        def __init__(self, content: str = "", confidence: float = 1.0, **kwargs):
             self.content = content
             self.confidence = confidence
             # Accept any additional parameters dynamically
@@ -438,12 +438,12 @@ class CognitiveEngine:
             if openai_enhancement and not openai_enhancement.get("error"):
                 response_content = openai_enhancement.get(
                     "final_response",
-                    f"I understand your input: '{user_input)'. Let me process this through my consciousness and reasoning systems.",
+                    f"I understand your input: '{user_input}'. Let me process this through my consciousness and reasoning systems.",
                 )
             else:
                 response_content = await self._generate_response_content(
                     orchestration_result, input_data
-                }}
+                )
 
             # Compliance check
             compliance_result = self.compliance_engine.check_compliance(
@@ -534,7 +534,7 @@ class CognitiveEngine:
                         trace_id,
                         response_content,
                         agi_response.confidence,
-                        f"Cognitive processing completed successfully with {len(trace.reasoning_steps}} reasoning steps",
+                        f"Cognitive processing completed successfully with {len(trace.reasoning_steps)} reasoning steps",
                     )
 
                     # Add transparency to response
@@ -596,8 +596,8 @@ class CognitiveEngine:
                 self.performance_metrics["successful_responses"] += 1
 
             logger.info(
-                f"✅ Response generated - Confidence: {agi_response.confidence: .2f},"
-                Level: {agi_response.capability_level.value}"
+                f"✅ Response generated - Confidence: {agi_response.confidence:.2f}, "
+                f"Level: {agi_response.capability_level.value}"
             )
 
             return agi_response
@@ -611,7 +611,7 @@ class CognitiveEngine:
                 trace = transparency_orchestrator.get_trace(trace_id)
                 if trace:
                     trace.add_reasoning_step(
-                        f"Error occurred during processing: {type(e}}.__name__}",
+                        f"Error occurred during processing: {type(e).__name__}",
                         {
                             "error_type": type(e).__name__,
                             "error_message": str(e)[:200],
@@ -628,14 +628,14 @@ class CognitiveEngine:
 
                     error_transparency = transparency_orchestrator.complete_trace(
                         trace_id,
-                        f"Error: {str(e}}",
+                        f"Error: {str(e)}",
                         0.1,
-                        f"Processing error was handled transparently: {str(e}}",
+                        f"Processing error was handled transparently: {str(e)}",
                     )
 
             # Generate error response with partial capability
             error_response = AGIResponse(
-                content=f"I encountered an error while processing your request. Error: {str(e}}",
+                content=f"I encountered an error while processing your request. Error: {str(e)}",
                 confidence=0.1,
                 reasoning_path=[
                     {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
@@ -687,7 +687,7 @@ class CognitiveEngine:
         except Exception:
             # Fallback: create a basic response
             return AGIResponse(
-                content=f"I processed your input: '{user_input)'. This is a basic response due to async handling issues.",
+                content=f"I processed your input: '{user_input}'. This is a basic response due to async handling issues.",
                 confidence=0.8,
             )
 
@@ -696,7 +696,7 @@ class CognitiveEngine:
     ) -> str:
         """Generate response content based on orchestration results (ORIGINAL LOGIC)"""
         # Ensure input_data is a dict
-        if isinstance(input_data, str}}:
+        if isinstance(input_data, str):
             input_data = {"text": input_data}
 
         # Extract insights from different reasoning components

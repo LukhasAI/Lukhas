@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 # Use original open to avoid sandbox recursion
 import builtins
+import js
 import json
 import os
 from typing import Any
@@ -125,7 +126,7 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
     if prov_url:
         lines.append(f'    entity [label={ent_label}, URL="{prov_url}", target="_blank", fillcolor="#F3FBF6"];')
     else:
-        lines.append(f'    entity [label={ent_label}, fillcolor="#F3FBF6"];'
+        lines.append(f'    entity [label={ent_label}, fillcolor="#F3FBF6"];')
     lines.append("  }")
 
     # Policy/TEQ cluster
@@ -140,8 +141,8 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
                 reasons.append(str(r))
     teq_lines = "<br/>".join([verdict or "(no replay)"] + list(reasons[:6]))
     pol_label = f"""<<b>TEQ Policy</b><br/>{pol_id_or_dash(policy_id)}<br/>{escape_html(teq_lines)}>"""
-    lines.append('  subgraph cluster_policy { label="Policy & Decision"; color="#DDE7F0";'
-    lines.append(f'    teq [label={pol_label}, fillcolor="#FFF8F0"];'
+    lines.append('  subgraph cluster_policy { label="Policy & Decision"; color="#DDE7F0";}')
+    lines.append(f'    teq [label={pol_label}, fillcolor="#FFF8F0"];')
     lines.append("  }")
 
     # Consent & capabilities cluster
@@ -154,7 +155,7 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
         cc.append("risk: " + ", ".join(risk_flags[:4]))
     cc_label = "<br/>".join(cc) or "(none)"
     lines.append('  subgraph cluster_cons { label="Consent & Capabilities"; color="#DDE7F0";}')
-    lines.append(f\'    cons [label=<<b>Controls</b><br/>{escape_html(cc_label)}>, fillcolor="#F4EFFA"];\')
+    lines.append(f'    cons [label=<<b>Controls</b><br/>{escape_html(cc_label)}>, fillcolor="#F4EFFA"];')
     lines.append("  }")
 
     # Edges across clusters
@@ -164,11 +165,11 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
 
     # Provenance attestation nodes (optional)
     if receipt.get("attestation"):
-        lines.append(f'  rec_att [label=<<b>Receipt Attestation</b><br/>{escape_html(receipt["attestation"].get("root_hash",""}[:16]}...>, shape=note, fillcolor="#EAF7FF"];')
-        lines.append('  rec_att -> teq [label="binds", color="#7FB3E6"];'
+        lines.append(f'  rec_att [label=<<b>Receipt Attestation</b><br/>{escape_html(receipt["attestation"].get("root_hash","")[:16])}...>, shape=note, fillcolor="#EAF7FF"];')
+        lines.append('  rec_att -> teq [label="binds", color="#7FB3E6"];')
     if prov and prov.get("attestation"):
-        lines.append(f'  prov_att [label=<<b>Provenance Attestation</b><br/>{escape_html(prov["attestation"].get("root_hash",""}[:16]}...>, shape=note, fillcolor="#EAF7FF"];')
-        lines.append('  prov_att -> entity [label="binds", color="#7FB3E6"];'
+        lines.append(f'  prov_att [label=<<b>Provenance Attestation</b><br/>{escape_html(prov["attestation"].get("root_hash","")[:16])}...>, shape=note, fillcolor="#EAF7FF"];')
+        lines.append('  prov_att -> entity [label="binds", color="#7FB3E6"];')
 
     lines.append("}")
     return "\n".join(lines)

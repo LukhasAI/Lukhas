@@ -267,8 +267,8 @@ class ABotFinancialIntelligence:
             self.metrics.current_balance / daily_average if daily_average > 0 else float("inf")
         )
 
-        return {}
-            "timestamp": datetime.now(timezone.utc).isoformat(}},
+        return {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "budget_status": {
                 "current_balance": self.metrics.current_balance,
                 "daily_budget": self.metrics.daily_budget,

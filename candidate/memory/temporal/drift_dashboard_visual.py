@@ -56,9 +56,9 @@ from trace.drift_dashboard import DriftDashboard, DriftSeverity
 
 import pandas as pd
 import plotly.graph_objects as go
+import streamlit as st
 
-from candidate.core.symbolic.drift.symbolic_drift_tracker import \
-    SymbolicDriftTracker
+from candidate.core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
 # Add parent directory to path for imports
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -497,7 +497,7 @@ def main():
 
             # Update timestamp
             st.caption(
-                f"Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'}}"
+                f"Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
             )
 
         # Wait before next update

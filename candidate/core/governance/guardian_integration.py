@@ -454,7 +454,7 @@ class GuardianIntegrationMiddleware:
         is_safe = not any(pattern in data_text for pattern in harmful_patterns)
 
         return GuardianDecision(
-            decision_id=f"fallback_{hash(str(decision_data)} % 10000}",
+            decision_id=f"fallback_{hash(str(decision_data)) % 10000}",
             decision_type=decision_type,
             allowed=is_safe,
             confidence=0.7 if is_safe else 0.9,
@@ -471,7 +471,7 @@ class GuardianIntegrationMiddleware:
     def _create_safe_decision(self, decision_type: DecisionType, decision_data: dict[str, Any]) -> GuardianDecision:
         """Create safe Guardian decision for fail-open mode"""
         return GuardianDecision(
-            decision_id=f"safe_{hash(str(decision_data)} % 10000}",
+            decision_id=f"safe_{hash(str(decision_data)) % 10000}",
             decision_type=decision_type,
             allowed=True,
             confidence=0.5,  # Lower confidence for fail-open
@@ -490,7 +490,7 @@ class GuardianIntegrationMiddleware:
     ) -> GuardianDecision:
         """Create blocked Guardian decision for fail-closed mode"""
         return GuardianDecision(
-            decision_id=f"blocked_{hash(str(decision_data)} % 10000}",
+            decision_id=f"blocked_{hash(str(decision_data)) % 10000}",
             decision_type=decision_type,
             allowed=False,
             confidence=0.9,  # High confidence in blocking for safety
@@ -556,7 +556,7 @@ class GuardianIntegrationMiddleware:
                 "drift_score": decision.drift_score,
                 "explanation": decision.explanation,
                 "args_summary": f"{len(args)} arguments",
-                "kwargs_summary": list(kwargs.keys()},
+                "kwargs_summary": list(kwargs.keys()),
             }
 
             # In production, would store in audit database
@@ -891,7 +891,7 @@ async def example_integration():
 
     status = await middleware.get_integration_status()
     print(f"Integration Enabled: {status['configuration']['enabled']}")
-    print(f"Components Connected: {sum(status['components'].values()}/3")
+    print(f"Components Connected: {sum(status['components'].values())/3}")
     print(f"Total Integrations: {status['performance']['total_integrations']}")
     print(f"Average Processing Time: {status['performance']['average_processing_time_ms']:.1f}ms")
 

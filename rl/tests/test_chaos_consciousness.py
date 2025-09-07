@@ -367,14 +367,14 @@ class ChaosMockSystem:
                         # Success - no cascade
                         self.stored_experiences += 1
 
-                        return type("ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.8})()
+                        return type("ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.8}})()
 
                     except Exception:
                         # Memory fold failure occurred
                         self.cascade_failures += 1
                         # System should recover gracefully
                         return type(
-                            "ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.5, "recovery_mode": True}
+                            "ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.5, "recovery_mode": True}}
                         )()
 
             def get_buffer_metrics(self):
