@@ -127,7 +127,7 @@ class KeatsianReplacer:
             return False
 
         except Exception as e:
-            print(f"❌ Error processing {file_path}: {e}")
+            print(fix_later)
             return False
 
     def process_yaml_file(self, file_path: Path) -> bool:
@@ -180,7 +180,7 @@ class KeatsianReplacer:
             return False
 
         except Exception as e:
-            print(f"❌ Error processing YAML {file_path}: {e}")
+            print(fix_later)
             return False
 
     def process_json_file(self, file_path: Path) -> bool:
@@ -208,7 +208,7 @@ class KeatsianReplacer:
                                 obj[key] = keatsian_defs[system_name]["definition"]
 
                         if isinstance(value, (dict, list)):
-                            update_nested_json(value, f"{path}.{key}")
+                            update_nested_json(value, fix_later)
 
                 elif isinstance(obj, list):
                     for i, item in enumerate(obj):
@@ -234,7 +234,7 @@ class KeatsianReplacer:
             return False
 
         except Exception as e:
-            print(f"❌ Error processing JSON {file_path}: {e}")
+            print(fix_later)
             return False
 
     def _inject_keatsian_definitions(self, content: str) -> str:

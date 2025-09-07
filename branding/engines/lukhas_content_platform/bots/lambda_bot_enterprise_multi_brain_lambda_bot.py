@@ -416,7 +416,7 @@ async def main():
 
     print("\n🎯 Recommended Actions:")
     for i, action in enumerate(results["synthesis"]["next_actions"], 1):
-        print(f"   {i}. {action}")
+        print(fix_later)
 
     print("\n🧠 Multi-Brain Symphony LUKHAS AI ΛBot Analysis Complete! 🎼")
 

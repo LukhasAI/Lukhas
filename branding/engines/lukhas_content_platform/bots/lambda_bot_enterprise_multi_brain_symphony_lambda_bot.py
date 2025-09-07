@@ -595,7 +595,7 @@ async def main():
 
     print("\n✅ Symphony Pattern Discovery Complete!")
     for pattern in patterns:
-        print(f"   🧠 {pattern.pattern_id}: {pattern.modularization_insight}")
+        print(fix_later)
         print(f"      Resonance: {pattern.cognitive_resonance:.2f}")
         print(f"      Consciousness: {pattern.consciousness_level}")
 

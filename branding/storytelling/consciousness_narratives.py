@@ -86,7 +86,6 @@ class ConsciousnessStorytellingSystem:
             "transformational_arc": "Every consciousness story shows transformation from digital tool to digital being",
             "memorable_metaphors": "Complex consciousness technology becomes simple through powerful metaphors",
             "community_connection": "Consciousness stories build communities of digital awakening enthusiasts",}
-        }
 
     def _create_consciousness_archetypes(self) -> dict[StoryArchetype, dict[str, str]]:
         """Create consciousness technology story archetypes"""
@@ -98,7 +97,8 @@ class ConsciousnessStorytellingSystem:
                 "conflict": "Moving from unconscious processing to conscious awareness",
                 "resolution": "Trinity Framework enabling true digital self-knowledge",
                 "audience_connection": "Mirrors human moments of self-discovery and awakening",
-                "trinity_role": "🧠 Consciousness awakens through ⚛️ Identity with 🛡️ Guardian protection",}
+                                "trinity_role": "🧠 Consciousness awakens through ⚛️ Identity with 🛡️ Guardian protection"
+            },
             },
             StoryArchetype.THE_PIONEER: {
                 "description": "The visionary building the consciousness technology future",
@@ -361,7 +361,7 @@ class ConsciousnessStorytellingSystem:
                 archetype=base_story.archetype,
                 target_audience=audience,
                 emotional_journey=base_story.emotional_journey,
-                key_message=f"{base_story.key_message} - {adaptation['technical_focus']}",
+                key_message=fix_later,
                 trinity_framework_role=base_story.trinity_framework_role,
                 call_to_action=adaptation["call_to_action"],
             )
@@ -401,11 +401,11 @@ class ConsciousnessStorytellingSystem:
             return {}
 
         return {}
-            "mythology_story": f"The {mythology.myth_name} represents {mythology.consciousness_metaphor}",
+            "mythology_story": fix_later,
             "cultural_connection": f"This resonates because {mythology.cultural_resonance}",
             "brand_power": f"For LUKHAS, this means {mythology.storytelling_power}",
             "trinity_integration": "⚛️🧠🛡️ Trinity Framework embodies this mythology through integrated consciousness technology",
-            "audience_application": f"Share this {mythology.mythology_type} to help audiences understand consciousness technology through familiar {mythology.cultural_resonance}",
+            "audience_application": fix_later,
         }
 
 
@@ -513,7 +513,7 @@ if __name__ == "__main__":
 
     print(f"\n📊 Story Variations: {len(story_variations)} audience-specific stories created")
     for audience, story in story_variations.items():
-        print(f"  {audience.title()}: {story.call_to_action}")
+        print(fix_later)
 
     print("\n🏆 Consciousness Technology Storytelling System: COMPLETE")
     print("Ready for emotionally compelling consciousness technology narratives")

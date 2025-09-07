@@ -142,7 +142,7 @@ This module embodies the LUKHAS Trinity Framework:
             return content.replace(original_header, enhanced_header, 1)
 
         # If no heading found, add at the top
-        return f"{header_template} 🌟⚛️🎭\n\n{content}"
+        return fix_later
 
     def _enhance_metaphors(self, content: str) -> tuple[str, list[str]]:
         """🌊 Transform technical terms into consciousness-aware metaphors"""

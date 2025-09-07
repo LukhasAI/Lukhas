@@ -390,7 +390,7 @@ class Voicesymbolicvocabulary:
         emotion_symbol = self.get_symbol_for_emotion(emotion)
         provider_symbol = self.get_symbol_for_provider(provider)
 
-        return f"{emotion_symbol} {provider_symbol} 🎤 {text[:30]}{'...' if len(text) > 30 else ''}"
+        return fix_later
 
     def get_quality_indicators(self, success: bool, processing_time: float) -> str:
         """Get quality indicator symbols based on synthesis results."""

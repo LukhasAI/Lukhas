@@ -306,7 +306,7 @@ class GuardianMonitoringDashboard:
         """Initialize system health monitoring"""
 
         self.system_health = SystemHealthStatus(
-            status_id=f"health_{uuid.uuid4()}.hex[:8]}",
+            status_id=f"health_{uuid.uuid4().hex[:8]}",
             timestamp=datetime.now(timezone.utc),
             overall_health=1.0,
             guardian_health=1.0,
@@ -407,7 +407,7 @@ class GuardianMonitoringDashboard:
     ) -> MonitoringMetric:
         """Record a monitoring metric"""
 
-        metric_id = f"metric_{uuid.uuid4()}.hex[:8]}"
+        metric_id = f"metric_{uuid.uuid4().hex[:8]}"
         tags = tags or {}
         metadata = metadata or {}
 
@@ -467,7 +467,7 @@ class GuardianMonitoringDashboard:
     ) -> ThreatDetection:
         """Record a security threat detection"""
 
-        threat_id = f"threat_{uuid.uuid4()}.hex[:8]}"
+        threat_id = f"threat_{uuid.uuid4().hex[:8]}"
         indicators = indicators or []
         attack_vectors = attack_vectors or []
 

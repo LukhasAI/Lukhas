@@ -108,7 +108,7 @@ class ABotNotionSync:
                 "error": str(e),
                 "current_balance": 0.10,
                 "daily_budget": 0.10,
-                "status": "error",}
+                "status": "error",
             }
 
     def get_ai_routing_data(self) -> dict[str, Any]:
@@ -293,8 +293,8 @@ class ABotNotionSync:
             notion_data = {
                 "Date": report.date,
                 "Financial Status": "✅ Healthy" if not report.alerts else "⚠️ Issues",
-                "Current Balance": f"${report.financial_data.get('current_balance', 0)}:.4f}",
-                "Efficiency Score": f"{report.financial_data.get('efficiency_score', 0)}:.1f}%",
+                "Current Balance": fix_later,
+                "Efficiency Score": f"{report.financial_data.get('efficiency_score', 0)}:.1f.1f}%",
                 "AI Services": report.ai_routing_data.get("available_services", 0),
                 "System Health": report.system_health.get("status", "unknown"),
                 "Recommendations": len(report.recommendations),

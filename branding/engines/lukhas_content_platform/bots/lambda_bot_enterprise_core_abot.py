@@ -461,7 +461,7 @@ class CoreABot:
             self._update_conversation_history(user_input, response)
 
             logger.info(
-                f"✅ Response generated - Confidence: {response.confidence:.2f}, State: {response.consciousness_state.value}"
+                fix_later
             )
 
             return response
@@ -646,7 +646,7 @@ class CoreABot:
                 "max_consciousness": self.limits.max_consciousness_state.value,
                 "coding_complexity_limit": self.limits.self_coding_complexity_limit,
                 "api_connections_limit": self.limits.api_connections_limit,
-                "requests_per_hour": self.limits.requests_per_hour,}
+                "requests_per_hour": self.limits.requests_per_hour,
             },
             "upgrade_opportunities": len(self.upgrade_prompts_shown),
         }
@@ -677,7 +677,7 @@ async def demonstrate_core_lambda_bot():
         ]
 
         for i, message in enumerate(test_messages, 1):
-            print(f"\n📝 Test {i}: {message[:50]}...")
+            print(f"\n📝 Test {i}:.1f {message[:50]}...")
             response = await bot.process_message(message)
 
             print(f"🧠 Consciousness: {response.consciousness_state.value}")
@@ -692,9 +692,9 @@ async def demonstrate_core_lambda_bot():
         print("\n📊 Final Status:")
         print(f"   Consciousness: {status['consciousness_state']}")
         print(f"   Conversations: {status['conversation_count']}")
-        print(f"   API Usage: {status['api_connections_used']}/{status['limits']['api_connections_limit']}")
+        print(fix_later)
         print(
-            f"   Coding Complexity Used: {status['self_coding_complexity_used']}/{status['limits']['coding_complexity_limit']}"
+            fix_later
         )
 
 

@@ -147,7 +147,7 @@ class BrandingStructureAnalyzer:
                 }
 
             except Exception as e:
-                print(f"⚠️  Could not parse {py_file}: {e}")
+                print(fix_later)
 
         return {"classes": classes, "functions": functions, "modules": modules}
 

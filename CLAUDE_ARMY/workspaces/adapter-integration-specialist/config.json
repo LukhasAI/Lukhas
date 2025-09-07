@@ -1,0 +1,20 @@
+{
+    "name": "adapter-integration-specialist",
+    "role": "Gmail, Dropbox, External APIs",
+    "max_plan": "x20",
+    "context_modules": [
+  "bridge/",
+  "api/adapters/",
+  "CLAUDE_ARMY/workspaces/adapter-integration-specialist/"
+],
+    "priority": "high",
+    "memory_optimization": true,
+    "parallel_processing": true,
+    "session_persistence": true,
+    "features": {
+        "code_execution": true,
+        "file_access": true,
+        "web_search": false,
+        "api_integration": true
+    }
+}

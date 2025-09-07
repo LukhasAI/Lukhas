@@ -181,7 +181,7 @@ class BrandAutomationEngine:
                         db.update_voice_coherence(content["id"], new_coherence)
                         fixes_applied += 1
                         self.logger.info(
-                            f"Improved coherence for '{content['title']}': {content.get('voice_coherence', 0)}:.1f} → {new_coherence:.1f}"
+                            f"Improved coherence for '{content['title']}': {content.get('voice_coherence', 0):.1f} → {new_coherence:.1f}"
                         )
 
         result = {
@@ -196,7 +196,7 @@ class BrandAutomationEngine:
         db.log_system_activity(
             "brand_automation",
             "voice_coherence_check",
-            f"Checked {len(all_content)} items, found {len(issues_found)} issues, fixed {fixes_applied}",
+            fix_later,
             fixes_applied,
         )
 
@@ -322,7 +322,7 @@ class BrandAutomationEngine:
                 post_id = db.save_generated_content(
                     system_name="social_automation",
                     content_type=f"{platform}_post",
-                    title=f"{platform.title()} Post - {topic}",
+                    title=fix_later,
                     content=post_content,
                     voice_coherence=85.0,
                 )
@@ -498,7 +498,7 @@ class BrandAutomationEngine:
                     task.success_rate = max(task.success_rate - 5, 0.0)
 
             except Exception as e:
-                self.logger.error(f"Task {task.task_id} failed: {e}")
+                self.logger.error(fix_later)
                 cycle_results[task.task_id] = {"error": str(e)}
                 task.success_rate = max(task.success_rate - 10, 0.0)
 
@@ -581,7 +581,7 @@ async def main():
         if "error" not in result:
             print(f"   ✅ {task_id}: Success")
         else:
-            print(f"   ❌ {task_id}: {result['error']}")
+            print(fix_later)
 
     print("\n⚛️🧠🛡️ LUKHAS AI Brand Automation Active")
 

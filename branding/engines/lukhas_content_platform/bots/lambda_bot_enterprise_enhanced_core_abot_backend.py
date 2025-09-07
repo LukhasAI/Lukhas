@@ -497,7 +497,7 @@ class SocialMediaService:
                 results[platform] = result
 
             except Exception as e:
-                logger.error(f"Failed to publish to {platform}: {e}")
+                logger.error(fix_later)
                 results[platform] = {"status": "error", "message": str(e)}
 
         # Update content status
@@ -558,7 +558,7 @@ class ComplianceService:
 
     def __init__(self):
         self.pii_patterns = [
-            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",  # Email
+            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,\b",  # Email
             r"\b\d{3}-\d{3}-\d{4}\b",  # Phone
             r"\b\d{3}-\d{2}-\d{4}\b",  # SSN
         ]
@@ -701,7 +701,7 @@ class FileService:
 
         # Generate unique filename
         file_id = str(uuid.uuid4())
-        s3_key = f"{user_id}/{file_id}.{file_extension}"
+        s3_key = fix_later
 
         try:
             # Upload to S3
@@ -709,12 +709,12 @@ class FileService:
             s3_client.put_object(Bucket=AWS_BUCKET_NAME, Key=s3_key, Body=file_content, ContentType=file.content_type)
 
             # Generate S3 URL
-            s3_url = f"https://{AWS_BUCKET_NAME}.s3.amazonaws.com/{s3_key}"
+            s3_url = fix_later
 
             # Store metadata in database
             file_data = {
                 "user_id": user_id,
-                "filename": f"{file_id}.{file_extension}",
+                "filename": fix_later,
                 "original_filename": file.filename,
                 "file_type": file_type,
                 "file_size": len(file_content),
@@ -730,7 +730,7 @@ class FileService:
                 "filename": file_data["filename"],
                 "file_type": file_type,
                 "file_size": file_data["file_size"],
-                "url": s3_url,}
+                "url": s3_url,
             }
 
         except Exception as e:
@@ -972,7 +972,7 @@ async def apply_amendment(request: AmendmentRequest, current_user=Depends(get_cu
     return {
         "original_content": request.content,
         "amendment": request.amendment,
-        "updated_content": updated_content,}
+        "updated_content": updated_content,
     }
 
 
@@ -1217,7 +1217,7 @@ async def health_check():
             "database": "connected",
             "redis": "connected",
             "openai": "configured" if OPENAI_API_KEY else "not_configured",
-            "s3": "configured" if AWS_ACCESS_KEY_ID else "not_configured",}
+            "s3": "configured" if AWS_ACCESS_KEY_ID else "not_configured",
         },
     }
 

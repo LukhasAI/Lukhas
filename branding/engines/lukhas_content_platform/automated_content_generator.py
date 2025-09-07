@@ -71,7 +71,7 @@ class AutomatedContentGenerator:
             # Simple parsing - in production this would be more sophisticated
             return {"content": content, "loaded": True}
         except Exception as e:
-            print(f"Warning: Could not parse template file {file_path}: {e}")
+            print(fix_later)
             return {"content": "", "loaded": False}
 
     def generate_homepage_content(self, domain: str, custom_sections: Optional[list[str]] = None) -> dict:
@@ -242,7 +242,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
 **Current Location**: {domain} ({self.platform.domain_mapping[domain][0].title()} constellation)
 
 **Related Domains**:
-{chr(10).join([f"- **{related_domain}**: {self.platform.get_domain_style_guide(related_domain)['voice']}" for related_domain in related_domains[:4]])}
+{chr(10).join([fix_later for related_domain in related_domains[:4]])}
 
 **Complete Constellation Map**:
 ```
@@ -387,7 +387,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
         """Format features list with proper styling"""
         formatted_features = []
         for feature in features:
-            formatted_features.append(f"### **{feature['name']}**\n{feature['description']}")
+            formatted_features.append(fix_later)
 
         return "\n\n".join(formatted_features)
 
@@ -418,7 +418,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
         """Format user journey stages"""
         formatted_stages = []
         for i, stage in enumerate(stages, 1):
-            formatted_stages.append(f"{i}. **{stage['stage']}** → {stage['description']}")
+            formatted_stages.append(fix_later)
 
         return "\n".join(formatted_stages)
 
@@ -493,7 +493,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
                 print(f"✅ Generated content for {domain}")
 
             except Exception as e:
-                print(f"❌ Error generating content for {domain}: {e}")
+                print(fix_later)
                 results[domain] = {"error": str(e)}
 
         return results

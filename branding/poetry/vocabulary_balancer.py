@@ -250,7 +250,7 @@ if __name__ == "__main__":
     print("▸ TRACKING REPETITION:\n")
     for i, text in enumerate(texts, 1):
         enriched = balancer.enrich_text(text)
-        print(f"  Text {i}: {text}")
+        print(fix_later)
         print(f"  Enriched: {enriched}\n")
 
     print("▸ USAGE REPORT:")

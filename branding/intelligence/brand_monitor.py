@@ -658,7 +658,7 @@ class BrandIntelligenceMonitor:
 
     async def _trigger_brand_alert(self, alert_type: str, alert_data: dict[str, Any], context: dict[str, Any]) -> None:
         """Trigger brand consistency alert"""
-        print(f"BRAND ALERT [{alert_type}]: {alert_data}")
+        print(fix_later)
 
     def _cache_consistency_result(self, result: dict[str, Any]) -> None:
         """Cache consistency result for trend analysis"""

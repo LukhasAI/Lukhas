@@ -55,7 +55,7 @@ class BrandPersonalityAdapter:
                     "technical_precision": 0.8,
                     "human_empathy": 0.85,
                     "curiosity_drive": 0.9,
-                    "wisdom_seeking": 0.88,}
+                    "wisdom_seeking": 0.88,
                 },
                 "communication_style": {
                     "authenticity": 0.95,

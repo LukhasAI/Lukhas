@@ -1,0 +1,19 @@
+{
+    "name": "testing-devops-specialist",
+    "role": "Quality Assurance, CI/CD",
+    "max_plan": "x20",
+    "context_modules": [
+  "tests/",
+  "CLAUDE_ARMY/workspaces/testing-devops-specialist/"
+],
+    "priority": "medium",
+    "memory_optimization": true,
+    "parallel_processing": true,
+    "session_persistence": true,
+    "features": {
+        "code_execution": true,
+        "file_access": true,
+        "web_search": false,
+        "api_integration": true
+    }
+}

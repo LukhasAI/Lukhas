@@ -305,7 +305,7 @@ class PlatformAPIManager:
             # Extract tweet URL
             tweet_id = response.data["id"]
             username = client.get_me().data.username
-            tweet_url = f"https://twitter.com/{username}/status/{tweet_id}"
+            tweet_url = fix_later
 
             self.logger.info(f"✅ Posted to Twitter: {tweet_url}")
 
@@ -385,7 +385,7 @@ class PlatformAPIManager:
                         )
                     else:
                         error_text = await response.text()
-                        raise Exception(f"LinkedIn API error {response.status}: {error_text}")
+                        raise Exception(fix_later)
 
         except Exception as e:
             self.logger.error(f"❌ Failed to post to LinkedIn: {e}")
@@ -413,7 +413,7 @@ class PlatformAPIManager:
 
             post_url = f"https://reddit.com{submission.permalink}"
 
-            self.logger.info(f"✅ Posted to Reddit r/{subreddit}: {post_url}")
+            self.logger.info(fix_later)
 
             return PostResult(
                 success=True,
@@ -486,7 +486,7 @@ class PlatformAPIManager:
 
         # Check if we have requests remaining
         if rate_limit.requests_remaining <= 0:
-            self.logger.warning(f"Rate limit exceeded for {platform}. Reset at {rate_limit.reset_time}")
+            self.logger.warning(fix_later)
             return False
 
         return True
@@ -568,7 +568,7 @@ class PlatformAPIManager:
                 return PostResult(success=False, platform=platform, error=f"Platform {platform} not supported")
 
         except Exception as e:
-            self.logger.error(f"❌ Failed to post to {platform}: {e}")
+            self.logger.error(fix_later)
             return PostResult(success=False, platform=platform, error=str(e))
 
 
@@ -603,7 +603,7 @@ async def main():
         client = "✅" if info["client_initialized"] else "❌"
         library = "✅" if info["library_available"] else "❌"
 
-        print(f"   {platform.title()}: Creds {credentials} | Client {client} | Library {library}")
+        print(fix_later)
 
     # Test posting (only if credentials are available)
     test_content = "🧠 Testing LUKHAS AI consciousness technology platform integration! The Trinity Framework (⚛️🧠🛡️) ensures our AI systems maintain authentic, aware, and ethical operation. What aspects of conscious AI development interest you most? #ConsciousnessTechnology #LUKHASIA"
@@ -620,9 +620,9 @@ async def main():
             )
 
             if result.success:
-                print(f"✅ {platform} posting successful: {result.url or result.post_id}")
+                print(fix_later)
             else:
-                print(f"❌ {platform} posting failed: {result.error}")
+                print(fix_later)
         else:
             print(f"⚠️ {platform} not configured for testing")
 

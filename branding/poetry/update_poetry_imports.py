@@ -43,7 +43,7 @@ def update_imports(root_dir):
                         updated_files.append(str(filepath))
 
                 except Exception as e:
-                    print(f"Error processing {filepath}: {e}")
+                    print(fix_later)
 
     return updated_files
 

@@ -91,7 +91,7 @@ class VocabularyIntegration:
                         yaml.safe_load(f)
                     vocabulary_files.append(vocab_file.name)
                 except Exception as e:
-                    self.logger.warning(f"Could not load {vocab_file.name}: {e}")
+                    self.logger.warning(fix_later)
 
         # Load Python vocabulary files
         for vocab_file in self.vocab_path.glob("*.py"):

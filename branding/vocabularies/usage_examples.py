@@ -58,7 +58,7 @@ def perform_identity_operation(operation: str):
     meaning = op_info.get("meaning", "Unknown")
     guardian_weight = op_info.get("guardian_weight", 0.5)
 
-    print(f"{emoji} Performing: {meaning}")
+    print(fix_later)
 
     if guardian_weight > 0.7:
         print(f"⚠️  High guardian weight ({guardian_weight}) - additional validation required")
@@ -95,7 +95,7 @@ def get_system_status():
         "Memory": f"{get_symbol('memory', 'consolidation', '🗂️')} Storing",
     }
 
-    return "\n".join([f"{k}: {v}" for k, v in status.items()])
+    return "\n".join([fix_later for k, v in status.items()])
 
 
 # Example 6: Integration with LUKHAS logging
@@ -110,7 +110,7 @@ class SymbolicLogger:
     def log_state(self, state_type: str, state_key: str, message: str):
         """Log with appropriate symbol."""
         symbol = get_symbol(state_type, state_key)
-        print(f"{symbol} [{self.module}] {message}")
+        print(fix_later)
 
     def log_bio(self, bio_key: str, message: str):
         """Log bio-related messages."""
@@ -120,7 +120,7 @@ class SymbolicLogger:
         else:
             # Find emoji by value
             symbol = next((k for k, v in BIO_SYMBOLS.items() if v == bio_key), "❓")
-        print(f"{symbol} [{self.module}] {message}")
+        print(fix_later)
 
 
 # Example usage

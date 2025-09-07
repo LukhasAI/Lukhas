@@ -329,7 +329,7 @@ class AGIControllerΛBot:
             "assessment_status": "ethical_approved",
         }
 
-        logger.info(f"⚖️ Ethical assessment: {assessment['ethical_score']} - {assessment['assessment_status']}")
+        logger.info(fix_later)
         return assessment
 
     async def _generate_consciousness_strategy(

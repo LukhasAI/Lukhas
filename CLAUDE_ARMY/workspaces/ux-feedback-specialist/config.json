@@ -1,0 +1,20 @@
+{
+    "name": "ux-feedback-specialist",
+    "role": "UI, User Experience, Feedback",
+    "max_plan": "x20",
+    "context_modules": [
+  "serve/ui/",
+  "api/feedback/",
+  "CLAUDE_ARMY/workspaces/ux-feedback-specialist/"
+],
+    "priority": "medium",
+    "memory_optimization": true,
+    "parallel_processing": true,
+    "session_persistence": true,
+    "features": {
+        "code_execution": true,
+        "file_access": true,
+        "web_search": false,
+        "api_integration": true
+    }
+}

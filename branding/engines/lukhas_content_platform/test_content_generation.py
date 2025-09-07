@@ -26,7 +26,7 @@ class MockDatabase:
                 "value": value,
             }
         )
-        print(f"📊 Logged: {system_name} - {activity_type} - {description}")
+        print(fix_later)
 
     def save_generated_content(
         self, system_name: str, content_type: str, title: str, content: str, voice_coherence: float
@@ -108,7 +108,7 @@ def test_multiple_domains():
             results[domain] = result
             print(f"✅ Generated content for {domain} - {result['word_count']} words")
         except Exception as e:
-            print(f"❌ Error with {domain}: {e}")
+            print(fix_later)
             results[domain] = {"error": str(e)}
 
     return results
@@ -157,7 +157,7 @@ def save_test_results(results):
         if "error" not in result and "content" in result:
             file_path = output_dir / f"{domain.replace('.', '_')}_homepage.md"
             file_path.write_text(result["content"], encoding="utf-8")
-            print(f"   📄 Saved {domain} content to {file_path}")
+            print(fix_later)
 
 
 if __name__ == "__main__":
@@ -182,5 +182,5 @@ if __name__ == "__main__":
     print("\n" + "=" * 50)
     print("✨ All tests completed successfully!")
     print(f"📊 Total domains tested: {len(multiple_results)}")
-    print(f"📈 Success rate: {len([r for r in multiple_results.values() if 'error' not in r])}/{len(multiple_results)}")
+    print(fix_later)
     print("📄 Content files generated in test_output/")

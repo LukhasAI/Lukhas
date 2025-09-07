@@ -157,7 +157,7 @@ class GuardianValidationRequest:
         if self.user_id is None:
             self.user_id = "anonymous"
         if self.session_id is None:
-            self.session_id = f"session_{uuid.uuid4()}.hex[:8]}"
+            self.session_id = f"session_{uuid.uuid4().hex[:8]}"
 
     # Validation requirements
     require_consent: bool = True
@@ -265,7 +265,7 @@ class GuardianSystemIntegration:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.guardian_id = f"guardian_{uuid.uuid4()}.hex[:8]}"
+        self.guardian_id = f"guardian_{uuid.uuid4().hex[:8]}"
         self.startup_time = datetime.now(timezone.utc)
 
         # System status
@@ -381,7 +381,7 @@ class GuardianSystemIntegration:
         """
 
         start_time = time.time()
-        response_id = f"resp_{uuid.uuid4()}.hex[:8]}"
+        response_id = f"resp_{uuid.uuid4().hex[:8]}"
 
         # Create response object
         response = GuardianValidationResponse(
@@ -1277,10 +1277,10 @@ async def validate_ai_action(
         await asyncio.sleep(2)  # Allow initialization
 
     request = GuardianValidationRequest(
-        request_id=f"req_{uuid.uuid4()}.hex[:8]}",
+        request_id=f"req_{uuid.uuid4().hex[:8]}",
         timestamp=datetime.now(timezone.utc),
         user_id=user_id,
-        session_id=f"session_{uuid.uuid4()}.hex[:8]}",
+        session_id=f"session_{uuid.uuid4().hex[:8]}",
         action=action,
         resource=resource,
         context=context or {},

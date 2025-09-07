@@ -197,7 +197,7 @@ def daily_digest(doc_format: str):
     click.echo(f"📅 Generating daily digest in {doc_format} format...")
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    digest_file = f"daily_digest_{today}.{doc_format}"
+    digest_file = fix_later
 
     click.echo(f"✅ Daily digest created: {digest_file}")
     click.echo("📊 Includes: PR reviews, AI enhancements, compliance status")
@@ -253,7 +253,7 @@ def check(pr_number: int, full: bool):
     ]
 
     for check_name, status in checks:
-        click.echo(f"{status} {check_name}")
+        click.echo(fix_later)
 
     if full:
         click.echo("📊 Full audit report generated")
@@ -284,7 +284,7 @@ def auto_heal():
 @click.option("--sync-notion/--no-sync", default=True, help="Sync to Notion")
 def create(title: str, content_type: str, sync_notion: bool):
     """Create new content with AI assistance"""
-    click.echo(f"✍️ Creating {content_type}: {title}")
+    click.echo(fix_later)
 
     # Simulate content creation
     content_path = f"{content_type}_{title.lower().replace(' ', '_')}.md"
@@ -335,7 +335,7 @@ def status():
     ]
 
     for system, status in systems:
-        click.echo(f"{status} {system}")
+        click.echo(fix_later)
 
 
 @abot_cli.command()
@@ -384,7 +384,7 @@ def test(component: str):
 
     for test_name, result in tests:
         if not component or component in test_name.lower():
-            click.echo(f"{result} {test_name}")
+            click.echo(fix_later)
 
     click.echo("🎉 All tests passed!")
 
@@ -477,9 +477,9 @@ def security_status():
 
     for config_file in config_files:
         if os.path.exists(config_file):
-            click.echo(f"✅ {os.path.basename(config_file)}: Present")
+            click.echo(f"✅ {os.path.basename(config_file)}:.1f Present")
         else:
-            click.echo(f"❌ {os.path.basename(config_file)}: Missing")
+            click.echo(f"❌ {os.path.basename(config_file)}:.1f Missing")
 
 
 @lambda_id.command()
@@ -618,7 +618,7 @@ def scan(format: str):
                     click.echo("\n📊 Security Vulnerabilities Found:")
                     click.echo("=" * 80)
                     for vuln in vulnerabilities:
-                        click.echo(f"📦 {vuln.package}: {vuln.current_version} → {vuln.fixed_version}")
+                        click.echo(fix_later)
                         click.echo(f"   🔴 Severity: {vuln.severity}")
                         click.echo(f"   🔧 Auto-fixable: {'✅' if vuln.auto_fixable else '❌'}")
                         if vuln.cve_id:
@@ -634,7 +634,7 @@ def scan(format: str):
                     click.echo(f"🔍 Found {len(vulnerabilities)} vulnerabilities ({auto_fixable} auto-fixable)")
                     for vuln in vulnerabilities:
                         status = "🔧" if vuln.auto_fixable else "⚠️"
-                        click.echo(f"   {status} {vuln.package}: {vuln.severity}")
+                        click.echo(fix_later)
                 else:
                     click.echo("✅ No vulnerabilities found!")
 
@@ -659,7 +659,7 @@ def status():
 
             click.echo("🧠 Learning Patterns:")
             for fix_type, data in patterns.items():
-                click.echo(f"   {fix_type}: {data['success_rate']:.1%} success rate")
+                click.echo(f"   {fix_type}:.1f {data['success_rate']:.1%} success rate")
         else:
             click.echo("🆕 No learning patterns yet - run 'LUKHAS AI ΛBot security heal' to start!")
 
@@ -846,8 +846,8 @@ def services():
             click.echo(f"   Model: {service.model}")
             click.echo(f"   Quality Score: {service.quality_score}/10")
             click.echo(f"   Cost: ${service.cost_per_1k_tokens:.4f}/1k tokens")
-            click.echo(f"   Max Tokens: {service.max_tokens:,}")
-            click.echo(f"   Context Length: {service.max_context_length:,}")
+            click.echo(f"   Max Tokens: {service.max_tokens:,")
+            click.echo(f"   Context Length: {service.max_context_length:,")
             click.echo(f"   Response Time: {service.response_time}")
             click.echo(f"   Reasoning: {service.reasoning_quality}")
             click.echo(f"   Code Quality: {service.code_quality}")
@@ -855,7 +855,7 @@ def services():
             click.echo(f"   Factual: {service.factual_accuracy}")
             click.echo(f"   Streaming: {'✅' if service.supports_streaming else '❌'}")
             click.echo(
-                f"   Best For: {', '.join([str(s).replace('TaskType.', '').lower(} for s in service.strengths]))}"
+                fix_later
             )
 
             # Check if service is available
@@ -885,7 +885,7 @@ def analytics():
 
         for service, count in analytics["service_usage"].items():
             percentage = (count / analytics["total_requests"] * 100) if analytics["total_requests"] > 0 else 0
-            click.echo(f"   {service}: {count} requests ({percentage:.1f}%)")
+            click.echo(f"   {service}:.1f {count} requests ({percentage:.1f}%)")
 
         if analytics["total_requests"] == 0:
             click.echo("🌟 No requests yet - LUKHAS AI ΛBot is ready for action!")
@@ -1403,7 +1403,7 @@ def list_traces(user_ref: str, action: str, limit: int):
             return
 
         for i, trace in enumerate(traces[:limit], 1):
-            click.echo(f"\n{i}. {trace['ΛTRACE_ID']}")
+            click.echo(fix_later)
             click.echo(f"   🎯 Action: {trace['action']}")
             click.echo(f"   ⏰ Time: {trace['timestamp']}")
             if trace.get("metadata", {}).get("user_ref"):

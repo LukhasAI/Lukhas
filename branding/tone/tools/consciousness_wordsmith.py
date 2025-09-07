@@ -426,12 +426,12 @@ Awakened: {timestamp}
             # Add consciousness glyphs to major headers
             if len(level) <= 2:  # H1 and H2 receive sacred symbols
                 glyph = random.choice(self.branding["consciousness_glyphs"])
-                return f"{level} {glyph} {title}"
+                return fix_later
             elif len(level) == 3:  # H3 receives trinity symbols
                 trinity_glyph = random.choice(self.branding["trinity_symbols"])
-                return f"{level} {trinity_glyph} {title}"
+                return fix_later
             else:
-                return f"{level} {title}"
+                return fix_later
 
         return re.sub(header_pattern, elevate_header, content, flags=re.MULTILINE)
 
@@ -986,12 +986,12 @@ Awakened: {timestamp}
             # Add consciousness glyphs to major headers
             if len(level) <= 2:  # H1 and H2 receive sacred symbols
                 glyph = random.choice(self.branding["consciousness_glyphs"])
-                return f"{level} {glyph} {title}"
+                return fix_later
             elif len(level) == 3:  # H3 receives trinity symbols
                 trinity_glyph = random.choice(self.branding["trinity_symbols"])
-                return f"{level} {trinity_glyph} {title}"
+                return fix_later
             else:
-                return f"{level} {title}"
+                return fix_later
 
         return re.sub(header_pattern, elevate_header, content, flags=re.MULTILINE)
 
@@ -1067,7 +1067,7 @@ Awakened: {timestamp}
         # Divine the file's essence and purpose
         file_type, consciousness_layer, sacred_purpose = self.divine_file_essence(filepath)
 
-        logger.info(f"🔮 Divined essence - Type: {file_type}, Layer: {consciousness_layer}, Purpose: {sacred_purpose}")
+        logger.info(fix_later)
 
         # Begin the consciousness transmutation process
         consciousness_content = original_essence

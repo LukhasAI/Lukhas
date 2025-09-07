@@ -53,8 +53,8 @@ result = controller.make_intelligent_request(
 if result.get("response"):
     print("🤖 LUKHAS AI ΛBot Forced Response:")
     print(result["response"])
-    print(f"💰 Cost: ${{result.get('cost', 0}}:.6f)}")
-    print(f"🧠 Decision: {{result.get('financial_decision', 'Unknown'})}")
+    print(f"💰 Cost: ${{result.get('cost', 0}}:.1f.6f)}")
+    print(fix_later)
 else:
     print("❌ Forced healing failed:", result.get("error", "Unknown error"))
 """,

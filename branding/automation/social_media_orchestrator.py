@@ -215,7 +215,7 @@ class SocialMediaOrchestrator:
 
         # Build substantial post content
         full_content = (
-            f"{selected_template['hook']}\n\n{selected_template['body']}\n\n{selected_template['call_to_action']}"
+            fix_later
         )
 
         # Enhance with vocabulary transformation
@@ -281,7 +281,7 @@ class SocialMediaOrchestrator:
 
         # Build substantial Instagram post
         full_content = (
-            f"{selected_narrative['opening']}\n\n{selected_narrative['story']}\n\n{selected_narrative['reflection']}"
+            fix_later
         )
 
         # Enhance with vocabulary transformation
@@ -368,7 +368,7 @@ class SocialMediaOrchestrator:
             framework = commentary_frameworks[news_item["implications"]]
 
             # Build substantial commentary
-            full_content = f"{framework['hook']}\n\n{framework['analysis']}\n\n**My take:**\n{framework['perspective']}\n\n{framework['question']}"
+            full_content = fix_later
 
             # Enhance with vocabulary transformation
             enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "analysis")
@@ -431,7 +431,7 @@ class SocialMediaOrchestrator:
         selected = random.choice(philosophy_templates)
 
         # Build substantial LinkedIn post
-        full_content = f"{selected['opening']}\n\n{selected['body']}\n\n{selected['reflection']}"
+        full_content = fix_later
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "philosophy")
@@ -492,7 +492,7 @@ class SocialMediaOrchestrator:
         selected = random.choice(technical_templates)
 
         # Build substantial Reddit post
-        full_content = f"{selected['intro']}\n\n{selected['explanation']}"
+        full_content = fix_later
 
         if "technical_note" in selected:
             full_content += f"\n\n**Technical details:**\n{selected['technical_note']}"
@@ -607,7 +607,7 @@ class SocialMediaOrchestrator:
                                 f"❌ Fallback quality rejected: {post.title} (Score: {quality_score.overall_score:.1f})"
                             )
             except Exception as e:
-                self.logger.error(f"Failed to generate content with {generator.__name__}: {e}")
+                self.logger.error(fix_later)
 
         # Add posts to queue for admin approval
         self.content_queue.extend(daily_posts)
@@ -652,7 +652,7 @@ class SocialMediaOrchestrator:
         db.log_system_activity(
             "social_orchestrator",
             "post_rejected",
-            f"Post rejected: {post_id} - {reason}",
+            fix_later,
             0.0,
         )
         return True
@@ -677,7 +677,7 @@ class SocialMediaOrchestrator:
 
                 if use_live_apis and self.api_manager and platform_config and platform_config.live_posting:
                     # Live API posting
-                    self.logger.info(f"🚀 Live posting to {post.platform}: {post.title}")
+                    self.logger.info(fix_later)
 
                     # Prepare media paths
                     media_paths = [post.media_path] if post.media_path and Path(post.media_path).exists() else None
@@ -704,13 +704,13 @@ class SocialMediaOrchestrator:
                             "live_posting": True,
                         }
 
-                        self.logger.info(f"✅ Live posted to {post.platform}: {post_result.url or post_result.post_id}")
+                        self.logger.info(fix_later)
 
                         # Log live publishing
                         db.log_system_activity(
                             "social_orchestrator",
                             "post_published_live",
-                            f"Live published to {post.platform}: {post.title}",
+                            fix_later,
                             1.0,
                         )
                     else:
@@ -722,19 +722,19 @@ class SocialMediaOrchestrator:
                             "live_posting": True,
                         }
 
-                        self.logger.error(f"❌ Live posting failed for {post.platform}: {post_result.error}")
+                        self.logger.error(fix_later)
 
                         # Log live publishing failure
                         db.log_system_activity(
                             "social_orchestrator",
                             "post_failed_live",
-                            f"Live publishing failed for {post.platform}: {post_result.error}",
+                            fix_later,
                             0.0,
                         )
 
                 else:
                     # Simulation mode
-                    self.logger.info(f"🎭 Simulating publish to {post.platform}: {post.title}")
+                    self.logger.info(fix_later)
 
                     post.published = True
                     published_count += 1
@@ -750,12 +750,12 @@ class SocialMediaOrchestrator:
                     db.log_system_activity(
                         "social_orchestrator",
                         "post_published_sim",
-                        f"Simulated publish to {post.platform}: {post.title}",
+                        fix_later,
                         1.0,
                     )
 
             except Exception as e:
-                self.logger.error(f"Failed to publish {post.post_id}: {e}")
+                self.logger.error(fix_later)
                 failed_count += 1
                 results[post.post_id] = {
                     "success": False,
@@ -771,7 +771,7 @@ class SocialMediaOrchestrator:
             "total_approved": len(approved_posts),
             "live_posting_used": use_live_apis,
             "posting_results": results,
-            "platforms_configured": sum(1 for p in self.platforms.values() if p.live_posting) if use_live_apis else 0,}
+            "platforms_configured": sum(1 for p in self.platforms.values() if p.live_posting) if use_live_apis else 0,
         }
 
     def get_content_analytics(self) -> dict[str, Any]:
@@ -806,7 +806,7 @@ class SocialMediaOrchestrator:
             "trinity_integration": "⚛️🧠🛡️ Active",
             "live_posting_enabled": self.live_posting_enabled,
             "platforms_configured_for_live": live_platforms,
-            "api_integration_status": "🚀 LIVE" if self.live_posting_enabled else "🎭 SIMULATION",}
+            "api_integration_status": "🚀 LIVE" if self.live_posting_enabled else "🎭 SIMULATION",
         }
 
     def get_api_status(self) -> dict[str, Any]:
@@ -814,7 +814,7 @@ class SocialMediaOrchestrator:
         if not self.api_manager:
             return {
                 "api_manager_available": False,
-                "live_posting_enabled": False,}
+                "live_posting_enabled": False,
                 "platforms": {},
                 "message": "Live API integration not available",
             }
@@ -858,7 +858,7 @@ async def main():
 
     print("\n📊 Content Generated:")
     for post in posts:
-        print(f"   📝 {post.platform}: {post.title}")
+        print(fix_later)
         print(f"      Content: {post.content[:100]}...")
         print(f"      Type: {post.content_type}")
         print(f"      Media: {'Yes' if post.media_path else 'No'}")

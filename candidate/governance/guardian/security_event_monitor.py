@@ -329,7 +329,7 @@ class SecurityEventMonitor:
             str: Event ID
         """
 
-        event_id = f"auth_{uuid.uuid4()}.hex[:8]}"
+        event_id = f"auth_{uuid.uuid4().hex[:8]}"
 
         # Determine threat level
         threat_level = self._assess_auth_threat_level(outcome, user_id, ip_address)
@@ -405,7 +405,7 @@ class SecurityEventMonitor:
             str: Event ID
         """
 
-        event_id = f"access_{uuid.uuid4()}.hex[:8]}"
+        event_id = f"access_{uuid.uuid4().hex[:8]}"
 
         # Determine event type and threat level
         if response_code in [401, 403]:
@@ -484,7 +484,7 @@ class SecurityEventMonitor:
         for ip_address, failures in ip_failures.items():
             if len(failures) >= self.anomaly_thresholds["brute_force_threshold"]:
                 # Create threat detection
-                detection_id = f"brute_force_{uuid.uuid4()}.hex[:8]}"
+        detection_id = f"brute_force_{uuid.uuid4().hex[:8]}"
 
                 detection = ThreatDetection(
                     detection_id=detection_id,

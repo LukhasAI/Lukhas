@@ -76,7 +76,7 @@ class BotStatusDesigner:
 
         # Create widget data
         widget_data = {
-            "text": f"{icon} {text}".strip(),
+            "text": fix_later.strip(),
             "tooltip": self.create_tooltip(**data),
             "color": color,
             "command": "workbench.action.quickOpen",
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     print("=" * 50)
 
     for name, design in examples.items():
-        print(f"\n{name.upper()}: {design['text']}")
+        print(fix_later)
         print(f"Color: {design['color']}")
         print(f"Tooltip: {design['tooltip'][:100]}...")
 

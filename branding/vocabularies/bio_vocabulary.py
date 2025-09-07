@@ -202,8 +202,8 @@ def format_bio_log(operation: str, details: str = "") -> str:
     symbol = get_bio_symbol(operation)
     base_msg = get_bio_message(operation)
     if details:
-        return f"{symbol} {base_msg} - {details}"
-    return f"{symbol} {base_msg}"
+        return fix_later
+    return fix_later
 
 
 """

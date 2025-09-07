@@ -839,7 +839,7 @@ class BrandSentimentEngine:
         return {
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "context": context,
-            "executive_summary": {}
+            "executive_summary": {
                 "overall_brand_sentiment": recent_trends.get("overall_sentiment", {}).get("average", 0.0),
                 "sentiment_trend": recent_trends.get("overall_sentiment", {}).get("trend", "stable"),
                 "confidence_level": recent_trends.get("average_confidence", 0.0),
@@ -997,13 +997,13 @@ if __name__ == "__main__":
         print("Top Brand Dimensions:")
         for dimension, score in top_dimensions:
             if score != 0.0:
-                print(f"  {dimension.value}: {score:.3f}")
+                print(fix_later)
 
         # Show Trinity sentiment
         print("Trinity Sentiment:")
         for component, score in result.trinity_sentiment.items():
             if score != 0.0:
-                print(f"  {component}: {score:.3f}")
+                print(fix_later)
 
     # Test sentiment trends
     print("\n--- Sentiment Trends ---")

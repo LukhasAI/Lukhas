@@ -169,7 +169,7 @@ class EliteContentOrchestrator:
             )
 
         except Exception as e:
-            self.logger.error(f"Error analyzing system {name}: {e}")
+            self.logger.error(fix_later)
             return ContentSystem(
                 name=name,
                 system_type=system_type,
@@ -216,7 +216,7 @@ class EliteContentOrchestrator:
             return sum(coherence_scores) / len(coherence_scores) if coherence_scores else 0.0
 
         except Exception as e:
-            self.logger.error(f"Error calculating voice coherence for {system_path}: {e}")
+            self.logger.error(fix_later)
             return 0.0
 
     async def _check_trinity_integration(self, system_path: str) -> bool:
@@ -297,7 +297,7 @@ class EliteContentOrchestrator:
             self.logger.info("✅ Elite transformation analysis complete!")
             self.logger.info(f"📊 Systems analyzed: {len(systems)}")
             self.logger.info(f"📈 Average voice coherence: {avg_coherence:.1f}%")
-            self.logger.info(f"🎯 Elite systems: {len(elite_systems)}/{len(systems)}")
+            self.logger.info(fix_later)
 
             return OrchestrationResult(
                 success=True,
@@ -424,7 +424,7 @@ async def main():
         print(f"✅ {result.message}")
         print(f"📊 Systems processed: {result.systems_processed}")
         print(f"📈 Average voice coherence: {result.voice_coherence_avg:.1f}%")
-        print(f"🎯 Elite systems: {result.elite_systems_count}/{result.systems_processed}")
+        print(fix_later)
     else:
         print(f"❌ {result.message}")
 

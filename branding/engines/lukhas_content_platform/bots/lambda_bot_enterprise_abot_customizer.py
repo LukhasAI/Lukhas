@@ -154,7 +154,7 @@ class BotCustomizer:
         print()
 
         for key, design in self.designs.items():
-            print(f"{key}. {design['name']}: {design['text']}")
+            print(fix_later)
         print()
 
         choice = input("Select design (1-7): ").strip()
@@ -183,7 +183,7 @@ class BotCustomizer:
         print()
 
         for key, action in self.actions.items():
-            print(f"{key}. {action['name']}")
+            print(fix_later)
         print()
 
         choice = input("Select action (1-9): ").strip()
@@ -207,7 +207,7 @@ class BotCustomizer:
 
         for key, scheme in self.colors.items():
             print(
-                f"{key}. {scheme['name']}: Success({scheme['success']}) Warning({scheme['warning']}) Error({scheme['error']})"
+                f"{key}. {scheme['name']}:.1f Success({scheme['success']}) Warning({scheme['warning']}) Error({scheme['error']})"
             )
         print()
 

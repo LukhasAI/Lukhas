@@ -100,7 +100,7 @@ class BotClickActions:
                 {
                     "label": "🔍 Quick Scan",
                     "command": "workbench.action.tasks.runTask",
-                    "arguments": ["LUKHAS AI ΛBot: Quick Scan"],}
+                    "arguments": ["LUKHAS AI ΛBot: Quick Scan"],
                 },
                 {
                     "label": "📊 Show Report",
@@ -132,11 +132,11 @@ class BotClickActions:
 
         print("\n📱 SINGLE CLICK ACTIONS:")
         for name, config in self.action_templates.items():
-            print(f"  {name}: {config['description']}")
+            print(fix_later)
 
         print("\n🔄 MULTI-ACTION SEQUENCES:")
         for name, actions in self.multi_actions.items():
-            print(f"  {name}: {len(actions)} sequential actions")
+            print(f"  {name}:.1f {len(actions)} sequential actions")
 
         print("\n📋 CONTEXT MENU OPTIONS:")
         menu_config = self.create_context_menu_config()
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     ]
 
     for title, desc in examples:
-        print(f"  {title}: {desc}")
+        print(fix_later)
 
     print("\n🔧 To customize:")
     print("  1. Edit BotStatusBar.py")

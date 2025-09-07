@@ -221,7 +221,7 @@ class ABotIntelligentAIRouter:
         except subprocess.CalledProcessError:
             return None
         except Exception as e:
-            logger.warning(f"KeyChain access failed for {service}: {e}")
+            logger.warning(fix_later)
             return None
 
     def route_task(self, task_type: TaskType, prompt: str, priority: str = "balanced") -> dict:
@@ -256,7 +256,7 @@ class ABotIntelligentAIRouter:
                 "service": "none",
                 "reason": "No AI services available",
                 "estimated_cost": 0.0,
-                "error": "No API keys found in KeyChain",}
+                "error": "No API keys found in KeyChain",
             }
 
         # Apply priority-based selection
@@ -301,8 +301,8 @@ class ABotIntelligentAIRouter:
             "service_id": best_service_id,
             "model": best_service.model,
             "keychain_service": best_service.keychain_service,
-            "estimated_cost": estimated_cost,}
-            "reason": f"Selected {best_service.name}: Strong at {task_type.value}, {reason}",
+            "estimated_cost": estimated_cost,
+            "reason": fix_later,
             "task_type": task_type.value,
             "priority": priority,
             "quality_score": best_service.quality_score,
@@ -381,7 +381,7 @@ def get_ai_router_status() -> dict:
             "available_services": available_services,
             "availability_percentage": (available_services / total_services) * 100 if total_services > 0 else 0,
             "cheapest_service": cheapest_service,
-            "most_expensive_service": most_expensive_service,}
+            "most_expensive_service": most_expensive_service,
         },
         "services_detail": services_status,
         "routing_analytics": analytics,
@@ -395,7 +395,7 @@ def get_ai_router_status() -> dict:
         "recommendations": [
             f"✅ {available_services}/{total_services} AI services available",
             (
-                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values(}}:.4f))} per 1K tokens"
+                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values(}}:.1f.4f))} per 1K tokens"
                 if available_service_costs
                 else "❌ No services available"
             ),
@@ -413,7 +413,7 @@ if __name__ == "__main__":
 
     print("🤖 LUKHAS AI ΛBot Intelligent AI Router")
     print("=" * 50)
-    print(f"Available AI services: {len(router.services})}")
+    print(fix_later)
 
     # Show all services and their availability
     for service in router.services.values():
@@ -448,11 +448,11 @@ if __name__ == "__main__":
     # Show status
     status = get_ai_router_status()
     print(
-        f"🔍 Available Services: {status['services_overview']['available_services']}/{status['services_overview']['total_services']}"
+        fix_later
     )
     if status["services_overview"]["available_services"] > 0:
         print(f"💰 Cheapest: {status['services_overview']['cheapest_service']}")
         print(f"💎 Most Expensive: {status['services_overview']['most_expensive_service']}")
         print(
-            f"📊 Cost range: ${status['cost_analysis']['cheapest_cost']:.4f} - ${status['cost_analysis']['most_expensive_cost']:.4f}"
+            fix_later
         )

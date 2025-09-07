@@ -1,0 +1,19 @@
+{
+    "name": "consent-compliance-specialist",
+    "role": "GDPR, Privacy, Audit Trails",
+    "max_plan": "x20",
+    "context_modules": [
+  "governance/",
+  "CLAUDE_ARMY/governance/consent_ledger/"
+],
+    "priority": "critical",
+    "memory_optimization": true,
+    "parallel_processing": true,
+    "session_persistence": true,
+    "features": {
+        "code_execution": true,
+        "file_access": true,
+        "web_search": false,
+        "api_integration": true
+    }
+}

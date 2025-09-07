@@ -76,11 +76,11 @@ class LukhasToneFixer:
                     results["fixed"] += 1
                     results["files_fixed"].append(str(filepath))
                     for fix in fixes:
-                        results["fixes_applied"].append(f"{filepath}: {fix}")
+                        results["fixes_applied"].append(fix_later)
             else:
                 results["failed"] += 1
                 for error in fixes:  # fixes contains errors when success=False
-                    results["fixes_applied"].append(f"{filepath}: {error}")
+                    results["fixes_applied"].append(fix_later)
 
         return results
 

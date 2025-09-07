@@ -201,7 +201,7 @@ class TrinityFrameworkDeployer:
                 if result:
                     results.append(result)
             except Exception as e:
-                self.logger.error(f"❌ Error deploying Trinity to {file_path}: {e}")
+                self.logger.error(fix_later)
 
         return results
 
@@ -272,7 +272,7 @@ class TrinityFrameworkDeployer:
             )
 
         except Exception as e:
-            self.logger.error(f"❌ Error deploying Trinity to {file_path}: {e}")
+            self.logger.error(fix_later)
             return TrinityDeploymentResult(
                 file_path=str(file_path),
                 integrations_added=0,

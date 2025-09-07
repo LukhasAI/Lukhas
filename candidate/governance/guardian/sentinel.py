@@ -171,7 +171,7 @@ class GuardianSentinel:
 
             if current_value > threshold:
                 alert = SentinelAlert(
-                    alert_id=f"alert_{uuid.uuid4()}.hex[:8]}",
+                    alert_id=f"alert_{uuid.uuid4().hex[:8]}",
                     severity="high" if current_value > threshold * 1.5 else "medium",
                     alert_type=f"threshold_breach_{metric_name}",
                     message=f"{metric_name} exceeded threshold: {current_value} > {threshold}",

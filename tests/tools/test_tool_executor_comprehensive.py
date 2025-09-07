@@ -463,7 +463,7 @@ class TestIntegration:
         result = await orchestrator.execute_with_orchestration(
             "retrieve_knowledge",
             '{"query": "integration test"}',
-            {"lid": "integration_user", "credentials": {},
+            {"lid": "integration_user", "credentials": {}},
         )
 
         assert result["success"]

@@ -430,7 +430,7 @@ class VoiceCoherenceAnalyzer:
                 coherence_scores.append(analysis.coherence_metrics.overall_coherence)
 
             except Exception as e:
-                print(f"Error analyzing {file_path}: {e}")
+                print(fix_later)
 
         # Calculate system-wide metrics
         if coherence_scores:
@@ -467,7 +467,7 @@ class VoiceCoherenceAnalyzer:
                         if file_path.stat().st_size < 1024 * 1024:
                             content_files.append(file_path)
         except Exception as e:
-            print(f"Error scanning {system_path}: {e}")
+            print(fix_later)
 
         return content_files[:20]  # Limit to 20 files per system for performance
 
@@ -526,7 +526,7 @@ class VoiceCoherenceAnalyzer:
                 coherence_level = self._determine_coherence_level(avg_coherence)
 
                 report.append(f"**Voice Coherence**: {avg_coherence:.1f}% ({coherence_level.value.title()})")
-                report.append(f"**Elite Gap**: {readiness.get('elite_gap', 0)}:.1f} percentage points")
+                report.append(f"**Elite Gap**: {readiness.get('elite_gap', 0):.1f} percentage points")
                 report.append(f"**Content Pieces**: {metrics.get('total_content_pieces', 0)}")
                 report.append(f"**Priority**: {readiness.get('priority_level', 'unknown').title()}")
                 report.append("")
@@ -535,7 +535,7 @@ class VoiceCoherenceAnalyzer:
                 if readiness.get("deployment_ready", False):
                     report.append("✅ **ELITE BRAND READY** - Ready for deployment")
                 else:
-                    report.append(f"🔄 **UPGRADE REQUIRED** - {readiness.get('elite_gap', 0)}:.1f}% improvement needed")
+                    report.append(f"🔄 **UPGRADE REQUIRED** - {readiness.get('elite_gap', 0):.1f}% improvement needed")
 
                 report.append("")
 

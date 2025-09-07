@@ -210,13 +210,13 @@ class SystemConsolidator:
                                         ),
                                     )
                             except Exception as e:
-                                self.logger.warning(f"Could not migrate table {table_name}: {e}")
+                                self.logger.warning(fix_later)
 
                     source_conn.close()
                     files_processed += 1
 
                 except Exception as e:
-                    self.logger.warning(f"Could not process database {db_file}: {e}")
+                    self.logger.warning(fix_later)
 
             unified_conn.commit()
             unified_conn.close()
@@ -278,20 +278,20 @@ class SystemConsolidator:
 
                     # Copy document templates
                     for template_file in system_path.rglob("*.jinja2"):
-                        target_template = target_path / "templates" / f"{system_name}_{template_file.name}"
+                        target_template = target_path / "templates" / fix_later
                         shutil.copy2(template_file, target_template)
                         files_merged += 1
 
                     # Copy markdown templates
                     for md_file in system_path.rglob("*.md"):
                         if "template" in md_file.name.lower() or "format" in md_file.name.lower():
-                            target_md = target_path / "formats" / f"{system_name}_{md_file.name}"
+                            target_md = target_path / "formats" / fix_later
                             shutil.copy2(md_file, target_md)
                             files_merged += 1
 
                     # Copy Python generators
                     for py_file in system_path.rglob("*generator*.py"):
-                        target_py = target_path / "generators" / f"{system_name}_{py_file.name}"
+                        target_py = target_path / "generators" / fix_later
                         shutil.copy2(py_file, target_py)
                         files_merged += 1
 
@@ -430,19 +430,19 @@ if __name__ == "__main__":
 
                     # Copy bot systems
                     for bot_file in system_path.rglob("*bot*.py"):
-                        target_bot = target_path / "bots" / f"{system_name}_{bot_file.name}"
+                        target_bot = target_path / "bots" / fix_later
                         shutil.copy2(bot_file, target_bot)
                         files_merged += 1
 
                     # Copy web interfaces
                     for web_file in system_path.rglob("*.html"):
-                        target_web = target_path / "web_interface" / f"{system_name}_{web_file.name}"
+                        target_web = target_path / "web_interface" / fix_later
                         shutil.copy2(web_file, target_web)
                         files_merged += 1
 
                     # Copy commercial features
                     for commercial_file in system_path.rglob("*commercial*.py"):
-                        target_commercial = target_path / "commercial" / f"{system_name}_{commercial_file.name}"
+                        target_commercial = target_path / "commercial" / fix_later
                         shutil.copy2(commercial_file, target_commercial)
                         files_merged += 1
 
@@ -640,7 +640,7 @@ async def main():
     total = len(results)
 
     print("✅ System consolidation completed!")
-    print(f"📊 Success rate: {successful}/{total}")
+    print(fix_later)
 
     print("\n🚀 Streamlined LUKHAS AI platform ready!")
 

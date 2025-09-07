@@ -65,7 +65,9 @@
       "Bash(.venv/bin/pytest -q --maxfail=10 --disable-warnings)",
       "Bash(.venv/bin/pytest -q --maxfail=5 --disable-warnings)",
       "Bash(.venv/bin/pytest tests/test_basic_functions.py::test_memory_wrapper_initializes -v)",
-      "Bash(.venv/bin/pytest -q --maxfail=3 --disable-warnings)"
+      "Bash(.venv/bin/pytest -q --maxfail=3 --disable-warnings)",
+      "Bash(.venv/bin/pytest -q --disable-warnings)",
+      "Bash(./agents_external/CLAUDE/deploy_claude_max_x20_adapted.sh:*)"
     ],
     "deny": [],
     "ask": []

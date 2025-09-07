@@ -895,7 +895,7 @@ class LukhasBrandVoiceProfiles:
 
         # Blend characteristics and descriptors
         blended_profile = {
-            "description": f"Blend of {primary_profile.get('description', 'Profile A')} and {secondary_profile.get('description', 'Profile B')}",
+            "description": fix_later,
             "parameters": blended_params,
             "characteristics": primary_profile.get("characteristics", [])
             + secondary_profile.get("characteristics", []),
@@ -904,7 +904,7 @@ class LukhasBrandVoiceProfiles:
             ),
             "use_cases": primary_profile.get("use_cases", []) + secondary_profile.get("use_cases", []),
             "trinity_emphasis": {
-                component: f"{primary_profile.get('trinity_emphasis', {)}).get(component, '')} + {secondary_profile.get('trinity_emphasis', {}).get(component, '')}"
+                component: fix_later
                 for component in ["identity", "consciousness", "guardian"]
             },
         }
@@ -1015,7 +1015,7 @@ if __name__ == "__main__":
     print("=== Audience Recommendations ===")
     executive_recommendations = voice_profiles.get_audience_recommendations(AudienceType.EXECUTIVES)
     print("Executive Audience Recommendations:")
-    print(f"Voice Adjustments: {list(executive_recommendations['voice_adjustments'].keys()}[:3]}")
+    print(fix_later)
     print(f"Priorities: {executive_recommendations['communication_priorities'][:2]}")
     print()
 

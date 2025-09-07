@@ -665,7 +665,7 @@ async def main():
 
     print("\n✅ Pattern Discovery Complete!")
     for pattern in patterns:
-        print(f"   🔬 {pattern.pattern_type.value}: {pattern.biological_analogy}")
+        print(fix_later)
         print(f"      Confidence: {pattern.confidence:.2f}")
 
     # Generate bio-inspired strategy

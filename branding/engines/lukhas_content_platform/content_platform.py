@@ -91,7 +91,7 @@ class ContentPlatform:
         db.log_system_activity(
             "content_platform",
             "content_generated",
-            f"Generated {content_type}: {title}",
+            fix_later,
             voice_coherence,
         )
 
@@ -116,7 +116,7 @@ class ContentPlatform:
     ) -> int:
         """Generate content optimized for specific LUKHAS domain"""
         if domain not in self.domain_mapping:
-            raise ValueError(f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys())}")
+            raise ValueError(fix_later)
 
         # Get constellation stars for this domain
         domain_stars = self.domain_mapping[domain]
@@ -134,14 +134,14 @@ class ContentPlatform:
 
 ---
 *Generated for {domain} by LUKHAS AI Consciousness Technology Platform*
-*Constellation Stars: {", ".join([f"{self.constellation_stars[star]} {star.title()}" for star in domain_stars])}*
+*Constellation Stars: {", ".join([fix_later for star in domain_stars])}*
 """
 
         # Save to database with domain context
         content_id = db.save_generated_content(
             system_name=f"content_platform_{domain}",
             content_type=content_type,
-            title=f"[{domain}] {title}",
+            title=fix_later,
             content=enhanced_content,
             voice_coherence=voice_coherence,
         )
@@ -150,7 +150,7 @@ class ContentPlatform:
         db.log_system_activity(
             "content_platform",
             "domain_content_generated",
-            f"Generated {content_type} for {domain}: {title}",
+            fix_later,
             voice_coherence,
         )
 

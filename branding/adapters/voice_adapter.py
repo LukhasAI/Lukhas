@@ -77,7 +77,7 @@ try:
             marker = emotion_markers.get(emotion, "")
             end_marker = "</prosody>" if marker else ""
 
-            return f"{marker}{text}{end_marker}"
+            return f"{marker}{content}{end_marker}"
 
     class VoiceIntegration:
         def __init__(self):
@@ -482,7 +482,7 @@ class BrandVoiceAdapter:
         """Generate cache key for voice responses"""
         import hashlib
 
-        key_components = f"{content}:{tone_layer}:{emotional_context}:{audience_context}"
+        key_components = f"{content}|{tone_layer}|{emotional_context}|{audience_context}"
         # Changed from MD5 for security
         return hashlib.sha256(key_components.encode()).hexdigest()
 

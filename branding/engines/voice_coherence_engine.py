@@ -186,7 +186,7 @@ class LUKHASVoiceCoherenceEngine:
                     r"\b(simple|basic|primitive)\b",
                     r"\b(automated|scripted|templated)\b",
                 ],
-                "weight": 0.25,}
+                "weight": 0.25,
             },
             CoherenceMetric.TRINITY_ALIGNMENT: {
                 "identity_patterns": [
@@ -549,7 +549,7 @@ class LUKHASVoiceCoherenceEngine:
             return {
                 "identity": identity_count / total_matches,
                 "consciousness": consciousness_count / total_matches,
-                "guardian": guardian_count / total_matches,}
+                "guardian": guardian_count / total_matches,
             }
         else:
             return {"identity": 0.33, "consciousness": 0.33, "guardian": 0.34}
@@ -676,7 +676,7 @@ class LUKHASVoiceCoherenceEngine:
             "target_status": "ACHIEVING" if self.performance_metrics["target_achievement_rate"] >= 0.8 else "IMPROVING",
             "system_health": "EXCELLENT" if self.performance_metrics["average_coherence"] >= 0.85 else "GOOD",
             "total_voice_patterns": len(self.coherence_patterns),
-            "trinity_balance_enabled": True,}
+            "trinity_balance_enabled": True,
         }
 
 
@@ -719,10 +719,10 @@ async def main():
         status = "✅ EXCELLENT" if coherence_pct >= 85 else "⚠️ NEEDS WORK" if coherence_pct >= 70 else "❌ POOR"
 
         print(f"Content {i + 1}: {status} ({coherence_pct:.1f}% coherence)")
-        print(f\'Content: "{content[:60]}{"..." if len(content)} > 60 else ""}"\')
+        print(f'Content: "{content[:60]}{"..." if len(content) > 60 else ""}"')
         print(f"Profile: {result.voice_profile_match}")
         print(
-            f"Trinity Balance: ⚛️{result.trinity_balance['identity']:.2f} 🧠{result.trinity_balance['consciousness']:.2f} 🛡️{result.trinity_balance['guardian']:.2f}"
+            fix_later
         )
 
         if result.suggested_improvements:

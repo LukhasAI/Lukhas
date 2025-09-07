@@ -701,7 +701,7 @@ class RealTimeBrandValidator:
                 else:
                     callback_func(result, content)
             except Exception as e:
-                print(f"Error in validation callback {callback_name}: {e}")
+                logger.error(f"Validation callback error: {e}")
 
     def register_validation_callback(self, name: str, callback: Callable) -> None:
         """Register a callback function for validation events"""
@@ -951,7 +951,7 @@ if __name__ == "__main__":
             if result.issues:
                 print("Issues found:")
                 for issue in result.issues[:3]:  # Show first 3 issues
-                    print(f"  - {issue['severity']}: {issue['description']}")
+                    print(f"  - {issue.get('description', 'Unknown issue')}")
 
             if result.auto_corrections:
                 print("Auto-corrections:")

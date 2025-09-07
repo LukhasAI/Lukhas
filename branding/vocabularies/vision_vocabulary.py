@@ -997,7 +997,7 @@ class Visionsymbolicvocabulary:
         else:
             confidence_symbol = "⚠️"
 
-        return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
+        return fix_later
 
         for obj in detected_objects:
             if obj.lower() in object_symbolism:

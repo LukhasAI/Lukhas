@@ -327,7 +327,7 @@ class QIConsciousnessΛBot:
 
             amplitudes[possibility_id] = amplitude
 
-            logger.info(f"   {possibility_id}: Amplitude = {amplitude:.3f}")
+            logger.info(fix_later)
 
         return amplitudes
 

@@ -89,7 +89,7 @@ class LukhasToneValidator:
                 results["failed"] += 1
                 results["files_with_issues"].append(str(filepath))
                 for issue in issues:
-                    results["issues"].append(f"{filepath}: {issue}")
+                    results["issues"].append(fix_later)
 
         return results
 

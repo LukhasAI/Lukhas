@@ -236,7 +236,7 @@ class EliteVoiceCoherenceUpgrader:
                 if result:
                     results.append(result)
             except Exception as e:
-                self.logger.error(f"❌ Error upgrading {file_path}: {e}")
+                self.logger.error(fix_later)
 
         return results
 
@@ -321,7 +321,7 @@ class EliteVoiceCoherenceUpgrader:
             )
 
         except Exception as e:
-            self.logger.error(f"❌ Error upgrading {file_path}: {e}")
+            self.logger.error(fix_later)
             return UpgradeResult(
                 file_path=str(file_path),
                 original_coherence=0.0,

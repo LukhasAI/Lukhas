@@ -319,7 +319,7 @@ class LukhasUnifiedContentPlatform:
 
         # Log activity
         db.log_system_activity("content_platform", "content_generated",
-                              f"Generated {content_type}: {title}", voice_coherence)
+                              fix_later, voice_coherence)
 
         return content_id
 
@@ -493,7 +493,7 @@ class LukhasUnifiedDocEngine:
 
         # Log generation activity
         db.log_system_activity("doc_engine", "document_generated",
-                              f"Generated {doc_type}: {title}", voice_coherence)
+                              fix_later, voice_coherence)
 
         return {
             'id': doc_id,
@@ -892,7 +892,7 @@ async def main():
     success_count = len([v for v in results.values() if v])
 
     print("✅ System integration completed!")
-    print(f"🔗 Integration modules: {success_count}/{len(results)}")
+    print(fix_later)
 
     print("\n🚀 Run the orchestrator to test integration:")
     print("python engines/lukhas_unified_orchestrator.py")

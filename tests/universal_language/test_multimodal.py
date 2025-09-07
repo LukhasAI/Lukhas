@@ -3,13 +3,13 @@ from pathlib import Path
 
 
 def _load_module(module_name: str, rel_path: str):
-    Path(__file__).resolve().parents[2]
-file_path = root / rel_path
-spec = importlib.util.spec_from_file_location(module_name, file_path)
-mod = importlib.util.module_from_spec(spec)
-assert spec and spec.loader
-spec.loader.exec_module(mod)  # type: ignore[attr-defined]
-return mod
+    root = Path(__file__).resolve().parents[2]
+    file_path = root / rel_path
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    mod = importlib.util.module_from_spec(spec)
+    assert spec and spec.loader
+    spec.loader.exec_module(mod)  # type: ignore[attr-defined]
+    return mod
 
 
 mm = _load_module("ul_multimodal", "universal_language/multimodal.py")

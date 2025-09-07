@@ -53,7 +53,7 @@ result = controller.make_intelligent_request(
 if result.get("response"):
     print("🤖 LUKHAS AI ΛBot Response:")
     print(result["response"])
-    print(f"💰 Cost: ${{result.get('cost', 0}}:.6f)}")
+    print(f"💰 Cost: ${{result.get('cost', 0}}:.1f.6f)}")
 else:
     print("❌ Task failed:", result.get("error", "Unknown error"))
 """,
@@ -83,7 +83,7 @@ else:
 
             if "Balance:" in budget_result.stdout:
                 balance_line = next(line for line in budget_result.stdout.split("\n") if "Balance:" in line)
-                print(f"💰 {balance_line.strip(})}")
+                print(fix_later)
         except:
             pass
 

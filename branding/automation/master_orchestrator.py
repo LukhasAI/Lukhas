@@ -181,7 +181,7 @@ class MasterOrchestrator:
                 "system": "brand_automation",
                 "success": True,
                 "duration": cycle_time,
-                "results": results,}
+                "results": results,
             }
 
         except Exception as e:
@@ -190,7 +190,7 @@ class MasterOrchestrator:
                 "system": "brand_automation",
                 "success": False,
                 "error": str(e),
-                "duration": time.time() - start_time,}
+                "duration": time.time() - start_time,
             }
 
     async def run_self_healing_cycle(self) -> dict[str, Any]:
@@ -215,7 +215,7 @@ class MasterOrchestrator:
                 "system": "self_healing",
                 "success": True,
                 "duration": cycle_time,
-                "results": results,}
+                "results": results,
             }
 
         except Exception as e:
@@ -224,7 +224,7 @@ class MasterOrchestrator:
                 "system": "self_healing",
                 "success": False,
                 "error": str(e),
-                "duration": time.time() - start_time,}
+                "duration": time.time() - start_time,
             }
 
     async def generate_comprehensive_report(self) -> dict[str, Any]:
@@ -283,7 +283,7 @@ class MasterOrchestrator:
                 "system": "comprehensive_report",
                 "success": True,
                 "duration": cycle_time,
-                "report": report,}
+                "report": report,
             }
 
         except Exception as e:
@@ -292,7 +292,7 @@ class MasterOrchestrator:
                 "system": "comprehensive_report",
                 "success": False,
                 "error": str(e),
-                "duration": time.time() - start_time,}
+                "duration": time.time() - start_time,
             }
 
     async def run_performance_analysis(self) -> dict[str, Any]:
@@ -347,7 +347,7 @@ class MasterOrchestrator:
                 "system": "performance_analysis",
                 "success": True,
                 "duration": cycle_time,
-                "analysis": performance_insights,}
+                "analysis": performance_insights,
             }
 
         except Exception as e:
@@ -356,7 +356,7 @@ class MasterOrchestrator:
                 "system": "performance_analysis",
                 "success": False,
                 "error": str(e),
-                "duration": time.time() - start_time,}
+                "duration": time.time() - start_time,
             }
 
     async def run_deep_healing(self) -> dict[str, Any]:
@@ -398,7 +398,7 @@ class MasterOrchestrator:
                 "system": "deep_healing",
                 "success": True,
                 "duration": cycle_time,
-                "results": deep_healing_results,}
+                "results": deep_healing_results,
             }
 
         except Exception as e:
@@ -407,7 +407,7 @@ class MasterOrchestrator:
                 "system": "deep_healing",
                 "success": False,
                 "error": str(e),
-                "duration": time.time() - start_time,}
+                "duration": time.time() - start_time,
             }
 
     async def _save_report(self, report: dict[str, Any], report_type: str):
@@ -486,7 +486,7 @@ class MasterOrchestrator:
                 schedule.last_run = current_time.isoformat()
 
             except Exception as e:
-                self.logger.error(f"Failed to execute {schedule.system_name}: {e}")
+                self.logger.error(fix_later)
                 cycle_results["systems_executed"].append(
                     {"system": schedule.system_name, "success": False, "error": str(e)}
                 )
@@ -599,8 +599,8 @@ async def main():
     print("\n🔍 System Results:")
     for result in results["systems_executed"]:
         status_icon = "✅" if result.get("success") else "❌"
-        duration = f"({result.get('duration', 0)}:.1f}s)" if "duration" in result else ""
-        print(f"   {status_icon} {result['system']} {duration}")
+        duration = f"({result.get('duration', 0):.1f}s)" if "duration" in result else ""
+        print(fix_later)
 
     print("\n⚛️🧠🛡️ LUKHAS AI Master Orchestration Complete")
 

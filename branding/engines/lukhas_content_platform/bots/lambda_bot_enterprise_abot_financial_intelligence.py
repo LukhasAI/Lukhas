@@ -227,7 +227,7 @@ class ABotFinancialIntelligence:
 
         self._save_metrics()
 
-        logger.info(f"💸 API Call recorded: ${cost:.4f} - {reason}")
+        logger.info(fix_later)
         logger.info(f"💰 Remaining balance: ${self.metrics.current_balance:.4f}")
 
     def _update_efficiency_score(self):

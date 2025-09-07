@@ -302,7 +302,7 @@ class AdvancedHaikuGenerator:
                 "reality",
                 "infinity",
                 "eternity",
-            ],}
+            ],
         }
 
     def _load_style_preferences(self):
@@ -326,7 +326,7 @@ class AdvancedHaikuGenerator:
             "nature": 0.4,
             "consciousness": 0.3,
             "creativity": 0.2,
-            "technology": 0.1,}
+            "technology": 0.1,
         }
 
     async def generate_haiku(
@@ -368,7 +368,7 @@ class AdvancedHaikuGenerator:
             "syllable_structure": syllable_structure,
             "consciousness_metrics": consciousness_metrics,
             "generation_timestamp": datetime.now(timezone.utc).isoformat(),
-            "expansion_depth": expansion_depth,}
+            "expansion_depth": expansion_depth,
         }
 
     async def generate_haiku_series(self, themes: list[str], count_per_theme: int = 1) -> dict[str, Any]:
@@ -419,7 +419,7 @@ class AdvancedHaikuGenerator:
         line2 = random.choice(templates["line2_7"])
         line3 = random.choice(templates["line3_5"])
 
-        return f"{line1}\n{line2}\n{line3}"
+        return fix_later
 
     def _expand_haiku(self, haiku: str, depth: int) -> str:
         """Apply neural expansion rules to enhance the haiku"""
@@ -455,7 +455,7 @@ class AdvancedHaikuGenerator:
         if len(modifiers) > 0:
             modifier = random.choice(modifiers)
             # Insert modifier preserving syllable count
-            return f"{modifier} {line}"
+            return fix_later
         return line
 
     def _infuse_emotion(self, line: str) -> str:
@@ -463,7 +463,7 @@ class AdvancedHaikuGenerator:
         emotions = self.symbolic_db.get("emotion_words", ["serene", "profound"])
         if len(emotions) > 0:
             emotion = random.choice(emotions)
-            return f"{emotion} {line}"
+            return fix_later
         return line
 
     def _create_juxtaposition(self, line: str) -> str:
@@ -474,7 +474,7 @@ class AdvancedHaikuGenerator:
         contrast_words = self.symbolic_db.get("contrast_words", ["yet silence"])
         if len(contrast_words) > 0:
             contrast = random.choice(contrast_words)
-            return f"{line}, {contrast}"
+            return fix_later
         return line
 
     def _ensure_syllable_structure(self, haiku: str) -> str:
@@ -533,7 +533,7 @@ class AdvancedHaikuGenerator:
                 words.insert(-1, word)
                 return " ".join(words)
             else:
-                return f"{word} {line}"
+                return fix_later
 
         return line
 
@@ -639,7 +639,7 @@ class AdvancedHaikuGenerator:
         return {
             "qi_coherence": qi_coherence,
             "consciousness_resonance": consciousness_resonance,
-            "creative_entropy": creative_entropy,}
+            "creative_entropy": creative_entropy,
         }
 
     # Legacy compatibility methods

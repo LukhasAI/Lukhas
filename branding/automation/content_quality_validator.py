@@ -132,7 +132,7 @@ class ContentQualityValidator:
         db.log_system_activity(
             "content_quality_validator",
             "content_validated",
-            f"Content scored {overall_score:.1f} for {platform}",
+            fix_later,
             overall_score,
         )
 
@@ -154,14 +154,14 @@ class ContentQualityValidator:
         if content_length < limits["min_length"]:
             issues.append(f"Content too short for {platform}: {content_length} < {limits['min_length']} characters")
             score -= 30
-            recommendations.append(f"Expand content to at least {limits['min_length']} characters for {platform}")
+            recommendations.append(fix_later)
 
         if content_length > limits["max_length"]:
             issues.append(
                 f"CRITICAL: Content too long for {platform}: {content_length} > {limits['max_length']} characters"
             )
             score -= 50
-            recommendations.append(f"Reduce content to under {limits['max_length']} characters for {platform}")
+            recommendations.append(fix_later)
 
         # Platform-specific formatting checks
         if platform == "twitter":

@@ -128,7 +128,7 @@ class SelfHealingSystem:
                 self.logger.info(f"Created backup: {backup_dir}")
                 return backup_dir
         except Exception as e:
-            self.logger.error(f"Failed to create backup for {target_path}: {e}")
+            self.logger.error(fix_later)
 
         return None
 
@@ -327,14 +327,14 @@ class SelfHealingSystem:
                 action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 action_type="naming_fix",
                 target=issue["path"],
-                description=f"Renamed {issue['current_name']} → {suggested_name}",
+                description=fix_later,
                 applied_at=datetime.now(timezone.utc).isoformat(),
                 success=True,
                 backup_created=backup_path is not None,
                 rollback_available=True,
             )
 
-            self.logger.info(f"✅ Fixed naming: {issue['current_name']} → {suggested_name}")
+            self.logger.info(fix_later)
             return action
 
         except Exception as e:
@@ -347,7 +347,7 @@ class SelfHealingSystem:
                 success=False,
             )
 
-            self.logger.error(f"❌ Failed to fix naming for {issue['current_name']}: {e}")
+            self.logger.error(fix_later)
             return action
 
     async def handle_empty_directory(self, empty_dir: dict[str, Any]) -> HealingAction:
@@ -447,7 +447,7 @@ if __name__ == "__main__":
                 success=True,
             )
 
-            self.logger.info(f"✅ Handled empty directory: {empty_dir['path']} - {action_description}")
+            self.logger.info(fix_later)
             return action
 
         except Exception as e:
@@ -460,7 +460,7 @@ if __name__ == "__main__":
                 success=False,
             )
 
-            self.logger.error(f"❌ Failed to handle empty directory {empty_dir['path']}: {e}")
+            self.logger.error(fix_later)
             return action
 
     async def fix_brand_inconsistency(self, inconsistency: dict[str, Any]) -> HealingAction:
@@ -478,7 +478,7 @@ if __name__ == "__main__":
                 new_coherence = min(inconsistency["voice_coherence"] + 10, 100)
                 db.update_voice_coherence(content_id, new_coherence)
                 action_description += (
-                    f" | Improved voice coherence: {inconsistency['voice_coherence']} → {new_coherence}"
+                    fix_later
                 )
 
             action = HealingAction(
@@ -503,7 +503,7 @@ if __name__ == "__main__":
                 success=False,
             )
 
-            self.logger.error(f"❌ Failed to fix brand inconsistency in content {content_id}: {e}")
+            self.logger.error(fix_later)
             return action
 
     async def run_comprehensive_healing(self) -> dict[str, Any]:

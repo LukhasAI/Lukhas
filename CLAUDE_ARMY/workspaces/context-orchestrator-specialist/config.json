@@ -1,0 +1,20 @@
+{
+    "name": "context-orchestrator-specialist",
+    "role": "Multi-AI Coordination, Workflow",
+    "max_plan": "x20",
+    "context_modules": [
+  "orchestration/",
+  "core/",
+  "CLAUDE_ARMY/workspaces/context-orchestrator-specialist/"
+],
+    "priority": "high",
+    "memory_optimization": true,
+    "parallel_processing": true,
+    "session_persistence": true,
+    "features": {
+        "code_execution": true,
+        "file_access": true,
+        "web_search": false,
+        "api_integration": true
+    }
+}

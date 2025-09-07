@@ -1,0 +1,20 @@
+{
+    "name": "identity-auth-specialist",
+    "role": "WebAuthn, OAuth2, ΛID System",
+    "max_plan": "x20",
+    "context_modules": [
+  "identity/",
+  "serve/auth/",
+  "api/auth/"
+],
+    "priority": "critical",
+    "memory_optimization": true,
+    "parallel_processing": true,
+    "session_persistence": true,
+    "features": {
+        "code_execution": true,
+        "file_access": true,
+        "web_search": false,
+        "api_integration": true
+    }
+}

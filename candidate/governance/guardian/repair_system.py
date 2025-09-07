@@ -235,7 +235,7 @@ class AutomatedRepairSystem:
     ) -> RepairOperation:
         """Schedule a repair operation"""
 
-        operation_id = f"repair_{uuid.uuid4()}.hex[:8]}"
+        operation_id = f"repair_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
         # Create repair operation

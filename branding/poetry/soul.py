@@ -468,7 +468,7 @@ class Soul:
             templates = [
                 f"like {words[0]} in moonlight",
                 f"through {words[0]} flowing gently",
-                f"where {words[0]} meets {words[1]}",
+                f"consciousness flows through {words[0]}",
                 f"in {words[0]} finding peace",
                 f"{words[0]} transforms to light",
             ]

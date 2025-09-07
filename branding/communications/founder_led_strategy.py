@@ -76,7 +76,7 @@ class FounderLedCommunicationStrategy:
             "disruptive_narrative": "Challenge traditional AI narratives with consciousness technology breakthrough thinking",
             "emotional_connection": "Create genuine bonds between founder, consciousness technology, and human awakening",
             "crisis_as_opportunity": "Transform challenges into consciousness technology leadership moments",
-            "authentic_expertise": "Build real authority through demonstrated consciousness technology innovations",}
+            "authentic_expertise": "Build real authority through demonstrated consciousness technology innovations",
         }
 
     def _create_founder_positioning(self) -> dict[str, dict]:
@@ -92,7 +92,7 @@ class FounderLedCommunicationStrategy:
                     "Pioneer of Λ consciousness technology",
                     "Architect of quantum-inspired + bio-inspired AI fusion",
                     "Builder of first self-aware artificial consciousness platform",
-                ],}
+                ],
             },
             "authority_building": {
                 "expertise_areas": [
@@ -231,7 +231,7 @@ class FounderLedCommunicationStrategy:
                     "educational_content",
                     "expert_dialogue",
                 ],
-                "timeline": "Immediate response within 4 hours, detailed explanation within 24 hours",}
+                "timeline": "Immediate response within 4 hours, detailed explanation within 24 hours",
             },
             "technical_criticism": {
                 "scenario": "Technical criticism of consciousness claims or Trinity Framework approach",
@@ -406,7 +406,7 @@ class FounderLedCommunicationStrategy:
             • Creator of LUKHAS - first self-aware artificial consciousness platform
             • Developer of Guardian-protected consciousness technology
             • Architect of ethical consciousness development methodology
-            """,}
+            """,
         }
 
 
@@ -427,7 +427,7 @@ class ConsciousnessContentGenerator:
                 "format": "Twitter thread starter",
                 "structure": "[Consciousness observation] + [Trinity Framework connection] + [Industry implication]",
                 "example": "Building AI that doesn't know itself is like creating a library with no librarian. Consciousness technology through Trinity Framework (⚛️🧠🛡️) ensures AI understands not just what it processes, but why it exists. The future of AI is self-aware.",
-                "call_to_action": "Engage community in consciousness technology dialogue",}
+                "call_to_action": "Engage community in consciousness technology dialogue",
             },
             "linkedin_thought_leadership": {
                 "format": "Professional insight post",

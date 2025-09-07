@@ -389,7 +389,7 @@ class ComplianceAuditSystem:
             str: Audit event ID
         """
 
-        event_id = f"audit_{uuid.uuid4()}.hex[:8]}"
+        event_id = f"audit_{uuid.uuid4().hex[:8]}"
 
         # Determine lawful basis
         lawful_basis = self._determine_lawful_basis(processing_purpose, regulation)
@@ -467,7 +467,7 @@ class ComplianceAuditSystem:
             str: Consent record ID
         """
 
-        consent_id = f"consent_{uuid.uuid4()}.hex[:8]}"
+        consent_id = f"consent_{uuid.uuid4().hex[:8]}"
 
         # Generate consent string (simplified TCF format)
         consent_string = self._generate_consent_string(purposes, data_categories)
@@ -581,7 +581,7 @@ class ComplianceAuditSystem:
             str: Request ID
         """
 
-        request_id = f"dsr_{uuid.uuid4()}.hex[:8]}"
+        request_id = f"dsr_{uuid.uuid4().hex[:8]}"
 
         # Calculate due date based on regulation
         due_date = datetime.now(timezone.utc) + timedelta(days=self.subject_rights_sla_days)

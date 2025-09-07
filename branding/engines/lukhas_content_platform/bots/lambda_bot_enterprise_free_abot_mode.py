@@ -98,7 +98,7 @@ def free_abot_session():
                 except subprocess.TimeoutExpired:
                     print(f"⏱️ Task {task_type} timed out - LUKHAS AI ΛBot moving on")
                 except Exception as e:
-                    print(f"❌ Task {task_type} error: {e}")
+                    print(fix_later)
 
                 task_index += 1
             else:

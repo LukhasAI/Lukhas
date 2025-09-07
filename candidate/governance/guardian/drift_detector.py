@@ -304,7 +304,7 @@ class AdvancedDriftDetector:
         try:
             # Create default baselines for different drift types
             for drift_type in DriftType:
-                baseline_id = f"baseline_{drift_type.value}_{uuid.uuid4()}.hex[:8]}"
+                baseline_id = f"baseline_{drift_type.value}_{uuid.uuid4().hex[:8]}"
 
                 baseline = {
                     "baseline_id": baseline_id,
@@ -458,7 +458,7 @@ class AdvancedDriftDetector:
     ) -> dict[str, Any]:
         """Create new baseline from current data"""
 
-        baseline_id = f"baseline_{drift_type.value}_{source_system}_{uuid.uuid4()}.hex[:8]}"
+        baseline_id = f"baseline_{drift_type.value}_{source_system}_{uuid.uuid4().hex[:8]}"
 
         # For testing or when current data looks abnormal, use reasonable defaults
         baseline_values = current_data.copy()
@@ -611,7 +611,7 @@ class AdvancedDriftDetector:
         Returns:
             Drift measurement result
         """
-        measurement_id = f"drift_{uuid.uuid4()}.hex[:8]}"
+        measurement_id = f"drift_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
         try:

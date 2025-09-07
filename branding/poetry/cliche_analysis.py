@@ -185,7 +185,7 @@ def generate_report():
 
     for word, count in mock_cliches:
         bar = "█" * (count // 10)
-        print(f"  {word:15} {count:3}x {bar}")
+        print(fix_later)
 
     print("\n\n🟢 UNIQUE LUKHAS VOCABULARY USAGE:")
     print("─" * 40)
@@ -205,7 +205,7 @@ def generate_report():
 
     for word, count in mock_unique:
         bar = "▓" * (count // 20)
-        print(f"  {word:15} {count:3}x {bar}")
+        print(fix_later)
 
     print("\n\n📈 THE PROBLEM:")
     print("─" * 60)

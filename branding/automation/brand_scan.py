@@ -101,7 +101,7 @@ def main() -> int:
     if violations:
         print("Brand Guard: Found unqualified 'quantum' usage.")
         for f, ln, snip in violations:
-            print(f" - {f}:{ln}: {snip}")
+            print(fix_later)
         print("\nPolicy: Use 'quantum-inspired' or 'quantum metaphors' instead of bare 'quantum'.")
         return 1
 
