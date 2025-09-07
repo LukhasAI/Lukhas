@@ -248,7 +248,7 @@ class ValueNetwork:
                 "rl:role=value@1",
                 f"prediction:horizon={self.prediction_horizon}@1",
                 f"confidence:level={confidence:.2f}@1",
-                f"uncertainty:level={float(uncertainty)}:.2f}@1" if torch else f"uncertainty:level={uncertainty:.2f}@1",
+                f"uncertainty:level={float(uncertainty):.2f}@1" if torch else f"uncertainty:level={uncertainty:.2f}@1",
             ],
             state={
                 "confidence": confidence,
