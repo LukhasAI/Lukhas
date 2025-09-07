@@ -421,7 +421,7 @@ class InnovationDriftProtection(CoreInterface):
 
     async def _validate_innovation(self, innovation: BreakthroughInnovation) -> dict[str, Any]:
         """Comprehensive innovation validation"""
-        validation_result = {"safe": True, "reason": None, "checks": {}
+        validation_result = {"safe": True, "reason": None, "checks": {}}
 
         # Check 1: Drift validation
         drift_check = await self._validate_drift_compliance(innovation)

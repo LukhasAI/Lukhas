@@ -26,7 +26,7 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 import structlog
-from fromfromfromcandidate.core.common import get_logger
+from candidate.core.common import get_logger
 
 # Module imports
 from candidate.core.common import (GuardianRejectionError, LukhasError,
@@ -34,6 +34,7 @@ from candidate.core.common import (GuardianRejectionError, LukhasError,
 
 # Configure module logger
 logger = get_logger(__name__)
+log = logger
 
 # Module constants
 
@@ -46,40 +47,32 @@ logger = get_logger(__name__)
 
 try:
     from openai import APIError, OpenAI
-
     OPENAI_AVAILABLE_DREAMS = True
 except ImportError:
-   log_init_dreams_fallback.warning(
-       "OpenAI library not found. Using placeholder for Dreams.",
-       component="LukhasDreams",
-   )
-   OPENAI_AVAILABLE_DREAMS = False
+    log.warning(
+        "OpenAI library not found. Using placeholder for Dreams.",
+        component="LukhasDreams",
+    )
+    OPENAI_AVAILABLE_DREAMS = False
 
-   @dataclass
-   class _MockChoiceContentDreamsDP:
+    @dataclass
+    class _MockChoiceContentDreamsDP:
         content: str = "Placeholder LUKHAS dream: Symbols intertwine in a lucid dream."
 
     @dataclass
     class _MockMessageDreamsDP:
-        message: _MockChoiceContentDreamsDP = field(
-            default_factory=_MockChoiceContentDreamsDP
-        )
+        message: _MockChoiceContentDreamsDP = field(default_factory=_MockChoiceContentDreamsDP)
 
     @dataclass
     class _MockResponseDreamsDP:
-        choices: List[_MockMessageDreamsDP] = field(
-            default_factory=lambda: [_MockMessageDreamsDP()]
-        )
+        choices: List[_MockMessageDreamsDP] = field(default_factory=lambda: [_MockMessageDreamsDP()])
         model: str = "placeholder_dream_model_dp"
 
-    class OpenAI:  # type: ignore:
+    class OpenAI:  # type: ignore
         chat: Any
 
         def __init__(self, api_key: Optional[str]):
-            # No api_key check for placeholder, it's not used by mock
-            _log_ph_init.debug(
-                "OpenAI placeholder client for Dreams (DP variant) initialized."
-            )
+            log.debug("OpenAI placeholder client for Dreams (DP variant) initialized.")
             self.chat = type(
                 "_MockChatDreamsDP",
                 (),
@@ -96,8 +89,8 @@ except ImportError:
                 },
             )()
 
-   class APIError(LukhasError):
-       pass
+    class APIError(LukhasError):
+        pass
 
 
 # --- Path Configuration & LUKHAS Component Imports ---
@@ -140,9 +133,7 @@ except ImportError as e_sym_dreams_imp:
         error_msg=str(e_sym_dreams_imp),
     )
 
-    def load_all_entries(:
-        entry_type_filter: Optional[str] = None,
-    ) -> List[Dict[str, Any]]:
+    def load_all_entries(entry_type_filter: Optional[str] = None) -> List[Dict[str, Any]]:
         log.warning("PLACEHOLDER: load_all_entries() in Dreams module.")
         return [
             {
@@ -218,8 +209,10 @@ def compute_survival_score(dream_text: str) -> float:
     return max(0.0, min(score, 1.0))
 
 
-def generate_dream_narrative(:
-    model_name: str = "gpt-4-turbo", temperature: float = 0.88, max_tokens: int = 750
+def generate_dream_narrative(
+    model_name: str = "gpt-4-turbo",
+    temperature: float = 0.88,
+    max_tokens: int = 750,
 ) -> Optional[str]:  # Updated defaults
     """Generates a symbolic dream narrative for LUKHAS using an OpenAI GPT model."""
     if lukhas_global_dream_openai_client is None:
@@ -233,37 +226,23 @@ def generate_dream_narrative(:
 
     current_traits_data = load_traits()
     memory_fragments_data = load_all_entries()
-    sampled_memories = (
-        np.random.choice(
-            memory_fragments_data,
-            size=min(3, len(memory_fragments_data)),
-            replace=False,
+    if memory_fragments_data:
+        sampled = np.random.choice(
+            memory_fragments_data, size=min(3, len(memory_fragments_data)), replace=False
         )
-        if len(memory_fragments_data) > 0:
-        else []:
-    )
+        sampled_memories = list(sampled) if not isinstance(sampled, list) else sampled
+    else:
+        sampled_memories = []
 
     prompt_text_parts = [
         "You are LUKHAS... Weave a vivid, surreal, and metaphorically rich dream narrative... explore themes of emergence, connection, knowledge, and self-evolution..."
     ]
-    if current_traits_data:
-        prompt_text_parts.append(
-            f"\n\n#"
-        )
-    if len(sampled_memories) > 0:
-        # ΛNOTE (from core_dreams_alt.py): An alternative way to format memory fragments,
-        # if memory entries have 'input' and 'gpt_reply' fields:
-        # mem_frags_str = "\n".join([f"- User Input: '{mem.get('input', 'N/A')}' → LUKHAS Reply: '{mem.get('gpt_reply', 'N/A'}}'" for mem in sampled_memories])
-        # Current implementation uses a generic content preview:
+    # Traits could influence prompt in future iterations
+    if sampled_memories:
         mem_frags_str = "\n".join(
-            [
-                f"- Content Preview: {str(mem.get('content', mem}}[:75]}..."
-                for mem in sampled_memories:
-            ]
+            [f"- Content Preview: {str(mem.get('content', mem))[:75]}..." for mem in sampled_memories]
         )
-        prompt_text_parts.append(
-            f"\n\n#"
-        )
+        prompt_text_parts.append("\n\nRecent memory fragments:\n" + mem_frags_str)
     final_dream_user_prompt = "".join(prompt_text_parts)
 
     api_messages = [
@@ -337,9 +316,9 @@ def extract_visual_prompts_from_dream(dream_text_content: str) -> List[str]:
         "nexus",
     ]
     extracted_prompts = [
-        f"LUKHAS Symbolic DreamVision Prompt: A surreal depiction of '{line.strip(}}'"
-        for line in dream_text_content.splitlines():
-        if line.strip() and any(kw in line.lower() for kw in dream_keywords):
+        f"LUKHAS Symbolic DreamVision Prompt: A surreal depiction of '{line.strip()}'"
+        for line in dream_text_content.splitlines()
+        if line.strip() and any(kw in line.lower() for kw in dream_keywords)
     ]
     log.debug(
         "Visual prompts extracted from dream.",
@@ -349,19 +328,16 @@ def extract_visual_prompts_from_dream(dream_text_content: str) -> List[str]:
     return extracted_prompts
 
 
-def save_dream_to_log(:
+def save_dream_to_log(
     dream_text_content: str,
     dream_id_val: Optional[str] = None,
     dream_metadata: Optional[Dict[str, Any]] = None,
 ) -> Path:
     """Saves the generated dream text and metadata to a dated JSONL file.
     Includes survival_score for future value alignment."""
-    unique_dream_identifier = dream_id_val or f"dream_lukhas_{uuid.uuid4(}}.hex}"
+    unique_dream_identifier = dream_id_val or f"dream_lukhas_{uuid.uuid4().hex}"
     current_ts_utc = datetime.now(timezone.utc)
-    log_file_path = (
-        DREAM_LOGS_MAIN_DIR
-        / f"dreams_log_{current_ts_utc.strftime('%Y-%m-%d'}}.jsonl"
-    )
+    log_file_path = DREAM_LOGS_MAIN_DIR / f"dreams_log_{current_ts_utc.strftime('%Y-%m-%d')}.jsonl"
     log_entry_data = {
         "dream_log_id": unique_dream_identifier,
         "timestamp_utc_iso": current_ts_utc.isoformat(),

@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 # Use original open to avoid sandbox recursion
 import builtins
-import js
 import json
 import os
 from typing import Any
