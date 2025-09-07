@@ -64,7 +64,7 @@ class ABotIntelligentAIRouter:
     """
 
     def __init__(self):
-        self.routing_analytics = {"total_requests": 0, "service_usage": {}
+        self.routing_analytics = {"total_requests": 0, "service_usage": {}}
         self.services = {
             "gpt-4o": AIServiceCapability(
                 name="OpenAI GPT-4o",
@@ -206,7 +206,7 @@ class ABotIntelligentAIRouter:
             ),
         }
 
-        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services})} services")
+        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services)} services")
 
     def _get_keychain_value(self, service: str) -> Optional[str]:
         """Get API key from Mac KeyChain"""
@@ -358,11 +358,10 @@ def get_ai_router_status() -> dict:
     try:
         analytics = router.get_routing_analytics()
     except:
-        analytics = {"total_requests": 0, "service_usage": {}
+        analytics = {"total_requests": 0, "service_usage": {}}
 
     # Find cheapest and most expensive available services
     available_service_costs = {k: v["cost_per_1k"] for k, v in services_status.items() if v.get("available", False)}
-
     cheapest_service = (
         min(available_service_costs.keys(), key=lambda k: available_service_costs[k])
         if available_service_costs

@@ -182,7 +182,7 @@ class LambdaIDController:
             self.logger.error(
                 f"ΛTRACE: Failed to load tier permissions configuration: {e}. Using minimal default.", exc_info=True
             )
-            self.tier_config = {"tier_permissions": {}  # Minimal default on error
+            self.tier_config = {"tier_permissions": {}}  # Minimal default on error
 
     # Human-readable comment: Generates a new Lambda ID.
     def generate_id(
@@ -197,9 +197,9 @@ class LambdaIDController:
         Generates a new LUKHAS ΛiD with comprehensive validation and business logic,
         considering user tier, symbolic preferences, and entropy requirements.
         """
-        req_id = f"genid_{int(time.time(} * 1000}"
+        req_id = f"genid_{int(time.time() * 1000)}"
         self.logger.info(
-            f"ΛTRACE ({req_id}): Received request to generate ΛiD. User Tier: {user_tier}, Symbolic Prefs: {bool(symbolic_preferences)}, Entropy Req: {bool(entropy_requirements}}"
+            f"ΛTRACE ({req_id}): Received request to generate ΛiD. User Tier: {user_tier}, Symbolic Prefs: {bool(symbolic_preferences)}, Entropy Req: {bool(entropy_requirements)}"
         )
 
         # Ensure symbolic_preferences is a list if None

@@ -395,8 +395,8 @@ class VivoxAkaQualiaIntegration:
             # Create memory record for phenomenological scene
             memory_data = {
                 "experience_type": "phenomenological_scene",
-                "proto_qualia": scene.proto.dict(),
-                "risk_profile": scene.risk.dict(),
+                "proto_qualia": scene.proto.model_dump(),
+                "risk_profile": scene.risk.model_dump(),
                 "context": scene.context,
                 "collapse_hash": self.generate_collapse_hash(scene),
                 "emotional_dna": {

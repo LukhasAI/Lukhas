@@ -67,7 +67,10 @@
       "Bash(.venv/bin/pytest tests/test_basic_functions.py::test_memory_wrapper_initializes -v)",
       "Bash(.venv/bin/pytest -q --maxfail=3 --disable-warnings)",
       "Bash(.venv/bin/pytest -q --disable-warnings)",
-      "Bash(./agents_external/CLAUDE/deploy_claude_max_x20_adapted.sh:*)"
+      "Bash(./agents_external/CLAUDE/deploy_claude_max_x20_adapted.sh:*)",
+      "Bash(.venv/bin/pytest tests/test_basic_functions.py -v --disable-warnings)",
+      "Bash(.venv/bin/pytest tests/test_aka_qualia.py::TestT1T2Integration::test_complete_cycle_dangerous_input -v --disable-warnings)",
+      "Bash(.venv/bin/pytest tests/test_aka_qualia.py::TestT1T2Integration::test_status_and_logging tests/test_aka_qualia.py::TestT1T2Integration::test_deterministic_reproducibility -v)"
     ],
     "deny": [],
     "ask": []

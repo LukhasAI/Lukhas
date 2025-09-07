@@ -410,7 +410,7 @@ class ExternalServiceIntegration:
 
         try:
             token = CapabilityToken(
-                token_id=f"tool_executor_{lid}_{int(datetime.now(timezone.utc).timestamp()}",
+                token_id=f"tool_executor_{lid}_{int(datetime.now(timezone.utc).timestamp())}",
                 lid=lid,
                 scope=scopes,
                 resource_ids=[service],

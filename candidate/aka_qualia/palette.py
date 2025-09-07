@@ -241,7 +241,7 @@ def get_safe_palette_recommendation(current_colorfield: str, culture: str = "def
         "shiro",
     ]:
         return f"{best_color}/{_japanese_to_english(best_color)}"
-    return mappings.get(japanese_color, japanese_color)
+    return best_color or "neutral"
 
 
 def compute_palette_harmony(colorfield1: str, colorfield2: str, culture: str = "default") -> float:

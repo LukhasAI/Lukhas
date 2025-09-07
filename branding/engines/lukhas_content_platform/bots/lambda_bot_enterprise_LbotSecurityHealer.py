@@ -641,7 +641,7 @@ class ΛBotAutonomousSecurityHealer:
 
     async def _measure_performance_impact(self) -> dict[str, Any]:
         """Measure performance impact of fixes"""
-        return {"impact": "minimal", "metrics": {}
+        return {"impact": "minimal", "metrics": {}}
 
     async def _save_learning_patterns(self):
         """Save learning patterns for future use"""

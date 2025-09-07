@@ -154,7 +154,7 @@ class BotCustomizer:
         print()
 
         for key, design in self.designs.items():
-            print(fix_later)
+            print(f"  {key}: {design}")
         print()
 
         choice = input("Select design (1-7): ").strip()
@@ -183,7 +183,7 @@ class BotCustomizer:
         print()
 
         for key, action in self.actions.items():
-            print(fix_later)
+            print(f"  {key}: {action}")
         print()
 
         choice = input("Select action (1-9): ").strip()
@@ -310,18 +310,17 @@ class BotCustomizer:
         action = getattr(self, "current_action", {})
         colors = getattr(self, "current_colors", {})
 
-        return f"""
-        # Auto-generated widget configuration
-        widget_data = {{
-            "text": "{design.get("text", "🤖 LUKHAS AI ΛBot")}",
-            "tooltip": "LUKHAS AI ΛBot Quality Monitor - Click for {action.get("name", "actions")}",
-            "color": "{colors.get("success", "#28a745")}",
-            "command": "{action.get("command", "workbench.action.tasks.runTask")}",
-            "arguments": {action.get("args", [])},
+        widget_data = {
+            "text": f"{design.get('text', '🤖 LUKHAS AI ΛBot')}",
+            "tooltip": f"LUKHAS AI ΛBot Quality Monitor - Click for {action.get('name', 'actions')}",
+            "color": f"{colors.get('success', '#28a745')}",
+            "command": f"{action.get('command', 'workbench.action.tasks.runTask')}",
+            "arguments": action.get('args', []),
             "priority": 100,
             "alignment": "left"
         }
-        """
+        
+        return f"# Auto-generated widget configuration\nwidget_data = {widget_data}"
 
     def restart_status_bar(self):
         """Restart the status bar widget."""
@@ -354,7 +353,7 @@ def main():
     """Main entry point."""
     print("🚀 Starting LUKHAS AI ΛBot Status Bar Customizer...")
 
-    customizer = LambdaBotCustomizer()
+    customizer = BotCustomizer()
 
     try:
         customizer.show_menu()

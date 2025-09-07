@@ -153,7 +153,7 @@ def free_abot_session():
     elapsed_total = int(time.time() - start_time)
     print("\n🏁 FREE LUKHAS AI ΛBot SESSION COMPLETE")
     print(f"⏱️ Total time: {elapsed_total // 60}m {elapsed_total % 60}s")
-    print(f"🎯 Tasks attempted: {min(task_index, len(autonomous_tasks)}")
+    print(f"🎯 Tasks attempted: {min(task_index, len(autonomous_tasks))}")
     print("\n📊 Final LUKHAS AI ΛBot Status:")
     print(get_abot_status())
 

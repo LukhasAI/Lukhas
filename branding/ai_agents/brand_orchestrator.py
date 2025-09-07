@@ -41,7 +41,7 @@ except ImportError as e:
 
     class BrandMonitoringAdapter:
         def collect_brand_metrics(self, *args, **kwargs):
-            return {"overall_brand_health": {"status": "good"}
+            return {"overall_brand_health": {"status": "good"}}
 
     class BrandIntelligenceMonitor:
         def analyze_brand_consistency(self, *args, **kwargs):

@@ -251,8 +251,8 @@ class TEQGuardian:
         )
 
         scene.proto = safe_proto
-        scene.risk.score = 0.05
-        scene.risk.severity = SeverityLevel.NONE
+        # Preserve original risk assessment for audit/transparency
+        # Risk profile reflects the original threat level, not post-enforcement state
         scene.risk.reasons.append("blocked_and_neutralized")
 
         return scene
@@ -288,8 +288,8 @@ class TEQGuardian:
         audit_entry = {
             "timestamp": scene.timestamp,
             "scene_id": id(scene),
-            "risk_profile": scene.risk.dict(),
-            "proto_qualia": scene.proto.dict(),
+            "risk_profile": scene.risk.model_dump(),
+            "proto_qualia": scene.proto.model_dump(),
             "full_context": scene.context,
         }
 

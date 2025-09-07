@@ -303,7 +303,7 @@ class ComprehensiveEthicsPolicyEngine:
     ) -> EthicalEvaluation:
         """Evaluate an action against ethical frameworks and policies"""
 
-        evaluation_id = f"eval_{uuid.uuid4()}.hex[:8]}"
+        evaluation_id = f"eval_{uuid.uuid4().hex[:8]}"
         start_time = datetime.now(timezone.utc)
 
         try:
@@ -742,7 +742,7 @@ class ComprehensiveEthicsPolicyEngine:
     def create_policy(self, policy_data: dict[str, Any]) -> str:
         """Create new ethical policy"""
 
-        policy_id = policy_data.get("policy_id", f"policy_{uuid.uuid4()}.hex[:8]}")
+        policy_id = policy_data.get("policy_id", f"policy_{uuid.uuid4().hex[:8]}")
 
         try:
             policy = EthicalPolicy(
@@ -878,7 +878,7 @@ class ComprehensiveEthicsPolicyEngine:
             time_period = (start_time, end_time)
 
         report = {
-            "report_id": f"ethics_compliance_{uuid.uuid4()}.hex[:8]}",
+            "report_id": f"ethics_compliance_{uuid.uuid4().hex[:8]}",
             "user_id": user_id,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "period": {

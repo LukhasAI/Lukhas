@@ -254,7 +254,7 @@ class OnboardingCLI:
         elements = []
         while len(elements) < 12:  # Max elements
             try:
-                element = input(f"Element {len(elements)} + 1}: ").strip()
+                element = input(f"Element {len(elements) + 1}: ").strip()
                 if element.lower() == "done":
                     if len(elements) >= 3:
                         break
@@ -432,8 +432,8 @@ class OnboardingCLI:
         print(f"🆔 Lambda ID: {result.get('lambda_id', 'N/A')}")
         print(f"🔑 Public Hash: {result.get('public_hash', 'N/A')}")
         print(f"🏆 Tier Level: {result.get('tier_level', 'N/A')}")
-        print(f"⚡ Entropy Score: {result.get('entropy_score', 0)}:.3f}")
-        print(f"🔮 QRG Enabled: {'Yes' if result.get('qrg_enabled')} else 'No'}")
+        print(f"⚡ Entropy Score: {result.get('entropy_score', 0):.3f}")
+        print(f"🔮 QRG Enabled: {'Yes' if result.get('qrg_enabled') else 'No'}")
 
         if "completion_report" in result:
             report = result["completion_report"]

@@ -346,7 +346,7 @@ class PrivacyManager:
         hasher.update(value_str.encode())
 
         # Return prefix and hash
-        return f"ANON:{hasher.hexdigest()}[:16]}"
+        return f"ANON:{hasher.hexdigest()[:16]}"
 
     def _encrypt_value(self, value):
         """Encrypt a sensitive value"""

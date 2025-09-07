@@ -208,7 +208,7 @@ class CommercialModule:
             }
 
         # Create brand registration
-        registration_id = f"brand_reg_{int(time.time()}"
+        registration_id = f"brand_reg_{int(time.time())}"
         expiry_date = datetime.now(timezone.utc) + timedelta(days=365)
 
         brand_prefix = BrandPrefix(

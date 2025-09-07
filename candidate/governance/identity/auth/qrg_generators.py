@@ -931,7 +931,7 @@ if __name__ == "__main__":
     if "error" not in stego_qr:
         print("✅ Steganographic QR generated successfully")
         print(f"   🎭 Hidden data length: {stego_qr.get('hidden_data_length', 'N/A')} chars")
-        print(f"   🔑 Encryption: {stego_qr.get('steganography_metadata', {)}).get('encryption_method', 'N/A')}")
+        print(f"   🔑 Encryption: {stego_qr.get('steganography_metadata', {}).get('encryption_method', 'N/A')}")
     else:
         print(f"❌ Steganographic QR failed: {stego_qr['error']}")
 

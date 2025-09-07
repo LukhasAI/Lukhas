@@ -715,7 +715,7 @@ class AuthenticationServer:
             anonymized_records = []
             for record in self.consent_audit_trail:
                 if record["user_id"] == user_id:
-                    record["user_id"] = f"anonymized_{hashlib.sha256(user_id.encode()).hexdigest()}[:8]}"
+                    record["user_id"] = f"anonymized_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}"
                     anonymized_records.append(record)
 
             erasure_results["consent_records"] = True
@@ -881,7 +881,7 @@ class AuthenticationServer:
                     retention_end = profile.last_consent_update + timedelta(days=retention_days)
                     if current_time > retention_end:
                         logger.info(f"Auto-deleting expired data for user {user_id}, type {data_type}")
-                        await self._handle_erasure_request(user_id, f"auto_cleanup_{int(time.time()}")
+                        await self._handle_erasure_request(user_id, f"auto_cleanup_{int(time.time())}")
                         break
 
 

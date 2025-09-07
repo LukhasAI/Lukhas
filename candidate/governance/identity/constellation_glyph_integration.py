@@ -347,7 +347,7 @@ class ConstellationValidator:
             compliance_result["validation_time_ms"] = (time.time() - start_time) * 1000
 
             # Cache result for performance
-            cache_key = f"{component_name}_{hash(str(operation_context)}"
+            cache_key = f"{component_name}_{hash(str(operation_context))}"
             self.compliance_cache[cache_key] = {
                 "result": compliance_result,
                 "timestamp": time.time(),

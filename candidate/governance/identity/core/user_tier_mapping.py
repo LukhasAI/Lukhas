@@ -460,10 +460,10 @@ if __name__ == "__main__":
     service = get_tier_mapping_service()
 
     # Test getting tiers
-    print(f"system_root tier: {service.get_user_tier('system_root')}.name}")
-    print(f"admin_001 tier: {service.get_user_tier('admin_001')}.name}")
-    print(f"test_user_tier2 tier: {service.get_user_tier('test_user_tier2')}.name}")
-    print(f"unknown_user tier: {service.get_user_tier('unknown_user')}.name}")
+    print(f"system_root tier: {service.get_user_tier('system_root').name}")
+    print(f"admin_001 tier: {service.get_user_tier('admin_001').name}")
+    print(f"test_user_tier2 tier: {service.get_user_tier('test_user_tier2').name}")
+    print(f"unknown_user tier: {service.get_user_tier('unknown_user').name}")
 
     # Test permissions
     print(f"\ntest_user_tier2 can access memory: {service.check_permission('test_user_tier2', 'memory_access')}")

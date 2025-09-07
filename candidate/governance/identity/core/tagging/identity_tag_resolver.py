@@ -230,7 +230,7 @@ class IdentityTagResolver:
                 return ""
 
             # Create consensus request
-            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.now(timezone.utc).timestamp()}"
+            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.now(timezone.utc).timestamp())}"
             consensus_request = TagConsensusRequest(
                 request_id=request_id,
                 requester_id=issuer_id,

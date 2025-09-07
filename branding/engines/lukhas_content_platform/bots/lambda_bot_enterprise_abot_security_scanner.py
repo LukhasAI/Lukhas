@@ -272,7 +272,7 @@ class ABotSecurityScanner:
 
         return {
             "total_vulnerabilities": total_vulns,
-            "critical_vulnerabilities": sum(}
+            "critical_vulnerabilities": sum(
                 1 for v in scan_results["vulnerabilities"] if v.get("vulnerability", {}).get("severity") == "CRITICAL"
             ),
             "high_vulnerabilities": sum(

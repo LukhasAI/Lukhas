@@ -350,7 +350,7 @@ class GLYPHPipeline:
     def _generate_glyph_id(self, request: GLYPHGenerationRequest) -> str:
         """Generate unique GLYPH ID"""
         id_data = f"{request.lambda_id}_{request.glyph_type.value}_{time.time()}"
-        return f"GLYPH_{hashlib.sha256(id_data.encode()).hexdigest()}[:16]}"
+        return f"GLYPH_{hashlib.sha256(id_data.encode()).hexdigest()[:16]}"
 
     def _prepare_identity_data(self, request: GLYPHGenerationRequest) -> dict[str, Any]:
         """Prepare identity data for embedding"""

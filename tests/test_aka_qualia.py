@@ -601,12 +601,12 @@ class TestT1T2Integration:
         if scene.risk.severity in [SeverityLevel.MODERATE, SeverityLevel.HIGH]:
             assert len(policy.actions) > 0  # Should have regulation actions
 
-    def test_status_and_logging(self):
+    async def test_status_and_logging(self):
         """Test system status and logging functions"""
         # Process a few scenes
         for i in range(3):
             signals = {"text": f"test input {i}"}
-            self.aka_qualia.step(signals=signals, goals={}, ethics_state={}, guardian_state={}, memory_ctx={})
+            await self.aka_qualia.step(signals=signals, goals={}, ethics_state={}, guardian_state={}, memory_ctx={})
 
         # Get status
         status = self.aka_qualia.get_status()
@@ -616,7 +616,7 @@ class TestT1T2Integration:
         assert "recent_metrics" in status
         assert "teq_interventions" in status
 
-    def test_deterministic_reproducibility(self):
+    async def test_deterministic_reproducibility(self):
         """Test deterministic reproducibility for debugging"""
         # Same input should produce same output with deterministic PLS
         pls_det = PLS(random_seed=123, enable_stochasticity=False)
@@ -626,8 +626,8 @@ class TestT1T2Integration:
         signals = {"text": "test reproducibility"}
         args = {"signals": signals, "goals": {}, "ethics_state": {}, "guardian_state": {}, "memory_ctx": {}}
 
-        result1 = aq_det.step(**args)
-        result2 = aq_det.step(**args)
+        result1 = await aq_det.step(**args)
+        result2 = await aq_det.step(**args)
 
         # Proto-qualia should be identical (excluding timestamp)
         pq1 = result1["scene"].proto

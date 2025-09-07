@@ -101,13 +101,13 @@ def generate_comprehensive_report():
         system_data = component_reports["system_status"]
         exec_summary = system_data.get("executive_summary", {})
 
-        exec_summary_section["overall_system_health"] = f"{exec_summary.get('overall_health_score', 0)}:.1f}/100"
+        exec_summary_section["overall_system_health"] = f"{exec_summary.get('overall_health_score', 0):.1f}/100"
         core_modules_operational = len(
             [m for m in system_data.get("core_modules", {}).values() if m.get("status") == "working"]
         )
         exec_summary_section["core_modules_functional"] = f"{core_modules_operational}/7"
         exec_summary_section["api_systems_online"] = exec_summary.get("api_status", "unknown")
-        exec_summary_section["test_success_rate"] = f"{exec_summary.get('test_success_rate', 0)}:.1f}%"
+        exec_summary_section["test_success_rate"] = f"{exec_summary.get('test_success_rate', 0):.1f}%"
         exec_summary_section["vivox_components_operational"] = f"{exec_summary.get('vivox_components_working', 0)}/5"
 
         system_analysis_section |= {

@@ -159,7 +159,7 @@ class AGIControllerΛBot:
         self, project_path: str, compliance_requirements: Optional[list[str]] = None
     ) -> ModularizationSession:
         """Start a consciousness-controlled modularization session"""
-        session_id = f"agi_mod_{int(time.time()}"
+        session_id = f"agi_mod_{int(time.time())}"
 
         session = ModularizationSession(
             session_id=session_id,

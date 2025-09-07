@@ -585,7 +585,7 @@ class DistributedGLYPHColony(BaseColony):
 
         # Create generation task
         task = GLYPHGenerationTask(
-            task_id=f"glyph_{lambda_id}_{glyph_type.value}_{int(datetime.now(timezone.utc).timestamp()}",
+            task_id=f"glyph_{lambda_id}_{glyph_type.value}_{int(datetime.now(timezone.utc).timestamp())}",
             lambda_id=lambda_id,
             glyph_type=glyph_type,
             tier_level=tier_level,
@@ -747,7 +747,7 @@ class DistributedGLYPHColony(BaseColony):
 
         # Create GLYPH
         glyph = GeneratedGLYPH(
-            glyph_id=f"{task.lambda_id}_{task.glyph_type.value}_{int(datetime.now(timezone.utc).timestamp()}",
+            glyph_id=f"{task.lambda_id}_{task.glyph_type.value}_{int(datetime.now(timezone.utc).timestamp())}",
             lambda_id=task.lambda_id,
             glyph_type=task.glyph_type,
             tier_level=task.tier_level,

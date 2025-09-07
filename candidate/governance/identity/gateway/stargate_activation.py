@@ -146,16 +146,16 @@ class StargateActivator:
         for i, chevron in enumerate(self.chevrons):
             # Show dialing animation
             for _ in range(3):
-                sys.stdout.write(f"\r{''.join(locked_chevrons)}{'🔄' * (7 - len(locked_chevrons)}")
+                sys.stdout.write(f"\r{''.join(locked_chevrons)}{'🔄' * (7 - len(locked_chevrons))}")
                 sys.stdout.flush()
                 await asyncio.sleep(0.1)
-                sys.stdout.write(f"\r{''.join(locked_chevrons)}{'⚪' * (7 - len(locked_chevrons)}")
+                sys.stdout.write(f"\r{''.join(locked_chevrons)}{'⚪' * (7 - len(locked_chevrons))}")
                 sys.stdout.flush()
                 await asyncio.sleep(0.1)
 
             # Lock chevron
             locked_chevrons.append(chevron)
-            sys.stdout.write(f"\r{''.join(locked_chevrons)}{'⚪' * (7 - len(locked_chevrons)}")
+            sys.stdout.write(f"\r{''.join(locked_chevrons)}{'⚪' * (7 - len(locked_chevrons))}")
             sys.stdout.flush()
 
             # Beep on lock (if available)

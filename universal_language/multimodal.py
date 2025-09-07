@@ -30,7 +30,7 @@ class ModalityProcessor:
 
     def process(self, data: Any, modality: ModalityType) -> dict[str, Any]:
         """Process data according to modality type"""
-        result = {"modality": modality.value, "data": data, "processed": True, "metadata": {}
+        result = {"modality": modality.value, "data": data, "processed": True, "metadata": {}}
 
         # Specific processing based on modality
         if modality == ModalityType.COLOR:

@@ -847,7 +847,7 @@ class AuditLogger:
             Event ID
         """
         return self.log_event(
-            f"Trust score calculated for {user_id}: {trust_result.get('total_score', 0)}:.2f}",
+            f"Trust score calculated for {user_id}: {trust_result.get('total_score', 0):.2f}",
             event_type=AuditEventType.SECURITY_EVENT,
             severity=AuditSeverity.INFO,
             details={

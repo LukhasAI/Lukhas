@@ -262,7 +262,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         # Create identity swarm task
         task = IdentitySwarmTask(
-            task_id=f"id_verify_{lambda_id}_{int(datetime.now(timezone.utc).timestamp()}",
+            task_id=f"id_verify_{lambda_id}_{int(datetime.now(timezone.utc).timestamp())}",
             task_type=f"identity_{verification_type}",
             priority=adjusted_priority,
             lambda_id=lambda_id,
@@ -320,7 +320,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         if target_tier <= current_tier:
             raise ValueError("Target tier must be higher than current tier")
 
-        migration_id = f"migrate_{lambda_id}_{current_tier}_to_{target_tier}_{int(datetime.now(timezone.utc).timestamp()}"
+        migration_id = f"migrate_{lambda_id}_{current_tier}_to_{target_tier}_{int(datetime.now(timezone.utc).timestamp())}"
 
         # Create migration request
         migration_request = {

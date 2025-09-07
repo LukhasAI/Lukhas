@@ -53,7 +53,7 @@ result = controller.make_intelligent_request(
 if result.get("response"):
     print("🤖 LUKHAS AI ΛBot Response:")
     print(result["response"])
-    print(f"💰 Cost: ${{result.get('cost', 0}}:.1f.6f)}")
+    print(f"💰 Cost: ${result.get('cost', 0):.6f}")
 else:
     print("❌ Task failed:", result.get("error", "Unknown error"))
 """,

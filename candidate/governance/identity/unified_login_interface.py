@@ -910,9 +910,11 @@ async def main():
     print(f"✅ Success: {response.success}")
     print(f"📍 Next Step: {response.next_step.value if response.next_step else 'Complete'}")
     print(
-        f"🧠 Consciousness State: {response.debug_info.get('detected_consciousness')} if response.debug_info else 'Unknown'}"
+        f"🧠 Consciousness State: {response.debug_info.get('detected_consciousness') if response.debug_info else 'Unknown'}"
     )
-    print(f"🌍 Cultural Type: {response.debug_info.get('cultural_type')} if response.debug_info else 'Unknown'}")
+    print(
+        f"🌍 Cultural Type: {response.debug_info.get('cultural_type') if response.debug_info else 'Unknown'}"
+    )
     print(f"🎨 UI Adaptation: {response.adaptations.get('ui_adaptation', 'default')}")
 
     if response.ui_data.get("recommended_methods"):

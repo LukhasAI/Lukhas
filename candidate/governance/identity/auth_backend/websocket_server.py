@@ -125,7 +125,7 @@ class DashboardWebSocketServer:
     def __init__(self, host: str = "localhost", port: int = 8765):
         self.host = host
         self.port = port
-        self.server_id = f"dashboard_ws_{int(datetime.now().timestamp()}"
+        self.server_id = f"dashboard_ws_{int(datetime.now().timestamp())}"
         self.logger = logger.bind(server_id=self.server_id)
 
         # FastAPI application

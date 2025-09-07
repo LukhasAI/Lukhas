@@ -98,7 +98,7 @@ class LukhasBrandVoiceProfiles:
                 "trinity_emphasis": {
                     "identity": "authentic consciousness representation",
                     "consciousness": "deep awareness and understanding",
-                    "guardian": "ethical foundation and protection",}
+                    "guardian": "ethical foundation and protection"
                 },
             },
             "helpful_companion": {
@@ -309,7 +309,7 @@ class LukhasBrandVoiceProfiles:
         return {
             VoiceContext.USER_ONBOARDING: {
                 "primary_profile": "helpful_companion",
-                "secondary_profile": "consciousness_ambassador",}
+                "secondary_profile": "consciousness_ambassador",
                 "blend_ratio": {"primary": 0.7, "secondary": 0.3},
                 "context_adaptations": {
                     "increase_warmth": 0.1,

@@ -362,7 +362,7 @@ class SelfHealingSystem:
                 # Create a simple __init__.py
                 init_file = dir_path / "__init__.py"
                 init_file.write_text(
-                    f\'"""\n{dir_path.name.replace("_", " ").title()} module\nPart of LUKHAS AI consciousness technology platform\n"""\n\'
+                    f"""\n{dir_path.name.replace("_", " ").title()} module\nPart of LUKHAS AI consciousness technology platform\n"""
                 )
                 action_description = "Created __init__.py placeholder"
 

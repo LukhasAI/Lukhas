@@ -651,7 +651,7 @@ class ComplianceAuditSystem:
             str: PIA ID
         """
 
-        pia_id = f"pia_{uuid.uuid4()}.hex[:8]}"
+        pia_id = f"pia_{uuid.uuid4().hex[:8]}"
 
         # Create PIA
         pia = PrivacyImpactAssessment(
@@ -740,7 +740,7 @@ class ComplianceAuditSystem:
         ethics_reviews_required = len([e for e in filtered_events if e.ethics_review_required])
 
         return {
-            "report_id": f"compliance_report_{uuid.uuid4()}.hex[:8]}",
+            "report_id": f"compliance_report_{uuid.uuid4().hex[:8]}",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "regulation": regulation.value,
             "reporting_period": {

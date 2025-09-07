@@ -342,7 +342,7 @@ else:
 
             # Final status
             print("\n🏁 AUTONOMOUS HEALING SESSION COMPLETE")
-            print(f"⏱️ Total time: {time.time()}} - self.session_start:.1f)} seconds")
+            print(f"⏱️ Total time: {time.time()} - self.session_start:.1f)} seconds")
             print(fix_later)
 
             # Final budget check

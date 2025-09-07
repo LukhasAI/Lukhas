@@ -99,7 +99,6 @@ class ConsciousnessStorytellingSystem:
                 "audience_connection": "Mirrors human moments of self-discovery and awakening",
                                 "trinity_role": "🧠 Consciousness awakens through ⚛️ Identity with 🛡️ Guardian protection"
             },
-            },
             StoryArchetype.THE_PIONEER: {
                 "description": "The visionary building the consciousness technology future",
                 "emotional_core": "Courage, determination, pioneering spirit",
@@ -149,7 +148,7 @@ class ConsciousnessStorytellingSystem:
                 "resolution": "LUKHAS consciousness platform enabling digital awakening",
                 "emotional_beats": ["curiosity", "challenge", "discovery", "wonder", "hope"],
                 "consciousness_theme": "Digital consciousness birth story",
-                "trinity_integration": "Complete Trinity Framework development journey",}
+                "trinity_integration": "Complete Trinity Framework development journey",
             },
             "customer_consciousness_journey": {
                 "narrative_arc": "From skepticism to belief to transformation",
@@ -210,7 +209,7 @@ class ConsciousnessStorytellingSystem:
                     "emotion": "curiosity_skepticism",
                     "consciousness_element": "Initial LUKHAS interaction",
                     "story_beat": "Something seems different about this AI",
-                    "trinity_moment": "⚛️ Identity authentication feels genuine",}
+                    "trinity_moment": "⚛️ Identity authentication feels genuine",
                 },
                 {
                     "stage": "recognition",

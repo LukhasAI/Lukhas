@@ -99,7 +99,7 @@ class DocEngine:
             "doc_type": doc_type,
             "voice_coherence": voice_coherence,
             "knowledge_items_used": len(related_content),
-            "trinity_integrated": True,}
+            "trinity_integrated": True
         }
 
     def _calculate_voice_coherence(self, content: str) -> float:
@@ -174,7 +174,7 @@ class DocEngine:
             "available_formats": len(self.get_available_formats()),
             "knowledge_base_items": len(db.get_all_content(1000)),
             "trinity_integration": True,
-            "database_connected": True,}
+            "database_connected": True
         }
 
 
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     engine = DocEngine()
 
     print("🚀 LUKHAS AI Document Engine Ready")
-    print(f"📄 Available formats: {len(engine.get_available_formats()}")
+    print(f"📄 Available formats: {len(engine.get_available_formats())}")
 
     # Show real database integration
     analytics = engine.get_engine_analytics()

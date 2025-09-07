@@ -604,7 +604,7 @@ class AuthenticationOptimizer:
             }
 
         except Exception as e:
-            return {"optimizer_health_check": {"status": "ERROR", "error": str(e)}
+            return {"optimizer_health_check": {"status": "ERROR", "error": str(e)}}
 
 
 # Export main class

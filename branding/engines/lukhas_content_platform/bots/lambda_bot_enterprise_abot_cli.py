@@ -808,7 +808,7 @@ def route(task_type: str, prompt: str, priority: str):
 
         if task_type not in task_types:
             click.echo(f"❌ Invalid task type: {task_type}")
-            click.echo(f"Available types: {', '.join(task_types.keys()}")
+            click.echo(f"Available types: {', '.join(task_types.keys())}")
             return
 
         router = ABotIntelligentAIRouter()
@@ -846,8 +846,8 @@ def services():
             click.echo(f"   Model: {service.model}")
             click.echo(f"   Quality Score: {service.quality_score}/10")
             click.echo(f"   Cost: ${service.cost_per_1k_tokens:.4f}/1k tokens")
-            click.echo(f"   Max Tokens: {service.max_tokens:,")
-            click.echo(f"   Context Length: {service.max_context_length:,")
+            click.echo(f"   Max Tokens: {service.max_tokens:,}")
+            click.echo(f"   Context Length: {service.max_context_length:,}")
             click.echo(f"   Response Time: {service.response_time}")
             click.echo(f"   Reasoning: {service.reasoning_quality}")
             click.echo(f"   Code Quality: {service.code_quality}")
@@ -1412,7 +1412,7 @@ def list_traces(user_ref: str, action: str, limit: int):
                 click.echo(f"   🆔 ΛID#: {trace['metadata']['lambda_id']}")
 
         if len(traces) > limit:
-            click.echo(f"\n... and {len(traces)} - limit} more traces")
+            click.echo(f"\n... and {len(traces)} - limit more traces")
 
     except Exception as e:
         click.echo(f"❌ Error listing ΛTRACE: {e}")

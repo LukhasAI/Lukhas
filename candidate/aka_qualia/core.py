@@ -839,6 +839,17 @@ class AkaQualia:
         if "narrative_gravity_override" in signals:
             overrides["narrative_gravity"] = float(signals["narrative_gravity_override"])
 
+        # Apply emotional values as overrides when provided
+        if "emotion" in signals:
+            emotion = signals["emotion"]
+            if isinstance(emotion, dict):
+                if "arousal" in emotion and "arousal_override" not in signals:
+                    # Use emotional arousal if no explicit override
+                    overrides["arousal"] = float(emotion["arousal"])
+                if "valence" in emotion and "tone_override" not in signals:
+                    # Use emotional valence as tone if no explicit override
+                    overrides["tone"] = float(emotion["valence"])
+
         # Apply overrides if any exist
         if overrides:
             # Create new proto with overridden values

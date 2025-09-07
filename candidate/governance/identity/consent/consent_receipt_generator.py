@@ -317,7 +317,7 @@ def main():
 
     receipt_path = generator.generate_receipt(
         user_id="t5_user_000",
-        consent_hash=f"trusthelix:{hashlib.sha256(b'demo_consent').hexdigest()}[:24]}",
+        consent_hash=f"trusthelix:{hashlib.sha256(b'demo_consent').hexdigest()[:24]}",
         timestamp=datetime.now(timezone.utc),
         tier="T5",
         consciousness_state="flow_state",

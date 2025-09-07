@@ -484,7 +484,7 @@ class SecurityEventMonitor:
         for ip_address, failures in ip_failures.items():
             if len(failures) >= self.anomaly_thresholds["brute_force_threshold"]:
                 # Create threat detection
-        detection_id = f"brute_force_{uuid.uuid4().hex[:8]}"
+                detection_id = f"brute_force_{uuid.uuid4().hex[:8]}"
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
@@ -494,7 +494,7 @@ class SecurityEventMonitor:
                     description=f"Brute force attack detected from {ip_address}",
                     indicators=[
                         f"{len(failures)} failed login attempts in {time_window_minutes} minutes",
-                        f"Target users: {len(set(f.user_id for f in failures if f.user_id)}",
+                        f"Target users: {len({f.user_id for f in failures if f.user_id})}",
                         f"Source IP: {ip_address}",
                     ],
                     affected_users=[f.user_id for f in failures if f.user_id],
@@ -548,7 +548,7 @@ class SecurityEventMonitor:
         # Check for geographical anomalies
         for event in recent_events:
             if event.geolocation and event.geolocation.get("country") not in profile.login_countries:
-                detection_id = f"geo_anomaly_{uuid.uuid4()}.hex[:8]}"
+                detection_id = f"geo_anomaly_{uuid.uuid4().hex[:8]}"
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
@@ -578,7 +578,7 @@ class SecurityEventMonitor:
             recent_auth_events = [e for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION]
 
             if recent_auth_events:
-                detection_id = f"time_anomaly_{uuid.uuid4()}.hex[:8]}"
+                detection_id = f"time_anomaly_{uuid.uuid4().hex[:8]}"
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
@@ -647,7 +647,7 @@ class SecurityEventMonitor:
             if event.ip_address:
                 ip_counts[event.ip_address] += 1
 
-        top_ips = sorted(ip_counts.items(), key=l x: x[1], reverse=True)[:10]
+        top_ips = sorted(ip_counts.items(), key=lambda x: x[1], reverse=True)[:10]
 
         # Recent threats
         recent_threats = [

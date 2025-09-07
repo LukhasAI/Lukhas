@@ -438,7 +438,7 @@ class TierAuthenticator:
             if iris_result.get("match_score", 0.0) < 0.93:
                 return {
                     "success": False,
-                    "error": f"Iris match score too low: {iris_result.get('match_score', 0.0)}:.3f}",
+                    "error": f"Iris match score too low: {iris_result.get('match_score', 0.0):.3f}",
                     "fallback_required": True,
                 }
         elif iris_data:

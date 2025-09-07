@@ -166,10 +166,10 @@ class LukhusQRGIntegrator:
         self.logger = logging.getLogger(__name__)
         self.logger.info("🔗 LUKHAS QRG Integrator initialized")
         self.logger.info(
-            f"🧠 Consciousness engine: {'active' if hasattr(self.consciousness_engine, 'assess_consciousness')} else 'mock'}"
+            f"🧠 Consciousness engine: {'active' if hasattr(self.consciousness_engine, 'assess_consciousness') else 'mock'}"
         )
         self.logger.info(
-            f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile')} else 'mock'}"
+            f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile') else 'mock'}"
         )
 
     def create_qrg_context(self, user_id: str, **kwargs) -> QRGContext:
@@ -181,7 +181,7 @@ class LukhusQRGIntegrator:
         # Get cultural profile
         cultural_data = self.cultural_manager.get_cultural_profile(user_id)
         cultural_profile = (
-            cultural_data if isinstance(cultural_data, dict) else {"region": "universal", "preferences": {}
+            cultural_data if isinstance(cultural_data, dict) else {"region": "universal", "preferences": {}}
         )
 
         # Estimate cognitive load

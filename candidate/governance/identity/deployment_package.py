@@ -307,7 +307,7 @@ class DemoOrchestrator:
 
             # Mock QR pattern
             pattern = "█▀▀█ ▀█▀ █▀▀█\n█  █  █  █  █\n█▄▄█ ▄█▄ █▄▄█"
-            print(f"   Pattern: {pattern.split()}[0]}...")
+            print(f"   Pattern: {pattern.split()[0]}...")
             print(f"   Parameters: {params}")
             print("   Status: ✅ Generated successfully")
 

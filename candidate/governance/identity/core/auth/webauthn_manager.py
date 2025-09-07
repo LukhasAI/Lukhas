@@ -631,7 +631,7 @@ class WebAuthnManager:
             }
 
         except Exception as e:
-            return {"webauthn_health_check": {"overall_status": "ERROR", "error": str(e)}
+            return {"webauthn_health_check": {"overall_status": "ERROR", "error": str(e)}}
 
     def _get_tier_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by tier level"""

@@ -1232,7 +1232,7 @@ class AdvancedDriftDetector:
 
         if not period_measurements:
             return DriftReport(
-                report_id=f"report_{uuid.uuid4()}.hex[:8]}",
+                report_id=f"report_{uuid.uuid4().hex[:8]}",
                 generated_at=datetime.now(timezone.utc),
                 time_period=time_period,
                 overall_drift_score=0.0,
@@ -1277,7 +1277,7 @@ class AdvancedDriftDetector:
             preventive_measures.append("Implement additional safeguards")
 
         report = DriftReport(
-            report_id=f"report_{uuid.uuid4()}.hex[:8]}",
+            report_id=f"report_{uuid.uuid4().hex[:8]}",
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_drift_score=overall_drift_score,

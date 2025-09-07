@@ -18,8 +18,8 @@ ModalityType = mm.ModalityType
 
 
 def test_process_color_hex_parsing():
-    ModalityProcessor()
-mf = mp.process("#1a2b3c", ModalityType.COLOR)
+    mp = ModalityProcessor()
+    mf = mp.process("#1a2b3c", ModalityType.COLOR)
 assert mf.metadata["rgb"] == (26, 43, 60)
 h, s, v = mf.metadata["hsv"]
 assert 0 <= h <= 360

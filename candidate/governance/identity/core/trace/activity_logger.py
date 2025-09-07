@@ -200,7 +200,7 @@ class LambdaTraceLogger:
         import hashlib
 
         data = f"{user_id}|{timestamp}|{time.time()}"
-        return f"TR_{hashlib.sha256(data.encode()).hexdigest()}[:8]}"
+        return f"TR_{hashlib.sha256(data.encode()).hexdigest()[:8]}"
 
     def _build_trace_context(self, user_id: str, activity_type: str) -> dict:
         """Build contextual information for trace"""
