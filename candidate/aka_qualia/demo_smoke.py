@@ -9,14 +9,13 @@ dream seed → PhenomenalScene → RegulationPolicy → OneiricHook hints
 
 Demonstrates the complete Wave C integration pipeline with narrative feedback.
 """
-from typing import List
-import streamlit as st
-
 import json
 import logging
 import os
 import time
-from typing import Any
+from typing import Any, List
+
+import streamlit as st
 
 from candidate.aka_qualia.core import AkaQualia
 from candidate.aka_qualia.glyphs import map_scene_to_glyphs
@@ -109,7 +108,7 @@ class SmokeDemo:
 
         self.demo_runs += 1
         logger.info(
-            f"\n🎯 Smoke Demo Complete: {len([r for r in results if r.get('success')])} successes, {len([r for r in results if not r.get('success'}]} failures"
+            f"\n🎯 Smoke Demo Complete: {len([r for r in results if r.get('success')])} successes, {len([r for r in results if not r.get('success')])} failures"
         )
 
         return results
@@ -151,7 +150,7 @@ class SmokeDemo:
         hints = self.oneiric_hook.apply_policy(scene=scene, policy=policy)
         self.total_hints_generated += len(hints)
         logger.info(
-            f"  💡 Hints: tempo={hints.get('tempo', 'N/A'):.2f}, palette={hints.get('palette_hint', 'N/A')}, ops={len(hints.get('ops', [])} operations"
+            f"  💡 Hints: tempo={hints.get('tempo', 'N/A'):.2f}, palette={hints.get('palette_hint', 'N/A')}, ops={len(hints.get('ops', []))} operations"
         )
 
         # Step 7: Generate demo metrics
@@ -270,7 +269,7 @@ class SmokeDemo:
             qualia_novelty=min(1.0, scene.proto.narrative_gravity),  # Use narrative gravity as novelty proxy
             repair_delta=congruence - 0.5,  # Improvement over baseline
             timestamp=time.time(),
-            episode_id=f"demo_{int(time.time()}",
+            episode_id=f"demo_{int(time.time())}",
         )
 
     def _compute_congruence(self, scene: PhenomenalScene, policy: RegulationPolicy) -> float:
@@ -420,7 +419,7 @@ def main():
     # Print summary
     print("\n📈 Demo Summary:")
     print(f"  Scenarios processed: {len(results)}")
-    print(f"  Successful runs: {len([r for r in results if r.get('success'}]}")
+    print(f"  Successful runs: {len([r for r in results if r.get('success')])}")
     print(f"  Total GLYPHs generated: {demo.total_glyphs_generated}")
     print(f"  Total hints generated: {demo.total_hints_generated}")
 
@@ -431,7 +430,7 @@ def main():
             print(f"\n  {result['seed']['name']}:")
             print(f"    Priority: {result['priority']:.3f}")
             print(f"    GLYPHs: {len(result['glyphs'])}")
-            print(f"    Operations: {len(result['hints'].get('ops', [])}")
+            print(f"    Operations: {len(result['hints'].get('ops', []))}")
             congruence = metrics.get("congruence_index", "N/A")
             coherence = 1.0 - metrics.get("neurosis_risk", 0.0)  # Inverse of neurosis risk
             print(

@@ -303,7 +303,7 @@ class TraumaLockedMemory:
         Returns:
             str: A unique memory ID for the locked memory, or an error indicator if locking fails. #AIDENTITY_BRIDGE (Returned memory_id identifies the locked item)
         """
-        request_id = f"lockmem_{str(uuid.uuid4()}[:8]}"  # Unique ID for this lock operation #AIDENTITY_BRIDGE (Request's unique ID)
+        request_id = f"lockmem_{str(uuid.uuid4())[:8]}"  # Unique ID for this lock operation #AIDENTITY_BRIDGE (Request's unique ID)
         lock_logger = self.logger.bind(
             request_id=request_id,
             user_id=user_id_for_key,
@@ -377,7 +377,7 @@ class TraumaLockedMemory:
     # ΛDRIFT_HOOK: The success of unlocking depends on the drift of current_emotional_state relative to the state at locking,
     # and potentially on the drift of the emotional_threshold itself if it
     # were adaptive.
-    def unlock_memory(:
+    def unlock_memory(
             self,
             memory_id: str,
             current_emotional_state: EmotionalMemoryVector,
@@ -386,7 +386,7 @@ class TraumaLockedMemory:
         Unlock memory by matching emotional state pattern.
         Stronger emotional locks require closer emotional state matching.
         """
-        req_id = f"tlm_unlock_{int(time.time(}*1000}"
+        req_id = f"tlm_unlock_{int(time.time())*1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to unlock memory {memory_id} for user {user_id}.")
         if memory_id not in self.locked_memories:
@@ -553,9 +553,9 @@ class ComplianceMonitor:
         Check if an action complies with regulations.
         Returns (is_compliant, violation_reasons)
         """
-        req_id = f"cm_check_{int(time.time(}*1000}"
+        req_id = f"cm_check_{int(time.time())*1000}"
         self.logger.info(
-            f"ΛTRACE ({req_id}): Checking compliance for action '{action}' in region {self.region.value}. Context keys: {list(context.keys()}")
+            f"ΛTRACE ({req_id}): Checking compliance for action '{action}' in region {self.region.value}. Context keys: {list(context.keys())}")
         violations = []
 
         # Rule checks with debug logging
@@ -593,7 +593,7 @@ class ComplianceMonitor:
         if self.region == ComplianceRegion.EU:
             self.logger.debug(
                 f"ΛTRACE ({req_id}): Performing EU AI Act specific checks.")
-            if action in [:
+            if action in [
                 'facial_recognition_public',
                 'emotion_recognition_workplace',
                     'social_scoring_public_services'] and self.compliance_rules.get('ai_act_article_5_prohibited'):
@@ -601,7 +601,7 @@ class ComplianceMonitor:
                     f"EU AI Act Article 5 violation: Potentially prohibited practice '{action}'")
                 self.logger.debug(
                     f"ΛTRACE ({req_id}): EU AI Act Article 5 violation for action '{action}'.")
-            if context.get('high_risk_ai_application') and not context.get(:
+            if context.get('high_risk_ai_application') and not context.get(
                     'human_oversight_documented') and self.compliance_rules.get('ai_act_article_9_high_risk'):
                 violations.append(
                     "EU AI Act Potential Article 9 violation: High-risk AI without documented human oversight")
@@ -618,9 +618,8 @@ class ComplianceMonitor:
             'compliant': is_compliant,
             'violations': violations,
             'context_summary': {
-                k: str(v)[
-                    :50] for k,
-                v in context.items()}
+                k: str(v)[:50] for k, v in context.items()}
+        }
         # ΛTEMPORAL_HOOK (Audit log grows over time)
         self.audit_log.append(audit_entry_data)
 
@@ -679,11 +678,11 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             user_data: Dict,
             initial_tier: AccessTier = AccessTier.TIER_1_BASIC) -> str:
         """Register a new user with Lukhas_ID system."""
-        req_id = f"lim_reg_{int(time.time(}*1000}"  # AIDENTITY_BRIDGE (Request ID)
+        req_id = f"lim_reg_{int(time.time())*1000}"  # AIDENTITY_BRIDGE (Request ID)
         self.logger.info(
-            f"ΛTRACE ({req_id}): Attempting to register user. Initial tier: {initial_tier.name}. User data keys: {list(user_data.keys()}")
+            f"ΛTRACE ({req_id}): Attempting to register user. Initial tier: {initial_tier.name}. User data keys: {list(user_data.keys())}")
 
-        compliant, violations = self.compliance_monitor.check_compliance(  )  #  ΛECHO (Delegates to compliance monitor
+        compliant, violations = self.compliance_monitor.check_compliance(  
             'user_registration',
             {'user_consent': user_data.get('consent_given', False), 'data_excessive': len(
                 user_data.keys()) > 10}  # Example context
@@ -716,7 +715,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.debug(
             f"ΛTRACE ({req_id}): User record created for {user_id}. Total users: {len(self.users)}")
 
-        await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this event
+        await self._create_audit_log_entry(  
             user_id=user_id, tier=initial_tier, component="LukhasIdManager",
             action="user_registration", decision_logic="New user registered after compliance check.",
             privacy_impact="User data (potentially PII) stored with consent. Tier assigned."
@@ -741,10 +740,10 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             credentials: Dict,
             emotional_state: Optional[EmotionalMemoryVector] = None) -> Optional[Dict]:
         """Authenticate user based on their access tier requirements."""
-        req_id = f"lim_auth_{int(time.time(}*1000}"  # AIDENTITY_BRIDGE (Request ID)
+        req_id = f"lim_auth_{int(time.time())*1000}"  # AIDENTITY_BRIDGE (Request ID)
         # AIDENTITY_BRIDGE (user_id)
         self.logger.info(
-            f"ΛTRACE ({req_id}): Attempting to authenticate user {user_id}. Credentials keys: {list(credentials.keys()}")
+            f"ΛTRACE ({req_id}): Attempting to authenticate user {user_id}. Credentials keys: {list(credentials.keys())}")
 
         if user_id not in self.users:  # AIDENTITY_BRIDGE (user_id):
             # AIDENTITY_BRIDGE
@@ -763,7 +762,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             # AIDENTITY_BRIDGE
             self.logger.warning(
                 f"ΛTRACE ({req_id}): Tier credential verification FAILED for user {user_id}, tier {access_tier.name}.")
-            await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this failure event
+            await self._create_audit_log_entry(  
                 user_id=user_id, tier=access_tier, component="LukhasIdManager",
                 action="user_authentication_failed", decision_logic="Credential mismatch or tier requirement not met.",
                 emotional_state=emotional_state, privacy_impact="Login attempt failed, no session created."
@@ -804,7 +803,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.debug(
             f"ΛTRACE ({req_id}): User record updated for {user_id}. Session count: {user_record['session_count']}")
 
-        await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for success event
+        await self._create_audit_log_entry(  
             user_id=user_id, tier=access_tier, component="LukhasIdManager",
             action="user_authentication_success", decision_logic=f"Successfully authenticated at tier {access_tier.name}.",
             emotional_state=emotional_state, privacy_impact="User session created with tier-appropriate permissions."
@@ -827,11 +826,11 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         """Verify credentials based on access tier requirements."""
         user_id = user_record.get('user_id', 'UnknownUser')
         self.logger.debug(
-            f"ΛTRACE: Verifying credentials for tier {tier.name} for user {user_id}. Provided credential keys: {list(credentials.keys()}")
+            f"ΛTRACE: Verifying credentials for tier {tier.name} for user {user_id}. Provided credential keys: {list(credentials.keys())}")
 
         # Tier 1: Emoji + Seed Phrase Grid
         if tier.value >= AccessTier.TIER_1_BASIC.value:
-            if not self._verify_emoji_seed(:
+            if not self._verify_emoji_seed(
                     user_record.get('emoji_seed'),
                     credentials.get('emoji_seed')):
                 self.logger.debug(
@@ -841,7 +840,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
 
         # Tier 2: + Biometrics (Face/Voice ID)
         if tier.value >= AccessTier.TIER_2_ENHANCED.value:
-            if not self._verify_biometrics(:
+            if not self._verify_biometrics(
                     user_record.get('biometric_hash'),
                     credentials.get('biometric_data')):
                 self.logger.debug(
@@ -851,7 +850,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
 
         # Tier 3: + SID Puzzle Fill-In
         if tier.value >= AccessTier.TIER_3_PROFESSIONAL.value:
-            if not self._verify_sid_puzzle(:
+            if not self._verify_sid_puzzle(
                     user_record.get('sid_puzzle'),
                     credentials.get('sid_solution')):
                 self.logger.debug(
@@ -863,7 +862,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         # alternative path)
         if tier.value >= AccessTier.TIER_4_RESEARCH.value:
             if 'emergency_gesture' in credentials:  # Check if emergency gesture is being attempted:
-                if not self._verify_emergency_gesture(:
+                if not self._verify_emergency_gesture(
                         user_record.get('emergency_gesture'),
                         credentials.get('emergency_gesture')):
                     self.logger.debug(
@@ -877,7 +876,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         # Tier 5: Admin verification (additional security)
         if tier.value >= AccessTier.TIER_5_ADMIN.value:
             # Example: Check for a valid MFA token specific to admin actions
-            if not credentials.get(:
+            if not credentials.get(
                     'admin_mfa_token'):  # Assuming a token is passed for admin auth
                 self.logger.debug(
                     f"ΛTRACE: Admin MFA token missing or invalid for user {user_id}.")
@@ -890,7 +889,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         return True
 
     # ΛECHO (Compares stored vs provided)
-    def _verify_emoji_seed(:
+    def _verify_emoji_seed(
             self,
             stored: Optional[str],
             provided: Optional[str]) -> bool:
@@ -903,7 +902,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         return is_match
 
     # ΛECHO (Compares stored hash vs hash of provided data)
-    def _verify_biometrics(:
+    def _verify_biometrics(
             self,
             stored_hash: Optional[str],
             biometric_data: Optional[str]) -> bool:
@@ -920,7 +919,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         return is_match
 
     # ΛECHO (Compares stored vs provided)
-    def _verify_sid_puzzle(:
+    def _verify_sid_puzzle(
             self,
             stored_puzzle_solution: Optional[str],
             provided_solution: Optional[str]) -> bool:
@@ -949,7 +948,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     # Human-readable comment: Gets permissions based on access tier.
     # AIDENTITY_BRIDGE (Permissions are tied to access tier, which is part of identity)
     # ΛECHO (Returns permissions based on predefined static tier definitions)
-    def _identity_core.resolve_access_tier(self, tier: AccessTier) -> List[str]:
+    def _resolve_access_tier(self, tier: AccessTier) -> List[str]:
         """Get permissions based on access tier (cumulative)."""
         self.logger.debug(f"ΛTRACE: Getting permissions for tier {tier.name}.")
         base_perms = {
@@ -1101,7 +1100,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             memory_data: Any,
             emotional_state: EmotionalMemoryVector) -> str:
         """Store memory with emotional protection."""
-        req_id = f"lim_smem_{int(time.time(}*1000}"  # AIDENTITY_BRIDGE (Request ID)
+        req_id = f"lim_smem_{int(time.time())*1000}"  # AIDENTITY_BRIDGE (Request ID)
         # AIDENTITY_BRIDGE (user_id)
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to store emotional memory for user {user_id}.")
@@ -1120,12 +1119,12 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.info(
             f"ΛTRACE ({req_id}): Emotional memory {memory_id} stored for user {user_id} via TraumaLockedMemory.")
 
-        await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this storage event
+        await self._create_audit_log_entry(  
             # AIDENTITY_BRIDGE
             user_id=user_id, tier=self.users[user_id]['access_tier'],
             component="LukhasIdManager.TraumaLockedMemory", action="memory_storage_initiated",
             # ΛECHO
-            decision_logic=f"Emotional lock intensity: {emotional_state.arousal + abs(emotional_state.valence)}:.2f}. Delegated to TraumaLockedMemory.",
+            decision_logic=f"Emotional lock intensity: {emotional_state.arousal + abs(emotional_state.valence):.2f}. Delegated to TraumaLockedMemory.",
             emotional_state=emotional_state,  # ΛECHO
             privacy_impact="Memory encrypted with user-specific emotional key via TraumaLockedMemory."
         )
@@ -1143,7 +1142,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             memory_id: str,
             current_emotional_state: EmotionalMemoryVector) -> Optional[Any]:
         """Retrieve emotionally protected memory."""
-        req_id = f"lim_rmem_{int(time.time(}*1000}"  # AIDENTITY_BRIDGE (Request ID)
+        req_id = f"lim_rmem_{int(time.time())*1000}"  # AIDENTITY_BRIDGE (Request ID)
         # AIDENTITY_BRIDGE (memory_id, user_id)
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to retrieve emotional memory {memory_id} for user {user_id}.")
@@ -1162,7 +1161,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.info(
             f"ΛTRACE ({req_id}): TraumaLockedMemory unlock attempt for {memory_id} (User: {user_id}). Success: {bool(memory_data)}")
 
-        await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this retrieval attempt event
+        await self._create_audit_log_entry(  
             # AIDENTITY_BRIDGE
             user_id=user_id, tier=self.users[user_id]['access_tier'],
             component="LukhasIdManager.TraumaLockedMemory", action="memory_retrieval_attempt_delegated",

@@ -43,7 +43,7 @@ async def test_c43_memory_integration():
         assert aq.memory is not None, "Memory client should be initialized"
         assert isinstance(aq.memory, NoopMemory), f"Expected NoopMemory, got {type(aq.memory)}"
 
-        print(f"✅ AkaQualia initialized with {type(aq.memory)}.__name__} memory client")
+        print(f"✅ AkaQualia initialized with {type(aq.memory).__name__} memory client")
 
         # Test 1: Basic consciousness step with memory persistence
         print("\n📝 Test 1: Basic step with memory persistence")

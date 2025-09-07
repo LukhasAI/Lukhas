@@ -5,8 +5,6 @@ Consent Manager - Advanced consent and permission management system
 Handles consent requests, trust path analysis, and escalation protocols
 with full integration into LUKHAS governance and Trinity Framework.
 """
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -17,6 +15,8 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 from ..common import GlyphIntegrationMixin
 

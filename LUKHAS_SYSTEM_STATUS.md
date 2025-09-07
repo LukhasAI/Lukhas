@@ -1,8 +1,8 @@
-# LUKHAS System Status — Reality (SHA: f9368f5e)
-Generated: Wed Sep  3 13:19:07 UTC 2025
-Artifacts: verification_artifacts/f9368f5e/
+# LUKHAS System Status — Reality (SHA: 18250070)
+Generated: Sun Sep  7 21:45:05 UTC 2025
+Artifacts: verification_artifacts/18250070/
 
 ## Recent Changes
-- ✅ fix: resolve syntax errors in tooling scripts
+- ✅ Refine BudgetConfig defaults and extend Budgeter tests
 
 ## System Status: OPERATIONAL
