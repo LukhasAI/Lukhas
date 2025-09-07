@@ -92,7 +92,7 @@ class PerformanceLogFilter(logging.Filter):
 
         # Add process and thread info for performance debugging
         record.process_id = os.getpid()
-        record.thread_id = int(f"{threading.current_thread()}.ident}")
+        record.thread_id = int(threading.current_thread().ident or 0)
 
         return True
 

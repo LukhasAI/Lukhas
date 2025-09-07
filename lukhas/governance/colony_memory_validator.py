@@ -171,7 +171,7 @@ class ColonyMemoryValidator:
         default_timeout: float = 30.0,
         max_concurrent_validations: int = 100,
     ):
-        self.validator_id = validator_id or f"validator_{str(uuid4()}[:8]}"
+        self.validator_id = validator_id or f"validator_{str(uuid4())[:8]}"
         self.default_validation_mode = default_validation_mode
         self.default_timeout = default_timeout
         self.max_concurrent_validations = max_concurrent_validations

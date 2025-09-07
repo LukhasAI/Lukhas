@@ -264,7 +264,7 @@ class ExtremePerformanceAuditLogger:
             await self.initialize()
 
         event_start = time.perf_counter()
-        event_id = f"ep_{int(time.time() * 1000000}_{self.events_logged}"  # Optimized ID generation
+        event_id = f"ep_{int(time.time() * 1000000)}_{self.events_logged}"  # Optimized ID generation
 
         # Create optimized audit event
         event = ExtremePerformanceAuditEvent(

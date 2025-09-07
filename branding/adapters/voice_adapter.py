@@ -30,31 +30,31 @@ except ImportError as e:
 # Import voice systems with fallback
 try:
     from products.experience.voice.core import (
+        LUKHASAudioProcessor,
         LUKHASVoiceSystem,
         VoiceEffectsProcessor,
         VoiceModulator,
-        LUKHASAudioProcessor
     )
-    
+
     VOICE_SYSTEMS_AVAILABLE = True
     logging.info("Real LUKHAS voice systems loaded successfully")
-    
+
     # Real implementations using LUKHAS voice systems
     class EmotionalModulator:
         def __init__(self):
             self.voice_effects = VoiceEffectsProcessor()
-            
+
         def modulate(self, audio, emotion, intensity=0.5):
             # Apply emotion-based voice effects
             try:
                 return self.voice_effects.apply_voice_effect(audio, emotion, intensity)
             except Exception:
                 return audio
-            
+
     class VoicePersonalityIntegrator:
         def __init__(self):
             self.voice_modulator = VoiceModulator()
-            
+
         def adapt_to_emotion(self, emotion: str, intensity: float = 0.5, **kwargs) -> dict[str, Any]:
             # Use real voice modulation parameters
             return {
@@ -73,22 +73,22 @@ try:
                 "calm": "<prosody rate='-5%'>",
                 "angry": "<prosody pitch='+20%' volume='+5dB'>"
             }
-            
+
             marker = emotion_markers.get(emotion, "")
             end_marker = "</prosody>" if marker else ""
-            
+
             return f"{marker}{text}{end_marker}"
 
     class VoiceIntegration:
         def __init__(self):
             self.voice_system = LUKHASVoiceSystem()
             self.audio_processor = LUKHASAudioProcessor()
-            
+
         async def process(self, content: str, **kwargs) -> str:
             # Use real LUKHAS voice processing pipeline
             try:
                 result = await self.voice_system.process_audio_pipeline(content, **kwargs)
-                return result.processed_text if hasattr(result, 'processed_text') else content
+                return result.processed_text if hasattr(result, "processed_text") else content
             except Exception:
                 return content
 
@@ -154,7 +154,7 @@ class BrandVoiceAdapter:
                 "emotional_resonance": 0.85,
                 "pace": "contemplative",
                 "tone_descriptors": ["inspiring", "mystical", "conscious"],
-                "lambda_emphasis": True,
+                "lambda_emphasis": True
             },
             "user_friendly": {
                 "expressiveness": 0.7,
