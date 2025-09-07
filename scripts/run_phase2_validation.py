@@ -308,7 +308,7 @@ class Phase2ValidationRunner:
         }
 
         # Log quality gate results
-        logger.info(f"Quality Gates: {gates_passed}/{total_gates} passed ({gates_passed / total_gates * 100:.1f}%)")
+        logger.info(f"Quality Gates: {gates_passed}/{total_gates} passed ({gates_passed / total_gates  * 100:.1f}%)")
         for gate, passed in quality_gates.items():
             status = "✅" if passed else "❌"
             logger.info(f"  {status} {gate}")
@@ -430,7 +430,7 @@ class Phase2ValidationRunner:
             f.write("# LUKHAS AI Phase 2 Validation Summary\n\n")
             f.write(f"**Generated:** {self.validation_results['timestamp']}\n")
             f.write(f"**Mode:** {self.validation_results['mode']}\n")
-            f.write(f"**Execution Time:** {self.validation_results.get('total_execution_time', 0}:.1f}s\n\n")
+            f.write(f"**Execution Time:** {self.validation_results.get('total_execution_time', 0)}:.1f}s\n\n")
 
             # Quality Gates
             gates = self.validation_results["quality_gates"]["gates"]

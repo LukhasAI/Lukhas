@@ -3,14 +3,13 @@
 SAS (Servicio Andaluz de Salud) Healthcare Connector
 Integrates with Andalusian healthcare system for appointments, prescriptions, and records
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -89,8 +88,8 @@ class SASHealthcareConnector:
         self.record_cache = {}
 
         logger.info("🏥 SAS Healthcare Connector initialized")
-        logger.info(f"Region: {self.sas_config.get('region', 'Andalucía'}")
-        logger.info(f"Centro: {self.sas_config.get('centro_salud', 'Not configured'}")
+        logger.info(f"Region: {self.sas_config.get('region', 'Andalucía')}")
+        logger.info(f"Centro: {self.sas_config.get('centro_salud', 'Not configured')}")
 
     def _load_sas_config(self):
         """Load SAS configuration from file or defaults"""
@@ -330,7 +329,7 @@ class SASHealthcareConnector:
 
             # Create new appointment
             new_appointment = SASAppointment(
-                appointment_id=f"CIT-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M'}",
+                appointment_id=f"CIT-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M')}",
                 patient_nuhsa=self.current_nuhsa,
                 doctor_name="Por asignar",
                 specialty=specialty,

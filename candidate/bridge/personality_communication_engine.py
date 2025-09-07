@@ -38,13 +38,13 @@
 ║ Symbolic Tags: {ΛPERSONALITY}, {ΛADAPTIVE}, {ΛEMOTION}, {ΛCULTURAL}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import logging
+import time
 
 # Module imports
 from collections import defaultdict
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.personality_communication")
@@ -220,7 +220,7 @@ class EnhancedPersonalityCommunicationEngine:
         self.shyness_module.get_interaction_style(user_input["user_id"])
 
         # Apply cultural etiquette
-        etiquette_rules = self.etiquette_module.adapt_behavior(user_input["context"])
+        self.etiquette_module.adapt_behavior(user_input["context"])
 
         # Generate base response
         response = self.generate_response(user_input)
@@ -228,16 +228,6 @@ class EnhancedPersonalityCommunicationEngine:
         # Apply prosocial filtering
         if self.helpfulness_module.should_offer_help(user_input["behavioral_signals"]):
             response["content"] = f"May I suggest: {response['content']}"
-
-        return self._apply_vocal_characteristics(response, etiquette_rules)
-
-    def generate_response(self, user_input: dict) -> dict:
-        """Generate base response before personality filters"""
-        return {
-            "content": "Base response content",
-            "emotion": "neutral",
-            "confidence": 0.8,
-        }
 
     def _apply_vocal_characteristics(self, response: dict, etiquette_rules: dict) -> dict:
         """Apply voice modulation based on personality and etiquette"""

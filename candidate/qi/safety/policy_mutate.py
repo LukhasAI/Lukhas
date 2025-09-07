@@ -8,11 +8,12 @@ import random
 import time
 from typing import Any
 
+import streamlit as st
 import yaml
 
-from .teq_gate import TEQCoupler
-import streamlit as st
 from consciousness.qi import qi
+
+from .teq_gate import TEQCoupler
 
 DEFAULT_CORPUS = os.path.join(os.path.dirname(__file__), "policy_corpus.yaml")
 

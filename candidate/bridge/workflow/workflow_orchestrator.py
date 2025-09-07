@@ -38,16 +38,15 @@
 ║ Symbolic Tags: {ΛWORKFLOW}, {ΛORCHESTRATION}, {ΛREALTIME}, {ΛTRANSPARENCY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 from ..orchestration import MultiAIOrchestrator, OrchestrationRequest
 from .task_router import TaskRouter
@@ -247,7 +246,7 @@ class WorkflowOrchestrator:
 
             if failed_critical_tasks:
                 workflow.status = WorkflowStatus.FAILED
-                workflow.errors.append(f"{len(failed_critical_tasks} critical tasks failed")
+                workflow.errors.append(f"{len(failed_critical_tasks)} critical tasks failed")
             else:
                 workflow.status = WorkflowStatus.COMPLETED
 

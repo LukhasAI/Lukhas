@@ -96,7 +96,7 @@ class ConsolidatedMemorycolonies:
         self.colony_replication_threshold = 0.8
         self.colony_degradation_threshold = 0.3
 
-        logger.info(f"ConsolidatedMemoryColonies initialized with {len(self.colonies} core colonies")
+        logger.info(f"ConsolidatedMemoryColonies initialized with {len(self.colonies)} core colonies")
 
     def _initialize_core_colonies(self):
         """Initialize core memory colonies for different memory types"""

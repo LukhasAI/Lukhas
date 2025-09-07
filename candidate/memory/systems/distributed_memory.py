@@ -2,20 +2,17 @@
 Distributed Memory System using Colony Architecture
 Implements scalable, fault-tolerant memory across multiple colonies
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
 
 import numpy as np
+import streamlit as st
 
 from candidate.core.colonies.memory_colony import MemoryColony
 from candidate.core.common import get_logger
@@ -214,7 +211,7 @@ class DistributedMemorySystem:
             self.logger.info(f"Stored memory {memory_id} in {memory_type.value} colony")
             return memory_id
         else:
-            raise Exception(f"Failed to store memory: {result.get('error', 'Unknown error'}")
+            raise Exception(f"Failed to store memory: {result.get('error', 'Unknown error')}")
 
     async def retrieve_memory(self, memory_id: str) -> Optional[DistributedMemory]:
         """
@@ -302,7 +299,7 @@ class DistributedMemorySystem:
                     "threshold": threshold,
                 }
 
-                task = colony.execute_task(f"search-{datetime.now(timezone.utc).timestamp(}", search_task)
+                task = colony.execute_task(f"search-{datetime.now(timezone.utc).timestamp()}", search_task)
                 search_tasks.append((memory_type, task))
 
         # Gather results from all colonies
@@ -510,7 +507,7 @@ class DistributedMemorySystem:
                         memory_info["colony_id"],
                     )
 
-        self.logger.info(f"Loaded {len(self.memory_index} memories into index")
+        self.logger.info(f"Loaded {len(self.memory_index)} memories into index")
 
 
 # Example usage

@@ -17,14 +17,13 @@
 │   3. Retrieve memories using QI associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
-from consciousness.qi import qi
-from typing import Dict
-import streamlit as st
-
-from typing import Optional
+from typing import Dict, Optional
 
 import numpy as np
+import streamlit as st
 from qiskit import QuantumCircuit
+
+from consciousness.qi import qi
 
 
 class QIAssociativeMemoryBank:
@@ -36,7 +35,7 @@ class QIAssociativeMemoryBank:
         self.capacity = 2**capacity_qubits
         self.memory_register = QuantumRegister(capacity_qubits, "memory")
         self.query_register = QuantumRegister(capacity_qubits, "query")
-        self.oracle_circuits: Dict[str, QuantumCircuit] = {}
+        self.oracle_circuits: dict[str, QuantumCircuit] = {}
 
         # Quantum error correction
         self.error_correction = SurfaceCodeErrorCorrection(physical_qubits_per_logical=17)

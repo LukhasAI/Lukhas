@@ -30,7 +30,7 @@ def scan_text(text: str, blocked: list[str]) -> list[str]:
     hits = []
     # whole-word-ish, case-insensitive
     for term in blocked:
-        if re.search(rf"\b{re.escape(term}\b", text, re.IGNORECASE):
+        if re.search(rf"\b{re.escape(term)}\b", text, re.IGNORECASE):
             hits.append(term)
     return sorted(set(hits))
 

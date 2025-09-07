@@ -3,9 +3,9 @@ Compatibility shim for memory.causal
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.accepted.memory.causal
 """
-import streamlit as st
-
 import warnings
+
+import streamlit as st
 
 try:
     from lukhas.accepted.memory.causal import *

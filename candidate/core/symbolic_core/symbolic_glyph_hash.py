@@ -7,10 +7,9 @@ Provides symbolic glyph hashing and entropy delta computation.
 
 from __future__ import annotations
 
-import streamlit as st
-
-
 import hashlib
+
+import streamlit as st
 
 # ΛTAG: glyph_hash
 

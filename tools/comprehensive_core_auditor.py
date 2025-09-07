@@ -395,7 +395,7 @@ class ComprehensiveCoreAuditor:
                 "path": str(directory),
             }
 
-            print(f"   ✅ Found {len(files_in_dir} files")
+            print(f"   ✅ Found {len(files_in_dir)} files")
 
         except Exception as e:
             print(f"   ❌ Error scanning {directory}: {e}")
@@ -493,8 +493,8 @@ class ComprehensiveCoreAuditor:
         unclassified_analysis["unique_patterns"] = patterns
 
         print(f"📊 Total unclassified files: {unclassified_analysis['total_unclassified']}")
-        print(f"📁 Spread across {len(unclassified_analysis['by_directory']} directories")
-        print(f"🏷️  {len(unclassified_analysis['potential_categories']} potential categories identified")
+        print(f"📁 Spread across {len(unclassified_analysis['by_directory'])} directories")
+        print(f"🏷️  {len(unclassified_analysis['potential_categories'])} potential categories identified")
 
         return unclassified_analysis
 
@@ -610,7 +610,7 @@ class ComprehensiveCoreAuditor:
 
         for category, count in sorted_categories:
             percentage = (count / max(self.audit_results["total_files"], 1)) * 100
-            report += f"- **{category.title(}:** {count} files ({percentage:.1f}%)\n"
+            report += f"- **{category.title()}:** {count} files ({percentage:.1f}%)\n"
 
         report += """
 ### 📄 By File Type
@@ -621,7 +621,7 @@ class ComprehensiveCoreAuditor:
 
         for file_type, count in sorted_file_types:
             percentage = (count / max(self.audit_results["total_files"], 1)) * 100
-            report += f"- **{file_type.title(}:** {count} files ({percentage:.1f}%)\n"
+            report += f"- **{file_type.title()}:** {count} files ({percentage:.1f}%)\n"
 
         report += f"""
 ---
@@ -641,14 +641,14 @@ class ComprehensiveCoreAuditor:
             key=lambda x: len(x[1]),
             reverse=True,
         ):
-            report += f"- **`{directory}`:** {len(files} files\n"
+            report += f"- **`{directory}`:** {len(files)} files\n"
 
         if unclassified_analysis["potential_categories"]:
             report += """
 ### 🔍 Potential Categories for Unclassified Files
 """
             for category, files in unclassified_analysis["potential_categories"].items():
-                report += f"- **{category.title()}:** {len(files} files\n"
+                report += f"- **{category.title()}:** {len(files)} files\n"
 
         if unclassified_analysis["unique_patterns"]:
             report += """

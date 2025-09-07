@@ -11,14 +11,13 @@ Original: emotion_intent_link.py
 Advanced: emotion_intent_link.py
 Integration Date: 2025-05-31T07:55:28.107734
 """
-import time
-import streamlit as st
-
 # Path: symbolic_ai/linkers/crosslinker.py
-
 import json
 import os
+import time
 from datetime import datetime
+
+import streamlit as st
 
 INTENT_LOG = "symbolic_ai/memoria/intent_log.jsonl"
 EMOTION_LOG = "symbolic_ai/memoria/emotion_log.jsonl"

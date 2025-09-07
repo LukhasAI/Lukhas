@@ -6,9 +6,9 @@ and strategic positioning capabilities for the LUKHAS AI system.
 
 Part of the Trinity Framework (⚛️🧠🛡️)
 """
-import streamlit as st
-
 from typing import TYPE_CHECKING
+
+import streamlit as st
 
 if TYPE_CHECKING:
     from .market_intelligence.economic_reality_manipulator import (

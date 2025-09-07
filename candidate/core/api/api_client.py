@@ -2,14 +2,12 @@
 LUKHAS API Client SDK
 Easy-to-use client for interacting with LUKHAS Enhanced API
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import aiohttp
+import streamlit as st
 
 
 class LUKHASClient:
@@ -88,7 +86,7 @@ class LUKHASClient:
             if response.status >= 400:
                 error = response_data.get("error", response_data)
                 raise APIError(
-                    f"API Error: {error.get('message', 'Unknown error'}",
+                    f"API Error: {error.get('message', 'Unknown error')}",
                     status_code=response.status,
                     response=response_data,
                 )

@@ -65,23 +65,23 @@ from .agi_security import (
 )
 
 __all__ = [
+    # AGI security
+    "AGISecuritySystem",
+    "AccessControlSystem",
+    "EncryptionManager",
+    "RateLimiter",
+    "SecureChannel",
+    "SecurityContext",
     # Original utilities
     "SecurityError",
+    "SecurityIncident",
+    "SecurityLevel",
+    "SessionManager",
+    "ThreatDetectionSystem",
+    "ThreatType",
+    "get_env_var",
     "safe_eval",
     "safe_subprocess_run",
     "sanitize_input",
     "secure_file_path",
-    "get_env_var",
-    # AGI security
-    "AGISecuritySystem",
-    "SecurityLevel",
-    "ThreatType",
-    "SecurityContext",
-    "SecurityIncident",
-    "AccessControlSystem",
-    "SessionManager",
-    "ThreatDetectionSystem",
-    "EncryptionManager",
-    "RateLimiter",
-    "SecureChannel",
 ]

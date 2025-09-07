@@ -102,7 +102,7 @@ def run():
         diffs, avg = compare_traits(local, other)
         print(f"[{node}] vs [{NODE_ID}] → Δ Avg: {avg:.3f}")
         for k, v in diffs.items():
-            print(f"  {k.capitalize(}:15}: Δ {v:.3f}")
+            print(f"  {k.capitalize()}:15}: Δ {v:.3f}")
         print("")
 
 

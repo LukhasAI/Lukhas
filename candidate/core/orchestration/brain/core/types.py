@@ -8,15 +8,14 @@ Author: Lukhas AI System
 Version: 1.0.0
 License: Proprietary
 """
-import streamlit as st
-from datetime import timezone
-
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # ==================== PLUGIN ENUMS ====================
 
@@ -503,42 +502,7 @@ class BaseLucasPlugin(ABC):
     def __init__(self, context: "PluginContext"):
         self.context = context
         self._loaded = False
-        self.plugin_id = f"plugin_{id(self}"  # Generate unique ID
-
-    @abstractmethod
-    async def initialize(self) -> bool:
-        """Initialize the plugin. Return True if successful."""
-
-    @abstractmethod
-    async def execute(self, **kwargs) -> dict[str, Any]:
-        """Execute plugin main functionality"""
-
-    @abstractmethod
-    async def cleanup(self) -> None:
-        """Clean up plugin resources"""
-
-    async def load(self, context: "PluginContext") -> None:
-        """Load the plugin with given context"""
-        self.context = context
-        await self.initialize()
-        self._loaded = True
-
-    async def terminate(self) -> None:
-        """Terminate the plugin"""
-        await self.cleanup()
-        self._loaded = False
-
-    async def map_consciousness_state(self) -> dict[str, Any]:
-        """Map current consciousness state to plugin parameters"""
-        return {
-            "consciousness_state": self.context.lukhas_state.consciousness_state.value,
-            "symbolic_coherence": self.context.lukhas_state.symbolic_coherence,
-            "emotional_state": self.context.lukhas_state.emotional_state,
-        }
-
-    def get_status(self) -> dict[str, Any]:
-        """Get plugin status information"""
-        return {"loaded": self._loaded, "plugin_type": self.__class__.__name__}
+        self.plugin_id = f"plugin_{id(self)}"
 
 
 @dataclass

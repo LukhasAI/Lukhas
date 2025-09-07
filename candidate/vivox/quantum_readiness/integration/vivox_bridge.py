@@ -139,7 +139,7 @@ class VIVOXQIBridge:
         fingerprint_vector = self._fingerprint_to_quantum_vector(moral_fingerprint)
 
         qi_state = QIState(
-            state_id=f"mae_validation_{datetime.now(timezone.utc).timestamp(}",
+            state_id=f"mae_validation_{datetime.now(timezone.utc).timestamp()}",
             state_vector=fingerprint_vector,
             state_type=QIStateType.PURE,
             fidelity=1.0,
@@ -309,7 +309,7 @@ class VIVOXQIBridge:
         state_vector /= np.linalg.norm(state_vector)
 
         return QIState(
-            state_id=f"consciousness_{datetime.now(timezone.utc).timestamp(}",
+            state_id=f"consciousness_{datetime.now(timezone.utc).timestamp()}",
             state_vector=state_vector,
             state_type=QIStateType.SUPERPOSITION,
             fidelity=consciousness_state.get("clarity", 0.8),
@@ -342,7 +342,7 @@ class VIVOXQIBridge:
         superposition /= np.linalg.norm(superposition)
 
         return QIState(
-            state_id=f"alignment_{datetime.now(timezone.utc).timestamp(}",
+            state_id=f"alignment_{datetime.now(timezone.utc).timestamp()}",
             state_vector=superposition,
             state_type=QIStateType.SUPERPOSITION,
             fidelity=np.mean(list(alignment_scores.values())),
@@ -393,7 +393,7 @@ class VIVOXQIBridge:
         state_vector /= np.linalg.norm(state_vector)
 
         return QIState(
-            state_id=f"emotion_{datetime.now(timezone.utc).timestamp(}",
+            state_id=f"emotion_{datetime.now(timezone.utc).timestamp()}",
             state_vector=state_vector,
             state_type=QIStateType.SUPERPOSITION,
             fidelity=0.9,
@@ -434,7 +434,7 @@ class VIVOXQIBridge:
         state_vector /= np.linalg.norm(state_vector)
 
         return QIState(
-            state_id=f"agent_{agent_id}_{datetime.now(timezone.utc).timestamp(}",
+            state_id=f"agent_{agent_id}_{datetime.now(timezone.utc).timestamp()}",
             state_vector=state_vector,
             state_type=QIStateType.SUPERPOSITION,
             fidelity=agent_state.get("qi_readiness", 0.8),
@@ -443,7 +443,7 @@ class VIVOXQIBridge:
     def _log_bridge_event(self, target_module: str, operation: str, data: dict[str, Any], success: bool):
         """Log quantum bridge event"""
         event = QIBridgeEvent(
-            event_id=f"bridge_{datetime.now(timezone.utc).timestamp(}",
+            event_id=f"bridge_{datetime.now(timezone.utc).timestamp()}",
             source_module="VIVOX.QREADY",
             target_module=target_module,
             qi_data={"operation": operation},

@@ -86,14 +86,14 @@ class LUKHASTransmission:
 
         logger.info("🚀 LUKHAS Transmission initialized")
         logger.info(f"   Base path: {self.base_path}")
-        logger.info(f"   Components: {len(self.components}")
+        logger.info(f"   Components: {len(self.components)}")
 
     async def launch_transmission(self):
         """Launch the complete LUKHAS system"""
         logger.info("=" * 80)
         logger.info("🌌 LUKHAS NEXT GENERATION - TRANSMISSION LAUNCH")
         logger.info("=" * 80)
-        logger.info(f"Launch time: {self.launch_time.isoformat(}")
+        logger.info(f"Launch time: {self.launch_time.isoformat()}")
         logger.info("Phase 5 - Guardian System Integration")
         logger.info("")
 
@@ -258,8 +258,8 @@ class LUKHASTransmission:
         running_components = [name for name, status in self.component_status.items() if status == "running"]
         failed_components = [name for name, status in self.component_status.items() if status == "failed"]
 
-        logger.info(f"   Running components: {len(running_components}")
-        logger.info(f"   Failed components: {len(failed_components}")
+        logger.info(f"   Running components: {len(running_components)}")
+        logger.info(f"   Failed components: {len(failed_components)}")
 
         for component in running_components:
             logger.info(f"   ✅ {component}")
@@ -315,8 +315,8 @@ class LUKHASTransmission:
         uptime = datetime.now(timezone.utc) - self.launch_time
 
         logger.info("   📡 LUKHAS Next Generation System Status:")
-        logger.info(f"      Launch time: {self.launch_time.isoformat(}")
-        logger.info(f"      Uptime: {uptime.total_seconds(}:.1f} seconds")
+        logger.info(f"      Launch time: {self.launch_time.isoformat()}")
+        logger.info(f"      Uptime: {uptime.total_seconds()}:.1f} seconds")
         logger.info(f"      Components: {running_components}/{total_components} running")
         logger.info("      System phase: Phase 5 - Guardian Integration")
         logger.info("")

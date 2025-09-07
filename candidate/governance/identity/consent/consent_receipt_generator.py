@@ -77,7 +77,7 @@ class ConsentReceiptGenerator:
         """Generate a symbolic consent receipt in SVG format"""
 
         # Generate unique receipt ID
-        receipt_id = f"RECEIPT_{user_id}_{secrets.token_hex(8}"
+        receipt_id = f"RECEIPT_{user_id}_{secrets.token_hex(8)}"
 
         # Select symbols
         consciousness_symbol = self.consciousness_symbols.get(consciousness_state, "🔮")
@@ -186,7 +186,7 @@ class ConsentReceiptGenerator:
 </svg>"""
 
         # Save SVG file
-        filename = f"consent_receipt_{user_id}_{timestamp.strftime('%Y%m%d_%H%M%S'}.svg"
+        filename = f"consent_receipt_{user_id}_{timestamp.strftime('%Y%m%d_%H%M%S')}.svg"
         filepath = self.output_dir / filename
 
         with open(filepath, "w", encoding="utf-8") as f:
@@ -253,7 +253,7 @@ class ConsentReceiptGenerator:
 
         # Create combined consent hash
         combined_data = json.dumps(consent_events, sort_keys=True)
-        consent_hash = f"batch:{hashlib.sha3_256(combined_data.encode()).hexdigest(}"
+        consent_hash = f"batch:{hashlib.sha3_256(combined_data.encode()).hexdigest()}"
 
         # Use highest tier
         tier = max(tiers)
@@ -317,7 +317,7 @@ def main():
 
     receipt_path = generator.generate_receipt(
         user_id="t5_user_000",
-        consent_hash=f"trusthelix:{hashlib.sha256(b'demo_consent').hexdigest(}[:24]}",
+        consent_hash=f"trusthelix:{hashlib.sha256(b'demo_consent').hexdigest()}[:24]}",
         timestamp=datetime.now(timezone.utc),
         tier="T5",
         consciousness_state="flow_state",

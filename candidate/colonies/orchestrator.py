@@ -3,11 +3,10 @@ LUKHAS AI Colony System - Orchestrator Colony
 Coordinates multiple colonies and manages workflows
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 from .base import BaseColony, ColonyTask, get_colony_registry
 
@@ -47,7 +46,7 @@ class OrchestratorColony(BaseColony):
 
     def _execute_workflow(self, workflow_spec: dict[str, Any]) -> dict[str, Any]:
         """Execute a multi-colony workflow"""
-        workflow_id = f"wf_{datetime.now(timezone.utc).timestamp(}"
+        workflow_id = f"wf_{datetime.now(timezone.utc).timestamp()}"
         steps = workflow_spec.get("steps", [])
 
         workflow_result = {

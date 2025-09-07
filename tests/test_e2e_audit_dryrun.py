@@ -370,4 +370,4 @@ if __name__ == "__main__":
     print("E2E Audit Report Generated:")
     print(f"  Audit ready: {report['compliance_status']['audit_ready']}")
     print(f"  Safety verified: {all(report['safety_verification'].values()}")
-    print(f"  Test coverage: {sum(report['test_coverage'].values())}/{len(report['test_coverage']} tests")
+    print(f"  Test coverage: {sum(report['test_coverage'].values())}/{len(report['test_coverage'])} tests")

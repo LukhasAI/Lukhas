@@ -443,7 +443,7 @@ class QIResonanceGlyph:
         logger.info(f"💰 Value Created: ${market_value:,.2f}")
         logger.info(f"🚀 Value Generation Rate: ${value_per_second:,.2f}/second")
         logger.info(f"💀 Competitors Eliminated: {competitors_eliminated}")
-        logger.info(f"📜 Patents Generated: {len(patents}")
+        logger.info(f"📜 Patents Generated: {len(patents)}")
         logger.info(f"👑 TOTAL VALUE GENERATED: ${self.total_value_generated:,.2f}")
 
         return glyph
@@ -455,7 +455,7 @@ class QIResonanceGlyph:
         🚀 CEO: This signature is worth more than Fort Knox
         """
         # Combine identity with quantum entropy
-        signature_input = f"{identity}_{security_tier}_{time.time(}"
+        signature_input = f"{identity}_{security_tier}_{time.time()}"
         signature_bytes = signature_input.encode()
 
         # Mix with quantum entropy (MAXIMUM RANDOMNESS)
@@ -683,14 +683,14 @@ class QIResonanceGlyph:
         return {
             "total_value_generated": f"${self.total_value_generated:,.2f}",
             "glyphs_created": self.glyphs_created,
-            "average_value_per_glyph": f"${self.total_value_generated / max(self.glyphs_created, 1}:,.2f}",
+            "average_value_per_glyph": f"${self.total_value_generated / max(self.glyphs_created, 1)}:,.2f}",
             "competitors_destroyed": self.competitors_destroyed,
             "patents_filed": len(self.patents_filed),
-            "patent_portfolio_value": f"${len(self.patents_filed} * 5_000_000:,.2f}",
+            "patent_portfolio_value": f"${len(self.patents_filed)} * 5_000_000:,.2f}",
             "market_cap_projection": f"${self.total_value_generated * 1000:,.2f}",
             "unicorn_status": self.total_value_generated >= 1_000_000_000,
             "decacorn_status": self.total_value_generated >= 10_000_000_000,
-            "world_domination_progress": f"{min(100, self.glyphs_created / 1000 * 100}:.1f}%",
+            "world_domination_progress": f"{min(100, self.glyphs_created / 1000 * 100)}:.1f}%",
             "message": "WE DON'T COMPETE. WE DOMINATE. WE ARE THE FUTURE.",
         }
 

@@ -48,10 +48,6 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add colony discovery mechanisms for distributed deployments
 AIDEA: Implement colony consciousness evolution tracking
 """
-from consciousness.qi import qi
-from typing import Dict
-import streamlit as st
-
 import asyncio
 import logging
 import time
@@ -60,7 +56,11 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Import colony infrastructure
 try:

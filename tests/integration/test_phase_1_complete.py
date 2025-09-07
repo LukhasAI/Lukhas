@@ -50,7 +50,7 @@ async def test_sampl_memory_system():
             activation_result = sampl.spreading_activation(memory_id, max_depth=2)
             if len(activation_result) > 0:
                 print_test_result(
-                    f"Spreading Activation ({memory_id})", "PASS", f"{len(activation_result} nodes activated"
+                    f"Spreading Activation ({memory_id})", "PASS", f"{len(activation_result)} nodes activated"
                 )
             else:
                 print_test_result(f"Spreading Activation ({memory_id})", "FAIL", "No activation")
@@ -58,7 +58,7 @@ async def test_sampl_memory_system():
         # Test 2: Non-monotonic plasticity
         sample_activation = {"mem_001": 0.8, "mem_002": 0.6, "mem_003": 0.3}
         plasticity_result = sampl.non_monotonic_plasticity(sample_activation)
-        print_test_result("Non-Monotonic Plasticity", "PASS", f"{len(plasticity_result} connections updated")
+        print_test_result("Non-Monotonic Plasticity", "PASS", f"{len(plasticity_result)} connections updated")
 
         # Test 3: Performance validation
         efficiency_improvement = 40  # Research target
@@ -449,7 +449,7 @@ async def test_bio_compound_governor():
         regulation_result = await governor.regulate_system_stability(test_context)
         if regulation_result and regulation_result["overall_stability"] > 0.99:
             print_test_result(
-                "System Regulation", "PASS", f"{regulation_result['overall_stability'] * 100:.1f}% stability achieved"
+                "System Regulation", "PASS", f"{regulation_result['overall_stability']  * 100:.1f}% stability achieved"
             )
         else:
             print_test_result("System Regulation", "WARN", "Suboptimal regulation performance")
@@ -503,7 +503,7 @@ async def test_integration_validation():
             "Bio-Compound": "99.8% stability",
         }
 
-        print_test_result("Performance Targets", "PASS", f"{len(performance_targets} systems with defined targets")
+        print_test_result("Performance Targets", "PASS", f"{len(performance_targets)} systems with defined targets")
 
         # Test 3: Architecture coherence
         architecture_components = {
@@ -515,7 +515,7 @@ async def test_integration_validation():
             "System Stability": "Unified bio-compound regulation",
         }
 
-        print_test_result("Architecture Coherence", "PASS", f"{len(architecture_components} integrated components")
+        print_test_result("Architecture Coherence", "PASS", f"{len(architecture_components)} integrated components")
 
         # Test 4: Research validation coverage
         research_priorities = [
@@ -526,7 +526,7 @@ async def test_integration_validation():
             "Bio-Symbolic Architecture",
         ]
 
-        print_test_result("Research Coverage", "PASS", f"{len(research_priorities}/5 research priorities implemented")
+        print_test_result("Research Coverage", "PASS", f"{len(research_priorities)}/5 research priorities implemented")
 
         return True
 
@@ -539,7 +539,7 @@ async def main():
     """Run comprehensive Phase 1 testing suite"""
     print("🧪 PHASE 1 COMPREHENSIVE TESTING SUITE")
     print("Testing all Top 5 research-validated implementations")
-    print(f"Started: {datetime.now(timezone.utc).isoformat(}")
+    print(f"Started: {datetime.now(timezone.utc).isoformat()}")
 
     # Run all tests
     test_results = {}
@@ -577,7 +577,7 @@ async def main():
         print("⚠️ PHASE 1 TESTING: NEEDS IMPROVEMENT")
 
     print("\n🧬 LUKHAS Constellation Architecture: Research-validated implementations tested")
-    print(f"Completed: {datetime.now(timezone.utc).isoformat(}")
+    print(f"Completed: {datetime.now(timezone.utc).isoformat()}")
 
     return success_rate >= 70
 

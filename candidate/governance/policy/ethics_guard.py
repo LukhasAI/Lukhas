@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 """
 
 #TAG:governance
@@ -10,13 +11,11 @@ from datetime import datetime, timezone
 Lukhas Ethics Guard - Legal Compliance Assistant
 Provides ethical compliance checking and safety monitoring for AI systems.
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import datetime
-from typing import Any, Optional
+import time
+from typing import Any, Dict, List, Optional
+
+import streamlit as st
 
 
 class LegalComplianceAssistant:
@@ -280,7 +279,7 @@ class LegalComplianceAssistant:
         if len(concerns) == 1:
             return f"Address concern: {concerns[0]}"
 
-        return f"Address {len(concerns} concerns before proceeding"
+        return f"Address {len(concerns)} concerns before proceeding"
 
     def anonymize_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """

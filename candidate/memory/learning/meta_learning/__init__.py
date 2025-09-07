@@ -1,4 +1,5 @@
 import streamlit as st
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
 # MODULE: learning.meta_learning
@@ -16,8 +17,8 @@ import streamlit as st
 
 """LUKHAS meta_learning sub-package."""  # Changed original comment slightly for clarity
 # ΛNOTE: This __init__.py file marks the directory as a Python package.
-# It can be used to control the package's public API by specifying `__all__`,
-# or to execute package-level initialization code. Currently, it's minimal.
+# It can be used to control the package's public API by specifying `__all__`,'
+# or to execute package-level initialization code. Currently, it's minimal.'
 # This package seems to focus on components like federated integration, monitoring,
 # rate modulation, remediation, and symbolic feedback for meta-learning processes.
 

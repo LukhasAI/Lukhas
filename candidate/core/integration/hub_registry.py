@@ -8,11 +8,12 @@
 Global Hub Registry
 Central registry for all system hubs
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import logging
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

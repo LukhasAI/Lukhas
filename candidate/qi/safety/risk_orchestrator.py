@@ -6,8 +6,9 @@ import os
 from dataclasses import dataclass
 from typing import Any
 
-import yaml
 import streamlit as st
+import yaml
+
 from consciousness.qi import qi
 
 DEFAULT_CFG = {

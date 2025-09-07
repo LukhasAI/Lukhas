@@ -67,7 +67,7 @@ class ExternalServiceIntegration:
             "drive_share": "google_drive",
         }
 
-        logger.info(f"External Service Integration initialized with {len(self.adapters} adapters")
+        logger.info(f"External Service Integration initialized with {len(self.adapters)} adapters")
 
     def _initialize_adapters(self):
         """Initialize all available service adapters"""

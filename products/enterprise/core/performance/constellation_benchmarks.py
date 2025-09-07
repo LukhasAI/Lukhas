@@ -7,9 +7,6 @@ Sam Altman Level: "Ship fast, measure everything, scale exponentially"
 Comprehensive performance testing for LUKHAS AI Constellation Framework
 targeting enterprise-grade scalability and sub-25ms P95 latency.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
@@ -17,10 +14,11 @@ import os
 import statistics
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import psutil
+import streamlit as st
 
 # Enterprise monitoring integration
 try:
@@ -403,7 +401,7 @@ class ConstellationFrameworkBenchmark:
             f"   Compliance Rate: {compliance_rate:.1f}% ({'✅' if compliance_rate == 100 else '⚠️'} Target: 100%)"
         )
         logger.info(f"   Average Drift: {avg_drift:.3f} ({'✅' if avg_drift < 0.15 else '⚠️'} Target: <0.15)")
-        logger.info(f"   Violations: {total_violations}/{len(test_cases}")
+        logger.info(f"   Violations: {total_violations}/{len(test_cases)}")
 
         return summary
 

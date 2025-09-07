@@ -4,20 +4,17 @@ LUKHΛS Persona Similarity Engine
 Symbolic matching between session attributes and persona profiles
 Trinity Framework: ⚛️🧠🛡️
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 # Note: Using custom implementation instead of sklearn for portability
 import json
 import logging
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List
 
 import numpy as np
+import streamlit as st
 import yaml
 
 # Configure logging

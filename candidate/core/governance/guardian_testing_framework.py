@@ -300,7 +300,7 @@ class GuardianTestFramework:
         # Adversarial Test Suite
         await self._create_adversarial_test_suite()
 
-        logger.info(f"✅ Initialized {len(self.test_suites} comprehensive test suites")
+        logger.info(f"✅ Initialized {len(self.test_suites)} comprehensive test suites")
 
     async def _create_constitutional_ai_test_suite(self):
         """Create constitutional AI testing suite"""
@@ -745,7 +745,7 @@ class GuardianTestFramework:
         suite = self.test_suites[suite_id]
         start_time = datetime.now(timezone.utc)
 
-        logger.info(f"🧪 Running test suite: {suite.name} ({len(suite.test_cases} tests)")
+        logger.info(f"🧪 Running test suite: {suite.name} ({len(suite.test_cases)} tests)")
 
         try:
             if parallel and len(suite.test_cases) > 1:
@@ -1127,7 +1127,7 @@ class GuardianTestFramework:
     async def _generate_test_report(self, executed_suites: list[TestSuite], start_time: datetime) -> TestReport:
         """Generate comprehensive test report"""
 
-        report_id = f"test_report_{uuid.uuid4(}.hex[:8]}"
+        report_id = f"test_report_{uuid.uuid4()}.hex[:8]}"
         total_execution_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         # Calculate overall statistics
@@ -1328,7 +1328,7 @@ async def example_testing():
     print(f"Total Test Cases: {report.total_test_cases}")
     print(f"Constitutional Compliance: {report.constitutional_compliance_rate:.1%}")
     print(f"Safety Mechanism Effectiveness: {report.safety_mechanism_effectiveness:.1%}")
-    print(f"Critical Issues: {len(report.critical_issues}")
+    print(f"Critical Issues: {len(report.critical_issues)}")
 
     if report.critical_issues:
         print("Critical Issues:")

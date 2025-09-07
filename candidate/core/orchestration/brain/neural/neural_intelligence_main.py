@@ -9,14 +9,12 @@ Version: 2.0
 Professional entry point for the Lukhas Neural Intelligence System.
 Integrates all cognitive components while preserving unique Lukhas innovations.
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import asyncio
 import logging
-from typing import Optional
+import time
+from typing import Dict, Optional
 
+import streamlit as st
 from cognitive_core import NeuralIntelligenceSystem
 
 # Configure logging
@@ -107,7 +105,7 @@ async def main():
     print("\n🌟 Lukhas Unique Innovations:")
     for name, info in innovations.items():
         status_icon = "✅" if info["active"] else "⚠️"
-        print(f"  {status_icon} {name.title(}: {info['description']}")
+        print(f"  {status_icon} {name.title()}: {info['description']}")
 
     # Demo requests
     test_requests = [

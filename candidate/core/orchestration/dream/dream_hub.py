@@ -33,7 +33,7 @@ class DreamHub:
         self._register_integration_services()
 
         self.is_initialized = True
-        logger.info(f"Dream hub initialized with {len(self.services} services")
+        logger.info(f"Dream hub initialized with {len(self.services)} services")
 
     def _register_dream_processing_services(self):
         """Register dream processing services"""

@@ -163,7 +163,7 @@ def save_test_results(results):
 
     for domain, result in results.items():
         if "error" not in result and "content" in result:
-            file_path = output_dir / f"{domain.replace('.', '_'}_homepage.md"
+            file_path = output_dir / f"{domain.replace('.', '_')}_homepage.md"
             file_path.write_text(result["content"], encoding="utf-8")
             print(f"   📄 Saved {domain} content to {file_path}")
 
@@ -189,6 +189,6 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 50)
     print("✨ All tests completed successfully!")
-    print(f"📊 Total domains tested: {len(multiple_results}")
-    print(f"📈 Success rate: {len([r for r in multiple_results.values() if 'error' not in r])}/{len(multiple_results}")
+    print(f"📊 Total domains tested: {len(multiple_results)}")
+    print(f"📈 Success rate: {len([r for r in multiple_results.values() if 'error' not in r])}/{len(multiple_results)}")
     print("📄 Content files generated in test_output/")

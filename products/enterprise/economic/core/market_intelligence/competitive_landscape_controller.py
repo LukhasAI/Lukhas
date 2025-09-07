@@ -3,16 +3,15 @@ Competitive Landscape Controller
 
 Controls and manages competitive positioning strategies.
 """
-from consciousness.qi import qi
-from typing import List
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, List
 
+import streamlit as st
+
+from consciousness.qi import qi
 from core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
@@ -425,8 +424,8 @@ class CompetitiveLandscapeController(CoreInterface):
                 opportunities.append(
                     {
                         "type": "preemptive",
-                        "name": f"early_entry_{entry.get('market'}",
-                        "description": f"Enter {entry.get('market'} before competitor",
+                        "name": f"early_entry_{entry.get('market')}",
+                        "description": f"Enter {entry.get('market')} before competitor",
                         "window_months": 12,
                         "impact_potential": 0.7,
                     }
@@ -496,8 +495,8 @@ class CompetitiveLandscapeController(CoreInterface):
                 opportunities.append(
                     {
                         "type": "complementary",
-                        "name": f"tech_integration_{partnership.get('focus'}",
-                        "description": f"Integrate with {partnership.get('focus'} technology",
+                        "name": f"tech_integration_{partnership.get('focus')}",
+                        "description": f"Integrate with {partnership.get('focus')} technology",
                         "window_months": 6,
                         "impact_potential": 0.6,
                     }
@@ -545,8 +544,8 @@ class CompetitiveLandscapeController(CoreInterface):
                 opportunities.append(
                     {
                         "type": "defensive",
-                        "name": f"protect_{entry.get('market'}",
-                        "description": f"Protect position in {entry.get('market'}",
+                        "name": f"protect_{entry.get('market')}",
+                        "description": f"Protect position in {entry.get('market')}",
                         "window_months": 6,
                         "impact_potential": 0.6,
                     }

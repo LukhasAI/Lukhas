@@ -3,16 +3,16 @@
 Generate Hashes - LUKHAS manifest integrity verification
 Creates comprehensive hash digests with symbolic proof generation
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 def calculate_sha3_512(file_path: Path) -> str:
@@ -283,7 +283,7 @@ def main():
             print(f"   SHA3-512: {hash_manifest['integrity_hashes']['sha3_512'][:32]}...")
             print(f"   SHAKE256: {hash_manifest['integrity_hashes']['shake256_64'][:32]}...")
             print(
-                f"   Symbolic Glyphs: {hash_manifest['symbolic_analysis']['total_glyphs']} total, {len(hash_manifest['symbolic_analysis']['unique_glyphs']} unique"
+                f"   Symbolic Glyphs: {hash_manifest['symbolic_analysis']['total_glyphs']} total, {len(hash_manifest['symbolic_analysis']['unique_glyphs'])} unique"
             )
             print(f"   Trinity References: {hash_manifest['symbolic_analysis']['trinity_references']}")
 

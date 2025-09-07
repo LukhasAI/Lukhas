@@ -24,19 +24,19 @@ from .self_improvement import (
 )
 
 __all__ = [
-    # Self-improvement
-    "SelfImprovementEngine",
     "AGIGoalAlignment",
-    "ImprovementDomain",
-    "ImprovementGoal",
-    # Consciousness streaming
-    "ConsciousnessStreamServer",
-    "ConsciousnessStreamClient",
-    "ConsciousnessFrame",
-    "StreamType",
     # Autonomous learning
     "AutonomousLearningPipeline",
-    "LearningStrategy",
+    "ConsciousnessFrame",
+    "ConsciousnessStreamClient",
+    # Consciousness streaming
+    "ConsciousnessStreamServer",
+    "ImprovementDomain",
+    "ImprovementGoal",
     "KnowledgeType",
     "LearningGoal",
+    "LearningStrategy",
+    # Self-improvement
+    "SelfImprovementEngine",
+    "StreamType",
 ]

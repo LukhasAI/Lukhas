@@ -7,13 +7,11 @@ Trinity Framework: ⚛️🧠🛡️
 This module serves as a compatibility layer for the Guardian system,
 centralizing access to guardian functionality spread across the governance module.
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any, List, Optional
+
+import streamlit as st
 
 from ..guardian_shadow_filter import GuardianShadowFilter
 from .ethics.guardian_reflector import GuardianReflector

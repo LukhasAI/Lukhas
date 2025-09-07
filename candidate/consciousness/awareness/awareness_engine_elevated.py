@@ -835,7 +835,7 @@ class CognitiveAwarenessModule(AwarenessModule):
 
         time_to_peak = productivity.get("time_to_peak", "")
         if time_to_peak and time_to_peak != "current_peak":
-            recommendations.append(f"Estimated time to peak performance: {time_to_peak.replace('_', ' '}")
+            recommendations.append(f"Estimated time to peak performance: {time_to_peak.replace('_', ' ')}")
 
         return recommendations
 
@@ -1325,12 +1325,12 @@ class EmotionalAwarenessModule(AwarenessModule):
         widget_customization = result.get("widget_customization", {})
         adaptive_features = widget_customization.get("adaptive_features", [])
         if adaptive_features:
-            recommendations.append(f"Recommended adaptive features: {', '.join(adaptive_features[:3]}")
+            recommendations.append(f"Recommended adaptive features: {', '.join(adaptive_features[:3])}")
 
         # Add accessibility recommendations
         accessibility = widget_customization.get("accessibility_adjustments", [])
         if accessibility:
-            recommendations.append(f"Accessibility adjustments available: {', '.join(accessibility[:2]}")
+            recommendations.append(f"Accessibility adjustments available: {', '.join(accessibility[:2])}")
 
         # Add trigger management if needed
         trigger_analysis = result.get("trigger_analysis", {})
@@ -1595,7 +1595,7 @@ if __name__ == "__main__":
 
     emo_output = engine.process_awareness(AwarenessType.EMOTIONAL, emo_input)
     print(f"Emotional Alignment Score: {emo_output.alignment.score:.2f}")
-    print(f"Widget Animation Style: {emo_output.data.get('widget_animation_style', {})}")
+    print(f"Widget Animation Style: {emo_output.data.get('widget_animation_style', {)})}")
 
     # Test Social Awareness
     print("\n=== Social Awareness Test ===")
@@ -1611,7 +1611,7 @@ if __name__ == "__main__":
 
     soc_output = engine.process_awareness(AwarenessType.SOCIAL, soc_input)
     print(f"Social Alignment Score: {soc_output.alignment.score:.2f}")
-    print(f"Group Analysis: {soc_output.data.get('group_analysis', {})}")
+    print(f"Group Analysis: {soc_output.data.get('group_analysis', {)})}")
 
     # System Status
     print("\n=== Lukhas Awareness System Status ===")

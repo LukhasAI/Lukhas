@@ -4,12 +4,11 @@ LUKHAS AI System Orchestrator
 Master coordinator for all integrated consciousness technology systems
 Real-time coordination between database, content platform, and document engine
 """
-import streamlit as st
-from datetime import timezone
-
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 sys.path.append(str(Path(__file__).parent))
 

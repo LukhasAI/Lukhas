@@ -184,7 +184,7 @@ class QIMeshVisualizer:
             # Get most recent entry
             if lines:
                 latest_entry = json.loads(lines[-1])
-                logger.info(f"Loaded {len(lines} log entries, using latest")
+                logger.info(f"Loaded {len(lines)} log entries, using latest")
                 return latest_entry
             else:
                 logger.warning("Log file empty, generating synthetic data")
@@ -441,7 +441,7 @@ class QIMeshVisualizer:
             return "✅ No active phase conflicts detected - mesh is stable\n"
 
         output = []
-        output.append(f"⚠️  ACTIVE PHASE CONFLICTS: {len(conflicts} pairs\n")
+        output.append(f"⚠️  ACTIVE PHASE CONFLICTS: {len(conflicts)} pairs\n")
         output.append("=" * 60)
 
         # Sort conflicts by risk level
@@ -483,7 +483,7 @@ class QIMeshVisualizer:
             output.append(f"   Entanglement Strength: {conflict['strength']:.3f}")
             output.append(f"   Conflict Risk:        {conflict['risk_score']:.3f}")
             output.append(
-                f"   Phase Difference:     {conflict['phase_diff']:.3f} rad ({np.degrees(conflict['phase_diff']}:.1f}°)"
+                f"   Phase Difference:     {conflict['phase_diff']:.3f} rad ({np.degrees(conflict['phase_diff'])}:.1f}°)"
             )
 
             # Add recommendations
@@ -496,8 +496,8 @@ class QIMeshVisualizer:
 
         output.append("\n" + "=" * 60)
         output.append(
-            f"SUMMARY: {len([c for c in conflict_data if c['sort_key'] >= 0.5]} critical, "
-            f"{len([c for c in conflict_data if 0.2 <= c['sort_key'] < 0.5]} medium risk"
+            f"SUMMARY: {len([c for c in conflict_data if c['sort_key'] >= 0.5])} critical, "
+            f"{len([c for c in conflict_data if 0.2 <= c['sort_key'] < 0.5])} medium risk"
         )
 
         return "\n".join(output)
@@ -665,7 +665,7 @@ class QIMeshVisualizer:
 
         # Update layout
         fig.update_layout(
-            title_text=f"Quantum Ethics Mesh Dashboard - {datetime.now(timezone.utc}.strftime('%Y-%m-%d %H:%M'}",
+            title_text=f"Quantum Ethics Mesh Dashboard - {datetime.now(timezone.utc)}.strftime('%Y-%m-%d %H:%M'}",
             title_x=0.5,
             showlegend=False,
             height=800,
@@ -734,8 +734,8 @@ class QIMeshVisualizer:
 
         markdown = []
         markdown.append("#  Quantum Ethics Mesh Report")
-        markdown.append(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}")
-        markdown.append(f"**Data Timestamp:** {data.get('timestamp', 'Unknown'}")
+        markdown.append(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
+        markdown.append(f"**Data Timestamp:** {data.get('timestamp', 'Unknown')}")
         markdown.append("")
 
         # Summary
@@ -743,7 +743,7 @@ class QIMeshVisualizer:
         markdown.append(f"- **Mesh Ethics Score:** {unified_field['mesh_ethics_score']:.3f}")
         markdown.append(f"- **Risk Level:** {unified_field['risk_level']}")
         markdown.append(f"- **Phase Synchronization:** {unified_field['phase_synchronization']:.3f}")
-        markdown.append(f"- **Active Conflicts:** {len(conflicts}")
+        markdown.append(f"- **Active Conflicts:** {len(conflicts)}")
         markdown.append("")
 
         # Entanglement matrix
@@ -983,7 +983,7 @@ Examples:
         visualizer.current_data = data
 
         print(f"📊 Quantum Mesh Visualizer - Mode: {args.mode}")
-        print(f"⏱️  Data timestamp: {data.get('timestamp', 'Unknown'}")
+        print(f"⏱️  Data timestamp: {data.get('timestamp', 'Unknown')}")
         print(f"🔗 Mesh score: {data['unified_field']['mesh_ethics_score']:.3f}")
         print(f"⚠️  Risk level: {data['unified_field']['risk_level']}")
         print(f"🔥 Active conflicts: {len(data.get('conflicts', [])}")

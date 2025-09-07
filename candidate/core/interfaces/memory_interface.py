@@ -5,11 +5,11 @@
 Interface module to break circular dependencies between:
 memory.core.unified_memory_orchestrator <-> memory.systems.memory_comprehensive
 """
-import streamlit as st
-
 from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.core.common import GLYPHToken
 

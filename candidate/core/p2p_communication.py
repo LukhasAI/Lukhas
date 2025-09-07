@@ -16,8 +16,6 @@
 ║ fault tolerance, and reduced latency for high-bandwidth agent communication.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -28,6 +26,8 @@ from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

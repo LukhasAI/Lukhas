@@ -6,8 +6,6 @@ Trinity Framework: ⚛️🧠🛡️
 This module provides efficient communication patterns for the LUKHAS ecosystem,
 supporting event-driven messaging, P2P transfers, and energy optimization.
 """
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -18,6 +16,8 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

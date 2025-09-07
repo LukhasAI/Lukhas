@@ -332,7 +332,7 @@ try:
         self.consolidation_queue = self.consolidation_queue[max_memories:]
         self.stats["consolidations"] += len(consolidated_memories)
 
-        logger.info(f"Consolidated {len(consolidated_memories} memories through dream processing")
+        logger.info(f"Consolidated {len(consolidated_memories)} memories through dream processing")
 
                                                                                                                         return {
             "status": "success",
@@ -708,12 +708,12 @@ try:
 
                                                                                                                                                                                                                                                                                             if result['processing_type'] == 'symphony_enhanced':
             print(f"Coordination Quality: {result['coordination_quality']:.2f}")
-            print(f"Insights: {len(result['symphony_result'].get('synthesized_insights',}
+            print(f"Insights: {len(result['symphony_result'].get('synthesized_insights',)}
     []))}")
 
         # Test speech
         speech_result = brain.speak_with_emotion(test_input["content"])
-        print(f"Speech emotion: {speech_result.get('current_emotion', 'unknown'}")
+        print(f"Speech emotion: {speech_result.get('current_emotion', 'unknown')}")
 
     # Show final status
     status = brain.get_comprehensive_status()

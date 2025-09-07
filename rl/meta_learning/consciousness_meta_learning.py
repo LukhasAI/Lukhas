@@ -85,7 +85,7 @@ class ConsciousnessMetaLearning:
     def __init__(self, max_experiences: int = 1000):
         self.capabilities = ["rl.meta_learning", "reflection.analysis", "learning.optimization"]
         self.node_type = "REFLECTION"
-        self.trace_id = f"rl-meta-{uuid.uuid4(}.hex[:12]}"
+        self.trace_id = f"rl-meta-{uuid.uuid4()}.hex[:12]}"
 
         # Meta-learning configuration
         self.max_experiences = max_experiences
@@ -328,7 +328,7 @@ class ConsciousnessMetaLearning:
                 "rl:role=meta_learning@1",
                 "reflection:type=learning_analysis@1",
                 f"strategy:used={strategy.value if strategy else 'auto'}@1",
-                f"experiences:analyzed={len(recent_experiences}@1",
+                f"experiences:analyzed={len(recent_experiences)}@1",
                 f"meta:depth={self.reflection_depth}@1",
             ],
             state={
@@ -422,7 +422,7 @@ class ConsciousnessMetaLearning:
             embeddings=[],
             evidence=[
                 {"kind": "analysis", "uri": f"meta_learning://analysis/{self.trace_id}/{self.total_reflections}"},
-                {"kind": "experiences", "uri": f"experiences://batch/{len(recent_experiences}"},
+                {"kind": "experiences", "uri": f"experiences://batch/{len(recent_experiences)}"},
             ],
         )
 

@@ -26,9 +26,9 @@ Key Components:
 This creates a living, breathing AI system that actively monitors itself,
 adapts to changing conditions, and continuously learns from its experiences.
 """
-import streamlit as st
-
 from typing import Optional
+
+import streamlit as st
 
 from .adaptive_metrics_collector import AdaptiveMetricsCollector, MetricContext
 from .bio_symbolic_coherence_monitor import (
@@ -71,36 +71,36 @@ __description__ = "Enhanced monitoring and observability with endocrine-triggere
 
 # Main entry points
 __all__ = [
-    # Main system components
-    "IntegratedMonitoringSystem",
-    "start_complete_monitoring_system",
-    "create_integrated_monitoring_system",
-    # Individual components
-    "EndocrineObservabilityEngine",
-    "PlasticityTriggerManager",
-    "BioSymbolicCoherenceMonitor",
     "AdaptiveMetricsCollector",
-    "HormoneDrivenDashboard",
-    "NeuroplasticLearningOrchestrator",
+    "BioSymbolicCoherenceMonitor",
+    "CoherenceLevel",
+    "CoherenceReport",
     # Configuration
     "ComprehensiveMonitoringConfig",
-    "MonitoringProfile",
-    "MonitoringConfigManager",
-    "load_monitoring_config",
+    "DashboardMode",
+    # Individual components
+    "EndocrineObservabilityEngine",
     # Key data structures
     "EndocrineSnapshot",
-    "PlasticityEvent",
-    "CoherenceReport",
-    "SystemHealthMetrics",
+    "HormoneDrivenDashboard",
+    # Main system components
+    "IntegratedMonitoringSystem",
+    "IntegrationState",
     "LearningInsight",
+    "LearningPhase",
+    "MetricContext",
+    "MonitoringConfigManager",
+    "MonitoringLevel",
+    "MonitoringProfile",
+    "NeuroplasticLearningOrchestrator",
+    "PlasticityEvent",
+    "PlasticityTriggerManager",
     # Enums and types
     "PlasticityTriggerType",
-    "CoherenceLevel",
-    "MetricContext",
-    "DashboardMode",
-    "LearningPhase",
-    "IntegrationState",
-    "MonitoringLevel",
+    "SystemHealthMetrics",
+    "create_integrated_monitoring_system",
+    "load_monitoring_config",
+    "start_complete_monitoring_system",
 ]
 
 
@@ -182,12 +182,7 @@ async def main():
 
     # Get system status
     status = monitoring_system.get_system_status()
-    print(f"System Health: {status['health']['overall']:.2f}")
-    print(f"Risk Level: {status['health']['risk_level']}")
-
-    # Get recent insights
-    insights = monitoring_system.get_unified_insights(limit=5)
-    print(f"Recent Insights: {len(insights}")
+    print(f"System Health: {status['health']['overall']:.2f}"")
 
     # Run for demonstration
     await asyncio.sleep(60)

@@ -9,14 +9,13 @@ Comprehensive validation framework for EU AI Act compliance including:
 - Documentation compliance checking
 - High-risk AI system validation
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -373,7 +372,7 @@ class EUAIActValidator:
                 [
                     "Maintain current compliance measures",
                     "Monitor for regulatory updates",
-                    f"Schedule next review: {assessment.next_review_date.strftime('%Y-%m-%d'}",
+                    f"Schedule next review: {assessment.next_review_date.strftime('%Y-%m-%d')}",
                 ]
             )
 

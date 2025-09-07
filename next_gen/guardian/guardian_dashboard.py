@@ -303,7 +303,7 @@ class GuardianDashboard:
                 self.emergency_trigger_conditions = self.emergency_manifest.get("trigger_conditions", {})
                 self.emergency_response_actions = self.emergency_manifest.get("response_actions", {})
 
-                print(f"📋 Emergency manifest loaded: {len(self.emergency_trigger_conditions} trigger conditions")
+                print(f"📋 Emergency manifest loaded: {len(self.emergency_trigger_conditions)} trigger conditions")
             else:
                 print(f"⚠️ Emergency manifest not found: {self.emergency_manifest_file}")
 
@@ -342,7 +342,7 @@ class GuardianDashboard:
 
         print(f"🚨 Emergency simulation triggered: {condition_name}")
         print(f"   Level: {emergency_level}")
-        print(f"   Symbolic: {'→'.join(self.emergency_state.symbolic_pattern}")
+        print(f"   Symbolic: {'→'.join(self.emergency_state.symbolic_pattern)}")
 
     async def resolve_emergency(self):
         """Resolve active emergency"""
@@ -603,7 +603,7 @@ class GuardianDashboard:
             )
 
             # Uptime
-            uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60}:02d}"
+            uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60)}:02d}"
             print(Console.move_cursor(8, 5), end="")
             print(f"Uptime: {Console.CYAN}{uptime_str}{Console.RESET}", end="")
 
@@ -611,7 +611,7 @@ class GuardianDashboard:
         """Render threat overview section"""
         print(Console.move_cursor(5, 45), end="")
         print(
-            f"{Console.BOLD}ACTIVE THREATS ({len(self.active_threats}){Console.RESET}",
+            f"{Console.BOLD}ACTIVE THREATS ({len(self.active_threats)}){Console.RESET}",
             end="",
         )
 
@@ -639,7 +639,7 @@ class GuardianDashboard:
         # Resolved threats counter
         print(Console.move_cursor(12, 45), end="")
         print(
-            f"Resolved: {Console.GREEN}{len(self.resolved_threats}{Console.RESET}",
+            f"Resolved: {Console.GREEN}{len(self.resolved_threats)}{Console.RESET}",
             end="",
         )
 
@@ -705,7 +705,7 @@ class GuardianDashboard:
 
             print(Console.move_cursor(8, 5), end="")
             print(
-                f"Type: {config.get('color', Console.WHITE)}{config.get('symbol', '⚠️'} {threat.type}{Console.RESET}",
+                f"Type: {config.get('color', Console.WHITE)}{config.get('symbol', '⚠️')} {threat.type}{Console.RESET}",
                 end="",
             )
 
@@ -728,7 +728,7 @@ class GuardianDashboard:
 
             print(Console.move_cursor(12, 5), end="")
             print(
-                f"Description: {config.get('description', 'Unknown threat type'}",
+                f"Description: {config.get('description', 'Unknown threat type')}",
                 end="",
             )
 
@@ -752,13 +752,13 @@ class GuardianDashboard:
         # Prediction results
         print(Console.move_cursor(7, 5), end="")
         print(
-            f"Prediction Confidence: {analysis.get('prediction_confidence', 0}:.1%}",
+            f"Prediction Confidence: {analysis.get('prediction_confidence', 0)}:.1%}",
             end="",
         )
 
         print(Console.move_cursor(8, 5), end="")
         print(
-            f"Recent Activity: {analysis.get('recent_activity', 0} threats (5min)",
+            f"Recent Activity: {analysis.get('recent_activity', 0)} threats (5min)",
             end="",
         )
 
@@ -815,10 +815,10 @@ class GuardianDashboard:
 
         # Threat statistics
         print(Console.move_cursor(9, 5), end="")
-        print(f"Total Threats Detected: {analysis.get('total_threats', 0}", end="")
+        print(f"Total Threats Detected: {analysis.get('total_threats', 0)}", end="")
 
         print(Console.move_cursor(10, 5), end="")
-        print(f"Recent Activity Level: {analysis.get('recent_activity', 0}", end="")
+        print(f"Recent Activity Level: {analysis.get('recent_activity', 0)}", end="")
 
         print(Console.move_cursor(11, 5), end="")
         severity_trend = analysis.get("avg_severity_change", 0)
@@ -872,7 +872,7 @@ class GuardianDashboard:
             # Response actions
             print(Console.move_cursor(11, 5), end="")
             print(
-                f"Response Actions: {', '.join(self.emergency_state.response_actions}",
+                f"Response Actions: {', '.join(self.emergency_state.response_actions)}",
                 end="",
             )
 
@@ -944,7 +944,7 @@ class GuardianDashboard:
             print(Console.move_cursor(21, 5), end="")
             print(Console.CLEAR_LINE, end="")
             print(
-                f"{Console.DIM}Threat Navigation: [↑/↓] or [j/k] | Selected: {self.selected_threat_index + 1}/{len(self.active_threats}{Console.RESET}",
+                f"{Console.DIM}Threat Navigation: [↑/↓] or [j/k] | Selected: {self.selected_threat_index + 1}/{len(self.active_threats)}{Console.RESET}",
                 end="",
             )
         elif self.current_view == "emergency":

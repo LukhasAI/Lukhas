@@ -3,16 +3,15 @@
 Memory Spindle - Simulates symbolic pattern emergence through spinning memory states
 Based on entropy class and glyph recurrence patterns
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
 from collections import Counter, deque
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -283,7 +282,7 @@ class MemorySpindle:
         if len(set(glyphs)) == 1:
             return f"Stable {glyphs[0]} state maintained"
         else:
-            return f"Complex transition: {' to '.join(glyphs}"
+            return f"Complex transition: {' to '.join(glyphs)}"
 
     def _create_empty_state(self) -> SpindleState:
         """Create empty/default spindle state"""
@@ -391,7 +390,7 @@ if __name__ == "__main__":
         state = spindle.spin()
 
         print(f"\n🔄 Spin cycle {spindle.spin_cycles}")
-        print(f"   State: {state.to_symbolic(}")
+        print(f"   State: {state.to_symbolic()}")
         print(f"   Speed: {state.rotation_speed:.2f}")
         print(f"   Coherence: {state.coherence:.2f}")
         print(f"   Pattern strength: {state.pattern_strength:.2f}")
@@ -409,4 +408,4 @@ if __name__ == "__main__":
     print("\n💡 Recommendations:")
     for rec in final_state["recommendations"]:
         print(f"   {rec['type']}: {rec['reason']}")
-        print(f"   Action: {rec['action']} with {' '.join(rec['glyphs']}")
+        print(f"   Action: {rec['action']} with {' '.join(rec['glyphs'])}")

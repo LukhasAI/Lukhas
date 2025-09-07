@@ -6,8 +6,9 @@ Integration Date: 2025-05-31T07:55:28.187065
 
 TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.
 """
-from consciousness.qi import qi
 import streamlit as st
+
+from consciousness.qi import qi
 
 """
 📦 MODULE      : qi_attention.py

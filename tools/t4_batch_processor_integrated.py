@@ -3,15 +3,15 @@
 T4 Lens Batch Processor - Uses existing LUKHAS tools for systematic fixing
 Integrates with Makefile targets and existing Ollama helper
 """
-import time
-import streamlit as st
-
 import hashlib
 import json
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 
 class T4BatchProcessor:
@@ -242,7 +242,7 @@ class T4BatchProcessor:
             print("\n🔴 Remaining Issues (Top 10):")
             for line in final_stats[:10]:
                 if line.strip() and line[0].isdigit():
-                    print(f"   {line.strip(}")
+                    print(f"   {line.strip()}")
 
         print("\n💡 Next Steps:")
         if final_count > 5000:

@@ -99,7 +99,7 @@ def manage_partnership(
             "terms": terms or {},
             "status": "active",
             "created_at": datetime.now(timezone.utc).isoformat(),
-            "partnership_id": f"partnership_{partner_name}_{hash(partnership_type}",
+            "partnership_id": f"partnership_{partner_name}_{hash(partnership_type)}",
         }
         logger.info(f"Partnership managed: {partner_name} ({partnership_type})")
         return partnership

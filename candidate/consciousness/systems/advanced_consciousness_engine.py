@@ -166,7 +166,7 @@ class ConsciousnessEvent:
 
     def add_to_path(self, processor: str):
         """Track processing path for audit trail."""
-        self.processing_path.append(f"{processor}:{datetime.now(timezone.utc).isoformat(}")
+        self.processing_path.append(f"{processor}:{datetime.now(timezone.utc).isoformat()}")
 
 
 class AdvancedConsciousnessEngine:
@@ -664,7 +664,7 @@ class AdvancedConsciousnessEngine:
                 "drift_data": drift_data,
                 "healing_applied": True,
                 "healing_result": healing_result,
-                "healing_annotation": f"[[HEALED: drift_score={drift_analysis.get('symbolic_drift_score'}:.3f}]]",
+                "healing_annotation": f"[[HEALED: drift_score={drift_analysis.get('symbolic_drift_score')}:.3f}]]",
             }
         else:
             return {"drift_data": drift_data, "healing_applied": False, "healing_result": None}

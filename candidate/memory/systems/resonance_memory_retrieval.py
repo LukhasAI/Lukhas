@@ -311,7 +311,7 @@ class ResonanceGate:
                 {
                     "event": "memory_evicted",
                     "memory_id": memory_to_evict,
-                    "timestamp": current_time.isoformat(},
+                    "timestamp": current_time.isoformat()},
                     "reason": "memory_limit_exceeded",
                 }
             )
@@ -606,7 +606,7 @@ if __name__ == "__main__":
             },
         ]
 
-        print(f"\n📝 Storing {len(test_memories} test memories...")
+        print(f"\n📝 Storing {len(test_memories)} test memories...")
         memory_ids = []
 
         for i, memory_data in enumerate(test_memories):
@@ -646,7 +646,7 @@ if __name__ == "__main__":
             results = resonance_gate.retrieve_by_resonance(query["state"], limit=3, include_scores=True)
 
             if results:
-                print(f"   📊 Found {len(results} resonant memories:")
+                print(f"   📊 Found {len(results)} resonant memories:")
                 for result in results:
                     data_preview = (
                         str(result["data"])[:40] + "..." if len(str(result["data"])) > 40 else str(result["data"])

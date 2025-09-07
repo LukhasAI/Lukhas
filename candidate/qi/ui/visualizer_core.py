@@ -21,16 +21,16 @@ Module for visualizer core functionality
 
 For more information, visit: https://lukhas.ai
 """
-from consciousness.qi import qi
-import streamlit as st
-
 # 📄 MODULE: visualizer.py
 # 🔎 PURPOSE: Convert flashbacks into visual prompts for OpenAI DALL·E or other generators
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AI
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AI
-
 import json
 import os
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 FLASHBACK_LOG_PATH = "logs/flashbacks/flashback_trace.jsonl"
 

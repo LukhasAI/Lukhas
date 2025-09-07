@@ -26,11 +26,11 @@ from .rewards.consciousness_rewards import ConsciousnessRewards
 
 __version__ = "1.0.0"
 __all__ = [
-    "ConsciousnessEnvironment",
-    "PolicyNetwork",
-    "ValueNetwork",
     "ConsciousnessBuffer",
+    "ConsciousnessEnvironment",
+    "ConsciousnessMetaLearning",
     "ConsciousnessRewards",
     "MultiAgentCoordination",
-    "ConsciousnessMetaLearning",
+    "PolicyNetwork",
+    "ValueNetwork",
 ]

@@ -75,7 +75,7 @@ class EthicsReportExporter:
                     continue
 
                 exported_files[format_type] = filepath
-                print(f"✅ {format_type.upper(} report exported: {filepath}")
+                print(f"✅ {format_type.upper()} report exported: {filepath}")
 
             except Exception as e:
                 print(f"❌ Failed to export {format_type}: {e}")
@@ -292,7 +292,7 @@ class EthicsReportExporter:
 
         # Export dashboard data
         dashboard_file = (
-            self.output_base_dir / "dashboard" / f"dashboard_data_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+            self.output_base_dir / "dashboard" / f"dashboard_data_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         )
         with open(dashboard_file, "w") as f:
             json.dump(dashboard_data, f, indent=2)
@@ -321,7 +321,7 @@ class EthicsReportExporter:
         """Generate comprehensive audit trail entry."""
         audit_entry = {
             "audit_id": hashlib.sha256(
-                f"{result.get('trace_index', '')}_{datetime.now(timezone.utc).isoformat(}".encode()
+                f"{result.get('trace_index', '')}_{datetime.now(timezone.utc).isoformat()}".encode()
             ).hexdigest()[:16],
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "trace_index": result.get("trace_index", ""),
@@ -379,7 +379,7 @@ class EthicsReportExporter:
         }
 
         # Export governance summary
-        governance_file = self.output_base_dir / f"governance_summary_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+        governance_file = self.output_base_dir / f"governance_summary_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(governance_file, "w") as f:
             json.dump(governance_summary, f, indent=2)
 

@@ -4,10 +4,10 @@ Swarm Recommendation System for the Collective Intelligence Layer.
 This module generates recommendations based on the collective wisdom of
 consciousness clusters, finding what has elevated similar users.
 """
-import streamlit as st
-
 import random
 from typing import Any
+
+import streamlit as st
 
 
 class SwarmRecommendationSystem:
@@ -52,10 +52,10 @@ class SwarmRecommendationSystem:
             recommendation_type = random.choice(["product", "service", "experience", "idea"])
 
             recommendation = {
-                "recommendation_id": f"rec_{random.randint(1000, 9999}",
+                "recommendation_id": f"rec_{random.randint(1000, 9999)}",
                 "source_cluster": user_cluster_id,
                 "type": recommendation_type,
-                "title": f"Transformative {recommendation_type.capitalize()} for the {user_cluster_id.split('_')[1].capitalize(}",
+                "title": f"Transformative {recommendation_type.capitalize()} for the {user_cluster_id.split('_')[1].capitalize()}",
                 "description": f"Users in your consciousness cluster reported significant positive shifts from engaging with this {recommendation_type}.",
                 "relevance_score": round(random.uniform(0.75, 0.98), 2),
                 "consent_based": True,

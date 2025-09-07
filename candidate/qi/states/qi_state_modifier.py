@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
-from qi.service import QIService
-from datetime import timezone
 import streamlit as st
+
+from qi.service import QIService
 
 # TAG:qim
 # TAG:qi_states

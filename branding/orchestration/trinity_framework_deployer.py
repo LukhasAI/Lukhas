@@ -4,18 +4,17 @@ LUKHAS AI Trinity Framework Deployer
 Deploys comprehensive Trinity Framework (⚛️🧠🛡️) messaging across all content systems
 Implements identity, consciousness, and guardian integration for elite brand coherence
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 import re
 import sys
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -138,7 +137,7 @@ class TrinityFrameworkDeployer:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"trinity_deployment_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = logs_dir / f"trinity_deployment_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -196,7 +195,7 @@ class TrinityFrameworkDeployer:
 
         all_files = priority_files + other_files[:20]  # Limit to avoid performance issues
 
-        self.logger.info(f"📄 Deploying Trinity Framework to {len(all_files} files")
+        self.logger.info(f"📄 Deploying Trinity Framework to {len(all_files)} files")
 
         for file_path in all_files:
             try:
@@ -306,7 +305,7 @@ class TrinityFrameworkDeployer:
         # Enhance identity-related keywords with Trinity symbols
         for keyword in identity_spec.keywords:
             # Match keyword not already enhanced with Trinity symbols
-            pattern = rf"\b{re.escape(keyword}(?!\s+(?:⚛️|🧠|🛡️|\(⚛️))"
+            pattern = rf"\b{re.escape(keyword)}(?!\s+(?:⚛️|🧠|🛡️|\(⚛️))"
             matches = re.finditer(pattern, enhanced_content, re.IGNORECASE)
 
             for match in list(matches):
@@ -342,7 +341,7 @@ class TrinityFrameworkDeployer:
 
         # Enhance consciousness-related keywords
         for keyword in consciousness_spec.keywords[:3]:  # Limit keywords to avoid over-enhancement
-            pattern = rf"\b{re.escape(keyword}(?!\s+(?:⚛️|🧠|🛡️|\(🧠))"
+            pattern = rf"\b{re.escape(keyword)}(?!\s+(?:⚛️|🧠|🛡️|\(🧠))"
             matches = re.finditer(pattern, enhanced_content, re.IGNORECASE)
 
             for match in list(matches):
@@ -376,7 +375,7 @@ class TrinityFrameworkDeployer:
                         flags=re.IGNORECASE,
                     )
                     integrations += 1
-                    elements.append(f"Guardian {keyword.title(} Enhancement")
+                    elements.append(f"Guardian {keyword.title()} Enhancement")
                     break
 
         return {"content": enhanced_content, "count": integrations, "elements": elements}
@@ -549,7 +548,7 @@ async def main():
     results = await deployer.deploy_all_systems()
 
     print("✅ Trinity Framework deployment completed!")
-    print(f"⚛️🧠🛡️ Systems enhanced: {len(results}")
+    print(f"⚛️🧠🛡️ Systems enhanced: {len(results)}")
 
     print("\n🚀 Ready for Phase 3: Elite Brand Deployment!")
 

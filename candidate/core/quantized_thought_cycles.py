@@ -8,9 +8,6 @@ than continuous flows. Each cycle transforms data in a clear, auditable way.
 
 ΛTAG: ΛBIO, ΛCOGNITION, ΛQUANTUM, ΛCYCLE
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -19,6 +16,10 @@ from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger("ΛTRACE.quantized_cycles")
 
@@ -160,7 +161,7 @@ class QuantizedThoughtProcessor:
             Thought quantum ID for tracking
         """
         quantum = ThoughtQuantum(
-            id=f"Q-{self.cycle_counter}-{time.time(}",
+            id=f"Q-{self.cycle_counter}-{time.time()}",
             phase=CyclePhase.BIND,
             input_data=data,
             energy_units=energy_required,
@@ -408,11 +409,11 @@ async def demo_quantized_cycles():
 
     # Get metrics
     metrics = processor.get_metrics()
-    logger.info(f"Metrics: {json.dumps(metrics, indent=2}")
+    logger.info(f"Metrics: {json.dumps(metrics, indent=2)}")
 
     # Get cycle trace
     trace = processor.get_cycle_trace(last_n=5)
-    logger.info(f"Last 5 cycles: {json.dumps(trace, indent=2}")
+    logger.info(f"Last 5 cycles: {json.dumps(trace, indent=2)}")
 
     # Stop processor
     await processor.stop()

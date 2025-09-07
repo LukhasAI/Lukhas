@@ -25,7 +25,7 @@ def generate_qi_migration_report():
 
         # List subdirectories
         subdirs = [d for d in qi_path.iterdir() if d.is_dir() and d.name != "__pycache__"]
-        print(f"   📂 Subdirectories: {len(subdirs}")
+        print(f"   📂 Subdirectories: {len(subdirs)}")
         for subdir in sorted(subdirs):
             init_file = subdir / "__init__.py"
             init_status = "✅" if init_file.exists() else "❌"
@@ -40,7 +40,7 @@ def generate_qi_migration_report():
     if candidate_qi_path.exists():
         print(f"✅ Candidate QI directory: {candidate_qi_path}")
         subdirs = [d for d in candidate_qi_path.iterdir() if d.is_dir()]
-        print(f"   📂 Subdirectories: {len(subdirs}")
+        print(f"   📂 Subdirectories: {len(subdirs)}")
         for subdir in sorted(subdirs):
             python_files = len(list(subdir.rglob("*.py")))
             print(f"   ✅ {subdir.name}/ ({python_files} Python files)")
@@ -54,14 +54,14 @@ def generate_qi_migration_report():
     qi_files = list(base_path.rglob("*quantum*"))
     config_quantum_files = [f for f in qi_files if "config" in str(f) or "json" in str(f) or "yaml" in str(f)]
 
-    print(f"📄 Files with 'quantum' in name: {len(qi_files}")
-    print(f"⚙️  Configuration files: {len(config_quantum_files}")
+    print(f"📄 Files with 'quantum' in name: {len(qi_files)}")
+    print(f"⚙️  Configuration files: {len(config_quantum_files)}")
 
     for config_file in config_quantum_files[:5]:  # Show first 5
-        print(f"   📋 {config_file.relative_to(base_path}")
+        print(f"   📋 {config_file.relative_to(base_path)}")
 
     if len(config_quantum_files) > 5:
-        print(f"   ... and {len(config_quantum_files} - 5} more")
+        print(f"   ... and {len(config_quantum_files)} - 5} more")
 
     # Check lukhas qi structure
     print("\n📁 LUKHAS QI Integration:")
@@ -69,7 +69,7 @@ def generate_qi_migration_report():
     if lukhas_qi_path.exists():
         print(f"✅ LUKHAS QI integration: {lukhas_qi_path}")
         init_file = lukhas_qi_path / "__init__.py"
-        print(f"   {'✅' if init_file.exists(} else '❌'} __init__.py present")
+        print(f"   {'✅' if init_file.exists()} else '❌'} __init__.py present")
     else:
         print("❌ LUKHAS QI integration not found")
 

@@ -50,13 +50,13 @@ class TestSymbolicLanguageSystems:
                     found_subsystems.append(subsystem)
                     python_files = list(subsystem_path.glob("**/*.py"))
                     if python_files:
-                        print(f"    ✅ Symbolic {subsystem} found with {len(python_files} modules")
+                        print(f"    ✅ Symbolic {subsystem} found with {len(python_files)} modules")
 
             if len(found_subsystems) < 2:
-                print(f"    ⚠️ Only found {len(found_subsystems} symbolic subsystems")
+                print(f"    ⚠️ Only found {len(found_subsystems)} symbolic subsystems")
                 return False
 
-            print(f"    ✅ Symbolic core operational with {len(found_subsystems} subsystems")
+            print(f"    ✅ Symbolic core operational with {len(found_subsystems)} subsystems")
             return True
 
         except Exception as e:
@@ -75,15 +75,15 @@ class TestSymbolicLanguageSystems:
 
             python_files = list(universal_lang.glob("**/*.py"))
             if len(python_files) < 2:
-                print(f"    ⚠️ Only found {len(python_files} universal language modules")
+                print(f"    ⚠️ Only found {len(python_files)} universal language modules")
                 return False
 
             # Check for language research data
             research_files = list(universal_lang.glob("**/*.json"))
             if research_files:
-                print(f"    ✅ Universal language research data found with {len(research_files} files")
+                print(f"    ✅ Universal language research data found with {len(research_files)} files")
 
-            print(f"    ✅ Universal language operational with {len(python_files} modules")
+            print(f"    ✅ Universal language operational with {len(python_files)} modules")
             return True
 
         except Exception as e:
@@ -102,15 +102,15 @@ class TestSymbolicLanguageSystems:
 
             vocab_files = list(vocabularies_path.glob("**/*"))
             if len(vocab_files) < 3:
-                print(f"    ⚠️ Only found {len(vocab_files} vocabulary files")
+                print(f"    ⚠️ Only found {len(vocab_files)} vocabulary files")
                 return False
 
             # Check for different vocabulary types
             json_files = list(vocabularies_path.glob("**/*.json"))
             if json_files:
-                print(f"    ✅ Vocabulary definitions found with {len(json_files} JSON files")
+                print(f"    ✅ Vocabulary definitions found with {len(json_files)} JSON files")
 
-            print(f"    ✅ Vocabulary systems operational with {len(vocab_files} total files")
+            print(f"    ✅ Vocabulary systems operational with {len(vocab_files)} total files")
             return True
 
         except Exception as e:
@@ -139,7 +139,7 @@ class TestSymbolicLanguageSystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Symbolic & Language Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
+        print(f"\n  📊 Symbolic & Language Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
 
         return {
             "category": "Symbolic & Language Systems",
@@ -176,9 +176,9 @@ class TestDreamsPersonalitySystems:
             if assets_dreams.exists():
                 asset_files = list(assets_dreams.glob("**/*"))
                 if asset_files:
-                    print(f"    ✅ Dream assets found with {len(asset_files} files")
+                    print(f"    ✅ Dream assets found with {len(asset_files)} files")
 
-            print(f"    ✅ Dreams systems operational with {len(python_files} modules")
+            print(f"    ✅ Dreams systems operational with {len(python_files)} modules")
             return True
 
         except Exception as e:
@@ -208,7 +208,7 @@ class TestDreamsPersonalitySystems:
                 print("    ⚠️ No personality subsystems found")
                 return False
 
-            print(f"    ✅ Personality systems operational with {len(found_subsystems} subsystems")
+            print(f"    ✅ Personality systems operational with {len(found_subsystems)} subsystems")
             return True
 
         except Exception as e:
@@ -236,7 +236,7 @@ class TestDreamsPersonalitySystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Dreams & Personality Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
+        print(f"\n  📊 Dreams & Personality Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
 
         return {
             "category": "Dreams & Personality Systems",
@@ -273,13 +273,13 @@ class TestIntegrationAdapterSystems:
                     found_adapters.append(adapter)
                     python_files = list(adapter_path.glob("**/*.py"))
                     if python_files:
-                        print(f"    ✅ {adapter} adapter found with {len(python_files} modules")
+                        print(f"    ✅ {adapter} adapter found with {len(python_files)} modules")
 
             if len(found_adapters) < 2:
-                print(f"    ⚠️ Only found {len(found_adapters} adapters")
+                print(f"    ⚠️ Only found {len(found_adapters)} adapters")
                 return False
 
-            print(f"    ✅ External adapters operational with {len(found_adapters} adapters")
+            print(f"    ✅ External adapters operational with {len(found_adapters)} adapters")
             return True
 
         except Exception as e:
@@ -306,13 +306,13 @@ class TestIntegrationAdapterSystems:
                     found_servers.append(server)
                     python_files = list(server_path.glob("**/*.py"))
                     if python_files:
-                        print(f"    ✅ {server} MCP server found with {len(python_files} modules")
+                        print(f"    ✅ {server} MCP server found with {len(python_files)} modules")
 
             if len(found_servers) < 1:
                 print("    ⚠️ No MCP servers found")
                 return False
 
-            print(f"    ✅ MCP servers operational with {len(found_servers} servers")
+            print(f"    ✅ MCP servers operational with {len(found_servers)} servers")
             return True
 
         except Exception as e:
@@ -331,15 +331,15 @@ class TestIntegrationAdapterSystems:
 
             business_files = list(business_path.glob("**/*"))
             if len(business_files) < 3:
-                print(f"    ⚠️ Only found {len(business_files} business files")
+                print(f"    ⚠️ Only found {len(business_files)} business files")
                 return False
 
             # Check for markdown documentation
             md_files = list(business_path.glob("**/*.md"))
             if md_files:
-                print(f"    ✅ Business documentation found with {len(md_files} files")
+                print(f"    ✅ Business documentation found with {len(md_files)} files")
 
-            print(f"    ✅ Business systems operational with {len(business_files} total files")
+            print(f"    ✅ Business systems operational with {len(business_files)} total files")
             return True
 
         except Exception as e:
@@ -366,10 +366,10 @@ class TestIntegrationAdapterSystems:
                     found_subsystems.append(subsystem)
 
             if len(found_subsystems) < 2:
-                print(f"    ⚠️ Only found {len(found_subsystems} ops subsystems")
+                print(f"    ⚠️ Only found {len(found_subsystems)} ops subsystems")
                 return False
 
-            print(f"    ✅ Ops systems operational with {len(found_subsystems} subsystems")
+            print(f"    ✅ Ops systems operational with {len(found_subsystems)} subsystems")
             return True
 
         except Exception as e:
@@ -399,7 +399,7 @@ class TestIntegrationAdapterSystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Integration & Adapter Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
+        print(f"\n  📊 Integration & Adapter Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
 
         return {
             "category": "Integration & Adapter Systems",
@@ -428,10 +428,10 @@ class TestToolsUtilitiesSystems:
 
             python_files = list(tools_analysis.glob("**/*.py"))
             if len(python_files) < 3:
-                print(f"    ⚠️ Only found {len(python_files} analysis tools")
+                print(f"    ⚠️ Only found {len(python_files)} analysis tools")
                 return False
 
-            print(f"    ✅ Analysis tools operational with {len(python_files} modules")
+            print(f"    ✅ Analysis tools operational with {len(python_files)} modules")
             return True
 
         except Exception as e:
@@ -450,10 +450,10 @@ class TestToolsUtilitiesSystems:
 
             python_files = list(tools_security.glob("**/*.py"))
             if len(python_files) < 2:
-                print(f"    ⚠️ Only found {len(python_files} security tools")
+                print(f"    ⚠️ Only found {len(python_files)} security tools")
                 return False
 
-            print(f"    ✅ Security tools operational with {len(python_files} modules")
+            print(f"    ✅ Security tools operational with {len(python_files)} modules")
             return True
 
         except Exception as e:
@@ -475,7 +475,7 @@ class TestToolsUtilitiesSystems:
                 print("    ⚠️ No development tools found")
                 return False
 
-            print(f"    ✅ Development tools operational with {len(python_files} modules")
+            print(f"    ✅ Development tools operational with {len(python_files)} modules")
             return True
 
         except Exception as e:
@@ -496,13 +496,13 @@ class TestToolsUtilitiesSystems:
                 python_files = list(performance_path.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Performance tools found with {len(python_files} modules")
+                    print(f"    ✅ Performance tools found with {len(python_files)} modules")
 
             if benchmarks_path.exists():
                 benchmark_files = list(benchmarks_path.glob("**/*"))
                 if benchmark_files:
                     systems_found += 1
-                    print(f"    ✅ Benchmarks found with {len(benchmark_files} files")
+                    print(f"    ✅ Benchmarks found with {len(benchmark_files)} files")
 
             if systems_found == 0:
                 print("    ⚠️ No performance tools found")
@@ -528,13 +528,13 @@ class TestToolsUtilitiesSystems:
                 python_files = list(trace_path.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Trace tools found with {len(python_files} modules")
+                    print(f"    ✅ Trace tools found with {len(python_files)} modules")
 
             if trace_logs.exists():
                 log_dirs = [d for d in trace_logs.iterdir() if d.is_dir()]
                 if log_dirs:
                     systems_found += 1
-                    print(f"    ✅ Trace logs found with {len(log_dirs} directories")
+                    print(f"    ✅ Trace logs found with {len(log_dirs)} directories")
 
             if systems_found == 0:
                 print("    ⚠️ No trace/monitoring tools found")
@@ -570,7 +570,7 @@ class TestToolsUtilitiesSystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Tools & Utilities Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
+        print(f"\n  📊 Tools & Utilities Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
 
         return {
             "category": "Tools & Utilities Systems",
@@ -607,10 +607,10 @@ class TestDeploymentOperationsSystems:
                     found_subsystems.append(subsystem)
 
             if len(found_subsystems) < 2:
-                print(f"    ⚠️ Only found {len(found_subsystems} deployment subsystems")
+                print(f"    ⚠️ Only found {len(found_subsystems)} deployment subsystems")
                 return False
 
-            print(f"    ✅ Deployment systems operational with {len(found_subsystems} subsystems")
+            print(f"    ✅ Deployment systems operational with {len(found_subsystems)} subsystems")
             return True
 
         except Exception as e:
@@ -627,7 +627,7 @@ class TestDeploymentOperationsSystems:
                 print("    ⚠️ Docker directory not found")
                 return False
 
-            docker_files = list(docker_path.glob("**/*"))
+            list(docker_path.glob("**/*"))
             dockerfile_count = len(list(docker_path.glob("**/Dockerfile*")))
 
             if dockerfile_count == 0:
@@ -661,10 +661,10 @@ class TestDeploymentOperationsSystems:
                     found_categories.append(category)
 
             if len(found_categories) < 3:
-                print(f"    ⚠️ Only found {len(found_categories} script categories")
+                print(f"    ⚠️ Only found {len(found_categories)} script categories")
                 return False
 
-            print(f"    ✅ Scripts & automation operational with {len(found_categories} categories")
+            print(f"    ✅ Scripts & automation operational with {len(found_categories)} categories")
             return True
 
         except Exception as e:
@@ -685,13 +685,13 @@ class TestDeploymentOperationsSystems:
                 config_subdirs = [d for d in config_path.iterdir() if d.is_dir()]
                 if config_subdirs:
                     systems_found += 1
-                    print(f"    ✅ Config systems found with {len(config_subdirs} subsystems")
+                    print(f"    ✅ Config systems found with {len(config_subdirs)} subsystems")
 
             if environments_path.exists():
                 env_files = list(environments_path.glob("**/*"))
                 if env_files:
                     systems_found += 1
-                    print(f"    ✅ Environment systems found with {len(env_files} files")
+                    print(f"    ✅ Environment systems found with {len(env_files)} files")
 
             if systems_found == 0:
                 print("    ⚠️ No config/environment systems found")
@@ -726,7 +726,7 @@ class TestDeploymentOperationsSystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Deployment & Operations Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
+        print(f"\n  📊 Deployment & Operations Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
 
         return {
             "category": "Deployment & Operations Systems",
@@ -763,14 +763,14 @@ class TestDocumentationComplianceSystems:
                     found_categories.append(category)
 
             if len(found_categories) < 3:
-                print(f"    ⚠️ Only found {len(found_categories} doc categories")
+                print(f"    ⚠️ Only found {len(found_categories)} doc categories")
                 return False
 
             # Count total documentation files
             md_files = list(docs_path.glob("**/*.md"))
-            print(f"    ✅ Documentation found with {len(md_files} markdown files")
+            print(f"    ✅ Documentation found with {len(md_files)} markdown files")
 
-            print(f"    ✅ Documentation systems operational with {len(found_categories} categories")
+            print(f"    ✅ Documentation systems operational with {len(found_categories)} categories")
             return True
 
         except Exception as e:
@@ -791,13 +791,13 @@ class TestDocumentationComplianceSystems:
                 branding_subdirs = [d for d in branding_path.iterdir() if d.is_dir()]
                 if len(branding_subdirs) >= 5:  # Should have many branding subsystems
                     systems_found += 1
-                    print(f"    ✅ Branding systems found with {len(branding_subdirs} subsystems")
+                    print(f"    ✅ Branding systems found with {len(branding_subdirs)} subsystems")
 
             if tone_path.exists():
                 tone_files = list(tone_path.glob("**/*"))
                 if tone_files:
                     systems_found += 1
-                    print(f"    ✅ Tone systems found with {len(tone_files} files")
+                    print(f"    ✅ Tone systems found with {len(tone_files)} files")
 
             if systems_found == 0:
                 print("    ⚠️ No branding/tone systems found")
@@ -833,10 +833,10 @@ class TestDocumentationComplianceSystems:
             test_files.extend(list(tests_path.glob("**/*_test.py")))
 
             if len(test_files) < 10:
-                print(f"    ⚠️ Only found {len(test_files} test files")
+                print(f"    ⚠️ Only found {len(test_files)} test files")
                 return False
 
-            print(f"    ✅ Testing infrastructure operational with {len(test_files} test files")
+            print(f"    ✅ Testing infrastructure operational with {len(test_files)} test files")
             return True
 
         except Exception as e:
@@ -865,7 +865,7 @@ class TestDocumentationComplianceSystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Documentation & Compliance Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
+        print(f"\n  📊 Documentation & Compliance Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
 
         return {
             "category": "Documentation & Compliance Systems",
@@ -902,10 +902,10 @@ class TestWebFrontendSystems:
                     found_indicators.append(indicator)
 
             if len(found_indicators) < 3:
-                print(f"    ⚠️ Only found {len(found_indicators} website indicators")
+                print(f"    ⚠️ Only found {len(found_indicators)} website indicators")
                 return False
 
-            print(f"    ✅ Website systems operational with {len(found_indicators} components")
+            print(f"    ✅ Website systems operational with {len(found_indicators)} components")
             return True
 
         except Exception as e:
@@ -932,10 +932,10 @@ class TestWebFrontendSystems:
                     found_subsystems.append(subsystem)
 
             if len(found_subsystems) < 2:
-                print(f"    ⚠️ Only found {len(found_subsystems} src subsystems")
+                print(f"    ⚠️ Only found {len(found_subsystems)} src subsystems")
                 return False
 
-            print(f"    ✅ Frontend src systems operational with {len(found_subsystems} subsystems")
+            print(f"    ✅ Frontend src systems operational with {len(found_subsystems)} subsystems")
             return True
 
         except Exception as e:
@@ -963,7 +963,7 @@ class TestWebFrontendSystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Web & Frontend Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
+        print(f"\n  📊 Web & Frontend Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
 
         return {
             "category": "Web & Frontend Systems",

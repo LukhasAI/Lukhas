@@ -290,7 +290,7 @@ class UserFeedbackSystem(CoreInterface):
             raise ValidationError("Please wait before submitting more feedback")
 
         # Create feedback item
-        feedback_id = f"feedback_{uuid.uuid4(}.hex[:12]}"
+        feedback_id = f"feedback_{uuid.uuid4()}.hex[:12]}"
         timestamp = datetime.now(timezone.utc)
 
         feedback_item = FeedbackItem(
@@ -1059,7 +1059,7 @@ async def demo_feedback_system():
 
     # User views their feedback history
     history = await system.get_user_feedback_history(user_id)
-    print(f"\nUser feedback history: {len(history} items")
+    print(f"\nUser feedback history: {len(history)} items")
 
     # Edit feedback
     await system.edit_feedback(
@@ -1077,7 +1077,7 @@ async def demo_feedback_system():
     print("\nFeedback Report:")
     print(f"  Total feedback: {report['summary']['total_feedback']}")
     print(f"  Unique users: {report['summary']['unique_users']}")
-    print(f"  Satisfaction score: {report['summary'].get('satisfaction_score', 'N/A'}")
+    print(f"  Satisfaction score: {report['summary'].get('satisfaction_score', 'N/A')}")
 
     # Show status
     status = await system.get_status()

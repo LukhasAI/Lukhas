@@ -297,7 +297,7 @@ class DreamReasoningBridge:
         """
         if session_id in self.sessions:
             session = self.sessions[session_id]
-            logger.info(f"🌙 Ending dream session {session_id} with " f"{len(session.insights} insights generated")
+            logger.info(f"🌙 Ending dream session {session_id} with " f"{len(session.insights)} insights generated")
             del self.sessions[session_id]
             return True
         return False
@@ -334,7 +334,7 @@ class DreamReasoningBridge:
 
         discovered_patterns = random.sample(patterns, random.randint(1, 3))
 
-        content = f"Pattern analysis reveals: {', '.join(discovered_patterns}. "
+        content = f"Pattern analysis reveals: {', '.join(discovered_patterns)}. "
         content += "These patterns suggest underlying structural relationships."
 
         return DreamInsight(
@@ -363,7 +363,7 @@ class DreamReasoningBridge:
 
         selected_ideas = random.sample(creative_ideas, random.randint(1, 2))
 
-        content = f"Creative synthesis suggests: {', '.join(selected_ideas}. "
+        content = f"Creative synthesis suggests: {', '.join(selected_ideas)}. "
         content += "This approach transcends conventional thinking patterns."
 
         return DreamInsight(

@@ -3,13 +3,14 @@
 LUKHAS 2030 Duplicate Logic Detector
 Finds duplicate functionality while preserving the SGI vision
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import ast
 import json
 import os
 from collections import defaultdict
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class DuplicateDetector:
@@ -54,7 +55,7 @@ class DuplicateDetector:
         args = [arg.arg for arg in node.args.args]
         # Get return type if annotated
         returns = ast.unparse(node.returns) if node.returns else "None"
-        return f"{len(args}:{returns}"
+        return f"{len(args)}:{returns}"
 
     def _get_class_structure(self, node: ast.ClassDef) -> str:
         """Extract class structure for comparison"""
@@ -67,9 +68,9 @@ class DuplicateDetector:
     def _get_import_pattern(self, node) -> str:
         """Extract import pattern"""
         if isinstance(node, ast.Import):
-            return f"import:{','.join(n.name for n in node.names}"
+            return f"import:{','.join(n.name for n in node.names)}"
         else:
-            return f"from:{node.module}:{','.join(n.name for n in node.names}"
+            return f"from:{node.module}:{','.join(n.name for n in node.names)}"
 
     def find_duplicates(self):
         """Walk the codebase and find duplicates"""
@@ -232,10 +233,10 @@ def main():
 
     # Print summary
     print("\n📊 Duplicate Detection Summary:")
-    print(f"  - Duplicate functions: {len(report['duplicate_functions']}")
-    print(f"  - Similar classes: {len(report['similar_classes']}")
-    print(f"  - Common imports: {len(report['common_imports']}")
-    print(f"  - Similar names: {len(report['naming_patterns']}")
+    print(f"  - Duplicate functions: {len(report['duplicate_functions'])}")
+    print(f"  - Similar classes: {len(report['similar_classes'])}")
+    print(f"  - Common imports: {len(report['common_imports'])}")
+    print(f"  - Similar names: {len(report['naming_patterns'])}")
 
     print("\n🎯 Consolidation Plan Created:")
     for module, details in plan.items():

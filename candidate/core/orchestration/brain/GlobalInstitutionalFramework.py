@@ -32,11 +32,9 @@ Author: Lukhas AI Research Team - Global Compliance Division
 Version: 1.0.0 - Global Institutional Edition
 Date: June 2025
 """
-import time
-import streamlit as st
-
 import json
 import logging
+import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -44,6 +42,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Protocol
 
+import streamlit as st
 from pydantic import BaseModel, Field
 
 # ——— Global Regulatory Framework ——————————————————————————— #
@@ -687,7 +686,7 @@ class GlobalInstitutionalModule(ABC):
 
         return (
             f"This processing has achieved institutional-grade compliance with "
-            f"average score {avg_score:.1f}% across {len(compliance_scores} jurisdictions. "
+            f"average score {avg_score:.1f}% across {len(compliance_scores)} jurisdictions. "
             f"Minimum compliance score: {min_score:.1f}%. "
             f"Ready for enterprise and government deployment."
         )

@@ -3,14 +3,14 @@
 Execute the directory reorganization plan
 Moves directories into appropriate modules and archives others
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import json
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class DirectoryReorganizer:
@@ -97,7 +97,7 @@ class DirectoryReorganizer:
                 note_path = f"{archive_path}/ARCHIVE_NOTE.txt"
                 with open(note_path, "w") as f:
                     f.write(f"Archived from: {directory}\n")
-                    f.write(f"Archive date: {datetime.now(timezone.utc).isoformat(}\n")
+                    f.write(f"Archive date: {datetime.now(timezone.utc).isoformat()}\n")
                     f.write("Reason: Unclear purpose or temporary directory\n")
 
                 return True
@@ -257,7 +257,7 @@ grep -r "from \\(api\\|architectures\\|bio\\|creativity\\|dream\\|ethics\\|ident
         print("✅ REORGANIZATION COMPLETE!")
         print(f"  - Moved: {self.moved_count} directories")
         print(f"  - Archived: {self.archived_count} directories")
-        print(f"  - Errors: {len(self.errors}")
+        print(f"  - Errors: {len(self.errors)}")
 
         if self.errors:
             print("\n⚠️  Errors encountered:")

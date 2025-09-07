@@ -8,4 +8,4 @@
 """
 import streamlit as st
 
-__all__ = ["core", "scale", "compliance", "integration", "economic"]
+__all__ = ["compliance", "core", "economic", "integration", "scale"]

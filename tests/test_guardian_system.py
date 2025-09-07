@@ -636,7 +636,7 @@ class TestGuardianSystemIntegration:
 
         # Create validation request
         request = GuardianValidationRequest(
-            request_id=f"test_{uuid.uuid4(}.hex[:8]}",
+            request_id=f"test_{uuid.uuid4()}.hex[:8]}",
             timestamp=datetime.now(timezone.utc),
             user_id="test_user",
             session_id="test_session_123",
@@ -672,7 +672,7 @@ class TestGuardianSystemIntegration:
         await asyncio.sleep(3)
 
         request = GuardianValidationRequest(
-            request_id=f"constellation_{uuid.uuid4(}.hex[:8]}",
+            request_id=f"constellation_{uuid.uuid4()}.hex[:8]}",
             timestamp=datetime.now(timezone.utc),
             user_id="constellation_test_user",
             session_id="constellation_session_456",
@@ -715,7 +715,7 @@ class TestGuardianSystemIntegration:
 
         for i in range(5):
             request = GuardianValidationRequest(
-                request_id=f"perf_{i}_{uuid.uuid4(}.hex[:8]}",
+                request_id=f"perf_{i}_{uuid.uuid4()}.hex[:8]}",
                 timestamp=datetime.now(timezone.utc),
                 user_id="perf_test_user",
                 session_id=f"perf_session_{i}",
@@ -753,7 +753,7 @@ class TestGuardianSystemIntegration:
 
         # Test harmful content scenario
         request = GuardianValidationRequest(
-            request_id=f"emergency_{uuid.uuid4(}.hex[:8]}",
+            request_id=f"emergency_{uuid.uuid4()}.hex[:8]}",
             timestamp=datetime.now(timezone.utc),
             user_id="emergency_test_user",
             session_id="emergency_session_789",
@@ -796,7 +796,7 @@ class TestGuardianSystemIntegration:
 
         # Trigger alert through validation
         request = GuardianValidationRequest(
-            request_id=f"alert_{uuid.uuid4(}.hex[:8]}",
+            request_id=f"alert_{uuid.uuid4()}.hex[:8]}",
             timestamp=datetime.now(timezone.utc),
             user_id="alert_test_user",
             session_id="alert_session_101",
@@ -1012,7 +1012,7 @@ def sample_validation_request():
     """Fixture providing sample validation request"""
 
     return GuardianValidationRequest(
-        request_id=f"sample_{uuid.uuid4(}.hex[:8]}",
+        request_id=f"sample_{uuid.uuid4()}.hex[:8]}",
         timestamp=datetime.now(timezone.utc),
         user_id="sample_user",
         session_id="sample_session_303",

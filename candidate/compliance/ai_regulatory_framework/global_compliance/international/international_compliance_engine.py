@@ -3,12 +3,12 @@ International Compliance Engine
 
 Handles compliance assessment and implementation across jurisdictions.
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from typing import Any
+
+import streamlit as st
 
 from candidate.core.interfaces import CoreInterface
 

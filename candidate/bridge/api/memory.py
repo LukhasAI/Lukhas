@@ -46,13 +46,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import logging
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
@@ -181,7 +179,7 @@ async def create_memory(request: MemoryCreateRequest):
         return APIResponse(
             status="success",
             data=serializable_result,
-            message=f"Memory fold created with ID: {serializable_result.get('fold_id', 'unknown'}",
+            message=f"Memory fold created with ID: {serializable_result.get('fold_id', 'unknown')}",
         )
 
     except Exception as e:
@@ -214,7 +212,7 @@ async def recall_memories(request: MemoryRecallRequest):
                 "user_tier": request.user_tier,
                 "filter_emotion": request.filter_emotion,
             },
-            message=f"Retrieved {len(memories} memories",
+            message=f"Retrieved {len(memories)} memories",
         )
 
     except Exception as e:
@@ -250,7 +248,7 @@ async def enhanced_recall(request: EnhancedRecallRequest):
                 "threshold": request.emotion_threshold,
                 "context_query": request.context_query,
             },
-            message=f"Enhanced recall found {len(memories} relevant memories",
+            message=f"Enhanced recall found {len(memories)} relevant memories",
         )
 
     except Exception as e:
@@ -273,7 +271,7 @@ async def memory_history(user_id: str, limit: int = 20):
         return APIResponse(
             status="success",
             data={"memories": folds, "count": len(folds)},
-            message=f"Retrieved {len(folds} memories",
+            message=f"Retrieved {len(folds)} memories",
         )
 
     except Exception as e:

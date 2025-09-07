@@ -20,13 +20,13 @@ Features:
 - Interactive API documentation
 - Comprehensive monitoring and metrics
 """
-import streamlit as st
-
 import logging
 import os
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
+
+import streamlit as st
 
 try:
     from fastapi import FastAPI, HTTPException, Request, status

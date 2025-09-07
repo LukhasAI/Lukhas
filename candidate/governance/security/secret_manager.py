@@ -7,21 +7,19 @@ Centralized, secure secret management to eliminate hardcoded secrets.
 This system addresses the 289 hardcoded secrets identified in the security audit
 by providing a unified, secure way to handle all sensitive data.
 """
-from typing import List
-import time
-import random
-import streamlit as st
-
 import base64
 import json
 import logging
 import os
+import random
 import secrets
+import time
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
 
+import streamlit as st
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -89,7 +87,7 @@ class SecretManager:
                 raise ValueError("Master key required for production")
 
             # Use a derived key for development
-            system_info = f"{os.getenv('USER', 'lukhas')}-{Path.home(}"
+            system_info = f"{os.getenv('USER', 'lukhas')}-{Path.home()}"
             master_key = base64.b64encode(system_info.encode()).decode()
 
         # Derive encryption key
@@ -159,7 +157,7 @@ class SecretManager:
 
         # Try alternative environment variable patterns
         alt_patterns = [
-            f"LUKHAS_{secret_name.upper(}",
+            f"LUKHAS_{secret_name.upper()}",
             secret_name,
             secret_name.replace("_", "-").upper(),
         ]

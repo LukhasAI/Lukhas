@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from datetime import datetime, timezone
+
 """
 
 #TAG:core
@@ -10,15 +11,15 @@ from datetime import datetime, timezone
 PR Security Review Task - GitHub Actions Version
 Adapted for running in GitHub Actions environment
 """
-import time
-import streamlit as st
-
 import argparse
 import datetime
 import json
 import logging
 import os
 import sys
+import time
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(
@@ -26,7 +27,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler(f"pr_security_review_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"),
+        logging.FileHandler(f"pr_security_review_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"),
     ],
 )
 logger = logging.getLogger("pr_security_review")
@@ -97,7 +98,7 @@ def main():
             "status": "success",
         }
 
-        report_file = f"security_report_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+        report_file = f"security_report_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 

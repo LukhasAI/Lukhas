@@ -538,7 +538,7 @@ class MatrizConsciousnessCoordinator:
                 if self.orchestration_state == OrchestrationState.OPTIMIZING:
                     self.orchestration_state = OrchestrationState.ACTIVE
 
-                logger.debug(f"🔧 Optimized consciousness network: {len(active_modules} active modules")
+                logger.debug(f"🔧 Optimized consciousness network: {len(active_modules)} active modules")
 
                 await asyncio.sleep(300)  # Optimize every 5 minutes
 

@@ -160,7 +160,7 @@ async def get_drift_detection() -> dict[str, Any]:
 async def trigger_safety_audit() -> dict[str, Any]:
     """Trigger a comprehensive safety audit"""
     return {
-        "audit_id": f"SAF-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S'}",
+        "audit_id": f"SAF-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}",
         "status": "initiated",
         "estimated_duration_minutes": 45,
         "components_to_audit": [

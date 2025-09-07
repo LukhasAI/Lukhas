@@ -5,10 +5,10 @@ Hybrid component - exists in quantum superposition
 #TAG:neural
 #TAG:hybrid
 """
-import streamlit as st
-
 # Colony base for propagation
 from typing import Any
+
+import streamlit as st
 
 
 class NeuralColony:

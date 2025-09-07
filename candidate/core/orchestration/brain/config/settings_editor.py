@@ -22,7 +22,7 @@ def load_settings(path=SETTINGS_PATH):
         with open(path) as f:
             return json.load(f)
     except Exception as e:
-        st.error(f"Failed to load settings: {str(e}")
+        st.error(f"Failed to load settings: {str(e)}")
         return {}
 
 
@@ -32,7 +32,7 @@ def save_settings(settings, path=SETTINGS_PATH):
             json.dump(settings, f, indent=2)
         st.success("✅ Settings saved successfully.")
     except Exception as e:
-        st.error(f"Failed to save settings: {str(e}")
+        st.error(f"Failed to save settings: {str(e)}")
 
 
 st.set_page_config(page_title="LUKHAS Settings Editor")
@@ -96,7 +96,7 @@ if settings:
             settings["modules"] = {}
         for mod in settings["modules"]:
             settings["modules"][mod] = st.checkbox(
-                f"{mod.replace('_', ' ').title(}",
+                f"{mod.replace('_', ' ').title()}",
                 value=settings["modules"][mod],
             )
 
@@ -208,9 +208,9 @@ if settings:
     # --- SA/SJ/GPT Additions at the end of the interface ---
     # Metadata
     with st.expander("📜 System Metadata"):
-        st.markdown(f"**Version:** {settings.get('version', 'unknown'}")
+        st.markdown(f"**Version:** {settings.get('version', 'unknown')}")
         st.markdown(
-            f"** Last Updated: ** {settings.get('update', {}).get('last_updated',"}
+            f"** Last Updated: ** {settings.get('update', {)}).get('last_updated',"}
                                                                   'unknown')}"
         )
 

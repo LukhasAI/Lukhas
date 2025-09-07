@@ -10,16 +10,13 @@ Provides control hints for next narrative steps based on phenomenological regula
 Connects AKA QUALIA regulation policies to the existing LUKHAS oneiric/dream systems,
 enabling closed-loop phenomenological control with narrative feedback.
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import logging
-from typing import Any, Optional
+import time
+from typing import Any, Dict, List, Optional
 from urllib.parse import urljoin
 
 import requests
+import streamlit as st
 
 from candidate.aka_qualia.models import PhenomenalScene, RegulationPolicy
 from candidate.aka_qualia.palette import get_safe_palette_recommendation
@@ -113,7 +110,7 @@ class OneiricHook:
                 logger.warning(f"HTTP feedback failed: {e}")
                 self.http_failures += 1
 
-        logger.debug(f"Applied policy to scene: {len(hints} hints generated")
+        logger.debug(f"Applied policy to scene: {len(hints)} hints generated")
         return hints
 
     def _compute_tempo_hint(self, scene: PhenomenalScene, policy: RegulationPolicy) -> float:

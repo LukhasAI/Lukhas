@@ -136,7 +136,7 @@ class ModelRouter:
         # Initialize available model clients
         self._initialize_model_clients()
 
-        logger.info(f"🌐 Model router initialized with {len(self.capabilities} models")
+        logger.info(f"🌐 Model router initialized with {len(self.capabilities)} models")
 
     def _initialize_capabilities(self) -> dict[ModelType, ModelCapability]:
         """Initialize model capability profiles"""

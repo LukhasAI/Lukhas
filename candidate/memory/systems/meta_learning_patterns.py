@@ -691,13 +691,13 @@ class PatternExtractor:
         success_rates = [t.get("trajectory_stats", {}).get("final_performance", 0) for t in trajectories]
         avg_success_rate = np.mean(success_rates)
 
-        pattern_id = hashlib.sha256(f"sequence_{common_phases}_{time.time(}".encode()).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"sequence_{common_phases}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
             pattern_type=PatternType.SKILL_ACQUISITION,
-            pattern_name=f"Sequential Learning Pattern ({len(trajectories} instances)",
-            description=f"Common learning sequence with phases: {' -> '.join(common_phases[:3]}",
+            pattern_name=f"Sequential Learning Pattern ({len(trajectories)} instances)",
+            description=f"Common learning sequence with phases: {' -> '.join(common_phases[:3])}",
             trigger_conditions={
                 "learning_context": "skill_acquisition",
                 "initial_performance": {"min": 0.0, "max": 0.3},
@@ -775,13 +775,13 @@ class PatternExtractor:
             reverse=True,
         )[:5]
 
-        pattern_id = hashlib.sha256(f"strategy_{top_strategies}_{time.time(}".encode()).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"strategy_{top_strategies}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
             pattern_type=PatternType.STRATEGY_OPTIMIZATION,
-            pattern_name=f"Effective Strategy Pattern ({len(trajectories} instances)",
-            description=f"High-success strategies: {', '.join([s[0] for s in top_strategies[:3]]}",
+            pattern_name=f"Effective Strategy Pattern ({len(trajectories)} instances)",
+            description=f"High-success strategies: {', '.join([s[0] for s in top_strategies[:3]])}",
             trigger_conditions={
                 "learning_context": "strategy_selection",
                 "available_strategies": [s[0] for s in top_strategies],
@@ -887,13 +887,13 @@ class PatternExtractor:
             reverse=True,
         )[:3]
 
-        pattern_id = hashlib.sha256(f"attention_{top_patterns}_{time.time(}".encode()).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"attention_{top_patterns}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
             pattern_type=PatternType.ATTENTION_FOCUS,
-            pattern_name=f"Attention Focus Pattern ({len(attention_data} observations)",
-            description=f"Optimal attention allocation: {', '.join([p[0] for p in top_patterns]}",
+            pattern_name=f"Attention Focus Pattern ({len(attention_data)} observations)",
+            description=f"Optimal attention allocation: {', '.join([p[0] for p in top_patterns])}",
             trigger_conditions={
                 "learning_context": "attention_allocation",
                 "available_focus_areas": [p[0] for p in top_patterns],
@@ -1047,12 +1047,12 @@ class PatternExtractor:
 
         pattern_type, evolved_patterns, evolution_score = best_evolution
 
-        pattern_id = hashlib.sha256(f"evolution_{pattern_type.value}_{time.time(}".encode()).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"evolution_{pattern_type.value}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
             pattern_type=PatternType.CONCEPT_FORMATION,
-            pattern_name=f"Pattern Evolution: {pattern_type.value.title(}",
+            pattern_name=f"Pattern Evolution: {pattern_type.value.title()}",
             description=f"Evolution of {pattern_type.value} patterns showing improvement over time",
             trigger_conditions={
                 "pattern_type": pattern_type.value,
@@ -1201,7 +1201,7 @@ class MetaLearningPatternSystem:
                     self.patterns[pattern.pattern_id] = pattern
                     self.pattern_index[pattern.pattern_type].append(pattern.pattern_id)
 
-                logger.info(f"Loaded {len(self.patterns} meta-learning patterns")
+                logger.info(f"Loaded {len(self.patterns)} meta-learning patterns")
 
             except Exception as e:
                 logger.warning(f"Failed to load patterns: {e}")
@@ -1216,7 +1216,7 @@ class MetaLearningPatternSystem:
             with open(pattern_file, "w") as f:
                 json.dump(pattern_data, f, indent=2)
 
-            logger.debug(f"Saved {len(self.patterns} patterns to storage")
+            logger.debug(f"Saved {len(self.patterns)} patterns to storage")
 
         except Exception as e:
             logger.error(f"Failed to save patterns: {e}")
@@ -1559,7 +1559,7 @@ class MetaLearningPatternSystem:
                 # Extract context around error
                 import re
 
-                pattern = rf".{{0,30}{re.escape(indicator}.{{0,30}"
+                pattern = rf".{{0,30}{re.escape(indicator)}.{{0,30}"
                 matches = re.findall(pattern, content_lower)
                 if matches:
                     errors.extend(matches)
@@ -1589,7 +1589,7 @@ class MetaLearningPatternSystem:
             if indicator in content_lower:
                 import re
 
-                pattern = rf".{{0,30}{re.escape(indicator}.{{0,30}"
+                pattern = rf".{{0,30}{re.escape(indicator)}.{{0,30}"
                 matches = re.findall(pattern, content_lower)
                 if matches:
                     corrections.extend(matches)
@@ -1920,12 +1920,12 @@ async def example_meta_learning_usage():
         ]
     )
 
-    print(f"📊 Processing {len(sample_memories} learning memories...")
+    print(f"📊 Processing {len(sample_memories)} learning memories...")
 
     # Extract patterns from episodic memories
     patterns = await system.extract_patterns_from_episodes(sample_memories)
 
-    print(f"🧩 Extracted {len(patterns} meta-learning patterns")
+    print(f"🧩 Extracted {len(patterns)} meta-learning patterns")
 
     # Display extracted patterns
     for i, pattern in enumerate(patterns):

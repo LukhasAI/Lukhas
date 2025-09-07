@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 """
 
 #TAG:governance
@@ -24,12 +25,12 @@ from datetime import datetime, timezone
 ║ ensure that all changes are compliant with the established policies.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import datetime
 import os
+import time
 from typing import Any
+
+import streamlit as st
 
 # This would be replaced by a more robust policy loading mechanism
 # that could be configured from a central location.
@@ -70,7 +71,7 @@ def validate_symbolic_integrity(module_name: str, adjustment: dict[str, Any]) ->
 
 def log_governance_trace(user_id: str, module_name: str, adjustment: dict) -> None:
     """Logs a governance trace entry."""
-    entry = f"- [{datetime.datetime.now(timezone.utc).isoformat(}] {user_id} | {module_name} | {adjustment}\n"
+    entry = f"- [{datetime.datetime.now(timezone.utc).isoformat()}] {user_id} | {module_name} | {adjustment}\n"
     with open(GOV_TRACE_LOG, "a", encoding="utf-8") as f:
         f.write(entry)
 

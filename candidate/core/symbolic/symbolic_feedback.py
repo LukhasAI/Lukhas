@@ -27,14 +27,11 @@ __meta__ = {
     "version": "0.1.0"
 }
 """
-from consciousness.qi import qi
-import time
-import random
-import streamlit as st
-
 import hashlib
 import json
 import logging
+import random
+import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -42,6 +39,9 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
+
+from consciousness.qi import qi
 
 from ..meta_learning.monitor_dashboard import MetaLearningMonitorDashboard
 from ..meta_learning.rate_modulator import AdaptationStrategy, DynamicLearningRateModulator
@@ -692,7 +692,7 @@ class Symbolicfeedbacksystem:
     def _generate_loop_id(self, context: SymbolicContext) -> str:
         """Generate unique loop ID"""
         timestamp = datetime.now(timezone.utc).isoformat()
-        raw_data = f"LOOP-{context.value}-{timestamp}-{len(self.feedback_loops}"
+        raw_data = f"LOOP-{context.value}-{timestamp}-{len(self.feedback_loops)}"
         return hashlib.sha256(raw_data.encode()).hexdigest()[:8]
 
     def _analyze_performance_patterns(
@@ -896,7 +896,7 @@ class Symbolicfeedbacksystem:
             recommendations.append(
                 {
                     "priority": "medium",
-                    "message": f"Low confidence patterns detected: {', '.join(low_confidence_patterns[:3]}",
+                    "message": f"Low confidence patterns detected: {', '.join(low_confidence_patterns[:3])}",
                     "action": "pattern_reinforcement",
                 }
             )
@@ -1011,6 +1011,6 @@ if __name__ == "__main__":
 
     # Get optimization insights
     insights = feedback_system.get_optimization_insights()
-    print(f"Generated {len(insights['optimization_recommendations']} optimization recommendations")
+    print(f"Generated {len(insights['optimization_recommendations'])} optimization recommendations")
 
     print("Symbolic Feedback System demonstration completed!")

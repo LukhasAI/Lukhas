@@ -47,14 +47,13 @@
 ║ Trace: #ΛTRACE: ENABLED
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Dict
+
+import streamlit as st
 
 from lukhas.consciousness.reflection.memory_hub import MemoryHub
 from lukhas.core.integration.hub_registry import HubRegistry
@@ -135,81 +134,7 @@ class SymbolicMemoryMapper:
         # TODO: Create bridge-compatible memory structures
         # TODO: Establish memory coherence protocols
 
-        map_id = f"map_{len(self.memory_maps}"
-        return map_id
-
-    def map_to_core_structures(self, map_id: str) -> dict[str, Any]:
-        """
-        Map symbolic memory to core logic structures
-
-        Args:
-            map_id: Memory map identifier
-
-        Returns:
-            Dict: Core-compatible memory structures
-        """
-        # PLACEHOLDER: Implement core structure mapping
-        logger.debug("Mapping memory to core structures: %s", map_id)
-
-        # TODO: Translate symbolic memory to core primitives
-        # TODO: Preserve semantic relationships
-        # TODO: Ensure structural compatibility
-
-        return {"mapped": True, "placeholder": map_id}
-
-    def maintain_memory_coherence(self) -> float:
-        """
-        Maintain coherence across memory mappings
-
-        Returns:
-            float: Current coherence level (0.0 - 1.0)
-        """
-        # PLACEHOLDER: Implement coherence maintenance
-        logger.debug("Maintaining memory coherence across mappings")
-
-        # TODO: Check memory consistency
-        # TODO: Resolve mapping conflicts
-        # TODO: Update coherence metrics
-
-        return self.coherence_threshold
-
-    def archive_memory_map(self, map_id: str) -> bool:
-        """
-        Archive symbolic memory mapping
-
-        Args:
-            map_id: Memory map identifier to archive
-
-        Returns:
-            bool: Success status of archival
-        """
-        # PLACEHOLDER: Implement memory map archival
-        logger.info("Archiving memory map: %s", map_id)
-
-        if map_id in self.memory_maps:
-            # TODO: Implement safe memory archival
-            # TODO: Preserve important mapping data
-            # TODO: Update mapping indices
-            return True
-
-        return False
-
-
-def map_symbolic_payload_to_memory(payload: dict) -> dict:
-    """
-    Map symbolic payload to memory structures and return confirmation
-
-    Args:
-        payload: Symbolic payload from dream bridge
-
-    Returns:
-        dict: Confirmation structure with mapping status and keys
-    """
-    # Log and return confirmation structure
-    logger = logging.getLogger("bridge.symbolic_memory")
-    logger.info("Mapping symbolic payload to memory structures")
-
-    return {"status": "success", "mapped_keys": list(payload.keys())}
+        f"map_{len(self.memory_maps)}"
 
 
 # ΛTRACE: Module initialization complete

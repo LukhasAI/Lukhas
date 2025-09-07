@@ -141,7 +141,7 @@ class DreamGenerator:
             Generated dream with narrative and visuals
         """
         try:
-            dream_id = f"dream_{hashlib.md5(f'{context.user_id}_{datetime.now(timezone.utc}'.encode()).hexdigest()[:12]}"
+            dream_id = f"dream_{hashlib.md5(f\'{context.user_id)}_{datetime.now(timezone.utc)}\'.encode()).hexdigest()[:12]}"
 
             # Check cache
             cache_key = self._get_cache_key(context)
@@ -280,7 +280,7 @@ Guidelines:
 
         if context.vendor_seed:
             seed = context.vendor_seed
-            prompt_parts.append(f"Product context: {seed.product_data.get('name', 'something special'}")
+            prompt_parts.append(f"Product context: {seed.product_data.get('name', 'something special')}")
             prompt_parts.append(f"Emotional theme: {seed.narrative[:100] if seed.narrative else 'discovery'}")
 
         if context.personal_data:
@@ -288,17 +288,17 @@ Guidelines:
             if "upcoming_events" in context.personal_data:
                 events = context.personal_data["upcoming_events"]
                 if events:
-                    prompt_parts.append(f"Upcoming moment: {events[0].get('type', 'special occasion'}")
+                    prompt_parts.append(f"Upcoming moment: {events[0].get('type', 'special occasion')}")
 
             if "interests" in context.personal_data:
                 interests = context.personal_data["interests"][:3]
-                prompt_parts.append(f"Personal interests: {', '.join(interests}")
+                prompt_parts.append(f"Personal interests: {', '.join(interests)}")
 
         if context.recent_events:
             # Add recent activity context
             recent = context.recent_events[0] if context.recent_events else {}
             if recent.get("type") == "browsing":
-                prompt_parts.append(f"Recently exploring: {recent.get('category', 'new possibilities'}")
+                prompt_parts.append(f"Recently exploring: {recent.get('category', 'new possibilities')}")
 
         base_prompt = "Create a brief, poetic dream narrative that gently weaves together: "
         return base_prompt + "; ".join(prompt_parts) if prompt_parts else base_prompt + "a moment of peaceful discovery"
@@ -350,7 +350,7 @@ Guidelines:
                 "surreal beauty",
             ]
 
-            visual_prompt += f" Style: {', '.join(style_modifiers[:3]}"
+            visual_prompt += f" Style: {', '.join(style_modifiers[:3])}"
 
             return visual_prompt
 
@@ -613,7 +613,7 @@ Guidelines:
     def _create_fallback_dream(self, context: DreamContext) -> GeneratedDream:
         """Create a safe fallback dream when generation fails"""
         return GeneratedDream(
-            dream_id=f"fallback_{datetime.now(timezone.utc).timestamp(}",
+            dream_id=f"fallback_{datetime.now(timezone.utc).timestamp()}",
             narrative=self._generate_fallback_narrative(context),
             visual_prompt="A peaceful, dreamlike scene",
             emotional_profile={"joy": 0.5, "calm": 0.7, "stress": 0.0, "longing": 0.3},

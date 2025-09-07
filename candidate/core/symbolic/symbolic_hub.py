@@ -49,7 +49,7 @@ class SymbolicHub:
         self._register_neural_symbolic_services()
 
         self.is_initialized = True
-        logger.info(f"Symbolic hub initialized with {len(self.services} services")
+        logger.info(f"Symbolic hub initialized with {len(self.services)} services")
 
     def _register_core_symbolic_services(self):
         """Register core symbolic services"""

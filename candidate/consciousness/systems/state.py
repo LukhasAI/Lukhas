@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 lukhasConsciousnessState.py - Consciousness Component for AI System

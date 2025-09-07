@@ -10,14 +10,14 @@ Usage:
     python -m candidate.aka_qualia.tools.erase_user --dsn "sqlite:///data/akaq.db" --user-id user123
     python -m candidate.aka_qualia.tools.erase_user --dsn "postgresql://..." --user-id user123 --audit
 """
-import time
-import streamlit as st
-
 import argparse
 import json
 import logging
+import time
 from datetime import datetime, timezone  # ΛTAG: utc
 from typing import Any, Optional
+
+import streamlit as st
 
 try:
     from sqlalchemy import create_engine, text
@@ -124,7 +124,7 @@ def log_audit_entry(audit_result: dict[str, Any], audit_file: Optional[str] = No
         except OSError as e:
             logger.error(f"Failed to write audit log: {e}")
     else:
-        logger.info(f"Audit entry: {json.dumps(audit_result, indent=2}")
+        logger.info(f"Audit entry: {json.dumps(audit_result, indent=2)}")
 
 
 def main():

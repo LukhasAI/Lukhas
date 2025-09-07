@@ -3,14 +3,14 @@ Enhanced Colony with Signal Bus Integration
 ===========================================
 Connects the colony architecture with our endocrine signal system.
 """
-import streamlit as st
-
 import asyncio
 import logging
 import time
 import uuid
 from dataclasses import dataclass, field
 from typing import Any, Optional
+
+import streamlit as st
 
 from candidate.orchestration.signals.homeostasis import HomeostasisController
 
@@ -70,7 +70,7 @@ class ColonySignalIntegration:
         """Emit a hormone signal from the colony"""
         signal = Signal(
             name=signal_type,
-            source=f"colony_{getattr(self, 'colony_id', 'unknown'}",
+            source=f"colony_{getattr(self, 'colony_id', 'unknown')}",
             level=level,
             metadata=metadata or {},
         )
@@ -251,7 +251,7 @@ class EnhancedReasoningColony(ColonySignalIntegration):
 
         if fast_agents:
             self.reasoning_agents = fast_agents
-            logger.info(f"Colony reduced to {len(fast_agents} fast agents for emergency")
+            logger.info(f"Colony reduced to {len(fast_agents)} fast agents for emergency")
 
         # Lower consensus threshold for faster decisions
         self.consensus_threshold = 0.5
@@ -364,7 +364,7 @@ async def demo_enhanced_colony():
     print(f"Consensus reached: {result.consensus_reached}")
     print(f"Decision: {result.decision}")
     print(f"Confidence: {result.confidence:.2f}")
-    print(f"Signals emitted: {len(result.signal_emissions}")
+    print(f"Signals emitted: {len(result.signal_emissions)}")
 
     # Check homeostasis
     state = colony.homeostasis.get_system_state()

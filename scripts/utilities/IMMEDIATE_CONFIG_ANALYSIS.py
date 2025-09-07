@@ -35,7 +35,7 @@ def analyze_config_files():
                 filepath = os.path.join(root, file)
                 config_files.append(filepath)
 
-    print(f"📊 Found {len(config_files} config files")
+    print(f"📊 Found {len(config_files)} config files")
 
     # Categorize by type
     categories = {
@@ -62,11 +62,11 @@ def analyze_config_files():
 
     # Report findings
     for category, files in categories.items():
-        print(f"\n🔧 {category}: {len(files} files")
+        print(f"\n🔧 {category}: {len(files)} files")
         for f in files[:5]:  # Show first 5
             print(f"   - {f}")
         if len(files) > 5:
-            print(f"   ... and {len(files} - 5} more")
+            print(f"   ... and {len(files)} - 5} more")
 
     return categories
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     categories = analyze_config_files()
 
     print("\n📋 CONSOLIDATION RECOMMENDATIONS:")
-    print(f"1. Merge {len(categories['core_configs']} core config.py files")
-    print(f"2. Standardize {len(categories['managers']} config managers")
-    print(f"3. Review {len(categories['api_configs']} API configs for overlap")
-    print(f"4. Consider consolidating {len(categories['module_configs']} module configs")
+    print(f"1. Merge {len(categories['core_configs'])} core config.py files")
+    print(f"2. Standardize {len(categories['managers'])} config managers")
+    print(f"3. Review {len(categories['api_configs'])} API configs for overlap")
+    print(f"4. Consider consolidating {len(categories['module_configs'])} module configs")

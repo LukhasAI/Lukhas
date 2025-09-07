@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-from datetime import datetime, timezone
 import logging
-import streamlit as st
 import time
+from datetime import datetime, timezone
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Batch syntax error fixer for LUKHAS codebase.
@@ -17,7 +19,7 @@ def get_syntax_errors():
     """Get files with syntax errors from ruff output."""
     try:
         result = subprocess.run([
-            "python3", "-m", "ruff", "check", ".", 
+            "python3", "-m", "ruff", "check", ".",
             "--output-format=json"
         ], capture_output=True, text=True, cwd="/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
@@ -27,8 +29,8 @@ def get_syntax_errors():
 
             for violation in violations:
                 message = violation.get("message", "").lower()
-                if ("syntax" in message or 
-                    "expected" in message or 
+                if ("syntax" in message or
+                    "expected" in message or
                     "unexpected" in message or
                     "cannot follow" in message or
                     "positional argument" in message):
@@ -44,7 +46,7 @@ def get_syntax_errors():
 def fix_common_syntax_patterns(file_path):
     """Apply common syntax fixes to a file."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         original_content = content
@@ -54,7 +56,7 @@ def fix_common_syntax_patterns(file_path):
         content = re.sub(r"= None,\s*timezone\)", r"= None, timezone=None)", content)
 
         # Fix 2: Fix logger calls with incorrect timezone params
-        content = re.sub(r"logger\.getLogger\([^)]+,\s*timezone\)", 
+        content = re.sub(r"logger\.getLogger\([^)]+,\s*timezone\)",
                         lambda m: m.group(0).replace(", timezone", ""), content)
 
         # Fix 3: Fix incomplete f-strings
@@ -83,7 +85,7 @@ def main():
         if error.get("filename"):
             files_with_errors.add(error["filename"])
 
-    print(f"Found {len(files_with_errors} files with syntax errors")
+    print(f"Found {len(files_with_errors)} files with syntax errors")
 
     fixed_count = 0
     for file_path in list(files_with_errors)[:50]:  # Process first 50 files

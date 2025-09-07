@@ -5,10 +5,10 @@ Addresses TODOs 29-42
 This module provides a conceptual overview and a simplified implementation
 of the Actor Model, which is the foundation for the agents in the Symbiotic Swarm.
 """
-import streamlit as st
-
 import queue
 import threading
+
+import streamlit as st
 
 
 class Actor:

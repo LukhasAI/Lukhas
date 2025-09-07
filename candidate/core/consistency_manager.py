@@ -3,8 +3,9 @@ import logging
 from enum import Enum
 from typing import Any
 
-from lukhas.core.tiered_state_management import StateType, TieredStateManager
 import streamlit as st
+
+from lukhas.core.tiered_state_management import StateType, TieredStateManager
 
 # ΛTAG: consistency_management
 logger = logging.getLogger("ΛTRACE.consistency")

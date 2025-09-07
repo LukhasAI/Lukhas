@@ -9,11 +9,11 @@
 Mock dream_utils module
 Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
-import time
-import streamlit as st
-
 import random
+import time
 from typing import Any
+
+import streamlit as st
 
 
 def analyze_dream_symbols(dream_content: str) -> dict[str, Any]:

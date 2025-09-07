@@ -282,7 +282,7 @@ class AGIEnhancedLens:
             insights.append(
                 {
                     "type": "symbolic_patterns",
-                    "description": f"Identified {len(symbols} symbolic elements with enhanced reasoning",
+                    "description": f"Identified {len(symbols)} symbolic elements with enhanced reasoning",
                     "details": {
                         "symbol_density": len(symbols) / max(1, len(str(base_result))),
                         "pattern_complexity": agi_result.get("complexity_score", 0.5),
@@ -625,7 +625,7 @@ class AGIEnhancedArgus:
             insights = [
                 {
                     "type": "monitoring_overview",
-                    "description": f"System health analysis with {len(monitoring_data.get('metrics', {}))} metrics",
+                    "description": f"System health analysis with {len(monitoring_data.get('metrics', {)}))} metrics",
                     "details": {
                         "total_metrics": len(monitoring_data.get("metrics", {})),
                         "anomalies_detected": len(anomaly_analysis.get("anomalies", [])),
@@ -983,7 +983,7 @@ async def enhance_lens_analysis(
 ) -> IntelligenceResult:
     """Convenience function for AGI-enhanced ΛLens analysis."""
     query = IntelligenceQuery(
-        query_id=f"lens_{datetime.now(timezone.utc).timestamp(}",
+        query_id=f"lens_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.LENS,
         analysis_mode=mode,
         input_data=file_path,
@@ -998,7 +998,7 @@ async def enhance_task_analysis(
 ) -> IntelligenceResult:
     """Convenience function for AGI-enhanced DAST task analysis."""
     query = IntelligenceQuery(
-        query_id=f"dast_{datetime.now(timezone.utc).timestamp(}",
+        query_id=f"dast_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.DAST,
         analysis_mode=mode,
         input_data=task_description,
@@ -1013,7 +1013,7 @@ async def enhance_monitoring_analysis(
 ) -> IntelligenceResult:
     """Convenience function for AGI-enhanced Argus monitoring analysis."""
     query = IntelligenceQuery(
-        query_id=f"argus_{datetime.now(timezone.utc).timestamp(}",
+        query_id=f"argus_{datetime.now(timezone.utc).timestamp()}",
         product_type=IntelligenceProductType.ARGUS,
         analysis_mode=mode,
         input_data={},
@@ -1049,8 +1049,8 @@ if __name__ == "__main__":
         print("Lens Analysis:")
         print(f"  Governance Approved: {lens_result.governance_approved}")
         print(f"  Confidence: {lens_result.confidence_score:.2f}")
-        print(f"  Insights: {len(lens_result.primary_insights}")
-        print(f"  Creative Insights: {len(lens_result.creative_insights}")
+        print(f"  Insights: {len(lens_result.primary_insights)}")
+        print(f"  Creative Insights: {len(lens_result.creative_insights)}")
 
         # Test DAST enhancement
         print("\n--- Testing DAST Enhancement ---")
@@ -1065,8 +1065,8 @@ if __name__ == "__main__":
         print("DAST Analysis:")
         print(f"  Governance Approved: {dast_result.governance_approved}")
         print(f"  Confidence: {dast_result.confidence_score:.2f}")
-        print(f"  Insights: {len(dast_result.primary_insights}")
-        print(f"  Recommendations: {len(dast_result.recommendations}")
+        print(f"  Insights: {len(dast_result.primary_insights)}")
+        print(f"  Recommendations: {len(dast_result.recommendations)}")
 
         # Test Argus enhancement
         print("\n--- Testing Argus Enhancement ---")
@@ -1077,8 +1077,8 @@ if __name__ == "__main__":
         print("Argus Analysis:")
         print(f"  Governance Approved: {argus_result.governance_approved}")
         print(f"  Confidence: {argus_result.confidence_score:.2f}")
-        print(f"  Insights: {len(argus_result.primary_insights}")
-        print(f"  Predictive Elements: {bool(argus_result.predictive_elements}")
+        print(f"  Insights: {len(argus_result.primary_insights)}")
+        print(f"  Predictive Elements: {bool(argus_result.predictive_elements)}")
 
         # Show system status
         status = get_intelligence_enhancement_status()

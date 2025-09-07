@@ -2,10 +2,9 @@
 LUKHAS Metrics Collection ⚛️📊
 Prometheus-compatible metrics for monitoring and alerting.
 """
-import streamlit as st
-
 import time
 
+import streamlit as st
 from prometheus_client import REGISTRY, Counter, Gauge, Histogram, generate_latest
 
 # Counters for security events

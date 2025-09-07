@@ -10,13 +10,11 @@ to LUKHAS EQNOX SymbolicMeshRouter with priority weighting.
 Implements Freud-2025 Wave C specification:
 priority = min(1.0, max(0.0, narrative_gravity * 0.7 + risk_score * 0.3))
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-
 import logging
 from abc import abstractmethod
-from typing import Any, Optional, Protocol
+from typing import Any, Dict, List, Optional, Protocol
+
+import streamlit as st
 
 from candidate.aka_qualia.models import PhenomenalGlyph, PhenomenalScene
 
@@ -166,7 +164,7 @@ class SymbolicMeshRouterClient:
 
         # Limit glyphs per route for performance
         if len(glyphs) > self.config["max_glyphs_per_route"]:
-            logger.warning(f"Limiting {len(glyphs} glyphs to {self.config['max_glyphs_per_route']} per route")
+            logger.warning(f"Limiting {len(glyphs)} glyphs to {self.config['max_glyphs_per_route']} per route")
             glyphs = glyphs[: self.config["max_glyphs_per_route"]]
 
         try:

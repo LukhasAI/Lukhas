@@ -6,18 +6,17 @@ beyond current limitations for superhuman intelligence.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 from candidate.core.container.service_container import ServiceContainer
 from candidate.core.interfaces import CoreInterface
 from candidate.core.symbolic_engine import SymbolicEffect, SymbolicEvent
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -607,7 +606,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             variation["core_capabilities"].extend(["planning", "optimization"])
 
         # Add unique identifier
-        variation["instance_id"] = f"consciousness_{datetime.now(timezone.utc).timestamp(}"
+        variation["instance_id"] = f"consciousness_{datetime.now(timezone.utc).timestamp()}"
         variation["specialization"] = specialization_focus
 
         return variation

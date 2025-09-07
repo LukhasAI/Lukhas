@@ -14,14 +14,13 @@ Features:
 - WebAuthn/FIDO2 tier permission validation
 - OAuth2/OIDC scope mapping
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class TierValidationResult:
@@ -537,7 +536,7 @@ class TierValidator:
             if isinstance(value, bool) and value:
                 formatted_reqs.append(req.replace("_", " ").title())
             elif isinstance(value, (int, float)):
-                formatted_reqs.append(f"{req.replace('_', ' ').title(}: {value}")
+                formatted_reqs.append(f"{req.replace('_', ' ').title()}: {value}")
 
         return formatted_reqs
 

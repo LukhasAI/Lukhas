@@ -194,7 +194,7 @@ class LearningService:
             self._update_knowledge_base(learning_results)
 
             # Added microsecs
-            session_id = f"learn_{learning_mode}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
+            session_id = f"learn_{learning_mode}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f')}_{user_id}"
 
             self.identity_client.log_activity(
                 "learning_session_completed",
@@ -312,7 +312,7 @@ class LearningService:
             }
             self.knowledge_base["adaptation_history"].append(adaptation_record)
 
-            adaptation_id = f"adapt_{datetime.now(timezone.utc}.strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
+            adaptation_id = f"adapt_{datetime.now(timezone.utc)}.strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
 
             self.identity_client.log_activity(
                 "behavior_adapted",
@@ -415,7 +415,7 @@ class LearningService:
             synthesis_results = self._synthesize_knowledge_sources(knowledge_sources, synthesis_method)
             self._update_knowledge_graph(synthesis_results)  # NOTE: Updates internal knowledge graph.
 
-            synthesis_id = f"synthesis_{datetime.now(timezone.utc}.strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
+            synthesis_id = f"synthesis_{datetime.now(timezone.utc)}.strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
 
             self.identity_client.log_activity(
                 "knowledge_synthesized",
@@ -517,7 +517,7 @@ class LearningService:
         try:
             transfer_results = self._process_transfer_learning(source_domain, target_domain, knowledge_to_transfer)
 
-            transfer_id = f"transfer_{datetime.now(timezone.utc}.strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
+            transfer_id = f"transfer_{datetime.now(timezone.utc)}.strftime('%Y%m%d_%H%M%S%f\'}_{user_id}"
 
             self.identity_client.log_activity(
                 "transfer_learning_completed",
@@ -539,7 +539,7 @@ class LearningService:
                 "transfer_results": transfer_results,
                 "source_domain": source_domain,
                 "target_domain": target_domain,
-                "transferred_at": datetime.now(timezone.utc).isoformat(},
+                "transferred_at": datetime.now(timezone.utc).isoformat()},
             }
         except Exception as e:
             error_msg = f"Transfer learning error: {e!s}"
@@ -617,7 +617,7 @@ class LearningService:
                     )
                     # Return basic metrics if tier is insufficient for detailed, rather than full error.
                     # Or, explicitly return an error if detailed is mandatory and tier is too low.
-                    # For now, just don't add detailed if tier is too low.
+                    # For now, just don\'t add detailed if tier is too low.
                 else:
                     metrics_data.update(
                         {
@@ -899,7 +899,7 @@ if __name__ == "__main__":
         },
         "supervised",
     )
-    print(f"Learning from data: {learning_result.get('success', False}")
+    print(f"Learning from data: {learning_result.get('success', False)}")
     logger.debug("demo_learn_from_data_result", result=learning_result)
 
     # Test behavior adaptation
@@ -908,7 +908,7 @@ if __name__ == "__main__":
         {"environment": "collaborative", "feedback": "positive"},
         ["communication_style", "problem_solving_approach"],
     )
-    print(f"Behavior adaptation: {adaptation_result.get('success', False}")
+    print(f"Behavior adaptation: {adaptation_result.get('success', False)}")
     logger.debug("demo_adapt_behavior_result", result=adaptation_result)
 
     # Test knowledge synthesis
@@ -920,12 +920,12 @@ if __name__ == "__main__":
             {"elements": ["concept_c", "concept_d"], "domain": "physics"},
         ],
     )
-    print(f"Knowledge synthesis: {synthesis_result.get('success', False}")
+    print(f"Knowledge synthesis: {synthesis_result.get('success', False)}")
     logger.debug("demo_synthesize_knowledge_result", result=synthesis_result)
 
     # Test learning metrics
     metrics_result = learning.get_learning_metrics(test_user, True)
-    print(f"Learning metrics: {metrics_result.get('success', False}")
+    print(f"Learning metrics: {metrics_result.get('success', False)}")
     logger.debug("demo_get_learning_metrics_result", result=metrics_result)
     # TRACE: __main__ block execution finished
     logger.info("learning_service_demo_end")

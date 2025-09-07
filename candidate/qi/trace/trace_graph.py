@@ -84,8 +84,8 @@ def build_dot(
     leases = receipt.get("capability_lease_ids") or []
 
     # Click targets
-    rec_url = f"{link_base.rstrip('/'}/receipts/{rid}" if (link_base and rid) else None
-    prov_url = f"{prov_base.rstrip('/'}/provenance/{sha}/link" if (prov_base and sha) else None
+    rec_url = f"{link_base.rstrip('/')}/receipts/{rid}" if (link_base and rid) else None
+    prov_url = f"{prov_base.rstrip('/')}/provenance/{sha}/link" if (prov_base and sha) else None
 
     # Begin DOT
     lines: list[str] = []
@@ -135,7 +135,7 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
         verdict = "✅ ALLOWED" if replay.get("replay", {}).get("allowed") else "❌ BLOCKED"
         for r in (replay.get("replay", {}).get("reasons") or []):
             if isinstance(r, dict):
-                reasons.append(f"{r.get('kind','?')}: {r.get('reason',''}")
+                reasons.append(f"{r.get('kind','?')}: {r.get('reason','')}")
             else:
                 reasons.append(str(r))
     teq_lines = "<br/>".join([verdict or "(no replay)"] + list(reasons[:6]))
@@ -149,12 +149,12 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
     if consent_id: 
         cc.append(f"consent: {consent_id}")
     if leases: 
-        cc.append(f"leases: {len(leases}")
+        cc.append(f"leases: {len(leases)}")
     if risk_flags: 
         cc.append("risk: " + ", ".join(risk_flags[:4]))
     cc_label = "<br/>".join(cc) or "(none)"
     lines.append('  subgraph cluster_cons { label="Consent & Capabilities"; color="#DDE7F0";}')
-    lines.append(f'    cons [label=<<b>Controls</b><br/>{escape_html(cc_label}>, fillcolor="#F4EFFA"];')
+    lines.append(f\'    cons [label=<<b>Controls</b><br/>{escape_html(cc_label)}>, fillcolor="#F4EFFA"];\')
     lines.append("  }")
 
     # Edges across clusters

@@ -350,7 +350,7 @@ class LambdaSSOEngine:
 
     def _generate_token_id(self) -> str:
         """Generate unique token ID"""
-        return f"ΛSSO_{secrets.token_hex(16}"
+        return f"ΛSSO_{secrets.token_hex(16)}"
 
     def _generate_access_token(self, token_data: dict) -> str:
         """Generate secure access token"""
@@ -370,7 +370,7 @@ class LambdaSSOEngine:
             "symbolic_challenge": self._create_symbolic_challenge(token_data),
             "service_scope": token_data["service_scope"],
             "expires_at": token_data["expires_at"],
-            "glyph_id": f"QRG_{secrets.token_hex(8}",
+            "glyph_id": f"QRG_{secrets.token_hex(8)}",
         }
 
         # Generate dynamic glyph image
@@ -476,7 +476,7 @@ class LambdaSSOEngine:
 
     def _register_device(self, user_id: str, device_info: dict, token_id: str):
         """Register device for user"""
-        device_id = device_info.get("device_id", f"DEV_{secrets.token_hex(8}")
+        device_id = device_info.get("device_id", f"DEV_{secrets.token_hex(8)}")
 
         if user_id not in self.device_registry:
             self.device_registry[user_id] = {}
@@ -646,7 +646,7 @@ class LambdaSSOEngine:
     def _register_sync_token(self, sync_token: dict) -> str:
         """Register sync token for cross-device use"""
         # TODO: Implement sync token registration
-        return f"SYNC_{secrets.token_hex(8}"
+        return f"SYNC_{secrets.token_hex(8)}"
 
     def _notify_services_token_revoked(self, token_data: dict):
         """Notify services about token revocation"""

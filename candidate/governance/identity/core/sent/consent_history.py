@@ -63,18 +63,7 @@ class ConsentHistoryManager:
     def _generate_record_hash(self, record: dict, user_id: str) -> str:
         """Generate cryptographic hash for consent record"""
         # Create deterministic string for hashing
-        hash_data = f"{record['timestamp']}|{record['event_type']}|{record['scope_data']!s}|{user_id}"
-        return hashlib.sha256(hash_data.encode()).hexdigest()
-
-    def _log_to_trace(self, user_id: str, consent_record: dict):
-        """Log consent event to ΛTRACE system"""
-        {
-            "action": "consent_event",
-            "symbol": "📋",
-            "event_type": consent_record["event_type"],
-            "scope_count": len(consent_record["scope_data"]),
-            "hash": consent_record["hash"][:8],  # Short hash for trace
-        }
+        f"{record['timestamp']}|{record['event_type']}|{record['scope_data']!s}|{user_id}"
 
         # TODO: Call ΛTRACE logger
         # self.trace_logger.log_activity(user_id, 'consent', symbolic_data)

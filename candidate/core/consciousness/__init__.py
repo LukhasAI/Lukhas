@@ -52,17 +52,17 @@ from .oracle.oracle import ConsciousnessOracle
 
 # Export all consciousness components
 __all__ = [
+    "ConsciousnessNetworkMetrics",
+    # Oracle Integration
+    "ConsciousnessOracle",
     # MΛTRIZ Core Components
     "ConsciousnessState",
     "ConsciousnessType",
     "EvolutionaryStage",
-    "MatrizConsciousnessStateManager",
-    "consciousness_state_manager",
-    "create_consciousness_state",
     # MΛTRIZ Orchestration
     "MatrizConsciousnessOrchestrator",
-    "ConsciousnessNetworkMetrics",
+    "MatrizConsciousnessStateManager",
     "consciousness_orchestrator",
-    # Oracle Integration
-    "ConsciousnessOracle",
+    "consciousness_state_manager",
+    "create_consciousness_state",
 ]

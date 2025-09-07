@@ -38,6 +38,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import time
+
 import streamlit as st
 
 # Bio status symbols

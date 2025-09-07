@@ -2,9 +2,9 @@
 VIVOX.EVRN - Encrypted Visual Recognition Node
 Handles encrypted perception with ethical privacy preservation
 """
-import streamlit as st
-
 from typing import Optional
+
+import streamlit as st
 
 from .anomaly_detection import AnomalyDetector, AnomalyType, SignificanceAnalyzer
 from .ethical_perception import (
@@ -48,28 +48,28 @@ def create_vivox_evrn_system(
 
 
 __all__ = [
-    # Core classes
-    "VIVOXEncryptedPerceptionNode",
-    "PerceptualVector",
-    "EncryptedPerception",
-    "AnomalySignature",
-    "EthicalSignificance",
-    # Encryption
-    "PerceptualEncryptor",
-    "VectorSignature",
-    "EncryptionProtocol",
     # Anomaly detection
     "AnomalyDetector",
+    "AnomalySignature",
     "AnomalyType",
-    "SignificanceAnalyzer",
+    "EncryptedPerception",
+    "EncryptionProtocol",
     # Ethical perception
     "EthicalPerceptionFilter",
-    "PrivacyPreservingVision",
-    "NonDecodableTransform",
-    # Sensory integration
-    "TextureAnalyzer",
+    "EthicalSignificance",
     "MotionDetector",
     "MultimodalFusion",
+    "NonDecodableTransform",
+    # Encryption
+    "PerceptualEncryptor",
+    "PerceptualVector",
+    "PrivacyPreservingVision",
+    "SignificanceAnalyzer",
+    # Sensory integration
+    "TextureAnalyzer",
+    # Core classes
+    "VIVOXEncryptedPerceptionNode",
+    "VectorSignature",
     # Factory
     "create_vivox_evrn_system",
 ]

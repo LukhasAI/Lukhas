@@ -2,10 +2,9 @@ import json
 import logging
 import os
 import time
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+
 import streamlit as st
-from typing import Dict
-from typing import List
 
 logger = logging.getLogger("NodeManager")
 
@@ -154,7 +153,7 @@ class NodeManager:
                     if self._load_node(node_id, file_path):
                         discovered_nodes.append(node_id)
 
-        logger.info(f"Discovered {len(discovered_nodes)} nodes: {', '.join(discovered_nodes}")
+        logger.info(f"Discovered {len(discovered_nodes)} nodes: {', '.join(discovered_nodes)}")
         return discovered_nodes
 
     def _is_node_file(self, file_path: str) -> bool:
@@ -414,7 +413,7 @@ class NodeManager:
         if not queue:
             return
 
-        logger.info(f"Processing {len(queue} queued messages for node {node_id}")
+        logger.info(f"Processing {len(queue)} queued messages for node {node_id}")
 
         # Sort by priority then timestamp
         queue.sort(key=lambda x: (-x[1], x[2]))
@@ -427,7 +426,7 @@ class NodeManager:
                 queue.remove((message, priority, timestamp))
                 processed += 1
 
-        logger.info(f"Processed {processed}/{len(queue} queued messages for node {node_id}")
+        logger.info(f"Processed {processed}/{len(queue)} queued messages for node {node_id}")
 
         # Update queue
         self.message_queues[node_id] = queue

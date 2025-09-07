@@ -5,9 +5,6 @@ Homeostasis Controller for LUKHAS Endocrine System
 Manages hormone-like signals to maintain system balance and health.
 Based on GPT5 audit recommendations lines 271-275.
 """
-from typing import List
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -16,7 +13,9 @@ from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Callable, List, Optional
+
+import streamlit as st
 
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
@@ -665,19 +664,19 @@ if __name__ == "__main__":
 
         # Normal operation
         signals = controller.process_event("request", {"rate": 10, "response_time": 50}, "api")
-        print(f"Normal request -> {len(signals} signals emitted")
+        print(f"Normal request -> {len(signals)} signals emitted")
 
         # High load
         signals = controller.process_event("resource", {"cpu": 0.85, "memory": 0.75}, "monitor")
-        print(f"High load -> {len(signals} signals emitted")
+        print(f"High load -> {len(signals)} signals emitted")
 
         # Drift detected
         signals = controller.process_event("drift", {"score": 0.35}, "guardian")
-        print(f"Drift detected -> {len(signals} signals emitted")
+        print(f"Drift detected -> {len(signals)} signals emitted")
 
         # Novel input
         signals = controller.process_event("new_pattern", {"novelty_score": 0.8}, "classifier")
-        print(f"Novel pattern -> {len(signals} signals emitted")
+        print(f"Novel pattern -> {len(signals)} signals emitted")
 
         # Get status
         status = controller.get_status()

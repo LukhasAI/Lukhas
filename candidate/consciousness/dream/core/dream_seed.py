@@ -21,7 +21,7 @@ def generate_episodic_dream(trace):
     #ΛDREAM_LOOP #ΛMEMORY_TRACE #ΛRECURSION
     """
     collapse_id = trace.get("collapse_id", "unknown")
-    dream = f"You relive the moment — {trace.get('event', '...'} — in vivid clarity (collapse {collapse_id})."
+    dream = f"You relive the moment — {trace.get('event', '...')} — in vivid clarity (collapse {collapse_id})."
     return {
         "text": dream,
         "resonance": trace.get("resonance", 0.0),

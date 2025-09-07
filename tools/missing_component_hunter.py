@@ -3,14 +3,14 @@
 lukhas Missing Component Hunter
 Advanced search for the 6 remaining specialized components
 """
-import time
-import streamlit as st
-
 import json
 import os
 import re
+import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
+
+import streamlit as st
 
 
 @dataclass
@@ -370,7 +370,7 @@ def main():
 
             if hunter.hits:
                 all_hits.extend(hunter.hits)
-                print(f"✅ Found {len(hunter.hits} potential hits in {directory}")
+                print(f"✅ Found {len(hunter.hits)} potential hits in {directory}")
             else:
                 print(f"❌ No hits found in {directory}")
 

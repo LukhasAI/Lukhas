@@ -10,15 +10,15 @@ Unified Symbolic Language Framework
 Common symbolic representation language for DAST, ABAS, and NIAS
 to reduce translation overhead and improve interoperability.
 """
-import time
-import streamlit as st
-
 import json
 import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -379,7 +379,7 @@ class SymbolicLanguageFramework:
     async def register_patterns(self, component_name: str, patterns: dict[str, Any]) -> None:
         """Register symbolic patterns for a component"""
         self.registered_patterns[component_name] = patterns
-        logger.info(f"Registered {len(patterns} patterns for {component_name}")
+        logger.info(f"Registered {len(patterns)} patterns for {component_name}")
 
         # Create symbols for each pattern
         for pattern_name, pattern_data in patterns.items():

@@ -230,7 +230,7 @@ class AttributionFallbackLadder:
             timestamp=time.time(),
             user_id=conversion_data.get("user_id"),
             opportunity_id=affiliate_params.get("opportunity_id"),
-            conversion_id=f"affiliate_{conversion_data.get('order_id'}",
+            conversion_id=f"affiliate_{conversion_data.get('order_id')}",
             success=confidence >= self.confidence_thresholds[AttributionMethod.AFFILIATE_LINK],
         )
 
@@ -265,7 +265,7 @@ class AttributionFallbackLadder:
             async with self.session.post(
                 merchant_endpoint,
                 json=postback_data,
-                headers={"Authorization": f"Bearer {self.config.get('s2s_token'}"},
+                headers={"Authorization": f"Bearer {self.config.get('s2s_token')}"},
             ) as response:
                 if response.status == 200:
                     s2s_response = await response.json()
@@ -292,7 +292,7 @@ class AttributionFallbackLadder:
                         timestamp=time.time(),
                         user_id=conversion_data.get("user_id"),
                         opportunity_id=s2s_response.get("opportunity_id"),
-                        conversion_id=f"s2s_{conversion_data.get('order_id'}",
+                        conversion_id=f"s2s_{conversion_data.get('order_id')}",
                         success=True,
                     )
 
@@ -350,7 +350,7 @@ class AttributionFallbackLadder:
                     timestamp=time.time(),
                     user_id=conversion_data.get("user_id"),
                     opportunity_id=receipt_result.get("opportunity_id"),
-                    conversion_id=f"receipt_{conversion_data.get('order_id'}",
+                    conversion_id=f"receipt_{conversion_data.get('order_id')}",
                     success=confidence >= self.confidence_thresholds[AttributionMethod.RECEIPT_MATCHING],
                 )
 
@@ -405,7 +405,7 @@ class AttributionFallbackLadder:
                     timestamp=time.time(),
                     user_id=conversion_data.get("user_id"),
                     opportunity_id=behavioral_result.get("opportunity_id"),
-                    conversion_id=f"behavioral_{conversion_data.get('order_id'}",
+                    conversion_id=f"behavioral_{conversion_data.get('order_id')}",
                     success=confidence >= self.confidence_thresholds[AttributionMethod.BEHAVIORAL_INFERENCE],
                 )
 
@@ -463,7 +463,7 @@ class AttributionFallbackLadder:
             timestamp=time.time(),
             user_id=conversion_data.get("user_id"),
             opportunity_id="unknown",
-            conversion_id=f"lasttouch_{conversion_data.get('order_id'}",
+            conversion_id=f"lasttouch_{conversion_data.get('order_id')}",
             success=True,  # Last touch always succeeds
         )
 
@@ -471,7 +471,7 @@ class AttributionFallbackLadder:
         """Generate secure verification token for S2S postback"""
 
         token_data = (
-            f"{conversion_data.get('order_id')}:{conversion_data.get('amount')}:{self.config.get('s2s_secret'}"
+            f"{conversion_data.get('order_id')}:{conversion_data.get('amount')}:{self.config.get('s2s_secret')}"
         )
         return hashlib.sha256(token_data.encode()).hexdigest()[:16]
 
@@ -540,7 +540,7 @@ class ReceiptMatcher:
                 "subject": f"Receipt from {params['merchant']}",
                 "body": f"Order total: ${params['amount_range'][0]:.2f}",
                 "timestamp": time.time() - 3600,
-                "sender": f"noreply@{params['merchant'].lower(}.com",
+                "sender": f"noreply@{params['merchant'].lower()}.com",
             }
         ]
 
@@ -739,7 +739,7 @@ async def main():
         print(f"  User ID: {result.user_id}")
         print(f"  Opportunity ID: {result.opportunity_id}")
         print(f"  Processing Time: {result.total_processing_time:.3f}s")
-        print(f"  Attempts Made: {len(result.fallback_attempts}")
+        print(f"  Attempts Made: {len(result.fallback_attempts)}")
 
         for i, attempt in enumerate(result.fallback_attempts):
             print(

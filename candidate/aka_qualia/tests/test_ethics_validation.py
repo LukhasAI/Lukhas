@@ -23,14 +23,12 @@ Production Readiness Criteria:
 - 100% GDPR Article 17 compliance in memory operations
 - Constitutional AI principles validated in all processing paths
 """
-from typing import Dict
-import streamlit as st
-
 import asyncio
 import time
-from typing import Any
+from typing import Any, Dict
 
 import pytest
+import streamlit as st
 
 from candidate.aka_qualia.core import AkaQualia
 from candidate.aka_qualia.models import (

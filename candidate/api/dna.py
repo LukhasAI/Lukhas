@@ -1,8 +1,8 @@
+import streamlit as st
 from fastapi import APIRouter, Query
 
 from lukhas.dna.memory_inmem import InMemoryHelix
 from lukhas.migration.legacy_jsonl import LegacyJSONL
-import streamlit as st
 
 router = APIRouter(prefix="/dna", tags=["DNA"])
 

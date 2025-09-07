@@ -4,17 +4,17 @@
 ====================
 Post-modularization streamlining that preserves connectivity and functionality.
 """
-import time
-import streamlit as st
-
 import ast
 import json
 import logging
 import os
+import time
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -256,7 +256,7 @@ def main():
             continue
 
         if fix_imports_in_file(py_file):
-            print(f"   Fixed: {py_file.relative_to(root}")
+            print(f"   Fixed: {py_file.relative_to(root)}")
             fixed_count += 1
 
     print(f"\\n✅ Fixed {fixed_count} files")
@@ -408,7 +408,7 @@ def enhance_import(module_name: str) -> Optional[Any]:
                 {
                     "priority": "HIGH",
                     "action": "Fix broken imports",
-                    "description": f"Fix {len(self.import_fixes} import issues post-modularization",
+                    "description": f"Fix {len(self.import_fixes)} import issues post-modularization",
                     "impact": "Restore module connectivity",
                     "command": "python3 tools/scripts/fix_post_modularization_imports.py",
                 }
@@ -468,8 +468,8 @@ def enhance_import(module_name: str) -> Optional[Any]:
         logger.info("\n" + "=" * 80)
         logger.info("📊 SMART STREAMLINE SUMMARY")
         logger.info("=" * 80)
-        logger.info(f"Import issues found: {len(self.import_fixes}")
-        logger.info(f"Safe consolidations identified: {len(self.consolidations}")
+        logger.info(f"Import issues found: {len(self.import_fixes)}")
+        logger.info(f"Safe consolidations identified: {len(self.consolidations)}")
 
         if self.import_fixes:
             logger.info("\n🔧 Sample import fixes needed:")

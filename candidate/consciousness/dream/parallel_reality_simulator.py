@@ -188,7 +188,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         # Create simulation
         simulation = RealitySimulation(
-            simulation_id=f"sim_{uuid.uuid4(}.hex[:8]}",
+            simulation_id=f"sim_{uuid.uuid4()}.hex[:8]}",
             origin_reality=origin_scenario,
             branches=[],
             start_time=datetime.now(timezone.utc),
@@ -221,7 +221,7 @@ class ParallelRealitySimulator(CoreInterface):
         if self.memory_service:
             await self._store_simulation_memory(simulation, "created")
 
-        logger.info(f"Created simulation {simulation.simulation_id} with {len(simulation.branches} branches")
+        logger.info(f"Created simulation {simulation.simulation_id} with {len(simulation.branches)} branches")
         return simulation
 
     async def _create_branch(
@@ -231,7 +231,7 @@ class ParallelRealitySimulator(CoreInterface):
         reality_type: RealityType,
     ) -> RealityBranch:
         """Create single reality branch"""
-        branch_id = f"branch_{uuid.uuid4(}.hex[:8]}"
+        branch_id = f"branch_{uuid.uuid4()}.hex[:8]}"
 
         # Generate divergence based on reality type
         divergence = await self._generate_divergence(base_state, reality_type)
@@ -345,7 +345,7 @@ class ParallelRealitySimulator(CoreInterface):
         """Generate causal chain modification"""
         return {
             "modified_cause": self.qi_seed.choice(list(state.keys())),
-            "new_effect": f"effect_{uuid.uuid4(}.hex[:4]}",
+            "new_effect": f"effect_{uuid.uuid4()}.hex[:4]}",
             "strength": self.qi_seed.uniform(0.3, 1.0),
         }
 
@@ -727,7 +727,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         # Create merged branch
         merged_branch = RealityBranch(
-            branch_id=f"merged_{uuid.uuid4(}.hex[:8]}",
+            branch_id=f"merged_{uuid.uuid4()}.hex[:8]}",
             parent_id=None,  # Multiple parents
             reality_type=RealityType.CREATIVE,  # Merged realities are creative
             divergence_point={"merge_sources": branch_ids},
@@ -766,7 +766,7 @@ class ParallelRealitySimulator(CoreInterface):
         # Add to simulation
         simulation.branches.append(merged_branch)
 
-        logger.info(f"Merged {len(branch_ids} branches into {merged_branch.branch_id}")
+        logger.info(f"Merged {len(branch_ids)} branches into {merged_branch.branch_id}")
         return merged_branch
 
     async def _merge_states(self, states: list[dict[str, Any]]) -> dict[str, Any]:
@@ -998,7 +998,7 @@ async def demonstrate_parallel_reality():
     )
 
     print(f"\nSimulation created: {simulation.simulation_id}")
-    print(f"Initial branches: {len(simulation.branches}")
+    print(f"Initial branches: {len(simulation.branches)}")
 
     # Explore a branch
     if simulation.branches:
@@ -1008,7 +1008,7 @@ async def demonstrate_parallel_reality():
         print(f"Probability: {branch_to_explore.probability:.3f}")
 
         new_branches = await simulator.explore_branch(simulation.simulation_id, branch_to_explore.branch_id, depth=2)
-        print(f"Created {len(new_branches} sub-branches")
+        print(f"Created {len(new_branches)} sub-branches")
 
     # Collapse reality
     print("\nCollapsing parallel realities...")

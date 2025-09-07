@@ -3,7 +3,6 @@
 Unified access to all safety and compliance systems
 """
 import streamlit as st
-
 from backend.security.privacy_manager import PrivacyManager
 from compliance.ai_compliance import AICompliance
 

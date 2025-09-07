@@ -2,9 +2,9 @@
 Unified Module
 Auto-generated module initialization file
 """
-import streamlit as st
-
 import logging
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

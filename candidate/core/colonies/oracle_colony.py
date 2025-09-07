@@ -32,10 +32,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.bridge.openai_core_service import (
-    ModelType,
-    OpenAICoreService,
-    OpenAIRequest)
+from candidate.bridge.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
 from lukhas.core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")
@@ -111,7 +108,7 @@ class OracleAgent:
                     },
                     {
                         "role": "user",
-                        "content": f"Context: {json.dumps(context, indent=2}\n\nProvide detailed predictions including trends, risks, and recommendations.",
+                        "content": f"Context: {json.dumps(context, indent=2)}\n\nProvide detailed predictions including trends, risks, and recommendations.",
                     },
                 ],
                 temperature=0.7,
@@ -139,7 +136,7 @@ class OracleAgent:
             confidence = 0.65
 
         return OracleResponse(
-            query_id=f"pred_{datetime.now(timezone.utc).timestamp(}",
+            query_id=f"pred_{datetime.now(timezone.utc).timestamp()}",
             response_type="prediction",
             content=prediction_content,
             confidence=confidence,
@@ -167,7 +164,7 @@ class OracleAgent:
                     },
                     {
                         "role": "user",
-                        "content": f"User Context: {json.dumps(context, indent=2}\n\nGenerate a symbolic dream that provides insight, guidance, or reflection based on this context.",
+                        "content": f"User Context: {json.dumps(context, indent=2)}\n\nGenerate a symbolic dream that provides insight, guidance, or reflection based on this context.",
                     },
                 ],
                 temperature=0.9,
@@ -195,7 +192,7 @@ class OracleAgent:
             confidence = 0.70
 
         return OracleResponse(
-            query_id=f"dream_{datetime.now(timezone.utc).timestamp(}",
+            query_id=f"dream_{datetime.now(timezone.utc).timestamp()}",
             response_type="dream",
             content=dream_content,
             confidence=confidence,
@@ -222,7 +219,7 @@ class OracleAgent:
                     },
                     {
                         "role": "user",
-                        "content": f"Context: {json.dumps(context, indent=2}\n\nProvide a prophecy that combines predictive analysis with symbolic guidance for the {query.time_horizon} term.",
+                        "content": f"Context: {json.dumps(context, indent=2)}\n\nProvide a prophecy that combines predictive analysis with symbolic guidance for the {query.time_horizon} term.",
                     },
                 ],
                 temperature=0.8,
@@ -251,7 +248,7 @@ class OracleAgent:
             confidence = 0.68
 
         return OracleResponse(
-            query_id=f"prophecy_{datetime.now(timezone.utc).timestamp(}",
+            query_id=f"prophecy_{datetime.now(timezone.utc).timestamp()}",
             response_type="prophecy",
             content=prophecy_content,
             confidence=confidence,
@@ -275,7 +272,7 @@ class OracleAgent:
         }
 
         return OracleResponse(
-            query_id=f"analysis_{datetime.now(timezone.utc).timestamp(}",
+            query_id=f"analysis_{datetime.now(timezone.utc).timestamp()}",
             response_type="analysis",
             content=analysis_content,
             confidence=0.75,

@@ -21,10 +21,10 @@ except ImportError:
     BRIDGE_BRANDING_AVAILABLE = False
 
 __all__ = [
+    "BRIDGE_BRANDING_AVAILABLE",
+    "BrandContext",
     # Branding integration
     "get_brand_voice",
-    "validate_output",
     "normalize_output_text",
-    "BrandContext",
-    "BRIDGE_BRANDING_AVAILABLE",
+    "validate_output",
 ]

@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 🔐 Helix Vault - Secure Repository for DNA Helix Memories
@@ -64,7 +66,7 @@ class HelixVault:
         self._persist_task = asyncio.create_task(self._persist_loop())
         self._monitor_task = asyncio.create_task(self._monitor_loop())
 
-        logger.info(f"🔐 Helix Vault started with {len(self.memories} memories")
+        logger.info(f"🔐 Helix Vault started with {len(self.memories)} memories")
 
     async def stop(self):
         """Stop vault services"""
@@ -98,7 +100,7 @@ class HelixVault:
         for tag in memory.tags:
             self.tag_index[tag].add(memory_id)
 
-        logger.info(f"✨ Created memory {memory_id} with {len(initial_glyphs} glyphs")
+        logger.info(f"✨ Created memory {memory_id} with {len(initial_glyphs)} glyphs")
         return memory
 
     def get_memory(self, memory_id: str) -> Optional[MemoryHelix]:
@@ -164,7 +166,7 @@ class HelixVault:
 
         if len(quorum_memories) < self.consensus_min_memories:
             logger.warning(
-                f"Insufficient quorum for {memory_id}: {len(quorum_memories} < {self.consensus_min_memories}"
+                f"Insufficient quorum for {memory_id}: {len(quorum_memories)} < {self.consensus_min_memories}"
             )
             return False
 
@@ -174,7 +176,7 @@ class HelixVault:
         # Perform consensus repair
         memory.helix_core.repair(
             method=RepairMethod.CONSENSUS,
-            cause=f"Vault consensus with {len(quorum_strands} memories",
+            cause=f"Vault consensus with {len(quorum_strands)} memories",
             quorum_strands=quorum_strands,
         )
 
@@ -238,7 +240,7 @@ class HelixVault:
                 high_drift_memories.append((memory.memory_id, drift))
 
         if high_drift_memories:
-            logger.warning(f"⚠️ {len(high_drift_memories} memories with high drift detected")
+            logger.warning(f"⚠️ {len(high_drift_memories)} memories with high drift detected")
             for memory_id, drift in high_drift_memories[:5]:  # Log top 5
                 logger.warning(f"   • {memory_id}: {drift:.3f}")
 
@@ -265,7 +267,7 @@ class HelixVault:
         # Atomic rename
         temp_file.rename(vault_file)
 
-        logger.info(f"💾 Persisted {len(self.memories} memories to vault")
+        logger.info(f"💾 Persisted {len(self.memories)} memories to vault")
 
     async def load_vault(self):
         """Load vault from disk"""
@@ -291,7 +293,7 @@ class HelixVault:
                 for tag in memory.tags:
                     self.tag_index[tag].add(memory_id)
 
-            logger.info(f"📂 Loaded {len(self.memories} memories from vault")
+            logger.info(f"📂 Loaded {len(self.memories)} memories from vault")
 
         except Exception as e:
             logger.error(f"Failed to load vault: {e}")

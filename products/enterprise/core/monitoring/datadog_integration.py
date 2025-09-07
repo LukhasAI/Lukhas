@@ -1,23 +1,24 @@
 # Placeholder for T4DatadogMonitoring
+import time
 from dataclasses import dataclass
 from datetime import datetime
+
 import streamlit as st
-import time
 
 
 @dataclass
 class T4SLAMetrics:
     api_latency_p95: float
-    api_latency_p99: float
-    uptime_percentage: float
-    error_rate: float
-    concurrent_users: int
-    response_time_avg: float
-    memory_usage_percent: float
-    cpu_usage_percent: float
-    drift_score: float
-    security_incidents: int
-    timestamp: datetime
+api_latency_p99: float
+uptime_percentage: float
+error_rate: float
+concurrent_users: int
+response_time_avg: float
+memory_usage_percent: float
+cpu_usage_percent: float
+drift_score: float
+security_incidents: int
+timestamp: datetime
 
 
 class T4DatadogMonitoring:

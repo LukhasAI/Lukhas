@@ -4,12 +4,12 @@
 
 Verifies the enhanced Service Adapter Base with Trinity Framework integration.
 """
-import logging
-import streamlit as st
-
 import asyncio
+import logging
 import os
 import sys
+
+import streamlit as st
 
 # Add path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))

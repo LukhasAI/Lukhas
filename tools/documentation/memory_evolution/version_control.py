@@ -2,13 +2,12 @@
 Documentation Version Control System for DocuTutor.
 Handles versioning, change tracking, and evolution of documentation.
 """
-from typing import List
-import streamlit as st
-
 import hashlib
 import json
 import time
-from typing import Optional
+from typing import List, Optional
+
+import streamlit as st
 
 
 class DocVersion:
@@ -20,7 +19,7 @@ class DocVersion:
 
     def _generate_hash(self) -> str:
         """Generate a unique hash for this version."""
-        content_str = f"{self.content}{json.dumps(self.metadata}{self.timestamp}"
+        content_str = f"{self.content}{json.dumps(self.metadata)}{self.timestamp}"
         return hashlib.sha256(content_str.encode()).hexdigest()
 
 

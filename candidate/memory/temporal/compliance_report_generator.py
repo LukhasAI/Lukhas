@@ -18,14 +18,12 @@
 │   - matplotlib                                                │
 └──────────────────────────────────────────────────────────────┘
 """
-import streamlit as st
-from datetime import timezone
-
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import streamlit as st
 
 
 def load_drift_logs(file_path):

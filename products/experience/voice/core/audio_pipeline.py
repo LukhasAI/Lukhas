@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 LUKHAS AI Audio Processing Pipeline
@@ -206,7 +208,7 @@ class PipelineStageProcessor(ABC):
 
     def __init__(self, stage: PipelineStage):
         self.stage = stage
-        self.logger = get_logger(f"{__name__}.{stage.value.title(}Stage")
+        self.logger = get_logger(f"{__name__}.{stage.value.title()}Stage")
 
     @abstractmethod
     async def process(self, input_data: Any, context: dict[str, Any]) -> tuple[Any, dict[str, Any]]:
@@ -237,7 +239,7 @@ class InputValidationStage(PipelineStageProcessor):
         )
 
         if not validation_result.get("approved", False):
-            raise ValueError(f"Guardian rejected input: {validation_result.get('reason'}")
+            raise ValueError(f"Guardian rejected input: {validation_result.get('reason')}")
 
         # Basic validation
         if not input_data.text or len(input_data.text.strip()) == 0:
@@ -336,7 +338,7 @@ class VoiceModulationStage(PipelineStageProcessor):
         )
 
         if not mod_metadata.get("success", False):
-            self.logger.warning(f"Voice modulation failed: {mod_metadata.get('error'}")
+            self.logger.warning(f"Voice modulation failed: {mod_metadata.get('error')}")
             return audio_buffer, {
                 "modulation_applied": False,
                 "error": mod_metadata.get("error"),
@@ -437,7 +439,7 @@ class AudioProcessingStage(PipelineStageProcessor):
         )
 
         if not proc_metadata.get("success", False):
-            self.logger.warning(f"Audio processing failed: {proc_metadata.get('error'}")
+            self.logger.warning(f"Audio processing failed: {proc_metadata.get('error')}")
             return audio_buffer, {
                 "processing_applied": False,
                 "error": proc_metadata.get("error"),
@@ -551,7 +553,7 @@ class LUKHASAudioPipeline:
             )
 
             if not validation_result.get("approved", False):
-                output.error_message = f"Guardian rejected pipeline: {validation_result.get('reason'}"
+                output.error_message = f"Guardian rejected pipeline: {validation_result.get('reason')}"
                 return output
 
             # Process through enabled stages

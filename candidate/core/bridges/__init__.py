@@ -1,5 +1,7 @@
 from typing import Optional
 
+import streamlit as st
+
 from .consciousness_qi_bridge import ConsciousnessQIBridge
 from .core_consciousness_bridge import CoreConsciousnessBridge
 from .core_safety_bridge import CoreSafetyBridge
@@ -8,7 +10,6 @@ from .memory_consciousness_bridge import get_memory_consciousness_bridge
 from .memory_learning_bridge import MemoryLearningBridge, get_memory_learning_bridge
 from .nias_dream_bridge import get_nias_dream_bridge
 from .qi_memory_bridge import get_quantum_memory_bridge
-import streamlit as st
 
 # from .orchestration_core_bridge import OrchestrationCoreBridge
 
@@ -69,16 +70,16 @@ def get_bridge_registry() -> BridgeRegistry:
 
 
 __all__ = [
-    "CoreConsciousnessBridge",
-    "ConsciousnessQIBridge",
-    "CoreSafetyBridge",
-    "MemoryLearningBridge",
-    "get_memory_learning_bridge",
-    "get_memory_consciousness_bridge",
-    "get_quantum_memory_bridge",
-    "get_nias_dream_bridge",
-    "IdentityCoreBridge",
     # "OrchestrationCoreBridge",
     "BridgeRegistry",
+    "ConsciousnessQIBridge",
+    "CoreConsciousnessBridge",
+    "CoreSafetyBridge",
+    "IdentityCoreBridge",
+    "MemoryLearningBridge",
     "get_bridge_registry",
+    "get_memory_consciousness_bridge",
+    "get_memory_learning_bridge",
+    "get_nias_dream_bridge",
+    "get_quantum_memory_bridge",
 ]

@@ -359,7 +359,7 @@ class PluginRegistry:
 
             candidates = [
                 f"{plugin_name}.py",
-                f"{plugin_name.replace('-', '_'}.py",
+                f"{plugin_name.replace('-', '_')}.py",
                 f"{plugin_name}_plugin.py",
             ]
 

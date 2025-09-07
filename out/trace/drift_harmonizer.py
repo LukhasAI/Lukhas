@@ -145,7 +145,7 @@ class DriftHarmonizer:
         elif "symbolic" in analysis.recommended_strategy.value:
             return "Apply symbolic grounding"
         else:
-            return f"Apply {analysis.recommended_strategy.value.replace('_', ' '}"
+            return f"Apply {analysis.recommended_strategy.value.replace('_', ' ')}"
 
     def analyze_drift(self) -> DriftAnalysis:
         """
@@ -389,5 +389,5 @@ if __name__ == "__main__":
     print(f"Drift Analysis: {analysis.severity.value} ({analysis.confidence:.1%} confidence)")
     print(f"Trend: {analysis.trend}")
     print(f"Recommendation: {analysis.recommended_strategy.value}")
-    print(f"Trinity Balance: {harmonizer.get_trinity_balance(}")
-    print(f"Trinity Compliance: {validate_trinity_compliance(harmonizer}")
+    print(f"Trinity Balance: {harmonizer.get_trinity_balance()}")
+    print(f"Trinity Compliance: {validate_trinity_compliance(harmonizer)}")

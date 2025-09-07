@@ -10,9 +10,9 @@ Symbolic Entropy for LUKHAS AGI system.
 
 This module implements an entropy delta calculator from memory and affect traces.
 """
-import streamlit as st
-
 import math
+
+import streamlit as st
 
 
 # LUKHAS_TAG: symbolic_entropy

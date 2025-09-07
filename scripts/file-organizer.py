@@ -119,7 +119,7 @@ class FileOrganizer:
         # Get all files in root
         root_files = [f for f in self.root_path.iterdir() if f.is_file()]
 
-        logger.info(f"📊 Found {len(root_files} files in root directory")
+        logger.info(f"📊 Found {len(root_files)} files in root directory")
 
         moved_count = 0
         kept_count = 0
@@ -228,7 +228,7 @@ class FileOrganizer:
 
         report = [
             "# File Organization Report",
-            f"\nGenerated: {datetime.now(timezone.utc).isoformat(}",
+            f"\nGenerated: {datetime.now(timezone.utc).isoformat()}",
             "\n## Summary",
             f"- Total files moved: {sum(self.stats.values()}",
             f"- Dry run: {self.dry_run}",
@@ -280,7 +280,7 @@ class FileOrganizer:
                         unmatched.append(filename)
 
         if unmatched:
-            logger.info(f"\n💡 Suggested new rules for {len(unmatched} unmatched files:")
+            logger.info(f"\n💡 Suggested new rules for {len(unmatched)} unmatched files:")
 
             # Group by patterns
             suggestions = defaultdict(list)
@@ -301,7 +301,7 @@ class FileOrganizer:
             for pattern, files in suggestions.items():
                 if len(files) >= 2:  # Only suggest if pattern matches multiple files
                     logger.info(f"\n  Pattern: `{pattern}`")
-                    logger.info(f"  Matches: {', '.join(files[:3]}")
+                    logger.info(f"  Matches: {', '.join(files[:3])}")
                     logger.info("  Suggested destination: docs/uncategorized/")
 
     def watch_mode(self, interval: int = 60):

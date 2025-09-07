@@ -5,9 +5,10 @@ import hashlib
 import json
 import time
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
+
 import streamlit as st
-from typing import Optional
+
 from consciousness.qi import qi
 
 # Merkle + Ed25519 (same primitives you already use)

@@ -7,11 +7,11 @@
 
 LUKHAS Master Integration - Connects all neural pathways
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

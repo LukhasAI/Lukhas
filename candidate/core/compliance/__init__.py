@@ -24,9 +24,9 @@ Integration:
 - Secure logging for regulatory audit trails
 """
 import logging
-import streamlit as st
-
 from typing import Any, Dict, List, Optional
+
+import streamlit as st
 
 # Version information
 __version__ = "1.0.0"

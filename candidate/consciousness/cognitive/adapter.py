@@ -14,25 +14,23 @@
 ║ Complete cognitive adapter implementation.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import random
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
+import random
 import threading
 import time
 from abc import ABC, abstractmethod
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Optional, Union
 
 # Module imports
 import numpy as np
+import streamlit as st
 
 from candidate.core.common import get_logger
 
@@ -289,7 +287,7 @@ class MetaLearningSystem:
     def _update_knowledge(self, features: dict[str, Any], feedback: dict[str, Any]):
         """Update knowledge base with new learning."""
         if feedback.get("success", False):
-            pattern_key = f"pattern_{len(self.knowledge_base}"
+            pattern_key = f"pattern_{len(self.knowledge_base)}"
             self.knowledge_base[pattern_key] = {
                 "features": features,
                 "outcome": feedback.get("outcome", "success"),
@@ -327,7 +325,7 @@ class HelixMapper:
             try:
                 with open(memory_file) as f:
                     self.memory_strands = json.load(f)
-                self.logger.info(f"Loaded {len(self.memory_strands} memory strands")
+                self.logger.info(f"Loaded {len(self.memory_strands)} memory strands")
             except Exception as e:
                 self.logger.error(f"Failed to load memories: {e}")
 
@@ -403,7 +401,7 @@ class HelixMapper:
         self.logger.debug(f"Mapping memory of type {strand_type}")
 
         # Generate unique strand ID
-        strand_id = f"{strand_type}_{datetime.now(timezone.utc).timestamp()}_{np.random.randint(1000}"
+        strand_id = f"{strand_type}_{datetime.now(timezone.utc).timestamp()}_{np.random.randint(1000)}"
 
         # Create memory strand
         self.memory_strands[strand_id] = {
@@ -1002,7 +1000,7 @@ async def test_cognitive_adapter():
     print("\nTest 6: State Summary")
     summary = adapter.get_state_summary()
     print(f"Activity status: {summary['activity']}")
-    print(f"Current patterns: {len(summary['patterns']} detected")
+    print(f"Current patterns: {len(summary['patterns'])} detected")
 
     # Shutdown
     adapter.shutdown()

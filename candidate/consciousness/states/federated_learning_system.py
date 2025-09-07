@@ -1,8 +1,10 @@
-from datetime import datetime, timezone
 import logging
-import streamlit as st
 import time
+from datetime import datetime, timezone
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -116,7 +118,7 @@ class LukhasFederatedModel:
         self.contribution_count = 0
         self.client_contributions: set[str] = set()  # Type hint for clarity
         self.performance_metrics: dict[str, Any] = {}
-        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d'}"
+        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d')}"
         # ΛTRACE: LukhasFederatedModel initialized
         logger.debug(
             "lukhas_federated_model_initialized",

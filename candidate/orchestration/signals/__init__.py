@@ -23,24 +23,24 @@ from .signal_bus import (
 )
 
 __all__ = [
-    # Signal Bus
-    "Signal",
-    "SignalType",
-    "SignalPattern",
-    "SignalBus",
-    "get_signal_bus",
-    "emit_stress",
-    # Homeostasis
-    "SystemEvent",
-    "ModulationParams",
+    "AdaptiveModulator",
     "AuditTrail",
-    "OscillationDetector",
     "HomeostasisController",
-    # Modulator
-    "PromptStyle",
+    "ModulationParams",
+    "OscillationDetector",
     "PromptModulation",
     "PromptModulator",
-    "AdaptiveModulator",
+    # Modulator
+    "PromptStyle",
+    # Signal Bus
+    "Signal",
+    "SignalBus",
+    "SignalPattern",
+    "SignalType",
+    # Homeostasis
+    "SystemEvent",
+    "emit_stress",
+    "get_signal_bus",
 ]
 
 # Version

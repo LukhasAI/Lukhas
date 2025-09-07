@@ -5,17 +5,16 @@ Universal plugin architecture for modular AI components integration
 This provides the foundation for integrating Lambda Products and other modules
 as plug-and-play components into LUKHAS  and other systems.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import contextlib
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

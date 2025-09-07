@@ -116,20 +116,20 @@ def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
 __all__ = [
     # Bio module
     "BIO_SYMBOLS",
-    "EMOTION_SYMBOLS",
     "DEVICE_SYMBOLS",
     # Dream module
     "DREAM_PHASE_SYMBOLS",
-    "DREAM_TYPE_SYMBOLS",
     "DREAM_STATE_SYMBOLS",
-    "PATTERN_SYMBOLS",
-    "MEMORY_SYMBOLS",
+    "DREAM_TYPE_SYMBOLS",
+    "EMOTION_SYMBOLS",
     # Identity module
     "IDENTITY_SYMBOLIC_VOCABULARY",
-    # Voice module
-    "VOICE_SYMBOLIC_VOCABULARY",
+    "MEMORY_SYMBOLS",
+    "PATTERN_SYMBOLS",
     # Vision module
     "VISION_SYMBOLIC_VOCABULARY",
+    # Voice module
+    "VOICE_SYMBOLIC_VOCABULARY",
     # Helper function
     "get_symbol",
 ]

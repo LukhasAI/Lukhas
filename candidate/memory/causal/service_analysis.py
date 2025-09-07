@@ -15,10 +15,9 @@ communication and to compute a modularity score based on coupling.
 
 from __future__ import annotations
 
-import streamlit as st
-
-
 from collections.abc import Sequence
+
+import streamlit as st
 
 # ΛTAG: digital_friction
 

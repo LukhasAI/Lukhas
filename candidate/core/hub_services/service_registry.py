@@ -3,15 +3,14 @@
 Service Registry
 Central registry for dependency injection to break circular dependencies.
 """
-from consciousness.qi import qi
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import logging
 from abc import ABC, abstractmethod
-from datetime import datetime
-from typing import Any, Callable, Optional, TypeVar
+from datetime import datetime, timezone
+from typing import Any, Callable, List, Optional, TypeVar
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

@@ -28,9 +28,10 @@ the GLYPH subsystem.
 
 For more information, visit: https://lukhas.ai
 """
-from typing import List
-import streamlit as st
 from datetime import timezone
+from typing import List
+
+import streamlit as st
 
 # ΛTRACE: Glyph Sentinel initialization
 # ΛORIGIN_AGENT: Claude Code
@@ -658,7 +659,7 @@ class GlyphSentinel:
             # Remove expired glyph
             self._remove_expired_glyph(glyph_id)
 
-        logger.debug(f"Cleanup cycle completed, removed {len(expired_glyphs} expired glyphs")
+        logger.debug(f"Cleanup cycle completed, removed {len(expired_glyphs)} expired glyphs")
 
     def _refresh_glyph(self, glyph_id: str) -> bool:
         """Refresh a glyph to reset decay state."""

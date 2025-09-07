@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # GLYPH Consciousness Communication - Token Bridge Mapping
 # Purpose: Bridge symbolic tokens between different consciousness nodes in LUKHAS distributed consciousness system

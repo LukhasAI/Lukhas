@@ -4,11 +4,11 @@ Simple integration validation for LUKHAS AI Multi-AI Orchestration System
 
 Basic validation script to ensure the orchestration components work together.
 """
-import streamlit as st
-
 import asyncio
 import sys
 import time
+
+import streamlit as st
 
 
 def test_orchestration_components():
@@ -45,7 +45,7 @@ def test_orchestration_components():
         print("✅ MultiAIOrchestrator initialized")
         print(f"   - Target latency: {orchestrator.target_latency_ms}ms")
         print(f"   - Max parallel requests: {orchestrator.max_parallel_requests}")
-        print(f"   - Available AI clients: {len(orchestrator.ai_clients}")
+        print(f"   - Available AI clients: {len(orchestrator.ai_clients)}")
 
         # Test consensus engine
         ConsensusEngine()
@@ -264,7 +264,7 @@ def main():
             passed += 1
 
     print("-" * 70)
-    print(f"TOTAL: {passed}/{total} tests passed ({passed / total * 100:.1f}%)")
+    print(f"TOTAL: {passed}/{total} tests passed ({passed / total  * 100:.1f}%)")
 
     if passed == total:
         print("\n🎉 ALL TESTS PASSED!")

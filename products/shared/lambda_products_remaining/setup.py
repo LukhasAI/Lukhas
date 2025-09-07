@@ -1,14 +1,15 @@
 from typing import Optional
+
 """
 Setup configuration for LUKHAS Lambda Products Suite
 Enterprise-ready AI modules for integration with Lukhas
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import os
 
+import streamlit as st
 from setuptools import find_packages, setup
+
+from consciousness.qi import qi
 
 
 # Read README for long description

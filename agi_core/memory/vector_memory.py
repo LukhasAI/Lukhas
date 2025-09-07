@@ -429,7 +429,7 @@ class VectorMemoryStore:
         for memory_id, _ in to_remove:
             await self.delete_memory(memory_id)
 
-        logger.info(f"Cleaned up {len(to_remove} weak memories")
+        logger.info(f"Cleaned up {len(to_remove)} weak memories")
 
     def save_memories(self):
         """Persist memories to disk."""
@@ -465,7 +465,7 @@ class VectorMemoryStore:
             with open(self.persistence_path, "w") as f:
                 json.dump(data, f, indent=2)
 
-            logger.info(f"Saved {len(self.memories} memories to {self.persistence_path}")
+            logger.info(f"Saved {len(self.memories)} memories to {self.persistence_path}")
 
         except Exception as e:
             logger.error(f"Error saving memories: {e}")
@@ -516,7 +516,7 @@ class VectorMemoryStore:
             if "stats" in data:
                 self.stats.update(data["stats"])
 
-            logger.info(f"Loaded {len(self.memories} memories from {self.persistence_path}")
+            logger.info(f"Loaded {len(self.memories)} memories from {self.persistence_path}")
 
         except Exception as e:
             logger.error(f"Error loading memories: {e}")

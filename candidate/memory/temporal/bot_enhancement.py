@@ -91,7 +91,7 @@ class BotEnhancementEngine:
             processing_time = asyncio.get_event_loop().time() - start_time
 
             return EnhancementResponse(
-                request_id=f"reasoning_{request.bot_id}_{int(start_time}",
+                request_id=f"reasoning_{request.bot_id}_{int(start_time)}",
                 bot_id=request.bot_id,
                 enhancement_data={
                     "enhanced_reasoning": enhanced_reasoning,
@@ -129,7 +129,7 @@ class BotEnhancementEngine:
             processing_time = asyncio.get_event_loop().time() - start_time
 
             return EnhancementResponse(
-                request_id=f"memory_{request.bot_id}_{int(start_time}",
+                request_id=f"memory_{request.bot_id}_{int(start_time)}",
                 bot_id=request.bot_id,
                 enhancement_data={
                     "memory_results": memory_results,
@@ -167,7 +167,7 @@ class BotEnhancementEngine:
             processing_time = asyncio.get_event_loop().time() - start_time
 
             return EnhancementResponse(
-                request_id=f"analysis_{request.bot_id}_{int(start_time}",
+                request_id=f"analysis_{request.bot_id}_{int(start_time)}",
                 bot_id=request.bot_id,
                 enhancement_data={
                     "analysis_results": analysis_results,

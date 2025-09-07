@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import Optional
 import logging
-import streamlit as st
 import time
-from typing import Dict
+from typing import Dict, Optional
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 
 # ██╗      ██████╗  ██████╗ ██╗  ██╗ █████╗ ███████╗

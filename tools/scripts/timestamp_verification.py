@@ -4,12 +4,12 @@ Timestamp Verification
 =====================
 Minimal implementation for testing infrastructure.
 """
-import time
-import streamlit as st
-
 import hashlib
+import time
 from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 
 class TimestampVerifier:
@@ -44,8 +44,4 @@ class TimestampVerifier:
 
     def hash_with_timestamp(self, data: str) -> dict[str, str]:
         """Create hash with timestamp"""
-        timestamp = self.create_timestamp()
-        data_with_timestamp = f"{data}:{timestamp}"
-        hash_value = hashlib.sha256(data_with_timestamp.encode()).hexdigest()
-
-        return {"hash": hash_value, "timestamp": timestamp, "data": data}
+        self.create_timestamp()

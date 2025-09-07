@@ -105,7 +105,7 @@ class SymbolGenerator:
             for key, value in data.items():
                 symbol = GlyphSymbol.create(
                     symbol_type=SymbolType.DATA,
-                    content=f"{key}: {str(value}[:100]}",
+                    content=f"{key}: {str(value)}[:100]}",
                     metadata={"key": key, "type": type(value).__name__, "value_preview": str(value)[:50]},
                     confidence=0.7,
                 )
@@ -115,7 +115,7 @@ class SymbolGenerator:
             # Create summary symbol for arrays
             symbol = GlyphSymbol.create(
                 symbol_type=SymbolType.DATA,
-                content=f"Array with {len(data} items",
+                content=f"Array with {len(data)} items",
                 metadata={"length": len(data), "item_types": list(set(type(item).__name__ for item in data[:10]))},
                 confidence=0.8,
             )

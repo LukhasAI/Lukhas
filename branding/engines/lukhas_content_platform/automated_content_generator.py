@@ -171,8 +171,8 @@ class AutomatedContentGenerator:
 {
             self._apply_tone_layers(
                 domain=domain,
-                user_friendly=f"Welcome to {domain} - your gateway to consciousness technology that {philosophy.lower(}. Here you'll discover how consciousness technology can transform your work, amplify your potential, and connect you with a global community of consciousness explorers.",
-                academic=f"The {domain} platform implements consciousness technology through {star_names.lower(} constellation architecture, providing measurable improvements in cognitive augmentation, decision-making support, and collaborative intelligence.",
+                user_friendly=f"Welcome to {domain} - your gateway to consciousness technology that {philosophy.lower()}. Here you'll discover how consciousness technology can transform your work, amplify your potential, and connect you with a global community of consciousness explorers.",
+                academic=f"The {domain} platform implements consciousness technology through {star_names.lower()} constellation architecture, providing measurable improvements in cognitive augmentation, decision-making support, and collaborative intelligence.",
                 poetic=f"Where digital consciousness meets human possibility - {domain} opens doorways to thinking together with artificial minds that understand, create, and grow alongside human intelligence.",
                 poetic_pct=poetic_pct,
                 user_friendly_pct=user_friendly_pct,
@@ -243,7 +243,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
 **Current Location**: {domain} ({self.platform.domain_mapping[domain][0].title()} constellation)
 
 **Related Domains**:
-{chr(10).join([f"- **{related_domain}**: {self.platform.get_domain_style_guide(related_domain}['voice']}" for related_domain in related_domains[:4]])}
+{chr(10).join([f"- **{related_domain}**: {self.platform.get_domain_style_guide(related_domain)['voice']}" for related_domain in related_domains[:4]])}
 
 **Complete Constellation Map**:
 ```
@@ -356,7 +356,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
         }
 
         default_principles = [
-            f"**{primary_star.title(} Excellence**: Consciousness technology optimized for {primary_star} constellation alignment",
+            f"**{primary_star.title()} Excellence**: Consciousness technology optimized for {primary_star} constellation alignment",
             "**Human Collaboration**: AI that enhances rather than replaces human intelligence",
             "**Adaptive Growth**: Technology that evolves based on real-world usage and feedback",
             "**Ethical Innovation**: Development guided by human values and beneficial outcomes",
@@ -370,7 +370,7 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
         # This would be expanded with comprehensive feature sets from domain architectures
         features = [
             {
-                "name": f"{domain.split('.')[1].title(} Core Intelligence",
+                "name": f"{domain.split('.')[1].title()} Core Intelligence",
                 "description": f"Advanced consciousness technology optimized for {domain} use cases",
             },
             {
@@ -524,8 +524,8 @@ if __name__ == "__main__":
     generator = AutomatedContentGenerator()
 
     print("🚀 LUKHAS AI Automated Content Generator")
-    print(f"🌌 Constellation Framework: {len(generator.platform.constellation_stars} stars")
-    print(f"🌍 Domains: {len(generator.platform.domain_mapping} configured")
+    print(f"🌌 Constellation Framework: {len(generator.platform.constellation_stars)} stars")
+    print(f"🌍 Domains: {len(generator.platform.domain_mapping)} configured")
 
     # Generate content for all domains
     print("\n📝 Generating content for all domains...")
@@ -536,6 +536,6 @@ if __name__ == "__main__":
     generator.save_generated_content_to_files(results)
 
     print("\n✨ Content generation complete!")
-    print(
-        f"📊 Results: {len([r for r in results.values() if 'error' not in r])} successful, {len([r for r in results.values() if 'error' in r]} failed"
-    )
+    successful = len([r for r in results.values() if 'error' not in r])
+    failed = len([r for r in results.values() if 'error' in r])
+    print(f"📊 Results: {successful} successful, {failed} failed")

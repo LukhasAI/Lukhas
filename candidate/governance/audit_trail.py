@@ -5,9 +5,6 @@ Comprehensive Audit Trail System for LUKHAS
 Provides complete transparency and traceability for all AI decisions.
 Based on GPT5 audit recommendations.
 """
-from typing import List
-import streamlit as st
-
 import hashlib
 import json
 import sqlite3
@@ -16,10 +13,11 @@ from dataclasses import dataclass, field
 from datetime import timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
 from uuid import uuid4
 
 import numpy as np
+import streamlit as st
 
 
 class AuditLevel(Enum):
@@ -352,7 +350,7 @@ class AuditTrail:
             if entry.signals:
                 active_signals = [f"{k}: {v:.1f}" for k, v in entry.signals.items() if v > 0.3]
                 if active_signals:
-                    explanations["human"] += f" System state: {', '.join(active_signals}."
+                    explanations["human"] += f" System state: {', '.join(active_signals)}."
 
         elif entry.decision_type == DecisionType.SAFETY:
             explanations["human"] = f"Safety intervention: {entry.decision}"
@@ -367,7 +365,7 @@ class AuditTrail:
         explanations["technical"] += f"Component: {entry.component}\n"
         explanations["technical"] += f"Confidence: {entry.confidence:.3f}\n"
         if entry.policies:
-            explanations["technical"] += f"Policies: {', '.join(entry.policies}\n"
+            explanations["technical"] += f"Policies: {', '.join(entry.policies)}\n"
 
         # Confidence factors
         if entry.confidence > 0:
@@ -761,7 +759,7 @@ if __name__ == "__main__":
     explanation = audit.explain_decision(entry1.audit_id)
     print(f"\nExplanation for {entry1.audit_id}:")
     print(f"  Human: {explanation['human']}")
-    print(f"  Factors: {', '.join(explanation['confidence_factors']}")
+    print(f"  Factors: {', '.join(explanation['confidence_factors'])}")
 
     # Verify integrity
     is_valid = audit.verify_integrity(entry1.audit_id)

@@ -10,9 +10,9 @@ Inspired by Bhavik Sarkhedi's "Ohh My Brand" approach:
 - Personal brand as business asset and thought leadership platform
 """
 import time
-import streamlit as st
-
 from dataclasses import dataclass
+
+import streamlit as st
 
 
 @dataclass
@@ -521,18 +521,18 @@ if __name__ == "__main__":
     for principle, description in authority_builder.brand_philosophy.items():
         print(f"  {principle}: {description[:80]}...")
 
-    print(f"\n🚀 Authority Building Strategies ({len(authority_builder.authority_strategies}):")
+    print(f"\n🚀 Authority Building Strategies ({len(authority_builder.authority_strategies)}):")
     for name, strategy in authority_builder.authority_strategies.items():
         print(f"  {name}: +{strategy.expected_engagement_increase}% engagement")
 
-    print(f"\n📚 Content Pillars ({len(authority_builder.content_pillars}):")
+    print(f"\n📚 Content Pillars ({len(authority_builder.content_pillars)}):")
     for name, pillar in authority_builder.content_pillars.items():
         print(f"  {pillar.name}: {pillar.posting_frequency} - {pillar.consciousness_theme}")
 
     print("\n🎯 Authority Building Roadmap:")
     roadmap = brand_strategy["authority_building_roadmap"]
     for phase, details in roadmap.items():
-        print(f"  {phase}: {details['timeline']} - {len(details['objectives']} objectives")
+        print(f"  {phase}: {details['timeline']} - {len(details['objectives'])} objectives")
 
     print("\n📊 Target Metrics:")
     targets = authority_builder._create_engagement_targets()

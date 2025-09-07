@@ -11,16 +11,14 @@ Usage:
 Example:
     python demo.py --layer poetic --security-tier 5 --interactive
 """
-from consciousness.qi import qi
-import random
-import streamlit as st
-
 import argparse
+import random
 import sys
 import time
 from pathlib import Path
 from typing import Any, Optional
 
+import streamlit as st
 from qrg_core import ConsciousnessContext, QIResonanceGlyph
 from system_bridge import (
     LambdaIdIntegration,
@@ -28,6 +26,7 @@ from system_bridge import (
     SymbolicIdentity,
 )
 
+from consciousness.qi import qi
 from lukhas.qi.entropy import EntropyProfile, TrueQuantumRandomness
 
 # Add current directory to path for imports
@@ -119,7 +118,7 @@ class QRGDemo:
     def _print_main_menu(self):
         """Print the main demo menu"""
         print(f"\n{self.style['color']}╔═══════════════════════════════════════════╗")
-        print(f"║         QRG Demo - {self.layer.title(} Mode         ║")
+        print(f"║         QRG Demo - {self.layer.title()} Mode         ║")
         print("╚═══════════════════════════════════════════╝\033[0m")
 
         menu_options = [
@@ -167,7 +166,7 @@ class QRGDemo:
                 "TIER_4": "Enterprise - full business features",
                 "TIER_5": "Quantum - cutting-edge quantum features",
             }
-            print(f"   {i}: {tier.value} - {tier_desc.get(tier.name, 'Access tier'}")
+            print(f"   {i}: {tier.value} - {tier_desc.get(tier.name, 'Access tier')}")
 
         try:
             tier_choice = int(input("Select tier (0-5): "))
@@ -206,7 +205,7 @@ class QRGDemo:
         animation_types = ["gentle_pulse", "spiral_rotation", "consciousness_wave"]
         print("Animation types:")
         for i, anim_type in enumerate(animation_types):
-            print(f"   {i}: {anim_type.replace('_', ' ').title(}")
+            print(f"   {i}: {anim_type.replace('_', ' ').title()}")
 
         try:
             anim_choice = int(input("Select animation (0-2): "))
@@ -274,10 +273,10 @@ class QRGDemo:
             )
 
             # Display adaptation info
-            print(f"   📊 {emotion.capitalize(} adaptation:")
+            print(f"   📊 {emotion.capitalize()} adaptation:")
             print(f"      - Glyph ID: {glyph.glyph_id}")
             print(f"      - Consciousness fingerprint: {glyph.consciousness_fingerprint}")
-            print(f"      - Animation frames: {len(glyph.animation_frames}")
+            print(f"      - Animation frames: {len(glyph.animation_frames)}")
             print(f"      - Visual matrix shape: {glyph.visual_matrix.shape}")
 
     def _demo_authentication_flow(self):
@@ -328,7 +327,7 @@ class QRGDemo:
             print(f"   🧠 Consciousness matched: {auth_result['consciousness_matched']}")
             print(f"   ⏰ Valid until: {auth_result['valid_until']}")
         else:
-            print(f"   ❌ Authentication failed: {auth_result.get('error', 'Unknown error'}")
+            print(f"   ❌ Authentication failed: {auth_result.get('error', 'Unknown error')}")
 
     def _demo_quantum_entropy(self):
         """Demonstrate quantum entropy generation"""
@@ -355,8 +354,8 @@ class QRGDemo:
         qi_bytes = self.qi_entropy.generate_quantum_bytes(32, entropy_profile)
         generation_time = time.time() - start_time
 
-        print(f"   ⚛️ Generated {len(qi_bytes} quantum bytes in {generation_time:.4f}s")
-        print(f"   📊 Hex representation: {qi_bytes.hex(}")
+        print(f"   ⚛️ Generated {len(qi_bytes)} quantum bytes in {generation_time:.4f}s")
+        print(f"   📊 Hex representation: {qi_bytes.hex()}")
 
         # Quality analysis
         print("\n🔸 Entropy quality analysis:")
@@ -448,12 +447,12 @@ class QRGDemo:
         print(f"   ⚛️ Quantum entangled: {holographic_data['qi_entangled']}")
 
         projection_matrices = holographic_data["projection_matrices"]
-        print(f"   🎬 Projection layers: {len(projection_matrices}")
+        print(f"   🎬 Projection layers: {len(projection_matrices)}")
         for layer in projection_matrices:
             print(f"      Layer {layer['layer']}: z={layer['z_depth']}, opacity={layer['opacity']}")
 
         interaction_zones = holographic_data["interaction_zones"]
-        print(f"   👆 Interaction zones: {len(interaction_zones}")
+        print(f"   👆 Interaction zones: {len(interaction_zones)}")
         for zone in interaction_zones:
             print(f"      {zone['zone_id']}: {zone['interaction_type']}")
 
@@ -517,7 +516,7 @@ class QRGDemo:
 
         available_sources = quality_report["available_sources"]
         active_sources = sum(available_sources.values())
-        print(f"   🌐 Active Sources: {active_sources}/{len(available_sources}")
+        print(f"   🌐 Active Sources: {active_sources}/{len(available_sources)}")
 
     def _get_consciousness_context(self) -> dict[str, Any]:
         """Get consciousness context from user input"""
@@ -628,7 +627,7 @@ class QRGDemo:
         print(f"   ⚛️ Quantum signature: {glyph.qi_signature[:32]}...")
         print(f"   🧠 Consciousness fingerprint: {glyph.consciousness_fingerprint}")
         print(f"   📐 Visual matrix: {glyph.visual_matrix.shape}")
-        print(f"   🎬 Animation frames: {len(glyph.animation_frames}")
+        print(f"   🎬 Animation frames: {len(glyph.animation_frames)}")
         print(f"   ⏰ Valid until: {glyph.temporal_validity}")
         print(f"   ⏱️ Generation time: {generation_time:.4f} seconds")
 
@@ -650,7 +649,7 @@ class QRGDemo:
 
 def run_batch_demo(layer: str, security_tier: int):
     """Run non-interactive batch demonstration"""
-    print(f"🌌 QRG Batch Demo - {layer.title(} Mode")
+    print(f"🌌 QRG Batch Demo - {layer.title()} Mode")
     print("=" * 50)
 
     demo = QRGDemo(layer)
@@ -677,7 +676,7 @@ def run_batch_demo(layer: str, security_tier: int):
     # Demonstrate quantum entropy
     print("\n🔸 Testing quantum entropy...")
     qi_bytes = demo.qi_entropy.generate_quantum_bytes(16)
-    print(f"   ⚛️ Quantum bytes: {qi_bytes.hex(}")
+    print(f"   ⚛️ Quantum bytes: {qi_bytes.hex()}")
 
     # Show system status
     print("\n🔸 System status:")

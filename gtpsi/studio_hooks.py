@@ -237,7 +237,7 @@ class StudioGTΨHooks:
         if action == "send_email":
             to = context.get("to", ["unknown"])
             subject = context.get("subject", "No subject")
-            return f"Send email to {', '.join(to[:3]} with subject '{subject[:50]}...'"
+            return f"Send email to {', '.join(to[:3])} with subject '{subject[:50]}...'"
 
         elif action == "cloud.move.files":
             file_count = context.get("file_count", 0)
@@ -640,7 +640,7 @@ if __name__ == "__main__":
             ui_response = await hooks.request_consent_ui(ui_request)
             print(f"Consent UI generated: {ui_response.challenge_id}")
             print(f"Time limit: {ui_response.countdown_seconds} seconds")
-            print(f"Risk warnings: {len(ui_response.ui_config['warnings']} items")
+            print(f"Risk warnings: {len(ui_response.ui_config['warnings'])} items")
 
         print("\n✅ Studio integration demo complete!")
 

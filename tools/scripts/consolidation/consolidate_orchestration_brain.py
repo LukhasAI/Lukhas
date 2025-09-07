@@ -3,9 +3,9 @@
 LUKHAS 2030 Orchestration Brain Consolidation
 Central nervous system orchestration
 """
-import streamlit as st
-
 from pathlib import Path
+
+import streamlit as st
 
 
 def consolidate_orchestration_brain():

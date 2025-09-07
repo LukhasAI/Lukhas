@@ -197,7 +197,7 @@ class TEQCoupler:
         if blocked:
             return (
                 False,
-                f"Content policy violation: {sorted(blocked}.",
+                f"Content policy violation: {sorted(blocked)}.",
                 "Route to human review or sanitize content.",
             )
         return (True, "", "")

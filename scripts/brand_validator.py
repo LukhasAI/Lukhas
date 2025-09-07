@@ -139,7 +139,7 @@ class BrandValidator:
 
         print(f"\nFiles checked: {results['files_checked']}")
         print(f"Files with issues: {results['files_with_issues']}")
-        print(f"Total violations: {len(results['violations']}")
+        print(f"Total violations: {len(results['violations'])}")
 
         if results["violations"]:
             print("\n" + "-" * 60)

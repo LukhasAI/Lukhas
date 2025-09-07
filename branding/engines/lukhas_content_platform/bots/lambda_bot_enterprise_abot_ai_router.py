@@ -206,7 +206,7 @@ class ABotIntelligentAIRouter:
             ),
         }
 
-        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services} services")
+        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services)} services")
 
     def _get_keychain_value(self, service: str) -> Optional[str]:
         """Get API key from Mac KeyChain"""
@@ -413,7 +413,7 @@ if __name__ == "__main__":
 
     print("🤖 LUKHAS AI ΛBot Intelligent AI Router")
     print("=" * 50)
-    print(f"Available AI services: {len(router.services}")
+    print(f"Available AI services: {len(router.services)}")
 
     # Show all services and their availability
     for service in router.services.values():

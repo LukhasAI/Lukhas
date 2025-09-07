@@ -5,24 +5,24 @@ Focus on the 23 HIGH priority lukhas/ blockers for maximum functional impact
 """
 
 import ast
-import re
-import os
-from typing import List, Tuple, Dict
 import json
+import os
+import re
+from typing import Dict, List, Tuple
 
 
 class StrategicLukhasFixer:
     """Strategic fixer focused on lukhas/ HIGH priority blockers"""
-    
+
     def __init__(self):
         self.fixes_applied = 0
         self.files_fixed = 0
-        
-    def get_lukhas_high_priority_files(self) -> List[str]:
+
+    def get_lukhas_high_priority_files(self) -> list[str]:
         """Get the 23 HIGH priority lukhas/ files from analysis"""
         high_priority_files = [
             "lukhas/bridge/bridge_wrapper.py",
-            "lukhas/core/common/decorators.py", 
+            "lukhas/core/common/decorators.py",
             "lukhas/core/common/glyph.py",
             "lukhas/core/distributed_tracing.py",
             "lukhas/core/efficient_communication.py",
@@ -50,20 +50,20 @@ class StrategicLukhasFixer:
             "lukhas/consciousness/consciousness_wrapper.py",
         ]
         return [f for f in high_priority_files if os.path.exists(f)]
-    
-    def get_aggressive_f_string_patterns(self) -> List[Tuple[str, str, str]]:
+
+    def get_aggressive_f_string_patterns(self) -> list[tuple[str, str, str]]:
         """Aggressive patterns for f-string parenthesis errors"""
         return [
             # Most common pattern: missing closing parenthesis
             (r'f"([^"]*)\{([^}]+)\}([^"]*)"', self.fix_fstring_parentheses, "PARENTHESIS_FIX"),
             (r"f'([^']*)\{([^}]+)\}([^']*)'", self.fix_fstring_parentheses_single, "PARENTHESIS_FIX_SINGLE"),
-            
+
             # Specific method patterns
             (r'f"([^"]*)\{([^}]+\.upper)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_UPPER"),
             (r'f"([^"]*)\{([^}]+\.lower)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_LOWER"),
             (r'f"([^"]*)\{([^}]+\.timestamp)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_TIMESTAMP"),
             (r'f"([^"]*)\{([^}]+\.isoformat)\(\}([^"]*)"', r'f"\1{\2()}\3"', "METHOD_ISOFORMAT"),
-            
+
             # Function patterns
             (r'f"([^"]*)\{(time\.time)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNC_TIME"),
             (r'f"([^"]*)\{(uuid\.uuid4)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNC_UUID"),
@@ -73,18 +73,18 @@ class StrategicLukhasFixer:
             (r'f"([^"]*)\{(str)\(([^}]+)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "FUNC_STR"),
             (r'f"([^"]*)\{(type)\(([^}]+)\}([^"]*)"', r'f"\1{\2(\3)}\4"', "FUNC_TYPE"),
         ]
-    
+
     def fix_fstring_parentheses(self, match):
         """Smart f-string parenthesis fixer for double quotes"""
         prefix, expr, suffix = match.groups()
-        
+
         # Count parentheses in the expression
-        open_parens = expr.count('(')
-        close_parens = expr.count(')')
-        
+        open_parens = expr.count("(")
+        close_parens = expr.count(")")
+
         if open_parens > close_parens:
             # Add missing closing parentheses
-            missing_parens = ')' * (open_parens - close_parens)
+            missing_parens = ")" * (open_parens - close_parens)
             return f'f"{prefix}{{{expr}{missing_parens}}}{suffix}"'
         elif close_parens > open_parens:
             # Remove extra closing parentheses (less common, but possible)
@@ -92,48 +92,47 @@ class StrategicLukhasFixer:
         else:
             # Already balanced
             return match.group(0)
-    
+
     def fix_fstring_parentheses_single(self, match):
         """Smart f-string parenthesis fixer for single quotes"""
         prefix, expr, suffix = match.groups()
-        
-        open_parens = expr.count('(')
-        close_parens = expr.count(')')
-        
+
+        open_parens = expr.count("(")
+        close_parens = expr.count(")")
+
         if open_parens > close_parens:
-            missing_parens = ')' * (open_parens - close_parens)
+            missing_parens = ")" * (open_parens - close_parens)
             return f"f'{prefix}{{{expr}{missing_parens}}}{suffix}'"
         elif close_parens > open_parens:
-            clean_expr = expr.rstrip(')')
+            clean_expr = expr.rstrip(")")
             return f"f'{prefix}{{{clean_expr}}}{suffix}'"
         else:
             return match.group(0)
-    
+
     def validate_syntax(self, content: str, file_path: str) -> bool:
         """Validate syntax with detailed error reporting"""
         try:
             ast.parse(content)
             return True
-        except SyntaxError as e:
+        except SyntaxError:
             return False
         except Exception:
             return False
-    
-    def fix_file_strategically(self, file_path: str) -> Tuple[bool, int, List[str]]:
+
+    def fix_file_strategically(self, file_path: str) -> tuple[bool, int, list[str]]:
         """Apply strategic fixes to a lukhas/ HIGH priority file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
-            
-            original_content = content
+
             total_fixes = 0
             patterns_applied = []
-            
+
             # Apply all aggressive patterns
             for pattern_info in self.get_aggressive_f_string_patterns():
                 if len(pattern_info) == 3:
                     pattern, replacement, pattern_type = pattern_info
-                    
+
                     if callable(replacement):
                         # Use custom function for smart fixing
                         matches = list(re.finditer(pattern, content, re.MULTILINE | re.DOTALL))
@@ -157,11 +156,11 @@ class StrategicLukhasFixer:
                                     content = new_content
                         except re.error:
                             continue
-            
+
             if total_fixes > 0:
                 # Validate the fixes
                 if self.validate_syntax(content, file_path):
-                    with open(file_path, 'w', encoding='utf-8') as f:
+                    with open(file_path, "w", encoding="utf-8") as f:
                         f.write(content)
                     print(f"🎯 STRATEGIC FIX: {file_path} - {total_fixes} fixes applied")
                     self.fixes_applied += total_fixes
@@ -170,35 +169,35 @@ class StrategicLukhasFixer:
                 else:
                     print(f"❌ Validation failed for {file_path}")
                     return False, 0, []
-                    
+
             return True, 0, []  # No fixes needed
-            
+
         except Exception as e:
             print(f"❌ Error processing {file_path}: {e}")
             return False, 0, []
-    
+
     def run_strategic_fixes(self):
         """Run strategic fixes on lukhas/ HIGH priority files"""
         print("🎯 STRATEGIC LUKHAS FIXER")
         print("=" * 60)
         print("Fixing 23 HIGH priority lukhas/ blockers for maximum functional impact")
         print()
-        
+
         high_priority_files = self.get_lukhas_high_priority_files()
         print(f"Processing {len(high_priority_files)} HIGH priority lukhas/ files...")
         print()
-        
+
         successful_fixes = []
         failed_fixes = []
-        
+
         for file_path in high_priority_files:
             success, fixes, patterns = self.fix_file_strategically(file_path)
-            
+
             if success and fixes > 0:
                 successful_fixes.append((file_path, fixes, patterns))
             elif not success:
                 failed_fixes.append(file_path)
-        
+
         print()
         print("🎯 STRATEGIC FIXING RESULTS:")
         print("=" * 40)
@@ -206,7 +205,7 @@ class StrategicLukhasFixer:
         print(f"Files successfully fixed: {self.files_fixed}")
         print(f"Total fixes applied: {self.fixes_applied}")
         print(f"Failed validations: {len(failed_fixes)}")
-        
+
         if successful_fixes:
             print()
             print("🏆 Successful Strategic Fixes:")
@@ -214,13 +213,13 @@ class StrategicLukhasFixer:
                 print(f"  • {file_path}: {fixes} fixes")
                 for pattern in patterns[:3]:  # Show top 3 patterns
                     print(f"    - {pattern}")
-        
+
         if failed_fixes:
             print()
             print("❌ Failed Strategic Fixes:")
             for file_path in failed_fixes:
                 print(f"  • {file_path}")
-        
+
         return self.fixes_applied > 0
 
 
@@ -229,15 +228,15 @@ def main():
     print("🎯 STRATEGIC LUKHAS FIXER")
     print("Maximum functional impact by fixing HIGH priority lukhas/ blockers")
     print()
-    
+
     fixer = StrategicLukhasFixer()
     success = fixer.run_strategic_fixes()
-    
+
     if success:
         print("\n🧪 Running functional test to verify strategic improvements...")
         import subprocess
         try:
-            result = subprocess.run(['python3', 'functional_test_suite.py'], 
+            subprocess.run(["python3", "functional_test_suite.py"],
                                   capture_output=True, text=True, timeout=60)
             print("Strategic functional test completed.")
         except Exception as e:

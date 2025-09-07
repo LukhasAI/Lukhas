@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 import os
-from typing import Any
+from typing import Any, List
+
+import streamlit as st
 
 from lukhas.observability.matriz_decorators import instrument
-import streamlit as st
-from typing import List
 
 # Feature flag for WebAuthn
 WEBAUTHN_ACTIVE = os.environ.get("WEBAUTHN_ACTIVE", "false").lower() == "true"

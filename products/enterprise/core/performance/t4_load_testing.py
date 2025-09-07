@@ -7,8 +7,6 @@ Sam Altman Level: 10K+ Concurrent Users, Enterprise Scale
 Designed for parallel execution with multi-agent coordination
 Compatible with Jules Agent + Codex Agent collaboration
 """
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -19,6 +17,7 @@ from dataclasses import dataclass
 from typing import Any, Optional
 
 import aiohttp
+import streamlit as st
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

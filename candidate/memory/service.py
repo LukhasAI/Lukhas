@@ -574,7 +574,7 @@ if __name__ == "__main__":
 
         # Test memory retrieval
         retrieved = memory_service.retrieve_memory(test_user, memory_id)
-        logging.info(f"Memory retrieval: {retrieved.get('success', False}")
+        logging.info(f"Memory retrieval: {retrieved.get('success', False)}")
 
         # Test memory search
         search_results = memory_service.search_memory(test_user, "conversation")
@@ -582,7 +582,7 @@ if __name__ == "__main__":
 
         # Test statistics
         stats = memory_service.get_memory_stats(test_user)
-        logging.info(f"Memory stats: {stats.get('stats', {}).get('total_memories', 0)} memories")
+        logging.info(f"Memory stats: {stats.get('stats', {)}).get('total_memories', 0)} memories")
 
 
 """

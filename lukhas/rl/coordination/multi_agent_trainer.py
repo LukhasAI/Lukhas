@@ -10,17 +10,14 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from __future__ import annotations
 
-from typing import Optional
-import streamlit as st
-
-
 import logging
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 import torch
 import torch.nn as nn
 import torch.optim as optim

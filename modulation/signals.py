@@ -126,7 +126,7 @@ class SignalModulator:
 
         # Store signal context for audit
         params.signal_context = decayed_signals
-        params.audit_id = f"mod-{int(time.time()}"
+        params.audit_id = f"mod-{int(time.time())}"
 
         return params
 
@@ -171,7 +171,7 @@ class SignalModulator:
                         "abs": abs,
                         "round": round,
                     }
-                    result = eval(expression, {"__builtins__": {}, eval_context)
+                    result = eval(expression, {"__builtins__": {}}, eval_context)
 
                     # Convert to appropriate type
                     current_val = getattr(params, param_name)

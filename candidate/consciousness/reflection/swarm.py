@@ -257,7 +257,7 @@ class EnhancedSwarmAgent(Actor):
 
         # Store result in memory
         self.memory.remember(
-            f"task_{task.get('id', 'unknown'}",
+            f"task_{task.get('id', 'unknown')}",
             {
                 "task": task,
                 "success": success,
@@ -695,7 +695,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
     async def execute_colony_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task using colony's collective intelligence."""
-        task_id = task.get("id", f"task-{time.time(}")
+        task_id = task.get("id", f"task-{time.time()}")
         task_type = task.get("type", "unknown")
 
         self.logger.info(f"Colony {self.colony_id} executing task {task_id}")
@@ -732,7 +732,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
     async def _collaborative_task_execution(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task through agent collaboration."""
-        self.logger.info(f"Initiating collaborative execution for task {task.get('id'}")
+        self.logger.info(f"Initiating collaborative execution for task {task.get('id')}")
 
         # Broadcast task to all agents
         await self.broadcast_to_agents(
@@ -993,7 +993,7 @@ class EnhancedSwarmHub:
 
     async def execute_swarm_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task using the entire swarm."""
-        task_id = task.get("id", f"swarm-task-{time.time(}")
+        task_id = task.get("id", f"swarm-task-{time.time()}")
         required_capabilities = task.get("required_capabilities", [])
 
         self.logger.info(f"Swarm executing task {task_id}")
@@ -1175,7 +1175,7 @@ async def demonstrate_enhanced_swarm():
         swarm.create_colony(colony_id, colony_type, agent_count)
 
     print("=== Enhanced Swarm System Created ===")
-    print(f"Colonies: {len(swarm.colonies}")
+    print(f"Colonies: {len(swarm.colonies)}")
     print(f"Total Agents: {sum(len(c.agents) for c in swarm.colonies.values()}")
 
     # Execute some tasks
@@ -1240,7 +1240,7 @@ async def demonstrate_enhanced_swarm():
     print(f"Average Energy: {status['average_energy']:.2f}")
     print(f"Tasks Completed: {status['total_tasks_completed']}")
     print(f"Inter-colony Connections: {status['inter_colony_connections']}")
-    print(f"Swarm Patterns Detected: {len(status['swarm_patterns']}")
+    print(f"Swarm Patterns Detected: {len(status['swarm_patterns'])}")
 
     # Show some agent details
     print("\n=== Sample Agent Status ===")

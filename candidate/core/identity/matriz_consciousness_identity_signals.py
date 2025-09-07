@@ -677,7 +677,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
             adaptation_vector = {"tier_level": float(tier.value[1] if tier.value.startswith("T") else 1)}
 
         return BioSymbolicData(
-            pattern_type=f"authentication_{tier.value.lower(}",
+            pattern_type=f"authentication_{tier.value.lower()}",
             oscillation_frequency=base_frequency + frequency_boost,
             coherence_score=coherence_score,
             adaptation_vector=adaptation_vector,

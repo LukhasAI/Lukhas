@@ -16,17 +16,16 @@ Author: LUKHΛS AI Systems
 Version: 3.1.0 - Biometric Fusion Revolution
 Created: 2025-08-03
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
 import logging
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -158,7 +157,7 @@ class BiometricFusionEngine:
         """
         Perform T3 biometric authentication with intelligent fallback
         """
-        logger.info(f"🔐 T3 Authentication initiated with {len(biometric_samples} samples")
+        logger.info(f"🔐 T3 Authentication initiated with {len(biometric_samples)} samples")
 
         # Check sample quality and availability
         quality_check = self._assess_sample_quality(biometric_samples)
@@ -638,7 +637,7 @@ class BiometricFusionEngine:
 
     def _generate_fallback_session_vector(self, fallback_type: str, consciousness_state: str) -> str:
         """Generate session vector for fallback authentication"""
-        vector_data = f"{fallback_type}|{consciousness_state}|{datetime.now(timezone.utc).isoformat(}"
+        vector_data = f"{fallback_type}|{consciousness_state}|{datetime.now(timezone.utc).isoformat()}"
         return hashlib.blake2b(vector_data.encode(), digest_size=32).hexdigest()
 
     def _verify_emoji_consciousness(self, emoji_sequence: str, consciousness_state: str) -> float:

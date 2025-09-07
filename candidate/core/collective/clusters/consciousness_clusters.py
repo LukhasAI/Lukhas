@@ -4,9 +4,9 @@ Consciousness Clustering Engine for the Collective Intelligence Layer.
 This module groups users into clusters based on their consciousness evolution
 patterns, using privacy-preserving techniques.
 """
-import streamlit as st
-
 import random
+
+import streamlit as st
 
 
 class ConsciousnessClusteringEngine:
@@ -42,10 +42,10 @@ class ConsciousnessClusteringEngine:
         # We would work with anonymized, symbolic representations.
 
         clusters = {
-            "cluster_alpha_pioneers": [f"user_hash_{random.randint(1000, 9999}" for _ in range(50)],
-            "cluster_beta_healers": [f"user_hash_{random.randint(1000, 9999}" for _ in range(30)],
-            "cluster_gamma_builders": [f"user_hash_{random.randint(1000, 9999}" for _ in range(70)],
-            "cluster_delta_visionaries": [f"user_hash_{random.randint(1000, 9999}" for _ in range(20)],
+            "cluster_alpha_pioneers": [f"user_hash_{random.randint(1000, 9999)}" for _ in range(50)],
+            "cluster_beta_healers": [f"user_hash_{random.randint(1000, 9999)}" for _ in range(30)],
+            "cluster_gamma_builders": [f"user_hash_{random.randint(1000, 9999)}" for _ in range(70)],
+            "cluster_delta_visionaries": [f"user_hash_{random.randint(1000, 9999)}" for _ in range(20)],
         }
         return clusters
 

@@ -67,7 +67,7 @@ class ModuleEnhancer:
 
         def enhance_module(self, module_name, module_info):
             """Enhance a single module"""
-        print(f"\n🔧 Enhancing {module_name.upper(} module...")
+        print(f"\n🔧 Enhancing {module_name.upper()} module...")
 
         # Create directory structure
         self.create_directory_structure(module_name)
@@ -96,7 +96,7 @@ class ModuleEnhancer:
         # Create __init__.py for submodules
         self.ensure_submodule_init(module_name, module_info)
 
-        print(f"✅ {module_name.upper(} module enhanced!")
+        print(f"✅ {module_name.upper()} module enhanced!")
 
     def create_directory_structure(self, module_name):
         """Create all necessary directories"""
@@ -413,7 +413,7 @@ docs:
 
                                                                                     def main():
                                                                                         """Basic {module_name} usage"""
-    print(f"Using {{module_name.upper(} module")
+    print(f"Using {{module_name.upper()} module")
 
     # TODO: Add actual usage examples
 
@@ -472,7 +472,7 @@ docs:
 
                                                                                                                 def run_demo(self):
                                                                                                                     """Run the full demonstration"""
-        print(f"{{module_name.upper(} Neuroplastic Demo")
+        print(f"{{module_name.upper()} Neuroplastic Demo")
         print("=" * 50)
 
         print(f"Initial hormone levels: {{self.hormone_levels}")
@@ -505,7 +505,7 @@ docs:
                                                                                                                                 - [{module_name}](./{module_name}.md) - Main module interface
 
                                                                                                                                 ### Submodules
-                                                                                                                                {''.join(f"- [{module_name}.{sub}](./{sub}.md) - {sub.title(} functionality\n" for sub in module_info['submodules']).rstrip()}
+                                                                                                                                {''.join(f"- [{module_name}.{sub}](./{sub}.md) - {sub.title()} functionality\n" for sub in module_info['submodules']).rstrip()}
 
                                                                                                                                 ## Quick Reference
 
@@ -602,7 +602,7 @@ docs:
 
                                                                                                                                             ### Submodules
                                                                                                                                             The {module_name} module contains these submodules:
-                                                                                                                                            {''.join(f"- **{sub}** - {sub.title(} functionality\n" for sub in module_info['submodules']).rstrip()}
+                                                                                                                                            {''.join(f"- **{sub}** - {sub.title()} functionality\n" for sub in module_info['submodules']).rstrip()}
 
                                                                                                                                             ### Neuroplastic Features
                                                                                                                                             - Responds to hormone levels (cortisol, dopamine, etc.)

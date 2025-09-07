@@ -7,15 +7,15 @@ Trinity Framework: ⚛️🧠🛡️
 
 Date: August 5, 2025
 """
-import time
-import streamlit as st
-
 import json
 import os
 import subprocess
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 
 def run_command(cmd: str) -> dict[str, Any]:
@@ -262,24 +262,24 @@ def generate_system_report() -> dict[str, Any]:
     # Check module import issues
     failed_imports = [name for name, data in report["core_modules"].items() if not data["importable"]]
     if failed_imports:
-        report["recommendations"].append(f"Fix import issues: {', '.join(failed_imports}")
+        report["recommendations"].append(f"Fix import issues: {', '.join(failed_imports)}")
 
     # Check API services
     non_responding_apis = [name for name, data in report["api_services"].items() if not data["responding"]]
     if non_responding_apis:
-        report["recommendations"].append(f"Start API services: {', '.join(non_responding_apis}")
+        report["recommendations"].append(f"Start API services: {', '.join(non_responding_apis)}")
 
     # Check missing files
     missing_files = [
         name for name, data in report["file_system"].items() if isinstance(data, dict) and not data.get("exists", True)
     ]
     if missing_files:
-        report["recommendations"].append(f"Restore missing files: {', '.join(missing_files}")
+        report["recommendations"].append(f"Restore missing files: {', '.join(missing_files)}")
 
     # Environment variables
     missing_env = [var for var, data in report["environment"].items() if not data["present"]]
     if missing_env:
-        report["recommendations"].append(f"Set environment variables: {', '.join(missing_env}")
+        report["recommendations"].append(f"Set environment variables: {', '.join(missing_env)}")
 
     # Calculate overall health score
     total_checks = (

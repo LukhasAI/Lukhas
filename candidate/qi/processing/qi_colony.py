@@ -425,7 +425,7 @@ class QIColony(BaseColony):
         return {
             "algorithm": "vqe",
             "ground_state_energy": best_energy,
-            "optimal_parameters": best_params.tolist(},
+            "optimal_parameters": best_params.tolist()},
             "iterations": max_iterations,
         }
 
@@ -530,7 +530,7 @@ class QIColony(BaseColony):
                         }
                     )
 
-        self.logger.info(f"Maintained coherence: reset {len(low_coherence_agents} agents")
+        self.logger.info(f"Maintained coherence: reset {len(low_coherence_agents)} agents")
 
     def _generate_neighbor(self, state: dict[str, Any]) -> dict[str, Any]:
         """Generate a neighbor state for annealing."""

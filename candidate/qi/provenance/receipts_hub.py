@@ -1,4 +1,3 @@
-from datetime import datetime, timezone
 # path: qi/provenance/receipts_hub.py
 from __future__ import annotations
 
@@ -7,13 +6,13 @@ import json
 import os
 import sys
 import time
-from typing import Any
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional
 
-from qi.provenance.receipt_standard import build_receipt, to_json
 import streamlit as st
-from typing import Dict
-from typing import Optional
+
 from consciousness.qi import qi
+from qi.provenance.receipt_standard import build_receipt, to_json
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 OUT_DIR = os.path.join(STATE, "provenance", "exec_receipts")
@@ -95,7 +94,7 @@ def emit_receipt(**kwargs) -> dict[str, Any]:
     if cli:
         bucket, prefix = s3cfg
         ymd = time.strftime("%Y%m%d", time.gmtime(data.get("created_at", time.time())))
-        key = f"{prefix.rstrip('/'}/{ymd}/{r.id}.json"
+        key = f"{prefix.rstrip('/')}/{ymd}/{r.id}.json"
         with contextlib.suppress(Exception):
             cli.put_object(
                 Bucket=bucket,

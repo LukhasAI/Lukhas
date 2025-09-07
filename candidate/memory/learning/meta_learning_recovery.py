@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: meta_learning_recovery.py
@@ -154,12 +156,12 @@ class MetaLearningRecovery:
                 # Special handling for known component types
                 if "meta_learning" in base_name.lower():
                     new_pascal_name = (
-                        f"MetaLearning{base_name.lower().replace('meta_learning', '').replace('_', '').title(}"
+                        f"MetaLearning{base_name.lower().replace('meta_learning', '').replace('_', '').title()}"
                     )
                 elif "adaptive" in base_name.lower():
-                    new_pascal_name = f"Adaptive{base_name.lower().replace('adaptive', '').replace('_', '').title(}"
+                    new_pascal_name = f"Adaptive{base_name.lower().replace('adaptive', '').replace('_', '').title()}"
                 elif "learning" in base_name.lower():
-                    new_pascal_name = f"Learning{base_name.lower().replace('learning', '').replace('_', '').title(}"
+                    new_pascal_name = f"Learning{base_name.lower().replace('learning', '').replace('_', '').title()}"
                 else:
                     new_pascal_name = "".join(word.capitalize() for word in base_name.split("_"))
                 new_filename = f"lukhas{new_pascal_name}.py"
@@ -177,9 +179,9 @@ class MetaLearningRecovery:
                                 if not old_class_name.lower().startswith("lukhas"):
                                     # Similar special handling for class names
                                     if "meta_learning" in old_class_name.lower():
-                                        new_pascal_class = f"MetaLearning{old_class_name.lower().replace('meta_learning', '').replace('_', '').title(}"
+                                        new_pascal_class = f"MetaLearning{old_class_name.lower().replace('meta_learning', '').replace('_', '').title()}"
                                     elif "adaptive" in old_class_name.lower():
-                                        new_pascal_class = f"Adaptive{old_class_name.lower().replace('adaptive', '').replace('_', '').title(}"
+                                        new_pascal_class = f"Adaptive{old_class_name.lower().replace('adaptive', '').replace('_', '').title()}"
                                     else:
                                         new_pascal_class = "".join(
                                             word.capitalize() for word in old_class_name.split("_")

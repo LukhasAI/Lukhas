@@ -10,13 +10,11 @@ Original: semantic_reasoner.py
 Advanced: semantic_reasoner.py
 Integration Date: 2025-05-31T07:55:28.221604
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
-from typing import Optional
+from datetime import datetime, timezone
+from typing import Dict, Optional
+
+import streamlit as st
 
 from .symbolic_core import SymbolicWorld  # Added import
 
@@ -283,7 +281,7 @@ class SymbolicReasoningEngine:
                     logical_elements.append(
                         {
                             "type": f"formal_logic_{logic_type}",
-                            "content": f"{logic_type.capitalize(} logical structure detected",
+                            "content": f"{logic_type.capitalize()} logical structure detected",
                             "base_confidence": 0.95,  # Very high confidence for formal logic
                             "relation_type": "formal_logic",
                         }
@@ -452,7 +450,7 @@ class SymbolicReasoningEngine:
         elif relation_type == "formal_logic":
             # Format with formal logic notation
             contents = [e["content"] for e in elements[:2]]
-            return f"Formal logic: {' ∧ '.join(contents}"
+            return f"Formal logic: {' ∧ '.join(contents)}"
         elif relation_type == "conditional":
             # Format as if-then
             if len(elements) >= 2:

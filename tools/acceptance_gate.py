@@ -6,11 +6,11 @@ Fail-closed acceptance gate:
 - Flags "facade" files (tiny wrappers that are mostly imports)
 Exit code: 0 = pass, 1 = violations
 """
-import streamlit as st
-
 import ast
 import os
 import sys
+
+import streamlit as st
 
 FORBIDDEN_ROOTS = ("candidate", "quarantine", "archive")
 ACCEPTED_ROOT = "lukhas"

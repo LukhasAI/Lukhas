@@ -10,4 +10,4 @@
 """
 import streamlit as st
 
-__all__ = ["guardian", "wallet", "healthcare_guardian", "qrg", "vault", "guardian_pack", "wallet_pack"]
+__all__ = ["guardian", "guardian_pack", "healthcare_guardian", "qrg", "vault", "wallet", "wallet_pack"]

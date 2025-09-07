@@ -9,19 +9,17 @@ Core Features:
 - Memory veiling (GDPR compliance)
 - Resonant access and flashbacks
 """
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 # Import optimized logging
 try:
@@ -467,7 +465,7 @@ class VIVOXMemoryExpansion:
         sequence_id = await self.record_decision_mutation(
             decision={"type": "reflection", "data": reflection_data},
             emotional_context=reflection_data.get("emotional_context", {"valence": 0, "arousal": 0.5}),
-            moral_fingerprint=f"reflection_{reflection_data.get('moment_id', 'unknown'}",
+            moral_fingerprint=f"reflection_{reflection_data.get('moment_id', 'unknown')}",
         )
         return sequence_id
 
@@ -567,4 +565,4 @@ class VIVOXMemoryExpansion:
         """Notify other VIVOX modules of memory veiling"""
         # This would integrate with event bus or messaging system
         # For now, just log the notification
-        print(f"Memory veiling notification: {len(memory_ids} memories veiled")
+        print(f"Memory veiling notification: {len(memory_ids)} memories veiled")

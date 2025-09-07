@@ -4,12 +4,11 @@
 Specialized processors for tasks, tags, attention management, and solution tracking
 with AI-powered optimization and real-time processing capabilities.
 """
-import streamlit as st
-from datetime import timezone
-
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class TaskProcessor:
@@ -588,7 +587,7 @@ class SolutionProcessor:
         """Generate unique solution ID"""
         import hashlib
 
-        content = f"{problem}{solution}{time.time(}"
+        content = f"{problem}{solution}{time.time()}"
         return hashlib.sha256(content.encode()).hexdigest()[:12]
 
     def _categorize_solution(self, problem: str, solution: str) -> list[str]:

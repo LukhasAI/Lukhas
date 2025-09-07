@@ -329,7 +329,7 @@ class CodebaseAnalyzer:
                 {
                     "priority": "HIGH",
                     "action": "Remove stub files",
-                    "description": f"Remove {len(self.issues['stub_files']} stub/placeholder files",
+                    "description": f"Remove {len(self.issues['stub_files'])} stub/placeholder files",
                     "files": [issue["file"] for issue in self.issues["stub_files"]],
                 }
             )
@@ -339,7 +339,7 @@ class CodebaseAnalyzer:
                 {
                     "priority": "HIGH",
                     "action": "Fix redundant prefixes",
-                    "description": f"Rename {len(self.issues['redundant_prefixes']} files with redundant prefixes",
+                    "description": f"Rename {len(self.issues['redundant_prefixes'])} files with redundant prefixes",
                     "files": [issue["file"] for issue in self.issues["redundant_prefixes"]],
                 }
             )
@@ -349,7 +349,7 @@ class CodebaseAnalyzer:
                 {
                     "priority": "MEDIUM",
                     "action": "Move documentation",
-                    "description": f"Move {len(self.issues['documentation_in_code']} documentation files to docs/",
+                    "description": f"Move {len(self.issues['documentation_in_code'])} documentation files to docs/",
                     "files": [issue["file"] for issue in self.issues["documentation_in_code"]],
                 }
             )
@@ -359,7 +359,7 @@ class CodebaseAnalyzer:
                 {
                     "priority": "MEDIUM",
                     "action": "Reorganize file placement",
-                    "description": f"Move {len(self.issues['misplaced_files']} misplaced files to appropriate directories",
+                    "description": f"Move {len(self.issues['misplaced_files'])} misplaced files to appropriate directories",
                     "affected_files": len(self.issues["misplaced_files"]),
                 }
             )
@@ -369,7 +369,7 @@ class CodebaseAnalyzer:
                 {
                     "priority": "LOW",
                     "action": "Review duplicates",
-                    "description": f"Review {len(self.issues['potential_duplicates']} potential duplicate file groups",
+                    "description": f"Review {len(self.issues['potential_duplicates'])} potential duplicate file groups",
                     "affected_groups": len(self.issues["potential_duplicates"]),
                 }
             )
@@ -394,20 +394,20 @@ class CodebaseAnalyzer:
         print("\n🚨 ISSUES BY CATEGORY:")
         for category, issues in report["issues"].items():
             if issues:
-                print(f"\n  {category.replace('_', ' ').title()}: {len(issues} issues")
+                print(f"\n  {category.replace('_', ' ').title()}: {len(issues)} issues")
                 for _i, issue in enumerate(issues[:3]):  # Show first 3
                     if "file" in issue:
                         print(f"    • {issue['file']}")
                     elif "files" in issue:
-                        print(f"    • Group: {len(issue['files']} files")
+                        print(f"    • Group: {len(issue['files'])} files")
                 if len(issues) > 3:
-                    print(f"    ... and {len(issues} - 3} more")
+                    print(f"    ... and {len(issues)} - 3} more")
 
         # Recommendations
         print("\n💡 RECOMMENDATIONS:")
         for rec in report["recommendations"]:
             priority_color = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}
-            print(f"\n  {priority_color.get(rec['priority'], '⚪'} {rec['priority']} PRIORITY")
+            print(f"\n  {priority_color.get(rec['priority'], '⚪')} {rec['priority']} PRIORITY")
             print(f"    Action: {rec['action']}")
             print(f"    Description: {rec['description']}")
 

@@ -61,7 +61,7 @@ def test_signal_system():
         Signal(name="alignment_risk", level=0.9, source="guardian", audit_id="test-003"),
     ]
 
-    print(f"   Created {len(signals} test signals:")
+    print(f"   Created {len(signals)} test signals:")
     for signal in signals:
         print(f"     • {signal}")
 
@@ -118,7 +118,7 @@ def test_openai_integration(modulator: SignalModulator, signals: list[Signal]):
 
             # Test function building
             functions = build_function_definitions(["search", "retrieval", "code_exec"])
-            print(f"   ✅ Built {len(functions} function definitions")
+            print(f"   ✅ Built {len(functions)} function definitions")
 
             # Test message building (without API call)
             params = modulator.combine_signals(signals)
@@ -127,8 +127,8 @@ def test_openai_integration(modulator: SignalModulator, signals: list[Signal]):
 
             # This is private method access for testing - normally not recommended
             messages = client._build_messages(test_user_message, test_context, params)
-            print(f"   ✅ Built {len(messages} messages for API call")
-            print(f"     • System message length: {len(messages[0]['content']}")
+            print(f"   ✅ Built {len(messages)} messages for API call")
+            print(f"     • System message length: {len(messages[0]['content'])}")
             print(f"     • User message: '{messages[-1]['content'][:50]}...'")
 
         else:
@@ -168,7 +168,7 @@ async def test_consciousness_orchestration():
             "audit_id": "orch-001",
         }
         guardian_signals = await emitter.emit_guardian_signals(guardian_context)
-        print(f"     • Guardian emitted {len(guardian_signals} signals")
+        print(f"     • Guardian emitted {len(guardian_signals)} signals")
 
         # Memory signals
         memory_context = {
@@ -177,7 +177,7 @@ async def test_consciousness_orchestration():
             "audit_id": "orch-001",
         }
         memory_signals = await emitter.emit_memory_signals(memory_context)
-        print(f"     • Memory emitted {len(memory_signals} signals")
+        print(f"     • Memory emitted {len(memory_signals)} signals")
 
         # Consciousness signals
         consciousness_context = {
@@ -186,18 +186,18 @@ async def test_consciousness_orchestration():
             "audit_id": "orch-001",
         }
         consciousness_signals = await emitter.emit_consciousness_signals(consciousness_context)
-        print(f"     • Consciousness emitted {len(consciousness_signals} signals")
+        print(f"     • Consciousness emitted {len(consciousness_signals)} signals")
 
         # Combine all signals
         all_signals = guardian_signals + memory_signals + consciousness_signals
-        print(f"   📊 Total signals emitted: {len(all_signals}")
+        print(f"   📊 Total signals emitted: {len(all_signals)}")
 
         # Test modulation with all signals
         params = modulator.combine_signals(all_signals)
         print("   🎛️ Modulation result:")
         print(f"     • Style: {params.prompt_style}")
         print(f"     • Temperature: {params.temperature:.2f}")
-        print(f"     • Active signals: {len(params.signal_context}")
+        print(f"     • Active signals: {len(params.signal_context)}")
 
         print("   ✅ Consciousness orchestration test complete\n")
 
@@ -281,7 +281,7 @@ def demonstrate_signal_scenarios():
         print(f"      • Temperature: {params.temperature:.2f}")
         print(f"      • Max tokens: {params.max_tokens}")
         print(f"      • Style: {params.prompt_style}")
-        print(f"      • Tools: {len(params.tool_allowlist} allowed")
+        print(f"      • Tools: {len(params.tool_allowlist)} allowed")
         print(f"      • Memory write: {params.memory_write:.2f}")
 
     print("\n   ✅ Signal scenario demonstration complete\n")

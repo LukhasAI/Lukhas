@@ -27,14 +27,15 @@
 ║ ΛTAG: ΛIDENTITY, ΛCOLONY, ΛQUANTUM, ΛAGI, ΛSECURITY
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import logging
 import time
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Import base colony infrastructure
 try:
@@ -233,7 +234,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
                 self.tier_capability_matrix[tier] = list(set(available_caps))
 
-        self.logger.debug(f"Tier capability matrix configured for {len(self.tier_capability_matrix} tiers")
+        self.logger.debug(f"Tier capability matrix configured for {len(self.tier_capability_matrix)} tiers")
 
     def _initialize_oracle_ethics_integration(self):
         """Initialize Oracle & Ethics nervous system integration."""

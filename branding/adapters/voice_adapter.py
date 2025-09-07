@@ -2,14 +2,14 @@
 LUKHAS Brand Voice Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to bridge/voice/ systems for brand-aware voice operations
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
 import sys
+import time
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # Add bridge module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))

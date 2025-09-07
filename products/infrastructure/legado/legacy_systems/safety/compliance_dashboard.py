@@ -1,21 +1,20 @@
 from typing import Optional
+
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: compliance_dashboard.py
 Advanced: compliance_dashboard.py
 Integration Date: 2025-05-31T07:55:27.745437
 """
-import time
-
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: compliance_dashboard.py
 # 🛡️ PURPOSE: Institutional compliance viewer for emergency logs and GDPR status
 # 🎯 AUDIENCE: Governance reviewers (e.g. Sam Altman, auditors)
 # ════════════════════════════════════════════════════════════════════════
-
 # import streamlit as st  # TODO: Install or implement streamlit
 import json
 import os
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -38,9 +37,9 @@ else:
 
     for entry in reversed(logs[-25:]):
         st.markdown("---")
-        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp'}")
-        st.markdown(f"**🔍 Reason:** {entry.get('reason'}")
-        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier'})")
+        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp')}")
+        st.markdown(f"**🔍 Reason:** {entry.get('reason')}")
+        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier')})")
         st.markdown("**🧩 Actions Taken:**")
         st.code(", ".join(entry.get("actions_taken", [])), language="bash")
 

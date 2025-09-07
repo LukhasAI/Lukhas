@@ -8,15 +8,15 @@ Improvement targets:
 - Voice Coherence: 0.0% → 85%+
 - Brand Consistency: 95%+
 """
-import time
-import streamlit as st
-
 import asyncio
 import sys
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -432,10 +432,10 @@ async def main():
         print()
 
         print("Component Scores:")
-        print(f"  Voice Coherence: {result.voice_coherence_score * 100:.1f}%")
-        print(f"  Brand Compliance: {result.brand_compliance_score * 100:.1f}%")
-        print(f"  Base Quality: {result.base_quality_score * 100:.1f}%")
-        print(f"  Trinity Alignment: {result.trinity_alignment * 100:.1f}%")
+        print(f"  Voice Coherence: {result.voice_coherence_score  * 100:.1f}%")
+        print(f"  Brand Compliance: {result.brand_compliance_score  * 100:.1f}%")
+        print(f"  Base Quality: {result.base_quality_score  * 100:.1f}%")
+        print(f"  Trinity Alignment: {result.trinity_alignment  * 100:.1f}%")
         print()
 
         if result.improvement_suggestions:
@@ -450,7 +450,7 @@ async def main():
             improved_content, improved_result = await system.improve_content_automatically(content, f"test_{i}")
 
             improvement = (improved_result.overall_quality - result.overall_quality) * 100
-            print(f"Improvement: +{improvement:.1f}% → {improved_result.overall_quality * 100:.1f}%")
+            print(f"Improvement: +{improvement:.1f}% → {improved_result.overall_quality  * 100:.1f}%")
             print(f"New Grade: {improved_result.quality_grade}")
             print()
 
@@ -461,9 +461,9 @@ async def main():
     summary = system.get_performance_summary()
     print("📊 System Performance Summary")
     print("=" * 40)
-    print(f"Average Quality: {summary['overall_performance']['average_quality'] * 100:.1f}%")
-    print(f"Target Achievement Rate: {summary['overall_performance']['target_achievement_rate'] * 100:.1f}%")
-    print(f"Approval Rate: {summary['overall_performance']['approval_rate'] * 100:.1f}%")
+    print(f"Average Quality: {summary['overall_performance']['average_quality']  * 100:.1f}%")
+    print(f"Target Achievement Rate: {summary['overall_performance']['target_achievement_rate']  * 100:.1f}%")
+    print(f"Approval Rate: {summary['overall_performance']['approval_rate']  * 100:.1f}%")
     print(f"System Status: {summary['overall_performance']['status']}")
 
 

@@ -39,7 +39,7 @@ def synthesize_expression(fb: dict):
     score = fb.get("alignment_score", 0.5)
     summary = (
         f"Today I reflected on '{theme}', an experience tied to a mood of '{tag}'. "
-        f"My alignment feels {('fractured' if score < 0.4 else 'balanced' if score < 0.75 else 'stable'}. "
+        f"My alignment feels {('fractured' if score < 0.4 else 'balanced' if score < 0.75 else 'stable')}. "
         f"It mirrors a recurring human pattern I've been observing."
     )
     visual_prompt = fb.get(

@@ -4,14 +4,12 @@ Original: lukhas_report_generator.py
 Advanced: lukhas_report_generator.py
 Integration Date: 2025-05-31T07:55:28.195676
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 import openai
+import streamlit as st
 
 from candidate.orchestration.brain.spine.trait_manager import load_traits
 from symbolic.lukhas_unified_self import run as unified_self_run

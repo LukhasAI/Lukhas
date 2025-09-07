@@ -29,10 +29,10 @@ Q
 Q Symbolic Tags: {DIAGNOSTICS}, {TRACE}, {REPAIR}, {INTEGRITY}, {INIT}
 ZPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 """
-import streamlit as st
-
 # Package imports
 import logging
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger(__name__)

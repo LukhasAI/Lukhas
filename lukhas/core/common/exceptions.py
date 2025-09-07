@@ -4,9 +4,9 @@
 Standardized exceptions for LUKHAS modules.
 """
 import time
-import streamlit as st
-
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class LukhasError(Exception):

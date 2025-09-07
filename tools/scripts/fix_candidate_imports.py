@@ -3,10 +3,10 @@
 Candidate Internal Import Fix Script
 Fixes internal imports within candidate/ modules
 """
-import streamlit as st
-
 import re
 from pathlib import Path
+
+import streamlit as st
 
 
 def fix_imports_in_file(file_path):
@@ -66,7 +66,7 @@ def main():
 
     print("✅ Candidate Import Fix Complete!")
     print(f"📊 Files processed: {total_files}")
-    print(f"🔧 Files modified: {len(fixed_files}")
+    print(f"🔧 Files modified: {len(fixed_files)}")
 
     if fixed_files:
         print("\n📋 Modified files:")

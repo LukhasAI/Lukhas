@@ -109,8 +109,8 @@ class OrphanedModuleAuditor:
 
                 # Check if there's a corresponding test
                 test_patterns = [
-                    f"tests/test_{Path(file_path}.stem}.py",
-                    f"tests/{Path(file_path).parent}/test_{Path(file_path}.stem}.py",
+                    f"tests/test_{Path(file_path)}.stem}.py",
+                    f"tests/{Path(file_path).parent}/test_{Path(file_path)}.stem}.py",
                 ]
                 for pattern in test_patterns:
                     if Path(pattern).exists():
@@ -231,11 +231,11 @@ class OrphanedModuleAuditor:
         # Summary
         print("\n📈 SUMMARY")
         print("-" * 80)
-        print(f"High value files: {len(audit_results['high_value']}")
-        print(f"Need review: {len(audit_results['needs_review']}")
-        print(f"Medium value: {len(audit_results['medium_value']}")
-        print(f"Low value: {len(audit_results['low_value']}")
-        print(f"Safe to archive: {len(audit_results['safe_to_archive']}")
+        print(f"High value files: {len(audit_results['high_value'])}")
+        print(f"Need review: {len(audit_results['needs_review'])}")
+        print(f"Medium value: {len(audit_results['medium_value'])}")
+        print(f"Low value: {len(audit_results['low_value'])}")
+        print(f"Safe to archive: {len(audit_results['safe_to_archive'])}")
 
     def _print_file_summary(self, file_analysis: dict):
         """Print a summary of file analysis"""
@@ -245,12 +245,12 @@ class OrphanedModuleAuditor:
 
         print(f"\n📄 {path}")
         print(
-            f"   Score: {score} | Lines: {file_analysis.get('line_count', 0} | "
-            f"Size: {file_analysis.get('size_kb', 0}:.1f}KB"
+            f"   Score: {score} | Lines: {file_analysis.get('line_count', 0)} | "
+            f"Size: {file_analysis.get('size_kb', 0)}:.1f}KB"
         )
 
         if indicators:
-            print(f"   AI/AGI Indicators: {', '.join(indicators[:3]}")
+            print(f"   AI/AGI Indicators: {', '.join(indicators[:3])}")
 
         if file_analysis.get("has_classes"):
             print("   ✓ Contains classes")

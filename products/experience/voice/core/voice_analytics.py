@@ -556,7 +556,7 @@ class LUKHASVoiceAnalytics:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected analysis: {validation_result.get('reason'}")
+                raise ValueError(f"Guardian rejected analysis: {validation_result.get('reason')}")
 
             # Convert audio data to AudioBuffer
             if format == AudioFormat.PCM_16:

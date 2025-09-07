@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Constitutional AGI Safety Framework
@@ -711,9 +713,9 @@ if __name__ == "__main__":
         print(f"Constitutional: {'YES' if validation.is_constitutional else 'NO'}")
 
         if validation.violated_principles:
-            print(f"Violations: {len(validation.violated_principles}")
+            print(f"Violations: {len(validation.violated_principles)}")
 
         if validation.mitigation_requirements:
-            print(f"Required Mitigations: {len(validation.mitigation_requirements}")
+            print(f"Required Mitigations: {len(validation.mitigation_requirements)}")
 
     asyncio.run(main())

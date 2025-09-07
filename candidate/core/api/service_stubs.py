@@ -3,16 +3,15 @@ log = logging.getLogger(__name__)
 Service implementations for LUKHAS core modules
 Provides real implementations connected to core systems
 """
-import logging
-import time
-import streamlit as st
-
 import asyncio
+import logging
 import random
+import time
 from collections import defaultdict, deque
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+import streamlit as st
 import structlog
 
 log = structlog.get_logger(__name__)
@@ -258,7 +257,7 @@ class MemoryManager:
         last_err: Optional[Exception] = None
         while attempts < 3:
             try:
-                memory_id = f"mem_{datetime.now(timezone.utc).timestamp(}"
+                memory_id = f"mem_{datetime.now(timezone.utc).timestamp()}"
 
                 memory_entry = {
                     "id": memory_id,
@@ -698,13 +697,13 @@ class DreamEngine:
         # Generate dream content
         intro = random.choice(templates)
 
-        dream_content = f"{intro.capitalize(} a world where {prompt}..."
+        dream_content = f"{intro.capitalize()} a world where {prompt}..."
 
         if creativity_level > 0.7:
             dream_content += " The boundaries dissolve between imagination and reality."
 
         if constraints:
-            dream_content += f" (Constrained by: {', '.join(constraints})"
+            dream_content += f" (Constrained by: {', '.join(constraints)})"
 
         return {
             "dream_content": dream_content,
@@ -742,7 +741,7 @@ class CoordinationManager:
 
     async def orchestrate_task(self, task: dict[str, Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Orchestrate multi-module task"""
-        task_id = f"task_{datetime.now(timezone.utc).timestamp(}"
+        task_id = f"task_{datetime.now(timezone.utc).timestamp()}"
 
         self.active_tasks[task_id] = {
             "task": task,
@@ -773,7 +772,7 @@ class CoordinationManager:
             "execution_time_ms": random.uniform(100, 500),
             "success": True,
             "coordination_score": random.uniform(0.8, 0.95),
-            "result": f"Orchestrated task involving {len(modules_used} modules",
+            "result": f"Orchestrated task involving {len(modules_used)} modules",
         }
 
         self.active_tasks[task_id]["status"] = "completed"

@@ -594,7 +594,7 @@ async def example_usage():
     # Retrieve credentials
     openai_key = await manager.retrieve_credential(openai_key_id)
     if openai_key:
-        print(f"✅ Retrieved OpenAI key: {openai_key.decode(}[:20]}...")
+        print(f"✅ Retrieved OpenAI key: {openai_key.decode()}[:20]}...")
 
     # Test convenience functions
     await store_api_key("anthropic", "sk-ant-test-key", "test")
@@ -604,7 +604,7 @@ async def example_usage():
 
     # List credentials
     all_creds = manager.list_credentials()
-    print(f"📋 Total credentials: {len(all_creds}")
+    print(f"📋 Total credentials: {len(all_creds)}")
 
     # Test rotation
     success = await manager.rotate_credential(openai_key_id, "sk-new-rotated-key-9876543210")

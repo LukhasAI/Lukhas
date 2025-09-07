@@ -5,11 +5,12 @@ import json
 import os
 from typing import Any
 
+import streamlit as st
+
+from consciousness.qi import qi
 from qi.feedback.schema import ChangeProposal, PolicySafePatch
 from qi.feedback.triage import get_triage
 from qi.safety.constants import ALLOWED_STYLES, MAX_THRESHOLD_SHIFT
-import streamlit as st
-from consciousness.qi import qi
 
 
 class ProposalMapper:

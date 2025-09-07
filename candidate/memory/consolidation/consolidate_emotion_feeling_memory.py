@@ -3,9 +3,9 @@
 LUKHAS 2030 Emotion Feeling Memory Consolidation
 Integrated emotion-feeling-memory system
 """
-import streamlit as st
-
 from pathlib import Path
+
+import streamlit as st
 
 
 def consolidate_emotion_feeling_memory():

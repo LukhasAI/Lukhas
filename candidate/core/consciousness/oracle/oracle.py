@@ -5,9 +5,9 @@ This module serves as the main entry point for the Consciousness Oracle system,
 integrating prediction, receptivity, and evolution mapping into a single,
 cohesive interface.
 """
-import streamlit as st
-
 from typing import Any
+
+import streamlit as st
 
 from ..evolution.journey_mapper import ConsciousnessJourneyMapper
 from .prediction_engine import PredictionEngine

@@ -114,9 +114,9 @@ def generate_intelligent_description(code_analysis: dict[str, str]) -> str:
     feature_desc = ""
     if features:
         if len(features) > 3:
-            feature_desc = f"Core quantum features: {', '.join(features[:3])}, and {len(features}-3} more"
+            feature_desc = f"Core quantum features: {', '.join(features[:3])}, and {len(features)}-3} more"
         else:
-            feature_desc = f"Core quantum features: {', '.join(features}"
+            feature_desc = f"Core quantum features: {', '.join(features)}"
 
     # Build comprehensive prompt
     prompt = f"""Generate a module description that masterfully blends academic quantum-inspired computing terminology with poetic metaphors.

@@ -2,14 +2,14 @@
 """
 Simple version of foldin without external dependencies
 """
-import streamlit as st
-
 import gzip
 import json
 import struct
 from collections.abc import AsyncIterator
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 # Magic bytes for LKF-Pack format
 MAGIC = b"LKF\x01"

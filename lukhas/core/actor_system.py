@@ -5,10 +5,10 @@ Trinity Framework: ⚛️🧠🛡️
 
 This is the production-ready actor system that supports the colony architecture.
 """
-import streamlit as st
-
 import logging
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

@@ -352,7 +352,7 @@ class PermissionManager:
             )
         )
 
-        logger.info(f"✅ Initialized {len(self.permissions} standard permissions")
+        logger.info(f"✅ Initialized {len(self.permissions)} standard permissions")
 
     def _initialize_standard_roles(self):
         """Initialize standard system roles"""
@@ -439,7 +439,7 @@ class PermissionManager:
             )
         )
 
-        logger.info(f"✅ Initialized {len(self.roles} standard roles")
+        logger.info(f"✅ Initialized {len(self.roles)} standard roles")
 
     def add_permission(self, permission: Permission) -> bool:
         """Add a permission to the system"""
@@ -514,7 +514,7 @@ class SessionManager:
     ) -> AccessSession:
         """Create a new access session"""
 
-        session_id = f"sess_{uuid.uuid4(}.hex}"
+        session_id = f"sess_{uuid.uuid4()}.hex}"
         expires_at = datetime.now(timezone.utc) + self.session_timeout
 
         session = AccessSession(
@@ -642,7 +642,7 @@ class SessionManager:
                         session.status = SessionStatus.EXPIRED
 
                 if expired_sessions:
-                    logger.debug(f"🧹 Cleaned up {len(expired_sessions} expired sessions")
+                    logger.debug(f"🧹 Cleaned up {len(expired_sessions)} expired sessions")
 
                 await asyncio.sleep(300)  # Check every 5 minutes
 
@@ -886,7 +886,7 @@ class AccessControlEngine:
         """
 
         context = context or {}
-        request_id = f"req_{uuid.uuid4(}.hex[:8]}"
+        request_id = f"req_{uuid.uuid4()}.hex[:8]}"
 
         try:
             # Get session
@@ -1111,7 +1111,7 @@ class AccessControlEngine:
         if trinity_issues:
             return (
                 AccessDecision.ESCALATE,
-                f"Trinity validation failed: {'; '.join(trinity_issues}",
+                f"Trinity validation failed: {'; '.join(trinity_issues)}",
             )
 
         return current_decision, current_reason
@@ -1128,7 +1128,7 @@ class AccessControlEngine:
         """Audit access control event"""
 
         audit_entry = AccessAuditEntry(
-            audit_id=f"audit_{uuid.uuid4(}.hex[:8]}",
+            audit_id=f"audit_{uuid.uuid4()}.hex[:8]}",
             event_type=event_type,
             user_id=user_id or "unknown",
             session_id=session_id,
@@ -1187,7 +1187,7 @@ class AccessControlEngine:
                     return False, None, "User already exists"
 
             # Generate user ID
-            user_id = f"user_{uuid.uuid4(}.hex[:8]}"
+            user_id = f"user_{uuid.uuid4()}.hex[:8]}"
 
             # Hash password
             password_hash = hashlib.sha256(password.encode()).hexdigest()
@@ -1290,7 +1290,7 @@ class AccessControlEngine:
         """Generate comprehensive access control report"""
 
         report = {
-            "report_id": f"access_report_{uuid.uuid4(}.hex[:8]}",
+            "report_id": f"access_report_{uuid.uuid4()}.hex[:8]}",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "system_status": await self.get_access_status(),
             "recent_activity": [

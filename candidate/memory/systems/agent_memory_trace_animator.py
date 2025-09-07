@@ -398,7 +398,7 @@ class AgentMemoryTraceAnimator:
             nodes_data.append(
                 {
                     "id": node.id,
-                    "label": f"{node.type}: {str(node.content}[:20]}",
+                    "label": f"{node.type}: {str(node.content)}[:20]}",
                     "type": node.type,
                     "symbolic_tags": node.symbolic_tags or [],
                     "importance": node.importance_score,
@@ -541,13 +541,13 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
     async def _create_symbolic_html_stub(self, trace: MemoryTrace, graph_data: dict[str, Any]) -> str:
         # TRACE: Generating symbolic HTML stub.
         log.warning("Symbolic reasoning HTML generation is a STUB.", for_trace_id=trace.id)
-        return f"<html><body><h1>Symbolic Reasoning Animation - {trace.id} (Stub)</h1><pre>{json.dumps(graph_data, indent=2}</pre></body></html>"
+        return f"<html><body><h1>Symbolic Reasoning Animation - {trace.id} (Stub)</h1><pre>{json.dumps(graph_data, indent=2)}</pre></body></html>"
 
     # CAUTION: This HTML generation is a STUB.
     async def _create_quantum_html_stub(self, trace: MemoryTrace, wave_data: dict[str, Any]) -> str:
         # TRACE: Generating quantum HTML stub.
         log.warning("Quantum entanglement HTML generation is a STUB.", for_trace_id=trace.id)
-        return f"<html><body><h1>Quantum Entanglement Animation - {trace.id} (Stub)</h1><pre>{json.dumps(wave_data, indent=2}</pre></body></html>"
+        return f"<html><body><h1>Quantum Entanglement Animation - {trace.id} (Stub)</h1><pre>{json.dumps(wave_data, indent=2)}</pre></body></html>"
 
     @lukhas_tier_required(0)
     def save_animation_to_file(self, animation_html: str, output_path: Path) -> bool:
@@ -598,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
             )
             nodes.append(node)
 
-        trace_id = f"sample_trace_{trace_type.value}_{start_time.strftime('%Y%m%d%H%M%S'}"
+        trace_id = f"sample_trace_{trace_type.value}_{start_time.strftime('%Y%m%d%H%M%S')}"
         sample_trace = MemoryTrace(
             id=trace_id,
             trace_type=trace_type,
@@ -606,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
             start_time=start_time,
             end_time=start_time + timedelta(seconds=(len(nodes) - 1) * 10 + 5),
             qi_signature=(
-                f"Q-Sample-{start_time.timestamp(}" if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT else None
+                f"Q-Sample-{start_time.timestamp()}" if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT else None
             ),
             symbolic_metadata={"source": "sample_generator", "version": "1.0"},
         )
@@ -648,7 +648,7 @@ async def main_demo():
     if workflow_animation_data.get("html"):
         animator.save_animation_to_file(workflow_animation_data["html"], workflow_output_path)
         # TRACE: Workflow animation saved to file in demo.
-        log.info(f"Workflow animation saved to: {workflow_output_path.resolve(}")
+        log.info(f"Workflow animation saved to: {workflow_output_path.resolve()}")
     else:
         log.error("Failed to generate HTML for workflow animation.")
 
@@ -659,7 +659,7 @@ async def main_demo():
     if symbolic_animation_data.get("html"):
         animator.save_animation_to_file(symbolic_animation_data["html"], symbolic_output_path)
         # TRACE: Symbolic reasoning animation stub saved in demo.
-        log.info(f"Symbolic reasoning animation (stub) saved to: {symbolic_output_path.resolve(}")
+        log.info(f"Symbolic reasoning animation (stub) saved to: {symbolic_output_path.resolve()}")
 
     # TRACE: AgentMemoryTraceAnimator Demo Finished.
     log.info(" AgentMemoryTraceAnimator Demo Finished ")

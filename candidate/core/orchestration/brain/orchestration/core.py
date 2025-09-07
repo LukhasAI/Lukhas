@@ -63,8 +63,7 @@ try:
     from candidate.memory.basic import MemoryManager
 except ImportError:
     try:
-        from candidate.memory.systems.memory_learning.memory_manager import (
-            MemoryManager)
+        from candidate.memory.systems.memory_learning.memory_manager import MemoryManager
     except ImportError:
         MemoryManager = None
 
@@ -347,7 +346,7 @@ class OrchestrationCore:
             # await self.module_registry.register_module(name, module) #TODO: See above
             self.active_modules[name] = module
 
-        logger.info(f"Registered {len(core_modules} core modules (ModuleRegistry part N/A for now)")
+        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""

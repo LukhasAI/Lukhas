@@ -395,7 +395,7 @@ class FeedbackCardSystem:
 
         if patterns:
             self._save_patterns()
-            logger.info(f"Extracted {len(patterns)} patterns from {len(cards} cards")
+            logger.info(f"Extracted {len(patterns)} patterns from {len(cards)} cards")
 
         return patterns
 

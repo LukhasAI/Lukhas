@@ -1,15 +1,14 @@
 """
 Audit Engine - Orchestrates comprehensive system audits
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +47,7 @@ class AuditEngine:
             stdout, stderr = await process.communicate()
 
             if process.returncode != 0:
-                logger.error(f"Audit failed: {stderr.decode(}")
+                logger.error(f"Audit failed: {stderr.decode()}")
                 return {
                     "status": "failed",
                     "message": stderr.decode(),

@@ -41,10 +41,10 @@
 ║ Symbolic Tags: {ΛSYMBOLIC}, {ΛMEMORY}, {ΛINTEGRATION}, {ΛDRIFT}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 # Module imports
 import logging
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger(__name__)

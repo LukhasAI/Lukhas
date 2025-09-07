@@ -3,18 +3,17 @@
 SSO Bridge - OAuth2/SAML integration stub for enterprise SSO systems
 Provides symbolic glyph mapping for external identity providers
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
 import secrets
 import uuid
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import urlencode
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -124,8 +123,8 @@ class SSOBridge:
         self._load_configuration()
 
         logger.info("🔗 SSO Bridge initialized")
-        logger.info(f"   Configured providers: {len(self.providers}")
-        logger.info(f"   Standard glyph mappings: {len(self.STANDARD_GLYPH_MAPPINGS}")
+        logger.info(f"   Configured providers: {len(self.providers)}")
+        logger.info(f"   Standard glyph mappings: {len(self.STANDARD_GLYPH_MAPPINGS)}")
 
     def _load_configuration(self):
         """Load SSO provider configurations"""
@@ -322,7 +321,7 @@ class SSOBridge:
             "nonce": nonce,
         }
 
-        auth_url = f"{provider.endpoint_auth}?{urlencode(auth_params}"
+        auth_url = f"{provider.endpoint_auth}?{urlencode(auth_params)}"
 
         logger.info(f"🚀 Initiated SSO flow: {provider_id}")
         logger.info(f"   Transaction: {transaction_id}")
@@ -364,7 +363,7 @@ class SSOBridge:
         assigned_glyphs = self._map_claims_to_glyphs(user_info, provider.glyph_mapping)
 
         # Create session
-        session_id = f"sso_{datetime.now(timezone.utc).timestamp(}_{provider.provider_id}"
+        session_id = f"sso_{datetime.now(timezone.utc).timestamp()}_{provider.provider_id}"
         session = SSOSession(
             session_id=session_id,
             provider_id=provider.provider_id,
@@ -393,7 +392,7 @@ class SSOBridge:
 
         logger.info(f"✅ SSO authentication successful: {session.external_user_id}")
         logger.info(f"   Provider: {provider.provider_name}")
-        logger.info(f"   Assigned glyphs: {' '.join(assigned_glyphs}")
+        logger.info(f"   Assigned glyphs: {' '.join(assigned_glyphs)}")
         logger.info(f"   Session: {session_id}")
 
         return session
@@ -405,8 +404,8 @@ class SSOBridge:
 
         # Simulate successful token response
         return {
-            "access_token": f"at_{secrets.token_urlsafe(32}",
-            "refresh_token": f"rt_{secrets.token_urlsafe(32}",
+            "access_token": f"at_{secrets.token_urlsafe(32)}",
+            "refresh_token": f"rt_{secrets.token_urlsafe(32)}",
             "token_type": "Bearer",
             "expires_in": 3600,
             "scope": " ".join(provider.scopes),
@@ -608,7 +607,7 @@ if __name__ == "__main__":
     if session:
         print("   ✅ Authentication successful!")
         print(f"   User: {session.external_user_id}")
-        print(f"   Glyphs: {' '.join(session.assigned_glyphs}")
+        print(f"   Glyphs: {' '.join(session.assigned_glyphs)}")
 
         # Test session validation
         print("\n🔍 Testing session validation...")

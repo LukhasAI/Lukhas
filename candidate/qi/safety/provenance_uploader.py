@@ -8,9 +8,10 @@ import mimetypes
 import os
 import time
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Optional
+
 import streamlit as st
-from typing import Optional
+
 from consciousness.qi import qi
 
 # --------- ENV & defaults ---------

@@ -4,13 +4,13 @@
 ===========================
 Final pass to clean up remaining import errors and syntax issues.
 """
-import streamlit as st
-
 import ast
 import logging
 import re
 import sys
 from pathlib import Path
+
+import streamlit as st
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -166,7 +166,7 @@ class FinalImportCleanup:
                     with open(py_file, "w", encoding="utf-8") as f:
                         f.write(content)
 
-                    logger.info(f"✅ Commented problematic imports in {py_file.relative_to(PROJECT_ROOT}")
+                    logger.info(f"✅ Commented problematic imports in {py_file.relative_to(PROJECT_ROOT)}")
                     self.fixed_files.append(str(py_file))
                     self.total_fixes += 1
 
@@ -254,7 +254,7 @@ class FinalImportCleanup:
                 valid_files.append(str(py_file.relative_to(PROJECT_ROOT)))
 
             except SyntaxError as e:
-                invalid_files.append(f"{py_file.relative_to(PROJECT_ROOT}:{e.lineno}")
+                invalid_files.append(f"{py_file.relative_to(PROJECT_ROOT)}:{e.lineno}")
             except Exception:
                 pass  # Ignore other exceptions
 

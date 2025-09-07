@@ -7,4 +7,4 @@
 """
 import streamlit as st
 
-__all__ = ["nias", "abas", "nias_candidate", "abas_candidate"]
+__all__ = ["abas", "abas_candidate", "nias", "nias_candidate"]

@@ -247,7 +247,7 @@ class SymbolTranslator:
             text_parts.append(emotion_text)
 
         if symbol.domains:
-            domain_text = f"<{','.join([d.value for d in symbol.domains]}>"
+            domain_text = f"<{','.join([d.value for d in symbol.domains])}>"
             text_parts.append(domain_text)
 
         return " ".join(text_parts) or f"[Symbol:{symbol.symbol_id[:8]}]"
@@ -469,7 +469,7 @@ class UniversalSymbolProtocol:
 
         # Create compressed symbol
         compressed = UniversalSymbol(
-            symbol_id=f"compressed_{uuid.uuid4(}.hex[:8]}",
+            symbol_id=f"compressed_{uuid.uuid4()}.hex[:8]}",
             modalities=all_modalities,
             domains=all_domains,
             causal_links=list(set(all_causal_links)),
@@ -626,7 +626,7 @@ class UniversalSymbolProtocol:
         """
         if merge_strategy == "union":
             merged = UniversalSymbol(
-                symbol_id=f"merged_{uuid.uuid4(}.hex[:8]}",
+                symbol_id=f"merged_{uuid.uuid4()}.hex[:8]}",
                 modalities=symbol1.modalities | symbol2.modalities,
                 domains=symbol1.domains | symbol2.domains,
                 causal_links=list(set(symbol1.causal_links + symbol2.causal_links)),
@@ -637,7 +637,7 @@ class UniversalSymbolProtocol:
             )
         elif merge_strategy == "intersection":
             merged = UniversalSymbol(
-                symbol_id=f"merged_{uuid.uuid4(}.hex[:8]}",
+                symbol_id=f"merged_{uuid.uuid4()}.hex[:8]}",
                 modalities=symbol1.modalities & symbol2.modalities or {SymbolModality.TEXT},
                 domains=symbol1.domains & symbol2.domains or {SymbolDomain.UNIVERSAL},
                 metadata={
@@ -689,7 +689,7 @@ def demo_universal_symbols():
         domains={SymbolDomain.COGNITIVE, SymbolDomain.SOCIAL},
         emotion={"joy": 0.8, "anticipation": 0.6},
     )
-    print(f"   Symbol 1: {symbol1.to_glyph_sequence(}")
+    print(f"   Symbol 1: {symbol1.to_glyph_sequence()}")
     print(f"   Entropy: {symbol1.entropy:.3f}, Confidence: {symbol1.confidence:.3f}")
 
     # Quantum consciousness symbol
@@ -698,7 +698,7 @@ def demo_universal_symbols():
         modalities={SymbolModality.QUANTUM, SymbolModality.CONSCIOUSNESS},
         domains={SymbolDomain.QUANTUM, SymbolDomain.COGNITIVE},
     )
-    print(f"   Symbol 2: {symbol2.to_glyph_sequence(}")
+    print(f"   Symbol 2: {symbol2.to_glyph_sequence()}")
 
     # Visual-spatial symbol
     symbol3 = protocol.create_symbol(
@@ -706,7 +706,7 @@ def demo_universal_symbols():
         modalities={SymbolModality.VISUAL, SymbolModality.SPATIAL},
         domains={SymbolDomain.CREATIVE},
     )
-    print(f"   Symbol 3: {symbol3.to_glyph_sequence(}")
+    print(f"   Symbol 3: {symbol3.to_glyph_sequence()}")
 
     # 2. Symbol Translation
     print("\n2️⃣ Cross-Modal Translation:")
@@ -725,17 +725,17 @@ def demo_universal_symbols():
 
     symbols_to_compress = [symbol1, symbol2, symbol3]
     compressed = protocol.compress_symbols(symbols_to_compress)
-    print(f"   Compressed 3 symbols → {compressed.to_glyph_sequence(}")
+    print(f"   Compressed 3 symbols → {compressed.to_glyph_sequence()}")
     print(f"   Compression ratio: {compressed.compression_ratio:.3f}")
-    print(f"   Domains preserved: {', '.join([d.value for d in compressed.domains]}")
+    print(f"   Domains preserved: {', '.join([d.value for d in compressed.domains])}")
 
     # 4. Symbol Expansion
     print("\n4️⃣ Symbol Expansion:")
 
     expanded = protocol.expand_symbol(compressed, expansion_factor=3)
-    print(f"   Expanded into {len(expanded} symbols")
+    print(f"   Expanded into {len(expanded)} symbols")
     for i, exp_symbol in enumerate(expanded):
-        print(f"   Expanded {i + 1}: {exp_symbol.to_glyph_sequence(}")
+        print(f"   Expanded {i + 1}: {exp_symbol.to_glyph_sequence()}")
 
     # 5. Find Similar Symbols
     print("\n5️⃣ Semantic Similarity Search:")
@@ -748,9 +748,9 @@ def demo_universal_symbols():
     )
 
     similar = protocol.find_similar_symbols(query, threshold=0.5)
-    print(f"   Query: {query.to_glyph_sequence(}")
+    print(f"   Query: {query.to_glyph_sequence()}")
     for symbol, similarity in similar:
-        print(f"   Similar: {symbol.to_glyph_sequence(} (similarity: {similarity:.3f})")
+        print(f"   Similar: {symbol.to_glyph_sequence()} (similarity: {similarity:.3f})")
 
     # 6. Create Causal Chain
     print("\n6️⃣ Causal Chain Creation:")
@@ -772,9 +772,9 @@ def demo_universal_symbols():
     print("\n7️⃣ Symbol Merging:")
 
     merged = protocol.merge_symbols(symbol1, symbol2, merge_strategy="union")
-    print(f"   Merged: {merged.to_glyph_sequence(}")
-    print(f"   Combined modalities: {', '.join([m.value for m in merged.modalities]}")
-    print(f"   Combined domains: {', '.join([d.value for d in merged.domains]}")
+    print(f"   Merged: {merged.to_glyph_sequence()}")
+    print(f"   Combined modalities: {', '.join([m.value for m in merged.modalities])}")
+    print(f"   Combined domains: {', '.join([d.value for d in merged.domains])}")
 
     print("\n✅ Universal Symbol Protocol demonstration complete!")
 

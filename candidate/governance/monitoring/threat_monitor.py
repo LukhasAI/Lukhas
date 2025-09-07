@@ -714,7 +714,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                         threat_type="multiple_threats",
                         severity=ThreatLevel.CRITICAL,
                         confidence=0.9,
-                        description=f"Multiple active threats detected: {len(self.active_threats}",
+                        description=f"Multiple active threats detected: {len(self.active_threats)}",
                         context={
                             "active_threat_count": len(self.active_threats),
                             "threat_types": [t.threat_type for t in self.active_threats],
@@ -807,7 +807,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         }
 
         threat = ThreatIndicator(
-            threat_id=f"THR-{int(time.time())}_{random.randint(1000, 9999}",
+            threat_id=f"THR-{int(time.time())}_{random.randint(1000, 9999)}",
             threat_type=threat_type,
             severity=severity,
             confidence=confidence,
@@ -838,9 +838,9 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
         logger.warning(f"   Severity: {severity_name}")
         logger.warning(f"   Confidence: {confidence:.2f}")
         logger.warning(f"   Description: {description}")
-        logger.warning(f"   Symbolic: {''.join(threat.symbolic_signature}")
+        logger.warning(f"   Symbolic: {''.join(threat.symbolic_signature)}")
         logger.warning(
-            f"   Trinity Impact: I:{trinity_impact.get('identity', 0):.1f} C:{trinity_impact.get('consciousness', 0):.1f} G:{trinity_impact.get('guardian', 0}:.1f}"
+            f"   Trinity Impact: I:{trinity_impact.get('identity', 0):.1f} C:{trinity_impact.get('consciousness', 0):.1f} G:{trinity_impact.get('guardian', 0)}:.1f}"
         )
         logger.warning(f"   Governance: {governance_metadata['escalation_required']}")
 
@@ -1441,7 +1441,7 @@ if __name__ == "__main__":
                     for threat in summary["recent_threats"]:
                         impact = threat["trinity_impact"]
                         print(
-                            f"   🚨 {threat['type']} ({threat['severity']}) {threat['symbolic']} [I:{impact.get('identity', 0):.1f}C:{impact.get('consciousness', 0):.1f}G:{impact.get('guardian', 0}:.1f}]"
+                            f"   🚨 {threat['type']} ({threat['severity']}) {threat['symbolic']} [I:{impact.get('identity', 0):.1f}C:{impact.get('consciousness', 0):.1f}G:{impact.get('guardian', 0)}:.1f}]"
                         )
 
             # Final summary

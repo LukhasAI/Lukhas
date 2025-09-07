@@ -5,9 +5,9 @@ LUKHAS AI ΛBot Status Bar Designer
 Customize the appearance and behavior of your LUKHAS AI ΛBot status bar indicator.
 This script provides examples and options for different designs.
 """
-import streamlit as st
-
 from pathlib import Path
+
+import streamlit as st
 
 
 class BotStatusDesigner:
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     print("=" * 50)
 
     for name, design in examples.items():
-        print(f"\n{name.upper(}: {design['text']}")
+        print(f"\n{name.upper()}: {design['text']}")
         print(f"Color: {design['color']}")
         print(f"Tooltip: {design['tooltip'][:100]}...")
 

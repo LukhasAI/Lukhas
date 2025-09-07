@@ -256,7 +256,7 @@ class MemoryServicesAPI:
 
     def _generate_id(self) -> str:
         """Generate unique memory ID"""
-        return f"mem_{uuid.uuid4(}.hex[:12]}"
+        return f"mem_{uuid.uuid4()}.hex[:12]}"
 
 
 # Example usage
@@ -295,7 +295,7 @@ async def example_memory_usage():
     search_query = MemoryQuery(query="architecture meeting", filters={"tags": "meeting"}, limit=5)
 
     results = await memory_api.retrieve(search_query)
-    print(f"Found {len(results} memories")
+    print(f"Found {len(results)} memories")
 
     # Update memory
     success = await memory_api.update(memory_id, {"metadata": {"summary": "Discussed modular design"})

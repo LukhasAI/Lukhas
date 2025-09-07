@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 """
 Enhanced memory manager for creativity and dream systems.
 Provides emotional modulation capabilities for memory processing.
@@ -8,10 +9,10 @@ Please use lukhas.memory.EmotionalMemoryManager instead.
 """
 import logging
 import time
-import streamlit as st
-
 import warnings
 from typing import Any, Optional
+
+import streamlit as st
 
 warnings.warn(
     "lukhas.memory.systems.emotional_memory_manager is deprecated and will be removed in v2.0.0. "

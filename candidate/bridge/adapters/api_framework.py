@@ -3,12 +3,9 @@
 LUKHAS Enterprise API Framework
 Production-grade API with versioning, type safety, and OpenAPI documentation
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import hashlib
 import logging
+import time
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
@@ -16,6 +13,7 @@ from enum import Enum
 from typing import Any, Generic, Optional, TypeVar
 
 import redis.asyncio as redis
+import streamlit as st
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
@@ -27,6 +25,8 @@ from pydantic.generics import GenericModel
 # from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
+
+from consciousness.qi import qi
 
 # Configure structured logging
 logger = logging.getLogger("ΛTRACE.bridge.adapters.api_framework")
@@ -289,7 +289,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         client_id = request.headers.get("X-API-Key", request.client.host if request.client else "unknown")
 
         # Check rate limit
-        key = f"rate_limit:{client_id}:{datetime.utcnow().strftime('%Y%m%d%H%M'}"
+        key = f"rate_limit:{client_id}:{datetime.utcnow().strftime('%Y%m%d%H%M')}"
 
         try:
             current = await self.redis_client.incr(key)

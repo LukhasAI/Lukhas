@@ -4,11 +4,11 @@ Core governance classes for  Workspace Guardian
 ==================================================
 Minimal implementation to support testing infrastructure.
 """
-import streamlit as st
-
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class EthicalSeverity(Enum):

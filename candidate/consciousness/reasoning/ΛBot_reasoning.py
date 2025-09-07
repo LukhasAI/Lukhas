@@ -693,7 +693,7 @@ if __name__ == "__main__":
     print(f"Analysis complete: {result.request_id}")
     print(f"Processing time: {result.processing_time:.2f}s")
     if result.recommendations:
-        print(f"Recommendations: {len(result.recommendations}")
+        print(f"Recommendations: {len(result.recommendations)}")
 
     # Print status
     status = orchestrator.get_reasoning_status()

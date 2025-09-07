@@ -10,11 +10,10 @@ Shared Ethics Base Classes
 
 Common base classes for ethics-related components.
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 
 class ComplianceEngine:

@@ -303,7 +303,7 @@ class LambdaGovernor:
 
             # Create response
             response = ArbitrationResponse(
-                response_id=f"RESP_{uuid.uuid4(}.hex[:8]}",
+                response_id=f"RESP_{uuid.uuid4()}.hex[:8]}",
                 signal_id=signal.signal_id,
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 decision=decision,
@@ -355,7 +355,7 @@ class LambdaGovernor:
 
             # Return emergency response
             return ArbitrationResponse(
-                response_id=f"EMERGENCY_{uuid.uuid4(}.hex[:8]}",
+                response_id=f"EMERGENCY_{uuid.uuid4()}.hex[:8]}",
                 signal_id=signal.signal_id,
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 decision=ActionDecision.FREEZE,
@@ -576,7 +576,7 @@ class LambdaGovernor:
             response: Governor arbitration response
         """
         notification = {
-            "notification_id": f"NOTIFY_{uuid.uuid4(}.hex[:8]}",
+            "notification_id": f"NOTIFY_{uuid.uuid4()}.hex[:8]}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "source": "ΛGOVERNOR",
             "type": "intervention_decision",
@@ -595,7 +595,7 @@ class LambdaGovernor:
         for router in self.mesh_routers:
             try:
                 await router.receive_governor_notification(notification)
-                response.mesh_notifications.append(f"mesh_router_{id(router}")
+                response.mesh_notifications.append(f"mesh_router_{id(router)}")
             except Exception as e:
                 logger.error("Failed to notify mesh router", router=str(router), error=str(e))
 
@@ -603,7 +603,7 @@ class LambdaGovernor:
         for coordinator in self.dream_coordinators:
             try:
                 await coordinator.receive_intervention_notice(notification)
-                response.mesh_notifications.append(f"dream_coordinator_{id(coordinator}")
+                response.mesh_notifications.append(f"dream_coordinator_{id(coordinator)}")
             except Exception as e:
                 logger.error(
                     "Failed to notify dream coordinator",
@@ -616,7 +616,7 @@ class LambdaGovernor:
             for manager in self.memory_managers:
                 try:
                     await manager.execute_quarantine(response.quarantine_scope)
-                    response.mesh_notifications.append(f"memory_manager_{id(manager}")
+                    response.mesh_notifications.append(f"memory_manager_{id(manager)}")
                 except Exception as e:
                     logger.error(
                         "Failed to notify memory manager",
@@ -646,7 +646,7 @@ class LambdaGovernor:
     async def _execute_intervention(self, response: ArbitrationResponse) -> InterventionExecution:
         """Execute the authorized intervention."""
         execution = InterventionExecution(
-            execution_id=f"EXEC_{uuid.uuid4(}.hex[:8]}",
+            execution_id=f"EXEC_{uuid.uuid4()}.hex[:8]}",
             response_id=response.response_id,
             timestamp=datetime.now(timezone.utc).isoformat(),
             decision=response.decision,
@@ -828,7 +828,7 @@ class LambdaGovernor:
             key_factors.append(f"contradiction density ({signal.contradiction_density:.3f})")
 
         if key_factors:
-            base_reason += f" due to {', '.join(key_factors}"
+            base_reason += f" due to {', '.join(key_factors)}"
 
         decision_reason = {
             ActionDecision.ALLOW: "within acceptable parameters",
@@ -838,7 +838,7 @@ class LambdaGovernor:
             ActionDecision.SHUTDOWN: "poses critical system-wide risk",
         }[decision]
 
-        return f"{base_reason}. {decision_reason.capitalize(}."
+        return f"{base_reason}. {decision_reason.capitalize()}."
 
     def _determine_quarantine_scope(
         self, signal: EscalationSignal, decision: ActionDecision
@@ -865,7 +865,7 @@ class LambdaGovernor:
             return None
 
         return {
-            "rollback_id": f"ROLLBACK_{uuid.uuid4(}.hex[:8]}",
+            "rollback_id": f"ROLLBACK_{uuid.uuid4()}.hex[:8]}",
             "created": datetime.now(timezone.utc).isoformat(),
             "intervention_type": decision.value,
             "affected_symbols": signal.symbol_ids,
@@ -927,7 +927,7 @@ def create_escalation_signal(
     """Create an escalation signal for governor processing."""
 
     return EscalationSignal(
-        signal_id=f"ESC_{uuid.uuid4(}.hex[:8]}",
+        signal_id=f"ESC_{uuid.uuid4()}.hex[:8]}",
         timestamp=datetime.now(timezone.utc).isoformat(),
         source_module=source_module,
         priority=priority,

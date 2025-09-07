@@ -8,13 +8,14 @@ This module provides the integration points between:
 - QRG advanced authentication (lambda_products_pack/lambda_core/QRG)
 - Production nucleus (lukhas/lukhas/identity)
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import logging
+import time
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Add paths for dynamic imports
 LUKHAS_ROOT = Path(__file__).parent.parent.parent

@@ -1,8 +1,11 @@
 import logging
-import streamlit as st
 import time
 from typing import Dict
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: collapse_chain_simulator.py
@@ -71,7 +74,7 @@ class CollapseChainSimulator:
         ).hexdigest()
         with open("orchestration/brain/DRIFT_LOG.md", "a") as f:
             f.write(
-                f"| {datetime.now(timezone.utc).isoformat(} | Collapse Simulation | Drift Trigger: {drift_trigger}, Outcome Hash: {outcome_hash} |\n"
+                f"| {datetime.now(timezone.utc).isoformat()} | Collapse Simulation | Drift Trigger: {drift_trigger}, Outcome Hash: {outcome_hash} |\n"
             )
 
     async def run_simulation_suite(self) -> None:

@@ -389,7 +389,7 @@ class ComplianceAuditSystem:
             str: Audit event ID
         """
 
-        event_id = f"audit_{uuid.uuid4(}.hex[:8]}"
+        event_id = f"audit_{uuid.uuid4()}.hex[:8]}"
 
         # Determine lawful basis
         lawful_basis = self._determine_lawful_basis(processing_purpose, regulation)
@@ -467,7 +467,7 @@ class ComplianceAuditSystem:
             str: Consent record ID
         """
 
-        consent_id = f"consent_{uuid.uuid4(}.hex[:8]}"
+        consent_id = f"consent_{uuid.uuid4()}.hex[:8]}"
 
         # Generate consent string (simplified TCF format)
         consent_string = self._generate_consent_string(purposes, data_categories)
@@ -581,7 +581,7 @@ class ComplianceAuditSystem:
             str: Request ID
         """
 
-        request_id = f"dsr_{uuid.uuid4(}.hex[:8]}"
+        request_id = f"dsr_{uuid.uuid4()}.hex[:8]}"
 
         # Calculate due date based on regulation
         due_date = datetime.now(timezone.utc) + timedelta(days=self.subject_rights_sla_days)
@@ -651,7 +651,7 @@ class ComplianceAuditSystem:
             str: PIA ID
         """
 
-        pia_id = f"pia_{uuid.uuid4(}.hex[:8]}"
+        pia_id = f"pia_{uuid.uuid4()}.hex[:8]}"
 
         # Create PIA
         pia = PrivacyImpactAssessment(
@@ -740,7 +740,7 @@ class ComplianceAuditSystem:
         ethics_reviews_required = len([e for e in filtered_events if e.ethics_review_required])
 
         return {
-            "report_id": f"compliance_report_{uuid.uuid4(}.hex[:8]}",
+            "report_id": f"compliance_report_{uuid.uuid4()}.hex[:8]}",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "regulation": regulation.value,
             "reporting_period": {
@@ -920,7 +920,7 @@ class ComplianceAuditSystem:
         # Create base64 encoded consent string
         import base64
 
-        consent_data = f"{purpose_bits}|{category_bits}|{datetime.now(timezone.utc).isoformat(}"
+        consent_data = f"{purpose_bits}|{category_bits}|{datetime.now(timezone.utc).isoformat()}"
         consent_string = base64.b64encode(consent_data.encode()).decode()
 
         return consent_string

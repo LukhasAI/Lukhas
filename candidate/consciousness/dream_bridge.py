@@ -3,10 +3,9 @@
 Dream-Consciousness Bridge
 Implements the critical connection between dream synthesis and consciousness.
 """
-import streamlit as st
-
 from typing import Any
 
+import streamlit as st
 from dream.engine import DreamEngine
 
 from candidate.orchestration.integration_hub import get_integration_hub

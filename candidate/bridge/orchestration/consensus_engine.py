@@ -38,14 +38,13 @@
 ║ Symbolic Tags: {ΛCONSENSUS}, {ΛVOTING}, {ΛSYNTHESIS}, {ΛQUALITY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import List
-import streamlit as st
-
 import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.orchestration.consensus")

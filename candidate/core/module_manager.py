@@ -4,16 +4,17 @@ LUKHAS Module Manager - Long-term Dependency Management
 Provides robust module loading with proper fallbacks and health checks.
 Solves the root cause of import warnings and missing modules.
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import importlib
 import logging
+import time
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -460,14 +461,14 @@ def initialize_system(
     report = manager.get_status_report()
 
     # Log summary
-    logger.info(f"✅ Loaded: {report.get('loaded', 0} modules")
-    logger.info(f"📦 Fallback: {report.get('fallback', 0} modules")
-    logger.info(f"❌ Failed: {report.get('failed', 0} modules")
+    logger.info(f"✅ Loaded: {report.get('loaded', 0)} modules")
+    logger.info(f"📦 Fallback: {report.get('fallback', 0)} modules")
+    logger.info(f"❌ Failed: {report.get('failed', 0)} modules")
 
     # Run health checks
     health = manager.health_check()
     healthy = sum(1 for v in health.values() if v)
-    logger.info(f"💚 Health: {healthy}/{len(health} modules healthy")
+    logger.info(f"💚 Health: {healthy}/{len(health)} modules healthy")
 
     return report
 

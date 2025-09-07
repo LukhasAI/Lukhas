@@ -14,12 +14,11 @@
 │ regional vocabulary filters.                                       │
 └─────────────────────────────────────────────────────────────────────┘
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+
+import streamlit as st
 
 
 class LegalComplianceAssistant:

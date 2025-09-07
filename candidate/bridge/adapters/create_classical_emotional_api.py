@@ -5,17 +5,17 @@ from typing import Any
 LUKHAS Classical Emotional Intelligence API - Non-Quantum Alternative
 Bio-symbolic emotional processing without quantum enhancement
 """
-from consciousness.qi import qi
 import time
-import streamlit as st
-
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
 import numpy as np
+import streamlit as st
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+
+from consciousness.qi import qi
 
 app = FastAPI(
     title="LUKHAS Classical Emotional Intelligence API",
@@ -121,7 +121,7 @@ class ClassicalEmotionEngine:
     async def analyze_emotional_coherence(self, context: ClassicalEmotionalContext) -> ClassicalCoherenceResponse:
         """Analyze emotional coherence using classical methods"""
 
-        analysis_id = f"classical_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        analysis_id = f"classical_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Extract emotions using chosen model
         emotional_state = await self._extract_emotions(context.text, context.emotion_model)

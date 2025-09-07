@@ -1,4 +1,5 @@
 from typing import Optional
+
 # core/interfaces/custom_llm.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Defines a Pydantic model for custom Large Language Model configurations.
@@ -18,14 +19,13 @@ details and authentication for custom Large Language Models compatible with Chat
           Fern generations. If changes are needed, consider modifying the API definition
           from which this file is generated.
 """
-from typing import Dict
 import logging
-import streamlit as st
-
 import typing
+from typing import Dict
 
 # AIMPORTS_START
 import pydantic  # ΛDEP: pydantic
+import streamlit as st
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 
 from ..core.pydantic_utilities import IS_PYDANTIC_V2  # ΛDEP: project-specific

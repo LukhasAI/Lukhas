@@ -15,6 +15,7 @@ Unique Lukhas Innovations:
 - CollapseHash: Quantum-inspired information compression
 """
 import time
+
 import streamlit as st
 
 from .cognitive_core import NeuralIntelligenceSystem

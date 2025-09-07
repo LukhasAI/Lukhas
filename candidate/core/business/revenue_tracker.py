@@ -122,7 +122,7 @@ class RevenueTracker:
         conversion_event = ConversionEvent(
             conversion_id=conversion_id,
             user_id=user_id,
-            ad_id=ad_id or f"unknown_{datetime.now(timezone.utc).timestamp(}",
+            ad_id=ad_id or f"unknown_{datetime.now(timezone.utc).timestamp()}",
             conversion_value=conversion_value,
             commission_rate=commission_rate,
             user_earnings=user_earnings,
@@ -338,10 +338,10 @@ class RevenueTracker:
 
     def _generate_conversion_id(self, user_id: str, ad_id: str, timestamp: datetime) -> str:
         """Generate unique conversion ID."""
-        id_string = f"{user_id}:{ad_id}:{timestamp.isoformat(}"
+        id_string = f"{user_id}:{ad_id}:{timestamp.isoformat()}"
         return "conv_" + hashlib.sha256(id_string.encode()).hexdigest()[:12]
 
     def _generate_payout_id(self, user_id: str, timestamp: datetime) -> str:
         """Generate unique payout ID."""
-        id_string = f"{user_id}:payout:{timestamp.isoformat(}"
+        id_string = f"{user_id}:payout:{timestamp.isoformat()}"
         return "payout_" + hashlib.sha256(id_string.encode()).hexdigest()[:12]

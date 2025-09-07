@@ -3,12 +3,12 @@
 🧪 Products Smoke Test Suite
 Test all product components and document working vs broken state
 """
-import streamlit as st
-
 import sys
 import traceback
 from dataclasses import dataclass
 from typing import Any
+
+import streamlit as st
 
 
 @dataclass
@@ -149,7 +149,7 @@ def print_results(results: dict[str, list[TestResult]]):
     passed_tests = 0
 
     for category, test_results in results.items():
-        print(f"\n📋 {category.upper(}")
+        print(f"\n📋 {category.upper()}")
         print("-" * 30)
 
         for result in test_results:
@@ -160,7 +160,7 @@ def print_results(results: dict[str, list[TestResult]]):
                 if result.details:
                     for key, value in result.details.items():
                         if isinstance(value, list) and len(value) > 5:
-                            print(f"   {key}: {len(value} items")
+                            print(f"   {key}: {len(value)} items")
                         else:
                             print(f"   {key}: {value}")
             else:

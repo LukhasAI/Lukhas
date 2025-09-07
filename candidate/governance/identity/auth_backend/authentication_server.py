@@ -381,15 +381,15 @@ class AuthenticationServer:
                 else:
                     await websocket.send(json.dumps({"error": "Unknown message type"}))
                     self.audit_logger.log_event(
-                        f"Unknown message type: {message_data.get('type'}",
+                        f"Unknown message type: {message_data.get('type')}",
                         constitutional_tag=True,
                     )
         except Exception as e:
-            logger.error(f"Error handling client connection: {e}\n{traceback.format_exc(}")
+            logger.error(f"Error handling client connection: {e}\n{traceback.format_exc()}")
             self.audit_logger.log_event(f"Exception in client connection: {e}", constitutional_tag=True)
 
     def create_authentication_session(self, user_id: str) -> str:
-        session_id = hashlib.sha256(f"{user_id}{datetime.now(timezone.utc}".encode()).hexdigest()
+        session_id = hashlib.sha256(f"{user_id}{datetime.now(timezone.utc)}".encode()).hexdigest()
         entropy_sync = EntropySynchronizer()
         entropy_sync.last_active = time.time()
         self.active_sessions[session_id] = entropy_sync
@@ -715,7 +715,7 @@ class AuthenticationServer:
             anonymized_records = []
             for record in self.consent_audit_trail:
                 if record["user_id"] == user_id:
-                    record["user_id"] = f"anonymized_{hashlib.sha256(user_id.encode()).hexdigest(}[:8]}"
+                    record["user_id"] = f"anonymized_{hashlib.sha256(user_id.encode()).hexdigest()}[:8]}"
                     anonymized_records.append(record)
 
             erasure_results["consent_records"] = True

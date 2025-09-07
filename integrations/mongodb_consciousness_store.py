@@ -168,7 +168,7 @@ class LUKHASConsciousnessStore:
             await self._prevent_memory_cascade()
 
         fold_doc = {
-            "fold_id": f"fold_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "fold_id": f"fold_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "content": content,
             "fold_type": fold_type,  # experience, learning, emotional, causal
             "importance_score": importance_score,
@@ -208,7 +208,7 @@ class LUKHASConsciousnessStore:
             fold_ids = [fold["fold_id"] for fold in low_importance_folds]
             await self.collections["memory_folds"].delete_many({"fold_id": {"$in": fold_ids})
 
-            logger.info(f"🛡️ Cascade prevention: Archived {len(fold_ids} low-importance folds")
+            logger.info(f"🛡️ Cascade prevention: Archived {len(fold_ids)} low-importance folds")
 
     async def update_consciousness_state(
         self,
@@ -251,7 +251,7 @@ class LUKHASConsciousnessStore:
             .to_list(length=limit)
         )
 
-        logger.info(f"🔍 Found {len(conversations} conversations for query: '{query}'")
+        logger.info(f"🔍 Found {len(conversations)} conversations for query: '{query}'")
         return conversations
 
     async def get_memory_context(self, fold_type: Optional[str] = None, limit: int = 20) -> list[dict[str, Any]]:

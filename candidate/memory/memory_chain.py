@@ -70,7 +70,7 @@ class SymbolicMemoryManager:
             try:
                 with open(self.memory_path, encoding="utf-8") as f:
                     self.memory_cache = json.load(f)
-                logger.info(f"   Loaded {len(self.memory_cache} sessions from memory")
+                logger.info(f"   Loaded {len(self.memory_cache)} sessions from memory")
             except Exception as e:
                 logger.error(f"Failed to load memory: {e}")
                 self.memory_cache = []
@@ -148,7 +148,7 @@ class SymbolicMemoryManager:
         self._save_memory()
 
         logger.info(f"📝 Logged session {session_id}")
-        logger.info(f"   Glyphs: {' '.join(session.glyphs} if session.glyphs else 'None'}")
+        logger.info(f"   Glyphs: {' '.join(session.glyphs)} if session.glyphs else 'None'}")
         logger.info(f"   Drift: {session.drift_score:.2f}, Entropy: {session.entropy:.2f}")
 
         return session_id
@@ -363,7 +363,7 @@ class SymbolicMemoryManager:
                 "moderate": len(moderate_healings),
                 "major": len(major_healings),
             },
-            "success_rate": f"{(len(moderate_healings) + len(major_healings)) / len(healed_sessions} * 100:.1f}%",
+            "success_rate": f"{(len(moderate_healings) + len(major_healings)) / len(healed_sessions)}  * 100:.1f}%",
         }
 
     def clear_memory(self):
@@ -432,7 +432,7 @@ if __name__ == "__main__":
 
     # Get recent sessions
     recent = memory.get_recent(5)
-    print(f"\nRecent sessions: {len(recent}")
+    print(f"\nRecent sessions: {len(recent)}")
 
     # Get trajectory
     trajectory = memory.get_drift_trajectory()

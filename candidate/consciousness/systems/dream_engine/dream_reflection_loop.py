@@ -1,8 +1,11 @@
 import logging
 from datetime import timezone
-import streamlit as st
 from typing import List
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -293,7 +296,7 @@ class DreamReflectionLoop:
         Returns:
             Processing result with reflection data
         """
-        dream_id = f"dream_{datetime.now(timezone.utc).timestamp(}"
+        dream_id = f"dream_{datetime.now(timezone.utc).timestamp()}"
         dream_state = DreamState(
             dream_id=dream_id,
             content=dream_content,
@@ -539,7 +542,7 @@ class DreamReflectionLoop:
 
                     # Store consolidated memory
                     self.memory_manager.store_memory(consolidated)
-                    logger.info(f"Consolidated {len(cluster_memories} memories into cluster {cluster_id}")
+                    logger.info(f"Consolidated {len(cluster_memories)} memories into cluster {cluster_id}")
 
             self.metrics["memory_consolidations"] += 1
 
@@ -666,7 +669,7 @@ class DreamReflectionLoop:
                 "type": "synthesized",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "elements": elements,
-                "narrative": f"A dream emerges from {len(elements['themes']} themes...",
+                "narrative": f"A dream emerges from {len(elements['themes'])} themes...",
                 "coherence": elements["coherence"],
                 "generated_by": "dream_synthesis",
             }
@@ -706,7 +709,7 @@ class DreamReflectionLoop:
     def _log_dream(self, dream):
         """Log dream to file for analysis."""
         try:
-            filename = self.dream_log_path / f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+            filename = self.dream_log_path / f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
             with open(filename, "w") as f:
                 json.dump(dream, f, indent=2, default=str)
             logger.debug(f"Dream logged to {filename}")

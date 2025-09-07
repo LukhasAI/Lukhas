@@ -268,7 +268,7 @@ class ABotFinancialIntelligence:
         )
 
         return {
-            "timestamp": datetime.now(timezone.utc).isoformat(},
+            "timestamp": datetime.now(timezone.utc).isoformat()},
             "budget_status": {
                 "current_balance": self.metrics.current_balance,
                 "daily_budget": self.metrics.daily_budget,

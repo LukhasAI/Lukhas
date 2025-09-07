@@ -3,17 +3,15 @@
 Dependency Injection Container for Dream Commerce Orchestrator
 Provides service registration, resolution, and lifecycle management
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import asyncio
 import inspect
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Dict, List, Optional
+
+import streamlit as st
 
 
 class ServiceLifecycle(Enum):
@@ -160,7 +158,7 @@ class DependencyContainer:
         # Check for circular dependencies
         if name in self.resolution_stack:
             raise CircularDependencyError(
-                f"Circular dependency detected: {' -> '.join(self.resolution_stack} -> {name}"
+                f"Circular dependency detected: {' -> '.join(self.resolution_stack)} -> {name}"
             )
 
         descriptor = self.services[name]

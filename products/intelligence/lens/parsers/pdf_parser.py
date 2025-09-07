@@ -3,9 +3,9 @@
 PDF Parser for ΛLens
 Handles PDF files and extracts text content
 """
-import streamlit as st
-
 from typing import Any
+
+import streamlit as st
 
 from .base_parser import BaseParser
 

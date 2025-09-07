@@ -3,22 +3,22 @@
 Quantum Auth Glyph Pairs - Quantum-entangled symbolic authentication
 Creates cryptographic pairs of glyphs for secure multi-party authentication ⚛️
 """
-from consciousness.qi import qi
-import random
-import streamlit as st
-from datetime import timezone
-
 import base64
 import contextlib
 import hashlib
 import json
 import logging
+import random
 import secrets
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ class GlyphPair:
     def measure_state(self, observer_id: str) -> str:
         """Measure quantum state (collapses to deterministic glyph)"""
         # Quantum measurement simulation
-        measurement_seed = f"{self.pair_id}_{observer_id}_{datetime.now(timezone.utc).timestamp(}"
+        measurement_seed = f"{self.pair_id}_{observer_id}_{datetime.now(timezone.utc).timestamp()}"
         measurement_hash = hashlib.blake3(measurement_seed.encode()).hexdigest()
 
         # Use hash to determine which glyph is observed
@@ -147,9 +147,9 @@ class QIGlyphSystem:
         self._load_keystore()
 
         logger.info("⚛️ Quantum Glyph System initialized")
-        logger.info(f"   Glyph alphabet: {len(self.QUANTUM_GLYPHS} symbols")
-        logger.info(f"   Entanglement rules: {len(self.ENTANGLEMENT_RULES} families")
-        logger.info(f"   Existing pairs: {len(self.glyph_pairs}")
+        logger.info(f"   Glyph alphabet: {len(self.QUANTUM_GLYPHS)} symbols")
+        logger.info(f"   Entanglement rules: {len(self.ENTANGLEMENT_RULES)} families")
+        logger.info(f"   Existing pairs: {len(self.glyph_pairs)}")
 
     def _load_keystore(self):
         """Load glyph pairs from storage"""
@@ -234,7 +234,7 @@ class QIGlyphSystem:
         entanglement_key = base64.b64encode(entropy).decode()
 
         # Create pair
-        pair_id = f"qpair_{datetime.now(timezone.utc).timestamp(}_{family}"
+        pair_id = f"qpair_{datetime.now(timezone.utc).timestamp()}_{family}"
         pair = GlyphPair(
             pair_id=pair_id,
             primary_glyph=primary_glyph,
@@ -313,7 +313,7 @@ class QIGlyphSystem:
         expected_correlation = self.correlation_matrix.get((challenge_pair_id, response_pair_id), 0.0)
 
         # Create authentication
-        auth_id = f"qauth_{datetime.now(timezone.utc).timestamp(}"
+        auth_id = f"qauth_{datetime.now(timezone.utc).timestamp()}"
         auth = QIAuthentication(
             auth_id=auth_id,
             challenge_pair=challenge_pair,

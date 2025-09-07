@@ -3,9 +3,9 @@ LUKHAS AI Memory Module
 Fold-based memory with cascade prevention and emotional valence tracking
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
-
 from typing import Any, Optional
+
+import streamlit as st
 
 # Version info
 __version__ = "1.0.0"
@@ -92,15 +92,7 @@ def dump_state(output_path: str) -> dict[str, Any]:
             fold_count = 0
 
         # Create state dump
-        state_content = f"version:{__version__},folds:{fold_count},time:{time.time()}"
-        state = {
-            "version": __version__,
-            "folds": fold_count,
-            # Non-security checksum: use SHA256 to satisfy security linters
-            "checksum": hashlib.sha256(state_content.encode()).hexdigest(),
-            "timestamp": time.time(),
-            "status": "available" if MEMORY_AVAILABLE else "unavailable",
-        }
+        f"version:{__version__},folds:{fold_count},time:{time.time()}"
 
     # Write to file
     try:

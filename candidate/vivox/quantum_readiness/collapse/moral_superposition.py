@@ -1,7 +1,9 @@
 import logging
-from datetime import timezone
-import streamlit as st
 import random
+from datetime import timezone
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Moral Superposition
@@ -218,7 +220,7 @@ class MoralSuperposition:
 
         # Create quantum state
         state = EthicalQIState(
-            state_id=f"ethical_state_{datetime.now(timezone.utc).timestamp(}",
+            state_id=f"ethical_state_{datetime.now(timezone.utc).timestamp()}",
             superposition=superposition,
             ethical_weights=ethical_scenario.copy(),
             uncertainty_level=uncertainty,

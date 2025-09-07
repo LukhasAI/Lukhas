@@ -375,7 +375,7 @@ except ImportError:
         self.consolidation_queue = self.consolidation_queue[max_memories:]
         self.stats["consolidations"] += len(consolidated_memories)
 
-        logger.info(f"Consolidated {len(consolidated_memories} memories through dream processing")
+        logger.info(f"Consolidated {len(consolidated_memories)} memories through dream processing")
 
                                                                                                                                     return {
             "status": "success",

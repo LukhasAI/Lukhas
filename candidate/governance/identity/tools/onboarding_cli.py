@@ -78,7 +78,7 @@ class OnboardingCLI:
             "technical",
         ]
         for i, personality in enumerate(personalities, 1):
-            print(f"{i}. {personality.title(}")
+            print(f"{i}. {personality.title()}")
 
         try:
             choice = input("\nSelect personality type (1-6) or press Enter for 'simple': ").strip()
@@ -114,7 +114,7 @@ class OnboardingCLI:
             session_result = self.onboarding_manager.start_onboarding_session(initial_context)
 
             if not session_result["success"]:
-                print(f"❌ Failed to start session: {session_result.get('error'}")
+                print(f"❌ Failed to start session: {session_result.get('error')}")
                 return None
 
             self.current_session = session_result["session_id"]
@@ -144,7 +144,7 @@ class OnboardingCLI:
                 progress_result = self.onboarding_manager.progress_onboarding_stage(self.current_session, stage_data)
 
                 if not progress_result["success"]:
-                    print(f"❌ Stage progression failed: {progress_result.get('error'}")
+                    print(f"❌ Stage progression failed: {progress_result.get('error')}")
                     return None
 
                 # Show recommendations if available
@@ -164,7 +164,7 @@ class OnboardingCLI:
         symbolic_elements = []
 
         for i, stage in enumerate(stages):
-            print(f"\n📍 Stage {i + 1}/{len(stages)}: {stage.title(}")
+            print(f"\n📍 Stage {i + 1}/{len(stages)}: {stage.title()}")
             time.sleep(0.5)  # Simulate processing
 
             if stage == "symbolic_foundation":
@@ -227,7 +227,7 @@ class OnboardingCLI:
         ]
 
         for i, culture in enumerate(cultures, 1):
-            print(f"{i}. {culture.replace('_', ' ').title(}")
+            print(f"{i}. {culture.replace('_', ' ').title()}")
 
         try:
             choice = input("Select cultural context (1-7) or press Enter for 'universal': ").strip()
@@ -242,7 +242,7 @@ class OnboardingCLI:
         """Demo version of cultural context collection."""
         cultures = ["east_asian", "arabic", "african", "european"]
         selected = cultures[int(time.time()) % len(cultures)]
-        print(f"🌍 Selected cultural context: {selected.replace('_', ' ').title(}")
+        print(f"🌍 Selected cultural context: {selected.replace('_', ' ').title()}")
 
     def _collect_symbolic_elements(self) -> dict[str, Any]:
         """Collect symbolic elements from user."""
@@ -254,7 +254,7 @@ class OnboardingCLI:
         elements = []
         while len(elements) < 12:  # Max elements
             try:
-                element = input(f"Element {len(elements} + 1}: ").strip()
+                element = input(f"Element {len(elements)} + 1}: ").strip()
                 if element.lower() == "done":
                     if len(elements) >= 3:
                         break
@@ -286,7 +286,7 @@ class OnboardingCLI:
         """Demo version of symbolic element collection."""
         demo_elements = ["🚀", "wisdom", "create", "🌟", "harmony", "🔮"]
         selected = demo_elements[: 4 + (int(time.time()) % 3)]  # 4-6 elements
-        print(f"🔮 Selected symbolic elements: {', '.join(selected}")
+        print(f"🔮 Selected symbolic elements: {', '.join(selected)}")
         return selected
 
     def _collect_entropy_preferences(self) -> dict[str, Any]:
@@ -332,7 +332,7 @@ class OnboardingCLI:
 
         for aspect in aspects:
             try:
-                rating = input(f"{aspect.replace('_', ' ').title(} (1-5): ").strip()
+                rating = input(f"{aspect.replace('_', ' ').title()} (1-5): ").strip()
                 consciousness_data[aspect] = float(rating) / 5.0 if rating.isdigit() and 1 <= int(rating) <= 5 else 0.5
             except (KeyboardInterrupt, EOFError, ValueError) as e:
                 logger.warning(f"Error collecting consciousness aspect {aspect}: {e}")
@@ -389,7 +389,7 @@ class OnboardingCLI:
         lambda_id = f"ΛUKH-DEMO-{timestamp[-6:]}"
 
         # Generate demo hash
-        f"{personality_type}{len(symbolic_elements}{timestamp}"
+        f"{personality_type}{len(symbolic_elements)}{timestamp}"
         public_hash = hashlib.sha256()  #  Changed from MD5 for securityhash_input.encode().hexdigest()[:16]
 
         # Calculate demo tier and entropy
@@ -421,7 +421,7 @@ class OnboardingCLI:
         print("\n💡 Recommendations:")
         for rec in recommendations[:3]:  # Show top 3
             priority_icon = {"high": "🔥", "medium": "⚡", "low": "💡"}.get(rec.get("priority", "low"), "💡")
-            print(f"  {priority_icon} {rec.get('message', 'No message'}")
+            print(f"  {priority_icon} {rec.get('message', 'No message')}")
 
     def _display_result(self, result: dict[str, Any]):
         """Display onboarding completion result."""
@@ -429,19 +429,19 @@ class OnboardingCLI:
         print("🎉 ONBOARDING COMPLETION REPORT")
         print("=" * 50)
 
-        print(f"🆔 Lambda ID: {result.get('lambda_id', 'N/A'}")
-        print(f"🔑 Public Hash: {result.get('public_hash', 'N/A'}")
-        print(f"🏆 Tier Level: {result.get('tier_level', 'N/A'}")
-        print(f"⚡ Entropy Score: {result.get('entropy_score', 0}:.3f}")
-        print(f"🔮 QRG Enabled: {'Yes' if result.get('qrg_enabled'} else 'No'}")
+        print(f"🆔 Lambda ID: {result.get('lambda_id', 'N/A')}")
+        print(f"🔑 Public Hash: {result.get('public_hash', 'N/A')}")
+        print(f"🏆 Tier Level: {result.get('tier_level', 'N/A')}")
+        print(f"⚡ Entropy Score: {result.get('entropy_score', 0)}:.3f}")
+        print(f"🔮 QRG Enabled: {'Yes' if result.get('qrg_enabled')} else 'No'}")
 
         if "completion_report" in result:
             report = result["completion_report"]
             print("\n📊 Session Statistics:")
-            print(f"  ⏱️  Duration: {report.get('onboarding_duration_minutes', 0}:.1f} minutes")
-            print(f"  📋 Stages: {report.get('stages_completed', 0}")
-            print(f"  🔮 Symbolic Elements: {report.get('symbolic_vault_size', 0}")
-            print(f"  🎭 Personality: {report.get('personality_type', 'N/A').title(}")
+            print(f"  ⏱️  Duration: {report.get('onboarding_duration_minutes', 0)}:.1f} minutes")
+            print(f"  📋 Stages: {report.get('stages_completed', 0)}")
+            print(f"  🔮 Symbolic Elements: {report.get('symbolic_vault_size', 0)}")
+            print(f"  🎭 Personality: {report.get('personality_type', 'N/A').title()}")
 
         print("\n" + "=" * 50)
 
@@ -476,7 +476,7 @@ class OnboardingCLI:
             print("\n❌ No successful tests to analyze")
             return
 
-        print(f"\n📊 BATCH TEST RESULTS ({len(results} successful)")
+        print(f"\n📊 BATCH TEST RESULTS ({len(results)} successful)")
         print("=" * 50)
 
         # Calculate averages
@@ -496,7 +496,7 @@ class OnboardingCLI:
 
         print("\n🎭 Personality Distribution:")
         for personality, count in personality_counts.items():
-            print(f"  {personality.title(}: {count}")
+            print(f"  {personality.title()}: {count}")
 
         print("=" * 50)
 
@@ -513,13 +513,13 @@ class OnboardingCLI:
             print(f"Cultural Adaptation: {'Enabled' if config.enable_cultural_adaptation else 'Disabled'}")
             print(f"Analytics: {'Enabled' if config.enable_analytics else 'Disabled'}")
 
-            print(f"\nPersonality Flows: {len(config.personality_flows}")
+            print(f"\nPersonality Flows: {len(config.personality_flows)}")
             for personality in config.personality_flows:
-                print(f"  - {personality.title(}")
+                print(f"  - {personality.title()}")
 
-            print(f"\nCultural Contexts: {len(config.cultural_configs}")
+            print(f"\nCultural Contexts: {len(config.cultural_configs)}")
             for culture in config.cultural_configs:
-                print(f"  - {culture.replace('_', ' ').title(}")
+                print(f"  - {culture.replace('_', ' ').title()}")
         else:
             print("⚠️  Configuration manager not available")
 

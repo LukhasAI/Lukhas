@@ -21,9 +21,7 @@ from typing import Any
 import websockets
 
 # Import constitutional enforcement
-from .constitutional_gatekeeper import (
-    ConstitutionalLevel,
-    get_constitutional_gatekeeper)
+from .constitutional_gatekeeper import ConstitutionalLevel, get_constitutional_gatekeeper
 
 # Configure entropy logging
 logging.basicConfig(level=logging.INFO)

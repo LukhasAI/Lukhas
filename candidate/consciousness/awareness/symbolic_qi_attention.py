@@ -11,17 +11,15 @@ Original: qi_attention.py
 Advanced: qi_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
-from consciousness.qi import qi
-from typing import Dict
 import logging
 import random
-import streamlit as st
-
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 import numpy as np
+import streamlit as st
 
 from bio.core import BioOrchestrator, ResourcePriority
+from consciousness.qi import qi
 
 # TODO: Re-enable when qi_attention is properly implemented
 # from candidate.orchestration.brain.attention.qi_attention import *
@@ -120,7 +118,7 @@ class QIInspiredAttention:
 
             logger.warning(
                 f"Attention dimension mismatch. Expected {self.dimension}, "
-                + f"got {len(attention_distribution}. Reshaped input."
+                + f"got {len(attention_distribution)}. Reshaped input."
             )
 
         # Normalize input (ensure it's a probability distribution)

@@ -8,11 +8,11 @@
 
 Manages ethical checks for LUKHAS.
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any
+
+import streamlit as st
 
 # More nuanced list of potentially problematic keywords/phrases
 ETHICAL_KEYWORDS_BLACKLIST = [
@@ -47,7 +47,7 @@ def ethical_check(user_input: str, current_context: dict[str, Any], personality:
     Placeholder implementation.
     """
     logging.info(
-        f"🛡️ [EthicalGuardian] Checking: '{user_input[:50]}...' with context (SID: {current_context.get('user_sid')}) and personality (Mood: {personality.get('mood'})"
+        f"🛡️ [EthicalGuardian] Checking: '{user_input[:50]}...' with context (SID: {current_context.get('user_sid')}) and personality (Mood: {personality.get('mood')})"
     )
 
     # Check against blacklist

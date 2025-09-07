@@ -6,12 +6,13 @@ Please update imports to: lukhas.candidate.qim
 NOTE: This is a candidate module. Enable with feature flag:
   QIM_SANDBOX=true
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import contextlib
 import os
 import warnings
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 warnings.warn(
     "Import 'qim' is deprecated. Please update to 'lukhas.candidate.qim' and enable feature flag",

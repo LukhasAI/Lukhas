@@ -136,7 +136,7 @@ async def connect_systems(bus, endocrine):
         active_signals = bus.get_active_signals()
         stress_signals = [s for s in active_signals if s.name == SignalType.STRESS]
         if stress_signals:
-            logger.info(f"✅ Connection verified: {len(stress_signals} stress signals active")
+            logger.info(f"✅ Connection verified: {len(stress_signals)} stress signals active")
         else:
             logger.warning("⚠️ No stress signals detected - connection may need debugging")
 
@@ -214,7 +214,7 @@ async def main():
 
                 logger.info("📊 Status Update:")
                 logger.info(f"  Signal Bus: {bus_metrics['active_signals']} active signals")
-                logger.info(f"  Endocrine: {endocrine._determine_dominant_state(} state")
+                logger.info(f"  Endocrine: {endocrine._determine_dominant_state()} state")
                 logger.info(f"  Feedback: {feedback_metrics['total_cards']} cards captured")
 
         except KeyboardInterrupt:

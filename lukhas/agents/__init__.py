@@ -12,13 +12,13 @@ Trinity Framework: ⚛️🧠🛡️
 Author: LUKHAS AI Agent Systems
 Version: 2.0.0 (Bridge to /agent)
 """
-import time
-import streamlit as st
-
 import contextlib
 import sys
+import time
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # Add root agent directory to path
 _agent_path = Path(__file__).parent.parent.parent / "agent"
@@ -87,49 +87,49 @@ if _core_agents_available:
         [
             "AIAgentActor",
             "SupervisorAgent",
-            "get_supervisor_agent",
             "get_agent_system_status",
+            "get_supervisor_agent",
         ]
     )
 
 if _agent_interfaces_available:
     __all__.extend(
         [
-            "AgentInterface",
-            "SimpleAgent",
-            "AgentStatus",
             "AgentCapability",
-            "AgentMetadata",
-            "AgentMessage",
             "AgentContext",
+            "AgentInterface",
+            "AgentMessage",
+            "AgentMetadata",
+            "AgentStatus",
+            "SimpleAgent",
         ]
     )
 
 if _collaborative_agents_available:
     __all__.extend(
         [
+            "AgentCapabilities",
+            "AgentTier",
             "LukhasAIAgent",
             "LukhasAIAgentTeam",
-            "AgentTier",
-            "AgentCapabilities",
         ]
     )
 
 if _intelligence_bridge_available:
     __all__.extend(
         [
+            "AgentIntelligenceBridge",
             "AgentType",
             "IntelligenceRequestType",
-            "AgentIntelligenceBridge",
         ]
     )
 
 # Export availability flags for runtime checks
 __all__.extend(
     [
-        "_core_agents_available",
         "_agent_interfaces_available",
         "_collaborative_agents_available",
+        "_core_agents_available",
         "_intelligence_bridge_available",
     ]
 )

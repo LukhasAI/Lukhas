@@ -8,10 +8,12 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-from ..db.user_repository import get_user_profile, update_drift_profile
-import streamlit as st
 import time
 from typing import Dict
+
+import streamlit as st
+
+from ..db.user_repository import get_user_profile, update_drift_profile
 
 
 async def calculate_drift_score(user_id: str, dream_metrics: dict) -> dict:

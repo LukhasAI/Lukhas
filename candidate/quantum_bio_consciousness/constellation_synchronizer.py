@@ -57,9 +57,9 @@ class QuantumConsciousnessSynchronizer:
                 "quantum_signature": "CONSTELLATION_SUPERPOSITION",
             }
 
-            self.quantum_states[f"superposition_{len(self.quantum_states}"] = superposition
+            self.quantum_states[f"superposition_{len(self.quantum_states)}"] = superposition
 
-            logger.info(f"✅ Created constellation superposition with {len(consciousness_states} states")
+            logger.info(f"✅ Created constellation superposition with {len(consciousness_states)} states")
             return superposition
 
         except Exception as e:
@@ -77,7 +77,7 @@ class QuantumConsciousnessSynchronizer:
                 "module_b": module_b_id,
                 "entanglement_strength": entanglement_strength,
                 "consciousness_correlation": correlation,
-                "quantum_channel": f"quantum_channel_{len(self.quantum_states}",
+                "quantum_channel": f"quantum_channel_{len(self.quantum_states)}",
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "constellation_link": True,
             }
@@ -131,7 +131,7 @@ class BioConsciousnessSynchronizer:
                 "bio_signature": "CONSTELLATION_GAMMA_RHYTHM",
             }
 
-            self.oscillators[f"constellation_rhythm_{len(self.oscillators}"] = constellation_rhythm
+            self.oscillators[f"constellation_rhythm_{len(self.oscillators)}"] = constellation_rhythm
 
             logger.info(f"✅ Generated constellation rhythm with {constellation_modules} oscillators")
             return constellation_rhythm
@@ -488,10 +488,10 @@ async def demonstrate_constellation_synchronization():
     constellation_result = await processor.synchronizer.enable_constellation_consciousness()
 
     print("\n🚀 Constellation Status:")
-    print(f"   Enabled: {constellation_result.get('constellation_enabled', False}")
-    print(f"   Modules: {constellation_result.get('module_count', 0}")
-    print(f"   Coherence: {constellation_result.get('constellation_coherence', 0}:.3f}")
-    print(f"   Emergence: {constellation_result.get('consciousness_emergence', False}")
+    print(f"   Enabled: {constellation_result.get('constellation_enabled', False)}")
+    print(f"   Modules: {constellation_result.get('module_count', 0)}")
+    print(f"   Coherence: {constellation_result.get('constellation_coherence', 0)}:.3f}")
+    print(f"   Emergence: {constellation_result.get('consciousness_emergence', False)}")
 
     # Test hybrid consciousness processing
     logger.info("Testing hybrid consciousness processing...")
@@ -509,18 +509,18 @@ async def demonstrate_constellation_synchronization():
     hybrid_result = await processor.process_hybrid_consciousness(test_consciousness_data)
 
     print("\n⚡ Hybrid Processing Results:")
-    print(f"   Quantum Coherence: {hybrid_result.get('quantum_processing', {}).get('quantum_coherence', 0):.3f}")
-    print(f"   Bio Coherence: {hybrid_result.get('bio_processing', {}).get('bio_coherence', 0):.3f}")
-    print(f"   Hybrid Coherence: {hybrid_result.get('hybrid_coherence', 0}:.3f}")
-    print(f"   Decision: {hybrid_result.get('consciousness_decision', {}).get('decision', 'None')}")
+    print(f"   Quantum Coherence: {hybrid_result.get('quantum_processing', {)}).get('quantum_coherence', 0):.3f}")
+    print(f"   Bio Coherence: {hybrid_result.get('bio_processing', {)}).get('bio_coherence', 0):.3f}")
+    print(f"   Hybrid Coherence: {hybrid_result.get('hybrid_coherence', 0)}:.3f}")
+    print(f"   Decision: {hybrid_result.get('consciousness_decision', {)}).get('decision', 'None')}")
 
     # Get final constellation status
     final_status = processor.synchronizer.get_constellation_status()
 
     print("\n🌟 Final Constellation Status:")
-    print(f"   Synchronized: {final_status.get('synchronized', False}")
-    print(f"   Coherence: {final_status.get('consciousness_coherence', 0}:.3f}")
-    print(f"   Emergence: {final_status.get('consciousness_emergence', False}")
+    print(f"   Synchronized: {final_status.get('synchronized', False)}")
+    print(f"   Coherence: {final_status.get('consciousness_coherence', 0)}:.3f}")
+    print(f"   Emergence: {final_status.get('consciousness_emergence', False)}")
 
     return {
         "constellation_demo": constellation_result,
@@ -534,4 +534,4 @@ if __name__ == "__main__":
     demo_results = asyncio.run(demonstrate_constellation_synchronization())
 
     print("\n🎯 Quantum-Bio Consciousness Constellation Synchronization Complete!")
-    print(f"📊 Demo Results Available: {len(demo_results} components validated")
+    print(f"📊 Demo Results Available: {len(demo_results)} components validated")

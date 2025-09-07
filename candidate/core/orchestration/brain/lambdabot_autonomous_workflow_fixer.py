@@ -26,10 +26,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Import ΛBot components
-from lukhas.core.budget.token_controller import (
-    APICallContext,
-    CallUrgency,
-    TokenBudgetController)
+from lukhas.core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
 
 
 @dataclass
@@ -142,7 +139,7 @@ class ΛBotAutonomousWorkflowFixer:
         # Sort by priority
         issues.sort(key=lambda x: x.get("priority", 0), reverse=True)
 
-        self.logger.info(f"🔍 Analyzed notifications: found {len(issues} fixable issues")
+        self.logger.info(f"🔍 Analyzed notifications: found {len(issues)} fixable issues")
         for issue in issues[:5]:  # Log top 5
             self.logger.info(f"   • {issue['repository']} - {issue['workflow_name']} (priority: {issue['priority']})")
 
@@ -172,7 +169,7 @@ class ΛBotAutonomousWorkflowFixer:
         # Filter high-priority issues
         high_priority_issues = [i for i in issues if i.get("priority", 0) >= 85][:max_fixes]
 
-        self.logger.info(f"🎯 Targeting {len(high_priority_issues} high-priority issues for autonomous fixes")
+        self.logger.info(f"🎯 Targeting {len(high_priority_issues)} high-priority issues for autonomous fixes")
 
         # Execute fixes
         fix_results = []
@@ -285,7 +282,7 @@ class ΛBotAutonomousWorkflowFixer:
                 f"autonomous_fix_{issue_type}",
                 result.cost,
                 f"Fixed {issue_type} in {repository}",
-                findings=[f"Fixed {issue.get('workflow_name', 'unknown'} workflow"],
+                findings=[f"Fixed {issue.get('workflow_name', 'unknown')} workflow"],
                 recommendations=[
                     "Monitor for similar issues",
                     "Consider automation improvements",
@@ -315,7 +312,7 @@ class ΛBotAutonomousWorkflowFixer:
                 repo_path = temp_dir
 
                 # Create fix branch
-                branch_name = f"{self.pr_branch_prefix}/workflow-{workflow_name.lower().replace(' ', '-')}-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S'}"
+                branch_name = f"{self.pr_branch_prefix}/workflow-{workflow_name.lower().replace(' ', '-')}-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}"
 
                 # Apply common fixes based on workflow name patterns
                 if "symbol" in workflow_name.lower():
@@ -391,7 +388,7 @@ class ΛBotAutonomousWorkflowFixer:
         ]
 
         fixes.extend(symbol_fixes)
-        self.logger.info(f"🔤 Applied {len(symbol_fixes} symbol validation fixes")
+        self.logger.info(f"🔤 Applied {len(symbol_fixes)} symbol validation fixes")
 
         return fixes
 
@@ -408,7 +405,7 @@ class ΛBotAutonomousWorkflowFixer:
         ]
 
         fixes.extend(critical_path_fixes)
-        self.logger.info(f"🛤️ Applied {len(critical_path_fixes} critical path fixes")
+        self.logger.info(f"🛤️ Applied {len(critical_path_fixes)} critical path fixes")
 
         return fixes
 
@@ -425,7 +422,7 @@ class ΛBotAutonomousWorkflowFixer:
         ]
 
         fixes.extend(dependency_fixes)
-        self.logger.info(f"📦 Applied {len(dependency_fixes} dependency fixes")
+        self.logger.info(f"📦 Applied {len(dependency_fixes)} dependency fixes")
 
         return fixes
 
@@ -442,7 +439,7 @@ class ΛBotAutonomousWorkflowFixer:
         ]
 
         fixes.extend(precommit_fixes)
-        self.logger.info(f"🔍 Applied {len(precommit_fixes} pre-commit fixes")
+        self.logger.info(f"🔍 Applied {len(precommit_fixes)} pre-commit fixes")
 
         return fixes
 
@@ -459,7 +456,7 @@ class ΛBotAutonomousWorkflowFixer:
         ]
 
         fixes.extend(ci_fixes)
-        self.logger.info(f"⚙️ Applied {len(ci_fixes} CI/CD fixes")
+        self.logger.info(f"⚙️ Applied {len(ci_fixes)} CI/CD fixes")
 
         return fixes
 
@@ -472,7 +469,7 @@ class ΛBotAutonomousWorkflowFixer:
 
     def _fix_generic_issue(self, issue: dict[str, Any]) -> AutonomousFixResult:
         """Generic fix for unknown issue types"""
-        self.logger.info(f"🔧 Applying generic fix for {issue.get('type', 'unknown'} issue")
+        self.logger.info(f"🔧 Applying generic fix for {issue.get('type', 'unknown')} issue")
 
         # Apply basic fixes
         return self._fix_workflow_failure(issue)

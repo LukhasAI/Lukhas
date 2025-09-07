@@ -13,13 +13,12 @@
 ║ 🛡️ GUARDIAN: Security and compliance testing
 ╚══════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any, Optional
 
 import pytest
+import streamlit as st
 
 # Import consciousness identity modules for testing
 try:
@@ -944,4 +943,4 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     # Run tests
-    pytest.main([__file__, "-v", "-s", "--tb=short"] + sys.argv[1:])
+    pytest.main([__file__, "-v", "-s", "--tb=short", *sys.argv[1:]])

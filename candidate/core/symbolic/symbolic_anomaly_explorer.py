@@ -352,7 +352,7 @@ class SymbolicAnomalyExplorer:
 
         for i in range(n):
             # Create session with realistic patterns
-            session_id = f"DREAM_{datetime.now(timezone.utc).strftime('%Y%m%d'}_{i:03d}"
+            session_id = f"DREAM_{datetime.now(timezone.utc).strftime('%Y%m%d')}_{i:03d}"
             timestamp = (datetime.now(timezone.utc) - timedelta(hours=i * 2)).isoformat()
 
             # Select symbols with some patterns
@@ -368,8 +368,8 @@ class SymbolicAnomalyExplorer:
             ).tolist()
 
             # Create content with symbols
-            content = f"Dream session exploring {', '.join(selected_symbols}. "
-            content += f"Lambda tags: {' '.join(selected_lambda}. "
+            content = f"Dream session exploring {', '.join(selected_symbols)}. "
+            content += f"Lambda tags: {' '.join(selected_lambda)}. "
             content += "Symbolic narrative unfolds with complex emotional undertones."
 
             # Select emotional state
@@ -521,7 +521,7 @@ class SymbolicAnomalyExplorer:
                     severity = self._calculate_severity(conflict_score)
 
                     anomaly = SymbolicAnomaly(
-    anomaly_id=f"CONFLICT_{dream.session_id}_{int(conflict_score*1000}",
+    anomaly_id=f"CONFLICT_{dream.session_id}_{int(conflict_score*1000)}",
     anomaly_type=AnomalyType.SYMBOLIC_CONFLICT,
     severity=severity,
     confidence=min(
@@ -588,7 +588,7 @@ class SymbolicAnomalyExplorer:
                         affected_sessions.append(dream.session_id)
 
                 anomaly = SymbolicAnomaly(
-                    anomaly_id=f"LOOP_{hashlib.md5(str(frequent_patterns).encode()).hexdigest(}[:8]}",
+                    anomaly_id=f"LOOP_{hashlib.md5(str(frequent_patterns).encode()).hexdigest()}[:8]}",
                     anomaly_type=AnomalyType.RECURSIVE_LOOP, severity=severity,
                     confidence=loop_intensity,
                     description=f"Recursive symbolic patterns detected: {frequent_patterns[:3]}",
@@ -643,7 +643,7 @@ class SymbolicAnomalyExplorer:
                 severity = self._calculate_severity(dissonance_score)
 
                 anomaly = SymbolicAnomaly(
-                    anomaly_id=f"DISSONANCE_{dream.session_id}_{int(dissonance_score*1000}",
+                    anomaly_id=f"DISSONANCE_{dream.session_id}_{int(dissonance_score*1000)}",
                     anomaly_type=AnomalyType.EMOTIONAL_DISSONANCE,
                     severity=severity,
                     confidence=min(dissonance_score, 1.0),
@@ -720,7 +720,7 @@ class SymbolicAnomalyExplorer:
                     severity = self._calculate_severity(mutation_score)
 
                     anomaly = SymbolicAnomaly(
-                        anomaly_id=f"MUTATION_{symbol}_{int(mutation_score*1000}",
+                        anomaly_id=f"MUTATION_{symbol}_{int(mutation_score*1000)}",
                         anomaly_type=AnomalyType.MOTIF_MUTATION,
                         severity=severity,
                         confidence=mutation_score,
@@ -730,7 +730,7 @@ class SymbolicAnomalyExplorer:
                         metrics={
                             "mutation_score": mutation_score,
                             "appearances": len(appearances),
-                            "max_shift": max(emotional_shifts},
+                            "max_shift": max(emotional_shifts)},
                         },
                         recommendations=[
                             "Monitor symbol stability",
@@ -783,7 +783,7 @@ class SymbolicAnomalyExplorer:
                         )
 
                 anomaly = SymbolicAnomaly(
-    anomaly_id=f"DRIFT_ACCEL_{int(acceleration_score*1000}",
+    anomaly_id=f"DRIFT_ACCEL_{int(acceleration_score*1000)}",
     anomaly_type=AnomalyType.DRIFT_ACCELERATION,
     severity=severity,
     confidence=min(
@@ -839,11 +839,11 @@ class SymbolicAnomalyExplorer:
                     severity = self._calculate_severity(fracture_score)
 
                     anomaly = SymbolicAnomaly(
-    anomaly_id=f"FRACTURE_{dream.session_id}_{int(fracture_score*1000}",
+    anomaly_id=f"FRACTURE_{dream.session_id}_{int(fracture_score*1000)}",
     anomaly_type=AnomalyType.NARRATIVE_FRACTURE,
     severity=severity,
     confidence=fracture_score,
-    description=f"Narrative fracture detected (missing: {list(missing_narratives})",
+    description=f"Narrative fracture detected (missing: {list(missing_narratives)})",
     affected_sessions=[
         dream.session_id],
         symbolic_elements=list(missing_narratives),
@@ -934,9 +934,9 @@ class SymbolicAnomalyExplorer:
         if critical_count > 0:
             summary = f"CRITICAL: {critical_count} critical anomalies detected requiring immediate attention."
         elif len(anomalies) > 5:
-            summary = f"MODERATE CONCERN: {len(anomalies} anomalies detected across symbolic patterns."
+            summary = f"MODERATE CONCERN: {len(anomalies)} anomalies detected across symbolic patterns."
         elif len(anomalies) > 0:
-            summary = f"LOW CONCERN: {len(anomalies} minor anomalies detected,"
+            summary = f"LOW CONCERN: {len(anomalies)} minor anomalies detected,"
     monitoring recommended."
        else:
             summary = "NOMINAL: No significant anomalies detected in dream sessions."
@@ -962,7 +962,7 @@ class SymbolicAnomalyExplorer:
             recommendations.append("URGENT: Consider system-wide symbolic reset")
 
         report = AnomalyReport(
-            report_id=f"ANOMALY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            report_id=f"ANOMALY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             sessions_analyzed=len(affected_sessions),
             anomalies_detected=anomalies,
@@ -1278,11 +1278,11 @@ def cli_analysis(
         print(f"Loading {n_sessions} recent dream sessions...")
 
         dreams = explorer.load_recent_dreams(n_sessions)
-        print(f"✓ Loaded {len(dreams} sessions")
+        print(f"✓ Loaded {len(dreams)} sessions")
 
         print("Detecting symbolic anomalies...")
         anomalies = explorer.detect_symbolic_anomalies(dreams)
-        print(f"✓ Detected {len(anomalies} anomalies")
+        print(f"✓ Detected {len(anomalies)} anomalies")
 
         print("Generating report...")
         report = explorer.generate_anomaly_report(anomalies)

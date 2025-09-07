@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: policy_board.py
@@ -151,7 +153,7 @@ class EnhancedPolicyBoard:
     """
 
     def __init__(self):
-        self.logger = logger.bind(board_id=f"policy_board_{datetime.now(timezone.utc).strftime('%H%M%S'}")
+        self.logger = logger.bind(board_id=f"policy_board_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.qi_oscillator = QIOscillator()
         self.awareness = EnhancedSystemAwareness()  # Assumes default init is fine
 

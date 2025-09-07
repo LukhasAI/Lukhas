@@ -22,16 +22,16 @@ Integration:
 - Guardian System 2.0 privacy violation detection
 - Secure logging for privacy audit trails
 """
-import time
-import streamlit as st
-
 import hashlib
 import json
 import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 # Privacy framework types
@@ -652,7 +652,7 @@ class PrivacyComplianceEngine:
         """
 
         try:
-            request_id = f"DSR_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{request_data['subject_id'][:8]}"
+            request_id = f"DSR_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{request_data['subject_id'][:8]}"
 
             # Calculate completion deadline
             request_type = request_data["request_type"]
@@ -750,7 +750,7 @@ class PrivacyComplianceEngine:
             pass
 
         return {
-            "report_id": f"PRIVACY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "report_id": f"PRIVACY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "generation_timestamp": datetime.now(timezone.utc).isoformat(),
             "jurisdiction": jurisdiction or "global",
             "summary": {

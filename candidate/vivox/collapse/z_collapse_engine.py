@@ -591,7 +591,7 @@ if __name__ == "__main__":
     )
 
     print(f"Baseline z(0) = {baseline_result.collapsed_state_vector}")
-    print(f"Expected magnitude: 2.0, Actual: {abs(baseline_result.collapsed_state_vector}:.10f}")
+    print(f"Expected magnitude: 2.0, Actual: {abs(baseline_result.collapsed_state_vector)}:.10f}")
     print(f"Hash: {baseline_result.collapse_hash[:16]}...")
 
     # Test with π/4 phase
@@ -618,11 +618,11 @@ if __name__ == "__main__":
     print("\n📊 Mathematical Trace:")
     trace = realistic_result.mathematical_trace
     if trace:
-        print(f"Formula: {trace.get('formula', 'N/A'}")
+        print(f"Formula: {trace.get('formula', 'N/A')}")
         if "parameters" in trace:
             params = trace["parameters"]
-            print(f"Parameters: t={params.get('t', 0)}, θ={params.get('theta', 0}:.4f}")
+            print(f"Parameters: t={params.get('t', 0)}, θ={params.get('theta', 0)}:.4f}")
         if "result" in trace:
             result_data = trace["result"]
-            print(f"Result magnitude: {result_data.get('magnitude', 0}:.6f}")
-            print(f"Result phase: {result_data.get('phase', 0}:.6f}")
+            print(f"Result magnitude: {result_data.get('magnitude', 0)}:.6f}")
+            print(f"Result phase: {result_data.get('phase', 0)}:.6f}")

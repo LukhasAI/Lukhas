@@ -1365,7 +1365,7 @@ class EthicalFrameworkHarmonizer:
             confidence=primary_evaluation.get("confidence", 0.5) * 0.9,  # Slight reduction for conflict
             primary_framework=primary_framework,
             resolution_method="priority_hierarchy",
-            harmonized_reasoning=f"Resolved using {primary_framework} framework priority: {primary_evaluation.get('reasoning', ''}",
+            harmonized_reasoning=f"Resolved using {primary_framework} framework priority: {primary_evaluation.get('reasoning', '')}",
             remaining_conflicts=[
                 c for c in conflicts if c.framework_a != primary_framework and c.framework_b != primary_framework
             ],
@@ -1394,7 +1394,7 @@ class EthicalFrameworkHarmonizer:
 
         # Build reasoning
         top_principles = sorted(meta_scores.items(), key=lambda x: x[1], reverse=True)[:3]
-        reasoning = f"Meta-ethical evaluation based on {', '.join([p[0] for p in top_principles]}"
+        reasoning = f"Meta-ethical evaluation based on {', '.join([p[0] for p in top_principles])}"
 
         return HarmonizationResult(
             final_decision=final_decision,
@@ -1442,7 +1442,7 @@ class EthicalFrameworkHarmonizer:
                 confidence=evaluation.get("confidence", 0.5) * most_relevant[1],
                 primary_framework=relevant_framework,
                 resolution_method="contextual_adaptation",
-                harmonized_reasoning=f"Context favors {relevant_framework} approach: {evaluation.get('reasoning', ''}",
+                harmonized_reasoning=f"Context favors {relevant_framework} approach: {evaluation.get('reasoning', '')}",
                 remaining_conflicts=[
                     c for c in conflicts if c.framework_a != relevant_framework and c.framework_b != relevant_framework
                 ],
@@ -1487,7 +1487,7 @@ class EthicalFrameworkHarmonizer:
             confidence=avg_confidence * (1 - len(conflicts) * 0.1),  # Reduce confidence for conflicts
             primary_framework="weighted_consensus",
             resolution_method="weighted_consensus",
-            harmonized_reasoning=f"Weighted consensus (score: {consensus_score:.2f}) across {len(framework_evaluations} frameworks",
+            harmonized_reasoning=f"Weighted consensus (score: {consensus_score:.2f}) across {len(framework_evaluations)} frameworks",
             remaining_conflicts=conflicts if consensus_score < 0.8 else [],
         )
 
@@ -1541,7 +1541,7 @@ class EthicalFrameworkHarmonizer:
             confidence=min(0.95, avg_confidence),
             primary_framework="consensus",
             resolution_method="framework_consensus",
-            harmonized_reasoning=f"All {len(framework_evaluations} frameworks agree",
+            harmonized_reasoning=f"All {len(framework_evaluations)} frameworks agree",
             remaining_conflicts=[],
         )
 

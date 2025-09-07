@@ -1,7 +1,7 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
-from datetime import timezone
+
 import streamlit as st
 
 

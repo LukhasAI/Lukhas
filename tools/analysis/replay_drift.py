@@ -140,7 +140,7 @@ class EmergencySimulator:
             logger.warning("🚨 EMERGENCY CONDITION TRIGGERED")
             logger.warning(f"   Entropy: {metrics['entropy_score']:.3f} > 0.95")
             logger.warning(f"   Velocity: {metrics['entropy_velocity']:.3f} > 0.1")
-            logger.warning(f"   Symbolic: {'→'.join(metrics['symbolic_pattern']}")
+            logger.warning(f"   Symbolic: {'→'.join(metrics['symbolic_pattern'])}")
 
             # Log emergency trigger to audit
             await self._log_emergency_trigger(metrics)

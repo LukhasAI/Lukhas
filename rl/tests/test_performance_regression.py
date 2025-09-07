@@ -139,7 +139,7 @@ class PerformanceTracker:
         recent = self.get_recent_metrics(name, count=20)
 
         if len(recent) < 5:
-            return False, f"Insufficient historical data for {name} (need 5+ samples, have {len(recent})"
+            return False, f"Insufficient historical data for {name} (need 5+ samples, have {len(recent)})"
 
         historical_values = [m.value for m in recent[1:]]  # Exclude current measurement
         mean_historical = statistics.mean(historical_values)

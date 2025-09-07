@@ -5,6 +5,7 @@ import json
 import time
 import uuid
 from typing import Any
+
 import streamlit as st
 
 try:
@@ -29,9 +30,6 @@ def make_node(
         "version": 1,
         "schema_ref": "lukhas://schemas/matriz_node_v1.json",
         "id": f"LT-{uuid.uuid4()}",
-        "type": ntype,
-        "state": state,
-        "timestamps": {"created_ts": int(time.time() * 1000)},
         "provenance": provenance,
     }
     if labels:

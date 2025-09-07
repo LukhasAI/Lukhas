@@ -90,10 +90,10 @@ class SmokeDemo:
         """
         results = []
 
-        logger.info(f"🌟 Starting Wave C Smoke Demo with {len(dream_seeds} dream seeds")
+        logger.info(f"🌟 Starting Wave C Smoke Demo with {len(dream_seeds)} dream seeds")
 
         for i, seed in enumerate(dream_seeds, 1):
-            logger.info(f"\n--- Dream Seed {i}/{len(dream_seeds)}: {seed.get('name', 'Unnamed'} ---")
+            logger.info(f"\n--- Dream Seed {i}/{len(dream_seeds)}: {seed.get('name', 'Unnamed')} ---")
 
             try:
                 result = self._process_dream_seed(seed)
@@ -132,7 +132,7 @@ class SmokeDemo:
         glyphs = map_scene_to_glyphs(scene)
         self.total_glyphs_generated += len(glyphs)
         glyph_keys = [g.key for g in glyphs]
-        logger.info(f"  🏷️  GLYPHs: {len(glyphs)} generated ({', '.join(glyph_keys})")
+        logger.info(f"  🏷️  GLYPHs: {len(glyphs)} generated ({', '.join(glyph_keys)})")
 
         # Step 3: Compute routing priority
         priority = compute_routing_priority(scene)
@@ -419,7 +419,7 @@ def main():
 
     # Print summary
     print("\n📈 Demo Summary:")
-    print(f"  Scenarios processed: {len(results}")
+    print(f"  Scenarios processed: {len(results)}")
     print(f"  Successful runs: {len([r for r in results if r.get('success')]}")
     print(f"  Total GLYPHs generated: {demo.total_glyphs_generated}")
     print(f"  Total hints generated: {demo.total_hints_generated}")
@@ -430,7 +430,7 @@ def main():
             metrics = result.get("metrics", {})
             print(f"\n  {result['seed']['name']}:")
             print(f"    Priority: {result['priority']:.3f}")
-            print(f"    GLYPHs: {len(result['glyphs']}")
+            print(f"    GLYPHs: {len(result['glyphs'])}")
             print(f"    Operations: {len(result['hints'].get('ops', [])}")
             congruence = metrics.get("congruence_index", "N/A")
             coherence = 1.0 - metrics.get("neurosis_risk", 0.0)  # Inverse of neurosis risk

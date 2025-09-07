@@ -3,10 +3,10 @@ LUKHAS AI Colony System - Creativity Colony
 Creative processing and ideation
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
-
 import random
 from typing import Any
+
+import streamlit as st
 
 from .base import BaseColony, ColonyTask
 
@@ -40,7 +40,7 @@ class CreativityColony(BaseColony):
         elif task_type == "creative_synthesis":
             elements = payload.get("elements", [])
             if len(elements) >= 2:
-                synthesis = f"Creative combination of {' and '.join(elements}"
+                synthesis = f"Creative combination of {' and '.join(elements)}"
                 return {
                     "synthesis": synthesis,
                     "originality_score": random.uniform(0.6, 0.9),

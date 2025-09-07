@@ -92,7 +92,7 @@ def fix_bots_directory():
             
             for wrong_name, correct_name in class_fixes.items():
                 if wrong_name in content:
-                    content = re.sub(rf'\b{re.escape(wrong_name}\b', correct_name, content)
+                    content = re.sub(rf\'\b{re.escape(wrong_name)}\b\', correct_name, content)
                     fixes_applied += 1
             
             # Fix 4: Add missing Quantum imports

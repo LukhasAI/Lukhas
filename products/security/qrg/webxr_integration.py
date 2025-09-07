@@ -241,7 +241,7 @@ class WebXRIntegration:
                 # Mock interfaces for development
                 self.platform_interfaces[platform] = self._create_mock_platform_interface(platform)
 
-        logger.info(f"🔧 Initialized {len(self.platform_interfaces} XR platform interfaces")
+        logger.info(f"🔧 Initialized {len(self.platform_interfaces)} XR platform interfaces")
 
     def create_holographic_glyph(
         self,
@@ -371,7 +371,7 @@ class WebXRIntegration:
         # In production, would integrate with actual QRG core
         return {
             "identity": identity,
-            "qi_signature": f"QS-{hash(identity} % 1000000:06d}",
+            "qi_signature": f"QS-{hash(identity)} % 1000000:06d}",
             "visual_matrix": np.random.randint(0, 256, (64, 64, 3), dtype=np.uint8),
             "consciousness_fingerprint": f"CF-{hash(identity + str(time.time())} % 1000000:06d}",
         }
@@ -409,7 +409,7 @@ class WebXRIntegration:
             )
             layers.append(layer)
 
-        logger.info(f"🎭 Generated {len(layers} holographic layers")
+        logger.info(f"🎭 Generated {len(layers)} holographic layers")
         return layers
 
     def _get_layer_configurations(self, mode: HolographicMode, spatial_dimensions: int) -> list[dict[str, Any]]:
@@ -775,7 +775,7 @@ class WebXRIntegration:
             )
             zones.append(gaze_zone)
 
-        logger.info(f"🎯 Created {len(zones} interaction zones for {mode.value}")
+        logger.info(f"🎯 Created {len(zones)} interaction zones for {mode.value}")
         return zones
 
     def _apply_consciousness_adaptations(

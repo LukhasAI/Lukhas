@@ -3,13 +3,13 @@
 Hormonal System - Digital Endocrine Regulation
 Implements hormone-based regulation patterns for system homeostasis.
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from dataclasses import dataclass
 from typing import Callable
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

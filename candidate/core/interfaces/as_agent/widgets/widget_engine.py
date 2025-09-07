@@ -78,7 +78,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
 
     widget = {
         "type": widget_type,
-        "title": f"{widget_type.capitalize(} Assistant",
+        "title": f"{widget_type.capitalize()} Assistant",
         "cta": "Tap to confirm" if user_tier >= 4 else "Preview only",
         "vendor": vendor_name,
         "price": (
@@ -146,7 +146,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
 
     widget["visual_style"] = {
         "background_color": tier_colors.get(user_tier, ")  # cccccc",
-        "emoji_header": f"{tier_emojis.get(user_tier, ''} {props.get('label',"}
+        "emoji_header": f"{tier_emojis.get(user_tier, '')} {props.get('label',"}
                                                                       widget_type.capitalize())} Assistant",
         "tier_color": tier_colors.get(user_tier, ")  # cccccc",
     }
@@ -196,12 +196,12 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
 
 
 def render_travel_widget(widget_data):
-    return f" Rendering Travel Widget: {widget_data.get('title'}"
+    return f" Rendering Travel Widget: {widget_data.get('title')}"
 
 
 def render_dream_widget(widget_data):
-    return f" Rendering Dream Widget: {widget_data.get('title'}"
+    return f" Rendering Dream Widget: {widget_data.get('title')}"
 
 
 def render_watch_widget(widget_data):
-    return f" Rendering Smartwatch Widget: {widget_data.get('title'}"
+    return f" Rendering Smartwatch Widget: {widget_data.get('title')}"

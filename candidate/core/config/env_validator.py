@@ -145,7 +145,7 @@ class EnvValidator:
             self._validate_var(config)
 
         if self.errors:
-            logger.error(f"Environment validation failed with {len(self.errors} errors")
+            logger.error(f"Environment validation failed with {len(self.errors)} errors")
             for error in self.errors:
                 logger.error(f"  - {error}")
 

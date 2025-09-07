@@ -680,7 +680,7 @@ class MemoryEmotionalIntegrator:
             common_tags = cluster["common_tags"]
 
             # Create a consolidated memory for the cluster
-            consolidated_key = f"consolidated_{int(time.time())}_{uuid.uuid4(}.hex[:6]}"
+            consolidated_key = f"consolidated_{int(time.time())}_{uuid.uuid4()}.hex[:6]}"
 
             # Check cluster for emotional content
             emotional_context = self.context_reasoner.analyze_emotional_context(cluster_keys)

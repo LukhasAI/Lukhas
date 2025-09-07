@@ -154,7 +154,7 @@ class WebAuthnManager:
             }
 
             # Store pending registration
-            registration_id = f"reg_{secrets.token_hex(16}"
+            registration_id = f"reg_{secrets.token_hex(16)}"
             self.pending_registrations[registration_id] = {
                 "challenge": challenge,
                 "challenge_b64": challenge_b64,
@@ -318,7 +318,7 @@ class WebAuthnManager:
             }
 
             # Store pending authentication
-            auth_id = f"auth_{secrets.token_hex(16}"
+            auth_id = f"auth_{secrets.token_hex(16)}"
             self.pending_authentications[auth_id] = {
                 "challenge": challenge,
                 "challenge_b64": challenge_b64,

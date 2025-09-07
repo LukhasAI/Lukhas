@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import random
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -749,7 +751,7 @@ async def demonstrate_neocortical_network():
             if mem_id and mem_id not in memory_ids:
                 memory_ids.append(mem_id)
 
-        print(f"Consolidated: {episode['event']} - {episode.get('topic', 'N/A'}")
+        print(f"Consolidated: {episode['event']} - {episode.get('topic', 'N/A')}")
 
     # Wait for processing
     await asyncio.sleep(2)
@@ -759,12 +761,12 @@ async def demonstrate_neocortical_network():
 
     # Query by concept
     learning_memories = await neocortex.retrieve_semantic("learning")
-    print(f"Found {len(learning_memories} memories for 'learning'")
+    print(f"Found {len(learning_memories)} memories for 'learning'")
 
     # Query by features
     ml_query = {"subject": "machine learning"}
     ml_memories = await neocortex.retrieve_semantic(ml_query)
-    print(f"Found {len(ml_memories} memories matching ML query")
+    print(f"Found {len(ml_memories)} memories matching ML query")
 
     if ml_memories:
         print(f"  Example: {ml_memories[0].concept} (stability: {ml_memories[0].stability:.2f})")

@@ -12,6 +12,7 @@ Features:
 - Compliance tracking
 """
 import logging
+
 import streamlit as st
 
 from .activity_logger import LambdaTraceLogger as ActivityLogger

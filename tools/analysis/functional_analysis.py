@@ -3,13 +3,13 @@
  Functional Analysis - Identify what actually WORKS vs what's just connected
 Analyzes functional capabilities, dependencies, and operational readiness
 """
-import time
-import streamlit as st
-
 import ast
 import json
 import re
+import time
 from pathlib import Path
+
+import streamlit as st
 
 
 class FunctionalAnalyzer:
@@ -331,11 +331,11 @@ def main():
         print(f"   {status_emoji} {system}: {data['status']}{ratio}")
 
         if data["capabilities"]:
-            print(f"      Capabilities: {len(data['capabilities']} identified")
+            print(f"      Capabilities: {len(data['capabilities'])} identified")
             for cap in data["capabilities"][:3]:  # Show top 3
                 print(f"        • {cap['capability']} ({cap['confidence']})")
 
-    print(f"\n🚀 EXECUTABLE ENTRY POINTS ({len(entry_points}):")
+    print(f"\n🚀 EXECUTABLE ENTRY POINTS ({len(entry_points)}):")
     for path, data in entry_points.items():
         status_emoji = "✅" if data["functional"] else "❌"
         print(f"   {status_emoji} {path} ({data['type']})")

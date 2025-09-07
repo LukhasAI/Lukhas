@@ -1,8 +1,8 @@
 import threading
 from typing import Optional
 
-import torch
 import streamlit as st
+import torch
 
 
 class PinMemoryCache:

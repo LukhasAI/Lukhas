@@ -3,11 +3,10 @@ LUKHAS AI Colony System - Memory Colony
 Distributed memory processing and retrieval
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 from .base import BaseColony, ColonyTask
 
@@ -34,12 +33,7 @@ class MemoryColony(BaseColony):
         payload = task.payload
 
         if task_type == "store_memory":
-            memory_id = f"mem_{datetime.now(timezone.utc).timestamp(}"
-            self.memory_store[memory_id] = {
-                "content": payload,
-                "stored_at": datetime.now(timezone.utc),
-            }
-            return {"stored": True, "memory_id": memory_id}
+            memory_id = f"mem_{datetime.now(timezone.utc).timestamp()}"
         elif task_type == "retrieve_memory":
             memory_id = payload.get("memory_id")
             memory = self.memory_store.get(memory_id)

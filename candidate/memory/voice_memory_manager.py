@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
 import logging
+from datetime import datetime, timezone
 
 #!/usr/bin/env python3
 """
@@ -55,11 +55,11 @@ import logging
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 """
-import time
-import streamlit as st
-
 import datetime
+import time
 from typing import Any
+
+import streamlit as st
 
 
 class MemoryManager:

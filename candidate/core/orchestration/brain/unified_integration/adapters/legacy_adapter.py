@@ -4,12 +4,12 @@ Original: legacy_adapter.py
 Advanced: legacy_adapter.py
 Integration Date: 2025-05-31T07:55:29.984497
 """
-import streamlit as st
-
 import logging
 import time
 import uuid
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 """
 LegacyAdapter - Compatibility layer for existing LUKHAS components
@@ -46,22 +46,6 @@ class LegacyComponentAdapter:
         self.integration.register_component(component_id, component_type, self._handle_message)
 
         logger.info(f"Legacy adapter initialized for {component_id}")
-
-    def adapt_legacy_message(self, message: dict[str, Any], target: Optional[str] = None) -> Message:
-        """Convert legacy message format to new standard
-
-        Args:
-            message: Legacy message dictionary
-            target: Optional target component
-
-        Returns:
-            Message: Standardized message object
-        """
-        # Determine message type
-        msg_type = MessageType(message["type"]) if "type" in message else MessageType.COMMAND
-
-        # Extract or create metadata
-        metadata = message.get("metadata", {})
         metadata["legacy"] = True
 
         # Create standardized message
@@ -125,44 +109,3 @@ class LegacyComponentAdapter:
                 self.legacy_handler(legacy_message)
             except Exception as e:
                 logger.error(f"Error in legacy handler: {e}")
-        else:
-            logger.warning("No legacy handler registered")
-
-
-class LUKHASCoreAdapter(LegacyComponentAdapter):
-    """Specialized adapter for Lukhas Core integration"""
-
-    def __init__(self, integration_layer: UniversalIntegrationLayer):
-        """Initialize Lukhas Core adapter"""
-        super().__init__(integration_layer, "lukhas_core", ComponentType.CORE)
-
-        # Subscribe to core message types
-        self.integration.subscribe(self.component_id, MessageType.COMMAND, self._handle_message)
-        self.integration.subscribe(self.component_id, MessageType.EVENT, self._handle_message)
-
-
-class BrainIntegrationAdapter(LegacyComponentAdapter):
-    """Specialized adapter for Brain Integration system"""
-
-    def __init__(self, integration_layer: UniversalIntegrationLayer):
-        """Initialize Brain Integration adapter"""
-        super().__init__(integration_layer, "brain_integration", ComponentType.AGI)
-
-        # Subscribe to relevant message types
-        self.integration.subscribe(self.component_id, MessageType.COMMAND, self._handle_message)
-
-    async def process_brain_message(
-        self,
-        message: dict[str, Any],
-        metadata: Optional[dict[str, Any]] = None,
-    ) -> str:
-        """Process a brain-specific message
-
-        Args:
-            message: Brain message dictionary
-            metadata: Optional metadata
-
-        Returns:
-            str: Message ID
-        """
-        return await self.send_message(message, metadata=metadata or {"subsystem": "brain"})

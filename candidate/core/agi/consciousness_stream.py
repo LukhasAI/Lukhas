@@ -2,18 +2,17 @@
 LUKHAS Real-time Consciousness Streaming
 High-performance consciousness state broadcasting
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import struct
 import zlib
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
+
+import streamlit as st
 
 
 class StreamType(Enum):

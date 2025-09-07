@@ -4,10 +4,10 @@ Trinity Framework: ⚛️🧠🛡️
 
 This module consolidates access to the complex dream system through a simple interface.
 """
-import streamlit as st
-
 import logging
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +59,7 @@ class DreamSystem:
 
         self.initialized = True
         if components:
-            logger.info(f"Dream system initialized with: {', '.join(components}")
+            logger.info(f"Dream system initialized with: {', '.join(components)}")
         else:
             logger.warning("No dream engines available")
 

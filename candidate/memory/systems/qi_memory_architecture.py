@@ -17,11 +17,10 @@
 │   3. Retrieve memories using quantum associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
-import streamlit as st
-
 from typing import Optional
 
 import numpy as np
+import streamlit as st
 from qiskit import QICircuit
 
 

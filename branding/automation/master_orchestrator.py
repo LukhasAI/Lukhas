@@ -83,7 +83,7 @@ class MasterOrchestrator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"master_orchestrator_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = self.logs_path / f"master_orchestrator_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -105,7 +105,7 @@ class MasterOrchestrator:
 
                 self.schedules = [OrchestrationSchedule(**schedule) for schedule in config_data.get("schedules", [])]
                 self.orchestration_stats = config_data.get("stats", self.orchestration_stats)
-                self.logger.info(f"Loaded {len(self.schedules} orchestration schedules")
+                self.logger.info(f"Loaded {len(self.schedules)} orchestration schedules")
             except Exception as e:
                 self.logger.error(f"Failed to load orchestration config: {e}")
                 self._create_default_config()
@@ -599,7 +599,7 @@ async def main():
     print("\n🔍 System Results:")
     for result in results["systems_executed"]:
         status_icon = "✅" if result.get("success") else "❌"
-        duration = f"({result.get('duration', 0}:.1f}s)" if "duration" in result else ""
+        duration = f"({result.get('duration', 0)}:.1f}s)" if "duration" in result else ""
         print(f"   {status_icon} {result['system']} {duration}")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Master Orchestration Complete")

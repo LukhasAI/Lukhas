@@ -31,22 +31,22 @@ from .semantic_interface import (
 __all__ = [
     # Base interfaces
     "BaseMemoryInterface",
-    "MemoryType",
-    "MemoryState",
+    "ConceptNode",
+    "EpisodicContext",
+    "EpisodicMemoryContent",
+    # Episodic interface
+    "EpisodicMemoryInterface",
+    "MemoryInterfaceRegistry",
     "MemoryMetadata",
     "MemoryOperation",
     "MemoryResponse",
-    "ValidationResult",
-    "MemoryInterfaceRegistry",
-    "memory_registry",
-    # Episodic interface
-    "EpisodicMemoryInterface",
-    "EpisodicContext",
-    "EpisodicMemoryContent",
+    "MemoryState",
+    "MemoryType",
+    "SemanticMemoryContent",
     # Semantic interface
     "SemanticMemoryInterface",
-    "SemanticRelationType",
     "SemanticRelation",
-    "ConceptNode",
-    "SemanticMemoryContent",
+    "SemanticRelationType",
+    "ValidationResult",
+    "memory_registry",
 ]

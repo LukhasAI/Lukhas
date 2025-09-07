@@ -648,7 +648,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
                     feedback_parts.append("User consent required for this operation.")
 
             if trinity_issues:
-                feedback_parts.append(f"Request may impact critical system components: {', '.join(trinity_issues}")
+                feedback_parts.append(f"Request may impact critical system components: {', '.join(trinity_issues)}")
 
             # Personality-aware response
             mood = personality.get("mood", "neutral")
@@ -699,7 +699,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         # Log reflection
         logger.info(
-            f"🤔 Ethical reflection performed: {len(reflection['analysis_summary']['primary_concerns']} concerns identified"
+            f"🤔 Ethical reflection performed: {len(reflection['analysis_summary']['primary_concerns'])} concerns identified"
         )
 
         return reflection
@@ -1060,10 +1060,10 @@ if __name__ == "__main__":
 
             if analysis["keyword_analysis"]["detected_keywords"]:
                 keywords = [k["keyword"] for k in analysis["keyword_analysis"]["detected_keywords"]]
-                print(f"   Keywords: {', '.join(keywords}")
+                print(f"   Keywords: {', '.join(keywords)}")
 
             if analysis["governance_analysis"]["governance_issues"]:
-                print(f"   Governance Issues: {', '.join(analysis['governance_analysis']['governance_issues']}")
+                print(f"   Governance Issues: {', '.join(analysis['governance_analysis']['governance_issues'])}")
 
         # Show summary
         summary = guardian.get_ethical_summary()
@@ -1077,6 +1077,6 @@ if __name__ == "__main__":
         audit = await guardian.perform_ethical_audit()
         print("\n🔍 Audit Results:")
         print(f"   System health score: {audit['system_health']['average_ethical_score']:.2f}")
-        print(f"   Recommendations: {len(audit['recommendations']}")
+        print(f"   Recommendations: {len(audit['recommendations'])}")
 
     asyncio.run(demo())

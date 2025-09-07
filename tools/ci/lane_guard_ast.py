@@ -2,6 +2,7 @@
 import ast
 import sys
 from pathlib import Path
+
 import streamlit as st
 
 
@@ -16,9 +17,9 @@ def main() -> int:
         for n in ast.walk(t):
             if isinstance(n, ast.Import):
                 if any((a.name or "").split(".")[0] == "candidate" for a in n.names):
-                    hits.append(f"{p}:{getattr(n, 'lineno', 1}: import candidate")
+                    hits.append(f"{p}:{getattr(n, 'lineno', 1)}: import candidate")
             elif isinstance(n, ast.ImportFrom) and ((n.module or "").split(".")[0]) == "candidate":
-                hits.append(f"{p}:{getattr(n, 'lineno', 1}: from candidate import")
+                hits.append(f"{p}:{getattr(n, 'lineno', 1)}: from candidate import")
     if hits:
         print("\n".join(hits))
         return 1

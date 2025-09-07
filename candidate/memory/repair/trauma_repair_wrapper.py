@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Trauma Repair Wrapper
@@ -159,7 +161,7 @@ class MemoryTraumaRepair:
         try:
             # Create a trauma signature for forced repair
             trauma = TraumaSignature(
-                trauma_id=f"forced_{memory_id}_{datetime.now(timezone.utc).timestamp(}",
+                trauma_id=f"forced_{memory_id}_{datetime.now(timezone.utc).timestamp()}",
                 trauma_type=TraumaType.CORRUPTION,  # Default to corruption
                 severity=1.0,  # Max severity to ensure repair
                 affected_memories={memory_id},

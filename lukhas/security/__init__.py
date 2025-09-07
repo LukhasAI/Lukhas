@@ -18,6 +18,7 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 import random
+
 import streamlit as st
 
 from .secure_random import (

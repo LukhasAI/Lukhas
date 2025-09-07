@@ -6,10 +6,10 @@ Symbolic Signal Router for the Lukhas AGI System.
 
 This module provides a centralized signal routing and logging mechanism.
 """
-import time
-import streamlit as st
-
 import logging
+import time
+
+import streamlit as st
 
 from candidate.orchestration.signals import DiagnosticSignalType, SymbolicSignal
 

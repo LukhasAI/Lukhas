@@ -168,7 +168,7 @@ class AccentAdapter:
             record_type = "general"
         record["type"] = record_type
         # Compute hash input using raw JSON and previous hash (before encryption)
-        hash_input = f"{prev_hash or ''}|{json.dumps(record, sort_keys=True}"
+        hash_input = f"{prev_hash or ''}|{json.dumps(record, sort_keys=True)}"
         record_hash = hashlib.sha256(hash_input.encode()).hexdigest()
         # Add previous hash for chain integrity
         record_copy = dict(record)
@@ -327,7 +327,7 @@ class AccentAdapter:
                 if memory.get("words") and len(memory["words"]) > 0:
                     word = random.choice(memory["words"])
                     word_phrase = f"I learned the word '{word}' there."
-                memory_phrase = f"We visited {memory.get('visit_count',"}
+                memory_phrase = f"We visited {memory.get('visit_count',")}
                                                          1)} times. The last time was quite memorable."
                 template = random.choice(templates)
                 reminiscence = template.format(

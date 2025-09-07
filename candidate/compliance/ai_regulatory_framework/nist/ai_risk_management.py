@@ -9,14 +9,13 @@ Implementation of NIST AI Risk Management Framework including:
 - Explainability and transparency measures
 - Continuous monitoring and improvement
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Safe numpy import with fallback
 try:
@@ -251,7 +250,7 @@ class NISTAIRiskManager:
         for characteristic, score in trustworthy_scores.items():
             threshold = self.trustworthy_thresholds[characteristic]
             if score < threshold:
-                risks.append(f"Insufficient {characteristic.value.replace('_', ' '} (score: {score:.2f})")
+                risks.append(f"Insufficient {characteristic.value.replace('_', ' ')} (score: {score:.2f})")
 
         # Security and robustness risks
         if metrics.robustness_score and metrics.robustness_score < 0.8:
@@ -508,7 +507,7 @@ class NISTAIRiskManager:
         # Characteristic-specific recommendations
         for char, score in assessment.trustworthy_scores.items():
             if score < self.trustworthy_thresholds[char]:
-                recommendations.append(f"Improve {char.value.replace('_', ' '} through targeted interventions")
+                recommendations.append(f"Improve {char.value.replace('_', ' ')} through targeted interventions")
 
         recommendations.extend(
             [

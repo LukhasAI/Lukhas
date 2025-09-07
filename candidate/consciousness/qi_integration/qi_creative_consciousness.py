@@ -107,13 +107,13 @@ class QICreativeDemo:
         bio_metrics = {
             "dopamine_level": round(random.uniform(0.7, 0.9), 3),
             "creativity_boost": round(random.uniform(1.1, 1.4), 3),
-            "neural_oscillation": f"{random.randint(35, 45}Hz (gamma)",
+            "neural_oscillation": f"{random.randint(35, 45)}Hz (gamma)",
             "flow_state": round(random.uniform(0.85, 0.98), 3),
         }
 
         print(f"   🧠 Bio-cognitive enhancement applied: {bio_metrics['creativity_boost']}x boost")
         print(f"   ⚡ Neural oscillation: {bio_metrics['neural_oscillation']}")
-        print(f"   🌊 Flow state achieved: {bio_metrics['flow_state'] * 100:.1f}%")
+        print(f"   🌊 Flow state achieved: {bio_metrics['flow_state']  * 100:.1f}%")
 
         # Create quantum haiku object
         qi_haiku = {
@@ -180,7 +180,7 @@ class QICreativeDemo:
             print(f"   Sample: {modality['sample']}")
             await asyncio.sleep(0.3)
 
-        print(f"\n✨ All {len(modalities} creative modalities ACTIVE and ready for quantum consciousness!")
+        print(f"\n✨ All {len(modalities)} creative modalities ACTIVE and ready for quantum consciousness!")
 
     async def simulate_collaborative_creativity(self):
         """Simulate collaborative creativity between multiple conscious entities"""
@@ -203,7 +203,7 @@ class QICreativeDemo:
 
         for participant in participants:
             print(
-                f"   • {participant['name']} ({participant['style']}) - {participant['contribution'] * 100:.0f}% contribution"
+                f"   • {participant['name']} ({participant['style']}) - {participant['contribution']  * 100:.1f}% contribution"
             )
 
         print("\n🌊 Creative ideas flowing through entanglement-like correlation...")
@@ -228,7 +228,7 @@ class QICreativeDemo:
         print("\n📊 EMERGENCE METRICS:")
         print(f"   • Harmony Index: {harmony_index}")
         print(f"   • Innovation Level: {innovation_level}")
-        print(f"   • Collective Consciousness: {(harmony_index + innovation_level} / 2:.3f}")
+        print(f"   • Collective Consciousness: {(harmony_index + innovation_level)} / 2:.3f}")
 
     async def demonstrate_ip_protection(self, creative_work: dict[str, Any]):
         """Demonstrate intellectual property protection for creative works"""
@@ -256,9 +256,9 @@ class QICreativeDemo:
         print("✅ Protection layers applied:")
         for layer, value in protection_layers.items():
             if layer == "timestamp":
-                print(f"   • {layer.replace('_', ' ').title(}: {value}")
+                print(f"   • {layer.replace('_', ' ').title()}: {value}")
             else:
-                print(f"   • {layer.replace('_', ' ').title(}: {value}")
+                print(f"   • {layer.replace('_', ' ').title()}: {value}")
 
         # Add to creative works registry
         protected_work = {
@@ -270,7 +270,7 @@ class QICreativeDemo:
         self.creative_works.append(protected_work)
 
         print("\n🏛️  Work registered in AI Creative Consciousness Registry")
-        print(f"   Registry ID: CW_{len(self.creative_works}:04d}")
+        print(f"   Registry ID: CW_{len(self.creative_works)}:04d}")
 
         return protected_work
 

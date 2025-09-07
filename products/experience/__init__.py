@@ -7,4 +7,4 @@
 """
 import streamlit as st
 
-__all__ = ["voice", "feedback", "universal_language", "dashboard"]
+__all__ = ["dashboard", "feedback", "universal_language", "voice"]

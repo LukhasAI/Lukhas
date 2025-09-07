@@ -20,14 +20,13 @@ Integrates:
 
 Purpose: Keep your workspace safe, organized, and productive.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
 
 try:
     from core import EthicalDecision, EthicalSeverity, GovernanceAction, LucasGovernanceModule
@@ -287,7 +286,7 @@ class WorkspaceGuardian:
                 {
                     "type": "archive",
                     "priority": "low",
-                    "description": f"Archive {len(old_files} old documentation files",
+                    "description": f"Archive {len(old_files)} old documentation files",
                     "files": old_files[:10],
                 }
             )
@@ -379,6 +378,6 @@ if __name__ == "__main__":
 
         # Get cleanup suggestions
         cleanup = await guardian.suggest_cleanup()
-        print(f"Cleanup suggestions: {len(cleanup['suggestions']}")
+        print(f"Cleanup suggestions: {len(cleanup['suggestions'])}")
 
     asyncio.run(demo())

@@ -9,12 +9,9 @@ Trinity Framework Integration:
 Service Adapter Integration Specialist
 Common resilience, telemetry, and consent validation for all adapters
 """
-from typing import List
-import logging
-import streamlit as st
-
 import asyncio
 import contextlib
+import logging
 import os
 import sys
 import time
@@ -23,7 +20,9 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 # Add paths for LUKHAS AI module imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))

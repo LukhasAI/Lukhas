@@ -4,12 +4,11 @@ Author: Jules 05
 Date: 2024-07-15
 Description: Provides bridge logic for dream-emotion replay triggers.
 """
-import streamlit as st
-from datetime import timezone
-
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 from lukhas.memory.emotional import EmotionalMemory
 
@@ -67,15 +66,6 @@ class DreamEmotionBridge:
                         "score": 0,
                         "emoji": "🧠",
                         "notes": f"Dream replay triggered by emotion: {emotion}",
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                        "source_widget": "DreamEmotionBridge",
-                        "tier": 1,
-                        "emotion_vector": {
-                            "joy": 0,
-                            "calm": 0,
-                            "stress": 0,
-                            "longing": 0,
-                        },
                     }
                 )
                 + "\n"

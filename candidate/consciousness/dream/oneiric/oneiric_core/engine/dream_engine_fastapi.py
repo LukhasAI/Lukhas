@@ -389,7 +389,7 @@ class EnhancedDreamEngine:
         try:
             # For now, log the memory - in real implementation
             # this would store to persistent storage
-            logger.info(f"Storing consolidated memory: {memory.get('id', 'unknown'}")
+            logger.info(f"Storing consolidated memory: {memory.get('id', 'unknown')}")
         except Exception as e:
             logger.error(f"Error storing consolidated memory: {e}")
 
@@ -398,7 +398,7 @@ class EnhancedDreamEngine:
         try:
             # For now, log the reflection - in real implementation
             # this would store to persistent storage
-            logger.info(f"Storing dream reflection: {reflection.get('memory_id', 'unknown'}")
+            logger.info(f"Storing dream reflection: {reflection.get('memory_id', 'unknown')}")
         except Exception as e:
             logger.error(f"Error storing dream reflection: {e}")
 
@@ -444,7 +444,7 @@ class EnhancedDreamEngine:
         duration = datetime.now(timezone.utc) - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
-        logger.info(f"Dream cycle completed: Duration={duration.total_seconds(}:.1f}s, Memories={memories}")
+        logger.info(f"Dream cycle completed: Duration={duration.total_seconds()}:.1f}s, Memories={memories}")
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
@@ -545,7 +545,7 @@ class EnhancedDreamEngine:
         try:
             # For now, log the memory - in real implementation
             # this would store to persistent storage
-            logger.info(f"Storing enhanced memory: {memory.get('id', 'unknown'}")
+            logger.info(f"Storing enhanced memory: {memory.get('id', 'unknown')}")
         except Exception as e:
             logger.error(f"Error storing enhanced memory: {e}")
 
@@ -572,7 +572,7 @@ class EnhancedDreamEngine:
                     processed = await self._process_dream_quantum(dream, qi_like_state)
                     processed_dreams.append(processed)
                 else:
-                    logger.warning(f"Insufficient coherence-inspired processing for dream {dream.get('id', 'unknown'}")
+                    logger.warning(f"Insufficient coherence-inspired processing for dream {dream.get('id', 'unknown')}")
 
             except Exception as e:
                 logger.error(f"Error processing dream quantum: {e}")

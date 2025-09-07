@@ -136,7 +136,7 @@ class BotClickActions:
 
         print("\n🔄 MULTI-ACTION SEQUENCES:")
         for name, actions in self.multi_actions.items():
-            print(f"  {name}: {len(actions} sequential actions")
+            print(f"  {name}: {len(actions)} sequential actions")
 
         print("\n📋 CONTEXT MENU OPTIONS:")
         menu_config = self.create_context_menu_config()

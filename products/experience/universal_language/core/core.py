@@ -5,8 +5,6 @@ Universal Language Core
 Central unified language system that provides the foundation for all
 symbolic communication in LUKHAS.
 """
-import streamlit as st
-
 import hashlib
 import json
 import logging
@@ -18,6 +16,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +89,7 @@ class Symbol:
 
     def generate_id(self) -> str:
         """Generate unique symbol ID"""
-        unique_str = f"{self.domain.value}:{self.name}:{time.time(}"
+        unique_str = f"{self.domain.value}:{self.name}:{time.time()}"
         return hashlib.sha256(unique_str.encode()).hexdigest()[:16]
 
     def calculate_entropy(self) -> float:
@@ -168,7 +167,7 @@ class Concept:
             primary_domain = self.symbols[0].domain.value.upper()
             concept_name = self.meaning.upper().replace(" ", "_")
             return f"{primary_domain}.{concept_name}"
-        return f"UNIVERSAL.{uuid.uuid4().hex[:8].upper(}"
+        return f"UNIVERSAL.{uuid.uuid4().hex[:8].upper()}"
 
     def add_symbol(self, symbol: Symbol):
         """Add a symbol to this concept"""
@@ -435,7 +434,7 @@ class UniversalLanguageCore:
             else:
                 # Create a new atomic concept for unmapped symbol
                 new_concept = Concept(
-                    concept_id=f"{symbol.domain.value.upper()}.{symbol.name.upper(}",
+                    concept_id=f"{symbol.domain.value.upper()}.{symbol.name.upper()}",
                     concept_type=ConceptType.ATOMIC,
                     meaning=symbol.name,
                     symbols=[symbol],

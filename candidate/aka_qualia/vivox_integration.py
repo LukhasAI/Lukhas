@@ -110,7 +110,7 @@ class VivoxAkaQualiaIntegration:
 
         # Create trace echo from temporal and symbolic components
         trace_echo = (
-            f"t:{scene.timestamp or time.time(}:.6f}|"
+            f"t:{scene.timestamp or time.time()}:.6f}|"
             f"cf:{pq.colorfield}|"
             f"tf:{pq.temporal_feel.value}|"
             f"af:{pq.agency_feel.value}|"
@@ -121,7 +121,7 @@ class VivoxAkaQualiaIntegration:
         moral_fingerprint = (
             f"risk:{scene.risk.score:.6f}|"
             f"severity:{scene.risk.severity.value}|"
-            f"reasons:{','.join(scene.risk.reasons} if scene.risk.reasons else 'none'}"
+            f"reasons:{','.join(scene.risk.reasons)} if scene.risk.reasons else 'none'}"
         )
 
         # Combine components following VIVOX format

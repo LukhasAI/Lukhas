@@ -17,24 +17,22 @@ Date: June 2025
 Purpose: NIST-approved post-quantum cryptography implementation
 Status: ENHANCED - Full implementation with fallback to simulation mode
 """
-from consciousness.qi import qi
-from typing import Dict
-import random
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import logging
 import os
+import random
 import secrets
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from typing import Any
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict
 
+import streamlit as st
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+
+from consciousness.qi import qi
 
 # Try to import liboqs, fall back to enhanced simulation if not available
 try:
@@ -378,7 +376,7 @@ class PQCCryptoEngine:
 
             # Check signature size
             if len(signature.signature) != params["sig_size"]:
-                logger.error(f"Invalid signature size: expected {params['sig_size']}, got {len(signature.signature}")
+                logger.error(f"Invalid signature size: expected {params['sig_size']}, got {len(signature.signature)}")
                 return False
 
             # In simulation mode, verify by checking signature was created with same inputs

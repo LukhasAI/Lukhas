@@ -7,9 +7,9 @@ Trinity Framework: ⚛️🧠🛡️
 #TAG:neuroplastic
 #TAG:colony
 """
-import streamlit as st
-
 from typing import Any
+
+import streamlit as st
 
 
 class EthicalEvaluator:

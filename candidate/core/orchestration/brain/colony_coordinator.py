@@ -1,8 +1,9 @@
 from typing import Any
 
+import streamlit as st
+
 from lukhas.core.colonies.governance_colony import GovernanceColony
 from lukhas.core.colonies.reasoning_colony import ReasoningColony
-import streamlit as st
 
 
 class _StubColony:

@@ -653,7 +653,7 @@ class LukhasUnifiedAPI:
                 self.api_stats["lambda_ids_created_count"] += 1
                 if creation_result.get("qrg_result"):  # If QRG was also generated:
                     self.api_stats["qrgs_generated_count"] += 1
-                self.logger.info(f"ΛTRACE ({request_id}): ΛiD created successfully: {creation_result.get('lambda_id'}")
+                self.logger.info(f"ΛTRACE ({request_id}): ΛiD created successfully: {creation_result.get('lambda_id')}")
                 # Return a success response structure
                 return {
                     "success": True,
@@ -662,7 +662,7 @@ class LukhasUnifiedAPI:
                 }
             else:
                 self.logger.warning(
-                    f"ΛTRACE ({request_id}): ΛiD creation failed by QRSManager. Reason: {creation_result.get('error'}"
+                    f"ΛTRACE ({request_id}): ΛiD creation failed by QRSManager. Reason: {creation_result.get('error')}"
                 )
                 if FASTAPI_AVAILABLE and HTTPException and status:
                     raise HTTPException(
@@ -722,7 +722,7 @@ class LukhasUnifiedAPI:
                 }
             else:
                 self.logger.warning(
-                    f"ΛTRACE ({request_id}): Symbolic authentication failed for ΛiD '{request_data.lambda_id[:10]}'. Reason: {auth_result.get('error'}"
+                    f"ΛTRACE ({request_id}): Symbolic authentication failed for ΛiD '{request_data.lambda_id[:10]}'. Reason: {auth_result.get('error')}"
                 )
                 if FASTAPI_AVAILABLE and HTTPException and status:
                     raise HTTPException(
@@ -903,7 +903,7 @@ class LukhasUnifiedAPI:
             if validation_result.get("success"):
                 validation_data = validation_result.get("validation", {})
 
-                self.logger.info(f"QRG validation successful. Score: {validation_data.get('confidence_score', 0}")
+                self.logger.info(f"QRG validation successful. Score: {validation_data.get('confidence_score', 0)}")
 
                 return {
                     "success": True,
@@ -1081,7 +1081,7 @@ class LukhasUnifiedAPI:
                         "backup_created": enrollment_data.get("backup_template", False),
                     },
                     "verification_ready": enrollment_data.get("ready_for_verification", False),
-                    "message": f"{request_data.biometric_type.title(} biometric enrolled successfully",
+                    "message": f"{request_data.biometric_type.title()} biometric enrolled successfully",
                 }
             else:
                 return {
@@ -1139,7 +1139,7 @@ class LukhasUnifiedAPI:
                         },
                         "access_granted": verification_result.confidence_score > 0.8,
                         "session_token": (
-                            f"bio_session_{int(verification_result.verification_timestamp}"
+                            f"bio_session_{int(verification_result.verification_timestamp)}"
                             if verification_result.confidence_score > 0.8
                             else None
                         ),

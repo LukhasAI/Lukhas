@@ -5,15 +5,14 @@ Trinity Framework: ⚛️🧠🛡️
 
 This module provides bio-inspired utilities for creativity and supervision.
 """
-from typing import List
-import time
-import random
-import streamlit as st
-
 import logging
 import math
+import random
 import secrets
-from typing import Any, Optional
+import time
+from typing import Any, List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

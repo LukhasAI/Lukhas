@@ -56,14 +56,14 @@ class LukhasAIAgent:
         self.name = name
         self.tier = tier
         self.capabilities = capabilities
-        self.session_id = f"{name}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        self.session_id = f"{name}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.active = True
 
         logger.info(f"🤖 Initialized {name} - Tier: {tier.value}")
 
     async def execute_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute agent-specific task"""
-        logger.info(f"🔄 {self.name} executing: {task.get('type', 'unknown_task'}")
+        logger.info(f"🔄 {self.name} executing: {task.get('type', 'unknown_task')}")
 
         # Simulate agent processing based on capabilities
         result = {
@@ -82,14 +82,14 @@ class LukhasAIAgentTeam:
     """Collaborative AI Agent Team for LUKHAS ecosystem consolidation"""
 
     def __init__(self):
-        self.session_id = f"team_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        self.session_id = f"team_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.agents = {}
         self.consolidation_results = {}
 
         # Initialize specialized agents
         self._initialize_agent_team()
 
-        logger.info(f"🎯 LukhasAIAgentTeam initialized with {len(self.agents} agents")
+        logger.info(f"🎯 LukhasAIAgentTeam initialized with {len(self.agents)} agents")
 
     def _initialize_agent_team(self):
         """Initialize the complete AI agent team with enhanced capabilities"""
@@ -549,9 +549,9 @@ async def main():
     print("🎉 CONSOLIDATION RESULTS:")
     print("=" * 30)
     print(f"Status: {results['consolidation_status']}")
-    print(f"Agents Deployed: {results.get('ai_agents_deployed', 'N/A'}")
-    print(f"Success Rate: {results.get('success_rate', 'N/A'}")
-    print(f"Total Time: {results.get('total_time_seconds', 'N/A'} seconds")
+    print(f"Agents Deployed: {results.get('ai_agents_deployed', 'N/A')}")
+    print(f"Success Rate: {results.get('success_rate', 'N/A')}")
+    print(f"Total Time: {results.get('total_time_seconds', 'N/A')} seconds")
     print()
 
     if results["consolidation_status"] == "COMPLETE":

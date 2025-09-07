@@ -15,13 +15,13 @@
 ║ DESCRIPTION: Advanced development and debugging utilities             ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
-import streamlit as st
-
 import asyncio
 import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
 
 # Handle both relative and absolute imports
 try:
@@ -508,6 +508,6 @@ class DeveloperTools(BaseCommand):
             status = "✅ PASSED" if result.failed == 0 else "❌ FAILED"
             print_info(f"{status} {result.test_file}")
             print(f"  Passed: {result.passed}, Failed: {result.failed}, Skipped: {result.skipped}")
-            print(f"  Duration: {format_duration(result.duration}")
+            print(f"  Duration: {format_duration(result.duration)}")
             if result.coverage:
                 print(f"  Coverage: {result.coverage:.1f}%")

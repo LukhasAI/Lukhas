@@ -2,17 +2,16 @@
 Enhanced Memory Colony - Full implementation with actual memory capabilities
 Replaces the dummy implementation with real functionality
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
 import logging
 import time
 from collections import defaultdict, deque
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.efficient_communication import MessagePriority
@@ -140,7 +139,7 @@ class MemoryColony(BaseColony):
         # Subscribe to memory events
         self.comm_fabric.subscribe_to_events("memory_request", self._handle_memory_request)
 
-        logger.info(f"MemoryColony {self.colony_id} started with {len(self.agents} agents")
+        logger.info(f"MemoryColony {self.colony_id} started with {len(self.agents)} agents")
 
     async def _initialize_memory_agents(self):
         """Initialize specialized memory agents."""
@@ -159,7 +158,7 @@ class MemoryColony(BaseColony):
                 self.agents[agent_id] = agent
                 self.memory_agents[memory_type].append(agent)
 
-        logger.info(f"Initialized {len(self.agents} memory agents")
+        logger.info(f"Initialized {len(self.agents)} memory agents")
 
     async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Execute memory-related tasks with real functionality."""

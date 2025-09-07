@@ -26,9 +26,11 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-from consciousness.qi import qi
-import streamlit as st
 from datetime import timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 __module_name__ = "Quantum Connectivity Consolidator"
 __version__ = "2.0.0"
@@ -179,7 +181,7 @@ class LambdaAGIEliteConnectivityConsolidator:
             "optimization_potential": optimization_potential,
         }
 
-        logger.info(f"✅ Crista Analysis: {len(fusion_candidates} fusion candidates identified")
+        logger.info(f"✅ Crista Analysis: {len(fusion_candidates)} fusion candidates identified")
 
     async def _meta_learning_pattern_phase(self):
         """
@@ -205,7 +207,7 @@ class LambdaAGIEliteConnectivityConsolidator:
             "pattern_confidence": self._calculate_pattern_confidence(optimal_patterns),
         }
 
-        logger.info(f"✅ Meta-Learning: {len(optimal_patterns} patterns learned")
+        logger.info(f"✅ Meta-Learning: {len(optimal_patterns)} patterns learned")
 
     async def _qi_bio_consolidation_phase(self):
         """
@@ -231,7 +233,7 @@ class LambdaAGIEliteConnectivityConsolidator:
             "optimization_strength": self._calculate_quantum_strength(qi_paths),
         }
 
-        logger.info(f"✅ Quantum Bio-Optimization: {len(qi_paths} paths optimized")
+        logger.info(f"✅ Quantum Bio-Optimization: {len(qi_paths)} paths optimized")
 
     async def _elite_integration_convergence(self) -> ConnectivityMetrics:
         """
@@ -315,7 +317,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         # Sort by fusion potential
         fusion_candidates.sort(key=lambda x: x["fusion_potential"], reverse=True)
 
-        logger.info(f"🎯 Found {len(fusion_candidates} fusion candidates")
+        logger.info(f"🎯 Found {len(fusion_candidates)} fusion candidates")
         return fusion_candidates
 
     async def _analyze_import_patterns(self) -> dict[str, Any]:
@@ -605,7 +607,7 @@ class LambdaAGIEliteConnectivityConsolidator:
 
         results["success_rate"] = results["actions_executed"] / max(len(actions), 1)
 
-        logger.info(f"✅ Elite Consolidation: {results['actions_executed']}/{len(actions} actions executed")
+        logger.info(f"✅ Elite Consolidation: {results['actions_executed']}/{len(actions)} actions executed")
         return results
 
     async def _validate_connectivity_achievement(self) -> ConnectivityMetrics:
@@ -798,7 +800,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         target = action.get("target", {})
         if target and action["action"] == "module_fusion":
             # Would implement actual module fusion logic here
-            self.consolidation_log.append(f"Crista fusion: {target.get('missing_module', 'unknown'}")
+            self.consolidation_log.append(f"Crista fusion: {target.get('missing_module', 'unknown')}")
             return True
 
         return False
@@ -810,7 +812,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         # Placeholder implementation
         strategy = action.get("strategy", {})
         if strategy and action["action"] == "pattern_implementation":
-            self.consolidation_log.append(f"Meta pattern: {strategy.get('strategy_type', 'unknown'}")
+            self.consolidation_log.append(f"Meta pattern: {strategy.get('strategy_type', 'unknown')}")
             return True
 
         return False
@@ -822,7 +824,7 @@ class LambdaAGIEliteConnectivityConsolidator:
         # Placeholder implementation
         path = action.get("path", {})
         if path and action["action"] == "qi_consolidation":
-            self.consolidation_log.append(f"Quantum consolidation: {path.get('path_type', 'unknown'}")
+            self.consolidation_log.append(f"Quantum consolidation: {path.get('path_type', 'unknown')}")
             return True
 
         return False

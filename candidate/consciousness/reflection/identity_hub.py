@@ -350,7 +350,7 @@ class IdentityHub:
             except Exception as e:
                 logger.error(f"Failed to initialize persona engine: {e}")
 
-        logger.info(f"IdentityHub initialized with {len(self.services} services")
+        logger.info(f"IdentityHub initialized with {len(self.services)} services")
 
     async def initialize(self) -> None:
         """Initialize all identity services"""

@@ -122,13 +122,13 @@ Examples:
         dreams = explorer.load_recent_dreams(args.sessions)
 
         if not args.quiet:
-            print(f"✓ Loaded {len(dreams} sessions")
+            print(f"✓ Loaded {len(dreams)} sessions")
             print("Detecting symbolic anomalies...")
 
         anomalies = explorer.detect_symbolic_anomalies(dreams)
 
         if not args.quiet:
-            print(f"✓ Detected {len(anomalies} anomalies")
+            print(f"✓ Detected {len(anomalies)} anomalies")
             print("Generating comprehensive report...")
 
         report = explorer.generate_anomaly_report(anomalies)
@@ -165,7 +165,7 @@ Examples:
             print("\n📊 ANALYSIS SUMMARY")
             print("-" * 30)
             print(f"Sessions analyzed: {report.sessions_analyzed}")
-            print(f"Anomalies detected: {len(report.anomalies_detected}")
+            print(f"Anomalies detected: {len(report.anomalies_detected)}")
             print(f"Overall risk score: {report.overall_risk_score:.1%}")
             print(f"\n{report.summary}")
 
@@ -190,10 +190,10 @@ Examples:
                     }
 
                     emoji = severity_emoji.get(anomaly.severity.value, "❓")
-                    print(f"{i}. {emoji} {anomaly.anomaly_type.value.replace('_', ' ').title(}")
-                    print(f"   Severity: {anomaly.severity.value.upper(}")
+                    print(f"{i}. {emoji} {anomaly.anomaly_type.value.replace('_', ' ').title()}")
+                    print(f"   Severity: {anomaly.severity.value.upper()}")
                     print(f"   Confidence: {anomaly.confidence:.1%}")
-                    print(f"   Sessions: {len(anomaly.affected_sessions}")
+                    print(f"   Sessions: {len(anomaly.affected_sessions)}")
                     print(f"   {anomaly.description}")
                     print()
 
@@ -210,15 +210,15 @@ Examples:
                 trends = report.symbolic_trends
                 print("📈 SYMBOLIC TRENDS")
                 print("-" * 30)
-                print(f"Unique symbols: {trends.get('total_unique_tags', 'N/A'}")
-                print(f"Average frequency: {trends.get('average_frequency', 'N/A'}:.1f}")
-                print(f"Average volatility: {trends.get('average_volatility', 'N/A'}:.3f}")
+                print(f"Unique symbols: {trends.get('total_unique_tags', 'N/A')}")
+                print(f"Average frequency: {trends.get('average_frequency', 'N/A')}:.1f}")
+                print(f"Average volatility: {trends.get('average_volatility', 'N/A')}:.3f}")
 
                 if trends.get("volatile_symbols"):
-                    print(f"Most volatile: {', '.join(trends['volatile_symbols'][:3]}")
+                    print(f"Most volatile: {', '.join(trends['volatile_symbols'][:3])}")
 
                 if trends.get("frequent_symbols"):
-                    print(f"Most frequent: {', '.join(trends['frequent_symbols'][:3]}")
+                    print(f"Most frequent: {', '.join(trends['frequent_symbols'][:3])}")
                 print()
 
         # Export files

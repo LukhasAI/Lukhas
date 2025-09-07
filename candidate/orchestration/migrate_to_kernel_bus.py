@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Migration script to update LUKHΛS components to use the Symbolic Kernel Bus.
@@ -19,7 +21,7 @@ class KernelBusMigration:
 
     def __init__(self):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-        self.backup_dir = self.workspace / f".event_bus_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        self.backup_dir = self.workspace / f".event_bus_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         self.changes = []
 
         # Patterns to replace

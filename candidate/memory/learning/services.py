@@ -4,10 +4,9 @@ Learning Services
 Dependency injection services for the learning module.
 """
 import time
-import streamlit as st
-
 from typing import Any, Optional
 
+import streamlit as st
 from hub.service_registry import get_service, inject_services, register_factory
 
 

@@ -523,7 +523,7 @@ class OpenAIModulatedService:
                     formatted_note = f"[From {source}]: {content[:200]}..."
                     context_notes.append(formatted_note)
 
-                logger.info(f"Retrieved {len(context_notes} context notes from vector store")
+                logger.info(f"Retrieved {len(context_notes)} context notes from vector store")
                 return context_notes
 
             except ImportError:
@@ -670,7 +670,7 @@ async def _run_modulated_completion_impl(
 
     ctx_snips = ctx_snips or []
     endocrine_signals = endocrine_signals or {}
-    audit_id = audit_id or f"A-{uuid.uuid4(}.hex[:8]}"
+    audit_id = audit_id or f"A-{uuid.uuid4()}.hex[:8]}"
 
     # Ensure we have a client with a chat_completion coroutine.
     # Accept three shapes:

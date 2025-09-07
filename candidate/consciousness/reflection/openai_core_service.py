@@ -897,7 +897,7 @@ async def demo():
 
     # Get usage report
     report = service.get_usage_report()
-    print(f"\nUsage Report: {json.dumps(report, indent=2}")
+    print(f"\nUsage Report: {json.dumps(report, indent=2)}")
 
 
 if __name__ == "__main__":

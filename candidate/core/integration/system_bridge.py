@@ -1,9 +1,11 @@
 import logging
 from datetime import timezone
+from typing import List, Optional
+
 import streamlit as st
-from typing import List
-from typing import Optional
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: system_bridge.py
@@ -25,12 +27,10 @@ This component handles integration functionality in the AI consciousness computi
 import asyncio
 from datetime import (
     datetime,  # Added timezone
-    timezone,
-)
+    )
 from typing import (
     Any,  # Added List
-    Optional,
-)
+    )
 
 import structlog  # Changed from logging
 
@@ -55,7 +55,7 @@ class SystemBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logger.bind(bridge_id=f"sys_bridge_{datetime.now(timezone.utc).strftime('%H%M%S'}")
+        self.logger = logger.bind(bridge_id=f"sys_bridge_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.is_initialized = False
         self.status = "inactive"
         self.logger.info(

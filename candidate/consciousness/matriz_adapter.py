@@ -27,7 +27,7 @@ class ConsciousnessMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-CONS-{uuid.uuid4(}.hex[:8]}",
+            "id": f"LT-CONS-{uuid.uuid4()}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.85),

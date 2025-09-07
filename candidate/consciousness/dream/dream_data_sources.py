@@ -57,18 +57,17 @@
 ║    • Cultural knowledge base
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import builtins
 import contextlib
 import json
 import logging
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger("ΛTRACE.dream.data_sources", timezone)
 
@@ -170,7 +169,7 @@ class DreamDataCollector:
             "recent_memories": [
                 {
                     "id": f"sim_memory_{i}",
-                    "content": f"Simulated memory about {random.choice(['discovery', 'journey', 'connection']}",
+                    "content": f"Simulated memory about {random.choice(['discovery', 'journey', 'connection'])}",
                     "emotional_valence": round(random.uniform(-1, 1), 2),
                 }
                 for i in range(3)
@@ -609,7 +608,7 @@ class DreamDataCollector:
 
         # Create final data package
         dream_data = {
-            "collection_id": f"COLLECT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "collection_id": f"COLLECT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "sources": data_collection,
             "synthesis": {
                 "dream_seeds": dream_seeds,
@@ -643,7 +642,7 @@ class DreamDataCollector:
                 seeds.append(
                     {
                         "type": "memory_inspired",
-                        "seed": f"revisiting {random.choice(memory_themes}",
+                        "seed": f"revisiting {random.choice(memory_themes)}",
                         "strength": 0.8,
                     }
                 )
@@ -667,7 +666,7 @@ class DreamDataCollector:
                 seeds.append(
                     {
                         "type": "symbolic",
-                        "seed": f"where {' meets '.join(glyphs[:2]}",
+                        "seed": f"where {' meets '.join(glyphs[:2])}",
                         "strength": 0.7,
                     }
                 )

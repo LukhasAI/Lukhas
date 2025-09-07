@@ -309,11 +309,11 @@ class WaveCTestRunner:
 
             if len(failed_tests) == 0:
                 validation_result["status"] = "passed"
-                print(f"✅ Simple validation passed: {len(passed_tests)}/{len(validation_result['tests']} tests")
+                print(f"✅ Simple validation passed: {len(passed_tests)}/{len(validation_result['tests'])} tests")
             else:
                 validation_result["status"] = "partial"
                 print(
-                    f"⚠️  Simple validation partial: {len(passed_tests)}/{len(validation_result['tests']} tests passed"
+                    f"⚠️  Simple validation partial: {len(passed_tests)}/{len(validation_result['tests'])} tests passed"
                 )
 
         except Exception as e:

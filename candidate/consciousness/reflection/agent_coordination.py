@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -305,8 +307,8 @@ class CoordinationHub(MailboxActor):
                 # Log stats
                 logger.info(
                     f"Coordination Hub Stats: "
-                    f"Active announcements: {len(self.active_announcements}, "
-                    f"Working groups: {len(self.working_groups}"
+                    f"Active announcements: {len(self.active_announcements)}, "
+                    f"Working groups: {len(self.working_groups)}"
                 )
 
             except asyncio.CancelledError:
@@ -451,7 +453,7 @@ class CoordinationHub(MailboxActor):
         if task_id in self.active_announcements:
             del self.active_announcements[task_id]
 
-        logger.info(f"Working group {group.group_id} formed for task {task_id} with {len(group.members} members")
+        logger.info(f"Working group {group.group_id} formed for task {task_id} with {len(group.members)} members")
 
     async def _handle_task_complete(self, msg: ActorMessage):
         """Handle task completion"""
@@ -494,7 +496,7 @@ class CoordinationHub(MailboxActor):
                 group.status = TaskStatus.FAILED
 
                 # Could implement retry logic here
-                logger.warning(f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown'}")
+                logger.warning(f"Task {task_id} failed in group {group_id}: {msg.payload.get('reason', 'Unknown')}")
 
                 # Clean up
                 await self._cleanup_group(task_id)
@@ -875,8 +877,8 @@ async def demo_decentralized_coordination():
 
     # Check hub stats
     hub_actor = system.get_actor("coord_hub")
-    print(f"Active announcements: {len(hub_actor.active_announcements}")
-    print(f"Working groups: {len(hub_actor.working_groups}")
+    print(f"Active announcements: {len(hub_actor.active_announcements)}")
+    print(f"Working groups: {len(hub_actor.working_groups)}")
 
     # Clean up
     await system.stop()

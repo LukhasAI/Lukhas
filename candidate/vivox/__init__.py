@@ -6,11 +6,11 @@ Please update imports to: lukhas.candidate.vivox
 NOTE: This is a candidate module. Enable with feature flag:
   VIVOX_LITE=true
 """
-import streamlit as st
-
 import contextlib
 import os
 import warnings
+
+import streamlit as st
 
 warnings.warn(
     "Import 'vivox' is deprecated. Please update to 'lukhas.candidate.vivox' and enable feature flag",

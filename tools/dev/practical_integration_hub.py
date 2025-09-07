@@ -8,13 +8,12 @@ This focuses on Phase 1 critical integrations:
 - Ethics system unification
 - Core system connectivity improvements
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -290,7 +289,7 @@ if __name__ == "__main__":
         print("🏗️  Phase 1 Goals:")
         for goal, achieved in status["phase_1_goals"].items():
             status_icon = "✅" if achieved else "❌"
-            print(f"   {status_icon} {goal.replace('_', ' ').title(}")
+            print(f"   {status_icon} {goal.replace('_', ' ').title()}")
 
         # Test request processing
         print("\n🧪 Testing Request Processing...")

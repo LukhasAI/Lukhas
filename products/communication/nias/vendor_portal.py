@@ -62,8 +62,8 @@ class VendorProfile:
 
     def generate_api_credentials(self) -> tuple[str, str]:
         """Generate new API credentials for vendor"""
-        api_key = f"vk_{uuid.uuid4(}.hex}"
-        api_secret = hashlib.sha256(f"{self.vendor_id}_{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()
+        api_key = f"vk_{uuid.uuid4()}.hex}"
+        api_secret = hashlib.sha256(f"{self.vendor_id}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()
         return api_key, api_secret
 
 
@@ -162,7 +162,7 @@ class VendorPortal:
             Vendor profile with API credentials
         """
         try:
-            vendor_id = f"vendor_{uuid.uuid4(}.hex[:12]}"
+            vendor_id = f"vendor_{uuid.uuid4()}.hex[:12]}"
 
             # Create vendor profile
             vendor = VendorProfile(
@@ -226,7 +226,7 @@ class VendorPortal:
                 return {"error": f"Seed limit reached for {vendor.tier.value} tier"}
 
             # Create dream seed
-            seed_id = f"seed_{uuid.uuid4(}.hex[:16]}"
+            seed_id = f"seed_{uuid.uuid4()}.hex[:16]}"
 
             # Extract and validate seed data
             seed = DreamSeed(
@@ -362,7 +362,7 @@ class VendorPortal:
         """
         try:
             # Create tracking ID
-            tracking_id = f"nias_{uuid.uuid4(}.hex[:8]}"
+            tracking_id = f"nias_{uuid.uuid4()}.hex[:8]}"
 
             # Build affiliate parameters
             params = {
@@ -388,7 +388,7 @@ class VendorPortal:
             vendor = self.vendors.get(vendor_id)
             base_url = f"https://{vendor.domains[0]}" if vendor and vendor.domains else "https://checkout.nias.ai"
 
-            affiliate_link = f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params}"
+            affiliate_link = f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params)}"
 
             # Store tracking data
             self.performance_tracker[tracking_id] = {

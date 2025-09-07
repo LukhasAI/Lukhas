@@ -13,14 +13,14 @@ Provides comprehensive observability for:
 - Router dispatch performance
 - Oneiric feedback quality
 """
-import streamlit as st
-
 import threading
 import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 try:
     from prometheus_client import (
@@ -411,7 +411,7 @@ class AkaqObservability:
             # Return local metrics in Prometheus-like format
             output = []
             output.append("# Wave C Aka Qualia Metrics (Local Mode)")
-            output.append(f"# Timestamp: {datetime.now(timezone.utc).isoformat(}")
+            output.append(f"# Timestamp: {datetime.now(timezone.utc).isoformat()}")
 
             for key, value in self._local_data.items():
                 output.append(f"akaq_{key} {value}")

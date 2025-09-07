@@ -70,7 +70,7 @@ async def test_consciousness_emergence():
 
         logger.info("✅ Consciousness evolution complete:")
         logger.info(f"   - Bio adaptations applied: {bio_adaptations}")
-        logger.info(f"   - Evolution stages completed: {len(evolutionary_stages}")
+        logger.info(f"   - Evolution stages completed: {len(evolutionary_stages)}")
         logger.info(f"   - Compliance maintained: {compliance_maintained}")
 
         # Display evolution stages
@@ -100,7 +100,7 @@ async def test_consciousness_emergence():
         logger.info("✅ Performance test complete:")
         logger.info(f"   - Average cycle time: {avg_cycle_time:.2f}ms")
         logger.info(f"   - Average coherence: {avg_coherence:.3f}")
-        logger.info(f"   - Coherence range: {min(coherence_scores):.3f} - {max(coherence_scores}:.3f}")
+        logger.info(f"   - Coherence range: {min(coherence_scores):.3f} - {max(coherence_scores)}:.3f}")
 
         # Final system status
         final_status = system.get_system_status()
@@ -140,7 +140,7 @@ async def test_consciousness_emergence():
 
     except Exception as e:
         logger.error(f"❌ Test failed with error: {e}")
-        logger.error(f"Traceback: {traceback.format_exc(}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         return {"test_passed": False, "error": f"Runtime error: {e}"}
 
 
@@ -179,7 +179,7 @@ async def test_sistema_demo():
         # Check phases if available
         phases = demo_results.get("phases", {})
         if phases:
-            logger.info(f"   - Phases completed: {len(phases}")
+            logger.info(f"   - Phases completed: {len(phases)}")
             for phase_name, phase_data in phases.items():
                 logger.info(f"     {phase_name}: {phase_data}")
 
@@ -188,7 +188,7 @@ async def test_sistema_demo():
 
     except Exception as e:
         logger.error(f"❌ Demo test failed: {e}")
-        logger.error(f"Traceback: {traceback.format_exc(}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         return {"demo_passed": False, "error": str(e)}
 
 
@@ -226,16 +226,16 @@ async def main():
             print(f"   - Avg performance: {emergence_results['avg_cycle_time_ms']:.2f}ms")
     else:
         print("❌ Consciousness Emergence Test: FAILED")
-        print(f"   - Error: {emergence_results.get('error', 'Unknown error'}")
+        print(f"   - Error: {emergence_results.get('error', 'Unknown error')}")
 
     if demo_passed:
         print("✅ Sistema Demo Test: PASSED")
         demo_data = demo_results.get("demo_results", {})
-        print(f"   - Total signals: {demo_data.get('total_signals_processed', 0}")
-        print(f"   - Network health: {demo_data.get('final_network_health', 0}:.3f}")
+        print(f"   - Total signals: {demo_data.get('total_signals_processed', 0)}")
+        print(f"   - Network health: {demo_data.get('final_network_health', 0)}:.3f}")
     else:
         print("❌ Sistema Demo Test: FAILED")
-        print(f"   - Error: {demo_results.get('error', 'Unknown error'}")
+        print(f"   - Error: {demo_results.get('error', 'Unknown error')}")
 
     overall_success = emergence_passed or demo_passed
 

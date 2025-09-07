@@ -5,15 +5,16 @@ LUKHAS AI GLYPH CLI
 Comprehensive command-line interface for creating, verifying, and managing
 cryptographic seals for AI artifacts.
 """
-from consciousness.qi import qi
-import streamlit as st
-
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
 import sys
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 from .embed import auto_embed_seal, auto_extract_seal
 from .seal import GlyphSigner, policy_fingerprint_from_files
@@ -26,7 +27,7 @@ def hash_file(file_path: str) -> str:
     with open(file_path, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
             hasher.update(chunk)
-    return f"sha3-512:{hasher.hexdigest(}"
+    return f"sha3-512:{hasher.hexdigest()}"
 
 
 def create_seal_command(args):
@@ -197,11 +198,11 @@ def extract_seal_command(args):
             # Show seal information
             seal = seal_data.get("seal", {})
             print("\n📋 Seal Information:")
-            print(f"  Issuer: {seal.get('issuer'}")
-            print(f"  Model: {seal.get('model_id'}")
-            print(f"  Created: {seal.get('created_at'}")
-            print(f"  Jurisdiction: {seal.get('jurisdiction'}")
-            print(f"  Expiry: {seal.get('expiry'}")
+            print(f"  Issuer: {seal.get('issuer')}")
+            print(f"  Model: {seal.get('model_id')}")
+            print(f"  Created: {seal.get('created_at')}")
+            print(f"  Jurisdiction: {seal.get('jurisdiction')}")
+            print(f"  Expiry: {seal.get('expiry')}")
 
             # Verify if requested
             if args.verify:

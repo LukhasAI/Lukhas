@@ -530,7 +530,7 @@ class ConsentLedgerV1:
 
                 # Create trace with Trinity Framework validation
                 trace = ΛTrace(
-                    trace_id=f"LT-{uuid.uuid4(}.hex}",
+                    trace_id=f"LT-{uuid.uuid4()}.hex}",
                     lid=lid,
                     parent_trace_id=parent_trace_id,
                     action=action,
@@ -564,12 +564,12 @@ class ConsentLedgerV1:
                 logging.error(f"Failed to create trace: {e}")
                 # Create minimal fallback trace for system integrity
                 fallback_trace = ΛTrace(
-                    trace_id=f"ERR-{uuid.uuid4(}.hex}",
+                    trace_id=f"ERR-{uuid.uuid4()}.hex}",
                     lid=lid,
                     parent_trace_id=None,
                     action="system_error",
                     resource=resource,
-                    purpose=f"Error handling: {str(e}[:100]}",
+                    purpose=f"Error handling: {str(e)}[:100]}",
                     timestamp=datetime.now(timezone.utc).isoformat(),
                     policy_verdict=PolicyVerdict.DENY,
                     capability_token_id=None,
@@ -706,7 +706,7 @@ class ConsentLedgerV1:
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
                 (
-                    f"TV-{uuid.uuid4(}.hex}",
+                    f"TV-{uuid.uuid4()}.hex}",
                     trace.trace_id,
                     scores["identity"],
                     scores["consciousness"],
@@ -825,7 +825,7 @@ class ConsentLedgerV1:
 
                 # Create comprehensive consent record
                 consent = ConsentRecord(
-                    consent_id=f"CONSENT-{uuid.uuid4(}.hex}",
+                    consent_id=f"CONSENT-{uuid.uuid4()}.hex}",
                     lid=lid,
                     resource_type=resource_type,
                     scopes=scopes,

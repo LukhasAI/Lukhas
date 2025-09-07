@@ -1239,7 +1239,7 @@ class KnowledgeConsolidator:
         insight = LearningInsight(
             insight_id=f"consolidated_{exp_type}_{int(time.time()}",
             category="consolidated_knowledge",
-            description=f"Effective {exp_type} patterns learned from {len(experiments} experiments",
+            description=f"Effective {exp_type} patterns learned from {len(experiments)} experiments",
             confidence_score=success_rate,
             validation_count=len(experiments),
         )

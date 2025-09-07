@@ -5,13 +5,13 @@ that provides simple text-based intent inference.
 
 # ΛTAG: codex, intent
 """
-import streamlit as st
-
 from __future__ import annotations
 
 import re
 import uuid
 from dataclasses import dataclass, field
+
+import streamlit as st
 
 
 @dataclass

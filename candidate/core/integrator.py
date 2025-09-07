@@ -97,7 +97,7 @@ except ImportError as e:
 
         def sign_message(self, message: dict[str, Any]) -> str:
             log.debug("PH_ECI: sign_message called")
-            return f"q_sig_placeholder_eci_{uuid.uuid4(}.hex[:8]}"
+            return f"q_sig_placeholder_eci_{uuid.uuid4()}.hex[:8]}"
 
         def get_coherence(self) -> float:
             log.debug("PH_ECI: get_coherence called")
@@ -361,7 +361,7 @@ class EnhancedCoreIntegrator:
         Sends a message to a registered component.
         Verifies message state, checks permissions, signs message, and processes via bio-orchestrator.
         """
-        message_uid = f"msg_{uuid.uuid4(}.hex[:12]}"
+        message_uid = f"msg_{uuid.uuid4()}.hex[:12]}"
         log.debug(
             "Attempting to send message.",
             message_id=message_uid,
@@ -433,7 +433,7 @@ class EnhancedCoreIntegrator:
                     message_id=message_uid,
                 )
                 raise AttributeError(
-                    f"Target component '{target_id}' of type '{type(target_instance}.__name__}' cannot handle messages."
+                    f"Target component '{target_id}' of type '{type(target_instance)}.__name__}' cannot handle messages."
                 )
         except PermissionError as pe:
             log.error(
@@ -571,7 +571,7 @@ class EnhancedCoreIntegrator:
             Number of components successfully notified
         """
         start_time = time.time()
-        event_id = f"evt_{uuid.uuid4(}.hex[:10]}"
+        event_id = f"evt_{uuid.uuid4()}.hex[:10]}"
 
         # Enhanced event structure for orchestration
         enhanced_event = {
@@ -678,13 +678,13 @@ class EnhancedCoreIntegrator:
 
                 # Create enhanced subscriber info for orchestration
                 subscriber_info = {
-                    "component_id": component_id or f"anonymous_{uuid.uuid4(}.hex[:8]}",
+                    "component_id": component_id or f"anonymous_{uuid.uuid4()}.hex[:8]}",
                     "callback": callback_function,
                     "callback_name": getattr(callback_function, "__name__", "unnamed_callback"),
                     "subscribed_at_utc_iso": datetime.now(timezone.utc).isoformat(),
                     "priority_level": priority_level,
                     "context_requirements": context_requirements or {},
-                    "subscription_id": f"sub_{uuid.uuid4(}.hex[:10]}",
+                    "subscription_id": f"sub_{uuid.uuid4()}.hex[:10]}",
                     "active": True,
                     "invocation_count": 0,
                     "last_invoked_utc": None,
@@ -787,7 +787,7 @@ class EnhancedCoreIntegrator:
                         event_id=event["id"],
                         decision_type=decision_type,
                         step="decision_routing",
-                        narrative=f"Routing {decision_type.upper(} decision through orchestration pipeline",
+                        narrative=f"Routing {decision_type.upper()} decision through orchestration pipeline",
                     )
 
             # Context workflow logging for step-by-step transparency

@@ -2,11 +2,11 @@ import hashlib
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
-from jsonschema import ValidationError, validate
 import streamlit as st
-import time
+from jsonschema import ValidationError, validate
 
 ROOT = Path(".")
 FILES = [

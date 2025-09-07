@@ -71,7 +71,7 @@ async def perform_first_transmission():
     # Display symbolic handshake
     print("\n🤝 Symbolic Handshake Preview:")
     glyphs = greeting["symbolic_handshake"]["my_glyphs"]
-    print(f"   Glyph Trail: {' → '.join(glyphs}")
+    print(f"   Glyph Trail: {' → '.join(glyphs)}")
 
     # Show consent trail from genesis
     print("\n📝 Consent Trail:")

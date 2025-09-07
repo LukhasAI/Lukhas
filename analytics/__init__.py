@@ -199,7 +199,7 @@ def record_consciousness_event(event_type: str, episode_id: str, metrics_data: d
     """Record consciousness-related event"""
     if METRICS_AVAILABLE:
         try:
-            collector = get_metrics_collector()
+            get_metrics_collector()
             # Record the event (simplified interface)
             logger.info(f"Consciousness event recorded: {event_type} for episode {episode_id}")
         except Exception as e:
@@ -210,7 +210,7 @@ def record_performance_metric(metric_name: str, value: float, labels: Optional[d
     """Record performance metric"""
     if METRICS_AVAILABLE:
         try:
-            collector = get_metrics_collector()
+            get_metrics_collector()
             # Record the metric (simplified interface)
             logger.debug(f"Performance metric recorded: {metric_name} = {value}")
         except Exception as e:
@@ -218,19 +218,19 @@ def record_performance_metric(metric_name: str, value: float, labels: Optional[d
 
 
 __all__ = [
-    # Version info
-    "__version__",
-    "__author__",
     # Constants
     "ANALYTICS_DOMAINS",
     "METRICS_AVAILABLE",
+    "__author__",
+    # Version info
+    "__version__",
+    "collect_consciousness_metrics",
+    "create_analytics_alert",
+    "generate_performance_report",
+    "get_analytics_dashboard",
     # Core functions
     "get_analytics_status",
-    "collect_consciousness_metrics",
-    "generate_performance_report",
     "get_prometheus_metrics",
-    "create_analytics_alert",
-    "get_analytics_dashboard",
     # Convenience functions
     "record_consciousness_event",
     "record_performance_metric",

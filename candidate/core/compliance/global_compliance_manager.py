@@ -23,14 +23,14 @@ Integration:
 - Guardian System 2.0 multi-jurisdictional violation detection
 - Secure logging for international regulatory audit trails
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Import compliance engines
 from .eu_ai_act_classifier import EUAIActClassifier
@@ -407,7 +407,7 @@ class GlobalComplianceManager:
             self.logger.info(
                 f"Global compliance assessment completed: {assessment_id}, "
                 f"Overall status: {global_status.value}, "
-                f"Jurisdictions: {len(applicable_jurisdictions}"
+                f"Jurisdictions: {len(applicable_jurisdictions)}"
             )
 
             return assessment
@@ -841,7 +841,7 @@ class GlobalComplianceManager:
         # Address harmonization conflicts
         for conflict in conflicts[:2]:  # Top 2 conflicts
             actions.append(
-                f"Resolve {conflict['area']} conflict between {', '.join(conflict['conflicting_jurisdictions']}"
+                f"Resolve {conflict['area']} conflict between {', '.join(conflict['conflicting_jurisdictions'])}"
             )
 
         # Global status specific actions
@@ -962,7 +962,7 @@ class GlobalComplianceManager:
             for change in changes:
                 self.regulatory_changes[change.change_id] = change
 
-            self.logger.info(f"Monitored {len(changes} regulatory changes")
+            self.logger.info(f"Monitored {len(changes)} regulatory changes")
 
             return changes
 
@@ -996,7 +996,7 @@ class GlobalComplianceManager:
         assessments = list(self.global_assessments.values())
 
         return {
-            "report_id": f"MULTI_JURISDICTIONAL_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "report_id": f"MULTI_JURISDICTIONAL_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "executive_summary": {
                 "total_ai_systems_assessed": len(assessments),

@@ -215,7 +215,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected voice modulation: {validation_result.get('reason'}")
+                raise ValueError(f"Guardian rejected voice modulation: {validation_result.get('reason')}")
 
             # Convert audio data to numpy array
             audio_array = self._bytes_to_audio_array(audio_data, sample_rate)

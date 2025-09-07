@@ -4,19 +4,18 @@ NIAS-Dream Bridge
 Connects NIAS symbolic message processing with Dream quantum states.
 Enables consent-aware dream injection and quantum consciousness integration.
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from openai import AsyncOpenAI
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -108,7 +107,7 @@ class NIASDreamBridge:
 
             # Create dream message
             dream_msg = DreamMessage(
-                message_id=f"nias_dream_{datetime.now(timezone.utc).timestamp(}",
+                message_id=f"nias_dream_{datetime.now(timezone.utc).timestamp()}",
                 original_message=message,
                 symbolic_interpretation=dream_analysis["interpretation"],
                 emotional_context=dream_analysis["emotional_context"],
@@ -399,7 +398,7 @@ class NIASDreamBridge:
                         },
                         {
                             "role": "user",
-                            "content": f"Dream elements: {json.dumps(interpretations}",
+                            "content": f"Dream elements: {json.dumps(interpretations)}",
                         },
                     ],
                     temperature=0.8,

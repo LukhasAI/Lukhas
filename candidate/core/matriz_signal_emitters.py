@@ -6,14 +6,14 @@ This module provides specialized signal emitters for each core module,
 ensuring proper MΛTRIZ signal emission at all consciousness boundaries
 and enabling seamless inter-module communication.
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 from .bio_symbolic_processor import get_bio_symbolic_processor
 from .consciousness_signal_router import get_consciousness_router
@@ -130,7 +130,7 @@ class ConsciousnessModuleEmitter:
 
             if routed_nodes:
                 self.emission_stats["signals_emitted"] += 1
-                logger.debug(f"Emitted {signal_type.value} signal from {self.module_name} to {len(routed_nodes} nodes")
+                logger.debug(f"Emitted {signal_type.value} signal from {self.module_name} to {len(routed_nodes)} nodes")
             else:
                 logger.warning(f"Signal {signal.signal_id} was not routed to any nodes")
 
@@ -653,19 +653,19 @@ def create_symbolic_emitter(consciousness_id: str) -> SymbolicCoreEmitter:
 
 # Module exports
 __all__ = [
-    "EmissionTrigger",
-    "EmissionRule",
-    "ConsciousnessModuleEmitter",
     "ConsciousnessEmitter",
-    "OrchestrationEmitter",
-    "IdentityEmitter",
+    "ConsciousnessModuleEmitter",
+    "EmissionRule",
+    "EmissionTrigger",
     "GovernanceEmitter",
-    "SymbolicCoreEmitter",
+    "IdentityEmitter",
     "MatrizSignalEmissionCoordinator",
-    "get_emission_coordinator",
+    "OrchestrationEmitter",
+    "SymbolicCoreEmitter",
     "create_consciousness_emitter",
-    "create_orchestration_emitter",
-    "create_identity_emitter",
     "create_governance_emitter",
+    "create_identity_emitter",
+    "create_orchestration_emitter",
     "create_symbolic_emitter",
+    "get_emission_coordinator",
 ]

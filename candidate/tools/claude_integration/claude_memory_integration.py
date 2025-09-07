@@ -3,14 +3,13 @@
 Claude Code Memory Integration
 Integrates Claude Code conversations with LUKHAS memory system.
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 # Add LUKHAS to path
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -44,7 +43,7 @@ class ClaudeContextMemory:
             tokens = []
             for msg in context_data.get("messages", []):
                 token = SymbolicToken(
-                    symbol=f"CLAUDE_{msg['role'].upper(}",
+                    symbol=f"CLAUDE_{msg['role'].upper()}",
                     content=msg["content"],
                     metadata={
                         "timestamp": msg.get("timestamp", datetime.now(timezone.utc).isoformat()),
@@ -97,7 +96,7 @@ class ClaudeContextMemory:
 
         with open(filepath, "w") as f:
             f.write(
-                f"# Claude Memory Integration Export\n**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}\n\n"
+                f"# Claude Memory Integration Export\n**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n"
             )
 
             # Session info
@@ -110,8 +109,8 @@ class ClaudeContextMemory:
             # Messages
             f.write("## Conversation\n\n")
             for msg in context_data.get("messages", []):
-                f.write(f"### {msg.get('role', 'Unknown'}\n")
-                f.write(f"{msg.get('content', ''}\n\n")
+                f.write(f"### {msg.get('role', 'Unknown')}\n")
+                f.write(f"{msg.get('content', '')}\n\n")
 
             # Files modified
             if "files_modified" in context_data:

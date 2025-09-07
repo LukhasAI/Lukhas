@@ -5,10 +5,12 @@ import argparse
 import json
 import os
 import re
+import time
 import urllib.parse
 from typing import Any
+
 import streamlit as st
-import time
+
 from consciousness.qi import qi
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))

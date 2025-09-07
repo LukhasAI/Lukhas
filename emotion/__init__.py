@@ -188,18 +188,18 @@ def create_emotion_session(session_id: str, **config) -> Optional[Any]:
 
 # Export main functions
 __all__ = [
-    "get_emotion_status",
+    "EMOTION_ACTIVE",
+    "EmotionWrapper",
     "analyze_emotion_stream",
     "create_emotion_session",
+    "emit",
+    "get_emotion_status",
+    "get_emotion_wrapper",
+    "instrument",
+    "logger",
     "process_emotion",
     "regulate_mood",
     "track_valence",
-    "get_emotion_wrapper",
-    "emit",
-    "instrument",
-    "EmotionWrapper",
-    "EMOTION_ACTIVE",
-    "logger",
 ]
 
 # System health check on import

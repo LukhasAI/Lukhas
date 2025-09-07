@@ -23,6 +23,7 @@ and symbolic thresholds are expected to be defined here.
 Currently, this file is a placeholder and requires definitions for these constants.
 """
 import logging
+
 import streamlit as st
 
 """

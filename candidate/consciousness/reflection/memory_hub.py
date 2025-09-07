@@ -20,8 +20,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.core.bridges.memory_consciousness_bridge import (
-    get_memory_consciousness_bridge)
+from candidate.core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
 from candidate.core.bridges.memory_learning_bridge import MemoryLearningBridge
 from candidate.core.common import get_logger
 from lukhas.memory.core.base_manager import BaseMemoryManager
@@ -305,7 +304,7 @@ class MemoryHub:
             except Exception as e:
                 logger.error(f"Failed to initialize unified emotional manager: {e}")
 
-        logger.info(f"MemoryHub initialized with {len(self.services} services")
+        logger.info(f"MemoryHub initialized with {len(self.services)} services")
 
     async def initialize(self) -> None:
         """Initialize all memory services"""
@@ -355,7 +354,7 @@ class MemoryHub:
 
         # Mark as initialized
         self.is_initialized = True
-        logger.info(f"Memory hub initialized with {len(self.services} services")
+        logger.info(f"Memory hub initialized with {len(self.services)} services")
 
     def _register_memory_management_services(self):
         """Register memory management services"""
@@ -548,7 +547,7 @@ class MemoryHub:
                 if service_name in self.services:
                     discovery.register_service_globally(service_name, self.services[service_name], "memory")
 
-            logger.debug(f"Registered {len(key_services} memory services with global discovery")
+            logger.debug(f"Registered {len(key_services)} memory services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 

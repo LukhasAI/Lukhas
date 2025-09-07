@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from typing import Optional
+
 """
 Candidate → Lukhas promotion helper (safe, auditable).
 
@@ -20,8 +21,6 @@ Notes:
 - This does not delete anything in `candidate/`.
 - Run tests/smoke before and after; see AUTHORATIVE_PROMOTION_PROCESS.md
 """
-import streamlit as st
-
 from __future__ import annotations
 
 import argparse
@@ -32,6 +31,8 @@ import sys
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
+
+import streamlit as st
 
 REWRITE_IMPORT = re.compile(r"\bfrom\s+candidate\.(?P<rest>\S+)\s+import\s")
 REWRITE_IMPORT2 = re.compile(r"\bimport\s+candidate(?P<rest>(\.|\s).*)")
@@ -196,8 +197,8 @@ def main() -> int:
 
     # Summary
     print("📦 Promotion summary")
-    print(f"  Copied:    {len(copied} files")
-    print(f"  Rewritten: {len(rewritten} files (imports updated)")
+    print(f"  Copied:    {len(copied)} files")
+    print(f"  Rewritten: {len(rewritten)} files (imports updated)")
     if shim:
         print(f"  Shim:      {shim}")
     print(f"  Dry-run:   {args.dry_run}")

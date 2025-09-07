@@ -2,15 +2,14 @@
 🧠 Abstract Reasoning Brain Interface
 Interface for the Bio-Quantum Symbolic Reasoning system with Radar Analytics Integration
 """
-from consciousness.qi import qi
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
-from datetime import datetime
-from typing import Any, Optional, Union
+from datetime import datetime, timezone
+from typing import Any, List, Optional, Union
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 from .core import AbstractReasoningBrainCore
 

@@ -193,7 +193,7 @@ class SymbolicLoopController:
 
     async def _route_operation(self, operation: SymbolicOperation) -> SymbolicResult:
         """Route operation to appropriate loop handler"""
-        operation_id = f"{operation.term.value}_{operation.agent_id}_{datetime.now(timezone.utc).timestamp(}"
+        operation_id = f"{operation.term.value}_{operation.agent_id}_{datetime.now(timezone.utc).timestamp()}"
 
         try:
             # Check if loop is available

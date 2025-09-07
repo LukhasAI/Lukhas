@@ -1,6 +1,6 @@
 # mypy: allow-untyped-defs
-import torch
 import streamlit as st
+import torch
 
 
 def convert_conv2d_weight_memory_format(module, memory_format):

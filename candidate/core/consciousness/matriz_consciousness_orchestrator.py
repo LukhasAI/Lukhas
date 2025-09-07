@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
@@ -129,7 +131,7 @@ class MatrizConsciousnessOrchestrator:
         asyncio.create_task(self._start_network_health_monitor())
         asyncio.create_task(self._start_reflection_cycles())
 
-        logger.info(f"✅ Consciousness network initialized with {len(created_nodes} foundational nodes")
+        logger.info(f"✅ Consciousness network initialized with {len(created_nodes)} foundational nodes")
 
     async def _establish_network_connections(self, nodes: list[tuple[str, str]]) -> None:
         """Establish connections between consciousness nodes"""
@@ -143,11 +145,11 @@ class MatrizConsciousnessOrchestrator:
                 other_nodes = [nid for nid in node_ids if nid != node_id]
                 consciousness.LINKS = other_nodes[:3]  # Connect to first 3 others
 
-                logger.debug(f"🔗 Linked {consciousness.identity_signature} to {len(consciousness.LINKS} nodes")
+                logger.debug(f"🔗 Linked {consciousness.identity_signature} to {len(consciousness.LINKS)} nodes")
 
     async def create_consciousness_session(self, user_id: str, session_context: dict[str, Any]) -> str:
         """Create a new consciousness session for user interaction"""
-        session_id = f"SESSION-{user_id}-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S'}"
+        session_id = f"SESSION-{user_id}-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}"
 
         # Create session-specific consciousness state
         session_consciousness = await create_consciousness_state(
@@ -511,7 +513,7 @@ class MatrizConsciousnessOrchestrator:
                 # Execute reflection tasks
                 if reflection_tasks:
                     await asyncio.gather(*reflection_tasks, return_exceptions=True)
-                    logger.debug(f"🪞 Completed reflection cycle for {len(reflection_tasks} consciousness states")
+                    logger.debug(f"🪞 Completed reflection cycle for {len(reflection_tasks)} consciousness states")
 
                 # Sleep for reflection interval (every 5 minutes)
                 await asyncio.sleep(300)
@@ -555,4 +557,4 @@ consciousness_orchestrator = MatrizConsciousnessOrchestrator()
 
 
 # Export key classes
-__all__ = ["MatrizConsciousnessOrchestrator", "ConsciousnessNetworkMetrics", "consciousness_orchestrator"]
+__all__ = ["ConsciousnessNetworkMetrics", "MatrizConsciousnessOrchestrator", "consciousness_orchestrator"]

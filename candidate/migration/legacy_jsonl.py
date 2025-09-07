@@ -2,8 +2,9 @@ import json
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.migration.legacy_store import LegacyStore
 import streamlit as st
+
+from lukhas.migration.legacy_store import LegacyStore
 
 
 class LegacyJSONL(LegacyStore):

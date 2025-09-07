@@ -9,9 +9,9 @@ This module provides:
 - Endocrine system integration for biological authenticity
 - Comprehensive audit trails and user transparency
 """
-import streamlit as st
-
 from typing import Optional
+
+import streamlit as st
 
 from .endocrine_integration import VIVOXEndocrineIntegration
 
@@ -93,22 +93,22 @@ def create_complete_vivox_ern_system(
 
 # Convenience exports
 __all__ = [
+    "EmotionalMemory",
+    "EmotionalRegulator",
+    "RegulationResponse",
+    "RegulationStrategy",
+    "TransparencyLevel",
+    "UserTransparencyReport",
+    "VADVector",
+    "VIVOXAuditSystem",
+    "VIVOXERNIntegratedSystem",
     # Core classes
     "VIVOXEmotionalRegulationNetwork",
-    "EmotionalRegulator",
-    "VADVector",
-    "RegulationStrategy",
-    "RegulationResponse",
-    "EmotionalMemory",
+    "VIVOXEndocrineIntegration",
     # Integration classes
     "VIVOXEventBusIntegration",
-    "VIVOXERNIntegratedSystem",
     "VIVOXNeuroplasticLearner",
     "VIVOXTagSystemIntegration",
-    "VIVOXEndocrineIntegration",
-    "VIVOXAuditSystem",
-    "UserTransparencyReport",
-    "TransparencyLevel",
     # Factory function
     "create_complete_vivox_ern_system",
 ]

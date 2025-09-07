@@ -2,11 +2,11 @@
 """
 Update all Python imports to use the new poetry system location
 """
-import streamlit as st
-
 import os
 import re
 from pathlib import Path
+
+import streamlit as st
 
 
 def update_imports(root_dir):
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     updated = update_imports("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     if updated:
-        print(f"\nUpdated {len(updated} files:")
+        print(f"\nUpdated {len(updated)} files:")
         for file in updated:
             print(f"  - {file}")
     else:

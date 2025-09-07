@@ -70,7 +70,7 @@ class CollapseAlertLevel(Enum):
 class CollapseState:
     """Represents a collapse state snapshot."""
 
-    collapse_trace_id: str = field(default_factory=lambda: f"collapse_{uuid.uuid4(}.hex[:12]}")
+    collapse_trace_id: str = field(default_factory=lambda: f"collapse_{uuid.uuid4()}.hex[:12]}")
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     entropy_score: float = 0.0
     alert_level: CollapseAlertLevel = CollapseAlertLevel.GREEN
@@ -453,7 +453,7 @@ class CollapseTracker:
 
         elif scenario == "collapse":
             # High entropy, system collapse
-            symbols = [f"glyph_{random.randint(0, 100}:03d}" for _ in range(100)]
+            symbols = [f"glyph_{random.randint(0, 100)}:03d}" for _ in range(100)]
             component_scores = {
                 "memory": 0.85,
                 "reasoning": 0.78,

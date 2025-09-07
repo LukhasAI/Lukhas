@@ -198,7 +198,7 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         memory_texts = []
         for i, memory in enumerate(memories):
             memory_texts.append(
-                f"Memory {i + 1} ({memory.get('timestamp', 'unknown time'}): "
+                f"Memory {i + 1} ({memory.get('timestamp', 'unknown time')}): "
                 f"{memory.get('content', memory.get('summary', 'No content')}"
             )
 
@@ -383,13 +383,13 @@ async def demo_memory_adapter():
     # Compress memory
     print("\n1. Compressing memory...")
     compressed = await adapter.compress_memory(memory)
-    print(f"Compression ratio: {compressed.get('compression_ratio', 'N/A'}:.2%}")
-    print(f"Compressed: {compressed.get('compressed'}")
+    print(f"Compression ratio: {compressed.get('compression_ratio', 'N/A')}:.2%}")
+    print(f"Compressed: {compressed.get('compressed')}")
 
     # Generate embedding
     print("\n2. Generating memory embedding...")
     embedding = await adapter.generate_memory_embedding(memory["content"])
-    print(f"Embedding dimension: {len(embedding}")
+    print(f"Embedding dimension: {len(embedding)}")
     print(f"First 5 values: {embedding[:5]}")
 
     # Create visualization prompt

@@ -70,11 +70,7 @@ import numpy as np
 
 # Internal imports
 try:
-    from candidate.core.common.glyph import (
-        EmotionVector,
-        Glyph,
-        GlyphFactory,
-        GlyphType)
+    from candidate.core.common.glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
     from candidate.core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
 except ImportError:
     # Fallback imports if core modules not available
@@ -392,7 +388,7 @@ class EmotionalFoldingEngine:
         elif compression_type == CompressionType.SYNTHESIS:
             folded_content = self._synthesize_memories(memory_group)
         else:
-            folded_content = f"Folded insight from {len(memory_group} memories"
+            folded_content = f"Folded insight from {len(memory_group)} memories"
 
         # Create new folded memory
         folded_memory = self.memory_system.create_memory_fold(
@@ -417,7 +413,7 @@ class EmotionalFoldingEngine:
             compression_type,
         )
 
-        logger.info(f"Created folded memory {folded_memory['hash'][:10]}... from {len(memory_group} sources")
+        logger.info(f"Created folded memory {folded_memory['hash'][:10]}... from {len(memory_group)} sources")
 
         return folded_memory
 
@@ -451,20 +447,20 @@ class EmotionalFoldingEngine:
         top_themes = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)[:5]
         theme_words = [word for word, count in top_themes if count >= 2]
 
-        return f"Consolidated themes: {', '.join(theme_words}"
+        return f"Consolidated themes: {', '.join(theme_words)}"
 
     def _abstract_memories(self, memories: list[dict[str, Any]]) -> str:
         """Abstract general patterns from memories."""
         emotions = [m.get("emotion", "neutral") for m in memories]
         unique_emotions = list(set(emotions))
 
-        return f"Pattern abstraction across {len(unique_emotions} emotional states"
+        return f"Pattern abstraction across {len(unique_emotions)} emotional states"
 
     def _synthesize_memories(self, memories: list[dict[str, Any]]) -> str:
         """Synthesize new insights from memory combination."""
         emotion_types = {m.get("emotion", "neutral") for m in memories}
 
-        return f"Synthesized insight bridging {len(emotion_types} emotions"
+        return f"Synthesized insight bridging {len(emotion_types)} emotions"
 
     def _track_fold_lineage(
         self,
@@ -870,7 +866,7 @@ class GlyphMemorySystem:
 
         memory["glyph_bindings"] = bindings
 
-        logger.info(f"Created glyph-indexed memory {memory['hash'][:10]}... with {len(glyphs} glyphs")
+        logger.info(f"Created glyph-indexed memory {memory['hash'][:10]}... with {len(glyphs)} glyphs")
 
         return memory
 
@@ -987,7 +983,7 @@ class GlyphMemorySystem:
         results["preserved_glyphs"] = list(results["preserved_glyphs"])
 
         logger.info(
-            f"Temporal folding complete: {results['memories_folded']} memories -> {len(results['new_folds']} folds"
+            f"Temporal folding complete: {results['memories_folded']} memories -> {len(results['new_folds'])} folds"
         )
 
         return results

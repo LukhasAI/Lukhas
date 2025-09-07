@@ -16,8 +16,6 @@
 ║ consumption patterns, and optimization opportunities for the Symbiotic Swarm.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import gc
 import json
 import logging
@@ -31,6 +29,7 @@ from typing import Any
 
 import numpy as np
 import psutil
+import streamlit as st
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -1000,7 +999,7 @@ class ResourceEfficiencyAnalyzer:
         with open(filepath, "w") as f:
             json.dump(data, f, indent=2)
 
-        logger.info(f"Exported {len(data['snapshots']} snapshots to {filepath}")
+        logger.info(f"Exported {len(data['snapshots'])} snapshots to {filepath}")
 
 
 # Demo usage
@@ -1041,8 +1040,8 @@ if __name__ == "__main__":
 
     # Print summary
     print(f"\nEfficiency Score: {report.efficiency_score:.1f}/100")
-    print(f"Bottlenecks found: {len(report.bottlenecks}")
-    print(f"Recommendations: {len(report.recommendations}")
+    print(f"Bottlenecks found: {len(report.bottlenecks)}")
+    print(f"Recommendations: {len(report.recommendations)}")
 
     # Print bottlenecks
     if report.bottlenecks:

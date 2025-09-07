@@ -4,11 +4,11 @@ Consciousness Ascension Catalyst Engine for the NIAS Transcendence Platform.
 This module designs and measures experiences that are intended to
 measurably accelerate human consciousness evolution.
 """
-import time
-import streamlit as st
-
 import random
+import time
 from typing import Any
+
+import streamlit as st
 
 
 # Placeholder classes for external consciousness research APIs
@@ -42,7 +42,7 @@ class FlowStateResearchAPI:
 
 class ConsciousnessTechnologiesSDK:
     async def integrate_experience(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"tech_integration_id": f"tech_{random.randint(1000, 9999}"}
+        return {"tech_integration_id": f"tech_{random.randint(1000, 9999)}"}
 
 
 class ConsciousnessAscensionCatalystEngine:

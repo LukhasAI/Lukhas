@@ -1,9 +1,9 @@
 """
 Symbolic tags for agent colonies.
 """
-import streamlit as st
-
 from enum import Enum
+
+import streamlit as st
 
 
 class TagScope(Enum):

@@ -4,14 +4,13 @@ Common Compliance Manager for Healthcare Providers
 This module provides shared compliance functionality across different
 regulatory frameworks (GDPR, HIPAA, LOPD, etc.).
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
 from abc import ABC, abstractmethod
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -166,7 +165,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         """Check consent across all frameworks"""
 
         # Check cache first
-        cache_key = f"{subject_id}:{purpose}:{':'.join(data_types}"
+        cache_key = f"{subject_id}:{purpose}:{':'.join(data_types)}"
         if cache_key in self.consent_cache:
             consent_data = self.consent_cache[cache_key]
             if consent_data["expires"] > datetime.now(timezone.utc):

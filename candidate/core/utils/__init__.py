@@ -34,7 +34,7 @@ def generate_symbolic_id(prefix: str = "sym_") -> str:
     # ΛECHO: The generated ID is an echo of a request for uniqueness in the symbolic layer.
     """
     # ΛTRACE: Generating symbolic ID
-    symbolic_id = f"{prefix}{uuid.uuid4(}.hex}"
+    symbolic_id = f"{prefix}{uuid.uuid4()}.hex}"
     log.debug("Generated symbolic ID", id=symbolic_id, prefix=prefix)
     return symbolic_id
 
@@ -116,7 +116,7 @@ def legacy_parse_lukhas_command(
 #     # ΛTRACE: Generating dream signature
 #     log.debug("Generating experimental dream signature", data_keys=list(dream_data.keys()))
 #     # Simplified signature logic for example
-#     signature_content = "".join(f"{k}:{str(v}[:20]}" for k, v in sorted(dream_data.items()))
+#     signature_content = "".join(f"{k}:{str(v)}[:20]}" for k, v in sorted(dream_data.items()))
 #     signature = hashlib.sha256(signature_content.encode()).hexdigest()[:16]
 #     log.info("Generated dream signature", signature=signature)
 #     return signature

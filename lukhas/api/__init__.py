@@ -14,12 +14,12 @@ This module serves as the stable interface to:
 Author: LUKHAS AI API Systems
 Version: 1.0.0
 """
-import streamlit as st
-
 # Standard library imports
 import contextlib
 import os
 import sys
+
+import streamlit as st
 
 # Add api directory to path for imports
 _api_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "api")

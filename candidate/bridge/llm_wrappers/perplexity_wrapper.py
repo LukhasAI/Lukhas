@@ -38,13 +38,12 @@
 ║ Symbolic Tags: {ΛPERPLEXITY}, {ΛWEB}, {ΛREALTIME}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import logging
+import time
 
 # Module imports
 import requests
+import streamlit as st
 
 from lukhas.branding.terminology import normalize_output
 

@@ -1,16 +1,17 @@
 from datetime import datetime, timezone
+
 """
 Receptivity Window Calculator for the Consciousness Oracle.
 
 This module predicts the optimal moments for delivering different types of
 content based on forecasted user states and flow predictions.
 """
-import time
-import streamlit as st
-
 import datetime
 import random
+import time
 from typing import Any
+
+import streamlit as st
 
 # Placeholder for ABAS integration
 # from core.architectures.abas.core import ABASFlowState

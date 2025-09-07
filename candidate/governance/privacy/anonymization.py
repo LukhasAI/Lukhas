@@ -394,7 +394,7 @@ class AdvancedAnonymizationEngine:
             Tuple of (anonymized_dataset, result)
         """
         start_time = datetime.now(timezone.utc)
-        operation_id = f"anon_{uuid.uuid4(}.hex[:8]}"
+        operation_id = f"anon_{uuid.uuid4()}.hex[:8]}"
         context = context or {}
 
         try:
@@ -500,7 +500,7 @@ class AdvancedAnonymizationEngine:
 
             logger.info(
                 f"✅ Anonymization completed: {operation_id} "
-                f"({len(dataset)} -> {len(anonymized_data} records, "
+                f"({len(dataset)} -> {len(anonymized_data)} records, "
                 f"utility: {result.data_utility:.2f}, "
                 f"risk: {result.risk_score:.3f})"
             )
@@ -751,7 +751,7 @@ class AdvancedAnonymizationEngine:
 
             diversified_dataset.extend(group_records)
 
-        return diversified_dataset, {"l_achieved": int(min_l_achieved) if min_l_achieved != float("inf"} else 0}
+        return diversified_dataset, {"l_achieved": int(min_l_achieved) if min_l_achieved != float("inf")} else 0}
 
     async def _enhance_diversity(
         self, group_records: list[dict[str, Any]], sensitive_attr: str, target_l: int

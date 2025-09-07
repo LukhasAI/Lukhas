@@ -7,15 +7,14 @@ drift detection, and safety bounds for all intelligence operations.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger("LUKHAS.Governance.Intelligence.Safety", timezone)
 
@@ -527,7 +526,7 @@ class LukhasIntelligenceSafetyValidator:
 
             if len(recent_ops) > self.safety_bounds.max_autonomous_actions * 6:  # 6x normal rate
                 logger.warning(
-                    f"🚨 Unusual activity pattern detected for agent {agent_id}: {len(recent_ops} operations in last hour"
+                    f"🚨 Unusual activity pattern detected for agent {agent_id}: {len(recent_ops)} operations in last hour"
                 )
 
     async def _monitor_safety_trends(self):

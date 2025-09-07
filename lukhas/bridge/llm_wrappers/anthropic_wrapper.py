@@ -6,9 +6,9 @@ Production facade for the Anthropic wrapper, bridging to the candidate implement
 This maintains lane separation while providing stable access to Anthropic functionality.
 Uses lazy loading to prevent circular imports.
 """
-import streamlit as st
-
 import logging
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

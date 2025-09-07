@@ -12,11 +12,11 @@ Memory System Connection Visualizer
 Simple script to visualize how all the JSON specifications connect together.
 Creates a visual map of relationships and dependencies.
 """
-import streamlit as st
-
 import json
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 
 def load_all_specifications() -> dict[str, Any]:
@@ -114,9 +114,9 @@ def print_connection_summary(connections: dict[str, dict]):
         for relation_type, items in details.items():
             if isinstance(items, list):
                 items_str = ", ".join(items)
-                print(f"  {relation_type.replace('_', ' ').title(}: {items_str}")
+                print(f"  {relation_type.replace('_', ' ').title()}: {items_str}")
             else:
-                print(f"  {relation_type.replace('_', ' ').title(}: {items}")
+                print(f"  {relation_type.replace('_', ' ').title()}: {items}")
 
 
 def print_data_flow_diagram():
@@ -240,7 +240,7 @@ def main():
 
     # Load specifications
     specs = load_all_specifications()
-    print(f"📁 Loaded {len(specs} specifications:")
+    print(f"📁 Loaded {len(specs)} specifications:")
     for spec_name in specs:
         print(f"  • {spec_name}")
 

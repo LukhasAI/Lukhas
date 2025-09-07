@@ -62,7 +62,7 @@ def main():
         print("No conflict files found.")
         return
 
-    print(f"Found {len(conflict_files} files with conflicts:")
+    print(f"Found {len(conflict_files)} files with conflicts:")
     for f in conflict_files:
         print(f"  - {f}")
 
@@ -73,7 +73,7 @@ def main():
         if filepath and os.path.exists(filepath) and resolve_conflict_file(filepath):
             resolved_count += 1
 
-    print(f"\nResolved {resolved_count}/{len(conflict_files} files")
+    print(f"\nResolved {resolved_count}/{len(conflict_files)} files")
 
     # Add resolved files to staging
     if resolved_count > 0:

@@ -484,7 +484,7 @@ class ComprehensiveAlertingSystem:
         for rule in default_rules:
             self.alert_rules[rule.rule_id] = rule
 
-        logger.info(f"✅ Loaded {len(default_rules} default alert rules")
+        logger.info(f"✅ Loaded {len(default_rules)} default alert rules")
 
     async def _load_notification_configurations(self):
         """Load notification configurations"""
@@ -535,7 +535,7 @@ LUKHAS AI Monitoring System
         for config in default_configs:
             self.notification_configs[config.config_id] = config
 
-        logger.info(f"✅ Loaded {len(default_configs} notification configurations")
+        logger.info(f"✅ Loaded {len(default_configs)} notification configurations")
 
     async def _alert_evaluation_loop(self):
         """Main alert evaluation loop"""
@@ -616,7 +616,7 @@ LUKHAS AI Monitoring System
     ) -> Alert:
         """Create a new alert"""
 
-        alert_id = f"alert_{uuid.uuid4(}.hex[:12]}"
+        alert_id = f"alert_{uuid.uuid4()}.hex[:12]}"
         tags = tags or {}
         metadata = metadata or {}
         affected_systems = affected_systems or []
@@ -760,7 +760,7 @@ LUKHAS AI Monitoring System
         """Create compliance audit trail entry"""
 
         for regulation in alert.applicable_regulations:
-            entry_id = f"audit_{uuid.uuid4(}.hex[:12]}"
+            entry_id = f"audit_{uuid.uuid4()}.hex[:12]}"
 
             # Determine violation severity
             violation_severity = (
@@ -1062,7 +1062,7 @@ LUKHAS AI Monitoring System
 
             # In production, would make HTTP POST to webhook URL
             logger.info(f"🔗 Webhook notification prepared for {config.endpoint}")
-            logger.debug(f"Payload: {json.dumps(payload, indent=2}")
+            logger.debug(f"Payload: {json.dumps(payload, indent=2)}")
 
             return True
 
@@ -1151,7 +1151,7 @@ LUKHAS AI Monitoring System
     async def _create_acknowledgment_audit_entry(self, alert: Alert, user_id: Optional[str]):
         """Create audit entry for alert acknowledgment"""
 
-        entry_id = f"audit_{uuid.uuid4(}.hex[:12]}"
+        entry_id = f"audit_{uuid.uuid4()}.hex[:12]}"
 
         audit_entry = ComplianceAuditEntry(
             entry_id=entry_id,
@@ -1186,7 +1186,7 @@ LUKHAS AI Monitoring System
     ):
         """Create audit entry for alert resolution"""
 
-        entry_id = f"audit_{uuid.uuid4(}.hex[:12]}"
+        entry_id = f"audit_{uuid.uuid4()}.hex[:12]}"
 
         audit_entry = ComplianceAuditEntry(
             entry_id=entry_id,

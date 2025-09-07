@@ -142,7 +142,7 @@ class CausalReasoningModule:
                             - "error" (str, optional): Error message if processing failed.
         """
         # Generate a unique request ID using UTC timestamp for better traceability.
-        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f'}"
+        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f\')}"
         reason_logger = self.logger.bind(
             request_id=processing_request_id
         )  # Bind request_id for all logs in this method
@@ -201,7 +201,7 @@ class CausalReasoningModule:
                 "primary_cause_confidence_score": (
                     primary_cause_details["confidence_score"] if primary_cause_details else 0.0
                 ),
-                "reasoning_timestamp_utc": datetime.now(timezone.utc).isoformat(},  # Use UTC
+                "reasoning_timestamp_utc": datetime.now(timezone.utc).isoformat()},  # Use UTC
                 "processing_request_id": processing_request_id,
             }
 
@@ -281,7 +281,7 @@ class CausalReasoningModule:
             try:
                 # Find all non-overlapping matches of the pattern in the string.
                 # re.IGNORECASE makes matching case-insensitive.
-                # re.DOTALL makes '.' match any character, including newlines.
+                # re.DOTALL makes \'.' match any character, including newlines.
                 found_matches = re.findall(regex_pattern_str, text_to_analyze, re.IGNORECASE | re.DOTALL)
                 for match_tuple_or_str in found_matches:
                     # Extract the actual matched content (group 1, or whole match if no groups).

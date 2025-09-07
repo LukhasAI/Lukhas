@@ -28,23 +28,23 @@ from .audit_trail import (
 )
 
 __all__ = [
-    # Core audit trail
-    "AuditTrail",
-    "AuditEventType",
-    "AuditEvent",
-    "AuditQuery",
-    "get_audit_trail",
-    "AuditSeverity",
-    "ComplianceReport",
-    # Decorators
-    "audit_operation",
-    "audit_decision",
-    "audit_consciousness_change",
-    "audit_learning",
-    "audit_security",
+    "AnomalyDetector",
     # Analytics
     "AuditAnalytics",
-    "AnomalyDetector",
+    "AuditEvent",
+    "AuditEventType",
+    "AuditQuery",
+    "AuditSeverity",
+    # Core audit trail
+    "AuditTrail",
     "ComplianceChecker",
+    "ComplianceReport",
     "PatternAnalyzer",
+    "audit_consciousness_change",
+    "audit_decision",
+    "audit_learning",
+    # Decorators
+    "audit_operation",
+    "audit_security",
+    "get_audit_trail",
 ]

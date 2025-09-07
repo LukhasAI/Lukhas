@@ -11,15 +11,13 @@ The MATRIZ format ensures:
 - Ethical governance through provenance tracking
 - Causal chain reconstruction for interpretability
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-
 import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Optional, Union
+from typing import Any, Dict, List, Optional, Union
+
+import streamlit as st
 
 
 @dataclass

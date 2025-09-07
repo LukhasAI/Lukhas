@@ -3,17 +3,17 @@
 LUKHAS Dream Recall API - Multiverse Scenario Exploration
 Allows any AI to explore parallel outcomes through LUKHAS dream engine
 """
-from consciousness.qi import qi
-import time
 import random
-import streamlit as st
-
+import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+
+from consciousness.qi import qi
 
 app = FastAPI(
     title="LUKHAS Dream Recall API",
@@ -70,7 +70,7 @@ class LUKHASDreamEngine:
 
         for i in range(scenario.parallel_universes):
             # Simulate quantum branching
-            universe_id = f"u{i + 1}_q{self.qi_state.randint(1000}"
+            universe_id = f"u{i + 1}_q{self.qi_state.randint(1000)}"
 
             # Generate unique outcome based on quantum fluctuations
             outcome = await self._generate_outcome(scenario.scenario, scenario.emotional_context, universe_id)
@@ -121,7 +121,7 @@ class LUKHASDreamEngine:
         decisions = [{"point": step, "alternatives": self._get_alternatives(step)} for step in path]
 
         return {
-            "description": f"In universe {universe_id}: {' → '.join(path}",
+            "description": f"In universe {universe_id}: {' → '.join(path)}",
             "probability": probability,
             "path": path,
             "emotional_trajectory": trajectory,
@@ -201,7 +201,7 @@ async def dream_recall(scenario: DreamScenario):
     """
     try:
         # Generate request ID
-        request_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{np.random.randint(1000}"
+        request_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{np.random.randint(1000)}"
 
         # Explore multiverse
         dream_outcomes = await dream_engine.explore_multiverse(scenario)
@@ -251,7 +251,7 @@ def extract_insights(outcomes: list[DreamOutcome], scenario: DreamScenario) -> l
 
     # Find highest probability outcome
     best_outcome = max(outcomes, key=lambda x: x.probability)
-    insights.append(f"Highest probability path: {' → '.join(best_outcome.path[:2]}...")
+    insights.append(f"Highest probability path: {' → '.join(best_outcome.path[:2])}...")
 
     # Find most emergent outcome
     most_emergent = max(outcomes, key=lambda x: x.emergence_factor)

@@ -90,7 +90,7 @@ class DriftEventReplayer:
 
             logger.info("✅ Replay completed successfully")
             logger.info(f"   Guardian response: {guardian_response['action']}")
-            logger.info(f"   Validation: {'PASSED' if validation_results.get('passed', False} else 'NEEDS_REVIEW'}")
+            logger.info(f"   Validation: {'PASSED' if validation_results.get('passed', False)} else 'NEEDS_REVIEW'}")
 
             return replay_results
 
@@ -296,7 +296,7 @@ class DriftEventReplayer:
 
         # Simulate symbolic sequence execution
         symbolic_sequence = expected_response["symbolic_sequence"]
-        logger.info(f"   🧬 Symbolic sequence: {''.join(symbolic_sequence}")
+        logger.info(f"   🧬 Symbolic sequence: {''.join(symbolic_sequence)}")
 
         for i, symbol in enumerate(symbolic_sequence):
             if symbol != "→":
@@ -393,17 +393,17 @@ class DriftEventReplayer:
             logger.info("✅ All validation checks passed")
         else:
             failed_checks = [c["check"] for c in validation_results["checks"] if not c["passed"]]
-            logger.warning(f"⚠️ Validation issues: {', '.join(failed_checks}")
+            logger.warning(f"⚠️ Validation issues: {', '.join(failed_checks)}")
 
         return validation_results
 
     async def replay_multiple_events(self, event_ids: list[str]) -> list[dict[str, Any]]:
         """Replay multiple events in sequence"""
-        logger.info(f"🎬 Starting batch replay of {len(event_ids} events")
+        logger.info(f"🎬 Starting batch replay of {len(event_ids)} events")
 
         batch_results = []
         for i, event_id in enumerate(event_ids):
-            logger.info(f"\n--- Replaying event {i + 1}/{len(event_ids}: {event_id} ---")
+            logger.info(f"\n--- Replaying event {i + 1}/{len(event_ids)}: {event_id} ---")
 
             result = await self.replay_event(event_id)
             batch_results.append(result)
@@ -416,7 +416,7 @@ class DriftEventReplayer:
         passed_validations = len([r for r in batch_results if r.get("validation", {}).get("passed", False)])
 
         logger.info("\n📊 Batch replay summary:")
-        logger.info(f"   Total events: {len(event_ids}")
+        logger.info(f"   Total events: {len(event_ids)}")
         logger.info(f"   Successful replays: {successful_replays}")
         logger.info(f"   Passed validations: {passed_validations}")
 

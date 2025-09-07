@@ -93,7 +93,7 @@ class SecurityComplianceChecker:
                     "encryption_enabled": audit.get("encryption_enabled", False),
                     "environment": audit.get("environment"),
                     "registered_secrets": audit.get("registered_secrets", 0),
-                    "critical_secrets_configured": f"{configured_secrets}/{len(critical_secrets}",
+                    "critical_secrets_configured": f"{configured_secrets}/{len(critical_secrets)}",
                 },
                 "recommendations": [
                     "Set up environment variables for production deployment",
@@ -293,7 +293,7 @@ class SecurityComplianceChecker:
                 else "⚠️" if check_result["status"] == "PARTIAL" else "❌"
             )
             report.append(
-                f"- {status_emoji} **{check_name.replace('_', ' ').title(}**: {check_result['status']}"
+                f"- {status_emoji} **{check_name.replace('_', ' ').title()}**: {check_result['status']}"
             )
 
         report.extend(["", "#)  #  🔍 Detailed Results", ""]
@@ -310,7 +310,7 @@ class SecurityComplianceChecker:
             if "details" in check_result:
                 report.append("**Details:**")
                 for key, value in check_result["details"].items():
-                    report.append(f"- {key.replace('_', ' ').title(}: {value}")
+                    report.append(f"- {key.replace('_', ' ').title()}: {value}")
                 report.append("")
 
             if "recommendations" in check_result:
@@ -365,7 +365,7 @@ def main():
             else "⚠️" if check_result["status"] == "PARTIAL" else "❌"
         )
         print(
-            f"  {status_emoji} {check_name.replace('_', ' ').title(}: {check_result['status']}"
+            f"  {status_emoji} {check_name.replace('_', ' ').title()}: {check_result['status']}"
         )
 
     # Generate and save report

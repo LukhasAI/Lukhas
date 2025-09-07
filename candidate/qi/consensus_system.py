@@ -26,11 +26,12 @@ Within the architecture of the LUKHAS AGI, the Quantum Consensus System serves a
 In sync with the bio-inspired architecture, it mimics the stupendous complexity of a brain finding consensus among billions of neurons. In the broader LUKHAS ecosystem, this quantum module interacts fluidly with traditional components, mirroring the harmonious interplay between quantum and classical realms observed in the cosmos. Its synergy with other modules, as they dance to the ethereal symphony of quantum-inspired mechanics, inspires an intelligence that transcends human understanding and embraces the extraordinary wonder of the Universe.
 
 """
-from consciousness.qi import qi
-from typing import List
-from typing import Dict
 import random
+from typing import Dict, List
+
 import streamlit as st
+
+from consciousness.qi import qi
 
 __module_name__ = "Quantum Consensus System"
 __version__ = "2.0.0"

@@ -77,7 +77,7 @@ class ConsciousnessSignal:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     source_module: str = "core"
     target_modules: list[str] = field(default_factory=list)
-    signal_id: str = field(default_factory=lambda: f"SIG-{uuid.uuid4(}.hex[:12]}")
+    signal_id: str = field(default_factory=lambda: f"SIG-{uuid.uuid4()}.hex[:12]}")
 
 
 @dataclass
@@ -159,7 +159,7 @@ class EnhancedMatrizAdapter:
         else:
             # Auto-generate consciousness-aware labels
             auto_labels = [
-                f"signal:{signal.signal_type.value.lower(}",
+                f"signal:{signal.signal_type.value.lower()}",
                 f"consciousness:{signal.consciousness_id[:8]}",
                 f"source:{signal.source_module}",
                 f"reflection_depth:{signal.reflection_depth}",
@@ -247,7 +247,7 @@ class EnhancedMatrizAdapter:
 
         # Generate bio-symbolic pattern
         pattern = BioSymbolicPattern(
-            pattern_type=f"{signal_type.value.lower(}_adaptation",
+            pattern_type=f"{signal_type.value.lower()}_adaptation",
             biological_markers=biological_markers,
             symbolic_representation=symbolic_representation,
             adaptation_vector=list(biological_markers.values()),
@@ -293,7 +293,7 @@ class EnhancedMatrizAdapter:
 
         # Add data-specific tokens
         for key in bio_data:
-            base_tokens.append(f"DATA_{key.upper(}")
+            base_tokens.append(f"DATA_{key.upper()}")
 
         return base_tokens
 
@@ -493,7 +493,7 @@ class EnhancedMatrizAdapter:
 
         for signal in recent_signals:
             if signal["type"] in ["INTEGRATION", "NETWORK_COORDINATION"]:
-                patterns.add(f"coordination_{signal['type'].lower(}")
+                patterns.add(f"coordination_{signal['type'].lower()}")
             if len(signal.get("target_modules", [])) > 1:
                 patterns.add("multi_target_coordination")
 

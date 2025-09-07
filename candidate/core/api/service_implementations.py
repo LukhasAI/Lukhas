@@ -4,11 +4,10 @@ Service implementations for LUKHAS core modules
 Connects to real implementations replacing stubs
 """
 import logging
-import streamlit as st
-
 import warnings
 from typing import Any
 
+import streamlit as st
 import structlog
 
 log = structlog.get_logger(__name__)
@@ -20,7 +19,7 @@ try:
 
     SYMBOLIC_ENGINE_AVAILABLE = True
 except ImportError:
-    warnings.warn("Real SymbolicEngine not available, using fallback", UserWarning)
+    warnings.warn("Real SymbolicEngine not available, using fallback", UserWarning, stacklevel=2)
     SYMBOLIC_ENGINE_AVAILABLE = False
 
 try:
@@ -37,7 +36,7 @@ try:
 
     MEMORY_MANAGER_AVAILABLE = True
 except ImportError as e:
-    warnings.warn(f"Real MemoryManager not available: {e}, using fallback", UserWarning)
+    warnings.warn(f"Real MemoryManager not available: {e}, using fallback", UserWarning, stacklevel=2)
     MEMORY_MANAGER_AVAILABLE = False
 
 try:
@@ -45,7 +44,7 @@ try:
 
     GUARDIAN_SYSTEM_AVAILABLE = True
 except ImportError:
-    warnings.warn("Real GuardianSystem not available, using fallback", UserWarning)
+    warnings.warn("Real GuardianSystem not available, using fallback", UserWarning, stacklevel=2)
     GUARDIAN_SYSTEM_AVAILABLE = False
 
 try:
@@ -59,7 +58,7 @@ except ImportError:
 
         EMOTION_ENGINE_AVAILABLE = True
     except ImportError as e:
-        warnings.warn(f"Real EmotionEngine not available: {e}, using fallback", UserWarning)
+        warnings.warn(f"Real EmotionEngine not available: {e}, using fallback", UserWarning, stacklevel=2)
         EMOTION_ENGINE_AVAILABLE = False
 
 try:
@@ -67,7 +66,7 @@ try:
 
     DREAM_ENGINE_AVAILABLE = True
 except ImportError:
-    warnings.warn("Real DreamEngine not available, using fallback", UserWarning)
+    warnings.warn("Real DreamEngine not available, using fallback", UserWarning, stacklevel=2)
     DREAM_ENGINE_AVAILABLE = False
 
 try:
@@ -75,7 +74,7 @@ try:
 
     COORDINATION_MANAGER_AVAILABLE = True
 except ImportError:
-    warnings.warn("Real CoordinationManager not available, using fallback", UserWarning)
+    warnings.warn("Real CoordinationManager not available, using fallback", UserWarning, stacklevel=2)
     COORDINATION_MANAGER_AVAILABLE = False
 
 
@@ -121,7 +120,7 @@ if not MEMORY_MANAGER_AVAILABLE:
             log.info("Fallback MemoryManager initialized")
 
         async def store(self, content: dict[str, Any], memory_type: str = "general"):
-            memory_id = f"mem_{len(self.memories[memory_type]}"
+            memory_id = f"mem_{len(self.memories[memory_type])}"
             self.memories[memory_type].append({"id": memory_id, "content": content})
             return {"memory_id": memory_id, "stored": True}
 

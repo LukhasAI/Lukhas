@@ -5,11 +5,10 @@
 🖋️ AUTHOR      : LUKHAS Lukhas_ID SYSTEMS            📅 CREATED: 2025-05-01
 """
 import time
-import streamlit as st
-
 from datetime import datetime, timezone
 from typing import Any
 
+import streamlit as st
 from dao.init_config import DAO_CONFIG
 
 # Simulated agent consensus votes for quorum evaluation

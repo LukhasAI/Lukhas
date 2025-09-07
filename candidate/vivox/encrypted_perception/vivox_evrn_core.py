@@ -1056,7 +1056,7 @@ class VIVOXEncryptedPerceptionNode:
         for perception_id in active_to_remove:
             del self.active_perceptions[perception_id]
 
-        logger.info(f"Cleared {len(active_to_remove} old perceptions")
+        logger.info(f"Cleared {len(active_to_remove)} old perceptions")
 
     def get_integration_status(self) -> dict[str, Any]:
         """Get status of integration with other VIVOX modules"""

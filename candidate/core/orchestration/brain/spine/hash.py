@@ -4,16 +4,15 @@ Original: lukhas_hash.py
 Advanced: lukhas_hash.py
 Integration Date: 2025-05-31T07:55:28.115896
 """
-import streamlit as st
-
 # ===============================================================
 # 📂 FILE: core/spine/lukhas_hash.py
 # 🧠 PURPOSE: Provides symbolic build hash, version ID, and manifest snapshot
 # ===============================================================
-
 import argparse
 import hashlib
 import json
+
+import streamlit as st
 
 MANIFEST_PATH = "dao/manifest.json"
 LICENSE_PATH = "LICENSE.txt"
@@ -58,9 +57,9 @@ def main():
     if args.version:
         print(f"🧠 LUKHAS_AGI Version: {VERSION_ID}")
     elif args.manifest:
-        print(f"📦 Manifest Hash: {get_manifest_hash(}")
+        print(f"📦 Manifest Hash: {get_manifest_hash()}")
     elif args.license:
-        print(f"📜 License Hash: {get_license_hash(}")
+        print(f"📜 License Hash: {get_license_hash()}")
     elif args.all:
         print("🔑 LUKHAS_AGI SYMBOLIC HASH SUMMARY")
         print(json.dumps(get_symbolic_fingerprint(), indent=4))

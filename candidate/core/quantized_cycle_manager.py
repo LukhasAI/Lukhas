@@ -1,9 +1,8 @@
 import asyncio
-
-import structlog
-import streamlit as st
 import logging
 
+import streamlit as st
+import structlog
 
 log = logging.getLogger(__name__)
 class QuantizedCycleManager:

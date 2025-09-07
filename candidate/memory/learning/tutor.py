@@ -150,7 +150,7 @@ class TutorEngine:
             related = self.skg.get_neighborhood(node.id)
 
             # Create objectives based on node type and difficulty
-            obj_id = f"obj_{len(objectives} + 1}"
+            obj_id = f"obj_{len(objectives)} + 1}"
             obj = LearningObjective(
                 id=obj_id,
                 description=f"Learn about {node.name}",
@@ -200,7 +200,7 @@ class TutorEngine:
         """Generate a personalized welcome message."""
         return TutorMessage(
             content=f"Welcome to your learning session about {session.topic}! "
-            f"We'll cover {len(session.objectives} main objectives. "
+            f"We'll cover {len(session.objectives)} main objectives. "
             "I'll adapt to your pace and preferred learning style.",
             message_type=TutorMessageType.ENCOURAGEMENT,
             voice_style={"emotion": "welcoming", "pace": "moderate"},
@@ -337,7 +337,7 @@ class TutorEngine:
     def _generate_hint(self, objective: LearningObjective) -> TutorMessage:
         """Generate a helpful hint for the current objective."""
         return TutorMessage(
-            content=f"Think about how {', '.join(objective.required_concepts[:2]} relate to each other.",
+            content=f"Think about how {', '.join(objective.required_concepts[:2])} relate to each other.",
             message_type=TutorMessageType.HINT,
             voice_style={"emotion": "helpful", "pace": "slow"},
         )

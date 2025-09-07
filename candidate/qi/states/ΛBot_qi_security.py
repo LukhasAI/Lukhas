@@ -33,12 +33,13 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import os
 import sys
+from datetime import timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 __module_name__ = "Quantum Λbot Quantum Security"
 __version__ = "2.0.0"
@@ -465,7 +466,7 @@ class ΛBotQuantumSecurityOrchestrator:
         bio_threats = [t for t in assessment.qi_threats if "bio_symbolic" in t.threat_type]
         self.security_metrics["bio_symbolic_detections"] += len(bio_threats)
 
-        logger.info(f"✅ Assessment complete: {len(assessment.qi_threats} threats detected")
+        logger.info(f"✅ Assessment complete: {len(assessment.qi_threats)} threats detected")
 
         return assessment
 
@@ -547,15 +548,15 @@ async def main():
     assessment = await orchestrator.perform_quantum_security_assessment("test/repo", test_code)
 
     print("🔒 Quantum Security Assessment:")
-    print(f"Threats detected: {len(assessment.qi_threats}")
+    print(f"Threats detected: {len(assessment.qi_threats)}")
     print(f"Security score: {assessment.security_score}")
     print(f"Post-quantum readiness: {assessment.post_quantum_readiness}")
 
     # Test security response
     response = await orchestrator.orchestrate_security_response(assessment)
     print("\n🛡️ Security Response:")
-    print(f"Actions taken: {len(response['actions_taken']}")
-    print(f"Healing events: {len(response['healing_events']}")
+    print(f"Actions taken: {len(response['actions_taken'])}")
+    print(f"Healing events: {len(response['healing_events'])}")
     print(f"Security improved: {response['security_improved']}")
 
     # Test key generation

@@ -4,9 +4,9 @@ Original: com_validator.py
 Advanced: com_validator.py
 Integration Date: 2025-05-31T07:55:28.201511
 """
-import streamlit as st
-
 import json
+
+import streamlit as st
 
 
 def validate_compliance(image_path: str) -> bool:

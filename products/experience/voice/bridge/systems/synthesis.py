@@ -4,15 +4,14 @@ Original: synthesis.py
 Advanced: synthesis.py
 Integration Date: 2025-05-31T07:55:28.358534
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import asyncio
 import logging
 import os
+import time
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 from candidate.core.common import get_logger
 
@@ -93,7 +92,7 @@ class AdaptiveVoiceSynthesis:
             },
         )
 
-        self.logger.info(f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles} voice profiles")
+        self.logger.info(f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles)} voice profiles")
 
     async def synthesize(
         self,

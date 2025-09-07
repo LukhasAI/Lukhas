@@ -623,8 +623,8 @@ if __name__ == "__main__":
     print("Brand Monitoring Results:")
     print(f"Overall Brand Health: {result['overall_brand_health']['status']}")
     print(f"Health Score: {result['overall_brand_health']['overall_score']}")
-    print(f"Recommendations: {len(result['recommendations']}")
+    print(f"Recommendations: {len(result['recommendations'])}")
 
     if result["brand_insights"]:
-        print(f"Key Findings: {len(result['brand_insights']['key_findings']}")
-        print(f"Opportunities: {len(result['brand_insights']['opportunities']}")
+        print(f"Key Findings: {len(result['brand_insights']['key_findings'])}")
+        print(f"Opportunities: {len(result['brand_insights']['opportunities'])}")

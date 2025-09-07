@@ -323,7 +323,7 @@ async def get_stakeholder_dashboard(stakeholder_type: str) -> dict[str, Any]:
 async def generate_compliance_report(regulation: str) -> dict[str, Any]:
     """Generate a compliance report for specific regulation"""
     return {
-        "report_id": f"RPT-{regulation}-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S'}",
+        "report_id": f"RPT-{regulation}-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}",
         "regulation": regulation,
         "status": "generating",
         "estimated_completion_minutes": 15,

@@ -45,7 +45,7 @@ def test_memory_migration_and_indexes():
         # Check indexes exist
         cursor.execute("SELECT name FROM sqlite_master WHERE type='index' AND name LIKE 'idx_akaq_%'")
         indexes = cursor.fetchall()
-        assert len(indexes) >= 4, f"Should have at least 4 indexes, found {len(indexes}"
+        assert len(indexes) >= 4, f"Should have at least 4 indexes, found {len(indexes)}"
 
         # Check specific indexes
         index_names = [idx[0] for idx in indexes]

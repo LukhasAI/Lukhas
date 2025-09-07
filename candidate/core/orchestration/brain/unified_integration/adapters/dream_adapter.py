@@ -4,13 +4,13 @@ Original: dream_adapter.py
 Advanced: dream_adapter.py
 Integration Date: 2025-05-31T07:55:29.982795
 """
-import streamlit as st
-
 import asyncio
 import logging
 
 # Simple adapter for dream engine integration
 from typing import Any
+
+import streamlit as st
 
 from ..unified_integration import MessageType, UnifiedIntegration
 
@@ -48,31 +48,7 @@ class DreamEngineAdapter:
                 self._handle_get_state(content)
 
         except Exception as e:
-            logger.error(f"Error handling message: {e}")
-
-    async def start_dream_cycle(self, duration_minutes: int = 10) -> None:
-        """Start a dream cycle
-
-        Args:
-            duration_minutes: Duration in minutes
-        """
-        await self.integration.send_message(
-            source=self.component_id,
-            target="dream_reflection",
-            message_type=MessageType.COMMAND,
-            content={
-                "action": "start_dream_cycle",
-                "duration_minutes": duration_minutes,
-            },
-        )
-
-    async def stop_dream_cycle(self) -> None:
-        """Stop the current dream cycle"""
-        await self.integration.send_message(
-            source=self.component_id,
-            target="dream_reflection",
-            message_type=MessageType.COMMAND,
-            content={"action": "stop_dream_cycle"},
+            logger.error(f"Error handling message: {e}",
         )
 
     def _handle_start_cycle(self, content: dict[str, Any]) -> None:

@@ -204,7 +204,7 @@ class LUKHASAudioStream:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected stream start: {validation_result.get('reason'}")
+                raise ValueError(f"Guardian rejected stream start: {validation_result.get('reason')}")
 
             self._set_state(StreamState.STARTING)
 

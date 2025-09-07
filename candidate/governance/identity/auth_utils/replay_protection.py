@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 from typing import Optional
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 import time
 from collections import deque

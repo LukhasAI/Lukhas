@@ -4,31 +4,31 @@ Multiverse Creative Engine for the NIAS Transcendence Platform.
 This module generates a vast array of creative variations for a given
 concept, leveraging a full stack of advanced AI content generation tools.
 """
-import streamlit as st
-
 import random
 from typing import Any
+
+import streamlit as st
 
 
 # Placeholder classes for external creative AI APIs
 class SoraVideoAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"video_url": f"https://sora.example.com/video_{random.randint(1000, 9999}.mp4"}
+        return {"video_url": f"https://sora.example.com/video_{random.randint(1000, 9999)}.mp4"}
 
 
 class MidjourneyAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"image_url": f"https://midjourney.example.com/image_{random.randint(1000, 9999}.png"}
+        return {"image_url": f"https://midjourney.example.com/image_{random.randint(1000, 9999)}.png"}
 
 
 class RunwayMLAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"video_url": f"https://runwayml.example.com/video_{random.randint(1000, 9999}.mp4"}
+        return {"video_url": f"https://runwayml.example.com/video_{random.randint(1000, 9999)}.mp4"}
 
 
 class ElevenLabsAPI:
     async def generate(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"audio_url": f"https://elevenlabs.example.com/audio_{random.randint(1000, 9999}.mp3"}
+        return {"audio_url": f"https://elevenlabs.example.com/audio_{random.randint(1000, 9999)}.mp3"}
 
 
 class AnthropicAPI:
@@ -61,7 +61,7 @@ class MockImages:
                     type(
                         "Image",
                         (),
-                        {"url": f"https://openai.example.com/image_{random.randint(1000, 9999}.png"},
+                        {"url": f"https://openai.example.com/image_{random.randint(1000, 9999)}.png"},
                     )()
                 ]
             },
@@ -73,7 +73,7 @@ class MockAudio:
         return type(
             "AudioResponse",
             (),
-            {"url": f"https://openai.example.com/audio_{random.randint(1000, 9999}.mp3"},
+            {"url": f"https://openai.example.com/audio_{random.randint(1000, 9999)}.mp3"},
         )()
 
 
@@ -118,7 +118,7 @@ class MultiverseCreativeEngine:
                 messages=[
                     {
                         "role": "user",
-                        "content": f"Create a visual metaphor for {base_product.get('name', 'a product'} that resonates with a user in the {consciousness_state} stage.",
+                        "content": f"Create a visual metaphor for {base_product.get('name', 'a product')} that resonates with a user in the {consciousness_state} stage.",
                     }
                 ]
             )

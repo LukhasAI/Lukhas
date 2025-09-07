@@ -3,10 +3,10 @@
 Text Parser for ΛLens
 Handles plain text files and extracts content
 """
-import streamlit as st
-
 import re
 from typing import Any
+
+import streamlit as st
 
 from .base_parser import BaseParser
 

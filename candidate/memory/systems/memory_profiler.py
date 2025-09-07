@@ -125,7 +125,7 @@ class _Storage:
     allocation_id: int
 
     def __repr__(self) -> str:
-        return f"{hex(self.ptr}:>18} ({self.allocation_id})"
+        return f"{hex(self.ptr)}:>18} ({self.allocation_id})"
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, _Storage) and self.allocation_id == other.allocation_id
@@ -1167,8 +1167,8 @@ class MemoryProfileTimeline:
         title = "\n\n".join(
             ([title] if title else [])
             + [
-                f"Max memory allocated: {max_memory_allocated / (1024**3}:.2f} GiB \n"
-                f"Max memory reserved: {max_memory_reserved / (1024**3}:.2f} GiB"
+                f"Max memory allocated: {max_memory_allocated / (1024**3)}:.2f} GiB \n"
+                f"Max memory reserved: {max_memory_reserved / (1024**3)}:.2f} GiB"
             ]
         )
         axes.set_title(title)

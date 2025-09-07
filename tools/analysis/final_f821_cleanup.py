@@ -249,7 +249,7 @@ class FinalF821Cleanup:
 
     def process_files(self, file_paths: List[Path]):
         """Process multiple files"""
-        print(f"🎯 Processing {len(file_paths} files with F821 violations...")
+        print(f"🎯 Processing {len(file_paths)} files with F821 violations...")
         
         for file_path in file_paths:
             try:
@@ -317,7 +317,7 @@ class FinalF821Cleanup:
         
         # Get files with violations
         files_with_violations = self.get_files_with_violations()
-        print(f"📁 Files with violations: {len(files_with_violations}")
+        print(f"📁 Files with violations: {len(files_with_violations)}")
         
         # Process files
         self.process_files(files_with_violations)
@@ -327,7 +327,7 @@ class FinalF821Cleanup:
         print(f"🔧 Fixes applied: {self.fixes_applied}")
         
         if self.errors:
-            print(f"\n⚠️ Errors: {len(self.errors}")
+            print(f"\n⚠️ Errors: {len(self.errors)}")
             for error in self.errors[:5]:
                 print(f"   {error}")
         

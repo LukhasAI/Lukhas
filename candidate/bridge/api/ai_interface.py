@@ -181,23 +181,23 @@ class LukhusAI:
             if isinstance(result, dict) and "output" in result:
                 response_content = result["output"]
                 self.instance_logger.info(
-                    f"ΛTRACE: AI response received (from dict output). Length: {len(response_content}."
+                    f"ΛTRACE: AI response received (from dict output). Length: {len(response_content)}."
                 )
                 self.instance_logger.debug(
                     f"ΛTRACE: Full AI dict result: {result if debug else {'output_preview': response_content[:100] + '...'}"
                 )
                 return str(response_content)  # Ensure string
             elif isinstance(result, str):
-                self.instance_logger.info(f"ΛTRACE: AI response received (direct string). Length: {len(result}.")
+                self.instance_logger.info(f"ΛTRACE: AI response received (direct string). Length: {len(result)}.")
                 self.instance_logger.debug(f"ΛTRACE: Full AI string result (first 100): {result[:100] + '...'}")
                 return result
             else:
-                unexpected_type_msg = f"[{self.component_name}] AI router returned unexpected result type: {type(result)}. Content: {str(result}[:200]}"
+                unexpected_type_msg = f"[{self.component_name}] AI router returned unexpected result type: {type(result)}. Content: {str(result)}[:200]}"
                 self.instance_logger.error(f"ΛTRACE: {unexpected_type_msg}")
                 return unexpected_type_msg
 
         except Exception as e:
-            error_msg = f"[{self.component_name}] AI Error during multiverse_route call: {type(e}.__name__} - {e!s}"
+            error_msg = f"[{self.component_name}] AI Error during multiverse_route call: {type(e)}.__name__} - {e!s}"
             self.instance_logger.error(f"ΛTRACE: {error_msg}", exc_info=True)
             return error_msg
 
@@ -246,7 +246,7 @@ class LukhusAI:
 
     def analysis(self, prompt: str, context: str = "") -> str:
         """Performs analysis and provides insights, potentially with added context."""
-        self.instance_logger.info(f"ΛTRACE: analysis requested. Context provided: {bool(context}.")
+        self.instance_logger.info(f"ΛTRACE: analysis requested. Context provided: {bool(context)}.")
         enhanced_prompt = f"Context for Analysis:\n{context}\n\nAnalysis Request: {prompt}" if context else prompt
         return self.generate_response(enhanced_prompt, LukhusAITaskType.ANALYSIS)  # ANALYSIS aliases to CODE
 

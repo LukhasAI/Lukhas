@@ -24,8 +24,6 @@
 ║ - Adaptive system behavior under constraints
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import asyncio
 import contextlib
 import json
@@ -34,6 +32,8 @@ import time
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 from lukhas.core.interfaces.core_interface import MessagePriority
 from lukhas.core.interfaces.dependency_injection import get_service

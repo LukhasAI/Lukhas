@@ -4,8 +4,6 @@ Tools Utilities Module
 Essential utility functions for LUKHAS AI tools and development workflows.
 Built on the established system/common/utils pattern for consistency.
 """
-import streamlit as st
-
 import json
 import logging
 import platform
@@ -14,6 +12,8 @@ import sys
 from functools import wraps
 from pathlib import Path
 from typing import Any, Optional, Union
+
+import streamlit as st
 
 
 def get_logger(name: str) -> logging.Logger:
@@ -41,7 +41,7 @@ def run_command(
         cmd = cmd.split()
 
     try:
-        logger.debug(f"Running command: {' '.join(cmd}")
+        logger.debug(f"Running command: {' '.join(cmd)}")
         result = subprocess.run(cmd, cwd=cwd, capture_output=capture_output, text=True, timeout=timeout)
 
         if result.returncode != 0:

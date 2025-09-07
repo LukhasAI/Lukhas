@@ -4,10 +4,11 @@ Import Connectivity Fixer
 ========================
 Fixes import issues post-modularization.
 """
-from consciousness.qi import qi
+from pathlib import Path
+
 import streamlit as st
 
-from pathlib import Path
+from consciousness.qi import qi
 
 # Import mappings discovered during analysis
 IMPORT_MAPPINGS = {
@@ -91,7 +92,7 @@ def main():
             continue
 
         if fix_imports_in_file(py_file):
-            print(f"   Fixed: {py_file.relative_to(root}")
+            print(f"   Fixed: {py_file.relative_to(root)}")
             fixed_count += 1
 
     print(f"\n✅ Fixed {fixed_count} files")

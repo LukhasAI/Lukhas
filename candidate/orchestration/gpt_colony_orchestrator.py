@@ -6,8 +6,6 @@ Enables hybrid AI decision-making with both centralized and distributed intellig
 
 Based on GPT5 audit recommendations for parallel AI orchestration.
 """
-import streamlit as st
-
 import asyncio
 import logging
 import time
@@ -15,6 +13,8 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 from candidate.core.colonies.consensus_mechanisms import ColonyConsensus
 
@@ -336,7 +336,7 @@ class GPTColonyOrchestrator:
             # Colony reviews
             colony_task = OrchestrationTask(
                 task_id=f"{task.task_id}_colony_{iteration}",
-                content=f"Review: {gpt_response.get('response'}",
+                content=f"Review: {gpt_response.get('response')}",
                 context={
                     **current_context,
                     "gpt_proposal": gpt_response.get("response"),

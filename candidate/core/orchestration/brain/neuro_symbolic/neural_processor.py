@@ -74,7 +74,7 @@ class NeuralProcessor:
         Returns:
             Dict: Results of neural processing
         """
-        logger.debug(f"Processing input through neural pathways: {str(input_data}[:100]}...")
+        logger.debug(f"Processing input through neural pathways: {str(input_data)}[:100]}...")
 
         # Extract text if present
         text = input_data.get("text", "")
@@ -172,7 +172,7 @@ class NeuralProcessor:
         Returns:
             Dict: Training results and metrics
         """
-        logger.info(f"Training neural processor with {len(training_data} examples over {epochs} epochs")
+        logger.info(f"Training neural processor with {len(training_data)} examples over {epochs} epochs")
 
         # Placeholder for training logic
         # In a real implementation, this would use backpropagation

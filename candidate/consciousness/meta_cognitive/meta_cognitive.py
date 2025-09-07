@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: meta_cognitive.py
@@ -71,7 +73,7 @@ class EnhancedMetaCognitiveOrchestrator:
     """
 
     def __init__(self):
-        self.logger = logger.bind(orchestrator_id=f"meta_cog_orch_{datetime.now(timezone.utc).strftime('%H%M%S'}")
+        self.logger = logger.bind(orchestrator_id=f"meta_cog_orch_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.logger.info("Initializing EnhancedMetaCognitiveOrchestrator.")
 
         # Initialize key components

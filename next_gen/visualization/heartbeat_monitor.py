@@ -3,17 +3,16 @@
 Heartbeat Visualization - Console-based pulse display based on consciousness states
 Shows real-time system heartbeat with symbolic glyph pulsing
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import contextlib
 import json
 import math
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 
 # Console control sequences
@@ -287,7 +286,7 @@ class HeartbeatVisualizer:
             print(Console.move_cursor(5, 20), end="")
             print(Console.CLEAR_LINE, end="")
             print(
-                f"{Console.CYAN}Current State:{Console.RESET} {pattern['color']}{self.current_state.title(}{Console.RESET}",
+                f"{Console.CYAN}Current State:{Console.RESET} {pattern['color']}{self.current_state.title()}{Console.RESET}",
                 end="",
             )
 

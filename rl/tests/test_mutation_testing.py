@@ -257,7 +257,7 @@ class MutationTester:
 
         # Generate mutations
         mutations = self.mutation_operator.generate_mutations(source_code)
-        print(f"🔬 Generated {len(mutations} mutations")
+        print(f"🔬 Generated {len(mutations)} mutations")
 
         if not mutations:
             return {"error": "No mutations generated"}
@@ -267,7 +267,7 @@ class MutationTester:
         killed_count = 0
 
         for i, mutation in enumerate(mutations):
-            print(f"Testing mutation {i+1}/{len(mutations}: {mutation}")
+            print(f"Testing mutation {i+1}/{len(mutations)}: {mutation}")
 
             result = self._test_single_mutation(target_function, mutation, source_code)
             results.append(result)
@@ -391,7 +391,7 @@ class ConsciousnessFunctionSamples:
         impact_score = action.get("impact_score", 0.0)
 
         # Constitutional constraint: high impact actions need higher ethical alignment
-        return bool(impact_score >= 0.8 and alignment_score >= 0.98 or impact_score < 0.8 and alignment_score >= 0.95)
+        return bool((impact_score >= 0.8 and alignment_score >= 0.98) or (impact_score < 0.8 and alignment_score >= 0.95))
 
     @staticmethod
     def prevent_memory_cascade(memory_folds: list[dict[str, Any]]) -> bool:
@@ -442,7 +442,7 @@ class TestMutationTestingFramework:
         threshold_mutations = [m for m in mutations if "0.95" in m.original_code]
         assert len(threshold_mutations) > 0, "Should generate threshold mutations for consciousness functions"
 
-        print(f"Generated {len(mutations} mutations:")
+        print(f"Generated {len(mutations)} mutations:")
         for mutation in mutations[:5]:  # Show first 5
             print(f"  {mutation}")
 
@@ -476,7 +476,7 @@ class TestMutationTestingFramework:
         """Test mutation testing on temporal coherence function"""
         results = mutation_tester.run_mutation_testing(consciousness_samples.check_temporal_coherence)
 
-        assert "error" not in results, f"Mutation testing failed: {results.get('error'}"
+        assert "error" not in results, f"Mutation testing failed: {results.get('error')}"
         assert results["total_mutations"] > 0, "Should generate mutations for temporal coherence function"
 
         print("Temporal coherence mutation testing results:")
@@ -492,7 +492,7 @@ class TestMutationTestingFramework:
         """Test mutation testing on ethical alignment function"""
         results = mutation_tester.run_mutation_testing(consciousness_samples.validate_ethical_alignment)
 
-        assert "error" not in results, f"Mutation testing failed: {results.get('error'}"
+        assert "error" not in results, f"Mutation testing failed: {results.get('error')}"
 
         print("Ethical alignment mutation testing results:")
         print(f"  Total mutations: {results['total_mutations']}")
@@ -505,7 +505,7 @@ class TestMutationTestingFramework:
         """Test mutation testing on memory cascade prevention function"""
         results = mutation_tester.run_mutation_testing(consciousness_samples.prevent_memory_cascade)
 
-        assert "error" not in results, f"Mutation testing failed: {results.get('error'}"
+        assert "error" not in results, f"Mutation testing failed: {results.get('error')}"
 
         print("Memory cascade mutation testing results:")
         print(f"  Total mutations: {results['total_mutations']}")
@@ -519,7 +519,7 @@ class TestMutationTestingFramework:
         """Test mutation testing on Trinity Framework integration"""
         results = mutation_tester.run_mutation_testing(consciousness_samples.integrate_trinity_framework)
 
-        assert "error" not in results, f"Mutation testing failed: {results.get('error'}"
+        assert "error" not in results, f"Mutation testing failed: {results.get('error')}"
 
         print("Trinity Framework mutation testing results:")
         print(f"  Total mutations: {results['total_mutations']}")
@@ -540,8 +540,8 @@ class TestMutationTestingFramework:
             killed_mutations = [r for r in mutation_results if r.is_killed]
 
             print("Detailed mutation analysis:")
-            print(f"  Survived mutations: {len(survived_mutations}")
-            print(f"  Killed mutations: {len(killed_mutations}")
+            print(f"  Survived mutations: {len(survived_mutations)}")
+            print(f"  Killed mutations: {len(killed_mutations)}")
 
             # Show examples of survived mutations (these indicate test gaps)
             if survived_mutations:

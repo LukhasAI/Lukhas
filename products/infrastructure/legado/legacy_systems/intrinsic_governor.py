@@ -1,7 +1,6 @@
 import asyncio
 import logging
 
-
 log = logging.getLogger(__name__)
 class IntrinsicEthicalGovernor:
     """Intrinsic governor that throttles computation when cycles spike."""

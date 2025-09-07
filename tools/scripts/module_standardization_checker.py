@@ -3,14 +3,14 @@
 LUKHAS Module Standardization Checker
 Checks which modules meet enterprise standards
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Required structure for standardized modules
 REQUIRED_STRUCTURE = {
@@ -170,9 +170,9 @@ class ModuleStandardizationChecker:
 
         # Generate recommendations
         if results["missing_files"]:
-            results["recommendations"].append(f"Create missing files: {', '.join(results['missing_files']}")
+            results["recommendations"].append(f"Create missing files: {', '.join(results['missing_files'])}")
         if results["missing_dirs"]:
-            results["recommendations"].append(f"Create missing directories: {', '.join(results['missing_dirs']}")
+            results["recommendations"].append(f"Create missing directories: {', '.join(results['missing_dirs'])}")
         if results["missing_docs"]:
             results["recommendations"].append("Add comprehensive documentation")
         if results["missing_tests"]:

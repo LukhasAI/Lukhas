@@ -1,7 +1,9 @@
 import logging
 from datetime import timezone
-import streamlit as st
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -189,7 +191,7 @@ class GuardianReflector:
         if not self.is_active:
             raise RuntimeError("Guardian Reflector not initialized")
 
-        decision_id = decision_id or f"decision_{datetime.now(timezone.utc).isoformat(}"
+        decision_id = decision_id or f"decision_{datetime.now(timezone.utc).isoformat()}"
 
         logger.info(f"Performing ethical reflection on decision: {decision_id}")
 
@@ -312,7 +314,7 @@ class GuardianReflector:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-        logger.info(f"Consciousness protection response: {len(protections} protections activated")
+        logger.info(f"Consciousness protection response: {len(protections)} protections activated")
         return response
 
     async def _establish_moral_baseline(self) -> None:

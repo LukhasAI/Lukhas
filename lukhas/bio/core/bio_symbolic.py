@@ -6,14 +6,13 @@ Trinity Framework: ⚛️🧠🛡️
 This module provides bio-symbolic processing capabilities,
 mapping biological processes to symbolic representations.
 """
-from typing import List
-import time
-import streamlit as st
-
 import logging
+import time
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

@@ -3,13 +3,12 @@
 Glyph Trail Renderer - Visualizes trust mutations and symbolic reversals
 Creates visual representations of glyph transformations over time
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -358,4 +357,4 @@ if __name__ == "__main__":
     # Show symbolic reversal
     reversal_seq = ["🌸", "🪷", "🥀", "🌫️"]
     print("\n🔄 Symbolic Reversal:")
-    print(f"   {renderer.render_symbolic_reversal(reversal_seq}")
+    print(f"   {renderer.render_symbolic_reversal(reversal_seq)}")

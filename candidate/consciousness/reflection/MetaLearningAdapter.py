@@ -241,7 +241,7 @@ class MetaLearningEnhancementAdapter:
             # Update phase based on results
             await self._update_learning_phase(enhancement_results)
 
-            logger.info(f"✅ Meta-learning enhancement completed: {overall_enhancement.get('adaptation', 0.0}:.3f}")
+            logger.info(f"✅ Meta-learning enhancement completed: {overall_enhancement.get('adaptation', 0.0)}:.3f}")
             return enhancement_results
 
         except Exception as e:
@@ -625,7 +625,7 @@ class MetaLearningEnhancementAdapter:
         new_nodes = []
         for i in range(num_nodes):
             node = {
-                "id": f"node_{len(self.active_learning_nodes} + i}",
+                "id": f"node_{len(self.active_learning_nodes)} + i}",
                 "status": "connected",
                 "performance": np.random.uniform(0.6, 0.9),
                 "last_update": datetime.now(timezone.utc),

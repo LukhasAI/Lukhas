@@ -12,10 +12,9 @@ full Guardian System v1.0.0 from candidate/governance/guardian/.
 
 from __future__ import annotations
 
-import streamlit as st
-
-
 from typing import Any
+
+import streamlit as st
 
 from lukhas.governance.guardian.core import (
     DriftResult,

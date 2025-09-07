@@ -24,14 +24,14 @@ Consolidated from 14 files:
 - memory/visualizer.py
 - orchestration/brain/visualization/memory_helix_visualizer.py
 """
-import streamlit as st
-
 import hashlib
 import logging
 import time
 from collections import defaultdict, deque
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 # Import core memory systems with fallbacks
 try:

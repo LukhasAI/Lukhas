@@ -58,7 +58,7 @@ def check_box_alignment(file_path):
         if issues:
             return False, f"Box alignment issues: {issues}"
         else:
-            return True, f"Perfect box alignment ({len(lines} lines)"
+            return True, f"Perfect box alignment ({len(lines)} lines)"
 
     except Exception as e:
         return False, f"Error reading file: {e}"

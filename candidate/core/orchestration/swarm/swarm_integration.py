@@ -3,10 +3,9 @@
 Colony-Swarm Integration
 Connects the colony coordination and swarm intelligence systems.
 """
-import streamlit as st
-
 from typing import Any
 
+import streamlit as st
 from baggage.tag_system import BaggageTagSystem
 from colony.coordinator import ColonyCoordinator
 from event_bus.manager import EventBusManager

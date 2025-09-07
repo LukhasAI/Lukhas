@@ -254,7 +254,7 @@ class MemoryManager:
 
             # Store recognized patterns as new memories
             for pattern in patterns.get("patterns", []):
-                pattern_key = f"dream_pattern_{uuid.uuid4(}.hex[:8]}"
+                pattern_key = f"dream_pattern_{uuid.uuid4()}.hex[:8]}"
                 self.store(
                     key=pattern_key,
                     data={
@@ -699,12 +699,12 @@ class MemoryManager:
         summary_insights = []
         if len(user_memories_data) > 50:
             summary_insights.append(
-                f"User has an extensive interaction history with {len(user_memories_data} memories."
+                f"User has an extensive interaction history with {len(user_memories_data)} memories."
             )
         elif len(user_memories_data) > 10:
-            summary_insights.append(f"User has a moderate interaction history with {len(user_memories_data} memories.")
+            summary_insights.append(f"User has a moderate interaction history with {len(user_memories_data)} memories.")
         else:
-            summary_insights.append(f"User has a limited interaction history with {len(user_memories_data} memories.")
+            summary_insights.append(f"User has a limited interaction history with {len(user_memories_data)} memories.")
 
         if preferences.get("likes") and len(preferences["likes"]) >= 3:
             summary_insights.append("User has expressed multiple likes/preferences.")
@@ -717,7 +717,7 @@ class MemoryManager:
 
         # Optionally, store these insights as a new memory for the user or system
         # For example:
-        # insight_key = f"user_insight_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S'}"
+        # insight_key = f"user_insight_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
         # self.store(
         #     key=insight_key,
         #     data={"preferences": preferences, "activity": activity_patterns, "summary": summary_insights},

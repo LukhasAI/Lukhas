@@ -32,16 +32,14 @@
 ║ SYMBOLIC TAGS: ΛREGISTRY, ΛTIER_GATE, ΛMODULES
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from functools import wraps
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Dict, List, Optional
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger(__name__)

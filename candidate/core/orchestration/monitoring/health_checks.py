@@ -2,18 +2,17 @@
 Health Check System for LUKHAS Orchestrators
 Provides comprehensive health monitoring and status reporting
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import contextlib
 import logging
 import time
 import traceback
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional, Union
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -122,7 +121,7 @@ class HealthCheck:
             else:
                 # Unexpected result type
                 status = HealthStatus.UNKNOWN
-                message = f"{self.name} returned unexpected result type: {type(result}"
+                message = f"{self.name} returned unexpected result type: {type(result)}"
                 metadata = {"result": str(result)}
                 self.consecutive_failures += 1
 

@@ -1,9 +1,10 @@
 import logging
-import streamlit as st
 import random
 import time
-from typing import Dict
-from typing import List
+from typing import Dict, List
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -2438,7 +2439,7 @@ class AsyncInferenceClient:
             if len(ignored_parameters) > 0:
                 warnings.warn(
                     "API endpoint/model for text-generation is not served via TGI. Ignoring following parameters:"
-                    f" {', '.join(ignored_parameters}.",
+                    f" {', '.join(ignored_parameters)}.",
                     UserWarning,
                     stacklevel=2,
                 )

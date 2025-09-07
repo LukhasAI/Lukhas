@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Learning Hub
@@ -113,7 +115,7 @@ class LearningHub:
         self._register_with_service_discovery()
 
         self.is_initialized = True
-        logger.info(f"Learning hub initialized with {len(self.services} services")
+        logger.info(f"Learning hub initialized with {len(self.services)} services")
 
     async def initialize(self):
         """Async initialization for learning hub"""
@@ -284,7 +286,7 @@ class LearningHub:
                 if service_name in self.services:
                     discovery.register_service_globally(service_name, self.services[service_name], "learning")
 
-            logger.debug(f"Registered {len(key_services} learning services with global discovery")
+            logger.debug(f"Registered {len(key_services)} learning services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 

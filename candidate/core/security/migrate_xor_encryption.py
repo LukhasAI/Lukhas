@@ -187,8 +187,8 @@ class XORMigration:
     def generate_report(self, findings: list[tuple[str, int, str]]) -> str:
         """Generate migration report"""
         report = ["# XOR Encryption Migration Report\n"]
-        report.append(f"Total files with XOR encryption: {len({f[0] for f in findings})}")
-        report.append(f"Total XOR usages found: {len(findings}\n")
+        report.append(f"Total files with XOR encryption: {len({f[0] for f in findings)})}")
+        report.append(f"Total XOR usages found: {len(findings)}\n")
 
         report.append("## Files requiring migration:\n")
 
@@ -230,12 +230,12 @@ def main():
         print("Scanning codebase for XOR encryption...")
         findings = migration.scan_codebase()
 
-        print(f"\nFound {len(findings} XOR encryption usages:")
+        print(f"\nFound {len(findings)} XOR encryption usages:")
         for file_path, line_num, line in findings[:10]:  # Show first 10
             print(f"  {file_path}:{line_num} - {line}")
 
         if len(findings) > 10:
-            print(f"  ... and {len(findings} - 10} more")
+            print(f"  ... and {len(findings)} - 10} more")
 
         if args.report:
             report = migration.generate_report(findings)
@@ -249,7 +249,7 @@ def main():
 
         for file_path, patch_info in migration.patches.items():
             if "patches" in patch_info:
-                print(f"  {file_path}: {len(patch_info['patches']} patches")
+                print(f"  {file_path}: {len(patch_info['patches'])} patches")
 
     if args.apply:
         print("\nApplying patches...")

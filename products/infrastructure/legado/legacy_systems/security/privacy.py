@@ -1,5 +1,6 @@
 """Privacy and security management"""
 import logging
+
 logger = logging.getLogger(__name__)
 
 from core.common import get_logger

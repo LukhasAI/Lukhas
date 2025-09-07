@@ -548,13 +548,13 @@ class TestConcurrentPerformance:
         avg_read_time = statistics.mean([op["time"] for op in read_ops]) if read_ops else 0
 
         print("Mixed workload performance:")
-        print(f"  Write operations: {len(write_ops}, avg time: {avg_write_time * 1000:.2f}ms")
-        print(f"  Read operations: {len(read_ops}, avg time: {avg_read_time * 1000:.2f}ms")
-        print(f"  Error operations: {len(error_ops}")
+        print(f"  Write operations: {len(write_ops)}, avg time: {avg_write_time * 1000:.2f}ms")
+        print(f"  Read operations: {len(read_ops)}, avg time: {avg_read_time * 1000:.2f}ms")
+        print(f"  Error operations: {len(error_ops)}")
         print(f"  Overall time: {overall_time:.2f}s")
 
         # Performance assertions
-        assert len(error_ops) == 0, f"Should have no errors, got {len(error_ops}"
+        assert len(error_ops) == 0, f"Should have no errors, got {len(error_ops)}"
         assert avg_write_time < 0.02, f"Average write time {avg_write_time * 1000:.2f}ms is too high"
         assert avg_read_time < 0.01, f"Average read time {avg_read_time * 1000:.2f}ms is too high"
 

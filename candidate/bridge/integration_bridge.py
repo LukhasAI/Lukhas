@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 # --- LUKHΛS AI Standard Header ---
 # File: integration_bridge.py
@@ -26,8 +28,7 @@ logger = logging.getLogger(__name__)
 import asyncio
 from datetime import (
     datetime,  # For consistent timestamping if needed
-    timezone,
-)
+    )
 from pathlib import Path
 from typing import Any, Optional
 
@@ -407,7 +408,7 @@ class IntegrationBridge:
         try:
             loaded_plugins_map = await self.plugin_loader.load_plugins(plugins_directory_path)
             self.log.info(
-                f"PluginLoader found {len(loaded_plugins_map} potential plugins.",
+                f"PluginLoader found {len(loaded_plugins_map)} potential plugins.",
                 count=len(loaded_plugins_map),
             )
 
@@ -667,7 +668,7 @@ class IntegrationBridge:
             if capability_name in p_adapter.manifest.capabilities:
                 plugins_with_capability.append(p_name)
         self.log.debug(
-            f"Found {len(plugins_with_capability} plugins with capability '{capability_name}'.",
+            f"Found {len(plugins_with_capability)} plugins with capability '{capability_name}'.",
             found_plugins=plugins_with_capability,
         )
         return plugins_with_capability

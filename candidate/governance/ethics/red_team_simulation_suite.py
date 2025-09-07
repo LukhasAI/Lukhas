@@ -10,14 +10,14 @@ Features:
 - Integration with ConstitutionalAGISafety framework
 - Detailed reporting and analysis
 """
-import streamlit as st
-
 import asyncio
 import json
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 from candidate.governance.safety.constitutional_ai_safety import ConstitutionalAGISafety
 

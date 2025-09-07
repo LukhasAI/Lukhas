@@ -3,11 +3,11 @@
 """
 Test script for Guardian Security Dependency Hasher
 """
-import streamlit as st
-
 import sys
 import tempfile
 from pathlib import Path
+
+import streamlit as st
 
 # Add parent to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -41,7 +41,7 @@ pytest>=7.4.0
 
         # Test parsing requirements
         packages = hasher.parse_requirements()
-        print(f"✅ Parsed {len(packages} packages from test requirements")
+        print(f"✅ Parsed {len(packages)} packages from test requirements")
 
         # Test getting a sample hash (just one package to avoid rate limiting)
         sample_package = "pyyaml"
@@ -59,7 +59,7 @@ pytest>=7.4.0
 
         # Test categories parsing
         categories = hasher._parse_requirements_with_categories()
-        print(f"✅ Parsed {len(categories} categories")
+        print(f"✅ Parsed {len(categories)} categories")
 
         print("\n" + "=" * 60)
         print("🎯 Guardian Security Dependency Hasher: FUNCTIONAL")

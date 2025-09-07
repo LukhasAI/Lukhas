@@ -187,7 +187,7 @@ def save_and_display_summary():
     progression = summary["coverage_progression"]
     for phase, data in progression.items():
         print(
-            f"  {phase.replace('_', ' ').title(}: {data['coverage_percentage']}% "
+            f"  {phase.replace('_', ' ').title()}: {data['coverage_percentage']}% "
             f"({data['systems_covered']}/17 systems, Q-Score: {data['quality_score']})"
         )
 
@@ -204,21 +204,21 @@ def save_and_display_summary():
     print("📊 DETAILED SYSTEM STATUS:")
 
     full_coverage = summary["detailed_system_status"]["full_functional_coverage"]
-    print(f"  ✅ FULL COVERAGE ({len(full_coverage} systems):")
+    print(f"  ✅ FULL COVERAGE ({len(full_coverage)} systems):")
     for system in full_coverage:
         print(f"    • {system}")
 
     partial_coverage = summary["detailed_system_status"]["partial_functional_coverage"]
-    print(f"  🔄 PARTIAL COVERAGE ({len(partial_coverage} systems):")
+    print(f"  🔄 PARTIAL COVERAGE ({len(partial_coverage)} systems):")
     for system in partial_coverage:
         print(f"    • {system}")
 
     no_coverage = summary["detailed_system_status"]["no_functional_coverage"]
-    print(f"  ⚠️  NO COVERAGE ({len(no_coverage} systems):")
+    print(f"  ⚠️  NO COVERAGE ({len(no_coverage)} systems):")
     for system in no_coverage[:5]:  # Show first 5
         print(f"    • {system}")
     if len(no_coverage) > 5:
-        print(f"    • ... and {len(no_coverage} - 5} more systems")
+        print(f"    • ... and {len(no_coverage)} - 5} more systems")
 
     print()
 

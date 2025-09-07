@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import logging
+
 import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -664,7 +667,7 @@ async def demonstrate_collapse_hash():
     verify_result = await collapse_hash.verify_memory(memory_id="mem_1", memory_data=memories[1], generate_proof=True)
     print(f"Verification: {verify_result['status']}")
     if "proof" in verify_result:
-        print(f"Proof length: {len(verify_result['proof']}")
+        print(f"Proof length: {len(verify_result['proof'])}")
 
     # Simulate corruption
     print("\n--- Simulating Corruption ---")

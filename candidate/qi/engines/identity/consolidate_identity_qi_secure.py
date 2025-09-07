@@ -3,9 +3,9 @@
 LUKHAS 2030 Identity Quantum Secure Consolidation
 Quantum-resistant identity and access
 """
-import streamlit as st
-
 from pathlib import Path
+
+import streamlit as st
 
 
 def consolidate_identity_quantum_secure():

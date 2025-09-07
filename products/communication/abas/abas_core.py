@@ -90,7 +90,7 @@ class AttentionBoundary:
         if self.created_at is None:
             self.created_at = datetime.now(timezone.utc)
         if self.lambda_signature is None:
-            self.lambda_signature = f"Λ-BOUNDARY-{self.id[:8].upper(}"
+            self.lambda_signature = f"Λ-BOUNDARY-{self.id[:8].upper()}"
 
 
 @dataclass
@@ -128,7 +128,7 @@ class AttentionDecision:
 
             trace_data = f"{self.request_id}{self.decision}{self.confidence}"
             trace_hash = hashlib.sha256(trace_data.encode()).hexdigest()[:8]
-            self.lambda_trace = f"Λ-DECISION-{trace_hash.upper(}"
+            self.lambda_trace = f"Λ-DECISION-{trace_hash.upper()}"
 
 
 class ΛBAS:
@@ -736,7 +736,7 @@ class ΛBAS:
         if user_id not in self.user_attention_states:
             raise ValueError(f"User {user_id} not registered")
 
-        boundary_id = f"{user_id}-custom-{uuid.uuid4(}.hex[:8]}"
+        boundary_id = f"{user_id}-custom-{uuid.uuid4()}.hex[:8]}"
 
         boundary = AttentionBoundary(
             id=boundary_id,
@@ -815,7 +815,7 @@ if __name__ == "__main__":
         print("\n🎯 ΛBAS Decision:")
         print(f"   Decision: {decision.decision}")
         print(f"   Confidence: {decision.confidence:.2f}")
-        print(f"   Reasoning: {', '.join(decision.reasoning}")
+        print(f"   Reasoning: {', '.join(decision.reasoning)}")
         print(f"   Λ Trace: {decision.lambda_trace}")
 
         # Get status

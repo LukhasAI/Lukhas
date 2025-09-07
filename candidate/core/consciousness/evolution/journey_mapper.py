@@ -1,16 +1,17 @@
 from datetime import datetime, timezone
+
 """
 Consciousness Journey Mapper for the Consciousness Oracle.
 
 This module tracks the long-term evolution of a user's consciousness,
 predicting major life transitions and shifts in values.
 """
-import time
-import streamlit as st
-
 import datetime
 import random
+import time
 from typing import Any
+
+import streamlit as st
 
 
 class ConsciousnessJourneyMapper:
@@ -52,7 +53,7 @@ class ConsciousnessJourneyMapper:
                 {
                     "event_time_utc": event_time.isoformat(),
                     "event_type": "value_shift",
-                    "description": f"Shift towards {random.choice(['minimalism', 'community', 'self-care']}",
+                    "description": f"Shift towards {random.choice(['minimalism', 'community', 'self-care'])}",
                     "confidence": round(random.uniform(0.7, 0.98), 2),
                 }
             )
@@ -64,7 +65,7 @@ class ConsciousnessJourneyMapper:
                 {
                     "predicted_time_utc": transition_time.isoformat(),
                     "transition_type": "life_event",
-                    "description": f"Anticipated {random.choice(['career_change', 'new_relationship', 'relocation']}",
+                    "description": f"Anticipated {random.choice(['career_change', 'new_relationship', 'relocation'])}",
                     "confidence": round(random.uniform(0.5, 0.85), 2),
                 }
             )
@@ -72,7 +73,7 @@ class ConsciousnessJourneyMapper:
         journey_map = {
             "user_id": user_id,
             "map_generated_utc": now.isoformat(),
-            "current_trajectory": f"Growing towards {random.choice(['creativity', 'leadership', 'mindfulness']}",
+            "current_trajectory": f"Growing towards {random.choice(['creativity', 'leadership', 'mindfulness'])}",
             "past_events": sorted(past_events, key=lambda x: x["event_time_utc"]),
             "predicted_transitions": sorted(predicted_transitions, key=lambda x: x["predicted_time_utc"]),
             "recommended_nias_tier": random.choice(["T1_Aware", "T2_Enlightened", "T3_Transcendent"]),

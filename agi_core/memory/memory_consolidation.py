@@ -97,7 +97,7 @@ class MemoryConsolidator:
 
     async def schedule_consolidation(self, job: ConsolidationJob) -> str:
         """Schedule a memory consolidation job."""
-        job_id = f"cons_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.consolidation_jobs}"
+        job_id = f"cons_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.consolidation_jobs)}"
         job.scheduled_time = job.scheduled_time or datetime.now(timezone.utc)
 
         self.consolidation_jobs.append(job)
@@ -127,7 +127,7 @@ class MemoryConsolidator:
                 logger.error(f"Error executing consolidation job: {e}")
                 results.append(
                     ConsolidationResult(
-                        job_id=f"failed_{now.isoformat(}",
+                        job_id=f"failed_{now.isoformat()}",
                         success=False,
                         memories_processed=0,
                         memories_strengthened=0,
@@ -144,7 +144,7 @@ class MemoryConsolidator:
     async def _execute_consolidation_job(self, job: ConsolidationJob) -> ConsolidationResult:
         """Execute a specific consolidation job."""
         start_time = asyncio.get_event_loop().time()
-        job_id = f"exec_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        job_id = f"exec_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         result = ConsolidationResult(
             job_id=job_id,

@@ -121,7 +121,7 @@ class OnboardingSession:
 
     def create_session(self, user_info: dict[str, Any], referral_code: Optional[str] = None) -> dict[str, Any]:
         """Create new onboarding session"""
-        session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4(}.hex[:8]}"
+        session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4()}.hex[:8]}"
 
         session_data = {
             "session_id": session_id,
@@ -172,7 +172,7 @@ class OnboardingSession:
         """Generate secure API key for user"""
         # Generate cryptographically secure API key
         key_bytes = secrets.token_bytes(32)
-        api_key = f"lukhas-{tier.lower().replace('_', '')}-{key_bytes.hex(}"
+        api_key = f"lukhas-{tier.lower().replace('_', '')}-{key_bytes.hex()}"
 
         # Store key metadata
         self.api_keys[api_key] = {
@@ -681,7 +681,7 @@ if FASTAPI_AVAILABLE:
                 )
 
             # Generate ΛiD and API key
-            lambda_id = f"λ-{int(time.time() * 1000)}-{uuid.uuid4(}.hex[:8]}"
+            lambda_id = f"λ-{int(time.time() * 1000)}-{uuid.uuid4()}.hex[:8]}"
             assigned_tier = session.get("assigned_tier", "LAMBDA_TIER_1")
             api_key = session_manager.generate_api_key(lambda_id, assigned_tier)
 
@@ -737,7 +737,7 @@ if FASTAPI_AVAILABLE:
                     "community": "/community",
                     "support": "/support",
                 },
-                "quick_start_guide": f"/quickstart/{assigned_tier.lower().replace('_', '-'}",
+                "quick_start_guide": f"/quickstart/{assigned_tier.lower().replace('_', '-')}",
             }
 
             # Mark session as completed

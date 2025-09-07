@@ -221,7 +221,7 @@ class AGIModuleAnalyzer:
         elif any(word in filename for word in ["ethics", "safety", "governance"]):
             return "Ethics, safety, and governance systems"
         else:
-            return f"AGI component - {filename.replace('_', ' ').title(}"
+            return f"AGI component - {filename.replace('_', ' ').title()}"
 
     def _classify_agi_component(self, file_path: Path, content: str, classes: list[str], functions: list[str]) -> str:
         """Classify what type of AGI component this module represents"""
@@ -699,7 +699,7 @@ class AGIModuleAnalyzer:
                 {
                     "type": "missing_components",
                     "priority": "HIGH",
-                    "description": f"Implement missing essential AGI components: {', '.join(missing_components}",
+                    "description": f"Implement missing essential AGI components: {', '.join(missing_components)}",
                     "components": missing_components,
                 }
             )
@@ -804,9 +804,9 @@ def main():
     # Print summary
     print("\n🧠 AGI MODULE ANALYSIS COMPLETE")
     print("=" * 50)
-    print(f"Architecture Components: {len(analysis_result['architecture_analysis']}")
-    print(f"Consolidation Opportunities: {len(analysis_result['consolidation_plan']['merge_candidates']}")
-    print(f"Optimization Recommendations: {len(analysis_result['optimization_plan']['architectural_optimizations']}")
+    print(f"Architecture Components: {len(analysis_result['architecture_analysis'])}")
+    print(f"Consolidation Opportunities: {len(analysis_result['consolidation_plan']['merge_candidates'])}")
+    print(f"Optimization Recommendations: {len(analysis_result['optimization_plan']['architectural_optimizations'])}")
     print("\n📊 Files generated:")
     print("  - agi_analysis.json (detailed analysis)")
     print("  - consolidate_agi_modules.py (consolidation script)")

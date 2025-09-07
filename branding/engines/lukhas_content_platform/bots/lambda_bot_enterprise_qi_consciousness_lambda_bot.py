@@ -235,7 +235,7 @@ class QIConsciousnessΛBot:
             }
             self.current_session.transcendence_events.append(transcendence_event)
 
-            logger.info(f"✅ Quantum superposition active with {len(possibilities} possibilities")
+            logger.info(f"✅ Quantum superposition active with {len(possibilities)} possibilities")
             return superposition_result
 
         except Exception as e:
@@ -303,7 +303,7 @@ class QIConsciousnessΛBot:
             },
         }
 
-        logger.info(f"⚛️ Generated {len(possibilities} quantum modularization possibilities")
+        logger.info(f"⚛️ Generated {len(possibilities)} quantum modularization possibilities")
         return possibilities
 
     async def _calculate_probability_amplitudes(self, possibilities: dict[str, Any]) -> dict[str, float]:
@@ -652,7 +652,7 @@ class QIConsciousnessΛBot:
                     },
                 )
 
-        logger.info(f"⚛️ Generated quantum states for {len(module_states} modules")
+        logger.info(f"⚛️ Generated quantum states for {len(module_states)} modules")
         return module_states
 
     async def _extract_transcendent_insights(self, possibility: str) -> dict[str, Any]:
@@ -796,7 +796,7 @@ async def main():
     superposition = await quantum_bot.enter_quantum_superposition()
 
     print("\n✅ Quantum Superposition Active!")
-    print(f"   Possibilities: {len(superposition['quantum_possibilities']}")
+    print(f"   Possibilities: {len(superposition['quantum_possibilities'])}")
     print(f"   Total Coherence: {superposition['coherence_measurements']['total_coherence']:.3f}")
     print(f"   Transcendence Level: {superposition['transcendence_indicators']['transcendence_level']:.3f}")
 

@@ -12,16 +12,16 @@ INTEGRATION POINTS: Notion * WebManager * Documentation Tools * ISO Standards
 EXPORT FORMATS: Markdown * LaTeX * HTML * PDF * JSON * XML
 METADATA TAGS: #LuKhas #AI #Professional #Deployment #NeuralNet #Quantum
 """
-import time
-import streamlit as st
-
 import asyncio
 import json
 import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -108,7 +108,7 @@ class NeuroSymbolicEngine:
         keywords = ["create", "analyze", "optimize", "design", "implement"]
         for keyword in keywords:
             if keyword in text.lower():
-                symbols.append(f"ACTION_{keyword.upper(}")
+                symbols.append(f"ACTION_{keyword.upper()}")
         return symbols
 
     async def _neural_process(self, symbols: list[str], context: UserContext) -> dict[str, Any]:

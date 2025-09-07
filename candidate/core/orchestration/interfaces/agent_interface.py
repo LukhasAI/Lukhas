@@ -8,19 +8,18 @@ orchestration system while maintaining modularity and extensibility.
 
 ΛTAG: agent, interface, orchestration
 """
-from consciousness.qi import qi
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum, auto
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Dict, Optional, Union
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

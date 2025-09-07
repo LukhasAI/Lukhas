@@ -33,11 +33,11 @@ class TestPublicAPI(unittest.TestCase):
 
         # Create a valid token
         valid_token = f"{self.key_id}:{self.key_secret}"
-        self.valid_auth_header = {"Authorization": f"Bearer {base64.b64encode(valid_token.encode()).decode(}"}
+        self.valid_auth_header = {"Authorization": f"Bearer {base64.b64encode(valid_token.encode()).decode()}"}
 
         # Create an invalid token
         invalid_token = "invalid_id:invalid_secret"
-        self.invalid_auth_header = {"Authorization": f"Bearer {base64.b64encode(invalid_token.encode()).decode(}"}
+        self.invalid_auth_header = {"Authorization": f"Bearer {base64.b64encode(invalid_token.encode()).decode()}"}
 
     def test_health_check(self):
         """Test the public health check endpoint."""

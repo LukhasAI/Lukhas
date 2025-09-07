@@ -179,7 +179,7 @@ class SymbolicConflictResolver:
         Returns:
             ContradictionReport if conflict detected, None otherwise
         """
-        detection_id = f"conflict_detect_{uuid.uuid4(}.hex[:12]}"
+        detection_id = f"conflict_detect_{uuid.uuid4()}.hex[:12]}"
         method_logger = self.logger.bind(detection_id=detection_id)
         method_logger.info(
             "Starting symbolic conflict detection",
@@ -231,7 +231,7 @@ class SymbolicConflictResolver:
             confidence_impact = self._calculate_confidence_impact(inputs, primary_conflict)
 
             report = ContradictionReport(
-                report_id=f"contradiction_{uuid.uuid4(}.hex[:12]}",
+                report_id=f"contradiction_{uuid.uuid4()}.hex[:12]}",
                 conflicting_fragments=primary_conflict["fragments"],
                 conflict_type=primary_conflict["type"],
                 severity=severity,
@@ -362,7 +362,7 @@ class SymbolicConflictResolver:
         Returns:
             ConflictResolutionResult: The resolution outcome and metadata
         """
-        resolution_id = f"resolve_{uuid.uuid4(}.hex[:12]}"
+        resolution_id = f"resolve_{uuid.uuid4()}.hex[:12]}"
         method_logger = self.logger.bind(resolution_id=resolution_id, report_id=report.report_id)
         method_logger.info(
             "Starting conflict resolution",
@@ -443,7 +443,7 @@ class SymbolicConflictResolver:
         Args:
             result: The conflict resolution result to trace
         """
-        trace_id = f"trace_{uuid.uuid4(}.hex[:8]}"
+        trace_id = f"trace_{uuid.uuid4()}.hex[:8]}"
         self.logger.info(
             "Emitting resolution trace",
             trace_id=trace_id,
@@ -1101,7 +1101,7 @@ class SymbolicConflictResolver:
         """Write resolution trace to persistent audit log."""
         try:
             # Write to JSON log file
-            f"audit/conflict_resolution_log_{datetime.now(timezone.utc).strftime('%Y%m%d'}.json"
+            f"audit/conflict_resolution_log_{datetime.now(timezone.utc).strftime('%Y%m%d')}.json"
 
             # In a real implementation, this would write to actual files
             # For now, use structured logging

@@ -4,15 +4,13 @@ AlphaFold2-inspired memory protein folding system
 Models memory traces as symbolic amino acid chains
 """
 import random
-import streamlit as st
-from datetime import timezone
-
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 
 class MisfoldingType(Enum):
@@ -114,17 +112,10 @@ class AlphaFoldInspiredEngine:
         folded_structure = await self._gat_folding_iterations(stabilized_embedding, ethical_constraints)
 
         # Generate 3D structure
-        structure_3d = await self._generate_3d_structure(folded_structure)
+        await self._generate_3d_structure(folded_structure)
 
         fold = ProteinFold(
-            protein_id=f"fold_{datetime.now(timezone.utc).timestamp(}",
-            sequence=sequence.sequence,
-            stability=self._calculate_stability(structure_3d),
-            structure_data={
-                "coordinates": structure_3d,
-                "bonds": sequence.bonds,
-                "energy": np.mean(sequence.energy_profile),
-            },
+            protein_id=f"fold_{datetime.now(timezone.utc).timestamp()}",
         )
 
         self.folding_cache[fold.protein_id] = fold

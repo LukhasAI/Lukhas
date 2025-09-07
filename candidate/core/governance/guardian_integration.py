@@ -555,7 +555,7 @@ class GuardianIntegrationMiddleware:
                 "constitutional_score": decision.constitutional_score,
                 "drift_score": decision.drift_score,
                 "explanation": decision.explanation,
-                "args_summary": f"{len(args} arguments",
+                "args_summary": f"{len(args)} arguments",
                 "kwargs_summary": list(kwargs.keys()},
             }
 
@@ -767,7 +767,7 @@ class LUKHASGuardianBridge:
                     "enforcement_level": "strict",
                 }
 
-            logger.info(f"✅ Integrated {len(brain_modules} brain modules")
+            logger.info(f"✅ Integrated {len(brain_modules)} brain modules")
 
         except Exception as e:
             logger.error(f"❌ Brain module integration failed: {e}")
@@ -790,7 +790,7 @@ class LUKHASGuardianBridge:
                     "enforcement_level": "strict",
                 }
 
-            logger.info(f"✅ Integrated {len(api_endpoints} API endpoints")
+            logger.info(f"✅ Integrated {len(api_endpoints)} API endpoints")
 
         except Exception as e:
             logger.error(f"❌ API endpoint integration failed: {e}")
@@ -808,7 +808,7 @@ class LUKHASGuardianBridge:
                     "enforcement_level": "moderate",
                 }
 
-            logger.info(f"✅ Integrated {len(memory_systems} memory systems")
+            logger.info(f"✅ Integrated {len(memory_systems)} memory systems")
 
         except Exception as e:
             logger.error(f"❌ Memory system integration failed: {e}")

@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: trace_mapper.py
@@ -35,7 +37,7 @@ class TraceMapper:
         #ΛSYMBOLIC_FEEDBACK: The trace data itself is a form of symbolic feedback.
         """
         self.traces.append(trace_data)
-        logger.info(f"Loaded trace: {trace_data.get('trace_id', 'N/A'}")
+        logger.info(f"Loaded trace: {trace_data.get('trace_id', 'N/A')}")
 
     def map_traces(self):
         """

@@ -8,9 +8,6 @@ Validates the complete T4 stack implementing:
 - Dario Amodei (Safety) standards
 - Demis Hassabis (Rigor) standards
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
@@ -18,8 +15,10 @@ import os
 import sys
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(
@@ -913,7 +912,7 @@ class T4EnterpriseValidator:
         # Show failed tests
         failed_results = [r for r in report.validation_results if not r.passed]
         if failed_results:
-            print(f"\n❌ Failed Tests ({len(failed_results}):")
+            print(f"\n❌ Failed Tests ({len(failed_results)}):")
             for result in failed_results:
                 print(f"   • {result.test_name}: {result.error_message or 'Failed'}")
 

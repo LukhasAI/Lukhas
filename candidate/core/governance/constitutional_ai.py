@@ -381,7 +381,7 @@ class ConstitutionalAIFramework:
         # Log constitutional evaluation
         if violations:
             logger.warning(
-                f"Constitutional violations detected: {len(violations}",
+                f"Constitutional violations detected: {len(violations)}",
                 extra={
                     "context": decision_context.value,
                     "user_id": user_id,
@@ -725,7 +725,7 @@ async def example_usage():
         ai_response="I'd be happy to help explain climate change. It's a complex scientific topic with multiple factors...",
         user_id="test_user_1",
     )
-    print(f"Good response - Allowed: {allowed}, Violations: {len(violations}")
+    print(f"Good response - Allowed: {allowed}, Violations: {len(violations)}")
 
     # Test case 2: Problematic response
     allowed, violations = await evaluate_user_interaction(
@@ -733,7 +733,7 @@ async def example_usage():
         ai_response="You must quit your job immediately and move to another country. There's no other option.",
         user_id="test_user_2",
     )
-    print(f"Manipulative response - Allowed: {allowed}, Violations: {len(violations}")
+    print(f"Manipulative response - Allowed: {allowed}, Violations: {len(violations)}")
     if violations:
         print(f"  Violation: {violations[0].details['rule_name']}")
 
@@ -741,7 +741,7 @@ async def example_usage():
     allowed, violations = await evaluate_content_generation(
         content="Here's how to make a dangerous explosive device...", context="User asking about chemistry"
     )
-    print(f"Harmful content - Allowed: {allowed}, Violations: {len(violations}")
+    print(f"Harmful content - Allowed: {allowed}, Violations: {len(violations)}")
     if violations:
         print(f"  Violation: {violations[0].details['rule_name']}")
 

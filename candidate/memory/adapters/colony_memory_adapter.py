@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -668,7 +670,7 @@ async def demonstrate_colony_adapter():
         adapter.register_colony("colony_1", {"type": "episodic", "capacity": 1000})
         adapter.register_colony("colony_2", {"type": "semantic", "capacity": 2000})
 
-        print(f"Registered colonies: {len(adapter.registered_colonies}")
+        print(f"Registered colonies: {len(adapter.registered_colonies)}")
 
         # Test memory operations (would need actual interfaces in practice)
         print("\nAdapter ready for memory operations")

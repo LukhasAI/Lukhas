@@ -4,14 +4,13 @@ Memory Trace Injector
 ΛPURPOSE: Inject symbolic traces into memory operations for traceability
 ΛMODULE: memory.core_memory.trace_injector
 """
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 
 @dataclass
@@ -86,7 +85,7 @@ class TraceInjector:
         if trace_id in self.active_traces:
             original_trace = self.active_traces[trace_id]
             self.inject_trace(
-                operation_type=f"END_{original_trace.operation_type.replace('START_', ''}",
+                operation_type=f"END_{original_trace.operation_type.replace('START_', '')}",
                 memory_address=original_trace.memory_address,
                 symbolic_tag="ΛMEM_COMPLETE",
                 metadata={
@@ -121,7 +120,7 @@ class TraceInjector:
         symbolic_output = []
         symbolic_output.append("ΛTRACE_EXPORT")
         symbolic_output.append(f"ΛAGENT: {self.agent_id}")
-        symbolic_output.append(f"ΛTRACE_COUNT: {len(self.trace_stack}")
+        symbolic_output.append(f"ΛTRACE_COUNT: {len(self.trace_stack)}")
         symbolic_output.append("")
 
         for trace in self.trace_stack:
@@ -131,7 +130,7 @@ class TraceInjector:
             symbolic_output.append(f"  ΛADDRESS: {trace.memory_address}")
             symbolic_output.append(f"  ΛTAG: {trace.symbolic_tag}")
             if trace.metadata:
-                symbolic_output.append(f"  ΛMETADATA: {json.dumps(trace.metadata}")
+                symbolic_output.append(f"  ΛMETADATA: {json.dumps(trace.metadata)}")
             symbolic_output.append("")
 
         return "\n".join(symbolic_output)

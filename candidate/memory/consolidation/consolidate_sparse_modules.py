@@ -10,13 +10,12 @@
 LUKHAS Sparse Module Consolidator
 Consolidates sparse modules according to the standardization plan
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 # Consolidation mapping from the plan
 CONSOLIDATION_MAP = {
@@ -181,7 +180,7 @@ def update_imports(base_path: Path = Path(".")):
             # Write back if changed
             if content != original_content:
                 py_file.write_text(content)
-                print(f"   Updated: {py_file.relative_to(base_path}")
+                print(f"   Updated: {py_file.relative_to(base_path)}")
 
         except Exception as e:
             print(f"   ⚠️  Error updating {py_file}: {e}")

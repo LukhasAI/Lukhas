@@ -4,8 +4,6 @@ Identity Import Bridge - Custom Import Finder
 Provides a PEP 302 compliant import finder/loader to handle
 the old identity.* import paths and redirect them to governance.identity.*
 """
-import streamlit as st
-
 import importlib
 import importlib.abc
 import importlib.machinery
@@ -14,6 +12,8 @@ import logging
 import sys
 import warnings
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

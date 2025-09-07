@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 """
 
 #TAG:memory
@@ -17,10 +18,10 @@ from datetime import datetime, timezone
 │   - Standard Python                                                        │
 └────────────────────────────────────────────────────────────────────────────┘
 """
-import time
-import streamlit as st
-
 import datetime
+import time
+
+import streamlit as st
 
 ARCHITECTURE_LOG_FILE = "logs/architecture/architecture_change_log.md"
 

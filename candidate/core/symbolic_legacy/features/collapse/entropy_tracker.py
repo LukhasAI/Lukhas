@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════
@@ -466,7 +468,7 @@ class CollapseEntropyTracker:
 
     def _generate_trace(self, field: CollapseField, phase: CollapsePhase) -> CollapseTrace:
         """Generate collapse trace for audit trail."""
-        trace_id = f"collapse_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{field.field_id}"
+        trace_id = f"collapse_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{field.field_id}"
 
         # Calculate entropy slope
         entropy_slope = self.calculate_entropy_slope(field.field_id)
@@ -874,7 +876,7 @@ if __name__ == "__main__":
     print(f"\nOverall Risk: {assessment.overall_risk:.3f}")
     print(f"Phase: {assessment.phase.value}")
     print(f"Entropy Trend: {assessment.entropy_trend}")
-    print(f"Active Fields: {len(assessment.active_fields}")
+    print(f"Active Fields: {len(assessment.active_fields)}")
 
     print("\nRisk Factors:")
     for factor in assessment.risk_factors:
@@ -895,7 +897,7 @@ if __name__ == "__main__":
     # Export traces
     print("\n💾 Exporting collapse traces...")
     traces_json = tracker.export_traces()
-    print(f"Export size: {len(traces_json} characters")
+    print(f"Export size: {len(traces_json)} characters")
 
     print("\n✅ Collapse Entropy Tracker test complete!")
 

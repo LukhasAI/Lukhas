@@ -365,7 +365,7 @@ class EnterprisSecurityScanner:
                     },
                 )
 
-            logger.info(f"✅ Security scan complete: {len(findings} findings, {result.auto_fixed_count} auto-fixed")
+            logger.info(f"✅ Security scan complete: {len(findings)} findings, {result.auto_fixed_count} auto-fixed")
 
             return result
 
@@ -430,8 +430,8 @@ class EnterprisSecurityScanner:
                                     finding_id=f"{file_path.name}_{line_num}_{rule_name}",
                                     category=rule_config["category"],
                                     severity=rule_config["severity"],
-                                    title=f"{rule_name.replace('_', ' ').title(} Detected",
-                                    description=f"Potential {rule_name.replace('_', ' '} found in {file_path}",
+                                    title=f"{rule_name.replace('_', ' ').title()} Detected",
+                                    description=f"Potential {rule_name.replace('_', ' ')} found in {file_path}",
                                     file_path=str(file_path),
                                     line_number=line_num,
                                     code_snippet=line.strip(),
@@ -535,7 +535,7 @@ class EnterprisSecurityScanner:
                                 code_snippet=line.strip(),
                                 auto_fixable=True,
                                 fix_confidence=0.9,
-                                evidence=[f"High-entropy string: {match.group(}[:10]}..."],
+                                evidence=[f"High-entropy string: {match.group()}[:10]}..."],
                                 remediation="Replace with environment variable or secure configuration",
                             )
 
@@ -645,7 +645,7 @@ class EnterprisSecurityScanner:
                                     category=SecurityCategory.DEPENDENCY_VULNERABILITY,
                                     severity=SecuritySeverity.HIGH,
                                     title="Vulnerable Dependency",
-                                    description=f"Potentially vulnerable dependency: {line.strip(}",
+                                    description=f"Potentially vulnerable dependency: {line.strip()}",
                                     file_path=str(req_path),
                                     line_number=line_num,
                                     code_snippet=line.strip(),
@@ -943,7 +943,7 @@ async def run_enterprise_security_scan():
     print("=" * 50)
     print(f"Scan ID: {result.scan_id}")
     print(f"Files Scanned: {result.files_scanned}")
-    print(f"Total Findings: {len(result.findings}")
+    print(f"Total Findings: {len(result.findings)}")
     print(f"  - Critical: {result.critical_count}")
     print(f"  - High: {result.high_count}")
     print(f"  - Medium: {result.medium_count}")

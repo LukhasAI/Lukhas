@@ -18,18 +18,15 @@ Author: LUKHAS AI Systems
 Version: 1.0.0
 Created: 2025-07-05
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import math
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+
+import streamlit as st
 
 
 class EntropyLevel(Enum):
@@ -446,7 +443,7 @@ class LambdaIDEntropyEngine:
             tier_config = self.tier_thresholds.get(f"tier_{tier}", {})
             if analysis.overall_score < tier_config.get("recommended", 2.0):
                 recommendations.append(
-                    f"Aim for entropy score of {tier_config.get('recommended', 2.0} for optimal Tier {tier} performance"
+                    f"Aim for entropy score of {tier_config.get('recommended', 2.0)} for optimal Tier {tier} performance"
                 )
 
         analysis.recommendations = recommendations

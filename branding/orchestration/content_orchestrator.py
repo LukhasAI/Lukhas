@@ -4,16 +4,15 @@ LUKHAS AI Elite Content Orchestrator
 Unified coordination engine for all 14 content creation and enterprise systems
 Ensures 85%+ voice coherence and consciousness technology messaging consistency
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 import sys
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -94,7 +93,7 @@ class EliteContentOrchestrator:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"elite_orchestration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = logs_dir / f"elite_orchestration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -140,7 +139,7 @@ class EliteContentOrchestrator:
                     systems.append(system)
 
         self.systems = systems
-        self.logger.info(f"✅ Discovered {len(systems} content systems")
+        self.logger.info(f"✅ Discovered {len(systems)} content systems")
 
         return systems
 
@@ -298,13 +297,13 @@ class EliteContentOrchestrator:
             await self._save_systems_configuration(systems)
 
             self.logger.info("✅ Elite transformation analysis complete!")
-            self.logger.info(f"📊 Systems analyzed: {len(systems}")
+            self.logger.info(f"📊 Systems analyzed: {len(systems)}")
             self.logger.info(f"📈 Average voice coherence: {avg_coherence:.1f}%")
-            self.logger.info(f"🎯 Elite systems: {len(elite_systems)}/{len(systems}")
+            self.logger.info(f"🎯 Elite systems: {len(elite_systems)}/{len(systems)}")
 
             return OrchestrationResult(
                 success=True,
-                message=f"Elite transformation analysis complete for {len(systems} systems",
+                message=f"Elite transformation analysis complete for {len(systems)} systems",
                 systems_processed=len(systems),
                 voice_coherence_avg=avg_coherence,
                 elite_systems_count=len(elite_systems),

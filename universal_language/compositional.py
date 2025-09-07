@@ -53,4 +53,4 @@ class SymbolProgramSynthesizer:
         return program
 
 
-__all__ = ["SymbolProgram", "SymbolComposer", "SymbolProgramSynthesizer"]
+__all__ = ["SymbolComposer", "SymbolProgram", "SymbolProgramSynthesizer"]

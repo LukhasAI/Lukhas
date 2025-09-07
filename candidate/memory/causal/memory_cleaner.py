@@ -69,7 +69,7 @@ class MemoryCleaner:
 
         # Use standard logger for this instance
         self.logger = logging.getLogger(f"{__name__}.{self.agent_id}")
-        self.logger.info(f"🧹 Memory Cleaner sub-agent spawned - task_type: {task_data.get('memory_issue', 'unknown'}")
+        self.logger.info(f"🧹 Memory Cleaner sub-agent spawned - task_type: {task_data.get('memory_issue', 'unknown')}")
 
     def analyze_memory_fragmentation(self) -> dict[str, Any]:
         """Analyze current memory fragmentation state"""
@@ -96,7 +96,7 @@ class MemoryCleaner:
         corrupted_segments = [
             {
                 "segment_id": f"seg_{i:04d}",
-                "location": f"0x{random.randint(0x1000, 0xFFFF}:04X}",
+                "location": f"0x{random.randint(0x1000, 0xFFFF)}:04X}",
                 "size": random.randint(1024, 4096),
                 "error_type": random.choice(["checksum_mismatch", "null_reference", "cyclic_reference"]),
             }
@@ -159,7 +159,7 @@ class MemoryCleaner:
 
         # Clean corrupted segments
         if analysis["corrupted_segments"]:
-            self.logger.info(f"Cleaning {len(analysis['corrupted_segments']} corrupted segments")
+            self.logger.info(f"Cleaning {len(analysis['corrupted_segments'])} corrupted segments")
             for segment in analysis["corrupted_segments"]:
                 # Simulate cleanup based on error type
                 if segment["error_type"] == "checksum_mismatch":
@@ -180,7 +180,7 @@ class MemoryCleaner:
 
         # Consolidate redundant memories
         if analysis["redundant_memories"]:
-            self.logger.info(f"Consolidating {len(analysis['redundant_memories']} redundant memories")
+            self.logger.info(f"Consolidating {len(analysis['redundant_memories'])} redundant memories")
             for memory in analysis["redundant_memories"]:
                 # Keep only one copy
                 duplicates_removed = memory["duplicate_count"] - 1
@@ -411,7 +411,7 @@ class MemoryCleaner:
             violations_detected=coherence_stats["coherence_violations_detected"],
             violations_repaired=coherence_stats["coherence_violations_repaired"],
             entanglement_preserved=coherence_stats["quantum_entanglement_preserved"],
-            stability_gain=f"{coherence_stats['stability_enhancement'] * 100:.1f}%",
+            stability_gain=f"{coherence_stats['stability_enhancement']  * 100:.1f}%",
         )
 
         return coherence_stats
@@ -466,7 +466,7 @@ class MemoryCleaner:
             violations_repaired=validation_stats["integrity_violations_repaired"],
             orphans_detected=validation_stats["orphaned_memories_detected"],
             orphans_reconnected=validation_stats["orphaned_memories_reconnected"],
-            integrity_score=f"{validation_stats['chain_integrity_score'] * 100:.1f}%",
+            integrity_score=f"{validation_stats['chain_integrity_score']  * 100:.1f}%",
         )
 
         return validation_stats
@@ -525,8 +525,8 @@ class MemoryCleaner:
             violations_detected=optimization_stats["entropy_violations_detected"],
             violations_corrected=optimization_stats["entropy_violations_corrected"],
             cascades_prevented=optimization_stats["cascade_attempts_prevented"],
-            optimization_score=f"{optimization_stats['entropy_optimization_score'] * 100:.1f}%",
-            prevention_rate=f"{optimization_stats['cascade_prevention_rate'] * 100:.1f}%",
+            optimization_score=f"{optimization_stats['entropy_optimization_score']  * 100:.1f}%",
+            prevention_rate=f"{optimization_stats['cascade_prevention_rate']  * 100:.1f}%",
         )
 
         return optimization_stats
@@ -574,7 +574,7 @@ class MemoryCleaner:
 
         self.logger.info(
             "Comprehensive health assessment completed",
-            overall_score=f"{overall_health_score * 100:.1f}%",
+            overall_score=f"{overall_health_score  * 100:.1f}%",
             health_grade=health_assessment["health_grade"],
             recommendations=len(health_assessment["recommendations"]),
         )

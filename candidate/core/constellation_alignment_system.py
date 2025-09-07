@@ -272,7 +272,7 @@ class ConstellationAlignmentValidator:
                 rule=AlignmentRule.QUANTUM_UNCERTAINTY_BALANCE,
                 component=ConstellationStar.IDENTITY,  # Default to identity for vector issues
                 severity=AlignmentLevel.MAJOR_VIOLATION,
-                description=f"Alignment vector has {len(alignment} components, expected 3",
+                description=f"Alignment vector has {len(alignment)} components, expected 3",
                 current_value=len(alignment),
                 required_value=3,
                 signal_id=signal.signal_id,
@@ -315,7 +315,7 @@ class ConstellationAlignmentValidator:
                 rule=AlignmentRule.ETHICS_COMPLIANCE_MIN,
                 component=ConstellationStar.GUARDIAN,
                 severity=AlignmentLevel.CRITICAL_VIOLATION,
-                description=f"Signal has {len(flags)} violation flags: {', '.join(flags}",
+                description=f"Signal has {len(flags)} violation flags: {', '.join(flags)}",
                 current_value=flags,
                 required_value=[],
                 signal_id=signal.signal_id,

@@ -479,7 +479,7 @@ class SecurityScanner:
 
     def _generate_scan_id(self) -> str:
         """Generate unique scan ID"""
-        return f"scan_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{os.urandom(4).hex(}"
+        return f"scan_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{os.urandom(4).hex()}"
 
     def _save_results(self, results: dict[str, Any]):
         """Save scan results to file"""

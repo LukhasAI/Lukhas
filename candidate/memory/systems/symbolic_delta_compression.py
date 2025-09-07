@@ -811,7 +811,7 @@ class SymbolicDeltaCompressionManager:
                 "prediction_confidence": access_pattern["confidence"],
             }
 
-        logger.info(f"Generated compression predictions for {len(fold_keys} folds")
+        logger.info(f"Generated compression predictions for {len(fold_keys)} folds")
 
         return {
             "status": "predictions_generated",
@@ -1213,9 +1213,9 @@ class SymbolicDeltaCompressionManager:
                 "system_load_consideration": True,
             },
             "performance_improvements": {
-                "storage_space_saved": f"{random.randint(15, 40}%",
-                "access_time_reduction": f"{random.randint(10, 25}%",
-                "system_resource_optimization": f"{random.randint(20, 35}%",
+                "storage_space_saved": f"{random.randint(15, 40)}%",
+                "access_time_reduction": f"{random.randint(10, 25)}%",
+                "system_resource_optimization": f"{random.randint(20, 35)}%",
             },
         }
 

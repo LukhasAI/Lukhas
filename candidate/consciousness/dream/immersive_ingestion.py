@@ -4,10 +4,10 @@ This module provides a minimal, breath-like entry point into the
 symbolic dream system. Complex orchestration is hidden so that first
 experiences feel magical.
 """
-import streamlit as st
-
 import logging
 from typing import Any
+
+import streamlit as st
 
 # ΛTAG: dream_ingestion_interface
 logger = logging.getLogger("dream.immersive_ingestion")

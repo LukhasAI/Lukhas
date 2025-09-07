@@ -8,13 +8,11 @@ tracked via :func:`compute_drift_score` and displayed in the figure title.
 from __future__ import annotations
 
 import time
-import streamlit as st
-
-
 from trace.drift_metrics import compute_drift_score
 from typing import Any
 
 import plotly.graph_objects as go
+import streamlit as st
 
 
 class DreamMemoryscapeViewport:

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -94,7 +96,7 @@ def import_folds(
         # Read and verify magic bytes
         magic = f.read(4)
         if magic != MAGIC:
-            raise LKFPackError(f"Not an LKF-Pack v1 file (magic: {magic.hex(})")
+            raise LKFPackError(f"Not an LKF-Pack v1 file (magic: {magic.hex()})")
 
         # Read header length
         header_len_bytes = f.read(4)
@@ -219,7 +221,7 @@ def import_folds_safe(
     for fold in import_folds(path):
         # Validate fold structure
         if not isinstance(fold, dict):
-            logger.warning(f"Skipping non-dict fold: {type(fold}")
+            logger.warning(f"Skipping non-dict fold: {type(fold)}")
             continue
 
         # Check for required fields
@@ -265,7 +267,7 @@ def verify_lkf_pack(path: Path) -> dict[str, Any]:
             # Check magic
             magic = f.read(4)
             if magic != MAGIC:
-                report["errors"].append(f"Invalid magic: {magic.hex(}")
+                report["errors"].append(f"Invalid magic: {magic.hex()}")
                 return report
 
             # Read header

@@ -8,16 +8,14 @@ Tests all major components and provides a functionality percentage.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
-from typing import Optional
-import streamlit as st
-from datetime import timezone
-
 import importlib.util
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
+
+import streamlit as st
 
 
 class SystemDiagnostic:

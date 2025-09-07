@@ -16,8 +16,6 @@
 ║ and aggregate pattern for AI agent state reconstruction.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import json
 import logging
 import sqlite3
@@ -28,6 +26,8 @@ from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

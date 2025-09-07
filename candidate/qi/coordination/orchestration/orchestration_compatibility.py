@@ -20,10 +20,11 @@ Usage:
 
 Created: 2025-07-26
 """
-from consciousness.qi import qi
+import warnings
+
 import streamlit as st
 
-import warnings
+from consciousness.qi import qi
 
 # New module location
 NEW_MODULE = "lukhas.bio.systems.orchestration"

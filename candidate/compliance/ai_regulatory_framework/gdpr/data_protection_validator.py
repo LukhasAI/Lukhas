@@ -7,13 +7,12 @@ Minimal implementation for testing infrastructure.
 This is a placeholder implementation to satisfy import requirements.
 Full GDPR compliance validation will be implemented in the comprehensive update.
 """
-import streamlit as st
-from datetime import timezone
-
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class LawfulBasis(Enum):

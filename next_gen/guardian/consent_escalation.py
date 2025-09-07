@@ -646,7 +646,7 @@ class ConsentEscalationResolver:
         }
 
         # In production, write to audit log system
-        logger.info(f"Audit log entry created: {json.dumps(audit_entry}")
+        logger.info(f"Audit log entry created: {json.dumps(audit_entry)}")
 
     async def _deep_trust_analysis(self, request: ConsentRequest):
         """Perform deep trust path analysis"""
@@ -845,7 +845,7 @@ async def main():
         print(f"   Reason: {processed_request.decision_reason}")
         if processed_request.escalation_level:
             print(f"   Escalation: {processed_request.escalation_level.name}")
-        print(f"   Symbolic Path: {'→'.join(processed_request.symbolic_path}")
+        print(f"   Symbolic Path: {'→'.join(processed_request.symbolic_path)}")
 
         # Show trust summary
         trust_summary = resolver.get_requester_trust_summary(request.requester)

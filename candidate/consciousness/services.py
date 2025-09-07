@@ -4,10 +4,9 @@ Consciousness Services
 Dependency injection services for the consciousness module.
 """
 import time
-import streamlit as st
-
 from typing import Any
 
+import streamlit as st
 from hub.service_registry import get_service, inject_services, register_factory
 
 

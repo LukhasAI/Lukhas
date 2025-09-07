@@ -62,11 +62,12 @@ Version: 3.0
 Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 """
-from consciousness.qi import qi
-from typing import List
-from typing import Dict
 import time
+from typing import Dict, List
+
 import streamlit as st
+
+from consciousness.qi import qi
 
 __module_name__ = "Golden Helix Memory Mapper"
 __version__ = "3.0.0"
@@ -299,7 +300,7 @@ class HealixMapper:
         content_hash = hashlib.sha256(json.dumps(memory, sort_keys=True, default=str).encode()).hexdigest()[:16]
 
         timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-        random_suffix = f"{random.randint(1000, 9999}"
+        random_suffix = f"{random.randint(1000, 9999)}"
 
         return f"{strand_type.value}_{timestamp}_{content_hash}_{random_suffix}"
 
@@ -500,7 +501,7 @@ class HealixMapper:
 
             # Sort by match score and resonance
             results.sort(key=lambda x: (x["match_score"], x["resonance"]), reverse=True)
-            logger.info(f"Found {len(results} memories matching query")
+            logger.info(f"Found {len(results)} memories matching query")
             return results
 
         except Exception as e:
@@ -921,7 +922,7 @@ class HealixMapper:
             resonance_patterns = await self._analyze_resonance_patterns(strands_to_analyze)
             pattern_analysis["resonance_patterns"] = resonance_patterns
 
-            logger.info(f"Symbolic pattern extraction completed for {len(strands_to_analyze} strands")
+            logger.info(f"Symbolic pattern extraction completed for {len(strands_to_analyze)} strands")
             return pattern_analysis
 
         except Exception as e:

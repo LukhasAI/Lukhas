@@ -3,13 +3,14 @@
 LUKHAS Naming Convention Application Tool
 Applies industry-standard naming while preserving LUKHAS's unique concepts and personality
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import json
 import re
 import shutil
 from pathlib import Path
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class LukhasNamingApplicator:
@@ -41,7 +42,7 @@ class LukhasNamingApplicator:
         print("=" * 60)
         print(f"Mode: {'DRY RUN' if dry_run else 'APPLYING CHANGES'}")
         print(f"Total refinements to apply: {self.report['summary']['total_refinements']}")
-        print(f"Preserving {len(self.preserve_concepts} LUKHAS concepts")
+        print(f"Preserving {len(self.preserve_concepts)} LUKHAS concepts")
 
         if not dry_run:
             # Create backup
@@ -86,7 +87,7 @@ class LukhasNamingApplicator:
                 dst.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(src, dst)
 
-        print(f"   Backed up {len(files_to_backup} files to {self.backup_dir}")
+        print(f"   Backed up {len(files_to_backup)} files to {self.backup_dir}")
 
     def _apply_class_refinements(self):
         """Apply class name refinements"""
@@ -164,13 +165,13 @@ class LukhasNamingApplicator:
                 # Apply the refinement
                 if refinement_type == "class":
                     # Replace class definition and all references
-                    pattern = rf"\b{re.escape(old_name}\b"
+                    pattern = rf"\b{re.escape(old_name)}\b"
                     content = re.sub(pattern, new_name, content)
 
                 elif refinement_type == "function":
                     # Replace function definition and calls
                     # Be careful with method calls (obj.method)
-                    pattern = rf"(?<!\.)\b{re.escape(old_name}\b"
+                    pattern = rf"(?<!\.)\b{re.escape(old_name)}\b"
                     content = re.sub(pattern, new_name, content)
 
                 if content != original_content:
@@ -219,13 +220,13 @@ class LukhasNamingApplicator:
                 for old_module, new_module in module_renames.items():
                     # from module import ...
                     content = re.sub(
-                        rf"from\s+(\S+\.)?{re.escape(old_module}\s+import",
+                        rf"from\s+(\S+\.)?{re.escape(old_module)}\s+import",
                         rf"from \1{new_module} import",
                         content,
                     )
                     # import module
                     content = re.sub(
-                        rf"import\s+(\S+\.)?{re.escape(old_module}",
+                        rf"import\s+(\S+\.)?{re.escape(old_module)}",
                         rf"import \1{new_module}",
                         content,
                     )
@@ -256,7 +257,7 @@ class LukhasNamingApplicator:
         print(f"   Files renamed: {self.changes_applied['files']}")
         print(f"   Import statements updated: {self.changes_applied['imports_updated']}")
 
-        print(f"\n🧬 LUKHAS concepts preserved: {len(self.preserve_concepts}")
+        print(f"\n🧬 LUKHAS concepts preserved: {len(self.preserve_concepts)}")
         print("   Examples: memory_fold, dream_recall, qi_state, bio_symbolic")
 
         if not self.dry_run:

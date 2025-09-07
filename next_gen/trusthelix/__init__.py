@@ -3,6 +3,7 @@ TrustHelix - Mutable Ethical Audit Tree for LUKHΛS
 Tracks consent lineage and symbolic mutations through time
 """
 import time
+
 import streamlit as st
 
 from .core.consent_path import ConsentPathLogger

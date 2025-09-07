@@ -3,18 +3,17 @@
 Consciousness Fold - Memory system linked to consciousness states and trust glyphs
 Creates temporal folds that preserve context across state transitions
 """
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import logging
 import sqlite3
 from collections import deque
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +43,7 @@ class MemoryFold:
 
     def compute_hash(self) -> str:
         """Compute symbolic hash of fold contents"""
-        content_str = f"{self.consciousness_state}|{''.join(self.trust_glyphs}|{self.entropy_score}"
+        content_str = f"{self.consciousness_state}|{''.join(self.trust_glyphs)}|{self.entropy_score}"
         return hashlib.sha3_256(content_str.encode()).hexdigest()[:16]
 
     def to_dict(self) -> dict:
@@ -172,7 +171,7 @@ class ConsciousnessMemory:
         traits = self.STATE_MEMORY_TRAITS.get(self.current_state, {"retention": 0.5, "clarity": 0.5, "emotion": 0.0})
 
         # Generate fold ID
-        fold_id = f"fold_{datetime.now(timezone.utc).timestamp(}_{self.current_state[:3]}"
+        fold_id = f"fold_{datetime.now(timezone.utc).timestamp()}_{self.current_state[:3]}"
 
         # Create fold
         fold = MemoryFold(
@@ -214,7 +213,7 @@ class ConsciousnessMemory:
         self.active_folds.append(fold)
 
         logger.info(f"📁 Created fold: {fold_id} in state {self.current_state}")
-        logger.info(f"   Glyphs: {' '.join(trust_glyphs}")
+        logger.info(f"   Glyphs: {' '.join(trust_glyphs)}")
         logger.info(f"   Entropy: {entropy_score:.3f} ({drift_class})")
 
         return fold
@@ -434,7 +433,7 @@ if __name__ == "__main__":
     print("\n🔍 Recall by glyph pattern [🔓, 🌱]:")
     pattern_match = memory.recall_by_glyphs(["🔓", "🌱"])
     for fold in pattern_match:
-        print(f"   {fold.consciousness_state}: {' '.join(fold.trust_glyphs} - {fold.content}")
+        print(f"   {fold.consciousness_state}: {' '.join(fold.trust_glyphs)} - {fold.content}")
 
     # Generate report
     print("\n📊 Memory System Report:")

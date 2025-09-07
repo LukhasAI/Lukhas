@@ -316,9 +316,9 @@ def main():
         status = "✅" if validation["validated"] else "⚠️"
         print(f"{status} {validation['metric']}")
         if "actual" in validation:
-            print(f"   Claimed: {validation.get('claimed', 'N/A'}")
+            print(f"   Claimed: {validation.get('claimed', 'N/A')}")
             print(f"   Actual: {validation['actual']}")
-        print(f"   Note: {validation.get('note', ''}")
+        print(f"   Note: {validation.get('note', '')}")
         print()
 
     # Save report

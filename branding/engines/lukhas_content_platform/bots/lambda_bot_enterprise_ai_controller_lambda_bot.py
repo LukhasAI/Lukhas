@@ -401,7 +401,7 @@ class AGIControllerΛBot:
             ],
         }
 
-        logger.info(f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases']} phases")
+        logger.info(f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases'])} phases")
         return strategy
 
     async def _validate_compliance_requirements(self, requirements: list[str]) -> bool:

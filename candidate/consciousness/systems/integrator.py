@@ -14,9 +14,10 @@ DEPENDENCIES:
   - core/identity/identity_manager.py
   - core/emotion/emotion_engine.py
 """
-from typing import Dict
-import streamlit as st
 from datetime import timezone
+from typing import Dict
+
+import streamlit as st
 
 """
 Consciousness Integrator for LUKHAS AGI System
@@ -703,7 +704,7 @@ if __name__ == "__main__":
 
         # Get status
         status = await integrator.get_consciousness_status()
-        print(f"Consciousness Status: {json.dumps(status, indent=2, default=str}")
+        print(f"Consciousness Status: {json.dumps(status, indent=2, default=str)}")
 
         await integrator.shutdown()
 

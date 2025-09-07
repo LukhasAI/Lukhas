@@ -5,7 +5,6 @@ Triggers a symbolic sleep/dream cycle for Lucʌs.
 Logs a memory trace, folds it, seeds a dream, and stores the dream output.
 """
 import streamlit as st
-
 from dream.core.dream_log import dream_logger
 from modules.dream_seed import seed_dream
 from modules.fold_token import fold_trace
@@ -28,11 +27,5 @@ dream = seed_dream(folded)
 
 # Step 4: Log the symbolic dream
 dream_logger.log_dream(
-    dream_id=f"sleep_cycle_{folded.get('token_id', 'unknown'}",
-    content=dream,
-    metadata={
-        "source_token": folded.get("token_id"),
-        "collapse_id": folded.get("fold_path"),
-        "resonance": folded.get("resonance", 0.0),
-    },
+    dream_id=f"sleep_cycle_{folded.get('token_id', 'unknown')}",
 )

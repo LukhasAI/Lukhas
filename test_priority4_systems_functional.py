@@ -68,7 +68,7 @@ class TestQuantumSystems:
             except Exception:
                 continue  # Skip files that can't be read
 
-        assert len(found_concepts) > 0, f"Quantum system should contain quantum concepts. Found: {set(found_concepts}"
+        assert len(found_concepts) > 0, f"Quantum system should contain quantum concepts. Found: {set(found_concepts)}"
 
     def test_quantum_collapse_simulation(self):
         """Test quantum collapse simulation functionality"""
@@ -253,7 +253,7 @@ class TestGovernanceSystems:
 
         assert (
             len(found_concepts) > 0
-        ), f"Governance system should contain governance concepts. Found: {set(found_concepts}"
+        ), f"Governance system should contain governance concepts. Found: {set(found_concepts)}"
 
     def test_policy_management(self):
         """Test policy management and enforcement"""
@@ -395,7 +395,7 @@ class TestOrchestrationSystems:
 
         assert (
             len(found_concepts) > 0
-        ), f"Orchestration system should contain orchestration concepts. Found: {set(found_concepts}"
+        ), f"Orchestration system should contain orchestration concepts. Found: {set(found_concepts)}"
 
     def test_consciousness_coordination(self):
         """Test consciousness coordination and high-level brain functions"""
@@ -547,7 +547,7 @@ class TestCreativitySystems:
 
         assert (
             len(found_concepts) > 0
-        ), f"Creativity system should contain creative concepts. Found: {set(found_concepts}"
+        ), f"Creativity system should contain creative concepts. Found: {set(found_concepts)}"
 
     def test_creative_generation(self):
         """Test creative content generation capabilities"""
@@ -645,7 +645,7 @@ class TestDataSystems:
                     found_types.append(file_type)
                     break
 
-        assert len(found_types) > 0, f"Data system should contain data files. Found types: {set(found_types}"
+        assert len(found_types) > 0, f"Data system should contain data files. Found types: {set(found_types)}"
 
     def test_metrics_storage(self):
         """Test metrics storage and persistence"""
@@ -788,7 +788,7 @@ class TestTestingSystems:
 
         assert (
             len(found_categories) >= 8
-        ), f"Should have tests for at least 8 categories. Found: {set(found_categories}"
+        ), f"Should have tests for at least 8 categories. Found: {set(found_categories)}"
 
     def test_test_infrastructure_quality(self):
         """Test the quality and completeness of test infrastructure"""
@@ -844,7 +844,7 @@ class TestBrandingSystems:
 
         assert (
             len(found_components) > 0
-        ), f"Branding system should contain branding components. Found: {set(found_components}"
+        ), f"Branding system should contain branding components. Found: {set(found_components)}"
 
     def test_trinity_framework_compliance(self):
         """Test Trinity Framework (⚛️🧠🛡️) compliance and validation"""
@@ -956,12 +956,12 @@ def run_priority4_tests():
                 results["passed_tests"] += 1
 
             except pytest.skip.Exception as e:
-                print(f"  ⏭️  {method_name} (skipped: {str(e}[:80]}...)")
+                print(f"  ⏭️  {method_name} (skipped: {str(e)}[:80]}...)")
                 system_result.tests_skipped += 1
                 results["skipped_tests"] += 1
 
             except Exception as e:
-                print(f"  ❌ {method_name} (failed: {str(e}[:80]}...)")
+                print(f"  ❌ {method_name} (failed: {str(e)}[:80]}...)")
                 system_result.tests_failed += 1
                 results["failed_tests"] += 1
 

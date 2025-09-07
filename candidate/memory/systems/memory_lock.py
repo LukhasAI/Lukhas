@@ -139,7 +139,7 @@ class TraumaLockSystem:
 
         # Generate secure vector
         secure_vector = self._generate_secure_vector(memory_data)
-        vector_id = f"vec_{hashlib.sha256(memory_id.encode()).hexdigest(}[:8]}"
+        vector_id = f"vec_{hashlib.sha256(memory_id.encode()).hexdigest()}[:8]}"
         self.secure_memory_vectors[vector_id] = secure_vector
 
         # Encrypt the memory data
@@ -219,7 +219,7 @@ class TraumaLockSystem:
             encrypted_data = base64.urlsafe_b64decode(encrypted_memory["encrypted_data"].encode())
 
             # Re-derive the memory key
-            memory_id = encrypted_memory.get("original_id", f"vec_{encrypted_memory.get('vector_id', ''}")
+            memory_id = encrypted_memory.get("original_id", f"vec_{encrypted_memory.get('vector_id', '')}")
             memory_key = self._derive_memory_key(memory_id)
 
             # Decrypt the data

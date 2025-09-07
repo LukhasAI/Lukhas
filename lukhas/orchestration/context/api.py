@@ -2,8 +2,9 @@ import os
 import time
 from typing import Any
 
-from lukhas.observability.matriz_decorators import instrument
 import streamlit as st
+
+from lukhas.observability.matriz_decorators import instrument
 
 FEATURE = os.getenv("FEATURE_ORCHESTRATION_HANDOFF", "false").lower() == "true"
 

@@ -12,12 +12,11 @@ DESCRIPTION:
     It logs outcomes per message: DELIVERED | DREAM | REJECTED
 
 """
-import streamlit as st
-
 import json
 import os
 
 import jsonschema
+import streamlit as st
 from jsonschema import validate
 
 try:
@@ -60,9 +59,9 @@ def run_batch_validation():
 
     print("\n🧠 SYMBOLIC BATCH SUMMARY")
     print("-----------------------------")
-    print(f"✅ Delivered: {len(DELIVERED} → {DELIVERED}")
-    print(f"🌙 Dreamed: {len(DREAMED} → {DREAMED}")
-    print(f"❌ Rejected: {len(REJECTED} → {REJECTED}")
+    print(f"✅ Delivered: {len(DELIVERED)} → {DELIVERED}")
+    print(f"🌙 Dreamed: {len(DREAMED)} → {DREAMED}")
+    print(f"❌ Rejected: {len(REJECTED)} → {REJECTED}")
 
 
 if __name__ == "__main__":

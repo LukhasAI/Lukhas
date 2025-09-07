@@ -11,6 +11,7 @@ Integrated Components:
 - identity_core: Core identity management and access tiers
 """
 import time
+
 import streamlit as st
 
 # Core identity components

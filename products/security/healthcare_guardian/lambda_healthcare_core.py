@@ -27,8 +27,7 @@ try:
     from lukhas.acceptance.accepted.bio.oscillator import BioOscillator
     from lukhas.acceptance.accepted.bio.quantum import QIBioProcessor
     from lukhas.acceptance.accepted.bio.voice import VoiceResonance
-    from lukhas.acceptance.accepted.colonies.consciousness import (
-        ConsciousnessColony as ConsciousnessEngine)
+    from lukhas.acceptance.accepted.colonies.consciousness import ConsciousnessColony as ConsciousnessEngine
 
     # Advanced Colonies
     from lukhas.acceptance.accepted.colonies.creativity import CreativityColony
@@ -384,7 +383,7 @@ class LambdaHealthcareGuardian:
         if ProviderRegistry:
             self.provider_registry = ProviderRegistry()
             self.provider_registry.initialize_default_providers()
-            logger.info(f"✅ Provider registry initialized with {len(self.provider_registry.providers} providers")
+            logger.info(f"✅ Provider registry initialized with {len(self.provider_registry.providers)} providers")
         else:
             # Fallback to basic provider manager
             self.provider_manager = ProviderManager()

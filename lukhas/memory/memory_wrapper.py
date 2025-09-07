@@ -3,11 +3,11 @@ LUKHAS AI Memory Wrapper
 Production-safe wrapper for memory operations with feature flag control
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
-
 import os
 import time
 from typing import Any, Optional
+
+import streamlit as st
 
 try:
     from lukhas.observability.matriz_decorators import matriz_record

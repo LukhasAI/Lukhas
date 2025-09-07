@@ -137,7 +137,7 @@ class ConsentLedger:
     ) -> LambdaTrace:
         """Generate new Λ-trace audit record"""
         trace = LambdaTrace(
-            trace_id=f"LT-{uuid.uuid4(}.hex}",
+            trace_id=f"LT-{uuid.uuid4()}.hex}",
             parent_trace_id=parent_trace_id,
             lid=lid,
             action=action,
@@ -208,7 +208,7 @@ class ConsentLedger:
 
         # Create consent record
         consent = ConsentRecord(
-            consent_id=f"CONSENT-{uuid.uuid4(}.hex}",
+            consent_id=f"CONSENT-{uuid.uuid4()}.hex}",
             lid=lid,
             resource_type=resource_type,
             scope=scope,

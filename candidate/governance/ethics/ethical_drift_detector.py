@@ -20,16 +20,15 @@ Features:
 - ✅ Violation tagging system
 - ✅ Export hooks & API preparation
 """
-import logging
-import time
-import streamlit as st
-
 import json
+import logging
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
+import streamlit as st
 import yaml
 
 from candidate.core.symbolic.symbolic_tracer import SymbolicTracer

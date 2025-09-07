@@ -3,9 +3,9 @@ Compatibility shim for memory.fold_system
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.accepted.memory.fold
 """
-import streamlit as st
-
 import warnings
+
+import streamlit as st
 
 try:
     from lukhas.accepted.memory.fold import *

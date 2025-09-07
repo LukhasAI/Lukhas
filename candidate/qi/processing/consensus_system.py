@@ -250,7 +250,7 @@ class QIConsensusSystem:
         # Metrics
         self.consensus_metrics = ConsensusMetrics()
 
-        logger.info(f"Quantum Consensus System initialized with {len(components} components")
+        logger.info(f"Quantum Consensus System initialized with {len(components)} components")
 
     def _get_default_initial_state(self) -> QILikeState:
         """Create default initial quantum-like state"""
@@ -336,7 +336,7 @@ class QIConsensusSystem:
     def _sign_proposal(self, component_id: str, state: QILikeState) -> str:
         """Create cryptographic signature for proposal"""
         # Create signing data
-        sign_data = f"{component_id}:{state.calculate_hash(}:{self.current_term}"
+        sign_data = f"{component_id}:{state.calculate_hash()}:{self.current_term}"
 
         # In production, use actual cryptographic signing
         # For now, use SHA-256 as placeholder
@@ -690,8 +690,8 @@ async def demo_bio_quantum_consensus():
     if status["current_state"]:
         state_data = status["current_state"]
         print(f"Phase Coherence: {state_data['phase_coherence']:.2%}")
-        print(f"Consciousness Level: {state_data['metadata'].get('consciousness_level', 0}:.2%}")
-        print(f"Dream State: {state_data['metadata'].get('dream_state', 'unknown'}")
+        print(f"Consciousness Level: {state_data['metadata'].get('consciousness_level', 0)}:.2%}")
+        print(f"Dream State: {state_data['metadata'].get('dream_state', 'unknown')}")
 
 
 if __name__ == "__main__":

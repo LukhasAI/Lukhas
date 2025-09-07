@@ -1,8 +1,8 @@
 import logging
-from typing import Optional
-import streamlit as st
 import time
-from typing import List
+from typing import List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

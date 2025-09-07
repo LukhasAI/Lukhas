@@ -80,7 +80,7 @@ class ConceptMapper:
 
         # Create atomic concept for the symbol
         concept = Concept(
-            concept_id=f"{symbol.domain.value.upper()}.{symbol.name.upper(}",
+            concept_id=f"{symbol.domain.value.upper()}.{symbol.name.upper()}",
             concept_type=ConceptType.ATOMIC,
             meaning=symbol.name,
             symbols=[symbol],
@@ -103,7 +103,7 @@ class ConceptMapper:
 
         # Create composite concept
         concept = Concept(
-            concept_id=f"{primary_domain.value.upper()}.COMPOSITE_{hashlib.sha256(composite_meaning.encode()).hexdigest(}[:8]}",
+            concept_id=f"{primary_domain.value.upper()}.COMPOSITE_{hashlib.sha256(composite_meaning.encode()).hexdigest()}[:8]}",
             concept_type=ConceptType.COMPOSITE,
             meaning=composite_meaning,
             symbols=symbols,
@@ -272,7 +272,7 @@ class CrossModalTranslator:
 
         # Create new symbol for the glyph
         symbol = Symbol(
-            id=f"GLYPH_{glyph_token.hash(}",
+            id=f"GLYPH_{glyph_token.hash()}",
             domain=SymbolicDomain.CONTEXT,
             name=glyph_token.meaning,
             value=glyph_token.meaning,
@@ -440,7 +440,7 @@ class UniversalTranslator:
 
         # Create new symbol in target domain
         new_symbol = Symbol(
-            id=f"{target_domain.value.upper()}_{symbol.name.upper(}",
+            id=f"{target_domain.value.upper()}_{symbol.name.upper()}",
             domain=target_domain,
             name=symbol.name,
             value=symbol.value,
@@ -475,7 +475,7 @@ class UniversalTranslator:
                     concept_ids.append(f"SYMBOL.{symbol.id}")
             else:
                 # Unknown token - create placeholder
-                concept_ids.append(f"UNKNOWN.{hashlib.sha256(str(token).encode()).hexdigest(}[:8]}")
+                concept_ids.append(f"UNKNOWN.{hashlib.sha256(str(token).encode()).hexdigest()}[:8]}")
 
         return concept_ids
 

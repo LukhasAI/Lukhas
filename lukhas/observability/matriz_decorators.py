@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from functools import wraps
 
-from .matriz_emit import emit, make_node
 import streamlit as st
+
+from .matriz_emit import emit, make_node
 
 
 def instrument(

@@ -165,7 +165,7 @@ class NIASOpenAIAdapter:
                             "content": [
                                 {
                                     "type": "text",
-                                    "text": f"Metadata: {json.dumps(stream.metadata}",
+                                    "text": f"Metadata: {json.dumps(stream.metadata)}",
                                 },
                                 {
                                     "type": "image_url",
@@ -448,7 +448,7 @@ class NIASOpenAIAdapter:
             parts.append(f"Click patterns: {behavioral_data['clicks']}")
 
         if "navigation" in behavioral_data:
-            parts.append(f"Navigation path: {' -> '.join(behavioral_data['navigation']}")
+            parts.append(f"Navigation path: {' -> '.join(behavioral_data['navigation'])}")
 
         if "dwell_times" in behavioral_data:
             parts.append(f"Dwell times: {behavioral_data['dwell_times']}")
@@ -572,7 +572,7 @@ class NIASOpenAIAdapter:
                         {
                             "role": "user",
                             # First 5 segments
-                            "content": f"Transcription: {transcription.text}\nSegments: {json.dumps(transcription.segments[:5]}",
+                            "content": f"Transcription: {transcription.text}\nSegments: {json.dumps(transcription.segments[:5])}",
                         },
                     ],
                 )
@@ -799,7 +799,7 @@ class NIASOpenAIAdapter:
                     },
                     {
                         "role": "user",
-                        "content": f"Fusion result: {json.dumps(fusion_result)}\nUser context: {json.dumps(user_context}",
+                        "content": f"Fusion result: {json.dumps(fusion_result)}\nUser context: {json.dumps(user_context)}",
                     },
                 ],
                 temperature=0.7,

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import random
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -672,13 +674,13 @@ async def demonstrate_hippocampal_buffer():
 
     if retrieved:
         print(f"Retrieved from partial cue: {retrieved.content}")
-        print(f"Associations: {len(retrieved.associated_memories}")
+        print(f"Associations: {len(retrieved.associated_memories)}")
 
     # Trigger replay
     print("\n--- Triggering Sharp-Wave Ripple Replay ---")
 
     ripples = await hippo.trigger_replay(replay_count=3)
-    print(f"Replayed {len(ripples} memories")
+    print(f"Replayed {len(ripples)} memories")
 
     for ripple in ripples[:2]:
         print(f"  Ripple: {ripple['memory_id'][:8]}... strength={ripple['replay_strength']:.2f}")
@@ -691,7 +693,7 @@ async def demonstrate_hippocampal_buffer():
     await hippo.trigger_replay()
 
     candidates = hippo.get_consolidation_candidates(min_replays=1, min_age_seconds=0)
-    print(f"Found {len(candidates} candidates ready for neocortical consolidation")
+    print(f"Found {len(candidates)} candidates ready for neocortical consolidation")
 
     # Show metrics
     print("\n--- Hippocampal Metrics ---")

@@ -8,11 +8,11 @@ These types are used throughout the governance framework.
 from __future__ import annotations
 
 import time
-import streamlit as st
-
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any
+
+import streamlit as st
 
 
 class EthicalSeverity(Enum):

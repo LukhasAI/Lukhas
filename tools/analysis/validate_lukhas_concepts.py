@@ -79,7 +79,7 @@ class LUKHASConceptValidator:
             f for f in python_files if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
         ]
 
-        print(f"\nScanning {len(python_files} Python files...")
+        print(f"\nScanning {len(python_files)} Python files...")
 
         # Search for each concept
         for concept in self.core_concepts:

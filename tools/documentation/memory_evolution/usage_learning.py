@@ -2,11 +2,10 @@
 Usage-Based Learning System for DocuTutor.
 Adapts and evolves based on how users interact with documentation.
 """
-import streamlit as st
-from datetime import timezone
-
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
+
+import streamlit as st
 
 
 class UserInteraction:
@@ -67,38 +66,9 @@ class UsageBasedLearning:
 
     def identify_patterns(self, window_size: int = 3):
         """Identify common interaction patterns."""
-        for i in range(len(self.interactions) - window_size + 1):
-            sequence = [
+        for _i in range(len(self.interactions) - window_size + 1):
+            [
                 f"{interaction.doc_id}:{interaction.interaction_type}"
-                for interaction in self.interactions[i : i + window_size]
-            ]
-            pattern_key = "->".join(sequence)
-
-            if pattern_key not in self.patterns:
-                self.patterns[pattern_key] = InteractionPattern()
-            self.patterns[pattern_key].sequence = sequence
-            self.patterns[pattern_key].update(True)  # Assuming success for now
-
-    def update_user_preferences(self, user_id: str, preferences: dict):
-        """Update stored preferences for a user."""
-        self.user_preferences[user_id].update(preferences)
-
-    def get_document_effectiveness(self, doc_id: str) -> float:
-        """Calculate the effectiveness score for a document."""
-        stats = self.doc_statistics[doc_id]
-        if stats["successful_uses"] + stats["failed_uses"] == 0:
-            return 0.0
-
-        return stats["successful_uses"] / (stats["successful_uses"] + stats["failed_uses"])
-
-    def get_popular_sequences(self, min_frequency: int = 2) -> list[dict]:
-        """Get commonly observed interaction sequences."""
-        return [
-            {
-                "sequence": pattern.sequence,
-                "frequency": pattern.frequency,
-                "success_rate": pattern.success_rate,
-            }
             for pattern in self.patterns.values()
             if pattern.frequency >= min_frequency
         ]

@@ -216,7 +216,7 @@ class TestFaultInjection:
         corrupt_scenarios = [
             # Invalid JSON-like structures
             {"proto": {"tone": float("inf")},  # Infinite values
-            {"proto": {"tone": float("nan"},  # NaN values
+            {"proto": {"tone": float("nan")},  # NaN values
             {"context": {"recursive": None},  # Circular references would be handled by JSON serializer
             # Extremely nested data
             {"context": {"level_" + str(i): {"data": f"level_{i}"} for i in range(1000)},
@@ -402,7 +402,7 @@ class TestConcurrentAccessSafety:
             t.join(timeout=10.0)
 
         # Verify no errors occurred
-        assert errors.empty(), f"Errors in concurrent access: {list(errors.queue}"
+        assert errors.empty(), f"Errors in concurrent access: {list(errors.queue)}"
 
         # Verify all operations completed
         assert results.qsize() == 15, "All 15 operations should have completed"

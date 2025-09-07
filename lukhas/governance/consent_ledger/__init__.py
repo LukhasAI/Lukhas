@@ -7,6 +7,7 @@ Minimal, safe consent recording with registry pattern.
 - Real providers can be registered at runtime via feature flags
 """
 import time
+
 import streamlit as st
 
 from .api import record_consent

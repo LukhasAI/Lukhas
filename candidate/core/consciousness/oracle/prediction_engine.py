@@ -1,16 +1,17 @@
 from datetime import datetime, timezone
+
 """
 Prediction Engine for the Consciousness Oracle.
 
 This module forecasts a user's future consciousness states based on
 attention, temporal patterns, and other contextual data.
 """
-import time
-import streamlit as st
-
 import datetime
 import random
+import time
 from typing import Any
+
+import streamlit as st
 
 # Placeholder for ABAS and DAST integration
 # from core.architectures.abas.core import ABASAttentionState

@@ -15,9 +15,9 @@ Core Components:
 """
 from __future__ import annotations
 
-import streamlit as st
-
 import os
+
+import streamlit as st
 
 # Re-export core types
 from lukhas.governance.guardian.core import (

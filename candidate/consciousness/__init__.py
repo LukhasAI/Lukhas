@@ -10,9 +10,9 @@ This module consolidates all consciousness-related components:
 - Stream processors
 - Colony systems
 """
-import streamlit as st
-
 import contextlib
+
+import streamlit as st
 
 # Version info
 __version__ = "2.0.0"
@@ -55,15 +55,15 @@ except ImportError:
     CONSCIOUSNESS_BRANDING_AVAILABLE = False
 
 __all__ = [
-    "ConsciousnessCore",
+    "CONSCIOUSNESS_BRANDING_AVAILABLE",
+    "BrandContext",
     "ConsciousnessAPI",
-    "MemoryConsciousnessBridge",
+    "ConsciousnessCore",
     "CoreConsciousnessBridge",
-    "QIConsciousnessBridge",
     "ExpansionEngine",
+    "MemoryConsciousnessBridge",
+    "QIConsciousnessBridge",
     # Branding integration
     "get_brand_voice",
     "get_trinity_context",
-    "BrandContext",
-    "CONSCIOUSNESS_BRANDING_AVAILABLE",
 ]

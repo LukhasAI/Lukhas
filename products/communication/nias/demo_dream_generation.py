@@ -34,7 +34,7 @@ async def generate_demo_dream():
     print("\n" + "=" * 80)
     print("🌙 NIAS DREAM COMMERCE - LIVE DEMONSTRATION")
     print("=" * 80)
-    print(f"Time: {datetime.now(timezone.utc).strftime('%I:%M %p'}")
+    print(f"Time: {datetime.now(timezone.utc).strftime('%I:%M %p')}")
 
     # Determine current bio-rhythm
     hour = datetime.now(timezone.utc).hour
@@ -126,7 +126,7 @@ async def generate_demo_dream():
         print("=" * 80)
 
         print(f"\n🆔 Dream ID: {dream.dream_id}")
-        print(f"⏰ Created: {dream.created_at.strftime('%I:%M %p'}")
+        print(f"⏰ Created: {dream.created_at.strftime('%I:%M %p')}")
 
         print("\n📖 AI-GENERATED POETIC NARRATIVE:")
         print("-" * 60)
@@ -152,7 +152,7 @@ async def generate_demo_dream():
         for emotion, value in dream.emotional_profile.items():
             if value > 0:
                 bar = "●" * int(value * 10) + "○" * (10 - int(value * 10))
-                print(f"   {emotion.capitalize(}:8s} {bar} {value:.0%}")
+                print(f"   {emotion.capitalize()}:8s} {bar} {value:.0%}")
 
         print("\n🎯 GENTLE INVITATION:")
         print(f"   '{dream.call_to_action['text']}'")
@@ -167,9 +167,9 @@ async def generate_demo_dream():
             print("   ✅ Passed ethical review")
 
         print("\n📊 GENERATION DETAILS:")
-        print(f"   Mood: {dream.generation_metadata.get('mood', 'unknown'}")
-        print(f"   Bio-rhythm: {dream.generation_metadata.get('bio_rhythm', 'unknown'}")
-        print(f"   Models: {dream.generation_metadata.get('models_used', {})}")
+        print(f"   Mood: {dream.generation_metadata.get('mood', 'unknown')}")
+        print(f"   Bio-rhythm: {dream.generation_metadata.get('bio_rhythm', 'unknown')}")
+        print(f"   Models: {dream.generation_metadata.get('models_used', {)})}")
 
         # Save results
         results_file = f"dream_{dream.dream_id}.txt"
@@ -180,7 +180,7 @@ async def generate_demo_dream():
             f.write(f"Generated: {dream.created_at}\n\n")
             f.write(f"NARRATIVE:\n{dream.narrative}\n\n")
             f.write(f"IMAGE URL:\n{dream.image_url or 'Not generated'}\n\n")
-            f.write(f"SYMBOLISM: {', '.join(dream.symbolism}\n")
+            f.write(f"SYMBOLISM: {', '.join(dream.symbolism)}\n")
             f.write(f"ETHICAL SCORE: {dream.ethical_score:.0%}\n")
 
         print(f"\n💾 Dream saved to: {results_file}")

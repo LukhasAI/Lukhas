@@ -304,7 +304,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
     ) -> ExplanationOutput:
         """Generate multi-modal explanation output"""
 
-        explanation_id = f"explanation_{uuid.uuid4(}.hex[:8]}"
+        explanation_id = f"explanation_{uuid.uuid4()}.hex[:8]}"
         output = ExplanationOutput(
             explanation_id=explanation_id,
             request_id=request.request_id,
@@ -353,7 +353,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
         elif request.audience == ExplanationAudience.GENERAL:
             return f"The system decided to {decision} because {reasoning}. We're {confidence:.0%} confident in this decision."
         else:  # REGULATORY
-            return f"Decision Record: {decision}. Justification: {reasoning}. Confidence Score: {confidence:.3f}. Timestamp: {datetime.now(timezone.utc).isoformat(}."
+            return f"Decision Record: {decision}. Justification: {reasoning}. Confidence Score: {confidence:.3f}. Timestamp: {datetime.now(timezone.utc).isoformat()}."
 
     async def _generate_visual_content(
         self,
@@ -364,7 +364,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
         """Generate visual explanation content (chart/diagram specifications)"""
         return {
             "type": "decision_flow_chart",
-            "title": f"Decision Process for {context.get('decision', 'Decision'}",
+            "title": f"Decision Process for {context.get('decision', 'Decision')}",
             "nodes": [
                 {"id": "input", "label": "Input Data", "type": "input"},
                 {"id": "process", "label": "Processing", "type": "process"},
@@ -382,7 +382,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
             ],
             "format": modality_pref.format_options.get("format", "svg"),
             "accessibility": {
-                "alt_text": f"Decision flow showing path from input to {context.get('decision'}",
+                "alt_text": f"Decision flow showing path from input to {context.get('decision')}",
                 "screen_reader_compatible": True,
             },
         }
@@ -797,7 +797,7 @@ class FormalProofGenerator(ExplanationGenerator):
             lines.append(f"{step['step']}. {step['statement']}")
 
         lines.append(f"\n**Therefore:** {proof.conclusion}")
-        lines.append(f"**Confidence:** {proof.validity_score * 100:.1f}%")
+        lines.append(f"**Confidence:** {proof.validity_score  * 100:.1f}%")
 
         return "\n".join(lines)
 
@@ -1049,7 +1049,7 @@ class ExplainabilityInterfaceLayer:
 
             if ethical_assessment.get("recommendations"):
                 recommendations = ethical_assessment["recommendations"]
-                analysis_parts.append(f"Recommendations: {'; '.join(recommendations}")
+                analysis_parts.append(f"Recommendations: {'; '.join(recommendations)}")
 
             return ". ".join(analysis_parts) + "."
 
@@ -1090,7 +1090,7 @@ class ExplainabilityInterfaceLayer:
                 )
 
             return {
-                "trace": f"Symbolic reasoning completed with {len(formatted_steps} steps",
+                "trace": f"Symbolic reasoning completed with {len(formatted_steps)} steps",
                 "steps": formatted_steps,
                 "method": "symbolic_engine",
                 "overall_confidence": trace_result.get("confidence", 0.8),
@@ -1401,7 +1401,7 @@ class ExplainabilityInterfaceLayer:
                 # Return verifiable signature string
                 return f"SRD_V1:{signature_value}:{verification_data['public_key_id']}"
             else:
-                raise Exception(f"SRD signing failed: {srd_signature.get('error', 'Unknown error'}")
+                raise Exception(f"SRD signing failed: {srd_signature.get('error', 'Unknown error')}")
 
         except Exception as e:
             self.logger.error("ΛTRACE_SIGNING_ERROR", error=str(e))
@@ -1411,7 +1411,7 @@ class ExplainabilityInterfaceLayer:
                 import hashlib
                 import time
 
-                fallback_data = f"{explanation.explanation_id}:{explanation.timestamp.isoformat(}:{explanation.natural_language[:100]}"
+                fallback_data = f"{explanation.explanation_id}:{explanation.timestamp.isoformat()}:{explanation.natural_language[:100]}"
                 fallback_hash = hashlib.sha256(fallback_data.encode()).hexdigest()[:16]
                 return f"FALLBACK_SIG_{int(time.time()}_{fallback_hash}"
             except Exception:
@@ -1646,7 +1646,7 @@ class ExplainabilityInterfaceLayer:
         # Extract from reasoning steps
         if "reasoning_steps" in context:
             for i, step in enumerate(context["reasoning_steps"][:3], 2):
-                premises.append(f"P{i}: {step.get('assumption', 'Processing step completed'}")
+                premises.append(f"P{i}: {step.get('assumption', 'Processing step completed')}")
 
         # Extract from constraints
         if "constraints" in context:
@@ -1838,7 +1838,7 @@ class ExplainabilityInterfaceLayer:
             patterns["risk_areas"].append(
                 {
                     "type": "low_compliance",
-                    "description": f"{len(low_compliance_decisions} decisions have compliance scores below 0.6",
+                    "description": f"{len(low_compliance_decisions)} decisions have compliance scores below 0.6",
                     "affected_decisions": low_compliance_decisions[:5],  # Limit for brevity
                     "severity": ("high" if len(low_compliance_decisions) > len(audit_results) * 0.2 else "medium"),
                 }
@@ -1850,7 +1850,7 @@ class ExplainabilityInterfaceLayer:
             patterns["risk_areas"].append(
                 {
                     "type": "unsigned_decisions",
-                    "description": f"{len(unsigned_decisions} decisions are not SRD-signed",
+                    "description": f"{len(unsigned_decisions)} decisions are not SRD-signed",
                     "affected_decisions": unsigned_decisions[:5],
                     "severity": ("medium" if len(unsigned_decisions) < len(audit_results) * 0.1 else "high"),
                 }
@@ -1917,7 +1917,7 @@ class ExplainabilityInterfaceLayer:
                 recommendations.append(
                     {
                         "category": "compliance_improvement",
-                        "recommendation": f"Address {len(risk_area['affected_decisions']} low-compliance decisions",
+                        "recommendation": f"Address {len(risk_area['affected_decisions'])} low-compliance decisions",
                         "priority": risk_area["severity"],
                         "rationale": "Low compliance decisions pose regulatory and operational risks",
                     }

@@ -567,7 +567,7 @@ class DistributedGLYPHColony(BaseColony):
         # Get event publisher
         self.event_publisher = await get_identity_event_publisher()
 
-        logger.info(f"Colony initialized with {len(self.generation_agents} specialized agents")
+        logger.info(f"Colony initialized with {len(self.generation_agents)} specialized agents")
 
     async def generate_identity_glyph(
         self,
@@ -897,7 +897,7 @@ class DistributedGLYPHColony(BaseColony):
     def _generate_quantum_seed(self, lambda_id: str, session_id: Optional[str]) -> bytes:
         """Generate quantum seed for GLYPH generation."""
         # Combine identity and session for uniqueness
-        seed_data = f"{lambda_id}:{session_id or 'default'}:{datetime.now(timezone.utc).isoformat(}"
+        seed_data = f"{lambda_id}:{session_id or 'default'}:{datetime.now(timezone.utc).isoformat()}"
         return hashlib.sha256(seed_data.encode()).digest()
 
     def _extract_consciousness_pattern(self, orb_state: OrbVisualization) -> np.ndarray:

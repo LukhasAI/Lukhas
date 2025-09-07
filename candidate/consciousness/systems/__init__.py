@@ -29,8 +29,8 @@ identity, and learning systems.
 #ΛEXPOSE: Exports key classes like `ConsciousnessIntegrator` and `ConsciousnessState`.
 """
 import time
-import streamlit as st
 
+import streamlit as st
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness")

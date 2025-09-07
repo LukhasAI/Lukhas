@@ -1,7 +1,10 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 
@@ -198,7 +201,7 @@ class FoldLineageTracker:
             metadata = {}
 
         causation_id = hashlib.md5(
-            f"{source_fold_key}_{target_fold_key}_{causation_type.value}_{datetime.now(}".encode()
+            f"{source_fold_key}_{target_fold_key}_{causation_type.value}_{datetime.now()}".encode()
         ).hexdigest()[:12]
 
         causal_link = CausalLink(

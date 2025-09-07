@@ -23,21 +23,21 @@ from .intelligence_engine_registry import (
 )
 
 __all__ = [
-    # Enums
-    "EngineType",
-    "EngineStatus",
-    "RegistryEvent",
     # Data classes
     "EngineCapability",
     "EngineInfo",
-    "RegistryConfig",
-    "QueryFilter",
+    "EngineStatus",
+    # Enums
+    "EngineType",
     # Abstract base classes
     "HealthChecker",
     # Main registry class
     "IntelligenceEngineRegistry",
+    "QueryFilter",
+    "RegistryConfig",
+    "RegistryEvent",
+    "create_capability",
+    "create_engine_info",
     # Factory functions
     "get_global_registry",
-    "create_engine_info",
-    "create_capability",
 ]

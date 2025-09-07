@@ -6,12 +6,12 @@ This module demonstrates how Event Sourcing, Actor System,
 Distributed Tracing, and Efficient Communication work together
 to create a sustainable, energy-efficient AI system.
 """
-import streamlit as st
-
 import asyncio
 import logging
 import uuid
 from typing import Any, Optional
+
+import streamlit as st
 
 # MitochondriaModel is optional - create a simple placeholder if not available
 try:
@@ -166,7 +166,7 @@ async def demo_integrated_system():
 
         await system.create_colony("creative-specialist-001", CreativityColony)
 
-        print(f"\n✅ Created {len(system.colonies} specialized colonies")
+        print(f"\n✅ Created {len(system.colonies)} specialized colonies")
 
         # Execute various distributed tasks
         tasks = [
@@ -190,7 +190,7 @@ async def demo_integrated_system():
             },
         ]
 
-        print(f"\n🎯 Executing {len(tasks} distributed tasks...")
+        print(f"\n🎯 Executing {len(tasks)} distributed tasks...")
 
         results = []
         for i, task in enumerate(tasks, 1):
@@ -212,12 +212,12 @@ async def demo_integrated_system():
 
         for colony_id, colony_stats in final_stats["colonies"].items():
             print(f"\n🤖 Colony: {colony_id}")
-            print(f"  Capabilities: {colony_stats.get('capabilities', []}")
-            print(f"  Is Running: {colony_stats.get('is_running', False}")
+            print(f"  Capabilities: {colony_stats.get('capabilities', [])}")
+            print(f"  Is Running: {colony_stats.get('is_running', False)}")
 
         print("\n🎉 Demo completed successfully!")
         print(f"   Total colonies: {final_stats['colony_count']}")
-        print(f"   Tasks executed: {len(results}")
+        print(f"   Tasks executed: {len(results)}")
         print("   System efficiency: Optimized for sustainability")
 
     finally:

@@ -10,15 +10,14 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from __future__ import annotations
 
-import streamlit as st
-
-
 import logging
 import os
 import uuid
 from collections import defaultdict, deque
 from enum import Enum
 from typing import Any, Callable
+
+import streamlit as st
 
 from lukhas.observability.matriz_decorators import instrument
 

@@ -8,12 +8,12 @@ Combines insights from all brand strategists:
 - Sahil Gandhi: Story-driven emotional resonance
 - Bhavik Sarkhedi: Personal brand authority building
 """
-import time
-import streamlit as st
-
 import asyncio
+import time
 from dataclasses import dataclass
 from enum import Enum
+
+import streamlit as st
 
 
 class VoiceCoherenceLevel(Enum):
@@ -617,7 +617,7 @@ if __name__ == "__main__":
         print(f"  Target Coherence: {report['target_coherence']}%")
         print(f"  Projected Coherence: {report['projected_coherence']}%")
 
-        print(f"\n🚀 Optimization Strategies ({len(optimizer.optimization_strategies}):")
+        print(f"\n🚀 Optimization Strategies ({len(optimizer.optimization_strategies)}):")
         for name, strategy in optimizer.optimization_strategies.items():
             print(f"  {name}: +{strategy.expected_coherence_gain}% improvement")
 

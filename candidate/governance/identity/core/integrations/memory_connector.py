@@ -14,17 +14,16 @@ Features:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger("LUKHAS_MEMORY_CONNECTOR", timezone)
 
@@ -225,7 +224,7 @@ class MemoryConnector:
             # Limit results
             final_memories = sorted_memories[: query.max_results]
 
-            logger.info(f"Retrieved {len(final_memories} memories for {query.lambda_id}")
+            logger.info(f"Retrieved {len(final_memories)} memories for {query.lambda_id}")
 
             return MemoryIntegrationResult(
                 success=True,
@@ -436,7 +435,7 @@ class MemoryConnector:
 
     def _create_memory_record(self, lambda_id: str, memory_data: dict[str, Any]) -> MemoryRecord:
         """Create memory record from data"""
-        memory_id = hashlib.sha256(f"{lambda_id}_{time.time(}".encode()).hexdigest()[:16]
+        memory_id = hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16]
 
         # Create integrity hash
         content_hash = hashlib.sha256(json.dumps(memory_data["content"], sort_keys=True).encode()).hexdigest()

@@ -3,10 +3,10 @@ symbolic_tuner.py
 Fine-tunes symbolic parameters within compliance bounds using user feedback.
 # ΛTAG: feedback
 """
-import streamlit as st
-
 import json
 import os
+
+import streamlit as st
 
 SYMBOLIC_CONFIG_PATH = os.path.join(os.path.dirname(__file__), "../../symbolic_config.json")
 

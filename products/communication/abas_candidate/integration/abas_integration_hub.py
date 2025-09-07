@@ -2,17 +2,16 @@
 ABAS Integration Hub
 Central hub for connecting all ABAS components to TrioOrchestrator and Ethics Engine
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from typing import Any
 
+import streamlit as st
 from analysis_tools.audit_decision_embedding_engine import DecisionAuditEngine
 
 from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from consciousness.qi import qi
 
 # from abas.core.abas_engine import ABASEngine
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
@@ -224,7 +223,7 @@ class ABASIntegrationHub:
     async def arbitrate_conflict(self, conflict_data: dict[str, Any]) -> dict[str, Any]:
         """Arbitrate conflict with ethics integration and fairness assessment"""
         # Log arbitration request
-        arbitration_id = f"arb_{len(self.arbitration_history}"
+        arbitration_id = f"arb_{len(self.arbitration_history)}"
         self.arbitration_history.append(
             {
                 "id": arbitration_id,

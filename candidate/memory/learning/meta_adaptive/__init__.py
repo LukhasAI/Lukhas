@@ -1,4 +1,5 @@
 import streamlit as st
+
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
 # MODULE: learning.meta_adaptive
@@ -17,7 +18,7 @@ import streamlit as st
 """AI meta_adaptive module"""
 # ΛNOTE: This __init__.py file marks the directory as a Python package.
 # It can also be used to control what symbols are exported when the package is imported,
-# or to execute package-level initialization code. Currently, it's minimal.
+# or to execute package-level initialization code. Currently, it's minimal.'
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

@@ -7,13 +7,11 @@ LUKHAS Core - Main AGI System Entry Point
 The central orchestrator for the LUKHAS AI system, coordinating all modules
 and managing the flow of consciousness through the system.
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
-from typing import Any
+from datetime import datetime, timezone
+from typing import Any, Dict
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +67,7 @@ class LukhasCore:
 
         # Process through consciousness pipeline
         response = {
-            "content": f"Processing: {input_data.get('input', 'No input'}",
+            "content": f"Processing: {input_data.get('input', 'No input')}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": self.state["consciousness_level"],
             "emotional_state": self.state["emotional_state"],

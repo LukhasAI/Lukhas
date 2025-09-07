@@ -4,16 +4,14 @@ LUKHΛS Memory Fold Tracker
 Detects symbolic patterns, recursions, and stability opportunities
 Trinity Framework: ⚛️🧠🛡️
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import json
 import logging
+import time
 from collections import Counter
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 import numpy as np
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

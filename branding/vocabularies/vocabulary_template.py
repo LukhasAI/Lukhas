@@ -1,4 +1,5 @@
 from typing import Optional
+
 """
 LUKHAS [MODULE_NAME] Vocabulary Template
 ========================================
@@ -90,7 +91,7 @@ def get_guardian_weight(operation: str) -> float:
 # Usage examples
 if __name__ == "__main__":
     # Example 1: Basic symbol lookup
-    print(f"Starting: {get_symbol('initialize'}")
+    print(f"Starting: {get_symbol('initialize')}")
 
     # Example 2: Guardian weight check
     if get_guardian_weight("error") > 0.5:

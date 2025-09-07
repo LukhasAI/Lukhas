@@ -5,14 +5,15 @@ GLYPH Seal Verifier CLI
 
 Offline-first verification of GLYPH seals.
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import argparse
 import json
 import sys
+from datetime import timezone
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 def fetch_cached_jwks(issuer: str) -> Optional[dict[str, Any]]:

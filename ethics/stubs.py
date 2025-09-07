@@ -44,7 +44,7 @@ class MEGPolicyBridge:
         self._use_real_guardian = self._try_load_guardian()
 
         if not self._use_real_guardian:
-            warnings.warn("Using MEGPolicyBridge stub - Guardian not available", UserWarning)
+            warnings.warn("Using MEGPolicyBridge stub - Guardian not available", UserWarning, stacklevel=2)
 
     def _try_load_guardian(self) -> bool:
         """Try to load real Guardian system"""
@@ -74,7 +74,7 @@ class MEGPolicyBridge:
                     metadata=result,
                 )
             except Exception as e:
-                warnings.warn(f"Guardian evaluation failed: {e}, falling back to stub")
+                warnings.warn(f"Guardian evaluation failed: {e}, falling back to stub", stacklevel=2)
 
         # Fallback stub implementation
         return Decision(
@@ -98,7 +98,7 @@ class EthicsEngine:
         self._use_real_guardian = self._try_load_guardian()
 
         if not self._use_real_guardian:
-            warnings.warn("Using EthicsEngine stub - Guardian not available", UserWarning)
+            warnings.warn("Using EthicsEngine stub - Guardian not available", UserWarning, stacklevel=2)
 
     def _try_load_guardian(self) -> bool:
         """Try to load real Guardian system"""
@@ -127,7 +127,7 @@ class EthicsEngine:
                     metadata=result,
                 )
             except Exception as e:
-                warnings.warn(f"Guardian ethics evaluation failed: {e}, falling back to stub")
+                warnings.warn(f"Guardian ethics evaluation failed: {e}, falling back to stub", stacklevel=2)
 
         # Fallback stub logic
         if "harmful" in action.lower() or "malicious" in action.lower():

@@ -50,7 +50,7 @@ class MultiAIConsensus:
 
     async def get_consensus(self, tool_name: str, arguments: dict[str, Any], execution_result: str) -> dict[str, Any]:
         """Get consensus from multiple AI services on tool execution"""
-        cache_key = f"{tool_name}_{hash(str(arguments))}_{hash(execution_result[:100]}"
+        cache_key = f"{tool_name}_{hash(str(arguments))}_{hash(execution_result[:100])}"
 
         if cache_key in self.consensus_cache:
             return self.consensus_cache[cache_key]
@@ -287,7 +287,7 @@ class ToolOrchestrator:
         multi-AI consensus, and performance monitoring.
         """
         execution_start = time.time()
-        execution_id = f"{tool_name}_{int(execution_start * 1000000}"
+        execution_id = f"{tool_name}_{int(execution_start * 1000000)}"
 
         self.execution_metrics["total_executions"] += 1
 

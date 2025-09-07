@@ -2,17 +2,17 @@
 Feature Flags System for LUKHAS
 Minimal implementation to satisfy tests and control feature rollout
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import functools
 import os
+import time
 import warnings
 from pathlib import Path
 from typing import Callable
 
+import streamlit as st
 import yaml
+
+from consciousness.qi import qi
 
 
 class FeatureFlags:
@@ -55,7 +55,7 @@ class FeatureFlags:
                     if yaml_flags and isinstance(yaml_flags, dict):
                         self._flags.update(yaml_flags)
             except Exception as e:
-                warnings.warn(f"Failed to load flags from YAML: {e}")
+                warnings.warn(f"Failed to load flags from YAML: {e}", stacklevel=2)
 
     def get(self, name: str, default: bool = False) -> bool:
         """Get flag value with optional default"""
@@ -104,7 +104,7 @@ def require_feature(name: str) -> None:
     """
     if not _flags.get(name):
         raise RuntimeError(
-            f"Feature '{name}' is not enabled. Enable with LUKHAS_FLAG_{name.upper(}=true or in lukhas_flags.yaml"
+            f"Feature '{name}' is not enabled. Enable with LUKHAS_FLAG_{name.upper()}=true or in lukhas_flags.yaml"
         )
 
 
@@ -133,7 +133,7 @@ def when_enabled(name: str) -> Callable:
                     # For regular functions, return None with warning
                     warnings.warn(
                         f"Skipping {func.__name__}: feature '{name}' is disabled",
-                        category=UserWarning,
+                        stacklevel=2, category=UserWarning,
                     )
                     return None
             return func(*args, **kwargs)

@@ -11,13 +11,13 @@ Comprehensive test runner for Wave C6 components:
 Validates consciousness system robustness, ethical compliance, and
 Constellation Framework principles under various test conditions.
 """
-import streamlit as st
-
 import subprocess
 import sys
 import time
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 
 class WaveCTestRunner:
@@ -327,11 +327,11 @@ class WaveCTestRunner:
 
             if len(failed_tests) == 0:
                 validation_result["status"] = "passed"
-                print(f"✅ Simple validation passed: {len(passed_tests)}/{len(validation_result['tests']} tests")
+                print(f"✅ Simple validation passed: {len(passed_tests)}/{len(validation_result['tests'])} tests")
             else:
                 validation_result["status"] = "partial"
                 print(
-                    f"⚠️  Simple validation partial: {len(passed_tests)}/{len(validation_result['tests']} tests passed"
+                    f"⚠️  Simple validation partial: {len(passed_tests)}/{len(validation_result['tests'])} tests passed"
                 )
 
         except Exception as e:

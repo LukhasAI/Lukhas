@@ -41,14 +41,13 @@ import logging
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import random
-import streamlit as st
-
 import json
+import random
 from collections import deque
 from typing import Any
 
 import numpy as np
+import streamlit as st
 
 
 class MemoryDriftMirror:

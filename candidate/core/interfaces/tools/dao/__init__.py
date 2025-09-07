@@ -15,6 +15,7 @@ It is intended to house tools related to DAO (Decentralized Autonomous Organizat
 interactions or governance within the Lukhas system.
 """
 import logging
+
 import streamlit as st
 
 # AIMPORTS_START

@@ -15,8 +15,9 @@
    - Outputs ready-to-paste docstring templates
 ─────────────────────────────────────────────────────────────────────
 """
-from consciousness.qi import qi
 import streamlit as st
+
+from consciousness.qi import qi
 
 # ==============================================================================
 # 🔍 USAGE GUIDE (for gen_module_header.py)

@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 """
 Advanced AI Components Integration for LUKHAS AI
 
@@ -10,14 +11,12 @@ This module integrates the critical missing AI components identified by elite AI
 
 Based on implementations from the Lukhas GitHub repository.
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import datetime
 import logging
-from typing import Optional
+import time
+from typing import Dict, List, Optional
+
+import streamlit as st
 
 from .memory.enhanced_memory_manager import (
     EnhancedMemoryManager,
@@ -260,7 +259,7 @@ class AdvancedAGIController:
         counterfactual_results = self.causal_reasoning.analyze_counterfactuals(scenario)
 
         # Store analysis in memory for future reference
-        analysis_key = f"counterfactual_{datetime.datetime.now(timezone.utc).timestamp(}"
+        analysis_key = f"counterfactual_{datetime.datetime.now(timezone.utc).timestamp()}"
         self.memory_manager.store(
             key=analysis_key,
             data=counterfactual_results,

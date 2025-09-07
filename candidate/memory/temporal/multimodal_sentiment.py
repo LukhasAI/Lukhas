@@ -26,11 +26,10 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import time
-import streamlit as st
-
 from typing import Optional
 
 import numpy as np
+import streamlit as st
 
 # Dummy imports for illustration; replace with actual model imports
 # from emotion.text_sentiment import analyze_text_sentiment

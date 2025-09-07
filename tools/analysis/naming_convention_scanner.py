@@ -216,13 +216,13 @@ class NamingConventionScanner:
         recommendations = []
 
         if self.violations["files"]:
-            recommendations.append(f"Rename {len(self.violations['files']} files to snake_case format")
+            recommendations.append(f"Rename {len(self.violations['files'])} files to snake_case format")
 
         if self.violations["classes"]:
-            recommendations.append(f"Update {len(self.violations['classes']} class names to PascalCase")
+            recommendations.append(f"Update {len(self.violations['classes'])} class names to PascalCase")
 
         if self.violations["functions"]:
-            recommendations.append(f"Convert {len(self.violations['functions']} function names to snake_case")
+            recommendations.append(f"Convert {len(self.violations['functions'])} function names to snake_case")
 
         recommendations.append("Use the safe_rename.py tool to automatically fix naming violations")
 

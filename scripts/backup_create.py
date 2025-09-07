@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import Optional
 import argparse
 import contextlib
 import fnmatch
@@ -10,6 +9,7 @@ import pathlib
 import sys
 import tarfile
 from datetime import datetime
+from typing import Optional
 
 
 def sha256_file(p: str) -> str:

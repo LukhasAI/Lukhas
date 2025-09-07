@@ -648,7 +648,7 @@ class QIBiologicalAGI:
             logger.error(f"❌ Error in qi-biological processing: {e}")
 
             return QIBioResponse(
-                content=f"QI-biological processing error: {str(e}",
+                content=f"QI-biological processing error: {str(e)}",
                 bio_confidence=0.1,
                 qi_coherence=0.0,
                 atp_efficiency=0.0,
@@ -855,7 +855,7 @@ async def main():
 
     # Display initial status
     initial_status = qi_bio_agi.get_biological_status()
-    logger.info(f"📊 Initial Status: {json.dumps(initial_status, indent=2}")
+    logger.info(f"📊 Initial Status: {json.dumps(initial_status, indent=2)}")
 
     # Test scenarios for qi-biological processing
     test_scenarios = [
@@ -891,10 +891,10 @@ async def main():
 
     # Final status
     final_status = qi_bio_agi.get_biological_status()
-    logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2}")
+    logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2)}")
 
     # Save results
-    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     with open(results_file, 'w') as f:
         json.dump({
             'initial_status': initial_status,

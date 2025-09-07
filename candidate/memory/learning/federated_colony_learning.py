@@ -2,13 +2,13 @@ import asyncio
 from typing import Any
 
 import numpy as np
+import streamlit as st
 import torch
 import torch.nn as nn
 from learning.meta_adaptive import MetaLearner
 
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.swarm import SwarmAgent
-import streamlit as st
 
 
 class LearningAgent(SwarmAgent):

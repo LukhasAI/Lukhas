@@ -2,18 +2,18 @@
 """
 Simple module enhancer - creates proper structure for all modules
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 def enhance_module(module_name, description):
     """Enhance a single module with proper structure"""
-    print(f"\n🔧 Enhancing {module_name.upper(} module...")
+    print(f"\n🔧 Enhancing {module_name.upper()} module...")
 
     # Create directories
     dirs = [

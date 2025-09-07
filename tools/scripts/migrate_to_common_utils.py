@@ -3,10 +3,10 @@
 Migration script to update imports to use common utilities
 """
 import logging
-import streamlit as st
-
 import re
 from pathlib import Path
+
+import streamlit as st
 
 
 def update_imports_in_file(file_path: Path):
@@ -63,7 +63,7 @@ def main():
         if update_imports_in_file(py_file):
             updated_files.append(py_file)
 
-    print(f"Updated {len(updated_files} files")
+    print(f"Updated {len(updated_files)} files")
 
 
 if __name__ == "__main__":

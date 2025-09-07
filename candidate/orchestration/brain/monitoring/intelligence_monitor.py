@@ -887,8 +887,8 @@ if __name__ == "__main__":
         health_summary = monitor.get_system_health_summary()
 
         print("📊 Monitoring Results:")
-        print(f"Real-time metrics: {len(real_time} metrics")
-        print(f"Agent metrics: {len(agent_metrics} metrics")
+        print(f"Real-time metrics: {len(real_time)} metrics")
+        print(f"Agent metrics: {len(agent_metrics)} metrics")
         print(f"Trinity compliance: {trinity_summary}")
         print(f"System health: {health_summary}")
         print(f"Active alerts: {len(monitor.get_active_alerts()}")

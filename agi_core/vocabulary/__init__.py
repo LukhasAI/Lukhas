@@ -33,21 +33,21 @@ from .agi_vocabulary_bridge import (
 )
 
 __all__ = [
+    "AGI_INTEGRATION_SYMBOLS",
+    "AGI_LEARNING_SYMBOLS",
+    "AGI_MEMORY_SYMBOLS",
+    "AGI_MESSAGES",
+    "AGI_REASONING_SYMBOLS",
+    "AGI_SAFETY_SYMBOLS",
+    # Symbol dictionaries
+    "AGI_VOCABULARY",
     # Main bridge class
     "AGIVocabularyBridge",
     "agi_bridge",
-    # Symbol dictionaries
-    "AGI_VOCABULARY",
-    "AGI_REASONING_SYMBOLS",
-    "AGI_MEMORY_SYMBOLS",
-    "AGI_SAFETY_SYMBOLS",
-    "AGI_LEARNING_SYMBOLS",
-    "AGI_INTEGRATION_SYMBOLS",
-    "AGI_MESSAGES",
+    "format_agi_message",
     # Convenience functions
     "get_agi_symbol",
-    "format_agi_message",
     "get_vocabulary_context",
-    "translate_agi_to_dream",
     "translate_agi_to_bio",
+    "translate_agi_to_dream",
 ]

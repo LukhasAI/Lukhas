@@ -6,12 +6,12 @@ minimal and compatibility-focused: callers get a stable `lid` namespace with
 `normalize` and `is_valid` helpers. Heavy transformations will be performed by
 the AST/CST codemod later; this runtime helper keeps existing code working.
 """
-import time
-import streamlit as st
-
 from __future__ import annotations
 
+import time
 from typing import Any
+
+import streamlit as st
 
 
 def normalize_lid(value: str) -> str:

@@ -3,12 +3,11 @@ SystemKnowledgeGraph: The core knowledge representation system for DocuTutor.
 Represents system knowledge as a graph of interconnected nodes representing
 code elements, documentation, and concepts.
 """
-import streamlit as st
-
 import logging
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)

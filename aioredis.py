@@ -6,32 +6,32 @@ Provides basic aioredis compatibility for LUKHAS modules when aioredis is not av
 
 class MockRedis:
     """Mock Redis client for development/testing"""
-    
+
     def __init__(self, *args, **kwargs):
         self.data = {}
-        
+
     async def get(self, key):
         """Mock get operation"""
         return self.data.get(key)
-        
+
     async def set(self, key, value, ex=None):
         """Mock set operation"""
         self.data[key] = value
         return True
-        
+
     async def delete(self, key):
         """Mock delete operation"""
         if key in self.data:
             del self.data[key]
             return 1
         return 0
-        
+
     async def close(self):
         """Mock close operation"""
         pass
-        
+
     async def wait_closed(self):
-        """Mock wait_closed operation"""  
+        """Mock wait_closed operation"""
         pass
 
 # Mock the main aioredis functions

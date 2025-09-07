@@ -194,7 +194,7 @@ class BioSymbolicΛBot:
             },
         }
 
-        logger.info(f"🧬 Initialized {len(self.pattern_library} bio-symbolic patterns")
+        logger.info(f"🧬 Initialized {len(self.pattern_library)} bio-symbolic patterns")
 
     def _initialize_biological_analogies(self):
         """Initialize biological system analogies for code architecture"""
@@ -246,7 +246,7 @@ class BioSymbolicΛBot:
             },
         }
 
-        logger.info(f"🦠 Initialized {len(self.biological_analogies} biological analogies")
+        logger.info(f"🦠 Initialized {len(self.biological_analogies)} biological analogies")
 
     async def start_bio_symbolic_analysis(self, target_path: str) -> SymbolicAnalysisSession:
         """Start bio-symbolic analysis session"""
@@ -297,7 +297,7 @@ class BioSymbolicΛBot:
             # Store patterns in session
             self.current_session.patterns_discovered = patterns
 
-            logger.info(f"✅ Discovered {len(patterns} bio-symbolic patterns")
+            logger.info(f"✅ Discovered {len(patterns)} bio-symbolic patterns")
             return patterns
 
         except Exception as e:
@@ -599,7 +599,7 @@ class BioSymbolicΛBot:
 
         strategy["implementation_phases"] = implementation_phases
 
-        logger.info(f"🧬 Bio-inspired strategy generated with {len(implementation_phases} phases")
+        logger.info(f"🧬 Bio-inspired strategy generated with {len(implementation_phases)} phases")
         return strategy
 
     async def get_bio_symbolic_insights(self) -> dict[str, Any]:
@@ -674,7 +674,7 @@ async def main():
 
     print("\n🧬 Bio-Strategy Generated!")
     print(f"   Framework: {strategy['biological_framework']}")
-    print(f"   Phases: {len(strategy['implementation_phases']}")
+    print(f"   Phases: {len(strategy['implementation_phases'])}")
 
     # Get insights
     insights = await bio_bot.get_bio_symbolic_insights()

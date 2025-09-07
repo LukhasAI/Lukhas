@@ -24,12 +24,12 @@
 ║ Symbolic Tags: {ΛINTEGRATION}, {ΛCOLLAPSE}, {ΛSAFETY}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from typing import Any
+
+import streamlit as st
 
 try:
     import structlog

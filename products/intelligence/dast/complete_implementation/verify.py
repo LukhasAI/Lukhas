@@ -3,10 +3,10 @@
 LUCAS DAST Module Verification
 Quick verification that all modules can be imported and initialized
 """
-import streamlit as st
-
 import os
 import sys
+
+import streamlit as st
 
 # Add current directory to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -31,7 +31,7 @@ def test_module_imports():
         except Exception as e:
             print(f"⚠️  Error importing {module_name}.py: {e}")
 
-    print(f"\n📊 Import Results: {success_count}/{len(modules_to_test} modules imported successfully")
+    print(f"\n📊 Import Results: {success_count}/{len(modules_to_test)} modules imported successfully")
     return success_count == len(modules_to_test)
 
 

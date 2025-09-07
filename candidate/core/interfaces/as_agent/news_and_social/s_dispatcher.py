@@ -4,9 +4,6 @@ Original: lukhas_news_dispatcher.py
 Advanced: lukhas_news_dispatcher.py
 Integration Date: 2025-05-31T07:55:30.492297
 """
-import streamlit as st
-from datetime import timezone
-
 import argparse
 import json
 import os
@@ -14,9 +11,10 @@ import os
 # TODO: Replace this hack with proper Python packaging imports once
 # structure is finalized
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
+import streamlit as st
 from modules.voice.lukhas_voice_agent import speak
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
@@ -83,4 +81,4 @@ if __name__ == "__main__":
                 os.system("python3 narration/post_agent.py")
             update_dispatch_log(published)
         rewrite_queue(posts)
-        print(f"\n✅ {len(posts} symbolic cognition(s) dispatched to LUKHAS news queue.")
+        print(f"\n✅ {len(posts)} symbolic cognition(s) dispatched to LUKHAS news queue.")

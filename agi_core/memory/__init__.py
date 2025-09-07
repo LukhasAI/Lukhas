@@ -12,17 +12,17 @@ from .semantic_memory import SemanticMemoryGraph, SemanticNode, SemanticRelation
 from .vector_memory import MemoryVector, VectorMemoryStore, VectorSearchResult
 
 __all__ = [
-    "VectorMemoryStore",
-    "MemoryVector",
-    "VectorSearchResult",
-    "MemoryConsolidator",
     "ConsolidationStrategy",
     "DreamMemoryBridge",
     "DreamMemoryPattern",
-    "EpisodicMemorySystem",
     "Episode",
+    "EpisodicMemorySystem",
     "EpisodicQuery",
+    "MemoryConsolidator",
+    "MemoryVector",
     "SemanticMemoryGraph",
     "SemanticNode",
     "SemanticRelation",
+    "VectorMemoryStore",
+    "VectorSearchResult",
 ]

@@ -7,8 +7,6 @@ through hormone-like signals without tight coupling.
 
 This implements the "AI endocrine system" concept from the GPT5 audit.
 """
-import streamlit as st
-
 import asyncio
 import contextlib
 import logging
@@ -17,6 +15,8 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -174,7 +174,7 @@ class SignalBus:
                     self.active_signals.discard(signal)
 
                 if expired:
-                    logger.debug(f"Cleaned up {len(expired} expired signals")
+                    logger.debug(f"Cleaned up {len(expired)} expired signals")
 
                 await asyncio.sleep(1)  # Cleanup every second
 

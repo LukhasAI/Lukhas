@@ -12,10 +12,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # VIVOX imports
-from ..memory_expansion.vivox_me_core import (
-    EmotionalDNA,
-    MemoryHelixEntry,
-    VIVOXMemoryExpansion)
+from ..memory_expansion.vivox_me_core import EmotionalDNA, MemoryHelixEntry, VIVOXMemoryExpansion
 
 
 @dataclass
@@ -83,7 +80,7 @@ class HelixMemoryAdapter:
 
         # Create helix entry
         entry = MemoryHelixEntry(
-            sequence_id=f"imported_{lukhas_memory.get('id', 'unknown'}",
+            sequence_id=f"imported_{lukhas_memory.get('id', 'unknown')}",
             decision_data=decision_data,
             emotional_dna=emotional_dna,
             moral_hash=moral_hash,

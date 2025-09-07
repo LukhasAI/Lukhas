@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
@@ -20,11 +22,11 @@ logger.info("ΛTRACE: Initializing core.integration.meta_cognitive package.")
 
 # Define what is explicitly exported by this package
 __all__ = [
-    # e.g., "MetaCognitiveController" from meta_cognitive.py
+# e.g., "MetaCognitiveController" from meta_cognitive.py
 ]
 
 # ΛNOTE: This __init__.py initializes the 'meta_cognitive' integration package.
-# Modules herein should facilitate the AGI's ability to monitor, understand,
+# Modules herein should facilitate the AGI's ability to monitor, understand,'
 # and regulate its own cognitive processes.
 
 logger.info("ΛTRACE: core.integration.meta_cognitive package initialized.", exports=__all__)

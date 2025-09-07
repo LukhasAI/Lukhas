@@ -3,18 +3,16 @@
 Guardian Audit Export Generator - Exports comprehensive audit data from sentinel.py
 Generates JSON, CSV, and GraphQL-ready formats for external analysis
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import csv
 import hashlib
 import json
 import logging
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
+
+import streamlit as st
 
 # Add parent directories to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -62,7 +60,7 @@ class GuardianAuditExporter:
         export_files["summary"] = str(summary_file)
 
         logger.info("📊 Full audit export completed")
-        logger.info(f"   Files generated: {len(export_files}")
+        logger.info(f"   Files generated: {len(export_files)}")
 
         return export_files
 
@@ -422,7 +420,7 @@ query EmergencyLockdowns {
 ## 📊 Executive Summary
 
 - **Total Interventions**: {metrics["total_interventions"]}
-- **Success Rate**: {metrics["successful_interventions"]}/{metrics["total_interventions"]} ({metrics["successful_interventions"] / metrics["total_interventions"] * 100:.1f}%)
+- **Success Rate**: {metrics["successful_interventions"]}/{metrics["total_interventions"]} ({metrics["successful_interventions"] / metrics["total_interventions"]  * 100:.1f}%)
 - **Average Severity**: {metrics["average_severity"]:.3f}
 - **Average Stabilization Time**: {metrics["average_stabilization_time"]:.1f} seconds
 
@@ -431,7 +429,7 @@ query EmergencyLockdowns {
 """
 
         for threat_type, count in metrics["threat_type_distribution"].items():
-            report += f"- **{threat_type.replace('_', ' ').title(}**: {count} events\n"
+            report += f"- **{threat_type.replace('_', ' ').title()}**: {count} events\n"
 
         report += """
 ## 🧬 Symbolic Intervention Patterns
@@ -439,7 +437,7 @@ query EmergencyLockdowns {
 """
 
         for pattern, description in audit_data["symbolic_mappings"].items():
-            report += f"- **{pattern.replace('_', ' ').title(}**: `{description}`\n"
+            report += f"- **{pattern.replace('_', ' ').title()}**: `{description}`\n"
 
         report += """
 ## 📋 Recent Interventions
@@ -507,7 +505,7 @@ def main():
 
     print("\n📊 Export Complete:")
     for format_type, file_path in export_files.items():
-        print(f"   {format_type.upper(}: {file_path}")
+        print(f"   {format_type.upper()}: {file_path}")
 
     print("\n✅ Guardian audit data exported successfully")
     print("🔍 Use these files for compliance reporting and system analysis")

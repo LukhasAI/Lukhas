@@ -1,7 +1,8 @@
 import logging
+from typing import Dict, List
+
 import streamlit as st
-from typing import Dict
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
@@ -108,7 +109,7 @@ class VoiceSafetyGuard:
             },
         ]
 
-        logger.info(f"Voice Safety Guard initialized with {len(self.ethical_constraints} ethical constraints")
+        logger.info(f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints")
 
     def validate_response(self, response: str, context: Optional[dict[str, Any]] = None) -> str:
         """

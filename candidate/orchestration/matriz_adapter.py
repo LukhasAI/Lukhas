@@ -27,7 +27,7 @@ class OrchestrationMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-ORCH-{uuid.uuid4(}.hex[:8]}",
+            "id": f"LT-ORCH-{uuid.uuid4()}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.9),
@@ -77,7 +77,7 @@ class OrchestrationMatrizAdapter:
             labels=[
                 f"brain:{decision_id}",
                 f"type:{decision_type}",
-                f"components:{len(components_involved}",
+                f"components:{len(components_involved)}",
                 "orchestration:brain",
             ]
             + [f"component:{c}" for c in components_involved[:3]],
@@ -128,7 +128,7 @@ class OrchestrationMatrizAdapter:
             labels=[
                 f"route:{route_id}",
                 f"event:{event_type}",
-                f"hops:{len(route_path}",
+                f"hops:{len(route_path)}",
                 "status:success" if success else "status:failed",
                 "orchestration:route",
             ],

@@ -4,18 +4,16 @@ Original: lukhas_unified_self.py
 Advanced: lukhas_unified_self.py
 Integration Date: 2025-05-31T07:55:28.114622
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import os
 
 # Synthesize distributed symbolic identity into a unified self-state
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import openai
+import streamlit as st
 from system_reflection_gpt import generate_gpt_reflection
 
 from candidate.orchestration.brain.spine.trait_manager import load_traits

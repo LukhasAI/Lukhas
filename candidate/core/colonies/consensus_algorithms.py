@@ -448,7 +448,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 child_genome = parent1.genome[:crossover_point] + parent2.genome[crossover_point:]
 
                 child = GeneticVote(
-                    agent_id=f"genetic_{len(new_population}",
+                    agent_id=f"genetic_{len(new_population)}",
                     genome=child_genome,
                     generation=generation + 1,
                 )
@@ -783,7 +783,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         stage_outcomes = []
 
         for i, method in enumerate(stages):
-            logger.info(f"Running consensus stage {i + 1}/{len(stages}: {method.value}")
+            logger.info(f"Running consensus stage {i + 1}/{len(stages)}: {method.value}")
 
             # Set proposal method
             proposal.method = method
@@ -875,7 +875,7 @@ async def demo_advanced_consensus():
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Confidence: {outcome.confidence:.3f}")
-    print(f"   Entanglement clusters: {outcome.metadata.get('qi_entanglement_clusters', 0}")
+    print(f"   Entanglement clusters: {outcome.metadata.get('qi_entanglement_clusters', 0)}")
 
     # Clean up
     del consensus.active_proposals[proposal_id]
@@ -897,7 +897,7 @@ async def demo_advanced_consensus():
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Confidence: {outcome.confidence:.3f}")
-    print(f"   Swarm convergence: {outcome.metadata.get('swarm_convergence_score', 0}:.3f}")
+    print(f"   Swarm convergence: {outcome.metadata.get('swarm_convergence_score', 0)}:.3f}")
 
     # Clean up
     del consensus.active_proposals[proposal_id]
@@ -918,7 +918,7 @@ async def demo_advanced_consensus():
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Fitness: {outcome.confidence:.3f}")
-    print(f"   Generations: {outcome.metadata.get('evolution_generations', 0}")
+    print(f"   Generations: {outcome.metadata.get('evolution_generations', 0)}")
 
     # 4. Liquid Democracy
     print("\n4️⃣ Liquid Democracy Consensus:")
@@ -944,7 +944,7 @@ async def demo_advanced_consensus():
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Confidence: {outcome.confidence:.3f}")
-    print(f"   Delegation power: {outcome.metadata.get('total_delegation_power', 0}:.2f}")
+    print(f"   Delegation power: {outcome.metadata.get('total_delegation_power', 0)}:.2f}")
 
     # 5. Multi-Stage Pipeline
     print("\n5️⃣ Multi-Stage Consensus Pipeline:")
@@ -966,7 +966,7 @@ async def demo_advanced_consensus():
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Final confidence: {outcome.confidence:.3f}")
-    print(f"   Stage confidences: {outcome.metadata.get('stage_confidences', []}")
+    print(f"   Stage confidences: {outcome.metadata.get('stage_confidences', [])}")
 
     # Learn from outcomes
     consensus.learn_from_outcome(outcome)

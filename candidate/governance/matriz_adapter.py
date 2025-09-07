@@ -27,7 +27,7 @@ class GovernanceMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-GOV-{uuid.uuid4(}.hex[:8]}",
+            "id": f"LT-GOV-{uuid.uuid4()}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.95),

@@ -5,14 +5,14 @@ GLYPH Engine for Universal Language
 Consolidates GLYPH token processing from /core/glyph/glyphs.py
 and various symbolic implementations.
 """
-import time
-import streamlit as st
-
 import hashlib
 import logging
+import time
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -186,7 +186,7 @@ class GLYPHEngine:
         self.glyph_map = GLYPH_MAP.copy()
         self.custom_glyphs: dict[str, str] = {}
         self.glyph_cache: dict[str, GLYPHToken] = {}
-        logger.info(f"GLYPH Engine initialized with {len(self.glyph_map} core glyphs")
+        logger.info(f"GLYPH Engine initialized with {len(self.glyph_map)} core glyphs")
 
     def register_custom_glyph(self, glyph: str, meaning: str) -> bool:
         """Register a custom GLYPH mapping"""
@@ -320,7 +320,7 @@ class GLYPHEngine:
                 for glyph, meaning in glyph_data["custom_glyphs"].items():
                     self.register_custom_glyph(glyph, meaning)
 
-            logger.info(f"Imported GLYPH map with {len(self.custom_glyphs} custom glyphs")
+            logger.info(f"Imported GLYPH map with {len(self.custom_glyphs)} custom glyphs")
             return True
         except Exception as e:
             logger.error(f"Failed to import GLYPH map: {e}")

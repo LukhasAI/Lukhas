@@ -93,11 +93,11 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
-from typing import List
-from typing import Dict
 import random
-import streamlit as st
 from datetime import timezone
+from typing import Dict, List
+
+import streamlit as st
 
 __module_name__ = "Memory Fold Architecture"
 __version__ = "2.0.0"
@@ -757,7 +757,7 @@ class MemoryFoldSystem:
         for category in ["primary", "secondary"]:
             for emotion, vector in self.config["emotion_vectors"].get(category, {}).items():
                 self.emotion_vectors[emotion] = np.array(vector)
-        logger.info(f"Loaded {len(self.emotion_vectors} emotion vectors")
+        logger.info(f"Loaded {len(self.emotion_vectors)} emotion vectors")
 
         # Initialize database
         storage_config = self.config.get("storage", {})
@@ -904,7 +904,7 @@ class MemoryFoldSystem:
         # Sort by relevance
         processed_folds.sort(key=lambda x: x.get("relevance_score", 0), reverse=True)
 
-        logger.info(f"Recalled {len(processed_folds} memory folds")
+        logger.info(f"Recalled {len(processed_folds)} memory folds")
         return processed_folds
 
     def enhanced_recall_memory_folds(
@@ -1001,7 +1001,7 @@ class MemoryFoldSystem:
         if max_results:
             enhanced_folds = enhanced_folds[:max_results]
 
-        logger.info(f"Enhanced recall returned {len(enhanced_folds} folds")
+        logger.info(f"Enhanced recall returned {len(enhanced_folds)} folds")
         return enhanced_folds
 
     def calculate_emotion_distance(self, emotion1: str, emotion2: str) -> float:
@@ -1170,7 +1170,7 @@ class MemoryFoldSystem:
 
                 consolidated_fold = self.create_memory_fold(
                     emotion=base_emotion,
-                    context_snippet=f"Consolidated insight: {', '.join(themes[:3]}",
+                    context_snippet=f"Consolidated insight: {', '.join(themes[:3])}",
                     user_id=user_id,
                     metadata={
                         "type": "consolidated",

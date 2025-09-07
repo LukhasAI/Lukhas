@@ -2,17 +2,14 @@
 Consent Filter for NIΛS System
 Handles user consent verification and privacy protection
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -193,7 +190,7 @@ class ConsentFilter:
         """
         try:
             consent_request = {
-                "request_id": f"consent_req_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+                "request_id": f"consent_req_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 "user_id": user_id,
                 "tier": tier,
                 "requested_at": datetime.now(timezone.utc).isoformat(),
@@ -301,7 +298,7 @@ class ConsentFilter:
             await self._save_user_consent_data(user_id)
 
             logger.info(
-                f"Processed consent for {user_id}: granted={len(granted_consents)}, denied={len(denied_consents}"
+                f"Processed consent for {user_id}: granted={len(granted_consents)}, denied={len(denied_consents)}"
             )
 
             return {

@@ -10,15 +10,13 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
 from collections import deque
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 from bio.core.symbolic_fallback_systems import get_fallback_manager
 from candidate.core.colonies.base_colony import BaseColony

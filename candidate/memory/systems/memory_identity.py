@@ -2,17 +2,13 @@
 Memory-Identity Integration Module
 Provides integration between memory system and Lukhas_ID for identity-based access control
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
+import streamlit as st
 from cryptography.fernet import Fernet
 
 from .lukhas_id import AccessTier, LucasIDRegistry

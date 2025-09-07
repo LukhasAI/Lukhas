@@ -120,7 +120,7 @@ def audit_decision(decision_type: str, capture_alternatives: bool = True):
             audit = get_audit_trail()
 
             # Generate decision ID
-            decision_id = f"decision_{datetime.now(timezone.utc).timestamp(}"
+            decision_id = f"decision_{datetime.now(timezone.utc).timestamp()}"
 
             # Capture decision context
             sig = inspect.signature(func)
@@ -252,7 +252,7 @@ def audit_learning(learning_type: str = "general"):
             audit = get_audit_trail()
 
             # Generate learning ID
-            learning_id = f"learn_{datetime.now(timezone.utc).timestamp(}"
+            learning_id = f"learn_{datetime.now(timezone.utc).timestamp()}"
 
             # Log learning start
             await audit.log_event(

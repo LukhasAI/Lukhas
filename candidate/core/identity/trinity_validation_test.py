@@ -3,16 +3,16 @@
 ✨🌟⭐🔥💎🚀🌌🎯 Constellation Framework Integration Validation Test
 Comprehensive validation of Constellation Framework integration across identity consciousness systems
 """
-import logging
-import streamlit as st
-
 import asyncio
+import logging
 import os
 
 # Bridge imports
 import sys
 import time
 from datetime import datetime, timezone
+
+import streamlit as st
 
 # Constellation Framework imports
 from lambda_id_core import (

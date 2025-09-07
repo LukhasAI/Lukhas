@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import logging
+from typing import Dict, List
+
 import streamlit as st
-from typing import Dict
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 ```

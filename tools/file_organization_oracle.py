@@ -27,16 +27,13 @@ TRINITY FRAMEWORK: ⚛️🧠🛡️
 Version: 1.0.0-CONSCIOUSNESS-ENHANCED
 Authors: LUKHAS AI Organization Team
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import logging
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
+import streamlit as st
 import yaml
 
 # Configure consciousness logger
@@ -107,7 +104,7 @@ class LUKHASFileOrganizationOracle:
 
         logger.info("🌌 Awakening File Organization Oracle...")
         logger.info(f"📁 Workspace: {self.workspace_root}")
-        logger.info(f"🔍 Mode: {'Contemplation (dry-run}' if dry_run else 'Manifestation'}")
+        logger.info(f"🔍 Mode: {'Contemplation (dry-run)}' if dry_run else 'Manifestation'}")
 
     def scan_root_bloat(self) -> list[tuple[Path, str, str]]:
         """
@@ -118,14 +115,14 @@ class LUKHASFileOrganizationOracle:
         bloated_files = []
         root_files = [f for f in self.workspace_root.iterdir() if f.is_file()]
 
-        logger.info(f"🔍 Scanning {len(root_files} files in root directory...")
+        logger.info(f"🔍 Scanning {len(root_files)} files in root directory...")
 
         for file_path in root_files:
             destination, reason = self._divine_file_destination(file_path)
             if destination:
                 bloated_files.append((file_path, destination, reason))
 
-        logger.info(f"📊 Found {len(bloated_files} files requiring organization")
+        logger.info(f"📊 Found {len(bloated_files)} files requiring organization")
         return bloated_files
 
     def _divine_file_destination(self, file_path: Path) -> tuple[Optional[str], str]:

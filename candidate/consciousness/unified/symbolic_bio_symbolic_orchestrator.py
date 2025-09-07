@@ -556,7 +556,7 @@ class BioSymbolicOrchestrator(BaseColony):
         healed["healing_actions_applied"] = healing_actions
         healed["self_healing_activated"] = True
 
-        logger.info(f"Self-healing applied: {', '.join(healing_actions}")
+        logger.info(f"Self-healing applied: {', '.join(healing_actions)}")
 
         return healed
 

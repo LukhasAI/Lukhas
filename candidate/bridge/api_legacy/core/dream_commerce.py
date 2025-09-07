@@ -321,7 +321,7 @@ class DreamCommerceEngine:
                     )
 
             # Create dream seed
-            seed_id = f"dream_seed_{uuid.uuid4(}.hex[:12]}"
+            seed_id = f"dream_seed_{uuid.uuid4()}.hex[:12]}"
 
             # Calculate pricing based on revenue model
             price = await self._calculate_dream_seed_price(submission)
@@ -435,12 +435,12 @@ class DreamCommerceEngine:
                 privacy_proof_obj = await self.zkp_validator.generate_emotional_range_proof(
                     dream_content.get("emotional_context", {}),
                     request.user_id,
-                    f"commerce_dream_{uuid.uuid4(}.hex[:8]}",
+                    f"commerce_dream_{uuid.uuid4()}.hex[:8]}",
                 )
                 privacy_proof = privacy_proof_obj.proof_id
 
             # Create dream experience
-            experience_id = f"dream_exp_{uuid.uuid4(}.hex[:12]}"
+            experience_id = f"dream_exp_{uuid.uuid4()}.hex[:12]}"
 
             dream_experience = DreamExperience(
                 experience_id=experience_id,
@@ -671,7 +671,7 @@ class DreamCommerceEngine:
 
         # Simplified payment processing - in production would integrate with
         # payment gateway
-        transaction_id = f"txn_{uuid.uuid4(}.hex[:12]}"
+        transaction_id = f"txn_{uuid.uuid4()}.hex[:12]}"
 
         # Simulate payment processing
         payment_result = {
@@ -790,7 +790,7 @@ class DreamCommerceEngine:
         """Generate Sora video URL for dream visualization"""
         # Simplified Sora integration - in production would integrate with actual
         # Sora API
-        video_id = f"sora_dream_{uuid.uuid4(}.hex[:12]}"
+        video_id = f"sora_dream_{uuid.uuid4()}.hex[:12]}"
 
         # Simulate video generation
         (f"Generate a dreamy, surreal video based on: {dream_content['description']}")
@@ -959,7 +959,7 @@ async def browse_marketplace(
                 "offset": offset,
                 "limit": limit,
             },
-            message=f"Found {len(seeds_data} dream seeds",
+            message=f"Found {len(seeds_data)} dream seeds",
         )
 
     except Exception as e:

@@ -3,13 +3,11 @@
 CSV Parser for ΛLens
 Handles CSV files and extracts tabular data
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-
 import csv
 import re
-from typing import Any
+from typing import Any, Dict, List
+
+import streamlit as st
 
 from .base_parser import BaseParser
 

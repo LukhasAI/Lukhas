@@ -53,16 +53,16 @@ def register_new_user(username: str, desired_tier: int = 1) -> str:
     Registers a new user and assigns a SID and tier.
     Placeholder implementation.
     """
-    new_sid = f"{username}_sid_{len(USER_TIERS} + 1:03d}"
+    new_sid = f"{username}_sid_{len(USER_TIERS)} + 1:03d}"
     USER_TIERS[new_sid] = desired_tier
     print(f"➕ [LucasID] Registered new user: {username} with SID: {new_sid} and Tier: {desired_tier}")
     return new_sid
 
 
 if __name__ == "__main__":
-    print(f"Current SID: {get_current_sid(}")
+    print(f"Current SID: {get_current_sid()}")
     print(f"Tier for current SID: {get_user_tier(get_current_sid()}")
 
     new_sid_test = register_new_user("test_user_alpha")
-    print(f"Tier for {new_sid_test}: {get_user_tier(new_sid_test}")
-    print(f"Tier for unknown_user: {get_user_tier('unknown_user_sid'}")
+    print(f"Tier for {new_sid_test}: {get_user_tier(new_sid_test)}")
+    print(f"Tier for unknown_user: {get_user_tier('unknown_user_sid')}")

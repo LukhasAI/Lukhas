@@ -7,13 +7,12 @@ Ensures adherence to EU AI Act, GDPR, NIST RMF, and international standards.
 Based on Lukhas repository implementation with LUKHAS AI integration.
 Based on Lukhas repository implementation with lukhas AI integration.
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
+
+import streamlit as st
 
 
 class ComplianceLevel(Enum):
@@ -156,7 +155,7 @@ class AIComplianceManager:
             # Log violations if any
             if result["violations"]:
                 self.violation_log.extend(result["violations"])
-                self.logger.warning(f"Compliance violations detected: {len(result['violations']}")
+                self.logger.warning(f"Compliance violations detected: {len(result['violations'])}")
 
             return result
 

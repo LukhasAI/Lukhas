@@ -382,7 +382,7 @@ class UnifiedMonitoringDashboard:
     ) -> DashboardSession:
         """Create new dashboard session"""
 
-        session_id = f"session_{uuid.uuid4(}.hex[:12]}"
+        session_id = f"session_{uuid.uuid4()}.hex[:12]}"
         permissions = permissions or {"read"}
 
         session = DashboardSession(
@@ -576,7 +576,7 @@ class UnifiedMonitoringDashboard:
                             alert_id=f"guardian_{alert_data.get('id', uuid.uuid4().hex[:8]}",
                             source_system="guardian",
                             alert_type=alert_data.get("type", "unknown"),
-                            title=f"Guardian Alert: {alert_data.get('type', 'Unknown'}",
+                            title=f"Guardian Alert: {alert_data.get('type', 'Unknown')}",
                             message=alert_data.get("message", "No message"),
                             priority=self._convert_to_alert_priority(alert_data.get("severity", "info")),
                             category="guardian",
@@ -593,7 +593,7 @@ class UnifiedMonitoringDashboard:
                 alerts_data = health_status.get("alerts", {})
                 if alerts_data.get("critical", 0) > 0:
                     unified_alert = UnifiedAlert(
-                        alert_id=f"health_{uuid.uuid4(}.hex[:8]}",
+                        alert_id=f"health_{uuid.uuid4()}.hex[:8]}",
                         source_system="health_monitor",
                         alert_type="critical_health",
                         title="Critical Health Issues Detected",
@@ -617,11 +617,11 @@ class UnifiedMonitoringDashboard:
                 stress_indicators = consciousness_status.get("stress_indicators", [])
                 if stress_indicators:
                     unified_alert = UnifiedAlert(
-                        alert_id=f"consciousness_{uuid.uuid4(}.hex[:8]}",
+                        alert_id=f"consciousness_{uuid.uuid4()}.hex[:8]}",
                         source_system="consciousness_monitor",
                         alert_type="consciousness_stress",
                         title="Consciousness Stress Detected",
-                        message=f"Stress indicators: {', '.join(stress_indicators}",
+                        message=f"Stress indicators: {', '.join(stress_indicators)}",
                         priority=AlertPriority.MEDIUM,
                         category="consciousness",
                         created_at=datetime.now(timezone.utc),

@@ -3,11 +3,11 @@ Seven Agent Architecture Integration Adapter
 Bridges the new 7-agent modules with the existing LUKHAS system
 Trinity Framework: ⚛️🧠🛡️
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.core.container.service_container import ServiceLifetime, injectable
 from lukhas.core.interfaces.services import (

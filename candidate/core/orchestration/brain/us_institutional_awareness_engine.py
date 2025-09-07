@@ -26,16 +26,15 @@ Author: Lukhas AI Research Team - US Compliance Division
 Version: 1.0.0 - US Institutional Edition
 Date: June 2025
 """
-import time
-import streamlit as st
-
 import json
 import logging
+import time
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from pydantic import BaseModel, Field
 
 # Import global framework

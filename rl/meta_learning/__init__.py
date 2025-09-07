@@ -13,4 +13,4 @@ from .consciousness_meta_learning import (
     MetaLearningStrategy,
 )
 
-__all__ = ["ConsciousnessMetaLearning", "MetaLearningStrategy", "LearningExperience", "MetaLearningObjective"]
+__all__ = ["ConsciousnessMetaLearning", "LearningExperience", "MetaLearningObjective", "MetaLearningStrategy"]

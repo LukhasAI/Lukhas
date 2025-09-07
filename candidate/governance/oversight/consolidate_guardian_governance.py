@@ -4,9 +4,9 @@ LUKHAS 2030 Guardian Governance Consolidation
 Unified ethical oversight and governance
 """
 import time
-import streamlit as st
-
 from pathlib import Path
+
+import streamlit as st
 
 
 def consolidate_guardian_governance():

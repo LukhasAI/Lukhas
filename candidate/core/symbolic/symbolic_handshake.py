@@ -13,11 +13,11 @@ Symbolic Communication Protocol for Lukhas AGI System
 This module defines the symbolic handshake patterns and communication signals
 between the orchestrator and sub-agents (dream, intent, emotion, memory).
 """
-import streamlit as st
-
 import logging
 import time
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 from candidate.orchestration.signal_router import route_signal
 from candidate.orchestration.signals import SignalType, SymbolicSignal
@@ -85,7 +85,7 @@ class SymbolicHandshake:
             "symbolic_tags": module_info.get("symbolic_tags", []),
         }
 
-        logger.info(f"Module registered: {module_name} with tags: {module_info.get('symbolic_tags', []}")
+        logger.info(f"Module registered: {module_name} with tags: {module_info.get('symbolic_tags', [])}")
 
     def create_signal(
         self,

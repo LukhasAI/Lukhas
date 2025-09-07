@@ -4,9 +4,9 @@ Emotion Cycler
 Cycles emotional states to stabilize drift feedback loops.
 """
 import logging
-import streamlit as st
-
 from typing import Optional
+
+import streamlit as st
 
 from lukhas.memory.emotional import EmotionalMemory
 

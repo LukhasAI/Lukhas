@@ -4,16 +4,15 @@ Consciousness Cache Manager for NIAS Economic Platform.
 This module implements intelligent caching of consciousness profiles to reduce
 API costs by 70% while maintaining accuracy through smart invalidation.
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import hashlib
 import json
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 
 class CacheType(Enum):

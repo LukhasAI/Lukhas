@@ -15,6 +15,7 @@ It is intended to house configuration modules related to the user interface,
 such as dashboard settings or UI behavior parameters.
 """
 import logging
+
 import streamlit as st
 
 # AIMPORTS_START

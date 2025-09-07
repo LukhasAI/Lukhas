@@ -5,11 +5,11 @@ This module manages daily spending budgets for users to ensure sustainable
 unit economics while providing consciousness-aware advertising.
 """
 import time
-import streamlit as st
-
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Optional
+
+import streamlit as st
 
 
 @dataclass

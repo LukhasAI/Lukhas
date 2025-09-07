@@ -7,14 +7,14 @@ LUKHAS AI Bridge Wrapper
 Advanced bridge wrapper that orchestrates multiple AI models and external services.
 Provides secure, feature-flagged access with comprehensive safety measures.
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
 import os
+import time
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.observability.matriz_decorators import instrument
 from lukhas.observability.matriz_emit import emit
@@ -36,7 +36,7 @@ class ExternalServiceIntegration:
     def initialize_services(self) -> dict[str, Any]:
         """Initialize external service connections safely"""
         if not self._active:
-            emit({"ntype": "bridge_init_skipped", "state": {"reason": "bridge_inactive"})
+            emit({"ntype": "bridge_init_skipped", "state": {"reason": "bridge_inactive"}})
             return {"initialized": False, "reason": "bridge_inactive"}
 
         try:
@@ -61,7 +61,7 @@ class ExternalServiceIntegration:
 
         except Exception as e:
             logger.error(f"Bridge service initialization failed: {e}")
-            emit({"ntype": "bridge_init_error", "state": {"error": str(e)})
+            emit({"ntype": "bridge_init_error", "state": {"error": str(e)}})
             return {"initialized": False, "error": str(e)}
 
     def _initialize_llm_providers(self) -> dict[str, Any]:
@@ -255,7 +255,7 @@ class MultiModelOrchestrator:
 
         except Exception as e:
             logger.error(f"Consensus processing failed: {e}")
-            emit({"ntype": "bridge_consensus_error", "state": {"error": str(e)})
+            emit({"ntype": "bridge_consensus_error", "state": {"error": str(e)}})
             return {"error": str(e), "consensus": None}
 
     async def _process_with_model(self, model: str, query: str) -> dict[str, Any]:
@@ -282,7 +282,7 @@ class MultiModelOrchestrator:
             }
 
         # Simple consensus synthesis (in production, would be more sophisticated)
-        consensus_text = f"Consensus from {len(responses} models: "
+        consensus_text = f"Consensus from {len(responses)} models: "
 
         if len(responses) >= 2:
             confidence = min(1.0, len(responses) / 3.0)
@@ -334,7 +334,7 @@ class BridgeWrapper:
 
         except Exception as e:
             logger.error(f"Bridge wrapper initialization failed: {e}")
-            emit({"ntype": "bridge_wrapper_init_error", "state": {"error": str(e)})
+            emit({"ntype": "bridge_wrapper_init_error", "state": {"error": str(e)}})
             return False
 
     @instrument("bridge_multi_model_query")
@@ -361,7 +361,7 @@ class BridgeWrapper:
 
         except Exception as e:
             logger.error(f"Multi-model query failed: {e}")
-            emit({"ntype": "bridge_multi_model_query_error", "state": {"error": str(e)})
+            emit({"ntype": "bridge_multi_model_query_error", "state": {"error": str(e)}})
             return {"error": str(e)}
 
     @instrument("bridge_service_operation")
@@ -388,7 +388,7 @@ class BridgeWrapper:
 
         except Exception as e:
             logger.error(f"Service operation failed: {e}")
-            emit({"ntype": "bridge_service_operation_error", "state": {"error": str(e)})
+            emit({"ntype": "bridge_service_operation_error", "state": {"error": str(e)}})
             return {"error": str(e)}
 
     def get_status(self) -> dict[str, Any]:

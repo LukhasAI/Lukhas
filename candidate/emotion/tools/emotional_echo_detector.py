@@ -544,7 +544,7 @@ class EmotionalEchoDetector:
             return None
 
         return EmotionalSequence(
-            sequence_id=f"DREAM_{int(time.time())}_{hash(dream_content} % 10000}",
+            sequence_id=f"DREAM_{int(time.time())}_{hash(dream_content)} % 10000}",
             timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source="dream",
             emotions=emotions,
@@ -754,7 +754,7 @@ class EmotionalEchoDetector:
 
             for gram in n_grams:
                 pattern_str = " -> ".join(gram)
-                motif_id = f"MOTIF_{hash(pattern_str} % 100000}"
+                motif_id = f"MOTIF_{hash(pattern_str)} % 100000}"
 
                 # Check if this motif already exists
                 existing_motif = self.detected_motifs.get(motif_id)
@@ -789,7 +789,7 @@ class EmotionalEchoDetector:
         recurring_motifs = [m for m in motifs if m.frequency >= self.recurrence_threshold]
 
         logger.info(
-            f"Detected {len(recurring_motifs} recurring motifs",
+            f"Detected {len(recurring_motifs)} recurring motifs",
             total_motifs=len(motifs),
             ΛTAG="ΛMOTIF_DETECTED",
         )
@@ -998,7 +998,7 @@ class EmotionalEchoDetector:
             archetype_info = self.archetype_detector.ARCHETYPE_PATTERNS.get(motif.archetype_match, {})
 
             alert = {
-                "alert_id": f"ARCH_ALERT_{int(time.time())}_{hash(motif.motif_id} % 1000}",
+                "alert_id": f"ARCH_ALERT_{int(time.time())}_{hash(motif.motif_id)} % 1000}",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "archetype": motif.archetype_match.value,
                 "description": archetype_info.get("description", "Unknown archetype"),
@@ -1657,7 +1657,7 @@ def _generate_synthetic_emotional_data(count: int = 50, high_risk: bool = False)
 
         if i % 4 == 0:  # Dream data
             data_entry = {
-                "dream_content": f"I experienced {', then '.join(pattern} in my dream",
+                "dream_content": f"I experienced {', then '.join(pattern)} in my dream",
                 "timestamp": timestamp,
                 "emotional_intensity": min(0.3 + (i % 5) * 0.15, 1.0),
                 "dream_type": "symbolic",

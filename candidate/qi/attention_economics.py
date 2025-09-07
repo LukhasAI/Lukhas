@@ -4,19 +4,18 @@ Quantum Attention Economics
 AI-powered attention valuation system with quantum entanglement properties.
 Creates ethical attention economy with consent-based trading.
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
 import math
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from openai import AsyncOpenAI
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -172,7 +171,7 @@ class QIAttentionEconomics:
                     if amount > 0:
                         token_type = AttentionTokenType[token_type_str.upper()]
                         token = AttentionToken(
-                            token_id=f"token_{user_id}_{datetime.now(timezone.utc).timestamp(}_{token_type.value}",
+                            token_id=f"token_{user_id}_{datetime.now(timezone.utc).timestamp()}_{token_type.value}",
                             owner_id=user_id,
                             token_type=token_type,
                             value=amount * mint_params["quality_multiplier"],
@@ -223,7 +222,7 @@ class QIAttentionEconomics:
 
         # Simple distribution
         token = AttentionToken(
-            token_id=f"token_{user_id}_{datetime.now(timezone.utc).timestamp(}_mixed",
+            token_id=f"token_{user_id}_{datetime.now(timezone.utc).timestamp()}_mixed",
             owner_id=user_id,
             token_type=AttentionTokenType.AMBIENT,
             value=adjusted_capacity,
@@ -251,7 +250,7 @@ class QIAttentionEconomics:
 
         # Create quantum token
         qi_token = AttentionToken(
-            token_id=f"quantum_{user_id}_{datetime.now(timezone.utc).timestamp(}",
+            token_id=f"quantum_{user_id}_{datetime.now(timezone.utc).timestamp()}",
             owner_id=user_id,
             token_type=AttentionTokenType.QUANTUM,
             value=sum(self.market_price[t] for t in attention_types),  # Sum of component values
@@ -301,7 +300,7 @@ class QIAttentionEconomics:
         for token in tokens:
             token.entangled_with = [t.token_id for t in tokens if t.token_id != token.token_id]
 
-        logger.info(f"Created {entanglement_type} entanglement between {len(tokens} tokens")
+        logger.info(f"Created {entanglement_type} entanglement between {len(tokens)} tokens")
 
         # Notify users of entanglement
         for _user_id in user_ids:
@@ -402,7 +401,7 @@ class QIAttentionEconomics:
 
             # Create transaction record
             transaction = {
-                "transaction_id": f"tx_{datetime.now(timezone.utc).timestamp(}",
+                "transaction_id": f"tx_{datetime.now(timezone.utc).timestamp()}",
                 "bid_id": bid_id,
                 "user_id": bid.target_user_id,
                 "amount": bid.bid_amount,
@@ -458,7 +457,7 @@ class QIAttentionEconomics:
                         },
                         {
                             "role": "user",
-                            "content": f"Factors: {json.dumps(factors}\nCalculated value: {final_value}",
+                            "content": f"Factors: {json.dumps(factors)}\nCalculated value: {final_value}",
                         },
                     ],
                     temperature=0.7,

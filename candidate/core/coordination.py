@@ -1,5 +1,8 @@
-import streamlit as st
 import time
+
+import streamlit as st
+
+
 class ContractNetInitiator:
     def __init__(self, task, timeout=5):
         self.task = task

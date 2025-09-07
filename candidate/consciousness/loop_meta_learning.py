@@ -4,15 +4,13 @@ Meta-Learning Loop Controller
 Manages the intentional Learning → Dream → Creativity → Memory cycle.
 This is an INTENTIONAL circular dependency that creates emergent learning capabilities.
 """
-import streamlit as st
-from datetime import timezone
 # intentional_cycle: Learning → Dream → Creativity → Memory → Learning
-
 import asyncio
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
+import streamlit as st
 from creativity.core import CreativityEngine
 from dream.engine import DreamEngine  # Will be renamed to dream.synthesizer
 
@@ -77,7 +75,7 @@ class MetaLearningLoop:
         Returns:
             Completed MetaLearningCycle with all stages populated
         """
-        cycle_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp(}"
+        cycle_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp()}"
         cycle = MetaLearningCycle(cycle_id=cycle_id, learning_input=initial_data)
 
         async with self._lock:

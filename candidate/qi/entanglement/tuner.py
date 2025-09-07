@@ -14,24 +14,21 @@ Autonomous module for stabilizing inter-subsystem entanglement coherence
 MODULE_ID: ethics.stabilization.tuner
 COLLAPSE_READY: True
 """
-from typing import List
-import random
-import streamlit as st
-from datetime import timezone
-
 import argparse
 import asyncio
 import json
 import logging
 import os
+import random
 import sys
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
 
 import numpy as np
+import streamlit as st
 
 # Add parent directories to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
@@ -313,7 +310,7 @@ class AdaptiveEntanglementStabilizer:
             # Update trend tracking
             self._update_trends(recent_entries)
 
-            logger.info(f"Loaded {len(recent_entries} recent entries")
+            logger.info(f"Loaded {len(recent_entries)} recent entries")
             return recent_entries
 
         except Exception as e:
@@ -441,7 +438,7 @@ class AdaptiveEntanglementStabilizer:
 
                 if instability_types:
                     unstable_pairs.append((pair, instability_types))
-                    logger.warning(f"Instability detected: {pair[0]}↔{pair[1]} - {', '.join(instability_types}")
+                    logger.warning(f"Instability detected: {pair[0]}↔{pair[1]} - {', '.join(instability_types)}")
 
         return [(pair[0], pair[1]) for pair, _ in unstable_pairs]
 
@@ -625,7 +622,7 @@ class AdaptiveEntanglementStabilizer:
         """Generate human-readable justification for stabilization"""
         trend = self.trends.get(pair)
         if not trend or len(trend.strengths) == 0:
-            return f"Preventive stabilization of {pair[0]}↔{pair[1]} with {', '.join(tags}"
+            return f"Preventive stabilization of {pair[0]}↔{pair[1]} with {', '.join(tags)}"
 
         current_strength = trend.strengths[-1]
         current_risk = trend.conflict_risks[-1]
@@ -643,7 +640,7 @@ class AdaptiveEntanglementStabilizer:
             reasons.append("declining trend detected")
 
         reason_str = ", ".join(reasons) if reasons else "proactive stabilization"
-        return f"Stabilizing {pair[0]}↔{pair[1]} due to {reason_str} using {', '.join(tags}"
+        return f"Stabilizing {pair[0]}↔{pair[1]} due to {reason_str} using {', '.join(tags)}"
 
     def emit_tuning_log(self, entry: dict[str, Any]) -> None:
         """
@@ -667,7 +664,7 @@ class AdaptiveEntanglementStabilizer:
         with open(log_file, "a") as f:
             f.write(json.dumps(log_entry, default=str) + "\n")
 
-        logger.info(f"ΛTUNE log emitted: {entry['subsystem_pair']} - {', '.join(entry['stabilizers_applied']}")
+        logger.info(f"ΛTUNE log emitted: {entry['subsystem_pair']} - {', '.join(entry['stabilizers_applied'])}")
 
     async def run_continuous_monitoring(self, log_file: str, window: int = 10, interval: int = 30) -> None:
         """
@@ -785,7 +782,7 @@ Examples:
             print("\n🕐 Recent Actions:")
             for action in status["recent_actions"]:
                 success_icon = "✅" if action["success"] else "❌"
-                print(f"  {success_icon} {action['pair']}: {', '.join(action['tags']}")
+                print(f"  {success_icon} {action['pair']}: {', '.join(action['tags'])}")
 
         return 0
 
@@ -812,13 +809,13 @@ Examples:
                 print("✅ No instabilities detected - mesh is stable")
                 return 0
 
-            print(f"⚠️  Found {len(unstable_pairs} unstable pairs:")
+            print(f"⚠️  Found {len(unstable_pairs)} unstable pairs:")
 
             for pair in unstable_pairs:
                 print(f"\n🔧 Stabilizing {pair[0]}↔{pair[1]}")
 
                 stabilizers = stabilizer.select_stabilizers(pair)
-                print(f"   Selected: {', '.join(stabilizers}")
+                print(f"   Selected: {', '.join(stabilizers)}")
 
                 if args.autotune:
                     stabilizer.apply_symbolic_correction(pair, stabilizers)

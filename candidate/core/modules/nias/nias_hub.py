@@ -39,7 +39,7 @@ class NIASHub:
         self._register_with_service_discovery()
 
         self.is_initialized = True
-        logger.info(f"NIAS hub initialized with {len(self.services} services")
+        logger.info(f"NIAS hub initialized with {len(self.services)} services")
 
     def _register_core_nias_services(self):
         """Register core NIAS services"""
@@ -120,7 +120,7 @@ class NIASHub:
                 if service_name in self.services:
                     discovery.register_service_globally(service_name, self.services[service_name], "nias")
 
-            logger.debug(f"Registered {len(key_services} NIAS services with global discovery")
+            logger.debug(f"Registered {len(key_services)} NIAS services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 

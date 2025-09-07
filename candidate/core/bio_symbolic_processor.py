@@ -8,8 +8,6 @@ This module implements the M⌾TRIZ bio-symbolic adaptation layer, providing:
 - Adaptation algorithms for consciousness evolution
 - Integration with existing bio/ and symbolic_core/ modules
 """
-import streamlit as st
-
 import asyncio
 import logging
 import time
@@ -18,6 +16,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 from .matriz_consciousness_signals import BioSymbolicData, ConsciousnessSignal, ConsciousnessSignalType
 

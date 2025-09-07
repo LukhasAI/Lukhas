@@ -13,4 +13,4 @@ from .chain_of_thought import ChainOfThought
 from .dream_integration import DreamReasoningBridge
 from .tree_of_thoughts import TreeOfThoughts
 
-__all__ = ["ChainOfThought", "TreeOfThoughts", "CausalInferenceEngine", "DreamReasoningBridge"]
+__all__ = ["CausalInferenceEngine", "ChainOfThought", "DreamReasoningBridge", "TreeOfThoughts"]

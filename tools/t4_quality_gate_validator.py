@@ -451,7 +451,7 @@ class T4QualityGateValidator:
             if gates_passed:
                 print("\n🎉 T4 QUALITY GATE VALIDATION PASSED")
                 print(
-                    f"   Overall Quality Score: {metrics.get('quality_scores', {}).get('overall_quality_score', 0):.2f}/100"
+                    f"   Overall Quality Score: {metrics.get('quality_scores', {)}).get('overall_quality_score', 0):.2f}/100"
                 )
                 return True
             else:

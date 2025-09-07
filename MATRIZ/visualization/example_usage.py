@@ -5,11 +5,10 @@ Example Usage of MATRIZ Graph Visualization System
 This script demonstrates how to use the MATRIZGraphViewer to visualize
 cognitive nodes and their relationships in various ways.
 """
-import streamlit as st
-
 import time
 from typing import Any, Optional
 
+import streamlit as st
 from graph_viewer import MATRIZGraphViewer
 
 
@@ -40,7 +39,7 @@ def create_sample_matriz_node(
         "timestamps": {"created_ts": int(time.time() * 1000)},
         "provenance": {
             "producer": f"{node_type}Node",
-            "capabilities": [f"{node_type.lower(}_processing"],
+            "capabilities": [f"{node_type.lower()}_processing"],
             "tenant": "demo",
             "trace_id": f"trace_{node_id}",
             "consent_scopes": ["cognitive_processing"],
@@ -171,15 +170,15 @@ def main():
 
     # Find high-confidence nodes
     high_conf_nodes = viewer.search_nodes(min_confidence=0.85)
-    print(f"   High confidence nodes (≥0.85): {len(high_conf_nodes}")
+    print(f"   High confidence nodes (≥0.85): {len(high_conf_nodes)}")
 
     # Find emotional nodes
     emotion_nodes = viewer.search_nodes(node_type="EMOTION")
-    print(f"   Emotion nodes: {len(emotion_nodes}")
+    print(f"   Emotion nodes: {len(emotion_nodes)}")
 
     # Find high-salience nodes
     high_sal_nodes = viewer.search_nodes(min_salience=0.9)
-    print(f"   High salience nodes (≥0.9): {len(high_sal_nodes}")
+    print(f"   High salience nodes (≥0.9): {len(high_sal_nodes)}")
 
     # Example 6: Node details inspection
     print("\n6. Node details inspection...")
@@ -218,7 +217,7 @@ def main():
     layouts = ["force_directed", "hierarchical", "circular", "spiral"]
     for layout in layouts:
         try:
-            fig = viewer.create_interactive_plot(layout=layout, title=f"Cognitive Chain - {layout.title(} Layout")
+            fig = viewer.create_interactive_plot(layout=layout, title=f"Cognitive Chain - {layout.title()} Layout")
             filename = f"cognitive_chain_{layout}.html"
             fig.write_html(filename)
             print(f"   ✓ Created {layout} layout: {filename}")

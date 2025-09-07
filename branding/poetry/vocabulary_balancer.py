@@ -10,14 +10,13 @@ This ensures rich, varied expression by:
 3. Preserving beautiful metaphors when appropriate
 4. Enriching with LUKHAS-specific terms
 """
-from typing import List
-import time
-import streamlit as st
-
 import random
 import re
+import time
 from collections import Counter
-from typing import Optional
+from typing import List, Optional
+
+import streamlit as st
 
 
 class VocabularyBalancer:
@@ -258,7 +257,7 @@ if __name__ == "__main__":
         print(f"  Enriched: {enriched}\n")
 
     print("▸ USAGE REPORT:")
-    print(f"  {balancer.get_usage_report(}\n")
+    print(f"  {balancer.get_usage_report()}\n")
 
     print("▸ VARIETY SUGGESTIONS FOR 'complexity':")
     for suggestion in balancer.suggest_variety("complexity"):

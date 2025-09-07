@@ -9,14 +9,13 @@ Original Vision from Audit:
 - "Win-win scenario where users get something in return"
 - "Turns advertising into something users actually appreciate"
 """
-import streamlit as st
-from datetime import timezone
-
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class RewardType(Enum):
@@ -519,7 +518,7 @@ if __name__ == "__main__":
         print(f"   Total Credits: {summary['total_credits']:.1f}")
         print(f"   Level: {summary['current_level']}")
         print(f"   XP: {summary['experience_points']}")
-        print(f"   Achievements: {len(summary['achievements']}")
+        print(f"   Achievements: {len(summary['achievements'])}")
 
         if summary["achievements"]:
             print("\n🏆 Achievements Unlocked:")

@@ -14,9 +14,9 @@
 ║ Initialization for cognitive subpackage.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import logging
+
+import streamlit as st
 
 # Module imports
 from candidate.core.common import get_logger

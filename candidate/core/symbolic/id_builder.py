@@ -9,17 +9,17 @@
 LUKHAS-ID (ΛiD) Authentication System Builder
 Implements the revolutionary authentication vision from QRG.md
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import base64
 import hashlib
 import json
 import secrets
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # LUKHAS-ID Components from the vision
 
@@ -225,7 +225,7 @@ class LUKHASIDBuilder:
     def _generate_session_token(self, identity: LUKHASIdentity) -> str:
         """Generate quantum-resistant session token"""
         # Combine identity elements
-        token_data = f"{identity.lid_number}:{identity.tier_level}:{datetime.now(timezone.utc).isoformat(}"
+        token_data = f"{identity.lid_number}:{identity.tier_level}:{datetime.now(timezone.utc).isoformat()}"
 
         # Add quantum entropy
         qi_salt = secrets.token_bytes(16)
@@ -352,7 +352,7 @@ def create_lukhas_auth_demo():
         print(f"   ΛiD: {result['lid']}")
         print(f"   Phrase: {result['phrase']}")
         print(f"   Tier: {result['tier_info']['symbol']} {result['tier_info']['name']}")
-        print(f"   Access: {', '.join(result['tier_info']['access']}")
+        print(f"   Access: {', '.join(result['tier_info']['access'])}")
 
         # Demo 2: Authenticate
         print("\n2️⃣ Authenticating with phrase...")

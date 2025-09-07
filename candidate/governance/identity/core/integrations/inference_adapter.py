@@ -14,16 +14,15 @@ Features:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger("LUKHAS_INFERENCE_ADAPTER", timezone)
 
@@ -422,7 +421,7 @@ class InferenceAdapter:
             if result.success and result.inference_output:
                 anomalies = result.inference_output.get("anomalies", [])
                 if anomalies:
-                    logger.warning(f"Authentication anomalies detected for {lambda_id}: {len(anomalies} anomalies")
+                    logger.warning(f"Authentication anomalies detected for {lambda_id}: {len(anomalies)} anomalies")
 
             return result
 
@@ -664,11 +663,11 @@ class InferenceAdapter:
                 "patterns_detected": patterns_detected,
                 "pattern_strength": confidence_score,
                 "anomaly_indicators": [],
-                "pattern_summary": f"Detected {len(patterns_detected} patterns",
+                "pattern_summary": f"Detected {len(patterns_detected)} patterns",
             },
             confidence_score=min(1.0, confidence_score),
-            reasoning_steps=[f"Analyzed {len(pattern_data} data points"],
-            explanation=f"Pattern analysis identified {len(patterns_detected} patterns",
+            reasoning_steps=[f"Analyzed {len(pattern_data)} data points"],
+            explanation=f"Pattern analysis identified {len(patterns_detected)} patterns",
         )
 
     def _process_anomaly_detection(self, request: InferenceRequest) -> InferenceResult:
@@ -719,8 +718,8 @@ class InferenceAdapter:
                 "recommendations": (["additional_verification"] if anomalies else ["normal_access"]),
             },
             confidence_score=confidence_score,
-            reasoning_steps=[f"Analyzed {len(current_data} current data points against baseline"],
-            explanation=f"Detected {len(anomalies} anomalies in current authentication attempt",
+            reasoning_steps=[f"Analyzed {len(current_data)} current data points against baseline"],
+            explanation=f"Detected {len(anomalies)} anomalies in current authentication attempt",
         )
 
     def _process_risk_assessment(self, request: InferenceRequest) -> InferenceResult:
@@ -770,7 +769,7 @@ class InferenceAdapter:
                 "mitigation_recommendations": self._get_risk_mitigations(risk_level, risk_factors),
             },
             confidence_score=0.8,
-            reasoning_steps=[f"Evaluated {len(context_data} risk factors"],
+            reasoning_steps=[f"Evaluated {len(context_data)} risk factors"],
             explanation=f"Risk assessment: {risk_level} risk (score: {risk_score:.2f})",
         )
 
@@ -856,7 +855,7 @@ class InferenceAdapter:
 
     def _generate_request_id(self) -> str:
         """Generate unique request ID"""
-        return f"INF_{hashlib.sha256(f'{time.time(}'.encode()).hexdigest()[:16]}"
+        return f"INF_{hashlib.sha256(f'{time.time()}'.encode()).hexdigest()[:12]}"
 
     def _get_risk_mitigations(self, risk_level: str, risk_factors: list[str]) -> list[str]:
         """Get risk mitigation recommendations"""

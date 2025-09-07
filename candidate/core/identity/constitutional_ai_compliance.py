@@ -140,7 +140,7 @@ class PrincipleEvaluation:
 class ConstitutionalValidationResult:
     """Result of constitutional AI validation"""
 
-    validation_id: str = field(default_factory=lambda: f"cv-{uuid.uuid4(}.hex[:12]}")
+    validation_id: str = field(default_factory=lambda: f"cv-{uuid.uuid4()}.hex[:12]}")
     decision_context: ConstitutionalValidationContext = None
 
     # Overall compliance
@@ -450,7 +450,7 @@ class ConstitutionalAIValidator:
         evaluation.score = sum(score_factors) / len(score_factors) if score_factors else 0.0
         evaluation.compliant = evaluation.score >= 0.7
 
-        evaluation.reasoning = f"Democratic governance score based on stakeholder involvement ({len(context.affected_individuals)} individuals), oversight entities ({len(context.oversight_entities}), and decision maker accountability."
+        evaluation.reasoning = f"Democratic governance score based on stakeholder involvement ({len(context.affected_individuals)} individuals), oversight entities ({len(context.oversight_entities)}), and decision maker accountability."
 
         if not evaluation.compliant:
             evaluation.improvement_suggestions = [
@@ -1092,7 +1092,7 @@ class ConstitutionalAIValidator:
 
         if critical_violations:
             result.human_oversight_required = True
-            result.oversight_reasons.append(f"Critical principle violations: {', '.join(critical_violations}")
+            result.oversight_reasons.append(f"Critical principle violations: {', '.join(critical_violations)}")
 
         # Recommend specific reviewers
         if result.human_oversight_required:

@@ -802,7 +802,7 @@ if __name__ == "__main__":
 
         # Get system status
         status = await coordinator.get_system_status()
-        logger.info(f"System Status: {json.dumps(status, indent=2, default=str}")
+        logger.info(f"System Status: {json.dumps(status, indent=2, default=str)}")
 
         await coordinator.shutdown()
 

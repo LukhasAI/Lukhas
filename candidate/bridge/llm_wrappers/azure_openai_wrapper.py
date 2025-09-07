@@ -38,9 +38,9 @@
 ║ Symbolic Tags: {ΛAZURE}, {ΛOPENAI}, {ΛENTERPRISE}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import logging
+
+import streamlit as st
 
 from lukhas.branding.terminology import normalize_output
 

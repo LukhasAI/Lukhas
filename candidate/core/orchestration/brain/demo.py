@@ -253,7 +253,7 @@ class AdaptiveAGIDemo:
         response = await self.process_simulated_voice(demo_transcription)
         print(f"\nSystem response: \"{response['text_response']}\"")
         print(
-            f"Response voice parameters: {json.dumps(response['voice_parameters'],"}
+            f"Response voice parameters: {json.dumps(response['voice_parameters'],")}
                                                      indent=2)}"
         )
 
@@ -288,7 +288,7 @@ class AdaptiveAGIDemo:
         print("\nCompliance check result:")
         print(f"Compliant: {compliance_result['compliant']}")
         print(
-            f"Required actions: {', '.join(compliance_result['actions']} if compliance_result['actions'] else 'None'}"
+            f"Required actions: {', '.join(compliance_result['actions'])} if compliance_result['actions'] else 'None'}"
         )
 
         # Scenario 3: Adaptive Interface
@@ -309,7 +309,7 @@ class AdaptiveAGIDemo:
         ]
 
         for idx, context in enumerate(contexts):
-            print(f"\nUser context {idx+1}: {json.dumps(context, indent=2}")
+            print(f"\nUser context {idx+1}: {json.dumps(context, indent=2)}")
 
             # This would generate a different interface based on context
             try:
@@ -324,15 +324,15 @@ class AdaptiveAGIDemo:
                     {"type": "desktop", "orientation": "landscape"},
                 )
                 print(
-                    f"Generated interface style: {interface_elements.get('style',}
+                    f"Generated interface style: {interface_elements.get('style',)}
                                                                          'unknown')}"
                 )
                 print(
-                    f"Interface complexity: {interface_elements.get('complexity',}
+                    f"Interface complexity: {interface_elements.get('complexity',)}
                                                                     'unknown')}"
                 )
                 print(
-                    f"Primary interaction mode: {interface_elements.get('primary_mode',}
+                    f"Primary interaction mode: {interface_elements.get('primary_mode',)}
                                                                         'unknown')}"
                 )
             except Exception:
@@ -401,7 +401,7 @@ class AdaptiveAGIDemo:
 
         voice_params = self.voice_modulator.determine_parameters(voice_context)
         print(
-            f"Voice parameters adapted to context: {json.dumps(voice_params, indent=2}"
+            f"Voice parameters adapted to context: {json.dumps(voice_params, indent=2)}"
         )
 
     async def run_interactive_demo(self):
@@ -440,7 +440,7 @@ class AdaptiveAGIDemo:
 
     async def create_session(self, user_id):
         """Create a demo session"""
-        session_id = f"session_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S'}"
+        session_id = f"session_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
 
         context = {
             "device_info": {"type": "desktop", "orientation": "landscape"},
@@ -478,7 +478,7 @@ class AdaptiveAGIDemo:
         logger.info(
             f"Demo session {session['session_id']} ended. "
             + f"Interactions: {self.demo_state['interaction_count']}, "
-            + f"Duration: {int(duration_seconds}s"
+            + f"Duration: {int(duration_seconds)}s"
         )
 
         self.demo_state["status"] = "completed"

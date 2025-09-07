@@ -2,14 +2,13 @@
 Geofencing Manager - Location-based services for LUKHAS
 Provides geofencing capabilities for context-aware AI responses
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

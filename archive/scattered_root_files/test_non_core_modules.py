@@ -345,13 +345,13 @@ class NonCoreModuleTester:
 
             if category_total > 0:
                 success_rate = (category_success / category_total) * 100
-                print(f"📦 {category.title(}: {category_success}/{category_total} ({success_rate:.1f}%)")
+                print(f"📦 {category.title()}: {category_success}/{category_total} ({success_rate:.1f}%)")
 
         print()
         overall_success_rate = (successful_modules / total_modules * 100) if total_modules > 0 else 0
         print(f"🎯 Overall: {successful_modules}/{total_modules} ({overall_success_rate:.1f}%)")
-        print(f"⚠️  Warnings: {len(self.results['warnings']}")
-        print(f"❌ Errors: {len(self.results['errors']}")
+        print(f"⚠️  Warnings: {len(self.results['warnings'])}")
+        print(f"❌ Errors: {len(self.results['errors'])}")
         print(f"⏱️  Duration: {duration:.2f}s")
 
         if overall_success_rate >= 70:

@@ -16,13 +16,11 @@ FastAPI endpoints for emotional processing operations including:
 
 Based on successful Tier 5 testing with 4 emotion clusters and 23-dimensional space.
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
+import streamlit as st
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
@@ -121,7 +119,7 @@ async def get_emotional_landscape(
         return APIResponse(
             status="success",
             data=landscape,
-            message=f"Emotional landscape mapped: {len(clusters} clusters, {landscape['total_unique_emotions']} unique emotions",
+            message=f"Emotional landscape mapped: {len(clusters)} clusters, {landscape['total_unique_emotions']} unique emotions",
         )
 
     except Exception as e:
@@ -233,7 +231,7 @@ async def create_emotion_clusters(request: EmotionClusterRequest):
                 "total_clusters": len(clusters),
                 "clustering_method": request.cluster_method,
             },
-            message=f"Created {len(clusters} emotion clusters with {request.cluster_method} method",
+            message=f"Created {len(clusters)} emotion clusters with {request.cluster_method} method",
         )
 
     except Exception as e:
@@ -275,7 +273,7 @@ async def get_emotion_neighborhood(
                 "metrics": metrics,
                 "target_emotion": emotion,
             },
-            message=f"Found {len(neighborhood} emotional neighbors for '{emotion}'",
+            message=f"Found {len(neighborhood)} emotional neighbors for '{emotion}'",
         )
 
     except Exception as e:
@@ -312,7 +310,7 @@ async def get_emotion_vectors(
         return APIResponse(
             status="success",
             data=vector_info,
-            message=f"Retrieved {len(vectors} emotion vectors",
+            message=f"Retrieved {len(vectors)} emotion vectors",
         )
 
     except Exception as e:

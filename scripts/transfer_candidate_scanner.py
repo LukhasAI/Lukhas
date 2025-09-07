@@ -213,7 +213,7 @@ def main() -> int:
             or (entry / "requirements.txt").exists()
         )
         _dprint(
-            f"[scanner] Considering {entry} -> git={(entry / '.git').exists()} pyproject={(entry / 'pyproject.toml').exists()} setup={(entry / 'setup.py').exists()} req={(entry / 'requirements.txt').exists(} looks_like_repo={looks_like_repo}"
+            f"[scanner] Considering {entry} -> git={(entry / '.git').exists()} pyproject={(entry / 'pyproject.toml').exists()} setup={(entry / 'setup.py').exists()} req={(entry / 'requirements.txt').exists()} looks_like_repo={looks_like_repo}"
         )
         if not looks_like_repo:
             continue

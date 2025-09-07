@@ -2,16 +2,15 @@
 Decision Audit Embedding Engine
 Tracks and audits all system decisions for transparency and compliance
 """
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from functools import wraps
 from pathlib import Path
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -180,7 +179,7 @@ class DecisionAuditEngine:
         """Get or create session ID for source"""
         if source not in self.active_sessions:
             self.active_sessions[source] = hashlib.sha256(
-                f"{source}:{datetime.now(timezone.utc).isoformat(}".encode()
+                f"{source}:{datetime.now(timezone.utc).isoformat()}".encode()
             ).hexdigest()[:8]
         return self.active_sessions[source]
 
@@ -195,7 +194,7 @@ class DecisionAuditEngine:
         with open(audit_file, "w") as f:
             json.dump(self.audit_cache, f, indent=2)
 
-        logger.info(f"Persisted {len(self.audit_cache} audit entries to {audit_file}")
+        logger.info(f"Persisted {len(self.audit_cache)} audit entries to {audit_file}")
         self.audit_cache = []
 
 

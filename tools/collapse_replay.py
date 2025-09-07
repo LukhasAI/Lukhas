@@ -58,7 +58,7 @@ class CollapseReplayTool:
             branch = session["dream_branch"]
             glyphs = " ".join(session["collapsed_glyphs"][:3])
             if len(session["collapsed_glyphs"]) > 3:
-                glyphs += f" ... ({len(session['collapsed_glyphs']} total)"
+                glyphs += f" ... ({len(session['collapsed_glyphs'])} total)"
 
             print(f"{session_id:<20} {start_time:<20} {branch:<15} {glyphs}")
 
@@ -96,7 +96,7 @@ class CollapseReplayTool:
                 f"  {drift['timestamp'][11:23]} - Entropy: {drift['entropy']:.3f} - Phase: {phase_color}{drift['phase']}\033[0m"
             )
 
-        print(f"\n💥 Collapsed Glyphs: {' → '.join(session['collapsed_glyphs']}")
+        print(f"\n💥 Collapsed Glyphs: {' → '.join(session['collapsed_glyphs'])}")
 
         if session["guardian_flags"]:
             print("\n🛡️ Guardian Flags:")
@@ -146,7 +146,7 @@ class CollapseReplayTool:
         initial_entropy = session["entropy_drift"][0]["entropy"]
         wf = wm.create_wavefunction(wf_id="replay_wf", template_name=template, initial_entropy=initial_entropy)
 
-        print(f"Initial state: {' + '.join(wf.glyph_superposition}")
+        print(f"Initial state: {' + '.join(wf.glyph_superposition)}")
         print(f"Initial entropy: {wf.entropy_score:.3f}")
         print(f"Trinity coherence: {wf.trinity_coherence:.3f}")
         print("\n" + "-" * 40 + "\n")
@@ -193,7 +193,7 @@ class CollapseReplayTool:
         # Final summary
         print("📋 Replay Summary:")
         print(f"  Final entropy: {session['entropy_drift'][-1]['entropy']:.3f}")
-        print(f"  Collapse sequence: {' → '.join(session['collapsed_glyphs']}")
+        print(f"  Collapse sequence: {' → '.join(session['collapsed_glyphs'])}")
         print(f"  Guardian involvement: {'Yes' if session['guardian_flags'] else 'No'}")
         print(f"  Final glyph: {session['collapsed_glyphs'][-1] if session['collapsed_glyphs'] else 'None'}")
         print(f"  Trinity coherence: {session['trinity_coherence']:.3f}")

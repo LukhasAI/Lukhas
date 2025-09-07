@@ -211,7 +211,7 @@ class DriveAdapter(BaseServiceAdapter):
     ) -> dict:
         """
         Search files in Drive
-        Example: "name contains 'travel' and mimeType = 'application/pdf'"
+        Example: "name contains 'travel' and mimeType = 'application/pdf\'"
         """
         return await self.list_files(lid, query=search_query, capability_token=capability_token)
 
@@ -274,7 +274,7 @@ class DriveAdapter(BaseServiceAdapter):
                     return {
                         "file_id": file_data["id"],
                         "name": file_data["name"],
-                        "trace_id": self.telemetry.metrics.get("last_trace_id"},
+                        "trace_id": self.telemetry.metrics.get("last_trace_id")},
                     }
                 else:
                     return {"error": f"upload_error_{response.status}"}
@@ -310,7 +310,7 @@ class DriveAdapter(BaseServiceAdapter):
         }
 
 
-# Integration with Agent 4's context bus
+# Integration with Agent 4\'s context bus
 class DriveContextIntegration:
     """
     Integration layer for Agent 4's context orchestrator

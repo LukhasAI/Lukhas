@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 LUKHAS System Initialization - Production Ready
@@ -259,13 +261,13 @@ class LUKHASSystem:
 
         # Module summary
         print("\n📦 Module Status:")
-        print(f"  ✅ Loaded: {module_report.get('loaded', 0}")
-        print(f"  📦 Fallback: {module_report.get('fallback', 0}")
-        print(f"  ❌ Failed: {module_report.get('failed', 0}")
+        print(f"  ✅ Loaded: {module_report.get('loaded', 0)}")
+        print(f"  📦 Fallback: {module_report.get('fallback', 0)}")
+        print(f"  ❌ Failed: {module_report.get('failed', 0)}")
 
         # Health summary
         healthy = sum(1 for v in self.health_status.values() if v)
-        print(f"\n💚 Health: {healthy}/{len(self.health_status} components healthy")
+        print(f"\n💚 Health: {healthy}/{len(self.health_status)} components healthy")
 
         # Critical modules
         print("\n🔑 Critical Systems:")
@@ -282,7 +284,7 @@ class LUKHASSystem:
 
         # Timing
         print(f"\n⏱️  Initialization time: {init_time:.2f} seconds")
-        print(f"📅 Started at: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}")
+        print(f"📅 Started at: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
 
         print("\n" + "=" * 70)
         print("System ready for operation")

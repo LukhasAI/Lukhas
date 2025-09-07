@@ -7,16 +7,14 @@ Works with Trinity Framework for deep understanding.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import logging
 import re
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

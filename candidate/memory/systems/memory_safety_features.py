@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -175,7 +177,7 @@ class MemorySafetySystem:
             # Record in verifold
             if memory_id in self.verifold_registry:
                 self.verifold_registry[memory_id].suspicious_modifications.append(
-                    f"{datetime.now(timezone.utc).isoformat(}: {error}"
+                    f"{datetime.now(timezone.utc).isoformat()}: {error}"
                 )
                 self.verifold_registry[memory_id].integrity_score *= 0.9
 

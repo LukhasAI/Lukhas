@@ -3,12 +3,12 @@ Identity System Events Module
 ==============================
 Provides event types and publishers for the identity system.
 """
-import streamlit as st
-
 import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any
+
+import streamlit as st
 
 
 class IdentityEventType(Enum):

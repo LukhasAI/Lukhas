@@ -93,7 +93,7 @@ def get_context_lines(file_path: str, line_num: int, context: int = 30) -> str:
         context_lines = []
         for i in range(start, end):
             marker = " >>> " if i == line_num - 1 else "     "
-            context_lines.append(f"{i+1:4d}{marker}{lines[i].rstrip(}")
+            context_lines.append(f"{i+1:4d}{marker}{lines[i].rstrip()}")
 
         return "\n".join(context_lines)
     except Exception:
@@ -158,7 +158,7 @@ OUTPUT FORMAT:
 
 def write_patch(file_path: str, line_num: int, patch_content: str) -> Path:
     """Write patch content to temporary file."""
-    filename = f"t4_quickfix_{Path(file_path}.stem}_L{line_num}.patch"
+    filename = f"t4_quickfix_{Path(file_path)}.stem}_L{line_num}.patch"
     patch_path = Path(tempfile.gettempdir()) / filename
 
     with open(patch_path, "w", encoding="utf-8") as f:

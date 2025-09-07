@@ -1,4 +1,5 @@
 from typing import List
+
 """
 
 #TAG:core
@@ -259,7 +260,7 @@ async def test_plugin_discovery():
             discovered = await loader.discover_plugins()
 
             if len(discovered) > 0:
-                print(f"✅ Plugin discovery successful (found {len(discovered} plugin(s))")
+                print(f"✅ Plugin discovery successful (found {len(discovered)} plugin(s))")
                 return True
             else:
                 print("❌ No plugins discovered")

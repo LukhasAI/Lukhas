@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -197,15 +199,15 @@ Respond in JSON format with the following structure:
         prompt_parts = [
             "Please evaluate the following action for ethical implications:",
             f"\nAction: {decision.action}",
-            f"\nContext: {json.dumps(decision.context, indent=2}",
+            f"\nContext: {json.dumps(decision.context, indent=2)}",
             f"\nUrgency: {decision.urgency.value}",
         ]
 
         if decision.symbolic_state:
-            prompt_parts.append(f"\nSymbolic State: {json.dumps(decision.symbolic_state, indent=2}")
+            prompt_parts.append(f"\nSymbolic State: {json.dumps(decision.symbolic_state, indent=2)}")
 
         if decision.glyphs:
-            prompt_parts.append(f"\nSymbolic Glyphs: {', '.join(decision.glyphs}")
+            prompt_parts.append(f"\nSymbolic Glyphs: {', '.join(decision.glyphs)}")
 
         if decision.requester_id:
             prompt_parts.append(f"\nRequester: {decision.requester_id}")

@@ -4,10 +4,9 @@ Author: Jules 03
 Date: 2025-07-19
 Description: Provides a symbolic summary for dream redirects.
 """
-from typing import Dict
-import streamlit as st
+from typing import Any, Dict
 
-from typing import Any
+import streamlit as st
 
 # LUKHAS_TAG: dream_redirect_chain
 

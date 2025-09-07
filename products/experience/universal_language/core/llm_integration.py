@@ -5,17 +5,16 @@ LLM Integration Layer for Universal Language
 Bridges symbolic language with Large Language Models (GPT, Claude, etc.)
 Based on what Sam Altman/OpenAI would implement.
 """
-import time
-import random
-import streamlit as st
-
 import hashlib
 import logging
+import random
+import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 from universal_language.core import Symbol, SymbolicDomain
 
@@ -104,7 +103,7 @@ class PromptOptimizer:
         for symbol in symbols[: limit // 10]:  # Rough compression
             essential.append(f"{symbol.name}={symbol.glyph or symbol.value}")
 
-        return f"{base}\nSymbols: {', '.join(essential}"
+        return f"{base}\nSymbols: {', '.join(essential)}"
 
     def estimate_tokens(self, text: str) -> int:
         """Estimate token count (simplified)"""
@@ -405,7 +404,7 @@ class SymbolRLHF:
         """Train a reward model from human feedback"""
         # Simplified implementation
         # In production, would train actual neural network
-        logger.info(f"Training reward model with {len(feedback_data} examples")
+        logger.info(f"Training reward model with {len(feedback_data)} examples")
 
     def optimize_symbol_usage(self, context: str) -> list[Symbol]:
         """Use learned preferences to suggest optimal symbols"""
@@ -437,7 +436,7 @@ class LLMSymbolAPI:
 
         # This would call actual LLM API
         # For now, return mock response
-        response_text = f"Generated response for {len(symbols} symbols"
+        response_text = f"Generated response for {len(symbols)} symbols"
         extracted_symbols = self.bridge.extract_symbols_from_llm(response_text)
 
         return response_text, extracted_symbols

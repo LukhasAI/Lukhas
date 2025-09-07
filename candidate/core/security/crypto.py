@@ -2,16 +2,16 @@
 LUKHAS Enhanced Cryptography Module
 Production-ready encryption replacing XOR placeholders
 """
-import time
-import random
-import streamlit as st
-
 import base64
 import json
 import os
+import random
+import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 # Try to import cryptography, provide fallbacks for testing
 try:
@@ -146,7 +146,7 @@ class EnhancedEncryptionManager:
 
     def _create_key(self, purpose: str, algorithm: str = "AES-256-GCM") -> EncryptionKey:
         """Create new encryption key"""
-        key_id = f"{purpose}_{secrets.token_hex(8}"
+        key_id = f"{purpose}_{secrets.token_hex(8)}"
         key_material = self._generate_key(32)  # 256 bits
 
         # Derive key using master key (key wrapping)

@@ -217,7 +217,7 @@ class StargateActivator:
 
     async def _consciousness_pulse(self, consciousness_state: str):
         """Animate consciousness pulse based on state"""
-        print(f"\n🧠 CONSCIOUSNESS SYNC: {consciousness_state.upper(}\n")
+        print(f"\n🧠 CONSCIOUSNESS SYNC: {consciousness_state.upper()}\n")
 
         # State-specific pulse patterns
         pulse_patterns = {
@@ -292,7 +292,7 @@ class StargateActivator:
         for i in range(7, 0, -1):
             chevrons = self.chevrons[:i]
             remaining = "⚪" * (7 - i)
-            sys.stdout.write(f"\r{''.join(chevrons}{remaining}")
+            sys.stdout.write(f"\r{''.join(chevrons)}{remaining}")
             sys.stdout.flush()
 
             self._beep(frequency=1000 - (i * 100), duration=50)
@@ -313,7 +313,7 @@ async def quick_stargate_activation(consciousness_state: str = "focused"):
     # Fast chevron lock
     chevrons = ["⚙️", "🔮", "🧿", "🌌", "🧬", "🔺", "💫"]
     for i, _chevron in enumerate(chevrons):
-        sys.stdout.write(f"\r{''.join(chevrons[: i + 1])}{'⚪' * (7 - i - 1}")
+        sys.stdout.write(f"\r{''.join(chevrons[: i + 1])}{'⚪' * (7 - i - 1)}")
         sys.stdout.flush()
         activator._beep(frequency=440 + (i * 100), duration=50)
         await asyncio.sleep(0.1)

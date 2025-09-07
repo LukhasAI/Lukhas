@@ -86,7 +86,7 @@ class DreamOrchestrator:
             - "colors": (array of 3 strings) Provide 3 hex color codes. The first is the background, the others are for the object/lights.
             - "particle_count": (integer) A number between 500 and 8000.
         """
-        user_prompt = f'Dream Seed: "{seed}"\nRelated LUKHAS Concepts: {", ".join(concepts}'
+        user_prompt = f\'Dream Seed: "{seed}"\nRelated LUKHAS Concepts: {", ".join(concepts)}\'
 
         response = self.openai_client.chat.completions.create(
             model="gpt-4-turbo",
@@ -180,7 +180,7 @@ class DreamOrchestrator:
     def store_dream(self, manifest: dict) -> str:
         memory_id = f"mem_{int(time.time()}"
         print(
-            f"Storing dream {manifest.get('dream_id'} with memory ID {memory_id}",
+            f"Storing dream {manifest.get('dream_id')} with memory ID {memory_id}",
             file=sys.stderr,
         )
         try:
@@ -192,7 +192,7 @@ class DreamOrchestrator:
                 }
                 f.write(json.dumps(manifest_to_store) + "\n")
             print(
-                f"Successfully stored dream {manifest.get('dream_id'}.",
+                f"Successfully stored dream {manifest.get('dream_id')}.",
                 file=sys.stderr,
             )
             return memory_id

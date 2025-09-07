@@ -438,7 +438,7 @@ class TrinityFrameworkMonitor:
     ) -> TrinityInteraction:
         """Record a Trinity Framework component interaction"""
 
-        interaction_id = f"interaction_{uuid.uuid4(}.hex[:12]}"
+        interaction_id = f"interaction_{uuid.uuid4()}.hex[:12]}"
         metadata = metadata or {}
 
         interaction = TrinityInteraction(
@@ -486,7 +486,7 @@ class TrinityFrameworkMonitor:
     ) -> AuthenticationEvent:
         """Record an authentication event"""
 
-        event_id = f"auth_{uuid.uuid4(}.hex[:12]}"
+        event_id = f"auth_{uuid.uuid4()}.hex[:12]}"
         metadata = metadata or {}
 
         # Detect anomalies based on risk score
@@ -536,7 +536,7 @@ class TrinityFrameworkMonitor:
     ) -> APIPerformanceMetric:
         """Record API performance metrics"""
 
-        metric_id = f"api_{uuid.uuid4(}.hex[:12]}"
+        metric_id = f"api_{uuid.uuid4()}.hex[:12]}"
         metadata = metadata or {}
 
         # Calculate error rate
@@ -573,7 +573,7 @@ class TrinityFrameworkMonitor:
         """Capture comprehensive Trinity health snapshot"""
 
         try:
-            snapshot_id = f"health_{uuid.uuid4(}.hex[:12]}"
+            snapshot_id = f"health_{uuid.uuid4()}.hex[:12]}"
             timestamp = datetime.now(timezone.utc)
 
             # Calculate component health scores
@@ -1113,7 +1113,7 @@ class TrinityFrameworkMonitor:
 
         # Generate report
         report = TrinityReport(
-            report_id=f"trinity_report_{uuid.uuid4(}.hex[:12]}",
+            report_id=f"trinity_report_{uuid.uuid4()}.hex[:12]}",
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_framework_health=overall_framework_health,

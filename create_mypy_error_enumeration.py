@@ -203,7 +203,7 @@ def create_agent_tasks(file_groups: dict[str, FileErrors], max_per_task: int = 1
         if current_task_errors + file_errors.total_errors > max_per_task and current_task:
             tasks[f"task_{task_id}"] = {
                 "task_id": task_id,
-                "agent": f"agent_{(task_id % 6} + 1}",  # Distribute across 6 agents
+                "agent": f"agent_{(task_id % 6)} + 1}",  # Distribute across 6 agents
                 "total_errors": current_task_errors,
                 "files": current_task.copy(),
                 "priority_breakdown": calculate_task_priority(current_task, file_groups),
@@ -220,7 +220,7 @@ def create_agent_tasks(file_groups: dict[str, FileErrors], max_per_task: int = 1
     if current_task:
         tasks[f"task_{task_id}"] = {
             "task_id": task_id,
-            "agent": f"agent_{(task_id % 6} + 1}",
+            "agent": f"agent_{(task_id % 6)} + 1}",
             "total_errors": current_task_errors,
             "files": current_task,
             "priority_breakdown": calculate_task_priority(current_task, file_groups),
@@ -281,7 +281,7 @@ def main():
             print("⚠️ No parseable errors found in mypy output")
             return
 
-        print(f"🎯 Found {len(errors} parseable mypy errors")
+        print(f"🎯 Found {len(errors)} parseable mypy errors")
 
         # Group by file
         file_groups = group_errors_by_file(errors)
@@ -337,14 +337,14 @@ def main():
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(error_enumeration, f, indent=2, ensure_ascii=False)
 
-        print(f"✅ Created {output_file} with {len(errors)} errors across {len(file_groups} files")
-        print(f"📋 Generated {len(tasks} agent tasks for parallel processing")
+        print(f"✅ Created {output_file} with {len(errors)} errors across {len(file_groups)} files")
+        print(f"📋 Generated {len(tasks)} agent tasks for parallel processing")
 
         # Print summary
         print("\n📊 SUMMARY:")
-        print(f"   Total Errors: {len(errors}")
-        print(f"   Files Affected: {len(file_groups}")
-        print(f"   Agent Tasks: {len(tasks}")
+        print(f"   Total Errors: {len(errors)}")
+        print(f"   Files Affected: {len(file_groups)}")
+        print(f"   Agent Tasks: {len(tasks)}")
 
         print("\n🔥 TOP 5 FILES BY CRITICAL ERRORS:")
         for i, file_info in enumerate(error_enumeration["summary"]["files_by_error_count"][:5], 1):

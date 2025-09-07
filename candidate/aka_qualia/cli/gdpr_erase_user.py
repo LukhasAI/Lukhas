@@ -6,14 +6,14 @@ Removes all user data from the Aka Qualia memory system in compliance
 with GDPR Article 17 (Right to Erasure). Provides comprehensive logging
 and verification of data removal.
 """
-import logging
-import time
-import streamlit as st
-
 import argparse
+import logging
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -180,7 +180,7 @@ Examples:
     print(f"👤 User ID: {args.user_id}")
     print(f"📡 Database: {args.db_url}")
     print(f"🎯 Mode: {'DRY RUN' if args.dry_run else 'EXECUTE ERASURE'}")
-    print(f"🔒 Production mode: {'ON (user ID will be hashed)' if args.prod_mode else 'OFF (plain user ID}'}")
+    print(f"🔒 Production mode: {'ON (user ID will be hashed)' if args.prod_mode else 'OFF (plain user ID)}'}")
     print()
 
     try:

@@ -157,9 +157,9 @@ class ConsciousnessAgent:
 
 # Export main classes
 __all__ = [
-    "MultiAgentCoordination",
-    "CoordinationStrategy",
     "AgentProfile",
-    "CoordinationDecision",
     "ConsciousnessAgent",
+    "CoordinationDecision",
+    "CoordinationStrategy",
+    "MultiAgentCoordination",
 ]

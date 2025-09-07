@@ -9,16 +9,15 @@
 # {ΛDRIFT}
 # {ΛTRACE}
 
-from typing import Any, Optional
+import logging
+import time
+from typing import Any, Dict, Optional
 
 import numpy as np
+import streamlit as st
 
 from emotion.affect_stagnation_detector import AffectStagnationDetector
 from lukhas.memory.emotional import EmotionalMemory
-import streamlit as st
-import time
-import logging
-from typing import Dict
 
 log = logging.getLogger(__name__)
 
@@ -100,7 +99,7 @@ class RecurringEmotionTracker:
                 "recurrence": True,
                 "symbol": "🔄",
                 "origin_dream": origin_dream,
-                "trigger": f"Recurring emotion detected: {primary_emotion} appeared {len(similar_emotions} times recently.",
+                "trigger": f"Recurring emotion detected: {primary_emotion} appeared {len(similar_emotions)} times recently.",
             }
         return None
 

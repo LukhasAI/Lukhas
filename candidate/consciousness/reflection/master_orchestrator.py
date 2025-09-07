@@ -47,8 +47,6 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛCOMPLETE: Brain/memory orchestration integration implemented with safety protocols
 AIDEA: Implement LUKHAS cycle optimization with memory integration
 """
-import streamlit as st
-
 import asyncio
 import logging
 import time
@@ -57,6 +55,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Import orchestration components
 try:
@@ -1146,7 +1146,7 @@ class MasterOrchestrator:
                     stalled_cycles.append(request_id)
 
         if stalled_cycles:
-            self.logger.warning(f"Detected {len(stalled_cycles} stalled LUKHAS cycles")
+            self.logger.warning(f"Detected {len(stalled_cycles)} stalled LUKHAS cycles")
 
         # Clean up completed cycles older than 24 hours
         cleanup_threshold = current_time - timedelta(hours=24)

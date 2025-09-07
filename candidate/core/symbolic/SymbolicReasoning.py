@@ -21,10 +21,9 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 EXTRACTED FROM: enhanced_bot_primary.py (SymbolicEngine class)
 ENHANCEMENT: Added professional structure and improved documentation
 """
-import streamlit as st
-from datetime import timezone
+from datetime import datetime, timezone
 
-from datetime import datetime
+import streamlit as st
 
 
 class SymbolicEngine:
@@ -250,7 +249,7 @@ class SymbolicEngine:
 
         contents = [elem["content"] for elem in elements]
         if relation_type == "compound":
-            return f"({' ∧ '.join(contents})"
+            return f"({' ∧ '.join(contents)})"
         else:
             return contents[0] if contents else ""
 

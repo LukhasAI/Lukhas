@@ -6,12 +6,13 @@ import json
 import os
 from typing import Any
 
+import streamlit as st
 import yaml  # pip install pyyaml
+
+from consciousness.qi import qi
 
 # Reuse your confidence-based planner
 from qi.router.confidence_router import ConfidenceRouter
-import streamlit as st
-from consciousness.qi import qi
 
 PRESETS_PATH_ENV = "LUKHAS_ROUTER_PRESETS"
 DEFAULT_PRESETS_PATH = os.path.join("qi", "router", "presets.yaml")
@@ -35,7 +36,7 @@ def _validate(cfg: dict[str, Any]) -> None:
     allowed_keys = {"defaults", "tasks", "models"}
     unknown = set(cfg.keys()) - allowed_keys
     if unknown:
-        raise ConfigError(f"Unknown top-level keys in presets: {sorted(unknown}")
+        raise ConfigError(f"Unknown top-level keys in presets: {sorted(unknown)}")
 
     def _check_plan(plan: dict[str, Any], ctx: str):
         # soft schema

@@ -4,11 +4,10 @@ Original: dream_processor.py
 Advanced: dream_processor.py
 Integration Date: 2025-05-31T07:55:29.948738
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 from ..symbolic_ai.memory import SymbolicMemoryEngine
 

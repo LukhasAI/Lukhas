@@ -4,7 +4,6 @@ The Poetry Revolution Demo
 "One module. Three methods. Everything changes."
 """
 import streamlit as st
-
 from soul import EmotionalTone, dream, error_haiku, express
 
 
@@ -31,7 +30,7 @@ def main():
 
     print("\n▸ AFTER: Poetry Soul")
     thought = "Initializing quantum consciousness module"
-    print(f"  {express(thought, EmotionalTone.WONDER}")
+    print(f"  {express(thought, EmotionalTone.WONDER)}")
 
     divider()
 

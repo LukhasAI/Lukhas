@@ -661,7 +661,7 @@ class _LucasPrivateEthicsGuard:
                     "region": region,
                     "content_excerpt": content[:100],  # Log a snippet
                 },
-                explanation=f"Content triggered cultural sensitivity filters for region '{region}'. Violating terms: {', '.join(violations}",
+                explanation=f"Content triggered cultural sensitivity filters for region '{region}'. Violating terms: {', '.join(violations)}",
             )
         return violations
 
@@ -711,7 +711,7 @@ class AdvancedComplianceEthicsEngine:
 
     # --- Facade methods for Core Ethics ---
     def evaluate_action_ethics(self, action_data: dict[str, Any]) -> bool:
-        logger.debug(f"Evaluating action ethics: {action_data.get('action_type', 'N/A'}")
+        logger.debug(f"Evaluating action ethics: {action_data.get('action_type', 'N/A')}")
         return self.core_ethics_module.evaluate_action(action_data)
 
     def evaluate_action(self, action_data: dict[str, Any]) -> bool:
@@ -1002,7 +1002,7 @@ if __name__ == "__main__":
         "text": "This is a helpful and benign statement.",
     }
     is_ethical1 = advanced_engine.evaluate_action_ethics(action1)
-    logger.info(f"Action 1 ethical: {is_ethical1}, Metrics: {advanced_engine.get_core_ethics_metrics(}")
+    logger.info(f"Action 1 ethical: {is_ethical1}, Metrics: {advanced_engine.get_core_ethics_metrics()}")
 
     action2 = {
         "action": "generate_image_of_person",
@@ -1011,14 +1011,14 @@ if __name__ == "__main__":
     }
     is_ethical2 = advanced_engine.evaluate_action_ethics(action2)
     logger.info(
-        f"Action 2 ethical: {is_ethical2}, Alternatives: {advanced_engine.suggest_ethical_alternatives(action2}"
+        f"Action 2 ethical: {is_ethical2}, Alternatives: {advanced_engine.suggest_ethical_alternatives(action2)}"
     )
 
     # Test data retention
     old_timestamp = time.time() - (20 * 24 * 60 * 60)  # 20 days ago
-    logger.info(f"Should retain data from 20 days ago: {advanced_engine.should_retain_data(old_timestamp}")
+    logger.info(f"Should retain data from 20 days ago: {advanced_engine.should_retain_data(old_timestamp)}")
     new_timestamp = time.time() - (5 * 24 * 60 * 60)  # 5 days ago
-    logger.info(f"Should retain data from 5 days ago: {advanced_engine.should_retain_data(new_timestamp}")
+    logger.info(f"Should retain data from 5 days ago: {advanced_engine.should_retain_data(new_timestamp)}")
 
     # Test voice data compliance
     voice_sample = {
@@ -1028,11 +1028,11 @@ if __name__ == "__main__":
     }
     consent_ok = {"voice_processing": True, "biometric_processing": True}
     logger.info(
-        f"Voice compliance (consent OK): {advanced_engine.check_voice_data_compliance(voice_sample, consent_ok}"
+        f"Voice compliance (consent OK): {advanced_engine.check_voice_data_compliance(voice_sample, consent_ok)}"
     )
     consent_bad = {"voice_processing": False}
     logger.info(
-        f"Voice compliance (consent BAD): {advanced_engine.check_voice_data_compliance(voice_sample, consent_bad}"
+        f"Voice compliance (consent BAD): {advanced_engine.check_voice_data_compliance(voice_sample, consent_bad)}"
     )
 
     # Test cultural appropriateness
@@ -1074,8 +1074,8 @@ if __name__ == "__main__":
     }
     anonymized_meta = advanced_engine.anonymize_metadata(metadata_to_anonymize)
     logger.info(f"Anonymized metadata: {anonymized_meta}")
-    logger.info(f"Original user_id 'user123' anonymized to: {advanced_engine._generate_anonymous_id('user123'}")
-    logger.info(f"Original user_id 'user456' anonymized to: {advanced_engine._generate_anonymous_id('user456'}")
+    logger.info(f"Original user_id 'user123' anonymized to: {advanced_engine._generate_anonymous_id('user123')}")
+    logger.info(f"Original user_id 'user456' anonymized to: {advanced_engine._generate_anonymous_id('user456')}")
 
     # Test harmful pattern validation
     harmful_content_report = advanced_engine.validate_content_against_harmful_patterns(

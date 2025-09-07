@@ -226,7 +226,7 @@ class MultiModelOrchestrator:
 
         logger.info("🎭 Multi-Model Orchestrator initialized")
         logger.info(f"   Available models: {list(self.model_bridges.keys()}")
-        logger.info(f"   Consensus strategies: {len(self.consensus_algorithms}")
+        logger.info(f"   Consensus strategies: {len(self.consensus_algorithms)}")
 
     def _initialize_model_bridges(self):
         """Initialize bridges to model providers"""
@@ -321,7 +321,7 @@ class MultiModelOrchestrator:
             "critical": critical_pipeline,
         }
 
-        logger.info(f"📋 {len(self.default_pipelines} default pipelines configured")
+        logger.info(f"📋 {len(self.default_pipelines)} default pipelines configured")
 
     async def orchestrate(
         self,
@@ -477,7 +477,7 @@ class MultiModelOrchestrator:
 
         for i, model in enumerate(pipeline.models):
             if model in self.model_bridges:
-                logger.info(f"   Executing model {i + 1}/{len(pipeline.models}: {model.value}")
+                logger.info(f"   Executing model {i + 1}/{len(pipeline.models)}: {model.value}")
 
                 # Add previous responses to context
                 if responses:
@@ -501,7 +501,7 @@ class MultiModelOrchestrator:
 
         for i, model in enumerate(pipeline.models):
             if model in self.model_bridges:
-                logger.info(f"   Cascade step {i + 1}/{len(pipeline.models}: {model.value}")
+                logger.info(f"   Cascade step {i + 1}/{len(pipeline.models)}: {model.value}")
 
                 response = await self._execute_single_model(model, current_prompt, context)
                 responses.append(response)
@@ -595,7 +595,7 @@ class MultiModelOrchestrator:
         if not responses:
             raise ValueError("No valid responses for consensus")
 
-        logger.info(f"🤝 Applying consensus: {strategy.value} on {len(responses} responses")
+        logger.info(f"🤝 Applying consensus: {strategy.value} on {len(responses)} responses")
 
         # Apply the appropriate consensus algorithm
         consensus_func = self.consensus_algorithms[strategy]
@@ -646,7 +646,7 @@ class MultiModelOrchestrator:
             individual_responses=responses,
             consensus_strategy=ConsensusStrategy.MAJORITY_VOTE,
             agreement_level=agreement_level,
-            decision_rationale=f"Majority consensus from {len(majority_group)}/{len(responses} models",
+            decision_rationale=f"Majority consensus from {len(majority_group)}/{len(responses)} models",
         )
 
     async def _unanimous_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
@@ -716,7 +716,7 @@ class MultiModelOrchestrator:
             individual_responses=responses,
             consensus_strategy=ConsensusStrategy.ENSEMBLE,
             agreement_level=agreement_level,
-            decision_rationale=f"Ensemble of {len(responses} model responses",
+            decision_rationale=f"Ensemble of {len(responses)} model responses",
         )
 
     def _calculate_agreement(self, responses: list[ModelResponse]) -> float:

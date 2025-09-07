@@ -252,7 +252,7 @@ class OrchestrationService:
             # Process coordination request
             coordination_results = self._process_coordination(coordination_request, coordination_type)
 
-            coordination_id = f"coord_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
+            coordination_id = f"coord_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log coordination activity
             self.identity_client.log_activity(
@@ -323,7 +323,7 @@ class OrchestrationService:
             # Execute workflow
             workflow_results = self._execute_workflow_steps(workflow_definition, execution_mode)
 
-            workflow_id = f"workflow_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
+            workflow_id = f"workflow_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Store active workflow
             self.active_workflows[workflow_id] = {
@@ -403,7 +403,7 @@ class OrchestrationService:
             # Process resource management
             resource_results = self._manage_module_resources(resource_request, management_action)
 
-            resource_id = f"resource_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
+            resource_id = f"resource_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log resource management
             self.identity_client.log_activity(
@@ -471,7 +471,7 @@ class OrchestrationService:
             # Route event
             routing_results = self._route_inter_module_event(event_data, routing_strategy)
 
-            event_id = f"event_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
+            event_id = f"event_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Add to event queue
             self.event_queue.append(
@@ -577,7 +577,7 @@ class OrchestrationService:
             }
 
             message = Message(
-                id=f"msg_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}",
+                id=f"msg_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}",
                 type=msg_type_map.get(message_type, MessageType.EVENT),
                 source_module=source_module,
                 target_module=target_module,
@@ -725,7 +725,7 @@ class OrchestrationService:
 
         try:
             broadcast_results = []
-            event_id = f"event_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
+            event_id = f"event_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Send to all active modules
             for module_name in self.module_status:
@@ -2233,35 +2233,35 @@ if __name__ == "__main__":
             },
             "sequential",
         )
-        print(f"Module coordination: {coordination_result.get('success', False}")
+        print(f"Module coordination: {coordination_result.get('success', False)}")
 
         # Test Trinity Framework performance monitoring
         print("\n🚀 Testing Trinity Framework Performance Orchestration...")
         if orchestration.performance_enabled:
             monitoring_result = await orchestration.start_performance_monitoring(test_user)
-            print(f"⚛️🧠🛡️ Trinity performance monitoring: {monitoring_result.get('success', False}")
+            print(f"⚛️🧠🛡️ Trinity performance monitoring: {monitoring_result.get('success', False)}")
 
             # Test consciousness-aware optimization
             optimization_result = await orchestration.optimize_system_performance(test_user, "consciousness_aware")
-            print(f"🧠 Consciousness optimization: {optimization_result.get('success', False}")
+            print(f"🧠 Consciousness optimization: {optimization_result.get('success', False)}")
 
             # Test bio-quantum optimization
             bio_quantum_result = await optimize_bio_quantum_performance(test_user)
-            print(f"🌊⚛️ Bio-quantum optimization: {bio_quantum_result.get('success', False}")
+            print(f"🌊⚛️ Bio-quantum optimization: {bio_quantum_result.get('success', False)}")
 
             # Test Trinity performance status
             status_result = await orchestration.get_orchestrated_performance_status(test_user, True)
-            print(f"📊 Trinity performance status: {status_result.get('success', False}")
+            print(f"📊 Trinity performance status: {status_result.get('success', False)}")
             if status_result.get("success"):
                 trinity_health = status_result.get("advanced_consciousness_metrics", {}).get(
                     "trinity_framework_performance_health", {}
                 )
                 overall_score = trinity_health.get("overall_trinity_health_score", 0)
                 print(f"   Trinity Framework Health: {overall_score}%")
-                print(f"   Bio-Oscillator: {status_result.get('bio_metrics', {}).get('oscillator_frequency', 40)}Hz")
-                print(f"   Quantum Coherence: {status_result.get('quantum_metrics', {}).get('coherence', 0):.3f}")
+                print(f"   Bio-Oscillator: {status_result.get('bio_metrics', {)}).get('oscillator_frequency', 40)}Hz")
+                print(f"   Quantum Coherence: {status_result.get('quantum_metrics', {)}).get('coherence', 0):.3f}")
                 print(
-                    f"   Cascade Prevention: {status_result.get('bio_metrics', {}).get('cascade_prevention_rate', 0.997) * 100:.1f}%"
+                    f"   Cascade Prevention: {status_result.get('bio_metrics', {)}).get('cascade_prevention_rate', 0.997)  * 100:.1f}%"
                 )
 
         # Test inter-module messaging
@@ -2273,7 +2273,7 @@ if __name__ == "__main__":
                 "command",
                 {"action": "store", "data": "Trinity Framework coordination result"},
             )
-            print(f"Inter-module message: {message_result.get('success', False}")
+            print(f"Inter-module message: {message_result.get('success', False)}")
 
             # Test system event broadcast
             broadcast_result = await orchestration.broadcast_system_event(
@@ -2281,11 +2281,11 @@ if __name__ == "__main__":
                 "trinity_system_test",
                 {"message": "Testing Trinity Framework cross-module communication"},
             )
-            print(f"System broadcast: {broadcast_result.get('success', False}")
+            print(f"System broadcast: {broadcast_result.get('success', False)}")
 
             # Get message bus stats
             stats_result = orchestration.get_message_bus_stats(test_user)
-            print(f"Message bus stats: {stats_result.get('success', False}")
+            print(f"Message bus stats: {stats_result.get('success', False)}")
 
         # Test workflow execution
         workflow_result = orchestration.execute_workflow(
@@ -2298,11 +2298,11 @@ if __name__ == "__main__":
                 ]
             },
         )
-        print(f"Workflow execution: {workflow_result.get('success', False}")
+        print(f"Workflow execution: {workflow_result.get('success', False)}")
 
         # Test system status
         status_result = orchestration.get_system_status(test_user, True)
-        print(f"System status: {status_result.get('success', False}")
+        print(f"System status: {status_result.get('success', False)}")
 
         print("\n🎯 Trinity Framework Performance Orchestration Test Complete!")
         print("Features demonstrated:")

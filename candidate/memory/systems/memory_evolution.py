@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 import logging
 
@@ -43,12 +44,11 @@ import logging
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛSTANDARD, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import time
 from typing import Optional
 
 import numpy as np
+import streamlit as st
 
 from candidate.core.common import get_logger
 

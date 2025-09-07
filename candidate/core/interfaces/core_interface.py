@@ -5,11 +5,11 @@
 Interface module to break circular dependencies between:
 core.efficient_communication <-> core.resource_optimization_integration
 """
-import streamlit as st
-
 from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.core.common import GLYPHToken
 

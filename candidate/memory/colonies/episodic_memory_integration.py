@@ -1,8 +1,9 @@
 import logging
 from datetime import timezone
+from typing import Dict, List
+
 import streamlit as st
-from typing import Dict
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 Episodic Memory Colony Integration Module
@@ -327,7 +328,7 @@ class EpisodicMemoryIntegration:
                     self.performance_metrics["episodes_replayed"] += len(replayed_memories)
                     self.performance_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()
 
-                    logger.info(f"Episode replay completed: {len(replayed_memories} memories")
+                    logger.info(f"Episode replay completed: {len(replayed_memories)} memories")
                     return {
                         "success": True,
                         "replayed_count": len(replayed_memories),

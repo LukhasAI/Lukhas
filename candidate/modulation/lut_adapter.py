@@ -1,7 +1,8 @@
 from typing import Any
 
-from lukhas.feedback.store import get_lut
 import streamlit as st
+
+from lukhas.feedback.store import get_lut
 
 
 def apply_lut(params: dict[str, Any]) -> dict[str, Any]:

@@ -173,7 +173,7 @@ class ReflectiveStatement:
     content: str
     metadata: dict[str, Any]
     qi_signature: str
-    id: str = field(default_factory=lambda: f"ref_{int(time.time() * 1000)}_{random.randint(100, 999}")  # Added ID
+    id: str = field(default_factory=lambda: f"ref_{int(time.time() * 1000)}_{random.randint(100, 999)}")  # Added ID
     trigger_event: Optional[str] = None
     associated_drift: Optional[float] = None
     emotional_weight: float = 0.5
@@ -877,7 +877,7 @@ class ReflectionLayer:
                 )
             else:
                 # Fallback to placeholder if dream engine fails
-                dream_id = f"DREAM_REPAIR_{int(time.time())}_{random.randint(1000, 9999}"
+                dream_id = f"DREAM_REPAIR_{int(time.time())}_{random.randint(1000, 9999)}"
                 reflection.metadata["triggered_dream_id"] = dream_id
                 self.logger.warning(
                     "💭 Dream simulation fallback used",
@@ -1463,7 +1463,7 @@ class ReflectionLayer:
 
         try:
             # Generate unique dream ID
-            dream_id = f"DREAM_REPAIR_{int(time.time())}_{random.randint(1000, 9999}"
+            dream_id = f"DREAM_REPAIR_{int(time.time())}_{random.randint(1000, 9999)}"
 
             # Prepare dream data based on reflection type
             dream_data = {
@@ -1655,9 +1655,9 @@ if __name__ == "__main__":
     }
     logger.info("Processing demo reflection cycle in __main__.", trigger_data=demo_trigger_data)
     demo_reflections = asyncio.run(reflection_layer_instance.process_reflection_cycle(demo_trigger_data))
-    logger.info(f"🧠 Generated {len(demo_reflections} reflections in __main__ demo cycle.")
+    logger.info(f"🧠 Generated {len(demo_reflections)} reflections in __main__ demo cycle.")
     # Basic print for console visibility during direct run
-    print(f"🧠 Generated {len(demo_reflections} reflections in __main__ demo cycle.")
+    print(f"🧠 Generated {len(demo_reflections)} reflections in __main__ demo cycle.")
 
     # Capture consciousness state
     logger.info("Capturing demo consciousness snapshot in __main__.")
@@ -1669,7 +1669,7 @@ if __name__ == "__main__":
     logger.info("Getting demo consciousness trends in __main__.")
     demo_trends = reflection_layer_instance.get_consciousness_trend()
     logger.info("📊 Consciousness trends in __main__", trends=demo_trends)
-    print(f"📊 Consciousness trends in __main__: {demo_trends.get('status', 'error'}")
+    print(f"📊 Consciousness trends in __main__: {demo_trends.get('status', 'error')}")
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: reflection_layer.py

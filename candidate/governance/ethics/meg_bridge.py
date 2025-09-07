@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """Bridge between Meta-Ethics Governor (MEG) and Ethics Policy System
 

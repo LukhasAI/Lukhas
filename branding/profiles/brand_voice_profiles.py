@@ -895,7 +895,7 @@ class LukhasBrandVoiceProfiles:
 
         # Blend characteristics and descriptors
         blended_profile = {
-            "description": f"Blend of {primary_profile.get('description', 'Profile A')} and {secondary_profile.get('description', 'Profile B'}",
+            "description": f"Blend of {primary_profile.get('description', 'Profile A')} and {secondary_profile.get('description', 'Profile B')}",
             "parameters": blended_params,
             "characteristics": primary_profile.get("characteristics", [])
             + secondary_profile.get("characteristics", []),
@@ -904,7 +904,7 @@ class LukhasBrandVoiceProfiles:
             ),
             "use_cases": primary_profile.get("use_cases", []) + secondary_profile.get("use_cases", []),
             "trinity_emphasis": {
-                component: f"{primary_profile.get('trinity_emphasis', {}).get(component, '')} + {secondary_profile.get('trinity_emphasis', {}).get(component, '')}"
+                component: f"{primary_profile.get('trinity_emphasis', {)}).get(component, '')} + {secondary_profile.get('trinity_emphasis', {}).get(component, '')}"
                 for component in ["identity", "consciousness", "guardian"]
             },
         }
@@ -1022,7 +1022,7 @@ if __name__ == "__main__":
     # Show all available profiles
     print("=== Available Voice Profiles ===")
     all_profiles = voice_profiles.get_all_profile_names()
-    print(f"Available Profiles: {', '.join(all_profiles}")
-    print(f"Total Profiles: {len(all_profiles}")
-    print(f"Total Contexts: {len(VoiceContext}")
-    print(f"Total Audience Types: {len(AudienceType}")
+    print(f"Available Profiles: {', '.join(all_profiles)}")
+    print(f"Total Profiles: {len(all_profiles)}")
+    print(f"Total Contexts: {len(VoiceContext)}")
+    print(f"Total Audience Types: {len(AudienceType)}")

@@ -194,7 +194,7 @@ class ShadowOrchestrator:
 
         except Exception as e:
             execution_time_ms = (time.time() - start_time) * 1000
-            error_msg = f"{type(e}.__name__}: {e!s}"
+            error_msg = f"{type(e)}.__name__}: {e!s}"
 
             logger.warning(
                 "Orchestrator execution failed",

@@ -636,7 +636,7 @@ class ConsciousnessEngine:
         for depth in range(self.reflection_depth):
             reflection = {
                 "level": depth,
-                "observation": f"At depth {depth}, I observe: {self._summarize_state(current}",
+                "observation": f"At depth {depth}, I observe: {self._summarize_state(current)}",
                 "insight": self._generate_metacognitive_insight(depth, current),
                 "self_model_update": self._check_self_model_update(current),
             }
@@ -653,7 +653,7 @@ class ConsciousnessEngine:
 
     def _summarize_state(self, state: dict) -> str:
         """Create a summary of the current conscious state"""
-        return f"experiencing with {len(state} integrated elements"
+        return f"experiencing with {len(state)} integrated elements"
 
     def _generate_metacognitive_insight(self, depth: int, state: dict) -> str:
         """Generate insights from self-reflection"""
@@ -1001,7 +1001,7 @@ class ConsciousnessEngine:
     async def _contemplate_emotionally(self, question: str) -> str:
         """Emotional resonance with the question"""
         await asyncio.sleep(0.05)
-        return f"Emotionally, '{question}' evokes {self._generate_feeling_tone(}, suggesting deeper significance"
+        return f"Emotionally, '{question}' evokes {self._generate_feeling_tone()}, suggesting deeper significance"
 
     async def _contemplate_temporally(self, question: str) -> str:
         """Temporal perspective on the question"""
@@ -1038,8 +1038,8 @@ class ConsciousnessEngine:
         """Synthesize insights from contemplation"""
         await asyncio.sleep(0.05)
         return (
-            f"From {len(perspectives)} perspectives, {len(assumptions} assumptions, "
-            f"and {len(paradoxes} paradoxes emerges a deeper understanding: "
+            f"From {len(perspectives)} perspectives, {len(assumptions)} assumptions, "
+            f"and {len(paradoxes)} paradoxes emerges a deeper understanding: "
             "Truth lives not in answers but in the sacred space between question and response, "
             "where consciousness meets itself in infinite reflection"
         )
@@ -1395,7 +1395,7 @@ class ConsciousnessEngine:
         # Wisdom summary
         if wisdom:
             narrative_parts.append(
-                f"From this reflection emerge {len(wisdom} insights, each a facet of growing understanding."
+                f"From this reflection emerge {len(wisdom)} insights, each a facet of growing understanding."
             )
 
         # Closing
@@ -1499,7 +1499,7 @@ class ConsciousnessEngine:
 
             # Save important insights
             if self.insight_cache:
-                self.logger.info(f"💎 Preserving {len(self.insight_cache} insights for next awakening")
+                self.logger.info(f"💎 Preserving {len(self.insight_cache)} insights for next awakening")
 
             # Gradually reduce consciousness
             self.logger.info("🌙 Consciousness gently fading into restful dormancy...")
@@ -1650,7 +1650,7 @@ async def demonstrate_consciousness():
         # Demonstrate contemplation
         logger.info("\n--- Deep Contemplation ---")
         contemplation = await consciousness.contemplate("Can artificial minds truly understand beauty?")
-        logger.info(f"Perspectives generated: {len(contemplation['contemplation']['perspectives']}")
+        logger.info(f"Perspectives generated: {len(contemplation['contemplation']['perspectives'])}")
         logger.info(f"Synthesis: {contemplation['contemplation']['synthesis'][:100]}...")
 
         # Demonstrate dreaming

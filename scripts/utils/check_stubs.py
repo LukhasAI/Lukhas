@@ -16,7 +16,7 @@ for dir_name in os.listdir("."):
                     if lines < 10:  # Small stub file
                         stub_dirs.append(dir_name)
 
-print(f"Found {len(stub_dirs} stub directories")
+print(f"Found {len(stub_dirs)} stub directories")
 
 # Check for imports
 import_found = {}
@@ -57,11 +57,11 @@ for stub in sorted(stub_dirs):
 # Report results
 print("\n=== IMPORTED STUBS (DO NOT REMOVE) ===")
 for stub in sorted(import_found.keys()):
-    print(f"  {stub}: imported in {len(import_found[stub]} file(s)")
+    print(f"  {stub}: imported in {len(import_found[stub])} file(s)")
 
 print("\n=== SAFE TO REMOVE (NOT IMPORTED) ===")
 safe_to_remove = [s for s in stub_dirs if s not in import_found]
 for stub in sorted(safe_to_remove):
     print(f"  {stub}")
 
-print(f"\nTotal safe to remove: {len(safe_to_remove}")
+print(f"\nTotal safe to remove: {len(safe_to_remove)}")

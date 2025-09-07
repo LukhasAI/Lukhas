@@ -96,7 +96,7 @@ class SecurityUpdater:
             cmd = ["pip", "install", "--upgrade", package]
 
         if self.dry_run:
-            print(f"  [DRY RUN] Would run: {' '.join(cmd}")
+            print(f"  [DRY RUN] Would run: {' '.join(cmd)}")
             return True
 
         print(f"  Updating {package}...")
@@ -189,7 +189,7 @@ class SecurityUpdater:
         print("\n🌿 Creating branch and committing changes...")
 
         # Create branch name with timestamp
-        branch_name = f"security-updates-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S'}"
+        branch_name = f"security-updates-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}"
 
         # Create and checkout new branch
         code, _, _ = self.run_command(["git", "checkout", "-b", branch_name])
@@ -226,18 +226,18 @@ Automated security update by security-update.py
         """Generate a security update report"""
         report = []
         report.append("# Security Update Report")
-        report.append(f"\nGenerated: {datetime.now(timezone.utc).isoformat(}")
-        report.append(f"\nVulnerabilities found: {len(self.vulnerabilities}")
-        report.append(f"Packages updated: {len(self.updates_applied}")
+        report.append(f"\nGenerated: {datetime.now(timezone.utc).isoformat()}")
+        report.append(f"\nVulnerabilities found: {len(self.vulnerabilities)}")
+        report.append(f"Packages updated: {len(self.updates_applied)}")
 
         if self.vulnerabilities:
             report.append("\n## Vulnerabilities Detected\n")
             for vuln in self.prioritize_updates(self.vulnerabilities):
                 report.append(f"### {vuln['package']}\n")
-                report.append(f"- **Severity**: {vuln.get('severity', 'unknown'}")
-                report.append(f"- **Current Version**: {vuln.get('current_version', 'unknown'}")
-                report.append(f"- **Vulnerability**: {vuln.get('vulnerability', 'unknown'}")
-                report.append(f"- **Fix Version**: {vuln.get('fix_version', 'latest'}")
+                report.append(f"- **Severity**: {vuln.get('severity', 'unknown')}")
+                report.append(f"- **Current Version**: {vuln.get('current_version', 'unknown')}")
+                report.append(f"- **Vulnerability**: {vuln.get('vulnerability', 'unknown')}")
+                report.append(f"- **Fix Version**: {vuln.get('fix_version', 'latest')}")
                 if vuln.get("description"):
                     report.append(f"- **Description**: {vuln['description'][:200]}...")
                 report.append("")
@@ -261,7 +261,7 @@ Automated security update by security-update.py
             print("\n✅ No security vulnerabilities detected!")
             return True
 
-        print(f"\n⚠️ Found {len(vulnerabilities} security vulnerabilities")
+        print(f"\n⚠️ Found {len(vulnerabilities)} security vulnerabilities")
 
         # Prioritize updates
         prioritized = self.prioritize_updates(vulnerabilities)
@@ -269,12 +269,12 @@ Automated security update by security-update.py
         # Show vulnerabilities
         for vuln in prioritized[:5]:  # Show top 5
             print(f"\n  📦 {vuln['package']}")
-            print(f"     Severity: {vuln.get('severity', 'unknown'}")
-            print(f"     Current: {vuln.get('current_version', 'unknown'}")
-            print(f"     Fix: {vuln.get('fix_version', 'latest'}")
+            print(f"     Severity: {vuln.get('severity', 'unknown')}")
+            print(f"     Current: {vuln.get('current_version', 'unknown')}")
+            print(f"     Fix: {vuln.get('fix_version', 'latest')}")
 
         if len(prioritized) > 5:
-            print(f"\n  ... and {len(prioritized} - 5} more")
+            print(f"\n  ... and {len(prioritized)} - 5} more")
 
         if not auto_update and not self.dry_run:
             response = input("\n💡 Apply security updates? (y/n): ")
@@ -340,9 +340,9 @@ def main():
             missing_tools.append(package_name)
 
     if missing_tools:
-        print(f"❌ Missing required tools: {', '.join(missing_tools}")
+        print(f"❌ Missing required tools: {', '.join(missing_tools)}")
         print("\nInstall them with:")
-        print(f"  pip install {' '.join(missing_tools}")
+        print(f"  pip install {' '.join(missing_tools)}")
         sys.exit(1)
 
     # Run the updater

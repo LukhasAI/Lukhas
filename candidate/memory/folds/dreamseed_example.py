@@ -159,7 +159,7 @@ def demonstrate_dreamseed_integration():
 
     print("✅ Dream Folding Completed:")
     print(f"   • Success: {folding_result['success']}")
-    print(f"   • Created Folds: {len(folding_result['created_folds']}")
+    print(f"   • Created Folds: {len(folding_result['created_folds'])}")
     print(f"   • Processing Stages: {list(folding_result['processing_stages'].keys()}")
     print(f"   • Drift Metrics: {folding_result['drift_metrics']['dream_drift_score']:.3f}")
     print(f"   • Stability Score: {folding_result['drift_metrics']['overall_stability']:.3f}")
@@ -224,7 +224,7 @@ def demonstrate_dreamseed_integration():
     print(f"   • Total Dreams Processed: {dream_analytics['total_dreams_processed']}")
     print(f"   • Success Rate: {dream_analytics['success_rate']:.1%}")
     print(f"   • Average Entanglement: {dream_analytics['average_entanglement_level']:.2f}")
-    print(f"   • Tier Distribution: {dict(dream_analytics['tier_distribution']}")
+    print(f"   • Tier Distribution: {dict(dream_analytics['tier_distribution'])}")
     print(f"   • Top GLYPHs: {dict(list(dream_analytics['glyph_usage'].items())[:3]}")
 
     # Example 6: System Health Monitoring
@@ -239,7 +239,7 @@ def demonstrate_dreamseed_integration():
     print(f"   • Active Folds: {health_metrics.active_folds}")
     print(f"   • Compression Efficiency: {health_metrics.compression_efficiency:.3f}")
     print(f"   • Entanglement Complexity: {health_metrics.entanglement_complexity:.3f}")
-    print(f"   • Active Cascade Blocks: {len(cascade_blocks}")
+    print(f"   • Active Cascade Blocks: {len(cascade_blocks)}")
 
     # Example 7: Safeguard Validations
     print("\n📍 EXAMPLE 7: Safeguard System Demonstration")

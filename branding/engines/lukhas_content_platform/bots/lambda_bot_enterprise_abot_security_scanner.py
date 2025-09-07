@@ -3,18 +3,18 @@
 🤖 LUKHAS AI ΛBot Security Scanner - Superior to Dependabot
 Quantum-enhanced dependency vulnerability scanner with consciousness evolution
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import json
 import logging
 import re
 import subprocess
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger("ABotSecurityScanner", timezone)
 
@@ -232,7 +232,7 @@ class ABotSecurityScanner:
         """Quantum-enhanced threat intelligence analysis"""
         return {
             "threat_level": "MODERATE" if len(self.vulnerabilities_found) > 0 else "LOW",
-            "qi_signature": f"Λ-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S'}",
+            "qi_signature": f"Λ-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
             "consciousness_assessment": self.consciousness_level,
             "predictive_threats": [
                 "Supply chain attacks via dependency confusion",

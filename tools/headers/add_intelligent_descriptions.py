@@ -6,15 +6,15 @@ LUKHAS Intelligent Module Description Generator
 Uses OpenAI GPT to generate rich, narrative module descriptions
 that explain quantum functionality in poetic yet technical terms.
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import os
 import re
 from pathlib import Path
 
 import openai
+import streamlit as st
 from dotenv import load_dotenv
+
+from consciousness.qi import qi
 
 # Load environment variables
 load_dotenv(Path(__file__).parent.parent.parent / ".env")
@@ -159,7 +159,7 @@ Generate a description that makes quantum physics feel like poetry and poetry fe
         equals = "=" * len(module_title)
 
         features = code_analysis["qi_features"]
-        feature_text = f"quantum {', '.join(features[:2]}" if features else "quantum-inspired processing"
+        feature_text = f"quantum {', '.join(features[:2])}" if features else "quantum-inspired processing"
 
         return f"""
 {module_title}

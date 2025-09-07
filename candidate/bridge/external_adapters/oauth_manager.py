@@ -38,21 +38,19 @@
 ║ Symbolic Tags: {ΛOAUTH}, {ΛSECURITY}, {ΛAUTH}, {ΛTOKENS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import List
-import random
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import base64
 import hashlib
 import hmac
 import json
 import logging
+import random
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.external_adapters.oauth", timezone)
@@ -341,7 +339,7 @@ class OAuthManager:
 
             # Generate new tokens (simulation)
             new_credentials = {
-                "access_token": f"refreshed_token_{secrets.token_urlsafe(16}",
+                "access_token": f"refreshed_token_{secrets.token_urlsafe(16)}",
                 "refresh_token": refresh_token,  # May or may not change
                 "expires_in": 3600,
                 "token_type": "Bearer",
@@ -447,7 +445,7 @@ class OAuthManager:
         except Exception as e:
             logger.error("Token cleanup failed: %s", str(e))
 
-    async def get_user_providers(self, user_id: str) -> List[str]:
+    async def get_user_providers(self, user_id: str) -> list[str]:
         """Get list of providers for which user has active credentials"""
         try:
             providers = []

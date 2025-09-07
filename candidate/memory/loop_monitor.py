@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -32,7 +34,7 @@ class LoopInfo:
     task: asyncio.Task
     start_time: float
     drift_score: float = 0.0  # ΛTAG: driftScore
-    collapse_hash: Optional[str] = None  # ΛTAG: collapseHash
+    collapse_hash: str | None = None  # ΛTAG: collapseHash
     affect_delta: float = 0.0  # ΛTAG: affect_delta
     entanglement_level: float = 0.0
     corruption_count: int = 0
@@ -52,7 +54,7 @@ class SymbolicLoopMonitor:
         self.corruption_threshold = corruption_threshold
         self._loops: dict[str, LoopInfo] = {}
         self._running = False
-        self._monitor_task: Optional[asyncio.Task] = None
+        self._monitor_task: asyncio.Task | None = None
         logger.info(
             "LoopMonitor initialized",
             interval=self.check_interval,

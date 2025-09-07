@@ -3,10 +3,10 @@ Regulatory Intelligence System
 
 Monitors and analyzes global regulatory developments.
 """
-import streamlit as st
-
 import logging
 from typing import Any
+
+import streamlit as st
 
 from candidate.core.interfaces import CoreInterface
 

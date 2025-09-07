@@ -15,6 +15,7 @@ It is intended to house modules related to Lukhas's authentication, authorizatio
 and identity management, such as `LucasRegistry.py`.
 """
 import logging
+
 import streamlit as st
 
 # AIMPORTS_START

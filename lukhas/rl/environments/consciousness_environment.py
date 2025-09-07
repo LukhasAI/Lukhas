@@ -11,9 +11,6 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from __future__ import annotations
 
-import streamlit as st
-
-
 # Standard library
 import asyncio
 import logging
@@ -25,6 +22,7 @@ from typing import Any, ClassVar
 # Third-party
 import gymnasium as gym
 import numpy as np
+import streamlit as st
 import torch
 from gymnasium import spaces
 
@@ -641,7 +639,7 @@ class ConsciousnessEnvironment(gym.Env):
             print(f"   Reflection Depth: {self.consciousness_state.reflection_depth}")
             print(f"   Temporal Coherence: {self.consciousness_state.temporal_coherence:.3f}")
             print(f"   Ethical Alignment: {self.consciousness_state.ethical_alignment:.3f}")
-            print(f"   Active Modules: {len(self.consciousness_state.module_activations}")
+            print(f"   Active Modules: {len(self.consciousness_state.module_activations)}")
 
             if self.episode_rewards:
                 recent_reward = self.episode_rewards[-1]

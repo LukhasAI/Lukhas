@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -418,7 +420,7 @@ class SharedEthicsEngine:
     async def create_ethical_symbol(self, decision: EthicalDecision) -> Symbol:
         """Create a symbolic representation of the ethical decision"""
         symbol = Symbol(
-            id=f"ethics_{decision.timestamp.timestamp(}",
+            id=f"ethics_{decision.timestamp.timestamp()}",
             domain=SymbolicDomain.ETHICS,
             type=SymbolicType.COMPOSITE,
             name=f"ethical_{decision.decision_type.value}",

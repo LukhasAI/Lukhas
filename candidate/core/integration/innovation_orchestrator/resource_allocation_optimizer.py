@@ -3,10 +3,10 @@ Resource Allocation Optimizer
 
 Optimizes resource allocation across innovation engines.
 """
-import streamlit as st
-
 import logging
 from typing import Any
+
+import streamlit as st
 
 from lukhas.core.interfaces import CoreInterface
 

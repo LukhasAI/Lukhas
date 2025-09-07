@@ -2,14 +2,13 @@
 ABAS Integration Adapter for NIΛS
 Integrates Lambda Boundary Attention System with NIAS message processing
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # Add ABAS to the path
 abas_path = Path(__file__).parent.parent.parent / "ΛBAS"
@@ -234,7 +233,7 @@ class NIASABASAdapter:
             context_tags.append("urgent")
 
         return AttentionRequest(
-            id=message.get("message_id", f"nias_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"),
+            id=message.get("message_id", f"nias_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"),
             source="nias_message_delivery",
             urgency=urgency,
             cognitive_cost=cognitive_cost,
@@ -326,7 +325,7 @@ class NIASABASAdapter:
             "defer_until": None,
             "reason": reason,
             "confidence": 0.6,  # Lower confidence for fallback
-            "lambda_trace": f"FALLBACK_{user_id}_{datetime.now(timezone.utc).strftime('%H%M%S'}",
+            "lambda_trace": f"FALLBACK_{user_id}_{datetime.now(timezone.utc).strftime('%H%M%S')}",
             "abas_decision": "fallback",
         }
 

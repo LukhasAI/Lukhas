@@ -31,6 +31,7 @@ Key Components:
 - Constitutional AI: Legacy constitutional principles (existing)
 """
 import time
+
 import streamlit as st
 
 # Import MΛTRIZ consciousness governance components
@@ -59,11 +60,11 @@ __all__ = [
     # MΛTRIZ Consciousness Governance
     "ConsciousnessEthicsAssessment",
     "ConsciousnessEthicsLevel",
-    "GovernanceDecisionType",
-    "GovernancePolicy",
-    "MatrizConsciousnessGovernanceSystem",
-    "consciousness_governance_system",
     # Legacy Governance Components
     "ConstitutionalPrinciple",
+    "GovernanceDecisionType",
+    "GovernancePolicy",
     "GuardianSystem",
+    "MatrizConsciousnessGovernanceSystem",
+    "consciousness_governance_system",
 ]

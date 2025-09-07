@@ -4,8 +4,6 @@ Consciousness Verification Colony
 Distributed colony for consciousness state validation, emergent pattern recognition,
 and collective consciousness coherence checking with self-healing capabilities.
 """
-import streamlit as st
-
 import asyncio
 import logging
 import time
@@ -15,6 +13,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
@@ -597,7 +596,7 @@ class ConsciousnessVerificationColony(BaseColony):
         Perform distributed consciousness verification with emergent analysis.
         """
         verification_start = time.time()
-        task_id = f"conscious_verify_{lambda_id}_{int(verification_start}"
+        task_id = f"conscious_verify_{lambda_id}_{int(verification_start)}"
 
         # Get historical states from consciousness bridge
         historical_states = []
@@ -1072,7 +1071,7 @@ class ConsciousnessVerificationColony(BaseColony):
 
                     self.emergent_patterns.update(universal_patterns)
 
-                    logger.info(f"Updated emergent patterns: {len(universal_patterns} universal patterns identified")
+                    logger.info(f"Updated emergent patterns: {len(universal_patterns)} universal patterns identified")
 
             except Exception as e:
                 logger.error(f"Pattern learning error: {e}")

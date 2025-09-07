@@ -21,15 +21,13 @@ Production Readiness Criteria:
 - Emergency protocols activate within 100ms
 - System recovery achieves 90% baseline within 10s
 """
-from typing import Dict
-import random
-import streamlit as st
-
 import asyncio
+import random
 import time
-from typing import Any
+from typing import Any, Dict
 
 import pytest
+import streamlit as st
 
 from candidate.aka_qualia.core import AkaQualia
 from candidate.aka_qualia.models import (
@@ -271,7 +269,7 @@ class ComponentAblationFramework:
                     if factor < self.failure_rate:
                         raise RuntimeError(f"Router degraded: {factor} < {self.failure_rate}")
                     # Simulated degraded routing
-                    print(f"Degraded routing: {len(glyphs} glyphs with {factor:.2f} reliability")
+                    print(f"Degraded routing: {len(glyphs)} glyphs with {factor:.2f} reliability")
 
             router = DegradedRouter(1.0 - factor)
 

@@ -1,4 +1,5 @@
 from typing import Dict
+
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - MEMORY COMPREHENSIVE
@@ -24,12 +25,12 @@ from typing import Dict
 ║ Advanced Cognitive Architecture for Artificial General Intelligence
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import logging
 import sys
+import time
 from pathlib import Path
+
+import streamlit as st
 
 # Add current directory to path for imports
 current_dir = Path(__file__).parent
@@ -96,7 +97,7 @@ def test_memory_lifecycle(orchestrator):
             },
         ]
 
-        print(f"📝 Testing {len(test_memories} memory types...")
+        print(f"📝 Testing {len(test_memories)} memory types...")
 
         # Get current memory statistics for baseline
         memory_stats = orchestrator.get_memory_statistics()

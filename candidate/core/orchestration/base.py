@@ -30,9 +30,6 @@
 ║ - Component registration and discovery
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import contextlib
 import json
@@ -40,10 +37,12 @@ import logging
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class OrchestratorState(Enum):

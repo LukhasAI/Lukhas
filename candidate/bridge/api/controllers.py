@@ -16,7 +16,8 @@ from functools import wraps
 from typing import (
     Any,  # Added Callable
     Callable,
-    Optional)
+    Optional,
+)
 
 from flask import Flask, jsonify, request
 
@@ -1018,7 +1019,7 @@ def handle_internal_server_error(error: Exception) -> Any:  # Catches general in
     # endpoint logic fully engages.
     user_id_for_log = request.headers.get("X-User-ID", "unknown_or_pre_auth")
     logger.critical(
-        f"ΛTRACE: Unhandled 500 Internal Server Error at path '{request.path}' for user '{user_id_for_log}'. Error: {error}. Traceback: {traceback.format_exc(}"
+        f"ΛTRACE: Unhandled 500 Internal Server Error at path '{request.path}' for user '{user_id_for_log}'. Error: {error}. Traceback: {traceback.format_exc()}"
     )
     identity_client.log_activity(  # Log critical failure
         "api_unhandled_critical_error",

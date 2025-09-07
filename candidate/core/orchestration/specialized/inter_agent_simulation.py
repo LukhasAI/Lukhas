@@ -519,7 +519,7 @@ async def main():
     # Get final status
     status = simulation.get_simulation_status()
     print("\n📊 Final Status:")
-    print(f"Agents: {len(status['agents']}")
+    print(f"Agents: {len(status['agents'])}")
     print(f"Messages: {status['message_count']}")
 
     print("\n🎯 Inter-Agent Simulation Complete")

@@ -31,11 +31,11 @@ with contextlib.suppress(ImportError):
 
 if _available:
     __all__ = [
+        "AgentCapabilities",
+        "AgentTier",
+        "ConsolidationPhase",
         "LukhasAIAgent",
         "LukhasAIAgentTeam",
-        "AgentTier",
-        "AgentCapabilities",
-        "ConsolidationPhase",
     ]
 else:
     __all__ = []

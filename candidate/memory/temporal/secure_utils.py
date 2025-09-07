@@ -1,8 +1,9 @@
 import logging
-import streamlit as st
 import time
-from typing import Dict
-from typing import List
+from typing import Dict, List
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -180,7 +181,7 @@ def safe_subprocess_run(
     }
 
     try:
-        logger.info(f"Running command: {' '.join(command}")
+        logger.info(f"Running command: {' '.join(command)}")
         result = subprocess.run(command, **secure_kwargs)
         return result
     except subprocess.TimeoutExpired:
@@ -286,7 +287,7 @@ def sanitize_input(input_str: str, max_length: int = 1000) -> str:
         SecurityError: If input is too long or contains dangerous content
     """
     if len(input_str) > max_length:
-        raise SecurityError(f"Input too long: {len(input_str} > {max_length}")
+        raise SecurityError(f"Input too long: {len(input_str)} > {max_length}")
 
     # Remove null bytes
     input_str = input_str.replace("\x00", "")

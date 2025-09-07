@@ -2,13 +2,12 @@
 VIVOX State Variety Enhancement
 Improves consciousness state determination for more varied states
 """
-import time
 import random
-import streamlit as st
-
+import time
 from typing import Optional
 
 import numpy as np
+import streamlit as st
 
 from .vivox_cil_core import ConsciousnessState
 

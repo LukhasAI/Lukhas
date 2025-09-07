@@ -1,7 +1,9 @@
 import logging
 from datetime import timezone
-import streamlit as st
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: awareness.py
@@ -86,7 +88,7 @@ class EnhancedSystemAwareness:
     """
 
     def __init__(self):
-        self.logger = logger.bind(awareness_system_id=f"esa_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S'}")
+        self.logger = logger.bind(awareness_system_id=f"esa_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}")
         self.logger.info("Initializing EnhancedSystemAwareness.")
 
         # Initialize quantum components

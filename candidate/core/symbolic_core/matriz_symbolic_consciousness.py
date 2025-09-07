@@ -77,7 +77,7 @@ class ProcessingState(Enum):
 class SymbolicElement:
     """Core symbolic element in consciousness processing"""
 
-    element_id: str = field(default_factory=lambda: f"SYM-{uuid.uuid4(}.hex[:8]}")
+    element_id: str = field(default_factory=lambda: f"SYM-{uuid.uuid4()}.hex[:8]}")
     symbol_type: SymbolicType = SymbolicType.SYMBOL
     content: str = ""
 
@@ -119,7 +119,7 @@ class SymbolicElement:
 
     def _generate_integrity_hash(self) -> str:
         """Generate integrity hash for validation"""
-        hash_data = f"{self.element_id}{self.content}{self.symbol_type.value}{self.created_at.isoformat(}"
+        hash_data = f"{self.element_id}{self.content}{self.symbol_type.value}{self.created_at.isoformat()}"
         return hashlib.sha256(hash_data.encode()).hexdigest()[:16]
 
     def update_access(self) -> None:
@@ -132,7 +132,7 @@ class SymbolicElement:
 class SymbolicPattern:
     """Pattern recognition in symbolic consciousness processing"""
 
-    pattern_id: str = field(default_factory=lambda: f"PAT-{uuid.uuid4(}.hex[:8]}")
+    pattern_id: str = field(default_factory=lambda: f"PAT-{uuid.uuid4()}.hex[:8]}")
     name: str = ""
     description: str = ""
 
@@ -388,8 +388,8 @@ class MatrizSymbolicConsciousnessProcessor:
                 }
 
                 logger.info(
-                    f"🔤 Processed symbolic input: {len(elements} elements, "
-                    f"{len(recognized_patterns} patterns recognized"
+                    f"🔤 Processed symbolic input: {len(elements)} elements, "
+                    f"{len(recognized_patterns)} patterns recognized"
                 )
 
                 return result

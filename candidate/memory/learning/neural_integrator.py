@@ -80,9 +80,7 @@ import torch.nn.functional as F
 try:
     from qi.systems.qi_inspired_processor import QIInspiredProcessor
 
-    from ..consciousness.consciousness_integrator import (
-        ConsciousnessEvent,
-        ConsciousnessIntegrator)
+    from ..consciousness.consciousness_integrator import ConsciousnessEvent, ConsciousnessIntegrator
     from ..memory.enhanced_memory_manager import EnhancedMemoryManager
 except ImportError as e:
     logging.warning(f"Some core components not available: {e}")
@@ -798,14 +796,14 @@ if __name__ == "__main__":
         # Process test input
         test_input = np.random.randn(512)
         results = await integrator.process_input(test_input, context)
-        print(f"Neural Processing Results: {json.dumps(results, indent=2, default=str}")
+        print(f"Neural Processing Results: {json.dumps(results, indent=2, default=str)}")
 
         # Let it run for a bit
         await asyncio.sleep(5.0)
 
         # Get status
         status = await integrator.get_neural_status()
-        print(f"Neural Status: {json.dumps(status, indent=2, default=str}")
+        print(f"Neural Status: {json.dumps(status, indent=2, default=str)}")
 
         await integrator.shutdown()
 

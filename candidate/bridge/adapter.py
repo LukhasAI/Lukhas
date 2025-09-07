@@ -3,9 +3,9 @@ Compatibility shim for bridge.adapter
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.accepted.adapters.base
 """
-import streamlit as st
-
 import warnings
+
+import streamlit as st
 
 from lukhas.accepted.adapters.base import *
 

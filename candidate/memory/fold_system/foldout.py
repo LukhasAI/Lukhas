@@ -118,7 +118,7 @@ def export_folds(
 
         # Ensure entry has required fields
         if not isinstance(entry, dict):
-            logger.warning(f"Skipping non-dict entry: {type(entry}")
+            logger.warning(f"Skipping non-dict entry: {type(entry)}")
             continue
 
         # Pack the entry

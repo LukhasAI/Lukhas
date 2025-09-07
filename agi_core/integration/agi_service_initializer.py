@@ -494,13 +494,13 @@ if __name__ == "__main__":
 
         # Show service registry info
         registry_info = status.get("service_registry_info", {})
-        print(f"Registry health monitoring: {registry_info.get('health_monitoring', False}")
+        print(f"Registry health monitoring: {registry_info.get('health_monitoring', False)}")
 
         # Graceful shutdown
         print("\nShutting down...")
         shutdown_results = await agi_initializer.graceful_shutdown()
         successful_shutdowns = sum(shutdown_results.values())
-        print(f"Shutdown: {successful_shutdowns}/{len(shutdown_results} successful")
+        print(f"Shutdown: {successful_shutdowns}/{len(shutdown_results)} successful")
 
     asyncio.run(test_initializer())
 

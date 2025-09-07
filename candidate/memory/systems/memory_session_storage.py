@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import time
+
 # Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022-2025)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +17,8 @@ from __future__ import annotations
 # limitations under the License.
 from typing import TYPE_CHECKING
 
-from cachetools import TTLCache
 import streamlit as st
-import time
+from cachetools import TTLCache
 
 # from streamlit.runtime.session_manager import SessionInfo,
 # SessionStorage  # TODO: Install or implement streamlit

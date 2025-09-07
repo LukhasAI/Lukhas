@@ -307,7 +307,7 @@ class DemoOrchestrator:
 
             # Mock QR pattern
             pattern = "█▀▀█ ▀█▀ █▀▀█\n█  █  █  █  █\n█▄▄█ ▄█▄ █▄▄█"
-            print(f"   Pattern: {pattern.split(}[0]}...")
+            print(f"   Pattern: {pattern.split()}[0]}...")
             print(f"   Parameters: {params}")
             print("   Status: ✅ Generated successfully")
 
@@ -625,12 +625,12 @@ class DeploymentChecker:
         if len(existing_docs) == len(docs):
             return {
                 "status": "PASS",
-                "details": f"All documentation present ({len(existing_docs)}/{len(docs})",
+                "details": f"All documentation present ({len(existing_docs)}/{len(docs)})",
             }
         else:
             return {
                 "status": "FAIL",
-                "details": f"Missing documentation ({len(existing_docs)}/{len(docs})",
+                "details": f"Missing documentation ({len(existing_docs)}/{len(docs)})",
             }
 
     def check_test_coverage(self):

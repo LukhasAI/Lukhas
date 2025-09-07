@@ -97,5 +97,5 @@ def emoji_trait_bar(traits):
     bar = "\n🧬 LUKHAS PERSONALITY TRAIT BAR\n"
     for trait, val in traits.items():
         emoji = "⭐" * int(val * 10)
-        bar += f"{trait[:4].capitalize(}: {emoji}\n"
+        bar += f"{trait[:4].capitalize()}: {emoji}\n"
     return bar

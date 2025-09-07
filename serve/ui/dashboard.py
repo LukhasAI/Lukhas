@@ -670,7 +670,7 @@ async def submit_feedback(feedback: FeedbackSubmission) -> dict[str, Any]:
         context={"rating": feedback.rating, "comment": feedback.comment},
     )
 
-    return {"success": True, "feedback_id": f"FB-{uuid.uuid4(}.hex}"}
+    return {"success": True, "feedback_id": f"FB-{uuid.uuid4()}.hex}"}
 
 
 @app.get("/api/feedback/summary")

@@ -4,12 +4,13 @@ Qi Biometrics Engine for the NIAS Transcendence Platform.
 This module syncs with real-time biometric data to understand and predict
 a user's consciousness state from a biological perspective.
 """
-from consciousness.qi import qi
+import random
 import time
+from typing import Any
+
 import streamlit as st
 
-import random
-from typing import Any
+from consciousness.qi import qi
 
 
 # Placeholder classes for external biometric APIs

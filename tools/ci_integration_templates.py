@@ -5,16 +5,15 @@ Implements CI pipeline logic without execution - for workspace audit preparation
 
 Purpose: Provide CI integration templates for pre/post-MATRIZ audit validation.
 """
-from typing import Optional
-import logging
-import time
-import streamlit as st
-
 from __future__ import annotations
 
 import json
+import logging
+import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
+
+import streamlit as st
 
 
 class CIAuditIntegration:
@@ -496,5 +495,5 @@ if __name__ == "__main__":
     print("CI Integration Package Generated:")
     print(f"  Output directory: {result['output_directory']}")
     print(f"  Files generated: {result['files_generated']}")
-    print(f"  Components: {', '.join(result['components']}")
+    print(f"  Components: {', '.join(result['components'])}")
     print(f"  Audit ready: {result['audit_ready']}")

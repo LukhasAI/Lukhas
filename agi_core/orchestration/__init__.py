@@ -11,4 +11,4 @@ from .consensus_engine import ConsensusEngine
 from .cost_optimizer import CostOptimizer
 from .model_router import ModelRouter
 
-__all__ = ["ModelRouter", "ConsensusEngine", "CapabilityMatrix", "CostOptimizer"]
+__all__ = ["CapabilityMatrix", "ConsensusEngine", "CostOptimizer", "ModelRouter"]

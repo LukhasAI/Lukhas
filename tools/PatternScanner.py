@@ -285,7 +285,7 @@ class FunctionScanner:
         print("📊 Discovery Overview:")
         print(f"   Total Specialized Function Patterns: {total_functions}")
         print(f"   Components with Functions Found: {components_with_functions}/{total_components}")
-        print(f"   Component Coverage: {(components_with_functions / total_components * 100}:.1f}%")
+        print(f"   Component Coverage: {(components_with_functions / total_components * 100)}:.1f}%")
 
         print("\n🎯 Specialized Component Findings:")
 
@@ -295,13 +295,13 @@ class FunctionScanner:
         for component_type, matches in sorted_components:
             if matches:
                 status = "✅"
-                print(f"   {status} {component_type:20} | {len(matches}:3} functions found")
+                print(f"   {status} {component_type:20} | {len(matches)}:3} functions found")
 
                 # Show sample functions and files
                 unique_files = {match.file_path for match in matches}
                 sample_functions = [match.name for match in matches[:3]]
 
-                print(f"      Files: {len(unique_files)} | Samples: {', '.join(sample_functions}")
+                print(f"      Files: {len(unique_files)} | Samples: {', '.join(sample_functions)}")
                 if len(unique_files) <= 3:
                     for file_path in list(unique_files)[:3]:
                         print(f"        📄 {file_path}")

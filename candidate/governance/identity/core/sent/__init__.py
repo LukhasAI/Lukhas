@@ -34,6 +34,7 @@ Usage:
     status = consent_mgr.get_consent_status(user_id)
 """
 import logging
+
 import streamlit as st
 
 from .consent_history import ConsentHistoryManager

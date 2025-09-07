@@ -1,17 +1,17 @@
 from __future__ import annotations
 
 from typing import List
+
 """Central plugin registry for the LUKHAS system.
 
 ΛTAG: plugin_registry
 """
-import streamlit as st
-
-
 import importlib.metadata
 import logging
 from abc import ABC, abstractmethod
 from enum import Enum
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

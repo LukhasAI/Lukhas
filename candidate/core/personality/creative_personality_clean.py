@@ -34,10 +34,10 @@
 ║ Symbolic Tags: {ΛCREATIVITY}, {ΛCLEAN}, {ΛOPTIMIZED}, {ΛETHICS}, {ΛHARMONY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import logging
+import time
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger(__name__)

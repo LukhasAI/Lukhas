@@ -16,13 +16,11 @@ FastAPI endpoints for dream processing operations including:
 
 Based on successful Tier 5 testing with advanced dream consolidation.
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
+import streamlit as st
 from dream.dashboard.dream_metrics_view import metrics_view
 from dream.dream_engine.lukhas_oracle_dream import generate_dream
 from fastapi import APIRouter, HTTPException, Query
@@ -116,7 +114,7 @@ async def log_dream(request: DreamLogRequest):
                 "dream_memory": dream_memory,
                 "dream_type": request.dream_type,
             },
-            message=f"Dream logged successfully with ID: {dream_log.get('fold_id', 'unknown'}",
+            message=f"Dream logged successfully with ID: {dream_log.get('fold_id', 'unknown')}",
         )
 
     except Exception as e:
@@ -230,7 +228,7 @@ async def get_dream_patterns(
                 "pattern_type": pattern_type,
                 "time_range_hours": time_range_hours,
             },
-            message=f"Found {len(patterns)} {pattern_type} patterns in {len(dream_memories} dreams",
+            message=f"Found {len(patterns)} {pattern_type} patterns in {len(dream_memories)} dreams",
         )
 
     except Exception as e:

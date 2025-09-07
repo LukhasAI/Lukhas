@@ -13,11 +13,10 @@ Integration tests covering:
 
 Target: Real database operations, complex scenarios
 """
-import streamlit as st
-
 import time
 
 import pytest
+import streamlit as st
 from sqlalchemy import text
 
 from .conftest import create_test_glyph, create_test_scene, create_varying_scene
@@ -350,7 +349,7 @@ class TestConcurrentOperations:
             t.join(timeout=5.0)
 
         # Check results
-        assert error_queue.empty(), f"Errors occurred: {list(error_queue.queue}"
+        assert error_queue.empty(), f"Errors occurred: {list(error_queue.queue)}"
         assert results_queue.qsize() == 10, "All saves should have completed successfully"
 
         # Verify all scene IDs are unique
@@ -519,7 +518,7 @@ class TestComplexQueries:
 
             # Manually set the timestamp in the save call
             with sql_memory.engine.begin() as conn:
-                scene_id = f"temporal_{i}_{int(scene_time}"
+                scene_id = f"temporal_{i}_{int(scene_time)}"
 
                 conn.execute(
                     text(
@@ -572,7 +571,7 @@ class TestComplexQueries:
             results = conn.execute(query, {"user_id": "temporal_test", "cutoff_time": cutoff_time}).fetchall()
 
             # Should get the last 3 scenes (15 min, 5 min, now)
-            assert len(results) == 3, f"Should find 3 recent scenes, got {len(results}"
+            assert len(results) == 3, f"Should find 3 recent scenes, got {len(results)}"
 
             # Verify ordering and timestamps
             timestamps = [row.timestamp for row in results]

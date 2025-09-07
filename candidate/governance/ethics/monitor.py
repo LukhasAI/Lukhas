@@ -9,12 +9,11 @@
 📦 MODULE      : ethics_monitor.py
 🧾 DESCRIPTION : Ethics drift detection and correction logic for LUKHAS_AGI_3.8.
 """
-import streamlit as st
-from datetime import timezone
-
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 ETHICS_LOG_PATH = Path("../../logs/ethics/ethics_drift_log_2025_04_28.json", timezone)
 DEI_LOG_PATH = Path("../../logs/ethics/self_reflection_log.json")

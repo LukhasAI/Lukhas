@@ -45,7 +45,7 @@ class TestActorSystemAdvanced:
             # Register agents
             analyst_ref = system.register("analyst", analyst)
             planner_ref = system.register("planner", planner)
-            coordinator_ref = system.register("coordinator", coordinator)
+            system.register("coordinator", coordinator)
 
             # Simulate complex workflow
             # 1. Coordinator assigns task to analyst
@@ -321,7 +321,7 @@ class TestTierSystemAdvanced:
             assert len(decisions) == 4, "Should have 4 access decisions"
 
             # Analyze decision patterns
-            granted_count = sum(1 for _, decision in decisions if decision.granted)
+            sum(1 for _, decision in decisions if decision.granted)
             denied_count = sum(1 for _, decision in decisions if not decision.granted)
 
             # Most should be denied due to insufficient privileges (expected behavior)
@@ -387,7 +387,7 @@ class TestTierSystemAdvanced:
             assert len(active_sessions) >= 1, "Should track elevated sessions"
 
             # Test session data structure
-            for session_id, session_data in active_sessions.items():
+            for session_data in active_sessions.values():
                 assert "elevation_id" in session_data, "Session should have elevation ID"
                 assert "tier_level" in session_data, "Session should have tier level"
                 assert "justification" in session_data, "Session should have justification"

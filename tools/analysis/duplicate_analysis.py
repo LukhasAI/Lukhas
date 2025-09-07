@@ -71,9 +71,9 @@ class DuplicateAnalyzer:
         # Create signature
         sig_parts = [
             f"def {node.name}",
-            f"params:{','.join(params}",
+            f"params:{','.join(params)}",
             f"returns:{returns}",
-            f"decorators:{len(node.decorator_list}",
+            f"decorators:{len(node.decorator_list)}",
         ]
 
         return "|".join(sig_parts)
@@ -91,7 +91,7 @@ class DuplicateAnalyzer:
 
         sig_parts = [
             f"class {node.name}",
-            f"bases:{','.join(bases}",
+            f"bases:{','.join(bases)}",
             f"methods:{','.join(sorted(methods)}",
         ]
 
@@ -342,9 +342,9 @@ def main():
 
     # Display results
     print("\n📊 Duplicate Analysis Results:")
-    print(f"   Duplicate functions: {len(duplicates['duplicate_functions']}")
-    print(f"   Similar classes: {len(duplicates['similar_classes']}")
-    print(f"   Common imports: {len(duplicates['common_imports']}")
+    print(f"   Duplicate functions: {len(duplicates['duplicate_functions'])}")
+    print(f"   Similar classes: {len(duplicates['similar_classes'])}")
+    print(f"   Common imports: {len(duplicates['common_imports'])}")
     print(f"   Repeated patterns: {sum(len(v) for v in duplicates['repeated_patterns'].values()}")
 
     # Show top duplicates
@@ -361,7 +361,7 @@ def main():
         print("\n💡 Consolidation Opportunities:")
         for opp in duplicates["consolidation_opportunities"]:
             print(f"   • {opp['type']}: {opp['description']}")
-            print(f"     Priority: {opp['priority']}, Affected: {opp.get('affected_files', 'N/A'} files")
+            print(f"     Priority: {opp['priority']}, Affected: {opp.get('affected_files', 'N/A')} files")
 
     # Generate consolidation plan
     plan = generate_consolidation_plan(duplicates)
@@ -394,7 +394,7 @@ def main():
             indent=2,
         )
 
-    print(f"\n💾 Detailed report saved to: {report_path.relative_to(PROJECT_ROOT}")
+    print(f"\n💾 Detailed report saved to: {report_path.relative_to(PROJECT_ROOT)}")
 
 
 if __name__ == "__main__":

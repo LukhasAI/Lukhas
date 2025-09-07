@@ -7,15 +7,15 @@ Integrates with Trinity Framework for symbolic understanding.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
-import time
-import streamlit as st
-
 import logging
 import re
+import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -231,7 +231,7 @@ class IntentRouter:
             "endpoint": "/api/memory/explore",
             "parameters": intent.parameters,
             "glyphs": intent.glyphs,
-            "message": f"Searching memory folds for: {intent.parameters.get('topic', 'all memories'}",
+            "message": f"Searching memory folds for: {intent.parameters.get('topic', 'all memories')}",
         }
 
     def _handle_consciousness_exploration(self, intent: Intent) -> dict[str, Any]:

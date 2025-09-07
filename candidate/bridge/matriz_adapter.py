@@ -27,7 +27,7 @@ class BridgeMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-BRDG-{uuid.uuid4(}.hex[:8]}",
+            "id": f"LT-BRDG-{uuid.uuid4()}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.9),
@@ -121,7 +121,7 @@ class BridgeMatrizAdapter:
             labels=[
                 f"orchestration:{orchestration_id}",
                 f"type:{coordination_type}",
-                f"services:{len(services}",
+                f"services:{len(services)}",
                 "bridge:orchestrate",
             ]
             + [f"service:{s}" for s in services[:3]],
@@ -149,7 +149,7 @@ class BridgeMatrizAdapter:
             labels=[
                 f"consensus:{consensus_id}",
                 f"decision:{final_decision}",
-                f"models:{len(models}",
+                f"models:{len(models)}",
                 "bridge:consensus",
             ],
         )

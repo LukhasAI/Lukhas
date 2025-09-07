@@ -174,7 +174,7 @@ class HelixMemory:
         decision_id: Optional[str] = None,
         unstructured_memory: Optional[str] = None,
     ) -> str:
-        item_id = decision_id or f"decision_{uuid.uuid4(}.hex[:10]}"
+        item_id = decision_id or f"decision_{uuid.uuid4()}.hex[:10]}"
         ts_utc_iso = datetime.now(timezone.utc).isoformat()
         log.debug("Storing decision.", id=item_id, ctx_keys=list(context.keys()))
 

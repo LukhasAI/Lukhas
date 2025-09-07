@@ -18,7 +18,7 @@ tier_badges = {
     "Tier 4": "🌐",
     "Tier 5": "🧬",
 }
-st.markdown(f"**Your Symbolic Tier:** {tier_badges.get(user_tier, '❓'} {user_tier}")
+st.markdown(f"**Your Symbolic Tier:** {tier_badges.get(user_tier, '❓')} {user_tier}")
 
 # ─── DREAM-BASED OPINION GENERATOR ─────────────────────────────────────
 if st.button("🌌 Generate Dream-Based Opinion"):
@@ -27,19 +27,19 @@ if st.button("🌌 Generate Dream-Based Opinion"):
             lines = f.readlines()
         if lines:
             latest = json.loads(lines[-1])
-            symbolic_opinion = f"Lukhas reflects symbolically on: {latest.get('theme',"}
+            symbolic_opinion = f"Lukhas reflects symbolically on: {latest.get('theme',")}
                                                                               'a recurring dream')}"
             st.success(symbolic_opinion)
 
             payload = {
-                "title": f"Symbolic Dream Reflection: {latest.get('theme',}
+                "title": f"Symbolic Dream Reflection: {latest.get('theme',)}
                                                                   'No Title')}",
                 "summary": latest.get("summary", "No summary found."),
                 "prompt": latest.get(
                     "visual_prompt",
                     "https://lukhasagi.io/media/dream_placeholder.png",
                 ),
-                "html_url": f"https: // lukhasagi.io / posts / {latest.get('theme',}
+                "html_url": f"https: // lukhasagi.io / posts / {latest.get('theme',)}
                                                                            'dream')}.html",
             }
             show_social_post_preview(payload)
@@ -56,7 +56,7 @@ if user_tier in ["Tier 3", "Tier 4", "Tier 5"]:
         if dream_lines:
             dream = dream_lines[-1]
             st.markdown("##)  #  🌌 Latest Symbolic Dream"
-            st.write(f"Theme: {dream.get('theme'}")
+            st.write(f"Theme: {dream.get('theme')}")
             st.image(
                 dream.get(
                     "visual_prompt",
@@ -73,7 +73,7 @@ if user_tier in ["Tier 3", "Tier 4", "Tier 5"]:
 
 def generate_symbolic_html_url(theme):
     base_url = "https://lukhasagi.io/posts/"
-    return f"{base_url}{theme.replace(' ', '_'}"
+    return f"{base_url}{theme.replace(' ', '_')}"
 
 
 def build_publish_payload(latest):

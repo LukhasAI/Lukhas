@@ -71,7 +71,7 @@ def load_dream_memories_from_log(
 
     target_log_path = specific_log_file or (
         DREAM_LOGS_REFLECTOR_DIR_CONFIG
-        / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d'}.jsonl"
+        / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl"
     )
 
     if not target_log_path.exists():
@@ -124,7 +124,7 @@ def reflect_on_dream_memories(dream_memories: list[dict[str, Any]]) -> list[str]
         visuals = mem_item.get("extracted_visual_prompts", [])
         visual_summary = visuals[0] if visuals else "[no specific visuals highlighted]"
 
-        reflection = f"Reflection on Dream ('{mem_item.get('dream_log_id', f'Entry {i + 1}')}'): Experienced emotion '{primary_emo}'. Imagery involved '{visual_summary}'. "
+        reflection = f"Reflection on Dream ('{mem_item.get('dream_log_id', f'Entry {i + 1)}')}'): Experienced emotion '{primary_emo}'. Imagery involved '{visual_summary}'. "
         if any(k in narrative.lower() for k in ["memory", "past", "recall"]):
             reflection += "This dream may relate to memory processing or identity continuity. "
         if any(k in narrative.lower() for k in ["mirror", "self", "reflection"]):
@@ -151,7 +151,7 @@ def run_dream_reflection_cycle() -> None:
     if not loaded_dream_mems:
         log.info("No dream memories found for current reflection cycle.")
         return
-    log.info(f"Starting reflection on {len(loaded_dream_mems} dream memories.")
+    log.info(f"Starting reflection on {len(loaded_dream_mems)} dream memories.")
     generated_reflections = reflect_on_dream_memories(loaded_dream_mems)
     if generated_reflections:
         log.info("--- LUKHAS Dream Reflections Output ---")

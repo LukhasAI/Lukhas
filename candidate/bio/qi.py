@@ -4,8 +4,9 @@ Consolidated from 14 variants
 Generated: 2025-08-12T19:38:03.072451
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-from consciousness.qi import qi
 import streamlit as st
+
+from consciousness.qi import qi
 
 __module__ = "bio.quantum"
 __trinity__ = "⚛️🧠🛡️"

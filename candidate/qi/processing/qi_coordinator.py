@@ -6,15 +6,14 @@ This hub coordinates all quantum subsystem components and provides
 a unified interface for external systems to interact with quantum.
 
 """
-from consciousness.qi import qi
-from typing import List
-import streamlit as st
-
 import asyncio
 import logging
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 from candidate.core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
+from consciousness.qi import qi
 from qi.bio.bio_optimizer import (
     MockBioOrchestrator,
     MockQIBioCoordinator,
@@ -106,7 +105,7 @@ class QIHub:
             except Exception as e:
                 logger.error(f"Failed to initialize neuro symbolic integration: {e}")
 
-        logger.info(f"QIHub initialized with {len(self.services} services")
+        logger.info(f"QIHub initialized with {len(self.services)} services")
 
     async def initialize(self) -> None:
         """Initialize all quantum services"""
@@ -256,7 +255,7 @@ class QIHub:
                 if service_name in self.services:
                     discovery.register_service_globally(service_name, self.services[service_name], "quantum")
 
-            logger.debug(f"Registered {len(key_services} quantum services with global discovery")
+            logger.debug(f"Registered {len(key_services)} quantum services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 

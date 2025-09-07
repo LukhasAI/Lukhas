@@ -8,4 +8,4 @@
 """
 import streamlit as st
 
-__all__ = ["trace", "legado", "nimbus", "legado_pack", "nimbus_pack"]
+__all__ = ["legado", "legado_pack", "nimbus", "nimbus_pack", "trace"]

@@ -223,7 +223,7 @@ class AGIIntegrationTestSuite:
         result = await self._test_consent_bridge()
         results.append(result)
 
-        logger.info(f"Completed {len(results} unit tests")
+        logger.info(f"Completed {len(results)} unit tests")
         return results
 
     async def _test_vocabulary_bridge(self) -> TestResult:
@@ -450,7 +450,7 @@ class AGIIntegrationTestSuite:
         result = await self._test_cross_component_integration()
         results.append(result)
 
-        logger.info(f"Completed {len(results} integration tests")
+        logger.info(f"Completed {len(results)} integration tests")
         return results
 
     async def _test_intelligence_product_integration(self) -> TestResult:
@@ -667,7 +667,7 @@ class AGIIntegrationTestSuite:
         result = await self._test_throughput()
         results.append(result)
 
-        logger.info(f"Completed {len(results} performance tests")
+        logger.info(f"Completed {len(results)} performance tests")
         return results
 
     async def _test_api_performance(self) -> TestResult:
@@ -889,7 +889,7 @@ class AGIIntegrationTestSuite:
         result = await self._test_sustained_load()
         results.append(result)
 
-        logger.info(f"Completed {len(results} stress tests")
+        logger.info(f"Completed {len(results)} stress tests")
         return results
 
     async def _test_concurrent_load(self) -> TestResult:
@@ -1026,7 +1026,7 @@ class AGIIntegrationTestSuite:
         result = await self._test_consent_compliance()
         results.append(result)
 
-        logger.info(f"Completed {len(results} security tests")
+        logger.info(f"Completed {len(results)} security tests")
         return results
 
     async def _test_input_validation(self) -> TestResult:
@@ -1151,7 +1151,7 @@ class AGIIntegrationTestSuite:
         result = await self._test_dream_integration()
         results.append(result)
 
-        logger.info(f"Completed {len(results} consciousness tests")
+        logger.info(f"Completed {len(results)} consciousness tests")
         return results
 
     async def _test_consciousness_coherence(self) -> TestResult:
@@ -1279,7 +1279,7 @@ class AGIIntegrationTestSuite:
         result = await self._test_trinity_framework()
         results.append(result)
 
-        logger.info(f"Completed {len(results} constellation tests")
+        logger.info(f"Completed {len(results)} constellation tests")
         return results
 
     async def _test_constellation_alignment(self) -> TestResult:
@@ -1543,7 +1543,7 @@ async def run_integration_tests():
     print("\n📋 Test Categories:")
     for category, stats in category_stats.items():
         success_rate = stats["passed"] / stats["total"] * 100 if stats["total"] > 0 else 0
-        print(f"   {category.title(}: {stats['passed']}/{stats['total']} ({success_rate:.1f}%)")
+        print(f"   {category.title()}: {stats['passed']}/{stats['total']} ({success_rate:.1f}%)")
 
     print("\n🎯 Integration Test Suite Completed Successfully!")
     return report

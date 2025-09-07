@@ -184,7 +184,7 @@ class QIBioCoordinator:
         """
         Processes input data through the integrated bio-quantum pathway.
         """
-        task_id = f"bq_proc_{uuid.uuid4(}.hex[:8]}"
+        task_id = f"bq_proc_{uuid.uuid4()}.hex[:8]}"
         self.log.info(
             "Starting bio-quantum-inspired processing task.",
             task_id=task_id,

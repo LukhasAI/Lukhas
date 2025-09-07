@@ -2,12 +2,12 @@
 """
 Check linting progress and provide summary
 """
-import time
-import streamlit as st
-
 import subprocess
 import sys
+import time
 from pathlib import Path
+
+import streamlit as st
 
 
 def check_directory(directory: str) -> int:

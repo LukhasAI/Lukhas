@@ -3,17 +3,17 @@
 ΛUCTOR - Advanced Content Generation Engine
 Creates commercial content for domains using Lambda Products' 3-Layer Tone System
 """
-from consciousness.qi import qi
-import random
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
-from datetime import datetime
+import random
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class ContentType(Enum):
@@ -256,7 +256,7 @@ class AuctorContentEngine:
         # Store generated content
         self.generated_content.append(
             {
-                "id": hashlib.sha256(f"{datetime.now(timezone.utc}".encode()).hexdigest()[:8],
+                "id": hashlib.sha256(f"{datetime.now(timezone.utc)}".encode()).hexdigest()[:8],
                 "domain": domain.value,
                 "type": content_type.value,
                 "tone": tone.value,
@@ -302,7 +302,7 @@ class AuctorContentEngine:
 
         elif tone == ToneLayer.USER_FRIENDLY:
             return {
-                "title": f"{product.get('name', 'Lambda Products'} - AI That Actually Gets You",
+                "title": f"{product.get('name', 'Lambda Products')} - AI That Actually Gets You",
                 "hero": {
                     "headline": "Make AI Work For You, Not Against You",
                     "subheadline": "Simple, powerful, and actually understands what you need",
@@ -336,7 +336,7 @@ class AuctorContentEngine:
 
         else:  # ACADEMIC
             return {
-                "title": f"{product.get('name', 'Lambda Products'} - Technical Specifications",
+                "title": f"{product.get('name', 'Lambda Products')} - Technical Specifications",
                 "hero": {
                     "headline": "Post-Quantum Consciousness Authentication System",
                     "subheadline": "Implementing GTΨ protocols with 99.97% verification accuracy",
@@ -376,7 +376,7 @@ class AuctorContentEngine:
 
         return {
             "title": topic,
-            "meta_description": f"Explore {topic.lower(} and discover how Lambda Products is revolutionizing {domain.value}",
+            "meta_description": f"Explore {topic.lower()} and discover how Lambda Products is revolutionizing {domain.value}",
             "author": "Lambda Products Team",
             "date": datetime.now(timezone.utc).isoformat(),
             "content": await self._generate_blog_content(topic, tone),

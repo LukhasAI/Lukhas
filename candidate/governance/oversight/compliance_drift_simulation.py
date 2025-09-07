@@ -1,7 +1,8 @@
-import pandas as pd
-from lucas_governance.compliance_drift_monitor import ComplianceMonitor
-import streamlit as st
 import time
+
+import pandas as pd
+import streamlit as st
+from lucas_governance.compliance_drift_monitor import ComplianceMonitor
 
 # Initialize the compliance monitor with jurisdiction context
 
@@ -19,7 +20,7 @@ compliance_scores = [1.0, 0.98, 0.92, 0.87, 0.75, 0.68, 0.5, 0.3]
 results = []
 for score in compliance_scores:
     status = monitor.evaluate_decision(score)
-    results.append({"score": score, "status": status})
+results.append({"score": score, "status": status})
 
 # Display results
 

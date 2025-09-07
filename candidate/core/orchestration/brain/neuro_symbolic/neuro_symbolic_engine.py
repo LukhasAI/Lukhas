@@ -1,18 +1,18 @@
 from typing import Dict
+
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: neuro_symbolic_engine.py
 Advanced: neuro_symbolic_engine.py
 Integration Date: 2025-05-31T07:55:28.235481
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 import numpy as np
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -513,7 +513,7 @@ class NeuroSymbolicEngine:
         if len(self.processing_history) > 1000:
             self.processing_history = self.processing_history[-1000:]
 
-        logger.info(f"Completed processing for user {user_id} with confidence: {response.get('confidence'}")
+        logger.info(f"Completed processing for user {user_id} with confidence: {response.get('confidence')}")
 
         return response
 
@@ -692,7 +692,7 @@ class NeuroSymbolicEngine:
                 visual_elements.append(word)
 
         # Create prompt
-        prompt = f"{text} with {', '.join(visual_elements} style" if visual_elements else text
+        prompt = f"{text} with {', '.join(visual_elements)} style" if visual_elements else text
 
         return prompt
 

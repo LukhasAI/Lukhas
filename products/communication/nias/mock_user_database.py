@@ -3,11 +3,11 @@
 Rich Mock User Database for NIAS Testing
 Includes realistic shopping data from major retailers and ethical edge cases
 """
-import time
-import streamlit as st
-
 import random
+import time
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class MockUserDatabase:
@@ -1196,7 +1196,7 @@ if __name__ == "__main__":
     print("=" * 80)
 
     users = db.generate_all_users()
-    print(f"\n✅ Generated {len(users} user profiles")
+    print(f"\n✅ Generated {len(users)} user profiles")
 
     for user in users:
         print(f"\n👤 {user['name']} ({user['age']})")
@@ -1205,7 +1205,7 @@ if __name__ == "__main__":
         print(f"   Expected: {user['expected_behavior']}")
 
     edge_cases = db.generate_edge_cases()
-    print(f"\n⚠️  Generated {len(edge_cases} edge cases for testing")
+    print(f"\n⚠️  Generated {len(edge_cases)} edge cases for testing")
 
     for case in edge_cases:
         print(f"\n🔍 {case['case_id']}")

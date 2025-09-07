@@ -13,12 +13,11 @@ Fast, isolated unit tests covering:
 
 Target: < 2s total runtime, 100% coverage
 """
-import streamlit as st
-
 import json
 import time
 
 import pytest
+import streamlit as st
 
 from candidate.aka_qualia.memory import create_memory_client
 from candidate.aka_qualia.memory_noop import NoopMemory

@@ -1,8 +1,11 @@
 import logging
-import streamlit as st
 import time
 from typing import List
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: brain_collapse_manager.py

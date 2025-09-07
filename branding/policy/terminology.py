@@ -7,11 +7,11 @@ Enforces preferred phrasing in agent-visible outputs:
 
 Intended for lightweight post-processing. Keep replacements conservative.
 """
-import streamlit as st
-
 from __future__ import annotations
 
 import re
+
+import streamlit as st
 
 _REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
     # Lukhas AGI -> Lukhas AI (various caseings)

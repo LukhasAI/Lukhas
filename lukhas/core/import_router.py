@@ -9,14 +9,14 @@ This module provides a future-proof import system that handles:
 - Deprecation warnings
 - Alternative class names
 """
-from consciousness.qi import qi
-from typing import List
-import streamlit as st
-
 import importlib
 import importlib.util
 import logging
-from typing import Any, ClassVar, Optional
+from typing import Any, ClassVar, List, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

@@ -3,12 +3,11 @@ Tool Executor Guardian Integration
 =================================
 Guardian System integration for ethical validation of tool executions.
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 # Guardian System Integration
 try:
@@ -105,7 +104,7 @@ class ToolExecutorGuardian:
                 for component, result in guardian_results.items():
                     if isinstance(result, dict):
                         if result.get("status") == "error":
-                            logger.warning(f"Guardian component {component} error: {result.get('error'}")
+                            logger.warning(f"Guardian component {component} error: {result.get('error')}")
                             continue
 
                         # Extract ethical concerns
@@ -141,7 +140,7 @@ class ToolExecutorGuardian:
                 if not security_result.get("approved", True):
                     validation_result["approved"] = False
                     validation_result["recommendations"].append(
-                        f"Security validation failed: {security_result.get('reason', 'Unknown security concern'}"
+                        f"Security validation failed: {security_result.get('reason', 'Unknown security concern')}"
                     )
 
             except Exception as e:

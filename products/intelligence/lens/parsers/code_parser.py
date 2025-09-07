@@ -3,10 +3,10 @@
 Code Parser for ΛLens
 Handles source code files and extracts functions, classes, and structure
 """
-import streamlit as st
-
 import re
 from typing import Any
+
+import streamlit as st
 
 from .base_parser import BaseParser
 

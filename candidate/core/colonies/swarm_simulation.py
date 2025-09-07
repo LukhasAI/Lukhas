@@ -9,12 +9,11 @@ with optional trust filtering ("PaLM-like" bias) and logs collision cases.
 
 from __future__ import annotations
 
-import streamlit as st
-
-
 import asyncio
 import random
 from dataclasses import dataclass, field
+
+import streamlit as st
 
 from lukhas.core.efficient_communication import (
     EfficientCommunicationFabric,
@@ -119,8 +118,8 @@ async def simulate_swarm(
     for _ in range(rounds):
         tasks = []
         for agent in agents:
-            tag = f"t{random.randint(0, 5}"
-            value = f"v{random.randint(0, 2}"
+            tag = f"t{random.randint(0, 5)}"
+            value = f"v{random.randint(0, 2)}"
             trust = random.random()
             tasks.append(agent.propagate_tag(tag, value, trust))
         if tasks:

@@ -1,14 +1,14 @@
 """
 Base class for all agent colonies.
 """
-import streamlit as st
-
 import logging
 import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.core.actor_system import ActorRef, AIAgentActor, get_global_actor_system
 from lukhas.core.colonies.supervisor_agent import SupervisorAgent

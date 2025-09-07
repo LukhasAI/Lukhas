@@ -2,10 +2,11 @@
 VIVOX.QREADY - Quantum Readiness Interface
 Prepares VIVOX for future quantum computing substrates
 """
-from consciousness.qi import qi
+from typing import Optional
+
 import streamlit as st
 
-from typing import Optional
+from consciousness.qi import qi
 
 from .coherence.qsync_events import (
     EntanglementBridge,
@@ -54,31 +55,31 @@ def create_quantum_readiness_system(
 
 
 __all__ = [
-    # Core
-    "QISubstrate",
-    "QIState",
-    "QIEnvironment",
-    "QIStateType",
-    "QINoiseType",
-    # Collapse
-    "QubitCollapseEngine",
     "CollapseField",
-    "ProbabilisticConvergence",
     "CollapseType",
-    # Coherence
-    "QSyncEvent",
-    "QISynchronizer",
     "EntanglementBridge",
-    "SyncType",
+    "EthicalDimension",
+    "EthicalQIState",
     # Superposition
     "MoralSuperposition",
-    "EthicalQIState",
-    "EthicalDimension",
+    "ProbabilisticConvergence",
+    "QIBridgeEvent",
+    "QIEnvironment",
+    "QINoiseType",
+    "QIState",
+    "QIStateType",
+    # Core
+    "QISubstrate",
+    "QISynchronizer",
+    # Coherence
+    "QSyncEvent",
+    # Collapse
+    "QubitCollapseEngine",
     "SuperpositionPath",
     "SuperpositionResolver",
+    "SyncType",
     # Integration
     "VIVOXQIBridge",
-    "QIBridgeEvent",
     # Factory
     "create_quantum_readiness_system",
 ]

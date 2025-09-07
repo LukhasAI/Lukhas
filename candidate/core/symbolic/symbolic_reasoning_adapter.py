@@ -47,14 +47,13 @@
 ║ Trace: #ΛTRACE: ENABLED
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Dict
+
+import streamlit as st
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.symbolic_reasoning")

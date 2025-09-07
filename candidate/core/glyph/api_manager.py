@@ -177,7 +177,7 @@ class VeriFoldGlyphGenerator:
         )  # ΛTRACE_ADD
         log.debug("Creating animated VeriFold glyph.")
 
-        glyph_id = f"glyph_{secrets.token_hex(8}"
+        glyph_id = f"glyph_{secrets.token_hex(8)}"
         visual_svg = self._generate_quantum_visual(λid_profile)
         hidden_qr = self._embed_qr_in_visual(api_key_data, visual_svg)
         stego_layer = self._create_steganographic_layer(api_key_data)
@@ -353,7 +353,7 @@ class VeriFoldGlyphGenerator:
         )
         # ΛTRACE_CHANGE
         combined_data = (
-            f"{json.dumps(data)}{user_id}{datetime.now(timezone.utc).isoformat(}"
+            f"{json.dumps(data)}{user_id}{datetime.now(timezone.utc).isoformat()}"
         )
         return hashlib.sha256(combined_data.encode()).hexdigest()
 
@@ -460,7 +460,7 @@ class LUKHASAPIManager:
         encrypted_key, salt = QICrypto.encrypt_api_key(api_key, λid)
 
         key_record = QIAPIKey(
-            key_id=f"key_{secrets.token_hex(8}",
+            key_id=f"key_{secrets.token_hex(8)}",
             service_name=service_name,
             encrypted_key=encrypted_key,
             user_id=λid,

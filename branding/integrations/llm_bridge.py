@@ -2,8 +2,6 @@
 LUKHAS Brand LLM Bridge - Trinity Framework (⚛️🧠🛡️)
 Unified interface for multi-provider LLM voice generation with brand compliance
 """
-import streamlit as st
-
 import asyncio
 import logging
 import os
@@ -12,6 +10,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -89,7 +88,7 @@ class UnifiedLLMBridge:
     # Brand prompt templates
     self.brand_prompts = self._load_brand_prompts()
 
-    logger.info(f"UnifiedLLMBridge initialized with {len(self.providers} providers")
+    logger.info(f"UnifiedLLMBridge initialized with {len(self.providers)} providers")
 
     def _initialize_providers(self):
         """Initialize all available LLM providers"""

@@ -434,7 +434,7 @@ class OpenAILambdaBridge:
             base_prompt += f" Optimize response for {lambda_context['attention']['cognitive_load']} cognitive load."
 
         if lambda_context.get("context"):
-            base_prompt += f" Consider context domain: {lambda_context['context'].get('domain', 'general'}."
+            base_prompt += f" Consider context domain: {lambda_context['context'].get('domain', 'general')}."
 
         return base_prompt
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
@@ -100,18 +102,6 @@ class OneiricTierAdapter(TierSystemAdapter):
                     raise HTTPException(
                         status_code=status.HTTP_403_FORBIDDEN,
                         detail=f"Insufficient tier level. Required: {required_tier}",
-                    )
-
-                # Log activity
-                if self.client:
-                    self.client.log_activity(
-                        activity_type=func.__name__,
-                        user_id=user_id,
-                        metadata={
-                            "system": "oneiric",
-                            "required_tier": required_tier,
-                            "lambda_tier": self.to_lambda_tier(required_tier),
-                        },
                     )
 
                 return await func(*args, **kwargs)
@@ -307,18 +297,7 @@ class UnifiedTierAdapter:
 
                 # Use central identity validation
                 if self.client and not self.client.verify_user_access(user_id, normalized_tier):
-                    raise PermissionError(f"Insufficient tier level. Required: {normalized_tier}")
-
-                # Log activity
-                if self.client:
-                    self.client.log_activity(
-                        activity_type=func.__name__,
-                        user_id=user_id,
-                        metadata={
-                            "system": system or "unified",
-                            "original_tier": str(required_tier),
-                            "normalized_tier": normalized_tier,
-                        },
+                    raise PermissionError(f"Insufficient tier level. Required: {normalized_tier}",
                     )
 
                 return await func(*args, **kwargs)

@@ -831,9 +831,9 @@ if __name__ == "__main__":
             print(f"✗ EXCEPTION: {e!s}")
 
     print("\n" + "=" * 55)
-    print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests * 100:.1f}%)")
+    print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests  * 100:.1f}%)")
     print(f"Processing History: {len(fact_node.get_trace()} MATRIZ nodes created")
-    print(f"Knowledge Base Size: {len(fact_node.knowledge_base} facts")
+    print(f"Knowledge Base Size: {len(fact_node.knowledge_base)} facts")
 
     # Show deterministic behavior
     print("\nDeterministic Test:")

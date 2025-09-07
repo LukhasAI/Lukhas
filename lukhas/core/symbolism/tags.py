@@ -6,13 +6,12 @@ Trinity Framework: ⚛️🧠🛡️
 Defines the symbolic tagging system used throughout LUKHAS AI for marking
 and categorizing different types of symbolic content and operations.
 """
-from typing import List
-import time
-import streamlit as st
-
 import logging
+import time
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -281,7 +280,7 @@ class TagManager:
 
     def get_tag_stats(self) -> dict[str, Any]:
         """Get statistics about managed tags."""
-        stats = {"total_tags": len(self.tags), "by_scope": {}, "by_permission": {}
+        stats = {"total_tags": len(self.tags), "by_scope": {}, "by_permission": {}}
 
         # Count by scope
         for scope in TagScope:

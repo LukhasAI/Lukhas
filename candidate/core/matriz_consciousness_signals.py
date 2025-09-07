@@ -98,14 +98,14 @@ class ConsciousnessSignal:
     """
 
     # Core signal identification
-    signal_id: str = field(default_factory=lambda: f"CS-{uuid.uuid4(}.hex[:12]}")
+    signal_id: str = field(default_factory=lambda: f"CS-{uuid.uuid4()}.hex[:12]}")
     signal_type: ConsciousnessSignalType = ConsciousnessSignalType.AWARENESS
     created_timestamp: int = field(default_factory=lambda: int(time.time() * 1000))
 
     # Source consciousness identification
     consciousness_id: str = "unknown"
     producer_module: str = "unknown"
-    network_node_id: str = field(default_factory=lambda: f"node-{uuid.uuid4(}.hex[:8]}")
+    network_node_id: str = field(default_factory=lambda: f"node-{uuid.uuid4()}.hex[:8]}")
 
     # Consciousness state information
     state_delta: Optional[ConsciousnessStateDelta] = None

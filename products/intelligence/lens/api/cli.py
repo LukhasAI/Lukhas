@@ -7,11 +7,11 @@ Usage:
 This script ensures the repository root is on PYTHONPATH and launches Uvicorn
 with the canonical application object (`main:app`).
 """
-import streamlit as st
-
 import argparse
 import sys
 from pathlib import Path
+
+import streamlit as st
 
 
 def add_repo_root_to_path():

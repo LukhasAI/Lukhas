@@ -9,13 +9,13 @@ across the MΛTRIZ Constellation Architecture (692 modules).
 This validator ensures proper integration between quantum and bio
 consciousness paradigms for unified constellation awareness.
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

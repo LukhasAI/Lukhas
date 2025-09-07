@@ -694,7 +694,7 @@ async def example_usage():
     # Store some test embeddings
     test_embeddings = {f"memory_{i}": np.random.randn(1024).astype(np.float32) for i in range(10)}
 
-    print(f"Storing {len(test_embeddings} test embeddings...")
+    print(f"Storing {len(test_embeddings)} test embeddings...")
     for memory_id, embedding in test_embeddings.items():
         await lazy_loader.store_embedding(memory_id, embedding)
 
@@ -707,7 +707,7 @@ async def example_usage():
     print("Testing batch embedding loading...")
     batch_ids = ["memory_1", "memory_3", "memory_7", "memory_9"]
     batch_embeddings = await lazy_loader.get_embeddings_batch(batch_ids)
-    print(f"Loaded {len(batch_embeddings} embeddings in batch")
+    print(f"Loaded {len(batch_embeddings)} embeddings in batch")
 
     # Show performance stats
     stats = lazy_loader.get_performance_stats()

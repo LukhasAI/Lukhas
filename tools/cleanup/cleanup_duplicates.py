@@ -2,8 +2,9 @@
 """
 Auto-generated cleanup script for duplicate code
 """
-from consciousness.qi import qi
 import streamlit as st
+
+from consciousness.qi import qi
 
 
 def cleanup_duplicates():
@@ -84,7 +85,7 @@ def cleanup_duplicates():
     # For now, just report what would be cleaned
 
     for signature, locations in duplicates:
-        print(f"  Would consolidate {signature} from {len(locations} locations")
+        print(f"  Would consolidate {signature} from {len(locations)} locations")
 
     print("\n✅ Cleanup analysis complete!")
     print("⚠️  Manual review required before actual deletion")

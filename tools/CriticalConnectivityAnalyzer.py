@@ -138,7 +138,7 @@ class CriticalConnectivityAnalyzer:
         print(f"   Total Files: {self.report['total_files']}")
         print(f"   Broken Imports: {self.report['broken_imports_count']}")
         print(f"   Isolated Files: {self.report['isolated_files_count']}")
-        print(f"   Isolation Rate: {(self.report['isolated_files_count'] / self.report['total_files'] * 100}:.1f}%")
+        print(f"   Isolation Rate: {(self.report['isolated_files_count'] / self.report['total_files'] * 100)}:.1f}%")
 
         print("\n🚨 CRITICAL MISSING MODULES:")
         for issue in critical_issues["missing_core_modules"][:5]:
@@ -146,19 +146,19 @@ class CriticalConnectivityAnalyzer:
             for example in issue["examples"]:
                 print(f"      📄 {example}")
 
-        print(f"\n🎤 VOICE SYSTEM ISSUES ({len(critical_issues['voice_system_issues']}):")
+        print(f"\n🎤 VOICE SYSTEM ISSUES ({len(critical_issues['voice_system_issues'])}):")
         for issue in critical_issues["voice_system_issues"][:3]:
             print(f"   📄 {issue['file']}")
             print(f"      ❌ Missing: {issue['import']}")
 
-        print(f"\n🧬 BIO-SYMBOLIC ISSUES ({len(critical_issues['bio_symbolic_issues']}):")
+        print(f"\n🧬 BIO-SYMBOLIC ISSUES ({len(critical_issues['bio_symbolic_issues'])}):")
         for issue in critical_issues["bio_symbolic_issues"][:3]:
             print(f"   📄 {issue['file']}")
             print(f"      ❌ Missing: {issue['import']}")
 
         print("\n🏝️  ISOLATION BY SYSTEM:")
         for system, files in sorted(isolation_patterns.items(), key=lambda x: len(x[1]), reverse=True)[:8]:
-            print(f"   📂 {system}: {len(files} isolated files")
+            print(f"   📂 {system}: {len(files)} isolated files")
 
         print("\n🔧 IMMEDIATE ACTION PLAN:")
         for action in action_plan["immediate_fixes"]:

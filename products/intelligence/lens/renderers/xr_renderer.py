@@ -3,10 +3,10 @@
 XR Renderer for ΛLens
 Generates glTF/WebXR scene descriptions
 """
-import streamlit as st
-
 import json
 from typing import Any
+
+import streamlit as st
 
 from ..symbols.glyph_types import GlyphSymbol
 

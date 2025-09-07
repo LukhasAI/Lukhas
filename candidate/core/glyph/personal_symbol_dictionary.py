@@ -5,21 +5,18 @@ Personal Symbol Dictionary for LUKHAS
 User-specific symbolic communication and personalization.
 Based on GPT5 audit recommendations.
 """
-from typing import List
-from typing import Dict
-import random
-import streamlit as st
-
 import pickle
+import random
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 import numpy as np
+import streamlit as st
 from sklearn.metrics.pairwise import cosine_similarity
 
 
@@ -487,7 +484,7 @@ class PersonalSymbolDictionary:
                 # Rebuild evolution history
                 if "history" in data:
                     for entry in data["history"]:
-                        key = f"{user_id}:{entry.get('symbol', ''}"
+                        key = f"{user_id}:{entry.get('symbol', '')}"
                         self.evolution_history[key].append(entry)
 
             except Exception as e:

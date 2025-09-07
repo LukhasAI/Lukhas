@@ -4,11 +4,6 @@ LUKHAS GLYPH Seal Creation
 
 Cryptographically sealed provenance with canonical JSON and COSE signatures.
 """
-from consciousness.qi import qi
-from typing import Optional
-from typing import Dict
-import streamlit as st
-
 from __future__ import annotations
 
 import base64
@@ -17,7 +12,11 @@ import json
 import time
 import uuid
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Dict, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 @dataclass
@@ -98,12 +97,12 @@ def make_seal(
 
     seal = GlyphSeal(
         v="0.1",
-        content_hash=f"sha3-512:{sha3_512(content_bytes}",
+        content_hash=f"sha3-512:{sha3_512(content_bytes)}",
         media_type=media_type,
         created_at=now,
         issuer=issuer,
         model_id=model_id,
-        policy_fingerprint=f"sha3-256:{sha3_256(policy_bytes}",
+        policy_fingerprint=f"sha3-256:{sha3_256(policy_bytes)}",
         jurisdiction=jurisdiction,
         proof_bundle=proof_bundle,
         expiry=exp,
@@ -151,7 +150,7 @@ def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | N
 
         # Verify content hash if provided
         if content_bytes:
-            expected_hash = f"sha3-512:{sha3_512(content_bytes}"
+            expected_hash = f"sha3-512:{sha3_512(content_bytes)}"
             if seal.get("content_hash") != expected_hash:
                 return False
 

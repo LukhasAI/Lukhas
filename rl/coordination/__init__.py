@@ -8,4 +8,4 @@ These components coordinate consciousness decisions across distributed agents.
 
 from .multi_agent_coordination import AgentProfile, CoordinationStrategy, MultiAgentCoordination
 
-__all__ = ["MultiAgentCoordination", "CoordinationStrategy", "AgentProfile"]
+__all__ = ["AgentProfile", "CoordinationStrategy", "MultiAgentCoordination"]

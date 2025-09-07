@@ -173,8 +173,8 @@ class ConsciousnessBroadcaster:
             attention = random.uniform(0.7, 0.85)
 
         # Create privacy mask
-        mask_content = f"{new_state}_{datetime.now(timezone.utc).isoformat()}_{random.random(}"
-        privacy_mask = f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest(}[:16]}..."
+        mask_content = f"{new_state}_{datetime.now(timezone.utc).isoformat()}_{random.random()}"
+        privacy_mask = f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest()}[:16]}..."
 
         return ConsciousnessState(
             current_state=new_state,
@@ -284,7 +284,7 @@ class ConsciousnessBroadcaster:
                     logger.info(
                         f"📡 Broadcasted {self.current_state.current_state} "
                         f"{self.current_state.symbolic_representation} to "
-                        f"{len(self.connected_clients} clients"
+                        f"{len(self.connected_clients)} clients"
                     )
 
                 # Wait before next update

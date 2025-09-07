@@ -38,10 +38,10 @@
 ║ Symbolic Tags: {ΛANTHROPIC}, {ΛCLAUDE}, {ΛLLM}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import logging
+import time
+
+import streamlit as st
 
 from candidate.branding.terminology import normalize_output
 

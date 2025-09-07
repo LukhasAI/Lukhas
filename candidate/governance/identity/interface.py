@@ -20,13 +20,13 @@ Usage:
         client.log_activity("memory_access", user_id, {"operation": "read"})
 """
 import logging
-import time
-import streamlit as st
-
 import os
 import sys
+import time
 from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 # Add lukhas-id to path for imports
 lukhas_id_path = os.path.join(os.path.dirname(__file__), "lukhas-id")

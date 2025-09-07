@@ -125,7 +125,7 @@ def main():
         for fix in results["fixes_applied"][:10]:  # Limit to first 10
             print(f"  - {fix}")
         if len(results["fixes_applied"]) > 10:
-            print(f"  ... and {len(results['fixes_applied']} - 10} more fixes")
+            print(f"  ... and {len(results['fixes_applied'])} - 10} more fixes")
 
     print("✅ Tone auto-fix complete")
     sys.exit(0)

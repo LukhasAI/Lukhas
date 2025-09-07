@@ -131,7 +131,7 @@ class DocEngine:
         db.log_system_activity(
             "doc_engine",
             "knowledge_accessed",
-            f"Accessed {len(knowledge} knowledge items",
+            f"Accessed {len(knowledge)} knowledge items",
             len(knowledge),
         )
 

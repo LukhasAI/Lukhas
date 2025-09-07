@@ -1,7 +1,10 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 
@@ -219,7 +222,7 @@ class DreamDivergenceMapper:
             logger.info(f"No valid sessions found, generating {limit} sample sessions")
             sessions = self._generate_sample_sessions(limit)
 
-        logger.info(f"Loaded {len(sessions} dream sessions")
+        logger.info(f"Loaded {len(sessions)} dream sessions")
         return sessions
 
     def _normalize_session_data(self, data: dict[str, Any], file_id: str) -> DreamSession:
@@ -477,7 +480,7 @@ class DreamDivergenceMapper:
 
         fig.update_layout(
             title={
-                "text": f"Dream Divergence Matrix < br > <sub > Top Symbols: {',                                                                               '.join(symbols[:5]} < /sub >",
+                "text": f"Dream Divergence Matrix < br > <sub > Top Symbols: {',                                                                               '.join(symbols[:5])} < /sub >",
                 "x": 0.5,
             },
             xaxis_title="Dream Sessions",
@@ -519,7 +522,7 @@ class DreamDivergenceMapper:
         plt.yticks(range(len(matrix.session_ids)), matrix.session_ids)
 
         # Add title
-        plt.title(f"Dream Divergence Matrix\nRecurring Symbols: {', '.join(symbols[:3]}")
+        plt.title(f"Dream Divergence Matrix\nRecurring Symbols: {', '.join(symbols[:3])}")
 
         # Annotate high drift points
         high_drift_pairs = matrix.get_high_drift_pairs(threshold=0.7)
@@ -547,8 +550,8 @@ class DreamDivergenceMapper:
         output_lines = []
         output_lines.append("DREAM DIVERGENCE MATRIX")
         output_lines.append("=" * 50)
-        output_lines.append(f"Sessions: {len(matrix.session_ids}")
-        output_lines.append(f"Recurring Symbols: {', '.join(symbols[:5]}")
+        output_lines.append(f"Sessions: {len(matrix.session_ids)}")
+        output_lines.append(f"Recurring Symbols: {', '.join(symbols[:5])}")
         output_lines.append("")
 
         # Create ASCII heatmap
@@ -666,7 +669,7 @@ def main():
         return
 
     # Compute drift matrix
-    print(f"Computing drift matrix for {len(sessions} sessions...")
+    print(f"Computing drift matrix for {len(sessions)} sessions...")
     matrix = mapper.compute_drift_matrix(sessions)
 
     # Extract recurring symbols
@@ -693,8 +696,8 @@ def main():
     print(f"Mean Drift Score: {summary['summary']['mean_drift']:.3f}")
     print(f"Max Drift Score: {summary['summary']['max_drift']:.3f}")
     print(f"Max Drift Pair: {summary['max_drift_pair']['session1']} ↔ {summary['max_drift_pair']['session2']}")
-    print(f"Top Symbols: {', '.join(summary['top_symbols'][:5]}")
-    print(f"Critical Transitions: {len(summary['critical_transitions']}")
+    print(f"Top Symbols: {', '.join(summary['top_symbols'][:5])}")
+    print(f"Critical Transitions: {len(summary['critical_transitions'])}")
     print(f"Average Entropy Shift: {summary['avg_entropy_shift']:.3f}")
     print("=" * 60)
 

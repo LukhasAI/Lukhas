@@ -339,7 +339,7 @@ class T4EnterpriseOrchestrator:
                 },
             )
             logger.info("   ✅ Safety systems initialized")
-            logger.info(f"   Constitutional AI drift threshold: {self.constitutional_ai.get_drift_threshold(}")
+            logger.info(f"   Constitutional AI drift threshold: {self.constitutional_ai.get_drift_threshold()}")
 
         except Exception as e:
             logger.error(f"Failed to initialize safety stack: {e}")
@@ -775,7 +775,7 @@ async def main():
 
         print("\n📈 T4 Enterprise Metrics Summary:")
         print("=" * 50)
-        print(f"System Status: {orchestrator.system_status.value.upper(}")
+        print(f"System Status: {orchestrator.system_status.value.upper()}")
         print(f"Enterprise Readiness: {metrics.enterprise_readiness:.1f}%")
         print(f"SLA Compliance: {'✅ COMPLIANT' if metrics.sla_compliance else '❌ VIOLATION'}")
         print("")

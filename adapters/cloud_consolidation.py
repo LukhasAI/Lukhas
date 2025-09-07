@@ -192,8 +192,8 @@ class CloudConsolidationService:
                     {
                         "type": "remove_duplicates",
                         "description": (
-                            f"Remove {len(group.files} - 1} duplicate files, "
-                            f"save {self._format_bytes(group.redundant_size}"
+                            f"Remove {len(group.files)} - 1} duplicate files, "
+                            f"save {self._format_bytes(group.redundant_size)}"
                         ),
                         "files": [f.id for f in group.files[1:]],  # Keep first, remove rest
                         "savings_bytes": group.redundant_size,
@@ -208,7 +208,7 @@ class CloudConsolidationService:
                 {
                     "type": "archive_old_files",
                     "description": (
-                        f"Archive {len(old_files} files older than {request.include_old_threshold_days} days"
+                        f"Archive {len(old_files)} files older than {request.include_old_threshold_days} days"
                     ),
                     "files": [f.id for f in old_files],
                     "savings_bytes": int(archive_size * 0.8),  # Compression savings
@@ -221,7 +221,7 @@ class CloudConsolidationService:
             recommendations.append(
                 {
                     "type": "optimize_large_files",
-                    "description": f"Review {len(large_files} large files for optimization",
+                    "description": f"Review {len(large_files)} large files for optimization",
                     "files": [f.id for f in large_files],
                     "savings_bytes": 0,  # Manual review required
                     "risk": "low",
@@ -362,7 +362,7 @@ class CloudConsolidationService:
         return {
             "success": True,
             "files_removed": len(action["files"]),
-            "message": f"Removed {len(action['files']} duplicate files",
+            "message": f"Removed {len(action['files'])} duplicate files",
         }
 
     async def _execute_archive_files(
@@ -373,7 +373,7 @@ class CloudConsolidationService:
         return {
             "success": True,
             "files_archived": len(action["files"]),
-            "message": f"Archived {len(action['files']} old files",
+            "message": f"Archived {len(action['files'])} old files",
         }
 
     async def _execute_optimize_large_files(
@@ -384,7 +384,7 @@ class CloudConsolidationService:
         return {
             "success": True,
             "files_analyzed": len(action["files"]),
-            "message": f"Analyzed {len(action['files']} large files for optimization",
+            "message": f"Analyzed {len(action['files'])} large files for optimization",
         }
 
 
@@ -432,13 +432,13 @@ async def create_consolidation_plan(
         # Generate execution token if actions are available
         execution_token = None
         if plan.recommended_actions:
-            execution_token = f"exec_{request.lid}_{datetime.now(timezone.utc).timestamp(}"
+            execution_token = f"exec_{request.lid}_{datetime.now(timezone.utc).timestamp()}"
 
         message = (
-            f"Found {len(plan.duplicate_groups} duplicate groups, "
-            f"{len(plan.old_files} old files, and "
-            f"{len(plan.large_files} large files. "
-            f"Potential savings: {service._format_bytes(plan.projected_savings_bytes} "
+            f"Found {len(plan.duplicate_groups)} duplicate groups, "
+            f"{len(plan.old_files)} old files, and "
+            f"{len(plan.large_files)} large files. "
+            f"Potential savings: {service._format_bytes(plan.projected_savings_bytes)} "
             f"({plan.projected_savings_percent}%)"
         )
 
@@ -495,7 +495,7 @@ async def execute_consolidation_plan(
             "success": True,
             "execution_token": request.execution_token,
             "results": result,
-            "message": f"Executed {len(request.selected_actions} consolidation actions",
+            "message": f"Executed {len(request.selected_actions)} consolidation actions",
         }
 
     except Exception as e:
@@ -566,12 +566,12 @@ async def demonstrate_consolidation():
 
     print("📊 Analysis Results:")
     print(f"   Files analyzed: {plan.total_files_analyzed}")
-    print(f"   Total size: {service._format_bytes(plan.total_size_analyzed}")
-    print(f"   Duplicate groups: {len(plan.duplicate_groups}")
-    print(f"   Old files: {len(plan.old_files}")
-    print(f"   Large files: {len(plan.large_files}")
+    print(f"   Total size: {service._format_bytes(plan.total_size_analyzed)}")
+    print(f"   Duplicate groups: {len(plan.duplicate_groups)}")
+    print(f"   Old files: {len(plan.old_files)}")
+    print(f"   Large files: {len(plan.large_files)}")
     print(
-        f"   Projected savings: {service._format_bytes(plan.projected_savings_bytes} ({plan.projected_savings_percent}%)"
+        f"   Projected savings: {service._format_bytes(plan.projected_savings_bytes)} ({plan.projected_savings_percent}%)"
     )
 
     print("\n💡 Recommendations:")

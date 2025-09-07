@@ -443,7 +443,7 @@ class NeuroSymbolicMemory:
         semantic = episode.to_semantic()
         for pattern in semantic["patterns"]:
             self.cortex.store_semantic(
-                f"PATTERN_{hashlib.sha256(pattern.encode()).hexdigest(}[:8]}",
+                f"PATTERN_{hashlib.sha256(pattern.encode()).hexdigest()}[:8]}",
                 {"pattern": pattern, "frequency": 1},
             )
 
@@ -552,7 +552,7 @@ class NeuroSymbolicMemory:
                 del self.memory_traces[trace_id]
                 pruned.append(trace_id)
 
-        logger.info(f"Pruned {len(pruned} weak memory traces")
+        logger.info(f"Pruned {len(pruned)} weak memory traces")
         return pruned
 
     def get_memory_stats(self) -> dict[str, Any]:

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -905,7 +907,7 @@ async def demonstrate_trauma_repair():
         id2 = await persistence.persist_memory(fragmented_memory, importance=0.7)
         id3 = await persistence.persist_memory(infected_memory, importance=0.3)
         memory_ids = [id1, id2, id3]
-        print(f"Created {len(memory_ids} memories with various traumas")
+        print(f"Created {len(memory_ids)} memories with various traumas")
 
     # Detect traumas
     print("\n--- Detecting Traumas ---")
@@ -947,7 +949,7 @@ async def demonstrate_trauma_repair():
         TraumaType.CORRUPTION,
         {"repair_confidence": 0.95},
     )
-    print(f"Scar tissue count: {len(repair_system.scar_tissue}")
+    print(f"Scar tissue count: {len(repair_system.scar_tissue)}")
 
     # Get healing report
     print("\n--- Healing Report ---")

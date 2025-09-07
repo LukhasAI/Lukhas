@@ -10,9 +10,9 @@ Shared Ethics Utilities
 
 Common ethics-related functions used across the AGI system.
 """
-import streamlit as st
-
 from typing import Any
+
+import streamlit as st
 
 
 class EthicsUtils:
@@ -52,6 +52,6 @@ class EthicsUtils:
 
         for key in sensitive_keys:
             if key in anonymized:
-                anonymized[key] = f"***{key.upper(}***"
+                anonymized[key] = f"***{key.upper()}***"
 
         return anonymized

@@ -2,12 +2,13 @@
 LUKHAS AI - QRG Integration Bridge
 Production integration for QRG advanced authentication components
 """
-from consciousness.qi import qi
+import logging
 import time
+from typing import Any
+
 import streamlit as st
 
-import logging
-from typing import Any
+from consciousness.qi import qi
 
 
 class QRGAuthBridge:

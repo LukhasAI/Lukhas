@@ -2,14 +2,15 @@
 LUKHAS Security Integration Module
 Integrates enhanced security across all modules
 """
-from consciousness.qi import qi
+import json
 import logging
 import time
-import streamlit as st
-
-import json
 from datetime import datetime, timezone
 from typing import Any, Callable, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 from .agi_security import AGISecuritySystem, SecurityContext, SecurityLevel
 from .auth import get_auth_system
@@ -152,41 +153,13 @@ class SecurityIntegration:
             ("orchestration", "all"),
         ]
 
-        for source, target in critical_channels:
+        for _source, target in critical_channels:
             if target == "all":
                 # Broadcast channel
-                participants = [
-                    "orchestration",
-                    "consciousness",
-                    "memory",
-                    "governance",
-                    "identity",
-                ]
+                pass
             else:
-                participants = [source, target]
+                pass
 
-            channel_id = f"{source}-{target}"
-            await self.agi_security.create_secure_channel(channel_id, participants)
-
-    async def _setup_audit_encryption(self):
-        """Setup encrypted audit logging"""
-        # All audit logs should be encrypted and signed
-
-        async def encrypt_audit_log(log_entry: dict[str, Any]) -> str:
-            """Encrypt and sign audit log entry"""
-            # Add metadata
-            log_entry["timestamp"] = datetime.now(timezone.utc).isoformat()
-            log_entry["node_id"] = "lukhas-main"
-
-            # Encrypt
-            encrypted, key_id = await self.crypto.encrypt_json(log_entry, purpose="data")
-
-            # Create signed package
-            package = {
-                "encrypted_log": encrypted,
-                "key_id": key_id,
-                "signature": self._sign_log(encrypted),
-            }
 
             return json.dumps(package)
 

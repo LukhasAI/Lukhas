@@ -28,12 +28,12 @@
 """
 import logging
 import random
-import streamlit as st
-
 import secrets
 import string
 from collections.abc import Sequence
 from typing import Any, Optional, Union
+
+import streamlit as st
 
 
 class SecureRandom:

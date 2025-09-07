@@ -89,7 +89,7 @@ class DecisionExplanation:
             parts = [
                 "=== Detailed Decision Explanation ===",
                 f"Decision ID: {self.decision_id}",
-                f"Time: {self.timestamp.isoformat(}",
+                f"Time: {self.timestamp.isoformat()}",
                 "",
                 f"Summary: {self.summary}",
                 "",
@@ -104,7 +104,7 @@ class DecisionExplanation:
                 parts.append(f"     Value: {factor.value}")
                 parts.append(f"     Explanation: {factor.explanation}")
                 if factor.tags:
-                    parts.append(f"     Tags: {', '.join(factor.tags}")
+                    parts.append(f"     Tags: {', '.join(factor.tags)}")
                 parts.append("")
 
             parts.append("Decision Process:")
@@ -129,7 +129,7 @@ class DecisionExplanation:
                     f"Confidence: {self.confidence_explanation}",
                     "",
                     "System State:",
-                    f"  Hormonal Profile: {self._format_hormonal_state(}",
+                    f"  Hormonal Profile: {self._format_hormonal_state()}",
                     f"  Active Tags: {', '.join(sorted(self.relevant_tags)[:5]}",
                 ]
             )
@@ -264,7 +264,7 @@ class DecisionExplainer:
                 counterfactuals = self._generate_counterfactuals(factors, decision_outcome)
 
             else:
-                summary = f"Decision made based on {len(factors} factors"
+                summary = f"Decision made based on {len(factors)} factors"
                 process_steps = ["Decision process completed"]
 
             # Generate confidence explanation
@@ -376,15 +376,15 @@ class DecisionExplainer:
     def _get_factor_value(self, factor_name: str, context: dict, outcome: dict) -> Any:
         """Get the value of a factor for this decision"""
         if factor_name == "safety":
-            return f"risk level: {context.get('risk_level', 'unknown'}"
+            return f"risk level: {context.get('risk_level', 'unknown')}"
         elif factor_name == "efficiency":
-            return f"resource usage: {context.get('resource_usage', 'normal'}"
+            return f"resource usage: {context.get('resource_usage', 'normal')}"
         elif factor_name == "ethical_alignment":
-            return f"ethics score: {outcome.get('ethical_score', 0.5}:.2f}"
+            return f"ethics score: {outcome.get('ethical_score', 0.5)}:.2f}"
         elif factor_name == "uncertainty":
-            return f"confidence: {outcome.get('confidence', 0.5}:.2f}"
+            return f"confidence: {outcome.get('confidence', 0.5)}:.2f}"
         elif factor_name == "past_success":
-            return f"historical success: {context.get('success_rate', 'unknown'}%"
+            return f"historical success: {context.get('success_rate', 'unknown')}%"
         elif factor_name == "system_state":
             hormonal_profile = self.endocrine_system.get_hormone_profile()
             return hormonal_profile.get("dominant_state", "balanced")
@@ -493,10 +493,10 @@ class DecisionExplainer:
         top_factors = factors[:2]
 
         if len(top_factors) == 1:
-            return f"This decision was primarily driven by {top_factors[0].name.lower(}: {top_factors[0].explanation}"
+            return f"This decision was primarily driven by {top_factors[0].name.lower()}: {top_factors[0].explanation}"
         else:
-            factor_parts = [f"{f.name.lower(} ({f.explanation})" for f in top_factors]
-            return f"This decision balanced {' and '.join(factor_parts}"
+            factor_parts = [f"{f.name.lower()} ({f.explanation})" for f in top_factors]
+            return f"This decision balanced {' and '.join(factor_parts)}"
 
     async def _generate_comparative_explanation(self, outcome: dict) -> str:
         """Generate comparative explanation (why this over others)"""
@@ -513,17 +513,17 @@ class DecisionExplainer:
         # Find most influential factor
         top_factor = max(factors, key=lambda f: abs(f.weight))
 
-        return f"This decision would change primarily if {top_factor.name.lower(} were different"
+        return f"This decision would change primarily if {top_factor.name.lower()} were different"
 
     def _trace_decision_process(self, context: dict, outcome: dict) -> list[str]:
         """Trace the decision-making process steps"""
         steps = []
 
         # Standard process flow
-        steps.append(f"Received {context.get('decision_type', 'general'} decision request")
+        steps.append(f"Received {context.get('decision_type', 'general')} decision request")
 
         if context.get("alternatives_count", 0) > 1:
-            steps.append(f"Evaluated {context.get('alternatives_count'} alternatives")
+            steps.append(f"Evaluated {context.get('alternatives_count')} alternatives")
 
         if context.get("ethical_weight", 0) > 0.3:
             steps.append("Applied ethical constraints and governance rules")
@@ -536,7 +536,7 @@ class DecisionExplainer:
         if outcome.get("confidence", 1.0) < 0.7:
             steps.append("Identified uncertainties and adjusted confidence")
 
-        steps.append(f"Selected best option with {outcome.get('confidence', 0.5}:.0%} confidence")
+        steps.append(f"Selected best option with {outcome.get('confidence', 0.5)}:.0%} confidence")
 
         return steps
 
@@ -550,11 +550,11 @@ class DecisionExplainer:
         for alt in alternatives:
             if alt.get("id") != selected_id:
                 # Generate comparison reason
-                alt_name = alt.get("name", f"Alternative {alt.get('id', 'X'}")
+                alt_name = alt.get("name", f"Alternative {alt.get('id', 'X')}")
 
                 # Simple comparison logic
                 if alt.get("score", 0) < outcome.get("score", 1):
-                    reason = f"Lower overall score ({alt.get('score', 0}:.0%})"
+                    reason = f"Lower overall score ({alt.get('score', 0)}:.0%})"
                 elif alt.get("risk", 0) > context.get("risk_tolerance", 0.5):
                     reason = "Risk level exceeded acceptable threshold"
                 elif alt.get("ethical_score", 1) < 0.5:
@@ -573,11 +573,11 @@ class DecisionExplainer:
         # For each major factor, describe what would need to change
         for factor in factors[:3]:  # Top 3 factors
             if factor.influence == "negative":
-                cf = f"If {factor.name.lower(} were reduced or mitigated"
+                cf = f"If {factor.name.lower()} were reduced or mitigated"
             elif factor.influence == "positive":
-                cf = f"If {factor.name.lower(} were no longer favorable"
+                cf = f"If {factor.name.lower()} were no longer favorable"
             else:
-                cf = f"If {factor.name.lower(} changed significantly"
+                cf = f"If {factor.name.lower()} changed significantly"
 
             counterfactuals.append(cf)
 
@@ -600,13 +600,13 @@ class DecisionExplainer:
         elif confidence >= 0.6:
             uncertain_factors = [f for f in factors if f.influence == "negative"]
             if uncertain_factors:
-                reason = f"some uncertainty in {uncertain_factors[0].name.lower(}"
+                reason = f"some uncertainty in {uncertain_factors[0].name.lower()}"
             else:
                 reason = "moderate certainty in outcomes"
             template = "This decision has {confidence:.0%} confidence due to {reasons}"
         else:
             uncertain_factors = [f for f in factors if f.weight < 0.3]
-            reason = f"significant uncertainties in {len(uncertain_factors} factors"
+            reason = f"significant uncertainties in {len(uncertain_factors)} factors"
             template = self.explanation_templates["low_confidence"]
 
         # Add hormonal influence if significant

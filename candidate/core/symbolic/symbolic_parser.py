@@ -24,16 +24,16 @@
 ║ data within a user's symbolic vault.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import logging
 import re
+import time
 import unicodedata
 from collections import Counter
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger("ΛTRACE.SymbolicParser")
 
@@ -397,7 +397,7 @@ class SymbolicParser:
         # Analyze cultural diversity and content across symbolic vault
         # Provides cultural diversity metrics and recommendations
         """
-        logger.info(f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault} elements")
+        logger.info(f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault)} elements")
 
         try:
             detected_scripts = Counter()

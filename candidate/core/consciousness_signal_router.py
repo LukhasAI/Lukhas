@@ -6,16 +6,15 @@ This module provides sophisticated routing, filtering, and network management
 for consciousness signals across the distributed architecture, ensuring
 proper flow control, cascade prevention, and network health monitoring.
 """
-from typing import List
-import streamlit as st
-
 import logging
 import threading
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, List, Optional
+
+import streamlit as st
 
 from .bio_symbolic_processor import get_bio_symbolic_processor
 from .matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
@@ -343,7 +342,7 @@ class ConsciousnessSignalRouter:
             if len(self.routing_stats["routing_time_ms"]) > 1000:
                 self.routing_stats["routing_time_ms"] = self.routing_stats["routing_time_ms"][-1000:]
 
-            logger.debug(f"Routed signal {signal.signal_id} to {len(routed_nodes} nodes in {routing_time:.2f}ms")
+            logger.debug(f"Routed signal {signal.signal_id} to {len(routed_nodes)} nodes in {routing_time:.2f}ms")
 
         except Exception as e:
             logger.error(f"Error routing signal {signal.signal_id}: {e}")
@@ -737,7 +736,7 @@ class CascadeDetector:
         # Check if we're in cascade territory
         if len(recent_signals) > dynamic_threshold:
             self.cascade_count += 1
-            logger.warning(f"Cascade detected for {signal_key}: {len(recent_signals} signals in {self.time_window}s")
+            logger.warning(f"Cascade detected for {signal_key}: {len(recent_signals)} signals in {self.time_window}s")
             return False
 
         return True
@@ -776,12 +775,12 @@ def get_consciousness_router() -> ConsciousnessSignalRouter:
 
 # Module exports
 __all__ = [
+    "CascadeDetector",
+    "ConsciousnessSignalRouter",
+    "NetworkMetrics",
+    "NetworkNode",
+    "RoutingRule",
     "RoutingStrategy",
     "SignalFilter",
-    "RoutingRule",
-    "NetworkNode",
-    "NetworkMetrics",
-    "ConsciousnessSignalRouter",
-    "CascadeDetector",
     "get_consciousness_router",
 ]

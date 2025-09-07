@@ -3,15 +3,14 @@
 LUKHAS AI Vocabulary Integration System
 Intelligent integration of the comprehensive vocabulary system with automation
 """
-import time
-import streamlit as st
-
 import logging
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import streamlit as st
 import yaml
 
 # Add parent directory to path for imports
@@ -52,7 +51,7 @@ class VocabularyIntegration:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"vocabulary_integration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = self.logs_path / f"vocabulary_integration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -101,13 +100,13 @@ class VocabularyIntegration:
             if vocab_file.name not in ["__init__.py", "vocabulary_template.py"]:
                 vocabulary_files.append(vocab_file.name)
 
-        self.logger.info(f"📖 Loaded {len(vocabulary_files} vocabulary files")
+        self.logger.info(f"📖 Loaded {len(vocabulary_files)} vocabulary files")
 
         # Log to database
         db.log_system_activity(
             "vocabulary_integration",
             "vocabularies_loaded",
-            f"Loaded {len(vocabulary_files} vocabulary files",
+            f"Loaded {len(vocabulary_files)} vocabulary files",
             len(vocabulary_files),
         )
 

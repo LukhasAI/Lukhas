@@ -3,9 +3,9 @@
 LUKHAS 2030 Consciousness Unification Consolidation
 Unified self-aware decision-making system
 """
-import streamlit as st
-
 from pathlib import Path
+
+import streamlit as st
 
 
 def consolidate_consciousness_unification():

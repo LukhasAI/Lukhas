@@ -1,7 +1,9 @@
 import logging
 from datetime import timezone
-import streamlit as st
 from typing import List
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 LUKHAS Cultural Safety Checker - Emoji Cultural Exclusion Validator
@@ -178,7 +180,7 @@ class CulturalSafetyChecker:
                 result=ValidationResult.WARNING,
                 contexts=[CulturalContext.RELIGIOUS, CulturalContext.GLOBAL],
                 regions=sensitive_cultures,
-                reason=f"May be culturally sensitive for {', '.join(sensitive_cultures}",
+                reason=f"May be culturally sensitive for {', '.join(sensitive_cultures)}",
                 severity=SensitivityLevel.MODERATE,
                 alternatives=["🍎", "🥕", "🥬", "🍇"],
             )

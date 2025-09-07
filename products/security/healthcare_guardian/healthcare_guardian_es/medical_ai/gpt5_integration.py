@@ -3,16 +3,13 @@
 GPT-5 Healthcare Integration for LUKHAS Healthcare Guardian
 Advanced medical AI capabilities for Spanish elderly care
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import logging
 import os
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -521,14 +518,14 @@ class GPT5HealthcareClient:
 
         med_info = self.medications[med_name]
 
-        explanation = f"{med_name.capitalize(} es una medicina {med_info['purpose']}. "
+        explanation = f"{med_name.capitalize()} es una medicina {med_info['purpose']}. "
         explanation += f"Normalmente se toma {med_info['common_dosage']}. "
 
         if med_info["warnings"]:
             explanation += f"Recuerde: {med_info['warnings'][0]}. "
 
         if med_info["side_effects"]:
-            explanation += f"Puede causar {', '.join(med_info['side_effects'][:2]}, pero no siempre pasa. "
+            explanation += f"Puede causar {', '.join(med_info['side_effects'][:2])}, pero no siempre pasa. "
 
         explanation += "Si tiene dudas, pregunte a su médico o farmacéutico."
 

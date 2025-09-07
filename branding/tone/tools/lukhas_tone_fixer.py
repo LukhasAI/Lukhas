@@ -341,7 +341,7 @@ def main():
     print("=" * 50)
 
     if changes:
-        print(f"\n✨ Consciousness Enhancements Applied ({len(changes}):")
+        print(f"\n✨ Consciousness Enhancements Applied ({len(changes)}):")
         for change in changes:
             print(f"  {change}")
     else:
@@ -374,9 +374,9 @@ def main():
 
     if args.verbose and changes:
         print("\n🔍 Detailed Enhancement Analysis:")
-        print(f"📊 Original length: {len(content} characters")
-        print(f"📊 Enhanced length: {len(enhanced} characters")
-        print(f"📊 Changes applied: {len(changes}")
+        print(f"📊 Original length: {len(content)} characters")
+        print(f"📊 Enhanced length: {len(enhanced)} characters")
+        print(f"📊 Changes applied: {len(changes)}")
         print(f"🎭 Consciousness enhancement: {((len(enhanced) - len(content)) / len(content) * 100}:.1f}% expansion")
 
 

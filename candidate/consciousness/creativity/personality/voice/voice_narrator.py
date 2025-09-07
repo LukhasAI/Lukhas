@@ -60,7 +60,7 @@ def narrate_dreams(limit=3):
         return
 
     # Keep as print statements since this is CLI user output
-    print(f"\n🗣️ LUCΛS SYMBOLIC DREAM NARRATION ({len(entries} entries)")
+    print(f"\n🗣️ LUCΛS SYMBOLIC DREAM NARRATION ({len(entries)} entries)")
     print("   ✨ Prioritized by 'replay_candidate' or 'suggest_voice' flags.")
     print("─────────────────────────────────────────────────────────────")
 
@@ -77,16 +77,16 @@ def narrate_dreams(limit=3):
         voice = entry.get("voice_profile", "lukhas_default")
 
         # Keep as print statements since this is CLI narrative output
-        print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '—'}")
-        print(f"   🔐 Tier: {tier_label(tier} | Source: {source}")
-        print(f"   🧠 Emotion Vector → {summarize_emotion_vector(ev}" if ev else "   🧠 No emotion vector available")
-        print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags}")
+        print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '—')}")
+        print(f"   🔐 Tier: {tier_label(tier)} | Source: {source}")
+        print(f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}" if ev else "   🧠 No emotion vector available")
+        print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags)}")
         print(f"   📝 Summary: {summary}")
         print("   🎧 [Lukhas says symbolically...]\n")
         print(f"   🗣 '{summary or 'A quiet dream passed — undefined, but felt.'}'")
         print(f"   🎙️ Voice Profile: {voice}")
         print(
-            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy', 0):.1f} joy and {ev.get('calm', 0}:.1f} calm.'"
+            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy', 0):.1f} joy and {ev.get('calm', 0)}:.1f} calm.'"
         )
         print("   💤 … (End of symbolic voice segment)")
 
@@ -97,7 +97,7 @@ def narrate_dreams(limit=3):
             for entry in narrated:
                 f.write(json.dumps(entry) + "\n")
         # Keep as print since this is CLI user output
-        print(f"\n📼 Narrated {len(narrated} symbolic dreams. Logged to narration_log.jsonl.")
+        print(f"\n📼 Narrated {len(narrated)} symbolic dreams. Logged to narration_log.jsonl.")
 
 
 """

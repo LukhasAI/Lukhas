@@ -403,7 +403,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 # Validate governance requirements
                 self._validate_emergency_manifest()
 
-                print(f"📋 Emergency manifest loaded: {len(self.emergency_trigger_conditions} trigger conditions")
+                print(f"📋 Emergency manifest loaded: {len(self.emergency_trigger_conditions)} trigger conditions")
             else:
                 print(f"⚠️ Emergency manifest not found: {self.emergency_manifest_file}")
                 self._create_default_manifest()
@@ -491,7 +491,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
         print(f"🚨 Emergency simulation triggered: {condition_name}")
         print(f"   Level: {emergency_level}")
-        print(f"   Symbolic: {'→'.join(self.emergency_state.symbolic_pattern}")
+        print(f"   Symbolic: {'→'.join(self.emergency_state.symbolic_pattern)}")
 
     async def resolve_emergency(self):
         """Resolve active emergency with governance validation"""
@@ -864,7 +864,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
         print(f"{Console.BOLD}GOVERNANCE METRICS{Console.RESET}", end="")
 
         print(Console.move_cursor(15, 5), end="")
-        print(f"Total Actions Logged: {len(self.governance_log}", end="")
+        print(f"Total Actions Logged: {len(self.governance_log)}", end="")
 
         print(Console.move_cursor(16, 5), end="")
         governance_threats = len(
@@ -980,7 +980,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             )
 
             # Uptime
-            uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60}:02d}"
+            uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60)}:02d}"
             print(Console.move_cursor(9, 5), end="")
             print(f"Uptime: {Console.CYAN}{uptime_str}{Console.RESET}", end="")
 
@@ -988,7 +988,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
         """Render threat overview section with governance categorization"""
         print(Console.move_cursor(5, 45), end="")
         print(
-            f"{Console.BOLD}ACTIVE THREATS ({len(self.active_threats}){Console.RESET}",
+            f"{Console.BOLD}ACTIVE THREATS ({len(self.active_threats)}){Console.RESET}",
             end="",
         )
 
@@ -1029,7 +1029,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
         # Resolved threats counter
         print(Console.move_cursor(12, 45), end="")
         print(
-            f"Resolved: {Console.GREEN}{len(self.resolved_threats}{Console.RESET}",
+            f"Resolved: {Console.GREEN}{len(self.resolved_threats)}{Console.RESET}",
             end="",
         )
 
@@ -1094,7 +1094,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             print(Console.CLEAR_LINE, end="")
             governance_status = f"Health: {self.current_metrics.governance_health:.1%} | Ethics: {self.current_metrics.ethics_compliance:.1%}"
             print(
-                f"{Console.DIM}Governance Status: {governance_status} | Actions Logged: {len(self.governance_log}{Console.RESET}",
+                f"{Console.DIM}Governance Status: {governance_status} | Actions Logged: {len(self.governance_log)}{Console.RESET}",
                 end="",
             )
 

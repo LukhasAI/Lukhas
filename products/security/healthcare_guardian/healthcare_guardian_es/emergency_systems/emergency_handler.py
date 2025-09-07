@@ -4,17 +4,16 @@ Emergency Response System for Healthcare Guardian
 Handles medical emergencies, fall detection, and automatic dispatch for elderly users
 Consolidated from Enhanced Guardian Medical emergency_aid.py
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 import uuid
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -365,7 +364,7 @@ class EmergencyResponseSystem:
         """
         logger.critical(f"DISPATCHING EMERGENCY: {incident.incident_id}")
 
-        incident.actions_taken.append(f"Emergency dispatch initiated at {datetime.now(timezone.utc}")
+        incident.actions_taken.append(f"Emergency dispatch initiated at {datetime.now(timezone.utc)}")
 
         # Call 112
         if self.auto_dispatch:
@@ -425,11 +424,11 @@ class EmergencyResponseSystem:
         }
 
         # Log the call
-        incident.actions_taken.append(f"Emergency services called at {datetime.now(timezone.utc}: {self.emergency_number}")
+        incident.actions_taken.append(f"Emergency services called at {datetime.now(timezone.utc)}: {self.emergency_number}")
         incident.contacts_notified.append(self.emergency_number)
 
         # In production, this would make actual call
-        logger.info(f"Emergency data transmitted: {json.dumps(emergency_data, indent=2}")
+        logger.info(f"Emergency data transmitted: {json.dumps(emergency_data, indent=2)}")
 
     async def _notify_emergency_contacts(self, incident: EmergencyIncident, urgent: bool = False):
         """Notify emergency contacts about incident"""
@@ -461,7 +460,7 @@ class EmergencyResponseSystem:
             if incident.location:
                 message += f"GPS: {incident.location[0]}, {incident.location[1]}\n"
 
-            message += f"Hora: {incident.timestamp.strftime('%H:%M'}"
+            message += f"Hora: {incident.timestamp.strftime('%H:%M')}"
         else:
             # English fallback
             message = f"EMERGENCY ALERT: {incident.emergency_type.value} - {incident.description}"
@@ -567,7 +566,7 @@ class EmergencyResponseSystem:
         if incident_id in self.active_incidents:
             incident = self.active_incidents[incident_id]
             incident.status = "cancelled"
-            incident.actions_taken.append(f"Emergency cancelled at {datetime.now(timezone.utc}")
+            incident.actions_taken.append(f"Emergency cancelled at {datetime.now(timezone.utc)}")
 
             # Notify contacts of cancellation
             for contact in self.emergency_contacts:

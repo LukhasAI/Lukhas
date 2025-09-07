@@ -8,11 +8,10 @@
 Service Discovery System
 Enables cross-system service discovery and communication
 """
-from typing import List
-import streamlit as st
-
 import logging
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 from lukhas.core.integration.hub_registry import get_hub_registry
 

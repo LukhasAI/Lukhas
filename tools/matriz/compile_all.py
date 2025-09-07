@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import time
 from pathlib import Path
 
-from .graph_compiler import compile_graph
 import streamlit as st
-import time
+
+from .graph_compiler import compile_graph
 
 
 def _file_sha256(path: Path) -> str:

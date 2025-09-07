@@ -9,14 +9,13 @@ decision-making, and consciousness state management.
 Author: LUKHAS AI System
 Version: 1.0.0
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
+from typing import Any, Dict
+
+import streamlit as st
 
 # Import LUKHAS components
 try:
@@ -60,7 +59,7 @@ class AutoConsciousness:
 
     def __init__(self, enable_awareness=True, enable_reasoning=True):
         """Initialize Auto Consciousness system"""
-        self.consciousness_id = f"auto_consciousness_{datetime.now().timestamp(}"
+        self.consciousness_id = f"auto_consciousness_{datetime.now().timestamp()}"
         self.active = True
         self.state_history: list[ConsciousnessState] = []
 
@@ -127,7 +126,7 @@ class AutoConsciousness:
             # Update consciousness state
             self.current_state = ConsciousnessState(
                 awareness_level=awareness_level,
-                attention_focus=[stimulus] + self.current_state.attention_focus[:4],  # Keep last 5
+                attention_focus=[stimulus, *self.current_state.attention_focus[:4]],  # Keep last 5
                 decision_confidence=self.current_state.decision_confidence,
                 reasoning_depth=self.current_state.reasoning_depth,
                 timestamp=datetime.now(),
@@ -209,7 +208,7 @@ class AutoConsciousness:
             reasoning = [
                 f"Analyzed scenario: {scenario}",
                 f"Considered context: urgency={urgency}, risk={risk}",
-                f"Evaluated {len(options} options",
+                f"Evaluated {len(options)} options",
                 f"Selected {best_option} with score {confidence:.2f}",
             ]
 

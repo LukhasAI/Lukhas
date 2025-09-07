@@ -326,7 +326,7 @@ class SupervisorActor(Actor):
                 self.health_metrics["attempts"] += 1
                 self.health_metrics["health"] += repair_result.get("health_delta", 0.0)
                 logger.info(
-                    f"Self-repair initiated for {child_id}; health_delta={repair_result.get('health_delta', 0.0}:.2f}"
+                    f"Self-repair initiated for {child_id}; health_delta={repair_result.get('health_delta', 0.0)}:.2f}"
                 )
             except Exception as e:
                 logger.error(f"Self-repair failed for {child_id}: {e}")

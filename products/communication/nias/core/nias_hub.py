@@ -2,12 +2,11 @@
 NIΛS Hub - Central coordination for NIAS system components
 Adapted from system--advanced for Lambda Products integration
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 from ..event_system.event_bus import NIASEventType, get_global_nias_event_bus
 
@@ -66,7 +65,7 @@ class NIASHub:
         await self._register_with_lambda_products()
 
         self.is_initialized = True
-        logger.info(f"NIΛS hub initialized with {len(self.services} services")
+        logger.info(f"NIΛS hub initialized with {len(self.services)} services")
 
     async def _register_core_services(self):
         """Register core NIΛS services"""

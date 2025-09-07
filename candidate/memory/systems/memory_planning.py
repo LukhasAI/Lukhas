@@ -174,7 +174,7 @@ class Allocation(AllocationTreeNode):
     def __repr__(self):
         return (
             f"{self.__class__.__name__}("
-            f"node={self.node.get_name(}, "
+            f"node={self.node.get_name()}, "
             f"live_range={self.live_range}, "
             f"size_hint={self.size_hint}, "
             f"symbolic_size={self.symbolic_size}, "

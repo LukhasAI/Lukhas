@@ -2,11 +2,10 @@
 Knowledge Adaptation System for DocuTutor.
 Handles the evolution and adaptation of knowledge over time.
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 
 class KnowledgeNode:
@@ -66,7 +65,7 @@ class KnowledgeAdaptation:
 
     def add_knowledge(self, content: str, metadata: dict) -> str:
         """Add new knowledge to the system."""
-        node_id = f"node_{len(self.knowledge_graph.nodes}"
+        node_id = f"node_{len(self.knowledge_graph.nodes)}"
         self.knowledge_graph.add_node(node_id, content, metadata)
         return node_id
 

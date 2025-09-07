@@ -21,17 +21,28 @@ except ImportError:
             return lambda *args, **kwargs: None
 
         sidebar = property(lambda self: self)
-        title = lambda self, *args, **kwargs: None
-        checkbox = lambda self, *args, **kwargs: False
-        selectbox = lambda self, *args, **kwargs: ""
-        text_input = lambda self, *args, **kwargs: ""
-        text_area = lambda self, *args, **kwargs: ""
-        button = lambda self, *args, **kwargs: False
-        tabs = lambda self, *args, **kwargs: [self] * len(args[0])
-        subheader = lambda self, *args, **kwargs: None
-        code = lambda self, *args, **kwargs: None
-        markdown = lambda self, *args, **kwargs: None
-        expander = lambda self, *args, **kwargs: self
+        def title(self, *args, **kwargs):
+            return None
+        def checkbox(self, *args, **kwargs):
+            return False
+        def selectbox(self, *args, **kwargs):
+            return ""
+        def text_input(self, *args, **kwargs):
+            return ""
+        def text_area(self, *args, **kwargs):
+            return ""
+        def button(self, *args, **kwargs):
+            return False
+        def tabs(self, *args, **kwargs):
+            return [self] * len(args[0])
+        def subheader(self, *args, **kwargs):
+            return None
+        def code(self, *args, **kwargs):
+            return None
+        def markdown(self, *args, **kwargs):
+            return None
+        def expander(self, *args, **kwargs):
+            return self
 
         def __enter__(self):
             return self

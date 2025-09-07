@@ -264,7 +264,7 @@ class DriftDashboard:
             self._create_alert(
                 component="PREDICTIVE_MONITOR",
                 severity=DriftSeverity.CASCADE,
-                message=f"Predictive model indicates critical drift in {lookahead_prediction['summary'].get('time_to_critical', 'unknown'} minutes",
+                message=f"Predictive model indicates critical drift in {lookahead_prediction['summary'].get('time_to_critical', 'unknown')} minutes",
             )
 
         logger.info(
@@ -438,7 +438,7 @@ class DriftDashboard:
                 self._create_alert(
                     component=component.upper(),
                     severity=DriftSeverity.WARNING,
-                    message=f"{component.capitalize(} drift exceeds threshold: {value:.3f}",
+                    message=f"{component.capitalize()} drift exceeds threshold: {value:.3f}",
                 )
 
         # Cascade alerts

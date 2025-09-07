@@ -81,7 +81,7 @@ class EventBus:
         """Subscribe to an event type with optional filtering."""
         self._subscribers[event_type].append(callback)
         if filter_func:
-            self._event_filters[f"{event_type}:{id(callback}"] = filter_func
+            self._event_filters[f"{event_type}:{id(callback)}"] = filter_func
 
     def unsubscribe(self, event_type: str, callback: Callable):
         """Unsubscribe from an event type."""
@@ -89,7 +89,7 @@ class EventBus:
             self._subscribers[event_type].remove(callback)
 
         # Remove associated filter
-        filter_key = f"{event_type}:{id(callback}"
+        filter_key = f"{event_type}:{id(callback)}"
         if filter_key in self._event_filters:
             del self._event_filters[filter_key]
 
@@ -164,7 +164,7 @@ class EventBus:
         coordination_metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """Start coordinated dream processing session."""
-        correlation_id = f"dream_coordination_{dream_id}_{uuid.uuid4(}.hex[:8]}"
+        correlation_id = f"dream_coordination_{dream_id}_{uuid.uuid4()}.hex[:8]}"
 
         # Publish dream coordination start event
         await self.publish_dream_event(
@@ -317,7 +317,7 @@ class EventBus:
                 for callback in self._subscribers[event.event_type]:
                     try:
                         # Check for event filter
-                        filter_key = f"{event.event_type}:{id(callback}"
+                        filter_key = f"{event.event_type}:{id(callback)}"
                         if filter_key in self._event_filters:
                             if not self._event_filters[filter_key](event):
                                 continue  # Skip this callback due to filter

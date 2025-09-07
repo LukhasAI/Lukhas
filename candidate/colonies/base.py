@@ -3,15 +3,14 @@ LUKHAS AI Colony System - Base Infrastructure
 Core interfaces and management for agent colonies
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
-from datetime import timezone
-
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class ColonyRole(Enum):

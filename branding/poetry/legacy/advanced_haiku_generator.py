@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 import logging
 
@@ -51,19 +52,17 @@ VERSION: 2.0.0-CONSOLIDATED
 CREATED: 2025-07-29
 AUTHORS: LUKHAS AI Team (Consolidated)
 """
-from consciousness.qi import qi
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import random
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
+import streamlit as st
+
+from consciousness.qi import qi
 from lukhas.core.common import get_logger
 
 # Add parent directory to path for imports
@@ -735,7 +734,7 @@ async def main():
     series_result = await generator.generate_haiku_series(themes)
 
     for theme, haiku_list in series_result["haiku_series"].items():
-        print(f"\n{theme.title(} Haiku:")
+        print(f"\n{theme.title()} Haiku:")
         print(haiku_list[0]["haiku_text"])
 
     print(f"\nAverage Quantum Coherence: {series_result['average_metrics']['qi_coherence']:.3f}")

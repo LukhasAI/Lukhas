@@ -9,11 +9,10 @@
 Bio-Symbolic Integration Hub
 Connects all bio-inspired components with symbolic processing.
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import logging
 from typing import Any
+
+import streamlit as st
 
 # Bio components
 from bio.bio_engine import get_bio_engine
@@ -21,6 +20,7 @@ from bio.core.symbolic_bio_symbolic_architectures import BioSymbolicArchitecture
 from bio.core.symbolic_crista_optimizer import CristaOptimizer
 from bio.core.symbolic_mito_quantum_attention import MitoQIAttention
 from bio.core.systems_mitochondria_model import MitochondriaModel
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

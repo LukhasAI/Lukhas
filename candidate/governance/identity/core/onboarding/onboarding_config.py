@@ -18,15 +18,15 @@
 ║ experience based on user context and system requirements.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
-import streamlit as st
-
 import json
 import logging
 import os
+import time
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger("ΛTRACE.OnboardingConfig")
 

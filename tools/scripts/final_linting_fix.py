@@ -3,12 +3,12 @@
 Final comprehensive linting fix script.
 Handles syntax errors, undefined names, and other critical issues.
 """
-import streamlit as st
-
 import ast
 import re
 import subprocess
 from pathlib import Path
+
+import streamlit as st
 
 
 def run_command(cmd: list[str], cwd: str = ".") -> tuple[int, str, str]:

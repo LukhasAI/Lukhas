@@ -117,7 +117,7 @@ def load_recent_dream_logs(
         specific_file_path=str(specific_log_file) if specific_log_file else "None",
     )
     target_log = specific_log_file or (
-        DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d'}.jsonl"
+        DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl"
     )
     if not target_log.exists():
         log.warning("Dream log file not found for replay.", path=str(target_log))
@@ -176,13 +176,13 @@ def replay_dreams_with_current_state() -> None:
     except Exception as e:
         log.warning("Failed to call display_visual_traits (placeholder or error).", error=str(e))
 
-    log.info(f"Beginning replay of {len(recent_dream_logs} dream(s)...")
+    log.info(f"Beginning replay of {len(recent_dream_logs)} dream(s)...")
     for i, dream_log_item in enumerate(recent_dream_logs, 1):
         narrative = dream_log_item.get("dream_narrative_text", "[Narrative Missing]")
         original_emo = dream_log_item.get("additional_metadata", {}).get(
             "emotional_tone", {"primary": "neutral_replay_tone"}
         )
-        replay_intro = f"Replaying LUKHAS Dream {i} (ID: {dream_log_item.get('dream_log_id', 'Unknown'}):"
+        replay_intro = f"Replaying LUKHAS Dream {i} (ID: {dream_log_item.get('dream_log_id', 'Unknown')}):"
         log.info(replay_intro, dream_preview=narrative[:80] + "...")
         try:
             speak(
@@ -231,13 +231,13 @@ if __name__ == "__main__":
     if not LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG:  # If using placeholders
         log.warning("Replayer example running with placeholders for symbolic_ai components.")
         dummy_log_file_path = (
-            DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{datetime.now(timezone.utc).strftime('%Y-%m-%d'}.jsonl"
+            DREAM_LOGS_REPLAYER_DIR / f"dreams_log_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.jsonl"
         )
         if not dummy_log_file_path.exists():
             try:
                 with open(dummy_log_file_path, "w", encoding="utf-8") as f:
                     dummy_dream_entry = {
-                        "dream_log_id": f"placeholder_dream_{uuid.uuid4(}.hex[:6]}",
+                        "dream_log_id": f"placeholder_dream_{uuid.uuid4()}.hex[:6]}",
                         "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                         "dream_narrative_text": "A placeholder dream about replayed echoes.",
                         "extracted_visual_prompts": [],

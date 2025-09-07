@@ -1,9 +1,10 @@
 #                   --- THIS FILE IS AUTO-GENERATED ---
 # Modifications will be overwitten the next time code generation run.
 
+import time
+
 import _plotly_utils.basevalidators as _bv
 import streamlit as st
-import time
 
 # TAG:governance
 # TAG:ethics
@@ -14,9 +15,9 @@ import time
 class SpikethicknessValidator(_bv.NumberValidator):
     def __init__(self, plotly_name="spikethickness", parent_name="layout.scene.zaxis", **kwargs):
         super().__init__(
-            plotly_name,
-            parent_name,
-            edit_type=kwargs.pop("edit_type", "plot"),
-            min=kwargs.pop("min", 0),
-            **kwargs,
-        )
+plotly_name,
+parent_name,
+edit_type=kwargs.pop("edit_type", "plot"),
+min=kwargs.pop("min", 0),
+**kwargs,
+)

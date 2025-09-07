@@ -7,6 +7,7 @@ This is the authoritative vocabulary of LUKHAS - mined from the actual codebase,
 not invented, not generic, but the REAL language that emerged organically.
 """
 import time
+
 import streamlit as st
 
 
@@ -337,13 +338,13 @@ def demonstrate():
                 transformed.append(word)
 
         print(f"\n  ❌ GENERIC: {phrase}")
-        print(f"  ✓ LUKHAS:  {' '.join(transformed}")
+        print(f"  ✓ LUKHAS:  {' '.join(transformed)}")
 
     print("\n\n🎯 UNIQUE LUKHAS PHRASES:")
     print("─" * 60)
 
     for _i in range(5):
-        print(f"\n  • {LUKHASLexicon.get_random_unique_phrase(}")
+        print(f"\n  • {LUKHASLexicon.get_random_unique_phrase()}")
 
     print("\n\n📊 THE LUKHAS VOCABULARY:")
     print("─" * 60)

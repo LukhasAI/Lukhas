@@ -20,7 +20,7 @@ except Exception:  # pragma: no cover - fallback for broken import
             "theme": random.choice(["Echo", "Fractal", "Origin"]),
             "context": context or {},
             "emotional_wave": [round(random.uniform(0.1, 1.0), 2) for _ in range(5)],
-            "collapse_path": [f"N{random.randint(1, 5}" for _ in range(3)],
+            "collapse_path": [f"N{random.randint(1, 5)}" for _ in range(3)],
         }
 
 

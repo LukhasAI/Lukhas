@@ -3,13 +3,13 @@
 GLYPH Types for ΛLens
 Symbol types and data structures
 """
-import streamlit as st
-
 import time
 import uuid
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class SymbolType(Enum):

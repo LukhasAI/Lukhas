@@ -1,8 +1,10 @@
-from datetime import datetime, timezone
 import logging
-import streamlit as st
 import random
 import time
+from datetime import datetime, timezone
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 LUKHAS Adaptive Meta-Learning System
@@ -209,7 +211,7 @@ class AdaptiveMetaLearningSystem:
             },
         }
 
-        logger.info(f"🔧 Initialized {len(strategies} learning strategies")
+        logger.info(f"🔧 Initialized {len(strategies)} learning strategies")
         return strategies
 
     def _extract_learning_features(self, context: dict, available_data: dict) -> dict:

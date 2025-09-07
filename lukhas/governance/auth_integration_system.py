@@ -23,15 +23,15 @@ Version: 1.0.0
 Trinity Framework: ⚛️🧠🛡️
 Phase: Phase 7 - Registry Updates and Policy Integration
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 from .auth_cross_module_integration import ModuleType, auth_cross_module_integrator
 from .auth_glyph_registry import auth_glyph_registry

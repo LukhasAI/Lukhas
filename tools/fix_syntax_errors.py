@@ -3,8 +3,6 @@
 Comprehensive Python Syntax Error Fixer
 Automatically detects and fixes common Python syntax errors at scale
 """
-import streamlit as st
-
 import argparse
 import ast
 import json
@@ -13,6 +11,8 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -128,7 +128,7 @@ class PythonSyntaxFixer:
             if modified and not self.dry_run:
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(content)
-                logger.info(f"Fixed {len(fixes} issues in {file_path}")
+                logger.info(f"Fixed {len(fixes)} issues in {file_path}")
 
             return fixes
 

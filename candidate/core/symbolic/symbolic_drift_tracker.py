@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -249,7 +251,7 @@ if __name__ == "__main__":
     print(f"Drift Summary: {summary}")
 
     print("\nSymbolic Drift Tracker Simulation Complete.")
-    print(f"Total drift records: {len(drift_tracker.drift_records}")
+    print(f"Total drift records: {len(drift_tracker.drift_records)}")
     if drift_tracker.drift_records:
         print("First recorded drift event:")
         for key, value in drift_tracker.drift_records[0].items():

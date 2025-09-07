@@ -609,7 +609,7 @@ class CreativeReasoningAgent(ReasoningAgent):
                                 "novelty_score": novelty,
                                 "confidence": 0.6 * novelty,  # Creative insights have moderate confidence
                                 "symbols": self._extract_symbols(insight),
-                                "new_symbols": [f"ΛCREATIVE_{uuid.uuid4(}.hex[:6]}"],
+                                "new_symbols": [f"ΛCREATIVE_{uuid.uuid4()}.hex[:6]}"],
                             }
                         )
 
@@ -698,7 +698,7 @@ class ReasoningColony:
         self.consensus_reached = 0
         self.insights_generated = 0
 
-        logger.info(f"Reasoning colony initialized with {len(self.agents} agents")
+        logger.info(f"Reasoning colony initialized with {len(self.agents)} agents")
 
     def _create_agents(self, agent_count: dict[ReasonerType, int]):
         """Create specialized reasoning agents"""
@@ -971,7 +971,7 @@ class ReasoningColony:
 
         # Store each conclusion
         for conclusion in consensus["conclusions"]:
-            key = f"consensus_{query.query_id}_{uuid.uuid4(}.hex[:8]}"
+            key = f"consensus_{query.query_id}_{uuid.uuid4()}.hex[:8]}"
 
             content = {
                 "type": "reasoning_consensus",
@@ -1068,15 +1068,15 @@ if __name__ == "__main__":
         # Show results
         print(f"\nQuery: {query.question}")
         print(f"Consensus reached: {query.consensus_reached}")
-        print(f"Conclusions ({len(query.conclusions}):")
+        print(f"Conclusions ({len(query.conclusions)}):")
 
         for i, conclusion in enumerate(query.conclusions):
             print(f"\n{i + 1}. {conclusion['content']}")
             print(f"   Confidence: {conclusion['confidence']:.1%}")
             print(f"   Consensus: {conclusion['consensus_score']:.1%}")
-            print(f"   Supported by: {', '.join(conclusion['supporting_agents']}")
+            print(f"   Supported by: {', '.join(conclusion['supporting_agents'])}")
             if conclusion.get("symbols"):
-                print(f"   Symbols: {', '.join(conclusion['symbols']}")
+                print(f"   Symbols: {', '.join(conclusion['symbols'])}")
 
         # Show colony status
         print("\nColony Status:")

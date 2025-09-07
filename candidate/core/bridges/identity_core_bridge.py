@@ -2,11 +2,11 @@
 Identity-Core Bridge
 Bidirectional communication bridge between identity and core systems
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any
+
+import streamlit as st
 
 # Import system hubs (will be available after hub creation)
 # from identity.identity_hub import get_identity_hub
@@ -146,7 +146,7 @@ class IdentityCoreBridge:
 
             if differences:
                 await self.resolve_differences(differences)
-                logger.info(f"Synchronized {len(differences} state differences")
+                logger.info(f"Synchronized {len(differences)} state differences")
 
             return True
 

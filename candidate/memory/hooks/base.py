@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """Abstract base class for memory hooks
 
@@ -243,12 +245,12 @@ class MemoryHook(ABC):
     def enable(self) -> None:
         """Enable the hook"""
         self._enabled = True
-        logger.info(f"Enabled hook: {self.get_hook_name(}")
+        logger.info(f"Enabled hook: {self.get_hook_name()}")
 
     def disable(self) -> None:
         """Disable the hook"""
         self._enabled = False
-        logger.info(f"Disabled hook: {self.get_hook_name(}")
+        logger.info(f"Disabled hook: {self.get_hook_name()}")
 
     def is_enabled(self) -> bool:
         """Check if hook is enabled"""

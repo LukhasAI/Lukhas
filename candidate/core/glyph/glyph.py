@@ -28,8 +28,9 @@ and symbolic reasoning throughout the LUKHAS AGI system.
 
 For more information, visit: https://lukhas.ai
 """
-import streamlit as st
 from datetime import timezone
+
+import streamlit as st
 
 # ΛTRACE: Core glyph engine initialization
 # ΛORIGIN_AGENT: Claude Code
@@ -198,7 +199,7 @@ class CausalLink:
 
     def set_temporal_link(self, parent_timestamp: str, link_type: str = "sequential"):
         """Set temporal link to parent glyph with Task 15 requirements."""
-        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now(timezone.utc).isoformat(}"
+        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now(timezone.utc).isoformat()}"
 
     def calculate_emotional_delta(self, parent_emotion: EmotionVector, current_emotion: EmotionVector):
         """Calculate emotional context delta from parent glyph."""

@@ -4,14 +4,14 @@ Original: voice_cultural_integration.py
 Advanced: voice_cultural_integration.py
 Integration Date: 2025-05-31T07:55:28.254343
 """
-import time
-import random
-import streamlit as st
-
 import builtins
 import contextlib
 import logging
+import random
+import time
 from typing import Any, Optional
+
+import streamlit as st
 
 from ..spine.accent_adapter import AccentAdapter
 from ..spine.emotion_mapper_alt import LUKHAS

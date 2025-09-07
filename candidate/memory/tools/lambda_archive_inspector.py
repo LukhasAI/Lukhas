@@ -315,7 +315,7 @@ class LambdaArchiveInspector:
                 symbol_ids=list(set().union(*[e.symbol_ids for e in cluster_entries])),
                 memory_ids=list(set().union(*[e.memory_ids for e in cluster_entries])),
                 source_entries=[e.entry_id for e in cluster_entries],
-                description=f"High entropy cluster with {len(cluster_entries} entries, "
+                description=f"High entropy cluster with {len(cluster_entries)} entries, "
                 f"average entropy {avg_entropy:.3f}, "
                 f"affecting {symbol_diversity} symbols",
                 entropy_level=avg_entropy,
@@ -1189,21 +1189,21 @@ class LambdaArchiveInspector:
         md.append(f"- **Total Entries Scanned:** {report.total_entries}")
         md.append(f"- **Anomalies Detected:** {report.anomalies_detected}")
         md.append(f"- **Archive Score:** {report.archive_score:.3f}")
-        md.append(f"- **Forgotten Symbols:** {len(report.forgotten_symbols}")
-        md.append(f"- **Ethical Violations:** {len(report.ethical_violations}")
+        md.append(f"- **Forgotten Symbols:** {len(report.forgotten_symbols)}")
+        md.append(f"- **Ethical Violations:** {len(report.ethical_violations)}")
         md.append("")
 
         if report.entropy_analysis:
             md.append("#)  #  🌀 Entropy Analysis"
             md.append("")
             md.append(
-                f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0}:.3f}"
+                f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0)}:.3f}"
             )
             md.append(
-                f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0}:.2%}"
+                f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0)}:.2%}"
             )
             md.append(
-                f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0}:.3f}"
+                f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0)}:.3f}"
             )
             md.append("")
 
@@ -1219,7 +1219,7 @@ class LambdaArchiveInspector:
                 md.append(f"- **Severity:** {anomaly.severity:.3f}")
                 md.append(f"- **Description:** {anomaly.description}")
                 md.append(
-                    f"- **Affected Symbols:** {', '.join(anomaly.symbol_ids[:5]}"
+                    f"- **Affected Symbols:** {', '.join(anomaly.symbol_ids[:5])}"
                 )
                 md.append("")
 
@@ -1313,7 +1313,7 @@ def main():
             logger.warning("❌ No memory entries found in vault directory")
             return 1
 
-        logger.info(f"📂 Discovered {len(entries} memory entries")
+        logger.info(f"📂 Discovered {len(entries)} memory entries")
 
         # Detect anomalies based on mode
         anomalies = []
@@ -1322,18 +1322,18 @@ def main():
             logger.info("🌀 Detecting high entropy clusters...")
             entropy_anomalies = inspector.detect_high_entropy_clusters(entries)
             anomalies.extend(entropy_anomalies)
-            logger.info(f"   Found {len(entropy_anomalies} entropy anomalies")
+            logger.info(f"   Found {len(entropy_anomalies)} entropy anomalies")
 
         if args.mode in ["full", "forgotten"]:
             logger.info("🔍 Detecting forgotten symbols...")
             forgotten_anomalies = inspector.detect_forgotten_symbols(entries)
             anomalies.extend(forgotten_anomalies)
-            logger.info(f"   Found {len(forgotten_anomalies} forgotten symbols")
+            logger.info(f"   Found {len(forgotten_anomalies)} forgotten symbols")
 
         if args.mode in ["full", "linkage"]:
             logger.info("🕸️ Reconstructing symbolic linkage...")
             linkage_map = inspector.reconstruct_symbolic_linkage(entries)
-            logger.info(f"   Mapped {len(linkage_map} symbol connections")
+            logger.info(f"   Mapped {len(linkage_map)} symbol connections")
 
         # Limit results if requested
         if args.limit and len(anomalies) > args.limit:

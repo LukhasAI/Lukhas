@@ -49,11 +49,11 @@ from .matriz_symbolic_consciousness import (
 
 # Export symbolic components
 __all__ = [
+    "MatrizSymbolicConsciousnessProcessor",
+    "ProcessingState",
     # MΛTRIZ Symbolic Consciousness
     "SymbolicElement",
     "SymbolicPattern",
     "SymbolicType",
-    "ProcessingState",
-    "MatrizSymbolicConsciousnessProcessor",
     "symbolic_consciousness_processor",
 ]

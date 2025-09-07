@@ -579,7 +579,7 @@ class MemoryFoldUniversalBridge:
         node_type = self.config.matada_node_types.get(emotion, "COGNITIVE_GENERAL")
 
         matada_node = {
-            "id": f"matada_{memory_fold['hash'][:16]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "id": f"matada_{memory_fold['hash'][:16]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "type": node_type,
             "timestamp": memory_fold["timestamp"],
             "content": {
@@ -592,7 +592,7 @@ class MemoryFoldUniversalBridge:
             },
             "semantic_tags": [
                 f"emotion:{emotion}",
-                f"tier:{memory_fold.get('metadata', {}).get('creator_tier', 0)}",
+                f"tier:{memory_fold.get('metadata', {)}).get('creator_tier', 0)}",
                 "source:memory_fold",
             ],
             "parent_nodes": [],  # Could link to previous memories
@@ -642,7 +642,7 @@ class MemoryFoldUniversalBridge:
         # Add symbolic elements
         symbols = dream_snapshot.symbolic_annotations.get("symbols", [])
         if symbols:
-            parts.append(f"Symbols: {', '.join(symbols[:5]}")
+            parts.append(f"Symbols: {', '.join(symbols[:5])}")
 
         # Add introspective insights
         insights = dream_snapshot.introspective_content.get("insights", [])

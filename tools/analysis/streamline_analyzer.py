@@ -152,7 +152,7 @@ class StreamlineAnalyzer:
     def _get_function_signature(self, node: ast.FunctionDef) -> str:
         """Get normalized function signature"""
         args = [arg.arg for arg in node.args.args if arg.arg != "self"]
-        return f"{node.name}({','.join(args})"
+        return f"{node.name}({','.join(args)})"
 
     def _get_class_signature(self, node: ast.ClassDef) -> str:
         """Get class signature based on public methods"""
@@ -388,7 +388,7 @@ class StreamlineAnalyzer:
         plan = report["streamlining_plan"]
         print("\n📋 Streamlining Plan:")
         for phase_key, phase in plan.items():
-            print(f"\n   {phase_key.upper(}: {phase['name']} ({phase['duration']})")
+            print(f"\n   {phase_key.upper()}: {phase['name']} ({phase['duration']})")
             for task in phase["tasks"][:2]:
                 print(f"      - {task}")
 

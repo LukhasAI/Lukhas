@@ -12,7 +12,8 @@ from datetime import datetime
 from core.common import get_logger
 from lukhas.consciousness.interfaces.natural_language_interface import (
     ConversationManager,
-    NaturalLanguageConsciousnessInterface)
+    NaturalLanguageConsciousnessInterface,
+)
 
 logger = get_logger(__name__)
 
@@ -101,7 +102,7 @@ class InteractiveConsciousnessDemo:
         memory_store = []
 
         async def store_memory(content, **kwargs):
-            memory_id = f"mem_{len(memory_store)}_{datetime.now(timezone.utc).timestamp(}"
+            memory_id = f"mem_{len(memory_store)}_{datetime.now(timezone.utc).timestamp()}"
             memory_store.append(
                 {
                     "id": memory_id,
@@ -284,7 +285,7 @@ class InteractiveConsciousnessDemo:
             print("\n" + "-" * 40)
             print("Conversation Statistics:")
             print("-" * 40)
-            print(f"Total turns: {len(context.turns}")
+            print(f"Total turns: {len(context.turns)}")
 
             # Count intents
             intent_counts = {}

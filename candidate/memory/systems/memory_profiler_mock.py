@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Memory Profiler Mock Implementation
@@ -208,7 +210,7 @@ class MemoryProfiler:
         if long_lived:
             analysis["long_lived_tensors"] = sorted(long_lived, key=lambda x: x["lifetime_minutes"], reverse=True)[:10]
             analysis["recommendations"].append(
-                f"Found {len(long_lived} long-lived tensors - review for potential cleanup"
+                f"Found {len(long_lived)} long-lived tensors - review for potential cleanup"
             )
 
         logger.info(

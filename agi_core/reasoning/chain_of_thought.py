@@ -194,7 +194,7 @@ class ChainOfThought:
         requirements = self._extract_requirements(problem)
 
         reasoning = f"Problem analysis: {problem_type} with {complexity} complexity. "
-        reasoning += f"Key requirements: {', '.join(requirements}"
+        reasoning += f"Key requirements: {', '.join(requirements)}"
 
         return ReasoningNode(
             step_type=ReasoningStep.PROBLEM_ANALYSIS,
@@ -219,7 +219,7 @@ class ChainOfThought:
             try:
                 consciousness_state = self.consciousness.get_consciousness_state("monitored")
                 info_sources.append(
-                    f"Consciousness awareness: {consciousness_state.get('consciousness_state', {}).get('awareness_level', 0)}"
+                    f"Consciousness awareness: {consciousness_state.get('consciousness_state', {)}).get('awareness_level', 0)}"
                 )
             except Exception as e:
                 logger.debug(f"Could not gather consciousness information: {e}")
@@ -233,7 +233,7 @@ class ChainOfThought:
             ]
         )
 
-        reasoning = f"Information gathered from {len(info_sources} sources. "
+        reasoning = f"Information gathered from {len(info_sources)} sources. "
         reasoning += "Ready for hypothesis generation."
 
         return ReasoningNode(
@@ -264,7 +264,7 @@ class ChainOfThought:
             if dream_insight:
                 hypotheses.append(f"Dream-inspired hypothesis: {dream_insight}")
 
-        reasoning = f"Generated {len(hypotheses} hypotheses for consideration. "
+        reasoning = f"Generated {len(hypotheses)} hypotheses for consideration. "
         if dream_insight:
             reasoning += f"Dream system contributed creative perspective: {dream_insight[:100]}..."
 
@@ -296,8 +296,8 @@ class ChainOfThought:
             deduction += f"implication_{i+1}, constraint_{i+1}, prediction_{i+1}"
             deductions.append(deduction)
 
-        reasoning = f"Performed logical deduction on {len(hypotheses} hypotheses. "
-        reasoning += f"Generated {len(deductions} logical chains."
+        reasoning = f"Performed logical deduction on {len(hypotheses)} hypotheses. "
+        reasoning += f"Generated {len(deductions)} logical chains."
 
         return ReasoningNode(
             step_type=ReasoningStep.LOGICAL_DEDUCTION,
@@ -324,8 +324,8 @@ class ChainOfThought:
 
         evidence_score = len(strong_evidence) / max(len(evidence_items), 1)
 
-        reasoning = f"Evaluated {len(evidence_items} pieces of evidence. "
-        reasoning += f"Strong evidence: {len(strong_evidence)}, Weak evidence: {len(weak_evidence}. "
+        reasoning = f"Evaluated {len(evidence_items)} pieces of evidence. "
+        reasoning += f"Strong evidence: {len(strong_evidence)}, Weak evidence: {len(weak_evidence)}. "
         reasoning += f"Evidence quality score: {evidence_score:.2f}"
 
         return ReasoningNode(
@@ -334,7 +334,7 @@ class ChainOfThought:
             reasoning=reasoning,
             confidence=min(0.9, 0.5 + evidence_score * 0.4),
             evidence=[
-                f"Strong evidence count: {len(strong_evidence}",
+                f"Strong evidence count: {len(strong_evidence)}",
                 f"Evidence quality score: {evidence_score:.2f}",
             ],
             next_steps=["Synthesize conclusion", "Assess overall confidence"],
@@ -392,16 +392,16 @@ class ChainOfThought:
         avg_confidence = total_confidence / max(len(previous_steps), 1)
 
         # Synthesize conclusion
-        conclusion = f"Based on {len(previous_steps} reasoning steps, the conclusion is: "
+        conclusion = f"Based on {len(previous_steps)} reasoning steps, the conclusion is: "
 
         # Include most confident insights
         high_confidence_steps = [s for s in previous_steps if s.confidence > 0.7]
         if high_confidence_steps:
-            conclusion += f"High-confidence analysis from {len(high_confidence_steps} steps supports the conclusion. "
+            conclusion += f"High-confidence analysis from {len(high_confidence_steps)} steps supports the conclusion. "
 
         # Include dream contributions
         if dream_insights:
-            conclusion += f"Dream insights contributed {len(dream_insights} creative perspectives. "
+            conclusion += f"Dream insights contributed {len(dream_insights)} creative perspectives. "
 
         conclusion += f"Overall reasoning confidence: {avg_confidence:.2f}"
 
@@ -440,7 +440,7 @@ class ChainOfThought:
             reasoning=assessment,
             confidence=final_confidence,
             evidence=[
-                f"Step confidences: {[round(c, 2} for c in step_confidences]}",
+                f"Step confidences: {[round(c, 2)} for c in step_confidences]}",
                 f"Dream contributions: {chain.dream_contributions}",
                 f"Total assumptions: {assumption_count}",
             ],

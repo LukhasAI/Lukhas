@@ -4,13 +4,13 @@ Trigger Flow Example
 ===================
 Demonstrates how the monitoring system triggers adaptations from real LUKHAS data
 """
-import streamlit as st
-
 import asyncio
 import time
 from collections import deque
 from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 from bio.endocrine_integration import EndocrineIntegration
 from candidate.orchestration.signals.signal_bus import SignalBus
@@ -176,7 +176,7 @@ class LukhasDataFeeder:
                 triggers_fired = await self._check_trigger_conditions(system_state)
 
                 if triggers_fired:
-                    print(f"🔥 {len(triggers_fired} triggers fired: {[t.name for t in triggers_fired]}")
+                    print(f"🔥 {len(triggers_fired)} triggers fired: {[t.name for t in triggers_fired]}")
 
                 await asyncio.sleep(2.0)  # Feed data every 2 seconds
 

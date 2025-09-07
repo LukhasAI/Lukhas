@@ -4,20 +4,18 @@ Original: speak.py
 Advanced: speak.py
 Integration Date: 2025-5-31T07:55:30.780336
 """
-import streamlit as st
-from datetime import timezone
-
 # ===============================================================
 #  FILE: tools/speak.py
 #  PURPOSE: CLI command to speak symbolically with tier checks, emotion style, and logging
 # ===============================================================
-
 import argparse
 import asyncio
 import json
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+
+import streamlit as st
 
 # from edge_tts import Communicate  # TODO: Install or implement edge_tts
 from lukhas.core.compliance.tier_manager import get_user_tier
@@ -97,8 +95,7 @@ def main():
     voice = EMOTION_VOICES.get(args.emotion.lower(), DEFAULT_VOICE)
 
     # Keep these as print since they are CLI user output
-    print(f" Tier {tier} |  Emotion: {args.emotion} | Voice: {voice}")
-    # SYNTAX_ERROR_FIXED:     print(f" Lukhas would say: "{sentence}"")
+    print(f" Tier {tier} |  Emotion: {args.emotion} | Voice: {voice}""")
     if not args.preview:
         asyncio.run(speak(sentence, voice=voice, preview=False))
     log_output(sentence, tier, voice)

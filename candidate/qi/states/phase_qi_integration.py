@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import random
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """
@@ -212,7 +215,7 @@ class QIIntegrationTestSuite:
             results[f"{domain}_improvement_factor"] = improvement_factor
 
             print(
-                f"  📊 {domain.capitalize(}: {operations_per_second:.1f} ops/s ({improvement_factor:.1f}x improvement)"
+                f"  📊 {domain.capitalize()}: {operations_per_second:.1f} ops/s ({improvement_factor:.1f}x improvement)"
             )
 
         # Calculate overall throughput improvement
@@ -255,7 +258,7 @@ class QIIntegrationTestSuite:
             results[f"{domain}_energy_reduction_percent"] = energy_reduction
             results[f"{domain}_optimized_energy"] = optimized_energy
 
-            print(f"  🔋 {domain.capitalize(}: {energy_reduction:.1f}% energy reduction")
+            print(f"  🔋 {domain.capitalize()}: {energy_reduction:.1f}% energy reduction")
 
         # Calculate overall energy efficiency
         reductions = [results[key] for key in results if "energy_reduction_percent" in key]
@@ -294,7 +297,7 @@ class QIIntegrationTestSuite:
             results[f"{domain}_response_time_ms"] = response_time_ms
 
             status = "✅" if response_time_ms < 100 else "⚠️"
-            print(f"  {status} {domain.capitalize(}: {response_time_ms:.2f}ms")
+            print(f"  {status} {domain.capitalize()}: {response_time_ms:.2f}ms")
 
         # Calculate statistics
         response_times = [results[key] for key in results if "response_time_ms" in key]
@@ -323,7 +326,7 @@ class QIIntegrationTestSuite:
             results[f"{domain}_quantum_fidelity"] = fidelity
 
             status = "✅" if fidelity >= 0.95 else "⚠️"
-            print(f"  {status} {domain.capitalize(}: {fidelity:.3f} ({fidelity * 100:.1f}%)")
+            print(f"  {status} {domain.capitalize()}: {fidelity:.3f} ({fidelity  * 100:.1f}%)")
 
         # Calculate overall fidelity
         fidelities = [results[key] for key in results if "qi_fidelity" in key]
@@ -349,7 +352,7 @@ class QIIntegrationTestSuite:
                 results[f"{domain}_compliance"] = True
 
             status = "✅" if results[f"{domain}_compliance"] else "❌"
-            print(f"  {status} {domain.capitalize(}: NIST SP 800-208 compliant")
+            print(f"  {status} {domain.capitalize()}: NIST SP 800-208 compliant")
 
         # Overall compliance check
         compliances = [results[key] for key in results if "compliance" in key]

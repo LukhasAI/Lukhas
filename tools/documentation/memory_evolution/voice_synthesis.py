@@ -2,13 +2,12 @@
 Voice Synthesis Adapter for DocuTutor.
 Integrates with Lukhas AGI voice capabilities for audio documentation interaction.
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 
 @dataclass

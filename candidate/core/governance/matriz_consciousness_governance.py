@@ -79,7 +79,7 @@ class GovernanceDecisionType(Enum):
 class ConsciousnessEthicsAssessment:
     """Ethical assessment of consciousness actions or states"""
 
-    assessment_id: str = field(default_factory=lambda: f"ETHICS-{uuid.uuid4(}.hex[:8]}")
+    assessment_id: str = field(default_factory=lambda: f"ETHICS-{uuid.uuid4()}.hex[:8]}")
     consciousness_id: Optional[str] = None
     action_description: str = ""
     ethics_level: ConsciousnessEthicsLevel = ConsciousnessEthicsLevel.ETHICAL_NEUTRAL
@@ -110,7 +110,7 @@ class ConsciousnessEthicsAssessment:
 class GovernancePolicy:
     """Consciousness governance policy definition"""
 
-    policy_id: str = field(default_factory=lambda: f"POLICY-{uuid.uuid4(}.hex[:8]}")
+    policy_id: str = field(default_factory=lambda: f"POLICY-{uuid.uuid4()}.hex[:8]}")
     name: str = ""
     description: str = ""
 

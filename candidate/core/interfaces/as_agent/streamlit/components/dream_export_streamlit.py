@@ -52,6 +52,6 @@ if st.button("📤 Export Filtered Dreams"):
             with open(EXPORT_PATH, "w") as out:
                 for d in exported:
                     out.write(json.dumps(d) + "\n")
-            st.success(f"✅ Exported {len(exported} dreams to `{EXPORT_PATH}`")
+            st.success(f"✅ Exported {len(exported)} dreams to `{EXPORT_PATH}`")
         else:
             st.warning("⚠️ No matching dreams found.")

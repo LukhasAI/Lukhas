@@ -4,16 +4,15 @@ Original: settings_loader.py
 Advanced: settings_loader.py
 Integration Date: 2025-05-31T07:55:28.120950
 """
-import logging
-import streamlit as st
-
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: settings_loader.py
 # 🧠 PURPOSE: Load and serve symbolic settings from system_settings.json
 # 🔄 USAGE: Imported by modules to access config values
 # ════════════════════════════════════════════════════════════════════════
-
 import json
+import logging
+
+import streamlit as st
 
 SETTINGS_PATH = "lukhas_settings.json"
 

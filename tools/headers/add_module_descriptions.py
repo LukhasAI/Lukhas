@@ -6,12 +6,13 @@ LUKHAS Module Description Adder
 This script adds proper module descriptions to all quantum files
 explaining what each module does in technical but accessible terms.
 """
-from consciousness.qi import qi
 import random
-import streamlit as st
-
 import re
 from pathlib import Path
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Pattern to find where to insert the description (after
 # @lukhas/HEADER_FOOTER_TEMPLATE.py)

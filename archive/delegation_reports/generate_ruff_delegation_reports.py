@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from datetime import datetime, timezone
+
 """Generate delegation-ready reports from Ruff JSON output.
 
 Produces three files in the repo root:

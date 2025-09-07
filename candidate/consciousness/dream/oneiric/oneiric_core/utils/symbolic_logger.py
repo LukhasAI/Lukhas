@@ -1,6 +1,8 @@
 import streamlit as st
+
 """Minimal symbolic logger stub"""
 import logging
+
 logger = logging.getLogger(__name__)
 
 

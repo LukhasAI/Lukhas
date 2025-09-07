@@ -3,13 +3,12 @@
 Memory Module Consolidation Tool
 Merges 19+ memory variants into unified structure
 """
-import streamlit as st
-from datetime import timezone
-
 import shutil
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 
 class MemoryConsolidator:

@@ -3,13 +3,12 @@ Value Creation Synthesizer
 
 Synthesizes value creation strategies and optimization paths.
 """
-from typing import List
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, List
+
+import streamlit as st
 
 from core.interfaces import CoreInterface
 

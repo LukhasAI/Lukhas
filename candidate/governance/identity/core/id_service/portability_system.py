@@ -19,21 +19,17 @@ Author: LUKHAS AI Systems
 Version: 1.0.0
 Created: 2025-07-05
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import base64
 import hashlib
 import json
 import secrets
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 import qrcode
+import streamlit as st
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -337,7 +333,7 @@ class LambdaIDPortabilitySystem:
 
         for i in range(count):
             # Generate unique code using ΛiD and index
-            code_seed = f"{base_seed}-{i}-{secrets.token_hex(8}"
+            code_seed = f"{base_seed}-{i}-{secrets.token_hex(8)}"
             code_hash = hashlib.sha256(code_seed.encode()).hexdigest()[:12]
 
             # Format as human-readable code
@@ -539,7 +535,7 @@ class LambdaIDPortabilitySystem:
 
         return {
             "backup_file": base64.b64encode(encrypted_backup).decode(),
-            "filename": f"lambda_id_backup_{lambda_id.replace('LUKHAS', 'L')}_{datetime.now(timezone.utc).strftime('%Y%m%d'}.lbak",
+            "filename": f"lambda_id_backup_{lambda_id.replace('LUKHAS', 'L')}_{datetime.now(timezone.utc).strftime('%Y%m%d')}.lbak",
             "size_bytes": len(encrypted_backup),
             "created_at": datetime.now(timezone.utc).isoformat(),
         }
@@ -726,7 +722,7 @@ class LambdaIDPortabilitySystem:
 
     def _generate_attempt_id(self) -> str:
         """Generate unique attempt ID"""
-        return f"rec_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(4}"
+        return f"rec_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(4)}"
 
     def _get_qr_recovery_instructions(self) -> list[str]:
         """Get QR recovery instructions"""
@@ -871,7 +867,7 @@ if __name__ == "__main__":
 
     print(f"Created portability package for: {test_lambda_id}")
     print(f"Methods enabled: {[m.value for m in package.methods_enabled]}")
-    print(f"Emergency codes: {len(package.emergency_codes}")
+    print(f"Emergency codes: {len(package.emergency_codes)}")
     print(f"Recovery phrase: {package.recovery_phrase[:50]}...")
 
     # Test QR-G recovery

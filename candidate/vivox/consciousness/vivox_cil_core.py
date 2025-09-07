@@ -7,15 +7,13 @@ Achieves traceable state of self-awareness
 """
 import logging
 import random
-import streamlit as st
-from datetime import timezone
-
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 
 class ConsciousnessState(Enum):
@@ -102,7 +100,7 @@ class ConsciousExperience:
     experience_id: str = field(default="", init=False)
 
     def __post_init__(self):
-        self.experience_id = f"exp_{self.timestamp.timestamp(}"
+        self.experience_id = f"exp_{self.timestamp.timestamp()}"
 
     @classmethod
     def create_suppressed_experience(cls, reason: str, drift_details: DriftMeasurement) -> "ConsciousExperience":
@@ -175,7 +173,7 @@ class ConsciousnessSimulator:
         consciousness_dims = self._normalize_to_consciousness_space(attended_features)
 
         return ConsciousnessVector(
-            vector_id=f"vec_{datetime.now(timezone.utc).timestamp(}",
+            vector_id=f"vec_{datetime.now(timezone.utc).timestamp()}",
             dimensions=consciousness_dims,
             attention_focus=self._extract_attention_focus(inputs),
             emotional_tone=inputs.get("emotional_state", {}),

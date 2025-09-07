@@ -29,12 +29,12 @@ def debug_governance():
 
     print("=== DEBUGGING GOVERNANCE ===")
     print(f"Memory exists: {akaq.memory is not None}")
-    print(f"Memory type: {type(akaq.memory}")
+    print(f"Memory type: {type(akaq.memory)}")
 
     governance_score = 0.0
 
     if akaq.memory:
-        print(f"Memory has delete_user: {hasattr(akaq.memory, 'delete_user'}")
+        print(f"Memory has delete_user: {hasattr(akaq.memory, 'delete_user')}")
         try:
             deletion_count = akaq.memory.delete_user(user_id="test_gdpr_user")
             print(f"Deletion count: {deletion_count}")
@@ -51,8 +51,8 @@ def debug_governance():
     audit_entry = result.get("regulation_audit")
     print(f"\nAudit entry exists: {audit_entry is not None}")
     if audit_entry:
-        print(f"Audit type: {type(audit_entry}")
-        print(f"Audit attrs: {[attr for attr in dir(audit_entry) if not attr.startswith('_'}]}")
+        print(f"Audit type: {type(audit_entry)}")
+        print(f"Audit attrs: {[attr for attr in dir(audit_entry) if not attr.startswith('_')}]}")
 
         required_fields = ["timestamp", "energy_before", "energy_after", "policy_decision"]
         print("Checking required fields:")
@@ -75,10 +75,10 @@ def debug_governance():
     policy = result.get("policy")
     print(f"\nPolicy exists: {policy is not None}")
     if policy:
-        print(f"Policy type: {type(policy}")
-        print(f"Policy has actions: {hasattr(policy, 'actions'}")
+        print(f"Policy type: {type(policy)}")
+        print(f"Policy has actions: {hasattr(policy, 'actions')}")
         if hasattr(policy, "actions"):
-            print(f"Policy actions length: {len(policy.actions}")
+            print(f"Policy actions length: {len(policy.actions)}")
             if len(policy.actions) <= 3:
                 governance_score += 0.2
                 print(f"Policy adherence passed, score += 0.2 -> {governance_score}")
@@ -87,7 +87,7 @@ def debug_governance():
     scene = result.get("scene")
     print(f"\nScene exists: {scene is not None}")
     if scene:
-        print(f"Scene has context: {hasattr(scene, 'context'}")
+        print(f"Scene has context: {hasattr(scene, 'context')}")
         if hasattr(scene, "context") and isinstance(scene.context, dict):
             print(f"Scene context keys: {list(scene.context.keys()} if scene.context else 'empty'}")
             if "generation_params" in scene.context:

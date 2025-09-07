@@ -6,14 +6,14 @@ Trinity Framework: ⚛️🧠🛡️
 Implements a biological-inspired methylation system for controlling
 the lifecycle and decay patterns of symbolic tags within LUKHAS AI.
 """
-import time
-import random
-import streamlit as st
-
 import logging
 import math
+import random
+import time
 from datetime import datetime
 from typing import Any, Optional
+
+import streamlit as st
 
 from .tags import SymbolicTag, TagScope
 

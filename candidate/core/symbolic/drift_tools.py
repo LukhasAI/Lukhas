@@ -683,7 +683,7 @@ class DriftRecoverySimulator:
         }
 
         # Save to file
-        output_path = self.checkpoint_dir / f"benchmark_{datetime.now(timezone.utc}:%Y%m%d_%H%M%S}.json"
+        output_path = self.checkpoint_dir / f"benchmark_{datetime.now(timezone.utc)}:%Y%m%d_%H%M%S}.json"
         with open(output_path, "w") as f:
             json.dump(benchmark_summary, f, indent=2, default=str)
 

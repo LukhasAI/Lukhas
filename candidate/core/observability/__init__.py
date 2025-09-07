@@ -52,11 +52,11 @@ Usage:
 #TAG:trinity
 #TAG:guardian
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any, Dict, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -313,18 +313,18 @@ default_observability_manager = ObservabilityManager()
 
 # Export all components
 __all__ = [
+    "ALERTING_SYSTEM_AVAILABLE",
+    "CONSCIOUSNESS_MONITORING_AVAILABLE",
+    "GUARDIAN_MONITORING_AVAILABLE",
+    "HEALTH_MONITORING_AVAILABLE",
+    "TRINITY_MONITORING_AVAILABLE",
+    # Availability flags
+    "UNIFIED_DASHBOARD_AVAILABLE",
     # Legacy collector
     "Collector",
     # Manager
     "ObservabilityManager",
     "default_observability_manager",
-    # Availability flags
-    "UNIFIED_DASHBOARD_AVAILABLE",
-    "GUARDIAN_MONITORING_AVAILABLE",
-    "CONSCIOUSNESS_MONITORING_AVAILABLE",
-    "HEALTH_MONITORING_AVAILABLE",
-    "ALERTING_SYSTEM_AVAILABLE",
-    "TRINITY_MONITORING_AVAILABLE",
 ]
 
 # Conditionally export available components
@@ -422,5 +422,5 @@ if TRINITY_MONITORING_AVAILABLE:
 __all__ = [name for name in __all__ if globals().get(name) is not None]
 
 logger.info(
-    f"🔍 LUKHAS AI Observability module loaded - {len([x for x in [UNIFIED_DASHBOARD_AVAILABLE, GUARDIAN_MONITORING_AVAILABLE, CONSCIOUSNESS_MONITORING_AVAILABLE, HEALTH_MONITORING_AVAILABLE, ALERTING_SYSTEM_AVAILABLE, TRINITY_MONITORING_AVAILABLE] if x]}/6 systems available"
+    f"🔍 LUKHAS AI Observability module loaded - {len([x for x in [UNIFIED_DASHBOARD_AVAILABLE, GUARDIAN_MONITORING_AVAILABLE, CONSCIOUSNESS_MONITORING_AVAILABLE, HEALTH_MONITORING_AVAILABLE, ALERTING_SYSTEM_AVAILABLE, TRINITY_MONITORING_AVAILABLE] if x])}/6 systems available"
 )

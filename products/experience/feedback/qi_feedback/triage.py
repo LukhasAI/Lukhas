@@ -5,14 +5,14 @@ import json
 import statistics
 import time
 from collections import Counter, defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
+import streamlit as st
+
+from consciousness.qi import qi
 from qi.feedback.schema import FeedbackCluster
 from qi.feedback.store import get_store
-from datetime import timezone
-import streamlit as st
-from consciousness.qi import qi
 
 
 class FeedbackTriage:
@@ -29,10 +29,6 @@ class FeedbackTriage:
         task = fc.get("context", {}).get("task", "")
         jurisdiction = fc.get("context", {}).get("jurisdiction", "")
         return f"{session}:{task}:{jurisdiction}"
-
-    def deduplicate(self, feedback: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        """Remove duplicate feedback within time window."""
-        seen = {}
         deduped = []
 
         for fc in feedback:

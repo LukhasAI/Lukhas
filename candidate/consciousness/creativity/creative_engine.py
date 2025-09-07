@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import logging
-import streamlit as st
 import random
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -40,12 +42,13 @@ from functools import lru_cache, wraps
 from pathlib import Path
 from typing import Any, Callable, Optional, Protocol, TypeVar
 
-import aioredis
 import numpy as np
 
 # from prometheus_client import Counter, Histogram, Gauge
 import torch
 from torch.nn import functional as F
+
+import aioredis
 
 # Type definitions
 T = TypeVar("T")
@@ -60,23 +63,23 @@ class MockCounter:
         self.description = description
         self.label_names = label_names or []
         self._value = 0
-    
+
     def labels(self, **kwargs):
         return self
-    
+
     def inc(self, value=1):
         self._value += value
         return self
 
 class MockGauge:
     def __init__(self, name, description):
-        self.name = name  
+        self.name = name
         self.description = description
         self._value = 0
-    
+
     def inc(self, value=1):
         self._value += value
-    
+
     def dec(self, value=1):
         self._value -= value
 
@@ -84,7 +87,7 @@ class MockHistogram:
     def __init__(self, name, description):
         self.name = name
         self.description = description
-    
+
     def observe(self, value):
         pass
 
@@ -128,7 +131,7 @@ class CreativeConfig:
     cache_ttl_seconds: int = 3600
     max_concurrent_generations: int = 10
     enable_federated_learning: bool = True
-    neural_checkpoint_path: Optional[Path] = None
+    neural_checkpoint_path: Path | None = None
 
 
 @dataclass
@@ -303,7 +306,7 @@ class EnterpriseNeuralHaikuGenerator:
         neural_model: NeuralCreativeModel,
         symbolic_kb: SymbolicKnowledgeBase,
         federated_client: FederatedLearningClient,
-        redis_client: Optional[aioredis.Redis] = None,
+        redis_client: aioredis.Redis | None = None,
     ):
         self.config = config
         self.neural_model = neural_model
@@ -322,7 +325,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         # Neural attention mechanisms
         self.attention_weights = defaultdict(float)
-        self.style_embeddings: Optional[torch.Tensor] = None
+        self.style_embeddings: torch.Tensor | None = None
 
         logger.info(f"EnterpriseNeuralHaikuGenerator initialized with config: {config.__dict__}")
 
@@ -349,7 +352,7 @@ class EnterpriseNeuralHaikuGenerator:
 
             logger.info("Neural components initialized successfully")
         except Exception as e:
-            logger.error(f"Failed to initialize neural components: {str(e}")
+            logger.error(f"Failed to initialize neural components: {e!s}")
             raise
 
     async def _sync_federated_parameters(self) -> None:
@@ -359,11 +362,11 @@ class EnterpriseNeuralHaikuGenerator:
             # Update local style preferences based on global trends
             self.attention_weights.update({style.name: weight for style, weight in global_trends.items()})
         except Exception as e:
-            logger.warning(f"Federated sync failed, continuing with local parameters: {str(e}")
+            logger.warning(f"Federated sync failed, continuing with local parameters: {e!s}")
 
     @CircuitBreaker(failure_threshold=3, timeout=30.0)
     async def generate_haiku(
-        self, context: CreativeContext, style_override: Optional[CreativeStyle] = None
+        self, context: CreativeContext, style_override: CreativeStyle | None = None
     ) -> tuple[str, CreativeMetrics]:
         """
         Generate a neural-enhanced haiku with comprehensive monitoring.
@@ -430,13 +433,13 @@ class EnterpriseNeuralHaikuGenerator:
 
             except Exception as e:
                 CREATIVE_REQUESTS_TOTAL.labels(type="haiku", status="error").inc()
-                logger.error(f"Haiku generation failed for user {context.user_id}: {str(e}")
+                logger.error(f"Haiku generation failed for user {context.user_id}: {e!s}")
                 raise
             finally:
                 ACTIVE_GENERATORS.dec()
 
     async def _generate_base_haiku(
-        self, context: CreativeContext, style_override: Optional[CreativeStyle]
+        self, context: CreativeContext, style_override: CreativeStyle | None
     ) -> list[str]:
         """Generate base haiku structure using neural guidance."""
         lines = []
@@ -645,7 +648,7 @@ class EnterpriseNeuralHaikuGenerator:
 
         return np.mean(accuracy_scores)
 
-    def _generate_cache_key(self, context: CreativeContext, style_override: Optional[CreativeStyle]) -> str:
+    def _generate_cache_key(self, context: CreativeContext, style_override: CreativeStyle | None) -> str:
         """Generate cache key for haiku generation request."""
         key_components = [
             context.user_id,
@@ -658,7 +661,7 @@ class EnterpriseNeuralHaikuGenerator:
         key_string = "|".join(str(comp) for comp in key_components)
         return hashlib.sha256(key_string.encode()).hexdigest()[:16]
 
-    async def _get_cached_result(self, cache_key: str) -> Optional[tuple[str, CreativeMetrics]]:
+    async def _get_cached_result(self, cache_key: str) -> tuple[str, CreativeMetrics] | None:
         """Retrieve cached result if available and not expired."""
         if self.redis_client:
             try:
@@ -713,7 +716,7 @@ class EnterpriseNeuralHaikuGenerator:
             local_gradients = torch.randn(128)  # Placeholder
             await self.federated_client.aggregate_model_updates(local_gradients)
         except Exception as e:
-            logger.warning(f"Federated model update failed: {str(e}")
+            logger.warning(f"Federated model update failed: {e!s}")
 
     async def _cleanup_resources(self) -> None:
         """Clean up resources and connections."""
@@ -747,7 +750,7 @@ class CreativeEngineFactory:
 
     @staticmethod
     async def create_production_engine(
-        config_path: Optional[Path] = None, redis_url: Optional[str] = None
+        config_path: Path | None = None, redis_url: str | None = None
     ) -> EnterpriseNeuralHaikuGenerator:
         """Create a production-ready creative engine with full dependencies."""
 

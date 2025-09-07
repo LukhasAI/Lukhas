@@ -4,15 +4,14 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
-import random
-import streamlit as st
-
 import logging
+import random
 import time
 from collections import deque
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 
 class MemoryNode:
@@ -30,14 +29,7 @@ class MemoryNode:
 
     def store(self, **kwargs) -> str:
         """Store a new memory entry."""
-        memory_id = f"mem_{int(time.time())}_{len(self.short_term_memory}"
-
-        memory_entry = {
-            "id": memory_id,
-            "timestamp": time.time(),
-            "data": kwargs,
-            "importance": self._calculate_importance(kwargs),
-        }
+        memory_id = f"mem_{int(time.time())}_{len(self.short_term_memory)}"
 
         self.short_term_memory.append(memory_entry)
 

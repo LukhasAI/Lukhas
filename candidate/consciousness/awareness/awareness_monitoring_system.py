@@ -430,7 +430,7 @@ class AwarenessMonitoringSystem:
 
         try:
             # Generate awareness snapshot
-            snapshot_id = f"awareness_{uuid.uuid4(}.hex[:8]}"
+            snapshot_id = f"awareness_{uuid.uuid4()}.hex[:8]}"
 
             # Simulate awareness measurement (replace with actual measurement)
             awareness_score = await self._measure_current_awareness()
@@ -687,7 +687,7 @@ class AwarenessMonitoringSystem:
             # Look for load oscillation patterns
             await self._detect_load_oscillation(recent_snapshots)
 
-            logger.debug(f"🔍 Pattern detection completed on {len(recent_snapshots} snapshots")
+            logger.debug(f"🔍 Pattern detection completed on {len(recent_snapshots)} snapshots")
 
         except Exception as e:
             logger.error(f"❌ Pattern detection failed: {e}")
@@ -706,7 +706,7 @@ class AwarenessMonitoringSystem:
 
         if cycles > len(attention_modes) * 0.5:  # High switching rate
             pattern = AttentionPattern(
-                pattern_id=f"cycle_{uuid.uuid4(}.hex[:8]}",
+                pattern_id=f"cycle_{uuid.uuid4()}.hex[:8]}",
                 pattern_type="attention_cycling",
                 description=f"High attention switching rate detected: {cycles} changes",
                 detected_at=datetime.now(timezone.utc),
@@ -732,7 +732,7 @@ class AwarenessMonitoringSystem:
 
             if recent_avg < earlier_avg * 0.8:  # 20% decline
                 pattern = AttentionPattern(
-                    pattern_id=f"drift_{uuid.uuid4(}.hex[:8]}",
+                    pattern_id=f"drift_{uuid.uuid4()}.hex[:8]}",
                     pattern_type="focus_drift",
                     description="Declining awareness trend detected",
                     detected_at=datetime.now(timezone.utc),
@@ -756,7 +756,7 @@ class AwarenessMonitoringSystem:
 
             if load_variance > 0.1:  # High variance indicates oscillation
                 pattern = AttentionPattern(
-                    pattern_id=f"oscillation_{uuid.uuid4(}.hex[:8]}",
+                    pattern_id=f"oscillation_{uuid.uuid4()}.hex[:8]}",
                     pattern_type="load_oscillation",
                     description="Cognitive load oscillation detected",
                     detected_at=datetime.now(timezone.utc),
@@ -812,7 +812,7 @@ class AwarenessMonitoringSystem:
 
             if avg_performance < 0.7:  # Below optimal performance
                 insight = ConsciousnessInsight(
-                    insight_id=f"insight_{uuid.uuid4(}.hex[:8]}",
+                    insight_id=f"insight_{uuid.uuid4()}.hex[:8]}",
                     insight_type="performance_optimization",
                     title="Performance Below Optimal",
                     description=f"Average performance score {avg_performance:.2f} is below optimal threshold",
@@ -844,7 +844,7 @@ class AwarenessMonitoringSystem:
 
             if span_variance > 0.1:  # High variance in attention span
                 insight = ConsciousnessInsight(
-                    insight_id=f"insight_{uuid.uuid4(}.hex[:8]}",
+                    insight_id=f"insight_{uuid.uuid4()}.hex[:8]}",
                     insight_type="attention_improvement",
                     title="Attention Span Instability",
                     description=f"High variance in attention span detected (variance: {span_variance:.3f})",
@@ -876,10 +876,10 @@ class AwarenessMonitoringSystem:
 
             if high_load_count > len(load_scores) * 0.3:  # >30% high load
                 insight = ConsciousnessInsight(
-                    insight_id=f"insight_{uuid.uuid4(}.hex[:8]}",
+                    insight_id=f"insight_{uuid.uuid4()}.hex[:8]}",
                     insight_type="load_management",
                     title="Frequent High Cognitive Load",
-                    description=f"High cognitive load detected in {high_load_count}/{len(load_scores} measurements",
+                    description=f"High cognitive load detected in {high_load_count}/{len(load_scores)} measurements",
                     generated_at=datetime.now(timezone.utc),
                     importance_score=0.9,
                     confidence=0.9,
@@ -1019,7 +1019,7 @@ class AwarenessMonitoringSystem:
 
         if not period_snapshots:
             return AwarenessReport(
-                report_id=f"report_{uuid.uuid4(}.hex[:8]}",
+                report_id=f"report_{uuid.uuid4()}.hex[:8]}",
                 generated_at=datetime.now(timezone.utc),
                 time_period=time_period,
                 total_snapshots=0,
@@ -1070,7 +1070,7 @@ class AwarenessMonitoringSystem:
 
         # Create report
         report = AwarenessReport(
-            report_id=f"report_{uuid.uuid4(}.hex[:8]}",
+            report_id=f"report_{uuid.uuid4()}.hex[:8]}",
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             total_snapshots=len(period_snapshots),

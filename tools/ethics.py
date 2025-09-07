@@ -1,4 +1,5 @@
 import streamlit as st
+
 # ===============================================================
 # 📂 FILE: tools/ethics.py
 # 🧠 PURPOSE: CLI command to preview the symbolic ETHICS.md policy
@@ -25,7 +26,7 @@ def main():
             print("📖 Full ETHICS.md Preview:\n")
             lines = f.readlines()
             for line in lines:
-                print(f"  {line.strip(}")
+                print(f"  {line.strip()}")
     except FileNotFoundError:
         print("❌ ETHICS.md file not found.")
 

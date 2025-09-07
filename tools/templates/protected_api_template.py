@@ -5,20 +5,20 @@ Template for creating tier-protected API endpoints with proper authentication.
 
 Copy this template when creating new API endpoints.
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 # Configure logging
 import logging
+import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+import streamlit as st
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
 from pydantic import BaseModel
+
+from consciousness.qi import qi
 
 # LUKHAS Identity Integration - REQUIRED
 from identity.middleware import (
@@ -241,7 +241,7 @@ async def consciousness_endpoint(
 @app.post("/protected/quantum", response_model=BaseResponse, tags=["T4-Protected"])
 async def qi_endpoint(
     request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)
-) -> BaseResponse:  # noqa: B008
+) -> BaseResponse:
     """
     T4+ Protected quantum endpoint.
     Requires Quantum tier for quantum processing access.

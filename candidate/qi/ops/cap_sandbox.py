@@ -12,7 +12,9 @@ import time
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from typing import Any
+
 import streamlit as st
+
 from consciousness.qi import qi
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))

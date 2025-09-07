@@ -15,8 +15,8 @@
 └────────────────────────────────────────────────────────────────────────────┘
 """
 from typing import Optional
-import streamlit as st
 
+import streamlit as st
 from lucas_config import TIER_PERMISSIONS
 
 # ----------------------------

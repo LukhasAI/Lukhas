@@ -162,7 +162,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"create_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
+        validation_id = f"create_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
         violations = []
         warnings = []
@@ -241,7 +241,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"mutate_{source_glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
+        validation_id = f"mutate_{source_glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
         violations = []
         warnings = []
@@ -319,7 +319,7 @@ class GlyphEthicsValidator:
             ValidationReport with assessment results
         """
         validation_id = (
-            f"fuse_{len(source_glyphs)}way_{datetime.now(timezone.utc).strftime('%H%M%S'}"
+            f"fuse_{len(source_glyphs)}way_{datetime.now(timezone.utc).strftime('%H%M%S')}"
         )
 
         violations = []
@@ -377,7 +377,7 @@ class GlyphEthicsValidator:
         self.validation_history[validation_id] = report
 
         logger.info(
-            f"Glyph fusion validation: {result.value} for {len(source_glyphs} source glyphs"
+            f"Glyph fusion validation: {result.value} for {len(source_glyphs)} source glyphs"
         )
 
         return report
@@ -395,7 +395,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"decay_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
+        validation_id = f"decay_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
 
         violations = []
         warnings = []

@@ -326,7 +326,7 @@ class BehavioralAnalyzer:
             # Check for bulk access (potential data exfiltration)
             if len(accessed_resources) > len(profile.typical_resources) * 2:
                 score += 0.3
-                details.append(f"Unusual volume of resource access: {len(accessed_resources}")
+                details.append(f"Unusual volume of resource access: {len(accessed_resources)}")
 
         return score, details
 
@@ -589,7 +589,7 @@ class PatternRecognizer:
         if confidence >= pattern["confidence_threshold"]:
             # Create threat event
             threat_event = ThreatEvent(
-                event_id=f"threat_{uuid.uuid4(}.hex[:8]}",
+                event_id=f"threat_{uuid.uuid4()}.hex[:8]}",
                 timestamp=datetime.now(timezone.utc),
                 threat_type=pattern["threat_type"],
                 threat_level=self._calculate_threat_level(confidence),
@@ -658,7 +658,7 @@ class PatternRecognizer:
             "indicator_type": "failed_login_count",
             "value": failed_count,
             "threshold": threshold,
-            "details": f"{failed_count} failed logins from {len(source_ips} IPs in {window}s",
+            "details": f"{failed_count} failed logins from {len(source_ips)} IPs in {window}s",
         }
 
     async def _check_rapid_login_indicator(
@@ -719,7 +719,7 @@ class PatternRecognizer:
             "indicator_type": "bulk_data_access",
             "value": access_count,
             "threshold": threshold,
-            "details": f"{access_count} data accesses to {len(resources} resources in {window}s",
+            "details": f"{access_count} data accesses to {len(resources)} resources in {window}s",
         }
 
     async def _check_prompt_injection_indicator(
@@ -1111,7 +1111,7 @@ class ComprehensiveThreatDetection:
             Analysis result with threat assessment
         """
 
-        analysis_id = f"analysis_{uuid.uuid4(}.hex[:8]}"
+        analysis_id = f"analysis_{uuid.uuid4()}.hex[:8]}"
         context = context or {}
 
         try:
@@ -1275,7 +1275,7 @@ class ComprehensiveThreatDetection:
         self.metrics["active_threats"] = len(self.active_threats)
         self.metrics["response_actions"] += len(response_actions)
 
-        logger.warning(f"🚨 Threat handled: {threat_event.title} (Actions: {len(response_actions})")
+        logger.warning(f"🚨 Threat handled: {threat_event.title} (Actions: {len(response_actions)})")
 
     async def _continuous_monitoring(self):
         """Background monitoring task"""

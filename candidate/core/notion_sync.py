@@ -154,7 +154,7 @@ def make_toggle_block(module_name, header_text, usage_text):
                             {
                                 "type": "text",
                                 "text": {
-                                    "content": f"🕒 Synced on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}"
+                                    "content": f"🕒 Synced on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}"
                                 },
                             }
                         ]
@@ -189,7 +189,7 @@ def make_flat_block(module_name, header_text, usage_text):
                 "rich_text": [
                     {
                         "type": "text",
-                        "text": {"content": f"🕒 Synced on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'}"},
+                        "text": {"content": f"🕒 Synced on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"},
                     }
                 ]
             },
@@ -252,9 +252,9 @@ def sync_to_notion_legacy(doc_path: str, notion_page_id: str = "symbolic-notion-
         data = json.load(f)
 
     # Simulate push to Notion
-    logger.info(f"📄 Document title: {data.get('overview', 'Untitled'}")
+    logger.info(f"📄 Document title: {data.get('overview', 'Untitled')}")
     logger.info(f"📌 Target Notion Page ID: {notion_page_id}")
-    logger.info(f"🕓 Synced at: {datetime.date.today().isoformat(}")
+    logger.info(f"🕓 Synced at: {datetime.date.today().isoformat()}")
 
     # Mocked success
     return {"status": "ok", "notion_page": notion_page_id}
@@ -283,7 +283,7 @@ def log_audit_with_lid(action: str, metadata: Optional[dict[str, Any]] = None):
     }
     audit_path = Path("reflection/audits")
     audit_path.mkdir(parents=True, exist_ok=True)
-    log_file_path = audit_path / f"audit_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+    log_file_path = audit_path / f"audit_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     with log_file_path.open("w") as f:
         json.dump(audit_entry, f, indent=2)
 
@@ -425,7 +425,7 @@ def run_legacy_streamlit_mode():
                     st.error(f"❌ Error syncing to Notion: {e}")
 
             # Display Notion link
-            notion_link = f"https://www.notion.so/{NOTION_PAGE_ID.replace('-', ''}"
+            notion_link = f"https://www.notion.so/{NOTION_PAGE_ID.replace('-', '')}"
             if st.button("🔗 Copy Notion Page Link"):
                 st.code(notion_link)
 
@@ -621,7 +621,7 @@ async def run_sync_engine(args):
                     print(f"❌ Failed: {summary['failed_files']}")
                     print(f"⏱️  Total time: {summary['total_time']:.2f}s")
             else:
-                print(f"❌ Sync failed: {result.get('error', 'Unknown error'}")
+                print(f"❌ Sync failed: {result.get('error', 'Unknown error')}")
                 sys.exit(1)
 
         if args.daemon:
@@ -805,7 +805,7 @@ Examples:
                 streamlit_cmd = [
                     sys.executable,
                     "-c",
-                    f"import sys; sys.path.insert(0, '{Path(__file__}.parent}'); "
+                    f"import sys; sys.path.insert(0, '{Path(__file__)}.parent}'); "
                     "from notion_sync import run_legacy_streamlit_mode; "
                     "import streamlit as st; run_legacy_streamlit_mode()",
                 ]

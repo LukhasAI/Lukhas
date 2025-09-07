@@ -18,18 +18,16 @@ Architecture: Pure Lukhas implementation - no external dependencies
 Created: 2025-07-02
 Status: ADVANCED AGI CAPABILITIES INTEGRATED
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import random
 from collections import Counter, defaultdict, deque
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import networkx as nx
 import numpy as np
+import streamlit as st
 
 logger = logging.getLogger("LUKHAS.Consciousness.Reasoning.Intelligence", timezone)
 
@@ -420,7 +418,7 @@ class LukhasAutonomousGoalEngine:
 
         # Add goals to active list
         for goal in goals:
-            goal["id"] = f"goal_{len(self.active_goals}"
+            goal["id"] = f"goal_{len(self.active_goals)}"
             goal["created"] = datetime.now(timezone.utc).isoformat()
             goal["status"] = "active"
             self.active_goals.append(goal)
@@ -719,7 +717,7 @@ class LukhasNarrativeIntelligenceEngine:
         if subsystem_responses:
             active_subsystems = list(subsystem_responses.keys())
             narrative_parts.append(
-                f"I engaged {len(active_subsystems)} specialized subsystems: {', '.join(active_subsystems}"
+                f"I engaged {len(active_subsystems)} specialized subsystems: {', '.join(active_subsystems)}"
             )
 
         # Causal explanation

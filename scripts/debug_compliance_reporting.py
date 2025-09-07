@@ -4,10 +4,7 @@ import asyncio
 import tempfile
 from datetime import datetime, timedelta
 
-from candidate.governance.security.audit_system import (
-    AuditEventType,
-    AuditQuery,
-    ComprehensiveAuditSystem)
+from candidate.governance.security.audit_system import AuditEventType, AuditQuery, ComprehensiveAuditSystem
 
 
 async def debug_compliance_reporting():
@@ -40,7 +37,7 @@ async def debug_compliance_reporting():
         print(f"   📝 Logged data read event: {event2_id}")
 
         # Check buffer
-        print(f"\n2️⃣ Events in buffer: {len(audit_system.event_buffer}")
+        print(f"\n2️⃣ Events in buffer: {len(audit_system.event_buffer)}")
         for i, event in enumerate(audit_system.event_buffer):
             print(
                 f"   📄 Event {i}: {event.event_type.value}, compliance: {event.compliance_relevant}, frameworks: {event.compliance_frameworks}"
@@ -57,7 +54,7 @@ async def debug_compliance_reporting():
         )
 
         events = await audit_system.query_events(query)
-        print(f"   📊 Found {len(events} events via query_events")
+        print(f"   📊 Found {len(events)} events via query_events")
         for event in events:
             print(f"      - {event.event_type.value}: {event.message}")
 
@@ -77,10 +74,10 @@ async def debug_compliance_reporting():
         # Test with flush
         print("\n5️⃣ Testing after buffer flush...")
         await audit_system._flush_buffer()
-        print(f"   Events in buffer after flush: {len(audit_system.event_buffer}")
+        print(f"   Events in buffer after flush: {len(audit_system.event_buffer)}")
 
         events_after_flush = await audit_system.query_events(query)
-        print(f"   📊 Found {len(events_after_flush} events via query_events after flush")
+        print(f"   📊 Found {len(events_after_flush)} events via query_events after flush")
 
         report_after_flush = await audit_system.generate_compliance_report(
             framework="gdpr", start_date=start_date, end_date=end_date

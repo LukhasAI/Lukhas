@@ -14,12 +14,12 @@ It integrates with:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
-import streamlit as st
-
 import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class EmotionalState(Enum):

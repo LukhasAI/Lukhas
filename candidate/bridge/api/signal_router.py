@@ -22,9 +22,9 @@
 ║ signal type and an optional target.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 from typing import Any, Optional
+
+import streamlit as st
 
 
 def route_signal(signal_type: str, payload: dict[str, Any], target: Optional[str] = None) -> dict[str, Any]:

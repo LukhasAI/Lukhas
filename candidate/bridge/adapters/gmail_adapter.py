@@ -3,15 +3,13 @@ Gmail Service Adapter Implementation
 Agent 3: Service Adapter Integration Specialist
 Implements OAuth2, resilience, telemetry, and consent validation
 """
-from typing import List
-import time
-import streamlit as st
-
 import asyncio
+import time
 from datetime import datetime, timezone
-from typing import Optional
+from typing import List, Optional
 
 import aiohttp
+import streamlit as st
 
 # Import base framework
 from candidate.bridge.adapters.service_adapter_base import (

@@ -16,13 +16,14 @@ LUKHAS AI system for seamless integration.
 Creator: Gonzalo R. Dominguez Marchan
 Purpose: Production-ready quantum creativity integration
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import sys
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Add creativity modules to path
 sys.path.append(str(Path(__file__).parent))

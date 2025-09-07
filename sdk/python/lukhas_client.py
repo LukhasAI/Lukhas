@@ -353,7 +353,7 @@ class LukhasClient:
                     signals=session_signals,
                 )
 
-                print(f"\nLUKHAS: {response.get('response', 'No response'}")
+                print(f"\nLUKHAS: {response.get('response', 'No response')}")
 
                 if response.get("audit_id"):
                     print(f"(Audit ID: {response['audit_id']})")

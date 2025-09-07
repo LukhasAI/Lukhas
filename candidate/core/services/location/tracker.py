@@ -2,14 +2,13 @@
 Location Tracker - Real-time location tracking for LUKHAS
 Handles device location updates and privacy-aware tracking
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Callable, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

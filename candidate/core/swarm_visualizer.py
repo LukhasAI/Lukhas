@@ -5,10 +5,10 @@ Addresses Phase Δ, Step 4
 This module provides a way to generate a visual representation of the
 Symbiotic Swarm using the Mermaid.js format.
 """
-import streamlit as st
-
 import random
 import time
+
+import streamlit as st
 
 from lukhas.core.swarm import SwarmHub
 

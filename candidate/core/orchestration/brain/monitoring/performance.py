@@ -4,8 +4,6 @@
 ║ DESCRIPTION: Performance monitoring, optimization, and profiling     ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
-import streamlit as st
-
 import asyncio
 import functools
 import gc
@@ -22,6 +20,7 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Optional
 
 import psutil
+import streamlit as st
 
 
 @dataclass
@@ -496,7 +495,7 @@ class AsyncTaskManager:
 
     async def create_task(self, coro, name: Optional[str] = None) -> str:
         """Create and track an async task."""
-        task_id = name or f"task_{len(self.tasks}"
+        task_id = name or f"task_{len(self.tasks)}"
 
         async with self._lock:
             if task_id in self.tasks:

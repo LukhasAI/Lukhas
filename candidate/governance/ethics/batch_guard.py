@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -81,7 +83,7 @@ class EthicsBatchGuard:
 
             # Log ethics violations for audit trail
             if result.status in [ComplianceStatus.WARNING, ComplianceStatus.BLOCKED]:
-                self.logger.warning(f"Ethics concern in task {task.get('id', 'unknown'}: {result.violations}")
+                self.logger.warning(f"Ethics concern in task {task.get('id', 'unknown')}: {result.violations}")
 
         return results
 

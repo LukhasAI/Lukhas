@@ -201,18 +201,18 @@ def get_health_dashboard() -> dict[str, Any]:
 
 
 __all__ = [
-    # Version info
-    "__version__",
-    "__author__",
     # Constants
     "MONITORING_DOMAINS",
+    "ConsciousnessMonitor",
     # Classes
     "SystemMetrics",
-    "ConsciousnessMonitor",
-    # Core functions
-    "get_monitoring_status",
+    "__author__",
+    # Version info
+    "__version__",
     "collect_system_metrics",
-    "monitor_consciousness_health",
     "create_alert",
     "get_health_dashboard",
+    # Core functions
+    "get_monitoring_status",
+    "monitor_consciousness_health",
 ]

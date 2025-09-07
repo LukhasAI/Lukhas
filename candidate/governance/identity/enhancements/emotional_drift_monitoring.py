@@ -16,18 +16,17 @@ Author: LUKHAS AI Systems & Claude Code
 Version: 1.0.0 - Emotional Intelligence
 Created: 2025-08-03
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
 import statistics
+import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
 
 import numpy as np
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

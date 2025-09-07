@@ -2,13 +2,12 @@
 Safety Hub
 Central coordination for AI safety subsystem components
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -50,7 +49,7 @@ class SafetyHub:
 
         # Mark as initialized
         self.is_initialized = True
-        logger.info(f"Safety hub initialized with {len(self.services} services")
+        logger.info(f"Safety hub initialized with {len(self.services)} services")
 
     def _register_core_safety_services(self):
         """Register core AI safety services"""
@@ -247,7 +246,7 @@ class SafetyHub:
                 if service_name in self.services:
                     discovery.register_service_globally(service_name, self.services[service_name], "safety")
 
-            logger.debug(f"Registered {len(key_services} safety services with global discovery")
+            logger.debug(f"Registered {len(key_services)} safety services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 

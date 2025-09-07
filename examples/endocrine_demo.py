@@ -111,7 +111,7 @@ async def demonstrate_endocrine_system():
     print("\n📜 Effect History:")
     for i, event in enumerate(system.effect_history[-5:], 1):
         print(f"  {i}. {event['type']} (intensity: {event['intensity']})")
-        print(f"     Hormones affected: {', '.join(event['hormones_affected']}")
+        print(f"     Hormones affected: {', '.join(event['hormones_affected'])}")
 
     # Stop the system
     await system.stop()

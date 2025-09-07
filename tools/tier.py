@@ -4,6 +4,7 @@
 # ===============================================================
 
 import argparse
+
 import streamlit as st
 
 TIER_DATA = {
@@ -65,7 +66,7 @@ def print_tier(level):
     tier = TIER_DATA[level]
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     # Use ASCII hyphen-minus instead of Unicode dash for linting
-    print(f"{level}️⃣  TIER {level} - {tier['name'].upper(}")
+    print(f"{level}️⃣  TIER {level} - {tier['name'].upper()}")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🔓 ACCESS:")
     for item in tier["access"]:

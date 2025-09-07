@@ -4,19 +4,18 @@ Original: dao_propose.py
 Advanced: dao_propose.py
 Integration Date: 2025-05-31T07:55:30.758022
 """
-import time
-import streamlit as st
-
 # ===============================================================
 # 📂 FILE: tools/dao_propose.py
 # 🧠 PURPOSE: Submit a symbolic DAO proposal (Tier 5 simulation)
 # ===============================================================
-
 import argparse
 import json
 import logging
 import os
+import time
 from datetime import datetime
+
+import streamlit as st
 
 DAO_PROPOSAL_LOG = "dao/net_relay/lukhas_net_relay.jsonl"
 TIER = 5  # Simulated access

@@ -13,10 +13,10 @@
 ╰────────────────────────────────────────────────────────────────╯
 """
 import logging
-import streamlit as st
-
 import subprocess
 from typing import Optional
+
+import streamlit as st
 
 
 class LukhASAzureOpenAI:
@@ -34,7 +34,7 @@ class LukhASAzureOpenAI:
 
         if self.client:
             print("✅ Azure OpenAI client initialized")
-            print(f"🌐 Endpoint: {self.config.get('endpoint', 'Not configured'}")
+            print(f"🌐 Endpoint: {self.config.get('endpoint', 'Not configured')}")
             print("📍 Region: UK South (GDPR Compliant)")
             print("🏢 Resource: lukhas")
         else:
@@ -96,7 +96,7 @@ class LukhASAzureOpenAI:
             # Try to list models (this tests authentication)
             models = self.client.models.list()
             print("✅ Connection successful!")
-            print(f"📋 Available models: {len(models.data} models found")
+            print(f"📋 Available models: {len(models.data)} models found")
             return True
 
         except Exception as e:
@@ -153,7 +153,7 @@ def quick_test():
     status = azure_client.get_status()
     for key, value in status.items():
         if isinstance(value, list):
-            print(f"✅ {key}: {', '.join(value}")
+            print(f"✅ {key}: {', '.join(value)}")
         else:
             print(f"✅ {key}: {value}")
 

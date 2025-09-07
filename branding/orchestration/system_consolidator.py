@@ -4,16 +4,15 @@ LUKHAS AI System Consolidator
 Consolidates 14 systems into optimal single solutions for streamlined elite deployment
 Merges databases, engines, and platforms into unified consciousness technology platform
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import shutil
 import sqlite3
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 
 @dataclass
@@ -63,7 +62,7 @@ class SystemConsolidator:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"system_consolidation_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = logs_dir / f"system_consolidation_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -104,7 +103,7 @@ class SystemConsolidator:
                     database_files.append(db_file)
                     source_systems.append(db_file.parent.name)
 
-        self.logger.info(f"📊 Found {len(database_files} database files to consolidate")
+        self.logger.info(f"📊 Found {len(database_files)} database files to consolidate")
 
         # Create unified database
         unified_db_path = self.unified_databases_path / "lukhas_unified.db"
@@ -233,7 +232,7 @@ class SystemConsolidator:
                 databases_consolidated=len(database_files),
                 features_integrated=4,  # 4 unified tables
                 success=True,
-                message=f"Consolidated {len(database_files} databases into unified system",
+                message=f"Consolidated {len(database_files)} databases into unified system",
             )
 
         except Exception as e:
@@ -385,7 +384,7 @@ if __name__ == "__main__":
                 databases_consolidated=0,
                 features_integrated=features_integrated,
                 success=True,
-                message=f"Consolidated {len(doc_systems} document systems",
+                message=f"Consolidated {len(doc_systems)} document systems",
             )
 
         except Exception as e:
@@ -527,7 +526,7 @@ if __name__ == "__main__":
                 databases_consolidated=0,
                 features_integrated=features_integrated,
                 success=True,
-                message=f"Consolidated {len(content_systems} content platforms",
+                message=f"Consolidated {len(content_systems)} content platforms",
             )
 
         except Exception as e:

@@ -4,13 +4,12 @@ Security utilities for provider plugin implementations
 This module provides security-related utilities for HIPAA compliance,
 encryption, and audit logging.
 """
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +53,7 @@ class AuditLogger:
         }
 
         # Implement secure logging mechanism
-        logger.info(f"Audit log entry: {json.dumps(log_entry}")
+        logger.info(f"Audit log entry: {json.dumps(log_entry)}")
 
     def log_security_event(self, event_type: str, severity: str, details: dict[str, Any]) -> None:
         """Log security-related events"""
@@ -67,7 +66,7 @@ class AuditLogger:
         }
 
         # Implement secure logging mechanism
-        logger.info(f"Security event log: {json.dumps(log_entry}")
+        logger.info(f"Security event log: {json.dumps(log_entry)}")
 
 
 class AccessControl:

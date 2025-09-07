@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Dream Bridge Adapter for Consciousness Hub
@@ -56,7 +58,7 @@ class DreamBridge:
         dream_result = await self.bridge.process_consciousness_to_dream(state)
 
         # Store active dream
-        dream_id = f"dream_{datetime.now(timezone.utc).timestamp(}"
+        dream_id = f"dream_{datetime.now(timezone.utc).timestamp()}"
         self.active_dreams[dream_id] = dream_result
 
         return {"dream_id": dream_id, "dream_data": dream_result, "status": "active"}

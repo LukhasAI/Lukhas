@@ -4,9 +4,11 @@ Original: oscillator_adapter.py
 Advanced: oscillator_adapter.py
 Integration Date: 2025-05-31T07:55:29.986615
 """
-from consciousness.qi import qi
-import streamlit as st
 from datetime import timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 """
 Bio-inspired oscillator adapter that manages rhythm-based processing and

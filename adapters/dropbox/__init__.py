@@ -291,7 +291,7 @@ class DropboxAdapter(ServiceAdapter):
 
         try:
             if self.mock_mode:
-                watch_id = f"dropbox_webhook_{datetime.now(timezone.utc).timestamp(}"
+                watch_id = f"dropbox_webhook_{datetime.now(timezone.utc).timestamp()}"
             else:
                 watch_id = await self._setup_dropbox_webhook(watch_request)
 
@@ -360,7 +360,7 @@ class DropboxAdapter(ServiceAdapter):
         ]
 
         for i, (name, mime_type, is_folder) in enumerate(file_entries[:limit]):
-            file_path = f"{base_path.rstrip('/'}/{name}"
+            file_path = f"{base_path.rstrip('/')}/{name}"
             content_hash = hashlib.sha256(f"{file_path}{i}".encode()).hexdigest()[:32]
 
             mock_files.append(
@@ -472,14 +472,14 @@ Actual file size: {metadata.size} bytes
     def _mock_upload_file(self, parent_path: Optional[str], name: str, content: bytes, content_type: str) -> str:
         """Mock file upload"""
         base_path = parent_path or "/"
-        file_path = f"{base_path.rstrip('/'}/{name}"
+        file_path = f"{base_path.rstrip('/')}/{name}"
         return file_path
 
     def _mock_move_file(self, file_path: str, new_parent_path: str, new_name: Optional[str]) -> OperationResult:
         """Mock file move operation"""
         old_name = file_path.split("/")[-1]
         final_name = new_name or old_name
-        new_path = f"{new_parent_path.rstrip('/'}/{final_name}"
+        new_path = f"{new_parent_path.rstrip('/')}/{final_name}"
 
         return OperationResult(success=True, resource_id=new_path, message=f"File moved from {file_path} to {new_path}")
 

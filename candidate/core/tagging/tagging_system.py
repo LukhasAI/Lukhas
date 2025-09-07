@@ -6,13 +6,12 @@ DeduplicationCache for symbolic deduplication.
 
 from __future__ import annotations
 
-import streamlit as st
-
-
 import hashlib
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any
+
+import streamlit as st
 
 # ΛTAG: tag_schema
 

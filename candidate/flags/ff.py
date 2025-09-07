@@ -2,14 +2,14 @@
 Minimal feature flags core (internal)
 Provides Flags class used by analytics and other modules.
 """
-import streamlit as st
-
 from __future__ import annotations
 
 import json
 import os
 from collections.abc import Iterator
 from contextlib import contextmanager
+
+import streamlit as st
 
 # Default flags (safe, conservative defaults)
 _DEFAULT_FLAGS: dict[str, bool] = {

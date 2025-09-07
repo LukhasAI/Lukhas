@@ -4,16 +4,16 @@ Medication OCR System for Healthcare Guardian
 Consolidates OCR capabilities from Enhanced Guardian Medical
 Specialized for Spanish medication labels and elderly users
 """
-import time
-import streamlit as st
-
 import hashlib
 import logging
 import re
+import time
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -593,7 +593,7 @@ class MedicationOCRSystem:
         if days_until_expiration < 0:
             return {
                 "status": "expired",
-                "message": f"⚠️ CADUCADO hace {abs(days_until_expiration} días",
+                "message": f"⚠️ CADUCADO hace {abs(days_until_expiration)} días",
                 "safe": False,
             }
         elif days_until_expiration < 30:
@@ -631,6 +631,6 @@ class MedicationOCRSystem:
             if medication.expiration_date < today:
                 response += ". ¡Esta medicina está caducada! No la tome."
             elif (medication.expiration_date - today).days < 30:
-                response += f". Esta medicina caduca pronto, el {medication.expiration_date.strftime('%d de %B'}"
+                response += f". Esta medicina caduca pronto, el {medication.expiration_date.strftime('%d de %B')}"
 
         return response

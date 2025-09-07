@@ -1,7 +1,9 @@
 import logging
-import streamlit as st
 import random
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: meta_learning_adapter.py
@@ -657,7 +659,7 @@ class MetaLearningEnhancementAdapter:
         return (
             [
                 {
-                    "id": f"sim_node_{i + len(self.active_learning_nodes}",
+                    "id": f"sim_node_{i + len(self.active_learning_nodes)}",
                     "status": "connected",
                     "performance": random.uniform(0.6, 0.9),
                 }

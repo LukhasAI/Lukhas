@@ -6,12 +6,12 @@ GitHub Student Pack Integration ($300/month value)
 
 Configures comprehensive monitoring for LUKHAS AI production system.
 """
-import time
-import streamlit as st
-
 import logging
 import os
+import time
 from typing import Optional
+
+import streamlit as st
 
 # NewRelic Python Agent Configuration
 NEWRELIC_CONFIG = {

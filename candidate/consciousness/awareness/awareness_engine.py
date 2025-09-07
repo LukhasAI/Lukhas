@@ -35,15 +35,14 @@
 ║ • Predictive Processing Framework (Clark, 2013)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
-from datetime import datetime
-from typing import Any, Optional  # List not used in signatures but kept
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional  # List not used in signatures but kept
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine", timezone)
@@ -170,7 +169,7 @@ class AwarenessEngine:
         """
         log_user_id = user_id or self.user_id_context  # Prioritize passed user_id
         self.instance_logger.info(
-            f"ΛTRACE: Processing data with AwarenessEngine for user '{log_user_id}'. Data type: {type(data}"
+            f"ΛTRACE: Processing data with AwarenessEngine for user '{log_user_id}'. Data type: {type(data)}"
         )
         if not self.is_initialized:
             self.instance_logger.warning("ΛTRACE: AwarenessEngine not initialized. Attempting to initialize now.")
@@ -419,7 +418,7 @@ if __name__ == "__main__":
             # Shutdown
             logger.info("ΛTRACE: Demo: Shutting down component.")
             await awareness_component.shutdown(user_id=test_user)
-            print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_component.get_status(user_id=test_user}")
+            print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_component.get_status(user_id=test_user)}")
         logger.info("ΛTRACE: --- AwarenessEngine Demo Finished ---")
 
     asyncio.run(demo_main())

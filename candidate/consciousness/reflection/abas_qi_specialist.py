@@ -35,9 +35,11 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-from consciousness.qi import qi
-import streamlit as st
 from datetime import timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 __module_name__ = "Quantum Abas Quantum Specialist"
 __version__ = "2.0.0"
@@ -939,7 +941,7 @@ async def main():
 
     # Display initial status
     initial_status = qi_bio_agi.get_biological_status()
-    logger.info(f"📊 Initial Status: {json.dumps(initial_status, indent=2}")
+    logger.info(f"📊 Initial Status: {json.dumps(initial_status, indent=2)}")
 
     # Test scenarios for quantum-biological processing
     test_scenarios = [
@@ -977,10 +979,10 @@ async def main():
 
     # Final status
     final_status = qi_bio_agi.get_biological_status()
-    logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2}")
+    logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2)}")
 
     # Save results
-    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     with open(results_file, "w") as f:
         json.dump(
             {

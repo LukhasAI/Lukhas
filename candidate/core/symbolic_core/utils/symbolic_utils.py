@@ -1,4 +1,5 @@
 from typing import Dict
+
 """
 Symbolic utilities for dream and emotion processing.
 

@@ -68,7 +68,8 @@ try:
         get_brand_voice,
         get_constellation_context,
         normalize_output_text,
-        validate_output)
+        validate_output,
+    )
 
     BRANDING_BRIDGE_AVAILABLE = True
 except ImportError:
@@ -823,7 +824,7 @@ async def main():
     series_result = await generator.generate_haiku_series(themes)
 
     for theme, haiku_list in series_result["haiku_series"].items():
-        print(f"\n{theme.title(} Haiku:")
+        print(f"\n{theme.title()} Haiku:")
         print(haiku_list[0]["haiku_text"])
 
     print(f"\nAverage Quantum Coherence: {series_result['average_metrics']['qi_coherence']:.3f}")

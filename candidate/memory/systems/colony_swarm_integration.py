@@ -283,7 +283,7 @@ class SwarmConsensusManager:
             if colony_id in self.colony_validators:
                 validator = self.colony_validators[colony_id]
                 vote = await validator.validate_memory(
-                    f"proposed_{proposing_colony}_{datetime.now(timezone.utc).timestamp(}",
+                    f"proposed_{proposing_colony}_{datetime.now(timezone.utc).timestamp()}",
                     memory_data,
                 )
                 votes[colony_id] = vote
@@ -609,9 +609,9 @@ async def demonstrate_colony_swarm():
         min_confirmations=2,
     )
 
-    print(f"Found {len(results} confirmed memories:")
+    print(f"Found {len(results)} confirmed memories:")
     for mem, score in results[:3]:
-        print(f"  • {mem.data.get('content', ''}[:50]}... (score: {score:.3f})")
+        print(f"  • {mem.data.get('content', '')}[:50]}... (score: {score:.3f})")
 
     # Get swarm status
     print("\n4. Swarm Status Report:")

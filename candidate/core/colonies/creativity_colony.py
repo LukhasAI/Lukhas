@@ -1,10 +1,10 @@
 """
 Creativity Colony - A specialized colony for creative tasks.
 """
-import streamlit as st
-
 import logging
 from typing import Any
+
+import streamlit as st
 
 from bio.bio_utilities import fatigue_level
 from lukhas.core.colonies.base_colony import BaseColony

@@ -3,15 +3,14 @@
 Enhanced API Validator for NIAS Dream Commerce
 Provides comprehensive request validation with detailed error reporting
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import re
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 
 class ValidationError(Exception):
@@ -424,7 +423,7 @@ class APIValidator:
             return errors[0]
 
         error_messages = [f"{e.field}: {e.message}" for e in errors]
-        return ValidationError("multiple_fields", f"Validation failed: {'; '.join(error_messages}")
+        return ValidationError("multiple_fields", f"Validation failed: {'; '.join(error_messages)}")
 
     async def validate_with_retry(
         self,

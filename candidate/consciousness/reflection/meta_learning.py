@@ -228,7 +228,7 @@ class FederatedLearningManager:
 
         model = self.models[model_id]
         logger.info(
-            f"Performing federated aggregation for model {model_id} with {len(model.client_contributions} contributions"
+            f"Performing federated aggregation for model {model_id} with {len(model.client_contributions)} contributions"
         )
 
         # In a real implementation, this would apply advanced federated aggregation
@@ -1119,6 +1119,6 @@ class MetaLearningSystem:
         reflection_status = self.reflective_system.get_status_report()
         if reflection_status.get("latest_insights"):
             for insight in reflection_status["latest_insights"]:
-                insights.append(f"Reflection insight: {insight.get('description', ''}")
+                insights.append(f"Reflection insight: {insight.get('description', '')}")
 
         return insights

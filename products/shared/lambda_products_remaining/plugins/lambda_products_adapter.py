@@ -17,12 +17,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from .plugin_base import (
-    HealthStatus,
-    LukhasPlugin,
-    PluginManifest,
-    PluginPriority,
-    PluginStatus)
+from .plugin_base import HealthStatus, LukhasPlugin, PluginManifest, PluginPriority, PluginStatus
 
 # Add lambda-products to path for imports
 lambda_products_path = Path(__file__).parent.parent

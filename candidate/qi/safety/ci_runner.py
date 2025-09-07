@@ -5,7 +5,9 @@ import json
 import os
 import subprocess
 import sys
+
 import streamlit as st
+
 from consciousness.qi import qi
 
 HERE = os.path.dirname(__file__)

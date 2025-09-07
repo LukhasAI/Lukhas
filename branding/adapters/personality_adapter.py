@@ -2,11 +2,11 @@
 LUKHAS Brand Personality Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to core/personality/ systems for brand-aware personality operations
 """
-import streamlit as st
-
 import sys
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # Add core module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "core"))

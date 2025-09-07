@@ -1,8 +1,9 @@
 import time
 from typing import Any, Optional
 
-from lukhas.dna.interfaces import DNAWriteReceipt, HelixMemory
 import streamlit as st
+
+from lukhas.dna.interfaces import DNAWriteReceipt, HelixMemory
 
 
 class InMemoryHelix(HelixMemory):

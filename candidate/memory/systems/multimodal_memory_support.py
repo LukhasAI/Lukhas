@@ -214,7 +214,7 @@ class ImageProcessor:
                 original_size=original_size,
                 processed_size=image.size,
                 compression_ratio=compression_ratio,
-                size_reduction=f"{(1 - len(processed_data) / original_bytes} * 100:.1f}%",
+                size_reduction=f"{(1 - len(processed_data) / original_bytes}  * 100:.1f}%",
             )
 
             return processed_data, metadata
@@ -757,7 +757,7 @@ class MultiModalMemoryItem:
             modal_descriptions.append(f"[VIDEO: {video_meta.format}, {video_meta.size_bytes / 1024:.1f}KB]")
 
         if modal_descriptions:
-            return f"{base_content}\n\nMulti-modal content: {', '.join(modal_descriptions}"
+            return f"{base_content}\n\nMulti-modal content: {', '.join(modal_descriptions)}"
         else:
             return base_content
 
@@ -901,7 +901,7 @@ async def create_multimodal_memory(
     )
 
     # Generate memory ID
-    memory_id = hashlib.sha256(f"{datetime.now(timezone.utc).isoformat()}_{id(multimodal_data}".encode()).hexdigest()[:16]
+    memory_id = hashlib.sha256(f"{datetime.now(timezone.utc).isoformat()}_{id(multimodal_data)}".encode()).hexdigest()[:16]
 
     # Create multi-modal wrapper
     return MultiModalMemoryItem(
@@ -939,8 +939,8 @@ async def example_multimodal_usage():
     )
 
     print("✅ Multi-modal memory created")
-    print(f"📊 Content: {multimodal_memory.get_content(}[:100]}...")
-    print(f"🏷️ Tags: {multimodal_memory.get_tags(}")
+    print(f"📊 Content: {multimodal_memory.get_content()}[:100]}...")
+    print(f"🏷️ Tags: {multimodal_memory.get_tags()}")
     print(f"💾 Memory usage: {multimodal_memory.memory_usage_kb:.2f} KB")
 
     # Test modality access

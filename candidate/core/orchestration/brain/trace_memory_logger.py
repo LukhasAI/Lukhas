@@ -5,9 +5,10 @@ Original: trace_memoria_logger.py
 Advanced: trace_memoria_logger.py
 Integration Date: 2025-05-31T07:55:27.785635
 """
-from typing import List
-import streamlit as st
 from datetime import timezone
+from typing import List
+
+import streamlit as st
 
 """
 TRACE MEMORY LOGGER
@@ -391,6 +392,6 @@ if __name__ == "__main__":
 
     # Retrieve recent traces
     recent = trace_logger.get_recent_traces(limit=5)
-    print(f"Recent traces: {len(recent}")
+    print(f"Recent traces: {len(recent)}")
     for trace in recent:
         print(f"{trace['level_name']}: {trace['message']}")

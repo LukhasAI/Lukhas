@@ -206,7 +206,7 @@ class SecurityAutopilot:
                 data = json.loads(stdout)
                 results = data.get("results", [])
                 if results:
-                    logger.warning(f"⚠️ Semgrep found {len(results} security patterns")
+                    logger.warning(f"⚠️ Semgrep found {len(results)} security patterns")
             except:
                 pass
 
@@ -264,11 +264,11 @@ class SecurityAutopilot:
         )
 
         # Save report
-        report_file = self.reports_dir / f"security-report-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S'}.json"
+        report_file = self.reports_dir / f"security-report-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}.json"
         with open(report_file, "w") as f:
             f.write(report.to_json())
 
-        logger.info(f"📊 Scan complete: {len(report.vulnerabilities} vulnerabilities found")
+        logger.info(f"📊 Scan complete: {len(report.vulnerabilities)} vulnerabilities found")
 
         return report
 
@@ -444,7 +444,7 @@ Automated security fix by LUKHAS Security Autopilot
                     vulns_to_fix = [v for v in report.vulnerabilities if severity_order.get(v.severity, 4) <= threshold]
 
                     if vulns_to_fix and self.config["auto_fix"]:
-                        logger.info(f"🔧 Attempting to fix {len(vulns_to_fix} vulnerabilities...")
+                        logger.info(f"🔧 Attempting to fix {len(vulns_to_fix)} vulnerabilities...")
 
                         # Create filtered report
                         fix_report = SecurityReport(
@@ -466,14 +466,14 @@ Automated security fix by LUKHAS Security Autopilot
                                 # Create commit
                                 self.create_commit(fixed_packages)
 
-                                logger.info(f"✅ Successfully fixed {len(fixed_packages} vulnerabilities")
+                                logger.info(f"✅ Successfully fixed {len(fixed_packages)} vulnerabilities")
                             else:
                                 logger.warning("⚠️ Tests failed after fixes, manual review needed")
 
                         # Send notification
                         self.send_notification(report, success, fixed_packages)
                     else:
-                        logger.info(f"ℹ️ {len(vulns_to_fix} vulnerabilities found but auto-fix is disabled")
+                        logger.info(f"ℹ️ {len(vulns_to_fix)} vulnerabilities found but auto-fix is disabled")
                 else:
                     logger.info("✅ No vulnerabilities found - system is secure!")
 

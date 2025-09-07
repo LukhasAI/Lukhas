@@ -9,12 +9,12 @@
 LUKHAS  Deep Module Connectivity Analysis
 Identifies critical files vs isolated orphans for aggressive archiving
 """
-import streamlit as st
-
 import ast
 import json
 from collections import defaultdict
 from pathlib import Path
+
+import streamlit as st
 
 
 class ConnectivityAnalyzer:
@@ -31,7 +31,7 @@ class ConnectivityAnalyzer:
         """Find all Python files excluding archives"""
         self.python_files = list(self.root_path.rglob("*.py"))
         self.python_files = [f for f in self.python_files if "._cleanup_archive" not in str(f) and ".git" not in str(f)]
-        print(f"📊 Found {len(self.python_files} Python files to analyze")
+        print(f"📊 Found {len(self.python_files)} Python files to analyze")
 
     def analyze_imports(self, file_path):
         """Extract imports from a Python file"""

@@ -43,12 +43,12 @@ Unified engine combining 40 components:
 - voice/audio_engine.py
 - voice/bio_core/oscillator/bio_quantum_engine.py
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from abc import ABC, abstractmethod
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

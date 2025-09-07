@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import streamlit as st
+
 """Count remaining syntax errors in Python files"""
 
 import ast
@@ -25,7 +26,7 @@ def count_syntax_errors(base_path=None):
         except SyntaxError as e:
             total_errors += 1
             if total_errors <= 30:
-                error_details.append(f"{py_file.relative_to(base_dir}:{e.lineno}: {e.msg}")
+                error_details.append(f"{py_file.relative_to(base_dir)}:{e.lineno}: {e.msg}")
 
     return total_errors, error_details
 

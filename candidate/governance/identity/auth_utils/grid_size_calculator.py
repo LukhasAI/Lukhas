@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 LUKHAS Grid Size Calculator - Emoji Grid Sizing Math
@@ -210,7 +212,7 @@ class GridSizeCalculator:
                 return content_count  # Perfect square
             else:
                 # Round up to next perfect square or reasonable rectangle
-                return min(16, int(math.ceil(sqrt_count)) ** 2)
+                return min(16, math.ceil(sqrt_count) ** 2)
 
     def _apply_cognitive_load_adjustment(self, base_size: int, load_level: str) -> int:
         """Apply cognitive load adjustments to grid size."""

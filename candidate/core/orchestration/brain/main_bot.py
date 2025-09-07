@@ -15,15 +15,14 @@ Licensed under the LUKHAS Core License - see LICENSE.md for details.
 EXTRACTED FROM: enhanced_bot_primary.py (EnhancedAGIBot class, lines 836-1163)
 ENHANCEMENT: Added professional structure while preserving ALL original logic
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import hashlib
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 from .attention.qi_attention import QIInspiredAttention
 from .compliance.ethical_engine import ComplianceEngine
@@ -269,7 +268,7 @@ class EnhancedAGIBot:
         # Add primary response based on attention mechanism
         attention_results = orchestration_result.get("attention_results", {})
         if attention_results.get("attended_data"):
-            primary_response = f"Based on my analysis: {input_data.get('text', ''}"
+            primary_response = f"Based on my analysis: {input_data.get('text', '')}"
             response_parts.append(primary_response)
 
         # Add causal reasoning insights
@@ -278,12 +277,12 @@ class EnhancedAGIBot:
 
         # Add symbolic reasoning insights
         if symbolic_insights:
-            symbolic_summary = f"Logical analysis shows: {len(symbolic_insights} key inferences"
+            symbolic_summary = f"Logical analysis shows: {len(symbolic_insights)} key inferences"
             response_parts.append(symbolic_summary)
 
         # Add metacognitive insights
         if metacognitive_insights:
-            metacog_summary = f"Self-reflection indicates: {', '.join(metacognitive_insights[:2]}"
+            metacog_summary = f"Self-reflection indicates: {', '.join(metacognitive_insights[:2])}"
             response_parts.append(metacog_summary)
 
         # Fallback response if no insights generated
@@ -384,7 +383,7 @@ async def main():
             print(f"\n🧪 Test: {demo['test']}")
             print(f"📝 Input: {demo['input'][:80]}...")
             print(f"🤖 Response: {demo['response'][:100]}...")
-            print(f"📊 Confidence: {demo.get('confidence', 'N/A'}")
+            print(f"📊 Confidence: {demo.get('confidence', 'N/A')}")
 
         print("\n📈 Overall Performance:")
         perf = demo_results["overall_performance"]

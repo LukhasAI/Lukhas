@@ -4,15 +4,14 @@ Original: visualizer_core.py
 Advanced: visualizer_core.py
 Integration Date: 2025-05-31T07:55:28.267934
 """
-import streamlit as st
-
 #!/usr/bin/env python3
 # 📄 MODULE: visualizer.py
 # 🔎 PURPOSE: Convert flashbacks into visual prompts for OpenAI DALL·E or other generators
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
-
 import json
 import os
+
+import streamlit as st
 
 FLASHBACK_LOG_PATH = "logs/flashbacks/flashback_trace.jsonl"
 

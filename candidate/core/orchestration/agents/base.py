@@ -2,9 +2,9 @@
 
 ΛTAG: orchestration_agent_interface
 """
-import streamlit as st
-
 from abc import ABC, abstractmethod
+
+import streamlit as st
 
 from .types import AgentCapability, AgentContext, AgentResponse
 

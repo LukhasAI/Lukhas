@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -260,7 +262,7 @@ class DreamNarrator:
 
     async def start_dream_sequence(self, phase: DreamPhase = DreamPhase.PRE_DREAM) -> str:
         """Start a new dream sequence"""
-        sequence_id = f"dream_{int(time.time())}_{random.randint(1000, 9999}"
+        sequence_id = f"dream_{int(time.time())}_{random.randint(1000, 9999)}"
 
         self.current_dream_sequence = DreamSequence(
             sequence_id=sequence_id,
@@ -422,7 +424,7 @@ class DreamNarrator:
         estimated_duration = await self._estimate_narration_duration(narrative_text, voice_parameters)
 
         narration = DreamNarration(
-            narration_id=f"narration_{int(time.time())}_{random.randint(100, 999}",
+            narration_id=f"narration_{int(time.time())}_{random.randint(100, 999)}",
             dream_sequence=self.current_dream_sequence,
             narration_type=narration_type,
             narrative_text=narrative_text,

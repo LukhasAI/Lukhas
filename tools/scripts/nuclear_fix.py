@@ -3,12 +3,12 @@
 NUCLEAR FIX - The most aggressive fix possible
 This WILL modify your code significantly!
 """
-import time
-import streamlit as st
-
 import re
 import subprocess
+import time
 from pathlib import Path
+
+import streamlit as st
 
 
 def nuclear_fix_file(filepath: Path):

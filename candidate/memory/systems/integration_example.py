@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -271,7 +274,7 @@ async def main():
 
     # Example: Semantic search
     results = await memory_interface.recall("optimization learning", mode="semantic")
-    logger.info(f"Semantic search found {len(results} relevant memories")
+    logger.info(f"Semantic search found {len(results)} relevant memories")
 
     # Example: Pattern analysis
     patterns = await memory_interface.analyze_patterns()

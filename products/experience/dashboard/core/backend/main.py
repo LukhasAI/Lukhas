@@ -4,15 +4,13 @@ LUKHAS AGI Dashboard - Backend API
 Enterprise-grade dashboard for AGI safety, governance, and innovation monitoring
 Standards: OpenAI, Anthropic, DeepMind leadership-level quality
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 from contextlib import asynccontextmanager
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
+import streamlit as st
 import uvicorn
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
@@ -145,30 +143,11 @@ async def websocket_endpoint(websocket: WebSocket):
             await asyncio.sleep(1)
     except Exception as e:
         logger.error(f"WebSocket error: {e}")
-    finally:
-        await websocket.close()
-
-
-# Include routers
-app.include_router(audit.router, prefix="/api/v1/audit", tags=["audit"])
-app.include_router(safety.router, prefix="/api/v1/safety", tags=["safety"])
-app.include_router(governance.router, prefix="/api/v1/governance", tags=["governance"])
-app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytics"])
-app.include_router(realtime.router, prefix="/api/v1/realtime", tags=["realtime"])
-
-
-# Error handlers
-@app.exception_handler(404)
-async def not_found_handler(request, exc):
-    return JSONResponse(status_code=404, content={"error": "Resource not found", "path": str(request.url)})
 
 
 @app.exception_handler(500)
 async def internal_error_handler(request, exc):
-    logger.error(f"Internal error: {exc}")
-    return JSONResponse(
-        status_code=500,
-        content={"error": "Internal server error", "message": "Please contact support"},
+    logger.error(f"Internal error: {exc}",
     )
 
 

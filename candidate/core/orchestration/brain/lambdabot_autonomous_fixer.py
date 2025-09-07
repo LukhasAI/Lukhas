@@ -174,7 +174,7 @@ class ΛBotAutonomousVulnerabilityFixer:
                 "ai_vulnerability_analysis",
                 0.02,
                 f"AI analysis for {vulnerability.package_name}",
-                findings=[f"Fix method: {ai_response.get('fix_method'}"],
+                findings=[f"Fix method: {ai_response.get('fix_method')}"],
                 recommendations=[ai_response.get("reasoning", "")],
             )
 
@@ -589,7 +589,7 @@ class ΛBotAutonomousVulnerabilityFixer:
             if v.severity in [VulnerabilitySeverity.CRITICAL, VulnerabilitySeverity.HIGH]
         ]
 
-        self.logger.info(f"🎯 Found {len(critical_vulns} high-priority vulnerabilities to fix")
+        self.logger.info(f"🎯 Found {len(critical_vulns)} high-priority vulnerabilities to fix")
 
         # Process vulnerabilities concurrently
         semaphore = asyncio.Semaphore(max_concurrent)
@@ -628,7 +628,7 @@ class ΛBotAutonomousVulnerabilityFixer:
         }
 
         self.logger.info(
-            f"🎉 Autonomous sweep complete: {len(successful_fixes} PRs created,     ${summary['total_ai_cost']: .4f} spent"
+            f"🎉 Autonomous sweep complete: {len(successful_fixes)} PRs created,     ${summary['total_ai_cost']: .4f} spent"
         )
 
         return summary

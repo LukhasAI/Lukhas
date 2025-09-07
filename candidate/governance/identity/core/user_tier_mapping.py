@@ -130,7 +130,7 @@ class UserTierMappingService:
                     data = json.load(f)
                     for lambda_id, profile_data in data.items():
                         self.cache[lambda_id] = UserTierProfile.from_dict(profile_data)
-                logger.info(f"Loaded {len(self.cache} user tier profiles")
+                logger.info(f"Loaded {len(self.cache)} user tier profiles")
             except Exception as e:
                 logger.error(f"Failed to load tier database: {e}")
                 self.cache = {}
@@ -145,7 +145,7 @@ class UserTierMappingService:
             os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
             with open(self.db_path, "w") as f:
                 json.dump(data, f, indent=2)
-            logger.debug(f"Saved {len(data} user tier profiles")
+            logger.debug(f"Saved {len(data)} user tier profiles")
         except Exception as e:
             logger.error(f"Failed to save tier database: {e}")
 
@@ -460,16 +460,16 @@ if __name__ == "__main__":
     service = get_tier_mapping_service()
 
     # Test getting tiers
-    print(f"system_root tier: {service.get_user_tier('system_root'}.name}")
-    print(f"admin_001 tier: {service.get_user_tier('admin_001'}.name}")
-    print(f"test_user_tier2 tier: {service.get_user_tier('test_user_tier2'}.name}")
-    print(f"unknown_user tier: {service.get_user_tier('unknown_user'}.name}")
+    print(f"system_root tier: {service.get_user_tier('system_root')}.name}")
+    print(f"admin_001 tier: {service.get_user_tier('admin_001')}.name}")
+    print(f"test_user_tier2 tier: {service.get_user_tier('test_user_tier2')}.name}")
+    print(f"unknown_user tier: {service.get_user_tier('unknown_user')}.name}")
 
     # Test permissions
-    print(f"\ntest_user_tier2 can access memory: {service.check_permission('test_user_tier2', 'memory_access'}")
-    print(f"test_user_tier2 can access quantum: {service.check_permission('test_user_tier2', 'qi_access'}")
+    print(f"\ntest_user_tier2 can access memory: {service.check_permission('test_user_tier2', 'memory_access')}")
+    print(f"test_user_tier2 can access quantum: {service.check_permission('test_user_tier2', 'qi_access')}")
 
     # Test tier elevation
     print("\nElevating test_user_tier2 to TIER_4 for 5 minutes...")
     service.set_user_tier("test_user_tier2", LambdaTier.LAMBDA_TIER_4, "Testing elevation", 5)
-    print(f"test_user_tier2 can now access quantum: {service.check_permission('test_user_tier2', 'qi_access'}")
+    print(f"test_user_tier2 can now access quantum: {service.check_permission('test_user_tier2', 'qi_access')}")

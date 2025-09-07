@@ -4,11 +4,10 @@ Ethical oversight and governance through distributed agents
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 import logging
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 from .base import BaseColony, ColonyAgent, ColonyRole, ColonyTask
 

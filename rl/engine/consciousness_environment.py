@@ -39,7 +39,7 @@ class MatrizNode:
     """MΛTRIZ Node v1.1 Schema Implementation"""
 
     version: int = 1
-    id: str = field(default_factory=lambda: f"RL-{uuid.uuid4(}.hex[:8]}")
+    id: str = field(default_factory=lambda: f"RL-{uuid.uuid4()}.hex[:8]}")
     type: str = "CONTEXT"
     labels: list[str] = field(default_factory=list)
     state: dict[str, Any] = field(default_factory=dict)
@@ -86,7 +86,7 @@ class ConsciousnessEnvironment:
     def __init__(self):
         self.capabilities = ["rl.environment", "consciousness.observe", "state.context"]
         self.node_type = "CONTEXT"
-        self.trace_id = f"rl-env-{uuid.uuid4(}.hex[:12]}"
+        self.trace_id = f"rl-env-{uuid.uuid4()}.hex[:12]}"
 
         # Integration with existing consciousness modules
         self.consciousness_modules = {}

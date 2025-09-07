@@ -11,11 +11,11 @@
 │ downloadable inspiration profiles (leaders, philosophies, etc).    │
 └─────────────────────────────────────────────────────────────────────┘
 """
-from typing import Optional
-import streamlit as st
-
 import json
 import random
+from typing import Optional
+
+import streamlit as st
 
 
 # Enhanced NeuroHaikuGenerator with federated learning integration
@@ -81,7 +81,7 @@ class CreativeExpressionsCreativityEngine:
     def _add_sensory_detail(self, line):
         # Get sensory words from symbolic DB
         modifiers = self.symbolic_db.get("sensory_words", [])
-        return f"{line} {random.choice(modifiers}"
+        return f"{line} {random.choice(modifiers)}"
 
     def _infuse_emotion(self, line):
         emotions = self.symbolic_db.get("emotion_words", [])
@@ -93,7 +93,7 @@ class CreativeExpressionsCreativityEngine:
         # Implement phrase & fragment theory from search results[3]
         if "," in line:
             return line.replace(",", " yet ")
-        return f"{line}, {random.choice(self.symbolic_db['contrast_words']}"
+        return f"{line}, {random.choice(self.symbolic_db['contrast_words'])}"
 
     def load_inspiration_profile(self, path):
         """Load an external symbolic or cultural inspiration source (e.g. Mandela, Stoicism)"""

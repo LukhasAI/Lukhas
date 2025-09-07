@@ -11,16 +11,16 @@ Integrates with:
 - MemoryEmotionalIntegrator (existing component)
 - Dream engine integration (existing component)
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import math
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger("MultiBrainSymphony", timezone)
 
@@ -524,7 +524,7 @@ async def demo_symphony_integration():
     result = await symphony.conduct_symphony(test_data)
 
     print(f"Symphony Result: {result}")
-    print(f"Symphony Status: {symphony.get_symphony_status(}")
+    print(f"Symphony Status: {symphony.get_symphony_status()}")
 
 
 if __name__ == "__main__":

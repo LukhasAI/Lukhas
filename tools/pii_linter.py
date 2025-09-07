@@ -3,11 +3,11 @@
 PII Linter for LUKHAS AI
 Detects potential PII patterns in Python source files
 """
-import streamlit as st
-
 import pathlib
 import re
 import sys
+
+import streamlit as st
 
 # PII Detection Patterns
 PII = [
@@ -148,7 +148,7 @@ def main():
             print(f"  Match: {result['match']}...", file=sys.stderr)
             print("-" * 60, file=sys.stderr)
 
-        print(f"\n⚠️  Total files with PII: {len(bad_files}", file=sys.stderr)
+        print(f"\n⚠️  Total files with PII: {len(bad_files)}", file=sys.stderr)
         sys.exit(1)
     else:
         print("✅ PII linter: No PII patterns detected")

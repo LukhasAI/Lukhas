@@ -78,9 +78,7 @@ def initialize_consciousness_services():
             async def create_simulation(self, origin_scenario, branch_count=3):
                 from datetime import datetime
 
-                from consciousness.dream.parallel_reality_simulator import (
-                    RealityBranch,
-                    RealityType)
+                from consciousness.dream.parallel_reality_simulator import RealityBranch, RealityType
 
                 return type(
                     "Simulation",

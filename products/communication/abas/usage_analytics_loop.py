@@ -686,7 +686,7 @@ class UsageAnalyticsLoop:
                         {
                             "metric": metric_name,
                             "trend": "increasing",
-                            "change": f"+{(recent_avg - older_avg} / older_avg * 100:.1f}%",
+                            "change": f"+{(recent_avg - older_avg)} / older_avg  * 100:.1f}%",
                             "severity": "high",
                         }
                     )
@@ -715,7 +715,7 @@ class UsageAnalyticsLoop:
                         {
                             "metric": metric_name,
                             "trend": "decreasing",
-                            "change": f"-{(older_avg - recent_avg} / older_avg * 100:.1f}%",
+                            "change": f"-{(older_avg - recent_avg)} / older_avg  * 100:.1f}%",
                             "impact": "positive",
                         }
                     )
@@ -842,7 +842,7 @@ if __name__ == "__main__":
     # Some users complete tasks slowly
     for _i in range(10):
         analytics.track_usage_event(
-            f"user_{random.randint(1, 5}",
+            f"user_{random.randint(1, 5)}",
             "task_complete",
             {"task_type": "data_export", "duration": 45.0},  # Slow task
         )
@@ -850,14 +850,14 @@ if __name__ == "__main__":
     # Some users encounter errors
     for _i in range(8):
         analytics.track_usage_event(
-            f"user_{random.randint(1, 5}",
+            f"user_{random.randint(1, 5)}",
             "error",
             {"error_type": "validation_error", "location": "form_submit"},
         )
 
     # Users searching for features
     for _i in range(15):
-        analytics.track_usage_event(f"user_{random.randint(1, 10}", "search", {"query": "export data"})
+        analytics.track_usage_event(f"user_{random.randint(1, 10)}", "search", {"query": "export data"})
 
     # Analyze patterns
     analysis = analytics.analyze_usage_patterns()
@@ -877,7 +877,7 @@ if __name__ == "__main__":
     insights = analytics.get_real_time_insights()
     print("\nReal-time Alerts:")
     for alert in insights["alerts"]:
-        print(f"- {alert['severity'].upper(}: {alert['message']}")
+        print(f"- {alert['severity'].upper()}: {alert['message']}")
 
     # Generate improvement plan
     plan = analytics.generate_improvement_plan()

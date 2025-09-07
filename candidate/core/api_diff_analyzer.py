@@ -232,16 +232,16 @@ class APIDiffAnalyzer:
 
         # Step 1: Extract test API calls
         self._extract_test_calls()
-        print(f"📋 Found {len(self.test_calls} API calls in tests\n")
+        print(f"📋 Found {len(self.test_calls)} API calls in tests\n")
 
         # Step 2: Extract implementation signatures
         self._extract_implementations()
         total_methods = sum(len(methods) for methods in self.implementations.values())
-        print(f"📚 Found {total_methods} methods in {len(self.implementations} classes\n")
+        print(f"📚 Found {total_methods} methods in {len(self.implementations)} classes\n")
 
         # Step 3: Find mismatches
         self._find_mismatches()
-        print(f"⚠️  Found {len(self.mismatches} API mismatches\n")
+        print(f"⚠️  Found {len(self.mismatches)} API mismatches\n")
 
         # Step 4: Generate report and fixes
         self._generate_report()
@@ -356,8 +356,8 @@ class APIDiffAnalyzer:
 
         with open(report_path, "w") as f:
             f.write("# 🔍 API Mismatch Analysis Report\n\n")
-            f.write(f"**Generated:** {self._get_timestamp(}\n")
-            f.write(f"**Total Mismatches:** {len(self.mismatches}\n\n")
+            f.write(f"**Generated:** {self._get_timestamp()}\n")
+            f.write(f"**Total Mismatches:** {len(self.mismatches)}\n\n")
 
             # Group by class
             mismatches_by_class = defaultdict(list)
@@ -444,7 +444,7 @@ def apply_fixes():
     with open('api_fixes.json', 'r') as f:
         fixes_data = json.load(f)
 
-    print(f"🔧 Applying {len(fixes_data['fixes']} fixes...")
+    print(f"🔧 Applying {len(fixes_data['fixes'])} fixes...")
 
     # Group fixes by file
     fixes_by_file = {}

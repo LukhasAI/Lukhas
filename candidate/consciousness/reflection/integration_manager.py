@@ -677,7 +677,7 @@ async def main():
             return 1
 
         print(" AGI integration initialized successfully")
-        print(f"Integration Status: {lukhas_agi_integration_manager.get_integration_status(}")
+        print(f"Integration Status: {lukhas_agi_integration_manager.get_integration_status()}")
 
         # Test unified processing
         print("\n Testing unified AGI processing...")
@@ -686,9 +686,9 @@ async def main():
             {"test_mode": True},
         )
 
-        print(f" Test completed: {test_result.get('request_id'}")
-        print(f"Processing time: {test_result.get('performance', {}).get('processing_time', 0):.2f}s")
-        print(f"System coherence: {test_result.get('integration_insights', {}).get('system_coherence_score', 0):.2%}")
+        print(f" Test completed: {test_result.get('request_id')}")
+        print(f"Processing time: {test_result.get('performance', {)}).get('processing_time', 0):.2f}s")
+        print(f"System coherence: {test_result.get('integration_insights', {)}).get('system_coherence_score', 0):.2%}")
 
         # Keep running for demonstration
         await asyncio.sleep(60)

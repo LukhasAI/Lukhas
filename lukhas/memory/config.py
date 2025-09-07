@@ -3,12 +3,12 @@ LUKHAS AI Memory Configuration
 Configuration settings for the memory system
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import time
-import streamlit as st
-
 import os
+import time
 from dataclasses import dataclass
 from typing import Any
+
+import streamlit as st
 
 
 @dataclass

@@ -174,7 +174,7 @@ class ClassRegistryGenerator:
         lines.append("\n## Table of Contents\n")
         for module in sorted(registry["registry"].keys()):
             if registry["registry"][module]:
-                lines.append(f"- [{module}](#{module.lower().replace('/', ''})")
+                lines.append(f"- [{module}](#{module.lower().replace('/', '')})")
         lines.append("")
 
         # Module sections
@@ -192,15 +192,15 @@ class ClassRegistryGenerator:
                 lines.append(f"- **Line**: {info['line']}")
 
                 if info["base_classes"]:
-                    lines.append(f"- **Inherits**: {', '.join(info['base_classes']}")
+                    lines.append(f"- **Inherits**: {', '.join(info['base_classes'])}")
 
                 if info["docstring"]:
                     lines.append(f"- **Description**: {info['docstring']}")
 
                 if info["methods"]:
-                    lines.append(f"- **Methods**: {', '.join(info['methods'][:5]}")
+                    lines.append(f"- **Methods**: {', '.join(info['methods'][:5])}")
                     if len(info["methods"]) > 5:
-                        lines.append(f"  (and {len(info['methods']} - 5} more)")
+                        lines.append(f"  (and {len(info['methods'])} - 5} more)")
 
                 lines.append("")
 

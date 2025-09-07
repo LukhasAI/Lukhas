@@ -11,16 +11,14 @@
 │   - json                                                                  │
 └────────────────────────────────────────────────────────────────────────────┘
 """
-from typing import List
-import time
-import streamlit as st
-
 # ΛTIER: 1.1 — Symbolic Memory Initialization Layer
-
 import hashlib
 import json
 import random
-from typing import Optional
+import time
+from typing import List, Optional
+
+import streamlit as st
 
 
 def generate_seed_memory(seed_phrase: str) -> dict:
@@ -73,6 +71,6 @@ def seed_memory_store(seed_list: list[str], save_path: Optional[str] = None) -> 
 if __name__ == "__main__":
     demo_seeds = ["🌕🧠INTENT", "🗝️🧬TRUST", "🧿🌐VISION"]
     bank = seed_memory_store(demo_seeds, "seed_memory.json")
-    print(f"✅ Seeded {len(bank} symbolic memories into prototype memory bank.")
+    print(f"✅ Seeded {len(bank)} symbolic memories into prototype memory bank.")
 
 # ╰─ End of memory_seeder.py | Linked to memory_helix.py and glyph_map.py

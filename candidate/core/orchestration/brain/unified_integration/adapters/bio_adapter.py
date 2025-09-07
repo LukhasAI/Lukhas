@@ -4,17 +4,16 @@ Original: bio_adapter.py
 Advanced: bio_adapter.py
 Integration Date: 2025-05-31T07:55:29.982060
 """
-from consciousness.qi import qi
-from typing import Dict
-import random
-import streamlit as st
-
 import logging
+import random
 
 # Bio-inspired integration adapter for quantum and biological metaphors
-from typing import Any
+from typing import Any, Dict
 
 import numpy as np
+import streamlit as st
+
+from consciousness.qi import qi
 
 from ..unified_integration import UnifiedIntegration
 

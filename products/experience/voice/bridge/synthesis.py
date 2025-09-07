@@ -4,11 +4,11 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class VoiceSynthesis:

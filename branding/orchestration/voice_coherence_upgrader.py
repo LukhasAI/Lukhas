@@ -4,18 +4,17 @@ LUKHAS AI Elite Voice Coherence Upgrader
 Systematically upgrades all content systems to achieve 85%+ voice coherence
 Implements brand terminology, Trinity Framework, and consciousness technology messaging
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 import re
 import sys
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -71,7 +70,7 @@ class EliteVoiceCoherenceUpgrader:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"voice_upgrade_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = logs_dir / f"voice_upgrade_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -231,7 +230,7 @@ class EliteVoiceCoherenceUpgrader:
             )
         ]
 
-        self.logger.info(f"📄 Found {len(content_files} files to upgrade")
+        self.logger.info(f"📄 Found {len(content_files)} files to upgrade")
 
         for file_path in content_files:
             try:
@@ -464,7 +463,7 @@ async def main():
     results = await upgrader.upgrade_all_systems()
 
     print("✅ Elite voice coherence upgrade completed!")
-    print(f"📊 Systems upgraded: {len(results}")
+    print(f"📊 Systems upgraded: {len(results)}")
 
     print("\n🚀 Ready for Trinity Framework deployment!")
 

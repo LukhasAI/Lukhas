@@ -3,19 +3,18 @@
 LUKHAS AI Platform API Integrations
 Live deployment system for social media platforms with OAuth, rate limiting, and error handling
 """
-import time
-import streamlit as st
-
 import asyncio
 import json
 import logging
 import os
+import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 import aiohttp
+import streamlit as st
 
 # Platform-specific imports
 try:
@@ -126,7 +125,7 @@ class PlatformAPIManager:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"platform_apis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = self.logs_path / f"platform_apis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -151,7 +150,7 @@ class PlatformAPIManager:
                 for platform, creds in creds_data.items():
                     self.credentials[platform] = APICredentials(**creds)
 
-                self.logger.info(f"Loaded credentials for {len(self.credentials} platforms")
+                self.logger.info(f"Loaded credentials for {len(self.credentials)} platforms")
             except Exception as e:
                 self.logger.error(f"Failed to load credentials from file: {e}")
 
@@ -606,7 +605,7 @@ async def main():
         client = "✅" if info["client_initialized"] else "❌"
         library = "✅" if info["library_available"] else "❌"
 
-        print(f"   {platform.title(}: Creds {credentials} | Client {client} | Library {library}")
+        print(f"   {platform.title()}: Creds {credentials} | Client {client} | Library {library}")
 
     # Test posting (only if credentials are available)
     test_content = "🧠 Testing LUKHAS AI consciousness technology platform integration! The Trinity Framework (⚛️🧠🛡️) ensures our AI systems maintain authentic, aware, and ethical operation. What aspects of conscious AI development interest you most? #ConsciousnessTechnology #LUKHASIA"

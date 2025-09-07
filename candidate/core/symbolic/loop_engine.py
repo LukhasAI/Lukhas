@@ -10,15 +10,13 @@ Symbolic Loop Engine
 Manages the intentional Symbolic → Bio → Quantum → Consciousness → Symbolic cycle.
 This creates symbol grounding through biological and quantum-inspired processes.
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
 # intentional_cycle: Symbolic → Bio → Quantum → Consciousness → Symbolic
-
 import asyncio
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any, List, Optional
+
+import streamlit as st
 
 from bio.core import BioProcessor
 from lukhas.consciousness.bridge import ConsciousnessBridge
@@ -82,7 +80,7 @@ class SymbolicLoopEngine:
             SymbolicState with grounding at each level
         """
         state = SymbolicState(symbol=symbol)
-        loop_id = f"{symbol}_{datetime.now(timezone.utc).timestamp(}"
+        loop_id = f"{symbol}_{datetime.now(timezone.utc).timestamp()}"
 
         async with self._lock:
             self.active_loops[loop_id] = state

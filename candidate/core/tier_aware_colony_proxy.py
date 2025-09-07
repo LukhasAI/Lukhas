@@ -118,7 +118,7 @@ class TierAwareColonyProxy:
         self._analyze_target_colony()
         self._setup_method_interception()
 
-        self.logger.info(f"Tier-aware proxy initialized for {type(target_colony}.__name__}")
+        self.logger.info(f"Tier-aware proxy initialized for {type(target_colony)}.__name__}")
 
     def _initialize_proxy_configuration(self):
         """Initialize proxy configuration and access rules."""
@@ -199,7 +199,7 @@ class TierAwareColonyProxy:
             self.colony_method_categories[category].append(method_name)
 
         self.logger.debug(
-            f"Analyzed {colony_type}: {len(public_methods)} methods across {len(self.colony_method_categories} categories"
+            f"Analyzed {colony_type}: {len(public_methods)} methods across {len(self.colony_method_categories)} categories"
         )
 
     def _categorize_method(self, method_name: str) -> str:
@@ -492,13 +492,13 @@ class TierAwareColonyProxy:
                 # Return non-callable attributes directly
                 return attr
 
-        raise AttributeError(f"'{type(self}.__name__}' object has no attribute '{name}'")
+        raise AttributeError(f"'{type(self)}.__name__}' object has no attribute '{name}'")
 
     def __str__(self) -> str:
-        return f"TierAwareColonyProxy({self.proxy_id}, wrapping {type(self.target_colony}.__name__})"
+        return f"TierAwareColonyProxy({self.proxy_id}, wrapping {type(self.target_colony)}.__name__})"
 
     def __repr__(self) -> str:
-        return f"TierAwareColonyProxy(proxy_id='{self.proxy_id}', target={type(self.target_colony}.__name__})"
+        return f"TierAwareColonyProxy(proxy_id='{self.proxy_id}', target={type(self.target_colony)}.__name__})"
 
 
 class ColonyProxyManager:
@@ -527,7 +527,7 @@ class ColonyProxyManager:
             TierAwareColonyProxy instance
         """
         if proxy_id is None:
-            proxy_id = f"proxy_{type(colony).__name__.lower()}_{len(self.proxies}"
+            proxy_id = f"proxy_{type(colony).__name__.lower()}_{len(self.proxies)}"
 
         if proxy_id in self.proxies:
             raise ValueError(f"Proxy with ID '{proxy_id}' already exists")
@@ -535,7 +535,7 @@ class ColonyProxyManager:
         proxy = TierAwareColonyProxy(colony, proxy_id, self.identity_manager)
         self.proxies[proxy_id] = proxy
 
-        self.logger.info(f"Created proxy '{proxy_id}' for {type(colony}.__name__}")
+        self.logger.info(f"Created proxy '{proxy_id}' for {type(colony)}.__name__}")
         return proxy
 
     def get_proxy(self, proxy_id: str) -> Optional[TierAwareColonyProxy]:
@@ -555,14 +555,14 @@ class ColonyProxyManager:
         for proxy in self.proxies.values():
             await proxy.register_user_context(user_context)
 
-        self.logger.debug(f"Registered user context {user_context.user_id} across {len(self.proxies} proxies")
+        self.logger.debug(f"Registered user context {user_context.user_id} across {len(self.proxies)} proxies")
 
     async def unregister_user_context_all(self, user_id: str):
         """Unregister user context across all proxies."""
         for proxy in self.proxies.values():
             await proxy.unregister_user_context(user_id)
 
-        self.logger.debug(f"Unregistered user context {user_id} across {len(self.proxies} proxies")
+        self.logger.debug(f"Unregistered user context {user_id} across {len(self.proxies)} proxies")
 
     def get_manager_statistics(self) -> dict[str, Any]:
         """Get comprehensive manager statistics."""

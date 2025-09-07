@@ -3,12 +3,11 @@ Breakthrough Synthesis Engine
 
 Synthesizes breakthroughs from multiple innovation sources.
 """
-from typing import Optional
-import streamlit as st
-
 import logging
 import uuid
-from typing import Any
+from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.core.interfaces import CoreInterface
 

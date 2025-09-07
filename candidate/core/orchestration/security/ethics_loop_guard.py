@@ -3,12 +3,11 @@
 {ΛDRIFT_GUARD}
 ethics_loop_guard.py - Detects misalignment patterns and outputs governance alerts.
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -95,4 +94,4 @@ class EthicsLoopGuard:
         # ΛTRACE
         logger.warning(f"Governance Alert: {message}")
         with open(self.alert_log_path, "a") as f:
-            f.write(f"{datetime.now(timezone.utc).isoformat(}: {message}\n")
+            f.write(f"{datetime.now(timezone.utc).isoformat()}: {message}\n")

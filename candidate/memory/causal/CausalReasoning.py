@@ -11,12 +11,11 @@ Causal Reasoning Module
 This module provides advanced causal reasoning capabilities for understanding
 cause-effect relationships in input data and context.
 """
-import streamlit as st
-from datetime import timezone
-
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 
 class CausalReasoningModule:

@@ -135,7 +135,7 @@ class LukhasComplianceChecker:
     Identifies regulatory violations and provides remediation guidance.
     """
 
-    # TODO[CONSCIOUSNESS:specialist] Fix syntax error - missing 'self' parameter in __init__ method
+    # TODO[CONSCIOUSNESS:specialist] Fix syntax error - missing 'self\' parameter in __init__ method
     # This consciousness node requires proper initialization for compliance validation
     def __init__(
         self,
@@ -320,7 +320,7 @@ class LukhasComplianceChecker:
 
         # Find all files to scan
         files_to_scan = self._find_files_to_scan(include_patterns)
-        logger.info(f"📁 Found {len(files_to_scan} files to scan")
+        logger.info(f"📁 Found {len(files_to_scan)} files to scan")
 
         # Scan files for compliance
         module_reports = []
@@ -363,7 +363,7 @@ class LukhasComplianceChecker:
         module_reports = []
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-            future_to_file = {executor.submit(self._scan_single_file, file_path}: file_path for file_path in files}
+            future_to_file = {executor.submit(self._scan_single_file, file_path)}: file_path for file_path in files}
 
             for future in concurrent.futures.as_completed(future_to_file):
                 file_path = future_to_file[future]
@@ -401,7 +401,7 @@ class LukhasComplianceChecker:
             module_name = file_path.name
             report = ModuleComplianceReport(module_name=module_name, file_path=str(file_path))
 
-            # Check if it's a known compliant module
+            # Check if it\'s a known compliant module
             if module_name in self.compliant_modules:
                 report.compliance_level = self.compliant_modules[module_name]
                 report.jurisdictional_scores = self._get_known_module_scores(module_name)

@@ -418,7 +418,7 @@ class QISubstrate:
         """Generate unique state ID"""
         timestamp = datetime.now(timezone.utc).isoformat()
         random_bytes = np.random.bytes(8)
-        return f"qstate_{hashlib.sha256(f'{timestamp}{random_bytes}'.encode()).hexdigest()[:16]}"
+        return f"qstate_{hashlib.sha256(f'{timestamp)}{random_bytes}'.encode()).hexdigest()[:12]}"
 
     def get_quantum_metrics(self) -> dict[str, Any]:
         """Get current quantum substrate metrics"""

@@ -17,19 +17,18 @@ Author: LUKHΛS AI Systems
 Version: 1.0.0 - Red Team Glyph Map
 Created: 2025-08-03
 """
-from consciousness.qi import qi
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import csv
 import json
 import logging
 import random
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -186,7 +185,7 @@ class GlyphTimelineGenerator:
                 row["glyphs_used"] = "".join(event.glyphs_used)
                 writer.writerow(row)
 
-        logger.info(f"📊 Exported {len(self.events} events to {csv_path}")
+        logger.info(f"📊 Exported {len(self.events)} events to {csv_path}")
         return str(csv_path)
 
     def generate_html_visualization(self, filename: str = "glyph_timeline.html") -> str:
@@ -648,7 +647,7 @@ def main():
     # Generate mock events
     print("\n📊 Generating mock authentication events...")
     events = generator.generate_mock_events(100)
-    print(f"Generated {len(events} events")
+    print(f"Generated {len(events)} events")
 
     # Export to CSV
     csv_path = generator.export_to_csv()

@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 LUKHAS Ethical Drift Governor
@@ -348,14 +350,14 @@ class EthicalDriftGovernor:
                     severity = EthicalSeverity.MEDIUM
 
         # Generate concern
-        concern_id = hashlib.md5(f"{fold_key}_{rule.rule_id}_{datetime.now(timezone.utc}".encode()).hexdigest()[:12]
+        concern_id = hashlib.md5(f"{fold_key}_{rule.rule_id}_{datetime.now(timezone.utc)}".encode()).hexdigest()[:12]
 
         return EthicalConcern(
             concern_id=concern_id,
             memory_type=memory_type,
             fold_key=fold_key,
             severity=severity,
-            description=f"Rule '{rule.rule_id}' violation: {', '.join(violations}",
+            description=f"Rule '{rule.rule_id}' violation: {', '.join(violations)}",
             detected_patterns=detected_patterns,
             risk_factors=risk_factors,
             timestamp_utc=datetime.now(timezone.utc).isoformat(),
@@ -400,7 +402,7 @@ class EthicalDriftGovernor:
     def _execute_intervention(self, concern: EthicalConcern) -> dict[str, Any]:
         """Execute the recommended intervention for an ethical concern."""
         intervention_id = hashlib.md5(
-            f"{concern.concern_id}_{concern.recommended_intervention.value}_{datetime.now(timezone.utc}".encode()
+            f"{concern.concern_id}_{concern.recommended_intervention.value}_{datetime.now(timezone.utc)}".encode()
         ).hexdigest()[:10]
 
         intervention_result = {

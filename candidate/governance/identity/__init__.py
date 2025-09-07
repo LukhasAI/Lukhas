@@ -10,13 +10,13 @@ Migration Path:
 
 This module provides compatibility shims to support both patterns.
 """
-import streamlit as st
-
 import importlib
 import logging
 import sys
 import warnings
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

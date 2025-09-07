@@ -1,8 +1,9 @@
 # lukhas_core.py
 # MASTER SYMBOLIC LOOP FOR LUKHAS v1.0 (AIG-GRADE)
 
-from datetime import datetime
+from datetime import datetime, timezone
 
+import streamlit as st
 from seedra.core.registry import get_user_tier
 from seedra_docs.vault_manager import current_sid  # assumes current SID is loaded here
 
@@ -14,8 +15,6 @@ from symbolic.lukhas_reflector import recall_last_interaction
 from symbolic.lukhas_visualizer import visualize_dream_output  # optional
 from symbolic.lukhas_voice import speak
 from symbolic.memoria import log_memory
-from datetime import timezone
-import streamlit as st
 
 
 # Entry point for symbolic loop

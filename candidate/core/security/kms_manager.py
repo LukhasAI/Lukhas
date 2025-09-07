@@ -3,10 +3,6 @@ LUKHAS Key Management System (KMS) Implementation
 Agent 7: Security & Infrastructure Specialist
 Implements Vault integration, token rotation, secret scanning, SBOM generation
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import asyncio
 import base64
 import hashlib
@@ -16,11 +12,16 @@ import os
 import re
 import secrets
 import subprocess
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # For Vault integration
 try:
@@ -633,7 +634,7 @@ class LukhasKMSManager:
     def _generate_secret(self, secret_type: SecretType) -> str:
         """Generate new secret value based on type"""
         if secret_type == SecretType.API_KEY:
-            return f"lukhas_{secrets.token_urlsafe(32}"
+            return f"lukhas_{secrets.token_urlsafe(32)}"
         elif secret_type == SecretType.OAUTH_TOKEN:
             return secrets.token_urlsafe(48)
         elif secret_type == SecretType.ENCRYPTION_KEY:
@@ -730,7 +731,7 @@ if __name__ == "__main__":
         # Test SBOM generation
         print("\n📦 Testing SBOM generation...")
         sbom_result = kms.generate_sbom()
-        print(f"   SBOM generated with {len(sbom_result['sbom']['components']} components")
+        print(f"   SBOM generated with {len(sbom_result['sbom']['components'])} components")
         print(f"   Found {sbom_result['vulnerability_count']} vulnerabilities")
 
         # Test QIM assessment

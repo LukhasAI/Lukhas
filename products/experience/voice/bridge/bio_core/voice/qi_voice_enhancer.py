@@ -4,11 +4,11 @@ Quantum-enhanced voice integration for LUKHAS AGI system.
 This module extends the voice integrator with quantum features for improved
 emotional processing and voice synthesis coordination.
 """
-import streamlit as st
-
 import logging
 from dataclasses import dataclass
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 from ...voice_integrator import VoiceIntegrator
 from ..oscillator.orchestrator import BioOrchestrator

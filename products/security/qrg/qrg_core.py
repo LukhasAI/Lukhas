@@ -345,7 +345,7 @@ class QIResonanceGlyph:
 
             frames.append(frame)
 
-        logger.info(f"🎬 Generated {len(frames} animation frames ({animation_type})")
+        logger.info(f"🎬 Generated {len(frames)} animation frames ({animation_type})")
         return frames
 
     def _rotate_matrix(self, matrix: np.ndarray, angle: float) -> np.ndarray:

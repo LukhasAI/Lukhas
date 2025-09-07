@@ -245,7 +245,7 @@ OPTIMIZED MODULE:
             # )
             # return response.content[0].text
 
-            print(f"🤖 [MOCK] AI analysis request: {len(prompt} characters")
+            print(f"🤖 [MOCK] AI analysis request: {len(prompt)} characters")
             return "# Mock AI response - implement actual Claude API call here\npass"
 
         except Exception as e:
@@ -334,7 +334,7 @@ This report details the AI-powered consolidation of your AGI codebase.
         interfaces_dir.mkdir(exist_ok=True)
 
         for interface in results["standardized_interfaces"]:
-            filename = f"{interface['interface_name'].lower(}.py"
+            filename = f"{interface['interface_name'].lower()}.py"
 
             with open(interfaces_dir / filename, "w") as f:
                 f.write(interface["interface_code"])
@@ -451,9 +451,9 @@ async def main():
 
     print("\n🧠 AI CONSOLIDATION COMPLETE!")
     print("=" * 50)
-    print(f"Merged modules: {len(results['merged_modules']}")
-    print(f"Standardized interfaces: {len(results['standardized_interfaces']}")
-    print(f"Optimized modules: {len(results['optimized_code']}")
+    print(f"Merged modules: {len(results['merged_modules'])}")
+    print(f"Standardized interfaces: {len(results['standardized_interfaces'])}")
+    print(f"Optimized modules: {len(results['optimized_code'])}")
     print("\n📁 Generated files:")
     print("  - consolidated_agi/ (directory with new modules)")
     print("  - migrate_agi_modules.py (migration script)")

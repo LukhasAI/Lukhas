@@ -3,9 +3,9 @@
 LUKHAS 2030 Dream Quantum Learning Consolidation
 Multi-parallel scenario generation for self-training
 """
-import streamlit as st
-
 from pathlib import Path
+
+import streamlit as st
 
 
 def consolidate_dream_quantum_learning():

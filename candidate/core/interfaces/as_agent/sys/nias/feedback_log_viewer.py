@@ -5,6 +5,7 @@ Advanced: feedback_log_viewer.py
 Integration Date: 2025-05-31T07:55:30.503626
 """
 import time
+
 import streamlit as st
 
 """
@@ -54,7 +55,7 @@ def view_feedback(limit=10, filter_emoji=None, min_score=None):
 
     for entry in filtered:
         print(f"\n🧠 {entry['timestamp']} | Msg: {entry['message_id']} | User: {entry['user_id']}")
-        print(f"   Score: {entry['score']} {entry.get('emoji', ''}")
+        print(f"   Score: {entry['score']} {entry.get('emoji', '')}")
         if entry.get("notes"):
             print(f"   Notes: {entry['notes']}")
 

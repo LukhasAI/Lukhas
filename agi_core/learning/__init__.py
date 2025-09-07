@@ -12,15 +12,15 @@ from .skill_acquisition import Skill, SkillAcquisitionEngine, SkillLevel
 
 __all__ = [
     "DreamGuidedLearner",
-    "LearningSession",
     "LearningOutcome",
-    "PatternLearner",
     "LearningPattern",
-    "PatternType",
-    "SkillAcquisitionEngine",
-    "Skill",
-    "SkillLevel",
-    "MetaLearner",
+    "LearningSession",
     "LearningStrategy",
+    "MetaLearner",
     "MetaLearningInsight",
+    "PatternLearner",
+    "PatternType",
+    "Skill",
+    "SkillAcquisitionEngine",
+    "SkillLevel",
 ]

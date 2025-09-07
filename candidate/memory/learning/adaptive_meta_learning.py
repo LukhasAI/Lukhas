@@ -1,8 +1,10 @@
-from datetime import datetime, timezone
 import logging
-import streamlit as st
 import random
 import time
+from datetime import datetime, timezone
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════

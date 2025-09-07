@@ -5,11 +5,12 @@ Hybrid component - exists in quantum superposition
 #TAG:superposition
 #TAG:hybrid
 """
-from consciousness.qi import qi
-import streamlit as st
-
 # Colony base for propagation
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class SuperpositionColony:

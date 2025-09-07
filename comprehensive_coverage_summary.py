@@ -199,7 +199,7 @@ class ComprehensiveCoverageSummary:
         print(f"📁 Total Source Files: {coverage_data['baseline']['total_source_files']:,}")
         print(f"🧪 Baseline Test Files: {coverage_data['baseline']['baseline_test_files']}")
         print(
-            f"🧪 New Functional Tests: +{len(coverage_data['new_tests']} files ({progress['new_functional_tests']} tests)"
+            f"🧪 New Functional Tests: +{len(coverage_data['new_tests'])} files ({progress['new_functional_tests']} tests)"
         )
         print(f"🧪 Total Test Coverage: {progress['total_test_files']} files")
 
@@ -239,10 +239,10 @@ class ComprehensiveCoverageSummary:
         untested_systems = [name for name, status in system_status.items() if "🔴" in status["status"]]
 
         print("\n📈 COVERAGE LEVEL SUMMARY:")
-        print(f"  ✅ Comprehensive Coverage: {len(excellent_systems)} systems - {', '.join(excellent_systems}")
-        print(f"  🟡 Partial Coverage: {len(partial_systems)} systems - {', '.join(partial_systems}")
+        print(f"  ✅ Comprehensive Coverage: {len(excellent_systems)} systems - {', '.join(excellent_systems)}")
+        print(f"  🟡 Partial Coverage: {len(partial_systems)} systems - {', '.join(partial_systems)}")
         print(
-            f"  🔴 No/Minimal Coverage: {len(untested_systems)} systems - {', '.join(untested_systems[:5])}{'...' if len(untested_systems} > 5 else ''}"
+            f"  🔴 No/Minimal Coverage: {len(untested_systems)} systems - {', '.join(untested_systems[:5])}{'...' if len(untested_systems)} > 5 else ''}"
         )
 
         # Assessment and next steps

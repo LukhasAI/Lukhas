@@ -463,33 +463,33 @@ class PerformanceAnalyzer:
             process = system_resources.get("process", {})
 
             logger.info("🖥️  System Resources:")
-            logger.info(f"   CPU Usage: {cpu.get('current_usage', 0}:.1f}%")
-            logger.info(f"   Memory Usage: {memory.get('used_percent', 0}:.1f}%")
-            logger.info(f"   Process Memory: {process.get('memory_mb', 0}:.1f} MB")
+            logger.info(f"   CPU Usage: {cpu.get('current_usage', 0)}:.1f}%")
+            logger.info(f"   Memory Usage: {memory.get('used_percent', 0)}:.1f}%")
+            logger.info(f"   Process Memory: {process.get('memory_mb', 0)}:.1f} MB")
 
         # Performance metrics
         api_perf = self.results.get("API Performance", {}).get("result", {})
         if api_perf:
             logger.info("🚀 API Performance:")
-            logger.info(f"   Average Response: {api_perf.get('average_response_ms', 0}:.1f}ms")
-            logger.info(f"   P95 Response: {api_perf.get('p95_response_ms', 0}:.1f}ms")
+            logger.info(f"   Average Response: {api_perf.get('average_response_ms', 0)}:.1f}ms")
+            logger.info(f"   P95 Response: {api_perf.get('p95_response_ms', 0)}:.1f}ms")
 
         # Concurrency
         concurrency = self.results.get("Concurrency Analysis", {}).get("result", {})
         if concurrency:
             logger.info("⚡ Concurrency:")
-            logger.info(f"   Speedup Factor: {concurrency.get('speedup_factor', 0}:.1f}x")
+            logger.info(f"   Speedup Factor: {concurrency.get('speedup_factor', 0)}:.1f}x")
 
         # Recommendations
         recommendations = self.results.get("recommendations", [])
         high_priority = [r for r in recommendations if r.get("priority") == "high"]
 
-        logger.info(f"\n💡 High Priority Recommendations ({len(high_priority}):")
+        logger.info(f"\n💡 High Priority Recommendations ({len(high_priority)}):")
         for rec in high_priority[:3]:  # Top 3
-            logger.info(f"   • {rec.get('title', 'Unknown'}")
-            logger.info(f"     {rec.get('estimated_improvement', 'Improvement TBD'}")
+            logger.info(f"   • {rec.get('title', 'Unknown')}")
+            logger.info(f"     {rec.get('estimated_improvement', 'Improvement TBD')}")
 
-        logger.info(f"\n⏱️  Total Analysis Time: {self.results.get('total_analysis_time', 0}:.2f}s")
+        logger.info(f"\n⏱️  Total Analysis Time: {self.results.get('total_analysis_time', 0)}:.2f}s")
         logger.info("=" * 70)
 
 

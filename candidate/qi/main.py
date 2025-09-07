@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """

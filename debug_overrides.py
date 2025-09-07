@@ -30,10 +30,10 @@ def debug_overrides_detailed():
     if scene and hasattr(scene, "proto"):
         proto = scene.proto
         print(
-            f"Override signals: arousal_override={test_signals.get('arousal_override')}, tone_override={test_signals.get('tone_override'}"
+            f"Override signals: arousal_override={test_signals.get('arousal_override')}, tone_override={test_signals.get('tone_override')}"
         )
         print(f"Resulting proto: arousal={proto.arousal}, tone={proto.tone}")
-        print(f"Proto type: {type(proto}")
+        print(f"Proto type: {type(proto)}")
         print(
             f"All proto attrs: tone={proto.tone}, arousal={proto.arousal}, clarity={proto.clarity}, embodiment={proto.embodiment}, narrative_gravity={proto.narrative_gravity}"
         )

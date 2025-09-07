@@ -4,17 +4,18 @@ LUKHAS  Ecosystem Harmony Audit
 Comprehensive analysis to ensure all systems are pulling their weight
 and working in harmonious synchrony
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import ast
 import json
 import os
 import statistics
+import time
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class EcosystemHarmonyAuditor:
@@ -156,7 +157,7 @@ class EcosystemHarmonyAuditor:
 
                 # Check for common issues
                 if len(lines) > 500:
-                    metrics["issues"].append(f"{filepath.name}: File too long ({len(lines} lines)")
+                    metrics["issues"].append(f"{filepath.name}: File too long ({len(lines)} lines)")
 
                 if metrics["comments"] / max(len(lines), 1) < 0.1:
                     metrics["issues"].append(f"{filepath.name}: Low comment ratio")
@@ -490,17 +491,17 @@ class EcosystemHarmonyAuditor:
         # Find weak links
         print("\n🔗 Analyzing Inter-Module Connections...")
         self.audit_results["weak_links"] = self.find_weak_links()
-        print(f"  Found {len(self.audit_results['weak_links']} weak connections")
+        print(f"  Found {len(self.audit_results['weak_links'])} weak connections")
 
         # Identify underperformers
         print("\n📉 Identifying Underperforming Modules...")
         self.audit_results["underperformers"] = self.identify_underperformers()
-        print(f"  Found {len(self.audit_results['underperformers']} underperformers")
+        print(f"  Found {len(self.audit_results['underperformers'])} underperformers")
 
         # Check circular dependencies
         print("\n🔄 Checking for Circular Dependencies...")
         self.audit_results["circular_dependencies"] = self.check_circular_dependencies()
-        print(f"  Found {len(self.audit_results['circular_dependencies']} circular dependencies")
+        print(f"  Found {len(self.audit_results['circular_dependencies'])} circular dependencies")
 
         # Calculate harmony score
         self.audit_results["harmony_score"] = self.calculate_harmony_score()
@@ -539,7 +540,7 @@ Generated: {audit_results["timestamp"]}
         report += f"- Lines of Code: {metrics['lines_of_code']:,}\n"
 
         if metrics["code_quality_issues"]:
-            report += f"- Issues: {len(metrics['code_quality_issues']}\n"
+            report += f"- Issues: {len(metrics['code_quality_issues'])}\n"
 
     # Weak links
     if audit_results["weak_links"]:
@@ -575,7 +576,7 @@ Generated: {audit_results["timestamp"]}
                 if "module" in rec:
                     report += f"\n**{rec['module']}**:\n"
                 else:
-                    report += f"\n**{' & '.join(rec['modules']}**:\n"
+                    report += f"\n**{' & '.join(rec['modules'])}**:\n"
                 for action in rec["actions"]:
                     report += f"- {action}\n"
 
@@ -585,7 +586,7 @@ Generated: {audit_results["timestamp"]}
                 if "module" in rec:
                     report += f"\n**{rec['module']}**:\n"
                 else:
-                    report += f"\n**{' & '.join(rec['modules']}**:\n"
+                    report += f"\n**{' & '.join(rec['modules'])}**:\n"
                 for action in rec["actions"]:
                     report += f"- {action}\n"
 

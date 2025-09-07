@@ -16,9 +16,6 @@ all cognitive components while preserving unique Lukhas innovations:
 
 Professional architecture with scientific naming conventions.
 """
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import logging
 import os
@@ -26,8 +23,10 @@ import os
 # Core neural intelligence imports - simplified for working components
 import sys
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 from candidate.orchestration.brain.core.capability_levels import AGICapabilityLevel
 from candidate.orchestration.brain.core.response_types import AGIResponse

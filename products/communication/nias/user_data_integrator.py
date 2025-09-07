@@ -6,18 +6,16 @@ Part of the Lambda Products Suite by LUKHAS AI
 This module handles user data integration from various sources with full
 consent management and privacy protection.
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
 import logging
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 logger = logging.getLogger("Lambda.NIΛS.UserData", timezone)
 
@@ -118,7 +116,7 @@ class EmailIntegrator:
         patterns["product_categories"] = ["Electronics", "Groceries", "Fitness"]
         patterns["subscription_services"] = ["Netflix", "Spotify", "Adobe"]
 
-        logger.info(f"Scanned emails for user, found {len(patterns['frequent_merchants']} merchants")
+        logger.info(f"Scanned emails for user, found {len(patterns['frequent_merchants'])} merchants")
         return patterns
 
     def extract_preferences_from_newsletters(self, email_content: list[str]) -> list[str]:

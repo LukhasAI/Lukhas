@@ -77,7 +77,7 @@ except ImportError:
 class MemoryNode:
     """Represents a node in the memory DAG with enhanced metadata."""
 
-    node_id: str = field(default_factory=lambda: f"node_{uuid.uuid4(}.hex[:12]}")
+    node_id: str = field(default_factory=lambda: f"node_{uuid.uuid4()}.hex[:12]}")
     content_hash: str = ""
     content: Any = None  # Actual memory content
     emotional_weight: float = 0.0
@@ -95,7 +95,7 @@ class MemoryNode:
             return ""
 
         # Create hash from content and metadata
-        hash_input = f"{self.content}:{self.emotional_weight}:{sorted(self.semantic_tags}"
+        hash_input = f"{self.content}:{self.emotional_weight}:{sorted(self.semantic_tags)}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:16]
 
     def to_dict(self) -> dict[str, Any]:
@@ -357,7 +357,7 @@ class CollapseEngine:
 
         # Aggregate content (simplified - in reality would be more sophisticated)
         [n.content for n in nodes if n.content]
-        consolidated.content = f"[Consolidated from {len(nodes} nodes]"
+        consolidated.content = f"[Consolidated from {len(nodes)} nodes]"
 
         # Update metadata
         consolidated.collapse_count = max(n.collapse_count for n in nodes) + 1
@@ -419,7 +419,7 @@ class CollapseEngine:
         compressed.child_nodes = [c for c, count in child_counter.items() if count > threshold]
 
         # Compress content
-        compressed.content = f"[Compressed from {len(nodes)} nodes with {len(tag_counter} original tags]"
+        compressed.content = f"[Compressed from {len(nodes)} nodes with {len(tag_counter)} original tags]"
 
         # Update metadata
         compressed.collapse_count = max(n.collapse_count for n in nodes) + 1
@@ -459,7 +459,7 @@ class CollapseEngine:
         # Create abstraction tags
         tag_categories = self._categorize_tags(nodes)
         fusion.semantic_tags = [f"abstract_{cat}" for cat in tag_categories]
-        fusion.semantic_tags.append(f"fusion_of_{len(nodes}_nodes")
+        fusion.semantic_tags.append(f"fusion_of_{len(nodes)}_nodes")
 
         # Fusion uses maximum emotional weight (peak experience)
         fusion.emotional_weight = max(n.emotional_weight for n in nodes)

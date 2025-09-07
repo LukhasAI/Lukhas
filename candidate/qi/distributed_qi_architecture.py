@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-from typing import Dict
-from typing import List
 import logging
+from typing import Dict, List
+
 import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """
@@ -41,7 +43,7 @@ class DistributedQuantumSafeOrchestrator:
     def __init__(self, cluster_config: ClusterConfig):
         self.cluster_config = cluster_config
         self.ray_cluster = self._initialize_ray_cluster()
-        self.secure_channels: Dict[str, QISecureChannel] = {}
+        self.secure_channels: dict[str, QISecureChannel] = {}
         self.consensus_engine = QIByzantineFaultTolerance()
         self.telemetry = QISafeTelemetry()
 
@@ -99,7 +101,7 @@ class DistributedQuantumSafeOrchestrator:
     async def federated_quantum_learning(
         self,
         learning_task: FederatedLearningTask,
-        participant_nodes: List[NodeIdentity],
+        participant_nodes: list[NodeIdentity],
     ) -> QIModel:
         """
         Federated learning with quantum enhancement and privacy

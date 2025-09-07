@@ -10,12 +10,12 @@ This module integrates:
 - QRG advanced authentication flows
 - Trinity Framework compliance (⚛️🧠🛡️)
 """
-import streamlit as st
-
 import logging
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Trinity Framework symbols
 IDENTITY_SYMBOL = "⚛️"

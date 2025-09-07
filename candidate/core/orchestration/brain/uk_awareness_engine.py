@@ -32,17 +32,16 @@ Author: Lukhas AI Research Team - UK Compliance Division
 Version: 1.0.0 - UK GDPR/DPA Edition
 Date: June 2025
 """
-import time
-import streamlit as st
-
 import json
 import logging
+import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from pydantic import Field
 
 # Import global framework
@@ -691,7 +690,7 @@ if __name__ == "__main__":
     print("🇬🇧 UK Awareness Engine - Compliance Test")
     print(f"UK GDPR Compliance Score: {result.uk_gdpr_compliance_score}/100")
     print(f"ICO Compliance Score: {result.ico_compliance_score}/100")
-    print(f"Data Subject Rights: {len(result.available_rights}")
+    print(f"Data Subject Rights: {len(result.available_rights)}")
     print(f"Children's Code Compliant: {result.childrens_code_compliant}")
     print(f"ICO Enforcement Risk: {result.ico_enforcement_risk}")
     print(f"Brexit Compliance: {result.brexit_compliance_maintained}")
@@ -700,4 +699,4 @@ if __name__ == "__main__":
     print(f"\n✅ Certification: {certification['certification']}")
     print(f"Post-Brexit Compliant: {certification['post_brexit_compliant']}")
     print(f"EU Adequacy Maintained: {certification['eu_adequacy_maintained']}")
-    print(f"Regulations: {', '.join(certification['regulations']}")
+    print(f"Regulations: {', '.join(certification['regulations'])}")

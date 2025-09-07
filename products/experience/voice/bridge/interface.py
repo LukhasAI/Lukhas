@@ -938,7 +938,7 @@ class VoiceNode:
         # Log how many words were adapted
         if replacements:
             logger.debug(
-                f"Applied {len(replacements} accent-specific pronunciations for {accent_name} accent"
+                f"Applied {len(replacements)} accent-specific pronunciations for {accent_name} accent"
             )
 
         return modified_text

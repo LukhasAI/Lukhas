@@ -1,16 +1,14 @@
 import logging
+import random
 import re
 import time
-from datetime import datetime
-from typing import Any, Optional, Union
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional, Union
 
 import numpy as np
+import streamlit as st
 
 from identity.backend.app.crypto import generate_collapse_hash
-from datetime import timezone
-import streamlit as st
-import random
-from typing import Dict
 
 # TAG:core
 # TAG:symbolic
@@ -167,7 +165,7 @@ class IntentNode:
         integrated_result["confidence"] = 0.0
         integrated_result["source"] = "error_handler"
         logger.info(
-            f"Intent detected: {integrated_result.get('intent')} with confidence {integrated_result.get('confidence'}"
+            f"Intent detected: {integrated_result.get('intent')} with confidence {integrated_result.get('confidence')}"
         )
 
         return integrated_result

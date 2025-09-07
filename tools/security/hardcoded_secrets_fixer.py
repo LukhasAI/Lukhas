@@ -104,7 +104,7 @@ class HardcodedSecretsFixer:
         logger.info("🔍 Scanning codebase for hardcoded secrets...")
 
         python_files = list(self.root_path.rglob("*.py"))
-        logger.info(f"Found {len(python_files} Python files to scan")
+        logger.info(f"Found {len(python_files)} Python files to scan")
 
         for file_path in python_files:
             # Skip files matching skip patterns
@@ -115,7 +115,7 @@ class HardcodedSecretsFixer:
 
             self._scan_file(file_path)
 
-        logger.info(f"Found {len(self.issues_found} potential security issues")
+        logger.info(f"Found {len(self.issues_found)} potential security issues")
         return self.issues_found
 
     def _scan_file(self, file_path: Path):
@@ -268,7 +268,7 @@ class HardcodedSecretsFixer:
                 with open(full_path, "w", encoding="utf-8") as f:
                     f.writelines(lines)
 
-                logger.info(f"✅ Fixed {len(issues} issues in {file_path}")
+                logger.info(f"✅ Fixed {len(issues)} issues in {file_path}")
 
             except Exception as e:
                 logger.error(f"❌ Failed to fix {file_path}: {e}")
@@ -300,7 +300,7 @@ class HardcodedSecretsFixer:
         report.append("## 📊 Executive Summary")
         report.append(f"- **Total Issues Found:** {summary['total_issues']}")
         report.append(f"- **Files Affected:** {summary['files_affected']}")
-        report.append(f"- **Issue Types:** {len(summary['fixes_by_type']}")
+        report.append(f"- **Issue Types:** {len(summary['fixes_by_type'])}")
         report.append("")
 
         report.append("## 🚨 Issues by Type")
@@ -313,12 +313,12 @@ class HardcodedSecretsFixer:
             report.append(f"### Issue in `{issue.file_path}` (Line {issue.line_number})\n")
             report.append(f"**Type:** {issue.issue_type}")
             report.append(f"**Severity:** {issue.severity}")
-            report.append(f"**Code:** `{issue.line_content.strip(}`")
+            report.append(f"**Code:** `{issue.line_content.strip()}`")
             report.append(f"**Suggested Fix:** `{issue.suggested_fix}`")
             report.append("")
 
         if len(self.issues_found) > 20:
-            report.append(f"... and {len(self.issues_found} - 20} more issues")
+            report.append(f"... and {len(self.issues_found)} - 20} more issues")
 
         report.append("## 🛡️ Remediation Steps")
         report.append("1. **Immediate:** Set up environment variables for all API keys")
@@ -354,7 +354,7 @@ def main():
 
     print("📊 Security audit complete!")
     print(f"📋 Report saved to: {report_path}")
-    print(f"🚨 Found {len(issues} potential security issues")
+    print(f"🚨 Found {len(issues)} potential security issues")
 
     # Show summary
     summary = fixer.generate_fixes(apply_fixes=False)
@@ -366,7 +366,7 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--apply-fixes":
         print("\n🔧 Applying automated fixes...")
         fixer.generate_fixes(apply_fixes=True)
-        print(f"✅ Applied {len(fixer.fixes_applied} fixes")
+        print(f"✅ Applied {len(fixer.fixes_applied)} fixes")
     else:
         print("\n💡 To apply automated fixes, run with --apply-fixes flag")
 

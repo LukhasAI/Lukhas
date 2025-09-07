@@ -2,15 +2,13 @@
 Unified Integration Module for Core Systems
 Provides unified integration capabilities for various system components.
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import logging
 import threading
 from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any, List, Optional
+
+import streamlit as st
 
 
 @dataclass
@@ -291,7 +289,7 @@ class UnifiedIntegration:
             Integration result
         """
         try:
-            pipeline_id = pipeline_config.get("id", f"pipeline_{len(self.integration_handlers}")
+            pipeline_id = pipeline_config.get("id", f"pipeline_{len(self.integration_handlers)}")
             steps = pipeline_config.get("steps", [])
 
             if not steps:

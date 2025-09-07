@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import logging
+
 import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -231,7 +234,7 @@ class AtomicNucleus:
 
         # Placeholder for quantum signature generation
         # In real implementation, this would interface with quantum systems
-        return hashlib.sha256(f"quantum:{time.time()}:{id(self.qi_state}".encode()).hexdigest()[:32]
+        return hashlib.sha256(f"quantum:{time.time()}:{id(self.qi_state)}".encode()).hexdigest()[:32]
 
     def _update_integrity_chain(self, new_hash: str):
         """Update the integrity hash chain"""
@@ -591,7 +594,7 @@ async def demonstrate_scaffold():
 
     # Get final metrics
     metrics = scaffold.get_metrics()
-    print(f"\nFinal metrics: {json.dumps(metrics, indent=2}")
+    print(f"\nFinal metrics: {json.dumps(metrics, indent=2)}")
 
 
 if __name__ == "__main__":

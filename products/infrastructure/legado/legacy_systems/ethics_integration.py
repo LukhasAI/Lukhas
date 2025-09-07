@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Ethics System Integration Module
@@ -134,7 +136,7 @@ class EthicsIntegration:
         Returns:
             Tuple of (is_permitted, reason, detailed_analysis)
         """
-        decision_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp(}"
+        decision_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp()}"
         start_time = datetime.now(timezone.utc)
 
         # Update synchronization

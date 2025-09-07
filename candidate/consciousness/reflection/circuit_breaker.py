@@ -528,7 +528,7 @@ class ConsensusValidator:
         """
 
         if len(actor_refs) < self.quorum_size:
-            logger.warning(f"Insufficient actors for consensus: {len(actor_refs}")
+            logger.warning(f"Insufficient actors for consensus: {len(actor_refs)}")
             return False, None
 
         # Check cache
@@ -554,7 +554,7 @@ class ConsensusValidator:
                 responses.append((actor_refs[i].actor_id, result))
 
         if len(responses) < self.quorum_size:
-            logger.warning(f"Insufficient responses for consensus: {len(responses}")
+            logger.warning(f"Insufficient responses for consensus: {len(responses)}")
             return False, None
 
         # Analyze consensus
@@ -604,7 +604,7 @@ class ConsensusValidator:
     def _create_cache_key(self, actor_refs: list[ActorRef], query: str) -> str:
         """Create cache key for consensus query"""
         sorted([ref.actor_id for ref in actor_refs])
-        return hashlib.sha256()  #  Changed from MD5 for securityf"{','.join(actor_ids}:{query}".encode()).hexdigest()
+        return hashlib.sha256()  #  Changed from MD5 for securityf"{','.join(actor_ids)}:{query}".encode()).hexdigest()
 
 
 class CascadePreventionSystem:
@@ -854,7 +854,7 @@ class CascadePreventionSystem:
         # 4. Notify system administrators (would be implemented in production)
         logger.critical(
             f"Emergency protocol executed. "
-            f"Quarantined: {len(self.error_tracker.quarantined_actors}, "
+            f"Quarantined: {len(self.error_tracker.quarantined_actors)}, "
             f"Open circuits: {len([cb for cb in self.circuit_breakers.values() if cb.state == CircuitState.OPEN]}"
         )
 
@@ -959,7 +959,7 @@ async def demo_cascade_prevention():
 
     # Check system status
     status = cascade_prevention.get_system_status()
-    print(f"System status: {json.dumps(status, indent=2}")
+    print(f"System status: {json.dumps(status, indent=2)}")
 
     # Test consensus validation
     consensus_reached, value = await cascade_prevention.validate_with_consensus(actors[:3], "get_state")

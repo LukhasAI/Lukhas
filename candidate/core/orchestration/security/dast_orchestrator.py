@@ -8,7 +8,9 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import logging
-from typing import Any
+from typing import Any, Dict
+
+import streamlit as st
 
 from ...core.errors import SymbolicIntegrityError
 from ...qi.qi_processing.qi_engine import QIOscillator
@@ -16,8 +18,6 @@ from ...symbolic_ai.assistant import assistant_node
 from ...symbolic_ai.filter import check_intent
 from ...symbolic_ai.memory import memory
 from ..bio_awareness.enhanced_awareness import EnhancedSystemAwareness
-import streamlit as st
-from typing import Dict
 
 logger = logging.getLogger(__name__)
 

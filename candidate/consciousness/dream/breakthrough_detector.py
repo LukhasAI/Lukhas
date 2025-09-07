@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import time
 from typing import List
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Breakthrough Detector
@@ -194,7 +196,7 @@ class BreakthroughDetector(CoreInterface):
                 # Update detection patterns for learning
                 self._update_detection_patterns(candidate)
 
-        logger.info(f"🌟 Detected {len(validated_breakthroughs} civilization-changing breakthroughs")
+        logger.info(f"🌟 Detected {len(validated_breakthroughs)} civilization-changing breakthroughs")
         return validated_breakthroughs
 
     async def detect_exponential_impact(self, reality_results: list[dict[str, Any]]) -> list[BreakthroughCandidate]:
@@ -550,7 +552,7 @@ class BreakthroughDetector(CoreInterface):
 
     async def outline_new_paradigm(self, result: dict[str, Any]) -> str:
         """Outline the new paradigm from innovation"""
-        return f"New paradigm based on breakthrough {result.get('hypothesis_id', 'unknown'}"
+        return f"New paradigm based on breakthrough {result.get('hypothesis_id', 'unknown')}"
 
     async def analyze_network_effects(self, result: dict[str, Any]) -> dict[str, Any]:
         """Analyze network effects of innovation"""
@@ -747,7 +749,7 @@ if __name__ == "__main__":
 
         # Detect breakthroughs
         breakthroughs = await detector.detect_civilization_changing_breakthroughs(reality_results)
-        print(f"Detected {len(breakthroughs} civilization-changing breakthroughs")
+        print(f"Detected {len(breakthroughs)} civilization-changing breakthroughs")
 
         for breakthrough in breakthroughs:
             print(f"  - {breakthrough.breakthrough_type.value}: Impact {breakthrough.civilizational_impact:.2f}")

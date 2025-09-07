@@ -3,16 +3,15 @@
 LUKHAS Healthcare Guardian - Main Entry Point
 Spanish Eldercare AI System with Andalusian Voice Support
 """
-from typing import List
-import time
-import streamlit as st
-
 import asyncio
 import logging
 import os
 import sys
+import time
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 # Add parent directory to path for LUKHAS imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))

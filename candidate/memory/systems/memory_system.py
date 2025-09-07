@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Memory System
@@ -87,7 +89,7 @@ class MemorySystem:
             if pattern in str(trace.get("symbolic_patterns", [])):
                 results.append(trace)
 
-        logger.debug(f"Found {len(results} traces matching pattern: {pattern}")
+        logger.debug(f"Found {len(results)} traces matching pattern: {pattern}")
         return results
 
     def consolidate_memory(self) -> int:
@@ -116,7 +118,7 @@ class MemorySystem:
                 drift_metrics[pattern_name] = stability_score
 
         if drift_metrics:
-            logger.warning(f"Detected drift in {len(drift_metrics} patterns")
+            logger.warning(f"Detected drift in {len(drift_metrics)} patterns")
 
         return drift_metrics
 

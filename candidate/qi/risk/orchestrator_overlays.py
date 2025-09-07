@@ -10,14 +10,13 @@ Features:
 - Schema validation with pydantic.
 - Immutable snapshot per TEQ evaluation.
 """
-import time
-import streamlit as st
-
 import copy
 import threading
+import time
 from pathlib import Path
 from typing import Any, Optional
 
+import streamlit as st
 import yaml
 from pydantic import BaseModel, ValidationError
 

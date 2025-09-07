@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-from typing import List
 import logging
-import streamlit as st
 import time
+from typing import List
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """
@@ -56,8 +59,8 @@ class QISafeAuditBlockchain:
     """
 
     def __init__(self):
-        self.chain: List[Block] = [self._create_genesis_block()]
-        self.pending_transactions: List[Transaction] = []
+        self.chain: list[Block] = [self._create_genesis_block()]
+        self.pending_transactions: list[Transaction] = []
         self.pqc_signer = PostQuantumSigner()
 
     async def log_ai_decision(self, decision: AIDecision, context: DecisionContext, user_consent: ConsentProof) -> str:

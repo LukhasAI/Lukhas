@@ -1,4 +1,3 @@
-from typing import Optional
 # path: qi/docs/model_safety_card.py
 from __future__ import annotations
 
@@ -10,7 +9,10 @@ import json
 import os
 import time
 from dataclasses import asdict, dataclass
+from typing import Optional
+
 import streamlit as st
+
 from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open

@@ -4,15 +4,15 @@ LUKHAS AI Branding Structure Analyzer
 Analyzes current branding directory for overlaps, gaps, orphaned components
 Provides elite organizational recommendations
 """
-import time
-import streamlit as st
-
 import ast
 import os
+import time
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 
 @dataclass
@@ -356,7 +356,7 @@ class BrandingStructureAnalyzer:
 
         report += f"""
 ## ❌ Elite Gaps (Missing Capabilities)
-{chr(10).join(f"- {gap.replace('_', ' ').title(}" for gap in analysis["elite_gaps"])}
+{chr(10).join(f"- {gap.replace('_', ' ').title()}" for gap in analysis["elite_gaps"])}
 
 ## 🤖 Automation Opportunities
 """

@@ -33,7 +33,7 @@ def require_api_key(x_api_key: Optional[str] = Header(default=None)):
 def _badge(txt, bg, fg):
     return (
         '<span style="display:inline-block;padding:4px 10px;border-radius:999px;'
-        f'background:{bg};color:{fg};font-weight:600">{html.escape(txt}</span>'
+        f\'background:{bg};color:{fg};font-weight:600">{html.escape(txt)}</span>\'
     )
 
 
@@ -53,7 +53,7 @@ def _sparkline(points, width=180, height=32, pad=4):
         # invert y for svg
         return pad + (height - 2 * pad) * (1 - ((y - y_min) / y_span))
 
-    pts = " ".join(f"{xs[i]:.1f},{map_y(ys[i]}:.1f}" for i in range(n)}
+    pts = " ".join(f"{xs[i]:.1f},{map_y(ys[i])}:.1f}" for i in range(n)}
     last = ys[-1]
     return (
         f"<svg width='{width}' height='{height}' aria-label='sparkline'>"
@@ -151,7 +151,7 @@ def admin_index(request: Request):
     """
     for name, s in tools.items():
         body += (
-            f"<tr><td><code>{html.escape(name}</code></td><td>{s['count']}</td>"
+            f"<tr><td><code>{html.escape(name)}</code></td><td>{s['count']}</td>"
             f"<td class='ok'>{s['ok']}</td><td class='err'>{s['error']}</td><td>{s['p95_ms'] or '-'}</td></tr>"
         )
     body += f"""</table>
@@ -207,7 +207,7 @@ def admin_incidents(tool: Optional[str] = Query(None), since_hours: int = Query(
     body = "<h1>Incidents</h1>"
     body += f"<div class='muted'>Filters: since <b>{since_hours}h</b>"
     if tool:
-        body += f" · tool <b>{html.escape(tool}</b>"
+        body += f" · tool <b>{html.escape(tool)}</b>"
     body += " — "
     body += "<a href='/admin/incidents?since_hours=24'>24h</a> · "
     body += "<a href='/admin/incidents?since_hours=168'>7d</a> · "
@@ -220,7 +220,7 @@ def admin_incidents(tool: Optional[str] = Query(None), since_hours: int = Query(
         aid = r.get("audit_id", "-")
         tl = r.get("tool", "-")
         reason = r.get("reason", "-")
-        body += f"<tr><td>{tsd}</td><td><span class='pill'>{html.escape(str(aid))}</span></td><td><code>{html.escape(tl)}</code></td><td>{html.escape(reason}</td></tr>"
+        body += f"<tr><td>{tsd}</td><td><span class='pill'>{html.escape(str(aid))}</span></td><td><code>{html.escape(tl)}</code></td><td>{html.escape(reason)}</td></tr>"
     body += "</table></div>"
     return _page("Admin Incidents", body)
 
@@ -236,7 +236,7 @@ def admin_tools():
     for r in usage:
         body += (
             f"<tr><td>{r.get('ts')}</td><td><code>{html.escape(r.get('tool', '-')}</code></td>"
-            f"<td>{html.escape(r.get('status', '-'))}</td><td>{r.get('duration_ms', '-'}</td>"
+            f"<td>{html.escape(r.get('status', '-'))}</td><td>{r.get('duration_ms', '-')}</td>"
             f"<td><code>{html.escape((r.get('args_summary') or '')[:120]}</code></td></tr>"
         )
     body += "</table></div>"

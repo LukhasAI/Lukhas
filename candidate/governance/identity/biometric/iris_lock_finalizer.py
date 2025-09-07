@@ -24,19 +24,19 @@ Author: LUKHΛS AI Systems
 Version: 4.0.0 - Stargate Iris Lock
 Created: 2025-08-03
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import base64
 import hashlib
 import logging
 import secrets
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -162,7 +162,7 @@ class StargateIrisLock:
         logger.info(f"👁️ Initiating Stargate Iris Lock for {user_id}")
 
         # Generate audit ID
-        audit_id = f"IRIS_{user_id}_{secrets.token_hex(8}"
+        audit_id = f"IRIS_{user_id}_{secrets.token_hex(8)}"
 
         # Compute match score
         match_score = await self._compute_iris_match(user_id, iris_scan_data)
@@ -351,7 +351,7 @@ class StargateIrisLock:
         # Lock each chevron
         for i, glyph in enumerate(self.chevron_glyphs):
             await asyncio.sleep(0.3)
-            print(f"Chevron {i + 1} locked: {glyph} {'█' * (i + 1)}{'░' * (6 - i}")
+            print(f"Chevron {i + 1} locked: {glyph} {'█' * (i + 1)}{'░' * (6 - i)}")
 
         # Final iris lock with cultural overlay
         await asyncio.sleep(0.5)

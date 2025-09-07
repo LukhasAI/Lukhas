@@ -636,7 +636,7 @@ class QICertificateManager:
         )
         now_utc = datetime.now(timezone.utc)
         expires_utc = now_utc + timedelta(days=self.config.get("emergency_cert_validity_days", 7))  # Short validity
-        cert_id = f"emergency_self_{uuid.uuid4(}.hex[:12]}"
+        cert_id = f"emergency_self_{uuid.uuid4()}.hex[:12]}"
         # ΛNOTE: Self-signing logic is highly simplified for this simulation.
         # A real self-signed cert would involve using the private key to sign the
         # public key and attributes.
@@ -650,7 +650,7 @@ class QICertificateManager:
             "expires_at": expires_utc.isoformat(),
             "certificate_type": "emergency_self_signed",
             "qi_signature": hashlib.sha256(
-                f"{cert_id}{csr_data.get('subject'}".encode()
+                f"{cert_id}{csr_data.get('subject')}".encode()
             ).hexdigest(),  # Dummy signature
             "extensions": csr_data.get("extensions", {}),
         }
@@ -665,7 +665,7 @@ class QICertificateManager:
             if old_cert_content:
                 backup_filename = (
                     self.cert_store_path
-                    / f"{old_cert_id}_backup_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f'}.qcert"
+                    / f"{old_cert_id}_backup_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f\')}.qcert"
                 )
                 with open(backup_filename, "w", encoding="utf-8") as f_backup:
                     json.dump(old_cert_content, f_backup, indent=2)
@@ -678,7 +678,7 @@ class QICertificateManager:
                     del self.certificate_metadata[old_cert_id]
 
             self.certificate_metadata[new_cert_id] = {
-                "file_path": str(self.cert_store_path / f"{new_cert_id}.qcert"),
+                "file_path": str(self.cert_store_path / f"{new_cert_id)}.qcert"),
                 "status": CertificateStatus.VALID.value,
                 "renewed_at_utc_iso": datetime.now(timezone.utc).isoformat(),
                 "renewal_count": self.certificate_metadata.get(old_cert_id, {}).get("renewal_count", -1)
@@ -821,7 +821,7 @@ async def main_demo_runner():  # Renamed main to main_demo_runner
     import shutil  # For demo cleanup, import locally if only for demo
 
     demo_config = {
-        "cert_store_path": f"temp_demo_certs_quantum_{uuid.uuid4(}.hex[:6]}",
+        "cert_store_path": f"temp_demo_certs_quantum_{uuid.uuid4()}.hex[:6]}",
         "renewal_threshold_days": 2,
         "auto_renewal_enabled": True,
         "renewal_check_interval_seconds": 5,
@@ -888,7 +888,7 @@ if __name__ == "__main__":
 # File Origin: LUKHAS AI Security Infrastructure Team
 # Context: This manager is a critical component for ensuring the security and integrity
 #          of quantum-era communications and data within the LUKHAS AI system.
-# ACCESSED_BY: ['ΛWebManager_LUKHAS', 'SecureCommunicationLayer', 'QIKMIPService'] # Conceptual
+# ACCESSED_BY: [\'ΛWebManager_LUKHAS', 'SecureCommunicationLayer', 'QIKMIPService'] # Conceptual
 # MODIFIED_BY: ['SECURITY_ENGINEERING_LEAD', 'PQC_SPECIALIST', 'Jules_AI_Agent'] # Conceptual
 # Tier Access: Varies by method (Refer to ΛTIER_CONFIG block for details)
 # Related Components: ['QICryptographyPrimitives', 'CertificateAuthorityClient', 'HSMInterface']

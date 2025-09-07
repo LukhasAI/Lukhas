@@ -5,17 +5,17 @@ import pytest
 def test_memory_wrapper_initializes():
     from lukhas.memory import MemoryWrapper
 
-    mw = MemoryWrapper()
-    # MemoryWrapper uses different method names, test what actually exists
-    assert mw is not None
-    # Test if the wrapper has basic functionality
-    assert hasattr(mw, "__class__")
+    MemoryWrapper()
+# MemoryWrapper uses different method names, test what actually exists
+assert mw is not None
+# Test if the wrapper has basic functionality
+assert hasattr(mw, "__class__")
 
 
 @pytest.mark.no_mock
 def test_logger_emits():
     from lukhas.core.common import get_logger
 
-    log = get_logger("t4")
-    log.info("t4 smoke")
-    # Test passes if no exception is raised
+    get_logger("t4")
+log.info("t4 smoke")
+# Test passes if no exception is raised

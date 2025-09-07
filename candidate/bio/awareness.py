@@ -6,11 +6,11 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 import logging
 import time
-import streamlit as st
-
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 __module__ = "bio.awareness"
 __trinity__ = "⚛️🧠🛡️"

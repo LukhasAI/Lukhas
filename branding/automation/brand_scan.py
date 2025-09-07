@@ -17,14 +17,14 @@ Exit codes:
 Usage:
   python tools/ci/brand_scan.py [root_dir]
 """
-import streamlit as st
-
 from __future__ import annotations
 
 import re
 import sys
 from collections.abc import Iterable
 from pathlib import Path
+
+import streamlit as st
 
 ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path.cwd()
 

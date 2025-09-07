@@ -10,20 +10,18 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import logging
 from collections import defaultdict, deque
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.symbolism.tags import TagPermission, TagScope
+from consciousness.qi import qi
 
 logger = logging.getLogger("ΛTRACE.bio.anomaly", timezone)
 
@@ -696,7 +694,7 @@ class AnomalyFilterColony(BaseColony):
                 return f"Quantum coherence {anomaly_data['coherence']:.3f} indicates collapse event"
 
         elif anomaly["type"] == AnomalyType.SYMBOLIC_DRIFT and "conflict" in anomaly_data:
-            return f"Conflicting GLYPHs detected: {', '.join(anomaly_data['conflict']}"
+            return f"Conflicting GLYPHs detected: {', '.join(anomaly_data['conflict'])}"
 
         return "Anomaly detected with insufficient detail information"
 

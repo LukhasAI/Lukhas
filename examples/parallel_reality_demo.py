@@ -110,14 +110,14 @@ class ParallelRealityDemo:
         )
 
         print(f"\nCreated quantum simulation: {simulation.simulation_id}")
-        print(f"Initial branches: {len(simulation.branches}")
+        print(f"Initial branches: {len(simulation.branches)}")
 
         # Display branch details
         for i, branch in enumerate(simulation.branches):
             print(f"\n  Branch {i + 1}: {branch.branch_id}")
             print(f"    Probability: {branch.probability:.3f}")
-            print(f"    Quantum shift: {branch.divergence_point.get('qi_shift', 0}:.3f}")
-            print(f"    Coherence: {branch.divergence_point.get('coherence', 0}:.3f}")
+            print(f"    Quantum shift: {branch.divergence_point.get('qi_shift', 0)}:.3f}")
+            print(f"    Coherence: {branch.divergence_point.get('coherence', 0)}:.3f}")
 
         # Explore deepest branch
         highest_prob_branch = max(simulation.branches, key=lambda b: b.probability)
@@ -127,7 +127,7 @@ class ParallelRealityDemo:
             simulation.simulation_id, highest_prob_branch.branch_id, depth=2
         )
 
-        print(f"Created {len(sub_branches} sub-branches through quantum decoherence")
+        print(f"Created {len(sub_branches)} sub-branches through quantum decoherence")
 
         self.demo_results.append(
             {
@@ -168,11 +168,11 @@ class ParallelRealityDemo:
             print(f"\n  Framework: {framework}")
             print(f"    Branch: {branch.branch_id}")
             print(f"    Ethical score: {branch.ethical_score:.3f}")
-            print(f"    Value shift: {branch.divergence_point.get('value_shift', 0}:.3f}")
+            print(f"    Value shift: {branch.divergence_point.get('value_shift', 0)}:.3f}")
 
         # Find most ethically sound branch
         best_ethical = max(simulation.branches, key=lambda b: b.ethical_score)
-        print(f"\nMost ethically sound: {best_ethical.divergence_point.get('ethical_framework'}")
+        print(f"\nMost ethically sound: {best_ethical.divergence_point.get('ethical_framework')}")
 
         self.demo_results.append(
             {
@@ -220,9 +220,9 @@ class ParallelRealityDemo:
                 causal_branches.append(branch)
 
         print("\nTemporal distribution:")
-        print(f"  Past variations: {len(past_branches}")
-        print(f"  Future variations: {len(future_branches}")
-        print(f"  Causal variations: {len(causal_branches}")
+        print(f"  Past variations: {len(past_branches)}")
+        print(f"  Future variations: {len(future_branches)}")
+        print(f"  Causal variations: {len(causal_branches)}")
 
         # Show time shifts
         if past_branches:
@@ -266,7 +266,7 @@ class ParallelRealityDemo:
         )
 
         print(f"\nCreated creative simulation: {simulation.simulation_id}")
-        print(f"Initial creative branches: {len(simulation.branches}")
+        print(f"Initial creative branches: {len(simulation.branches)}")
 
         # Select diverse branches to merge
         creative_branches = [b for b in simulation.branches if b.reality_type == RealityType.CREATIVE]
@@ -277,7 +277,7 @@ class ParallelRealityDemo:
 
             print("\nMerging branches:")
             for branch in merge_candidates:
-                print(f"  {branch.branch_id}: novelty={branch.divergence_point.get('novelty_factor', 0}:.2f}")
+                print(f"  {branch.branch_id}: novelty={branch.divergence_point.get('novelty_factor', 0)}:.2f}")
 
             # Perform merge
             merged = await self.simulator.merge_realities(simulation.simulation_id, branch_ids)
@@ -285,7 +285,7 @@ class ParallelRealityDemo:
             print(f"\nCreated merged reality: {merged.branch_id}")
             print(f"  Probability: {merged.probability:.3f}")
             print(f"  Ethical score: {merged.ethical_score:.3f}")
-            print(f"  Causal chains merged: {len(merged.causal_chain}")
+            print(f"  Causal chains merged: {len(merged.causal_chain)}")
 
         self.demo_results.append(
             {
@@ -327,7 +327,7 @@ class ParallelRealityDemo:
         for horizon in sorted(predictions_by_horizon.keys()):
             branches = predictions_by_horizon[horizon]
             avg_confidence = sum(b.divergence_point.get("confidence", 0) for b in branches) / len(branches)
-            print(f"  Horizon {horizon}: {len(branches} branches, avg confidence: {avg_confidence:.2f}")
+            print(f"  Horizon {horizon}: {len(branches)} branches, avg confidence: {avg_confidence:.2f}")
 
         # Collapse to most probable future
         print("\nCollapsing to most probable future...")
@@ -336,15 +336,15 @@ class ParallelRealityDemo:
         )
 
         print(f"\nSelected reality: {selected.branch_id}")
-        print(f"  Prediction horizon: {selected.divergence_point.get('prediction_horizon'}")
-        print(f"  Confidence: {selected.divergence_point.get('confidence', 0}:.2f}")
+        print(f"  Prediction horizon: {selected.divergence_point.get('prediction_horizon')}")
+        print(f"  Confidence: {selected.divergence_point.get('confidence', 0)}:.2f}")
         print(f"  Probability: {selected.probability:.3f}")
 
         # Show insights
         if simulation.insights:
             print("\nCollapse insights:")
             for insight in simulation.insights[:3]:
-                print(f"  - {insight['type']}: {self._format_insight(insight}")
+                print(f"  - {insight['type']}: {self._format_insight(insight)}")
 
         self.demo_results.append(
             {
@@ -361,7 +361,7 @@ class ParallelRealityDemo:
                 f"Selected probability {insight['selected_probability']:.2f} (percentile: {insight['percentile']:.0%})"
             )
         elif insight["type"] == "reality_distribution":
-            return f"Selected {insight['selected_type']} from {len(insight['distribution']} types"
+            return f"Selected {insight['selected_type']} from {len(insight['distribution'])} types"
         elif insight["type"] == "causal_analysis":
             return f"Causal chain length: {insight['chain_length']}"
         else:

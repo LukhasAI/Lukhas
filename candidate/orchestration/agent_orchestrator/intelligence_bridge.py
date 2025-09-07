@@ -151,7 +151,7 @@ class LukhasAgentBridge:
             await self.initialize()
 
         start_time = time.time()
-        request_id = f"{request.agent_id}_{int(start_time * 1000}"
+        request_id = f"{request.agent_id}_{int(start_time * 1000)}"
 
         logger.info(f"🤖 Processing {request.request_type.value} request from {request.agent_type.value}")
 
@@ -535,7 +535,7 @@ if __name__ == "__main__":
         print(f"Processing Time: {response.processing_time:.3f}s")
         print(f"Confidence: {response.confidence:.2f}")
         if response.result:
-            print(f"Analysis: {response.result.get('analysis', {}).get('reasoning_strategy', 'N/A')}")
+            print(f"Analysis: {response.result.get('analysis', {)}).get('reasoning_strategy', 'N/A')}")
 
         # Example: Guardian Engineer requesting safety validation
         safety_response = await AgentHelpers.guardian_engineer_validate(

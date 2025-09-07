@@ -203,7 +203,7 @@ class ResearchAwarenessInput(BaseModel):
     """Research-focused awareness input with experimental capabilities."""
 
     # Core research metadata
-    research_id: str = Field(default_factory=lambda: f"research_{uuid.uuid4(}.hex[:8]}")
+    research_id: str = Field(default_factory=lambda: f"research_{uuid.uuid4()}.hex[:8]}")
     experiment_id: Optional[str] = None
     participant_id: Optional[str] = None
     session_id: Optional[str] = None
@@ -725,7 +725,7 @@ class ResearchAwarenessEngine:
                 "ethics_level": self.config.ethics_level.value,
                 "data_sharing_level": self.config.data_sharing_level.value,
             },
-            f"init_{uuid.uuid4(}.hex[:8]}",
+            f"init_{uuid.uuid4()}.hex[:8]}",
         )
 
     def conduct_research(self, inputs: ResearchAwarenessInput) -> ResearchAwarenessOutput:
@@ -969,7 +969,7 @@ def certify_research_compliance(engine: ResearchAwarenessEngine) -> dict[str, An
             "institutional_review": "completed",
         },
         "certifying_authority": "Lukhas_Research_Ethics_Board",
-        "certification_id": f"RESEARCH_{uuid.uuid4().hex[:8].upper(}",
+        "certification_id": f"RESEARCH_{uuid.uuid4().hex[:8].upper()}",
         "research_integrity_assured": True,
     }
 
@@ -1039,15 +1039,15 @@ if __name__ == "__main__":
 
     print("\n🔮 Quantum Results:")
     if result.qi_results:
-        print(f"  • Quantum Advantage: {result.qi_results.get('qi_advantage', 'N/A'}:.3f}")
-        print(f"  • Coherence Time: {result.qi_results.get('decoherence_time', 'N/A'}:.1f}")
+        print(f"  • Quantum Advantage: {result.qi_results.get('qi_advantage', 'N/A')}:.3f}")
+        print(f"  • Coherence Time: {result.qi_results.get('decoherence_time', 'N/A')}:.1f}")
 
     print("\n🧠 Bio-Symbolic Insights:")
     if result.bio_symbolic_insights:
         patterns = result.bio_symbolic_insights.get("patterns_detected", [])
-        print(f"  • Patterns Detected: {len(patterns}")
+        print(f"  • Patterns Detected: {len(patterns)}")
         emergent = result.bio_symbolic_insights.get("emergent_properties", [])
-        print(f"  • Emergent Properties: {', '.join(emergent} if emergent else 'None'}")
+        print(f"  • Emergent Properties: {', '.join(emergent)} if emergent else 'None'}")
 
     print("\n🐝 Swarm Coordination:")
     if result.swarm_coordination_metrics:

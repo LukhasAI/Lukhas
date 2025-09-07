@@ -3,6 +3,7 @@ import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
 import streamlit as st
 
 logger = logging.getLogger("SymbolicSignals")

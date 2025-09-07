@@ -369,12 +369,12 @@ def main():
     print()
 
     # Analyze what we tested
-    tested_components = analyze_tested_vs_untested()
+    analyze_tested_vs_untested()
 
     print()
 
     # Identify untested systems
-    untested_systems = identify_major_untested_systems()
+    identify_major_untested_systems()
 
     print()
 

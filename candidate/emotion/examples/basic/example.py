@@ -4,7 +4,7 @@
 
 def main():
     print("Using emotion module")
-    # TODO: Add example
+# TODO: Add example
 
 
 if __name__ == "__main__":

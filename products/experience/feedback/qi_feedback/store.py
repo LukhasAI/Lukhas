@@ -9,10 +9,11 @@ import hmac
 import json
 import os
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
-from datetime import timezone
+
 import streamlit as st
+
 from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open
@@ -54,7 +55,7 @@ class FeedbackStore:
     def hmac_id(self, value: str) -> str:
         """Generate HMAC SHA3-512 of value."""
         h = hmac.new(self._hmac_key, value.encode(), hashlib.sha3_512)
-        return f"hmac_sha3_512:{h.hexdigest(}"
+        return f"hmac_sha3_512:{h.hexdigest()}"
 
     def append_feedback(self, feedback_data: dict[str, Any]) -> str:
         """Append feedback to JSONL with fsync."""

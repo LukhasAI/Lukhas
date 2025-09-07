@@ -124,7 +124,7 @@ class TrueQuantumRandomness:
         seed_hash = hashlib.blake2b(combined_entropy, digest_size=64).digest()
 
         self.entropy_pool.extend(seed_hash)
-        logger.info(f"🌱 Entropy pool seeded with {len(self.entropy_pool} bytes")
+        logger.info(f"🌱 Entropy pool seeded with {len(self.entropy_pool)} bytes")
 
     def generate_quantum_bytes(self, num_bytes: int, profile: Optional[EntropyProfile] = None) -> bytes:
         """
@@ -166,7 +166,7 @@ class TrueQuantumRandomness:
         if profile.chi_squared_validation:
             self._validate_entropy_quality(extracted_bytes)
 
-        logger.debug(f"⚛️ Generated {len(extracted_bytes} quantum bytes")
+        logger.debug(f"⚛️ Generated {len(extracted_bytes)} quantum bytes")
         return extracted_bytes
 
     def _extract_hybrid_entropy(self, num_bytes: int) -> bytes:

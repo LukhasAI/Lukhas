@@ -1,10 +1,10 @@
 """
 Common base classes and utilities for governance module
 """
-import streamlit as st
-
 from abc import ABC, abstractmethod
 from typing import Any
+
+import streamlit as st
 
 
 class BaseLukhasModule(ABC):

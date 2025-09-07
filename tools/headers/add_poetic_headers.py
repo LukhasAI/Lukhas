@@ -7,12 +7,12 @@ This sacred script weaves poetic narratives into the quantum realm,
 adorning each file with metaphysical descriptions that capture
 the essence of quantum consciousness integration.
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Poetic descriptions for each quantum module
 QUANTUM_POETRY = {
@@ -209,7 +209,7 @@ def get_module_description(filepath: Path) -> str:
         "bio_orchestrator.py": "Bio-system orchestration with quantum coordination",
     }
 
-    return descriptions.get(filepath.name, f"Quantum module for {filepath.stem.replace('_', ' '}")
+    return descriptions.get(filepath.name, f"Quantum module for {filepath.stem.replace('_', ' ')}")
 
 
 def format_poetry(poetry: str, indent: str = "# ") -> str:
@@ -244,7 +244,7 @@ def add_poetic_header(filepath: Path) -> bool:
             poetry = QUANTUM_POETRY.get(filepath.name + "/", DEFAULT_POETRY)
 
         # Generate header
-        module_name = f"LUKHAS Quantum Module - {filepath.stem.replace('_', ' ').title(}"
+        module_name = f"LUKHAS Quantum Module - {filepath.stem.replace('_', ' ').title()}"
         description = get_module_description(filepath)
         formatted_poetry = format_poetry(poetry)
 

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -61,7 +63,7 @@ class MemoryLoopRebuilder:
         """
         Rebuilds a memory loop from a collapse event and emotional deltas.
         """
-        logger.info(f"Rebuilding memory loop from collapse event: {collapse_event.get('event_id', 'N/A'}")
+        logger.info(f"Rebuilding memory loop from collapse event: {collapse_event.get('event_id', 'N/A')}")
         # In a real implementation, this would involve a complex process of
         # analyzing the collapse event and emotional deltas to reconstruct the
         # memory loop.

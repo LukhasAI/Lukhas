@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+
 import streamlit as st
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
@@ -21,7 +22,7 @@ def generate(out_md: str):
     pol = load_json(os.path.join(STATE, "policy_report.json"), {})
     ceval = load_json(os.path.join(STATE, "eval", "ceval.json"), {})
     card = {"title": "Lukhas Model & Safety Card", "calibration": cal, "policy": pol, "eval": ceval}
-    content = f"# Lukhas Model & Safety Card\n\n```json\n{json.dumps(card, indent=2}\n```\n"
+    content = f"# Lukhas Model & Safety Card\n\n```json\n{json.dumps(card, indent=2)}\n```\n"
     with open(out_md, "w") as f:
         f.write(content)
 

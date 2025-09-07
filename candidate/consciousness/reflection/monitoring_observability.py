@@ -1,8 +1,10 @@
 import logging
-from datetime import timezone
-import streamlit as st
 import random
+from datetime import timezone
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -47,7 +49,6 @@ from enum import Enum, auto
 from typing import Any, Optional
 
 import aiohttp
-import aioredis
 import numpy as np
 import pandas as pd
 import redis.asyncio as aioredis
@@ -68,6 +69,8 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from scipy import stats
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
+
+import aioredis
 
 # Custom imports (would be actual imports in production)
 # TODO: Restore this import when creative_expressions_v2 module is available
@@ -819,7 +822,7 @@ class ObservabilitySystem:
                 None,
                 self.elasticsearch.index,
                 {
-                    "index": f"ai-inference-{datetime.now(timezone.utc).strftime('%Y.%m'}",
+                    "index": f"ai-inference-{datetime.now(timezone.utc).strftime('%Y.%m')}",
                     "body": event,
                 },
             )
@@ -971,7 +974,7 @@ async def main():
 
     # Get system health
     health = await obs_system.get_system_health()
-    logging.info(f"System Health: {json.dumps(health, indent=2}")
+    logging.info(f"System Health: {json.dumps(health, indent=2)}")
 
     # Generate health report
     report = await obs_system.generate_health_report()

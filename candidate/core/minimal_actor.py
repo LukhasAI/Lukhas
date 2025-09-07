@@ -2,10 +2,10 @@
 Minimal Actor/Agent class for symbiotic multi-agent architecture.
 Implements encapsulated state, behavior, and asynchronous message passing.
 """
-import streamlit as st
-
 import queue
 import threading
+
+import streamlit as st
 
 
 class Actor:

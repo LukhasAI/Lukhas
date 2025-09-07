@@ -1,14 +1,14 @@
 import logging
-from datetime import datetime
+import random
+from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 from ..data_manager.crud_operations import DataManagerCRUD
 from ..diagnostic_engine.engine import DiagnosticEngine
 from ..user_interface_manager.text_handler import TextHandler
 from ..user_interface_manager.voice_handler import VoiceHandler
-from datetime import timezone
-import streamlit as st
-import random
 
 logger = logging.getLogger(__name__)
 
@@ -117,7 +117,7 @@ class SymptomReporter:
                 # Add empathy if the conversation has gone on (Jobs: emotional
                 # connection)
                 if interaction_count > 2:
-                    next_question = f"{self._get_comfort_phrase(} {next_question}"
+                    next_question = f"{self._get_comfort_phrase()} {next_question}"
                 await self._communicate(next_question, user_id, mode)
 
             interaction_count += 1

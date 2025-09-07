@@ -5,16 +5,15 @@ distributed dream recombination.
 
 # ΛTAG: qi_glyph_registry, distributed_dream
 """
-from consciousness.qi import qi
-from typing import List
-import streamlit as st
-
 from __future__ import annotations
 
 import logging
 from threading import RLock
-from typing import Any
+from typing import Any, List
 
+import streamlit as st
+
+from consciousness.qi import qi
 from lukhas.memory.distributed_state_manager import MultiNodeStateManager
 
 logger = logging.getLogger(__name__)

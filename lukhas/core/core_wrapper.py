@@ -6,16 +6,14 @@ Trinity Framework: ⚛️🧠🛡️
 
 from __future__ import annotations
 
-from typing import Optional
-import time
-import streamlit as st
-
-
 import logging
 import os
+import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Protocol
+from typing import Any, Optional, Protocol
+
+import streamlit as st
 
 # Configure logging
 logger = logging.getLogger(__name__)

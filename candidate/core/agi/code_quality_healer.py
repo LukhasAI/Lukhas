@@ -15,11 +15,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from candidate.bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
-from candidate.core.agi.self_healing import (
-    FailureType,
-    HealingAction,
-    HealingStrategy,
-    SystemFailure)
+from candidate.core.agi.self_healing import FailureType, HealingAction, HealingStrategy, SystemFailure
 from lukhas.governance.guardian import GuardianSystem
 
 logger = logging.getLogger(__name__)
@@ -96,7 +92,7 @@ class CodeQualityHealer:
         failures = []
         python_files = list(self.workspace_path.rglob("*.py"))
 
-        logger.info(f"Scanning {len(python_files} Python files...")
+        logger.info(f"Scanning {len(python_files)} Python files...")
         self.metrics.last_scan = datetime.now(timezone.utc)
 
         async with self.llm_fixer as fixer:
@@ -127,7 +123,7 @@ class CodeQualityHealer:
                     self.metrics.total_issues += 1
                     self._update_issue_metrics(issue.issue_type)
 
-        logger.info(f"Found {len(failures} code quality issues")
+        logger.info(f"Found {len(failures)} code quality issues")
         return failures
 
     def _map_issue_to_failure(self, fix_type: FixType) -> FailureType:
@@ -346,7 +342,7 @@ class CodeQualityHealer:
                     if action.success:
                         fixed_count += 1
 
-                logger.info(f"Fixed {fixed_count}/{len(failures} issues")
+                logger.info(f"Fixed {fixed_count}/{len(failures)} issues")
 
                 # Save learning data
                 if self.learning_enabled:
@@ -410,7 +406,7 @@ async def main():
 
     # Run a single scan and fix cycle
     failures = await healer.scan_codebase()
-    print(f"Found {len(failures} issues")
+    print(f"Found {len(failures)} issues")
 
     # Fix top 10 issues
     for failure in failures[:10]:

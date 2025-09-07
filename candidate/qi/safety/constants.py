@@ -4,8 +4,9 @@ LUKHAS Safety Constants
 
 Single source of truth for safety bounds and guardrails.
 """
-from consciousness.qi import qi
 import streamlit as st
+
+from consciousness.qi import qi
 
 # Maximum threshold shift for feedback-driven adjustments
 MAX_THRESHOLD_SHIFT = 0.05

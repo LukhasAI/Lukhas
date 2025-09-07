@@ -104,7 +104,7 @@ class EnhancedMemoryVisualizer:
     """
 
     def __init__(self, config: Optional[VisualizationConfig] = None):
-        self.logger = logger.bind(visualizer_id=f"mem_viz_{datetime.now(timezone.utc).strftime('%H%M%S'}")
+        self.logger = logger.bind(visualizer_id=f"mem_viz_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.config = config or VisualizationConfig()
 
         try:
@@ -149,7 +149,7 @@ class EnhancedMemoryVisualizer:
             st.sidebar.metric(
                 "Quantum Coherence (System)",  # Clarified title
                 f"{coherence:.2f}",
-                delta=f"{(coherence - self.config.coherence_threshold}:.2f} vs Threshold",
+                delta=f"{(coherence - self.config.coherence_threshold)}:.2f} vs Threshold",
             )
             self.logger.debug("Quantum coherence sidebar metric displayed.", coherence=coherence)
         else:
@@ -287,7 +287,7 @@ class Enhanced3DVisualizer:
     """
 
     def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
-        self.logger = logger.bind(visualizer_3d_id=f"mem_viz_3d_{datetime.now(timezone.utc).strftime('%H%M%S'}")
+        self.logger = logger.bind(visualizer_3d_id=f"mem_viz_3d_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         try:
             self.qi_oscillator = qi_oscillator or QIOscillator()
             self.logger.debug("QIOscillator initialized for 3DVisualizer.")

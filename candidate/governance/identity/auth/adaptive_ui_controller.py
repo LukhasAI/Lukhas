@@ -10,15 +10,13 @@ Date: June 2025
 Constitutional AI Guidelines: Enforced
 Integration: Claude's constitutional oversight with Gemini's adaptive rendering
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import logging
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
+from typing import Any, Dict
+
+import streamlit as st
 
 # Import constitutional enforcement and other core modules
 from .constitutional_gatekeeper import ConstitutionalLevel, get_constitutional_gatekeeper
@@ -267,7 +265,7 @@ class AdaptiveUIController:
 
         if is_valid:
             self.current_config = new_config
-            ui_logger.info(f"UI adapted: {', '.join(adaptation_reasons}")
+            ui_logger.info(f"UI adapted: {', '.join(adaptation_reasons)}")
 
             # Notify callbacks
             for callback in self.adaptation_callbacks:

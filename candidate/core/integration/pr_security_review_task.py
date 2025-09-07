@@ -108,7 +108,7 @@ class PRSecurityReviewTask:
                 repos.extend(page_repos)
                 page += 1
 
-            logger.info(f"Found {len(repos} repositories")
+            logger.info(f"Found {len(repos)} repositories")
             return repos
 
         except Exception as e:
@@ -145,7 +145,7 @@ class PRSecurityReviewTask:
                     logger.warning(f"Failed to get reviews for PR {pr['number']}")
 
             logger.info(
-                f"Found {len(unreviewed_prs} unreviewed PRs in {repo_full_name}"
+                f"Found {len(unreviewed_prs)} unreviewed PRs in {repo_full_name}"
             )
             return unreviewed_prs
 
@@ -283,8 +283,8 @@ class PRSecurityReviewTask:
             # Create review content
             review_body = [
                 "## ΛBot Security Review", "",
-                f"**Security Issues Found**: {len(security_pr.security_issues}",
-                f"**Severity**: {'CRITICAL' if security_pr.critical else 'HIGH' if any(i.severity == 'HIGH' for i in security_pr.security_issues} else 'MEDIUM'}",
+                f"**Security Issues Found**: {len(security_pr.security_issues)}",
+                f"**Severity**: {'CRITICAL' if security_pr.critical else 'HIGH' if any(i.severity == 'HIGH' for i in security_pr.security_issues)} else 'MEDIUM'}",
                 f"**Auto-Fixable**: {'Yes' if security_pr.auto_fixable else 'No'}", "",
                 "### Detailed Security Analysis:",]
 
@@ -444,7 +444,7 @@ class PRSecurityReviewTask:
     ) -> None:
         """Generate a detailed report of security issues found"""
         report_file = (
-            f"pr_security_review_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+            f"pr_security_review_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
         )
 
         report_data = {

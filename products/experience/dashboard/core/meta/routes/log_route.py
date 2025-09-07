@@ -7,16 +7,13 @@ Displays Trinity Framework activity and glyph sequences.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, List
 
+import streamlit as st
 from fastapi import APIRouter, Depends, HTTPException
 
 from identity import AuthContext, get_current_user, require_t3_or_above
@@ -280,8 +277,8 @@ async def export_logs(format: str = "json", user: AuthContext = Depends(require_
             for log in enriched_logs:
                 glyphs_str = " ".join(log.get("glyphs", []))
                 csv_lines.append(
-                    f"{log.get('timestamp', '')},{log.get('email', '')},{log.get('action', ''},"
-                    f"{glyphs_str},{log.get('trinity_alignment', 0)},{log.get('risk_level', ''}"
+                    f"{log.get('timestamp', '')},{log.get('email', '')},{log.get('action', '')},"
+                    f"{glyphs_str},{log.get('trinity_alignment', 0)},{log.get('risk_level', '')}"
                 )
 
             return {"format": "csv", "data": "\n".join(csv_lines)}

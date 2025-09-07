@@ -152,7 +152,7 @@ class QICollapseEngine:
         Returns:
             CollapseResult: The resolved symbolic path with audit metadata
         """
-        collapse_id = f"collapse_{uuid.uuid4(}.hex[:12]}"
+        collapse_id = f"collapse_{uuid.uuid4()}.hex[:12]}"
         method_logger = self.logger.bind(collapse_id=collapse_id)
         method_logger.info(
             "Initiating quantum collapse resolution",
@@ -341,7 +341,7 @@ class QICollapseEngine:
             resolution: The collapse resolution result
             metadata: Additional metadata for the event
         """
-        event_id = f"collapse_event_{uuid.uuid4(}.hex[:8]}"
+        event_id = f"collapse_event_{uuid.uuid4()}.hex[:8]}"
         self.logger.info(
             "Emitting collapse event",
             event_id=event_id,
@@ -404,7 +404,7 @@ class QICollapseEngine:
             value: The entropy value that crossed the threshold
             branch_id: Identifier of the branch that triggered the event
         """
-        event_id = f"entropy_breach_{uuid.uuid4(}.hex[:8]}"
+        event_id = f"entropy_breach_{uuid.uuid4()}.hex[:8]}"
         self.logger.warning(
             "Entropy threshold crossing detected",
             event_id=event_id,
@@ -573,7 +573,7 @@ class QICollapseEngine:
         try:
             # Ensure audit directory exists (this would be handled by system
             # initialization)
-            (f"audit/collapse_events_{datetime.now(timezone.utc).strftime('%Y%m%d'}.jsonl")
+            (f"audit/collapse_events_{datetime.now(timezone.utc).strftime('%Y%m%d')}.jsonl")
 
             # In a real implementation, this would use proper file handling
             # For now, we'll use the logger as the persistent store

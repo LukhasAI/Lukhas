@@ -53,14 +53,14 @@ LUKHAS_TAG: dream_causality_map, enterprise_compliance, ethical_verification
 TODO: Implement machine learning-based causality pattern recognition
 IDEA: Add predictive causality modeling for proactive feedback optimization
 """
-import time
-import streamlit as st
-
 import json
 import logging
 import os
+import time
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 try:
     from dream.core.dream_snapshot import DreamSnapshotStore
@@ -193,7 +193,7 @@ class DreamFeedbackPropagator:
     ) -> None:
         """Track causality between dream processing and memory modifications."""
         try:
-            dream_id = dream_data.get("dream_id", f"dream_{datetime.now(timezone.utc).isoformat(}")
+            dream_id = dream_data.get("dream_id", f"dream_{datetime.now(timezone.utc).isoformat()}")
             current_emotion = getattr(self.emotional_memory, "current_emotion", "unknown")
 
             causal_event = {
@@ -355,7 +355,7 @@ class DreamFeedbackPropagator:
                 return
 
             causality_trace = {
-                "trace_id": f"dream_trace_{datetime.now(timezone.utc).isoformat(}",
+                "trace_id": f"dream_trace_{datetime.now(timezone.utc).isoformat()}",
                 "timestamp_utc": datetime.now(timezone.utc).isoformat(),
                 "dream_session": {
                     "dream_id": dream_data.get("dream_id"),

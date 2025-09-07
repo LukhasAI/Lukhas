@@ -133,7 +133,7 @@ class UnifiedDreamPipeline:
         logger.info(f"Generating dream from voice: {audio_file}")
 
         dream = {
-            "dream_id": f"VOICE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "dream_id": f"VOICE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "user_id": self.user_id,
             "type": dream_type,
             "source": "voice_input",
@@ -191,7 +191,7 @@ class UnifiedDreamPipeline:
         logger.info(f"Generating {dream_type} dream from text")
 
         dream = {
-            "dream_id": f"TEXT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "dream_id": f"TEXT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "user_id": self.user_id,
             "type": dream_type,
             "source": "text_input",
@@ -446,12 +446,12 @@ async def demo_pipeline():
             dream_type="oracle",
             context={"mood": "hopeful", "time": "morning"},
         )
-        print(f"Oracle dream: {dream2.get('message', 'No message'}")
+        print(f"Oracle dream: {dream2.get('message', 'No message')}")
 
         # Generate a symbolic dream
         print("\n🧬 Generating symbolic dream...")
         dream3 = await pipeline.generate_dream_from_text("quantum consciousness exploration", dream_type="symbolic")
-        print(f"Symbolic elements: {dream3.get('symbolic_elements', {})}")
+        print(f"Symbolic elements: {dream3.get('symbolic_elements', {)})}")
 
         # Get analytics
         print("\n📊 Dream Analytics:")

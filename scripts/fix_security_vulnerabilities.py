@@ -154,7 +154,7 @@ Response must be valid JSON only."""
 
     def backup_requirements_files(self) -> str:
         """Create backup of all requirements files"""
-        backup_dir = f".security_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"  # ΛTAG: utc
+        backup_dir = f".security_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"  # ΛTAG: utc
         os.makedirs(backup_dir, exist_ok=True)
 
         vulns = self.get_known_vulnerabilities()
@@ -244,7 +244,7 @@ Response must be valid JSON only."""
 
         # Get AI analysis
         analysis = await self.analyze_fix_with_ollama(package, vuln_info)
-        click.echo(f"   🤖 Risk Assessment: {analysis.get('risk_assessment', 'N/A'}")
+        click.echo(f"   🤖 Risk Assessment: {analysis.get('risk_assessment', 'N/A')}")
 
         # Update requirements files
         updated_files = []
@@ -286,7 +286,7 @@ Response must be valid JSON only."""
             click.echo("✅ No vulnerabilities to fix!")
             return
 
-        click.echo(f"📊 Found {len(vulns} vulnerabilities to fix")
+        click.echo(f"📊 Found {len(vulns)} vulnerabilities to fix")
 
         # Create backup
         click.echo("\n📁 Creating backup of requirements files...")
@@ -301,7 +301,7 @@ Response must be valid JSON only."""
 
         # Generate report
         click.echo("\n📊 Security Fix Summary:")
-        click.echo(f"   Total vulnerabilities: {len(vulns}")
+        click.echo(f"   Total vulnerabilities: {len(vulns)}")
         click.echo(f"   Successfully fixed: {total_fixed}")
         click.echo(f"   Backup location: {backup_dir}")
 
@@ -311,7 +311,7 @@ Response must be valid JSON only."""
                 click.echo(f"   • {fix['package']}: {fix['old_version']} → {fix['new_version']}")
 
         # Save detailed report
-        report_file = f"security_fix_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"  # ΛTAG: utc
+        report_file = f"security_fix_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"  # ΛTAG: utc
         with open(report_file, "w") as f:
             json.dump(
                 {

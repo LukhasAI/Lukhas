@@ -256,7 +256,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
             # Initialize branding system
             await initialize_branding()
-            logger.info(f"🎨 Branding integrated: {self.branding_bridge.get_system_signature(}")
+            logger.info(f"🎨 Branding integrated: {self.branding_bridge.get_system_signature()}")
 
             # Get required services
             self.consciousness_service = get_service("consciousness_service")
@@ -297,7 +297,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         # Get or create session
         if not session_id:
-            session_id = f"session_{datetime.now(timezone.utc).timestamp(}"
+            session_id = f"session_{datetime.now(timezone.utc).timestamp()}"
 
         if session_id not in self.active_sessions:
             self.active_sessions[session_id] = ConversationContext(session_id=session_id, user_id=user_id)
@@ -577,14 +577,14 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
             # Get focus targets
             targets = awareness.get("attention_targets", [])
-            focus_desc = f"Currently focused on: {', '.join(targets}" if targets else "No specific focus targets."
+            focus_desc = f"Currently focused on: {', '.join(targets)}" if targets else "No specific focus targets."
 
             return {
                 "awareness_level": overall,
                 "awareness_state": state,
                 "awareness_detail": detail,
                 "focus_description": focus_desc,
-                "awareness_summary": f"{state} awareness at {overall:.1%} with {len(targets} focus targets",
+                "awareness_summary": f"{state} awareness at {overall:.1%} with {len(targets)} focus targets",
             }
 
         except Exception as e:
@@ -615,7 +615,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             reasoning_text = ". ".join(reasoning[:3])  # Limit to 3 reasons
 
             # Create analysis
-            analysis = f"I've evaluated {len(options} options with {confidence:.0%} confidence"
+            analysis = f"I've evaluated {len(options)} options with {confidence:.0%} confidence"
 
             return {
                 "recommendation": selected,
@@ -673,7 +673,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
             if count > 0:
                 # Summarize memories
-                summary = f"The most relevant memory involves {memories[0].get('summary', 'past interactions'}"
+                summary = f"The most relevant memory involves {memories[0].get('summary', 'past interactions')}"
                 details = f"Found {count} memories spanning different time periods"
                 results = f"Retrieved {count} relevant memories from the database"
             else:
@@ -711,7 +711,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                     "emotional_state": dominant,
                     "emotional_context": "This is influenced by our ongoing interaction.",
                     "emotion_summary": summary,
-                    "emotion_details": f"{dominant} with {abs(valence}:.0%} intensity",
+                    "emotion_details": f"{dominant} with {abs(valence)}:.0%} intensity",
                 }
             except BaseException:
                 pass
@@ -766,12 +766,12 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
                 branches = simulation.branches[:3]
                 branch_desc = [
-                    f"Reality {i + 1}: {b.divergence_point.get('summary', 'alternative path'}"
+                    f"Reality {i + 1}: {b.divergence_point.get('summary', 'alternative path')}"
                     for i, b in enumerate(branches)
                 ]
 
                 return {
-                    "reality_branches": f"I see {len(branches} possible realities",
+                    "reality_branches": f"I see {len(branches)} possible realities",
                     "alternatives": "; ".join(branch_desc),
                     "reality_analysis": f"Most probable outcome has {branches[0].probability:.0%} likelihood",
                 }
@@ -934,7 +934,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
         return {
             "response": response,
-            "session_id": session_id or f"session_{datetime.now(timezone.utc).timestamp(}",
+            "session_id": session_id or f"session_{datetime.now(timezone.utc).timestamp()}",
         }
 
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
@@ -992,7 +992,7 @@ class ConversationManager:
 
     async def create_session(self, user_id: Optional[str] = None) -> str:
         """Create new conversation session"""
-        session_id = f"session_{datetime.now(timezone.utc).timestamp(}_{user_id or 'anonymous'}"
+        session_id = f"session_{datetime.now(timezone.utc).timestamp()}_{user_id or 'anonymous'}"
         return session_id
 
     async def continue_conversation(self, session_id: str, user_input: str) -> str:
@@ -1022,7 +1022,7 @@ class ConversationManager:
         for session_id in to_remove:
             del self.interface.active_sessions[session_id]
 
-        logger.info(f"Cleaned up {len(to_remove} inactive sessions")
+        logger.info(f"Cleaned up {len(to_remove)} inactive sessions")
 
 
 # Example usage
@@ -1079,7 +1079,7 @@ async def demo_natural_language_interface():
 
     # Show conversation history
     history = await manager.get_conversation_history(session_id)
-    print(f"\nConversation had {len(history} turns")
+    print(f"\nConversation had {len(history)} turns")
 
     # Show status
     status = await interface.get_status()

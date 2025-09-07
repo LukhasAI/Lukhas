@@ -1,8 +1,11 @@
 import logging
-import streamlit as st
 import random
 import time
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 
@@ -40,7 +43,7 @@ class EnhancedMemoryManager:
     """
 
     def __init__(self, base_path: Optional[str] = None):
-        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S'}")
+        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.memory_fold_config = MemoryFoldConfig()
         self.visualization_config = VisualizationConfig()
         self.logger.debug("Default MemoryFoldConfig and VisualizationConfig initialized.")
@@ -88,7 +91,7 @@ class EnhancedMemoryManager:
         Store memory with quantum enhancement using an EnhancedMemoryFold.
         """
         effective_memory_id = (
-            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_'}"
+            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
         )
         self.logger.info(
             "Attempting to store memory.",
@@ -347,7 +350,7 @@ class EnhancedMemoryManager:
     """
 
     def __init__(self, base_path: Optional[str] = None):
-        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S'}")
+        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S')}")
         self.memory_fold_config = MemoryFoldConfig()
         self.visualization_config = VisualizationConfig()
         self.logger.debug("Default MemoryFoldConfig and VisualizationConfig initialized.")
@@ -395,7 +398,7 @@ class EnhancedMemoryManager:
         Store memory with quantum enhancement using an EnhancedMemoryFold.
         """
         effective_memory_id = (
-            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_'}"
+            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
         )
         self.logger.info(
             "Attempting to store memory.",

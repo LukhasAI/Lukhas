@@ -201,7 +201,7 @@ class StatusCommand(BaseCommand):
 
         # System info
         system_info = get_system_info()
-        print(f"Python: {system_info['python_version'].split(}[0]}")
+        print(f"Python: {system_info['python_version'].split()}[0]}")
         print(f"Platform: {system_info['platform']}")
         print(f"Working Dir: {system_info['working_directory']}")
 
@@ -215,11 +215,11 @@ class StatusCommand(BaseCommand):
             else:
                 print("Status: ⚠️  Changes detected")
                 if git_status["modified"]:
-                    print(f"  Modified: {len(git_status['modified']} files")
+                    print(f"  Modified: {len(git_status['modified'])} files")
                 if git_status["untracked"]:
-                    print(f"  Untracked: {len(git_status['untracked']} files")
+                    print(f"  Untracked: {len(git_status['untracked'])} files")
                 if git_status["staged"]:
-                    print(f"  Staged: {len(git_status['staged']} files")
+                    print(f"  Staged: {len(git_status['staged'])} files")
         else:
             print("\nGit: Not available or not in repository")
 

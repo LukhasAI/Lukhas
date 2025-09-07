@@ -34,19 +34,19 @@ __author__ = "LUKHAS AGI Framework"
 __description__ = "DNA-inspired immutable memory architecture with MATADA cognitive framework"
 
 __all__ = [
-    # Original DNA helix classes
-    "SymbolicStrand",
-    "DNAHealixCore",
-    "SymbolicRepairLoop",
-    "MemoryHelix",
-    "RepairMethod",
-    "RepairMetadata",
-    # New MATADA cognitive DNA classes
-    "NodeType",
-    "LinkType",
     "CognitiveState",
+    "DNAHealixCore",
+    "DNAHelixMemory",
+    "LinkType",
+    "MemoryHelix",
     "MemoryLink",
     "MemoryNode",
-    "DNAHelixMemory",
+    # New MATADA cognitive DNA classes
+    "NodeType",
+    "RepairMetadata",
+    "RepairMethod",
+    "SymbolicRepairLoop",
+    # Original DNA helix classes
+    "SymbolicStrand",
     "get_dna_memory",
 ]

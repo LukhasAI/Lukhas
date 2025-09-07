@@ -2,12 +2,12 @@
 Database connection and initialization
 Using PostgreSQL with TimescaleDB for time-series metrics
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from typing import Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

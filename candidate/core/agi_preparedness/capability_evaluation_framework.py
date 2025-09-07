@@ -22,15 +22,15 @@ Integration:
 - Guardian System 2.0 AGI capability violation detection
 - Democratic oversight for AGI governance decisions
 """
-import time
-import streamlit as st
-
 import logging
 import math
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 # AGI capability types and enums
@@ -662,7 +662,7 @@ class CapabilityEvaluationFramework:
         """
 
         try:
-            profile_id = f"PROFILE_{system_name}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+            profile_id = f"PROFILE_{system_name}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
             # Get relevant measurements
             if measurements:
@@ -1279,7 +1279,7 @@ class CapabilityEvaluationFramework:
         measurements = list(self.capability_measurements.values())
 
         return {
-            "report_id": f"AGI_READINESS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "report_id": f"AGI_READINESS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "executive_summary": {
                 "agi_detection_readiness": "advanced",

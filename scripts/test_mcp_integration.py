@@ -30,8 +30,8 @@ def test_main_server():
         # Test knowledge base initialization
         kb = server_module.LUKHASKnowledgeBase(str(project_root))
         print("   ✅ Knowledge base initialized")
-        print(f"   📊 Patterns available: {len(kb.patterns}")
-        print(f"   📚 Vocabulary loaded: {len(kb.symbolic_vocabulary}")
+        print(f"   📊 Patterns available: {len(kb.patterns)}")
+        print(f"   📚 Vocabulary loaded: {len(kb.symbolic_vocabulary)}")
 
         return True
     except Exception as e:

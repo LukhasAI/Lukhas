@@ -1,8 +1,6 @@
 """
 Basic tests for ΛLens functionality
 """
-import streamlit as st
-
 import asyncio
 import os
 
@@ -10,6 +8,8 @@ import os
 import sys
 import tempfile
 from pathlib import Path
+
+import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -52,7 +52,7 @@ async def test_basic_transformation():
 
         print("✅ Transformation successful!")
         print(f"   Dashboard ID: {dashboard.id}")
-        print(f"   Symbols created: {len(dashboard.symbols}")
+        print(f"   Symbols created: {len(dashboard.symbols)}")
         print(f"   Lambda signature: {dashboard.lambda_signature}")
 
         return True

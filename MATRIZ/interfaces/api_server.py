@@ -22,13 +22,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 import uvicorn
-from fastapi import (
-    BackgroundTasks,
-    Depends,
-    FastAPI,
-    HTTPException,
-    WebSocket,
-    WebSocketDisconnect)
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, validator
@@ -156,7 +150,7 @@ async def initialize_orchestrator():
         orchestrator.register_node("validator", validator_node)
 
         logger.info("✓ Orchestrator initialized successfully")
-        logger.info(f"✓ Registered {len(orchestrator.available_nodes} cognitive nodes")
+        logger.info(f"✓ Registered {len(orchestrator.available_nodes)} cognitive nodes")
 
     except Exception as e:
         logger.error(f"Failed to initialize orchestrator: {e!s}")

@@ -288,7 +288,7 @@ class AdvancedRuleValidator:
             Comprehensive validation report
         """
         start_time = datetime.now(timezone.utc)
-        validation_id = f"val_{uuid.uuid4(}.hex[:8]}"
+        validation_id = f"val_{uuid.uuid4()}.hex[:8]}"
         context = context or {}
 
         try:
@@ -332,7 +332,7 @@ class AdvancedRuleValidator:
                     confidence=0.5,
                     execution_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
                     missing_context=context_validation["missing"],
-                    suggestions=[f"Provide missing context: {', '.join(context_validation['missing']}"],
+                    suggestions=[f"Provide missing context: {', '.join(context_validation['missing'])}"],
                 )
 
             # Perform validation
@@ -401,7 +401,7 @@ class AdvancedRuleValidator:
             if isinstance(report_or_exception, Exception):
                 # Create error report for failed validation
                 results[rule_id] = ValidationReport(
-                    validation_id=f"err_{uuid.uuid4(}.hex[:8]}",
+                    validation_id=f"err_{uuid.uuid4()}.hex[:8]}",
                     rule_id=rule_id,
                     target_data=target_data,
                     context=context,
@@ -663,7 +663,7 @@ class AdvancedRuleValidator:
         suggestions = []
 
         if failed_conditions:
-            suggestions.append(f"Address {len(failed_conditions} failed condition(s)")
+            suggestions.append(f"Address {len(failed_conditions)} failed condition(s)")
 
             # Specific suggestions based on rule type
             if rule.rule_type == RuleType.PATTERN:
@@ -676,7 +676,7 @@ class AdvancedRuleValidator:
         # Context-based suggestions
         missing_contexts = [ctx for ctx in rule.applicable_contexts if ctx not in context]
         if missing_contexts:
-            suggestions.append(f"Provide missing context: {', '.join(missing_contexts[:3]}")
+            suggestions.append(f"Provide missing context: {', '.join(missing_contexts[:3])}")
 
         return suggestions
 

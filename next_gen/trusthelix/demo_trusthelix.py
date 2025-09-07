@@ -2,11 +2,11 @@
 """
 TrustHelix Demo - Shows the complete ethical audit system in action
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
+
+import streamlit as st
 
 from core.consent_path import ConsentPathLogger
 from core.drift_tracker import DriftTracker
@@ -31,7 +31,7 @@ async def demo_trusthelix():
     initial_glyphs = ["🔐", "🧬", "🪷"]
 
     print(f"\n👤 User: {user_id}")
-    print(f"🎭 Initial glyphs: {' '.join(initial_glyphs}")
+    print(f"🎭 Initial glyphs: {' '.join(initial_glyphs)}")
     print("\n" + "-" * 60)
 
     # Simulate user journey
@@ -50,7 +50,7 @@ async def demo_trusthelix():
     for i, (action, outcome, description) in enumerate(actions):
         print(f"\n🎬 Action {i + 1}: {action}")
         print(f"   Description: {description}")
-        print(f"   Current glyphs: {' '.join(current_glyphs}")
+        print(f"   Current glyphs: {' '.join(current_glyphs)}")
 
         # Track in mutation tree
         new_glyphs, drift_score = mutation_tree.track_action(user_id, current_glyphs, action, outcome)
@@ -78,7 +78,7 @@ async def demo_trusthelix():
         )
 
         # Show results
-        print(f"   → New glyphs: {' '.join(new_glyphs}")
+        print(f"   → New glyphs: {' '.join(new_glyphs)}")
         print(f"   → Drift: {drift_score:.3f} {drift_event.state_emoji}")
         print(f"   → Consent hash: {consent_entry.consent_hash[:16]}...")
 

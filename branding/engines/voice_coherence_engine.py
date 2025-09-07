@@ -719,7 +719,7 @@ async def main():
         status = "✅ EXCELLENT" if coherence_pct >= 85 else "⚠️ NEEDS WORK" if coherence_pct >= 70 else "❌ POOR"
 
         print(f"Content {i + 1}: {status} ({coherence_pct:.1f}% coherence)")
-        print(f'Content: "{content[:60]}{"..." if len(content} > 60 else ""}"')
+        print(f\'Content: "{content[:60]}{"..." if len(content)} > 60 else ""}"\')
         print(f"Profile: {result.voice_profile_match}")
         print(
             f"Trinity Balance: ⚛️{result.trinity_balance['identity']:.2f} 🧠{result.trinity_balance['consciousness']:.2f} 🛡️{result.trinity_balance['guardian']:.2f}"
@@ -734,7 +734,7 @@ async def main():
     # Performance summary
     summary = engine.get_performance_summary()
     print(f"📊 System Performance: {summary['system_health']}")
-    print(f"🎯 Target Achievement: {summary['performance_metrics']['target_achievement_rate'] * 100:.1f}%")
+    print(f"🎯 Target Achievement: {summary['performance_metrics']['target_achievement_rate']  * 100:.1f}%")
 
 
 if __name__ == "__main__":

@@ -4,17 +4,16 @@ LUKHAS Task Manager
 Core task orchestration system for the LUKHAS symbolic AI ecosystem.
 Manages agent coordination, workflow execution, and task queue processing.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -456,7 +455,7 @@ async def main():
         logger.info(f"   - Active queues: {status['active_queues']}")
         logger.info(f"   - Registered agents: {status['registered_agents']}")
         for status_name, count in status["task_counts"].items():
-            logger.info(f"   - {status_name.title(} tasks: {count}")
+            logger.info(f"   - {status_name.title()} tasks: {count}")
         return
 
     if args.create_task:

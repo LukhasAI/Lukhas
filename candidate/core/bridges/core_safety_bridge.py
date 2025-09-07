@@ -2,11 +2,11 @@
 Core-Safety Bridge
 Bidirectional communication bridge between core and safety systems
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any
+
+import streamlit as st
 
 # Import system hubs (will be available after hub creation)
 # from candidate.core.core_hub import get_core_hub
@@ -146,7 +146,7 @@ class CoreSafetyBridge:
 
             if differences:
                 await self.resolve_differences(differences)
-                logger.info(f"Synchronized {len(differences} state differences")
+                logger.info(f"Synchronized {len(differences)} state differences")
 
             return True
 

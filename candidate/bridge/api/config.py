@@ -10,11 +10,12 @@
 
 import os
 import secrets
+import time
 from typing import Optional
 
-from pydantic import BaseSettings, Field, validator
 import streamlit as st
-import time
+from pydantic import BaseSettings, Field, validator
+
 from consciousness.qi import qi
 
 # TAG:bridge
@@ -111,7 +112,7 @@ class LukhasConfig(BaseSettings):
         """Validate environment setting"""
         valid_envs = ["development", "staging", "production", "test"]
         if v not in valid_envs:
-            raise ValueError(f"Environment must be one of: {', '.join(valid_envs}")
+            raise ValueError(f"Environment must be one of: {', '.join(valid_envs)}")
         return v
 
     def get_cors_origins_list(self) -> list[str]:

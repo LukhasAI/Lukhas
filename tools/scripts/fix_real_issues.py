@@ -3,11 +3,11 @@
 Fix real linting issues - not just formatting.
 Focuses on undefined names, imports, and actual errors.
 """
-import streamlit as st
-
 import subprocess
 from collections import defaultdict
 from pathlib import Path
+
+import streamlit as st
 
 
 def get_flake8_issues(directory: str) -> dict:

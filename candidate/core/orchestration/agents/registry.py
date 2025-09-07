@@ -2,9 +2,9 @@
 
 ΛTAG: orchestration_agent_registry
 """
-import streamlit as st
-
 from typing import Optional
+
+import streamlit as st
 
 from .base import OrchestrationAgent
 from .types import AgentCapability

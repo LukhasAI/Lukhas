@@ -49,12 +49,11 @@
 ║ Trace: #ΛTRACE: ENABLED
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import Dict
-import streamlit as st
-
 import logging
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Dict
+
+import streamlit as st
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.symbolic_dream")
@@ -119,7 +118,7 @@ class SymbolicDreamBridge:
             Dict: Translated core logic primitives
         """
         # PLACEHOLDER: Implement symbolic translation logic
-        logger.debug(f"Translating dream symbols: {len(symbolic_input} elements")
+        logger.debug(f"Translating dream symbols: {len(symbolic_input)} elements")
 
         # TODO: Implement symbolic parsing algorithms
         # TODO: Map dream metaphors to core logic structures

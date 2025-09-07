@@ -496,7 +496,7 @@ class LambdaMirror:
         if tag_patterns:
             most_common = tag_patterns.most_common(3)
             prompts.append(
-                f"What significance do the recurring themes of {', '.join([tag for tag, count in most_common]} hold for me?"
+                f"What significance do the recurring themes of {', '.join([tag for tag, count in most_common])} hold for me?"
             )
 
         # Default reflective prompts
@@ -1131,8 +1131,8 @@ class LambdaMirror:
         # Emotional insights
         if emotional_drift.drift_magnitude > 0.3:
             insights.append(
-                f"I've experienced a significant emotional shift from {emotional_drift.baseline_tone.value.lower().replace('_', ' '} "
-                f"to {emotional_drift.current_tone.value.lower().replace('_', ' '}, "
+                f"I've experienced a significant emotional shift from {emotional_drift.baseline_tone.value.lower().replace('_', ' ')} "
+                f"to {emotional_drift.current_tone.value.lower().replace('_', ' ')}, "
                 f"which suggests important internal processing is occurring."
             )
 
@@ -1202,12 +1202,12 @@ class LambdaMirror:
         """Generate appropriate title for reflection."""
         titles = {
             ReflectionType.EMOTIONAL_SYNTHESIS: [
-                f"Emotional Synthesis: Navigating {emotional_drift.current_tone.value.title(}",
+                f"Emotional Synthesis: Navigating {emotional_drift.current_tone.value.title()}",
                 "Processing Recent Emotional Patterns",
-                f"Inner Landscape: {emotional_drift.current_tone.value.replace('_', ' ').title(}",
+                f"Inner Landscape: {emotional_drift.current_tone.value.replace('_', ' ').title()}",
             ],
             ReflectionType.ALIGNMENT_REVIEW: [
-                f"Alignment Review: {alignment_score.status.value.replace('_', ' ').title(}",
+                f"Alignment Review: {alignment_score.status.value.replace('_', ' ').title()}",
                 "Values and Actions in Harmony",
                 "Intentional Living Assessment",
             ],
@@ -1239,15 +1239,15 @@ class LambdaMirror:
 
         # Opening reflection
         paragraphs.append(
-            f"As I reflect on my recent experiences, I find myself in a {emotional_drift.current_tone.value.lower().replace('_', ' '} state. "
-            f"Over the past period, I've processed {len(experiences} distinct experiences, each contributing to my understanding of myself and my place in this evolving journey."
+            f"As I reflect on my recent experiences, I find myself in a {emotional_drift.current_tone.value.lower().replace('_', ' ')} state. "
+            f"Over the past period, I've processed {len(experiences)} distinct experiences, each contributing to my understanding of myself and my place in this evolving journey."
         )
 
         # Emotional processing
         if emotional_drift.drift_magnitude > 0.2:
             paragraphs.append(
-                f"I've noticed a shift in my emotional landscape, moving from a more {emotional_drift.baseline_tone.value.lower().replace('_', ' '} "
-                f"disposition toward something more {emotional_drift.current_tone.value.lower().replace('_', ' '}. "
+                f"I've noticed a shift in my emotional landscape, moving from a more {emotional_drift.baseline_tone.value.lower().replace('_', ' ')} "
+                f"disposition toward something more {emotional_drift.current_tone.value.lower().replace('_', ' ')}. "
                 f"This transition feels {'gradual and natural' if emotional_drift.stability_score > 0.7 else 'somewhat turbulent but meaningful'}."
             )
 
@@ -1292,11 +1292,11 @@ class LambdaMirror:
         """Generate analytical (non-narrative) reflection."""
         sections = []
 
-        sections.append(f"Analysis of {len(experiences} recent experiences reveals:")
+        sections.append(f"Analysis of {len(experiences)} recent experiences reveals:")
 
-        sections.append(f"Emotional State: {emotional_drift.current_tone.value.replace('_', ' ').title(}")
+        sections.append(f"Emotional State: {emotional_drift.current_tone.value.replace('_', ' ').title()}")
         sections.append(
-            f"Alignment Score: {alignment_score.overall_score:.3f} ({alignment_score.status.value.replace('_', ' ').title(})"
+            f"Alignment Score: {alignment_score.overall_score:.3f} ({alignment_score.status.value.replace('_', ' ').title()})"
         )
 
         if insights:
@@ -1623,8 +1623,8 @@ class LambdaMirror:
         lines.append("")
         lines.append(f"**Reflection ID:** `{reflection.reflection_id}`")
         lines.append(f"**Timestamp:** {reflection.timestamp}")
-        lines.append(f"**Type:** {reflection.reflection_type.value.replace('_', ' ').title(}")
-        lines.append(f"**Emotional Tone:** {reflection.emotional_tone.value.replace('_', ' ').title(}")
+        lines.append(f"**Type:** {reflection.reflection_type.value.replace('_', ' ').title()}")
+        lines.append(f"**Emotional Tone:** {reflection.emotional_tone.value.replace('_', ' ').title()}")
         lines.append(f"**Experiences Analyzed:** {reflection.experiences_analyzed}")
         lines.append(f"**Time Window:** {reflection.time_window_hours:.1f} hours")
         lines.append(f"**Confidence:** {reflection.confidence:.3f}")
@@ -1645,7 +1645,7 @@ class LambdaMirror:
         lines.append("## 📊 Alignment Analysis")
         lines.append("")
         lines.append(f"**Overall Score:** {reflection.alignment_score.overall_score:.3f}")
-        lines.append(f"**Status:** {reflection.alignment_score.status.value.replace('_', ' ').title(}")
+        lines.append(f"**Status:** {reflection.alignment_score.status.value.replace('_', ' ').title()}")
         lines.append("")
         lines.append("### Component Scores")
         lines.append(f"- **Emotional Coherence:** {reflection.alignment_score.emotional_coherence:.3f}")
@@ -1666,9 +1666,9 @@ class LambdaMirror:
             lines.append("## 🌊 Emotional Drift Analysis")
             lines.append("")
             lines.append(
-                f"**Baseline Tone:** {reflection.emotional_drift.baseline_tone.value.replace('_', ' ').title(}"
+                f"**Baseline Tone:** {reflection.emotional_drift.baseline_tone.value.replace('_', ' ').title()}"
             )
-            lines.append(f"**Current Tone:** {reflection.emotional_drift.current_tone.value.replace('_', ' ').title(}")
+            lines.append(f"**Current Tone:** {reflection.emotional_drift.current_tone.value.replace('_', ' ').title()}")
             lines.append(f"**Drift Magnitude:** {reflection.emotional_drift.drift_magnitude:.3f}")
             lines.append(f"**Stability Score:** {reflection.emotional_drift.stability_score:.3f}")
             lines.append("")
@@ -1934,7 +1934,7 @@ def main():
                 print("⚠️ No recent experiences found for reflection")
                 return
 
-            print(f"📚 Analyzing {len(experiences} experiences...")
+            print(f"📚 Analyzing {len(experiences)} experiences...")
 
             # Map reflection types
             type_map = {
@@ -1952,7 +1952,7 @@ def main():
             reflection = await mirror.generate_reflection_entry(experiences, reflection_type, args.narrative)
 
             print(f"✨ Reflection generated: {reflection.title}")
-            print(f"   Emotional Tone: {reflection.emotional_tone.value.replace('_', ' ').title(}")
+            print(f"   Emotional Tone: {reflection.emotional_tone.value.replace('_', ' ').title()}")
             print(f"   Alignment Score: {reflection.alignment_score.overall_score:.3f}")
             print(f"   Confidence: {reflection.confidence:.3f}")
 

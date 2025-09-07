@@ -128,7 +128,7 @@ result = controller.make_intelligent_request(
 if result.get("response"):
     print("🤖 LUKHAS AI ΛBot SELF-ANALYSIS:")
     print(result["response"])
-    print(f"\\n💰 Analysis Cost: ${{result.get('cost', 0}:.6f}")
+    print(f"\\n💰 Analysis Cost: ${{result.get('cost', 0)}:.6f}")
 else:
     print("❌ Self-analysis failed:", result.get("error", "Unknown error"))
 ''',
@@ -207,7 +207,7 @@ result = controller.make_intelligent_request(
 if result.get("response"):
     print("🔧 HEALING SOLUTION:")
     print(result["response"])
-    print(f"\\n💰 Cost: ${{result.get('cost', 0}:.6f}")
+    print(f"\\n💰 Cost: ${{result.get('cost', 0)}:.6f}")
 else:
     print("❌ Healing failed:", result.get("error", "Unknown error"))
 ''',
@@ -276,7 +276,7 @@ result = controller.make_intelligent_request(
 if result.get("response"):
     print("🌟 SELF-IMPROVEMENT IDEAS:")
     print(result["response"])
-    print(f"\\n💰 Cost: ${{result.get('cost', 0}:.6f}")
+    print(f"\\n💰 Cost: ${{result.get('cost', 0)}:.6f}")
 else:
     print("❌ Self-improvement failed:", result.get("error", "Unknown error"))
 ''',
@@ -342,8 +342,8 @@ else:
 
             # Final status
             print("\n🏁 AUTONOMOUS HEALING SESSION COMPLETE")
-            print(f"⏱️ Total time: {time.time(} - self.session_start:.1f} seconds")
-            print(f"🔧 Healing actions: {len(self.healing_log}")
+            print(f"⏱️ Total time: {time.time()} - self.session_start:.1f} seconds")
+            print(f"🔧 Healing actions: {len(self.healing_log)}")
 
             # Final budget check
             try:
@@ -356,7 +356,7 @@ else:
 
                 if "Balance:" in result.stdout:
                     balance_line = next(line for line in result.stdout.split("\n") if "Balance:" in line)
-                    print(f"💰 Final {balance_line.strip(}")
+                    print(f"💰 Final {balance_line.strip()}")
             except:
                 pass
 

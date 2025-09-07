@@ -1,8 +1,9 @@
-from typing import Dict
-from typing import List
 import logging
-import streamlit as st
 import time
+from typing import Dict, List
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ██╗      ██████╗  ██████╗ ██╗  ██╗ █████╗ ███████╗
 # ██║     ██╔═══██╗██╔════╝ ██║  ██║██╔══██╗██╔════╝

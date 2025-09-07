@@ -351,12 +351,12 @@ class APIAnalyzer:
         http_methods = ["GET", "POST", "PUT", "DELETE", "PATCH"]
 
         for method in http_methods:
-            pattern = rf"def\s+(\w*{method.lower(}\w*)\s*\("
+            pattern = rf"def\s+(\w*{method.lower()}\w*)\s*\("
             matches = re.findall(pattern, content, re.IGNORECASE)
 
             for match in matches:
                 endpoint = APIEndpoint(
-                    path=f"/{match.replace('_', '/'}",
+                    path=f"/{match.replace('_', '/')}",
                     method=HTTPMethod(method),
                     summary=match.replace("_", " ").title(),
                     description=f"Generic API endpoint: {method} /{match}",
@@ -474,7 +474,7 @@ class APIDocumentationGenerator:
     ) -> APIDocumentation:
         """Generate comprehensive API documentation"""
 
-        print(f"📡 Generating API documentation from {len(api_files} files...")
+        print(f"📡 Generating API documentation from {len(api_files)} files...")
 
         # Analyze API files
         endpoints = await self.analyzer.analyze_api_code(api_files)
@@ -493,7 +493,7 @@ class APIDocumentationGenerator:
             compliance_info=await self._generate_compliance_info(),
         )
 
-        print(f"   ✅ Generated documentation for {len(endpoints} endpoints")
+        print(f"   ✅ Generated documentation for {len(endpoints)} endpoints")
 
         # Generate output files
         await self._generate_output_files(documentation, output_format)
@@ -817,12 +817,12 @@ class APIDocumentationGenerator:
 """
 
         for auth_type, auth_config in documentation.authentication.items():
-            content += f"## {auth_type.replace('_', ' ').title(}\n\n"
-            content += f"{auth_config.get('description', 'Authentication method'}\n\n"
+            content += f"## {auth_type.replace('_', ' ').title()}\n\n"
+            content += f"{auth_config.get('description', 'Authentication method')}\n\n"
 
         content += "## Rate Limits\n\n"
         for tier, limits in documentation.rate_limits.items():
-            content += f"### {tier.title(}\n"
+            content += f"### {tier.title()}\n"
             content += f"- Requests per minute: {limits['requests_per_minute']}\n"
             content += f"- Requests per hour: {limits['requests_per_hour']}\n"
             content += f"- Requests per day: {limits['requests_per_day']}\n\n"

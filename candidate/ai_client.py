@@ -6,13 +6,12 @@ LUKHAS AI Client - Smart OpenAI Integration
 Automatically switches between Azure OpenAI and regular OpenAI based on availability.
 Optimized for GitHub Student Pack deployment.
 """
-import time
-import streamlit as st
-
 import logging
 import os
+import time
 from typing import Any, Optional
 
+import streamlit as st
 from openai import AzureOpenAI, OpenAI
 
 logger = logging.getLogger(__name__)

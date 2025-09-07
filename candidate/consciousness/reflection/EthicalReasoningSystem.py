@@ -1663,7 +1663,7 @@ class EthicalReasoningSystem:
         for framework, analysis in framework_analyses.items():
             confidence = analysis.get("confidence", 0.5)
             if confidence < 0.6:
-                uncertainty_factors.append(f"low_{framework.name.lower(}_confidence")
+                uncertainty_factors.append(f"low_{framework.name.lower()}_confidence")
 
         # Value alignment uncertainty
         if alignment_assessment.confidence_in_alignment < 0.7:

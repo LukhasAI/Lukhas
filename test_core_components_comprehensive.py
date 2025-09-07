@@ -93,7 +93,7 @@ class TestActorSystem:
             actor_ref.send(test_msg1)
             actor_ref.send(test_msg2)
 
-            assert len(received_messages) == 2, f"Should receive 2 messages, got {len(received_messages}"
+            assert len(received_messages) == 2, f"Should receive 2 messages, got {len(received_messages)}"
             assert received_messages[0] == "Hello World", "First message content incorrect"
             assert received_messages[1] == "Second Message", "Second message content incorrect"
 
@@ -113,7 +113,7 @@ class TestActorSystem:
 
             # Create AI Agent with capabilities
             ai_agent = AIAgentActor("ai_agent_1", capabilities=["analysis", "planning"])
-            actor_ref = system.register("ai_agent_1", ai_agent)
+            system.register("ai_agent_1", ai_agent)
 
             # Test initial state
             assert ai_agent.state == "idle", "Agent should start in idle state"
@@ -367,7 +367,7 @@ class TestMemorySQL:
     def setup_test_database(self):
         """Create a temporary test database."""
         temp_dir = tempfile.gettempdir()
-        self.test_db_path = os.path.join(temp_dir, f"test_memory_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.db")
+        self.test_db_path = os.path.join(temp_dir, f"test_memory_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.db")
         return f"sqlite:///{self.test_db_path}"
 
     def cleanup_test_database(self):
@@ -639,7 +639,7 @@ class TestMainApplication:
 
             # Check that project root is in path
             project_root = os.path.dirname(os.path.abspath(__file__))
-            path_configured = any(os.path.samefile(path, project_root) for path in sys.path if os.path.exists(path))
+            any(os.path.samefile(path, project_root) for path in sys.path if os.path.exists(path))
 
             # Test that core modules are accessible
             accessible_modules = []
@@ -654,7 +654,7 @@ class TestMainApplication:
 
             assert len(accessible_modules) > 0, f"Should have access to some core modules, found: {accessible_modules}"
 
-            self.results.append(f"✅ System path configuration (modules: {', '.join(accessible_modules})")
+            self.results.append(f"✅ System path configuration (modules: {', '.join(accessible_modules)})")
             return True
 
         except Exception as e:

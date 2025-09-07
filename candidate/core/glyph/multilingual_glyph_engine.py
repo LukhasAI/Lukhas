@@ -4,14 +4,13 @@ LUKHΛS Multilingual Glyph Engine
 Cross-cultural symbolic translation system
 Trinity Framework: ⚛️🧠🛡️
 """
-from typing import List
-import streamlit as st
-
 import json
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -73,8 +72,8 @@ class MultilingualGlyphEngine:
         self._load_or_create_map()
 
         logger.info("🌍 Multilingual Glyph Engine initialized")
-        logger.info(f"   Supported locales: {', '.join(self.supported_locales}")
-        logger.info(f"   Glyphs loaded: {len(self.glyph_database}")
+        logger.info(f"   Supported locales: {', '.join(self.supported_locales)}")
+        logger.info(f"   Glyphs loaded: {len(self.glyph_database)}")
 
     def _initialize_glyph_database(self):
         """Initialize the core glyph database with cultural variants"""
@@ -632,7 +631,7 @@ def main():
     print("=" * 60)
 
     for locale in ["en", "zh", "ja", "hi", "ar"]:
-        print(f"\n{locale.upper(} Translations:")
+        print(f"\n{locale.upper()} Translations:")
         translated = engine.translate_sequence(test_glyphs, locale)
 
         for orig, trans in zip(test_glyphs, translated):
@@ -640,7 +639,7 @@ def main():
 
         # Get preferences
         prefs = engine.get_locale_preferences(locale)
-        print(f"  Philosophy: {prefs.get('philosophical_context', 'Universal'}")
+        print(f"  Philosophy: {prefs.get('philosophical_context', 'Universal')}")
 
     # Generate report
     print("\n" + "=" * 60)

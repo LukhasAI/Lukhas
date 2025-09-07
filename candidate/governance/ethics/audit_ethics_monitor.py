@@ -9,9 +9,9 @@
 
 Quick audit script for ethics monitor without terminal complications.
 """
-import streamlit as st
-
 import sys
+
+import streamlit as st
 
 sys.path.append("/Users/A_G_I/L_U_K_H_A_C_O_X")
 
@@ -34,9 +34,9 @@ def main():
         result = asyncio.run(audit_file_implementation(file_path))
 
         if result:
-            print(f"📊 Current Score: {result.get('score', 'N/A'}")
-            print(f"📈 Target Score: {result.get('target_score', 'N/A'}")
-            print(f"📋 Status: {result.get('status', 'N/A'}")
+            print(f"📊 Current Score: {result.get('score', 'N/A')}")
+            print(f"📈 Target Score: {result.get('target_score', 'N/A')}")
+            print(f"📋 Status: {result.get('status', 'N/A')}")
             print("=" * 60)
 
             if "improvements" in result:

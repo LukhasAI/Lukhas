@@ -28,11 +28,7 @@ from pathlib import Path
 from typing import Optional
 
 try:
-    from core import (
-        EthicalDecision,
-        EthicalSeverity,
-        GovernanceAction,
-        LucasGovernanceModule)
+    from core import EthicalDecision, EthicalSeverity, GovernanceAction, LucasGovernanceModule
 except ImportError:
     # Fallback for relative import
     try:
@@ -289,7 +285,7 @@ class WorkspaceGuardian:
                 {
                     "type": "archive",
                     "priority": "low",
-                    "description": f"Archive {len(old_files} old documentation files",
+                    "description": f"Archive {len(old_files)} old documentation files",
                     "files": old_files[:10],
                 }
             )
@@ -381,6 +377,6 @@ if __name__ == "__main__":
 
         # Get cleanup suggestions
         cleanup = await guardian.suggest_cleanup()
-        print(f"Cleanup suggestions: {len(cleanup['suggestions']}")
+        print(f"Cleanup suggestions: {len(cleanup['suggestions'])}")
 
     asyncio.run(demo())

@@ -441,7 +441,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 # Alert if critical warnings
                 critical_warnings = [w for w in warnings if w["severity"] == "high"]
                 if critical_warnings:
-                    logger.warning(f"Critical early warnings detected: {len(critical_warnings}")
+                    logger.warning(f"Critical early warnings detected: {len(critical_warnings)}")
                     await self._send_alerts(critical_warnings)
 
                 await asyncio.sleep(600)  # Every 10 minutes
@@ -580,7 +580,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
         training_feedback: list[EnterpriseFeedback],
     ) -> str:
         """Create specialized model variant from feedback"""
-        model_id = f"specialized_{uuid.uuid4(}.hex[:12]}"
+        model_id = f"specialized_{uuid.uuid4()}.hex[:12]}"
 
         # Validate feedback meets constitutional requirements
         valid_feedback = []

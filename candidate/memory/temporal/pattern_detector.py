@@ -200,7 +200,7 @@ class PatternDetector:
 
                 pattern = Pattern(
                     pattern_type="code_pattern",
-                    description=f"Repeated commit pattern: '{prefix}' ({len(commits} times)",
+                    description=f"Repeated commit pattern: '{prefix}' ({len(commits)} times)",
                     occurrences=occurrences,
                     frequency="daily" if len(commits) > days * 0.2 else "weekly",
                     impact="neutral",
@@ -236,7 +236,7 @@ class PatternDetector:
             occurrences = [
                 {
                     "timestamp": ts,
-                    "context": f"{activity_type} at {ts.strftime('%H:%M'}",
+                    "context": f"{activity_type} at {ts.strftime('%H:%M')}",
                 }
                 for ts, activity_type in all_timestamps
                 if ts.hour == peak_hours[0][0]
@@ -263,7 +263,7 @@ class PatternDetector:
             occurrences = [
                 {
                     "timestamp": ts,
-                    "context": f"{activity_type} at {ts.strftime('%H:%M'}",
+                    "context": f"{activity_type} at {ts.strftime('%H:%M')}",
                 }
                 for ts, activity_type in all_timestamps
                 if ts.hour >= 22 or ts.hour < 6
@@ -325,7 +325,7 @@ class PatternDetector:
 
                 pattern = Pattern(
                     pattern_type="error_pattern",
-                    description=f"Recurring {error_type.replace('_', ' ')}: {len(entries} occurrences",
+                    description=f"Recurring {error_type.replace('_', ' ')}: {len(entries)} occurrences",
                     occurrences=occurrences,
                     frequency="weekly",
                     impact="negative",
@@ -492,7 +492,7 @@ class PatternDetector:
             occurrences = [
                 {
                     "timestamp": d.timestamp,
-                    "context": f"{d.metadata.get('title', 'Decision'} - Low confidence",
+                    "context": f"{d.metadata.get('title', 'Decision')} - Low confidence",
                 }
                 for d in rushed_decisions
             ]
@@ -551,7 +551,7 @@ class PatternDetector:
                     occurrences = [
                         {
                             "timestamp": e.timestamp,
-                            "context": f"{dominant_emotion[0]}: {e.emotional_vector.get(dominant_emotion[0], 0}:.2f}",
+                            "context": f"{dominant_emotion[0]}: {e.emotional_vector.get(dominant_emotion[0], 0)}:.2f}",
                         }
                         for e in emotional_entries
                         if e.timestamp.strftime("%A") == day
@@ -599,7 +599,7 @@ class PatternDetector:
 
                     pattern = Pattern(
                         pattern_type="emotional_pattern",
-                        description=f"Common {emotion} triggers: {', '.join(common_words[:5]}",
+                        description=f"Common {emotion} triggers: {', '.join(common_words[:5])}",
                         occurrences=occurrences,
                         frequency="weekly",
                         impact=(
@@ -644,7 +644,7 @@ class PatternDetector:
                 occurrences = [
                     {
                         "timestamp": f["timestamp"],
-                        "context": f"Created {Path(f['path']}.name}",
+                        "context": f"Created {Path(f['path'])}.name}",
                     }
                     for f in files[:10]
                 ]
@@ -760,7 +760,7 @@ class PatternDetector:
 
                 pattern = Pattern(
                     pattern_type="tool_usage",
-                    description=f"Frequent {tool} usage ({len(mentions} mentions)",
+                    description=f"Frequent {tool} usage ({len(mentions)} mentions)",
                     occurrences=occurrences,
                     frequency="daily" if len(mentions) > days * 0.3 else "weekly",
                     impact=impact,
@@ -906,7 +906,7 @@ Found {len(self.detected_patterns)} patterns in your development workflow.
             for pattern in negative_patterns[:5]:
                 report += f"\n**{pattern.description}**\n"
                 report += f"- Frequency: {pattern.frequency}\n"
-                report += f"- Occurrences: {len(pattern.occurrences}\n"
+                report += f"- Occurrences: {len(pattern.occurrences)}\n"
                 if pattern.suggested_action:
                     report += f"- Suggestion: {pattern.suggested_action}\n"
 
@@ -929,10 +929,10 @@ Found {len(self.detected_patterns)} patterns in your development workflow.
 
         # Pattern statistics
         report += "\n## 📊 Pattern Statistics\n"
-        report += f"- Total patterns detected: {len(self.detected_patterns}\n"
-        report += f"- Patterns with automation potential: {sum(1 for p in self.detected_patterns if p.automation_potential}\n"
-        report += f"- Negative patterns: {len(negative_patterns}\n"
-        report += f"- Positive patterns: {len(positive_patterns}\n"
+        report += f"- Total patterns detected: {len(self.detected_patterns)}\n"
+        report += f"- Patterns with automation potential: {sum(1 for p in self.detected_patterns if p.automation_potential)}\n"
+        report += f"- Negative patterns: {len(negative_patterns)}\n"
+        report += f"- Positive patterns: {len(positive_patterns)}\n"
 
         # Recommendations
         report += "\n## 💡 Recommendations\n"
@@ -962,13 +962,13 @@ if __name__ == "__main__":
 
     # Detect all patterns
     patterns = detector.detect_all_patterns(days=30)
-    print(f"Found {len(patterns} patterns")
+    print(f"Found {len(patterns)} patterns")
 
     # Show top patterns
     for pattern in patterns[:5]:
         print(f"\n{pattern.pattern_type}: {pattern.description}")
         print(f"  Impact: {pattern.impact}, Frequency: {pattern.frequency}")
-        print(f"  Occurrences: {len(pattern.occurrences}")
+        print(f"  Occurrences: {len(pattern.occurrences)}")
         if pattern.suggested_action:
             print(f"  Suggestion: {pattern.suggested_action}")
 

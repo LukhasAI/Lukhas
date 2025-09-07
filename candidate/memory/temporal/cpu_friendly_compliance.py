@@ -10,13 +10,12 @@
 🖥️ CPU-Friendly Compliance Scanner
 Monitor CPU usage and run compliance scan when safe
 """
-import streamlit as st
-
 import subprocess
 import sys
 import time
 
 import psutil
+import streamlit as st
 
 
 def get_cpu_usage():

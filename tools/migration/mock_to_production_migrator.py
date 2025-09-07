@@ -280,7 +280,7 @@ class MockToProductionMigrator:
                 with open(script_path, "w") as f:
                     f.write(script_content)
 
-        print(f"✅ Generated {len(migration_plan} migration scripts")
+        print(f"✅ Generated {len(migration_plan)} migration scripts")
 
     def _generate_migration_script(self, file_plan: dict) -> str:
         """Generate migration script for a file"""
@@ -396,7 +396,7 @@ def main():
     print("\n📊 Scan Results:")
     print(f"   Files analyzed: {migrator.migration_report['files_analyzed']}")
     print(f"   Mocks found: {migrator.migration_report['mocks_found']}")
-    print(f"   Files with mocks: {len(mock_locations}")
+    print(f"   Files with mocks: {len(mock_locations)}")
 
     if mock_locations:
         # Create migration plan

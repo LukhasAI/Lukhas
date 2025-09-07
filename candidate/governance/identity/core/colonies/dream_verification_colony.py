@@ -582,7 +582,7 @@ class DreamVerificationColony(BaseColony):
         Perform Tier 5 dream-based authentication with multiverse simulation.
         """
         verification_start = time.time()
-        task_id = f"dream_verify_{lambda_id}_{int(verification_start}"
+        task_id = f"dream_verify_{lambda_id}_{int(verification_start)}"
 
         # Start dream coordination
         correlation_id = await self.event_bus.start_dream_coordination(
@@ -934,7 +934,7 @@ class DreamVerificationColony(BaseColony):
             # Vote based on confidence
             vote = confidence >= 0.75  # High threshold for Tier 5
 
-            vote_id = f"{result.get('agent_id')}_{result.get('branch_id'}"
+            vote_id = f"{result.get('agent_id')}_{result.get('branch_id')}"
             votes[vote_id] = {
                 "vote": vote,
                 "weight": weight,
@@ -1010,7 +1010,7 @@ class DreamVerificationColony(BaseColony):
                     # Clean old quantum entanglements
                     self._clean_quantum_entanglements()
 
-                    logger.info(f"Collective dream space updated: {len(universal_themes} themes")
+                    logger.info(f"Collective dream space updated: {len(universal_themes)} themes")
 
             except Exception as e:
                 logger.error(f"Collective dream space maintenance error: {e}")
@@ -1101,7 +1101,7 @@ class DreamVerificationColony(BaseColony):
 
         for result in analysis_results:
             if result.get("success"):
-                signature_elements.append(f"{result.get('specialization')}:{result.get('confidence'}:.3f}")
+                signature_elements.append(f"{result.get('specialization')}:{result.get('confidence')}:.3f}")
 
         signature_string = "|".join(sorted(signature_elements))
         return hashlib.sha256(signature_string.encode()).hexdigest()[:32]

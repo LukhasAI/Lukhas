@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py
@@ -19,7 +21,7 @@ logger.info("ΛTRACE: Initializing core.integration.governance package.")
 
 # Define what is explicitly exported by this package
 __all__ = [
-    # e.g., "PolicyBoardConnector" from policy_board.py
+# e.g., "PolicyBoardConnector" from policy_board.py
 ]
 
 # ΛNOTE: This __init__.py initializes the 'governance' integration package.

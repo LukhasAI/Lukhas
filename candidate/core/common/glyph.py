@@ -112,7 +112,7 @@ class GLYPHToken:
         metadata: Additional metadata
     """
 
-    glyph_id: str = field(default_factory=lambda: f"glyph_{uuid.uuid4(}.hex}")
+    glyph_id: str = field(default_factory=lambda: f"glyph_{uuid.uuid4()}.hex}")
     symbol: Union[str, GLYPHSymbol] = GLYPHSymbol.SYNC
     source: str = "unknown"
     target: str = "unknown"
@@ -250,7 +250,7 @@ def parse_glyph(data: Union[str, dict[str, Any]]) -> GLYPHToken:
         elif isinstance(data, dict):
             return GLYPHToken.from_dict(data)
         else:
-            raise ValueError(f"Invalid data type: {type(data}")
+            raise ValueError(f"Invalid data type: {type(data)}")
     except Exception as e:
         raise GLYPHError(
             message=f"Failed to parse GLYPH token: {e!s}",

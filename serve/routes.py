@@ -167,7 +167,7 @@ async def generate_dream(req: DreamRequest) -> DreamResponse:
             if len(symbols) >= 3:
                 dream = (
                     f"A {emotional_modifier} dream unfolds: {symbols[0]} transforms into {symbols[-1]}, while "
-                    f"{', '.join(symbols[1:-1]} dance through consciousness"
+                    f"{', '.join(symbols[1:-1])} dance through consciousness"
                 )
             elif len(symbols) == 2:
                 dream = f"In this {emotional_modifier} dream, {symbols[0]} and {symbols[1]} merge into one"
@@ -268,7 +268,7 @@ async def plugin_load(req: PluginLoadRequest) -> PluginLoadResponse:
         with open(registry_file, "w") as f:
             json.dump(plugin_registry, f, indent=2)
 
-        logger.info(f"Persisted {len(req.symbols} plugins to registry")
+        logger.info(f"Persisted {len(req.symbols)} plugins to registry")
         return PluginLoadResponse(status="loaded and persisted")
 
     except Exception as e:
@@ -297,7 +297,7 @@ async def memory_dump() -> MemoryDumpResponse:
         for fold in memory_folds:
             folds.append(
                 {
-                    "id": fold.get("fold_id", f"fold_{len(folds}"),
+                    "id": fold.get("fold_id", f"fold_{len(folds)}"),
                     "content": fold.get("content", "memory content"),
                     "timestamp": fold.get("created_at", ""),
                     "emotional_context": fold.get("emotional_context", {}),

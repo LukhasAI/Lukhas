@@ -290,7 +290,7 @@ class AGITelemetrySystem:
 
                 self.create_alert(
                     "System Health Degraded",
-                    f"Unhealthy components: {', '.join(unhealthy}",
+                    f"Unhealthy components: {', '.join(unhealthy)}",
                     AlertSeverity.WARNING,
                     "health_monitor",
                     health_results,
@@ -356,7 +356,7 @@ class AGITelemetrySystem:
             if deviation > 0.5:  # 50% deviation
                 self.create_alert(
                     f"Performance Anomaly: {metric}",
-                    f"Value {value} deviates {deviation * 100:.1f}% from baseline {baseline}",
+                    f"Value {value} deviates {deviation  * 100:.1f}% from baseline {baseline}",
                     AlertSeverity.WARNING,
                     "performance_monitor",
                 )
@@ -378,7 +378,7 @@ class AGITelemetrySystem:
         """Generate unique alert ID"""
         import uuid
 
-        return f"alert_{uuid.uuid4(}.hex[:8]}"
+        return f"alert_{uuid.uuid4()}.hex[:8]}"
 
 
 class TraceContext:

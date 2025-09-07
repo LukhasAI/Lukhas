@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 import logging
 from datetime import timezone
-import streamlit as st
 from typing import List
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """
@@ -175,7 +178,7 @@ class VoiceMemoryHelix:
 
                     cultural_locations = len(self.location_memories)
                     logger.info(
-                        f"Loaded voice memory with {len(self.pronunciation_memory)} words, {len(self.accent_memory} accent patterns, and {cultural_locations} cultural locations"
+                        f"Loaded voice memory with {len(self.pronunciation_memory)} words, {len(self.accent_memory)} accent patterns, and {cultural_locations} cultural locations"
                     )
             else:
                 logger.info("No saved voice memory found, starting fresh")
@@ -235,7 +238,7 @@ class VoiceMemoryHelix:
                         self.curiosity_list.add(word)
 
         if new_words:
-            logger.debug(f"Detected {len(new_words} potentially new words: {new_words}")
+            logger.debug(f"Detected {len(new_words)} potentially new words: {new_words}")
 
         return new_words
 

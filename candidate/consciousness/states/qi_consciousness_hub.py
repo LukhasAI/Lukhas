@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import logging
-from datetime import timezone
-import streamlit as st
 import random
+from datetime import timezone
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -271,7 +273,7 @@ class QIConsciousnessHub:
                         },
                         {
                             "role": "user",
-                            "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(context)}\nState: {state.to_quantum_representation(}",
+                            "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(context)}\nState: {state.to_quantum_representation()}",
                         },
                     ],
                     functions=[
@@ -437,7 +439,7 @@ class QIConsciousnessHub:
                         },
                         {
                             "role": "user",
-                            "content": f"Message: {json.dumps(message)}\nInterpretation: {json.dumps(interpretation}",
+                            "content": f"Message: {json.dumps(message)}\nInterpretation: {json.dumps(interpretation)}",
                         },
                     ],
                     n=3,  # Generate 3 parallel branches
@@ -586,7 +588,7 @@ class QIConsciousnessHub:
                         },
                         {
                             "role": "user",
-                            "content": f"Bid: {bid_amount} {bid_type}\nState: {state.to_quantum_representation(}",
+                            "content": f"Bid: {bid_amount} {bid_type}\nState: {state.to_quantum_representation()}",
                         },
                     ],
                     temperature=0.3,

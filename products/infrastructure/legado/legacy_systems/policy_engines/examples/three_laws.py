@@ -1,7 +1,8 @@
 import logging
+from typing import Dict, List
+
 import streamlit as st
-from typing import Dict
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -256,7 +257,7 @@ class ThreeLawsPolicy(EthicsPolicy):
                     result["allowed"] = False
                     result["reason"] = f"Action '{decision.action}' could harm humans (severity: {severity})"
                     result["risks"].append("FIRST_LAW_VIOLATION")
-                    result["risks"].append(f"HARM_SEVERITY_{int(severity * 10}")
+                    result["risks"].append(f"HARM_SEVERITY_{int(severity * 10)}")
                     result["risks"].append("ETHICS_DRIFT")  # Add drift flag
 
                     # Add recommendations

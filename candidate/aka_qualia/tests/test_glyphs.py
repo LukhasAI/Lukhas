@@ -8,9 +8,9 @@ Comprehensive test suite for deterministic PhenomenalScene → PhenomenalGlyphs 
 Tests all branches, idempotency, cultural palette mapping, and loop camouflaging defenses.
 """
 import time
-import streamlit as st
 
 import pytest
+import streamlit as st
 
 from candidate.aka_qualia.glyphs import (
     GLYPH_KEYS,

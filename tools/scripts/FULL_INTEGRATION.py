@@ -3,15 +3,14 @@
 Complete Integration Script for Lambda Products + Lukhas
 Connects all systems for full operational capability
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 # Set up paths
 LUKHAS_H = Path(__file__).parent

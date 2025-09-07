@@ -11,18 +11,14 @@ and to receive compressed dream tags from external systems.
 
 from __future__ import annotations
 
-from typing import Optional
-import streamlit as st
-from datetime import timezone
-
-
 import base64
 import json
 import logging
 import zlib
-from datetime import datetime
-from typing import Any
+from datetime import datetime, timezone
+from typing import Any, Optional
 
+import streamlit as st
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
@@ -80,7 +76,7 @@ async def import_glyphs(request: GlyphImportRequest) -> APIResponse:
         if item.glyph not in GLYPH_MAP and item.meaning:
             GLYPH_MAP[item.glyph] = item.meaning
             imported.append(item.glyph)
-    msg = f"Imported {len(imported} new glyphs" if imported else "No new glyphs"
+    msg = f"Imported {len(imported)} new glyphs" if imported else "No new glyphs"
     logger.info("Glyph import by %s: %s", request.user_id, imported)
     return APIResponse(status="success", data={"imported": imported}, message=msg)
 

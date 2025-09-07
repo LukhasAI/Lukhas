@@ -3,14 +3,14 @@
 =======================
 Centralized logging configuration for all LUKHAS modules.
 """
-import time
-import streamlit as st
-
 import json
 import logging
 import sys
+import time
 from datetime import datetime, timezone
 from typing import Optional
+
+import streamlit as st
 
 
 class LukhasFormatter(logging.Formatter):
@@ -136,7 +136,7 @@ def get_logger(name: str, module_name: Optional[str] = None) -> logging.Logger:
         return _loggers[name]
 
     logger = logging.getLogger(name)
-    
+
     # Configure the underlying logger before wrapping
     _configure_logger(logger)
 

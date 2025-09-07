@@ -4,14 +4,13 @@ Original: voice_adapter.py
 Advanced: voice_adapter.py
 Integration Date: 2025-05-31T07:55:29.983514
 """
-from typing import Dict
-import streamlit as st
-
 import asyncio
 import logging
 
 # Simple adapter for voice integration
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 from ..unified_integration import MessageType, UnifiedIntegration
 

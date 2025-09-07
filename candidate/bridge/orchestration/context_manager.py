@@ -348,11 +348,11 @@ class ContextManager:
                         emotional_scores[emotion] = max(emotional_scores[emotion], score)
 
         # Create summary text
-        summary_text = f"Conversation involving {len(entries} exchanges. "
+        summary_text = f"Conversation involving {len(entries)} exchanges. "
         if len(key_points) > 5:
-            summary_text += f"Key topics: {', '.join(key_points[:3])} and {len(key_points} - 3} more."
+            summary_text += f"Key topics: {', '.join(key_points[:3])} and {len(key_points)} - 3} more."
         else:
-            summary_text += f"Topics: {', '.join(key_points}"
+            summary_text += f"Topics: {', '.join(key_points)}"
 
         # Calculate relevance score
         avg_relevance = sum(e.relevance_score for e in entries) / len(entries)

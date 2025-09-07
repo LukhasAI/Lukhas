@@ -5,15 +5,15 @@ Decision Audit Engine for LUKHAS
 This module provides decision auditing and embedding capabilities
 for tracking and analyzing system decisions within the LUKHAS framework.
 """
-import logging
-import time
-import streamlit as st
-
 import hashlib
 import json
+import logging
+import time
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 
 @dataclass
@@ -186,7 +186,7 @@ class DecisionAuditEngine:
 
     def _generate_decision_id(self, decision_type: str, input_data: dict[str, Any], timestamp: datetime) -> str:
         """Generate a unique decision ID"""
-        content = f"{decision_type}:{json.dumps(input_data, sort_keys=True)}:{timestamp.isoformat(}"
+        content = f"{decision_type}:{json.dumps(input_data, sort_keys=True)}:{timestamp.isoformat()}"
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
     def _persist_decision(self, decision: AuditDecision):

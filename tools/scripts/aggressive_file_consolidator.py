@@ -3,17 +3,18 @@
 Aggressive File Consolidator
 Actually moves the 923 consolidation candidates to their proper modules
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import builtins
 import contextlib
 import json
 import os
 import shutil
+import time
 from collections import defaultdict
 from datetime import datetime, timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class AggressiveFileConsolidator:
@@ -171,7 +172,7 @@ class AggressiveFileConsolidator:
 
         # Move files to their modules
         for module, file_list in files_by_module.items():
-            print(f"\n📦 Consolidating {len(file_list} files to {module}...")
+            print(f"\n📦 Consolidating {len(file_list)} files to {module}...")
 
             # Sort by score (highest first)
             file_list.sort(key=lambda x: x["score"], reverse=True)
@@ -335,7 +336,7 @@ def main():
             print(f"  - {submodule}: {count}")
 
     if consolidator.failed_moves:
-        print(f"\n⚠️ Failed to move {len(consolidator.failed_moves} files")
+        print(f"\n⚠️ Failed to move {len(consolidator.failed_moves)} files")
 
     print("\n📋 Report saved to: docs/reports/_AGGRESSIVE_CONSOLIDATION_REPORT.json")
 

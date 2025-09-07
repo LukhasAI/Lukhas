@@ -26,8 +26,9 @@ and planet.
 
 For more information, visit: https://lukhas.ai
 """
-from consciousness.qi import qi
 import streamlit as st
+
+from consciousness.qi import qi
 
 # ΛTRACE: Module initialization
 # ΛORIGIN_AGENT: [Agent Name]

@@ -11,12 +11,13 @@ This module defines the symbolic vocabulary for the Lukhas Vision Module,
 providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
-from core.symbolic import VisualSymbol
 import time
-import streamlit as st
-
 from dataclasses import dataclass
 from typing import Any
+
+import streamlit as st
+
+from core.symbolic import VisualSymbol
 
 from ..core import AnalysisType, VisionProvider
 
@@ -997,43 +998,6 @@ class VocabularyCreativityEngine:
             confidence_symbol = "⚠️"
 
         return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
-
-    def get_emotional_color_mapping(self, emotion: str) -> list[tuple[int, int, int]]:
-        """Get color associations for emotional content."""
-        emotion_colors = {
-            "joy": [(255, 255, 0), (255, 192, 203), (255, 165, 0)],
-            "sadness": [(0, 0, 139), (128, 128, 128), (105, 105, 105)],
-            "anger": [(255, 0, 0), (139, 0, 0), (255, 69, 0)],
-            "calm": [(173, 216, 230), (221, 160, 221), (230, 230, 250)],
-            "love": [(255, 192, 203), (255, 20, 147), (255, 105, 180)],
-            "fear": [(0, 0, 0), (139, 0, 139), (128, 0, 0)],
-            "surprise": [(255, 255, 0), (255, 165, 0), (255, 255, 255)],
-        }
-        return emotion_colors.get(emotion.lower(), [(128, 128, 128)])
-
-    def analyze_symbolic_composition(self, detected_objects: list[str]) -> list[str]:
-        """Analyze symbolic composition based on detected objects."""
-        symbolic_elements = []
-
-        # Map objects to symbolic meanings
-        object_symbolism = {
-            "person": [
-                "🧘",
-                "👤",
-                "🌟",
-            ],  # Human presence, individuality, potential
-            "tree": ["🌳", "🌍", "💫"],  # Growth, nature, life
-            "water": ["🌊", "🔮", "💧"],  # Flow, emotion, purification
-            "fire": ["🔥", "⚡", "☀️"],  # Energy, transformation, illumination
-            "sky": ["☀️", "🌙", "💫"],  # Infinity, dreams, aspiration
-            "building": ["🏠", "🏛️", "🌆"],  # Civilization, structure, ambition
-            "animal": [
-                "🦅",
-                "🐕",
-                "🦋",
-            ],  # Instinct, companionship, transformation
-            "flower": ["🌸", "🌺", "🌹"],  # Beauty, growth, love
-        }
 
         for obj in detected_objects:
             if obj.lower() in object_symbolism:

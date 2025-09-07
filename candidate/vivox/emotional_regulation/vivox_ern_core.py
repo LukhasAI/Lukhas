@@ -5,8 +5,6 @@ The emotional homeostasis guardian
 Maintains emotional equilibrium through adaptive regulation strategies
 Integrates with neuroplastic systems, event bus, and endocrine signals
 """
-import streamlit as st
-
 import math
 import time
 from dataclasses import dataclass, field
@@ -15,6 +13,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 
 class EmotionalState(Enum):
@@ -525,7 +524,7 @@ class EmotionalRegulator:
                 outcome_parts.append("moderated emotional intensity")
 
         if outcome_parts:
-            reasoning_parts.append(f"Result: {', '.join(outcome_parts}")
+            reasoning_parts.append(f"Result: {', '.join(outcome_parts)}")
 
         return ". ".join(reasoning_parts) + "."
 

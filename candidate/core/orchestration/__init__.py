@@ -45,8 +45,8 @@ __all__ = [
     # MΛTRIZ Consciousness Coordination
     "MatrizConsciousnessCoordinator",
     "ModuleConsciousnessProfile",
-    "OrchestrationState",
-    "consciousness_coordinator",
     # Core Orchestration
     "OrchestrationCore",
+    "OrchestrationState",
+    "consciousness_coordinator",
 ]

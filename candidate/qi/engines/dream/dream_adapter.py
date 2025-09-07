@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 """
 
 #TAG:qim
@@ -10,16 +11,15 @@ from datetime import datetime, timezone
 Quantum Dream Adapter for Dream Systems
 Provides quantum-based dream processing and adaptation capabilities.
 """
-from consciousness.qi import qi
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import math
 import random
+import time
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 @dataclass

@@ -129,7 +129,7 @@ class TraceSummaryBuilder:
     def _parse_trace_tree(self, tree_data: dict[str, Any]) -> TraceNode:
         """Parse raw trace data into TraceNode structure"""
         node_type = tree_data.get("type", "unknown")
-        node_id = tree_data.get("id", f"node_{datetime.now(timezone.utc).timestamp(}")
+        node_id = tree_data.get("id", f"node_{datetime.now(timezone.utc).timestamp()}")
         content = tree_data.get("content", tree_data.get("reason", {}))
 
         root = TraceNode(node_id, node_type, content)
@@ -267,7 +267,7 @@ class TraceSummaryBuilder:
         for i, step in enumerate(path[:5]):  # First 5 steps
             if self.current_style == "technical":
                 narrative_parts.append(
-                    f"{i + 1}. {step['type'].upper(}: {step['summary']} (confidence: {step['confidence']:.2f})"
+                    f"{i + 1}. {step['type'].upper()}: {step['summary']} (confidence: {step['confidence']:.2f})"
                 )
             else:
                 narrative_parts.append(f"{i + 1}. {step['summary']}")
@@ -280,18 +280,18 @@ class TraceSummaryBuilder:
                 narrative_parts.append("\nKey insights derived:")
 
             for insight in insights[:3]:  # Top 3 insights
-                narrative_parts.append(f"• {self._format_insight(insight}")
+                narrative_parts.append(f"• {self._format_insight(insight)}")
 
         # Conclusion
         conclusion = self._find_conclusion_node(root)
         if conclusion:
             if self.current_style == "technical":
                 narrative_parts.append(
-                    f"\nFinal conclusion: {self._summarize_node(conclusion} "
-                    f"(confidence: {conclusion.metadata.get('confidence', 0.0}:.2f})"
+                    f"\nFinal conclusion: {self._summarize_node(conclusion)} "
+                    f"(confidence: {conclusion.metadata.get('confidence', 0.0)}:.2f})"
                 )
             else:
-                narrative_parts.append(f"\nConclusion: {self._summarize_node(conclusion}")
+                narrative_parts.append(f"\nConclusion: {self._summarize_node(conclusion)}")
 
         return "\n".join(narrative_parts)
 
@@ -369,7 +369,7 @@ class TraceSummaryBuilder:
         """Generate a cache key for the trace tree"""
         # Simple hash of tree structure
         tree_str = json.dumps(tree_data, sort_keys=True, default=str)
-        return f"trace_{hash(tree_str}"
+        return f"trace_{hash(tree_str)}"
 
     def get_cached_summary(self, tree_data: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Retrieve a cached summary if available"""

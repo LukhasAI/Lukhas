@@ -38,7 +38,7 @@ class Colors:
 def print_header(text: str):
     """Print a beautiful header"""
     print(f"\n{Colors.BOLD}{Colors.CYAN}{'=' * 60}{Colors.END}")
-    print(f"{Colors.BOLD}{Colors.CYAN}{text.center(60}{Colors.END}")
+    print(f"{Colors.BOLD}{Colors.CYAN}{text.center(60)}{Colors.END}")
     print(f"{Colors.BOLD}{Colors.CYAN}{'=' * 60}{Colors.END}\n")
 
 
@@ -187,7 +187,7 @@ def decision(ctx, title, rationale, alternatives, template):
     )
 
     print_success(f"Tracked decision: {decision.title}")
-    print_info(f"Affected files: {len(decision.files_affected}")
+    print_info(f"Affected files: {len(decision.files_affected)}")
 
 
 @cli.command()
@@ -235,15 +235,15 @@ def search(ctx, query, type, tags, days, limit):
     )
 
     # Display results
-    print_header(f"Search Results ({len(entries} found)")
+    print_header(f"Search Results ({len(entries)} found)")
 
     for entry in entries[:limit]:
         print(
-            f"\n{Colors.BOLD}{entry.timestamp.strftime('%Y-%m-%d %H:%M'} - {entry.type}{Colors.END}"
+            f"\n{Colors.BOLD}{entry.timestamp.strftime('%Y-%m-%d %H:%M')} - {entry.type}{Colors.END}"
         )
         print(f"{entry.content[:200]}...")
         if entry.tags:
-            print(f"{Colors.CYAN}Tags: {', '.join(entry.tags}{Colors.END}")
+            print(f"{Colors.CYAN}Tags: {', '.join(entry.tags)}{Colors.END}")
 
 
 @cli.command()
@@ -268,7 +268,7 @@ def patterns(ctx, days):
         for pattern in negative_patterns[:5]:
             print(f"\n• {pattern.description}")
             print(
-                f"  Frequency: {pattern.frequency}, Occurrences: {len(pattern.occurrences}"
+                f"  Frequency: {pattern.frequency}, Occurrences: {len(pattern.occurrences)}"
             )
             if pattern.suggested_action:
                 print(f"  {Colors.YELLOW}→ {pattern.suggested_action}{Colors.END}")
@@ -434,10 +434,10 @@ def plan(ctx, goals, days):
     plan = assistant.generate_learning_plan(list(goals), timeframe_days=days)
 
     # Display plan
-    print(f"{Colors.BOLD}Goals:{Colors.END} {', '.join(plan['goals']}")
+    print(f"{Colors.BOLD}Goals:{Colors.END} {', '.join(plan['goals'])}")
     print(f"{Colors.BOLD}Timeframe:{Colors.END} {plan['timeframe']} days")
-    print(f"{Colors.BOLD}Start:{Colors.END} {plan['start_date'].strftime('%Y-%m-%d'}")
-    print(f"{Colors.BOLD}End:{Colors.END} {plan['end_date'].strftime('%Y-%m-%d'}")
+    print(f"{Colors.BOLD}Start:{Colors.END} {plan['start_date'].strftime('%Y-%m-%d')}")
+    print(f"{Colors.BOLD}End:{Colors.END} {plan['end_date'].strftime('%Y-%m-%d')}")
 
     # Display first week tasks
     print(f"\n{Colors.BOLD}First Week Daily Tasks:{Colors.END}")
@@ -502,14 +502,14 @@ def export(ctx, output, days):
 
     # Set output path
     if not output:
-        output = f"journal_export_{datetime.now(timezone.utc).strftime('%Y%m%d'}.md"
+        output = f"journal_export_{datetime.now(timezone.utc).strftime('%Y%m%d')}.md"
 
     output_path = Path(output)
 
     # Export
     journal.export_to_markdown(entries, output_path)
 
-    print_success(f"Exported {len(entries} entries to {output_path}")
+    print_success(f"Exported {len(entries)} entries to {output_path}")
 
 
 @cli.command()
@@ -725,7 +725,7 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
             except Exception as e:
                 print_warning(f"Failed to import entry: {e}")
 
-        print_success(f"Imported {imported_count} entries from {path.suffix.upper(}")
+        print_success(f"Imported {imported_count} entries from {path.suffix.upper()}")
 
     else:
         print_error(f"Unsupported file format: {path.suffix}")
@@ -811,12 +811,12 @@ def standup(ctx):
     print(f"{Colors.BOLD}🌅 Yesterday:{Colors.END}")
     yesterday = standup_data["yesterday"]
     if yesterday["wins"]:
-        print(f"{Colors.GREEN}Wins: {len(yesterday['wins']}{Colors.END}")
+        print(f"{Colors.GREEN}Wins: {len(yesterday['wins'])}{Colors.END}")
         for win in yesterday["wins"][:3]:
             print(f"  ✓ {win}")
     if yesterday["challenges_faced"]:
         print(
-            f"{Colors.YELLOW}Challenges: {len(yesterday['challenges_faced']}{Colors.END}"
+            f"{Colors.YELLOW}Challenges: {len(yesterday['challenges_faced'])}{Colors.END}"
         )
         for challenge in yesterday["challenges_faced"][:3]:
             print(f"  • {challenge}")
@@ -843,7 +843,7 @@ def standup(ctx):
     mood_emoji = {"great": "😊", "good": "🙂", "okay": "😐", "challenging": "😔"}
     print(f"\n{Colors.BOLD}🎭 Mood Check:{Colors.END}")
     print(
-        f"Mood: {mood_emoji.get(mood['mood'], '😐'} {mood['mood']} | Energy: {mood['energy_level']}"
+        f"Mood: {mood_emoji.get(mood['mood'], '😐')} {mood['mood']} | Energy: {mood['energy_level']}"
     )
     print(f"{Colors.CYAN}{mood['recommendation']}{Colors.END}")
 
@@ -904,7 +904,7 @@ def burnout(ctx):
     emoji = risk_emoji.get(check["risk_level"], "⚠️")
 
     print(
-        f"{Colors.BOLD}Risk Level: {color}{emoji} {check['risk_level'].upper(}{Colors.END}"
+        f"{Colors.BOLD}Risk Level: {color}{emoji} {check['risk_level'].upper()}{Colors.END}"
     )
     print(f"Score: {check['score']:.0%}")
 
@@ -995,7 +995,7 @@ def weekly(ctx):
     decisions = ctx.obj["journal"].search(
         type="decision", date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc))
     )
-    print(f"  Total decisions: {len(decisions}")
+    print(f"  Total decisions: {len(decisions)}")
     if decisions:
         print("  Recent decisions:")
         for decision in decisions[:3]:
@@ -1044,7 +1044,7 @@ def vision(ctx):
 
     # Check progress
     print(f"\n{Colors.BOLD}📊 Progress This Month:{Colors.END}")
-    print(f"  Vision-related entries: {len(vision_entries}")
+    print(f"  Vision-related entries: {len(vision_entries)}")
 
     # Analyze focus areas
     focus_tags = {}
@@ -1059,7 +1059,7 @@ def vision(ctx):
     # Achievements
     wins = journal.search(query="WIN:", days=30)
     print(f"\n{Colors.BOLD}🏆 Major Achievements:{Colors.END}")
-    print(f"  Total wins: {len(wins}")
+    print(f"  Total wins: {len(wins)}")
     if wins:
         for win in wins[:3]:
             print(f"  ✓ {win.content[5:75]}..."# Skip "WIN: " prefix
@@ -1090,7 +1090,7 @@ def vision(ctx):
     print(f"\n{Colors.BOLD}💡 Recommendations:{Colors.END}")
     if alignment_score < 0.7:
         missing = [c for c in core_concepts if c not in covered]
-        print(f"  • Focus more on: {', '.join(missing}")
+        print(f"  • Focus more on: {', '.join(missing)}")
     print("  • Continue building on recent wins")
     print("  • Document architectural decisions")
     print("  • Keep the revolutionary spirit alive!")
@@ -1172,7 +1172,7 @@ def ritual(ctx, intention):
     ritual = integration.create_development_ritual(intention)
 
     print(f"{Colors.BOLD}Intention: {intention}{Colors.END}")
-    print(f"Created: {ritual['timestamp'].strftime('%Y-%m-%d %H:%M'}")
+    print(f"Created: {ritual['timestamp'].strftime('%Y-%m-%d %H:%M')}")
 
     print(f"\n{Colors.BOLD}Ritual Phases:{Colors.END}")
 
@@ -1247,7 +1247,7 @@ def metrics(ctx):
             print(f"  💡 {insight}")
 
     print(
-        f"\n{Colors.CYAN}Timestamp: {metrics['timestamp'].strftime('%Y-%m-%d %H:%M:%S'}{Colors.END}"
+        f"\n{Colors.CYAN}Timestamp: {metrics['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}{Colors.END}"
     )
 
 
@@ -1271,7 +1271,7 @@ def lukhas_config(ctx):
         status = (
             f"{Colors.GREEN}✓{Colors.END}" if enabled else f"{Colors.RED}✗{Colors.END}"
         )
-        print(f"  {status} {feature.replace('_', ' ').title(}")
+        print(f"  {status} {feature.replace('_', ' ').title()}")
 
     print(f"\n{Colors.BOLD}Available Modules:{Colors.END}")
     for module in config["lukhas_integration"]["modules"]:
@@ -1327,7 +1327,7 @@ def prompt(ctx, type):
     """Get LUKHAS-aware prompts for Claude Code"""
     integration = ctx.obj["integration"]
 
-    print_header(f"LUKHAS-Aware {type.replace('_', ' ').title(} Prompt")
+    print_header(f"LUKHAS-Aware {type.replace('_', ' ').title()} Prompt")
 
     prompts = integration.generate_lukhas_prompts()
 

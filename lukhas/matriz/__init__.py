@@ -4,12 +4,12 @@ This module prefers an installed ``matriz`` package, otherwise falls back to
 the local repository copy. It also re-exports a small set of runtime symbols
 when available.
 """
-import time
-import streamlit as st
-
 import importlib
 import logging
+import time
 from typing import Any
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

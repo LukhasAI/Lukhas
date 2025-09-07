@@ -151,7 +151,7 @@ class AwarenessProcessor:
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.info(
-            f"ΛTRACE: Processing data with AwarenessProcessor for user '{log_user_id}'. Data type: {type(data}"
+            f"ΛTRACE: Processing data with AwarenessProcessor for user '{log_user_id}'. Data type: {type(data)}"
         )
         if not self.is_initialized:
             self.instance_logger.warning("ΛTRACE: AwarenessProcessor not initialized. Attempting to initialize now.")
@@ -667,7 +667,7 @@ if __name__ == "__main__":
 
             logger.info("ΛTRACE: Demo: Shutting down component.")
             await awareness_proc.shutdown(user_id=test_user)
-            print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_proc.get_status(user_id=test_user}")
+            print(f"ΛTRACE Demo - Shutdown complete. Final status: {awareness_proc.get_status(user_id=test_user)}")
         logger.info("ΛTRACE: --- AwarenessProcessor Demo Finished ---")
 
     asyncio.run(demo_main_processor())

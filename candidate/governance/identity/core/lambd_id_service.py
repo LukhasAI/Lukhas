@@ -1,7 +1,8 @@
 import logging
+from typing import Dict, List
+
 import streamlit as st
-from typing import Dict
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 ΛiD Service Manager
@@ -134,7 +135,7 @@ class LambdaIDService:
         self.generated_ids = set()  # In-memory collision prevention
         self.rate_limiters = {}  # Rate limiting by user/IP
 
-        logger.info(f"ΛiD Service initialized with {len(self.tier_config['tier_permissions']} tiers")
+        logger.info(f"ΛiD Service initialized with {len(self.tier_config['tier_permissions'])} tiers")
 
     def generate_lambda_id(
         self,
@@ -475,7 +476,7 @@ class LambdaIDService:
         if user_context:
             entropy_input += f"_{user_context.user_id or 'anonymous'}"
         if custom_options:
-            entropy_input += f"_{json.dumps(custom_options, sort_keys=True}"
+            entropy_input += f"_{json.dumps(custom_options, sort_keys=True)}"
 
         entropy_hash = hashlib.sha256(entropy_input.encode()).hexdigest()[:4].upper()
 

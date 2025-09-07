@@ -7,13 +7,13 @@ Steve Jobs would have fired us all."
 
 This script analyzes how repetitive our poetic language has become.
 """
-import time
-import streamlit as st
-
 import os
 import re
+import time
 from collections import Counter
 from pathlib import Path
+
+import streamlit as st
 
 # The overused metaphors we keep recycling
 CLICHES = {

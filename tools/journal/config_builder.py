@@ -3,15 +3,15 @@
 LUKHAS Configuration Builder
 Interactive tool to create custom Claude + LUKHAS configurations
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import json
 from pathlib import Path
 from typing import Any, Optional
 
 import click
+import streamlit as st
 import yaml
+
+from consciousness.qi import qi
 
 
 class ConfigBuilder:

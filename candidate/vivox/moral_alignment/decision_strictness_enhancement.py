@@ -3,10 +3,10 @@ VIVOX Decision Strictness Enhancement
 Implements stricter ethical evaluation criteria
 """
 import time
-import streamlit as st
-
 from dataclasses import dataclass
 from typing import Any
+
+import streamlit as st
 
 from .vivox_mae_core import ActionProposal, MAEDecision
 

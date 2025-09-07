@@ -98,7 +98,7 @@ class MemoryDriftAuditor:
 
         # Audit metadata
         self.audit_session_id = hashlib.sha256(
-            f"audit_{datetime.now(timezone.utc).isoformat(}".encode()
+            f"audit_{datetime.now(timezone.utc).isoformat()}".encode()
         ).hexdigest()[:16]
 
         logger.info(
@@ -187,7 +187,7 @@ class MemoryDriftAuditor:
                             loading_results["invalid_snapshots"] += 1
 
                 except Exception as e:
-                    error_msg = f"Error loading {file_path}: {str(e}"
+                    error_msg = f"Error loading {file_path}: {str(e)}"
                     loading_results["loading_errors"].append(error_msg)
                     logger.error(
                         "Snapshot loading error",
@@ -234,7 +234,7 @@ class MemoryDriftAuditor:
                 tag="ΛAUDITOR_CRITICAL",
             )
             loading_results["loading_errors"].append(
-                f"Critical loading error: {str(e}"
+                f"Critical loading error: {str(e)}"
             )
 
         return loading_results
@@ -522,7 +522,7 @@ class MemoryDriftAuditor:
             )
 
         except Exception as e:
-            error_msg = f"Error generating audit report: {str(e}"
+            error_msg = f"Error generating audit report: {str(e)}"
             report_results["generation_errors"].append(error_msg)
             logger.error(
                 "Audit report generation failed", error=str(e), tag="ΛAUDITOR_ERROR"
@@ -1247,7 +1247,7 @@ class MemoryDriftAuditor:
                         "type": "event_cluster",
                         "timestamp": window_start.isoformat(),
                         "event_count": len(window_events),
-                        "description": f"Cluster of {len(window_events} drift events in 1 hour",
+                        "description": f"Cluster of {len(window_events)} drift events in 1 hour",
                         "severity": "high",
                     }
                 )
@@ -2096,7 +2096,7 @@ class MemoryDriftAuditor:
             f"- **Temporal Span**: {metadata['temporal_span']['span_days']} days"
         )
         md_lines.append(
-            f"- **Analysis Window**: {metadata['config'].get('temporal_window_hours', 48} hours"
+            f"- **Analysis Window**: {metadata['config'].get('temporal_window_hours', 48)} hours"
         )
         md_lines.append("")
 
@@ -2183,7 +2183,7 @@ class MemoryDriftAuditor:
                         "low": "🟢",
                     }.get(severity, "🟢")
                     md_lines.append(
-                        f"- {severity_emoji} **{severity.title(}**: {count} events"
+                        f"- {severity_emoji} **{severity.title()}**: {count} events"
                     )
             md_lines.append("")
 
@@ -2193,7 +2193,7 @@ class MemoryDriftAuditor:
             event_types = drift_data["event_types"]
             for event_type, count in sorted(event_types.items()):
                 md_lines.append(
-                    f"- **{event_type.replace('_', ' ').title(}**: {count}"
+                    f"- **{event_type.replace('_', ' ').title()}**: {count}"
                 )
             md_lines.append("")
         else:
@@ -2220,7 +2220,7 @@ class MemoryDriftAuditor:
                         "low": "🟢",
                     }.get(severity, "🟢")
                     md_lines.append(
-                        f"- {severity_emoji} **{severity.title(}**: {count} events"
+                        f"- {severity_emoji} **{severity.title()}**: {count} events"
                     )
             md_lines.append("")
 
@@ -2235,7 +2235,7 @@ class MemoryDriftAuditor:
             event_types = collapse_data["event_types"]
             for event_type, count in sorted(event_types.items()):
                 md_lines.append(
-                    f"- **{event_type.replace('_', ' ').title(}**: {count}"
+                    f"- **{event_type.replace('_', ' ').title()}**: {count}"
                 )
             md_lines.append("")
         else:
@@ -2394,7 +2394,7 @@ Examples:
             )
         if loading_results["loading_errors"]:
             logger.error(
-                f"   ❌ {len(loading_results['loading_errors']} loading errors",
+                f"   ❌ {len(loading_results['loading_errors'])} loading errors",
                 tag="ΛAUDITOR_CLI_LOAD_ERROR",
             )
 
@@ -2481,19 +2481,19 @@ Examples:
             tag="ΛAUDITOR_CLI_HEALTH",
         )
         logger.info(
-            f"   Total Drift Events: {summary_stats.get('total_drift_events', 0}",
+            f"   Total Drift Events: {summary_stats.get('total_drift_events', 0)}",
             tag="ΛAUDITOR_CLI_DRIFT_COUNT",
         )
         logger.info(
-            f"   Total Collapse Events: {summary_stats.get('total_collapse_events', 0}",
+            f"   Total Collapse Events: {summary_stats.get('total_collapse_events', 0)}",
             tag="ΛAUDITOR_CLI_COLLAPSE_COUNT",
         )
         logger.info(
-            f"   Critical Issues: {summary_stats.get('critical_issues', 0}",
+            f"   Critical Issues: {summary_stats.get('critical_issues', 0)}",
             tag="ΛAUDITOR_CLI_CRITICAL",
         )
         logger.info(
-            f"   Temporal Coverage: {summary_stats.get('temporal_coverage_ratio', 0}:.1%}",
+            f"   Temporal Coverage: {summary_stats.get('temporal_coverage_ratio', 0)}:.1%}",
             tag="ΛAUDITOR_CLI_COVERAGE",
         )
 

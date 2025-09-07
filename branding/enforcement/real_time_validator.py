@@ -434,7 +434,7 @@ class RealTimeBrandValidator:
         """
 
         start_time = datetime.now(timezone.utc)
-        validation_id = f"val_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S_%f'}"
+        validation_id = f"val_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S_%f')}"
 
         all_issues = []
         all_suggestions = []
@@ -520,14 +520,14 @@ class RealTimeBrandValidator:
 
         for match in matches:
             violation = {
-                "location": {"start": match.start(), "end": match.end(},
+                "location": {"start": match.start(), "end": match.end()},
                 "matched_text": match.group(),
                 "rule_severity": rule.severity.value,
             }
 
             # Generate specific suggestion based on rule
             if rule.auto_correctable and rule.correction_template:
-                violation["suggestion"] = f"Replace '{match.group(}' with '{rule.correction_template}'"
+                violation["suggestion"] = f"Replace \'{match.group()}' with '{rule.correction_template}'"
                 violation["correction"] = rule.correction_template
             else:
                 violation["suggestion"] = self._generate_contextual_suggestion(rule, match.group(), content)
@@ -946,7 +946,7 @@ if __name__ == "__main__":
             print(f"Compliant: {result.is_compliant}")
             print(f"Severity: {result.severity.value}")
             print(f"Confidence: {result.confidence:.3f}")
-            print(f"Issues: {len(result.issues}")
+            print(f"Issues: {len(result.issues)}")
 
             if result.issues:
                 print("Issues found:")

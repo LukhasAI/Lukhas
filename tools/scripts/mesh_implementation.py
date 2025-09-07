@@ -185,7 +185,7 @@ class UniversalMesh:
                 "type": "endocrine_broadcast",
                 "hormone": hormone,
                 "level": level,
-                "timestamp": datetime.now(timezone.utc).isoformat(},
+                "timestamp": datetime.now(timezone.utc).isoformat()},
             }
         )
 

@@ -10,13 +10,11 @@ Original: bridge.py
 Advanced: bridge.py
 Integration Date: 2025-05-31T07:55:28.225859
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 from ..dream_engine.dream_processor import DreamProcessor
 from ..symbolic_ai.memory import SymbolicMemoryEngine

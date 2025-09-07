@@ -354,31 +354,31 @@ def activate_brain_consciousness_bridge() -> dict[str, Any]:
 
 # Export main functions
 __all__ = [
-    "get_brain_status",
-    "create_orchestration_hub",
-    "process_cognitive_flow",
-    "monitor_brain_health",
-    "activate_brain_consciousness_bridge",
-    # Core orchestration classes and functions
-    "OrchestrationHub",
-    "KernelBus",
+    "BRAIN_ACTIVE",
+    "AlertEvent",
+    "AlertLevel",
     "BrandContext",
     "EventPriority",
+    "KernelBus",
+    # Monitoring classes (if available)
+    "LukhasIntelligenceMonitor",
+    "MetricType",
+    # Core orchestration classes and functions
+    "OrchestrationHub",
+    "activate_brain_consciousness_bridge",
     "build_context",
+    "create_orchestration_hub",
     "emit",
+    "get_brain_status",
     "get_brand_voice",
     "get_constellation_context",
     "get_kernel_bus",
+    "logger",
+    "monitor_brain_health",
     "normalize_output_text",
+    "process_cognitive_flow",
     "subscribe",
     "validate_output",
-    # Monitoring classes (if available)
-    "LukhasIntelligenceMonitor",
-    "AlertEvent",
-    "AlertLevel",
-    "MetricType",
-    "BRAIN_ACTIVE",
-    "logger",
 ]
 
 # System health check on import

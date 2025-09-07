@@ -4,8 +4,6 @@ LUKHAS Local LLM Code Fixer
 Integrates with Ollama/Deepseek for autonomous code quality improvements
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
-import streamlit as st
-
 import ast
 import asyncio
 import json
@@ -17,6 +15,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import aiohttp
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

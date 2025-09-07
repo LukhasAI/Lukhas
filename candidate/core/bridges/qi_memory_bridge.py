@@ -1,11 +1,12 @@
 """Quantum-Memory Bridge
 Bidirectional communication bridge between Quantum and Memory systems
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import logging
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

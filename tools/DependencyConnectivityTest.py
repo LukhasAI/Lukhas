@@ -32,7 +32,7 @@ class LambdaDependencyAnalyzer:
         for file_path in self.lambda_root.rglob("*.py"):
             if "__pycache__" not in str(file_path):
                 self.python_files.append(file_path)
-        print(f"📊 Found {len(self.python_files} Python files")
+        print(f"📊 Found {len(self.python_files)} Python files")
         return self.python_files
 
     def extract_imports(self, file_path):
@@ -166,8 +166,8 @@ class LambdaDependencyAnalyzer:
                 # Convert import to potential file paths
                 parts = imp.split(".")
                 possible_files = [
-                    f"{'/'.join(parts}.py",
-                    f"{'/'.join(parts}/__init__.py",
+                    f"{'/'.join(parts)}.py",
+                    f"{'/'.join(parts)}/__init__.py",
                 ]
                 imported_files.update(possible_files)
 

@@ -597,7 +597,7 @@ class AGISafetyOrchestrator:
         if not allow_action:
             # Identify which component failed
             failed_components = [comp for comp, score in components.items() if score < 0.5]
-            return f"ACTION BLOCKED - Failed safety checks: {', '.join(failed_components}"
+            return f"ACTION BLOCKED - Failed safety checks: {', '.join(failed_components)}"
 
         if safety_score >= 0.95:
             return "HIGHLY SAFE - Proceed with standard monitoring"

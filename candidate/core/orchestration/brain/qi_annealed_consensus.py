@@ -4,18 +4,17 @@ Original: qi_annealed_consensus.py
 Advanced: qi_annealed_consensus.py
 Integration Date: 2025-05-31T07:55:27.752287
 """
-from consciousness.qi import qi
-from typing import Dict
-import random
-import streamlit as st
-
 import json
 import logging
 import os
+import random
 import time
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 import numpy as np
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

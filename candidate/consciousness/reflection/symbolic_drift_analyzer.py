@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -704,8 +706,8 @@ class SymbolicDriftAnalyzer:
                 threshold=thresholds["tag_variance_critical"],
                 message=f"Critical tag variance: {normalized_variance:.3f}",
                 remediation_suggestions=[
-                    f"Review emerging tags: {', '.join(variance.emerging_tags[:5]}",
-                    f"Monitor declining tags: {', '.join(variance.declining_tags[:5]}",
+                    f"Review emerging tags: {', '.join(variance.emerging_tags[:5])}",
+                    f"Monitor declining tags: {', '.join(variance.declining_tags[:5])}",
                     "Consider tag consolidation or pruning",
                 ],
             )
@@ -933,13 +935,13 @@ class SymbolicDriftAnalyzer:
                 tag_pool = base_tags
             else:
                 # Late phase - more negative
-                tag_pool = base_tags[8:] + ["chaos", "destruction", "despair"]
+                tag_pool = [*base_tags[8:], "chaos", "destruction", "despair"]
 
             tags = random.sample(tag_pool, min(num_tags, len(tag_pool)))
 
             # Add some emerging tags
             if random.random() < drift_factor * 0.3:
-                tags.append(f"emergent_{random.randint(1, 10}")
+                tags.append(f"emergent_{random.randint(1, 10)}")
 
             dream = {
                 "id": f"dream_{i}",
@@ -1026,7 +1028,7 @@ class SymbolicDriftAnalyzer:
                 DriftAlertLevel.EMERGENCY: "bold red",
             }
             color = level_color.get(alert.level, "white")
-            alerts_content += f"[{color}]{alert.timestamp.strftime('%H:%M:%S'} - {alert.message}[/{color}]\n"
+            alerts_content += f"[{color}]{alert.timestamp.strftime('%H:%M:%S')} - {alert.message}[/{color}]\n"
 
         alerts_panel = Panel(
             alerts_content or "[green]No recent alerts[/green]",
@@ -1209,7 +1211,7 @@ async def demonstrate_analyzer():
     print(f"Ethical Drift: {results['ethical_drift']['score']:.3f}")
 
     if results["alerts"]:
-        print(f"\nGenerated {len(results['alerts']} alerts")
+        print(f"\nGenerated {len(results['alerts'])} alerts")
 
     if results["recommendations"]:
         print("\nRecommendations:")

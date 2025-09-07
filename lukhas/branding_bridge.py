@@ -17,14 +17,15 @@ Usage:
         initialize_branding, get_system_signature
     )
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import logging
 import re
 import warnings
 from dataclasses import dataclass
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

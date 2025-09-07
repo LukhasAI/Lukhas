@@ -358,7 +358,7 @@ class TierAuthenticator:
             if not qrglyph_validation.get("valid"):
                 return {
                     "success": False,
-                    "error": f"QRGLYPH validation failed: {qrglyph_validation.get('error'}",
+                    "error": f"QRGLYPH validation failed: {qrglyph_validation.get('error')}",
                 }
 
             # Check ZK proof if provided
@@ -438,7 +438,7 @@ class TierAuthenticator:
             if iris_result.get("match_score", 0.0) < 0.93:
                 return {
                     "success": False,
-                    "error": f"Iris match score too low: {iris_result.get('match_score', 0.0}:.3f}",
+                    "error": f"Iris match score too low: {iris_result.get('match_score', 0.0)}:.3f}",
                     "fallback_required": True,
                 }
         elif iris_data:

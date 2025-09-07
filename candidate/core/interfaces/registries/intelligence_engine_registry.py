@@ -514,7 +514,7 @@ class IntelligenceEngineRegistry:
     def _generate_access_token(self, engine_id: str) -> str:
         """Generate access token for engine"""
         # Simplified token generation - use proper cryptographic methods in production
-        return f"token_{engine_id}_{uuid.uuid4(}.hex[:16]}"
+        return f"token_{engine_id}_{uuid.uuid4()}.hex[:16]}"
 
     def _fire_event(self, event: RegistryEvent, event_data: dict[str, Any]):
         """Fire an event to all registered handlers"""

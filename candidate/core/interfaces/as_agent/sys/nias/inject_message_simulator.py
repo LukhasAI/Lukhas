@@ -43,7 +43,7 @@ dream_options = [
     ("Lukhas exhaled the memory.", "🫁🧠"),
 ]
 text, emotion = random.choice(dream_options)
-message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f'}"
+message_id = f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f\')}"
 with open(queue_file, "a") as f:
     f.write(
         json.dumps(
@@ -51,7 +51,7 @@ with open(queue_file, "a") as f:
                 "message_id": message_id,
                 "text": text,
                 "emotion_vector": emotion,
-                "timestamp": datetime.now(timezone.utc).isoformat(},
+                "timestamp": datetime.now(timezone.utc).isoformat()},
                 "suggest_voice": True,
             }
         )
@@ -63,14 +63,14 @@ try:
         for line in f:
             dream = json.loads(line)
             if dream.get("suggest_voice") or dream.get("replay_candidate"):
-                print(f'🎙 Narrating dream: "{dream["text"]}"')
+                print(f\'🎙 Narrating dream: "{dream["text"]}"')
                 print(f"🧠 Emotion vector: {dream['emotion_vector']}")
 
                 # Log narration
                 narrated_dreams.append(
                     {
                         "message_id": dream.get("message_id")
-                        or f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f'}",
+                        or f"lukhas_dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S%f')}",
                         "text": dream["text"],
                         "timestamp": dream["timestamp"],
                         "narrated_at": datetime.now(timezone.utc).isoformat(),
@@ -86,4 +86,4 @@ with open(NARRATION_LOG_PATH, "a") as log_file:
     for entry in narrated_dreams:
         log_file.write(json.dumps(entry) + "\n")
 
-print(f"✅ Narration complete for {len(narrated_dreams} dreams. Log saved to narration_log.jsonl")
+print(f"✅ Narration complete for {len(narrated_dreams)} dreams. Log saved to narration_log.jsonl")

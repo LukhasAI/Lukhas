@@ -21,9 +21,6 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
-import time
-import streamlit as st
-
 # +──────────────────────────────────────────────────────────────────────────────+
 # +──────────────────────────────────────────────────────────────────────────────+
 #
@@ -50,10 +47,12 @@ import streamlit as st
 #    This node initiates the symbolic voice reflection chain, transforming
 #    passive dream logs into actionable, narratable insights - forming the
 #    bridge between stored memory and expressive voice output.
-
 import json
+import time
 from datetime import datetime
 from pathlib import Path
+
+import streamlit as st
 
 DREAM_LOG = Path("core/logs/dream_log.jsonl")
 QUEUE_FILE = Path("core/logs/narration_queue.jsonl")
@@ -84,7 +83,7 @@ def run_narration_queue_builder():
         print("🌀 No dreams queued for narration.")
     else:
         save_to_queue(narratables)
-        print(f"🎙 {len(narratables} dreams added to narration queue.")
+        print(f"🎙 {len(narratables)} dreams added to narration queue.")
 
 
 run_narration_queue_builder()

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import streamlit as st
+
 """Check for syntax errors in all Python files"""
 
 import ast
@@ -25,7 +26,7 @@ def check_all_syntax_errors():
             error_count += 1
             files_with_errors.append((str(py_file.relative_to(base_dir)), e.lineno, e.msg))
             if error_count <= 20:  # Show first 20 errors
-                print(f"{py_file.relative_to(base_dir}:{e.lineno}: {e.msg}")
+                print(f"{py_file.relative_to(base_dir)}:{e.lineno}: {e.msg}")
 
     print(f"\nTotal files with syntax errors: {error_count}")
     return error_count

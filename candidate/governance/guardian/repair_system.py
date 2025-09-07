@@ -235,7 +235,7 @@ class AutomatedRepairSystem:
     ) -> RepairOperation:
         """Schedule a repair operation"""
 
-        operation_id = f"repair_{uuid.uuid4(}.hex[:8]}"
+        operation_id = f"repair_{uuid.uuid4()}.hex[:8]}"
         context = context or {}
 
         # Create repair operation
@@ -451,7 +451,7 @@ class AutomatedRepairSystem:
 
             # Assess constitutional violations
             violations = await self._assess_constitutional_violations(operation.affected_components)
-            operation.repair_log.append(f"Constitutional violations found: {len(violations}")
+            operation.repair_log.append(f"Constitutional violations found: {len(violations)}")
 
             # Apply constitutional corrections
             corrections_applied = 0

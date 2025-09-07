@@ -4,9 +4,9 @@ Compatibility bridge for tool execution used by tests.
 Exports an execute_tool function and ToolExecutionError class so tests can
 monkeypatch without touching core executor internals.
 """
-import streamlit as st
-
 from typing import Any
+
+import streamlit as st
 
 from candidate.tools.tool_executor import get_tool_executor
 

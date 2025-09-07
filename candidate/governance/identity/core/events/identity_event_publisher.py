@@ -17,7 +17,8 @@ from .identity_event_types import (
     IdentityEventPriority,
     IdentityEventType,
     TierChangeContext,
-    VerificationResult)
+    VerificationResult,
+)
 
 logger = logging.getLogger("LUKHAS_IDENTITY_EVENTS")
 

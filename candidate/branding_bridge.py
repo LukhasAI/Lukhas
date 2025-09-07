@@ -17,13 +17,14 @@ Usage:
         initialize_branding, get_system_signature
     )
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 
@@ -478,23 +479,23 @@ def get_brand_status() -> dict[str, Any]:
 
 # Module exports
 __all__ = [
-    "LUKHASBrandingBridge",
-    "BrandContext",
-    "initialize_branding",
-    "get_bridge",
-    "get_system_signature",
-    "get_trinity_context",
-    "validate_output",
-    "normalize_output_text",
-    "get_brand_voice",
-    "generate_branded_content",
-    "monitor_brand_drift",
-    "get_brand_status",
+    "CONSCIOUSNESS_SYMBOL",
+    "GUARDIAN_SYMBOL",
+    "IDENTITY_SYMBOL",
     # Constants
     "SYSTEM_NAME",
     "SYSTEM_VERSION",
     "TRINITY_FRAMEWORK",
-    "IDENTITY_SYMBOL",
-    "CONSCIOUSNESS_SYMBOL",
-    "GUARDIAN_SYMBOL",
+    "BrandContext",
+    "LUKHASBrandingBridge",
+    "generate_branded_content",
+    "get_brand_status",
+    "get_brand_voice",
+    "get_bridge",
+    "get_system_signature",
+    "get_trinity_context",
+    "initialize_branding",
+    "monitor_brand_drift",
+    "normalize_output_text",
+    "validate_output",
 ]

@@ -7,10 +7,11 @@ from collections.abc import Awaitable
 from dataclasses import dataclass
 from typing import Callable
 
+import streamlit as st
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
-import streamlit as st
+
 from consciousness.qi import qi
 
 # Prometheus (integrates with the registry from metrics_middleware)

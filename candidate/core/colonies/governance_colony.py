@@ -2,15 +2,14 @@
 Enhanced Governance Colony with Real Ethical Evaluation
 Integrates with the ethics system for actual decision-making
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 from collections import deque
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.efficient_communication import MessagePriority
@@ -171,7 +170,7 @@ class GovernanceColony(BaseColony):
 
         self.comm_fabric.subscribe_to_events("emergency_override", self._handle_emergency_override)
 
-        logger.info(f"GovernanceColony {self.colony_id} started with {len(self.agents} ethics agents")
+        logger.info(f"GovernanceColony {self.colony_id} started with {len(self.agents)} ethics agents")
 
     async def _initialize_ethics_agents(self):
         """Initialize specialized ethics agents."""
@@ -198,7 +197,7 @@ class GovernanceColony(BaseColony):
                 self.agents[agent_id] = agent
                 self.ethics_agents[specialization].append(agent)
 
-        logger.info(f"Initialized {len(self.agents} ethics agents")
+        logger.info(f"Initialized {len(self.agents)} ethics agents")
 
     async def pre_approve(self, task_id: str, task_data: dict[str, Any]) -> bool:
         """Pre-approve a task through ethical evaluation."""
@@ -441,7 +440,7 @@ class GovernanceColony(BaseColony):
     async def _handle_ethics_review(self, message):
         """Handle incoming ethics review requests."""
 
-        task_id = message.payload.get("task_id", f"review-{datetime.now(timezone.utc).timestamp(}")
+        task_id = message.payload.get("task_id", f"review-{datetime.now(timezone.utc).timestamp()}")
         result = await self.execute_task(task_id, message.payload)
 
         # Send response
@@ -505,7 +504,7 @@ async def demo_governance_colony():
                 "transparency_level": 0.9,
             },
         )
-        print(f"\nHigh-risk task result: {json.dumps(high_risk_result, indent=2}")
+        print(f"\nHigh-risk task result: {json.dumps(high_risk_result, indent=2)}")
 
         # 3. Task with ethical concerns
         ethical_concern_result = await colony.execute_task(
@@ -526,7 +525,7 @@ async def demo_governance_colony():
             "audit-1",
             {"type": "audit_query", "query_type": "rejected", "limit": 5},
         )
-        print(f"\nAudit query result: {json.dumps(audit_query, indent=2}")
+        print(f"\nAudit query result: {json.dumps(audit_query, indent=2)}")
 
     finally:
         await colony.stop()

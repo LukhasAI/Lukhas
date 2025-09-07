@@ -4,11 +4,11 @@ Test Dependencies Fixer
 ========================
 Fixes all known test dependency issues across environments
 """
-import streamlit as st
-
 import subprocess
 import sys
 from pathlib import Path
+
+import streamlit as st
 
 
 def install_missing_packages():

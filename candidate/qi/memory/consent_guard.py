@@ -3,9 +3,6 @@
 ConsentGuard: GDPR-compliant consent management with TEQ integration
 Designed by: Gonzalo Dominguez - Lukhas AI
 """
-from typing import List
-import streamlit as st
-
 from __future__ import annotations
 
 import argparse
@@ -15,7 +12,9 @@ import os
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any
+from typing import Any, List
+
+import streamlit as st
 
 
 @dataclass
@@ -219,7 +218,7 @@ def require_consent(guard: ConsentGuard, user_id: str, purpose: str) -> tuple[bo
         if consent and not consent.granted:
             return (
                 False,
-                f"Consent explicitly revoked at {datetime.fromtimestamp(consent.timestamp}",
+                f"Consent explicitly revoked at {datetime.fromtimestamp(consent.timestamp)}",
             )
         else:
             return False, f"No consent on record for purpose: {purpose}"
@@ -290,7 +289,7 @@ def main():
             print(f"✅ Valid consent (expires in {days} days)")
         else:
             if consent:
-                print(f"🚫 Consent revoked at {datetime.fromtimestamp(consent.timestamp}")
+                print(f"🚫 Consent revoked at {datetime.fromtimestamp(consent.timestamp)}")
             else:
                 print("❌ No consent on record")
 

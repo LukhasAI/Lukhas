@@ -88,7 +88,7 @@ def run_available_tests(verbose: bool = False) -> dict[str, str]:
         ]
     )
 
-    print(f"🚀 Running {len(available_suites} Test Suites:")
+    print(f"🚀 Running {len(available_suites)} Test Suites:")
     print()
 
     for suite_name, test_file in available_suites:
@@ -135,12 +135,12 @@ def run_performance_tests(verbose: bool = False) -> str:
         # Analyze results
         all_metrics = tester.tracker.metrics
         if all_metrics:
-            print(f"  📊 Recorded {len(all_metrics} performance metrics")
+            print(f"  📊 Recorded {len(all_metrics)} performance metrics")
             latest = all_metrics[-1]
             is_acceptable, message = tester.tracker.benchmark.check_performance(latest)
             print(f"  {message}")
 
-            return f"✅ Completed - {len(all_metrics} metrics recorded"
+            return f"✅ Completed - {len(all_metrics)} metrics recorded"
         else:
             return "⚠️ No metrics recorded"
 
@@ -162,7 +162,7 @@ def run_mutation_tests(verbose: bool = False) -> str:
 
         source = inspect.getsource(samples.check_temporal_coherence)
         mutations = tester.mutation_operator.generate_mutations(source)
-        print(f"  🔬 Generated {len(mutations} mutations for temporal coherence function")
+        print(f"  🔬 Generated {len(mutations)} mutations for temporal coherence function")
 
         if mutations and verbose:
             print("  Example mutations:")

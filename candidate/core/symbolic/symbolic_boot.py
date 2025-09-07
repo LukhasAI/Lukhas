@@ -12,14 +12,14 @@ Symbolic Boot Module
 This module provides symbolic boot functionality for the LUKHAS AGI system.
 It handles system initialization and symbolic bootstrapping.
 """
-import time
-import streamlit as st
-
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -162,7 +162,7 @@ def main():
     bootstrap = get_bootstrap()
     result = bootstrap.symbolic_boot()
 
-    logger.info(f"\n📊 Boot Status: {result['status'].upper(}")
+    logger.info(f"\n📊 Boot Status: {result['status'].upper()}")
     logger.info(f"Workspace Valid: {result['workspace_valid']}")
     logger.info(f"Modules Loaded: {result['modules_loaded']}")
 

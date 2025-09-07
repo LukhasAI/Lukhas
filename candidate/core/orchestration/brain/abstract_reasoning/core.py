@@ -9,10 +9,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from .bio_quantum_engine import (
-    BioQuantumSymbolicReasoner,
-    BrainSymphony,
-    BrainSymphonyConfig)
+from .bio_quantum_engine import BioQuantumSymbolicReasoner, BrainSymphony, BrainSymphonyConfig
 from .confidence_calibrator import AdvancedConfidenceCalibrator
 
 # Import brain components with graceful fallback

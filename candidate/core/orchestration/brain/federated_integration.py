@@ -12,9 +12,11 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
-from consciousness.qi import qi
-import streamlit as st
 from datetime import timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 """
 Meta-Learning Enhancement System - Federated Learning Integration
@@ -90,7 +92,7 @@ class FederatedNode:
 
     def _generate_quantum_signature(self) -> str:
         """Generate quantum-inspired signature for node identity"""
-        data = f"{self.node_id}_{self.node_type}_{time.time(}"
+        data = f"{self.node_id}_{self.node_type}_{time.time()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
 
@@ -290,7 +292,7 @@ class FederatedLearningIntegration:
 
                 coordinated_rates[node_id] = coordinated_rate
 
-        logger.info(f"Coordinated learning rates for {len(coordinated_rates} nodes")
+        logger.info(f"Coordinated learning rates for {len(coordinated_rates)} nodes")
         return coordinated_rates
 
     def enhance_symbolic_reasoning_federation(self) -> dict[str, Any]:
@@ -319,7 +321,7 @@ class FederatedLearningIntegration:
             "collaborative_reasoning": self._generate_collaborative_reasoning_insights(),
         }
 
-        logger.info(f"Generated {len(cross_node_insights} cross-node symbolic insights")
+        logger.info(f"Generated {len(cross_node_insights)} cross-node symbolic insights")
         return enhancements
 
     def synchronize_federation(self) -> dict[str, Any]:
@@ -482,7 +484,7 @@ class FederatedLearningIntegration:
 
     def _generate_update_signature(self, insight_type: str, content: dict[str, Any]) -> str:
         """Generate quantum signature for federation update"""
-        data = f"{self.node_id}_{insight_type}_{json.dumps(content, sort_keys=True)}_{time.time(}"
+        data = f"{self.node_id}_{insight_type}_{json.dumps(content, sort_keys=True)}_{time.time()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
     def _process_federation_update(self, update: FederatedLearningUpdate) -> dict[str, Any]:
@@ -577,7 +579,7 @@ class FederatedLearningIntegration:
             "pattern_type": pattern_type,
             "nodes_involved": len(patterns),
             "significance": min(0.9, len(patterns) * 0.2),  # Higher significance with more nodes
-            "cross_node_insight": f"Federation pattern discovered across {len(patterns} nodes",
+            "cross_node_insight": f"Federation pattern discovered across {len(patterns)} nodes",
             "recommended_action": ("integrate_pattern" if len(patterns) >= 3 else "monitor_pattern"),
         }
 
@@ -626,7 +628,7 @@ class FederatedLearningIntegration:
             insights.append(
                 {
                     "type": "diversity_advantage",
-                    "description": f"Federation benefits from {len(node_types} different node types",
+                    "description": f"Federation benefits from {len(node_types)} different node types",
                     "recommendation": "Leverage diverse perspectives for complex reasoning tasks",
                 }
             )
@@ -745,7 +747,7 @@ class FederatedLearningIntegration:
 
     def _generate_coordination_signature(self, sync_results: dict[str, Any]) -> str:
         """Generate signature for coordination event"""
-        data = f"{self.node_id}_coordination_{json.dumps(sync_results, sort_keys=True)}_{time.time(}"
+        data = f"{self.node_id}_coordination_{json.dumps(sync_results, sort_keys=True)}_{time.time()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
     def _anonymize_data(self, data: Any) -> Any:
@@ -755,7 +757,7 @@ class FederatedLearningIntegration:
         elif isinstance(data, list):
             return [self._anonymize_data(item) for item in data[:3]]  # Limit list size
         elif isinstance(data, str):
-            return f"anon_{len(data}_chars"
+            return f"anon_{len(data)}_chars"
         else:
             return data
 

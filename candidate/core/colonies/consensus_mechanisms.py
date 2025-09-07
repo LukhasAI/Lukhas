@@ -6,8 +6,6 @@ Implements voting, confidence scoring, and hormone-based consensus.
 
 Based on GPT5 audit recommendations and existing colony architecture.
 """
-import streamlit as st
-
 import asyncio
 import logging
 import random
@@ -16,6 +14,8 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Import our signal system
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
@@ -151,7 +151,7 @@ class ColonyConsensus:
         **kwargs,
     ) -> str:
         """Create a new consensus proposal"""
-        proposal_id = f"{self.colony_id}_{len(self.active_proposals)}_{time.time(}"
+        proposal_id = f"{self.colony_id}_{len(self.active_proposals)}_{time.time()}"
 
         proposal = ConsensusProposal(
             proposal_id=proposal_id,
@@ -387,7 +387,7 @@ class ColonyConsensus:
         if faulty_ratio <= self.byzantine_threshold:
             # Can tolerate faults - filter them out
             filtered_votes = [v for v in votes if v.agent_id not in faulty_agents]
-            logger.info(f"Filtered {len(faulty_agents} potentially faulty votes")
+            logger.info(f"Filtered {len(faulty_agents)} potentially faulty votes")
         else:
             # Too many faults - use all votes but reduce confidence
             filtered_votes = votes

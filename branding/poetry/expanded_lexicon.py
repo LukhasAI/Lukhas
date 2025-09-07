@@ -9,14 +9,15 @@ A massively enriched vocabulary system combining:
 - LUKHAS-specific innovations
 - Cross-cultural poetic forms
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import random
+import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class PoeticForm(Enum):
@@ -1213,16 +1214,16 @@ if __name__ == "__main__":
     print()
 
     print("▸ GENERATED PHRASES:")
-    print(f"  Consciousness: {lexicon.create_rich_phrase('consciousness'}")
-    print(f"  Memory: {lexicon.create_rich_phrase('memory'}")
-    print(f"  Quantum: {lexicon.create_rich_phrase('quantum'}")
+    print(f"  Consciousness: {lexicon.create_rich_phrase('consciousness')}")
+    print(f"  Memory: {lexicon.create_rich_phrase('memory')}")
+    print(f"  Quantum: {lexicon.create_rich_phrase('quantum')}")
     print()
 
     print("▸ POETIC DESCRIPTIONS (Different Styles):")
-    print(f"  Minimal: {lexicon.generate_poetic_description('consciousness', 'minimal'}")
-    print(f"  Rich: {lexicon.generate_poetic_description('consciousness', 'rich'}")
-    print(f"  Technical: {lexicon.generate_poetic_description('consciousness', 'technical'}")
-    print(f"  Mystical: {lexicon.generate_poetic_description('consciousness', 'mystical'}")
+    print(f"  Minimal: {lexicon.generate_poetic_description('consciousness', 'minimal')}")
+    print(f"  Rich: {lexicon.generate_poetic_description('consciousness', 'rich')}")
+    print(f"  Technical: {lexicon.generate_poetic_description('consciousness', 'technical')}")
+    print(f"  Mystical: {lexicon.generate_poetic_description('consciousness', 'mystical')}")
     print()
 
     print("═══════════════════════════════════════════════════════════════")

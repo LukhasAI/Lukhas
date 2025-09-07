@@ -15,15 +15,13 @@ Integration with lukhas-id:
 - Actions are logged for full audit trails
 - Consent is checked for sensitive evaluations
 """
-from typing import Dict
 import logging
-import streamlit as st
-from datetime import timezone
-
 import os
 import sys
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 # Add parent directory to path for identity interface
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -380,7 +378,7 @@ class EthicsService:
         if not hasattr(self, "ethics_validators"):
             self.ethics_validators = {}
 
-        validator_id = f"validator_{len(self.ethics_validators}"
+        validator_id = f"validator_{len(self.ethics_validators)}"
         self.ethics_validators[validator_id] = validator
 
         # Log registration
@@ -451,4 +449,4 @@ if __name__ == "__main__":
 
     # Test safety evaluation
     safety = ethics.evaluate_safety(test_user, "memory_access", {"scope": "user_data", "purpose": "analysis"})
-    print(f"Safety assessment: {safety.get('safe', False}")
+    print(f"Safety assessment: {safety.get('safe', False)}")

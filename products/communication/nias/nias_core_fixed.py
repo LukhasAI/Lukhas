@@ -2,13 +2,12 @@
 """
 NIAS Core - Fixed version with proper emotional state handling
 """
-import streamlit as st
-from datetime import timezone
-
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class EmotionalState(Enum):

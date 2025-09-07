@@ -5,9 +5,6 @@ Privacy Guardian - Privacy protection and data security for LUKHAS AI
 Provides encryption, anonymization, privacy compliance, and governance
 integration with Trinity Framework (⚛️🧠🛡️) oversight.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import base64
 import hashlib
@@ -17,9 +14,11 @@ import re
 import time
 import uuid
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 from ..common import GlyphIntegrationMixin
 
@@ -361,7 +360,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                         classification.governance_validated = classification_data.get("governance_validated", True)
                     self.data_classifications[classification.classification_id] = classification
 
-                logger.info(f"Loaded {len(self.privacy_policies} privacy policies with governance validation")
+                logger.info(f"Loaded {len(self.privacy_policies)} privacy policies with governance validation")
             else:
                 self._create_default_policies()
 
@@ -1293,7 +1292,7 @@ if __name__ == "__main__":
             print(
                 f"   ⚛️🧠🛡️ Trinity protection: {classification_result['protection_requirements']['trinity_protection']}"
             )
-            print(f"   🔍 Sensitive patterns: {', '.join(classification_result['sensitive_patterns']}")
+            print(f"   🔍 Sensitive patterns: {', '.join(classification_result['sensitive_patterns'])}")
             print(
                 f"   📊 Trinity impact: I:{classification_result['trinity_impact']['identity']:.1f} C:{classification_result['trinity_impact']['consciousness']:.1f} G:{classification_result['trinity_impact']['guardian']:.1f}"
             )

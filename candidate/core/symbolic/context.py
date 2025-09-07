@@ -4,9 +4,9 @@ Standalone SymbolicContext Enum for LUKHAS Consciousness System
 
 This module provides the SymbolicContext enum without dependencies for easier importing.
 """
-import streamlit as st
-
 from enum import Enum
+
+import streamlit as st
 
 
 class SymbolicContext(Enum):
@@ -33,4 +33,4 @@ class FeedbackType(Enum):
 
 
 # Export the main classes
-__all__ = ["SymbolicContext", "FeedbackType"]
+__all__ = ["FeedbackType", "SymbolicContext"]

@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -103,7 +105,7 @@ class EnhancedMemoryManager:
     """
 
     def __init__(self, base_path: Optional[str] = None):
-        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S'}")
+        self.logger = logger.bind(manager_id=f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S')}")
 
         # ΛSEED: Default configurations for memory fold and visualization.
         self.memory_fold_config = MemoryFoldConfig()
@@ -167,7 +169,7 @@ class EnhancedMemoryManager:
         """
         # ΛPHASE_NODE: Store Memory Operation Start
         effective_memory_id = (
-            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_'}"
+            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
         )  # Ensure filename safe ID
         self.logger.info(
             "Attempting to store memory.",

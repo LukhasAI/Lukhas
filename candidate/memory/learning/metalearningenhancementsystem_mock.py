@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Meta-Learning Enhancement System Mock Implementation
@@ -49,7 +51,7 @@ class MockMonitorDashboard:
         self.metrics = {"accuracy": 0.85, "loss": 0.15, "convergence": 0.75}
 
     async def start_monitoring_session(self, config: dict[str, Any]) -> str:
-        session_id = f"monitor_{datetime.now(timezone.utc).timestamp(}"
+        session_id = f"monitor_{datetime.now(timezone.utc).timestamp()}"
         self.active_sessions[session_id] = config
         return session_id
 
@@ -83,7 +85,7 @@ class MockSymbolicFeedback:
 
     async def process_feedback(self, feedback_data: dict[str, Any]) -> dict[str, Any]:
         processed = {
-            "feedback_id": f"fb_{datetime.now(timezone.utc).timestamp(}",
+            "feedback_id": f"fb_{datetime.now(timezone.utc).timestamp()}",
             "processed": True,
             "symbolic_score": random.uniform(0.6, 0.95),
             "integration_points": random.randint(1, 5),
@@ -187,7 +189,7 @@ class MetaLearningEnhancementsystem:
         """Apply mock optimization"""
         new_rate = await self.rate_modulator.optimize_rate(context)
         return {
-            "optimization_id": f"opt_{datetime.now(timezone.utc).timestamp(}",
+            "optimization_id": f"opt_{datetime.now(timezone.utc).timestamp()}",
             "new_learning_rate": new_rate,
             "convergence_estimate": random.uniform(0.6, 0.95),
             "applied": True,

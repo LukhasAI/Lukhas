@@ -177,14 +177,14 @@ def generate_todo_report(all_todos: list[dict]) -> str:
     # Generate report
     report_lines = [
         "# T4 TODO Analysis Report",
-        f"Generated: {os.popen('date -u +%Y-%m-%dT%H:%M:%SZ').read().strip(}",
+        f"Generated: {os.popen('date -u +%Y-%m-%dT%H:%M:%SZ').read().strip()}",
         "",
         "## Summary",
-        f"Total TODOs: {len(all_todos}",
+        f"Total TODOs: {len(all_todos)}",
     ]
 
     for todo_type, todos in sorted(by_type.items()}:
-        report_lines.append(f"- T4-{todo_type}: {len(todos}")
+        report_lines.append(f"- T4-{todo_type}: {len(todos)}")
 
     report_lines.append("")
 
@@ -197,7 +197,7 @@ def generate_todo_report(all_todos: list[dict]) -> str:
             report_lines.append(f"- `{todo['file']}:{todo['line']}` - {todo['message']}")
 
         if len(todos) > 10:
-            report_lines.append(f"- ... and {len(todos} - 10} more")
+            report_lines.append(f"- ... and {len(todos)} - 10} more")
 
         report_lines.append("")
 
@@ -284,7 +284,7 @@ def main():
 
     # Summary
     print(f"\n🔍 Scanned {total_files} files")
-    print(f"📝 Found {len(all_todos} TODO markers")
+    print(f"📝 Found {len(all_todos)} TODO markers")
     if not args.report_only:
         print(f"💡 Added {total_annotations} suggestions")
 

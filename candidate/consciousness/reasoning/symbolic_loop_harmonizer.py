@@ -1,6 +1,8 @@
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 Symbolic Loop Harmonizer
@@ -491,7 +493,7 @@ class SymbolicLoopHarmonizer:
         Update the symbol registry with new definitions
         """
         self.symbol_registry.update(symbols)
-        logger.info(f"Symbol registry updated with {len(symbols} symbols")
+        logger.info(f"Symbol registry updated with {len(symbols)} symbols")
 
     def set_dream_state(self, dream_state: dict[str, Any]):
         """

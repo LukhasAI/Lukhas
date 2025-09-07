@@ -4,10 +4,10 @@ Original: emotion_trend_tracker.py
 Advanced: emotion_trend_tracker.py
 Integration Date: 2025-05-31T07:55:28.100778
 """
-import streamlit as st
-
 import json
 from collections import defaultdict
+
+import streamlit as st
 
 
 def analyze_emotion_trends():

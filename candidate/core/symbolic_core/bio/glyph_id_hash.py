@@ -5,6 +5,7 @@ Advanced: glyph_id_hash.py
 Integration Date: 2025-05-31T07:55:28.185300
 """
 from typing import Dict
+
 import streamlit as st
 
 """
@@ -36,7 +37,7 @@ class GlyphIDHasher:
         self.random_salt = random.getrandbits(256)
 
     def _digest_component(self, key: str, size: int = 4) -> bytes:
-        data = f"{key}:{self.seed_components.get(key, ''}".encode()
+        data = f"{key}:{self.seed_components.get(key, '')}".encode()
         return hashlib.shake_128(data).digest(size)
 
     def generate_signature(self) -> str:

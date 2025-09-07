@@ -15,11 +15,6 @@ DEPENDENCIES:
   - core/memory/memory_manager.py
   - core/identity/identity_manager.py
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 # 📄 MODULE: voice_profiling.py
 # 🔎 PURPOSE: Advanced voice profiling for personalized and adaptive speech synthesis
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-05-08 • ✍️ AUTHOR: LUKHAS AI
@@ -29,8 +24,10 @@ import logging
 import os
 import random
 import uuid
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
+
+import streamlit as st
 
 
 class VoiceProfilingEmotionEngine:
@@ -287,7 +284,7 @@ class VoiceProfilingEmotionEngine:
                 except (json.JSONDecodeError, FileNotFoundError) as e:
                     self.logger.error(f"Error loading profile {filename}: {e!s}")
 
-        self.logger.info(f"Loaded {len(self.profiles} voice profiles")
+        self.logger.info(f"Loaded {len(self.profiles)} voice profiles")
 
     def _save_profile(self, profile: VoiceProfile) -> bool:
         """Save profile to disk."""

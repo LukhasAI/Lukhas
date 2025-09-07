@@ -123,7 +123,7 @@ class MultiBrainΛBot:
             ),
         }
 
-        logger.info(f"🧠 Initialized {len(self.specialized_brains} specialized brain cores")
+        logger.info(f"🧠 Initialized {len(self.specialized_brains)} specialized brain cores")
 
     async def initialize_brain_symphony(self):
         """Initialize and synchronize all brain cores"""

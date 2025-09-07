@@ -3,9 +3,9 @@ Actor System Module
 Provides ActorRef and basic actor system functionality for LUKHAS AI
 Trinity Framework: ⚛️🧠🛡️
 """
-import streamlit as st
-
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class ActorRef:

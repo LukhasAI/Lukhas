@@ -144,16 +144,16 @@ def _initialize_bio_systems():
 _bio_initialization_status = _initialize_bio_systems()
 
 __all__ = [
-    # Version info
-    "__version__",
-    "__author__",
+    "BIO_AWARENESS_AVAILABLE",
     # Availability flags
     "BIO_CORE_AVAILABLE",
     "BIO_SYMBOLIC_AVAILABLE",
-    "BIO_AWARENESS_AVAILABLE",
+    "__author__",
+    # Version info
+    "__version__",
+    "create_bio_memory_fold",
+    "enhance_bio_awareness",
     # Core functions
     "get_bio_system_status",
-    "create_bio_memory_fold",
     "process_bio_symbolic_pattern",
-    "enhance_bio_awareness",
 ]

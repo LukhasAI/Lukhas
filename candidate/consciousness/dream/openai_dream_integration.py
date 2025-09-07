@@ -140,7 +140,7 @@ The narrative should be immersive and poetic, suitable for both reading and visu
             image_prompt = await self._create_image_prompt(response)
             base_dream["image_prompt"] = image_prompt
 
-            logger.info(f"Enhanced dream narrative created: {base_dream.get('dream_id', 'unknown'}")
+            logger.info(f"Enhanced dream narrative created: {base_dream.get('dream_id', 'unknown')}")
             return base_dream
 
         except Exception as e:
@@ -339,7 +339,7 @@ Make it vivid and specific for image generation."""
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
-            logger.info(f"Voice transcribed to dream prompt: {len(transcribed_text} chars")
+            logger.info(f"Voice transcribed to dream prompt: {len(transcribed_text)} chars")
             return result
 
         except Exception as e:
@@ -388,7 +388,7 @@ Keep it concise but evocative."""
         Returns:
             Complete dream object with all generated content
         """
-        dream_id = f"DREAM_{datetime.utcnow().strftime('%Y%m%d_%H%M%S'}"
+        dream_id = f"DREAM_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}"
 
         # Initialize dream object
         dream = {
@@ -495,7 +495,7 @@ async def demo_dream_creation():
         )
 
         print(f"Dream created: {dream['dream_id']}")
-        print(f"Narrative: {dream.get('enhanced_narrative', {}).get('full_text', 'N/A')[:200]}...")
+        print(f"Narrative: {dream.get('enhanced_narrative', {)}).get('full_text', 'N/A')[:200]}...")
 
         if "generated_image" in dream:
             print(f"Image saved: {dream['generated_image']['path']}")

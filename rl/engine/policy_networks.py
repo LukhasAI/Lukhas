@@ -220,7 +220,7 @@ class PolicyNetwork:
     def __init__(self, state_dim: int = 692, action_dim: int = 50, hidden_dim: int = 512):
         self.capabilities = ["rl.policy", "neural.decision", "consciousness.action"]
         self.node_type = "DECISION"
-        self.trace_id = f"rl-policy-{uuid.uuid4(}.hex[:12]}"
+        self.trace_id = f"rl-policy-{uuid.uuid4()}.hex[:12]}"
 
         # Initialize consciousness actor-critic from design doc
         self.actor_critic = ConsciousnessActorCritic(state_dim, action_dim, hidden_dim)
@@ -281,7 +281,7 @@ class PolicyNetwork:
         # Create rich DECISION node
         decision_node = MatrizNode(
             version=1,
-            id=f"RL-POLICY-{self.trace_id}-{len(self.decision_history}",
+            id=f"RL-POLICY-{self.trace_id}-{len(self.decision_history)}",
             type="DECISION",
             labels=[
                 "rl:role=policy@1",
@@ -366,7 +366,7 @@ class PolicyNetwork:
                     ),
                 }
             ],
-            evidence=[{"kind": "trace", "uri": f"policy://decision/{self.trace_id}/{len(self.decision_history}"}],
+            evidence=[{"kind": "trace", "uri": f"policy://decision/{self.trace_id}/{len(self.decision_history)}"}],
         )
 
         # Track decision

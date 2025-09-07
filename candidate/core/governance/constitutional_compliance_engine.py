@@ -554,7 +554,7 @@ class ConstitutionalComplianceEngine:
                 ],
             )
 
-            logger.info(f"✅ Initialized {len(self.compliance_rules} compliance rules")
+            logger.info(f"✅ Initialized {len(self.compliance_rules)} compliance rules")
 
         except Exception as e:
             logger.error(f"❌ Failed to initialize compliance rules: {e}")
@@ -587,7 +587,7 @@ class ConstitutionalComplianceEngine:
                 RegulatoryFramework.CONSTITUTIONAL_AI: list(self.compliance_rules.keys()),
             }
 
-            logger.info(f"✅ Initialized regulatory mappings for {len(self.regulatory_mappings} frameworks")
+            logger.info(f"✅ Initialized regulatory mappings for {len(self.regulatory_mappings)} frameworks")
 
         except Exception as e:
             logger.error(f"❌ Failed to initialize regulatory mappings: {e}")
@@ -606,7 +606,7 @@ class ConstitutionalComplianceEngine:
                 RemediationAction.TRIGGER_RETRAINING: self._handle_trigger_retraining,
             }
 
-            logger.info(f"✅ Initialized {len(self.remediation_handlers} remediation handlers")
+            logger.info(f"✅ Initialized {len(self.remediation_handlers)} remediation handlers")
 
         except Exception as e:
             logger.error(f"❌ Failed to initialize remediation handlers: {e}")
@@ -634,7 +634,7 @@ class ConstitutionalComplianceEngine:
             return self._create_disabled_result()
 
         start_time = datetime.now(timezone.utc)
-        result_id = f"ccr_{uuid.uuid4(}.hex[:8]}"
+        result_id = f"ccr_{uuid.uuid4()}.hex[:8]}"
 
         try:
             logger.debug(f"🏛️ Performing compliance check {result_id}: {decision_context.value}")
@@ -707,7 +707,7 @@ class ConstitutionalComplianceEngine:
     def _create_disabled_result(self) -> ComplianceResult:
         """Create result when compliance engine is disabled"""
         return ComplianceResult(
-            result_id=f"disabled_{uuid.uuid4(}.hex[:8]}",
+            result_id=f"disabled_{uuid.uuid4()}.hex[:8]}",
             overall_compliant=True,  # Pass through when disabled
             overall_compliance_score=1.0,
             compliance_level=ComplianceLevel.COMPLIANT,
@@ -778,7 +778,7 @@ class ConstitutionalComplianceEngine:
     ) -> ComplianceCheck:
         """Perform individual rule compliance check"""
 
-        check_id = f"cc_{uuid.uuid4(}.hex[:8]}"
+        check_id = f"cc_{uuid.uuid4()}.hex[:8]}"
         violations = []
 
         try:
@@ -991,7 +991,7 @@ class ConstitutionalComplianceEngine:
                 return {
                     "violation_type": "manipulative_language",
                     "found_keywords": found_keywords,
-                    "description": f"Manipulative keywords detected: {', '.join(found_keywords}",
+                    "description": f"Manipulative keywords detected: {', '.join(found_keywords)}",
                 }
 
         elif condition == "enables_violence":
@@ -1001,7 +1001,7 @@ class ConstitutionalComplianceEngine:
                 return {
                     "violation_type": "violence_enabling",
                     "found_keywords": found_violence,
-                    "description": f"Violence-enabling content detected: {', '.join(found_violence}",
+                    "description": f"Violence-enabling content detected: {', '.join(found_violence)}",
                 }
 
         elif condition == "pretends_to_be_human":
@@ -1219,7 +1219,7 @@ class ConstitutionalComplianceEngine:
             ]
 
             if non_compliant_principles:
-                explanations["violations"] = f"Violated principles: {', '.join(non_compliant_principles}."
+                explanations["violations"] = f"Violated principles: {', '.join(non_compliant_principles)}."
             else:
                 explanations["violations"] = "No constitutional violations detected."
 
@@ -1563,7 +1563,7 @@ async def example_usage():
     # Test 4: Regulatory compliance breakdown
     print("\n📋 Test 4: Regulatory Compliance")
     for framework, score in result1.regulatory_compliance.items():
-        print(f"{framework.value.upper(}: {score:.1%}")
+        print(f"{framework.value.upper()}: {score:.1%}")
 
     print("\n✅ Constitutional Compliance Engine example completed successfully")
 

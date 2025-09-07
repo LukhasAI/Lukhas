@@ -155,7 +155,7 @@ class DreamGuidedLearner:
     ) -> str:
         """Start a new dream-guided learning session."""
 
-        session_id = f"learn_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.active_sessions}"
+        session_id = f"learn_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.active_sessions)}"
 
         session = LearningSession(
             session_id=session_id,
@@ -330,7 +330,7 @@ class DreamGuidedLearner:
 
         # Update session with learning outcomes
         outcome = LearningOutcome(
-            outcome_id=f"outcome_{session.session_id}_{len(session.learning_outcomes}",
+            outcome_id=f"outcome_{session.session_id}_{len(session.learning_outcomes)}",
             session_id=session.session_id,
             concepts_learned=list(concepts_learned),
             skills_acquired=list(skills_acquired),
@@ -601,7 +601,7 @@ class DreamGuidedLearner:
                     session.generated_insights.append(
                         {
                             "type": "intuitive_pattern",
-                            "content": f"Intuitive pattern recognized: Strong {', '.join(strong_alignments} alignment",
+                            "content": f"Intuitive pattern recognized: Strong {', '.join(strong_alignments)} alignment",
                             "phase": "intuitive_learning",
                             "confidence": max(memory.constellation_tags[star] for star in strong_alignments),
                             "pattern_stars": strong_alignments,
@@ -688,7 +688,7 @@ class DreamGuidedLearner:
                 constellation_tags[star] = constellation_tags.get(star, 0.0) + alignment * 0.1
 
         learning_memory = MemoryVector(
-            id=f"learned_{content_type}_{session.session_id}_{len(session.learning_outcomes}",
+            id=f"learned_{content_type}_{session.session_id}_{len(session.learning_outcomes)}",
             content=f"Learned {content_type}: {content}",
             vector=vector,
             memory_type=memory_type,
@@ -778,7 +778,7 @@ class DreamGuidedLearner:
             summary_content += f"Learned {total_concepts} concepts and {total_skills} skills\n"
 
         if session.dream_sessions:
-            summary_content += f"Dream-enhanced with {len(session.dream_sessions} dream sessions\n"
+            summary_content += f"Dream-enhanced with {len(session.dream_sessions)} dream sessions\n"
 
         # Create vector representation
         vector = np.random.normal(0, 1, self.memory_store.embedding_dimension)
@@ -811,14 +811,14 @@ class DreamGuidedLearner:
     async def _recover_from_error(self, session: LearningSession, error: Exception):
         """Attempt to recover from learning session errors."""
 
-        recovery_strategy = f"Error recovery: Simplified learning approach due to {type(error}.__name__}"
+        recovery_strategy = f"Error recovery: Simplified learning approach due to {type(error)}.__name__}"
         session.recovery_strategies.append(recovery_strategy)
 
         # Try simplified learning approach
         if session.source_materials:
             simple_insight = {
                 "type": "recovery_insight",
-                "content": f"Recovered with simplified analysis of {len(session.source_materials} materials",
+                "content": f"Recovered with simplified analysis of {len(session.source_materials)} materials",
                 "phase": "error_recovery",
                 "confidence": 0.3,
             }

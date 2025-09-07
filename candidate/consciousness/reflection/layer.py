@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-from datetime import datetime, timezone
 import logging
-import streamlit as st
 import time
-from typing import Dict
-from typing import List
+from datetime import datetime, timezone
+from typing import Dict, List
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """
@@ -256,7 +258,7 @@ class QIBioOscillator:
             strength = self.config.entanglement_strength
 
         # Create entanglement ID
-        entanglement_id = f"entanglement_{id(self)}_{id(other_oscillator}"
+        entanglement_id = f"entanglement_{id(self)}_{id(other_oscillator)}"
 
         # Create entanglement data
         entanglement_data = {

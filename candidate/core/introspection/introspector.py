@@ -231,9 +231,9 @@ class ModuleIntrospector:
 
         # Structure summary
         report_lines.append("\n🏗️ STRUCTURE:")
-        report_lines.append(f"   Functions: {len(module_summary['functions']}")
-        report_lines.append(f"   Classes: {len(module_summary['classes']}")
-        report_lines.append(f"   Imports: {len(module_summary['imports']}")
+        report_lines.append(f"   Functions: {len(module_summary['functions'])}")
+        report_lines.append(f"   Classes: {len(module_summary['classes'])}")
+        report_lines.append(f"   Imports: {len(module_summary['imports'])}")
 
         # Function details
         if module_summary["functions"]:
@@ -241,7 +241,7 @@ class ModuleIntrospector:
             for func in module_summary["functions"][:5]:  # Show first 5
                 report_lines.append(f"   • {func['name']}() [line {func['line']}]")
             if len(module_summary["functions"]) > 5:
-                report_lines.append(f"   ... and {len(module_summary['functions']} - 5} more")
+                report_lines.append(f"   ... and {len(module_summary['functions'])} - 5} more")
 
         # Class details
         if module_summary["classes"]:
@@ -249,7 +249,7 @@ class ModuleIntrospector:
             for cls in module_summary["classes"][:5]:  # Show first 5
                 report_lines.append(f"   • {cls['name']} [line {cls['line']}]")
             if len(module_summary["classes"]) > 5:
-                report_lines.append(f"   ... and {len(module_summary['classes']} - 5} more")
+                report_lines.append(f"   ... and {len(module_summary['classes'])} - 5} more")
 
         # Error reporting
         if "error" in module_summary:

@@ -55,7 +55,7 @@ class SimpleDashboard:
         self.auto_refresh_interval = 5000  # milliseconds
         self.max_logs = 100
 
-        self.logger = logging.getLogger(f"dashboard.{title.lower().replace(' ', '_'}")
+        self.logger = logging.getLogger(f"dashboard.{title.lower().replace(' ', '_')}")
 
     def add_metric(self, key: str, value: Union[int, float, str], unit: str = "") -> None:
         """Add or update a metric"""
@@ -98,7 +98,7 @@ class SimpleDashboard:
 
     def add_log(self, message: str, level: str = "INFO") -> None:
         """Add a log message"""
-        log_entry = f"[{time.strftime('%H:%M:%S'}] {level}: {message}"
+        log_entry = f"[{time.strftime('%H:%M:%S')}] {level}: {message}"
         self.data.logs.append(log_entry)
 
         # Limit log size
@@ -627,7 +627,7 @@ if __name__ == "__main__":
     dashboard.add_log("Loading consciousness modules")
     dashboard.add_log("Memory folds initialized")
 
-    print(f"Dashboard running at: {dashboard.get_url(}")
+    print(f"Dashboard running at: {dashboard.get_url()}")
 
     try:
         # Keep running until interrupted
@@ -636,8 +636,8 @@ if __name__ == "__main__":
             # Update some demo data
             import random
 
-            dashboard.add_metric("CPU Usage", f"{random.randint(20, 80}%", "%")
-            dashboard.add_log(f"Heartbeat - System healthy at {time.strftime('%H:%M:%S'}")
+            dashboard.add_metric("CPU Usage", f"{random.randint(20, 80)}%", "%")
+            dashboard.add_log(f"Heartbeat - System healthy at {time.strftime('%H:%M:%S')}")
 
     except KeyboardInterrupt:
         dashboard.stop_server()

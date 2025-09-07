@@ -48,11 +48,11 @@ Usage:
         "user_id": "user123"
     })
 """
-import streamlit as st
-
 import logging
 import os
 from typing import Any, Optional
+
+import streamlit as st
 
 # Module metadata
 __version__ = "1.0.0"

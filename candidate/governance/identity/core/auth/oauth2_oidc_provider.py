@@ -14,15 +14,14 @@ Features:
 - Trinity Framework integration (⚛️🧠🛡️)
 - <100ms p95 latency for token operations
 """
-import streamlit as st
-from datetime import timezone
-
 import base64
 import hashlib
 import secrets
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 try:
     import jwt
@@ -539,7 +538,7 @@ class OAuth2OIDCProvider:
         """📝 Register OAuth2 client (RFC 7591)"""
         try:
             # Generate client credentials
-            client_id = f"lukhas_{secrets.token_urlsafe(16}"
+            client_id = f"lukhas_{secrets.token_urlsafe(16)}"
             client_secret = secrets.token_urlsafe(32)
 
             # Validate registration request
@@ -686,7 +685,7 @@ class OAuth2OIDCProvider:
     ):
         """Handle authorization code flow"""
         # Generate authorization code
-        auth_code = f"lukhas_ac_{secrets.token_urlsafe(32}"
+        auth_code = f"lukhas_ac_{secrets.token_urlsafe(32)}"
 
         # Store authorization code
         self.authorization_codes[auth_code] = {
@@ -732,8 +731,8 @@ class OAuth2OIDCProvider:
                 return self._error_response("invalid_grant", "Invalid code verifier")
 
         # Generate tokens
-        access_token = f"lukhas_at_{secrets.token_urlsafe(32}"
-        refresh_token = f"lukhas_rt_{secrets.token_urlsafe(32}"
+        access_token = f"lukhas_at_{secrets.token_urlsafe(32)}"
+        refresh_token = f"lukhas_rt_{secrets.token_urlsafe(32)}"
 
         token_data = {
             "client_id": client.client_id,
@@ -817,7 +816,7 @@ class OAuth2OIDCProvider:
         """Handle implicit flow"""
         if token_type == "access_token":
             # Generate access token
-            access_token = f"lukhas_at_{secrets.token_urlsafe(32}"
+            access_token = f"lukhas_at_{secrets.token_urlsafe(32)}"
 
             token_data = {
                 "client_id": client.client_id,
@@ -887,7 +886,7 @@ class OAuth2OIDCProvider:
         token_data = self.refresh_tokens[refresh_token]
 
         # Generate new access token
-        new_access_token = f"lukhas_at_{secrets.token_urlsafe(32}"
+        new_access_token = f"lukhas_at_{secrets.token_urlsafe(32)}"
         new_token_data = token_data.copy()
         new_token_data.update(
             {
@@ -913,7 +912,7 @@ class OAuth2OIDCProvider:
         final_scopes = list(client.allowed_scopes & set(scope)) if scope else list(client.allowed_scopes)
 
         # Generate access token
-        access_token = f"lukhas_at_{secrets.token_urlsafe(32}"
+        access_token = f"lukhas_at_{secrets.token_urlsafe(32)}"
 
         token_data = {
             "client_id": client.client_id,

@@ -5,11 +5,11 @@ Wave C C4 Database Migration Tool
 Manages database schema for the Aka Qualia memory system.
 Supports SQLite and PostgreSQL with safe migration procedures.
 """
-import streamlit as st
-
 import argparse
 import sys
 from pathlib import Path
+
+import streamlit as st
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))

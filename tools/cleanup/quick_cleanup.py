@@ -4,12 +4,13 @@ Quick Cleanup Script for LUKHAS
 ====================================
 Focuses on main module duplicates and conflicts.
 """
-from consciousness.qi import qi
+import shutil
 import time
+from pathlib import Path
+
 import streamlit as st
 
-import shutil
-from pathlib import Path
+from consciousness.qi import qi
 
 
 def find_backup_directories() -> list[Path]:
@@ -150,12 +151,12 @@ def main():
     # Find backups
     print("\n📦 Finding backup directories...")
     backups = find_backup_directories()
-    print(f"  Found {len(backups} backup directories")
+    print(f"  Found {len(backups)} backup directories")
 
     # Find duplicates
     print("\n🔍 Finding duplicate modules...")
     duplicates = find_duplicate_modules()
-    print(f"  Found {len(duplicates} modules with duplicates")
+    print(f"  Found {len(duplicates)} modules with duplicates")
 
     # Fix imports
     print("\n🔧 Fixing imports...")
@@ -175,15 +176,15 @@ def main():
         for module_name, info in suggestions.items():
             print(f"\n  {module_name}:")
             print(f"    Primary: {info['primary']}")
-            print(f"    Duplicates: {', '.join(info['duplicates']}")
+            print(f"    Duplicates: {', '.join(info['duplicates'])}")
             print(f"    Action: {info['action']}")
 
     # Summary
     print("\n" + "=" * 60)
     print("✅ Cleanup Complete!")
     print(f"  • Fixed {fixed} imports")
-    print(f"  • Archived {len(backups} backup directories")
-    print(f"  • Identified {len(duplicates} modules for consolidation")
+    print(f"  • Archived {len(backups)} backup directories")
+    print(f"  • Identified {len(duplicates)} modules for consolidation")
 
     # Create cleanup report
     report = {

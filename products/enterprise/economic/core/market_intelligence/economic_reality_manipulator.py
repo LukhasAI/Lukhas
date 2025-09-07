@@ -6,15 +6,12 @@ economic analysis and strategic positioning.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import logging
 from dataclasses import dataclass
-from datetime import datetime
-from typing import Any
+from datetime import datetime, timezone
+from typing import Any, Dict, List
+
+import streamlit as st
 
 from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface

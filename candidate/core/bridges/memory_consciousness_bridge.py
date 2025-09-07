@@ -1,10 +1,10 @@
 """Memory-Consciousness Bridge
 Bidirectional communication bridge between memory and consciousness systems
 """
-import streamlit as st
-
 import logging
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

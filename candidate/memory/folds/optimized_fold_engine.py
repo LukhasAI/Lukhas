@@ -647,7 +647,7 @@ async def demo_optimized_folds():
     hot_keys = [f"fold_{i}" for i in range(20)]
 
     for _ in range(1000):
-        key = np.random.choice(hot_keys) if np.random.random() < 0.8 else f"fold_{np.random.randint(0, 100}"
+        key = np.random.choice(hot_keys) if np.random.random() < 0.8 else f"fold_{np.random.randint(0, 100)}"
 
         fold = engine.get_fold(key)
 
@@ -684,9 +684,9 @@ async def demo_optimized_folds():
     batch_folds = await engine.batch_create(items)
     batch_time = time.time() - start_time
 
-    print(f"   Created {len(batch_folds} folds in parallel")
+    print(f"   Created {len(batch_folds)} folds in parallel")
     print(f"   Time: {batch_time:.3f}s")
-    print(f"   Rate: {len(batch_folds} / batch_time:.1f} folds/sec")
+    print(f"   Rate: {len(batch_folds)} / batch_time:.1f} folds/sec")
 
     # 5. Parallel search
     print("\n5️⃣ Parallel Search:")
@@ -699,7 +699,7 @@ async def demo_optimized_folds():
     search_results = await engine.parallel_search(search_predicate, max_results=20)
     search_time = time.time() - start_time
 
-    print(f"   Found {len(search_results} matching folds")
+    print(f"   Found {len(search_results)} matching folds")
     print(f"   Search time: {search_time:.3f}s")
 
     # 6. Memory optimization
@@ -720,7 +720,7 @@ async def demo_optimized_folds():
     print("\n7️⃣ Tag-Based Retrieval:")
 
     tag_results = engine.index.get_by_tags(["test", "batch_5"])
-    print(f"   Found {len(tag_results} folds with tags [test, batch_5]")
+    print(f"   Found {len(tag_results)} folds with tags [test, batch_5]")
 
     # Cleanup
     engine.shutdown()

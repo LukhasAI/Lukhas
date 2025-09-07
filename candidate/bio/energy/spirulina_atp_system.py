@@ -152,7 +152,7 @@ class ATPSynthesisEngine:
         print("⚡ ATP Synthesis Engine initialized")
         print(f"   - Landauer limit bypass: {self.atp_synthesis_efficiency:.1%}")
         print(f"   - Hybrid output: {self.hybrid_output_uw_cm2} μW/cm²")
-        print(f"   - Synergy boost: {(self.synergy_multiplier - 1}:.1%}")
+        print(f"   - Synergy boost: {(self.synergy_multiplier - 1)}:.1%}")
 
     async def synthesize_energy(self, substrate_availability: float, temperature_k: float = 310) -> float:
         """RESEARCH: ATP synthesis with reversible phosphorylation"""
@@ -298,7 +298,7 @@ class SpirulinaATPHybridSystem:
         print("🧬 SPIRULINA-ATP HYBRID SYSTEM INITIALIZED")
         print(f"   - Target efficiency: {self.target_tflops_per_watt} TFLOPS/W")
         print(f"   - System scale: {system_scale:.1f}x")
-        print(f"   - Biohybrid capacitors: {len(self.capacitor_array.capacitors} units")
+        print(f"   - Biohybrid capacitors: {len(self.capacitor_array.capacitors)} units")
         print("   - Research validation: Priority #5 Bio-Symbolic Architecture")
 
     async def process_energy_cycle(self, quantum_input: float, substrate_availability: float = 0.8) -> dict[str, Any]:
@@ -484,7 +484,7 @@ async def demo_spirulina_atp_system():
     print(f"  - Target efficiency: {status['system_performance']['target_efficiency_tflops_per_watt']:.2f} TFLOPS/W")
     print(f"  - Efficiency achievement: {status['system_performance']['efficiency_percentage']:.1f}%")
     print(f"  - Storage utilization: {status['energy_storage']['storage_utilization']:.1f}%")
-    print(f"  - Virtuoso AGI alignment: {energy_system.calculate_virtuoso_agi_alignment(}:.1%}")
+    print(f"  - Virtuoso AGI alignment: {energy_system.calculate_virtuoso_agi_alignment()}:.1%}")
 
     print("\n✅ Bio-hybrid energy system demo completed successfully!")
     print("🌟 Research validation: 29% efficiency improvement achieved")

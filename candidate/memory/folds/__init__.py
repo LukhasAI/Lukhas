@@ -5,10 +5,10 @@ MEMORY - folds Submodule
 #TAG:folds
 #TAG:standard
 """
-import streamlit as st
-
 # Colony base for propagation
 from typing import Any
+
+import streamlit as st
 
 
 class FoldsColony:

@@ -19,15 +19,13 @@ Namespace Schema:
 - Service namespaces: {service}.{tenant}.lukhas.ai
 - User namespaces: user.{user_id}.lukhas.ai
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import secrets
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 
 class NamespaceType(Enum):
@@ -307,7 +305,7 @@ class NamespaceManager:
                 return {"success": False, "error": "Guardian validation failed"}
 
             # Generate encryption key ID
-            encryption_key_id = f"ns_key_{secrets.token_hex(16}"
+            encryption_key_id = f"ns_key_{secrets.token_hex(16)}"
 
             # Create namespace
             namespace_data = {
@@ -315,7 +313,7 @@ class NamespaceManager:
                 "parent_namespace": parent_namespace,
                 "namespace_type": namespace_type.value,
                 "display_name": display_name,
-                "description": f"{namespace_type.value.title(} namespace: {display_name}",
+                "description": f"{namespace_type.value.title()} namespace: {display_name}",
                 "owner_id": owner_id,
                 "tenant_id": owner_id if namespace_type == NamespaceType.TENANT else "",
                 "metadata": metadata or {},

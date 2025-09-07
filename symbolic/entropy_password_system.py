@@ -269,7 +269,7 @@ class MaximumEntropyPasswordGenerator:
 
         # Create password object
         password = QIResistantPassword(
-            password_id=hashlib.sha256(f"{self.user_id}_{time.time(}".encode()).hexdigest()[:16],
+            password_id=hashlib.sha256(f"{self.user_id}_{time.time()}".encode()).hexdigest()[:16],
             text_component=components.get("text", ""),
             emoji_component=components.get("emojis", []),
             visual_component=components.get("visual", ""),
@@ -636,21 +636,21 @@ async def demo_maximum_entropy_password():
         )
 
     if password.emoji_component:
-        print(f"Emojis: {''.join(password.emoji_component}")
+        print(f"Emojis: {''.join(password.emoji_component)}")
 
     if password.gesture_component:
-        print(f"Gestures: {len(password.gesture_component} movements")
+        print(f"Gestures: {len(password.gesture_component)} movements")
         for i, gesture in enumerate(password.gesture_component[:3]):
-            print(f"  {i + 1}. {gesture['type']} ({gesture.get('meaning', 'action'})")
+            print(f"  {i + 1}. {gesture['type']} ({gesture.get('meaning', 'action')})")
 
     if password.color_component:
-        print(f"Colors: {len(password.color_component} color harmony")
+        print(f"Colors: {len(password.color_component)} color harmony")
 
     if password.pattern_component:
-        print(f"Pattern: {len(password.pattern_component)}x{len(password.pattern_component} matrix")
+        print(f"Pattern: {len(password.pattern_component)}x{len(password.pattern_component)} matrix")
 
     if password.rhythm_component:
-        print(f"Rhythm: {len(password.rhythm_component} beats")
+        print(f"Rhythm: {len(password.rhythm_component)} beats")
 
     print()
     print("⏱️  CRACKING TIME ESTIMATES:")
@@ -686,7 +686,7 @@ async def demo_maximum_entropy_password():
 
     # Generate master key
     master_key = password.to_master_key()
-    print(f"🗝️  Master Key (first 32 bytes): {master_key[:32].hex(}")
+    print(f"🗝️  Master Key (first 32 bytes): {master_key[:32].hex()}")
 
     print()
     print("=" * 50)

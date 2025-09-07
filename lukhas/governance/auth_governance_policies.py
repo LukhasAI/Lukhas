@@ -22,12 +22,12 @@ Trinity Framework: ⚛️🧠🛡️
 """
 import logging
 import time
-import streamlit as st
-
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class PolicySeverity(Enum):

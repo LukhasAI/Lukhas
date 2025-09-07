@@ -110,17 +110,6 @@ class ClaudeLUKHASIntegration:
         self.journal.add_entry(
             type="pattern",
             content=f"Consciousness-Aware Development: {task}",
-            metadata={
-                "session_type": "consciousness_aware",
-                "modules": session["relevant_modules"],
-                "consciousness_level": session["consciousness_level"],
-            },
-            tags=["lukhas", "consciousness", "development"],
-            emotional_state={
-                "curiosity": 0.9,
-                "excitement": 0.8,
-                "consciousness": session["consciousness_level"],
-            },
         )
 
         return session

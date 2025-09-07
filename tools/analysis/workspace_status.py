@@ -5,13 +5,13 @@
 Comprehensive analysis of current workspace connectivity, working systems,
     and isolated files.
 """
-import time
-import streamlit as st
-
 import ast
 import json
+import time
 from collections import defaultdict
 from pathlib import Path
+
+import streamlit as st
 
 
 class WorkspaceAnalyzer:
@@ -96,7 +96,7 @@ class WorkspaceAnalyzer:
             file_info = self.analyze_file(file_path)
             self.modules[str(rel_path)] = file_info
 
-        print(f"✅ Analyzed {len(self.modules} active Python files")
+        print(f"✅ Analyzed {len(self.modules)} active Python files")
 
     def analyze_connectivity(self):
         """Analyze how modules are connected to each other."""
@@ -237,11 +237,11 @@ class WorkspaceAnalyzer:
         print(f"   • Broken/Isolated Systems: {overview['broken_systems']} ❌")
         print(f"   • Isolated Files: {overview['isolated_files']} 🔍")
 
-        print(f"\n✅ WORKING SYSTEMS ({len(self.working_systems}):")
+        print(f"\n✅ WORKING SYSTEMS ({len(self.working_systems)}):")
         for system in self.working_systems[:10]:  # Top 10
             print(f"   • {system['name']}: {system['file_count']} files, {system['connected_files']} connected")
 
-        print(f"\n❌ BROKEN/ISOLATED SYSTEMS ({len(self.broken_systems}):")
+        print(f"\n❌ BROKEN/ISOLATED SYSTEMS ({len(self.broken_systems)}):")
         for system in self.broken_systems[:10]:  # Top 10
             print(f"   • {system['name']}: {system['file_count']} files, {system['isolated_files']} isolated")
 

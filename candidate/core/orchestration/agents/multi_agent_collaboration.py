@@ -4,12 +4,12 @@ Original: intent_node.py
 Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
-import streamlit as st
-
 import logging
 import time
 import uuid
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 
 class MultiAgentCollaboration:

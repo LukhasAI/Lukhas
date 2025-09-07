@@ -113,7 +113,7 @@ class NamespacePolicy:
 class NamespaceInstance:
     """Active namespace instance with real-time state"""
 
-    namespace_id: str = field(default_factory=lambda: f"ns-{uuid.uuid4(}.hex[:12]}")
+    namespace_id: str = field(default_factory=lambda: f"ns-{uuid.uuid4()}.hex[:12]}")
     domain: ConsciousnessDomain = ConsciousnessDomain.USER_CONSCIOUSNESS
     policy: Optional[NamespacePolicy] = None
 
@@ -149,7 +149,7 @@ class NamespaceInstance:
 class CrossDomainBridge:
     """Bridge between consciousness domains for controlled interaction"""
 
-    bridge_id: str = field(default_factory=lambda: f"bridge-{uuid.uuid4(}.hex[:8]}")
+    bridge_id: str = field(default_factory=lambda: f"bridge-{uuid.uuid4()}.hex[:8]}")
     source_domain: ConsciousnessDomain = ConsciousnessDomain.USER_CONSCIOUSNESS
     target_domain: ConsciousnessDomain = ConsciousnessDomain.AGENT_CONSCIOUSNESS
 
@@ -625,7 +625,7 @@ class ConsciousnessNamespaceManager:
         )
         self.domain_policies[ConsciousnessDomain.TRANSCENDENT_CONSCIOUSNESS] = transcendent_policy
 
-        logger.info(f"🏗️ Initialized {len(self.domain_policies} default namespace policies")
+        logger.info(f"🏗️ Initialized {len(self.domain_policies)} default namespace policies")
 
     async def _create_default_system_namespaces(self) -> None:
         """Create default system-level namespaces"""

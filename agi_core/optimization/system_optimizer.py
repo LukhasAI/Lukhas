@@ -387,7 +387,7 @@ class AGISystemOptimizer:
             success_criteria=success_criteria,
         )
 
-        logger.info(f"Optimization plan {plan_id} created with {len(implementation_steps} steps")
+        logger.info(f"Optimization plan {plan_id} created with {len(implementation_steps)} steps")
         return plan
 
     async def _assess_optimization_risks(self, steps: list[dict[str, Any]], level: OptimizationLevel) -> dict[str, Any]:
@@ -518,7 +518,7 @@ class AGISystemOptimizer:
                 step_start_time = time.time()
 
                 logger.info(
-                    f"Implementing step {i+1}/{len(plan.implementation_steps)}: {step.get('name', 'Unnamed step'}"
+                    f"Implementing step {i+1}/{len(plan.implementation_steps)}: {step.get('name', 'Unnamed step')}"
                 )
 
                 # Mock implementation - in production would execute actual optimizations
@@ -686,7 +686,7 @@ class AGISystemOptimizer:
         # Analyze what worked well
         successful_improvements = [k for k, v in improvements.items() if v > 10.0]
         if successful_improvements:
-            lessons.append(f"High-impact optimizations: {', '.join(successful_improvements[:3]}")
+            lessons.append(f"High-impact optimizations: {', '.join(successful_improvements[:3])}")
 
         # Analyze unexpected effects
         if effects:
@@ -719,7 +719,7 @@ class AGISystemOptimizer:
         # Analyze which areas still need improvement
         low_improvement_areas = [k for k, v in improvements.items() if v < 15.0]
         if low_improvement_areas:
-            recommendations.append(f"Focus next cycle on: {', '.join(low_improvement_areas[:2]}")
+            recommendations.append(f"Focus next cycle on: {', '.join(low_improvement_areas[:2])}")
 
         # Suggest complementary optimizations
         if OptimizationType.PERFORMANCE in opt_targets:
@@ -905,13 +905,13 @@ async def demonstrate_system_optimization():
     print(f"   Baseline API Response Time: {metrics.baseline_performance['performance']['api_response_time_ms']:.1f}ms")
     print(f"   Current API Response Time: {metrics.current_performance['performance']['api_response_time_ms']:.1f}ms")
     print(
-        f"   Improvement Potential: {metrics.improvement_percentage['performance'].get('api_response_time_ms', 0}:.1f}%"
+        f"   Improvement Potential: {metrics.improvement_percentage['performance'].get('api_response_time_ms', 0)}:.1f}%"
     )
 
     print("\n🧠 Consciousness Metrics:")
     print(f"   Coherence Score: {metrics.current_performance['consciousness']['coherence_score']:.2f}")
     print(f"   Dream Integration: {metrics.current_performance['consciousness']['dream_integration']:.2f}")
-    print(f"   Improvement Potential: {metrics.improvement_percentage['consciousness'].get('coherence_score', 0}:.1f}%")
+    print(f"   Improvement Potential: {metrics.improvement_percentage['consciousness'].get('coherence_score', 0)}:.1f}%")
 
     print("\n🔍 Primary Bottlenecks:")
     for bottleneck in metrics.bottleneck_analysis["primary_bottlenecks"]:
@@ -925,7 +925,7 @@ async def demonstrate_system_optimization():
 
     print(f"\n📋 Optimization Plan ({plan.plan_id}):")
     print(f"   Optimization Level: {plan.optimization_level.value}")
-    print(f"   Implementation Steps: {len(plan.implementation_steps}")
+    print(f"   Implementation Steps: {len(plan.implementation_steps)}")
     print(f"   Estimated Timeline: {plan.timeline['estimated_duration']}")
     print(f"   Risk Level: {plan.risk_assessment['overall_risk_level']}")
 

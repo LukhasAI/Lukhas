@@ -3,14 +3,13 @@
 Learning Gateway - Dependency Firewall for Learning Services
 This abstraction layer ensures core modules remain agnostic to learning implementation details.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+import streamlit as st
 
 
 @dataclass
@@ -90,30 +89,25 @@ class LearningGateway(LearningGatewayInterface):
         try:
             # Route to appropriate learning method based on operation
             if request.operation == "train":
-                result = await self._service.train(
+                await self._service.train(
                     agent_id=request.agent_id,
                     data=request.data,
                     context=request.context,
                 )
             elif request.operation == "predict":
-                result = await self._service.predict(
+                await self._service.predict(
                     agent_id=request.agent_id,
                     data=request.data,
                     context=request.context,
                 )
             elif request.operation == "evaluate":
-                result = await self._service.evaluate(
+                await self._service.evaluate(
                     agent_id=request.agent_id,
                     data=request.data,
                     context=request.context,
                 )
             else:
-                return LearningResponse(success=False, error=f"Unknown operation: {request.operation}")
-
-            return LearningResponse(
-                success=True,
-                result=result,
-                metadata={"timestamp": datetime.now(timezone.utc).isoformat()},
+                return LearningResponse(success=False, error=f"Unknown operation: {request.operation}",
             )
 
         except Exception as e:

@@ -54,11 +54,11 @@ def analyze_vocabularies():
             hash_groups[loc["hash"]].append(loc)
 
         if len(hash_groups) == 1:
-            print(f"  ✓ All {len(locations} copies are identical")
+            print(f"  ✓ All {len(locations)} copies are identical")
             for loc in locations:
                 print(f"    - {loc['path']} ({loc['size']} bytes)")
         else:
-            print(f"  ⚠ Found {len(hash_groups} different versions:")
+            print(f"  ⚠ Found {len(hash_groups)} different versions:")
             for hash_val, locs in hash_groups.items():
                 print(f"    Version {hash_val[:8]}...:")
                 for loc in locs:

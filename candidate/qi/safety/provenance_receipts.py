@@ -59,7 +59,7 @@ def write_receipt(
         },
     }
     # Also append a flat JSONL record for quick scans
-    log_path = os.path.join(RECEIPTS_DIR, f"{artifact_sha[:2]}_{int(ts}.jsonl")
+    log_path = os.path.join(RECEIPTS_DIR, f"{artifact_sha[:2]}_{int(ts)}.jsonl")
     with open(log_path, "a", encoding="utf-8") as f:
         f.write(json.dumps(out) + "\n")
     return out

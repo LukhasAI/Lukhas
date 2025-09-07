@@ -3,10 +3,10 @@
 Web 2D Renderer for ΛLens
 Generates JSON model for the React UI
 """
-import streamlit as st
-
 import json
 from typing import Any
+
+import streamlit as st
 
 from ..symbols.glyph_types import GlyphSymbol
 
@@ -46,19 +46,11 @@ class Web2DRenderer:
         col = index % 3
         row = index // 3
 
-        x = col * (self.canvas_width // 3) + 50
-        y = row * (self.canvas_height // 2) + 50
+        col * (self.canvas_width // 3) + 50
+        row * (self.canvas_height // 2) + 50
 
         widget = {
             "id": f"widget_{symbol.id}",
-            "type": self._map_symbol_to_widget_type(symbol),
-            "position": {"x": x, "y": y, "width": 300, "height": 200},
-            "properties": {
-                "title": symbol.type.value,
-                "content": symbol.content,
-                "symbolId": symbol.id,
-                "confidence": symbol.confidence,
-            },
             "style": {
                 "backgroundColor": self._get_background_color(symbol.type),
                 "borderColor": self._get_border_color(symbol.confidence),

@@ -61,7 +61,7 @@ def retry(
                             on_retry(e, attempt + 1)
 
                         logger.warning(
-                            f"Retry {attempt + 1}/{max_attempts} for {func.__name__} after {type(e}.__name__}: {e!s}"
+                            f"Retry {attempt + 1}/{max_attempts} for {func.__name__} after {type(e)}.__name__}: {e!s}"
                         )
 
                         # Add jitter to prevent thundering herd
@@ -89,7 +89,7 @@ def retry(
                             on_retry(e, attempt + 1)
 
                         logger.warning(
-                            f"Retry {attempt + 1}/{max_attempts} for {func.__name__} after {type(e}.__name__}: {e!s}"
+                            f"Retry {attempt + 1}/{max_attempts} for {func.__name__} after {type(e)}.__name__}: {e!s}"
                         )
 
                         # Add jitter
@@ -341,7 +341,7 @@ def log_execution(
 
             except Exception as e:
                 duration = time.time() - start_time
-                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e}.__name__}: {e!s}")
+                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e)}.__name__}: {e!s}")
                 raise
 
         @functools.wraps(func)
@@ -373,7 +373,7 @@ def log_execution(
 
             except Exception as e:
                 duration = time.time() - start_time
-                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e}.__name__}: {e!s}")
+                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e)}.__name__}: {e!s}")
                 raise
 
         if asyncio.iscoroutinefunction(func):

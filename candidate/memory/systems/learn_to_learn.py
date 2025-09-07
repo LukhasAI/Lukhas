@@ -8,9 +8,8 @@ Modified: 2024-07-26
 Version: 1.1 (Standardized)
 """
 import logging
-import time
 import random
-import streamlit as st
+import time
 
 # Standard Library Imports
 from datetime import datetime, timezone
@@ -18,6 +17,7 @@ from typing import Any, Optional
 
 # Third-Party Imports
 import numpy as np
+import streamlit as st
 
 # LUKHAS Core Imports
 # from ..core.decorators import core_tier_required # Conceptual

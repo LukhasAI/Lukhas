@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 import logging
 
@@ -82,9 +83,10 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/consciousness
 """
-from typing import Dict
-import streamlit as st
 from datetime import timezone
+from typing import Dict
+
+import streamlit as st
 
 __module_name__ = "Consciousness Orchestration Hub"
 __version__ = "4.0.0"
@@ -298,7 +300,7 @@ class ConsciousnessHub:
             config: Optional configuration parameters for consciousness tuning
         """
         self.name = "consciousness_orchestration_hub"
-        self.consciousness_id = f"consciousness_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        self.consciousness_id = f"consciousness_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Core Consciousness Infrastructure
         self.services: dict[str, Any] = {}

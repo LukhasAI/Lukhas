@@ -26,10 +26,12 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-from consciousness.qi import qi
-from typing import Dict
 import time
+from typing import Dict
+
 import streamlit as st
+
+from consciousness.qi import qi
 
 __module_name__ = "Quantum System"
 __version__ = "2.0.0"

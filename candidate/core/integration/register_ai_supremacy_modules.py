@@ -368,22 +368,22 @@ async def main():
 
         if demo_results.get("status") == "success":
             logger.info(
-                f"✅ Innovation Breakthroughs: {demo_results.get('innovation_cycle', {}).get('breakthroughs', 0)}"
+                f"✅ Innovation Breakthroughs: {demo_results.get('innovation_cycle', {)}).get('breakthroughs', 0)}"
             )
             logger.info(
-                f"✅ Market Value Created: ${demo_results.get('innovation_cycle', {}).get('market_value', 0):.2e}"
+                f"✅ Market Value Created: ${demo_results.get('innovation_cycle', {)}).get('market_value', 0):.2e}"
             )
             logger.info(
-                f"✅ Consciousness Expansion: {demo_results.get('consciousness_expansion', {}).get('expansion_magnitude', 0):.2f}x"
+                f"✅ Consciousness Expansion: {demo_results.get('consciousness_expansion', {)}).get('expansion_magnitude', 0):.2f}x"
             )
             logger.info(
-                f"✅ Global Compliance Score: {demo_results.get('global_compliance', {}).get('compliance_score', 0):.2%}"
+                f"✅ Global Compliance Score: {demo_results.get('global_compliance', {)}).get('compliance_score', 0):.2%}"
             )
             logger.info(
-                f"✅ Civilizational Impact: {demo_results.get('breakthrough_detection', {}).get('civilizational_impact', 0):.1f}/10"
+                f"✅ Civilizational Impact: {demo_results.get('breakthrough_detection', {)}).get('civilizational_impact', 0):.1f}/10"
             )
         else:
-            logger.error(f"Demo failed: {demo_results.get('error', 'Unknown error'}")
+            logger.error(f"Demo failed: {demo_results.get('error', 'Unknown error')}")
     else:
         logger.error("System not ready - some modules failed to initialize")
         logger.info(f"Verification results: {verification_results}")

@@ -6,10 +6,6 @@ Advanced consent-based symbolic message delivery with emotional filtering
 Part of the Lambda Products Suite by LUKHAS AI
 Commercial Version - Ready for Enterprise Deployment
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
@@ -18,9 +14,13 @@ import logging
 # Cryptographic imports for Lambda security
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger("Lambda.NIΛS", timezone)
 
@@ -82,7 +82,7 @@ class SymbolicMessage:
     def _generate_signature(self) -> str:
         """Generate Lambda signature for message authenticity"""
         content_hash = hashlib.sha256(f"{self.id}{self.content}{self.tier.value}".encode()).hexdigest()[:8]
-        return f"Λ-{content_hash.upper(}"
+        return f"Λ-{content_hash.upper()}"
 
 
 @dataclass
@@ -415,7 +415,7 @@ class NIΛS:
         if not overlap:
             return {
                 "matches": False,
-                "reason": f"No symbolic overlap between user tags {list(user_tags)} and message tags {list(message_tags}",
+                "reason": f"No symbolic overlap between user tags {list(user_tags)} and message tags {list(message_tags)}",
             }
 
         # Check symbolic preferences
@@ -426,7 +426,7 @@ class NIΛS:
                 "reason": "High intensity blocked by user preference",
             }
 
-        return {"matches": True, "reason": f"Symbolic match found: {list(overlap}"}
+        return {"matches": True, "reason": f"Symbolic match found: {list(overlap)}"}
 
     async def _schedule_dream_delivery(self, message: SymbolicMessage, user_id: str) -> DeliveryResult:
         """Schedule message for dream-aware delivery"""
@@ -556,7 +556,7 @@ class NIΛS:
         # Clear processed dream queue
         self.dream_schedule[user_id] = []
 
-        logger.info(f"Processed {len(results} dream deliveries for user {user_id}")
+        logger.info(f"Processed {len(results)} dream deliveries for user {user_id}")
         return results
 
     def get_system_metrics(self) -> dict[str, Any]:

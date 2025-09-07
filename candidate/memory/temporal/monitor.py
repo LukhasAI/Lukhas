@@ -39,12 +39,12 @@ def monitor_agi_system():
                     with open(latest_file) as f:
                         status = json.load(f)
 
-                    print(f"\n🕐 {datetime.now(timezone.utc).strftime('%H:%M:%S'} - Latest Status:")
-                    print(f"📊 Tasks: {status.get('completed', 0)} completed, {status.get('failed', 0} failed")
-                    print(f"💰 Budget Used: ${status.get('budget_used', 0}:.4f}")
+                    print(f"\n🕐 {datetime.now(timezone.utc).strftime('%H:%M:%S')} - Latest Status:")
+                    print(f"📊 Tasks: {status.get('completed', 0)} completed, {status.get('failed', 0)} failed")
+                    print(f"💰 Budget Used: ${status.get('budget_used', 0)}:.4f}")
 
                     if "recent_prs" in status:
-                        print(f"🔗 PRs Created: {len(status['recent_prs']}")
+                        print(f"🔗 PRs Created: {len(status['recent_prs'])}")
                         for pr in status["recent_prs"][-3:]:
                             print(f"   • {pr}")
 

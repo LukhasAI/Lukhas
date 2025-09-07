@@ -2,16 +2,15 @@
 VIVOX.EVRN Vector Encryption
 Non-reversible encryption for perceptual vectors
 """
-import time
-import random
-import streamlit as st
-
 import hashlib
+import random
+import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 
 class EncryptionProtocol(Enum):

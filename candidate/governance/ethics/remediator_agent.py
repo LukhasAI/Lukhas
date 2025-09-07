@@ -86,7 +86,7 @@ class RemediatorAgent:
         Args:
             agent_id: Optional custom agent ID, generates UUID if not provided
         """
-        self.agent_id = agent_id or f"REMEDIATION_{uuid.uuid4().hex[:8].upper(}"
+        self.agent_id = agent_id or f"REMEDIATION_{uuid.uuid4().hex[:8].upper()}"
         self.spawned_agents: dict[str, dict[str, Any]] = {}
         self.remediation_history: list[dict[str, Any]] = []
         self.active_sessions: dict[str, dict[str, Any]] = {}
@@ -105,7 +105,7 @@ class RemediatorAgent:
         Returns:
             Remediation session results and spawned agent information
         """
-        session_id = f"SESSION_{int(datetime.now(timezone.utc).timestamp())}_{uuid.uuid4(}.hex[:6]}"
+        session_id = f"SESSION_{int(datetime.now(timezone.utc).timestamp())}_{uuid.uuid4()}.hex[:6]}"
 
         self.logger.info(
             "🚨 Issue detected - starting remediation",

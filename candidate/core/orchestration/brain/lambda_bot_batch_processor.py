@@ -12,16 +12,15 @@ Features:
 - Cost optimization through batch processing
 - Single PR for multiple related fixes
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
 import os
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 from lukhas.core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
 
@@ -157,7 +156,7 @@ class BatchProcessor:
             repo_groups[issue.repository].append(issue)
 
         batch_result = {
-            "batch_id": f"batch_{batch_start_time.strftime('%Y%m%d_%H%M%S'}",
+            "batch_id": f"batch_{batch_start_time.strftime('%Y%m%d_%H%M%S')}",
             "timestamp": batch_start_time.isoformat(),
             "total_issues": len(batch),
             "repositories": list(repo_groups.keys()),
@@ -185,8 +184,8 @@ class BatchProcessor:
         self.budget_controller.log_api_call(
             "batch_processing",
             batch_result["total_cost"],
-            f"Processed batch of {len(batch)} issues across {len(repo_groups} repositories",
-            findings=[f"Fixed {len(batch_result['fixes_applied']} issues"],
+            f"Processed batch of {len(batch)} issues across {len(repo_groups)} repositories",
+            findings=[f"Fixed {len(batch_result['fixes_applied'])} issues"],
             recommendations=[
                 "Continue batch processing for efficiency",
                 "Monitor for similar issue patterns",
@@ -195,8 +194,8 @@ class BatchProcessor:
 
         self.logger.info(
             f"✅ Completed batch {batch_result['batch_id']}: "
-            f"{len(batch_result['fixes_applied']} fixes, "
-            f"{len(batch_result['prs_created']} PRs, "
+            f"{len(batch_result['fixes_applied'])} fixes, "
+            f"{len(batch_result['prs_created'])} PRs, "
             f"${batch_result['total_cost']:.4f} cost"
         )
 
@@ -211,7 +210,7 @@ class BatchProcessor:
             user_request=True,
             urgency=CallUrgency.HIGH,
             estimated_cost=total_estimated_cost,
-            description=f"Batch fix {len(issues} issues in {repository}",
+            description=f"Batch fix {len(issues)} issues in {repository}",
         )
 
         decision = self.budget_controller.analyze_call_necessity(context)
@@ -280,11 +279,11 @@ class BatchProcessor:
         total_cost = 0.0
 
         # Create a single comprehensive PR for all vulnerabilities
-        pr_title = f"🔒 ΛBot: Batch security fix - {len(vulnerabilities} vulnerabilities in {repository}"
+        pr_title = f"🔒 ΛBot: Batch security fix - {len(vulnerabilities)} vulnerabilities in {repository}"
         pr_body_parts = [
             "## 🔒 Batch Security Vulnerability Fix",
             f"**Repository**: {repository}",
-            f"**Total Vulnerabilities Fixed**: {len(vulnerabilities}",
+            f"**Total Vulnerabilities Fixed**: {len(vulnerabilities)}",
             "",
             "### Vulnerabilities Addressed:",
         ]
@@ -311,7 +310,7 @@ class BatchProcessor:
                 "- ✅ Minimized API calls and costs",
                 "",
                 "### Security Impact:",
-                f"This batch fix addresses {len(vulnerabilities} security vulnerabilities that could potentially:",
+                f"This batch fix addresses {len(vulnerabilities)} security vulnerabilities that could potentially:",
                 "- Compromise application security",
                 "- Lead to data exposure",
                 "- Allow unauthorized access",
@@ -351,17 +350,17 @@ class BatchProcessor:
             workflow_type = self._categorize_workflow_issue(issue)
             workflow_types[workflow_type].append(issue)
 
-        pr_title = f"🔧 ΛBot: Batch workflow fix - {len(workflow_issues} issues in {repository}"
+        pr_title = f"🔧 ΛBot: Batch workflow fix - {len(workflow_issues)} issues in {repository}"
         pr_body_parts = [
             "## 🔧 Batch Workflow Fix",
             f"**Repository**: {repository}",
-            f"**Total Workflow Issues Fixed**: {len(workflow_issues}",
+            f"**Total Workflow Issues Fixed**: {len(workflow_issues)}",
             "",
             "### Workflow Issues Addressed:",
         ]
 
         for workflow_type, type_issues in workflow_types.items():
-            pr_body_parts.append(f"\n### {workflow_type.replace('_', ' ').title(} Issues:")
+            pr_body_parts.append(f"\n### {workflow_type.replace('_', ' ').title()} Issues:")
 
             for issue in type_issues:
                 fix_result = self._apply_workflow_fix(issue)
@@ -399,11 +398,11 @@ class BatchProcessor:
         all_fixes = []
         total_cost = sum(issue.estimated_cost for issue in dependency_issues)
 
-        pr_title = f"⬆️ ΛBot: Batch dependency update - {len(dependency_issues} packages in {repository}"
+        pr_title = f"⬆️ ΛBot: Batch dependency update - {len(dependency_issues)} packages in {repository}"
         pr_body_parts = [
             "## ⬆️ Batch Dependency Update",
             f"**Repository**: {repository}",
-            f"**Total Dependencies Updated**: {len(dependency_issues}",
+            f"**Total Dependencies Updated**: {len(dependency_issues)}",
             "",
             "### Dependencies Updated:",
         ]
@@ -451,8 +450,8 @@ class BatchProcessor:
             }
             all_fixes.append(fix_result)
 
-        pr_title = f"🔧 ΛBot: Batch fix - {len(issues} issues in {repository}"
-        pr_body = f"Batch fix for {len(issues} issues in {repository}"
+        pr_title = f"🔧 ΛBot: Batch fix - {len(issues)} issues in {repository}"
+        pr_body = f"Batch fix for {len(issues)} issues in {repository}"
 
         pr_result = self._create_batch_pr(repository, pr_title, pr_body)
 

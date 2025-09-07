@@ -2,14 +2,14 @@
 LUKHAS Service Container - Professional Dependency Injection
 Centralizes service management without adding bridge components
 """
-import time
-import streamlit as st
-
 import inspect
 import logging
+import time
 from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Any, Callable, Optional, TypeVar, Union
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

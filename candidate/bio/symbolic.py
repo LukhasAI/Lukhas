@@ -3,10 +3,10 @@ LUKHAS AI Bio Module - Symbolic
 Consolidated from 30 variants
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
-
 from dataclasses import dataclass
 from typing import Any
+
+import streamlit as st
 
 __module__ = "bio.symbolic"
 __trinity__ = "⚛️🧠🛡️"

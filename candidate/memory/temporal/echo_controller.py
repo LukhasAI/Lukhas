@@ -1,7 +1,9 @@
 import logging
 from datetime import timezone
-import streamlit as st
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: echo_controller.py
@@ -95,7 +97,7 @@ class EchoController:
         # ΛTRACE
         logger.warning(f"Governance Alert: {message}")
         with open(self.alert_log_path, "a") as f:
-            f.write(f"{datetime.now(timezone.utc).isoformat(}: {message}\n")
+            f.write(f"{datetime.now(timezone.utc).isoformat()}: {message}\n")
 
 
 # ═══════════════════════════════════════════════════════════════════════════

@@ -398,7 +398,7 @@ class EnhancedCryptoManager:
 
     def _generate_key_id(self) -> str:
         """Generate unique key ID"""
-        return f"key_{secrets.token_hex(16}"
+        return f"key_{secrets.token_hex(16)}"
 
     def _derive_master_key(self) -> bytes:
         """Derive master key from environment or generate new"""
@@ -475,7 +475,7 @@ async def example_usage():
 
         # Decrypt
         decrypted = await crypto.decrypt(ciphertext, key_id)
-        print(f"  ✅ Decrypted successfully: {decrypted.decode(} == test_data}")
+        print(f"  ✅ Decrypted successfully: {decrypted.decode()} == test_data}")
 
         # Test key rotation
         new_key_id = crypto.rotate_key(key_id)
@@ -483,7 +483,7 @@ async def example_usage():
 
     # List keys
     keys = crypto.list_keys()
-    print(f"\n📋 Total keys managed: {len(keys}")
+    print(f"\n📋 Total keys managed: {len(keys)}")
 
     print("\n✅ Enhanced cryptographic system test completed")
 

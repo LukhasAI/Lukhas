@@ -23,7 +23,7 @@ class MockOpenAIClient:
             "choices": [
                 {
                     "message": {
-                        "content": f"I can use these tools: {', '.join(tool_names} if tool_names else 'none'}",
+                        "content": f"I can use these tools: {', '.join(tool_names)} if tool_names else 'none'}",
                         "tool_calls": None,
                     }
                 }
@@ -81,7 +81,7 @@ def lukhas_completion_with_gating(
             "rules_fired": [],
             "tool_governance": "enforced",
         },
-        "explanation": f"Tool allowlist: {tool_allowlist}; Safety: {params.get('safety_mode', 'balanced'}",
+        "explanation": f"Tool allowlist: {tool_allowlist}; Safety: {params.get('safety_mode', 'balanced')}",
     }
 
     audit_log_write(audit_bundle)

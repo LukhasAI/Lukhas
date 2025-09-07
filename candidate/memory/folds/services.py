@@ -10,12 +10,10 @@
 Memory Services
 Dependency injection services for the memory module.
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
+import streamlit as st
 from hub.service_registry import get_service, inject_services, register_factory
 
 
@@ -60,7 +58,7 @@ class MemoryService:
             raise PermissionError(f"Agent {agent_id} lacks memory write access")
 
         # Create memory entry
-        memory_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp(}"
+        memory_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp()}"
         memory_entry = {
             "id": memory_id,
             "agent_id": agent_id,
@@ -180,7 +178,7 @@ class MemoryService:
                 "count": len(mems),
                 "first": mems[0]["timestamp"] if mems else None,
                 "last": mems[-1]["timestamp"] if mems else None,
-                "summary": f"Folded {len(mems} {mem_type} memories",
+                "summary": f"Folded {len(mems)} {mem_type} memories",
             }
 
         return folded

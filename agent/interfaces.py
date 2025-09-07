@@ -33,13 +33,13 @@ with contextlib.suppress(ImportError):
 
 if _available:
     __all__ = [
-        "AgentInterface",
-        "SimpleAgent",
-        "AgentStatus",
         "AgentCapability",
-        "AgentMetadata",
-        "AgentMessage",
         "AgentContext",
+        "AgentInterface",
+        "AgentMessage",
+        "AgentMetadata",
+        "AgentStatus",
+        "SimpleAgent",
     ]
 else:
     __all__ = []

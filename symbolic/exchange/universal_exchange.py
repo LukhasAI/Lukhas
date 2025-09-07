@@ -95,7 +95,7 @@ class UniversalSymbolExchange:
         protocol: ExchangeProtocol = ExchangeProtocol.HASHED,
     ) -> str:
         """Initiate a symbol exchange session"""
-        session_id = hashlib.sha256(f"{initiator_id}:{time.time(}".encode()).hexdigest()[:16]
+        session_id = hashlib.sha256(f"{initiator_id}:{time.time()}".encode()).hexdigest()[:16]
 
         session = ExchangeSession(
             session_id=session_id,
@@ -112,7 +112,7 @@ class UniversalSymbolExchange:
             {"action": "exchange_initiated", "protocol": protocol.value},
         )
 
-        logger.info(f"Initiated exchange session {session_id} with {len(participant_ids} participants")
+        logger.info(f"Initiated exchange session {session_id} with {len(participant_ids)} participants")
         return session_id
 
     async def contribute_symbols(
@@ -181,7 +181,7 @@ class UniversalSymbolExchange:
                 # Add fake symbols for plausible deniability
                 if random.random() < self.noise_factor * privacy_budget:
                     fake_symbol = self._generate_fake_symbol()
-                    processed[fake_symbol] = hashlib.sha256(f"fake:{time.time(}".encode()).hexdigest()[:16]
+                    processed[fake_symbol] = hashlib.sha256(f"fake:{time.time()}".encode()).hexdigest()[:16]
 
             return processed
 

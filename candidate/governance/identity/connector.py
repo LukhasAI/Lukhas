@@ -3,10 +3,10 @@
 Identity System Connector
 Ensures all systems properly integrate with identity and safety checks.
 """
-import streamlit as st
-
 import functools
 from typing import Any, Callable
+
+import streamlit as st
 
 from candidate.orchestration.integration_hub import get_integration_hub
 from identity.audit_logger import AuditLogger
@@ -33,26 +33,6 @@ class IdentityConnector:
                 if tier < min_tier:
                     self.audit_logger.log_access_denied(agent_id, func.__name__, tier, min_tier)
                     raise PermissionError(f"Requires tier {min_tier}, agent has tier {tier}")
-
-                # Log access
-                self.audit_logger.log_access_granted(agent_id, func.__name__, tier)
-
-                # Monitor safety during execution
-                with self.safety_monitor.monitor_operation(agent_id, func.__name__):
-                    return await func(self, agent_id, *args, **kwargs)
-
-            return wrapper
-
-        return decorator
-
-    def connect_to_module(self, module_name: str, module_instance: Any):
-        """Connect identity checks to a module."""
-        # Inject identity methods
-        module_instance._check_access = self.access_control.verify_access
-        module_instance._log_audit = self.audit_logger.log_event
-        module_instance._monitor_safety = self.safety_monitor.monitor_operation
-
-        self.audit_logger.log_event("system", "module_connected", {"module": module_name})
 
     def setup_cross_module_auth(self):
         """Setup authentication for cross-module communication"""

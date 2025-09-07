@@ -306,7 +306,7 @@ class GuardianMonitoringDashboard:
         """Initialize system health monitoring"""
 
         self.system_health = SystemHealthStatus(
-            status_id=f"health_{uuid.uuid4(}.hex[:8]}",
+            status_id=f"health_{uuid.uuid4()}.hex[:8]}",
             timestamp=datetime.now(timezone.utc),
             overall_health=1.0,
             guardian_health=1.0,
@@ -407,7 +407,7 @@ class GuardianMonitoringDashboard:
     ) -> MonitoringMetric:
         """Record a monitoring metric"""
 
-        metric_id = f"metric_{uuid.uuid4(}.hex[:8]}"
+        metric_id = f"metric_{uuid.uuid4()}.hex[:8]}"
         tags = tags or {}
         metadata = metadata or {}
 
@@ -467,7 +467,7 @@ class GuardianMonitoringDashboard:
     ) -> ThreatDetection:
         """Record a security threat detection"""
 
-        threat_id = f"threat_{uuid.uuid4(}.hex[:8]}"
+        threat_id = f"threat_{uuid.uuid4()}.hex[:8]}"
         indicators = indicators or []
         attack_vectors = attack_vectors or []
 
@@ -521,7 +521,7 @@ class GuardianMonitoringDashboard:
     ) -> ComplianceViolation:
         """Record a compliance violation"""
 
-        violation_id = f"violation_{uuid.uuid4(}.hex[:8]}"
+        violation_id = f"violation_{uuid.uuid4()}.hex[:8]}"
         evidence = evidence or []
 
         # Create violation record
@@ -539,7 +539,7 @@ class GuardianMonitoringDashboard:
 
         # Generate audit trail
         violation.audit_trail = [
-            f"Violation detected at {violation.detected_at.isoformat(}",
+            f"Violation detected at {violation.detected_at.isoformat()}",
             f"Regulation: {regulation}",
             f"Type: {violation_type}",
             f"Severity: {severity.value}",
@@ -887,7 +887,7 @@ class GuardianMonitoringDashboard:
     async def _generate_alert(self, metric: MonitoringMetric):
         """Generate alert for threshold breach"""
 
-        alert_id = f"alert_{uuid.uuid4(}.hex[:8]}"
+        alert_id = f"alert_{uuid.uuid4()}.hex[:8]}"
 
         alert = {
             "id": alert_id,
@@ -909,7 +909,7 @@ class GuardianMonitoringDashboard:
     async def _generate_threat_alert(self, threat: ThreatDetection):
         """Generate alert for security threat"""
 
-        alert_id = f"alert_{uuid.uuid4(}.hex[:8]}"
+        alert_id = f"alert_{uuid.uuid4()}.hex[:8]}"
 
         severity_mapping = {
             ThreatLevel.HIGH: AlertSeverity.HIGH,
@@ -939,7 +939,7 @@ class GuardianMonitoringDashboard:
     async def _generate_compliance_alert(self, violation: ComplianceViolation):
         """Generate alert for compliance violation"""
 
-        alert_id = f"alert_{uuid.uuid4(}.hex[:8]}"
+        alert_id = f"alert_{uuid.uuid4()}.hex[:8]}"
 
         alert = {
             "id": alert_id,
@@ -1098,7 +1098,7 @@ class GuardianMonitoringDashboard:
             start_time = end_time - timedelta(hours=24)
             time_period = (start_time, end_time)
 
-        report_id = f"report_{uuid.uuid4(}.hex[:8]}"
+        report_id = f"report_{uuid.uuid4()}.hex[:8]}"
 
         # Filter data for time period
         period_metrics = [m for m in self.metrics_history if time_period[0] <= m.timestamp <= time_period[1]]

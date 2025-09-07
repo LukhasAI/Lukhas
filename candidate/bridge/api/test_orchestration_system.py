@@ -239,7 +239,7 @@ class OrchestrationTestSuite:
                 category_result = await test_function()
                 category_results[category_name] = category_result
                 logger.info(
-                    f"✅ {category_name} completed: {category_result.get('passed', 0)}/{category_result.get('total', 0} passed"
+                    f"✅ {category_name} completed: {category_result.get('passed', 0)}/{category_result.get('total', 0)} passed"
                 )
             except Exception as e:
                 logger.error(f"❌ {category_name} failed: {e!s}")
@@ -864,11 +864,11 @@ if __name__ == "__main__":
     results = asyncio.run(run_orchestration_tests())
 
     print("\n📈 Test Results Summary:")
-    print(f"  Total Tests: {results.get('summary', {}).get('total_tests', 0)}")
-    print(f"  Passed: {results.get('summary', {}).get('passed', 0)}")
-    print(f"  Failed: {results.get('summary', {}).get('failed', 0)}")
-    print(f"  Success Rate: {results.get('summary', {}).get('success_rate', 0):.1%}")
-    print(f"  Total Time: {results.get('total_time_ms', 0}:.2f}ms")
+    print(f"  Total Tests: {results.get('summary', {)}).get('total_tests', 0)}")
+    print(f"  Passed: {results.get('summary', {)}).get('passed', 0)}")
+    print(f"  Failed: {results.get('summary', {)}).get('failed', 0)}")
+    print(f"  Success Rate: {results.get('summary', {)}).get('success_rate', 0):.1%}")
+    print(f"  Total Time: {results.get('total_time_ms', 0)}:.2f}ms")
 
     # Save results to file
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")

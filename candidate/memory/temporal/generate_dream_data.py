@@ -90,7 +90,7 @@ def generate_dream():
     # 20% chance to add a collapse event
     if random.random() < 0.2:
         collapse_date = timestamp.strftime("%Y%m%d")
-        collapse_id = f"c-{collapse_date}{random.randint(1, 99}:02d}"
+        collapse_id = f"c-{collapse_date}{random.randint(1, 99)}:02d}"
         dream["collapse_id"] = collapse_id
 
     return dream
@@ -120,7 +120,7 @@ def main():
             f.write(json.dumps(dream) + "\n")
 
     print(f"Generated {NUM_DREAMS} dreams and saved to {DREAM_LOG_PATH}")
-    print(f"Total dreams in log: {len(all_dreams}")
+    print(f"Total dreams in log: {len(all_dreams)}")
 
 
 if __name__ == "__main__":

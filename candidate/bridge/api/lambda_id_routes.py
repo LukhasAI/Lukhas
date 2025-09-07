@@ -13,10 +13,10 @@ import random
 import time  # For request IDs
 from datetime import datetime, timezone
 
+import streamlit as st
 from flask import Blueprint, jsonify, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-import streamlit as st
 
 # Initialize ΛTRACE logger for this routes module
 
@@ -106,7 +106,7 @@ except Exception as e_controller:
 
 
 def _get_req_id(prefix="req"):
-    return f"{prefix}_{int(time.time() * 1000)}_{random.randint(100, 999}"
+    return f"{prefix}_{int(time.time() * 1000)}_{random.randint(100, 999)}"
 
 
 # --- API Route Definitions ---
@@ -158,8 +158,8 @@ def generate_lambda_id_route():  # Renamed for clarity:
         status_code = 201 if result.get("success") else 400  # 201 Created for success
         log_level = logger.info if status_code == 201 else logger.warning
         log_level(
-            f"ΛTRACE({req_id}): /generate response. Success: {result.get('success'}, "
-            f"LambdaID: {result.get('lambda_id', 'N/A')}, Error: {result.get('error'}, "
+            f"ΛTRACE({req_id}): /generate response. Success: {result.get('success')}, "
+            f"LambdaID: {result.get('lambda_id', 'N/A')}, Error: {result.get('error')}, "
             f"Status Code: {status_code}"
         )
         return jsonify(result), status_code
@@ -236,7 +236,7 @@ def validate_lambda_id_route():  # Renamed:
 
         logger.info(
             f"ΛTRACE ({req_id}): /validate response for ΛiD '{lambda_id_to_validate}'. "
-            f"Valid: {result.get('valid', False)}, Details: {result.get('validation_details'}"
+            f"Valid: {result.get('valid', False)}, Details: {result.get('validation_details')}"
         )
         return (
             jsonify(result),
@@ -313,7 +313,7 @@ def calculate_entropy_route():  # Renamed:
             },
         )
 
-        logger.info(f"ΛTRACE({req_id}): /entropy response. Score: {result.get('entropy_score', 'N/A'}")
+        logger.info(f"ΛTRACE({req_id}): /entropy response. Score: {result.get('entropy_score', 'N/A')}")
         return jsonify(result), 200
 
     except Exception as e:
@@ -358,7 +358,7 @@ def get_tier_information_route():  # Renamed:
             },
         )
 
-        logger.info(f"ΛTRACE ({req_id}): /tiers response. Success: {result.get('success'}")
+        logger.info(f"ΛTRACE ({req_id}): /tiers response. Success: {result.get('success')}")
         return jsonify(result), 200
 
     except Exception as e:
@@ -443,7 +443,7 @@ def request_tier_upgrade_route():  # Renamed:
             status_code = 400
         log_level = logger.info if status_code < 400 else logger.warning
         log_level(
-            f"ΛTRACE ({req_id}): /upgrade response. Approved: {result.get('upgrade_approved')}, New ΛiD: {result.get('new_lambda_id', 'N/A')}, Error: {result.get('error'}, Status Code: {status_code}"
+            f"ΛTRACE ({req_id}): /upgrade response. Approved: {result.get('upgrade_approved')}, New ΛiD: {result.get('new_lambda_id', 'N/A')}, Error: {result.get('error')}, Status Code: {status_code}"
         )
         return jsonify(result), status_code
 

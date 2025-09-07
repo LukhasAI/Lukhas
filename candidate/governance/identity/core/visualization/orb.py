@@ -15,15 +15,15 @@ The ORB adapts its appearance based on:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
-import random
-import streamlit as st
-
 import hashlib
 import math
+import random
 import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Color mappings for different states
 CONSCIOUSNESS_COLORS = {
@@ -334,45 +334,10 @@ class LUKHASOrb:
 
     def _generate_particles(self, elapsed_time: float) -> list[dict[str, Any]]:
         """Generate particle positions and properties"""
-        particles = []
 
-        for i in range(self.visualization.particle_density):
+        for _i in range(self.visualization.particle_density):
             # Use deterministic randomness based on particle index
-            seed = hashlib.sha256()  #  Changed from MD5 for securityf"{i}{int(elapsed_time}".encode()).hexdigest()
-            rand_values = [int(seed[j : j + 2], 16) / 255.0 for j in range(0, 6, 2)]
-
-            # Orbital motion
-            angle = (rand_values[0] * 360 + elapsed_time * 30) % 360
-            radius = 1.5 + rand_values[1] * 0.5
-            height = (rand_values[2] - 0.5) * 0.5
-
-            particle = {
-                "id": i,
-                "position": [
-                    radius * math.cos(math.radians(angle)),
-                    height + math.sin(elapsed_time * 2 + i) * 0.1,
-                    radius * math.sin(math.radians(angle)),
-                ],
-                "color": list(self.visualization.secondary_color),
-                "size": 0.05 + rand_values[1] * 0.05,
-                "opacity": 0.3 + rand_values[2] * 0.7,
-            }
-            particles.append(particle)
-
-        return particles
-
-    def _generate_aura(self, elapsed_time: float) -> dict[str, Any]:
-        """Generate aura effect data"""
-        # Aura pulses slightly out of phase with main orb
-        aura_phase = (elapsed_time * self.visualization.pulse_rate * 0.8) % 1.0
-        aura_scale = 1.5 + math.sin(aura_phase * 2 * math.pi) * 0.2
-
-        return {
-            "color": list(self.visualization.aura_color),
-            "scale": aura_scale * self.visualization.size,
-            "opacity": 0.3 * self.visualization.glow_intensity,
-            "blur_radius": 20,
-        }
+            hashlib.sha256()  #  Changed from MD5 for securityf"{i}{int(elapsed_time)}"
 
     def _generate_pattern_animation(self, elapsed_time: float) -> dict[str, Any]:
         """Generate pattern-specific animation data"""

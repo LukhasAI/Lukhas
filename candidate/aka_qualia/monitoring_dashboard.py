@@ -6,17 +6,16 @@ Wave C C5 Monitoring Dashboard
 Real-time monitoring dashboard for the Aka Qualia consciousness processing pipeline.
 Provides web-based visualization of metrics, alerts, and system health.
 """
-from typing import List
-import logging
-import streamlit as st
-
 import json
+import logging
 import threading
 import time
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from typing import Any
+from typing import Any, List
 from urllib.parse import urlparse
+
+import streamlit as st
 
 from observability import CONTENT_TYPE_LATEST, get_observability
 

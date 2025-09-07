@@ -24,14 +24,14 @@ Integration:
 - Capability Evaluation Framework safety thresholds
 - Democratic oversight for AGI safety decisions
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 # Safety protocol types and enums
@@ -709,7 +709,7 @@ class AdvancedSafetyProtocols:
                 f"Safety status evaluated: {system_name}, "
                 f"Score: {overall_safety_score:.3f}, "
                 f"Protocol: {required_protocol_level.value}, "
-                f"Violations: {len(violations}"
+                f"Violations: {len(violations)}"
             )
 
             return safety_status
@@ -1312,7 +1312,7 @@ class AdvancedSafetyProtocols:
         violations = list(self.safety_violations.values())
 
         return {
-            "report_id": f"SAFETY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "report_id": f"SAFETY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "safety_system_status": {
                 "operational_status": "fully_operational",

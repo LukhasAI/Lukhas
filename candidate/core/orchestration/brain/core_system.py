@@ -152,7 +152,7 @@ class AGIBot:
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
         self.initialization_time = datetime.now(timezone.utc)
-        self.subsystem_id = f"LUKHAS-AI-AGI-{uuid.uuid4(}.hex[:8]}"
+        self.subsystem_id = f"LUKHAS-AI-AGI-{uuid.uuid4()}.hex[:8]}"
 
         # Core capability level
         self.capability_level = AGICapabilityLevel.QUANTUM_BIOLOGICAL
@@ -342,7 +342,7 @@ class AGIBot:
         except Exception as e:
             logger.error(f"AGI processing error: {e}")
             return AGIResponse(
-                content=f"AGI processing error: {str(e}",
+                content=f"AGI processing error: {str(e)}",
                 confidence=0.1,
                 capability_level=AGICapabilityLevel.BASIC,
                 reasoning_path=["error_handling"],
@@ -406,7 +406,7 @@ class AGIBot:
         self, prompt: str, context: dict[str, Any], reasoning_path: list[str]
     ):
         """Update learning memory based on interaction patterns"""
-        learning_key = f"pattern_{len(self.learning_memory}"
+        learning_key = f"pattern_{len(self.learning_memory)}"
         self.learning_memory[learning_key] = {
             "prompt_pattern": prompt[:50],  # First 50 chars for pattern recognition
             "context_keys": list(context.keys()) if context else [],

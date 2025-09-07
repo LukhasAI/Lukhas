@@ -17,14 +17,13 @@ log = logging.getLogger(__name__)
 ║ and consciousness computing capabilities.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import asyncio
 import logging
 import time
-import streamlit as st
-
-import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+import streamlit as st
 import structlog
 
 log = structlog.get_logger(__name__)

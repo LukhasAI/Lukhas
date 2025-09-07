@@ -64,7 +64,7 @@ def analyze_final_state():
 
             except SyntaxError as e:
                 syntax_error_files += 1
-                syntax_errors.append(f"{py_file.relative_to(PROJECT_ROOT}:{e.lineno}")
+                syntax_errors.append(f"{py_file.relative_to(PROJECT_ROOT)}:{e.lineno}")
 
         except Exception:
             continue
@@ -77,10 +77,10 @@ def analyze_final_state():
     print(f"   Total Python files analyzed: {total_python_files:,}")
     print(f"   Files with valid syntax: {valid_syntax_files:,} ({syntax_success_rate:.1f}%)")
     print(
-        f"   Files with syntax errors: {syntax_error_files:,} ({(syntax_error_files / total_python_files} * 100:.1f}%)"
+        f"   Files with syntax errors: {syntax_error_files:,} ({(syntax_error_files / total_python_files)}  * 100:.1f}%)"
     )
     print(
-        f"   Files with import issues: {import_error_files:,} ({(import_error_files / total_python_files} * 100:.1f}%)"
+        f"   Files with import issues: {import_error_files:,} ({(import_error_files / total_python_files)}  * 100:.1f}%)"
     )
     print(f"   Fully working files: {fully_working_files:,} ({import_success_rate:.1f}%)")
 
@@ -136,8 +136,8 @@ def analyze_final_state():
     ]
 
     print("\n⚠️ Remaining Issues (Active Codebase Only):")
-    print(f"   Active syntax errors: {len(active_syntax_errors}")
-    print(f"   Active import issues: {len(active_import_errors}")
+    print(f"   Active syntax errors: {len(active_syntax_errors)}")
+    print(f"   Active import issues: {len(active_import_errors)}")
 
     if len(active_syntax_errors) <= 10:
         print("\n🔧 Top Active Syntax Errors to Fix:")

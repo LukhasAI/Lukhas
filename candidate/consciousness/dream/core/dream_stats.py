@@ -2,12 +2,11 @@
 Mock dream_stats module
 Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
-import streamlit as st
-from datetime import timezone
-
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
+
+import streamlit as st
 
 
 class DreamStatistics:

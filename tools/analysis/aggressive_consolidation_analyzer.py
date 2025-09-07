@@ -3,15 +3,16 @@
 LUKHAS  Aggressive Consolidation Analyzer
 Identifies and maps all files for aggressive modular consolidation
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import ast
 import json
 import os
+import time
 from collections import defaultdict
 from datetime import datetime, timezone
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class AggressiveConsolidator:
@@ -328,12 +329,12 @@ def main():
         print(f"\n{module}:")
         print(f"  Current files: {analysis['current_files']}")
         print(f"  Consolidation candidates: {analysis['candidates_for_consolidation']}")
-        print(f"  Hybrid submodules: {', '.join(analysis['hybrid_submodules']}")
+        print(f"  Hybrid submodules: {', '.join(analysis['hybrid_submodules'])}")
 
     if "orphaned_files" in plan:
         print(f"\n🔍 Orphaned files: {plan['orphaned_files']['count']}")
 
-    print(f"\n🧬 Hybrid modules identified: {len(plan['hybrid_modules']}")
+    print(f"\n🧬 Hybrid modules identified: {len(plan['hybrid_modules'])}")
     for hybrid, info in plan["hybrid_modules"].items():
         print(f"  - {hybrid}: Primary in {info['primary_module']}, also in {info['also_exists_in']}")
 

@@ -4,16 +4,15 @@ Golden Trio Orchestrator
 Unified orchestration system for DAST, ABAS, and NIAS coordination.
 Manages communication, prevents circular dependencies, and optimizes execution flow.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum, auto
 from typing import Any
+
+import streamlit as st
 
 from ethics.core import DecisionType, get_shared_ethics_engine
 from ethics.seedra import get_seedra
@@ -646,7 +645,7 @@ class TrioOrchestrator:
             audit_events = audit_events[-100:]
 
         await self.context_manager.set("audit_events", audit_events)
-        logger.info(f"Processed audit event: {getattr(audit_entry, 'audit_id', 'unknown'}")
+        logger.info(f"Processed audit event: {getattr(audit_entry, 'audit_id', 'unknown')}")
 
 
 # Global instance

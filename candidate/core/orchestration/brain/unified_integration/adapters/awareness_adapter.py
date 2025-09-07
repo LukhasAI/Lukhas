@@ -4,16 +4,14 @@ Original: awareness_adapter.py
 Advanced: awareness_adapter.py
 Integration Date: 2025-05-31T07:55:29.981335
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Simple adapter for awareness system integration
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 from ..unified_integration import MessageType, UnifiedIntegration
 

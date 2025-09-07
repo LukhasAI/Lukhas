@@ -1,6 +1,8 @@
 import logging
-import streamlit as st
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: glyph_redactor_engine.py
@@ -206,96 +208,6 @@ class GlyphRedactorEngine:  # #ΛPSEUDOCODE
             # ΛSCRUBBED (text_label)
             level_short = glyph_sensitivity_level.split("_")[0] if "_" in glyph_sensitivity_level else "SENSITIVE"
             return f"{REDACTION_TEXT_PREFIX}{level_short}{REDACTION_TEXT_SUFFIX}"
-        else:  # Default to strict for unknown modes
-            # ΛSCRUBBED (default_strict)
-            log.warning(
-                "GlyphRedactorEngine.redact_glyph.unknown_mode",
-                mode=mode,
-                glyph=glyph_char,
-            )
-            return REDACTION_GLYPH_FULL_MASK * len(glyph_char)
-
-    def redact_stream(self, text_stream_with_glyphs: str, redaction_mode: str = "strict") -> str:
-        """
-        Processes a stream of text, identifies known glyphs, and redacts them based on
-        the engine's access context and the glyph's sensitivity.
-        #ΛTRACE: Starting glyph stream redaction. #ΛSECURITY_FILTER #ΛPSEUDOCODE
-        Args:
-            text_stream_with_glyphs (str): The input string containing potential glyphs.
-            redaction_mode (str): The redaction mode to apply (passed to redact_glyph).
-        Returns:
-            str: The text stream with sensitive glyphs redacted.
-        """
-        log.debug(
-            "GlyphRedactorEngine.redact_stream.start",
-            stream_length=len(text_stream_with_glyphs),
-            mode=redaction_mode,
-        )
-
-        glyph_pattern = self.metadata_provider.get_all_known_glyphs_regex()
-
-        def replace_match(match: re.Match[str]) -> str:
-            glyph_char = match.group(0)
-            sensitivity = self.metadata_provider.get_glyph_sensitivity(glyph_char)
-            if sensitivity:
-                # Pass a snippet of context for potential future use, not fully
-                # implemented here
-                context_snippet = text_stream_with_glyphs[
-                    max(0, match.start() - 10) : min(len(text_stream_with_glyphs), match.end() + 10)
-                ]
-                return self.redact_glyph(
-                    glyph_char,
-                    sensitivity,
-                    original_context=context_snippet,
-                    mode=redaction_mode,
-                )
-            return glyph_char  # Should not happen if regex is from known glyphs with sensitivity
-
-        redacted_stream = glyph_pattern.sub(replace_match, text_stream_with_glyphs)
-
-        if redacted_stream != text_stream_with_glyphs:
-            log.info(
-                "GlyphRedactorEngine.redact_stream.redactions_applied",
-                mode=redaction_mode,
-            )
-        else:
-            log.debug(
-                "GlyphRedactorEngine.redact_stream.no_redactions_needed",
-                mode=redaction_mode,
-            )
-
-        return redacted_stream
-
-
-# --- Sample Usage Block ---
-# ΛPSEUDOCODE
-
-
-def sample_redaction_scenario():
-    # ΛNOTE: This is a sample demonstration of the conceptual GlyphRedactorEngine.
-    log.info("--- Starting Glyph Redaction Scenario ---")
-
-    # Mock metadata provider
-    provider = IGlyphMetadataProvider()
-
-    # Scenario 1: Developer access (G1_DEV_DEBUG)
-    dev_context = {"user_tier": "G1_DEV_DEBUG", "agent_id": "dev_ide_plugin"}
-    dev_redactor = GlyphRedactorEngine(dev_context, provider)
-
-    log_line_1 = "System check ✅, all normal. Process 🧭 flow A->B. Minor drift 🌊 noted. User 'xyz' activity 🪞. Potential data issue ☣️ flagged."
-    log.info("Original Log Line 1", line=log_line_1)
-    redacted_line_1_dev = dev_redactor.redact_stream(log_line_1, redaction_mode="text_label")
-    log.info("Redacted for Dev (G1)", line=redacted_line_1_dev)
-    # Expected for Dev (G1 allows up to G1, redacts G2, G3, G4):
-    # System check ✅, all normal. Process 🧭 flow A->B. Minor
-    # #LUKHAS[REDACTED_G2] noted. User 'xyz' activity #LUKHAS[REDACTED_G3].
-    # Potential data issue #LUKHAS[REDACTED_G4] flagged.
-
-    # Scenario 2: Public/User access (G0_PUBLIC_UTILITY)
-    public_context = {
-        "user_tier": "G0_PUBLIC_UTILITY",
-        "agent_id": "public_dashboard",
-    }
     public_redactor = GlyphRedactorEngine(public_context, provider)
 
     redacted_line_1_public = public_redactor.redact_stream(log_line_1, redaction_mode="obfuscate")

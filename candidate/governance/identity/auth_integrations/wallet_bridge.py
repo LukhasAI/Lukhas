@@ -10,10 +10,10 @@ Integration Points:
 - wallet_core.py: Wallet-based authentication flows
 - qi_identity_core.py: QI-enhanced identity operations
 """
-import streamlit as st
-
 from dataclasses import dataclass
 from typing import Any, Optional
+
+import streamlit as st
 
 # Planned imports for WALLET integration
 # from products.lambda_pack.lambda_core.WALLET.identity_manager import IdentityManager

@@ -1,7 +1,9 @@
 import logging
-import streamlit as st
 import time
 from typing import List
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -261,7 +263,7 @@ class EthicsPolicy(ABC):
         Called once before first use. Override for custom initialization.
         """
         self._initialized = True
-        logger.info(f"Initialized {self.get_policy_name()} v{self.get_policy_version(}")
+        logger.info(f"Initialized {self.get_policy_name()} v{self.get_policy_version()}")
 
     def shutdown(self) -> None:
         """Cleanup policy resources
@@ -269,7 +271,7 @@ class EthicsPolicy(ABC):
         Called when policy is being unloaded. Override for custom cleanup.
         """
         self._initialized = False
-        logger.info(f"Shutdown {self.get_policy_name(}")
+        logger.info(f"Shutdown {self.get_policy_name()}")
 
     def get_metrics(self) -> dict[str, Any]:
         """Return policy performance metrics"""
@@ -329,7 +331,7 @@ class PolicyRegistry:
         if set_as_default or self._default_policy is None:
             self._default_policy = policy_name
 
-        logger.info(f"Registered policy: {policy_name} v{policy.get_policy_version(}")
+        logger.info(f"Registered policy: {policy_name} v{policy.get_policy_version()}")
 
     def unregister_policy(self, policy_name: str) -> None:
         """Unregister a policy

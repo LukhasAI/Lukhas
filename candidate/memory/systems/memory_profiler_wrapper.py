@@ -10,13 +10,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 try:
-    from .memory_profiler import (
-        Action,
-        Category,
-        DataFlowNode,
-        OpTree,
-        SchemaMatcher,
-        SizeMap)
+    from .memory_profiler import Action, Category, DataFlowNode, OpTree, SchemaMatcher, SizeMap
 
     MEMORY_PROFILER_AVAILABLE = True
 except ImportError as e:

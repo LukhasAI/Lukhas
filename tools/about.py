@@ -19,10 +19,10 @@ def main():
     try:
         with open("dao/manifest.json") as f:
             manifest = json.load(f)
-            print(f"🧬 Manifest Version: {manifest.get('dao_version', 'N/A'}")
+            print(f"🧬 Manifest Version: {manifest.get('dao_version', 'N/A')}")
             hashes = manifest.get("proposal_hashes", [])
             if hashes:
-                print(f"🔗 Recent Proposal Hashes: {', '.join(hashes[:2]}")
+                print(f"🔗 Recent Proposal Hashes: {', '.join(hashes[:2])}")
     except Exception:
         print("⚠️ Manifest not found or unreadable.")
 
@@ -51,7 +51,7 @@ def main():
         print("⚠️ ETHICS.md not found.")
 
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    print(f"📅 Timestamp: {datetime.now(timezone.utc).isoformat(}Z")
+    print(f"📅 Timestamp: {datetime.now(timezone.utc).isoformat()}Z")
     print("🔏 Signed by: LUCAS CLI Core")
     print("💬 'A symbol is not a thing, but a promise.'\n")
 

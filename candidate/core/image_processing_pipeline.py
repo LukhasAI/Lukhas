@@ -16,13 +16,11 @@
 ║ independent processing stages connected via event bus for scalable AI workflows.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import random
-import streamlit as st
-
 import asyncio
 import logging
 import mimetypes
 import os
+import random
 import time
 import uuid
 from collections import defaultdict
@@ -30,6 +28,8 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 # Try to import image processing libraries (optional)
 try:

@@ -501,7 +501,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         # Generate recommendations
         if not readiness["ready_for_deployment"]:
             readiness["recommendations"].append(
-                f"Increase compliance to {(0.8 - avg_compliance} * 100:.1f}% more frameworks"
+                f"Increase compliance to {(0.8 - avg_compliance)}  * 100:.1f}% more frameworks"
             )
 
         for blocked in readiness["blocked_regions"]:

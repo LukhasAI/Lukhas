@@ -539,8 +539,8 @@ class ConsentService:
             # Add caveats
             macaroon.add_first_party_caveat(f"lid = {lid}")
             macaroon.add_first_party_caveat(f"service = {service}")
-            macaroon.add_first_party_caveat(f"scopes = {','.join(scopes}")
-            macaroon.add_first_party_caveat(f"expires_at = {expires_at.isoformat(}")
+            macaroon.add_first_party_caveat(f"scopes = {','.join(scopes)}")
+            macaroon.add_first_party_caveat(f"expires_at = {expires_at.isoformat()}")
 
             if resource_pattern:
                 macaroon.add_first_party_caveat(f"resource_pattern = {resource_pattern}")
@@ -559,7 +559,7 @@ class ConsentService:
                 "resource_pattern": resource_pattern,
                 "client_ip": client_ip,
             }
-            token_str = f"mock_macaroon_{secrets.token_urlsafe(32)}_{json.dumps(token_data}"
+            token_str = f"mock_macaroon_{secrets.token_urlsafe(32)}_{json.dumps(token_data)}"
 
         # Store token in database
         token_hash = hashlib.sha256(token_str.encode()).hexdigest()
@@ -773,7 +773,7 @@ class ConsentService:
                         "actions": rule["actions"],
                     }
             except Exception as e:
-                print(f"Error evaluating rule '{rule.get('name', 'unknown'}': {e}")
+                print(f"Error evaluating rule '{rule.get('name', 'unknown')}': {e}")
                 continue
         return None
 
@@ -855,7 +855,7 @@ async def demonstrate_consent_service():
         print("\n📋 Getting consent ledger...")
         ledger = await service.get_consent_ledger("gonzo")
         for entry in ledger:
-            print(f"  • {entry.service}: {', '.join(entry.scopes} (expires: {entry.expires_at})")
+            print(f"  • {entry.service}: {', '.join(entry.scopes)} (expires: {entry.expires_at})")
 
         # Escalate to content access
         print("\n📈 Escalating to content access...")

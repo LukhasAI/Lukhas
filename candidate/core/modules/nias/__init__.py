@@ -1,14 +1,15 @@
 from datetime import datetime, timezone
+
 """
 NIAS (Non-Intrusive Ad System) Module
 Unified module for ethical, consent-aware symbolic message delivery.
 Integrates with Dream system for deferred processing and quantum consciousness.
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any
+
+import streamlit as st
 
 # Import legacy functions that other modules might expect
 from lukhas.core.interfaces.as_agent.sys.nias.dream_recorder import record_dream_message
@@ -40,9 +41,9 @@ def narrate_dreams(dreams: list[dict[str, Any]]) -> None:
     This is a compatibility wrapper for the dream voice pipeline.
     """
     for dream in dreams:
-        logger.info(f"🎙 Narrating dream: {dream.get('id', 'unknown'}")
+        logger.info(f"🎙 Narrating dream: {dream.get('id', 'unknown')}")
         # TODO: Integrate with actual voice narration system
-        print(f"[NIAS Narration] {dream.get('content', 'Empty dream'}")
+        print(f"[NIAS Narration] {dream.get('content', 'Empty dream')}")
 
 
 class NIASCore:
@@ -150,7 +151,7 @@ class SymbolicMatcher:
                         },
                         {
                             "role": "user",
-                            "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(user_context}",
+                            "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(user_context)}",
                         },
                     ],
                 )
@@ -197,7 +198,7 @@ class DreamRecorder:
         import datetime
 
         dream_entry = {
-            "dream_id": f"dream_{len(self.dream_queue)}_{datetime.datetime.now(timezone.utc).timestamp(}",
+            "dream_id": f"dream_{len(self.dream_queue)}_{datetime.datetime.now(timezone.utc).timestamp()}",
             "message": message,
             "context": context,
             "recorded_at": datetime.datetime.now(timezone.utc).isoformat(),

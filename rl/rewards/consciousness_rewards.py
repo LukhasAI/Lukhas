@@ -66,7 +66,7 @@ class ConsciousnessRewards:
     def __init__(self):
         self.capabilities = ["rl.rewards", "causal.analysis", "ethics.constraint"]
         self.node_type = "CAUSAL"
-        self.trace_id = f"rl-rewards-{uuid.uuid4(}.hex[:12]}"
+        self.trace_id = f"rl-rewards-{uuid.uuid4()}.hex[:12]}"
 
         # Reward configuration from design specification
         self.reward_weights = {

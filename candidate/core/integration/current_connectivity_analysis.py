@@ -296,7 +296,7 @@ def main():
     print(f"   Average connectivity: {report['analysis_summary']['average_connectivity']:.2f}")
 
     if report["isolated_files"]:
-        print(f"\n⚠️  Found {len(report['isolated_files']} isolated files:")
+        print(f"\n⚠️  Found {len(report['isolated_files'])} isolated files:")
         for file_info in report["isolated_files"][:10]:  # Show first 10
             print(f"   - {file_info['file']} ({file_info['lines_of_code']} lines)")
 

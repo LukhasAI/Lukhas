@@ -5,21 +5,18 @@ Feedback Cards System for LUKHAS
 Human-in-the-loop fine-tuning with feedback cards.
 Based on GPT5 audit recommendations.
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import json
 import sqlite3
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
 from uuid import uuid4
 
 import numpy as np
+import streamlit as st
 
 
 class FeedbackType(Enum):
@@ -853,6 +850,6 @@ if __name__ == "__main__":
 
     # Get cards for training
     training_cards = manager.get_cards_for_training(min_impact=0.2)
-    print(f"\nCards ready for training: {len(training_cards}")
+    print(f"\nCards ready for training: {len(training_cards)}")
     for card in training_cards[:3]:
         print(f"  • {card.card_id}: impact={card.impact_score:.2f}")

@@ -418,7 +418,7 @@ class UnifiedCognitiveOrchestrator:
 
             # Store compressed state
             self.memory_engine.create_fold(
-                key=f"consolidated_{datetime.now(timezone.utc).timestamp(}",
+                key=f"consolidated_{datetime.now(timezone.utc).timestamp()}",
                 content=compressed,
                 tags=["consolidation", "compressed"],
             )

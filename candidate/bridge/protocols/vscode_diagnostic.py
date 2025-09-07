@@ -9,10 +9,10 @@
 VS Code Language & Status Bar Diagnostic Tool
 Helps diagnose issues with language detection and status bar display
 """
-import streamlit as st
-
 import json
 from pathlib import Path
+
+import streamlit as st
 
 
 def check_vscode_config():

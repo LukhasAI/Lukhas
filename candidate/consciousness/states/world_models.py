@@ -98,7 +98,7 @@ class PhysicsEngine:
         """Simulate physics for given duration"""
         try:
             new_state = WorldState(
-                state_id=f"{state.state_id}_physics_{datetime.now(timezone.utc).timestamp(}",
+                state_id=f"{state.state_id}_physics_{datetime.now(timezone.utc).timestamp()}",
                 timestamp=state.timestamp + timedelta(seconds=duration),
                 entities=state.entities.copy(),
                 relationships=state.relationships.copy(),
@@ -376,7 +376,7 @@ class WorldModels:
 
             # Create initial world state
             initial_state = WorldState(
-                state_id=f"initial_{datetime.now(timezone.utc).timestamp(}",
+                state_id=f"initial_{datetime.now(timezone.utc).timestamp()}",
                 timestamp=datetime.now(timezone.utc),
                 entities={},
                 relationships=[],
@@ -412,7 +412,7 @@ class WorldModels:
         """Create a new world state"""
         try:
             state = WorldState(
-                state_id=f"state_{datetime.now(timezone.utc).timestamp()}_{len(self.world_states}",
+                state_id=f"state_{datetime.now(timezone.utc).timestamp()}_{len(self.world_states)}",
                 timestamp=datetime.now(timezone.utc),
                 entities=entities,
                 relationships=relationships or [],
@@ -443,7 +443,7 @@ class WorldModels:
         """Simulate world state forward in time"""
         try:
             accuracy = accuracy or self.config["simulation_accuracy"]
-            simulation_id = f"sim_{datetime.now(timezone.utc).timestamp(}"
+            simulation_id = f"sim_{datetime.now(timezone.utc).timestamp()}"
 
             logger.info(f"🎯 Starting forward simulation: {simulation_id}")
 
@@ -547,7 +547,7 @@ class WorldModels:
             current_state = self.world_states[-1]
 
             # Check cache first
-            cache_key = f"pred_{current_state.state_id}_{prediction_horizon.total_seconds(}"
+            cache_key = f"pred_{current_state.state_id}_{prediction_horizon.total_seconds()}"
             if cache_key in self.prediction_cache:
                 logger.info(f"🎯 Using cached prediction: {cache_key}")
                 return self.prediction_cache[cache_key]

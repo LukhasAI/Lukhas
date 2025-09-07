@@ -12,9 +12,9 @@
 ╰────────────────────────────────────────────────────────────────╯
 """
 import time
-import streamlit as st
-
 from datetime import date
+
+import streamlit as st
 
 
 class AzureFreeStrategy:
@@ -235,7 +235,7 @@ def main():
     print("\n🎯 PRIORITY SERVICES FOR AI:")
     services = strategy.get_priority_services_for_agi()
     for category, items in services.items():
-        print(f"\n   📋 {category.replace('_', ' ').title(}:")
+        print(f"\n   📋 {category.replace('_', ' ').title()}:")
         for service, description in items.items():
             print(f"      {service}: {description}")
 

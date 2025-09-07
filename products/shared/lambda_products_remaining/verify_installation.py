@@ -88,7 +88,7 @@ def main():
     print(f"\nTotal Checks: {total}")
     print(f"✅ Passed: {passed}")
     print(f"❌ Failed: {failed}")
-    print(f"Success Rate: {(passed / total} * 100:.1f}%")
+    print(f"Success Rate: {(passed / total)}  * 100:.1f}%")
 
     if passed == total:
         print("\n🎉 ALL CHECKS PASSED!")

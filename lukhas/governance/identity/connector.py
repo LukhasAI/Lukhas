@@ -288,7 +288,7 @@ class IdentityConnector:
             async def log_constitutional_enforcement(
                 self, action, enforcement_type, details, user_id=None, session_id=None
             ):
-                event_id = f"const_{len(self._events}"
+                event_id = f"const_{len(self._events)}"
                 self._events.append(
                     {
                         "type": "constitutional_enforcement",
@@ -303,7 +303,7 @@ class IdentityConnector:
                 return event_id
 
             async def log_authentication_attempt(self, attempt_result, details, user_id=None, session_id=None):
-                event_id = f"auth_{len(self._events}"
+                event_id = f"auth_{len(self._events)}"
                 self._events.append(
                     {
                         "type": "authentication_attempt",
@@ -323,7 +323,7 @@ class IdentityConnector:
                 user_id=None,
                 session_id=None,
             ):
-                event_id = f"policy_{len(self._events}"
+                event_id = f"policy_{len(self._events)}"
                 self._events.append(
                     {
                         "type": "policy_violation",
@@ -575,7 +575,7 @@ class IdentityConnector:
             "ethics",
         ]
         if not any(trusted_name in str(type(module_instance).__module__) for trusted_name in trusted_modules):
-            raise SecurityError(f"Untrusted module source: {type(module_instance}.__module__}")
+            raise SecurityError(f"Untrusted module source: {type(module_instance)}.__module__}")
 
         if self._implementation_type == "production":
             # Real implementation with full audit trail and controlled method injection

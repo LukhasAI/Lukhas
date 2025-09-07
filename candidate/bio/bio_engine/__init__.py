@@ -3,9 +3,9 @@ Compatibility shim for bio.bio_engine
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.accepted.bio.engine
 """
-import streamlit as st
-
 import warnings
+
+import streamlit as st
 
 from lukhas.accepted.bio.engine import *
 

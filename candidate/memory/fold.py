@@ -4,12 +4,12 @@ Fold-based memory with 99.7% cascade prevention
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 import time
-import streamlit as st
-
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
+
+import streamlit as st
 
 
 @dataclass

@@ -448,7 +448,7 @@ class TraumaLockedMemory:
     def _generate_standard_key(self, user_id: str) -> bytes:
         self.logger.debug(f"ΛTRACE: Generating standard key for user {user_id}.")
         # Added salt for standard key
-        key_string = f"lukhas_standard_{user_id}_{secrets.token_hex(8}"
+        key_string = f"lukhas_standard_{user_id}_{secrets.token_hex(8)}"
         return hashlib.sha256(key_string.encode()).digest()
 
     def _encrypt_data(self, data: Any, key: bytes) -> str:
@@ -519,7 +519,7 @@ class ComplianceMonitor:
         # events over time)
         self.audit_log: List[Dict[str, Any]] = []
         self.logger.debug(
-            f"ΛTRACE: ComplianceMonitor initialized. {len(self.compliance_rules} rules loaded for {region.value}.")
+            f"ΛTRACE: ComplianceMonitor initialized. {len(self.compliance_rules)} rules loaded for {region.value}.")
 
     # ΛECHO (Loads static rules based on region)
     def _load_compliance_rules(self) -> Dict:
@@ -666,9 +666,9 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         # ΛMEMORY_TIER: Volatile Log #ΛTEMPORAL_HOOK (Log grows over time)
         self.audit_log_entries: List[AuditLogEntry] = []
         # AIDENTITY_BRIDGE (Unique ID for the system signer)
-        self.qi_signer_id = f"lukhas_core_system_{secrets.token_hex(4}"
+        self.qi_signer_id = f"lukhas_core_system_{secrets.token_hex(4)}"
         self.logger.debug(
-            f"ΛTRACE: LukhasIdManager initialized. Quantum signer ID: {self.qi_signer_id}. Users: {len(self.users)}, Active Sessions: {len(self.active_sessions}")
+            f"ΛTRACE: LukhasIdManager initialized. Quantum signer ID: {self.qi_signer_id}. Users: {len(self.users)}, Active Sessions: {len(self.active_sessions)}")
 
     # Human-readable comment: Registers a new user in the Lukhas_ID system.
     # ΛTEMPORAL_HOOK (User registration is an event, user record gets a created_at timestamp)
@@ -714,7 +714,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         }
         self.users[user_id] = user_record  # ΛMEMORY_TIER (Storing user record)
         self.logger.debug(
-            f"ΛTRACE ({req_id}): User record created for {user_id}. Total users: {len(self.users}")
+            f"ΛTRACE ({req_id}): User record created for {user_id}. Total users: {len(self.users)}")
 
         await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this event
             user_id=user_id, tier=initial_tier, component="LukhasIdManager",
@@ -790,7 +790,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.active_sessions[session_token] = session_data
         # AIDENTITY_BRIDGE
         self.logger.debug(
-            f"ΛTRACE ({req_id}): Session {session_token[:8]}... created for user {user_id}. Total active sessions: {len(self.active_sessions}")
+            f"ΛTRACE ({req_id}): Session {session_token[:8]}... created for user {user_id}. Total active sessions: {len(self.active_sessions)}")
 
         # Ensure key exists #ΛDRIFT_HOOK (session_count drifts up)
         user_record['session_count'] = user_record.get('session_count', 0) + 1
@@ -1017,7 +1017,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         # ΛTEMPORAL_HOOK (Signature payload includes current time, making it
         # time-sensitive)
         # Ensure unique payload, ensure UTC
-        sig_data_payload = f"{user_id}|{component}|{action}|{datetime.now(timezone.utc).isoformat()}|{secrets.token_hex(8}"
+        sig_data_payload = f"{user_id}|{component}|{action}|{datetime.now(timezone.utc).isoformat()}|{secrets.token_hex(8)}"
         # ΛECHO (Payload echoed into signature generation)
         q_sig_data = self._generate_quantum_signature(sig_data_payload)
         # AIDENTITY_BRIDGE (signer_id) #ΛTEMPORAL_HOOK (QISignature gets its
@@ -1042,7 +1042,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.audit_log_entries.append(entry)
         # AIDENTITY_BRIDGE
         self.logger.info(
-            f"ΛTRACE: Audit log entry created. User: {user_id}, Action {action}. Total entries: {len(self.audit_log_entries}")
+            f"ΛTRACE: Audit log entry created. User: {user_id}, Action {action}. Total entries: {len(self.audit_log_entries)}")
 
     # Human-readable comment: Generates a mock quantum-resistant signature.
     # AIDENTITY_BRIDGE (Uses self.qi_signer_id)
@@ -1080,14 +1080,14 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         if datetime.now(timezone.utc) > session['expires_at']:
             # AIDENTITY_BRIDGE
             self.logger.info(
-                f"ΛTRACE: Session {session_token[:8]}... for user {session.get('user_id'} expired. Deleting.")
+                f"ΛTRACE: Session {session_token[:8]}... for user {session.get('user_id')} expired. Deleting.")
             # ΛMEMORY_TIER (Removing from active sessions) #ΛDRIFT_HOOK
             del self.active_sessions[session_token]
             return None
 
         # AIDENTITY_BRIDGE
         self.logger.info(
-            f"ΛTRACE: Permissions retrieved for session {session_token[:8]}... (User: {session.get('user_id'})")
+            f"ΛTRACE: Permissions retrieved for session {session_token[:8]}... (User: {session.get('user_id')})")
         return session['permissions']
 
     # Human-readable comment: Stores memory data with emotional protection.
@@ -1125,7 +1125,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             user_id=user_id, tier=self.users[user_id]['access_tier'],
             component="LukhasIdManager.TraumaLockedMemory", action="memory_storage_initiated",
             # ΛECHO
-            decision_logic=f"Emotional lock intensity: {emotional_state.arousal + abs(emotional_state.valence}:.2f}. Delegated to TraumaLockedMemory.",
+            decision_logic=f"Emotional lock intensity: {emotional_state.arousal + abs(emotional_state.valence)}:.2f}. Delegated to TraumaLockedMemory.",
             emotional_state=emotional_state,  # ΛECHO
             privacy_impact="Memory encrypted with user-specific emotional key via TraumaLockedMemory."
         )
@@ -1160,14 +1160,14 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             user_id)  # Delegate #ΛECHO #ΛTEMPORAL_HOOK (Inside unlock_memory)
         # AIDENTITY_BRIDGE
         self.logger.info(
-            f"ΛTRACE ({req_id}): TraumaLockedMemory unlock attempt for {memory_id} (User: {user_id}). Success: {bool(memory_data}")
+            f"ΛTRACE ({req_id}): TraumaLockedMemory unlock attempt for {memory_id} (User: {user_id}). Success: {bool(memory_data)}")
 
         await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this retrieval attempt event
             # AIDENTITY_BRIDGE
             user_id=user_id, tier=self.users[user_id]['access_tier'],
             component="LukhasIdManager.TraumaLockedMemory", action="memory_retrieval_attempt_delegated",
             # ΛECHO
-            decision_logic=f"Delegated to TraumaLockedMemory. Retrieval success: {bool(memory_data}.",
+            decision_logic=f"Delegated to TraumaLockedMemory. Retrieval success: {bool(memory_data)}.",
             emotional_state=current_emotional_state,  # ΛECHO
             privacy_impact="Memory access attempt logged. Data decrypted if emotional state matched."
         )
@@ -1270,7 +1270,7 @@ if __name__ == "__main__":
                 if retrieved_memory:
                     # Use .get for safety
                     logger.info(
-                        f"Memory retrieved successfully: {retrieved_memory.get('type'}")
+                        f"Memory retrieved successfully: {retrieved_memory.get('type')}")
                 else:
                     # ΛCOLLAPSE_POINT (Example of access collapse)
                     logger.warning("Memory retrieval failed - emotional state mismatch")
@@ -1279,7 +1279,7 @@ if __name__ == "__main__":
                 compliance_status = lukhas_id_system.get_compliance_status()
                 # Pretty print JSON
                 logger.info(
-                    f"Compliance status: {json.dumps(compliance_status, indent=2}")
+                    f"Compliance status: {json.dumps(compliance_status, indent=2)}")
             else:
                 # ΛCOLLAPSE_POINT (Example of auth collapse)
                 logger.error("Authentication failed")

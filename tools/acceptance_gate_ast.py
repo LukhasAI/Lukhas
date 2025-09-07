@@ -11,17 +11,16 @@ This gate is designed for pre/post-MATRIZ workspace auditing:
 
 Exit code: 0 = pass, 2 = violations (ready for audit integration)
 """
-import streamlit as st
-from datetime import timezone
-
 from __future__ import annotations
 
 import ast
 import json
 import pathlib
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 REPO = pathlib.Path(__file__).resolve().parents[1]
 ACCEPTED = REPO / "lukhas"
@@ -322,7 +321,7 @@ def main():
 
     print("[audit-gate] Starting comprehensive AST-based acceptance gate scan...")
     print(f"[audit-gate] Scanning accepted lane: {ACCEPTED}")
-    print(f"[audit-gate] Banned imports: {', '.join(BANNED}")
+    print(f"[audit-gate] Banned imports: {', '.join(BANNED)}")
 
     audit = AuditTrail()
 
@@ -330,7 +329,7 @@ def main():
     for file_path in py_files(ACCEPTED):
         result = scan_file_comprehensive(file_path, audit)
         if not result["success"]:
-            print(f"[audit-gate] ⚠️  Parse error in {file_path.relative_to(REPO}")
+            print(f"[audit-gate] ⚠️  Parse error in {file_path.relative_to(REPO)}")
 
     # Generate audit report
     report_path = REPO / "audit" / "acceptance_gate_audit.json"
@@ -346,14 +345,14 @@ def main():
     print(f"  Facade files: {audit.stats['facade_files']}")
 
     if audit.violations:
-        print(f"\n❌ {len(audit.violations} violations found:")
+        print(f"\n❌ {len(audit.violations)} violations found:")
         for violation in audit.violations:
-            print(f"  {violation['file']}:{violation.get('line', '?'} - {violation['details']}")
+            print(f"  {violation['file']}:{violation.get('line', '?')} - {violation['details']}")
     else:
         print("\n✅ No import violations detected")
 
     if audit.facades:
-        print(f"\n⚠️  {len(audit.facades} facade files detected:")
+        print(f"\n⚠️  {len(audit.facades)} facade files detected:")
         for facade in audit.facades:
             print(f"  {facade['file']} - score: {facade['facade_score']:.2f}")
 

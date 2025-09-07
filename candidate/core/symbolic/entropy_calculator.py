@@ -97,7 +97,7 @@ class EntropyCalculator:
         # Considers element diversity, uniqueness, and security strength
         """
         logger.info(
-            f"ΛTRACE: Calculating vault entropy for {len(symbolic_vault} elements"
+            f"ΛTRACE: Calculating vault entropy for {len(symbolic_vault)} elements"
         )
 
         if not symbolic_vault:

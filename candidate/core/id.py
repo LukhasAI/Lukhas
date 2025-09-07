@@ -648,7 +648,7 @@ class LukhosIDManager:
 
         # Generate quantum signature (mock for development)
         signature_data = self._generate_quantum_signature(
-            f"{user_id}|{component}|{action}|{datetime.now().isoformat(}"
+            f"{user_id}|{component}|{action}|{datetime.now().isoformat()}"
         )
 
         qi_signature = QISignature(signature_data=signature_data, signer_id=self.qi_signer_id)
@@ -675,7 +675,7 @@ class LukhosIDManager:
         """Generate quantum-resistant signature (mock implementation)"""
         # In real implementation, this would use Dilithium or similar post-quantum
         # signature
-        signature_input = f"{data}|{self.qi_signer_id}|{secrets.token_hex(16}"
+        signature_input = f"{data}|{self.qi_signer_id}|{secrets.token_hex(16)}"
         return hashlib.sha256(signature_input.encode()).hexdigest()
 
     async def get_user_permissions(self, session_token: str) -> Optional[list[str]]:
@@ -703,7 +703,7 @@ class LukhosIDManager:
             tier=self.users[user_id]["access_tier"],
             component="trauma_locked_memory",
             action="memory_storage",
-            decision_logic=f"Memory stored with emotional protection level {emotional_state.arousal + abs(emotional_state.valence}:.2f}",
+            decision_logic=f"Memory stored with emotional protection level {emotional_state.arousal + abs(emotional_state.valence)}:.2f}",
             emotional_state=emotional_state,
             privacy_impact="Memory encrypted with user-specific emotional key",
         )

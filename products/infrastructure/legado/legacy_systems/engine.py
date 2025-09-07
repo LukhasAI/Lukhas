@@ -4,8 +4,9 @@ Ethics Engine
 
 This module provides the core ethics engine for the LUKHAS system.
 """
-from consciousness.qi import qi
 import streamlit as st
+
+from consciousness.qi import qi
 
 from .guardian import DefaultGuardian
 

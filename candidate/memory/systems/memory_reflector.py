@@ -42,9 +42,9 @@
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 from typing import Any, Optional
+
+import streamlit as st
 
 # Dummy memory store for placeholder
 _RECENT_INTERACTIONS = []

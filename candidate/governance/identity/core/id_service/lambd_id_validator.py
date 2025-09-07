@@ -22,15 +22,14 @@ Version: 2.0.0
 Created: 2025-07-05
 Updated: 2025-07-05 (Enhanced with collision prevention)
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import hashlib
 import re
+import time
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 
 class ValidationLevel(Enum):
@@ -657,4 +656,4 @@ if __name__ == "__main__":
         if details.get("errors"):
             print(f"  Errors: {details['errors']}")
 
-    print(f"Validation Stats: {validator.get_validation_stats(}")
+    print(f"Validation Stats: {validator.get_validation_stats()}")

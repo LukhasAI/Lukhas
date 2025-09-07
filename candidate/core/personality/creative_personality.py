@@ -27,9 +27,9 @@
 ║ Symbolic Tags: {ΛCREATIVITY}, {ΛMETA_LEARNING}, {ΛETHICS}, {ΛHAIKU}, {ΛHARMONY}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import logging
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger(__name__)

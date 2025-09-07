@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-from typing import List
 import logging
+from typing import List
+
 import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """
@@ -63,7 +66,7 @@ class QIUIOptimizer:
     async def optimize_interface_layout(
         self,
         user_context: QIUserContext,
-        ui_components: List[UIComponent],
+        ui_components: list[UIComponent],
         constraints: LayoutConstraints,
     ) -> OptimalLayout:
         """

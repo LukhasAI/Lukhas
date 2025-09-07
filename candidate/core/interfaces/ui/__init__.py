@@ -16,6 +16,7 @@ logic for the Lukhas system, potentially including adaptive UI elements and
 various UI applications or components.
 """
 import logging
+
 import streamlit as st
 
 # AIMPORTS_START

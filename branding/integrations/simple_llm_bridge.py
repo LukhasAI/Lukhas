@@ -2,8 +2,6 @@
 Simple LLM Bridge - Phase 2 Implementation
 Direct integration with OpenAI and Anthropic for brand voice generation
 """
-import streamlit as st
-
 import asyncio
 import logging
 import os
@@ -11,6 +9,7 @@ import time
 from dataclasses import dataclass
 from typing import Any, Optional
 
+import streamlit as st
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -357,7 +356,7 @@ if __name__ == "__main__":
 
     async def test():
         bridge = SimpleLLMBridge()
-        print(f"Provider status: {bridge.get_provider_status(}")
+        print(f"Provider status: {bridge.get_provider_status()}")
 
         request = VoiceGenerationRequest(
             content="Welcome to our consciousness platform",

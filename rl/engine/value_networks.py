@@ -201,7 +201,7 @@ class ValueNetwork:
     def __init__(self, state_dim: int = 692, hidden_dim: int = 512):
         self.capabilities = ["rl.value", "prediction.temporal", "hypothesis.consciousness"]
         self.node_type = "HYPOTHESIS"
-        self.trace_id = f"rl-value-{uuid.uuid4(}.hex[:12]}"
+        self.trace_id = f"rl-value-{uuid.uuid4()}.hex[:12]}"
 
         # Initialize consciousness value network
         self.value_network = ConsciousnessValueNetwork(state_dim, hidden_dim)
@@ -242,13 +242,13 @@ class ValueNetwork:
         # Create rich HYPOTHESIS node
         hypothesis_node = MatrizNode(
             version=1,
-            id=f"RL-VALUE-{self.trace_id}-{len(self.prediction_history}",
+            id=f"RL-VALUE-{self.trace_id}-{len(self.prediction_history)}",
             type="HYPOTHESIS",
             labels=[
                 "rl:role=value@1",
                 f"prediction:horizon={self.prediction_horizon}@1",
                 f"confidence:level={confidence:.2f}@1",
-                f"uncertainty:level={float(uncertainty}:.2f}@1" if torch else f"uncertainty:level={uncertainty:.2f}@1",
+                f"uncertainty:level={float(uncertainty)}:.2f}@1" if torch else f"uncertainty:level={uncertainty:.2f}@1",
             ],
             state={
                 "confidence": confidence,
@@ -317,7 +317,7 @@ class ValueNetwork:
                     "norm": sum(abs(v) for v in value_breakdown.values()),
                 }
             ],
-            evidence=[{"kind": "trace", "uri": f"value://prediction/{self.trace_id}/{len(self.prediction_history}"}],
+            evidence=[{"kind": "trace", "uri": f"value://prediction/{self.trace_id}/{len(self.prediction_history)}"}],
         )
 
         # Track prediction

@@ -10,11 +10,11 @@ Maps colorfield strings to normalized threat/soothe bias scores per culture prof
 V1: Deterministic table-based mapping
 V2+: Learned/profiled mapper based on cultural psychology research
 """
-import streamlit as st
-
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
+
+import streamlit as st
 
 
 class CultureProfile(str, Enum):
@@ -242,22 +242,7 @@ def get_safe_palette_recommendation(current_colorfield: str, culture: str = "def
         "midori",
         "shiro",
     ]:
-        return f"{best_color}/{_japanese_to_english(best_color}"
-    else:
-        return best_color or "blue"  # Fallback to blue
-
-
-def _japanese_to_english(japanese_color: str) -> str:
-    """Map Japanese color names to English equivalents"""
-    mappings = {
-        "aka": "red",
-        "aoi": "blue",
-        "midori": "green",
-        "kiiro": "yellow",
-        "murasaki": "purple",
-        "kuro": "black",
-        "shiro": "white",
-    }
+        return f"{best_color}/{_japanese_to_english(best_color)}"
     return mappings.get(japanese_color, japanese_color)
 
 

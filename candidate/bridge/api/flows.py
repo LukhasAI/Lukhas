@@ -101,7 +101,7 @@ def _validate_password_strength(password: str, policy: Optional[dict] = None) ->
     if len(password) < policy.get("min_length", 8):
         return (
             False,
-            f"Password must be at least {policy.get('min_length', 8} characters",
+            f"Password must be at least {policy.get('min_length', 8)} characters",
         )
 
     if policy.get("require_uppercase") and not any(c.isupper() for c in password):
@@ -172,7 +172,7 @@ def _check_account_lockout(username: str) -> tuple[bool, Optional[str]]:
 
     if len(recent_attempts) >= MAX_LOGIN_ATTEMPTS:
         lockout_end = datetime.fromtimestamp(recent_attempts[0], timezone.utc) + LOCKOUT_DURATION
-        return True, f"Account locked until {lockout_end.isoformat(}"
+        return True, f"Account locked until {lockout_end.isoformat()}"
 
     return False, None
 
@@ -230,7 +230,7 @@ def _enhance_authentication_with_lukhas(username: str, request_context: dict) ->
                 enhancement_result["security_level"] = "enhanced"
             else:
                 logger.warning(
-                    f"⚠️ User {username} failed governance validation: {governance_result.get('reason', 'unknown'}"
+                    f"⚠️ User {username} failed governance validation: {governance_result.get('reason', 'unknown')}"
                 )
                 return enhancement_result
 
@@ -408,7 +408,7 @@ def register_user_endpoint():
         refresh_token = _generate_refresh_token(username)
 
         # Create session record
-        session_id = f"sess_{secrets.token_hex(16}"
+        session_id = f"sess_{secrets.token_hex(16)}"
         user_sessions[session_id] = {
             "user_id": username,
             "lambda_id": lambda_id,
@@ -582,7 +582,7 @@ def login_user_endpoint():
         refresh_token = _generate_refresh_token(username)
 
         # Create or update session
-        session_id = f"sess_{secrets.token_hex(16}"
+        session_id = f"sess_{secrets.token_hex(16)}"
         user_sessions[session_id] = {
             "user_id": username,
             "lambda_id": lambda_id,

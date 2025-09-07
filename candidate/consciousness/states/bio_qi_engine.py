@@ -13,18 +13,17 @@ This module implements the groundbreaking theories from abstract_resoaning.md,
 creating a Bio-Quantum-Inspired Symbolic Reasoning Engine that orchestrates the Multi-Brain
 Symphony Architecture for advanced abstract reasoning capabilities.
 """
-from consciousness.qi import qi
-import random
-import streamlit as st
-from datetime import timezone
-
 import logging
+import random
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Import existing LUKHAS multi-brain components - with graceful fallback
 try:
@@ -478,7 +477,7 @@ class BioQuantumSymbolicReasoner:
         context = context or {}
 
         logger.info(
-            f"🧠⚛️ Starting Bio-Quantum Abstract Reasoning for: {problem_space.get('description', 'Unknown problem'}"
+            f"🧠⚛️ Starting Bio-Quantum Abstract Reasoning for: {problem_space.get('description', 'Unknown problem')}"
         )
 
         try:

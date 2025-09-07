@@ -11,10 +11,6 @@ This implementation specializes in:
 - Respiratory chain symbolic coupling
 - ATP-based computational scheduling
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import copy
 import hashlib
@@ -23,13 +19,15 @@ import logging
 import math
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
 import numpy as np
+import streamlit as st
 
 from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from consciousness.qi import qi
 
 # from abas.core.abas_engine import ABASEngine
 # from abas.core.abas_engine import ABASEngine
@@ -952,7 +950,7 @@ async def main():
 
     # Display initial status
     initial_status = qi_bio_agi.get_biological_status()
-    logger.info(f"📊 Initial Status: {json.dumps(initial_status, indent=2}")
+    logger.info(f"📊 Initial Status: {json.dumps(initial_status, indent=2)}")
 
     # Test scenarios for quantum-biological processing
     test_scenarios = [
@@ -990,10 +988,10 @@ async def main():
 
     # Final status
     final_status = qi_bio_agi.get_biological_status()
-    logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2}")
+    logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2)}")
 
     # Save results
-    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
+    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
     with open(results_file, "w") as f:
         json.dump(
             {

@@ -4,10 +4,10 @@ Quantum Financial Consciousness Engine for the NIAS Transcendence Platform.
 This module transcends traditional monetary exchange by valuing and
 transacting based on consciousness contribution and collective abundance.
 """
-import streamlit as st
-
 import random
 from typing import Any
+
+import streamlit as st
 
 
 # Placeholder classes for post-monetary economic systems
@@ -27,7 +27,7 @@ class ConsciousnessTokenProtocol:
     def issue_tokens(
         self, amount: float
     ) -> str:  # TODO[QUANTUM-BIO:specialist] - Amount determines quantum token consciousness value
-        return f"token_{random.randint(1000, 9999}"
+        return f"token_{random.randint(1000, 9999)}"
 
 
 class GiftEconomyEngine:

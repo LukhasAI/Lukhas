@@ -7,13 +7,12 @@ Aka Qualia Data Models
 Pydantic models for operational proto-qualia and phenomenological processing.
 All ranges validated, all transforms auditable.
 """
-import time
 import random
-import streamlit as st
-
+import time
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from pydantic import BaseModel, Field, validator
 
 

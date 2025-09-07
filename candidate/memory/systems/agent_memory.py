@@ -1,8 +1,11 @@
 log = logging.getLogger(__name__)
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: memory/core_memory/agent_memory.py
@@ -529,7 +532,7 @@ async def main_example():
     # ΛRECALL: Reading entries for agent1.
     agent1_entries = await read_from_shared_memory(agent_filter=agent1_id, limit=5)
     log.info(
-        f"Found {len(agent1_entries} entries for {agent1_id}",
+        f"Found {len(agent1_entries)} entries for {agent1_id}",
         entries_data_preview=[str(e)[:100] for e in agent1_entries],
         agent_id=agent1_id,
     )
@@ -538,7 +541,7 @@ async def main_example():
     agent2_mem_instance = get_shared_memory(agent_id=agent2_id)
     agent2_insights = await agent2_mem_instance.get_agent_insights(agent_id=agent2_id, limit=5)
     log.info(
-        f"Found {len(agent2_insights} insights for {agent2_id}",
+        f"Found {len(agent2_insights)} insights for {agent2_id}",
         insights_data_preview=[str(i)[:100] for i in agent2_insights],
         agent_id=agent2_id,
     )
@@ -547,7 +550,7 @@ async def main_example():
     agent1_mem_instance = get_shared_memory(agent_id=agent1_id)
     recent_agent1 = await agent1_mem_instance.get_recent_activities(minutes=5, limit=10)
     log.info(
-        f"Found {len(recent_agent1} recent activities for {agent1_id}",
+        f"Found {len(recent_agent1)} recent activities for {agent1_id}",
         activities_data_preview=[str(a)[:100] for a in recent_agent1],
         agent_id=agent1_id,
     )

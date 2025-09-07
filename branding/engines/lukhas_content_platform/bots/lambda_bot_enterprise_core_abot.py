@@ -6,18 +6,18 @@ Building the freemium base for the LUKHAS AI ΛBot ecosystem
 This implementation extracts the core capabilities from the Enhanced AI Bot
 and implements tiered access for freemium monetization.
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import logging
 import sys
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from datetime import timezone
 from enum import Enum
-from typing import Any, Optional, Dict
+from typing import Any, Dict, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Add the brain directory to import the Enhanced AI Bot
 sys.path.append("/Users/A_G_I/Λ/brain")
@@ -165,7 +165,7 @@ class CoreSelfCodingEngine:
         self.daily_deployments = 0
         self.complexity_used = 0
 
-    async def generate_code(self, request: str, context: Dict) -> tuple[Optional[str], Optional[UpgradePrompt]]:
+    async def generate_code(self, request: str, context: dict) -> tuple[Optional[str], Optional[UpgradePrompt]]:
         """Generate code with tier restrictions"""
         estimated_complexity = self._estimate_complexity(request)
 
@@ -399,7 +399,7 @@ class CoreABot:
         }
         return limits_map.get(tier, limits_map[SubscriptionTier.FREE])
 
-    def _initialize_personality(self) -> Dict[str, Any]:
+    def _initialize_personality(self) -> dict[str, Any]:
         """Initialize personality traits based on tier"""
         base_personality = {
             "enthusiasm": 0.8,
@@ -415,7 +415,7 @@ class CoreABot:
 
         return base_personality
 
-    async def process_message(self, user_input: str, context: Optional[Dict] = None) -> CoreΛBotResponse:
+    async def process_message(self, user_input: str, context: Optional[dict] = None) -> CoreΛBotResponse:
         """Process user message with tiered capabilities"""
         start_time = datetime.now(timezone.utc)
         context = context or {}
@@ -469,13 +469,13 @@ class CoreABot:
         except Exception as e:
             logger.error(f"❌ Error processing message: {e}")
             return CoreΛBotResponse(
-                content=f"I encountered an issue processing your request. {self._get_error_upgrade_hint(}",
+                content=f"I encountered an issue processing your request. {self._get_error_upgrade_hint()}",
                 confidence=0.1,
                 consciousness_state=self.consciousness.current_state,
                 processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
             )
 
-    async def _process_with_enhanced_agi(self, user_input: str, context: Dict) -> CoreΛBotResponse:
+    async def _process_with_enhanced_agi(self, user_input: str, context: dict) -> CoreΛBotResponse:
         """Process using Enhanced AI Bot for premium tiers"""
         try:
             agi_response = await self.enhanced_agi.process_input(user_input, context)
@@ -493,7 +493,7 @@ class CoreABot:
             # Fallback to core processing
             return await self._generate_core_response(user_input, context, 0.5)
 
-    async def _generate_core_response(self, user_input: str, context: Dict, complexity_score: float) -> str:
+    async def _generate_core_response(self, user_input: str, context: dict, complexity_score: float) -> str:
         """Generate response using core capabilities"""
 
         # Basic natural language processing
@@ -559,7 +559,7 @@ class CoreABot:
 
         return min(base_score, 1.0)
 
-    def _check_for_upgrade_opportunities(self, user_input: str, context: Dict) -> Optional[UpgradePrompt]:
+    def _check_for_upgrade_opportunities(self, user_input: str, context: dict) -> Optional[UpgradePrompt]:
         """Check if this interaction presents upgrade opportunities"""
 
         if self.subscription_tier != SubscriptionTier.FREE:
@@ -631,7 +631,7 @@ class CoreABot:
         if len(self.conversation_history) > 100:
             self.conversation_history = self.conversation_history[-100:]
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get Core LUKHAS AI ΛBot status"""
         return {
             "session_id": self.session_id,
@@ -663,7 +663,7 @@ async def demonstrate_core_lambda_bot():
     tiers = [SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.ENTERPRISE]
 
     for tier in tiers:
-        print(f"\n🎯 Testing {tier.value.upper(} tier:")
+        print(f"\n🎯 Testing {tier.value.upper()} tier:")
         print("-" * 30)
 
         bot = CoreLambdaBot(tier)

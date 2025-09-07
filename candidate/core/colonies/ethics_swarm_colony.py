@@ -854,7 +854,7 @@ class EthicsSwarmColony(BaseColony):
         reasoning.append(f"Decision type: {request.decision_type.value}")
 
         # Add consensus reasoning
-        reasoning.append(f"Consensus achieved via: {decision_data.get('consensus_method', 'unknown'}")
+        reasoning.append(f"Consensus achieved via: {decision_data.get('consensus_method', 'unknown')}")
 
         # Add simulation reasoning
         if simulation_result:

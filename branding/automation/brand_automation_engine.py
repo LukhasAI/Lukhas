@@ -68,7 +68,7 @@ class BrandAutomationEngine:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"brand_automation_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = self.logs_path / f"brand_automation_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -89,7 +89,7 @@ class BrandAutomationEngine:
                     config_data = json.load(f)
 
                 self.automation_tasks = [AutomationTask(**task) for task in config_data.get("tasks", [])]
-                self.logger.info(f"Loaded {len(self.automation_tasks} automation tasks")
+                self.logger.info(f"Loaded {len(self.automation_tasks)} automation tasks")
             except Exception as e:
                 self.logger.error(f"Failed to load automation config: {e}")
                 self._create_default_config()
@@ -181,7 +181,7 @@ class BrandAutomationEngine:
                         db.update_voice_coherence(content["id"], new_coherence)
                         fixes_applied += 1
                         self.logger.info(
-                            f"Improved coherence for '{content['title']}': {content.get('voice_coherence', 0}:.1f} → {new_coherence:.1f}"
+                            f"Improved coherence for '{content['title']}': {content.get('voice_coherence', 0)}:.1f} → {new_coherence:.1f}"
                         )
 
         result = {
@@ -196,7 +196,7 @@ class BrandAutomationEngine:
         db.log_system_activity(
             "brand_automation",
             "voice_coherence_check",
-            f"Checked {len(all_content)} items, found {len(issues_found} issues, fixed {fixes_applied}",
+            f"Checked {len(all_content)} items, found {len(issues_found)} issues, fixed {fixes_applied}",
             fixes_applied,
         )
 
@@ -276,7 +276,7 @@ class BrandAutomationEngine:
         db.log_system_activity(
             "brand_automation",
             "brand_consistency_scan",
-            f"Scanned {len(all_content)} items, found {len(consistency_issues} issues",
+            f"Scanned {len(all_content)} items, found {len(consistency_issues)} issues",
             len(consistency_issues),
         )
 
@@ -322,7 +322,7 @@ class BrandAutomationEngine:
                 post_id = db.save_generated_content(
                     system_name="social_automation",
                     content_type=f"{platform}_post",
-                    title=f"{platform.title(} Post - {topic}",
+                    title=f"{platform.title()} Post - {topic}",
                     content=post_content,
                     voice_coherence=85.0,
                 )
@@ -346,7 +346,7 @@ class BrandAutomationEngine:
         db.log_system_activity(
             "brand_automation",
             "social_media_generation",
-            f"Generated {len(generated_posts} social media posts",
+            f"Generated {len(generated_posts)} social media posts",
             len(generated_posts),
         )
 
@@ -382,7 +382,7 @@ class BrandAutomationEngine:
         db.log_system_activity(
             "brand_automation",
             "performance_optimization",
-            f"Applied {len(optimizations} optimizations",
+            f"Applied {len(optimizations)} optimizations",
             len(optimizations),
         )
 
@@ -419,7 +419,7 @@ class BrandAutomationEngine:
         db.log_system_activity(
             "brand_automation",
             "self_healing_check",
-            f"Performed {len(healing_actions} healing actions",
+            f"Performed {len(healing_actions)} healing actions",
             len(healing_actions),
         )
 

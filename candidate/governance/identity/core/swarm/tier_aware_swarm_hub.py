@@ -232,7 +232,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 "active_tasks": 0,
             }
 
-        logger.info(f"Initialized {len(self.colonies} verification colonies")
+        logger.info(f"Initialized {len(self.colonies)} verification colonies")
 
     async def submit_identity_verification_task(
         self,

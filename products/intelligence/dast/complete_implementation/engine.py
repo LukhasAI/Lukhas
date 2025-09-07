@@ -208,7 +208,7 @@ class LucasDASTEngine:
         """AI-powered task creation with intelligent analysis"""
 
         # Generate unique task ID
-        task_id = hashlib.md5(f"{request}{time.time(}".encode()).hexdigest()[:12]
+        task_id = hashlib.md5(f"{request}{time.time()}".encode()).hexdigest()[:12]
 
         # AI-powered task analysis
         ai_analysis = self._analyze_task_request(request, context)

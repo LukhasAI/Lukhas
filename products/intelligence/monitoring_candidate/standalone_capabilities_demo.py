@@ -4,8 +4,6 @@ Standalone Enhanced Monitoring System Capabilities Demo
 ======================================================
 Demonstrates all monitoring capabilities without external dependencies
 """
-import streamlit as st
-
 import asyncio
 import math
 import time
@@ -13,6 +11,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
+
+import streamlit as st
 
 
 class PlasticityTriggerType(Enum):
@@ -415,7 +415,7 @@ class StandaloneMonitoringDemo:
 
         triggers = self.analyze_plasticity_triggers(snapshot)
 
-        print(f"\n🎯 PLASTICITY TRIGGERS DETECTED: {len(triggers}")
+        print(f"\n🎯 PLASTICITY TRIGGERS DETECTED: {len(triggers)}")
         for trigger in triggers:
             print(f"   • {trigger.trigger_type.value}: {trigger.reason}")
             print(f"     Confidence: {trigger.confidence:.3f}")
@@ -425,12 +425,12 @@ class StandaloneMonitoringDemo:
         alerts = self.generate_alerts(state)
         insights = self.generate_predictive_insights(state)
 
-        print(f"\n🚨 SYSTEM ALERTS: {len(alerts}")
+        print(f"\n🚨 SYSTEM ALERTS: {len(alerts)}")
         for alert in alerts:
             icon = "🔴" if alert.level == AlertLevel.HIGH else "🟡" if alert.level == AlertLevel.MEDIUM else "🟢"
             print(f"   {icon} {alert.level.value}: {alert.message}")
 
-        print(f"\n🔮 PREDICTIVE INSIGHTS: {len(insights}")
+        print(f"\n🔮 PREDICTIVE INSIGHTS: {len(insights)}")
         for insight in insights:
             print(f"   💡 {insight.category}: {insight.prediction[:70]}...")
             print(f"      Confidence: {insight.confidence:.3f}")
@@ -501,7 +501,7 @@ class StandaloneMonitoringDemo:
         triggers = self.analyze_plasticity_triggers(snapshot)
         perf_triggers = [t for t in triggers if t.trigger_type == PlasticityTriggerType.PERFORMANCE_OPTIMIZATION]
 
-        print(f"\n🎯 PERFORMANCE TRIGGERS: {len(perf_triggers}")
+        print(f"\n🎯 PERFORMANCE TRIGGERS: {len(perf_triggers)}")
         for trigger in perf_triggers:
             print(f"   • {trigger.reason}")
 
@@ -661,7 +661,7 @@ class StandaloneMonitoringDemo:
         alerts = self.generate_alerts(state)
         insights = self.generate_predictive_insights(state)
 
-        print(f"\n🚨 ACTIVE ALERTS: {len(alerts}")
+        print(f"\n🚨 ACTIVE ALERTS: {len(alerts)}")
         if alerts:
             for alert in alerts:
                 icon = "🔴" if alert.level == AlertLevel.HIGH else "🟡" if alert.level == AlertLevel.MEDIUM else "🟢"
@@ -669,7 +669,7 @@ class StandaloneMonitoringDemo:
         else:
             print("   ✅ No active alerts - system operating normally")
 
-        print(f"\n🔮 PREDICTIVE INSIGHTS: {len(insights}")
+        print(f"\n🔮 PREDICTIVE INSIGHTS: {len(insights)}")
         for insight in insights:
             confidence_bar = "●" * int(insight.confidence * 5) + "○" * (5 - int(insight.confidence * 5))
             print(f"   💡 {insight.category}")
@@ -682,10 +682,10 @@ class StandaloneMonitoringDemo:
 
         print("\n📈 PERFORMANCE TRENDS (Last 7 cycles):")
         print(
-            f"   Performance: {'▲' if performance_history[-1] > performance_history[0] else '▼'} {' '.join(f'{p:.2f}' for p in performance_history)}"
+            f"   Performance: {'▲' if performance_history[-1] > performance_history[0] else '▼'} {' '.join(f'{p:.2f)}' for p in performance_history)}"
         )
         print(
-            f"   Stress:      {'▼' if stress_history[-1] < stress_history[0] else '▲'} {' '.join(f'{s:.2f}' for s in stress_history)}"
+            f"   Stress:      {'▼' if stress_history[-1] < stress_history[0] else '▲'} {' '.join(f'{s:.2f)}' for s in stress_history)}"
         )
 
         # Recommendations
@@ -761,7 +761,7 @@ class StandaloneMonitoringDemo:
         success_rate = len(successful_experiments) / len(learning_history)
         avg_improvement = sum(e["improvement"] for e in successful_experiments) / len(successful_experiments)
 
-        print(f"   🧪 Total Experiments: {len(learning_history}")
+        print(f"   🧪 Total Experiments: {len(learning_history)}")
         print(f"   ✅ Success Rate: {success_rate:.1%}")
         print(f"   📈 Average Improvement: {avg_improvement:.3f}")
 
@@ -790,7 +790,7 @@ class StandaloneMonitoringDemo:
             "Evening stress responses have lower success rates",
         ]
 
-        print(f"   🧠 Patterns Identified: {len(patterns_identified}")
+        print(f"   🧠 Patterns Identified: {len(patterns_identified)}")
         for pattern in patterns_identified:
             print(f"      • {pattern}")
 
@@ -803,7 +803,7 @@ class StandaloneMonitoringDemo:
             "Prioritize performance optimizations when dopamine < 0.4",
         ]
 
-        print(f"   🔧 Strategic Optimizations: {len(optimizations}")
+        print(f"   🔧 Strategic Optimizations: {len(optimizations)}")
         for optimization in optimizations:
             print(f"      • {optimization}")
 
@@ -862,7 +862,7 @@ class StandaloneMonitoringDemo:
         # Scenario summaries
         print("\n🎭 SCENARIO RESULTS:")
         for scenario_name, results in self.demo_results.items():
-            print(f"   {scenario_name.upper().replace('_', ' '}:")
+            print(f"   {scenario_name.upper().replace('_', ' ')}:")
 
             if scenario_name == "stress_response":
                 print(f"      • Triggers Detected: {results['triggers_detected']}")

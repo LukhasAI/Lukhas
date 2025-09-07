@@ -1,7 +1,9 @@
 import logging
-import streamlit as st
 import random
 from typing import Optional
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -41,17 +43,17 @@ from pathlib import Path
 from typing import (
     Any,
     Callable,
-    Optional,
     Protocol,
     TypeVar,
 )
 
-import aioredis
 import numpy as np
 
 # from prometheus_client import Counter, Histogram, Gauge
 import torch
 from torch.nn import functional as F
+
+import aioredis
 
 # Type definitions
 T = TypeVar("T")

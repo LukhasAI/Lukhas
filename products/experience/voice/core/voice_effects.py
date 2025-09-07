@@ -93,7 +93,7 @@ class VoiceEffect(ABC):
 
     def __init__(self, effect_type: VoiceEffectType):
         self.effect_type = effect_type
-        self.logger = get_logger(f"{__name__}.{effect_type.value.title(}Effect")
+        self.logger = get_logger(f"{__name__}.{effect_type.value.title()}Effect")
 
     @abstractmethod
     async def apply(self, buffer: AudioBuffer, parameters: EffectParameters) -> AudioBuffer:
@@ -620,7 +620,7 @@ class VoiceEffectsProcessor:
             )
 
             if not validation_result.get("approved", False):
-                self.logger.warning(f"Guardian rejected effect {effect_type.value}: {validation_result.get('reason'}")
+                self.logger.warning(f"Guardian rejected effect {effect_type.value}: {validation_result.get('reason')}")
                 return buffer
 
             if effect_type not in self.effects:

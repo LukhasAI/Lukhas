@@ -5,8 +5,6 @@ Addresses TODO 142: Optimized dual EDA/P2P communication
 This module implements an energy-efficient communication fabric that
 minimizes network overhead and maximizes resource utilization.
 """
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -17,6 +15,8 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -327,7 +327,7 @@ class P2PChannel:
             energy_saved = broker_energy_cost - direct_energy_cost
             self.transfer_stats["energy_saved"] += energy_saved
 
-            logger.debug(f"Sent {len(data} bytes to {remote_node_id} via P2P")
+            logger.debug(f"Sent {len(data)} bytes to {remote_node_id} via P2P")
             return True
 
         except Exception as e:

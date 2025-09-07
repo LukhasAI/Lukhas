@@ -615,7 +615,7 @@ class LoopStressHarness:
         print("\n📊 TEST SUMMARY")
         print(f"  Total Episodes: {summary.total_episodes}")
         print(f"  Test Duration: {summary.test_duration_seconds:.1f}s")
-        print(f"  Scenarios: {len(summary.scenario_results}")
+        print(f"  Scenarios: {len(summary.scenario_results)}")
 
         print("\n🎯 WAVE B GATE REQUIREMENTS")
 

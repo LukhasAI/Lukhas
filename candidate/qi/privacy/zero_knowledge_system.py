@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-from typing import Dict
 import logging
+from typing import Dict
+
 import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """
@@ -49,7 +52,7 @@ class ZeroKnowledgePrivacyEngine:
     def __init__(self):
         self.zksnark_system = ZkSnark(curve="BN254")
         self.bulletproof_system = BulletproofSystem()
-        self.circuit_cache: Dict[str, Circuit] = {}
+        self.circuit_cache: dict[str, Circuit] = {}
 
     async def create_privacy_preserving_proof(
         self,

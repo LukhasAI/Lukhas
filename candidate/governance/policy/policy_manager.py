@@ -1,5 +1,7 @@
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -103,7 +105,7 @@ def log_active_regulations(subsystem, user_location, logger=None):
         logger (callable, optional): Logging function to output log (e.g., print or custom logger).
     """
     regulations = determine_active_regulations(user_location)
-    log_message = f"[{subsystem}] Active Regulations for {user_location}: {', '.join(regulations}"
+    log_message = f"[{subsystem}] Active Regulations for {user_location}: {', '.join(regulations)}"
     if logger:
         logger(log_message)
     else:

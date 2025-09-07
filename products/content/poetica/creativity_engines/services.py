@@ -3,10 +3,9 @@
 Creativity Services
 Dependency injection services for the creativity module.
 """
-import streamlit as st
-
 from typing import Any, Optional
 
+import streamlit as st
 from hub.service_registry import get_service, inject_services, register_factory
 
 
@@ -99,7 +98,7 @@ class CreativityService:
                 "constraints": constraints is not None,
             },
             "output": {
-                "content": f"Creative response to {prompt.get('theme', 'prompt'}",
+                "content": f"Creative response to {prompt.get('theme', 'prompt')}",
                 "novelty_score": 0.75,
                 "coherence_score": 0.85,
             },

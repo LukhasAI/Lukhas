@@ -4,8 +4,9 @@ Original: lukhas_unified_self_merge_divergence.py
 Advanced: lukhas_unified_self_merge_divergence.py
 Integration Date: 2025-05-31T07:55:27.773754
 """
-import streamlit as st
 from datetime import timezone
+
+import streamlit as st
 
 # lukhas_unified_self_merge_divergence.py
 """
@@ -70,7 +71,7 @@ TASK:
 TRAIT PROFILES:
 """
     for t in traits_list:
-        prompt += f"\n[{t['node']}]: {json.dumps(t['traits']}"
+        prompt += f"\n[{t['node']}]: {json.dumps(t['traits'])}"
 
     prompt += "\n\n---\nMETA-REFLECTIONS:\n"
     for r in reflections[-5:]:

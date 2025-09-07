@@ -16,14 +16,14 @@ Author: LUKHAS AI Systems & Claude Code
 Version: 1.0.0 - LLM Integration
 Created: 2025-08-03
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -233,7 +233,7 @@ class LLMAssistedValidator:
             f"User shows {analysis['evolution_trend']} behavioral patterns with {analysis['consistency_score']:.1f} consistency score. "
         )
         if analysis["growth_patterns"]:
-            analysis["summary"] += f"Growth indicators: {', '.join(analysis['growth_patterns']}"
+            analysis["summary"] += f"Growth indicators: {', '.join(analysis['growth_patterns'])}"
 
         return analysis
 
@@ -258,7 +258,7 @@ class LLMAssistedValidator:
                 " Additional security measures have been applied to ensure your account remains protected."
             )
 
-        method_detail = f" Using {context.authentication_method.replace('_', ' '} authentication method provides the optimal balance of security and user experience for your current state."
+        method_detail = f" Using {context.authentication_method.replace('_', ' ')} authentication method provides the optimal balance of security and user experience for your current state."
 
         return f"{base_narrative}{cultural_detail}{security_detail}{method_detail}"
 
@@ -274,7 +274,7 @@ class LLMAssistedValidator:
         elif risk_level == "medium":
             risk_summary = "Security assessment: GOOD with monitoring. "
             if anomalies:
-                risk_summary += f"Minor anomalies detected: {', '.join(anomalies}. "
+                risk_summary += f"Minor anomalies detected: {', '.join(anomalies)}. "
             risk_summary += "Continuous monitoring active for enhanced protection."
             return risk_summary
 

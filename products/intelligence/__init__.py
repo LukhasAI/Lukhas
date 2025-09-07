@@ -9,4 +9,4 @@
 """
 import streamlit as st
 
-__all__ = ["argus", "dast", "lens", "dast_enhanced", "dast_candidate", "argus_pack"]
+__all__ = ["argus", "argus_pack", "dast", "dast_candidate", "dast_enhanced", "lens"]

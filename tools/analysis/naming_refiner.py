@@ -365,7 +365,7 @@ def main():
         for concept in report["preserved_concepts"][:10]:
             print(f"   ✓ {concept}")
         if len(report["preserved_concepts"]) > 10:
-            print(f"   ... and {len(report['preserved_concepts']} - 10} more")
+            print(f"   ... and {len(report['preserved_concepts'])} - 10} more")
 
     # Show examples
     print("\n📝 EXAMPLE REFINEMENTS (preserving LUKHAS personality):")
@@ -375,14 +375,14 @@ def main():
         for ref in report["refinements"]["classes"][:3]:
             print(f"   {ref['original']} → {ref['refined']}")
             if ref["preserved_concepts"]:
-                print(f"      Preserved: {', '.join(ref['preserved_concepts']}")
+                print(f"      Preserved: {', '.join(ref['preserved_concepts'])}")
 
     if report["refinements"]["functions"][:3]:
         print("\n  Functions:")
         for ref in report["refinements"]["functions"][:3]:
             print(f"   {ref['original']} → {ref['refined']}")
             if ref["preserved_concepts"]:
-                print(f"      Preserved: {', '.join(ref['preserved_concepts']}")
+                print(f"      Preserved: {', '.join(ref['preserved_concepts'])}")
 
     print(f"\n📄 Full report saved to: {output_path}")
 

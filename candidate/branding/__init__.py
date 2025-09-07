@@ -10,10 +10,10 @@ Trinity Framework Integration: ⚛️🧠🛡️
 - 🧠 Consciousness: Brand awareness and consistent messaging
 - 🛡️ Guardian: Approved terminology and compliance standards
 """
-import streamlit as st
-
 import re
 from typing import Optional
+
+import streamlit as st
 
 # Core Branding Constants
 SYSTEM_NAME = "LUKHAS AI"

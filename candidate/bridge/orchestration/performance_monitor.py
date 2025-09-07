@@ -38,9 +38,6 @@
 ║ Symbolic Tags: {ΛMONITOR}, {ΛPERFORMANCE}, {ΛMETRICS}, {ΛOPTIMIZATION}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import List
-import streamlit as st
-
 import asyncio
 import logging
 import statistics
@@ -49,7 +46,9 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.orchestration.performance")

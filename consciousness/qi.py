@@ -12,11 +12,11 @@ class QI:
         self.available = True
         self.status = "consciousness-bridge"
         self.version = "1.0.0"
-        
+
     def process(self, data):
         """Basic QI processing"""
         return {"status": "processed", "data": data}
-        
+
     def get_status(self):
         """Get QI status"""
         return {"available": True, "status": "operational"}
@@ -27,7 +27,7 @@ qi = QI()
 # Try to import from main qi module for enhanced functionality
 try:
     import qi as main_qi
-    if hasattr(main_qi, 'QI_AVAILABLE'):
+    if hasattr(main_qi, "QI_AVAILABLE"):
         qi.enhanced = True
         qi.main_module = main_qi
 except ImportError:
@@ -35,4 +35,4 @@ except ImportError:
     qi.main_module = None
 
 # Export for consciousness.qi imports
-__all__ = ['qi']
+__all__ = ["qi"]

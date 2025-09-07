@@ -66,7 +66,7 @@ class HelixMapper:
 
     async def _generate_memory_id(self) -> str:
         """Generates a unique ID for a memory sequence. (STUB)"""
-        new_id = f"helix_mem_{uuid.uuid4(}.hex[:12]}"  # Shorter ID for demo
+        new_id = f"helix_mem_{uuid.uuid4()}.hex[:12]}"  # Shorter ID for demo
         # log.debug("Generated memory ID (stub).", id=new_id) # Verbose
         return new_id
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import logging
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -868,7 +870,7 @@ class SymbolicProteome:
                     self.degradation_queue.discard(pid)
 
                 if degraded:
-                    logger.info(f"Degraded {len(degraded} proteins")
+                    logger.info(f"Degraded {len(degraded)} proteins")
 
             await asyncio.sleep(5.0)  # Check every 5 seconds
 
@@ -1015,7 +1017,7 @@ async def demonstrate_symbolic_proteome():
     # Query functional proteins
     print("\n--- Querying Functional Proteins ---")
     enzymatic = await proteome.query_functional_proteins(protein_type=ProteinType.ENZYMATIC, min_activity=0.3)
-    print(f"Found {len(enzymatic} functional enzymatic proteins")
+    print(f"Found {len(enzymatic)} functional enzymatic proteins")
 
     # Show metrics
     print("\n--- Proteome Metrics ---")

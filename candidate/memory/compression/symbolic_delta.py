@@ -1,7 +1,9 @@
 import logging
-import streamlit as st
 import time
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════
@@ -594,7 +596,7 @@ class AdvancedSymbolicDeltaCompressor:
             logger.warning(
                 f"COMPRESSION_LOOP_DETECTED: Loop indicators found in compression process. "
                 f"fold_key={fold_key}, indicators={loop_indicators}, "
-                f"entropy_violations={len(entropy_violations}"
+                f"entropy_violations={len(entropy_violations)}"
             )
 
         return loop_result

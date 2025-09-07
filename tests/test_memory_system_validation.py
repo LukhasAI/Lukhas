@@ -165,7 +165,7 @@ class TestMemorySystemValidation:
                 assert resonance_result is not None, "Quantum resonance detection failed"
                 assert "resonance_patterns" in resonance_result or "quantum_correlations" in resonance_result
 
-                print(f"Quantum resonance detection successful: {type(resonance_result}")
+                print(f"Quantum resonance detection successful: {type(resonance_result)}")
             else:
                 pytest.skip("Quantum dream resonance method not implemented")
 
@@ -255,13 +255,13 @@ class TestMemorySystemValidation:
                 schedule = await compressor.schedule_optimal_compression(test_access_patterns)
 
                 assert schedule is not None, "Predictive compression scheduling failed"
-                print(f"Compression schedule generated: {type(schedule}")
+                print(f"Compression schedule generated: {type(schedule)}")
 
             elif hasattr(compressor, "analyze_patterns"):
                 patterns = await compressor.analyze_patterns(test_access_patterns)
 
                 assert patterns is not None, "Pattern analysis failed"
-                print(f"Pattern analysis successful: {type(patterns}")
+                print(f"Pattern analysis successful: {type(patterns)}")
             else:
                 pytest.skip("Predictive compression methods not implemented")
 

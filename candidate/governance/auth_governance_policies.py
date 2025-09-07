@@ -21,13 +21,12 @@ Version: 1.0.0
 Trinity Framework: ⚛️🧠🛡️
 """
 import logging
-import streamlit as st
-from datetime import timezone
-
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class PolicySeverity(Enum):
@@ -583,7 +582,7 @@ class AuthGovernancePolicyEngine:
 
                 if not compliance_result["compliant"]:
                     violation = PolicyViolation(
-                        id=f"violation_{datetime.now(timezone.utc).timestamp(}",
+                        id=f"violation_{datetime.now(timezone.utc).timestamp()}",
                         policy_rule_id=policy.id,
                         user_id=auth_context.get("user_id", "unknown"),
                         violation_type=compliance_result["violation_type"],

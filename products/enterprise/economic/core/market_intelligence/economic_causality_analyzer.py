@@ -3,13 +3,13 @@ Economic Causality Analyzer
 
 Analyzes economic cause-and-effect relationships for strategic decision making.
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any
+
+import streamlit as st
 
 from core.interfaces import CoreInterface
 

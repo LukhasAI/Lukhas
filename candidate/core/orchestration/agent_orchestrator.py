@@ -22,12 +22,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from .interfaces.agent_interface import (
-    AgentCapability,
-    AgentContext,
-    AgentInterface,
-    AgentMessage,
-    AgentStatus)
+from .interfaces.agent_interface import AgentCapability, AgentContext, AgentInterface, AgentMessage, AgentStatus
 from .interfaces.orchestration_protocol import (
     MessageBuilder,
     MessageType,
@@ -57,7 +52,7 @@ class AgentOrchestrator:
     def __init__(self, orchestrator_id: str = "main_orchestrator"):
         """Initialize the orchestrator"""
         self.orchestrator_id = orchestrator_id
-        self.session_id = f"session_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        self.session_id = f"session_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Agent management
         self.agents: dict[str, AgentInterface] = {}
@@ -132,7 +127,7 @@ class AgentOrchestrator:
 
             # Discover available plugins
             discovered = self.plugin_registry.discover_plugins()
-            self._logger.info(f"Discovered {len(discovered} plugins")
+            self._logger.info(f"Discovered {len(discovered)} plugins")
 
             # Load core plugins
             core_plugins = ["monitoring", "logging", "metrics"]
@@ -232,7 +227,7 @@ class AgentOrchestrator:
             ]
 
             if active_agent_tasks:
-                self._logger.warning(f"Agent {agent_id} has {len(active_agent_tasks} active tasks")
+                self._logger.warning(f"Agent {agent_id} has {len(active_agent_tasks)} active tasks")
                 # TODO: Reassign or cancel tasks
 
             # Shutdown agent
@@ -533,7 +528,7 @@ class AgentOrchestrator:
                 # Check plugin health
                 plugin_list = self.plugin_registry.list_plugins(status=PluginStatus.ERROR)
                 if plugin_list:
-                    self._logger.warning(f"{len(plugin_list} plugins in error state")
+                    self._logger.warning(f"{len(plugin_list)} plugins in error state")
 
                 await asyncio.sleep(10)  # Check every 10 seconds
 
@@ -576,7 +571,7 @@ class AgentOrchestrator:
         """Handle agent registration broadcasts"""
         reg_info = message.payload
         self._logger.info(
-            f"Agent registered: {reg_info.get('agent_name')} with capabilities: {reg_info.get('capabilities'}"
+            f"Agent registered: {reg_info.get('agent_name')} with capabilities: {reg_info.get('capabilities')}"
         )
 
     def get_status(self) -> dict[str, Any]:

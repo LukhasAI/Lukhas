@@ -15,11 +15,10 @@ Privacy and compliance tests covering:
 Target: 100% regulatory compliance validation
 """
 import logging
-import streamlit as st
-
 import time
 
 import pytest
+import streamlit as st
 
 from .conftest import create_test_glyph, create_test_scene
 
@@ -268,7 +267,7 @@ class TestPrivacyHashing:
 
             # Verify it's hashed (not plaintext)
             assert stored_subject != pii_value, f"PII '{pii_value}' should be hashed, not stored as plaintext"
-            assert len(stored_subject) == 64, f"Hash should be 64 chars (SHA3-256), got {len(stored_subject}"
+            assert len(stored_subject) == 64, f"Hash should be 64 chars (SHA3-256), got {len(stored_subject)}"
             assert stored_subject.isalnum(), "Hash should be alphanumeric"
 
             # Verify consistency (same input = same hash)

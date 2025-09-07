@@ -6,6 +6,7 @@ Generates secure QR-G codes for device pairing and authentication.
 Handles expiry, validation, and session management.
 """
 import time
+
 import streamlit as st
 
 

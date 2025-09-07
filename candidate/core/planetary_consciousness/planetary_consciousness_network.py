@@ -4,16 +4,15 @@ Planetary Consciousness Network for the NIAS Transcendence Platform.
 This module coordinates advertising with global consciousness evolution,
 analyzing global events, moods, and other planetary-scale phenomena.
 """
-from typing import List
-import streamlit as st
-
 import random
-from typing import Any
+from typing import Any, List
+
+import streamlit as st
 
 
 # Placeholder classes for external planetary-scale data APIs
 class GlobalEventsAPI:
-    async def get_major_events(self) -> List[dict[str, Any]]:
+    async def get_major_events(self) -> list[dict[str, Any]]:
         return [{"event": "global_meditation", "impact_score": 0.8}]
 
 

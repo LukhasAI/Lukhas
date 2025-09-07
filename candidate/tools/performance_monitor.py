@@ -3,20 +3,18 @@ Performance Monitoring and Optimization System for Tool Execution
 ===============================================================
 Real-time monitoring, alerting, and optimization for the LUKHAS AI tool execution ecosystem.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 import time
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 import psutil
+import streamlit as st
 
 logger = logging.getLogger("ΛTRACE.tools.performance", timezone)
 
@@ -349,7 +347,7 @@ class PerformanceAnalyzer:
         # Check critical threshold
         if metric.value >= thresholds.get("critical", float("inf")):
             return PerformanceAlert(
-                alert_id=f"{metric.component}_{metric.metric_name}_{int(metric.timestamp}",
+                alert_id=f"{metric.component}_{metric.metric_name}_{int(metric.timestamp)}",
                 severity="critical",
                 message=f"Critical threshold exceeded for {metric.metric_name}",
                 metric_name=metric.metric_name,
@@ -362,7 +360,7 @@ class PerformanceAnalyzer:
         # Check warning threshold
         if metric.value >= thresholds.get("warning", float("inf")):
             return PerformanceAlert(
-                alert_id=f"{metric.component}_{metric.metric_name}_{int(metric.timestamp}",
+                alert_id=f"{metric.component}_{metric.metric_name}_{int(metric.timestamp)}",
                 severity="warning",
                 message=f"Warning threshold exceeded for {metric.metric_name}",
                 metric_name=metric.metric_name,
@@ -582,11 +580,11 @@ class PerformanceMonitor:
                     # Log significant alerts
                     critical_alerts = [a for a in alerts if a.severity == "critical"]
                     if critical_alerts:
-                        logger.critical(f"Performance critical alerts: {len(critical_alerts}")
+                        logger.critical(f"Performance critical alerts: {len(critical_alerts)}")
 
                     warning_alerts = [a for a in alerts if a.severity == "warning"]
                     if warning_alerts:
-                        logger.warning(f"Performance warning alerts: {len(warning_alerts}")
+                        logger.warning(f"Performance warning alerts: {len(warning_alerts)}")
 
                 await asyncio.sleep(analysis_interval)
 

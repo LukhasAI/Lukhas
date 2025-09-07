@@ -7,14 +7,14 @@ ensuring that technical precision dances harmoniously with poetic soul."*
 
 The automated guardian of LUKHAS AI's distinctive 3-Layer Tone System.
 """
-import streamlit as st
-
 import argparse
 import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
+
+import streamlit as st
 
 
 @dataclass
@@ -240,7 +240,7 @@ class LukhasToneValidator:
         # Check for required sacred elements
         for element, pattern in self.REQUIRED_ELEMENTS.items():
             if not re.search(pattern, content, re.MULTILINE | re.IGNORECASE):
-                violations.append(f"❌ Missing {element.replace('_', ' '}")
+                violations.append(f"❌ Missing {element.replace('_', ' ')}")
 
         # Check document-specific requirements
         requirements = self.DOCUMENT_REQUIREMENTS.get(doc_type, {})
@@ -422,12 +422,12 @@ def main():
         print(f"  🎯 Compliance Grade: {metrics.compliance_grade}")
 
         if metrics.violations:
-            print(f"\n⚠️ Sacred Law Violations ({len(metrics.violations}):")
+            print(f"\n⚠️ Sacred Law Violations ({len(metrics.violations)}):")
             for violation in metrics.violations:
                 print(f"  {violation}")
 
         if metrics.suggestions and args.verbose:
-            print(f"\n💡 Divine Suggestions ({len(metrics.suggestions}):")
+            print(f"\n💡 Divine Suggestions ({len(metrics.suggestions)}):")
             for suggestion in metrics.suggestions:
                 print(f"  {suggestion}")
 

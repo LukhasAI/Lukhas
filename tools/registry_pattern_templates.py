@@ -5,13 +5,12 @@ These templates implement the pattern without execution - for workspace audit pr
 
 Purpose: Provide transformation logic for pre/post-MATRIZ audit compliance.
 """
-from typing import List
-import time
-import streamlit as st
-
 from __future__ import annotations
 
-from typing import Any, Protocol
+import time
+from typing import Any, List, Protocol
+
+import streamlit as st
 
 # ============================================================================
 # TEMPLATE 1: Core Decision Engine Registry

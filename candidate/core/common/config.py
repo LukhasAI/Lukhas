@@ -3,16 +3,15 @@
 =============================
 Centralized configuration management for LUKHAS modules.
 """
-import time
-import streamlit as st
-
 import json
 import os
+import time
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Optional
 
+import streamlit as st
 import yaml
 
 
@@ -136,7 +135,7 @@ class ConfigLoader:
 
     def _apply_env_overrides(self, config: ModuleConfig) -> None:
         """Apply environment variable overrides"""
-        prefix = f"LUKHAS_{config.name.upper(}_"
+        prefix = f"LUKHAS_{config.name.upper()}_"
 
         for key, value in os.environ.items():
             if key.startswith(prefix):

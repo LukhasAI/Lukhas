@@ -1,19 +1,18 @@
-from typing import Optional
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: compliance_dashboard.py
 # 🛡️ PURPOSE: Institutional compliance viewer for emergency logs and GDPR status
 # 🎯 AUDIENCE: Governance reviewers (e.g. Sam Altman, auditors)
 # ════════════════════════════════════════════════════════════════════════
-
 import json
 import os
+import time
 from pathlib import Path
+from typing import Optional
 
 import pandas as pd
 import streamlit as st
 
 from candidate.core.tracing import trace_tools  # assuming trace_tools.py is importable
-import time
 
 LOG_PATH = "logs/emergency_log.jsonl"
 
@@ -29,9 +28,9 @@ else:
 
     for entry in reversed(logs[-25:]):
         st.markdown("---")
-        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp'}")
-        st.markdown(f"**🔍 Reason:** {entry.get('reason'}")
-        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier'})")
+        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp')}")
+        st.markdown(f"**🔍 Reason:** {entry.get('reason')}")
+        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier')})")
         st.markdown("**🧩 Actions Taken:**")
         st.code(", ".join(entry.get("actions_taken", [])), language="bash")
 

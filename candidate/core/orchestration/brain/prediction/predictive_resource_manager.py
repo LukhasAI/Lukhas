@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 """
 Predictive Resource Manager for lukhas AI
 
@@ -7,15 +8,14 @@ to anticipate system needs and optimize performance proactively.
 
 Based on the advanced implementation from Lukhas GitHub repository.
 """
-from typing import Dict
-import time
-import streamlit as st
-
 import datetime
 import logging
 import statistics
+import time
 from collections import defaultdict, deque
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -446,7 +446,7 @@ class PredictiveResourceManager:
         ]
 
         if stable_resources:
-            opportunities.append(f"Underutilized resources: {', '.join(stable_resources}")
+            opportunities.append(f"Underutilized resources: {', '.join(stable_resources)}")
 
         # Look for highly variable usage (optimization potential)
         variable_resources = [
@@ -455,7 +455,7 @@ class PredictiveResourceManager:
 
         if variable_resources:
             opportunities.append(
-                f"Variable usage patterns in: {', '.join(variable_resources} - potential for optimization"
+                f"Variable usage patterns in: {', '.join(variable_resources)} - potential for optimization"
             )
 
         return opportunities

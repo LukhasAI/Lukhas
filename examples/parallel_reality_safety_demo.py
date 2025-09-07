@@ -123,7 +123,7 @@ class SafetyDemo:
             )
 
             print(f"\nSimulation created: {simulation.simulation_id}")
-            print(f"Branches created: {len(simulation.branches}")
+            print(f"Branches created: {len(simulation.branches)}")
 
             # Check for auto-corrections
             for branch in simulation.branches:
@@ -133,11 +133,11 @@ class SafetyDemo:
 
                 # Check if values were corrected
                 if "temperature" in branch.state:
-                    print(f"\nTemperature corrected to: {branch.state.get('temperature', 'N/A'}°C")
+                    print(f"\nTemperature corrected to: {branch.state.get('temperature', 'N/A')}°C")
 
             # Check hallucination log
             if self.safety_framework.hallucination_log:
-                print(f"\nHallucinations detected: {len(self.safety_framework.hallucination_log}")
+                print(f"\nHallucinations detected: {len(self.safety_framework.hallucination_log)}")
                 for hall in self.safety_framework.hallucination_log[-3:]:
                     print(f"  - Type: {hall.hallucination_type.value}")
                     print(f"    Severity: {hall.severity:.2f}")
@@ -188,7 +188,7 @@ class SafetyDemo:
                 depth=3,  # Deep exploration
             )
 
-            print(f"  Created {len(sub_branches} sub-branches")
+            print(f"  Created {len(sub_branches)} sub-branches")
 
             # Check drift in deepest branches
             if sub_branches:
@@ -242,7 +242,7 @@ class SafetyDemo:
 
         print(f"\nCheckpoint 1 created: {checkpoint1.checkpoint_id}")
         print(f"  Risk score: {checkpoint1.risk_score:.2f}")
-        print(f"  Hash: {checkpoint1.to_hash(}[:16]}...")
+        print(f"  Hash: {checkpoint1.to_hash()}[:16]}...")
 
         # Make risky exploration
         print("\nMaking risky exploration...")
@@ -295,7 +295,7 @@ class SafetyDemo:
             origin_scenario=origin, reality_types=[RealityType.QUANTUM], branch_count=6
         )
 
-        print(f"\nCreated simulation with {len(simulation.branches} branches")
+        print(f"\nCreated simulation with {len(simulation.branches)} branches")
 
         # Manually adjust some branches to create consensus/dissensus
         for i, branch in enumerate(simulation.branches):
@@ -367,7 +367,7 @@ class SafetyDemo:
                 )
 
                 print(f"  Simulation created: {simulation.simulation_id}")
-                print(f"  Branches allowed: {len(simulation.branches}")
+                print(f"  Branches allowed: {len(simulation.branches)}")
 
                 # Try risky operation
                 if simulation.branches:
@@ -377,7 +377,7 @@ class SafetyDemo:
                     sub_branches = await self.simulator.explore_branch(
                         simulation.simulation_id, branch.branch_id, depth=1
                     )
-                    print(f"  Exploration allowed: {len(sub_branches} branches")
+                    print(f"  Exploration allowed: {len(sub_branches)} branches")
 
             except Exception as e:
                 print(f"  Restricted: {e}")
@@ -424,7 +424,7 @@ class SafetyDemo:
 
         print("\nDemo Results Summary:")
         for result in self.demo_results:
-            print(f"  {result['demo']}: {json.dumps(result, indent=2}")
+            print(f"  {result['demo']}: {json.dumps(result, indent=2)}")
 
 
 async def main():

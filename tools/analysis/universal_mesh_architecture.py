@@ -470,7 +470,7 @@ class UniversalMesh:
             value=level,
             origin="endocrine_system",
             timestamp=datetime.now(timezone.utc),
-            ttl=float('inf'),  # System-wide
+            ttl=float('inf\'),  # System-wide
             strength=1.0
         )
 
@@ -485,7 +485,7 @@ class UniversalMesh:
             'type': 'endocrine_broadcast',
             'hormone': hormone,
             'level': level,
-            'timestamp': datetime.now(timezone.utc).isoformat(}
+            'timestamp': datetime.now(timezone.utc).isoformat()}
         })
 
 # Example usage
@@ -518,7 +518,7 @@ async def trauma_response_demo():
 
 if __name__ == "__main__":
     asyncio.run(trauma_response_demo())
-'''
+\'''
 
         # Save implementation template
         impl_path = Path("tools/scripts/mesh_implementation.py")

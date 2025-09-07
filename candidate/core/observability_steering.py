@@ -5,8 +5,6 @@ Addresses TODO 167: Complex Adaptive System Monitoring
 This module implements advanced observability and steering capabilities for the
 Symbiotic Swarm, treating it as a living system rather than static code.
 """
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -18,6 +16,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 import numpy as np
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -258,11 +257,11 @@ class ObservabilityCollector:
             actors_involved = [e["data"].get("actor_id") for e in error_timeline]
 
             pattern = EmergentPattern(
-                pattern_id=f"cascade_{int(current_time}",
+                pattern_id=f"cascade_{int(current_time)}",
                 pattern_type="cascading_failure",
                 involved_actors=actors_involved,
                 confidence=min(1.0, len(error_timeline) / 10.0),
-                description=f"Potential cascade: {len(error_timeline} failures",
+                description=f"Potential cascade: {len(error_timeline)} failures",
                 first_detected=error_timeline[0]["timestamp"],
                 last_observed=current_time,
                 occurrence_count=len(error_timeline),

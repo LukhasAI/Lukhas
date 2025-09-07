@@ -12,11 +12,11 @@ to agents, modules, and symbolic functions.
 ΛCOMMIT_WINDOW: pre-O3-init
 ΛPROVED_BY: Human Overseer (Gonzalo)
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from functools import wraps
+
+import streamlit as st
 
 # Default tier levels for symbolic gating
 TIERS = {"GENESIS": 0, "ALPHA": 1, "BETA": 2, "GAMMA": 3, "OMEGA": 4}

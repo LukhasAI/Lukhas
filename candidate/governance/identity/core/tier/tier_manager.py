@@ -18,16 +18,16 @@
 ║ unlocking new capabilities and visual styles at each tier.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import json
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger("ΛTRACE.TierManager", timezone)
 

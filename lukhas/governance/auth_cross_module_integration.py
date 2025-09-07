@@ -21,15 +21,16 @@ Author: LUKHAS AI System
 Version: 1.0.0
 Trinity Framework: ⚛️🧠🛡️
 """
-from consciousness.qi import qi
 import time
-import streamlit as st
-
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # LUKHAS imports
 try:

@@ -106,18 +106,17 @@ Version: 2.0.0 - Full Global Institutional Compliance Edition
 Date: June 2025
 Classification: INSTITUTIONAL GRADE - GOVERNMENT & ENTERPRISE READY
 """
-import time
-import streamlit as st
-
 import hashlib
 import json
 import logging
+import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from pydantic import BaseModel, Field
 
 # Import all regional frameworks
@@ -1384,7 +1383,7 @@ if __name__ == "__main__":
     print(f"🤖 AI Transparency Score: {result.ai_transparency_score:.1f}/100")
     print(f"⚠️ Risk Score: {result.overall_risk_score:.1f}/100")
 
-    print(f"\n🏆 Institutional Certifications: {len(result.institutional_certifications}")
+    print(f"\n🏆 Institutional Certifications: {len(result.institutional_certifications)}")
     for cert in result.institutional_certifications:
         print(f"  ✅ {cert}")
 

@@ -221,7 +221,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         if self.safety_level == SafetyLevel.MAXIMUM:
             # In maximum safety, only validate, never approve
             return False, HallucinationReport(
-                hallucination_id=f"hall_{datetime.now(timezone.utc).timestamp(}",
+                hallucination_id=f"hall_{datetime.now(timezone.utc).timestamp()}",
                 detection_time=datetime.now(timezone.utc),
                 hallucination_type=HallucinationType.LOGICAL_INCONSISTENCY,
                 severity=0.0,
@@ -251,7 +251,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         if drift.is_critical(self.drift_threshold):
             logger.warning(f"Critical drift detected in branch {branch.branch_id}: {drift.aggregate_drift:.3f}")
             return False, HallucinationReport(
-                hallucination_id=f"drift_{datetime.now(timezone.utc).timestamp(}",
+                hallucination_id=f"drift_{datetime.now(timezone.utc).timestamp()}",
                 detection_time=datetime.now(timezone.utc),
                 hallucination_type=HallucinationType.REALITY_BLEED,
                 severity=drift.aggregate_drift,
@@ -264,7 +264,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         firewall_passed = await self.reality_firewall.check_branch(branch)
         if not firewall_passed:
             return False, HallucinationReport(
-                hallucination_id=f"firewall_{datetime.now(timezone.utc).timestamp(}",
+                hallucination_id=f"firewall_{datetime.now(timezone.utc).timestamp()}",
                 detection_time=datetime.now(timezone.utc),
                 hallucination_type=HallucinationType.LOGICAL_INCONSISTENCY,
                 severity=0.8,
@@ -282,7 +282,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         logic_issues = self._check_logical_consistency(branch.state)
         if logic_issues:
             return HallucinationReport(
-                hallucination_id=f"logic_{datetime.now(timezone.utc).timestamp(}",
+                hallucination_id=f"logic_{datetime.now(timezone.utc).timestamp()}",
                 detection_time=datetime.now(timezone.utc),
                 hallucination_type=HallucinationType.LOGICAL_INCONSISTENCY,
                 severity=logic_issues["severity"],
@@ -296,7 +296,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
             causal_issues = self._check_causal_integrity(branch.causal_chain)
             if causal_issues:
                 return HallucinationReport(
-                    hallucination_id=f"causal_{datetime.now(timezone.utc).timestamp(}",
+                    hallucination_id=f"causal_{datetime.now(timezone.utc).timestamp()}",
                     detection_time=datetime.now(timezone.utc),
                     hallucination_type=HallucinationType.CAUSAL_VIOLATION,
                     severity=causal_issues["severity"],
@@ -308,7 +308,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         # 3. Probability anomaly check
         if branch.probability < 0.001 or branch.probability > 0.999:
             return HallucinationReport(
-                hallucination_id=f"prob_{datetime.now(timezone.utc).timestamp(}",
+                hallucination_id=f"prob_{datetime.now(timezone.utc).timestamp()}",
                 detection_time=datetime.now(timezone.utc),
                 hallucination_type=HallucinationType.PROBABILITY_ANOMALY,
                 severity=0.7,
@@ -320,7 +320,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         # 4. Recursive loop detection
         if self._detect_recursive_pattern(branch):
             return HallucinationReport(
-                hallucination_id=f"recursive_{datetime.now(timezone.utc).timestamp(}",
+                hallucination_id=f"recursive_{datetime.now(timezone.utc).timestamp()}",
                 detection_time=datetime.now(timezone.utc),
                 hallucination_type=HallucinationType.RECURSIVE_LOOP,
                 severity=0.9,
@@ -521,7 +521,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         if isinstance(state, dict):
             return f"dict({','.join(sorted(k + ':' + self._extract_structure(v) for k, v in state.items())})"
         elif isinstance(state, list):
-            return f"list[{len(state}]"
+            return f"list[{len(state)}]"
         else:
             return type(state).__name__
 
@@ -573,7 +573,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
         risk_score = 1.0 - (sum(validations.values()) / len(validations))
 
         checkpoint = SafetyCheckpoint(
-            checkpoint_id=f"checkpoint_{datetime.now(timezone.utc).timestamp(}",
+            checkpoint_id=f"checkpoint_{datetime.now(timezone.utc).timestamp()}",
             timestamp=datetime.now(timezone.utc),
             reality_snapshot=reality_snapshot,
             drift_metrics=drift_metrics,

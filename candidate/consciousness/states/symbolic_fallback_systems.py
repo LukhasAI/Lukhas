@@ -199,7 +199,7 @@ class BioSymbolicFallbackManager:
         fallback_level = self._determine_fallback_level(component, error, context)
         reason = self._determine_fallback_reason(error)
 
-        logger.warning(f"🛡️ Activating {fallback_level.value} fallback for {component}: {str(error}[:100]}")
+        logger.warning(f"🛡️ Activating {fallback_level.value} fallback for {component}: {str(error)}[:100]}")
 
         # Check circuit breaker
         if self._should_circuit_break(component):

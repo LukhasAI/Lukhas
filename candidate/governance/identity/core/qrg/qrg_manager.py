@@ -19,13 +19,10 @@
 ║ purposes within the LUKHAS ecosystem.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import random
-import streamlit as st
-
 import hashlib
 import json
 import logging
+import random
 import time
 from dataclasses import dataclass
 from enum import Enum
@@ -33,7 +30,10 @@ from typing import Any, Optional
 
 import numpy as np
 import qrcode
+import streamlit as st
 from PIL import Image, ImageDraw
+
+from consciousness.qi import qi
 
 # Replaced insecure random with secure random for identity security
 from lukhas.security import secure_random
@@ -458,10 +458,10 @@ class LambdaIDQRGGenerator:
     def _generate_challenge_seed(self, config: LambdaIDQRGConfig) -> str:
         """Generate challenge seed for authentication QRGs."""
         if self.hash_utils:
-            seed_data = f"{config.lambda_id}{time.time(}{config.tier_level}"
+            seed_data = f"{config.lambda_id}{time.time()}{config.tier_level}"
             return self.hash_utils.secure_hash(seed_data)[:16]
         else:
-            return hashlib.sha256(f"{config.lambda_id}{time.time(}".encode()).hexdigest()[:16]
+            return hashlib.sha256(f"{config.lambda_id}{time.time()}".encode()).hexdigest()[:16]
 
     def _generate_biometric_hint(self, lambda_id: str) -> str:
         """Generate biometric hint for Tier 3+ authentication."""
@@ -473,9 +473,9 @@ class LambdaIDQRGGenerator:
     def _generate_vault_access_key(self, lambda_id: str) -> str:
         """Generate vault access key for Tier 4+ authentication."""
         if self.hash_utils:
-            return self.hash_utils.secure_hash(f"vault_{lambda_id}_{time.time(}")[:24]
+            return self.hash_utils.secure_hash(f"vault_{lambda_id}_{time.time()}")[:24]
         else:
-            return hashlib.sha256(f"vault_{lambda_id}_{time.time(}".encode()).hexdigest()[:24]
+            return hashlib.sha256(f"vault_{lambda_id}_{time.time()}".encode()).hexdigest()[:24]
 
     def _create_qrg_metadata(self, config: LambdaIDQRGConfig, package: dict[str, Any]) -> dict[str, Any]:
         """Create comprehensive QRG metadata."""
@@ -508,7 +508,7 @@ class LambdaIDQRGGenerator:
         else:
             qrg_hash = hashlib.sha256(f"{lambda_id}_{timestamp}".encode()).hexdigest()[:12]
 
-        return f"QRG-{qrg_hash.upper(}"
+        return f"QRG-{qrg_hash.upper()}"
 
     def _register_qrg_mapping(self, lambda_id: str, metadata: dict[str, Any]) -> None:
         """Register QRG mapping in registry."""

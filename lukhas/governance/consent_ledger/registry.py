@@ -1,8 +1,9 @@
+import time
 from typing import Any, Optional
 
-from .providers.null_provider import NullConsentProvider
 import streamlit as st
-import time
+
+from .providers.null_provider import NullConsentProvider
 
 # Registry is intentionally internal. candidate/* may register via runtime hooks later.
 _provider: Optional[Any] = None

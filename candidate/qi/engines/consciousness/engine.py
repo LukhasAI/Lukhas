@@ -63,9 +63,10 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-from typing import Dict
-import streamlit as st
 from datetime import timezone
+from typing import Dict
+
+import streamlit as st
 
 __module_name__ = "Quantum Engine"
 __version__ = "2.0.0"

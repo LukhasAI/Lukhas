@@ -193,13 +193,13 @@ def pytest_configure(config):
 
     # Log test session start
     with open("logs/audit_test_session.log", "a") as f:
-        f.write(f"\\n=== AUDIT TEST SESSION START: {datetime.utcnow().isoformat(} ===\\n")
-        f.write(f"Safety defaults applied: {len(safety_defaults} settings\\n")
+        f.write(f"\\n=== AUDIT TEST SESSION START: {datetime.utcnow().isoformat()} ===\\n")
+        f.write(f"Safety defaults applied: {len(safety_defaults)} settings\\n")
 
 def pytest_sessionfinish(session, exitstatus):
     """Log session completion."""
     with open("logs/audit_test_session.log", "a") as f:
-        f.write(f"=== AUDIT TEST SESSION END: {datetime.utcnow().isoformat(} ===\\n")
+        f.write(f"=== AUDIT TEST SESSION END: {datetime.utcnow().isoformat()} ===\\n")
         f.write(f"Exit status: {exitstatus}\\n")
 
 # ============================================================================

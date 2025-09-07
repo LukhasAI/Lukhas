@@ -2,15 +2,13 @@
 Consciousness-Colony Integration Module
 Enables distributed consciousness processing through colony architecture
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 from candidate.bridge.shared_state import SharedStateManager
 from candidate.core.colonies.creativity_colony import CreativityColony
@@ -128,7 +126,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         """
         self.logger.info(f"Processing distributed consciousness task: {task_type}")
 
-        task_id = f"{task_type}-{datetime.now(timezone.utc).timestamp(}"
+        task_id = f"{task_type}-{datetime.now(timezone.utc).timestamp()}"
 
         try:
             if task_type == "reflection":
@@ -321,17 +319,17 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
 
     async def _handle_reasoning_complete(self, event_data: dict[str, Any]):
         """Handle completion events from reasoning colony."""
-        self.logger.debug(f"Reasoning colony completed task: {event_data.get('task_id'}")
+        self.logger.debug(f"Reasoning colony completed task: {event_data.get('task_id')}")
         await self.event_bus.emit("consciousness.reasoning.integrated", event_data)
 
     async def _handle_memory_stored(self, event_data: dict[str, Any]):
         """Handle memory storage events from memory colony."""
-        self.logger.debug(f"Memory colony stored: {event_data.get('memory_id'}")
+        self.logger.debug(f"Memory colony stored: {event_data.get('memory_id')}")
         await self.event_bus.emit("consciousness.memory.updated", event_data)
 
     async def _handle_creative_insight(self, event_data: dict[str, Any]):
         """Handle creative insights from creativity colony."""
-        self.logger.debug(f"Creativity colony generated insight: {event_data.get('insight_id'}")
+        self.logger.debug(f"Creativity colony generated insight: {event_data.get('insight_id')}")
 
         # Potentially trigger new reflection based on insight
         if event_data.get("significance", 0) > 0.8:

@@ -114,7 +114,7 @@ class EnterpriseDemo:
         # Create security context
         security_context = await self.security_system.create_security_context(
             user_id=researcher["user_id"],
-            session_id=f"session_{datetime.now(timezone.utc).timestamp(}",
+            session_id=f"session_{datetime.now(timezone.utc).timestamp()}",
             auth_factors=["password", "mfa", "certificate"],
         )
 
@@ -154,7 +154,7 @@ class EnterpriseDemo:
         ]
 
         for i, feedback_data in enumerate(feedback_items):
-            print(f"\n📝 Submitting research feedback {i + 1}/{len(feedback_items}...")
+            print(f"\n📝 Submitting research feedback {i + 1}/{len(feedback_items)}...")
 
             feedback = FeedbackItem(
                 feedback_id=f"research_{i}",
@@ -189,7 +189,7 @@ class EnterpriseDemo:
                 print("✅ Feedback accepted")
                 if "constitutional" in result:
                     print(f"   Constitutional alignment: {result['constitutional']['alignment_score']:.2f}")
-                    print(f"   Principles: {json.dumps(result['constitutional']['principles'], indent=2}")
+                    print(f"   Principles: {json.dumps(result['constitutional']['principles'], indent=2)}")
 
         # Generate research report
         print("\n📊 Generating constitutional alignment report...")
@@ -213,7 +213,7 @@ class EnterpriseDemo:
         # Create security context
         await self.security_system.create_security_context(
             user_id=enterprise_user["user_id"],
-            session_id=f"session_{datetime.now(timezone.utc).timestamp(}",
+            session_id=f"session_{datetime.now(timezone.utc).timestamp()}",
             auth_factors=["password", "mfa"],
         )
 
@@ -270,9 +270,9 @@ class EnterpriseDemo:
         end_time = datetime.now(timezone.utc)
         processing_time = (end_time - start_time).total_seconds()
 
-        print(f"\n✅ Processed {len(feedback_batch} feedback items")
+        print(f"\n✅ Processed {len(feedback_batch)} feedback items")
         print(f"   Total time: {processing_time:.2f} seconds")
-        print(f"   Rate: {len(feedback_batch} / processing_time:.1f} feedback/second")
+        print(f"   Rate: {len(feedback_batch)} / processing_time:.1f} feedback/second")
 
         # Show scale metrics
         if self.unified_system.scale_infrastructure:
@@ -281,15 +281,15 @@ class EnterpriseDemo:
             print(f"   Feedback/sec: {metrics.feedback_per_second:.1f}")
             print(f"   Active users: {metrics.active_users}")
             print(f"   Latency: {metrics.processing_latency_ms:.1f}ms")
-            print(f"   Geographic distribution: {dict(metrics.geographic_distribution}")
+            print(f"   Geographic distribution: {dict(metrics.geographic_distribution)}")
 
         # Generate commercial insights
         print("\n💼 Generating enterprise analytics...")
         insights = await self.unified_system.generate_enterprise_insights(enterprise_user["organization"])
 
         print(f"   Global sentiment: {insights['collective_intelligence']['global_sentiment']}")
-        print(f"   Emerging patterns: {len(insights['collective_intelligence']['emerging_patterns']}")
-        print(f"   Early warnings: {len(insights['early_warnings']}")
+        print(f"   Emerging patterns: {len(insights['collective_intelligence']['emerging_patterns'])}")
+        print(f"   Early warnings: {len(insights['early_warnings'])}")
 
     async def demonstrate_hybrid_features(self):
         """Demonstrate combined features"""
@@ -316,8 +316,8 @@ class EnterpriseDemo:
                 timestamp=datetime.now(timezone.utc),
                 feedback_type=FeedbackType.TEXT,
                 content={
-                    "text": f"The chatbot should be more {random.choice(['friendly', 'professional', 'concise']} "
-                    f"when handling {random.choice(['complaints', 'inquiries', 'technical issues']}"
+                    "text": f"The chatbot should be more {random.choice(['friendly', 'professional', 'concise'])} "
+                    f"when handling {random.choice(['complaints', 'inquiries', 'technical issues'])}"
                 },
                 context={"domain": "customer_service", "industry": "tech_startup"},
                 compliance_region=developer["region"],
@@ -369,9 +369,9 @@ class EnterpriseDemo:
         print("\n🧠 Collective Intelligence Insights:")
         ci = self.unified_system.collective_intelligence
         print(f"   Total feedback processed: {ci.total_feedback_processed}")
-        print(f"   Global sentiment: {dict(ci.global_sentiment}")
+        print(f"   Global sentiment: {dict(ci.global_sentiment)}")
         if ci.societal_trends:
-            print(f"   Societal trends detected: {len(ci.societal_trends}")
+            print(f"   Societal trends detected: {len(ci.societal_trends)}")
             for trend in ci.societal_trends[:3]:
                 print(f"      - {trend['type']}: {trend['description']}")
 
@@ -450,7 +450,7 @@ class EnterpriseDemo:
         # Show blockchain audit
         print("\n📜 Blockchain Audit Trail:")
         if self.security_system.security_blockchain:
-            print(f"   Total blocks: {len(self.security_system.security_blockchain}")
+            print(f"   Total blocks: {len(self.security_system.security_blockchain)}")
             latest_block = self.security_system.security_blockchain[-1]
             print(f"   Latest block: {latest_block['block_id']}")
             print(f"   Hash: {latest_block['block_hash'][:32]}...")

@@ -1,13 +1,12 @@
 """
 Common utilities and shared components for the core module
 """
-import streamlit as st
-from datetime import timezone
-
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -90,7 +89,7 @@ class BaseMessage:
         self.target = target
         self.payload = payload or {}
         self.timestamp = get_timestamp()
-        self.message_id = f"{source}_{datetime.now(timezone.utc).timestamp(}"
+        self.message_id = f"{source}_{datetime.now(timezone.utc).timestamp()}"
 
 
 # Common exceptions

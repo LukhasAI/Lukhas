@@ -4,9 +4,9 @@ The NIAS Transcendence Quantum Platform.
 This module integrates all 12 visionary components into a single,
 unified platform for consciousness evolution through ethical advertising.
 """
-import streamlit as st
-
 from typing import Any
+
+import streamlit as st
 
 from candidate.core.collective.collective_ad_mind import CollectiveAdMind
 from candidate.core.consciousness.oracle.oracle import ConsciousnessOracle

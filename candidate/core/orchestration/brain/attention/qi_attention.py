@@ -4,15 +4,15 @@ Quantum-Inspired Attention Mechanism
 This module provides quantum-inspired attention processing for the AI system,
 implementing attention gates, superposition, and entanglement-based processing.
 """
-from consciousness.qi import qi
-import time
-import random
-import streamlit as st
-
 import copy
+import random
+import time
 from datetime import datetime
 
 import numpy as np
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class QIInspiredAttention:

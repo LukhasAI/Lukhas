@@ -212,7 +212,7 @@ class GuardianShadowFilter:
         most_severe = max(violations, key=lambda v: v.severity)
 
         # Log all violations
-        logger.warning(f"🚫 Guardian blocked transformation: {len(violations} violations")
+        logger.warning(f"🚫 Guardian blocked transformation: {len(violations)} violations")
         for v in violations:
             logger.warning(f"   - {v.constraint_type.value}: {v.description}")
 

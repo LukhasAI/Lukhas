@@ -11,10 +11,10 @@ Features:
 - Format validation
 - Security checks
 """
-import streamlit as st
-
 import json
 import re
+
+import streamlit as st
 
 
 class QRGParser:

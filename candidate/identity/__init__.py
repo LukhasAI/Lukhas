@@ -15,10 +15,10 @@ Performance Targets:
 - Token validation: <10ms
 - Identity lookup: <5ms
 """
-import streamlit as st
-
 import logging
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -403,42 +403,42 @@ def generate_lambda_id(user_id: str, tier: str = "T1") -> str:
 
     # Fallback ID generation
     tier_num = tier[1:] if tier.startswith("T") else "0"
-    return f"LUKHAS{tier_num}-{user_id[:4].upper(}-○-FALL"
+    return f"LUKHAS{tier_num}-{user_id[:4].upper()}-○-FALL"
 
 
 # Module exports
 __all__ = [
+    # Availability flags
+    "GOVERNANCE_IDENTITY_AVAILABLE",
+    "LAMBDA_ID_AVAILABLE",
+    "NAMESPACE_AVAILABLE",
+    "OAUTH_PROVIDER_AVAILABLE",
+    "TIER_SYSTEM_AVAILABLE",
+    "WEBAUTHN_AVAILABLE",
+    "EntropyEngine",
+    "IdentityClient",
+    "IdentityNamespace",
     # Core classes
     "IdentitySystem",
-    "IdentityClient",
-    "OAuth2OIDCProvider",
-    "OAuthClient",
-    "WebAuthnManager",
-    "PasskeyRegistration",
-    "PasskeyAuthentication",
     "LambdIDGenerator",
     "LambdIDValidator",
-    "EntropyEngine",
+    "NamespaceManager",
+    "OAuth2OIDCProvider",
+    "OAuthClient",
+    "PasskeyAuthentication",
+    "PasskeyRegistration",
     "TierManager",
     "TierValidator",
-    "NamespaceManager",
-    "IdentityNamespace",
+    "WebAuthnManager",
     # Convenience functions
     "authenticate_user",
+    # System instance
+    "default_system",
+    "generate_lambda_id",
     "get_identity_client",
     "get_oauth_provider",
     "get_webauthn_manager",
-    "generate_lambda_id",
     "verify_tier_access",
-    # System instance
-    "default_system",
-    # Availability flags
-    "GOVERNANCE_IDENTITY_AVAILABLE",
-    "OAUTH_PROVIDER_AVAILABLE",
-    "WEBAUTHN_AVAILABLE",
-    "LAMBDA_ID_AVAILABLE",
-    "TIER_SYSTEM_AVAILABLE",
-    "NAMESPACE_AVAILABLE",
 ]
 
 logger.info("LUKHAS Identity System (candidate lane) initialized successfully")

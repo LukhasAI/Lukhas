@@ -26,25 +26,24 @@ that passes through any system while carrying your most precious digital
 assets invisibly. We're not hiding data; we're creating a parallel dimension
 of information that exists in the liminal spaces of perception itself.
 """
-from consciousness.qi import qi
-import random
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import logging
+import random
 import secrets
 import time
 import zlib
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
+import streamlit as st
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+from consciousness.qi import qi
 
 # Optional advanced libraries
 try:

@@ -34,16 +34,14 @@
 ║ SYMBOLIC TAGS: ΛCORE, ΛORCHESTRATION, ΛCONSCIOUSNESS
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 # Module imports
 import asyncio
 import logging
 import uuid
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -345,7 +343,7 @@ class OrchestrationCore:
             # await self.module_registry.register_module(name, module) #TODO: See above
             self.active_modules[name] = module
 
-        logger.info(f"Registered {len(core_modules} core modules (ModuleRegistry part N/A for now)")
+        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""

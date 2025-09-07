@@ -1,17 +1,17 @@
-from typing import Optional
 # path: qi/safety/provenance_proxy.py
 from __future__ import annotations
 
 import os
+from typing import Optional
 
+import streamlit as st
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse
 
+from consciousness.qi import qi
 from qi.safety.provenance_links import presign_for_record
 from qi.safety.provenance_receipts import write_receipt
 from qi.safety.provenance_uploader import load_record_by_sha
-import streamlit as st
-from consciousness.qi import qi
 
 app = FastAPI(title="Lukhas Provenance Proxy", version="1.0.0")
 
@@ -45,20 +45,7 @@ def get_presigned_link(sha: str, request: Request, expires: int = 600, filename:
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}")
-
-    link = presign_for_record(rec, expires=expires, filename=filename)
-
-    # write signed "link_issued" receipt
-    write_receipt(
-        artifact_sha=sha,
-        event="link_issued",
-        user_id=request.headers.get("x-user-id"),
-        url=link.get("url"),
-        client_ip=_get_client_ip(request),
-        user_agent=request.headers.get("user-agent"),
-        purpose=request.query_params.get("purpose"),
-        extras={"backend": link.get("backend"), "expires_in": link.get("expires_in")},
+        raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}",
     )
 
     return {"record": _summary_record(sha, rec), "link": link}
@@ -69,27 +56,7 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}")
-
-    link = presign_for_record(rec, expires=expires, filename=filename)
-
-    # If local file -> stream; otherwise redirect to presigned
-    backend = link.get("backend")
-    if backend == "file":
-        # link["url"] = file:///abs/path; strip scheme
-        path = link["url"].replace("file://", "")
-        if not os.path.exists(path):
-            raise HTTPException(status_code=404, detail="Local artifact missing")
-        # emit receipt before streaming
-        write_receipt(
-            artifact_sha=sha,
-            event="download_stream",
-            user_id=request.headers.get("x-user-id"),
-            url=link.get("url"),
-            client_ip=_get_client_ip(request),
-            user_agent=request.headers.get("user-agent"),
-            purpose=request.query_params.get("purpose"),
-            extras={"backend": "file"},
+        raise HTTPException(status_code=404, detail=f"Record not found for {sha}: {e}",
         )
         return FileResponse(
             path,

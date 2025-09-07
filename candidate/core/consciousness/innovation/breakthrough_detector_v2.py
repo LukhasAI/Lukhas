@@ -1,7 +1,10 @@
 import logging
-import streamlit as st
 import time
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 Breakthrough Detector V2
@@ -203,7 +206,7 @@ class BreakthroughDetectorV2(CoreInterface):
                     parameters={"breakthrough": breakthrough},
                 )
                 if not ethics_check.get("approved", False):
-                    logger.warning(f"Breakthrough rejected by Guardian: {breakthrough.get('id'}")
+                    logger.warning(f"Breakthrough rejected by Guardian: {breakthrough.get('id')}")
                     validated_breakthroughs.remove(breakthrough)
 
         # Record in history

@@ -5,6 +5,7 @@ import os
 import sys
 from collections import defaultdict
 from pathlib import Path
+
 import streamlit as st
 
 ROOT = Path(os.getcwd())
@@ -66,7 +67,7 @@ def find_cycles(g):
                 # record cycle
                 try:
                     i = path.index(v)
-                    cyc = path[i:] + [v]
+                    cyc = [*path[i:], v]
                     if len(cyc) > 2:
                         cycles.append(cyc)
                 except ValueError:

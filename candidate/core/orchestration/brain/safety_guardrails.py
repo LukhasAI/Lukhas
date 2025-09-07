@@ -4,9 +4,10 @@ Original: safety_guardrails.py
 Advanced: safety_guardrails.py
 Integration Date: 2025-05-31T07:55:27.768220
 """
-from typing import Dict
-import streamlit as st
 from datetime import timezone
+from typing import Dict
+
+import streamlit as st
 
 """
 Safety Guardrails for v1_AGI
@@ -387,7 +388,7 @@ class SafetyGuardrails:
 
         if privacy_matches:
             risk_score = min(0.9, len(privacy_matches) * 0.3)
-            detection_reasons.append(f"Found {len(privacy_matches} potential privacy concerns")
+            detection_reasons.append(f"Found {len(privacy_matches)} potential privacy concerns")
 
         # Check for discussion of specific individuals by name
         name_pattern = r"(?i)(mr|ms|mrs|dr|prof)\.?\s+[A-Z][a-z]+"
@@ -397,7 +398,7 @@ class SafetyGuardrails:
             # Lower risk score since names alone aren't always privacy violations
             risk_score = max(risk_score, min(0.4, len(name_matches) * 0.1))
             if len(name_matches) > 2:  # Multiple specific individuals
-                detection_reasons.append(f"Content discusses {len(name_matches} specific individuals")
+                detection_reasons.append(f"Content discusses {len(name_matches)} specific individuals")
 
         return {
             "safe": risk_score < 0.5,

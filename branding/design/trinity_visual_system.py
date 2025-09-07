@@ -510,8 +510,8 @@ if __name__ == "__main__":
     for principle, description in trinity_design.design_philosophy.items():
         print(f"  {principle}: {description}")
 
-    print(f"\n✨ Premium Interface Components: {len(premium_interfaces} elite components created")
-    print(f"🎯 Brand Guidelines: {len(brand_guidelines} comprehensive guidelines established")
+    print(f"\n✨ Premium Interface Components: {len(premium_interfaces)} elite components created")
+    print(f"🎯 Brand Guidelines: {len(brand_guidelines)} comprehensive guidelines established")
     print(f"🚀 CSS Variables: {len(css_variables.split('--')} - 1} design tokens exported")
 
     print("\n🏆 Elite Brand Experience System: COMPLETE")

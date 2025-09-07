@@ -140,7 +140,7 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
 
         # Get issues to fix
         issues = self.get_ruff_issues(limit=10)  # Start small
-        print(f"📋 Found {len(issues} issues to process")
+        print(f"📋 Found {len(issues)} issues to process")
 
         if not issues:
             print("✅ No issues found!")
@@ -153,7 +153,7 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
             code = issue.get("code", "")
             message = issue.get("message", "")
 
-            print(f"\n🔧 [{i}/{len(issues)}] {Path(file_path}.name}:{line_num}")
+            print(f"\n🔧 [{i}/{len(issues)}] {Path(file_path)}.name}:{line_num}")
             print(f"   Issue: {code} - {message}")
 
             if dry_run:

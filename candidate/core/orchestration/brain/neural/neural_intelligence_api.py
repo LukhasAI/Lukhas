@@ -9,16 +9,16 @@ Version: 2.0
 Professional REST API for the Lukhas Neural Intelligence System.
 Preserves all unique Lukhas innovations while providing clean endpoints.
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any, Optional
 
+import streamlit as st
 from fastapi import FastAPI, HTTPException
 from neural_intelligence_main import LukhasNeuralIntelligence
 from pydantic import BaseModel
+
+from consciousness.qi import qi
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

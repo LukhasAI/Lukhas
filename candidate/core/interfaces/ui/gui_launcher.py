@@ -4,8 +4,6 @@ Original: gui_launcher.py
 Advanced: gui_launcher.py
 Integration Date: 2025-05-31T07:55:28.291189
 """
-import streamlit as st
-
 # ===============================================================
 # 📂 FILE: gui_launcher.py
 # 📍 LOCATION: core/interface/
@@ -21,9 +19,10 @@ import streamlit as st
 # Tier 5 → AI Supervision Dashboard (future)
 #
 # ===============================================================
-
 import os
 import sys
+
+import streamlit as st
 
 from tools.session_logger import log_session_event
 

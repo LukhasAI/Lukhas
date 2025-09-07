@@ -31,8 +31,7 @@ from ethics.meg_guard import MEGGuard
 from ethics.meta_ethics_governor import MetaEthicsGovernor
 from ethics.security.main_node_security_engine import MainNodeSecurityEngine
 from ethics.seedra.seedra_core import SEEDRACore
-from ethics.self_reflective_debugger import (
-    EnhancedSelfReflectiveDebugger as SelfReflectiveDebugger)
+from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger as SelfReflectiveDebugger
 from ethics.sentinel.ethical_drift_sentinel import EthicalDriftSentinel
 from ethics.service import EthicsService
 from ethics.stabilization.tuner import StabilizationTuner
@@ -131,7 +130,7 @@ class EthicsIntegration:
         Returns:
             Tuple of (is_permitted, reason, detailed_analysis)
         """
-        decision_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp(}"
+        decision_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp()}"
         start_time = datetime.now(timezone.utc)
 
         # Update synchronization

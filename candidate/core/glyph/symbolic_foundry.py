@@ -204,7 +204,7 @@ class SymbolicFoundry:
             return None
 
         # Create fusion candidate
-        fusion_id = f"fusion_{uuid.uuid4(}.hex[:8]}"
+        fusion_id = f"fusion_{uuid.uuid4()}.hex[:8]}"
         stability_prediction = self._predict_fusion_stability(fused_glyph, source_glyphs)
         risk_assessment = self._assess_fusion_risks(fused_glyph, source_glyphs)
 
@@ -273,7 +273,7 @@ class SymbolicFoundry:
         safety_classification = self._classify_mutation_safety(mutated_glyph)
 
         # Create mutation result
-        mutation_id = f"mutation_{uuid.uuid4(}.hex[:8]}"
+        mutation_id = f"mutation_{uuid.uuid4()}.hex[:8]}"
 
         result = MutationResult(
             mutation_id=mutation_id,
@@ -475,7 +475,7 @@ class SymbolicFoundry:
 
         # Set fusion-specific tags
         fused_glyph.add_semantic_tag("fused_glyph")
-        fused_glyph.add_semantic_tag(f"fusion_{len(glyphs}_way")
+        fused_glyph.add_semantic_tag(f"fusion_{len(glyphs)}_way")
 
         # Blend content
         fused_glyph.content = self._blend_content(glyphs, "semantic")
@@ -658,7 +658,7 @@ class SymbolicFoundry:
         # Copy and evolve semantic tags
         mutated.semantic_tags = glyph.semantic_tags.copy()
         mutated.add_semantic_tag("evolved")
-        mutated.add_semantic_tag(f"evolution_gen_{random.randint(1, 10}")
+        mutated.add_semantic_tag(f"evolution_gen_{random.randint(1, 10)}")
 
         # Inherit memory associations
         mutated.memory_keys = glyph.memory_keys.copy()

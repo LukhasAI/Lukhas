@@ -1,7 +1,9 @@
 import logging
 from datetime import timezone
-import streamlit as st
 from typing import List
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 # ΛORIGIN_AGENT: Claude-4-Harmonizer
 # ΛTASK_ID: CLAUDE_11_SYMBOLIC_DRIFT_ENGINE
@@ -342,7 +344,7 @@ class SymbolicDriftTracker:
                 )
 
                 # Store pattern for analysis
-                pattern_key = f"recursive_{datetime.now(timezone.utc).isoformat(}"
+                pattern_key = f"recursive_{datetime.now(timezone.utc).isoformat()}"
                 self.recursive_patterns[pattern_key] = loop_indicators
 
             return has_recursion
@@ -746,7 +748,7 @@ class SymbolicDriftTracker:
 
     def _implement_symbolic_quarantine(self, session_id: str) -> None:
         """Implement symbolic quarantine for unstable sessions."""
-        quarantine_marker = f"ΛQUARANTINE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        quarantine_marker = f"ΛQUARANTINE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         if session_id in self.symbolic_states:
             # Mark latest state with quarantine
@@ -1126,7 +1128,7 @@ if __name__ == "__main__":
         print(f"  • {rec}")
 
     print("\n✅ Enterprise Symbolic Drift Tracker Implementation Complete")
-    print(f"📊 Sessions Tracked: {len(tracker.symbolic_states}")
-    print(f"🎯 Drift Records: {len(tracker.drift_records}")
-    print(f"🚨 Alert History: {len(tracker.alert_history}")
-    print(f"🔄 Recursive Patterns: {len(tracker.recursive_patterns}")
+    print(f"📊 Sessions Tracked: {len(tracker.symbolic_states)}")
+    print(f"🎯 Drift Records: {len(tracker.drift_records)}")
+    print(f"🚨 Alert History: {len(tracker.alert_history)}")
+    print(f"🔄 Recursive Patterns: {len(tracker.recursive_patterns)}")

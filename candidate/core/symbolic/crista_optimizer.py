@@ -121,7 +121,7 @@ class SymbolicNode:
         child_nodes: list[SymbolicNode] = []
         split_weight = self.symbolic_weight / 2
 
-        for i in range(2}:  # Typically splits into two:
+        for i in range(2)}:  # Typically splits into two:
             child_id = f"{self.node_id}_split_{i}"
             child = SymbolicNode(child_id, split_weight)
             child.connections = (
@@ -133,7 +133,7 @@ class SymbolicNode:
             )
 
         self.logger.info(
-            f"ΛTRACE: SymbolicNode '{self.node_id)' successfully split into {len(child_nodes} nodes."
+            f"ΛTRACE: SymbolicNode '{self.node_id)' successfully split into {len(child_nodes)} nodes."
         )
         return child_nodes
 
@@ -225,7 +225,7 @@ class SymbolicNetwork:
             for node in self.nodes.values():
             if node.error_level > self.config.fission_threshold:
         ]
-        self.logger.info(f"ΛTRACE: Found {len(nodes} high error nodes.")
+        self.logger.info(f"ΛTRACE: Found {len(nodes)} high error nodes.")
         return nodes
 
     # Method to find low-activity pairs
@@ -253,7 +253,7 @@ class SymbolicNetwork:
         # Limit to prevent excessive merging in one cycle
         limited_pairs = pairs[:5]
         self.logger.info(
-            f"ΛTRACE: Found {len(limited_pairs} low activity pairs (limited to 5)."
+            f"ΛTRACE: Found {len(limited_pairs)} low activity pairs (limited to 5)."
         )
         return limited_pairs
 
@@ -264,7 +264,7 @@ class SymbolicNetwork:
         Merges specified pairs of nodes into single new nodes, combining their weights and connections.
         This simulates a fusion-like process for network efficiency.
         """
-        self.logger.info(f"ΛTRACE: Attempting to merge {len(node_pairs} node pairs.")
+        self.logger.info(f"ΛTRACE: Attempting to merge {len(node_pairs)} node pairs.")
         merged_count = 0
         for node1, node2 in node_pairs:
             if node1.node_id in self.nodes and node2.node_id in self.nodes:
@@ -349,7 +349,7 @@ class SymbolicNetwork:
         # ΛNOTE: Relinking logic for drifted edges is currently basic (removal).
         # Future enhancements could include finding nearest neighbors.
         self.logger.info(
-            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections}."
+            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections)}."
         )
 
 
@@ -600,7 +600,7 @@ class CristaOptimizer:
                 # Remove original node and add its children to the network
                 self.network.remove_node(node.node_id)
                 for child in child_nodes:
-                    self.network.add_node(child}
+                    self.network.add_node(child)}
                 nodes_split_count += 1
             else:
                 self.logger.warning(
@@ -658,7 +658,7 @@ class CristaOptimizer:
         )
 
         self.logger.info(
-            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}. Nodes affected: {nodes_affected_count}."
+            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs)}. Nodes affected: {nodes_affected_count}."
         )
         return {
             "success": True,

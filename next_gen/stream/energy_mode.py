@@ -3,20 +3,18 @@
 Energy-conscious Mode - Adaptive throttling and resource management
 Monitors system load and adjusts operation intensity with moon symbol 🌙
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 import time
 from collections import deque
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 import psutil
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -281,8 +279,8 @@ class EnergyManager:
 
         logger.info(f"🔄 Energy profile switched: {old_profile} → {profile_name}")
         logger.info(
-            f"   New limits: CPU {self.current_profile.cpu_threshold * 100:.0f}%, "
-            f"Memory {self.current_profile.memory_threshold * 100:.0f}%"
+            f"   New limits: CPU {self.current_profile.cpu_threshold  * 100:.1f}%, "
+            f"Memory {self.current_profile.memory_threshold  * 100:.1f}%"
         )
         logger.info(f"   Symbol: {self.current_profile.symbolic_indicator}")
 
@@ -377,7 +375,7 @@ class EnergyManager:
         metadata: Optional[dict] = None,
     ) -> str:
         """Queue an operation for energy-aware execution"""
-        operation_id = f"op_{datetime.now(timezone.utc).timestamp(}_{operation_type}"
+        operation_id = f"op_{datetime.now(timezone.utc).timestamp()}_{operation_type}"
 
         operation = {
             "id": operation_id,

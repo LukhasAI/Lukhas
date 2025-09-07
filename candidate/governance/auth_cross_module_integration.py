@@ -21,15 +21,15 @@ Author: LUKHAS AI System
 Version: 2.0.0
 Constellation Framework: ✨🌟⭐🔥💎⚖️🛡️🌌
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import uuid
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # LUKHAS imports
 try:

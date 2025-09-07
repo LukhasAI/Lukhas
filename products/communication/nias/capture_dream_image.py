@@ -60,7 +60,7 @@ async def generate_and_save_dream_images():
 
     for i, scenario in enumerate(dream_prompts, 1):
         print(f"\n{'─' * 60}")
-        print(f"Scenario {i}: {scenario['name'].replace('_', ' ').title(}")
+        print(f"Scenario {i}: {scenario['name'].replace('_', ' ').title()}")
         print(f"Product: {scenario['product']}")
         print(f"{'─' * 60}")
 
@@ -242,7 +242,7 @@ async def generate_and_save_dream_images():
             f.write(html_content)
 
         print(f"\n🌐 HTML Gallery created: {gallery_path}")
-        print(f"   Open in browser: file://{gallery_path.absolute(}")
+        print(f"   Open in browser: file://{gallery_path.absolute()}")
 
     # Save metadata JSON
     if generated_images:
@@ -256,8 +256,8 @@ async def generate_and_save_dream_images():
     print(f"\n\n{'=' * 80}")
     print("✅ DREAM IMAGE CAPTURE COMPLETE")
     print("=" * 80)
-    print(f"\n📁 Images saved in: {images_dir.absolute(}")
-    print(f"   • {len(generated_images} dream images generated")
+    print(f"\n📁 Images saved in: {images_dir.absolute()}")
+    print(f"   • {len(generated_images)} dream images generated")
     print("   • HTML gallery created")
     print("   • Metadata JSON saved")
 
@@ -275,7 +275,7 @@ if __name__ == "__main__":
     results = asyncio.run(generate_and_save_dream_images())
 
     if results:
-        print(f"\n💫 Success! Generated {len(results} dream images")
+        print(f"\n💫 Success! Generated {len(results)} dream images")
         print("\n🌟 These aren't ads - they're visual poems about products")
         print("   Each one crafted to inspire, not to sell")
     else:

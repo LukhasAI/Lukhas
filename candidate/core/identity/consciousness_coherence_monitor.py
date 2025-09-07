@@ -129,7 +129,7 @@ class CoherenceState:
 class CoherenceAnomaly:
     """Detected coherence anomaly"""
 
-    anomaly_id: str = field(default_factory=lambda: f"anom-{uuid.uuid4(}.hex[:12]}")
+    anomaly_id: str = field(default_factory=lambda: f"anom-{uuid.uuid4()}.hex[:12]}")
     identity_id: str = ""
     anomaly_type: str = "coherence_drift"
 

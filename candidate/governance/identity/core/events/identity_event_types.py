@@ -5,13 +5,13 @@ Defines specialized event types for identity system coordination,
 authentication tracking, and tier-based orchestration.
 """
 import time
-import streamlit as st
-
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 class IdentityEventType(Enum):

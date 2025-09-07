@@ -32,17 +32,16 @@ Author: Lukhas AI Research Team - Australian Compliance Division
 Version: 1.0.0 - Privacy Act Edition
 Date: June 2025
 """
-import time
-import streamlit as st
-
 import json
 import logging
+import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from pydantic import Field
 
 # Import global framework
@@ -640,4 +639,4 @@ if __name__ == "__main__":
     certification = certify_australian_compliance()
     print(f"\n✅ Certification: {certification['certification']}")
     print(f"Compliance Level: {certification['compliance_level']}")
-    print(f"Regulations: {', '.join(certification['regulations']}")
+    print(f"Regulations: {', '.join(certification['regulations'])}")

@@ -6,13 +6,13 @@ Universal symbolic language system for MΛTRIZ integration.
 This script provides a bridge function to convert the state of a
 SymbolicWorld object into a valid MΛTRIZ node.
 """
-import time
-import streamlit as st
-
 import hashlib
 import json
+import time
 import uuid
 from datetime import datetime, timezone
+
+import streamlit as st
 
 from candidate.core.symbolic.glyph_engine import generate_glyph
 
@@ -55,12 +55,12 @@ def create_matriz_node_from_symbolic_world(symbolic_world: SymbolicWorld) -> dic
     glyph = generate_glyph(world_state_dict)
 
     now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
-    trace_id = f"trace-{uuid.uuid4(}"
+    trace_id = f"trace-{uuid.uuid4()}"
 
     # Construct the MΛTRIZ node dictionary according to the defined schema.
     matriz_node = {
         "version": 1,
-        "id": f"node-{uuid.uuid4(}",
+        "id": f"node-{uuid.uuid4()}",
         "type": "CONTEXT",  # Represents the context of the symbolic world.
         "labels": ["symbolic-world", "consolidation-bridge"],
         "state": {
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     s3 = world.create_symbol("property:sentience", {"type": "attribute", "domain": "philosophy"})
     world.link_symbols(s1, s2, "potential_host_of")
     world.link_symbols(s1, s3, "has_property")
-    print(f"    - World created with {len(world.symbols)} symbols and {len(world.relationships} relationships.")
+    print(f"    - World created with {len(world.symbols)} symbols and {len(world.relationships)} relationships.")
 
     # 2. Call the bridge function to generate a MΛTRIZ node
     print("\n[2] Calling the bridge function...")

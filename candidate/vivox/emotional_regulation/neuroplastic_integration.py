@@ -292,7 +292,7 @@ class VIVOXNeuroplasticLearner:
             # Prune old patterns if needed
             await self._prune_patterns()
 
-            logger.debug(f"Learned from regulation: {len(tags} tags generated")
+            logger.debug(f"Learned from regulation: {len(tags)} tags generated")
             return tags
 
         except Exception as e:

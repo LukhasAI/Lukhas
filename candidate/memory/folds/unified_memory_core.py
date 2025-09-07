@@ -627,7 +627,7 @@ class ConsolidatedUnifiedmemorycore:
     def _generate_memory_id(self) -> str:
         """Generate unique memory ID"""
         timestamp = int(time.time() * 1000000)
-        return f"mem_{timestamp}_{hashlib.md5(str(timestamp).encode()).hexdigest(}[:8]}"
+        return f"mem_{timestamp}_{hashlib.md5(str(timestamp).encode()).hexdigest()}[:8]}"
 
     def _update_metrics(self, operation_start: float, success: bool):
         """Update performance metrics"""

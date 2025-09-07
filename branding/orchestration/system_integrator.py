@@ -4,14 +4,13 @@ LUKHAS AI System Integrator
 Creates real interconnections between database, content platform, and document engine
 Ensures all systems work together as integrated consciousness technology platform
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 
 @dataclass
@@ -46,7 +45,7 @@ class SystemIntegrator:
         logs_dir = self.base_path / "logs"
         logs_dir.mkdir(exist_ok=True)
 
-        log_file = logs_dir / f"system_integration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
+        log_file = logs_dir / f"system_integration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -335,7 +334,7 @@ class LukhasUnifiedContentPlatform:
 
         # Log retrieval activity
         db.log_system_activity("content_platform", "content_retrieved",
-                              f"Retrieved {len(content} items", len(content))
+                              f"Retrieved {len(content)} items", len(content))
 
         return content
 
@@ -350,7 +349,7 @@ class LukhasUnifiedContentPlatform:
 
         # Log bot access
         db.log_system_activity("content_platform", "bots_accessed",
-                              f"Accessed {len(bots} specialist bots", len(bots))
+                              f"Accessed {len(bots)} specialist bots", len(bots))
 
         return bots
 
@@ -535,7 +534,7 @@ class LukhasUnifiedDocEngine:
 
         # Log knowledge base access
         db.log_system_activity("doc_engine", "knowledge_accessed",
-                              f"Accessed {len(knowledge} knowledge items", len(knowledge))
+                              f"Accessed {len(knowledge)} knowledge items", len(knowledge))
 
         return knowledge
 
@@ -895,7 +894,7 @@ async def main():
     success_count = len([v for v in results.values() if v])
 
     print("✅ System integration completed!")
-    print(f"🔗 Integration modules: {success_count}/{len(results}")
+    print(f"🔗 Integration modules: {success_count}/{len(results)}")
 
     print("\n🚀 Run the orchestrator to test integration:")
     print("python engines/lukhas_unified_orchestrator.py")

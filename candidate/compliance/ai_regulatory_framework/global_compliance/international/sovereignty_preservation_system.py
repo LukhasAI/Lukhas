@@ -3,10 +3,10 @@ Sovereignty Preservation System
 
 Ensures data sovereignty and jurisdictional compliance.
 """
-import streamlit as st
-
 import logging
 from typing import Any
+
+import streamlit as st
 
 from candidate.core.interfaces import CoreInterface
 
@@ -43,7 +43,7 @@ class SovereigntyPreservationSystem(CoreInterface):
 
         return {
             "success": True,
-            "data_center": f"{jurisdiction.lower(}_region",
+            "data_center": f"{jurisdiction.lower()}_region",
             "residency_status": "compliant",
             "latency_ms": 50,
         }

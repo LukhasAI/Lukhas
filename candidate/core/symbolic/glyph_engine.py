@@ -7,17 +7,15 @@
 
 This module handles GLYPH creation and symbolic evaluation logic.
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import hashlib
 import json
 import math
+import time
 from collections.abc import Sequence
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Dict, List
+
+import streamlit as st
 
 # ΛTAG: glyph_engine
 

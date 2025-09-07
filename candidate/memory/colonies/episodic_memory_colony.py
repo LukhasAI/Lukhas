@@ -567,9 +567,9 @@ class EpisodicMemoryColony(BaseMemoryColony):
         # This is a simplified version - real implementation would be more sophisticated
 
         if not content.description:
-            content.description = f"Distinct episode at {time.time(}"
+            content.description = f"Distinct episode at {time.time()}"
         else:
-            content.description += f" [Distinct from {len(similar_episodes} similar episodes]"
+            content.description += f" [Distinct from {len(similar_episodes)} similar episodes]"
 
         # Slightly modify context to increase distinctiveness
         if content.context.attention_level < 1.0:

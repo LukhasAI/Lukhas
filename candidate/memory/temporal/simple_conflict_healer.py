@@ -9,13 +9,13 @@
 
 Simple Conflict Healer - Fixes merge conflicts
 """
-import time
-import streamlit as st
-
 import os
 import re
 import shutil
+import time
 from datetime import datetime, timezone
+
+import streamlit as st
 
 
 def find_conflicts():
@@ -95,7 +95,7 @@ def main():
         print("No conflicts found!")
         return
 
-    print(f"Found {len(conflicts} files with conflicts")
+    print(f"Found {len(conflicts)} files with conflicts")
 
     healed = 0
     for filepath in conflicts:
@@ -106,7 +106,7 @@ def main():
         else:
             print("  [FAILED]")
 
-    print(f"\nHealed {healed}/{len(conflicts} files")
+    print(f"\nHealed {healed}/{len(conflicts)} files")
 
     # Save report
     report = {

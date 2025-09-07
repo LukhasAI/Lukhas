@@ -490,7 +490,7 @@ class EnergyConsumptionAnalyzer:
                         "severity": "high",
                         "component": highest_component[0],
                         "message": f"{highest_component[0]} consuming {highest_component[1]:.2f}J "
-                        f"({(highest_component[1] / stats['total_energy_joules'] * 100}:.1f}% of total)",
+                        f"({(highest_component[1] / stats['total_energy_joules'] * 100)}:.1f}% of total)",
                         "suggestion": f"Consider optimizing {highest_component[0]} operations or "
                         "switching to a lower power profile",
                     }
@@ -636,7 +636,7 @@ class EnergyConsumptionAnalyzer:
             else:
                 raise ValueError(f"Unsupported export format: {format}")
 
-            logger.info(f"Exported {len(metrics_data} metrics to {filepath}")
+            logger.info(f"Exported {len(metrics_data)} metrics to {filepath}")
 
 
 # Integration with existing modules
@@ -750,7 +750,7 @@ async def demonstrate_energy_analysis():
 
     # Test prediction
     prediction = analyzer.predict_operation_energy("matrix_multiplication", 200)
-    print(f"\nEnergy Prediction: {json.dumps(prediction, indent=2}")
+    print(f"\nEnergy Prediction: {json.dumps(prediction, indent=2)}")
 
     # Stop monitoring
     await analyzer.stop_monitoring()

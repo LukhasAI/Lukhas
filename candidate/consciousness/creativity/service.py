@@ -116,7 +116,7 @@ class CreativityService:
             generated_content = self._generate_creative_content(content_type, prompt, style, parameters)
 
             # Create content metadata
-            content_id = f"creative_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{random.randint(1000, 9999}"
+            content_id = f"creative_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{random.randint(1000, 9999)}"
             content_metadata = {
                 "content_id": content_id,
                 "type": content_type,
@@ -191,7 +191,7 @@ class CreativityService:
             # Process dream data
             synthesized_dream = self._process_dream_content(dream_data, synthesis_type)
 
-            dream_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
+            dream_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
 
             # Log dream synthesis
             self.identity_client.log_activity(
@@ -259,7 +259,7 @@ class CreativityService:
             # Generate emotionally-aware content
             emotional_content = self._generate_emotional_content(emotion, context, output_format)
 
-            content_id = f"emotional_{emotion}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+            content_id = f"emotional_{emotion}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
             # Log emotional content generation
             self.identity_client.log_activity(
@@ -460,17 +460,17 @@ if __name__ == "__main__":
 
     # Test story generation
     story_result = creativity.generate_content(test_user, "story", "A robot learning to dream", "science fiction")
-    print(f"Story generation: {story_result.get('success', False}")
+    print(f"Story generation: {story_result.get('success', False)}")
 
     # Test dream synthesis
     dream_result = creativity.synthesize_dream(
         test_user,
         {"elements": ["flying", "ocean", "music"], "symbols": ["freedom", "depth"]},
     )
-    print(f"Dream synthesis: {dream_result.get('success', False}")
+    print(f"Dream synthesis: {dream_result.get('success', False)}")
 
     # Test emotional content
     emotional_result = creativity.generate_emotional_content(
         test_user, "joy", {"occasion": "celebration", "audience": "family"}
     )
-    print(f"Emotional content: {emotional_result.get('success', False}")
+    print(f"Emotional content: {emotional_result.get('success', False)}")

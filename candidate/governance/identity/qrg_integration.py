@@ -166,10 +166,10 @@ class LukhusQRGIntegrator:
         self.logger = logging.getLogger(__name__)
         self.logger.info("🔗 LUKHAS QRG Integrator initialized")
         self.logger.info(
-            f"🧠 Consciousness engine: {'active' if hasattr(self.consciousness_engine, 'assess_consciousness'} else 'mock'}"
+            f"🧠 Consciousness engine: {'active' if hasattr(self.consciousness_engine, 'assess_consciousness')} else 'mock'}"
         )
         self.logger.info(
-            f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile'} else 'mock'}"
+            f"🌍 Cultural manager: {'active' if hasattr(self.cultural_manager, 'get_cultural_profile')} else 'mock'}"
         )
 
     def create_qrg_context(self, user_id: str, **kwargs) -> QRGContext:
@@ -429,7 +429,7 @@ class LukhusQRGIntegrator:
 
         # Generate ethereal pattern
         dream_signature = hashlib.sha256(
-            f"dream_{context.user_id}_{dream_consciousness}_{time.time(}".encode()
+            f"dream_{context.user_id}_{dream_consciousness}_{time.time()}".encode()
         ).hexdigest()[:20]
 
         pattern_data = self._create_dream_pattern(dream_imagery, dream_signature)
@@ -731,7 +731,7 @@ def demo_qrg_integration():
     results = []
 
     for qrg_type in qrg_types_to_test:
-        print(f"\n🔗 Testing {qrg_type.value.replace('_', ' ').title(} QRG...")
+        print(f"\n🔗 Testing {qrg_type.value.replace('_', ' ').title()} QRG...")
 
         try:
             result = integrator.generate_adaptive_qrg(test_context, qrg_type)
@@ -742,7 +742,7 @@ def demo_qrg_integration():
             print(f"   📊 Compliance score: {result.compliance_score}")
             print(f"   🌍 Cultural safety: {result.cultural_safety_score}")
             print(f"   🧠 Consciousness resonance: {result.consciousness_resonance}")
-            print(f"   ⏰ Valid until: {result.expiration.strftime('%H:%M:%S'}")
+            print(f"   ⏰ Valid until: {result.expiration.strftime('%H:%M:%S')}")
 
         except Exception as e:
             print(f"   ❌ Generation failed: {e}")
@@ -764,7 +764,7 @@ def demo_qrg_integration():
             print(f"   📊 {key}: {value}")
 
     print("\n🎉 QRG Integration Demo Complete!")
-    print(f"🔗 {len(results} QRGs generated successfully")
+    print(f"🔗 {len(results)} QRGs generated successfully")
     print("🧠 Consciousness-aware authentication system ready!")
 
     return integrator, results

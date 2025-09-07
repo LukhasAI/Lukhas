@@ -65,8 +65,8 @@ class LukhasCoverageAnalyzer:
                 source_files.append(str(relative_path))
                 self.source_files.add(str(relative_path))
 
-        print(f"  📁 Source files found: {len(source_files}")
-        print(f"  🧪 Test files found: {len(test_files}")
+        print(f"  📁 Source files found: {len(source_files)}")
+        print(f"  🧪 Test files found: {len(test_files)}")
 
         return {
             "source_files": source_files,
@@ -133,7 +133,7 @@ class LukhasCoverageAnalyzer:
             test_count = 0
 
             for py_file in system_path.rglob("*.py"):
-                relative_path = str(py_file.relative_to(self.root_path))
+                str(py_file.relative_to(self.root_path))
 
                 if self._is_test_file(py_file):
                     test_count += 1
@@ -141,10 +141,7 @@ class LukhasCoverageAnalyzer:
                     source_count += 1
 
             # Calculate coverage ratio
-            if source_count > 0:
-                coverage_ratio = min(test_count / source_count, 1.0)
-            else:
-                coverage_ratio = 1.0 if test_count > 0 else 0.0
+            coverage_ratio = min(test_count / source_count, 1.0) if source_count > 0 else 1.0 if test_count > 0 else 0.0
 
             # Determine status
             if coverage_ratio >= 0.8:
@@ -233,7 +230,7 @@ class LukhasCoverageAnalyzer:
         for category, count in test_categories.items():
             if count > 0:
                 percentage = (count / total_test_files) * 100
-                print(f"    {category.title(}: {count} files ({percentage:.1f}%)")
+                print(f"    {category.title()}: {count} files ({percentage:.1f}%)")
 
         print(f"  🎯 Average Quality Score: {avg_quality_score:.1f}/5.0")
 
@@ -244,7 +241,7 @@ class LukhasCoverageAnalyzer:
         print("\n📊 CALCULATING REAL COVERAGE METRICS...")
 
         # Get file discovery results
-        file_data = self.discover_all_python_files()
+        self.discover_all_python_files()
         system_data = self.analyze_major_systems()
         test_quality = self.analyze_test_quality()
 
@@ -351,7 +348,7 @@ class LukhasCoverageAnalyzer:
             recommendations.append("✅ EXCELLENT: Coverage above 70%. Focus on quality improvements.")
 
         if untested:
-            recommendations.append(f"🎯 Priority systems to test: {', '.join(untested[:5]}")
+            recommendations.append(f"🎯 Priority systems to test: {', '.join(untested[:5])}")
 
         if metrics["test_quality_score"] < 3.0:
             recommendations.append("🧪 Improve test quality: Add integration and functional tests.")
@@ -402,16 +399,16 @@ def print_coverage_table(report: dict[str, Any]):
     print("\n🧪 TEST QUALITY BREAKDOWN:")
     for category, count in test_qual["categories"].items():
         if count > 0:
-            print(f"  {category.title(}: {count} files")
+            print(f"  {category.title()}: {count} files")
 
     # Gaps and recommendations
     gaps = report["gaps"]
     print("\n🔍 TESTING GAPS:")
     if gaps["untested_systems"]:
-        print(f"  🔴 Untested: {', '.join(gaps['untested_systems']}")
+        print(f"  🔴 Untested: {', '.join(gaps['untested_systems'])}")
     if gaps["partially_tested"]:
-        print(f"  🟡 Partial: {', '.join(gaps['partially_tested']}")
-    print(f"  🟢 Well Tested: {', '.join(gaps['well_tested']}")
+        print(f"  🟡 Partial: {', '.join(gaps['partially_tested'])}")
+    print(f"  🟢 Well Tested: {', '.join(gaps['well_tested'])}")
 
     print("\n💡 RECOMMENDATIONS:")
     for rec in report["recommendations"]:

@@ -104,7 +104,7 @@ def print_match(path: str, lineno: int, col: int, orig: str, suggestion: str, co
     print(f"{path}:{lineno}:{col}: {orig} -> {suggestion}")
     for ctx_lineno, ctx_line in context:
         prefix = "-->" if ctx_lineno == lineno else "   "
-        print(f"{prefix} {ctx_lineno:4d}: {ctx_line.rstrip(}")
+        print(f"{prefix} {ctx_lineno:4d}: {ctx_line.rstrip()}")
     print()
 
 
@@ -139,7 +139,7 @@ def main(argv: list[str] | None = None) -> int:
         print("No candidate occurrences found.")
         return 0
 
-    print(f"Found {total_matches} candidate occurrences in {len(matches_by_file} file(s).\n")
+    print(f"Found {total_matches} candidate occurrences in {len(matches_by_file)} file(s).\n")
 
     # Print top-level summary and a per-file snippet list
     for path, items in sorted(matches_by_file.items()):

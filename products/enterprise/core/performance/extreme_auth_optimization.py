@@ -142,7 +142,7 @@ class ModuleImportCache:
             except Exception:
                 continue  # Skip failed imports during prewarm
 
-        print(f"⚡ Module Import Cache: Pre-warmed {len(self._cache} critical components")
+        print(f"⚡ Module Import Cache: Pre-warmed {len(self._cache)} critical components")
 
     def get_component(self, module_path: str, component_name: str) -> Optional[Any]:
         """Get component with sub-millisecond cache access"""
@@ -220,10 +220,10 @@ class AsyncHashCalculator:
             cache_key = f"dict_{hash(str(sorted(data.items()))}"
             data_str = fast_json_dumps(data)
         elif isinstance(data, str):
-            cache_key = f"str_{hash(data}"
+            cache_key = f"str_{hash(data)}"
             data_str = data
         else:
-            cache_key = f"bytes_{hash(data}"
+            cache_key = f"bytes_{hash(data)}"
             data_str = data.decode() if isinstance(data, bytes) else str(data)
 
         # Check cache first
@@ -513,7 +513,7 @@ class ExtremeAuthPerformanceOptimizer:
         if not self._initialized:
             await self.initialize()
 
-        request_id = request_id or f"auth_{int(time.time() * 1000)}_{len(self.auth_metrics}"
+        request_id = request_id or f"auth_{int(time.time() * 1000)}_{len(self.auth_metrics)}"
 
         metrics = AuthPerformanceMetrics(request_id=request_id, operation=operation)
 

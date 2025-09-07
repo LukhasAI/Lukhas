@@ -30,13 +30,13 @@ except ImportError:
 from . import business
 
 __all__ = [
-    # Trinity Framework integration
-    "get_trinity_context",
-    "TRINITY_FRAMEWORK",
-    "IDENTITY_SYMBOL",
     "CONSCIOUSNESS_SYMBOL",
-    "GUARDIAN_SYMBOL",
     "CORE_BRANDING_AVAILABLE",
+    "GUARDIAN_SYMBOL",
+    "IDENTITY_SYMBOL",
+    "TRINITY_FRAMEWORK",
     # Business modules
     "business",
+    # Trinity Framework integration
+    "get_trinity_context",
 ]

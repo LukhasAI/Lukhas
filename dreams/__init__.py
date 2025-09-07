@@ -233,17 +233,17 @@ def activate_consciousness_dream_bridge() -> dict[str, Any]:
 
 # Export main functions
 __all__ = [
-    "get_dreams_status",
-    "create_dream_session",
-    "process_dream_cycle",
-    "analyze_dream_patterns",
-    "activate_consciousness_dream_bridge",
-    "DreamLoopGenerator",
-    "DreamStatistics",
-    "DreamMemoryManager",
-    "dream_stats",
     "DREAMS_ACTIVE",
+    "DreamLoopGenerator",
+    "DreamMemoryManager",
+    "DreamStatistics",
+    "activate_consciousness_dream_bridge",
+    "analyze_dream_patterns",
+    "create_dream_session",
+    "dream_stats",
+    "get_dreams_status",
     "logger",
+    "process_dream_cycle",
 ]
 
 # System health check on import

@@ -3,8 +3,9 @@ from __future__ import annotations
 import os
 from typing import Any
 
-from lukhas.observability.matriz_decorators import instrument
 import streamlit as st
+
+from lukhas.observability.matriz_decorators import instrument
 
 # Feature flag for gradual rollout
 CONSENT_LEDGER_ACTIVE = os.environ.get("CONSENT_LEDGER_ACTIVE", "false").lower() == "true"

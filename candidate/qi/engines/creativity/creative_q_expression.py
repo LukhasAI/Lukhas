@@ -628,7 +628,7 @@ class CreativeIPProtector:
 
     async def _generate_smart_license(self, creator_identity: CreatorIdentity) -> str:
         """Generate smart license based on creator preferences"""
-        return f"Quantum Creative License - {creator_identity.name} - {datetime.now(timezone.utc}.year}"
+        return f"Quantum Creative License - {creator_identity.name} - {datetime.now(timezone.utc)}.year}"
 
 
 class CollaborativeCreativityOrchestrator:

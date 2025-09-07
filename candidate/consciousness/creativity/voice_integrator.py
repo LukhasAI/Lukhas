@@ -4,12 +4,12 @@ Enhanced voice integration layer incorporating quantum features.
 This module combines the voice integration capabilities from both prot1 and prot2,
 with quantum enhancement features for improved emotional processing and voice synthesis.
 """
-import streamlit as st
-
 import logging
 import time
 from dataclasses import dataclass
 from typing import Any, Optional
+
+import streamlit as st
 
 from ..bio_core.oscillator.orchestrator import BioOrchestrator
 from ..bio_core.voice.qi_voice_enhancer import QIVoiceEnhancer, VoiceQuantumConfig

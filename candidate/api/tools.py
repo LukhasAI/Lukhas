@@ -2,7 +2,6 @@
 Registry endpoint for OpenAI function-calling tools with governance.
 """
 import streamlit as st
-
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 

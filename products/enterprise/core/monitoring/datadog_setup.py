@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from typing import Optional
+
 """
 LUKHAS AI Datadog Setup and Configuration
 Complete integration with Datadog monitoring for enterprise observability
@@ -12,14 +13,13 @@ Features:
 - Alert configuration
 - Performance tracking
 """
-import streamlit as st
-from datetime import timezone
-
 import os
 import subprocess
 import sys
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
+
+import streamlit as st
 
 # Try importing Datadog client
 try:
@@ -322,7 +322,7 @@ class LUKHASDatadogSetup:
                     created_monitors.append(response)
                     print(f"✅ Created alert: {alert['name']}")
 
-                print(f"\n✅ Created {len(created_monitors} monitoring alerts")
+                print(f"\n✅ Created {len(created_monitors)} monitoring alerts")
                 return created_monitors
 
         except Exception as e:

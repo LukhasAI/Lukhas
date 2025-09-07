@@ -378,7 +378,7 @@ def main():
     for filepath in priority_files:
         if os.path.exists(filepath):
             module = consolidator.categorize_file(filepath)
-            print(f"  Connecting {Path(filepath}.name} to {module}...")
+            print(f"  Connecting {Path(filepath)}.name} to {module}...")
             consolidator.connect_isolated_file(filepath, module)
 
     # Consolidate tools
@@ -390,7 +390,7 @@ def main():
 
     print("\n✅ Consolidation Complete!")
     print(f"  - Connections made: {consolidator.connections_made}")
-    print(f"  - Total changes: {len(consolidator.changes}")
+    print(f"  - Total changes: {len(consolidator.changes)}")
 
     print("\n📊 Module Summary:")
     for module, summary in report["module_summary"].items():

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
 from datetime import timezone
+
 import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -487,7 +489,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             )
 
         # Save to audit directory
-        audit_file = self.audit_dir / f"{result.module.replace('/', '_'}_{result.audit_hash}.json"
+        audit_file = self.audit_dir / f"{result.module.replace('/', '_')}_{result.audit_hash}.json"
         audit_data = {
             "result": asdict(result),
             "full_response": full_response,

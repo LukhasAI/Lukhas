@@ -3,16 +3,15 @@ Market Intelligence Engine
 
 Provides comprehensive market analysis and opportunity detection capabilities.
 """
-from consciousness.qi import qi
-from typing import List
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
+from typing import Any, List
 
+import streamlit as st
+
+from consciousness.qi import qi
 from core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)

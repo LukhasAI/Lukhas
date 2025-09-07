@@ -6,12 +6,12 @@ contract and optional provider-specific optimizations.
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
-import streamlit as st
-
 # Module imports
 import importlib
 import logging
 from typing import Any, Optional
+
+import streamlit as st
 
 # Pre-declare wrapper client types for static type-checkers
 UnifiedOpenAIClient: Optional[Any] = None

@@ -3,11 +3,11 @@ import importlib
 import pytest
 
 MODULES = [
-    "lukhas.core.common",
-    "lukhas.memory",
-    "lukhas.identity",
-    "lukhas.governance",
-    "lukhas.observability",
+"lukhas.core.common",
+"lukhas.memory",
+"lukhas.identity",
+"lukhas.governance",
+"lukhas.observability",
 ]
 
 

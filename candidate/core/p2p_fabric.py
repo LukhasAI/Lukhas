@@ -6,10 +6,10 @@ This module provides a simplified implementation of a P2P node, which enables
 direct, high-throughput communication between collaborating agents, bypassing
 the central event broker for data-intensive tasks.
 """
-import streamlit as st
-
 import socket
 import threading
+
+import streamlit as st
 
 
 class P2PNode:
@@ -42,7 +42,7 @@ class P2PNode:
                 data = conn.recv(1024)
                 if not data:
                     break
-                print(f"P2PNode: Received data from {addr}: {data.decode(}")
+                print(f"P2PNode: Received data from {addr}: {data.decode()}")
             except ConnectionResetError:
                 break
         with self.lock:

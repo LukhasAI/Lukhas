@@ -7,8 +7,6 @@ and memory signals. Implements symbolic routing with automatic handler connectio
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
-import streamlit as st
-
 import asyncio
 import logging
 import time
@@ -18,6 +16,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from threading import Lock
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 # Import LUKHAS AI branding system for orchestration compliance
 try:
@@ -347,7 +347,7 @@ class SymbolicKernelBus:
             with self._metrics_lock:
                 self._metrics["events_dispatched"] += 1
 
-            logger.debug(f"📨 Dispatched: {event.event_type} to {len(handlers} handlers")
+            logger.debug(f"📨 Dispatched: {event.event_type} to {len(handlers)} handlers")
 
         except Exception as e:
             logger.error(f"Dispatch error: {e}")
@@ -555,7 +555,7 @@ class SymbolicKernelBus:
         topic = event.payload.get("topic")
         agents = event.payload.get("agents", [])
 
-        logger.info(f"🐝 Swarm consensus requested: {topic} ({len(agents} agents)")
+        logger.info(f"🐝 Swarm consensus requested: {topic} ({len(agents)} agents)")
 
         # Broadcast to all agents
         for agent_id in agents:

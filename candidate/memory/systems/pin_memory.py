@@ -4,13 +4,12 @@ r"""Contains definitions of the methods used by the _BaseDataLoaderIter to put f
 These **needs** to be in global scope since Py2 doesn't support serializing
 static methods.
 """
-import time
-import streamlit as st
-
 import collections
 import copy
 import queue
+import time
 
+import streamlit as st
 import torch
 from torch._utils import ExceptionWrapper
 

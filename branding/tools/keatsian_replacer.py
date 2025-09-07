@@ -5,14 +5,13 @@ Keatsian Branding Replacement Tool
 Systematically replaces technical/heroic language with Keatsian philosophy
 across the LUKHAS branding system.
 """
-import time
-import streamlit as st
-
 import json
 import re
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+import streamlit as st
 import yaml
 
 
@@ -162,7 +161,7 @@ class KeatsianReplacer:
                     if isinstance(data, dict) and "definitions" in data:
                         data["definitions"][system_name] = definition
                     elif isinstance(data, dict):
-                        data[f"{system_name.lower(}_definition"] = definition["definition"]
+                        data[f"{system_name.lower()}_definition"] = definition["definition"]
 
             if data != original_data:
                 # Create backup

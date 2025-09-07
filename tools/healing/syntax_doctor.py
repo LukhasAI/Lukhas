@@ -99,7 +99,7 @@ class SyntaxDoctor:
     def fix_file(self, filepath):
         """Attempt to fix syntax errors in a file"""
         # Create backup
-        backup_path = self.backup_dir / (Path(filepath).name + f".{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.backup")
+        backup_path = self.backup_dir / (Path(filepath).name + f".{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.backup")
         shutil.copy2(filepath, backup_path)
 
         try:
@@ -286,7 +286,7 @@ def main():
         print("[OK] No syntax errors found!")
         return
 
-    print(f"Found {len(errors} files with syntax errors")
+    print(f"Found {len(errors)} files with syntax errors")
 
     # Show first few errors
     print("\n[Sample Errors]")
@@ -296,14 +296,14 @@ def main():
             print(f"\n{filepath}:")
             print(f"  Line {error['line']}: {error['msg']}")
             if error["text"]:
-                print(f"  >>> {error['text'].strip(}")
+                print(f"  >>> {error['text'].strip()}")
 
     # Fix errors
-    print(f"\n[Fixing] Attempting to fix {len(errors} files...")
+    print(f"\n[Fixing] Attempting to fix {len(errors)} files...")
     errors_fixed = {}
 
     for i, filepath in enumerate(errors):
-        print(f"Fixing {i + 1}/{len(errors}: {filepath}...", end="")
+        print(f"Fixing {i + 1}/{len(errors)}: {filepath}...", end="")
         success = doctor.fix_file(filepath)
         errors_fixed[filepath] = success
         print(" [OK]" if success else " [FAILED]")
@@ -322,7 +322,7 @@ def main():
     print("\n" + "=" * 50)
     print("[SYNTAX HEALING COMPLETE]")
     print("=" * 50)
-    print(f"[Fixed] {doctor.fixed_count}/{len(errors} files ({report['success_rate']:.1f}%)")
+    print(f"[Fixed] {doctor.fixed_count}/{len(errors)} files ({report['success_rate']:.1f}%)")
     print(f"[Failed] {doctor.failed_count} files")
 
     if doctor.failed_count > 0:
@@ -333,14 +333,14 @@ def main():
     # Rescan to confirm
     print("\n[Rescanning] Verifying fixes...")
     remaining = doctor.find_syntax_errors()
-    print(f"[Status] Remaining syntax errors: {len(remaining}")
+    print(f"[Status] Remaining syntax errors: {len(remaining)}")
 
     if remaining:
         print("\n[Files Still With Errors]")
         for f in remaining[:10]:
             print(f"  - {f}")
         if len(remaining) > 10:
-            print(f"  ... and {len(remaining} - 10} more")
+            print(f"  ... and {len(remaining)} - 10} more")
 
 
 if __name__ == "__main__":

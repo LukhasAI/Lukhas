@@ -4,19 +4,17 @@ Original: dao_vote.py
 Advanced: dao_vote.py
 Integration Date: 2025-05-31T07:55:30.719982
 """
-import streamlit as st
-from datetime import timezone
-
 # ===============================================================
 # 📂 FILE: tools/dao_vote.py
 # 🧠 PURPOSE: Cast a symbolic DAO vote (Tier 5 simulation)
 # ===============================================================
-
 import argparse
 import json
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+
+import streamlit as st
 
 VOTE_LOG_PATH = "dao/attestations/dao_votes_log.jsonl"
 TIER = 5  # Simulated high-trust vote

@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 """
 
 #TAG:consciousness
@@ -10,16 +11,15 @@ from datetime import datetime, timezone
 Quantum Layer for Bio Systems
 Provides quantum-enhanced bio-oscillator functionality.
 """
-from consciousness.qi import qi
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import math
 import random
+import time
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 @dataclass
@@ -159,17 +159,7 @@ class QIBioOscillator:
             strength = self.config.entanglement_strength
 
         # Create entanglement ID
-        entanglement_id = f"entanglement_{id(self)}_{id(other_oscillator}"
-
-        # Create entanglement data
-        entanglement_data = {
-            "id": entanglement_id,
-            "strength": strength,
-            "oscillator_1": self,
-            "oscillator_2": other_oscillator,
-            "created_at": self._get_timestamp(),
-            "phase_correlation": random.uniform(0.5, 1.0) * strength,
-        }
+        entanglement_id = f"entanglement_{id(self)}_{id(other_oscillator)}"
 
         # Store entanglement in both oscillators
         self.entangled_oscillators[entanglement_id] = entanglement_data
@@ -275,52 +265,6 @@ class QIBioOscillator:
 
         else:
             measurement_result["error"] = f"Unknown property: {property_name}"
-            measurement_result["value"] = 0.0
-
-        # Apply decoherence due to measurement
-        self._apply_measurement_decoherence()
-
-        return measurement_result
-
-    def _apply_measurement_decoherence(self):
-        """Apply decoherence due to measurement."""
-        decoherence_factor = 1.0 - self.config.decoherence_rate
-        self.qi_like_state["coherence"] *= decoherence_factor
-
-        # Ensure coherence doesn't go below minimum
-        self.qi_like_state["coherence"] = max(0.1, self.qi_like_state["coherence"])
-
-    def evolve_quantum_like_state(self, time_step: float) -> dict[str, Any]:
-        """
-        Evolve the quantum-like state over time.
-
-        Args:
-            time_step: Time step for evolution
-
-        Returns:
-            Evolution result
-        """
-        # Update phase
-        self.qi_like_state["phase"] += 2 * math.pi * self.qi_like_state["frequency"] * time_step
-
-        # Apply natural decoherence
-        natural_decoherence = math.exp(-self.config.decoherence_rate * time_step)
-        self.qi_like_state["coherence"] *= natural_decoherence
-
-        # Small random fluctuations
-        frequency_fluctuation = 0.001 * random.uniform(-1, 1)
-        self.qi_like_state["frequency"] += frequency_fluctuation
-        self.qi_like_state["frequency"] = max(0.1, min(100.0, self.qi_like_state["frequency"]))
-
-        amplitude_fluctuation = 0.001 * random.uniform(-1, 1)
-        self.qi_like_state["amplitude"] += amplitude_fluctuation
-        self.qi_like_state["amplitude"] = max(0.1, min(10.0, self.qi_like_state["amplitude"]))
-
-        return {
-            "evolved_state": self.qi_like_state.copy(),
-            "time_step": time_step,
-            "decoherence_factor": natural_decoherence,
-        }
 
     def get_oscillator_metrics(self) -> dict[str, Any]:
         """

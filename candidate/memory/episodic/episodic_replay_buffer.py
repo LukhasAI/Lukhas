@@ -240,7 +240,7 @@ class PrioritizedReplayBuffer:
         """Add a new experience to the replay buffer"""
 
         # Generate memory ID
-        memory_id = f"exp_{self.total_samples}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
+        memory_id = f"exp_{self.total_samples}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
         # Create experience
         experience = Experience(
@@ -720,7 +720,7 @@ class DreamStateReplay:
         logger.info("Entering dream state for memory consolidation")
 
         dream_results = {
-            "session_id": f"dream_{self.dream_sessions}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "session_id": f"dream_{self.dream_sessions}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "cycles_completed": 0,
             "memories_replayed": 0,
             "insights_generated": 0,
@@ -1148,7 +1148,7 @@ async def example_episodic_replay():
         ),  # Episode end with high reward
     ]
 
-    print(f"📥 Adding {len(experiences} experiences to replay buffer...")
+    print(f"📥 Adding {len(experiences)} experiences to replay buffer...")
 
     for i, (state, action, reward, next_state, done, consciousness) in enumerate(experiences):
         memory_id = replay_buffer.add_experience(
@@ -1178,9 +1178,9 @@ async def example_episodic_replay():
         sampled_memories, weights = replay_buffer.sample_batch(batch_size=3, strategy=strategy)
 
         print(f"\n{strategy.value}:")
-        print(f"  Sampled {len(sampled_memories} memories")
+        print(f"  Sampled {len(sampled_memories)} memories")
         if len(weights) > 0:
-            print(f"  Avg importance weight: {np.mean(weights}:.3f}")
+            print(f"  Avg importance weight: {np.mean(weights)}:.3f}")
 
         for i, memory in enumerate(sampled_memories):
             print(f"    Memory {i + 1}: reward={memory.experience.reward}, priority={memory.learning_value:.3f}")
@@ -1196,7 +1196,7 @@ async def example_episodic_replay():
         td_errors = np.array([abs(m.experience.reward) + np.random.normal(0, 0.1) for m in sampled_memories])
         memory_ids = [m.memory_id for m in sampled_memories]
 
-        print(f"  Updating priorities for {len(memory_ids} memories")
+        print(f"  Updating priorities for {len(memory_ids)} memories")
         print(f"  TD errors: {td_errors}")
 
         replay_buffer.update_priorities(memory_ids, td_errors)

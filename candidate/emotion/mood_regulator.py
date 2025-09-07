@@ -9,11 +9,12 @@
 # {ΛDRIFT}
 # {ΛTRACE}
 
+import logging
 from typing import Any, Optional
 
-from lukhas.memory.emotional import EmotionalMemory, EmotionVector
 import streamlit as st
-import logging
+
+from lukhas.memory.emotional import EmotionalMemory, EmotionVector
 
 log = logging.getLogger(__name__)
 

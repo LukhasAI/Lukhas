@@ -14,11 +14,11 @@ Consolidated products organized by functional domain:
 
 All lambda_core/ and lambda_products/ layers have been eliminated for simplicity.
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from typing import Any, Optional
+
+import streamlit as st
 
 # Product category imports for easier access
 from . import automation, communication, content, enterprise, experience, infrastructure, intelligence, security, shared
@@ -114,21 +114,21 @@ def get_product_health() -> dict[str, Any]:
 import sys
 
 __all__ = [
+    "__author__",
     # Version info
     "__version__",
-    "__author__",
-    # Product categories
-    "intelligence",
+    "automation",
     "communication",
     "content",
-    "infrastructure",
-    "security",
-    "experience",
+    "create_product_instance",
     "enterprise",
-    "automation",
-    "shared",
+    "experience",
+    "get_product_health",
     # Functional interfaces
     "get_products_catalog",
-    "create_product_instance",
-    "get_product_health",
+    "infrastructure",
+    # Product categories
+    "intelligence",
+    "security",
+    "shared",
 ]

@@ -28,7 +28,7 @@ class IntegratedLukhasDemo:
     def __init__(self, api_url: str = "http://localhost:8080"):
         self.api_url = api_url
         self.session_id = None
-        self.user_id = f"demo_user_{datetime.now(timezone.utc).timestamp(}"
+        self.user_id = f"demo_user_{datetime.now(timezone.utc).timestamp()}"
         self.action_history = []
         self.feedback_history = []
 
@@ -132,7 +132,7 @@ class IntegratedLukhasDemo:
         # Show metadata
         if response_data.get("metadata"):
             meta = response_data["metadata"]
-            print(f"\n💭 Intent: {meta.get('intent', 'general'}")
+            print(f"\n💭 Intent: {meta.get('intent', 'general')}")
             if meta.get("emotional_state"):
                 emotions = meta["emotional_state"]
                 top_emotion = max(emotions, key=emotions.get)
@@ -212,18 +212,18 @@ class IntegratedLukhasDemo:
 
         # System health
         health = dashboard["system_health"]
-        print(f"\n🏥 System Status: {(health['operational'] and 'Operational'} or 'Degraded'}")
+        print(f"\n🏥 System Status: {(health['operational'] and 'Operational')} or 'Degraded'}")
 
         # Feedback summary
         if dashboard.get("feedback_summary"):
             summary = dashboard["feedback_summary"]
             print("\n💬 Feedback Summary:")
-            print(f"   Total given: {summary.get('total_feedback', 0}")
+            print(f"   Total given: {summary.get('total_feedback', 0)}")
 
             if summary.get("satisfaction_trend"):
                 trend_emoji = {"positive": "📈", "negative": "📉", "neutral": "➡️"}
                 trend = summary["satisfaction_trend"]
-                print(f"   Satisfaction: {trend_emoji.get(trend, '❓'} {trend}")
+                print(f"   Satisfaction: {trend_emoji.get(trend, '❓')} {trend}")
 
         # Decision insights
         if dashboard.get("insights"):

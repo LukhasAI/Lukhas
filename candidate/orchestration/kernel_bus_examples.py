@@ -4,9 +4,9 @@ Symbolic Kernel Bus Integration Examples
 
 Common patterns for using the new kernel bus in LUKHΛS components.
 """
-import streamlit as st
-
 import time
+
+import streamlit as st
 
 from candidate.orchestration.symbolic_kernel_bus import (
     EventPriority,
@@ -59,28 +59,7 @@ def load_plugin(plugin_name: str, config: dict):
 
 def handle_memory_event(event):
     """Handle memory-related events"""
-    print(f"Memory event: {event.event_type}")
-    # Process memory event
-    if event.payload.get("cascade"):
-        kernel_bus.emit(
-            "memory.cascade.propagated",
-            {"depth": event.payload.get("depth", 0) + 1},
-            correlation_id=event.correlation_id,
-        )
-
-
-# Subscribe to all memory events
-kernel_bus.subscribe("memory.*", handle_memory_event)
-
-# Example 5: Dream cycle with correlation
-
-
-def start_dream_cycle(dream_id: str):
-    """Start a dream cycle with correlated events"""
-    # Initial dream event
-    event_id = kernel_bus.emit(
-        "dream.cycle.started",
-        {"dream_id": dream_id, "timestamp": time.time()},
+    print(f"Memory event: {event.event_type}",
         source="dream.engine",
         effects=[SymbolicEffect.DREAM_TRIGGER, SymbolicEffect.MEMORY_FOLD],
         correlation_id=dream_id,

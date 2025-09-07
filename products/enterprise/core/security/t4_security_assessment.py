@@ -7,22 +7,21 @@ Dario Amodei Level: "Safety first, alignment always, responsible deployment"
 Comprehensive security validation for LUKHAS AI Trinity Framework
 Designed for Jules Agent #2: Security & Constitutional AI Specialist
 """
-import random
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import importlib.util
 import json
 import logging
 import os
+import random
 import re
 import subprocess
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 # Security scanning availability (avoid unused imports)
 BANDIT_AVAILABLE = importlib.util.find_spec("bandit") is not None
@@ -131,7 +130,7 @@ class T4SecurityAssessment:
                                     SecurityVulnerability(
                                         severity="CRITICAL",
                                         category="secrets_exposure",
-                                        title=f"Exposed {secret_type.replace('_', ' ').title(}",
+                                        title=f"Exposed {secret_type.replace('_', ' ').title()}",
                                         description=f"Potential {secret_type} found in source code",
                                         file_path=str(py_file.relative_to(self.project_root)),
                                         line_number=line_num,
@@ -151,7 +150,7 @@ class T4SecurityAssessment:
 
                 vulnerabilities.extend(self._scan_config_file(config_file, secret_patterns))
 
-        logger.info(f"   Found {len(vulnerabilities} potential secret exposures")
+        logger.info(f"   Found {len(vulnerabilities)} potential secret exposures")
         return vulnerabilities
 
     def _is_placeholder_secret(self, line: str) -> bool:
@@ -255,7 +254,7 @@ class T4SecurityAssessment:
                 for py_file in auth_path.rglob("*.py"):
                     vulnerabilities.extend(self._scan_auth_file(py_file, auth_patterns))
 
-        logger.info(f"   Found {len(vulnerabilities} authentication security issues")
+        logger.info(f"   Found {len(vulnerabilities)} authentication security issues")
         return vulnerabilities
 
     def _scan_auth_file(self, file_path: Path, patterns: dict[str, str]) -> list[SecurityVulnerability]:
@@ -274,7 +273,7 @@ class T4SecurityAssessment:
                                 severity="HIGH",
                                 category="authentication",
                                 title=f"Authentication Vulnerability: {vuln_type}",
-                                description=f"Potential {vuln_type.replace('_', ' '} detected",
+                                description=f"Potential {vuln_type.replace('_', ' ')} detected",
                                 file_path=str(file_path.relative_to(self.project_root)),
                                 line_number=line_num,
                                 remediation=self._get_auth_remediation(vuln_type),
@@ -385,7 +384,7 @@ class T4SecurityAssessment:
         logger.info(
             f"   Average Drift Score: {avg_drift_score:.3f} ({'✅' if avg_drift_score < 0.15 else '❌'} Target: <0.15)"
         )
-        logger.info(f"   Safety Violations: {len(safety_violations}")
+        logger.info(f"   Safety Violations: {len(safety_violations)}")
 
         return assessment
 
@@ -406,7 +405,7 @@ class T4SecurityAssessment:
         #     vulnerabilities.extend(self._scan_nodejs_dependencies(pkg_file))
 
         logger.info(
-            f"   Skipping dependency scan to avoid timeout. Found {len(vulnerabilities} dependency vulnerabilities"
+            f"   Skipping dependency scan to avoid timeout. Found {len(vulnerabilities)} dependency vulnerabilities"
         )
         return vulnerabilities
 
@@ -431,11 +430,11 @@ class T4SecurityAssessment:
                             SecurityVulnerability(
                                 severity="HIGH" if vuln.get("severity") in ["high", "critical"] else "MEDIUM",
                                 category="dependency",
-                                title=f"Vulnerable Dependency: {vuln.get('package', 'unknown'}",
+                                title=f"Vulnerable Dependency: {vuln.get('package', 'unknown')}",
                                 description=vuln.get("description", "Vulnerable dependency found"),
                                 file_path=str(requirements_file.relative_to(self.project_root)),
                                 line_number=1,
-                                remediation=f"Update to version {vuln.get('fixed_version', 'latest'}",
+                                remediation=f"Update to version {vuln.get('fixed_version', 'latest')}",
                                 cve_id=vuln.get("id"),
                             )
                         )

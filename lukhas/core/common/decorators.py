@@ -6,14 +6,14 @@ Reusable decorators for LUKHAS modules.
 import logging
 
 log = logging.getLogger(__name__)
-import streamlit as st
-
 import asyncio
 import functools
 import secrets
 import time
 from datetime import datetime, timezone
 from typing import Callable, Optional, Union
+
+import streamlit as st
 
 from .exceptions import ModuleTimeoutError
 from .logger import get_logger
@@ -349,7 +349,7 @@ def log_execution(
 
             except Exception as e:
                 duration = time.time() - start_time
-                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e}.__name__}: {e!s}")
+                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}")
                 raise
 
         @functools.wraps(func)
@@ -381,7 +381,7 @@ def log_execution(
 
             except Exception as e:
                 duration = time.time() - start_time
-                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e}.__name__}: {e!s}")
+                logger.error(f"Failed {func.__name__} after {duration:.3f}s: {type(e).__name__}: {e!s}")
                 raise
 
         if asyncio.iscoroutinefunction(func):

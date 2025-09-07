@@ -245,7 +245,7 @@ async def enhanced_dream_session(request: DreamSessionRequest):
         if not AGI_AVAILABLE or not agi_dream_bridge:
             await asyncio.sleep(0.02)  # Match original latency
             return DreamSessionResponse(
-                dream_id=f"dream-{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+                dream_id=f"dream-{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 status="generating",
                 phase=request.phase,
                 patterns_discovered=0,
@@ -389,7 +389,7 @@ async def initiate_learning_session(request: LearningSessionRequest):
         # Fallback for non-AGI systems
         if not AGI_AVAILABLE or not agi_learner:
             return LearningSessionResponse(
-                session_id=f"learn-{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+                session_id=f"learn-{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
                 status="not_available",
                 mode=request.mode,
                 objectives_count=len(request.objectives),
@@ -401,7 +401,7 @@ async def initiate_learning_session(request: LearningSessionRequest):
         for obj in request.objectives:
             learning_objectives.append(
                 LearningObjective(
-                    objective_id=obj.get("id", f"obj_{len(learning_objectives}"),
+                    objective_id=obj.get("id", f"obj_{len(learning_objectives)}"),
                     description=obj.get("description", ""),
                     target_concepts=obj.get("concepts", []),
                     success_criteria=obj.get("success_criteria", {}),

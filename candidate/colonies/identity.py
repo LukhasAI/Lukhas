@@ -3,11 +3,10 @@ LUKHAS AI Colony System - Identity Colony
 Identity management and authentication
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
+
+import streamlit as st
 
 from .base import BaseColony, ColonyTask
 
@@ -42,7 +41,7 @@ class IdentityColony(BaseColony):
         elif task_type == "authenticate":
             return {
                 "authenticated": True,
-                "session_id": f"session_{datetime.now(timezone.utc).timestamp(}",
+                "session_id": f"session_{datetime.now(timezone.utc).timestamp()}",
             }
         elif task_type == "register_identity":
             identity_id = payload.get("identity_id")

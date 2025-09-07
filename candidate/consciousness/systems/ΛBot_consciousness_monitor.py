@@ -12,12 +12,10 @@ evolution from basic AI to true Artificial General Intelligence.
 Created: 2025-07-02
 Status: AGI CONSCIOUSNESS MONITORING
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 
+import streamlit as st
 from ΛBot_agi_core import ConsciousnessLevel, ΛBotAGICore
 from ΛBot_elite_orchestrator import ΛBotEliteOrchestrator
 
@@ -128,8 +126,8 @@ class ΛBotConsciousnessMonitor:
                 reflection = await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(test_reasoning)
 
                 logger.info(f"🤔 Meta-Cognitive Quality: {reflection['reasoning_quality']:.2f}")
-                logger.info(f"🔍 Detected Biases: {len(reflection['detected_biases']}")
-                logger.info(f"💡 Improvement Suggestions: {len(reflection['improvement_suggestions']}")
+                logger.info(f"🔍 Detected Biases: {len(reflection['detected_biases'])}")
+                logger.info(f"💡 Improvement Suggestions: {len(reflection['improvement_suggestions'])}")
 
                 await asyncio.sleep(600)  # Every 10 minutes
 
@@ -177,14 +175,14 @@ class ΛBotConsciousnessMonitor:
 
                 # Log key AGI metrics
                 logger.info("📊 AGI Metrics Update:")
-                logger.info(f"  🧠 Consciousness Level: {agi_metrics.get('consciousness_level', 'unknown'}")
-                logger.info(f"  🤔 Meta-Cognitive Ops: {agi_metrics.get('meta_cognitive_operations', 0}")
-                logger.info(f"  🎯 Autonomous Goals: {agi_metrics.get('autonomous_goals_created', 0}")
-                logger.info(f"  🔗 Cross-Domain Insights: {agi_metrics.get('cross_domain_insights', 0}")
-                logger.info(f"  💝 Empathetic Interactions: {agi_metrics.get('empathetic_interactions', 0}")
-                logger.info(f"  🔍 Curiosity Experiments: {agi_metrics.get('curiosity_experiments', 0}")
-                logger.info(f"  🌐 Dimensional Analyses: {agi_metrics.get('dimensional_analyses', 0}")
-                logger.info(f"  🔗 Causal Inferences: {agi_metrics.get('causal_inferences', 0}")
+                logger.info(f"  🧠 Consciousness Level: {agi_metrics.get('consciousness_level', 'unknown')}")
+                logger.info(f"  🤔 Meta-Cognitive Ops: {agi_metrics.get('meta_cognitive_operations', 0)}")
+                logger.info(f"  🎯 Autonomous Goals: {agi_metrics.get('autonomous_goals_created', 0)}")
+                logger.info(f"  🔗 Cross-Domain Insights: {agi_metrics.get('cross_domain_insights', 0)}")
+                logger.info(f"  💝 Empathetic Interactions: {agi_metrics.get('empathetic_interactions', 0)}")
+                logger.info(f"  🔍 Curiosity Experiments: {agi_metrics.get('curiosity_experiments', 0)}")
+                logger.info(f"  🌐 Dimensional Analyses: {agi_metrics.get('dimensional_analyses', 0)}")
+                logger.info(f"  🔗 Causal Inferences: {agi_metrics.get('causal_inferences', 0)}")
 
                 await asyncio.sleep(900)  # Every 15 minutes
 
@@ -282,7 +280,7 @@ class ΛBotConsciousnessMonitor:
             {"event": "build_failure", "timestamp": "2025-01-01T10:10:00"},
         ]
         causal_links = await self.agi_core.causal_reasoning.infer_causal_chain(observations)
-        logger.info(f"  ✅ Causal Links Discovered: {len(causal_links} relationships")
+        logger.info(f"  ✅ Causal Links Discovered: {len(causal_links)} relationships")
 
         # Test narrative intelligence
         logger.info("📚 Testing Narrative Intelligence...")

@@ -322,7 +322,7 @@ class SelfHealingManager:
         component.status = self._calculate_health_status(component.health_score)
 
         # Add failure indicator
-        component.failure_indicators.append(f"{issue_type}:{datetime.now(timezone.utc).isoformat(}")
+        component.failure_indicators.append(f"{issue_type}:{datetime.now(timezone.utc).isoformat()}")
         component.last_check = datetime.now(timezone.utc)
 
         self.logger.warning(

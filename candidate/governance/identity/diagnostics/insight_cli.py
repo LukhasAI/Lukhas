@@ -1,4 +1,5 @@
 from typing import Optional
+
 """
 ++
 |                    LUClukhasS :: FEEDBACK INSIGHT CLI (v1.0)                      |
@@ -13,14 +14,14 @@ Description:
 Usage:
     python core/modules/nias/feedback_insight_cli.py
 """
-import time
-import streamlit as st
-
 import argparse
 import json
 import os
+import time
 from collections import Counter
 from statistics import mean
+
+import streamlit as st
 
 FEEDBACK_LOG = "core/logs/feedback_log.jsonl"
 
@@ -73,7 +74,7 @@ def analyze_feedback(entries, args=None):
 
     print("\n Average Score:", round(mean(scores), 2))
     print(" Most Common Emojis:", Counter(emojis).most_common(5))
-    print(f" Replay Candidates: {replay_candidates} / {len(entries}")
+    print(f" Replay Candidates: {replay_candidates} / {len(entries)}")
 
     print("\n Reflection Notes (Preview):")
     for note in notes[:5]:
@@ -83,7 +84,7 @@ def analyze_feedback(entries, args=None):
         with open(args.export, "w") as f:
             for entry in entries:
                 f.write(json.dumps(entry) + "\n")
-        print(f"\n Exported {len(entries} entries to {args.export}")
+        print(f"\n Exported {len(entries)} entries to {args.export}")
 
 
 if __name__ == "__main__":

@@ -269,7 +269,7 @@ class ComprehensiveAPIOrchestrator:
             elif hasattr(bridge, "register_tools_from_dict"):
                 bridge.register_tools_from_dict(functions)
 
-        logger.info(f"📊 Registered {len(functions} global functions")
+        logger.info(f"📊 Registered {len(functions)} global functions")
 
     async def orchestrate(self, request: OrchestrationRequest) -> OrchestrationResponse:
         """
@@ -626,7 +626,7 @@ class ComprehensiveAPIOrchestrator:
                 # Simple ensemble: use primary but note consensus
                 ensemble_content = primary_result.get("content", "")
                 decision_rationale = (
-                    f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results} providers"
+                    f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results)} providers"
                 )
             else:
                 ensemble_content = primary_result.get("content", "")

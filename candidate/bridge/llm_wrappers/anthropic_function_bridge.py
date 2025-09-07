@@ -18,19 +18,18 @@ Features:
 - Performance monitoring and optimization
 - Security validation and ethical oversight
 """
-from typing import List
-import random
-import streamlit as st
-
 import asyncio
 import logging
+import random
 import time
 import uuid
 from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, List, Optional
+
+import streamlit as st
 
 try:
     import anthropic
@@ -193,7 +192,7 @@ class AnthropicFunctionBridge:
 
         logger.info("🤖 Anthropic Function Bridge initialized")
         logger.info(f"   Default model: {default_model.value}")
-        logger.info(f"   Constitutional principles: {len(self.constitutional_principles}")
+        logger.info(f"   Constitutional principles: {len(self.constitutional_principles)}")
         logger.info(f"   API key: {self.api_key[:20]}...")
 
     def _get_api_key(self) -> Optional[str]:
@@ -225,7 +224,7 @@ class AnthropicFunctionBridge:
             )
             self.register_tool(tool_def)
 
-        logger.info(f"🛠️ Registered {len(tools} tools from dictionary")
+        logger.info(f"🛠️ Registered {len(tools)} tools from dictionary")
 
     def get_available_tools(self) -> list[dict[str, Any]]:
         """Get all available tools in Anthropic format"""
@@ -345,10 +344,10 @@ class AnthropicFunctionBridge:
             self._update_metrics(claude_response)
 
             logger.info(f"✅ Completed Claude request in {latency_ms:.2f}ms")
-            logger.info(f"   Tool uses: {len(tool_uses}")
+            logger.info(f"   Tool uses: {len(tool_uses)}")
             logger.info(f"   Constitutional score: {constitutional_score:.3f}")
             logger.info(
-                f"   Tokens used: {claude_response.usage.get('input_tokens', 0) + claude_response.usage.get('output_tokens', 0}"
+                f"   Tokens used: {claude_response.usage.get('input_tokens', 0) + claude_response.usage.get('output_tokens', 0)}"
             )
 
             return claude_response
@@ -447,7 +446,7 @@ class AnthropicFunctionBridge:
 
         if self.tools:
             system_parts.append(
-                f"\nYou have access to {len(self.tools} tools that can help you provide better assistance."
+                f"\nYou have access to {len(self.tools)} tools that can help you provide better assistance."
             )
             system_parts.append(
                 "Use tools when they would be helpful to answer the user's request accurately and completely."

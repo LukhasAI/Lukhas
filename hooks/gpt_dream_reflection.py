@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from typing import List
+
 """
 LUKHΛS Phase 6 - GPT Symbolic Bridge Hook
 Let GPT comment on collapsed glyphs symbolically for future harmony interface.
@@ -234,11 +235,11 @@ class GPTSymbolicBridge:
 
         # Build context
         context_parts = [
-            f"Symbolic State: {' → '.join(collapsed_glyphs}",
+            f"Symbolic State: {' → '.join(collapsed_glyphs)}",
             f"Current Entropy: {entropy_level:.2f}",
             f"Trinity Coherence: {trinity_coherence:.2f}",
             "",
-            f"Primary State Reflection: {GPTSymbolicBridge.reflect_on_glyph(primary_glyph}",
+            f"Primary State Reflection: {GPTSymbolicBridge.reflect_on_glyph(primary_glyph)}",
             "",
             f"Suggested Interaction Mode: {style.value}",
             f"Style: {style_info['description']}",

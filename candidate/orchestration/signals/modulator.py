@@ -4,14 +4,13 @@ Signal-to-Prompt Modulator for LUKHAS
 Translates colony signals into prompt modifications and API parameters.
 Core component of the endocrine-inspired modulation system.
 """
-import streamlit as st
-
 import logging
 import os
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 import yaml
 
 from .homeostasis import ModulationParams

@@ -1,7 +1,9 @@
 import logging
-import streamlit as st
 import random
 import time
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 
@@ -453,7 +455,7 @@ class NeuroSymbolicFusionLayer:
     def _extract_pattern_signature(self, neural_pattern: np.ndarray) -> str:
         """Extract a signature from neural activation patterns"""
         # Simplified signature - in production this would be more sophisticated
-        return f"pattern_{np.argmax(neural_pattern)}_{len(neural_pattern}"
+        return f"pattern_{np.argmax(neural_pattern)}_{len(neural_pattern)}"
 
     def _find_symbolic_templates(self, signature: str) -> list[str]:
         """Find matching symbolic templates for a pattern signature"""

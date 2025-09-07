@@ -688,7 +688,7 @@ async def test_oracle_validity_judgment():
     invalid_judgment = oracle.judge_consciousness_state(invalid_state)
 
     print(f"   Invalid state verdict: {invalid_judgment.verdict.value}")
-    print(f"   Violations: {len(invalid_judgment.violations}")
+    print(f"   Violations: {len(invalid_judgment.violations)}")
 
     # Invalid states should be detected
     assert invalid_judgment.verdict in [
@@ -716,9 +716,9 @@ async def test_oracle_evolution_judgment():
     print("\n🔄 Oracle Evolution Judgment Test:")
     print(f"   Evolution verdict: {evolution_judgment.verdict.value}")
     print(f"   Confidence: {evolution_judgment.confidence:.3f}")
-    print(f"   Evolution quality: {evolution_judgment.metrics.get('overall_evolution_quality', 0.0}:.3f}")
-    print(f"   Violations: {len(evolution_judgment.violations}")
-    print(f"   Warnings: {len(evolution_judgment.warnings}")
+    print(f"   Evolution quality: {evolution_judgment.metrics.get('overall_evolution_quality', 0.0)}:.3f}")
+    print(f"   Violations: {len(evolution_judgment.violations)}")
+    print(f"   Warnings: {len(evolution_judgment.warnings)}")
 
     # Evolution should generally be valid or suspicious (not constitutional violation for good evolution)
     if evolution_judgment.verdict == OracleVerdict.CONSTITUTIONAL_VIOLATION:

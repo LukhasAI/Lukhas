@@ -575,7 +575,7 @@ if FASTAPI_AVAILABLE:
 
             return {
                 "success": True,
-                "message": f"Registered {len(request.functions} functions",
+                "message": f"Registered {len(request.functions)} functions",
                 "functions": list(request.functions.keys()),
                 "global_scope": request.global_scope,
                 "security_validated": request.security_validated,

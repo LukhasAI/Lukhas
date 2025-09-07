@@ -79,7 +79,7 @@ class QuantumState:
     Simulates quantum properties for advanced consciousness processing
     """
 
-    state_id: str = field(default_factory=lambda: f"qstate_{uuid.uuid4(}.hex[:8]}")
+    state_id: str = field(default_factory=lambda: f"qstate_{uuid.uuid4()}.hex[:8]}")
     amplitude: complex = complex(1.0, 0.0)  # Quantum amplitude
     phase: float = 0.0  # Phase in radians
     probability: float = 1.0  # |amplitude|^2
@@ -183,7 +183,7 @@ class QuantumSuperpositionProcessor:
         """Initialize quantum superposition processor"""
         self.config = config or SuperpositionConfiguration()
         self.version = "1.0.0"
-        self.processor_id = f"qsp_{uuid.uuid4(}.hex[:8]}"
+        self.processor_id = f"qsp_{uuid.uuid4()}.hex[:8]}"
 
         # Quantum state management
         self.active_states: dict[str, QuantumState] = {}
@@ -252,7 +252,7 @@ class QuantumSuperpositionProcessor:
         Generates multiple parallel quantum states from a single input state,
         enabling parallel processing of different awareness perspectives.
         """
-        superposition_id = f"superpos_{uuid.uuid4(}.hex[:8]}"
+        superposition_id = f"superpos_{uuid.uuid4()}.hex[:8]}"
         quantum_states = []
 
         logger.info(f"ΛTRACE: Creating superposition: {superposition_id}")
@@ -313,7 +313,7 @@ class QuantumSuperpositionProcessor:
             # Monitor coherence
             asyncio.create_task(self._monitor_superposition_coherence(superposition_id))
 
-            logger.info(f"ΛTRACE: Created {len(quantum_states} quantum states in superposition")
+            logger.info(f"ΛTRACE: Created {len(quantum_states)} quantum states in superposition")
 
             return quantum_states
 
@@ -384,7 +384,7 @@ class QuantumSuperpositionProcessor:
         state_ids = self.superposition_groups[superposition_id]
         processing_results = {}
 
-        logger.info(f"ΛTRACE: Processing {len(state_ids} quantum states in parallel")
+        logger.info(f"ΛTRACE: Processing {len(state_ids)} quantum states in parallel")
 
         try:
             # Create parallel processing tasks
@@ -475,7 +475,7 @@ class QuantumSuperpositionProcessor:
             insights.append(
                 {
                     "type": "superposition_insight",
-                    "description": f"Multiple perspectives available with {len(quantum_state.superposition_components} components",
+                    "description": f"Multiple perspectives available with {len(quantum_state.superposition_components)} components",
                     "confidence": quantum_state.probability,
                     "quantum_enhanced": True,
                 }
@@ -486,7 +486,7 @@ class QuantumSuperpositionProcessor:
             insights.append(
                 {
                     "type": "entanglement_insight",
-                    "description": f"Connected to {len(quantum_state.entanglement_links} related consciousness states",
+                    "description": f"Connected to {len(quantum_state.entanglement_links)} related consciousness states",
                     "confidence": quantum_state.probability * 0.8,
                     "quantum_enhanced": True,
                 }
@@ -607,10 +607,10 @@ class QuantumSuperpositionProcessor:
         # Generate synthesis based on quantum properties
         if len(all_insights) > 3:
             return (
-                f"Convergent insight synthesis from {len(all_insights} quantum perspectives reveals novel connections"
+                f"Convergent insight synthesis from {len(all_insights)} quantum perspectives reveals novel connections"
             )
         elif len(all_insights) > 1:
-            return f"Quantum tunneling enables breakthrough understanding through {len(all_insights} parallel insights"
+            return f"Quantum tunneling enables breakthrough understanding through {len(all_insights)} parallel insights"
         else:
             return "Single high-confidence quantum state achieves tunneling breakthrough"
 

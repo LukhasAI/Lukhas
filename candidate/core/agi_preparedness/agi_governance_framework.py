@@ -25,14 +25,14 @@ Integration:
 - Capability Evaluation Framework AGI status determination
 - Advanced Safety Protocols AGI safety governance triggers
 """
-import time
-import streamlit as st
-
 import logging
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 
 # AGI governance types and enums
@@ -654,7 +654,7 @@ class AGIGovernanceFramework:
             self.logger.info(
                 f"AGI governance assessment completed: {system_name}, "
                 f"Status: {current_agi_status.value}, "
-                f"Required decisions: {len(required_decisions}"
+                f"Required decisions: {len(required_decisions)}"
             )
 
             return governance_assessment
@@ -1070,7 +1070,7 @@ class AGIGovernanceFramework:
         personnel = list(self.oversight_personnel.values())
 
         return {
-            "report_id": f"AGI_GOVERNANCE_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
+            "report_id": f"AGI_GOVERNANCE_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "governance_framework_status": {
                 "framework_operational": True,

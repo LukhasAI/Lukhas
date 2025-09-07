@@ -3,8 +3,9 @@
 Re-exports canonical entropy implementation from `lambda_id_entropy.py`.
 """
 import random
-import streamlit as st
 from datetime import timezone
+
+import streamlit as st
 
 from .lambda_id_entropy import EntropyCalculator
 
@@ -509,4 +510,4 @@ if __name__ == "__main__":
         if analysis.warnings:
             print(f"  Warnings: {analysis.warnings}")
 
-    print(f"\nEntropy Statistics: {entropy_engine.get_entropy_statistics(}")
+    print(f"\nEntropy Statistics: {entropy_engine.get_entropy_statistics()}")

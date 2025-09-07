@@ -119,7 +119,7 @@ class BrandingConsolidator:
                 modules[rel_path] = module_info
 
             except Exception as e:
-                modules[rel_path] = {"error": f"Failed to process: {str(e}"}
+                modules[rel_path] = {"error": f"Failed to process: {str(e)}"}
 
         return modules
 
@@ -202,7 +202,7 @@ class BrandingConsolidator:
                     content = yaml.safe_load(f)
                 configs[rel_path] = content
             except Exception as e:
-                configs[rel_path] = {"error": f"Failed to parse YAML: {str(e}"}
+                configs[rel_path] = {"error": f"Failed to parse YAML: {str(e)}"}
 
         for yml_file in self.branding_root.rglob("*.yml"):
             rel_path = str(yml_file.relative_to(self.branding_root))
@@ -212,7 +212,7 @@ class BrandingConsolidator:
                     content = yaml.safe_load(f)
                 configs[rel_path] = content
             except Exception as e:
-                configs[rel_path] = {"error": f"Failed to parse YML: {str(e}"}
+                configs[rel_path] = {"error": f"Failed to parse YML: {str(e)}"}
 
         return configs
 
@@ -228,7 +228,7 @@ class BrandingConsolidator:
                     content = json.load(f)
                 configs[rel_path] = content
             except Exception as e:
-                configs[rel_path] = {"error": f"Failed to parse JSON: {str(e}"}
+                configs[rel_path] = {"error": f"Failed to parse JSON: {str(e)}"}
 
         return configs
 
@@ -244,7 +244,7 @@ class BrandingConsolidator:
                     content = f.read()
                 docs[rel_path] = content
             except Exception as e:
-                docs[rel_path] = f"Error reading file: {str(e}"
+                docs[rel_path] = f"Error reading file: {str(e)}"
 
         return docs
 
@@ -495,30 +495,30 @@ class BrandingConsolidator:
             md_content += f"{path}/\n"
             for file_type, files in info["files"].items():
                 if files:
-                    md_content += f"  {file_type}: {len(files} files\n"
+                    md_content += f"  {file_type}: {len(files)} files\n"
         md_content += "```\n"
 
         # Add Python modules summary
-        md_content += f"\n### 🐍 Python Modules ({len(self.consolidated_data['python_modules']} files)\n\n"
+        md_content += f"\n### 🐍 Python Modules ({len(self.consolidated_data['python_modules'])} files)\n\n"
         for module_path, module_info in self.consolidated_data[
             "python_modules"
         ].items():
             if "error" not in module_info:
                 md_content += f"**{module_path}**\n"
-                md_content += f"- Lines: {module_info.get('lines_of_code', 'N/A'}\n"
+                md_content += f"- Lines: {module_info.get('lines_of_code', 'N/A')}\n"
                 md_content += f"- Classes: {len(module_info.get('classes', [])}\n"
                 md_content += f"- Functions: {len(module_info.get('functions', [])}\n"
-                md_content += f"- Trinity Compliant: {'✅' if module_info.get('trinity_compliant'} else '❌'}\n\n"
+                md_content += f"- Trinity Compliant: {'✅' if module_info.get('trinity_compliant')} else '❌'}\n\n"
 
         # Add vocabularies summary
         if self.consolidated_data["vocabularies"]:
-            md_content += f"\n### 📚 Vocabularies ({len(self.consolidated_data['vocabularies']} files)\n\n"
+            md_content += f"\n### 📚 Vocabularies ({len(self.consolidated_data['vocabularies'])} files)\n\n"
             for vocab_path, vocab_data in self.consolidated_data[
                 "vocabularies"
             ].items():
                 md_content += f"**{vocab_path}**\n"
                 if isinstance(vocab_data, dict) and "error" not in vocab_data:
-                    md_content += f"- Type: {vocab_data.get('type', 'vocabulary'}\n"
+                    md_content += f"- Type: {vocab_data.get('type', 'vocabulary')}\n"
                 md_content += "\n"
 
         if output_file:

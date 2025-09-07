@@ -5,10 +5,10 @@ loop_recovery_simulator.py - Simulation of loop recovery
 This module simulates the loop recovery by injecting symbolic errors
 and testing the self-healing properties of the system.
 """
-import streamlit as st
-
 import asyncio
 import logging
+
+import streamlit as st
 
 from .dast_orchestrator import EnhancedDASTOrchestrator
 from .ethics_loop_guard import EthicsLoopGuard

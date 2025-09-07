@@ -232,7 +232,7 @@ class BioSimulationController:
             # Log current state (reduced frequency)
             if int(datetime.now().timestamp()) % 10 == 0:  # Log every 10 seconds
                 logger.info(f"Endocrine state: {self._calculate_overall_state(self.get_hormone_state()}")
-                logger.debug(f"Hormone levels: {self.get_hormone_state(}")
+                logger.debug(f"Hormone levels: {self.get_hormone_state()}")
 
             await asyncio.sleep(simulation_interval)
 

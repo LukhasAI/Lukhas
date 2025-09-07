@@ -5,6 +5,7 @@ import json
 import re
 from collections.abc import Iterable
 from pathlib import Path
+
 import streamlit as st
 
 
@@ -54,7 +55,7 @@ def main() -> int:
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps({"missing_count": len(missing), "missing": missing}, indent=2))
-    print(f"Static import audit: {len(missing} potential missing imports. Report: {out_path}")
+    print(f"Static import audit: {len(missing)} potential missing imports. Report: {out_path}")
     return 0 if len(missing) == 0 else 1
 
 

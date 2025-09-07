@@ -3,14 +3,13 @@ Consciousness Multiplication Engine
 
 Creates and coordinates multiple consciousness instances.
 """
-from typing import List
-import time
-import streamlit as st
-
 import logging
+import time
 import uuid
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, List
+
+import streamlit as st
 
 from candidate.core.interfaces import CoreInterface
 

@@ -150,7 +150,7 @@ class TestCoreMemoryValidation:
 
                 if result:
                     print("🗜️ Memory compression successful")
-                    print(f"   Result type: {type(result}")
+                    print(f"   Result type: {type(result)}")
                     print("✅ Symbolic delta compression PASSED")
                 else:
                     print("⚠️ Compression returned empty result")
@@ -161,7 +161,7 @@ class TestCoreMemoryValidation:
 
                 if scheduler_result:
                     print("📅 Predictive compression scheduler started")
-                    print(f"   Features: {scheduler_result.get('features', []}")
+                    print(f"   Features: {scheduler_result.get('features', [])}")
                     print("✅ Predictive scheduling PASSED")
                 else:
                     print("⚠️ Scheduler returned empty result")

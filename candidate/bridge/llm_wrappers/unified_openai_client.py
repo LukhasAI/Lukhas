@@ -4,19 +4,18 @@ This file provides a consolidated OpenAI client wrapper used by the
 candidate bridge. The implementation is intentionally conservative and
 typed to reduce static-analysis noise during the migration work.
 """
-from typing import List
-import time
-import streamlit as st
-
 import asyncio
 import json
 import logging
 import os
+import time
 import uuid
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, List, Optional, Union
+
+import streamlit as st
 
 try:
     from openai import AsyncOpenAI, OpenAI  # type: ignore
@@ -310,7 +309,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             messages.append(
                 {
                     "role": "system",
-                    "content": f"Context: {json.dumps(context}",
+                    "content": f"Context: {json.dumps(context)}",
                 }
             )
 
@@ -353,7 +352,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             },
             {
                 "role": "user",
-                "content": f"Analyze the ethical implications of: {action}\nContext: {json.dumps(context}",
+                "content": f"Analyze the ethical implications of: {action}\nContext: {json.dumps(context)}",
             },
         ]
 
