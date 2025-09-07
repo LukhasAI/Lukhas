@@ -22,10 +22,10 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))
 
-from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
-from lukhas.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
-from lukhas.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
-from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+from candidate.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+from candidate.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
+from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 
 logger = logging.getLogger(__name__)
 
@@ -71,24 +71,24 @@ class UnifiedLLMBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize LLM bridge with provider configuration"""
+        
+        self.config = config or {}
+        from typing import Any
 
-    self.config = config or {}
-    from typing import Any
+        # Explicitly type providers and provider_status to reduce mypy noise
+        self.providers: dict[str, dict[str, Any]] = {}
+        self.provider_status: dict[str, ProviderStatus] = {}
 
-    # Explicitly type providers and provider_status to reduce mypy noise
-    self.providers: dict[str, dict[str, Any]] = {}
-    self.provider_status: dict[str, ProviderStatus] = {}
+        self.fallback_chain = ["openai", "anthropic", "gemini", "perplexity"]
+        self.primary_provider = "openai"
 
-    self.fallback_chain = ["openai", "anthropic", "gemini", "perplexity"]
-    self.primary_provider = "openai"
+        # Initialize providers
+        self._initialize_providers()
 
-    # Initialize providers
-    self._initialize_providers()
+        # Brand prompt templates
+        self.brand_prompts = self._load_brand_prompts()
 
-    # Brand prompt templates
-    self.brand_prompts = self._load_brand_prompts()
-
-    logger.info(f"UnifiedLLMBridge initialized with {len(self.providers)} providers")
+        logger.info(f"UnifiedLLMBridge initialized with {len(self.providers)} providers")
 
     def _initialize_providers(self):
         """Initialize all available LLM providers"""

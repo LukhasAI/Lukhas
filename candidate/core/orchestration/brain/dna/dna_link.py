@@ -90,7 +90,7 @@ class LUKHASDNALink:
             attempts = 0
 
             while not confirmed and attempts < 3:
-                prompt_repeat = f"Repeat the meaning of '{unknown_term)' as Lukhas understood it: '{explanation}'. Then ask: 'Did I understand that correctly?'"
+                prompt_repeat = f"Repeat the meaning of '{unknown_term}' as Lukhas understood it: '{explanation}'. Then ask: 'Did I understand that correctly?'"
                 repeat_response = openai.ChatCompletion.create(
                     model=self.model,
                     messages=[{"role": "user", "content": prompt_repeat}],

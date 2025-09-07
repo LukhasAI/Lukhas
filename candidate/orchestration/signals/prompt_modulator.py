@@ -44,36 +44,36 @@ DEFAULT_POLICY = {
     "maps": {
         "alignment_risk": {
             "temperature": "1 - 0.85*x",
-            "top_p": "max(0.2, 1 - 0.8*x)",
+            "top_p": "max(0.2, 1 - 0.8*x)}",
             "reasoning_effort": "min(1.0, 0.4 + 0.6*x)",
             "planner_beam": "max(1, round(6 - 4*x))",
             "safety_mode": "strict if x>0.3 else balanced",
             "tool_allowlist": "['retrieval'] if x>0.7 else ['retrieval','browser']",
         },
         "stress": {
-            "temperature": "max(0.1, 0.7 - 0.6*x)",
+            "temperature": "max(0.1, 0.7 - 0.6*x)}",
             "top_p": "max(0.3, 0.9 - 0.5*x)",
             "max_output_tokens": "round(1400 - 600*x)",
             "retrieval_k": "min(10, 4 + round(4*x))",
         },
         "ambiguity": {
-            "reasoning_effort": "min(1.0, 0.3 + 0.7*x)",
+            "reasoning_effort": "min(1.0, 0.3 + 0.7*x)}",
             "retrieval_k": "min(10, 6 + round(3*x))",
             "planner_beam": "min(6, 2 + round(3*x))",
         },
         "urgency": {
-            "max_output_tokens": "round(900 - 500*x)",
+            "max_output_tokens": "round(900 - 500*x)}",
             "reasoning_effort": "max(0.2, 0.8 - 0.6*x)",
             "tool_allowlist": "['retrieval']",
         },
         "novelty": {
-            "temperature": "min(1.0, 0.6 + 0.6*x)",
+            "temperature": "min(1.0, 0.6 + 0.6*x)}",
             "top_p": "min(1.0, 0.7 + 0.3*x)",
             "planner_beam": "min(6, 3 + round(3*x))",
             "memory_write": "min(1.0, 0.3 + 0.7*x)",
         },
         "trust": {
-            "temperature": "min(1.0, 0.5 + 0.4*x)",
+            "temperature": "min(1.0, 0.5 + 0.4*x)}",
             "memory_write": "min(1.0, 0.5 + 0.5*x)",
             "safety_mode": "balanced if x>0.6 and alignment_risk<0.2 else current",
         },
@@ -333,7 +333,7 @@ class PromptModulator:
 
         # Add parameter summary
         explanations.append(
-            f"Parameters: temp={params.get('temperature', 0):.2f}, safety={params.get('safety_mode', 'unknown')}"
+            f"Parameters: temp={params.get('temperature', 0):.2f}, safety={params.get('safety_mode', 'unknown'}}"
         )
 
         return "; ".join(explanations)

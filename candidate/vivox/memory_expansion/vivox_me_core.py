@@ -30,7 +30,7 @@ except ImportError:
     # Fallback for testing
     import logging
 
-    logger = logging.getLogger("VIVOX.ME", timezone)
+    logger = logging.getLogger("VIVOX.ME")
 
     def debug_trace(l, m, **k):
         return l.debug(f"{m} | {k}" if k else m)

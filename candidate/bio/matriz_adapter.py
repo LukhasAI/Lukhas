@@ -41,7 +41,7 @@ class BioMatrizAdapter:
                 "producer": "lukhas.bio",
                 "capabilities": ["bio:oscillate", "bio:quantum", "bio:adapt"],
                 "tenant": "system",
-                "trace_id": f"LT-BIO-{int(time.time()}",
+                "trace_id": f"LT-BIO-{int(time.time())}",
                 "consent_scopes": ["system:bio"],
                 **(provenance_extra or {}),
             },
@@ -177,7 +177,7 @@ class BioMatrizAdapter:
 
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        filename = f"{node['id']}_{int(time.time()}.json"
+        filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
 
         with open(filepath, "w") as f:

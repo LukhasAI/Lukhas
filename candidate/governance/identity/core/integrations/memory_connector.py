@@ -25,7 +25,7 @@ from typing import Any, Optional
 
 import streamlit as st
 
-logger = logging.getLogger("LUKHAS_MEMORY_CONNECTOR", timezone)
+logger = logging.getLogger("LUKHAS_MEMORY_CONNECTOR")
 
 
 class MemoryType(Enum):

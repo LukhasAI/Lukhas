@@ -9,8 +9,43 @@ import warnings
 try:
     from lukhas.governance.ethics.ethics_engine import EthicsEngine
     from lukhas.governance.policy.base import Decision, RiskLevel
+    from lukhas.governance.ethics.safety_checker import SafetyChecker
+    from lukhas.governance.bridge.meg_bridge import MEGPolicyBridge, MegBridge
+    from lukhas.governance.policy_engines import PolicyEngines
+    from lukhas.governance.ethics.core import create_meg_bridge, ethics_engine, safety_checks
 except ImportError as e:
-    warnings.warn(f"Could not import lukhas.governance ethics components: {e}", stacklevel=2)()
+    warnings.warn(f"Could not import lukhas.governance ethics components: {e}", stacklevel=2)
+    
+    # Fallback stub classes
+    class EthicsEngine:
+        pass
+    
+    class Decision:
+        pass
+    
+    class RiskLevel:
+        pass
+    
+    class SafetyChecker:
+        pass
+    
+    class MEGPolicyBridge:
+        pass
+    
+    class MegBridge:
+        pass
+    
+    class PolicyEngines:
+        pass
+    
+    def create_meg_bridge():
+        return MegBridge()
+    
+    def ethics_engine():
+        return EthicsEngine()
+    
+    def safety_checks():
+        return SafetyChecker()
 
 # Create aliases for backward compatibility
 meg_bridge = MegBridge

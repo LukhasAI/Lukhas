@@ -19,7 +19,7 @@
 !**/templates/**/*.html
 !**/static/**/*.html
 !lukhas_website/**/*.html
-
+.cleanenv/ 
 # Database files
 *.db
 *.sqlite

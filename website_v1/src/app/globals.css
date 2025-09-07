@@ -23,11 +23,27 @@
   --gradient-end: #764BA2;
 }
 
-html, body {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+  background: var(--background);
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
   background: var(--background);
   color: var(--text-primary);
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 300;
+  min-height: 100vh;
 }
 
 /* Helvetica Neue Typography System */

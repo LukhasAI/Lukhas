@@ -42,7 +42,7 @@ class CriticalSyntaxFixer:
         fixed_lines = []
 
         for line in lines:
-            # Common pattern: f"...{func()}
+            # Common pattern: f"...{func(}}
             if re.search(r'f"[^"]*\{[^}]*\([^)]*$', line):
                 line = line + ")"
 

@@ -204,7 +204,7 @@ class T4EnterpriseOrchestrator:
             logger.info("✅ T4 Enterprise Stack initialized successfully")
             logger.info(f"   System Status: {self.system_status.value}")
             logger.info(
-                f"   Services Online: {len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY]}"
+                f"   Services Online: {len([s for s in self.services.values(} if s.health == T4ServiceHealth.HEALTHY]}"
             )
 
             return True

@@ -171,7 +171,7 @@ class QICreativeDemo:
                 "name": "Quantum Dance",
                 "icon": "💃",
                 "description": "Movement through probability space",
-                "sample": "Spiral(0.5) → Entanglement(2.0) → Collapse(harmony)",
+                "sample": "Spiral(0.5) → Entanglement(2.0) → Collapse(harmony)}",
             },
         ]
 

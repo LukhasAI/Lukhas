@@ -12,7 +12,7 @@ import asyncio
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -449,7 +449,7 @@ class AgentHelpers:
             agent_id="consciousness_architect_001",
             agent_type=AgentType.CONSCIOUSNESS_ARCHITECT,
             request_type=IntelligenceRequestType.META_COGNITIVE_ANALYSIS,
-            payload={"request": request, "context": context or {},
+            payload={"request": request, "context": context or {}},
             priority=8,
         )
 
@@ -535,7 +535,7 @@ if __name__ == "__main__":
         print(f"Processing Time: {response.processing_time:.3f}s")
         print(f"Confidence: {response.confidence:.2f}")
         if response.result:
-            print(f"Analysis: {response.result.get('analysis', {)}).get('reasoning_strategy', 'N/A')}")
+            print(f"Analysis: {response.result.get('analysis', {}).get('reasoning_strategy', 'N/A')}")
 
         # Example: Guardian Engineer requesting safety validation
         safety_response = await AgentHelpers.guardian_engineer_validate(

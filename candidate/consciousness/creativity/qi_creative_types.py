@@ -650,7 +650,7 @@ class CreativeBlockchain(QICreativeComponent):
         self.blockchain = []
 
     async def process(self, creative_work: CreativeExpression) -> str:
-        return f"hash_{len(self.blockchain)}"
+        return f"hash_{len(self.blockchain}}"
 
 
 class QIWatermarkEmbedder(QICreativeComponent):

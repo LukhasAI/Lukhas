@@ -30,7 +30,7 @@ class IdentityAutomationSuite:
 
         print("🚀 LUKHAS  Identity Integration Automation Suite")
         print("=" * 60)
-        print(f"📅 Started: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"📅 Started: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}}")
         print(f"🧪 Mode: {'DRY RUN' if dry_run else 'LIVE FIXES'}")
         print()
 

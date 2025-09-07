@@ -18,7 +18,7 @@ import logging
 
 # Initialize ΛTRACE logger for this controller
 # Note: The class will create a child logger for its instance.
-logger = logging.getLogger("ΛTRACE.lukhas_id.api.controllers.lambd_id_controller", timezone)
+logger = logging.getLogger("ΛTRACE.lukhas_id.api.controllers.lambd_id_controller")
 logger.info("ΛTRACE: Initializing lambd_id_controller module.")
 
 # Attempt to import core LUKHAS services
@@ -197,9 +197,9 @@ class LambdaIDController:
         Generates a new LUKHAS ΛiD with comprehensive validation and business logic,
         considering user tier, symbolic preferences, and entropy requirements.
         """
-        req_id = f"genid_{int(time.time() * 1000}"
+        req_id = f"genid_{int(time.time(} * 1000}"
         self.logger.info(
-            f"ΛTRACE ({req_id}): Received request to generate ΛiD. User Tier: {user_tier}, Symbolic Prefs: {bool(symbolic_preferences)}, Entropy Req: {bool(entropy_requirements)}"
+            f"ΛTRACE ({req_id}): Received request to generate ΛiD. User Tier: {user_tier}, Symbolic Prefs: {bool(symbolic_preferences)}, Entropy Req: {bool(entropy_requirements}}"
         )
 
         # Ensure symbolic_preferences is a list if None
@@ -255,7 +255,7 @@ class LambdaIDController:
 
             entropy_score_val = self.entropy_calculator.calculate_entropy(symbolic_input=sym_prefs, tier=user_tier)
             self.logger.debug(
-                f"ΛTRACE ({req_id}): Entropy calculated: {entropy_score_val} for {len(sym_prefs)} symbols, tier {user_tier}."
+                f"ΛTRACE ({req_id}): Entropy calculated: {entropy_score_val} for {len(sym_prefs}} symbols, tier {user_tier}."
             )
 
             tier_info_data = self.tier_manager.get_tier_info(user_tier)  # Assumes this returns a dict
@@ -320,7 +320,7 @@ class LambdaIDController:
         Validates a given LUKHAS ΛiD based on specified level ('basic', 'standard', 'full'),
         optionally checking for collisions.
         """
-        req_id = f"valid_{int(time.time() * 1000}"
+        req_id = f"valid_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request to validate ΛiD: '{lambda_id}', Level: '{validation_level}', Check Collision: {check_collision}"
         )
@@ -347,7 +347,7 @@ class LambdaIDController:
 
             if not basic_validation_res["valid"]:
                 self.logger.warning(
-                    f"ΛTRACE ({req_id}): Basic format validation failed for '{lambda_id}'. Reason: {basic_validation_res.get('reason')}"
+                    f"ΛTRACE ({req_id}): Basic format validation failed for '{lambda_id}'. Reason: {basic_validation_res.get('reason'}}"
                 )
                 return {
                     "success": True,
@@ -439,9 +439,9 @@ class LambdaIDController:
         Calculates the entropy score for a list of symbolic inputs,
         considering user tier and specified calculation method.
         """
-        req_id = f"entropy_{int(time.time() * 1000}"
+        req_id = f"entropy_{int(time.time(} * 1000}"
         self.logger.info(
-            f"ΛTRACE ({req_id}): Received request to calculate entropy. Symbols: {len(symbolic_input)}, Tier: {tier}, Method: {calculation_method}"
+            f"ΛTRACE ({req_id}): Received request to calculate entropy. Symbols: {len(symbolic_input}}, Tier: {tier}, Method: {calculation_method}"
         )
         req_meta = request_metadata or {}
         try:
@@ -505,7 +505,7 @@ class LambdaIDController:
         Retrieves information about LUKHAS ΛiD tiers, either for a specific tier
         or all tiers, optionally including progression map details.
         """
-        req_id = f"tierinfo_{int(time.time() * 1000}"
+        req_id = f"tierinfo_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request for tier information. Specific Tier: {specific_tier}, Include Progression: {include_progression}"
         )
@@ -559,7 +559,7 @@ class LambdaIDController:
         Processes a request to upgrade a user's LUKHAS ΛiD to a target tier,
         performing necessary validations and generating a new ΛiD if successful.
         """
-        req_id = f"tierup_{int(time.time() * 1000}"
+        req_id = f"tierup_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Received request for tier upgrade. Current ΛiD: '{current_lambda_id}', Target Tier: {target_tier}"
         )
@@ -619,7 +619,7 @@ class LambdaIDController:
 
             if not upgrade_eligibility.get("eligible"):  # type: ignore
                 self.logger.warning(
-                    f"ΛTRACE ({req_id}): Tier upgrade not eligible. Reason: {upgrade_eligibility.get('reason')}"
+                    f"ΛTRACE ({req_id}): Tier upgrade not eligible. Reason: {upgrade_eligibility.get('reason'}}"
                 )  # type: ignore
                 return {
                     "success": True,
@@ -641,7 +641,7 @@ class LambdaIDController:
 
             if not new_id_generation_result.get("success"):
                 self.logger.error(
-                    f"ΛTRACE ({req_id}): Failed to generate new ΛiD for tier upgrade. Error: {new_id_generation_result.get('error')}"
+                    f"ΛTRACE ({req_id}): Failed to generate new ΛiD for tier upgrade. Error: {new_id_generation_result.get('error'}}"
                 )
                 return {
                     "success": False,
@@ -700,7 +700,7 @@ class LambdaIDController:
         Performs a health check on all core services utilized by the LambdaIDController.
         Returns a dictionary summarizing the health status of each service.
         """
-        req_id = f"health_{int(time.time() * 1000}"
+        req_id = f"health_{int(time.time(} * 1000}"
         self.logger.info(f"ΛTRACE ({req_id}): Performing core services health check.")
         try:
             service_health_statuses: dict[str, Any] = {}
@@ -786,10 +786,10 @@ class LambdaIDController:
         """Validates if the provided list of symbols conforms to the limits of the given tier permissions."""
         max_symbols_allowed = tier_permissions_dict.get("symbols_allowed", 1)  # Default to 1 if not specified
         self.logger.debug(
-            f"ΛTRACE: Validating {len(symbols_list)} symbols against max allowed {max_symbols_allowed} for tier."
+            f"ΛTRACE: Validating {len(symbols_list}} symbols against max allowed {max_symbols_allowed} for tier."
         )
         if len(symbols_list) > max_symbols_allowed:
-            error_msg = f"Too many symbols for tier. Max allowed: {max_symbols_allowed}, provided: {len(symbols_list)}."
+            error_msg = f"Too many symbols for tier. Max allowed: {max_symbols_allowed}, provided: {len(symbols_list}}."
             self.logger.warning(f"ΛTRACE: Symbolic preference validation failed: {error_msg}")
             return {"valid": False, "error": error_msg}
         self.logger.debug("ΛTRACE: Symbolic preferences validated successfully.")
@@ -861,7 +861,7 @@ class LambdaIDController:
     ) -> list[str]:
         """Generates actionable recommendations for improving symbolic input entropy based on current score and tier limits."""
         self.logger.debug(
-            f"ΛTRACE: Generating entropy recommendations. Score: {current_entropy_score}, Tier: {user_tier}, Symbols: {len(current_symbols)}"
+            f"ΛTRACE: Generating entropy recommendations. Score: {current_entropy_score}, Tier: {user_tier}, Symbols: {len(current_symbols}}"
         )
         recommendations_list: list[str] = []
         tier_perms = self._identity_core.resolve_access_tier(user_tier)  # Logs internally
@@ -879,7 +879,7 @@ class LambdaIDController:
 
         if len(current_symbols) < symbols_allowed_for_tier:
             recommendations_list.append(
-                f"You can add up to {symbols_allowed_for_tier - len(current_symbols)} more symbols for your current tier to potentially increase entropy."
+                f"You can add up to {symbols_allowed_for_tier - len(current_symbols}} more symbols for your current tier to potentially increase entropy."
             )
         elif len(current_symbols) == symbols_allowed_for_tier and current_entropy_score < max_entropy_for_tier:
             recommendations_list.append(
@@ -894,7 +894,7 @@ class LambdaIDController:
         if not recommendations_list:
             recommendations_list.append("Current entropy level is good for your tier and symbol count.")
 
-        self.logger.debug(f"ΛTRACE: Generated {len(recommendations_list)} entropy recommendations.")
+        self.logger.debug(f"ΛTRACE: Generated {len(recommendations_list}} entropy recommendations.")
         return recommendations_list
 
 

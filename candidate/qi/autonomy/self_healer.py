@@ -352,7 +352,7 @@ def apply(proposal_id: str, subject_user: str = "system") -> dict[str, Any]:
         raise RuntimeError("proposal expired")
 
     target = p["target_path"]
-    backup = target + f".bak.{int(_now()}"
+    backup = target + f".bak.{int(_now(}}"
 
     # Re-check governance before applying
     gov = _load_governance()
@@ -366,8 +366,8 @@ def apply(proposal_id: str, subject_user: str = "system") -> dict[str, Any]:
         mgr.grant(
             subject=f"user:{subject_user}",
             caps=[
-                f"fs:write:{os.path.abspath(target)}",
-                f"fs:read:{os.path.abspath(target)}",
+                f"fs:write:{os.path.abspath(target}}",
+                f"fs:read:{os.path.abspath(target}}",
             ],
             ttl_sec=600,
         )
@@ -395,7 +395,7 @@ def apply(proposal_id: str, subject_user: str = "system") -> dict[str, Any]:
                 artifact_sha=_sha({"proposal": proposal_id, "target": target}),
                 artifact_mime="application/json",
                 artifact_size=len(open(target, "rb").read()),
-                storage_url=f"file://{os.path.abspath(target)}",
+                storage_url=f"file://{os.path.abspath(target}}",
                 run_id=f"selfheal-{proposal_id}",
                 task="self_heal_apply",
                 started_at=p["ts"],

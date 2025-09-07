@@ -63,7 +63,7 @@ import numpy as np
 
 from lukhas.core.colonies.base_colony import BaseColony
 
-logger = logging.getLogger("ΛTRACE.ethics_swarm_colony", timezone)
+logger = logging.getLogger("ΛTRACE.ethics_swarm_colony")
 
 
 class EthicalDecisionType(Enum):
@@ -429,7 +429,7 @@ class EthicsSwarmColony(BaseColony):
 
         for template in scenario_templates:
             for i in range(5):  # Generate variations
-                scenario_id = f"scenario_{template['type'].value}_{i}_{int(time.time()}"
+                scenario_id = f"scenario_{template['type'].value}_{i}_{int(time.time())}"
 
                 scenario = EthicalScenario(
                     scenario_id=scenario_id,
@@ -1396,7 +1396,7 @@ async def make_ethical_decision(
     colony = await get_ethics_swarm_colony()
 
     request = EthicalDecisionRequest(
-        request_id=f"ethical_{decision_type.value}_{int(time.time()}",
+        request_id=f"ethical_{decision_type.value}_{int(time.time())}",
         decision_type=decision_type,
         context=context,
         urgency=urgency,

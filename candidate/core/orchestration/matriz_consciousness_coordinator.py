@@ -110,9 +110,18 @@ class MatrizConsciousnessCoordinator:
         self._optimization_active = False
         self._lock = asyncio.Lock()
 
-        # Register with consciousness orchestrator if available
-        if consciousness_orchestrator:
-            asyncio.create_task(self._register_with_consciousness_network())
+        # Store consciousness orchestrator for later registration (avoid asyncio during __init__)
+        self._consciousness_orchestrator = consciousness_orchestrator
+        self._registration_task = None
+
+    async def start_consciousness_registration(self):
+        """Start consciousness network registration when event loop is available"""
+        if self._consciousness_orchestrator and not self._registration_task:
+            try:
+                self._registration_task = asyncio.create_task(self._register_with_consciousness_network())
+            except RuntimeError:
+                # No event loop running, registration will happen later
+                pass
 
     async def initialize_consciousness_coordination(self) -> bool:
         """Initialize consciousness coordination for orchestration system"""
@@ -357,7 +366,7 @@ class MatrizConsciousnessCoordinator:
                 source_profile.last_interaction = datetime.now(timezone.utc)
                 target_profile.last_interaction = datetime.now(timezone.utc)
 
-                interaction_result = {"status": "coordinated", "result": {}
+                interaction_result = {"status": "coordinated", "result": {}}
 
                 # If modules have consciousness, coordinate through consciousness network
                 if source_profile.consciousness_id and target_profile.consciousness_id:

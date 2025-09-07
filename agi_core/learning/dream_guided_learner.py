@@ -811,7 +811,7 @@ class DreamGuidedLearner:
     async def _recover_from_error(self, session: LearningSession, error: Exception):
         """Attempt to recover from learning session errors."""
 
-        recovery_strategy = f"Error recovery: Simplified learning approach due to {type(error)}.__name__}"
+        recovery_strategy = f"Error recovery: Simplified learning approach due to {type(error).__name__}"
         session.recovery_strategies.append(recovery_strategy)
 
         # Try simplified learning approach

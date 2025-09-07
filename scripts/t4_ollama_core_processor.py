@@ -43,7 +43,7 @@ class T4OllamaCoreProcessor:
                     if py_file.is_file() and py_file.stat().st_size > 0:
                         core_files.append(str(py_file.relative_to(self.workspace)))
 
-        print(f"🔍 T4 LENS: Discovered {len(core_files)} core LUKHAS Python files")
+        print(f"🔍 T4 LENS: Discovered {len(core_files}} core LUKHAS Python files")
         return sorted(core_files)
 
     def analyze_with_ollama(self, file_path, file_content):
@@ -213,7 +213,7 @@ CONSTRAINTS:
 
             verification_file = (
                 self.verification_dir
-                / f"ollama_analysis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
+                / f"ollama_analysis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_'}}.json"
             )
             with open(verification_file, "w") as f:
                 json.dump(verification, f, indent=2)
@@ -253,11 +253,11 @@ CONSTRAINTS:
         batch_files = core_files[start_idx : start_idx + self.batch_size]
 
         if not batch_files:
-            print(f"✅ All batches complete! Total files: {len(core_files)}")
+            print(f"✅ All batches complete! Total files: {len(core_files}}")
             return False
 
-        print(f"📁 Batch {batch_num}: Processing {len(batch_files)} files with LLM")
-        print(f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files)} total")
+        print(f"📁 Batch {batch_num}: Processing {len(batch_files}} files with LLM")
+        print(f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files}} total")
         print("")
 
         # Process each file with LLM
@@ -293,7 +293,7 @@ CONSTRAINTS:
                 # Apply safe fixes
                 fixes = self.apply_safe_fixes(file_path, analysis)
                 if fixes:
-                    print(f"    ✅ Tracking: {', '.join(fixes)}")
+                    print(f"    ✅ Tracking: {', '.join(fixes}}")
                     total_fixes += len(fixes)
 
             except Exception as e:
@@ -304,7 +304,7 @@ CONSTRAINTS:
         # Summary
         print("🎯 T4 LENS + OLLAMA BATCH SUMMARY")
         print("-" * 35)
-        print(f"Files processed: {len(batch_files)}")
+        print(f"Files processed: {len(batch_files}}")
         print(f"LLM issues found: {total_issues}")
         print(f"Analyses tracked: {total_fixes}")
         print(f"Model used: {self.ollama_model}")

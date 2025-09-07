@@ -180,7 +180,7 @@ Examples:
     print(f"👤 User ID: {args.user_id}")
     print(f"📡 Database: {args.db_url}")
     print(f"🎯 Mode: {'DRY RUN' if args.dry_run else 'EXECUTE ERASURE'}")
-    print(f"🔒 Production mode: {'ON (user ID will be hashed)' if args.prod_mode else 'OFF (plain user ID)}'}")
+    print(f"🔒 Production mode: {'ON (user ID will be hashed)' if args.prod_mode else 'OFF (plain user ID}}'}")
     print()
 
     try:

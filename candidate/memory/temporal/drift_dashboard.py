@@ -343,7 +343,7 @@ class DriftDashboard:
         if action_type not in self.remediation_triggers:
             raise ValueError(f"Unknown remediation type: {action_type}")
 
-        action_id = f"REM_{int(time.time() * 1000}"
+        action_id = f"REM_{int(time.time(} * 1000}"
 
         action = RemediationAction(
             action_id=action_id,
@@ -463,7 +463,7 @@ class DriftDashboard:
 
         if alert_key not in self.active_alerts:
             alert = DriftAlert(
-                alert_id=f"ALERT_{int(time.time() * 1000}",
+                alert_id=f"ALERT_{int(time.time(} * 1000}",
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 severity=severity,
                 component=component,

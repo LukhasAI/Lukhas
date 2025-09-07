@@ -8,12 +8,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 try:
-    from .tags import Tags
+    from .tags import TagScope
 
-    logger.debug("Imported Tags from .tags")
+    logger.debug("Imported TagScope from .tags")
 except ImportError as e:
-    logger.warning(f"Could not import Tags: {e}")
-    Tags = None
+    logger.warning(f"Could not import TagScope: {e}")
+    TagScope = None
 
 try:
     from .methylation_model import MethylationModel

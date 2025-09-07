@@ -27,7 +27,7 @@ class CoreMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-CORE-{uuid.uuid4()}.hex[:8]}",
+            "id": f"LT-CORE-{uuid.uuid4().hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.9),
@@ -41,7 +41,7 @@ class CoreMatrizAdapter:
                 "producer": "lukhas.core",
                 "capabilities": ["core:orchestrate", "core:glyph", "core:symbolic"],
                 "tenant": "system",
-                "trace_id": f"LT-CORE-{int(time.time()}",
+                "trace_id": f"LT-CORE-{int(time.time())}",
                 "consent_scopes": ["system:core"],
                 **(provenance_extra or {}),
             },
@@ -181,7 +181,7 @@ class CoreMatrizAdapter:
 
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        filename = f"{node['id']}_{int(time.time()}.json"
+        filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
 
         with open(filepath, "w") as f:

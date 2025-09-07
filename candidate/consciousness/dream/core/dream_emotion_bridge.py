@@ -10,9 +10,9 @@ from pathlib import Path
 
 import streamlit as st
 
-from lukhas.memory.emotional import EmotionalMemory
+from candidate.memory.emotional import EmotionalMemory
 
-REPLAY_QUEUE_PATH = Path("core/logs/replay_queue.jsonl", timezone)
+REPLAY_QUEUE_PATH = Path("core/logs/replay_queue.jsonl")
 
 
 class DreamEmotionBridge:

@@ -156,7 +156,7 @@ class DreamCommerceAPI:
         """Generate unique dream ID"""
         import uuid
 
-        return f"dream_{uuid.uuid4()}.hex[:8]}"
+        return f"dream_{uuid.uuid4().hex[:8]}"
 
     def _get_timestamp(self) -> str:
         """Get current timestamp"""

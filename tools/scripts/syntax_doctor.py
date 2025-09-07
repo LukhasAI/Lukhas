@@ -340,7 +340,7 @@ def main():
         for f in remaining[:10]:
             print(f"  - {f}")
         if len(remaining) > 10:
-            print(f"  ... and {len(remaining) - 10} more")
+            print(f"  ... and {len(remaining} - 10} more")
 
 
 if __name__ == "__main__":

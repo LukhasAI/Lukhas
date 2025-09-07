@@ -32,7 +32,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.bridge.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
+from candidate.consciousness.reflection.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
 
 logger = logging.getLogger("ΛTRACE.oracle.openai_adapter")
 

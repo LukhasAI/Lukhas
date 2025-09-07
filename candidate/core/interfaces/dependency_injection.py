@@ -95,10 +95,10 @@ class ServiceRegistry:
         services = {}
 
         for name in self._singletons:
-            services[name] = f"singleton: {type(self._singletons[name])}.__name__}"
+            services[name] = f"singleton: {type(self._singletons[name]).__name__}"
 
         for name in self._services:
-            services[name] = f"instance: {type(self._services[name])}.__name__}"
+            services[name] = f"instance: {type(self._services[name]).__name__}"
 
         for name in self._factories:
             services[name] = "factory"

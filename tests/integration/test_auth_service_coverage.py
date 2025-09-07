@@ -17,8 +17,8 @@ def test_auth_service_comprehensive_structure():
         # Test various initialization patterns
         initialization_patterns = [
             {},  # Default init
-            {"config": {"debug": True},
-            {"config": {"auth_provider": "test"},
+            {"config": {"debug": True}},
+            {"config": {"auth_provider": "test"}},
             {"database_url": "sqlite:///:memory:"},
         ]
 

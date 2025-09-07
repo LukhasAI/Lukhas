@@ -16,9 +16,9 @@ def fix_fstring_patterns_v2(content):
     # Pattern 1: Simple variable names with wrong closing bracket
     # Match f"...{simple_var)..." and f'...{simple_var)...'
     pattern1 = r'(f["\'])([^"\']*)\{([a-zA-Z_][a-zA-Z0-9_]*)\)([^"\']*)\1'
-    matches = re.findall(pattern1, content)
+    matches = re.findall(pattern1, content}
     if matches:
-        content = re.sub(pattern1, r"\1\2{\3)}\4\1", content)
+        content = re.sub(pattern1, r"\1\2{\3}}\4\1", content)
         fixes += len(matches)
 
     # Pattern 2: Simple attribute access like {self.node_id)

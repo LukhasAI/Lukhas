@@ -323,7 +323,7 @@ def main():
 
     # Show errors
     if fixer.errors:
-        print(f"\n❌ Errors ({len(fixer.errors)}):")
+        print(f"\n❌ Errors ({len(fixer.errors}}):")
         for error in fixer.errors[:10]:
             print(f"   • {error}")
 
@@ -343,7 +343,7 @@ def main():
             f.write("#  Suggested package additions based on import analysis\n"
             f.write("#  Add these to requirements.txt as needed\n\n"
             f.write("\n".join(additions))
-        print(f"\n   Full list saved to: {suggestions_file.relative_to(PROJECT_ROOT)}")
+        print(f"\n   Full list saved to: {suggestions_file.relative_to(PROJECT_ROOT}}")
 
     print("\n✅ Import fixing complete!")
 

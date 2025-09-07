@@ -12,8 +12,8 @@ from typing import Any
 import streamlit as st
 
 # Import legacy functions that other modules might expect
-from lukhas.core.interfaces.as_agent.sys.nias.dream_recorder import record_dream_message
-from lukhas.core.interfaces.as_agent.sys.nias.narration_controller import (
+from candidate.core.interfaces.as_agent.sys.nias.dream_recorder import record_dream_message
+from candidate.core.interfaces.as_agent.sys.nias.narration_controller import (
     fetch_narration_entries,
     filter_narration_queue,
     load_user_settings,

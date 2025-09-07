@@ -1006,7 +1006,7 @@ def weekly(ctx):
     print(f"\n{Colors.BOLD}📊 Progress Metrics:{Colors.END}")
     stats = ctx.obj["journal"].get_statistics()
     print(
-        f"  Entries this week: {len(ctx.obj['journal'].search(date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc)))}"
+        f"  Entries this week: {len(ctx.obj['journal'].search(date_range=(datetime.now(timezone.utc) - timedelta(days=7), datetime.now(timezone.utc))}"
     )
     print(f"  Current streak: {stats['streak']} days")
 

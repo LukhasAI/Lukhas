@@ -68,7 +68,7 @@ class EthicsGuardian:
             parent_id: ID of the parent RemediatorAgent
             task_data: Task context and violation information
         """
-        self.agent_id = f"{parent_id}_ETHICS_{int(datetime.now(timezone.utc).timestamp()}"
+        self.agent_id = f"{parent_id}_ETHICS_{int(datetime.now(timezone.utc).timestamp())}"
         self.parent_id = parent_id
         self.task_data = task_data
 

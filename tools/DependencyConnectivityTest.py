@@ -247,7 +247,7 @@ class LambdaDependencyAnalyzer:
         if report["details"]["broken_imports"]:
             print("\n⚠️  BROKEN IMPORTS:")
             for file, broken in list(report["details"]["broken_imports"].items())[:5]:
-                print(f"   📄 {file}: {', '.join(list(broken)[:3]}")
+                print(f"   📄 {file}: {', '.join(list(broken}[:3]}")
 
         if report["details"]["isolated_files"]:
             print("\n🏝️  ISOLATED FILES (showing first 10):")

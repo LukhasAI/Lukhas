@@ -116,7 +116,7 @@ class ContentPlatform:
     ) -> int:
         """Generate content optimized for specific LUKHAS domain"""
         if domain not in self.domain_mapping:
-            raise ValueError(f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys()}")
+            raise ValueError(f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys())}")
 
         # Get constellation stars for this domain
         domain_stars = self.domain_mapping[domain]
@@ -354,8 +354,8 @@ if __name__ == "__main__":
     platform = ContentPlatform()
 
     print("🚀 LUKHAS AI Content Platform Ready")
-    print(f"🤖 Specialist bots: {len(platform.get_specialist_bots()}")
-    print(f"✨ Premium features: {len(platform.get_premium_features()}")
+    print(f"🤖 Specialist bots: {len(platform.get_specialist_bots())}")
+    print(f"✨ Premium features: {len(platform.get_premium_features())}")
 
     # Show real database integration
     analytics = platform.get_platform_analytics()
@@ -363,6 +363,6 @@ if __name__ == "__main__":
     print(f"📈 Recent activity: {analytics['recent_generations']} generations")
     print("🌌 Constellation Framework Integrated (8 stars)")
     print(f"🌟 Active domains: {len(platform.domain_mapping)}")
-    print(f"✦ Star system: {', '.join(platform.constellation_stars.keys()}")
+    print(f"✦ Star system: {', '.join(platform.constellation_stars.keys())}")
     print("🔗 Database Integration: ACTIVE")
     print("🪐 Universe of LUKHAS: Navigation Ready")

@@ -13,7 +13,7 @@ from cryptography.fernet import Fernet
 
 from .lukhas_id import AccessTier, LucasIDRegistry
 
-logger = logging.getLogger("v1_AGI.identity.memory", timezone)
+logger = logging.getLogger("v1_AGI.identity.memory")
 
 
 class MemoryAccessPolicy(Enum):

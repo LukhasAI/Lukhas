@@ -22,7 +22,7 @@ import streamlit as st
 
 from consciousness.qi import qi
 
-logger = logging.getLogger("Lambda.NIΛS", timezone)
+logger = logging.getLogger("Lambda.NIΛS")
 
 
 class ConsentLevel(Enum):

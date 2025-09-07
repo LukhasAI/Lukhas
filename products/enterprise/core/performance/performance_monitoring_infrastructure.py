@@ -895,7 +895,7 @@ class EnterprisePerformanceMonitor:
         """Trigger a performance alert"""
         try:
             alert = PerformanceAlert(
-                id=f"alert_{int(time.time() * 1000}",
+                id=f"alert_{int(time.time(} * 1000}",
                 severity=severity,
                 title=title,
                 description=description,

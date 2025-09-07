@@ -461,7 +461,7 @@ class ConsensusEngine:
         combined += responses[0]  # Use first response as base
 
         if len(responses) > 1:
-            combined += f"\n\n(Incorporating insights from {len(responses)}-1} additional models)"
+            combined += f"\n\n(Incorporating insights from {len(responses) - 1} additional models)"
 
         return combined
 

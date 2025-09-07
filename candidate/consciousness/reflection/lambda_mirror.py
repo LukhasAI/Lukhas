@@ -423,7 +423,7 @@ class LambdaMirror:
         stability_score = self._calculate_stability_score(emotional_indicators)
 
         drift_analysis = EmotionalDrift(
-            drift_id=f"DRIFT_{int(time.time()}",
+            drift_id=f"DRIFT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             baseline_tone=baseline_tone,
             current_tone=current_tone,
@@ -560,7 +560,7 @@ class LambdaMirror:
 
         # Create reflection entry
         reflection = ReflectionEntry(
-            reflection_id=f"REFLECTION_{int(time.time()}",
+            reflection_id=f"REFLECTION_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             reflection_type=reflection_type,
             emotional_tone=emotional_tone,
@@ -649,7 +649,7 @@ class LambdaMirror:
         recommendations = self._generate_alignment_recommendations(overall_score, misalignment_concerns)
 
         alignment_score = AlignmentScore(
-            score_id=f"ALIGNMENT_{int(time.time()}",
+            score_id=f"ALIGNMENT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             overall_score=overall_score,
             status=status,
@@ -1471,7 +1471,7 @@ class LambdaMirror:
     def _create_neutral_drift(self) -> EmotionalDrift:
         """Create neutral emotional drift for empty experiences."""
         return EmotionalDrift(
-            drift_id=f"NEUTRAL_DRIFT_{int(time.time()}",
+            drift_id=f"NEUTRAL_DRIFT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             baseline_tone=EmotionalTone.CONTEMPLATIVE,
             current_tone=EmotionalTone.CONTEMPLATIVE,
@@ -1483,7 +1483,7 @@ class LambdaMirror:
     def _create_neutral_alignment(self) -> AlignmentScore:
         """Create neutral alignment score for empty experiences."""
         return AlignmentScore(
-            score_id=f"NEUTRAL_ALIGNMENT_{int(time.time()}",
+            score_id=f"NEUTRAL_ALIGNMENT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             overall_score=0.6,
             status=AlignmentStatus.MODERATELY_ALIGNED,

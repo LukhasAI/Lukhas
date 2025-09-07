@@ -194,7 +194,7 @@ class FileOrganizer:
                     if mtime < cutoff_date:
                         archive_path = self.root_path / "archive" / "aged" / file_path.name
                         logger.info(
-                            f"📦 Archiving old file: {file_path.name} (age: {(datetime.now(timezone.utc) - mtime}.days} days)"
+                            f"📦 Archiving old file: {file_path.name} (age: {(datetime.now(timezone.utc} - mtime}.days} days)}"
                         )
                         if not self.dry_run:
                             archive_path.parent.mkdir(parents=True, exist_ok=True)

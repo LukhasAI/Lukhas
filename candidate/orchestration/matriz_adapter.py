@@ -45,7 +45,7 @@ class OrchestrationMatrizAdapter:
                     "orchestration:route",
                 ],
                 "tenant": "system",
-                "trace_id": f"LT-ORCH-{int(time.time()}",
+                "trace_id": f"LT-ORCH-{int(time.time())}",
                 "consent_scopes": ["system:orchestration"],
                 **(provenance_extra or {}),
             },
@@ -185,7 +185,7 @@ class OrchestrationMatrizAdapter:
 
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        filename = f"{node['id']}_{int(time.time()}.json"
+        filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
 
         with open(filepath, "w") as f:

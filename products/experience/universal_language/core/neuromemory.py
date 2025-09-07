@@ -589,11 +589,11 @@ class NeuroSymbolicMemory:
 
     def _generate_episode_id(self) -> str:
         """Generate unique episode ID"""
-        return f"EPISODE_{int(time.time() * 1000}"
+        return f"EPISODE_{int(time.time(} * 1000}"
 
     def _generate_trace_id(self) -> str:
         """Generate unique trace ID"""
-        return f"TRACE_{int(time.time() * 1000000}"
+        return f"TRACE_{int(time.time(} * 1000000}"
 
 
 from functools import lru_cache

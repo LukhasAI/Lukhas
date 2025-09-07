@@ -225,7 +225,7 @@ class MultiModelOrchestrator:
         self._setup_default_pipelines()
 
         logger.info("🎭 Multi-Model Orchestrator initialized")
-        logger.info(f"   Available models: {list(self.model_bridges.keys()}")
+        logger.info(f"   Available models: {list(self.model_bridges.keys())}")
         logger.info(f"   Consensus strategies: {len(self.consensus_algorithms)}")
 
     def _initialize_model_bridges(self):

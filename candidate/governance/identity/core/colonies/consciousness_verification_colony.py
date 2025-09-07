@@ -18,25 +18,41 @@ import streamlit as st
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
 from candidate.core.enhanced_swarm import AgentCapability, AgentMemory
-from candidate.core.swarm import AgentState, SwarmAgent
+from candidate.core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import identity events
-from governance.identity.core.events import (
-    IdentityEventPublisher,
-    IdentityEventType,
-    VerificationResult,
-)
-from governance.identity.core.integrations.consciousness_bridge import (
-    ConsciousnessBridge,
-)
+# Import identity events
+try:
+    from governance.identity.core.events import (
+        IdentityEventPublisher,
+        IdentityEventType,
+        VerificationResult,
+    )
+except ImportError:
+    IdentityEventPublisher = None
+    IdentityEventType = None
+    VerificationResult = None
+
+try:
+    from governance.identity.core.integrations.consciousness_bridge import (
+        ConsciousnessBridge,
+    )
+except ImportError:
+    ConsciousnessBridge = None
 
 # Import consciousness components
-from governance.identity.core.visualization.consciousness_mapper import (
-    BiometricData,
-    CognitiveMetrics,
-    ConsciousnessState,
-    EmotionalState,
-)
+try:
+    from governance.identity.core.visualization.consciousness_mapper import (
+        BiometricData,
+        CognitiveMetrics,
+        ConsciousnessState,
+        EmotionalState,
+    )
+except ImportError:
+    BiometricData = None
+    CognitiveMetrics = None
+    ConsciousnessState = None
+    EmotionalState = None
 
 logger = logging.getLogger("LUKHAS_CONSCIOUSNESS_COLONY")
 

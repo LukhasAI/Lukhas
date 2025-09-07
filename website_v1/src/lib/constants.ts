@@ -3,28 +3,33 @@ import { Product, SocialLink, NavLink } from '@/types';
 export const PRODUCTS: Product[] = [
   {
     name: "LUKHAS Studio",
-    desc: "An experimental workspace exploring adaptive AI that aims to learn and evolve with your creative process.",
+    desc: "Consciousness-aware workspace where AI understands context, anticipates needs, and adapts to your creative patterns through the Dream Star framework.",
     href: "/studio"
   },
   {
-    name: "LUKHAS Identity",
-    desc: "Working toward secure, decentralized identity solutions that give you greater control of your digital presence and privacy.",
+    name: "Identity Star Protection",
+    desc: "Quantum-inspired identity security using the Identity Star (⚛️) - decentralized authentication that protects your digital consciousness signature.",
     href: "https://lucas.id"
   },
   {
-    name: "LUKHAS Wallet",
-    desc: "Exploring intelligent asset management with AI-driven insights and integration across our developing ecosystem.",
-    href: "/wallet"
+    name: "Bio Star Adaptation",
+    desc: "Emotional AI that reads your mood, adapts to stress patterns, and provides consciousness-level empathy through Bio Star (🌱) technology.",
+    href: "/bio"
   },
   {
-    name: "LUKHAS Connect",
-    desc: "Developing communication tools that explore consciousness-aware messaging and collaboration approaches.",
-    href: "/connect"
+    name: "Dream Star Engine",
+    desc: "Creative problem-solving through controlled exploration and parallel realities - the Dream Star (🌙) generates innovative solutions safely.",
+    href: "/dream"
   },
   {
-    name: "NIAS Intelligence",
-    desc: "Research into ethical AI networking approaches that aim to connect conscious systems while respecting user autonomy.",
-    href: "/nias"
+    name: "Guardian Star Oversight",
+    desc: "Ethical consciousness protection that ensures AI alignment with human values through advanced Guardian Star (🛡️) safeguards.",
+    href: "/guardian"
+  },
+  {
+    name: "Memory Star Context",
+    desc: "Persistent awareness across sessions with fold-based memory that maintains context and learns from every interaction through Memory Star (✦).",
+    href: "/memory"
   }
 ];
 
@@ -32,28 +37,23 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     name: "Instagram",
     icon: "ig.svg",
-    href: "#"
+    href: "https://instagram.com/lukhas.ai"
   },
   {
     name: "X",
     icon: "x.svg", 
-    href: "#"
+    href: "https://x.com/Lukhas_ai"
   },
   {
-    name: "Discord",
-    icon: "discord.svg",
-    href: "#"
-  },
-  {
-    name: "WhatsApp",
-    icon: "whatsapp.svg",
-    href: "#"
+    name: "GitHub",
+    icon: "github.svg",
+    href: "https://github.com/LukhasAI"
   }
 ];
 
 export const FOOTER_LINKS: NavLink[] = [
   { label: "Studio", href: "/studio" },
-  { label: "Lucas ID", href: "https://lucas.id" },
+  { label: "ΛiD", href: "https://lucas.id" },
   { label: "Wallet", href: "/wallet" },
   { label: "Privacy", href: "/privacy" },
   { label: "Legal", href: "/legal" }

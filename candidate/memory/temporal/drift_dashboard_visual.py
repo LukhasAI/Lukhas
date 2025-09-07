@@ -197,7 +197,7 @@ def create_component_traces(history_data: dict) -> go.Figure:
                     mode="lines",
                     name=comp.capitalize(),
                     line={"color": color, "width": 2},
-                    hovertemplate=f"{comp.capitalize()}: %{{y:.3f}<extra></extra>",
+                    hovertemplate=f"{comp.capitalize(}}: %{{y:.3f}<extra></extra>",
                 )
             )
 
@@ -497,7 +497,7 @@ def main():
 
             # Update timestamp
             st.caption(
-                f"Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
+                f"Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'}}"
             )
 
         # Wait before next update

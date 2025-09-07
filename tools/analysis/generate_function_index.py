@@ -106,7 +106,7 @@ class FunctionIndexGenerator:
                 self.decorator_usage[decorator.id].append({"function": node.name, "module": module_name})
             elif isinstance(decorator, ast.Attribute):
                 decorator_name = (
-                    f"{decorator.value.id if isinstance(decorator.value, ast.Name)} else '...'}.{decorator.attr}"
+                    f"{decorator.value.id if isinstance(decorator.value, ast.Name}} else '...'}.{decorator.attr}"
                 )
                 decorators.append(decorator_name)
 
@@ -144,7 +144,7 @@ class FunctionIndexGenerator:
         elif isinstance(annotation, ast.Constant):
             return str(annotation.value)
         elif isinstance(annotation, ast.Subscript):
-            return f"{self._get_annotation_string(annotation.value)}[...]"
+            return f"{self._get_annotation_string(annotation.value}}[...]"
         else:
             return "Any"
 
@@ -235,7 +235,7 @@ class FunctionIndexGenerator:
                 lines.append(f"- **File**: `{func['file']}:{func['line']}`")
 
                 if func["params"]:
-                    lines.append(f"- **Parameters**: {', '.join(func['params'])}")
+                    lines.append(f"- **Parameters**: {', '.join(func['params']}}")
 
                 if func["returns"]:
                     lines.append(f"- **Returns**: `{func['returns']}`")
@@ -266,13 +266,13 @@ class FunctionIndexGenerator:
                 lines.append(f"- `{func_name}({params_str}){return_str}`")
 
                 if info["decorators"]:
-                    lines.append(f"  - Decorators: {', '.join(info['decorators'])}")
+                    lines.append(f"  - Decorators: {', '.join(info['decorators']}}")
 
                 if info["docstring"]:
                     lines.append(f"  - {info['docstring']}")
 
             if len(functions) > 20:
-                lines.append(f"  - ... and {len(functions)} - 20} more functions")
+                lines.append(f"  - ... and {len(functions}} - 20} more functions")
 
             lines.append("")
 

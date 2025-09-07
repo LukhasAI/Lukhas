@@ -19,9 +19,16 @@ try:
     from .governance_colony import GovernanceColonyEnhanced
 
     logger.debug("Imported GovernanceColonyEnhanced from .governance_colony")
-except ImportError as e:
-    logger.warning(f"Could not import GovernanceColonyEnhanced: {e}")
-    GovernanceColonyEnhanced = None
+except ImportError:
+    # Fallback: some modules define GovernanceColony instead. Try that and alias.
+    try:
+        from .governance_colony import GovernanceColony
+
+        GovernanceColonyEnhanced = GovernanceColony
+        logger.info("Aliased GovernanceColony -> GovernanceColonyEnhanced from .governance_colony")
+    except ImportError as e:
+        logger.warning(f"Could not import GovernanceColonyEnhanced or alias: {e}")
+        GovernanceColonyEnhanced = None
 
 try:
     from .base_colony import BaseColony

@@ -185,17 +185,17 @@ export default function TrinityFramework({
             width: 50,
             height: 50,
           }}
-          animate={controls}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            y: Math.sin(consciousness + index * (Math.PI * 2 / 3)) * 2,
+            ...controls
+          }}
           onHoverStart={() => interactive && handleElementHover(element.id)}
           onHoverEnd={() => interactive && handleElementHover(null)}
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: 1, 
-            scale: 1,
-            y: Math.sin(consciousness + index * (Math.PI * 2 / 3)) * 2
-          }}
           transition={{ delay: index * 0.2, duration: 0.6 }}
           data-cursor="consciousness"
           data-cursor-text={element.name}

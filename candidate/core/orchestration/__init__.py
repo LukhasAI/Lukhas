@@ -32,7 +32,7 @@ import streamlit as st
 
 # Import MΛTRIZ consciousness coordination
 # Import existing orchestration core
-from .core import OrchestrationCore
+from .core import OrchestrationCore as OrchestrationCoreClass
 from .matriz_consciousness_coordinator import (
     MatrizConsciousnessCoordinator,
     ModuleConsciousnessProfile,

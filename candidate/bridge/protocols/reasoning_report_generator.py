@@ -40,26 +40,26 @@ class ReasoningReportGenerator:
             f"#"reasoning_request_id', 'N/A')}\n"
         )
         formatted_trace += (
-            f"**Timestamp:** {trace.get('reasoning_timestamp_utc', 'N/A')}\n"
+            f"**Timestamp:** {trace.get('reasoning_timestamp_utc', 'N/A'}}\n"
         )
         formatted_trace += (
-            f"**Overall Confidence:** {trace.get('overall_confidence', 'N/A')}\n"
+            f"**Overall Confidence:** {trace.get('overall_confidence', 'N/A'}}\n"
         )
 
         primary_conclusion = trace.get("primary_conclusion")
         if primary_conclusion:
             formatted_trace += (
-                f"**Primary Conclusion:** {primary_conclusion.get('summary', 'N/A')}\n"
+                f"**Primary Conclusion:** {primary_conclusion.get('summary', 'N/A'}}\n"
             )
 
         formatted_trace += "### Logical Chains\n"
         for chain_id, chain in trace.get("identified_logical_chains", {}).items():
             formatted_trace += f"- **Chain ID:** {chain_id}\n"
-            formatted_trace += f"  - **Confidence:** {chain.get('confidence', 'N/A')}\n"
-            formatted_trace += f"  - **Summary:** {chain.get('summary', 'N/A')}\n"
+            formatted_trace += f"  - **Confidence:** {chain.get('confidence', 'N/A'}}\n"
+            formatted_trace += f"  - **Summary:** {chain.get('summary', 'N/A'}}\n"
 
         formatted_trace += "### Reasoning Path\n"
         for step in trace.get("reasoning_path_details", []):
-            formatted_trace += f"- **Step:** {step.get('description', 'N/A')} ({step.get('confidence', 'N/A')})\n"
+            formatted_trace += f"- **Step:** {step.get('description', 'N/A')} ({step.get('confidence', 'N/A'}})\n"
 
         return formatted_trace + "\n"

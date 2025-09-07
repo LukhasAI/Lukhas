@@ -28,7 +28,7 @@ from bs4 import BeautifulSoup
 
 import docker
 
-logger = logging.getLogger("ΛTRACE.tools.executor", timezone)
+logger = logging.getLogger("ΛTRACE.tools.executor")
 
 
 class ToolExecutor:
@@ -471,7 +471,7 @@ class ToolExecutor:
             with open(os.path.join(temp_dir, "Dockerfile"), "w", encoding="utf-8") as f:
                 f.write(dockerfile_content.format(filename=filename))
 
-            image_tag = f"lukhas-exec-{hashlib.md5(source.encode()).hexdigest()}[:12]}"
+            image_tag = f"lukhas-exec-{hashlib.md5(source.encode()).hexdigest()[:12]}"
 
             # Build the image
             try:

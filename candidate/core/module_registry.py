@@ -50,12 +50,12 @@ MODULE_NAME = "module_registry"
 
 # Import tier system components
 try:
-    from lukhas.governance.identity.core.lambd_id_service import TierLevel
-    from lukhas.governance.identity.interface import IdentityClient
+    from candidate.governance.identity.core.lambd_id_service import TierLevel
+    from candidate.governance.identity.interface import IdentityClient
 
     TIER_SYSTEM_AVAILABLE = True
-except ImportError:
-    logger.warning("Tier system components not available. Running without tier enforcement.")
+except ImportError as e:
+    logger.warning(f"Tier system components not available: {e}. Running without tier enforcement.")
     TIER_SYSTEM_AVAILABLE = False
 
     # Define fallback

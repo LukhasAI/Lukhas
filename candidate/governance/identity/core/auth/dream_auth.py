@@ -576,7 +576,7 @@ class DreamAuthenticationEngine:
         """Generate symbolic prompt for dream challenge"""
         prompts = [
             f"In your dreams tonight, seek the wisdom of the {expected_elements[0]}",
-            f"Let your dreams reveal the connection between {expected_elements[0]} and {expected_elements[1] if len(expected_elements)} > 1 else 'light'}",
+            f"Let your dreams reveal the connection between {expected_elements[0]} and {expected_elements[1] if len(expected_elements) > 1 else 'light'}",
             f"Dream of a journey where you encounter {', '.join(expected_elements)}",
         ]
 

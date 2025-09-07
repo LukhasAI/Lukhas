@@ -210,7 +210,7 @@ class EnterprisSecurityScanner:
             },
             "sql_injection": {
                 "patterns": [
-                    r"execute\(.*%.*\)",
+                    r"execute\(.*%.*\)}",
                     r"query\(.*\+.*\)",
                     r"cursor\.execute\([^?]*%",
                     r"sql\s*=.*\+.*",
@@ -262,7 +262,7 @@ class EnterprisSecurityScanner:
             },
             "authentication_bypass": {
                 "patterns": [
-                    r"auth\s*=\s*(True|true)",
+                    r"auth\s*=\s*(True|true)}",
                     r"authenticated\s*=\s*(True|true)",
                     r"bypass.*auth",
                     r"skip.*auth",

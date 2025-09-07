@@ -2369,7 +2369,7 @@ class LambdaMirror:
 
                 # Create dream experience entry
                 exp = ExperienceEntry(
-                    experience_id=f"DREAM_{dream.get('id', int(time.time())}",
+                    experience_id=f"DREAM_{dream.get('id', int(time.time()}",
                     timestamp=dream.get("timestamp", datetime.now(timezone.utc).isoformat()),
                     source="dream",
                     content={

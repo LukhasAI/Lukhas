@@ -416,7 +416,7 @@ class SystematicModuleHunter:
         print(f"   🔍 Total missing classes: {total_missing_classes}")
         print(f"   📍 Classes found elsewhere: {total_found_elsewhere}")
         print(f"   ⏱️  Hunt duration: {duration:.2f}s")
-        print(f"   🧬 Files searched: {len(list(self.base_path.rglob('*.py'))}")
+        print(f"   🧬 Files searched: {len(list(self.base_path.rglob('*.py')}")
 
         # Key findings
         print("\n🔬 KEY HUNT FINDINGS:")

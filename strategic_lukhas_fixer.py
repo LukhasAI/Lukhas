@@ -85,10 +85,10 @@ class StrategicLukhasFixer:
         if open_parens > close_parens:
             # Add missing closing parentheses
             missing_parens = ")" * (open_parens - close_parens)
-            return f'f"{prefix}{{{expr}{missing_parens}}}{suffix}"'
+            return f'f"{prefix}{{{expr}{missing_parens}}{suffix}"'
         elif close_parens > open_parens:
             # Remove extra closing parentheses (less common, but possible)
-            return f'f"{prefix}{{{expr.rstrip(")")}}}{suffix}"'
+            return f'f"{prefix}{{{expr.rstrip("}")}}}{suffix}"'
         else:
             # Already balanced
             return match.group(0)
@@ -102,10 +102,10 @@ class StrategicLukhasFixer:
 
         if open_parens > close_parens:
             missing_parens = ")" * (open_parens - close_parens)
-            return f"f'{prefix}{{{expr}{missing_parens}}}{suffix}'"
+            return f"f'{prefix}{{{expr}{missing_parens}}{suffix}'"
         elif close_parens > open_parens:
             clean_expr = expr.rstrip(")")
-            return f"f'{prefix}{{{clean_expr}}}{suffix}'"
+            return f"f'{prefix}{{{clean_expr}}{suffix}'"
         else:
             return match.group(0)
 

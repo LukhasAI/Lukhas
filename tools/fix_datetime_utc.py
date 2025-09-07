@@ -89,7 +89,7 @@ def main():
             fixed_count += 1
             print(f"✅ Fixed: {file_path}")
 
-    print(f"\n🎉 Fixed {fixed_count}/{min(len(files_to_fix), 100} files")
+    print(f"\n🎉 Fixed {fixed_count}/{min(len(files_to_fix}, 100} files")
 
     # Check remaining issues
     remaining = get_files_with_datetime_issues()

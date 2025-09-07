@@ -425,12 +425,12 @@ class CodeIndexer:
             if not self.should_skip(path):
                 py_files.append(path)
 
-        print(f"📊 Found {len(py_files)} Python source files")
+        print(f"📊 Found {len(py_files}} Python source files")
 
         # Analyze each file
         for i, path in enumerate(py_files, 1):
             if i % 100 == 0:
-                print(f"  Processing file {i}/{len(py_files)}...")
+                print(f"  Processing file {i}/{len(py_files}}...")
             self.analyze_file(path)
 
         # Find duplicates
@@ -510,14 +510,14 @@ Generated: {}
 
         # Add import graph analysis
         map_content += "\n## Import Complexity\n"
-        map_content += f"- Total Import Relationships: {len(self.import_graph)}\n"
+        map_content += f"- Total Import Relationships: {len(self.import_graph}}\n"
         map_content += "- Modules with Most Dependencies: \n"
 
         # Find modules with most imports
         sorted_imports = sorted(self.import_graph.items(), key=lambda x: len(x[1]), reverse=True)[:10]
         for module, imports in sorted_imports:
             module_name = Path(module).stem
-            map_content += f"  - {module_name}: {len(imports)} imports\n"
+            map_content += f"  - {module_name}: {len(imports}} imports\n"
 
         # Write MAP.md
         map_path = self.root / "docs" / "AUDIT" / "MAP.md"
@@ -632,7 +632,7 @@ def main():
         print(f"   - Trinity Modules: {stats['trinity_modules']}")
 
         if stats["import_errors"]:
-            print(f"\n⚠️  Found {len(stats['import_errors'])} files with syntax errors")
+            print(f"\n⚠️  Found {len(stats['import_errors']}} files with syntax errors")
 
     finally:
         indexer.close()

@@ -508,7 +508,7 @@ class AwarenessProcessor:
 
     async def _generate_alert(self, source: str, severity: str, message: str, metric_value: float):
         """Generate and store awareness alert."""
-        alert_id = f"AWARE_{int(datetime.now(timezone.utc).timestamp() * 1000}"
+        alert_id = f"AWARE_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
 
         alert = {
             "id": alert_id,

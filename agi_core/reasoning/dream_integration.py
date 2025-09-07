@@ -100,7 +100,7 @@ class DreamReasoningBridge:
         """
         import time
 
-        session_id = f"dream_{int(time.time() * 1000}"
+        session_id = f"dream_{int(time.time() * 1000)}"
 
         session = DreamSession(session_id=session_id, problem_context=problem_context, mode=mode)
 

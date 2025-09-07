@@ -855,7 +855,7 @@ class CascadePreventionSystem:
         logger.critical(
             f"Emergency protocol executed. "
             f"Quarantined: {len(self.error_tracker.quarantined_actors)}, "
-            f"Open circuits: {len([cb for cb in self.circuit_breakers.values() if cb.state == CircuitState.OPEN]}"
+            f"Open circuits: {len([cb for cb in self.circuit_breakers.values(} if cb.state == CircuitState.OPEN]}"
         )
 
     def _on_circuit_state_change(self, name: str, old_state: CircuitState, new_state: CircuitState):

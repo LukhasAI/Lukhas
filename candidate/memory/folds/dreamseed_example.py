@@ -225,7 +225,7 @@ def demonstrate_dreamseed_integration():
     print(f"   • Success Rate: {dream_analytics['success_rate']:.1%}")
     print(f"   • Average Entanglement: {dream_analytics['average_entanglement_level']:.2f}")
     print(f"   • Tier Distribution: {dict(dream_analytics['tier_distribution'])}")
-    print(f"   • Top GLYPHs: {dict(list(dream_analytics['glyph_usage'].items())[:3]}")
+    print(f"   • Top GLYPHs: {dict(list(dream_analytics['glyph_usage'].items()}[:3]}")
 
     # Example 6: System Health Monitoring
     print("\n📍 EXAMPLE 6: Memory Health Dashboard")

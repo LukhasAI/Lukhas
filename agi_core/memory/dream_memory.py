@@ -603,7 +603,7 @@ class DreamMemoryBridge:
 
         pattern_types = [p.pattern_type.value for p in session.patterns_discovered]
         if pattern_types:
-            content += f"Pattern types: {', '.join(set(pattern_types)}."
+            content += f"Pattern types: {', '.join(set(pattern_types))}."
 
         # Create vector representation (simplified - would normally use proper embedding)
         vector = np.random.normal(0, 1, self.memory_store.embedding_dimension)

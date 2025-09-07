@@ -174,7 +174,7 @@ class MemorySecurityValidator:
 
         security_context = MockMemorySecurityContext(
             user_id=user_id,
-            session_id=f"session_{int(time.time()}",
+            session_id=f"session_{int(time.time())}",
             security_level=3,  # T3 authentication for memory operations
             permissions=["memory_write", "memory_read"],
         )
@@ -209,7 +209,7 @@ class MemorySecurityValidator:
 
         security_context = MockMemorySecurityContext(
             user_id=user_id,
-            session_id=f"session_{int(time.time()}",
+            session_id=f"session_{int(time.time())}",
             security_level=2,  # T2 authentication for read operations
             permissions=["memory_read"],
         )
@@ -237,7 +237,7 @@ class MemorySecurityValidator:
 
         security_context = MockMemorySecurityContext(
             user_id=user_id,
-            session_id=f"fold_session_{int(time.time()}",
+            session_id=f"fold_session_{int(time.time())}",
             security_level=4,  # T4 authentication for fold operations
             permissions=["memory_write", "memory_read", "fold_create", "fold_access"],
         )
@@ -279,7 +279,7 @@ class MemorySecurityValidator:
 
         security_context = MockMemorySecurityContext(
             user_id=user_id,
-            session_id=f"delete_session_{int(time.time()}",
+            session_id=f"delete_session_{int(time.time())}",
             security_level=5,  # T5 authentication for destructive operations
             permissions=["memory_delete", "cascade_delete", "data_purge"],
         )

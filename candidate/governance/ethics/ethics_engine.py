@@ -24,7 +24,7 @@ Evaluates actions and content against ethical frameworks
 """
 
 
-logger = logging.getLogger("v1_AGI.compliance.ethics", timezone)
+logger = logging.getLogger("v1_AGI.compliance.ethics")
 
 
 class EthicsEngine:

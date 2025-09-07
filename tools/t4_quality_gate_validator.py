@@ -47,7 +47,7 @@ class T4QualityGateValidator:
                 "validation_mode": mode,
                 "start_time": self.start_time.isoformat(),
                 "agent": "Agent #3 - Testing & DevOps Specialist",
-                "standard": "Demis Hassabis (Rigorous Validation)",
+                "standard": "Demis Hassabis (Rigorous Validation)}",
             },
             "quality_gates": {},
             "test_execution": {},

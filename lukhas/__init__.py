@@ -51,6 +51,11 @@ except ImportError:
     qi = None
 
 try:
+    from . import branding
+except ImportError:
+    branding = None
+
+try:
     from . import emotion
 except ImportError:
     emotion = None

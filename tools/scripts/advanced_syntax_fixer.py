@@ -190,13 +190,13 @@ def main():
         print("[OK] No syntax errors found!")
         return
 
-    print(f"Found {len(errors)} files with syntax errors")
+    print(f"Found {len(errors}} files with syntax errors")
 
     # Fix errors
-    print(f"\n[Fixing] Attempting advanced fixes on {len(errors)} files...")
+    print(f"\n[Fixing] Attempting advanced fixes on {len(errors}} files...")
 
     for i, filepath in enumerate(errors):
-        print(f"Fixing {i+1}/{len(errors)}: {filepath}...", end="")
+        print(f"Fixing {i+1}/{len(errors}}: {filepath}...", end="")
         success = fixer.fix_file(filepath)
         print(" [OK]" if success else " [FAILED]")
 
@@ -210,14 +210,14 @@ def main():
     # Rescan to confirm
     print("\n[Rescanning] Verifying fixes...")
     remaining = fixer.find_syntax_errors()
-    print(f"[Status] Remaining syntax errors: {len(remaining)}")
+    print(f"[Status] Remaining syntax errors: {len(remaining}}")
 
     if remaining:
         print("\n[Files Still With Errors]")
         for f in remaining[:10]:
             print(f"  - {f}")
         if len(remaining) > 10:
-            print(f"  ... and {len(remaining)} - 10} more")
+            print(f"  ... and {len(remaining}} - 10} more")
 
 
 if __name__ == "__main__":

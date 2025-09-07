@@ -227,7 +227,7 @@ class VivoxWrapper:
         """Initialize VIVOX wrapper with safety-first configuration"""
         self.config = config or VivoxConfig()
         self.state = VivoxState(safety_mode=self.config.safety_mode)
-        self.session_id = f"vivox_{int(time.time()}"
+        self.session_id = f"vivox_{int(time.time())}"
         self.candidate_system = None  # Will load if activated
         self.memory_manager = None
 
@@ -541,7 +541,7 @@ class VivoxWrapper:
                         {
                             "context": context,
                             "insights": reflection_insights,
-                            "moment_id": f"reflection_{int(time.time()}",
+                            "moment_id": f"reflection_{int(time.time())}",
                         }
                     )
 
@@ -650,7 +650,7 @@ class VivoxWrapper:
         """Safe mock response for initialization"""
         return {
             "status": "initialized_dry_run",
-            "experience_id": f"mock_exp_{int(time.time()}",
+            "experience_id": f"mock_exp_{int(time.time())}",
             "consciousness_level": 0.5,
             "safety_metadata": {
                 "mode": "dry_run",
@@ -664,7 +664,7 @@ class VivoxWrapper:
         """Safe mock response for awareness updates"""
         return {
             "status": "updated_dry_run",
-            "experience_id": f"mock_awareness_{int(time.time()}",
+            "experience_id": f"mock_awareness_{int(time.time())}",
             "consciousness_level": 0.6,
             "safety_metadata": {
                 "mode": "dry_run",

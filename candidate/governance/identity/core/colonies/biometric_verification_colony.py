@@ -19,14 +19,19 @@ import streamlit as st
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
 from candidate.core.enhanced_swarm import AgentCapability
-from candidate.core.swarm import AgentState, SwarmAgent
+from candidate.core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import identity events
-from governance.identity.core.events import (
-    IdentityEventPublisher,
-    IdentityEventType,
-    VerificationResult,
-)
+try:
+    from governance.identity.core.events import (
+        IdentityEventPublisher,
+        IdentityEventType,
+        VerificationResult,
+    )
+except ImportError:
+    IdentityEventPublisher = None
+    IdentityEventType = None
+    VerificationResult = None
 
 logger = logging.getLogger("LUKHAS_BIOMETRIC_COLONY")
 

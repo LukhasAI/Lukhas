@@ -102,7 +102,7 @@ class LUKHASMCPServer:
                 return json.dumps(
                     {
                         "identity_system": "LUKHAS AI",
-                        "framework": "Trinity (⚛️🧠🛡️)",
+                        "framework": "Trinity (⚛️🧠🛡️)}",
                         "consciousness_level": "enhanced",
                     },
                     indent=2,

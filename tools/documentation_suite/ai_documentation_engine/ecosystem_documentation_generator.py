@@ -747,7 +747,7 @@ class DocumentationGenerator:
 
         for section in documentation.sections:
             html_content += f"    <h2>{section.title}</h2>\n"
-            html_content += f"    <p>{section.content.replace(chr(10), '</p><p>'}</p>\n"
+            html_content += f"    <p>{section.content.replace(chr(10}, '</p><p>'}</p>\n"
 
             for example in section.code_examples:
                 html_content += f"    <pre><code>{example}</code></pre>\n"

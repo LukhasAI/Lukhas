@@ -168,7 +168,7 @@ class StreamlineAnalyzer:
 
         # Common patterns across modules
         patterns = {
-            "logger_initialization": {"files": [], "pattern": "get_logger(__name__)"},
+            "logger_initialization": {"files": [], "pattern": "get_logger(__name__)}"},
             "config_loading": {"files": [], "pattern": "json.load"},
             "error_handling": {"files": [], "pattern": "try/except with logging"},
             "async_initialization": {"files": [], "pattern": "async def initialize"},

@@ -631,7 +631,7 @@ class LukhasUnifiedAPI:
     # Human-readable comment: Implementation logic for ΛiD creation endpoint.
     async def _create_lambda_id_endpoint_impl(self, request_data: UserProfileRequest) -> dict[str, Any]:
         """Core logic for creating a new LUKHAS ΛiD, including QRG integration if enabled."""
-        request_id = f"create_lid_{int(time.time() * 1000}"  # Simple request ID
+        request_id = f"create_lid_{int(time.time(} * 1000}"  # Simple request ID
         self.logger.info(
             f"ΛTRACE ({request_id}): Processing ΛiD creation request. Input emoji: {request_data.favorite_emoji}"
         )
@@ -698,7 +698,7 @@ class LukhasUnifiedAPI:
     # Human-readable comment: Implementation logic for symbolic authentication endpoint.
     async def _authenticate_symbolic_endpoint_impl(self, request_data: SymbolicAuthRequest) -> dict[str, Any]:
         """Core logic for symbolic authentication of a LUKHAS ΛiD."""
-        request_id = f"auth_sym_{int(time.time() * 1000}"
+        request_id = f"auth_sym_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({request_id}): Processing symbolic authentication for ΛiD '{request_data.lambda_id[:10]}...'. Requested Tier: {request_data.requested_tier}"
         )

@@ -28,7 +28,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 # Set up logging
-logger = logging.getLogger("enhanced_dream_fastapi", timezone)
+logger = logging.getLogger("enhanced_dream_fastapi")
 
 # FastAPI imports
 
@@ -734,7 +734,7 @@ async def process_dream(request: DreamRequest):
         dream_engine = get_dream_engine()
 
         # Generate unique dream ID
-        dream_id = f"dream_{int(start_time.timestamp() * 1000}"
+        dream_id = f"dream_{int(start_time.timestamp(} * 1000}"
 
         # Process the dream
         if hasattr(dream_engine, "process_dream"):

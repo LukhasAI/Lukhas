@@ -92,7 +92,7 @@ def dump_state(output_path: str) -> dict[str, Any]:
             fold_count = 0
 
         # Create state dump
-        f"version:{__version__},folds:{fold_count},time:{time.time()}"
+        state_info = f"version:{__version__},folds:{fold_count},time:{time.time()}"
 
     # Write to file
     try:

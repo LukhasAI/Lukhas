@@ -339,7 +339,7 @@ class F821MassEliminatorPhase2:
             print("❌ Could not retrieve violations")
             return
         
-        print(f"📈 Found {len(violations)} F821 violations")
+        print(f"📈 Found {len(violations}} F821 violations")
         
         # Group violations by file
         violations_by_file = {}
@@ -370,7 +370,7 @@ class F821MassEliminatorPhase2:
         processed_files = 0
         target_violations = set(self.violation_patterns.keys())
         
-        print(f"\n🚀 Processing {len(violations_by_file)} files...")
+        print(f"\n🚀 Processing {len(violations_by_file}} files...")
         
         for file_path, file_violations in violations_by_file.items():
             # Only process if file has target violations
@@ -386,7 +386,7 @@ class F821MassEliminatorPhase2:
         print(f"🔧 Fixes applied: {self.fixes_applied}")
         
         if self.errors:
-            print(f"\n⚠️ Errors encountered: {len(self.errors)}")
+            print(f"\n⚠️ Errors encountered: {len(self.errors}}")
             for error in self.errors[:10]:  # Show first 10 errors
                 print(f"   {error}")
 

@@ -144,7 +144,7 @@ if "result" in locals() and result:
                 f.write(json.dumps(memory_entry) + "\n")
             st.success("✅ Saved to Lukhas memory.")
         except Exception as mem_err:
-            st.error(f"[Memory Save Error] {str(mem_err)}")
+            st.error(f"[Memory Save Error] {str(mem_err}}")
 
 with st.expander("📘 App Overview (for README.md)"):
     st.markdown(

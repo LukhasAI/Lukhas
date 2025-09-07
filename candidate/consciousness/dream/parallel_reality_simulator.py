@@ -188,7 +188,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         # Create simulation
         simulation = RealitySimulation(
-            simulation_id=f"sim_{uuid.uuid4()}.hex[:8]}",
+            simulation_id=f"sim_{uuid.uuid4().hex[:8]}",
             origin_reality=origin_scenario,
             branches=[],
             start_time=datetime.now(timezone.utc),
@@ -231,7 +231,7 @@ class ParallelRealitySimulator(CoreInterface):
         reality_type: RealityType,
     ) -> RealityBranch:
         """Create single reality branch"""
-        branch_id = f"branch_{uuid.uuid4()}.hex[:8]}"
+        branch_id = f"branch_{uuid.uuid4().hex[:8]}"
 
         # Generate divergence based on reality type
         divergence = await self._generate_divergence(base_state, reality_type)
@@ -345,7 +345,7 @@ class ParallelRealitySimulator(CoreInterface):
         """Generate causal chain modification"""
         return {
             "modified_cause": self.qi_seed.choice(list(state.keys())),
-            "new_effect": f"effect_{uuid.uuid4()}.hex[:4]}",
+            "new_effect": f"effect_{uuid.uuid4().hex[:4]}",
             "strength": self.qi_seed.uniform(0.3, 1.0),
         }
 
@@ -727,7 +727,7 @@ class ParallelRealitySimulator(CoreInterface):
 
         # Create merged branch
         merged_branch = RealityBranch(
-            branch_id=f"merged_{uuid.uuid4()}.hex[:8]}",
+            branch_id=f"merged_{uuid.uuid4().hex[:8]}",
             parent_id=None,  # Multiple parents
             reality_type=RealityType.CREATIVE,  # Merged realities are creative
             divergence_point={"merge_sources": branch_ids},

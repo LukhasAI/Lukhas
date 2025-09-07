@@ -41,7 +41,7 @@ class BridgeMatrizAdapter:
                 "producer": "lukhas.bridge",
                 "capabilities": ["bridge:api", "bridge:llm", "bridge:orchestrate"],
                 "tenant": "system",
-                "trace_id": f"LT-BRDG-{int(time.time()}",
+                "trace_id": f"LT-BRDG-{int(time.time())}",
                 "consent_scopes": ["system:bridge"],
                 **(provenance_extra or {}),
             },
@@ -181,7 +181,7 @@ class BridgeMatrizAdapter:
 
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        filename = f"{node['id']}_{int(time.time()}.json"
+        filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
 
         with open(filepath, "w") as f:

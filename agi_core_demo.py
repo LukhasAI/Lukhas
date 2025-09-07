@@ -151,7 +151,7 @@ def show_development_timeline():
     print("=" * 60)
 
     timeline = {
-        "✅ Phase 1 - Core Infrastructure (COMPLETED)": [
+        "✅ Phase 1 - Core Infrastructure (COMPLETED)}": [
             "Advanced reasoning with dream integration",
             "Multi-model orchestration and consensus",
             "Enhanced memory with vector storage",

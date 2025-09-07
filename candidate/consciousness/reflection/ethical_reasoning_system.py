@@ -329,7 +329,7 @@ class DeontologicalReasoner:
 
         Evaluate action using deontological principles.
         """
-        req_id = f"deont_eval_{int(time.time() * 1000}"
+        req_id = f"deont_eval_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Starting deontological evaluation for action: '{proposed_action}', maxim: '{maxim}'."
         )
@@ -640,7 +640,7 @@ class ConsequentialistReasoner:
 
         Evaluate action using consequentialist principles.
         """
-        req_id = f"conseq_eval_{int(time.time() * 1000}"
+        req_id = f"conseq_eval_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Starting consequentialist evaluation for action: '{proposed_action}'. Alternatives: {alternatives}"
         )
@@ -975,7 +975,7 @@ class ValueAlignmentSystem:
 
         Learn values from human feedback on decisions.
         """
-        req_id = f"valign_learn_{int(time.time() * 1000}"
+        req_id = f"valign_learn_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Learning from feedback. Action: '{action_taken}', Feedback type: {feedback.get('type')}"
         )
@@ -1241,7 +1241,7 @@ class ValueAlignmentSystem:
 
         Assess current value alignment for a decision context.
         """
-        req_id = f"valign_assess_{int(time.time() * 1000}"
+        req_id = f"valign_assess_{int(time.time(} * 1000}"
         self.logger.info(f"ΛTRACE ({req_id}): Assessing value alignment for context: {str(decision_context)}[:100]}...")
         # ... (original logic with logging for key assessment results)
         relevant_values = self._identify_relevant_values(decision_context, "")
@@ -1450,7 +1450,7 @@ class EthicalReasoningSystem:
 
         Make comprehensive ethical judgment using multiple frameworks.
         """
-        req_id = f"ers_judge_{int(time.time() * 1000}"
+        req_id = f"ers_judge_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Making ethical judgment for question: '{ethical_question}'. Context keys: {list(context.keys()}"
         )

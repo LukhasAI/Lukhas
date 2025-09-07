@@ -90,7 +90,7 @@ def validate_consciousness_system():
             print(f"   📍 Path: {path}")
             results[name.lower().replace(" ", "_")] = True
         except Exception as e:
-            print(f"⚠️ {name}: Import issues - {str(e)}[:50]}...")
+            print(f"⚠️ {name}: Import issues - {str(e}[:50]}...")
             results[name.lower().replace(" ", "_")] = False
 
     print("\n📊 System Health Summary:")

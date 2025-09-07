@@ -111,7 +111,7 @@ def test_missing_consciousness_modules():
             print(f"❌ {module}: Module not found")
             results[module] = False
         except Exception as e:
-            print(f"⚠️  {module}: Import error - {str(e)[:40]}...")
+            print(f"⚠️  {module}: Import error - {str(e}[:40]}...")
             results[module] = False
 
     return results
@@ -134,13 +134,13 @@ def test_lukhas_namespace_issues():
             print(f"✅ {module}: Working")
             results[module] = True
         except AttributeError as e:
-            print(f"❌ {module}: AttributeError - {str(e)[:50]}...")
+            print(f"❌ {module}: AttributeError - {str(e}[:50]}...")
             results[module] = False
         except ImportError as e:
-            print(f"❌ {module}: ImportError - {str(e)[:50]}...")
+            print(f"❌ {module}: ImportError - {str(e}[:50]}...")
             results[module] = False
         except Exception as e:
-            print(f"❌ {module}: {type(e).__name__} - {str(e)[:50]}...")
+            print(f"❌ {module}: {type(e).__name__} - {str(e}[:50]}...")
             results[module] = False
 
     return results

@@ -11,29 +11,10 @@ export default function Hero() {
   const opacity = useTransform(scrollY, [0, 300], [1, 0.8]);
 
   return (
-    <section className="relative min-h-[100vh] flex items-center justify-center bg-gradient-to-br from-[var(--background)] via-[#0A0F1C] to-[var(--background)] overflow-hidden">
+    <section className="relative min-h-[100vh] flex items-center justify-center bg-[#0A0F1B] overflow-hidden">
       
-      {/* Premium Consciousness Particles */}
-      <ConsciousnessParticles 
-        count={80} 
-        consciousness="perception" 
-        interactive={true} 
-      />
-      
-      {/* Enhanced Background Layers */}
-      <motion.div 
-        style={{ y: y1, opacity }}
-        className="absolute inset-0 bg-dots opacity-20" 
-      />
-      <motion.div 
-        style={{ y: y2, opacity }}
-        className="absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_center,_var(--accent)_0px,_transparent_60%)]" 
-      />
-      
-      {/* Neural Network Grid */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_24px,rgba(102,126,234,0.05)_25px,rgba(102,126,234,0.05)_26px,transparent_27px,transparent_74px,rgba(102,126,234,0.05)_75px,rgba(102,126,234,0.05)_76px,transparent_77px),linear-gradient(rgba(102,126,234,0.05)_24px,transparent_25px,transparent_26px,rgba(102,126,234,0.05)_27px,rgba(102,126,234,0.05)_74px,transparent_75px,transparent_76px,rgba(102,126,234,0.05)_77px)] bg-[length:100px_100px]" />
-      </div>
+      {/* Simplified background with better contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A0F1B] to-[#0A0F1B]" />
       
       <div className="container relative z-10 text-center">
         <motion.div
@@ -56,7 +37,7 @@ export default function Hero() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Intelligence,
+              LUKHAS
             </motion.span>
             <motion.span 
               className="block bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] bg-clip-text text-transparent"
@@ -64,7 +45,7 @@ export default function Hero() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Reimagined
+              AI
             </motion.span>
           </motion.h1>
           
@@ -74,9 +55,9 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            LUKHAS is developing AI tools and interfaces
+            Distributed cognitive architecture with 692 specialized modules.
             <br className="hidden sm:block" />
-            <span className="text-accent font-normal">designed to enhance productivity and creativity.</span>
+            <span className="text-accent font-normal">Agent coordination hub with multi-AI orchestration and consciousness patterns.</span>
           </motion.p>
           
           <motion.div 
@@ -92,7 +73,7 @@ export default function Hero() {
                 className="group px-10 py-5 text-lg bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] hover:from-[var(--accent-hover)] hover:to-[var(--gradient-end)] border-0 shadow-2xl shadow-accent/25"
               >
                 <span className="flex items-center gap-2">
-                  Experience LUKHAS Studio
+                  Enter the Consciousness Studio
                   <motion.span
                     className="inline-block"
                     whileHover={{ x: 5 }}
@@ -112,7 +93,7 @@ export default function Hero() {
                 className="group px-10 py-5 text-lg border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/10 backdrop-blur-sm"
               >
                 <span className="flex items-center gap-2">
-                  Explore Our Vision
+                  Discover the Constellation
                   <motion.span
                     className="inline-block"
                     whileHover={{ rotate: 45 }}
@@ -127,10 +108,9 @@ export default function Hero() {
         </motion.div>
       </div>
       
-      {/* Decorative elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-[var(--accent)]/10 rounded-full blur-2xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-48 h-48 bg-[var(--gradient-end)]/5 rounded-full blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-[var(--accent)]/5 to-[var(--gradient-end)]/5 rounded-full blur-3xl opacity-30" />
+      {/* Decorative elements - minimal for better contrast */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-[var(--accent)]/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-48 h-48 bg-[var(--gradient-end)]/3 rounded-full blur-3xl" />
     </section>
   );
 }

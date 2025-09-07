@@ -2,14 +2,15 @@
 
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/Card';
 import { PRODUCTS } from '@/lib/constants';
-import { ExternalLink, Zap, Wallet, Mail, Shield } from 'lucide-react';
+import { ExternalLink, Zap, Shield, Heart, Moon, Eye, Brain } from 'lucide-react';
 
 const productIcons = {
   'LUKHAS Studio': Zap,
-  'LUKHAS Identity': Shield,
-  'LUKHAS Wallet': Wallet,
-  'LUKHAS Connect': Mail,
-  'NIAS Intelligence': ExternalLink,
+  'Identity Star Protection': Shield,
+  'Bio Star Adaptation': Heart,
+  'Dream Star Engine': Moon,
+  'Guardian Star Oversight': Shield,
+  'Memory Star Context': Brain,
 };
 
 export default function ProductGrid() {
@@ -18,11 +19,11 @@ export default function ProductGrid() {
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="text-h2 font-semibold text-[var(--text-primary)] mb-4">
-            The <span className="bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] bg-clip-text text-transparent">LUKHAS Ecosystem</span>
+            The <span className="bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)] bg-clip-text text-transparent">Constellation Framework</span>
           </h2>
           <p className="text-body text-[var(--text-secondary)] max-w-3xl mx-auto leading-relaxed">
-            A developing suite of AI tools that aim to adapt to your needs, learn from your patterns,
-            and evolve with your workflow—exploring more personalized intelligence experiences.
+            Navigate by stars through eight interconnected domains of consciousness technology. 
+            Each star illuminates different aspects of what's possible when AI truly understands, feels, and protects.
           </p>
         </div>
         

@@ -176,7 +176,7 @@ class MemoryFoldSystem:
 
     def _generate_item_id(self) -> str:
         """Generate unique item ID."""
-        return f"item_{uuid.uuid4()}.hex[:12]}"
+        return f"item_{uuid.uuid4().hex[:12]}"
 
     def _generate_tag_id(self, tag_name: str) -> str:
         """Generate deterministic tag ID from name."""

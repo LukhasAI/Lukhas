@@ -619,7 +619,7 @@ class MultiNodeStateManager:
             )
             self.nodes[node_id] = manager
 
-        logger.info(f"Multi-node manager initialized with {len(self.nodes)} nodes")
+        logger.info(f"Multi-node manager initialized with {len(self.nodes}} nodes")
 
     def get_node(self, key: str) -> DistributedStateManager:
         """Get the node responsible for a key using consistent hashing"""

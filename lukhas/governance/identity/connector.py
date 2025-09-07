@@ -575,7 +575,7 @@ class IdentityConnector:
             "ethics",
         ]
         if not any(trusted_name in str(type(module_instance).__module__) for trusted_name in trusted_modules):
-            raise SecurityError(f"Untrusted module source: {type(module_instance)}.__module__}")
+            raise SecurityError(f"Untrusted module source: {type(module_instance).__module__}")
 
         if self._implementation_type == "production":
             # Real implementation with full audit trail and controlled method injection

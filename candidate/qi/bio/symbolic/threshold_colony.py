@@ -276,7 +276,7 @@ class AdaptiveThresholdColony(BaseColony):
     async def _calculate_colony_modifier(self, context: dict[str, Any], bio_data: dict[str, Any]) -> float:
         """Calculate colony consensus modifier."""
         # Check cache first
-        cache_key = f"{json.dumps(sorted(bio_data.items())}"
+        cache_key = f"{json.dumps(sorted(bio_data.items()}"
         if cache_key in self.colony_consensus_cache:
             cached_time, cached_value = self.colony_consensus_cache[cache_key]
             if datetime.now(timezone.utc) - cached_time < self.consensus_ttl:

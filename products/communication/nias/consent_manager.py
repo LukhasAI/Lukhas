@@ -13,7 +13,7 @@ import streamlit as st
 
 from .nias_core import ConsentLevel
 
-logger = logging.getLogger("Lambda.NIΛS.Consent", timezone)
+logger = logging.getLogger("Lambda.NIΛS.Consent")
 
 
 class ConsentScope(Enum):

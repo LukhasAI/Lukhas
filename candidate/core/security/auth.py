@@ -495,7 +495,7 @@ class EnhancedAuthenticationSystem:
 
         # In production, send actual SMS
         # Log safely without exposing the code
-        logger.info(f"SMS MFA code sent to phone ending in {phone_number[-4:] if len(phone_number)} >= 4 else '****'}")
+        logger.info(f"SMS MFA code sent to phone ending in {phone_number[-4:] if len(phone_number) >= 4 else '****'}")
 
         return True
 
@@ -548,7 +548,7 @@ class EnhancedAuthenticationSystem:
         # In production, send actual email
         # Log safely without exposing the code
         logger.info(
-            f"Email MFA code sent to {email.split('@')[0][:3]}***@{email.split('@')}[1] if '@' in email else 'unknown'}"
+            f"Email MFA code sent to {email.split('@')[0][:3]}***@{email.split('@')[1]} if '@' in email else 'unknown'"
         )
 
         return True

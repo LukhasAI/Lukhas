@@ -427,7 +427,7 @@ class MemoryFoldTracker:
 
             glyph_timeline.append(
                 {
-                    "window": f"sessions_{i}-{min(i + window_size - 1, len(sessions) - 1)}",
+                    "window": f"sessions_{i}-{min(i + window_size - 1, len(sessions) - 1}",
                     "total_glyphs": total_glyphs,
                     "unique_glyphs": unique_glyphs,
                     "trinity_ratio": (trinity_count / total_glyphs if total_glyphs > 0 else 0),

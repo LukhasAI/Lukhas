@@ -37,8 +37,18 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
     raise ImportError(f"Could not import {item_name} from any of: {paths_to_try}")
 
 
-logger.warning("Using BaseColony stub (no cross-lane imports)")
-# Define a minimal BaseColony stub (stable lane only)
+# Try to prefer real implementations from candidate lane first
+logger.debug("Attempting to import colony implementations from candidate lane")
+
+def _try_import(name: str, candidate_module: str, item_name: str):
+    try:
+        mod = importlib.import_module(candidate_module)
+        if hasattr(mod, item_name):
+            logger.info(f"Imported {item_name} from {candidate_module}")
+            return getattr(mod, item_name)
+    except Exception:
+        logger.debug(f"Could not import {item_name} from {candidate_module}")
+    return None
 
 
 @dataclass
@@ -53,22 +63,27 @@ class ConsensusResult:
     dissent_reasons: list[str] = field(default_factory=list)
 
 
-class BaseColony(ABC):
-    """Base class for all agent colonies (stub implementation)"""
+BaseColony = _try_import('BaseColony', 'candidate.core.colonies.base_colony', 'BaseColony')
 
-    def __init__(self, colony_id: str, capabilities: list[str]) -> None:
-        self.colony_id = colony_id
-        self.capabilities = capabilities
-        # Actors in this colony (agent_id -> agent instance)
-        self.actors: dict[str, Any] = {}
+if BaseColony is None:
+    logger.warning("Using BaseColony stub (no cross-lane imports)")
 
-    @abstractmethod
-    def process(self, task: Any) -> Any:
-        """Process a task in the colony"""
+    class BaseColony(ABC):
+        """Base class for all agent colonies (stub implementation)"""
 
-    @abstractmethod
-    def reach_consensus(self, proposal: Any) -> ConsensusResult:
-        """Reach consensus on a proposal"""
+        def __init__(self, colony_id: str, capabilities: list[str]) -> None:
+            self.colony_id = colony_id
+            self.capabilities = capabilities
+            # Actors in this colony (agent_id -> agent instance)
+            self.actors: dict[str, Any] = {}
+
+        @abstractmethod
+        def process(self, task: Any) -> Any:
+            """Process a task in the colony"""
+
+        @abstractmethod
+        def reach_consensus(self, proposal: Any) -> ConsensusResult:
+            """Reach consensus on a proposal"""
 
 
 # Import colony types with fallback

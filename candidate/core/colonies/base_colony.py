@@ -11,7 +11,7 @@ from typing import Any, Optional
 import streamlit as st
 
 from lukhas.core.actor_system import ActorRef, AIAgentActor, get_global_actor_system
-from lukhas.core.colonies.supervisor_agent import SupervisorAgent
+from candidate.core.colonies.supervisor_agent import SupervisorAgent
 from lukhas.core.distributed_tracing import create_ai_tracer
 from lukhas.core.efficient_communication import EfficientCommunicationFabric
 from lukhas.core.event_sourcing import AIAgentAggregate, get_global_event_store

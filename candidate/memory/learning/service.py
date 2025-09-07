@@ -308,7 +308,7 @@ class LearningService:
                 "context": adaptation_context,
                 "targets": behavior_targets,
                 "strategy": adaptation_strategy,
-                "success_rate": adaptation_results.get("success_rate", 0.0),
+                "success_rate": adaptation_results.get("success_rate", 0.0},
             }
             self.knowledge_base["adaptation_history"].append(adaptation_record)
 
@@ -337,7 +337,7 @@ class LearningService:
                 "adaptation_results": adaptation_results,
                 "behavior_targets": behavior_targets,
                 "adaptation_strategy": adaptation_strategy,
-                "adapted_at": datetime.now(timezone.utc).isoformat(),
+                "adapted_at": datetime.now(timezone.utc).isoformat(},
             }
         except Exception as e:
             error_msg = f"Behavior adaptation error: {e!s}"
@@ -455,7 +455,7 @@ class LearningService:
                 "synthesis_error",
                 user_id,
                 {
-                    "source_count": len(knowledge_sources),
+                    "source_count": len(knowledge_sources},
                     "synthesis_method": synthesis_method,
                     "error": error_msg,
                 },

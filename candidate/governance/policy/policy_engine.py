@@ -702,7 +702,7 @@ class PolicyEnforcementEngine:
             )
         )
 
-        logger.info(f"✅ Initialized {len(self.rule_engine.rules)} standard policy rules")
+        logger.info(f"✅ Initialized {len(self.rule_engine.rules}} standard policy rules")
 
     async def evaluate_policies(
         self, context: dict[str, Any], operation: str = "general", user_id: Optional[str] = None
@@ -783,7 +783,7 @@ class PolicyEnforcementEngine:
 
             logger.debug(
                 f"✅ Policy evaluation completed: {evaluation_id} "
-                f"(action: {final_action.value}, violations: {len(violations)})"
+                f"(action: {final_action.value}, violations: {len(violations}})}"
             )
 
             return result
@@ -1051,7 +1051,7 @@ class PolicyEnforcementEngine:
         ]
         if critical_violations:
             highest_priority_action = PolicyAction.DENY
-            action_reasons.insert(0, f"{len(critical_violations)} critical violations")
+            action_reasons.insert(0, f"{len(critical_violations}} critical violations")
 
         return highest_priority_action, " | ".join(action_reasons[:3])
 

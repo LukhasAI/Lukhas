@@ -309,7 +309,7 @@ def register_user_endpoint():
     Validates input, checks password strength, creates user record,
     generates ΛiD, and returns authentication tokens.
     """
-    request_id = f"reg_{int(time.time() * 1000}"
+    request_id = f"reg_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received POST request to /register.")
 
     try:
@@ -466,7 +466,7 @@ def login_user_endpoint():
     Validates credentials, implements brute-force protection,
     generates JWT tokens, and maintains secure sessions.
     """
-    request_id = f"login_{int(time.time() * 1000}"
+    request_id = f"login_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received POST request to /login.")
 
     try:
@@ -695,7 +695,7 @@ def logout_user_endpoint():
     Handles secure user logout with token invalidation.
     Blacklists tokens, terminates sessions, and provides audit trail.
     """
-    request_id = f"logout_{int(time.time() * 1000}"
+    request_id = f"logout_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received POST request to /logout.")
 
     try:
@@ -782,7 +782,7 @@ def verify_authentication_token_endpoint():
     Validates token signature, expiration, user existence, and session status.
     Returns user information and token claims if valid.
     """
-    request_id = f"verify_{int(time.time() * 1000}"
+    request_id = f"verify_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received POST request to /token/verify.")
 
     try:
@@ -929,7 +929,7 @@ def refresh_token_endpoint():
     Refresh access token using a valid refresh token.
     Provides secure token rotation for maintaining authentication.
     """
-    request_id = f"refresh_{int(time.time() * 1000}"
+    request_id = f"refresh_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received POST request to /token/refresh.")
 
     try:
@@ -1058,7 +1058,7 @@ def get_user_profile():
     """
     Get user profile information (requires valid access token).
     """
-    request_id = f"profile_{int(time.time() * 1000}"
+    request_id = f"profile_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received GET request to /user/profile.")
 
     try:
@@ -1136,7 +1136,7 @@ def change_password():
     """
     Change user password (requires valid access token and current password).
     """
-    request_id = f"changepw_{int(time.time() * 1000}"
+    request_id = f"changepw_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received POST request to /user/change-password.")
 
     try:
@@ -1274,7 +1274,7 @@ def get_user_sessions():
     """
     Get active sessions for the authenticated user.
     """
-    request_id = f"sessions_{int(time.time() * 1000}"
+    request_id = f"sessions_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received GET request to /user/sessions.")
 
     try:
@@ -1348,7 +1348,7 @@ def revoke_session():
     """
     Revoke a specific session by session ID.
     """
-    request_id = f"revoke_{int(time.time() * 1000}"
+    request_id = f"revoke_{int(time.time()) * 1000}"
     logger.info(f"ΛTRACE ({request_id}): Received POST request to /user/revoke-session.")
 
     try:
@@ -1470,7 +1470,7 @@ def require_auth(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        request_id = f"auth_{int(time.time() * 1000}"
+        request_id = f"auth_{int(time.time()) * 1000}"
 
         try:
             # Extract and validate token

@@ -310,7 +310,7 @@ class EnhancedDreamEngine:
         duration = datetime.now(timezone.utc) - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
-        logger.info(f"Dream cycle completed: Duration={duration.total_seconds()}:.1f}s, Memories={memories}")
+        logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""

@@ -17,7 +17,7 @@ from typing import Any, Dict, Optional
 
 import streamlit as st
 
-logger = logging.getLogger("Lambda.NIΛS.UserData", timezone)
+logger = logging.getLogger("Lambda.NIΛS.UserData")
 
 
 class DataSource(Enum):

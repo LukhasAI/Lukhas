@@ -297,7 +297,7 @@ class MATRIZGraphViewer:
                 self.add_node(node)
                 successful += 1
             except Exception as e:
-                logger.warning(f"Failed to add node {node.get('id', 'unknown')}: {e}")
+                logger.warning(f"Failed to add node {node.get('id', 'unknown'}}: {e}")
                 failed += 1
 
         logger.info(f"Batch add complete: {successful} success, {failed} failed")
@@ -399,7 +399,7 @@ class MATRIZGraphViewer:
 
             matching_nodes.append(node_id)
 
-        logger.info(f"Search found {len(matching_nodes)} matching nodes")
+        logger.info(f"Search found {len(matching_nodes}} matching nodes")
         return matching_nodes
 
     def create_interactive_plot(
@@ -453,7 +453,7 @@ class MATRIZGraphViewer:
                 margin={"b": 20, "l": 5, "r": 5, "t": 40},
                 annotations=[
                     {
-                        "text": f"Nodes: {self.graph.number_of_nodes()}, Edges: {self.graph.number_of_edges()}",
+                        "text": f"Nodes: {self.graph.number_of_nodes()}, Edges: {self.graph.number_of_edges(}}",
                         "showarrow": False,
                         "xref": "paper",
                         "yref": "paper",
@@ -473,7 +473,7 @@ class MATRIZGraphViewer:
             # Add legend for node types
             self._add_node_type_legend(fig)
 
-            logger.info(f"Created interactive plot with {self.graph.number_of_nodes()} nodes")
+            logger.info(f"Created interactive plot with {self.graph.number_of_nodes(}} nodes")
             return fig
 
         except Exception as e:
@@ -537,7 +537,7 @@ class MATRIZGraphViewer:
                     go.Frame(
                         data=frame_data,
                         name=str(timestamp),
-                        layout={"title": f"{title} - {datetime.fromtimestamp(timestamp / 1000).strftime('%H:%M:%S')}"},
+                        layout={"title": f"{title} - {datetime.fromtimestamp(timestamp / 1000).strftime('%H:%M:%S'}}"},
                     )
                 )
 
@@ -617,7 +617,7 @@ class MATRIZGraphViewer:
                 paper_bgcolor="white",
             )
 
-            logger.info(f"Created temporal animation with {len(frames)} frames")
+            logger.info(f"Created temporal animation with {len(frames}} frames")
             return fig
 
         except Exception as e:
@@ -839,7 +839,7 @@ class MATRIZGraphViewer:
             self._analysis_cache[cache_key] = metrics
             self._cache_timestamp = current_time
 
-            logger.info(f"Calculated {len(metrics)} graph metrics")
+            logger.info(f"Calculated {len(metrics}} graph metrics")
             return metrics
 
         except Exception as e:
@@ -1125,7 +1125,7 @@ class MATRIZGraphViewer:
 
     def _compute_layout(self, layout_type: str) -> dict[str, tuple[float, float]]:
         """Compute node positions using specified layout algorithm."""
-        cache_key = f"{layout_type}_{self.graph.number_of_nodes()}_{self.graph.number_of_edges()}"
+        cache_key = f"{layout_type}_{self.graph.number_of_nodes()}_{self.graph.number_of_edges(}}"
 
         if cache_key in self.layout_cache:
             return self.layout_cache[cache_key]
@@ -1246,10 +1246,10 @@ class MATRIZGraphViewer:
     def _create_hover_text(self, node_id: str, data: dict) -> str:
         """Create detailed hover text for a node."""
         lines = [
-            f"<b>{data.get('type', 'Unknown')}</b>",
+            f"<b>{data.get('type', 'Unknown'}}</b>",
             f"ID: {node_id[:12]}...",
-            f"Confidence: {data.get('confidence', 0)}:.3f}",
-            f"Salience: {data.get('salience', 0)}:.3f}",
+            f"Confidence: {data.get('confidence', 0}}:.3f}",
+            f"Salience: {data.get('salience', 0}}:.3f}",
         ]
 
         if "valence" in data and data["valence"] is not None:
@@ -1514,10 +1514,10 @@ if __name__ == "__main__":
     # Search functionality
     print("\nTesting search functionality...")
     computation_nodes = viewer.search_nodes(node_type="COMPUTATION")
-    print(f"Found {len(computation_nodes)} COMPUTATION nodes")
+    print(f"Found {len(computation_nodes}} COMPUTATION nodes")
 
     high_confidence_nodes = viewer.search_nodes(min_confidence=0.8)
-    print(f"Found {len(high_confidence_nodes)} high-confidence nodes")
+    print(f"Found {len(high_confidence_nodes}} high-confidence nodes")
 
     # Create visualizations
     print("\nCreating visualizations...")

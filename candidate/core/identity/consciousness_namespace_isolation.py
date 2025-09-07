@@ -678,7 +678,7 @@ class ConsciousnessNamespaceManager:
     def _generate_consciousness_signature(self, domain: ConsciousnessDomain) -> str:
         """Generate unique consciousness signature for domain"""
 
-        domain_data = f"{domain.value}_{int(time.time() * 1000}"
+        domain_data = f"{domain.value}_{int(time.time(} * 1000}"
         signature_hash = hashlib.sha256(domain_data.encode()).hexdigest()
 
         return f"cs_{signature_hash[:16]}"

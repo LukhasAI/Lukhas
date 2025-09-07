@@ -141,7 +141,10 @@ class DreamGenerator:
             Generated dream with narrative and visuals
         """
         try:
-            dream_id = f"dream_{hashlib.md5(f\'{context.user_id)}_{datetime.now(timezone.utc)}\'.encode()).hexdigest()[:12]}"
+            # Create unique dream ID
+            timestamp = datetime.now(timezone.utc)
+            hash_input = f"{context.user_id}_{timestamp}".encode()
+            dream_id = f"dream_{hashlib.md5(hash_input).hexdigest()[:12]}"
 
             # Check cache
             cache_key = self._get_cache_key(context)
@@ -645,7 +648,7 @@ Guidelines:
             "models": {
                 "narrative": self.config["gpt_model"],
                 "image": self.config["dalle_model"],
-                "video": "sora (pending)",
+                "video": "sora (pending)}",
             },
             "ethical_threshold": self.config["ethical_threshold"],
             "openai_available": OPENAI_AVAILABLE and self.openai_client is not None,

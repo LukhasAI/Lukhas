@@ -145,7 +145,7 @@ class TestToolExecutor:
     @pytest.mark.asyncio
     async def test_code_execution_disabled(self, tool_executor):
         """Test code execution when disabled"""
-        result = await tool_executor.execute("exec_code", '{"language": "python", "source": "print(\\"hello\\")"}')
+        result = await tool_executor.execute("exec_code", '{"language": "python", "source": "print(\\"hello\\")}"}')
 
         assert "Code execution is disabled" in result
 
@@ -174,7 +174,7 @@ class TestToolExecutor:
             executor = ToolExecutor()
             result = await executor.execute(
                 "exec_code",
-                '{"language": "python", "source": "print(\\"Hello World\\")"}',
+                '{"language": "python", "source": "print(\\"Hello World\\")}"}',
             )
 
             assert "Execution completed successfully" in result

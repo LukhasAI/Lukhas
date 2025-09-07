@@ -20,21 +20,36 @@ import numpy as np
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
 from candidate.core.enhanced_swarm import AgentCapability, AgentMemory
-from candidate.core.swarm import AgentState, SwarmAgent
+from candidate.core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import event bus for dream coordination
-from candidate.orchestration.symbolic_kernel_bus import DreamEventType
+try:
+    from candidate.orchestration.symbolic_kernel_bus import DreamEventType
+except ImportError:
+    DreamEventType = None
 
 # Import dream system components
-from governance.identity.core.auth.dream_auth import (
-    DreamAuthenticationResult,
-    DreamAuthenticator,
-    DreamPattern,
-    DreamSeed,
-    DreamSymbol)
+try:
+    from governance.identity.core.auth.dream_auth import (
+        DreamAuthenticationResult,
+        DreamAuthenticator,
+        DreamPattern,
+        DreamSeed,
+        DreamSymbol,
+    )
+except ImportError:
+    DreamAuthenticationResult = None
+    DreamAuthenticator = None
+    DreamPattern = None
+    DreamSeed = None
+    DreamSymbol = None
 
 # Import identity events
-from governance.identity.core.events import IdentityEventPublisher, IdentityEventType
+try:
+    from governance.identity.core.events import IdentityEventPublisher, IdentityEventType
+except ImportError:
+    IdentityEventPublisher = None
+    IdentityEventType = None
 
 logger = logging.getLogger("LUKHAS_DREAM_COLONY")
 
@@ -1101,7 +1116,7 @@ class DreamVerificationColony(BaseColony):
 
         for result in analysis_results:
             if result.get("success"):
-                signature_elements.append(f"{result.get('specialization')}:{result.get('confidence')}:.3f}")
+                signature_elements.append(f"{result.get('specialization')}:{result.get('confidence'):.3f}")
 
         signature_string = "|".join(sorted(signature_elements))
         return hashlib.sha256(signature_string.encode()).hexdigest()[:32]

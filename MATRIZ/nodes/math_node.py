@@ -308,7 +308,7 @@ class MathNode(CognitiveNode):
             if len(expression) > 1000:
                 return {
                     "valid": False,
-                    "error": "Expression too long (max 1000 characters)",
+                    "error": "Expression too long (max 1000 characters)}",
                 }
 
             # Check for empty expression
@@ -613,12 +613,12 @@ if __name__ == "__main__":
         {"expression": "10 - 3", "expected_type": "success"},
         # Parentheses and order of operations
         {"expression": "(10 + 5) * 2", "expected_type": "success"},
-        {"expression": "2 * (3 + 4)", "expected_type": "success"},
+        {"expression": "2 * (3 + 4)}", "expected_type": "success"},
         {"expression": "((2 + 3) * 4) / 5", "expected_type": "success"},
         # Exponents
         {"expression": "2 ** 3", "expected_type": "success"},
         {"expression": "10 ** 2", "expected_type": "success"},
-        {"expression": "2 ** (3 + 1)", "expected_type": "success"},
+        {"expression": "2 ** (3 + 1)}", "expected_type": "success"},
         # Mathematical constants
         {"expression": "pi * 2", "expected_type": "success"},
         {"expression": "e ** 1", "expected_type": "success"},
@@ -627,14 +627,14 @@ if __name__ == "__main__":
         {"expression": "10.5 / 2.5", "expected_type": "success"},
         # Negative numbers
         {"expression": "-5 + 3", "expected_type": "success"},
-        {"expression": "10 + (-3)", "expected_type": "success"},
+        {"expression": "10 + (-3)}", "expected_type": "success"},
         # Complex expressions
-        {"expression": "((2 + 3) * 4 - 1) / (2 ** 2)", "expected_type": "success"},
+        {"expression": "((2 + 3) * 4 - 1) / (2 ** 2)}", "expected_type": "success"},
         # Error cases
         {"expression": "1 / 0", "expected_type": "error"},
         {"expression": "", "expected_type": "error"},
         {"expression": "2 +", "expected_type": "error"},
-        {"expression": "((2 + 3)", "expected_type": "error"},
+        {"expression": "((2 + 3)}", "expected_type": "error"},
         {"expression": "2 + unknown_var", "expected_type": "error"},
         {"expression": "import os", "expected_type": "error"},
     ]
@@ -654,7 +654,7 @@ if __name__ == "__main__":
 
         try:
             # Process the expression
-            result = math_node.process({"expression": expression, "context": {"test_case": i})
+            result = math_node.process({"expression": expression, "context": {"test_case": i}})
 
             # Validate output
             is_valid = math_node.validate_output(result)
@@ -701,7 +701,7 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 50)
     print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests  * 100:.1f}%)")
-    print(f"Processing History: {len(math_node.get_trace()} MATRIZ nodes created")
+    print(f"Processing History: {len(math_node.get_trace())} MATRIZ nodes created")
 
     # Show deterministic behavior
     print("\nDeterministic Test:")

@@ -26,7 +26,7 @@ class LUKHASConceptValidator:
             "dream_recall": "Ability to remember and analyze dreams",
             "dream_engine": "Core dream processing system",
             "dream_resonance": "Harmonic patterns in dream states",
-            "oneiric": "Related to dreams (Greek origin)",
+            "oneiric": "Related to dreams (Greek origin)}",
             "dream_scenario": "Parallel universe scenario generation",
             # Quantum
             "qi_state": "Superposition of possibilities",
@@ -160,7 +160,7 @@ class LUKHASConceptValidator:
             "preserved": len(self.validation_results["preserved"]),
             "at_risk": len(self.validation_results["at_risk"]),
             "missing": len(self.validation_results["missing"]),
-            "preservation_rate": f"{(len(self.validation_results['preserved']) / total_concepts * 100}:.1f}%",
+            "preservation_rate": f"{(len(self.validation_results['preserved']} / total_concepts * 100}:.1f}%",
         }
 
     def _generate_report(self):

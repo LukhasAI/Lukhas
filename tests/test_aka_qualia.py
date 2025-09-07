@@ -134,10 +134,10 @@ class TestT1PLSMonotonicity:
     def test_threat_arousal_monotonicity(self):
         """Test threat↑ → arousal↑ monotonicity"""
         # Low threat scenario
-        low_threat_signals = {"text": "peaceful morning walk", "emotion": {"valence": 0.5}
+        low_threat_signals = {"text": "peaceful morning walk", "emotion": {"valence": 0.5}}
 
         # High threat scenario
-        high_threat_signals = {"text": "danger alarm threat panic", "emotion": {"valence": -0.8}
+        high_threat_signals = {"text": "danger alarm threat panic", "emotion": {"valence": -0.8}}
 
         memory_ctx = {"similarity_scores": [0.5]}
 
@@ -161,10 +161,10 @@ class TestT1PLSMonotonicity:
     def test_soothing_monotonicity(self):
         """Test soothing↑ → tone↑ arousal↓ monotonicity"""
         # Low soothing
-        neutral_signals = {"text": "regular day", "emotion": {"valence": 0.0}
+        neutral_signals = {"text": "regular day", "emotion": {"valence": 0.0}}
 
         # High soothing
-        soothing_signals = {"text": "calm peaceful gentle soothing comfort", "emotion": {"valence": 0.8}
+        soothing_signals = {"text": "calm peaceful gentle soothing comfort", "emotion": {"valence": 0.8}}
 
         memory_ctx = {"similarity_scores": [0.5]}
 
@@ -187,10 +187,10 @@ class TestT1PLSMonotonicity:
     def test_temporal_pressure_urgency(self):
         """Test temporal_pressure↑ → urgent temporal_feel"""
         # High temporal pressure
-        urgent_signals = {"text": "urgent deadline asap immediately", "temporal_context": {"deadline_proximity": 0.9}
+        urgent_signals = {"text": "urgent deadline asap immediately", "temporal_context": {"deadline_proximity": 0.9}}
 
         # Low temporal pressure
-        relaxed_signals = {"text": "whenever convenient", "temporal_context": {"deadline_proximity": 0.1}
+        relaxed_signals = {"text": "whenever convenient", "temporal_context": {"deadline_proximity": 0.1}}
 
         memory_ctx = {}
 

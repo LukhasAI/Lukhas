@@ -30,7 +30,7 @@ from typing import Any, Optional
 
 import streamlit as st
 
-from ethics.ethical_guardian import ethical_check
+from .ethical_guardian import ethical_check
 
 # Try to import OpenAI integration
 try:

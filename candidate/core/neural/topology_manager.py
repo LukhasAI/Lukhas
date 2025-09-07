@@ -341,7 +341,7 @@ class TopologyManager:
                     total_shortest_path_sum += path_len
                     num_paths_calculated += 1
                     self.logger.debug(
-                        f"ΛTRACE: Path from '{source_node_id)' to '{target_node_id}' length: {path_len}"
+                        f"ΛTRACE: Path from '{source_node_id}' to '{target_node_id}' length: {path_len}"
                     )
                 # else: target is not reachable from source in this component. Path length could be considered infinite.
                 # For simplicity, we only average over reachable pairs. Some definitions
@@ -458,7 +458,7 @@ class TopologyManager:
             node1_id,
         ) in self.network.connections
         self.logger.debug(
-            f"ΛTRACE: Connection status between '{node1_id)' and '{node2_id}': {is_conn}."
+            f"ΛTRACE: Connection status between '{node1_id}' and '{node2_id}': {is_conn}."
         )
         return is_conn
 
@@ -469,7 +469,7 @@ class TopologyManager:
         self.logger.debug(f"ΛTRACE: Starting BFS from source node '{source_node_id)'.")
         if source_node_id not in self.network.nodes:
             self.logger.warning(
-                f"ΛTRACE: Source node '{source_node_id)' for BFS not found in network."
+                f"ΛTRACE: Source node '{source_node_id}' for BFS not found in network."
             }
             return {}
 
@@ -491,7 +491,7 @@ class TopologyManager:
                     distances[neighbor_id] = current_node_dist + 1
                     queue.append(neighbor_id)
                     self.logger.debug(
-                        f"ΛTRACE: BFS: Reached '{neighbor_id)' from '{source_node_id)',
+                        f"ΛTRACE: BFS: Reached '{neighbor_id)' from '{source_node_id}',
                         distance {distances[neighbor_id]}."
                     )
 

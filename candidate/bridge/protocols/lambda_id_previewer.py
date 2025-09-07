@@ -353,7 +353,7 @@ class PublicLambdaIDPreviewer:
                 result.educational_content = self._get_educational_content(result)
 
         except Exception as e:
-            result.errors.append(f"Analysis error: {str(e)}")
+            result.errors.append(f"Analysis error: {str(e}}")
 
         return result
 
@@ -712,7 +712,7 @@ class PublicLambdaIDPreviewer:
             demos.append(
                 {
                     "id": demo_id,
-                    "description": f"Commercial {commercial_type.title()} Example",
+                    "description": f"Commercial {commercial_type.title(}} Example",
                     "category": "commercial_demo",
                 }
             )
@@ -779,7 +779,7 @@ class PublicLambdaIDPreviewer:
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Demo generation failed: {str(e)}",
+                "error": f"Demo generation failed: {str(e}}",
             }
 
     def get_tier_comparison(self) -> dict[str, Any]:
@@ -907,7 +907,7 @@ class PublicLambdaIDPreviewer:
                 analysis["suggestions"].append("Start with the lambda symbol: LUKHAS")
 
         except Exception as e:
-            analysis["format_validation"]["errors"].append(f"Analysis error: {str(e)}")
+            analysis["format_validation"]["errors"].append(f"Analysis error: {str(e}}")
 
         return analysis
 

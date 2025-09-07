@@ -34,7 +34,7 @@ def generate_ultimate_coverage_summary():
         "coverage_percentage": 40.3,
         "quality_score": 93.8,
         "fully_tested_systems": ["Identity", "Memory", "Consciousness", "API", "Security"],
-        "partially_tested_systems": ["Core (50% success)"],
+        "partially_tested_systems": ["Core (50% success)}"],
     }
 
     # Priority 3 results (emotion, bio, monitoring, tools)
@@ -137,7 +137,7 @@ def generate_ultimate_coverage_summary():
         },
         "final_system_status": {
             "excellent_coverage": [
-                "🔑 Identity System (ΛID, authentication, tiered access)",
+                "🔑 Identity System (ΛID, authentication, tiered access)}",
                 "🧠 Memory System (persistence, recall, fold logging)",
                 "🎭 Consciousness System (state mgmt, Trinity integration)",
                 "🌐 API System (FastAPI, endpoints, middleware)",
@@ -163,7 +163,7 @@ def generate_ultimate_coverage_summary():
         "comprehensive_test_infrastructure": {
             "total_test_files": 6,
             "functional_test_suites": [
-                "test_core_systems_functional.py (Priority 1-2: Core consciousness systems)",
+                "test_core_systems_functional.py (Priority 1-2: Core consciousness systems)}",
                 "test_api_security_functional.py (Priority 1-2: Infrastructure systems)",
                 "test_priority3_systems_functional.py (Priority 3: Extended systems)",
                 "test_priority4_systems_functional.py (Priority 4: Advanced systems)",
@@ -204,7 +204,7 @@ def generate_ultimate_coverage_summary():
             "production_ready_systems": 12,
             "needs_minor_fixes": 3,
             "needs_major_development": 2,
-            "overall_readiness": f"{round((12/17)*100, 1}% of systems production-ready",
+            "overall_readiness": f"{round((12/17}*100, 1}% of systems production-ready",
             "quality_gates_passed": [
                 "✅ Comprehensive functional testing infrastructure",
                 "✅ Trinity Framework compliance validation",

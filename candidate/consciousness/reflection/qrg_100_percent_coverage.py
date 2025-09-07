@@ -645,8 +645,8 @@ def run_100_percent_coverage_suite():
     print("\n📊 100% Coverage Test Results:")
     print(f"   🧪 Total tests: {total_run}")
     print(f"   ✅ Passed: {total_passed}")
-    print(f"   ❌ Failed: {len(result.failures)}")
-    print(f"   🚨 Errors: {len(result.errors)}")
+    print(f"   ❌ Failed: {len(result.failures}}")
+    print(f"   🚨 Errors: {len(result.errors}}")
     print(f"   📈 Coverage: {coverage_percentage:.1f}%")
     print(f"   ⚡ Runtime: {end_time - start_time:.2f}s")
 
@@ -654,12 +654,12 @@ def run_100_percent_coverage_suite():
     if result.failures:
         print("\n❌ Test Failures:")
         for test, error in result.failures:
-            print(f"   • {test}: {error.split('AssertionError:')[-1].strip()}[:100]}...")
+            print(f"   • {test}: {error.split('AssertionError:')[-1].strip(}}[:100]}...")
 
     if result.errors:
         print("\n🚨 Test Errors:")
         for test, error in result.errors:
-            print(f"   • {test}: {error.split('Error:')[-1].strip()}[:100]}...")
+            print(f"   • {test}: {error.split('Error:')[-1].strip(}}[:100]}...")
 
     # Coverage analysis
     print("\n🎯 Coverage Analysis:")

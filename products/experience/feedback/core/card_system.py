@@ -247,7 +247,7 @@ class FeedbackCardSystem:
 
         # Create feedback card
         card = FeedbackCard(
-            card_id=f"card_{int(time.time() * 1000}",
+            card_id=f"card_{int(time.time(} * 1000}",
             action_id=action_id,
             rating=FeedbackRating(rating),
             note=note,

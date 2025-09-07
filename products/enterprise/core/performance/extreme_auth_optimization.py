@@ -217,7 +217,7 @@ class AsyncHashCalculator:
 
         # Generate cache key for data
         if isinstance(data, dict):
-            cache_key = f"dict_{hash(str(sorted(data.items()))}"
+            cache_key = f"dict_{hash(str(sorted(data.items())}"
             data_str = fast_json_dumps(data)
         elif isinstance(data, str):
             cache_key = f"str_{hash(data)}"
@@ -719,9 +719,9 @@ class ExtremeAuthPerformanceOptimizer:
                 "p99_latency_ms": p99,
                 "target_p95_ms": self.target_p95_latency_ms,
                 "improvement_vs_target": (
-                    f"{((self.target_p95_latency_ms - p95) / self.target_p95_latency_ms * 100}:.1f}%"
+                    f"{((self.target_p95_latency_ms - p95} / self.target_p95_latency_ms * 100}:.1f}%"
                     if p95 <= self.target_p95_latency_ms
-                    else f"{((p95 - self.target_p95_latency_ms) / self.target_p95_latency_ms * 100}:.1f}% OVER target"
+                    else f"{((p95 - self.target_p95_latency_ms} / self.target_p95_latency_ms * 100}:.1f}% OVER target"
                 ),
             },
             "component_performance": component_stats,

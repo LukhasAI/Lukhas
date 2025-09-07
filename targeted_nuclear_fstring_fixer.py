@@ -34,7 +34,7 @@ class TargetedNuclearFixer:
             (r'f"([^"]*)\{(uuid\.uuid4)\(\}([^"]*)"', r'f"\1{\2()}\3"', "FUNCTION_CALL"),
 
             # Pattern 3: Missing ) in nested function calls
-            (r'f"([^"]*)\{([^}]*\([^}]*)\}([^"]*)"', r'f"\1{\2)}\3"', "NESTED_CALL"),
+            (r'f"([^"]*)\{([^}]*\([^}]*)\}([^"]*)"', r'f"\1{\2}\3"', "NESTED_CALL"),
 
             # Pattern 4: The specific upper()_ pattern we found
             (r"\.upper\(\}_", r".upper()}_", "UPPER_UNDERSCORE"),

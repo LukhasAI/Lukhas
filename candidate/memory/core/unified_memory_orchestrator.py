@@ -1755,7 +1755,7 @@ async def demonstrate_unified_memory():
 
     print(f"Found {len(results)} memories for 'LUKHAS':")
     for trace, score in results[:3]:
-        print(f"  - {trace.memory_type.value}: {str(trace.content)}[:50]}... (score: {score:.3f})")
+        print(f"  - {trace.memory_type.value}: {str(trace.content)[:50]}... (score: {score:.3f})")
 
     print("\n3. Simulating sleep cycle consolidation...")
 

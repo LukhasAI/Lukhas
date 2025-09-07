@@ -271,7 +271,7 @@ class MemoryHelixVisualizer:
                 y=edges_y,
                 z=edges_z,
                 mode="lines",
-                line={"color": "rgba(120, 120, 120, 0.4)", "width": 1},
+                line={"color": "rgba(120, 120, 120, 0.4)}", "width": 1},
                 hoverinfo="none",
                 name="Memory Connections",
             )
@@ -295,7 +295,7 @@ class MemoryHelixVisualizer:
             },
             height=height,
             width=width,
-            legend={"x": 0, "y": 0.9, "bgcolor": "rgba(255, 255, 255, 0.5)"},
+            legend={"x": 0, "y": 0.9, "bgcolor": "rgba(255, 255, 255, 0.5)}"},
             margin={"l": 0, "r": 0, "b": 10, "t": 50},
         )
 

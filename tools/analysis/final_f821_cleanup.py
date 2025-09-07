@@ -349,7 +349,7 @@ class FinalF821Cleanup:
             
             print(f"📊 Final F821 violations: {final_count}")
             print(f"📉 Phase 3 reduction: {reduction}")
-            print(f"🎯 TOTAL REDUCTION: {total_reduction} ({((total_reduction/5364)*100}:.1f}%)")
+            print(f"🎯 TOTAL REDUCTION: {total_reduction} ({((total_reduction/5364}*100}:.1f}%)}")
             
             if total_reduction >= 3500:
                 print("🏆 MASSIVE SUCCESS! Exceeded all targets!")

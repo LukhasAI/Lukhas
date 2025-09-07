@@ -368,10 +368,10 @@ class ConsolidatedUnifiedmemorycore:
     def _create_operation_context(self, memory_data: dict, operation_type: MemoryOperationType) -> MemoryOperation:
         """Create comprehensive operation context"""
         memory_id = memory_data.get("memory_id", self._generate_memory_id())
-        fold_key = f"fold_{memory_id}_{int(time.time() * 1000}"
+        fold_key = f"fold_{memory_id}_{int(time.time(} * 1000}"
 
         return MemoryOperation(
-            operation_id=f"op_{int(time.time() * 1000000}",
+            operation_id=f"op_{int(time.time(} * 1000000}",
             operation_type=operation_type,
             memory_id=memory_id,
             fold_key=fold_key,

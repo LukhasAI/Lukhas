@@ -77,7 +77,7 @@ class ProcessingState(Enum):
 class SymbolicElement:
     """Core symbolic element in consciousness processing"""
 
-    element_id: str = field(default_factory=lambda: f"SYM-{uuid.uuid4()}.hex[:8]}")
+    element_id: str = field(default_factory=lambda: f"SYM-{uuid.uuid4().hex[:8]}")
     symbol_type: SymbolicType = SymbolicType.SYMBOL
     content: str = ""
 
@@ -132,7 +132,7 @@ class SymbolicElement:
 class SymbolicPattern:
     """Pattern recognition in symbolic consciousness processing"""
 
-    pattern_id: str = field(default_factory=lambda: f"PAT-{uuid.uuid4()}.hex[:8]}")
+    pattern_id: str = field(default_factory=lambda: f"PAT-{uuid.uuid4().hex[:8]}")
     name: str = ""
     description: str = ""
 

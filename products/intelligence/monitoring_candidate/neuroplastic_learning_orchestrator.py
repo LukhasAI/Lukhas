@@ -603,7 +603,7 @@ class NeuroplasticLearningOrchestrator:
         plan = AdaptationPlan(rule=rule, trigger_event=trigger_event)
 
         exp = AdaptationExperiment(
-            experiment_id=f"exp_{int(time.time() * 1000}",
+            experiment_id=f"exp_{int(time.time(} * 1000}",
             hypothesis=hypothesis,
             adaptation_plan=plan,
             control_group="control",
@@ -1021,7 +1021,7 @@ class NeuroplasticLearningOrchestrator:
         plan = AdaptationPlan(rule=rule, trigger_event=trigger_event)
 
         exp = AdaptationExperiment(
-            experiment_id=f"{experiment_type}_{int(time.time() * 1000}",
+            experiment_id=f"{experiment_type}_{int(time.time(} * 1000}",
             hypothesis=f"Hypothesis: {experiment_type} under context {list(context.keys()}[:2]}",
             adaptation_plan=plan,
             control_group="control",

@@ -52,7 +52,7 @@ import numpy as np
 
 # LUKHAS Core Imports
 from lukhas.memory.emotional import EmotionalMemory
-from lukhas.memory.governance.ethical_drift_governor import (
+from candidate.memory.governance.ethical_drift_governor import (
     EthicalDriftGovernor,
     create_ethical_governor,
 )
@@ -286,7 +286,7 @@ class DreamSeedEmotionEngine:
         dream_phase = context.get("dream_phase")
         safety_override = context.get("safety_override", False)
         # Changed from MD5 for security
-        session_id = context.get("session_id", f"session_{hashlib.sha256(user_id.encode()).hexdigest()}[:8]}")
+        session_id = context.get("session_id", f"session_{hashlib.sha256(user_id.encode()).hexdigest()[:8]}")
 
         # Base tier calculation from trust score
         if safety_override:
@@ -580,7 +580,7 @@ class DreamSeedEmotionEngine:
 
         # Initialize isolation result
         user_emotion = input_emotion.copy()
-        codreamer_signatures = {codreamer_id: {}
+        codreamer_signatures = {codreamer_id: {}}
         isolation_strength = 0.0
         bleed_through_detected = False
         cross_contamination_risk = 0.0

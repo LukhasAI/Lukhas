@@ -311,7 +311,7 @@ def main():
     print("\n📊 Consolidation targets:")
     total_candidates = sum(info["candidates_for_consolidation"] for info in plan["analysis"].values())
     print(f"  - Total consolidation candidates: {total_candidates}")
-    print(f"  - Orphaned files: {plan.get('orphaned_files', {)}).get('count', 0)}")
+    print(f"  - Orphaned files: {plan.get('orphaned_files', {}}).get('count', 0)}")
 
     # Step 1: Create module manifests and structure
     print("\n📝 Creating module manifests...")
@@ -331,7 +331,7 @@ def main():
     # Step 4: Check for import updates needed
     print("\n🔍 Checking imports...")
     updates = update_imports()
-    print(f"  ⚠️ Found {len(updates)} files needing import updates")
+    print(f"  ⚠️ Found {len(updates}} files needing import updates")
 
     # Summary
     print("\n" + "=" * 50)
@@ -340,7 +340,7 @@ def main():
     print(f"  - Module manifests created: {manifests}")
     print(f"  - Hybrid components linked: {hybrids}")
     print(f"  - Files consolidated: {moved}")
-    print(f"  - Import updates needed: {len(updates)}")
+    print(f"  - Import updates needed: {len(updates}}")
 
     # Save consolidation report
     report = {

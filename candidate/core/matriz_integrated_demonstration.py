@@ -70,7 +70,7 @@ class MatrizIntegratedConsciousnessDemo:
     """
 
     def __init__(self):
-        self.demo_session_id = f"DEMO-{int(time.time()}"
+        self.demo_session_id = f"DEMO-{int(time.time())}"
         self.demo_consciousness_id: Optional[str] = None
         self.demo_identity_id: Optional[str] = None
 

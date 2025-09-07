@@ -178,7 +178,7 @@ class AdaptiveDashboard:
                     widget["nias_reason"] = ad_permission.get("reason", "")
 
                     if not widget["show_ads"]:
-                        self.logger.info(f"NIAS blocked ads for {widget_type} widget: {ad_permission.get('reason')}")
+                        self.logger.info(f"NIAS blocked ads for {widget_type} widget: {ad_permission.get('reason'}}")
                 except Exception as e:
                     self.logger.error(f"Error evaluating NIAS permissions: {e}")
                     widget["show_ads"] = False
@@ -523,7 +523,7 @@ class AdaptiveDashboard:
                 if not abas_result.get("allowed", True):
                     return {
                         "status": "blocked",
-                        "message": f"ABAS blocked interaction: {abas_result.get('reason', 'Unknown reason')}",
+                        "message": f"ABAS blocked interaction: {abas_result.get('reason', 'Unknown reason'}}",
                         "recommended_action": abas_result.get("recommended_action"),
                     }
             except Exception as e:
@@ -592,7 +592,7 @@ async def main():
     # Generate dashboard
     result = await dashboard.generate_dashboard(user, {"time_context": {"is_night": True})
 
-    print(f"Generated dashboard with {len(result['widgets'])} widgets")
+    print(f"Generated dashboard with {len(result['widgets']}} widgets")
     print(f"Layout type: {result['layout']['type']}")
     print("Widgets:")
     for widget in result["widgets"]:

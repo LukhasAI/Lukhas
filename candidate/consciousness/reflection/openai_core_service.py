@@ -780,7 +780,7 @@ class OpenAIMockProvider:
             module=request.module,
             capability=request.capability,
             success=True,
-            data={"flagged": False, "categories": {}, "scores": {},
+            data={"flagged": False, "categories": {}, "scores": {}},
             fallback_used=True,
         )
 

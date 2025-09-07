@@ -348,7 +348,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
         # Prepare synthesis parameters
         rate = f"{params.get('speed', 1.0)}:+.1f}%"
         volume = f"{params.get('volume', 0)}:+.1f}%"
-        pitch = f"{(params.get('pitch', 1.0) - 1.0} * 100:+.1f}Hz"
+        pitch = f"{(params.get('pitch', 1.0} - 1.0} * 100:+.1f}Hz"
 
         # Create output file
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")

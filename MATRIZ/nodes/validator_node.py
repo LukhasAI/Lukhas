@@ -1379,7 +1379,7 @@ if __name__ == "__main__":
 
             # Show validation details
             validation_results = state.get("validation_results", {})
-            print(f"Validation strategies: {list(validation_results.keys()}")
+            print(f"Validation strategies: {list(validation_results.keys())}")
 
             for strategy, strategy_result in validation_results.items():
                 print(f"  {strategy}: conf={strategy_result['confidence']:.3f}, valid={strategy_result['is_valid']}")
@@ -1403,7 +1403,7 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 50)
     print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests  * 100:.1f}%)")
-    print(f"Processing History: {len(validator_node.get_trace()} MATRIZ nodes created")
+    print(f"Processing History: {len(validator_node.get_trace())} MATRIZ nodes created")
 
     # Show validation capabilities
     print("\nValidator Capabilities:")

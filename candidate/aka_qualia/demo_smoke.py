@@ -109,7 +109,7 @@ class SmokeDemo:
 
         self.demo_runs += 1
         logger.info(
-            f"\n🎯 Smoke Demo Complete: {len([r for r in results if r.get('success')])} successes, {len([r for r in results if not r.get('success')]} failures"
+            f"\n🎯 Smoke Demo Complete: {len([r for r in results if r.get('success')])} successes, {len([r for r in results if not r.get('success'}]} failures"
         )
 
         return results
@@ -420,7 +420,7 @@ def main():
     # Print summary
     print("\n📈 Demo Summary:")
     print(f"  Scenarios processed: {len(results)}")
-    print(f"  Successful runs: {len([r for r in results if r.get('success')]}")
+    print(f"  Successful runs: {len([r for r in results if r.get('success'}]}")
     print(f"  Total GLYPHs generated: {demo.total_glyphs_generated}")
     print(f"  Total hints generated: {demo.total_hints_generated}")
 

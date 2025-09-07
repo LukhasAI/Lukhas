@@ -162,7 +162,7 @@ class TestFaultInjection:
             context={
                 "cfg_version": "wave_c_v1.0.0",
                 "huge_data": huge_string,
-                "nested_huge": {"level1": {"level2": {"data": huge_string},
+                "nested_huge": {"level1": {"level2": {"data": huge_string}}},
             }
         )
 
@@ -188,11 +188,11 @@ class TestFaultInjection:
         # Test with various types of malformed data
         corrupt_scenarios = [
             # Invalid JSON-like structures
-            {"proto": {"tone": float("inf")},  # Infinite values
-            {"proto": {"tone": float("nan")},  # NaN values
-            {"context": {"recursive": None},  # Circular references would be handled by JSON serializer
+            {"proto": {"tone": float("inf")}},  # Infinite values
+            {"proto": {"tone": float("nan")}},  # NaN values
+            {"context": {"recursive": None}},  # Circular references would be handled by JSON serializer
             # Extremely nested data
-            {"context": {"level_" + str(i): {"data": f"level_{i}"} for i in range(1000)},
+            {"context": {"level_" + str(i): {"data": f"level_{i}"} for i in range(1000)}},
             # Invalid UTF-8 sequences (if applicable)
             {"subject": "test\x00\x01\x02"},  # Null bytes and control characters
         ]
@@ -294,8 +294,8 @@ class TestSQLInjectionPrevention:
 
         malicious_contexts = [
             {"malicious": "'; DROP TABLE akaq_scene; --"},
-            {"nested": {"attack": "' OR 1=1 --"},
-            {"json_attack": '\\"}; DROP TABLE akaq_scene; {\\"safe\\": \\"data\\"}'},
+            {"nested": {"attack": "' OR 1=1 --"}},
+            {"json_attack": '"}; DROP TABLE akaq_scene; {"safe": "data"}'},
         ]
 
         for context in malicious_contexts:

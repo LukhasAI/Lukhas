@@ -350,7 +350,7 @@ class ContextManager:
         # Create summary text
         summary_text = f"Conversation involving {len(entries)} exchanges. "
         if len(key_points) > 5:
-            summary_text += f"Key topics: {', '.join(key_points[:3])} and {len(key_points)} - 3} more."
+            summary_text += f"Key topics: {', '.join(key_points[:3])} and {len(key_points) - 3} more."
         else:
             summary_text += f"Topics: {', '.join(key_points)}"
 

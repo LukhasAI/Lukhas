@@ -402,7 +402,7 @@ if FASTAPI_AVAILABLE:
     @router.post("/start")
     async def start_onboarding_endpoint(request: OnboardingStartRequest, http_request: Request):
         """Start the user onboarding process"""
-        request_id = f"onboard_start_{int(time.time() * 1000}"
+        request_id = f"onboard_start_{int(time.time(} * 1000}"
 
         logger.info(f"🚀 Starting onboarding: {request_id}")
         logger.info(f"   User info keys: {list(request.user_info.keys()} if request.user_info else []}")
@@ -460,7 +460,7 @@ if FASTAPI_AVAILABLE:
     @router.post("/tier-setup")
     async def setup_user_tier_endpoint(request: TierSetupRequest):
         """Set up user tier based on profile and requirements"""
-        request_id = f"onboard_tier_{int(time.time() * 1000}"
+        request_id = f"onboard_tier_{int(time.time(} * 1000}"
 
         logger.info(f"🎯 Setting up tier: {request_id}")
         logger.info(f"   Session: {request.session_id}")
@@ -549,7 +549,7 @@ if FASTAPI_AVAILABLE:
     @router.post("/consent")
     async def collect_user_consent_endpoint(request: ConsentRequest, http_request: Request):
         """Collect and validate user consent with HIPAA compliance support"""
-        request_id = f"onboard_consent_{int(time.time() * 1000}"
+        request_id = f"onboard_consent_{int(time.time(} * 1000}"
 
         logger.info(f"📝 Collecting consent: {request_id}")
         logger.info(f"   Session: {request.session_id}")
@@ -645,7 +645,7 @@ if FASTAPI_AVAILABLE:
     @router.post("/complete")
     async def complete_onboarding_endpoint(request: CompletionRequest):
         """Complete the onboarding process and activate user account"""
-        request_id = f"onboard_complete_{int(time.time() * 1000}"
+        request_id = f"onboard_complete_{int(time.time(} * 1000}"
 
         logger.info(f"🏁 Completing onboarding: {request_id}")
         logger.info(f"   Session: {request.session_id}")

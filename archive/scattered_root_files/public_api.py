@@ -346,7 +346,7 @@ async def chat_with_consciousness(request: Request, chat_request: ChatRequest, a
         # For now, create a sophisticated mock response
         # In production, this would connect to the actual consciousness interface
 
-        session_id = chat_request.session_id or f"session_{int(time.time()}"
+        session_id = chat_request.session_id or f"session_{int(time.time(}}"
 
         # Simulate consciousness processing
         consciousness_level = min(0.85 + (len(chat_request.message) / 1000), 1.0)

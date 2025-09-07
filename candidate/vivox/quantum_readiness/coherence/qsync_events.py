@@ -522,7 +522,7 @@ class QISynchronizer:
         """Generate unique event ID"""
         timestamp = datetime.now(timezone.utc).isoformat()
         random_bytes = np.random.bytes(8)
-        return f"qsync_{hashlib.sha256(f'{timestamp)}{random_bytes}'.encode()).hexdigest()[:12]}"
+        return f"qsync_{hashlib.sha256(f'{timestamp}}{random_bytes}'.encode()).hexdigest()[:12]}"
 
     def _get_sync_quality(self, correlation: float) -> str:
         """Get synchronization quality description"""

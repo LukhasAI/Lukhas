@@ -20,7 +20,7 @@ from PIL import Image
 
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.swarm import AgentState, SwarmAgent
+from candidate.core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import identity components
 from governance.identity.core.events import (

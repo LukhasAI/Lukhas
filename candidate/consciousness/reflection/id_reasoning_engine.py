@@ -386,7 +386,7 @@ class TraumaLockedMemory:
         Unlock memory by matching emotional state pattern.
         Stronger emotional locks require closer emotional state matching.
         """
-        req_id = f"tlm_unlock_{int(time.time()*1000}"
+        req_id = f"tlm_unlock_{int(time.time(}*1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to unlock memory {memory_id} for user {user_id}.")
         if memory_id not in self.locked_memories:
@@ -553,7 +553,7 @@ class ComplianceMonitor:
         Check if an action complies with regulations.
         Returns (is_compliant, violation_reasons)
         """
-        req_id = f"cm_check_{int(time.time()*1000}"
+        req_id = f"cm_check_{int(time.time(}*1000}"
         self.logger.info(
             f"ΛTRACE ({req_id}): Checking compliance for action '{action}' in region {self.region.value}. Context keys: {list(context.keys()}")
         violations = []
@@ -679,7 +679,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             user_data: Dict,
             initial_tier: AccessTier = AccessTier.TIER_1_BASIC) -> str:
         """Register a new user with Lukhas_ID system."""
-        req_id = f"lim_reg_{int(time.time()*1000}"  # AIDENTITY_BRIDGE (Request ID)
+        req_id = f"lim_reg_{int(time.time(}*1000}"  # AIDENTITY_BRIDGE (Request ID)
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to register user. Initial tier: {initial_tier.name}. User data keys: {list(user_data.keys()}")
 
@@ -741,7 +741,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             credentials: Dict,
             emotional_state: Optional[EmotionalMemoryVector] = None) -> Optional[Dict]:
         """Authenticate user based on their access tier requirements."""
-        req_id = f"lim_auth_{int(time.time()*1000}"  # AIDENTITY_BRIDGE (Request ID)
+        req_id = f"lim_auth_{int(time.time(}*1000}"  # AIDENTITY_BRIDGE (Request ID)
         # AIDENTITY_BRIDGE (user_id)
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to authenticate user {user_id}. Credentials keys: {list(credentials.keys()}")
@@ -1101,7 +1101,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             memory_data: Any,
             emotional_state: EmotionalMemoryVector) -> str:
         """Store memory with emotional protection."""
-        req_id = f"lim_smem_{int(time.time()*1000}"  # AIDENTITY_BRIDGE (Request ID)
+        req_id = f"lim_smem_{int(time.time(}*1000}"  # AIDENTITY_BRIDGE (Request ID)
         # AIDENTITY_BRIDGE (user_id)
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to store emotional memory for user {user_id}.")
@@ -1143,7 +1143,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             memory_id: str,
             current_emotional_state: EmotionalMemoryVector) -> Optional[Any]:
         """Retrieve emotionally protected memory."""
-        req_id = f"lim_rmem_{int(time.time()*1000}"  # AIDENTITY_BRIDGE (Request ID)
+        req_id = f"lim_rmem_{int(time.time(}*1000}"  # AIDENTITY_BRIDGE (Request ID)
         # AIDENTITY_BRIDGE (memory_id, user_id)
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to retrieve emotional memory {memory_id} for user {user_id}.")

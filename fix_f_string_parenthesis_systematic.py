@@ -47,7 +47,7 @@ def fix_fstring_parentheses(content: str) -> tuple[str, int]:
         (r"f'([^']*)\\{hash\\(([^}]+)\\}([^']*)'", r"f'\1{hash(\2)}\3'"),
 
         # time() patterns
-        (r'f"([^"]*)\{time\.time\(\}([^"]*)"', r'f"\1{time.time()}\2"'),
+        (r'f"([^"]*)\{time\.time\(\}([^"]*)}"', r'f"\1{time.time()}\2"'),
 
         # int() patterns
         (r'f"([^"]*)\{int\(([^}]+)\}([^"]*)"', r'f"\1{int(\2)}\3"'),
@@ -139,12 +139,12 @@ def main():
     print("📊 F-STRING PARENTHESIS FIX RESULTS:")
     print("=" * 40)
     print(f"Files with errors: {len(error_files)}")
-    print(f"Files processed: {min(20, len(error_files))}")
+    print(f"Files processed: {min(20, len(error_files)}")
     print(f"Files successfully fixed: {successful_fixes}")
     print(f"Total fixes applied: {total_fixes}")
 
     if len(error_files) > 20:
-        print(f"⚠️  {len(error_files) - 20} more files need fixing")
+        print(f"⚠️  {len(error_files} - 20} more files need fixing")
 
 
 if __name__ == "__main__":

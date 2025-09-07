@@ -11,7 +11,7 @@ def test_kernel_bus_import():
         # Test creation
         bus = KernelBus()
         assert bus is not None
-        assert hasattr(bus, "publish")
+        assert hasattr(bus, "emit")
         assert hasattr(bus, "subscribe")
 
     except ImportError:

@@ -416,7 +416,7 @@ class QIResonanceGlyph:
 
         # Create the BILLION DOLLAR glyph
         glyph = QIGlyph(
-            glyph_id=f"QRG_{int(time.time() * 1000000}_{security_tier}",
+            glyph_id=f"QRG_{int(time.time(} * 1000000}_{security_tier}",
             visual_matrix=visual_matrix,
             animation_frames=animation_frames,
             qi_signature=qi_signature,

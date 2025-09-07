@@ -13,7 +13,7 @@ import streamlit as st
 
 from .nias_core import EmotionalState, SymbolicMessage
 
-logger = logging.getLogger("Lambda.NIΛS.EmotionalFilter", timezone)
+logger = logging.getLogger("Lambda.NIΛS.EmotionalFilter")
 
 
 class EmotionalProtectionLevel(Enum):

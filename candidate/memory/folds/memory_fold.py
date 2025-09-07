@@ -118,7 +118,7 @@ from threading import Lock
 from typing import Any, Optional
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.core.advanced.brain.spine.memory_fold", timezone)
+logger = logging.getLogger("ΛTRACE.core.advanced.brain.spine.memory_fold")
 logger.info("ΛTRACE: Initializing enhanced memory_fold module.")
 
 

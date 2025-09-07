@@ -123,7 +123,7 @@ class ConsolidatedMemorycolonies:
     async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
         """Process memory through consolidated colony pipeline with neuroplastic adaptation"""
         start_time = time.time()
-        memory_id = memory_data.get("memory_id", f"mem_{int(time.time() * 1000}")
+        memory_id = memory_data.get("memory_id", f"mem_{int(time.time(} * 1000}")
 
         try:
             # 🛡️ Guardian: Validate memory data and check system health

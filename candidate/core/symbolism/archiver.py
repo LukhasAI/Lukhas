@@ -9,7 +9,7 @@ import logging
 import time
 from typing import Any
 
-from lukhas.core.colonies.base_colony import BaseColony
+from candidate.core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ class SymbolicShellArchiver:
         """
         Get the full symbolic state of the system.
         """
-        state = {"timestamp": time.time(), "colonies": {}
+        state = {"timestamp": time.time(), "colonies": {}}
 
         for colony in self.colonies:
             state["colonies"][colony.colony_id] = {

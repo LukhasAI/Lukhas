@@ -1013,7 +1013,7 @@ class LUKHASConsciousnessEngine:
             "pattern_coherence": self.consciousness_metrics["pattern_coherence"],
             "research_validation": "Top 5 priority research integration complete",
             "performance_targets": {
-                "ethical_drift_prevention": "92% (research-validated)",
+                "ethical_drift_prevention": "92% (research-validated)}",
                 "decision_reproducibility": "99.3% (research-validated)",
                 "consciousness_coherence": ">95% (mesh formation target)",
             },

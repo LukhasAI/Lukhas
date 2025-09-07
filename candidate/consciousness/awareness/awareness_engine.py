@@ -45,7 +45,7 @@ import streamlit as st
 from consciousness.qi import qi
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine")
 logger.info("ΛTRACE: Initializing awareness_engine module.")
 
 

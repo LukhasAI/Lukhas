@@ -365,7 +365,7 @@ class CodeQualityAnalyzer:
                 )
                 issues.append(issue)
 
-            print(f"📊 Found {len(issues)} code quality issues")
+            print(f"📊 Found {len(issues}} code quality issues")
             self._print_category_summary(issues)
 
             return issues
@@ -519,7 +519,7 @@ class LLMCodeFixer:
             batch_size = config.get("batch_size", 10)
 
             print(f"\n🎯 Processing Category {cat_idx + 1}/{total_categories}: {category}")
-            print(f"   Priority: {priority}, Issues: {len(category_issues)}, Batch Size: {batch_size}")
+            print(f"   Priority: {priority}, Issues: {len(category_issues}}, Batch Size: {batch_size}")
 
             # Process in batches
             for i in range(0, len(category_issues), batch_size):
@@ -527,7 +527,7 @@ class LLMCodeFixer:
                 batch_num = (i // batch_size) + 1
                 total_batches = (len(category_issues) + batch_size - 1) // batch_size
 
-                print(f"\n   🔧 Batch {batch_num}/{total_batches} ({len(batch)} issues)")
+                print(f"\n   🔧 Batch {batch_num}/{total_batches} ({len(batch}} issues)")
 
                 # Process batch
                 await self._process_issue_batch(batch)
@@ -657,7 +657,7 @@ class LLMCodeFixer:
     def _generate_final_report(self):
         """Generate final improvement report"""
 
-        report_path = self.project_root / f"code_improvement_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+        report_path = self.project_root / f"code_improvement_report_{datetime.now().strftime('%Y%m%d_%H%M%S'}}.md"
 
         total_attempted = self.progress["total_fixes_attempted"]
         successful = self.progress["successful_fixes"]

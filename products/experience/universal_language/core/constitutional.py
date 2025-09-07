@@ -306,7 +306,7 @@ class ConstitutionalValidator:
 
     def _generate_violation_id(self) -> str:
         """Generate unique violation ID"""
-        return f"VIOLATION_{int(time.time() * 1000}"
+        return f"VIOLATION_{int(time.time(} * 1000}"
 
 
 class ConstitutionalGuardrails:

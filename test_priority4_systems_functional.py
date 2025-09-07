@@ -1038,13 +1038,13 @@ if __name__ == "__main__":
     # Quality summary
     print("\n🏆 QUALITY SUMMARY:")
     if excellent_systems:
-        print(f"  🌟 Excellent ({len(excellent_systems)}): {', '.join([s.split()[1] for s in excellent_systems]}")
+        print(f"  🌟 Excellent ({len(excellent_systems)}): {', '.join([s.split(}[1] for s in excellent_systems]}")
     if good_systems:
-        print(f"  ✅ Good ({len(good_systems)}): {', '.join([s.split()[1] for s in good_systems]}")
+        print(f"  ✅ Good ({len(good_systems)}): {', '.join([s.split(}[1] for s in good_systems]}")
     if fair_systems:
-        print(f"  🔄 Fair ({len(fair_systems)}): {', '.join([s.split()[1] for s in fair_systems]}")
+        print(f"  🔄 Fair ({len(fair_systems)}): {', '.join([s.split(}[1] for s in fair_systems]}")
     if poor_systems:
-        print(f"  ⚠️  Poor ({len(poor_systems)}): {', '.join([s.split()[1] for s in poor_systems]}")
+        print(f"  ⚠️  Poor ({len(poor_systems)}): {', '.join([s.split(}[1] for s in poor_systems]}")
 
     print("\n🚀 Priority 4 systems testing complete!")
     print("Ready to calculate updated comprehensive coverage metrics!")

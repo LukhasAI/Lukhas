@@ -499,7 +499,7 @@ class ThreatDetectionSystem:
         """Generate incident ID"""
         import uuid
 
-        return f"incident_{uuid.uuid4()}.hex[:8]}"
+        return f"incident_{uuid.uuid4().hex[:8]}"
 
 
 class EncryptionManager:

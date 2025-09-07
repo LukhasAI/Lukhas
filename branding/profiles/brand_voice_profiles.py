@@ -689,7 +689,7 @@ class LukhasBrandVoiceProfiles:
             "context": context.value if context else None,
             "audience": audience.value if audience else None,
             "trinity_emphasis": trinity_emphasis,
-            "generation_timestamp": "datetime.now().isoformat()",
+            "generation_timestamp": "datetime.now().isoformat()}",
             "profile_version": "1.0.0",
         }
 
@@ -736,7 +736,7 @@ class LukhasBrandVoiceProfiles:
             "blend_ratios": blend_ratios,
             "context": context.value,
             "audience": audience.value if audience else None,
-            "generation_timestamp": "datetime.now().isoformat()",
+            "generation_timestamp": "datetime.now().isoformat()}",
         }
 
         return blended_profile

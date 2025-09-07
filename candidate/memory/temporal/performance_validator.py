@@ -33,7 +33,7 @@ PERFORMANCE_CLAIMS = {
     "bio_symbolic_coherence": {
         "claimed": 102.22,
         "unit": "percent",
-        "description": "Bio-symbolic coherence (>100% via quantum enhancement)",
+        "description": "Bio-symbolic coherence (>100% via quantum enhancement)}",
     },
     "dream_exploration_speed": {
         "claimed": 500,
@@ -240,7 +240,7 @@ class PerformanceValidator:
             "summary": {
                 "total_metrics": len(validations),
                 "validated": validated_count,
-                "validation_rate": f"{(validated_count / len(validations) * 100}:.1f}%",
+                "validation_rate": f"{(validated_count / len(validations} * 100}:.1f}%",
             },
             "recommendations": self._generate_recommendations(validations),
         }

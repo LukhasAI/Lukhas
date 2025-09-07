@@ -28,7 +28,7 @@ import streamlit as st
 # TAG:colony
 
 
-logger = logging.getLogger("ΛTRACE.core.advanced.brain.lukhas_core_integrator", timezone)
+logger = logging.getLogger("ΛTRACE.core.advanced.brain.lukhas_core_integrator")
 logger.info("ΛTRACE: Initializing lukhas_core_integrator module.")
 
 # TODO: Refactor path-based import to standard package imports if possible.
@@ -394,7 +394,7 @@ class LUKHASCoreIntegrator:
                 "source": source_component,
                 "timestamp": time.time(),
                 "message_type": message_type.value,
-                "message_id": f"{int(time.time() * 1000}-{self.system_state['message_count']}",
+                "message_id": f"{int(time.time(} * 1000}-{self.system_state['message_count']}",
             },
         }
 
@@ -472,7 +472,7 @@ class LUKHASCoreIntegrator:
             "metadata": {
                 "source": source_component,
                 "timestamp": time.time(),
-                "event_id": f"evt-{int(time.time() * 1000}",
+                "event_id": f"evt-{int(time.time(} * 1000}",
             },
         }
 

@@ -59,7 +59,7 @@ try:
 except ImportError:
     EMOTION_AVAILABLE = False
 
-logger = logging.getLogger("ΛTRACE.dream.pipeline", timezone)
+logger = logging.getLogger("ΛTRACE.dream.pipeline")
 
 
 class UnifiedDreamPipeline:

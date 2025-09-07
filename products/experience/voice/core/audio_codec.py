@@ -329,7 +329,7 @@ class LUKHASAudioCodecManager:
 
             # Emit GLYPH event
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", 
                 "audio.encoding.completed",
                 {
                     "codec": codec.value,
@@ -337,15 +337,15 @@ class LUKHASAudioCodecManager:
                     "input_size": len(audio_data),
                     "output_size": len(encoded_data),
                     "compression_ratio": (len(audio_data) / len(encoded_data) if len(encoded_data) > 0 else 0),
-                },
-            )
+                })
 
             return encoded_data
 
         except Exception as e:
             self.logger.error(f"Audio encoding failed: {e!s}")
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {"audio.encoding.error", {"codec": codec.value, "error": str(e)})
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", 
+                "audio.encoding.error", {"codec": codec.value, "error": str(e)})
             raise
 
     async def decode_audio(
@@ -391,22 +391,24 @@ class LUKHASAudioCodecManager:
 
             # Emit GLYPH event
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", 
                 "audio.decoding.completed",
                 {
                     "codec": codec.value,
                     "input_size": len(encoded_data),
                     "output_size": len(audio_data),
                     "metadata": metadata,
-                },
-            )
+                })
+
+            return audio_data
 
             return audio_data, metadata
 
         except Exception as e:
             self.logger.error(f"Audio decoding failed: {e!s}")
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {"audio.decoding.error", {"codec": codec.value, "error": str(e)})
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", 
+                "audio.decoding.error", {"codec": codec.value, "error": str(e)})
             raise
 
     def get_supported_codecs(self) -> dict[str, list[AudioCodec]]:

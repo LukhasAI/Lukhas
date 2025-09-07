@@ -75,7 +75,7 @@ class ComprehensiveErrorAnalyzer:
             self.error_patterns[result["error_type"]].append(file_path)
 
         except Exception as e:
-            result["error"] = f"Read error: {str(e)[:50]}"
+            result["error"] = f"Read error: {str(e}[:50]}"
             result["error_type"] = "read-error"
 
         return result
@@ -167,7 +167,7 @@ class ComprehensiveErrorAnalyzer:
             else:
                 for file_path in files[:3]:
                     print(f"    • {file_path}")
-                print(f"    • ... and {len(files) - 3} more")
+                print(f"    • ... and {len(files} - 3} more")
 
         print()
         print("🚨 CRITICAL BLOCKERS (Blocking Level 2+):")

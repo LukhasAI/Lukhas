@@ -29,7 +29,7 @@ import streamlit as st
 
 from consciousness.qi import qi
 
-logger = logging.getLogger("ΛTRACE.TierManager", timezone)
+logger = logging.getLogger("ΛTRACE.TierManager")
 
 
 class TierLevel(Enum):

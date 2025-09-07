@@ -43,7 +43,7 @@ class MatrizConsciousnessSystem:
 
     def __init__(self, system_id: str = "lukhas_consciousness_main"):
         self.system_id = system_id
-        self.consciousness_id = f"consciousness_{system_id}_{int(time.time()}"
+        self.consciousness_id = f"consciousness_{system_id}_{int(time.time())}"
 
         # Initialize core components
         self.bio_processor = get_bio_symbolic_processor()
@@ -257,7 +257,7 @@ class MatrizConsciousnessSystem:
         """
 
         evolution_results = {
-            "evolution_id": f"evolution_{int(time.time()}",
+            "evolution_id": f"evolution_{int(time.time())}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "evolutionary_stages": [],
             "bio_adaptations_applied": 0,

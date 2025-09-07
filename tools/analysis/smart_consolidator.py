@@ -474,7 +474,7 @@ class MemoryHelix:
 
     def _link_emotion(self, memory_hash: str, emotion: Dict):
         \"\"\"Create emotion-memory linkage\"\"\"
-        emotion_key = f"{emotion.get('type', 'unknown')}_{emotion.get('intensity', 0)}"
+        emotion_key = f"{emotion.get('type', 'unknown')}_{emotion.get('intensity', 0}}"
         if emotion_key not in self.emotional_vectors:
             self.emotional_vectors[emotion_key] = []
         self.emotional_vectors[emotion_key].append(memory_hash)
@@ -484,7 +484,7 @@ class MemoryHelix:
 
     def report_changes(self):
         """Report all consolidation changes"""
-        print(f"\\n✅ Consolidation complete! {len(self.changes)} changes made:")
+        print(f"\\n✅ Consolidation complete! {len(self.changes}} changes made:")
         for change in self.changes:
             print(f"  - {change}")
 

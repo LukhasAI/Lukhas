@@ -940,7 +940,7 @@ class LukhasIntelligenceBenchmarking:
     def set_baseline_metrics(self, metrics: dict[str, float]):
         """Set baseline metrics for comparison"""
         self.baseline_metrics = metrics
-        logger.info(f"✅ Baseline metrics set: {list(metrics.keys()}")
+        logger.info(f"✅ Baseline metrics set: {list(metrics.keys(}}")
 
     async def export_benchmark_results(self, file_path: str):
         """Export benchmark results to file"""
@@ -1028,7 +1028,7 @@ if __name__ == "__main__":
         print("📊 Benchmark Results:")
         print(f"Duration: {result.total_duration:.2f}s")
         print(f"Success Rate: {result.successful_iterations}/{result.iterations_completed}")
-        print(f"Recommendations: {len(result.recommendations)}")
+        print(f"Recommendations: {len(result.recommendations}}")
 
         for rec in result.recommendations:
             print(f"  • {rec}")
@@ -1039,7 +1039,7 @@ if __name__ == "__main__":
 
         print("\n📈 Performance Report:")
         print(f"Total Benchmarks: {report['summary']['total_benchmarks']}")
-        print(f"Performance Analysis: {len(report.get('performance_analysis', {)}))}")
+        print(f"Performance Analysis: {len(report.get('performance_analysis', {}}))}")
 
     # Run example
     asyncio.run(example_benchmarking())

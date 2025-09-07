@@ -8,7 +8,7 @@ import asyncio
 import logging
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Import bootstrap with fallback handling
 try:
@@ -241,7 +241,7 @@ Available commands:
     async def show_status(self):
         """Show system status"""
         print("\n🔹 LUKHAS Status (Professional Architecture)")
-        print(f"Uptime: {(datetime.now(timezone.utc) - self.startup_time).total_seconds()}:.1f}s")
+        print(f"Uptime: {(datetime.now(timezone.utc) - self.startup_time).total_seconds(}:.1f}s")
 
         if self.bootstrap:
             health = await self.bootstrap.check_system_health()  # Remove protected member access

@@ -696,7 +696,7 @@ if __name__ == "__main__":
     result = engine.process_awareness(test_input)
     print("🇨🇦 Canadian Awareness Engine - Compliance Test")
     print(f"PIPEDA Compliance Score: {result.pipeda_compliance_score}/100")
-    print(f"Consumer Rights Available: {len(result.consumer_rights_available)}")
+    print(f"Consumer Rights Available: {len(result.consumer_rights_available}}")
     print(f"Provincial Status: {result.provincial_compliance_status}")
     print(f"AI Assessment Required: {result.ai_impact_assessment_required}")
     print(
@@ -707,4 +707,4 @@ if __name__ == "__main__":
     certification = certify_canadian_compliance()
     print(f"\n✅ Certification: {certification['certification']}")
     print(f"Compliance Level: {certification['compliance_level']}")
-    print(f"Regulations: {', '.join(certification['regulations'])}")
+    print(f"Regulations: {', '.join(certification['regulations']}}")

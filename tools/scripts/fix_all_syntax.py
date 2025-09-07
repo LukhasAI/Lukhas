@@ -82,7 +82,7 @@ def main():
             error = get_syntax_error(py_file)
             if error:
                 print(
-                    f"Fixing {py_file.relative_to(base_dir)}: Line {error[0]} - {error[1]}"
+                    f"Fixing {py_file.relative_to(base_dir}}: Line {error[0]} - {error[1]}"
                 )
                 if fix_multiline_string_error(py_file):
                     print("  ✓ Fixed")
@@ -99,7 +99,7 @@ def main():
 
     print("\n📊 Summary:")
     print(f"  Fixed: {fixed_count} files")
-    print(f"  Failed: {len(failed_files)} files")
+    print(f"  Failed: {len(failed_files}} files")
 
     if failed_files:
         print("\n❌ Files still with errors:")

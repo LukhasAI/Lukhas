@@ -247,7 +247,7 @@ class SqlMemory(AkaqMemory):
         if ulid:
             return ulid.new().str
         else:
-            return f"uuid_{uuid.uuid4()}.hex}"
+            return f"uuid_{uuid.uuid4().hex}"
 
     def save(
         self,

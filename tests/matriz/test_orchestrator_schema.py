@@ -35,7 +35,7 @@ except ImportError:
 
     class MathNode(CognitiveNode):
         def process(self, input_data):
-            return {"matriz_node": {"type": "COMPUTATION"}
+            return {"matriz_node": {"type": "COMPUTATION"}}
 
     class ValidatorNode(CognitiveNode):
         pass

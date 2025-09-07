@@ -116,7 +116,7 @@ def test_protect_data(client, mock_dp_service):
 
 def test_unprotect_data(client, mock_dp_service):
     """Test the /protection/unprotect endpoint."""
-    response = client.post("/protection/unprotect", json={"data": {"encrypted": True})
+    response = client.post("/protection/unprotect", json={"data": {"encrypted": True}})
     assert response.status_code == 200
     data = response.json()
     assert data["unprotected_data"] == "test"
@@ -170,7 +170,7 @@ def test_delete_user_data(client, mock_consent_service, mock_dp_service):
 
 def test_update_user_data(client, mock_consent_service, mock_dp_service):
     """Test the PUT /users/{user_lid} endpoint."""
-    response = client.put("/users/gonzo", json={"updates": {"data": "new_data"})
+    response = client.put("/users/gonzo", json={"updates": {"data": "new_data"}})
     assert response.status_code == 200
     data = response.json()
     assert data["updated_consent_grants"]["status"] == "success"

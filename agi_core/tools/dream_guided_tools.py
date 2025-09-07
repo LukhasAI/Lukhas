@@ -141,12 +141,10 @@ class ToolRecommendation:
 
     recommendation_id: str
     primary_tool: str  # Primary recommended tool
-    supporting_tools: list[str] = field(default_factory=list)
-
-    # Recommendation details
     reasoning: str  # Why this tool is recommended
     confidence: float  # Confidence in recommendation
     selection_mode: ToolSelectionMode
+    supporting_tools: list[str] = field(default_factory=list)
 
     # Context and insights
     context_factors: dict[str, Any] = field(default_factory=dict)

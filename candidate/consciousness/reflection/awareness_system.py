@@ -387,7 +387,7 @@ class QIAwarenessSystem:
         try:
             # Uses current_time for file name consistency with metric content
             metrics_file: Path = (
-                self.metrics_dir / f"metrics_{current_time.strftime('%Y%m%d_%H%M%S_%f\')}.json"
+                self.metrics_dir / f"metrics_{current_time.strftime('%Y%m%d_%H%M%S_%f\'}}.json"
             )  # ΛTRACE_CHANGE: Added microseconds for uniqueness
 
             metrics: dict[str, Any] = {
@@ -582,7 +582,7 @@ class QIAwarenessSystem:
         ]
 
         return {
-            "id": f"dream_scenario_{datetime.now(timezone.utc).timestamp()}_{index}",
+            "id": f"dream_scenario_{datetime.now(timezone.utc).timestamp(}}_{index}",
             "type": scenario_types[index % len(scenario_types)],
             "framework": list(EthicalFramework)[index % len(EthicalFramework)].value,
             "complexity": 0.5 + (index % 5) * 0.1,

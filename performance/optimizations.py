@@ -568,7 +568,7 @@ if __name__ == "__main__":
     print(f"First call: {first_call_time:.3f}s")
     print(f"Second call: {second_call_time:.3f}s")
     print(f"Speedup: {first_call_time / second_call_time:.1f}x")
-    print(f"Cache stats: {expensive_calculation.cache.stats()}")
+    print(f"Cache stats: {expensive_calculation.cache.stats(}}")
 
     # Print optimization stats
     import json

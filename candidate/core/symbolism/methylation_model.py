@@ -14,6 +14,6 @@ class MethylationModel:
     def adjust_lifespan(self, scope: TagScope, lifespan: Optional[float]) -> Optional[float]:
         if lifespan is None:
             return None
-if scope == TagScope.GENETIC:
+        if scope == TagScope.GENETIC:
             return lifespan * self.genetic_decay_factor
-return lifespan
+        return lifespan

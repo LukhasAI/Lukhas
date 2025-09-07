@@ -206,7 +206,7 @@ class ABotIntelligentAIRouter:
             ),
         }
 
-        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services)} services")
+        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services}} services")
 
     def _get_keychain_value(self, service: str) -> Optional[str]:
         """Get API key from Mac KeyChain"""
@@ -395,7 +395,7 @@ def get_ai_router_status() -> dict:
         "recommendations": [
             f"✅ {available_services}/{total_services} AI services available",
             (
-                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values()}:.4f} per 1K tokens"
+                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values(}}:.4f} per 1K tokens"
                 if available_service_costs
                 else "❌ No services available"
             ),
@@ -413,7 +413,7 @@ if __name__ == "__main__":
 
     print("🤖 LUKHAS AI ΛBot Intelligent AI Router")
     print("=" * 50)
-    print(f"Available AI services: {len(router.services)}")
+    print(f"Available AI services: {len(router.services}}")
 
     # Show all services and their availability
     for service in router.services.values():

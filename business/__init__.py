@@ -1,7 +1,13 @@
 """
 LUKHAS AI Business Module
 Business logic, strategies, and operational systems
-Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+Constellation Framework: ⚛️ Identity | 🧠 Consciousn        campaign = {
+            "name": campaign_name,
+            "channels": channels,
+            "launched_at": datetime.now(timezone.utc).isoformat(),
+            "status": "active",
+            "campaign_id": f"campaign_{campaign_name}_{hash(str(channels)}",
+        }rdian
 """
 
 import logging
@@ -49,7 +55,7 @@ def create_business_strategy(domain: str, objectives: list[str], timeline: str =
             "timeline": timeline,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "created",
-            "strategy_id": f"strategy_{domain}_{hash(str(objectives))}",
+            "strategy_id": f"strategy_{domain}_{hash(str(objectives)}",
         }
         logger.info(f"Business strategy created for {domain}")
         return strategy

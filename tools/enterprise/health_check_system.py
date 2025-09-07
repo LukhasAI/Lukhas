@@ -682,7 +682,7 @@ async def main():
 
     # Get metrics
     metrics = health_system.get_metrics()
-    print(f"\n📊 Prometheus Metrics Available: {len(metrics)} bytes")
+    print(f"\n📊 Prometheus Metrics Available: {len(metrics}} bytes")
 
 
 if __name__ == "__main__":

@@ -131,7 +131,7 @@ def main(argv: list[str] | None = None) -> int:
                 bak.write_text(original, encoding="utf8")
             print(f"APPLIED: Updated {p} (backup: {bak})")
 
-    print(f"Done. Files matched: {len(list(iter_python_files(root))}; files changed: {files_changed}")
+    print(f"Done. Files matched: {len(list(iter_python_files(root)}; files changed: {files_changed}")
     if files_changed and args.dry_run:
         print("Run with --apply to perform changes (creates .bak backups).")
 

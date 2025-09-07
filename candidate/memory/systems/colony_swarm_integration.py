@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 ║ Module: colony_swarm_integration.py
 ║ Path: memory/systems/colony_swarm_integration.py
 ║ Version: 1.0.0 | Created: 2025-07-29
-║ Authors: LUKHAS AI Swarm Intelligence Team
+║ Authors: LUKHAS AI Swarm Intelligence Te        print(f"  • {mem.data.get('content', '')[:50]}... (score: {score:.3f})")m
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ ΛTAG: ΛMEMORY, ΛCOLONY, ΛSWARM, ΛCONSENSUS, ΛDISTRIBUTED
 ╚══════════════════════════════════════════════════════════════════════════════════
@@ -611,7 +611,7 @@ async def demonstrate_colony_swarm():
 
     print(f"Found {len(results)} confirmed memories:")
     for mem, score in results[:3]:
-        print(f"  • {mem.data.get('content', '')}[:50]}... (score: {score:.3f})")
+        print(f"  • {mem.data.get('content', '')[:50]}... (score: {score:.3f})")
 
     # Get swarm status
     print("\n4. Swarm Status Report:")

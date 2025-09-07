@@ -10,10 +10,10 @@ from enterprise.api.main import app
 
 @pytest.fixture
 def mock_orchestrator():
-    AsyncMock()
-orchestrator.generate_response = AsyncMock(return_value=("mock response", "openai", "gpt-4"))
-orchestrator.get_available_providers = lambda: [LLMProvider.OPENAI, LLMProvider.ANTHROPIC]
-return orchestrator
+    orchestrator = AsyncMock()
+    orchestrator.generate_response = AsyncMock(return_value=("mock response", "openai", "gpt-4"))
+    orchestrator.get_available_providers = lambda: [LLMProvider.OPENAI, LLMProvider.ANTHROPIC]
+    return orchestrator
 
 
 @pytest.fixture
@@ -25,55 +25,55 @@ def test_app(mock_orchestrator):
 @pytest.mark.asyncio
 async def test_health_check(test_app):
     async with LifespanManager(test_app), AsyncClient(app=test_app, base_url="http://test") as client:
-        await client.get("/health")
-assert response.status_code == 200
-assert response.json() == {
-"status": "ok",
-"available_providers": ["openai", "anthropic"],
-}
+        response = await client.get("/health")
+        assert response.status_code == 200
+        assert response.json() == {
+            "status": "ok",
+            "available_providers": ["openai", "anthropic"],
+        }
 
 
 @pytest.mark.asyncio
 async def test_chat_completions_specific_provider(test_app, mock_orchestrator):
     async with LifespanManager(test_app), AsyncClient(app=test_app, base_url="http://test") as client:
-        await client.post(
-"/v1/chat/completions",
-json={"prompt": "test prompt", "provider": "openai", "model": "gpt-4"},
-)
-assert response.status_code == 200
-assert response.json()["response"] == "mock response"
-assert response.json()["provider"] == "openai"
-assert response.json()["model"] == "gpt-4"
-mock_orchestrator.generate_response.assert_called_once_with(
-prompt="test prompt", provider=LLMProvider.OPENAI, model="gpt-4"
-)
+        response = await client.post(
+            "/v1/chat/completions",
+            json={"prompt": "test prompt", "provider": "openai", "model": "gpt-4"},
+        )
+        assert response.status_code == 200
+        assert response.json()["response"] == "mock response"
+        assert response.json()["provider"] == "openai"
+        assert response.json()["model"] == "gpt-4"
+        mock_orchestrator.generate_response.assert_called_once_with(
+            prompt="test prompt", provider=LLMProvider.OPENAI, model="gpt-4"
+        )
 
 
 @pytest.mark.asyncio
 async def test_chat_completions_fallback(test_app, mock_orchestrator):
     mock_orchestrator.generate_response = AsyncMock(return_value=("mock response", "openai", "gpt-3.5-turbo"))
-async with LifespanManager(test_app), AsyncClient(app=test_app, base_url="http://test") as client:
-    response = await client.post("/v1/chat/completions", json={"prompt": "test prompt"})
-assert response.status_code == 200
-assert response.json()["response"] == "mock response"
-assert response.json()["provider"] == "openai"  # Default fallback
-assert response.json()["model"] == "gpt-3.5-turbo"
-mock_orchestrator.generate_response.assert_called_once_with(prompt="test prompt", provider=None, model=None)
+    async with LifespanManager(test_app), AsyncClient(app=test_app, base_url="http://test") as client:
+        response = await client.post("/v1/chat/completions", json={"prompt": "test prompt"})
+    assert response.status_code == 200
+    assert response.json()["response"] == "mock response"
+    assert response.json()["provider"] == "openai"  # Default fallback
+    assert response.json()["model"] == "gpt-3.5-turbo"
+    mock_orchestrator.generate_response.assert_called_once_with(prompt="test prompt", provider=None, model=None)
 
 
 @pytest.mark.asyncio
 async def test_chat_completions_invalid_provider(test_app):
     async with LifespanManager(test_app), AsyncClient(app=test_app, base_url="http://test") as client:
-        await client.post(
-"/v1/chat/completions",
-json={"prompt": "test prompt", "provider": "invalid"},
-)
-assert response.status_code == 400
-assert "Invalid provider" in response.json()["detail"]
+        response = await client.post(
+            "/v1/chat/completions",
+            json={"prompt": "test prompt", "provider": "invalid"},
+        )
+        assert response.status_code == 400
+        assert "Invalid provider" in response.json()["detail"]
 
 
 @pytest.mark.asyncio
 async def test_chat_completions_missing_prompt(test_app):
     async with LifespanManager(test_app), AsyncClient(app=test_app, base_url="http://test") as client:
-        await client.post("/v1/chat/completions", json={"provider": "openai"})
-assert response.status_code == 422  # Unprocessable Entity
+        response = await client.post("/v1/chat/completions", json={"provider": "openai"})
+        assert response.status_code == 422  # Unprocessable Entity

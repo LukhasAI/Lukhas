@@ -991,7 +991,7 @@ def run_comprehensive_all_systems_testing():
     print("  🧪 Previously Tested: 8 basic systems (~15% coverage)")
     print(f"  🧪 Now Tested: +{total_tests} tests across 6 major categories")
     print(f"  🧪 Total Systems Discovered: {total_discovered}")
-    print(f"  🧪 Estimated Real Coverage: ~{(total_tests / max(total_discovered, 1)}  * 100:.1f}%")
+    print(f"  🧪 Estimated Real Coverage: ~{(total_tests / max(total_discovered, 1)} * 100:.1f}%")
 
     print("\n⚛️🧠🛡️ Comprehensive All Systems Testing Complete!")
     print(f"📈 MASSIVE Expansion: From 8 to {8 + total_tests} tested components")

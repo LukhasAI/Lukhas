@@ -464,7 +464,7 @@ class HomeostasisController:
         try:
             # Safe evaluation with limited functions
             safe_dict = {"min": min, "max": max, "round": round, "abs": abs, **context}
-            return eval(expr, {"__builtins__": {}, safe_dict)
+            return eval(expr, {"__builtins__": {}, **safe_dict})
         except Exception as e:
             logger.error(f"Error evaluating expression '{expr}': {e}")
             return 0.5  # Safe default
@@ -561,7 +561,7 @@ class HomeostasisController:
 
         # Create audit trail
         audit = AuditTrail(
-            audit_id=f"audit_{int(time.time() * 1000}",
+            audit_id=f"audit_{int(time.time() * 1000)}",
             timestamp=time.time(),
             signals=active_signals,
             event=event,

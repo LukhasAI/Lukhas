@@ -681,7 +681,7 @@ class QIEthicsMeshIntegrator:
         return {
             "active_subsystems": list(self.subsystem_states.keys()),
             "entanglement_pairs": len(self.entanglement_matrix),
-            "last_update": max((s.timestamp for s in self.subsystem_states.values()), default=0},
+            "last_update": max((s.timestamp for s in self.subsystem_states.values()}, default=0},
             "safety_thresholds": {
                 "drift_warning": self.drift_warning_threshold,
                 "drift_emergency": self.drift_emergency_threshold,

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
+import Header from '@/components/ui/Header';
 // import CursorFollower from '@/components/ui/CursorFollower';
 import PageTransition from '@/components/ui/PageTransition';
 import './globals.css';
@@ -40,6 +41,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} dark`}>
       <body className="antialiased overflow-x-hidden">
         <ThemeProvider>
+          <Header />
           {/* <CursorFollower /> */}
           <PageTransition>
             {children}

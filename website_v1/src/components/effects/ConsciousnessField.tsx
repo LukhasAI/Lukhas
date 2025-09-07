@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useMemo, useCallback } from 'react';
 import * as THREE from 'three';
-import { SimplexNoise } from 'simplex-noise';
+import { createNoise3D } from 'simplex-noise';
 
 // LUKHAS consciousness colors
 const CONSCIOUSNESS_COLORS = {
@@ -35,7 +35,7 @@ export default function ConsciousnessField({
   const animationRef = useRef<number>();
   
   // Simplex noise for organic movement
-  const noise = useMemo(() => new SimplexNoise(), []);
+  const noise = useMemo(() => createNoise3D(), []);
 
   // Vertex shader for consciousness particles
   const vertexShader = `

@@ -25,7 +25,7 @@ from typing import Optional
 
 import streamlit as st
 
-from qi.qi_flux import QIFlux
+from qi.qi_flux import QiFlux
 
 
 def generate_episodic_dream(trace):
@@ -49,17 +49,17 @@ THEMES = [
     "a spinning coin",
 ]
 
-_flux = QIFlux()
+_flux = QiFlux()
 
 
-def _seed_diversity_index(resonance: float, entropy_source: Optional[QIFlux] = None) -> int:
+def _seed_diversity_index(resonance: float, entropy_source: Optional[QiFlux] = None) -> int:
     """Select theme index using resonance and quantum entropy."""
     source = entropy_source or _flux
     entropy = source.measure_entropy()
     return int((resonance + entropy) * 10) % len(THEMES)
 
 
-def generate_semantic_dream(trace, flux: Optional[QIFlux] = None):
+def generate_semantic_dream(trace, flux: Optional[QiFlux] = None):
     """Symbolic dream: fragmented, emotionally recombined (late REM phase)."""
     collapse_id = trace.get("collapse_id", "unknown")
     resonance = trace.get("resonance", 0.0)
@@ -74,7 +74,7 @@ def generate_semantic_dream(trace, flux: Optional[QIFlux] = None):
     }
 
 
-def seed_dream(folded_trace, phase: str = "late", flux: Optional[QIFlux] = None):
+def seed_dream(folded_trace, phase: str = "late", flux: Optional[QiFlux] = None):
     """
     Generates a symbolic dream report based on modeled sleep phase.
 

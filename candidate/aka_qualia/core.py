@@ -640,7 +640,7 @@ class AkaQualia:
             qualia_novelty=metrics_data["qualia_novelty"],
             repair_delta=metrics_data["repair_delta"],
             timestamp=time.time(),
-            episode_id=f"aq_{int(time.time()}",
+            episode_id=f"aq_{int(time.time())}",
         )
 
     def _compute_metrics(
@@ -706,7 +706,7 @@ class AkaQualia:
             qualia_novelty=qualia_novelty,
             repair_delta=repair_delta,
             timestamp=time.time(),
-            episode_id=f"aq_{int(time.time()}",
+            episode_id=f"aq_{int(time.time())}",
         )
 
     def _compute_drift_phi(self, scene: PhenomenalScene) -> float:

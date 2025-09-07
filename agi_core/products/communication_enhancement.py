@@ -740,7 +740,7 @@ async def test_communication_enhancement():
     print("\n🎯 AGI-Enhanced NIAS Test:")
     print(f"   Enhanced Message: {nias_result['enhanced_message']}")
     print(f"   Confidence: {nias_result['confidence']:.2f}")
-    print(f"   Emotional Impact: {list(nias_result['emotional_impact'].keys()}")
+    print(f"   Emotional Impact: {list(nias_result['emotional_impact'].keys(}}")
 
     # Test ABAS enhancement
     abas = AGIEnhancedABAS()
@@ -752,7 +752,7 @@ async def test_communication_enhancement():
     print(f"   Boundary Message: {abas_result['boundary_message']}")
     print(f"   Empathy Score: {abas_result['empathy_score']:.2f}")
     print(f"   Protection Level: {abas_result['protection_level']:.2f}")
-    print(f"   Suggested Actions: {len(abas_result['suggested_actions'])} alternatives")
+    print(f"   Suggested Actions: {len(abas_result['suggested_actions']}} alternatives")
 
     print(f"\n✅ Communication enhancement testing completed in {result.processing_time:.3f}s")
     print(f"🔗 Trinity Framework: {result.metadata['trinity_framework']} compliance verified")

@@ -399,7 +399,7 @@ class UnifiedVeriFoldSystem:
         collapse_type: VeriFoldCollapseType,
     ) -> VeriFoldSnapshot:
         """Create a structured collapse snapshot."""
-        collapse_id = f"vf_{int(time.time() * 1000000}"
+        collapse_id = f"vf_{int(time.time(} * 1000000}"
 
         # Calculate entropy score
         entropy_score = self._calculate_entropy_score(collapse_data)

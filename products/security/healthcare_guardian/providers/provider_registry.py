@@ -177,7 +177,7 @@ class NHSProvider(BaseHealthcareProvider):
     ) -> dict[str, Any]:
         """Book NHS appointment via e-Referral Service"""
         return {
-            "booking_reference": f"NHS-{patient_id}-{datetime.now(timezone.utc).isoformat()}",
+            "booking_reference": f"NHS-{patient_id}-{datetime.now(timezone.utc).isoformat(}}",
             "status": "confirmed",
         }
 
@@ -510,7 +510,7 @@ class ProviderRegistry:
         # Global private providers
         self.register_provider(AXAProvider())
 
-        logger.info(f"Initialized {len(self.providers)} healthcare providers")
+        logger.info(f"Initialized {len(self.providers}} healthcare providers")
 
     def register_provider(self, provider: BaseHealthcareProvider):
         """Register a healthcare provider"""

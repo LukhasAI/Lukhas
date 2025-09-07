@@ -72,16 +72,16 @@ def demo_memory_operations():
 
     # Simulate memory operations with observability
     test_scenes = [
-        {"subject": "demo_scene_1", "object": "test_object", "affect": {"vigilance": 0.6},
-        {"subject": "demo_scene_2", "object": "test_object", "affect": {"vigilance": 0.4},
-        {"subject": "demo_scene_3", "object": "test_object", "affect": {"vigilance": 0.8},
+        {"subject": "demo_scene_1", "object": "test_object", "affect": {"vigilance": 0.6}},
+        {"subject": "demo_scene_2", "object": "test_object", "affect": {"vigilance": 0.4}},
+        {"subject": "demo_scene_3", "object": "test_object", "affect": {"vigilance": 0.8}},
     ]
 
     for i, scene in enumerate(test_scenes):
         scene_id = memory.save(
             user_id=f"demo_user_{i}",
             scene=scene,
-            glyphs=[{"key": f"demo_glyph_{i}", "attrs": {}],
+            glyphs=[{"key": f"demo_glyph_{i}", "attrs": {}}],
             policy={"gain": 0.8},
             metrics={"drift_phi": 0.05 * i},
             cfg_version="c5_demo",

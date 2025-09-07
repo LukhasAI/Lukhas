@@ -24,7 +24,7 @@ from typing import Any, Optional
 
 import streamlit as st
 
-logger = logging.getLogger("LUKHAS_INFERENCE_ADAPTER", timezone)
+logger = logging.getLogger("LUKHAS_INFERENCE_ADAPTER")
 
 
 class InferenceType(Enum):

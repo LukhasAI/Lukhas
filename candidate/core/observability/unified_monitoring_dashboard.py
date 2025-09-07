@@ -573,7 +573,7 @@ class UnifiedMonitoringDashboard:
                 if "alerts" in guardian_data and "recent" in guardian_data["alerts"]:
                     for alert_data in guardian_data["alerts"]["recent"]:
                         unified_alert = UnifiedAlert(
-                            alert_id=f"guardian_{alert_data.get('id', uuid.uuid4().hex[:8]}",
+                            alert_id=f"guardian_{alert_data.get('id', uuid.uuid4(}.hex[:8]}",
                             source_system="guardian",
                             alert_type=alert_data.get("type", "unknown"),
                             title=f"Guardian Alert: {alert_data.get('type', 'Unknown')}",

@@ -443,7 +443,7 @@ class CognitiveEngine:
             else:
                 response_content = await self._generate_response_content(
                     orchestration_result, input_data
-                )}
+                }}
 
             # Compliance check
             compliance_result = self.compliance_engine.check_compliance(
@@ -534,7 +534,7 @@ class CognitiveEngine:
                         trace_id,
                         response_content,
                         agi_response.confidence,
-                        f"Cognitive processing completed successfully with {len(trace.reasoning_steps)} reasoning steps",
+                        f"Cognitive processing completed successfully with {len(trace.reasoning_steps}} reasoning steps",
                     )
 
                     # Add transparency to response
@@ -611,7 +611,7 @@ class CognitiveEngine:
                 trace = transparency_orchestrator.get_trace(trace_id)
                 if trace:
                     trace.add_reasoning_step(
-                        f"Error occurred during processing: {type(e)}.__name__}",
+                        f"Error occurred during processing: {type(e}}.__name__}",
                         {
                             "error_type": type(e).__name__,
                             "error_message": str(e)[:200],
@@ -628,14 +628,14 @@ class CognitiveEngine:
 
                     error_transparency = transparency_orchestrator.complete_trace(
                         trace_id,
-                        f"Error: {str(e)}",
+                        f"Error: {str(e}}",
                         0.1,
-                        f"Processing error was handled transparently: {str(e)}",
+                        f"Processing error was handled transparently: {str(e}}",
                     )
 
             # Generate error response with partial capability
             error_response = AGIResponse(
-                content=f"I encountered an error while processing your request. Error: {str(e)}",
+                content=f"I encountered an error while processing your request. Error: {str(e}}",
                 confidence=0.1,
                 reasoning_path=[
                     {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}
@@ -696,7 +696,7 @@ class CognitiveEngine:
     ) -> str:
         """Generate response content based on orchestration results (ORIGINAL LOGIC)"""
         # Ensure input_data is a dict
-        if isinstance(input_data, str)}:
+        if isinstance(input_data, str}}:
             input_data = {"text": input_data}
 
         # Extract insights from different reasoning components
@@ -714,7 +714,7 @@ class CognitiveEngine:
         # Add primary response based on attention mechanism
         attention_results = orchestration_result.get("attention_results", {})
         if attention_results.get("attended_data"):
-            primary_response = f"Based on my analysis: {input_data.get('text', '')}"
+            primary_response = f"Based on my analysis: {input_data.get('text', ''}}"
             response_parts.append(primary_response)
 
         # Add causal reasoning insights
@@ -726,14 +726,14 @@ class CognitiveEngine:
         # Add symbolic reasoning insights
         if symbolic_insights:
             symbolic_summary = (
-                f"Logical analysis shows: {len(symbolic_insights)} key inferences"
+                f"Logical analysis shows: {len(symbolic_insights}} key inferences"
             )
             response_parts.append(symbolic_summary)
 
         # Add metacognitive insights
         if metacognitive_insights:
             metacog_summary = (
-                f"Self-reflection indicates: {', '.join(metacognitive_insights[:2])}"
+                f"Self-reflection indicates: {', '.join(metacognitive_insights[:2]}}"
             )
             response_parts.append(metacog_summary)
 
@@ -839,7 +839,7 @@ async def main():
             print(f"\n🧪 Test: {demo['test']}")
             print(f"📝 Input: {demo['input'][:80]}...")
             print(f"🤖 Response: {demo['response'][:100]}...")
-            print(f"📊 Confidence: {demo.get('confidence', 'N/A')}")
+            print(f"📊 Confidence: {demo.get('confidence', 'N/A'}}")
 
         print("\n📈 Overall Performance:")
         perf = demo_results["overall_performance"]

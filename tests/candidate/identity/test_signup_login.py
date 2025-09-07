@@ -68,7 +68,7 @@ class TestIdentityFlow(unittest.TestCase):
         password = PLACEHOLDER_PASSWORD
 
         # Step 1: Signup
-        signup_result = signup(email, password, timezone.utc)
+        signup_result = signup(email, password)
         self.assertTrue(signup_result["success"])
         self.assertIsNotNone(signup_result["token"])
         self.assertEqual(signup_result["user_id"], f"test_{timestamp}")

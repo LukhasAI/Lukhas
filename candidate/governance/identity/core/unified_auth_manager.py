@@ -399,7 +399,7 @@ class DreamStateAuthenticator:
 
         dream_string = json.dumps(dream_data, sort_keys=True)
         dream_hash = hashlib.sha256(dream_string.encode()).hexdigest()
-        return f"DREAM_{dream_type.upper()}_{dream_hash[:16]}"
+        return f"DREAM_{dream_type.upper(}}_{dream_hash[:16]}"
 
     def _calculate_dream_coherence(self, context: UnifiedAuthContext) -> float:
         """Calculate overall dream coherence score"""
@@ -745,7 +745,7 @@ class RevolutionaryAuthManager:
             :16
         ]
 
-        session_token = f"REV_{tier.value}_{consciousness_hash}_{cultural_hash}_{secrets.token_urlsafe(32)}"
+        session_token = f"REV_{tier.value}_{consciousness_hash}_{cultural_hash}_{secrets.token_urlsafe(32}}"
 
         # Calculate revolutionary session duration
         base_duration = timedelta(hours=4)
@@ -873,7 +873,7 @@ async def main():
     print("\n🚀 Revolutionary System Status:")
     for key, value in status.items():
         if isinstance(value, list):
-            print(f"  • {key}: {len(value)} available")
+            print(f"  • {key}: {len(value}} available")
         else:
             print(f"  • {key}: {value}")
 
@@ -905,21 +905,21 @@ async def main():
     print("\n🔮 Revolutionary Authentication Result:")
     if result["success"]:
         print("✅ SUCCESS! Revolutionary authentication completed")
-        print(f"🎯 Tier: {result['tier']} ({result.get('authentication_type')})")
-        print(f"🧠 Consciousness Score: {result.get('consciousness_score', 0.0)}:.2f}")
+        print(f"🎯 Tier: {result['tier']} ({result.get('authentication_type'}})")
+        print(f"🧠 Consciousness Score: {result.get('consciousness_score', 0.0}}:.2f}")
         print(
-            f"🌍 Cultural Compatibility: {result.get('cultural_compatibility', 0.0)}:.2f}"
+            f"🌍 Cultural Compatibility: {result.get('cultural_compatibility', 0.0}}:.2f}"
         )
-        print(f"⚡ Session expires: {result.get('expires_at')}")
+        print(f"⚡ Session expires: {result.get('expires_at'}}")
 
         if result.get("next_steps"):
-            print(f"🚀 Next Steps: {', '.join(result['next_steps'])}")
+            print(f"🚀 Next Steps: {', '.join(result['next_steps']}}")
 
     else:
-        print(f"❌ Authentication failed at phase: {result.get('phase')}")
-        print(f"💡 Reason: {result.get('reason')}")
+        print(f"❌ Authentication failed at phase: {result.get('phase'}}")
+        print(f"💡 Reason: {result.get('reason'}}")
         if result.get("suggested_actions"):
-            print(f"🔧 Suggestions: {', '.join(result['suggested_actions'])}")
+            print(f"🔧 Suggestions: {', '.join(result['suggested_actions']}}")
 
 
 if __name__ == "__main__":

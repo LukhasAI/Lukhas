@@ -164,10 +164,10 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
 
     # Provenance attestation nodes (optional)
     if receipt.get("attestation"):
-        lines.append(f'  rec_att [label=<<b>Receipt Attestation</b><br/>{escape_html(receipt["attestation"].get("root_hash","")[:16]}...>, shape=note, fillcolor="#EAF7FF"];')
+        lines.append(f'  rec_att [label=<<b>Receipt Attestation</b><br/>{escape_html(receipt["attestation"].get("root_hash",""}[:16]}...>, shape=note, fillcolor="#EAF7FF"];')
         lines.append('  rec_att -> teq [label="binds", color="#7FB3E6"];'
     if prov and prov.get("attestation"):
-        lines.append(f'  prov_att [label=<<b>Provenance Attestation</b><br/>{escape_html(prov["attestation"].get("root_hash","")[:16]}...>, shape=note, fillcolor="#EAF7FF"];')
+        lines.append(f'  prov_att [label=<<b>Provenance Attestation</b><br/>{escape_html(prov["attestation"].get("root_hash",""}[:16]}...>, shape=note, fillcolor="#EAF7FF"];')
         lines.append('  prov_att -> entity [label="binds", color="#7FB3E6"];'
 
     lines.append("}")

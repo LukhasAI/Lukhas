@@ -488,7 +488,7 @@ async def main():
 
             # Update timestamp
             st.caption(
-                f"Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
+                f"Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'}}"
             )
 
         # Wait before next update

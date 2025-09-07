@@ -485,7 +485,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
         # Spatial index (simplified)
         if content.context.location is not None:
-            location_key = f"spatial_{hash(content.context.location.tobytes()}"
+            location_key = f"spatial_{hash(content.context.location.tobytes())}"
             if location_key not in self.spatial_index:
                 self.spatial_index[location_key] = set()
             self.spatial_index[location_key].add(memory_id)

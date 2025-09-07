@@ -138,7 +138,7 @@ class CoreMemoryComponent:
         if not self.config.enabled:
             return {"status": "disabled"}
 
-        trace_id = f"trace_{hash(str(input_data)}_{tier_level}"
+        trace_id = f"trace_{hash(str(input_data))}_{tier_level}"
         phase = self.record_consciousness_phase()
         self.trace_store[trace_id] = {
             "data": input_data,

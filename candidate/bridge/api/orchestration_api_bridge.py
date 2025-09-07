@@ -201,7 +201,7 @@ class ComprehensiveAPIOrchestrator:
         self.daily_costs = {provider: 0.0 for provider in APIProvider}
 
         logger.info("🌐 Comprehensive API Orchestrator initialized")
-        logger.info(f"   Available providers: {list(self.bridges.keys()}")
+        logger.info(f"   Available providers: {list(self.bridges.keys())}")
         logger.info(f"   Orchestration enabled: {self.orchestrator is not None}")
 
     def _initialize_bridges(self, openai_key, anthropic_key, google_key, perplexity_key):

@@ -126,7 +126,7 @@ class SignalModulator:
 
         # Store signal context for audit
         params.signal_context = decayed_signals
-        params.audit_id = f"mod-{int(time.time())}"
+        params.audit_id = f"mod-{int(time.time()}"
 
         return params
 
@@ -171,7 +171,7 @@ class SignalModulator:
                         "abs": abs,
                         "round": round,
                     }
-                    result = eval(expression, {"__builtins__": {}}, eval_context)
+                    result = eval(expression, {"__builtins__": {}, eval_context)
 
                     # Convert to appropriate type
                     current_val = getattr(params, param_name)
@@ -239,7 +239,7 @@ class SignalModulator:
             "available_tools": ["search", "retrieval"],
             "maps": {
                 "alignment_risk": {
-                    "temperature": "0.8 - (level * 0.6)",
+                    "temperature": "0.8 - (level * 0.6)}",
                     "max_tokens": "4000 - (level * 3500)",
                 }
             },

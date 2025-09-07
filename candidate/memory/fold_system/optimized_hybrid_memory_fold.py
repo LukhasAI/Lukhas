@@ -576,8 +576,8 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             "Optimization benchmark completed",
             insertion_rate=f"{benchmark_results['performance_metrics']['insertion_rate_per_sec']:.1f}/sec",
             retrieval_rate=f"{benchmark_results['performance_metrics']['retrieval_rate_per_sec']:.1f}/sec",
-            compression_ratio=f"{opt_stats.get('avg_compression_ratio', 1)}:.1f}x",
-            memory_saved_mb=f"{opt_stats.get('total_memory_saved_mb', 0)}:.1f}MB",
+            compression_ratio=f"{opt_stats.get('avg_compression_ratio', 1):.1f}x",
+            memory_saved_mb=f"{opt_stats.get('total_memory_saved_mb', 0):.1f}MB",
         )
 
         return benchmark_results
@@ -844,8 +844,8 @@ async def migrate_to_optimized(
         "Memory migration completed",
         migrated=migration_stats["migrated_memories"],
         failed=migration_stats["failed_migrations"],
-        compression_ratio=f"{migration_stats.get('compression_ratio', 1)}:.1f}x",
-        memory_saved_mb=f"{migration_stats.get('memory_saved_mb', 0)}:.1f}MB",
+        compression_ratio=f"{migration_stats.get('compression_ratio', 1):.1f}x",
+        memory_saved_mb=f"{migration_stats.get('memory_saved_mb', 0):.1f}MB",
     )
 
     return migration_stats

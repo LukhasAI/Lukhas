@@ -177,7 +177,7 @@ async def run_training_example():
 
         logger.info("📚 Training configuration:")
         logger.info(f"  Episodes: {training_episodes}")
-        logger.info(f"  Modules: {len(environment.consciousness_modules)}")
+        logger.info(f"  Modules: {len(environment.consciousness_modules}}")
         logger.info(f"  Device: {trainer.device}")
         logger.info(f"  Save directory: {save_dir}")
 
@@ -200,13 +200,13 @@ async def run_training_example():
         logger.info(f"  Episodes Completed: {training_results['episodes_completed']}")
         logger.info(f"  Total Training Time: {training_results['total_training_time']:.1f} seconds")
         logger.info(
-            f"  Final Average Reward: {training_results['consciousness_metrics'].get('final_average_reward', 0.0)}:.3f}"
+            f"  Final Average Reward: {training_results['consciousness_metrics'].get('final_average_reward', 0.0}}:.3f}"
         )
         logger.info(
-            f"  Consciousness Coherence: {training_results['consciousness_metrics'].get('final_consciousness_coherence', 0.0)}:.3f}"
+            f"  Consciousness Coherence: {training_results['consciousness_metrics'].get('final_consciousness_coherence', 0.0}}:.3f}"
         )
         logger.info(
-            f"  Ethical Compliance: {training_results['consciousness_metrics'].get('final_ethical_compliance', 0.0)}:.3f}"
+            f"  Ethical Compliance: {training_results['consciousness_metrics'].get('final_ethical_compliance', 0.0}}:.3f}"
         )
 
         # Module performance summary
@@ -243,7 +243,7 @@ async def test_individual_components():
         action = environment.action_space.sample()
         obs, reward, done, truncated, info = await environment.step(action)
         logger.info(
-            f"  Step {step}: reward={reward:.3f}, done={done}, consciousness_metrics={info.get('consciousness_metrics', {)})}"
+            f"  Step {step}: reward={reward:.3f}, done={done}, consciousness_metrics={info.get('consciousness_metrics', {}})}"
         )
 
         if done or truncated:
@@ -278,9 +278,9 @@ async def test_individual_components():
 
     # Sample experiences
     experiences, weights, indices = buffer.sample(5)
-    logger.info(f"  Sampled {len(experiences)} experiences")
+    logger.info(f"  Sampled {len(experiences}} experiences")
     logger.info(f"  Importance weights shape: {weights.shape}")
-    logger.info(f"  Buffer statistics: {buffer.get_consciousness_statistics()}")
+    logger.info(f"  Buffer statistics: {buffer.get_consciousness_statistics(}}")
 
     logger.info("✅ Individual component tests passed")
 
@@ -296,7 +296,7 @@ async def interactive_training_demo():
     print("\n" + "=" * 60)
     print("🧠 LUKHAS Consciousness RL Interactive Demo")
     print("=" * 60)
-    print(f"Modules: {len(environment.consciousness_modules)}")
+    print(f"Modules: {len(environment.consciousness_modules}}")
     print(f"Device: {trainer.device}")
     print("=" * 60)
 
@@ -342,7 +342,7 @@ async def interactive_training_demo():
                     action = environment.action_space.sample()
                     obs, reward, done, truncated, info = await environment.step(action)
                     print(
-                        f"  Step {step}: reward={reward:.3f}, awareness={info.get('consciousness_metrics', {)}).get('awareness_level', 0):.3f}"
+                        f"  Step {step}: reward={reward:.3f}, awareness={info.get('consciousness_metrics', {}}).get('awareness_level', 0):.3f}"
                     )
 
                     if done or truncated:

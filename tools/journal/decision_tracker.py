@@ -467,7 +467,7 @@ Was this the right decision? Why or why not?
         # Check for rushed decisions
         if analysis["potentially_rushed"]:
             suggestions.append(
-                f"Review these potentially rushed decisions: {', '.join(analysis['potentially_rushed'][:3])}"
+                f"Review these potentially rushed decisions: {', '.join(analysis['potentially_rushed'][:3]}}"
             )
 
         # Check emotional patterns

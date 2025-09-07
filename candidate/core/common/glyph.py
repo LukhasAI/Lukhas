@@ -112,7 +112,7 @@ class GLYPHToken:
         metadata: Additional metadata
     """
 
-    glyph_id: str = field(default_factory=lambda: f"glyph_{uuid.uuid4()}.hex}")
+    glyph_id: str = field(default_factory=lambda: f"glyph_{uuid.uuid4().hex}")
     symbol: Union[str, GLYPHSymbol] = GLYPHSymbol.SYNC
     source: str = "unknown"
     target: str = "unknown"

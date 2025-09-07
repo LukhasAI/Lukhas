@@ -301,9 +301,9 @@ async def integrated_chat(request: IntegratedChatRequest):
             raise HTTPException(status_code=503, detail="Consciousness interface not available")
 
         # Generate IDs
-        session_id = request.session_id or f"session_{uuid.uuid4()}.hex[:8]}"
-        action_id = f"action_{uuid.uuid4()}.hex[:12]}"
-        decision_id = f"decision_{uuid.uuid4()}.hex[:12]}"
+        session_id = request.session_id or f"session_{uuid.uuid4(}.hex[:8]}"
+        action_id = f"action_{uuid.uuid4(}.hex[:12]}"
+        decision_id = f"decision_{uuid.uuid4(}.hex[:12]}"
 
         # Process through NL interface
         response_text = await nl_interface.process_input(
@@ -727,7 +727,8 @@ def _describe_feedback(feedback_item):
         emoji = feedback_item.content.get("emoji", "")
         return f"reacted with {emoji}"
     elif feedback_item.feedback_type == FeedbackType.TEXT:
-        return f\'said: "{feedback_item.content.get("text", "")}[:50]}..."\'
+        text_content = feedback_item.content.get("text", "")
+        return f'said: "{text_content[:50]}..."' if len(text_content) > 50 else f'said: "{text_content}"'
     elif feedback_item.feedback_type == FeedbackType.QUICK:
         thumbs = "👍" if feedback_item.content.get("thumbs_up") else "👎"
         return f"gave a {thumbs}"

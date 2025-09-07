@@ -520,7 +520,7 @@ class AdvancedConsentManager:
     ) -> ConsentRecord:
         """Create a new consent record"""
 
-        consent_id = f"consent_{uuid.uuid4()}.hex[:12]}"
+        consent_id = f"consent_{uuid.uuid4(}}.hex[:12]}"
         current_time = datetime.now(timezone.utc)
 
         # Calculate expiration date
@@ -618,7 +618,7 @@ class AdvancedConsentManager:
     async def _generate_consent_receipt(self, user_id: str, purpose_ids: list[str]) -> ConsentReceipt:
         """Generate GDPR-compliant consent receipt"""
 
-        receipt_id = f"receipt_{uuid.uuid4()}.hex[:12]}"
+        receipt_id = f"receipt_{uuid.uuid4(}}.hex[:12]}"
         current_time = datetime.now(timezone.utc)
 
         receipt_data = {
@@ -702,7 +702,7 @@ class AdvancedConsentManager:
 
             # Add guardian validation for immediate effect
             consent.guardian_validations.append(
-                f"Data processing stopped immediately upon withdrawal at {datetime.now(timezone.utc)}"
+                f"Data processing stopped immediately upon withdrawal at {datetime.now(timezone.utc}}"
             )
 
     async def _update_metrics(self):

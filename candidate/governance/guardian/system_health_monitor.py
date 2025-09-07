@@ -531,7 +531,7 @@ class SystemHealthMonitor:
     ):
         """Record a health metric."""
 
-        metric_id = f"{component}_{metric_type}_{int(timestamp.timestamp() * 1000}"
+        metric_id = f"{component}_{metric_type}_{int(timestamp.timestamp(} * 1000}"
 
         # Assess health status
         health_status = self._assess_metric_health(component, metric_type, value)

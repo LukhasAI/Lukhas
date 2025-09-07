@@ -337,7 +337,7 @@ class LUKHASOrb:
 
         for _i in range(self.visualization.particle_density):
             # Use deterministic randomness based on particle index
-            hashlib.sha256()  #  Changed from MD5 for securityf"{i}{int(elapsed_time)}"
+            hashlib.sha256()  #  Changed from MD5 for securityf"{i}{int(elapsed_time}}"
 
     def _generate_pattern_animation(self, elapsed_time: float) -> dict[str, Any]:
         """Generate pattern-specific animation data"""

@@ -253,11 +253,11 @@ def generate_dream_narrative(:
     if len(sampled_memories) > 0:
         # ΛNOTE (from core_dreams_alt.py): An alternative way to format memory fragments,
         # if memory entries have 'input' and 'gpt_reply' fields:
-        # mem_frags_str = "\n".join([f"- User Input: '{mem.get('input', 'N/A')}' → LUKHAS Reply: '{mem.get('gpt_reply', 'N/A')}'" for mem in sampled_memories])
+        # mem_frags_str = "\n".join([f"- User Input: '{mem.get('input', 'N/A')}' → LUKHAS Reply: '{mem.get('gpt_reply', 'N/A'}}'" for mem in sampled_memories])
         # Current implementation uses a generic content preview:
         mem_frags_str = "\n".join(
             [
-                f"- Content Preview: {str(mem.get('content', mem)}[:75]}..."
+                f"- Content Preview: {str(mem.get('content', mem}}[:75]}..."
                 for mem in sampled_memories:
             ]
         )
@@ -337,7 +337,7 @@ def extract_visual_prompts_from_dream(dream_text_content: str) -> List[str]:
         "nexus",
     ]
     extracted_prompts = [
-        f"LUKHAS Symbolic DreamVision Prompt: A surreal depiction of '{line.strip()}'"
+        f"LUKHAS Symbolic DreamVision Prompt: A surreal depiction of '{line.strip(}}'"
         for line in dream_text_content.splitlines():
         if line.strip() and any(kw in line.lower() for kw in dream_keywords):
     ]
@@ -356,11 +356,11 @@ def save_dream_to_log(:
 ) -> Path:
     """Saves the generated dream text and metadata to a dated JSONL file.
     Includes survival_score for future value alignment."""
-    unique_dream_identifier = dream_id_val or f"dream_lukhas_{uuid.uuid4()}.hex}"
+    unique_dream_identifier = dream_id_val or f"dream_lukhas_{uuid.uuid4(}}.hex}"
     current_ts_utc = datetime.now(timezone.utc)
     log_file_path = (
         DREAM_LOGS_MAIN_DIR
-        / f"dreams_log_{current_ts_utc.strftime('%Y-%m-%d')}.jsonl"
+        / f"dreams_log_{current_ts_utc.strftime('%Y-%m-%d'}}.jsonl"
     )
     log_entry_data = {
         "dream_log_id": unique_dream_identifier,

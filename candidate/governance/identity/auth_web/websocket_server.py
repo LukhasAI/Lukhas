@@ -72,7 +72,7 @@ from lukhas.core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
 # LUKHAS system imports
 from lukhas.core.oracle_nervous_system import get_oracle_nervous_system
 
-logger = logging.getLogger("ΛTRACE.websocket_server", timezone)
+logger = logging.getLogger("ΛTRACE.websocket_server")
 
 
 class StreamType(Enum):

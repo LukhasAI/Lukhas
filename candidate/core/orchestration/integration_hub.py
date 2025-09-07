@@ -13,47 +13,96 @@ from typing import Any
 import streamlit as st
 
 # Golden Trio imports
-from dast.integration.dast_integration_hub import DASTIntegrationHub
+try:
+    from dast.integration.dast_integration_hub import DASTIntegrationHub
+except ImportError:
+    DASTIntegrationHub = None
 
 # Learning and other systems
-from engines.learning_engine import Learningengine
+try:
+    from engines.learning_engine import Learningengine
+except ImportError:
+    Learningengine = None
 
 # from abas.integration.abas_integration_hub import ABASIntegrationHub
-from nias.integration.nias_integration_hub import NIASIntegrationHub
+try:
+    from nias.integration.nias_integration_hub import NIASIntegrationHub
+except ImportError:
+    NIASIntegrationHub = None
 
 # Bio system imports
-from bio.bio_engine import get_bio_engine
-from bio.bio_integration_hub import get_bio_integration_hub
-from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
-from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+try:
+    from bio.bio_engine import get_bio_engine
+    from bio.bio_integration_hub import get_bio_integration_hub
+    from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
+except ImportError:
+    get_bio_engine = None
+    get_bio_integration_hub = None
+    MitoEthicsSync = None
+
+try:
+    from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+except ImportError:
+    TrioOrchestrator = None
 
 # Ethics integration
-from ethics.ethics_integration import get_ethics_integration
-from ethics.hitlo_bridge import HITLOBridge
-from ethics.meta_ethics_governor import MetaEthicsGovernor
-from ethics.seedra.seedra_core import SEEDRACore
-from ethics.self_reflective_debugger import SelfReflectiveDebugger
+try:
+    from ethics.ethics_integration import get_ethics_integration
+except ImportError:
+    get_ethics_integration = None
 
-# Ethics system imports
-from ethics.service import EthicsService
-from identity.identity_hub import IdentityHub
-from lukhas.consciousness.reflection.consciousness_hub import ConsciousnessHub
-from lukhas.consciousness.reflection.memory_hub import MemoryHub
+try:
+    from ethics.hitlo_bridge import HITLOBridge
+    from ethics.meta_ethics_governor import MetaEthicsGovernor
+    from ethics.seedra.seedra_core import SEEDRACore
+    from ethics.self_reflective_debugger import SelfReflectiveDebugger
+    from ethics.service import EthicsService
+except ImportError:
+    HITLOBridge = None
+    MetaEthicsGovernor = None
+    SEEDRACore = None
+    SelfReflectiveDebugger = None
+    EthicsService = None
+
+try:
+    from identity.identity_hub import IdentityHub
+except ImportError:
+    IdentityHub = None
+
+try:
+    from lukhas.consciousness.reflection.consciousness_hub import ConsciousnessHub
+    from lukhas.consciousness.reflection.memory_hub import MemoryHub
+except ImportError:
+    ConsciousnessHub = None
+    MemoryHub = None
 
 # Consciousness integration
-from lukhas.consciousness.systems.unified_consciousness_engine import (
-    get_unified_consciousness_engine,
-)
+try:
+    from lukhas.consciousness.systems.unified_consciousness_engine import (
+        get_unified_consciousness_engine,
+    )
+except ImportError:
+    get_unified_consciousness_engine = None
 
 # Core system imports (verified paths)
-from lukhas.core.core_hub import CoreHub
+try:
+    from lukhas.core.core_hub import CoreHub
+except ImportError:
+    CoreHub = None
 
 # Core interfaces
-from lukhas.core.interfaces.interfaces_hub import get_interfaces_hub
+try:
+    from lukhas.core.interfaces.interfaces_hub import get_interfaces_hub
+except ImportError:
+    get_interfaces_hub = None
 
 # Oscillator and mito patterns
-from qi.oscillator import BaseOscillator
-from qi.qi_hub import QIHub
+try:
+    from qi.oscillator import BaseOscillator
+    from qi.qi_hub import QIHub
+except ImportError:
+    BaseOscillator = None
+    QIHub = None
 
 # from qi.system_orchestrator import QIAGISystem  # TODO: Implement quantum AGI system
 
