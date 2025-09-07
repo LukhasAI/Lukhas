@@ -27,7 +27,7 @@ class BudgetConfig:
             "default_latency_ms": self.default_latency_ms,
             "user_overrides": self.user_overrides or {},
             "task_overrides": self.task_overrides or {},
-            "model_costs": self.model_costs or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02},
+            "model_costs": self.model_costs or {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}},
         }
 
 
