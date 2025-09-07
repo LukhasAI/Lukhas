@@ -37,7 +37,7 @@ try:
 except ImportError:
     PerplexityWrapper = None
 
-logger = logging.getLogger("ΛTRACE.tools.orchestrator", timezone)
+logger = logging.getLogger("ΛTRACE.tools.orchestrator")
 
 
 class MultiAIConsensus:
@@ -70,7 +70,7 @@ class MultiAIConsensus:
             "overall_score": 0.0-1.0,
             "concerns": ["list", "of", "concerns"],
             "recommendations": ["list", "of", "recommendations"]
-        }
+        }}
         """
 
         evaluations = {}
