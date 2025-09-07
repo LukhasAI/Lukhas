@@ -179,21 +179,21 @@ class EnhancedEmotionalProcessor:
 
         # Store previous state
         self.emotional_history.append(self.current_state.copy())
-                                                                    if len(self.emotional_history) > self.max_history:
+        if len(self.emotional_history) > self.max_history:
             self.emotional_history = self.emotional_history[-self.max_history:]
 
         # Update state
-                                                                        if primary_emotion in self.emotion_vectors:
+        if primary_emotion in self.emotion_vectors:
             self.current_state["primary_emotion"] = primary_emotion
 
-                                                                            if intensity is not None:
+        if intensity is not None:
             self.current_state["intensity"] = max(0.0, min(1.0, intensity))
 
-                                                                                if secondary_emotions:
+        if secondary_emotions:
             valid_secondary = {
                 e: max(0.0, min(1.0, i))
-                                                                                    for e, i in secondary_emotions.items():
-                                                                                    if e in self.emotion_vectors:
+                for e, i in secondary_emotions.items()
+                if e in self.emotion_vectors
             }
             self.current_state["secondary_emotions"] = valid_secondary
 

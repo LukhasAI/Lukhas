@@ -320,11 +320,11 @@ class LearningTrajectoryAnalyzer:
         if len(performance) < 3:
             return phases
 
-        current_phase = {"start_idx": 0, "phase_type": "novice", "characteristics": {}
+        current_phase = {"start_idx": 0, "phase_type": "novice", "characteristics": {}}
 
         for i in range(1, len(performance)):
-            performance[i] - performance[i - 1]
-            learning_rate[i] if i < len(learning_rate) else 0.0
+            delta = performance[i] - performance[i - 1]
+            rate = learning_rate[i] if i < len(learning_rate) else 0.0
 
             # Determine phase based on performance and learning rate
             if performance[i] < 0.3:
@@ -691,13 +691,13 @@ class PatternExtractor:
         success_rates = [t.get("trajectory_stats", {}).get("final_performance", 0) for t in trajectories]
         avg_success_rate = np.mean(success_rates)
 
-        pattern_id = hashlib.sha256(f"sequence_{common_phases}_{time.time(}}".encode()).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"sequence_{common_phases}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,
             pattern_type=PatternType.SKILL_ACQUISITION,
-            pattern_name=f"Sequential Learning Pattern ({len(trajectories}} instances)",
-            description=f"Common learning sequence with phases: {' -> '.join(common_phases[:3]}}",
+            pattern_name=f"Sequential Learning Pattern ({len(trajectories)} instances)",
+            description=f"Common learning sequence with phases: {' -> '.join(common_phases[:3])}",
             trigger_conditions={
                 "learning_context": "skill_acquisition",
                 "initial_performance": {"min": 0.0, "max": 0.3},
@@ -775,7 +775,7 @@ class PatternExtractor:
             reverse=True,
         )[:5]
 
-        pattern_id = hashlib.sha256(f"strategy_{top_strategies}_{time.time(}}".encode()).hexdigest()[:16]
+        pattern_id = hashlib.sha256(f"strategy_{top_strategies}_{time.time()}".encode()).hexdigest()[:16]
 
         return MetaLearningPattern(
             pattern_id=pattern_id,

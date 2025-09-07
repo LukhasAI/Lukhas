@@ -201,7 +201,7 @@ class AdaptiveAGIDemo:
         self.demo_state["demo_mode"] = "interactive" if mode == "2" else "guided"
 
         # Create a demo session
-        user_id = f"demo_user_{int(time.time()}"
+        user_id = f"demo_user_{int(time.time())}"
         await self.create_session(user_id)
 
         try:
@@ -253,8 +253,7 @@ class AdaptiveAGIDemo:
         response = await self.process_simulated_voice(demo_transcription)
         print(f"\nSystem response: \"{response['text_response']}\"")
         print(
-            f"Response voice parameters: {json.dumps(response['voice_parameters'],")}
-                                                     indent=2)}"
+            f"Response voice parameters: {json.dumps(response['voice_parameters'], indent=2)}"
         )
 
         # Scenario 2: Compliance and safety
@@ -288,7 +287,7 @@ class AdaptiveAGIDemo:
         print("\nCompliance check result:")
         print(f"Compliant: {compliance_result['compliant']}")
         print(
-            f"Required actions: {', '.join(compliance_result['actions'])} if compliance_result['actions'] else 'None'}"
+            f"Required actions: {', '.join(compliance_result['actions']) if compliance_result['actions'] else 'None'}"
         )
 
         # Scenario 3: Adaptive Interface
@@ -324,16 +323,13 @@ class AdaptiveAGIDemo:
                     {"type": "desktop", "orientation": "landscape"},
                 )
                 print(
-                    f"Generated interface style: {interface_elements.get('style',)}
-                                                                         'unknown')}"
+                    f"Generated interface style: {interface_elements.get('style', 'unknown')}"
                 )
                 print(
-                    f"Interface complexity: {interface_elements.get('complexity',)}
-                                                                    'unknown')}"
+                    f"Interface complexity: {interface_elements.get('complexity', 'unknown')}"
                 )
                 print(
-                    f"Primary interaction mode: {interface_elements.get('primary_mode',)}
-                                                                        'unknown')}"
+                    f"Primary interaction mode: {interface_elements.get('primary_mode', 'unknown')}"
                 )
             except Exception:
                 print(
@@ -548,7 +544,7 @@ class AdaptiveAGIDemo:
 
         # Check if we should generate an image
         image_url = None
-        if (:
+        if (
             "image" in transcription["text"].lower()
             or "picture" in transcription["text"].lower()
             or "show" in transcription["text"].lower()

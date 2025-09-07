@@ -187,12 +187,12 @@ class TopologyManager:
         )
         connection_density = (
             connection_count / max_possible_connections
-            if max_possible_connections > 0:
-            else 0.0:
+            if max_possible_connections > 0
+            else 0.0
         )
         self.logger.debug(
-            f"ΛTRACE: Basic metrics: Nodes={node_count}, Connections={connection_count},"
-            Density={connection_density: .4f}"
+            f"ΛTRACE: Basic metrics: Nodes={node_count}, Connections={connection_count}, "
+            f"Density={connection_density:.4f}"
         )
 
         # Node-level aggregations
@@ -228,8 +228,8 @@ class TopologyManager:
         )
 
         self.logger.debug(
-            f"ΛTRACE: Advanced metrics: ClusteringCoeff={clustering_coeff: .4f},
-            AvgPathLength={avg_path_len: .4f}, NetworkEfficiency={network_eff: .4f}"
+            f"ΛTRACE: Advanced metrics: ClusteringCoeff={clustering_coeff:.4f}, "
+            f"AvgPathLength={avg_path_len:.4f}, NetworkEfficiency={network_eff:.4f}"
         )
 
         final_metrics = TopologyMetrics(
@@ -253,7 +253,7 @@ class TopologyManager:
     def _calculate_clustering_coefficient(self) -> float:
         """Calculates the average clustering coefficient of the network."""
         self.logger.debug("ΛTRACE: Calculating clustering coefficient.")
-        if (:
+        if (
             len(self.network.nodes) < 3
         ):  # Clustering requires at least 3 nodes for non-zero results typically
             self.logger.debug(
@@ -275,7 +275,7 @@ class TopologyManager:
             triangles_count = 0  # Number of triangles involving this node
             # Iterate over pairs of neighbors
             for i, neighbor1_id in enumerate(neighbors_list):
-                for j in range(:
+                for j in range(
                     i + 1, k_i
                 ):  # Avoid redundant pairs and self-loops with i+1
                     neighbor2_id = neighbors_list[j]
@@ -294,16 +294,16 @@ class TopologyManager:
                 )
             else:
                 self.logger.debug(
-                    f"ΛTRACE: Node '{node_id_str)' has < 2 possible triangles,
-                    local coeff is 0."
+                    f"ΛTRACE: Node '{node_id_str}' has < 2 possible triangles, "
+                    "local coeff is 0."
                 )
 
         # Average clustering coefficient
         avg_coeff = (
             total_node_coefficient_sum / nodes_with_degree_ge_2
-            if nodes_with_degree_ge_2 > 0:
-            else 0.0:
-        )}
+            if nodes_with_degree_ge_2 > 0
+            else 0.0
+        )
         self.logger.debug(
             f"ΛTRACE: Average clustering coefficient calculated: {avg_coeff:.4f} over {nodes_with_degree_ge_2} nodes."
         )
@@ -315,7 +315,7 @@ class TopologyManager:
         """Calculates the average shortest path length between all pairs of nodes in the network."""
         self.logger.debug("ΛTRACE: Calculating average shortest path length.")
         node_ids_list = list(self.network.nodes.keys())
-        if (:
+        if (
             len(node_ids_list) < 2
         ):  # Path length is undefined or 0 for networks with < 2 nodes
             self.logger.debug(
@@ -349,8 +349,8 @@ class TopologyManager:
 
         avg_len = (
             total_shortest_path_sum / num_paths_calculated
-            if num_paths_calculated > 0:
-            else float("inf"):
+            if num_paths_calculated > 0
+            else float("inf")
         )
         self.logger.debug(
             f"ΛTRACE: Average shortest path length calculated: {avg_len:.4f} over {num_paths_calculated} paths."
@@ -384,9 +384,9 @@ class TopologyManager:
         # If path_length is inf, this penalty becomes 0. If 0, penalty is 1.
         path_penalty = (
             1.0 / (1.0 + current_metrics.average_path_length)
-            if current_metrics.average_path_length != float("inf"):
-            and current_metrics.average_path_length >= 0
-            else 0.0:
+            if (current_metrics.average_path_length != float("inf")
+                and current_metrics.average_path_length >= 0)
+            else 0.0
         )
 
         self.logger.debug(

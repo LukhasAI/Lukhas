@@ -155,7 +155,7 @@ class SymbolicNode:
     # Post-initialization logger setup
 
     def __post_init__(self):
-        self.logger = logger.getChild(f"SymbolicNode.{self}"}
+        self.logger = logger.getChild(f"SymbolicNode.{self.node_id}")
         self.logger.info(
             f"ΛTRACE: SymbolicNode '{self}' (Type: {self.node_type} created. Weight: {self.symbolic_weight:}, Position: {self}"
         )

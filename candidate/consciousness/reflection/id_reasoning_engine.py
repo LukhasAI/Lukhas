@@ -48,6 +48,8 @@ import structlog  # ΛTRACE: Standardized logging.
 # configuration echoes global settings)
 from candidate.core.common import get_logger
 
+# Initialize module logger
+logger = get_logger(__name__)
 # Standardized init log. #ΛTEMPORAL_HOOK (Log event at init time)
 logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing")
 
@@ -647,7 +649,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
 
     def __init__(self, compliance_region: ComplianceRegion = ComplianceRegion.GLOBAL):
         # AIDENTITY_BRIDGE (Logger for this manager instance)
-        self.logger = logger.getChild("LukhasIdManager")
+        self.logger = logger.bind(component="LukhasIdManager")
         # ΛTEMPORAL_HOOK (Log at init) #AIDENTITY_BRIDGE (Compliance region for
         # this instance)
         self.logger.info(
