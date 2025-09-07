@@ -149,8 +149,8 @@ def create_risk_gauge(risk_score: float) -> go.Figure:
             mode="gauge+number+delta",
             value=risk_score * 100,
             domain={"x": [0, 1], "y": [0, 1]},
-            title={"text": "System Ethical Risk", "font": {"size": 24},
-            number={"suffix": "%", "font": {"size": 40},
+            title={"text": "System Ethical Risk", "font": {"size": 24}},
+            number={"suffix": "%", "font": {"size": 40}},
             gauge={
                 "axis": {"range": [None, 100], "tickwidth": 1},
                 "bar": {"color": "darkblue"},
@@ -329,7 +329,7 @@ def format_violation(violation) -> str:
 async def main():
     """Main dashboard application."""
     st.title("⚖️ ΛGOVERNOR - Ethical Drift Sentinel Dashboard")
-    st.markdown("##)  #  Real-time ethical monitoring and intervention control"
+    st.markdown("##)  #  Real-time ethical monitoring and intervention control")
 
     # Initialize sentinel
     sentinel = initialize_sentinel()
@@ -488,7 +488,7 @@ async def main():
 
             # Update timestamp
             st.caption(
-                f"Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'}}"
+                f"Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
             )
 
         # Wait before next update

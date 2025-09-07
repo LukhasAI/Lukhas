@@ -237,7 +237,7 @@ class AdvancedEthicalDecisionMaker:
             Comprehensive ethical decision with full analysis
         """
         start_time = datetime.now()
-        decision_id = f"eth_dec_{uuid.uuid4()}.hex[:8]}"
+        decision_id = f"eth_dec_{uuid.uuid4().hex[:8]}"
 
         try:
             logger.info(f"⚖️ Making ethical decision: {decision_id}")
@@ -324,7 +324,7 @@ class AdvancedEthicalDecisionMaker:
 
             # Return conservative fallback decision
             fallback_decision = ComprehensiveEthicalDecision(
-                decision_id=f"fallback_{uuid.uuid4()}.hex[:8]}",
+                decision_id=f"fallback_{uuid.uuid4().hex[:8]}",
                 context=context,
                 available_options=available_options,
                 chosen_option="refuse_action",
@@ -355,7 +355,7 @@ class AdvancedEthicalDecisionMaker:
                 # Create minimal analysis for failed framework
                 analyses.append(
                     EthicalAnalysis(
-                        analysis_id=f"failed_{framework.value}_{uuid.uuid4()}.hex[:8]}",
+                        analysis_id=f"failed_{framework.value}_{uuid.uuid4().hex[:8]}",
                         framework=framework,
                         score=0.5,  # Neutral score
                         reasoning=f"Analysis failed: {e!s}",
@@ -370,7 +370,7 @@ class AdvancedEthicalDecisionMaker:
     ) -> EthicalAnalysis:
         """Analyze options using specific ethical framework"""
 
-        analysis_id = f"{framework.value}_{uuid.uuid4()}.hex[:8]}"
+        analysis_id = f"{framework.value}_{uuid.uuid4().hex[:8]}"
 
         if framework == EthicalFramework.CONSTITUTIONAL:
             return await self._constitutional_analysis(analysis_id, context, options)

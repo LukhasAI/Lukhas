@@ -185,7 +185,7 @@ class EthicalHierarchy:
             Detailed ethical assessment with recommendations
         """
 
-        evaluation_id = f"eval_{int(time.time()}"
+        evaluation_id = f"eval_{int(time.time())}"
         self.logger.info(f"🔍 Starting ethical evaluation {evaluation_id}")
 
         # Initialize evaluation result

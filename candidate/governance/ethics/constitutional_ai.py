@@ -700,7 +700,7 @@ class EthicalDecisionMaker:
 
         total_score = 0.0
         principle_scores = {}
-        analysis = {"option": option, "evaluations": {}
+        analysis = {"option": option, "evaluations": {}}
 
         # Evaluate against each applicable rule
         for rule in applicable_rules:

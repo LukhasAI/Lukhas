@@ -97,6 +97,22 @@ except ImportError as e:
     EMOTION_ACTIVE = False
 
 
+# Compatibility class for EmotionalAwareness import
+class EmotionalAwareness:
+    """Compatibility wrapper for emotional awareness functionality"""
+    
+    def __init__(self):
+        self.active = EMOTION_ACTIVE
+        
+    def process_emotional_state(self, state: Any) -> dict[str, Any]:
+        """Process emotional state data"""
+        return process_emotion(state)
+        
+    def get_awareness_level(self) -> float:
+        """Get current emotional awareness level"""
+        return 1.0 if EMOTION_ACTIVE else 0.0
+
+
 def get_emotion_status() -> dict[str, Any]:
     """
     Get comprehensive emotion system status.
@@ -199,6 +215,7 @@ def create_emotion_session(session_id: str, **config) -> Optional[Any]:
 # Export main functions
 __all__ = [
     "EMOTION_ACTIVE",
+    "EmotionalAwareness",
     "EmotionWrapper",
     "analyze_emotion_stream",
     "create_emotion_session",

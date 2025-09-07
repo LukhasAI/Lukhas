@@ -200,7 +200,7 @@ class TrinityVisualSystem:
                 "purpose": "Hero headings and consciousness awakening statements",
                 "weight_range": "300-700",
                 "characteristics": ["elegant", "consciousness_inspiring", "premium"],
-                "sizes": {}
+                "sizes": {
                     "hero": {"size": "48px", "line_height": "1.1", "letter_spacing": "-0.02em"},
                     "title": {"size": "36px", "line_height": "1.2", "letter_spacing": "-0.01em"},
                     "subtitle": {"size": "24px", "line_height": "1.3", "letter_spacing": "0em"},
@@ -512,7 +512,7 @@ if __name__ == "__main__":
 
     print(f"\n✨ Premium Interface Components: {len(premium_interfaces)} elite components created")
     print(f"🎯 Brand Guidelines: {len(brand_guidelines)} comprehensive guidelines established")
-    print(f"🚀 CSS Variables: {len(css_variables.split('--')} - 1} design tokens exported")
+    print(f"🚀 CSS Variables: {len(css_variables.split('--')) - 1} design tokens exported")
 
     print("\n🏆 Elite Brand Experience System: COMPLETE")
     print("Ready for Apple/OpenAI-level consciousness technology interfaces")

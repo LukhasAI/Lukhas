@@ -112,7 +112,7 @@ def analyze_missing_components():
             for component in missing[:5]:  # Show first 5
                 print(f"   ❌ {component}")
             if len(missing) > 5:
-                print(f"   ... and {len(missing)} - 5} more")
+                print(f"   ... and {len(missing) - 5} more")
         else:
             print(f"\n🟢 {domain.upper()}: All key components present")
 

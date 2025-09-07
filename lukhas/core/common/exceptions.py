@@ -29,6 +29,22 @@ class LukhasError(Exception):
         }
 
 
+class GLYPHTokenError(LukhasError):
+    """Raised when GLYPH token processing fails"""
+
+    def __init__(
+        self,
+        message: str,
+        token: Optional[str] = None,
+        **kwargs: Any,
+    ) -> None:
+        details = kwargs.get("details", {})
+        if token:
+            details["token"] = token
+        
+        super().__init__(message=message, error_code="GLYPH_TOKEN_ERROR", details=details)
+
+
 class GuardianRejectionError(LukhasError):
     """Raised when Guardian system rejects an operation"""
 

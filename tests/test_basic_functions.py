@@ -16,6 +16,6 @@ def test_memory_wrapper_initializes():
 def test_logger_emits():
     from lukhas.core.common import get_logger
 
-    get_logger("t4")
-log.info("t4 smoke")
-# Test passes if no exception is raised
+    log = get_logger("t4")
+    log.info("t4 smoke")
+    # Test passes if no exception is raised

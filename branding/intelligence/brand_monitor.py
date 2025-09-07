@@ -47,7 +47,7 @@ class BrandIntelligenceMonitor:
                 "tone_indicators": {
                     "poetic": ["metaphor", "symbolic", "consciousness awakening", "mystical"],
                     "user_friendly": ["approachable", "helpful", "easy", "friendly"],
-                    "academic": ["precise", "research", "analysis", "technical"],}
+                    "academic": ["precise", "research", "analysis", "technical"],
                 },
             },
             "monitoring_scopes": {
@@ -324,7 +324,7 @@ class BrandIntelligenceMonitor:
             "required_terms_found": required_found,
             "required_terms_total": len(required_terms),
             "forbidden_terms_found": forbidden_found,
-            "terminology_health": "good" if compliance_score > 0.8 else "needs_improvement",}
+            "terminology_health": "good" if compliance_score > 0.8 else "needs_improvement",
         }
 
     def _analyze_trinity_presence(self, content_text: str) -> dict[str, Any]:
@@ -364,7 +364,7 @@ class BrandIntelligenceMonitor:
             "components_present": {
                 "identity": identity_present,
                 "consciousness": consciousness_present,
-                "guardian": guardian_present,}
+                "guardian": guardian_present,
             },
             "trinity_coherence": "strong" if trinity_score > 0.7 else "weak",
         }
@@ -406,7 +406,7 @@ class BrandIntelligenceMonitor:
             "dominant_tone": dominant_tone,
             "tone_clarity": max(tone_scores.values()),
             "tone_appropriateness": tone_appropriateness,
-            "tone_consistency": "good" if max(tone_scores.values()) > 0.5 else "unclear",}
+            "tone_consistency": "good" if max(tone_scores.values()) > 0.5 else "unclear",
         }
 
     def _analyze_lambda_usage(self, content_text: str) -> dict[str, Any]:
@@ -428,7 +428,7 @@ class BrandIntelligenceMonitor:
             "lambda_score": lambda_score,
             "proper_usage_count": proper_lambda,
             "improper_usage_count": improper_lambda,
-            "lambda_compliance": "compliant" if lambda_score >= 0.8 else "needs_correction",}
+            "lambda_compliance": "compliant" if lambda_score >= 0.8 else "needs_correction",
         }
 
     def _calculate_consistency_score(
@@ -558,7 +558,7 @@ class BrandIntelligenceMonitor:
                 "maturity_score": 0.84,
                 "evolution_direction": "positive",
                 "key_strengths": ["consciousness_focus", "trinity_coherence", "tone_clarity"],
-                "growth_areas": ["academic_tone_balance", "user_engagement"],}
+                "growth_areas": ["academic_tone_balance", "user_engagement"],
             },
             "competitive_intelligence": {
                 "differentiation_strength": 0.82,
@@ -588,7 +588,7 @@ class BrandIntelligenceMonitor:
                 "current_score": 0.84,
                 "predicted_score": 0.89,
                 "confidence": 0.82,
-                "key_drivers": ["trinity_framework_strengthening", "user_engagement_improvement"],}
+                "key_drivers": ["trinity_framework_strengthening", "user_engagement_improvement"],
             },
             "market_position_prediction": {
                 "current_position": "innovative_leader",
@@ -703,7 +703,7 @@ class BrandIntelligenceMonitor:
         return {
             "dashboard_timestamp": datetime.now(timezone.utc).isoformat(),
             "alert_summary": alert_summary,
-            "system_status": "monitoring_active",}
+            "system_status": "monitoring_active",
         }
 
     async def _send_critical_brand_notification(self, alert_summary: dict[str, Any]) -> None:
@@ -747,7 +747,7 @@ class BrandIntelligenceMonitor:
         return {
             "consistency_trend": "improving",
             "terminology_trend": "stable",
-            "trinity_integration_trend": "strengthening",}
+            "trinity_integration_trend": "strengthening",
         }
 
     def _calculate_brand_health_metrics(self, aggregated_results: dict[str, Any]) -> dict[str, Any]:
@@ -756,7 +756,7 @@ class BrandIntelligenceMonitor:
             "overall_health_score": aggregated_results.get("average_consistency_score", 0),
             "health_status": "good",
             "key_strength": "trinity_framework_integration",
-            "primary_improvement_area": "terminology_consistency",}
+            "primary_improvement_area": "terminology_consistency",
         }
 
     def _generate_brand_insights(

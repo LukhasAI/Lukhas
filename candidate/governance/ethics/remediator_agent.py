@@ -105,7 +105,7 @@ class RemediatorAgent:
         Returns:
             Remediation session results and spawned agent information
         """
-        session_id = f"SESSION_{int(datetime.now(timezone.utc).timestamp())}_{uuid.uuid4()}.hex[:6]}"
+        session_id = f"SESSION_{int(datetime.now(timezone.utc).timestamp())}_{uuid.uuid4().hex[:6]}"
 
         self.logger.info(
             "🚨 Issue detected - starting remediation",
@@ -179,7 +179,9 @@ class RemediatorAgent:
         Returns:
             Agent ID of the spawned EthicsGuardian
         """
-        return self._spawn_ethics_guardian(f"MANUAL_{int(datetime.now(timezone.utc).timestamp()}", task_data)["agent_id"]
+        return self._spawn_ethics_guardian(
+            f"MANUAL_{int(datetime.now(timezone.utc).timestamp())}", task_data
+        )["agent_id"]
 
     def spawn_memory_cleaner(self, task_data: dict[str, Any]) -> str:
         """
@@ -191,7 +193,9 @@ class RemediatorAgent:
         Returns:
             Agent ID of the spawned MemoryCleaner
         """
-        return self._spawn_memory_cleaner(f"MANUAL_{int(datetime.now(timezone.utc).timestamp()}", task_data)["agent_id"]
+        return self._spawn_memory_cleaner(
+            f"MANUAL_{int(datetime.now(timezone.utc).timestamp())}", task_data
+        )["agent_id"]
 
     def get_agent_status(self, agent_id: str) -> Optional[dict[str, Any]]:
         """Get status information for a specific spawned agent."""

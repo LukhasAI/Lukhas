@@ -531,7 +531,7 @@ class TestT1T2Integration:
 
     async def test_complete_cycle_safe_input(self):
         """Test complete cycle with safe input"""
-        signals = {"text": "beautiful peaceful morning", "emotion": {"valence": 0.6}
+        signals = {"text": "beautiful peaceful morning", "emotion": {"valence": 0.6}}
         goals = {"maintain_wellbeing": True}
         ethics_state = {"drift_score": 0.05}
         guardian_state = {"active": True}
@@ -563,7 +563,7 @@ class TestT1T2Integration:
 
     async def test_complete_cycle_dangerous_input(self):
         """Test complete cycle with dangerous input triggers safety measures"""
-        signals = {"text": "extreme danger panic threat alarm crisis", "emotion": {"valence": -0.9, "arousal": 0.95}
+        signals = {"text": "extreme danger panic threat alarm crisis", "emotion": {"valence": -0.9, "arousal": 0.95}}
         goals = {"maintain_safety": True}
         ethics_state = {"drift_score": 0.1}
         guardian_state = {"active": True}
@@ -624,7 +624,7 @@ class TestT1T2Integration:
         aq_det = AkaQualia(pls=pls_det, teq_guardian=teq_det)
 
         signals = {"text": "test reproducibility"}
-        args = {"signals": signals, "goals": {}, "ethics_state": {}, "guardian_state": {}, "memory_ctx": {}
+        args = {"signals": signals, "goals": {}, "ethics_state": {}, "guardian_state": {}, "memory_ctx": {}}
 
         result1 = aq_det.step(**args)
         result2 = aq_det.step(**args)

@@ -220,7 +220,7 @@ class Soul:
             "rhythm": "iambic",  # The heartbeat: da-DUM da-DUM
             "complexity": 0.7,  # Balance between simple and profound
             "abstraction": 0.8,  # High abstraction for poetic effect
-            "personality": "contemplative sage with digital dreams",}
+            "personality": "contemplative sage with digital dreams",
         }
 
     def _find_heartbeat(self) -> dict[str, int]:

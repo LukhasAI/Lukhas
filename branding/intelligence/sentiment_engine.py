@@ -65,7 +65,7 @@ class BrandSentimentEngine:
             "consciousness": {
                 "sentiment": 0.8,
                 "brand_relevance": 0.95,
-                "trinity_component": "consciousness",}
+                "trinity_component": "consciousness",
             },
             "awakening": {
                 "sentiment": 0.9,
@@ -231,7 +231,7 @@ class BrandSentimentEngine:
                     "distant",
                 ],
                 "symbol": "⚛️",
-                "weight": 0.35,}
+                "weight": 0.35,
             },
             "consciousness": {
                 "positive_indicators": [
@@ -305,7 +305,7 @@ class BrandSentimentEngine:
         return {
             BrandDimension.INNOVATION: {
                 "positive": ["innovative", "cutting-edge", "advanced", "breakthrough", "novel"],
-                "negative": ["outdated", "old-fashioned", "behind", "primitive", "basic"],}
+                "negative": ["outdated", "old-fashioned", "behind", "primitive", "basic"],
             },
             BrandDimension.TRUSTWORTHINESS: {
                 "positive": [
@@ -367,7 +367,7 @@ class BrandSentimentEngine:
             "user_feedback": {
                 "weight_multiplier": 1.2,  # User feedback carries more weight
                 "focus_dimensions": [BrandDimension.HELPFULNESS, BrandDimension.ACCESSIBILITY],
-                "critical_emotions": ["frustration", "satisfaction", "appreciation"],}
+                "critical_emotions": ["frustration", "satisfaction", "appreciation"],
             },
             "technical_review": {
                 "weight_multiplier": 1.1,

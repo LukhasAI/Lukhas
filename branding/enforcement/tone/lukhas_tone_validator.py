@@ -134,7 +134,7 @@ def main():
         for issue in results["issues"][:10]:  # Limit to first 10
             print(f"  - {issue}")
         if len(results["issues"]) > 10:
-            print(f"  ... and {len(results['issues'])} - 10} more issues")
+            print(f"  ... and {len(results['issues']) - 10} more issues")
 
     # For git hooks, we'll be permissive during transition
     # Only fail on critical issues (none defined yet)

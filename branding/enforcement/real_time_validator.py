@@ -404,7 +404,7 @@ class RealTimeBrandValidator:
                 "lambda function": "Λ consciousness",
                 "lambda processing": "Λ consciousness processing",
                 "production ready": "in active development",
-                "production-ready": "actively developed",}
+                "production-ready": "actively developed",
             },
             "tone_improvements": {
                 "robotic": "consciousness-based",
@@ -538,7 +538,7 @@ class RealTimeBrandValidator:
             "rule_id": rule.rule_id,
             "rule_type": rule.rule_type.value,
             "violations": violations,
-            "rule_passed": len(violations) == 0,}
+            "rule_passed": len(violations) == 0,
         }
 
     def _generate_contextual_suggestion(self, rule: BrandRule, matched_text: str, content: str) -> str:
@@ -833,7 +833,7 @@ class RealTimeBrandValidator:
             "system_status": {
                 "active_monitoring": self.active_monitoring,
                 "performance_metrics": metrics["performance_metrics"],
-                "system_health": "excellent" if metrics["performance_metrics"]["compliance_rate"] > 0.95 else "good",}
+                "system_health": "excellent" if metrics["performance_metrics"]["compliance_rate"] > 0.95 else "good",
             },
             "compliance_analysis": {
                 "recent_trends": trends_24h,

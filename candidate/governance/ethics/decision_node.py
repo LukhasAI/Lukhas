@@ -610,7 +610,7 @@ class EthicsNode:
             decision_record: Decision data to record
         """
         # Add an audit ID
-        decision_record["audit_id"] = f"ethics_{int(time.time())}_{str(uuid.uuid4()}[:8]}"
+        decision_record["audit_id"] = f"ethics_{int(time.time())}_{str(uuid.uuid4())[:8]}"
 
         # Add to decision history
         self.decision_history.append(decision_record)

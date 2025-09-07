@@ -736,7 +736,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         """Escalate serious ethical issues to governance system"""
         escalation = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "escalation_id": f"ETH-{int(datetime.now(timezone.utc).timestamp()}",
+            "escalation_id": f"ETH-{int(datetime.now(timezone.utc).timestamp())}",
             "severity": "high",
             "type": "ethical_violation",
             "summary": {
