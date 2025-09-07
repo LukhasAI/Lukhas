@@ -18,7 +18,7 @@ from typing import Any, Optional
 import structlog
 
 # ΛTRACE: Initializing logger for core.ethics
-log = structlog.get_logger(__name__, timezone)
+log = structlog.get_logger(__name__)
 log.info("core.ethics module initialized")  # ΛNOTE: Core ethics module coming online.
 
 # --- Ethical Models & Principles ---

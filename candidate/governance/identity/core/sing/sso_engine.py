@@ -22,7 +22,7 @@ from typing import Optional
 class LambdaSSOEngine:
     """Symbolic SSO engine for cross-service authentication with multi-device sync"""
 
-    def __init__(self, config, trace_logger=None, tier_manager=None, timezone):
+    def __init__(self, config, trace_logger=None, tier_manager=None):
         self.config = config
         self.trace_logger = trace_logger
         self.tier_manager = tier_manager

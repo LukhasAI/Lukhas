@@ -12,7 +12,7 @@ from typing import Any, Optional
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Import from both candidate and lukhas lanes following lane system
 CONSCIOUSNESS_AVAILABLE = False

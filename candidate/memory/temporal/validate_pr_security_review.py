@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 
-def validate_pr_security_review(, timezone):
+def validate_pr_security_review():
     """Validate that the PR security review system is working"""
     print("=" * 60)
     print("ΛBot PR Security Review Validation")

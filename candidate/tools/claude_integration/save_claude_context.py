@@ -17,7 +17,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def get_claude_context(, timezone):
+def get_claude_context():
     """
     Attempts to retrieve Claude Code chat context.
     Note: This is a placeholder - Claude Code doesn't expose chat history via API.

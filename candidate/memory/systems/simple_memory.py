@@ -17,7 +17,7 @@ from typing import Any, Optional
 class AgentMemory:
     """Simple shared memory for agents"""
 
-    def __init__(self, agent_id: str = "default", timezone):
+    def __init__(self, agent_id: str = "default"):
         """Initialize agent memory"""
         self.agent_id = agent_id
         self.memory_dir = Path("/Users/A_G_I/Lukhas/lukhas_shared_memory/data")

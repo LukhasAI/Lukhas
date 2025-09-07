@@ -10,7 +10,7 @@ from datetime import datetime
 class DreamLog:
     """Mock DreamLog class"""
 
-    def __init__(self, log_path=None, timezone):
+    def __init__(self, log_path=None):
         self.log_path = log_path
         self.logger = logging.getLogger("dream_log")
         self.entries = []

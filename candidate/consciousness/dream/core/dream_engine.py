@@ -34,7 +34,7 @@
 import asyncio
 import contextlib
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
@@ -42,7 +42,7 @@ try:
 except ImportError:
     # Create placeholders if the modules don't exist
     class QIDreamAdapter:
-        def __init__(self, *args, **kwargs, timezone):
+        def __init__(self, *args, **kwargs):
             pass
 
         def adapt(self, *args, **kwargs):

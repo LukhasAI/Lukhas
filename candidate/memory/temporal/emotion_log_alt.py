@@ -40,7 +40,7 @@ emotion_logging_enabled = True  # Default to enabled, but allow users to opt out
 last_logged_time = None
 
 
-def log_emotion(state, source="manual", intensity=1, timezone):
+def log_emotion(state, source="manual", intensity=1):
     global last_logged_time
     if last_logged_time and datetime.now(timezone.utc) - last_logged_time < timedelta(seconds=10):
         logging.warning("Emotion logging rate limit exceeded.")

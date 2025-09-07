@@ -23,7 +23,7 @@ import sys
 from datetime import datetime
 
 
-def run_security_review(, timezone):
+def run_security_review():
     """Run the security review task"""
     print(f"[{datetime.now(timezone.utc).isoformat()}] Starting PR Security Review")
 

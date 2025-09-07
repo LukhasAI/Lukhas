@@ -18,7 +18,7 @@ from typing import Any
 class EnhancementEngine:
     """Enhancement system for existing lukhas architecture"""
 
-    def __init__(self, workspace_root: str = "/Users/A_G_I/lukhas", timezone):
+    def __init__(self, workspace_root: str = "/Users/A_G_I/lukhas"):
         self.workspace_root = Path(workspace_root)
         self.enhancement_log = []
         self.current_sprint = None

@@ -24,7 +24,7 @@ from datetime import datetime
 DREAM_LOG_PATH = "logs/dream_log.jsonl"
 
 
-def load_latest_dream(path=DREAM_LOG_PATH, timezone):
+def load_latest_dream(path=DREAM_LOG_PATH):
     if not os.path.exists(path):
         print("❌ No dream log found.")
         return None

@@ -29,7 +29,7 @@ lukhas_context_sync.py
 CONTEXT_PATH = "logs/daily_context_summary.json"
 
 
-def generate_daily_context(user_id="Commander", timezone):
+def generate_daily_context(user_id="Commander"):
     context = {
         "user": user_id,
         "date": datetime.now(timezone.utc).isoformat(),

@@ -25,7 +25,7 @@ Modules:
 - qi/: Quantum-inspired processing modules
 - voice/: Voice and communication systems
 """
-from consciousness.qi import qi
+# from consciousness.qi import qi  # Temporarily disabled due to import cascade
 import streamlit as st
 
 # Version information

@@ -7,7 +7,7 @@
 """
 
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 
@@ -24,7 +24,7 @@ class SensoryEcho:
 class SymbolicNervousSystem:
     """Map sensory input to memory tags and attach echoes to dreams."""
 
-    def __init__(self, memory_manager: Optional[Any] = None, timezone):
+    def __init__(self, memory_manager: Optional[Any] = None):
         self.memory_manager = memory_manager
 
     # ΛTAG: sensory_mapping

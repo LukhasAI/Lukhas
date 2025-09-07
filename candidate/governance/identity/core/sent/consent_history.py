@@ -21,7 +21,7 @@ from typing import Optional
 class ConsentHistoryManager:
     """Manage immutable consent history with symbolic trails"""
 
-    def __init__(self, config, trace_logger=None, timezone):
+    def __init__(self, config, trace_logger=None):
         self.config = config
         self.trace_logger = trace_logger
         self.consent_chain = {}

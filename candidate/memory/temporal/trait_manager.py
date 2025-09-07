@@ -22,7 +22,7 @@ from datetime import datetime
 TRAIT_FILE = "logs/lukhas_traits.json"
 
 
-def default_traits(, timezone):
+def default_traits():
     return {
         "openness": 0.87,
         "conscientiousness": 0.76,

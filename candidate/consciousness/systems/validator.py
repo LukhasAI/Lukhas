@@ -21,7 +21,7 @@ class ConsciousnessValidator:
     100% system connectivity and consciousness computing capabilities.
     """
 
-    def __init__(self, config: Optional[dict] = None, timezone):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.logger = get_logger(__name__)
         self.is_initialized = False

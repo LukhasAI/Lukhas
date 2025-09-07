@@ -22,7 +22,7 @@ from typing import Optional
 class UserContext:
     """User context for ID generation."""
 
-    def __init__(self, user_id=None, metadata=None, timezone):
+    def __init__(self, user_id=None, metadata=None):
         self.user_id = user_id
         self.metadata = metadata or {}
 

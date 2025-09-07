@@ -17,7 +17,10 @@
       "Bash(.venv/bin/python:*)",
       "Bash(.venv/bin/ruff check branding/engines/lukhas_content_platform/bots/ --select=F821 --output-format=json --quiet)",
       "Bash(.venv/bin/ruff check tools/analysis/ --select=E999,F999 --output-format=concise)",
-      "Bash(.venv/bin/ruff check tools/analysis/ --select=E999 --output-format=concise)"
+      "Bash(.venv/bin/ruff check tools/analysis/ --select=E999 --output-format=concise)",
+      "Bash(find:*)",
+      "Bash(python3:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

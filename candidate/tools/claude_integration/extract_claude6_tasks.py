@@ -10,7 +10,7 @@ from pathlib import Path
 import yaml
 
 
-def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_ARMY/tasks", timezone):
+def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_ARMY/tasks"):
     """Extract all tasks from Claude_6.yml and create comprehensive task files"""
 
     # Load the YAML configuration

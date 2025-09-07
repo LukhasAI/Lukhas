@@ -23,7 +23,7 @@ emergency_override.py
 EMERGENCY_LOG_PATH = "logs/emergency_log.jsonl"
 
 
-def check_safety_flags(user_context=None, timezone):
+def check_safety_flags(user_context=None):
     """
     Checks safety flags and tier permissions based on user context.
     """

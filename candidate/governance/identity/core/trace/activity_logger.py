@@ -24,7 +24,7 @@ from typing import Any
 class LambdaTraceLogger:
     """Symbolic activity logger for LUKHAS ecosystem with enterprise forensic support"""
 
-    def __init__(self, config, consent_manager=None, timezone):
+    def __init__(self, config, consent_manager=None):
         self.config = config
         self.consent_manager = consent_manager
         self.trace_buffer = []

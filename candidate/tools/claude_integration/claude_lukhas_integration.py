@@ -22,7 +22,7 @@ class ClaudeLUKHASIntegration:
     Creates a consciousness-aware development environment
     """
 
-    def __init__(self, journal_engine: Optional[JournalEngine] = None, timezone):
+    def __init__(self, journal_engine: Optional[JournalEngine] = None):
         self.journal = journal_engine or JournalEngine()
         self.assistant = LearningAssistant(self.journal)
         self.solo = SoloDeveloperSupport(self.journal)

@@ -16,7 +16,7 @@ from datetime import datetime
 from conflict_healer import ConflictHealer
 
 
-def main(, timezone):
+def main():
     print("🏥 Starting automatic conflict healing...")
 
     healer = ConflictHealer()

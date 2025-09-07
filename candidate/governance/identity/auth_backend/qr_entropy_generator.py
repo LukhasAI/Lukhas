@@ -37,7 +37,7 @@ class QREntropyGenerator:
     security in LUKHAS authentication.
     """
 
-    def __init__(self, encryption_key: Optional[bytes] = None, timezone):
+    def __init__(self, encryption_key: Optional[bytes] = None):
         self.entropy_layers = 3  # Number of steganographic layers
         self.refresh_interval = 2.0  # Seconds between refreshes
         self.active_codes: dict[str, dict] = {}  # Session -> QR data
