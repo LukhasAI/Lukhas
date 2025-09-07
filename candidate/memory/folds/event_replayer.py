@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 import streamlit as st
 import time
@@ -16,7 +18,6 @@ sourcing system. This module focuses on retrieving events tagged
 with ``ETHICAL`` for auditing purposes.
 """
 
-from __future__ import annotations
 
 import json
 

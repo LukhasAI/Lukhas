@@ -7,10 +7,12 @@ Implements distributed training, consciousness coordination, and ethical oversig
 
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+
+from __future__ import annotations
+
 from typing import Optional
 import streamlit as st
 
-from __future__ import annotations
 
 import logging
 import time

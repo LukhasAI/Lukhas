@@ -8,10 +8,12 @@ experience sampling and storage.
 
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+
+from __future__ import annotations
+
 import time
 import streamlit as st
 
-from __future__ import annotations
 
 import asyncio
 import logging

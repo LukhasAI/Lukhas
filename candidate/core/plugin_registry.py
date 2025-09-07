@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List
 """Central plugin registry for the LUKHAS system.
 
@@ -5,7 +7,6 @@ from typing import List
 """
 import streamlit as st
 
-from __future__ import annotations
 
 import importlib.metadata
 import logging

@@ -3,11 +3,13 @@ LUKHAS AI Core System Wrapper
 Production interface for the foundational GLYPH engine and symbolic processing
 Trinity Framework: ⚛️🧠🛡️
 """
+
+from __future__ import annotations
+
 from typing import Optional
 import time
 import streamlit as st
 
-from __future__ import annotations
 
 import logging
 import os

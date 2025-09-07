@@ -13,9 +13,11 @@ Features:
 - Drift threshold: 0.15
 - Constitutional AI principle checks
 """
-import streamlit as st
 
 from __future__ import annotations
+
+import streamlit as st
+
 
 import os
 import uuid

@@ -3,9 +3,11 @@
 Implements formal TagSchema, a TagResolver interface, and a simple
 DeduplicationCache for symbolic deduplication.
 """
-import streamlit as st
 
 from __future__ import annotations
+
+import streamlit as st
+
 
 import hashlib
 from abc import ABC, abstractmethod

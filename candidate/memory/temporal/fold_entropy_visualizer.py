@@ -10,10 +10,12 @@
 
 Render theta delta (memory compression metric) over time.
 """
+
+from __future__ import annotations
+
 import time
 import streamlit as st
 
-from __future__ import annotations
 
 from collections.abc import Iterable
 

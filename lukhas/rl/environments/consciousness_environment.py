@@ -8,9 +8,11 @@ state representations for consciousness decision-making.
 
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
 
 from __future__ import annotations
+
+import streamlit as st
+
 
 # Standard library
 import asyncio

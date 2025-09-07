@@ -11,10 +11,12 @@ to the new modular Guardian System architecture.
 
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
+
+from __future__ import annotations
+
 from typing import Dict
 import streamlit as st
 
-from __future__ import annotations
 
 from typing import Any
 

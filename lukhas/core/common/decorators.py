@@ -1,10 +1,11 @@
-log = logging.getLogger(__name__)
 """
 🎭 Common Decorators
 ===================
 Reusable decorators for LUKHAS modules.
 """
 import logging
+
+log = logging.getLogger(__name__)
 import streamlit as st
 
 import asyncio

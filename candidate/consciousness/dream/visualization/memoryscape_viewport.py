@@ -4,10 +4,12 @@
 Render dream data into a 3D symbolic scene. Identity drift across dreams is
 tracked via :func:`compute_drift_score` and displayed in the figure title.
 """
+
+from __future__ import annotations
+
 import time
 import streamlit as st
 
-from __future__ import annotations
 
 from trace.drift_metrics import compute_drift_score
 from typing import Any

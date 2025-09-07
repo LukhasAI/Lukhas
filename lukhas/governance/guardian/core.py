@@ -5,10 +5,10 @@ Guardian System Core Types
 Core data structures and enums for the LUKHAS Guardian system.
 These types are used throughout the governance framework.
 """
+from __future__ import annotations
+
 import time
 import streamlit as st
-
-from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum

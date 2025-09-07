@@ -6,9 +6,11 @@ with optional trust filtering ("PaLM-like" bias) and logs collision cases.
 
 ΛTAG: swarm_simulation, tag_propagation, consensus
 """
-import streamlit as st
 
 from __future__ import annotations
+
+import streamlit as st
+
 
 import asyncio
 import random

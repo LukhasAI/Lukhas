@@ -7,9 +7,11 @@ Feature flag: CONTEXT_BUS_ACTIVE enables full functionality.
 
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import streamlit as st
 
 from __future__ import annotations
+
+import streamlit as st
+
 
 import logging
 import os
