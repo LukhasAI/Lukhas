@@ -14,13 +14,14 @@ Integration Date: 2025-05-31T07:55:30.619528
 """
 
 
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 import json
 from collections import Counter
 
 import pandas as pd
 
-from lukhas.core.utils.symbolic_utils import tier_label
+# from lukhas.core.utils.symbolic_utils import tier_label
+tier_label = lambda x: f"Tier {x}"
 
 st.title("🌀 Replay Queue Visualizer")
 st.caption("Dreams selected for reflection or voice narration.")

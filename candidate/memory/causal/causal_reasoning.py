@@ -142,7 +142,7 @@ class CausalReasoningModule:
                             - "error" (str, optional): Error message if processing failed.
         """
         # Generate a unique request ID using UTC timestamp for better traceability.
-        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f\'}}"
+        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')}"
         reason_logger = self.logger.bind(
             request_id=processing_request_id
         )  # Bind request_id for all logs in this method
@@ -201,7 +201,7 @@ class CausalReasoningModule:
                 "primary_cause_confidence_score": (
                     primary_cause_details["confidence_score"] if primary_cause_details else 0.0
                 ),
-                "reasoning_timestamp_utc": datetime.now(timezone.utc).isoformat()},  # Use UTC
+                "reasoning_timestamp_utc": datetime.now(timezone.utc).isoformat(),  # Use UTC
                 "processing_request_id": processing_request_id,
             }
 
@@ -386,7 +386,7 @@ class CausalReasoningModule:
         for i, current_element_data in enumerate(causal_elements_list):
             # Generate a unique ID for each potential chain start.
             # Using time.time() for microsecond precision in ID for demo purposes.
-            chain_unique_id = f"chain_{i}_{int(time.time(} * 1000000}"
+            chain_unique_id = f"chain_{i}_{int(time.time()) * 1000000}"
 
             current_chain_details = {
                 "chain_elements_data": [current_element_data],  # Renamed key

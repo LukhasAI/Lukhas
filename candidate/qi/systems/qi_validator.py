@@ -34,7 +34,7 @@ __tier__ = 2
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 
@@ -75,14 +75,14 @@ class QIValidator:
         # Placeholder for quantum-specific setup
         await asyncio.sleep(0.1)  # Simulate async operation
 
-    async def process(self, data: Any) -> dict:
+    async def process(self, data: Any, category: str = "generic") -> dict:
         """Process quantum data"""
         if not self.is_initialized:
             await self.initialize()
 
         try:
             # Implement quantum-specific processing logic
-            result = await self._core_quantum_processing(data)
+            result = await self._core_quantum_processing(data, category=category)
 
             return {
                 "status": "success",
@@ -101,7 +101,7 @@ class QIValidator:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
-    async def _core_quantum_processing(self, data: Any) -> Any:
+    async def _core_quantum_processing(self, data: Any, category: str) -> Any:
         """Core quantum-inspired processing logic"""
         # Implement specific quantum-inspired processing
         # This is a placeholder that should be enhanced based on requirements
@@ -181,30 +181,17 @@ class QIValidator:
 
 
 # Factory function for easy instantiation
-def create_quantum_component(config: Optional[dict] = None) -> ΛQuantumValidator:
+def create_quantum_component(config: Optional[dict] = None) -> QIValidator:
     """Create and return a quantum component instance"""
-    return ΛQuantumValidator(config)
+    return QIValidator(config)
 
 
 # Async factory function
 async def create_and_initialize_quantum_component(
     config: Optional[dict] = None,
-) -> ΛQuantumValidator:
+) -> QIValidator:
     """Create, initialize and return a quantum component instance"""
-    ΛQuantumValidator(config)
-
-
-def create_quantum_component(config: Optional[dict] = None) -> lukhasQuantumValidator:
-    """Create and return a quantum component instance"""
-    return lukhasQuantumValidator(config)
-
-
-# Async factory function
-async def create_and_initialize_quantum_component(
-    config: Optional[dict] = None,
-) -> lukhasQuantumValidator:
-    """Create, initialize and return a quantum component instance"""
-    component = lukhasQuantumValidator(config)
+    component = QIValidator(config)
     await component.initialize()
     return component
 
@@ -214,8 +201,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛQuantumValidator()
-        component = lukhasQuantumValidator()
+        component = QIValidator()
 
         # Initialize
         success = await component.initialize()

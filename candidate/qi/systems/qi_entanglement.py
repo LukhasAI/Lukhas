@@ -34,7 +34,7 @@ __tier__ = 2
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 
@@ -75,14 +75,14 @@ class QIEntanglement:
         # Placeholder for quantum-specific setup
         await asyncio.sleep(0.1)  # Simulate async operation
 
-    async def process(self, data: Any) -> dict:
+    async def process(self, data: Any, category: str = "generic") -> dict:
         """Process quantum data"""
         if not self.is_initialized:
             await self.initialize()
 
         try:
             # Implement quantum-specific processing logic
-            result = await self._core_quantum_processing(data)
+            result = await self._core_quantum_processing(data, category=category)
 
             return {
                 "status": "success",
@@ -101,7 +101,7 @@ class QIEntanglement:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
-    async def _core_quantum_processing(self, data: Any) -> Any:
+    async def _core_quantum_processing(self, data: Any, category: str) -> Any:
         """Core quantum-inspired processing logic"""
         # Implement specific quantum-inspired processing
         # This is a placeholder that should be enhanced based on requirements
@@ -181,32 +181,17 @@ class QIEntanglement:
 
 
 # Factory function for easy instantiation
-def create_quantum_component(config: Optional[dict] = None) -> ΛQuantumEntanglement:
+def create_quantum_component(config: Optional[dict] = None) -> QIEntanglement:
     """Create and return a quantum component instance"""
-    return ΛQuantumEntanglement(config)
+    return QIEntanglement(config)
 
 
 # Async factory function
 async def create_and_initialize_quantum_component(
     config: Optional[dict] = None,
-) -> ΛQuantumEntanglement:
+) -> QIEntanglement:
     """Create, initialize and return a quantum component instance"""
-    ΛQuantumEntanglement(config)
-
-
-def create_quantum_component(
-    config: Optional[dict] = None,
-) -> lukhasQuantumEntanglement:
-    """Create and return a quantum component instance"""
-    return lukhasQuantumEntanglement(config)
-
-
-# Async factory function
-async def create_and_initialize_quantum_component(
-    config: Optional[dict] = None,
-) -> lukhasQuantumEntanglement:
-    """Create, initialize and return a quantum component instance"""
-    component = lukhasQuantumEntanglement(config)
+    component = QIEntanglement(config)
     await component.initialize()
     return component
 
@@ -216,8 +201,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛQuantumEntanglement()
-        component = lukhasQuantumEntanglement()
+        component = QIEntanglement()
 
         # Initialize
         success = await component.initialize()

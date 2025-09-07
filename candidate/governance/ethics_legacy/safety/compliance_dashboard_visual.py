@@ -14,7 +14,7 @@ Integration Date: 2025-05-31T07:55:27.747593
 #     /tools, /docs, /governance, /assets, /visuals, and /voice.
 # ════════════════════════════════════════════════════════════════════════
 
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 import base64
 from pathlib import Path
 
@@ -38,7 +38,7 @@ Welcome. This report summarizes symbolic emergency activity from Lukhas AGI over
 All logs were GDPR-compliant and audit-traceable. Visual summaries are included below.
 """
 
-st.markdown("##)  #  📜 Compliance Digest Summary"
+st.markdown("## 📜 Compliance Digest Summary")
 
 if digest_path.exists():
     with open(digest_path) as f:
@@ -62,7 +62,7 @@ for col, image in zip(
         col.warning(f"{image} not found")
 
 st.divider()
-st.markdown("##)  #  🧾 Presentation Script (Attendees & Auditor View")
+st.markdown("## 🧾 Presentation Script (Attendees & Auditor View)")
 st.code(script_text)
 
 # Generate handout file
@@ -79,7 +79,7 @@ st.caption(
 )
 
 st.divider()
-st.markdown("##)  #  ⏰ Scheduling & Mobile Optimization"
+st.markdown("## ⏰ Scheduling & Mobile Optimization")
 
 st.markdown(
     "To enable automated compliance digests every Sunday at 8:00 AM, integrate this script with your system scheduler (e.g. `cron`, `launchd`, or GitHub Actions)."
@@ -113,7 +113,7 @@ st.markdown(
 )
 
 st.divider()
-st.markdown("##)  #  🔐 ID Portal Preview"
+st.markdown("## 🔐 ID Portal Preview")
 
 if st.button("🔓 Preview Tiered Login (id_portal/login.js)"):
     st.session_state["restore_target"] = "id_portal/frontend/login.js"

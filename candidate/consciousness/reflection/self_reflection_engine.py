@@ -6,7 +6,7 @@ This component handles consciousness functionality in the AI consciousness compu
 """
 
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
@@ -49,14 +49,14 @@ class SelfReflectionEngine:
         # Placeholder for consciousness-specific setup
         await asyncio.sleep(0.1)  # Simulate async operation
 
-    async def process(self, data: Any) -> dict:
+    async def process(self, data: Any, category: str = "generic") -> dict:
         """Process consciousness data"""
         if not self.is_initialized:
             await self.initialize()
 
         try:
             # Implement consciousness-specific processing logic
-            result = await self._core_consciousness_processing(data)
+            result = await self._core_consciousness_processing(data, category=category)
 
             return {
                 "status": "success",
@@ -75,7 +75,7 @@ class SelfReflectionEngine:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
-    async def _core_consciousness_processing(self, data: Any) -> Any:
+    async def _core_consciousness_processing(self, data: Any, category: str) -> Any:
         """Core consciousness processing logic"""
         # Implement specific consciousness processing
         # This is a placeholder that should be enhanced based on requirements
@@ -157,32 +157,17 @@ class SelfReflectionEngine:
 # Factory function for easy instantiation
 def create_consciousness_component(
     config: Optional[dict] = None,
-) -> ΛSelfReflectionEngine:
+) -> "SelfReflectionEngine":
     """Create and return a consciousness component instance"""
-    return ΛSelfReflectionEngine(config)
+    return SelfReflectionEngine(config)
 
 
 # Async factory function
 async def create_and_initialize_consciousness_component(
     config: Optional[dict] = None,
-) -> ΛSelfReflectionEngine:
+) -> "SelfReflectionEngine":
     """Create, initialize and return a consciousness component instance"""
-    ΛSelfReflectionEngine(config)
-
-
-def create_consciousness_component(
-    config: Optional[dict] = None,
-) -> lukhasSelfReflectionEngine:
-    """Create and return a consciousness component instance"""
-    return lukhasSelfReflectionEngine(config)
-
-
-# Async factory function
-async def create_and_initialize_consciousness_component(
-    config: Optional[dict] = None,
-) -> lukhasSelfReflectionEngine:
-    """Create, initialize and return a consciousness component instance"""
-    component = lukhasSelfReflectionEngine(config)
+    component = SelfReflectionEngine(config)
     await component.initialize()
     return component
 
@@ -192,8 +177,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛSelfReflectionEngine()
-        component = lukhasSelfReflectionEngine()
+        component = SelfReflectionEngine()
 
         # Initialize
         success = await component.initialize()

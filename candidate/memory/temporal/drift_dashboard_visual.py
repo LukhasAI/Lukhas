@@ -47,7 +47,7 @@ TODO: Add drift pattern library for operator training
 IDEA: Implement AR/VR mode for 3D drift space visualization
 """
 
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 import sys
 import time
 from datetime import datetime, timezone
@@ -150,11 +150,11 @@ def create_drift_gauge(value: float, title: str, severity: DriftSeverity) -> go.
             mode="gauge+number+delta",
             value=value * 100,  # Convert to percentage
             domain={"x": [0, 1], "y": [0, 1]},
-            title={"text": title, "font": {"size": 20},
-            number={"suffix": "%", "font": {"size": 30},
+            title={"text": title, "font": {"size": 20}},
+            number={"suffix": "%", "font": {"size": 30}},
             gauge={
                 "axis": {"range": [None, 100], "tickwidth": 1},
-                "bar": {"color": colors.get(severity, ")  # 2196F3"},
+                "bar": {"color": colors.get(severity, "#2196F3")},
                 "steps": [
                     {"range": [0, 20], "color": "rgba(76,175,80,0.1)"},
                     {"range": [20, 40], "color": "rgba(255,193,7,0.1)"},
@@ -197,7 +197,7 @@ def create_component_traces(history_data: dict) -> go.Figure:
                     mode="lines",
                     name=comp.capitalize(),
                     line={"color": color, "width": 2},
-                    hovertemplate=f"{comp.capitalize(}}: %{{y:.3f}<extra></extra>",
+                    hovertemplate=f"{comp.capitalize()}: %{{y:.3f}}<extra></extra>",
                 )
             )
 

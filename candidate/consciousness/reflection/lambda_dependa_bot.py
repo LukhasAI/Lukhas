@@ -24,13 +24,6 @@ autonomous architectural optimization and modular intelligence.
 - Elite-tier performance monitoring
 - Integration with ΛBot fleet coordination
 
-Part of TODO #10: Module Dependency Analysis and Network-Based M        self.excluded_dirs = {
-            '__pycache__', '.git', '.vscode', 'node_modules',
-            '.pytest_cache', '.mypy_cache', 'venv', 'env', '.venv', '.env',
-            'temp', 'tmp', 'backup', 'old', 'archive', 'archives',
-            'build', 'dist', '.tox', 'htmlcov', '.coverage',
-            'site-packages', 'lib/python', 'Scripts', 'bin'
-        }rization
 Integrates with: ΛBot Elite Orchestrator, TODO #8 Performance, TODO #9 Index System
 
 Author: LUKHAS ΛBot System
@@ -44,8 +37,8 @@ import json
 import os
 import sys
 from collections import defaultdict
-from dataclasses import asdict, dataclass
-from datetime import datetime
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -82,7 +75,7 @@ except ImportError:
     class QIBotConfig:
         name: str = "ΛDependaBoT"
         type: str = "dependency_analysis"
-        capabilities: list[str] = None
+        capabilities: list[str] = field(default_factory=list)
         autonomy_level: float = 0.85
         qi_enabled: bool = True
         bio_symbolic_processing: bool = True
@@ -403,21 +396,23 @@ class ΛDependaBoT(BotProtocol):
     def __init__(self, repository_path: str, bot_config: Optional[QIBotConfig] = None):
         """Initialize ΛDependaBoT with quantum-inspired capabilities."""
         self.repository_path = Path(repository_path)
-        self.config = bot_config or QIBotConfig(
-            name="ΛDependaBoT",
-            type="dependency_analysis",
-            capabilities=[
-                "qi_network_analysis",
-                "bio_symbolic_pattern_recognition",
-                "autonomous_optimization",
-                "architectural_intelligence",
-                "performance_prediction",
-            ],
-            autonomy_level=0.85,
-            qi_enabled=True,
-            bio_symbolic_processing=True,
-            self_evolving=True,
-        )
+        if bot_config is None:
+            bot_config = QIBotConfig(
+                name="ΛDependaBoT",
+                type="dependency_analysis",
+                capabilities=[
+                    "qi_network_analysis",
+                    "bio_symbolic_pattern_recognition",
+                    "autonomous_optimization",
+                    "architectural_intelligence",
+                    "performance_prediction",
+                ],
+                autonomy_level=0.85,
+                qi_enabled=True,
+                bio_symbolic_processing=True,
+                self_evolving=True,
+            )
+        self.config = bot_config
 
         # Initialize ΛBot systems
         self.qi_engine = None
@@ -515,7 +510,7 @@ class ΛDependaBoT(BotProtocol):
             self.logger.error(f"❌ ΛDependaBoT initialization failed: {e}")
             raise
 
-    async def execute(self, context: dict[str, Any]) -> ΛModularityReport:
+    async def execute(self, context: dict[str, Any]) -> "ΛModularityReport":
         """Execute quantum-enhanced dependency analysis."""
         self.logger.info("🔍 Executing ΛDependaBoT analysis...")
 
@@ -1637,7 +1632,7 @@ class OllamaCodeFixer(CodeFixerBase):
                 if code_models:
                     self.model = code_models[0]["name"]
         except (requests.RequestException, requests.Timeout, KeyError) as e:
-            self.logger.warning(f"Failed to connect to Ollama for model selection: {e}")
+            logger.warning(f"Failed to connect to Ollama for model selection: {e}")
 
     async def generate_fix(self, code: str, error_type: str, error_message: str) -> ΛCodeFixSuggestion:
         try:
@@ -1763,7 +1758,7 @@ class OpenAICodeFixer(CodeFixerBase):
 
             self.client = openai.OpenAI()
         except (ImportError, Exception) as e:
-            self.logger.warning(f"Failed to initialize OpenAI client: {e}")
+            logger.warning(f"Failed to initialize OpenAI client: {e}")
 
     async def generate_fix(self, code: str, error_type: str, error_message: str) -> ΛCodeFixSuggestion:
         if not self.client:
@@ -1814,109 +1809,3 @@ class OpenAICodeFixer(CodeFixerBase):
         except (SyntaxError, ValueError, TypeError):
             # Log validation failure if logger available
             return False
-
-
-# CLI Interface for ΛDependaBoT
-async def main():
-    """Command-line interface for ΛDependaBoT."""
-    import argparse
-
-    parser = argparse.ArgumentParser(description="ΛDependaBoT - Elite Dependency Analysis Agent")
-    parser.add_argument("--repo-path", default=".", help="Repository path")
-    parser.add_argument("--bot-name", default="ΛDependaBoT-Elite", help="Bot instance name")
-    parser.add_argument("--output-dir", default="lambda_analysis", help="Output directory")
-    parser.add_argument("--autonomy-level", type=float, default=0.85, help="Bot autonomy level (0-1)")
-
-    args = parser.parse_args()
-
-    # Setup logging
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    )
-
-    print("🤖 ΛDependaBoT - Elite Dependency Analysis Agent")
-    print("=" * 60)
-    print(f"🎯 Target Repository: {args.repo_path}")
-    print(f"🤖 Bot Name: {args.bot_name}")
-    print(f"🧠 Autonomy Level: {args.autonomy_level}")
-    print()
-
-    # Create bot configuration
-    config = QIBotConfig(
-        name=args.bot_name,
-        type="dependency_analysis",
-        capabilities=[
-            "qi_network_analysis",
-            "bio_symbolic_pattern_recognition",
-            "autonomous_optimization",
-            "architectural_intelligence",
-        ],
-        autonomy_level=args.autonomy_level,
-        qi_enabled=True,
-        bio_symbolic_processing=True,
-        self_evolving=True,
-    )
-
-    # Initialize ΛDependaBoT
-    bot = ΛDependaBoT(args.repo_path, config)
-
-    try:
-        # Initialize bot systems
-        await bot.initialize()
-
-        # Execute analysis
-        print("🚀 Executing quantum dependency analysis...")
-        report = await bot.execute({})
-
-        # Generate performance report
-        performance_report = await bot.report()
-
-        # Save results
-        output_dir = Path(args.output_dir)
-        output_dir.mkdir(exist_ok=True)
-
-        # Save modularity report
-        report_path = output_dir / f"{args.bot_name}_analysis_report.json"
-        with open(report_path, "w") as f:
-            json.dump(asdict(report), f, indent=2, default=str)
-
-        # Save performance report
-        perf_path = output_dir / f"{args.bot_name}_performance_report.json"
-        with open(perf_path, "w") as f:
-            json.dump(performance_report, f, indent=2, default=str)
-
-        # Print summary
-        print("\n🎯 ΛDependaBoT Analysis Complete!")
-        print("=" * 50)
-        print(f"🔬 Quantum Modularity Score: {report.qi_modularity_score:.3f}")
-        print(f"🧠 Architectural Insights: {len(report.architectural_insights)}")
-        print(f"📊 Dependency Profiles: {len(report.dependency_profiles)}")
-        print(f"🛣️  Optimization Actions: {len(report.optimization_roadmap.get('immediate_actions', [])}")
-        print()
-
-        # Show key insights
-        if report.architectural_insights:
-            print("🔍 Key Architectural Insights:")
-            for insight in report.architectural_insights[:3]:
-                print(f"   • {insight.insight_type}: {insight.impact_assessment}")
-
-        print(f"\n📁 Reports saved to: {output_dir}")
-        print(f"   • Analysis Report: {report_path}")
-        print(f"   • Performance Report: {perf_path}")
-
-        # Perform evolution cycle
-        if config.self_evolving:
-            print("\n🧬 Performing evolution cycle...")
-            await bot.evolve()
-            print("✅ Evolution cycle complete")
-
-    except Exception as e:
-        print(f"❌ ΛDependaBoT execution failed: {e}")
-        return 1
-
-    return 0
-
-
-if __name__ == "__main__":
-    asyncio.run(main())

@@ -39,12 +39,12 @@ import statistics
 import time
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 # Configure Trinity Framework logging
-logger = logging.getLogger("ΛTRACE.consciousness.constellation.framework", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.constellation.framework")
 logger.info("ΛTRACE: Initializing Trinity Framework Integration System v1.0.0")
 
 
@@ -109,7 +109,7 @@ class TrinityMetrics:
 class TrinityViolation:
     """Trinity Framework violation record"""
 
-    violation_id: str = field(default_factory=l: f"violation_{uuid.uuid4(}}.hex[:8]}")
+    violation_id: str = field(default_factory=lambda: f"violation_{uuid.uuid4().hex[:8]}")
     component: TrinityComponent = TrinityComponent.GUARDIAN
     severity: str = "low"  # low, medium, high, critical
     description: str = ""
@@ -155,7 +155,7 @@ class TrinityIntegrationConfig:
 class TrinityComplianceReport:
     """Comprehensive Trinity Framework compliance report"""
 
-    report_id: str = field(default_factory=l: f"trinity_report_{uuid.uuid4(}}.hex[:8]}")
+    report_id: str = field(default_factory=lambda: f"trinity_report_{uuid.uuid4().hex[:8]}")
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     # Overall compliance
@@ -203,7 +203,7 @@ class TrinityFrameworkIntegration:
     def __init__(self, config: Optional[TrinityIntegrationConfig] = None):
         """Initialize Trinity Framework integration system"""
         self.config = config or TrinityIntegrationConfig()
-        self.integration_id = f"trinity_{uuid.uuid4(}}.hex[:8]}"
+        self.integration_id = f"trinity_{uuid.uuid4().hex[:8]}"
         self.version = "1.0.0"
 
         # Integration state
@@ -903,7 +903,7 @@ class TrinityFrameworkIntegration:
             "violations_resolved_total": self.violations_resolved_total,
             "balance_adjustments_made": self.balance_adjustments_made,
             "active_violations": len(self.active_violations),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(datetime.timezone.utc).isoformat(),
         }
 
         if latest_report:
@@ -1030,7 +1030,7 @@ async def main():
     print(f"  Overall Compliance: {compliance_report.overall_compliance_level.value}")
     print(f"  Compliance Score: {compliance_report.overall_compliance_score:.3f}")
     print(f"  Integration State: {compliance_report.integration_state.value}")
-    print(f"  Active Violations: {len(compliance_report.active_violations}}")
+    print(f"  Active Violations: {len(compliance_report.active_violations)}")
 
     # Get Trinity status
     status = trinity_integration.get_trinity_status()
