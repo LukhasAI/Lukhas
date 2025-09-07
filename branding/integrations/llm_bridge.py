@@ -2,6 +2,7 @@
 LUKHAS Brand LLM Bridge - Trinity Framework (⚛️🧠🛡️)
 Unified interface for multi-provider LLM voice generation with brand compliance
 """
+
 import asyncio
 import logging
 import os
@@ -71,7 +72,7 @@ class UnifiedLLMBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize LLM bridge with provider configuration"""
-        
+
         self.config = config or {}
         from typing import Any
 

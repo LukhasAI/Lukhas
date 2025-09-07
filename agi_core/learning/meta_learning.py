@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 class MetaLearningStrategy(Enum):
     """Meta-learning strategy types."""
+
     MODEL_AGNOSTIC = "model_agnostic"
     GRADIENT_BASED = "gradient_based"
     OPTIMIZATION_BASED = "optimization_based"
@@ -30,7 +31,7 @@ LearningStrategy = MetaLearningStrategy
 @dataclass
 class MetaLearningContext:
     """Context for meta-learning operations."""
-    
+
     domain: str
     task_type: str
     strategy: MetaLearningStrategy
@@ -43,7 +44,7 @@ class MetaLearningContext:
 @dataclass
 class MetaLearningResult:
     """Result of meta-learning operation."""
-    
+
     context_id: str
     performance_metrics: dict[str, float]
     learned_parameters: dict[str, Any]
@@ -67,9 +68,9 @@ MetaLearningInsight = MetaLearningResult
 # Export main classes and functions
 __all__ = [
     "MetaLearner",
-    "MetaLearningStrategy", 
+    "MetaLearningStrategy",
     "LearningStrategy",
     "MetaLearningContext",
     "MetaLearningResult",
-    "MetaLearningInsight"
+    "MetaLearningInsight",
 ]
