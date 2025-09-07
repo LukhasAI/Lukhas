@@ -369,7 +369,7 @@ class LoopStressHarness:
     async def run_stress_episode(self, scenario: StressTestScenario, episode_num: int) -> StressTestResult:
         """Run a single stress test episode with recurrent stimuli"""
         episode_start = time.time()
-        episode_id = f"{scenario.name}_{episode_num}_{int(time.time()}"
+        episode_id = f"{scenario.name}_{episode_num}_{int(time.time())}"
 
         # Initial processing - establish baseline for this episode
         initial_signals = self._randomize_signals(scenario.base_signals, self.config["randomization_factor"])
