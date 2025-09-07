@@ -223,7 +223,7 @@ class QIInspiredProcessor:
     def entangle_modules(self, module_a: dict[str, Any], module_b: dict[str, Any]) -> dict[str, Any]:
         """Create quantum-inspired entanglement between modules"""
         if not QI_ACTIVE:
-            emit({"ntype": "qi_entanglement_dry_run", "state": {"modules": 2})
+            emit({"ntype": "qi_entanglement_dry_run", "state": {"modules": 2}})
             return {"entangled": False, "dry_run": True}
 
         try:
@@ -255,7 +255,7 @@ class QIInspiredProcessor:
     def collapse_superposition(self, superposition: dict[str, Any]) -> dict[str, Any]:
         """Collapse quantum-inspired superposition to single state"""
         if not QI_ACTIVE:
-            emit({"ntype": "qi_collapse_dry_run", "state": {"simulated": True})
+            emit({"ntype": "qi_collapse_dry_run", "state": {"simulated": True}})
             return {"collapsed": False, "dry_run": True}
 
         try:
@@ -309,11 +309,11 @@ class BioInspiredProcessor:
     def create_neural_oscillator(self, frequency: float = 40.0, phase: float = 0.0) -> dict[str, Any]:
         """Create bio-inspired neural oscillator"""
         if not QI_ACTIVE:
-            emit({"ntype": "bio_oscillator_dry_run", "state": {"frequency": frequency})
+            emit({"ntype": "bio_oscillator_dry_run", "state": {"frequency": frequency}})
             return {"active": False, "dry_run": True}
 
         try:
-            oscillator_id = f"osc_{len(self.oscillators}"
+            oscillator_id = f"osc_{len(self.oscillators)}"
             oscillator = {
                 "id": oscillator_id,
                 "frequency": frequency,
@@ -397,7 +397,7 @@ class BioInspiredProcessor:
     def apply_swarm_intelligence(self, agents: list[dict[str, Any]]) -> dict[str, Any]:
         """Apply bio-inspired swarm intelligence patterns"""
         if not QI_ACTIVE:
-            emit({"ntype": "bio_swarm_dry_run", "state": {"agents": len(agents)})
+            emit({"ntype": "bio_swarm_dry_run", "state": {"agents": len(agents)}})
             return {"converged": False, "dry_run": True}
 
         try:
@@ -490,11 +490,11 @@ class QIIntegration:
             self._safety_guard = ConstitutionalSafetyGuard()
 
             self._initialized = True
-            emit({"ntype": "qi_integration_initialized", "state": {"status": "success"})
+            emit({"ntype": "qi_integration_initialized", "state": {"status": "success"}})
 
         except Exception as e:
             logger.error(f"QI integration initialization failed: {e}")
-            emit({"ntype": "qi_integration_init_error", "state": {"error": str(e)})
+            emit({"ntype": "qi_integration_init_error", "state": {"error": str(e)}})
 
     @instrument("qi_safety_check")
     def perform_safety_check(self, input_data: dict[str, Any]) -> dict[str, Any]:
@@ -638,7 +638,7 @@ class QIWrapper:
 
         except Exception as e:
             logger.error(f"QI wrapper initialization failed: {e}")
-            emit({"ntype": "qi_wrapper_init_error", "state": {"error": str(e)})
+            emit({"ntype": "qi_wrapper_init_error", "state": {"error": str(e)}})
             return False
 
     @instrument("qi_process_with_safety")
@@ -703,7 +703,7 @@ class QIWrapper:
 
         except Exception as e:
             logger.error(f"QI processing with safety failed: {e}")
-            emit({"ntype": "qi_process_error", "state": {"error": str(e)})
+            emit({"ntype": "qi_process_error", "state": {"error": str(e)}})
             return {"error": str(e), "processed": False}
 
     @instrument("qi_quantum_decision")
