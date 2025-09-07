@@ -10,9 +10,10 @@
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import \
-    Any  # Set and json not directly used, but kept for potential future use.
-from typing import Optional
+from typing import (
+    Any,  # Set and json not directly used, but kept for potential future use.
+    Optional,
+)
 
 import numpy as np
 import structlog
@@ -42,7 +43,8 @@ except ImportError:
         "ΛTRACE.core.adaptive_systems.crista_optimizer.symbolic_network_import_fallback"
     )
     logger_temp.warning(
-        "ΛTRACE: Could not import NetworkConfig from .crista_optimizer. Using a placeholder if available or will error later."
+        "ΛTRACE: Could not import NetworkConfig from .crista_optimizer. "
+        "Using a placeholder if available or will error later."
     )
 
     # Define a placeholder NetworkConfig if necessary for type hinting or
@@ -83,7 +85,7 @@ class NodeType(Enum):
 
 
 logger.info(
-    f"ΛTRACE: NodeType Enum defined with values: {[ntype.value for ntype in NodeType])}"
+    f"ΛTRACE: NodeType Enum defined with values: {[ntype.value for ntype in NodeType]}"
 )
 
 # Enum for Connection Types
@@ -102,7 +104,7 @@ class ConnectionType(Enum):
 
 
 logger.info(
-    f"ΛTRACE: ConnectionType Enum defined with values: {[ctype.value for ctype in ConnectionType])}"
+    f"ΛTRACE: ConnectionType Enum defined with values: {[ctype.value for ctype in ConnectionType]}"
 )
 
 # Dataclass for a Symbolic Node
@@ -155,9 +157,13 @@ class SymbolicNode:
     # Post-initialization logger setup
 
     def __post_init__(self):
-        self.logger = logger.getChild(f"SymbolicNode.{self.node_id)}")
+        self.logger = logger.getChild(f"SymbolicNode.{self.node_id}")
         self.logger.info(
-            f"ΛTRACE: SymbolicNode '{self.node_id)}' (Type: {self.node_type.value)}) created. Weight: {self.symbolic_weight:.2f)}, Position: {self.position)}"
+            "ΛTRACE: SymbolicNode '%s' (Type: %s) created. Weight: %.2f, Position: %s",
+            self.node_id,
+            self.node_type.value,
+            self.symbolic_weight,
+            self.position,
         )
 
     # Method to update performance metrics
@@ -175,7 +181,13 @@ class SymbolicNode:
         Auto-detects critical state based on updated metrics.
         """
         self.logger.debug(
-            f"ΛTRACE: Updating metrics for SymbolicNode '{self.node_id)}'. Input: error={error:.2f)}, activity={activity:.2f)}, entropy={entropy:.2f)}, load={load if load is not None else 'N/A')}"
+            "ΛTRACE: Updating metrics for SymbolicNode '%s'. "
+            "Input: error=%.2f, activity=%.2f, entropy=%.2f, load=%s",
+            self.node_id,
+            error,
+            activity,
+            entropy,
+            load if load is not None else "N/A",
         )
         self.error_level = max(0.0, min(1.0, error))
         self.activity_level = max(0.0, min(1.0, activity))
@@ -198,10 +210,17 @@ class SymbolicNode:
 
         if self.is_critical != prev_critical_state:
             self.logger.info(
-                f"ΛTRACE: SymbolicNode '{self.node_id)}' critical state changed to {self.is_critical)}."
+                f"ΛTRACE: SymbolicNode '{self.node_id}' critical state changed to {self.is_critical}."
             )
         self.logger.debug(
-            f"ΛTRACE: SymbolicNode '{self.node_id)}' metrics updated. Error: {self.error_level:.2f)}, Activity: {self.activity_level:.2f)}, Entropy: {self.entropy:.2f)}, Load: {self.processing_load:.2f)}, Critical: {self.is_critical)}"
+            "ΛTRACE: SymbolicNode '%s' metrics updated. "
+            "Error: %.2f, Activity: %.2f, Entropy: %.2f, Load: %.2f, Critical: %s",
+            self.node_id,
+            self.error_level,
+            self.activity_level,
+            self.entropy,
+            self.processing_load,
+            self.is_critical,
         )
 
     # Method to split the node
@@ -219,12 +238,12 @@ class SymbolicNode:
             List[SymbolicNode]: A list containing the two newly created child nodes.
         """
         self.logger.info(
-            f"ΛTRACE: Splitting SymbolicNode '{self.node_id)}' (Style: {style)},"
-            f"Ratio: {split_ratio:.2f)})."
+            f"ΛTRACE: Splitting SymbolicNode '{self.node_id}' (Style: {style},"
+            f"Ratio: {split_ratio:.2f})."
         )
         if not (0.1 <= split_ratio <= 0.9):  # Ensure ratio is valid:
             self.logger.warning(
-                f"ΛTRACE: Invalid split_ratio {split_ratio)} for node '{self.node_id)}'. Defaulting to 0.5."
+                f"ΛTRACE: Invalid split_ratio {split_ratio} for node '{self.node_id}'. Defaulting to 0.5."
             )
             split_ratio = 0.5
 
@@ -233,7 +252,7 @@ class SymbolicNode:
 
         for i, ratio_val in enumerate(ratios):
             # Generate a unique ID for the child node
-            child_id = f"{self.node_id)}_child{i)}_{int(time.time()*1000))}"
+            child_id = f"{self.node_id}_child{i}_{int(time.time()*1000)}"
             child_pos = self._calculate_child_position(i, len(ratios))
 
             child_metadata = self.metadata.copy()
@@ -250,7 +269,10 @@ class SymbolicNode:
                 metadata=child_metadata,
             )
             self.logger.debug(
-                f"ΛTRACE: Created child node '{child_id)}' with weight {child.symbolic_weight:.2f)}, position {child.position)}."
+                "ΛTRACE: Created child node '%s' with weight %.2f, position %s.",
+                child_id,
+                child.symbolic_weight,
+                child.position,
             )
 
             # Distribute connections and their weights
@@ -258,9 +280,9 @@ class SymbolicNode:
             child.connection_weights = {
                 conn_id: weight * ratio_val  # Scale connection weights
                 for conn_id, weight in self.connection_weights.items()
-            )}
+            }
             self.logger.debug(
-                f"ΛTRACE: Child node '{child_id)}' inherited {len(child.connections))} connections with scaled weights."
+                f"ΛTRACE: Child node '{child_id}' inherited {len(child.connections)} connections with scaled weights."
             )
 
             # Inherit and slightly vary performance characteristics
@@ -273,12 +295,12 @@ class SymbolicNode:
                 load=self.processing_load * ratio_val,  # Load scaled by ratio
             )
             self.logger.debug(
-                f"ΛTRACE: Child node '{child_id)}' metrics initialized after split."
+                f"ΛTRACE: Child node '{child_id}' metrics initialized after split."
             )
             child_nodes.append(child)
 
         self.logger.info(
-            f"ΛTRACE: SymbolicNode '{self.node_id)}' successfully split into {len(child_nodes))} child nodes."
+            f"ΛTRACE: SymbolicNode '{self.node_id}' successfully split into {len(child_nodes)} child nodes."
         )
         return child_nodes
 
@@ -312,24 +334,24 @@ class SymbolicNode:
             SymbolicNode: The new, merged SymbolicNode.
         """
         self.logger.info(
-            f"ΛTRACE: Merging SymbolicNode '{self.node_id)}' with '{other_node.node_id)}'."
-        )}
+            f"ΛTRACE: Merging SymbolicNode '{self.node_id}' with '{other_node.node_id}'."
+        )
 
         # Create a unique ID for the merged node
         merged_id = (
-            f"merged_{self.node_id)}_{other_node.node_id)}_{int(time.time()*1000)}"
+            f"merged_{self.node_id}_{other_node.node_id}_{int(time.time()*1000)}"
         )
         # Sum symbolic weights
         merged_weight = self.symbolic_weight + other_node.symbolic_weight
         self.logger.debug(
-            f"ΛTRACE: Merged node ID: '{merged_id)}', Merged weight: {merged_weight:.2f)}."
+            f"ΛTRACE: Merged node ID: '{merged_id}', Merged weight: {merged_weight:.2f}."
         )
 
         # Average positions (simple averaging)
         merged_position = tuple(
             np.mean(np.array([self.position, other_node.position]), axis=0)
         )
-        self.logger.debug(f"ΛTRACE: Merged position: {merged_position)}.")
+        self.logger.debug(f"ΛTRACE: Merged position: {merged_position}.")
 
         # Combine metadata, prioritizing self for conflicts, could be more nuanced
         merged_metadata = other_node.metadata.copy()  # Start with other's metadata
@@ -351,7 +373,7 @@ class SymbolicNode:
             position=merged_position,
             metadata=merged_metadata,
         )
-        self.logger.debug(f"ΛTRACE: Merged SymbolicNode object created: '{merged_id)'.")
+        self.logger.debug(f"ΛTRACE: Merged SymbolicNode object created: '{merged_id}'.")
 
         # Merge connections: union of connections
         merged_node.connections = list(set(self.connections + other_node.connections))
@@ -414,7 +436,7 @@ class SymbolicNode:
             load=merged_load,
         )
         self.logger.info(
-            f"ΛTRACE: SymbolicNode '{self.node_id)}' and '{other_node.node_id)' successfully merged into '{merged_id)'."
+            f"ΛTRACE: SymbolicNode '{self.node_id}' and '{other_node.node_id}' successfully merged into '{merged_id}'."
         )
         return merged_node
 
@@ -428,13 +450,17 @@ class SymbolicNode:
     ) -> None:
         """Adds or updates a connection to a target node with a specified weight and type."""
         self.logger.debug(
-            f"ΛTRACE: Adding/updating connection from '{self.node_id)}' to '{target_node_id)}' (Weight: {weight:.2f)}, Type: {connection_type.value)})."
+            "ΛTRACE: Adding/updating connection from '%s' to '%s' (Weight: %.2f, Type: %s).",
+            self.node_id,
+            target_node_id,
+            weight,
+            connection_type.value,
         )
         if target_node_id not in self.connections:
             self.connections.append(target_node_id)
         self.connection_weights[target_node_id] = weight
         # Store connection type in metadata, prefixed to avoid clashes
-        self.metadata[f"connection_type_to_{target_node_id)}"] = connection_type.value
+        self.metadata[f"connection_type_to_{target_node_id}"] = connection_type.value
         self.last_update = time.time()
 
     # Method to remove a connection
@@ -442,13 +468,13 @@ class SymbolicNode:
     def remove_connection(self, target_node_id: str) -> None:
         """Removes a connection to a target node."""
         self.logger.debug(
-            f"ΛTRACE: Removing connection from '{self.node_id)}' to '{target_node_id)'."
+            f"ΛTRACE: Removing connection from '{self.node_id}' to '{target_node_id}'."
         )
         if target_node_id in self.connections:
             self.connections.remove(target_node_id)
-        self.connection_weights.pop(target_node_id, None)}  # Remove weight if exists
+        self.connection_weights.pop(target_node_id, None)  # Remove weight if exists
         self.metadata.pop(
-            f"connection_type_to_{target_node_id)}", None
+            f"connection_type_to_{target_node_id}", None
         )  # Remove type from metadata
         self.last_update = time.time()
 
@@ -458,7 +484,7 @@ class SymbolicNode:
         """Returns the weight of the connection to the target node, or 0.0 if not connected."""
         strength = self.connection_weights.get(target_node_id, 0.0)
         self.logger.debug(
-            f"ΛTRACE: Connection strength from '{self.node_id)}' to '{target_node_id)}': {strength:.2f)}."
+            f"ΛTRACE: Connection strength from '{self.node_id}' to '{target_node_id}': {strength:.2f}."
         )
         return strength
 
@@ -468,7 +494,7 @@ class SymbolicNode:
         """Checks if this node is directly connected to the target node."""
         connected = target_node_id in self.connections
         self.logger.debug(
-            f"ΛTRACE: Node '{self.node_id)}' connected to '{target_node_id)}': {connected)}."
+            f"ΛTRACE: Node '{self.node_id}' connected to '{target_node_id}': {connected}."
         )
         return connected
 
@@ -480,12 +506,12 @@ class SymbolicNode:
         including ID, type, weight, performance metrics, connectivity, and status.
         """
         self.logger.debug(
-            f"ΛTRACE: Getting state summary for SymbolicNode '{self.node_id)}'."
+            f"ΛTRACE: Getting state summary for SymbolicNode '{self.node_id}'."
         )
         avg_conn_weight = (
             np.mean(list(self.connection_weights.values()))
-            if self.connection_weights:
-            else 0.0:
+            if self.connection_weights
+            else 0.0
         )
         summary = {
             "node_id": self.node_id,
@@ -493,33 +519,33 @@ class SymbolicNode:
             "symbolic_weight": self.symbolic_weight,
             "position": self.position,
             "metadata_keys": list(
-                self.metadata.keys()}
-            )},  # Only keys to keep summary concise
+                self.metadata.keys()
+            ),  # Only keys to keep summary concise
             "performance": {
                 "error_level": self.error_level,
                 "activity_level": self.activity_level,
                 "entropy": self.entropy,
                 "processing_load": self.processing_load,
-            )},
+            },
             "connectivity": {
                 "connection_count": len(self.connections),
                 "connected_nodes": self.connections[:10],  # Sample of connected nodes
                 "total_connection_weight": sum(self.connection_weights.values()),
                 "average_connection_weight": avg_conn_weight,
-            )},
+            },
             "status_flags": {
                 "is_active": self.is_active,
                 "is_critical": self.is_critical,
-            )},
+            },
             "temporal": {
                 "creation_timestamp": self.creation_time,
                 "age_seconds": round(time.time() - self.creation_time, 2),
                 "last_update_timestamp": self.last_update,
                 "updates_count": self.update_count,
-            )},
-        )}
+            },
+        }
         self.logger.debug(
-            f"ΛTRACE: State summary for SymbolicNode '{self.node_id)}' generated."
+            f"ΛTRACE: State summary for SymbolicNode '{self.node_id}' generated."
         )
         return summary
 
@@ -543,20 +569,22 @@ class SymbolicNetwork:
         """
         Initializes the SymbolicNetwork.
         Args:
-            config (NetworkConfig)}: Configuration settings for the network's behavior.
+            config (NetworkConfig): Configuration settings for the network's behavior.
         """
         self.config = config
-        self.nodes: dict[str, SymbolicNode] = {)}  # node_id -> SymbolicNode object
+        self.nodes: dict[str, SymbolicNode] = {}  # node_id -> SymbolicNode object
         self.connections: list[tuple[str, str]] = []  # List of (source_id, target_id)
         self.connection_metadata: dict[tuple[str, str], dict[str, Any]] = (
-            {)}
+            {}
         )  # (src,dst) -> metadata dict
 
         self.logger = logger.getChild(
             "SymbolicNetwork"
         )  # Child logger for this class instance
         self.logger.info(
-            f"ΛTRACE: SymbolicNetwork initialized with config: MaxNodes={config.max_nodes)}, MinNodes={config.min_nodes)}."
+            "ΛTRACE: SymbolicNetwork initialized with config: MaxNodes=%d, MinNodes=%d.",
+            config.max_nodes,
+            config.min_nodes,
         )
 
         # Network state tracking
@@ -579,17 +607,17 @@ class SymbolicNetwork:
         max nodes reached).
         """
         self.logger.debug(
-            f"ΛTRACE: Attempting to add node '{node.node_id)}' (Type: {node.node_type.value)}) to network."
+            f"ΛTRACE: Attempting to add node '{node.node_id}' (Type: {node.node_type.value}) to network."
         )
         if node.node_id in self.nodes:
             self.logger.warning(
-                f"ΛTRACE: Node '{node.node_id)' already exists in the network. Addition aborted."
+                f"ΛTRACE: Node '{node.node_id}' already exists in the network. Addition aborted."
             )
             return False
 
-        if len(self.nodes)} >= self.config.max_nodes:
+        if len(self.nodes) >= self.config.max_nodes:
             self.logger.warning(
-                f"ΛTRACE: Maximum node count ({self.config.max_nodes)}) reached. Cannot add node '{node.node_id)'."
+                f"ΛTRACE: Maximum node count ({self.config.max_nodes}) reached. Cannot add node '{node.node_id}'."
             )
             return False
 
@@ -600,10 +628,10 @@ class SymbolicNetwork:
                 "node_id": node.node_id,
                 "type": node.node_type.value,
                 "weight": node.symbolic_weight,
-            )},
+            },
         )
         self.logger.info(
-            f"ΛTRACE: Node '{node.node_id)' added to network. Total nodes: {len(self.nodes)}."
+            f"ΛTRACE: Node '{node.node_id}' added to network. Total nodes: {len(self.nodes)}."
         )
         return True
 
@@ -617,17 +645,17 @@ class SymbolicNetwork:
         min nodes reached).
         """
         self.logger.debug(
-            f"ΛTRACE: Attempting to remove node '{node_id)' from network."
+            f"ΛTRACE: Attempting to remove node '{node_id}' from network."
         )
         if node_id not in self.nodes:
             self.logger.warning(
-                f"ΛTRACE: Node '{node_id)' not found in network. Removal aborted."
+                f"ΛTRACE: Node '{node_id}' not found in network. Removal aborted."
             )
             return False
 
-        if len(self.nodes)} <= self.config.min_nodes:
+        if len(self.nodes) <= self.config.min_nodes:
             self.logger.warning(
-                f"ΛTRACE: Minimum node count ({self.config.min_nodes)}) reached. Cannot remove node '{node_id)'."
+                f"ΛTRACE: Minimum node count ({self.config.min_nodes}) reached. Cannot remove node '{node_id}'."
             )
             return False
 
@@ -635,11 +663,13 @@ class SymbolicNetwork:
         original_connections_count = len(self.connections)
         self.connections = [
             (src, dst)
-            for src, dst in self.connections:
-            if src != node_id and dst != node_id:
+            for src, dst in self.connections
+            if src != node_id and dst != node_id
         ]
         self.logger.debug(
-            f"ΛTRACE: Removed {original_connections_count - len(self.connections))} global connections involving node '{node_id)'."
+            "ΛTRACE: Removed %d global connections involving node '%s'.",
+            original_connections_count - len(self.connections),
+            node_id,
         )
 
         # Clean up connection metadata for connections involving the removed node
@@ -649,7 +679,7 @@ class SymbolicNetwork:
         for key in keys_to_remove_meta:
             del self.connection_metadata[key]
         self.logger.debug(
-            f"ΛTRACE: Cleaned up {len(keys_to_remove_meta)} entries from connection_metadata for node '{node_id)'."
+            f"ΛTRACE: Cleaned up {len(keys_to_remove_meta)} entries from connection_metadata for node '{node_id}'."
         )
 
         # Remove from other nodes' local connection lists
@@ -659,14 +689,14 @@ class SymbolicNetwork:
                     node_id
                 )  # This logs at SymbolicNode level
                 self.logger.debug(
-                    f"ΛTRACE: Removed connection from node '{other_node_id)' to removed node '{node_id)}'."
-                )}
+                    f"ΛTRACE: Removed connection from node '{other_node_id}' to removed node '{node_id}'."
+                )
 
         removed_node_type = self.nodes[node_id].node_type.value
         del self.nodes[node_id]
-        self._log_event("node_removed", {"node_id": node_id, "type": removed_node_type)})
+        self._log_event("node_removed", {"node_id": node_id, "type": removed_node_type})
         self.logger.info(
-            f"ΛTRACE: Node '{node_id)' removed from network. Total nodes: {len(self.nodes)}."
+            f"ΛTRACE: Node '{node_id}' removed from network. Total nodes: {len(self.nodes)}."
         )
         return True
 
@@ -685,24 +715,29 @@ class SymbolicNetwork:
         Returns True if successful, False otherwise (e.g., nodes not found).
         """
         self.logger.debug(
-            f"ΛTRACE: Attempting to add connection from '{source_node_id)}' to '{target_node_id)}' (Weight: {weight:.2f)}, Type: {connection_type.value)})."
+            "ΛTRACE: Attempting to add connection from '%s' to '%s' (Weight: %.2f, Type: %s).",
+            source_node_id,
+            target_node_id,
+            weight,
+            connection_type.value,
         )
         if source_node_id not in self.nodes or target_node_id not in self.nodes:
             self.logger.warning(
-                f"ΛTRACE: Cannot add connection: one or both nodes not found ('{source_node_id)' or '{target_node_id)')."
+            "ΛTRACE: Cannot add connection: one or both nodes not found ('%s' or '%s').",
+            source_node_id,
+            target_node_id,
             )
             return False
 
         connection_tuple = (source_node_id, target_node_id)
         if connection_tuple not in self.connections:
-            self.connections.append(connection_tuple)}
+            self.connections.append(connection_tuple)
             self.logger.debug(
-                f"ΛTRACE: Global connection entry {connection_tuple)} added."
+                f"ΛTRACE: Global connection entry {connection_tuple} added."
             )
         else:
             self.logger.debug(
-                f"ΛTRACE: Global connection entry {connection_tuple)} already exists,
-                metadata will be updated."
+                f"ΛTRACE: Global connection entry {connection_tuple} already exists, metadata will be updated."
             )
 
         # Update connection metadata (overwrite if exists, or add new)
@@ -710,9 +745,9 @@ class SymbolicNetwork:
             "weight": weight,
             "type": connection_type.value,
             "timestamp_created_updated": time.time(),
-        )}
+        }
         self.logger.debug(
-            f"ΛTRACE: Connection metadata for {connection_tuple)} updated/set."
+            f"ΛTRACE: Connection metadata for {connection_tuple} updated/set."
         )
 
         # Update the source node's local connection list and weights
@@ -727,10 +762,13 @@ class SymbolicNetwork:
                 "target": target_node_id,
                 "weight": weight,
                 "type": connection_type.value,
-            )},
+            },
         )
         self.logger.info(
-            f"ΛTRACE: Connection from '{source_node_id)' to '{target_node_id)' added/updated. Total connections: {len(self.connections)}."
+            "ΛTRACE: Connection from '%s' to '%s' added/updated. Total connections: %d.",
+            source_node_id,
+            target_node_id,
+            len(self.connections),
         )
         return True
 
@@ -743,16 +781,16 @@ class SymbolicNetwork:
         Returns True if successful, False if connection didn't exist.
         """
         self.logger.debug(
-            f"ΛTRACE: Attempting to remove connection from '{source_node_id)' to '{target_node_id)'."
+            f"ΛTRACE: Attempting to remove connection from '{source_node_id}' to '{target_node_id}'."
         )
         connection_tuple = (source_node_id, target_node_id)
         if connection_tuple in self.connections:
             self.connections.remove(connection_tuple)
             self.connection_metadata.pop(
                 connection_tuple, None
-            )}  # Remove metadata if it exists
+            )  # Remove metadata if it exists
             self.logger.debug(
-                f"ΛTRACE: Global connection entry {connection_tuple)} and its metadata removed."
+                f"ΛTRACE: Global connection entry {connection_tuple} and its metadata removed."
             )
 
             if source_node_id in self.nodes:
@@ -762,29 +800,32 @@ class SymbolicNetwork:
 
             self._log_event(
                 "connection_removed",
-                {"source": source_node_id, "target": target_node_id)},
+                {"source": source_node_id, "target": target_node_id},
             )
             self.logger.info(
-                f"ΛTRACE: Connection from '{source_node_id)' to '{target_node_id)' removed. Total connections: {len(self.connections)}."
+            "ΛTRACE: Connection from '%s' to '%s' removed. Total connections: %d.",
+            source_node_id,
+            target_node_id,
+            len(self.connections),
             )
             return True
         else:
             self.logger.warning(
-                f"ΛTRACE: Connection from '{source_node_id)' to '{target_node_id)' not found for removal."
+                f"ΛTRACE: Connection from '{source_node_id}' to '{target_node_id}' not found for removal."
             )
             return False
 
     # Method to get high-error nodes
 
-    def high_error_nodes(self)} -> list[SymbolicNode]:
+    def high_error_nodes(self) -> list[SymbolicNode]:
         """Returns a list of active nodes whose error level exceeds the configured fission threshold."""
         self.logger.debug(
-            f"ΛTRACE: Identifying high error nodes (Threshold: {self.config.fission_threshold:.2f)})."
+            f"ΛTRACE: Identifying high error nodes (Threshold: {self.config.fission_threshold:.2f})."
         )
         nodes_list = [
             node
-            for node in self.nodes.values():
-            if node.error_level > self.config.fission_threshold and node.is_active:
+            for node in self.nodes.values()
+            if node.error_level > self.config.fission_threshold and node.is_active
         ]
         self.logger.info(f"ΛTRACE: Found {len(nodes_list)} high error active nodes.")
         return nodes_list
@@ -797,13 +838,15 @@ class SymbolicNetwork:
         compatible and candidates for merging. Returns a limited number of pairs.
         """
         self.logger.debug(
-            f"ΛTRACE: Identifying low activity node pairs for potential fusion (Threshold: {self.config.fusion_threshold:.2f)})."
+            "ΛTRACE: Identifying low activity node pairs for potential fusion "
+            "(Threshold: %.2f).",
+            self.config.fusion_threshold,
         )
         # Filter for active, non-critical nodes with low activity
         candidate_nodes = [
             node
-            for node in self.nodes.values():
-            if (:
+            for node in self.nodes.values()
+            if (
                 node.activity_level < self.config.fusion_threshold
                 and node.is_active
                 and not node.is_critical
@@ -820,7 +863,7 @@ class SymbolicNetwork:
                 node1, node2 = candidate_nodes[i], candidate_nodes[j]
                 # Further check for merge compatibility (e.g., type, weight ratio,
                 # spatial proximity)
-                if self._are_merge_compatible(:
+                if self._are_merge_compatible(
                     node1, node2
                 ):  # This logs its own details
                     pairs.append((node1, node2))
@@ -845,12 +888,12 @@ class SymbolicNetwork:
         """Checks if two nodes are suitable for merging based on type, weight,
         and position."""
         self.logger.debug(
-            f"ΛTRACE: Checking merge compatibility between '{node1.node_id)' and '{node2.node_id)'."
+            f"ΛTRACE: Checking merge compatibility between '{node1.node_id}' and '{node2.node_id}'."
         )
         # Rule 1: Must be of the same NodeType for logical consistency
         if node1.node_type != node2.node_type:
             self.logger.debug(
-                f"ΛTRACE: Merge incompatible (type mismatch)}: {node1.node_type.value)} vs {node2.node_type.value)}."
+                f"ΛTRACE: Merge incompatible (type mismatch): {node1.node_type.value} vs {node2.node_type.value}."
             )
             return False
 
@@ -858,13 +901,15 @@ class SymbolicNetwork:
         # Avoid division by zero if a weight is zero or very small.
         min_weight = min(node1.symbolic_weight, node2.symbolic_weight)
         max_weight = max(node1.symbolic_weight, node2.symbolic_weight)
-        if (:
+        if (
             min_weight < 0.01
         ):  # If one node has negligible weight, consider them compatible for merging (it gets absorbed)
             pass  # Compatible or handle as a special case if needed.
         elif max_weight / min_weight > 5.0:  # Example threshold for weight difference:
             self.logger.debug(
-                f"ΛTRACE: Merge incompatible (weight ratio > 5): {node1.symbolic_weight:.2f)} vs {node2.symbolic_weight:.2f)}."
+            "ΛTRACE: Merge incompatible (weight ratio > 5): %.2f vs %.2f.",
+            node1.symbolic_weight,
+            node2.symbolic_weight,
             )
             return False
 
@@ -873,12 +918,12 @@ class SymbolicNetwork:
         distance = np.linalg.norm(np.array(node1.position) - np.array(node2.position))
         if distance > 1.0:  # Example threshold for spatial compatibility:
             self.logger.debug(
-                f"ΛTRACE: Merge incompatible (distance > 1.0): {distance:.2f)}."
+                f"ΛTRACE: Merge incompatible (distance > 1.0): {distance:.2f}."
             )
             return False
 
         self.logger.debug(
-            f"ΛTRACE: Nodes '{node1.node_id)' and '{node2.node_id)' are merge-compatible."
+            f"ΛTRACE: Nodes '{node1.node_id}' and '{node2.node_id}' are merge-compatible."
         )
         return True
 
@@ -898,15 +943,14 @@ class SymbolicNetwork:
         for node1, node2 in node_pairs_to_merge:
             # Ensure nodes still exist and network is above min node count before
             # merging
-            if (:
+            if (
                 node1.node_id in self.nodes
                 and node2.node_id in self.nodes
                 and len(self.nodes) > self.config.min_nodes + 1
             ):  # +1 because we remove 2, add 1
 
                 self.logger.debug(
-                    f"ΛTRACE: Processing merge for pair: ('{node1.node_id)',
-                                                          '{node2.node_id)')."
+                    f"ΛTRACE: Processing merge for pair: ('{node1.node_id}', '{node2.node_id}')."
                 )
                 # Create merged node using the method from SymbolicNode
                 merged_node = node1.merge_with(node2)  # This logs at SymbolicNode level
@@ -922,19 +966,22 @@ class SymbolicNetwork:
                     {
                         "original_node_ids": [node1.node_id, node2.node_id],
                         "new_merged_node_id": merged_node.node_id,
-                        "final_node_count": len(self.nodes)},
-                    )},
+                        "final_node_count": len(self.nodes),
+                    },
                 )
                 self.logger.info(
-                    f"ΛTRACE: Successfully merged '{node1.node_id)' and '{node2.node_id)' into '{merged_node.node_id)'."
+                    f"ΛTRACE: Successfully merged '{node1.node_id}' and '{node2.node_id}' into '{merged_node.node_id}'."
                 )
                 merged_count += 1
             else:
                 self.logger.warning(
-                    f"ΛTRACE: Skipping merge for pair('{node1.node_id)',
-                                                      '{node2.node_id)'). Conditions not met(existence or min_nodes). Current nodes: {len(self.nodes)}"
+            "ΛTRACE: Skipping merge for pair('%s', '%s'). "
+            "Conditions not met(existence or min_nodes). Current nodes: %d",
+            node1.node_id,
+            node2.node_id,
+            len(self.nodes),
                 )
-        self.logger.info(f"ΛTRACE: Merged {merged_count)} node pairs in this operation.")
+        self.logger.info(f"ΛTRACE: Merged {merged_count} node pairs in this operation.")
 
     # Method for entropy balancing pass
 
@@ -953,8 +1000,9 @@ class SymbolicNetwork:
         total_network_entropy = sum(node.entropy for node in self.nodes.values())
         average_network_entropy = total_network_entropy / len(self.nodes)
         self.logger.debug(
-            f"ΛTRACE: Network total entropy: {total_network_entropy: .4f)},
-            Average entropy: {average_network_entropy: .4f)}."
+            "ΛTRACE: Network total entropy: %.4f, Average entropy: %.4f.",
+            total_network_entropy,
+            average_network_entropy,
         )
 
         adjustments_count = 0
@@ -968,7 +1016,11 @@ class SymbolicNetwork:
                     0, node_obj.entropy - entropy_adjustment
                 )  # Entropy cannot be negative
                 self.logger.debug(
-                    f"ΛTRACE: Node '{node_obj.node_id)}' old entropy: {node_obj.entropy:.4f)}, adjustment: {-entropy_adjustment:.4f)}, new entropy: {new_node_entropy:.4f)}."
+                    "ΛTRACE: Node '%s' old entropy: %.4f, adjustment: %.4f, new entropy: %.4f.",
+                    node_obj.node_id,
+                    node_obj.entropy,
+                    -entropy_adjustment,
+                    new_node_entropy,
                 )
                 # Direct update, metrics update method not used for isolated entropy
                 # change
@@ -981,10 +1033,10 @@ class SymbolicNetwork:
             {
                 "nodes_adjusted": adjustments_count,
                 "average_entropy_target": average_network_entropy,
-            )},
+            },
         )
         self.logger.info(
-            f"ΛTRACE: Entropy balance pass completed. {adjustments_count)} nodes had their entropy adjusted."
+            f"ΛTRACE: Entropy balance pass completed. {adjustments_count} nodes had their entropy adjusted."
         )
 
     # Method to relink drifted or invalid edges
@@ -1001,28 +1053,29 @@ class SymbolicNetwork:
         # Filter global connections list
         valid_global_connections = [
             (src, dst)
-            for src, dst in self.connections:
-            if src in active_node_ids_set and dst in active_node_ids_set:
+            for src, dst in self.connections
+            if src in active_node_ids_set and dst in active_node_ids_set
         ]
         num_removed_global = original_connections_count - len(valid_global_connections)
         self.connections = valid_global_connections
         if num_removed_global > 0:
             self.logger.debug(
-                f"ΛTRACE: Removed {num_removed_global)} invalid entries from global connections list."
+                f"ΛTRACE: Removed {num_removed_global} invalid entries from global connections list."
             )
 
         # Clean up connection metadata for removed connections
         valid_global_connections_set = set(valid_global_connections)
         metadata_keys_to_remove = [
             key
-            for key in self.connection_metadata:
-            if key not in valid_global_connections_set:
+            for key in self.connection_metadata
+            if key not in valid_global_connections_set
         ]
         for key in metadata_keys_to_remove:
             del self.connection_metadata[key]
         if metadata_keys_to_remove:
             self.logger.debug(
-                f"ΛTRACE: Removed {len(metadata_keys_to_remove)} entries from connection_metadata for invalid connections."
+            "ΛTRACE: Removed %d entries from connection_metadata for invalid connections.",
+            len(metadata_keys_to_remove),
             )
 
         # Additionally, ensure individual nodes' connection lists are consistent (though add/remove should handle this)
@@ -1031,26 +1084,28 @@ class SymbolicNetwork:
             original_node_conn_count = len(node_obj.connections)
             valid_node_connections = [
                 conn_id
-                for conn_id in node_obj.connections:
-                if conn_id in active_node_ids_set:
+                for conn_id in node_obj.connections
+                if conn_id in active_node_ids_set
             ]
             if len(valid_node_connections) < original_node_conn_count:
                 self.logger.debug(
-                    f"ΛTRACE: Node '{node_id)' connections list updated. Removed {original_node_conn_count - len(valid_node_connections)} invalid targets."
+            "ΛTRACE: Node '%s' connections list updated. Removed %d invalid targets.",
+            node_id,
+            original_node_conn_count - len(valid_node_connections),
                 )
                 node_obj.connections = valid_node_connections
                 # Also clean weights and metadata within the node for removed
                 # connections
                 node_obj.connection_weights = {
                     k: v
-                    for k, v in node_obj.connection_weights.items():
-                    if k in valid_node_connections:
-                )}
+                    for k, v in node_obj.connection_weights.items()
+                    if k in valid_node_connections
+                }
                 # Metadata for connection types in SymbolicNode
                 meta_keys_to_del_node = [
                     mk
-                    for mk in list(node_obj.metadata.keys()):
-                    if mk.startswith("connection_type_to_"):
+                    for mk in list(node_obj.metadata.keys())
+                    if mk.startswith("connection_type_to_")
                     and mk.split("connection_type_to_")[-1]
                     not in valid_node_connections
                 ]
@@ -1060,7 +1115,7 @@ class SymbolicNetwork:
         if num_removed_global > 0 or metadata_keys_to_remove:
             self._log_event(
                 "network_edges_relinked",
-                {"removed_global_connections_count": num_removed_global)},
+                {"removed_global_connections_count": num_removed_global},
             )
         self.logger.info(
             f"ΛTRACE: Relink drifted edges pass completed. Total connections now: {len(self.connections)}."
@@ -1078,9 +1133,9 @@ class SymbolicNetwork:
             self.logger.info(
                 "ΛTRACE: Network is empty. Returning empty_network status."
             )
-            return {"status": "empty_network", "timestamp": time.time())}
+            return {"status": "empty_network", "timestamp": time.time()}
 
-        nodes_by_type_count: dict[str, int] = {)}
+        nodes_by_type_count: dict[str, int] = {}
         for node_obj in self.nodes.values():
             ntype_val = node_obj.node_type.value
             nodes_by_type_count[ntype_val] = nodes_by_type_count.get(ntype_val, 0) + 1
@@ -1109,19 +1164,19 @@ class SymbolicNetwork:
                     np.min(activity_levels_list) if activity_levels_list else 0.0
                 ),
                 "total_symbolic_weight": sum(symbolic_weights_list),
-            )},
+            },
             "connectivity_metrics": {
                 # Density: actual_connections / max_possible_connections (for directed
                 # graph: N*(N-1))
                 "density": (
                     num_connections / (num_nodes * (num_nodes - 1))
-                    if num_nodes > 1:
-                    else 0.0:
+                    if num_nodes > 1
+                    else 0.0
                 ),
                 "average_degree_out": (
                     num_connections / num_nodes if num_nodes > 0 else 0.0
                 ),  # Assumes connections list is primary
-            )},
+            },
             "health_indicators": {
                 "critical_node_count": sum(
                     1 for node in self.nodes.values() if node.is_critical
@@ -1129,32 +1184,33 @@ class SymbolicNetwork:
                 "inactive_node_count": sum(
                     1 for node in self.nodes.values() if not node.is_active
                 ),
-            )},
+            },
             "operational_info": {
                 "network_age_seconds": round(time.time() - self.creation_time, 2),
                 "total_optimizations_run": self.optimization_count,
                 "time_since_last_optimization_seconds": (
                     round(time.time() - self.last_optimization_time, 2)
-                    if self.last_optimization_time > 0:
-                    else -1:
+                    if self.last_optimization_time > 0
+                    else -1
                 ),
-            )},
-        )}
+            },
+        }
         self.logger.info(
-            f"ΛTRACE: Network statistics calculated: {stats['node_count'])} nodes,
-            {stats['connection_count'])} connections."
+            "ΛTRACE: Network statistics calculated: %d nodes, %d connections.",
+            stats["node_count"],
+            stats["connection_count"],
         )
         # Storing a snapshot of performance for history, could be selective
         self.performance_history.append(
             {
                 k: stats[k]
-                for k in (:
+                for k in (
                     "timestamp",
                     "node_count",
                     "connection_count",
                     "performance_summary",
                 )
-            )}
+            }
         )
         if len(self.performance_history) > 100:  # Limit history size:
             self.performance_history = self.performance_history[-100:]
@@ -1165,14 +1221,14 @@ class SymbolicNetwork:
     def _log_event(self, event_type_str: str, event_data_dict: dict[str, Any]) -> None:
         """Logs significant network events internally for auditing or later analysis."""
         # This is an internal log, separate from ΛTRACE but can be used by it.
-        self.logger.debug(f"ΛTRACE_EVENT ({event_type_str)}): {event_data_dict)}")
+        self.logger.debug(f"ΛTRACE_EVENT ({event_type_str}): {event_data_dict}")
         log_entry = {
             "timestamp": time.time(),
             "event_type": event_type_str,
             "data": event_data_dict,
             "current_node_count": len(self.nodes),
             "current_connection_count": len(self.connections),
-        )}
+        }
         self.event_log.append(log_entry)
 
         # Keep only a capped number of recent events to manage memory
@@ -1197,32 +1253,34 @@ class SymbolicNetwork:
             "max_nodes": self.config.max_nodes,
             "min_nodes": self.config.min_nodes,
             "entropy_balance_weight": self.config.entropy_balance_weight,
-        )}
+        }
 
         exported_state = {
             "network_config_snapshot": serializable_config,
             "nodes_summary": {
                 node_id: node.get_state_summary()  # This method provides a dict
-                for node_id, node in self.nodes.items():
-            )},
+                for node_id, node in self.nodes.items()
+            },
             "connections_list": [  # List of connection dicts for easier iteration
                 {
                     "source_node_id": src,
                     "target_node_id": dst,
                     "properties": self.connection_metadata.get(
-                        (src, dst), {)}
+                        (src, dst), {}
                     ),  # Get metadata like weight, type
-                )}
-                for src, dst in self.connections:
+                }
+                for src, dst in self.connections
             ],
             "current_statistics_snapshot": self.get_network_statistics(),
             # Get fresh stats
             "recent_internal_events": (
                 self.event_log[-50:] if self.event_log else []
             ),  # Last 50 events
-        )}
+        }
         self.logger.info(
-            f"ΛTRACE: Network state exported successfully. Nodes: {len(exported_state['nodes_summary']))}, Connections: {len(exported_state['connections_list'])}."
+            "ΛTRACE: Network state exported successfully. Nodes: %d, Connections: %d.",
+            len(exported_state["nodes_summary"]),
+            len(exported_state["connections_list"]),
         )
         return exported_state
 
@@ -1243,43 +1301,49 @@ class SymbolicNetwork:
         # not exist)
         for src_id, dst_id in self.connections:
             if src_id not in node_ids_set:
-                issue = f"Orphaned connection: Source node '{src_id)' (in target '{dst_id)') does not exist."
-                found_issues.append(issue)}
-                self.logger.warning(f"ΛTRACE: Integrity issue: {issue)}")
+                issue = f"Orphaned connection: Source node '{src_id}' (in target '{dst_id}') does not exist."
+                found_issues.append(issue)
+                self.logger.warning(f"ΛTRACE: Integrity issue: {issue}")
             if dst_id not in node_ids_set:
-                issue = f"Orphaned connection: Target node '{dst_id)' (from source '{src_id)') does not exist."
-                found_issues.append(issue)}
-                self.logger.warning(f"ΛTRACE: Integrity issue: {issue)}")
+                issue = f"Orphaned connection: Target node '{dst_id}' (from source '{src_id}') does not exist."
+                found_issues.append(issue)
+                self.logger.warning(f"ΛTRACE: Integrity issue: {issue}")
 
         # Check 2: Inconsistent node-level connections (node lists a connection to
         # a non-existent node)
         for node_id_str, node_obj in self.nodes.items():
             for connected_node_id in node_obj.connections:
                 if connected_node_id not in node_ids_set:
-                    issue = f"Node '{node_id_str)' has inconsistent connection: Target '{connected_node_id)' does not exist."
-                    found_issues.append(issue)}
-                    self.logger.warning(f"ΛTRACE: Integrity issue: {issue)}")
+                    issue = (
+                        f"Node '{node_id_str}' has inconsistent connection: "
+                        f"Target '{connected_node_id}' does not exist."
+                    )
+                    found_issues.append(issue)
+                    self.logger.warning("ΛTRACE: Integrity issue: %s", issue)
 
         # Check 3: Performance anomalies (e.g., too many critical nodes)
         # Threshold for "too many" could be configurable or a percentage
         critical_nodes_count = sum(
             1 for node in self.nodes.values() if node.is_critical
         )
-        if (:
-            self.nodes and critical_nodes_count > len(self.nodes) * 0.5
-        ):  # If more than 50% nodes are critical
-            issue = f"Performance anomaly: High number of critical nodes ({critical_nodes_count)} out of {len(self.nodes)})."
+        if self.nodes and critical_nodes_count > len(self.nodes) * 0.5:
+            issue = (
+                f"Performance anomaly: High number of critical nodes "
+                f"({critical_nodes_count} out of {len(self.nodes)})."
+            )
             found_issues.append(issue)
-            self.logger.warning(f"ΛTRACE: Integrity issue: {issue)}")
+            self.logger.warning("ΛTRACE: Integrity issue: %s", issue)
 
         validation_result = {
             "is_valid": len(found_issues) == 0,
             "issues_found": found_issues,
             "issues_count": len(found_issues),
             "validation_timestamp": time.time(),
-        )}
+        }
         self.logger.info(
-            f"ΛTRACE: Network integrity validation complete. Valid: {validation_result['is_valid'])}. Issues: {validation_result['issues_count'])}."
+            "ΛTRACE: Network integrity validation complete. Valid: %s. Issues: %d.",
+            validation_result["is_valid"],
+            validation_result["issues_count"],
         )
         return validation_result
 
@@ -1303,7 +1367,11 @@ class SymbolicNetwork:
 #          Internal event logging within SymbolicNetwork for auditing.
 # AUTHENTICATION: Not applicable at this component level.
 # HOW TO USE:
-#   from candidate.core.adaptive_systems.crista_optimizer.symbolic_network import SymbolicNetwork, SymbolicNode, NodeType
+#   from candidate.core.adaptive_systems.crista_optimizer.symbolic_network import (
+#       SymbolicNetwork,
+#       SymbolicNode,
+#       NodeType,
+#   )
 #   from candidate.core.symbolic_core.bio.crista_optimizer import NetworkConfig # Or from common config
 #   net_conf = NetworkConfig()
 #   network = SymbolicNetwork(config=net_conf)
