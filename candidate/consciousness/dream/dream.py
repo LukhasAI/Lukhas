@@ -59,7 +59,7 @@ class DreamSystem:
 
         self.initialized = True
         if components:
-            logger.info(f"Dream system initialized with: {', '.join(components)}")
+            logger.info(f"Dream system initialized with: {', '.join(components}")
         else:
             logger.warning("No dream engines available")
 

@@ -9,7 +9,7 @@ from typing import Any
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
-router = APIRouter(, timezone)
+router = APIRouter()
 
 
 # Store active WebSocket connections
@@ -101,7 +101,7 @@ async def websocket_alerts(websocket: WebSocket):
                     "data": {
                         "severity": alert_type,
                         "message": random.choice(alert_messages[alert_type]),
-                        "id": f"ALR-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
+                        "id": f"ALR-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S'}",
                         "requires_action": alert_type in ["warning", "critical"],
                     },
                 }
@@ -177,8 +177,8 @@ async def websocket_logs(websocket: WebSocket):
                     "source": random.choice(log_sources),
                     "message": generate_log_message(),
                     "metadata": {
-                        "request_id": f"REQ-{random.randint(10000, 99999)}",
-                        "user_id": f"USR-{random.randint(100, 999)}",
+                        "request_id": f"REQ-{random.randint(10000, 99999}",
+                        "user_id": f"USR-{random.randint(100, 999}",
                         "duration_ms": random.randint(10, 500),
                     },
                 },

@@ -32,7 +32,7 @@ try:
 
     st.subheader("⚖️ Consent Rules")
     for rule, value in manifest["consent_rules"].items():
-        st.markdown(f"• **{rule.replace('_', ' ').capitalize()}** → `{value}`")
+        st.markdown(f"• **{rule.replace('_', ' ').capitalize(}** → `{value}`")
 
     st.success("Tier structure loaded from ethics_manifest.json")
 

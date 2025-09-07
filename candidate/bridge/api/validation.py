@@ -263,7 +263,7 @@ class RequestValidator:
                 for issue in security_issues:
                     result.add_error(
                         ValidationErrorType(issue["type"]),
-                        f"Security violation: {issue.get('pattern', 'unknown')}",
+                        f"Security violation: {issue.get('pattern', 'unknown'}",
                         severity=ValidationSeverity(issue["severity"]),
                     )
 
@@ -499,7 +499,7 @@ class ResponseValidator:
                 for issue in security_issues:
                     result.add_error(
                         ValidationErrorType(issue["type"]),
-                        f"Response security issue: {issue.get('pattern', 'unknown')}",
+                        f"Response security issue: {issue.get('pattern', 'unknown'}",
                         severity=ValidationSeverity(issue["severity"]),
                     )
 
@@ -777,7 +777,7 @@ class AuthenticationValidator:
                 missing_perms = required_permissions_set - user_permissions
                 result.add_error(
                     ValidationErrorType.AUTHORIZATION_FAILED,
-                    f"Missing required permissions: {list(missing_perms)}",
+                    f"Missing required permissions: {list(missing_perms}",
                     severity=ValidationSeverity.ERROR,
                 )
 
@@ -835,7 +835,7 @@ class ComprehensiveAPIValidator:
 
         logger.info(f"🔍 Starting validation: {validation_id}")
         logger.info(f"   Type: {request_type}")
-        logger.info(f"   Context: {context.get('type', 'general') if context else 'none'}")
+        logger.info(f"   Context: {context.get('type', 'general'} if context else 'none'}")
 
         try:
             # Authentication validation
@@ -887,8 +887,8 @@ class ComprehensiveAPIValidator:
 
             logger.info(f"✅ Validation completed: {validation_id} ({total_time:.2f}ms)")
             logger.info(f"   Valid: {result.is_valid}")
-            logger.info(f"   Errors: {len(result.errors)}")
-            logger.info(f"   Warnings: {len(result.warnings)}")
+            logger.info(f"   Errors: {len(result.errors}")
+            logger.info(f"   Warnings: {len(result.warnings}")
 
             return result
 
@@ -1233,7 +1233,7 @@ if __name__ == "__main__":
                 logger.info(f"{status} {test['name']} ({test['execution_time_ms']:.2f}ms)")
 
                 if "errors" in test:
-                    logger.info(f"   Errors: {test['errors']}, Warnings: {test.get('warnings', 0)}")
+                    logger.info(f"   Errors: {test['errors']}, Warnings: {test.get('warnings', 0}")
                 if "security_violations" in test:
                     logger.info(f"   Security violations: {test['security_violations']}")
                 if "hipaa_compliant" in test:

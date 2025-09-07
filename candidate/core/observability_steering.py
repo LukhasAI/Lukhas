@@ -258,11 +258,11 @@ class ObservabilityCollector:
             actors_involved = [e["data"].get("actor_id") for e in error_timeline]
 
             pattern = EmergentPattern(
-                pattern_id=f"cascade_{int(current_time)}",
+                pattern_id=f"cascade_{int(current_time}",
                 pattern_type="cascading_failure",
                 involved_actors=actors_involved,
                 confidence=min(1.0, len(error_timeline) / 10.0),
-                description=f"Potential cascade: {len(error_timeline)} failures",
+                description=f"Potential cascade: {len(error_timeline} failures",
                 first_detected=error_timeline[0]["timestamp"],
                 last_observed=current_time,
                 occurrence_count=len(error_timeline),

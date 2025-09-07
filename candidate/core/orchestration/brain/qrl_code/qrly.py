@@ -76,7 +76,7 @@ def generate_glymph_backstory(emoji_seed: str) -> dict:
         "poetic_backstory": (
             f"Born of {archetype_data['primary']['traits'][0]} and "
             f"{archetype_data['shadow']['traits'][1]}, "
-            f"this entity {GLYMPH_WORDBANK[archetype_data['primary']['archetype'].lower()]['verbs'][0]} "
+            f"this entity {GLYMPH_WORDBANK[archetype_data['primary']['archetype'].lower(}]['verbs'][0]} "
             f"the {hash_digest[10:12]} realms."),
         "compliance_tags": [
             "GDPR:pseudonymized",

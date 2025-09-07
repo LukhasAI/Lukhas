@@ -31,7 +31,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -186,7 +186,7 @@ class GlyphTimelineGenerator:
                 row["glyphs_used"] = "".join(event.glyphs_used)
                 writer.writerow(row)
 
-        logger.info(f"📊 Exported {len(self.events)} events to {csv_path}")
+        logger.info(f"📊 Exported {len(self.events} events to {csv_path}")
         return str(csv_path)
 
     def generate_html_visualization(self, filename: str = "glyph_timeline.html") -> str:
@@ -648,7 +648,7 @@ def main():
     # Generate mock events
     print("\n📊 Generating mock authentication events...")
     events = generator.generate_mock_events(100)
-    print(f"Generated {len(events)} events")
+    print(f"Generated {len(events} events")
 
     # Export to CSV
     csv_path = generator.export_to_csv()

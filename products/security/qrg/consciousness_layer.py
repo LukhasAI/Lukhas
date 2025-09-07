@@ -196,7 +196,7 @@ class ConsciousnessLayer:
         if ConsciousnessSource.QUANTUM_RESONANCE in self.consciousness_sources:
             self.qi_detector = QICoherenceDetector()
 
-        logger.info(f"🔧 Initialized {len(self.consciousness_sources)} consciousness detection systems")
+        logger.info(f"🔧 Initialized {len(self.consciousness_sources} consciousness detection systems")
 
     def detect_consciousness_state(
         self,

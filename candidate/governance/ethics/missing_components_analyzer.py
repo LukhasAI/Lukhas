@@ -108,13 +108,13 @@ def analyze_missing_components():
 
         if missing:
             missing_components[domain] = missing
-            print(f"\n🔴 Missing {domain.upper()} components ({len(missing)}):")
+            print(f"\n🔴 Missing {domain.upper()} components ({len(missing}):")
             for component in missing[:5]:  # Show first 5
                 print(f"   ❌ {component}")
             if len(missing) > 5:
-                print(f"   ... and {len(missing) - 5} more")
+                print(f"   ... and {len(missing} - 5} more")
         else:
-            print(f"\n🟢 {domain.upper()}: All key components present")
+            print(f"\n🟢 {domain.upper(}: All key components present")
 
     # Advanced components likely in prototype
     advanced_components = {
@@ -143,7 +143,7 @@ def analyze_missing_components():
 
     print("\n\n🎯 Advanced Components Likely in Prototype:")
     for domain, components in advanced_components.items():
-        print(f"\n📊 {domain.upper()}:")
+        print(f"\n📊 {domain.upper(}:")
         for component in components:
             print(f"   🔍 {component}")
 

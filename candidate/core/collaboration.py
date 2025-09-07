@@ -95,7 +95,7 @@ class SelfOrganizingSwarm:
 
         # 3. Swarm Formation (Simulated)
         compute_colonies = [self.swarm_manager.create_colony(f"compute-{i}") for i in range(num_sub_tasks)]
-        print(f"Swarm: Formed a swarm of {len(compute_colonies)} compute colonies.")
+        print(f"Swarm: Formed a swarm of {len(compute_colonies} compute colonies.")
 
         # 4. P2P Mesh Training (Simulated)
         print("Swarm: Starting P2P mesh training...")

@@ -11,7 +11,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-sys.path.append(str(Path(__file__, timezone).parent))
+sys.path.append(str(Path(__file__).parent))
 
 from database_integration import db
 from lukhas_content_platform.content_platform import ContentPlatform

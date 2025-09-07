@@ -38,7 +38,7 @@ class VoiceProfilingEmotionEngine:
     A voice profile that defines voice characteristics and evolves over time.
 
     Voice profiles store:
-    - Base voice parameters (pitch, rate, volume, timezone)
+    - Base voice parameters (pitch, rate, volume)
     - Advanced modulation parameters (articulation, expressiveness)
     - Provider-specific optimizations
     - Usage statistics and adaptation data
@@ -287,7 +287,7 @@ class VoiceProfilingEmotionEngine:
                 except (json.JSONDecodeError, FileNotFoundError) as e:
                     self.logger.error(f"Error loading profile {filename}: {e!s}")
 
-        self.logger.info(f"Loaded {len(self.profiles)} voice profiles")
+        self.logger.info(f"Loaded {len(self.profiles} voice profiles")
 
     def _save_profile(self, profile: VoiceProfile) -> bool:
         """Save profile to disk."""

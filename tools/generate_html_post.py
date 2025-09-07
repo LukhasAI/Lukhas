@@ -18,7 +18,7 @@ QUEUE_PATH = "core/logging/publish_queue.jsonl"
 EXPORT_DIR = "html_posts"
 
 
-def load_latest_entry(, timezone):
+def load_latest_entry():
     if not os.path.exists(QUEUE_PATH):
         print("⚠️ No publish_queue.jsonl found.")
         return None
@@ -51,11 +51,11 @@ def generate_html(content):
             margin: 3em;
             background: #fefefe;
             color: #111;
-        }}
+        }
         .symbolic-container {{
             border-left: 5px solid #aaa;
             padding-left: 1em;
-        }}
+        }
     </style>
 </head>
 <body>

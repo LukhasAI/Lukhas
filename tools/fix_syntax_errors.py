@@ -128,7 +128,7 @@ class PythonSyntaxFixer:
             if modified and not self.dry_run:
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(content)
-                logger.info(f"Fixed {len(fixes)} issues in {file_path}")
+                logger.info(f"Fixed {len(fixes} issues in {file_path}")
 
             return fixes
 

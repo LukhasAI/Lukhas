@@ -24,14 +24,14 @@ def main():
     backup_dirs = [d for d in os.listdir(".") if d.startswith(".security_backup_20250822_")]
     backup_dirs.sort()
 
-    print(f"📊 Found {len(backup_dirs)} security backup directories")
+    print(f"📊 Found {len(backup_dirs} security backup directories")
 
     if not backup_dirs:
         print("✅ No security backup directories to clean up")
         return
 
     # Create consolidated backup directory
-    consolidated_dir = f".security_backup_consolidated_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    consolidated_dir = f".security_backup_consolidated_{datetime.now().strftime('%Y%m%d_%H%M%S'}"
     os.makedirs(consolidated_dir, exist_ok=True)
 
     requirements_backups = []
@@ -54,8 +54,8 @@ def main():
         else:
             individual_backups.append(backup_dir)
 
-    print(f"\n📋 Requirements backups: {len(requirements_backups)}")
-    print(f"📄 Individual file backups: {len(individual_backups)}")
+    print(f"\n📋 Requirements backups: {len(requirements_backups}")
+    print(f"📄 Individual file backups: {len(individual_backups}")
 
     # Preserve important requirements backups
     if requirements_backups:
@@ -77,7 +77,7 @@ def main():
                     print(f"  📋 Preserved: {backup_dir}/{file_path.name}")
 
     # Remove all backup directories
-    print(f"\n🗑️  Removing {len(backup_dirs)} backup directories...")
+    print(f"\n🗑️  Removing {len(backup_dirs} backup directories...")
     removed_count = 0
     for backup_dir in backup_dirs:
         try:
@@ -90,7 +90,7 @@ def main():
     print("\n📊 Cleanup Summary:")
     print(f"  🗑️  Removed directories: {removed_count}")
     print(f"  💾 Preserved backups: {consolidated_dir}")
-    print(f"  📋 Important files preserved: {len(requirements_backups) * 3} requirements.txt files")
+    print(f"  📋 Important files preserved: {len(requirements_backups} * 3} requirements.txt files")
 
     # Show space saved
     if removed_count > 0:
@@ -99,13 +99,13 @@ def main():
         print(f"  🧹 Removed {removed_count} redundant backup directories")
 
     # Create cleanup report
-    report_file = f"security_backup_cleanup_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    report_file = f"security_backup_cleanup_report_{datetime.now().strftime('%Y%m%d_%H%M%S'}.txt"
     with open(report_file, "w") as f:
         f.write("Security Backup Cleanup Report\n")
-        f.write(f"Generated: {datetime.now().isoformat()}\n\n")
-        f.write(f"Original backup directories: {len(backup_dirs)}\n")
-        f.write(f"Requirements backups found: {len(requirements_backups)}\n")
-        f.write(f"Individual file backups: {len(individual_backups)}\n")
+        f.write(f"Generated: {datetime.now().isoformat(}\n\n")
+        f.write(f"Original backup directories: {len(backup_dirs}\n")
+        f.write(f"Requirements backups found: {len(requirements_backups}\n")
+        f.write(f"Individual file backups: {len(individual_backups}\n")
         f.write(f"Directories removed: {removed_count}\n")
         f.write(f"Consolidated backup: {consolidated_dir}\n\n")
         f.write("Preserved files:\n")

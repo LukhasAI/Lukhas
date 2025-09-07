@@ -240,7 +240,7 @@ def print_event(event: dict[str, Any], index: int):
 
         if "result" in intervention:
             result_color = Colors.GREEN if intervention["result"] == "success" else Colors.RED
-            print(f"  Result: {result_color}{intervention['result'].upper()}{Colors.RESET}")
+            print(f"  Result: {result_color}{intervention['result'].upper(}{Colors.RESET}")
 
         if "trinity_score" in intervention:
             trinity = intervention["trinity_score"]
@@ -285,7 +285,7 @@ def print_summary(events: list[dict[str, Any]]):
     for severity, count in sorted(severities.items()):
         color = get_severity_color(severity)
         bar = "█" * count
-        print(f"  {color}{severity.capitalize():<8}{Colors.RESET} {bar} ({count})")
+        print(f"  {color}{severity.capitalize(}:<8}{Colors.RESET} {bar} ({count})")
 
     # Collect all glyphs used
     all_glyphs = set()
@@ -295,7 +295,7 @@ def print_summary(events: list[dict[str, Any]]):
             all_glyphs.update(event["intervention"].get("glyphs", []))
 
     print("\nSymbolic Vocabulary Used:")
-    print(f"{Colors.CYAN}{' '.join(sorted(all_glyphs))}{Colors.RESET}")
+    print(f"{Colors.CYAN}{' '.join(sorted(all_glyphs)}{Colors.RESET}")
 
 
 def replay_mode(events: list[dict[str, Any]]):
@@ -307,7 +307,7 @@ def replay_mode(events: list[dict[str, Any]]):
 
     for i, event in enumerate(events):
         if not auto_play:
-            user_input = input(f"\n{Colors.DIM}[{i + 1}/{len(events)}] >{Colors.RESET} ")
+            user_input = input(f"\n{Colors.DIM}[{i + 1}/{len(events}] >{Colors.RESET} ")
             if user_input.lower() == "q":
                 break
             elif user_input.lower() == "a":
@@ -335,10 +335,10 @@ def main():
         print(f"{Colors.RED}No Guardian events to replay.{Colors.RESET}")
         return
 
-    print(f"Loaded {Colors.BOLD}{len(events)}{Colors.RESET} Guardian events")
+    print(f"Loaded {Colors.BOLD}{len(events}{Colors.RESET} Guardian events")
     print(
-        f"Time span: {Colors.CYAN}{events[0].get('timestamp', 'Unknown')} "
-        f"to {events[-1].get('timestamp', 'Unknown')}{Colors.RESET}"
+        f"Time span: {Colors.CYAN}{events[0].get('timestamp', 'Unknown'} "
+        f"to {events[-1].get('timestamp', 'Unknown'}{Colors.RESET}"
     )
 
     # Menu
@@ -358,7 +358,7 @@ def main():
     elif choice == "3":
         critical_events = [e for e in events if e.get("severity") in ["high", "critical"]]
         if critical_events:
-            print(f"\n{Colors.RED}Showing {len(critical_events)} critical events{Colors.RESET}")
+            print(f"\n{Colors.RED}Showing {len(critical_events} critical events{Colors.RESET}")
             replay_mode(critical_events)
         else:
             print(f"\n{Colors.GREEN}No critical events found!{Colors.RESET}")

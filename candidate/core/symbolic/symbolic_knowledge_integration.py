@@ -47,7 +47,7 @@ from typing import Any, Optional
 try:
     from ...tools.parsers.knowledge_loader import (
         SymbolicConcept,
-        SymbolicKnowledgeLoader,, timezone)
+        SymbolicKnowledgeLoader)
 except ImportError:
     # Fallback for relative imports
     import sys
@@ -82,7 +82,7 @@ class SymbolicKnowledgeIntegrator:
             Path(__file__).parent.parent.parent / "foundry" / "symbolic_seeds" / "foundational_knowledge.json",
         ]
 
-        logger.info(f"🔍 ΛTRACE: SymbolicKnowledgeIntegrator initialized with {len(self.knowledge_files)} sources")
+        logger.info(f"🔍 ΛTRACE: SymbolicKnowledgeIntegrator initialized with {len(self.knowledge_files} sources")
 
     async def initialize_knowledge_integration(self) -> dict[str, Any]:
         """
@@ -106,7 +106,7 @@ class SymbolicKnowledgeIntegrator:
                         concepts = self.loader.load_symbolic_ontology(knowledge_file)
                         all_concepts.update(concepts)
                         loaded_files.append(str(knowledge_file))
-                        logger.info(f"🔍 ΛTRACE: Loaded {len(concepts)} concepts from {knowledge_file}")
+                        logger.info(f"🔍 ΛTRACE: Loaded {len(concepts} concepts from {knowledge_file}")
                     except Exception as e:
                         logger.warning(f"🔍 ΛTRACE: Failed to load {knowledge_file}: {e}")
 
@@ -128,7 +128,7 @@ class SymbolicKnowledgeIntegrator:
                 "timestamp": self.last_sync_timestamp,
             }
 
-            logger.info(f"🔍 ΛTRACE: Knowledge integration initialized with {len(all_concepts)} concepts")
+            logger.info(f"🔍 ΛTRACE: Knowledge integration initialized with {len(all_concepts} concepts")
             return result
 
         except Exception as e:

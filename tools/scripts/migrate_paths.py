@@ -154,11 +154,11 @@ class PathMigrator:
 
         # Find all Python files
         python_files = self.find_python_files()
-        print(f"📂 Found {len(python_files)} Python files")
+        print(f"📂 Found {len(python_files} Python files")
 
         # Filter files that need migration
         files_to_migrate = [f for f in python_files if self.needs_migration(f)]
-        print(f"🔄 {len(files_to_migrate)} files need path updates")
+        print(f"🔄 {len(files_to_migrate} files need path updates")
 
         if not files_to_migrate:
             print("✅ No files need migration!")
@@ -172,7 +172,7 @@ class PathMigrator:
 
         print("\n" + "=" * 50)
         print("✅ Migration complete!")
-        print(f"📊 {migrated_count}/{len(files_to_migrate)} files updated")
+        print(f"📊 {migrated_count}/{len(files_to_migrate} files updated")
 
         # Save migration log
         if self.migration_log:

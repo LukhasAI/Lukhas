@@ -192,7 +192,7 @@ def main():
         encoding="utf-8",
     )
 
-    print(f"✅ auto_fix_safe: considered {len(to_fix)} staged files, modified {changed}")
+    print(f"✅ auto_fix_safe: considered {len(to_fix} staged files, modified {changed}")
     return 0
 
 

@@ -699,7 +699,7 @@ async def demonstrate_real_data_collection():
     print("📡 Initializing connections to LUKHAS  modules...")
     await collector.initialize_real_connections()
 
-    print(f"✅ Connected to {len(collector.module_connections)} modules:")
+    print(f"✅ Connected to {len(collector.module_connections} modules:")
     for module_name in collector.module_connections:
         print(f"   • {module_name}")
 
@@ -708,28 +708,28 @@ async def demonstrate_real_data_collection():
 
     print("\n🧠 Consciousness Data:")
     consciousness = data.get("consciousness", {})
-    print(f"   Awareness Level: {consciousness.get('awareness_level', 0):.3f}")
-    print(f"   Decision Confidence: {consciousness.get('decision_confidence', 0):.3f}")
-    print(f"   Attention Targets: {consciousness.get('attention_targets', [])}")
+    print(f"   Awareness Level: {consciousness.get('awareness_level', 0}:.3f}")
+    print(f"   Decision Confidence: {consciousness.get('decision_confidence', 0}:.3f}")
+    print(f"   Attention Targets: {consciousness.get('attention_targets', []}")
 
     print("\n🧬 Biological Data:")
     biological = data.get("biological", {})
     hormones = biological.get("hormone_levels", {})
-    print(f"   Cortisol: {hormones.get('cortisol', 0):.3f}")
-    print(f"   Dopamine: {hormones.get('dopamine', 0):.3f}")
-    print(f"   Homeostasis: {biological.get('homeostasis_state', 'unknown')}")
+    print(f"   Cortisol: {hormones.get('cortisol', 0}:.3f}")
+    print(f"   Dopamine: {hormones.get('dopamine', 0}:.3f}")
+    print(f"   Homeostasis: {biological.get('homeostasis_state', 'unknown'}")
 
     print("\n📈 Derived Metrics:")
     derived = data.get("derived_metrics", {})
-    print(f"   Stress Indicator: {derived.get('stress_indicator', 0):.3f}")
-    print(f"   Performance Indicator: {derived.get('performance_indicator', 0):.3f}")
-    print(f"   Learning Readiness: {derived.get('learning_readiness', 0):.3f}")
+    print(f"   Stress Indicator: {derived.get('stress_indicator', 0}:.3f}")
+    print(f"   Performance Indicator: {derived.get('performance_indicator', 0}:.3f}")
+    print(f"   Learning Readiness: {derived.get('learning_readiness', 0}:.3f}")
 
     print("\n🔗 Integration Format:")
     integration_data = await collector.get_monitoring_system_integration_data()
     endocrine = integration_data["endocrine_snapshot"]
     print(f"   Coherence Score: {endocrine['coherence_score']:.3f}")
-    print(f"   System Metrics Count: {len(endocrine['system_metrics'])}")
+    print(f"   System Metrics Count: {len(endocrine['system_metrics']}")
 
     print("\n✅ Real data collection successful!")
     print("🚀 This data feeds directly into the enhanced monitoring system")

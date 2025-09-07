@@ -23,7 +23,7 @@ class Insight:
         impact_level: str,  # high, medium, low
         actionable: bool,
         related_files: Optional[list[str]] = None,
-        tags: Optional[list[str]] = None,, timezone):
+        tags: Optional[list[str]] = None):
         self.content = content
         self.category = category
         self.sentiment = sentiment

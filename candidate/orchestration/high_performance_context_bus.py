@@ -315,7 +315,7 @@ class HighPerformanceContextBus:
         self.workers.append(logging_task)
 
         logger.info("⚡ Context Bus workers started")
-        logger.info(f"   Active workers: {len(self.workers)}")
+        logger.info(f"   Active workers: {len(self.workers}")
 
     async def stop(self):
         """Stop the context bus gracefully"""
@@ -424,7 +424,7 @@ class HighPerformanceContextBus:
         """
         workflow_start = time.perf_counter()
 
-        self._add_workflow_narrative(workflow_id, f"🚀 Starting workflow: {len(steps)} steps")
+        self._add_workflow_narrative(workflow_id, f"🚀 Starting workflow: {len(steps} steps")
 
         # Initialize context
         context = initial_context or {}
@@ -456,7 +456,7 @@ class HighPerformanceContextBus:
                 step_message.handoff_start = time.perf_counter()
                 step_message.processing_start = time.perf_counter()
 
-                self._add_workflow_narrative(workflow_id, f"▶️ Executing step {i + 1}/{len(steps)}: {step.name}")
+                self._add_workflow_narrative(workflow_id, f"▶️ Executing step {i + 1}/{len(steps}: {step.name}")
 
                 # Execute step with timeout
                 try:
@@ -601,7 +601,7 @@ class HighPerformanceContextBus:
 
             # Add to transparency log
             self._add_transparency_entry(
-                f"📨 Processed: {message.message_type} ({message.handoff_latency_ms:.2f}ms, {len(handlers)} handlers)",
+                f"📨 Processed: {message.message_type} ({message.handoff_latency_ms:.2f}ms, {len(handlers} handlers)",
                 message.message_id,
             )
 

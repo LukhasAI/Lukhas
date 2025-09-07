@@ -204,11 +204,11 @@ class FoldLineageTracker:
             node = self.fold_nodes[fold_key]
             # Add parent if exists
             if hasattr(node, "parent_fold") and node.parent_fold:
-                lineage.append({"id": "genesis", "event": "creation", "metadata": {}})
-                lineage.append({"id": node.parent_fold, "event": "derived", "metadata": {}})
+                lineage.append({"id": "genesis", "event": "creation", "metadata": {})
+                lineage.append({"id": node.parent_fold, "event": "derived", "metadata": {})
             else:
-                lineage.append({"id": "genesis", "event": "creation", "metadata": {}})
-                lineage.append({"id": fold_key, "event": "current", "metadata": {}})
+                lineage.append({"id": "genesis", "event": "creation", "metadata": {})
+                lineage.append({"id": fold_key, "event": "current", "metadata": {})
 
         return lineage
 
@@ -251,7 +251,7 @@ class FoldLineageTracker:
             metadata = {}
 
         causation_id = hashlib.md5(
-            f"{source_fold_key}_{target_fold_key}_{causation_type.value}_{datetime.now(timezone.utc)}".encode()
+            f"{source_fold_key}_{target_fold_key}_{causation_type.value}_{datetime.now(timezone.utc}".encode()
         ).hexdigest()[:12]
 
         causal_link = CausalLink(

@@ -89,7 +89,7 @@ class UnifiedLLMBridge:
     # Brand prompt templates
     self.brand_prompts = self._load_brand_prompts()
 
-    logger.info(f"UnifiedLLMBridge initialized with {len(self.providers)} providers")
+    logger.info(f"UnifiedLLMBridge initialized with {len(self.providers} providers")
 
     def _initialize_providers(self):
         """Initialize all available LLM providers"""

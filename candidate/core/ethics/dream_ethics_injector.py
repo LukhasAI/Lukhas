@@ -207,7 +207,7 @@ class DreamEthicsInjector:
         Returns:
             Complete ethical assessment with annotations
         """
-        dream_id = dream_id or f"dream_{datetime.now(timezone.utc).timestamp()}"
+        dream_id = dream_id or f"dream_{datetime.now(timezone.utc).timestamp(}"
         annotations = []
 
         # Analyze each symbolic tag
@@ -308,7 +308,7 @@ class DreamEthicsInjector:
             filtered += (
                 f"\n\n[Note: This dream contained elements tagged as "
                 " + "
-                f"{', '.join(high_risk_tags)} which have been noted for "
+                f"{', '.join(high_risk_tags} which have been noted for "
                 " + "
                 f"ethical consideration]"
             )
@@ -337,7 +337,7 @@ class DreamEthicsInjector:
             if ann.alignment_score > 0.7:
                 insights.append(
                     f"The '{ann.tag}' aspect strongly aligns with core values "
-                    f"of {next(iter(self.core_principles.keys()))}"
+                    f"of {next(iter(self.core_principles.keys())}"
                 )
             elif ann.alignment_score < -0.5:
                 insights.append(f"The '{ann.tag}' element requires ethical transformation to align with system values")

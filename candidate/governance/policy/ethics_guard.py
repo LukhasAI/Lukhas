@@ -280,7 +280,7 @@ class LegalComplianceAssistant:
         if len(concerns) == 1:
             return f"Address concern: {concerns[0]}"
 
-        return f"Address {len(concerns)} concerns before proceeding"
+        return f"Address {len(concerns} concerns before proceeding"
 
     def anonymize_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """

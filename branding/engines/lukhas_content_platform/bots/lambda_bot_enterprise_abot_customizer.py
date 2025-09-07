@@ -320,7 +320,7 @@ class BotCustomizer:
             "arguments": {action.get("args", [])},
             "priority": 100,
             "alignment": "left"
-        }}
+        }
         """
 
     def restart_status_bar(self):

@@ -39,7 +39,7 @@ def demo_tool_registry():
     all_tools = get_all_tools()
     tool_names = get_tool_names()
 
-    print(f"📋 Available tools ({len(tool_names)}):")
+    print(f"📋 Available tools ({len(tool_names}):")
     for name in tool_names:
         tool = all_tools[name]
         func_info = tool["function"]
@@ -52,7 +52,7 @@ def demo_tool_registry():
     filtered_tools = build_tools_from_allowlist(test_allowlist)
 
     print(f"\n🛡️ Allowlist Demo - Only allowing: {test_allowlist}")
-    print(f"   Filtered to {len(filtered_tools)} tools:")
+    print(f"   Filtered to {len(filtered_tools} tools:")
     for tool in filtered_tools:
         print(f"   • {tool['function']['name']}")
 
@@ -100,7 +100,7 @@ def demo_audit_bundle():
     print("=" * 50)
 
     # Create sample audit bundle
-    audit_id = f"demo_{uuid.uuid4().hex[:8]}"
+    audit_id = f"demo_{uuid.uuid4(}.hex[:8]}"
 
     sample_bundle = {
         "audit_id": audit_id,
@@ -139,7 +139,7 @@ def demo_audit_bundle():
     }
 
     print(f"📦 Sample Audit Bundle: {audit_id}")
-    print(f"🛡️ Safety Mode: {sample_bundle['params']['safety_mode'].upper()}")
+    print(f"🛡️ Safety Mode: {sample_bundle['params']['safety_mode'].upper(}")
     print(f"🔧 Tools Available: {sample_bundle['params']['tool_allowlist']}")
     print(f"✅ Tools Actually Used: {sample_bundle['tools_used']}")
     print(f"🎯 Guardian Status: {sample_bundle['guardian']['pre_validation']}")

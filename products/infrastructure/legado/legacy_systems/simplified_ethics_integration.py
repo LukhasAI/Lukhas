@@ -18,7 +18,7 @@ from ethics.meta_ethics_governor import MetaEthicsGovernor
 from ethics.seedra.seedra_core import SEEDRACore
 from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class SimplifiedEthicsIntegration:
@@ -65,7 +65,7 @@ class SimplifiedEthicsIntegration:
         Evaluate the ethical implications of an action.
         """
         try:
-            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp())}"
+            decision_id = f"eth_dec_{int(datetime.now(timezone.utc).timestamp()}"
 
             result = {
                 "decision_id": decision_id,

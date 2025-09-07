@@ -183,10 +183,10 @@ class KeywordExtractor:
 
         for domain in sorted(self.keywords.keys()):
             keywords = sorted(self.keywords[domain])
-            print(f"\n📁 {domain.upper()} ({len(keywords)} keywords):")
-            print(f"   {', '.join(keywords[:10])}")
+            print(f"\n📁 {domain.upper()} ({len(keywords} keywords):")
+            print(f"   {', '.join(keywords[:10]}")
             if len(keywords) > 10:
-                print(f"   ... and {len(keywords) - 10} more")
+                print(f"   ... and {len(keywords} - 10} more")
 
 
 if __name__ == "__main__":
@@ -197,7 +197,7 @@ if __name__ == "__main__":
     extractor.print_summary()
     results = extractor.save_results()
 
-    print(f"\n✅ Extraction complete! Found {len(keywords)} domains")
+    print(f"\n✅ Extraction complete! Found {len(keywords} domains")
     print("🔧 Use these results to enhance core_mapper.py")
 
 # Λ Systems 2025 www.lukhas.ai

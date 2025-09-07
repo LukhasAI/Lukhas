@@ -481,7 +481,7 @@ class BioQuantumSymbolicReasoner:
         context = context or {}
 
         logger.info(
-            f"🧠⚛️ Starting Bio-Quantum Abstract Reasoning for: {problem_space.get('description', 'Unknown problem')}"
+            f"🧠⚛️ Starting Bio-Quantum Abstract Reasoning for: {problem_space.get('description', 'Unknown problem'}"
         )
 
         try:

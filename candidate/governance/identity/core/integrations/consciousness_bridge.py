@@ -31,7 +31,7 @@ try:
         BiometricData,
         CognitiveMetrics,
         ConsciousnessState,
-        EmotionalState,, timezone)
+        EmotionalState)
     from ..visualization.lukhas_orb import LUKHASOrb, OrbState
 except ImportError:
     print("Warning: Consciousness visualization components not available")
@@ -570,7 +570,7 @@ class ConsciousnessBridge:
     ):
         """Create consciousness event"""
         event = ConsciousnessEvent(
-            event_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16],
+            event_id=hashlib.sha256(f"{lambda_id}_{time.time(}".encode()).hexdigest()[:16],
             lambda_id=lambda_id,
             event_type=event_type,
             consciousness_state=consciousness_state,

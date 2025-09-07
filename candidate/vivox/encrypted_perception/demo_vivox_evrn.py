@@ -16,7 +16,7 @@ from vivox.encrypted_perception import (
     MultimodalFusion,
     PerceptualVector,
     TextureAnalyzer,
-    create_vivox_evrn_system,, timezone)
+    create_vivox_evrn_system)
 
 sys.path.append("/Users/agi_dev/Lukhas")
 
@@ -51,7 +51,7 @@ class VIVOXEVRNDemo:
         )
 
         print(f"✓ Perception ID: {perception.perception_id}")
-        print(f"✓ Encrypted vector dimension: {len(perception.encrypted_features)}")
+        print(f"✓ Encrypted vector dimension: {len(perception.encrypted_features}")
         print(f"✓ Privacy level: {perception.privacy_level}")
         print(f"✓ Ethical compliance: {perception.ethical_compliance}")
 
@@ -107,7 +107,7 @@ class VIVOXEVRNDemo:
             anomalies = await self.evrn.detect_anomalies(vectors, context={"demo_scenario": scenario["name"]})
 
             if anomalies:
-                print(f"  ⚠️  Anomalies detected: {len(anomalies)}")
+                print(f"  ⚠️  Anomalies detected: {len(anomalies}")
                 for anomaly in anomalies:
                     print(f"     - Type: {anomaly.anomaly_type}")
                     print(f"     - Significance: {anomaly.significance.value}")
@@ -292,7 +292,7 @@ class VIVOXEVRNDemo:
                 perceptions, fusion_strategy=strategy, context={"demo": True}
             )
 
-            print(f"  Modalities fused: {', '.join(metadata['modalities_fused'])}")
+            print(f"  Modalities fused: {', '.join(metadata['modalities_fused']}")
             print(f"  Fusion confidence: {metadata['fusion_confidence']:.3f}")
 
             # Show correlations

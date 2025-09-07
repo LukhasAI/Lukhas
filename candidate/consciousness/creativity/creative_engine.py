@@ -51,10 +51,46 @@ from torch.nn import functional as F
 T = TypeVar("T")
 CreativeOutput = TypeVar("CreativeOutput")
 
-# Metrics collection
-HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")
-CREATIVE_REQUESTS_TOTAL = Counter("creative_requests_total", "Total creative requests", ["type", "status"])
-ACTIVE_GENERATORS = Gauge("active_generators", "Number of active generators")
+# Metrics collection - using mock implementations since prometheus is disabled
+# HAIKU_GENERATION_TIME = Histogram("haiku_generation_seconds", "Time spent generating haiku")  # Disabled - missing prometheus
+
+class MockCounter:
+    def __init__(self, name, description, label_names=None):
+        self.name = name
+        self.description = description
+        self.label_names = label_names or []
+        self._value = 0
+    
+    def labels(self, **kwargs):
+        return self
+    
+    def inc(self, value=1):
+        self._value += value
+        return self
+
+class MockGauge:
+    def __init__(self, name, description):
+        self.name = name  
+        self.description = description
+        self._value = 0
+    
+    def inc(self, value=1):
+        self._value += value
+    
+    def dec(self, value=1):
+        self._value -= value
+
+class MockHistogram:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+    
+    def observe(self, value):
+        pass
+
+CREATIVE_REQUESTS_TOTAL = MockCounter("creative_requests_total", "Total creative requests", ["type", "status"])
+ACTIVE_GENERATORS = MockGauge("active_generators", "Number of active generators")
+HAIKU_GENERATION_TIME = MockHistogram("haiku_generation_seconds", "Time spent generating haiku")
 
 # Structured logging
 
@@ -288,7 +324,7 @@ class EnterpriseNeuralHaikuGenerator:
         self.attention_weights = defaultdict(float)
         self.style_embeddings: Optional[torch.Tensor] = None
 
-        logger.info("EnterpriseNeuralHaikuGenerator initialized", config=config.__dict__)
+        logger.info(f"EnterpriseNeuralHaikuGenerator initialized with config: {config.__dict__}")
 
     async def __aenter__(self):
         """Async context manager entry."""
@@ -313,7 +349,7 @@ class EnterpriseNeuralHaikuGenerator:
 
             logger.info("Neural components initialized successfully")
         except Exception as e:
-            logger.error("Failed to initialize neural components", error=str(e))
+            logger.error(f"Failed to initialize neural components: {str(e}")
             raise
 
     async def _sync_federated_parameters(self) -> None:
@@ -323,7 +359,7 @@ class EnterpriseNeuralHaikuGenerator:
             # Update local style preferences based on global trends
             self.attention_weights.update({style.name: weight for style, weight in global_trends.items()})
         except Exception as e:
-            logger.warning("Federated sync failed, continuing with local parameters", error=str(e))
+            logger.warning(f"Federated sync failed, continuing with local parameters: {str(e}")
 
     @CircuitBreaker(failure_threshold=3, timeout=30.0)
     async def generate_haiku(
@@ -386,17 +422,15 @@ class EnterpriseNeuralHaikuGenerator:
                 self.metrics_buffer.append(metrics)
 
                 logger.info(
-                    "Haiku generated successfully",
-                    generation_time_ms=total_time,
-                    creativity_score=creativity_score,
-                    user_id=context.user_id,
+                    f"Haiku generated successfully - time: {total_time:.1f}ms, "
+                    f"creativity: {creativity_score:.3f}, user: {context.user_id}"
                 )
 
                 return final_haiku, metrics
 
             except Exception as e:
                 CREATIVE_REQUESTS_TOTAL.labels(type="haiku", status="error").inc()
-                logger.error("Haiku generation failed", error=str(e), user_id=context.user_id)
+                logger.error(f"Haiku generation failed for user {context.user_id}: {str(e}")
                 raise
             finally:
                 ACTIVE_GENERATORS.dec()
@@ -679,7 +713,7 @@ class EnterpriseNeuralHaikuGenerator:
             local_gradients = torch.randn(128)  # Placeholder
             await self.federated_client.aggregate_model_updates(local_gradients)
         except Exception as e:
-            logger.warning("Federated model update failed", error=str(e))
+            logger.warning(f"Federated model update failed: {str(e}")
 
     async def _cleanup_resources(self) -> None:
         """Clean up resources and connections."""

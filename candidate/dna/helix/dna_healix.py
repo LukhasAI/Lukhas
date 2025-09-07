@@ -35,7 +35,7 @@ from lukhas.core.common import get_logger
 # from sklearn.metrics.pairwise import cosine_similarity  # Optional dependency
 
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 def cosine_similarity(v1: np.ndarray, v2: np.ndarray) -> float:
@@ -399,7 +399,7 @@ class DNAHealixCore:
         """Validate repaired strand meets safety constraints"""
         # Check entropy
         if repaired.entropy() < self.entropy_threshold:
-            logger.warning(f"⚠️ Low entropy {repaired.entropy():.3f}, using origin")
+            logger.warning(f"⚠️ Low entropy {repaired.entropy(}:.3f}, using origin")
             return self.origin
 
         # Check not empty
@@ -500,7 +500,7 @@ class MemoryHelix:
         self.locked = False  # For GDPR compliance
 
     def __repr__(self) -> str:
-        return f"MemoryHelix({self.memory_id}, drift={self.helix_core.calculate_drift():.3f})"
+        return f"MemoryHelix({self.memory_id}, drift={self.helix_core.calculate_drift(}:.3f})"
 
     def access(self) -> dict[str, Any]:
         """Access memory with tracking"""
@@ -657,7 +657,7 @@ if __name__ == "__main__":
     memory = MemoryHelix("test_memory_001", test_glyphs)
 
     print(f"\n✨ Created memory: {memory}")
-    print(f"📝 Origin: {' → '.join(test_glyphs)}")
+    print(f"📝 Origin: {' → '.join(test_glyphs}")
 
     # Simulate drift
     drifted_glyphs = [
@@ -672,22 +672,22 @@ if __name__ == "__main__":
     ]
     memory.mutate(drifted_glyphs)
 
-    print(f"\n🌊 After drift: {' → '.join(drifted_glyphs)}")
-    print(f"📊 Drift score: {memory.helix_core.calculate_drift():.3f}")
+    print(f"\n🌊 After drift: {' → '.join(drifted_glyphs}")
+    print(f"📊 Drift score: {memory.helix_core.calculate_drift(}:.3f}")
 
     # Repair
     if memory.helix_core.should_repair():
         print("\n🛠 Initiating repair...")
         memory.helix_core.repair(RepairMethod.PARTIAL_HEAL)
-        print(f"✅ Repaired: {' → '.join(memory.helix_core.current.sequence)}")
-        print(f"📊 New drift: {memory.helix_core.calculate_drift():.3f}")
+        print(f"✅ Repaired: {' → '.join(memory.helix_core.current.sequence}")
+        print(f"📊 New drift: {memory.helix_core.calculate_drift(}:.3f}")
 
     # Show repair history
     if memory.helix_core.repair_history:
         print("\n📜 Repair History:")
         for r in memory.helix_core.repair_history:
-            print(f"   • {r.timestamp.strftime('%H:%M:%S')} - {r.repair_method.value}")
+            print(f"   • {r.timestamp.strftime('%H:%M:%S'} - {r.repair_method.value}")
             print(f"     Drift: {r.drift_before:.3f} → {r.drift_after:.3f}")
-            print(f"     Glyphs repaired: {len(r.glyphs_repaired)}")
+            print(f"     Glyphs repaired: {len(r.glyphs_repaired}")
 
     print("\n✨ DNA Healix test complete!")

@@ -743,7 +743,7 @@ class SymbolicThresholdAutotuner:
         # Log the adjustment
         logger.info(f"🎯 Adjusted threshold '{threshold.name}': {old_value:.3f} → {new_value:.3f}")
         logger.info(f"   Reason: {adjustment['reason']}")
-        logger.info(f"   Symbolic: {'→'.join(adjustment['symbolic_sequence'])}")
+        logger.info(f"   Symbolic: {'→'.join(adjustment['symbolic_sequence']}")
         logger.info(f"   Confidence: {adjustment['confidence']:.2f}")
 
         # Save configuration
@@ -890,8 +890,8 @@ class SymbolicThresholdAutotuner:
                 }
 
         logger.info(f"Report summary: {report['system_summary']}")
-        logger.info(f"Recent adjustments: {len(report['recent_adjustments'])}")
-        logger.info(f"Performance trends tracked: {len(report['performance_trends'])}")
+        logger.info(f"Recent adjustments: {len(report['recent_adjustments']}")
+        logger.info(f"Performance trends tracked: {len(report['performance_trends']}")
 
     def get_current_thresholds(self) -> dict[str, float]:
         """Get current threshold values"""
@@ -979,13 +979,13 @@ async def main():
             print(f"  {name:20}: {value:.3f} {change_str}")
 
         # Show adjustment summary
-        print(f"\nAdjustments made: {len(autotuner.adjustment_history)}")
+        print(f"\nAdjustments made: {len(autotuner.adjustment_history}")
         if autotuner.adjustment_history:
             print("Recent adjustments:")
             for adj in autotuner.adjustment_history[-3:]:
                 print(f"  {adj.threshold_name}: {adj.old_value:.3f} → {adj.new_value:.3f}")
                 print(f"    Reason: {adj.reason}")
-                print(f"    Symbolic: {'→'.join(adj.symbolic_sequence)}")
+                print(f"    Symbolic: {'→'.join(adj.symbolic_sequence}")
 
 
 if __name__ == "__main__":

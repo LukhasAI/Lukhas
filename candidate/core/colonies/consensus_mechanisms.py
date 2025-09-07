@@ -151,7 +151,7 @@ class ColonyConsensus:
         **kwargs,
     ) -> str:
         """Create a new consensus proposal"""
-        proposal_id = f"{self.colony_id}_{len(self.active_proposals)}_{time.time()}"
+        proposal_id = f"{self.colony_id}_{len(self.active_proposals)}_{time.time(}"
 
         proposal = ConsensusProposal(
             proposal_id=proposal_id,
@@ -387,7 +387,7 @@ class ColonyConsensus:
         if faulty_ratio <= self.byzantine_threshold:
             # Can tolerate faults - filter them out
             filtered_votes = [v for v in votes if v.agent_id not in faulty_agents]
-            logger.info(f"Filtered {len(faulty_agents)} potentially faulty votes")
+            logger.info(f"Filtered {len(faulty_agents} potentially faulty votes")
         else:
             # Too many faults - use all votes but reduce confidence
             filtered_votes = votes

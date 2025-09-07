@@ -48,7 +48,7 @@ class WidgetFactory:
                         "title": "Data Points",
                         "items": {
                             "type": "object",
-                            "properties": {"name": {"type": "string"}, "value": {"type": "number"}},
+                            "properties": {"name": {"type": "string"}, "value": {"type": "number"},
                         },
                     },
                     "orientation": {"type": "string", "enum": ["horizontal", "vertical"], "default": "vertical"},

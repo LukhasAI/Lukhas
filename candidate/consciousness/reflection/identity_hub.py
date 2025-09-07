@@ -350,7 +350,7 @@ class IdentityHub:
             except Exception as e:
                 logger.error(f"Failed to initialize persona engine: {e}")
 
-        logger.info(f"IdentityHub initialized with {len(self.services)} services")
+        logger.info(f"IdentityHub initialized with {len(self.services} services")
 
     async def initialize(self) -> None:
         """Initialize all identity services"""
@@ -791,7 +791,7 @@ class IdentityHub:
         """Get current user attention state and metrics"""
         if not ATTENTION_MONITOR_AVAILABLE:
             logging.warning("Attention monitor not available")
-            return {"state": "unknown", "metrics": {}}
+            return {"state": "unknown", "metrics": {}
 
         try:
             monitor = self.get_service("attention_monitor")
@@ -803,7 +803,7 @@ class IdentityHub:
                 }
             else:
                 logging.error("Attention monitor service not found")
-                return {"state": "unknown", "metrics": {}}
+                return {"state": "unknown", "metrics": {}
         except Exception as e:
             logging.error(f"Failed to get attention state: {e}")
             return {"state": "error", "metrics": {}, "error": str(e)}

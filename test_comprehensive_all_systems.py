@@ -115,7 +115,7 @@ class TestConsciousnessIntelligence:
                     found_subsystems.append(subsystem)
 
             if len(found_subsystems) < 3:
-                print(f"    ⚠️ Only found {len(found_subsystems)} QI subsystems: {found_subsystems}")
+                print(f"    ⚠️ Only found {len(found_subsystems} QI subsystems: {found_subsystems}")
                 return False
 
             # Test QI coordination if available
@@ -123,9 +123,9 @@ class TestConsciousnessIntelligence:
             if coordination_path.exists():
                 python_files = list(coordination_path.glob("*.py"))
                 if python_files:
-                    print(f"    ✅ QI coordination system found with {len(python_files)} modules")
+                    print(f"    ✅ QI coordination system found with {len(python_files} modules")
 
-            print(f"    ✅ QI system operational with {len(found_subsystems)} subsystems")
+            print(f"    ✅ QI system operational with {len(found_subsystems} subsystems")
             return True
 
         except Exception as e:
@@ -157,7 +157,7 @@ class TestConsciousnessIntelligence:
                     found_engines.append(engine)
 
             if len(found_engines) < 2:
-                print(f"    ⚠️ Only found {len(found_engines)} reasoning engines")
+                print(f"    ⚠️ Only found {len(found_engines} reasoning engines")
                 return False
 
             # Test if we can find reasoning metrics
@@ -165,7 +165,7 @@ class TestConsciousnessIntelligence:
             if metrics_path.exists():
                 print("    ✅ Reasoning metrics system found")
 
-            print(f"    ✅ Reasoning systems operational with {len(found_engines)} engines")
+            print(f"    ✅ Reasoning systems operational with {len(found_engines} engines")
             return True
 
         except Exception as e:
@@ -187,13 +187,13 @@ class TestConsciousnessIntelligence:
                 python_files = list(lukhas_consciousness.glob("*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Lukhas consciousness system found with {len(python_files)} modules")
+                    print(f"    ✅ Lukhas consciousness system found with {len(python_files} modules")
 
             if consciousness_direct.exists():
                 python_files = list(consciousness_direct.glob("*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Direct consciousness system found with {len(python_files)} modules")
+                    print(f"    ✅ Direct consciousness system found with {len(python_files} modules")
 
             if systems_found == 0:
                 print("    ⚠️ No consciousness systems found")
@@ -228,7 +228,7 @@ class TestConsciousnessIntelligence:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Consciousness & Intelligence Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Consciousness & Intelligence Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "category": "Consciousness & Intelligence",
@@ -254,7 +254,7 @@ class TestMemoryDataSystems:
             if memory_protection.exists():
                 python_files = list(memory_protection.glob("*.py"))
                 if python_files:
-                    print(f"    ✅ Memory protection system found with {len(python_files)} modules")
+                    print(f"    ✅ Memory protection system found with {len(python_files} modules")
                     return True
 
             # Check for memory security tests
@@ -262,7 +262,7 @@ class TestMemoryDataSystems:
             if memory_security_tests.exists():
                 test_files = list(memory_security_tests.glob("*.py"))
                 if test_files:
-                    print(f"    ✅ Memory security tests found with {len(test_files)} test modules")
+                    print(f"    ✅ Memory security tests found with {len(test_files} test modules")
                     return True
 
             print("    ⚠️ Memory protection systems not found")
@@ -290,7 +290,7 @@ class TestMemoryDataSystems:
                 print("    ⚠️ No memory-related qualia files found")
                 return False
 
-            print(f"    ✅ Qualia memory systems found with {len(memory_files)} memory modules")
+            print(f"    ✅ Qualia memory systems found with {len(memory_files} memory modules")
 
             # Check if memory_sql.py exists (mentioned in editor context)
             memory_sql = qualia_path / "memory_sql.py"
@@ -317,13 +317,13 @@ class TestMemoryDataSystems:
                 subdirs = [d for d in data_path.iterdir() if d.is_dir()]
                 if subdirs:
                     systems_found += 1
-                    print(f"    ✅ Data systems found with {len(subdirs)} subsystems")
+                    print(f"    ✅ Data systems found with {len(subdirs} subsystems")
 
             if analytics_path.exists():
                 python_files = list(analytics_path.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Analytics systems found with {len(python_files)} modules")
+                    print(f"    ✅ Analytics systems found with {len(python_files} modules")
 
             if systems_found == 0:
                 print("    ⚠️ No data/analytics systems found")
@@ -357,7 +357,7 @@ class TestMemoryDataSystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Memory & Data Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Memory & Data Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "category": "Memory & Data Systems",
@@ -401,10 +401,10 @@ class TestSecurityGovernance:
                     found_subsystems.append(subsystem)
 
             if len(found_subsystems) < 3:
-                print(f"    ⚠️ Only found {len(found_subsystems)} ethics subsystems")
+                print(f"    ⚠️ Only found {len(found_subsystems} ethics subsystems")
                 return False
 
-            print(f"    ✅ Ethics systems operational with {len(found_subsystems)} subsystems")
+            print(f"    ✅ Ethics systems operational with {len(found_subsystems} subsystems")
             return True
 
         except Exception as e:
@@ -431,10 +431,10 @@ class TestSecurityGovernance:
                     found_components.append(component)
 
             if len(found_components) < 2:
-                print(f"    ⚠️ Only found {len(found_components)} governance components")
+                print(f"    ⚠️ Only found {len(found_components} governance components")
                 return False
 
-            print(f"    ✅ Extended governance operational with {len(found_components)} components")
+            print(f"    ✅ Extended governance operational with {len(found_components} components")
             return True
 
         except Exception as e:
@@ -455,13 +455,13 @@ class TestSecurityGovernance:
                 subdirs = [d for d in security_path.iterdir() if d.is_dir()]
                 if subdirs:
                     systems_found += 1
-                    print(f"    ✅ Security infrastructure found with {len(subdirs)} subsystems")
+                    print(f"    ✅ Security infrastructure found with {len(subdirs} subsystems")
 
             if lukhas_security.exists():
                 python_files = list(lukhas_security.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Lukhas security found with {len(python_files)} modules")
+                    print(f"    ✅ Lukhas security found with {len(python_files} modules")
 
             if systems_found == 0:
                 print("    ⚠️ No security infrastructure found")
@@ -495,7 +495,7 @@ class TestSecurityGovernance:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Security & Governance Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Security & Governance Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "category": "Security & Governance",
@@ -532,10 +532,10 @@ class TestProductIntegration:
                     found_categories.append(category)
 
             if len(found_categories) < 3:
-                print(f"    ⚠️ Only found {len(found_categories)} product categories")
+                print(f"    ⚠️ Only found {len(found_categories} product categories")
                 return False
 
-            print(f"    ✅ Product systems operational with {len(found_categories)} categories")
+            print(f"    ✅ Product systems operational with {len(found_categories} categories")
             return True
 
         except Exception as e:
@@ -562,10 +562,10 @@ class TestProductIntegration:
                     found_components.append(component)
 
             if len(found_components) < 2:
-                print(f"    ⚠️ Only found {len(found_components)} SDK components")
+                print(f"    ⚠️ Only found {len(found_components} SDK components")
                 return False
 
-            print(f"    ✅ SDK systems operational with {len(found_components)} components")
+            print(f"    ✅ SDK systems operational with {len(found_components} components")
             return True
 
         except Exception as e:
@@ -592,10 +592,10 @@ class TestProductIntegration:
                     found_components.append(component)
 
             if len(found_components) < 2:
-                print(f"    ⚠️ Only found {len(found_components)} MATRIZ components")
+                print(f"    ⚠️ Only found {len(found_components} MATRIZ components")
                 return False
 
-            print(f"    ✅ MATRIZ systems operational with {len(found_components)} components")
+            print(f"    ✅ MATRIZ systems operational with {len(found_components} components")
             return True
 
         except Exception as e:
@@ -624,7 +624,7 @@ class TestProductIntegration:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Product & Integration Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Product & Integration Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "category": "Product & Integration",
@@ -653,10 +653,10 @@ class TestInfrastructureOps:
 
             python_files = list(orchestration_path.glob("**/*.py"))
             if len(python_files) < 3:
-                print(f"    ⚠️ Only found {len(python_files)} orchestration modules")
+                print(f"    ⚠️ Only found {len(python_files} orchestration modules")
                 return False
 
-            print(f"    ✅ Orchestration systems operational with {len(python_files)} modules")
+            print(f"    ✅ Orchestration systems operational with {len(python_files} modules")
             return True
 
         except Exception as e:
@@ -683,7 +683,7 @@ class TestInfrastructureOps:
                     python_files = list(path.glob("**/*.py"))
                     if python_files:
                         systems_found += 1
-                        print(f"    ✅ {path_name} found with {len(python_files)} modules")
+                        print(f"    ✅ {path_name} found with {len(python_files} modules")
 
             if systems_found == 0:
                 print("    ⚠️ No monitoring/observability systems found")
@@ -709,13 +709,13 @@ class TestInfrastructureOps:
                 python_files = list(agents_path.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Internal agents found with {len(python_files)} modules")
+                    print(f"    ✅ Internal agents found with {len(python_files} modules")
 
             if agents_external.exists():
                 subdirs = [d for d in agents_external.iterdir() if d.is_dir()]
                 if subdirs:
                     systems_found += 1
-                    print(f"    ✅ External agents found with {len(subdirs)} subsystems")
+                    print(f"    ✅ External agents found with {len(subdirs} subsystems")
 
             if systems_found == 0:
                 print("    ⚠️ No agent systems found")
@@ -749,7 +749,7 @@ class TestInfrastructureOps:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Infrastructure & Operations Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Infrastructure & Operations Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "category": "Infrastructure & Operations",
@@ -780,13 +780,13 @@ class TestAdvancedFeatures:
                 python_files = list(lukhas_vivox.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Lukhas VIVOX found with {len(python_files)} modules")
+                    print(f"    ✅ Lukhas VIVOX found with {len(python_files} modules")
 
             if candidate_vivox.exists():
                 python_files = list(candidate_vivox.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Candidate VIVOX found with {len(python_files)} modules")
+                    print(f"    ✅ Candidate VIVOX found with {len(python_files} modules")
 
             if systems_found == 0:
                 print("    ⚠️ No VIVOX systems found")
@@ -818,10 +818,10 @@ class TestAdvancedFeatures:
                     found_components.append(component)
 
             if len(found_components) < 2:
-                print(f"    ⚠️ Only found {len(found_components)} RL components")
+                print(f"    ⚠️ Only found {len(found_components} RL components")
                 return False
 
-            print(f"    ✅ RL systems operational with {len(found_components)} components")
+            print(f"    ✅ RL systems operational with {len(found_components} components")
             return True
 
         except Exception as e:
@@ -842,13 +842,13 @@ class TestAdvancedFeatures:
                 python_files = list(emotion_path.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Emotion systems found with {len(python_files)} modules")
+                    print(f"    ✅ Emotion systems found with {len(python_files} modules")
 
             if modulation_path.exists():
                 python_files = list(modulation_path.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Modulation systems found with {len(python_files)} modules")
+                    print(f"    ✅ Modulation systems found with {len(python_files} modules")
 
             if systems_found == 0:
                 print("    ⚠️ No emotion/modulation systems found")
@@ -882,7 +882,7 @@ class TestAdvancedFeatures:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Advanced Features Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Advanced Features Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "category": "Advanced Features",
@@ -991,7 +991,7 @@ def run_comprehensive_all_systems_testing():
     print("  🧪 Previously Tested: 8 basic systems (~15% coverage)")
     print(f"  🧪 Now Tested: +{total_tests} tests across 6 major categories")
     print(f"  🧪 Total Systems Discovered: {total_discovered}")
-    print(f"  🧪 Estimated Real Coverage: ~{(total_tests / max(total_discovered, 1)) * 100:.1f}%")
+    print(f"  🧪 Estimated Real Coverage: ~{(total_tests / max(total_discovered, 1)} * 100:.1f}%")
 
     print("\n⚛️🧠🛡️ Comprehensive All Systems Testing Complete!")
     print(f"📈 MASSIVE Expansion: From 8 to {8 + total_tests} tested components")

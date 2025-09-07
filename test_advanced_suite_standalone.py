@@ -77,7 +77,7 @@ def test_performance_regression():
     for value in baseline_values:
         tracker.record_metric("coherence_computation", value, "ms")
 
-    print(f"Recorded {len(baseline_values)} baseline measurements")
+    print(f"Recorded {len(baseline_values} baseline measurements")
 
     # Test normal performance (no regression)
     has_regression, message = tracker.detect_regression("coherence_computation", 22.0)
@@ -399,7 +399,7 @@ def test_property_based_simulation():
 
     # Generate many diverse consciousness states
     test_states = generate_consciousness_states(200)
-    print(f"Generated {len(test_states)} diverse consciousness states")
+    print(f"Generated {len(test_states} diverse consciousness states")
 
     # Test invariants across ALL generated states
     violations = []
@@ -414,14 +414,14 @@ def test_property_based_simulation():
             violations.append((i, message))
 
     validity_rate = valid_count / len(test_states)
-    print(f"Invariant compliance: {validity_rate:.1%} ({valid_count}/{len(test_states)})")
+    print(f"Invariant compliance: {validity_rate:.1%} ({valid_count}/{len(test_states})")
 
     if violations:
-        print(f"Found {len(violations)} constraint violations:")
+        print(f"Found {len(violations} constraint violations:")
         for i, (state_idx, violation) in enumerate(violations[:5]):  # Show first 5
             print(f"  {i+1}. State {state_idx}: {violation}")
         if len(violations) > 5:
-            print(f"  ... and {len(violations) - 5} more")
+            print(f"  ... and {len(violations} - 5} more")
 
     # Property-based testing should find edge cases that violate constraints
     # In real implementation, we'd use these to improve the system

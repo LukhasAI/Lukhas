@@ -293,7 +293,7 @@ if __name__ == "__main__":
         print(f"Answer: {result['answer']}")
         print(f"Confidence: {result['confidence']:.2f}")
         print(f"Processing time: {result['processing_time']:.4f}s")
-        print(f"Valid: {math_node.validate_output(result)}")
+        print(f"Valid: {math_node.validate_output(result}")
 
         # Show MATRIZ node structure
         matriz_node = result["matriz_node"]
@@ -308,4 +308,4 @@ if __name__ == "__main__":
             reflection = matriz_node["reflections"][0]
             print(f"Reflection: {reflection['reflection_type']} - {reflection['cause']}")
 
-    print(f"\nProcessing History: {len(math_node.get_trace())} nodes created")
+    print(f"\nProcessing History: {len(math_node.get_trace()} nodes created")

@@ -42,7 +42,7 @@ class JournalEngine:
     Integrates with LUKHAS concepts like memory_fold and emotional_vectors
     """
 
-    def __init__(self, base_path: Optional[Path] = None, timezone):
+    def __init__(self, base_path: Optional[Path] = None):
         self.base_path = base_path or Path.home() / ".claude" / "journal"
         self.config_path = Path.home() / ".claude" / "config.yaml"
         self._ensure_directories()
@@ -83,8 +83,8 @@ class JournalEngine:
 
     def _generate_entry_id(self, content: str, timestamp: datetime) -> str:
         """Generate unique ID for entry using LUKHAS-style hashing"""
-        data = f"{content}{timestamp.isoformat()}"
-        return f"JE_{hashlib.sha256(data.encode()).hexdigest()[:12]}"
+        data = f"{content}{timestamp.isoformat(}"
+        return f"JE_{hashlib.sha256(data.encode()).hexdigest(}[:12]}"
 
     def add_entry(
         self,
@@ -324,7 +324,7 @@ class JournalEngine:
             return {}
 
         memory_fold = {
-            "fold_id": f"MF_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            "fold_id": f"MF_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             "created_at": datetime.now(timezone.utc).isoformat(),
             "entry_count": len(entries),
             "time_span": {
@@ -423,7 +423,7 @@ class JournalEngine:
                 content.append(f"{entry.content}\n")
 
                 if entry.tags:
-                    content.append(f"**Tags**: {', '.join(entry.tags)}\n")
+                    content.append(f"**Tags**: {', '.join(entry.tags}\n")
 
                 if entry.emotional_vector:
                     emotions = ", ".join(

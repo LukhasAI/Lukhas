@@ -60,7 +60,7 @@ import numpy as np
 from candidate.core.common.config import get_config
 
 
-class NodeState(Enum, timezone):
+class NodeState(Enum):
     """States for distributed memory nodes"""
 
     FOLLOWER = "follower"
@@ -701,7 +701,7 @@ class DistributedMemoryFold:
             )
         else:
             # Fallback: generate simple memory ID
-            memory_id = hashlib.sha256(f"{content}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:16]
+            memory_id = hashlib.sha256(f"{content}{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()[:16]
 
         # Create distributed memory entry
         memory_data = json.dumps(
@@ -835,7 +835,7 @@ class DistributedMemoryFold:
         """Query memories from other nodes in the network"""
 
         query_tasks = []
-        query_id = hashlib.sha256(f"{query}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:8]
+        query_id = hashlib.sha256(f"{query}{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()[:8]
 
         for node_id, node_info in self.consensus.nodes.items():
             if node_id != self.node_id and node_info.is_alive():
@@ -981,7 +981,7 @@ async def example_distributed_usage():
     # Query from node2
     results = await node2.query_memory(query="distributed AGI consensus", top_k=5, include_distributed=True)
 
-    print(f"📤 Query results: {len(results)} memories found")
+    print(f"📤 Query results: {len(results} memories found")
 
     # Check network status
     status1 = node1.get_network_status()

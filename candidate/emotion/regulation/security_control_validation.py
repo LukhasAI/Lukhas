@@ -28,7 +28,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class ControlCategory(Enum):

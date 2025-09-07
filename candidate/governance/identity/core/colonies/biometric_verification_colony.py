@@ -313,7 +313,7 @@ class BiometricVerificationColony(BaseColony):
         Perform distributed biometric verification with consensus.
         """
         verification_start = time.time()
-        task_id = f"bio_verify_{lambda_id}_{int(verification_start)}"
+        task_id = f"bio_verify_{lambda_id}_{int(verification_start}"
 
         # Create verification task
         task = BiometricVerificationTask(
@@ -520,7 +520,7 @@ class BiometricVerificationColony(BaseColony):
             # Weight based on tier level and biometric type
             weight = self._calculate_vote_weight(biometric_type, confidence, tier_level)
 
-            votes[f"{biometric_type}_{result.get('samples_processed', 1)}"] = {
+            votes[f"{biometric_type}_{result.get('samples_processed', 1}"] = {
                 "vote": vote,
                 "weight": weight,
                 "confidence": confidence,

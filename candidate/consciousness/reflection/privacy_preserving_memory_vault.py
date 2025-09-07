@@ -352,7 +352,7 @@ class AESGCMProvider(EncryptionProvider):
         """Generate a new AES-256 key"""
 
         if not key_id:
-            key_id = f"aes_key_{uuid4()}"
+            key_id = f"aes_key_{uuid4(}"
 
         # Generate 256-bit key
         key = secrets.token_bytes(32)
@@ -368,7 +368,7 @@ class AESGCMProvider(EncryptionProvider):
     async def rotate_key(self, old_key_id: str) -> str:
         """Rotate an existing AES key"""
 
-        new_key_id = f"aes_key_{uuid4()}"
+        new_key_id = f"aes_key_{uuid4(}"
         await self.generate_key(new_key_id)
 
         # Implement secure key rotation with re-encryption
@@ -472,7 +472,7 @@ class FernetProvider(EncryptionProvider):
         """Generate a new Fernet key"""
 
         if not key_id:
-            key_id = f"fernet_key_{uuid4()}"
+            key_id = f"fernet_key_{uuid4(}"
 
         key = Fernet.generate_key()
         self.keys[key_id] = Fernet(key)

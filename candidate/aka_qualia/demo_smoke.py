@@ -90,10 +90,10 @@ class SmokeDemo:
         """
         results = []
 
-        logger.info(f"🌟 Starting Wave C Smoke Demo with {len(dream_seeds)} dream seeds")
+        logger.info(f"🌟 Starting Wave C Smoke Demo with {len(dream_seeds} dream seeds")
 
         for i, seed in enumerate(dream_seeds, 1):
-            logger.info(f"\n--- Dream Seed {i}/{len(dream_seeds)}: {seed.get('name', 'Unnamed')} ---")
+            logger.info(f"\n--- Dream Seed {i}/{len(dream_seeds)}: {seed.get('name', 'Unnamed'} ---")
 
             try:
                 result = self._process_dream_seed(seed)
@@ -109,7 +109,7 @@ class SmokeDemo:
 
         self.demo_runs += 1
         logger.info(
-            f"\n🎯 Smoke Demo Complete: {len([r for r in results if r.get('success')])} successes, {len([r for r in results if not r.get('success')])} failures"
+            f"\n🎯 Smoke Demo Complete: {len([r for r in results if r.get('success')])} successes, {len([r for r in results if not r.get('success')]} failures"
         )
 
         return results
@@ -132,7 +132,7 @@ class SmokeDemo:
         glyphs = map_scene_to_glyphs(scene)
         self.total_glyphs_generated += len(glyphs)
         glyph_keys = [g.key for g in glyphs]
-        logger.info(f"  🏷️  GLYPHs: {len(glyphs)} generated ({', '.join(glyph_keys)})")
+        logger.info(f"  🏷️  GLYPHs: {len(glyphs)} generated ({', '.join(glyph_keys})")
 
         # Step 3: Compute routing priority
         priority = compute_routing_priority(scene)
@@ -151,7 +151,7 @@ class SmokeDemo:
         hints = self.oneiric_hook.apply_policy(scene=scene, policy=policy)
         self.total_hints_generated += len(hints)
         logger.info(
-            f"  💡 Hints: tempo={hints.get('tempo', 'N/A'):.2f}, palette={hints.get('palette_hint', 'N/A')}, ops={len(hints.get('ops', []))} operations"
+            f"  💡 Hints: tempo={hints.get('tempo', 'N/A'):.2f}, palette={hints.get('palette_hint', 'N/A')}, ops={len(hints.get('ops', [])} operations"
         )
 
         # Step 7: Generate demo metrics
@@ -270,7 +270,7 @@ class SmokeDemo:
             qualia_novelty=min(1.0, scene.proto.narrative_gravity),  # Use narrative gravity as novelty proxy
             repair_delta=congruence - 0.5,  # Improvement over baseline
             timestamp=time.time(),
-            episode_id=f"demo_{int(time.time())}",
+            episode_id=f"demo_{int(time.time()}",
         )
 
     def _compute_congruence(self, scene: PhenomenalScene, policy: RegulationPolicy) -> float:
@@ -419,8 +419,8 @@ def main():
 
     # Print summary
     print("\n📈 Demo Summary:")
-    print(f"  Scenarios processed: {len(results)}")
-    print(f"  Successful runs: {len([r for r in results if r.get('success')])}")
+    print(f"  Scenarios processed: {len(results}")
+    print(f"  Successful runs: {len([r for r in results if r.get('success')]}")
     print(f"  Total GLYPHs generated: {demo.total_glyphs_generated}")
     print(f"  Total hints generated: {demo.total_hints_generated}")
 
@@ -430,8 +430,8 @@ def main():
             metrics = result.get("metrics", {})
             print(f"\n  {result['seed']['name']}:")
             print(f"    Priority: {result['priority']:.3f}")
-            print(f"    GLYPHs: {len(result['glyphs'])}")
-            print(f"    Operations: {len(result['hints'].get('ops', []))}")
+            print(f"    GLYPHs: {len(result['glyphs']}")
+            print(f"    Operations: {len(result['hints'].get('ops', [])}")
             congruence = metrics.get("congruence_index", "N/A")
             coherence = 1.0 - metrics.get("neurosis_risk", 0.0)  # Inverse of neurosis risk
             print(

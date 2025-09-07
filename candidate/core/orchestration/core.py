@@ -46,7 +46,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Configure module logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.2.0"
@@ -345,7 +345,7 @@ class OrchestrationCore:
             # await self.module_registry.register_module(name, module) #TODO: See above
             self.active_modules[name] = module
 
-        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
+        logger.info(f"Registered {len(core_modules} core modules (ModuleRegistry part N/A for now)")
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""

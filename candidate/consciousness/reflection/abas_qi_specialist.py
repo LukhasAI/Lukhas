@@ -59,7 +59,7 @@ import numpy as np
 
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime, timezone)s - QIBioAGI - %(levelname)s - %(message)s",
+    format="%(asctime)s - QIBioAGI - %(levelname)s - %(message)s",
 )
 
 logger = logging.getLogger("QIBioAGI")
@@ -939,7 +939,7 @@ async def main():
 
     # Display initial status
     initial_status = qi_bio_agi.get_biological_status()
-    logger.info(f"📊 Initial Status: {json.dumps(initial_status, indent=2)}")
+    logger.info(f"📊 Initial Status: {json.dumps(initial_status, indent=2}")
 
     # Test scenarios for quantum-biological processing
     test_scenarios = [
@@ -977,10 +977,10 @@ async def main():
 
     # Final status
     final_status = qi_bio_agi.get_biological_status()
-    logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2)}")
+    logger.info(f"\n📊 Final Status: {json.dumps(final_status, indent=2}")
 
     # Save results
-    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+    results_file = f"qi_bio_agi_results_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
     with open(results_file, "w") as f:
         json.dump(
             {

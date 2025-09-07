@@ -40,7 +40,7 @@ class CreativeCore:
             "intensity": intensity,
             "timestamp": time.time(),
             "creative_potential": min(1.0, intensity * 1.2),
-            "unique_id": f"{source_type}_{int(time.time())}",
+            "unique_id": f"{source_type}_{int(time.time()}",
         }
 
         self.inspiration_sources[inspiration["unique_id"]] = inspiration
@@ -58,7 +58,7 @@ class CreativeCore:
                 "output": f"Creative synthesis of {idea_a} and {idea_b}",
                 "innovation_level": min(1.0, fusion_strength * 1.3),
                 "timestamp": time.time(),
-                "synthesis_id": f"synthesis_{len(self.synthesis_history)}",
+                "synthesis_id": f"synthesis_{len(self.synthesis_history}",
             }
 
             self.synthesis_history.append(synthesis)
@@ -116,7 +116,7 @@ class CreativeCore:
 
         # Store successful patterns
         if pattern_analysis["novelty_score"] > 0.5:
-            pattern_id = f"novel_pattern_{len(self.creative_patterns)}"
+            pattern_id = f"novel_pattern_{len(self.creative_patterns}"
             self.creative_patterns[pattern_id] = pattern_analysis["novelty_score"]
 
         logger.info(
@@ -130,7 +130,7 @@ class CreativeCore:
             "elements": elements,
             "style": style,
             "creativity_score": 0.0,
-            "composition_id": f"composition_{len(self.active_projects)}",
+            "composition_id": f"composition_{len(self.active_projects}",
             "artistic_techniques": [],
             "emotional_resonance": 0.0,
         }

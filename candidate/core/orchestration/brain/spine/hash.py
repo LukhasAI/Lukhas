@@ -58,9 +58,9 @@ def main():
     if args.version:
         print(f"🧠 LUKHAS_AGI Version: {VERSION_ID}")
     elif args.manifest:
-        print(f"📦 Manifest Hash: {get_manifest_hash()}")
+        print(f"📦 Manifest Hash: {get_manifest_hash(}")
     elif args.license:
-        print(f"📜 License Hash: {get_license_hash()}")
+        print(f"📜 License Hash: {get_license_hash(}")
     elif args.all:
         print("🔑 LUKHAS_AGI SYMBOLIC HASH SUMMARY")
         print(json.dumps(get_symbolic_fingerprint(), indent=4))

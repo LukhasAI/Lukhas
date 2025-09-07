@@ -86,7 +86,7 @@ def count_by_pkg(json_path):
 def main():
     load_allowed()
     changed = touched_files_against_main()
-    pkgs_touched = sorted({to_pkg(f) for f in changed if to_pkg(f) in {"lukhas", "candidate", "universal_language"}})
+    pkgs_touched = sorted({to_pkg(f) for f in changed if to_pkg(f) in {"lukhas", "candidate", "universal_language"})
     if not pkgs_touched:
         print("No tracked packages touched; ratchet passes.")
         return 0

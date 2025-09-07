@@ -162,7 +162,7 @@ class ConsciousnessWrapper:
         """Initialize consciousness wrapper with safety-first configuration"""
         self.config = config or ConsciousnessConfig()
         self.state = ConsciousnessState(safety_mode=self.config.safety_mode)
-        self.session_id = f"consciousness_{int(time.time())}"
+        self.session_id = f"consciousness_{int(time.time()}"
         self.candidate_system = None  # Will load if activated
 
         # Initialize only if enabled

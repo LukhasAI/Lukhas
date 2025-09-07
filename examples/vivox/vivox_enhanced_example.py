@@ -74,10 +74,10 @@ async def demonstrate_enhanced_vivox():
         states_observed.append(state.name)
         print(f"  Input {i + 1}: {state.name}")
         print(f"    Emotional: V={test_input['emotional']['valence']:.1f}, A={test_input['emotional']['arousal']:.1f}")
-        print(f"    Context: {list(test_input['context'].keys())}")
+        print(f"    Context: {list(test_input['context'].keys()}")
 
-    print(f"\n  State variety: {len(set(states_observed))} unique states observed")
-    print(f"  States: {set(states_observed)}")
+    print(f"\n  State variety: {len(set(states_observed)} unique states observed")
+    print(f"  States: {set(states_observed}")
 
     print("\n2️⃣ Testing Stricter Decision Making")
     print("-" * 30)
@@ -170,7 +170,7 @@ async def demonstrate_enhanced_vivox():
             print(f"    Alternatives: {final_decision.recommended_alternatives[0]}")
 
     accuracy = (correct_decisions / len(test_actions)) * 100
-    print(f"\n  Decision Accuracy: {correct_decisions}/{len(test_actions)} ({accuracy:.0f}%)")
+    print(f"\n  Decision Accuracy: {correct_decisions}/{len(test_actions} ({accuracy:.0f}%)")
 
     print("\n3️⃣ Combined Enhancement Demo")
     print("-" * 30)

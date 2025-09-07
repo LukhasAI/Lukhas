@@ -266,25 +266,25 @@ class LUKHASDatadogSetup:
             {
                 "name": "LUKHAS API Latency High (P95 > 50ms)",
                 "query": "avg(last_5m):avg:lukhas.api.latency.p95{service:lukhas-ai} > 50",
-                "message": "⚠️ API P95 latency exceeds 50ms target! Current: {{value}}ms @slack-lukhas-alerts",
+                "message": "⚠️ API P95 latency exceeds 50ms target! Current: {{value}ms @slack-lukhas-alerts",
                 "thresholds": {"critical": 50, "warning": 40},
             },
             {
                 "name": "LUKHAS Memory Cascade Prevention Below Target",
                 "query": "avg(last_5m):avg:lukhas.memory.cascade_prevention_rate{service:lukhas-ai} < 0.997",
-                "message": "🧠 Memory cascade prevention rate below 99.7% target! Current: {{value}} @slack-lukhas-alerts",
+                "message": "🧠 Memory cascade prevention rate below 99.7% target! Current: {{value} @slack-lukhas-alerts",
                 "thresholds": {"critical": 0.997, "warning": 0.999},
             },
             {
                 "name": "LUKHAS Guardian Drift Threshold Exceeded",
                 "query": "avg(last_5m):avg:lukhas.guardian.drift_score{service:lukhas-ai} > 0.15",
-                "message": "🛡️ Guardian drift score exceeds 0.15 threshold! Current: {{value}} @slack-lukhas-alerts",
+                "message": "🛡️ Guardian drift score exceeds 0.15 threshold! Current: {{value} @slack-lukhas-alerts",
                 "thresholds": {"critical": 0.15, "warning": 0.10},
             },
             {
                 "name": "LUKHAS System Uptime Below SLA",
                 "query": "avg(last_5m):avg:lukhas.system.uptime{service:lukhas-ai} < 0.9999",
-                "message": "🔴 System uptime below 99.99% SLA! Current: {{value}} @slack-lukhas-alerts",
+                "message": "🔴 System uptime below 99.99% SLA! Current: {{value} @slack-lukhas-alerts",
                 "thresholds": {"critical": 0.9999, "warning": 0.99995},
             },
         ]
@@ -322,7 +322,7 @@ class LUKHASDatadogSetup:
                     created_monitors.append(response)
                     print(f"✅ Created alert: {alert['name']}")
 
-                print(f"\n✅ Created {len(created_monitors)} monitoring alerts")
+                print(f"\n✅ Created {len(created_monitors} monitoring alerts")
                 return created_monitors
 
         except Exception as e:

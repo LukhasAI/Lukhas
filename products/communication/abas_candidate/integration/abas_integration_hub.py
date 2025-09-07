@@ -224,7 +224,7 @@ class ABASIntegrationHub:
     async def arbitrate_conflict(self, conflict_data: dict[str, Any]) -> dict[str, Any]:
         """Arbitrate conflict with ethics integration and fairness assessment"""
         # Log arbitration request
-        arbitration_id = f"arb_{len(self.arbitration_history)}"
+        arbitration_id = f"arb_{len(self.arbitration_history}"
         self.arbitration_history.append(
             {
                 "id": arbitration_id,

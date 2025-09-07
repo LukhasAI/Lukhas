@@ -10,7 +10,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Set up logging
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Common enums
 
@@ -90,7 +90,7 @@ class BaseMessage:
         self.target = target
         self.payload = payload or {}
         self.timestamp = get_timestamp()
-        self.message_id = f"{source}_{datetime.now(timezone.utc).timestamp()}"
+        self.message_id = f"{source}_{datetime.now(timezone.utc).timestamp(}"
 
 
 # Common exceptions

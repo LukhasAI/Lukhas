@@ -403,7 +403,7 @@ class DASTAdapter:
     def _convert_single_generic_item(self, item: dict) -> dict:
         """Convert single generic item to DAST format"""
         return {
-            "id": f"generic_{item.get('id', 'unknown')}",
+            "id": f"generic_{item.get('id', 'unknown'}",
             "title": item.get("title", item.get("name", "Untitled")),
             "description": item.get("description", ""),
             "priority": item.get("priority", "medium"),

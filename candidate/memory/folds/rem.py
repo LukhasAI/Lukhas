@@ -31,9 +31,9 @@ from modules.memoria import log_trace
 
 def run_rem_cycle():
     rem_phases = [
-        {"valence": -0.2, "arousal": 0.3, "traits": {"reflective": 0.8}},
-        {"valence": 0.1, "arousal": 0.6, "traits": {"hope": 0.9}},
-        {"valence": 0.0, "arousal": 0.9, "traits": {"chaos": 0.7}},
+        {"valence": -0.2, "arousal": 0.3, "traits": {"reflective": 0.8},
+        {"valence": 0.1, "arousal": 0.6, "traits": {"hope": 0.9},
+        {"valence": 0.0, "arousal": 0.9, "traits": {"chaos": 0.7},
     ]
 
     for i, state in enumerate(rem_phases):
@@ -48,7 +48,7 @@ def run_rem_cycle():
         folded = fold_trace(trace)
         dream = seed_dream(folded)
         dream_logger.log_dream(
-            dream_id=f"rem_phase_{i + 1}_{folded.get('token_id', 'unknown')}",
+            dream_id=f"rem_phase_{i + 1}_{folded.get('token_id', 'unknown'}",
             content=dream,
             metadata={
                 "source_token": folded.get("token_id"),

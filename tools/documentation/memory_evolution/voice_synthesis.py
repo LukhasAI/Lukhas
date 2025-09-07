@@ -16,7 +16,7 @@ class VoiceParameter:
     """Mock VoiceParameter class."""
 
 
-def speak_text(text: str, params: VoiceParameter, timezone):
+def speak_text(text: str, params: VoiceParameter):
     """Mock speak_text function."""
     print(f"Speaking: {text}")
 

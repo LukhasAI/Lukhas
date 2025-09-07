@@ -24,7 +24,7 @@ INTENT_DICTIONARY = {
 }
 
 
-def interpret_intent(text, timezone):
+def interpret_intent(text):
     text_lower = text.lower()
     for intent, keywords in INTENT_DICTIONARY.items():
         if any(kw in text_lower for kw in keywords):

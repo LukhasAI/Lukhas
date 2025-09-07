@@ -357,8 +357,8 @@ class RedundancyAnalyzer:
                 {
                     "priority": "HIGH",
                     "type": "remove_exact_duplicates",
-                    "description": f"Remove {len(exact_dups)} exact duplicate functions",
-                    "impact": f"Reduce codebase by ~{len(exact_dups) * 20} lines",
+                    "description": f"Remove {len(exact_dups} exact duplicate functions",
+                    "impact": f"Reduce codebase by ~{len(exact_dups} * 20} lines",
                     "examples": [f"{d.function1} in {d.file1} and {d.function2} in {d.file2}" for d in exact_dups[:3]],
                 }
             )
@@ -371,7 +371,7 @@ class RedundancyAnalyzer:
                     "priority": "MEDIUM",
                     "type": "centralize_imports",
                     "description": "Create common import modules for frequently used imports",
-                    "impact": f"Reduce import redundancy in {sum(p['count'] for p in common_imports)} files",
+                    "impact": f"Reduce import redundancy in {sum(p['count'] for p in common_imports} files",
                     "examples": [p["import"] for p in common_imports[:3]],
                 }
             )
@@ -383,10 +383,10 @@ class RedundancyAnalyzer:
                 {
                     "priority": "HIGH",
                     "type": "consolidate_classes",
-                    "description": f"Consolidate {len(dup_classes)} duplicate class definitions",
+                    "description": f"Consolidate {len(dup_classes} duplicate class definitions",
                     "impact": "Improve maintainability and reduce confusion",
                     "examples": [
-                        f"{p['class_name']} appears in {len(p['occurrences'])} files" for p in dup_classes[:3]
+                        f"{p['class_name']} appears in {len(p['occurrences']} files" for p in dup_classes[:3]
                     ],
                 }
             )

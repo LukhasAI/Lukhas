@@ -469,7 +469,7 @@ class CoreABot:
         except Exception as e:
             logger.error(f"❌ Error processing message: {e}")
             return CoreΛBotResponse(
-                content=f"I encountered an issue processing your request. {self._get_error_upgrade_hint()}",
+                content=f"I encountered an issue processing your request. {self._get_error_upgrade_hint(}",
                 confidence=0.1,
                 consciousness_state=self.consciousness.current_state,
                 processing_time=(datetime.now(timezone.utc) - start_time).total_seconds(),
@@ -663,7 +663,7 @@ async def demonstrate_core_lambda_bot():
     tiers = [SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.ENTERPRISE]
 
     for tier in tiers:
-        print(f"\n🎯 Testing {tier.value.upper()} tier:")
+        print(f"\n🎯 Testing {tier.value.upper(} tier:")
         print("-" * 30)
 
         bot = CoreLambdaBot(tier)

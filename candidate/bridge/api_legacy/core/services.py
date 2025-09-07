@@ -11,7 +11,7 @@ from hub.service_registry import get_service
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class APIServiceBase:

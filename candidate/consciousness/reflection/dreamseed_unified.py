@@ -307,7 +307,7 @@ class UnifiedDreamSeedEmotionEngine:
         # Create unified access context
         session_id = context.get(
             "session_id", f"session_{hashlib.sha256(  "
-        )
+        }
 
         # Get user consent status
         consent_grants = {}
@@ -386,7 +386,7 @@ class UnifiedDreamSeedEmotionEngine:
             self.assign_unified_emotional_tier(user_id, context)
             access_context = self.session_contexts.get(
                 f"session_{hashlib.sha256(  "
-            )
+            }
 
         if not access_context:
             raise ValueError(
@@ -657,7 +657,7 @@ class UnifiedDreamSeedEmotionEngine:
 
         # Add user context tags
         if access_context.codreamer_ids:
-            tags.append(f"ΛCODREAM:{len(access_context.codreamer_ids)}")
+            tags.append(f"ΛCODREAM:{len(access_context.codreamer_ids}")
 
         return tags
 

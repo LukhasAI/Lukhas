@@ -425,8 +425,8 @@ class CompetitiveLandscapeController(CoreInterface):
                 opportunities.append(
                     {
                         "type": "preemptive",
-                        "name": f"early_entry_{entry.get('market')}",
-                        "description": f"Enter {entry.get('market')} before competitor",
+                        "name": f"early_entry_{entry.get('market'}",
+                        "description": f"Enter {entry.get('market'} before competitor",
                         "window_months": 12,
                         "impact_potential": 0.7,
                     }
@@ -496,8 +496,8 @@ class CompetitiveLandscapeController(CoreInterface):
                 opportunities.append(
                     {
                         "type": "complementary",
-                        "name": f"tech_integration_{partnership.get('focus')}",
-                        "description": f"Integrate with {partnership.get('focus')} technology",
+                        "name": f"tech_integration_{partnership.get('focus'}",
+                        "description": f"Integrate with {partnership.get('focus'} technology",
                         "window_months": 6,
                         "impact_potential": 0.6,
                     }
@@ -545,8 +545,8 @@ class CompetitiveLandscapeController(CoreInterface):
                 opportunities.append(
                     {
                         "type": "defensive",
-                        "name": f"protect_{entry.get('market')}",
-                        "description": f"Protect position in {entry.get('market')}",
+                        "name": f"protect_{entry.get('market'}",
+                        "description": f"Protect position in {entry.get('market'}",
                         "window_months": 6,
                         "impact_potential": 0.6,
                     }

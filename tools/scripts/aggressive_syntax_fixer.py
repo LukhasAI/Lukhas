@@ -217,7 +217,7 @@ def main():
     # Find all syntax errors
     print("🔍 Scanning for syntax errors...")
     errors = fixer.find_all_syntax_errors()
-    print(f"Found {len(errors)} files with syntax errors")
+    print(f"Found {len(errors} files with syntax errors")
 
     if not errors:
         print("✅ No syntax errors found!")
@@ -241,7 +241,7 @@ def main():
         filepath = error_info["file"]
         error = error_info["error"]
 
-        print(f"Processing {i + 1}/{len(errors)}: {filepath}...", end="")
+        print(f"Processing {i + 1}/{len(errors}: {filepath}...", end="")
 
         if fixer.aggressive_fix(filepath, error):
             print(" [FIXED]")
@@ -263,7 +263,7 @@ def main():
     # Re-scan
     print("\n🔍 Re-scanning for remaining errors...")
     remaining = AggressiveSyntaxFixer().find_all_syntax_errors()
-    print(f"📊 Remaining syntax errors: {len(remaining)}")
+    print(f"📊 Remaining syntax errors: {len(remaining}")
 
 
 if __name__ == "__main__":

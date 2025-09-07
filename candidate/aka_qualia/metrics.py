@@ -116,7 +116,7 @@ class AkaQualiaMetrics:
             arousal_component=self.config.weight_arousal * pq.arousal,
             clarity_component=self.config.weight_clarity * (1.0 - pq.clarity),
             timestamp=scene.timestamp or 0.0,
-            scene_id=f"scene_{int(scene.timestamp or 0)}",
+            scene_id=f"scene_{int(scene.timestamp or 0}",
         )
 
     def compute_repair_delta(
@@ -255,8 +255,8 @@ class AkaQualiaMetrics:
             pq.colorfield,
             pq.temporal_feel.value,
             pq.agency_feel.value,
-            f"tone_{int(pq.tone * 10)}",  # Discretize for pattern matching
-            f"arousal_{int(pq.arousal * 10)}",
+            f"tone_{int(pq.tone * 10}",  # Discretize for pattern matching
+            f"arousal_{int(pq.arousal * 10}",
         ]
 
         # Add GLYPH keys if available
@@ -404,7 +404,7 @@ class AkaQualiaMetrics:
             qualia_novelty=qualia_novelty,
             repair_delta=repair_delta,
             timestamp=scene.timestamp or 0.0,
-            episode_id=f"episode_{int(scene.timestamp or 0)}",
+            episode_id=f"episode_{int(scene.timestamp or 0}",
         )
 
     def get_alert_status(self) -> dict[str, Any]:

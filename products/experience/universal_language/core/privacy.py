@@ -123,13 +123,13 @@ class SymbolEncryption:
 
         Based on spec: K_device = KDF(ΛiD_seed ∥ device_secret ∥ salt)
         """
-        cache_key = f"{user_id}:{salt.hex()}"
+        cache_key = f"{user_id}:{salt.hex(}"
         if cache_key in self.key_cache:
             return self.key_cache[cache_key]
 
         # Simplified PBKDF2 implementation
         # In production, use proper crypto library
-        combined = f"{user_id}:{self.device_secret.hex()}:{salt.hex()}".encode()
+        combined = f"{user_id}:{self.device_secret.hex()}:{salt.hex(}".encode()
         key = hashlib.pbkdf2_hmac("sha256", combined, salt, 100000)
 
         self.key_cache[cache_key] = key
@@ -166,7 +166,7 @@ class SymbolEncryption:
     def hash_for_anonymous(self, data: str, salt: Optional[bytes] = None) -> str:
         """Create anonymous hash of data"""
         salt = salt or secrets.token_bytes(16)
-        return hashlib.sha256(f"{data}:{salt.hex()}".encode()).hexdigest()[:16]
+        return hashlib.sha256(f"{data}:{salt.hex(}".encode()).hexdigest()[:16]
 
 
 class ConceptAnonymizer:
@@ -514,11 +514,11 @@ class PrivateSymbolVault:
     # Helper methods
     def _generate_symbol_id(self) -> str:
         """Generate unique symbol ID"""
-        return f"SYMBOL_{secrets.token_hex(8)}"
+        return f"SYMBOL_{secrets.token_hex(8}"
 
     def _generate_binding_id(self) -> str:
         """Generate unique binding ID"""
-        return f"BIND_{secrets.token_hex(8)}"
+        return f"BIND_{secrets.token_hex(8}"
 
     def _find_symbol_by_token(self, token: Any) -> Optional[PrivateSymbol]:
         """Find symbol matching a token"""

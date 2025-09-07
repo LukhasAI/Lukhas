@@ -11,7 +11,7 @@ from enum import Enum
 from typing import Any
 
 
-class BiometricType(Enum, timezone):
+class BiometricType(Enum):
     """Types of biometric data"""
 
     HEART_RATE = "heart_rate"

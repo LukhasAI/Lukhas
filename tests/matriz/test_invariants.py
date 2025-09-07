@@ -10,11 +10,11 @@ def test_valid_minimal_graph_compiles():
             "nodes": {
                 "txt_1": {
                     "type": "TXT",
-                    "state": {"confidence": {"min": 0, "max": 1, "value": 0.7}},
+                    "state": {"confidence": {"min": 0, "max": 1, "value": 0.7},
                 },
                 "dec_1": {
                     "type": "DECIDE",
-                    "state": {"confidence": {"min": 0, "max": 1, "value": 0.6}},
+                    "state": {"confidence": {"min": 0, "max": 1, "value": 0.6},
                 },
             },
             "edges": [{"from": "txt_1", "to": "dec_1", "kind": "text", "p95_budget_ms": 10}],

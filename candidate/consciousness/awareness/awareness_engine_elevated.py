@@ -41,7 +41,7 @@ from pydantic import BaseModel, Field
 # ——— Configuration & Utilities —————————————————————————————— #
 
 
-class ComplianceStatus(Enum, timezone):
+class ComplianceStatus(Enum):
     """Compliance status for institutional alignment."""
 
     PASS = "PASS"
@@ -835,7 +835,7 @@ class CognitiveAwarenessModule(AwarenessModule):
 
         time_to_peak = productivity.get("time_to_peak", "")
         if time_to_peak and time_to_peak != "current_peak":
-            recommendations.append(f"Estimated time to peak performance: {time_to_peak.replace('_', ' ')}")
+            recommendations.append(f"Estimated time to peak performance: {time_to_peak.replace('_', ' '}")
 
         return recommendations
 
@@ -1325,12 +1325,12 @@ class EmotionalAwarenessModule(AwarenessModule):
         widget_customization = result.get("widget_customization", {})
         adaptive_features = widget_customization.get("adaptive_features", [])
         if adaptive_features:
-            recommendations.append(f"Recommended adaptive features: {', '.join(adaptive_features[:3])}")
+            recommendations.append(f"Recommended adaptive features: {', '.join(adaptive_features[:3]}")
 
         # Add accessibility recommendations
         accessibility = widget_customization.get("accessibility_adjustments", [])
         if accessibility:
-            recommendations.append(f"Accessibility adjustments available: {', '.join(accessibility[:2])}")
+            recommendations.append(f"Accessibility adjustments available: {', '.join(accessibility[:2]}")
 
         # Add trigger management if needed
         trigger_analysis = result.get("trigger_analysis", {})

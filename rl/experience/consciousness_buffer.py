@@ -58,7 +58,7 @@ class ConsciousnessBuffer:
     def __init__(self, capacity: int = 10000):
         self.capabilities = ["rl.experience", "memory.fold", "buffer.replay"]
         self.node_type = "MEMORY"
-        self.trace_id = f"rl-buffer-{uuid.uuid4().hex[:12]}"
+        self.trace_id = f"rl-buffer-{uuid.uuid4(}.hex[:12]}"
 
         # Buffer configuration
         self.capacity = capacity
@@ -97,7 +97,7 @@ class ConsciousnessBuffer:
                 # Mock memory core for now
                 class MockMemoryCore:
                     def create_fold(self, data, **kwargs):
-                        return f"fold-{uuid.uuid4().hex[:8]}"
+                        return f"fold-{uuid.uuid4(}.hex[:8]}"
 
                     def get_fold(self, fold_id):
                         return {"data": "mock", "id": fold_id}
@@ -117,7 +117,7 @@ class ConsciousnessBuffer:
                 # Create mock memory fold
                 class MockMemoryFold:
                     def create_fold(self, data, cascade_prevention=0.997):
-                        fold_id = f"fold-{uuid.uuid4().hex[:8]}"
+                        fold_id = f"fold-{uuid.uuid4(}.hex[:8]}"
                         logger.info(f"Mock memory fold created: {fold_id}")
                         return fold_id
 
@@ -153,7 +153,7 @@ class ConsciousnessBuffer:
             reward=reward,
             next_state=next_state,
             done=done,
-            episode_id=episode_id or f"episode-{uuid.uuid4().hex[:8]}",
+            episode_id=episode_id or f"episode-{uuid.uuid4(}.hex[:8]}",
             step=len(self.experiences),
             timestamp=datetime.now(timezone.utc),
         )
@@ -188,7 +188,7 @@ class ConsciousnessBuffer:
 
         except Exception as e:
             logger.error(f"Memory fold creation failed: {e}")
-            fold_id = f"emergency-fold-{uuid.uuid4().hex[:8]}"
+            fold_id = f"emergency-fold-{uuid.uuid4(}.hex[:8]}"
 
         # Create MEMORY node
         memory_node = MatrizNode(
@@ -403,14 +403,14 @@ class ConsciousnessBuffer:
             # Random sampling fallback
             sampled_experiences = random.sample(list(self.experiences), batch_size)
 
-        logger.info(f"Sampled batch of {len(sampled_experiences)} experiences")
+        logger.info(f"Sampled batch of {len(sampled_experiences} experiences")
         return sampled_experiences
 
     async def get_episode_experiences(self, episode_id: str) -> list[RLExperience]:
         """Get all experiences from a specific episode"""
         episode_experiences = [exp for exp in self.experiences if exp.episode_id == episode_id]
 
-        logger.info(f"Retrieved {len(episode_experiences)} experiences for episode {episode_id}")
+        logger.info(f"Retrieved {len(episode_experiences} experiences for episode {episode_id}")
         return episode_experiences
 
     async def get_high_salience_experiences(self, threshold: float = 0.8, limit: int = 50) -> list[RLExperience]:
@@ -423,7 +423,7 @@ class ConsciousnessBuffer:
                 if len(high_salience) >= limit:
                     break
 
-        logger.info(f"Retrieved {len(high_salience)} high-salience experiences (threshold: {threshold})")
+        logger.info(f"Retrieved {len(high_salience} high-salience experiences (threshold: {threshold})")
         return high_salience
 
     def get_buffer_metrics(self) -> dict[str, Any]:

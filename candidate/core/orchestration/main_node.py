@@ -151,7 +151,7 @@ class AdaptiveAGISystem:
 
     async def create_session(self, user_id, context=None):
         """Create a new user session with the system"""
-        session_id = f"session_{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        session_id = f"session_{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S'}"
 
         # Check privacy and security
         privacy_check = self.privacy_manager.check_permissions(user_id, "create_session")
@@ -325,7 +325,7 @@ class AdaptiveAGISystem:
                     "memory_usage": self._get_memory_usage(),
                 }
 
-                logger.debug(f"System health updated: {len(self.system_state['active_sessions'])} active sessions")
+                logger.debug(f"System health updated: {len(self.system_state['active_sessions']} active sessions")
 
                 # Wait before next check
                 await asyncio.sleep(60)  # Check every minute
@@ -379,9 +379,9 @@ class AdaptiveAGISystem:
         minutes, seconds = divmod(remainder, 60)
 
         if hours > 0:
-            return f"{int(hours)}h {int(minutes)}m"
+            return f"{int(hours)}h {int(minutes}m"
         else:
-            return f"{int(minutes)}m {int(seconds)}s"
+            return f"{int(minutes)}m {int(seconds}s"
 
     def _get_memory_usage(self):
         """Get current memory usage of the process"""

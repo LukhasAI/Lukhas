@@ -18,7 +18,7 @@ from typing import Any, Optional
 
 from core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class ConsentLevel(Enum):
@@ -389,12 +389,12 @@ class SEEDRACore:
 
     def _generate_consent_version(self, user_id: str, timestamp: datetime) -> str:
         """Generate unique consent version hash"""
-        data = f"{user_id}:{timestamp.isoformat()}:{id(self)}"
+        data = f"{user_id}:{timestamp.isoformat()}:{id(self}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
     def _generate_session_id(self, user_id: str, session_type: str) -> str:
         """Generate unique session ID"""
-        data = f"{user_id}:{session_type}:{datetime.now(timezone.utc).isoformat()}:{id(self)}"
+        data = f"{user_id}:{session_type}:{datetime.now(timezone.utc).isoformat()}:{id(self}"
         return hashlib.sha256(data.encode()).hexdigest()[:32]
 
     def _calculate_data_age(self, data_content: dict[str, Any]) -> int:

@@ -508,6 +508,6 @@ class DeveloperTools(BaseCommand):
             status = "✅ PASSED" if result.failed == 0 else "❌ FAILED"
             print_info(f"{status} {result.test_file}")
             print(f"  Passed: {result.passed}, Failed: {result.failed}, Skipped: {result.skipped}")
-            print(f"  Duration: {format_duration(result.duration)}")
+            print(f"  Duration: {format_duration(result.duration}")
             if result.coverage:
                 print(f"  Coverage: {result.coverage:.1f}%")

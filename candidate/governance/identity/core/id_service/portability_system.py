@@ -45,7 +45,7 @@ except ImportError:
     from . import mnemonic
 
 
-class RecoveryMethod(Enum, timezone):
+class RecoveryMethod(Enum):
     """Available recovery methods"""
 
     QR_GEO = "qr_geo"  # QR code with geo-encoding
@@ -337,7 +337,7 @@ class LambdaIDPortabilitySystem:
 
         for i in range(count):
             # Generate unique code using ΛiD and index
-            code_seed = f"{base_seed}-{i}-{secrets.token_hex(8)}"
+            code_seed = f"{base_seed}-{i}-{secrets.token_hex(8}"
             code_hash = hashlib.sha256(code_seed.encode()).hexdigest()[:12]
 
             # Format as human-readable code
@@ -539,7 +539,7 @@ class LambdaIDPortabilitySystem:
 
         return {
             "backup_file": base64.b64encode(encrypted_backup).decode(),
-            "filename": f"lambda_id_backup_{lambda_id.replace('LUKHAS', 'L')}_{datetime.now(timezone.utc).strftime('%Y%m%d')}.lbak",
+            "filename": f"lambda_id_backup_{lambda_id.replace('LUKHAS', 'L')}_{datetime.now(timezone.utc).strftime('%Y%m%d'}.lbak",
             "size_bytes": len(encrypted_backup),
             "created_at": datetime.now(timezone.utc).isoformat(),
         }
@@ -726,7 +726,7 @@ class LambdaIDPortabilitySystem:
 
     def _generate_attempt_id(self) -> str:
         """Generate unique attempt ID"""
-        return f"rec_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(4)}"
+        return f"rec_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(4}"
 
     def _get_qr_recovery_instructions(self) -> list[str]:
         """Get QR recovery instructions"""
@@ -871,7 +871,7 @@ if __name__ == "__main__":
 
     print(f"Created portability package for: {test_lambda_id}")
     print(f"Methods enabled: {[m.value for m in package.methods_enabled]}")
-    print(f"Emergency codes: {len(package.emergency_codes)}")
+    print(f"Emergency codes: {len(package.emergency_codes}")
     print(f"Recovery phrase: {package.recovery_phrase[:50]}...")
 
     # Test QR-G recovery

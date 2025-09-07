@@ -166,7 +166,7 @@ class SymbolicMeshRouterClient:
 
         # Limit glyphs per route for performance
         if len(glyphs) > self.config["max_glyphs_per_route"]:
-            logger.warning(f"Limiting {len(glyphs)} glyphs to {self.config['max_glyphs_per_route']} per route")
+            logger.warning(f"Limiting {len(glyphs} glyphs to {self.config['max_glyphs_per_route']} per route")
             glyphs = glyphs[: self.config["max_glyphs_per_route"]]
 
         try:

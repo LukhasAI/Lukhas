@@ -66,7 +66,7 @@ try:
             filtered_df = filtered_df[filtered_df["tier"].isin(selected_tiers)]
         if selected_emojis:
             filtered_df = filtered_df[filtered_df["emoji"].isin(selected_emojis)]
-        st.write(f"🔎 {len(filtered_df)} dreams match your filters.")
+        st.write(f"🔎 {len(filtered_df} dreams match your filters.")
         st.dataframe(filtered_df[["message_id", "tier", "emoji", "tags", "timestamp"]])
 
 except FileNotFoundError:

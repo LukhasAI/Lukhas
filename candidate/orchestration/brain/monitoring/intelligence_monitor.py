@@ -440,7 +440,7 @@ class LukhasIntelligenceMonitor:
 
         # Create alert if threshold exceeded
         if alert_level:
-            alert_id = f"{metric_name}_{alert_level.value}_{int(time.time())}"
+            alert_id = f"{metric_name}_{alert_level.value}_{int(time.time()}"
 
             alert = AlertEvent(
                 alert_id=alert_id,
@@ -887,11 +887,11 @@ if __name__ == "__main__":
         health_summary = monitor.get_system_health_summary()
 
         print("📊 Monitoring Results:")
-        print(f"Real-time metrics: {len(real_time)} metrics")
-        print(f"Agent metrics: {len(agent_metrics)} metrics")
+        print(f"Real-time metrics: {len(real_time} metrics")
+        print(f"Agent metrics: {len(agent_metrics} metrics")
         print(f"Trinity compliance: {trinity_summary}")
         print(f"System health: {health_summary}")
-        print(f"Active alerts: {len(monitor.get_active_alerts())}")
+        print(f"Active alerts: {len(monitor.get_active_alerts()}")
 
         # Stop monitoring
         await monitor.stop_monitoring()

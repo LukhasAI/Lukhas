@@ -14,7 +14,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class EscalatorTier(Enum):
@@ -470,7 +470,7 @@ class AutoEscalatorPolicy:
             "to_tier": next_tier.value,
             "new_split": f"{new_config.user_bps / 100:.0f}/{new_config.platform_bps / 100:.0f}",
             "new_benefits": new_config.tier_benefits,
-            "escalation_record_id": f"escalation_{int(time.time())}",
+            "escalation_record_id": f"escalation_{int(time.time()}",
             "effective_date": datetime.now(timezone.utc).isoformat(),
         }
 

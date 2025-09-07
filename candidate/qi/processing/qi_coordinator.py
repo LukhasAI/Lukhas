@@ -106,7 +106,7 @@ class QIHub:
             except Exception as e:
                 logger.error(f"Failed to initialize neuro symbolic integration: {e}")
 
-        logger.info(f"QIHub initialized with {len(self.services)} services")
+        logger.info(f"QIHub initialized with {len(self.services} services")
 
     async def initialize(self) -> None:
         """Initialize all quantum services"""
@@ -256,7 +256,7 @@ class QIHub:
                 if service_name in self.services:
                     discovery.register_service_globally(service_name, self.services[service_name], "quantum")
 
-            logger.debug(f"Registered {len(key_services)} quantum services with global discovery")
+            logger.debug(f"Registered {len(key_services} quantum services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 

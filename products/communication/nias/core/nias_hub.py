@@ -11,7 +11,7 @@ from typing import Any, Optional
 
 from ..event_system.event_bus import NIASEventType, get_global_nias_event_bus
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class NIASHub:
@@ -66,7 +66,7 @@ class NIASHub:
         await self._register_with_lambda_products()
 
         self.is_initialized = True
-        logger.info(f"NIΛS hub initialized with {len(self.services)} services")
+        logger.info(f"NIΛS hub initialized with {len(self.services} services")
 
     async def _register_core_services(self):
         """Register core NIΛS services"""

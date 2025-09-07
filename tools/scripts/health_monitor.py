@@ -16,7 +16,7 @@ from pathlib import Path
 class SystemHealthMonitor:
     """The system's self-awareness - monitors health and reports issues"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.health_status = {
             "overall": "CRITICAL",
             "modules": {},
@@ -80,7 +80,7 @@ class SystemHealthMonitor:
         self.health_status["conflict_files"] = conflicts
 
         if conflicts:
-            print(f"❌ Found {len(conflicts)} files with merge conflicts!")
+            print(f"❌ Found {len(conflicts} files with merge conflicts!")
         else:
             print("✅ No merge conflicts found")
 
@@ -110,7 +110,7 @@ class SystemHealthMonitor:
         self.health_status["syntax_errors"] = errors
 
         if errors:
-            print(f"❌ Found {len(errors)} files with syntax errors!")
+            print(f"❌ Found {len(errors} files with syntax errors!")
         else:
             print("✅ No syntax errors found")
 
@@ -227,10 +227,10 @@ Generated: {self.health_status['timestamp']}
             report += f"\n## {module} — {module_desc}\n"
 
             if status.get("exists"):
-                report += f"- Python Files: {status.get('py_files', 0)}\n"
-                report += f"- Has __init__.py: {'✅' if status.get('has_init') else '❌'}\n"
-                report += f"- Has Tests: {'✅' if status.get('has_tests') else '❌'}\n"
-                report += f"- Has Docs: {'✅' if status.get('has_docs') else '❌'}\n"
+                report += f"- Python Files: {status.get('py_files', 0}\n"
+                report += f"- Has __init__.py: {'✅' if status.get('has_init'} else '❌'}\n"
+                report += f"- Has Tests: {'✅' if status.get('has_tests'} else '❌'}\n"
+                report += f"- Has Docs: {'✅' if status.get('has_docs'} else '❌'}\n"
             else:
                 report += "- MODULE MISSING!\n"
 

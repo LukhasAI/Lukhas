@@ -60,7 +60,7 @@ from uuid import uuid4
 # Initialize structured logger
 
 
-class MemoryTier(Enum, timezone):
+class MemoryTier(Enum):
     """Hierarchical memory storage tiers"""
 
     SENSORY = "sensory"  # Raw perceptual data
@@ -825,7 +825,7 @@ class HierarchicalDataStore:
             "compressed_nodes": self.metrics["compressed_nodes"],
             "memory_usage_mb": round(memory_usage_mb, 2),
             "compression_ratio": f"{self.metrics['compression_ratio']:.2%}",
-            "cache_hit_rate": (f"{self.metrics['cache_hits'] / max(1, self.metrics['total_accesses']):.2%}"),
+            "cache_hit_rate": (f"{self.metrics['cache_hits'] / max(1, self.metrics['total_accesses']}:.2%}"),
             "tier_distribution": {tier.value: len(nodes) for tier, nodes in self.tier_indices.items()},
             "pruned_total": self.metrics["pruned_nodes"],
             # Collapse state metrics

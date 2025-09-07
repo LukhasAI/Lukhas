@@ -49,7 +49,7 @@ from candidate.core.common import get_logger
 # Import LUKHAS core components
 # Import lukhas core components
 try:
-    # Try importing core components (currently not available, timezone)
+    # Try importing core components (currently not available)
     pass
     #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE
     #     from ...CORE.memory.memory_manager import MemoryManager  # TODO: Install or implement CORE
@@ -189,7 +189,7 @@ class GuardianReflector:
         if not self.is_active:
             raise RuntimeError("Guardian Reflector not initialized")
 
-        decision_id = decision_id or f"decision_{datetime.now(timezone.utc).isoformat()}"
+        decision_id = decision_id or f"decision_{datetime.now(timezone.utc).isoformat(}"
 
         logger.info(f"Performing ethical reflection on decision: {decision_id}")
 
@@ -312,7 +312,7 @@ class GuardianReflector:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-        logger.info(f"Consciousness protection response: {len(protections)} protections activated")
+        logger.info(f"Consciousness protection response: {len(protections} protections activated")
         return response
 
     async def _establish_moral_baseline(self) -> None:

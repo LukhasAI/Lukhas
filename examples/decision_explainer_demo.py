@@ -235,7 +235,7 @@ async def demonstrate_decision_explainability():
 
     for tag in sorted(all_tags)[:5]:
         print(f"\n{tag}:")
-        print(f"  {explain_tag(tag)}")
+        print(f"  {explain_tag(tag}")
 
     print("\n" + "=" * 80)
     print("Decision explainability provides transparency by:")

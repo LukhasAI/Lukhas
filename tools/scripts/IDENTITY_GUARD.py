@@ -97,7 +97,7 @@ class IdentityGuard:
                     if func_def_found and not has_auth:
                         violations.append(
                             f"❌ UNPROTECTED API ENDPOINT at {file_path}:{i + 1}\n"
-                            f"   Endpoint: {line.strip()}\n"
+                            f"   Endpoint: {line.strip(}\n"
                             f"   Required: Add 'user: AuthContext = Depends(require_tX_or_above)'\n"
                         )
 
@@ -144,7 +144,7 @@ class IdentityGuard:
                 violations.append(
                     f"⚠️ SENSITIVE MODULE WITHOUT IDENTITY at {file_path}\n"
                     f"   Module requires tier: {required_tier}\n"
-                    f"   Public functions: {', '.join(unprotected_functions[:3])}{'...' if len(unprotected_functions) > 3 else ''}\n"
+                    f"   Public functions: {', '.join(unprotected_functions[:3])}{'...' if len(unprotected_functions} > 3 else ''}\n"
                     f"   Required: Add identity imports and tier checks\n"
                 )
 

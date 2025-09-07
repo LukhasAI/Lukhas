@@ -14,7 +14,7 @@ from typing import Any, Dict, List, Optional
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Security domains
 SECURITY_DOMAINS = {
@@ -57,7 +57,7 @@ def scan_consciousness_security() -> dict[str, Any]:
         scanning_path = Path(__file__).parent / "scanning"
 
         scan_results = {
-            "scan_id": f"consciousness_scan_{int(datetime.now(timezone.utc).timestamp())}",
+            "scan_id": f"consciousness_scan_{int(datetime.now(timezone.utc).timestamp()}",
             "scan_type": "consciousness_security",
             "started_at": datetime.now(timezone.utc).isoformat(),
             "status": "running",
@@ -114,7 +114,7 @@ def scan_consciousness_security() -> dict[str, Any]:
         return {
             "status": "error",
             "error": str(e),
-            "scan_id": f"failed_scan_{int(datetime.now(timezone.utc).timestamp())}",
+            "scan_id": f"failed_scan_{int(datetime.now(timezone.utc).timestamp()}",
             "completed_at": datetime.now(timezone.utc).isoformat(),
         }
 

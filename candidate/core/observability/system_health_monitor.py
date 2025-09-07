@@ -39,7 +39,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class HealthStatus(Enum):
@@ -384,7 +384,7 @@ class SystemHealthMonitor:
         """Initialize health states for all components"""
 
         for component_type in ComponentType:
-            component_id = f"{component_type.value}_{uuid.uuid4().hex[:8]}"
+            component_id = f"{component_type.value}_{uuid.uuid4(}.hex[:8]}"
 
             self.component_states[component_type] = ComponentHealth(
                 component_id=component_id,
@@ -460,7 +460,7 @@ class SystemHealthMonitor:
         """Capture comprehensive system health snapshot"""
 
         try:
-            snapshot_id = f"health_{uuid.uuid4().hex[:8]}"
+            snapshot_id = f"health_{uuid.uuid4(}.hex[:8]}"
             timestamp = datetime.now(timezone.utc)
 
             # Collect system-wide metrics
@@ -972,7 +972,7 @@ class SystemHealthMonitor:
     ) -> HealthMetric:
         """Record a custom health metric"""
 
-        metric_id = f"metric_{uuid.uuid4().hex[:8]}"
+        metric_id = f"metric_{uuid.uuid4(}.hex[:8]}"
 
         # Calculate health score
         health_score = 1.0
@@ -1090,7 +1090,7 @@ class SystemHealthMonitor:
 
         if not period_snapshots:
             return HealthReport(
-                report_id=f"report_{uuid.uuid4().hex[:8]}",
+                report_id=f"report_{uuid.uuid4(}.hex[:8]}",
                 generated_at=datetime.now(timezone.utc),
                 time_period=time_period,
                 overall_system_health=1.0,
@@ -1121,7 +1121,7 @@ class SystemHealthMonitor:
 
         # Generate report
         report = HealthReport(
-            report_id=f"report_{uuid.uuid4().hex[:8]}",
+            report_id=f"report_{uuid.uuid4(}.hex[:8]}",
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_system_health=overall_system_health,

@@ -23,7 +23,7 @@ from candidate.core.event_sourcing import EventStore
 from candidate.core.swarm import SwarmHub
 from memory.distributed_state_manager import DistributedStateManager, StateType
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class MemoryType(Enum):
@@ -214,7 +214,7 @@ class DistributedMemorySystem:
             self.logger.info(f"Stored memory {memory_id} in {memory_type.value} colony")
             return memory_id
         else:
-            raise Exception(f"Failed to store memory: {result.get('error', 'Unknown error')}")
+            raise Exception(f"Failed to store memory: {result.get('error', 'Unknown error'}")
 
     async def retrieve_memory(self, memory_id: str) -> Optional[DistributedMemory]:
         """
@@ -302,7 +302,7 @@ class DistributedMemorySystem:
                     "threshold": threshold,
                 }
 
-                task = colony.execute_task(f"search-{datetime.now(timezone.utc).timestamp()}", search_task)
+                task = colony.execute_task(f"search-{datetime.now(timezone.utc).timestamp(}", search_task)
                 search_tasks.append((memory_type, task))
 
         # Gather results from all colonies
@@ -510,7 +510,7 @@ class DistributedMemorySystem:
                         memory_info["colony_id"],
                     )
 
-        self.logger.info(f"Loaded {len(self.memory_index)} memories into index")
+        self.logger.info(f"Loaded {len(self.memory_index} memories into index")
 
 
 # Example usage

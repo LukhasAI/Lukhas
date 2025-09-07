@@ -817,7 +817,7 @@ class MemorySystem(CognitiveNode):
 
         reflection = self.create_reflection(
             reflection_type="affirmation" if memories else "regret",
-            cause=f"Retrieved {len(memories)} memories",
+            cause=f"Retrieved {len(memories} memories",
             new_state={"memory_count": len(memories)},
         )
 
@@ -1121,7 +1121,7 @@ if __name__ == "__main__":
 
     for i, test_case in enumerate(test_cases, 1):
         operation = test_case["operation"]
-        print(f"\nTest {i:2d}: {operation.upper()} operation")
+        print(f"\nTest {i:2d}: {operation.upper(} operation")
         print("-" * 30)
 
         try:
@@ -1169,7 +1169,7 @@ if __name__ == "__main__":
 
     # Final statistics
     print("\n" + "=" * 50)
-    print(f"Test Results: {success_count}/{len(test_cases)} passed ({success_count / len(test_cases) * 100:.1f}%)")
+    print(f"Test Results: {success_count}/{len(test_cases)} passed ({success_count / len(test_cases} * 100:.1f}%)")
 
     # Show memory system statistics
     stats_result = memory_system.process({"operation": "stats"})
@@ -1179,7 +1179,7 @@ if __name__ == "__main__":
     print(f"Memory Counts: {stats['memory_counts']}")
     print(f"Utilization: {stats['utilization']}")
     print(f"Operations: {stats['operations']}")
-    print(f"Processing History: {len(memory_system.get_trace())} MATRIZ nodes created")
+    print(f"Processing History: {len(memory_system.get_trace()} MATRIZ nodes created")
 
     # Test direct memory operations
     print("\nDirect Memory Operations Test:")
@@ -1208,11 +1208,11 @@ if __name__ == "__main__":
     )
 
     retrieved = memory_system.retrieve_memories(query)
-    print(f"Retrieved {len(retrieved)} memories matching 'sky color'")
+    print(f"Retrieved {len(retrieved} memories matching 'sky color'")
 
     for memory in retrieved:
         print(f"  - {memory.memory_type.value}: {memory.confidence:.2f} conf, {memory.salience:.2f} sal")
-        print(f"    Content: {str(memory.content)[:60]}...")
+        print(f"    Content: {str(memory.content}[:60]}...")
         print(f"    Tags: {memory.tags}")
 
     print("\nFinal memory counts:")

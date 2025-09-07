@@ -35,7 +35,7 @@ class SystemConsolidator:
     Transforms 14 redundant systems into streamlined single solutions
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.base_path = Path(__file__).parent.parent
         self.content_engines_path = self.base_path / "content_engines"
         self.enterprise_systems_path = self.base_path / "enterprise_systems"
@@ -63,7 +63,7 @@ class SystemConsolidator:
         logs_dir.mkdir(exist_ok=True)
 
         # File handler
-        log_file = logs_dir / f"system_consolidation_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = logs_dir / f"system_consolidation_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
 
@@ -104,7 +104,7 @@ class SystemConsolidator:
                     database_files.append(db_file)
                     source_systems.append(db_file.parent.name)
 
-        self.logger.info(f"📊 Found {len(database_files)} database files to consolidate")
+        self.logger.info(f"📊 Found {len(database_files} database files to consolidate")
 
         # Create unified database
         unified_db_path = self.unified_databases_path / "lukhas_unified.db"
@@ -233,7 +233,7 @@ class SystemConsolidator:
                 databases_consolidated=len(database_files),
                 features_integrated=4,  # 4 unified tables
                 success=True,
-                message=f"Consolidated {len(database_files)} databases into unified system",
+                message=f"Consolidated {len(database_files} databases into unified system",
             )
 
         except Exception as e:
@@ -371,7 +371,7 @@ class LukhasUnifiedDocEngine:
 if __name__ == "__main__":
     engine = LukhasUnifiedDocEngine()
     print("🚀 LUKHAS AI Unified Document Engine Ready")
-    print(f"📄 Available formats: {len(engine.get_available_formats())}")
+    print(f"📄 Available formats: {len(engine.get_available_formats()}")
     print("⚛️🧠🛡️ Trinity Framework Integrated")
 '''
                 )
@@ -385,7 +385,7 @@ if __name__ == "__main__":
                 databases_consolidated=0,
                 features_integrated=features_integrated,
                 success=True,
-                message=f"Consolidated {len(doc_systems)} document systems",
+                message=f"Consolidated {len(doc_systems} document systems",
             )
 
         except Exception as e:
@@ -512,8 +512,8 @@ class LukhasUnifiedContentPlatform:
 if __name__ == "__main__":
     platform = LukhasUnifiedContentPlatform()
     print("🚀 LUKHAS AI Unified Content Platform Ready")
-    print(f"🤖 Specialist bots: {len(platform.get_specialist_bots())}")
-    print(f"✨ Premium features: {len(platform.get_premium_features())}")
+    print(f"🤖 Specialist bots: {len(platform.get_specialist_bots()}")
+    print(f"✨ Premium features: {len(platform.get_premium_features()}")
     print("⚛️🧠🛡️ Trinity Framework Integrated")
 '''
                 )
@@ -527,7 +527,7 @@ if __name__ == "__main__":
                 databases_consolidated=0,
                 features_integrated=features_integrated,
                 success=True,
-                message=f"Consolidated {len(content_systems)} content platforms",
+                message=f"Consolidated {len(content_systems} content platforms",
             )
 
         except Exception as e:

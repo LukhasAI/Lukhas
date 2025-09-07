@@ -206,11 +206,11 @@ Return ONLY the bash script, no explanations."""
         if not vulnerabilities:
             return {"status": "secure", "message": "No vulnerabilities found!", "count": 0}
 
-        click.echo(f"\n🔍 Found {len(vulnerabilities)} vulnerabilities. Analyzing with Ollama...")
+        click.echo(f"\n🔍 Found {len(vulnerabilities} vulnerabilities. Analyzing with Ollama...")
 
         analyses = {}
         for i, vuln in enumerate(vulnerabilities[:5], 1):  # Limit to 5 for speed
-            click.echo(f"  Analyzing {i}/{min(5, len(vulnerabilities))}: {vuln.package}...")
+            click.echo(f"  Analyzing {i}/{min(5, len(vulnerabilities)}: {vuln.package}...")
             analysis = await self.analyze_with_ollama(vuln)
             try:
                 analyses[vuln.package] = json.loads(analysis)
@@ -259,16 +259,16 @@ def scan(json_output=False, save_report=None):
 
     # Display results
     click.echo(f"\n⚠️ Found {report['count']} vulnerabilities:")
-    click.echo(f"  🔴 Critical: {report.get('critical', 0)}")
-    click.echo(f"  🟠 High: {report.get('high', 0)}")
+    click.echo(f"  🔴 Critical: {report.get('critical', 0}")
+    click.echo(f"  🟠 High: {report.get('high', 0}")
 
     if report.get("analyses"):
         click.echo("\n📋 Ollama Analysis Results:")
         for pkg, analysis in report["analyses"].items():
             click.echo(f"\n  📦 {pkg}:")
             if isinstance(analysis, dict) and "risk_assessment" in analysis:
-                click.echo(f"    Risk: {analysis.get('risk_assessment', 'N/A')}")
-                click.echo(f"    Fix: {analysis.get('fix_command', 'N/A')}")
+                click.echo(f"    Risk: {analysis.get('risk_assessment', 'N/A'}")
+                click.echo(f"    Fix: {analysis.get('fix_command', 'N/A'}")
             else:
                 click.echo(f"    {analysis}")
 

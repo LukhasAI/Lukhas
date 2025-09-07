@@ -21,7 +21,7 @@ from typing import Any, Optional
 # ==================== PLUGIN ENUMS ====================
 
 
-class PluginType(Enum, timezone):
+class PluginType(Enum):
     """Plugin category types"""
 
     ETHICS_GUARDIAN = "ethics_guardian"
@@ -503,7 +503,7 @@ class BaseLucasPlugin(ABC):
     def __init__(self, context: "PluginContext"):
         self.context = context
         self._loaded = False
-        self.plugin_id = f"plugin_{id(self)}"  # Generate unique ID
+        self.plugin_id = f"plugin_{id(self}"  # Generate unique ID
 
     @abstractmethod
     async def initialize(self) -> bool:

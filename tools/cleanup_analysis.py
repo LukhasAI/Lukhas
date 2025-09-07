@@ -152,11 +152,11 @@ def main():
 
     for category, files in categories.items():
         if files:
-            print(f"\n{category.upper().replace('_', ' ')}: {len(files)} files")
+            print(f"\n{category.upper().replace('_', ' ')}: {len(files} files")
             for file in files[:5]:  # Show first 5
                 print(f"  - {file}")
             if len(files) > 5:
-                print(f"  ... and {len(files) - 5} more")
+                print(f"  ... and {len(files} - 5} more")
 
     # Generate cleanup script
     script = generate_cleanup_script(categories)

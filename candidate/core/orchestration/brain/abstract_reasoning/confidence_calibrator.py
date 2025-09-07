@@ -63,7 +63,7 @@ class BayesianConfidenceEstimator:
         self.evidence_history = []
         self.likelihood_cache = {}
 
-    def estimate_confidence(:
+    def estimate_confidence(
         self,
         evidence: dict[str, Any],
         prior_context: Optional[dict[str, Any]] = None,
@@ -109,7 +109,7 @@ class BayesianConfidenceEstimator:
 
         return np.mean(strengths) if strengths else 0.5
 
-    def _get_prior_probability(:
+    def _get_prior_probability(
         self, evidence: dict[str, Any], context: Optional[dict[str, Any]]
     ) -> float:
         """Get prior probability based on historical data"""
@@ -146,7 +146,7 @@ class BayesianConfidenceEstimator:
         # Simplified marginal likelihood
         return 1.0
 
-    def _generate_context_key(:
+    def _generate_context_key(
         self, evidence: dict[str, Any], context: Optional[dict[str, Any]]
     ) -> str:
         """Generate key for context-based prior lookup"""
@@ -154,11 +154,11 @@ class BayesianConfidenceEstimator:
         context_hash = hash(str(context)) if context else 0
         return f"{evidence_hash}_{context_hash}"
 
-    def update_beliefs(:
+    def update_beliefs(
         self,
         evidence: dict[str, Any],
         outcome: bool,
-        context: Optional[dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None
     ):
         """Update prior beliefs based on observed outcomes"""
         context_key = self._generate_context_key(evidence, context)
@@ -221,7 +221,7 @@ class QIConfidenceEstimator:
         deviation = abs(entanglement - optimal_entanglement)
         return 1.0 - deviation
 
-    def _calculate_superposition_confidence(:
+    def _calculate_superposition_confidence(
         self, superposition_quality: float
     ) -> float:
         """Calculate confidence based on superposition quality"""
@@ -406,7 +406,7 @@ class EmotionalConfidenceEstimator:
 class UncertaintyDecomposer:
     """Decomposes uncertainty into different types"""
 
-    def decompose_uncertainty(:
+    def decompose_uncertainty(
         self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> dict[str, float]:
         """Decompose uncertainty into aleatory and epistemic components"""
@@ -440,7 +440,7 @@ class UncertaintyDecomposer:
 
         return uncertainty_components
 
-    def _estimate_aleatory_uncertainty(:
+    def _estimate_aleatory_uncertainty(
         self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate aleatory (inherent randomness) uncertainty"""
@@ -462,7 +462,7 @@ class UncertaintyDecomposer:
 
         return min(1.0, uncertainty)
 
-    def _estimate_epistemic_uncertainty(:
+    def _estimate_epistemic_uncertainty(
         self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate epistemic (knowledge gap) uncertainty"""
@@ -485,7 +485,7 @@ class UncertaintyDecomposer:
 
         return min(1.0, uncertainty)
 
-    def _estimate_linguistic_uncertainty(:
+    def _estimate_linguistic_uncertainty(
         self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate linguistic (ambiguity) uncertainty"""
@@ -508,7 +508,7 @@ class UncertaintyDecomposer:
 
         return min(1.0, uncertainty)
 
-    def _estimate_temporal_uncertainty(:
+    def _estimate_temporal_uncertainty(
         self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate temporal (time-dependent) uncertainty"""
@@ -531,7 +531,7 @@ class UncertaintyDecomposer:
 
         return min(1.0, uncertainty)
 
-    def _estimate_quantum_uncertainty(:
+    def _estimate_quantum_uncertainty(
         self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate quantum (indeterminacy) uncertainty"""
@@ -554,12 +554,12 @@ class MetaLearningCalibrator:
         self.calibration_models = {}
         self.learning_rate = 0.1
 
-    def update_calibration(:
+    def update_calibration(
         self,
         prediction_confidence: float,
         actual_outcome: bool,
         reasoning_complexity: float,
-        context_features: dict[str, Any],
+        context_features: dict[str, Any]
     ):
         """Update calibration based on observed outcomes"""
 
@@ -656,7 +656,7 @@ class AdvancedConfidenceCalibrator:
 
         logger.info("🎯 Advanced Confidence Calibrator initialized")
 
-    def calibrate_confidence(:
+    def calibrate_confidence(
         self,
         reasoning_result: dict[str, Any],
         context: Optional[dict[str, Any]] = None,
@@ -743,7 +743,7 @@ class AdvancedConfidenceCalibrator:
 
         return confidence_metrics
 
-    def _calculate_meta_confidence(:
+    def _calculate_meta_confidence(
         self,
         bayesian: float,
         quantum: float,
@@ -774,12 +774,12 @@ class AdvancedConfidenceCalibrator:
 
         return meta_confidence
 
-    def update_from_outcome(:
+    def update_from_outcome(
         self,
         confidence_metrics: ConfidenceMetrics,
         actual_outcome: bool,
         reasoning_complexity: float,
-        context: dict[str, Any],
+        context: dict[str, Any]
     ):
         """Update calibration based on observed outcomes"""
 

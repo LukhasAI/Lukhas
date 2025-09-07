@@ -201,7 +201,7 @@ class OrganizationScanner:
             for issue in self.issues["pascal_case_files"][:10]:
                 report += f"- `{issue['file']}` → `{issue['suggested']}.py`\n"
             if len(self.issues["pascal_case_files"]) > 10:
-                report += f"- ... and {len(self.issues['pascal_case_files']) - 10} more\n"
+                report += f"- ... and {len(self.issues['pascal_case_files']} - 10} more\n"
 
         if self.issues["mixed_case_dirs"]:
             report += "\n### 📁 Mixed Case Directories:\n"
@@ -220,12 +220,12 @@ class OrganizationScanner:
             report += f"- `{empty_dir}`\n"
 
         if self.issues["misplaced_md_files"]:
-            report += f"\n### 📄 Misplaced Documentation ({len(self.issues['misplaced_md_files'])})\n"
+            report += f"\n### 📄 Misplaced Documentation ({len(self.issues['misplaced_md_files']})\n"
             for md_file in self.issues["misplaced_md_files"][:5]:
                 report += f"- `{md_file}`\n"
 
         if self.issues["large_files"]:
-            report += f"\n### 🐘 Large Files ({len(self.issues['large_files'])})\n"
+            report += f"\n### 🐘 Large Files ({len(self.issues['large_files']})\n"
             for large_file in sorted(self.issues["large_files"], key=lambda x: x["size_mb"], reverse=True)[:5]:
                 report += f"- `{large_file['file']}` ({large_file['size_mb']} MB)\n"
 
@@ -241,7 +241,7 @@ class OrganizationScanner:
                     for loc in locations[:3]:
                         report += f"  - `{loc}`\n"
                     if len(locations) > 3:
-                        report += f"  - ... and {len(locations) - 3} more\n"
+                        report += f"  - ... and {len(locations} - 3} more\n"
                     count += 1
 
         report += f"""

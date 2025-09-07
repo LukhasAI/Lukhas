@@ -63,7 +63,7 @@ def main():
         if update_imports_in_file(py_file):
             updated_files.append(py_file)
 
-    print(f"Updated {len(updated_files)} files")
+    print(f"Updated {len(updated_files} files")
 
 
 if __name__ == "__main__":

@@ -232,17 +232,17 @@ class SmartConsolidator:
                 ]:
                     incompatible_files.append((file_path, analysis["type"]))
 
-        print(f"\n❌ Files that should remain separate ({len(incompatible_files)}):")
+        print(f"\n❌ Files that should remain separate ({len(incompatible_files}):")
         for file_path, file_type in incompatible_files[:20]:  # Show first 20
             relative_path = file_path.relative_to(self.archived_path)
             print(f"  - {relative_path} ({file_type})")
 
         if len(incompatible_files) > 20:
-            print(f"  ... and {len(incompatible_files) - 20} more")
+            print(f"  ... and {len(incompatible_files} - 20} more")
 
-        print(f"\n✅ Safe merges found ({len(safe_merges)} groups):")
+        print(f"\n✅ Safe merges found ({len(safe_merges} groups):")
         for group_type, files in safe_merges.items():
-            print(f"  - {group_type}: {len(files)} files can be safely merged")
+            print(f"  - {group_type}: {len(files} files can be safely merged")
 
         return safe_merges
 

@@ -179,7 +179,7 @@ class SecretDetector:
                             if secret_type in ["private_key", "aws_key"]
                             else SecurityLevel.MEDIUM
                         ),
-                        title=f"Potential {secret_type.replace('_', ' ').title()} Exposure",
+                        title=f"Potential {secret_type.replace('_', ' ').title(} Exposure",
                         description=f"Detected potential {secret_type} in file",
                         file_path=file_path,
                         line_number=line_num,
@@ -309,7 +309,7 @@ class CodeSecurityScanner:
                                 else VulnerabilityType.CRYPTO_WEAKNESS
                             ),
                             level=SecurityLevel.HIGH,
-                            title=f"Potential {vuln_type.replace('_', ' ').title()}",
+                            title=f"Potential {vuln_type.replace('_', ' ').title(}",
                             description=f"Detected potential {vuln_type} vulnerability",
                             file_path=file_path,
                             line_number=line_num,
@@ -366,7 +366,7 @@ class AdapterSecurityAuditor:
             if "validate_capability_token" not in content:
                 findings.append(
                     SecurityFinding(
-                        id=f"adapter_missing_capability_{hashlib.md5(adapter_path.encode()).hexdigest()[:8]}",
+                        id=f"adapter_missing_capability_{hashlib.md5(adapter_path.encode()).hexdigest(}[:8]}",
                         type=VulnerabilityType.ACCESS_CONTROL,
                         level=SecurityLevel.HIGH,
                         title="Missing Capability Token Validation",
@@ -380,7 +380,7 @@ class AdapterSecurityAuditor:
             if "check_consent" not in content:
                 findings.append(
                     SecurityFinding(
-                        id=f"adapter_missing_consent_{hashlib.md5(adapter_path.encode()).hexdigest()[:8]}",
+                        id=f"adapter_missing_consent_{hashlib.md5(adapter_path.encode()).hexdigest(}[:8]}",
                         type=VulnerabilityType.POLICY_VIOLATION,
                         level=SecurityLevel.HIGH,
                         title="Missing Consent Verification",
@@ -394,7 +394,7 @@ class AdapterSecurityAuditor:
             if "audit_trail" not in content and "telemetry" not in content:
                 findings.append(
                     SecurityFinding(
-                        id=f"adapter_missing_audit_{hashlib.md5(adapter_path.encode()).hexdigest()[:8]}",
+                        id=f"adapter_missing_audit_{hashlib.md5(adapter_path.encode()).hexdigest(}[:8]}",
                         type=VulnerabilityType.POLICY_VIOLATION,
                         level=SecurityLevel.MEDIUM,
                         title="Missing Audit Trail Logging",
@@ -424,7 +424,7 @@ class AdapterSecurityAuditor:
                                     in ["dangerous_operations", "privilege_escalation"]
                                     else SecurityLevel.MEDIUM
                                 ),
-                                title=f"Potential {pattern_type.replace('_', ' ').title()}",
+                                title=f"Potential {pattern_type.replace('_', ' ').title(}",
                                 description=f"Detected potential {pattern_type} in adapter code",
                                 file_path=adapter_path,
                                 line_number=line_num,
@@ -459,7 +459,7 @@ class SecurityAuditEngine:
 
     async def run_comprehensive_audit(self) -> SecurityAuditReport:
         """Run comprehensive security audit"""
-        audit_id = f"audit_{int(time.time())}_{secrets.token_hex(4)}"
+        audit_id = f"audit_{int(time.time())}_{secrets.token_hex(4}"
         timestamp = datetime.now(timezone.utc).isoformat()
 
         self.logger.info(f"Starting comprehensive security audit: {audit_id}")
@@ -517,7 +517,7 @@ class SecurityAuditEngine:
             compliance_status=compliance_status,
         )
 
-        self.logger.info(f"Security audit completed: {len(findings)} findings")
+        self.logger.info(f"Security audit completed: {len(findings} findings")
         return report
 
     async def _scan_for_secrets(self) -> list[SecurityFinding]:
@@ -629,7 +629,7 @@ class SecurityAuditEngine:
                 # Check for overly permissive configurations
                 if "admin: true" in content or "superuser: true" in content:
                     finding = SecurityFinding(
-                        id=f"access_{hashlib.md5(str(config_file).encode()).hexdigest()[:8]}",
+                        id=f"access_{hashlib.md5(str(config_file).encode()).hexdigest(}[:8]}",
                         type=VulnerabilityType.ACCESS_CONTROL,
                         level=SecurityLevel.MEDIUM,
                         title="Potentially Overly Permissive Access Control",

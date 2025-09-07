@@ -254,12 +254,12 @@ class AuthenticationService:
 
         class MockQIIdentityManager:
             def create_quantum_identity(self, user_id: str) -> str:
-                return f"qi_{user_id}_{time.time()}"
+                return f"qi_{user_id}_{time.time(}"
 
         class MockAuditLogger:
             async def log_authentication_attempt(self, attempt_result: str, details: dict[str, Any]) -> str:
                 _ = (attempt_result, details)
-                return f"audit_{time.time()}"
+                return f"audit_{time.time(}"
 
         class MockAuthServer:
             def get_server_status(self) -> dict[str, Any]:
@@ -748,7 +748,7 @@ class AuthenticationService:
         # Combine password with pepper and salt
         combined = f"{password}{self.password_pepper}{salt}"
         password_hash = hashlib.pbkdf2_hmac("sha256", combined.encode(), salt.encode(), 100000)
-        return f"{salt}:{password_hash.hex()}"
+        return f"{salt}:{password_hash.hex(}"
 
     def _verify_password(self, password: str, stored_hash: str) -> bool:
         """Verify a password against stored hash"""
@@ -762,11 +762,11 @@ class AuthenticationService:
 
     def _generate_user_id(self, username: str) -> str:
         """Generate a user ID from username"""
-        return hashlib.sha256(f"lukhas_user_{username}_{time.time()}".encode()).hexdigest()[:16]
+        return hashlib.sha256(f"lukhas_user_{username}_{time.time(}".encode()).hexdigest()[:16]
 
     def _generate_api_key(self) -> str:
         """Generate an API key"""
-        return f"lukhas_api_{secrets.token_urlsafe(32)}"
+        return f"lukhas_api_{secrets.token_urlsafe(32}"
 
     def _get_or_generate_secret(self) -> str:
         """Get or generate secret key"""
@@ -881,7 +881,7 @@ class AuthenticationService:
             del self.active_sessions[token]
 
         if expired_tokens:
-            self.logger.info(f"Cleaned up {len(expired_tokens)} expired sessions")
+            self.logger.info(f"Cleaned up {len(expired_tokens} expired sessions")
 
 
 # Global authentication service instance

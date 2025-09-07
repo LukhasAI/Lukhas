@@ -143,7 +143,7 @@ class SystemHealthAnalyzer:
 
             logger.info(f"✅ Python: {python_version}")
             logger.info(
-                f"✅ Dependencies: {len([d for d in dependencies.values() if d['status'] == 'installed'])}/{len(dependencies)} installed"
+                f"✅ Dependencies: {len([d for d in dependencies.values() if d['status'] == 'installed'])}/{len(dependencies} installed"
             )
 
         except Exception as e:
@@ -206,7 +206,7 @@ class SystemHealthAnalyzer:
         self.results["core_modules"] = module_results
 
         working_modules = len([m for m in module_results.values() if m["status"] == "working"])
-        logger.info(f"📊 Core Modules: {working_modules}/{len(core_modules)} working")
+        logger.info(f"📊 Core Modules: {working_modules}/{len(core_modules} working")
 
     def check_api_systems(self):
         """Check API system status"""
@@ -238,7 +238,7 @@ class SystemHealthAnalyzer:
                             else response.text[:200]
                         ),
                     }
-                    logger.info(f"✅ {api_name}: Online ({response.elapsed.total_seconds():.3f}s)")
+                    logger.info(f"✅ {api_name}: Online ({response.elapsed.total_seconds(}:.3f}s)")
                 else:
                     api_results[api_name] = {
                         "status": "error",
@@ -418,7 +418,7 @@ class SystemHealthAnalyzer:
                 },
                 "status": "configured",
             }
-            logger.info(f"✅ Identity system: {len(identity_files)} files found")
+            logger.info(f"✅ Identity system: {len(identity_files} files found")
         else:
             self.results["identity_systems"] = {
                 "status": "missing",
@@ -462,7 +462,7 @@ class SystemHealthAnalyzer:
         self.results["file_integrity"] = file_status
 
         existing_files = len([f for f in file_status.values() if f.get("exists", False)])
-        logger.info(f"📊 Critical files: {existing_files}/{len(critical_files)} present")
+        logger.info(f"📊 Critical files: {existing_files}/{len(critical_files} present")
 
     def analyze_performance(self):
         """Analyze system performance metrics"""
@@ -590,7 +590,7 @@ class SystemHealthAnalyzer:
             name for name, info in self.results["core_modules"].items() if info.get("status") != "working"
         ]
         if failed_modules:
-            recommendations.append(f"Fix failed modules: {', '.join(failed_modules)}")
+            recommendations.append(f"Fix failed modules: {', '.join(failed_modules}")
 
         # Test recommendations
         if self.results["test_results"].get("failed_tests", 0) > 0:
@@ -599,12 +599,12 @@ class SystemHealthAnalyzer:
         # API recommendations
         offline_apis = [name for name, info in self.results["api_systems"].items() if info.get("status") != "online"]
         if offline_apis:
-            recommendations.append(f"Start offline APIs: {', '.join(offline_apis)}")
+            recommendations.append(f"Start offline APIs: {', '.join(offline_apis}")
 
         # File recommendations
         missing_files = [name for name, info in self.results["file_integrity"].items() if not info.get("exists", False)]
         if missing_files:
-            recommendations.append(f"Restore missing files: {', '.join(missing_files)}")
+            recommendations.append(f"Restore missing files: {', '.join(missing_files}")
 
         # Performance recommendations
         if self.results["performance_metrics"].get("lukhas_embedding", {}).get("performance_rating") == "slow":
@@ -655,14 +655,14 @@ def main():
     print(f"VIVOX Components Working: {summary['vivox_components_working']}")
 
     if report["issues_detected"]:
-        print(f"\n⚠️ ISSUES DETECTED ({len(report['issues_detected'])})")
+        print(f"\n⚠️ ISSUES DETECTED ({len(report['issues_detected']})")
         for i, issue in enumerate(report["issues_detected"][:10], 1):
             print(f"  {i}. {issue}")
         if len(report["issues_detected"]) > 10:
-            print(f"  ... and {len(report['issues_detected']) - 10} more")
+            print(f"  ... and {len(report['issues_detected']} - 10} more")
 
     if report["recommendations"]:
-        print(f"\n💡 RECOMMENDATIONS ({len(report['recommendations'])})")
+        print(f"\n💡 RECOMMENDATIONS ({len(report['recommendations']})")
         for i, rec in enumerate(report["recommendations"], 1):
             print(f"  {i}. {rec}")
 

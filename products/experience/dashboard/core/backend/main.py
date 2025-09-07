@@ -23,7 +23,7 @@ from infrastructure.cache.redis_client import init_redis
 from infrastructure.database.connection import init_db
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 

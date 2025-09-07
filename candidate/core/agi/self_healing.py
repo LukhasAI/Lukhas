@@ -13,7 +13,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 
-class FailureType(Enum, timezone):
+class FailureType(Enum):
     """Types of system failures"""
 
     MEMORY_OVERFLOW = "memory_overflow"
@@ -541,7 +541,7 @@ class SelfHealingSystem:
         """Generate unique failure ID"""
         import uuid
 
-        return f"fail_{uuid.uuid4().hex[:8]}"
+        return f"fail_{uuid.uuid4(}.hex[:8]}"
 
 
 class CircuitBreaker:

@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional, Union
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class HealthStatus(Enum):
@@ -122,7 +122,7 @@ class HealthCheck:
             else:
                 # Unexpected result type
                 status = HealthStatus.UNKNOWN
-                message = f"{self.name} returned unexpected result type: {type(result)}"
+                message = f"{self.name} returned unexpected result type: {type(result}"
                 metadata = {"result": str(result)}
                 self.consecutive_failures += 1
 

@@ -15,7 +15,7 @@ from .audit_trail import (
     AuditEventType,
     AuditQuery,
     AuditSeverity,
-    AuditTrail,, timezone)
+    AuditTrail)
 
 
 class AnomalyType(Enum):
@@ -181,7 +181,7 @@ class AuditAnalytics:
                         Anomaly(
                             anomaly_type=AnomalyType.UNUSUAL_ACTIVITY_PATTERN,
                             severity="MEDIUM",
-                            description=f"Unusual spike in activity: {len(hour_events)} events in hour {hour}",
+                            description=f"Unusual spike in activity: {len(hour_events} events in hour {hour}",
                             detected_at=datetime.now(timezone.utc),
                             events=[e.id for e in hour_events[:10]],  # Sample
                             confidence=0.8,
@@ -301,7 +301,7 @@ class AuditAnalytics:
                 Anomaly(
                     anomaly_type=AnomalyType.ABNORMAL_DECISION_PATTERN,
                     severity="MEDIUM",
-                    description=f"High decision reversal rate: {reversal_count} reversals out of {len(decision_events)} decisions",
+                    description=f"High decision reversal rate: {reversal_count} reversals out of {len(decision_events} decisions",
                     detected_at=datetime.now(timezone.utc),
                     events=[e.id for e in decision_events if e.event_type == AuditEventType.DECISION_REVERSED],
                     confidence=0.75,
@@ -320,7 +320,7 @@ class AuditAnalytics:
                 Anomaly(
                     anomaly_type=AnomalyType.ABNORMAL_DECISION_PATTERN,
                     severity="MEDIUM",
-                    description=f"{len(low_confidence_decisions)} decisions made with confidence < 50%",
+                    description=f"{len(low_confidence_decisions} decisions made with confidence < 50%",
                     detected_at=datetime.now(timezone.utc),
                     events=[e.id for e in low_confidence_decisions[:10]],
                     confidence=0.8,
@@ -347,7 +347,7 @@ class AuditAnalytics:
                     Anomaly(
                         anomaly_type=AnomalyType.UNAUTHORIZED_ACCESS_ATTEMPT,
                         severity="HIGH",
-                        description=f"Multiple access denials for user {user}: {len(denials)} attempts",
+                        description=f"Multiple access denials for user {user}: {len(denials} attempts",
                         detected_at=datetime.now(timezone.utc),
                         events=[e.id for e in denials[:10]],
                         confidence=0.9,
@@ -362,7 +362,7 @@ class AuditAnalytics:
                 Anomaly(
                     anomaly_type=AnomalyType.SECURITY_BREACH_ATTEMPT,
                     severity="CRITICAL",
-                    description=f"{len(security_violations)} security violations detected",
+                    description=f"{len(security_violations} security violations detected",
                     detected_at=datetime.now(timezone.utc),
                     events=[e.id for e in security_violations[:10]],
                     confidence=0.95,
@@ -542,7 +542,7 @@ class AuditAnalytics:
                 ComplianceViolation(
                     violation_type="missing_explainability",
                     regulation="ai_ethics",
-                    description=f"{len(unexplained)} decisions made without explanations",
+                    description=f"{len(unexplained} decisions made without explanations",
                     events=[e.id for e in unexplained[:10]],
                     severity="MEDIUM",
                     remediation_required=True,

@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add DAST to the path
-dast_path = Path(__file__, timezone).parent.parent.parent / "DΛST"
+dast_path = Path(__file__).parent.parent.parent / "DΛST"
 sys.path.insert(0, str(dast_path))
 
 try:
@@ -246,7 +246,7 @@ class NIASDastAdapter:
                 symbolic_context["message_aligned_symbols"] = message_symbols
                 symbolic_context["message_coherence"] = self._calculate_message_coherence(current_tags, message_symbols)
 
-            logger.debug(f"DΛST provided symbolic context for {user_id}: {len(current_tags)} active symbols")
+            logger.debug(f"DΛST provided symbolic context for {user_id}: {len(current_tags} active symbols")
             return symbolic_context
 
         except Exception as e:
@@ -333,7 +333,7 @@ class NIASDastAdapter:
             "recommended_elements": self._get_recommended_elements(symbolic_tags),
             "recommended_tone": self._get_recommended_tone(primary_activity),
             "coherence_score": 0.7,
-            "lambda_fingerprint": f"FALLBACK_{user_id}_{datetime.now(timezone.utc).strftime('%H%M%S')}",
+            "lambda_fingerprint": f"FALLBACK_{user_id}_{datetime.now(timezone.utc).strftime('%H%M%S'}",
             "dast_integration": False,
             "fallback_mode": True,
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -404,7 +404,7 @@ class NIASDastAdapter:
                 )
 
             logger.debug(
-                f"Updated DΛST context for {user_id} with {len(symbols_to_add)} symbols from message interaction"
+                f"Updated DΛST context for {user_id} with {len(symbols_to_add} symbols from message interaction"
             )
             return True
 

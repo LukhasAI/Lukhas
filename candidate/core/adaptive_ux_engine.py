@@ -108,7 +108,7 @@ class NeuroSymbolicEngine:
         keywords = ["create", "analyze", "optimize", "design", "implement"]
         for keyword in keywords:
             if keyword in text.lower():
-                symbols.append(f"ACTION_{keyword.upper()}")
+                symbols.append(f"ACTION_{keyword.upper(}")
         return symbols
 
     async def _neural_process(self, symbols: list[str], context: UserContext) -> dict[str, Any]:

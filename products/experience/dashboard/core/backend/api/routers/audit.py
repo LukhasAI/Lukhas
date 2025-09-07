@@ -9,7 +9,7 @@ from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 
-router = APIRouter(, timezone)
+router = APIRouter()
 
 REPORTS_DIR = Path("reports")
 

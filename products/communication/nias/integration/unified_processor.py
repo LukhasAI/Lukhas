@@ -23,7 +23,7 @@ except ImportError:
     ADAPTERS_AVAILABLE = False
 
 # Import NIAS components
-nias_path = Path(__file__, timezone).parent.parent
+nias_path = Path(__file__).parent.parent
 sys.path.insert(0, str(nias_path))
 
 try:
@@ -69,9 +69,9 @@ class UnifiedProcessingContext:
         if not self.lambda_trace:
             import hashlib
 
-            trace_data = f"{self.session_id}{self.user_id}{self.start_time.isoformat()}"
+            trace_data = f"{self.session_id}{self.user_id}{self.start_time.isoformat(}"
             trace_hash = hashlib.sha256(trace_data.encode()).hexdigest()[:12]
-            self.lambda_trace = f"Λ-UNIFIED-{trace_hash.upper()}"
+            self.lambda_trace = f"Λ-UNIFIED-{trace_hash.upper(}"
 
 
 class UnifiedMessageProcessor:
@@ -172,7 +172,7 @@ class UnifiedMessageProcessor:
         """
 
         self.session_counter += 1
-        session_id = f"unified_{self.session_counter}_{uuid.uuid4().hex[:8]}"
+        session_id = f"unified_{self.session_counter}_{uuid.uuid4(}.hex[:8]}"
 
         # Create unified processing context
         context = UnifiedProcessingContext(
@@ -246,7 +246,7 @@ class UnifiedMessageProcessor:
             symbolic_context["dast_phase_success"] = True
 
             logger.debug(
-                f"DΛST provided {len(symbolic_context.get('symbolic_tags', []))} symbols for {context.user_id}"
+                f"DΛST provided {len(symbolic_context.get('symbolic_tags', [])} symbols for {context.user_id}"
             )
             return symbolic_context
 
@@ -282,7 +282,7 @@ class UnifiedMessageProcessor:
             attention_result["symbolic_enhancement"] = context.symbolic_context is not None
 
             logger.debug(
-                f"ΛBAS decision for {context.user_id}: {attention_result.get('approved')} ({attention_result.get('emotional_state')})"
+                f"ΛBAS decision for {context.user_id}: {attention_result.get('approved')} ({attention_result.get('emotional_state'})"
             )
             return attention_result
 
@@ -321,7 +321,7 @@ class UnifiedMessageProcessor:
             elif nias_result.get("status") == "deferred":
                 self.processing_stats["deferred_messages"] += 1
 
-            logger.debug(f"NIΛS processing completed for {context.user_id}: {nias_result.get('status')}")
+            logger.debug(f"NIΛS processing completed for {context.user_id}: {nias_result.get('status'}")
             return nias_result
 
         except Exception as e:
@@ -407,7 +407,7 @@ class UnifiedMessageProcessor:
         )
 
         logger.info(
-            f"Unified processing completed: {context.session_id} - {result.get('status')} ({context.total_processing_time_ms:.1f}ms)"
+            f"Unified processing completed: {context.session_id} - {result.get('status'} ({context.total_processing_time_ms:.1f}ms)"
         )
         return result
 

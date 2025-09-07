@@ -56,7 +56,7 @@ try:
         BotProtocol,
         QIBotConfig,
         QIDecisionEngine,
-        ReasoningContext,, timezone)
+        ReasoningContext)
 
     ΛBOT_INTEGRATION = True
     print("🤖 ΛBot Elite integration active")
@@ -806,7 +806,7 @@ class ΛDependaBoT(BotProtocol):
         try:
             # Check file size (skip very large files)
             if len(content) > 500000:  # 500KB limit
-                self.logger.warning(f"Skipping large file {file_path} ({len(content)} characters)")
+                self.logger.warning(f"Skipping large file {file_path} ({len(content} characters)")
                 return False
 
             # Check for binary content
@@ -821,7 +821,7 @@ class ΛDependaBoT(BotProtocol):
                     validation_result = await validator.validate_file_content(content)
                     if not validation_result.get("is_valid", True):
                         self.logger.warning(
-                            f"Symbol validation failed for {file_path}: {validation_result.get('error')}"
+                            f"Symbol validation failed for {file_path}: {validation_result.get('error'}"
                         )
                         return False
                 except Exception as e:
@@ -913,8 +913,8 @@ class ΛDependaBoT(BotProtocol):
         import re
 
         # Fix single brace issues in f-strings
-        content = re.sub(r'f"([^"]*\{[^}]*)\}"', r'f"\1}}"', content)
-        content = re.sub(r"f'([^']*\{[^}]*)\}'", r"f'\1}}'", content)
+        content = re.sub(r'f"([^"]*\{[^}]*)\}"', r'f"\1}"', content)
+        content = re.sub(r"f'([^']*\{[^}]*)\}'", r"f'\1}'", content)
 
         return content
 
@@ -996,7 +996,7 @@ class ΛDependaBoT(BotProtocol):
                 insight = ΛArchitecturalInsight(
                     insight_type=f"bio_symbolic_{pattern_type}",
                     confidence_level=0.8,
-                    impact_assessment=f"Detected {len(pattern_data)} instances of {pattern_type}",
+                    impact_assessment=f"Detected {len(pattern_data} instances of {pattern_type}",
                     recommended_actions=[f"Optimize {pattern_type} organization"],
                     qi_rationale=f"Bio-symbolic analysis reveals {pattern_type} optimization potential",
                     stakeholder_implications={"developers": f"Consider {pattern_type} refactoring"},
@@ -1054,7 +1054,7 @@ class ΛDependaBoT(BotProtocol):
                 ΛArchitecturalInsight(
                     insight_type="high_coupling_detection",
                     confidence_level=0.9,
-                    impact_assessment=f"Found {len(high_coupling_modules)} highly coupled modules",
+                    impact_assessment=f"Found {len(high_coupling_modules} highly coupled modules",
                     recommended_actions=[
                         "Implement dependency injection",
                         "Extract common interfaces",
@@ -1890,9 +1890,9 @@ async def main():
         print("\n🎯 ΛDependaBoT Analysis Complete!")
         print("=" * 50)
         print(f"🔬 Quantum Modularity Score: {report.qi_modularity_score:.3f}")
-        print(f"🧠 Architectural Insights: {len(report.architectural_insights)}")
-        print(f"📊 Dependency Profiles: {len(report.dependency_profiles)}")
-        print(f"🛣️  Optimization Actions: {len(report.optimization_roadmap.get('immediate_actions', []))}")
+        print(f"🧠 Architectural Insights: {len(report.architectural_insights}")
+        print(f"📊 Dependency Profiles: {len(report.dependency_profiles}")
+        print(f"🛣️  Optimization Actions: {len(report.optimization_roadmap.get('immediate_actions', [])}")
         print()
 
         # Show key insights

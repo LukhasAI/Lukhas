@@ -26,7 +26,7 @@ class LegalComplianceAssistant:
     """Real-time EU legal compliance checker using ECHR guidelines and symbolic tiers.
     Also filters context using cultural vocabulary filters."""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.legal_graph = self._build_legal_knowledge_graph()
         self.violation_log_path = "logs/ethics/violations.jsonl"
 

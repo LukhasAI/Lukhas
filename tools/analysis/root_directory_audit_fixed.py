@@ -13,7 +13,7 @@ from datetime import datetime
 
 
 class RootDirectoryAuditor:
-    def __init__(self, timezone):
+    def __init__(self):
         # Define our 7 core modules
         self.core_modules = [
             "core",
@@ -62,7 +62,7 @@ class RootDirectoryAuditor:
         root_items = os.listdir(".")
         directories = [d for d in root_items if os.path.isdir(d) and not d.startswith(".")]
 
-        print(f"📊 Found {len(directories)} directories at root level")
+        print(f"📊 Found {len(directories} directories at root level")
 
         for directory in sorted(directories):
             self.analyze_directory(directory)
@@ -329,7 +329,7 @@ def main():
     # Show categories
     for category, directories in plan["categories"].items():
         if directories:
-            print(f"\n{category.upper().replace('_', ' ')}:")
+            print(f"\n{category.upper().replace('_', ' '}:")
             for directory in directories:
                 analysis = plan["detailed_analysis"][directory]
                 print(f"  - {directory}: {analysis['file_count']} files, {analysis['size']}MB")
@@ -340,7 +340,7 @@ def main():
     print("=" * 50)
 
     for module in auditor.categories["core_modules"]:
-        print(f"\n{module.upper()} Module Enhancement:")
+        print(f"\n{module.upper(} Module Enhancement:")
         print("1. Create comprehensive README.md")
         print("2. Set up test infrastructure")
         print("3. Add examples directory")

@@ -72,7 +72,7 @@ class Agent:
             message_type=message_type,
             content=content,
             timestamp=time.time(),
-            message_id=f"{self.agent_id}_{int(time.time() * 1000)}",
+            message_id=f"{self.agent_id}_{int(time.time() * 1000}",
         )
 
         logger.debug(f"Agent {self.agent_id} sending message to {receiver}: {message_type.value}")
@@ -519,7 +519,7 @@ async def main():
     # Get final status
     status = simulation.get_simulation_status()
     print("\n📊 Final Status:")
-    print(f"Agents: {len(status['agents'])}")
+    print(f"Agents: {len(status['agents']}")
     print(f"Messages: {status['message_count']}")
 
     print("\n🎯 Inter-Agent Simulation Complete")

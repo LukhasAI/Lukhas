@@ -357,7 +357,7 @@ class MatrizConsciousnessCoordinator:
                 source_profile.last_interaction = datetime.now(timezone.utc)
                 target_profile.last_interaction = datetime.now(timezone.utc)
 
-                interaction_result = {"status": "coordinated", "result": {}}
+                interaction_result = {"status": "coordinated", "result": {}
 
                 # If modules have consciousness, coordinate through consciousness network
                 if source_profile.consciousness_id and target_profile.consciousness_id:
@@ -538,7 +538,7 @@ class MatrizConsciousnessCoordinator:
                 if self.orchestration_state == OrchestrationState.OPTIMIZING:
                     self.orchestration_state = OrchestrationState.ACTIVE
 
-                logger.debug(f"🔧 Optimized consciousness network: {len(active_modules)} active modules")
+                logger.debug(f"🔧 Optimized consciousness network: {len(active_modules} active modules")
 
                 await asyncio.sleep(300)  # Optimize every 5 minutes
 

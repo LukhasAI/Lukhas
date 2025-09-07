@@ -379,7 +379,7 @@ class SymbolicLanguageFramework:
     async def register_patterns(self, component_name: str, patterns: dict[str, Any]) -> None:
         """Register symbolic patterns for a component"""
         self.registered_patterns[component_name] = patterns
-        logger.info(f"Registered {len(patterns)} patterns for {component_name}")
+        logger.info(f"Registered {len(patterns} patterns for {component_name}")
 
         # Create symbols for each pattern
         for pattern_name, pattern_data in patterns.items():

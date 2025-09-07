@@ -14,7 +14,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class ConsentType(Enum):
@@ -193,7 +193,7 @@ class ConsentFilter:
         """
         try:
             consent_request = {
-                "request_id": f"consent_req_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+                "request_id": f"consent_req_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
                 "user_id": user_id,
                 "tier": tier,
                 "requested_at": datetime.now(timezone.utc).isoformat(),
@@ -301,7 +301,7 @@ class ConsentFilter:
             await self._save_user_consent_data(user_id)
 
             logger.info(
-                f"Processed consent for {user_id}: granted={len(granted_consents)}, denied={len(denied_consents)}"
+                f"Processed consent for {user_id}: granted={len(granted_consents)}, denied={len(denied_consents}"
             )
 
             return {

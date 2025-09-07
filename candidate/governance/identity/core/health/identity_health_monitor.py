@@ -23,7 +23,7 @@ from candidate.core.self_healing import HealingStrategy, HealthStatus, SelfHeali
 from governance.identity.core.events import (
     IdentityEventPriority,
     IdentityEventPublisher,
-    get_identity_event_publisher,, timezone)
+    get_identity_event_publisher)
 
 logger = logging.getLogger("LUKHAS_IDENTITY_HEALTH")
 
@@ -361,7 +361,7 @@ class IdentityHealthMonitor:
 
         # Create healing plan
         plan = HealingPlan(
-            plan_id=f"heal_{component_id}_{int(datetime.now(timezone.utc).timestamp())}",
+            plan_id=f"heal_{component_id}_{int(datetime.now(timezone.utc).timestamp()}",
             component_id=component_id,
             component_type=component.component_type,
             strategy=self._determine_healing_strategy(component, tier_level),

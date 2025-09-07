@@ -18,7 +18,7 @@ class IdentityRefactor:
 
     def __init__(self):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-        self.backup_dir = self.workspace / f".identity_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.workspace / f".identity_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
         self.changes = []
 
     def backup_identity_modules(self):

@@ -33,7 +33,7 @@ class FullyAutonomousAGI:
     Operates without human intervention using intelligent batch processing
     """
 
-    def __init__(self, github_token: Optional[str] = None, timezone):
+    def __init__(self, github_token: Optional[str] = None):
         self.github_token = github_token or os.getenv("GITHUB_TOKEN")
 
         # Initialize core systems with AGI and batch mode

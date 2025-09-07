@@ -110,10 +110,10 @@ def generate_dream(evaluate_action):
 
     # Add detail elements
     detail_elements = [
-        f"Particles of light dance like {random.choice(['butterflies', 'stardust', 'memories', 'whispers'])}",
-        f"The air shimmers with {random.choice(['possibility', 'ancient wisdom', 'unspoken words', 'future echoes'])}",
-        f"Shadows move like {random.choice(['liquid silk', 'gentle waves', 'breathing creatures', 'living paintings'])}",
-        f"The ground beneath shifts between {random.choice(['solid and ethereal', 'real and imagined', 'past and present', 'dream and reality'])}",
+        f"Particles of light dance like {random.choice(['butterflies', 'stardust', 'memories', 'whispers']}",
+        f"The air shimmers with {random.choice(['possibility', 'ancient wisdom', 'unspoken words', 'future echoes']}",
+        f"Shadows move like {random.choice(['liquid silk', 'gentle waves', 'breathing creatures', 'living paintings']}",
+        f"The ground beneath shifts between {random.choice(['solid and ethereal', 'real and imagined', 'past and present', 'dream and reality']}",
     ]
 
     narrative += " " + random.choice(detail_elements) + "."
@@ -212,7 +212,7 @@ async def generate_dream_with_openai(
         base_dream.update(enhanced_dream)
 
         # Log the enhancement
-        print(f"[DreamGenerator] AI-enhanced dream created: {base_dream.get('dream_id')}")
+        print(f"[DreamGenerator] AI-enhanced dream created: {base_dream.get('dream_id'}")
 
         if "generated_image" in base_dream:
             print(f"  - Image: {base_dream['generated_image']['path']}")

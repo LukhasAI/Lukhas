@@ -136,12 +136,13 @@ def get_logger(name: str, module_name: Optional[str] = None) -> logging.Logger:
         return _loggers[name]
 
     logger = logging.getLogger(name)
+    
+    # Configure the underlying logger before wrapping
+    _configure_logger(logger)
 
-    # Add module context
+    # Add module context after configuration
     if module_name:
         logger = logging.LoggerAdapter(logger, {"module_name": module_name})
-
-    _configure_logger(logger)
     _loggers[name] = logger
 
     return logger

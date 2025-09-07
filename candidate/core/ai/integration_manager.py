@@ -236,7 +236,7 @@ class AIIntegrationManager:
         files_ctx = "".join(file_contents)
         # Generic system prompt
         sys_prompt = "You are LUKHΛS AI assistant. Perform task with precision and symbolic awareness."
-        user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2)}\nFiles:\n{files_ctx}\nResponse:"
+        user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2}\nFiles:\n{files_ctx}\nResponse:"
         payload = {
             "model": cfg.get("model"),
             "max_tokens": cfg.get("max_tokens", 4096),
@@ -321,7 +321,7 @@ class AIIntegrationManager:
         sys_prompt = (
             "You are an expert AI assistant for LUKHΛS. Provide detailed, actionable software engineering analysis."
         )
-        user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2)}\nFiles:\n{files_ctx}\nResponse:"
+        user_prompt = f"Task ID: {task.id}\nType: {task.type}\nInstruction: {task.prompt}\nContext: {json.dumps(task.context,indent=2}\nFiles:\n{files_ctx}\nResponse:"
         payload = {
             "model": cfg.get("model"),
             "messages": [
@@ -507,7 +507,7 @@ class AIIntegrationManager:
 
     def _save_ai_task_response(self, response: AIResponse):  # Renamed:
         """Saves AI response to a JSON file."""
-        fname = f"{response.task_id}_{response.service_name}_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"  # ISO Z for filename
+        fname = f"{response.task_id}_{response.service_name}_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ'}.json"  # ISO Z for filename
         fpath = self.responses_storage_dir / fname
         try:
             # Storing full response content for audit/review
@@ -535,7 +535,7 @@ class TaskTemplates:  # Static methods, no init needed
     @staticmethod
     def code_analysis(file_paths: list[str], analysis_focus: str = "modularization") -> AITask:  # Renamed, more params
         return AITask(
-            id=f"code_analysis_{Path(file_paths[0]).stem if file_paths else 'general'}_{uuid.uuid4().hex[:6]}",
+            id=f"code_analysis_{Path(file_paths[0]).stem if file_paths else 'general'}_{uuid.uuid4(}.hex[:6]}",
             type="code_analysis",
             prompt=f"Analyze code for architecture, dependencies, security, "
             f"optimization. Focus on {analysis_focus}.",
@@ -565,7 +565,7 @@ async def main_ai_integration_manager_demo_run():
         log.warning("Demo AI cfg missing, creating dummy.", path=str(cfg_file))
         # Dummy config assumes placeholders for keys, or user sets env vars LUKHAS_ANTHROPIC_KEY etc.
         dummy_cfg_data = {"anthropic_claude":{"api_key":"YOUR_CLAUDE_KEY_HERE_OR_ENV"},
-    "openai_gpt":{"api_key":"YOUR_OPENAI_KEY_HERE_OR_ENV"}, "github_copilot":{"cli_enabled":False}}
+    "openai_gpt":{"api_key":"YOUR_OPENAI_KEY_HERE_OR_ENV"}, "github_copilot":{"cli_enabled":False}
         try:
             with open(cfg_file,"w",encoding="utf-8") as f:json.dump(dummy_cfg_data,f,
     indent=2)

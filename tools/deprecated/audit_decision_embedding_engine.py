@@ -13,7 +13,7 @@ from functools import wraps
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class DecisionAuditEngine:
@@ -180,7 +180,7 @@ class DecisionAuditEngine:
         """Get or create session ID for source"""
         if source not in self.active_sessions:
             self.active_sessions[source] = hashlib.sha256(
-                f"{source}:{datetime.now(timezone.utc).isoformat()}".encode()
+                f"{source}:{datetime.now(timezone.utc).isoformat(}".encode()
             ).hexdigest()[:8]
         return self.active_sessions[source]
 
@@ -195,7 +195,7 @@ class DecisionAuditEngine:
         with open(audit_file, "w") as f:
             json.dump(self.audit_cache, f, indent=2)
 
-        logger.info(f"Persisted {len(self.audit_cache)} audit entries to {audit_file}")
+        logger.info(f"Persisted {len(self.audit_cache} audit entries to {audit_file}")
         self.audit_cache = []
 
 

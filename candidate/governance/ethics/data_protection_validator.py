@@ -28,7 +28,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class LawfulBasis(Enum):
@@ -247,7 +247,7 @@ class GDPRValidator:
         # Check rights implementation
         for right in self.data_subject_rights:
             if not hasattr(activity, f"{right}_procedure"):
-                issues.append(f"Missing procedure for {right.replace('_', ' ')}")
+                issues.append(f"Missing procedure for {right.replace('_', ' '}")
                 score -= 0.1
 
         # Special checks for automated decision-making
@@ -268,7 +268,7 @@ class GDPRValidator:
 
         for measure in self.security_measures:
             if not hasattr(activity, measure):
-                issues.append(f"Missing security measure: {measure.replace('_', ' ')}")
+                issues.append(f"Missing security measure: {measure.replace('_', ' '}")
                 score -= 0.15
 
         # Additional checks for sensitive data
@@ -296,7 +296,7 @@ class GDPRValidator:
 
         for info in required_information:
             if not hasattr(activity, info):
-                issues.append(f"Missing transparency information: {info.replace('_', ' ')}")
+                issues.append(f"Missing transparency information: {info.replace('_', ' '}")
                 score -= 0.15
 
         # Check privacy policy accessibility

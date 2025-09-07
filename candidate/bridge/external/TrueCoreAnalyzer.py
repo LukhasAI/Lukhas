@@ -19,7 +19,7 @@ from datetime import datetime
 
 
 class TrueCoreAnalyzer:
-    def __init__(self, workspace_path: str, timezone):
+    def __init__(self, workspace_path: str):
         self.workspace_path = workspace_path
         self.Λ_path = os.path.join(workspace_path, "lukhas")
 
@@ -151,38 +151,38 @@ class TrueCoreAnalyzer:
 
     def generate_analysis_report(self):
         """Generate analysis showing true core vs bloat"""
-        report_path = f"{self.workspace_path}/TRUE_CORE_ANALYSIS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
+        report_path = f"{self.workspace_path}/TRUE_CORE_ANALYSIS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.md"
 
         with open(report_path, "w") as f:
             f.write("# lukhas True Core Analysis\n")
-            f.write(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            f.write(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}\n\n")
 
             f.write("## 📊 File Distribution Summary\n\n")
             total_files = sum(len(files) for files in self.categories.values())
 
             f.write(f"- **Total Files in lukhas/:** {total_files}\n")
             f.write(
-                f"- **True AI Core:** {len(self.categories['true_core'])} files ({len(self.categories['true_core']) / total_files * 100:.1f}%)\n"
+                f"- **True AI Core:** {len(self.categories['true_core'])} files ({len(self.categories['true_core']} / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **External Packages:** {len(self.categories['external_packages'])} files ({len(self.categories['external_packages']) / total_files * 100:.1f}%)\n"
+                f"- **External Packages:** {len(self.categories['external_packages'])} files ({len(self.categories['external_packages']} / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Interface Bloat:** {len(self.categories['interface_bloat'])} files ({len(self.categories['interface_bloat']) / total_files * 100:.1f}%)\n"
+                f"- **Interface Bloat:** {len(self.categories['interface_bloat'])} files ({len(self.categories['interface_bloat']} / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Documentation:** {len(self.categories['documentation'])} files ({len(self.categories['documentation']) / total_files * 100:.1f}%)\n"
+                f"- **Documentation:** {len(self.categories['documentation'])} files ({len(self.categories['documentation']} / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Configuration:** {len(self.categories['configuration'])} files ({len(self.categories['configuration']) / total_files * 100:.1f}%)\n"
+                f"- **Configuration:** {len(self.categories['configuration'])} files ({len(self.categories['configuration']} / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Unknown/Review:** {len(self.categories['unknown'])} files ({len(self.categories['unknown']) / total_files * 100:.1f}%)\n\n"
+                f"- **Unknown/Review:** {len(self.categories['unknown'])} files ({len(self.categories['unknown']} / total_files * 100:.1f}%)\n\n"
             )
 
             # True Core Analysis
             f.write("## 🧠 True AI Core Components\n\n")
-            f.write(f"**{len(self.categories['true_core'])} files** - Your actual AI system\n\n")
+            f.write(f"**{len(self.categories['true_core']} files** - Your actual AI system\n\n")
 
             if self.categories["true_core"]:
                 core_by_module = defaultdict(list)
@@ -196,12 +196,12 @@ class TrueCoreAnalyzer:
                     for file in sorted(files)[:5]:  # Show first 5
                         f.write(f"- `{file}`\n")
                     if len(files) > 5:
-                        f.write(f"- ... and {len(files) - 5} more files\n")
+                        f.write(f"- ... and {len(files} - 5} more files\n")
                     f.write("\n")
 
             # External Packages
             f.write("## 📦 External Packages (Should be Dependencies)\n\n")
-            f.write(f"**{len(self.categories['external_packages'])} files** - Not part of your AI core\n\n")
+            f.write(f"**{len(self.categories['external_packages']} files** - Not part of your AI core\n\n")
 
             if self.categories["external_packages"]:
                 external_by_package = defaultdict(list)
@@ -225,7 +225,7 @@ class TrueCoreAnalyzer:
             # Interface Bloat
             if self.categories["interface_bloat"]:
                 f.write("## 🖥️ Interface Bloat\n\n")
-                f.write(f"**{len(self.categories['interface_bloat'])} files** - Large interface packages\n\n")
+                f.write(f"**{len(self.categories['interface_bloat']} files** - Large interface packages\n\n")
                 f.write("*Consider if these should be separate repositories or external dependencies*\n\n")
 
             # Recommendations

@@ -54,7 +54,7 @@ from typing import Any, Callable, Optional
 from .glyph import Glyph, GlyphPriority, GlyphType
 
 # Configure logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class DecayState(Enum):
@@ -658,7 +658,7 @@ class GlyphSentinel:
             # Remove expired glyph
             self._remove_expired_glyph(glyph_id)
 
-        logger.debug(f"Cleanup cycle completed, removed {len(expired_glyphs)} expired glyphs")
+        logger.debug(f"Cleanup cycle completed, removed {len(expired_glyphs} expired glyphs")
 
     def _refresh_glyph(self, glyph_id: str) -> bool:
         """Refresh a glyph to reset decay state."""

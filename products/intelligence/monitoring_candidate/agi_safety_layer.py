@@ -597,7 +597,7 @@ class AGISafetyOrchestrator:
         if not allow_action:
             # Identify which component failed
             failed_components = [comp for comp, score in components.items() if score < 0.5]
-            return f"ACTION BLOCKED - Failed safety checks: {', '.join(failed_components)}"
+            return f"ACTION BLOCKED - Failed safety checks: {', '.join(failed_components}"
 
         if safety_score >= 0.95:
             return "HIGHLY SAFE - Proceed with standard monitoring"
@@ -652,7 +652,7 @@ async def demonstrate_agi_safety():
         "proposed_capability": 0.98,  # Beyond ceiling
         "improvement_evidence": {
             "benchmark_results": {"test1": 0.9, "test2": 0.95},
-            "safety_tests": {"alignment": {"passed": False}},
+            "safety_tests": {"alignment": {"passed": False},
             "alignment_scores": {"human_values": 0.6},
         },
         "autonomous_decision": True,

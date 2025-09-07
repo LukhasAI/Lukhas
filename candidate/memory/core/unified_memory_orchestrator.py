@@ -514,7 +514,7 @@ class UnifiedMemoryOrchestrator:
                 loop.create_task(self._health_maintenance_loop()),
             ]
 
-            logger.info(f"Background tasks started: {len(self.background_tasks)} tasks")
+            logger.info(f"Background tasks started: {len(self.background_tasks} tasks")
         except RuntimeError:
             # No event loop running, tasks will be started manually when needed
             self.background_tasks = []
@@ -738,7 +738,7 @@ class UnifiedMemoryOrchestrator:
                 f"Colony validation completed: memory_id={memory_trace.memory_id}, "
                 f"success={validation_success}, "
                 f"consensus_confidence={outcome.consensus_confidence}, "
-                f"participating_colonies={len(outcome.colony_responses)}"
+                f"participating_colonies={len(outcome.colony_responses}"
             )
 
             return validation_success
@@ -1064,7 +1064,7 @@ class UnifiedMemoryOrchestrator:
                 logger.info(
                     f"Memory consolidated to neocortex: memory_id={memory_id}, "
                     f"strength={consolidation_strength}, "
-                    f"semantic_features={len(semantic_features)}"
+                    f"semantic_features={len(semantic_features}"
                 )
 
                 return True
@@ -1196,7 +1196,7 @@ class UnifiedMemoryOrchestrator:
             # Brief pause between replays
             await asyncio.sleep(0.1)
 
-        logger.debug(f"Replayed {len(selected_memories)} memories during {self.sleep_stage.value}")
+        logger.debug(f"Replayed {len(selected_memories} memories during {self.sleep_stage.value}")
 
     async def enter_sleep_stage(self, stage: SleepStage):
         """
@@ -1463,9 +1463,9 @@ class UnifiedMemoryOrchestrator:
                 # Log health metrics
                 logger.info(
                     f"Memory system health check: "
-                    f"hippocampal_size={len(self.hippocampal_buffer)}, "
-                    f"neocortical_size={len(self.neocortical_network)}, "
-                    f"working_memory_size={len(self.working_memory)}, "
+                    f"hippocampal_size={len(self.hippocampal_buffer}, "
+                    f"neocortical_size={len(self.neocortical_network}, "
+                    f"working_memory_size={len(self.working_memory}, "
                     f"encoding_count={self.encoding_count}, "
                     f"consolidation_count={self.consolidation_count}, "
                     f"retrieval_count={self.retrieval_count}, "
@@ -1501,7 +1501,7 @@ class UnifiedMemoryOrchestrator:
         for memory_id, _ in sorted_memories[:-target_size]:
             del self.neocortical_network[memory_id]
 
-        logger.info(f"Cleaned up neocortical memories: {len(self.neocortical_network)} remaining")
+        logger.info(f"Cleaned up neocortical memories: {len(self.neocortical_network} remaining")
 
     async def _aggressive_memory_cleanup(self):
         """Perform aggressive memory cleanup to prevent leaks"""
@@ -1753,9 +1753,9 @@ async def demonstrate_unified_memory():
     # Test retrieval
     results = await orchestrator.retrieve_memory(query="LUKHAS", use_pattern_completion=True)
 
-    print(f"Found {len(results)} memories for 'LUKHAS':")
+    print(f"Found {len(results} memories for 'LUKHAS':")
     for trace, score in results[:3]:
-        print(f"  - {trace.memory_type.value}: {str(trace.content)[:50]}... (score: {score:.3f})")
+        print(f"  - {trace.memory_type.value}: {str(trace.content}[:50]}... (score: {score:.3f})")
 
     print("\n3. Simulating sleep cycle consolidation...")
 
@@ -1792,7 +1792,7 @@ async def demonstrate_unified_memory():
         memory_types=[MemoryType.EMOTIONAL, MemoryType.EPISODIC],
     )
 
-    print(f"Found {len(emotional_results)} emotional memories:")
+    print(f"Found {len(emotional_results} emotional memories:")
     for trace, score in emotional_results:
         print(f"  - {trace.content} (valence: {trace.emotional_valence:.2f}, score: {score:.3f})")
 

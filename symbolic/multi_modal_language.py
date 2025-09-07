@@ -168,7 +168,7 @@ class MultiModalLanguageBuilder:
         embedding = self._create_embedding(modality_features)
 
         # Generate concept ID
-        concept_id = hashlib.sha256(f"{meaning}_{embedding.tobytes()}".encode()).hexdigest()[:16]
+        concept_id = hashlib.sha256(f"{meaning}_{embedding.tobytes(}".encode()).hexdigest()[:16]
 
         # Create concept
         concept = UniversalConcept(
@@ -677,7 +677,7 @@ async def demo_multi_modal_language():
 
     print(f"\n✅ Created concept '{security_concept.meaning}':")
     print(f"   Entropy: {security_concept.entropy_total:.2f} bits")
-    print(f"   Modalities: {len(security_concept.modalities)}")
+    print(f"   Modalities: {len(security_concept.modalities}")
 
     # Generate ultra-high entropy password
     print("\n🔐 Generating Ultra-High Entropy Password...")
@@ -701,13 +701,13 @@ async def demo_multi_modal_language():
         print(f"   Text: {password.elements[ModalityType.TEXT]}")
 
     if ModalityType.EMOJI in password.elements:
-        print(f"   Emojis: {''.join(password.elements[ModalityType.EMOJI])}")
+        print(f"   Emojis: {''.join(password.elements[ModalityType.EMOJI]}")
 
     if ModalityType.GESTURE in password.elements:
-        print(f"   Gestures: {len(password.elements[ModalityType.GESTURE])} patterns")
+        print(f"   Gestures: {len(password.elements[ModalityType.GESTURE]} patterns")
 
     if ModalityType.COLOR in password.elements:
-        print(f"   Colors: {len(password.elements[ModalityType.COLOR])} colors")
+        print(f"   Colors: {len(password.elements[ModalityType.COLOR]} colors")
 
     print(f"   Visual Hash: {password.visual_hash[:16]}...")
 

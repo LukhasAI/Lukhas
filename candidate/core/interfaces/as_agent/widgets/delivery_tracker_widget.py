@@ -23,8 +23,7 @@ import uuid
 from datetime import datetime
 
 
-def create_delivery_widget(
-    vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit", timezone):
+def create_delivery_widget(timezone, vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit"):
     """
     Creates a delivery tracker widget for visualization in dashboard.
 

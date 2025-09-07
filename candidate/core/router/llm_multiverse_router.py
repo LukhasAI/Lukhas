@@ -19,7 +19,7 @@ from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
 from candidate.bridge.llm_wrappers.openai_wrapper import OpenaiWrapper
 from candidate.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
 
-openai = OpenaiWrapper(, timezone)
+openai = OpenaiWrapper()
 anthropic = AnthropicWrapper()
 gemini = GeminiWrapper()
 perplexity = PerplexityWrapper()

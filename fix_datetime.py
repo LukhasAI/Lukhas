@@ -20,7 +20,7 @@ def fix_datetime_files():
             if file_path.startswith("lukhas/"):
                 files_to_fix.add(file_path)
 
-    print(f"Found {len(files_to_fix)} files to fix")
+    print(f"Found {len(files_to_fix} files to fix")
 
     for file_path in files_to_fix:
         try:

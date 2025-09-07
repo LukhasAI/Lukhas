@@ -22,7 +22,7 @@ from candidate.core.tagging_system import Tag, TagManager, TagType
 from governance.identity.core.events import (
     IdentityEventPublisher,
     IdentityEventType,
-    get_identity_event_publisher,, timezone)
+    get_identity_event_publisher)
 
 logger = logging.getLogger("LUKHAS_IDENTITY_TAG_RESOLVER")
 
@@ -230,7 +230,7 @@ class IdentityTagResolver:
                 return ""
 
             # Create consensus request
-            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.now(timezone.utc).timestamp())}"
+            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.now(timezone.utc).timestamp()}"
             consensus_request = TagConsensusRequest(
                 request_id=request_id,
                 requester_id=issuer_id,

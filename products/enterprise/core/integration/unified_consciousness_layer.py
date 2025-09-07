@@ -31,7 +31,7 @@ try:
     import os
     import sys
 
-    sys.path.append(os.path.dirname(os.path.dirname(__file__, timezone)))  # Add enterprise/ to path
+    sys.path.append(os.path.dirname(os.path.dirname(__file__)))  # Add enterprise/ to path
     from observability.instantiate import obs_stack
 
     OBSERVABILITY_AVAILABLE = True

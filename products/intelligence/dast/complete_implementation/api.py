@@ -27,7 +27,7 @@ class LucasDASTAPI:
     - AGI-ready: Future-proof architecture
     """
 
-    def __init__(self, dast_engine, timezone):
+    def __init__(self, dast_engine):
         self.dast_engine = dast_engine
         self.api_version = "v2.0"
         self.request_log: list[dict] = []

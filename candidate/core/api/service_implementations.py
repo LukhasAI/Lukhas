@@ -121,7 +121,7 @@ if not MEMORY_MANAGER_AVAILABLE:
             log.info("Fallback MemoryManager initialized")
 
         async def store(self, content: dict[str, Any], memory_type: str = "general"):
-            memory_id = f"mem_{len(self.memories[memory_type])}"
+            memory_id = f"mem_{len(self.memories[memory_type]}"
             self.memories[memory_type].append({"id": memory_id, "content": content})
             return {"memory_id": memory_id, "stored": True}
 

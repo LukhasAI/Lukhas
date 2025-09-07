@@ -16,7 +16,7 @@ try:
         BrainIdentityConnector,
         MemoryAccessPolicy,
         MemoryIdentityIntegration,
-        MemoryOperation,, timezone)
+        MemoryOperation)
 
     BRAIN_IDENTITY_AVAILABLE = True
 except ImportError as e:
@@ -404,7 +404,7 @@ class BrainIdentityIntegration:
     def _get_user_session(self, user_id: str) -> str:
         """Get or create user session"""
         if user_id not in self.user_sessions:
-            self.user_sessions[user_id] = f"session_{uuid.uuid4().hex[:16]}"
+            self.user_sessions[user_id] = f"session_{uuid.uuid4(}.hex[:16]}"
         return self.user_sessions[user_id]
 
     async def register_memory(

@@ -118,7 +118,7 @@ class EmailIntegrator:
         patterns["product_categories"] = ["Electronics", "Groceries", "Fitness"]
         patterns["subscription_services"] = ["Netflix", "Spotify", "Adobe"]
 
-        logger.info(f"Scanned emails for user, found {len(patterns['frequent_merchants'])} merchants")
+        logger.info(f"Scanned emails for user, found {len(patterns['frequent_merchants']} merchants")
         return patterns
 
     def extract_preferences_from_newsletters(self, email_content: list[str]) -> list[str]:

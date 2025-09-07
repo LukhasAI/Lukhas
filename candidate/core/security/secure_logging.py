@@ -27,9 +27,9 @@ class SecurityLogFilter(logging.Filter):
         (r'secret["\s]*[:=]["\s]*([a-zA-Z0-9_.-]+)', r"secret=***REDACTED***"),
         (r'password["\s]*[:=]["\s]*([a-zA-Z0-9_.-]+)', r"password=***REDACTED***"),
         # Email addresses (partial redaction)
-        (r"([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})", lambda m: f"{m.group(1)[:3]}***@{m.group(2)}"),
+        (r"([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})", lambda m: f"{m.group(1)[:3]}***@{m.group(2}"),
         # Phone numbers (show only last 4 digits)
-        (r"\+?[\d\s()-]{10,15}", lambda m: f"***-***-{m.group()[-4:]}"),
+        (r"\+?[\d\s()-]{10,15}", lambda m: f"***-***-{m.group(}[-4:]}"),
         # JWT tokens
         (r"eyJ[a-zA-Z0-9_-]*\.eyJ[a-zA-Z0-9_-]*\.[a-zA-Z0-9_-]*", r"***JWT_TOKEN***"),
         # Credit card numbers
@@ -37,7 +37,7 @@ class SecurityLogFilter(logging.Filter):
         # SSN patterns
         (r"\b\d{3}[-\s]?\d{2}[-\s]?\d{4}\b", r"***-**-****"),
         # IP addresses (partial redaction)
-        (r"\b(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\b", lambda m: f"{m.group(1)}.{m.group(2)}.***.***."),
+        (r"\b(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\b", lambda m: f"{m.group(1)}.{m.group(2}.***.***."),
     ]
 
     def filter(self, record: logging.LogRecord) -> bool:
@@ -135,7 +135,7 @@ class SecurityAwareLogger:
         """Log security events with structured context."""
         self.logger.warning(
             f"SECURITY_EVENT: {event_type} - {message}",
-            extra={"security_event": True, "event_type": event_type, "context": context or {}},
+            extra={"security_event": True, "event_type": event_type, "context": context or {},
         )
 
     def log_data_access(self, user_id: str, resource: str, operation: str) -> None:

@@ -360,7 +360,7 @@ async def health_check():
 
     except Exception as e:
         logger.error("Health check failed: %s", str(e))
-        return {"status": "unhealthy", "error": str(e), "components": {}}
+        return {"status": "unhealthy", "error": str(e), "components": {}
 
 
 @router.post("/providers/{provider}/direct")

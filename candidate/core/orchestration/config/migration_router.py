@@ -17,7 +17,7 @@ from typing import Any, Callable, Optional, Union
 # Import orchestrator flags dynamically to avoid circular imports
 # from .orchestrator_flags import OrchestratorFlags, OrchestrationMode, get_orchestrator_flags
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -194,7 +194,7 @@ class ShadowOrchestrator:
 
         except Exception as e:
             execution_time_ms = (time.time() - start_time) * 1000
-            error_msg = f"{type(e).__name__}: {e!s}"
+            error_msg = f"{type(e}.__name__}: {e!s}"
 
             logger.warning(
                 "Orchestrator execution failed",

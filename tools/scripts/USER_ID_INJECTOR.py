@@ -18,7 +18,7 @@ class UserIDInjector:
 
     def __init__(self, root_path: str = ".", timezone):
         self.root_path = Path(root_path)
-        self.backup_dir = self.root_path / f"user_id_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.root_path / f"user_id_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
         self.modifications = []
 
         # Patterns for data structures that should include user_id
@@ -114,7 +114,7 @@ class UserIDInjector:
 
                 # Check if file has functions that should track users
                 if self._needs_user_tracking(content):
-                    print(f"  📝 {py_file.relative_to(module_path)}")
+                    print(f"  📝 {py_file.relative_to(module_path}")
 
                     # Apply transformations
                     content = self._inject_data_user_ids(content)
@@ -132,7 +132,7 @@ class UserIDInjector:
                             py_file.write_text(content)
 
                         files_modified += 1
-                        self.modifications.append(f"Modified {py_file.relative_to(self.root_path)}")
+                        self.modifications.append(f"Modified {py_file.relative_to(self.root_path}")
 
             except Exception as e:
                 print(f"❌ Error processing {py_file}: {e}")
@@ -321,7 +321,7 @@ class UserIDInjector:
         print("📊 USER ID INJECTION REPORT")
         print("=" * 40)
 
-        print(f"\n✅ Files Modified: {len(self.modifications)}")
+        print(f"\n✅ Files Modified: {len(self.modifications}")
         for mod in self.modifications:
             print(f"  • {mod}")
 
@@ -350,7 +350,7 @@ def main():
     if not modules:
         modules = ["consciousness", "quantum", "dream", "emotion"]
 
-    print(f"🎯 Target modules: {', '.join(modules)}")
+    print(f"🎯 Target modules: {', '.join(modules}")
     print(f"🧪 Dry run: {'YES' if dry_run else 'NO'}")
 
     if not dry_run:

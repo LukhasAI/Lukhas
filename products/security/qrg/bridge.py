@@ -18,7 +18,7 @@ from typing import Any, Optional
 try:
     from products.lambda.NIΛS.emotional_filter import EmotionalFilter
     from products.lambda.WΛLLET.qi_identity_core import (
-        QIIdentityCore,, timezone)
+        QIIdentityCore)
     from products.lambda.ΛSYMBOLIC.authentication.psi_protocol import (
         PsiProtocol,
     )

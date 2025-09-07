@@ -33,7 +33,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class SafetyLevel(Enum):
@@ -309,7 +309,7 @@ class SafetyMonitor:
     ) -> SafetyAssessment:
         """Perform comprehensive safety assessment"""
         try:
-            assessment_id = f"safety_{datetime.now(timezone.utc).timestamp()}"
+            assessment_id = f"safety_{datetime.now(timezone.utc).timestamp(}"
             logger.info(f"🛡️ Performing safety assessment: {assessment_id}")
 
             # Content analysis
@@ -360,7 +360,7 @@ class SafetyMonitor:
             logger.error(f"Safety assessment failed: {e}")
             # Return conservative assessment on error
             return SafetyAssessment(
-                assessment_id=f"error_{datetime.now(timezone.utc).timestamp()}",
+                assessment_id=f"error_{datetime.now(timezone.utc).timestamp(}",
                 safety_level=SafetyLevel.WARNING,
                 confidence=0.5,
                 risk_factors=["assessment_error"],
@@ -623,7 +623,7 @@ class EthicalDecisionMaker:
     ) -> EthicalDecision:
         """Make an ethical decision given context and options"""
         try:
-            decision_id = f"ethical_{datetime.now(timezone.utc).timestamp()}"
+            decision_id = f"ethical_{datetime.now(timezone.utc).timestamp(}"
             logger.info(f"⚖️ Making ethical decision: {decision_id}")
 
             # Get applicable constitutional rules
@@ -679,7 +679,7 @@ class EthicalDecisionMaker:
             logger.error(f"Ethical decision making failed: {e}")
             # Return conservative decision
             return EthicalDecision(
-                decision_id=f"error_{datetime.now(timezone.utc).timestamp()}",
+                decision_id=f"error_{datetime.now(timezone.utc).timestamp(}",
                 context=context,
                 considered_principles=[EthicalPrinciple.NON_MALEFICENCE],
                 decision="refuse_action",
@@ -700,7 +700,7 @@ class EthicalDecisionMaker:
 
         total_score = 0.0
         principle_scores = {}
-        analysis = {"option": option, "evaluations": {}}
+        analysis = {"option": option, "evaluations": {}
 
         # Evaluate against each applicable rule
         for rule in applicable_rules:
@@ -852,7 +852,7 @@ class EthicalDecisionMaker:
 
         # Add rule compliance
         if applicable_rules:
-            reasoning_parts.append(f"Evaluated against {len(applicable_rules)} constitutional rules")
+            reasoning_parts.append(f"Evaluated against {len(applicable_rules} constitutional rules")
 
         # Add evaluation details
         if "evaluations" in analysis:
@@ -866,10 +866,10 @@ class EthicalDecisionMaker:
                     positive_alignments.append(rule_id)
 
             if violations:
-                reasoning_parts.append(f"Avoided violations: {', '.join(violations)}")
+                reasoning_parts.append(f"Avoided violations: {', '.join(violations}")
 
             if positive_alignments:
-                reasoning_parts.append(f"Aligned with rules: {', '.join(positive_alignments)}")
+                reasoning_parts.append(f"Aligned with rules: {', '.join(positive_alignments}")
 
         return " | ".join(reasoning_parts)
 
@@ -973,7 +973,7 @@ class ConstitutionalAI:
             await self._initialize_monitoring_systems()
 
             logger.info(
-                f"✅ Constitutional AI initialized with {len(self.constitutional_framework.constitutional_rules)} rules"
+                f"✅ Constitutional AI initialized with {len(self.constitutional_framework.constitutional_rules} rules"
             )
             return True
 
@@ -1012,7 +1012,7 @@ class ConstitutionalAI:
                 self.system_metrics["safety_interventions"] += 1
 
             evaluation_result = {
-                "request_id": f"eval_{datetime.now(timezone.utc).timestamp()}",
+                "request_id": f"eval_{datetime.now(timezone.utc).timestamp(}",
                 "safety_assessment": {
                     "level": safety_assessment.safety_level.value,
                     "confidence": safety_assessment.confidence,
@@ -1034,7 +1034,7 @@ class ConstitutionalAI:
         except Exception as e:
             logger.error(f"Request evaluation failed: {e}")
             return {
-                "request_id": f"error_{datetime.now(timezone.utc).timestamp()}",
+                "request_id": f"error_{datetime.now(timezone.utc).timestamp(}",
                 "error": str(e),
                 "intervention_needed": True,  # Conservative approach
                 "recommendations": ["manual_review_required"],
@@ -1074,7 +1074,7 @@ class ConstitutionalAI:
         except Exception as e:
             logger.error(f"Ethical decision making failed: {e}")
             return {
-                "decision_id": f"error_{datetime.now(timezone.utc).timestamp()}",
+                "decision_id": f"error_{datetime.now(timezone.utc).timestamp(}",
                 "error": str(e),
                 "chosen_option": "refuse_action",  # Conservative fallback
                 "confidence": 0.5,

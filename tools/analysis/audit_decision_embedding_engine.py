@@ -186,7 +186,7 @@ class DecisionAuditEngine:
 
     def _generate_decision_id(self, decision_type: str, input_data: dict[str, Any], timestamp: datetime) -> str:
         """Generate a unique decision ID"""
-        content = f"{decision_type}:{json.dumps(input_data, sort_keys=True)}:{timestamp.isoformat()}"
+        content = f"{decision_type}:{json.dumps(input_data, sort_keys=True)}:{timestamp.isoformat(}"
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
     def _persist_decision(self, decision: AuditDecision):

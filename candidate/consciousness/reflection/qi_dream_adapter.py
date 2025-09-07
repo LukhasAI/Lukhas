@@ -371,7 +371,7 @@ class QIDreamAdapter:
 
             return {
                 "success": True,
-                "multiverse_id": f"multiverse_{datetime.now(timezone.utc).isoformat()}",
+                "multiverse_id": f"multiverse_{datetime.now(timezone.utc).isoformat(}",
                 "parallel_paths_simulated": len(completed_dreams),
                 "dream_seed": dream_seed,
                 "parallel_dreams": completed_dreams,
@@ -467,7 +467,7 @@ class QIDreamAdapter:
             }
 
         except Exception as e:
-            logger.error(f"Dream path simulation failed for {path_config.get('path_id', 'unknown')}: {e}")
+            logger.error(f"Dream path simulation failed for {path_config.get('path_id', 'unknown'}: {e}")
             return {
                 "success": False,
                 "path_id": path_config.get("path_id", "unknown"),

@@ -33,7 +33,7 @@ class DASTAdapter:
     🔗 Universal adapter for integrating with existing DAST systems and external tools
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.adapters: dict[str, Any] = {}
         self.request_cache: dict[str, Any] = {}
         self.rate_limiters: dict[str, list[float]] = {}
@@ -387,7 +387,7 @@ class DASTAdapter:
     def _convert_single_generic_item(self, item: dict) -> dict:
         """Convert single generic item to DAST format"""
         return {
-            "id": f"generic_{item.get('id', 'unknown')}",
+            "id": f"generic_{item.get('id', 'unknown'}",
             "title": item.get("title", item.get("name", "Untitled")),
             "description": item.get("description", ""),
             "priority": item.get("priority", "medium"),

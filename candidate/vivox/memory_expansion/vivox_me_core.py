@@ -467,7 +467,7 @@ class VIVOXMemoryExpansion:
         sequence_id = await self.record_decision_mutation(
             decision={"type": "reflection", "data": reflection_data},
             emotional_context=reflection_data.get("emotional_context", {"valence": 0, "arousal": 0.5}),
-            moral_fingerprint=f"reflection_{reflection_data.get('moment_id', 'unknown')}",
+            moral_fingerprint=f"reflection_{reflection_data.get('moment_id', 'unknown'}",
         )
         return sequence_id
 
@@ -567,4 +567,4 @@ class VIVOXMemoryExpansion:
         """Notify other VIVOX modules of memory veiling"""
         # This would integrate with event bus or messaging system
         # For now, just log the notification
-        print(f"Memory veiling notification: {len(memory_ids)} memories veiled")
+        print(f"Memory veiling notification: {len(memory_ids} memories veiled")

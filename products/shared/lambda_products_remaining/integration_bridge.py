@@ -55,12 +55,12 @@ class IntegrationBridge:
             # Configure consent levels
             consent_config = nias_config.get("consent_levels", {})
             nias.consent_levels = consent_config
-            print(f"   ✅ Consent levels configured: {list(consent_config.keys())}")
+            print(f"   ✅ Consent levels configured: {list(consent_config.keys()}")
 
             # Set delivery methods
             delivery_config = nias_config.get("delivery_methods", {})
             nias.delivery_methods = delivery_config
-            print(f"   ✅ Delivery methods configured: {list(delivery_config.keys())}")
+            print(f"   ✅ Delivery methods configured: {list(delivery_config.keys()}")
 
             # Enable consciousness features
             if self.config["components"]["consciousness"]["enabled"]:
@@ -121,12 +121,12 @@ class IntegrationBridge:
             # Set autonomous parameters
             orchestrator.max_autonomous_days = agent_config.get("autonomous_days", 7)
             orchestrator.decision_threshold = agent_config.get("decision_threshold", 0.85)
-            print(f"   ✅ Autonomous operation: {agent_config.get('autonomous_days')} days")
+            print(f"   ✅ Autonomous operation: {agent_config.get('autonomous_days'} days")
 
             # Configure orchestration limits
             orchestration = agent_config.get("orchestration", {})
             orchestrator.max_concurrent = orchestration.get("max_concurrent", 1000)
-            print(f"   ✅ Max concurrent agents: {orchestration.get('max_concurrent')}")
+            print(f"   ✅ Max concurrent agents: {orchestration.get('max_concurrent'}")
 
             # Enable consciousness features
             if self.config["components"]["consciousness"]["enabled"]:
@@ -177,7 +177,7 @@ class IntegrationBridge:
 
             # Set performance targets
             plugin_system.target_throughput = plugin_config.get("registration_throughput", 50000)
-            print(f"   ✅ Target throughput: {plugin_config.get('registration_throughput')} ops/sec")
+            print(f"   ✅ Target throughput: {plugin_config.get('registration_throughput'} ops/sec")
 
             # Enable features
             plugin_system.health_monitoring = plugin_config.get("health_monitoring", True)
@@ -189,7 +189,7 @@ class IntegrationBridge:
             if self.config["components"]["glyph"]["enabled"]:
                 glyph_tokens = self.config["components"]["glyph"]["symbolic_tokens"]
                 plugin_system.glyph_tokens = glyph_tokens
-                print(f"   ✅ GLYPH tokens configured: {len(glyph_tokens)} symbols")
+                print(f"   ✅ GLYPH tokens configured: {len(glyph_tokens} symbols")
 
             self.integrations["plugins"] = plugin_system
             return True
@@ -221,7 +221,7 @@ class IntegrationBridge:
                     "products": tier_data.get("lambda_products", []),
                 }
 
-            print(f"   ✅ Configured {len(tier_rules)} tier levels")
+            print(f"   ✅ Configured {len(tier_rules} tier levels")
 
             # Apply to NIAS if available
             if "nias" in self.integrations:
@@ -288,7 +288,7 @@ class IntegrationBridge:
 
             # Configure pricing tiers
             pricing = commercial_config.get("pricing_tiers", {})
-            print(f"   ✅ Configured {len(pricing)} pricing tiers")
+            print(f"   ✅ Configured {len(pricing} pricing tiers")
 
             # Set up revenue tracking
             revenue_config = commercial_config.get("revenue_tracking", {})

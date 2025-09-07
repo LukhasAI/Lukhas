@@ -22,7 +22,7 @@ VOTE_LOG_PATH = "dao/attestations/dao_votes_log.jsonl"
 TIER = 5  # Simulated high-trust vote
 
 # Configure logging
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")

@@ -43,7 +43,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 # ΛEXPOSE
@@ -57,7 +57,7 @@ class MemoryCleaner:
     """
 
     def __init__(self, parent_id: str, task_data: dict[str, Any]):
-        self.agent_id = f"{parent_id}_MEMORY_{int(datetime.now(timezone.utc).timestamp())}"
+        self.agent_id = f"{parent_id}_MEMORY_{int(datetime.now(timezone.utc).timestamp()}"
         self.parent_id = parent_id
         self.task_data = task_data
 
@@ -69,7 +69,7 @@ class MemoryCleaner:
 
         # Use standard logger for this instance
         self.logger = logging.getLogger(f"{__name__}.{self.agent_id}")
-        self.logger.info(f"🧹 Memory Cleaner sub-agent spawned - task_type: {task_data.get('memory_issue', 'unknown')}")
+        self.logger.info(f"🧹 Memory Cleaner sub-agent spawned - task_type: {task_data.get('memory_issue', 'unknown'}")
 
     def analyze_memory_fragmentation(self) -> dict[str, Any]:
         """Analyze current memory fragmentation state"""
@@ -96,7 +96,7 @@ class MemoryCleaner:
         corrupted_segments = [
             {
                 "segment_id": f"seg_{i:04d}",
-                "location": f"0x{random.randint(0x1000, 0xFFFF):04X}",
+                "location": f"0x{random.randint(0x1000, 0xFFFF}:04X}",
                 "size": random.randint(1024, 4096),
                 "error_type": random.choice(["checksum_mismatch", "null_reference", "cyclic_reference"]),
             }
@@ -159,7 +159,7 @@ class MemoryCleaner:
 
         # Clean corrupted segments
         if analysis["corrupted_segments"]:
-            self.logger.info(f"Cleaning {len(analysis['corrupted_segments'])} corrupted segments")
+            self.logger.info(f"Cleaning {len(analysis['corrupted_segments']} corrupted segments")
             for segment in analysis["corrupted_segments"]:
                 # Simulate cleanup based on error type
                 if segment["error_type"] == "checksum_mismatch":
@@ -180,7 +180,7 @@ class MemoryCleaner:
 
         # Consolidate redundant memories
         if analysis["redundant_memories"]:
-            self.logger.info(f"Consolidating {len(analysis['redundant_memories'])} redundant memories")
+            self.logger.info(f"Consolidating {len(analysis['redundant_memories']} redundant memories")
             for memory in analysis["redundant_memories"]:
                 # Keep only one copy
                 duplicates_removed = memory["duplicate_count"] - 1

@@ -42,7 +42,7 @@ class DreamTimelineVisualizer:
                 primary_emotion = emotional_context.get("primary_emotion", "N/A")
 
                 print(
-                    f"[{timestamp.strftime('%Y-%m-%d %H:%M:%S')}] Dream Cycle {dream['cycle_number']} - Emotion: {primary_emotion}"
+                    f"[{timestamp.strftime('%Y-%m-%d %H:%M:%S'}] Dream Cycle {dream['cycle_number']} - Emotion: {primary_emotion}"
                 )
 
                 if dream.get("affect_trace"):

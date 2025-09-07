@@ -482,17 +482,17 @@ if __name__ == "__main__":
     for principle, description in thought_leadership.strategy_foundation.items():
         print(f"  {principle}: {description}")
 
-    print(f"\n🎨 Content Frameworks ({len(thought_leadership.content_frameworks)}):")
+    print(f"\n🎨 Content Frameworks ({len(thought_leadership.content_frameworks}):")
     for framework, details in thought_leadership.content_frameworks.items():
         print(f"  {framework}: {details['principle']}")
 
-    print(f"\n📢 Distribution Strategy ({len(thought_leadership.distribution_strategy)} platforms):")
+    print(f"\n📢 Distribution Strategy ({len(thought_leadership.distribution_strategy} platforms):")
     for platform, details in thought_leadership.distribution_strategy.items():
         print(f"  {platform}: {details['focus']} - {details['posting_frequency']}")
 
-    print(f"\n📅 Campaign Calendar ({len(thought_leadership.campaign_calendar)} months):")
+    print(f"\n📅 Campaign Calendar ({len(thought_leadership.campaign_calendar} months):")
     for calendar in thought_leadership.campaign_calendar.values():
-        print(f"  {calendar.month}: {len(calendar.content_pieces)} pieces, {calendar.expected_reach:,} reach")
+        print(f"  {calendar.month}: {len(calendar.content_pieces} pieces, {calendar.expected_reach:,} reach")
 
     print("\n🎯 Quarterly Objectives:")
     for quarter, objectives in roadmap["quarterly_objectives"].items():

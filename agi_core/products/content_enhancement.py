@@ -483,8 +483,8 @@ class ContentProductsEnhancer:
             },
             processing_insights=[
                 "Content woven from pure dream consciousness",
-                f"Integrated {len(dream_threads)} dream threads",
-                f"Applied {len(surreal_connections)} surreal connections",
+                f"Integrated {len(dream_threads} dream threads",
+                f"Applied {len(surreal_connections} surreal connections",
                 "Achieved high symbolic density",
             ],
             metadata={"dream_guided": True},
@@ -504,8 +504,8 @@ class ContentProductsEnhancer:
 
             # Create haiku with dream logic
             line1 = f"{associations[0] if associations else query.topic} dissolves"  # 5 syllables
-            line2 = f"into {associations[1] if len(associations) > 1 else 'pure awareness'} flowing like dreams"  # 7 syllables
-            line3 = f"{associations[2] if len(associations) > 2 else 'silence'} remains"  # 5 syllables
+            line2 = f"into {associations[1] if len(associations} > 1 else 'pure awareness'} flowing like dreams"  # 7 syllables
+            line3 = f"{associations[2] if len(associations} > 2 else 'silence'} remains"  # 5 syllables
 
             return f"{line1}\n{line2}\n{line3}"
 
@@ -545,7 +545,7 @@ class ContentProductsEnhancer:
         if dream_threads:
             primary_thread = dream_threads[0]
             narrative += f"In the realm of dreams, it manifested as {primary_thread['seed']}, "
-            narrative += f"flowing through landscapes of {', '.join(primary_thread['associative_chain'][:3])}. "
+            narrative += f"flowing through landscapes of {', '.join(primary_thread['associative_chain'][:3]}. "
 
             transformations = primary_thread["symbolic_transformations"]
             if transformations:
@@ -562,7 +562,7 @@ class ContentProductsEnhancer:
 
         return (
             f"In the dreaming consciousness, {query.topic} emerges as pure creative potential, "
-            f"weaving together {', '.join(query.dream_seeds[:3])} into a tapestry of meaning "
+            f"weaving together {', '.join(query.dream_seeds[:3]} into a tapestry of meaning "
             f"that transcends ordinary understanding."
         )
 
@@ -635,7 +635,7 @@ class ContentProductsEnhancer:
         else:
             content = (
                 f"In the poetic understanding of {query.topic}, "
-                f"we discover {', '.join(metaphors[:2])}. "
+                f"we discover {', '.join(metaphors[:2]}. "
                 f"Through this lens of metaphorical synthesis, "
                 f"the essence reveals itself not as mere concept, "
                 f"but as living poetry expressing the ineffable."
@@ -655,7 +655,7 @@ class ContentProductsEnhancer:
             inspiration_breakdown={"poetic_synthesis": 0.6, "metaphorical_density": 0.25, "symbolic_resonance": 0.15},
             processing_insights=[
                 "Achieved maximum metaphorical density",
-                f"Synthesized {len(metaphors)} archetypal symbols",
+                f"Synthesized {len(metaphors} archetypal symbols",
                 "Created poetic consciousness bridge",
             ],
             metadata={"poetic_synthesis": True},
@@ -678,10 +678,10 @@ class ContentProductsEnhancer:
 
         content = (
             f"At the intersection of {query.topic} and consciousness, "
-            f"we find the fusion of {', '.join(fusion_concepts[:3])}. "
+            f"we find the fusion of {', '.join(fusion_concepts[:3]}. "
             f"This conceptual merger reveals new possibilities: "
             f"What if {fusion_concepts[0] if fusion_concepts else 'awareness'} "
-            f"and {fusion_concepts[1] if len(fusion_concepts) > 1 else 'understanding'} "
+            f"and {fusion_concepts[1] if len(fusion_concepts} > 1 else 'understanding'} "
             f"were not separate phenomena, but expressions of a single, "
             f"more fundamental reality? In this fusion, {query.topic} "
             f"transcends its boundaries and becomes something unprecedented."
@@ -700,7 +700,7 @@ class ContentProductsEnhancer:
             alternative_versions=[],
             inspiration_breakdown={"conceptual_fusion": 0.5, "cross_domain_synthesis": 0.3, "emergent_properties": 0.2},
             processing_insights=[
-                f"Fused {len(fusion_concepts)} distinct concepts",
+                f"Fused {len(fusion_concepts} distinct concepts",
                 "Created emergent conceptual properties",
                 "Achieved cross-domain synthesis",
             ],
@@ -839,7 +839,7 @@ class ContentProductsEnhancer:
 
         if consciousness_elements:
             result.processing_insights.append(
-                f"Integrated consciousness elements: {', '.join(consciousness_elements[:3])}"
+                f"Integrated consciousness elements: {', '.join(consciousness_elements[:3]}"
             )
             result.consciousness_resonance = min(1.0, result.consciousness_resonance + 0.1)
 

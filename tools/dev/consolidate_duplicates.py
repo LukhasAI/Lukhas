@@ -41,7 +41,7 @@ class MassiveConsolidator:
         unused_files = self.load_unused_files()
         dream_files = [f for f in unused_files if "dream" in f["path"].lower()]
 
-        print(f"Found {len(dream_files)} dream-related files to consolidate")
+        print(f"Found {len(dream_files} dream-related files to consolidate")
 
         # Group dream files by functionality
         groups = {"core_engine": [], "commerce_api": [], "visualization": []}
@@ -68,7 +68,7 @@ class MassiveConsolidator:
             target_dir.mkdir(exist_ok=True)
             target_file = target_dir / f"{group_name}.py"
 
-            print(f"\n📦 Consolidating {len(files)} files into {target_file.name}")
+            print(f"\n📦 Consolidating {len(files} files into {target_file.name}")
 
             # Create consolidated file
             with open(target_file, "w") as consolidated:
@@ -92,7 +92,7 @@ class Consolidated{group_name.replace('_', '').title()}:
     """Unified {group_name.replace('_', ' ')} functionality"""
 
     def __init__(self):
-        self.components = {{}}
+        self.components = {{}
         self._initialize_components()
 
     def _initialize_components(self):
@@ -134,7 +134,7 @@ def get_{group_name}():
         unused_files = self.load_unused_files()
         memory_files = [f for f in unused_files if "memory" in f["path"].lower()]
 
-        print(f"Found {len(memory_files)} memory-related files to consolidate")
+        print(f"Found {len(memory_files} memory-related files to consolidate")
 
         # Group memory files
         groups = {
@@ -164,7 +164,7 @@ def get_{group_name}():
             target_dir = self.root_path / "memory"
             target_file = target_dir / f"{group_name}.py"
 
-            print(f"\n📦 Consolidating {len(files)} files into {target_file.name}")
+            print(f"\n📦 Consolidating {len(files} files into {target_file.name}")
 
             # Create consolidated file (similar structure as dream systems)
             with open(target_file, "w") as consolidated:
@@ -182,7 +182,7 @@ import asyncio
 class Consolidated{group_name.replace('_', '').title()}:
 
     def __init__(self):
-        self.active_memories = {{}}
+        self.active_memories = {{}
         self.processing_queue = []
 
     async def process_memory(self, memory_data: Dict[str, Any]) -> Optional[Dict]:
@@ -248,7 +248,7 @@ class Consolidated{group_name.replace('_', '').title()}:
                 continue
 
             target_file = engines_dir / f"{group_name}.py"
-            print(f"📦 Consolidating {len(files)} engines into {target_file.name}")
+            print(f"📦 Consolidating {len(files} engines into {target_file.name}")
 
             with open(target_file, "w") as consolidated:
                 consolidated.write(
@@ -270,13 +270,13 @@ class {group_name.replace('_', '').title()}(ABC):
     """Consolidated engine for {group_name.replace('_', ' ')} functionality"""
 
     def __init__(self, config: Optional[Dict] = None):
-        self.config = config or {{}}
-        self.active_processes = {{}}
+        self.config = config or {{}
+        self.active_processes = {{}
         self.metrics = {{
             'processed_items': 0,
             'errors': 0,
             'avg_processing_time': 0.0
-        }}
+        }
 
     @abstractmethod
     async def process(self, input_data: Any) -> Any:
@@ -346,7 +346,7 @@ class {group_name.replace('_', '').title()}(ABC):
             if dir_path.exists():
                 files = list(dir_path.glob("*.py"))
                 if files:
-                    print(f"\n{dir_name.title()} consolidated files:")
+                    print(f"\n{dir_name.title(} consolidated files:")
                     for f in files:
                         print(f"  ✅ {f.name}")
 

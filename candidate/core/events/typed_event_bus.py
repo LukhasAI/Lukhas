@@ -16,7 +16,7 @@ from typing import Any, Callable, Optional, TypeVar, Union, cast
 from ..container.service_container import ServiceLifetime, injectable
 from .contracts import DomainEvent, EventPriority
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 T = TypeVar("T", bound=DomainEvent)
 
@@ -82,7 +82,7 @@ class TypedEventBus:
         filter_func: Optional[Callable[[T], bool]] = None,
     ) -> str:
         """Subscribe to a specific event type with type safety"""
-        subscription_id = f"sub_{event_type.__name__}_{id(handler)}"
+        subscription_id = f"sub_{event_type.__name__}_{id(handler}"
 
         subscription = EventSubscription(
             event_type=event_type,
@@ -110,7 +110,7 @@ class TypedEventBus:
         """Publish a typed domain event"""
         # Set metadata if not already set
         if not event.event_id:
-            event.event_id = f"evt_{event.__class__.__name__}_{datetime.now(timezone.utc).timestamp()}"
+            event.event_id = f"evt_{event.__class__.__name__}_{datetime.now(timezone.utc).timestamp(}"
         if not event.timestamp:
             event.timestamp = datetime.now(timezone.utc)
 

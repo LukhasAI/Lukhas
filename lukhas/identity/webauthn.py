@@ -155,7 +155,7 @@ class WebAuthnManager:
             }
 
             # Store pending registration
-            registration_id = f"reg_{secrets.token_hex(16)}"
+            registration_id = f"reg_{secrets.token_hex(16}"
             self.pending_registrations[registration_id] = {
                 "challenge": challenge,
                 "challenge_b64": challenge_b64,
@@ -319,7 +319,7 @@ class WebAuthnManager:
             }
 
             # Store pending authentication
-            auth_id = f"auth_{secrets.token_hex(16)}"
+            auth_id = f"auth_{secrets.token_hex(16}"
             self.pending_authentications[auth_id] = {
                 "challenge": challenge,
                 "challenge_b64": challenge_b64,
@@ -631,7 +631,7 @@ class WebAuthnManager:
             }
 
         except Exception as e:
-            return {"webauthn_health_check": {"overall_status": "ERROR", "error": str(e)}}
+            return {"webauthn_health_check": {"overall_status": "ERROR", "error": str(e)}
 
     def _get_tier_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by tier level"""

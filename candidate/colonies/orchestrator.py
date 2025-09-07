@@ -12,7 +12,7 @@ from typing import Any
 from .base import BaseColony, ColonyTask, get_colony_registry
 
 
-class OrchestratorColony(BaseColony, timezone):
+class OrchestratorColony(BaseColony):
     """Meta-colony that coordinates other colonies"""
 
     def __init__(self, max_agents: int = 6):
@@ -47,7 +47,7 @@ class OrchestratorColony(BaseColony, timezone):
 
     def _execute_workflow(self, workflow_spec: dict[str, Any]) -> dict[str, Any]:
         """Execute a multi-colony workflow"""
-        workflow_id = f"wf_{datetime.now(timezone.utc).timestamp()}"
+        workflow_id = f"wf_{datetime.now(timezone.utc).timestamp(}"
         steps = workflow_spec.get("steps", [])
 
         workflow_result = {

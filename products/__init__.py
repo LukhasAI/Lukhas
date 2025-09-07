@@ -67,7 +67,7 @@ def create_product_instance(
             "description": catalog["categories"][category],
             "created_at": __import__("time").time(),
             "status": "created",
-            "instance_id": f"{category}_{product_type}_{hash(str(config))}",
+            "instance_id": f"{category}_{product_type}_{hash(str(config)}",
         }
         logger.info(f"Product instance created: {category}/{product_type}")
         return instance

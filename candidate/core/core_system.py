@@ -15,7 +15,7 @@ import logging
 from datetime import datetime
 from typing import Any
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class LukhasCore:
@@ -69,7 +69,7 @@ class LukhasCore:
 
         # Process through consciousness pipeline
         response = {
-            "content": f"Processing: {input_data.get('input', 'No input')}",
+            "content": f"Processing: {input_data.get('input', 'No input'}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "consciousness_level": self.state["consciousness_level"],
             "emotional_state": self.state["emotional_state"],

@@ -14,7 +14,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ColonyRole(Enum, timezone):
+class ColonyRole(Enum):
     """Standard colony roles"""
 
     COORDINATOR = "coordinator"

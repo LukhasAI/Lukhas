@@ -44,7 +44,7 @@ def log_emotion(state, source="manual"):
     entry = {
         "state": state,
         "source": source,
-        "timestamp": datetime.utcnow(, timezone).isoformat(),
+        "timestamp": datetime.utcnow().isoformat(),
     }
     emotion_db["current"] = state
     emotion_db["log"].append(entry)

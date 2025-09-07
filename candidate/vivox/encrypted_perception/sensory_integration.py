@@ -20,7 +20,7 @@ from .anomaly_detection import AnomalyDetector
 from .vector_encryption import PerceptualEncryptor
 from .vivox_evrn_core import EncryptedPerception, PerceptualVector
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class SensoryModality(Enum):
@@ -659,7 +659,7 @@ class MultimodalFusion:
 
         # Create fused perception
         fused_perception = EncryptedPerception(
-            perception_id=f"fused_{datetime.now(timezone.utc).timestamp()}",
+            perception_id=f"fused_{datetime.now(timezone.utc).timestamp(}",
             encrypted_features=fused_vector,
             modality="multimodal",
             timestamp=datetime.now(timezone.utc),

@@ -30,7 +30,7 @@ except ImportError:
     # Fallback for environments without numpy
     class MockNumpy:
         @staticmethod
-        def mean(x, timezone):
+        def mean(x):
             return sum(x) / len(x) if x else 0.0
 
         @staticmethod

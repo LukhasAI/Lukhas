@@ -23,7 +23,7 @@ from ..eu_ai_act.compliance_validator import AISystemProfile, EUAIActValidator
 from ..gdpr.data_protection_validator import DataProcessingActivity, GDPRValidator
 from ..nist.ai_risk_management import AISystemMetrics, NISTAIRiskManager
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class Jurisdiction(Enum):

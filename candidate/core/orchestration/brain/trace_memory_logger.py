@@ -32,7 +32,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure standard logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class TraceMemoryLogger:
@@ -391,6 +391,6 @@ if __name__ == "__main__":
 
     # Retrieve recent traces
     recent = trace_logger.get_recent_traces(limit=5)
-    print(f"Recent traces: {len(recent)}")
+    print(f"Recent traces: {len(recent}")
     for trace in recent:
         print(f"{trace['level_name']}: {trace['message']}")

@@ -32,7 +32,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class EntropyLevel(Enum, timezone):
+class EntropyLevel(Enum):
     """Entropy quality levels"""
 
     VERY_LOW = "very_low"  # < 1.0
@@ -446,7 +446,7 @@ class LambdaIDEntropyEngine:
             tier_config = self.tier_thresholds.get(f"tier_{tier}", {})
             if analysis.overall_score < tier_config.get("recommended", 2.0):
                 recommendations.append(
-                    f"Aim for entropy score of {tier_config.get('recommended', 2.0)} for optimal Tier {tier} performance"
+                    f"Aim for entropy score of {tier_config.get('recommended', 2.0} for optimal Tier {tier} performance"
                 )
 
         analysis.recommendations = recommendations

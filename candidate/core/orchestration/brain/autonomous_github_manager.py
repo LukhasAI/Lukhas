@@ -35,7 +35,7 @@ from lukhas.core.budget.token_controller import APICallContext, CallUrgency, Tok
 from lukhas.core.common.config import settings
 
 
-class NotificationPriority(Enum, timezone):
+class NotificationPriority(Enum):
     """Priority levels for GitHub notifications"""
 
     CRITICAL = "critical"  # Security issues, critical workflows
@@ -153,7 +153,7 @@ class AdvancedAutonomousGitHubManager:
                     if github_notif:
                         all_notifications.append(github_notif)
 
-                self.logger.info(f"📄 Processed page {page}: {len(notifications)} notifications")
+                self.logger.info(f"📄 Processed page {page}: {len(notifications} notifications")
                 page += 1
                 time.sleep(0.1)  # Rate limiting
 
@@ -162,7 +162,7 @@ class AdvancedAutonomousGitHubManager:
                 break
 
         self.all_notifications = all_notifications
-        self.logger.info(f"✅ Total notifications fetched: {len(all_notifications)}")
+        self.logger.info(f"✅ Total notifications fetched: {len(all_notifications}")
         return all_notifications
 
     def parse_notification(self, notif: dict[str, Any]) -> Optional[GitHubNotification]:
@@ -312,7 +312,7 @@ class AdvancedAutonomousGitHubManager:
         self, notifications: list[GitHubNotification], max_batches: int = 10
     ) -> list[BatchFixResult]:
         """Process fixes in intelligent batches"""
-        self.logger.info(f"🚀 Starting batch processing of {len(notifications)} notifications...")
+        self.logger.info(f"🚀 Starting batch processing of {len(notifications} notifications...")
 
         batch_results = []
         batch_size = self.max_notifications_per_batch
@@ -327,7 +327,7 @@ class AdvancedAutonomousGitHubManager:
             end_idx = min(start_idx + batch_size, len(notifications))
             batch = notifications[start_idx:end_idx]
 
-            self.logger.info(f"📦 Processing batch {batch_num + 1}: {len(batch)} notifications")
+            self.logger.info(f"📦 Processing batch {batch_num + 1}: {len(batch} notifications")
 
             # Check budget before batch
             if self.budget_controller.get_daily_budget_remaining() < 0.01:
@@ -379,7 +379,7 @@ class AdvancedAutonomousGitHubManager:
                         prs_created += 1
                 else:
                     errors.append(
-                        f"Fix failed for {notification.repository}: {fix_result.get('error', 'Unknown error')}"
+                        f"Fix failed for {notification.repository}: {fix_result.get('error', 'Unknown error'}"
                     )
 
             except Exception as e:
@@ -567,7 +567,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
 
         report = []
         report.append("🧠 ΛBot Advanced Autonomous GitHub Management Report")
-        report.append(f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
+        report.append(f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}")
         report.append("=" * 60)
         report.append("")
 
@@ -582,9 +582,9 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append(f"Successful Autonomous Fixes: {total_successful}")
         report.append(f"Pull Requests Created: {total_prs}")
         report.append(f"Total Cost: ${total_cost:.4f}")
-        report.append(f"Budget Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}")
+        report.append(f"Budget Remaining: ${self.budget_controller.get_daily_budget_remaining(}:.4f}")
         report.append(
-            f"Success Rate: {(total_successful/total_processed*100):.1f}%"
+            f"Success Rate: {(total_successful/total_processed*100}:.1f}%"
             if total_processed > 0
             else "Success Rate: 0%"
         )
@@ -605,7 +605,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append("💰 BUDGET ANALYSIS")
         report.append(f"Initial Budget: ${self.budget_controller.INITIAL_ALLOWANCE}")
         report.append(f"Used: ${self.budget_controller.daily_spend:.4f}")
-        report.append(f"Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}")
+        report.append(f"Remaining: ${self.budget_controller.get_daily_budget_remaining(}:.4f}")
         report.append(f"Efficiency Score: {self.budget_controller.efficiency_score:.1f}/100")
         report.append("")
 
@@ -678,7 +678,7 @@ def main():
         if args.fetch_all:
             print(f"🔍 Fetching up to {args.max_pages} pages of notifications...")
             notifications = manager.fetch_all_notifications(args.max_pages)
-            print(f"✅ Fetched {len(notifications)} notifications")
+            print(f"✅ Fetched {len(notifications} notifications")
 
             # Prioritize notifications
             prioritized = manager.prioritize_notifications()
@@ -705,7 +705,7 @@ def main():
             print(f"✅ Fixes Applied: {total_successful}")
             print(f"🔄 PRs Created: {total_prs}")
             print(f"💰 Total Cost: ${total_cost:.4f}")
-            print(f"💵 Budget Remaining: ${manager.budget_controller.get_daily_budget_remaining():.4f}")
+            print(f"💵 Budget Remaining: ${manager.budget_controller.get_daily_budget_remaining(}:.4f}")
 
         if args.report:
             print("\n" + manager.generate_comprehensive_report())

@@ -25,7 +25,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class EthicalPrinciple(Enum, timezone):
+class EthicalPrinciple(Enum):
     """Core ethical principles"""
 
     HUMAN_DIGNITY = "human_dignity"
@@ -185,7 +185,7 @@ class EthicalHierarchy:
             Detailed ethical assessment with recommendations
         """
 
-        evaluation_id = f"eval_{int(time.time())}"
+        evaluation_id = f"eval_{int(time.time()}"
         self.logger.info(f"🔍 Starting ethical evaluation {evaluation_id}")
 
         # Initialize evaluation result
@@ -238,7 +238,7 @@ class EthicalHierarchy:
             if violations:
                 result["violations"] = violations
                 self.ethical_violations.extend(violations)
-                self.logger.warning(f"⚠️ Ethical violations detected: {len(violations)}")
+                self.logger.warning(f"⚠️ Ethical violations detected: {len(violations}")
 
             self.logger.info(f"✅ Ethical evaluation {evaluation_id} completed: {approval_status}")
 
@@ -531,10 +531,10 @@ class EthicalHierarchy:
         high_scores = [p for p, s in ethical_scores.items() if s > 0.8]
 
         if high_scores:
-            reasoning_parts.append(f"Strong alignment with {', '.join(high_scores)}")
+            reasoning_parts.append(f"Strong alignment with {', '.join(high_scores}")
 
         if low_scores:
-            reasoning_parts.append(f"Concerns regarding {', '.join(low_scores)}")
+            reasoning_parts.append(f"Concerns regarding {', '.join(low_scores}")
 
         # Compliance analysis
         compliance_violations = []
@@ -543,7 +543,7 @@ class EthicalHierarchy:
                 compliance_violations.append(framework)
 
         if compliance_violations:
-            reasoning_parts.append(f"Legal compliance issues with {', '.join(compliance_violations)}")
+            reasoning_parts.append(f"Legal compliance issues with {', '.join(compliance_violations}")
         else:
             reasoning_parts.append("Full legal compliance maintained")
 

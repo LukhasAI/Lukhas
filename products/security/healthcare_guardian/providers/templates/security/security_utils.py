@@ -12,7 +12,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class EncryptionHandler:
@@ -54,7 +54,7 @@ class AuditLogger:
         }
 
         # Implement secure logging mechanism
-        logger.info(f"Audit log entry: {json.dumps(log_entry)}")
+        logger.info(f"Audit log entry: {json.dumps(log_entry}")
 
     def log_security_event(self, event_type: str, severity: str, details: dict[str, Any]) -> None:
         """Log security-related events"""
@@ -67,7 +67,7 @@ class AuditLogger:
         }
 
         # Implement secure logging mechanism
-        logger.info(f"Security event log: {json.dumps(log_entry)}")
+        logger.info(f"Security event log: {json.dumps(log_entry}")
 
 
 class AccessControl:

@@ -23,7 +23,7 @@ class LearningRequest:
     context: Optional[dict[str, Any]] = None
     timestamp: Optional[datetime] = None
 
-    def __post_init__(self, timezone):
+    def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.now(timezone.utc)
 

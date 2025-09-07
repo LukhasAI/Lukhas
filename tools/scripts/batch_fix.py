@@ -39,14 +39,14 @@ def fix_directory(directory: str, max_files: int = 10):
         print(f"  No Python files found in {directory}")
         return
 
-    print(f"  Found {len(py_files)} Python files")
+    print(f"  Found {len(py_files} Python files")
 
     # Process in batches
     for i in range(0, len(py_files), max_files):
         batch = py_files[i : i + max_files]
         batch_files = [str(f) for f in batch]
 
-        print(f"  Processing batch {i // max_files + 1} ({len(batch)} files)...")
+        print(f"  Processing batch {i // max_files + 1} ({len(batch} files)...")
 
         # 1. Remove unused imports
         subprocess.run(

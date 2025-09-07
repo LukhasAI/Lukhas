@@ -39,7 +39,7 @@ class SymbolicState:
     emergent_meaning: Optional[dict[str, Any]] = None
     timestamp: datetime = None
 
-    def __post_init__(self, timezone):
+    def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.now(timezone.utc)
 
@@ -82,7 +82,7 @@ class SymbolicLoopEngine:
             SymbolicState with grounding at each level
         """
         state = SymbolicState(symbol=symbol)
-        loop_id = f"{symbol}_{datetime.now(timezone.utc).timestamp()}"
+        loop_id = f"{symbol}_{datetime.now(timezone.utc).timestamp(}"
 
         async with self._lock:
             self.active_loops[loop_id] = state

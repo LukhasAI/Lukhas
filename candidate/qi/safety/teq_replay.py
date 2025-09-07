@@ -152,10 +152,10 @@ def _pretty_table(d: dict[str, Any]) -> str:
     allowed = "✅ ALLOWED" if d["replay"]["allowed"] else "❌ BLOCKED"
     lines = [
         "# TEQ Replay",
-        f"- Task: `{d['task']}`   Jurisdiction: `{d.get('jurisdiction') or 'global'}`   Context: `{d.get('context') or '-'}`",
-        f"- Receipt ID: `{d['receipt_id']}`   Artifact SHA: `{d.get('artifact_sha') or '-'}`",
-        f"- Receipt attestation: {'✅ verified' if d.get('receipt_attestation_ok') else ('—' if d.get('receipt_attestation_ok') is None else '❌ failed')}",
-        f"- Provenance attestation: {'✅ verified' if d.get('provenance_attestation_ok') else ('—' if d.get('provenance_attestation_ok') is None else '❌ failed')}",
+        f"- Task: `{d['task']}`   Jurisdiction: `{d.get('jurisdiction') or 'global'}`   Context: `{d.get('context'} or '-'}`",
+        f"- Receipt ID: `{d['receipt_id']}`   Artifact SHA: `{d.get('artifact_sha'} or '-'}`",
+        f"- Receipt attestation: {'✅ verified' if d.get('receipt_attestation_ok') else ('—' if d.get('receipt_attestation_ok') is None else '❌ failed'}",
+        f"- Provenance attestation: {'✅ verified' if d.get('provenance_attestation_ok') else ('—' if d.get('provenance_attestation_ok') is None else '❌ failed'}",
         f"- Policy fingerprint: `{d['policy_fingerprint'][:16]}…`",
         "",
         f"**Replay verdict:** {allowed}",
@@ -166,7 +166,7 @@ def _pretty_table(d: dict[str, Any]) -> str:
     if reasons:
         for r in reasons:
             if isinstance(r, dict):
-                lines.append(f"- {r.get('kind', '?')}: {r.get('reason', '')}")
+                lines.append(f"- {r.get('kind', '?')}: {r.get('reason', ''}")
             else:
                 lines.append(f"- {r}")
     else:

@@ -26,7 +26,7 @@ DEFAULT_VOICE = "en-US-AriaNeural"
 LOG_PATH = "symbolic_output_log.jsonl"
 
 # Configure logging
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")

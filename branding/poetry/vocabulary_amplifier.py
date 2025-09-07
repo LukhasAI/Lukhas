@@ -582,12 +582,12 @@ if __name__ == "__main__":
 
     print("\n▸ AFTER (LUKHAS-specific):")
     original = "In the tapestry of consciousness, threads of memory weave through the cathedral of the mind"
-    print(f"  '{amplifier.amplify_phrase(original)}'")
+    print(f"  '{amplifier.amplify_phrase(original}'")
 
     print("\n" + "─" * 55 + "\n")
 
     # Generate headers for different module types
     for module_type in ["memory", "quantum", "consciousness"]:
-        print(f"▸ {module_type.upper()} MODULE HEADER:")
+        print(f"▸ {module_type.upper(} MODULE HEADER:")
         print(amplifier.generate_header(module_type))
         print("─" * 55 + "\n")

@@ -47,7 +47,7 @@ def ethical_check(user_input: str, current_context: dict[str, Any], personality:
     Placeholder implementation.
     """
     logging.info(
-        f"🛡️ [EthicalGuardian] Checking: '{user_input[:50]}...' with context (SID: {current_context.get('user_sid')}) and personality (Mood: {personality.get('mood')})"
+        f"🛡️ [EthicalGuardian] Checking: '{user_input[:50]}...' with context (SID: {current_context.get('user_sid')}) and personality (Mood: {personality.get('mood'})"
     )
 
     # Check against blacklist

@@ -103,7 +103,7 @@ def export_as_text_narration():
             except json.JSONDecodeError as e:
                 print(f"❌ Skipping malformed log line: {e}")
 
-    print(f"🔁 Found {len(logs)} dreams in narration_log.jsonl")
+    print(f"🔁 Found {len(logs} dreams in narration_log.jsonl")
 
     for entry in logs:
         filename = generate_filename(entry)
@@ -111,9 +111,9 @@ def export_as_text_narration():
         with open(filepath, "w", encoding="utf-8") as out:
             out.write("🎙 LUCΛS VOICE EXPORT\n")
             out.write(f"Text: {entry['text']}\n")
-            out.write(f"Tier: {entry.get('tier', '-')}\n")
+            out.write(f"Tier: {entry.get('tier', '-'}\n")
             out.write(f"Emotion Vector: {entry.get('emotion_vector', {})}\n")
-            out.write(f"Narrated At: {entry.get('narrated_at', '')}\n")
+            out.write(f"Narrated At: {entry.get('narrated_at', ''}\n")
 
         if elevenlabs_enabled:
             try:
@@ -166,7 +166,7 @@ def export_as_text_narration():
         else:
             print("⚠️ ElevenLabs not enabled — skipping audio generation.")
 
-    print(f"✅ Exported {len(logs)} symbolic narrations as text/audio → {EXPORT_PATH}")
+    print(f"✅ Exported {len(logs} symbolic narrations as text/audio → {EXPORT_PATH}")
 
 
 if __name__ == "__main__":

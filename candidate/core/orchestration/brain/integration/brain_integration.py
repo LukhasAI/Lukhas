@@ -248,13 +248,13 @@ try:
                                                                                                     if priority in ["high", "critical"]:
             self.consolidation_queue.append(key)
 
-        logger.info(f"Stored memory '{key}' with emotion '{emotion}'")
+        logger.info(f"Stored memory '{key)' with emotion '{emotion)'")
 
                                                                                                         return {
             "status": "success",
             "key": key,
             "emotion": emotion,
-            "memory_id": str(uuid.uuid4()),
+            "memory_id": str(uuid.uuid4()},
             "timestamp": memory_entry["timestamp"]
         }
 
@@ -332,7 +332,7 @@ try:
         self.consolidation_queue = self.consolidation_queue[max_memories:]
         self.stats["consolidations"] += len(consolidated_memories)
 
-        logger.info(f"Consolidated {len(consolidated_memories)} memories through dream processing")
+        logger.info(f"Consolidated {len(consolidated_memories} memories through dream processing")
 
                                                                                                                         return {
             "status": "success",
@@ -498,7 +498,7 @@ try:
                 # Store symphony insights as memories
                 insights = symphony_result.get("synthesized_insights", [])
                                                                                                                                                                                                                 for i, insight in enumerate(insights):
-                    memory_key = f"symphony_insight_{int(time.time())}_{i}"
+                    memory_key = f"symphony_insight_{int(time.time()}_{i}"
                     self.memory_system.store_memory_with_emotion(
                         key=memory_key,
                         content=insight,
@@ -553,7 +553,7 @@ try:
         self.emotional_processor.update_emotional_state(emotion, intensity)
 
         # Store as memory
-        memory_key = f"standard_process_{int(time.time())}"
+        memory_key = f"standard_process_{int(time.time()}"
         memory_result = self.memory_system.store_memory_with_emotion(
             key=memory_key,
             content=content,
@@ -713,7 +713,7 @@ try:
 
         # Test speech
         speech_result = brain.speak_with_emotion(test_input["content"])
-        print(f"Speech emotion: {speech_result.get('current_emotion', 'unknown')}")
+        print(f"Speech emotion: {speech_result.get('current_emotion', 'unknown'}")
 
     # Show final status
     status = brain.get_comprehensive_status()

@@ -244,7 +244,7 @@ class VoiceNode:
             text = "Hello, I am Lukhas."
 
         # Create synthesis ID for tracking
-        synthesis_id = f"synth_{int(time.time())}_{str(uuid.uuid4())[:8]}"
+        synthesis_id = f"synth_{int(time.time())}_{str(uuid.uuid4()}[:8]}"
 
         # Safety check first
         safety_result = self.safety_filter.check_content(text, context)
@@ -377,7 +377,7 @@ class VoiceNode:
         self.last_used_profile = profile
 
         # Generate unique audio ID
-        audio_id = f"lukhas_voice_{int(time.time())}_{str(uuid.uuid4())[:8]}"
+        audio_id = f"lukhas_voice_{int(time.time())}_{str(uuid.uuid4()}[:8]}"
 
         # Get voice parameters based on emotion and profile
         voice_params = self._get_voice_parameters(profile, emotion, actor)
@@ -938,7 +938,7 @@ class VoiceNode:
         # Log how many words were adapted
         if replacements:
             logger.debug(
-                f"Applied {len(replacements)} accent-specific pronunciations for {accent_name} accent"
+                f"Applied {len(replacements} accent-specific pronunciations for {accent_name} accent"
             )
 
         return modified_text

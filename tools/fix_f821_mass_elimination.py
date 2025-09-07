@@ -171,7 +171,7 @@ class F821MassEliminator:
         logger.info(f"🎯 Processing directory: {directory}")
         
         python_files = list(directory.glob(pattern))
-        logger.info(f"Found {len(python_files)} Python files")
+        logger.info(f"Found {len(python_files} Python files")
         
         processed_count = 0
         modified_count = 0
@@ -202,7 +202,7 @@ class F821MassEliminator:
                 
                 # Progress indicator
                 if processed_count % 50 == 0:
-                    logger.info(f"📊 Progress: {processed_count}/{len(python_files)} files processed")
+                    logger.info(f"📊 Progress: {processed_count}/{len(python_files} files processed")
                     
             except Exception as e:
                 logger.error(f"Error processing {file_path}: {e}")
@@ -241,9 +241,9 @@ class F821MassEliminator:
         
         logger.info("=" * 60)
         logger.info("🎯 ELITE F821 MASS ELIMINATION COMPLETE!")
-        logger.info(f"⏱️  Duration: {duration.total_seconds():.2f} seconds")
-        logger.info(f"📊 Files processed: {len(self.processed_files)}")
-        logger.info(f"❌ Files failed: {len(self.failed_files)}")
+        logger.info(f"⏱️  Duration: {duration.total_seconds(}:.2f} seconds")
+        logger.info(f"📊 Files processed: {len(self.processed_files}")
+        logger.info(f"❌ Files failed: {len(self.failed_files}")
         logger.info("📈 Import fixes applied:")
         for stat, count in self.stats.items():
             if stat.startswith('fixed_'):

@@ -314,7 +314,7 @@ class LUKHASAudioCodecManager:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected encoding: {validation_result.get('reason')}")
+                raise ValueError(f"Guardian rejected encoding: {validation_result.get('reason'}")
 
             if codec not in self.encoders:
                 raise ValueError(f"Encoder for {codec.value} not available")
@@ -377,7 +377,7 @@ class LUKHASAudioCodecManager:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected decoding: {validation_result.get('reason')}")
+                raise ValueError(f"Guardian rejected decoding: {validation_result.get('reason'}")
 
             if codec not in self.decoders:
                 raise ValueError(f"Decoder for {codec.value} not available")

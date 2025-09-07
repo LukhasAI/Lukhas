@@ -103,9 +103,9 @@ def apply_changes(root: Path) -> dict[Path, int]:
 
 def print_summary(changes: dict[Path, int]) -> None:
     total = sum(changes.values())
-    print(f"Found {len(changes)} files with {total} total replacements")
+    print(f"Found {len(changes} files with {total} total replacements")
     for p, c in sorted(changes.items(), key=lambda x: -x[1])[:50]:
-        print(f"{p.relative_to(ROOT)}: {c}")
+        print(f"{p.relative_to(ROOT}: {c}")
 
 
 def main() -> None:
@@ -117,7 +117,7 @@ def main() -> None:
     if not args.dry_run and not args.apply:
         parser.error("Specify --dry-run or --apply")
 
-    print(f"Scanning {ROOT} (excludes: {', '.join(sorted(EXCLUDE_DIRS))})")
+    print(f"Scanning {ROOT} (excludes: {', '.join(sorted(EXCLUDE_DIRS)})")
     changes = dry_run(ROOT)
     print_summary(changes)
 

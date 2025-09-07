@@ -10,7 +10,7 @@ from datetime import timezone
 import streamlit as st
 import random
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class SymptomReporter:
@@ -117,7 +117,7 @@ class SymptomReporter:
                 # Add empathy if the conversation has gone on (Jobs: emotional
                 # connection)
                 if interaction_count > 2:
-                    next_question = f"{self._get_comfort_phrase()} {next_question}"
+                    next_question = f"{self._get_comfort_phrase(} {next_question}"
                 await self._communicate(next_question, user_id, mode)
 
             interaction_count += 1

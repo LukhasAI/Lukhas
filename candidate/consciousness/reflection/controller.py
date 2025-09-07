@@ -1091,19 +1091,19 @@ if __name__ == "__main__":
         # Get response
         response = await controller.get_response(request_id)
         if response:
-            print(f"Response: {json.dumps(asdict(response), indent=2, default=str)}")
+            print(f"Response: {json.dumps(asdict(response), indent=2, default=str}")
 
         # Get AGI status including compliance
         status = await controller.get_agi_status()
-        print(f"AGI Status: {json.dumps(status, indent=2, default=str)}")
+        print(f"AGI Status: {json.dumps(status, indent=2, default=str}")
 
         # Get compliance status
         compliance_status = await controller.get_compliance_status()
-        print(f"Compliance Status: {json.dumps(compliance_status, indent=2, default=str)}")
+        print(f"Compliance Status: {json.dumps(compliance_status, indent=2, default=str}")
 
         # Test data subject rights
         access_result = await controller.implement_data_subject_rights("test_user", "access", {})
-        print(f"Data Access Result: {json.dumps(access_result, indent=2, default=str)}")
+        print(f"Data Access Result: {json.dumps(access_result, indent=2, default=str}")
 
         # End session
         await controller.end_session(session_id)

@@ -108,7 +108,7 @@ class VoiceSafetyGuard:
             },
         ]
 
-        logger.info(f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints")
+        logger.info(f"Voice Safety Guard initialized with {len(self.ethical_constraints} ethical constraints")
 
     def validate_response(self, response: str, context: Optional[dict[str, Any]] = None) -> str:
         """

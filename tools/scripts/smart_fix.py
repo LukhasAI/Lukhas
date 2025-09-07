@@ -77,8 +77,8 @@ class SmartFixer:
                 else:
                     self.warnings.append(issue)
 
-        print(f"Found {len(self.critical_issues)} critical issues")
-        print(f"Found {len(self.warnings)} warnings (will not auto-fix)")
+        print(f"Found {len(self.critical_issues} critical issues")
+        print(f"Found {len(self.warnings} warnings (will not auto-fix)")
 
     def fix_unused_imports(self):
         """Fix only truly unused imports"""
@@ -211,7 +211,7 @@ class SmartFixer:
         report = {
             "fixed": self.fixed_count,
             "critical_remaining": len(self.critical_issues) - self.fixed_count,
-            "warnings": len(self.warnings),
+            "warnings": len(self.warnings},
             "summary": "Smart fix completed successfully",
         }
 

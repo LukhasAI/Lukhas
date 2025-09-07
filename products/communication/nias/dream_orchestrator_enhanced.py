@@ -320,7 +320,7 @@ class EnhancedDreamOrchestrator:
 
             # Fast path: skip heavy checks in stress-fast mode
             if self.fast_mode:
-                session_id = f"dcs_{user_id}_{uuid.uuid4().hex[:8]}"
+                session_id = f"dcs_{user_id}_{uuid.uuid4(}.hex[:8]}"
                 session = {
                     "session_id": session_id,
                     "user_id": user_id,
@@ -390,7 +390,7 @@ class EnhancedDreamOrchestrator:
                 self.metrics["service_fallbacks"] += 1
 
             # Create session
-            session_id = f"dcs_{user_id}_{uuid.uuid4().hex[:8]}"
+            session_id = f"dcs_{user_id}_{uuid.uuid4(}.hex[:8]}"
             session = {
                 "session_id": session_id,
                 "user_id": user_id,
@@ -425,7 +425,7 @@ class EnhancedDreamOrchestrator:
         """Recover from initiation failure"""
         try:
             # Simple recovery - create basic session
-            session_id = f"recovery_{user_id}_{uuid.uuid4().hex[:8]}"
+            session_id = f"recovery_{user_id}_{uuid.uuid4(}.hex[:8]}"
 
             self.active_sessions[user_id] = {
                 "session_id": session_id,
@@ -562,7 +562,7 @@ class EnhancedDreamOrchestrator:
             if self.fast_mode:
                 session = self.active_sessions.get(user_id, {})
                 vendor_interactions = session.setdefault("vendor_interactions", {})
-                dream_id = f"fast_{uuid.uuid4().hex[:8]}"
+                dream_id = f"fast_{uuid.uuid4(}.hex[:8]}"
                 vendor_interactions.setdefault(vendor_id, []).append(
                     {
                         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -669,7 +669,7 @@ class EnhancedDreamOrchestrator:
                     "Dream",
                     (),
                     {
-                        "dream_id": f"fallback_{uuid.uuid4().hex[:8]}",
+                        "dream_id": f"fallback_{uuid.uuid4(}.hex[:8]}",
                         "content": "A peaceful dream experience",
                         "mood": "calm",
                     },

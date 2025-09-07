@@ -688,7 +688,7 @@ class SpeechRecognitionProviderManager:
             if provider.is_available():
                 self.providers[SpeechRecognitionProvider.GOOGLE_SPEECH] = provider
 
-        self.logger.info(f"Initialized {len(self.providers)} speech recognition providers")
+        self.logger.info(f"Initialized {len(self.providers} speech recognition providers")
 
     def get_available_providers(self) -> list[SpeechRecognitionProvider]:
         """Get available providers"""
@@ -769,7 +769,7 @@ class LUKHASSpeechRecognitionService:
             if not validation_result.get("approved", False):
                 return SpeechRecognitionResult(
                     success=False,
-                    error_message=f"Guardian rejected recognition: {validation_result.get('reason')}",
+                    error_message=f"Guardian rejected recognition: {validation_result.get('reason'}",
                     error_code="GUARDIAN_REJECTED",
                 )
 

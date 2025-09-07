@@ -583,7 +583,7 @@ class MetaEthicsGovernor:
             conflicting_principles=list(set(conflicting_principles)),
             cultural_considerations=[
                 f"Cultural context: {decision.cultural_context.value}",
-                f"Individual rights priority: {cultural_weights.get('individual_rights_priority', 0.7)}",
+                f"Individual rights priority: {cultural_weights.get('individual_rights_priority', 0.7}",
             ],
             human_review_required=human_review_needed,
             evaluator_framework=EthicalFramework.HYBRID,

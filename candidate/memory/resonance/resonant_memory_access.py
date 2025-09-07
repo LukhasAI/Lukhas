@@ -645,7 +645,7 @@ async def demonstrate_resonant_memory():
         )
 
         for i, (mem_id, score, metadata) in enumerate(results, 1):
-            print(f"   {i}. {mem_id} (resonance: {score:.3f}) - {metadata.get('resonance_type', 'unknown')}")
+            print(f"   {i}. {mem_id} (resonance: {score:.3f}) - {metadata.get('resonance_type', 'unknown'}")
 
     # Show statistics
     print("\n3. Resonance Statistics:")

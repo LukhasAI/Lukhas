@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 class SmartNamingRefactor:
-    def __init__(self, dry_run: bool = True, timezone):
+    def __init__(self, dry_run: bool = True):
         self.dry_run = dry_run
         self.changes_made = []
         self.backup_dir = Path(".naming_backup") / datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
@@ -190,7 +190,7 @@ class SmartNamingRefactor:
             f for f in python_files if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
         ]
 
-        print(f"Found {len(python_files)} Python files to process")
+        print(f"Found {len(python_files} Python files to process")
 
         refactored_count = 0
 
@@ -206,9 +206,9 @@ class SmartNamingRefactor:
         self.generate_report()
 
         print("\n✅ Refactoring complete!")
-        print(f"   Files processed: {len(python_files)}")
+        print(f"   Files processed: {len(python_files}")
         print(f"   Files changed: {refactored_count}")
-        print(f"   Total changes: {sum(len(c.get('changes', [])) for c in self.changes_made)}")
+        print(f"   Total changes: {sum(len(c.get('changes', [])) for c in self.changes_made}")
 
         if self.dry_run:
             print("\n⚠️  This was a DRY RUN. No files were actually modified.")

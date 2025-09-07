@@ -14,7 +14,7 @@ from pathlib import Path
 class AdvancedSyntaxFixer:
     """Advanced fixer for complex syntax errors"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.fixed_count = 0
         self.failed_count = 0
         self.backup_dir = Path("healing/advanced_backups")
@@ -100,7 +100,7 @@ class AdvancedSyntaxFixer:
         """Fix a file with advanced techniques"""
         # Create backup
         backup_path = self.backup_dir / (
-            Path(filepath).name + f'.{datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")}.backup'
+            Path(filepath).name + f'.{datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S"}.backup'
         )
 
         try:
@@ -190,13 +190,13 @@ def main():
         print("[OK] No syntax errors found!")
         return
 
-    print(f"Found {len(errors)} files with syntax errors")
+    print(f"Found {len(errors} files with syntax errors")
 
     # Fix errors
-    print(f"\n[Fixing] Attempting advanced fixes on {len(errors)} files...")
+    print(f"\n[Fixing] Attempting advanced fixes on {len(errors} files...")
 
     for i, filepath in enumerate(errors):
-        print(f"Fixing {i+1}/{len(errors)}: {filepath}...", end="")
+        print(f"Fixing {i+1}/{len(errors}: {filepath}...", end="")
         success = fixer.fix_file(filepath)
         print(" [OK]" if success else " [FAILED]")
 
@@ -210,14 +210,14 @@ def main():
     # Rescan to confirm
     print("\n[Rescanning] Verifying fixes...")
     remaining = fixer.find_syntax_errors()
-    print(f"[Status] Remaining syntax errors: {len(remaining)}")
+    print(f"[Status] Remaining syntax errors: {len(remaining}")
 
     if remaining:
         print("\n[Files Still With Errors]")
         for f in remaining[:10]:
             print(f"  - {f}")
         if len(remaining) > 10:
-            print(f"  ... and {len(remaining) - 10} more")
+            print(f"  ... and {len(remaining} - 10} more")
 
 
 if __name__ == "__main__":

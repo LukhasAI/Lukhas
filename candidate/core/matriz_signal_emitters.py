@@ -130,7 +130,7 @@ class ConsciousnessModuleEmitter:
 
             if routed_nodes:
                 self.emission_stats["signals_emitted"] += 1
-                logger.debug(f"Emitted {signal_type.value} signal from {self.module_name} to {len(routed_nodes)} nodes")
+                logger.debug(f"Emitted {signal_type.value} signal from {self.module_name} to {len(routed_nodes} nodes")
             else:
                 logger.warning(f"Signal {signal.signal_id} was not routed to any nodes")
 

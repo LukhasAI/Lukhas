@@ -125,7 +125,7 @@ class NIASEventBus:
         """Subscribe to an event type with optional filtering"""
         self._subscribers[event_type].append(callback)
         if filter_func:
-            self._event_filters[f"{event_type}:{id(callback)}"] = filter_func
+            self._event_filters[f"{event_type}:{id(callback}"] = filter_func
 
         logger.debug(f"Subscribed to {event_type}")
 
@@ -136,7 +136,7 @@ class NIASEventBus:
                 self._subscribers[event_type].remove(callback)
 
         # Remove associated filter
-        filter_key = f"{event_type}:{id(callback)}"
+        filter_key = f"{event_type}:{id(callback}"
         if filter_key in self._event_filters:
             del self._event_filters[filter_key]
 
@@ -201,7 +201,7 @@ class NIASEventBus:
 
     async def start_message_processing(self, message_id: str, user_id: str, message_data: dict[str, Any]) -> str:
         """Start coordinated message processing session"""
-        correlation_id = f"msg_processing_{message_id}_{uuid.uuid4().hex[:8]}"
+        correlation_id = f"msg_processing_{message_id}_{uuid.uuid4(}.hex[:8]}"
 
         await self.publish_nias_event(
             NIASEventType.MESSAGE_RECEIVED,
@@ -327,7 +327,7 @@ class NIASEventBus:
                 for callback in self._subscribers[event.event_type]:
                     try:
                         # Check for event filter
-                        filter_key = f"{event.event_type}:{id(callback)}"
+                        filter_key = f"{event.event_type}:{id(callback}"
                         if filter_key in self._event_filters:
                             if not self._event_filters[filter_key](event):
                                 continue  # Skip this callback due to filter

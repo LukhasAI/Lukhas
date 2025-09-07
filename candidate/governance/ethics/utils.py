@@ -52,6 +52,6 @@ class EthicsUtils:
 
         for key in sensitive_keys:
             if key in anonymized:
-                anonymized[key] = f"***{key.upper()}***"
+                anonymized[key] = f"***{key.upper(}***"
 
         return anonymized

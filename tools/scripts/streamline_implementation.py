@@ -14,7 +14,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format="%(message, timezone)s")
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -48,7 +48,7 @@ class StreamlineImplementation:
 
         # Process each module
         for module, duplicates in duplicates_by_module.items():
-            logger.info(f"\n📦 Processing {module} module ({len(duplicates)} duplicate groups)...")
+            logger.info(f"\n📦 Processing {module} module ({len(duplicates} duplicate groups)...")
 
             # Create consolidated file for common functions
             common_file_path = self.root_path / module / "common" / "utils.py"
@@ -58,7 +58,7 @@ class StreamlineImplementation:
             for dup_group in duplicates[:10]:  # Limit to first 10 for safety
                 self._consolidate_duplicate_function(dup_group, common_file_path)
 
-        logger.info(f"\n✅ Phase 1 complete. {len(self.changes_made)} changes made.")
+        logger.info(f"\n✅ Phase 1 complete. {len(self.changes_made} changes made.")
 
     def implement_phase2(self):
         """Phase 2: Create common utilities"""
@@ -241,7 +241,7 @@ __all__ = [
         # Use the first occurrence as the canonical version
         canonical = dup_group["occurrences"][0]
 
-        logger.info(f"   Consolidating {canonical['name']} ({len(dup_group['occurrences'])} duplicates)")
+        logger.info(f"   Consolidating {canonical['name']} ({len(dup_group['occurrences']} duplicates)")
 
         # For now, just log what would be done
         # In a real implementation, we would:
@@ -440,7 +440,7 @@ def main():
         if update_imports_in_file(py_file):
             updated_files.append(py_file)
 
-    print(f"Updated {len(updated_files)} files")
+    print(f"Updated {len(updated_files} files")
 
 if __name__ == "__main__":
     main()

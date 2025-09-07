@@ -131,7 +131,7 @@ class QICrypto:
 
     @staticmethod
     @lukhas_tier_required(level=4)  # ΛTRACE_ADD
-    def encrypt_api_key(:
+    def encrypt_api_key(
         api_key: str, λid: str
     ) -> tuple[str, str]:  # ΛTRACE_CHANGE: Added Tuple return type
         """Encrypt API key with ΛiD-derived key."""
@@ -167,7 +167,7 @@ class VeriFoldGlyphGenerator:
     """Generate visual glyphs with hidden API authentication data."""
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
-    def create_animated_glyph(:
+    def create_animated_glyph(
         self, api_key_data: dict[str, Any], λid_profile: ΛiDProfile
     ) -> VeriFoldGlyph:
         """Create animated glyph with hidden API key data."""
@@ -177,7 +177,7 @@ class VeriFoldGlyphGenerator:
         )  # ΛTRACE_ADD
         log.debug("Creating animated VeriFold glyph.")
 
-        glyph_id = f"glyph_{secrets.token_hex(8)}"
+        glyph_id = f"glyph_{secrets.token_hex(8}"
         visual_svg = self._generate_quantum_visual(λid_profile)
         hidden_qr = self._embed_qr_in_visual(api_key_data, visual_svg)
         stego_layer = self._create_steganographic_layer(api_key_data)
@@ -290,7 +290,7 @@ class VeriFoldGlyphGenerator:
             lines += f'<path d="M{x1:.2f},{y1:.2f} Q200,200 {x2:.2f},{y2:.2f}" stroke="#FFFFFF" stroke-width="1" opacity="0.3" fill="none"/>'
         return lines
 
-    def _embed_qr_in_visual(:
+    def _embed_qr_in_visual(
         self, api_data: dict[str, Any], visual: str
     ) -> str:  # ΛTRACE_CHANGE: visual arg added, type hint for api_data
         """Embed QR code data in visual layers."""
@@ -308,7 +308,7 @@ class VeriFoldGlyphGenerator:
         }
         return base64.b64encode(json.dumps(qr_payload).encode()).decode()
 
-    def _create_steganographic_layer(:
+    def _create_steganographic_layer(
         self, api_data: dict[str, Any]
     ) -> str:  # ΛTRACE_CHANGE: Type hint
         """Create hidden steganographic data layer."""
@@ -324,7 +324,7 @@ class VeriFoldGlyphGenerator:
         }
         return base64.b64encode(json.dumps(hidden_data).encode()).decode()
 
-    def _generate_animation_sequence(:
+    def _generate_animation_sequence(
         self, tier: int
     ) -> list[dict[str, Any]]:  # ΛTRACE_CHANGE: More specific type
         """Generate animation frames for glyph."""
@@ -341,7 +341,7 @@ class VeriFoldGlyphGenerator:
             )
         return frames
 
-    def _generate_quantum_signature(:
+    def _generate_quantum_signature(
         self, data: dict[str, Any], user_id: str
     ) -> str:  # ΛTRACE_CHANGE: Type hint
         """Generate quantum signature for verification (placeholder)."""
@@ -353,7 +353,7 @@ class VeriFoldGlyphGenerator:
         )
         # ΛTRACE_CHANGE
         combined_data = (
-            f"{json.dumps(data)}{user_id}{datetime.now(timezone.utc).isoformat()}"
+            f"{json.dumps(data)}{user_id}{datetime.now(timezone.utc).isoformat(}"
         )
         return hashlib.sha256(combined_data.encode()).hexdigest()
 
@@ -439,7 +439,7 @@ class LUKHASAPIManager:
         return profile
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
-    def store_api_key(:
+    def store_api_key(
         self, λid: str, service_name: str, api_key: str, access_tier: int = 1
     ) -> QIAPIKey:
         """Store API key with quantum encryption and VeriFold glyph."""
@@ -460,7 +460,7 @@ class LUKHASAPIManager:
         encrypted_key, salt = QICrypto.encrypt_api_key(api_key, λid)
 
         key_record = QIAPIKey(
-            key_id=f"key_{secrets.token_hex(8)}",
+            key_id=f"key_{secrets.token_hex(8}",
             service_name=service_name,
             encrypted_key=encrypted_key,
             user_id=λid,
@@ -588,7 +588,7 @@ class LUKHASAPIManager:
             return None
 
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
-    def generate_professional_verification_glyph(:
+    def generate_professional_verification_glyph(
         self, λid: str, document_hash: str, signature_type: str
     ) -> VeriFoldGlyph:
         """Generate professional verification glyph for documents."""
@@ -665,7 +665,7 @@ class LUKHASAPIManager:
             )
             return None
 
-    def _verify_glyph_integrity(:
+    def _verify_glyph_integrity(
         self, glyph_data: VeriFoldGlyph | dict[str, Any]
     ) -> bool:  # ΛTRACE_CHANGE: Accept Dict or VeriFoldGlyph
         """Verify glyph integrity using quantum signatures (placeholder)."""
@@ -711,7 +711,7 @@ class LUKHASAPIManager:
             log.debug("Glyph integrity check successful.")
         return is_valid
 
-    def _update_usage_tracking(:
+    def _update_usage_tracking(
         self, key_id: str
     ) -> None:  # ΛTRACE_CHANGE: Return type None
         """Update API key usage statistics."""

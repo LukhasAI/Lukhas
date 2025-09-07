@@ -51,7 +51,7 @@ try:
         QIWordState,
         SemanticField,
         SessionConfig,
-        UserCreativeProfile,, timezone)
+        UserCreativeProfile)
 except ImportError:
     # Fallback for direct execution
     from qi_creative_types import (
@@ -628,7 +628,7 @@ class CreativeIPProtector:
 
     async def _generate_smart_license(self, creator_identity: CreatorIdentity) -> str:
         """Generate smart license based on creator preferences"""
-        return f"Quantum Creative License - {creator_identity.name} - {datetime.now(timezone.utc).year}"
+        return f"Quantum Creative License - {creator_identity.name} - {datetime.now(timezone.utc}.year}"
 
 
 class CollaborativeCreativityOrchestrator:

@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format="%(message, timezone)s")
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -59,7 +59,7 @@ class CommunicationOptimizer:
         self._create_dependency_container()
 
         logger.info(
-            f"\n✅ Phase 1 complete. Created interfaces to break {len(circular_deps)} circular dependencies"
+            f"\n✅ Phase 1 complete. Created interfaces to break {len(circular_deps} circular dependencies"
         )
         self.phase_status["phase1"] = "completed"
 

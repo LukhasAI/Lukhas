@@ -527,7 +527,7 @@ class LukhasIntelligenceSafetyValidator:
 
             if len(recent_ops) > self.safety_bounds.max_autonomous_actions * 6:  # 6x normal rate
                 logger.warning(
-                    f"🚨 Unusual activity pattern detected for agent {agent_id}: {len(recent_ops)} operations in last hour"
+                    f"🚨 Unusual activity pattern detected for agent {agent_id}: {len(recent_ops} operations in last hour"
                 )
 
     async def _monitor_safety_trends(self):

@@ -87,7 +87,7 @@ class LocalSymbolStore:
         Symbol data is hashed and stored locally only.
         """
         # Generate unique ID and salt
-        symbol_id = f"sym_{secrets.token_urlsafe(16)}"
+        symbol_id = f"sym_{secrets.token_urlsafe(16}"
         salt = secrets.token_urlsafe(32)
 
         # Hash the symbol data
@@ -148,7 +148,7 @@ class LocalSymbolStore:
 
         Compositions combine multiple symbols with operators.
         """
-        composition_id = f"comp_{secrets.token_urlsafe(16)}"
+        composition_id = f"comp_{secrets.token_urlsafe(16}"
 
         self.compositions[composition_id] = {
             "composition_id": composition_id,
@@ -257,7 +257,7 @@ class ULChallengeService:
             composition = " + ".join(required_meanings)
 
         # Generate challenge
-        challenge_id = f"ul_challenge_{secrets.token_urlsafe(24)}"
+        challenge_id = f"ul_challenge_{secrets.token_urlsafe(24}"
         nonce = secrets.token_urlsafe(32)
 
         challenge = CompositionChallenge(
@@ -339,7 +339,7 @@ class ULChallengeService:
         )
 
         # Store for verification
-        sig_id = f"ul_sig_{secrets.token_urlsafe(16)}"
+        sig_id = f"ul_sig_{secrets.token_urlsafe(16}"
         self.verified_signatures[sig_id] = signature
 
         return signature

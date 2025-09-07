@@ -22,7 +22,7 @@ from datetime import timezone
 import streamlit as st
 
 # Initialize logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 def speak(message: str):

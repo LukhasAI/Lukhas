@@ -27,7 +27,7 @@ from datetime import datetime
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
         logging.FileHandler("adaptive_agi_demo.log"),
@@ -201,7 +201,7 @@ class AdaptiveAGIDemo:
         self.demo_state["demo_mode"] = "interactive" if mode == "2" else "guided"
 
         # Create a demo session
-        user_id = f"demo_user_{int(time.time())}"
+        user_id = f"demo_user_{int(time.time()}"
         await self.create_session(user_id)
 
         try:
@@ -288,7 +288,7 @@ class AdaptiveAGIDemo:
         print("\nCompliance check result:")
         print(f"Compliant: {compliance_result['compliant']}")
         print(
-            f"Required actions: {', '.join(compliance_result['actions']) if compliance_result['actions'] else 'None'}"
+            f"Required actions: {', '.join(compliance_result['actions']} if compliance_result['actions'] else 'None'}"
         )
 
         # Scenario 3: Adaptive Interface
@@ -309,7 +309,7 @@ class AdaptiveAGIDemo:
         ]
 
         for idx, context in enumerate(contexts):
-            print(f"\nUser context {idx+1}: {json.dumps(context, indent=2)}")
+            print(f"\nUser context {idx+1}: {json.dumps(context, indent=2}")
 
             # This would generate a different interface based on context
             try:
@@ -401,7 +401,7 @@ class AdaptiveAGIDemo:
 
         voice_params = self.voice_modulator.determine_parameters(voice_context)
         print(
-            f"Voice parameters adapted to context: {json.dumps(voice_params, indent=2)}"
+            f"Voice parameters adapted to context: {json.dumps(voice_params, indent=2}"
         )
 
     async def run_interactive_demo(self):
@@ -440,7 +440,7 @@ class AdaptiveAGIDemo:
 
     async def create_session(self, user_id):
         """Create a demo session"""
-        session_id = f"session_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}"
+        session_id = f"session_{user_id}_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S'}"
 
         context = {
             "device_info": {"type": "desktop", "orientation": "landscape"},
@@ -478,7 +478,7 @@ class AdaptiveAGIDemo:
         logger.info(
             f"Demo session {session['session_id']} ended. "
             + f"Interactions: {self.demo_state['interaction_count']}, "
-            + f"Duration: {int(duration_seconds)}s"
+            + f"Duration: {int(duration_seconds}s"
         )
 
         self.demo_state["status"] = "completed"
@@ -620,7 +620,7 @@ class AdaptiveAGIDemo:
             return "Our system integrates compliance features that ensure GDPR adherence, implement ethical constraints, and manage privacy preferences. Voice data receives special protection as potentially biometric information."
 
         else:
-            return f"I understand you're saying something about '{input_text}'. In the full system, I would provide a meaningful response using our neuro-symbolic engine."
+            return f"I understand you're saying something about '{input_text)'. In the full system, I would provide a meaningful response using our neuro-symbolic engine."
 
 
 async def main():
@@ -630,7 +630,7 @@ async def main():
 
 if __name__ == "__main__":
     try:
-        asyncio.run(main())
+        asyncio.run(main()}
     except Exception as e:
         logger.critical(f"Fatal error in demo: {e}")
         sys.exit(1)

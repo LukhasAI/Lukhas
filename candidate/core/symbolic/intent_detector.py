@@ -17,7 +17,7 @@ from typing import Dict
 # TAG:neuroplastic
 # TAG:colony
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class IntentNode:
@@ -167,7 +167,7 @@ class IntentNode:
         integrated_result["confidence"] = 0.0
         integrated_result["source"] = "error_handler"
         logger.info(
-            f"Intent detected: {integrated_result.get('intent')} with confidence {integrated_result.get('confidence')}"
+            f"Intent detected: {integrated_result.get('intent')} with confidence {integrated_result.get('confidence'}"
         )
 
         return integrated_result

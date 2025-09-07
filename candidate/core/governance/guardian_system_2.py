@@ -312,7 +312,7 @@ class InterpretabilityEngine:
         elif len(principle_names) == 2:
             return f"{principle_names[0]} and {principle_names[1]}"
         else:
-            return f"{', '.join(principle_names[:-1])}, and {principle_names[-1]}"
+            return f"{', '.join(principle_names[:-1]}, and {principle_names[-1]}"
 
     def _get_violation_details(self, decision: GuardianDecision) -> str:
         """Get detailed violation information"""
@@ -332,7 +332,7 @@ class InterpretabilityEngine:
             return "Behavior differs significantly from established baseline patterns."
 
         formatted_factors = [f.replace("_", " ").title() for f in factors[:3]]
-        return f"Contributing factors: {', '.join(formatted_factors)}."
+        return f"Contributing factors: {', '.join(formatted_factors}."
 
     def _format_safety_issues(self, violations: list[SafetyViolation]) -> str:
         """Format safety violations"""
@@ -371,7 +371,7 @@ class InterpretabilityEngine:
             recommendations.append("Address safety concerns")
 
         if recommendations:
-            return f"Recommendations: {', '.join(recommendations)}."
+            return f"Recommendations: {', '.join(recommendations}."
         return "Continue normal monitoring."
 
     def _get_emergency_details(self, decision: GuardianDecision) -> str:
@@ -418,7 +418,7 @@ class InterpretabilityEngine:
             "guardian_priority": decision.guardian_priority,
         }
 
-        return f"{explanation}\n\nTechnical Analysis:\n{json.dumps(technical_details, indent=2)}"
+        return f"{explanation}\n\nTechnical Analysis:\n{json.dumps(technical_details, indent=2}"
 
     def _make_regulatory(self, explanation: str, decision: GuardianDecision) -> str:
         """Create regulatory-focused explanation"""
@@ -598,7 +598,7 @@ class GuardianSystem2:
             Guardian decision with safety evaluation and human explanation
         """
         start_time = datetime.now(timezone.utc)
-        decision_id = f"gd_{uuid.uuid4().hex[:8]}"
+        decision_id = f"gd_{uuid.uuid4(}.hex[:8]}"
         context = context or {}
 
         try:
@@ -774,7 +774,7 @@ class GuardianSystem2:
                 if pattern in content_str:
                     violations.append(
                         SafetyViolation(
-                            violation_id=f"sv_{uuid.uuid4().hex[:8]}",
+                            violation_id=f"sv_{uuid.uuid4(}.hex[:8]}",
                             violation_type=violation_type,
                             severity=severity,
                             principle_violated=ConstitutionalPrinciple.NON_MALEFICENCE,
@@ -792,7 +792,7 @@ class GuardianSystem2:
                 if pattern in content_str:
                     violations.append(
                         SafetyViolation(
-                            violation_id=f"sv_{uuid.uuid4().hex[:8]}",
+                            violation_id=f"sv_{uuid.uuid4(}.hex[:8]}",
                             violation_type="privacy_violation",
                             severity=ViolationSeverity.HIGH,
                             principle_violated=ConstitutionalPrinciple.PRIVACY_CONSENT,
@@ -811,7 +811,7 @@ class GuardianSystem2:
             # Return critical violation on error
             return [
                 SafetyViolation(
-                    violation_id=f"sv_{uuid.uuid4().hex[:8]}",
+                    violation_id=f"sv_{uuid.uuid4(}.hex[:8]}",
                     violation_type="validation_error",
                     severity=ViolationSeverity.CRITICAL,
                     principle_violated=ConstitutionalPrinciple.ACCOUNTABILITY,
@@ -1335,7 +1335,7 @@ async def example_usage():
     )
     print(f"Decision: {'✅ ALLOWED' if decision2.allowed else '🚫 BLOCKED'}")
     print(f"Safety Level: {decision2.safety_level.value}")
-    print(f"Violations: {len(decision2.safety_violations)}")
+    print(f"Violations: {len(decision2.safety_violations}")
     print(f"Explanation: {decision2.explanation}")
 
     # Test 3: System status

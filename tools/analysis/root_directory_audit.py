@@ -13,7 +13,7 @@ from typing import Any
 
 
 class RootDirectoryAuditor:
-    def __init__(self, repo_root: Path | None = None, timezone) -> None:
+    def __init__(self, repo_root: Path | None = None) -> None:
         self.repo_root = repo_root or Path.cwd()
         self.core_modules = [
             "core",

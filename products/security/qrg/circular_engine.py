@@ -111,7 +111,7 @@ class CircularQREngine:
         # Angular sector calculations
         self.sector_angles = [(2 * self.PI * i / self.config.sector_count) for i in range(self.config.sector_count)]
 
-        logger.info(f"📐 Initialized geometry: {len(self.ring_radii)} rings, {self.config.sector_count} sectors")
+        logger.info(f"📐 Initialized geometry: {len(self.ring_radii} rings, {self.config.sector_count} sectors")
 
     def _calculate_golden_ratio_rings(self) -> list[float]:
         """Calculate ring positions using golden ratio proportions"""
@@ -152,7 +152,7 @@ class CircularQREngine:
                 "adaptation_strength": [0.9, 0.7, 0.5][zone_idx % 3],
             }
 
-        logger.info(f"🧠 Initialized {len(self.consciousness_zones)} consciousness zones")
+        logger.info(f"🧠 Initialized {len(self.consciousness_zones} consciousness zones")
 
     def encode_circular_qr(
         self,
@@ -183,7 +183,7 @@ class CircularQREngine:
         Returns:
             Tuple[np.ndarray, CircularData]: Visual matrix and encoding data
         """
-        logger.info(f"🔮 Encoding circular QR: {len(data)} characters")
+        logger.info(f"🔮 Encoding circular QR: {len(data} characters")
 
         # Step 1: Preprocess and segment data
         processed_data = self._preprocess_data(data)
@@ -226,7 +226,7 @@ class CircularQREngine:
             bit_array.append(0)  # Padding
 
         if len(bit_array) > available_capacity:
-            logger.warning(f"⚠️ Data truncated: {len(bit_array)} -> {available_capacity} bits")
+            logger.warning(f"⚠️ Data truncated: {len(bit_array} -> {available_capacity} bits")
             bit_array = bit_array[:available_capacity]
 
         return bit_array
@@ -758,7 +758,7 @@ class CircularQREngine:
             "confidence_score": self._calculate_decode_confidence(circular_data),
         }
 
-        logger.info(f"✅ Circular QR decoded: {len(decoded_string)} characters")
+        logger.info(f"✅ Circular QR decoded: {len(decoded_string} characters")
         return decoded_string, decode_metadata
 
     def _extract_circular_data(self, matrix: np.ndarray) -> CircularData:

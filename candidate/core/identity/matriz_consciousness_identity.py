@@ -105,7 +105,7 @@ class ConsciousnessIdentityProfile:
     """
 
     # Core identity
-    identity_id: str = field(default_factory=lambda: f"CID-{uuid.uuid4().hex[:8]}")
+    identity_id: str = field(default_factory=lambda: f"CID-{uuid.uuid4(}.hex[:8]}")
     lid: Optional[str] = None  # Lambda ID if available
     user_identifier: str = ""
 

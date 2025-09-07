@@ -23,7 +23,7 @@ from typing import Any, Optional, Union
 
 📌 Description:
     This module connects the LUKHAS brain integration system with the identity
-    management system (LUKHAS_ID, timezone), ensuring that memory operations respect
+    management system (LUKHAS_ID), ensuring that memory operations respect
     appropriate access tiers and identity-based permissions.
 
     The connector enforces permissions for memory access, modification, and

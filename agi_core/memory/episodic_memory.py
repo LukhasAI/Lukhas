@@ -191,7 +191,7 @@ class EpisodicMemorySystem:
         self, title: str, description: str, episode_type: EpisodeType, context: Optional[EpisodeContext] = None
     ) -> str:
         """Create a new episodic memory."""
-        episode_id = f"ep_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.episodes)}"
+        episode_id = f"ep_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.episodes}"
 
         episode = Episode(
             episode_id=episode_id,
@@ -449,10 +449,10 @@ class EpisodicMemorySystem:
         summary_content += f"Description: {episode.description}\n"
 
         if episode.key_insights:
-            summary_content += f"Key insights: {'; '.join(episode.key_insights)}\n"
+            summary_content += f"Key insights: {'; '.join(episode.key_insights}\n"
 
         if episode.lessons_learned:
-            summary_content += f"Lessons learned: {'; '.join(episode.lessons_learned)}\n"
+            summary_content += f"Lessons learned: {'; '.join(episode.lessons_learned}\n"
 
         if episode.success_score is not None:
             summary_content += f"Success score: {episode.success_score:.2f}\n"

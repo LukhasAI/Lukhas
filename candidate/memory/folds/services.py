@@ -25,7 +25,7 @@ class MemoryService:
     Uses dependency injection to avoid circular imports.
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         # Core memory components
         self._storage = {}  # Simple in-memory storage
         self._index = {}  # Index for fast retrieval
@@ -60,7 +60,7 @@ class MemoryService:
             raise PermissionError(f"Agent {agent_id} lacks memory write access")
 
         # Create memory entry
-        memory_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp()}"
+        memory_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp(}"
         memory_entry = {
             "id": memory_id,
             "agent_id": agent_id,
@@ -180,7 +180,7 @@ class MemoryService:
                 "count": len(mems),
                 "first": mems[0]["timestamp"] if mems else None,
                 "last": mems[-1]["timestamp"] if mems else None,
-                "summary": f"Folded {len(mems)} {mem_type} memories",
+                "summary": f"Folded {len(mems} {mem_type} memories",
             }
 
         return folded

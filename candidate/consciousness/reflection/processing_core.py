@@ -48,7 +48,7 @@ from candidate.core.common import get_logger
 from qi.bio.awareness.advanced_quantum_bio import (
     MitochondrialQIBridge,
     NeuroplasticityModulator,
-    QISynapticGate,, timezone)
+    QISynapticGate)
 
 logger = get_logger(__name__)
 
@@ -440,8 +440,8 @@ async def demo_quantum_processing_core():
     # Process data
     result = await core.process_quantum_enhanced(test_data)
     logger.info(f"Quantum-inspired processing result: {result['status']}")
-    logger.info(f"Quantum advantage: {result.get('qi_advantage', 0):.3f}")
-    logger.info(f"Coherence level: {result.get('coherence', 0):.3f}")
+    logger.info(f"Quantum advantage: {result.get('qi_advantage', 0}:.3f}")
+    logger.info(f"Coherence level: {result.get('coherence', 0}:.3f}")
 
     # Demo learning bias application
     learning_state = {"adaptation_rate": 0.15, "efficiency": 0.85}

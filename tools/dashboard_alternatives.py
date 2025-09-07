@@ -55,7 +55,7 @@ class SimpleDashboard:
         self.auto_refresh_interval = 5000  # milliseconds
         self.max_logs = 100
 
-        self.logger = logging.getLogger(f"dashboard.{title.lower().replace(' ', '_')}")
+        self.logger = logging.getLogger(f"dashboard.{title.lower().replace(' ', '_'}")
 
     def add_metric(self, key: str, value: Union[int, float, str], unit: str = "") -> None:
         """Add or update a metric"""
@@ -98,7 +98,7 @@ class SimpleDashboard:
 
     def add_log(self, message: str, level: str = "INFO") -> None:
         """Add a log message"""
-        log_entry = f"[{time.strftime('%H:%M:%S')}] {level}: {message}"
+        log_entry = f"[{time.strftime('%H:%M:%S'}] {level}: {message}"
         self.data.logs.append(log_entry)
 
         # Limit log size
@@ -262,18 +262,18 @@ class SimpleDashboard:
             margin: 0;
             padding: 20px;
             background-color: #f5f5f5;
-        }}
+        }
         .header {{
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
-        }}
+        }
         .header h1 {{
             margin: 0;
             font-size: 2em;
-        }}
+        }
         .status {{
             display: inline-block;
             padding: 4px 12px;
@@ -281,40 +281,40 @@ class SimpleDashboard:
             font-size: 0.8em;
             font-weight: bold;
             margin-left: 10px;
-        }}
-        .status.active {{ background-color: #4CAF50; }}
-        .status.warning {{ background-color: #FF9800; }}
-        .status.error {{ background-color: #F44336; }}
+        }
+        .status.active {{ background-color: #4CAF50; }
+        .status.warning {{ background-color: #FF9800; }
+        .status.error {{ background-color: #F44336; }
         .grid {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-        }}
+        }
         .card {{
             background: white;
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }}
+        }
         .card h2 {{
             margin: 0 0 15px 0;
             color: #333;
             font-size: 1.2em;
-        }}
+        }
         .metric {{
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #eee;
-        }}
+        }
         .metric:last-child {{
             border-bottom: none;
-        }}
+        }
         .metric-value {{
             font-weight: bold;
             color: #667eea;
-        }}
+        }
         .logs {{
             background: #1e1e1e;
             color: #f5f5f5;
@@ -324,7 +324,7 @@ class SimpleDashboard:
             border-radius: 4px;
             max-height: 300px;
             overflow-y: auto;
-        }}
+        }
         .chart-placeholder {{
             background: #f8f9fa;
             border: 2px dashed #dee2e6;
@@ -333,7 +333,7 @@ class SimpleDashboard:
             text-align: center;
             color: #6c757d;
             margin: 10px 0;
-        }}
+        }
         .auto-refresh {{
             position: fixed;
             top: 20px;
@@ -343,12 +343,12 @@ class SimpleDashboard:
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.8em;
-        }}
+        }
         .timestamp {{
             font-size: 0.9em;
             opacity: 0.7;
             margin-top: 5px;
-        }}
+        }
     </style>
 </head>
 <body>
@@ -395,8 +395,8 @@ class SimpleDashboard:
             if (countdown < 0) {{
                 refreshDashboard();
                 countdown = refreshInterval / 1000;
-            }}
-        }}
+            }
+        }
 
         function refreshDashboard() {{
             fetch('/data')
@@ -415,24 +415,24 @@ class SimpleDashboard:
                     let metricsHtml = '';
                     for (const [key, metric] of Object.entries(data.metrics)) {{
                         metricsHtml += `<div class="metric">
-                            <span>${{key}}</span>
-                            <span class="metric-value">${{metric.value}} ${{metric.unit}}</span>
+                            <span>${{key}</span>
+                            <span class="metric-value">${{metric.value} ${{metric.unit}</span>
                         </div>`;
-                    }}
+                    }
                     document.getElementById('metrics').innerHTML = metricsHtml;
 
                     // Update charts
                     let chartsHtml = '';
                     if (data.charts.length === 0) {{
                         chartsHtml = '<div class="chart-placeholder">No charts available</div>';
-                    }} else {{
+                    } else {{
                         data.charts.forEach(chart => {{
                             chartsHtml += `<div class="chart-placeholder">
-                                📊 ${{chart.title}}<br>
-                                <small>${{chart.type}} chart with ${{chart.data.length}} data points</small>
+                                📊 ${{chart.title}<br>
+                                <small>${{chart.type} chart with ${{chart.data.length} data points</small>
                             </div>`;
-                        }});
-                    }}
+                        });
+                    }
                     document.getElementById('charts').innerHTML = chartsHtml;
 
                     // Update logs
@@ -440,13 +440,13 @@ class SimpleDashboard:
                     const logsElement = document.getElementById('logs');
                     logsElement.textContent = logsHtml;
                     logsElement.scrollTop = logsElement.scrollHeight;
-                }})
+                })
                 .catch(error => {{
                     console.error('Dashboard refresh failed:', error);
                     document.getElementById('status').textContent = 'error';
                     document.getElementById('status').className = 'status error';
-                }});
-        }}
+                });
+        }
 
         // Start countdown timer
         setInterval(updateCountdown, 1000);
@@ -627,7 +627,7 @@ if __name__ == "__main__":
     dashboard.add_log("Loading consciousness modules")
     dashboard.add_log("Memory folds initialized")
 
-    print(f"Dashboard running at: {dashboard.get_url()}")
+    print(f"Dashboard running at: {dashboard.get_url(}")
 
     try:
         # Keep running until interrupted
@@ -636,8 +636,8 @@ if __name__ == "__main__":
             # Update some demo data
             import random
 
-            dashboard.add_metric("CPU Usage", f"{random.randint(20, 80)}%", "%")
-            dashboard.add_log(f"Heartbeat - System healthy at {time.strftime('%H:%M:%S')}")
+            dashboard.add_metric("CPU Usage", f"{random.randint(20, 80}%", "%")
+            dashboard.add_log(f"Heartbeat - System healthy at {time.strftime('%H:%M:%S'}")
 
     except KeyboardInterrupt:
         dashboard.stop_server()

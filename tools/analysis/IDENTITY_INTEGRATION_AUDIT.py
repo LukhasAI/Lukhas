@@ -184,9 +184,9 @@ class IdentityAudit:
             else:
                 self.stats["unprotected_endpoints"] += len(endpoints)
                 status = "❌"
-                self.issues.append(f"Unprotected API file: {py_file.relative_to(self.root_path)}")
+                self.issues.append(f"Unprotected API file: {py_file.relative_to(self.root_path}")
 
-            print(f"  {status} {py_file.name}: {len(endpoints)} endpoints")
+            print(f"  {status} {py_file.name}: {len(endpoints} endpoints")
 
     def _audit_user_linking(self):
         """Check if modules properly link to user IDs."""
@@ -229,8 +229,8 @@ class IdentityAudit:
             else:
                 modules_without_user_linking.append(module_dir.name)
 
-        print(f"  ✅ Modules with user linking: {len(modules_with_user_linking)}")
-        print(f"  ❌ Modules without user linking: {len(modules_without_user_linking)}")
+        print(f"  ✅ Modules with user linking: {len(modules_with_user_linking}")
+        print(f"  ❌ Modules without user linking: {len(modules_without_user_linking}")
 
         # Show critical modules without user linking
         critical_without_linking = [m for m in modules_without_user_linking if m in PROTECTED_MODULES]

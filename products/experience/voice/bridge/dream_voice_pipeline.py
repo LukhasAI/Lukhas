@@ -63,7 +63,7 @@ def run_dream_voice_pipeline():
         return
 
     # Keep as print since this is CLI user output
-    print(f"🎙 Narrating {len(filtered)} symbolic entries...")
+    print(f"🎙 Narrating {len(filtered} symbolic entries...")
     for entry in filtered:
         narrate_dreams([entry])
 

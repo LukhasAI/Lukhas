@@ -27,7 +27,7 @@ class OrchestrationMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-ORCH-{uuid.uuid4().hex[:8]}",
+            "id": f"LT-ORCH-{uuid.uuid4(}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.9),
@@ -45,7 +45,7 @@ class OrchestrationMatrizAdapter:
                     "orchestration:route",
                 ],
                 "tenant": "system",
-                "trace_id": f"LT-ORCH-{int(time.time())}",
+                "trace_id": f"LT-ORCH-{int(time.time()}",
                 "consent_scopes": ["system:orchestration"],
                 **(provenance_extra or {}),
             },
@@ -77,7 +77,7 @@ class OrchestrationMatrizAdapter:
             labels=[
                 f"brain:{decision_id}",
                 f"type:{decision_type}",
-                f"components:{len(components_involved)}",
+                f"components:{len(components_involved}",
                 "orchestration:brain",
             ]
             + [f"component:{c}" for c in components_involved[:3]],
@@ -128,7 +128,7 @@ class OrchestrationMatrizAdapter:
             labels=[
                 f"route:{route_id}",
                 f"event:{event_type}",
-                f"hops:{len(route_path)}",
+                f"hops:{len(route_path}",
                 "status:success" if success else "status:failed",
                 "orchestration:route",
             ],
@@ -185,7 +185,7 @@ class OrchestrationMatrizAdapter:
 
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        filename = f"{node['id']}_{int(time.time())}.json"
+        filename = f"{node['id']}_{int(time.time()}.json"
         filepath = output_dir / filename
 
         with open(filepath, "w") as f:

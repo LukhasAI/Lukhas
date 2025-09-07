@@ -35,7 +35,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class LearningType(Enum):
@@ -120,7 +120,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
     async def adapt(self, support_examples: list[dict[str, Any]], task_context: dict[str, Any]) -> dict[str, Any]:
         """Adapt model to new task using support examples"""
         try:
-            logger.info(f"🎯 Adapting to new task: {task_context.get('task_id', 'unknown')}")
+            logger.info(f"🎯 Adapting to new task: {task_context.get('task_id', 'unknown'}")
 
             # Initialize with meta-learned parameters
             adapted_params = self.meta_parameters.copy()
@@ -164,7 +164,7 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
     async def meta_train(self, episodes: list[LearningEpisode]) -> MetaLearningResult:
         """Meta-train on collection of learning episodes"""
         try:
-            logger.info(f"🧠 Starting meta-training on {len(episodes)} episodes")
+            logger.info(f"🧠 Starting meta-training on {len(episodes} episodes")
 
             if not episodes:
                 raise ValueError("No episodes provided for meta-training")
@@ -371,7 +371,7 @@ class FewShotLearner:
             logger.info(f"📚 Starting {k_shot}-shot learning for task: {task_id}")
 
             if len(examples) < k_shot:
-                logger.warning(f"Only {len(examples)} examples available for {k_shot}-shot learning")
+                logger.warning(f"Only {len(examples} examples available for {k_shot}-shot learning")
 
             # Store support examples
             self.support_examples[task_id] = {
@@ -780,7 +780,7 @@ class AdvancedLearningSystem:
     ) -> dict[str, Any]:
         """Learn from a collection of learning episodes"""
         try:
-            logger.info(f"📚 Starting learning from {len(episodes)} episodes (type: {learning_type.value})")
+            logger.info(f"📚 Starting learning from {len(episodes} episodes (type: {learning_type.value})")
 
             if learning_type == LearningType.META_LEARNING:
                 result = await self.meta_learner.meta_train(episodes)
@@ -848,7 +848,7 @@ class AdvancedLearningSystem:
             # Update overall performance
             await self._update_overall_performance()
 
-            logger.info(f"✅ Learning completed for {len(episodes)} episodes")
+            logger.info(f"✅ Learning completed for {len(episodes} episodes")
             return result
 
         except Exception as e:
@@ -863,7 +863,7 @@ class AdvancedLearningSystem:
     ) -> dict[str, Any]:
         """Adapt to a new task using available learning mechanisms"""
         try:
-            task_id = task_definition.get("task_id", f"task_{datetime.now(timezone.utc).timestamp()}")
+            task_id = task_definition.get("task_id", f"task_{datetime.now(timezone.utc).timestamp(}")
             logger.info(f"🎯 Adapting to new task: {task_id}")
 
             adaptation_results = {}

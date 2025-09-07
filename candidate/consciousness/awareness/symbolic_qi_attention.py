@@ -120,7 +120,7 @@ class QIInspiredAttention:
 
             logger.warning(
                 f"Attention dimension mismatch. Expected {self.dimension}, "
-                + f"got {len(attention_distribution)}. Reshaped input."
+                + f"got {len(attention_distribution}. Reshaped input."
             )
 
         # Normalize input (ensure it's a probability distribution)

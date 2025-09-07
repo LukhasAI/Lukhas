@@ -8,7 +8,7 @@ from consciousness.qi import qi
 
 def _diff_dict(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
     """Structured diff: added/removed/changed (shallow+recursive on dicts)."""
-    out = {"added": {}, "removed": {}, "changed": {}}
+    out = {"added": {}, "removed": {}, "changed": {}
     ak = set(a.keys())
     bk = set(b.keys())
     for k in sorted(bk - ak):

@@ -19,7 +19,7 @@ class LUKHASCapabilityAnalyzer:
 
     def __init__(self):
         self.bio_client = BioAIClient()
-        self.session_id = f"capability_analysis_{int(time.time())}"
+        self.session_id = f"capability_analysis_{int(time.time()}"
 
         # Source code capabilities discovered from architecture analysis
         self.available_capabilities = {
@@ -97,7 +97,7 @@ class LUKHASCapabilityAnalyzer:
         print(" lukhas Capability Analysis & Reasoning Process Validator")
         print("=" * 70)
         print(f" Session ID: {self.session_id}")
-        print(f" Timestamp: {datetime.datetime.now(timezone.utc).isoformat()}")
+        print(f" Timestamp: {datetime.datetime.now(timezone.utc).isoformat(}")
         print()
 
         # Test different cognitive domains
@@ -173,9 +173,9 @@ class LUKHASCapabilityAnalyzer:
             }
 
             self.test_results.append(result)
-            print(f"     Response length: {len(response.content)} chars")
+            print(f"     Response length: {len(response.content} chars")
             print(f"     Processing time: {processing_time:.3f}s")
-            print(f"     Capabilities detected: {len(capability_usage)}")
+            print(f"     Capabilities detected: {len(capability_usage}")
             print()
 
     async def _test_mathematical_reasoning(self):
@@ -230,7 +230,7 @@ class LUKHASCapabilityAnalyzer:
             }
 
             self.test_results.append(result)
-            print(f"     Response length: {len(response.content)} chars")
+            print(f"     Response length: {len(response.content} chars")
             print(f"     Processing time: {processing_time:.3f}s")
             print()
 
@@ -291,7 +291,7 @@ class LUKHASCapabilityAnalyzer:
             }
 
             self.test_results.append(result)
-            print(f"     Response length: {len(response.content)} chars")
+            print(f"     Response length: {len(response.content} chars")
             print(f"     Processing time: {processing_time:.3f}s")
             print()
 
@@ -337,7 +337,7 @@ class LUKHASCapabilityAnalyzer:
             }
 
             self.test_results.append(result)
-            print(f"     Response length: {len(response.content)} chars")
+            print(f"     Response length: {len(response.content} chars")
             print(f"     Processing time: {processing_time:.3f}s")
             print()
 
@@ -398,7 +398,7 @@ class LUKHASCapabilityAnalyzer:
             }
 
             self.test_results.append(result)
-            print(f"     Response length: {len(response.content)} chars")
+            print(f"     Response length: {len(response.content} chars")
             print(f"     Processing time: {processing_time:.3f}s")
             print()
 
@@ -458,7 +458,7 @@ class LUKHASCapabilityAnalyzer:
             }
 
             self.test_results.append(result)
-            print(f"     Response length: {len(response.content)} chars")
+            print(f"     Response length: {len(response.content} chars")
             print(f"     Processing time: {processing_time:.3f}s")
             print()
 
@@ -521,7 +521,7 @@ class LUKHASCapabilityAnalyzer:
             }
 
             self.test_results.append(result)
-            print(f"     Response length: {len(response.content)} chars")
+            print(f"     Response length: {len(response.content} chars")
             print(f"     Processing time: {processing_time:.3f}s")
             print()
 
@@ -878,7 +878,7 @@ class LUKHASCapabilityAnalyzer:
 
         return report
 
-    def _generate_recommendations(:
+    def _generate_recommendations(
         self, capability_analysis: dict[str, Any]
     ) -> list[str]:
         """Generate recommendations based on capability analysis."""
@@ -893,7 +893,7 @@ class LUKHASCapabilityAnalyzer:
 
         if capability_analysis["unused_capabilities"]:
             recommendations.append(
-                f" {len(capability_analysis['unused_capabilities'])} capabilities appear unused. Review: {', '.join(capability_analysis['unused_capabilities'][:5])}"
+                f" {len(capability_analysis['unused_capabilities'])} capabilities appear unused. Review: {', '.join(capability_analysis['unused_capabilities'][:5]}"
             )
 
         # Category-specific recommendations
@@ -901,7 +901,7 @@ class LUKHASCapabilityAnalyzer:
         for category, utilization in category_util.items():
             if utilization < 0.3:
                 recommendations.append(
-                    f" Low {category.replace('_', ' ')} utilization ({utilization:.1%}). Consider tests targeting this domain."
+                    f" Low {category.replace('_', ' '} utilization ({utilization:.1%}). Consider tests targeting this domain."
                 )
 
         if utilization_rate > 0.8:
@@ -972,7 +972,7 @@ async def main():
             f" Capabilities Detected: {report['capability_analysis']['capabilities_detected']}"
         )
         print(
-            f" Average Processing Time: {sum(report['performance_metrics']['average_processing_times'].values()) / len(report['performance_metrics']['average_processing_times']):.3f}s"
+            f" Average Processing Time: {sum(report['performance_metrics']['average_processing_times'].values()) / len(report['performance_metrics']['average_processing_times']}:.3f}s"
         )
         print(
             f" Total Tokens Used: {report['performance_metrics']['total_tokens_used']}"

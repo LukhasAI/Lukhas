@@ -53,8 +53,8 @@ def set_config(new_config: LukhasConfig) -> None:
     global config
     logger.warning("ΛTRACE: set_config() called. Overwriting global 'config' instance. This is generally discouraged.")
     if not isinstance(new_config, LukhasConfig):
-        logger.error(f"ΛTRACE: set_config() failed. Expected LukhasConfig instance, got {type(new_config)}.")
-        raise TypeError(f"Expected LukhasConfig instance, got {type(new_config)}")
+        logger.error(f"ΛTRACE: set_config() failed. Expected LukhasConfig instance, got {type(new_config}.")
+        raise TypeError(f"Expected LukhasConfig instance, got {type(new_config}")
     config = new_config
     logger.info(
         f"ΛTRACE: Global 'config' instance has been updated by set_config(). New tier: {config.tier.value if config else 'N/A'}"

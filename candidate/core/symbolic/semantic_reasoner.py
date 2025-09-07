@@ -20,7 +20,7 @@ from typing import Optional
 
 from .symbolic_core import SymbolicWorld  # Added import
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class SymbolicReasoningEngine:
@@ -283,7 +283,7 @@ class SymbolicReasoningEngine:
                     logical_elements.append(
                         {
                             "type": f"formal_logic_{logic_type}",
-                            "content": f"{logic_type.capitalize()} logical structure detected",
+                            "content": f"{logic_type.capitalize(} logical structure detected",
                             "base_confidence": 0.95,  # Very high confidence for formal logic
                             "relation_type": "formal_logic",
                         }
@@ -452,7 +452,7 @@ class SymbolicReasoningEngine:
         elif relation_type == "formal_logic":
             # Format with formal logic notation
             contents = [e["content"] for e in elements[:2]]
-            return f"Formal logic: {' ∧ '.join(contents)}"
+            return f"Formal logic: {' ∧ '.join(contents}"
         elif relation_type == "conditional":
             # Format as if-then
             if len(elements) >= 2:

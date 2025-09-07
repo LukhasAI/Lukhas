@@ -79,11 +79,11 @@ def replay_recent_dreams(limit=5, filter_by_tag=None, only_replay_candidates=Fal
     for dream in dreams:
         try:
             print(f"\n🌀 {dream['timestamp']} | ID: {dream['message_id']}")
-            print(f"   Widget: {dream.get('source_widget', 'unknown')} | Tier: {dream.get('context_tier', '?')}")
-            print(f"   Tags: {', '.join(dream.get('tags', []))}")
+            print(f"   Widget: {dream.get('source_widget', 'unknown')} | Tier: {dream.get('context_tier', '?'}")
+            print(f"   Tags: {', '.join(dream.get('tags', [])}")
 
             emotion = dream.get("emotion_vector", {})
-            summary = ", ".join([f"{k.capitalize()}: {v:.2f}" for k, v in emotion.items()])
+            summary = ", ".join([f"{k.capitalize(}: {v:.2f}" for k, v in emotion.items()])
             print(f"   Emotion Vector → {summary}")
             if dream.get("emoji"):
                 print(f"   Symbolic Emoji: {dream['emoji']}")

@@ -131,7 +131,7 @@ class DocEngine:
         db.log_system_activity(
             "doc_engine",
             "knowledge_accessed",
-            f"Accessed {len(knowledge)} knowledge items",
+            f"Accessed {len(knowledge} knowledge items",
             len(knowledge),
         )
 
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     engine = DocEngine()
 
     print("🚀 LUKHAS AI Document Engine Ready")
-    print(f"📄 Available formats: {len(engine.get_available_formats())}")
+    print(f"📄 Available formats: {len(engine.get_available_formats()}")
 
     # Show real database integration
     analytics = engine.get_engine_analytics()

@@ -161,7 +161,7 @@ class PolicyEngineIntegration:
         """
         policy = policy_class(*args, **kwargs)
         self.registry.register_policy(policy)
-        logger.info(f"Added custom policy: {policy.get_policy_name()}")
+        logger.info(f"Added custom policy: {policy.get_policy_name(}")
 
     def get_policy_metrics(self) -> dict[str, Any]:
         """Get metrics from all registered policies"""

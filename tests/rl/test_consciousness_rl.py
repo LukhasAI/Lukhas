@@ -61,7 +61,7 @@ def mock_consciousness_modules():
 def mock_memory_system():
     """Create mock memory system"""
     memory = Mock()
-    memory.get_coherence_metrics = AsyncMock(return_value={"coherence": 0.9, "salience_map": {"important": 0.8}})
+    memory.get_coherence_metrics = AsyncMock(return_value={"coherence": 0.9, "salience_map": {"important": 0.8})
     return memory
 
 
@@ -79,7 +79,7 @@ def mock_guardian_system():
     """Create mock guardian system"""
     guardian = Mock()
     guardian.assess_consciousness_action = AsyncMock(return_value={"safety_score": 0.9, "ethical_score": 0.95})
-    guardian.get_ethical_state = AsyncMock(return_value={"alignment_score": 0.95, "active_constraints": {}})
+    guardian.get_ethical_state = AsyncMock(return_value={"alignment_score": 0.95, "active_constraints": {})
     return guardian
 
 

@@ -16,7 +16,7 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class PrivacyManager:
@@ -222,7 +222,7 @@ class PrivacyManager:
                 if action in resource_permissions.get("denied_actions", []):
                     return {
                         "allowed": False,
-                        "reason": f"Action '{action}' denied for resource '{resource}'",
+                        "reason": f"Action '{action)' denied for resource '{resource}'",
                     }
 
         # Handle default permission policy
@@ -315,7 +315,7 @@ class PrivacyManager:
                 },
                 {
                     "category": "interaction_history",
-                    "retention_period": f"{self.data_retention_policies.get('interaction_history', 30)} days",
+                    "retention_period": f"{self.data_retention_policies.get('interaction_history', 30} days",
                     "processing_purpose": "Service improvement and user experience optimization",
                 },
             ],
@@ -349,7 +349,7 @@ class PrivacyManager:
             self.privacy_log = self.privacy_log[-1000:]
 
         # Log the event
-        logger.info(f"Privacy event: {event.get('action', 'unknown')}")
+        logger.info(f"Privacy event: {event.get('action', 'unknown'}")
 
     def get_privacy_logs(self, limit=100):
         """Get privacy logs, with optional limit"""
@@ -373,7 +373,7 @@ class PrivacyManager:
         hasher.update(value_str.encode())
 
         # Return prefix and hash
-        return f"ANON:{hasher.hexdigest()[:16]}"
+        return f"ANON:{hasher.hexdigest(}[:16]}"
 
     def _encrypt_value(self, value):
         """Encrypt a sensitive value"""

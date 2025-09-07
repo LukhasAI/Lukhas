@@ -23,7 +23,7 @@ class DreamMetricsView:
     """# ΛTAG: metrics_view
     Aggregates dream-related metrics for monitoring."""
 
-    def __init__(self, timezone) -> None:
+    def __init__(self) -> None:
         self.totals = DreamMetrics(timestamp=datetime.now(timezone.utc).isoformat())
 
     def update_dream_metrics(self, drift_delta: float, entropy: float, energy: float) -> None:

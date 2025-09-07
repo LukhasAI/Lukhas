@@ -65,7 +65,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -266,7 +266,7 @@ class MemoryReplayer:
     ) -> Optional[str]:
         """Create a new replay sequence from memory folds."""
         try:
-            sequence_id = f"seq_{uuid.uuid4().hex[:8]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+            sequence_id = f"seq_{uuid.uuid4().hex[:8]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
             # Create snapshots from memory folds
             snapshots = self._create_memory_snapshots(memory_fold_ids, quality)
@@ -302,7 +302,7 @@ class MemoryReplayer:
             self._cache_sequence(sequence)
 
             self.sequences_created += 1
-            self.logger.info(f"Created replay sequence: {sequence_id} ({len(ordered_snapshots)} snapshots)")
+            self.logger.info(f"Created replay sequence: {sequence_id} ({len(ordered_snapshots} snapshots)")
 
             return sequence_id
 
@@ -332,7 +332,7 @@ class MemoryReplayer:
             sequence = self.sequence_cache[sequence_id]
 
             # Create session
-            session_id = f"session_{uuid.uuid4().hex[:6]}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+            session_id = f"session_{uuid.uuid4().hex[:6]}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
             session = ReplaySession(
                 session_id=session_id,
@@ -528,7 +528,7 @@ class MemoryReplayer:
                 "sequences_created": self.sequences_created,
                 "sessions_started": self.sessions_started,
                 "total_replay_time": f"{self.total_replay_time:.1f}s",
-                "avg_session_duration": f"{self.total_replay_time / max(self.sessions_started, 1):.1f}s",
+                "avg_session_duration": f"{self.total_replay_time / max(self.sessions_started, 1}:.1f}s",
             },
             "configuration": {
                 "max_active_sessions": self.max_active_sessions,
@@ -547,7 +547,7 @@ class MemoryReplayer:
         for memory_fold_id in memory_fold_ids:
             # Mock snapshot creation (would integrate with actual memory system)
             snapshot = MemorySnapshot(
-                snapshot_id=f"snap_{uuid.uuid4().hex[:6]}",
+                snapshot_id=f"snap_{uuid.uuid4(}.hex[:6]}",
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 memory_fold_id=memory_fold_id,
                 content={"mock_content": f"Content for {memory_fold_id}"},

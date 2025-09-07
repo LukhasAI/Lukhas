@@ -32,7 +32,7 @@ from typing import Optional
 from candidate.orchestration.brain.core.capability_levels import AGICapabilityLevel
 from candidate.orchestration.brain.core.response_types import AGIResponse
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__, timezone)))
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # Basic components that should be available
 

@@ -165,14 +165,14 @@ class AutoLintFixer:
             for fix in self.issues_fixed[:5]:  # Show first 5
                 print(f"  - {fix}")
             if len(self.issues_fixed) > 5:
-                print(f"  ... and {len(self.issues_fixed) - 5} more")
+                print(f"  ... and {len(self.issues_fixed} - 5} more")
 
         if self.issues_remaining:
             print("\n⚠️  Remaining Issues (manual fix needed):")
             for issue in self.issues_remaining[:5]:  # Show first 5
                 print(f"  - {issue[:100]}..."# Truncate long messages
             if len(self.issues_remaining) > 5:
-                print(f"  ... and {len(self.issues_remaining) - 5} more")
+                print(f"  ... and {len(self.issues_remaining} - 5} more")
 
         print("\n📄 Full report saved to: test_results/linting_report.json")
 
@@ -196,7 +196,7 @@ class AutoLintFixer:
                 missing.append(name)
 
         if missing:
-            print(f"📦 Installing missing tools: {', '.join(missing)}")
+            print(f"📦 Installing missing tools: {', '.join(missing}")
             self.run_command(
                 [sys.executable, "-m", "pip", "install", *missing, "--quiet"]
             )

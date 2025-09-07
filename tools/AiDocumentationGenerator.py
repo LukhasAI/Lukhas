@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 # Global constant for symbolic memory directory
 SYMBOLIC_MEMORY_DIR = ".lukhas"
-os.makedirs(SYMBOLIC_MEMORY_DIR, exist_ok=True, timezone)
+os.makedirs(SYMBOLIC_MEMORY_DIR, exist_ok=True)
 
 # OpenAI imports and configuration
 try:
@@ -385,13 +385,13 @@ class AIDocumentationGenerator:
         else:
             python_files = list(source_path.rglob("*.py"))
 
-        self.logger.info(f"📂 Found {len(python_files)} Python files")
+        self.logger.info(f"📂 Found {len(python_files} Python files")
 
         # Initialize results
         results = {"documented_files": 0, "sections_generated": 0, "failed_files": 0}
 
         # Document each file
-        self.logger.info(f"📝 Documenting {len(python_files)} files")
+        self.logger.info(f"📝 Documenting {len(python_files} files")
         for file_path in python_files:
             try:
                 # Analyze file

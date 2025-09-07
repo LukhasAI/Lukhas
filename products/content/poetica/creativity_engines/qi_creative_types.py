@@ -436,7 +436,7 @@ class Quantum3DSculptor(QuantumCreativeComponent):
         ]
 
     async def process(self, concept: str) -> dict[str, Any]:
-        return {"vertices": [], "faces": [], "quantum_properties": {}}
+        return {"vertices": [], "faces": [], "quantum_properties": {}
 
 
 # Advanced systems
@@ -652,7 +652,7 @@ class CreativeBlockchain(QuantumCreativeComponent):
         self.blockchain = []
 
     async def process(self, creative_work: CreativeExpression) -> str:
-        return f"hash_{len(self.blockchain)}"
+        return f"hash_{len(self.blockchain}"
 
 
 class QIWatermarkEmbedder(QuantumCreativeComponent):
@@ -738,7 +738,7 @@ class EmotionalPreferenceLearner(QuantumCreativeComponent):
         self.preference_model = {}
 
     async def process(self, interactions: list[CreativeInteraction]) -> dict[str, float]:
-        return {"emotional_weights": {}}
+        return {"emotional_weights": {}
 
 
 class CreativityStyleEvolver(QuantumCreativeComponent):
@@ -748,7 +748,7 @@ class CreativityStyleEvolver(QuantumCreativeComponent):
         self.evolution_parameters = {}
 
     async def process(self, style_history: list[Any]) -> dict[str, Any]:
-        return {"evolved_style": {}}
+        return {"evolved_style": {}
 
 
 # Monitoring components

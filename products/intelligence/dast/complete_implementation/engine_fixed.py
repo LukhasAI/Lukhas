@@ -20,7 +20,7 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 
-class TaskPriority(Enum, timezone):
+class TaskPriority(Enum):
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -270,7 +270,7 @@ class LucasDASTEngine:
             prioritized = self._ai_prioritize_tasks(tasks)
 
             collaboration_result["ai_suggestions"] = [
-                f"Focus on {min(5, len(prioritized))} high-priority tasks first",
+                f"Focus on {min(5, len(prioritized)} high-priority tasks first",
                 "Consider batching similar tasks for efficiency",
                 "Schedule critical tasks during peak hours",
             ]
@@ -310,7 +310,7 @@ class LucasDASTEngine:
         """AI-powered task creation with intelligent analysis"""
 
         # Generate unique task ID
-        task_id = hashlib.md5(f"{request}{time.time()}".encode()).hexdigest()[:12]
+        task_id = hashlib.md5(f"{request}{time.time(}".encode()).hexdigest()[:12]
 
         # AI-powered task analysis
         ai_analysis = await self._analyze_task_request(request, context)
@@ -569,7 +569,7 @@ class LucasDASTEngine:
 
     async def _ai_analyze_progress(self, task: Task, notes: Optional[str]) -> dict[str, Any]:
         """AI analysis of task progress with recommendations"""
-        analysis = {"progress_assessment": "on_track", "recommendations": [], "next_actions": [], "workflow_impact": {}}
+        analysis = {"progress_assessment": "on_track", "recommendations": [], "next_actions": [], "workflow_impact": {}
 
         if task.status == TaskStatus.BLOCKED:
             analysis["recommendations"].append("Identify blockers and create unblocking tasks")

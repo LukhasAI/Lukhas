@@ -46,7 +46,7 @@ except ImportError:
     SymbolicKernelBus = None
 
 
-class ModuleType(Enum, timezone):
+class ModuleType(Enum):
     """LUKHAS AI module types"""
 
     CONSCIOUSNESS = "consciousness"

@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 
-def load_meta_metrics(path: Optional[Path] = None, timezone) -> dict[str, Any]:
+def load_meta_metrics(path: Optional[Path] = None) -> dict[str, Any]:
     """
     Load meta metrics from json_file.
 

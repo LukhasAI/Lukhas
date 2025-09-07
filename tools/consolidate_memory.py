@@ -15,7 +15,7 @@ from pathlib import Path
 class MemoryConsolidator:
     """Consolidate memory module variants"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.root = Path(".")
         self.target_dir = Path("lukhas/accepted/memory")
         self.archive_dir = Path("lukhas/archive/memory_variants")

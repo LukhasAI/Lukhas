@@ -15,7 +15,7 @@ from typing import Any, Optional
 import numpy as np
 
 
-class MisfoldingType(Enum, timezone):
+class MisfoldingType(Enum):
     """Types of protein misfolding issues"""
 
     BIAS_ACCUMULATION = "bias_accumulation"
@@ -117,7 +117,7 @@ class AlphaFoldInspiredEngine:
         structure_3d = await self._generate_3d_structure(folded_structure)
 
         fold = ProteinFold(
-            protein_id=f"fold_{datetime.now(timezone.utc).timestamp()}",
+            protein_id=f"fold_{datetime.now(timezone.utc).timestamp(}",
             sequence=sequence.sequence,
             stability=self._calculate_stability(structure_3d),
             structure_data={

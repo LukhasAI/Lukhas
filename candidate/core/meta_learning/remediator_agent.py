@@ -424,11 +424,11 @@ class RemediatorAgent:  # Corrected class name
                 return self.qi_hasher.generate_hash(str(data_to_sign))
             # Fallback to SHA-256 with timestamp if specific LUKHAS hasher not available
             # Use json.dumps for dicts
-            data_str = f"{json.dumps(data_to_sign, sort_keys=True, default=str)}_{time.time_ns()}"
+            data_str = f"{json.dumps(data_to_sign, sort_keys=True, default=str)}_{time.time_ns(}"
             return hashlib.sha256(data_str.encode()).hexdigest()[:24]  # Longer signature
         except Exception as e:
             self.logger.warn("qi_signature_generation_failed_remediator", error=str(e))
-            return f"FALLBACK_SIG_{int(time.time_ns())}"  # Use time_ns
+            return f"FALLBACK_SIG_{int(time.time_ns()}"  # Use time_ns
 
     # # Calculate drift score using LUKHAS cosine similarity method (or fallback)
 
@@ -630,7 +630,7 @@ class RemediatorAgent:  # Corrected class name
             return ""
 
         # Renamed sub_agent_id
-        sub_agent_id_val = f"{self.agent_id}_SUBAGENT_{sub_agent_type.upper()}_{self.spawn_count}"
+        sub_agent_id_val = f"{self.agent_id}_SUBAGENT_{sub_agent_type.upper(}_{self.spawn_count}"
         self.spawn_count += 1
         self.sub_agents[sub_agent_id_val] = {
             "parent_agent_id": self.agent_id,
@@ -704,7 +704,7 @@ class RemediatorAgent:  # Corrected class name
             RemediationLevel.EMERGENCY: "Emergency Condition:",
         }  # Renamed severity_prefixes
         # Renamed voice_message
-        full_voice_message = f"{severity_map.get(severity_level, 'Alert:')} {alert_message}"
+        full_voice_message = f"{severity_map.get(severity_level, 'Alert:'} {alert_message}"
         # ΛCAUTION: Actual voice synthesis integration needed.
         logger.info(
             "simulated_voice_alert_emitted",
@@ -929,7 +929,7 @@ class RemediatorAgent:  # Corrected class name
             self.compliance_state = (
                 "COMPLIANT"
                 if not any("COMPLIANCE" in issue.upper() for issue in event_data.metadata.get("detected_issues", []))
-                else f"NON_COMPLIANT_{event_data.severity.value.upper()}"
+                else f"NON_COMPLIANT_{event_data.severity.value.upper(}"
             )  # Updated logic
             logger.info(
                 "run_monitoring_cycle_end",

@@ -119,7 +119,7 @@ class SecurityComplianceAnalyzer:
                     "category": "Privacy",
                     "severity": "HIGH",
                     "issue": "Insufficient privacy protection mechanisms",
-                    "details": f"Only {len(self.analysis['privacy']['files'])} privacy files found. Need comprehensive GDPR, data anonymization, and user consent management.",
+                    "details": f"Only {len(self.analysis['privacy']['files']} privacy files found. Need comprehensive GDPR, data anonymization, and user consent management.",
                 }
             )
 
@@ -130,7 +130,7 @@ class SecurityComplianceAnalyzer:
                     "category": "Security",
                     "severity": "CRITICAL",
                     "issue": "Inadequate security infrastructure",
-                    "details": f"Only {len(self.analysis['security']['files'])} security files found. Missing authentication, authorization, encryption, and threat detection.",
+                    "details": f"Only {len(self.analysis['security']['files']} security files found. Missing authentication, authorization, encryption, and threat detection.",
                 }
             )
 
@@ -141,7 +141,7 @@ class SecurityComplianceAnalyzer:
                     "category": "Compliance",
                     "severity": "HIGH",
                     "issue": "Insufficient compliance framework",
-                    "details": f"Only {len(self.analysis['compliance']['files'])} compliance files found. Need regulatory compliance, audit trails, and policy enforcement.",
+                    "details": f"Only {len(self.analysis['compliance']['files']} compliance files found. Need regulatory compliance, audit trails, and policy enforcement.",
                 }
             )
 
@@ -238,7 +238,7 @@ class SecurityComplianceAnalyzer:
             status = "❌ CRITICAL" if file_count < 3 else "⚠️ MINIMAL" if file_count < 8 else "✅ ADEQUATE"
 
             print(
-                f"   • {module.upper()}: {file_count} files, {func_count} functions, "
+                f"   • {module.upper(}: {file_count} files, {func_count} functions, "
                 f"{total_lines} lines, {security_score} security keywords - {status}"
             )
 
@@ -254,19 +254,19 @@ class SecurityComplianceAnalyzer:
 
         # Privacy recommendations
         if len(self.analysis["privacy"]["files"]) < 5:
-            print(f"\n   🔒 PRIVACY MODULE (URGENT - Only {len(self.analysis['privacy']['files'])} files):")
+            print(f"\n   🔒 PRIVACY MODULE (URGENT - Only {len(self.analysis['privacy']['files']} files):")
             for rec in self.analysis["recommendations"]["privacy"][:3]:
                 print(f"      • {rec}")
 
         # Security recommendations
         if len(self.analysis["security"]["files"]) < 10:
-            print(f"\n   🛡️ SECURITY MODULE (CRITICAL - Only {len(self.analysis['security']['files'])} files):")
+            print(f"\n   🛡️ SECURITY MODULE (CRITICAL - Only {len(self.analysis['security']['files']} files):")
             for rec in self.analysis["recommendations"]["security"][:4]:
                 print(f"      • {rec}")
 
         # Compliance recommendations
         if len(self.analysis["compliance"]["files"]) < 8:
-            print(f"\n   📋 COMPLIANCE MODULE (HIGH - Only {len(self.analysis['compliance']['files'])} files):")
+            print(f"\n   📋 COMPLIANCE MODULE (HIGH - Only {len(self.analysis['compliance']['files']} files):")
             for rec in self.analysis["recommendations"]["compliance"][:3]:
                 print(f"      • {rec}")
 

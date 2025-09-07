@@ -31,7 +31,7 @@ from ..id_service.entropy_engine import EntropyEngine
 from ..id_service.lambd_id_validator import LambdaIDValidator
 
 
-class CommercialTier(Enum, timezone):
+class CommercialTier(Enum):
     """Commercial tier definitions with enhanced permissions."""
 
     BUSINESS = "business"
@@ -208,7 +208,7 @@ class CommercialModule:
             }
 
         # Create brand registration
-        registration_id = f"brand_reg_{int(time.time())}"
+        registration_id = f"brand_reg_{int(time.time()}"
         expiry_date = datetime.now(timezone.utc) + timedelta(days=365)
 
         brand_prefix = BrandPrefix(
@@ -430,7 +430,7 @@ class CommercialModule:
             symbolic_char = symbols[hash(timestamp) % len(symbols)]
 
         # Generate enhanced entropy component
-        entropy_seed = f"{brand_code}{enhanced_tier}{timestamp_hash}{symbolic_char}{user_context.get('user_id', '')}"
+        entropy_seed = f"{brand_code}{enhanced_tier}{timestamp_hash}{symbolic_char}{user_context.get('user_id', ''}"
         entropy_hash = hashlib.sha256(entropy_seed.encode()).hexdigest()[:5].upper()
 
         return f"LUKHAS©{brand_code}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"

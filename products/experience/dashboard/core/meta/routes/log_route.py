@@ -21,7 +21,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from identity import AuthContext, get_current_user, require_t3_or_above
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Create router for log endpoints
 log_router = APIRouter(prefix="/api/meta", tags=["meta-logs"])
@@ -280,8 +280,8 @@ async def export_logs(format: str = "json", user: AuthContext = Depends(require_
             for log in enriched_logs:
                 glyphs_str = " ".join(log.get("glyphs", []))
                 csv_lines.append(
-                    f"{log.get('timestamp', '')},{log.get('email', '')},{log.get('action', '')},"
-                    f"{glyphs_str},{log.get('trinity_alignment', 0)},{log.get('risk_level', '')}"
+                    f"{log.get('timestamp', '')},{log.get('email', '')},{log.get('action', ''},"
+                    f"{glyphs_str},{log.get('trinity_alignment', 0)},{log.get('risk_level', ''}"
                 )
 
             return {"format": "csv", "data": "\n".join(csv_lines)}

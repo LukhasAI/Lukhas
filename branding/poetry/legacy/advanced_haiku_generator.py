@@ -67,7 +67,7 @@ from typing import Any, Optional
 from lukhas.core.common import get_logger
 
 # Add parent directory to path for imports
-sys.path.append(str(Path(__file__, timezone).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 # Try to import lukhas.consciousness integration
 try:
@@ -735,7 +735,7 @@ async def main():
     series_result = await generator.generate_haiku_series(themes)
 
     for theme, haiku_list in series_result["haiku_series"].items():
-        print(f"\n{theme.title()} Haiku:")
+        print(f"\n{theme.title(} Haiku:")
         print(haiku_list[0]["haiku_text"])
 
     print(f"\nAverage Quantum Coherence: {series_result['average_metrics']['qi_coherence']:.3f}")

@@ -54,7 +54,7 @@ def narrate_dreams(limit=3):
         print("⚠️ No input files available for narration.")
         return
 
-    print(f"\n🗣️ LUCΛS SYMBOLIC DREAM NARRATION ({len(entries)} entries)")
+    print(f"\n🗣️ LUCΛS SYMBOLIC DREAM NARRATION ({len(entries} entries)")
     print("   ✨ Prioritized by 'replay_candidate' or 'suggest_voice' flags.")
     print("─────────────────────────────────────────────────────────────")
 
@@ -70,14 +70,14 @@ def narrate_dreams(limit=3):
         source = entry.get("source_widget", "unknown")
         voice = entry.get("voice_profile", "lukhas_default")
 
-        print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '—')}")
-        print(f"   🔐 Tier: {tier_label(tier)} | Source: {source}")
+        print(f"\n🎙️ Narrating Entry ID: {entry.get('id', '—'}")
+        print(f"   🔐 Tier: {tier_label(tier} | Source: {source}")
         print(
-            f"   🧠 Emotion Vector → {summarize_emotion_vector(ev)}"
+            f"   🧠 Emotion Vector → {summarize_emotion_vector(ev}"
             if ev:
             else "   🧠 No emotion vector available":
         )
-        print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags)}")
+        print(f"   🖼️ Emoji: {emoji} | Tags: {', '.join(tags}")
         print(f"   📝 Summary: {summary}")
         print("   🎧 [Lukhas says symbolically...]\n")
         print(f"   🗣 '{summary or 'A quiet dream passed — undefined, but felt.'}'")
@@ -95,7 +95,7 @@ def narrate_dreams(limit=3):
             for entry in narrated:
                 f.write(json.dumps(entry) + "\n")
         print(
-            f"\n📼 Narrated {len(narrated)} symbolic dreams. Logged to narration_log.jsonl."
+            f"\n📼 Narrated {len(narrated} symbolic dreams. Logged to narration_log.jsonl."
         )
 
 

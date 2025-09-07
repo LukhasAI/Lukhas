@@ -227,7 +227,7 @@ class T4BatchProcessor:
 
         print(f"📈 After:  {after_count} total issues")
         print(f"✅ Fixed:  {validation['improvement']} issues")
-        print(f"📋 Artifact: {Path(artifact_path).name}")
+        print(f"📋 Artifact: {Path(artifact_path}.name}")
 
         # T4 Lens Summary
         self.print_t4_validation(validation)
@@ -245,7 +245,7 @@ class T4BatchProcessor:
 
         safety = validation["constitutional_safety"]
         print(f"   🛡️ CONSTITUTIONAL SAFETY: {'✅' if safety['fail_safe_applied'] else '❌'}")
-        print(f"      Risk Level: {safety['risk_assessment'].upper()}")
+        print(f"      Risk Level: {safety['risk_assessment'].upper(}")
 
         rigor = validation["scientific_rigor"]
         print(f"   🧪 SCIENTIFIC RIGOR: {'✅' if rigor['reproducible'] else '❌'}")
@@ -271,7 +271,7 @@ class T4BatchProcessor:
 
         print("\n📊 ISSUE CATEGORIZATION:")
         for category, issues in categories.items():
-            print(f"   {category}: {len(issues)} issues")
+            print(f"   {category}: {len(issues} issues")
 
         # Process each category in batches
         total_improvement = 0

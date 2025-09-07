@@ -20,7 +20,7 @@ from typing import Any
 # Mock patterns to identify and replace
 MOCK_PATTERNS = {
     "performance_metrics": {
-        "pattern": r"(coherence|cascade_prevention|compliance, timezone)\s*=\s*[\d.]+",
+        "pattern": r"(coherence|cascade_prevention|compliance)\s*=\s*[\d.]+",
         "description": "Hardcoded performance values",
     },
     "mock_calculations": {
@@ -280,7 +280,7 @@ class MockToProductionMigrator:
                 with open(script_path, "w") as f:
                     f.write(script_content)
 
-        print(f"✅ Generated {len(migration_plan)} migration scripts")
+        print(f"✅ Generated {len(migration_plan} migration scripts")
 
     def _generate_migration_script(self, file_plan: dict) -> str:
         """Generate migration script for a file"""
@@ -304,7 +304,7 @@ def migrate():
 
     # Apply each migration
     for migration in MIGRATIONS:
-        print(f"Applying migration: {{migration['mock_type']}} at line {{migration['line']}}")
+        print(f"Applying migration: {{migration['mock_type']} at line {{migration['line']}")
         # TODO: Implement actual migration logic
         # This is a template - implement based on specific needs
 
@@ -314,7 +314,7 @@ def migrate():
 
     # Write migrated content
     file_path.write_text(content)
-    print(f"✅ Migration complete for {{FILE_PATH}}")
+    print(f"✅ Migration complete for {{FILE_PATH}")
 
 if __name__ == "__main__":
     migrate()
@@ -396,7 +396,7 @@ def main():
     print("\n📊 Scan Results:")
     print(f"   Files analyzed: {migrator.migration_report['files_analyzed']}")
     print(f"   Mocks found: {migrator.migration_report['mocks_found']}")
-    print(f"   Files with mocks: {len(mock_locations)}")
+    print(f"   Files with mocks: {len(mock_locations}")
 
     if mock_locations:
         # Create migration plan

@@ -21,7 +21,7 @@ from candidate.core.common import get_logger
 
 from .qi_substrate import QIState, QIStateType
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class CollapseType(Enum):
@@ -163,7 +163,7 @@ class QubitCollapseEngine:
 
         # Create quantum state
         state = QIState(
-            state_id=f"moral_superposition_{datetime.now(timezone.utc).timestamp()}",
+            state_id=f"moral_superposition_{datetime.now(timezone.utc).timestamp(}",
             state_vector=superposition,
             state_type=QIStateType.SUPERPOSITION,
             fidelity=1.0 - uncertainty_level * 0.2,  # Uncertainty reduces fidelity
@@ -391,7 +391,7 @@ class QubitCollapseEngine:
         prob_dist /= np.linalg.norm(prob_dist)
 
         return CollapseField(
-            field_id=f"field_{hashlib.sha256(str(constraints).encode()).hexdigest()[:8]}",
+            field_id=f"field_{hashlib.sha256(str(constraints).encode()).hexdigest(}[:8]}",
             ethical_dimensions=ethical_dims,
             probability_distribution=prob_dist,
             convergence_strength=constraints.get("convergence_strength", 0.5),

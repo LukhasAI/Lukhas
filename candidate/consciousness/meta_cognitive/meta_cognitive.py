@@ -71,7 +71,7 @@ class EnhancedMetaCognitiveOrchestrator:
     """
 
     def __init__(self):
-        self.logger = logger.bind(orchestrator_id=f"meta_cog_orch_{datetime.now(timezone.utc).strftime('%H%M%S')}")
+        self.logger = logger.bind(orchestrator_id=f"meta_cog_orch_{datetime.now(timezone.utc).strftime('%H%M%S'}")
         self.logger.info("Initializing EnhancedMetaCognitiveOrchestrator.")
 
         # Initialize key components
@@ -368,7 +368,7 @@ class EnhancedMetaCognitiveOrchestrator:
 # AUTHENTICATION: Not applicable at this component level.
 # HOW TO USE:
 #   orchestrator = EnhancedMetaCognitiveOrchestrator()
-#   task_definition = {"type": "complex_reasoning", "data": {...}}
+#   task_definition = {"type": "complex_reasoning", "data": {...}
 #   result = await orchestrator.process_cognitive_task(task_definition)
 # INTEGRATION NOTES: This module is a high-level #AINTEROP and #ΛBRIDGE orchestrator.
 #                    Relies on several complex components (#AIMPORT_TODO for paths).

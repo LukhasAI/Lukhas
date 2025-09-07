@@ -11,7 +11,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class EmotionalState(Enum, timezone):
+class EmotionalState(Enum):
     """Emotional states for messages"""
 
     CALM = "calm"

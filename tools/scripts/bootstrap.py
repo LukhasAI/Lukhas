@@ -170,7 +170,7 @@ class LUKHAS:
         logger.info(f"\\n📊 Startup Summary:")
         logger.info(f"  - Active modules: {active_modules}")
         logger.info(f"  - Failed modules: {failed_modules}")
-        logger.info(f"  - Startup time: {(datetime.now() - self.startup_time).total_seconds():.2f}s")
+        logger.info(f"  - Startup time: {(datetime.now() - self.startup_time).total_seconds(}:.2f}s")
 
         if active_modules > 0:
             self.is_running = True
@@ -228,7 +228,7 @@ Available commands:
     def show_status(self):
         """Show system status"""
         print(f"\\n🔹 LUKHAS Status")
-        print(f"Uptime: {(datetime.now() - self.startup_time).total_seconds():.1f}s")
+        print(f"Uptime: {(datetime.now() - self.startup_time).total_seconds(}:.1f}s")
         print(f"\\nModules:")
 
         for name, info in self.modules.items():
@@ -241,7 +241,7 @@ Available commands:
         if module_name in self.modules:
             info = self.modules[module_name]
             print(f"\\n📦 Module: {module_name}")
-            print(f"Status: {info.get('status')}")
+            print(f"Status: {info.get('status'}")
             if info.get('error'):
                 print(f"Error: {info['error']}")
         else:

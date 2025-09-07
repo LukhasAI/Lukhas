@@ -24,7 +24,7 @@ class AuditSafetyChecker:
     """Verify audit safety conditions before running tests."""
 
     @staticmethod
-    def verify_audit_mode(, timezone):
+    def verify_audit_mode():
         """Verify system is in audit mode."""
         required_env = {
             "LUKHAS_DRY_RUN_MODE": "true",
@@ -93,7 +93,7 @@ class AuditMockRegistry:
 
         return {
             "ok": True,
-            "consent_id": f"audit_consent_{hash(str(consent_data)) % 10000}",
+            "consent_id": f"audit_consent_{hash(str(consent_data)} % 10000}",
             "recorded_at": datetime.now(timezone.utc).isoformat(),
             "dry_run": True,
             "audit_safe": True,
@@ -107,7 +107,7 @@ class AuditMockRegistry:
             raise RuntimeError("Non-dry-run mode not allowed in audit")
 
         return {
-            "context_id": f"audit_context_{hash(str(context_data)) % 10000}",
+            "context_id": f"audit_context_{hash(str(context_data)} % 10000}",
             "session": context_data.get("session_id", "audit_session"),
             "tenant": context_data.get("tenant", "audit_tenant"),
             "built_at": datetime.now(timezone.utc).isoformat(),
@@ -214,7 +214,7 @@ class TestE2EAuditDryRun:
     def test_policy_decision_dry_run(self):
         """Test policy decision in audit dry-run mode."""
         # Arrange
-        policy_input = {"action": "read", "resource": "test_resource", "context": {"audit": True}}
+        policy_input = {"action": "read", "resource": "test_resource", "context": {"audit": True}
 
         # Act
         result = AuditMockRegistry.mock_policy_decide(policy_input, mode="dry_run")
@@ -369,5 +369,5 @@ if __name__ == "__main__":
 
     print("E2E Audit Report Generated:")
     print(f"  Audit ready: {report['compliance_status']['audit_ready']}")
-    print(f"  Safety verified: {all(report['safety_verification'].values())}")
-    print(f"  Test coverage: {sum(report['test_coverage'].values())}/{len(report['test_coverage'])} tests")
+    print(f"  Safety verified: {all(report['safety_verification'].values()}")
+    print(f"  Test coverage: {sum(report['test_coverage'].values())}/{len(report['test_coverage']} tests")

@@ -235,7 +235,7 @@ class MemoryHealthDashboard:
         # Sort by activation timestamp (most recent first)
         active_blocks.sort(key=lambda x: x.activation_timestamp, reverse=True)
 
-        logger.info(f"Active cascade blocks retrieved: count={len(active_blocks)}")
+        logger.info(f"Active cascade blocks retrieved: count={len(active_blocks}")
 
         return active_blocks
 
@@ -268,7 +268,7 @@ class MemoryHealthDashboard:
         drift_events.sort(key=lambda x: x.event_timestamp, reverse=True)
         drift_events = drift_events[:limit]
 
-        logger.info(f"Recent drift events retrieved: count={len(drift_events)}")
+        logger.info(f"Recent drift events retrieved: count={len(drift_events}")
 
         return drift_events
 
@@ -559,7 +559,7 @@ class MemoryHealthDashboard:
                                 # Consider blocks active for 60 minutes after activation
                                 if age_minutes < 60:
                                     block = CascadeBlockInfo(
-                                        block_id=f"emotional_{entry.get('timestamp', '')[:19]}",
+                                        block_id=f"emotional_{entry.get('timestamp', ''}[:19]}",
                                         fold_key=entry.get("identity_delta", {}).get("fold_key", "unknown"),
                                         block_type="emotional_circuit_breaker",
                                         activation_timestamp=timestamp_str,
@@ -659,7 +659,7 @@ class MemoryHealthDashboard:
                                         loop_detection = entry.get("loop_detection", {})
 
                                         block = CascadeBlockInfo(
-                                            block_id=f"compression_loop_{entry.get('fold_key', '')[:8]}_{timestamp_str[:19]}",
+                                            block_id=f"compression_loop_{entry.get('fold_key', ''}[:8]}_{timestamp_str[:19]}",
                                             fold_key=entry.get("fold_key", "unknown"),
                                             block_type="compression_loop",
                                             activation_timestamp=timestamp_str,
@@ -704,7 +704,7 @@ class MemoryHealthDashboard:
 
                                 if timestamp >= cutoff_time:
                                     event = DriftEventSummary(
-                                        event_id=f"drift_{entry.get('fold_key', '')}_{timestamp_str}",
+                                        event_id=f"drift_{entry.get('fold_key', ''}_{timestamp_str}",
                                         fold_key=entry.get("fold_key", "unknown"),
                                         drift_score=entry.get("drift_score", 0.0),
                                         entropy_delta=0.0,  # Not available in this log

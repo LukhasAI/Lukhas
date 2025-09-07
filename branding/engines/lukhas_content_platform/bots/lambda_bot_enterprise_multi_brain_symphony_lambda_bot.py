@@ -195,7 +195,7 @@ class MultiBrainSymphonyΛBot:
             },
         }
 
-        logger.info(f"🧠 Initialized {len(self.brain_patterns)} brain symphony patterns")
+        logger.info(f"🧠 Initialized {len(self.brain_patterns} brain symphony patterns")
 
     async def start_brain_symphony_session(
         self,
@@ -203,7 +203,7 @@ class MultiBrainSymphonyΛBot:
         mode: BrainSymphonyMode = BrainSymphonyMode.UNIFIED_SYMPHONY,
     ) -> SymphonySession:
         """Start multi-brain symphony analysis session"""
-        session_id = f"symphony_{int(time.time())}"
+        session_id = f"symphony_{int(time.time()}"
 
         session = SymphonySession(
             session_id=session_id,
@@ -251,7 +251,7 @@ class MultiBrainSymphonyΛBot:
             cognitive_state = await self.workspace_symphony.get_cognitive_state()
             self.current_session.cognitive_states["workspace"] = cognitive_state
 
-            logger.info(f"✅ Workspace symphony activated with {len(self.current_session.active_brains)} brain regions")
+            logger.info(f"✅ Workspace symphony activated with {len(self.current_session.active_brains} brain regions")
 
     async def _activate_lukhas_orchestra(self):
         """Activate Lukhas AGI Orchestra"""
@@ -366,7 +366,7 @@ class MultiBrainSymphonyΛBot:
         )
         patterns.append(plasticity_pattern)
 
-        logger.info(f"✅ Discovered {len(patterns)} brain symphony patterns")
+        logger.info(f"✅ Discovered {len(patterns} brain symphony patterns")
         return patterns
 
     async def generate_consciousness_driven_modularization_strategy(
@@ -529,7 +529,7 @@ class MultiBrainSymphonyΛBot:
 
         strategy["implementation_phases"] = implementation_phases
 
-        logger.info(f"🌟 Consciousness-driven strategy generated with {len(implementation_phases)} evolution phases")
+        logger.info(f"🌟 Consciousness-driven strategy generated with {len(implementation_phases} evolution phases")
         return strategy
 
     async def get_symphony_insights(self) -> dict[str, Any]:
@@ -605,8 +605,8 @@ async def main():
 
     print("\n🧠 Consciousness Strategy Generated!")
     print(f"   Framework: {strategy['consciousness_framework']}")
-    print(f"   Layers: {len(strategy['consciousness_architecture']['consciousness_layers'])}")
-    print(f"   Phases: {len(strategy['implementation_phases'])}")
+    print(f"   Layers: {len(strategy['consciousness_architecture']['consciousness_layers']}")
+    print(f"   Phases: {len(strategy['implementation_phases']}")
 
     # Get symphony insights
     insights = await symphony_bot.get_symphony_insights()

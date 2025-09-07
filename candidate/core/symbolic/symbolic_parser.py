@@ -397,7 +397,7 @@ class SymbolicParser:
         # Analyze cultural diversity and content across symbolic vault
         # Provides cultural diversity metrics and recommendations
         """
-        logger.info(f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault)} elements")
+        logger.info(f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault} elements")
 
         try:
             detected_scripts = Counter()

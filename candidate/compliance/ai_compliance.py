@@ -6,7 +6,7 @@ import streamlit as st
 
 
 class AIComplianceManager:
-    def __init__(self, timezone):
+    def __init__(self):
         self.logger = logging.getLogger("ai_compliance")
         self.compliance_rules = {
             "EU": {

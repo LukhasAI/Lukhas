@@ -180,7 +180,7 @@ class AdvancedVocabularyEngine:
             replacement = self.get_poetic_replacement(word, context)
             if replacement:
                 # Use word boundaries to avoid partial replacements
-                pattern = rf"\\b{re.escape(word)}\\b"
+                pattern = rf"\\b{re.escape(word}\\b"
                 transformed = re.sub(pattern, replacement, transformed, flags=re.IGNORECASE)
 
         # Add consciousness symbols where appropriate

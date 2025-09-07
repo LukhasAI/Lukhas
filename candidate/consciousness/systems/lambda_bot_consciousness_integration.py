@@ -14,7 +14,7 @@ try:
     from .λBot_consciousness_monitor import (
         ConsciousnessLevel,
         ΛBotAGICore,
-        ΛBotConsciousnessMonitor,, timezone)
+        ΛBotConsciousnessMonitor)
 
     LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:

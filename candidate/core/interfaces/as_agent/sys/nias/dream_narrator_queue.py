@@ -60,7 +60,7 @@ def extract_narratable_dreams():
         for dream in narratable:
             f.write(json.dumps(dream) + "\n")
 
-    print(f"🎙 Queued {len(narratable)} dream(s) for narration → {NARRATION_QUEUE_PATH}")
+    print(f"🎙 Queued {len(narratable} dream(s) for narration → {NARRATION_QUEUE_PATH}")
     print(f"🗣 Narration Flag (suggest_voice): {suggest_voice_count}")
     print(f"🔁 Replay Candidate Flag: {replay_candidate_count}")
 

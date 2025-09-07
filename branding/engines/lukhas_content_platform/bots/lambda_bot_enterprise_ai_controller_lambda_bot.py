@@ -15,7 +15,7 @@ from datetime import timezone
 from enum import Enum
 from typing import Any, Optional
 
-# Ensure repo-relative paths (avoid absolute user paths, timezone)
+# Ensure repo-relative paths (avoid absolute user paths)
 try:
     from lukhas.utils.runtime_paths import ensure_repo_paths
 
@@ -159,7 +159,7 @@ class AGIControllerΛBot:
         self, project_path: str, compliance_requirements: Optional[list[str]] = None
     ) -> ModularizationSession:
         """Start a consciousness-controlled modularization session"""
-        session_id = f"agi_mod_{int(time.time())}"
+        session_id = f"agi_mod_{int(time.time()}"
 
         session = ModularizationSession(
             session_id=session_id,
@@ -401,7 +401,7 @@ class AGIControllerΛBot:
             ],
         }
 
-        logger.info(f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases'])} phases")
+        logger.info(f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases']} phases")
         return strategy
 
     async def _validate_compliance_requirements(self, requirements: list[str]) -> bool:

@@ -640,4 +640,4 @@ if __name__ == "__main__":
     certification = certify_australian_compliance()
     print(f"\n✅ Certification: {certification['certification']}")
     print(f"Compliance Level: {certification['compliance_level']}")
-    print(f"Regulations: {', '.join(certification['regulations'])}")
+    print(f"Regulations: {', '.join(certification['regulations']}")

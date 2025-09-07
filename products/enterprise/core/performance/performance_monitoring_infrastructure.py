@@ -234,7 +234,7 @@ class EnterprisePerformanceMonitor:
             self.monitoring_tasks = [asyncio.create_task(task) for task in tasks]
 
             self.logger.info("🔍 Enterprise performance monitoring started")
-            self.logger.info(f"   Active monitoring tasks: {len(self.monitoring_tasks)}")
+            self.logger.info(f"   Active monitoring tasks: {len(self.monitoring_tasks}")
 
             return {
                 "success": True,
@@ -292,7 +292,7 @@ class EnterprisePerformanceMonitor:
 
         Tests system performance under various load conditions up to 10K+ concurrent users.
         """
-        test_id = f"load_test_{int(time.time())}"
+        test_id = f"load_test_{int(time.time()}"
         start_time = time.time()
 
         self.logger.info(f"🧪 Starting load test: {test_id}")
@@ -895,7 +895,7 @@ class EnterprisePerformanceMonitor:
         """Trigger a performance alert"""
         try:
             alert = PerformanceAlert(
-                id=f"alert_{int(time.time() * 1000)}",
+                id=f"alert_{int(time.time() * 1000}",
                 severity=severity,
                 title=title,
                 description=description,
@@ -917,7 +917,7 @@ class EnterprisePerformanceMonitor:
                 AlertSeverity.CRITICAL: self.logger.critical,
             }.get(severity, self.logger.info)
 
-            log_level(f"🚨 {severity.value.upper()}: {title} - {description}")
+            log_level(f"🚨 {severity.value.upper(}: {title} - {description}")
 
         except Exception as e:
             self.logger.error(f"❌ Error triggering alert: {e}")
@@ -927,7 +927,7 @@ class EnterprisePerformanceMonitor:
         try:
             await self._trigger_alert(
                 AlertSeverity.INFO,
-                f"Scaling Recommendation: {action.replace('_', ' ').title()}",
+                f"Scaling Recommendation: {action.replace('_', ' ').title(}",
                 f"Predictive analysis suggests {action} to handle predicted load of {predicted_load:.0f} RPS",
                 MetricType.THROUGHPUT,
                 predicted_load,
@@ -1171,7 +1171,7 @@ class EnterprisePerformanceMonitor:
             # Alert-based recommendations
             critical_alerts = [a for a in self.active_alerts if a.severity == AlertSeverity.CRITICAL]
             if critical_alerts:
-                recommendations.append(f"🚨 Address {len(critical_alerts)} critical performance alerts immediately")
+                recommendations.append(f"🚨 Address {len(critical_alerts} critical performance alerts immediately")
 
             # General enterprise recommendations
             recommendations.extend(

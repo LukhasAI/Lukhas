@@ -219,7 +219,7 @@ def main():
                 except BaseException:
                     errors.append(filepath)
 
-    print(f"\n[Status] Remaining syntax errors: {len(errors)}")
+    print(f"\n[Status] Remaining syntax errors: {len(errors}")
     if errors and len(errors) < 20:
         print("\nRemaining errors:")
         for e in errors:

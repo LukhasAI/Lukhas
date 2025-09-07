@@ -18,7 +18,7 @@ from .dream_generator import (
     DreamContext,
     DreamGenerator,
     DreamMood,
-    GeneratedDream,, timezone)
+    GeneratedDream)
 from .emotional_filter import EmotionalFilter
 from .nias_core import (
     ConsentLevel,
@@ -207,7 +207,7 @@ class DreamCommerceOrchestrator:
                 }
 
             # Create new session
-            session_id = f"dcs_{user_id}_{datetime.now(timezone.utc).timestamp()}"
+            session_id = f"dcs_{user_id}_{datetime.now(timezone.utc).timestamp(}"
             session = DreamCommerceSession(session_id=session_id, user_id=user_id, started_at=datetime.now(timezone.utc))
 
             self.active_sessions[user_id] = session

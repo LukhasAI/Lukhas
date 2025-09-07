@@ -376,7 +376,7 @@ class TestConsciousnessPerformance:
             fast_cycles = sum(1 for t in processing_times if t < 250)
             fast_ratio = fast_cycles / len(processing_times)
 
-            logging.info(f"  Cycles <250ms: {fast_cycles}/{len(processing_times)} ({fast_ratio:.1%})")
+            logging.info(f"  Cycles <250ms: {fast_cycles}/{len(processing_times} ({fast_ratio:.1%})")
 
         finally:
             await system.stop_system()

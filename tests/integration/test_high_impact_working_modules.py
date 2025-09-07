@@ -135,9 +135,9 @@ def test_observability_comprehensive():
 
         # Test metric emission
         metric_scenarios = [
-            {"name": "consciousness_awareness", "value": 0.95, "tags": {"framework": "trinity"}},
-            {"name": "memory_folds", "value": 1000, "tags": {"cascade_prevention": "active"}},
-            {"name": "guardian_drift", "value": 0.05, "tags": {"threshold": "0.15"}},
+            {"name": "consciousness_awareness", "value": 0.95, "tags": {"framework": "trinity"},
+            {"name": "memory_folds", "value": 1000, "tags": {"cascade_prevention": "active"},
+            {"name": "guardian_drift", "value": 0.05, "tags": {"threshold": "0.15"},
         ]
 
         for scenario in metric_scenarios:
@@ -146,9 +146,9 @@ def test_observability_comprehensive():
 
         # Test event emission
         event_scenarios = [
-            {"type": "consciousness_awakening", "data": {"level": "aware"}},
-            {"type": "memory_fold_created", "data": {"fold_id": "f001"}},
-            {"type": "guardian_alert", "data": {"drift_score": 0.2}},
+            {"type": "consciousness_awakening", "data": {"level": "aware"},
+            {"type": "memory_fold_created", "data": {"fold_id": "f001"},
+            {"type": "guardian_alert", "data": {"drift_score": 0.2},
         ]
 
         for scenario in event_scenarios:
@@ -349,10 +349,10 @@ def test_efficient_communication_comprehensive():
 
                 # Test message scenarios
                 message_scenarios = [
-                    {"topic": "consciousness", "data": {"awareness": "high"}},
-                    {"topic": "memory", "data": {"fold_id": "f001"}},
-                    {"topic": "guardian", "data": {"alert": "drift_detected"}},
-                    {"topic": "qi", "data": {"coherence": 0.95}},
+                    {"topic": "consciousness", "data": {"awareness": "high"},
+                    {"topic": "memory", "data": {"fold_id": "f001"},
+                    {"topic": "guardian", "data": {"alert": "drift_detected"},
+                    {"topic": "qi", "data": {"coherence": 0.95},
                 ]
 
                 for scenario in message_scenarios:

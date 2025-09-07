@@ -265,52 +265,52 @@ class QualityDashboard:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUKHAS  - Code Quality Dashboard</title>
     <style>
-        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }
         body {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             padding: 20px;
-        }}
+        }
         .container {{
             max-width: 1400px;
             margin: 0 auto;
-        }}
+        }
         h1 {{
             color: white;
             text-align: center;
             margin-bottom: 30px;
             font-size: 2.5em;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }}
+        }
         .timestamp {{
             text-align: center;
             color: rgba(255,255,255,0.9);
             margin-bottom: 20px;
-        }}
+        }
         .grid {{
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
-        }}
+        }
         .card {{
             background: white;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: transform 0.2s;
-        }}
+        }
         .card:hover {{
             transform: translateY(-5px);
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }}
+        }
         .card h2 {{
             font-size: 1.2em;
             margin-bottom: 15px;
             color: #667eea;
-        }}
+        }
         .metric {{
             display: flex;
             justify-content: space-between;
@@ -318,20 +318,20 @@ class QualityDashboard:
             padding: 8px;
             background: #f8f9fa;
             border-radius: 5px;
-        }}
+        }
         .metric-label {{
             font-weight: 500;
-        }}
+        }
         .metric-value {{
             font-weight: bold;
-        }}
+        }
         .health-score {{
             text-align: center;
             padding: 30px;
             background: white;
             border-radius: 10px;
             margin-bottom: 30px;
-        }}
+        }
         .score-circle {{
             width: 150px;
             height: 150px;
@@ -345,16 +345,16 @@ class QualityDashboard:
             color: white;
             background: {health_color};
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }}
-        .good {{ color: #28a745; }}
-        .warning {{ color: #ffc107; }}
-        .error {{ color: #dc3545; }}
+        }
+        .good {{ color: #28a745; }
+        .warning {{ color: #ffc107; }
+        .error {{ color: #dc3545; }
         .footer {{
             text-align: center;
             color: rgba(255,255,255,0.8);
             margin-top: 40px;
             padding: 20px;
-        }}
+        }
     </style>
 </head>
 <body>
@@ -486,7 +486,7 @@ class QualityDashboard:
         print(f"📝 Linting Issues: {metrics['flake8']['total'] + metrics['ruff']['total']}")
         print(f"🔍 Type Errors: {metrics['mypy']['errors']}")
         print(f"🧪 Test Coverage: {metrics['coverage']['coverage_percent']:.1f}%")
-        print(f"🔐 Security Issues: {sum(metrics['security'].values())}")
+        print(f"🔐 Security Issues: {sum(metrics['security'].values()}")
         print(f"📊 Lines of Code: {metrics['loc']['code']:,}")
         print("=" * 60)
         print(f"\n✅ Dashboard saved to: {self.dashboard_file}")

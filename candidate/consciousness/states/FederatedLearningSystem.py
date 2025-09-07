@@ -44,7 +44,7 @@ class LukhasFederatedModel:
         self.contribution_count = 0
         self.client_contributions = set()
         self.performance_metrics = {}
-        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d')}"
+        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now(timezone.utc).strftime('%Y%m%d'}"
 
     def update_with_gradients(self, gradients: dict, client_id: str, weight: float = 1.0):
         """

@@ -331,11 +331,11 @@ def main():
         print(f"   {status_emoji} {system}: {data['status']}{ratio}")
 
         if data["capabilities"]:
-            print(f"      Capabilities: {len(data['capabilities'])} identified")
+            print(f"      Capabilities: {len(data['capabilities']} identified")
             for cap in data["capabilities"][:3]:  # Show top 3
                 print(f"        • {cap['capability']} ({cap['confidence']})")
 
-    print(f"\n🚀 EXECUTABLE ENTRY POINTS ({len(entry_points)}):")
+    print(f"\n🚀 EXECUTABLE ENTRY POINTS ({len(entry_points}):")
     for path, data in entry_points.items():
         status_emoji = "✅" if data["functional"] else "❌"
         print(f"   {status_emoji} {path} ({data['type']})")

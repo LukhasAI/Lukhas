@@ -242,7 +242,7 @@ def get_safe_palette_recommendation(current_colorfield: str, culture: str = "def
         "midori",
         "shiro",
     ]:
-        return f"{best_color}/{_japanese_to_english(best_color)}"
+        return f"{best_color}/{_japanese_to_english(best_color}"
     else:
         return best_color or "blue"  # Fallback to blue
 

@@ -23,7 +23,7 @@ from typing import Any
 class SystemDiagnostic:
     """Run comprehensive system diagnostics."""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.results = {
             "modules": {},
             "api_endpoints": {},

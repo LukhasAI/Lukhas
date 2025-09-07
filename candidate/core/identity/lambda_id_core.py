@@ -125,7 +125,7 @@ class LukhasIDGenerator:
             # Validate field contents
             for field, value in metadata.items():
                 if not isinstance(value, (str, int, float, bool)):
-                    raise ΛIDError(f"Field '{field}' must be a primitive type, got {type(value)}")
+                    raise ΛIDError(f"Field '{field}' must be a primitive type, got {type(value}")
 
             # Generate components
             prefix = ns_config["prefix"]
@@ -160,7 +160,7 @@ class LukhasIDGenerator:
 
             parts = lid.split("-")
             if len(parts) != 4:
-                raise ΛIDError(f"Invalid ΛID format. Expected 4 parts, got {len(parts)}")
+                raise ΛIDError(f"Invalid ΛID format. Expected 4 parts, got {len(parts}")
 
             prefix = parts[0]
             for ns_name in ["USER", "AGENT", "SERVICE", "SYSTEM"]:
@@ -702,7 +702,7 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
     🛡️ Guardian integration for complete audit trail
     """
     try:
-        trace_id = f"LT-{secrets.token_hex(16)}"
+        trace_id = f"LT-{secrets.token_hex(16}"
 
         # Create audit record with Trinity Framework context
         {
@@ -726,7 +726,7 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
     except Exception as e:
         logger.error(f"❌ Failed to create Λ-trace for {lid}: {e!s}")
         # Return a fallback trace ID even on error
-        return f"LT-ERROR-{secrets.token_hex(8)}"
+        return f"LT-ERROR-{secrets.token_hex(8}"
 
 
 def validate_trinity_framework() -> dict[str, bool]:
@@ -793,7 +793,7 @@ if __name__ == "__main__":
         print("\n📊 Legacy Performance & Security Metrics:")
         legacy_metrics = service.get_performance_metrics()
         print(f"🏃 Operations: {legacy_metrics['performance']['operations_count']}")
-        print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0):.2f}ms")
+        print(f"🎯 Average Latency: {legacy_metrics['performance'].get('average_latency', 0}:.2f}ms")
         print(f"⚛️ Trinity Integration: {legacy_metrics['trinity_status']}")
 
         # Test error handling
@@ -801,12 +801,12 @@ if __name__ == "__main__":
         try:
             service.register_user("", "")
         except ΛIDError as e:
-            print(f"✅ Caught expected error: {str(e)[:50]}...")
+            print(f"✅ Caught expected error: {str(e}[:50]}...")
 
         try:
             service.authenticate("INVALID-ID", "passkey")
         except AuthenticationError as e:
-            print(f"✅ Caught expected auth error: {str(e)[:50]}...")
+            print(f"✅ Caught expected auth error: {str(e}[:50]}...")
 
         print("\n✅ All tests completed successfully!")
         print("🛡️ LUKHAS ΛID Core Identity System validated")

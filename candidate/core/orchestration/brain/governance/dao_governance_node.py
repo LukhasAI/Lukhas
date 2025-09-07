@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ProposalType(Enum, timezone):
+class ProposalType(Enum):
     """Types of governance proposals"""
 
     SYSTEM_UPDATE = "system_update"
@@ -400,7 +400,7 @@ class DAOGovernanceNode:
             proposal["execution_timestamp"] = time.time()
 
         except Exception as e:
-            self.logger.error(f"Failed to execute proposal {proposal_id}: {str(e)}")
+            self.logger.error(f"Failed to execute proposal {proposal_id}: {str(e}")
             proposal["execution_error"] = str(e)
 
     async def _execute_system_update(self, proposal: dict[str, Any]) -> None:

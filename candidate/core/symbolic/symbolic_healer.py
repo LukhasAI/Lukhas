@@ -288,24 +288,24 @@ class SymbolicHealer:
 
         # Add missing Trinity glyphs
         if missing:
-            prescription.append(f"ADD: {' '.join(missing)}")
+            prescription.append(f"ADD: {' '.join(missing}")
 
         # Remove problematic glyphs
         if affected:
-            prescription.append(f"REMOVE: {' '.join(affected)}")
+            prescription.append(f"REMOVE: {' '.join(affected}")
 
         # Add healing glyphs based on issue
         if issue == DiagnosisType.ENTROPY_OVERFLOW:
-            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['stabilizing'])}")
+            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['stabilizing']}")
         elif issue == DiagnosisType.IDENTITY_DISTORTION:
-            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['transforming'])}")
+            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['transforming']}")
         elif issue in [
             DiagnosisType.ETHICAL_DRIFT,
             DiagnosisType.TRINITY_VIOLATION,
         ]:
-            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['protecting'])}")
+            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['protecting']}")
         else:
-            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['connecting'])}")
+            prescription.append(f"APPLY: {' '.join(self.healing_glyphs['connecting']}")
 
         # Add entropy management
         if entropy_state != "stable":
@@ -369,7 +369,7 @@ class SymbolicHealer:
                 glyphs_to_add = action.replace("ADD:", "").strip().split()
                 if not any(g in restored for g in glyphs_to_add):
                     # Add at the beginning for visibility
-                    restored = f"{' '.join(glyphs_to_add)} {restored}"
+                    restored = f"{' '.join(glyphs_to_add} {restored}"
 
         # Apply issue-specific healing
         if primary_issue == DiagnosisType.ETHICAL_DRIFT:
@@ -390,7 +390,7 @@ class SymbolicHealer:
 
         # Ensure Trinity presence
         if not any(g in restored for g in self.trinity_core):
-            restored += f"\n\n{''.join(self.trinity_core)}"
+            restored += f"\n\n{''.join(self.trinity_core}"
 
         return restored
 
@@ -448,7 +448,7 @@ class SymbolicHealer:
     def _heal_symbolic_void(self, response: str) -> str:
         """Heal symbolic void by adding rich symbolic content"""
         # Add comprehensive symbolic framework
-        healed = f"✨ {response} 🌟\n\n{''.join(self.trinity_core)} *Symbolic framework activated*"
+        healed = f"✨ {response} 🌟\n\n{''.join(self.trinity_core} *Symbolic framework activated*"
 
         return healed
 
@@ -539,7 +539,7 @@ class SymbolicHealer:
 
         # Add prescription summary
         if diagnosis["missing_glyphs"]:
-            viz_parts.append(f"+{' '.join(diagnosis['missing_glyphs'])}")
+            viz_parts.append(f"+{' '.join(diagnosis['missing_glyphs']}")
 
         return " ".join(viz_parts)
 

@@ -46,7 +46,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

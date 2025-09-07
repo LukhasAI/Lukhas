@@ -92,7 +92,7 @@ def test_memory_lifecycle(orchestrator):
             },
         ]
 
-        print(f"📝 Testing {len(test_memories)} memory types...")
+        print(f"📝 Testing {len(test_memories} memory types...")
 
         # Get current memory statistics for baseline
         memory_stats = orchestrator.get_memory_statistics()

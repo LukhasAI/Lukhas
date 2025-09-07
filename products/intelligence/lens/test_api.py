@@ -20,12 +20,12 @@ try:
 
     print("✅ API imports successful!")
     print(f"📡 FastAPI app: {app.title}")
-    print(f"🔗 Router endpoints: {len(router.routes)}")
+    print(f"🔗 Router endpoints: {len(router.routes}")
     print("📋 Schemas: JobRequest, JobResponse, PhotonDocument")
 
     # Test schema validation
     test_request = JobRequest()
-    print(f"🔍 Default request: {test_request.dict()}")
+    print(f"🔍 Default request: {test_request.dict(}")
 
     print("\n🎉 ΛLens API is ready to use!")
     print("\nTo start the server:")

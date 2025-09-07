@@ -86,7 +86,7 @@ class DreamOrchestrator:
             - "colors": (array of 3 strings) Provide 3 hex color codes. The first is the background, the others are for the object/lights.
             - "particle_count": (integer) A number between 500 and 8000.
         """
-        user_prompt = f'Dream Seed: "{seed}"\nRelated LUKHAS Concepts: {", ".join(concepts)}'
+        user_prompt = f'Dream Seed: "{seed}"\nRelated LUKHAS Concepts: {", ".join(concepts}'
 
         response = self.openai_client.chat.completions.create(
             model="gpt-4-turbo",
@@ -121,7 +121,7 @@ class DreamOrchestrator:
             if not self.openai_client:
                 raise Exception("OpenAI client not initialized.")
             response = self.openai_client.audio.speech.create(model="tts-1", voice="nova", input=narrative)
-            audio_filename = f"dream_{int(time.time())}.mp3"
+            audio_filename = f"dream_{int(time.time()}.mp3"
             audio_filepath = os.path.join("lukhas_website", "public", "audio", audio_filename)
             os.makedirs(os.path.dirname(audio_filepath), exist_ok=True)
             response.stream_to_file(audio_filepath)
@@ -170,7 +170,7 @@ class DreamOrchestrator:
             "visuals": manifest_core["visuals"],
             "audio_url": results["audio"],
             "texture_url": results["texture"],
-            "dream_id": f"dream_real_{int(time.time())}",
+            "dream_id": f"dream_real_{int(time.time()}",
         }
 
         write_to_cache(dream_seed, final_manifest)
@@ -178,9 +178,9 @@ class DreamOrchestrator:
         return final_manifest
 
     def store_dream(self, manifest: dict) -> str:
-        memory_id = f"mem_{int(time.time())}"
+        memory_id = f"mem_{int(time.time()}"
         print(
-            f"Storing dream {manifest.get('dream_id')} with memory ID {memory_id}",
+            f"Storing dream {manifest.get('dream_id'} with memory ID {memory_id}",
             file=sys.stderr,
         )
         try:
@@ -192,7 +192,7 @@ class DreamOrchestrator:
                 }
                 f.write(json.dumps(manifest_to_store) + "\n")
             print(
-                f"Successfully stored dream {manifest.get('dream_id')}.",
+                f"Successfully stored dream {manifest.get('dream_id'}.",
                 file=sys.stderr,
             )
             return memory_id

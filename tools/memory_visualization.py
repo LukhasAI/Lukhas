@@ -105,7 +105,7 @@ class MemoryVisualizer:
     def add_memory_fold(self, fold: MemoryFold) -> None:
         """Add a memory fold to the visualization system"""
         self.folds[fold.fold_id] = fold
-        self.logger.debug(f"Added memory fold: {fold.fold_id} with {len(fold.nodes)} nodes")
+        self.logger.debug(f"Added memory fold: {fold.fold_id} with {len(fold.nodes} nodes")
 
         # Update dashboard if available
         if self.dashboard:
@@ -516,7 +516,7 @@ class MemoryVisualizer:
                 f.write(
                     f"{node.node_id},{node.x},{node.y},{node.z},"
                     f"{node.size},{node.color},{node.label},"
-                    f"{len(node.connections)},{node.timestamp}\n"
+                    f"{len(node.connections},{node.timestamp}\n"
                 )
 
         self.logger.info(f"Exported CSV data: {output_path}")
@@ -549,7 +549,7 @@ def create_demo_visualization(output_dir: str = "demo_visualizations") -> str:
     if dashboard_url:
         print(f"Memory dashboard available at: {dashboard_url}")
 
-    return f"Created {len([p for p in viz_paths if p])} visualizations in {output_dir}/"
+    return f"Created {len([p for p in viz_paths if p]} visualizations in {output_dir}/"
 
 
 # Export key components

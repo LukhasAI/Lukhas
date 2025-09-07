@@ -646,7 +646,7 @@ class DreamMemoryManager(BaseMemoryManager):
         # Create new sequence if recurring indicators found
         content_str = str(memory_data).lower()
         if any(word in content_str for word in ["recurring", "again", "repeat", "same dream"]):
-            return f"seq_{datetime.now(timezone.utc).timestamp()}"
+            return f"seq_{datetime.now(timezone.utc).timestamp(}"
 
         return None
 

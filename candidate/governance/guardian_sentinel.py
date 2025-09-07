@@ -21,7 +21,7 @@ from .ethics.guardian_reflector import GuardianReflector
 # Import guardian components
 from .guardian.guardian import GuardianSystem
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class GuardianSentinel:

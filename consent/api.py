@@ -27,7 +27,7 @@ from .service import (
     ConsentRevokeRequest,
     ConsentService,
     DataCategory,
-    Purpose,, timezone)
+    Purpose)
 
 
 # Request/Response Models

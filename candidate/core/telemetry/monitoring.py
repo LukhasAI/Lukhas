@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 
-class MetricType(Enum, timezone):
+class MetricType(Enum):
     """Types of metrics"""
 
     COUNTER = "counter"
@@ -290,7 +290,7 @@ class AGITelemetrySystem:
 
                 self.create_alert(
                     "System Health Degraded",
-                    f"Unhealthy components: {', '.join(unhealthy)}",
+                    f"Unhealthy components: {', '.join(unhealthy}",
                     AlertSeverity.WARNING,
                     "health_monitor",
                     health_results,
@@ -378,7 +378,7 @@ class AGITelemetrySystem:
         """Generate unique alert ID"""
         import uuid
 
-        return f"alert_{uuid.uuid4().hex[:8]}"
+        return f"alert_{uuid.uuid4(}.hex[:8]}"
 
 
 class TraceContext:

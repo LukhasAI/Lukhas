@@ -181,7 +181,7 @@ class TargetedImportFixer:
 
             if not full_path.exists():
                 module_name = full_path.stem
-                content = f'"""\n{module_name.title()} Module\n"""\n\npass  # TODO: Implement {module_name}\n'
+                content = f'"""\n{module_name.title(} Module\n"""\n\npass  # TODO: Implement {module_name}\n'
 
                 with open(full_path, "w", encoding="utf-8") as f:
                     f.write(content)
@@ -222,7 +222,7 @@ class TargetedImportFixer:
                     with open(py_file, "w", encoding="utf-8") as f:
                         f.write(content)
 
-                    logger.info(f"✅ Fixed imports in {py_file.relative_to(PROJECT_ROOT)}")
+                    logger.info(f"✅ Fixed imports in {py_file.relative_to(PROJECT_ROOT}")
                     self.fixed_files.append(str(py_file))
 
             except Exception as e:
@@ -291,7 +291,7 @@ class TargetedImportFixer:
                     for dep in new_deps:
                         f.write(f"{dep}\n")
 
-                logger.info(f"✅ Added {len(new_deps)} dependencies to requirements.txt")
+                logger.info(f"✅ Added {len(new_deps} dependencies to requirements.txt")
                 self.fixed_files.append(str(requirements_file))
 
         except Exception as e:

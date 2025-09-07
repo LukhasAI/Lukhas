@@ -79,7 +79,7 @@ warnings.warn(
     with open(original_path, "w") as f:
         f.write(shim_content)
 
-    print(f"  ✓ Created compatibility shim at {original_path.relative_to(LUKHAS_ROOT)}")
+    print(f"  ✓ Created compatibility shim at {original_path.relative_to(LUKHAS_ROOT}")
 
 
 def update_module_paths(file_path: Path):
@@ -110,8 +110,8 @@ def migrate_module(migration: dict):
     """Migrate a single module to production"""
 
     print(f"\n🚀 Migrating: {migration['name']}")
-    print(f"  From: {migration['source'].relative_to(LUKHAS_ROOT)}")
-    print(f"  To:   {migration['target'].relative_to(LUKHAS_ROOT)}")
+    print(f"  From: {migration['source'].relative_to(LUKHAS_ROOT}")
+    print(f"  To:   {migration['target'].relative_to(LUKHAS_ROOT}")
 
     # Create target directory
     if migration.get("is_directory"):
@@ -145,7 +145,7 @@ def migrate_module(migration: dict):
     elif migration.get("is_directory") and "main_imports" in migration:
         # Directory shim - create __init__.py
         shim_path = migration["source"] / "__init__.py"
-        new_base = f"lukhas.acceptance.accepted.{migration['target'].relative_to(ACCEPTED_BASE)}"
+        new_base = f"lukhas.acceptance.accepted.{migration['target'].relative_to(ACCEPTED_BASE}"
         new_base = new_base.replace("/", ".")
 
         shim_content = f'''"""
@@ -173,7 +173,7 @@ warnings.warn(
 def create_migration_log():
     """Create a log of the migration"""
 
-    log_path = LUKHAS_ROOT / "docs/migration_logs" / f"migration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
+    log_path = LUKHAS_ROOT / "docs/migration_logs" / f"migration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.md"
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     log_content = f"""# Migration Log - Top 3 Modules to Production
@@ -203,7 +203,7 @@ All original import paths have compatibility shims that will be removed after 20
     with open(log_path, "w") as f:
         f.write(log_content)
 
-    print(f"\n📝 Migration log created: {log_path.relative_to(LUKHAS_ROOT)}")
+    print(f"\n📝 Migration log created: {log_path.relative_to(LUKHAS_ROOT}")
 
 
 def main():

@@ -20,7 +20,7 @@ from typing import Any, Optional
 # Import constitutional enforcement
 from .constitutional_gatekeeper import (
     ConstitutionalLevel,
-    get_constitutional_gatekeeper,, timezone)
+    get_constitutional_gatekeeper)
 
 # Configure cultural logging
 logging.basicConfig(level=logging.INFO)
@@ -344,7 +344,7 @@ class CulturalProfileManager:
         for emoji in constitutional_exclusions:
             exclusion_report["constitutional_exclusions"].append(f"{emoji}: Constitutional safety enforcement")
 
-        cultural_logger.info(f"Filtered {len(emoji_list)} emojis to {len(constitutional_filtered)} for user {user_id}")
+        cultural_logger.info(f"Filtered {len(emoji_list)} emojis to {len(constitutional_filtered} for user {user_id}")
 
         return constitutional_filtered, exclusion_report
 
@@ -478,7 +478,7 @@ class CulturalProfileManager:
 
         for profile, data in self.accessibility_map.items():
             if emoji in data.get("problematic_emojis", []):
-                considerations.append(f"{profile.value}: {data.get('reasoning', 'Accessibility concern')}")
+                considerations.append(f"{profile.value}: {data.get('reasoning', 'Accessibility concern'}")
 
         return considerations
 

@@ -711,9 +711,9 @@ if __name__ == "__main__":
         print(f"Constitutional: {'YES' if validation.is_constitutional else 'NO'}")
 
         if validation.violated_principles:
-            print(f"Violations: {len(validation.violated_principles)}")
+            print(f"Violations: {len(validation.violated_principles}")
 
         if validation.mitigation_requirements:
-            print(f"Required Mitigations: {len(validation.mitigation_requirements)}")
+            print(f"Required Mitigations: {len(validation.mitigation_requirements}")
 
     asyncio.run(main())

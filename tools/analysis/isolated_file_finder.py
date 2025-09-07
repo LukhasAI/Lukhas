@@ -36,7 +36,7 @@ class IsolatedFileFinder:
                     self.all_python_files.add(filepath)
                     self._analyze_imports(filepath)
 
-        print(f"Found {len(self.all_python_files)} Python files")
+        print(f"Found {len(self.all_python_files} Python files")
 
     def _analyze_imports(self, filepath):
         """Analyze imports in a Python file"""
@@ -72,8 +72,8 @@ class IsolatedFileFinder:
             for imp in imports:
                 # Convert module to potential file paths
                 potential_files = [
-                    f"./{imp.replace('.', '/')}.py",
-                    f"./{imp.replace('.', '/')}/__init__.py",
+                    f"./{imp.replace('.', '/'}.py",
+                    f"./{imp.replace('.', '/'}/__init__.py",
                 ]
 
                 for pf in potential_files:
@@ -138,7 +138,7 @@ class IsolatedFileFinder:
             plan["recommendations"].append(
                 {
                     "action": "move_root_files",
-                    "description": f"Move {len(categories['root_level'])} root-level files to appropriate modules",
+                    "description": f"Move {len(categories['root_level']} root-level files to appropriate modules",
                     "files": categories["root_level"],
                 }
             )
@@ -147,7 +147,7 @@ class IsolatedFileFinder:
             plan["recommendations"].append(
                 {
                     "action": "consolidate_tools",
-                    "description": f"Consolidate {len(categories['tools'])} tool files into organized scripts",
+                    "description": f"Consolidate {len(categories['tools']} tool files into organized scripts",
                     "files": categories["tools"],
                 }
             )
@@ -188,13 +188,13 @@ def main():
     finder.find_isolated_files()
 
     print("\n📊 Analysis Results:")
-    print(f"  - Isolated files: {len(finder.isolated_files)}")
-    print(f"  - Weakly connected: {len(finder.weakly_connected)}")
+    print(f"  - Isolated files: {len(finder.isolated_files}")
+    print(f"  - Weakly connected: {len(finder.weakly_connected}")
 
     categories = finder.categorize_isolated_files()
     print("\n📁 Isolated Files by Category:")
     for cat, files in categories.items():
-        print(f"  - {cat}: {len(files)} files")
+        print(f"  - {cat}: {len(files} files")
 
     # Show some examples
     if finder.isolated_files:

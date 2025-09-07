@@ -12,7 +12,7 @@ from typing import Any, Optional
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Business domains
 BUSINESS_DOMAINS = {
@@ -49,7 +49,7 @@ def create_business_strategy(domain: str, objectives: list[str], timeline: str =
             "timeline": timeline,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "created",
-            "strategy_id": f"strategy_{domain}_{hash(str(objectives))}",
+            "strategy_id": f"strategy_{domain}_{hash(str(objectives)}",
         }
         logger.info(f"Business strategy created for {domain}")
         return strategy
@@ -71,7 +71,7 @@ def analyze_business_metrics(domain: str, metrics: dict[str, Any]) -> dict[str, 
             "insights": {
                 "key_metrics": list(metrics.keys()),
                 "metric_count": len(metrics),
-                "analysis_summary": f"Analysis of {len(metrics)} metrics for {domain}",
+                "analysis_summary": f"Analysis of {len(metrics} metrics for {domain}",
             },
             "recommendations": [
                 f"Focus on key performance indicators for {domain}",
@@ -99,7 +99,7 @@ def manage_partnership(
             "terms": terms or {},
             "status": "active",
             "created_at": datetime.now(timezone.utc).isoformat(),
-            "partnership_id": f"partnership_{partner_name}_{hash(partnership_type)}",
+            "partnership_id": f"partnership_{partner_name}_{hash(partnership_type}",
         }
         logger.info(f"Partnership managed: {partner_name} ({partnership_type})")
         return partnership
@@ -143,7 +143,7 @@ def execute_marketing_campaign(
             },
             "launched_at": datetime.now(timezone.utc).isoformat(),
             "status": "active",
-            "campaign_id": f"campaign_{campaign_name}_{hash(str(channels))}",
+            "campaign_id": f"campaign_{campaign_name}_{hash(str(channels)}",
         }
         logger.info(f"Marketing campaign executed: {campaign_name}")
         return campaign

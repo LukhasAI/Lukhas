@@ -20,7 +20,7 @@ from ethics.seedra import get_seedra
 from lukhas.core.audit.audit_decision_embedding_engine import DecisionAuditEngine
 from symbolic.core import get_symbolic_translator, get_symbolic_vocabulary
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class SystemType(Enum):
@@ -646,7 +646,7 @@ class TrioOrchestrator:
             audit_events = audit_events[-100:]
 
         await self.context_manager.set("audit_events", audit_events)
-        logger.info(f"Processed audit event: {getattr(audit_entry, 'audit_id', 'unknown')}")
+        logger.info(f"Processed audit event: {getattr(audit_entry, 'audit_id', 'unknown'}")
 
 
 # Global instance

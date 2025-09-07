@@ -751,7 +751,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         self.enable_lazy_loading = enable_lazy_loading
         self.lazy_loader: Optional[LazyEmbeddingLoader] = None
         if enable_lazy_loading and create_lazy_embedding_system is not None:
-            storage_path = lazy_loading_storage_path or f"./lazy_embeddings_{id(self)}"
+            storage_path = lazy_loading_storage_path or f"./lazy_embeddings_{id(self}"
             self.lazy_loader = create_lazy_embedding_system(
                 storage_path=storage_path,
                 cache_size=lazy_loading_cache_size,
@@ -1021,7 +1021,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 random.choices(string.ascii_letters + string.digits + " ", k=content_length)
             )
             num_tags = random.randint(2, 8)
-            tags = [f"tag_{random.randint(1, 100)}" for _ in range(num_tags)]
+            tags = [f"tag_{random.randint(1, 100}" for _ in range(num_tags)]
             embedding = np.random.randn(self.embedding_dim).astype(np.float32) if include_embeddings else None
             test_memories.append((content, tags, embedding))
         start_time = time.time()
@@ -1070,8 +1070,8 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             "Optimization benchmark completed",
             insertion_rate=f"{benchmark_results['performance_metrics']['insertion_rate_per_sec']:.1f}/sec",
             retrieval_rate=f"{benchmark_results['performance_metrics']['retrieval_rate_per_sec']:.1f}/sec",
-            compression_ratio=f"{opt_stats.get('avg_compression_ratio', 1):.1f}x",
-            memory_saved_mb=f"{opt_stats.get('total_memory_saved_mb', 0):.1f}MB",
+            compression_ratio=f"{opt_stats.get('avg_compression_ratio', 1}:.1f}x",
+            memory_saved_mb=f"{opt_stats.get('total_memory_saved_mb', 0}:.1f}MB",
         )
         return benchmark_results
 
@@ -1565,7 +1565,7 @@ class DistributedMemoryFold:
                 data=content, tags=tags or [], embedding=embedding, **metadata or {}
             )
         else:
-            memory_id = hashlib.sha256(f"{content}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:16]
+            memory_id = hashlib.sha256(f"{content}{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()[:16]
         memory_data = json.dumps(
             {
                 "content": content,
@@ -1670,7 +1670,7 @@ class DistributedMemoryFold:
     async def _query_distributed_memories(self, query: str, top_k: int) -> list[dict[str, Any]]:
         """Query memories from other nodes in the network"""
         query_tasks = []
-        query_id = hashlib.sha256(f"{query}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:8]
+        query_id = hashlib.sha256(f"{query}{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()[:8]
         for node_id, node_info in self.consensus.nodes.items():
             if node_id != self.node_id and node_info.is_alive():
                 task = asyncio.create_task(self._send_memory_query(node_info, query, query_id))

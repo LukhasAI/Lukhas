@@ -116,12 +116,12 @@ class SymbolicNode:
             List[SymbolicNode]: A list containing the two new child nodes.
         """
         self.logger.info(
-            f"ΛTRACE: Attempting to split SymbolicNode '{self.node_id}' using style '{style}'."
+            f"ΛTRACE: Attempting to split SymbolicNode '{self.node_id)' using style '{style)'."
         )
         child_nodes: list[SymbolicNode] = []
         split_weight = self.symbolic_weight / 2
 
-        for i in range(2):  # Typically splits into two:
+        for i in range(2}:  # Typically splits into two:
             child_id = f"{self.node_id}_split_{i}"
             child = SymbolicNode(child_id, split_weight)
             child.connections = (
@@ -129,11 +129,11 @@ class SymbolicNode:
             )  # Children inherit connections initially
             child_nodes.append(child)
             self.logger.info(
-                f"ΛTRACE: Created child node '{child_id}' during split of '{self.node_id}'."
+                f"ΛTRACE: Created child node '{child_id)' during split of '{self.node_id)'."
             )
 
         self.logger.info(
-            f"ΛTRACE: SymbolicNode '{self.node_id}' successfully split into {len(child_nodes)} nodes."
+            f"ΛTRACE: SymbolicNode '{self.node_id)' successfully split into {len(child_nodes} nodes."
         )
         return child_nodes
 
@@ -187,7 +187,7 @@ class SymbolicNetwork:
 
     def add_node(self, node: SymbolicNode) -> None:
         """Adds a SymbolicNode to the network."""
-        self.logger.debug(f"ΛTRACE: Adding node '{node.node_id}' to SymbolicNetwork.")
+        self.logger.debug(f"ΛTRACE: Adding node '{node.node_id)' to SymbolicNetwork.")
         self.nodes[node.node_id] = node
 
     # Method to remove a node
@@ -197,7 +197,7 @@ class SymbolicNetwork:
         Removes a SymbolicNode from the network by its ID, also cleaning up its connections.
         """
         self.logger.debug(
-            f"ΛTRACE: Attempting to remove node '{node_id}' from SymbolicNetwork."
+            f"ΛTRACE: Attempting to remove node '{node_id)' from SymbolicNetwork."
         )
         if node_id in self.nodes:
             del self.nodes[node_id]
@@ -208,11 +208,11 @@ class SymbolicNetwork:
                 if src != node_id and dst != node_id:
             ]
             self.logger.info(
-                f"ΛTRACE: Node '{node_id}' and its connections removed from SymbolicNetwork."
+                f"ΛTRACE: Node '{node_id)' and its connections removed from SymbolicNetwork."
             )
         else:
             self.logger.warning(
-                f"ΛTRACE: Attempted to remove non-existent node '{node_id}'."
+                f"ΛTRACE: Attempted to remove non-existent node '{node_id)'."
             )
 
     # Method to find high-error nodes
@@ -225,7 +225,7 @@ class SymbolicNetwork:
             for node in self.nodes.values():
             if node.error_level > self.config.fission_threshold:
         ]
-        self.logger.info(f"ΛTRACE: Found {len(nodes)} high error nodes.")
+        self.logger.info(f"ΛTRACE: Found {len(nodes} high error nodes.")
         return nodes
 
     # Method to find low-activity pairs
@@ -253,7 +253,7 @@ class SymbolicNetwork:
         # Limit to prevent excessive merging in one cycle
         limited_pairs = pairs[:5]
         self.logger.info(
-            f"ΛTRACE: Found {len(limited_pairs)} low activity pairs (limited to 5)."
+            f"ΛTRACE: Found {len(limited_pairs} low activity pairs (limited to 5)."
         )
         return limited_pairs
 
@@ -264,7 +264,7 @@ class SymbolicNetwork:
         Merges specified pairs of nodes into single new nodes, combining their weights and connections.
         This simulates a fusion-like process for network efficiency.
         """
-        self.logger.info(f"ΛTRACE: Attempting to merge {len(node_pairs)} node pairs.")
+        self.logger.info(f"ΛTRACE: Attempting to merge {len(node_pairs} node pairs.")
         merged_count = 0
         for node1, node2 in node_pairs:
             if node1.node_id in self.nodes and node2.node_id in self.nodes:
@@ -273,7 +273,7 @@ class SymbolicNetwork:
                 merged_id = f"{node1.node_id}_merged_with_{node2.node_id}"
                 merged_weight = node1.symbolic_weight + node2.symbolic_weight
                 merged_node = SymbolicNode(merged_id, merged_weight)
-                self.logger.debug(f"ΛTRACE: Creating merged node '{merged_id}'.")
+                self.logger.debug(f"ΛTRACE: Creating merged node '{merged_id)'.")
 
                 # Combine connections (simple union, could be more complex)
                 merged_node.connections = list(
@@ -286,8 +286,8 @@ class SymbolicNetwork:
                 self.add_node(merged_node)  # add_node already logs
 
                 self.logger.info(
-                    f"ΛTRACE: Successfully merged nodes '{node1.node_id}' and '{node2.node_id}' into '{merged_id}'."
-                )
+                    f"ΛTRACE: Successfully merged nodes '{node1.node_id)' and '{node2.node_id)' into '{merged_id)'."
+                }
                 merged_count += 1
             else:
                 self.logger.warning(
@@ -349,7 +349,7 @@ class SymbolicNetwork:
         # ΛNOTE: Relinking logic for drifted edges is currently basic (removal).
         # Future enhancements could include finding nearest neighbors.
         self.logger.info(
-            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections)}."
+            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections}."
         )
 
 
@@ -449,7 +449,7 @@ class CristaOptimizer:
 
     # Initialization
 
-    def __init__(:
+    def __init__(
         self, network: SymbolicNetwork, config: Optional[NetworkConfig] = None
     ):
         """
@@ -477,7 +477,7 @@ class CristaOptimizer:
 
     # Main optimization method
 
-    def optimize(:
+    def optimize(
         self, error_signal: float, context: Optional[dict[str, Any]] = None
     ) -> dict[str, Any]:
         """
@@ -591,7 +591,7 @@ class CristaOptimizer:
         for node in high_error_nodes[:5]:
             if len(self.network.nodes) < self.config.max_nodes:
                 self.logger.debug(
-                    f"ΛTRACE: Attempting fission for high-error node '{node.node_id}'."
+                    f"ΛTRACE: Attempting fission for high-error node '{node.node_id)'."
                 )
                 child_nodes = node.split(
                     style="crista_junction"
@@ -600,11 +600,11 @@ class CristaOptimizer:
                 # Remove original node and add its children to the network
                 self.network.remove_node(node.node_id)
                 for child in child_nodes:
-                    self.network.add_node(child)
+                    self.network.add_node(child}
                 nodes_split_count += 1
             else:
                 self.logger.warning(
-                    f"ΛTRACE: Max node count ({self.config.max_nodes}) reached. Skipping fission for node '{node.node_id}'."
+                    f"ΛTRACE: Max node count ({self.config.max_nodes}) reached. Skipping fission for node '{node.node_id)'."
                 )
                 break
 
@@ -658,7 +658,7 @@ class CristaOptimizer:
         )
 
         self.logger.info(
-            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs)}. Nodes affected: {nodes_affected_count}."
+            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}. Nodes affected: {nodes_affected_count}."
         )
         return {
             "success": True,

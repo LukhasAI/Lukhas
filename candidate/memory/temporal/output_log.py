@@ -50,7 +50,7 @@ if os.path.exists(log_path):
                 st.markdown(f"**🕒 Timestamp:** `{timestamp}`")
                 st.markdown(f"**🎚️ Tier:** `{tier}`")
                 st.markdown(f"**📝 Type:** `{entry_type}`")
-                st.markdown(f"**📥 Input:** {entry.get('input', '')}")
+                st.markdown(f"**📥 Input:** {entry.get('input', ''}")
                 st.markdown("**📤 Output:**")
                 st.code(entry.get("output", ""), language="markdown")
             except Exception as parse_err:

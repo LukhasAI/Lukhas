@@ -38,7 +38,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class ComplianceFramework(Enum):
@@ -363,7 +363,7 @@ class ComplianceRuleEngine:
         )
 
         logger.info(
-            f"✅ Initialized {len(self.rules)} compliance rules across {len({rule.framework for rule in self.rules.values()})} frameworks"
+            f"✅ Initialized {len(self.rules)} compliance rules across {len({rule.framework for rule in self.rules.values(})} frameworks"
         )
 
     def add_rule(self, rule: ComplianceRule):
@@ -490,7 +490,7 @@ class ComplianceMonitor:
         Returns:
             Comprehensive compliance assessment
         """
-        assessment_id = f"assess_{uuid.uuid4().hex[:8]}"
+        assessment_id = f"assess_{uuid.uuid4(}.hex[:8]}"
         timestamp = datetime.now(timezone.utc)
 
         logger.info(f"🔍 Performing compliance assessment: {assessment_id}")
@@ -545,7 +545,7 @@ class ComplianceMonitor:
 
             logger.info(
                 f"✅ Compliance assessment completed: {overall_status.value} "
-                f"(score: {overall_score:.1f}, violations: {len(all_violations)})"
+                f"(score: {overall_score:.1f}, violations: {len(all_violations})"
             )
 
             return assessment
@@ -555,7 +555,7 @@ class ComplianceMonitor:
 
             # Return minimal assessment on error
             return ComplianceAssessment(
-                assessment_id=f"error_{uuid.uuid4().hex[:8]}",
+                assessment_id=f"error_{uuid.uuid4(}.hex[:8]}",
                 timestamp=timestamp,
                 overall_status=ComplianceStatus.UNDER_REVIEW,
                 compliance_score=0.0,
@@ -764,7 +764,7 @@ class ComplianceMonitor:
     ) -> ComplianceViolation:
         """Create a compliance violation from a failed rule check"""
 
-        violation_id = f"viol_{uuid.uuid4().hex[:8]}"
+        violation_id = f"viol_{uuid.uuid4(}.hex[:8]}"
 
         # Determine remediation deadline based on severity
         deadline_hours = {
@@ -783,7 +783,7 @@ class ComplianceMonitor:
             framework=rule.framework,
             severity=rule.severity,
             title=f"Violation: {rule.title}",
-            description=f"Non-compliance with {rule.title}: {'. '.join(compliance_result.get('issues', []))}",
+            description=f"Non-compliance with {rule.title}: {'. '.join(compliance_result.get('issues', [])}",
             affected_data_categories=rule.data_categories,
             evidence=compliance_result.get("evidence", []),
             remediation_required=True,
@@ -1114,7 +1114,7 @@ class ComplianceMonitor:
         latest_assessment = self.assessment_history[-1]
 
         report = {
-            "report_id": f"comp_report_{uuid.uuid4().hex[:8]}",
+            "report_id": f"comp_report_{uuid.uuid4(}.hex[:8]}",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "assessment_period": {
                 "from": (self.assessment_history[0].timestamp.isoformat() if self.assessment_history else None),

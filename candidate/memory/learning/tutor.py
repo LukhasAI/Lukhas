@@ -17,7 +17,7 @@ from candidate.core.common import get_logger
 
 from ..symbolic_knowledge_core.knowledge_graph import SKGNode, SystemKnowledgeGraph
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class LearningStyle(str, Enum):
@@ -106,7 +106,7 @@ class TutorEngine:
     ) -> LearningSession:
         """Create a new learning session."""
         # Generate session ID using Lukhas's identity system
-        session_id = f"session_{user_id}_{int(datetime.now(timezone.utc).timestamp())}"
+        session_id = f"session_{user_id}_{int(datetime.now(timezone.utc).timestamp()}"
 
         # Get bio-oscillator baseline if available
         bio_metrics = {}
@@ -150,7 +150,7 @@ class TutorEngine:
             related = self.skg.get_neighborhood(node.id)
 
             # Create objectives based on node type and difficulty
-            obj_id = f"obj_{len(objectives) + 1}"
+            obj_id = f"obj_{len(objectives} + 1}"
             obj = LearningObjective(
                 id=obj_id,
                 description=f"Learn about {node.name}",
@@ -200,7 +200,7 @@ class TutorEngine:
         """Generate a personalized welcome message."""
         return TutorMessage(
             content=f"Welcome to your learning session about {session.topic}! "
-            f"We'll cover {len(session.objectives)} main objectives. "
+            f"We'll cover {len(session.objectives} main objectives. "
             "I'll adapt to your pace and preferred learning style.",
             message_type=TutorMessageType.ENCOURAGEMENT,
             voice_style={"emotion": "welcoming", "pace": "moderate"},
@@ -337,7 +337,7 @@ class TutorEngine:
     def _generate_hint(self, objective: LearningObjective) -> TutorMessage:
         """Generate a helpful hint for the current objective."""
         return TutorMessage(
-            content=f"Think about how {', '.join(objective.required_concepts[:2])} relate to each other.",
+            content=f"Think about how {', '.join(objective.required_concepts[:2]} relate to each other.",
             message_type=TutorMessageType.HINT,
             voice_style={"emotion": "helpful", "pace": "slow"},
         )

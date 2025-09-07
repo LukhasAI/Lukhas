@@ -92,7 +92,7 @@ class ContextAnalyzer:
     def _analyze_memory(self, memory: list[dict[str, Any]], current_intent: str) -> dict[str, Any]:
         """Analyze past interactions to inform current context"""
         if not memory:
-            return {"familiarity": 0.1, "patterns": {}}
+            return {"familiarity": 0.1, "patterns": {}
 
         # Calculate user familiarity (0-1 scale)
         familiarity = min(1.0, len(memory) / 100)

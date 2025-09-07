@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -456,7 +456,7 @@ async def main():
         logger.info(f"   - Active queues: {status['active_queues']}")
         logger.info(f"   - Registered agents: {status['registered_agents']}")
         for status_name, count in status["task_counts"].items():
-            logger.info(f"   - {status_name.title()} tasks: {count}")
+            logger.info(f"   - {status_name.title(} tasks: {count}")
         return
 
     if args.create_task:

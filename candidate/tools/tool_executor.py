@@ -373,7 +373,7 @@ class ToolExecutor:
 
                 max_length = self.config.get("max_content_length", 8000)
                 if len(full_text) > max_length:
-                    full_text = full_text[:max_length] + f"... (truncated from {len(full_text)} chars)"
+                    full_text = full_text[:max_length] + f"... (truncated from {len(full_text} chars)"
 
                 return f"Successfully retrieved and parsed content from {url}:\n\n{full_text}"
 
@@ -406,7 +406,7 @@ class ToolExecutor:
             return "Cannot schedule task without a description."
 
         # Create task record
-        task_id = hashlib.md5(f"{when}:{note}:{datetime.now(timezone.utc)}".encode()).hexdigest()[:8]
+        task_id = hashlib.md5(f"{when}:{note}:{datetime.now(timezone.utc}".encode()).hexdigest()[:8]
         task_data = {
             "id": task_id,
             "created": datetime.now(timezone.utc).isoformat(),
@@ -471,7 +471,7 @@ class ToolExecutor:
             with open(os.path.join(temp_dir, "Dockerfile"), "w", encoding="utf-8") as f:
                 f.write(dockerfile_content.format(filename=filename))
 
-            image_tag = f"lukhas-exec-{hashlib.md5(source.encode()).hexdigest()[:12]}"
+            image_tag = f"lukhas-exec-{hashlib.md5(source.encode()).hexdigest(}[:12]}"
 
             # Build the image
             try:
@@ -507,7 +507,7 @@ class ToolExecutor:
 
             except docker.errors.ContainerError as e:
                 logger.error(f"Docker container failed for {language}: {e}")
-                return f"Container execution failed: {e.stderr.decode('utf-8', 'ignore') if e.stderr else str(e)}"
+                return f"Container execution failed: {e.stderr.decode('utf-8', 'ignore') if e.stderr else str(e}"
             finally:
                 if container:
                     with contextlib.suppress(docker.errors.NotFound):
@@ -853,7 +853,7 @@ RUN chmod +x {filename}
             return f"Maximum concurrent executions ({self._max_concurrent_executions}) reached. Please wait."
 
         self._active_executions += 1
-        execution_id = hashlib.sha256(f"{time.time()}{source}".encode()).hexdigest()[:12]
+        execution_id = hashlib.sha256(f"{time.time(}{source}".encode()).hexdigest()[:12]
 
         try:
             await self._audit_log(

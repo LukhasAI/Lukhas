@@ -26,7 +26,7 @@ def demonstrate_tag_registry():
     registry = get_tag_registry()
 
     # 1. Show total tags
-    print(f"\n📊 Total tags in system: {len(registry.tags)}")
+    print(f"\n📊 Total tags in system: {len(registry.tags}")
 
     # 2. Show categories
     print("\n📁 Tag Categories:")
@@ -34,7 +34,7 @@ def demonstrate_tag_registry():
 
     for category in TagCategory:
         tags = registry.get_tags_by_category(category)
-        print(f"  - {category.value}: {len(tags)} tags")
+        print(f"  - {category.value}: {len(tags} tags")
 
     # 3. Explain a specific tag
     print("\n🏷️  Tag Explanation Example:")
@@ -59,9 +59,9 @@ def demonstrate_tag_registry():
             print(f"\n  {hormone}:")
             print(f"    Meaning: {tag.human_meaning}")
             if tag.triggers:
-                print(f"    Triggers: {', '.join(tag.triggers[:2])}...")
+                print(f"    Triggers: {', '.join(tag.triggers[:2]}...")
             if tag.effects:
-                print(f"    Effects: {', '.join(tag.effects[:2])}...")
+                print(f"    Effects: {', '.join(tag.effects[:2]}...")
 
     # 6. Decision-related tags
     print("\n🤔 Decision Tags for 'ethical risk assessment':")

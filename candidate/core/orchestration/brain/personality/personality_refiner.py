@@ -28,7 +28,7 @@ personality_refiner
 
 
 class PersonalityRefiner:
-    def __init__(self, user_id, profile_path="data_legacy/personality_traits.json", timezone):
+    def __init__(timezone, self, user_id, profile_path="data_legacy/personality_traits.json"):
         self.user_id = user_id
         self.profile_path = Path(profile_path)
         self.profile = self._load_profile()

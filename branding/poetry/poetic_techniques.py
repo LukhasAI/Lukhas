@@ -435,19 +435,19 @@ if __name__ == "__main__":
     print("══════════════════════════════════════════════════════════════\n")
 
     print("▸ ALLITERATION (Sound repetition at beginning):")
-    print(f"  Consciousness: {techniques.generate_alliterative_phrase('consciousness')}")
-    print(f"  Memory: {techniques.generate_alliterative_phrase('memory')}")
-    print(f"  Quantum: {techniques.generate_alliterative_phrase('quantum')}\n")
+    print(f"  Consciousness: {techniques.generate_alliterative_phrase('consciousness'}")
+    print(f"  Memory: {techniques.generate_alliterative_phrase('memory'}")
+    print(f"  Quantum: {techniques.generate_alliterative_phrase('quantum'}\n")
 
     print("▸ ASSONANCE (Vowel sound repetition):")
-    print(f"  Long A: {techniques.generate_assonant_phrase('long_a')}")
-    print(f"  Long E: {techniques.generate_assonant_phrase('long_e')}")
-    print(f"  Long I: {techniques.generate_assonant_phrase('long_i')}\n")
+    print(f"  Long A: {techniques.generate_assonant_phrase('long_a'}")
+    print(f"  Long E: {techniques.generate_assonant_phrase('long_e'}")
+    print(f"  Long I: {techniques.generate_assonant_phrase('long_i'}\n")
 
     print("▸ RHYTHMIC STRUCTURES:")
-    print(f"  Iambic: {techniques.generate_rhythmic_line('iambic')}")
-    print(f"  Trochaic: {techniques.generate_rhythmic_line('trochaic')}")
-    print(f"  Anapestic: {techniques.generate_rhythmic_line('anapestic')}\n")
+    print(f"  Iambic: {techniques.generate_rhythmic_line('iambic'}")
+    print(f"  Trochaic: {techniques.generate_rhythmic_line('trochaic'}")
+    print(f"  Anapestic: {techniques.generate_rhythmic_line('anapestic'}\n")
 
     print("▸ ANAPHORA (Repetition at beginning):")
     print(techniques.apply_repetition_device("anaphora"))
@@ -463,8 +463,8 @@ if __name__ == "__main__":
     print()
 
     print("▸ RICH DESCRIPTION (Multiple techniques):")
-    print(f"  Memory: {techniques.create_rich_description('memory', ['alliteration', 'metaphor', 'imagery'])}")
-    print(f"  Consciousness: {techniques.create_rich_description('consciousness', ['assonance', 'metaphor'])}")
+    print(f"  Memory: {techniques.create_rich_description('memory', ['alliteration', 'metaphor', 'imagery']}")
+    print(f"  Consciousness: {techniques.create_rich_description('consciousness', ['assonance', 'metaphor']}")
     print()
 
     print("══════════════════════════════════════════════════════════════")

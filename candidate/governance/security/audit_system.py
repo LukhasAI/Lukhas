@@ -41,7 +41,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class AuditLevel(Enum):
@@ -811,7 +811,7 @@ class ComprehensiveAuditSystem:
             Event ID
         """
 
-        event_id = f"audit_{uuid.uuid4().hex}"
+        event_id = f"audit_{uuid.uuid4(}.hex}"
 
         # Filter kwargs to only include valid AuditEvent fields
         valid_fields = AuditEvent.__annotations__.keys()
@@ -885,7 +885,7 @@ class ComprehensiveAuditSystem:
                 logger.debug(f"✅ Flushed {stored_count} audit events to storage")
                 self.event_buffer.clear()
             else:
-                logger.warning(f"⚠️ Only stored {stored_count}/{len(self.event_buffer)} events")
+                logger.warning(f"⚠️ Only stored {stored_count}/{len(self.event_buffer} events")
 
         except Exception as e:
             logger.error(f"❌ Failed to flush audit buffer: {e}")
@@ -966,7 +966,7 @@ class ComprehensiveAuditSystem:
         """Verify integrity of audit trail"""
 
         verification_result = {
-            "verification_id": f"verify_{uuid.uuid4().hex[:8]}",
+            "verification_id": f"verify_{uuid.uuid4(}.hex[:8]}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_events_checked": 0,
             "integrity_violations": 0,
@@ -1021,7 +1021,7 @@ class ComprehensiveAuditSystem:
     ) -> dict[str, Any]:
         """Generate compliance audit report"""
 
-        report_id = f"compliance_{framework}_{uuid.uuid4().hex[:8]}"
+        report_id = f"compliance_{framework}_{uuid.uuid4(}.hex[:8]}"
 
         # Query compliance-relevant events
         query = AuditQuery(
@@ -1070,7 +1070,7 @@ class ComprehensiveAuditSystem:
         if include_recommendations:
             report["recommendations"] = await self._generate_compliance_recommendations(events, framework)
 
-        logger.info(f"✅ Generated compliance report: {report_id} ({len(events)} events)")
+        logger.info(f"✅ Generated compliance report: {report_id} ({len(events} events)")
         return report
 
     async def _generate_compliance_recommendations(self, events: list[AuditEvent], framework: str) -> list[str]:
@@ -1081,12 +1081,12 @@ class ComprehensiveAuditSystem:
         # Analyze patterns and violations
         violations = [e for e in events if e.event_type == AuditEventType.POLICY_VIOLATION]
         if violations:
-            recommendations.append(f"Address {len(violations)} policy violations identified in the audit period")
+            recommendations.append(f"Address {len(violations} policy violations identified in the audit period")
 
         high_risk_events = [e for e in events if e.risk_score > 0.7]
         if high_risk_events:
             recommendations.append(
-                f"Review {len(high_risk_events)} high-risk events for potential security improvements"
+                f"Review {len(high_risk_events} high-risk events for potential security improvements"
             )
 
         # Framework-specific recommendations

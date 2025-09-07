@@ -22,7 +22,7 @@ from lukhas.core.config.env_validator import validate_environment
 from lukhas.core.module_manager import ModulePriority, ModuleStatus, get_module_manager
 
 # Add project root to path
-project_root = Path(__file__, timezone).parent.parent
+project_root = Path(__file__).parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
@@ -259,13 +259,13 @@ class LUKHASSystem:
 
         # Module summary
         print("\n📦 Module Status:")
-        print(f"  ✅ Loaded: {module_report.get('loaded', 0)}")
-        print(f"  📦 Fallback: {module_report.get('fallback', 0)}")
-        print(f"  ❌ Failed: {module_report.get('failed', 0)}")
+        print(f"  ✅ Loaded: {module_report.get('loaded', 0}")
+        print(f"  📦 Fallback: {module_report.get('fallback', 0}")
+        print(f"  ❌ Failed: {module_report.get('failed', 0}")
 
         # Health summary
         healthy = sum(1 for v in self.health_status.values() if v)
-        print(f"\n💚 Health: {healthy}/{len(self.health_status)} components healthy")
+        print(f"\n💚 Health: {healthy}/{len(self.health_status} components healthy")
 
         # Critical modules
         print("\n🔑 Critical Systems:")
@@ -282,7 +282,7 @@ class LUKHASSystem:
 
         # Timing
         print(f"\n⏱️  Initialization time: {init_time:.2f} seconds")
-        print(f"📅 Started at: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"📅 Started at: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}")
 
         print("\n" + "=" * 70)
         print("System ready for operation")

@@ -321,7 +321,7 @@ class LUKHAS2030Consolidator:
                 "current_files": total_current_files,
                 "current_lines": total_current_lines,
                 "potential_lines_saved": total_lines_saved,
-                "overall_reduction": f"{(total_lines_saved / total_current_lines * 100):.0f}%",
+                "overall_reduction": f"{(total_lines_saved / total_current_lines * 100}:.0f}%",
             },
             "systems": self.analysis_results,
             "implementation_plan": self._generate_implementation_plan(),
@@ -352,7 +352,7 @@ class LUKHAS2030Consolidator:
             print(f"      Vision: {results['vision']}")
             print(f"      Current: {results['current_files']} files, {results['total_lines']:,} lines")
             print(f"      Savings: {results['potential_savings']['percentage_saved']}")
-            print(f"      Features: {len(results['features'])} core capabilities")
+            print(f"      Features: {len(results['features']} core capabilities")
 
         print(f"\n📄 Full report: {report_path}")
 
@@ -429,7 +429,7 @@ def consolidate_{system_name}():
 
     print("   Features to preserve:")
     for feature in features:
-        print(f"      ✓ {{feature}}")
+        print(f"      ✓ {{feature}")
 
     # TODO: Implement actual consolidation logic
     # 1. Analyze existing code
@@ -450,7 +450,7 @@ if __name__ == "__main__":
                 f.write(script_content)
             os.chmod(script_path, 0o755)
 
-        print(f"\n🔧 Generated {len(self.consolidation_map)} consolidation scripts in {scripts_dir}")
+        print(f"\n🔧 Generated {len(self.consolidation_map} consolidation scripts in {scripts_dir}")
 
 
 def main():

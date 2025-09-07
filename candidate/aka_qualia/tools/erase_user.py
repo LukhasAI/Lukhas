@@ -124,7 +124,7 @@ def log_audit_entry(audit_result: dict[str, Any], audit_file: Optional[str] = No
         except OSError as e:
             logger.error(f"Failed to write audit log: {e}")
     else:
-        logger.info(f"Audit entry: {json.dumps(audit_result, indent=2)}")
+        logger.info(f"Audit entry: {json.dumps(audit_result, indent=2}")
 
 
 def main():

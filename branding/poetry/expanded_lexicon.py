@@ -1213,16 +1213,16 @@ if __name__ == "__main__":
     print()
 
     print("▸ GENERATED PHRASES:")
-    print(f"  Consciousness: {lexicon.create_rich_phrase('consciousness')}")
-    print(f"  Memory: {lexicon.create_rich_phrase('memory')}")
-    print(f"  Quantum: {lexicon.create_rich_phrase('quantum')}")
+    print(f"  Consciousness: {lexicon.create_rich_phrase('consciousness'}")
+    print(f"  Memory: {lexicon.create_rich_phrase('memory'}")
+    print(f"  Quantum: {lexicon.create_rich_phrase('quantum'}")
     print()
 
     print("▸ POETIC DESCRIPTIONS (Different Styles):")
-    print(f"  Minimal: {lexicon.generate_poetic_description('consciousness', 'minimal')}")
-    print(f"  Rich: {lexicon.generate_poetic_description('consciousness', 'rich')}")
-    print(f"  Technical: {lexicon.generate_poetic_description('consciousness', 'technical')}")
-    print(f"  Mystical: {lexicon.generate_poetic_description('consciousness', 'mystical')}")
+    print(f"  Minimal: {lexicon.generate_poetic_description('consciousness', 'minimal'}")
+    print(f"  Rich: {lexicon.generate_poetic_description('consciousness', 'rich'}")
+    print(f"  Technical: {lexicon.generate_poetic_description('consciousness', 'technical'}")
+    print(f"  Mystical: {lexicon.generate_poetic_description('consciousness', 'mystical'}")
     print()
 
     print("═══════════════════════════════════════════════════════════════")

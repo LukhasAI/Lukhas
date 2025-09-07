@@ -107,7 +107,7 @@ async def main():
     print("\n🌟 Lukhas Unique Innovations:")
     for name, info in innovations.items():
         status_icon = "✅" if info["active"] else "⚠️"
-        print(f"  {status_icon} {name.title()}: {info['description']}")
+        print(f"  {status_icon} {name.title(}: {info['description']}")
 
     # Demo requests
     test_requests = [

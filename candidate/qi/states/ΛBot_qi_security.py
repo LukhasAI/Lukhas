@@ -53,7 +53,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ΛBot_Quantum_Security")
 
 # Import brain system components for bio-symbolic threat detection
@@ -465,7 +465,7 @@ class ΛBotQuantumSecurityOrchestrator:
         bio_threats = [t for t in assessment.qi_threats if "bio_symbolic" in t.threat_type]
         self.security_metrics["bio_symbolic_detections"] += len(bio_threats)
 
-        logger.info(f"✅ Assessment complete: {len(assessment.qi_threats)} threats detected")
+        logger.info(f"✅ Assessment complete: {len(assessment.qi_threats} threats detected")
 
         return assessment
 
@@ -547,15 +547,15 @@ async def main():
     assessment = await orchestrator.perform_quantum_security_assessment("test/repo", test_code)
 
     print("🔒 Quantum Security Assessment:")
-    print(f"Threats detected: {len(assessment.qi_threats)}")
+    print(f"Threats detected: {len(assessment.qi_threats}")
     print(f"Security score: {assessment.security_score}")
     print(f"Post-quantum readiness: {assessment.post_quantum_readiness}")
 
     # Test security response
     response = await orchestrator.orchestrate_security_response(assessment)
     print("\n🛡️ Security Response:")
-    print(f"Actions taken: {len(response['actions_taken'])}")
-    print(f"Healing events: {len(response['healing_events'])}")
+    print(f"Actions taken: {len(response['actions_taken']}")
+    print(f"Healing events: {len(response['healing_events']}")
     print(f"Security improved: {response['security_improved']}")
 
     # Test key generation

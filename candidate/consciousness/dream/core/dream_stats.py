@@ -13,7 +13,7 @@ from typing import Any
 class DreamStatistics:
     """Mock DreamStatistics class"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.stats = {
             "total_dreams": 0,
             "avg_duration": 0.0,

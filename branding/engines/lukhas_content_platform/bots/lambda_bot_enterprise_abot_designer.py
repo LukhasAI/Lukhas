@@ -121,7 +121,7 @@ if __name__ == "__main__":
     print("=" * 50)
 
     for name, design in examples.items():
-        print(f"\n{name.upper()}: {design['text']}")
+        print(f"\n{name.upper(}: {design['text']}")
         print(f"Color: {design['color']}")
         print(f"Tooltip: {design['tooltip'][:100]}...")
 

@@ -19,7 +19,7 @@ from typing import Any
 import psutil
 
 # Configure structured logging
-logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -57,7 +57,7 @@ class EliteProductionDeployment:
     """
 
     def __init__(self):
-        self.deployment_id = hashlib.sha256(f"{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:8]
+        self.deployment_id = hashlib.sha256(f"{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()[:8]
 
         self.metrics = DeploymentMetrics(start_time=datetime.now(timezone.utc))
         self.stage = DeploymentStage.CANARY
@@ -279,7 +279,7 @@ class EliteProductionDeployment:
                 self.deployment_config["replicas"]["max"],
             )
             if new_replicas > current:
-                logger.info(f"📈 Scaling up: {current} -> {int(new_replicas)} replicas")
+                logger.info(f"📈 Scaling up: {current} -> {int(new_replicas} replicas")
                 self.deployment_config["replicas"]["current"] = int(new_replicas)
 
         # Scale down if CPU < 30%
@@ -289,7 +289,7 @@ class EliteProductionDeployment:
                 self.deployment_config["replicas"]["min"],
             )
             if new_replicas < current:
-                logger.info(f"📉 Scaling down: {current} -> {int(new_replicas)} replicas")
+                logger.info(f"📉 Scaling down: {current} -> {int(new_replicas} replicas")
                 self.deployment_config["replicas"]["current"] = int(new_replicas)
 
     async def rollback(self):
@@ -542,7 +542,7 @@ async def main():
         for name, url in monitoring.dashboards.items():
             print(f"   {name}: {url}")
     else:
-        print(f"\n❌ Deployment failed: {result.get('reason', 'Unknown')}")
+        print(f"\n❌ Deployment failed: {result.get('reason', 'Unknown'}")
 
 
 if __name__ == "__main__":

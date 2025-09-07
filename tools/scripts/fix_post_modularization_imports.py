@@ -91,7 +91,7 @@ def main():
             continue
 
         if fix_imports_in_file(py_file):
-            print(f"   Fixed: {py_file.relative_to(root)}")
+            print(f"   Fixed: {py_file.relative_to(root}")
             fixed_count += 1
 
     print(f"\n✅ Fixed {fixed_count} files")

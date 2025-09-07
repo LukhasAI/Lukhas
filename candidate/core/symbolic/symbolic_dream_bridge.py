@@ -119,7 +119,7 @@ class SymbolicDreamBridge:
             Dict: Translated core logic primitives
         """
         # PLACEHOLDER: Implement symbolic translation logic
-        logger.debug(f"Translating dream symbols: {len(symbolic_input)} elements")
+        logger.debug(f"Translating dream symbols: {len(symbolic_input} elements")
 
         # TODO: Implement symbolic parsing algorithms
         # TODO: Map dream metaphors to core logic structures

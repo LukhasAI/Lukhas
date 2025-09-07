@@ -119,7 +119,7 @@ class ClassicalDreamEngine:
 
     def _generate_session_id(self, scenario: str) -> str:
         """Generate deterministic session ID"""
-        hash_input = f"{scenario}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M')}"
+        hash_input = f"{scenario}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M'}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:12]
 
     def _create_decision_tree(self, scenario: ClassicalDreamScenario) -> DecisionNode:
@@ -234,7 +234,7 @@ class ClassicalDreamEngine:
 
         return ClassicalOutcome(
             branch_id=f"branch_{branch_index}",
-            outcome=f"Path leads to: {' → '.join(path)}",
+            outcome=f"Path leads to: {' → '.join(path}",
             likelihood=likelihood,
             path=path,
             emotional_evolution=emotional_evolution,
@@ -392,7 +392,7 @@ class ClassicalDreamEngine:
 
         # Check safety
         safe_branches = [b for b in branches if b.safety_score >= scenario.safety_level]
-        insights.append(f"{len(safe_branches)}/{len(branches)} branches meet safety threshold")
+        insights.append(f"{len(safe_branches)}/{len(branches} branches meet safety threshold")
 
         # Emotional patterns
         emotion_trends = {}
@@ -408,7 +408,7 @@ class ClassicalDreamEngine:
             avg_trend = np.mean(trends)
             if abs(avg_trend) > 0.1:
                 direction = "increases" if avg_trend > 0 else "decreases"
-                insights.append(f"{emotion.capitalize()} typically {direction}")
+                insights.append(f"{emotion.capitalize(} typically {direction}")
 
         return insights
 

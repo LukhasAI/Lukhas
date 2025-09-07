@@ -475,7 +475,7 @@ class WorkingMemory(MemorySystem):
             for key in keys_to_forget:
                 self.forget(key)
 
-            logger.debug(f"WorkingMemory consolidation: forgot {len(keys_to_forget)} items")
+            logger.debug(f"WorkingMemory consolidation: forgot {len(keys_to_forget} items")
 
 
 class EpisodicMemory(MemorySystem):
@@ -592,7 +592,7 @@ class SemanticMemory(MemorySystem):
                             data.get("definition", ""),
                             related_concepts=data.get("related", []),
                         )
-                logger.info(f"Loaded {len(knowledge)} foundational concepts")
+                logger.info(f"Loaded {len(knowledge} foundational concepts")
             except Exception as e:
                 logger.error(f"Failed to load foundational knowledge: {e}")
 
@@ -1412,7 +1412,7 @@ class CognitiveProcessScheduler:
             synthesis = {
                 "type": "synthesis",
                 "inspiration_sources": inputs,
-                "novel_concept": f"concept_{uuid.uuid4().hex[:8]}",
+                "novel_concept": f"concept_{uuid.uuid4(}.hex[:8]}",
                 "attributes": [f"attr_{i}" for i in range(int(4 * randomness) + 2)],
                 "originality_score": np.random.uniform(0.7, 0.95),
             }
@@ -1469,7 +1469,7 @@ class CognitiveMonitor:
             utilization = 1 - (available / total)
 
             pressure_threshold = self.config.get_float(
-                "monitoring", f"{resource_type.name.lower()}_pressure_threshold", 0.9
+                "monitoring", f"{resource_type.name.lower(}_pressure_threshold", 0.9
             )
 
             if utilization > pressure_threshold:
@@ -1853,9 +1853,9 @@ if __name__ == "__main__":
     # Test 5: Decision making
     print("\nTest 5: Decision Making")
     options = [
-        {"name": "option_a", "scores": {"cost": 0.3, "benefit": 0.8}},
-        {"name": "option_b", "scores": {"cost": 0.6, "benefit": 0.9}},
-        {"name": "option_c", "scores": {"cost": 0.2, "benefit": 0.4}},
+        {"name": "option_a", "scores": {"cost": 0.3, "benefit": 0.8},
+        {"name": "option_b", "scores": {"cost": 0.6, "benefit": 0.9},
+        {"name": "option_c", "scores": {"cost": 0.2, "benefit": 0.4},
     ]
     criteria = {"cost": -0.4, "benefit": 0.6}  # Negative weight for cost
     decision = controller.decide(options, criteria)
@@ -1874,7 +1874,7 @@ if __name__ == "__main__":
     # Test 8: System status
     print("\nTest 8: System Status")
     status = controller.get_status()
-    print(f"Status: {json.dumps(status, indent=2)}")
+    print(f"Status: {json.dumps(status, indent=2}")
 
     # Shutdown
     controller.shutdown()

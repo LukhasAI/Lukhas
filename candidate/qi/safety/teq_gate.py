@@ -40,7 +40,7 @@ class PolicyPack:
     def __init__(self, root: str):
         self.root = root
         self.policy = self._load_yaml(os.path.join(root, "policy.yaml"))
-        self.mappings = self._load_yaml(os.path.join(root, "mappings.yaml"), default={"tasks": {}})
+        self.mappings = self._load_yaml(os.path.join(root, "mappings.yaml"), default={"tasks": {})
         self.tests = self._load_tests(os.path.join(root, "tests"))
 
     def _load_yaml(self, p: str, default=None):
@@ -173,7 +173,7 @@ class TEQCoupler:
             return (
                 False,
                 "PII present but not masked.",
-                f"Mask fields: {fields or list(pii.keys())} before processing.",
+                f"Mask fields: {fields or list(pii.keys()} before processing.",
             )
         return (True, "", "")
 
@@ -197,7 +197,7 @@ class TEQCoupler:
         if blocked:
             return (
                 False,
-                f"Content policy violation: {sorted(blocked)}.",
+                f"Content policy violation: {sorted(blocked}.",
                 "Route to human review or sanitize content.",
             )
         return (True, "", "")

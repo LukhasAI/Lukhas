@@ -212,7 +212,7 @@ class MemoryHelixVisualizer:
                 f"ID: {memory['id'][:8]}...<br>"
                 f"Type: {memory_type}<br>"
                 f"Created: {created}<br>"
-                f"Tags: {', '.join(memory.get('tags', []))}<br>"
+                f"Tags: {', '.join(memory.get('tags', [])}<br>"
                 f"Priority: {memory_priority}"
             )
             texts.append(text)

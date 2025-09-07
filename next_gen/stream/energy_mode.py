@@ -18,7 +18,7 @@ from typing import Any, Optional
 
 import psutil
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -377,7 +377,7 @@ class EnergyManager:
         metadata: Optional[dict] = None,
     ) -> str:
         """Queue an operation for energy-aware execution"""
-        operation_id = f"op_{datetime.now(timezone.utc).timestamp()}_{operation_type}"
+        operation_id = f"op_{datetime.now(timezone.utc).timestamp(}_{operation_type}"
 
         operation = {
             "id": operation_id,

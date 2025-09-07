@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Any
 
 from candidate.orchestration.core_modules.orchestration_service import (
-    ConsciousnessLevel,, timezone)
+    ConsciousnessLevel)
 from lukhas.core.common.config import LukhasConfig
 
 logger = logging.getLogger("LukhasConsciousness")
@@ -126,7 +126,7 @@ class ConsciousnessCore:
         context = level_contexts.get(self.current_state.level, "I am an AI assistant.")
 
         if self.current_state.active_processes:
-            context += f" Currently active processes: {', '.join(self.current_state.active_processes)}."
+            context += f" Currently active processes: {', '.join(self.current_state.active_processes}."
 
         return context
 

@@ -59,7 +59,7 @@ class SurgicalSyntaxRecovery:
     
     def fix_function_param_corruption(self, content: str) -> str:
         """Fix function parameters with wrongly added timezone"""
-        # Pattern: def func(self, other_param, timezone):
+        # Pattern: def func(self, other_param):
         pattern = r'(def\s+\w+\s*\([^)]*),\s*timezone(\s*\):)'
         replacement = r'\1\2'
         
@@ -91,9 +91,9 @@ class SurgicalSyntaxRecovery:
     def fix_import_corruption(self, content: str) -> str:
         """Fix import statements with trailing timezone)"""
         patterns = [
-            # import module, timezone)
+            # import module)
             (r'(import\s+[^,\n]+),\s*timezone\)', r'\1'),
-            # from module import item, timezone)
+            # from module import item)
             (r'(from\s+[^,\n]+\s+import\s+[^,\n]+),\s*timezone\)', r'\1'),
         ]
         
@@ -193,7 +193,7 @@ class SurgicalSyntaxRecovery:
         print(f"🔧 Total fixes applied: {total_results['fixes_applied']}")
         
         if self.errors:
-            print(f"\n⚠️ Errors encountered: {len(self.errors)}")
+            print(f"\n⚠️ Errors encountered: {len(self.errors}")
             for error in self.errors[:5]:
                 print(f"   {error}")
 

@@ -200,7 +200,7 @@ class GTΨVerificationService:
             raise ValueError(f"Action '{action}' does not require GTΨ approval")
 
         # Generate challenge
-        challenge_id = f"gtpsi_{secrets.token_urlsafe(32)}"
+        challenge_id = f"gtpsi_{secrets.token_urlsafe(32}"
         nonce = secrets.token_urlsafe(32)
 
         # Determine required gesture type (could be user preference)
@@ -271,7 +271,7 @@ class GTΨVerificationService:
                 raise ValueError("Gesture pattern does not match")
 
             # 5. Create approval record
-            approval_id = f"approval_{secrets.token_urlsafe(24)}"
+            approval_id = f"approval_{secrets.token_urlsafe(24}"
             approval_expiry = min(
                 challenge.expires_at,
                 datetime.now(timezone.utc) + timedelta(seconds=get_max_approval_time(challenge.action)),
@@ -398,7 +398,7 @@ class GTΨVerificationService:
         Returns:
             Pattern ID
         """
-        pattern_id = f"pattern_{secrets.token_urlsafe(16)}"
+        pattern_id = f"pattern_{secrets.token_urlsafe(16}"
 
         # Store pattern
         if lid not in self.stored_gestures:
@@ -495,7 +495,7 @@ class GTΨVerificationService:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-        print(f"GTΨ AUDIT: {json.dumps(log_entry, indent=2)}")
+        print(f"GTΨ AUDIT: {json.dumps(log_entry, indent=2}")
 
     def get_system_stats(self) -> dict[str, Any]:
         """Get GTΨ system statistics"""

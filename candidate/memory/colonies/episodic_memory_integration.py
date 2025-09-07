@@ -327,7 +327,7 @@ class EpisodicMemoryIntegration:
                     self.performance_metrics["episodes_replayed"] += len(replayed_memories)
                     self.performance_metrics["last_activity"] = datetime.now(timezone.utc).isoformat()
 
-                    logger.info(f"Episode replay completed: {len(replayed_memories)} memories")
+                    logger.info(f"Episode replay completed: {len(replayed_memories} memories")
                     return {
                         "success": True,
                         "replayed_count": len(replayed_memories),

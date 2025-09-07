@@ -93,7 +93,7 @@ class AdaptiveVoiceSynthesis:
             },
         )
 
-        self.logger.info(f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles)} voice profiles")
+        self.logger.info(f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles} voice profiles")
 
     async def synthesize(
         self,

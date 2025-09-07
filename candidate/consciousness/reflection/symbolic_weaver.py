@@ -46,7 +46,7 @@ import numpy as np
 from dream.modifiers.qi_like_state_modifier import QILikeStateModifier
 
 # Configure structured logging
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 
 # Add parent directories to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -513,7 +513,7 @@ class SymbolicWeaver:
                     logger.error(f"Failed to load fragment from {file_path}: {e}")
 
         logger.info(
-            f"Loaded {len(fragments)} fragments from {processed_files} files",
+            f"Loaded {len(fragments} fragments from {processed_files} files",
             fragments_loaded=len(fragments),
             files_processed=processed_files,
             ΛTAG="ΛFRAGMENTS_LOADED",
@@ -628,7 +628,7 @@ class SymbolicWeaver:
         coherence_score = self._calculate_fragment_coherence(content, symbols, emotions)
 
         fragment = SymbolicFragment(
-            fragment_id=f"FRAG_{int(time.time())}_{hash(content) % 10000}",
+            fragment_id=f"FRAG_{int(time.time())}_{hash(content} % 10000}",
             timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source=source_type,
             content=content,
@@ -728,7 +728,7 @@ class SymbolicWeaver:
 
         fragments = []
         for data in synthetic_data:
-            fragment = self._create_fragment_from_data(data, f"synthetic_{len(fragments)}")
+            fragment = self._create_fragment_from_data(data, f"synthetic_{len(fragments}")
             if fragment:
                 fragments.append(fragment)
 
@@ -749,7 +749,7 @@ class SymbolicWeaver:
         if fragments is None:
             fragments = self.fragments
 
-        logger.info(f"Threading {len(fragments)} fragments into narrative sequences")
+        logger.info(f"Threading {len(fragments} fragments into narrative sequences")
 
         # Sort fragments by timestamp
         sorted_fragments = sorted(fragments, key=lambda f: f.timestamp)
@@ -780,7 +780,7 @@ class SymbolicWeaver:
                     filtered_sequences.append(sequence)
 
         logger.info(
-            f"Created {len(filtered_sequences)} narrative thread sequences",
+            f"Created {len(filtered_sequences} narrative thread sequences",
             total_threads=len(filtered_sequences),
             avg_length=(np.mean([len(seq) for seq in filtered_sequences]) if filtered_sequences else 0),
             ΛTAG="ΛTHREADS_SEQUENCED",
@@ -870,10 +870,10 @@ class SymbolicWeaver:
             # Use all fragments as a single thread for demonstration
             fragment_sequence = self.fragments
 
-        logger.info(f"Synthesizing narrative thread from {len(fragment_sequence)} fragments")
+        logger.info(f"Synthesizing narrative thread from {len(fragment_sequence} fragments")
 
         # Generate thread ID and metadata
-        thread_id = f"THREAD_{int(time.time())}_{hash(str(fragment_sequence)) % 10000}"
+        thread_id = f"THREAD_{int(time.time())}_{hash(str(fragment_sequence)} % 10000}"
 
         # Analyze narrative elements
         protagonist_elements = self._identify_protagonist_elements(fragment_sequence)
@@ -1043,7 +1043,7 @@ class SymbolicWeaver:
                 resonance_score = self._calculate_motif_resonance(symbol, occurrences)
 
                 motif = NarrativeMotif(
-                    motif_id=f"MOTIF_{symbol}_{hash(symbol) % 1000}",
+                    motif_id=f"MOTIF_{symbol}_{hash(symbol} % 1000}",
                     symbol_pattern=[symbol],
                     occurrences=occurrences,
                     first_seen=min(f.timestamp for f in occurrences),
@@ -1201,15 +1201,15 @@ class SymbolicWeaver:
 
         # Generate title based on narrative arc
         if narrative_arc == NarrativeArc.HEROS_JOURNEY:
-            return f"The Hero's {top_symbol.title()}"
+            return f"The Hero's {top_symbol.title(}"
         elif narrative_arc == NarrativeArc.SHADOW_INTEGRATION:
-            return f"Embracing the Shadow: {top_symbol.title()}"
+            return f"Embracing the Shadow: {top_symbol.title(}"
         elif narrative_arc == NarrativeArc.TRANSFORMATION:
-            return f"Metamorphosis of {top_emotion.title()}"
+            return f"Metamorphosis of {top_emotion.title(}"
         elif narrative_arc == NarrativeArc.REBIRTH:
-            return f"Death and Rebirth: {top_symbol.title()}"
+            return f"Death and Rebirth: {top_symbol.title(}"
         else:
-            return f"The {top_symbol.title()} of {top_emotion.title()}"
+            return f"The {top_symbol.title()} of {top_emotion.title(}"
 
     def _generate_thread_hash(self, thread: NarrativeThread) -> str:
         """Generate integrity hash for thread."""
@@ -1738,7 +1738,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
 
             for i, (emotion, intensity) in enumerate(thread.emotional_arc, 1):
                 intensity_bar = "█" * int(intensity * 10) + "░" * (10 - int(intensity * 10))
-                markdown += f"{i}. **{emotion.title()}** `{intensity_bar}` ({intensity:.2f})\n"
+                markdown += f"{i}. **{emotion.title(}** `{intensity_bar}` ({intensity:.2f})\n"
 
             markdown += "\n"
 
@@ -1941,7 +1941,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
             for motif in thread.recurring_motifs[:5]:  # Top 5 motifs
                 resonance_bar = "█" * int(motif.resonance_score * 10) + "░" * (10 - int(motif.resonance_score * 10))
                 pattern_str = " → ".join(motif.symbol_pattern)
-                map_lines.append(f"{pattern_str:20s} │{resonance_bar}│ {len(motif.occurrences)}x")
+                map_lines.append(f"{pattern_str:20s} │{resonance_bar}│ {len(motif.occurrences}x")
 
             map_lines.append("")
 
@@ -1951,8 +1951,8 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
         map_lines.append(f"Coherence Score:     {thread.coherence_score:.3f}")
         map_lines.append(f"Identity Alignment:  {thread.identity_alignment:.3f}")
         map_lines.append(f"Ethical Alignment:   {thread.ethical_alignment:.3f}")
-        map_lines.append(f"Fragment Count:      {len(thread.fragments)}")
-        map_lines.append(f"Motif Count:         {len(thread.recurring_motifs)}")
+        map_lines.append(f"Fragment Count:      {len(thread.fragments}")
+        map_lines.append(f"Motif Count:         {len(thread.recurring_motifs}")
         map_lines.append(f"Symbol Diversity:    {len({s for f in thread.fragments for s in f.symbols})}")
         map_lines.append(f"Thread Hash:         {thread.thread_hash}")
 
@@ -2108,12 +2108,12 @@ Examples:
         # Load fragments
         print("📚 Loading symbolic fragments...")
         fragments = weaver.load_symbolic_fragments(args.source)
-        print(f"✅ Loaded {len(fragments)} fragments")
+        print(f"✅ Loaded {len(fragments} fragments")
 
         # Thread fragments into sequences
         print("🧵 Threading memory sequences...")
         thread_sequences = weaver.thread_memory_sequence(fragments)
-        print(f"✅ Created {len(thread_sequences)} narrative sequences")
+        print(f"✅ Created {len(thread_sequences} narrative sequences")
 
         if not thread_sequences:
             print("⚠️ No coherent sequences found. Try adjusting thresholds or adding more fragments.")
@@ -2121,7 +2121,7 @@ Examples:
 
         # Synthesize narrative thread (use longest sequence)
         longest_sequence = max(thread_sequences, key=len)
-        print(f"🔮 Synthesizing narrative from sequence of {len(longest_sequence)} fragments...")
+        print(f"🔮 Synthesizing narrative from sequence of {len(longest_sequence} fragments...")
 
         thread = weaver.synthesize_narrative_thread(longest_sequence)
         print(f"✅ Synthesized thread: '{thread.title}'")

@@ -372,7 +372,7 @@ class ConceptHierarchy:
             pruned.append(concept.name)
 
         if pruned:
-            logger.info(f"Pruned {len(pruned)} unused concepts")
+            logger.info(f"Pruned {len(pruned} unused concepts")
             self._update_statistics()
 
         return pruned
@@ -576,8 +576,8 @@ if __name__ == "__main__":
 
     # Test path retrieval
     print("Paths:")
-    print(f"  Golden Retriever: {' -> '.join(hierarchy.get_path('Golden Retriever'))}")
-    print(f"  Eagle: {' -> '.join(hierarchy.get_path('Eagle'))}")
+    print(f"  Golden Retriever: {' -> '.join(hierarchy.get_path('Golden Retriever')}")
+    print(f"  Eagle: {' -> '.join(hierarchy.get_path('Eagle')}")
 
     # Test activation spreading
     print("\n--- Activation Test ---")
@@ -588,15 +588,15 @@ if __name__ == "__main__":
 
     # Test semantic distance
     print("\n--- Semantic Distance ---")
-    print(f"Dog <-> Cat: {hierarchy.get_semantic_distance('Dog', 'Cat'):.2f}")
-    print(f"Dog <-> Eagle: {hierarchy.get_semantic_distance('Dog', 'Eagle'):.2f}")
-    print(f"Golden Retriever <-> Siamese Cat: {hierarchy.get_semantic_distance('Golden Retriever', 'Siamese Cat'):.2f}")
+    print(f"Dog <-> Cat: {hierarchy.get_semantic_distance('Dog', 'Cat'}:.2f}")
+    print(f"Dog <-> Eagle: {hierarchy.get_semantic_distance('Dog', 'Eagle'}:.2f}")
+    print(f"Golden Retriever <-> Siamese Cat: {hierarchy.get_semantic_distance('Golden Retriever', 'Siamese Cat'}:.2f}")
 
     # Extract ontology
     print("\n--- Ontology ---")
     ontology = hierarchy.extract_ontology()
-    print(f"Concepts: {len(ontology['concepts'])}")
-    print(f"Is-a relationships: {len(ontology['relationships']['is_a'])}")
+    print(f"Concepts: {len(ontology['concepts']}")
+    print(f"Is-a relationships: {len(ontology['relationships']['is_a']}")
     for rel in ontology["relationships"]["is_a"][:5]:
         print(f"  {rel['child']} is-a {rel['parent']}")
 

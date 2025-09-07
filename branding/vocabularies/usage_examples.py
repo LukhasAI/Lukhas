@@ -88,11 +88,11 @@ def log_any_symbol():
 def get_system_status():
     """Create a symbolic system status display."""
     status = {
-        "Biometric": f"{BIO_SYMBOLS.get('🫀', 'bio_active')} Active",
-        "Dream": f"{DREAM_PHASE_SYMBOLS.get('deep_symbolic', '🌌 Processing')}",
-        "Identity": f"{get_symbol('identity', 'identity_verification')} Verified",
-        "Emotion": f"{get_symbol('emotion', '😌', '😌')} Calm",
-        "Memory": f"{get_symbol('memory', 'consolidation', '🗂️')} Storing",
+        "Biometric": f"{BIO_SYMBOLS.get('🫀', 'bio_active'} Active",
+        "Dream": f"{DREAM_PHASE_SYMBOLS.get('deep_symbolic', '🌌 Processing'}",
+        "Identity": f"{get_symbol('identity', 'identity_verification'} Verified",
+        "Emotion": f"{get_symbol('emotion', '😌', '😌'} Calm",
+        "Memory": f"{get_symbol('memory', 'consolidation', '🗂️'} Storing",
     }
 
     return "\n".join([f"{k}: {v}" for k, v in status.items()])

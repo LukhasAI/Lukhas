@@ -306,7 +306,7 @@ class ConsentPrivacyConstitutionalBridge:
         """
         try:
             # Check cache first
-            cache_key = f"{user_id}:{purpose}:{':'.join(sorted(data_categories))}"
+            cache_key = f"{user_id}:{purpose}:{':'.join(sorted(data_categories)}"
             if cache_key in self.consent_cache:
                 cached_consent = self.consent_cache[cache_key]
                 if self._is_consent_still_valid(cached_consent):
@@ -400,7 +400,7 @@ class ConsentPrivacyConstitutionalBridge:
 
             log_agi_operation(
                 "privacy_protect",
-                f"level:{privacy_context.data_sensitivity.value}, protections:{len(protection_metadata['protection_applied'])}",
+                f"level:{privacy_context.data_sensitivity.value}, protections:{len(protection_metadata['protection_applied']}",
                 "consent_bridge",
             )
 
@@ -631,9 +631,9 @@ class ConsentPrivacyConstitutionalBridge:
             data_hash = hashlib.sha256(data.encode()).hexdigest()
             return f"zk_hash_{data_hash[:16]}"
         elif isinstance(data, dict):
-            return {k: f"zk_protected_{hashlib.md5(str(v).encode()).hexdigest()[:8]}" for k, v in data.items()}
+            return {k: f"zk_protected_{hashlib.md5(str(v).encode()).hexdigest(}[:8]}" for k, v in data.items()}
         else:
-            return f"zk_protected_{hashlib.md5(str(data).encode()).hexdigest()[:16]}"
+            return f"zk_protected_{hashlib.md5(str(data).encode()).hexdigest(}[:16]}"
 
     def _log_privacy_operation(self, privacy_context: PrivacyContext, metadata: dict[str, Any]) -> None:
         """Log privacy operation for audit trail."""

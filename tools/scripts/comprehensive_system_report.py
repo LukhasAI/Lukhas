@@ -330,7 +330,7 @@ class LUKHASSystemDiagnostic:
                 {
                     "category": "warning",
                     "component": "python_environment",
-                    "issue": f"Missing packages: {', '.join(self.results['python_environment']['missing_packages'])}",
+                    "issue": f"Missing packages: {', '.join(self.results['python_environment']['missing_packages']}",
                     "impact": "Some features may not work",
                 }
             )
@@ -343,7 +343,7 @@ class LUKHASSystemDiagnostic:
                 {
                     "category": "critical",
                     "component": "core_modules",
-                    "issue": f"Failed modules: {', '.join(failed_modules)}",
+                    "issue": f"Failed modules: {', '.join(failed_modules}",
                     "impact": "Core functionality broken",
                 }
             )
@@ -358,7 +358,7 @@ class LUKHASSystemDiagnostic:
                 {
                     "category": "warning",
                     "component": "api_credentials",
-                    "issue": f"Missing API keys: {', '.join(missing_apis)}",
+                    "issue": f"Missing API keys: {', '.join(missing_apis}",
                     "impact": "Limited model testing capability",
                 }
             )
@@ -385,7 +385,7 @@ class LUKHASSystemDiagnostic:
                 {
                     "category": "warning",
                     "component": "tests",
-                    "issue": f"Failed tests: {', '.join(failed_tests)}",
+                    "issue": f"Failed tests: {', '.join(failed_tests}",
                     "impact": "Quality assurance issues",
                 }
             )
@@ -471,16 +471,16 @@ class LUKHASSystemDiagnostic:
         print("🧠 LUKHAS COMPREHENSIVE SYSTEM STATUS REPORT")
         print("=" * 60)
         print(f"📅 Date: {self.report_timestamp}")
-        print(f"🏥 Overall Health: {summary.get('overall_health', 'Unknown')}")
+        print(f"🏥 Overall Health: {summary.get('overall_health', 'Unknown'}")
         print(
-            f"🧬 Module Health: {summary.get('module_health_percentage', 0)}% ({summary.get('working_modules', 0)} / {summary.get('total_modules_tested', 0)})"
+            f"🧬 Module Health: {summary.get('module_health_percentage', 0)}% ({summary.get('working_modules', 0)} / {summary.get('total_modules_tested', 0})"
         )
         print(
-            f"🔑 API Coverage: {summary.get('api_coverage_percentage', 0)}% ({summary.get('available_apis', 0)}/{summary.get('total_apis', 0)})"
+            f"🔑 API Coverage: {summary.get('api_coverage_percentage', 0)}% ({summary.get('available_apis', 0)}/{summary.get('total_apis', 0})"
         )
-        print(f"🚨 Critical Issues: {summary.get('critical_issues', 0)}")
-        print(f"⚠️  Warning Issues: {summary.get('warning_issues', 0)}")
-        print(f"💡 Recommendations: {summary.get('total_recommendations', 0)}")
+        print(f"🚨 Critical Issues: {summary.get('critical_issues', 0}")
+        print(f"⚠️  Warning Issues: {summary.get('warning_issues', 0}")
+        print(f"💡 Recommendations: {summary.get('total_recommendations', 0}")
 
         if self.results["system_issues"]:
             print("\n🔍 KEY ISSUES:")

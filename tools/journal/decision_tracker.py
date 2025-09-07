@@ -23,7 +23,7 @@ class Decision:
         chosen_approach: str,
         expected_outcome: str,
         files_affected: list[str],
-        commit_hash: Optional[str] = None,, timezone):
+        commit_hash: Optional[str] = None):
         self.title = title
         self.rationale = rationale
         self.alternatives = alternatives
@@ -414,7 +414,7 @@ Was this the right decision? Why or why not?
 
     def _analyze_time_patterns(self, decisions: list[JournalEntry]) -> dict[str, Any]:
         """Analyze when decisions are made"""
-        patterns = {"by_hour": {}, "by_day_of_week": {}, "by_week_of_month": {}}
+        patterns = {"by_hour": {}, "by_day_of_week": {}, "by_week_of_month": {}
 
         for decision in decisions:
             hour = decision.timestamp.hour
@@ -467,7 +467,7 @@ Was this the right decision? Why or why not?
         # Check for rushed decisions
         if analysis["potentially_rushed"]:
             suggestions.append(
-                f"Review these potentially rushed decisions: {', '.join(analysis['potentially_rushed'][:3])}"
+                f"Review these potentially rushed decisions: {', '.join(analysis['potentially_rushed'][:3]}"
             )
 
         # Check emotional patterns

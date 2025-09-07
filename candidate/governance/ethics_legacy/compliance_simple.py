@@ -24,7 +24,7 @@ from candidate.core.common import get_logger
 from .types import BaseLUKHASPlugin, PluginContext, PluginManifest
 
 
-class EthicsViolationType(Enum, timezone):
+class EthicsViolationType(Enum):
     """Types of ethics violations that can occur"""
 
     HARM_RISK = "harm_risk"

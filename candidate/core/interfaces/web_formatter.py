@@ -18,7 +18,7 @@ EXPRESSION_LOG = "logs/expressions/lukhas_expression_log.jsonl"
 OUTPUT_DIR = "logs/publication_simulation"
 
 
-def load_latest_expression(, timezone):
+def load_latest_expression():
     if not os.path.exists(EXPRESSION_LOG):
         print("❌ No expression log found.")
         return None

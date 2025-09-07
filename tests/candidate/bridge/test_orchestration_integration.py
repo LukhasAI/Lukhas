@@ -44,7 +44,7 @@ def test_orchestration_components():
         print("✅ MultiAIOrchestrator initialized")
         print(f"   - Target latency: {orchestrator.target_latency_ms}ms")
         print(f"   - Max parallel requests: {orchestrator.max_parallel_requests}")
-        print(f"   - Available AI clients: {len(orchestrator.ai_clients)}")
+        print(f"   - Available AI clients: {len(orchestrator.ai_clients}")
 
         # Test consensus engine
         ConsensusEngine()

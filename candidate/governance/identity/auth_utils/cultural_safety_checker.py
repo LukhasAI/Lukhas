@@ -21,7 +21,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class CulturalContext(Enum):
@@ -178,7 +178,7 @@ class CulturalSafetyChecker:
                 result=ValidationResult.WARNING,
                 contexts=[CulturalContext.RELIGIOUS, CulturalContext.GLOBAL],
                 regions=sensitive_cultures,
-                reason=f"May be culturally sensitive for {', '.join(sensitive_cultures)}",
+                reason=f"May be culturally sensitive for {', '.join(sensitive_cultures}",
                 severity=SensitivityLevel.MODERATE,
                 alternatives=["🍎", "🥕", "🥬", "🍇"],
             )

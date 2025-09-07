@@ -147,7 +147,7 @@ def replay_receipt(
     )
     # weak ETag (receipt mtime + policy fingerprint)
     mtime = os.path.getmtime(p)
-    etag = hashlib.sha256(f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()).hexdigest()[:16]
+    etag = hashlib.sha256(f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays}".encode()).hexdigest()[:16]
     return JSONResponse(rep, headers={"ETag": etag})
 
 
@@ -203,7 +203,7 @@ def receipt_trace_svg(
 
     # ETag for cache (receipt mtime + policy fingerprint)
     mtime = os.path.getmtime(p)
-    etag = hashlib.sha256(f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays)}".encode()).hexdigest()[:16]
+    etag = hashlib.sha256(f"{rid}:{mtime}:{_policy_fingerprint(policy_root, overlays}".encode()).hexdigest()[:16]
     return Response(
         content=svg_bytes,
         media_type="image/svg+xml",
@@ -301,7 +301,7 @@ def ui_trace(
     policyRoot: {json.dumps(policy_root)},
     overlays: {json.dumps(overlays)},
     publicRedact: {str(public).lower()}
-  }};
+  };
 </script>
 """
     # If the HTML already has </body>, inject before; else append

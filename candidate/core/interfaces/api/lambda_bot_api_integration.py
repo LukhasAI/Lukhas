@@ -16,7 +16,7 @@ from pydantic import BaseModel
 app = FastAPI(
     title="Enhanced ΛBot Consciousness API",
     version="3.1.0",
-    description="Integrates 4 Enhanced ΛBots with existing Lukhʌs ΛI consciousness system",, timezone)
+    description="Integrates 4 Enhanced ΛBots with existing Lukhʌs ΛI consciousness system")
 
 # ΛBot endpoint configuration
 LAMBDA_BOT_ENDPOINTS = {

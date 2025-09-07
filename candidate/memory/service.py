@@ -54,7 +54,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -127,7 +127,7 @@ class MemoryService:
 
         try:
             # Generate memory ID
-            memory_id = f"mem_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{hash(str(content)) % 10000:04d}"
+            memory_id = f"mem_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{hash(str(content)} % 10000:04d}"
 
             # Store memory with metadata
             memory_record = {
@@ -574,11 +574,11 @@ if __name__ == "__main__":
 
         # Test memory retrieval
         retrieved = memory_service.retrieve_memory(test_user, memory_id)
-        logging.info(f"Memory retrieval: {retrieved.get('success', False)}")
+        logging.info(f"Memory retrieval: {retrieved.get('success', False}")
 
         # Test memory search
         search_results = memory_service.search_memory(test_user, "conversation")
-        logging.info(f"Memory search found: {len(search_results.get('results', []))} results")
+        logging.info(f"Memory search found: {len(search_results.get('results', [])} results")
 
         # Test statistics
         stats = memory_service.get_memory_stats(test_user)

@@ -54,7 +54,7 @@ class CollapseTrace:
         state_str = f"{source_keys}-{resulting_key}-{collapse_type}-{metadata}"
         collapse_hash = hashlib.sha3_256(state_str.encode()).hexdigest()
         event = {
-            "event_id": f"collapse_{uuid.uuid4().hex[:12]}",
+            "event_id": f"collapse_{uuid.uuid4(}.hex[:12]}",
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "collapse_type": collapse_type,
             "source_keys": source_keys,

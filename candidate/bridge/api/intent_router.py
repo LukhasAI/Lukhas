@@ -231,7 +231,7 @@ class IntentRouter:
             "endpoint": "/api/memory/explore",
             "parameters": intent.parameters,
             "glyphs": intent.glyphs,
-            "message": f"Searching memory folds for: {intent.parameters.get('topic', 'all memories')}",
+            "message": f"Searching memory folds for: {intent.parameters.get('topic', 'all memories'}",
         }
 
     def _handle_consciousness_exploration(self, intent: Intent) -> dict[str, Any]:

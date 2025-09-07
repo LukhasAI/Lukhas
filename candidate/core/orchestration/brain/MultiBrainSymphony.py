@@ -524,7 +524,7 @@ async def demo_symphony_integration():
     result = await symphony.conduct_symphony(test_data)
 
     print(f"Symphony Result: {result}")
-    print(f"Symphony Status: {symphony.get_symphony_status()}")
+    print(f"Symphony Status: {symphony.get_symphony_status(}")
 
 
 if __name__ == "__main__":

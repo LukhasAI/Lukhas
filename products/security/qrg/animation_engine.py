@@ -57,7 +57,7 @@ try:
 except ImportError:
     SCIPY_AVAILABLE = False
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class AnimationType(Enum):
@@ -413,7 +413,7 @@ class TemporalAnimationEngine:
         # Cache for performance
         self.animation_cache[sequence.sequence_id] = sequence
 
-        logger.info(f"✨ TEMPORAL AUTHENTICATION GENERATED - {len(frames)} FRAMES OF SOVEREIGNTY")
+        logger.info(f"✨ TEMPORAL AUTHENTICATION GENERATED - {len(frames} FRAMES OF SOVEREIGNTY")
         return sequence
 
     def _generate_quantum_pulse_frame(
@@ -823,7 +823,7 @@ class TemporalAnimationEngine:
         # Cache token
         self.token_cache.append(token)
 
-        logger.info(f"🔑 TEMPORAL TOKEN GENERATED - EXPIRES IN {validity_duration.total_seconds()}s")
+        logger.info(f"🔑 TEMPORAL TOKEN GENERATED - EXPIRES IN {validity_duration.total_seconds(}s")
         return token
 
     def validate_temporal_authentication(
@@ -881,12 +881,12 @@ class TemporalAnimationEngine:
 
     def _generate_quantum_state(self, frame_idx: int) -> str:
         """Generate quantum state for frame"""
-        qi_data = f"QUANTUM_{frame_idx}_{time.time()}"
+        qi_data = f"QUANTUM_{frame_idx}_{time.time(}"
         return hashlib.sha3_256(qi_data.encode()).hexdigest()[:16]
 
     def _generate_consciousness_signature(self, frame_idx: int, consciousness_context: dict[str, Any]) -> str:
         """Generate consciousness signature for frame"""
-        consciousness_data = f"{frame_idx}{json.dumps(consciousness_context)}"
+        consciousness_data = f"{frame_idx}{json.dumps(consciousness_context}"
         return hashlib.sha256(consciousness_data.encode()).hexdigest()[:16]
 
     def _calculate_market_correlation(self, frame_idx: int, market_state: dict[str, float]) -> float:

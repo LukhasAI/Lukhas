@@ -27,7 +27,7 @@ from typing import Any, Optional
 class TierValidationResult:
     """Detailed tier validation result"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.valid = False
         self.current_tier = 0
         self.requested_tier = 0
@@ -537,7 +537,7 @@ class TierValidator:
             if isinstance(value, bool) and value:
                 formatted_reqs.append(req.replace("_", " ").title())
             elif isinstance(value, (int, float)):
-                formatted_reqs.append(f"{req.replace('_', ' ').title()}: {value}")
+                formatted_reqs.append(f"{req.replace('_', ' ').title(}: {value}")
 
         return formatted_reqs
 

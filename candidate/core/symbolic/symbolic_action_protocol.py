@@ -37,7 +37,7 @@ from utils.trace_logger import log_symbolic_trace
 
 
 class SymbolicActionProtocol:
-    def __init__(self, user_id, consent_level, timezone):
+    def __init__(self, user_id, consent_level):
         self.user_id = user_id
         self.consent_level = consent_level
         self.tier_config = ConsentTierManager.load(consent_level)

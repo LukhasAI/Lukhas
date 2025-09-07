@@ -271,7 +271,7 @@ async def main():
 
     # Example: Semantic search
     results = await memory_interface.recall("optimization learning", mode="semantic")
-    logger.info(f"Semantic search found {len(results)} relevant memories")
+    logger.info(f"Semantic search found {len(results} relevant memories")
 
     # Example: Pattern analysis
     patterns = await memory_interface.analyze_patterns()

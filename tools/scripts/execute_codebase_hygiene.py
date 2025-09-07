@@ -15,9 +15,9 @@ from pathlib import Path
 class CodebaseHygieneExecutor:
     """Execute comprehensive codebase naming cleanup"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-        self.backup_dir = self.workspace / f".hygiene_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.workspace / f".hygiene_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
         self.changes_log = []
         self.import_updates = {}
 

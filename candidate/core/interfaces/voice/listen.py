@@ -16,7 +16,7 @@ import streamlit as st
 from typing import List
 
 # Initialize logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Init GPT client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))

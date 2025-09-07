@@ -24,7 +24,7 @@ try:
         Event,
         EventStore,
         EventType,
-        SnapshotStore,, timezone)
+        SnapshotStore)
     from candidate.core.id import LukhosIDManager
     from candidate.core.integrator import (
         BioOrchestrator,
@@ -173,7 +173,7 @@ class CoreHub:
         except Exception as e:
             logger.warning(f"Resource analyzer init failed: {e}")
 
-        logger.info(f"CoreHub initialized with {len(self.services)} services")
+        logger.info(f"CoreHub initialized with {len(self.services} services")
 
     async def initialize(self) -> None:
         """Initialize all core services"""
@@ -209,7 +209,7 @@ class CoreHub:
 
         # Mark as initialized
         self.is_initialized = True
-        logger.info(f"Core hub initialized with {len(self.services)} services")
+        logger.info(f"Core hub initialized with {len(self.services} services")
 
     def _register_infrastructure_services(self):
         """Register core infrastructure services"""
@@ -361,7 +361,7 @@ class CoreHub:
                 if service_name in self.services:
                     discovery.register_service_globally(service_name, self.services[service_name], "core")
 
-            logger.debug(f"Registered {len(key_services)} core services with global discovery")
+            logger.debug(f"Registered {len(key_services} core services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 

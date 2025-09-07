@@ -123,7 +123,7 @@ class MultiBrainΛBot:
             ),
         }
 
-        logger.info(f"🧠 Initialized {len(self.specialized_brains)} specialized brain cores")
+        logger.info(f"🧠 Initialized {len(self.specialized_brains} specialized brain cores")
 
     async def initialize_brain_symphony(self):
         """Initialize and synchronize all brain cores"""
@@ -180,7 +180,7 @@ class MultiBrainΛBot:
             await self._start_bio_rhythmic_sync()
 
         analysis_results = {
-            "session_id": f"multi_brain_{int(time.time())}",
+            "session_id": f"multi_brain_{int(time.time()}",
             "timestamp": datetime.now().isoformat(),
             "brain_states": {},
             "coordination_results": {},

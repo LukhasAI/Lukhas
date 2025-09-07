@@ -176,7 +176,7 @@ class LukhasDataFeeder:
                 triggers_fired = await self._check_trigger_conditions(system_state)
 
                 if triggers_fired:
-                    print(f"🔥 {len(triggers_fired)} triggers fired: {[t.name for t in triggers_fired]}")
+                    print(f"🔥 {len(triggers_fired} triggers fired: {[t.name for t in triggers_fired]}")
 
                 await asyncio.sleep(2.0)  # Feed data every 2 seconds
 

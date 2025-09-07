@@ -356,7 +356,7 @@ class BrandingStructureAnalyzer:
 
         report += f"""
 ## ❌ Elite Gaps (Missing Capabilities)
-{chr(10).join(f"- {gap.replace('_', ' ').title()}" for gap in analysis["elite_gaps"])}
+{chr(10).join(f"- {gap.replace('_', ' ').title(}" for gap in analysis["elite_gaps"])}
 
 ## 🤖 Automation Opportunities
 """

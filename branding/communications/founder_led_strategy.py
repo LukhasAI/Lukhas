@@ -59,7 +59,7 @@ class FounderLedCommunicationStrategy:
     for LUKHAS consciousness technology positioning
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.communication_philosophy = self._establish_communication_philosophy()
         self.founder_positioning = self._create_founder_positioning()
         self.channel_strategy = self._create_channel_strategy()
@@ -475,10 +475,10 @@ if __name__ == "__main__":
     for principle, description in founder_comms.communication_philosophy.items():
         print(f"  {principle}: {description[:80]}...")
 
-    print(f"\n📢 Communication Channels: {len(founder_comms.channel_strategy)} channels established")
-    print(f"💭 Message Frameworks: {len(founder_comms.message_frameworks)} strategic frameworks created")
-    print(f"📝 Thought Leadership: {len(thought_leadership)} premium content pieces planned")
-    print(f"📅 Daily Communication Plan: {len(daily_plan)} days of strategic content scheduled")
+    print(f"\n📢 Communication Channels: {len(founder_comms.channel_strategy} channels established")
+    print(f"💭 Message Frameworks: {len(founder_comms.message_frameworks} strategic frameworks created")
+    print(f"📝 Thought Leadership: {len(thought_leadership} premium content pieces planned")
+    print(f"📅 Daily Communication Plan: {len(daily_plan} days of strategic content scheduled")
 
     print("\n🎯 Founder Positioning:")
     positioning = founder_comms.founder_positioning["core_identity"]

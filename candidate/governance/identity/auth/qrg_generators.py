@@ -179,7 +179,7 @@ class ConsciousnessQRGenerator:
     def _generate_neural_signature(self, pattern: ConsciousnessQRPattern) -> str:
         """Generate unique neural signature for consciousness state."""
         signature_data = (
-            f"{pattern.consciousness_level}{pattern.neural_synchrony}{pattern.emotional_state}{time.time()}"
+            f"{pattern.consciousness_level}{pattern.neural_synchrony}{pattern.emotional_state}{time.time(}"
         )
         return hashlib.sha256(signature_data.encode()).hexdigest()[:16]
 
@@ -329,7 +329,7 @@ class CulturalQRGenerator:
 
     def _generate_cultural_signature(self, theme: CulturalQRTheme) -> str:
         """Generate cultural signature for authenticity."""
-        signature_data = f"{theme.primary_culture}{theme.pattern_style}{time.time()}"
+        signature_data = f"{theme.primary_culture}{theme.pattern_style}{time.time(}"
         return hashlib.sha256(signature_data.encode()).hexdigest()[:12]
 
     def _apply_cultural_styling(self, qr, theme: CulturalQRTheme) -> Image.Image:
@@ -876,8 +876,8 @@ if __name__ == "__main__":
 
     if "error" not in consciousness_qr:
         print("✅ Consciousness QR generated successfully")
-        print(f"   📊 Consciousness level: {consciousness_qr.get('consciousness_level', 'N/A')}")
-        print(f"   🧠 Pattern type: {consciousness_qr.get('pattern_type', 'N/A')}")
+        print(f"   📊 Consciousness level: {consciousness_qr.get('consciousness_level', 'N/A'}")
+        print(f"   🧠 Pattern type: {consciousness_qr.get('pattern_type', 'N/A'}")
     else:
         print(f"❌ Consciousness QR failed: {consciousness_qr['error']}")
 
@@ -898,8 +898,8 @@ if __name__ == "__main__":
 
     if "error" not in cultural_qr:
         print("✅ Cultural QR generated successfully")
-        print(f"   🌍 Cultural context: {cultural_qr.get('cultural_context', 'N/A')}")
-        print(f"   🎨 Color palette: {cultural_qr.get('color_palette', 'N/A')}")
+        print(f"   🌍 Cultural context: {cultural_qr.get('cultural_context', 'N/A'}")
+        print(f"   🎨 Color palette: {cultural_qr.get('color_palette', 'N/A'}")
     else:
         print(f"❌ Cultural QR failed: {cultural_qr['error']}")
 
@@ -914,8 +914,8 @@ if __name__ == "__main__":
 
     if "error" not in qi_qr:
         print("✅ Quantum QR generated successfully")
-        print(f"   ⚛️ Security level: {qi_qr.get('security_level', 'N/A')}")
-        print(f"   🔐 Entropy strength: {qi_qr.get('entropy_strength', 'N/A')} bytes")
+        print(f"   ⚛️ Security level: {qi_qr.get('security_level', 'N/A'}")
+        print(f"   🔐 Entropy strength: {qi_qr.get('entropy_strength', 'N/A'} bytes")
     else:
         print(f"❌ Quantum QR failed: {qi_qr['error']}")
 
@@ -930,7 +930,7 @@ if __name__ == "__main__":
 
     if "error" not in stego_qr:
         print("✅ Steganographic QR generated successfully")
-        print(f"   🎭 Hidden data length: {stego_qr.get('hidden_data_length', 'N/A')} chars")
+        print(f"   🎭 Hidden data length: {stego_qr.get('hidden_data_length', 'N/A'} chars")
         print(f"   🔑 Encryption: {stego_qr.get('steganography_metadata', {}).get('encryption_method', 'N/A')}")
     else:
         print(f"❌ Steganographic QR failed: {stego_qr['error']}")
@@ -938,8 +938,8 @@ if __name__ == "__main__":
     # Display generation statistics
     print("\n📊 QRG Generation Statistics:")
     stats = qrg_manager.get_generation_stats()
-    print(f"   📈 Total generations: {stats.get('total_generations', 0)}")
-    print(f"   🏆 Most popular type: {stats.get('most_popular_type', 'N/A')}")
+    print(f"   📈 Total generations: {stats.get('total_generations', 0}")
+    print(f"   🏆 Most popular type: {stats.get('most_popular_type', 'N/A'}")
 
     print("\n🎉 LUKHAS QRG System testing complete!")
     print("🔗 Ready for consciousness-aware authentication!")

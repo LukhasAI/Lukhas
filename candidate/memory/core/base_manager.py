@@ -264,7 +264,7 @@ class BaseMemoryManager(ABC):
 
             # Add Λ-trace signature for enhanced tracking
             l_signature = hashlib.sha256(
-                f"{self.__class__.__name__}_{timestamp}_{uuid.uuid4().hex[:8]}".encode()
+                f"{self.__class__.__name__}_{timestamp}_{uuid.uuid4(}.hex[:8]}".encode()
             ).hexdigest()[:16]
 
             memory_id = f"{prefix}_{timestamp}_Λ{l_signature}"
@@ -279,7 +279,7 @@ class BaseMemoryManager(ABC):
         except Exception as e:
             self.logger.error("❌ Failed to generate memory ID", error=str(e))
             # Fallback to simple timestamp-based ID
-            return f"{prefix or 'mem'}_{datetime.now(timezone.utc).isoformat()}"
+            return f"{prefix or 'mem'}_{datetime.now(timezone.utc).isoformat(}"
 
     async def list_memories(self, include_deleted: bool = False) -> list[str]:
         """List all memory IDs."""
@@ -351,7 +351,7 @@ class BaseMemoryManager(ABC):
             # Track Λ-traces for memory access patterns
             if "l_trace" not in self._l_traces:
                 self._l_traces[memory_id] = []
-            self._l_traces[memory_id].append(f"index_update_{datetime.now(timezone.utc).isoformat()}")
+            self._l_traces[memory_id].append(f"index_update_{datetime.now(timezone.utc).isoformat(}")
 
             # Track consciousness patterns
             if self._is_consciousness_related(metadata):
@@ -498,7 +498,7 @@ class BaseMemoryManager(ABC):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}(path={self.base_path}, "
-            f"memories={len(self._memory_index)}, "
-            f"consciousness_patterns={len(self._consciousness_patterns)}, "
+            f"memories={len(self._memory_index}, "
+            f"consciousness_patterns={len(self._consciousness_patterns}, "
             f"trinity_mode=⚛️🧠🛡️)"
         )

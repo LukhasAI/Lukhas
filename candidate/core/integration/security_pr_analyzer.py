@@ -55,7 +55,7 @@ class PRAnalysis:
 class SecurityScanner:
     """Advanced security scanner for repositories"""
 
-    def __init__(self, github_token: Optional[str] = None, timezone):
+    def __init__(self, github_token: Optional[str] = None):
         self.github_token = github_token or os.getenv("GITHUB_TOKEN")
         self.session = requests.Session()
         if self.github_token:
@@ -193,7 +193,7 @@ class SecurityScanner:
                                         file=str(file_path.relative_to(repo_path)),
                                         line=i,
                                         description=f"{desc} found in code",
-                                        recommendation=f"Remove {desc.lower()} and use environment variables or secure storage",
+                                        recommendation=f"Remove {desc.lower(} and use environment variables or secure storage",
                                     )
                                 )
 
@@ -242,8 +242,8 @@ class SecurityScanner:
                                         ),
                                         file=str(req_file.relative_to(repo_path)),
                                         line=0,
-                                        description=f"Vulnerable dependency: {vuln.get('package_name')} {vuln.get('installed_version')}",
-                                        recommendation=f"Update to version {vuln.get('safe_version', 'latest')}",
+                                        description=f"Vulnerable dependency: {vuln.get('package_name')} {vuln.get('installed_version'}",
+                                        recommendation=f"Update to version {vuln.get('safe_version', 'latest'}",
                                     )
                                 )
                         except json.JSONDecodeError:
@@ -280,7 +280,7 @@ class SecurityScanner:
                                     severity=severity,
                                     file="package.json",
                                     line=0,
-                                    description=f"Vulnerable npm package: {vuln.get('module_name')}",
+                                    description=f"Vulnerable npm package: {vuln.get('module_name'}",
                                     recommendation="Run 'npm audit fix' to resolve",
                                 )
                             )
@@ -716,10 +716,10 @@ def main():
         # GitHub URL
         repo_parts = args.repo.split("/")
         repo_info = {
-            "full_name": f"{repo_parts[-2]}/{repo_parts[-1].replace('.git', '')}",
+            "full_name": f"{repo_parts[-2]}/{repo_parts[-1].replace('.git', ''}",
             "html_url": args.repo,
         }
-        repo_path = f"./{repo_parts[-1].replace('.git', '')}"
+        repo_path = f"./{repo_parts[-1].replace('.git', ''}"
     else:
         # Local path
         repo_path = args.repo
@@ -739,8 +739,8 @@ def main():
         print("\n📊 Security Results:")
         print(f"   Score: {security_results['overall_security_score']}/100")
         print(f"   Risk Level: {security_results['risk_level']}")
-        print(f"   Secrets Found: {len(security_results['secrets_found'])}")
-        print(f"   Vulnerabilities: {len(security_results['dependency_vulnerabilities'])}")
+        print(f"   Secrets Found: {len(security_results['secrets_found']}")
+        print(f"   Vulnerabilities: {len(security_results['dependency_vulnerabilities']}")
 
     # Run PR analysis
     if not args.security_only and repo_info:
@@ -755,7 +755,7 @@ def main():
             print(f"   High Risk PRs: {pr_results['high_risk_prs']}")
 
     # Save results
-    output_file = f"security_pr_analysis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+    output_file = f"security_pr_analysis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
     with open(output_file, "w") as f:
         json.dump(results, f, indent=2, default=str)
 

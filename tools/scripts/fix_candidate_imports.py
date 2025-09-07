@@ -66,7 +66,7 @@ def main():
 
     print("✅ Candidate Import Fix Complete!")
     print(f"📊 Files processed: {total_files}")
-    print(f"🔧 Files modified: {len(fixed_files)}")
+    print(f"🔧 Files modified: {len(fixed_files}")
 
     if fixed_files:
         print("\n📋 Modified files:")

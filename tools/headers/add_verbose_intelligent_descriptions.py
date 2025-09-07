@@ -125,7 +125,7 @@ def generate_verbose_description(analysis: dict[str, any]) -> str:
     classes_info = ""
     if analysis["classes"]:
         class_names = [c["name"] for c in analysis["classes"][:3]]
-        classes_info = f"Key classes: {', '.join(class_names)}"
+        classes_info = f"Key classes: {', '.join(class_names}"
 
     prompt = f"""Generate a verbose, rich module description for a quantum-inspired computing module in the LUKHAS AGI system.
 
@@ -456,16 +456,16 @@ def run_cost_analysis():
     project_root = Path(__file__).parent.parent.parent
     candidates = find_good_candidates(project_root)
 
-    print(f"\n💰 COST ANALYSIS for {len(candidates)} candidate files")
+    print(f"\n💰 COST ANALYSIS for {len(candidates} candidate files")
     print("=" * 60)
 
     models = ["gpt-4o-mini", "gpt-4o", "gpt-4-turbo", "o1-mini", "gpt-3.5-turbo"]
 
     for model in models:
         cost_info = estimate_costs(candidates, model)
-        print(f"\n{model.upper()}:")
+        print(f"\n{model.upper(}:")
         print(f"  Total estimated cost: ${cost_info['total_estimated_cost']:.3f}")
-        print(f"  Per file: ${cost_info['total_estimated_cost'] / len(candidates):.3f}")
+        print(f"  Per file: ${cost_info['total_estimated_cost'] / len(candidates}:.3f}")
 
     print("\n📁 CANDIDATE FILES:")
     for i, candidate in enumerate(candidates, 1):

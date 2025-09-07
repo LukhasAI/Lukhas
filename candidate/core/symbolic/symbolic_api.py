@@ -54,7 +54,7 @@ class AnalyzeRequest(BaseModel):
     response: str = Field(..., description="The AI response to analyze")
 
     class Config:
-        schema_extra = {"example": {"response": "I'll help you achieve wisdom 🧠 through protection 🛡️"}}
+        schema_extra = {"example": {"response": "I'll help you achieve wisdom 🧠 through protection 🛡️"}
 
 
 class AnalyzeResponse(BaseModel):
@@ -510,7 +510,7 @@ async def stats():
         return {
             "api_calls": log_count,
             "errors": error_count,
-            "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0):.1f}%",
+            "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0}:.1f}%",
             "embedding_engine": embedding_stats,
             "healer_engine": healer_stats,
             "trinity_active": True,

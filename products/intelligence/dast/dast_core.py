@@ -83,7 +83,7 @@ class SymbolicTag:
             self.last_updated = datetime.now(timezone.utc)
         if self.lambda_signature is None:
             tag_hash = hashlib.sha256(f"{self.symbol}{self.category.value}".encode()).hexdigest()[:8]
-            self.lambda_signature = f"Λ-SYMBOL-{tag_hash.upper()}"
+            self.lambda_signature = f"Λ-SYMBOL-{tag_hash.upper(}"
 
     def is_valid(self) -> bool:
         """Check if symbolic tag is still valid"""
@@ -115,9 +115,9 @@ class ContextSnapshot:
         if self.timestamp is None:
             self.timestamp = datetime.now(timezone.utc)
         if self.lambda_fingerprint is None:
-            context_data = f"{self.user_id}{len(self.tags)}{self.timestamp.isoformat()}"
+            context_data = f"{self.user_id}{len(self.tags)}{self.timestamp.isoformat(}"
             context_hash = hashlib.sha256(context_data.encode()).hexdigest()[:12]
-            self.lambda_fingerprint = f"Λ-CTX-{context_hash.upper()}"
+            self.lambda_fingerprint = f"Λ-CTX-{context_hash.upper(}"
 
 
 @dataclass
@@ -259,7 +259,7 @@ class DΛST:
 
         for rule in default_rules:
             rule.id = f"{user_id}-{rule.id}"
-            rule.lambda_signature = f"Λ-RULE-{rule.id[:8].upper()}"
+            rule.lambda_signature = f"Λ-RULE-{rule.id[:8].upper(}"
 
         self.symbol_rules[user_id] = default_rules
 
@@ -895,7 +895,7 @@ if __name__ == "__main__":
         # Register test user
         await dast.register_user("alice", ["working", "focused"])
         print("✅ Registered user: alice")
-        print(f"   Initial tags: {await dast.get_current_tags('alice')}")
+        print(f"   Initial tags: {await dast.get_current_tags('alice'}")
 
         # Add some symbols from different sources
         await dast.add_symbol(
@@ -914,7 +914,7 @@ if __name__ == "__main__":
         )
         await dast.add_symbol("alice", "office", SymbolCategory.CONTEXT, SymbolSource.LOCATION, 0.9)
 
-        print(f"\n📊 Updated tags: {await dast.get_current_tags('alice')}")
+        print(f"\n📊 Updated tags: {await dast.get_current_tags('alice'}")
 
         # Get context snapshot
         context = await dast.get_context_snapshot("alice")
@@ -937,11 +937,11 @@ if __name__ == "__main__":
         dast.external_integrations["location"] = True
 
         await dast.update_from_activity("alice", activity_data)
-        print(f"\n🔄 After activity update: {await dast.get_current_tags('alice')}")
+        print(f"\n🔄 After activity update: {await dast.get_current_tags('alice'}")
 
         # Apply rules
         await dast.apply_symbol_rules("alice")
-        print(f"\n⚡ After rule application: {await dast.get_current_tags('alice')}")
+        print(f"\n⚡ After rule application: {await dast.get_current_tags('alice'}")
 
         # Get analytics
         analytics = dast.get_symbol_analytics("alice", 1)  # Last hour

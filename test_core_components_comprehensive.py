@@ -93,7 +93,7 @@ class TestActorSystem:
             actor_ref.send(test_msg1)
             actor_ref.send(test_msg2)
 
-            assert len(received_messages) == 2, f"Should receive 2 messages, got {len(received_messages)}"
+            assert len(received_messages) == 2, f"Should receive 2 messages, got {len(received_messages}"
             assert received_messages[0] == "Hello World", "First message content incorrect"
             assert received_messages[1] == "Second Message", "Second message content incorrect"
 
@@ -367,7 +367,7 @@ class TestMemorySQL:
     def setup_test_database(self):
         """Create a temporary test database."""
         temp_dir = tempfile.gettempdir()
-        self.test_db_path = os.path.join(temp_dir, f"test_memory_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.db")
+        self.test_db_path = os.path.join(temp_dir, f"test_memory_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.db")
         return f"sqlite:///{self.test_db_path}"
 
     def cleanup_test_database(self):
@@ -654,7 +654,7 @@ class TestMainApplication:
 
             assert len(accessible_modules) > 0, f"Should have access to some core modules, found: {accessible_modules}"
 
-            self.results.append(f"✅ System path configuration (modules: {', '.join(accessible_modules)})")
+            self.results.append(f"✅ System path configuration (modules: {', '.join(accessible_modules})")
             return True
 
         except Exception as e:

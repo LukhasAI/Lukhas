@@ -505,8 +505,8 @@ class TestSecurityCompliance(unittest.TestCase):
         # Sessions should have unique IDs
         import secrets
 
-        session_id1 = f"sess_{secrets.token_hex(16)}"
-        session_id2 = f"sess_{secrets.token_hex(16)}"
+        session_id1 = f"sess_{secrets.token_hex(16}"
+        session_id2 = f"sess_{secrets.token_hex(16}"
 
         self.assertNotEqual(session_id1, session_id2)
         self.assertTrue(len(session_id1) > 20)  # Sufficient entropy

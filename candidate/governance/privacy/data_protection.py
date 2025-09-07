@@ -353,7 +353,7 @@ class AdvancedDataProtection:
             Tuple of (protected_data, protection_result)
         """
         start_time = datetime.now(timezone.utc)
-        operation_id = f"protect_{uuid.uuid4().hex[:8]}"
+        operation_id = f"protect_{uuid.uuid4(}.hex[:8]}"
         context = context or {}
 
         try:
@@ -409,7 +409,7 @@ class AdvancedDataProtection:
                 applied_by=context.get("user_id", "system"),
                 audit_trail=[
                     f"Applied policy: {policy.name}",
-                    f"Methods: {', '.join(methods_applied)}",
+                    f"Methods: {', '.join(methods_applied}",
                     f"Processing time: {processing_time:.3f}s",
                 ],
             )
@@ -499,8 +499,8 @@ class AdvancedDataProtection:
                 "unprotected_by": context.get("user_id", "system"),
                 "methods_reversed": protection_result.methods_applied,
                 "audit_trail": [
-                    f"Data unprotection authorized for user {context.get('user_id')}",
-                    f"Methods reversed: {', '.join(protection_result.methods_applied)}",
+                    f"Data unprotection authorized for user {context.get('user_id'}",
+                    f"Methods reversed: {', '.join(protection_result.methods_applied}",
                 ],
             }
 
@@ -530,7 +530,7 @@ class AdvancedDataProtection:
         # Create ad-hoc policy if no match found
         if protection_level:
             return ProtectionPolicy(
-                policy_id=f"adhoc_{uuid.uuid4().hex[:8]}",
+                policy_id=f"adhoc_{uuid.uuid4(}.hex[:8]}",
                 name="Ad-hoc Protection",
                 description="Dynamically created protection policy",
                 data_types=data_types,
@@ -740,7 +740,7 @@ class AdvancedDataProtection:
                             masked_data[key] = "***@***.***"
                     elif any(sensitive in key_lower for sensitive in ["phone", "ssn", "card"]):
                         masked_data[key] = (
-                            f"{value[:2]}{'*' * (len(value) - 4)}{value[-2:]}" if len(value) > 4 else "****"
+                            f"{value[:2]}{'*' * (len(value) - 4}{value[-2:]}" if len(value) > 4 else "****"
                         )
                     elif "name" in key_lower:
                         masked_data[key] = f"{value[0]}***" if value else "***"
@@ -871,7 +871,7 @@ class AdvancedDataProtection:
     async def _generate_encryption_key(self, policy: ProtectionPolicy) -> EncryptionKey:
         """Generate new encryption key for policy"""
 
-        key_id = f"key_{policy.policy_id}_{uuid.uuid4().hex[:8]}"
+        key_id = f"key_{policy.policy_id}_{uuid.uuid4(}.hex[:8]}"
 
         if policy.encryption_type == EncryptionType.SYMMETRIC:
             key_material = secrets.token_bytes(32)  # 256-bit key
@@ -961,7 +961,7 @@ class AdvancedDataProtection:
             return self.encryption_keys[pseudo_key_id]
 
         # Create pseudonymization key (long-lived deterministic key)
-        key_material = hashlib.sha256(f"pseudo_{policy.policy_id}_{self.master_key.hex()}".encode()).digest()
+        key_material = hashlib.sha256(f"pseudo_{policy.policy_id}_{self.master_key.hex(}".encode()).digest()
 
         pseudo_key = EncryptionKey(
             key_id=pseudo_key_id,

@@ -131,7 +131,7 @@ class ConsciousnessState:
         self.user_empathy = np.clip(self.user_empathy, 0.0, 1.0)
         self.symbolic_depth = np.clip(self.symbolic_depth, 0.0, 1.0)
         self.temporal_continuity = np.clip(self.temporal_continuity, 0.0, 1.0)
-        logger.debug(f"ΛTRACE: ConsciousnessState initialized/updated: {self.to_dict()}")
+        logger.debug(f"ΛTRACE: ConsciousnessState initialized/updated: {self.to_dict(}")
 
 
 # Human-readable comment: Detects and analyzes consciousness patterns in
@@ -177,7 +177,7 @@ class ConsciousnessPattern:
             "understanding": 0.87,
             "compassion": 0.85,
         }
-        self.instance_logger.debug(f"ΛTRACE: Symbolic resonance map initialized with {len(s_map)} symbols.")
+        self.instance_logger.debug(f"ΛTRACE: Symbolic resonance map initialized with {len(s_map} symbols.")
         return s_map
 
 
@@ -200,7 +200,7 @@ class ConsciousnessPattern:  # Continuing class definition
             Dict[str, Any]: A dictionary of detected consciousness patterns and a signature.
         """
         self.instance_logger.info(
-            f"ΛTRACE: Analyzing interaction for consciousness patterns. User: '{user_id}'. Data keys: {list(interaction_data.keys())}"
+            f"ΛTRACE: Analyzing interaction for consciousness patterns. User: '{user_id}'. Data keys: {list(interaction_data.keys()}"
         )
 
         # TODO: Ensure interaction_data contains expected keys like 'timestamps', 'symbols', 'actions', 'pressure_patterns', 'velocity_patterns'.
@@ -419,7 +419,7 @@ class AnthropicEthicsEngine:
         }
         self.ethical_violations_log: list[dict[str, Any]] = []  # Log of detected violations
         self.instance_logger.debug(
-            f"ΛTRACE: AnthropicEthicsEngine initialized with principles: {list(self.ethical_principles.keys())}"
+            f"ΛTRACE: AnthropicEthicsEngine initialized with principles: {list(self.ethical_principles.keys()}"
         )
 
     # Human-readable comment: Evaluates a proposed action against ethical principles.
@@ -439,7 +439,7 @@ class AnthropicEthicsEngine:
         """
         log_user_id = user_id or "system_action"
         self.instance_logger.info(
-            f"ΛTRACE: Evaluating action '{action_type}' for user '{log_user_id}' against ethical principles. Context keys: {list(context.keys())}"
+            f"ΛTRACE: Evaluating action '{action_type}' for user '{log_user_id}' against ethical principles. Context keys: {list(context.keys()}"
         )
 
         evaluation_report: dict[str, Any] = {  # Renamed for clarity
@@ -615,7 +615,7 @@ class SelfAwareAdaptationModule:
             # Create a default state if none provided or if type is incorrect
             if initial_state is not None:  # Log if a non-None invalid type was passed
                 self.instance_logger.warning(
-                    f"ΛTRACE: Invalid initial_state type ({type(initial_state)}). Using default ConsciousnessState."
+                    f"ΛTRACE: Invalid initial_state type ({type(initial_state}). Using default ConsciousnessState."
                 )
             self.consciousness_state = ConsciousnessState(  # Default values from dataclass
                 awareness_level=self.config.get("default_awareness", 0.7),
@@ -645,7 +645,7 @@ class SelfAwareAdaptationModule:
             print("🧠 RESEARCH: Advanced consciousness pattern detection enabled")
 
         self.instance_logger.info(
-            f"ΛTRACE: SelfAwareAdaptationModule initialized. Learning rate: {self.learning_rate}, Research enhanced: {enable_research_enhancements}, Initial State: {self.consciousness_state.to_dict()}"
+            f"ΛTRACE: SelfAwareAdaptationModule initialized. Learning rate: {self.learning_rate}, Research enhanced: {enable_research_enhancements}, Initial State: {self.consciousness_state.to_dict(}"
         )
 
     # Human-readable comment: Performs self-reflection and updates the
@@ -709,7 +709,7 @@ class SelfAwareAdaptationModule:
         reflection_output["self_knowledge_confidence_score"] = float(np.mean(state_values)) if state_values else 0.0
 
         self.instance_logger.info(
-            f"ΛTRACE: Self-reflection complete. Confidence: {reflection_output['self_knowledge_confidence_score']:.2f}, Areas for improvement: {len(reflection_output['identified_improvement_areas'])}."
+            f"ΛTRACE: Self-reflection complete. Confidence: {reflection_output['self_knowledge_confidence_score']:.2f}, Areas for improvement: {len(reflection_output['identified_improvement_areas']}."
         )
         self.instance_logger.debug(f"ΛTRACE: Self-reflection details: {reflection_output}")
         return reflection_output
@@ -727,7 +727,7 @@ class SelfAwareAdaptationModule:
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.info(
-            f"ΛTRACE: Adapting consciousness state to feedback for user context '{log_user_id}'. Feedback keys: {list(feedback.keys())}"
+            f"ΛTRACE: Adapting consciousness state to feedback for user context '{log_user_id}'. Feedback keys: {list(feedback.keys()}"
         )
 
         # Extract feedback metrics, with defaults if keys are missing
@@ -791,7 +791,7 @@ class SelfAwareAdaptationModule:
         self.instance_logger.info(
             f"ΛTRACE: Consciousness state adapted based on feedback for user context '{log_user_id}'."
         )
-        self.instance_logger.debug(f"ΛTRACE: New state after feedback adaptation: {self.consciousness_state.to_dict()}")
+        self.instance_logger.debug(f"ΛTRACE: New state after feedback adaptation: {self.consciousness_state.to_dict(}")
 
 
 # --- End of Chunk 4 ---
@@ -854,7 +854,7 @@ class LUKHASConsciousnessEngine:
 
         self.instance_logger.info("ΛTRACE: LUKHASConsciousnessEngine initialized with research enhancements.")
         self.instance_logger.debug(
-            f"ΛTRACE: Initial global consciousness state: {self.global_consciousness_state.to_dict()}"
+            f"ΛTRACE: Initial global consciousness state: {self.global_consciousness_state.to_dict(}"
         )
 
     # Human-readable comment: Processes an authentication request with
@@ -871,7 +871,7 @@ class LUKHASConsciousnessEngine:
             Dict[str, Any]: A response dictionary including approval status, scores, and signatures.
         """
         self.instance_logger.info(f"ΛTRACE: Processing conscious authentication request for user '{user_id}'.")
-        self.instance_logger.debug(f"ΛTRACE: Auth data keys for user '{user_id}': {list(auth_data.keys())}")
+        self.instance_logger.debug(f"ΛTRACE: Auth data keys for user '{user_id}': {list(auth_data.keys()}")
 
         # Analyze user consciousness patterns from interaction data
         user_consciousness_patterns = await self.pattern_detector.analyze_interaction(
@@ -977,7 +977,7 @@ class LUKHASConsciousnessEngine:
 
         self.instance_logger.info("ΛTRACE: Global consciousness state evolved successfully.")
         self.instance_logger.debug(
-            f"ΛTRACE: New global consciousness state: {self.global_consciousness_state.to_dict()}"
+            f"ΛTRACE: New global consciousness state: {self.global_consciousness_state.to_dict(}"
         )
 
     # Human-readable comment: Retrieves the current status of the consciousness system.
@@ -1108,11 +1108,11 @@ async def main_example():  # Renamed from main
     # RESEARCH INTEGRATION: Display consciousness authenticity metrics
     print("\n🧠 RESEARCH-VALIDATED CONSCIOUSNESS METRICS:")
     auth_metrics = current_status.get("consciousness_authenticity", {})
-    print(f"   - Authenticity Score: {auth_metrics.get('current_authenticity_score', 0):.3f}")
-    print(f"   - Human-like Patterns: {auth_metrics.get('human_like_patterns', 0):.3f}")
-    print(f"   - Ethical Stability: {auth_metrics.get('ethical_stability', 0):.3f}")
-    print(f"   - Pattern Coherence: {auth_metrics.get('pattern_coherence', 0):.3f}")
-    print(f"   - Research Validation: {auth_metrics.get('research_validation', 'N/A')}")
+    print(f"   - Authenticity Score: {auth_metrics.get('current_authenticity_score', 0}:.3f}")
+    print(f"   - Human-like Patterns: {auth_metrics.get('human_like_patterns', 0}:.3f}")
+    print(f"   - Ethical Stability: {auth_metrics.get('ethical_stability', 0}:.3f}")
+    print(f"   - Pattern Coherence: {auth_metrics.get('pattern_coherence', 0}:.3f}")
+    print(f"   - Research Validation: {auth_metrics.get('research_validation', 'N/A'}")
 
     logger.info("ΛTRACE: --- LUKHASConsciousnessEngine Demo Finished ---")
 

@@ -126,7 +126,7 @@ def log_erasure_audit(engine, user_id, user_id_hash, deleted_count, success):
             ),
             {
                 "user_id_hash": user_id_hash,
-                "metadata": f"{{'original_user_id': '{user_id}', 'deleted_count': {deleted_count}, 'success': {success}}}",
+                "metadata": f"{{'original_user_id': '{user_id}', 'deleted_count': {deleted_count}, 'success': {success}",
                 "timestamp": datetime.now(timezone.utc),
             },
         )
@@ -180,7 +180,7 @@ Examples:
     print(f"👤 User ID: {args.user_id}")
     print(f"📡 Database: {args.db_url}")
     print(f"🎯 Mode: {'DRY RUN' if args.dry_run else 'EXECUTE ERASURE'}")
-    print(f"🔒 Production mode: {'ON (user ID will be hashed)' if args.prod_mode else 'OFF (plain user ID)'}")
+    print(f"🔒 Production mode: {'ON (user ID will be hashed)' if args.prod_mode else 'OFF (plain user ID}'}")
     print()
 
     try:

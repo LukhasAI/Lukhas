@@ -63,7 +63,7 @@ class TrustBinder:
     The Trust Binder.
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.stress_signal = StressSignal()
         self.stability_anchor = StabilityAnchor()
 

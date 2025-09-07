@@ -161,7 +161,7 @@ class LUKHASConsciousnessMCP:
                 resources.append(
                     Resource(
                         uri=f"lukhas://module/{module_name}",
-                        name=f"LUKHAS {module_name.title()} Module",
+                        name=f"LUKHAS {module_name.title(} Module",
                         description=f"Complete {module_name} module context and files",
                         mimeType="application/json",
                     )
@@ -270,7 +270,7 @@ class LUKHASConsciousnessMCP:
                                 "type": "string",
                                 "description": "Task description",
                             },
-                            "modules": {"type": "array", "items": {"type": "string"}},
+                            "modules": {"type": "array", "items": {"type": "string"},
                             "priority": {
                                 "type": "string",
                                 "enum": [

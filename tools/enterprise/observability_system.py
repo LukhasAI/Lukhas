@@ -21,7 +21,7 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
 # Configure structured logging
-logger = structlog.get_logger(, timezone)
+logger = structlog.get_logger()
 
 
 class SeverityLevel(Enum):
@@ -237,7 +237,7 @@ class AnomalyDetector:
                 z_score = (value - mean) / (std + 1e-6)
                 if abs(z_score) > 3:
                     explanations.append(
-                        f"Value deviates {abs(z_score):.1f} standard deviations from hourly average"
+                        f"Value deviates {abs(z_score}:.1f} standard deviations from hourly average"
                     )
 
             # Check weekly pattern
@@ -246,7 +246,7 @@ class AnomalyDetector:
                 z_score = (value - mean) / (std + 1e-6)
                 if abs(z_score) > 3:
                     explanations.append(
-                        f"Value deviates {abs(z_score):.1f} standard deviations from weekly average"
+                        f"Value deviates {abs(z_score}:.1f} standard deviations from weekly average"
                     )
 
         # Check recent trend
@@ -264,7 +264,7 @@ class AnomalyDetector:
 
         if not explanations:
             explanations.append(
-                f"Statistical anomaly detected (score: {abs(anomaly_score):.2f})"
+                f"Statistical anomaly detected (score: {abs(anomaly_score}:.2f})"
             )
 
         return " | ".join(explanations)

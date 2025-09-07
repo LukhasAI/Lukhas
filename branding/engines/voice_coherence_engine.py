@@ -19,7 +19,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-sys.path.append(str(Path(__file__, timezone).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 from profiles.brand_voice_profiles import (
     AudienceType,
@@ -719,7 +719,7 @@ async def main():
         status = "✅ EXCELLENT" if coherence_pct >= 85 else "⚠️ NEEDS WORK" if coherence_pct >= 70 else "❌ POOR"
 
         print(f"Content {i + 1}: {status} ({coherence_pct:.1f}% coherence)")
-        print(f'Content: "{content[:60]}{"..." if len(content) > 60 else ""}"')
+        print(f'Content: "{content[:60]}{"..." if len(content} > 60 else ""}"')
         print(f"Profile: {result.voice_profile_match}")
         print(
             f"Trinity Balance: ⚛️{result.trinity_balance['identity']:.2f} 🧠{result.trinity_balance['consciousness']:.2f} 🛡️{result.trinity_balance['guardian']:.2f}"

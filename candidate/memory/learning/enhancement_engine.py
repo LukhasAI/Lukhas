@@ -44,7 +44,7 @@ class EnhancementEngine:
         print("=" * 50)
 
         # Create sprint tracking file
-        sprint_file = self.enhancement_dir / f"sprint_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M')}.json"
+        sprint_file = self.enhancement_dir / f"sprint_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M'}.json"
         with open(sprint_file, "w") as f:
             json.dump(self.current_sprint, f, default=str, indent=2)
 
@@ -83,7 +83,7 @@ class EnhancementEngine:
                         }
                     )
 
-            print(f"✅ Bio-Symbolic Core: {len(enhancements)} enhancements applied")
+            print(f"✅ Bio-Symbolic Core: {len(enhancements} enhancements applied")
         else:
             print("⚠️  Bio-Symbolic directory not found - creating structure...")
             bio_symbolic_dir.mkdir(parents=True, exist_ok=True)
@@ -129,7 +129,7 @@ performance_monitoring:
                     }
                 )
 
-            print(f"✅ Adaptive Learning: {len(enhancements)} enhancements applied")
+            print(f"✅ Adaptive Learning: {len(enhancements} enhancements applied")
         else:
             print("⚠️  Meta-adaptive directory not found")
 
@@ -191,7 +191,7 @@ class VoiceMemoryBridge:
                 }
             )
 
-        print(f"✅ Voice-Memory Integration: {len(enhancements)} enhancements applied")
+        print(f"✅ Voice-Memory Integration: {len(enhancements} enhancements applied")
         return {"category": "voice_memory", "enhancements": enhancements}
 
     def extract_prototype_gold(self) -> dict[str, Any]:
@@ -233,7 +233,7 @@ class VoiceMemoryBridge:
             }
         )
 
-        print(f"✅ Prototype Gold: {len(golden_patterns)} patterns extracted")
+        print(f"✅ Prototype Gold: {len(golden_patterns} patterns extracted")
         return {"category": "prototype_gold", "enhancements": enhancements}
 
     def optimize_api_costs(self) -> dict[str, Any]:
@@ -267,7 +267,7 @@ class VoiceMemoryBridge:
                     }
                 )
 
-        print(f"✅ API Cost Optimization: {len(enhancements)} optimizations checked")
+        print(f"✅ API Cost Optimization: {len(enhancements} optimizations checked")
         return {"category": "cost_optimization", "enhancements": enhancements}
 
     def complete_sprint(self) -> dict[str, Any]:
@@ -294,7 +294,7 @@ class VoiceMemoryBridge:
         print("=" * 50)
 
         # Save sprint completion
-        sprint_file = self.enhancement_dir / f"completed_sprint_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M')}.json"
+        sprint_file = self.enhancement_dir / f"completed_sprint_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M'}.json"
         with open(sprint_file, "w") as f:
             json.dump(sprint_summary, f, default=str, indent=2)
 
@@ -304,7 +304,7 @@ class VoiceMemoryBridge:
     def run_enhancement_sprint(self, sprint_type: str = "comprehensive") -> dict[str, Any]:
         """Run a complete 15-minute enhancement sprint"""
 
-        self.start_sprint(f"lukhas Enhancement - {sprint_type.title()}", 15)
+        self.start_sprint(f"lukhas Enhancement - {sprint_type.title(}", 15)
 
         # Run enhancements based on sprint type
         if sprint_type == "bio_symbolic":

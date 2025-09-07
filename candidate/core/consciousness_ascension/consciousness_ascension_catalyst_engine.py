@@ -42,7 +42,7 @@ class FlowStateResearchAPI:
 
 class ConsciousnessTechnologiesSDK:
     async def integrate_experience(self, params: dict[str, Any]) -> dict[str, Any]:
-        return {"tech_integration_id": f"tech_{random.randint(1000, 9999)}"}
+        return {"tech_integration_id": f"tech_{random.randint(1000, 9999}"}
 
 
 class ConsciousnessAscensionCatalystEngine:

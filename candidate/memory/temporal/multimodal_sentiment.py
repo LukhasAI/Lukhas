@@ -45,7 +45,7 @@ def analyze_multimodal_sentiment(
 ) -> dict:
     """
     Combines sentiment from text, speech, and physiological signals.
-    Returns: {'score': float, 'label': str, 'details': {...}}
+    Returns: {'score': float, 'label': str, 'details': {...}
     """
     scores = []
     details = {}

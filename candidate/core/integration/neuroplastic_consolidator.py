@@ -20,7 +20,7 @@ from pathlib import Path
 
 
 class NeuroplasticConsolidator:
-    def __init__(self, timezone):
+    def __init__(self):
         self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.changes = []
         self.connections_made = 0
@@ -150,13 +150,13 @@ class {module.title()}Connector:
     """Connects isolated components into the {module} nervous system"""
 
     def __init__(self):
-        self.connected_components = {{}}
-        self.hormone_tags = {{}}  # For neuroplastic responses
+        self.connected_components = {{}
+        self.hormone_tags = {{}  # For neuroplastic responses
 
     def connect_component(self, name: str, component: Any):
         """Connect an isolated component to this module"""
         self.connected_components[name] = component
-        logger.info(f"Connected {{name}} to {module} module")
+        logger.info(f"Connected {{name} to {module} module")
 
     def emit_hormone(self, hormone: str, intensity: float = 1.0):
         """Emit hormone signal for neuroplastic response"""
@@ -168,7 +168,7 @@ class {module.title()}Connector:
             'cortisol': self.hormone_tags.get('cortisol', 0.0),
             'adrenaline': self.hormone_tags.get('adrenaline', 0.0),
             'norepinephrine': self.hormone_tags.get('norepinephrine', 0.0)
-        }}
+        }
 
 # Global connector instance
 connector = {module.title()}Connector()
@@ -178,7 +178,7 @@ try:
     # Components will be added here during consolidation
     pass
 except ImportError as e:
-    logger.warning(f"Failed to import some {module} components: {{e}}")
+    logger.warning(f"Failed to import some {module} components: {{e}")
 '''
 
             with open(connector_path, "w") as f:
@@ -378,7 +378,7 @@ def main():
     for filepath in priority_files:
         if os.path.exists(filepath):
             module = consolidator.categorize_file(filepath)
-            print(f"  Connecting {Path(filepath).name} to {module}...")
+            print(f"  Connecting {Path(filepath}.name} to {module}...")
             consolidator.connect_isolated_file(filepath, module)
 
     # Consolidate tools
@@ -390,7 +390,7 @@ def main():
 
     print("\n✅ Consolidation Complete!")
     print(f"  - Connections made: {consolidator.connections_made}")
-    print(f"  - Total changes: {len(consolidator.changes)}")
+    print(f"  - Total changes: {len(consolidator.changes}")
 
     print("\n📊 Module Summary:")
     for module, summary in report["module_summary"].items():

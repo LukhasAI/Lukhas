@@ -53,7 +53,7 @@ def check_prerequisites():
     try:
         result = subprocess.run(["ruff", "--version"], capture_output=True, text=True)
         if result.returncode == 0:
-            print(f"✅ Ruff available: {result.stdout.strip()}")
+            print(f"✅ Ruff available: {result.stdout.strip(}")
         else:
             issues.append("Ruff not found - install with: pip install ruff")
     except FileNotFoundError:
@@ -179,7 +179,7 @@ def main():
         return 1
 
     # Execute the command
-    print(f"\n{Colors.GREEN}🚀 Executing: {' '.join(command)}{Colors.END}")
+    print(f"\n{Colors.GREEN}🚀 Executing: {' '.join(command}{Colors.END}")
     print(f"{Colors.YELLOW}⏳ This may take a while depending on codebase size...{Colors.END}")
 
     try:

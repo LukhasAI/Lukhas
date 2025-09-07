@@ -88,7 +88,7 @@ class LUKHASClient:
             if response.status >= 400:
                 error = response_data.get("error", response_data)
                 raise APIError(
-                    f"API Error: {error.get('message', 'Unknown error')}",
+                    f"API Error: {error.get('message', 'Unknown error'}",
                     status_code=response.status,
                     response=response_data,
                 )

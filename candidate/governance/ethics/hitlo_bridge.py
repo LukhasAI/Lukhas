@@ -57,7 +57,7 @@ from ..orchestration_src.human_in_the_loop_orchestrator import (
     DecisionPriority,
     DecisionStatus,
     HumanInTheLoopOrchestrator,
-    ReviewResponse,, timezone)
+    ReviewResponse)
 from .policy_engines.base import Decision, EthicsEvaluation
 
 logger = get_logger(__name__)
@@ -218,7 +218,7 @@ class EthicsHITLOBridge:
 
         # Create decision context for HITLO
         context = DecisionContext(
-            decision_id=f"ethics_{decision.requester_id}_{int(datetime.now(timezone.utc).timestamp())}",
+            decision_id=f"ethics_{decision.requester_id}_{int(datetime.now(timezone.utc).timestamp()}",
             decision_type="ethics_evaluation",
             description=f"Ethics review: {decision.action}",
             data=self._create_review_context(decision, evaluation, rule),

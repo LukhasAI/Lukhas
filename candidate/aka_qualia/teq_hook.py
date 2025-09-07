@@ -165,7 +165,7 @@ class TEQGuardian:
 
         # Update transform chain for transparency
         if enforcement_log:
-            transform_desc = f"teq_enforcement: {', '.join(enforcement_log)}"
+            transform_desc = f"teq_enforcement: {', '.join(enforcement_log}"
             modified_scene.transform_chain.append(transform_desc)
 
         # Log intervention

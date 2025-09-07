@@ -185,10 +185,10 @@ class SymbolicAnomalyExplorer:
     that may indicate symbolic dysfunction or instability.
     """
 
-    def __init__(:
+    def __init__(
         self,
         storage_path: Optional[str] = None,
-        drift_integration: bool = True,
+        drift_integration: bool = True
     ):
         """
         Initialize the Symbolic Anomaly Explorer.
@@ -352,7 +352,7 @@ class SymbolicAnomalyExplorer:
 
         for i in range(n):
             # Create session with realistic patterns
-            session_id = f"DREAM_{datetime.now(timezone.utc).strftime('%Y%m%d')}_{i:03d}"
+            session_id = f"DREAM_{datetime.now(timezone.utc).strftime('%Y%m%d'}_{i:03d}"
             timestamp = (datetime.now(timezone.utc) - timedelta(hours=i * 2)).isoformat()
 
             # Select symbols with some patterns
@@ -368,8 +368,8 @@ class SymbolicAnomalyExplorer:
             ).tolist()
 
             # Create content with symbols
-            content = f"Dream session exploring {', '.join(selected_symbols)}. "
-            content += f"Lambda tags: {' '.join(selected_lambda)}. "
+            content = f"Dream session exploring {', '.join(selected_symbols}. "
+            content += f"Lambda tags: {' '.join(selected_lambda}. "
             content += "Symbolic narrative unfolds with complex emotional undertones."
 
             # Select emotional state
@@ -399,7 +399,7 @@ class SymbolicAnomalyExplorer:
 
         return sessions
 
-    def detect_symbolic_anomalies(:
+    def detect_symbolic_anomalies(
         self, dreams: list[DreamSession]
     ) -> list[SymbolicAnomaly]:
         """
@@ -481,7 +481,7 @@ class SymbolicAnomalyExplorer:
             if len(tag_emotions[tag]) > 1:
                 reg_tag.volatility_score = np.std(tag_emotions[tag])
 
-    def _detect_symbolic_conflicts(:
+    def _detect_symbolic_conflicts(
         self, dreams: list[DreamSession]
     ) -> list[SymbolicAnomaly]:
         """Detect conflicting symbolic elements."""
@@ -521,7 +521,7 @@ class SymbolicAnomalyExplorer:
                     severity = self._calculate_severity(conflict_score)
 
                     anomaly = SymbolicAnomaly(
-    anomaly_id=f"CONFLICT_{dream.session_id}_{int(conflict_score*1000)}",
+    anomaly_id=f"CONFLICT_{dream.session_id}_{int(conflict_score*1000}",
     anomaly_type=AnomalyType.SYMBOLIC_CONFLICT,
     severity=severity,
     confidence=min(
@@ -546,7 +546,7 @@ class SymbolicAnomalyExplorer:
 
         return anomalies
 
-    def _detect_recursive_loops(:
+    def _detect_recursive_loops(
         self, dreams: list[DreamSession]
     ) -> list[SymbolicAnomaly]:
         """Detect recursive patterns in symbolic content."""
@@ -588,7 +588,7 @@ class SymbolicAnomalyExplorer:
                         affected_sessions.append(dream.session_id)
 
                 anomaly = SymbolicAnomaly(
-                    anomaly_id=f"LOOP_{hashlib.md5(str(frequent_patterns).encode()).hexdigest()[:8]}",
+                    anomaly_id=f"LOOP_{hashlib.md5(str(frequent_patterns).encode()).hexdigest(}[:8]}",
                     anomaly_type=AnomalyType.RECURSIVE_LOOP, severity=severity,
                     confidence=loop_intensity,
                     description=f"Recursive symbolic patterns detected: {frequent_patterns[:3]}",
@@ -604,7 +604,7 @@ class SymbolicAnomalyExplorer:
 
         return anomalies
 
-    def _detect_emotional_dissonance(:
+    def _detect_emotional_dissonance(
         self, dreams: list[DreamSession]
     ) -> list[SymbolicAnomaly]:
         """Detect emotional dissonance in dream sessions."""
@@ -643,7 +643,7 @@ class SymbolicAnomalyExplorer:
                 severity = self._calculate_severity(dissonance_score)
 
                 anomaly = SymbolicAnomaly(
-                    anomaly_id=f"DISSONANCE_{dream.session_id}_{int(dissonance_score*1000)}",
+                    anomaly_id=f"DISSONANCE_{dream.session_id}_{int(dissonance_score*1000}",
                     anomaly_type=AnomalyType.EMOTIONAL_DISSONANCE,
                     severity=severity,
                     confidence=min(dissonance_score, 1.0),
@@ -665,7 +665,7 @@ class SymbolicAnomalyExplorer:
 
         return anomalies
 
-    def _detect_motif_mutations(:
+    def _detect_motif_mutations(
         self, dreams: list[DreamSession]
     ) -> list[SymbolicAnomaly]:
         """Detect unexpected transformations of stable symbols."""
@@ -720,17 +720,17 @@ class SymbolicAnomalyExplorer:
                     severity = self._calculate_severity(mutation_score)
 
                     anomaly = SymbolicAnomaly(
-                        anomaly_id=f"MUTATION_{symbol}_{int(mutation_score*1000)}",
+                        anomaly_id=f"MUTATION_{symbol}_{int(mutation_score*1000}",
                         anomaly_type=AnomalyType.MOTIF_MUTATION,
                         severity=severity,
                         confidence=mutation_score,
-                        description=f"Motif mutation detected for symbol '{symbol}'",
+                        description=f"Motif mutation detected for symbol '{symbol)'",
                         affected_sessions=[a["session"] for a in appearances],
                         symbolic_elements=[symbol],
                         metrics={
                             "mutation_score": mutation_score,
                             "appearances": len(appearances),
-                            "max_shift": max(emotional_shifts),
+                            "max_shift": max(emotional_shifts},
                         },
                         recommendations=[
                             "Monitor symbol stability",
@@ -742,7 +742,7 @@ class SymbolicAnomalyExplorer:
 
         return anomalies
 
-    def _detect_drift_acceleration(:
+    def _detect_drift_acceleration(
         self, dreams: list[DreamSession]
     ) -> list[SymbolicAnomaly]:
         """Detect rapid drift score acceleration."""
@@ -783,7 +783,7 @@ class SymbolicAnomalyExplorer:
                         )
 
                 anomaly = SymbolicAnomaly(
-    anomaly_id=f"DRIFT_ACCEL_{int(acceleration_score*1000)}",
+    anomaly_id=f"DRIFT_ACCEL_{int(acceleration_score*1000}",
     anomaly_type=AnomalyType.DRIFT_ACCELERATION,
     severity=severity,
     confidence=min(
@@ -808,7 +808,7 @@ class SymbolicAnomalyExplorer:
 
         return anomalies
 
-    def _detect_narrative_fractures(:
+    def _detect_narrative_fractures(
         self, dreams: list[DreamSession]
     ) -> list[SymbolicAnomaly]:
         """Detect breaks in narrative continuity."""
@@ -839,11 +839,11 @@ class SymbolicAnomalyExplorer:
                     severity = self._calculate_severity(fracture_score)
 
                     anomaly = SymbolicAnomaly(
-    anomaly_id=f"FRACTURE_{dream.session_id}_{int(fracture_score*1000)}",
+    anomaly_id=f"FRACTURE_{dream.session_id}_{int(fracture_score*1000}",
     anomaly_type=AnomalyType.NARRATIVE_FRACTURE,
     severity=severity,
     confidence=fracture_score,
-    description=f"Narrative fracture detected (missing: {list(missing_narratives)})",
+    description=f"Narrative fracture detected (missing: {list(missing_narratives})",
     affected_sessions=[
         dream.session_id],
         symbolic_elements=list(missing_narratives),
@@ -886,7 +886,7 @@ class SymbolicAnomalyExplorer:
         }
         return ranks.get(severity, 0)
 
-    def generate_anomaly_report(:
+    def generate_anomaly_report(
         self, anomalies: list[SymbolicAnomaly]
     ) -> AnomalyReport:
         """
@@ -934,9 +934,9 @@ class SymbolicAnomalyExplorer:
         if critical_count > 0:
             summary = f"CRITICAL: {critical_count} critical anomalies detected requiring immediate attention."
         elif len(anomalies) > 5:
-            summary = f"MODERATE CONCERN: {len(anomalies)} anomalies detected across symbolic patterns."
+            summary = f"MODERATE CONCERN: {len(anomalies} anomalies detected across symbolic patterns."
         elif len(anomalies) > 0:
-            summary = f"LOW CONCERN: {len(anomalies)} minor anomalies detected,"
+            summary = f"LOW CONCERN: {len(anomalies} minor anomalies detected,"
     monitoring recommended."
        else:
             summary = "NOMINAL: No significant anomalies detected in dream sessions."
@@ -962,7 +962,7 @@ class SymbolicAnomalyExplorer:
             recommendations.append("URGENT: Consider system-wide symbolic reset")
 
         report = AnomalyReport(
-            report_id=f"ANOMALY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"ANOMALY_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             sessions_analyzed=len(affected_sessions),
             anomalies_detected=anomalies,
@@ -1119,7 +1119,7 @@ class SymbolicAnomalyExplorer:
 
         return np.mean(overlaps) if overlaps else 0.0
 
-    def export_report_json(:
+    def export_report_json(
         self, report: AnomalyReport, file_path: Optional[str] = None
     ) -> str:
         """Export anomaly report to JSON."""
@@ -1144,7 +1144,7 @@ class SymbolicAnomalyExplorer:
         logger.info("Report exported to JSON", file_path=str(output_path))
         return str(output_path)
 
-    def export_summary_markdown(:
+    def export_summary_markdown(
         self, report: AnomalyReport, file_path: Optional[str] = None
     ) -> str:
         """Export top anomalies summary to Markdown."""
@@ -1254,7 +1254,7 @@ class SymbolicAnomalyExplorer:
 # Convenience functions for CLI usage
 
 
-def analyze_recent_dreams(:
+def analyze_recent_dreams(
     n: int = 10, storage_path: Optional[str] = None
 ) -> AnomalyReport:
     """Analyze recent dreams and return anomaly report."""
@@ -1264,10 +1264,10 @@ def analyze_recent_dreams(:
     return explorer.generate_anomaly_report(anomalies)
 
 
-def cli_analysis(:
+def cli_analysis(
     n_sessions: int = 10,
     export_json: bool = True,
-    export_markdown: bool = True,
+    export_markdown: bool = True
 ):
     """CLI interface for dream anomaly analysis."""
     print("🔍 LUKHAS AGI - Symbolic Anomaly Explorer")
@@ -1278,11 +1278,11 @@ def cli_analysis(:
         print(f"Loading {n_sessions} recent dream sessions...")
 
         dreams = explorer.load_recent_dreams(n_sessions)
-        print(f"✓ Loaded {len(dreams)} sessions")
+        print(f"✓ Loaded {len(dreams} sessions")
 
         print("Detecting symbolic anomalies...")
         anomalies = explorer.detect_symbolic_anomalies(dreams)
-        print(f"✓ Detected {len(anomalies)} anomalies")
+        print(f"✓ Detected {len(anomalies} anomalies")
 
         print("Generating report...")
         report = explorer.generate_anomaly_report(anomalies)

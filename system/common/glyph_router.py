@@ -13,7 +13,7 @@ from typing import Any, Callable, Optional
 
 from core.common import GLYPHSymbol
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass

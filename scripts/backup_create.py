@@ -12,7 +12,7 @@ import tarfile
 from datetime import datetime
 
 
-def sha256_file(p: str, timezone) -> str:
+def sha256_file(p: str) -> str:
     h = hashlib.sha256()
     with open(p, "rb") as f:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):

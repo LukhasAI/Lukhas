@@ -18,7 +18,7 @@ import sys
 from datetime import datetime
 
 # Initialize logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 def display_mood():
@@ -36,7 +36,7 @@ def display_flashback_preview():
             print("🧠 Last Flashbacks:")  # Keep UI output
             for fb in lines:
                 print(
-                    f"• Theme: {fb.get('theme', 'N/A')} | Tag: {fb.get('introspection_tag', 'N/A')}"
+                    f"• Theme: {fb.get('theme', 'N/A')} | Tag: {fb.get('introspection_tag', 'N/A'}"
                 )  # Keep UI output
 
 
@@ -51,8 +51,8 @@ def voice_welcome():
 
 def launch():
     display_mood()
-    logger.info(f"Session started: {datetime.now(timezone.utc).isoformat()}")
-    print(f"📅 Session started: {datetime.now(timezone.utc).isoformat()}")  # Keep UI output
+    logger.info(f"Session started: {datetime.now(timezone.utc).isoformat(}")
+    print(f"📅 Session started: {datetime.now(timezone.utc).isoformat(}")  # Keep UI output
     display_system_status()
     logger.info("Auto-triggering visual prompt generation")
     print("\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback...")  # Keep UI output

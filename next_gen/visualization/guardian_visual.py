@@ -361,13 +361,13 @@ class GuardianVisualizer:
         print(Console.move_cursor(18, 20), end="")
         print(Console.CLEAR_LINE, end="")
         print(
-            f"{Console.CYAN}Status:{Console.RESET} {self.current_status.upper()}",
+            f"{Console.CYAN}Status:{Console.RESET} {self.current_status.upper(}",
             end="",
         )
 
         print(Console.move_cursor(19, 20), end="")
         print(Console.CLEAR_LINE, end="")
-        print(f"{Console.CYAN}Threats:{Console.RESET} {len(self.active_threats)}", end="")
+        print(f"{Console.CYAN}Threats:{Console.RESET} {len(self.active_threats}", end="")
 
         # Trinity Framework status
         print(Console.move_cursor(20, 20), end="")
@@ -447,7 +447,7 @@ class GuardianVisualizer:
                     "type": threat_type,
                     "severity": severity,
                     "timestamp": time.time(),
-                    "id": f"threat_{len(self.active_threats)}",
+                    "id": f"threat_{len(self.active_threats}",
                 }
 
                 self.active_threats.append(threat)
@@ -496,7 +496,7 @@ class GuardianVisualizer:
             "type": threat_type,
             "severity": severity,
             "timestamp": time.time(),
-            "id": f"manual_threat_{len(self.active_threats)}",
+            "id": f"manual_threat_{len(self.active_threats}",
         }
 
         self.active_threats.append(threat)

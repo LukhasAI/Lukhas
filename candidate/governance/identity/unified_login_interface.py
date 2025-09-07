@@ -496,7 +496,7 @@ class RevolutionaryLoginInterface:
 
         # Prepare authentication context
         auth_context = UnifiedAuthContext(
-            user_id=user_input.get("user_id", f"user_{secrets.token_hex(8)}"),
+            user_id=user_input.get("user_id", f"user_{secrets.token_hex(8}"),
             requested_tier=user_input.get("requested_tier", AuthTier.T2),
             auth_method=state.selected_method,
             consciousness_state=state.consciousness_state,
@@ -910,13 +910,13 @@ async def main():
     print(f"✅ Success: {response.success}")
     print(f"📍 Next Step: {response.next_step.value if response.next_step else 'Complete'}")
     print(
-        f"🧠 Consciousness State: {response.debug_info.get('detected_consciousness') if response.debug_info else 'Unknown'}"
+        f"🧠 Consciousness State: {response.debug_info.get('detected_consciousness'} if response.debug_info else 'Unknown'}"
     )
-    print(f"🌍 Cultural Type: {response.debug_info.get('cultural_type') if response.debug_info else 'Unknown'}")
-    print(f"🎨 UI Adaptation: {response.adaptations.get('ui_adaptation', 'default')}")
+    print(f"🌍 Cultural Type: {response.debug_info.get('cultural_type'} if response.debug_info else 'Unknown'}")
+    print(f"🎨 UI Adaptation: {response.adaptations.get('ui_adaptation', 'default'}")
 
     if response.ui_data.get("recommended_methods"):
-        print(f"🔐 Recommended Methods: {', '.join(response.ui_data['recommended_methods'])}")
+        print(f"🔐 Recommended Methods: {', '.join(response.ui_data['recommended_methods']}")
 
 
 if __name__ == "__main__":

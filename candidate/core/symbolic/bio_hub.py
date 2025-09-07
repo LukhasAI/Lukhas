@@ -16,7 +16,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class BioHub:
@@ -46,7 +46,7 @@ class BioHub:
 
         # Mark as initialized
         self.is_initialized = True
-        logger.info(f"Bio hub initialized with {len(self.services)} services")
+        logger.info(f"Bio hub initialized with {len(self.services} services")
 
     def _register_bio_processing_services(self):
         """Register bio processing services"""
@@ -136,7 +136,7 @@ class BioHub:
                 if service_name in self.services:
                     discovery.register_service_globally(service_name, self.services[service_name], "bio")
 
-            logger.debug(f"Registered {len(key_services)} bio services with global discovery")
+            logger.debug(f"Registered {len(key_services} bio services with global discovery")
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -202,7 +202,7 @@ class BioHub:
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for all registered bio services"""
-        health = {"status": "healthy", "services": {}}
+        health = {"status": "healthy", "services": {}
 
         for name, service in self.services.items():
             try:

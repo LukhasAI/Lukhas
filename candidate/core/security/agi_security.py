@@ -18,7 +18,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class SecurityLevel(Enum, timezone):
+class SecurityLevel(Enum):
     """Security clearance levels"""
 
     PUBLIC = "public"
@@ -499,7 +499,7 @@ class ThreatDetectionSystem:
         """Generate incident ID"""
         import uuid
 
-        return f"incident_{uuid.uuid4().hex[:8]}"
+        return f"incident_{uuid.uuid4(}.hex[:8]}"
 
 
 class EncryptionManager:

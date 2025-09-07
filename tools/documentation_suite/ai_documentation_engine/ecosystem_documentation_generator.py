@@ -28,7 +28,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional, Union
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class DocumentationType(Enum):
@@ -361,8 +361,8 @@ class CodeAnalyzer:
             if not imp.startswith(("sys", "os", "json", "datetime", "typing", "asyncio")):
                 # Try to resolve local dependencies
                 potential_paths = [
-                    base_path / f"{imp.replace('.', '/')}.py",
-                    base_path / f"{imp.replace('.', '/')}/__init__.py",
+                    base_path / f"{imp.replace('.', '/'}.py",
+                    base_path / f"{imp.replace('.', '/'}/__init__.py",
                 ]
 
                 for path in potential_paths:
@@ -461,7 +461,7 @@ class DocumentationGenerator:
 
         # Create final documentation
         documentation = GeneratedDocumentation(
-            doc_id=f"doc_{request.request_id}_{int(datetime.now(timezone.utc).timestamp())}",
+            doc_id=f"doc_{request.request_id}_{int(datetime.now(timezone.utc).timestamp()}",
             title=self._generate_title(request, analysis_results),
             doc_type=request.doc_type,
             output_format=request.output_format,
@@ -476,8 +476,8 @@ class DocumentationGenerator:
         output_paths = await self._generate_output_files(documentation)
         documentation.file_paths = output_paths
 
-        print(f"   ✅ Generated {len(sections)} sections")
-        print(f"   📄 Output files: {len(output_paths)}")
+        print(f"   ✅ Generated {len(sections} sections")
+        print(f"   📄 Output files: {len(output_paths}")
 
         return documentation
 
@@ -698,7 +698,7 @@ class DocumentationGenerator:
         output_path = output_dir / filename
 
         content = ""
-        content += f"*Generated on {documentation.generated_date.strftime('%Y-%m-%d %H:%M:%S')}*\n\n"
+        content += f"*Generated on {documentation.generated_date.strftime('%Y-%m-%d %H:%M:%S'}*\n\n"
 
         for section in documentation.sections:
             content += "#"
@@ -734,10 +734,10 @@ class DocumentationGenerator:
 <head>
     <title>{documentation.title}</title>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 40px; }}
-        h1, h2, h3 {{ color: #333; }}
-        code {{ background-color: #f5f5f5; padding: 2px 4px; }}
-        pre {{ background-color: #f5f5f5; padding: 10px; overflow-x: auto; }}
+        body {{ font-family: Arial, sans-serif; margin: 40px; }
+        h1, h2, h3 {{ color: #333; }
+        code {{ background-color: #f5f5f5; padding: 2px 4px; }
+        pre {{ background-color: #f5f5f5; padding: 10px; overflow-x: auto; }
     </style>
 </head>
 <body>
@@ -747,7 +747,7 @@ class DocumentationGenerator:
 
         for section in documentation.sections:
             html_content += f"    <h2>{section.title}</h2>\n"
-            html_content += f"    <p>{section.content.replace(chr(10), '</p><p>')}</p>\n"
+            html_content += f"    <p>{section.content.replace(chr(10), '</p><p>'}</p>\n"
 
             for example in section.code_examples:
                 html_content += f"    <pre><code>{example}</code></pre>\n"
@@ -827,7 +827,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
 
     async def _generate_module_content(self, result: CodeAnalysisResult) -> str:
         """Generate content for a specific module"""
-        content = f"The `{result.module_name}` module provides key functionality with {len(result.classes)} classes and {len(result.functions)} functions.\n\n"
+        content = f"The `{result.module_name}` module provides key functionality with {len(result.classes)} classes and {len(result.functions} functions.\n\n"
 
         if result.docstrings.get("module"):
             content += f"**Module Description:** {result.docstrings['module']}\n\n"
@@ -837,7 +837,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
         if result.classes:
             content += "**Main Classes:**\n"
             for cls in result.classes[:3]:  # Show top 3 classes
-                content += f"- `{cls['name']}`: {cls.get('docstring', 'No description available')[:100]}...\n"
+                content += f"- `{cls['name']}`: {cls.get('docstring', 'No description available'}[:100]}...\n"
 
         return content
 
@@ -845,9 +845,9 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
         """Generate documentation title"""
 
         if len(analysis_results) == 1:
-            return f"{analysis_results[0].module_name} - {request.doc_type.value.replace('_', ' ').title()}"
+            return f"{analysis_results[0].module_name} - {request.doc_type.value.replace('_', ' ').title(}"
         else:
-            return f"LUKHAS  {request.doc_type.value.replace('_', ' ').title()}"
+            return f"LUKHAS  {request.doc_type.value.replace('_', ' ').title(}"
 
     async def _generate_metadata(
         self, request: DocumentationRequest, analysis_results: list[CodeAnalysisResult]
@@ -919,7 +919,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
 
     async def _generate_architecture_overview(self, analysis_results: list[CodeAnalysisResult]) -> str:
         """Generate architecture overview"""
-        return f"The LUKHAS  system architecture consists of {len(analysis_results)} main modules organized in a modular, scalable design."
+        return f"The LUKHAS  system architecture consists of {len(analysis_results} main modules organized in a modular, scalable design."
 
     async def _generate_component_architecture_sections(
         self, analysis_results: list[CodeAnalysisResult]

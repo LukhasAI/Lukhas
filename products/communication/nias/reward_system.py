@@ -19,7 +19,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class RewardType(Enum, timezone):
+class RewardType(Enum):
     """Types of rewards available in the system"""
 
     DREAM_CREDITS = "dream_credits"  # Virtual currency
@@ -519,7 +519,7 @@ if __name__ == "__main__":
         print(f"   Total Credits: {summary['total_credits']:.1f}")
         print(f"   Level: {summary['current_level']}")
         print(f"   XP: {summary['experience_points']}")
-        print(f"   Achievements: {len(summary['achievements'])}")
+        print(f"   Achievements: {len(summary['achievements']}")
 
         if summary["achievements"]:
             print("\n🏆 Achievements Unlocked:")

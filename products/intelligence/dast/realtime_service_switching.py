@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ServiceType(Enum, timezone):
+class ServiceType(Enum):
     """Types of services that can be switched"""
 
     LLM = "llm"  # Language models

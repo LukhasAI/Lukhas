@@ -27,7 +27,7 @@ except ImportError:
     CRYPTO_AVAILABLE = False
 
 
-class ProtectionPolicy(BaseModel, timezone):
+class ProtectionPolicy(BaseModel):
     """Data protection policy definition"""
 
     policy_id: str

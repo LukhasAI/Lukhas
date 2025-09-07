@@ -131,7 +131,7 @@ if __name__ == "__main__":
 
     # Fix import namespaces
     fixed_files = fix_import_namespaces()
-    print(f"📝 Fixed {len(fixed_files)} files")
+    print(f"📝 Fixed {len(fixed_files} files")
 
     # Create bridge files for missing imports
     create_missing_bridge_files()

@@ -169,10 +169,10 @@ def recall_memories(
             filter=filename_filter_prefix,
         )
         return recalled_list
-    log.info(f"Found {len(mem_files)} potential memory files to process.")
+    log.info(f"Found {len(mem_files} potential memory files to process.")
 
     for enc_file_path in mem_files:
-        dec_temp_name = f"temp_decrypted_{enc_file_path.stem}_{uuid.uuid4().hex[:8]}.json"
+        dec_temp_name = f"temp_decrypted_{enc_file_path.stem}_{uuid.uuid4(}.hex[:8]}.json"
         dec_temp_path = temp_decrypt_dir / dec_temp_name
         try:
             log.debug(
@@ -226,7 +226,7 @@ def recall_memories(
                         os_error=str(e_del),
                     )
 
-    log.info(f"Finished recalling 'Lukhas' memories. Retrieved {len(recalled_list)} items successfully.")
+    log.info(f"Finished recalling 'Lukhas' memories. Retrieved {len(recalled_list} items successfully.")
     return recalled_list
 
 
@@ -245,7 +245,7 @@ def example_run_recall_memories():
         dummy_vault_path = Path("./vault") / sid
         dummy_vault_path.mkdir(parents=True, exist_ok=True)
         # Placeholder decrypt_user_file creates its own output, so input file matching filter is needed for listdir.
-        dummy_enc_filename = f"lukhas_memory_placeholder_{datetime.now(timezone.utc).strftime('%Y%m%d')}.json.seedra"
+        dummy_enc_filename = f"lukhas_memory_placeholder_{datetime.now(timezone.utc).strftime('%Y%m%d'}.json.seedra"
         dummy_enc_file_path = dummy_vault_path / dummy_enc_filename
         if not dummy_enc_file_path.exists():
             with open(dummy_enc_file_path, "w", encoding='utf-8') as f: f.write('{"encrypted_placeholder": true}') # Dummy content for file to exist
@@ -258,7 +258,7 @@ def example_run_recall_memories():
     )
 
     if recalled_data:
-        log.info(f"Successfully recalled {len(recalled_data)} 'Lukhas' memories via example.")
+        log.info(f"Successfully recalled {len(recalled_data} 'Lukhas' memories via example.")
         for i, item in enumerate(recalled_data):
             log.info(f"Recalled Memory ",
                      ts=item.get("timestamp_utc_iso", item.get("timestamp")),

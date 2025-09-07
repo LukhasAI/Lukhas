@@ -208,7 +208,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
         # - Normalize audio
         # - Create data loaders
 
-        self.logger.info(f"Preparing {len(training_data)} training samples")
+        self.logger.info(f"Preparing {len(training_data} training samples")
 
         # Simulate data preparation
         await asyncio.sleep(0.1)
@@ -356,7 +356,7 @@ class LUKHASVoiceTrainer:
             )
 
             if not validation_result.get("approved", False):
-                self.logger.warning(f"Guardian rejected training sample: {validation_result.get('reason')}")
+                self.logger.warning(f"Guardian rejected training sample: {validation_result.get('reason'}")
                 return False
 
             # Quality assessment
@@ -488,7 +488,7 @@ class LUKHASVoiceTrainer:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected training: {validation_result.get('reason')}")
+                raise ValueError(f"Guardian rejected training: {validation_result.get('reason'}")
 
             # Initialize model
             self.model = MockVoiceTrainingModel(self.config)
@@ -510,7 +510,7 @@ class LUKHASVoiceTrainer:
             train_loader = prepared_data["train_loader"]
             val_loader = prepared_data["val_loader"]
 
-            self.logger.info(f"Training data prepared: {len(train_loader)} train, {len(val_loader)} validation")
+            self.logger.info(f"Training data prepared: {len(train_loader)} train, {len(val_loader} validation")
 
             # Training loop
             self._set_stage(TrainingStage.MODEL_TRAINING)

@@ -47,15 +47,15 @@ class GoalManagementNode:
 
     def _create_goal(self, intent_data: dict[str, Any]) -> dict[str, Any]:
         """Create a goal from intent data."""
-        goal_id = f"goal_{int(time.time())}_{len(self.active_goals)}"
+        goal_id = f"goal_{int(time.time())}_{len(self.active_goals}"
 
         # Extract description from intent
         if intent_data["type"] == "query":
-            description = f"Answer query: {intent_data.get('original_text', 'Unknown query')}"
+            description = f"Answer query: {intent_data.get('original_text', 'Unknown query'}"
         elif intent_data["type"] == "task":
-            description = f"Complete task: {intent_data.get('original_text', 'Unknown task')}"
+            description = f"Complete task: {intent_data.get('original_text', 'Unknown task'}"
         else:  # dialogue
-            description = f"Engage in dialogue about: {intent_data.get('original_text', 'Unknown topic')}"
+            description = f"Engage in dialogue about: {intent_data.get('original_text', 'Unknown topic'}"
 
         return {
             "id": goal_id,
@@ -88,7 +88,7 @@ class GoalManagementNode:
                     "action": "retrieve_information",
                     "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
-                {"action": "formulate_response", "parameters": {}},
+                {"action": "formulate_response", "parameters": {},
             ],
         }
 
@@ -101,8 +101,8 @@ class GoalManagementNode:
                     "action": "analyze_task",
                     "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
-                {"action": "execute_task", "parameters": {}},
-                {"action": "verify_completion", "parameters": {}},
+                {"action": "execute_task", "parameters": {},
+                {"action": "verify_completion", "parameters": {},
             ],
         }
 
@@ -115,7 +115,7 @@ class GoalManagementNode:
                     "action": "analyze_context",
                     "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
-                {"action": "generate_response", "parameters": {}},
+                {"action": "generate_response", "parameters": {},
             ],
         }
 

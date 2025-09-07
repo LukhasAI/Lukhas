@@ -171,7 +171,7 @@ class AggressiveFileConsolidator:
 
         # Move files to their modules
         for module, file_list in files_by_module.items():
-            print(f"\n📦 Consolidating {len(file_list)} files to {module}...")
+            print(f"\n📦 Consolidating {len(file_list} files to {module}...")
 
             # Sort by score (highest first)
             file_list.sort(key=lambda x: x["score"], reverse=True)
@@ -335,7 +335,7 @@ def main():
             print(f"  - {submodule}: {count}")
 
     if consolidator.failed_moves:
-        print(f"\n⚠️ Failed to move {len(consolidator.failed_moves)} files")
+        print(f"\n⚠️ Failed to move {len(consolidator.failed_moves} files")
 
     print("\n📋 Report saved to: docs/reports/_AGGRESSIVE_CONSOLIDATION_REPORT.json")
 

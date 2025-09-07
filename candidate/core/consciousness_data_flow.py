@@ -183,7 +183,7 @@ class ConsciousnessDataFlowManager:
         # Update routing table
         await self._update_routing_for_module(module_id, capabilities, signal_types)
 
-        logger.info(f"📡 Registered consciousness module: {module_id} with {len(capabilities)} capabilities")
+        logger.info(f"📡 Registered consciousness module: {module_id} with {len(capabilities} capabilities")
         return True
 
     async def emit_signal(
@@ -286,7 +286,7 @@ class ConsciousnessDataFlowManager:
             await self._update_state_synchronizers(signal)
 
             logger.debug(
-                f"✅ Processed signal {signal.signal_id} to {len(targets)} targets in {processing_latency:.2f}ms"
+                f"✅ Processed signal {signal.signal_id} to {len(targets} targets in {processing_latency:.2f}ms"
             )
 
         except Exception as e:
@@ -339,7 +339,7 @@ class ConsciousnessDataFlowManager:
             }
 
             # Send adaptation message (implementation depends on module interface)
-            logger.debug(f"🧬 Bio-adaptation flow to {target_module}: {len(adaptation_vector)} dimensions")
+            logger.debug(f"🧬 Bio-adaptation flow to {target_module}: {len(adaptation_vector} dimensions")
 
     async def _state_synchronizer(self) -> None:
         """Background task: Synchronize consciousness states across network"""
@@ -397,7 +397,7 @@ class ConsciousnessDataFlowManager:
                 "sync_operation": "network_synchronization",
                 "sync_timestamp": datetime.now(timezone.utc).isoformat(),
             },
-            trinity_compliance={"framework_compliance": {"validation_passed": True}},
+            trinity_compliance={"framework_compliance": {"validation_passed": True},
         )
 
         # Route to all connected modules that support synchronization
@@ -409,7 +409,7 @@ class ConsciousnessDataFlowManager:
 
         if sync_targets:
             await self.emit_signal(sync_signal, RoutingStrategy.TARGETED)
-            logger.debug(f"🔄 Synchronized consciousness node {consciousness_id[:8]} to {len(sync_targets)} modules")
+            logger.debug(f"🔄 Synchronized consciousness node {consciousness_id[:8]} to {len(sync_targets} modules")
 
     async def _network_monitor(self) -> None:
         """Background task: Monitor consciousness network health"""
@@ -595,7 +595,7 @@ class ConsciousnessDataFlowManager:
     async def _activate_cascade_prevention(self, risk_level: float) -> None:
         """Activate cascade prevention measures"""
 
-        prevention_id = f"CASCADE_PREV_{int(time.time())}"
+        prevention_id = f"CASCADE_PREV_{int(time.time()}"
         self.cascade_monitors[prevention_id] = True
 
         logger.warning(f"🛡️ Activating cascade prevention (risk: {risk_level:.2f})")
@@ -754,7 +754,7 @@ class ConsciousnessDataFlowManager:
                 self.routing_table[route.source_module] = []
             self.routing_table[route.source_module].append(route)
 
-        logger.info(f"📋 Setup {len(default_routes)} default consciousness routes")
+        logger.info(f"📋 Setup {len(default_routes} default consciousness routes")
 
     async def _update_routing_for_module(
         self, module_id: str, capabilities: list[str], signal_types: list[SignalType]

@@ -29,7 +29,7 @@ class VoiceSystemIntegrator:
     - Provider-optimized voice settings
     """
 
-    def __init__(self, agi_system=None, timezone):
+    def __init__(self, agi_system=None):
         self.agi = agi_system
         self.logger = logging.getLogger("VoiceSystemIntegrator")
 

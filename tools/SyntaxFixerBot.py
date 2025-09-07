@@ -119,7 +119,7 @@ class SyntaxFixerBot:
             except (SyntaxError, UnicodeDecodeError) as e:
                 error_files.append((py_file, str(e)))
                 self.stats["errors_found"] += 1
-                logger.warning(f"❌ Syntax error in {py_file.relative_to(self.workspace_path)}: {e}")
+                logger.warning(f"❌ Syntax error in {py_file.relative_to(self.workspace_path}: {e}")
 
         logger.info(
             f"📊 Scan complete: {self.stats['scanned']} files scanned, {self.stats['errors_found']} errors found"
@@ -306,10 +306,10 @@ class SyntaxFixerBot:
                 self.stats["files_fixed"] += 1
 
                 if syntax_valid:
-                    logger.info(f"✅ Fixed: {file_path.relative_to(self.workspace_path)}")
+                    logger.info(f"✅ Fixed: {file_path.relative_to(self.workspace_path}")
                     return True
                 else:
-                    logger.warning(f"⚠️ Partial fix: {file_path.relative_to(self.workspace_path)}")
+                    logger.warning(f"⚠️ Partial fix: {file_path.relative_to(self.workspace_path}")
                     return False
 
             return syntax_valid
@@ -330,10 +330,10 @@ class SyntaxFixerBot:
             return self.stats
 
         # Fix each file
-        logger.info(f"🔧 Fixing {len(error_files)} files with syntax errors...")
+        logger.info(f"🔧 Fixing {len(error_files} files with syntax errors...")
 
         for file_path, _error_msg in error_files:
-            logger.info(f"🔧 Fixing: {file_path.relative_to(self.workspace_path)}")
+            logger.info(f"🔧 Fixing: {file_path.relative_to(self.workspace_path}")
             self.fix_file(file_path)
 
         # Final scan to verify
@@ -341,9 +341,9 @@ class SyntaxFixerBot:
         remaining_errors = self.scan_workspace()
 
         if remaining_errors:
-            logger.warning(f"⚠️ {len(remaining_errors)} files still have syntax errors")
+            logger.warning(f"⚠️ {len(remaining_errors} files still have syntax errors")
             for file_path, error in remaining_errors[:5]:  # Show first 5
-                logger.warning(f"   - {file_path.relative_to(self.workspace_path)}: {error}")
+                logger.warning(f"   - {file_path.relative_to(self.workspace_path}: {error}")
         else:
             logger.info("🎉 ALL SYNTAX ERRORS FIXED! System health: 100%")
 
@@ -365,7 +365,7 @@ class SyntaxFixerBot:
 ✅ FIXED FILES:
 """
         for file_path in self.fixed_files:
-            report += f"   • {file_path.relative_to(self.workspace_path)}\n"
+            report += f"   • {file_path.relative_to(self.workspace_path}\n"
 
         return report
 

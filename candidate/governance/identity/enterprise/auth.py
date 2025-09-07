@@ -37,7 +37,7 @@ import requests
 from cryptography.fernet import Fernet
 
 
-class AuthenticationMethod(Enum, timezone):
+class AuthenticationMethod(Enum):
     """Supported authentication methods."""
 
     SAML_SSO = "saml_sso"

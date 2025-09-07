@@ -294,7 +294,7 @@ class EnhancedAPISystem:
         # Request tracking
         @self.app.middleware("http")
         async def track_requests(request: Request, call_next):
-            request_id = f"req_{self.request_counter}_{datetime.now(timezone.utc).timestamp()}"
+            request_id = f"req_{self.request_counter}_{datetime.now(timezone.utc).timestamp(}"
             self.request_counter += 1
 
             # Store request context
@@ -391,7 +391,7 @@ class EnhancedAPISystem:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
             start_time = datetime.now(timezone.utc)
-            request_id = f"consciousness_{start_time.timestamp()}"
+            request_id = f"consciousness_{start_time.timestamp(}"
 
             try:
                 # Process through consciousness
@@ -450,7 +450,7 @@ class EnhancedAPISystem:
                 )
 
             start_time = datetime.now(timezone.utc)
-            request_id = f"memory_{action}_{start_time.timestamp()}"
+            request_id = f"memory_{action}_{start_time.timestamp(}"
 
             try:
                 # Execute memory operation
@@ -501,7 +501,7 @@ class EnhancedAPISystem:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
             start_time = datetime.now(timezone.utc)
-            request_id = f"governance_{start_time.timestamp()}"
+            request_id = f"governance_{start_time.timestamp(}"
 
             try:
                 # Guardian evaluation
@@ -545,7 +545,7 @@ class EnhancedAPISystem:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
             start_time = datetime.now(timezone.utc)
-            request_id = f"dream_{start_time.timestamp()}"
+            request_id = f"dream_{start_time.timestamp(}"
 
             try:
                 # Dream generation
@@ -600,7 +600,7 @@ class EnhancedAPISystem:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
             start_time = datetime.now(timezone.utc)
-            request_id = f"process_{start_time.timestamp()}"
+            request_id = f"process_{start_time.timestamp(}"
 
             try:
                 # Route to appropriate handler

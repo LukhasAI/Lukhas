@@ -130,14 +130,14 @@ class {module_class_name}Engine:
     """Main engine for {module_name} processing"""
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        self.config = config or {{}}
+        self.config = config or {{}
         self._initialize_lukhas_concepts()
 
     def _initialize_lukhas_concepts(self):
         """Initialize LUKHAS-specific concepts"""
         # Preserve LUKHAS personality
         self.concepts = {lukhas_concepts_dict}
-        logger.info(f"Initialized {{self.__class__.__name__}} with LUKHAS concepts")
+        logger.info(f"Initialized {{self.__class__.__name__} with LUKHAS concepts")
 
     def process(self, input_data: Any) -> {module_class_name}Model:
         """Process input with {module_name} logic"""
@@ -211,7 +211,7 @@ async def get_module_info():
         "version": "1.0.0",
         "lukhas_concepts": {lukhas_concepts_list},
         "status": "operational"
-    }}
+    }
 
 @router.post("/process", response_model={module_class_name}Model)
 async def process_data(data: dict):
@@ -226,7 +226,7 @@ async def process_data(data: dict):
 @router.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {{"status": "healthy", "module": "{module_name}"}}
+    return {{"status": "healthy", "module": "{module_name}"}
 ''',
     "utils/__init__.py": """\"\"\"Utility functions for {module_name_title}\"\"\"
 
@@ -244,14 +244,14 @@ logger = get_logger(__name__)
 
 def process_with_lukhas_concepts(data: Any, concepts: List[str]) -> Dict[str, Any]:
     """Process data with LUKHAS concept awareness"""
-    result = {{"data": data, "concepts_applied": concepts}}
+    result = {{"data": data, "concepts_applied": concepts}
 
     # Add LUKHAS personality to processing
     if "dream_recall" in concepts:
-        result["dream_metadata"] = {{"explored_universes": 5}}
+        result["dream_metadata"] = {{"explored_universes": 5}
 
     if "memory_fold" in concepts:
-        result["memory_metadata"] = {{"cascade_prevention": 0.997}}
+        result["memory_metadata"] = {{"cascade_prevention": 0.997}
 
     return result
 
@@ -327,7 +327,7 @@ Get module information including LUKHAS concepts.
   "version": "1.0.0",
   "lukhas_concepts": {lukhas_concepts_list},
   "status": "operational"
-}}
+}
 ```
 
 ### POST /{module_name}/process
@@ -337,8 +337,8 @@ Process data through the {module_name} engine.
 ```json
 {{
   "data": "your_input_data",
-  "options": {{}}
-}}
+  "options": {{}
+}
 ```
 
 **Response:**
@@ -346,8 +346,8 @@ Process data through the {module_name} engine.
 {{
   "id": "unique_id",
   "result": "processed_data",
-  "lukhas_metadata": {{}}
-}}
+  "lukhas_metadata": {{}
+}
 ```
 
 ### GET /{module_name}/health
@@ -358,7 +358,7 @@ Health check endpoint.
 {{
   "status": "healthy",
   "module": "{module_name}"
-}}
+}
 ```
 
 ## Error Handling
@@ -367,7 +367,7 @@ All endpoints return standard error responses:
 {{
   "detail": "Error message",
   "status_code": 500
-}}
+}
 ```
 """,
     "docs/ARCHITECTURE.md": """# {module_name_title} Architecture
@@ -460,8 +460,8 @@ class Test{module_class_name}Engine:
             assert concept in str(engine.concepts)
 
     @pytest.mark.parametrize("input_data", [
-        {{"test": "data"}},
-        {{"lukhas": "sgi"}},
+        {{"test": "data"},
+        {{"lukhas": "sgi"},
     ])
 
     def test_validation(self, input_data):
@@ -482,8 +482,8 @@ async def main():
 
     # Initialize engine
     engine = {module_class_name}Engine()
-    print(f"Initialized {{engine.__class__.__name__}}")
-    print(f"LUKHAS concepts: {{engine.concepts}}")
+    print(f"Initialized {{engine.__class__.__name__}")
+    print(f"LUKHAS concepts: {{engine.concepts}")
 
     # Example data processing
     test_data = {{
@@ -491,13 +491,13 @@ async def main():
         "lukhas_metadata": {{
             "consciousness_level": 0.8,
             "emotional_state": "curious"
-        }}
-    }}
+        }
+    }
 
     # Process with LUKHAS concepts
     try:
         result = engine.process(test_data)
-        print(f"Processing result: {{result}}")
+        print(f"Processing result: {{result}")
     except NotImplementedError:
         print("Module-specific logic needs implementation")
 
@@ -528,7 +528,7 @@ def benchmark_processing(iterations=1000):
 
     for _ in range(iterations):
         start = time.perf_counter()
-        engine.validate({{"test": "data"}})
+        engine.validate({{"test": "data"})
         end = time.perf_counter()
         times.append(end - start)
 
@@ -538,18 +538,18 @@ def benchmark_processing(iterations=1000):
         "stdev": statistics.stdev(times) * 1000 if len(times) > 1 else 0,
         "min": min(times) * 1000,
         "max": max(times) * 1000
-    }}
+    }
 
 if __name__ == "__main__":
     print("Running {module_name} performance benchmarks...")
     results = benchmark_processing()
 
     print(f"\\nResults (milliseconds):")
-    print(f"  Mean:   {{results['mean']:.3f}} ms")
-    print(f"  Median: {{results['median']:.3f}} ms")
-    print(f"  StdDev: {{results['stdev']:.3f}} ms")
-    print(f"  Min:    {{results['min']:.3f}} ms")
-    print(f"  Max:    {{results['max']:.3f}} ms")
+    print(f"  Mean:   {{results['mean']:.3f} ms")
+    print(f"  Median: {{results['median']:.3f} ms")
+    print(f"  StdDev: {{results['stdev']:.3f} ms")
+    print(f"  Min:    {{results['min']:.3f} ms")
+    print(f"  Max:    {{results['max']:.3f} ms")
 
     if results['mean'] < 100:
         print("\\n✅ Performance target achieved (<100ms)")
@@ -660,7 +660,7 @@ def create_module_structure(module_name: str, module_config: dict[str, Any]):
     # Generate detailed concepts description
     lukhas_concepts_detailed = "\n".join(
         [
-            f"## {concept.replace('_', ' ').title()}\n{module_config.get('concept_descriptions', {}).get(concept, 'Core LUKHAS concept integrated into this module.')}\n"
+            f"## {concept.replace('_', ' ').title(}\n{module_config.get('concept_descriptions', {}).get(concept, 'Core LUKHAS concept integrated into this module.')}\n"
             for concept in lukhas_concepts
         ]
     )
@@ -796,7 +796,7 @@ def generate_module(
     print(f"✅ Module '{module_name}' generated successfully!")
     print(f"📁 Location: {module_path}")
     print(
-        f"🧬 LUKHAS concepts: {', '.join(template_vars['lukhas_concepts'].split(', '))}"
+        f"🧬 LUKHAS concepts: {', '.join(template_vars['lukhas_concepts'].split(', ')}"
     )
     print("\n📋 Next steps:")
     print(f"  1. cd {module_path}")

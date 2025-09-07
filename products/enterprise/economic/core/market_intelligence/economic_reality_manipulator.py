@@ -20,7 +20,7 @@ from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface
 from core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass

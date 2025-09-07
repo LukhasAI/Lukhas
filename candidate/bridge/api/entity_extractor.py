@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class EntityType(Enum):

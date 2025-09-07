@@ -435,7 +435,7 @@ class PerformanceSetup:
         logger.info(f"📈 Total Optimizations: {total}")
         logger.info(f"✅ Successful: {successful}")
         logger.info(f"❌ Failed: {total - successful}")
-        logger.info(f"📊 Success Rate: {(successful / total * 100):.1f}%")
+        logger.info(f"📊 Success Rate: {(successful / total * 100}:.1f}%")
         logger.info("=" * 70)
 
         if successful > 0:
@@ -448,7 +448,7 @@ class PerformanceSetup:
             logger.info("\n⚠️  Failed Optimizations:")
             for opt in self.optimizations_applied:
                 if opt["status"] == "error":
-                    logger.info(f"   ❌ {opt['name']}: {opt.get('error', 'Unknown error')}")
+                    logger.info(f"   ❌ {opt['name']}: {opt.get('error', 'Unknown error'}")
 
         logger.info(f"\n📁 Configuration files saved to: {self.base_dir}/")
         logger.info("=" * 70)

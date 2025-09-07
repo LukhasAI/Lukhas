@@ -203,7 +203,7 @@ class BreakthroughDetectorV2(CoreInterface):
                     parameters={"breakthrough": breakthrough},
                 )
                 if not ethics_check.get("approved", False):
-                    logger.warning(f"Breakthrough rejected by Guardian: {breakthrough.get('id')}")
+                    logger.warning(f"Breakthrough rejected by Guardian: {breakthrough.get('id'}")
                     validated_breakthroughs.remove(breakthrough)
 
         # Record in history

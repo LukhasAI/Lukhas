@@ -56,7 +56,7 @@ class NoopMemory(AkaqMemory):
         """
         self.save_calls += 1
         # Return a deterministic fake scene ID
-        return f"noop_{uuid.uuid4().hex[:8]}"
+        return f"noop_{uuid.uuid4(}.hex[:8]}"
 
     def fetch_prev_scene(self, *, user_id: str, before_ts: Optional[dt.datetime] = None) -> Optional[dict[str, Any]]:
         """

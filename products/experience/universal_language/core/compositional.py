@@ -218,7 +218,7 @@ class SymbolComposer:
             parts = symbol.name.split("+")
             for part in parts:
                 component = Symbol(
-                    id=f"COMPONENT_{hashlib.sha256(part.encode()).hexdigest()[:8]}",
+                    id=f"COMPONENT_{hashlib.sha256(part.encode()).hexdigest(}[:8]}",
                     domain=symbol.domain,
                     name=part.strip(),
                     value=part.strip(),
@@ -256,7 +256,7 @@ class SymbolComposer:
         }
 
         return Symbol(
-            id=f"COMPOSED_{hashlib.sha256(combined_name.encode()).hexdigest()[:8]}",
+            id=f"COMPOSED_{hashlib.sha256(combined_name.encode()).hexdigest(}[:8]}",
             domain=primary_domain,
             name=combined_name,
             value=combined_name,
@@ -287,7 +287,7 @@ class SymbolComposer:
             name = f"{symbols[0].name}-{symbols[1].name}"
 
         return Symbol(
-            id=f"BLEND_{hashlib.sha256(name.encode()).hexdigest()[:8]}",
+            id=f"BLEND_{hashlib.sha256(name.encode()).hexdigest(}[:8]}",
             domain=SymbolicDomain.EMOTION,
             name=name,
             value=name,
@@ -303,7 +303,7 @@ class SymbolComposer:
         sequence_name = "→".join(s.name for s in symbols)
 
         return Symbol(
-            id=f"SEQ_{hashlib.sha256(sequence_name.encode()).hexdigest()[:8]}",
+            id=f"SEQ_{hashlib.sha256(sequence_name.encode()).hexdigest(}[:8]}",
             domain=SymbolicDomain.ACTION,
             name=sequence_name,
             value=sequence_name,
@@ -320,9 +320,9 @@ class SymbolComposer:
         children = symbols[1:]
 
         return Symbol(
-            id=f"HIER_{hashlib.sha256(parent.name.encode()).hexdigest()[:8]}",
+            id=f"HIER_{hashlib.sha256(parent.name.encode()).hexdigest(}[:8]}",
             domain=parent.domain,
-            name=f"{parent.name}[{','.join(c.name for c in children)}]",
+            name=f"{parent.name}[{','.join(c.name for c in children}]",
             value=parent.value,
             attributes={
                 "parent": parent.name,
@@ -340,10 +340,10 @@ class SymbolComposer:
             "novel": True,
         }
 
-        name = f"emergent({','.join(s.name[:3] for s in symbols)})"
+        name = f"emergent({','.join(s.name[:3] for s in symbols})"
 
         return Symbol(
-            id=f"EMERGENT_{hashlib.sha256(name.encode()).hexdigest()[:8]}",
+            id=f"EMERGENT_{hashlib.sha256(name.encode()).hexdigest(}[:8]}",
             domain=SymbolicDomain.CONTEXT,
             name=name,
             value=name,
@@ -404,7 +404,7 @@ class SymbolProgramSynthesizer:
             "filter": lambda s, c: f"filter({s},{c})",
             "map": lambda s, f: f"map({f},{s})",
             "reduce": lambda s, f, i: f"reduce({f},{s},{i})",
-            "sequence": lambda *s: f"seq({','.join(s)})",
+            "sequence": lambda *s: f"seq({','.join(s})",
             "conditional": lambda c, t, f: f"if({c},{t},{f})",
             "loop": lambda s, n: f"loop({s},{n})",
             "bind": lambda s, v: f"bind({s},{v})",
@@ -467,7 +467,7 @@ class SymbolProgramSynthesizer:
 
         program = SymbolProgram(
             program_id=self._generate_program_id(),
-            name=f"traced_program_{len(self.programs)}",
+            name=f"traced_program_{len(self.programs}",
             code="\n".join(code_lines),
             inputs=inputs,
             outputs=outputs,
@@ -484,7 +484,7 @@ class SymbolProgramSynthesizer:
         Returns output symbols.
         """
         # Create execution environment
-        env = {"symbols": input_symbols.copy(), "operations": self.operation_library, "results": {}}
+        env = {"symbols": input_symbols.copy(), "operations": self.operation_library, "results": {}
 
         # Parse and execute program
         try:
@@ -516,7 +516,7 @@ class SymbolProgramSynthesizer:
         # Remove redundant operations
         seen = set()
         for op in program.operations:
-            op_key = f"{op['op']}:{op.get('symbol', '')}"
+            op_key = f"{op['op']}:{op.get('symbol', ''}"
             if op_key not in seen:
                 optimized_ops.append(op)
                 seen.add(op_key)
@@ -612,7 +612,7 @@ class SymbolProgramSynthesizer:
 
         # Generate composition code
         input_vars = [f"input{i}" for i in range(arity)]
-        code = f"compose({','.join(input_vars)})"
+        code = f"compose({','.join(input_vars})"
 
         return SymbolProgram(
             program_id=self._generate_program_id(),
@@ -666,14 +666,14 @@ class SymbolProgramSynthesizer:
                 # Execute operation
                 result = env["operations"][op_name](*args)
                 # Store result
-                env["results"][f"result_{len(env['results'])}"] = result
+                env["results"][f"result_{len(env['results']}"] = result
 
     def _generate_code_from_ops(self, operations: list[dict[str, Any]]) -> str:
         """Generate code from operations"""
         lines = []
         for op in operations:
             if "symbols" in op:
-                lines.append(f"{op['op']}({','.join(op['symbols'])})")
+                lines.append(f"{op['op']}({','.join(op['symbols']})")
             elif "symbol" in op:
                 lines.append(f"{op['op']}({op['symbol']})")
             else:
@@ -688,7 +688,7 @@ class SymbolProgramSynthesizer:
 
     def _generate_program_id(self) -> str:
         """Generate unique program ID"""
-        return f"PROG_{int(time.time() * 1000)}"
+        return f"PROG_{int(time.time() * 1000}"
 
 
 # Singleton instances

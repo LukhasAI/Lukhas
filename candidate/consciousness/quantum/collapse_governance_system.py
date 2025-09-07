@@ -125,7 +125,7 @@ class CollapseHashSystem:
 
         # Create hash with tier-specific salt
         tier_salt = f"LUKHAS_ETHICAL_T{tier_level.value}_SALT"
-        hash_input = f"{json.dumps(normalized_data, sort_keys=True)}{tier_salt}"
+        hash_input = f"{json.dumps(normalized_data, sort_keys=True}{tier_salt}"
 
         # Generate cryptographic hash
         decision_hash = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()
@@ -381,7 +381,7 @@ class EthicalVault:
         print("🏛️ Ethical Vault initialized")
         print(f"   - Approval accuracy: {self.approval_accuracy:.1%}")
         print(f"   - Human alignment: {self.human_alignment_score:.1%}")
-        print(f"   - Framework coverage: {len(self.ethical_frameworks)} frameworks")
+        print(f"   - Framework coverage: {len(self.ethical_frameworks} frameworks")
 
     def store_approved_solution(
         self,
@@ -568,7 +568,7 @@ class CollapseGovernanceSystem:
         trace_index = self._generate_trace_index(decision_data, collapsed_option, collapse_method)
 
         # Step 5: Create collapse event
-        event_id = hashlib.sha256(f"{dilemma_description}_{start_time.isoformat()}".encode()).hexdigest()[:16]
+        event_id = hashlib.sha256(f"{dilemma_description}_{start_time.isoformat(}".encode()).hexdigest()[:16]
 
         collapse_event = CollapseEvent(
             event_id=event_id,

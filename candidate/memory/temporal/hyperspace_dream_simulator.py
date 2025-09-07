@@ -1042,7 +1042,7 @@ class HyperspaceDreamSimulator:
             key_decisions = [d for d in optimal_timeline.decisions if d.get("importance", 0) > 0.7]
 
             if key_decisions:
-                recommendations.append(f"Focus on {len(key_decisions)} high-importance decisions in optimal path")
+                recommendations.append(f"Focus on {len(key_decisions} high-importance decisions in optimal path")
 
         # Risk mitigation recommendations
         high_risk_count = sum(1 for t in scenario.timelines.values() if len(t.violations) > 0 or t.confidence < 0.5)
@@ -1316,7 +1316,7 @@ class HyperspaceDreamSimulator:
             }
 
         logger.warning(
-            f"ΛHDS_TOKEN_WARNING: {warning_type.upper()} threshold reached",
+            f"ΛHDS_TOKEN_WARNING: {warning_type.upper(} threshold reached",
             warning_data=warning_data,
         )
 
@@ -1695,7 +1695,7 @@ class HyperspaceDreamSimulator:
         ]
 
         if high_risk_outcomes:
-            recommendations.append(f"Monitor {len(high_risk_outcomes)} high-risk outcomes closely")
+            recommendations.append(f"Monitor {len(high_risk_outcomes} high-risk outcomes closely")
             recommendations.append("Consider developing contingency plans for negative outcomes")
 
         # Timeline risk analysis

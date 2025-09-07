@@ -181,7 +181,7 @@ scope: "Commercial AI System with Democratic User Agency"
     print(f"📄 Enhanced Plan: {enhanced_nias_path}")
     print(f"🗂️  Metadata: {metadata_path}")
     print(
-        f"📊 Document Stats: {len(nias_content.splitlines())} lines, {len(documentation_metadata['sections'])} sections"
+        f"📊 Document Stats: {len(nias_content.splitlines())} lines, {len(documentation_metadata['sections']} sections"
     )
 
     return True
@@ -216,8 +216,8 @@ if __name__ == "__main__":
         server_path = start_documentation_server()
         if server_path:
             print("\n📋 To start the web interface manually:")
-            print(f"   cd {Path(server_path).parent}")
-            print(f"   python {Path(server_path).name}")
+            print(f"   cd {Path(server_path}.parent}")
+            print(f"   python {Path(server_path}.name}")
             print("\n🎯 Next steps:")
             print("   1. Start the documentation server")
             print("   2. Open http://localhost:5001 in your browser")

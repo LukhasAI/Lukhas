@@ -14,7 +14,7 @@ from datetime import datetime
 
 import numpy as np
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class QIInspiredAttention:
@@ -513,7 +513,7 @@ class NeuroSymbolicEngine:
         if len(self.processing_history) > 1000:
             self.processing_history = self.processing_history[-1000:]
 
-        logger.info(f"Completed processing for user {user_id} with confidence: {response.get('confidence')}")
+        logger.info(f"Completed processing for user {user_id} with confidence: {response.get('confidence'}")
 
         return response
 
@@ -692,7 +692,7 @@ class NeuroSymbolicEngine:
                 visual_elements.append(word)
 
         # Create prompt
-        prompt = f"{text} with {', '.join(visual_elements)} style" if visual_elements else text
+        prompt = f"{text} with {', '.join(visual_elements} style" if visual_elements else text
 
         return prompt
 

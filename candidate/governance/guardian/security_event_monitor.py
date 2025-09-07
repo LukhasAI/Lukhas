@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class SecurityEventType(Enum):
@@ -329,7 +329,7 @@ class SecurityEventMonitor:
             str: Event ID
         """
 
-        event_id = f"auth_{uuid.uuid4().hex[:8]}"
+        event_id = f"auth_{uuid.uuid4(}.hex[:8]}"
 
         # Determine threat level
         threat_level = self._assess_auth_threat_level(outcome, user_id, ip_address)
@@ -405,7 +405,7 @@ class SecurityEventMonitor:
             str: Event ID
         """
 
-        event_id = f"access_{uuid.uuid4().hex[:8]}"
+        event_id = f"access_{uuid.uuid4(}.hex[:8]}"
 
         # Determine event type and threat level
         if response_code in [401, 403]:
@@ -484,7 +484,7 @@ class SecurityEventMonitor:
         for ip_address, failures in ip_failures.items():
             if len(failures) >= self.anomaly_thresholds["brute_force_threshold"]:
                 # Create threat detection
-                detection_id = f"brute_force_{uuid.uuid4().hex[:8]}"
+                detection_id = f"brute_force_{uuid.uuid4(}.hex[:8]}"
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
@@ -493,8 +493,8 @@ class SecurityEventMonitor:
                     confidence=min(1.0, len(failures) / 10.0),
                     description=f"Brute force attack detected from {ip_address}",
                     indicators=[
-                        f"{len(failures)} failed login attempts in {time_window_minutes} minutes",
-                        f"Target users: {len(set(f.user_id for f in failures if f.user_id))}",
+                        f"{len(failures} failed login attempts in {time_window_minutes} minutes",
+                        f"Target users: {len(set(f.user_id for f in failures if f.user_id)}",
                         f"Source IP: {ip_address}",
                     ],
                     affected_users=[f.user_id for f in failures if f.user_id],
@@ -513,7 +513,7 @@ class SecurityEventMonitor:
                 if self.config.get("auto_block_brute_force", False):
                     await self._block_ip_address(ip_address, "brute_force_attack")
 
-                logger.warning(f"🔒 Brute force attack detected from {ip_address}: {len(failures)} attempts")
+                logger.warning(f"🔒 Brute force attack detected from {ip_address}: {len(failures} attempts")
 
         return detections
 
@@ -548,7 +548,7 @@ class SecurityEventMonitor:
         # Check for geographical anomalies
         for event in recent_events:
             if event.geolocation and event.geolocation.get("country") not in profile.login_countries:
-                detection_id = f"geo_anomaly_{uuid.uuid4().hex[:8]}"
+                detection_id = f"geo_anomaly_{uuid.uuid4(}.hex[:8]}"
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
@@ -557,8 +557,8 @@ class SecurityEventMonitor:
                     confidence=0.7,
                     description=f"User {user_id} logging in from unusual location",
                     indicators=[
-                        f"New country: {event.geolocation.get('country')}",
-                        f"Known countries: {', '.join(profile.login_countries)}",
+                        f"New country: {event.geolocation.get('country'}",
+                        f"Known countries: {', '.join(profile.login_countries}",
                         f"IP address: {event.ip_address}",
                     ],
                     affected_users=[user_id],
@@ -578,7 +578,7 @@ class SecurityEventMonitor:
             recent_auth_events = [e for e in recent_events if e.event_type == SecurityEventType.AUTHENTICATION]
 
             if recent_auth_events:
-                detection_id = f"time_anomaly_{uuid.uuid4().hex[:8]}"
+                detection_id = f"time_anomaly_{uuid.uuid4(}.hex[:8]}"
 
                 detection = ThreatDetection(
                     detection_id=detection_id,
@@ -588,8 +588,8 @@ class SecurityEventMonitor:
                     description=f"User {user_id} active during unusual hours",
                     indicators=[
                         f"Current hour: {current_hour}",
-                        f"Typical hours: {sorted(profile.typical_login_hours)}",
-                        f"Recent authentications: {len(recent_auth_events)}",
+                        f"Typical hours: {sorted(profile.typical_login_hours}",
+                        f"Recent authentications: {len(recent_auth_events}",
                     ],
                     affected_users=[user_id],
                     source_ips=[],

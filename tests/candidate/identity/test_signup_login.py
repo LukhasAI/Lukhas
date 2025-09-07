@@ -6,7 +6,7 @@ Golden test for signup → login → JWT decode → validation cycle.
 """
 
 import unittest
-from datetime import datetime
+from datetime import datetime, timezone
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
@@ -16,7 +16,7 @@ try:
     from identity_legacy_backup.login import login_user, signup, validate_password
 except ImportError:
     # Create stub functions for testing
-    def signup(email, password, timezone):
+    def signup(email, password):
         """Mock fallback for signup"""
         timestamp = int(datetime.now(timezone.utc).timestamp())
         user_id = email.split("@")[0] if email and "@" in email else f"test_{timestamp}"
@@ -68,7 +68,7 @@ class TestIdentityFlow(unittest.TestCase):
         password = PLACEHOLDER_PASSWORD
 
         # Step 1: Signup
-        signup_result = signup(email, password)
+        signup_result = signup(email, password, timezone.utc)
         self.assertTrue(signup_result["success"])
         self.assertIsNotNone(signup_result["token"])
         self.assertEqual(signup_result["user_id"], f"test_{timestamp}")

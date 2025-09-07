@@ -54,7 +54,7 @@ from dashboard.core.dynamic_tab_system import DynamicTabSystem
 # Dashboard system imports
 from dashboard.core.universal_adaptive_dashboard import (
     DashboardContext,
-    DashboardMorphState,, timezone)
+    DashboardMorphState)
 
 logger = logging.getLogger("ΛTRACE.morphing_engine")
 
@@ -151,7 +151,7 @@ class MorphingEngine:
 
     def __init__(self, tab_system: DynamicTabSystem):
         self.tab_system = tab_system
-        self.logger = logger.bind(engine_id=f"morph_engine_{int(datetime.now(timezone.utc).timestamp())}")
+        self.logger = logger.bind(engine_id=f"morph_engine_{int(datetime.now(timezone.utc).timestamp()}")
 
         # Morphing state
         self.current_morph_state = DashboardMorphState.OPTIMAL
@@ -700,7 +700,7 @@ class MorphingEngine:
             # Ethics complexity rules
             MorphingRule(
                 rule_id="ethics_complex_decision",
-                trigger_conditions={"ethics_complexity": {"min": 0.7}},
+                trigger_conditions={"ethics_complexity": {"min": 0.7},
                 target_morph_state=DashboardMorphState.ETHICS_COMPLEX,
                 morphing_strategy=MorphingStrategy.CONTEXT_AWARE_BLEND,
                 component_modifications={
@@ -733,7 +733,7 @@ class MorphingEngine:
             # Emotional state rules
             MorphingRule(
                 rule_id="stress_calming_adaptation",
-                trigger_conditions={"user_emotional_state.stress": {"min": 0.8}},
+                trigger_conditions={"user_emotional_state.stress": {"min": 0.8},
                 target_morph_state=DashboardMorphState.HEALING_MODE,
                 morphing_strategy=MorphingStrategy.EMOTIONAL_ADAPTATION,
                 component_modifications={

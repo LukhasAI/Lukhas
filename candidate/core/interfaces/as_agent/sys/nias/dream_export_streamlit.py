@@ -55,7 +55,7 @@ filtered = [
     and (not filter_voice or d.get("suggest_voice"))
 ]
 
-st.success(f"{len(filtered)} dreams match your filters.")
+st.success(f"{len(filtered} dreams match your filters.")
 st.json(filtered[:3], expanded=False)
 
 # Export

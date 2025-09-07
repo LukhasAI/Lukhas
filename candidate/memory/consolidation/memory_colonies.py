@@ -96,7 +96,7 @@ class ConsolidatedMemorycolonies:
         self.colony_replication_threshold = 0.8
         self.colony_degradation_threshold = 0.3
 
-        logger.info(f"ConsolidatedMemoryColonies initialized with {len(self.colonies)} core colonies")
+        logger.info(f"ConsolidatedMemoryColonies initialized with {len(self.colonies} core colonies")
 
     def _initialize_core_colonies(self):
         """Initialize core memory colonies for different memory types"""
@@ -123,7 +123,7 @@ class ConsolidatedMemorycolonies:
     async def process_memory(self, memory_data: dict[str, Any]) -> Optional[dict]:
         """Process memory through consolidated colony pipeline with neuroplastic adaptation"""
         start_time = time.time()
-        memory_id = memory_data.get("memory_id", f"mem_{int(time.time() * 1000)}")
+        memory_id = memory_data.get("memory_id", f"mem_{int(time.time() * 1000}")
 
         try:
             # 🛡️ Guardian: Validate memory data and check system health
@@ -290,7 +290,7 @@ class ConsolidatedMemorycolonies:
             return None
 
         primary_type = classification["primary_type"]
-        colony_id = f"{primary_type.value}_specialized_{int(time.time())}"
+        colony_id = f"{primary_type.value}_specialized_{int(time.time()}"
 
         # Determine capacity based on complexity
         base_capacity = 800
@@ -495,7 +495,7 @@ class ConsolidatedMemorycolonies:
 
     async def _replicate_colony(self, parent_colony: MemoryColony):
         """Replicate a high-performing colony"""
-        replica_id = f"{parent_colony.colony_id}_replica_{int(time.time())}"
+        replica_id = f"{parent_colony.colony_id}_replica_{int(time.time()}"
 
         replica = MemoryColony(
             colony_id=replica_id,

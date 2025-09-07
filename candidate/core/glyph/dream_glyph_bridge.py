@@ -53,7 +53,7 @@ from symbolic.glyphs.glyph import (
     Glyph,
     GlyphFactory,
     GlyphPriority,
-    GlyphType,, timezone)
+    GlyphType)
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -185,7 +185,7 @@ class DreamGlyphBridge:
         symbolic_intensity = min(1.0, base_intensity * intensity_multiplier)
 
         # Create dream seed
-        seed_id = f"dream_seed_{glyph.id[:8]}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+        seed_id = f"dream_seed_{glyph.id[:8]}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
         dream_seed = DreamSeed(
             seed_id=seed_id,
@@ -276,7 +276,7 @@ class DreamGlyphBridge:
 
         # Create memory consolidation glyph
         memory_glyph = GlyphFactory.create_memory_glyph(
-            memory_key=f"consolidated_{len(memory_traces)}_traces",
+            memory_key=f"consolidated_{len(memory_traces}_traces",
             emotion_vector=consolidated_emotion,
         )
 
@@ -297,7 +297,7 @@ class DreamGlyphBridge:
 
         memory_glyph.update_symbolic_hash()
 
-        logger.info(f"Created memory consolidation glyph {memory_glyph.id} from {len(memory_traces)} traces")
+        logger.info(f"Created memory consolidation glyph {memory_glyph.id} from {len(memory_traces} traces")
         return memory_glyph
 
     def get_archetypal_dream_seeds(self, archetype: str) -> list[DreamSeed]:
@@ -633,7 +633,7 @@ class DreamGlyphBridge:
                 return str(dream_content[key])[:500]  # Limit to 500 chars
 
         # Fallback to general content summary
-        return f"Dream content with {len(dream_content)} elements processed"
+        return f"Dream content with {len(dream_content} elements processed"
 
     def _analyze_emotional_patterns(self, memory_traces: list[dict[str, Any]]) -> dict[str, float]:
         """Analyze emotional patterns across memory traces."""

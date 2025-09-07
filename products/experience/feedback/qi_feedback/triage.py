@@ -18,7 +18,7 @@ from consciousness.qi import qi
 class FeedbackTriage:
     """Deduplication and clustering for feedback cards."""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.store = get_store()
         self.dedup_window_minutes = 5  # Dedup window
         self.min_cluster_size = 3  # Minimum samples for clustering

@@ -15,7 +15,7 @@ def _create_system_status(path: Path) -> None:
         },
         "core_modules": {f"mod{i}": {"status": "working"} for i in range(7)},
         "identity_systems": {"python_files": 10},
-        "performance_metrics": {"lukhas_embedding": {"execution_time": 0.5}},
+        "performance_metrics": {"lukhas_embedding": {"execution_time": 0.5},
         "issues_detected": [],
         "recommendations": [],
     }

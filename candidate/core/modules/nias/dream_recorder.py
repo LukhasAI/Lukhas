@@ -18,7 +18,7 @@ class DreamRecorder:
     dream messages and related metadata.
     """
 
-    def __init__(self, log_file: Optional[str] = None, timezone):
+    def __init__(self, log_file: Optional[str] = None):
         """
         Initialize the dream recorder.
 
@@ -46,7 +46,7 @@ class DreamRecorder:
 
     def _generate_session_id(self) -> str:
         """Generate a unique session ID."""
-        return f"session_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        return f"session_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
     def record_dream_message(
         self,
@@ -66,7 +66,7 @@ class DreamRecorder:
         try:
             # Create dream record
             dream_record = {
-                "id": f"dream_{len(self.recorded_dreams) + 1}",
+                "id": f"dream_{len(self.recorded_dreams} + 1}",
                 "session_id": self.session_id,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "dream_message": dream_message,
@@ -272,7 +272,7 @@ class DreamRecorder:
                     "error": f"Unsupported format: {format}",
                 }
 
-            self.logger.info(f"Exported {len(self.recorded_dreams)} dreams to {output_file}")
+            self.logger.info(f"Exported {len(self.recorded_dreams} dreams to {output_file}")
 
             return {
                 "success": True,

@@ -131,7 +131,7 @@ async def capture_batch_feedback(requests: list[FeedbackRequest]):
             logger.error(f"Error capturing feedback for action {request.action_id}: {e}")
             # Continue processing other feedback
 
-    logger.info(f"Captured {len(responses)} feedback cards in batch")
+    logger.info(f"Captured {len(responses} feedback cards in batch")
     return responses
 
 
@@ -159,7 +159,7 @@ async def get_learning_report(user_id: str):
             summary += "Recent changes may not align with your preferences. "
 
         if report.preferred_styles:
-            summary += f"Your preferred style is {', '.join(report.preferred_styles)}."
+            summary += f"Your preferred style is {', '.join(report.preferred_styles}."
 
         return LearningReportResponse(
             user_id_hash=report.user_id_hash,
@@ -225,7 +225,7 @@ async def trigger_learning(background_tasks: BackgroundTasks):
 
         return {
             "status": "triggered",
-            "message": f"Learning cycle triggered with {len(recent_cards)} feedback cards",
+            "message": f"Learning cycle triggered with {len(recent_cards} feedback cards",
         }
 
     except Exception as e:
@@ -238,7 +238,7 @@ async def run_learning_cycle(cards):
     try:
         # Extract patterns
         patterns = feedback_system.extract_patterns(cards)
-        logger.info(f"Extracted {len(patterns)} patterns from feedback")
+        logger.info(f"Extracted {len(patterns} patterns from feedback")
 
         # Generate policy updates
         if patterns:

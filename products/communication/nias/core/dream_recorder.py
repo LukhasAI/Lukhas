@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class DreamRecorder:
@@ -62,7 +62,7 @@ class DreamRecorder:
 
     def _generate_session_id(self) -> str:
         """Generate a unique session ID"""
-        return f"nias_session_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
+        return f"nias_session_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4(}.hex[:8]}"
 
     async def record_dream_seed(
         self,
@@ -84,7 +84,7 @@ class DreamRecorder:
             Recording result with seed_id
         """
         try:
-            seed_id = f"seed_{uuid.uuid4().hex}"
+            seed_id = f"seed_{uuid.uuid4(}.hex}"
 
             dream_seed_record = {
                 "seed_id": seed_id,
@@ -142,7 +142,7 @@ class DreamRecorder:
                 return {"success": False, "error": "Dream seed not found"}
 
             interaction_record = {
-                "interaction_id": f"int_{uuid.uuid4().hex[:8]}",
+                "interaction_id": f"int_{uuid.uuid4(}.hex[:8]}",
                 "seed_id": seed_id,
                 "user_id": user_id,
                 "interaction_type": interaction_type,

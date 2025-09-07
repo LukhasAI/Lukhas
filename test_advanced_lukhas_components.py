@@ -30,7 +30,7 @@ os.environ["WEBAUTHN_ACTIVE"] = "false"  # Use mock mode for testing
 class TestIdentitySystem:
     """🔐 Test Lambda ID authentication and user management"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.test_results = []
         self.user_ids = []
 
@@ -77,7 +77,7 @@ class TestIdentitySystem:
             print("    👤 Testing user registration...")
 
             # Test passkey registration
-            user_id = f"test_user_{uuid.uuid4().hex[:8]}"
+            user_id = f"test_user_{uuid.uuid4(}.hex[:8]}"
             self.user_ids.append(user_id)
 
             reg_result = register_passkey(
@@ -158,7 +158,7 @@ class TestIdentitySystem:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Identity System Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Identity System Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "system": "Identity System",
@@ -370,7 +370,7 @@ class TestMemoryFoldSystem:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Memory Fold Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Memory Fold Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "system": "Memory Fold System",
@@ -612,7 +612,7 @@ class TestDreamSystem:
             self.cleanup()
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Dream System Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Dream System Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "system": "Dream System",
@@ -879,7 +879,7 @@ class TestEncryptionGovernance:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Encryption & Governance Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Encryption & Governance Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "system": "Encryption & Governance",

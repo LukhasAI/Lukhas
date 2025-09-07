@@ -95,7 +95,7 @@ class AffectStagnationDetector:
             return {
                 "stagnation": True,
                 "symbol": "⏳",  # Standard hourglass symbol for time-based stagnation
-                "trigger": f"No significant affect change for over {int(time_since_last_change / 3600)} hours.",
+                "trigger": f"No significant affect change for over {int(time_since_last_change / 3600} hours.",
                 "recovery_needed": True,
             }
 

@@ -208,7 +208,7 @@ class GlobalSystemInitializer:
 
     async def _verify_system_health(self) -> dict[str, Any]:
         """Verify health of all initialized systems"""
-        health_status = {"overall": "healthy", "hubs": {}, "bridges": {}}
+        health_status = {"overall": "healthy", "hubs": {}, "bridges": {}
 
         # Check hub health
         hub_modules = {

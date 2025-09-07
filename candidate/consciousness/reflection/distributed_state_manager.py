@@ -62,7 +62,7 @@ from typing import Any, Optional
 from candidate.core.cluster_sharding import ShardManager
 from candidate.core.common import get_logger
 from candidate.core.event_sourcing import (Event, EventStore,
-                                           get_global_event_store, timezone)
+                                           get_global_event_store)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -619,7 +619,7 @@ class MultiNodeStateManager:
             )
             self.nodes[node_id] = manager
 
-        logger.info(f"Multi-node manager initialized with {len(self.nodes)} nodes")
+        logger.info(f"Multi-node manager initialized with {len(self.nodes} nodes")
 
     def get_node(self, key: str) -> DistributedStateManager:
         """Get the node responsible for a key using consistent hashing"""

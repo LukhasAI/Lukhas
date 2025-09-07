@@ -244,7 +244,7 @@ class QIResistantKeyManager:
 
     def _generate_session_id(self) -> str:
         """Generate unique session identifier"""
-        return f"pqc_{secrets.token_hex(16)}_{int(datetime.now(timezone.utc).timestamp())}"
+        return f"pqc_{secrets.token_hex(16)}_{int(datetime.now(timezone.utc).timestamp()}"
 
     def _log_operation(
         self,
@@ -465,7 +465,7 @@ class PostQuantumCryptoEngine:
         # Enhanced security placeholder
         pq_hmac_key = hashlib.pbkdf2_hmac("sha256", private_key, b"pq_salt", 200000)
         pq_signature = hashlib.hmac.new(pq_hmac_key, data, hashlib.sha256).digest()
-        return f"pq_sim_{base64.b64encode(pq_signature).decode('utf-8')}"
+        return f"pq_sim_{base64.b64encode(pq_signature).decode('utf-8'}"
 
     def _create_enhanced_signature(self, data: bytes, private_key: bytes) -> str:
         """Create enhanced signature with multiple security layers"""

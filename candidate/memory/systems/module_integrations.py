@@ -197,7 +197,7 @@ class LearningModuleIntegration:
                 if is_valid and trust_score >= self.min_trust_for_training:
                     training_data.append(memory)
 
-        logger.info(f"Relearning with {len(training_data)} verified recent memories")
+        logger.info(f"Relearning with {len(training_data} verified recent memories")
 
         # In production, would trigger actual model retraining here
         # For now, just update drift calibration
@@ -370,10 +370,10 @@ class CreativityModuleIntegration:
         narrative_parts = []
 
         if themes:
-            narrative_parts.append(f"Exploring themes of {', '.join(set(themes))}")
+            narrative_parts.append(f"Exploring themes of {', '.join(set(themes)}")
 
         if emotions:
-            narrative_parts.append(f"through the lens of {', '.join(set(emotions))}")
+            narrative_parts.append(f"through the lens of {', '.join(set(emotions)}")
 
         if connections:
             narrative_parts.append("discovering unexpected connections")
@@ -744,7 +744,7 @@ class MetaModuleIntegration:
                     trust_score = entry.integrity_score
                     access_normalized = min(1.0, memory.access_count / 100)
 
-                    correlation_key = f"trust_{int(trust_score * 10) / 10:.1f}"
+                    correlation_key = f"trust_{int(trust_score * 10} / 10:.1f}"
                     if correlation_key not in insights["trust_correlations"]:
                         insights["trust_correlations"][correlation_key] = []
 

@@ -64,7 +64,7 @@ from symbolic.glyphs.glyph import EmotionVector, Glyph, GlyphFactory
 from .memory_fold import MemoryFoldSystem
 
 # Configure logger
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -163,7 +163,7 @@ class GlyphMemoryBridge:
             list(set().union(*[g.semantic_tags for g in glyph_objects])) if glyph_objects else []
         )
 
-        logger.info(f"Created glyph-indexed memory: {memory_key[:10]}... with {len(glyph_objects)} glyphs")
+        logger.info(f"Created glyph-indexed memory: {memory_key[:10]}... with {len(glyph_objects} glyphs")
         return memory_fold
 
     def recall_by_glyph(
@@ -228,7 +228,7 @@ class GlyphMemoryBridge:
             if len(matching_memories) >= limit:
                 break
 
-        logger.info(f"Recalled {len(matching_memories)} memories using glyph filters")
+        logger.info(f"Recalled {len(matching_memories} memories using glyph filters")
         return matching_memories
 
     def create_drift_anchor(
@@ -349,7 +349,7 @@ class GlyphMemoryBridge:
         # Start traversal
         traverse_causal_chain(causal_origin_id, 0)
 
-        logger.info(f"Found {len(causal_memories)} causally linked memories from origin {causal_origin_id}")
+        logger.info(f"Found {len(causal_memories} causally linked memories from origin {causal_origin_id}")
         return causal_memories
 
     def create_retrieval_filter(self, filter_name: str, glyph_criteria: dict[str, Any]) -> dict[str, Any]:

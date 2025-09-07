@@ -44,8 +44,8 @@ for root, dirs, files in os.walk("."):
             if update_file(filepath):
                 updated_files.append(filepath)
 
-print(f"Updated {len(updated_files)} files:")
+print(f"Updated {len(updated_files} files:")
 for f in updated_files[:10]:
     print(f"  {f}")
 if len(updated_files) > 10:
-    print(f"  ... and {len(updated_files) - 10} more")
+    print(f"  ... and {len(updated_files} - 10} more")

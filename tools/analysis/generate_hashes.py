@@ -15,7 +15,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def calculate_sha3_512(file_path: Path, timezone) -> str:
+def calculate_sha3_512(file_path: Path) -> str:
     """Calculate SHA3-512 hash of file"""
     sha3 = hashlib.sha3_512()
     with open(file_path, "rb") as f:
@@ -283,7 +283,7 @@ def main():
             print(f"   SHA3-512: {hash_manifest['integrity_hashes']['sha3_512'][:32]}...")
             print(f"   SHAKE256: {hash_manifest['integrity_hashes']['shake256_64'][:32]}...")
             print(
-                f"   Symbolic Glyphs: {hash_manifest['symbolic_analysis']['total_glyphs']} total, {len(hash_manifest['symbolic_analysis']['unique_glyphs'])} unique"
+                f"   Symbolic Glyphs: {hash_manifest['symbolic_analysis']['total_glyphs']} total, {len(hash_manifest['symbolic_analysis']['unique_glyphs']} unique"
             )
             print(f"   Trinity References: {hash_manifest['symbolic_analysis']['trinity_references']}")
 

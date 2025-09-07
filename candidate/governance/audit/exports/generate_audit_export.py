@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 # Add parent directories to path for imports
-sys.path.append(str(Path(__file__, timezone).parent.parent.parent))
+sys.path.append(str(Path(__file__).parent.parent.parent))
 sys.path.append(str(Path(__file__).parent.parent.parent / "next_gen"))
 
 logger = logging.getLogger(__name__)
@@ -62,7 +62,7 @@ class GuardianAuditExporter:
         export_files["summary"] = str(summary_file)
 
         logger.info("📊 Full audit export completed")
-        logger.info(f"   Files generated: {len(export_files)}")
+        logger.info(f"   Files generated: {len(export_files}")
 
         return export_files
 
@@ -431,7 +431,7 @@ query EmergencyLockdowns {
 """
 
         for threat_type, count in metrics["threat_type_distribution"].items():
-            report += f"- **{threat_type.replace('_', ' ').title()}**: {count} events\n"
+            report += f"- **{threat_type.replace('_', ' ').title(}**: {count} events\n"
 
         report += """
 ## 🧬 Symbolic Intervention Patterns
@@ -439,7 +439,7 @@ query EmergencyLockdowns {
 """
 
         for pattern, description in audit_data["symbolic_mappings"].items():
-            report += f"- **{pattern.replace('_', ' ').title()}**: `{description}`\n"
+            report += f"- **{pattern.replace('_', ' ').title(}**: `{description}`\n"
 
         report += """
 ## 📋 Recent Interventions
@@ -507,7 +507,7 @@ def main():
 
     print("\n📊 Export Complete:")
     for format_type, file_path in export_files.items():
-        print(f"   {format_type.upper()}: {file_path}")
+        print(f"   {format_type.upper(}: {file_path}")
 
     print("\n✅ Guardian audit data exported successfully")
     print("🔍 Use these files for compliance reporting and system analysis")

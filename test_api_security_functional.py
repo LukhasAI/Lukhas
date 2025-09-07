@@ -51,7 +51,7 @@ class TestAPIBackendSystems(unittest.TestCase):
 
                 python_files = list(api_path.glob("**/*.py"))
                 self.assertGreater(len(python_files), 0, "API should contain Python files")
-                print(f"✅ API structure verified: {len(python_files)} files")
+                print(f"✅ API structure verified: {len(python_files} files")
 
         except Exception as e:
             self.fail(f"API module test failed: {e}")
@@ -79,7 +79,7 @@ class TestAPIBackendSystems(unittest.TestCase):
                     continue
 
             self.assertGreater(len(fastapi_files) + len(endpoint_files), 0, "Should have FastAPI related files")
-            print(f"✅ FastAPI structure found: {len(fastapi_files)} app files, {len(endpoint_files)} endpoint files")
+            print(f"✅ FastAPI structure found: {len(fastapi_files)} app files, {len(endpoint_files} endpoint files")
 
         except Exception as e:
             self.fail(f"FastAPI structure test failed: {e}")
@@ -89,10 +89,10 @@ class TestAPIBackendSystems(unittest.TestCase):
         try:
             # Mock API endpoint testing
             mock_endpoints = {
-                "/health": {"method": "GET", "response": {"status": "healthy"}},
-                "/consciousness": {"method": "GET", "response": {"state": "active"}},
-                "/identity/auth": {"method": "POST", "response": {"authenticated": True}},
-                "/memory/store": {"method": "POST", "response": {"stored": True}},
+                "/health": {"method": "GET", "response": {"status": "healthy"},
+                "/consciousness": {"method": "GET", "response": {"state": "active"},
+                "/identity/auth": {"method": "POST", "response": {"authenticated": True},
+                "/memory/store": {"method": "POST", "response": {"stored": True},
             }
 
             # Test endpoint structure
@@ -102,7 +102,7 @@ class TestAPIBackendSystems(unittest.TestCase):
                 self.assertIn(config["method"], ["GET", "POST", "PUT", "DELETE"])
                 self.assertIsInstance(config["response"], dict)
 
-            print(f"✅ API endpoints validated: {len(mock_endpoints)} endpoints")
+            print(f"✅ API endpoints validated: {len(mock_endpoints} endpoints")
 
         except Exception as e:
             self.fail(f"API endpoint test failed: {e}")
@@ -171,7 +171,7 @@ class TestAPIBackendSystems(unittest.TestCase):
                 self.assertTrue(config["enabled"])
                 self.assertGreater(config["buffer_size"], 0)
 
-            print(f"✅ API streaming capabilities validated: {len(streaming_config)} streams")
+            print(f"✅ API streaming capabilities validated: {len(streaming_config} streams")
 
         except Exception as e:
             self.fail(f"API streaming test failed: {e}")
@@ -207,7 +207,7 @@ class TestSecurityGuardianSystems(unittest.TestCase):
 
                 python_files = list(security_path.glob("**/*.py"))
                 self.assertGreater(len(python_files), 0, "Security should contain Python files")
-                print(f"✅ Security structure verified: {len(python_files)} files")
+                print(f"✅ Security structure verified: {len(python_files} files")
 
         except Exception as e:
             self.fail(f"Security module test failed: {e}")
@@ -476,7 +476,7 @@ class TestSuiteRunner:
         total_tests = 0
 
         for test_name, test_class in test_classes:
-            print(f"\n🧪 TESTING {test_name.upper()}")
+            print(f"\n🧪 TESTING {test_name.upper(}")
             print("-" * 60)
 
             # Create test suite

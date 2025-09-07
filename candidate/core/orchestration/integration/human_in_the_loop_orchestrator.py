@@ -279,7 +279,7 @@ class EmailNotification(ReviewerNotification):
         """
         start_time = datetime.now(timezone.utc)
         notification_id = (
-            f"email_notify_{reviewer.reviewer_id}_{decision.decision_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+            f"email_notify_{reviewer.reviewer_id}_{decision.decision_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
         )
 
         logger.info(
@@ -406,7 +406,7 @@ class SlackNotification(ReviewerNotification):
         """
         start_time = datetime.now(timezone.utc)
         slack_notification_id = (
-            f"slack_notify_{reviewer.reviewer_id}_{decision.decision_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+            f"slack_notify_{reviewer.reviewer_id}_{decision.decision_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
         )
 
         logger.info(
@@ -881,7 +881,7 @@ class HumanInTheLoopOrchestrator:
         work hours analysis, and integration with calendar systems.
         """
         start_time = time.time()
-        availability_check_id = f"avail_check_{reviewer.reviewer_id}_{int(start_time)}"
+        availability_check_id = f"avail_check_{reviewer.reviewer_id}_{int(start_time}"
 
         logger.debug(
             "ΛTRACE_AVAILABILITY_ORCHESTRATION",
@@ -1149,7 +1149,7 @@ class HumanInTheLoopOrchestrator:
         explanation with step-by-step narrative generation and human interpretability.
         """
         start_time = datetime.now(timezone.utc)
-        explanation_request_id = f"xil_explain_{context.decision_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        explanation_request_id = f"xil_explain_{context.decision_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
 
         logger.info(
             "ΛTRACE_XIL_INTEGRATION_ORCHESTRATION",
@@ -1270,7 +1270,7 @@ class HumanInTheLoopOrchestrator:
             )
 
             # Return basic explanation to maintain workflow continuity
-            return f"AI Analysis: Decision type '{context.decision_type}' with confidence {getattr(context, 'ai_confidence', 0.0):.2f}. Full explanation temporarily unavailable."
+            return f"AI Analysis: Decision type '{context.decision_type}' with confidence {getattr(context, 'ai_confidence', 0.0}:.2f}. Full explanation temporarily unavailable."
 
     async def _generate_human_explanation(self, decision: DecisionRecord) -> str:
         """Generate human-readable explanation of the final decision."""
@@ -1289,7 +1289,7 @@ class HumanInTheLoopOrchestrator:
         explanation_parts = [
             f"Final Decision: {decision.final_decision}",
             f"Consensus Score: {decision.consensus_score:.2f}",
-            f"Total Reviewers: {len(decision.responses)}",
+            f"Total Reviewers: {len(decision.responses}",
             "",
             "Human Reasoning:",
         ]
@@ -1315,7 +1315,7 @@ class HumanInTheLoopOrchestrator:
         smart contract integration, and transparent audit trail management.
         """
         start_time = datetime.now(timezone.utc)
-        escrow_orchestration_id = f"escrow_setup_{escrow_details.escrow_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        escrow_orchestration_id = f"escrow_setup_{escrow_details.escrow_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
 
         logger.info(
             "ΛTRACE_ESCROW_ORCHESTRATION",
@@ -1458,7 +1458,7 @@ class HumanInTheLoopOrchestrator:
         signature verification, and non-repudiation audit trail integration.
         """
         start_time = datetime.now(timezone.utc)
-        signing_orchestration_id = f"srd_sign_{response.response_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        signing_orchestration_id = f"srd_sign_{response.response_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
 
         logger.info(
             "ΛTRACE_SRD_SIGNING_ORCHESTRATION",

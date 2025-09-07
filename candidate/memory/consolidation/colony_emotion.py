@@ -14,7 +14,7 @@ import streamlit as st
 # TAG:colony
 
 
-class EmotionalColony(BaseColony, timezone):
+class EmotionalColony(BaseColony):
     """Colony for distributed emotional processing."""
 
     def __init__(self, colony_id: str):

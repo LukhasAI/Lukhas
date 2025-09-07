@@ -43,7 +43,7 @@ class MatrizConsciousnessSystem:
 
     def __init__(self, system_id: str = "lukhas_consciousness_main"):
         self.system_id = system_id
-        self.consciousness_id = f"consciousness_{system_id}_{int(time.time())}"
+        self.consciousness_id = f"consciousness_{system_id}_{int(time.time()}"
 
         # Initialize core components
         self.bio_processor = get_bio_symbolic_processor()
@@ -121,7 +121,7 @@ class MatrizConsciousnessSystem:
 
         cycle_start = time.time()
         cycle_results = {
-            "cycle_id": f"cycle_{int(cycle_start)}",
+            "cycle_id": f"cycle_{int(cycle_start}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "signals_emitted": 0,
             "signals_processed": 0,
@@ -151,7 +151,7 @@ class MatrizConsciousnessSystem:
 
                 if violations:
                     cycle_results["compliance_violations"] = len(violations)
-                    logger.warning(f"Consciousness cycle has {len(violations)} compliance violations")
+                    logger.warning(f"Consciousness cycle has {len(violations} compliance violations")
 
                 # Step 3: Process through bio-symbolic layer
                 enhanced_bio_data = self.bio_processor.process_consciousness_signal(awareness_signal)
@@ -257,7 +257,7 @@ class MatrizConsciousnessSystem:
         """
 
         evolution_results = {
-            "evolution_id": f"evolution_{int(time.time())}",
+            "evolution_id": f"evolution_{int(time.time()}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "evolutionary_stages": [],
             "bio_adaptations_applied": 0,
@@ -313,7 +313,7 @@ class MatrizConsciousnessSystem:
 
             logger.info(f"🧬 Evolution stage '{stage_info['stage']}' completed")
             logger.info(f"   Momentum: {stage_info['momentum']:.1f}, Compliance: {compliance_level.value}")
-            logger.info(f"   Routed to {len(routed_nodes)} nodes")
+            logger.info(f"   Routed to {len(routed_nodes} nodes")
 
             # Small delay between stages to simulate evolution timing
             await asyncio.sleep(0.1)
@@ -407,7 +407,7 @@ class MatrizConsciousnessSystem:
 
         demo_start = time.time()
         demo_results = {
-            "demonstration_id": f"matriz_demo_{int(demo_start)}",
+            "demonstration_id": f"matriz_demo_{int(demo_start}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "phases": {},
             "total_signals_processed": 0,
@@ -535,7 +535,7 @@ async def run_matriz_system_demo():
         print(f"Total Signals Processed: {demo_results['total_signals_processed']}")
 
         for phase_name, phase_data in demo_results["phases"].items():
-            print(f"\n📍 {phase_name.upper()}:")
+            print(f"\n📍 {phase_name.upper(}:")
             if isinstance(phase_data, dict):
                 for key, value in phase_data.items():
                     if isinstance(value, (int, float, str)):

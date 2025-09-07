@@ -80,7 +80,7 @@ def initialize_consciousness_services():
 
                 from consciousness.dream.parallel_reality_simulator import (
                     RealityBranch,
-                    RealityType,, timezone)
+                    RealityType)
 
                 return type(
                     "Simulation",

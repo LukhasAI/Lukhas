@@ -25,7 +25,7 @@ except ImportError:
     # Fallback implementation for numpy functions
     class np:
         @staticmethod
-        def mean(values, timezone):
+        def mean(values):
             return sum(values) / len(values) if values else 0.0
 
 
@@ -251,7 +251,7 @@ class NISTAIRiskManager:
         for characteristic, score in trustworthy_scores.items():
             threshold = self.trustworthy_thresholds[characteristic]
             if score < threshold:
-                risks.append(f"Insufficient {characteristic.value.replace('_', ' ')} (score: {score:.2f})")
+                risks.append(f"Insufficient {characteristic.value.replace('_', ' '} (score: {score:.2f})")
 
         # Security and robustness risks
         if metrics.robustness_score and metrics.robustness_score < 0.8:
@@ -508,7 +508,7 @@ class NISTAIRiskManager:
         # Characteristic-specific recommendations
         for char, score in assessment.trustworthy_scores.items():
             if score < self.trustworthy_thresholds[char]:
-                recommendations.append(f"Improve {char.value.replace('_', ' ')} through targeted interventions")
+                recommendations.append(f"Improve {char.value.replace('_', ' '} through targeted interventions")
 
         recommendations.extend(
             [

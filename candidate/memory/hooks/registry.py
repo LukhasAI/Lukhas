@@ -315,7 +315,7 @@ class HookRegistry:
 
                 # Validate result
                 if not isinstance(result, MemoryItem):
-                    raise HookExecutionError(f"Hook {hook_name} returned invalid type: {type(result)}")
+                    raise HookExecutionError(f"Hook {hook_name} returned invalid type: {type(result}")
 
                 # Reset failure count on success
                 self._failed_hooks[hook_name] = 0

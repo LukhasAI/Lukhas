@@ -41,7 +41,7 @@ except ImportError as e:
 
     class BrandMonitoringAdapter:
         def collect_brand_metrics(self, *args, **kwargs):
-            return {"overall_brand_health": {"status": "good"}}
+            return {"overall_brand_health": {"status": "good"}
 
     class BrandIntelligenceMonitor:
         def analyze_brand_consistency(self, *args, **kwargs):
@@ -350,7 +350,7 @@ class BrandOrchestratorAgent:
         """
 
         start_time = datetime.now(timezone.utc)
-        orchestration_id = f"orch_{start_time.strftime('%Y%m%d_%H%M%S_%f')}"
+        orchestration_id = f"orch_{start_time.strftime('%Y%m%d_%H%M%S_%f'}"
 
         # Set default quality requirements
         if quality_requirements is None:
@@ -476,7 +476,7 @@ class BrandOrchestratorAgent:
         Orchestrate response to brand crisis situations
         """
 
-        crisis_id = f"crisis_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        crisis_id = f"crisis_{datetime.now(timezone.utc}.strftime('%Y%m%d_%H%M%S'}"
 
         # Step 1: Assess crisis severity
         crisis_assessment = self._assess_crisis_severity(crisis_type, crisis_data)
@@ -624,7 +624,7 @@ class BrandOrchestratorAgent:
 
         # Check for issues requiring immediate attention
         for indicator, value in health_indicators.items():
-            threshold = self.orchestration_config["quality_thresholds"].get(f"minimum_{indicator.split('_')[0]}", 0.8)
+            threshold = self.orchestration_config["quality_thresholds"].get(f"minimum_{indicator.split('_'}[0]}", 0.8)
             if value < threshold:
                 await self._add_orchestration_task(
                     "immediate_attention",
@@ -755,7 +755,7 @@ class BrandOrchestratorAgent:
     async def _add_orchestration_task(self, task_type: str, data: dict[str, Any], priority: int = 3) -> None:
         """Add a task to the orchestration queue"""
 
-        task_id = f"task_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S_%f')}"
+        task_id = f"task_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S_%f'}"
         task = BrandOrchestrationTask(task_id, task_type, priority, data)
 
         await self.task_queue.put(task)
@@ -942,7 +942,7 @@ class BrandOrchestratorAgent:
             },
         }
 
-        crisis_config = severity_matrix.get(crisis_type, {"base_severity": 3, "multipliers": {}})
+        crisis_config = severity_matrix.get(crisis_type, {"base_severity": 3, "multipliers": {})
 
         # Calculate severity based on crisis data
         base_severity = crisis_config["base_severity"]
@@ -1005,7 +1005,7 @@ class BrandOrchestratorAgent:
 
         return {
             "actions_executed": actions_taken,
-            "execution_timestamp": datetime.now(timezone.utc).isoformat(),
+            "execution_timestamp": datetime.now(timezone.utc).isoformat(},
             "response_effectiveness": "monitoring_initiated",
         }
 
@@ -1072,7 +1072,7 @@ class BrandOrchestratorAgent:
         self, strategy_review: dict[str, Any], recommendations: list[dict[str, str]]
     ) -> None:
         """Store strategic review results"""
-        print(f"Storing strategic review: {len(recommendations)} recommendations")
+        print(f"Storing strategic review: {len(recommendations} recommendations")
 
 
 # Example usage and testing
@@ -1117,7 +1117,7 @@ if __name__ == "__main__":
 
         print(f"Active Orchestration: {status['active_orchestration']}")
         print(f"Tasks Processed: {status['orchestration_metrics']['tasks_processed']}")
-        print(f"Success Rate: {status['orchestration_metrics'].get('success_rate', 'N/A')}")
+        print(f"Success Rate: {status['orchestration_metrics'].get('success_rate', 'N/A'}")
         print(f"Brand Consistency Score: {status['orchestration_metrics']['brand_consistency_score']:.3f}")
         print(f"System Health: {status['system_health']}")
 
@@ -1134,7 +1134,7 @@ if __name__ == "__main__":
         print(f"Crisis ID: {crisis_response['crisis_id']}")
         print(f"Crisis Severity: {crisis_response['crisis_assessment']['severity_level']}")
         print(f"Response Strategy: {crisis_response['response_strategy']['response_priority']}")
-        print(f"Actions Taken: {len(crisis_response['immediate_actions']['actions_executed'])}")
+        print(f"Actions Taken: {len(crisis_response['immediate_actions']['actions_executed']}")
         print(f"Resolution Status: {crisis_response['resolution_status']}")
 
     # Run the test

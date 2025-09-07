@@ -109,7 +109,7 @@ def _load_keypair(tag: str) -> tuple[bytes, bytes]:
 
 def attest(chain: list[dict[str, Any]], tag: str) -> Attestation:
     # write chain
-    chain_path = os.path.join(PROV_DIR, f"{int(time.time())}_{tag}.jsonl")
+    chain_path = os.path.join(PROV_DIR, f"{int(time.time()}_{tag}.jsonl")
     with open(chain_path, "w", encoding="utf-8") as f:
         for n in chain:
             f.write(json.dumps(n, ensure_ascii=False) + "\n")

@@ -31,7 +31,7 @@ from qi.qi_flux import QIFlux
 def generate_episodic_dream(trace):
     """Deep trace dream: realistic, memory-preserving (early sleep phase)."""
     collapse_id = trace.get("collapse_id", "unknown")
-    dream = f"You relive the moment — {trace.get('event', '...')} — in vivid clarity (collapse {collapse_id})."
+    dream = f"You relive the moment — {trace.get('event', '...'} — in vivid clarity (collapse {collapse_id})."
     return {
         "text": dream,
         "resonance": trace.get("resonance", 0.0),

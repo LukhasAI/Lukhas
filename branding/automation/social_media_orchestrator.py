@@ -134,7 +134,7 @@ class SocialMediaOrchestrator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"social_media_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"social_media_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -154,7 +154,7 @@ class SocialMediaOrchestrator:
                 with open(self.content_queue_path) as f:
                     queue_data = json.load(f)
                 self.content_queue = [ContentPost(**post) for post in queue_data.get("posts", [])]
-                self.logger.info(f"Loaded {len(self.content_queue)} posts from queue")
+                self.logger.info(f"Loaded {len(self.content_queue} posts from queue")
             except Exception as e:
                 self.logger.error(f"Failed to load content queue: {e}")
 
@@ -231,7 +231,7 @@ class SocialMediaOrchestrator:
             "#TechInnovation",
         ]
 
-        post_id = f"insight_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        post_id = f"insight_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
         return ContentPost(
             post_id=post_id,
@@ -299,13 +299,13 @@ class SocialMediaOrchestrator:
             "#AIPhilosophy",
         ]
 
-        post_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        post_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
         return ContentPost(
             post_id=post_id,
             platform="instagram",
             content_type="dream",
-            title=f"LUKHAS AI Dreams: {theme.title()}",
+            title=f"LUKHAS AI Dreams: {theme.title(}",
             content=enhanced_content,
             media_path=str(selected_image),
             hashtags=hashtags,
@@ -385,7 +385,7 @@ class SocialMediaOrchestrator:
                 "#TechAnalysis",
             ]
 
-            post_id = f"news_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+            post_id = f"news_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
             return ContentPost(
                 post_id=post_id,
@@ -447,7 +447,7 @@ class SocialMediaOrchestrator:
             "#ArtificialIntelligence",
         ]
 
-        post_id = f"philosophy_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        post_id = f"philosophy_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
         return ContentPost(
             post_id=post_id,
@@ -519,7 +519,7 @@ class SocialMediaOrchestrator:
             "#ArtificialIntelligence",
         ]
 
-        post_id = f"technical_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        post_id = f"technical_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
         return ContentPost(
             post_id=post_id,
@@ -616,11 +616,11 @@ class SocialMediaOrchestrator:
         db.log_system_activity(
             "social_orchestrator",
             "content_generated",
-            f"Generated {len(daily_posts)} social media posts",
+            f"Generated {len(daily_posts} social media posts",
             len(daily_posts),
         )
 
-        self.logger.info(f"✅ Generated {len(daily_posts)} posts for admin approval")
+        self.logger.info(f"✅ Generated {len(daily_posts} posts for admin approval")
         return daily_posts
 
     def get_pending_approval_posts(self) -> list[ContentPost]:
@@ -664,7 +664,7 @@ class SocialMediaOrchestrator:
         use_live_apis = live_mode if live_mode is not None else self.live_posting_enabled
         mode_text = "🚀 LIVE POSTING" if use_live_apis else "🎭 SIMULATION"
 
-        self.logger.info(f"{mode_text} - Publishing {len(approved_posts)} approved posts")
+        self.logger.info(f"{mode_text} - Publishing {len(approved_posts} approved posts")
 
         published_count = 0
         failed_count = 0
@@ -865,7 +865,7 @@ async def main():
 
     # Show pending approval
     pending = orchestrator.get_pending_approval_posts()
-    print(f"⏳ Posts pending approval: {len(pending)}")
+    print(f"⏳ Posts pending approval: {len(pending}")
 
     # Show analytics
     analytics = orchestrator.get_content_analytics()

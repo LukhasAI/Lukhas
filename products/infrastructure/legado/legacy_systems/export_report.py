@@ -75,7 +75,7 @@ class EthicsReportExporter:
                     continue
 
                 exported_files[format_type] = filepath
-                print(f"✅ {format_type.upper()} report exported: {filepath}")
+                print(f"✅ {format_type.upper(} report exported: {filepath}")
 
             except Exception as e:
                 print(f"❌ Failed to export {format_type}: {e}")
@@ -172,16 +172,16 @@ class EthicsReportExporter:
 <head>
     <title>Ethics Drift Report - {result.get("trace_index", "Unknown")}</title>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }}
-        .container {{ max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }}
-        .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; }}
-        .status-badge {{ display: inline-block; background: {status_color}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }}
-        .metric-box {{ background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 10px 0; border-radius: 5px; }}
-        .violation {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 5px 0; }}
-        .critical {{ border-left-color: #dc3545; background: #f8d7da; }}
-        table {{ width: 100%; border-collapse: collapse; margin: 10px 0; }}
-        th, td {{ padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }}
-        th {{ background-color: #f2f2f2; }}
+        body {{ font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }
+        .container {{ max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; }
+        .status-badge {{ display: inline-block; background: {status_color}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .metric-box {{ background: #f8f9fa; border: 1px solid #dee2e6; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .violation {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 5px 0; }
+        .critical {{ border-left-color: #dc3545; background: #f8d7da; }
+        table {{ width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td {{ padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th {{ background-color: #f2f2f2; }
     </style>
 </head>
 <body>
@@ -292,7 +292,7 @@ class EthicsReportExporter:
 
         # Export dashboard data
         dashboard_file = (
-            self.output_base_dir / "dashboard" / f"dashboard_data_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+            self.output_base_dir / "dashboard" / f"dashboard_data_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
         )
         with open(dashboard_file, "w") as f:
             json.dump(dashboard_data, f, indent=2)
@@ -321,7 +321,7 @@ class EthicsReportExporter:
         """Generate comprehensive audit trail entry."""
         audit_entry = {
             "audit_id": hashlib.sha256(
-                f"{result.get('trace_index', '')}_{datetime.now(timezone.utc).isoformat()}".encode()
+                f"{result.get('trace_index', '')}_{datetime.now(timezone.utc).isoformat(}".encode()
             ).hexdigest()[:16],
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "trace_index": result.get("trace_index", ""),
@@ -379,7 +379,7 @@ class EthicsReportExporter:
         }
 
         # Export governance summary
-        governance_file = self.output_base_dir / f"governance_summary_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+        governance_file = self.output_base_dir / f"governance_summary_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
         with open(governance_file, "w") as f:
             json.dump(governance_summary, f, indent=2)
 

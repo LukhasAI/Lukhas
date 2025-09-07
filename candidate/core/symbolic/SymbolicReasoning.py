@@ -32,7 +32,7 @@ class SymbolicEngine:
     Symbolic reasoning engine with logic operators and confidence metrics
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.confidence_threshold = 0.8
         self.reasoning_graph = {}
         self.reasoning_history = []
@@ -250,7 +250,7 @@ class SymbolicEngine:
 
         contents = [elem["content"] for elem in elements]
         if relation_type == "compound":
-            return f"({' ∧ '.join(contents)})"
+            return f"({' ∧ '.join(contents})"
         else:
             return contents[0] if contents else ""
 

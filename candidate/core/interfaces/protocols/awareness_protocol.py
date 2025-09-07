@@ -25,7 +25,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class AwarenessType(Enum):
@@ -269,7 +269,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
     def _generate_session_id(self, user_id: str) -> str:
         """Generate a unique session ID"""
         timestamp = str(int(time.time()))
-        data = f"{user_id}:{timestamp}:{hash(user_id)}"
+        data = f"{user_id}:{timestamp}:{hash(user_id}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
     def get_protocol_metrics(self) -> dict[str, Any]:
@@ -362,7 +362,7 @@ class DefaultAwarenessAssessor(AwarenessAssessor):
 
     def _generate_request_id(self, input_data: AwarenessInput) -> str:
         """Generate unique request ID"""
-        data = f"{input_data.user_id}:{input_data.session_id}:{time.time()}"
+        data = f"{input_data.user_id}:{input_data.session_id}:{time.time(}"
         return hashlib.sha256(data.encode()).hexdigest()[:12]  # Changed from MD5 for security
 
     def _generate_symbolic_signature(self, tier: TierLevel) -> str:

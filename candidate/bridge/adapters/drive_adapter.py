@@ -274,7 +274,7 @@ class DriveAdapter(BaseServiceAdapter):
                     return {
                         "file_id": file_data["id"],
                         "name": file_data["name"],
-                        "trace_id": self.telemetry.metrics.get("last_trace_id"),
+                        "trace_id": self.telemetry.metrics.get("last_trace_id"},
                     }
                 else:
                     return {"error": f"upload_error_{response.status}"}

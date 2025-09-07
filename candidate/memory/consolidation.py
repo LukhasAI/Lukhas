@@ -26,7 +26,7 @@ class ConsolidationTask:
 class MemoryConsolidator:
     """Consolidates memories for long-term storage"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.pending_tasks: list[ConsolidationTask] = []
         self.completed_tasks: list[ConsolidationTask] = []
         self.consolidation_stats = {

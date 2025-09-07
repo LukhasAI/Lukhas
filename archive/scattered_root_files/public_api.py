@@ -34,7 +34,7 @@ from candidate.core.security.auth import get_auth_system
 from lukhas.branding_bridge import (
     get_system_signature,
     get_trinity_context,
-    initialize_branding,, timezone)
+    initialize_branding)
 
 # Configure logging
 logging.basicConfig(
@@ -152,7 +152,7 @@ class ChatRequest(BaseModel):
             "example": {
                 "message": "What is consciousness technology?",
                 "session_id": "session_123",
-                "context": {"user_preferences": {"style": "detailed"}},
+                "context": {"user_preferences": {"style": "detailed"},
             }
         }
     )
@@ -346,7 +346,7 @@ async def chat_with_consciousness(request: Request, chat_request: ChatRequest, a
         # For now, create a sophisticated mock response
         # In production, this would connect to the actual consciousness interface
 
-        session_id = chat_request.session_id or f"session_{int(time.time())}"
+        session_id = chat_request.session_id or f"session_{int(time.time()}"
 
         # Simulate consciousness processing
         consciousness_level = min(0.85 + (len(chat_request.message) / 1000), 1.0)

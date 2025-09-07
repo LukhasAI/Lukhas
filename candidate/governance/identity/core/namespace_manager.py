@@ -30,7 +30,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class NamespaceType(Enum, timezone):
+class NamespaceType(Enum):
     """Namespace type classification"""
 
     ROOT = "root"  # Root system namespaces
@@ -307,7 +307,7 @@ class NamespaceManager:
                 return {"success": False, "error": "Guardian validation failed"}
 
             # Generate encryption key ID
-            encryption_key_id = f"ns_key_{secrets.token_hex(16)}"
+            encryption_key_id = f"ns_key_{secrets.token_hex(16}"
 
             # Create namespace
             namespace_data = {
@@ -315,7 +315,7 @@ class NamespaceManager:
                 "parent_namespace": parent_namespace,
                 "namespace_type": namespace_type.value,
                 "display_name": display_name,
-                "description": f"{namespace_type.value.title()} namespace: {display_name}",
+                "description": f"{namespace_type.value.title(} namespace: {display_name}",
                 "owner_id": owner_id,
                 "tenant_id": owner_id if namespace_type == NamespaceType.TENANT else "",
                 "metadata": metadata or {},

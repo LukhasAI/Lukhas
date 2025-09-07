@@ -502,7 +502,7 @@ class AuditLogger:
         self.performance_metrics["buffer_flushes"] += 1
         self.last_flush_time = time.time()
 
-        logger.debug(f"Flushed {len(events_to_flush)} audit events to storage")
+        logger.debug(f"Flushed {len(events_to_flush} audit events to storage")
 
     async def _write_events_to_file(self, events: list[AuditEvent]):
         try:
@@ -847,7 +847,7 @@ class AuditLogger:
             Event ID
         """
         return self.log_event(
-            f"Trust score calculated for {user_id}: {trust_result.get('total_score', 0):.2f}",
+            f"Trust score calculated for {user_id}: {trust_result.get('total_score', 0}:.2f}",
             event_type=AuditEventType.SECURITY_EVENT,
             severity=AuditSeverity.INFO,
             details={

@@ -398,7 +398,7 @@ class AgentMemoryTraceAnimator:
             nodes_data.append(
                 {
                     "id": node.id,
-                    "label": f"{node.type}: {str(node.content)[:20]}",
+                    "label": f"{node.type}: {str(node.content}[:20]}",
                     "type": node.type,
                     "symbolic_tags": node.symbolic_tags or [],
                     "importance": node.importance_score,
@@ -474,12 +474,12 @@ class AgentMemoryTraceAnimator:
         html_content = f"""
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Workflow: {trace.id}</title>
 <style>
-body {{ background: #0f172a; color: #e2e8f0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }}
-.animation-container {{ width: {self.canvas_width}px; height: {self.canvas_height}px; border: 1px solid {colors["primary"]}; position: relative; background: #1e293b; border-radius: 8px; overflow: hidden; }}
-.memory-node {{ position: absolute; width: 15px; height: 15px; border-radius: 50%; background: {colors["particles"]}; opacity: 0; transition: opacity 0.5s, transform 0.3s; }}
-.memory-node.active {{ opacity: 1; transform: scale(1.1); }}
-.info-panel {{ background: rgba(30, 41, 59, 0.8); padding: 10px; border-radius: 5px; margin-bottom:10px; width:100%; max-width:{self.canvas_width}px; }}
-.controls button {{ background: {colors["primary"]}; color: white; border: none; padding: 8px 15px; margin: 5px; border-radius: 4px; cursor: pointer; }}
+body {{ background: #0f172a; color: #e2e8f0; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+.animation-container {{ width: {self.canvas_width}px; height: {self.canvas_height}px; border: 1px solid {colors["primary"]}; position: relative; background: #1e293b; border-radius: 8px; overflow: hidden; }
+.memory-node {{ position: absolute; width: 15px; height: 15px; border-radius: 50%; background: {colors["particles"]}; opacity: 0; transition: opacity 0.5s, transform 0.3s; }
+.memory-node.active {{ opacity: 1; transform: scale(1.1); }
+.info-panel {{ background: rgba(30, 41, 59, 0.8); padding: 10px; border-radius: 5px; margin-bottom:10px; width:100%; max-width:{self.canvas_width}px; }
+.controls button {{ background: {colors["primary"]}; color: white; border: none; padding: 8px 15px; margin: 5px; border-radius: 4px; cursor: pointer; }
 </style></head><body>
 <div class="info-panel"><h3>Workflow: {trace.id}</h3><p id="frameCounter">Frame: 0/{len(frames)}</p></div>
 <div class="animation-container" id="canvas"></div>
@@ -493,12 +493,12 @@ class Animator {{
         this.frames = frames; this.canvas = document.getElementById(canvasId);
         this.frameCounter = document.getElementById(counterId); this.nodeColor = nodeColor;
         this.currentFrame = 0; this.isPlaying = false; this.speed = {self.animation_speed}; this.interval = null;
-        this.nodeElements = {{}}; this.renderFrame(0);
-    }}
+        this.nodeElements = {{}; this.renderFrame(0);
+    }
     renderFrame(idx) {{
         if (idx >= this.frames.length) return;
         const frame = this.frames[idx];
-        this.frameCounter.textContent = `Frame: ${{idx+1}}/${"{this.frames.length}"}`;
+        this.frameCounter.textContent = `Frame: ${{idx+1}/${"{this.frames.length}"}`;
 
         Object.values(this.nodeElements).forEach(ne => ne.classList.remove('active'));
         frame.active_nodes.forEach(nodeId => {{
@@ -507,23 +507,23 @@ class Animator {{
                 el.style.left = `${"{Math.random() * (this.canvas.clientWidth - 20) + 10}"}px`;
                 el.style.top = `${"{Math.random() * (this.canvas.clientHeight - 20) + 10}"}px`;
                 this.canvas.appendChild(el); this.nodeElements[nodeId] = el;
-            }}
+            }
             this.nodeElements[nodeId].classList.add('active');
             this.nodeElements[nodeId].style.background = this.nodeColor;
-        }});
-    }}
-    play() {{ if (this.isPlaying) return; this.isPlaying = true; this.loop(); }}
-    pause() {{ this.isPlaying = false; clearInterval(this.interval); }}
-    reset() {{ this.pause(); this.currentFrame = 0; this.renderFrame(0); }}
-    setSpeed(val) {{ this.speed = parseFloat(val); if(this.isPlaying) {{this.pause(); this.play();}} }}
+        });
+    }
+    play() {{ if (this.isPlaying) return; this.isPlaying = true; this.loop(); }
+    pause() {{ this.isPlaying = false; clearInterval(this.interval); }
+    reset() {{ this.pause(); this.currentFrame = 0; this.renderFrame(0); }
+    setSpeed(val) {{ this.speed = parseFloat(val); if(this.isPlaying) {{this.pause(); this.play();} }
     loop() {{
         this.interval = setInterval(() => {{
             if (!this.isPlaying) return;
             this.renderFrame(this.currentFrame);
             this.currentFrame = (this.currentFrame + 1) % this.frames.length;
-        }}, 100 / this.speed);
-    }}
-}}
+        }, 100 / this.speed);
+    }
+}
 const animFrames = JSON.parse('{js_frames}');
 const anim = new Animator(animFrames, 'canvas', 'frameCounter', "{colors["particles"]}");
 document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
@@ -541,13 +541,13 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
     async def _create_symbolic_html_stub(self, trace: MemoryTrace, graph_data: dict[str, Any]) -> str:
         # TRACE: Generating symbolic HTML stub.
         log.warning("Symbolic reasoning HTML generation is a STUB.", for_trace_id=trace.id)
-        return f"<html><body><h1>Symbolic Reasoning Animation - {trace.id} (Stub)</h1><pre>{json.dumps(graph_data, indent=2)}</pre></body></html>"
+        return f"<html><body><h1>Symbolic Reasoning Animation - {trace.id} (Stub)</h1><pre>{json.dumps(graph_data, indent=2}</pre></body></html>"
 
     # CAUTION: This HTML generation is a STUB.
     async def _create_quantum_html_stub(self, trace: MemoryTrace, wave_data: dict[str, Any]) -> str:
         # TRACE: Generating quantum HTML stub.
         log.warning("Quantum entanglement HTML generation is a STUB.", for_trace_id=trace.id)
-        return f"<html><body><h1>Quantum Entanglement Animation - {trace.id} (Stub)</h1><pre>{json.dumps(wave_data, indent=2)}</pre></body></html>"
+        return f"<html><body><h1>Quantum Entanglement Animation - {trace.id} (Stub)</h1><pre>{json.dumps(wave_data, indent=2}</pre></body></html>"
 
     @lukhas_tier_required(0)
     def save_animation_to_file(self, animation_html: str, output_path: Path) -> bool:
@@ -598,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
             )
             nodes.append(node)
 
-        trace_id = f"sample_trace_{trace_type.value}_{start_time.strftime('%Y%m%d%H%M%S')}"
+        trace_id = f"sample_trace_{trace_type.value}_{start_time.strftime('%Y%m%d%H%M%S'}"
         sample_trace = MemoryTrace(
             id=trace_id,
             trace_type=trace_type,
@@ -606,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
             start_time=start_time,
             end_time=start_time + timedelta(seconds=(len(nodes) - 1) * 10 + 5),
             qi_signature=(
-                f"Q-Sample-{start_time.timestamp()}" if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT else None
+                f"Q-Sample-{start_time.timestamp(}" if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT else None
             ),
             symbolic_metadata={"source": "sample_generator", "version": "1.0"},
         )
@@ -648,7 +648,7 @@ async def main_demo():
     if workflow_animation_data.get("html"):
         animator.save_animation_to_file(workflow_animation_data["html"], workflow_output_path)
         # TRACE: Workflow animation saved to file in demo.
-        log.info(f"Workflow animation saved to: {workflow_output_path.resolve()}")
+        log.info(f"Workflow animation saved to: {workflow_output_path.resolve(}")
     else:
         log.error("Failed to generate HTML for workflow animation.")
 
@@ -659,7 +659,7 @@ async def main_demo():
     if symbolic_animation_data.get("html"):
         animator.save_animation_to_file(symbolic_animation_data["html"], symbolic_output_path)
         # TRACE: Symbolic reasoning animation stub saved in demo.
-        log.info(f"Symbolic reasoning animation (stub) saved to: {symbolic_output_path.resolve()}")
+        log.info(f"Symbolic reasoning animation (stub) saved to: {symbolic_output_path.resolve(}")
 
     # TRACE: AgentMemoryTraceAnimator Demo Finished.
     log.info(" AgentMemoryTraceAnimator Demo Finished ")

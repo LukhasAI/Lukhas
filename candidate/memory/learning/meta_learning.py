@@ -179,7 +179,7 @@ class MetaLearningSystem:
             ],
             "expected_outcome_metric": "accuracy > 0.85",
             "data_subset_ratio": 1.0,  # Use all enhanced data
-            "summary": f"Plan for {strategy} on data with {len(data.get('features', []))} features.",
+            "summary": f"Plan for {strategy} on data with {len(data.get('features', [])} features.",
         }
 
     # # Placeholder: Update learning performance metrics

@@ -95,7 +95,7 @@ def format_flamegraph(flamegraph_lines, flamegraph_script=None):
         import tempfile
 
         temp_dir = tempfile.gettempdir()
-        flamegraph_script = os.path.join(temp_dir, f"{os.getuid()}_flamegraph.pl")
+        flamegraph_script = os.path.join(temp_dir, f"{os.getuid(}_flamegraph.pl")
     if not os.path.exists(flamegraph_script):
         import urllib.request
 
@@ -127,7 +127,7 @@ def _write_blocks(f, prefix, blocks):
     for b in blocks:
         if "history" not in b:
             frames, accounted_for_size = _block_extra(b)
-            f.write(f"{prefix};{b['state']};{frames_fragment(frames)} {accounted_for_size}\n")
+            f.write(f"{prefix};{b['state']};{frames_fragment(frames} {accounted_for_size}\n")
         else:
             accounted_for_size = 0
             for h in b["history"]:
@@ -135,7 +135,7 @@ def _write_blocks(f, prefix, blocks):
                 accounted_for_size += sz
                 if "frames" in h:
                     frames = h["frames"]
-                    f.write(f"{prefix};{b['state']};{frames_fragment(frames)} {sz}\n")
+                    f.write(f"{prefix};{b['state']};{frames_fragment(frames} {sz}\n")
                 else:
                     f.write(f"{prefix};{b['state']};<no-context> {sz}\n")
         gaps = b["size"] - accounted_for_size
@@ -171,16 +171,16 @@ def compare(before, after, format_flamegraph=format_flamegraph):
     before_segs = {_seg_key(seg) for seg in before}
     after_segs = {_seg_key(seg) for seg in after}
 
-    logger.debug(f"only_before = {[a for a, _ in (before_segs - after_segs)]}")
-    logger.debug(f"only_after = {[a for a, _ in (after_segs - before_segs)]}")
+    logger.debug(f"only_before = {[a for a, _ in (before_segs - after_segs}]}")
+    logger.debug(f"only_after = {[a for a, _ in (after_segs - before_segs}]}")
 
     for seg in before:
         if _seg_key(seg) not in after_segs:
-            _write_blocks(f, f"only_before;{_seg_info(seg)}", seg["blocks"])
+            _write_blocks(f, f"only_before;{_seg_info(seg}", seg["blocks"])
 
     for seg in after:
         if _seg_key(seg) not in before_segs:
-            _write_blocks(f, f"only_after;{_seg_info(seg)}", seg["blocks"])
+            _write_blocks(f, f"only_after;{_seg_info(seg}", seg["blocks"])
 
     return format_flamegraph(f.getvalue())
 
@@ -215,7 +215,7 @@ def _report_free(free_external, free_internal):
     if total != 0:
         pct = (free_internal / total) * 100
         suffix = f" ({pct:.1f}% internal)"
-    return f"{Bytes(total)}{suffix}"
+    return f"{Bytes(total}{suffix}"
 
 
 PAGE_SIZE = 1024 * 1024 * 20
@@ -243,7 +243,7 @@ def segsum(data):
         data: snapshot dictionary created from _snapshot()
     """
     out = io.StringIO()
-    out.write(f"Summary of segments >= {Bytes(PAGE_SIZE)} in size\n")
+    out.write(f"Summary of segments >= {Bytes(PAGE_SIZE} in size\n")
     total_reserved = 0
     total_allocated = 0
     free_external = 0
@@ -296,13 +296,13 @@ def segsum(data):
         stream = f" stream_{seg['stream']}" if seg["stream"] != 0 else ""
         if seg["total_size"] >= PAGE_SIZE:
             out.write(
-                f"[{body}] {Bytes(seg['total_size'])} allocated, "
-                f"{_report_free(seg_free_external, seg_free_internal)} free{stream}\n"
+                f"[{body}] {Bytes(seg['total_size']} allocated, "
+                f"{_report_free(seg_free_external, seg_free_internal} free{stream}\n"
             )
-    out.write(f"segments: {len(data['segments'])}\n")
-    out.write(f"total_reserved: {Bytes(total_reserved)}\n")
-    out.write(f"total_allocated: {Bytes(total_allocated)}\n")
-    out.write(f"total_free: {_report_free(free_external, free_internal)}\n")
+    out.write(f"segments: {len(data['segments']}\n")
+    out.write(f"total_reserved: {Bytes(total_reserved}\n")
+    out.write(f"total_allocated: {Bytes(total_allocated}\n")
+    out.write(f"total_free: {_report_free(free_external, free_internal}\n")
     out.write(legend)
     assert free_internal + free_external + total_allocated == total_reserved
     return out.getvalue()
@@ -325,7 +325,7 @@ def trace(data):
                 return free_names.pop()
             r, m = next_name // 26, next_name % 26
             next_name += 1
-            return f"{chr(ord('a') + m)}{'' if r == 0 else r}"
+            return f"{chr(ord('a') + m}{'' if r == 0 else r}"
 
         def find_segment(addr):
             for name, saddr, size in segment_intervals:
@@ -339,7 +339,7 @@ def trace(data):
             return None, None
 
         count = 0
-        out.write(f"{len(entries)} entries\n")
+        out.write(f"{len(entries} entries\n")
 
         total_reserved = 0
         for seg in data["segments"]:
@@ -355,7 +355,7 @@ def trace(data):
                     offset = addr
                 else:
                     offset = addr - seg_addr
-                out.write(f"{n} = {seg_name}[{offset}:{Bytes(size)}]\n")
+                out.write(f"{n} = {seg_name}[{offset}:{Bytes(size}]\n")
                 allocation_addr_to_name[addr] = (n, size, count)
                 count += size
             elif e["action"] == "free_requested":
@@ -373,7 +373,7 @@ def trace(data):
             elif e["action"] == "segment_alloc":
                 addr, size = e["addr"], e["size"]
                 name = _name()
-                out.write(f"{name} = cudaMalloc({addr}, {Bytes(size)})\n")
+                out.write(f"{name} = cudaMalloc({addr}, {Bytes(size})\n")
                 segment_intervals.append((name, addr, size))
                 segment_addr_to_name[addr] = name
             elif e["action"] == "segment_free":
@@ -389,7 +389,7 @@ def trace(data):
                 out.write("raise OutOfMemoryError ")
             else:
                 out.write(f"{e}\n")
-        out.write(f"TOTAL MEM: {Bytes(count)}")
+        out.write(f"TOTAL MEM: {Bytes(count}")
 
     for i, d in enumerate(data["device_traces"]):
         if d:

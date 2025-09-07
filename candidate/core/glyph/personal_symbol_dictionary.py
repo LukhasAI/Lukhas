@@ -487,7 +487,7 @@ class PersonalSymbolDictionary:
                 # Rebuild evolution history
                 if "history" in data:
                     for entry in data["history"]:
-                        key = f"{user_id}:{entry.get('symbol', '')}"
+                        key = f"{user_id}:{entry.get('symbol', ''}"
                         self.evolution_history[key].append(entry)
 
             except Exception as e:

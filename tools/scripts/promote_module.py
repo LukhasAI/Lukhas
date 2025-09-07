@@ -196,8 +196,8 @@ def main() -> int:
 
     # Summary
     print("📦 Promotion summary")
-    print(f"  Copied:    {len(copied)} files")
-    print(f"  Rewritten: {len(rewritten)} files (imports updated)")
+    print(f"  Copied:    {len(copied} files")
+    print(f"  Rewritten: {len(rewritten} files (imports updated)")
     if shim:
         print(f"  Shim:      {shim}")
     print(f"  Dry-run:   {args.dry_run}")

@@ -1001,26 +1001,26 @@ class ResourceManager:
         # Cache efficiency
         cache_metrics = metrics.get("cache", {})
         report += "CACHE EFFICIENCY:\n"
-        report += f"  Hit Rate: {cache_metrics.get('hit_rate', 0):.2%}\n"
-        report += f"  Size: {cache_metrics.get('current_size_mb', 0):.1f} MB\n"
-        report += f"  Entries: {cache_metrics.get('entries', 0)}\n\n"
+        report += f"  Hit Rate: {cache_metrics.get('hit_rate', 0}:.2%}\n"
+        report += f"  Size: {cache_metrics.get('current_size_mb', 0}:.1f} MB\n"
+        report += f"  Entries: {cache_metrics.get('entries', 0}\n\n"
 
         # Object pooling
         pool_metrics = metrics.get("object_pool", {})
         report += "OBJECT POOLING:\n"
-        report += f"  Reuse Rate: {pool_metrics.get('reuse_rate', 0):.2%}\n"
-        report += f"  Pool Size: {pool_metrics.get('pool_size', 0)}\n\n"
+        report += f"  Reuse Rate: {pool_metrics.get('reuse_rate', 0}:.2%}\n"
+        report += f"  Pool Size: {pool_metrics.get('pool_size', 0}\n\n"
 
         # Computation reuse
         reuse_metrics = metrics.get("reuse", {})
         report += "COMPUTATION REUSE:\n"
-        report += f"  Savings Rate: {reuse_metrics.get('savings_rate', 0):.2%}\n"
-        report += f"  Computations Saved: {reuse_metrics.get('computations_saved', 0)}\n\n"
+        report += f"  Savings Rate: {reuse_metrics.get('savings_rate', 0}:.2%}\n"
+        report += f"  Computations Saved: {reuse_metrics.get('computations_saved', 0}\n\n"
 
         # Memory efficiency
         mmap_metrics = metrics.get("mmap", {})
         report += "MEMORY OPTIMIZATION:\n"
-        report += f"  Memory Saved: {mmap_metrics.get('memory_saved_mb', 0):.1f} MB\n"
+        report += f"  Memory Saved: {mmap_metrics.get('memory_saved_mb', 0}:.1f} MB\n"
 
         return report
 
@@ -1081,13 +1081,13 @@ if __name__ == "__main__":
     # First call - cache miss
     start = time.time()
     result1 = cache.get("compute_100", lambda: expensive_computation(100))
-    print(f"   First call (miss): {time.time() - start:.3f}s, result={result1}")
+    print(f"   First call (miss): {time.time(} - start:.3f}s, result={result1}")
 
     # Second call - cache hit
     start = time.time()
     result2 = cache.get("compute_100", lambda: expensive_computation(100))
-    print(f"   Second call (hit): {time.time() - start:.3f}s, result={result2}")
-    print(f"   Cache metrics: {cache.get_metrics()}\n")
+    print(f"   Second call (hit): {time.time(} - start:.3f}s, result={result2}")
+    print(f"   Cache metrics: {cache.get_metrics(}\n")
 
     # 2. Object pooling
     print("2. OBJECT POOLING")
@@ -1112,7 +1112,7 @@ if __name__ == "__main__":
     for _i in range(5):
         obj = pool.acquire()
         objects.append(obj)
-    print(f"   Acquired 5 objects: {time.time() - start:.3f}s")
+    print(f"   Acquired 5 objects: {time.time(} - start:.3f}s")
 
     # Release back to pool
     for obj in objects:
@@ -1122,8 +1122,8 @@ if __name__ == "__main__":
     start = time.time()
     for _i in range(5):
         obj = pool.acquire()
-    print(f"   Reacquired 5 objects: {time.time() - start:.3f}s")
-    print(f"   Pool metrics: {pool.get_metrics()}\n")
+    print(f"   Reacquired 5 objects: {time.time(} - start:.3f}s")
+    print(f"   Pool metrics: {pool.get_metrics(}\n")
 
     # 3. Computation reuse
     print("3. COMPUTATION REUSE")
@@ -1138,12 +1138,12 @@ if __name__ == "__main__":
     # Calculate fibonacci numbers
     start = time.time()
     fib30 = fibonacci(30)
-    print(f"   Fibonacci(30) first: {time.time() - start:.3f}s, result={fib30}")
+    print(f"   Fibonacci(30) first: {time.time(} - start:.3f}s, result={fib30}")
 
     start = time.time()
     fib30_cached = fibonacci(30)
-    print(f"   Fibonacci(30) cached: {time.time() - start:.3f}s, result={fib30_cached}")
-    print(f"   Reuse metrics: {reuse.get_metrics()}\n")
+    print(f"   Fibonacci(30) cached: {time.time(} - start:.3f}s, result={fib30_cached}")
+    print(f"   Reuse metrics: {reuse.get_metrics(}\n")
 
     # 4. Resource optimization report
     print("\n" + manager.create_resource_report())

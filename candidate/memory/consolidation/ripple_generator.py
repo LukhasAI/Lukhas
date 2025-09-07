@@ -358,7 +358,7 @@ class RippleGenerator:
     def set_memory_pool(self, memories: list[Any]):
         """Set available memories for replay"""
         self.available_memories = memories
-        logger.debug(f"Memory pool updated: {len(memories)} memories")
+        logger.debug(f"Memory pool updated: {len(memories} memories")
 
     def set_priority_memories(self, memory_ids: set[str]):
         """Set high-priority memories for preferential replay"""
@@ -593,10 +593,10 @@ async def demonstrate_ripple_generator():
 
     # Register callbacks
     async def on_ripple(ripple):
-        print(f"Ripple: {ripple.frequency:.1f}Hz, {len(ripple.memory_sequence)} memories")
+        print(f"Ripple: {ripple.frequency:.1f}Hz, {len(ripple.memory_sequence} memories")
 
     async def on_sequence(sequence):
-        print(f"Sequence completed: {len(sequence.ripples)} ripples, {len(sequence.unique_memories)} unique memories")
+        print(f"Sequence completed: {len(sequence.ripples)} ripples, {len(sequence.unique_memories} unique memories")
 
     generator.register_ripple_callback(on_ripple)
     generator.register_sequence_callback(on_sequence)
@@ -609,7 +609,7 @@ async def demonstrate_ripple_generator():
     ripple = await generator.generate_ripple(memory_sequence=test_memories[:3], ripple_type=RippleType.SINGLE)
     if ripple:
         print(f"Generated: {ripple.ripple_id[:8]}...")
-        print(f"  Power: {ripple.calculate_power():.2f}")
+        print(f"  Power: {ripple.calculate_power(}:.2f}")
         print(f"  Coupling: {ripple.coupling_strength:.2f}")
 
     # Ripple sequence

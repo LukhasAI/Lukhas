@@ -844,10 +844,10 @@ class ValidatorNode(CognitiveNode):
         summary_parts = []
 
         if passed_strategies:
-            summary_parts.append(f"Passed: {', '.join(passed_strategies)}")
+            summary_parts.append(f"Passed: {', '.join(passed_strategies}")
 
         if failed_strategies:
-            summary_parts.append(f"Failed: {', '.join(failed_strategies)}")
+            summary_parts.append(f"Failed: {', '.join(failed_strategies}")
 
         # Add key issues
         all_issues = []
@@ -856,7 +856,7 @@ class ValidatorNode(CognitiveNode):
 
         if all_issues:
             key_issues = all_issues[:3]  # Show top 3 issues
-            summary_parts.append(f"Issues: {'; '.join(key_issues)}")
+            summary_parts.append(f"Issues: {'; '.join(key_issues}")
 
         return " | ".join(summary_parts) if summary_parts else "No issues detected"
 
@@ -1379,7 +1379,7 @@ if __name__ == "__main__":
 
             # Show validation details
             validation_results = state.get("validation_results", {})
-            print(f"Validation strategies: {list(validation_results.keys())}")
+            print(f"Validation strategies: {list(validation_results.keys()}")
 
             for strategy, strategy_result in validation_results.items():
                 print(f"  {strategy}: conf={strategy_result['confidence']:.3f}, valid={strategy_result['is_valid']}")
@@ -1403,7 +1403,7 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 50)
     print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests * 100:.1f}%)")
-    print(f"Processing History: {len(validator_node.get_trace())} MATRIZ nodes created")
+    print(f"Processing History: {len(validator_node.get_trace()} MATRIZ nodes created")
 
     # Show validation capabilities
     print("\nValidator Capabilities:")
@@ -1414,4 +1414,4 @@ if __name__ == "__main__":
     for threshold_type, threshold_value in validator_node.validation_thresholds.items():
         print(f"  {threshold_type}: {threshold_value}")
 
-    print(f"\nKnowledge Base Size: {len(validator_node.known_facts)} known facts")
+    print(f"\nKnowledge Base Size: {len(validator_node.known_facts} known facts")

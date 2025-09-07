@@ -31,7 +31,7 @@ from datetime import datetime
 LOG_PATH = "data/dream_log.jsonl"
 
 
-def log_dream(dream_data: dict, timezone):
+def log_dream(dream_data: dict):
     """
     Appends a symbolic dream to the dream log as a JSON line.
     Adds a timestamp automatically if not present.

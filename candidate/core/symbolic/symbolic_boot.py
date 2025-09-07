@@ -162,7 +162,7 @@ def main():
     bootstrap = get_bootstrap()
     result = bootstrap.symbolic_boot()
 
-    logger.info(f"\n📊 Boot Status: {result['status'].upper()}")
+    logger.info(f"\n📊 Boot Status: {result['status'].upper(}")
     logger.info(f"Workspace Valid: {result['workspace_valid']}")
     logger.info(f"Modules Loaded: {result['modules_loaded']}")
 

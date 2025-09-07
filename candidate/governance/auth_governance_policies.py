@@ -30,7 +30,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class PolicySeverity(Enum, timezone):
+class PolicySeverity(Enum):
     """Policy violation severity levels"""
 
     LOW = "low"
@@ -583,7 +583,7 @@ class AuthGovernancePolicyEngine:
 
                 if not compliance_result["compliant"]:
                     violation = PolicyViolation(
-                        id=f"violation_{datetime.now(timezone.utc).timestamp()}",
+                        id=f"violation_{datetime.now(timezone.utc).timestamp(}",
                         policy_rule_id=policy.id,
                         user_id=auth_context.get("user_id", "unknown"),
                         violation_type=compliance_result["violation_type"],

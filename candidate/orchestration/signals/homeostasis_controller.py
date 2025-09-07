@@ -665,19 +665,19 @@ if __name__ == "__main__":
 
         # Normal operation
         signals = controller.process_event("request", {"rate": 10, "response_time": 50}, "api")
-        print(f"Normal request -> {len(signals)} signals emitted")
+        print(f"Normal request -> {len(signals} signals emitted")
 
         # High load
         signals = controller.process_event("resource", {"cpu": 0.85, "memory": 0.75}, "monitor")
-        print(f"High load -> {len(signals)} signals emitted")
+        print(f"High load -> {len(signals} signals emitted")
 
         # Drift detected
         signals = controller.process_event("drift", {"score": 0.35}, "guardian")
-        print(f"Drift detected -> {len(signals)} signals emitted")
+        print(f"Drift detected -> {len(signals} signals emitted")
 
         # Novel input
         signals = controller.process_event("new_pattern", {"novelty_score": 0.8}, "classifier")
-        print(f"Novel pattern -> {len(signals)} signals emitted")
+        print(f"Novel pattern -> {len(signals} signals emitted")
 
         # Get status
         status = controller.get_status()

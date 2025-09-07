@@ -10,7 +10,7 @@ from datetime import datetime
 
 
 class UserInteraction:
-    def __init__(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict, timezone):
+    def __init__(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict):
         self.user_id = user_id
         self.doc_id = doc_id
         self.interaction_type = interaction_type

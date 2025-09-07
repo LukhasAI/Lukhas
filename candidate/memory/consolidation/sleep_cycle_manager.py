@@ -60,7 +60,7 @@ import numpy as np
 from memory.consolidation.consolidation_orchestrator import SleepStage
 
 
-class CircadianPhase(Enum, timezone):
+class CircadianPhase(Enum):
     """Circadian rhythm phase"""
 
     MORNING = "morning"  # 6am-12pm
@@ -587,7 +587,7 @@ async def demonstrate_sleep_cycle_manager():
 
     async def on_cycle_complete(cycle):
         print(f"\nCycle {cycle.cycle_number} completed!")
-        print(f"  Duration: {cycle.calculate_duration() / 60:.1f} minutes")
+        print(f"  Duration: {cycle.calculate_duration(} / 60:.1f} minutes")
         print(f"  Consolidation score: {cycle.consolidation_score:.2f}")
 
     manager.register_stage_callback(on_stage_change)

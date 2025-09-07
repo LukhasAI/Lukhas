@@ -57,7 +57,7 @@ import redis.asyncio as aioredis
 # from prometheus_client import Counter, Histogram, Gauge, Summary, CollectorRegistry
 import torch
 
-# Custom imports (would be actual imports in production, timezone)
+# Custom imports (would be actual imports in production)
 from datadog import DogStatsdClient, statsd
 from elasticsearch import Elasticsearch
 from opentelemetry import trace
@@ -819,7 +819,7 @@ class ObservabilitySystem:
                 None,
                 self.elasticsearch.index,
                 {
-                    "index": f"ai-inference-{datetime.now(timezone.utc).strftime('%Y.%m')}",
+                    "index": f"ai-inference-{datetime.now(timezone.utc).strftime('%Y.%m'}",
                     "body": event,
                 },
             )
@@ -971,7 +971,7 @@ async def main():
 
     # Get system health
     health = await obs_system.get_system_health()
-    logging.info(f"System Health: {json.dumps(health, indent=2)}")
+    logging.info(f"System Health: {json.dumps(health, indent=2}")
 
     # Generate health report
     report = await obs_system.generate_health_report()

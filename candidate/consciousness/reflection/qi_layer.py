@@ -159,7 +159,7 @@ class QIBioOscillator:
             strength = self.config.entanglement_strength
 
         # Create entanglement ID
-        entanglement_id = f"entanglement_{id(self)}_{id(other_oscillator)}"
+        entanglement_id = f"entanglement_{id(self)}_{id(other_oscillator}"
 
         # Create entanglement data
         entanglement_data = {

@@ -247,7 +247,7 @@ class WorkflowOrchestrator:
 
             if failed_critical_tasks:
                 workflow.status = WorkflowStatus.FAILED
-                workflow.errors.append(f"{len(failed_critical_tasks)} critical tasks failed")
+                workflow.errors.append(f"{len(failed_critical_tasks} critical tasks failed")
             else:
                 workflow.status = WorkflowStatus.COMPLETED
 

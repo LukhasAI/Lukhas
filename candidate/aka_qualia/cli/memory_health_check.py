@@ -323,11 +323,11 @@ Examples:
         return 1
 
     print("🏥 Wave C C4 Memory System Health Check")
-    print(f"🧠 Memory type: {args.memory_type.upper()}")
+    print(f"🧠 Memory type: {args.memory_type.upper(}")
     if args.db_url:
         print(f"📡 Database: {args.db_url}")
     print(f"🎯 Mode: {'FULL' if args.full else 'BASIC'}")
-    print(f"⏰ Started: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}")
+    print(f"⏰ Started: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'}")
     print()
 
     health_checks = []
@@ -394,7 +394,7 @@ Examples:
             print("⚠️  Overall Status: ISSUES DETECTED")
             print("🔧 Some health checks failed - investigation recommended")
 
-        print(f"⏰ Completed: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}")
+        print(f"⏰ Completed: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'}")
 
         return 0 if all_ok else 1
 

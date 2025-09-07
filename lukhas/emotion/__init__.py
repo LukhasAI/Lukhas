@@ -56,19 +56,19 @@ class EmotionWrapper:
         try:
             if not EMOTION_ACTIVE:
                 logger.info("Emotion module initialized in dry-run mode")
-                emit({"ntype": "emotion_dry_run_init", "state": {"status": "safe_mode"}})
+                emit({"ntype": "emotion_dry_run_init", "state": {"status": "safe_mode"})
                 self._initialized = True
                 return True
 
             # Real initialization would happen here
             logger.info("Emotion module initialized in active mode")
-            emit({"ntype": "emotion_active_init", "state": {"status": "active_mode"}})
+            emit({"ntype": "emotion_active_init", "state": {"status": "active_mode"})
             self._initialized = True
             return True
 
         except Exception as e:
             logger.error(f"Emotion initialization failed: {e}")
-            emit({"ntype": "emotion_init_error", "state": {"error": str(e)}})
+            emit({"ntype": "emotion_init_error", "state": {"error": str(e)})
             return False
 
     @instrument("emotion_process")
@@ -111,7 +111,7 @@ class EmotionWrapper:
 
         except Exception as e:
             logger.error(f"Emotion processing failed: {e}")
-            emit({"ntype": "emotion_process_error", "state": {"error": str(e)}})
+            emit({"ntype": "emotion_process_error", "state": {"error": str(e)})
             return {"error": str(e), "valence": 0.0, "arousal": 0.0, "dominance": 0.0}
 
     @instrument("emotion_regulate_mood")
@@ -145,12 +145,12 @@ class EmotionWrapper:
 
             # Real mood regulation would happen here
             result = self._apply_mood_regulation(target_state, hormone_context)
-            emit({"ntype": "mood_regulate_active", "state": {"target": target_state}})
+            emit({"ntype": "mood_regulate_active", "state": {"target": target_state})
             return result
 
         except Exception as e:
             logger.error(f"Mood regulation failed: {e}")
-            emit({"ntype": "mood_regulate_error", "state": {"error": str(e)}})
+            emit({"ntype": "mood_regulate_error", "state": {"error": str(e)})
             return {"error": str(e), "regulation_applied": False}
 
     @instrument("emotion_track_valence")
@@ -179,12 +179,12 @@ class EmotionWrapper:
 
             # Real valence tracking
             result = self._analyze_valence_trends(window_size)
-            emit({"ntype": "valence_track_active", "state": {"window_size": window_size}})
+            emit({"ntype": "valence_track_active", "state": {"window_size": window_size})
             return result
 
         except Exception as e:
             logger.error(f"Valence tracking failed: {e}")
-            emit({"ntype": "valence_track_error", "state": {"error": str(e)}})
+            emit({"ntype": "valence_track_error", "state": {"error": str(e)})
             return {"error": str(e), "current_valence": 0.0}
 
     def _analyze_vad_affect(self, input_data: dict[str, Any]) -> dict[str, Any]:

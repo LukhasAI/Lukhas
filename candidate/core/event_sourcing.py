@@ -29,7 +29,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 

@@ -403,7 +403,7 @@ def generate_lambda_id(user_id: str, tier: str = "T1") -> str:
 
     # Fallback ID generation
     tier_num = tier[1:] if tier.startswith("T") else "0"
-    return f"LUKHAS{tier_num}-{user_id[:4].upper()}-○-FALL"
+    return f"LUKHAS{tier_num}-{user_id[:4].upper(}-○-FALL"
 
 
 # Module exports

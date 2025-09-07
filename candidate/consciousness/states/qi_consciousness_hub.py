@@ -31,7 +31,7 @@ from candidate.core.common import get_logger
 from candidate.orchestration.brain.consciousness_core import ConsciousnessCore
 from qi.attention_economics import QIAttentionEconomics
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class ConsciousnessState(Enum):
@@ -271,7 +271,7 @@ class QIConsciousnessHub:
                         },
                         {
                             "role": "user",
-                            "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(context)}\nState: {state.to_quantum_representation()}",
+                            "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(context)}\nState: {state.to_quantum_representation(}",
                         },
                     ],
                     functions=[
@@ -437,7 +437,7 @@ class QIConsciousnessHub:
                         },
                         {
                             "role": "user",
-                            "content": f"Message: {json.dumps(message)}\nInterpretation: {json.dumps(interpretation)}",
+                            "content": f"Message: {json.dumps(message)}\nInterpretation: {json.dumps(interpretation}",
                         },
                     ],
                     n=3,  # Generate 3 parallel branches
@@ -586,7 +586,7 @@ class QIConsciousnessHub:
                         },
                         {
                             "role": "user",
-                            "content": f"Bid: {bid_amount} {bid_type}\nState: {state.to_quantum_representation()}",
+                            "content": f"Bid: {bid_amount} {bid_type}\nState: {state.to_quantum_representation(}",
                         },
                     ],
                     temperature=0.3,

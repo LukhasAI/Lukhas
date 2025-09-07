@@ -463,7 +463,7 @@ class TestIntegration:
         result = await orchestrator.execute_with_orchestration(
             "retrieve_knowledge",
             '{"query": "integration test"}',
-            {"lid": "integration_user", "credentials": {}},
+            {"lid": "integration_user", "credentials": {},
         )
 
         assert result["success"]
@@ -494,7 +494,7 @@ class TestIntegration:
         for i in range(3):
             await orchestrator.execute_with_orchestration(
                 "retrieve_knowledge",
-                f'{{"query": "performance test {i}"}}',
+                f'{{"query": "performance test {i}"}',
                 {"lid": f"perf_user_{i}"},
             )
 

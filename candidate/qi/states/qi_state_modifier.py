@@ -15,7 +15,7 @@ import streamlit as st
 # TAG:colony
 
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass

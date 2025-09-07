@@ -112,7 +112,7 @@ class ExtremePerformanceIdentityConnector:
                 if self.extreme_optimizer:
                     async with self.extreme_optimizer.optimize_auth_operation(
                         f"tier_check_{func.__name__}",
-                        f"agent_{agent_id}_{int(time.time())}",
+                        f"agent_{agent_id}_{int(time.time()}",
                     ) as metrics:
                         return await self._execute_tier_check_optimized(
                             func, agent_id, min_tier, metrics, *args, **kwargs

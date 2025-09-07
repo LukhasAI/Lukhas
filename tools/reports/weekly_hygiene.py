@@ -100,9 +100,9 @@ def main():
     Path("reports/autofix").mkdir(parents=True, exist_ok=True)
     Path("reports/autofix/weekly.md").write_text(
         "# Weekly Hygiene\n\n"
-        f"* TODO count: {todos} {spark(todos)}\n"
-        f"* Allowlist lint debt: {debt} {spark(debt)}\n"
-        f"* Nightly PRs (7d): {prs} {spark(prs)}\n",
+        f"* TODO count: {todos} {spark(todos}\n"
+        f"* Allowlist lint debt: {debt} {spark(debt}\n"
+        f"* Nightly PRs (7d): {prs} {spark(prs}\n",
         encoding="utf-8",
     )
     print("Wrote reports/autofix/weekly.md")

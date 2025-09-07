@@ -23,7 +23,7 @@ import websockets
 # Import constitutional enforcement
 from .constitutional_gatekeeper import (
     ConstitutionalLevel,
-    get_constitutional_gatekeeper,, timezone)
+    get_constitutional_gatekeeper)
 
 # Configure entropy logging
 logging.basicConfig(level=logging.INFO)

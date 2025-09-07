@@ -276,24 +276,24 @@ def main():
     print(f"   Total import errors: {report['total_errors']}")
 
     if report["errors_by_type"]["syntax_errors"]:
-        print(f"\n❌ Syntax Errors ({len(report['errors_by_type']['syntax_errors'])}):")
+        print(f"\n❌ Syntax Errors ({len(report['errors_by_type']['syntax_errors']}):")
         for error in report["errors_by_type"]["syntax_errors"][:5]:
             print(f"   • {error['file']}:{error['line']} - {error['error']}")
 
     if report["missing_modules"]:
-        print(f"\n❌ Missing Modules ({len(report['missing_modules'])}):")
+        print(f"\n❌ Missing Modules ({len(report['missing_modules']}):")
         for module in sorted(report["missing_modules"])[:10]:
             files = report["missing_by_module"][module]
-            print(f"   • {module} (used in {len(files)} files)")
+            print(f"   • {module} (used in {len(files} files)")
             for file in files[:3]:
                 print(f"      - {file}")
             if len(files) > 3:
-                print(f"      ... and {len(files) - 3} more")
+                print(f"      ... and {len(files} - 3} more")
 
     if report["circular_imports"]:
-        print(f"\n🔄 Circular Imports ({len(report['circular_imports'])}):")
+        print(f"\n🔄 Circular Imports ({len(report['circular_imports']}):")
         for cycle in report["circular_imports"][:5]:
-            print(f"   • {' → '.join(cycle)}")
+            print(f"   • {' → '.join(cycle}")
 
     # Suggest fixes
     print("\n💡 Suggested Fixes:")
@@ -309,12 +309,12 @@ def main():
             external_missing.append(module)
 
     if local_missing:
-        print(f"\n   Local modules to fix ({len(local_missing)}):")
+        print(f"\n   Local modules to fix ({len(local_missing}):")
         for module in local_missing[:5]:
             print(f"   • {module} - Check module path and __init__.py files")
 
     if external_missing:
-        print(f"\n   External packages to install ({len(external_missing)}):")
+        print(f"\n   External packages to install ({len(external_missing}):")
         for module in external_missing[:5]:
             print(f"   • {module} - Add to requirements.txt or install with pip")
 
@@ -327,7 +327,7 @@ def main():
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 
-    print(f"\n💾 Detailed report saved to: {report_path.relative_to(PROJECT_ROOT)}")
+    print(f"\n💾 Detailed report saved to: {report_path.relative_to(PROJECT_ROOT}")
 
     return report["total_errors"]
 

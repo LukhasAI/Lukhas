@@ -228,7 +228,7 @@ class FederatedLearningManager:
 
         model = self.models[model_id]
         logger.info(
-            f"Performing federated aggregation for model {model_id} with {len(model.client_contributions)} contributions"
+            f"Performing federated aggregation for model {model_id} with {len(model.client_contributions} contributions"
         )
 
         # In a real implementation, this would apply advanced federated aggregation
@@ -684,7 +684,7 @@ class MetaLearningSystem:
         self.federated_learning.register_model(
             "user_preferences",
             "preference",
-            {"attention_weights": {"visual": 0.5, "auditory": 0.3, "textual": 0.2}},
+            {"attention_weights": {"visual": 0.5, "auditory": 0.3, "textual": 0.2},
         )
 
         # Interface adaptation model
@@ -704,7 +704,7 @@ class MetaLearningSystem:
         self.federated_learning.register_model(
             "cognitive_style",
             "cognitive",
-            {"reasoning_weights": {"analytical": 0.5, "intuitive": 0.5}},
+            {"reasoning_weights": {"analytical": 0.5, "intuitive": 0.5},
         )
 
     def optimize_learning_approach(self, context: dict, available_data: dict) -> dict:
@@ -1119,6 +1119,6 @@ class MetaLearningSystem:
         reflection_status = self.reflective_system.get_status_report()
         if reflection_status.get("latest_insights"):
             for insight in reflection_status["latest_insights"]:
-                insights.append(f"Reflection insight: {insight.get('description', '')}")
+                insights.append(f"Reflection insight: {insight.get('description', ''}")
 
         return insights

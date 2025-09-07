@@ -121,11 +121,11 @@ class T4LensCodeFixer:
 
         for category, items in categories.items():
             if items:
-                print(f"\n   📂 {category}: {len(items)} issues")
+                print(f"\n   📂 {category}: {len(items} issues")
                 for item in items[:3]:  # Show top 3
                     print(f"      {item}")
                 if len(items) > 3:
-                    print(f"      ... and {len(items) - 3} more")
+                    print(f"      ... and {len(items} - 3} more")
 
         return categories
 

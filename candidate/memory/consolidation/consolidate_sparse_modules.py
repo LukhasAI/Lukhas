@@ -181,7 +181,7 @@ def update_imports(base_path: Path = Path(".")):
             # Write back if changed
             if content != original_content:
                 py_file.write_text(content)
-                print(f"   Updated: {py_file.relative_to(base_path)}")
+                print(f"   Updated: {py_file.relative_to(base_path}")
 
         except Exception as e:
             print(f"   ⚠️  Error updating {py_file}: {e}")

@@ -92,7 +92,7 @@ class PerformanceLogFilter(logging.Filter):
 
         # Add process and thread info for performance debugging
         record.process_id = os.getpid()
-        record.thread_id = int(f"{threading.current_thread().ident}")
+        record.thread_id = int(f"{threading.current_thread(}.ident}")
 
         return True
 
@@ -442,7 +442,7 @@ class PerformanceLoggingContext:
         status = "completed" if exc_type is None else "failed"
 
         self.logger.info(
-            f"{self.operation.title()} {status}",
+            f"{self.operation.title(} {status}",
             extra={
                 "operation": self.operation,
                 "operation_status": status,

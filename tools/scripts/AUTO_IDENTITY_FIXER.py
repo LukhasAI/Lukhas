@@ -27,7 +27,7 @@ MODULE_TIERS = {
 
 # API endpoint patterns to protect
 API_PATTERNS = [
-    r"@app\.(get|post|put|delete|patch, timezone)\(",
+    r"@app\.(get|post|put|delete|patch)\(",
     r"@router\.(get|post|put|delete|patch)\(",
     r"@[a-zA-Z_]+\.(get|post|put|delete|patch)\(",
 ]
@@ -49,7 +49,7 @@ USER_CONTEXT_FUNCTIONS = [
 class AutoIdentityFixer:
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
-        self.backup_dir = self.root_path / f"identity_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = self.root_path / f"identity_backup_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
         self.fixes_applied = []
         self.errors = []
 
@@ -106,7 +106,7 @@ class AutoIdentityFixer:
                 if not endpoints_found:
                     continue
 
-                print(f"  📝 {api_file.name}: {len(endpoints_found)} endpoints")
+                print(f"  📝 {api_file.name}: {len(endpoints_found} endpoints")
 
                 # Backup original
                 if not dry_run and not has_identity_imports:
@@ -123,7 +123,7 @@ class AutoIdentityFixer:
                 if content != original_content:
                     if not dry_run:
                         api_file.write_text(content)
-                    self.fixes_applied.append(f"Protected {len(endpoints_found)} endpoints in {api_file.name}")
+                    self.fixes_applied.append(f"Protected {len(endpoints_found} endpoints in {api_file.name}")
 
             except Exception as e:
                 self.errors.append(f"Error fixing {api_file}: {e}")
@@ -232,7 +232,7 @@ except ImportError as e:
                             break
 
                     if needs_user_context and "user_id" not in content:
-                        print(f"  🔗 {py_file.relative_to(self.root_path)}")
+                        print(f"  🔗 {py_file.relative_to(self.root_path}")
 
                         # Add user context parameter to key functions
                         content = self._add_user_context_to_functions(content)
@@ -277,7 +277,7 @@ except ImportError as e:
                 has_identity_import = "from identity" in content or "import identity" in content
 
                 if has_auth_usage and not has_identity_import:
-                    print(f"  📦 {py_file.relative_to(self.root_path)}")
+                    print(f"  📦 {py_file.relative_to(self.root_path}")
 
                     content = self._add_identity_imports(content)
 
@@ -290,7 +290,7 @@ except ImportError as e:
                 self.errors.append(f"Error adding imports to {py_file}: {e}")
 
         if files_with_auth:
-            self.fixes_applied.append(f"Added imports to {len(files_with_auth)} files")
+            self.fixes_applied.append(f"Added imports to {len(files_with_auth} files")
 
     def _add_identity_imports(self, content: str) -> str:
         """Add identity imports to Python file content."""
@@ -436,19 +436,19 @@ except ImportError:
         print("📊 AUTOMATED IDENTITY FIXES REPORT")
         print("=" * 50)
 
-        print(f"\n✅ Fixes Applied: {len(self.fixes_applied)}")
+        print(f"\n✅ Fixes Applied: {len(self.fixes_applied}")
         for fix in self.fixes_applied:
             print(f"  • {fix}")
 
         if self.errors:
-            print(f"\n❌ Errors: {len(self.errors)}")
+            print(f"\n❌ Errors: {len(self.errors}")
             for error in self.errors[:5]:  # Show first 5
                 print(f"  • {error}")
 
         if self.backup_dir.exists():
             print(f"\n💾 Backups saved to: {self.backup_dir}")
 
-        print(f"\n📁 Total files in backup: {len(list(self.backup_dir.rglob('*'))) if self.backup_dir.exists() else 0}")
+        print(f"\n📁 Total files in backup: {len(list(self.backup_dir.rglob('*'))) if self.backup_dir.exists(} else 0}")
 
         # Next steps
         print("\n🚀 Next Steps:")

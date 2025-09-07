@@ -36,9 +36,9 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
         with open(task_file, "w") as f:
             # Header
             f.write(f"# Tasks for {agent_name}\n\n")
-            f.write(f"**Role**: {agent.get('role', 'Not specified')}\n")
-            f.write(f"**Description**: {agent.get('description', 'Not specified')}\n")
-            f.write(f"**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            f.write(f"**Role**: {agent.get('role', 'Not specified'}\n")
+            f.write(f"**Description**: {agent.get('description', 'Not specified'}\n")
+            f.write(f"**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}\n\n")
 
             # Core Mission
             f.write("## 🎯 Core Mission\n")
@@ -64,7 +64,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
                 focus = agent["current_focus_areas"]
 
                 for area, items in focus.items():
-                    f.write(f"\n### {area.replace('_', ' ').title()}\n")
+                    f.write(f"\n### {area.replace('_', ' ').title(}\n")
 
                     if isinstance(items, list):
                         for item in items:
@@ -79,7 +79,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
                 f.write("## 🔧 Legacy Assessment Strategy\n")
                 strategy = agent["legacy_assessment_strategy"]
                 for section, items in strategy.items():
-                    f.write(f"\n### {section.replace('_', ' ').title()}\n")
+                    f.write(f"\n### {section.replace('_', ' ').title(}\n")
                     if isinstance(items, list):
                         for item in items:
                             f.write(f"- {item}\n")
@@ -132,7 +132,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
                 collab = agent["collaboration_patterns"]
 
                 for partner, items in collab.items():
-                    f.write(f"\n### {partner.replace('_', ' ').title()}\n")
+                    f.write(f"\n### {partner.replace('_', ' ').title(}\n")
                     if isinstance(items, list):
                         for item in items:
                             f.write(f"- {item}\n")
@@ -160,7 +160,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             f.write("_Add implementation notes, blockers, and decisions here_\n\n")
 
             f.write("---\n")
-            f.write(f"*Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}*\n")
+            f.write(f"*Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}*\n")
 
         agents_processed.append({"agent": agent_key, "name": agent_name, "file": str(task_file)})
         print(f"✅ Created comprehensive task file: {task_file}")
@@ -169,7 +169,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
     coord_file = Path(output_dir) / "coordination_framework_tasks.md"
     with open(coord_file, "w") as f:
         f.write("# 🎭 Coordination Framework Tasks\n")
-        f.write(f"**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        f.write(f"**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}\n\n")
 
         if "coordination_framework" in config:
             coord = config["coordination_framework"]
@@ -178,7 +178,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             if "interface_contracts" in coord:
                 f.write("## 📜 Interface Contracts\n")
                 for interface, items in coord["interface_contracts"].items():
-                    f.write(f"\n### {interface.replace('_', ' ').title()}\n")
+                    f.write(f"\n### {interface.replace('_', ' ').title(}\n")
                     for item in items:
                         f.write(f"- [ ] Implement: {item}\n")
                 f.write("\n")
@@ -187,7 +187,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             if "success_criteria" in coord:
                 f.write("## 🎯 Success Criteria\n")
                 for category, items in coord["success_criteria"].items():
-                    f.write(f"\n### {category.replace('_', ' ').title()}\n")
+                    f.write(f"\n### {category.replace('_', ' ').title(}\n")
                     for item in items:
                         f.write(f"- [ ] {item}\n")
                 f.write("\n")
@@ -198,7 +198,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             schemas = config["global_schemas"]
 
             for schema_name, fields in schemas.items():
-                f.write(f"\n### {schema_name.replace('_', ' ').title()}\n")
+                f.write(f"\n### {schema_name.replace('_', ' ').title(}\n")
                 f.write("```yaml\n")
                 for field, desc in fields.items():
                     f.write(f"{field}: {desc}\n")
@@ -214,7 +214,7 @@ def extract_agent_tasks(config_file="scripts/Claude_6.yml", output_dir="CLAUDE_A
             f.write(config["phase_1_completion_definition"].strip() + "\n\n")
 
         f.write("---\n")
-        f.write(f"*Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}*\n")
+        f.write(f"*Last Updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}*\n")
 
     print(f"✅ Created coordination framework tasks: {coord_file}")
 
@@ -246,7 +246,7 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 50)
     print("✨ Task extraction complete!")
-    print(f"📁 Tasks created for {len(agents)} agents")
+    print(f"📁 Tasks created for {len(agents} agents")
     print("\n📋 Files created:")
     for agent_info in agents:
         print(f"  - {agent_info['name']}: {agent_info['file']}")

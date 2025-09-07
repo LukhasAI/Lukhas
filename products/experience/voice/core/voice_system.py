@@ -300,7 +300,7 @@ class EnhancedVoiceProcessor:
             if not validation_result.get("approved", False):
                 return VoiceProcessingResult(
                     success=False,
-                    error_message=f"Guardian rejected operation: {validation_result.get('reason')}",
+                    error_message=f"Guardian rejected operation: {validation_result.get('reason'}",
                 )
 
             # Analyze context through consciousness

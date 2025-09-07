@@ -174,7 +174,7 @@ class OpenAIFunctionBridge:
             )
             self.register_function(func_def)
 
-        logger.info(f"📋 Registered {len(functions)} functions from dictionary")
+        logger.info(f"📋 Registered {len(functions} functions from dictionary")
 
     def get_available_functions(self) -> list[dict[str, Any]]:
         """Get all available functions in OpenAI format"""
@@ -280,8 +280,8 @@ class OpenAIFunctionBridge:
             self._update_metrics(openai_response)
 
             logger.info(f"✅ Completed request in {latency_ms:.2f}ms")
-            logger.info(f"   Function calls: {len(function_calls)}")
-            logger.info(f"   Tokens used: {openai_response.usage.get('total_tokens', 0)}")
+            logger.info(f"   Function calls: {len(function_calls}")
+            logger.info(f"   Tokens used: {openai_response.usage.get('total_tokens', 0}")
 
             return openai_response
 

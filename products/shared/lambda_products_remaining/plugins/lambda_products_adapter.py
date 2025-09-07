@@ -22,7 +22,7 @@ from .plugin_base import (
     LukhasPlugin,
     PluginManifest,
     PluginPriority,
-    PluginStatus,, timezone)
+    PluginStatus)
 
 # Add lambda-products to path for imports
 lambda_products_path = Path(__file__).parent.parent

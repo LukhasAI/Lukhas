@@ -283,12 +283,12 @@ class PrivacyManager:
             "data_categories": [
                 {
                     "category": "user_profile",
-                    "retention_period": f"{self.data_retention_policies.get('user_data', 365)} days",
+                    "retention_period": f"{self.data_retention_policies.get('user_data', 365} days",
                     "processing_purpose": "Personalization and user identification",
                 },
                 {
                     "category": "interaction_history",
-                    "retention_period": f"{self.data_retention_policies.get('interaction_history', 30)} days",
+                    "retention_period": f"{self.data_retention_policies.get('interaction_history', 30} days",
                     "processing_purpose": "Service improvement and user experience optimization",
                 },
             ],
@@ -322,7 +322,7 @@ class PrivacyManager:
             self.privacy_log = self.privacy_log[-1000:]
 
         # Log the event
-        logger.info(f"Privacy event: {event.get('action', 'unknown')}")
+        logger.info(f"Privacy event: {event.get('action', 'unknown'}")
 
     def get_privacy_logs(self, limit=100):
         """Get privacy logs, with optional limit"""
@@ -346,7 +346,7 @@ class PrivacyManager:
         hasher.update(value_str.encode())
 
         # Return prefix and hash
-        return f"ANON:{hasher.hexdigest()[:16]}"
+        return f"ANON:{hasher.hexdigest(}[:16]}"
 
     def _encrypt_value(self, value):
         """Encrypt a sensitive value"""

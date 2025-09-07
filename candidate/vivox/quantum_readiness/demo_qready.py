@@ -88,7 +88,7 @@ def demonstrate_ethical_collapse():
 
     print(f"   Collapse type: {convergence.collapse_type.value}")
     print(f"   Ethical score: {convergence.ethical_score:.3f}")
-    print(f"   Collapsed to: {convergence.final_state.metadata.get('measurement_outcome', 'unknown')}")
+    print(f"   Collapsed to: {convergence.final_state.metadata.get('measurement_outcome', 'unknown'}")
 
     # Multi-agent collapse
     print("\n3. Multi-agent ethical collapse...")
@@ -102,7 +102,7 @@ def demonstrate_ethical_collapse():
     results = collapse_engine.multi_agent_collapse(agent_states, {"autonomy": 0.8, "justice": 0.8})
 
     consensus_count = sum(1 for r in results if r.consensus_achieved)
-    print(f"   Agents reaching consensus: {consensus_count}/{len(results)}")
+    print(f"   Agents reaching consensus: {consensus_count}/{len(results}")
 
 
 def demonstrate_quantum_synchronization():
@@ -124,13 +124,13 @@ def demonstrate_quantum_synchronization():
 
         synchronizer.register_agent(agent_id, state, resonance_frequency=1.0 + i * 0.1)
 
-    print(f"   Registered {len(synchronizer.agent_states)} agents")
+    print(f"   Registered {len(synchronizer.agent_states} agents")
 
     # Detect emergent synchronization
     print("\n2. Detecting emergent synchronization...")
     events = synchronizer.detect_emergent_synchronization(min_agents=2, correlation_threshold=0.5)
 
-    print(f"   Found {len(events)} emergent synchronization events")
+    print(f"   Found {len(events} emergent synchronization events")
     for event in events:
         print(f"   - Agents {event.agent_ids} with correlation {event.correlation_strength:.3f}")
 
@@ -147,7 +147,7 @@ def demonstrate_quantum_synchronization():
             corr = abs(np.vdot(states[i], states[j])) ** 2
             correlations.append(corr)
 
-    print(f"   Average correlation after sync: {np.mean(correlations):.3f}")
+    print(f"   Average correlation after sync: {np.mean(correlations}:.3f}")
 
 
 def demonstrate_moral_superposition():
@@ -168,14 +168,14 @@ def demonstrate_moral_superposition():
 
     state = moral_sup.create_superposition(ethical_scenario, uncertainty=0.3)
     print(f"   Created state with uncertainty {state.uncertainty_level:.3f}")
-    print(f"   Dominant ethics: {[e.value for e in state.get_dominant_ethics(threshold=0.5)]}")
+    print(f"   Dominant ethics: {[e.value for e in state.get_dominant_ethics(threshold=0.5}]}")
 
     # Evolve under pressure
     print("\n2. Evolving under ethical pressure...")
     pressure = {EthicalDimension.HARM_PREVENTION: 1.0, EthicalDimension.INTEGRITY: 0.7}
 
     path = moral_sup.evolve_superposition(state, pressure, time_steps=5)
-    print(f"   Evolution path with {len(path.intermediate_states)} steps")
+    print(f"   Evolution path with {len(path.intermediate_states} steps")
     print(f"   Decision confidence: {path.decision_confidence:.3f}")
     print(f"   Path coherence: {path.path_coherence:.3f}")
 
@@ -224,7 +224,7 @@ def demonstrate_vivox_integration():
     print("\n3. Quantum Readiness Assessment...")
     readiness = bridge.assess_quantum_readiness()
     print(f"   Overall readiness: {readiness['overall_readiness']:.3f}")
-    print(f"   Components ready: {list(readiness['component_readiness'].keys())}")
+    print(f"   Components ready: {list(readiness['component_readiness'].keys()}")
 
 
 async def main():

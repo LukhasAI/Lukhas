@@ -19,7 +19,7 @@ from candidate.core.container.service_container import ServiceContainer
 from candidate.core.interfaces import CoreInterface
 from candidate.core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -607,7 +607,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             variation["core_capabilities"].extend(["planning", "optimization"])
 
         # Add unique identifier
-        variation["instance_id"] = f"consciousness_{datetime.now(timezone.utc).timestamp()}"
+        variation["instance_id"] = f"consciousness_{datetime.now(timezone.utc).timestamp(}"
         variation["specialization"] = specialization_focus
 
         return variation

@@ -324,7 +324,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
         result = {{
             "processed": True,
             "timestamp": datetime.now(timezone.utc).isoformat()
-        }}
+        }
 
         return {endpoint_name.capitalize()}Response(
             success=True,
@@ -354,7 +354,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
     # ΛCPI: Auto-generated processing logic
     """
     if options is None:
-        options = {{}}
+        options = {{}
 
     try:
         logger.info("ΛPROCESS: Starting data processing",
@@ -370,7 +370,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
             "processing_time": time.time(),
             "options_used": options,
             "success": True
-        }}
+        }
 
         logger.info("ΛPROCESS: Processing completed successfully")
         return result
@@ -381,7 +381,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
             "success": False,
             "error": str(e),
             "original_data": data
-        }}'''
+        }'''
 
     async def _generate_utility_function(self, request: CodeGenerationRequest) -> str:
         """Generate utility function"""
@@ -436,7 +436,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
                 "input": data,
                 "processed_at": datetime.now(timezone.utc).isoformat(),
                 "success": True
-            }}
+            }
 
             logger.info("LUKHAS{class_name.upper()}: Processing completed")
             return result
@@ -451,7 +451,7 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
             "class_name": "{class_name}",
             "created_at": self.created_at.isoformat(),
             "config": self.config
-        }}'''
+        }'''
 
     async def _generate_test_code(self, request: CodeGenerationRequest) -> str:
         """Generate test code"""
@@ -469,7 +469,7 @@ class Test{request.context.get("class_name", "Generated")}:
 
     def setup_method(self):
         """Setup for each test method"""
-        self.test_data = {{"test": "data"}}
+        self.test_data = {{"test": "data"}
 
     def test_basic_functionality(self):
         """Test basic functionality"""
@@ -486,7 +486,7 @@ class Test{request.context.get("class_name", "Generated")}:
     async def async_test_function(self):
         """Helper for async testing"""
         await asyncio.sleep(0.1)
-        return {{"test": "completed"}}
+        return {{"test": "completed"}
 
     def test_error_handling(self):
         """Test error handling"""
@@ -511,7 +511,7 @@ class Test{request.context.get("class_name", "Generated")}:
             "input": input_data,
             "processed": True,
             "timestamp": datetime.now(timezone.utc).isoformat()
-        }}
+        }
 
         logger.info("ΛGENERATED: Function execution completed")
         return result

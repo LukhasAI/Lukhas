@@ -15,7 +15,7 @@ from typing import Any, Callable, Optional
 
 from lukhas.core.events.contracts import SystemStressLevelChanged
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class HormoneType(Enum):

@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -89,8 +89,8 @@ class SASHealthcareConnector:
         self.record_cache = {}
 
         logger.info("🏥 SAS Healthcare Connector initialized")
-        logger.info(f"Region: {self.sas_config.get('region', 'Andalucía')}")
-        logger.info(f"Centro: {self.sas_config.get('centro_salud', 'Not configured')}")
+        logger.info(f"Region: {self.sas_config.get('region', 'Andalucía'}")
+        logger.info(f"Centro: {self.sas_config.get('centro_salud', 'Not configured'}")
 
     def _load_sas_config(self):
         """Load SAS configuration from file or defaults"""
@@ -330,7 +330,7 @@ class SASHealthcareConnector:
 
             # Create new appointment
             new_appointment = SASAppointment(
-                appointment_id=f"CIT-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M')}",
+                appointment_id=f"CIT-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M'}",
                 patient_nuhsa=self.current_nuhsa,
                 doctor_name="Por asignar",
                 specialty=specialty,

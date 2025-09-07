@@ -17,7 +17,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class EthicalDimension(Enum):
@@ -218,7 +218,7 @@ class MoralSuperposition:
 
         # Create quantum state
         state = EthicalQIState(
-            state_id=f"ethical_state_{datetime.now(timezone.utc).timestamp()}",
+            state_id=f"ethical_state_{datetime.now(timezone.utc).timestamp(}",
             superposition=superposition,
             ethical_weights=ethical_scenario.copy(),
             uncertainty_level=uncertainty,

@@ -134,7 +134,7 @@ class EthicsIntegration:
         Returns:
             Tuple of (is_permitted, reason, detailed_analysis)
         """
-        decision_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp()}"
+        decision_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp(}"
         start_time = datetime.now(timezone.utc)
 
         # Update synchronization

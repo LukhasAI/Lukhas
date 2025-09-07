@@ -70,7 +70,7 @@ class MatrizIntegratedConsciousnessDemo:
     """
 
     def __init__(self):
-        self.demo_session_id = f"DEMO-{int(time.time())}"
+        self.demo_session_id = f"DEMO-{int(time.time()}"
         self.demo_consciousness_id: Optional[str] = None
         self.demo_identity_id: Optional[str] = None
 
@@ -262,7 +262,7 @@ class MatrizIntegratedConsciousnessDemo:
 
         logger.info(
             f"    ✅ Authentication: {auth_result['success']}, "
-            f"Type: {auth_result.get('consciousness_identity_type')}"
+            f"Type: {auth_result.get('consciousness_identity_type'}"
         )
 
         # Update consciousness memory
@@ -459,7 +459,7 @@ class MatrizIntegratedConsciousnessDemo:
 
             logger.info(f"    🧠 Session: {session_id}")
             logger.info(
-                f"    🔄 Evolution triggered: {interaction_result['consciousness_response'].get('evolution_triggered', False)}"
+                f"    🔄 Evolution triggered: {interaction_result['consciousness_response'].get('evolution_triggered', False}"
             )
 
             # Get session summary

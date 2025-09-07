@@ -163,7 +163,7 @@ class VocabularyManager:
 
         for name, glyph, value, description in emotions:
             symbol = Symbol(
-                id=f"EMOTION_{name.upper()}",
+                id=f"EMOTION_{name.upper(}",
                 domain=SymbolicDomain.EMOTION,
                 name=name,
                 value=value,
@@ -192,7 +192,7 @@ class VocabularyManager:
 
         for name, glyph, description in bio_terms:
             symbol = Symbol(
-                id=f"BIO_{name.upper()}",
+                id=f"BIO_{name.upper(}",
                 domain=SymbolicDomain.BIO,
                 name=name,
                 value=name,
@@ -221,7 +221,7 @@ class VocabularyManager:
 
         for name, glyph, description in dream_terms:
             symbol = Symbol(
-                id=f"DREAM_{name.upper()}",
+                id=f"DREAM_{name.upper(}",
                 domain=SymbolicDomain.DREAM,
                 name=name,
                 value=name,
@@ -250,7 +250,7 @@ class VocabularyManager:
 
         for name, glyph, description in identity_terms:
             symbol = Symbol(
-                id=f"IDENTITY_{name.upper()}",
+                id=f"IDENTITY_{name.upper(}",
                 domain=SymbolicDomain.IDENTITY,
                 name=name,
                 value=name,
@@ -279,7 +279,7 @@ class VocabularyManager:
 
         for name, glyph, description in vision_terms:
             symbol = Symbol(
-                id=f"VISION_{name.upper()}",
+                id=f"VISION_{name.upper(}",
                 domain=SymbolicDomain.VISION,
                 name=name,
                 value=name,
@@ -308,7 +308,7 @@ class VocabularyManager:
 
         for name, glyph, description in voice_terms:
             symbol = Symbol(
-                id=f"VOICE_{name.upper()}",
+                id=f"VOICE_{name.upper(}",
                 domain=SymbolicDomain.VOICE,
                 name=name,
                 value=name,
@@ -337,7 +337,7 @@ class VocabularyManager:
 
         for name, glyph, description in action_terms:
             symbol = Symbol(
-                id=f"ACTION_{name.upper()}",
+                id=f"ACTION_{name.upper(}",
                 domain=SymbolicDomain.ACTION,
                 name=name,
                 value=name,
@@ -366,7 +366,7 @@ class VocabularyManager:
 
         for name, glyph, description in state_terms:
             symbol = Symbol(
-                id=f"STATE_{name.upper()}",
+                id=f"STATE_{name.upper(}",
                 domain=SymbolicDomain.STATE,
                 name=name,
                 value=name,

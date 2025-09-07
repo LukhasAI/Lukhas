@@ -376,13 +376,13 @@ async def example_usage():
         )
 
         print("🧠 Consciousness Query Result:")
-        print(f"   Success: {result.get('success', False)}")
-        print(f"   Audit ID: {result.get('audit_id', 'unknown')}")
+        print(f"   Success: {result.get('success', False}")
+        print(f"   Audit ID: {result.get('audit_id', 'unknown'}")
         if result.get("modulation_params"):
             params = result["modulation_params"]
             print(f"   Temperature: {params.temperature:.2f}")
             print(f"   Style: {params.prompt_style}")
-            print(f"   Active signals: {list(params.signal_context.keys())}")
+            print(f"   Active signals: {list(params.signal_context.keys()}")
 
     except Exception as e:
         print(f"❌ Error in consciousness processing: {e}")

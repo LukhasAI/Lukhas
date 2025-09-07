@@ -112,10 +112,10 @@ class ConstellationFrameworkValidator:
             )
 
             # Debug: Print result structure
-            print(f"AkaQualia step result keys: {list(result.keys()) if isinstance(result, dict) else type(result)}")
+            print(f"AkaQualia step result keys: {list(result.keys()) if isinstance(result, dict) else type(result}")
             if isinstance(result, dict):
                 for key, value in result.items():
-                    print(f"  {key}: {type(value)}")
+                    print(f"  {key}: {type(value}")
 
             # Validate each constellation principle
             for principle, config in self.constellation_principles.items():

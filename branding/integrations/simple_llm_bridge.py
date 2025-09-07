@@ -357,7 +357,7 @@ if __name__ == "__main__":
 
     async def test():
         bridge = SimpleLLMBridge()
-        print(f"Provider status: {bridge.get_provider_status()}")
+        print(f"Provider status: {bridge.get_provider_status(}")
 
         request = VoiceGenerationRequest(
             content="Welcome to our consciousness platform",

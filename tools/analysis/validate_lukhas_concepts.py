@@ -79,7 +79,7 @@ class LUKHASConceptValidator:
             f for f in python_files if not any(skip in str(f) for skip in ["._cleanup_archive", "__pycache__", ".git"])
         ]
 
-        print(f"\nScanning {len(python_files)} Python files...")
+        print(f"\nScanning {len(python_files} Python files...")
 
         # Search for each concept
         for concept in self.core_concepts:
@@ -160,7 +160,7 @@ class LUKHASConceptValidator:
             "preserved": len(self.validation_results["preserved"]),
             "at_risk": len(self.validation_results["at_risk"]),
             "missing": len(self.validation_results["missing"]),
-            "preservation_rate": f"{(len(self.validation_results['preserved']) / total_concepts * 100):.1f}%",
+            "preservation_rate": f"{(len(self.validation_results['preserved']) / total_concepts * 100}:.1f}%",
         }
 
     def _generate_report(self):

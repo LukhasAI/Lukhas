@@ -25,7 +25,7 @@ def fix_datetime_in_file(file_path):
             if "from datetime import" in content and "timezone" not in content:
                 content = re.sub(
                     r"from datetime import ([^)]+)",
-                    lambda m: f"from datetime import {m.group(1).rstrip()}, timezone",
+                    lambda m: f"from datetime import {m.group(1).rstrip(}, timezone",
                     content,
                     count=1
                 )
@@ -81,7 +81,7 @@ def main():
     print("🕒 Fixing datetime UTC compliance issues...")
 
     files_to_fix = get_files_with_datetime_issues()
-    print(f"Found {len(files_to_fix)} files with datetime issues")
+    print(f"Found {len(files_to_fix} files with datetime issues")
 
     fixed_count = 0
     for file_path in files_to_fix[:100]:  # Limit to first 100 for safety
@@ -89,11 +89,11 @@ def main():
             fixed_count += 1
             print(f"✅ Fixed: {file_path}")
 
-    print(f"\n🎉 Fixed {fixed_count}/{min(len(files_to_fix), 100)} files")
+    print(f"\n🎉 Fixed {fixed_count}/{min(len(files_to_fix), 100} files")
 
     # Check remaining issues
     remaining = get_files_with_datetime_issues()
-    print(f"📊 Remaining files with datetime issues: {len(remaining)}")
+    print(f"📊 Remaining files with datetime issues: {len(remaining}")
 
 
 if __name__ == "__main__":

@@ -35,7 +35,7 @@ from typing import Any, Optional, Union
 try:
     import uvloop  # 2-4x faster than default asyncio loop
 
-    uvloop.install(, timezone)
+    uvloop.install()
 except ImportError:
     pass
 
@@ -142,7 +142,7 @@ class ModuleImportCache:
             except Exception:
                 continue  # Skip failed imports during prewarm
 
-        print(f"⚡ Module Import Cache: Pre-warmed {len(self._cache)} critical components")
+        print(f"⚡ Module Import Cache: Pre-warmed {len(self._cache} critical components")
 
     def get_component(self, module_path: str, component_name: str) -> Optional[Any]:
         """Get component with sub-millisecond cache access"""
@@ -217,13 +217,13 @@ class AsyncHashCalculator:
 
         # Generate cache key for data
         if isinstance(data, dict):
-            cache_key = f"dict_{hash(str(sorted(data.items())))}"
+            cache_key = f"dict_{hash(str(sorted(data.items()))}"
             data_str = fast_json_dumps(data)
         elif isinstance(data, str):
-            cache_key = f"str_{hash(data)}"
+            cache_key = f"str_{hash(data}"
             data_str = data
         else:
-            cache_key = f"bytes_{hash(data)}"
+            cache_key = f"bytes_{hash(data}"
             data_str = data.decode() if isinstance(data, bytes) else str(data)
 
         # Check cache first
@@ -513,7 +513,7 @@ class ExtremeAuthPerformanceOptimizer:
         if not self._initialized:
             await self.initialize()
 
-        request_id = request_id or f"auth_{int(time.time() * 1000)}_{len(self.auth_metrics)}"
+        request_id = request_id or f"auth_{int(time.time() * 1000)}_{len(self.auth_metrics}"
 
         metrics = AuthPerformanceMetrics(request_id=request_id, operation=operation)
 
@@ -595,7 +595,7 @@ class ExtremeAuthPerformanceOptimizer:
     ) -> dict[str, Any]:
         """Complete optimized authentication flow demonstrating all optimizations"""
         async with self.optimize_auth_operation(
-            f"full_auth_{operation}", f"auth_{agent_id}_{int(time.time())}"
+            f"full_auth_{operation}", f"auth_{agent_id}_{int(time.time()}"
         ) as metrics:
             # 1. OPTIMIZED COMPONENT LOADING (was 15-25ms, now <1ms)
             time.perf_counter()
@@ -719,9 +719,9 @@ class ExtremeAuthPerformanceOptimizer:
                 "p99_latency_ms": p99,
                 "target_p95_ms": self.target_p95_latency_ms,
                 "improvement_vs_target": (
-                    f"{((self.target_p95_latency_ms - p95) / self.target_p95_latency_ms * 100):.1f}%"
+                    f"{((self.target_p95_latency_ms - p95) / self.target_p95_latency_ms * 100}:.1f}%"
                     if p95 <= self.target_p95_latency_ms
-                    else f"{((p95 - self.target_p95_latency_ms) / self.target_p95_latency_ms * 100):.1f}% OVER target"
+                    else f"{((p95 - self.target_p95_latency_ms) / self.target_p95_latency_ms * 100}:.1f}% OVER target"
                 ),
             },
             "component_performance": component_stats,

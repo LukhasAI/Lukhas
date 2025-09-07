@@ -22,7 +22,7 @@ import structlog
 # TAG:colony
 
 
-log = structlog.get_logger(__name__, timezone)
+log = structlog.get_logger(__name__)
 
 # Metrics tracked across collapse events
 ΛDRIFT_SCORE: float = 0.0
@@ -35,7 +35,7 @@ DRIFT_LOG_PATH = Path("ΛDRIFT_LOG.md")
 def _append_log(event: str, drift: float, entropy: float) -> None:
     DRIFT_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     with DRIFT_LOG_PATH.open("a", encoding="utf-8") as fh:
-        fh.write(f"{datetime.now(timezone.utc).isoformat()} event={event} drift={drift} entropy={entropy}\n")
+        fh.write(f"{datetime.now(timezone.utc).isoformat(} event={event} drift={drift} entropy={entropy}\n")
 
 
 def record_collapse(event: str, drift: float, entropy: float) -> None:

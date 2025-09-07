@@ -197,7 +197,7 @@ class BaseMemoryColony(ABC):
         self._maintenance_task = None
 
         logger.info(
-            f"{self.colony_role.value.title()} memory colony initialized",
+            f"{self.colony_role.value.title(} memory colony initialized",
             colony_id=colony_id,
             specialized_types=[t.value for t in specialized_memory_types],
         )
@@ -473,7 +473,7 @@ class BaseMemoryColony(ABC):
         if not self.active_operations:
             return
 
-        logger.info(f"Colony {self.colony_id} completing {len(self.active_operations)} active operations")
+        logger.info(f"Colony {self.colony_id} completing {len(self.active_operations} active operations")
 
         try:
             await asyncio.wait_for(

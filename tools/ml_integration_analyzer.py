@@ -415,7 +415,7 @@ class IntegrationAnalyzer:
         keys: list[tuple[str, str]] = []
         for v in views:
             for f in v.functions:
-                snippet = f"def {f.name}({', '.join(f.args)}):\n{f.source}\n\nDoc: {f.docstring or ''}"
+                snippet = f"def {f.name}({', '.join(f.args}):\n{f.source}\n\nDoc: {f.docstring or ''}"
                 texts.append(snippet)
                 keys.append((str(v.path), f.name))
         embs = self.embedder.encode_batch(texts) if texts else []
@@ -429,7 +429,7 @@ class IntegrationAnalyzer:
         target_views: list[ModuleView],
         target_embs: dict[tuple[str, str], list[float]],
     ) -> list[tuple[str, str, float]]:
-        orphan_text = f"def {orphan_func.name}({', '.join(orphan_func.args)}):\n{orphan_func.source}\n\nDoc: {orphan_func.docstring or ''}"
+        orphan_text = f"def {orphan_func.name}({', '.join(orphan_func.args}):\n{orphan_func.source}\n\nDoc: {orphan_func.docstring or ''}"
         orphan_emb = self.embedder.encode(orphan_text)
 
         scored: list[tuple[str, str, float]] = []
@@ -497,7 +497,7 @@ class IntegrationAnalyzer:
                         snippet = "\n".join(lines[max(0, start - 2) : min(len(lines), end + 1)])
                         snippets.append(
                             {
-                                "issue": f"semgrep:{r.get('check_id')}",
+                                "issue": f"semgrep:{r.get('check_id'}",
                                 "start_line": start,
                                 "end_line": end,
                                 "snippet": snippet,
@@ -580,7 +580,7 @@ class IntegrationAnalyzer:
         verb_pattern = ""
         if re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE):
             verb = re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE).group(1)  # type: ignore
-            verb_pattern = f"{verb.lower()} + noun"
+            verb_pattern = f"{verb.lower(} + noun"
         domain = self._infer_domain(func.name)
         preferred = func.name
         if self.style_prefs.get("naming") == "snake_case" and convention != "snake_case":
@@ -773,7 +773,7 @@ jobs:
           pip install semgrep gitpython || true
       - name: Run analyzer
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }
           LUKHAS_REASONER_MODEL: gpt-5-mini
         run: |
           python ml_integration_analyzer.py --orphan ./path/to/orphan.py --lukhas . \\
@@ -837,7 +837,7 @@ jobs:
                 ["git", "-C", str(root), "log", "--oneline", "-n", "50"], capture_output=True, check=False
             )
             lines = proc.stdout.decode().splitlines()
-            return f"Last {len(lines)} commits (head):\n" + "\n".join(lines[:10])
+            return f"Last {len(lines} commits (head):\n" + "\n".join(lines[:10])
         except Exception:
             return "git analysis failed"
 
@@ -938,7 +938,7 @@ jobs:
 
         # LUKHAS context for LLM (high-level only)
         lukhas_context = "\n".join(
-            [f"{v.path.name}: {', '.join(f.name for f in v.functions[:5])}" for v in lukhas_views[:10]]
+            [f"{v.path.name}: {', '.join(f.name for f in v.functions[:5]}" for v in lukhas_views[:10]]
         )
 
         # Semantic matching for each orphan function against LUKHAS codebase

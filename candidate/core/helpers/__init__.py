@@ -150,7 +150,7 @@ def get_utc_timestamp(format_string: str = "%Y-%m-%dT%H:%M:%S.%fZ") -> str:
 def get_nested_value(data: dict, path: str, delimiter: str = ".", default: Any = None) -> Any:
     """
     Retrieves a value from a nested dictionary using a path string.
-    Example: get_nested_value({"a": {"b": {"c": 1}}}, "a.b.c") -> 1
+    Example: get_nested_value({"a": {"b": {"c": 1}, "a.b.c") -> 1
     # ΛNOTE: Useful for accessing deeply nested configuration or data.
     # AINFER: Navigates nested structure based on path.
     """

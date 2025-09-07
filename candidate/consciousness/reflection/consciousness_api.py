@@ -20,7 +20,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ConsciousnessLevel(Enum, timezone):
+class ConsciousnessLevel(Enum):
     """Levels of consciousness simulation"""
 
     BASIC = "basic"  # Simple awareness
@@ -174,7 +174,7 @@ class ConsciousnessPlatformAPI:
         """
         await self.initialize()
 
-        result = {"timestamp": datetime.now(timezone.utc).isoformat(), "awareness_data": {}}
+        result = {"timestamp": datetime.now(timezone.utc).isoformat(), "awareness_data": {}
 
         # Get current awareness for requested types
         for awareness_type in query.awareness_types:

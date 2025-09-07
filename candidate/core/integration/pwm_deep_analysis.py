@@ -31,7 +31,7 @@ class ConnectivityAnalyzer:
         """Find all Python files excluding archives"""
         self.python_files = list(self.root_path.rglob("*.py"))
         self.python_files = [f for f in self.python_files if "._cleanup_archive" not in str(f) and ".git" not in str(f)]
-        print(f"📊 Found {len(self.python_files)} Python files to analyze")
+        print(f"📊 Found {len(self.python_files} Python files to analyze")
 
     def analyze_imports(self, file_path):
         """Extract imports from a Python file"""

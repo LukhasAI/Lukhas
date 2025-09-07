@@ -33,7 +33,7 @@ import logging
 import uuid
 from datetime import datetime
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class EmotionalMemoryVector:

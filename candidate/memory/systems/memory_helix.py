@@ -96,7 +96,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure logging
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class VoiceMemoryHelix:
@@ -175,7 +175,7 @@ class VoiceMemoryHelix:
 
                     cultural_locations = len(self.location_memories)
                     logger.info(
-                        f"Loaded voice memory with {len(self.pronunciation_memory)} words, {len(self.accent_memory)} accent patterns, and {cultural_locations} cultural locations"
+                        f"Loaded voice memory with {len(self.pronunciation_memory)} words, {len(self.accent_memory} accent patterns, and {cultural_locations} cultural locations"
                     )
             else:
                 logger.info("No saved voice memory found, starting fresh")
@@ -235,7 +235,7 @@ class VoiceMemoryHelix:
                         self.curiosity_list.add(word)
 
         if new_words:
-            logger.debug(f"Detected {len(new_words)} potentially new words: {new_words}")
+            logger.debug(f"Detected {len(new_words} potentially new words: {new_words}")
 
         return new_words
 

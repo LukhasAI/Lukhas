@@ -450,7 +450,7 @@ if __name__ == "__main__":
 
         if result.get("dry_run"):
             print("✅ Dry-run plan created")
-            print(f"   Mock entries: {len(result.get('mock_entries', []))}")
+            print(f"   Mock entries: {len(result.get('mock_entries', [])}")
             for entry in result.get("mock_entries", [])[:3]:
                 print(f"   - {entry['name']} ({entry['type']})")
 

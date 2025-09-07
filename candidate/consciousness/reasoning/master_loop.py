@@ -19,7 +19,7 @@ import streamlit as st
 
 
 # Entry point for symbolic loop
-def process_user_input(user_input, timezone):
+def process_user_input(user_input):
     timestamp = datetime.now(timezone.utc).isoformat() + "Z"
     print(f"\n🧠 [{timestamp}] User said: {user_input}")
 

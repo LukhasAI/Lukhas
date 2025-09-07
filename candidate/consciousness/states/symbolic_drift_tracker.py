@@ -50,7 +50,7 @@ from typing import Any, Optional
 # ΛNOTE: Enterprise symbolic drift tracking with multi-dimensional analysis
 
 
-class DriftPhase(Enum, timezone):
+class DriftPhase(Enum):
     """Symbolic drift phase classification"""
 
     EARLY = "EARLY"  # Initial deviation (0.0-0.25)
@@ -342,7 +342,7 @@ class SymbolicDriftTracker:
                 )
 
                 # Store pattern for analysis
-                pattern_key = f"recursive_{datetime.now(timezone.utc).isoformat()}"
+                pattern_key = f"recursive_{datetime.now(timezone.utc).isoformat(}"
                 self.recursive_patterns[pattern_key] = loop_indicators
 
             return has_recursion
@@ -746,7 +746,7 @@ class SymbolicDriftTracker:
 
     def _implement_symbolic_quarantine(self, session_id: str) -> None:
         """Implement symbolic quarantine for unstable sessions."""
-        quarantine_marker = f"ΛQUARANTINE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        quarantine_marker = f"ΛQUARANTINE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
         if session_id in self.symbolic_states:
             # Mark latest state with quarantine
@@ -1126,7 +1126,7 @@ if __name__ == "__main__":
         print(f"  • {rec}")
 
     print("\n✅ Enterprise Symbolic Drift Tracker Implementation Complete")
-    print(f"📊 Sessions Tracked: {len(tracker.symbolic_states)}")
-    print(f"🎯 Drift Records: {len(tracker.drift_records)}")
-    print(f"🚨 Alert History: {len(tracker.alert_history)}")
-    print(f"🔄 Recursive Patterns: {len(tracker.recursive_patterns)}")
+    print(f"📊 Sessions Tracked: {len(tracker.symbolic_states}")
+    print(f"🎯 Drift Records: {len(tracker.drift_records}")
+    print(f"🚨 Alert History: {len(tracker.alert_history}")
+    print(f"🔄 Recursive Patterns: {len(tracker.recursive_patterns}")

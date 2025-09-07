@@ -351,12 +351,12 @@ class APIAnalyzer:
         http_methods = ["GET", "POST", "PUT", "DELETE", "PATCH"]
 
         for method in http_methods:
-            pattern = rf"def\s+(\w*{method.lower()}\w*)\s*\("
+            pattern = rf"def\s+(\w*{method.lower(}\w*)\s*\("
             matches = re.findall(pattern, content, re.IGNORECASE)
 
             for match in matches:
                 endpoint = APIEndpoint(
-                    path=f"/{match.replace('_', '/')}",
+                    path=f"/{match.replace('_', '/'}",
                     method=HTTPMethod(method),
                     summary=match.replace("_", " ").title(),
                     description=f"Generic API endpoint: {method} /{match}",
@@ -474,7 +474,7 @@ class APIDocumentationGenerator:
     ) -> APIDocumentation:
         """Generate comprehensive API documentation"""
 
-        print(f"📡 Generating API documentation from {len(api_files)} files...")
+        print(f"📡 Generating API documentation from {len(api_files} files...")
 
         # Analyze API files
         endpoints = await self.analyzer.analyze_api_code(api_files)
@@ -493,7 +493,7 @@ class APIDocumentationGenerator:
             compliance_info=await self._generate_compliance_info(),
         )
 
-        print(f"   ✅ Generated documentation for {len(endpoints)} endpoints")
+        print(f"   ✅ Generated documentation for {len(endpoints} endpoints")
 
         # Generate output files
         await self._generate_output_files(documentation, output_format)
@@ -776,8 +776,8 @@ class APIDocumentationGenerator:
                             }
                         ],
                         "url": {
-                            "raw": f"{{{{base_url}}}}{endpoint.path}",
-                            "host": ["{{base_url}}"],
+                            "raw": f"{{{{base_url}}{endpoint.path}",
+                            "host": ["{{base_url}"],
                             "path": endpoint.path.strip("/").split("/"),
                         },
                     },
@@ -787,7 +787,7 @@ class APIDocumentationGenerator:
                     request_item["request"]["header"].append(
                         {
                             "key": "Authorization",
-                            "value": "Bearer {{access_token}}",
+                            "value": "Bearer {{access_token}",
                         }
                     )
 
@@ -817,12 +817,12 @@ class APIDocumentationGenerator:
 """
 
         for auth_type, auth_config in documentation.authentication.items():
-            content += f"## {auth_type.replace('_', ' ').title()}\n\n"
-            content += f"{auth_config.get('description', 'Authentication method')}\n\n"
+            content += f"## {auth_type.replace('_', ' ').title(}\n\n"
+            content += f"{auth_config.get('description', 'Authentication method'}\n\n"
 
         content += "## Rate Limits\n\n"
         for tier, limits in documentation.rate_limits.items():
-            content += f"### {tier.title()}\n"
+            content += f"### {tier.title(}\n"
             content += f"- Requests per minute: {limits['requests_per_minute']}\n"
             content += f"- Requests per hour: {limits['requests_per_hour']}\n"
             content += f"- Requests per day: {limits['requests_per_day']}\n\n"
@@ -875,18 +875,18 @@ class APIDocumentationGenerator:
 <head>
     <title>{documentation.title}</title>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }}
-        h1, h2, h3 {{ color: #333; }}
-        .endpoint {{ border: 1px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 5px; }}
-        .method {{ display: inline-block; padding: 5px 10px; border-radius: 3px; color: white; font-weight: bold; }}
-        .get {{ background-color: #61affe; }}
-        .post {{ background-color: #49cc90; }}
-        .put {{ background-color: #fca130; }}
-        .delete {{ background-color: #f93e3e; }}
-        table {{ border-collapse: collapse; width: 100%; }}
-        th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
-        th {{ background-color: #f2f2f2; }}
-        code {{ background-color: #f5f5f5; padding: 2px 4px; border-radius: 3px; }}
+        body {{ font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2, h3 {{ color: #333; }
+        .endpoint {{ border: 1px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 5px; }
+        .method {{ display: inline-block; padding: 5px 10px; border-radius: 3px; color: white; font-weight: bold; }
+        .get {{ background-color: #61affe; }
+        .post {{ background-color: #49cc90; }
+        .put {{ background-color: #fca130; }
+        .delete {{ background-color: #f93e3e; }
+        table {{ border-collapse: collapse; width: 100%; }
+        th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th {{ background-color: #f2f2f2; }
+        code {{ background-color: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
     </style>
 </head>
 <body>

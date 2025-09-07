@@ -73,7 +73,7 @@ def analyze_feedback(entries, args=None):
 
     print("\n Average Score:", round(mean(scores), 2))
     print(" Most Common Emojis:", Counter(emojis).most_common(5))
-    print(f" Replay Candidates: {replay_candidates} / {len(entries)}")
+    print(f" Replay Candidates: {replay_candidates} / {len(entries}")
 
     print("\n Reflection Notes (Preview):")
     for note in notes[:5]:
@@ -83,7 +83,7 @@ def analyze_feedback(entries, args=None):
         with open(args.export, "w") as f:
             for entry in entries:
                 f.write(json.dumps(entry) + "\n")
-        print(f"\n Exported {len(entries)} entries to {args.export}")
+        print(f"\n Exported {len(entries} entries to {args.export}")
 
 
 if __name__ == "__main__":

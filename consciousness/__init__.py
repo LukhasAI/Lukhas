@@ -84,7 +84,7 @@ def process_consciousness_stream(input_data: dict[str, Any]) -> dict[str, Any]:
 
         # Simulate consciousness processing
         result = {
-            "stream_id": f"consciousness_stream_{int(datetime.now(timezone.utc).timestamp())}",
+            "stream_id": f"consciousness_stream_{int(datetime.now(timezone.utc).timestamp()}",
             "input_processed": True,
             "awareness_level": 0.85,  # Placeholder
             "reflection_depth": 0.70,  # Placeholder
@@ -113,7 +113,7 @@ def activate_consciousness_layer(layer_name: str, parameters: Optional[dict[str,
 
         # Simulate layer activation
         activation_result = {
-            "layer_id": f"consciousness_layer_{layer_name}_{int(datetime.now(timezone.utc).timestamp())}",
+            "layer_id": f"consciousness_layer_{layer_name}_{int(datetime.now(timezone.utc).timestamp()}",
             "layer_name": layer_name,
             "parameters": parameters or {},
             "activation_status": "active",
@@ -142,7 +142,7 @@ def reflect_on_experience(experience_data: dict[str, Any]) -> dict[str, Any]:
 
         # Simulate consciousness reflection
         reflection = {
-            "reflection_id": f"consciousness_reflection_{int(datetime.now(timezone.utc).timestamp())}",
+            "reflection_id": f"consciousness_reflection_{int(datetime.now(timezone.utc).timestamp()}",
             "experience_processed": True,
             "insights_generated": ["pattern_recognition", "meta_learning", "qi_resonance"],
             "consciousness_growth": 0.05,  # Placeholder growth metric

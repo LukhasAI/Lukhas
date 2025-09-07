@@ -38,7 +38,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class GuardianStatus(Enum):
@@ -363,7 +363,7 @@ class EnhancedGuardianSystem:
     ) -> Optional[ThreatDetection]:
         """Detect and classify a potential threat"""
 
-        detection_id = f"threat_{uuid.uuid4().hex[:8]}"
+        detection_id = f"threat_{uuid.uuid4(}.hex[:8]}"
         context = context or {}
 
         try:
@@ -430,7 +430,7 @@ class EnhancedGuardianSystem:
             return None
 
         threat = self.active_threats[threat_id]
-        response_id = f"response_{uuid.uuid4().hex[:8]}"
+        response_id = f"response_{uuid.uuid4(}.hex[:8]}"
 
         # Determine responding agent
         if not responding_agent:

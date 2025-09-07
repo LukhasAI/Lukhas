@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class SafetyViolationType(Enum):
@@ -366,7 +366,7 @@ class NIASConstitutionalSafety:
                 },
                 {
                     "role": "user",
-                    "content": f"Constitution: {json.dumps(context['constitution'])}\n\nAction: {json.dumps(context['action_data'])}",
+                    "content": f"Constitution: {json.dumps(context['constitution'])}\n\nAction: {json.dumps(context['action_data']}",
                 },
             ],
             functions=[
@@ -445,7 +445,7 @@ class NIASConstitutionalSafety:
             if r.strip() and r.strip()[0] in "•-*123456789":
         ]
 
-    def _synthesize_explanation(:
+    def _synthesize_explanation(
         self, initial_eval: dict[str, Any], principle_eval: dict[str, Any]
     ) -> str:
         """Synthesize a clear explanation of the safety evaluation"""
@@ -461,12 +461,12 @@ class NIASConstitutionalSafety:
 
         if initial_eval["primary_concerns"]:
             explanation_parts.append(
-                f"Primary concerns: {', '.join(initial_eval['primary_concerns'])}."
+                f"Primary concerns: {', '.join(initial_eval['primary_concerns']}."
             )
 
         if principle_eval["violated_principles"]:
             explanation_parts.append(
-                f"Violates principles: {', '.join(principle_eval['violated_principles'])}."
+                f"Violates principles: {', '.join(principle_eval['violated_principles']}."
             )
 
         return " ".join(explanation_parts)
@@ -491,7 +491,7 @@ class NIASConstitutionalSafety:
             f"Safety violation logged: {action_type} - {evaluation.violated_principles}"
         )
 
-    def _basic_safety_evaluation(:
+    def _basic_safety_evaluation(
         self,
         action_type: str,
         action_data: dict[str, Any],
@@ -705,7 +705,7 @@ class NIASConstitutionalSafety:
 _safety_instance = None
 
 
-def get_constitutional_safety(:
+def get_constitutional_safety(
     openai_api_key: Optional[str] = None,
 ) -> NIASConstitutionalSafety:
     """Get or create the singleton Constitutional Safety instance"""

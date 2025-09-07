@@ -136,16 +136,16 @@ class CoreAnalyzer:
             for category, keywords in self.lukhas_keywords.items():
                 found_keywords = [kw for kw in keywords if kw in content_lower]
                 if found_keywords:
-                    hints.append(f"{category}: {', '.join(found_keywords)}")
+                    hints.append(f"{category}: {', '.join(found_keywords}")
 
             # Check for class/function names
             classes = re.findall(r"class\s+(\w+)", content)
             functions = re.findall(r"def\s+(\w+)", content)
 
             if classes:
-                hints.append(f"classes: {', '.join(classes[:3])}")
+                hints.append(f"classes: {', '.join(classes[:3]}")
             if functions:
-                hints.append(f"functions: {', '.join(functions[:3])}")
+                hints.append(f"functions: {', '.join(functions[:3]}")
 
             return "; ".join(hints) if hints else ""
 
@@ -202,7 +202,7 @@ class CoreAnalyzer:
 
         with open(report_path, "w") as f:
             f.write("# lukhas Core AI Analysis Report\n")
-            f.write(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}\n")
             f.write("**Purpose:** Identify actual lukhas AI components vs external packages\n\n")
 
             # Executive Summary
@@ -225,7 +225,7 @@ class CoreAnalyzer:
             # Core AI Files
             if self.analysis["core_agi_files"]:
                 f.write("## 🧠 Core AI Components\n\n")
-                f.write(f"**Count:** {len(self.analysis['core_agi_files'])}\n\n")
+                f.write(f"**Count:** {len(self.analysis['core_agi_files']}\n\n")
 
                 for i, file_info in enumerate(self.analysis["core_agi_files"][:20], 1):
                     f.write(f"### {i}. `{file_info['file']}`\n")
@@ -236,12 +236,12 @@ class CoreAnalyzer:
                     f.write("\n")
 
                 if len(self.analysis["core_agi_files"]) > 20:
-                    f.write(f"*... and {len(self.analysis['core_agi_files']) - 20} more core AI files*\n\n")
+                    f.write(f"*... and {len(self.analysis['core_agi_files']} - 20} more core AI files*\n\n")
 
             # Legitimate Components
             if self.analysis["legitimate_components"]:
                 f.write("## ⚙️ Legitimate lukhas Components\n\n")
-                f.write(f"**Count:** {len(self.analysis['legitimate_components'])}\n\n")
+                f.write(f"**Count:** {len(self.analysis['legitimate_components']}\n\n")
 
                 # Group by category
                 by_category = defaultdict(list)
@@ -254,13 +254,13 @@ class CoreAnalyzer:
                     for file_info in files[:5]:
                         f.write(f"- `{file_info['file']}` ({file_info['size']} bytes)\n")
                     if len(files) > 5:
-                        f.write(f"  *... and {len(files) - 5} more files*\n")
+                        f.write(f"  *... and {len(files} - 5} more files*\n")
                     f.write("\n")
 
             # External Packages (top offenders)
             if self.analysis["external_packages"]:
                 f.write("## 📦 External Packages (Should be moved out)\n\n")
-                f.write(f"**Count:** {len(self.analysis['external_packages'])}\n\n")
+                f.write(f"**Count:** {len(self.analysis['external_packages']}\n\n")
 
                 # Group by directory
                 by_dir = defaultdict(list)
@@ -273,7 +273,7 @@ class CoreAnalyzer:
 
                 for dir_name, files in sorted_dirs[:10]:
                     total_size = sum(f["size"] for f in files)
-                    f.write(f"### {dir_name} ({len(files)} files, {total_size / 1024:.1f} KB)\n")
+                    f.write(f"### {dir_name} ({len(files} files, {total_size / 1024:.1f} KB)\n")
                     f.write("**Recommendation:** Move to workspace dependencies or external/\n\n")
 
             # Action Plan

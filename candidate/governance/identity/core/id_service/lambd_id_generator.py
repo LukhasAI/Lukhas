@@ -151,7 +151,7 @@ class LambdaIDGenerator:
             base_entropy += context_str
 
         # Add tier-specific salt
-        tier_salt = f"tier_{tier.value}_{datetime.now(timezone.utc).isoformat()}"
+        tier_salt = f"tier_{tier.value}_{datetime.now(timezone.utc).isoformat(}"
         combined_entropy = base_entropy + tier_salt
 
         # Generate hash
@@ -276,4 +276,4 @@ if __name__ == "__main__":
     personalized_id = generator.generate_lambda_id(TierLevel.FRIEND, user_context, symbolic_preference="🌀")
     print(f"Personalized ΛiD: {personalized_id}")
 
-    print(f"Generation Stats: {generator.get_generation_stats()}")
+    print(f"Generation Stats: {generator.get_generation_stats(}")

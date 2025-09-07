@@ -347,7 +347,7 @@ class SymbolicKernelBus:
             with self._metrics_lock:
                 self._metrics["events_dispatched"] += 1
 
-            logger.debug(f"📨 Dispatched: {event.event_type} to {len(handlers)} handlers")
+            logger.debug(f"📨 Dispatched: {event.event_type} to {len(handlers} handlers")
 
         except Exception as e:
             logger.error(f"Dispatch error: {e}")
@@ -555,7 +555,7 @@ class SymbolicKernelBus:
         topic = event.payload.get("topic")
         agents = event.payload.get("agents", [])
 
-        logger.info(f"🐝 Swarm consensus requested: {topic} ({len(agents)} agents)")
+        logger.info(f"🐝 Swarm consensus requested: {topic} ({len(agents} agents)")
 
         # Broadcast to all agents
         for agent_id in agents:

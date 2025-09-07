@@ -46,7 +46,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 
-class OrchestratorState(Enum, timezone):
+class OrchestratorState(Enum):
     """Standardized orchestrator states"""
 
     UNINITIALIZED = auto()

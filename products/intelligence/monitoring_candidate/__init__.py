@@ -187,7 +187,7 @@ async def main():
 
     # Get recent insights
     insights = monitoring_system.get_unified_insights(limit=5)
-    print(f"Recent Insights: {len(insights)}")
+    print(f"Recent Insights: {len(insights}")
 
     # Run for demonstration
     await asyncio.sleep(60)

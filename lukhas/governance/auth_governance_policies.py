@@ -574,7 +574,7 @@ class AuthGovernancePolicyEngine:
 
                 if not compliance_result["compliant"]:
                     violation = PolicyViolation(
-                        id=f"violation_{datetime.now(timezone.utc).timestamp()}",
+                        id=f"violation_{datetime.now(timezone.utc).timestamp(}",
                         policy_rule_id=policy.id,
                         user_id=auth_context.get("user_id", "unknown"),
                         violation_type=compliance_result["violation_type"],

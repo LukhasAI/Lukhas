@@ -256,7 +256,7 @@ class SymbolicChain:
 
         # Only add Trinity if completely missing
         if not any(g in response for g in self.healer.trinity_core):
-            healed = f"{' '.join(self.healer.trinity_core)} {healed}"
+            healed = f"{' '.join(self.healer.trinity_core} {healed}"
 
         # Remove only the most problematic glyphs
         for glyph in diagnosis["affected_glyphs"]:
@@ -471,10 +471,10 @@ class SymbolicChain:
         ]
 
         if diff.removed_glyphs:
-            report_lines.append(f"  Removed Glyphs: {' '.join(diff.removed_glyphs)}")
+            report_lines.append(f"  Removed Glyphs: {' '.join(diff.removed_glyphs}")
 
         if diff.added_glyphs:
-            report_lines.append(f"  Added Glyphs: {' '.join(diff.added_glyphs)}")
+            report_lines.append(f"  Added Glyphs: {' '.join(diff.added_glyphs}")
 
         if diff.transformed_phrases:
             report_lines.append("  Phrase Transformations:")

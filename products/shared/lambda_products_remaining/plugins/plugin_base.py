@@ -17,7 +17,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class PluginStatus(Enum):

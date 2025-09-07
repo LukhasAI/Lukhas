@@ -129,7 +129,7 @@ class DataAnalyzer(CoreInterface):
         # Check consciousness service
         if self.consciousness_service:
             awareness = await self.consciousness_service.assess_awareness({})
-            logger.info(f"Consciousness awareness level: {awareness.get('overall_awareness', 0)}")
+            logger.info(f"Consciousness awareness level: {awareness.get('overall_awareness', 0}")
 
     async def analyze_data(self, request: AnalysisRequest) -> AnalysisResult:
         """
@@ -164,7 +164,7 @@ class DataAnalyzer(CoreInterface):
 
             # Step 4: Create result
             result = AnalysisResult(
-                request_id=f"analysis_{datetime.now(timezone.utc).timestamp()}",
+                request_id=f"analysis_{datetime.now(timezone.utc).timestamp(}",
                 findings=findings,
                 confidence=findings.get("confidence", 0.8),
                 ethical_approval=True if request.ethical_check else None,
@@ -338,7 +338,7 @@ class DataAnalyzer(CoreInterface):
             "request": {
                 "analysis_type": request.analysis_type,
                 "priority": request.priority,
-                "data_summary": f"Data with {len(request.data)} fields",
+                "data_summary": f"Data with {len(request.data} fields",
             },
             "result": {"findings": result.findings, "confidence": result.confidence},
         }
@@ -555,7 +555,7 @@ async def main():
     print("Analysis Result:")
     print(f"  Request ID: {result.request_id}")
     print(f"  Confidence: {result.confidence}")
-    print(f"  Patterns found: {result.findings.get('pattern_count', 0)}")
+    print(f"  Patterns found: {result.findings.get('pattern_count', 0}")
     print(f"  Memory stored: {result.memory_id is not None}")
     print()
 

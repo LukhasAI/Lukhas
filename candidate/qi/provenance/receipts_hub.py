@@ -95,7 +95,7 @@ def emit_receipt(**kwargs) -> dict[str, Any]:
     if cli:
         bucket, prefix = s3cfg
         ymd = time.strftime("%Y%m%d", time.gmtime(data.get("created_at", time.time())))
-        key = f"{prefix.rstrip('/')}/{ymd}/{r.id}.json"
+        key = f"{prefix.rstrip('/'}/{ymd}/{r.id}.json"
         with contextlib.suppress(Exception):
             cli.put_object(
                 Bucket=bucket,
@@ -139,7 +139,7 @@ def _generate_grafana(path: str):
                 "targets": [
                     {
                         "expr": "sum(rate(lukhas_prov_stream_requests_total[5m])) by (backend)",
-                        "legendFormat": "{{backend}}",
+                        "legendFormat": "{{backend}",
                         "refId": "A",
                     }
                 ],

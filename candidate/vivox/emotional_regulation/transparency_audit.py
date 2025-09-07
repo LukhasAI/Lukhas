@@ -157,14 +157,14 @@ Generated: {self.generated_at.isoformat()}
 """
         for strategy, stats in self.regulation_insights.get("strategy_breakdown", {}).items():
             report += (
-                f"- {strategy}: {stats.get('count', 0)} uses, {stats.get('effectiveness', 0):.2f} avg effectiveness\n"
+                f"- {strategy}: {stats.get('count', 0)} uses, {stats.get('effectiveness', 0}:.2f} avg effectiveness\n"
             )
 
         report += """
 ## Emotional Journey Highlights
 """
         for event in self.emotional_journey[:5]:  # Top 5 events
-            report += f"- {event.get('timestamp', '')}: {event.get('description', '')}\n"
+            report += f"- {event.get('timestamp', '')}: {event.get('description', ''}\n"
 
         report += f"""
 ## Learning & Adaptation
@@ -665,7 +665,7 @@ class VIVOXAuditSystem:
         """Generate unique event ID"""
         timestamp = datetime.now(timezone.utc).timestamp()
         random_part = os.urandom(4).hex()
-        return f"vivox_audit_{int(timestamp)}_{random_part}"
+        return f"vivox_audit_{int(timestamp}_{random_part}"
 
     def _assess_privacy_level(self, emotion_data: dict[str, Any], context: dict[str, Any]) -> str:
         """Assess privacy level of data"""
@@ -797,7 +797,7 @@ class VIVOXAuditSystem:
 
         if events_to_archive:
             # Save to file
-            archive_file = Path(self.storage_path) / f"audit_archive_{datetime.now(timezone.utc).strftime('%Y%m%d')}.json"
+            archive_file = Path(self.storage_path) / f"audit_archive_{datetime.now(timezone.utc).strftime('%Y%m%d'}.json"
 
             archive_data = {
                 "archived_at": datetime.now(timezone.utc).isoformat(),
@@ -810,7 +810,7 @@ class VIVOXAuditSystem:
 
             self.audit_events = events_to_keep
 
-            logger.info(f"Archived {len(events_to_archive)} old audit events to {archive_file}")
+            logger.info(f"Archived {len(events_to_archive} old audit events to {archive_file}")
 
     def _load_audit_events(self):
         """Load existing audit events from storage"""
@@ -829,7 +829,7 @@ class VIVOXAuditSystem:
                     except Exception as e:
                         logger.error(f"Error loading audit event: {e}")
 
-            logger.info(f"Loaded {len(self.audit_events)} audit events from storage")
+            logger.info(f"Loaded {len(self.audit_events} audit events from storage")
 
         except Exception as e:
             logger.error(f"Error loading audit events: {e}")

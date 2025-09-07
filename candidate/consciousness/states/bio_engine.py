@@ -44,7 +44,7 @@ try:
 except ImportError:
     MitochondrialQIBridge = None
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class HormoneType(Enum):

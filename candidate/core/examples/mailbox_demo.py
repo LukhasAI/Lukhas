@@ -195,7 +195,7 @@ async def demonstrate_sequential_guarantee():
     # Get stats
     actor = system.get_actor("counter-001")
     stats = actor.get_stats()
-    print(f"Mailbox stats: {json.dumps(stats['mailbox_details'], indent=2)}")
+    print(f"Mailbox stats: {json.dumps(stats['mailbox_details'], indent=2}")
 
 
 async def demonstrate_priority_processing():
@@ -244,7 +244,7 @@ async def demonstrate_priority_processing():
 
     # Get statistics
     stats = await priority_actor.ask("get_stats", {})
-    print(f"Processing stats: {json.dumps(stats, indent=2)}")
+    print(f"Processing stats: {json.dumps(stats, indent=2}")
 
 
 async def demonstrate_back_pressure():
@@ -270,7 +270,7 @@ async def demonstrate_back_pressure():
     await asyncio.sleep(3)
 
     result = await drop_newest.ask("get_processed", {})
-    print(f"Processed with DROP_NEWEST: {len(result['processed'])} messages")
+    print(f"Processed with DROP_NEWEST: {len(result['processed']} messages")
     print(f"Mailbox stats: {result['mailbox_stats']}")
 
 
@@ -302,7 +302,7 @@ async def demonstrate_persistence():
 
     # Check state
     state = await recovered.ask("get_state", {})
-    print(f"Recovered state: {json.dumps(state, indent=2)}")
+    print(f"Recovered state: {json.dumps(state, indent=2}")
 
 
 async def main():

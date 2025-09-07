@@ -703,7 +703,7 @@ if __name__ == "__main__":
 
         # Get status
         status = await integrator.get_consciousness_status()
-        print(f"Consciousness Status: {json.dumps(status, indent=2, default=str)}")
+        print(f"Consciousness Status: {json.dumps(status, indent=2, default=str}")
 
         await integrator.shutdown()
 

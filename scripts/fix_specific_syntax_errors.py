@@ -53,7 +53,7 @@ def fix_unclosed_f_strings(content: str) -> tuple[str, list[str]]:
         if ('f"' in line or "f'" in line) and not in_f_string:
             in_f_string = True
             f_string_start_line = i
-            brace_count = line.count("{") - line.count("}")
+            brace_count = line.count("{"} - line.count("}")
 
             # Check if it's a complete f-string on one line
             if brace_count == 0:
@@ -180,7 +180,7 @@ def process_file(file_path: Path) -> bool:
             for fix in all_fixes[:5]:
                 print(f"   {fix}")
             if len(all_fixes) > 5:
-                print(f"   ... and {len(all_fixes) - 5} more fixes")
+                print(f"   ... and {len(all_fixes} - 5} more fixes")
 
             # Write fixed content
             with open(file_path, "w", encoding="utf-8") as f:
@@ -218,7 +218,7 @@ def main():
 
     print("🔧 LUKHAS Specific Syntax Error Fixer")
     print("=" * 50)
-    print(f"Processing {len(problem_files)} files with known issues...")
+    print(f"Processing {len(problem_files} files with known issues...")
 
     fixed_count = 0
     for file_str in problem_files:
@@ -227,7 +227,7 @@ def main():
             fixed_count += 1
 
     print("\n" + "=" * 50)
-    print(f"✅ Fixed {fixed_count}/{len(problem_files)} files")
+    print(f"✅ Fixed {fixed_count}/{len(problem_files} files")
 
     return fixed_count == len(problem_files)
 

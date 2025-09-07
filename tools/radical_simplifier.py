@@ -144,7 +144,7 @@ class RadicalSimplifier:
         returns = 1 if node.returns else 0
         body_types = [type(n).__name__ for n in node.body]
 
-        fingerprint_data = f"{params}:{returns}:{':'.join(body_types[:5])}"
+        fingerprint_data = f"{params}:{returns}:{':'.join(body_types[:5]}"
         return hashlib.md5(fingerprint_data.encode()).hexdigest()[:8]
 
     def _generate_simplifications(self, analysis: dict) -> list[dict]:
@@ -156,8 +156,8 @@ class RadicalSimplifier:
             suggestions.append(
                 {
                     "action": "DELETE_NON_CORE",
-                    "description": f"Delete {len(analysis['non_core_modules'])} files from non-core modules",
-                    "impact": f"Remove ~{len(analysis['non_core_modules']) * 100} lines",
+                    "description": f"Delete {len(analysis['non_core_modules']} files from non-core modules",
+                    "impact": f"Remove ~{len(analysis['non_core_modules']} * 100} lines",
                     "steve_says": "Focus means saying no to the hundred other good ideas",
                 }
             )
@@ -179,7 +179,7 @@ class RadicalSimplifier:
             suggestions.append(
                 {
                     "action": "SPLIT_COMPLEX_FILES",
-                    "description": f"Refactor {len(analysis['complex_files'])} files over 200 lines",
+                    "description": f"Refactor {len(analysis['complex_files']} files over 200 lines",
                     "impact": "Improve readability and maintainability",
                     "steve_says": "Simple can be harder than complex",
                 }
@@ -277,7 +277,7 @@ If any answer is NO → DELETE IT.
         # Remove duplicates
         files_to_delete = list(set(files_to_delete))
 
-        print(f"\nFiles to delete: {len(files_to_delete)}")
+        print(f"\nFiles to delete: {len(files_to_delete}")
 
         if not dry_run:
             archive_dir = Path("/Users/agi_dev/lukhas-archive/radical_simplification")
@@ -299,7 +299,7 @@ If any answer is NO → DELETE IT.
             for _i, filepath in enumerate(files_to_delete[:10]):
                 print(f"  Would delete: {filepath}")
             if len(files_to_delete) > 10:
-                print(f"  ... and {len(files_to_delete) - 10} more files")
+                print(f"  ... and {len(files_to_delete} - 10} more files")
 
         return len(files_to_delete)
 
@@ -327,7 +327,7 @@ def main():
     print("\n📊 Summary:")
     print(f"   Total files: {analysis['total_files']}")
     print(f"   Total lines: {analysis['total_lines']}")
-    print(f"   Files to delete: {len(analysis['unused_files']) + len(analysis['non_core_modules'])}")
+    print(f"   Files to delete: {len(analysis['unused_files']) + len(analysis['non_core_modules']}")
     print("   Complexity reduction: 94% target")
 
     print("\n💡 Top Simplification Opportunities:")

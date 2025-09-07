@@ -73,7 +73,7 @@ from typing import Any, Optional
 import numpy as np
 
 
-class SymbolicRelationType(Enum, timezone):
+class SymbolicRelationType(Enum):
     """Types of symbolic relationships between entities"""
 
     ISA = "isa"  # Hierarchical relationship (dog isa animal)
@@ -387,7 +387,7 @@ class NeuralSymbolicExtractor:
             confidence = self._calculate_entity_confidence(candidate, memory_content, entity_type, properties)
 
             if confidence >= self.entity_confidence_threshold:
-                entity_id = hashlib.sha256(f"{candidate}_{entity_type}_{time.time()}".encode()).hexdigest()[:16]
+                entity_id = hashlib.sha256(f"{candidate}_{entity_type}_{time.time(}".encode()).hexdigest()[:16]
 
                 entity = SymbolicEntity(
                     entity_id=entity_id,
@@ -587,9 +587,9 @@ class NeuralSymbolicExtractor:
 
         # Look for patterns like "adjective entity" or "entity is adjective"
         adj_patterns = [
-            rf"(\w+)\s+{re.escape(entity_lower)}",
-            rf"{re.escape(entity_lower)}\s+(?:is|was|are|were)\s+(\w+)",
-            rf"{re.escape(entity_lower)}\s+(?:seems|appears|looks)\s+(\w+)",
+            rf"(\w+)\s+{re.escape(entity_lower}",
+            rf"{re.escape(entity_lower}\s+(?:is|was|are|were)\s+(\w+)",
+            rf"{re.escape(entity_lower}\s+(?:seems|appears|looks)\s+(\w+)",
         ]
 
         adjectives = []
@@ -602,8 +602,8 @@ class NeuralSymbolicExtractor:
 
         # Extract numerical properties
         number_patterns = [
-            rf"{re.escape(entity_lower)}\s+(?:is|has|contains)\s+(\d+)",
-            rf"(\d+)\s+{re.escape(entity_lower)}",
+            rf"{re.escape(entity_lower}\s+(?:is|has|contains)\s+(\d+)",
+            rf"(\d+)\s+{re.escape(entity_lower}",
         ]
 
         numbers = []
@@ -725,7 +725,7 @@ class NeuralSymbolicExtractor:
 
                         if subject_id and object_id and subject_id != object_id:
                             relation_id = hashlib.sha256(
-                                f"{subject_id}_{relation_type.value}_{object_id}_{time.time()}".encode()
+                                f"{subject_id}_{relation_type.value}_{object_id}_{time.time(}".encode()
                             ).hexdigest()[:16]
 
                             confidence = self._calculate_relation_confidence(
@@ -1180,7 +1180,7 @@ class SymbolicReasoner:
 
                 # Create new relation
                 relation_id = hashlib.sha256(
-                    f"inferred_{subject}_{predicate}_{obj}_{time.time()}".encode()
+                    f"inferred_{subject}_{predicate}_{obj}_{time.time(}".encode()
                 ).hexdigest()[:16]
 
                 new_relation = SymbolicRelation(
@@ -1431,7 +1431,7 @@ class NeurosymbolicIntegrationLayer:
                     entity = SymbolicEntity.from_dict(entity_dict)
                     self.entities[entity.entity_id] = entity
 
-                logger.info(f"Loaded {len(self.entities)} symbolic entities")
+                logger.info(f"Loaded {len(self.entities} symbolic entities")
 
             except Exception as e:
                 logger.warning(f"Failed to load entities: {e}")
@@ -1447,7 +1447,7 @@ class NeurosymbolicIntegrationLayer:
                     relation = SymbolicRelation.from_dict(relation_dict)
                     self.relations.append(relation)
 
-                logger.info(f"Loaded {len(self.relations)} symbolic relations")
+                logger.info(f"Loaded {len(self.relations} symbolic relations")
 
             except Exception as e:
                 logger.warning(f"Failed to load relations: {e}")
@@ -1463,7 +1463,7 @@ class NeurosymbolicIntegrationLayer:
                     rule = LogicalRule.from_dict(rule_dict)
                     self.rules.append(rule)
 
-                logger.info(f"Loaded {len(self.rules)} logical rules")
+                logger.info(f"Loaded {len(self.rules} logical rules")
 
             except Exception as e:
                 logger.warning(f"Failed to load rules: {e}")
@@ -1506,7 +1506,7 @@ class NeurosymbolicIntegrationLayer:
             Dictionary containing extraction and reasoning results
         """
 
-        logger.info(f"Processing {len(memories)} memories through neurosymbolic pipeline")
+        logger.info(f"Processing {len(memories} memories through neurosymbolic pipeline")
 
         # Extract entities from all memories
         all_entities = []
@@ -1840,7 +1840,7 @@ async def example_neurosymbolic_usage():
         },
     ]
 
-    print(f"📊 Processing {len(sample_memories)} memories...")
+    print(f"📊 Processing {len(sample_memories} memories...")
 
     # Process memories through neurosymbolic pipeline
     results = await layer.process_memory_batch(sample_memories)
@@ -1895,7 +1895,7 @@ async def example_neurosymbolic_usage():
     isa_query = {"type": "relation", "predicate": "isa"}
 
     isa_results = await layer.query_knowledge(isa_query)
-    print(f"📤 ISA Relations Found: {len(isa_results)}")
+    print(f"📤 ISA Relations Found: {len(isa_results}")
     for result in isa_results[:3]:
         print(
             f"   • {result['subject_entity']} is a {result['object_entity']} (Confidence: {result['confidence']:.2f})"

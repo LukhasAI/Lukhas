@@ -289,7 +289,7 @@ class DynamicTierSystem:
             AccessDecision with grant/deny result and reasoning
         """
         decision_id = hashlib.sha256(  # Changed from MD5 for security
-            f"{context.user_id}_{context.operation_type.value}_{context.resource_id}_{datetime.now(timezone.utc)}".encode()
+            f"{context.user_id}_{context.operation_type.value}_{context.resource_id}_{datetime.now(timezone.utc}".encode()
         ).hexdigest()[:12]
 
         # Get current tier for user/session
@@ -343,7 +343,7 @@ class DynamicTierSystem:
                 decision_id=decision_id,
                 granted=False,
                 tier_level=current_tier,
-                reasoning=f"Restriction violations: {', '.join(restriction_violations)}",
+                reasoning=f"Restriction violations: {', '.join(restriction_violations}",
                 restrictions=restriction_violations,
                 requires_elevation=False,
                 audit_entry=self._create_audit_entry(context, False, "restrictions_violated"),
@@ -430,12 +430,12 @@ class DynamicTierSystem:
         if "exclude_memory_types" in permission.restrictions:
             excluded_types = permission.restrictions["exclude_memory_types"]
             if context.metadata.get("memory_type") in excluded_types:
-                violations.append(f"memory_type_{context.metadata.get('memory_type')}_restricted")
+                violations.append(f"memory_type_{context.metadata.get('memory_type'}_restricted")
 
         if "memory_types" in permission.restrictions:
             allowed_types = permission.restrictions["memory_types"]
             if context.metadata.get("memory_type") not in allowed_types:
-                violations.append(f"memory_type_{context.metadata.get('memory_type')}_not_allowed")
+                violations.append(f"memory_type_{context.metadata.get('memory_type'}_not_allowed")
 
         # Check rate limits (simplified)
         if "rate_limit" in permission.restrictions:
@@ -465,7 +465,7 @@ class DynamicTierSystem:
             Result of elevation attempt with success status and details
         """
         elevation_id = hashlib.sha256(  # Changed from MD5 for security
-            f"{session_id}_{target_tier.value}_{datetime.now(timezone.utc)}".encode()
+            f"{session_id}_{target_tier.value}_{datetime.now(timezone.utc}".encode()
         ).hexdigest()[:10]
 
         current_tier = self._get_current_tier(None, session_id)

@@ -18,7 +18,7 @@ from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class DreamInjectionMode(Enum):
@@ -108,7 +108,7 @@ class NIASDreamBridge:
 
             # Create dream message
             dream_msg = DreamMessage(
-                message_id=f"nias_dream_{datetime.now(timezone.utc).timestamp()}",
+                message_id=f"nias_dream_{datetime.now(timezone.utc).timestamp(}",
                 original_message=message,
                 symbolic_interpretation=dream_analysis["interpretation"],
                 emotional_context=dream_analysis["emotional_context"],
@@ -399,7 +399,7 @@ class NIASDreamBridge:
                         },
                         {
                             "role": "user",
-                            "content": f"Dream elements: {json.dumps(interpretations)}",
+                            "content": f"Dream elements: {json.dumps(interpretations}",
                         },
                     ],
                     temperature=0.8,

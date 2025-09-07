@@ -466,12 +466,12 @@ class BiometricIntegrationManager:
         # This would integrate with actual biometric processing libraries
         adapted_template = template
 
-        logger.info(f"ΛTRACE: Applied cultural adaptations: {list(type_adaptations.keys())}")
+        logger.info(f"ΛTRACE: Applied cultural adaptations: {list(type_adaptations.keys()}")
         return adapted_template
 
     def _create_secure_biometric_hash(self, template: str, lambda_id: str) -> str:
         """Create secure hash of biometric template with salt."""
-        salt = f"LUKHAS_ΛiD_{lambda_id}_{time.time()}"
+        salt = f"LUKHAS_ΛiD_{lambda_id}_{time.time(}"
         combined = f"{template}:{salt}"
         hash_object = hashlib.sha256(combined.encode())
         return base64.b64encode(hash_object.digest()).decode()
@@ -576,7 +576,7 @@ class BiometricIntegrationManager:
         timestamp = str(time.time())
         data = f"{lambda_id}:{tier_level}:{timestamp}"
         hash_object = hashlib.sha256(data.encode())
-        return f"BIOC_{hash_object.hexdigest()[:16]}"
+        return f"BIOC_{hash_object.hexdigest(}[:16]}"
 
     def _calculate_tier_compatibility(self, templates: list[BiometricTemplate]) -> dict[int, bool]:
         """Calculate which tiers user can access with current biometrics."""

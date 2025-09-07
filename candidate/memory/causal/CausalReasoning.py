@@ -24,7 +24,7 @@ class CausalReasoningModule:
     Advanced causal reasoning for understanding cause-effect relationships
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.causal_graph = {}
         self.causal_history = []
         self.confidence_threshold = 0.7

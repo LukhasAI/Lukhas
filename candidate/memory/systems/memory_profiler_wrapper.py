@@ -16,7 +16,7 @@ try:
         DataFlowNode,
         OpTree,
         SchemaMatcher,
-        SizeMap,, timezone)
+        SizeMap)
 
     MEMORY_PROFILER_AVAILABLE = True
 except ImportError as e:

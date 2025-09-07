@@ -53,7 +53,7 @@ class QIInspiredProcessor:
     100% system connectivity and consciousness computing capabilities.
     """
 
-    def __init__(self, config: Optional[dict] = None, timezone):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
         self.is_initialized = False

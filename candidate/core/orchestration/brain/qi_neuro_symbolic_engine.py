@@ -35,7 +35,7 @@ import numpy as np
 # LUKHAS core imports
 from ..lukhas_id_enhanced import AccessTier, LukhosIDManager
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class QIInspiredAttention:
@@ -638,7 +638,7 @@ class QINeuroSymbolicEngine:
         if len(self.processing_history) > 1000:
             self.processing_history = self.processing_history[-1000:]
 
-        logger.info(f"Completed processing for user {user_id} with confidence: {response.get('confidence')}")
+        logger.info(f"Completed processing for user {user_id} with confidence: {response.get('confidence'}")
 
         return response
 
@@ -835,7 +835,7 @@ class QINeuroSymbolicEngine:
                 visual_elements.append(word)
 
         # Create prompt
-        prompt = f"{text} with {', '.join(visual_elements)} style" if visual_elements else text
+        prompt = f"{text} with {', '.join(visual_elements} style" if visual_elements else text
 
         return prompt
 
@@ -976,7 +976,7 @@ if __name__ == "__main__":
                     print(f"Response Type: {response['response_type']}")
                     print(f"Confidence: {response['confidence']:.2f}")
                     print(f"Response: {response['response']}")
-                    print(f"Suggested Actions: {len(response['suggested_actions'])} actions")
+                    print(f"Suggested Actions: {len(response['suggested_actions']} actions")
 
                 except Exception as e:
                     print(f"Error processing input: {e}")

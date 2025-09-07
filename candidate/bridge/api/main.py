@@ -108,7 +108,7 @@ async def generate_dream(request: Request, user: AuthUser = Depends(get_current_
 
         # Mock dream generation response
         dream_response = {
-            "sceneId": f"dream_{user.id}_{hash(prompt) % 10000}",
+            "sceneId": f"dream_{user.id}_{hash(prompt} % 10000}",
             "narrativeText": f"In the depths of symbolic space, {prompt} unfolds into a cascade of meaning...",
             "renderedImageUrl": "https://via.placeholder.com/512x512?text=Dream+Scene",
             "narrativeAudioUrl": None,

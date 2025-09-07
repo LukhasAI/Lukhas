@@ -16,7 +16,7 @@ from enum import Enum
 from typing import Any
 
 
-class StreamType(Enum, timezone):
+class StreamType(Enum):
     """Types of consciousness streams"""
 
     THOUGHTS = "thoughts"

@@ -35,7 +35,7 @@ def _validate(cfg: dict[str, Any]) -> None:
     allowed_keys = {"defaults", "tasks", "models"}
     unknown = set(cfg.keys()) - allowed_keys
     if unknown:
-        raise ConfigError(f"Unknown top-level keys in presets: {sorted(unknown)}")
+        raise ConfigError(f"Unknown top-level keys in presets: {sorted(unknown}")
 
     def _check_plan(plan: dict[str, Any], ctx: str):
         # soft schema

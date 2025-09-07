@@ -21,7 +21,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-# OpenAI imports (when available, timezone)
+# OpenAI imports (when available)
 try:
     import openai
     from openai import AsyncOpenAI
@@ -434,7 +434,7 @@ class OpenAILambdaBridge:
             base_prompt += f" Optimize response for {lambda_context['attention']['cognitive_load']} cognitive load."
 
         if lambda_context.get("context"):
-            base_prompt += f" Consider context domain: {lambda_context['context'].get('domain', 'general')}."
+            base_prompt += f" Consider context domain: {lambda_context['context'].get('domain', 'general'}."
 
         return base_prompt
 
@@ -592,7 +592,7 @@ if __name__ == "__main__":
                 "connect_nias": True,
                 "connect_abas": True,
                 "connect_dast": True,
-                "compute_budgets": {"user_001": {"total_tokens": 1000000, "priority_level": 3}},
+                "compute_budgets": {"user_001": {"total_tokens": 1000000, "priority_level": 3},
             }
         )
 

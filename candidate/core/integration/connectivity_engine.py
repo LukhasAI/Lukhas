@@ -47,7 +47,7 @@ class ConnectivityEngine:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logger.bind(engine_id=f"conn_eng_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}")
+        self.logger = logger.bind(engine_id=f"conn_eng_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S'}")
         self.is_initialized = False
         self.status = "inactive"
         self.logger.info(

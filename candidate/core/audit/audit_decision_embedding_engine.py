@@ -237,7 +237,7 @@ class DecisionAuditColony:
 
     async def _create_recovery_checkpoint(self, context: DecisionContext) -> str:
         """Create system state checkpoint for potential rollback"""
-        checkpoint_id = f"checkpoint_{context.decision_id}_{int(time.time())}"
+        checkpoint_id = f"checkpoint_{context.decision_id}_{int(time.time()}"
         # Implementation would capture system state
         return checkpoint_id
 
@@ -279,7 +279,7 @@ class UniversalDecisionInterceptor:
         """
 
         self.decision_counter += 1
-        decision_id = f"decision_{self.decision_counter}_{int(time.time())}"
+        decision_id = f"decision_{self.decision_counter}_{int(time.time()}"
 
         # Capture pre-decision context
         context = await self._capture_decision_context(
@@ -605,11 +605,11 @@ class UniversalDecisionInterceptor:
 class DecisionAuditDecorator:
     """Decorator for automatically embedding audit trails into functions"""
 
-    def __init__(:
+    def __init__(
         self,
         decision_type: DecisionType,
         audit_level: DecisionAuditLevel = DecisionAuditLevel.STANDARD,
-        interceptor: Optional[UniversalDecisionInterceptor] = None,
+        interceptor: Optional[UniversalDecisionInterceptor] = None
     ):
         self.decision_type = decision_type
         self.audit_level = audit_level
@@ -740,7 +740,7 @@ async def example_usage():
         decision_maker="manual_caller",
         decision_function=existing_function,
         decision_args=(),
-        decision_kwargs={"data": {"test": "value"}},
+        decision_kwargs={"data": {"test": "value"},
         decision_type=DecisionType.TECHNICAL,
         audit_level=DecisionAuditLevel.STANDARD,
     )

@@ -27,7 +27,7 @@ class ConsciousnessTokenProtocol:
     def issue_tokens(
         self, amount: float
     ) -> str:  # TODO[QUANTUM-BIO:specialist] - Amount determines quantum token consciousness value
-        return f"token_{random.randint(1000, 9999)}"
+        return f"token_{random.randint(1000, 9999}"
 
 
 class GiftEconomyEngine:

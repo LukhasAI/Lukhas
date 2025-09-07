@@ -114,7 +114,7 @@ class ModuleCommunicationAnalyzer:
             except Exception:
                 pass
 
-        logger.info(f"   Found {len(self.direct_imports)} modules with cross-module imports")
+        logger.info(f"   Found {len(self.direct_imports} modules with cross-module imports")
 
     def _analyze_glyph_communication(self):
         """Analyze GLYPH-based communication patterns"""
@@ -152,7 +152,7 @@ class ModuleCommunicationAnalyzer:
             except Exception:
                 pass
 
-        logger.info(f"   Found {len(self.glyph_usage)} modules using GLYPH communication")
+        logger.info(f"   Found {len(self.glyph_usage} modules using GLYPH communication")
 
     def _analyze_event_patterns(self):
         """Analyze event-based communication patterns"""
@@ -191,7 +191,7 @@ class ModuleCommunicationAnalyzer:
             except Exception:
                 pass
 
-        logger.info(f"   Found {len(self.event_patterns)} modules using event-based communication")
+        logger.info(f"   Found {len(self.event_patterns} modules using event-based communication")
 
     def _detect_circular_dependencies(self):
         """Detect circular dependencies in module communication"""
@@ -200,7 +200,7 @@ class ModuleCommunicationAnalyzer:
         try:
             cycles = list(nx.simple_cycles(self.communication_graph))
             self.circular_dependencies = [list(cycle) for cycle in cycles if len(cycle) > 1]
-            logger.info(f"   Found {len(self.circular_dependencies)} circular dependencies")
+            logger.info(f"   Found {len(self.circular_dependencies} circular dependencies")
         except Exception:
             logger.warning("   Could not detect cycles in communication graph")
 
@@ -219,7 +219,7 @@ class ModuleCommunicationAnalyzer:
                 avg_degree = sum(self.in_degree.values()) / len(self.in_degree) if self.in_degree else 0
                 bottlenecks = [node for node, degree in self.in_degree.items() if degree > avg_degree * 2]
 
-                logger.info(f"   Identified {len(bottlenecks)} potential bottleneck modules")
+                logger.info(f"   Identified {len(bottlenecks} potential bottleneck modules")
             except Exception:
                 pass
 
@@ -344,7 +344,7 @@ class ModuleCommunicationAnalyzer:
             inefficiencies.append(
                 {
                     "type": "multiple_communication_methods",
-                    "description": f"{len(multi_method_modules)} modules use 3+ communication methods",
+                    "description": f"{len(multi_method_modules} modules use 3+ communication methods",
                     "modules": multi_method_modules[:5],
                 }
             )
@@ -359,7 +359,7 @@ class ModuleCommunicationAnalyzer:
             inefficiencies.append(
                 {
                     "type": "tight_coupling",
-                    "description": f"{len(tightly_coupled)} modules import from 4+ other modules",
+                    "description": f"{len(tightly_coupled} modules import from 4+ other modules",
                     "modules": tightly_coupled[:5],
                 }
             )
@@ -402,7 +402,7 @@ class ModuleCommunicationAnalyzer:
                     "priority": "MEDIUM",
                     "issue": "Underutilized GLYPH communication",
                     "recommendation": "Increase GLYPH usage for loose coupling between modules",
-                    "current_usage": f"{len(self.glyph_usage)} modules",
+                    "current_usage": f"{len(self.glyph_usage} modules",
                     "target": "All major modules should support GLYPH communication",
                 }
             )

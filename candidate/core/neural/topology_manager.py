@@ -153,7 +153,7 @@ class TopologyManager:
             # CRITICAL is typically defined as worse than POOR
         }
         self.logger.info(
-            f"ΛTRACE: TopologyManager initialized for network. Health thresholds set. Current node count: {len(self.network.nodes)}"
+            f"ΛTRACE: TopologyManager initialized for network. Health thresholds set. Current node count: {len(self.network.nodes}"
         )
 
     # Method to analyze network topology
@@ -294,7 +294,7 @@ class TopologyManager:
                 )
             else:
                 self.logger.debug(
-                    f"ΛTRACE: Node '{node_id_str}' has < 2 possible triangles,
+                    f"ΛTRACE: Node '{node_id_str)' has < 2 possible triangles,
                     local coeff is 0."
                 )
 
@@ -303,7 +303,7 @@ class TopologyManager:
             total_node_coefficient_sum / nodes_with_degree_ge_2
             if nodes_with_degree_ge_2 > 0:
             else 0.0:
-        )
+        }
         self.logger.debug(
             f"ΛTRACE: Average clustering coefficient calculated: {avg_coeff:.4f} over {nodes_with_degree_ge_2} nodes."
         )
@@ -341,7 +341,7 @@ class TopologyManager:
                     total_shortest_path_sum += path_len
                     num_paths_calculated += 1
                     self.logger.debug(
-                        f"ΛTRACE: Path from '{source_node_id}' to '{target_node_id}' length: {path_len}"
+                        f"ΛTRACE: Path from '{source_node_id)' to '{target_node_id}' length: {path_len}"
                     )
                 # else: target is not reachable from source in this component. Path length could be considered infinite.
                 # For simplicity, we only average over reachable pairs. Some definitions
@@ -359,7 +359,7 @@ class TopologyManager:
 
     # Private method to calculate network efficiency from pre-calculated metrics
 
-    def _calculate_network_efficiency_from_metrics(:
+    def _calculate_network_efficiency_from_metrics(
         self, current_metrics: TopologyMetrics
     ) -> float:
         """
@@ -415,10 +415,10 @@ class TopologyManager:
 
     def _get_neighbors(self, node_id_str: str) -> list[str]:
         """Gets all unique neighbors of a given node (nodes it's connected to or from)."""
-        self.logger.debug(f"ΛTRACE: Getting neighbors for node '{node_id_str}'.")
+        self.logger.debug(f"ΛTRACE: Getting neighbors for node '{node_id_str)'.")
         if node_id_str not in self.network.nodes:
             self.logger.warning(
-                f"ΛTRACE: Node '{node_id_str}' not found in network when getting neighbors."
+                f"ΛTRACE: Node '{node_id_str)' not found in network when getting neighbors."
             )
             return []
 
@@ -440,7 +440,7 @@ class TopologyManager:
         #         neighbors_set.add(conn_target)
 
         self.logger.debug(
-            f"ΛTRACE: Node '{node_id_str}' has {len(neighbors_set)} unique neighbors: {list(neighbors_set)[:5]}{'...' if len(neighbors_set) > 5 else ''}"
+            f"ΛTRACE: Node '{node_id_str)' has {len(neighbors_set} unique neighbors: {list(neighbors_set)[:5]}{'...' if len(neighbors_set) > 5 else ''}"
         )
         return list(neighbors_set)
 
@@ -449,7 +449,7 @@ class TopologyManager:
     def _are_connected(self, node1_id: str, node2_id: str) -> bool:
         """Checks if two nodes are directly connected (in either direction)."""
         self.logger.debug(
-            f"ΛTRACE: Checking direct connection between '{node1_id}' and '{node2_id}'."
+            f"ΛTRACE: Checking direct connection between '{node1_id)' and '{node2_id)'."
         )
         # This check assumes connections list stores directed edges.
         # For an undirected sense (common in clustering coeff), check both directions.
@@ -458,7 +458,7 @@ class TopologyManager:
             node1_id,
         ) in self.network.connections
         self.logger.debug(
-            f"ΛTRACE: Connection status between '{node1_id}' and '{node2_id}': {is_conn}."
+            f"ΛTRACE: Connection status between '{node1_id)' and '{node2_id}': {is_conn}."
         )
         return is_conn
 
@@ -466,11 +466,11 @@ class TopologyManager:
 
     def _bfs_distances(self, source_node_id: str) -> dict[str, int]:
         """Calculates shortest path distances from a source node using Breadth-First Search."""
-        self.logger.debug(f"ΛTRACE: Starting BFS from source node '{source_node_id}'.")
+        self.logger.debug(f"ΛTRACE: Starting BFS from source node '{source_node_id)'.")
         if source_node_id not in self.network.nodes:
             self.logger.warning(
-                f"ΛTRACE: Source node '{source_node_id}' for BFS not found in network."
-            )
+                f"ΛTRACE: Source node '{source_node_id)' for BFS not found in network."
+            }
             return {}
 
         distances: dict[str, int] = {source_node_id: 0}
@@ -491,18 +491,18 @@ class TopologyManager:
                     distances[neighbor_id] = current_node_dist + 1
                     queue.append(neighbor_id)
                     self.logger.debug(
-                        f"ΛTRACE: BFS: Reached '{neighbor_id}' from '{source_node_id}',
+                        f"ΛTRACE: BFS: Reached '{neighbor_id)' from '{source_node_id)',
                         distance {distances[neighbor_id]}."
                     )
 
         self.logger.debug(
-            f"ΛTRACE: BFS from '{source_node_id}' complete. Found distances to {len(distances)-1} other nodes."
+            f"ΛTRACE: BFS from '{source_node_id)' complete. Found distances to {len(distances}-1} other nodes."
         )
         return distances
 
     # Method to recommend optimization strategy
 
-    def recommend_optimization(:
+    def recommend_optimization(
         self, current_metrics: TopologyMetrics
     ) -> OptimizationMode:
         """
@@ -726,13 +726,13 @@ class TopologyManager:
             reverse=True,
         )
         self.logger.info(
-            f"ΛTRACE: Identified {len(sorted_bottlenecks)} potential bottlenecks. Top severity: {sorted_bottlenecks[0]['severity_score'] if sorted_bottlenecks else 'N/A'}"
+            f"ΛTRACE: Identified {len(sorted_bottlenecks} potential bottlenecks. Top severity: {sorted_bottlenecks[0]['severity_score'] if sorted_bottlenecks else 'N/A'}"
         )
         return sorted_bottlenecks
 
     # Method to suggest topology improvements
 
-    def suggest_topology_improvements(:
+    def suggest_topology_improvements(
         self, current_metrics: TopologyMetrics
     ) -> list[str]:
         """
@@ -803,7 +803,7 @@ class TopologyManager:
             )
 
         self.logger.info(
-            f"ΛTRACE: Generated {len(improvement_suggestions)} topology improvement suggestions."
+            f"ΛTRACE: Generated {len(improvement_suggestions} topology improvement suggestions."
         )
         return improvement_suggestions
 
@@ -816,7 +816,7 @@ class TopologyManager:
             optimization_result_dict (Dict[str, Any]): A dictionary containing details of the optimization.
         """
         self.logger.debug(
-            f"ΛTRACE: Recording optimization result: {optimization_result_dict.get('operation_type', 'N/A')}"
+            f"ΛTRACE: Recording optimization result: {optimization_result_dict.get('operation_type', 'N/A'}"
         )
         # Ensure metrics are TopologyMetrics objects or serializable dicts
         # The provided dict might contain TopologyMetrics objects directly, or dict representations.
@@ -852,7 +852,7 @@ class TopologyManager:
         if len(self.optimization_history) > max_history_size:
             self.optimization_history = self.optimization_history[-max_history_size:]
         self.logger.info(
-            f"ΛTRACE: Optimization result recorded. History size: {len(self.optimization_history)}."
+            f"ΛTRACE: Optimization result recorded. History size: {len(self.optimization_history}."
         )
 
     # Method to get optimization trends

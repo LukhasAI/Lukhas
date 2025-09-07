@@ -150,10 +150,10 @@ async def get_recent_traces(
                 response = ExecutionTraceResponse(**trace_data)
                 responses.append(response)
             except Exception as e:  # noqa: PERF203  # tolerate malformed traces; expires=2026-03-01
-                logger.warning(f"Skipping malformed trace {trace_data.get('trace_id', 'unknown')}: {e}")
+                logger.warning(f"Skipping malformed trace {trace_data.get('trace_id', 'unknown'}: {e}")
                 continue
 
-        logger.info(f"Returning {len(responses)} recent traces")
+        logger.info(f"Returning {len(responses} recent traces")
         return responses
 
     except HTTPException:

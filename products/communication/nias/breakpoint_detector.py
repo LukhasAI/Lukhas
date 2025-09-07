@@ -12,7 +12,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class WorkflowState(Enum, timezone):
+class WorkflowState(Enum):
     """User workflow states"""
 
     IDLE = "idle"

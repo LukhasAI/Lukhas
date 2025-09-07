@@ -24,7 +24,7 @@ class IntegrationConfig:
     async_processing: bool = True
     component_isolation: bool = True
 
-    def __post_init__(self, timezone):
+    def __post_init__(self):
         """Validate configuration."""
         self.max_concurrent_operations = max(1, min(100, self.max_concurrent_operations))
         self.timeout_seconds = max(1, min(300, self.timeout_seconds))
@@ -291,7 +291,7 @@ class UnifiedIntegration:
             Integration result
         """
         try:
-            pipeline_id = pipeline_config.get("id", f"pipeline_{len(self.integration_handlers)}")
+            pipeline_id = pipeline_config.get("id", f"pipeline_{len(self.integration_handlers}")
             steps = pipeline_config.get("steps", [])
 
             if not steps:

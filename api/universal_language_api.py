@@ -236,8 +236,8 @@ async def understand_symbols(
     try:
         # Create orchestration task
         task = OrchestrationTask(
-            task_id=f"understand_{request.user_id}_{datetime.now(timezone.utc).timestamp()}",
-            content=f"Understand symbol: {request.input.dict()}",
+            task_id=f"understand_{request.user_id}_{datetime.now(timezone.utc).timestamp(}",
+            content=f"Understand symbol: {request.input.dict(}",
             context=request.context,
             mode=OrchestrationMode.COLLABORATIVE,
         )
@@ -408,7 +408,7 @@ async def build_language(
 
         # Process through orchestrator
         task = OrchestrationTask(
-            task_id=f"build_{request.target_meaning}_{datetime.now(timezone.utc).timestamp()}",
+            task_id=f"build_{request.target_meaning}_{datetime.now(timezone.utc).timestamp(}",
             content=f"Build universal symbol for: {request.target_meaning}",
             context=combined_input,
             mode=OrchestrationMode.FEDERATED,
@@ -475,7 +475,7 @@ async def colony_consensus(
 
         # Create consensus task
         task = OrchestrationTask(
-            task_id=f"consensus_{datetime.now(timezone.utc).timestamp()}",
+            task_id=f"consensus_{datetime.now(timezone.utc).timestamp(}",
             content=request.proposal,
             context={"urgency": request.urgency},
             mode=OrchestrationMode.PARALLEL,

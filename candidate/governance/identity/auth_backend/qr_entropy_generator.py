@@ -342,7 +342,7 @@ class QREntropyGenerator:
 
     def _generate_refresh_token(self, session_id: str) -> str:
         """Generate refresh token for dynamic QR updates"""
-        token_data = f"{session_id}:{datetime.now(timezone.utc).isoformat()}:{secrets.token_hex(16)}"
+        token_data = f"{session_id}:{datetime.now(timezone.utc).isoformat()}:{secrets.token_hex(16}"
         return hashlib.sha256(token_data.encode()).hexdigest()[:32]
 
     def _constitutional_validation(self, qr_data: dict, entropy_data: Any) -> bool:

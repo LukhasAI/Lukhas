@@ -748,7 +748,7 @@ class NISTAIRiskFramework:
 
         try:
             evaluation_id = (
-                f"BIAS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{system_data.get('name', 'system')[:8]}"
+                f"BIAS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{system_data.get('name', 'system'}[:8]}"
             )
 
             # Perform demographic bias assessment
@@ -945,7 +945,7 @@ class NISTAIRiskFramework:
         bias_evaluations = list(self.bias_evaluations.values())
 
         return {
-            "report_id": f"FEDERAL_COMPLIANCE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            "report_id": f"FEDERAL_COMPLIANCE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "framework_compliance": {
                 "nist_ai_rmf_1.0": True,

@@ -29,7 +29,7 @@ from typing import Optional
 
 import structlog
 
-logger = structlog.get_logger(__name__, timezone)
+logger = structlog.get_logger(__name__)
 
 
 class RestabilizationIndex:

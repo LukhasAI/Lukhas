@@ -32,7 +32,7 @@ from typing import Any
 from qrg_integration import LukhusQRGIntegrator, QRGType
 
 # Add current directory to path
-sys.path.append(os.path.dirname(os.path.abspath(__file__, timezone)))
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
 def create_ascii_qr_pattern(size: int = 25, density: float = 0.5, style: str = "standard") -> str:
@@ -200,13 +200,13 @@ class QRGShowcase:
         ascii_pattern = self._create_user_specific_ascii_pattern(user_profile, result)
 
         # Display results
-        print(f"   ✅ Generated {result.qr_type.value.replace('_', ' ').title()} QRG")
+        print(f"   ✅ Generated {result.qr_type.value.replace('_', ' ').title(} QRG")
         print(f"   ⚡ Generation time: {generation_time:.3f}s")
         print(f"   📊 Compliance score: {result.compliance_score:.2f}")
         print(f"   🌍 Cultural safety: {result.cultural_safety_score:.2f}")
         print(f"   🧠 Consciousness resonance: {result.consciousness_resonance:.2f}")
         print(f"   🔐 Security signature: {result.security_signature[:20]}...")
-        print(f"   ⏰ Valid until: {result.expiration.strftime('%H:%M:%S')}")
+        print(f"   ⏰ Valid until: {result.expiration.strftime('%H:%M:%S'}")
 
         # Show ASCII pattern
         print("   🎨 QRG Pattern Preview:")
@@ -292,16 +292,16 @@ class QRGShowcase:
         # Cultural adaptation
         cultural_region = user_profile["cultural_profile"]["region"]
         if cultural_region != "universal":
-            analysis["Cultural"] = f"{cultural_region.title()} context → Culturally respectful pattern generation"
+            analysis["Cultural"] = f"{cultural_region.title(} context → Culturally respectful pattern generation"
         else:
             analysis["Cultural"] = "Universal design → Inclusive, accessible patterns"
 
         # Security adaptation
         security_level = user_profile["security_clearance"]
         if security_level in ["secret", "cosmic"]:
-            analysis["Security"] = f"{security_level.title()} clearance → Quantum-enhanced encryption"
+            analysis["Security"] = f"{security_level.title(} clearance → Quantum-enhanced encryption"
         else:
-            analysis["Security"] = f"{security_level.title()} level → Standard security protocols"
+            analysis["Security"] = f"{security_level.title(} level → Standard security protocols"
 
         # QRG type selection
         qrg_type = result.qr_type.value.replace("_", " ").title()
@@ -321,7 +321,7 @@ class QRGShowcase:
         """Run comprehensive showcase of all user profiles"""
         print("🎪 LUKHAS QRG Comprehensive Showcase")
         print("=" * 60)
-        print(f"🧪 Testing {len(self.demo_users)} diverse user profiles")
+        print(f"🧪 Testing {len(self.demo_users} diverse user profiles")
         print("🔗 Demonstrating adaptive QRG generation")
         print("🧠 Showcasing consciousness-aware authentication")
 
@@ -343,7 +343,7 @@ class QRGShowcase:
 
     def run_specific_qrg_type_demo(self, qrg_type: QRGType) -> dict[str, Any]:
         """Run demo focusing on a specific QRG type"""
-        print(f"\n🎯 Focused Demo: {qrg_type.value.replace('_', ' ').title()} QRG")
+        print(f"\n🎯 Focused Demo: {qrg_type.value.replace('_', ' ').title(} QRG")
         print("-" * 50)
 
         # Select appropriate user for this QRG type
@@ -473,7 +473,7 @@ class QRGShowcase:
         print("🎪 Showcase Statistics:")
         print(f"   👥 User profiles tested: {self.showcase_stats['user_profiles_tested']}")
         print(f"   🔗 QRGs generated: {self.showcase_stats['total_demonstrations']}")
-        print(f"   🎯 QRG types demonstrated: {len(self.showcase_stats['types_demonstrated'])}")
+        print(f"   🎯 QRG types demonstrated: {len(self.showcase_stats['types_demonstrated']}")
         print(f"   ⚡ Average generation time: {avg_time:.3f}s")
         print(f"   📊 Average compliance score: {avg_compliance:.3f}")
         print(f"   🌍 Average cultural safety: {avg_cultural:.3f}")
@@ -482,7 +482,7 @@ class QRGShowcase:
         print("\n🔗 QRG Type Distribution:")
         for qrg_type, count in type_counts.items():
             percentage = (count / len(showcase_results)) * 100 if showcase_results else 0
-            print(f"   • {qrg_type.replace('_', ' ').title()}: {count} ({percentage:.1f}%)")
+            print(f"   • {qrg_type.replace('_', ' ').title(}: {count} ({percentage:.1f}%)")
 
         print("\n🏆 Showcase Highlights:")
 

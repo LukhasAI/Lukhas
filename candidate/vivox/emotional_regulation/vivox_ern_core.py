@@ -525,7 +525,7 @@ class EmotionalRegulator:
                 outcome_parts.append("moderated emotional intensity")
 
         if outcome_parts:
-            reasoning_parts.append(f"Result: {', '.join(outcome_parts)}")
+            reasoning_parts.append(f"Result: {', '.join(outcome_parts}")
 
         return ". ".join(reasoning_parts) + "."
 

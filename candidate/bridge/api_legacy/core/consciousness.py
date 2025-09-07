@@ -286,7 +286,7 @@ async def integrate_patterns(
         return APIResponse(
             status="success",
             data=integration_result,
-            message=f"Successfully integrated {len(patterns)} patterns into consciousness framework",
+            message=f"Successfully integrated {len(patterns} patterns into consciousness framework",
         )
 
     except Exception as e:

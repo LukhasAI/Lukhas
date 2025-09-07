@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class LearningStrategy(Enum, timezone):
+class LearningStrategy(Enum):
     """Learning strategies"""
 
     EXPLORATION = "exploration"  # Discover new knowledge
@@ -502,7 +502,7 @@ class AutonomousLearningPipeline:
         """Generate unique goal ID"""
         import uuid
 
-        return f"learn_{uuid.uuid4().hex[:8]}"
+        return f"learn_{uuid.uuid4(}.hex[:8]}"
 
 
 class KnowledgeSynthesizer:

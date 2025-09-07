@@ -253,7 +253,7 @@ class TokenBudgetController:
                 budget_to_add = unused_budget + (self.DAILY_BUDGET_LIMIT * (days_passed - 1))
 
                 self.logger.info(
-                    f"💰 ΛBot Daily Budget: ${unused_budget:.4f} unused + ${self.DAILY_BUDGET_LIMIT * (days_passed - 1):.4f} new"
+                    f"💰 ΛBot Daily Budget: ${unused_budget:.4f} unused + ${self.DAILY_BUDGET_LIMIT * (days_passed - 1}:.4f} new"
                 )
 
             # Add to accumulated credits (capped at MAX_ACCUMULATED_CREDITS)
@@ -622,10 +622,10 @@ class TokenBudgetController:
         pending_recommendations = [r for r in self.recommendations_applied[-10:] if not r["applied"]]
 
         if len(pending_recommendations) > 5:
-            warnings.append(f"{len(pending_recommendations)} recommendations pending application")
+            warnings.append(f"{len(pending_recommendations} recommendations pending application")
 
         if len(recent_findings) > 0:
-            recommendations.append(f"Recent findings available: {len(recent_findings)} items for review")
+            recommendations.append(f"Recent findings available: {len(recent_findings} items for review")
 
         # Determine overall financial health
         overall_health = "good"

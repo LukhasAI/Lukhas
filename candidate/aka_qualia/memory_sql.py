@@ -247,7 +247,7 @@ class SqlMemory(AkaqMemory):
         if ulid:
             return ulid.new().str
         else:
-            return f"uuid_{uuid.uuid4().hex}"
+            return f"uuid_{uuid.uuid4(}.hex}"
 
     def save(
         self,
@@ -355,7 +355,7 @@ class SqlMemory(AkaqMemory):
                     tx.commit()
 
                 self.scenes_saved += 1
-                logger.debug(f"Saved scene {scene_id} with {len(glyphs)} glyphs")
+                logger.debug(f"Saved scene {scene_id} with {len(glyphs} glyphs")
 
                 # Record observability metrics
                 obs.update_memory_storage("sql", "scenes", self.scenes_saved * 1024)  # Estimate
@@ -460,7 +460,7 @@ class SqlMemory(AkaqMemory):
                         }
                     )
 
-            logger.debug(f"Retrieved {len(scenes)} scenes for user {user_id}")
+            logger.debug(f"Retrieved {len(scenes} scenes for user {user_id}")
             return scenes
 
     def get_scene_history(

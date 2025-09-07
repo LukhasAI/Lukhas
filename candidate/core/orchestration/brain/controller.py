@@ -260,7 +260,7 @@ class AdvancedAGIController:
         counterfactual_results = self.causal_reasoning.analyze_counterfactuals(scenario)
 
         # Store analysis in memory for future reference
-        analysis_key = f"counterfactual_{datetime.datetime.now(timezone.utc).timestamp()}"
+        analysis_key = f"counterfactual_{datetime.datetime.now(timezone.utc).timestamp(}"
         self.memory_manager.store(
             key=analysis_key,
             data=counterfactual_results,

@@ -27,7 +27,7 @@ class SymbolicShellArchiver:
         """
         Get the full symbolic state of the system.
         """
-        state = {"timestamp": time.time(), "colonies": {}}
+        state = {"timestamp": time.time(), "colonies": {}
 
         for colony in self.colonies:
             state["colonies"][colony.colony_id] = {

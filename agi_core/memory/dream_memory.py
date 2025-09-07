@@ -138,7 +138,7 @@ class DreamMemoryBridge:
         Returns:
             Session ID for tracking
         """
-        session_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.dream_sessions)}"
+        session_id = f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{len(self.dream_sessions}"
         start_time = asyncio.get_event_loop().time()
 
         # Auto-select memories if not provided
@@ -369,7 +369,7 @@ class DreamMemoryBridge:
                     strong_alignments[star] = avg_alignment
 
         if strong_alignments:
-            pattern_id = f"assoc_{central_memory.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+            pattern_id = f"assoc_{central_memory.id}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
             return DreamMemoryPattern(
                 pattern_id=pattern_id,
@@ -396,7 +396,7 @@ class DreamMemoryBridge:
 
             # Look for regular intervals or accelerating/decelerating patterns
             if len(set(int(diff / 3600) for diff in time_diffs)) <= 2:  # Similar intervals (within hours)
-                pattern_id = f"temporal_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+                pattern_id = f"temporal_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
                 pattern = DreamMemoryPattern(
                     pattern_id=pattern_id,
@@ -426,7 +426,7 @@ class DreamMemoryBridge:
             # Look for emotional narrative arc
             if emotional_sequence[0] < 0 and emotional_sequence[-1] > 0:
                 # Negative to positive arc
-                pattern_id = f"emotional_arc_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+                pattern_id = f"emotional_arc_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
                 return DreamMemoryPattern(
                     pattern_id=pattern_id,
@@ -457,7 +457,7 @@ class DreamMemoryBridge:
                     cluster_members.append(memory2)
 
             if len(cluster_members) >= 2:
-                pattern_id = f"cluster_{i}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+                pattern_id = f"cluster_{i}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
                 pattern = DreamMemoryPattern(
                     pattern_id=pattern_id,
@@ -566,7 +566,7 @@ class DreamMemoryBridge:
                 insights.append(
                     {
                         "type": "metaphorical_insight",
-                        "content": f"Memory resonates with dream symbols: {', '.join(dream_symbols)}",
+                        "content": f"Memory resonates with dream symbols: {', '.join(dream_symbols}",
                         "confidence": 0.6,
                         "memory_id": memory.id,
                         "symbols": dream_symbols,
@@ -598,12 +598,12 @@ class DreamMemoryBridge:
 
         # Create summary of dream session
         content = f"Dream session {session.session_id}: Phase {session.phase.value}. "
-        content += f"Discovered {len(session.patterns_discovered)} patterns, "
-        content += f"generated {len(session.insights_generated)} insights. "
+        content += f"Discovered {len(session.patterns_discovered} patterns, "
+        content += f"generated {len(session.insights_generated} insights. "
 
         pattern_types = [p.pattern_type.value for p in session.patterns_discovered]
         if pattern_types:
-            content += f"Pattern types: {', '.join(set(pattern_types))}."
+            content += f"Pattern types: {', '.join(set(pattern_types)}."
 
         # Create vector representation (simplified - would normally use proper embedding)
         vector = np.random.normal(0, 1, self.memory_store.embedding_dimension)

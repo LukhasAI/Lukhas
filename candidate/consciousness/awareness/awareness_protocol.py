@@ -192,7 +192,7 @@ class LUKHASAwarenessProtocol:
             "bio_metrics": self.bio_adapter.bio_metrics,
             "qi_like_states": self.bio_adapter.qi_like_state,
             "recovery_signature_summary": {
-                k: (f"{str(v)[:30]}..." if isinstance(v, (dict, list, str)) else v) for k, v in recovery_sig.items()
+                k: (f"{str(v}[:30]}..." if isinstance(v, (dict, list, str)) else v) for k, v in recovery_sig.items()
             },  # Summarize complex parts
             "timestamp": self.session_data.get("timestamp", datetime.now(timezone.utc).isoformat()),
         }

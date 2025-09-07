@@ -492,4 +492,4 @@ if __name__ == "__main__":
     print(json.dumps(params, indent=2))
 
     # Get state summary
-    print(f"\nState: {bridge.get_state_summary()}")
+    print(f"\nState: {bridge.get_state_summary(}")

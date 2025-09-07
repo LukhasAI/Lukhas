@@ -283,7 +283,7 @@ jobs:
 
   # Optional: Matrix testing for different Python versions
   audit-validation-matrix:
-    name: Audit Validation (Python ${{ matrix.python-version }})
+    name: Audit Validation (Python ${{ matrix.python-version })
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -291,16 +291,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python-version }
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version }
 
     - name: Quick Audit Validation
       run: |
         pip install -r requirements.txt
         python tools/acceptance_gate_ast.py
-        echo "✅ Python ${{ matrix.python-version }} audit validation passed"
+        echo "✅ Python ${{ matrix.python-version } audit validation passed"
 """
         return workflow
 
@@ -496,5 +496,5 @@ if __name__ == "__main__":
     print("CI Integration Package Generated:")
     print(f"  Output directory: {result['output_directory']}")
     print(f"  Files generated: {result['files_generated']}")
-    print(f"  Components: {', '.join(result['components'])}")
+    print(f"  Components: {', '.join(result['components']}")
     print(f"  Audit ready: {result['audit_ready']}")

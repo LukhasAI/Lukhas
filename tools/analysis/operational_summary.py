@@ -63,10 +63,10 @@ def generate_operational_summary(reports):
                     status = "🔴 MINIMALLY OPERATIONAL"
 
                 print(
-                    f"   {status} {system.upper()}: {files}/{total} files functional ({ratio:.1%}), {capabilities} capabilities"
+                    f"   {status} {system.upper(}: {files}/{total} files functional ({ratio:.1%}), {capabilities} capabilities"
                 )
             else:
-                print(f"   ❌ MISSING: {system.upper()}")
+                print(f"   ❌ MISSING: {system.upper(}")
 
     # Entry Points Analysis
     print("\n🚀 EXECUTABLE ENTRY POINTS:")
@@ -100,9 +100,9 @@ def generate_operational_summary(reports):
                 }
 
         for system, caps in capabilities_by_system.items():
-            print(f"   🔧 {system.upper()}: {caps['count']} capability types, {caps['confidence']} high-confidence")
+            print(f"   🔧 {system.upper(}: {caps['count']} capability types, {caps['confidence']} high-confidence")
             if caps["types"]:
-                print(f"      Capabilities: {', '.join(caps['types'][:5])}")  # Show first 5
+                print(f"      Capabilities: {', '.join(caps['types'][:5]}")  # Show first 5
 
     # Security & Compliance Status
     print("\n🛡️ SECURITY & COMPLIANCE STATUS:")
@@ -111,8 +111,8 @@ def generate_operational_summary(reports):
         gaps = sec_data.get("critical_gaps", [])
         recommendations = sec_data.get("recommendations", [])
 
-        print(f"   • Critical Security Gaps: {len(gaps)}")
-        print(f"   • Security Recommendations: {len(recommendations)}")
+        print(f"   • Critical Security Gaps: {len(gaps}")
+        print(f"   • Security Recommendations: {len(recommendations}")
 
         if gaps:
             print("   🚨 TOP CRITICAL GAPS:")
@@ -149,12 +149,12 @@ def generate_operational_summary(reports):
                 low_performing.append(system)
 
         if low_performing:
-            print(f"   🔧 IMPROVE FUNCTIONALITY: {', '.join(low_performing)}")
+            print(f"   🔧 IMPROVE FUNCTIONALITY: {', '.join(low_performing}")
 
         # Missing systems
         missing = [s for s, d in reports["functional"]["system_capabilities"].items() if d["status"] == "missing"]
         if missing:
-            print(f"   ➕ ADD MISSING SYSTEMS: {', '.join(missing)}")
+            print(f"   ➕ ADD MISSING SYSTEMS: {', '.join(missing}")
 
     # Security priorities
     if "security" in reports and "critical_gaps" in reports["security"]:

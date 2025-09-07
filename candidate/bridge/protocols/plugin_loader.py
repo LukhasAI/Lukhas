@@ -29,7 +29,7 @@ def load_plugins(plugin_dir: str = "core/plugins"):
         if file_path.name == "__init__.py":
             continue
 
-        module_name = f"{plugin_dir.replace('/', '.')}.{file_path.stem}"
+        module_name = f"{plugin_dir.replace('/', '.'}.{file_path.stem}"
         try:
             module = importlib.import_module(module_name)
             plugin_class = getattr(module, "plugin", None)

@@ -341,7 +341,7 @@ class OAuthManager:
 
             # Generate new tokens (simulation)
             new_credentials = {
-                "access_token": f"refreshed_token_{secrets.token_urlsafe(16)}",
+                "access_token": f"refreshed_token_{secrets.token_urlsafe(16}",
                 "refresh_token": refresh_token,  # May or may not change
                 "expires_in": 3600,
                 "token_type": "Bearer",

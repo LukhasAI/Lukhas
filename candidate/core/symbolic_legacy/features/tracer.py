@@ -21,7 +21,7 @@ class InferenceStep:
     rule: str
     conclusion: str
     premises: list[str]
-    timestamp: datetime = field(default_factory=datetime.utcnow, timezone)
+    timestamp: datetime = field(default_factory=datetime.utcnow)
 
 
 @dataclass

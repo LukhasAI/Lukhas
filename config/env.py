@@ -130,7 +130,7 @@ class EnvironmentConfig:
                 missing.append(var)
 
         if missing:
-            raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
+            raise ValueError(f"Missing required environment variables: {', '.join(missing}")
 
     def get_status(self) -> dict[str, Any]:
         """Get configuration status summary"""

@@ -41,7 +41,7 @@ except ImportError:
 # Import consciousness integration
 try:
     from lukhas.consciousness.systems.consciousness_colony_integration import (
-        DistributedConsciousnessEngine,, timezone)
+        DistributedConsciousnessEngine)
 
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:
@@ -422,7 +422,7 @@ async def demonstrate_bio_symbolic_swarm():
     hub.create_bio_colony("adaptive_threshold", "adaptive_threshold")
     hub.create_bio_colony("contextual_mapping", "contextual_mapping")
 
-    print(f"Created {len(hub.bio_colonies)} bio-symbolic colonies")
+    print(f"Created {len(hub.bio_colonies} bio-symbolic colonies")
 
     # Create oracle colony
     print("\n2. Creating Oracle Colony")
@@ -435,7 +435,7 @@ async def demonstrate_bio_symbolic_swarm():
     hub.create_colony("memory", ["episodic_memory"], 3)
     hub.create_colony("creativity", ["idea_generation"], 2)
 
-    print(f"Created {len(hub.colonies)} enhanced colonies")
+    print(f"Created {len(hub.colonies} enhanced colonies")
 
     # Demonstrate bio-symbolic pipeline
     print("\n4. Bio-Symbolic Pipeline Processing")
@@ -448,7 +448,7 @@ async def demonstrate_bio_symbolic_swarm():
     try:
         pipeline_result = await hub.process_bio_symbolic_pipeline(test_data)
         print(f"Pipeline stages completed: {pipeline_result['processing_metadata']['stages_completed']}")
-        print(f"Anomalies detected: {len(pipeline_result['anomalies_detected'])}")
+        print(f"Anomalies detected: {len(pipeline_result['anomalies_detected']}")
     except Exception as e:
         print(f"Pipeline processing failed: {e}")
 
@@ -457,7 +457,7 @@ async def demonstrate_bio_symbolic_swarm():
     try:
         prediction = await hub.predict_swarm_behavior("near")
         if prediction:
-            print(f"Prediction generated: {prediction.get('prediction_type', 'unknown')}")
+            print(f"Prediction generated: {prediction.get('prediction_type', 'unknown'}")
         else:
             print("Prediction not available")
     except Exception as e:
@@ -474,7 +474,7 @@ async def demonstrate_bio_symbolic_swarm():
     try:
         conscious_result = await hub.process_conscious_task(conscious_task)
         if conscious_result:
-            print(f"Conscious task completed: {conscious_result.get('status', 'unknown')}")
+            print(f"Conscious task completed: {conscious_result.get('status', 'unknown'}")
         else:
             print("Conscious processing not available")
     except Exception as e:

@@ -25,7 +25,7 @@ try:
 except ImportError:
     # Fallback for development/testing
     AUTH_AVAILABLE = False
-    logger = logging.getLogger(__name__, timezone)
+    logger = logging.getLogger(__name__)
     logger.warning("Authentication system not available, using development fallback")
 
 from consent.service import ConsentService

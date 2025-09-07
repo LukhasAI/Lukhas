@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Workspace paths
@@ -514,7 +514,7 @@ class MyAwesomePlugin(LucasPlugin):
 
     async def execute(self, context):
         # Your plugin logic here
-        return {{"status": "success", "message": "Hello from core.common!"}}
+        return {{"status": "success", "message": "Hello from core.common!"}
 ```
 
 ### 4. **Test Your Plugin**
@@ -559,7 +559,7 @@ Visit [lukhas.store](https://lukhas.store) to discover plugins:
 const lukhas = new LUKHAS({{
     apiKey: 'your-api-key',
     plugins: ['health-advisor', 'lambda-easydoc']
-}});
+});
 </script>
 ```
 
@@ -880,7 +880,7 @@ Generated on: {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")}
 """
 
         for section, status in metrics["documentation_coverage"].items():
-            metrics_md += f"- **{section.replace('_', ' ').title()}**: {status}\n"
+            metrics_md += f"- **{section.replace('_', ' ').title(}**: {status}\n"
 
         metrics_md += f"""
 ## 🎯 Success Metrics

@@ -609,7 +609,7 @@ def print_report(report: dict):
         pattern_counts[pattern].append(directory)
 
     for pattern, dirs in sorted(pattern_counts.items()):
-        print(f"\n{pattern.upper().replace('_', ' ')}:")
+        print(f"\n{pattern.upper().replace('_', ' '}:")
         for d in dirs[:5]:
             orphaned = dir_stats[d]["orphaned"]
             print(f"  - {d} ({orphaned} orphaned files)")
@@ -622,7 +622,7 @@ def print_report(report: dict):
         print(f"\n{emoji} {rec['directory']}")
         print(f"   Action: {rec['action']}")
         print(f"   Reason: {rec['reason']}")
-        print(f"   Priority: {rec['priority'].upper()}")
+        print(f"   Priority: {rec['priority'].upper(}")
         print(f"   Files affected: {rec['files_affected']}")
 
     # Most imported files
@@ -658,7 +658,7 @@ def main():
 
     high_priority = [r for r in report["recommendations"] if r["priority"] == "high"]
     if high_priority:
-        print(f"\n🔴 HIGH PRIORITY ({len(high_priority)} directories):")
+        print(f"\n🔴 HIGH PRIORITY ({len(high_priority} directories):")
         for rec in high_priority:
             print(f"  - {rec['directory']}: {rec['action']} ({rec['files_affected']} files)")
 

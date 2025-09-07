@@ -11,7 +11,7 @@ from typing import Any, Callable, Optional
 from ..moral_alignment.vivox_mae_core import (
     ActionProposal,
     MAEDecision,
-    VIVOXMoralAlignmentEngine,, timezone)
+    VIVOXMoralAlignmentEngine)
 
 
 @dataclass
@@ -97,7 +97,7 @@ class VIVOXEthicsBridge:
 
         for rule in guardian_rules:
             constraint = EthicalConstraint(
-                constraint_id=f"guardian_{rule.get('id', 'unknown')}",
+                constraint_id=f"guardian_{rule.get('id', 'unknown'}",
                 constraint_type=rule.get("type", "general"),
                 description=rule.get("description", ""),
                 weight=rule.get("weight", 0.8),
@@ -138,7 +138,7 @@ class VIVOXEthicsBridge:
     async def _convert_to_mae_constraint(self, seedra_rule: dict[str, Any]) -> EthicalConstraint:
         """Convert SEEDRA rule to MAE constraint"""
         return EthicalConstraint(
-            constraint_id=f"seedra_{seedra_rule.get('id', 'unknown')}",
+            constraint_id=f"seedra_{seedra_rule.get('id', 'unknown'}",
             constraint_type=seedra_rule.get("category", "general"),
             description=seedra_rule.get("description", ""),
             weight=seedra_rule.get("severity", 0.5),
@@ -247,9 +247,9 @@ class VIVOXEthicsBridge:
         if vivox_decision and not vivox_decision.approved:
             reasoning_parts.append(f"VIVOX: {vivox_decision.suppression_reason}")
         if seedra_decision and not seedra_decision.get("approved", True):
-            reasoning_parts.append(f"SEEDRA: {seedra_decision.get('reasoning', '')}")
+            reasoning_parts.append(f"SEEDRA: {seedra_decision.get('reasoning', ''}")
         if guardian_decision and not guardian_decision.get("approved", True):
-            reasoning_parts.append(f"Guardian: {guardian_decision.get('reasoning', '')}")
+            reasoning_parts.append(f"Guardian: {guardian_decision.get('reasoning', ''}")
 
         final_reasoning = " | ".join(reasoning_parts) if reasoning_parts else "All systems approved"
 

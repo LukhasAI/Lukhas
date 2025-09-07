@@ -72,7 +72,7 @@ class MockMemorySystem:
     """Mock memory system for testing"""
 
     async def get_coherence_metrics(self) -> dict[str, Any]:
-        return {"coherence": 0.9, "salience_map": {"important": 0.8, "recent": 0.6}}
+        return {"coherence": 0.9, "salience_map": {"important": 0.8, "recent": 0.6}
 
     async def store_consciousness_experience(self, experience: dict[str, Any]) -> None:
         logger.debug("📝 Stored experience in mock memory system")
@@ -95,7 +95,7 @@ class MockGuardianSystem:
         return {"safety_score": 0.9, "ethical_score": 0.95, "alignment_score": 0.92}
 
     async def get_ethical_state(self) -> dict[str, Any]:
-        return {"alignment_score": 0.95, "active_constraints": {"harm_prevention": True}}
+        return {"alignment_score": 0.95, "active_constraints": {"harm_prevention": True}
 
 
 async def create_test_environment() -> ConsciousnessEnvironment:
@@ -177,7 +177,7 @@ async def run_training_example():
 
         logger.info("📚 Training configuration:")
         logger.info(f"  Episodes: {training_episodes}")
-        logger.info(f"  Modules: {len(environment.consciousness_modules)}")
+        logger.info(f"  Modules: {len(environment.consciousness_modules}")
         logger.info(f"  Device: {trainer.device}")
         logger.info(f"  Save directory: {save_dir}")
 
@@ -200,13 +200,13 @@ async def run_training_example():
         logger.info(f"  Episodes Completed: {training_results['episodes_completed']}")
         logger.info(f"  Total Training Time: {training_results['total_training_time']:.1f} seconds")
         logger.info(
-            f"  Final Average Reward: {training_results['consciousness_metrics'].get('final_average_reward', 0.0):.3f}"
+            f"  Final Average Reward: {training_results['consciousness_metrics'].get('final_average_reward', 0.0}:.3f}"
         )
         logger.info(
-            f"  Consciousness Coherence: {training_results['consciousness_metrics'].get('final_consciousness_coherence', 0.0):.3f}"
+            f"  Consciousness Coherence: {training_results['consciousness_metrics'].get('final_consciousness_coherence', 0.0}:.3f}"
         )
         logger.info(
-            f"  Ethical Compliance: {training_results['consciousness_metrics'].get('final_ethical_compliance', 0.0):.3f}"
+            f"  Ethical Compliance: {training_results['consciousness_metrics'].get('final_ethical_compliance', 0.0}:.3f}"
         )
 
         # Module performance summary
@@ -278,9 +278,9 @@ async def test_individual_components():
 
     # Sample experiences
     experiences, weights, indices = buffer.sample(5)
-    logger.info(f"  Sampled {len(experiences)} experiences")
+    logger.info(f"  Sampled {len(experiences} experiences")
     logger.info(f"  Importance weights shape: {weights.shape}")
-    logger.info(f"  Buffer statistics: {buffer.get_consciousness_statistics()}")
+    logger.info(f"  Buffer statistics: {buffer.get_consciousness_statistics(}")
 
     logger.info("✅ Individual component tests passed")
 
@@ -296,7 +296,7 @@ async def interactive_training_demo():
     print("\n" + "=" * 60)
     print("🧠 LUKHAS Consciousness RL Interactive Demo")
     print("=" * 60)
-    print(f"Modules: {len(environment.consciousness_modules)}")
+    print(f"Modules: {len(environment.consciousness_modules}")
     print(f"Device: {trainer.device}")
     print("=" * 60)
 

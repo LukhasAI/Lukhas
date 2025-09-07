@@ -17,7 +17,7 @@ class BrandIntelligenceMonitor:
     consistency tracking, and predictive brand analytics
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.monitoring_config = self._load_monitoring_config()
         self.brand_patterns = self._compile_brand_patterns()
         self.intelligence_cache = {}
@@ -494,7 +494,7 @@ class BrandIntelligenceMonitor:
         # Terminology suggestions
         if terminology["compliance_score"] < 0.8:
             if terminology["forbidden_terms_found"]:
-                suggestions.append(f"Replace forbidden terms: {', '.join(terminology['forbidden_terms_found'])}")
+                suggestions.append(f"Replace forbidden terms: {', '.join(terminology['forbidden_terms_found']}")
             if terminology["required_terms_found"] < terminology["required_terms_total"] / 2:
                 suggestions.append("Increase usage of approved LUKHAS terminology")
 
@@ -502,7 +502,7 @@ class BrandIntelligenceMonitor:
         if trinity["trinity_score"] < 0.6:
             missing_components = [comp for comp, present in trinity["components_present"].items() if not present]
             if missing_components:
-                suggestions.append(f"Include Trinity Framework components: {', '.join(missing_components)}")
+                suggestions.append(f"Include Trinity Framework components: {', '.join(missing_components}")
             if not trinity["framework_mentioned"]:
                 suggestions.append("Reference Trinity Framework explicitly")
 
@@ -693,7 +693,7 @@ class BrandIntelligenceMonitor:
     def _store_intelligence_results(self, intelligence_data: dict[str, Any]) -> None:
         """Store intelligence results for historical analysis"""
         # This would store to persistent storage
-        print(f"Storing intelligence results: {intelligence_data.keys()}")
+        print(f"Storing intelligence results: {intelligence_data.keys(}")
 
     def _analyze_alert_patterns(self) -> dict[str, Any]:
         """Analyze patterns in brand alerts"""

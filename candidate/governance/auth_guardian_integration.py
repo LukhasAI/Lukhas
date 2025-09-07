@@ -41,7 +41,7 @@ except ImportError:
     GlyphEngine = None
 
 # Set up logging
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class AuthEventType(Enum):

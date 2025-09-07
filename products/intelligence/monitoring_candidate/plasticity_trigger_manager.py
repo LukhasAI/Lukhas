@@ -510,7 +510,7 @@ class PlasticityTriggerManager:
 
         try:
             # Record start of adaptation
-            adaptation_id = f"{plan.rule.trigger_type.value}_{int(time.time())}"
+            adaptation_id = f"{plan.rule.trigger_type.value}_{int(time.time()}"
             self.active_adaptations[adaptation_id] = plan
 
             # Apply based on strategy

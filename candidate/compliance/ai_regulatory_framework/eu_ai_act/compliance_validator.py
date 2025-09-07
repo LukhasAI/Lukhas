@@ -18,7 +18,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class AISystemRiskCategory(Enum):
@@ -373,7 +373,7 @@ class EUAIActValidator:
                 [
                     "Maintain current compliance measures",
                     "Monitor for regulatory updates",
-                    f"Schedule next review: {assessment.next_review_date.strftime('%Y-%m-%d')}",
+                    f"Schedule next review: {assessment.next_review_date.strftime('%Y-%m-%d'}",
                 ]
             )
 

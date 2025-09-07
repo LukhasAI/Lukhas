@@ -319,7 +319,7 @@ class QIIdentityManager:
                 "qi_entangled": tier.value >= 2,  # Tier 2+ gets quantum entanglement
             }
 
-        self.logger.info(f"Initialized quantum tier system with {len(QITierLevel)} tiers")
+        self.logger.info(f"Initialized quantum tier system with {len(QITierLevel} tiers")
 
     def _initialize_legacy_integration(self):
         """Initialize integration with legacy identity systems."""
@@ -519,7 +519,7 @@ class QIIdentityManager:
     async def _generate_quantum_key(self, user_id: str, security_level: QISecurityLevel) -> str:
         """Generate quantum-safe cryptographic key."""
         if not self.qi_key_manager:
-            return f"fallback_key_{hashlib.sha256(user_id.encode()).hexdigest()[:16]}"
+            return f"fallback_key_{hashlib.sha256(user_id.encode()).hexdigest(}[:16]}"
 
         # Map quantum security level to NIST level
         nist_level_map = {
@@ -531,7 +531,7 @@ class QIIdentityManager:
 
         nist_level = nist_level_map[security_level]
         key_pair = self.qi_key_manager.generate_key_pair(nist_level)
-        key_id = f"qi_key_{user_id}_{int(time.time())}"
+        key_id = f"qi_key_{user_id}_{int(time.time()}"
 
         # Store key pair (in production, this would be in secure storage)
         self.qi_key_manager.store_key_pair(key_id, key_pair)

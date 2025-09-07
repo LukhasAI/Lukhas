@@ -222,7 +222,7 @@ class ConsentManager(GlyphIntegrationMixin):
 
                 # Rebuild requester statistics
                 self._rebuild_requester_stats()
-                logger.info(f"Loaded {len(self.consent_history)} consent history records")
+                logger.info(f"Loaded {len(self.consent_history} consent history records")
         except Exception as e:
             logger.warning(f"Failed to load consent history: {e}")
             self.consent_history = []
@@ -261,7 +261,7 @@ class ConsentManager(GlyphIntegrationMixin):
                         metadata=data.get("metadata", {}),
                         governance_approved=data.get("governance_approved", True),
                     )
-                logger.info(f"Loaded {len(self.trust_paths)} trust paths")
+                logger.info(f"Loaded {len(self.trust_paths} trust paths")
         except Exception as e:
             logger.warning(f"Failed to load trust paths: {e}")
             self._create_default_trust_paths()
@@ -344,7 +344,7 @@ class ConsentManager(GlyphIntegrationMixin):
                     rule["governance_required"] = rule.get("governance_required", True)
 
                 self.escalation_rules = custom_rules
-                logger.info(f"Loaded {len(self.escalation_rules)} escalation rules")
+                logger.info(f"Loaded {len(self.escalation_rules} escalation rules")
         except Exception as e:
             logger.warning(f"Failed to load escalation rules: {e}")
             # Use defaults with governance enhancement
@@ -703,7 +703,7 @@ class ConsentManager(GlyphIntegrationMixin):
             symbols = self.TRUST_SYMBOLS["governance_approved"]
 
         return TrustPath(
-            path_id=f"temp_{request.requester}_{int(time.time())}",
+            path_id=f"temp_{request.requester}_{int(time.time()}",
             source="unknown",
             target=request.requester,
             trust_score=min(1.0, base_trust),
@@ -753,7 +753,7 @@ class ConsentManager(GlyphIntegrationMixin):
                     }
 
             except Exception as e:
-                logger.error(f"Error evaluating rule '{rule.get('name', 'unknown')}': {e}")
+                logger.error(f"Error evaluating rule '{rule.get('name', 'unknown'}': {e}")
                 continue
 
         return None
@@ -1157,7 +1157,7 @@ if __name__ == "__main__":
                 f"   Trinity impact: I:{result.trinity_impact['identity']:.1f} C:{result.trinity_impact['consciousness']:.1f} G:{result.trinity_impact['guardian']:.1f}"
             )
             print(f"   Reason: {result.decision_reason}")
-            print(f"   Symbols: {'→'.join(result.symbolic_path)}")
+            print(f"   Symbols: {'→'.join(result.symbolic_path}")
             if result.escalation_level:
                 print(f"   Escalation: {result.escalation_level.name}")
 

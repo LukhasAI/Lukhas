@@ -245,7 +245,7 @@ class GPTIntegrationLayer:
                 annotated_parts.append(f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}")
 
         # Add drift metadata comment
-        drift_metadata = f"\n<!-- DRIFT_METADATA: primary_issue={diagnosis.get('primary_issue', 'unknown')}, severity={diagnosis.get('severity', 0):.2f} -->"
+        drift_metadata = f"\n<!-- DRIFT_METADATA: primary_issue={diagnosis.get('primary_issue', 'unknown')}, severity={diagnosis.get('severity', 0}:.2f} -->"
 
         return " ".join(annotated_parts) + drift_metadata
 
@@ -320,7 +320,7 @@ class GPTIntegrationLayer:
         trinity = assessment.get("trinity_coherence", 1.0)
         if trinity < 0.5:
             recommendations.append("Reinforce Trinity Framework in prompts")
-            recommendations.append(f"Add Trinity glyphs: {' '.join(self.trinity_core)}")
+            recommendations.append(f"Add Trinity glyphs: {' '.join(self.trinity_core}")
 
         # Issue-specific recommendations
         issue = diagnosis.get("primary_issue")
@@ -380,7 +380,7 @@ class GPTIntegrationLayer:
         contexts = contexts or [{}] * len(responses)
 
         for i, (response, context) in enumerate(zip(responses, contexts)):
-            logger.info(f"Processing response {i + 1}/{len(responses)}")
+            logger.info(f"Processing response {i + 1}/{len(responses}")
             report = self.process_gpt_response(response, context)
             results.append(report)
 
@@ -450,7 +450,7 @@ class GPTIntegrationLayer:
             for example in training_data:
                 f.write(json.dumps(example, ensure_ascii=False) + "\n")
 
-        logger.info(f"📤 Exported {len(training_data)} training examples to {output_path}")
+        logger.info(f"📤 Exported {len(training_data} training examples to {output_path}")
         return str(output_path)
 
     def get_stats(self) -> dict[str, Any]:

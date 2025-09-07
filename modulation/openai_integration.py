@@ -262,7 +262,7 @@ if __name__ == "__main__":
 
     # Test function building
     functions = build_function_definitions(["search", "retrieval"])
-    print(f"🔧 Built {len(functions)} function definitions")
+    print(f"🔧 Built {len(functions} function definitions")
 
     # Test client creation (will fail without API key)
     try:

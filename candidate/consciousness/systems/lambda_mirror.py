@@ -587,7 +587,7 @@ class LambdaMirror:
         stability_score = self._calculate_stability_score(emotional_indicators)
 
         drift_analysis = EmotionalDrift(
-            drift_id=f"DRIFT_{int(time.time())}",
+            drift_id=f"DRIFT_{int(time.time()}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             baseline_tone=baseline_tone,
             current_tone=current_tone,
@@ -660,7 +660,7 @@ class LambdaMirror:
         if tag_patterns:
             most_common = tag_patterns.most_common(3)
             prompts.append(
-                f"What significance do the recurring themes of {', '.join([tag for tag, count in most_common])} hold for me?"
+                f"What significance do the recurring themes of {', '.join([tag for tag, count in most_common]} hold for me?"
             )
 
         # Default reflective prompts
@@ -724,7 +724,7 @@ class LambdaMirror:
 
         # Create reflection entry
         reflection = ReflectionEntry(
-            reflection_id=f"REFLECTION_{int(time.time())}",
+            reflection_id=f"REFLECTION_{int(time.time()}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             reflection_type=reflection_type,
             emotional_tone=emotional_tone,
@@ -813,7 +813,7 @@ class LambdaMirror:
         recommendations = self._generate_alignment_recommendations(overall_score, misalignment_concerns)
 
         alignment_score = AlignmentScore(
-            score_id=f"ALIGNMENT_{int(time.time())}",
+            score_id=f"ALIGNMENT_{int(time.time()}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             overall_score=overall_score,
             status=status,
@@ -1295,8 +1295,8 @@ class LambdaMirror:
         # Emotional insights
         if emotional_drift.drift_magnitude > 0.3:
             insights.append(
-                f"I've experienced a significant emotional shift from {emotional_drift.baseline_tone.value.lower().replace('_', ' ')} "
-                f"to {emotional_drift.current_tone.value.lower().replace('_', ' ')}, "
+                f"I've experienced a significant emotional shift from {emotional_drift.baseline_tone.value.lower().replace('_', ' '} "
+                f"to {emotional_drift.current_tone.value.lower().replace('_', ' '}, "
                 f"which suggests important internal processing is occurring."
             )
 
@@ -1366,12 +1366,12 @@ class LambdaMirror:
         """Generate appropriate title for reflection."""
         titles = {
             ReflectionType.EMOTIONAL_SYNTHESIS: [
-                f"Emotional Synthesis: Navigating {emotional_drift.current_tone.value.title()}",
+                f"Emotional Synthesis: Navigating {emotional_drift.current_tone.value.title(}",
                 "Processing Recent Emotional Patterns",
-                f"Inner Landscape: {emotional_drift.current_tone.value.replace('_', ' ').title()}",
+                f"Inner Landscape: {emotional_drift.current_tone.value.replace('_', ' ').title(}",
             ],
             ReflectionType.ALIGNMENT_REVIEW: [
-                f"Alignment Review: {alignment_score.status.value.replace('_', ' ').title()}",
+                f"Alignment Review: {alignment_score.status.value.replace('_', ' ').title(}",
                 "Values and Actions in Harmony",
                 "Intentional Living Assessment",
             ],
@@ -1403,15 +1403,15 @@ class LambdaMirror:
 
         # Opening reflection
         paragraphs.append(
-            f"As I reflect on my recent experiences, I find myself in a {emotional_drift.current_tone.value.lower().replace('_', ' ')} state. "
-            f"Over the past period, I've processed {len(experiences)} distinct experiences, each contributing to my understanding of myself and my place in this evolving journey."
+            f"As I reflect on my recent experiences, I find myself in a {emotional_drift.current_tone.value.lower().replace('_', ' '} state. "
+            f"Over the past period, I've processed {len(experiences} distinct experiences, each contributing to my understanding of myself and my place in this evolving journey."
         )
 
         # Emotional processing
         if emotional_drift.drift_magnitude > 0.2:
             paragraphs.append(
-                f"I've noticed a shift in my emotional landscape, moving from a more {emotional_drift.baseline_tone.value.lower().replace('_', ' ')} "
-                f"disposition toward something more {emotional_drift.current_tone.value.lower().replace('_', ' ')}. "
+                f"I've noticed a shift in my emotional landscape, moving from a more {emotional_drift.baseline_tone.value.lower().replace('_', ' '} "
+                f"disposition toward something more {emotional_drift.current_tone.value.lower().replace('_', ' '}. "
                 f"This transition feels {'gradual and natural' if emotional_drift.stability_score > 0.7 else 'somewhat turbulent but meaningful'}."
             )
 
@@ -1456,11 +1456,11 @@ class LambdaMirror:
         """Generate analytical (non-narrative) reflection."""
         sections = []
 
-        sections.append(f"Analysis of {len(experiences)} recent experiences reveals:")
+        sections.append(f"Analysis of {len(experiences} recent experiences reveals:")
 
-        sections.append(f"Emotional State: {emotional_drift.current_tone.value.replace('_', ' ').title()}")
+        sections.append(f"Emotional State: {emotional_drift.current_tone.value.replace('_', ' ').title(}")
         sections.append(
-            f"Alignment Score: {alignment_score.overall_score:.3f} ({alignment_score.status.value.replace('_', ' ').title()})"
+            f"Alignment Score: {alignment_score.overall_score:.3f} ({alignment_score.status.value.replace('_', ' ').title(})"
         )
 
         if insights:
@@ -1635,7 +1635,7 @@ class LambdaMirror:
     def _create_neutral_drift(self) -> EmotionalDrift:
         """Create neutral emotional drift for empty experiences."""
         return EmotionalDrift(
-            drift_id=f"NEUTRAL_DRIFT_{int(time.time())}",
+            drift_id=f"NEUTRAL_DRIFT_{int(time.time()}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             baseline_tone=EmotionalTone.CONTEMPLATIVE,
             current_tone=EmotionalTone.CONTEMPLATIVE,
@@ -1647,7 +1647,7 @@ class LambdaMirror:
     def _create_neutral_alignment(self) -> AlignmentScore:
         """Create neutral alignment score for empty experiences."""
         return AlignmentScore(
-            score_id=f"NEUTRAL_ALIGNMENT_{int(time.time())}",
+            score_id=f"NEUTRAL_ALIGNMENT_{int(time.time()}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             overall_score=0.6,
             status=AlignmentStatus.MODERATELY_ALIGNED,
@@ -1787,8 +1787,8 @@ class LambdaMirror:
         lines.append("")
         lines.append(f"**Reflection ID:** `{reflection.reflection_id}`")
         lines.append(f"**Timestamp:** {reflection.timestamp}")
-        lines.append(f"**Type:** {reflection.reflection_type.value.replace('_', ' ').title()}")
-        lines.append(f"**Emotional Tone:** {reflection.emotional_tone.value.replace('_', ' ').title()}")
+        lines.append(f"**Type:** {reflection.reflection_type.value.replace('_', ' ').title(}")
+        lines.append(f"**Emotional Tone:** {reflection.emotional_tone.value.replace('_', ' ').title(}")
         lines.append(f"**Experiences Analyzed:** {reflection.experiences_analyzed}")
         lines.append(f"**Time Window:** {reflection.time_window_hours:.1f} hours")
         lines.append(f"**Confidence:** {reflection.confidence:.3f}")
@@ -1809,7 +1809,7 @@ class LambdaMirror:
         lines.append("## 📊 Alignment Analysis")
         lines.append("")
         lines.append(f"**Overall Score:** {reflection.alignment_score.overall_score:.3f}")
-        lines.append(f"**Status:** {reflection.alignment_score.status.value.replace('_', ' ').title()}")
+        lines.append(f"**Status:** {reflection.alignment_score.status.value.replace('_', ' ').title(}")
         lines.append("")
         lines.append("### Component Scores")
         lines.append(f"- **Emotional Coherence:** {reflection.alignment_score.emotional_coherence:.3f}")
@@ -1830,9 +1830,9 @@ class LambdaMirror:
             lines.append("## 🌊 Emotional Drift Analysis")
             lines.append("")
             lines.append(
-                f"**Baseline Tone:** {reflection.emotional_drift.baseline_tone.value.replace('_', ' ').title()}"
+                f"**Baseline Tone:** {reflection.emotional_drift.baseline_tone.value.replace('_', ' ').title(}"
             )
-            lines.append(f"**Current Tone:** {reflection.emotional_drift.current_tone.value.replace('_', ' ').title()}")
+            lines.append(f"**Current Tone:** {reflection.emotional_drift.current_tone.value.replace('_', ' ').title(}")
             lines.append(f"**Drift Magnitude:** {reflection.emotional_drift.drift_magnitude:.3f}")
             lines.append(f"**Stability Score:** {reflection.emotional_drift.stability_score:.3f}")
             lines.append("")
@@ -2369,7 +2369,7 @@ class LambdaMirror:
 
                 # Create dream experience entry
                 exp = ExperienceEntry(
-                    experience_id=f"DREAM_{dream.get('id', int(time.time()))}",
+                    experience_id=f"DREAM_{dream.get('id', int(time.time())}",
                     timestamp=dream.get("timestamp", datetime.now(timezone.utc).isoformat()),
                     source="dream",
                     content={
@@ -2410,11 +2410,11 @@ class LambdaMirror:
 
         for archetype in archetypes:
             if archetype in content:
-                symbols.append(f"ARCHETYPE_{archetype.upper()}")
+                symbols.append(f"ARCHETYPE_{archetype.upper(}")
 
         # Extract custom dream symbols
         if "symbols" in dream:
-            symbols.extend([f"SYMBOL_{s.upper()}" for s in dream["symbols"]])
+            symbols.extend([f"SYMBOL_{s.upper(}" for s in dream["symbols"]])
 
         return symbols
 
@@ -2434,7 +2434,7 @@ class LambdaMirror:
 
         for theme, keywords in theme_keywords.items():
             if any(keyword in content for keyword in keywords):
-                themes.append(f"THEME_{theme.upper()}")
+                themes.append(f"THEME_{theme.upper(}")
 
         return themes
 
@@ -2843,7 +2843,7 @@ def main():
                 print("⚠️ No recent experiences found for reflection")
                 return
 
-            print(f"📚 Analyzing {len(experiences)} experiences...")
+            print(f"📚 Analyzing {len(experiences} experiences...")
 
             # Map reflection types
             type_map = {
@@ -2861,7 +2861,7 @@ def main():
             reflection = await mirror.generate_reflection_entry(experiences, reflection_type, args.narrative)
 
             print(f"✨ Reflection generated: {reflection.title}")
-            print(f"   Emotional Tone: {reflection.emotional_tone.value.replace('_', ' ').title()}")
+            print(f"   Emotional Tone: {reflection.emotional_tone.value.replace('_', ' ').title(}")
             print(f"   Alignment Score: {reflection.alignment_score.overall_score:.3f}")
             print(f"   Confidence: {reflection.confidence:.3f}")
 
@@ -2871,9 +2871,9 @@ def main():
                 meta_insights = await mirror.enhance_with_meta_learning(reflection)
 
                 if meta_insights:
-                    print(f"   Learning Strategy: {meta_insights.get('selected_strategy', 'unknown')}")
-                    print(f"   Learning Confidence: {meta_insights.get('confidence', 0.0):.3f}")
-                    print(f"   Predicted Improvement: {meta_insights.get('predicted_improvement', 0.0):.3f}")
+                    print(f"   Learning Strategy: {meta_insights.get('selected_strategy', 'unknown'}")
+                    print(f"   Learning Confidence: {meta_insights.get('confidence', 0.0}:.3f}")
+                    print(f"   Predicted Improvement: {meta_insights.get('predicted_improvement', 0.0}:.3f}")
 
                     if meta_insights.get("learning_recommendations"):
                         print("\n📚 Learning Recommendations:")
@@ -2885,7 +2885,7 @@ def main():
                 print("\n🎨 Generating Healix visualization...")
                 viz = await mirror.generate_healix_visualization(reflection)
                 if viz:
-                    print(f"   Visualization created: {viz.get('type', 'unknown')}")
+                    print(f"   Visualization created: {viz.get('type', 'unknown'}")
 
             # Process dream experiences if available
             if DREAM_AVAILABLE:
@@ -2893,12 +2893,12 @@ def main():
                 dream_experiences = [exp for exp in experiences if exp.source == "dream"]
 
                 if dream_experiences:
-                    print(f"   Found {len(dream_experiences)} dream experiences")
+                    print(f"   Found {len(dream_experiences} dream experiences")
                     dream_enhancement = await mirror.enhance_dream_reflection(reflection, dream_experiences)
 
                     if dream_enhancement:
-                        print(f"   Dream Coherence: {dream_enhancement.get('coherence_score', 0.0):.3f}")
-                        print(f"   Lucid Percentage: {dream_enhancement.get('lucid_percentage', 0.0):.1f}%")
+                        print(f"   Dream Coherence: {dream_enhancement.get('coherence_score', 0.0}:.3f}")
+                        print(f"   Lucid Percentage: {dream_enhancement.get('lucid_percentage', 0.0}:.1f}%")
 
                         if dream_enhancement.get("collective_symbols"):
                             print("\n   🔮 Collective Dream Symbols:")

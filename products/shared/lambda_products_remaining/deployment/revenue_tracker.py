@@ -13,7 +13,7 @@ from datetime import datetime
 class LukhasRevenueTracker:
     """Track revenue across the LUKHAS ecosystem"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.domains = {
             "lukhas.ai": {
                 "name": "Main AI Platform",

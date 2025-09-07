@@ -20,7 +20,7 @@ from typing import Any
 # Import constitutional enforcement and other core modules
 from .constitutional_gatekeeper import (
     ConstitutionalLevel,
-    get_constitutional_gatekeeper,, timezone)
+    get_constitutional_gatekeeper)
 
 # Configure adaptive UI logging
 logging.basicConfig(level=logging.INFO)
@@ -266,7 +266,7 @@ class AdaptiveUIController:
 
         if is_valid:
             self.current_config = new_config
-            ui_logger.info(f"UI adapted: {', '.join(adaptation_reasons)}")
+            ui_logger.info(f"UI adapted: {', '.join(adaptation_reasons}")
 
             # Notify callbacks
             for callback in self.adaptation_callbacks:

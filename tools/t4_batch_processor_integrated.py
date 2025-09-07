@@ -242,7 +242,7 @@ class T4BatchProcessor:
             print("\n🔴 Remaining Issues (Top 10):")
             for line in final_stats[:10]:
                 if line.strip() and line[0].isdigit():
-                    print(f"   {line.strip()}")
+                    print(f"   {line.strip(}")
 
         print("\n💡 Next Steps:")
         if final_count > 5000:

@@ -25,7 +25,7 @@ from candidate.core.swarm import AgentState, SwarmAgent
 # Import identity components
 from governance.identity.core.events import (
     IdentityEventType,
-    get_identity_event_publisher,, timezone)
+    get_identity_event_publisher)
 from governance.identity.core.visualization.lukhas_orb import OrbVisualization
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
@@ -567,7 +567,7 @@ class DistributedGLYPHColony(BaseColony):
         # Get event publisher
         self.event_publisher = await get_identity_event_publisher()
 
-        logger.info(f"Colony initialized with {len(self.generation_agents)} specialized agents")
+        logger.info(f"Colony initialized with {len(self.generation_agents} specialized agents")
 
     async def generate_identity_glyph(
         self,
@@ -585,7 +585,7 @@ class DistributedGLYPHColony(BaseColony):
 
         # Create generation task
         task = GLYPHGenerationTask(
-            task_id=f"glyph_{lambda_id}_{glyph_type.value}_{int(datetime.now(timezone.utc).timestamp())}",
+            task_id=f"glyph_{lambda_id}_{glyph_type.value}_{int(datetime.now(timezone.utc).timestamp()}",
             lambda_id=lambda_id,
             glyph_type=glyph_type,
             tier_level=tier_level,
@@ -747,7 +747,7 @@ class DistributedGLYPHColony(BaseColony):
 
         # Create GLYPH
         glyph = GeneratedGLYPH(
-            glyph_id=f"{task.lambda_id}_{task.glyph_type.value}_{int(datetime.now(timezone.utc).timestamp())}",
+            glyph_id=f"{task.lambda_id}_{task.glyph_type.value}_{int(datetime.now(timezone.utc).timestamp()}",
             lambda_id=task.lambda_id,
             glyph_type=task.glyph_type,
             tier_level=task.tier_level,
@@ -897,7 +897,7 @@ class DistributedGLYPHColony(BaseColony):
     def _generate_quantum_seed(self, lambda_id: str, session_id: Optional[str]) -> bytes:
         """Generate quantum seed for GLYPH generation."""
         # Combine identity and session for uniqueness
-        seed_data = f"{lambda_id}:{session_id or 'default'}:{datetime.now(timezone.utc).isoformat()}"
+        seed_data = f"{lambda_id}:{session_id or 'default'}:{datetime.now(timezone.utc).isoformat(}"
         return hashlib.sha256(seed_data.encode()).digest()
 
     def _extract_consciousness_pattern(self, orb_state: OrbVisualization) -> np.ndarray:

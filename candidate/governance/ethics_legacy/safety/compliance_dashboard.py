@@ -40,7 +40,7 @@ except ImportError:
             return options
 
         def dataframe(self, df):
-            print(f"DATAFRAME: {len(df) if hasattr(df, '__len__') else 'N/A'} rows")
+            print(f"DATAFRAME: {len(df) if hasattr(df, '__len__'} else 'N/A'} rows")
 
         def json(self, data):
             print(f"JSON: {data}")
@@ -77,9 +77,9 @@ else:
 
     for entry in reversed(logs[-25:]):
         st.markdown("---")
-        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp')}")
-        st.markdown(f"**🔍 Reason:** {entry.get('reason')}")
-        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier')})")
+        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp'}")
+        st.markdown(f"**🔍 Reason:** {entry.get('reason'}")
+        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier'})")
         st.markdown("**🧩 Actions Taken:**")
         st.code(", ".join(entry.get("actions_taken", [])), language="bash")
 

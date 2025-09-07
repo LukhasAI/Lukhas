@@ -121,7 +121,7 @@ class OnboardingSession:
 
     def create_session(self, user_info: dict[str, Any], referral_code: Optional[str] = None) -> dict[str, Any]:
         """Create new onboarding session"""
-        session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}"
+        session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4(}.hex[:8]}"
 
         session_data = {
             "session_id": session_id,
@@ -172,7 +172,7 @@ class OnboardingSession:
         """Generate secure API key for user"""
         # Generate cryptographically secure API key
         key_bytes = secrets.token_bytes(32)
-        api_key = f"lukhas-{tier.lower().replace('_', '')}-{key_bytes.hex()}"
+        api_key = f"lukhas-{tier.lower().replace('_', '')}-{key_bytes.hex(}"
 
         # Store key metadata
         self.api_keys[api_key] = {
@@ -402,10 +402,10 @@ if FASTAPI_AVAILABLE:
     @router.post("/start")
     async def start_onboarding_endpoint(request: OnboardingStartRequest, http_request: Request):
         """Start the user onboarding process"""
-        request_id = f"onboard_start_{int(time.time() * 1000)}"
+        request_id = f"onboard_start_{int(time.time() * 1000}"
 
         logger.info(f"🚀 Starting onboarding: {request_id}")
-        logger.info(f"   User info keys: {list(request.user_info.keys()) if request.user_info else []}")
+        logger.info(f"   User info keys: {list(request.user_info.keys()} if request.user_info else []}")
         logger.info(f"   Referral code: {request.referral_code is not None}")
 
         try:
@@ -460,7 +460,7 @@ if FASTAPI_AVAILABLE:
     @router.post("/tier-setup")
     async def setup_user_tier_endpoint(request: TierSetupRequest):
         """Set up user tier based on profile and requirements"""
-        request_id = f"onboard_tier_{int(time.time() * 1000)}"
+        request_id = f"onboard_tier_{int(time.time() * 1000}"
 
         logger.info(f"🎯 Setting up tier: {request_id}")
         logger.info(f"   Session: {request.session_id}")
@@ -549,11 +549,11 @@ if FASTAPI_AVAILABLE:
     @router.post("/consent")
     async def collect_user_consent_endpoint(request: ConsentRequest, http_request: Request):
         """Collect and validate user consent with HIPAA compliance support"""
-        request_id = f"onboard_consent_{int(time.time() * 1000)}"
+        request_id = f"onboard_consent_{int(time.time() * 1000}"
 
         logger.info(f"📝 Collecting consent: {request_id}")
         logger.info(f"   Session: {request.session_id}")
-        logger.info(f"   Consent types: {list(request.consent_choices.keys())}")
+        logger.info(f"   Consent types: {list(request.consent_choices.keys()}")
 
         try:
             # Validate session
@@ -645,7 +645,7 @@ if FASTAPI_AVAILABLE:
     @router.post("/complete")
     async def complete_onboarding_endpoint(request: CompletionRequest):
         """Complete the onboarding process and activate user account"""
-        request_id = f"onboard_complete_{int(time.time() * 1000)}"
+        request_id = f"onboard_complete_{int(time.time() * 1000}"
 
         logger.info(f"🏁 Completing onboarding: {request_id}")
         logger.info(f"   Session: {request.session_id}")
@@ -681,7 +681,7 @@ if FASTAPI_AVAILABLE:
                 )
 
             # Generate ΛiD and API key
-            lambda_id = f"λ-{int(time.time() * 1000)}-{uuid.uuid4().hex[:8]}"
+            lambda_id = f"λ-{int(time.time() * 1000)}-{uuid.uuid4(}.hex[:8]}"
             assigned_tier = session.get("assigned_tier", "LAMBDA_TIER_1")
             api_key = session_manager.generate_api_key(lambda_id, assigned_tier)
 
@@ -737,7 +737,7 @@ if FASTAPI_AVAILABLE:
                     "community": "/community",
                     "support": "/support",
                 },
-                "quick_start_guide": f"/quickstart/{assigned_tier.lower().replace('_', '-')}",
+                "quick_start_guide": f"/quickstart/{assigned_tier.lower().replace('_', '-'}",
             }
 
             # Mark session as completed

@@ -28,7 +28,7 @@ dream = seed_dream(folded)
 
 # Step 4: Log the symbolic dream
 dream_logger.log_dream(
-    dream_id=f"sleep_cycle_{folded.get('token_id', 'unknown')}",
+    dream_id=f"sleep_cycle_{folded.get('token_id', 'unknown'}",
     content=dream,
     metadata={
         "source_token": folded.get("token_id"),

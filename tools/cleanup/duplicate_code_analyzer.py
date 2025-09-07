@@ -77,7 +77,7 @@ class DuplicateCodeAnalyzer:
         """Analyze function for duplicates"""
         # Create signature
         params = [arg.arg for arg in node.args.args]
-        signature = f"{node.name}({', '.join(params)})"
+        signature = f"{node.name}({', '.join(params})"
 
         # Store by signature
         self.function_signatures[signature].append(
@@ -146,7 +146,7 @@ class DuplicateCodeAnalyzer:
         if isinstance(node, ast.Name):
             return node.id
         elif isinstance(node, ast.Attribute):
-            return f"{self._get_name(node.value)}.{node.attr}"
+            return f"{self._get_name(node.value}.{node.attr}"
         return "unknown"
 
     def _generate_report(self) -> dict:
@@ -224,7 +224,7 @@ class DuplicateCodeAnalyzer:
 
         if report["duplicate_classes"]:
             report["recommendations"].append(
-                f"Found {len(report['duplicate_classes'])} duplicate class definitions. Consider consolidation."
+                f"Found {len(report['duplicate_classes']} duplicate class definitions. Consider consolidation."
             )
 
         if report["conflicting_imports"]:
@@ -315,7 +315,7 @@ def cleanup_duplicates():
     # For now, just report what would be cleaned
 
     for signature, locations in duplicates.items():
-        print(f"  Would consolidate {signature} from {len(locations)} locations")
+        print(f"  Would consolidate {signature} from {len(locations} locations")
 
     print("\\n✅ Cleanup analysis complete!")
     print("⚠️  Manual review required before actual deletion")

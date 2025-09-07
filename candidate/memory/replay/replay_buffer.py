@@ -739,7 +739,7 @@ async def demonstrate_replay_buffer():
 
     for mode in modes:
         batch = buffer.sample_batch(10, mode=mode)
-        print(f"{mode.value}: {len(batch.experiences)} experiences, avg_priority={batch.avg_priority:.2f}")
+        print(f"{mode.value}: {len(batch.experiences} experiences, avg_priority={batch.avg_priority:.2f}")
 
     # Update priorities
     print("\n--- Updating Priorities ---")
@@ -749,7 +749,7 @@ async def demonstrate_replay_buffer():
     td_errors = np.random.uniform(0.1, 2.0, len(exp_ids))
 
     buffer.update_priorities(exp_ids, td_errors)
-    print(f"Updated priorities for {len(exp_ids)} experiences")
+    print(f"Updated priorities for {len(exp_ids} experiences")
 
     # Show metrics
     print("\n--- Buffer Metrics ---")

@@ -31,7 +31,7 @@ from typing import Any
 class PostConsolidationAuditor:
     """Comprehensive lukhasuditor for post-consolidation workspace analysis"""
 
-    def __init__(self, workspace_root: str, timezone):
+    def __init__(self, workspace_root: str):
         self.workspace_root = Path(workspace_root)
         self.audit_timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
 
@@ -597,7 +597,7 @@ class PostConsolidationAuditor:
 """
             for category, files in unclassified["potential_new_categories"].items():
                 if len(files) > 1:
-                    report += f"- **{category}:** {len(files)} files\n"
+                    report += f"- **{category}:** {len(files} files\n"
 
         # File Analysis
         report += """
@@ -676,7 +676,7 @@ class PostConsolidationAuditor:
                     report += f"- `{file_info['source_dir']}/{file_info['path']}` ({file_info['size']} bytes)\n"
 
                 if len(files) > 10:
-                    report += f"- ... and {len(files) - 10} more files\n"
+                    report += f"- ... and {len(files} - 10} more files\n"
 
         # Conclusion
         total_remaining = stats.get("total_files_remaining", 0)
@@ -761,11 +761,11 @@ def main():
     print("=" * 60)
 
     stats = audit_results["summary_statistics"]
-    print(f"📁 Total Files Remaining: {stats.get('total_files_remaining', 0)}")
-    print(f"📊 Total Size: {stats.get('total_size_remaining_mb', 0):.2f} MB")
+    print(f"📁 Total Files Remaining: {stats.get('total_files_remaining', 0}")
+    print(f"📊 Total Size: {stats.get('total_size_remaining_mb', 0}:.2f} MB")
     print(f"🏷️  Categorized Files: {sum(stats.get('files_by_category', {}).values())}")
-    print(f"❓ Unclassified Files: {len(audit_results['unclassified_components']['unclassified_files'])}")
-    print(f"🔄 Recommendations: {len(audit_results['consolidation_recommendations'])}")
+    print(f"❓ Unclassified Files: {len(audit_results['unclassified_components']['unclassified_files']}")
+    print(f"🔄 Recommendations: {len(audit_results['consolidation_recommendations']}")
 
     # Show top recommendations
     print("\n🚀 TOP RECOMMENDATIONS:")

@@ -18,7 +18,7 @@ from ..symbolic_ai.memory import SymbolicMemoryEngine
 class DreamProcessor:
     """Enhanced dream processing system with OXN pattern recognition"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.memory_engine = SymbolicMemoryEngine()
         self.pattern_confidence_threshold = 0.65  # Lower threshold during dreams for creative connections
 

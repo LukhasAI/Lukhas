@@ -70,7 +70,7 @@ def validate_symbolic_integrity(module_name: str, adjustment: dict[str, Any]) ->
 
 def log_governance_trace(user_id: str, module_name: str, adjustment: dict) -> None:
     """Logs a governance trace entry."""
-    entry = f"- [{datetime.datetime.now(timezone.utc).isoformat()}] {user_id} | {module_name} | {adjustment}\n"
+    entry = f"- [{datetime.datetime.now(timezone.utc).isoformat(}] {user_id} | {module_name} | {adjustment}\n"
     with open(GOV_TRACE_LOG, "a", encoding="utf-8") as f:
         f.write(entry)
 

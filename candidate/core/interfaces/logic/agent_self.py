@@ -83,7 +83,7 @@ if st.button("Ask GPT"):
 
         openai.api_key = os.getenv("OPENAI_API_KEY")
         emotion_state = get_emotion_state()
-        enriched_prompt = f"[Mood: {emotion_state.get('emotion', 'neutral')}] {prompt}"
+        enriched_prompt = f"[Mood: {emotion_state.get('emotion', 'neutral'}] {prompt}"
         chat = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[

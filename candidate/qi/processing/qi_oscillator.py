@@ -52,7 +52,7 @@ class GlobalComplianceFramework:
     ├──────────────────────────────────────────────────────────────────────┤
     │ - COMPLIANCE_PROFILES: Defines regional legal constraints.            │
     │   e.g., EU prohibits facial_recognition_db and social_scoring.        │
-    │ - check_compliance(, timezone): Applies the appropriate profile based on        │
+    │ - check_compliance(): Applies the appropriate profile based on        │
     │   the 'region' flag from context. Defaults to 'Global' profile.       │
     │ - Scoring: 0.5 per violation. Threshold >1.5 triggers safeguards.     │
     │ - Adjust COMPLIANCE_PROFILES to reflect updated international laws.   │
@@ -378,7 +378,7 @@ class LucasAGI:
         self.qi_handler.compliance.recalibrate_safeguards()
         keys_to_retain = ["ecological_balance", "privacy_protection"]
         self.environmental_context = {k: v for k, v in self.environmental_context.items() if k in keys_to_retain}
-        logging.info(f"Retaining critical context keys during recalibration: {list(self.environmental_context.keys())}")
+        logging.info(f"Retaining critical context keys during recalibration: {list(self.environmental_context.keys()}")
         self.system_health["compliance_strain"] = 0.1  # Reduce strain post recalibration
 
     def _modulate_ethical_weights(self, base_weights):

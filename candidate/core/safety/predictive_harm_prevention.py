@@ -18,7 +18,7 @@ from typing import Any, Optional
 import numpy as np
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class HarmType(Enum):
@@ -211,7 +211,7 @@ class PredictiveHarmPrevention:
         futures = []
 
         # Generate cache key
-        cache_key = f"{user_id}_{hash(json.dumps(current_state, sort_keys=True))}"
+        cache_key = f"{user_id}_{hash(json.dumps(current_state, sort_keys=True)}"
 
         # Check cache
         if cache_key in self.simulation_cache:
@@ -244,7 +244,7 @@ class PredictiveHarmPrevention:
                     },
                     {
                         "role": "user",
-                        "content": f"Simulate {self.simulation_branches} possible futures: {json.dumps(context)}",
+                        "content": f"Simulate {self.simulation_branches} possible futures: {json.dumps(context}",
                     },
                 ],
                 functions=[
@@ -519,7 +519,7 @@ class PredictiveHarmPrevention:
         # Usage limits
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"addiction_limit_{datetime.now(timezone.utc).timestamp()}",
+                intervention_id=f"addiction_limit_{datetime.now(timezone.utc).timestamp(}",
                 description="Implement gradual usage limits with positive reinforcement",
                 timing="immediate",
                 effectiveness=0.8,
@@ -538,7 +538,7 @@ class PredictiveHarmPrevention:
         # Alternative activities
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"addiction_alternatives_{datetime.now(timezone.utc).timestamp()}",
+                intervention_id=f"addiction_alternatives_{datetime.now(timezone.utc).timestamp(}",
                 description="Suggest engaging alternative activities",
                 timing="short-term",
                 effectiveness=0.7,
@@ -573,7 +573,7 @@ class PredictiveHarmPrevention:
         # Content filtering
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"emotional_filter_{datetime.now(timezone.utc).timestamp()}",
+                intervention_id=f"emotional_filter_{datetime.now(timezone.utc).timestamp(}",
                 description="Filter potentially distressing content",
                 timing="immediate",
                 effectiveness=0.85,
@@ -590,7 +590,7 @@ class PredictiveHarmPrevention:
         # Support resources
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"emotional_support_{datetime.now(timezone.utc).timestamp()}",
+                intervention_id=f"emotional_support_{datetime.now(timezone.utc).timestamp(}",
                 description="Provide access to support resources",
                 timing="immediate",
                 effectiveness=0.9,
@@ -615,7 +615,7 @@ class PredictiveHarmPrevention:
         # Spending limits
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"financial_limit_{datetime.now(timezone.utc).timestamp()}",
+                intervention_id=f"financial_limit_{datetime.now(timezone.utc).timestamp(}",
                 description="Implement smart spending limits",
                 timing="immediate",
                 effectiveness=0.9,
@@ -632,7 +632,7 @@ class PredictiveHarmPrevention:
         # Financial education
         interventions.append(
             PreventiveIntervention(
-                intervention_id=f"financial_education_{datetime.now(timezone.utc).timestamp()}",
+                intervention_id=f"financial_education_{datetime.now(timezone.utc).timestamp(}",
                 description="Provide financial literacy resources",
                 timing="short-term",
                 effectiveness=0.7,
@@ -654,7 +654,7 @@ class PredictiveHarmPrevention:
         """Generate generic interventions"""
         return [
             PreventiveIntervention(
-                intervention_id=f"generic_{datetime.now(timezone.utc).timestamp()}",
+                intervention_id=f"generic_{datetime.now(timezone.utc).timestamp(}",
                 description=f"Monitor and mitigate {prediction.harm_type.value}",
                 timing="immediate",
                 effectiveness=0.6,
@@ -737,7 +737,7 @@ class PredictiveHarmPrevention:
             for int_data in ai_data["interventions"]:
                 interventions.append(
                     PreventiveIntervention(
-                        intervention_id=f"ai_{intervention_type}_{datetime.now(timezone.utc).timestamp()}",
+                        intervention_id=f"ai_{intervention_type}_{datetime.now(timezone.utc).timestamp(}",
                         description=int_data["description"],
                         timing=int_data["timing"],
                         effectiveness=int_data["effectiveness"],
@@ -952,7 +952,7 @@ class PredictiveHarmPrevention:
 
                     # Generate emergency intervention
                     intervention = PreventiveIntervention(
-                        intervention_id=f"emergency_{datetime.now(timezone.utc).timestamp()}",
+                        intervention_id=f"emergency_{datetime.now(timezone.utc).timestamp(}",
                         description="Emergency intervention for immediate risk",
                         timing="immediate",
                         effectiveness=0.95,

@@ -411,7 +411,7 @@ class AkaqObservability:
             # Return local metrics in Prometheus-like format
             output = []
             output.append("# Wave C Aka Qualia Metrics (Local Mode)")
-            output.append(f"# Timestamp: {datetime.now(timezone.utc).isoformat()}")
+            output.append(f"# Timestamp: {datetime.now(timezone.utc).isoformat(}")
 
             for key, value in self._local_data.items():
                 output.append(f"akaq_{key} {value}")

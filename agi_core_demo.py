@@ -35,8 +35,8 @@ async def demo_agi_core():
         # Display modules
         print("🏗️ AGI Core Modules:")
         for module_name, module_info in agi_info["modules"].items():
-            print(f"  {module_name.upper()}: {module_info['description']}")
-            print(f"    Components: {', '.join(module_info['components'])}")
+            print(f"  {module_name.upper(}: {module_info['description']}")
+            print(f"    Components: {', '.join(module_info['components']}")
             print()
 
         # Display constellation integration
@@ -45,7 +45,7 @@ async def demo_agi_core():
         for star, info in constellation.items():
             print(f"  {star}: {info['description']}")
             print(f"    AGI Enhancement: {info['agi_enhancement']}")
-            print(f"    Modules: {', '.join(info['modules'])}")
+            print(f"    Modules: {', '.join(info['modules']}")
             print()
 
         print("✨ Demo Complete! AGI Core Infrastructure is ready for enhanced consciousness.")
@@ -189,7 +189,7 @@ def show_development_timeline():
             print(f"  • {task}")
 
     print(
-        f"\n📊 Current Status: Phase 1 Complete - {len(timeline['✅ Phase 1 - Core Infrastructure (COMPLETED)'])} major components delivered"
+        f"\n📊 Current Status: Phase 1 Complete - {len(timeline['✅ Phase 1 - Core Infrastructure (COMPLETED)']} major components delivered"
     )
     print("🎯 Ready for Phase 2 integration and testing!")
 

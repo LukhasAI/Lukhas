@@ -617,7 +617,7 @@ if __name__ == "__main__":
         print(f"  Target Coherence: {report['target_coherence']}%")
         print(f"  Projected Coherence: {report['projected_coherence']}%")
 
-        print(f"\n🚀 Optimization Strategies ({len(optimizer.optimization_strategies)}):")
+        print(f"\n🚀 Optimization Strategies ({len(optimizer.optimization_strategies}):")
         for name, strategy in optimizer.optimization_strategies.items():
             print(f"  {name}: +{strategy.expected_coherence_gain}% improvement")
 

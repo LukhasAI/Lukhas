@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def load_drift_logs(file_path, timezone):
+def load_drift_logs(file_path):
     """
     Loads compliance drift logs from a CSV file.
     """

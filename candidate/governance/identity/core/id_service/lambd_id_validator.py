@@ -657,4 +657,4 @@ if __name__ == "__main__":
         if details.get("errors"):
             print(f"  Errors: {details['errors']}")
 
-    print(f"Validation Stats: {validator.get_validation_stats()}")
+    print(f"Validation Stats: {validator.get_validation_stats(}")

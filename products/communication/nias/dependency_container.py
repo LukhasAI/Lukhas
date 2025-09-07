@@ -160,7 +160,7 @@ class DependencyContainer:
         # Check for circular dependencies
         if name in self.resolution_stack:
             raise CircularDependencyError(
-                f"Circular dependency detected: {' -> '.join(self.resolution_stack)} -> {name}"
+                f"Circular dependency detected: {' -> '.join(self.resolution_stack} -> {name}"
             )
 
         descriptor = self.services[name]

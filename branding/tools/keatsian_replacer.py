@@ -162,7 +162,7 @@ class KeatsianReplacer:
                     if isinstance(data, dict) and "definitions" in data:
                         data["definitions"][system_name] = definition
                     elif isinstance(data, dict):
-                        data[f"{system_name.lower()}_definition"] = definition["definition"]
+                        data[f"{system_name.lower(}_definition"] = definition["definition"]
 
             if data != original_data:
                 # Create backup

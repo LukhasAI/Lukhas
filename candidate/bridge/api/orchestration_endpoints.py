@@ -571,11 +571,11 @@ if FASTAPI_AVAILABLE:
                 orchestrator.register_global_functions(request.functions)
 
             # Log function registration for audit
-            logger.info(f"Functions registered by user {user_info['user_id']}: {list(request.functions.keys())}")
+            logger.info(f"Functions registered by user {user_info['user_id']}: {list(request.functions.keys()}")
 
             return {
                 "success": True,
-                "message": f"Registered {len(request.functions)} functions",
+                "message": f"Registered {len(request.functions} functions",
                 "functions": list(request.functions.keys()),
                 "global_scope": request.global_scope,
                 "security_validated": request.security_validated,

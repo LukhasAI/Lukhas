@@ -172,10 +172,10 @@ class ModuleUsageAnalyzer:
                 # Find corresponding test files
                 current.replace(".py", "").replace("/", ".")
                 test_patterns = [
-                    f"tests/test_{Path(current).stem}.py",
-                    f"tests/{Path(current).parent}/test_{Path(current).stem}.py",
-                    f"tests/unit/test_{Path(current).stem}.py",
-                    f"tests/integration/test_{Path(current).stem}.py",
+                    f"tests/test_{Path(current}.stem}.py",
+                    f"tests/{Path(current).parent}/test_{Path(current}.stem}.py",
+                    f"tests/unit/test_{Path(current}.stem}.py",
+                    f"tests/integration/test_{Path(current}.stem}.py",
                 ]
                 for test_pattern in test_patterns:
                     if test_pattern in self.all_python_files:

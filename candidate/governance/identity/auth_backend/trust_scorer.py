@@ -21,7 +21,7 @@ class LukhasTrustScorer:
     Provides multi-factor trust assessment while maintaining cryptographic security.
     """
 
-    def __init__(self, entropy_validator, session_manager, audit_logger, timezone):
+    def __init__(self, entropy_validator, session_manager, audit_logger):
         self.entropy_validator = entropy_validator
         self.session_manager = session_manager
         self.audit_logger = audit_logger

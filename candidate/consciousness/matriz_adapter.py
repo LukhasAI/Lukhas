@@ -27,7 +27,7 @@ class ConsciousnessMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-CONS-{uuid.uuid4().hex[:8]}",
+            "id": f"LT-CONS-{uuid.uuid4(}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.85),
@@ -45,7 +45,7 @@ class ConsciousnessMatrizAdapter:
                     "consciousness:dream",
                 ],
                 "tenant": "system",
-                "trace_id": f"LT-CONS-{int(time.time())}",
+                "trace_id": f"LT-CONS-{int(time.time()}",
                 "consent_scopes": ["system:consciousness"],
                 **(provenance_extra or {}),
             },
@@ -200,7 +200,7 @@ class ConsciousnessMatrizAdapter:
 
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        filename = f"{node['id']}_{int(time.time())}.json"
+        filename = f"{node['id']}_{int(time.time()}.json"
         filepath = output_dir / filename
 
         with open(filepath, "w") as f:

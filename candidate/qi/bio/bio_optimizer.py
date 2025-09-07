@@ -184,7 +184,7 @@ except ImportError as e:
 
     class MockQIBioCoordinator:
         async def process_bio_quantum(self, data: Any, context: Any) -> Any:
-            return {"output": data, "metadata": {"status": "mocked_bq_coord"}}
+            return {"output": data, "metadata": {"status": "mocked_bq_coord"}
 
     if "BioOrchestrator" not in globals() or BioOrchestrator is Any:
         BioOrchestrator = MockBioOrchestrator  # type: ignore
@@ -384,7 +384,7 @@ class QIBioOptimizationAdapter:
                 "current_quantum_like_state_snapshot": (
                     asdict(prepared_q_state) if isinstance(prepared_q_state, QILikeState) else str(prepared_q_state)
                 ),
-                "optimization_run_id": f"qbo_run_{self.optimization_cycles_completed_total}_{int(datetime.now(timezone.utc).timestamp())}",
+                "optimization_run_id": f"qbo_run_{self.optimization_cycles_completed_total}_{int(datetime.now(timezone.utc).timestamp()}",
                 "total_cycles_completed_by_adapter": self.optimization_cycles_completed_total,
             }
         except Exception as e:

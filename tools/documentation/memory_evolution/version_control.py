@@ -20,7 +20,7 @@ class DocVersion:
 
     def _generate_hash(self) -> str:
         """Generate a unique hash for this version."""
-        content_str = f"{self.content}{json.dumps(self.metadata)}{self.timestamp}"
+        content_str = f"{self.content}{json.dumps(self.metadata}{self.timestamp}"
         return hashlib.sha256(content_str.encode()).hexdigest()
 
 

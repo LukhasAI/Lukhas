@@ -31,7 +31,7 @@ class SystemIntegrator:
     Ensures database content is actively used and updated by all platforms
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.base_path = Path(__file__).parent.parent
         self.db_path = self.base_path / "databases" / "lukhas_unified.db"
         self.engines_path = self.base_path / "engines"
@@ -46,7 +46,7 @@ class SystemIntegrator:
         logs_dir = self.base_path / "logs"
         logs_dir.mkdir(exist_ok=True)
 
-        log_file = logs_dir / f"system_integration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = logs_dir / f"system_integration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -335,7 +335,7 @@ class LukhasUnifiedContentPlatform:
 
         # Log retrieval activity
         db.log_system_activity("content_platform", "content_retrieved",
-                              f"Retrieved {len(content)} items", len(content))
+                              f"Retrieved {len(content} items", len(content))
 
         return content
 
@@ -350,7 +350,7 @@ class LukhasUnifiedContentPlatform:
 
         # Log bot access
         db.log_system_activity("content_platform", "bots_accessed",
-                              f"Accessed {len(bots)} specialist bots", len(bots))
+                              f"Accessed {len(bots} specialist bots", len(bots))
 
         return bots
 
@@ -390,8 +390,8 @@ if __name__ == "__main__":
     platform = LukhasUnifiedContentPlatform()
 
     print("🚀 LUKHAS AI Unified Content Platform Ready")
-    print(f"🤖 Specialist bots: {len(platform.get_specialist_bots())}")
-    print(f"✨ Premium features: {len(platform.get_premium_features())}")
+    print(f"🤖 Specialist bots: {len(platform.get_specialist_bots()}")
+    print(f"✨ Premium features: {len(platform.get_premium_features()}")
 
     # Show real database integration
     analytics = platform.get_platform_analytics()
@@ -535,7 +535,7 @@ class LukhasUnifiedDocEngine:
 
         # Log knowledge base access
         db.log_system_activity("doc_engine", "knowledge_accessed",
-                              f"Accessed {len(knowledge)} knowledge items", len(knowledge))
+                              f"Accessed {len(knowledge} knowledge items", len(knowledge))
 
         return knowledge
 
@@ -574,7 +574,7 @@ if __name__ == "__main__":
     engine = LukhasUnifiedDocEngine()
 
     print("🚀 LUKHAS AI Unified Document Engine Ready")
-    print(f"📄 Available formats: {len(engine.get_available_formats())}")
+    print(f"📄 Available formats: {len(engine.get_available_formats()}")
 
     # Show real database integration
     analytics = engine.get_engine_analytics()
@@ -895,7 +895,7 @@ async def main():
     success_count = len([v for v in results.values() if v])
 
     print("✅ System integration completed!")
-    print(f"🔗 Integration modules: {success_count}/{len(results)}")
+    print(f"🔗 Integration modules: {success_count}/{len(results}")
 
     print("\n🚀 Run the orchestrator to test integration:")
     print("python engines/lukhas_unified_orchestrator.py")

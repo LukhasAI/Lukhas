@@ -254,7 +254,7 @@ class SAMPLMemoryEngine:
         self.plasticity_rate = plasticity_rate
 
         # Memory network connections (memory_id -> connected_memory_ids with weights)
-        self.memory_network = defaultdict(dict)  # {memory_id: {connected_id: weight}}
+        self.memory_network = defaultdict(dict)  # {memory_id: {connected_id: weight}
         self.activation_states = defaultdict(float)  # Current activation levels
 
         # Plasticity tracking for non-monotonic updates
@@ -512,7 +512,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         if self.enable_sampl and len(self.items) > 1:
             self._build_sampl_connections(memory_id, tags, embedding)
 
-        print(f"🧠 Hybrid memory folded in: {memory_id[:8]}... (tags: {len(tags)}, SAMPL: {self.enable_sampl})")
+        print(f"🧠 Hybrid memory folded in: {memory_id[:8]}... (tags: {len(tags}, SAMPL: {self.enable_sampl})")
 
         return memory_id
 
@@ -639,7 +639,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                     results[i] = (memory, score * (1.0 + activation_boost * 0.5))
 
             print(
-                f"🧠 SAMPL activation applied: {len(activation_map)} memories activated, {len(plasticity_updates)} updated"
+                f"🧠 SAMPL activation applied: {len(activation_map)} memories activated, {len(plasticity_updates} updated"
             )
 
         # Sort by score and return top-k

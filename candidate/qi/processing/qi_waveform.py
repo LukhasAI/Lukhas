@@ -11,16 +11,16 @@ except Exception:  # pragma: no cover - fallback for broken import
     import time
     from datetime import datetime
 
-    def generate_dream(seed: str, context: dict[str, Any] | None = None, timezone) -> dict[str, Any]:
+    def generate_dream(seed: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
         """Fallback dream generator used when Oneiric Core is unavailable."""
         return {
-            "dream_id": f"DREAM_{seed[:4].upper()}_{int(time.time())}",
+            "dream_id": f"DREAM_{seed[:4].upper()}_{int(time.time()}",
             "created_at": datetime.now(timezone.utc).isoformat() + "Z",
             "summary": f"Generated dream from seed: '{seed}'",
             "theme": random.choice(["Echo", "Fractal", "Origin"]),
             "context": context or {},
             "emotional_wave": [round(random.uniform(0.1, 1.0), 2) for _ in range(5)],
-            "collapse_path": [f"N{random.randint(1, 5)}" for _ in range(3)],
+            "collapse_path": [f"N{random.randint(1, 5}" for _ in range(3)],
         }
 
 

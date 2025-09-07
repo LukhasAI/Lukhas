@@ -224,7 +224,7 @@ class QICoherenceEnhancer:
             "Coherence enhanced via quantum collapse",
             original=f"{current_coherence:.2%}",
             enhanced=f"{enhanced_coherence:.2%}",
-            improvement=f"{(enhanced_coherence / current_coherence - 1) * 100:.1f}%",
+            improvement=f"{(enhanced_coherence / current_coherence - 1} * 100:.1f}%",
             z_value=z_value,
             drift_score=drift_score,
         )

@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 
-class AuditEventType(Enum, timezone):
+class AuditEventType(Enum):
     """Comprehensive audit event types for AGI operations"""
 
     # Consciousness events
@@ -685,7 +685,7 @@ class AuditTrail:
 
         if old_events:
             # Archive to compressed file
-            archive_file = self.storage_path / f"archive_{cutoff_date.strftime('%Y%m%d')}.jsonl.gz"
+            archive_file = self.storage_path / f"archive_{cutoff_date.strftime('%Y%m%d'}.jsonl.gz"
             with gzip.open(archive_file, "at") as f:
                 for event in old_events:
                     f.write(
@@ -726,7 +726,7 @@ class AuditTrail:
 
     def _generate_event_id(self) -> str:
         """Generate unique event ID"""
-        return f"{self.session_id}-{self.event_count:08d}-{uuid.uuid4().hex[:8]}"
+        return f"{self.session_id}-{self.event_count:08d}-{uuid.uuid4(}.hex[:8]}"
 
     def _calculate_checksum(self, event: AuditEvent) -> str:
         """Calculate checksum for event integrity"""

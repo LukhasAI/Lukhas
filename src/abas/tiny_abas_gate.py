@@ -229,32 +229,32 @@ if __name__ == "__main__":
         {
             "name": "Safe delivery",
             "user": {"stress": 0.2, "hour": 14, "focus_level": 0.3},
-            "opportunity": {"risk": {"alignment": 0.8}},
+            "opportunity": {"risk": {"alignment": 0.8},
         },
         {
             "name": "Driving block",
             "user": {"driving": True},
-            "opportunity": {"risk": {"alignment": 0.9}},
+            "opportunity": {"risk": {"alignment": 0.9},
         },
         {
             "name": "Stress block",
             "user": {"stress": 0.9, "hour": 14},
-            "opportunity": {"risk": {"alignment": 0.7}},
+            "opportunity": {"risk": {"alignment": 0.7},
         },
         {
             "name": "Flow state protection",
             "user": {"flow_state": True, "stress": 0.1},
-            "opportunity": {"risk": {"alignment": 0.8}},
+            "opportunity": {"risk": {"alignment": 0.8},
         },
         {
             "name": "Quiet hours",
             "user": {"hour": 23, "stress": 0.1},
-            "opportunity": {"risk": {"alignment": 0.8}},
+            "opportunity": {"risk": {"alignment": 0.8},
         },
         {
             "name": "Low alignment",
             "user": {"stress": 0.1, "hour": 14},
-            "opportunity": {"risk": {"alignment": 0.2}},
+            "opportunity": {"risk": {"alignment": 0.2},
         },
     ]
 

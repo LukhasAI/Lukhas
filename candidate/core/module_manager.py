@@ -460,14 +460,14 @@ def initialize_system(
     report = manager.get_status_report()
 
     # Log summary
-    logger.info(f"✅ Loaded: {report.get('loaded', 0)} modules")
-    logger.info(f"📦 Fallback: {report.get('fallback', 0)} modules")
-    logger.info(f"❌ Failed: {report.get('failed', 0)} modules")
+    logger.info(f"✅ Loaded: {report.get('loaded', 0} modules")
+    logger.info(f"📦 Fallback: {report.get('fallback', 0} modules")
+    logger.info(f"❌ Failed: {report.get('failed', 0} modules")
 
     # Run health checks
     health = manager.health_check()
     healthy = sum(1 for v in health.values() if v)
-    logger.info(f"💚 Health: {healthy}/{len(health)} modules healthy")
+    logger.info(f"💚 Health: {healthy}/{len(health} modules healthy")
 
     return report
 

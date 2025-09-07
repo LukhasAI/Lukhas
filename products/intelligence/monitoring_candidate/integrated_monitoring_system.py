@@ -92,7 +92,7 @@ except Exception:
                 pass
 
             def get_adaptation_statistics(self):
-                return {"total_adaptations": 0, "success_rates": {}}
+                return {"total_adaptations": 0, "success_rates": {}
 
         @dataclass
         class AdaptationPlan:  # type: ignore

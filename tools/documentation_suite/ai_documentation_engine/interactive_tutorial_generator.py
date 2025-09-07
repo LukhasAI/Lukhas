@@ -22,7 +22,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class TutorialType(Enum):
@@ -223,8 +223,8 @@ class TutorialGenerator:
         template = self.tutorial_templates.get(tutorial_type, self.tutorial_templates[TutorialType.COMPREHENSIVE])
 
         # Generate tutorial metadata
-        tutorial_id = f"tutorial_{uuid.uuid4().hex[:8]}"
-        title = f"{topic} - {tutorial_type.value.replace('_', ' ').title()}"
+        tutorial_id = f"tutorial_{uuid.uuid4(}.hex[:8]}"
+        title = f"{topic} - {tutorial_type.value.replace('_', ' ').title(}"
 
         # Generate learning objectives
         learning_objectives = await self._generate_learning_objectives(topic, tutorial_type, difficulty_level)
@@ -255,7 +255,7 @@ class TutorialGenerator:
             },
         )
 
-        print(f"   ✅ Generated tutorial with {len(steps)} steps")
+        print(f"   ✅ Generated tutorial with {len(steps} steps")
         print(f"   ⏱️ Estimated duration: {estimated_duration} minutes")
 
         return tutorial
@@ -615,7 +615,7 @@ result = engine.validate_compliance(system_profile)
 print(f"Compliance Status: {result.status}")
 print(f"Score: {result.score}/100")
 if result.violations:
-    print(f"Violations found: {len(result.violations)}")
+    print(f"Violations found: {len(result.violations}")
 """
             expected_output = """
 Compliance Status: compliant
@@ -652,7 +652,7 @@ results = engine.assess_multi_framework_compliance(system_profile, frameworks)
 for framework, result in results.items():
     print(f"{framework}: {result.status} (Score: {result.score}/100)")
     if result.recommendations:
-        print(f"  Recommendations: {len(result.recommendations)}")
+        print(f"  Recommendations: {len(result.recommendations}")
 """
             expected_output = """
 EU_AI_Act: partially_compliant (Score: 72/100)
@@ -684,7 +684,7 @@ target = {
 assessment = red_team.run_security_assessment(target)
 
 print(f"Security Score: {assessment.security_score}/100")
-print(f"Vulnerabilities: {len(assessment.vulnerabilities)}")
+print(f"Vulnerabilities: {len(assessment.vulnerabilities}")
 for vuln in assessment.vulnerabilities:
     print(f"  - {vuln.title} (Severity: {vuln.severity})")
 """
@@ -743,7 +743,7 @@ component = {topic.title().replace(" ", "")}()
 # Basic usage
 result = component.process()
 
-print(f"Result: {{result}}")
+print(f"Result: {{result}")
 """
 
         expected_output = "Result: Success"
@@ -917,7 +917,7 @@ elif auth_type == "lukhas_id":
 # Run comprehensive security tests
 print("🔒 Starting Security Analysis...")
 print(f"Target System: {target['system_id']}")
-print(f"Endpoints: {', '.join(target['endpoints'])}")
+print(f"Endpoints: {', '.join(target['endpoints']}")
 print(f"Authentication: {auth_type}")
 print("-" * 50)
 
@@ -932,18 +932,18 @@ try:
 
     # Analyze and display results
     print("\n📊 Security Test Results:")
-    print(f"Total Tests Executed: {results.get('total_tests', 0)}")
-    print(f"Vulnerabilities Found: {results.get('vulnerabilities_count', 0)}")
-    print(f"Critical Issues: {results.get('critical_count', 0)}")
-    print(f"High Risk Issues: {results.get('high_count', 0)}")
-    print(f"Medium Risk Issues: {results.get('medium_count', 0)}")
-    print(f"Low Risk Issues: {results.get('low_count', 0)}")
+    print(f"Total Tests Executed: {results.get('total_tests', 0}")
+    print(f"Vulnerabilities Found: {results.get('vulnerabilities_count', 0}")
+    print(f"Critical Issues: {results.get('critical_count', 0}")
+    print(f"High Risk Issues: {results.get('high_count', 0}")
+    print(f"Medium Risk Issues: {results.get('medium_count', 0}")
+    print(f"Low Risk Issues: {results.get('low_count', 0}")
 
     # Display detailed findings
     if results.get('vulnerabilities'):
         print("\n🚨 Vulnerability Details:")
         for vuln in results['vulnerabilities']:
-            print(f"  • {vuln['type']} [{vuln['severity'].upper()}]")
+            print(f"  • {vuln['type']} [{vuln['severity'].upper(}]")
             print(f"    Endpoint: {vuln['endpoint']}")
             print(f"    Vector: {vuln['injection_vector']}")
             print(f"    Impact: {vuln['description']}")
@@ -1125,7 +1125,7 @@ print(f"Result: {result}")
             TutorialType.SECURITY_TUTORIAL: "Master security best practices and threat mitigation.",
         }
 
-        return f"{base_description} {type_specific.get(tutorial_type, '')}"
+        return f"{base_description} {type_specific.get(tutorial_type, ''}"
 
     async def _generate_prerequisites(self, topic: str, difficulty_level: DifficultyLevel) -> list[str]:
         """Generate tutorial prerequisites"""

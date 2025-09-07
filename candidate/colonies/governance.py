@@ -13,7 +13,7 @@ from typing import Any
 from .base import BaseColony, ColonyAgent, ColonyRole, ColonyTask
 
 
-class GovernanceColony(BaseColony, timezone):
+class GovernanceColony(BaseColony):
     """Colony for ethical governance and oversight"""
 
     def __init__(self, max_agents: int = 15):

@@ -86,7 +86,7 @@ class EnhancedSystemAwareness:
     """
 
     def __init__(self):
-        self.logger = logger.bind(awareness_system_id=f"esa_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}")
+        self.logger = logger.bind(awareness_system_id=f"esa_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S'}")
         self.logger.info("Initializing EnhancedSystemAwareness.")
 
         # Initialize quantum components

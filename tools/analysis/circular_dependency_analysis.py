@@ -208,7 +208,7 @@ class DependencyAnalyzer:
                     {
                         "action": "extract_interface",
                         "description": "Extract shared interface to separate module",
-                        "modules_to_create": [f"interfaces.{self._suggest_interface_name(cycle)}"],
+                        "modules_to_create": [f"interfaces.{self._suggest_interface_name(cycle}"],
                     }
                 )
 
@@ -286,7 +286,7 @@ class DependencyAnalyzer:
                 break
 
         if common_prefix:
-            return f"{'.'.join(common_prefix)}_interface"
+            return f"{'.'.join(common_prefix}_interface"
         else:
             return "common_interface"
 
@@ -347,7 +347,7 @@ class {interface_name.replace("_interface", "").title()}Interface(ABC):
         pass
 
 # Module registry for dependency injection
-_module_registry: Dict[str, {interface_name.replace("_interface", "").title()}Interface] = {{}}
+_module_registry: Dict[str, {interface_name.replace("_interface", "").title()}Interface] = {{}
 
 def register_module(name: str, module: {interface_name.replace("_interface", "").title()}Interface) -> None:
     """Register module implementation"""
@@ -390,8 +390,8 @@ def main():
         analyzer.analyze_file(py_file)
 
     print(f"   Analyzed {analyzer.analyzed_files} files")
-    print(f"   Found {len(analyzer.import_graph.nodes)} modules")
-    print(f"   Found {len(analyzer.import_graph.edges)} imports")
+    print(f"   Found {len(analyzer.import_graph.nodes} modules")
+    print(f"   Found {len(analyzer.import_graph.edges} imports")
 
     # Find circular dependencies
     print("\n🔍 Finding circular dependencies...")
@@ -401,25 +401,25 @@ def main():
         print("✅ No circular dependencies found!")
         return
 
-    print(f"❌ Found {len(analyzer.circular_dependencies)} circular dependencies")
+    print(f"❌ Found {len(analyzer.circular_dependencies} circular dependencies")
 
     # Analyze impact
     impact = analyzer.analyze_impact()
     print("\n📊 Impact Analysis:")
-    print(f"   Affected modules: {len(impact['affected_modules'])}")
-    print(f"   High-risk cycles: {len(impact['high_risk_cycles'])}")
+    print(f"   Affected modules: {len(impact['affected_modules']}")
+    print(f"   High-risk cycles: {len(impact['high_risk_cycles']}")
 
     # Show top circular dependencies
     print("\n🔄 Top Circular Dependencies:")
     for i, cycle in enumerate(analyzer.circular_dependencies[:10], 1):
-        print(f"\n   {i}. {' → '.join(cycle)} → {cycle[0]}")
+        print(f"\n   {i}. {' → '.join(cycle} → {cycle[0]}")
 
     # Generate fix suggestions
     suggestions = analyzer.suggest_fixes()
 
     print("\n💡 Fix Suggestions:")
     for i, suggestion in enumerate(suggestions[:5], 1):
-        print(f"\n   Cycle {i}: {' → '.join(suggestion['cycle'][:3])}{'...' if len(suggestion['cycle']) > 3 else ''}")
+        print(f"\n   Cycle {i}: {' → '.join(suggestion['cycle'][:3])}{'...' if len(suggestion['cycle']} > 3 else ''}")
         print(f"   Type: {suggestion['type']}, Severity: {suggestion['severity']}")
         for fix in suggestion["fixes"]:
             print(f"   Fix: {fix['action']} - {fix['description']}")
@@ -428,7 +428,7 @@ def main():
     print("\n🔨 Generating interface modules...")
     created_interfaces = generate_interface_modules(suggestions, PROJECT_ROOT)
     if created_interfaces:
-        print(f"   Created {len(created_interfaces)} interface modules:")
+        print(f"   Created {len(created_interfaces} interface modules:")
         for interface in created_interfaces[:5]:
             print(f"   • {interface}")
 
@@ -453,7 +453,7 @@ def main():
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 
-    print(f"\n💾 Detailed report saved to: {report_path.relative_to(PROJECT_ROOT)}")
+    print(f"\n💾 Detailed report saved to: {report_path.relative_to(PROJECT_ROOT}")
 
 
 if __name__ == "__main__":

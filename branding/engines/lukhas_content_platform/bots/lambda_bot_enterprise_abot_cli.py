@@ -17,7 +17,7 @@ from pathlib import Path
 
 import click
 
-# Add project root to path (repo-relative if available, timezone)
+# Add project root to path (repo-relative if available)
 try:
     from lukhas.utils.runtime_paths import ensure_repo_paths
 
@@ -127,7 +127,7 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
             click.echo(f"⚡ AI Impact: {result['agi_impact']['impact_level']}/10")
 
             if result.get("documentation"):
-                click.echo(f"📝 Documentation: {len(result['documentation'])} types generated")
+                click.echo(f"📝 Documentation: {len(result['documentation']} types generated")
 
             if result.get("compliance"):
                 compliance_status = "✅ Compliant" if result["compliance"]["compliant"] else "❌ Requires Review"
@@ -287,7 +287,7 @@ def create(title: str, content_type: str, sync_notion: bool):
     click.echo(f"✍️ Creating {content_type}: {title}")
 
     # Simulate content creation
-    content_path = f"{content_type}_{title.lower().replace(' ', '_')}.md"
+    content_path = f"{content_type}_{title.lower().replace(' ', '_'}.md"
     click.echo(f"📝 Content created: {content_path}")
 
     if sync_notion:
@@ -477,9 +477,9 @@ def security_status():
 
     for config_file in config_files:
         if os.path.exists(config_file):
-            click.echo(f"✅ {os.path.basename(config_file)}: Present")
+            click.echo(f"✅ {os.path.basename(config_file}: Present")
         else:
-            click.echo(f"❌ {os.path.basename(config_file)}: Missing")
+            click.echo(f"❌ {os.path.basename(config_file}: Missing")
 
 
 @lambda_id.command()
@@ -512,10 +512,10 @@ def test_security(pr_number: int):
 
             result = await abot_lid.enhanced_pr_review_with_security(test_pr, "test_user")
 
-            click.echo(f"🔒 Security System: {result.get('security_system', 'Standard')}")
-            click.echo(f"🎯 Access Tier: {result.get('access_tier', 'Unknown')}")
-            click.echo(f"✅ Identity Verified: {result.get('identity_verified', False)}")
-            click.echo(f"📋 Trace ID: {result.get('trace_id', 'None')}")
+            click.echo(f"🔒 Security System: {result.get('security_system', 'Standard'}")
+            click.echo(f"🎯 Access Tier: {result.get('access_tier', 'Unknown'}")
+            click.echo(f"✅ Identity Verified: {result.get('identity_verified', False}")
+            click.echo(f"📋 Trace ID: {result.get('trace_id', 'None'}")
 
             return result.get("status") != "authentication_failed"
 
@@ -631,7 +631,7 @@ def scan(format: str):
             else:  # brief
                 if vulnerabilities:
                     auto_fixable = sum(1 for v in vulnerabilities if v.auto_fixable)
-                    click.echo(f"🔍 Found {len(vulnerabilities)} vulnerabilities ({auto_fixable} auto-fixable)")
+                    click.echo(f"🔍 Found {len(vulnerabilities} vulnerabilities ({auto_fixable} auto-fixable)")
                     for vuln in vulnerabilities:
                         status = "🔧" if vuln.auto_fixable else "⚠️"
                         click.echo(f"   {status} {vuln.package}: {vuln.severity}")
@@ -695,7 +695,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -753,7 +753,7 @@ def status():
         services = router.get_available_services()
         analytics = router.get_routing_analytics()
 
-        click.echo(f"🎯 Available AI Services: {len(services)}")
+        click.echo(f"🎯 Available AI Services: {len(services}")
         for service_id in services:
             service_cap = router.services[service_id]
             click.echo(f"   ✅ {service_cap.name} ({service_id})")
@@ -769,7 +769,7 @@ def status():
         if status.get("status") == "healthy":
             click.echo("\n✅ Multi-AI Router Status: 🟢 HEALTHY")
         else:
-            click.echo(f"\n⚠️ Multi-AI Router Status: 🟡 {status.get('status', 'UNKNOWN')}")
+            click.echo(f"\n⚠️ Multi-AI Router Status: 🟡 {status.get('status', 'UNKNOWN'}")
 
     except Exception as e:
         click.echo(f"❌ AI Router Status: ERROR - {e}")
@@ -808,7 +808,7 @@ def route(task_type: str, prompt: str, priority: str):
 
         if task_type not in task_types:
             click.echo(f"❌ Invalid task type: {task_type}")
-            click.echo(f"Available types: {', '.join(task_types.keys())}")
+            click.echo(f"Available types: {', '.join(task_types.keys()}")
             return
 
         router = ABotIntelligentAIRouter()
@@ -855,7 +855,7 @@ def services():
             click.echo(f"   Factual: {service.factual_accuracy}")
             click.echo(f"   Streaming: {'✅' if service.supports_streaming else '❌'}")
             click.echo(
-                f"   Best For: {', '.join([str(s).replace('TaskType.', '').lower() for s in service.strengths])}"
+                f"   Best For: {', '.join([str(s).replace('TaskType.', '').lower() for s in service.strengths]}"
             )
 
             # Check if service is available
@@ -988,7 +988,7 @@ def budget():
                     click.echo(f"   {rec}")
         else:
             click.echo("💰 Basic Budget Status:")
-            click.echo(f"   Status: {status.get('status', 'Unknown')}")
+            click.echo(f"   Status: {status.get('status', 'Unknown'}")
 
     except ImportError:
         click.echo("❌ LUKHAS AI ΛBot Financial Intelligence not available")
@@ -1087,7 +1087,7 @@ def notion_sync():
 
         # Format for Notion (JSON structure)
         notion_data = {
-            "title": f"LUKHAS AI ΛBot Financial Report - {datetime.now(timezone.utc).strftime('%Y-%m-%d')}",
+            "title": f"LUKHAS AI ΛBot Financial Report - {datetime.now(timezone.utc).strftime('%Y-%m-%d'}",
             "date": datetime.now(timezone.utc).isoformat(),
             "budget_status": report["budget_status"],
             "spending_analysis": report["spending_analysis"],
@@ -1109,7 +1109,7 @@ def notion_sync():
         click.echo(f"   Balance: ${report['budget_status']['current_balance']:.4f}")
         click.echo(f"   Efficiency: {report['intelligence_metrics']['efficiency_score']:.1f}%")
         click.echo(f"   Money Saved: ${report['intelligence_metrics']['money_saved_by_conservation']:.4f}")
-        click.echo(f"   Recommendations: {len(report['recommendations'])} insights")
+        click.echo(f"   Recommendations: {len(report['recommendations']} insights")
         click.echo("")
         click.echo("🔄 Next steps:")
         click.echo("   1. Configure Notion integration in LUKHAS AI ΛBot/config/.env")
@@ -1221,7 +1221,7 @@ def create_user(lambda_id_hash: str, consent: str, tier: int):
             click.echo(f"🌍 Country: {result['country']}")
             click.echo(f"🏷️ Type: {result['type']}")
         else:
-            click.echo(f"❌ Failed to create ΛID: {result.get('error', 'Unknown error')}")
+            click.echo(f"❌ Failed to create ΛID: {result.get('error', 'Unknown error'}")
 
     except Exception as e:
         click.echo(f"❌ Error creating ΛID: {e}")
@@ -1286,7 +1286,7 @@ def verify_consent(lambda_id_hash: str, required_consent: str):
         else:
             click.echo("❌ ΛSIGN Verification: FAILED")
 
-        click.echo(f"📝 ΛSIGN: {result.get('ΛSIGN', 'N/A')}")
+        click.echo(f"📝 ΛSIGN: {result.get('ΛSIGN', 'N/A'}")
         click.echo(f"📊 ΛTRACE: {result['ΛTRACE']}")
         click.echo(f"🔒 Current Consent: {result['current_consent']}")
         click.echo(f"⚡ Required Consent: {result['required_consent']}")
@@ -1315,17 +1315,17 @@ def validate_format():
 
         # Show supported countries
         countries = supported_countries()
-        click.echo(f"🌍 Supported Countries ({len(countries)}):")
+        click.echo(f"🌍 Supported Countries ({len(countries}):")
         country_list = list(countries.keys())
         for i in range(0, len(country_list), 10):
-            click.echo(f"   {', '.join(country_list[i : i + 10])}")
+            click.echo(f"   {', '.join(country_list[i : i + 10]}")
 
         # Show organization codes
         org_codes = organization_codes()
         click.echo("\n🏢 Organization Codes:")
         org_list = list(org_codes.keys())
         for i in range(0, len(org_list), 8):
-            click.echo(f"   {', '.join(org_list[i : i + 8])}")
+            click.echo(f"   {', '.join(org_list[i : i + 8]}")
 
         # Interactive validation
         click.echo("\n💡 ΛID# Format: {country_code}-{identifier}")
@@ -1412,7 +1412,7 @@ def list_traces(user_ref: str, action: str, limit: int):
                 click.echo(f"   🆔 ΛID#: {trace['metadata']['lambda_id']}")
 
         if len(traces) > limit:
-            click.echo(f"\n... and {len(traces) - limit} more traces")
+            click.echo(f"\n... and {len(traces} - limit} more traces")
 
     except Exception as e:
         click.echo(f"❌ Error listing ΛTRACE: {e}")

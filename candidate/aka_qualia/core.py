@@ -493,7 +493,7 @@ class AkaQualia:
                 self.router.route(glyphs, routing_priority, routing_context)
 
                 # Log routing decision
-                logger.info(f"Routed {len(glyphs)} glyphs with priority {routing_priority:.3f}")
+                logger.info(f"Routed {len(glyphs} glyphs with priority {routing_priority:.3f}")
 
             except Exception as e:
                 logger.error(f"Glyph routing failed: {e}")
@@ -505,7 +505,7 @@ class AkaQualia:
         if self.config.get("enable_oneiric_feedback", True) and self.oneiric_hook:
             try:
                 oneiric_hints = self.oneiric_hook.apply_policy(scene=regulated_scene, policy=policy)
-                logger.debug(f"Generated {len(oneiric_hints)} oneiric hints for narrative feedback")
+                logger.debug(f"Generated {len(oneiric_hints} oneiric hints for narrative feedback")
             except Exception as e:
                 logger.error(f"Oneiric feedback failed: {e}")
                 if not self.config.get("oneiric_fallback_on_error", True):
@@ -640,7 +640,7 @@ class AkaQualia:
             qualia_novelty=metrics_data["qualia_novelty"],
             repair_delta=metrics_data["repair_delta"],
             timestamp=time.time(),
-            episode_id=f"aq_{int(time.time())}",
+            episode_id=f"aq_{int(time.time()}",
         )
 
     def _compute_metrics(
@@ -706,7 +706,7 @@ class AkaQualia:
             qualia_novelty=qualia_novelty,
             repair_delta=repair_delta,
             timestamp=time.time(),
-            episode_id=f"aq_{int(time.time())}",
+            episode_id=f"aq_{int(time.time()}",
         )
 
     def _compute_drift_phi(self, scene: PhenomenalScene) -> float:
@@ -973,7 +973,7 @@ class AkaQualia:
                 )
 
                 # Log successful storage
-                print(f"Scene {scene_id} stored to memory with {len(glyphs_data)} glyphs")
+                print(f"Scene {scene_id} stored to memory with {len(glyphs_data} glyphs")
 
             except Exception as e:
                 print(f"Warning: C4 memory storage failed: {e}")

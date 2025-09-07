@@ -16,7 +16,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class LawfulBasis(Enum, timezone):
+class LawfulBasis(Enum):
     """GDPR lawful basis for processing"""
 
     CONSENT = "consent"

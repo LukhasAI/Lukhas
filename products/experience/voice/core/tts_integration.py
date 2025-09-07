@@ -171,7 +171,7 @@ class LegacyTTSProviderAdapter(TTSProviderAdapter):
     def __init__(self, provider: VoiceSynthesisProvider, provider_type: TTSProviderType):
         self.provider = provider
         self.provider_type = provider_type
-        self.logger = get_logger(f"{__name__}.{provider_type.value.title()}Adapter")
+        self.logger = get_logger(f"{__name__}.{provider_type.value.title(}Adapter")
 
     async def synthesize(self, request: TTSRequest) -> TTSResponse:
         """Synthesize using legacy provider"""
@@ -390,7 +390,7 @@ class TTSProviderManager:
         if openai_config.get("enabled", False):
             self.providers[TTSProviderType.OPENAI] = OpenAITTSAdapter(openai_config)
 
-        self.logger.info(f"Initialized {len(self.providers)} TTS providers")
+        self.logger.info(f"Initialized {len(self.providers} TTS providers")
 
     def get_available_providers(self) -> list[TTSProviderType]:
         """Get list of available providers"""
@@ -485,7 +485,7 @@ class LUKHASTTSService:
             if not validation_result.get("approved", False):
                 return TTSResponse(
                     success=False,
-                    error_message=f"Guardian rejected TTS request: {validation_result.get('reason')}",
+                    error_message=f"Guardian rejected TTS request: {validation_result.get('reason'}",
                     error_code="GUARDIAN_REJECTED",
                 )
 
@@ -648,7 +648,7 @@ class LUKHASTTSService:
                     provider = self.provider_manager.providers[provider_type]
                     if provider.is_available():
                         voices = provider.get_supported_voices()
-                        self.logger.info(f"Preloaded {len(voices)} voices from {provider_type.value}")
+                        self.logger.info(f"Preloaded {len(voices} voices from {provider_type.value}")
                 except Exception as e:
                     self.logger.error(f"Failed to preload voices from {provider_type.value}: {e}")
 

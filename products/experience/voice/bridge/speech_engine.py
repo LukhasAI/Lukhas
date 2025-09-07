@@ -41,7 +41,7 @@ class SpeechEngine:
     - Provides multi-language and multi-speaker synthesis capabilities
     """
 
-    def __init__(self, config: Optional[dict] = None, timezone):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.logger = logger
         self.is_initialized = False

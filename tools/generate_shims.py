@@ -251,7 +251,7 @@ if os.getenv(flag_name, "false").lower() == "true":
     def report(self):
         """Generate shim report"""
         print("\n📋 Shim Generation Complete!")
-        print(f"   Created {len(self.shims_created)} compatibility shims")
+        print(f"   Created {len(self.shims_created} compatibility shims")
         print("   Deprecation date: 2025-11-01")
         print("\n   Shims will provide backward compatibility during migration")
 

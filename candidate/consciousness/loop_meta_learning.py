@@ -33,7 +33,7 @@ class MetaLearningCycle:
     memory_consolidation: Optional[dict[str, Any]] = None
     timestamp: datetime = None
 
-    def __post_init__(self, timezone):
+    def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.now(timezone.utc)
 
@@ -77,7 +77,7 @@ class MetaLearningLoop:
         Returns:
             Completed MetaLearningCycle with all stages populated
         """
-        cycle_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp()}"
+        cycle_id = f"{agent_id}_{datetime.now(timezone.utc).timestamp(}"
         cycle = MetaLearningCycle(cycle_id=cycle_id, learning_input=initial_data)
 
         async with self._lock:

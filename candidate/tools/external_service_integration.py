@@ -15,7 +15,7 @@ try:
     from candidate.bridge.adapters.gmail_adapter import GmailAdapter
     from candidate.bridge.adapters.service_adapter_base import (
         BaseServiceAdapter,
-        CapabilityToken,, timezone)
+        CapabilityToken)
 except ImportError:
     BaseServiceAdapter = None
     CapabilityToken = None
@@ -67,7 +67,7 @@ class ExternalServiceIntegration:
             "drive_share": "google_drive",
         }
 
-        logger.info(f"External Service Integration initialized with {len(self.adapters)} adapters")
+        logger.info(f"External Service Integration initialized with {len(self.adapters} adapters")
 
     def _initialize_adapters(self):
         """Initialize all available service adapters"""
@@ -410,7 +410,7 @@ class ExternalServiceIntegration:
 
         try:
             token = CapabilityToken(
-                token_id=f"tool_executor_{lid}_{int(datetime.now(timezone.utc).timestamp())}",
+                token_id=f"tool_executor_{lid}_{int(datetime.now(timezone.utc).timestamp()}",
                 lid=lid,
                 scope=scopes,
                 resource_ids=[service],

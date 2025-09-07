@@ -373,7 +373,7 @@ async def demonstrate_theta_oscillator():
         phase_samples.append((state.phase_degrees(), state.phase_name.value))
 
         if len(phase_samples) % 20 == 0:
-            print(f"Phase: {state.phase_degrees():.1f}° ({state.phase_name.value})")
+            print(f"Phase: {state.phase_degrees(}:.1f}° ({state.phase_name.value})")
 
         await asyncio.sleep(0.01)
 
@@ -382,13 +382,13 @@ async def demonstrate_theta_oscillator():
     print(f"  Retrieval phases: {retrieval_count}")
 
     # Test phase-amplitude coupling
-    print(f"\nTheta-gamma coupling: {oscillator.compute_phase_amplitude_coupling():.3f}")
+    print(f"\nTheta-gamma coupling: {oscillator.compute_phase_amplitude_coupling(}:.3f}")
 
     # Test traveling wave
     print("\nTraveling wave phase offsets:")
     for distance in [0, 1, 2, 3]:
         offset = oscillator.get_traveling_wave_offset(distance)
-        print(f"  Distance {distance}: {math.degrees(offset):.1f}° offset")
+        print(f"  Distance {distance}: {math.degrees(offset}:.1f}° offset")
 
     # Show metrics
     print("\n--- Oscillator Metrics ---")

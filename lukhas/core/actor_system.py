@@ -89,7 +89,7 @@ class Actor:
 
     def handle_unknown_message(self, message: Any) -> None:
         """Handle unknown message types. Override for custom behavior."""
-        logger.debug(f"Actor {self.actor_id} received unknown message type: {type(message).__name__}")
+        logger.debug(f"Actor {self.actor_id} received unknown message type: {type(message}.__name__}")
 
 
 class AIAgentActor(Actor):

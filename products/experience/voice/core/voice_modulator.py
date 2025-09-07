@@ -215,7 +215,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected voice modulation: {validation_result.get('reason')}")
+                raise ValueError(f"Guardian rejected voice modulation: {validation_result.get('reason'}")
 
             # Convert audio data to numpy array
             audio_array = self._bytes_to_audio_array(audio_data, sample_rate)
@@ -613,7 +613,7 @@ class VoiceModulator:
         adapted_parameters = self._adapt_to_context(base_parameters, context)
 
         # Cache parameters for consistency
-        cache_key = f"{mode.value}_{hash(json.dumps(context, sort_keys=True))}"
+        cache_key = f"{mode.value}_{hash(json.dumps(context, sort_keys=True)}"
         self.parameter_cache[cache_key] = adapted_parameters
 
         return adapted_parameters

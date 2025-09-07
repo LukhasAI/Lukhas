@@ -267,7 +267,7 @@ class AdaptiveUIController:
 
         if is_valid:
             self.current_config = new_config
-            ui_logger.info(f"UI adapted: {', '.join(adaptation_reasons)}")
+            ui_logger.info(f"UI adapted: {', '.join(adaptation_reasons}")
 
             # Notify callbacks
             for callback in self.adaptation_callbacks:

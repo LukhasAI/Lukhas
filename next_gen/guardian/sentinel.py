@@ -16,7 +16,7 @@ from typing import Optional
 
 import websockets
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass

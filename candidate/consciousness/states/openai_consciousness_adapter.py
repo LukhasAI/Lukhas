@@ -27,7 +27,7 @@ from candidate.bridge.openai_core_service import (
     ModelType,
     OpenAICapability,
     OpenAICoreService,
-    OpenAIRequest,, timezone)
+    OpenAIRequest)
 
 logger = logging.getLogger("ΛTRACE.consciousness.openai_adapter")
 
@@ -153,7 +153,7 @@ Keep it under 300 words."""
                 "text": narrative,
                 "voice": voice,
                 "speed": 0.9,  # Slightly slower for contemplative tone
-                "output_path": f"consciousness_narration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.mp3",
+                "output_path": f"consciousness_narration_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.mp3",
             },
         )
 

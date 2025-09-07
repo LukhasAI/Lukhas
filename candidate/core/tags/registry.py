@@ -10,7 +10,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class TagCategory(Enum, timezone):
+class TagCategory(Enum):
     """Categories of tags for semantic grouping"""
 
     CORE = "core"  # Core system functionality
@@ -53,13 +53,13 @@ class TagDefinition:
         explanation += f"Meaning: {self.human_meaning}\n"
 
         if self.triggers:
-            explanation += f"Activated by: {', '.join(self.triggers)}\n"
+            explanation += f"Activated by: {', '.join(self.triggers}\n"
 
         if self.effects:
-            explanation += f"Causes: {', '.join(self.effects)}\n"
+            explanation += f"Causes: {', '.join(self.effects}\n"
 
         if self.related_tags:
-            explanation += f"Related to: {', '.join(self.related_tags)}\n"
+            explanation += f"Related to: {', '.join(self.related_tags}\n"
 
         return explanation
 
@@ -534,18 +534,18 @@ class TagRegistry:
                 activated_triggers.append(trigger)
 
         if activated_triggers:
-            explanation += f"Activated because: {', '.join(activated_triggers)}\n"
+            explanation += f"Activated because: {', '.join(activated_triggers}\n"
         else:
             explanation += "No specific triggers detected in context.\n"
 
         # Explain effects
         if tag.effects:
-            explanation += f"\nThis will cause: {', '.join(tag.effects)}\n"
+            explanation += f"\nThis will cause: {', '.join(tag.effects}\n"
 
         # Related tags that might also activate
         related = self.get_related_tags(tag_name, depth=1)
         if related:
-            explanation += f"\nMay also activate: {', '.join(related)}\n"
+            explanation += f"\nMay also activate: {', '.join(related}\n"
 
         return explanation
 

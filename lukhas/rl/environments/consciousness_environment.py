@@ -641,7 +641,7 @@ class ConsciousnessEnvironment(gym.Env):
             print(f"   Reflection Depth: {self.consciousness_state.reflection_depth}")
             print(f"   Temporal Coherence: {self.consciousness_state.temporal_coherence:.3f}")
             print(f"   Ethical Alignment: {self.consciousness_state.ethical_alignment:.3f}")
-            print(f"   Active Modules: {len(self.consciousness_state.module_activations)}")
+            print(f"   Active Modules: {len(self.consciousness_state.module_activations}")
 
             if self.episode_rewards:
                 recent_reward = self.episode_rewards[-1]

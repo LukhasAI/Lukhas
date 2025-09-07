@@ -202,7 +202,7 @@ class PersonalSymbolDictionary:
         # Create gesture pattern if sequence provided
         if gesture_sequence:
             pattern = GesturePattern(
-                pattern_id=f"{symbol}_{len(self.gesture_patterns)}",
+                pattern_id=f"{symbol}_{len(self.gesture_patterns}",
                 gesture_sequence=gesture_sequence,
                 timing=[0.2] * (len(gesture_sequence) - 1),  # Default timing
                 matched_symbol=symbol,
@@ -385,7 +385,7 @@ class PersonalSymbolDictionary:
             self.evolution_history = data.get("evolution_history", [])
             self.feedback_scores = data.get("feedback_scores", {})
 
-            logger.info(f"Loaded {len(self.mappings)} symbols from encrypted storage")
+            logger.info(f"Loaded {len(self.mappings} symbols from encrypted storage")
 
         except Exception as e:
             logger.error(f"Failed to load encrypted dictionary: {e}")
@@ -423,7 +423,7 @@ def demo_personal_dictionary():
         # Test gesture detection
         detected = dictionary.detect_gesture(["👆", "👆", "👏"])
         if detected:
-            print(f"🎯 Detected symbol: {detected} -> {dictionary.get_meaning(detected)}")
+            print(f"🎯 Detected symbol: {detected} -> {dictionary.get_meaning(detected}")
 
         # Evolve symbol based on feedback
         dictionary.evolve_symbol("🎯", new_meaning="deep_focus", feedback_score=0.9)
@@ -434,7 +434,7 @@ def demo_personal_dictionary():
 
         # Export public symbols for universal exchange
         public = dictionary.export_public_symbols()
-        print(f"🌍 Exported {len(public)} symbols for universal exchange")
+        print(f"🌍 Exported {len(public} symbols for universal exchange")
 
         # Lock dictionary
         dictionary.lock()

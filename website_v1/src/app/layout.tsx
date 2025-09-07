@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
+// import CursorFollower from '@/components/ui/CursorFollower';
+import PageTransition from '@/components/ui/PageTransition';
 import './globals.css';
 
 const inter = Inter({ 
@@ -36,9 +38,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} dark`}>
-      <body className="antialiased">
+      <body className="antialiased overflow-x-hidden">
         <ThemeProvider>
-          {children}
+          {/* <CursorFollower /> */}
+          <PageTransition>
+            {children}
+          </PageTransition>
         </ThemeProvider>
       </body>
     </html>

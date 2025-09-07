@@ -306,7 +306,7 @@ class ConstitutionalValidator:
 
     def _generate_violation_id(self) -> str:
         """Generate unique violation ID"""
-        return f"VIOLATION_{int(time.time() * 1000)}"
+        return f"VIOLATION_{int(time.time() * 1000}"
 
 
 class ConstitutionalGuardrails:
@@ -428,7 +428,7 @@ class SymbolSandbox:
                 sanitized = self.guardrails.sanitize_symbol(symbol)
                 validated.append(sanitized)
 
-        logger.info(f"Exited sandbox with {len(validated)} validated symbols")
+        logger.info(f"Exited sandbox with {len(validated} validated symbols")
         return validated
 
     def test_symbol(self, symbol: Symbol) -> dict[str, Any]:
@@ -525,7 +525,7 @@ class ConstitutionalAPI:
 
         # Create symbol
         symbol = Symbol(
-            id=f"SAFE_{hashlib.sha256(name.encode()).hexdigest()[:8]}",
+            id=f"SAFE_{hashlib.sha256(name.encode()).hexdigest(}[:8]}",
             domain=domain,
             name=name,
             value=value,

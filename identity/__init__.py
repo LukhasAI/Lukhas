@@ -245,7 +245,7 @@ def get_identity_metrics() -> dict[str, Any]:
 
     except Exception as e:
         logger.error(f"❌ Error collecting identity metrics: {e}")
-        return {"status": "error", "error": str(e), "metrics": {}}
+        return {"status": "error", "error": str(e), "metrics": {}
 
 
 # Export main functions and classes

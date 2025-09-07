@@ -149,7 +149,7 @@ class ReflectiveIntrospectionSystem:
         self.performance_thresholds: dict[str, float] = self.config.get("performance_thresholds", default_thresholds)
 
         self.instance_logger.debug(
-            f"ΛTRACE: ReflectiveIntrospectionSystem initialized. Reflection interval: {self.reflection_interval.total_seconds()}s. Thresholds: {self.performance_thresholds}"
+            f"ΛTRACE: ReflectiveIntrospectionSystem initialized. Reflection interval: {self.reflection_interval.total_seconds(}s. Thresholds: {self.performance_thresholds}"
         )
 
     # Human-readable comment: Logs an interaction for future analysis.
@@ -163,17 +163,17 @@ class ReflectiveIntrospectionSystem:
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.info(
-            f"ΛTRACE: Logging interaction for user '{log_user_id}'. Data keys: {list(interaction_data.keys())}"
+            f"ΛTRACE: Logging interaction for user '{log_user_id}'. Data keys: {list(interaction_data.keys()}"
         )
         if not isinstance(interaction_data, dict):
             self.instance_logger.warning(
-                f"ΛTRACE: Invalid interaction_data type: {type(interaction_data)}. Expected dict. Interaction not logged."
+                f"ΛTRACE: Invalid interaction_data type: {type(interaction_data}. Expected dict. Interaction not logged."
             )
             return
 
         interaction_data["logged_at_utc"] = datetime.now(timezone.utc).isoformat()  # Use UTC and consistent key
         self.interaction_history.append(interaction_data)
-        self.instance_logger.debug(f"ΛTRACE: Interaction logged. History size: {len(self.interaction_history)}.")
+        self.instance_logger.debug(f"ΛTRACE: Interaction logged. History size: {len(self.interaction_history}.")
 
     # Human-readable comment: Analyzes recent interactions to identify
     # patterns and potential improvements.
@@ -198,7 +198,7 @@ class ReflectiveIntrospectionSystem:
         now_utc = datetime.now(timezone.utc)
         if now_utc - self.last_reflection_time < self.reflection_interval:
             self.instance_logger.debug(
-                f"ΛTRACE: Reflection interval not yet met. Last reflection: {self.last_reflection_time.isoformat()}. Interval: {self.reflection_interval.total_seconds()}s."
+                f"ΛTRACE: Reflection interval not yet met. Last reflection: {self.last_reflection_time.isoformat()}. Interval: {self.reflection_interval.total_seconds(}s."
             )
             return {
                 "requires_adaptation": False,
@@ -264,7 +264,7 @@ class ReflectiveIntrospectionSystem:
     def _calculate_adaptation_rate(self, interactions: list[dict[str, Any]]) -> float:
         """Calculate how well the system is adapting, e.g., by tracking performance score improvements."""
         self.instance_logger.debug(
-            f"ΛTRACE: Internal: Calculating adaptation rate from {len(interactions)} interactions."
+            f"ΛTRACE: Internal: Calculating adaptation rate from {len(interactions} interactions."
         )
         if len(interactions) < 2:
             self.instance_logger.debug(
@@ -278,7 +278,7 @@ class ReflectiveIntrospectionSystem:
 
         adaptation_rate_score = improvements_count / (len(interactions) - 1) if (len(interactions) - 1) > 0 else 1.0
         self.instance_logger.debug(
-            f"ΛTRACE: Adaptation rate calculated: {adaptation_rate_score:.2f} ({improvements_count} improvements / {len(interactions) - 1} pairs)."
+            f"ΛTRACE: Adaptation rate calculated: {adaptation_rate_score:.2f} ({improvements_count} improvements / {len(interactions} - 1} pairs)."
         )
         return adaptation_rate_score
 
@@ -319,7 +319,7 @@ class ReflectiveIntrospectionSystem:
             "common_context_features": {k: dict(v) for k, v in context_features_counts.items()},
         }
         self.instance_logger.debug(
-            f"ΛTRACE: Interaction patterns identified. Strategy dist: {len(patterns['strategy_distribution'])}, Context features: {len(patterns['common_context_features'])}."
+            f"ΛTRACE: Interaction patterns identified. Strategy dist: {len(patterns['strategy_distribution'])}, Context features: {len(patterns['common_context_features']}."
         )
         return patterns
 
@@ -361,7 +361,7 @@ class ReflectiveIntrospectionSystem:
             insights["summary"] = ["Overall performance stable and within acceptable parameters."]
 
         self.instance_logger.debug(
-            f"ΛTRACE: Insights generated: Strengths({len(insights['strengths'])}), Weaknesses({len(insights['weaknesses'])}), Opportunities({len(insights['opportunities_for_improvement'])})."
+            f"ΛTRACE: Insights generated: Strengths({len(insights['strengths'])}), Weaknesses({len(insights['weaknesses'])}), Opportunities({len(insights['opportunities_for_improvement']})."
         )
         return insights
 

@@ -21,7 +21,7 @@ from reasoning.reasoning_engine import SymbolicEngine
 from reasoning.reasoning_metrics import get_metrics_calculator
 from reasoning.trace_summary_builder import TraceSummaryBuilder
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class DiagnosticLevel(Enum):
@@ -316,9 +316,9 @@ class ReasoningDiagnostics:
 
             # Test various edge cases
             test_cases = [
-                {"text": "", "context": {}},  # Empty input
-                {"text": "A and not A", "context": {}},  # Contradiction
-                {"text": "If P then Q, P", "context": {}},  # Simple deduction
+                {"text": "", "context": {},  # Empty input
+                {"text": "A and not A", "context": {},  # Contradiction
+                {"text": "If P then Q, P", "context": {},  # Simple deduction
             ]
 
             for i, test_case in enumerate(test_cases):

@@ -267,7 +267,7 @@ def get_dream_symbol(category: str, item: str) -> str:
     }
 
     symbol_map = symbol_maps.get(category, {})
-    return symbol_map.get(item, f"❓ Unknown {category.title()}")
+    return symbol_map.get(item, f"❓ Unknown {category.title(}")
 
 
 def get_dream_narrative(phase: str) -> str:

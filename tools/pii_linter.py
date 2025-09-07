@@ -148,7 +148,7 @@ def main():
             print(f"  Match: {result['match']}...", file=sys.stderr)
             print("-" * 60, file=sys.stderr)
 
-        print(f"\n⚠️  Total files with PII: {len(bad_files)}", file=sys.stderr)
+        print(f"\n⚠️  Total files with PII: {len(bad_files}", file=sys.stderr)
         sys.exit(1)
     else:
         print("✅ PII linter: No PII patterns detected")

@@ -19,7 +19,7 @@ from typing import Any
 
 
 class ConnectivityAnalyzer:
-    def __init__(self, root_path: str = ".", timezone):
+    def __init__(timezone, self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
         self.module_imports = defaultdict(set)
         self.module_imported_by = defaultdict(set)
@@ -296,7 +296,7 @@ def main():
     print(f"   Average connectivity: {report['analysis_summary']['average_connectivity']:.2f}")
 
     if report["isolated_files"]:
-        print(f"\n⚠️  Found {len(report['isolated_files'])} isolated files:")
+        print(f"\n⚠️  Found {len(report['isolated_files']} isolated files:")
         for file_info in report["isolated_files"][:10]:  # Show first 10
             print(f"   - {file_info['file']} ({file_info['lines_of_code']} lines)")
 

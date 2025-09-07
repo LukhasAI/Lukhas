@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="LUKHAS Memory Fold API",
     description="Quantum-inspired memory storage with emotional vectors and causal chains",
-    version="1.0.0",, timezone)
+    version="1.0.0")
 
 
 class MemoryInput(BaseModel):
@@ -94,7 +94,7 @@ class QIMemoryEngine:
         """Create a new memory fold in the helix"""
 
         # Generate unique fold ID
-        fold_id = f"fold_{uuid.uuid4().hex[:8]}_{int(datetime.now(timezone.utc).timestamp())}"
+        fold_id = f"fold_{uuid.uuid4().hex[:8]}_{int(datetime.now(timezone.utc).timestamp()}"
 
         # Calculate quantum state based on emotional vector
         qi_state = self._calculate_quantum_state(memory_input.emotional_state, memory_input.importance)

@@ -142,7 +142,7 @@ class ConsensusEngine:
 
             logger.info(
                 f"✅ Consensus reached: {consensus_result.agreement_level.value} "
-                f"({consensus_result.confidence:.3f} confidence, {len(votes)} models)"
+                f"({consensus_result.confidence:.3f} confidence, {len(votes} models)"
             )
 
             return consensus_result
@@ -216,7 +216,7 @@ class ConsensusEngine:
                 if model_type not in selected and len(selected) < min_models:
                     selected.append(model_type)
 
-        logger.debug(f"Selected {len(selected)} models for consensus: {[m.value for m in selected]}")
+        logger.debug(f"Selected {len(selected} models for consensus: {[m.value for m in selected]}")
         return selected
 
     def _get_task_selection_weights(self, task_type: TaskType) -> dict[str, float]:
@@ -263,7 +263,7 @@ class ConsensusEngine:
             if result:
                 votes.append(result)
 
-        logger.debug(f"Gathered {len(votes)} votes from {len(models)} models")
+        logger.debug(f"Gathered {len(votes)} votes from {len(models} models")
         return votes
 
     async def _get_single_model_vote(self, model_type: ModelType, request: RoutingRequest) -> Optional[ModelVote]:
@@ -379,7 +379,7 @@ class ConsensusEngine:
         # Use expert's confidence, but note other model input
         other_models = [v.model_type.value for v in votes if v != best_vote]
         if other_models:
-            consensus_content += f"\n\n(Consulted with: {', '.join(other_models)})"
+            consensus_content += f"\n\n(Consulted with: {', '.join(other_models})"
 
         return ConsensusResult(
             consensus_content=consensus_content,
@@ -433,7 +433,7 @@ class ConsensusEngine:
         top_vote = max(votes, key=lambda v: v.response.confidence)
 
         # Create synthesis
-        synthesis = f"Consensus synthesis (based on {len(votes)} models):\n\n"
+        synthesis = f"Consensus synthesis (based on {len(votes} models):\n\n"
         synthesis += top_vote.response.content
 
         # Add perspectives from other models
@@ -457,11 +457,11 @@ class ConsensusEngine:
             return responses[0]
 
         # Simple combination - in production would use more sophisticated NLP
-        combined = f"Combined consensus from {len(responses)} models:\n\n"
+        combined = f"Combined consensus from {len(responses} models:\n\n"
         combined += responses[0]  # Use first response as base
 
         if len(responses) > 1:
-            combined += f"\n\n(Incorporating insights from {len(responses)-1} additional models)"
+            combined += f"\n\n(Incorporating insights from {len(responses}-1} additional models)"
 
         return combined
 

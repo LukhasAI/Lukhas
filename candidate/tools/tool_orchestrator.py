@@ -50,7 +50,7 @@ class MultiAIConsensus:
 
     async def get_consensus(self, tool_name: str, arguments: dict[str, Any], execution_result: str) -> dict[str, Any]:
         """Get consensus from multiple AI services on tool execution"""
-        cache_key = f"{tool_name}_{hash(str(arguments))}_{hash(execution_result[:100])}"
+        cache_key = f"{tool_name}_{hash(str(arguments))}_{hash(execution_result[:100]}"
 
         if cache_key in self.consensus_cache:
             return self.consensus_cache[cache_key]
@@ -70,7 +70,7 @@ class MultiAIConsensus:
             "overall_score": 0.0-1.0,
             "concerns": ["list", "of", "concerns"],
             "recommendations": ["list", "of", "recommendations"]
-        }}
+        }
         """
 
         evaluations = {}
@@ -287,7 +287,7 @@ class ToolOrchestrator:
         multi-AI consensus, and performance monitoring.
         """
         execution_start = time.time()
-        execution_id = f"{tool_name}_{int(execution_start * 1000000)}"
+        execution_id = f"{tool_name}_{int(execution_start * 1000000}"
 
         self.execution_metrics["total_executions"] += 1
 
@@ -298,7 +298,7 @@ class ToolOrchestrator:
             return self._create_error_result(execution_id, f"Invalid JSON arguments: {e}", execution_start)
 
         # Check cache first
-        cache_key = f"{tool_name}_{hash(str(args))}"
+        cache_key = f"{tool_name}_{hash(str(args)}"
         if cache_key in self.results_cache:
             cache_entry = self.results_cache[cache_key]
             if time.time() - cache_entry["timestamp"] < self.cache_ttl:

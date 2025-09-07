@@ -66,6 +66,6 @@ def mask_pii(text: str, hits: Iterable[PIIHit], strategy: str = "hash") -> str:
     masked = text
     # replace from end to keep spans valid
     for h in sorted(hits, key=lambda x: x.span[0], reverse=True):
-        replacement = f"[{h.kind.upper()}]"
+        replacement = f"[{h.kind.upper(}]"
         masked = masked[: h.span[0]] + replacement + masked[h.span[1] :]
     return masked

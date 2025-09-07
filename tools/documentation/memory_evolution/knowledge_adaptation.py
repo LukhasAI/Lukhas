@@ -10,7 +10,7 @@ from typing import Optional
 
 
 class KnowledgeNode:
-    def __init__(self, content: str, metadata: dict, timezone):
+    def __init__(self, content: str, metadata: dict):
         self.content = content
         self.metadata = metadata
         self.confidence = 1.0
@@ -66,7 +66,7 @@ class KnowledgeAdaptation:
 
     def add_knowledge(self, content: str, metadata: dict) -> str:
         """Add new knowledge to the system."""
-        node_id = f"node_{len(self.knowledge_graph.nodes)}"
+        node_id = f"node_{len(self.knowledge_graph.nodes}"
         self.knowledge_graph.add_node(node_id, content, metadata)
         return node_id
 

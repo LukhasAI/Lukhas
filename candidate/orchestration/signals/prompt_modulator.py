@@ -183,7 +183,7 @@ class PromptModulator:
 
         try:
             # Evaluate expression
-            result = eval(expr, {"__builtins__": {}}, safe_namespace)
+            result = eval(expr, {"__builtins__": {}, safe_namespace)
             self._eval_cache[cache_key] = result
             return result
         except Exception as e:
@@ -333,7 +333,7 @@ class PromptModulator:
 
         # Add parameter summary
         explanations.append(
-            f"Parameters: temp={params.get('temperature', 0):.2f}, safety={params.get('safety_mode', 'unknown')}"
+            f"Parameters: temp={params.get('temperature', 0):.2f}, safety={params.get('safety_mode', 'unknown'}"
         )
 
         return "; ".join(explanations)

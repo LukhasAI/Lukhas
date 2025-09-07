@@ -18,7 +18,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice import (
-    VoiceModulator,, timezone)
+    VoiceModulator)
 
 # Voice components
 from .voice_parameter import VoiceParameter
@@ -161,7 +161,7 @@ class DreamDeliveryManager:
             channels = self.output_channels
 
         # Extract information from dream content
-        dream_id = dream_content.get("dream_id", f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}")
+        dream_id = dream_content.get("dream_id", f"dream_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}")
         dream_text = dream_content.get("content", "")
         dream_emotions = dream_content.get("emotional_context", {})
         intent = dream_content.get("intent", "share_dream")
@@ -501,7 +501,7 @@ class DreamDeliveryManager:
 
         try:
             # Check if we have a voice pattern for this emotion
-            pattern_symbol_name = f"voice_pattern_{emotion.lower()}"
+            pattern_symbol_name = f"voice_pattern_{emotion.lower(}"
             if self.symbolic_world.symbol_exists(pattern_symbol_name):
                 pattern_symbol = self.symbolic_world.get_symbol(pattern_symbol_name)
 
@@ -541,7 +541,7 @@ class DreamDeliveryManager:
                 # Blend with related emotions
                 blend_factor = 0.3  # 30% influence from related emotions
                 for rel_emotion, rel_strength in related_emotions:
-                    rel_pattern_name = f"voice_pattern_{rel_emotion.lower()}"
+                    rel_pattern_name = f"voice_pattern_{rel_emotion.lower(}"
                     if self.symbolic_world.symbol_exists(rel_pattern_name):
                         rel_pattern = self.symbolic_world.get_symbol(rel_pattern_name)
 
@@ -756,7 +756,7 @@ class DreamDeliveryManager:
         try:
             # Create symbol for this delivery event
             timestamp = datetime.now(timezone.utc)
-            delivery_id = f"dream_delivery_{timestamp.strftime('%Y%m%d_%H%M%S')}"
+            delivery_id = f"dream_delivery_{timestamp.strftime('%Y%m%d_%H%M%S'}"
 
             # Extract dream attributes for symbolic representation
             dream_id = dream_content.get("dream_id", "unknown")
@@ -782,7 +782,7 @@ class DreamDeliveryManager:
                     delivery_symbol,
                     dream_symbol,
                     "delivers_content_of",
-                    {"timestamp": timestamp.isoformat()},
+                    {"timestamp": timestamp.isoformat(},
                 )
 
             # Link to emotion symbol if it exists

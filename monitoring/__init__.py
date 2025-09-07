@@ -16,7 +16,7 @@ import psutil
 __version__ = "2.0.0"
 __author__ = "LUKHAS AI Team"
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Monitoring domains
 MONITORING_DOMAINS = {

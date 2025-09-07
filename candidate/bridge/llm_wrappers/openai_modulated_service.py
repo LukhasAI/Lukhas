@@ -147,7 +147,7 @@ class OpenAIModulatedService:
         # Build tools from allowlist
         openai_tools = []
         analytics = get_analytics()
-        audit_id = f"audit_{task or 'general'}_{int(time.time() * 1000)}"
+        audit_id = f"audit_{task or 'general'}_{int(time.time() * 1000}"
         tool_incidents = []
 
         if params and params.tool_allowlist:
@@ -314,7 +314,7 @@ class OpenAIModulatedService:
             async for chunk in response:  # type: ignore
                 first = chunk
                 break
-            response = first or {"choices": [{"message": {"content": ""}}]}
+            response = first or {"choices": [{"message": {"content": ""}]}
 
         # Post-moderation via Guardian
         self._post_moderation_check(cast(dict[str, Any], response))
@@ -439,7 +439,7 @@ class OpenAIModulatedService:
             # Post moderation on full text (best-effort)
             full = "".join(buffer)
             try:
-                self._post_moderation_check({"choices": [{"message": {"content": full}}]})
+                self._post_moderation_check({"choices": [{"message": {"content": full}]})
             except PermissionError:
                 self.metrics["moderation_blocks"] += 1
                 logger.warning("Post-moderation flagged streamed content")
@@ -523,7 +523,7 @@ class OpenAIModulatedService:
                     formatted_note = f"[From {source}]: {content[:200]}..."
                     context_notes.append(formatted_note)
 
-                logger.info(f"Retrieved {len(context_notes)} context notes from vector store")
+                logger.info(f"Retrieved {len(context_notes} context notes from vector store")
                 return context_notes
 
             except ImportError:
@@ -670,7 +670,7 @@ async def _run_modulated_completion_impl(
 
     ctx_snips = ctx_snips or []
     endocrine_signals = endocrine_signals or {}
-    audit_id = audit_id or f"A-{uuid.uuid4().hex[:8]}"
+    audit_id = audit_id or f"A-{uuid.uuid4(}.hex[:8]}"
 
     # Ensure we have a client with a chat_completion coroutine.
     # Accept three shapes:
@@ -910,7 +910,7 @@ def resume_with_tools(
     Args:
         messages: Conversation history
         tool_calls: Tool calls to execute, shape:
-            [{"id":"call_1","function":{"name":"retrieve_knowledge","arguments":"{\\"k\\":3}"}}]
+            [{"id":"call_1","function":{"name":"retrieve_knowledge","arguments":"{\\"k\\":3}"}]
         allowlist: List of allowed tool names
         audit_id: Audit ID for tracking
 

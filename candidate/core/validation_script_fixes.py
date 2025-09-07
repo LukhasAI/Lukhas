@@ -39,7 +39,7 @@ def fix_validation_script():
             if args.startswith("{") and args.endswith("}"):
                 return f'{obj}.tell("task", {args})'
             else:
-                return f'{obj}.tell("task", {{{args}}})'
+                return f'{obj}.tell("task", {{{args})'
         else:
             # For fabric, keep as is
             return match.group(0)

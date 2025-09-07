@@ -18,7 +18,7 @@ from pathlib import Path
 
 
 class EcosystemReinforcer:
-    def __init__(self, timezone):
+    def __init__(self):
         self.modules = [
             "core",
             "consciousness",
@@ -164,7 +164,7 @@ class {module1.title()}{module2.title()}Bridge:
                 'success': True,
                 'result': result,
                 'bridge': '{module1}-{module2}'
-            }}
+            }
 
         except ImportError:
             # Fallback if module not ready
@@ -173,14 +173,14 @@ class {module1.title()}{module2.title()}Bridge:
                 'success': False,
                 'error': 'Module not available',
                 'bridge': '{module1}-{module2}'
-            }}
+            }
         except Exception as e:
-            logger.error(f"Bridge error: {{e}}")
+            logger.error(f"Bridge error: {{e}")
             return {{
                 'success': False,
                 'error': str(e),
                 'bridge': '{module1}-{module2}'
-            }}
+            }
 
     def get_stats(self) -> Dict[str, Any]:
         """Get bridge statistics"""
@@ -188,7 +188,7 @@ class {module1.title()}{module2.title()}Bridge:
             'active': self.active,
             'messages_processed': self.message_count,
             'bridge_type': '{module1}-{module2}'
-        }}
+        }
 
 # Singleton instance
 bridge = {module1.title()}{module2.title()}Bridge()
@@ -221,7 +221,7 @@ bridge = {module1.title()}{module2.title()}Bridge()
                     # Find functions
                     for node in ast.walk(tree):
                         if isinstance(node, ast.FunctionDef):
-                            sig = f"{node.name}({len(node.args.args)})"
+                            sig = f"{node.name}({len(node.args.args})"
                             function_signatures[sig].append(
                                 {
                                     "file": str(py_file),
@@ -269,7 +269,7 @@ bridge = {module1.title()}{module2.title()}Bridge()
                     }
                 )
 
-        print(f"  ⚠️ Found {len(self.duplicates_found)} duplicate patterns")
+        print(f"  ⚠️ Found {len(self.duplicates_found} duplicate patterns")
         return len(self.duplicates_found)
 
     def create_shared_utilities(self):

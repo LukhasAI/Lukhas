@@ -34,7 +34,7 @@ from typing import Any, Callable, Optional
 try:
     from candidate.governance.consent_ledger.ledger_v1 import (
         ConsentLedgerV1,
-        PolicyVerdict,, timezone)
+        PolicyVerdict)
 except ImportError:
     PolicyVerdict = None
     ConsentLedgerV1 = None
@@ -292,7 +292,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         self.active_policies[safety_policy.policy_id] = safety_policy
 
-        logger.info(f"✅ Initialized {len(self.active_policies)} default ethical policies")
+        logger.info(f"✅ Initialized {len(self.active_policies} default ethical policies")
 
     async def evaluate_action(
         self,
@@ -303,7 +303,7 @@ class ComprehensiveEthicsPolicyEngine:
     ) -> EthicalEvaluation:
         """Evaluate an action against ethical frameworks and policies"""
 
-        evaluation_id = f"eval_{uuid.uuid4().hex[:8]}"
+        evaluation_id = f"eval_{uuid.uuid4(}.hex[:8]}"
         start_time = datetime.now(timezone.utc)
 
         try:
@@ -742,7 +742,7 @@ class ComprehensiveEthicsPolicyEngine:
     def create_policy(self, policy_data: dict[str, Any]) -> str:
         """Create new ethical policy"""
 
-        policy_id = policy_data.get("policy_id", f"policy_{uuid.uuid4().hex[:8]}")
+        policy_id = policy_data.get("policy_id", f"policy_{uuid.uuid4(}.hex[:8]}")
 
         try:
             policy = EthicalPolicy(
@@ -878,7 +878,7 @@ class ComprehensiveEthicsPolicyEngine:
             time_period = (start_time, end_time)
 
         report = {
-            "report_id": f"ethics_compliance_{uuid.uuid4().hex[:8]}",
+            "report_id": f"ethics_compliance_{uuid.uuid4(}.hex[:8]}",
             "user_id": user_id,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "period": {
@@ -1069,10 +1069,10 @@ class ComprehensiveEthicsPolicyEngine:
         low_scoring_principles = [p.value for p, s in evaluation.principle_scores.items() if s < 0.4]
 
         if high_scoring_principles:
-            justifications.append(f"Strong adherence to: {', '.join(high_scoring_principles)}")
+            justifications.append(f"Strong adherence to: {', '.join(high_scoring_principles}")
 
         if low_scoring_principles:
-            justifications.append(f"Concerns regarding: {', '.join(low_scoring_principles)}")
+            justifications.append(f"Concerns regarding: {', '.join(low_scoring_principles}")
 
         # Constitutional compliance
         if evaluation.constitutional_compliance:
@@ -1243,7 +1243,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         import hashlib
 
-        cache_data = f"{action}:{json.dumps(cache_context, sort_keys=True)}"
+        cache_data = f"{action}:{json.dumps(cache_context, sort_keys=True}"
         return hashlib.sha256(cache_data.encode()).hexdigest()
 
     async def _update_metrics(self, evaluation: EthicalEvaluation, start_time: datetime):

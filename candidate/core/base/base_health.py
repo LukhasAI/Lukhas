@@ -46,7 +46,7 @@ from enum import Enum
 from typing import Any
 
 # Configure module logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"

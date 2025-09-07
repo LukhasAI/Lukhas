@@ -19,7 +19,7 @@ from uuid import uuid4
 
 from modules.voice.lukhas_voice_agent import speak
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__, timezone), "../../")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 # 📄 MODULE: lukhas_news_dispatcher.py
 # 🔎 PURPOSE: Dispatch symbolic cognition from queue into simulated publication stream
@@ -83,4 +83,4 @@ if __name__ == "__main__":
                 os.system("python3 narration/post_agent.py")
             update_dispatch_log(published)
         rewrite_queue(posts)
-        print(f"\n✅ {len(posts)} symbolic cognition(s) dispatched to LUKHAS news queue.")
+        print(f"\n✅ {len(posts} symbolic cognition(s) dispatched to LUKHAS news queue.")

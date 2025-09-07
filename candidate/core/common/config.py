@@ -136,7 +136,7 @@ class ConfigLoader:
 
     def _apply_env_overrides(self, config: ModuleConfig) -> None:
         """Apply environment variable overrides"""
-        prefix = f"LUKHAS_{config.name.upper()}_"
+        prefix = f"LUKHAS_{config.name.upper(}_"
 
         for key, value in os.environ.items():
             if key.startswith(prefix):

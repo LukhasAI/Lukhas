@@ -26,7 +26,7 @@ from pydantic import BaseModel, Field
 # ——— Configuration & Utilities —————————————————————————————— #
 
 
-class ComplianceStatus(Enum, timezone):
+class ComplianceStatus(Enum):
     """Compliance status for DAST institutional alignment."""
 
     PASS = "PASS"

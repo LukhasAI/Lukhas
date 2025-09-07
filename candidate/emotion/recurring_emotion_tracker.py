@@ -103,7 +103,7 @@ class RecurringEmotionTracker:
                 "recurrence": True,
                 "symbol": symbol,
                 "origin_dream": origin_dream,
-                "trigger": f"{trigger_type} detected: {primary_emotion} appeared {len(similar_emotions)} times recently.",
+                "trigger": f"{trigger_type} detected: {primary_emotion} appeared {len(similar_emotions} times recently.",
             }
         return None
 

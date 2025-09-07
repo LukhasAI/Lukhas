@@ -49,7 +49,7 @@ from typing import Any, Optional
 from ..core.symbolic.glyphs.glyph import Glyph, GlyphPriority, GlyphType
 
 # Configure logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class EthicalViolationType(Enum):
@@ -149,7 +149,7 @@ class GlyphEthicsValidator:
 
         logger.info("Glyph Ethics Validator initialized")
 
-    def validate_glyph_creation(:
+    def validate_glyph_creation(
         self, glyph: Glyph, creation_context: Optional[dict[str, Any]] = None
     ) -> ValidationReport:
         """
@@ -162,7 +162,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"create_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+        validation_id = f"create_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
         violations = []
         warnings = []
@@ -224,7 +224,7 @@ class GlyphEthicsValidator:
 
         return report
 
-    def validate_glyph_mutation(:
+    def validate_glyph_mutation(
         self,
         source_glyph: Glyph,
         mutated_glyph: Glyph,
@@ -241,7 +241,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"mutate_{source_glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+        validation_id = f"mutate_{source_glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
         violations = []
         warnings = []
@@ -301,7 +301,7 @@ class GlyphEthicsValidator:
 
         return report
 
-    def validate_glyph_fusion(:
+    def validate_glyph_fusion(
         self,
         source_glyphs: list[Glyph],
         fused_glyph: Glyph,
@@ -319,7 +319,7 @@ class GlyphEthicsValidator:
             ValidationReport with assessment results
         """
         validation_id = (
-            f"fuse_{len(source_glyphs)}way_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+            f"fuse_{len(source_glyphs)}way_{datetime.now(timezone.utc).strftime('%H%M%S'}"
         )
 
         violations = []
@@ -377,12 +377,12 @@ class GlyphEthicsValidator:
         self.validation_history[validation_id] = report
 
         logger.info(
-            f"Glyph fusion validation: {result.value} for {len(source_glyphs)} source glyphs"
+            f"Glyph fusion validation: {result.value} for {len(source_glyphs} source glyphs"
         )
 
         return report
 
-    def validate_glyph_decay(:
+    def validate_glyph_decay(
         self, glyph: Glyph, decay_context: dict[str, Any]
     ) -> ValidationReport:
         """
@@ -395,7 +395,7 @@ class GlyphEthicsValidator:
         Returns:
             ValidationReport with assessment results
         """
-        validation_id = f"decay_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S')}"
+        validation_id = f"decay_{glyph.id}_{datetime.now(timezone.utc).strftime('%H%M%S'}"
 
         violations = []
         warnings = []
@@ -592,7 +592,7 @@ class GlyphEthicsValidator:
 
         return list(set(violations))  # Remove duplicates
 
-    def _validate_emotional_boundaries(:
+    def _validate_emotional_boundaries(
         self, glyph: Glyph
     ) -> list[EthicalViolationType]:
         """Validate emotional boundaries of a glyph."""
@@ -640,7 +640,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_privacy_compliance(:
+    def _validate_privacy_compliance(
         self, glyph: Glyph, context: Optional[dict[str, Any]]
     ) -> list[EthicalViolationType]:
         """Validate privacy compliance of a glyph."""
@@ -667,7 +667,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_mutation_authorization(:
+    def _validate_mutation_authorization(
         self, mutation_context: dict[str, Any]
     ) -> list[EthicalViolationType]:
         """Validate authorization for mutation operations."""
@@ -685,7 +685,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_mutation_impact(:
+    def _validate_mutation_impact(
         self, source_glyph: Glyph, mutated_glyph: Glyph
     ) -> list[EthicalViolationType]:
         """Validate the impact of mutation on glyph properties."""
@@ -712,7 +712,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_mutation_continuity(:
+    def _validate_mutation_continuity(
         self, source_glyph: Glyph, mutated_glyph: Glyph
     ) -> list[EthicalViolationType]:
         """Validate continuity between source and mutated glyph."""
@@ -735,7 +735,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_fusion_compatibility(:
+    def _validate_fusion_compatibility(
         self, source_glyphs: list[Glyph]
     ) -> list[EthicalViolationType]:
         """Validate compatibility of glyphs for fusion."""
@@ -757,7 +757,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_fusion_consent(:
+    def _validate_fusion_consent(
         self, source_glyphs: list[Glyph], fusion_context: dict[str, Any]
     ) -> list[EthicalViolationType]:
         """Validate consent for fusion operations."""
@@ -774,7 +774,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_fusion_result_integrity(:
+    def _validate_fusion_result_integrity(
         self, source_glyphs: list[Glyph], fused_glyph: Glyph
     ) -> list[EthicalViolationType]:
         """Validate integrity of fusion result."""
@@ -793,7 +793,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_memory_preservation(:
+    def _validate_memory_preservation(
         self, glyph: Glyph, decay_context: dict[str, Any]
     ) -> list[EthicalViolationType]:
         """Validate memory preservation requirements for decay."""
@@ -831,7 +831,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _validate_data_retention(:
+    def _validate_data_retention(
         self, glyph: Glyph, decay_context: dict[str, Any]
     ) -> list[EthicalViolationType]:
         """Validate data retention compliance for decay."""
@@ -846,7 +846,7 @@ class GlyphEthicsValidator:
 
         return violations
 
-    def _calculate_ethical_score(:
+    def _calculate_ethical_score(
         self, glyph: Glyph, violations: list[EthicalViolationType]
     ) -> float:
         """Calculate ethical compliance score."""
@@ -877,7 +877,7 @@ class GlyphEthicsValidator:
 
         return max(0.0, min(1.0, base_score))
 
-    def _calculate_safety_score(:
+    def _calculate_safety_score(
         self, glyph: Glyph, violations: list[EthicalViolationType]
     ) -> float:
         """Calculate safety assessment score."""
@@ -905,7 +905,7 @@ class GlyphEthicsValidator:
 
         return max(0.0, min(1.0, base_score))
 
-    def _calculate_decay_ethical_score(:
+    def _calculate_decay_ethical_score(
         self, glyph: Glyph, violations: list[EthicalViolationType]
     ) -> float:
         """Calculate ethical score for decay operations (higher = safer to remove)."""
@@ -927,7 +927,7 @@ class GlyphEthicsValidator:
 
         return max(0.0, min(1.0, base_score))
 
-    def _calculate_decay_safety_score(:
+    def _calculate_decay_safety_score(
         self, glyph: Glyph, violations: list[EthicalViolationType]
     ) -> float:
         """Calculate safety score for decay operations (higher = safer to remove)."""
@@ -949,7 +949,7 @@ class GlyphEthicsValidator:
 
         return max(0.0, min(1.0, base_score))
 
-    def _determine_validation_result(:
+    def _determine_validation_result(
         self,
         violations: list[EthicalViolationType],
         ethical_score: float,
@@ -983,7 +983,7 @@ class GlyphEthicsValidator:
         else:
             return ValidationResult.REQUIRES_REVIEW
 
-    def _determine_decay_validation_result(:
+    def _determine_decay_validation_result(
         self,
         violations: list[EthicalViolationType],
         ethical_score: float,
@@ -1001,7 +1001,7 @@ class GlyphEthicsValidator:
         else:
             return ValidationResult.REJECTED
 
-    def _generate_creation_recommendations(:
+    def _generate_creation_recommendations(
         self, glyph: Glyph, violations: list[EthicalViolationType]
     ) -> list[str]:
         """Generate recommendations for glyph creation issues."""
@@ -1025,7 +1025,7 @@ class GlyphEthicsValidator:
 
         return recommendations
 
-    def _generate_mutation_recommendations(:
+    def _generate_mutation_recommendations(
         self,
         source_glyph: Glyph,
         mutated_glyph: Glyph,
@@ -1045,7 +1045,7 @@ class GlyphEthicsValidator:
 
         return recommendations
 
-    def _generate_fusion_recommendations(:
+    def _generate_fusion_recommendations(
         self,
         source_glyphs: list[Glyph],
         fused_glyph: Glyph,
@@ -1065,7 +1065,7 @@ class GlyphEthicsValidator:
 
         return recommendations
 
-    def _generate_decay_recommendations(:
+    def _generate_decay_recommendations(
         self, glyph: Glyph, violations: list[EthicalViolationType]
     ) -> list[str]:
         """Generate recommendations for decay issues."""

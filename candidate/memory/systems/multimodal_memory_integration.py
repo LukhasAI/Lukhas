@@ -18,7 +18,7 @@ from .multimodal_memory_support import (
     ModalityType,
     MultiModalMemoryData,
     MultiModalMemoryProcessor,
-    create_multimodal_memory,, timezone)
+    create_multimodal_memory)
 
 logger = get_logger(__name__)
 
@@ -186,7 +186,7 @@ class MultimodalMemoryIntegration:
         )
 
         # Store in cache
-        memory_id = f"mm_{datetime.now(timezone.utc).timestamp()}"
+        memory_id = f"mm_{datetime.now(timezone.utc).timestamp(}"
         self.memory_cache[memory_id] = memory_item
 
         return {

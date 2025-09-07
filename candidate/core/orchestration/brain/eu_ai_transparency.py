@@ -187,7 +187,7 @@ class DecisionTrace:
             "safety_checks_passed": sum(1 for check in self.safety_checks if check["passed"]),
         }
 
-        transparency_logger.info(f"DECISION_TRACE: {json.dumps(trace_summary)}")
+        transparency_logger.info(f"DECISION_TRACE: {json.dumps(trace_summary}")
 
     def get_user_explanation(self) -> dict[str, Any]:
         """Generate user-friendly explanation of the decision"""
@@ -242,7 +242,7 @@ class TransparencyOrchestrator:
         context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Start a new decision trace and return trace ID"""
-        trace_id = f"{decision_type.value}_{int(time.time())}_{uuid.uuid4().hex[:8]}"
+        trace_id = f"{decision_type.value}_{int(time.time())}_{uuid.uuid4(}.hex[:8]}"
 
         trace = DecisionTrace(trace_id, decision_type, user_input, context)
         self.active_traces[trace_id] = trace
@@ -495,12 +495,12 @@ async def process_input(self, user_input: str, context: Optional[Dict] = None,
     except Exception as e:
         # Transparent error handling
         error_explanation = transparency_orchestrator.complete_trace(
-            trace_id, f"Error: {str(e)}", 0.0,
-            f"Processing error occurred: {str(e)}"
+            trace_id, f"Error: {str(e}", 0.0,
+            f"Processing error occurred: {str(e}"
         )
 
         return AGIResponse(
-            content=f"I encountered an error: {str(e)}",
+            content=f"I encountered an error: {str(e}",
             confidence=0.1,
             transparency=error_explanation,
             eu_ai_act_compliant=True

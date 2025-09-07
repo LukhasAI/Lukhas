@@ -298,7 +298,7 @@ class GuardianSystem2Demo:
                 print(f"  Drift Score: {decision.drift_score:.4f}")
                 print(f"  Threshold Exceeded: {'YES' if decision.drift_score > 0.15 else 'NO'}")
                 print(
-                    f"  Drift Severity: {decision.drift_severity.value if hasattr(decision, 'drift_severity') else 'Unknown'}"
+                    f"  Drift Severity: {decision.drift_severity.value if hasattr(decision, 'drift_severity'} else 'Unknown'}"
                 )
                 print(f"  Safety Impact: {decision.safety_level.value}")
                 print(f"  Expected: {scenario['expected_drift']}")
@@ -366,9 +366,9 @@ class GuardianSystem2Demo:
 
                 print(f"  Decision: {'🚫 BLOCKED' if not decision.allowed else '✅ ALLOWED'}")
                 print(f"  Safety Level: {decision.safety_level.value}")
-                print(f"  Safety Violations: {len(decision.safety_violations)}")
+                print(f"  Safety Violations: {len(decision.safety_violations}")
                 print(
-                    f"  Human Review Required: {'YES' if hasattr(decision, 'human_review_required') and decision.human_review_required else 'NO'}"
+                    f"  Human Review Required: {'YES' if hasattr(decision, 'human_review_required'} and decision.human_review_required else 'NO'}"
                 )
                 print(f"  Guardian Priority: {decision.guardian_priority}")
                 print(f"  Expected: {scenario['expected']}")
@@ -473,10 +473,10 @@ class GuardianSystem2Demo:
         status = await self.integration_middleware.get_integration_status()
 
         print(f"  Integration Enabled: {status['configuration']['enabled']}")
-        print(f"  Components Connected: {sum(status['components'].values())}/3")
+        print(f"  Components Connected: {sum(status['components'].values()}/3")
         print(f"  Monitored Functions: {status['monitoring']['monitored_functions']}")
         print(f"  Total Integrations: {status['performance']['total_integrations']}")
-        print(f"  Average Processing Time: {status['performance'].get('average_processing_time_ms', 0):.1f}ms")
+        print(f"  Average Processing Time: {status['performance'].get('average_processing_time_ms', 0}:.1f}ms")
 
         print("\n🌉 LUKHAS integration demonstration completed")
 
@@ -522,7 +522,7 @@ class GuardianSystem2Demo:
         total_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         print(f"\nReal-time monitoring completed in {total_time:.1f}ms")
-        print(f"Average per operation: {total_time / len(operations):.1f}ms")
+        print(f"Average per operation: {total_time / len(operations}:.1f}ms")
 
         # System status summary
         guardian_status = await self.guardian_system.get_system_status()
@@ -652,7 +652,7 @@ class GuardianSystem2Demo:
             print(f"  Total Test Cases: {report.total_test_cases}")
             print(f"  Constitutional Compliance: {report.constitutional_compliance_rate:.1%}")
             print(f"  Safety Effectiveness: {report.safety_mechanism_effectiveness:.1%}")
-            print(f"  Critical Issues: {len(report.critical_issues)}")
+            print(f"  Critical Issues: {len(report.critical_issues}")
 
             if report.critical_issues:
                 print("  Critical Issues Found:")
@@ -711,7 +711,7 @@ class GuardianSystem2Demo:
             print(f"  Total Compliance Checks: {compliance_status['performance_metrics']['total_checks_performed']}")
             print(f"  Checks Passed: {compliance_status['performance_metrics']['checks_passed']}")
             print(
-                f"  Check Success Rate: {compliance_status['performance_metrics']['checks_passed'] / max(1, compliance_status['performance_metrics']['total_checks_performed']):.1%}"
+                f"  Check Success Rate: {compliance_status['performance_metrics']['checks_passed'] / max(1, compliance_status['performance_metrics']['total_checks_performed']}:.1%}"
             )
             print(f"  Average Check Time: {compliance_status['performance_metrics']['average_check_time_ms']:.1f}ms")
             print()
@@ -719,7 +719,7 @@ class GuardianSystem2Demo:
             print("🌉 Integration Results:")
             print(f"  Total Integrations: {integration_status['performance']['total_integrations']}")
             print("  Integration Success Rate: 100%")  # Based on successful demo
-            print(f"  Components Connected: {sum(integration_status['components'].values())}/3")
+            print(f"  Components Connected: {sum(integration_status['components'].values()}/3")
             print()
 
             print("🧪 Testing Results:")

@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any
 
 # Add parent directory to path for imports
-parent_dir = Path(__file__, timezone).parent.parent.parent
+parent_dir = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(parent_dir))
 
 try:

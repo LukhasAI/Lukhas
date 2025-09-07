@@ -23,7 +23,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -74,7 +74,7 @@ class TPMFallback:
 
         logger.info("🔐 TPM Fallback initialized")
         logger.info(f"   Keystore: {self.keystore_path}")
-        logger.info(f"   Capabilities: {len(self.TPM_CAPABILITIES['algorithms'])} algorithms")
+        logger.info(f"   Capabilities: {len(self.TPM_CAPABILITIES['algorithms']} algorithms")
 
     def _initialize_tpm(self):
         """Initialize the simulated TPM"""
@@ -454,7 +454,7 @@ if __name__ == "__main__":
     test_data = b"LUKHAS TPM test data"
     signature = tpm.sign_data("test_rsa", test_data)
     if signature:
-        print(f"   Signature length: {len(signature)} bytes")
+        print(f"   Signature length: {len(signature} bytes")
 
         # Verify signature
         verified = tpm.verify_signature("test_rsa", test_data, signature)
@@ -464,7 +464,7 @@ if __name__ == "__main__":
     print("\n🔒 Testing AES encryption...")
     encrypted = tpm.encrypt_data("test_aes", test_data)
     if encrypted:
-        print(f"   Encrypted length: {len(encrypted)} bytes")
+        print(f"   Encrypted length: {len(encrypted} bytes")
 
         # Decrypt
         decrypted = tpm.decrypt_data("test_aes", encrypted)
@@ -475,7 +475,7 @@ if __name__ == "__main__":
     print("\n🛡️ Testing platform attestation...")
     nonce = tpm.get_random_bytes(32)
     attestation = tpm.attest_platform(nonce)
-    print(f"   Attestation includes {len(attestation['attestation']['platform_measurements'])} PCR values")
+    print(f"   Attestation includes {len(attestation['attestation']['platform_measurements']} PCR values")
     print(f"   Signed: {'✅ YES' if attestation['signature'] else '❌ NO'}")
 
     # Health check

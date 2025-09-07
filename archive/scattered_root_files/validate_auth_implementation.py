@@ -152,7 +152,7 @@ def test_session_management():
         failed_login_attempts.clear()
 
         # Test 1: Session creation
-        session_id = f"sess_{secrets.token_hex(16)}"
+        session_id = f"sess_{secrets.token_hex(16}"
         user_sessions[session_id] = {
             "user_id": "testuser",
             "lambda_id": "λ1234567890abcdef",
@@ -176,7 +176,7 @@ def test_session_management():
         assert not is_locked, "Account should not be locked initially"
 
         # Test 4: Unique session IDs
-        session_id2 = f"sess_{secrets.token_hex(16)}"
+        session_id2 = f"sess_{secrets.token_hex(16}"
         print(f"   ✅ Unique session IDs: {session_id != session_id2}")
         assert session_id != session_id2, "Session IDs not unique"
 
@@ -216,7 +216,7 @@ def test_security_compliance():
         # Test 4: Input sanitization (basic check)
         malicious_input = "<script>alert('xss')</script>"
         sanitized = malicious_input.strip()
-        print(f"   ✅ Input handling: {isinstance(sanitized, str)}")
+        print(f"   ✅ Input handling: {isinstance(sanitized, str}")
         assert isinstance(sanitized, str), "Input handling failed"
 
         print("   🎉 Security compliance tests PASSED\n")

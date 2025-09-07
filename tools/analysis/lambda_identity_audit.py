@@ -93,7 +93,7 @@ class LambdaIDSystemAudit:
             except Exception:
                 pass
 
-        logger.info(f"   Found {len(self.identity_modules)} identity-related modules")
+        logger.info(f"   Found {len(self.identity_modules} identity-related modules")
 
     def _analyze_functionality(self):
         """Analyze functionality of identity modules"""
@@ -152,7 +152,7 @@ class LambdaIDSystemAudit:
             covered_categories.update(module_data["categories"])
 
         coverage = len(covered_categories) / total_categories * 100
-        logger.info(f"   Functionality coverage: {coverage:.1f}% ({len(covered_categories)}/{total_categories})")
+        logger.info(f"   Functionality coverage: {coverage:.1f}% ({len(covered_categories}/{total_categories})")
 
     def _security_audit(self):
         """Perform security audit"""
@@ -205,7 +205,7 @@ class LambdaIDSystemAudit:
             except Exception:
                 pass
 
-        logger.info(f"   Found {len(self.security_issues)} potential security issues")
+        logger.info(f"   Found {len(self.security_issues} potential security issues")
 
     def _get_severity(self, issue_type: str) -> str:
         """Get severity level for security issue"""
@@ -247,7 +247,7 @@ class LambdaIDSystemAudit:
             except Exception:
                 pass
 
-        logger.info(f"   Analyzed dependencies for {len(self.dependencies)} modules")
+        logger.info(f"   Analyzed dependencies for {len(self.dependencies} modules")
 
     def _generate_audit_report(self) -> dict[str, Any]:
         """Generate comprehensive audit report"""
@@ -268,7 +268,7 @@ class LambdaIDSystemAudit:
                 {
                     "priority": "CRITICAL",
                     "category": "Security",
-                    "issue": f"{len(high_severity_issues)} high-severity security issues found",
+                    "issue": f"{len(high_severity_issues} high-severity security issues found",
                     "action": "Review and fix hardcoded secrets and weak cryptography before open-source release",
                 }
             )

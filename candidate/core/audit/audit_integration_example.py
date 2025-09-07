@@ -14,7 +14,7 @@ from lukhas.core.audit import (
     audit_learning,
     audit_operation,
     audit_security,
-    get_audit_trail,, timezone)
+    get_audit_trail)
 
 
 class AuditedMemorySystem:

@@ -394,7 +394,7 @@ class LUKHASCoreIntegrator:
                 "source": source_component,
                 "timestamp": time.time(),
                 "message_type": message_type.value,
-                "message_id": f"{int(time.time() * 1000)}-{self.system_state['message_count']}",
+                "message_id": f"{int(time.time() * 1000}-{self.system_state['message_count']}",
             },
         }
 
@@ -413,7 +413,7 @@ class LUKHASCoreIntegrator:
                 )
                 response = handler_to_call(message_envelope)
                 self.instance_logger.info(
-                    f"ΛTRACE: Message processed by '{target_component}'. Response type: {type(response).__name__}."
+                    f"ΛTRACE: Message processed by '{target_component}'. Response type: {type(response}.__name__}."
                 )
                 return (
                     response
@@ -472,7 +472,7 @@ class LUKHASCoreIntegrator:
             "metadata": {
                 "source": source_component,
                 "timestamp": time.time(),
-                "event_id": f"evt-{int(time.time() * 1000)}",
+                "event_id": f"evt-{int(time.time() * 1000}",
             },
         }
 
@@ -509,7 +509,7 @@ class LUKHASCoreIntegrator:
                     self.component_status[sub_component_id]["error_count"] += 1
 
         self.instance_logger.info(
-            f"ΛTRACE: Event '{event_type}' delivered to {delivery_count}/{len(self.event_subscribers[event_type])} subscribers."
+            f"ΛTRACE: Event '{event_type}' delivered to {delivery_count}/{len(self.event_subscribers[event_type]} subscribers."
         )
         return delivery_count
 
@@ -629,7 +629,7 @@ class LUKHASCoreIntegrator:
 
         elif alert_type == "security_violation":
             self.instance_logger.warning(
-                f"ΛTRACE: Security violation detected by awareness protocol: {alert_data.get('description', 'No description')}."
+                f"ΛTRACE: Security violation detected by awareness protocol: {alert_data.get('description', 'No description'}."
             )
             self.broadcast_event("security_violation", alert_data, "awareness")
 
@@ -641,7 +641,7 @@ class LUKHASCoreIntegrator:
     def _check_action_permitted(self, target_component: str, message: dict[str, Any], access_tier: AccessTier) -> bool:
         """Check if an action is permitted at the current internal access tier."""
         self.instance_logger.debug(
-            f"ΛTRACE: Checking internal permission for target '{target_component}', AccessTier '{access_tier.name}'. Action: {message.get('action', 'N/A')}"
+            f"ΛTRACE: Checking internal permission for target '{target_component}', AccessTier '{access_tier.name}'. Action: {message.get('action', 'N/A'}"
         )
         if not self.awareness:
             self.instance_logger.debug("ΛTRACE: Awareness protocol not active, permitting action by default.")

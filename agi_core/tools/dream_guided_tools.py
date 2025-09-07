@@ -373,7 +373,7 @@ class DreamGuidedToolFramework:
             tool_spec = self.tools[tool_id]
 
             rec = ToolRecommendation(
-                recommendation_id=f"logical_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
+                recommendation_id=f"logical_{datetime.now(timezone.utc).strftime('%H%M%S'}_{tool_id}",
                 primary_tool=tool_id,
                 reasoning=f"Logical selection based on capability match and experience (score: {score:.2f})",
                 confidence=min(0.95, score),
@@ -423,7 +423,7 @@ class DreamGuidedToolFramework:
         for tool_id, score in sorted_tools[:max_recommendations]:
             if score > 0.1:  # Only recommend if there's some intuitive basis
                 rec = ToolRecommendation(
-                    recommendation_id=f"intuitive_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
+                    recommendation_id=f"intuitive_{datetime.now(timezone.utc).strftime('%H%M%S'}_{tool_id}",
                     primary_tool=tool_id,
                     reasoning="Intuitive selection based on pattern recognition and past success",
                     confidence=min(0.8, score * 2),  # Scale confidence
@@ -476,7 +476,7 @@ class DreamGuidedToolFramework:
         recommendations = []
         for tool_id, score in sorted_tools[:max_recommendations]:
             rec = ToolRecommendation(
-                recommendation_id=f"creative_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
+                recommendation_id=f"creative_{datetime.now(timezone.utc).strftime('%H%M%S'}_{tool_id}",
                 primary_tool=tool_id,
                 reasoning="Creative selection emphasizing novelty and creative potential",
                 confidence=min(0.7, score),
@@ -527,9 +527,9 @@ class DreamGuidedToolFramework:
                 dream_scores[tool_id] = dream_score
 
                 rec = ToolRecommendation(
-                    recommendation_id=f"dream_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
+                    recommendation_id=f"dream_{datetime.now(timezone.utc).strftime('%H%M%S'}_{tool_id}",
                     primary_tool=tool_id,
-                    reasoning=f"Dream-guided selection based on {len(relevant_insights)} insights",
+                    reasoning=f"Dream-guided selection based on {len(relevant_insights} insights",
                     confidence=min(0.85, dream_score),
                     selection_mode=ToolSelectionMode.DREAM_GUIDED,
                     context_factors=context,
@@ -576,7 +576,7 @@ class DreamGuidedToolFramework:
         recommendations = []
         for tool_id, score in sorted_tools[:max_recommendations]:
             rec = ToolRecommendation(
-                recommendation_id=f"experimental_{datetime.now(timezone.utc).strftime('%H%M%S')}_{tool_id}",
+                recommendation_id=f"experimental_{datetime.now(timezone.utc).strftime('%H%M%S'}_{tool_id}",
                 primary_tool=tool_id,
                 reasoning="Experimental selection for exploration and learning",
                 confidence=0.6,  # Moderate confidence for experimental approaches
@@ -664,7 +664,7 @@ class DreamGuidedToolFramework:
                 ):
 
                     tool_insight = ToolInsight(
-                        insight_id=f"dream_tool_{session.session_id}_{len(insights)}",
+                        insight_id=f"dream_tool_{session.session_id}_{len(insights}",
                         tool_id="",  # Will be matched later
                         insight_type="dream_guidance",
                         description=insight_data.get("content", ""),

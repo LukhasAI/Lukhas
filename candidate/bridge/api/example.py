@@ -33,7 +33,7 @@ async def main():
     query = MemoryQuery(query="meeting", limit=10)
 
     results = await api.retrieve(query)
-    print(f"Found {len(results)} memories")
+    print(f"Found {len(results} memories")
 
 
 if __name__ == "__main__":

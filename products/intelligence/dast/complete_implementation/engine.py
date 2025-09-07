@@ -20,7 +20,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class TaskPriority(Enum, timezone):
+class TaskPriority(Enum):
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -208,7 +208,7 @@ class LucasDASTEngine:
         """AI-powered task creation with intelligent analysis"""
 
         # Generate unique task ID
-        task_id = hashlib.md5(f"{request}{time.time()}".encode()).hexdigest()[:12]
+        task_id = hashlib.md5(f"{request}{time.time(}".encode()).hexdigest()[:12]
 
         # AI-powered task analysis
         ai_analysis = self._analyze_task_request(request, context)
@@ -600,7 +600,7 @@ class LucasDASTEngine:
             prioritized = self._ai_prioritize_tasks(tasks)
 
             collaboration_result["ai_suggestions"] = [
-                f"Focus on {len(list(prioritized[:5]))} high-priority tasks first",
+                f"Focus on {len(list(prioritized[:5])} high-priority tasks first",
                 "Consider batching similar tasks for efficiency",
                 "Schedule critical tasks during peak hours",
             ]

@@ -18,7 +18,7 @@ from pathlib import Path
 class BioConsolidator:
     """Consolidate bio module variants"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.root = Path(".")
         self.target_dir = Path("lukhas/accepted/bio")
         self.archive_dir = Path("lukhas/archive/bio_variants")
@@ -118,7 +118,7 @@ class BioConsolidator:
         if not file_paths:
             return
 
-        print(f"\n🔄 Merging {category_name} ({len(file_paths)} files)...")
+        print(f"\n🔄 Merging {category_name} ({len(file_paths} files)...")
 
         # Create target directory
         if category_name == "core":
@@ -199,7 +199,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
         for cls in all_classes:
             content += f"\nclass {cls['name']}"
             if cls["bases"]:
-                content += f"({', '.join(cls['bases'])})"
+                content += f"({', '.join(cls['bases']})"
             content += ":\n"
             content += f'    """Bio {category_name} - {cls["name"]}"""\n'
 
@@ -387,7 +387,7 @@ Generated: {datetime.now(timezone.utc).isoformat()}
         if self.conflicts:
             report += "\n## Conflicts Requiring Resolution\n"
             for conflict in self.conflicts[:10]:  # Show first 10
-                report += f"- {conflict['type']}: `{conflict['name']}` in {len(conflict['files'])} files\n"
+                report += f"- {conflict['type']}: `{conflict['name']}` in {len(conflict['files']} files\n"
 
         report += """
 ## Next Steps
@@ -424,9 +424,9 @@ Generated: {datetime.now(timezone.utc).isoformat()}
         self.generate_report()
 
         print("\n✅ Bio Consolidation Complete!")
-        print(f"   Merged: {len(self.merged_files)} modules")
-        print(f"   Archived: {len(self.archived_files)} original files")
-        print(f"   Conflicts: {len(self.conflicts)} (need manual resolution)")
+        print(f"   Merged: {len(self.merged_files} modules")
+        print(f"   Archived: {len(self.archived_files} original files")
+        print(f"   Conflicts: {len(self.conflicts} (need manual resolution)")
 
 
 def main():

@@ -84,7 +84,7 @@ class ConsciousnessState:
     REFLECTIONS: dict[str, Any] = field(default_factory=dict)
 
     # Identity and metadata
-    consciousness_id: str = field(default_factory=lambda: f"CONS-{uuid.uuid4().hex[:8]}")
+    consciousness_id: str = field(default_factory=lambda: f"CONS-{uuid.uuid4(}.hex[:8]}")
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_evolution: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     evolutionary_stage: EvolutionaryStage = EvolutionaryStage.DORMANT

@@ -44,8 +44,8 @@ def display_dreams(dreams):
         print("🌙 No dreams to display.")
         return
 
-    print(f"\n🌌 LUKHAS DREAM LOG ({len(dreams)} dreams total)\n")
-    print(f"\n🌌 LUKHAS DREAM LOG ({len(dreams)} dreams total)\n")
+    print(f"\n🌌 LUKHAS DREAM LOG ({len(dreams} dreams total)\n")
+    print(f"\n🌌 LUKHAS DREAM LOG ({len(dreams} dreams total)\n")
     for _i, dream in enumerate(dreams[-10:], 1):  # Show last 10 dreams
         print(f"🔹 [{dream['timestamp']}] (Resonance: {dream['resonance']:.2f}) {dream['symbol']}")
         print(f"    💤 Dream: {dream['dream_text']}")

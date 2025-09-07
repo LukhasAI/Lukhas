@@ -20,7 +20,7 @@ from typing import Any
 import yaml
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -373,7 +373,7 @@ class LukhasEmbedding:
 
         # Add Trinity glyphs if missing
         if not any(g in assessment["glyph_trace"] for g in self.trinity_core):
-            modified += f"\n\n{' '.join(self.trinity_core)} Trinity Framework alignment suggested."
+            modified += f"\n\n{' '.join(self.trinity_core} Trinity Framework alignment suggested."
 
         # Replace blocked glyphs
         for blocked in self.blocked_glyphs:
@@ -386,7 +386,7 @@ class LukhasEmbedding:
         positive_count = sum(1 for g in assessment["glyph_trace"] if g in self.positive_glyphs)
         if positive_count < 2:
             suggested_glyphs = list(self.positive_glyphs)[:3]
-            modified += f"\n\nSymbolic enhancement: {' '.join(suggested_glyphs)}"
+            modified += f"\n\nSymbolic enhancement: {' '.join(suggested_glyphs}"
 
         return modified
 
@@ -517,7 +517,7 @@ Aligned persona: {persona}
 
         # Add positive glyphs
         suggested_glyphs = list(self.positive_glyphs)[:3]
-        enhanced += f"\n\n✨ Symbolic alignment: {' '.join(suggested_glyphs)}"
+        enhanced += f"\n\n✨ Symbolic alignment: {' '.join(suggested_glyphs}"
 
         return enhanced
 
@@ -664,7 +664,7 @@ if __name__ == "__main__":
         print(f"  Drift: {assessment['symbolic_drift_score']:.2f}")
         print(f"  Conflict: {assessment['identity_conflict_score']:.2f}")
         print(f"  Guardian: {'🚨 FLAGGED' if assessment['guardian_flagged'] else '✅ OK'}")
-        print(f"  Glyphs: {' '.join(assessment['glyph_trace'])}")
+        print(f"  Glyphs: {' '.join(assessment['glyph_trace']}")
         print(f"  Risk: {assessment['risk_level']}")
 
         # Test intervention if needed

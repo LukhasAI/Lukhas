@@ -501,7 +501,7 @@ class ConsentEscalationResolver:
 
     async def _create_temporary_trust_path(self, request: ConsentRequest) -> TrustPath:
         """Create a temporary trust path for unknown requesters"""
-        path_id = f"temp_{request.requester}_{int(time.time())}"
+        path_id = f"temp_{request.requester}_{int(time.time()}"
 
         # Basic trust assessment based on context
         base_trust = 0.3  # Default for unknown requesters
@@ -555,7 +555,7 @@ class ConsentEscalationResolver:
         for rule in sorted_rules:
             try:
                 # Evaluate rule condition
-                if eval(rule.condition, {"__builtins__": {}}, eval_context):
+                if eval(rule.condition, {"__builtins__": {}, eval_context):
                     logger.info(f"Escalation rule '{rule.rule_id}' triggered for request {request.id}")
 
                     return {
@@ -646,7 +646,7 @@ class ConsentEscalationResolver:
         }
 
         # In production, write to audit log system
-        logger.info(f"Audit log entry created: {json.dumps(audit_entry)}")
+        logger.info(f"Audit log entry created: {json.dumps(audit_entry}")
 
     async def _deep_trust_analysis(self, request: ConsentRequest):
         """Perform deep trust path analysis"""
@@ -845,7 +845,7 @@ async def main():
         print(f"   Reason: {processed_request.decision_reason}")
         if processed_request.escalation_level:
             print(f"   Escalation: {processed_request.escalation_level.name}")
-        print(f"   Symbolic Path: {'→'.join(processed_request.symbolic_path)}")
+        print(f"   Symbolic Path: {'→'.join(processed_request.symbolic_path}")
 
         # Show trust summary
         trust_summary = resolver.get_requester_trust_summary(request.requester)

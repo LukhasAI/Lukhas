@@ -14,7 +14,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class SymbolicTerm(Enum):
@@ -193,7 +193,7 @@ class SymbolicLoopController:
 
     async def _route_operation(self, operation: SymbolicOperation) -> SymbolicResult:
         """Route operation to appropriate loop handler"""
-        operation_id = f"{operation.term.value}_{operation.agent_id}_{datetime.now(timezone.utc).timestamp()}"
+        operation_id = f"{operation.term.value}_{operation.agent_id}_{datetime.now(timezone.utc).timestamp(}"
 
         try:
             # Check if loop is available
@@ -389,7 +389,7 @@ async def ground_symbol(symbol: str, context: Optional[dict[str, Any]] = None) -
     return await controller.process_symbolic_term(
         SymbolicTerm.GROUND,
         "system",  # System-level grounding
-        {"symbol": symbol, "context": context or {}},
+        {"symbol": symbol, "context": context or {},
     )
 
 

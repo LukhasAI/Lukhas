@@ -252,7 +252,7 @@ class NativeContentFormatter:
             },
             "relevance_explanation": self._explain_relevance(ad_content, related_to),
             "social_proof": {
-                "text": f"{self._generate_social_proof_number()} people also viewed this",
+                "text": f"{self._generate_social_proof_number(} people also viewed this",
                 "authentic": True,
             },
             "interaction": {
@@ -554,7 +554,7 @@ class NativeContentFormatter:
         """Generate unique content ID"""
         import uuid
 
-        return f"native_{uuid.uuid4().hex[:8]}"
+        return f"native_{uuid.uuid4(}.hex[:8]}"
 
     def _generate_natural_timestamp(self) -> str:
         """Generate natural-looking timestamp"""
@@ -718,9 +718,9 @@ class NativeContentFormatter:
         rel = self._determine_relationship(ad_content, related_to)
 
         if rel == "accessory":
-            return f"Perfect companion for your {related_to.get('title', 'selection')}"
+            return f"Perfect companion for your {related_to.get('title', 'selection'}"
         elif rel == "same_brand":
-            return f"More from {ad_content.get('brand', 'this brand')}"
+            return f"More from {ad_content.get('brand', 'this brand'}"
 
         return "Based on your interests"
 
@@ -737,7 +737,7 @@ class NativeContentFormatter:
         if not reasons:
             return "Customers who viewed this also viewed"
 
-        return f"Suggested because it's {' and '.join(reasons)}"
+        return f"Suggested because it's {' and '.join(reasons}"
 
     def _adapt_for_web(self, content: NativeContent) -> dict:
         """Adapt content for web platform"""

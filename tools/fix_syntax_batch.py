@@ -83,7 +83,7 @@ def main():
         if error.get("filename"):
             files_with_errors.add(error["filename"])
 
-    print(f"Found {len(files_with_errors)} files with syntax errors")
+    print(f"Found {len(files_with_errors} files with syntax errors")
 
     fixed_count = 0
     for file_path in list(files_with_errors)[:50]:  # Process first 50 files

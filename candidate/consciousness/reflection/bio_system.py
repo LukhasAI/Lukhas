@@ -47,7 +47,7 @@ from candidate.core.common import get_logger
 # Use existing quantum engines - fixed import paths
 from qi.systems.qi_engine import Quantumoscillator as QIOscillator
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class MitochondrialQIBridge:

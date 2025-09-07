@@ -18,7 +18,7 @@ from datetime import datetime
 
 class Goal:
 
-    def __init__(self, name, priority, timezone):
+    def __init__(self, name, priority):
         self.name = name
         self.priority = priority
 

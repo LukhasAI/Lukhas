@@ -18,7 +18,7 @@ from typing import Any, Optional
 import numpy as np
 
 
-class ConsciousnessState(Enum, timezone):
+class ConsciousnessState(Enum):
     """States of consciousness"""
 
     ALERT = "alert"
@@ -102,7 +102,7 @@ class ConsciousExperience:
     experience_id: str = field(default="", init=False)
 
     def __post_init__(self):
-        self.experience_id = f"exp_{self.timestamp.timestamp()}"
+        self.experience_id = f"exp_{self.timestamp.timestamp(}"
 
     @classmethod
     def create_suppressed_experience(cls, reason: str, drift_details: DriftMeasurement) -> "ConsciousExperience":
@@ -175,7 +175,7 @@ class ConsciousnessSimulator:
         consciousness_dims = self._normalize_to_consciousness_space(attended_features)
 
         return ConsciousnessVector(
-            vector_id=f"vec_{datetime.now(timezone.utc).timestamp()}",
+            vector_id=f"vec_{datetime.now(timezone.utc).timestamp(}",
             dimensions=consciousness_dims,
             attention_focus=self._extract_attention_focus(inputs),
             emotional_tone=inputs.get("emotional_state", {}),

@@ -490,7 +490,7 @@ class QICreativeConsciousness:
     # awareness terms.
     def _enhance_haiku_consciousness(self, base_haiku: str, theme: str) -> str:
         self.instance_logger.debug(
-            f"ΛTRACE: Internal: Enhancing haiku '{base_haiku.splitlines()[0]}...' for theme '{theme}'."
+            f"ΛTRACE: Internal: Enhancing haiku '{base_haiku.splitlines(}[0]}...' for theme '{theme}'."
         )
         # This is a simplistic enhancement, real version would be more nuanced
         lines = base_haiku.split("\n")
@@ -577,7 +577,7 @@ class QICreativeConsciousness:
             f"ΛTRACE: Internal: Generating generic conscious content. Type: '{content_type}', Theme: '{theme}', Boost: {boost:.2f}"
         )
         # Simplified fallback
-        content = f"Consciousness-Enhanced {content_type.title()} on {theme}...\nKey insights emerge..."
+        content = f"Consciousness-Enhanced {content_type.title(} on {theme}...\nKey insights emerge..."
         if boost > 1.1:
             content += f"\nIn the quantum field of consciousness, {theme} exists as wave and particle..."
         return content
@@ -624,7 +624,7 @@ class QICreativeConsciousness:
             self.create_entanglement(source, target)
 
         self.instance_logger.info(
-            f"ΛTRACE: Setup quantum entanglement for {len(entanglement_pairs)} pairs"
+            f"ΛTRACE: Setup quantum entanglement for {len(entanglement_pairs} pairs"
         )
 
     def create_entanglement(self, source: str, target: str):
@@ -721,11 +721,11 @@ async def main_example():  # Renamed from main
         user_id="demo_user"
     )  # Pass user_id
     logger.info(
-        f"ΛTRACE Demo - Initial Status: {status_info.get('system_status_message')}"
+        f"ΛTRACE Demo - Initial Status: {status_info.get('system_status_message'}"
     )
-    print(f"Status: {status_info.get('system_status_message')}")
+    print(f"Status: {status_info.get('system_status_message'}")
     print(
-        f"Consciousness Level (Achieved): {status_info.get('achieved_consciousness_level')}"
+        f"Consciousness Level (Achieved): {status_info.get('achieved_consciousness_level'}"
     )
 
     logger.info("ΛTRACE Demo: Generating Conscious Haiku...")

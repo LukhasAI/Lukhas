@@ -31,7 +31,7 @@ def main():
 
     print("\n▸ AFTER: Poetry Soul")
     thought = "Initializing quantum consciousness module"
-    print(f"  {express(thought, EmotionalTone.WONDER)}")
+    print(f"  {express(thought, EmotionalTone.WONDER}")
 
     divider()
 

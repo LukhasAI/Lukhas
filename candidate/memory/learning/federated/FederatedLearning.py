@@ -12,7 +12,7 @@ class FederatedLearningManager:
     Handles model registration, gradient contributions, and model persistence.
     """
 
-    def __init__(self, storage_path: str, timezone):
+    def __init__(self, storage_path: str):
         self.storage_path = storage_path
         self.models = {}  # In-memory model cache
         self._ensure_storage_exists()

@@ -54,7 +54,7 @@ class AltruisticAdRouter:
             path = {
                 "is_routed": True,
                 "narrative": f"A trusted connection, {connection_name}, found a similar experience to be transformative. Based on your shared values, you might find it beneficial too.",
-                "via_connection_hash": f"user_hash_{random.randint(1000, 9999)}",
+                "via_connection_hash": f"user_hash_{random.randint(1000, 9999}",
                 "consent": {
                     "source_user_consent": "anonymized_sharing_ok",
                     "target_user_consent": "trusted_routing_ok",

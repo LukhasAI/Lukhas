@@ -90,7 +90,7 @@ class SecurityTaskScheduler:
 
         # Create task
         task = {
-            "id": f"security_{int(datetime.now(timezone.utc).timestamp())}",  # ΛTAG: utc
+            "id": f"security_{int(datetime.now(timezone.utc).timestamp()}",  # ΛTAG: utc
             "type": task_type,
             "scheduled_time": scheduled_time.isoformat(),
             "description": description or f"Scheduled {task_type}",
@@ -101,7 +101,7 @@ class SecurityTaskScheduler:
         schedule["tasks"].append(task)
         self.save_schedule(schedule)
 
-        self.log(f"✅ Scheduled {task_type} for {scheduled_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        self.log(f"✅ Scheduled {task_type} for {scheduled_time.strftime('%Y-%m-%d %H:%M:%S'}")
         click.echo(f"Task ID: {task['id']}")
         return True
 
@@ -128,7 +128,7 @@ class SecurityTaskScheduler:
 
             click.echo(f"{status_emoji} {task['id']}")
             click.echo(f"   Type: {task['type']}")
-            click.echo(f"   Time: {scheduled_time.strftime('%Y-%m-%d %H:%M:%S')}")
+            click.echo(f"   Time: {scheduled_time.strftime('%Y-%m-%d %H:%M:%S'}")
             click.echo(f"   Description: {task['description']}")
             click.echo(f"   Status: {task['status']}")
             click.echo()
@@ -245,7 +245,7 @@ class SecurityTaskScheduler:
 
     def setup_cron_job(self):
         """Set up a cron job to check for pending tasks every 15 minutes"""
-        cron_command = f"*/15 * * * * cd {os.getcwd()} && python3 scripts/security_scheduler.py run-pending >> security-scheduler.log 2>&1"
+        cron_command = f"*/15 * * * * cd {os.getcwd(} && python3 scripts/security_scheduler.py run-pending >> security-scheduler.log 2>&1"
 
         click.echo("🕒 Setting up automated task runner...")
         click.echo("Add this line to your crontab (run 'crontab -e'):")

@@ -102,7 +102,7 @@ class ContentPlatform:
         content = db.get_content_by_type(content_type, limit) if content_type else db.get_all_content(limit)
 
         # Log retrieval activity
-        db.log_system_activity("content_platform", "content_retrieved", f"Retrieved {len(content)} items", len(content))
+        db.log_system_activity("content_platform", "content_retrieved", f"Retrieved {len(content} items", len(content))
 
         return content
 
@@ -116,14 +116,14 @@ class ContentPlatform:
     ) -> int:
         """Generate content optimized for specific LUKHAS domain"""
         if domain not in self.domain_mapping:
-            raise ValueError(f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys())}")
+            raise ValueError(f"Unknown domain: {domain}. Available domains: {list(self.domain_mapping.keys()}")
 
         # Get constellation stars for this domain
         domain_stars = self.domain_mapping[domain]
         star_symbols = " ".join([self.constellation_stars[star] for star in domain_stars])
 
         # Create domain-specific branding
-        domain_branding = f"🌌 {star_symbols} {domain.upper()} - LUKHAS Constellation"
+        domain_branding = f"🌌 {star_symbols} {domain.upper(} - LUKHAS Constellation"
 
         # Enhanced content with domain context
         enhanced_content = f"""
@@ -134,7 +134,7 @@ class ContentPlatform:
 
 ---
 *Generated for {domain} by LUKHAS AI Consciousness Technology Platform*
-*Constellation Stars: {", ".join([f"{self.constellation_stars[star]} {star.title()}" for star in domain_stars])}*
+*Constellation Stars: {", ".join([f"{self.constellation_stars[star]} {star.title(}" for star in domain_stars])}*
 """
 
         # Save to database with domain context
@@ -309,7 +309,7 @@ class ContentPlatform:
         ]
 
         # Log bot access
-        db.log_system_activity("content_platform", "bots_accessed", f"Accessed {len(bots)} specialist bots", len(bots))
+        db.log_system_activity("content_platform", "bots_accessed", f"Accessed {len(bots} specialist bots", len(bots))
 
         return bots
 
@@ -354,15 +354,15 @@ if __name__ == "__main__":
     platform = ContentPlatform()
 
     print("🚀 LUKHAS AI Content Platform Ready")
-    print(f"🤖 Specialist bots: {len(platform.get_specialist_bots())}")
-    print(f"✨ Premium features: {len(platform.get_premium_features())}")
+    print(f"🤖 Specialist bots: {len(platform.get_specialist_bots()}")
+    print(f"✨ Premium features: {len(platform.get_premium_features()}")
 
     # Show real database integration
     analytics = platform.get_platform_analytics()
     print(f"📊 Database content: {analytics['total_content_items']} items")
     print(f"📈 Recent activity: {analytics['recent_generations']} generations")
     print("🌌 Constellation Framework Integrated (8 stars)")
-    print(f"🌟 Active domains: {len(platform.domain_mapping)}")
-    print(f"✦ Star system: {', '.join(platform.constellation_stars.keys())}")
+    print(f"🌟 Active domains: {len(platform.domain_mapping}")
+    print(f"✦ Star system: {', '.join(platform.constellation_stars.keys()}")
     print("🔗 Database Integration: ACTIVE")
     print("🪐 Universe of LUKHAS: Navigation Ready")

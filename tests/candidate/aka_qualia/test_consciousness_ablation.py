@@ -261,7 +261,7 @@ class ComponentAblationFramework:
                     if factor < self.failure_rate:
                         raise RuntimeError(f"Router degraded: {factor} < {self.failure_rate}")
                     # Simulated degraded routing
-                    print(f"Degraded routing: {len(glyphs)} glyphs with {factor:.2f} reliability")
+                    print(f"Degraded routing: {len(glyphs} glyphs with {factor:.2f} reliability")
 
             router = DegradedRouter(1.0 - factor)
 

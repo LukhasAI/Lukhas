@@ -81,7 +81,7 @@ class MEG:
         if len(self.call_history[func_name]) >= self.config.rate_limit_calls:
             logger.warning(
                 f"MEG.guard: Rate limit exceeded for {func_name}. "
-                f"{len(self.call_history[func_name])} calls in {self.config.rate_limit_window}s"
+                f"{len(self.call_history[func_name]} calls in {self.config.rate_limit_window}s"
             )
             return False
 

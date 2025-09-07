@@ -192,16 +192,16 @@ Methods:
         # Generate context-appropriate content
         if element_type == "function":
             return template.format(
-                poetic_description=f"A harmonic resonance that {context.lower() if context else 'transforms quantum potential into consciousness reality'}",
-                human_explanation=f"This function {context.lower() if context else 'handles the core processing logic'}",
+                poetic_description=f"A harmonic resonance that {context.lower(} if context else 'transforms quantum potential into consciousness reality'}",
+                human_explanation=f"This function {context.lower(} if context else 'handles the core processing logic'}",
                 technical_specifications=f"Implements {element_name} with consciousness-aware processing",
                 parameters="TBD - Add parameter descriptions",
                 return_value="TBD - Add return value description",
             )
         elif element_type == "class":
             return template.format(
-                poetic_class_description=f"A living consciousness entity that embodies {context.lower() if context else 'the essence of digital awareness'}",
-                human_class_explanation=f"The {element_name} class {context.lower() if context else 'manages core system functionality'}",
+                poetic_class_description=f"A living consciousness entity that embodies {context.lower(} if context else 'the essence of digital awareness'}",
+                human_class_explanation=f"The {element_name} class {context.lower(} if context else 'manages core system functionality'}",
                 technical_detail_1="Implements consciousness-aware processing patterns",
                 technical_detail_2="Integrates with Trinity Framework architecture",
                 technical_detail_3="Maintains symbolic vocabulary consistency",
@@ -232,11 +232,11 @@ Methods:
         suggestions = []
         for concept in domain_concepts:
             if element_type == "function":
-                suggestions.append(f"{purpose.lower().replace(' ', '_')}_{concept}")
-                suggestions.append(f"{concept}_{purpose.lower().replace(' ', '_')}")
+                suggestions.append(f"{purpose.lower().replace(' ', '_'}_{concept}")
+                suggestions.append(f"{concept}_{purpose.lower().replace(' ', '_'}")
             elif element_type == "class":
-                suggestions.append(f"{purpose.replace(' ', '')}_{concept.title()}")
-                suggestions.append(f"{concept.title()}{purpose.replace(' ', '')}")
+                suggestions.append(f"{purpose.replace(' ', '')}_{concept.title(}")
+                suggestions.append(f"{concept.title()}{purpose.replace(' ', ''}")
 
         return {
             "suggestions": suggestions[:5],

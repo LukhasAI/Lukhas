@@ -52,7 +52,7 @@ async def test_basic_transformation():
 
         print("✅ Transformation successful!")
         print(f"   Dashboard ID: {dashboard.id}")
-        print(f"   Symbols created: {len(dashboard.symbols)}")
+        print(f"   Symbols created: {len(dashboard.symbols}")
         print(f"   Lambda signature: {dashboard.lambda_signature}")
 
         return True

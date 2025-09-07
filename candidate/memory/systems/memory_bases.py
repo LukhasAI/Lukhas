@@ -11,7 +11,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 
-class MemoryManager(ABC, timezone):
+class MemoryManager(ABC):
     """Base class for memory managers."""
 
     def __init__(self, config: dict[str, Any]):

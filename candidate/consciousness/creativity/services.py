@@ -99,7 +99,7 @@ class CreativityService:
                 "constraints": constraints is not None,
             },
             "output": {
-                "content": f"Creative response to {prompt.get('theme', 'prompt')}",
+                "content": f"Creative response to {prompt.get('theme', 'prompt'}",
                 "novelty_score": 0.75,
                 "coherence_score": 0.85,
             },

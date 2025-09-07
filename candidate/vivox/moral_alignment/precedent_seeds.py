@@ -9,7 +9,7 @@ from typing import Any
 from ..moral_alignment.vivox_mae_core import ActionProposal, MAEDecision
 
 
-def get_ethical_precedent_seeds(, timezone) -> list[dict[str, Any]]:
+def get_ethical_precedent_seeds() -> list[dict[str, Any]]:
     """
     Get a comprehensive set of ethical precedent scenarios
 

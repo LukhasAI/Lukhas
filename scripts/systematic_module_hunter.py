@@ -57,7 +57,7 @@ class SystematicModuleHunter:
                     content = f.read()
 
                     # Look for class definitions
-                    class_pattern = rf"class\s+{re.escape(class_name)}\s*[\(::]"
+                    class_pattern = rf"class\s+{re.escape(class_name}\s*[\(::]"
                     if re.search(class_pattern, content, re.MULTILINE):
                         relative_path = py_file.relative_to(self.base_path)
                         found_locations.append(str(relative_path))
@@ -65,8 +65,8 @@ class SystematicModuleHunter:
 
                     # Look for imports
                     import_patterns = [
-                        rf"from\s+[\w\.]+\s+import\s+.*{re.escape(class_name)}",
-                        rf"import\s+.*{re.escape(class_name)}",
+                        rf"from\s+[\w\.]+\s+import\s+.*{re.escape(class_name}",
+                        rf"import\s+.*{re.escape(class_name}",
                     ]
 
                     for pattern in import_patterns:
@@ -83,7 +83,7 @@ class SystematicModuleHunter:
         self.search_cache[class_name] = found_locations
 
         if found_locations:
-            self.log_success(f"Found {len(found_locations)} references to '{class_name}'")
+            self.log_success(f"Found {len(found_locations} references to '{class_name}'")
         else:
             self.log_warning(f"Class '{class_name}' not found anywhere in codebase")
 
@@ -100,8 +100,8 @@ class SystematicModuleHunter:
 
         # Look for direct file match
         possible_files = [
-            self.base_path / f"{'/'.join(module_parts)}.py",
-            self.base_path / f"{'/'.join(module_parts)}/__init__.py",
+            self.base_path / f"{'/'.join(module_parts}.py",
+            self.base_path / f"{'/'.join(module_parts}/__init__.py",
         ]
 
         for possible_file in possible_files:
@@ -120,8 +120,8 @@ class SystematicModuleHunter:
 
                     # Look for module imports
                     import_patterns = [
-                        rf"from\s+{re.escape(module_name)}\s+import",
-                        rf"import\s+{re.escape(module_name)}",
+                        rf"from\s+{re.escape(module_name}\s+import",
+                        rf"import\s+{re.escape(module_name}",
                     ]
 
                     for pattern in import_patterns:
@@ -135,7 +135,7 @@ class SystematicModuleHunter:
                 continue
 
         if found_locations:
-            self.log_success(f"Found {len(found_locations)} references to module '{module_name}'")
+            self.log_success(f"Found {len(found_locations} references to module '{module_name}'")
         else:
             self.log_warning(f"Module '{module_name}' not found anywhere in codebase")
 
@@ -405,7 +405,7 @@ class SystematicModuleHunter:
             total_found_elsewhere += system_found_elsewhere
 
             success_rate = (system_working / system_total * 100) if system_total > 0 else 0
-            print(f"\n🔍 {system_name.replace('_', ' ').title()}:")
+            print(f"\n🔍 {system_name.replace('_', ' ').title(}:")
             print(f"   📦 Modules: {system_working}/{system_total} ({success_rate:.1f}%)")
             print(f"   🔍 Missing classes: {system_missing}")
             print(f"   📍 Found elsewhere: {system_found_elsewhere}")
@@ -416,7 +416,7 @@ class SystematicModuleHunter:
         print(f"   🔍 Total missing classes: {total_missing_classes}")
         print(f"   📍 Classes found elsewhere: {total_found_elsewhere}")
         print(f"   ⏱️  Hunt duration: {duration:.2f}s")
-        print(f"   🧬 Files searched: {len(list(self.base_path.rglob('*.py')))}")
+        print(f"   🧬 Files searched: {len(list(self.base_path.rglob('*.py'))}")
 
         # Key findings
         print("\n🔬 KEY HUNT FINDINGS:")

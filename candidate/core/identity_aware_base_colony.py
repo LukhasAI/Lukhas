@@ -233,7 +233,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
                 self.tier_capability_matrix[tier] = list(set(available_caps))
 
-        self.logger.debug(f"Tier capability matrix configured for {len(self.tier_capability_matrix)} tiers")
+        self.logger.debug(f"Tier capability matrix configured for {len(self.tier_capability_matrix} tiers")
 
     def _initialize_oracle_ethics_integration(self):
         """Initialize Oracle & Ethics nervous system integration."""

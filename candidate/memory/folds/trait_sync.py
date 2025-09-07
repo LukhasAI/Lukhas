@@ -50,7 +50,7 @@ TRAIT_SYNC_FOLDER = "sync/traits/"
 TRAIT_FILE_NAME = f"{NODE_ID}_traits.json"
 
 # Ensure folder exists
-Path(TRAIT_SYNC_FOLDER, timezone).mkdir(parents=True, exist_ok=True)
+Path(TRAIT_SYNC_FOLDER).mkdir(parents=True, exist_ok=True)
 
 
 # --- EXPORT LOCAL TRAITS TO SHARED FOLDER --- #
@@ -102,7 +102,7 @@ def run():
         diffs, avg = compare_traits(local, other)
         print(f"[{node}] vs [{NODE_ID}] → Δ Avg: {avg:.3f}")
         for k, v in diffs.items():
-            print(f"  {k.capitalize():15}: Δ {v:.3f}")
+            print(f"  {k.capitalize(}:15}: Δ {v:.3f}")
         print("")
 
 

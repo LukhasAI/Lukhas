@@ -289,7 +289,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         client_id = request.headers.get("X-API-Key", request.client.host if request.client else "unknown")
 
         # Check rate limit
-        key = f"rate_limit:{client_id}:{datetime.utcnow().strftime('%Y%m%d%H%M')}"
+        key = f"rate_limit:{client_id}:{datetime.utcnow().strftime('%Y%m%d%H%M'}"
 
         try:
             current = await self.redis_client.incr(key)

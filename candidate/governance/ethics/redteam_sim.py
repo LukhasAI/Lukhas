@@ -30,7 +30,7 @@ from typing import Any
 from ethics.ethical_guardian import ethical_check
 
 
-class HashableDict(dict, timezone):
+class HashableDict(dict):
     """Dictionary that can be used as a hash key."""
 
     def __hash__(self) -> int:  # pragma: no cover - simple wrapper

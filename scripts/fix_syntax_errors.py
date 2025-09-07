@@ -94,11 +94,11 @@ def process_file(file_path: Path, auto_fix: bool = True) -> bool:
         fixed_content, fixes = fix_common_syntax_patterns(content)
 
         if fixes:
-            print(f"   Applying {len(fixes)} fixes:")
+            print(f"   Applying {len(fixes} fixes:")
             for fix in fixes[:5]:  # Show first 5 fixes
                 print(f"     - {fix}")
             if len(fixes) > 5:
-                print(f"     ... and {len(fixes) - 5} more")
+                print(f"     ... and {len(fixes} - 5} more")
 
             # Write fixed content
             with open(file_path, "w", encoding="utf-8") as f:
@@ -161,16 +161,16 @@ def main():
     print("\n" + "=" * 50)
     print("📊 Summary:")
     print(f"   Total files scanned: {total_files}")
-    print(f"   Files with errors: {len(error_files)}")
-    print(f"   Files fixed: {len(fixed_files)}")
-    print(f"   Files need manual fix: {len(unfixed_files)}")
+    print(f"   Files with errors: {len(error_files}")
+    print(f"   Files fixed: {len(fixed_files}")
+    print(f"   Files need manual fix: {len(unfixed_files}")
 
     if unfixed_files:
         print("\n⚠️  Files requiring manual intervention:")
         for file in unfixed_files[:10]:
             print(f"   - {file}")
         if len(unfixed_files) > 10:
-            print(f"   ... and {len(unfixed_files) - 10} more")
+            print(f"   ... and {len(unfixed_files} - 10} more")
 
     return len(unfixed_files) == 0
 

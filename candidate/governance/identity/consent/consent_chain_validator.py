@@ -40,7 +40,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class ConsentType(Enum):
@@ -99,7 +99,7 @@ class ConsentNode:
     def compute_hash(self) -> str:
         """Compute cryptographic hash of consent node"""
         content = f"{self.node_id}|{self.consent_type.value}|{self.user_id}|"
-        content += f"{self.timestamp.isoformat()}|{self.ethical_hash}"
+        content += f"{self.timestamp.isoformat(}|{self.ethical_hash}"
         if self.parent_node_id:
             content += f"|{self.parent_node_id}"
         return hashlib.sha3_256(content.encode()).hexdigest()
@@ -336,7 +336,7 @@ class ConsentChainValidator:
         logger.info(f"🌿 Validating T5 consent for user {user_id}")
 
         # Generate decision ID
-        decision_id = f"CONSENT_{user_id}_{secrets.token_hex(8)}"
+        decision_id = f"CONSENT_{user_id}_{secrets.token_hex(8}"
 
         # Get or create consent chain
         chain = await self._get_or_create_chain(user_id)
@@ -417,7 +417,7 @@ class ConsentChainValidator:
         """Get existing consent chain or create new one"""
         if user_id not in self.consent_chains:
             chain = ConsentChain(
-                chain_id=f"CHAIN_{secrets.token_hex(8)}",
+                chain_id=f"CHAIN_{secrets.token_hex(8}",
                 user_id=user_id,
                 created_at=datetime.now(timezone.utc),
             )
@@ -468,7 +468,7 @@ class ConsentChainValidator:
         iris_verification: dict[str, Any],
     ) -> ConsentNode:
         """Create a new consent node"""
-        node_id = f"NODE_{secrets.token_hex(8)}"
+        node_id = f"NODE_{secrets.token_hex(8}"
 
         # Calculate expiry based on consent type
         expiry_hours = self.consent_config["default_expiry_hours"]
@@ -490,8 +490,8 @@ class ConsentChainValidator:
         }
 
         # Generate ethical hash
-        ethical_content = f"{consent_type.value}|{consciousness_state}|{json.dumps(consent_data)}"
-        ethical_hash = f"trusthelix:{hashlib.sha256(ethical_content.encode()).hexdigest()[:12]}"
+        ethical_content = f"{consent_type.value}|{consciousness_state}|{json.dumps(consent_data}"
+        ethical_hash = f"trusthelix:{hashlib.sha256(ethical_content.encode()).hexdigest(}[:12]}"
 
         # Create node
         node = ConsentNode(
@@ -513,7 +513,7 @@ class ConsentChainValidator:
 
     def _generate_node_signature(self, node: ConsentNode) -> str:
         """Generate cryptographic signature for consent node"""
-        sig_content = f"{node.node_id}|{node.compute_hash()}|{node.ethical_hash}"
+        sig_content = f"{node.node_id}|{node.compute_hash(}|{node.ethical_hash}"
         return hashlib.sha3_512(sig_content.encode()).hexdigest()
 
     async def _validate_against_trusthelix(self, node: ConsentNode, consent_type: ConsentType) -> dict[str, Any]:
@@ -535,7 +535,7 @@ class ConsentChainValidator:
             "score": compliance_score,
             "principles_checked": relevant_principles,
             "violations": violations,
-            "reason": (f"Failed principles: {', '.join(violations)}" if violations else "All principles met"),
+            "reason": (f"Failed principles: {', '.join(violations}" if violations else "All principles met"),
         }
 
     def _check_principle_compliance(self, node: ConsentNode, principle: str) -> bool:
@@ -820,7 +820,7 @@ async def main():
 
     print(f"Valid: {decision2.valid}")
     print(f"Symbol: {decision2.consent_symbol.value} ({decision2.consent_symbol.name})")
-    print(f"Warnings: {len(decision2.warnings)}")
+    print(f"Warnings: {len(decision2.warnings}")
     for warning in decision2.warnings:
         print(f"  ⚠️ {warning}")
 
@@ -846,7 +846,7 @@ async def main():
     valid, decision = await validate_stargate_consent(stargate_payload, validator)
     print(f"Stargate Consent Valid: {valid}")
     print(f"Decision Symbol: {decision.consent_symbol.value}")
-    print(f"Requires Confirmation: {decision.requires_user_confirmation()}")
+    print(f"Requires Confirmation: {decision.requires_user_confirmation(}")
 
     print("\n" + "=" * 60)
     print("🌟 Consent Chain Validator demo complete!")

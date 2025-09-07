@@ -43,7 +43,7 @@ except ImportError:
     SymbolicGlyphEngine = None
 
 
-class AuthGlyphCategory(Enum, timezone):
+class AuthGlyphCategory(Enum):
     """Categories of authentication GLYPHs"""
 
     IDENTITY = "identity"  # User identity and persona
@@ -227,10 +227,10 @@ class AuthGlyphRegistry:
         for tier in ["T1", "T2", "T3", "T4", "T5"]:
             self.register_glyph(
                 AuthGlyph(
-                    id=f"tier_{tier.lower()}",
+                    id=f"tier_{tier.lower(}",
                     category=AuthGlyphCategory.TIER,
                     symbol=f"🏆{tier[-1]}",
-                    concept=f"tier_{tier.lower()}_access",
+                    concept=f"tier_{tier.lower(}_access",
                     description=f"Tier {tier} access level",
                     tier_level=tier,
                 )
@@ -362,7 +362,7 @@ class AuthGlyphRegistry:
 
     def get_tier_glyph(self, tier_level: str) -> Optional[AuthGlyph]:
         """Get GLYPH for specific tier level"""
-        glyph_id = f"tier_{tier_level.lower()}"
+        glyph_id = f"tier_{tier_level.lower(}"
         return self.get_glyph(glyph_id)
 
     def create_symbolic_identity(
@@ -474,7 +474,7 @@ class AuthGlyphRegistry:
             return f"GLYPH[{combined}:{glyph_hash}]"
 
         except Exception as e:
-            return f"GLYPH[ERROR:{str(e)[:8]}]"
+            return f"GLYPH[ERROR:{str(e}[:8]}]"
 
     def encode_jwt_glyph_claims(
         self,
@@ -667,7 +667,7 @@ class AuthGlyphRegistry:
             return message_glyph
 
         except Exception as e:
-            return f"MSG[ERROR:{str(e)[:8]}]"
+            return f"MSG[ERROR:{str(e}[:8]}]"
 
     def get_registry_stats(self) -> dict[str, Any]:
         """Get authentication GLYPH registry statistics"""

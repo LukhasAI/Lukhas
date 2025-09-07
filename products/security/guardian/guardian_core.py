@@ -96,7 +96,7 @@ class MockEmergencyAid:
     async def handle_emergency(self, emergency_type, severity, context):
         return {
             "success": True,
-            "alert_id": f"λ-{uuid.uuid4().hex[:8]}",
+            "alert_id": f"λ-{uuid.uuid4(}.hex[:8]}",
             "response_initiated": True,
             "estimated_response_time": "2-5 minutes",
             "emergency_type": emergency_type,
@@ -153,7 +153,7 @@ class MockMultiLanguageProcessor:
         return True
 
     async def translate(self, text, target_language):
-        return f"[{target_language.upper()}] {text} (ΛGuardian translation)"
+        return f"[{target_language.upper(}] {text} (ΛGuardian translation)"
 
 
 class MockPrivacyGuardian:
@@ -179,7 +179,7 @@ class MockAuditLogger:
 
     async def log_event(self, event_data):
         self.events.append(event_data)
-        return f"λ-event-{uuid.uuid4().hex[:8]}"
+        return f"λ-event-{uuid.uuid4(}.hex[:8]}"
 
 
 @dataclass
@@ -287,7 +287,7 @@ class LambdaGuardianEngine:
     ):
         self.config_path = Path(config_path)
         self.data_dir = Path(data_dir)
-        self.system_id = f"λ-guardian-{uuid.uuid4().hex[:8]}"
+        self.system_id = f"λ-guardian-{uuid.uuid4(}.hex[:8]}"
         self.start_time = time.time()
 
         # Load configuration
@@ -459,7 +459,7 @@ class LambdaGuardianEngine:
                 context={"modules": self.current_status.active_modules},
             )
 
-            logger.info(f"✅ ΛGuardian Engine started with {len(self.subsystems)} modules")
+            logger.info(f"✅ ΛGuardian Engine started with {len(self.subsystems} modules")
             return True
 
         except Exception as e:
@@ -566,7 +566,7 @@ class LambdaGuardianEngine:
     ):
         """Log a ΛGuardian system event"""
         event = LambdaSystemEvent(
-            event_id=f"λ-{uuid.uuid4().hex[:8]}",
+            event_id=f"λ-{uuid.uuid4(}.hex[:8]}",
             timestamp=time.time(),
             event_type=event_type,
             severity=severity,
@@ -622,7 +622,7 @@ class LambdaGuardianEngine:
             return {"error": "ΛConsent manager not available"}
 
         consent_request = ConsentRequest(
-            id=f"λ-consent-{uuid.uuid4().hex[:8]}",
+            id=f"λ-consent-{uuid.uuid4(}.hex[:8]}",
             requester=requester,
             target_resource=resource,
             permission_type=permission,

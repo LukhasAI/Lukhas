@@ -17,7 +17,7 @@ class TaskIntelligence:
     🧠 AI-powered task intelligence for smart categorization and analysis
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.learning_patterns: dict[str, Any] = {}
         self.task_embeddings: dict[str, list[float]] = {}
 

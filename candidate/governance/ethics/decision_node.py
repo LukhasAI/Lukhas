@@ -85,7 +85,7 @@ class EthicsNode:
         # Active framework
         self.active_framework = "default"
 
-        logger.info(f"Ethics Node initialized with {len(self.ethical_principles)} principles")
+        logger.info(f"Ethics Node initialized with {len(self.ethical_principles} principles")
 
     def _initialize_principles(self) -> dict[str, float]:
         """Initialize core ethical principles with their weights"""
@@ -610,7 +610,7 @@ class EthicsNode:
             decision_record: Decision data to record
         """
         # Add an audit ID
-        decision_record["audit_id"] = f"ethics_{int(time.time())}_{str(uuid.uuid4())[:8]}"
+        decision_record["audit_id"] = f"ethics_{int(time.time())}_{str(uuid.uuid4()}[:8]}"
 
         # Add to decision history
         self.decision_history.append(decision_record)
@@ -628,7 +628,7 @@ class EthicsNode:
         """Log an audit event (would connect to external audit system)"""
         # In a real implementation, this would store the event in a secure audit system
         logger.info(
-            f"Ethics audit: {event_data.get('audit_id')} - Action: {event_data.get('action_type')} - Ethical: {event_data.get('is_ethical')}"
+            f"Ethics audit: {event_data.get('audit_id')} - Action: {event_data.get('action_type')} - Ethical: {event_data.get('is_ethical'}"
         )
 
     def get_principle_weights(self) -> dict[str, float]:
@@ -795,7 +795,7 @@ class EthicsNode:
                         {
                             "type": category,
                             "severity": "high",
-                            "description": f"Potentially harmful {category.replace('_', ' ')} content detected",
+                            "description": f"Potentially harmful {category.replace('_', ' '} content detected",
                         }
                     )
 

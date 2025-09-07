@@ -488,7 +488,7 @@ class AudioProcessingChain:
             try:
                 current_buffer = await processor.process(current_buffer)
             except Exception as e:
-                self.logger.error(f"Processor {type(processor).__name__} failed: {e!s}")
+                self.logger.error(f"Processor {type(processor}.__name__} failed: {e!s}")
                 # Continue with unprocessed buffer
                 pass
 
@@ -628,7 +628,7 @@ class LUKHASAudioProcessor:
             )
 
             if not validation_result.get("approved", False):
-                raise ValueError(f"Guardian rejected audio processing: {validation_result.get('reason')}")
+                raise ValueError(f"Guardian rejected audio processing: {validation_result.get('reason'}")
 
             # Convert bytes to audio buffer
             audio_buffer = self._bytes_to_buffer(audio_data, sample_rate, channels, format)

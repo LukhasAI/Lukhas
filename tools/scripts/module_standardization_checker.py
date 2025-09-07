@@ -42,7 +42,7 @@ REQUIRED_STRUCTURE = {
     "tests": ["tests/unit", "tests/integration", "tests/fixtures"],
 }
 
-# Core modules to check (from standardization plan, timezone)
+# Core modules to check (from standardization plan)
 CORE_MODULES = [
     "core",
     "memory",
@@ -170,9 +170,9 @@ class ModuleStandardizationChecker:
 
         # Generate recommendations
         if results["missing_files"]:
-            results["recommendations"].append(f"Create missing files: {', '.join(results['missing_files'])}")
+            results["recommendations"].append(f"Create missing files: {', '.join(results['missing_files']}")
         if results["missing_dirs"]:
-            results["recommendations"].append(f"Create missing directories: {', '.join(results['missing_dirs'])}")
+            results["recommendations"].append(f"Create missing directories: {', '.join(results['missing_dirs']}")
         if results["missing_docs"]:
             results["recommendations"].append("Add comprehensive documentation")
         if results["missing_tests"]:

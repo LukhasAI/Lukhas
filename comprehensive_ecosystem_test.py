@@ -9,7 +9,7 @@ import time
 from datetime import datetime
 
 
-def test_import(module_name, description="", timezone):
+def test_import(timezone, module_name, description=""):
     """Test if a module can be imported"""
     try:
         if "." in module_name:
@@ -22,11 +22,11 @@ def test_import(module_name, description="", timezone):
             __import__(module_name)
         return True, "✅ OPERATIONAL"
     except ImportError as e:
-        return False, f"❌ ImportError: {str(e)[:40]}..."
+        return False, f"❌ ImportError: {str(e}[:40]}..."
     except AttributeError as e:
-        return False, f"❌ AttributeError: {str(e)[:40]}..."
+        return False, f"❌ AttributeError: {str(e}[:40]}..."
     except Exception as e:
-        return False, f"❌ {type(e).__name__}: {str(e)[:40]}..."
+        return False, f"❌ {type(e).__name__}: {str(e}[:40]}..."
 
 
 def main():
@@ -41,8 +41,8 @@ def main():
         if os.path.isdir(item) and not item.startswith(".") and not item.startswith("_") and item != "__pycache__":
             lukhas_dirs.append(item)
 
-    print(f"🔍 Discovered {len(lukhas_dirs)} top-level directories")
-    print(f'🚀 Ecosystem scan started: {datetime.now(timezone.utc).strftime("%H:%M:%S")}')
+    print(f"🔍 Discovered {len(lukhas_dirs} top-level directories")
+    print(f'🚀 Ecosystem scan started: {datetime.now(timezone.utc).strftime("%H:%M:%S"}')
     print()
 
     # Comprehensive system testing
@@ -207,7 +207,7 @@ def main():
     print(f"🟢 Systems Operational: {operational_count}/{total_systems}")
     print(f"📊 Ecosystem Health: {health_percentage:.1f}%")
     print(f"⏱️  Scan Duration: {scan_duration:.3f} seconds")
-    print(f"🌌 Directories Scanned: {len(lukhas_dirs)}")
+    print(f"🌌 Directories Scanned: {len(lukhas_dirs}")
 
     print()
     print("🔍 SYSTEM FAILURES (Issues to address):")
@@ -248,7 +248,7 @@ def main():
     print()
     print("🌍 COMPLETE ECOSYSTEM SCAN FINISHED! 🧠")
     print(f"True system scope: {total_systems} major components")
-    print(f'Directories discovered: {", ".join(sorted(lukhas_dirs))}')
+    print(f'Directories discovered: {", ".join(sorted(lukhas_dirs)}')
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ class DreamMetricsDB:
     """# ΛTAG: metrics_db
     Store dream scoring metrics in a SQLite database."""
 
-    def __init__(self, db_path: Optional[str] = None, timezone) -> None:
+    def __init__(self, db_path: Optional[str] = None) -> None:
         self.db_path = Path(db_path or "dream_metrics.db")
         self._init_db()
 

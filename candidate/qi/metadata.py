@@ -45,7 +45,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class SymbolicDimension(Enum, timezone):
+class SymbolicDimension(Enum):
     """Symbolic dimensions for content classification."""
 
     KNOWLEDGE = "knowledge"
@@ -173,7 +173,7 @@ class QIMetadataManager:
         await self._store_metadata(metadata)
 
         self.logger.info(
-            f"✅ Quantum metadata generated: {len(symbolic_tags)} tags, {len(entanglement_refs)} entanglements"
+            f"✅ Quantum metadata generated: {len(symbolic_tags)} tags, {len(entanglement_refs} entanglements"
         )
         return metadata
 
@@ -475,14 +475,14 @@ if __name__ == "__main__":
         print(f"Quantum Signature: {metadata.qi_signature}")
         print(f"Symbolic Tags: {metadata.symbolic_tags}")
         print(f"Symbolic Dimensions: {metadata.symbolic_dimensions}")
-        print(f"Entanglements: {len(metadata.qi_entanglement_refs)}")
+        print(f"Entanglements: {len(metadata.qi_entanglement_refs}")
 
         # Search examples
         tech_content = await manager.search_by_tags(["tech:ai"])
         research_content = await manager.search_by_dimension(SymbolicDimension.RESEARCH)
 
-        print(f"\nTech AI content: {len(tech_content)} items")
-        print(f"Research content: {len(research_content)} items")
+        print(f"\nTech AI content: {len(tech_content} items")
+        print(f"Research content: {len(research_content} items")
 
         stats = manager.get_metadata_statistics()
         print(f"\nMetadata Statistics: {stats}")

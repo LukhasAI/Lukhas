@@ -23,7 +23,7 @@ from candidate.core.common import get_logger
 # TAG:colony
 
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class EchoController:
@@ -95,7 +95,7 @@ class EchoController:
         # ΛTRACE
         logger.warning(f"Governance Alert: {message}")
         with open(self.alert_log_path, "a") as f:
-            f.write(f"{datetime.now(timezone.utc).isoformat()}: {message}\n")
+            f.write(f"{datetime.now(timezone.utc).isoformat(}: {message}\n")
 
 
 # ═══════════════════════════════════════════════════════════════════════════

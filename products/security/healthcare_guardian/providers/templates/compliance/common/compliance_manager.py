@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class ComplianceLevel(Enum):
@@ -166,7 +166,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         """Check consent across all frameworks"""
 
         # Check cache first
-        cache_key = f"{subject_id}:{purpose}:{':'.join(data_types)}"
+        cache_key = f"{subject_id}:{purpose}:{':'.join(data_types}"
         if cache_key in self.consent_cache:
             consent_data = self.consent_cache[cache_key]
             if consent_data["expires"] > datetime.now(timezone.utc):

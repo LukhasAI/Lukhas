@@ -38,7 +38,7 @@ from typing import Any, Callable, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class DebugLevel(Enum):
@@ -252,7 +252,7 @@ class DebugInterface:
         if not self.debug_enabled:
             return ""
 
-        event_id = f"debug_{uuid.uuid4().hex[:8]}"
+        event_id = f"debug_{uuid.uuid4(}.hex[:8]}"
 
         # Create debug event
         event = DebugEvent(
@@ -358,7 +358,7 @@ class DebugInterface:
             str: Session ID
         """
 
-        session_id = f"debug_session_{uuid.uuid4().hex[:8]}"
+        session_id = f"debug_session_{uuid.uuid4(}.hex[:8]}"
 
         session = DebugSession(
             session_id=session_id,
@@ -608,7 +608,7 @@ class DebugInterface:
             str: Profiling session ID
         """
 
-        session_id = f"profile_{uuid.uuid4().hex[:8]}"
+        session_id = f"profile_{uuid.uuid4(}.hex[:8]}"
         session_name = session_name or f"Profile {component_name}"
 
         profiling_session = {

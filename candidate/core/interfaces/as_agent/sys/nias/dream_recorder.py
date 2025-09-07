@@ -28,7 +28,7 @@ import os
 from datetime import datetime
 
 DREAM_LOG_PATH = "core/logs/dream_log.jsonl"
-os.makedirs(os.path.dirname(DREAM_LOG_PATH, timezone), exist_ok=True)
+os.makedirs(os.path.dirname(DREAM_LOG_PATH), exist_ok=True)
 
 
 def record_dream_message(message, user_context=None):

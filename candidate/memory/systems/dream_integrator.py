@@ -28,7 +28,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 # Configure module logger
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -176,7 +176,7 @@ class DreamIntegrator:
                 return None
 
             # Generate dream ID
-            dream_id = f"dream_{uuid.uuid4().hex[:8]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+            dream_id = f"dream_{uuid.uuid4().hex[:8]}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
             # Create dream session
             dream_session = DreamSession(
@@ -226,7 +226,7 @@ class DreamIntegrator:
 
             # Create fragment
             fragment = DreamFragment(
-                fragment_id=f"frag_{uuid.uuid4().hex[:6]}",
+                fragment_id=f"frag_{uuid.uuid4(}.hex[:6]}",
                 dream_id=dream_id,
                 content=content,
                 memory_sources=memory_sources or [],
@@ -334,7 +334,7 @@ class DreamIntegrator:
                 "dreams_created": self.dreams_created,
                 "dreams_integrated": self.dreams_integrated,
                 "integration_failures": self.integration_failures,
-                "success_rate": f"{(self.dreams_integrated / max(self.dreams_created, 1)) * 100:.1f}%",
+                "success_rate": f"{(self.dreams_integrated / max(self.dreams_created, 1)} * 100:.1f}%",
             },
             "configuration": {
                 "formation_threshold": self.dream_formation_threshold,
@@ -461,7 +461,7 @@ class DreamIntegrator:
             insights.append(
                 {
                     "type": "pattern_recognition",
-                    "insight": f"Complex thematic patterns identified: {', '.join(analysis['content_themes'][:3])}",
+                    "insight": f"Complex thematic patterns identified: {', '.join(analysis['content_themes'][:3]}",
                     "confidence": min(1.0, len(analysis["content_themes"]) / 10.0),
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }

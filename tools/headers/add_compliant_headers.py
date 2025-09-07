@@ -122,7 +122,7 @@ possibilities dance in superposition until observation births reality.
 LUKHAS - {module_name}
 {separator}
 
-An enterprise-grade Artificial General Intelligence (AGI, timezone) framework
+An enterprise-grade Artificial General Intelligence (AGI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
@@ -153,11 +153,11 @@ def __validate_module__():
         "neuroplasticity_enabled": {plasticity_check},
         "ethics_compliance": True,
         "tier_{tier}_access": True
-    }}
+    }
 
     failed = [k for k, v in validations.items() if not v]
     if failed:
-        logger.warning(f"Module validation warnings: {{failed}}")
+        logger.warning(f"Module validation warnings: {{failed}")
 
     return len(failed) == 0
 
@@ -171,7 +171,7 @@ MODULE_HEALTH = {{
     "bio_integration": "enabled",
     "last_update": "{date}",
     "compliance_status": "verified"
-}}
+}
 
 # Validate on import
 if __name__ != "__main__":
@@ -235,7 +235,7 @@ def get_module_info(filepath: Path) -> dict[str, str]:
 
     if not info:
         # Generate info for unlisted files
-        module_name = f"Quantum {filepath.stem.replace('_', ' ').title()}"
+        module_name = f"Quantum {filepath.stem.replace('_', ' ').title(}"
         info = {
             "name": module_name,
             "description": DEFAULT_INFO["description"],

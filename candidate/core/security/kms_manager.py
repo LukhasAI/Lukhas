@@ -633,7 +633,7 @@ class LukhasKMSManager:
     def _generate_secret(self, secret_type: SecretType) -> str:
         """Generate new secret value based on type"""
         if secret_type == SecretType.API_KEY:
-            return f"lukhas_{secrets.token_urlsafe(32)}"
+            return f"lukhas_{secrets.token_urlsafe(32}"
         elif secret_type == SecretType.OAUTH_TOKEN:
             return secrets.token_urlsafe(48)
         elif secret_type == SecretType.ENCRYPTION_KEY:
@@ -730,7 +730,7 @@ if __name__ == "__main__":
         # Test SBOM generation
         print("\n📦 Testing SBOM generation...")
         sbom_result = kms.generate_sbom()
-        print(f"   SBOM generated with {len(sbom_result['sbom']['components'])} components")
+        print(f"   SBOM generated with {len(sbom_result['sbom']['components']} components")
         print(f"   Found {sbom_result['vulnerability_count']} vulnerabilities")
 
         # Test QIM assessment

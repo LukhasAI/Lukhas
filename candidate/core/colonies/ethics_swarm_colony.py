@@ -429,7 +429,7 @@ class EthicsSwarmColony(BaseColony):
 
         for template in scenario_templates:
             for i in range(5):  # Generate variations
-                scenario_id = f"scenario_{template['type'].value}_{i}_{int(time.time())}"
+                scenario_id = f"scenario_{template['type'].value}_{i}_{int(time.time()}"
 
                 scenario = EthicalScenario(
                     scenario_id=scenario_id,
@@ -854,7 +854,7 @@ class EthicsSwarmColony(BaseColony):
         reasoning.append(f"Decision type: {request.decision_type.value}")
 
         # Add consensus reasoning
-        reasoning.append(f"Consensus achieved via: {decision_data.get('consensus_method', 'unknown')}")
+        reasoning.append(f"Consensus achieved via: {decision_data.get('consensus_method', 'unknown'}")
 
         # Add simulation reasoning
         if simulation_result:
@@ -1396,7 +1396,7 @@ async def make_ethical_decision(
     colony = await get_ethics_swarm_colony()
 
     request = EthicalDecisionRequest(
-        request_id=f"ethical_{decision_type.value}_{int(time.time())}",
+        request_id=f"ethical_{decision_type.value}_{int(time.time()}",
         decision_type=decision_type,
         context=context,
         urgency=urgency,

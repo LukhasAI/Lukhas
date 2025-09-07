@@ -78,7 +78,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Quantum-Bio Integration Components
 try:

@@ -139,7 +139,7 @@ def ship_once(cfg: SinkConfig, once: bool = False, poll_sec: float = 1.0) -> Non
                     # s3 prefix: receipts/YYMMDD/sha[:2]/<key>.json
                     ymd = time.strftime("%Y%m%d", time.gmtime(float(rec.get("ts", time.time()))))
                     sha = (rec.get("artifact_sha") or "unknown")[:2]
-                    keypath = f"{cfg.s3_prefix.rstrip('/')}/receipts/{ymd}/{sha}/{key}.json"
+                    keypath = f"{cfg.s3_prefix.rstrip('/'}/receipts/{ymd}/{sha}/{key}.json"
                     s3.put_object(
                         Bucket=cfg.s3_bucket,
                         Key=keypath,

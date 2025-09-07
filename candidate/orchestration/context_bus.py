@@ -56,7 +56,7 @@ class ContextHandoff:
     Preserves state between workflow steps
     """
 
-    handoff_id: str = field(default_factory=lambda: f"CTX-{uuid.uuid4().hex}")
+    handoff_id: str = field(default_factory=lambda: f"CTX-{uuid.uuid4(}.hex}")
     source_step: str = ""
     target_step: str = ""
     context_data: dict[str, Any] = field(default_factory=dict)
@@ -240,7 +240,7 @@ class ContextBusOrchestrator:
         Execute multi-step workflow with policy enforcement at each step
         Implements <250ms context handoff target
         """
-        workflow_id = f"WF-{uuid.uuid4().hex}"
+        workflow_id = f"WF-{uuid.uuid4(}.hex}"
 
         # Initialize workflow
         self.workflows[workflow_id] = {
@@ -283,7 +283,7 @@ class ContextBusOrchestrator:
                     if policy_result["verdict"] == PolicyVerdict.DENY:
                         self._add_narrative(workflow_id, f"❌ Policy denied: {step.name}")
                         self.workflows[workflow_id]["state"] = WorkflowState.FAILED
-                        raise Exception(f"Policy denied: {policy_result.get('refusal', 'Unknown')}")
+                        raise Exception(f"Policy denied: {policy_result.get('refusal', 'Unknown'}")
 
                     elif policy_result["verdict"] == PolicyVerdict.STEP_UP_REQUIRED:
                         self._add_narrative(workflow_id, f"🔐 Step-up required: {step.name}")
@@ -609,7 +609,7 @@ if __name__ == "__main__":
         # Create travel analysis pipeline
         pipeline = WorkflowPipelines.create_travel_analysis_pipeline(orchestrator)
 
-        print(f"📋 Pipeline created with {len(pipeline)} steps")
+        print(f"📋 Pipeline created with {len(pipeline} steps")
         for step in pipeline:
             print(f"   - {step.name}")
 
@@ -631,7 +631,7 @@ if __name__ == "__main__":
 
         print("\n📊 Workflow Result:")
         print(f"   State: {result['state']}")
-        print(f"   Steps completed: {len(result.get('results', []))}")
+        print(f"   Steps completed: {len(result.get('results', [])}")
 
         if "narrative" in result:
             print("\n📖 Workflow Narrative:")

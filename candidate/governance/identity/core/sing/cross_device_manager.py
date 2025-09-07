@@ -515,7 +515,7 @@ class CrossDeviceTokenManager:
     def _generate_device_fingerprint(self, device_data: dict) -> str:
         """Generate unique device fingerprint"""
         fingerprint_data = (
-            f"{device_data.get('device_id')}|{device_data.get('device_type')}|{device_data.get('os_version')}"
+            f"{device_data.get('device_id')}|{device_data.get('device_type')}|{device_data.get('os_version'}"
         )
         return hashlib.sha256(fingerprint_data.encode()).hexdigest()[:16]
 
@@ -618,7 +618,7 @@ class WebRTCDeviceSync:
                 return False
 
             # Create sync channel identifier
-            channel_id = f"{user_id}:{min(device_a, device_b)}:{max(device_a, device_b)}"
+            channel_id = f"{user_id}:{min(device_a, device_b)}:{max(device_a, device_b}"
 
             # In a real implementation, this would establish WebRTC connection
             self.active_channels[channel_id] = {
@@ -637,7 +637,7 @@ class WebRTCDeviceSync:
         """Sync token via WebRTC channel"""
         try:
             # Check for active channel
-            channel_id = f"{user_id}:{min(source_device, target_device)}:{max(source_device, target_device)}"
+            channel_id = f"{user_id}:{min(source_device, target_device)}:{max(source_device, target_device}"
 
             if channel_id not in self.active_channels:
                 return False

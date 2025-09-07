@@ -336,7 +336,7 @@ class GPTColonyOrchestrator:
             # Colony reviews
             colony_task = OrchestrationTask(
                 task_id=f"{task.task_id}_colony_{iteration}",
-                content=f"Review: {gpt_response.get('response')}",
+                content=f"Review: {gpt_response.get('response'}",
                 context={
                     **current_context,
                     "gpt_proposal": gpt_response.get("response"),

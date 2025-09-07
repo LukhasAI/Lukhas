@@ -654,7 +654,7 @@ class DecisionMakingBridge:
             raise ValueError("At least one alternative is required")
 
         if len(alternatives) > self.config["max_alternatives"]:
-            raise ValueError(f"Too many alternatives: {len(alternatives)} > {self.config['max_alternatives']}")
+            raise ValueError(f"Too many alternatives: {len(alternatives} > {self.config['max_alternatives']}")
 
         # Validate alternative IDs are unique
         alt_ids = [alt.alternative_id for alt in alternatives]
@@ -825,7 +825,7 @@ class DecisionMakingBridge:
 
         # Risk and uncertainty acknowledgment
         if selected.uncertainty_factors:
-            rationale_parts.append(f"Acknowledged uncertainties: {', '.join(selected.uncertainty_factors)}")
+            rationale_parts.append(f"Acknowledged uncertainties: {', '.join(selected.uncertainty_factors}")
 
         return ". ".join(rationale_parts) + "."
 

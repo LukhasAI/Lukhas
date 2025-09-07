@@ -71,7 +71,7 @@ def consciousness_state_strategy(draw):
 @st.composite
 def matriz_node_strategy(draw, node_type="CONTEXT"):
     """Generate valid MΛTRIZ nodes"""
-    node_id = f"test-{node_type.lower()}-{draw(st.integers(min_value=1, max_value=999999))}"
+    node_id = f"test-{node_type.lower()}-{draw(st.integers(min_value=1, max_value=999999)}"
     state = draw(consciousness_state_strategy())
 
     return {
@@ -85,7 +85,7 @@ def matriz_node_strategy(draw, node_type="CONTEXT"):
             "producer": "test.property_testing",
             "capabilities": draw(st.lists(st.text(min_size=1, max_size=30), min_size=1, max_size=5)),
             "tenant": "test_tenant",
-            "trace_id": f"trace-{draw(st.integers(min_value=1, max_value=999999))}",
+            "trace_id": f"trace-{draw(st.integers(min_value=1, max_value=999999)}",
             "consent_scopes": ["test_scope"],
             "policy_version": "test.v1.0",
         },
@@ -279,7 +279,7 @@ class ConsciousnessStateMachine(RuleBasedStateMachine):
                 if np.random.random() > 0.003:
                     self.cascade_prevention_successes += 1
 
-                return type("MockMemory", (), {"type": "MEMORY", "state": {"salience": np.random.uniform(0.5, 1.0)}})()
+                return type("MockMemory", (), {"type": "MEMORY", "state": {"salience": np.random.uniform(0.5, 1.0)})()
 
             def get_buffer_metrics(self):
                 if self.cascade_prevention_attempts == 0:

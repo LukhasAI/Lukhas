@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class Category(Enum):
@@ -208,7 +208,7 @@ class MemoryProfiler:
         if long_lived:
             analysis["long_lived_tensors"] = sorted(long_lived, key=lambda x: x["lifetime_minutes"], reverse=True)[:10]
             analysis["recommendations"].append(
-                f"Found {len(long_lived)} long-lived tensors - review for potential cleanup"
+                f"Found {len(long_lived} long-lived tensors - review for potential cleanup"
             )
 
         logger.info(

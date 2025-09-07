@@ -10,7 +10,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class DreamHub:
@@ -33,7 +33,7 @@ class DreamHub:
         self._register_integration_services()
 
         self.is_initialized = True
-        logger.info(f"Dream hub initialized with {len(self.services)} services")
+        logger.info(f"Dream hub initialized with {len(self.services} services")
 
     def _register_dream_processing_services(self):
         """Register dream processing services"""
@@ -133,7 +133,7 @@ class DreamHub:
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for all registered dream services"""
-        health = {"status": "healthy", "services": {}}
+        health = {"status": "healthy", "services": {}
 
         for name, service in self.services.items():
             try:

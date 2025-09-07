@@ -23,7 +23,7 @@ class LearningAssistant:
     def __init__(
         self,
         journal_engine: Optional[JournalEngine] = None,
-        personality: str = "encouraging_technical_mentor",, timezone):
+        personality: str = "encouraging_technical_mentor"):
         self.journal = journal_engine or JournalEngine()
         self.decision_tracker = DecisionTracker(self.journal)
         self.insight_analyzer = InsightAnalyzer(self.journal)
@@ -311,7 +311,7 @@ class LearningAssistant:
                     answer_parts.append(f"- {entry.content[:150]}...")
                 elif entry.type == "decision":
                     answer_parts.append(
-                        f"- You decided: {entry.metadata.get('title', entry.content[:100])}..."
+                        f"- You decided: {entry.metadata.get('title', entry.content[:100]}..."
                     )
 
         # Include knowledge base results
@@ -677,7 +677,7 @@ class LearningAssistant:
             milestone = {
                 "week": week + 1,
                 "milestone": self._generate_weekly_milestone(goals, week),
-                "check_in": f"Reflect on {goals[week % len(goals)]} progress",
+                "check_in": f"Reflect on {goals[week % len(goals}]} progress",
             }
             plan["weekly_milestones"].append(milestone)
 
@@ -699,7 +699,7 @@ class LearningAssistant:
         # Save plan to journal
         self.journal.add_entry(
             type="learning",
-            content=f"Created learning plan for: {', '.join(goals)}",
+            content=f"Created learning plan for: {', '.join(goals}",
             metadata=plan,
             tags=["learning-plan"] + [g.lower().replace(" ", "-") for g in goals],
         )

@@ -241,7 +241,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     self._update_emission_metrics("authentication_request", start_time)
 
                     # Create correlation mapping
-                    correlation_key = f"auth_request_{identity_id}_{int(time.time())}"
+                    correlation_key = f"auth_request_{identity_id}_{int(time.time()}"
                     self.signal_correlation_map[correlation_key] = [signal.signal_id]
 
                     logger.info(f"🔐 Emitted authentication request signal: {signal.signal_id} for {identity_id}")
@@ -677,7 +677,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
             adaptation_vector = {"tier_level": float(tier.value[1] if tier.value.startswith("T") else 1)}
 
         return BioSymbolicData(
-            pattern_type=f"authentication_{tier.value.lower()}",
+            pattern_type=f"authentication_{tier.value.lower(}",
             oscillation_frequency=base_frequency + frequency_boost,
             coherence_score=coherence_score,
             adaptation_vector=adaptation_vector,

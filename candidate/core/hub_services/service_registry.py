@@ -13,7 +13,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Any, Callable, Optional, TypeVar
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 

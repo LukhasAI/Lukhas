@@ -25,7 +25,7 @@ from ..symbolic_ai.memory import SymbolicMemoryEngine
 class NeuralSymbolicBridge:
     """Bridge between neural networks and symbolic reasoning from OXN"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.memory_engine = SymbolicMemoryEngine()
         self.dream_processor = DreamProcessor()
         self.integration_threshold = 0.7

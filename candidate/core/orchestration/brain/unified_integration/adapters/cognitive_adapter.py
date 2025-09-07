@@ -20,7 +20,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class CognitiveAdapter:
@@ -194,7 +194,7 @@ class CognitiveAdapter:
         timestamp = datetime.now(timezone.utc).isoformat()
 
         # Generate memory ID
-        memory_id = self.identity_encoder.encode_id(f"{timestamp}-{hash(json.dumps(processed_data))}")
+        memory_id = self.identity_encoder.encode_id(f"{timestamp}-{hash(json.dumps(processed_data)}")
 
         # Prepare base memory entry
         memory_entry = {

@@ -50,7 +50,7 @@ class GuardianSystemAdapter:
     - Audit trail generation
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.drift_threshold = 0.15
         self.violations_cache = []
         self.current_drift = 0.0

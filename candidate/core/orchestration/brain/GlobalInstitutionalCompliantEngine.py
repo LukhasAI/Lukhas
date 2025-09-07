@@ -1384,7 +1384,7 @@ if __name__ == "__main__":
     print(f"🤖 AI Transparency Score: {result.ai_transparency_score:.1f}/100")
     print(f"⚠️ Risk Score: {result.overall_risk_score:.1f}/100")
 
-    print(f"\n🏆 Institutional Certifications: {len(result.institutional_certifications)}")
+    print(f"\n🏆 Institutional Certifications: {len(result.institutional_certifications}")
     for cert in result.institutional_certifications:
         print(f"  ✅ {cert}")
 

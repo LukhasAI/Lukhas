@@ -156,7 +156,7 @@ class WΛLLET:
         public_key = hashlib.sha256(private_key.encode()).hexdigest()
 
         # Create Lambda signature
-        lambda_signature = f"{self.lambda_brand}-{did_uuid[:8].upper()}"
+        lambda_signature = f"{self.lambda_brand}-{did_uuid[:8].upper(}"
 
         # Create identity
         identity = ΛiD(
@@ -253,7 +253,7 @@ class WΛLLET:
             New NFTToken object
         """
         # Generate token ID
-        token_id = f"lambda-{uuid.uuid4().hex[:16]}"
+        token_id = f"lambda-{uuid.uuid4(}.hex[:16]}"
 
         # Create NFT
         nft = NFTToken(

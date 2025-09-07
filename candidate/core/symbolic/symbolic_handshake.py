@@ -85,7 +85,7 @@ class SymbolicHandshake:
             "symbolic_tags": module_info.get("symbolic_tags", []),
         }
 
-        logger.info(f"Module registered: {module_name} with tags: {module_info.get('symbolic_tags', [])}")
+        logger.info(f"Module registered: {module_name} with tags: {module_info.get('symbolic_tags', []}")
 
     def create_signal(
         self,

@@ -472,7 +472,7 @@ class Soul:
                 f"{words[0]} transforms to light",
             ]
         else:
-            templates = [f"{' '.join(words)}"]
+            templates = [f"{' '.join(words}"]
 
         return random.choice(templates)
 
@@ -512,7 +512,7 @@ class Soul:
 
         templates = [
             f"Everything feels {sensory} and {emotion} here",
-            f"The {theme.split()[0]} whispers secrets of tomorrow",
+            f"The {theme.split(}[0]} whispers secrets of tomorrow",
             f"I become one with the {sensory} flow",
             f"Time bends like light through {emotion} prisms",
             f"Reality shifts between {sensory} states",

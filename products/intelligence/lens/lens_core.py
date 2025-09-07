@@ -141,7 +141,7 @@ class ΛLens:
     def _generate_signature(self, symbols: list[GlyphSymbol]) -> str:
         """Generate Lambda signature for dashboard"""
         symbol_hash = hashlib.sha256(json.dumps([s.id for s in symbols]).encode()).hexdigest()[:8]
-        return f"{self.lambda_brand}-{symbol_hash.upper()}"
+        return f"{self.lambda_brand}-{symbol_hash.upper(}"
 
     async def _render_dashboard(self, dashboard: SymbolicDashboard):
         """Render dashboard in requested format"""
@@ -267,7 +267,7 @@ class SymbolGenerator:
                 symbol = GlyphSymbol(
                     id=str(uuid.uuid4()),
                     type=SymbolType.DATA,
-                    content=f"{key}: {str(value)[:100]}",
+                    content=f"{key}: {str(value}[:100]}",
                     metadata={"key": key, "type": type(value).__name__},
                     position=None,
                     connections=[],
@@ -424,8 +424,8 @@ if __name__ == "__main__":
         dashboard = await lens.transform(sample_file, {"format": "ar", "symbol_style": "modern"})
 
         print(f"\n✅ Dashboard created: {dashboard.id}")
-        print(f"📊 Symbols generated: {len(dashboard.symbols)}")
-        print(f"🔗 Relationships found: {len(dashboard.relationships)}")
+        print(f"📊 Symbols generated: {len(dashboard.symbols}")
+        print(f"🔗 Relationships found: {len(dashboard.relationships}")
         print(f"Λ Signature: {dashboard.lambda_signature}")
 
         # Display symbols

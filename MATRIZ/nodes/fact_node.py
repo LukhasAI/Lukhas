@@ -771,7 +771,7 @@ if __name__ == "__main__":
 
         try:
             # Process the question
-            result = fact_node.process({"question": question, "context": {"test_case": i}})
+            result = fact_node.process({"question": question, "context": {"test_case": i})
 
             # Validate output
             is_valid = fact_node.validate_output(result)
@@ -832,8 +832,8 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 55)
     print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests * 100:.1f}%)")
-    print(f"Processing History: {len(fact_node.get_trace())} MATRIZ nodes created")
-    print(f"Knowledge Base Size: {len(fact_node.knowledge_base)} facts")
+    print(f"Processing History: {len(fact_node.get_trace()} MATRIZ nodes created")
+    print(f"Knowledge Base Size: {len(fact_node.knowledge_base} facts")
 
     # Show deterministic behavior
     print("\nDeterministic Test:")

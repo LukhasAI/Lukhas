@@ -101,14 +101,14 @@ def generate_comprehensive_report():
         system_data = component_reports["system_status"]
         exec_summary = system_data.get("executive_summary", {})
 
-        exec_summary_section["overall_system_health"] = f"{exec_summary.get('overall_health_score', 0):.1f}/100"
+        exec_summary_section["overall_system_health"] = f"{exec_summary.get('overall_health_score', 0}:.1f}/100"
         core_modules_operational = len(
             [m for m in system_data.get("core_modules", {}).values() if m.get("status") == "working"]
         )
         exec_summary_section["core_modules_functional"] = f"{core_modules_operational}/7"
         exec_summary_section["api_systems_online"] = exec_summary.get("api_status", "unknown")
-        exec_summary_section["test_success_rate"] = f"{exec_summary.get('test_success_rate', 0):.1f}%"
-        exec_summary_section["vivox_components_operational"] = f"{exec_summary.get('vivox_components_working', 0)}/5"
+        exec_summary_section["test_success_rate"] = f"{exec_summary.get('test_success_rate', 0}:.1f}%"
+        exec_summary_section["vivox_components_operational"] = f"{exec_summary.get('vivox_components_working', 0}/5"
 
         system_analysis_section |= {
             "python_environment": system_data.get("python_environment", {}),
@@ -128,7 +128,7 @@ def generate_comprehensive_report():
         api_exec_time = perf_metrics.get("lukhas_embedding", {}).get("execution_time", "N/A")
         exec_summary_section["key_findings"].extend(
             [
-                ("System Health Score: " f"{exec_summary.get('overall_health_score', 0):.1f} / 100"),
+                ("System Health Score: " f"{exec_summary.get('overall_health_score', 0}:.1f} / 100"),
                 ("All 7 core modules operational: " f"{core_modules_operational == 7}"),
                 "VIVOX consciousness system: All 5 components working",
                 (
@@ -167,7 +167,7 @@ def generate_comprehensive_report():
         # Add GPT-specific findings
         if isinstance(audit_data, dict):
             exec_summary_section["key_findings"].append(
-                f"GPT-4 audit: {audit_data.get('avg_drift', 'N/A')} avg drift across test prompts"
+                f"GPT-4 audit: {audit_data.get('avg_drift', 'N/A'} avg drift across test prompts"
             )
 
     # Generate research insights
@@ -281,25 +281,25 @@ def print_report_summary(report):
     summary = report["executive_summary"]
 
     print("\n📊 SYSTEM STATUS")
-    print(f"Overall Health: {summary.get('overall_system_health', 'N/A')}")
-    print(f"Core Modules: {summary.get('core_modules_functional', 'N/A')} working")
-    print(f"API Systems: {summary.get('api_systems_online', 'N/A')}")
-    print(f"Test Success: {summary.get('test_success_rate', 'N/A')}")
-    print(f"VIVOX Components: {summary.get('vivox_components_operational', 'N/A')} operational")
+    print(f"Overall Health: {summary.get('overall_system_health', 'N/A'}")
+    print(f"Core Modules: {summary.get('core_modules_functional', 'N/A'} working")
+    print(f"API Systems: {summary.get('api_systems_online', 'N/A'}")
+    print(f"Test Success: {summary.get('test_success_rate', 'N/A'}")
+    print(f"VIVOX Components: {summary.get('vivox_components_operational', 'N/A'} operational")
 
     if summary.get("key_findings"):
-        print(f"\n🔍 KEY FINDINGS ({len(summary['key_findings'])})")
+        print(f"\n🔍 KEY FINDINGS ({len(summary['key_findings']})")
         for i, finding in enumerate(summary["key_findings"][:5], 1):
             print(f"  {i}. {finding}")
         if len(summary["key_findings"]) > 5:
-            print(f"  ... and {len(summary['key_findings']) - 5} more")
+            print(f"  ... and {len(summary['key_findings']} - 5} more")
 
     if summary.get("critical_issues"):
-        print(f"\n⚠️ CRITICAL ISSUES ({len(summary['critical_issues'])})")
+        print(f"\n⚠️ CRITICAL ISSUES ({len(summary['critical_issues']})")
         for i, issue in enumerate(summary["critical_issues"][:3], 1):
             print(f"  {i}. {issue}")
         if len(summary["critical_issues"]) > 3:
-            print(f"  ... and {len(summary['critical_issues']) - 3} more")
+            print(f"  ... and {len(summary['critical_issues']} - 3} more")
 
     print("\n🎯 RESEARCH CONTRIBUTIONS")
     conclusions = report.get("conclusions", {})

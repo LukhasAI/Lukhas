@@ -17,7 +17,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class HarmonizerMode(Enum):
@@ -491,7 +491,7 @@ class SymbolicLoopHarmonizer:
         Update the symbol registry with new definitions
         """
         self.symbol_registry.update(symbols)
-        logger.info(f"Symbol registry updated with {len(symbols)} symbols")
+        logger.info(f"Symbol registry updated with {len(symbols} symbols")
 
     def set_dream_state(self, dream_state: dict[str, Any]):
         """

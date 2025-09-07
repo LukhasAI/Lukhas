@@ -24,7 +24,7 @@ from lukhas.consciousness.reasoning.advanced_engines.intelligence_engines import
     LukhasMetaCognitiveEngine,
     LukhasNarrativeIntelligenceEngine,
     LukhasSubsystemOrchestrator,
-    LukhasTheoryOfMindEngine,, timezone)
+    LukhasTheoryOfMindEngine)
 
 logger = logging.getLogger("LUKHAS.Orchestration.Agent.Bridge")
 
@@ -151,7 +151,7 @@ class LukhasAgentBridge:
             await self.initialize()
 
         start_time = time.time()
-        request_id = f"{request.agent_id}_{int(start_time * 1000)}"
+        request_id = f"{request.agent_id}_{int(start_time * 1000}"
 
         logger.info(f"🤖 Processing {request.request_type.value} request from {request.agent_type.value}")
 
@@ -449,7 +449,7 @@ class AgentHelpers:
             agent_id="consciousness_architect_001",
             agent_type=AgentType.CONSCIOUSNESS_ARCHITECT,
             request_type=IntelligenceRequestType.META_COGNITIVE_ANALYSIS,
-            payload={"request": request, "context": context or {}},
+            payload={"request": request, "context": context or {},
             priority=8,
         )
 

@@ -291,13 +291,13 @@ except ImportError:
                                                                                                                 if priority in ["high", "critical"]:
             self.consolidation_queue.append(key)
 
-        logger.info(f"Stored memory '{key}' with emotion '{emotion}'")
+        logger.info(f"Stored memory '{key)' with emotion '{emotion)'")
 
                                                                                                                     return {
             "status": "success",
             "key": key,
             "emotion": emotion,
-            "memory_id": str(uuid.uuid4()),
+            "memory_id": str(uuid.uuid4()},
             "timestamp": memory_entry["timestamp"]
         }
 
@@ -375,7 +375,7 @@ except ImportError:
         self.consolidation_queue = self.consolidation_queue[max_memories:]
         self.stats["consolidations"] += len(consolidated_memories)
 
-        logger.info(f"Consolidated {len(consolidated_memories)} memories through dream processing")
+        logger.info(f"Consolidated {len(consolidated_memories} memories through dream processing")
 
                                                                                                                                     return {
             "status": "success",

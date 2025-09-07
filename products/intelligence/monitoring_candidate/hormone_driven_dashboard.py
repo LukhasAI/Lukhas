@@ -940,7 +940,7 @@ class HormoneDrivenDashboard:
                 "adaptation_timeline": {"visible": True, "priority": 1},
                 "predictions": {"visible": True, "priority": 2},
             },
-            DashboardMode.ALERT_FOCUS: {"alerts": {"visible": True, "priority": 1}},
+            DashboardMode.ALERT_FOCUS: {"alerts": {"visible": True, "priority": 1},
         }
 
         config = mode_widget_config.get(mode, {})

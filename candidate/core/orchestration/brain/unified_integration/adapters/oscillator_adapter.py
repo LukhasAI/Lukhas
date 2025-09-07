@@ -23,7 +23,7 @@ import numpy as np
 from ..bio_symbolic import CristaFilter, ProtonGradient, QIAttentionGate
 from .unified_node import UnifiedNode
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class OscillatorAdapter:

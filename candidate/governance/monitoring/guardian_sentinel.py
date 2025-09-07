@@ -21,7 +21,7 @@ import websockets
 
 from ..common import GlyphIntegrationMixin
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -626,7 +626,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         logger.warning(
             f"   Trinity impact: I:{threat.trinity_impact['identity']:.1f} C:{threat.trinity_impact['consciousness']:.1f} G:{threat.trinity_impact['guardian']:.1f}"
         )
-        logger.warning(f"   Symbols: {'→'.join(threat.symbolic_signature)}")
+        logger.warning(f"   Symbols: {'→'.join(threat.symbolic_signature}")
 
         # Send enhanced WebSocket alert if connected
         if self.websocket and not self.websocket.closed:
@@ -658,7 +658,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         """Handle governance-specific threat escalation"""
         escalation = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "threat_id": f"GOV-{int(time.time())}",
+            "threat_id": f"GOV-{int(time.time()}",
             "threat_type": threat.indicator_type,
             "severity": threat.severity,
             "escalation_reason": "governance_threshold_exceeded",
@@ -685,7 +685,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         critical_components = [comp for comp, impact in threat.trinity_impact.items() if impact > 0.8]
 
         logger.critical(f"⚛️🧠🛡️ TRINITY CRITICAL THREAT: {threat.indicator_type}")
-        logger.critical(f"   Critical components: {', '.join(critical_components)}")
+        logger.critical(f"   Critical components: {', '.join(critical_components}")
 
         # Log Trinity-specific intervention
         await self._log_governance_action(
@@ -1101,7 +1101,7 @@ async def demo_enhanced_sentinel():
         print("\n⚛️🧠🛡️ Trinity Component Health:")
         for comp, health in report["trinity_component_health"].items():
             status = "✅" if health > 0.8 else "⚠️" if health > 0.6 else "🚨"
-            print(f"   {status} {comp.capitalize()}: {health:.2f}")
+            print(f"   {status} {comp.capitalize(}: {health:.2f}")
 
         print(f"\n🔄 Trinity Sync Level: {report['trinity_sync_level']:.2f}")
         print(f"🛡️ Governance Enabled: {report['governance_enabled']}")
@@ -1112,7 +1112,7 @@ async def demo_enhanced_sentinel():
             trinity_str = f"I:{threat['trinity_impact']['identity']:.1f} C:{threat['trinity_impact']['consciousness']:.1f} G:{threat['trinity_impact']['guardian']:.1f}"
             gov_indicator = "🛡️" if threat["governance_escalation"] else ""
             print(
-                f"   - {threat['indicator']} {gov_indicator} (severity: {threat['severity']:.2f}) [{trinity_str}] {'→'.join(threat['symbolic_signature'])}"
+                f"   - {threat['indicator']} {gov_indicator} (severity: {threat['severity']:.2f}) [{trinity_str}] {'→'.join(threat['symbolic_signature']}"
             )
 
     finally:

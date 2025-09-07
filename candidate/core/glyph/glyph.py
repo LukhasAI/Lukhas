@@ -55,7 +55,7 @@ import numpy as np
 # Note: GLYPH_MAP is now defined in __init__.py to avoid circular imports
 
 # Configure module logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # {ΛGLYPH} Core glyph system initialization
 logger.info("Initializing LUKHAS Core Glyph Engine v1.0.0")
@@ -198,7 +198,7 @@ class CausalLink:
 
     def set_temporal_link(self, parent_timestamp: str, link_type: str = "sequential"):
         """Set temporal link to parent glyph with Task 15 requirements."""
-        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now(timezone.utc).isoformat()}"
+        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now(timezone.utc).isoformat(}"
 
     def calculate_emotional_delta(self, parent_emotion: EmotionVector, current_emotion: EmotionVector):
         """Calculate emotional context delta from parent glyph."""

@@ -20,7 +20,7 @@ import aiohttp
 from candidate.core.common import get_logger
 from candidate.core.common.config import settings
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class WhisperClient:

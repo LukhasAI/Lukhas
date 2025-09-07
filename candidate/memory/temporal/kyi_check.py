@@ -24,7 +24,7 @@ from datetime import datetime
 interaction_registry = {}
 
 
-def record_interaction(user_id: int, interaction: str, timezone):
+def record_interaction(user_id: int, interaction: str):
     """
     Log user interaction with timestamp for symbolic trace.
     """

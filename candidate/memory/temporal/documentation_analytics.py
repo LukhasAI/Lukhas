@@ -35,7 +35,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class AnalyticsType(Enum):
@@ -218,8 +218,8 @@ class DocumentationAnalytics:
         else:
             raise ValueError(f"Unsupported analytics type: {analytics_type}")
 
-        print(f"   ✅ Generated report with {len(report.detailed_findings)} findings")
-        print(f"   💡 {len(report.recommendations)} recommendations")
+        print(f"   ✅ Generated report with {len(report.detailed_findings} findings")
+        print(f"   💡 {len(report.recommendations} recommendations")
 
         return report
 
@@ -242,7 +242,7 @@ class DocumentationAnalytics:
         overall_recommendations = []
 
         for content_path in content_paths:
-            print(f"      📄 Analyzing: {Path(content_path).name}")
+            print(f"      📄 Analyzing: {Path(content_path}.name}")
 
             # Analyze each quality metric
             file_scores = {}
@@ -283,7 +283,7 @@ class DocumentationAnalytics:
         priority_metrics = sorted(metric_averages.items(), key=lambda x: x[1])[:3]
         for metric, score in priority_metrics:
             if score < 75:
-                overall_recommendations.append(f"Improve {metric.replace('_', ' ')} (current score: {score:.1f})")
+                overall_recommendations.append(f"Improve {metric.replace('_', ' '} (current score: {score:.1f})")
 
         # Create summary
         summary = {
@@ -295,7 +295,7 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"quality_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"quality_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             analytics_type=AnalyticsType.QUALITY_ANALYSIS,
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
@@ -378,7 +378,7 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"usage_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"usage_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             analytics_type=AnalyticsType.USAGE_PATTERNS,
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
@@ -429,7 +429,7 @@ class DocumentationAnalytics:
         # Generate recommendations
         high_priority_gaps = [gap for gap in prioritized_gaps if gap.priority == "high"]
         recommendations = [
-            f"Create {gap.suggested_content_type.value.replace('_', ' ')} for: {gap.title}"
+            f"Create {gap.suggested_content_type.value.replace('_', ' '} for: {gap.title}"
             for gap in high_priority_gaps[:5]
         ]
 
@@ -443,7 +443,7 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"gaps_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"gaps_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             analytics_type=AnalyticsType.CONTENT_GAPS,
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
@@ -512,7 +512,7 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"behavior_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"behavior_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             analytics_type=AnalyticsType.USER_BEHAVIOR,
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
@@ -601,7 +601,7 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"performance_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"performance_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             analytics_type=AnalyticsType.PERFORMANCE_METRICS,
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
@@ -672,7 +672,7 @@ class DocumentationAnalytics:
         }
 
         return AnalyticsReport(
-            report_id=f"accessibility_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            report_id=f"accessibility_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             analytics_type=AnalyticsType.ACCESSIBILITY_AUDIT,
             generated_at=datetime.now(timezone.utc),
             time_period=(datetime.now(timezone.utc), datetime.now(timezone.utc)),  # Point in time audit
@@ -724,7 +724,7 @@ class DocumentationAnalytics:
         recommendations = []
 
         if missing_sections:
-            recommendations.append(f"Add missing sections: {', '.join(missing_sections)}")
+            recommendations.append(f"Add missing sections: {', '.join(missing_sections}")
         if todos > 0:
             recommendations.append(f"Complete {todos} TODO items")
 

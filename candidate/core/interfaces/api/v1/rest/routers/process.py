@@ -6,7 +6,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends
 from interfaces.api.v1.common.errors import ProcessingError, ValidationError
 from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
 
-router = APIRouter(, timezone)
+router = APIRouter()
 
 
 def get_lukhas_core():

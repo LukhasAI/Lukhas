@@ -58,7 +58,7 @@ import networkx as nx
 import numpy as np
 
 
-class CausalRelationType(Enum, timezone):
+class CausalRelationType(Enum):
     """Types of causal relationships between memories"""
 
     DIRECT_CAUSE = "direct_cause"  # A directly causes B
@@ -298,7 +298,7 @@ class TemporalCausalAnalyzer:
             confidence=min(0.9, causal_strength + 0.2),
             timestamp=datetime.now(timezone.utc),
             source_memories=[memory_a["id"], memory_b["id"]],
-            description=f"Temporal sequence analysis: {time_diff.total_seconds():.1f}s gap",
+            description=f"Temporal sequence analysis: {time_diff.total_seconds(}:.1f}s gap",
         )
 
         # Create causal relation
@@ -590,7 +590,7 @@ class CausalGraphBuilder:
         confidence = total_confidence / len(causal_relations)
 
         # Generate chain ID
-        chain_id = hashlib.sha256(f"{'->'.join(memory_path)}{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:16]
+        chain_id = hashlib.sha256(f"{'->'.join(memory_path)}{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()[:16]
 
         return CausalChain(
             chain_id=chain_id,
@@ -961,7 +961,7 @@ class CausalMemoryWrapper:
 
         enhanced_results = []
         for memory, score in base_results:
-            result = {"memory": memory, "score": score, "causal_context": {}}
+            result = {"memory": memory, "score": score, "causal_context": {}
 
             # Add causal context if enabled
             if self.causal_engine and include_causal_explanation and hasattr(memory, "id"):
@@ -1063,7 +1063,7 @@ async def example_causal_reasoning():
     print("Analyzing causal relationships...")
     causal_relations = await causal_engine.analyze_causal_relationships()
 
-    print(f"✅ Found {len(causal_relations)} causal relationships")
+    print(f"✅ Found {len(causal_relations} causal relationships")
 
     # Show causal relations
     for relation in causal_relations:
@@ -1072,7 +1072,7 @@ async def example_causal_reasoning():
         print(f"    Strength: {relation.strength:.3f}")
         print(f"    Confidence: {relation.confidence:.3f}")
         if relation.temporal_delay:
-            print(f"    Delay: {relation.temporal_delay.total_seconds():.0f}s")
+            print(f"    Delay: {relation.temporal_delay.total_seconds(}:.0f}s")
         print()
 
     # Find causal explanation for final memory
@@ -1081,7 +1081,7 @@ async def example_causal_reasoning():
 
     if "error" not in explanation:
         print(f"📊 Explanation confidence: {explanation['explanation_confidence']:.3f}")
-        print(f"📈 Causal factors found: {len(explanation['causal_factors'])}")
+        print(f"📈 Causal factors found: {len(explanation['causal_factors']}")
 
         for factor in explanation["causal_factors"]:
             print(f"  Cause: {factor['memory']['content'][:50]}...")
@@ -1093,11 +1093,11 @@ async def example_causal_reasoning():
     print("Identifying significant causal chains...")
     causal_chains = await causal_engine.identify_significant_causal_chains(min_chain_length=3, min_strength=0.4)
 
-    print(f"🔗 Found {len(causal_chains)} significant causal chains")
+    print(f"🔗 Found {len(causal_chains} significant causal chains")
 
     for chain in causal_chains:
-        print(f"  Chain: {' → '.join(chain.memory_sequence)}")
-        print(f"  Length: {chain.get_chain_length()}")
+        print(f"  Chain: {' → '.join(chain.memory_sequence}")
+        print(f"  Length: {chain.get_chain_length(}")
         print(f"  Strength: {chain.chain_strength:.3f}")
         print(f"  Confidence: {chain.confidence:.3f}")
         print()

@@ -69,7 +69,7 @@ from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.colonies.ethics_swarm_colony import (
     EthicalDecisionRequest,
     EthicalDecisionType,
-    EthicsSwarmColony,, timezone)
+    EthicsSwarmColony)
 from candidate.core.colonies.governance_colony_enhanced import GovernanceColony
 from candidate.core.quantized_thought_cycles import QuantizedThoughtProcessor
 from ethics.compliance_validator import ComplianceValidator
@@ -215,7 +215,7 @@ class SafetyEventBus:
             "timestamp": event.timestamp.isoformat(),
             "affected_colonies": list(event.affected_colonies),
         }
-        logger.info(f"Safety event logged: {json.dumps(log_entry)}")
+        logger.info(f"Safety event logged: {json.dumps(log_entry}")
 
     def get_event_metrics(self) -> dict[str, Any]:
         """Get event bus metrics"""
@@ -390,7 +390,7 @@ class IntegratedSafetySystem:
     """
 
     def __init__(self):
-        self.system_id = f"integrated_safety_{datetime.now(timezone.utc).timestamp()}"
+        self.system_id = f"integrated_safety_{datetime.now(timezone.utc).timestamp(}"
 
         # Initialize event bus
         self.event_bus = SafetyEventBus()
@@ -554,7 +554,7 @@ class IntegratedSafetySystem:
             if not is_valid:
                 # Broadcast hallucination event
                 event = SafetyEvent(
-                    event_id=f"hall_{datetime.now(timezone.utc).timestamp()}",
+                    event_id=f"hall_{datetime.now(timezone.utc).timestamp(}",
                     event_type=SafetyEventType.HALLUCINATION_DETECTED,
                     severity=0.8,
                     source_colony="memory_safety",
@@ -578,7 +578,7 @@ class IntegratedSafetySystem:
                 if max_drift > 0.5:
                     # Broadcast drift warning
                     event = SafetyEvent(
-                        event_id=f"drift_{datetime.now(timezone.utc).timestamp()}",
+                        event_id=f"drift_{datetime.now(timezone.utc).timestamp(}",
                         event_type=SafetyEventType.DRIFT_WARNING,
                         severity=max_drift,
                         source_colony="memory_safety",
@@ -600,7 +600,7 @@ class IntegratedSafetySystem:
         try:
             # Create ethical decision request
             request = EthicalDecisionRequest(
-                request_id=f"eth_{datetime.now(timezone.utc).timestamp()}",
+                request_id=f"eth_{datetime.now(timezone.utc).timestamp(}",
                 decision_type=EthicalDecisionType.SYSTEM_ACTION_APPROVAL,
                 context={
                     "action": action,
@@ -638,7 +638,7 @@ class IntegratedSafetySystem:
             if not result["compliant"]:
                 # Broadcast compliance failure
                 event = SafetyEvent(
-                    event_id=f"comp_{datetime.now(timezone.utc).timestamp()}",
+                    event_id=f"comp_{datetime.now(timezone.utc).timestamp(}",
                     event_type=SafetyEventType.COMPLIANCE_FAILURE,
                     severity=0.9,
                     source_colony="compliance",
@@ -685,7 +685,7 @@ class IntegratedSafetySystem:
         """
         Coordinate response to detected threats using swarm intelligence
         """
-        threat_id = f"threat_{datetime.now(timezone.utc).timestamp()}"
+        threat_id = f"threat_{datetime.now(timezone.utc).timestamp(}"
         self.active_threats[threat_id] = threat
 
         # Assess threat level
@@ -833,7 +833,7 @@ class IntegratedSafetySystem:
 
             # Broadcast circuit breaker event
             event = SafetyEvent(
-                event_id=f"cb_{datetime.now(timezone.utc).timestamp()}",
+                event_id=f"cb_{datetime.now(timezone.utc).timestamp(}",
                 event_type=SafetyEventType.CIRCUIT_BREAKER_TRIGGERED,
                 severity=0.7,
                 source_colony="safety_system",
@@ -903,7 +903,7 @@ class IntegratedSafetySystem:
         max_drift = max(drift_scores.values()) if drift_scores else 0.0
         if max_drift > 0.5:
             event = SafetyEvent(
-                event_id=f"drift_global_{datetime.now(timezone.utc).timestamp()}",
+                event_id=f"drift_global_{datetime.now(timezone.utc).timestamp(}",
                 event_type=SafetyEventType.DRIFT_WARNING,
                 severity=max_drift,
                 source_colony="monitoring",

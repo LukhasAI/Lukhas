@@ -30,13 +30,13 @@ async def demonstrate_basic_memory():
     memory = MemoryHelix("childhood_memory_001", origin_glyphs)
 
     print(f"\n✨ Created memory: {memory.memory_id}")
-    print(f"📝 Origin strand: {' → '.join(origin_glyphs)}")
+    print(f"📝 Origin strand: {' → '.join(origin_glyphs}")
     print("🔒 Immutable: Origin can never be changed")
 
     # Access memory
     data = memory.access()
     print(f"\n📖 Accessing memory (count: {data['metadata']['accessed']})")
-    print(f"   Current state: {' → '.join(data['current'])}")
+    print(f"   Current state: {' → '.join(data['current']}")
     print(f"   Drift: {data['drift']:.3f}")
 
     # Simulate memory drift over time
@@ -45,9 +45,9 @@ async def demonstrate_basic_memory():
     memory.mutate(drifted_glyphs)
 
     print("🌊 Memory has drifted:")
-    print(f"   Original: {' → '.join(origin_glyphs)}")
-    print(f"   Current:  {' → '.join(drifted_glyphs)}")
-    print(f"   Drift score: {memory.helix_core.calculate_drift():.3f}")
+    print(f"   Original: {' → '.join(origin_glyphs}")
+    print(f"   Current:  {' → '.join(drifted_glyphs}")
+    print(f"   Drift score: {memory.helix_core.calculate_drift(}:.3f}")
 
     # Repair memory
     if memory.helix_core.should_repair():
@@ -56,15 +56,15 @@ async def demonstrate_basic_memory():
 
         repaired = list(memory.helix_core.current.sequence)
         print("✅ Memory repaired:")
-        print(f"   Repaired: {' → '.join(repaired)}")
-        print(f"   New drift: {memory.helix_core.calculate_drift():.3f}")
+        print(f"   Repaired: {' → '.join(repaired}")
+        print(f"   New drift: {memory.helix_core.calculate_drift(}:.3f}")
 
         # Show repair history
         repair = memory.helix_core.repair_history[-1]
         print("\n📜 Repair details:")
         print(f"   Method: {repair.repair_method.value}")
         print(f"   Confidence: {repair.confidence:.3f}")
-        print(f"   Glyphs repaired: {len(repair.glyphs_repaired)}")
+        print(f"   Glyphs repaired: {len(repair.glyphs_repaired}")
 
 
 async def demonstrate_multi_context_memory():
@@ -91,15 +91,15 @@ async def demonstrate_multi_context_memory():
     print("\n🧬 Created multi-dimensional memory")
     data = memory.access()
 
-    print(f"\n📍 Core memory: {' → '.join(data['origin'][:4])}...")
-    print(f"❤️  Emotional: {' → '.join(data['emotional_context'])}")
-    print(f"⏰ Temporal: {' → '.join(data['temporal_context'])}")
-    print(f"🔗 Causal: {' → '.join(data['causal_context'])}")
+    print(f"\n📍 Core memory: {' → '.join(data['origin'][:4]}...")
+    print(f"❤️  Emotional: {' → '.join(data['emotional_context']}")
+    print(f"⏰ Temporal: {' → '.join(data['temporal_context']}")
+    print(f"🔗 Causal: {' → '.join(data['causal_context']}")
 
     # Calculate multi-dimensional coherence
     print("\n🔮 Memory coherence analysis:")
-    print(f"   Core drift: {memory.helix_core.calculate_drift():.3f}")
-    print(f"   Entropy: {memory.origin_strand.entropy():.3f}")
+    print(f"   Core drift: {memory.helix_core.calculate_drift(}:.3f}")
+    print(f"   Entropy: {memory.origin_strand.entropy(}:.3f}")
     print("   Immutability: ✅ Origin preserved")
 
 
@@ -181,12 +181,12 @@ async def demonstrate_memory_vault():
     print("\n🔍 Searching memories:")
 
     childhood_memories = vault.search_by_tags({"childhood"})
-    print(f"   Childhood memories: {len(childhood_memories)}")
+    print(f"   Childhood memories: {len(childhood_memories}")
     for mem in childhood_memories:
         print(f"      • {mem.memory_id}")
 
     episodic_memories = vault.search_by_tags({"episodic"})
-    print(f"   Episodic memories: {len(episodic_memories)}")
+    print(f"   Episodic memories: {len(episodic_memories}")
 
     # Simulate drift in trauma memory
     trauma_memory = vault.get_memory("trauma_accident")
@@ -206,7 +206,7 @@ async def demonstrate_memory_vault():
         )
 
         print("\n🌊 Trauma memory drift detected:")
-        print(f"   Drift level: {trauma_memory.helix_core.calculate_drift():.3f}")
+        print(f"   Drift level: {trauma_memory.helix_core.calculate_drift(}:.3f}")
 
         # Use consensus repair from other episodic memories
         print("   🤝 Attempting consensus repair...")
@@ -253,14 +253,14 @@ async def demonstrate_gdpr_compliance():
     # Normal access
     data = memory.access()
     print("\n✅ Normal access permitted")
-    print(f"   Data: {' → '.join(data['current'][:4])}...")
+    print(f"   Data: {' → '.join(data['current'][:4]}...")
 
     # GDPR Article 17 - Right to erasure
     print("\n🔒 User exercises right to erasure (GDPR Article 17)")
     memory.lock("GDPR Article 17 - User request for erasure")
 
     print(f"   Memory locked: {memory.locked}")
-    print(f"   Lock reason: {[t for t in memory.tags if t.startswith('locked:')]}")
+    print(f"   Lock reason: {[t for t in memory.tags if t.startswith('locked:'}]}")
 
     # Attempt access after lock
     print("\n❌ Attempting access after lock:")
@@ -327,14 +327,14 @@ async def demonstrate_repair_loop():
             print("   ⚠️  Drift exceeds threshold!")
             print("   ⏳ Waiting for auto-repair...")
             await asyncio.sleep(2)
-            print(f"   ✅ Post-repair drift: {helix.calculate_drift():.3f}")
+            print(f"   ✅ Post-repair drift: {helix.calculate_drift(}:.3f}")
 
     await repair_loop.stop()
 
     # Show repair history
-    print(f"\n📜 Repair History ({len(helix.repair_history)} repairs):")
+    print(f"\n📜 Repair History ({len(helix.repair_history} repairs):")
     for i, repair in enumerate(helix.repair_history):
-        print(f"   {i + 1}. {repair.timestamp.strftime('%H:%M:%S')} - {repair.repair_method.value}")
+        print(f"   {i + 1}. {repair.timestamp.strftime('%H:%M:%S'} - {repair.repair_method.value}")
         print(f"      Drift: {repair.drift_before:.3f} → {repair.drift_after:.3f}")
 
 

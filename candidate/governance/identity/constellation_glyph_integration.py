@@ -41,7 +41,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class ConstellationStar(Enum, timezone):
+class ConstellationStar(Enum):
     """Constellation Framework stars"""
 
     IDENTITY = "⚛️"  # The Anchor Star: Identity rhythm
@@ -347,7 +347,7 @@ class ConstellationValidator:
             compliance_result["validation_time_ms"] = (time.time() - start_time) * 1000
 
             # Cache result for performance
-            cache_key = f"{component_name}_{hash(str(operation_context))}"
+            cache_key = f"{component_name}_{hash(str(operation_context)}"
             self.compliance_cache[cache_key] = {
                 "result": compliance_result,
                 "timestamp": time.time(),

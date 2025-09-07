@@ -19,7 +19,7 @@ from candidate.core.container.service_container import ServiceContainer
 from candidate.core.interfaces import CoreInterface
 from candidate.core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -501,7 +501,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         # Generate recommendations
         if not readiness["ready_for_deployment"]:
             readiness["recommendations"].append(
-                f"Increase compliance to {(0.8 - avg_compliance) * 100:.1f}% more frameworks"
+                f"Increase compliance to {(0.8 - avg_compliance} * 100:.1f}% more frameworks"
             )
 
         for blocked in readiness["blocked_regions"]:

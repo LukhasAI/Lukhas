@@ -336,7 +336,7 @@ class AutoEscalatorEngine:
                 "quality_score": f"{policy.min_quality_score:.1f}",
                 "requirements": {
                     "conversions": policy.required_metrics.get("min_conversions", 0),
-                    "retention_rate": f"{policy.required_metrics.get('min_retention', 0.0) * 100:.1f}%",
+                    "retention_rate": f"{policy.required_metrics.get('min_retention', 0.0} * 100:.1f}%",
                     "merchant_rating": policy.required_metrics.get("min_merchant_rating", 0.0),
                     "active_days": policy.required_metrics.get("min_days_active", 0),
                 },
@@ -594,7 +594,7 @@ def demo_auto_escalator():
 
         # Calculate tier
         tier = escalator.calculate_user_tier(user["metrics"])
-        print(f"   Current Tier: {tier.value.title()}")
+        print(f"   Current Tier: {tier.value.title(}")
 
         # Calculate split for $100 conversion
         split = escalator.calculate_split(user["metrics"], 100.0)
@@ -605,7 +605,7 @@ def demo_auto_escalator():
         # Show tier progress
         if split["next_tier"]:
             progress = split["tier_progress"]
-            print(f"   Next Tier: {split['next_tier'].title()} ({progress['overall_progress'] * 100:.1f}% complete)")
+            print(f"   Next Tier: {split['next_tier'].title(} ({progress['overall_progress'] * 100:.1f}% complete)")
         else:
             print("   Status: Maximum tier achieved! 🏆")
 
@@ -616,7 +616,7 @@ def demo_auto_escalator():
     guide = escalator.generate_tier_requirements_guide()
 
     for tier_name, requirements in guide["tier_requirements"].items():
-        print(f"\n   {tier_name.title()}: {requirements['user_share']} revenue share")
+        print(f"\n   {tier_name.title(}: {requirements['user_share']} revenue share")
         print(f"   • Volume: {requirements['minimum_volume']}")
         print(f"   • Conversions: {requirements['requirements']['conversions']}")
         print(f"   • Retention: {requirements['requirements']['retention_rate']}")

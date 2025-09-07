@@ -115,7 +115,7 @@ def download(sha: str, request: Request, expires: int = 600, filename: str | Non
 async def ack_receipt(sha: str, request: Request):
     """
     Optional client-side acknowledgement, e.g., after a browser successfully opens a file.
-    Body JSON (all optional): {"event":"view_ack","purpose":"...", "extras":{...}}
+    Body JSON (all optional): {"event":"view_ack","purpose":"...", "extras":{...}
     """
     try:
         body = await request.json()

@@ -28,7 +28,7 @@ from memory.core import HybridMemoryFold
 
 
 # Pydantic models for API
-class MemoryFoldRequest(BaseModel, timezone):
+class MemoryFoldRequest(BaseModel):
     """Request model for memory folding."""
 
     experience: dict[str, Any] = Field(..., description="Experience data to store")
@@ -329,8 +329,8 @@ async def force_collapse(request: CollapseRequest):
                 raise HTTPException(status_code=404, detail=f"Memory {memory_id} not found")
 
         # Mock collapse operation
-        collapse_id = f"collapse_{uuid.uuid4().hex[:8]}"
-        new_memory_id = f"mem_{uuid.uuid4().hex[:8]}"
+        collapse_id = f"collapse_{uuid.uuid4(}.hex[:8]}"
+        new_memory_id = f"mem_{uuid.uuid4(}.hex[:8]}"
 
         return {
             "collapse_id": collapse_id,

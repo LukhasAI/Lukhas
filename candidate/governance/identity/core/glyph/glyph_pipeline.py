@@ -349,8 +349,8 @@ class GLYPHPipeline:
 
     def _generate_glyph_id(self, request: GLYPHGenerationRequest) -> str:
         """Generate unique GLYPH ID"""
-        id_data = f"{request.lambda_id}_{request.glyph_type.value}_{time.time()}"
-        return f"GLYPH_{hashlib.sha256(id_data.encode()).hexdigest()[:16]}"
+        id_data = f"{request.lambda_id}_{request.glyph_type.value}_{time.time(}"
+        return f"GLYPH_{hashlib.sha256(id_data.encode()).hexdigest(}[:16]}"
 
     def _prepare_identity_data(self, request: GLYPHGenerationRequest) -> dict[str, Any]:
         """Prepare identity data for embedding"""
@@ -358,7 +358,7 @@ class GLYPHPipeline:
         includes = template.get("includes", ["lambda_id", "timestamp"])
 
         identity_data = {
-            "glyph_id": f"pending_{int(time.time())}",
+            "glyph_id": f"pending_{int(time.time()}",
             "glyph_type": request.glyph_type.value,
             "security_level": request.security_level.value,
             "generation_timestamp": datetime.now(timezone.utc).isoformat(),

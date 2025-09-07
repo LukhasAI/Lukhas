@@ -56,7 +56,7 @@ from typing import Any, Optional
 
 from cryptography.fernet import Fernet
 
-logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("QIVault")
 
 
@@ -146,7 +146,7 @@ class QIVaultManager:
             qi_salt = secrets.token_hex(32)
 
         # Quantum-resistant hashing
-        hash_input = f"{user_id}_{qi_salt}_{datetime.now(timezone.utc).isoformat()}"
+        hash_input = f"{user_id}_{qi_salt}_{datetime.now(timezone.utc).isoformat(}"
         qi_hash = hashlib.sha3_256(hash_input.encode()).hexdigest()
 
         return qi_hash[:32]  # Truncated for storage efficiency
@@ -215,7 +215,7 @@ class QIVaultManager:
         qi_salt = secrets.token_hex(32)
 
         # Encrypt the API key with quantum-resistant encryption
-        key_data = f"{api_key}_{qi_salt}_{datetime.now(timezone.utc).isoformat()}"
+        key_data = f"{api_key}_{qi_salt}_{datetime.now(timezone.utc).isoformat(}"
         encrypted_key = self.fernet.encrypt(key_data.encode()).decode()
 
         # Create VeriFold QR for authentication
@@ -237,7 +237,7 @@ class QIVaultManager:
         )
 
         # Store in quantum vault
-        key_file = self.vault_path / f"api_keys_{service_name.lower()}.json"
+        key_file = self.vault_path / f"api_keys_{service_name.lower(}.json"
         with open(key_file, "w") as f:
             json.dump(asdict(encrypted_api_key), f, indent=2)
 
@@ -250,7 +250,7 @@ class QIVaultManager:
 
         try:
             # Load encrypted key
-            key_file = self.vault_path / f"api_keys_{service_name.lower()}.json"
+            key_file = self.vault_path / f"api_keys_{service_name.lower(}.json"
             if not key_file.exists():
                 logger.error(f"❌ No API key found for {service_name}")
                 return None
@@ -367,7 +367,7 @@ class QIVaultManager:
         # Sharing)
         shards = []
         for i in range(shard_count):
-            shard_data = f"{seed_phrase}_{i}_{secrets.token_hex(16)}"
+            shard_data = f"{seed_phrase}_{i}_{secrets.token_hex(16}"
             shard_hash = hashlib.sha3_256(shard_data.encode()).hexdigest()
             shards.append(shard_hash)
         return shards
@@ -442,7 +442,7 @@ class QIVaultManager:
         }
 
         # Save report
-        report_file = self.vault_path / f"vault_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+        report_file = self.vault_path / f"vault_report_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.json"
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 

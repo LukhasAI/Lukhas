@@ -309,7 +309,7 @@ All endpoints include cost estimation and tracking:
             "paths": {},
             "components": {
                 "schemas": {},
-                "securitySchemes": {"APIKeyAuth": {"type": "http", "scheme": "bearer"}},
+                "securitySchemes": {"APIKeyAuth": {"type": "http", "scheme": "bearer"},
             },
         }
 
@@ -539,7 +539,7 @@ if __name__ == "__main__":
 
     print("Documentation generated successfully!")
     print(f"OpenAPI spec has {len(docs['openapi_spec'].get('paths', {}))} endpoints")
-    print(f"SDK examples for {len(docs['sdk_info']['sdk_languages'])} languages")
+    print(f"SDK examples for {len(docs['sdk_info']['sdk_languages']} languages")
 
 # Export main components
 __all__ = [

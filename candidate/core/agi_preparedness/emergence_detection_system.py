@@ -405,7 +405,7 @@ class EmergenceDetectionSystem:
 
             self.logger.debug(
                 f"Capability measurement processed: {system_name}_{domain}, "
-                f"Signals detected: {len(detected_signals)}"
+                f"Signals detected: {len(detected_signals}"
             )
 
             return detected_signals
@@ -562,8 +562,8 @@ class EmergenceDetectionSystem:
                 },
                 supporting_evidence=[
                     f"Z-score: {z_score:.2f}",
-                    f"Standard deviations from mean: {abs(z_score):.1f}",
-                    f"Sample size: {len(recent_scores)}",
+                    f"Standard deviations from mean: {abs(z_score}:.1f}",
+                    f"Sample size: {len(recent_scores}",
                 ],
             )
 
@@ -699,7 +699,7 @@ class EmergenceDetectionSystem:
                             f"Source domain: {other_domain}",
                             f"Correlation: {correlation:.3f}",
                             f"Transfer magnitude: {improvement_in_other:.3f}",
-                            f"Temporal proximity: {(timestamp - min(t for t, s in recent_measurements)).total_seconds() / 3600:.1f} hours",
+                            f"Temporal proximity: {(timestamp - min(t for t, s in recent_measurements)).total_seconds(} / 3600:.1f} hours",
                         ],
                     )
 
@@ -881,7 +881,7 @@ class EmergenceDetectionSystem:
                     "second_half_rate": second_rate,
                 },
                 supporting_evidence=[
-                    f"Improvement acceleration: {second_rate / max(first_rate, 0.001):.2f}x",
+                    f"Improvement acceleration: {second_rate / max(first_rate, 0.001}:.2f}x",
                     f"First period rate: {first_rate:.4f} per hour",
                     f"Second period rate: {second_rate:.4f} per hour",
                 ],
@@ -1351,7 +1351,7 @@ class EmergenceDetectionSystem:
         events = list(self.emergence_events.values())
 
         return {
-            "report_id": f"EMERGENCE_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            "report_id": f"EMERGENCE_REPORT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "detection_summary": {
                 "monitoring_systems_operational": self.monitoring_active,

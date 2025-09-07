@@ -895,7 +895,7 @@ class LukhasBrandVoiceProfiles:
 
         # Blend characteristics and descriptors
         blended_profile = {
-            "description": f"Blend of {primary_profile.get('description', 'Profile A')} and {secondary_profile.get('description', 'Profile B')}",
+            "description": f"Blend of {primary_profile.get('description', 'Profile A')} and {secondary_profile.get('description', 'Profile B'}",
             "parameters": blended_params,
             "characteristics": primary_profile.get("characteristics", [])
             + secondary_profile.get("characteristics", []),
@@ -1015,14 +1015,14 @@ if __name__ == "__main__":
     print("=== Audience Recommendations ===")
     executive_recommendations = voice_profiles.get_audience_recommendations(AudienceType.EXECUTIVES)
     print("Executive Audience Recommendations:")
-    print(f"Voice Adjustments: {list(executive_recommendations['voice_adjustments'].keys())[:3]}")
+    print(f"Voice Adjustments: {list(executive_recommendations['voice_adjustments'].keys()}[:3]}")
     print(f"Priorities: {executive_recommendations['communication_priorities'][:2]}")
     print()
 
     # Show all available profiles
     print("=== Available Voice Profiles ===")
     all_profiles = voice_profiles.get_all_profile_names()
-    print(f"Available Profiles: {', '.join(all_profiles)}")
-    print(f"Total Profiles: {len(all_profiles)}")
-    print(f"Total Contexts: {len(VoiceContext)}")
-    print(f"Total Audience Types: {len(AudienceType)}")
+    print(f"Available Profiles: {', '.join(all_profiles}")
+    print(f"Total Profiles: {len(all_profiles}")
+    print(f"Total Contexts: {len(VoiceContext}")
+    print(f"Total Audience Types: {len(AudienceType}")

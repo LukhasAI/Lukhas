@@ -151,7 +151,7 @@ class EnhancedPolicyBoard:
     """
 
     def __init__(self):
-        self.logger = logger.bind(board_id=f"policy_board_{datetime.now(timezone.utc).strftime('%H%M%S')}")
+        self.logger = logger.bind(board_id=f"policy_board_{datetime.now(timezone.utc).strftime('%H%M%S'}")
         self.qi_oscillator = QIOscillator()
         self.awareness = EnhancedSystemAwareness()  # Assumes default init is fine
 

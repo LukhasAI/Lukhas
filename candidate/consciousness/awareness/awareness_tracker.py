@@ -80,6 +80,13 @@ class AwarenessTracker:
         # Implement specific consciousness processing
         # This is a placeholder that should be enhanced based on requirements
 
+        # Extract category from data or use default
+        category = "consciousness"
+        if isinstance(data, dict):
+            category = data.get("category", "consciousness")
+        elif hasattr(data, "category"):
+            category = data.category
+
         if category == "consciousness":
             return await self._process_consciousness(data)
         elif category == "governance":
@@ -155,32 +162,34 @@ class AwarenessTracker:
 
 
 # Factory function for easy instantiation
-def create_consciousness_component(config: Optional[dict] = None) -> ΛAwarenessTracker:
+def create_consciousness_component(config: Optional[dict] = None) -> AwarenessTracker:
     """Create and return a consciousness component instance"""
-    return ΛAwarenessTracker(config)
+    return AwarenessTracker(config)
 
 
 # Async factory function
 async def create_and_initialize_consciousness_component(
     config: Optional[dict] = None,
-) -> ΛAwarenessTracker:
+) -> AwarenessTracker:
     """Create, initialize and return a consciousness component instance"""
-    ΛAwarenessTracker(config)
+    component = AwarenessTracker(config)
+    await component.initialize()
+    return component
 
 
-def create_consciousness_component(
+def create_consciousness_component_alt(
     config: Optional[dict] = None,
-) -> lukhasAwarenessTracker:
+) -> AwarenessTracker:
     """Create and return a consciousness component instance"""
-    return lukhasAwarenessTracker(config)
+    return AwarenessTracker(config)
 
 
 # Async factory function
-async def create_and_initialize_consciousness_component(
+async def create_and_initialize_consciousness_component_alt(
     config: Optional[dict] = None,
-) -> lukhasAwarenessTracker:
+) -> AwarenessTracker:
     """Create, initialize and return a consciousness component instance"""
-    component = lukhasAwarenessTracker(config)
+    component = AwarenessTracker(config)
     await component.initialize()
     return component
 
@@ -190,8 +199,7 @@ if __name__ == "__main__":
     import asyncio
 
     async def main():
-        component = ΛAwarenessTracker()
-        component = lukhasAwarenessTracker()
+        component = AwarenessTracker()
 
         # Initialize
         success = await component.initialize()

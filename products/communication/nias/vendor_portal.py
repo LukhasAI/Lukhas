@@ -62,8 +62,8 @@ class VendorProfile:
 
     def generate_api_credentials(self) -> tuple[str, str]:
         """Generate new API credentials for vendor"""
-        api_key = f"vk_{uuid.uuid4().hex}"
-        api_secret = hashlib.sha256(f"{self.vendor_id}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()
+        api_key = f"vk_{uuid.uuid4(}.hex}"
+        api_secret = hashlib.sha256(f"{self.vendor_id}_{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()
         return api_key, api_secret
 
 
@@ -162,7 +162,7 @@ class VendorPortal:
             Vendor profile with API credentials
         """
         try:
-            vendor_id = f"vendor_{uuid.uuid4().hex[:12]}"
+            vendor_id = f"vendor_{uuid.uuid4(}.hex[:12]}"
 
             # Create vendor profile
             vendor = VendorProfile(
@@ -226,7 +226,7 @@ class VendorPortal:
                 return {"error": f"Seed limit reached for {vendor.tier.value} tier"}
 
             # Create dream seed
-            seed_id = f"seed_{uuid.uuid4().hex[:16]}"
+            seed_id = f"seed_{uuid.uuid4(}.hex[:16]}"
 
             # Extract and validate seed data
             seed = DreamSeed(
@@ -277,7 +277,7 @@ class VendorPortal:
 
     async def _validate_dream_seed(self, seed: DreamSeed) -> dict[str, Any]:
         """Validate dream seed for ethical compliance"""
-        validation_results = {"approved": True, "score": 1.0, "checks": {}}
+        validation_results = {"approved": True, "score": 1.0, "checks": {}
 
         # Check emotional manipulation
         stress_level = seed.emotional_triggers.get("stress", 0)
@@ -362,7 +362,7 @@ class VendorPortal:
         """
         try:
             # Create tracking ID
-            tracking_id = f"nias_{uuid.uuid4().hex[:8]}"
+            tracking_id = f"nias_{uuid.uuid4(}.hex[:8]}"
 
             # Build affiliate parameters
             params = {
@@ -388,7 +388,7 @@ class VendorPortal:
             vendor = self.vendors.get(vendor_id)
             base_url = f"https://{vendor.domains[0]}" if vendor and vendor.domains else "https://checkout.nias.ai"
 
-            affiliate_link = f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params)}"
+            affiliate_link = f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params}"
 
             # Store tracking data
             self.performance_tracker[tracking_id] = {
@@ -547,22 +547,22 @@ class NIASDreamSDK:
 
     def create_dream_seed(self, seed_data: Dict[str, Any]) -> Dict[str, Any]:
         """Create a new dream seed"""
-        endpoint = f"{{self.base_url}}/vendor/{{self.vendor_id}}/seeds"
+        endpoint = f"{{self.base_url}/vendor/{{self.vendor_id}/seeds"
 
         headers = {{
             "X-API-Key": self.api_key,
             "X-API-Secret": self.api_secret,
             "Content-Type": "application/json"
-        }}
+        }
 
         response = requests.post(endpoint, json=seed_data, headers=headers)
         return response.json()
 
     def get_analytics(self, date_from: str = None, date_to: str = None) -> Dict[str, Any]:
         """Get performance analytics"""
-        endpoint = f"{{self.base_url}}/vendor/{{self.vendor_id}}/analytics"
+        endpoint = f"{{self.base_url}/vendor/{{self.vendor_id}/analytics"
 
-        params = {{}}
+        params = {{}
         if date_from:
             params["from"] = date_from
         if date_to:
@@ -571,7 +571,7 @@ class NIASDreamSDK:
         headers = {{
             "X-API-Key": self.api_key,
             "X-API-Secret": self.api_secret
-        }}
+        }
 
         response = requests.get(endpoint, params=params, headers=headers)
         return response.json()
@@ -579,19 +579,19 @@ class NIASDreamSDK:
     def create_poetic_narrative(self, product_name: str, context: str) -> str:
         """Generate a poetic narrative for your product"""
         # This would call the NIAS narrative generation service
-        endpoint = f"{{self.base_url}}/vendor/{{self.vendor_id}}/narrative"
+        endpoint = f"{{self.base_url}/vendor/{{self.vendor_id}/narrative"
 
         data = {{
             "product_name": product_name,
             "context": context,
             "style": "poetic_dream"
-        }}
+        }
 
         headers = {{
             "X-API-Key": self.api_key,
             "X-API-Secret": self.api_secret,
             "Content-Type": "application/json"
-        }}
+        }
 
         response = requests.post(endpoint, json=data, headers=headers)
         return response.json().get("narrative", "")
@@ -609,25 +609,25 @@ seed = sdk.create_dream_seed({{
         "calm": 0.8,
         "stress": 0.0,
         "longing": 0.5
-    }},
+    },
     "product_data": {{
         "id": "WW-001",
         "name": "Cashmere Cloud Sweater",
         "price": 189.99,
         "category": "apparel"
-    }},
+    },
     "offer_details": {{
         "discount": 20,
         "code": "WINTER20",
         "valid_until": "2024-02-29"
-    }},
+    },
     "targeting_criteria": {{
         "interests": ["fashion", "comfort", "luxury"],
         "season": "winter"
-    }}
-}})
+    }
+})
 
-print(f"Dream seed created: {{seed}}")
+print(f"Dream seed created: {{seed}")
 '''
 
         elif language == "javascript":
@@ -645,10 +645,10 @@ class NIASDreamSDK {{
         this.apiSecret = process.env.NIAS_API_SECRET; // Store securely
         this.baseUrl = 'https://api.nias.ai/v1';
         this.vendorId = '{vendor_id}';
-    }}
+    }
 
     async createDreamSeed(seedData) {{
-        const endpoint = `${{this.baseUrl}}/vendor/${{this.vendorId}}/seeds`;
+        const endpoint = `${{this.baseUrl}/vendor/${{this.vendorId}/seeds`;
 
         try {{
             const response = await axios.post(endpoint, seedData, {{
@@ -656,20 +656,20 @@ class NIASDreamSDK {{
                     'X-API-Key': this.apiKey,
                     'X-API-Secret': this.apiSecret,
                     'Content-Type': 'application/json'
-                }}
-            }});
+                }
+            });
 
             return response.data;
-        }} catch (error) {{
+        } catch (error) {{
             console.error('Error creating dream seed:', error);
             throw error;
-        }}
-    }}
+        }
+    }
 
     async getAnalytics(dateFrom = null, dateTo = null) {{
-        const endpoint = `${{this.baseUrl}}/vendor/${{this.vendorId}}/analytics`;
+        const endpoint = `${{this.baseUrl}/vendor/${{this.vendorId}/analytics`;
 
-        const params = {{}};
+        const params = {{};
         if (dateFrom) params.from = dateFrom;
         if (dateTo) params.to = dateTo;
 
@@ -679,16 +679,16 @@ class NIASDreamSDK {{
                 headers: {{
                     'X-API-Key': this.apiKey,
                     'X-API-Secret': this.apiSecret
-                }}
-            }});
+                }
+            });
 
             return response.data;
-        }} catch (error) {{
+        } catch (error) {{
             console.error('Error fetching analytics:', error);
             throw error;
-        }}
-    }}
-}}
+        }
+    }
+}
 
 module.exports = NIASDreamSDK;
 """

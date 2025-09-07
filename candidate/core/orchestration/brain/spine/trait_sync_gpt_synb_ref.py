@@ -80,7 +80,7 @@ def summarize_comparisons(local, profiles):
         diffs, avg = compare_traits(local, other)
         summary += f"[{node}] vs [{NODE_ID}] → Δ Avg: {avg:.3f}\n"
         for k, v in diffs.items():
-            summary += f"  {k.capitalize():15}: Δ {v:.3f}\n"
+            summary += f"  {k.capitalize(}:15}: Δ {v:.3f}\n"
         summary += "\n"
     return summary
 

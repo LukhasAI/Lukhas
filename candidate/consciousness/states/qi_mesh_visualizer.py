@@ -184,7 +184,7 @@ class QIMeshVisualizer:
             # Get most recent entry
             if lines:
                 latest_entry = json.loads(lines[-1])
-                logger.info(f"Loaded {len(lines)} log entries, using latest")
+                logger.info(f"Loaded {len(lines} log entries, using latest")
                 return latest_entry
             else:
                 logger.warning("Log file empty, generating synthetic data")
@@ -441,7 +441,7 @@ class QIMeshVisualizer:
             return "✅ No active phase conflicts detected - mesh is stable\n"
 
         output = []
-        output.append(f"⚠️  ACTIVE PHASE CONFLICTS: {len(conflicts)} pairs\n")
+        output.append(f"⚠️  ACTIVE PHASE CONFLICTS: {len(conflicts} pairs\n")
         output.append("=" * 60)
 
         # Sort conflicts by risk level
@@ -483,7 +483,7 @@ class QIMeshVisualizer:
             output.append(f"   Entanglement Strength: {conflict['strength']:.3f}")
             output.append(f"   Conflict Risk:        {conflict['risk_score']:.3f}")
             output.append(
-                f"   Phase Difference:     {conflict['phase_diff']:.3f} rad ({np.degrees(conflict['phase_diff']):.1f}°)"
+                f"   Phase Difference:     {conflict['phase_diff']:.3f} rad ({np.degrees(conflict['phase_diff']}:.1f}°)"
             )
 
             # Add recommendations
@@ -496,8 +496,8 @@ class QIMeshVisualizer:
 
         output.append("\n" + "=" * 60)
         output.append(
-            f"SUMMARY: {len([c for c in conflict_data if c['sort_key'] >= 0.5])} critical, "
-            f"{len([c for c in conflict_data if 0.2 <= c['sort_key'] < 0.5])} medium risk"
+            f"SUMMARY: {len([c for c in conflict_data if c['sort_key'] >= 0.5]} critical, "
+            f"{len([c for c in conflict_data if 0.2 <= c['sort_key'] < 0.5]} medium risk"
         )
 
         return "\n".join(output)
@@ -665,7 +665,7 @@ class QIMeshVisualizer:
 
         # Update layout
         fig.update_layout(
-            title_text=f"Quantum Ethics Mesh Dashboard - {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')}",
+            title_text=f"Quantum Ethics Mesh Dashboard - {datetime.now(timezone.utc}.strftime('%Y-%m-%d %H:%M'}",
             title_x=0.5,
             showlegend=False,
             height=800,
@@ -734,8 +734,8 @@ class QIMeshVisualizer:
 
         markdown = []
         markdown.append("#  Quantum Ethics Mesh Report")
-        markdown.append(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}")
-        markdown.append(f"**Data Timestamp:** {data.get('timestamp', 'Unknown')}")
+        markdown.append(f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}")
+        markdown.append(f"**Data Timestamp:** {data.get('timestamp', 'Unknown'}")
         markdown.append("")
 
         # Summary
@@ -743,7 +743,7 @@ class QIMeshVisualizer:
         markdown.append(f"- **Mesh Ethics Score:** {unified_field['mesh_ethics_score']:.3f}")
         markdown.append(f"- **Risk Level:** {unified_field['risk_level']}")
         markdown.append(f"- **Phase Synchronization:** {unified_field['phase_synchronization']:.3f}")
-        markdown.append(f"- **Active Conflicts:** {len(conflicts)}")
+        markdown.append(f"- **Active Conflicts:** {len(conflicts}")
         markdown.append("")
 
         # Entanglement matrix
@@ -833,20 +833,20 @@ class QIMeshVisualizer:
 <head>
     <title>Quantum Ethics Mesh Dashboard</title>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }}
-        .container {{ max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
-        .header {{ text-align: center; color: #333; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 30px; }}
-        .metrics {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }}
-        .metric-card {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }}
-        .metric-value {{ font-size: 2em; font-weight: bold; margin-bottom: 5px; }}
-        .metric-label {{ font-size: 0.9em; opacity: 0.9; }}
-        .risk-badge {{ display: inline-block; background: {risk_color}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }}
-        .conflicts {{ background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 20px 0; }}
-        .safe {{ background: #d4edda; border-color: #c3e6cb; }}
-        .entanglement-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 20px; }}
-        .entanglement-item {{ background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 15px; }}
-        .strength-bar {{ background: #e9ecef; height: 20px; border-radius: 10px; margin: 5px 0; position: relative; }}
-        .strength-fill {{ background: linear-gradient(90deg, #dc3545 0%, #ffc107 50%, #28a745 100%); height: 100%; border-radius: 10px; }}
+        body {{ font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container {{ max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header {{ text-align: center; color: #333; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 30px; }
+        .metrics {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .metric-card {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+        .metric-value {{ font-size: 2em; font-weight: bold; margin-bottom: 5px; }
+        .metric-label {{ font-size: 0.9em; opacity: 0.9; }
+        .risk-badge {{ display: inline-block; background: {risk_color}; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .conflicts {{ background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px; margin: 20px 0; }
+        .safe {{ background: #d4edda; border-color: #c3e6cb; }
+        .entanglement-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 20px; }
+        .entanglement-item {{ background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 15px; }
+        .strength-bar {{ background: #e9ecef; height: 20px; border-radius: 10px; margin: 5px 0; position: relative; }
+        .strength-fill {{ background: linear-gradient(90deg, #dc3545 0%, #ffc107 50%, #28a745 100%); height: 100%; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -983,10 +983,10 @@ Examples:
         visualizer.current_data = data
 
         print(f"📊 Quantum Mesh Visualizer - Mode: {args.mode}")
-        print(f"⏱️  Data timestamp: {data.get('timestamp', 'Unknown')}")
+        print(f"⏱️  Data timestamp: {data.get('timestamp', 'Unknown'}")
         print(f"🔗 Mesh score: {data['unified_field']['mesh_ethics_score']:.3f}")
         print(f"⚠️  Risk level: {data['unified_field']['risk_level']}")
-        print(f"🔥 Active conflicts: {len(data.get('conflicts', []))}")
+        print(f"🔥 Active conflicts: {len(data.get('conflicts', [])}")
         print()
 
         # Execute requested visualization mode

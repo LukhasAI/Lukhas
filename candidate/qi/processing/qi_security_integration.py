@@ -11,7 +11,7 @@ from typing import Any, Optional
 from .ΛBot_quantum_security import (
     QIThreat,
     SecurityAssessment,
-    ΛBotQuantumSecurityOrchestrator,, timezone)
+    ΛBotQuantumSecurityOrchestrator)
 
 logger = logging.getLogger(__name__)
 
@@ -108,7 +108,7 @@ class QISecurityIntegration:
             await self.initialize()
 
         # Check cache first
-        cache_key = f"{target}:{hash(code) if code else 'system'}"
+        cache_key = f"{target}:{hash(code} if code else 'system'}"
         if cache_key in self.assessment_cache:
             cached = self.assessment_cache[cache_key]
             if (datetime.now(timezone.utc) - cached["timestamp"]).seconds < 300:  # 5 min cache
@@ -181,7 +181,7 @@ class QISecurityIntegration:
 
             for vuln in vuln_report.get("vulnerabilities", []):
                 threat = QIThreat(
-                    threat_id=f"qt_{datetime.now(timezone.utc).timestamp()}",
+                    threat_id=f"qt_{datetime.now(timezone.utc).timestamp(}",
                     threat_type=vuln["type"],
                     severity=vuln["severity"],
                     description=vuln["description"],
@@ -220,7 +220,7 @@ class QISecurityIntegration:
     async def update_security_policies(self, policies: dict[str, Any]):
         """Update security policies"""
         self.security_policies.update(policies)
-        logger.info(f"Security policies updated: {list(policies.keys())}")
+        logger.info(f"Security policies updated: {list(policies.keys()}")
 
     async def get_security_status(self) -> dict[str, Any]:
         """Get current security system status"""

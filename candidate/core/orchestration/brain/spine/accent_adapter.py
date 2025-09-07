@@ -31,7 +31,7 @@ from typing import Any, Optional
 from cryptography.fernet import Fernet
 
 from lukhas.core.identity.vault.lukhas_id import (get_encryption_key,
-                                                  has_access, log_access, timezone)
+                                                  has_access, log_access)
 
 # Initialize logger
 logger = logging.getLogger("accent_adapter")
@@ -44,13 +44,13 @@ class AccentAdapter:
     Tracks trust_score per region, memory decay fields, and emotional tagging.
     """
 
-    def __init__(:
+    def __init__(
         self,
         emotion_mapper=None,
         memory_helix=None,
         config: dict[str, Any] = None,
         user_id: str = None,
-        tier: str = "T3",
+        tier: str = "T3"
     ):
         """
         Initialize the accent adapter with Lukhas_ID-based encryption and access control.
@@ -168,7 +168,7 @@ class AccentAdapter:
             record_type = "general"
         record["type"] = record_type
         # Compute hash input using raw JSON and previous hash (before encryption)
-        hash_input = f"{prev_hash or ''}|{json.dumps(record, sort_keys=True)}"
+        hash_input = f"{prev_hash or ''}|{json.dumps(record, sort_keys=True}"
         record_hash = hashlib.sha256(hash_input.encode()).hexdigest()
         # Add previous hash for chain integrity
         record_copy = dict(record)
@@ -191,7 +191,7 @@ class AccentAdapter:
         if not has_access(:
             user_id=self.user_id,
             memory_id=encrypted_record["hash"],
-            required_tier=self.tier,
+            required_tier=self.tier
         ):
             raise PermissionError("Access denied for this memory.")
 
@@ -200,7 +200,7 @@ class AccentAdapter:
         record = json.loads(decrypted.decode())
         return record
 
-    def log_cultural_interaction(:
+    def log_cultural_interaction(
         self,
         user_id: str,
         word: str,
@@ -243,7 +243,7 @@ class AccentAdapter:
             return []
         return [self._decrypt_record(r) for r in self.cultural_memory[user_id]]
 
-    def remember_location(:
+    def remember_location(
         self,
         user_id: str,
         location: str,
@@ -281,7 +281,7 @@ class AccentAdapter:
             tier=self.tier,
         )
 
-    def generate_reminiscence(:
+    def generate_reminiscence(
         self, user_id: str, current_context: dict[str, Any]
     ) -> Optional[str]:
         """

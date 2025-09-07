@@ -33,7 +33,7 @@ else:
 
     for _i, dream in enumerate(entries, 1):
         st.markdown("##")
-        st.markdown(f"**Text:** {dream.get('text', '—')}")
+        st.markdown(f"**Text:** {dream.get('text', '—'}")
         st.markdown(f"**Emotion Vector:** `{dream.get('emotion_vector', {})}`")
 
         # ── Emotion Ring ───────────────────────────────────────────
@@ -54,8 +54,8 @@ else:
             top_emoji = emoji_map.get(top_emotion, "🔮")
             st.markdown(f"**Dominant Emotion:** {top_emotion} {top_emoji}")
 
-        st.markdown(f"**Tier:** {dream.get('tier', '—')} | **Replay:** {dream.get('replay_candidate', False)}")
-        st.markdown(f"**Suggest Voice:** {dream.get('suggest_voice', False)}")
+        st.markdown(f"**Tier:** {dream.get('tier', '—')} | **Replay:** {dream.get('replay_candidate', False}")
+        st.markdown(f"**Suggest Voice:** {dream.get('suggest_voice', False}")
         st.divider()
 
 # ── Narration Log Viewer ───────────────────────────────────

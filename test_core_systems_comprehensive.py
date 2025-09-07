@@ -197,7 +197,7 @@ class TestSupervisorAgent:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Supervisor Agent Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Supervisor Agent Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "system": "Supervisor Agent",
@@ -342,7 +342,7 @@ class TestGLYPHCommunication:
 
             # Test successful response
             response = create_response_glyph(
-                request=request, symbol=GLYPHSymbol.SUCCESS, payload={"user_data": {"name": "Test User", "tier": 1}}
+                request=request, symbol=GLYPHSymbol.SUCCESS, payload={"user_data": {"name": "Test User", "tier": 1}
             )
 
             if response.source != request.target:
@@ -402,7 +402,7 @@ class TestGLYPHCommunication:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 GLYPH Communication Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 GLYPH Communication Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "system": "GLYPH Communication System",
@@ -554,7 +554,7 @@ class TestGuardianSecurity:
 
                 def log_security_event(self, event_type: str, user_id: str, details: dict[str, Any]) -> str:
                     audit_entry = {
-                        "event_id": f"audit_{uuid.uuid4().hex[:8]}",
+                        "event_id": f"audit_{uuid.uuid4(}.hex[:8]}",
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                         "event_type": event_type,
                         "user_id": user_id,
@@ -654,7 +654,7 @@ class TestGuardianSecurity:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Guardian Security Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Guardian Security Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "system": "Guardian Security Core",
@@ -972,7 +972,7 @@ class TestBioSymbolicSystems:
 
                     # Generate bio-consciousness pattern
                     pattern = {
-                        "pattern_id": f"bio_consciousness_{uuid.uuid4().hex[:8]}",
+                        "pattern_id": f"bio_consciousness_{uuid.uuid4(}.hex[:8]}",
                         "bio_rhythm": bio_rhythm,
                         "consciousness_state": consciousness_state,
                         "integration_score": integration_score,
@@ -1092,7 +1092,7 @@ class TestBioSymbolicSystems:
                 total_passed += 1
 
         success_rate = (total_passed / len(tests)) * 100
-        print(f"\n  📊 Bio-Symbolic Systems Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests)})")
+        print(f"\n  📊 Bio-Symbolic Systems Success Rate: {success_rate:.1f}% ({total_passed}/{len(tests})")
 
         return {
             "system": "Bio-Symbolic Systems",

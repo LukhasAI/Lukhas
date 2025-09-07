@@ -18,7 +18,7 @@ from typing import Any, Optional
 from candidate.orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
     IntelligenceRequestType,
-    LukhasAgentBridge,, timezone)
+    LukhasAgentBridge)
 
 logger = logging.getLogger("LUKHAS.Intelligence.Orchestration")
 

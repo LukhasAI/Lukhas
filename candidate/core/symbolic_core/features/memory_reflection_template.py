@@ -78,7 +78,7 @@ class MemoryFold:
     Represents a unit of conscious memory with quantum-bio properties
     """
 
-    fold_id: str = field(default_factory=lambda: f"fold_{uuid.uuid4().hex[:8]}")
+    fold_id: str = field(default_factory=lambda: f"fold_{uuid.uuid4(}.hex[:8]}")
     fold_type: FoldType = FoldType.EPISODIC
     content: Any = None
 
@@ -118,7 +118,7 @@ class MemoryFold:
 class ReflectionContext:
     """Context for memory reflection operations"""
 
-    reflection_id: str = field(default_factory=lambda: f"reflection_{uuid.uuid4().hex[:8]}")
+    reflection_id: str = field(default_factory=lambda: f"reflection_{uuid.uuid4(}.hex[:8]}")
     trigger_type: str = "automatic"  # automatic, query-driven, dream-state
     depth_level: int = 1  # 1-5 reflection depth
     time_horizon: float = 3600.0  # Seconds to look back
@@ -318,7 +318,7 @@ class MemoryReflectionSystem:
 
         # Step 1: Memory fold retrieval and filtering
         relevant_folds = self._retrieve_relevant_folds(signal, context)
-        logger.info(f"ΛTRACE: Retrieved {len(relevant_folds)} relevant memory folds")
+        logger.info(f"ΛTRACE: Retrieved {len(relevant_folds} relevant memory folds")
 
         # Step 2: Quantum superposition processing (if enabled)
         if context.superposition_enabled:
@@ -420,7 +420,7 @@ class MemoryReflectionSystem:
         coherence_matrix = self._calculate_coherence_matrix(folds)
         superposition_results["coherence_matrix"] = coherence_matrix
 
-        logger.info(f"ΛTRACE: Quantum superposition processing: {len(superposition_results['active_states'])} states")
+        logger.info(f"ΛTRACE: Quantum superposition processing: {len(superposition_results['active_states']} states")
 
         return superposition_results
 
@@ -512,7 +512,7 @@ class MemoryReflectionSystem:
 
             bio_sync_results["plasticity_updates"][fold.fold_id] = fold.plasticity_factor
 
-        logger.info(f"ΛTRACE: Bio-rhythm sync: {len(bio_sync_results['synchronized_folds'])} folds synchronized")
+        logger.info(f"ΛTRACE: Bio-rhythm sync: {len(bio_sync_results['synchronized_folds']} folds synchronized")
 
         return bio_sync_results
 
@@ -545,7 +545,7 @@ class MemoryReflectionSystem:
         causal_insights = self._derive_causal_insights(folds, context)
         insights.extend(causal_insights)
 
-        logger.info(f"ΛTRACE: Generated {len(insights)} reflection insights")
+        logger.info(f"ΛTRACE: Generated {len(insights} reflection insights")
 
         return insights
 
@@ -565,7 +565,7 @@ class MemoryReflectionSystem:
         for fold_type, type_folds in type_groups.items():
             if len(type_folds) >= 2:
                 pattern = {
-                    "description": f"Cluster of {len(type_folds)} {fold_type.value} memories",
+                    "description": f"Cluster of {len(type_folds} {fold_type.value} memories",
                     "fold_ids": [f.fold_id for f in type_folds],
                     "confidence": min(1.0, len(type_folds) * 0.2),
                     "connections": [],
@@ -598,7 +598,7 @@ class MemoryReflectionSystem:
         # Generate insight based on emotional patterns
         insight = {
             "type": "emotional_pattern",
-            "description": f"Emotional reflection across {len(folds)} memories",
+            "description": f"Emotional reflection across {len(folds} memories",
             "emotional_centroid": {
                 "valence": float(emotional_centroid[0]),
                 "arousal": float(emotional_centroid[1]),
@@ -631,7 +631,7 @@ class MemoryReflectionSystem:
             for chain in causal_chains:
                 insight = {
                     "type": "causal_relationship",
-                    "description": f"Causal chain with {len(chain)} memories",
+                    "description": f"Causal chain with {len(chain} memories",
                     "causal_chain": chain,
                     "chain_strength": sum(self.memory_folds[fold_id].causal_weight for fold_id in chain) / len(chain),
                     "confidence": min(1.0, len(chain) * 0.15),
@@ -696,7 +696,7 @@ class MemoryReflectionSystem:
                     }
                     causal_links.append(link)
 
-        logger.info(f"ΛTRACE: Analyzed {len(causal_links)} causal links")
+        logger.info(f"ΛTRACE: Analyzed {len(causal_links} causal links")
 
         return causal_links
 
@@ -980,7 +980,7 @@ class MemoryReflectionSystem:
         unapproved_folds = [fold for fold in self.memory_folds.values() if not fold.guardian_approved]
         if unapproved_folds:
             validation_result["guardian_approval"] = False
-            validation_result["issues"].append(f"{len(unapproved_folds)} folds lack guardian approval")
+            validation_result["issues"].append(f"{len(unapproved_folds} folds lack guardian approval")
 
         # Check cascade prevention
         current_cascade_risk = self._assess_cascade_risk({})
@@ -1089,7 +1089,7 @@ class MemoryReflectionSystem:
             # Meta information
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "system_version": self.version,
-            "memory_usage": f"{len(self.memory_folds)}/{self.max_folds} folds",
+            "memory_usage": f"{len(self.memory_folds}/{self.max_folds} folds",
         }
 
     def _create_guardian_blocked_response(self, signal: dict[str, Any], context: ReflectionContext) -> dict[str, Any]:

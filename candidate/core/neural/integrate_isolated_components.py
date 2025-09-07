@@ -18,7 +18,7 @@ from pathlib import Path
 
 
 class ComponentIntegrator:
-    def __init__(self, timezone):
+    def __init__(self):
         self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.integration_log = []
 
@@ -500,7 +500,7 @@ def main():
         print(f"  - {action}")
 
     if len(integrator.integration_log) > 5:
-        print(f"  ... and {len(integrator.integration_log) - 5} more actions")
+        print(f"  ... and {len(integrator.integration_log} - 5} more actions")
 
 
 if __name__ == "__main__":

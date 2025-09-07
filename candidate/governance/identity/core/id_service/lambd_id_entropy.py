@@ -41,7 +41,7 @@ from enum import Enum
 from typing import Optional
 
 
-class EntropyLevel(Enum, timezone):
+class EntropyLevel(Enum):
     """Entropy quality levels"""
 
     VERY_LOW = "very_low"
@@ -509,4 +509,4 @@ if __name__ == "__main__":
         if analysis.warnings:
             print(f"  Warnings: {analysis.warnings}")
 
-    print(f"\nEntropy Statistics: {entropy_engine.get_entropy_statistics()}")
+    print(f"\nEntropy Statistics: {entropy_engine.get_entropy_statistics(}")

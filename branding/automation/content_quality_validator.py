@@ -74,7 +74,7 @@ class ContentQualityValidator:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"content_quality_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"content_quality_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -510,10 +510,10 @@ What's your perspective on the spectrum of consciousness? 💭""",
         print(f"Approved: {'✅ YES' if quality_score.approved else '❌ NO'}")
 
         if quality_score.issues:
-            print(f"Issues: {len(quality_score.issues)}")
+            print(f"Issues: {len(quality_score.issues}")
 
         if quality_score.recommendations:
-            print(f"Recommendations: {len(quality_score.recommendations)}")
+            print(f"Recommendations: {len(quality_score.recommendations}")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Content Quality Validation Complete")
 

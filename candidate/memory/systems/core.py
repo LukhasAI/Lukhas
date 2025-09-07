@@ -276,7 +276,7 @@ class MemoryModule(BaseModule):
         metadata: Optional[dict[str, Any]] = None,
         encrypt_override: Optional[bool] = None,
     ) -> str:
-        mem_id = f"mem_{uuid.uuid4().hex[:12]}"
+        mem_id = f"mem_{uuid.uuid4(}.hex[:12]}"
         ts_utc = datetime.now(timezone.utc).isoformat()
         # ΛTRACE: Storing new memory.
         # type: ignore
@@ -527,7 +527,7 @@ async def main_example_core_memory():
     )
     r_mem2_other = await mem_module.retrieve_memory(mem2, lukhas_lambda_id="user_beta")
     log.info(
-        f"Mem 2 for other user: {'Not found/denied' if not r_mem2_other else 'Retrieved (check ACL)'}"
+        f"Mem 2 for other user: {'Not found/denied' if not r_mem2_other else 'Retrieved (check ACL}'}"
     )  # Basic ACL check demo
 
     health_stat = await mem_module.get_health_status()

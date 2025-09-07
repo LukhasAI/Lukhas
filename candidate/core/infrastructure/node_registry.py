@@ -93,7 +93,7 @@ class NodeRegistry:
             except ImportError as e:
                 logger.warning(f"Could not import module {path}: {e}")
 
-        logger.info(f"Discovered {discovered} node types from {len(node_paths)} paths")
+        logger.info(f"Discovered {discovered} node types from {len(node_paths} paths")
 
     def register_node_type(self, node_id: str, node_class: type) -> bool:
         """
@@ -131,7 +131,7 @@ class NodeRegistry:
 
         if node_id is None:
             # Generate a unique ID if not provided
-            node_id = f"{node_type}_{str(uuid.uuid4())[:8]}"
+            node_id = f"{node_type}_{str(uuid.uuid4()}[:8]}"
         elif node_id in self.nodes:
             raise ValueError(f"Node ID {node_id} already in use")
 
@@ -282,7 +282,7 @@ class NodeRegistry:
         if "memory" in node_ids and "intent" in node_ids:
             self.establish_relationship(node_ids["memory"], node_ids["intent"], "provides_to")
 
-        logger.info(f"Initialized {len(node_ids)} standard nodes")
+        logger.info(f"Initialized {len(node_ids} standard nodes")
         return node_ids
 
     def get_node_info(self, node_id: str) -> dict[str, Any]:

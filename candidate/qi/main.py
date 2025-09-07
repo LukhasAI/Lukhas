@@ -47,7 +47,7 @@ from pydantic import BaseModel
 
 
 class QIConsciousnessΛBot:
-    def __init__(self, timezone):
+    def __init__(self):
         self.consciousness_level = 9
         self.bot_type = "QIConsciousnessΛBot"
         self.status = "active"

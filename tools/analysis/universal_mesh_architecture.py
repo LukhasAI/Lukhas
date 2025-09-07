@@ -15,7 +15,7 @@ from typing import Any
 class UniversalMeshArchitecture:
     """Design the universal mesh communication system"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.mesh_components = {
             "tagging_system": {
                 "description": "Mycelium-inspired universal tagging network",
@@ -485,7 +485,7 @@ class UniversalMesh:
             'type': 'endocrine_broadcast',
             'hormone': hormone,
             'level': level,
-            'timestamp': datetime.now(timezone.utc).isoformat()
+            'timestamp': datetime.now(timezone.utc).isoformat(}
         })
 
 # Example usage

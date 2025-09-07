@@ -59,7 +59,7 @@ SymbolProgramSynthesizer = comp_mod.SymbolProgramSynthesizer
 
 def test_execute_line_ignores_comments():
     comp = SymbolProgramSynthesizer()
-    env = {"operations": {"nop": lambda: None}, "results": {}}
+    env = {"operations": {"nop": lambda: None}, "results": {}
     # Should not raise, should not modify env
     comp._execute_line("# this is a comment", env)
     assert env["results"] == {}

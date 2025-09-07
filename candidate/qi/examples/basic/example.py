@@ -19,7 +19,7 @@ from datetime import datetime
 import numpy as np
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -198,7 +198,7 @@ def main():
         # Run the demonstration
         processor = demonstrate_qi_processing()
 
-        print(f"\n📊 Total decisions processed: {len(processor.get_decision_history())}")
+        print(f"\n📊 Total decisions processed: {len(processor.get_decision_history()}")
         print("🚀 QI Example completed successfully!")
 
     except Exception as e:

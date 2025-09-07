@@ -101,7 +101,7 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"❌ Failed to start {api['name']}: {e!s}")
 
-    print(f"\n✅ All {len(processes)} APIs started successfully!")
+    print(f"\n✅ All {len(processes} APIs started successfully!")
     print("\n📍 API Endpoints:")
     for api in sorted_apis:
         print(f"   - {api['name']}: http://localhost:{api['port']}")

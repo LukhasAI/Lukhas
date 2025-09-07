@@ -18,7 +18,7 @@ from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class AgentRole(Enum):
@@ -247,7 +247,7 @@ class MultiAgentSafetyConsensus:
         # Decision history
         self.consensus_history: list[ConsensusResult] = []
 
-        logger.info(f"Multi-Agent Safety Consensus initialized with {len(self.agents)} agents")
+        logger.info(f"Multi-Agent Safety Consensus initialized with {len(self.agents} agents")
 
     def _initialize_agents(self) -> dict[AgentRole, SafetyAgent]:
         """Initialize all safety agents"""
@@ -493,11 +493,11 @@ class MultiAgentSafetyConsensus:
         ]
 
         if consensus.dissenting_opinions:
-            dissent_summary = f"Dissent from: {', '.join(v.agent_role.value for v in consensus.dissenting_opinions)}"
+            dissent_summary = f"Dissent from: {', '.join(v.agent_role.value for v in consensus.dissenting_opinions}"
             summary_parts.append(dissent_summary)
 
         if consensus.conditions:
-            summary_parts.append(f"Conditions: {len(consensus.conditions)} requirements")
+            summary_parts.append(f"Conditions: {len(consensus.conditions} requirements")
 
         return " | ".join(summary_parts)
 

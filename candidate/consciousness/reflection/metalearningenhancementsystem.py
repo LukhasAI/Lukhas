@@ -46,7 +46,7 @@ from .monitor_dashboard import MetaLearningMonitorDashboard
 from .rate_modulator import (
     AdaptationStrategy,
     ConvergenceSignal,
-    DynamicLearningRateModulator,, timezone)
+    DynamicLearningRateModulator)
 from .symbolic_feedback import IntentNodeHistory, SymbolicFeedbackSystem
 
 logger = get_logger(__name__)
@@ -211,7 +211,7 @@ class MetaLearningEnhancementsystem:
         }
 
         logger.info(
-            f"Discovery completed: {self.integration_status.systems_enhanced}/{len(discovered_systems)} systems enhanced"
+            f"Discovery completed: {self.integration_status.systems_enhanced}/{len(discovered_systems} systems enhanced"
         )
 
         return discovery_results
@@ -278,7 +278,7 @@ class MetaLearningEnhancementsystem:
         }
         self.coordination_events.append(coordination_event)
 
-        logger.info(f"Enhancement operations started: {len(operations_status['operations_started'])} operations")
+        logger.info(f"Enhancement operations started: {len(operations_status['operations_started']} operations")
 
         return operations_status
 
@@ -287,7 +287,7 @@ class MetaLearningEnhancementsystem:
 
         cycle_start = datetime.now(timezone.utc)
         cycle_results = {
-            "cycle_id": f"enhancement_{cycle_start.strftime('%Y%m%d_%H%M%S')}",
+            "cycle_id": f"enhancement_{cycle_start.strftime('%Y%m%d_%H%M%S'}",
             "start_time": cycle_start.isoformat(),
             "systems_processed": 0,
             "optimizations_applied": 0,
@@ -892,8 +892,8 @@ class MetaLearningEnhancementsystem:
             ),
             "key_achievements": [
                 f"Enhanced {self.integration_status.systems_enhanced} MetaLearningSystem instances",
-                f"Enabled {len([c for c in self.coordination_events if 'started' in c['event_type']])} coordination operations",
-                f"Maintained {len([a for a in self.ethical_audit_trail if a['passed']])} ethical compliance audits",
+                f"Enabled {len([c for c in self.coordination_events if 'started' in c['event_type']]} coordination operations",
+                f"Maintained {len([a for a in self.ethical_audit_trail if a['passed']]} ethical compliance audits",
             ],
             "current_status": ("operational" if self.integration_status.monitoring_active else "initializing"),
         }
@@ -1104,7 +1104,7 @@ async def initialize_meta_learning_enhancement(
 
     # Start enhancement operations
     operations_status = await enhancement_system.start_enhancement_operations()
-    logger.info(f"Enhancement operations started: {len(operations_status['operations_started'])} operations active")
+    logger.info(f"Enhancement operations started: {len(operations_status['operations_started']} operations active")
 
     logger.info("Meta-Learning Enhancement System initialization completed")
 

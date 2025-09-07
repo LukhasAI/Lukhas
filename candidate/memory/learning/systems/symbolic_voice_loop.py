@@ -13,7 +13,7 @@ from datetime import timezone
 import streamlit as st
 
 
-def speak(text, timezone):
+def speak(text):
     if not text:
         text = f"Hello, I am Lukhas. {lukhas_profile['motto']}"
 

@@ -19,7 +19,7 @@ from typing import Any, Optional
 import numpy as np
 
 
-class DecisionType(Enum, timezone):
+class DecisionType(Enum):
     """Types of decisions tracked"""
 
     ACTION_TAKEN = "action_taken"
@@ -342,7 +342,7 @@ class ForkMapper:
         decision_context: dict[str, Any],
     ):
         """Map a decision fork point"""
-        fork_id = f"fork_{datetime.now(timezone.utc).timestamp()}"
+        fork_id = f"fork_{datetime.now(timezone.utc).timestamp(}"
 
         fork_data = {
             "fork_id": fork_id,
@@ -609,7 +609,7 @@ class VIVOXSelfReflectiveMemory:
     ):
         """Log hesitation events"""
         hesitation_entry = CollapseLogEntry(
-            collapse_id=f"hesitation_{self._get_next_id()}",
+            collapse_id=f"hesitation_{self._get_next_id(}",
             timestamp=datetime.now(timezone.utc),
             collapse_type="hesitation",
             initial_states=[{"action": action, "confidence": "low"}],
@@ -664,7 +664,7 @@ class VIVOXSelfReflectiveMemory:
     def _get_next_id(self) -> str:
         """Generate next log ID"""
         self._log_counter += 1
-        return f"{datetime.now(timezone.utc).timestamp()}_{self._log_counter}"
+        return f"{datetime.now(timezone.utc).timestamp(}_{self._log_counter}"
 
     async def _analyze_suppression_patterns(self, suppression: SuppressionRecord) -> dict[str, Any]:
         """Analyze patterns in suppression"""

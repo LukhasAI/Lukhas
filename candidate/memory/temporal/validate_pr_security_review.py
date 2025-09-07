@@ -64,7 +64,7 @@ def validate_pr_security_review():
     report_files = list(Path("/Users/A_G_I/Lukhas").glob("pr_security_review_*.json"))
     if report_files:
         latest_report = max(report_files, key=lambda p: p.stat().st_mtime)
-        print(f"✅ Found {len(report_files)} report files")
+        print(f"✅ Found {len(report_files} report files")
         print(f"   Latest report: {latest_report.name}")
 
         # Parse the latest report
@@ -75,11 +75,11 @@ def validate_pr_security_review():
             summary = report_data.get("summary", {})
 
             print("\nSummary from latest report:")
-            print(f"- Repositories processed: {summary.get('repositories_processed', 0)}")
+            print(f"- Repositories processed: {summary.get('repositories_processed', 0}")
             print(f"- PRs scanned: {summary.get('stats', {}).get('prs_scanned', 0)}")
             print(f"- Security issues found: {summary.get('stats', {}).get('security_issues_found', 0)}")
-            print(f"- Security PRs identified: {summary.get('total_security_prs', 0)}")
-            print(f"- Critical security PRs: {summary.get('critical_security_prs', 0)}")
+            print(f"- Security PRs identified: {summary.get('total_security_prs', 0}")
+            print(f"- Critical security PRs: {summary.get('critical_security_prs', 0}")
             print(f"- PRs reviewed: {summary.get('stats', {}).get('prs_reviewed', 0)}")
 
             unresolved = summary.get("total_security_prs", 0) - summary.get("stats", {}).get("prs_reviewed", 0)

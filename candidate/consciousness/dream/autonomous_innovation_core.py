@@ -209,7 +209,7 @@ class AutonomousInnovationCore(CoreInterface):
             if opp.market_size >= market_threshold:
                 opportunities.append(opp)
 
-        logger.info(f"📊 Identified {len(opportunities)} opportunities in {domain.value}")
+        logger.info(f"📊 Identified {len(opportunities} opportunities in {domain.value}")
         return opportunities
 
     async def generate_breakthrough_hypotheses(
@@ -264,7 +264,7 @@ class AutonomousInnovationCore(CoreInterface):
                 hypotheses.append(hypothesis)
                 self.hypothesis_pool.append(hypothesis)
 
-        logger.info(f"💡 Generated {len(hypotheses)} breakthrough hypotheses")
+        logger.info(f"💡 Generated {len(hypotheses} breakthrough hypotheses")
         return hypotheses
 
     async def explore_innovation_in_parallel_realities(
@@ -320,7 +320,7 @@ class AutonomousInnovationCore(CoreInterface):
         self.metrics["realities_explored"] += reality_count
         self.metrics["hypotheses_tested"] += 1
 
-        logger.info(f"🌌 Explored {reality_count} realities, {len(results)} showed promise")
+        logger.info(f"🌌 Explored {reality_count} realities, {len(results} showed promise")
         return results
 
     async def validate_and_synthesize_innovation(

@@ -129,7 +129,7 @@ class LIDClient:
         if not self.current_user:
             return "anonymous"
 
-        session_data = f"{self.current_user['lid']}_{int(time.time() // 3600)}"
+        session_data = f"{self.current_user['lid']}_{int(time.time() // 3600}"
         return hashlib.sha256(session_data.encode()).hexdigest()[:8]
 
     async def get_audit_trail(self, resource: str, limit: int = 50) -> list[dict[str, Any]]:

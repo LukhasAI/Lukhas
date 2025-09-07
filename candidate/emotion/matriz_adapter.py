@@ -27,7 +27,7 @@ class EmotionMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-EMO-{uuid.uuid4().hex[:8]}",
+            "id": f"LT-EMO-{uuid.uuid4(}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.7),
@@ -41,7 +41,7 @@ class EmotionMatrizAdapter:
                 "producer": "lukhas.emotion",
                 "capabilities": ["emotion:detect", "emotion:regulate", "emotion:vad"],
                 "tenant": "system",
-                "trace_id": f"LT-EMO-{int(time.time())}",
+                "trace_id": f"LT-EMO-{int(time.time()}",
                 "consent_scopes": ["system:emotion"],
                 **(provenance_extra or {}),
             },
@@ -173,7 +173,7 @@ class EmotionMatrizAdapter:
 
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        filename = f"{node['id']}_{int(time.time())}.json"
+        filename = f"{node['id']}_{int(time.time()}.json"
         filepath = output_dir / filename
 
         with open(filepath, "w") as f:

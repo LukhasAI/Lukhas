@@ -259,7 +259,7 @@ class RealitySynthesisEngine(CoreInterface):
         validated_patterns = await self._cross_validate_patterns(universal_patterns, cross_validation_count)
 
         self.metrics["universal_principles"] = len(validated_patterns)
-        logger.info(f"🌟 Discovered {len(validated_patterns)} universal patterns")
+        logger.info(f"🌟 Discovered {len(validated_patterns} universal patterns")
 
         return validated_patterns
 
@@ -297,7 +297,7 @@ class RealitySynthesisEngine(CoreInterface):
         self.fused_innovations.extend(top_innovations)
         self.metrics["innovations_fused"] += len(top_innovations)
 
-        logger.info(f"🚀 Fused {len(top_innovations)} breakthrough innovations")
+        logger.info(f"🚀 Fused {len(top_innovations} breakthrough innovations")
         return top_innovations
 
     async def generate_ip_portfolio(self, innovations: list[FusedInnovation]) -> IPPortfolio:
@@ -758,7 +758,7 @@ if __name__ == "__main__":
 
         # Synthesize breakthroughs
         breakthroughs = await engine.synthesize_cross_reality_breakthroughs(reality_results)
-        print(f"Generated {len(breakthroughs['breakthrough_innovations'])} innovations")
+        print(f"Generated {len(breakthroughs['breakthrough_innovations']} innovations")
         print(f"Created {breakthroughs['ip_portfolio'].total_value_estimate} in IP value")
 
     asyncio.run(main())

@@ -93,8 +93,8 @@ class MonitoringSetup:
                 missing_packages.append(package)
 
         if missing_packages:
-            logger.error(f"Missing required packages: {', '.join(missing_packages)}")
-            logger.info(f"Install with: pip install {' '.join(missing_packages)}")
+            logger.error(f"Missing required packages: {', '.join(missing_packages}")
+            logger.info(f"Install with: pip install {' '.join(missing_packages}")
             return False
 
         logger.info("✅ All dependencies satisfied")

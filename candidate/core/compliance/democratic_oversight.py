@@ -535,7 +535,7 @@ class DemocraticOversightEngine:
 
             self.logger.info(
                 f"Human rights assessment completed: {assessment_id}, "
-                f"Risk level: {overall_risk_level}, Rights analyzed: {len(rights_analyzed)}"
+                f"Risk level: {overall_risk_level}, Rights analyzed: {len(rights_analyzed}"
             )
 
             return assessment
@@ -917,7 +917,7 @@ class DemocraticOversightEngine:
         """
 
         try:
-            report_id = f"TRANSPARENCY_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+            report_id = f"TRANSPARENCY_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
             # Collect system statistics
             ai_systems_assessed = len(self.human_rights_assessments)
@@ -1034,7 +1034,7 @@ class DemocraticOversightEngine:
 
             self.logger.info(
                 f"Public transparency report generated: {report_id}, "
-                f"Period: {reporting_period[0].strftime('%Y-%m-%d')} to {reporting_period[1].strftime('%Y-%m-%d')}"
+                f"Period: {reporting_period[0].strftime('%Y-%m-%d')} to {reporting_period[1].strftime('%Y-%m-%d'}"
             )
 
             return report
@@ -1059,7 +1059,7 @@ class DemocraticOversightEngine:
         """
 
         try:
-            session_id = f"ENGAGEMENT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+            session_id = f"ENGAGEMENT_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
             # Determine participating stakeholder groups
             if stakeholder_groups:
@@ -1167,9 +1167,9 @@ class DemocraticOversightEngine:
                 "human_rights_assessment_framework.pdf",
             ]
 
-            meeting_minutes = f"Minutes of stakeholder engagement session on {topic} held on {datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
+            meeting_minutes = f"Minutes of stakeholder engagement session on {topic} held on {datetime.now(timezone.utc).strftime('%Y-%m-%d'}"
 
-            public_summary = f"Public summary: Stakeholder engagement on {topic} with {len(participants)} participants representing {len(participating_groups)} stakeholder groups resulted in {len(recommendations_generated)} key recommendations for democratic AI governance."
+            public_summary = f"Public summary: Stakeholder engagement on {topic} with {len(participants)} participants representing {len(participating_groups)} stakeholder groups resulted in {len(recommendations_generated} key recommendations for democratic AI governance."
 
             # Create engagement session
             session = CitizenEngagementSession(
@@ -1203,7 +1203,7 @@ class DemocraticOversightEngine:
 
             self.logger.info(
                 f"Stakeholder engagement session conducted: {session_id}, "
-                f"Method: {engagement_method.value}, Participants: {len(participants)}"
+                f"Method: {engagement_method.value}, Participants: {len(participants}"
             )
 
             return session
@@ -1340,7 +1340,7 @@ class DemocraticOversightEngine:
         reports = list(self.transparency_reports.values())
 
         return {
-            "report_id": f"DEMOCRATIC_GOVERNANCE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            "report_id": f"DEMOCRATIC_GOVERNANCE_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "executive_summary": {
                 "democratic_oversight_maturity": "advanced",

@@ -674,7 +674,7 @@ class QIHealixMapper:
 
         # Generate mutation ID
         mutation_id = hashlib.sha256(
-            f"{fold_id}{mutation_type.value}{datetime.now(timezone.utc).timestamp()}".encode()
+            f"{fold_id}{mutation_type.value}{datetime.now(timezone.utc).timestamp(}".encode()
         ).hexdigest()[:16]
 
         # Apply mutation based on type
@@ -989,7 +989,7 @@ class QIHealixMapper:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
-        log_id = hashlib.sha256(f"{fold_id}{action}{datetime.now(timezone.utc).timestamp()}".encode()).hexdigest()[:16]
+        log_id = hashlib.sha256(f"{fold_id}{action}{datetime.now(timezone.utc).timestamp(}".encode()).hexdigest()[:16]
 
         cursor.execute(
             """

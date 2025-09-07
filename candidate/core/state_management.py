@@ -60,10 +60,10 @@ class StateManager:
             f.write(json.dumps(event) + "\n")
 
     def take_snapshot(self):
-        snapshot_file = f"{len(self.event_log)}.snapshot"
+        snapshot_file = f"{len(self.event_log}.snapshot"
         with open(os.path.join(self.storage_path, snapshot_file), "w") as f:
             json.dump(self.state, f)
-        print(f"StateManager: Snapshot taken at event {len(self.event_log)}")
+        print(f"StateManager: Snapshot taken at event {len(self.event_log}")
 
 
 if __name__ == "__main__":

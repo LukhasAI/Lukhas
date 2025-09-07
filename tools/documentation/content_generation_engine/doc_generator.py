@@ -285,7 +285,7 @@ class DocGenerator:
 
         # Create function section
         return DocSection(
-            title=f"{'async ' if props.get('is_async') else ''}{'Method' if props.get('is_method') else 'Function'}: {signature}",
+            title=f"{'async ' if props.get('is_async') else ''}{'Method' if props.get('is_method'} else 'Function'}: {signature}",
             content=func_node.description or "",
             section_type="function",
             metadata={
@@ -313,7 +313,7 @@ class DocGenerator:
         if args_info.get("kwargs"):
             parts.append(f"**{args_info['kwargs']}")
 
-        return f"{name}({', '.join(parts)})"
+        return f"{name}({', '.join(parts})"
 
     def _enhance_with_lucas_patterns(self, sections: list[DocSection], config: DocumentationConfig) -> list[DocSection]:
         """

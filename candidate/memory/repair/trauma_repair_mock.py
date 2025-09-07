@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class TraumaType(Enum):
@@ -95,7 +95,7 @@ class TraumaRepairSystem:
             severity = random.uniform(0.1, 1.0)
 
             trauma = TraumaSignature(
-                trauma_id=f"trauma_{memory_id}_{datetime.now(timezone.utc).timestamp()}",
+                trauma_id=f"trauma_{memory_id}_{datetime.now(timezone.utc).timestamp(}",
                 trauma_type=trauma_type,
                 severity=severity,
                 affected_memories={memory_id},
@@ -231,7 +231,7 @@ class MemoryTraumaRepair:
     async def force_repair(self, memory_id: str, repair_strategy: Optional[str] = None) -> dict[str, Any]:
         """Force repair of a memory"""
         trauma = TraumaSignature(
-            trauma_id=f"forced_{memory_id}_{datetime.now(timezone.utc).timestamp()}",
+            trauma_id=f"forced_{memory_id}_{datetime.now(timezone.utc).timestamp(}",
             trauma_type=TraumaType.CORRUPTION,
             severity=1.0,
             affected_memories={memory_id},

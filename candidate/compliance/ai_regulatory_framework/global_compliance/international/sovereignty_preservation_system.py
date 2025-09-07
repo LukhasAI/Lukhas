@@ -43,7 +43,7 @@ class SovereigntyPreservationSystem(CoreInterface):
 
         return {
             "success": True,
-            "data_center": f"{jurisdiction.lower()}_region",
+            "data_center": f"{jurisdiction.lower(}_region",
             "residency_status": "compliant",
             "latency_ms": 50,
         }

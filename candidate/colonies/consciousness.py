@@ -12,7 +12,7 @@ from typing import Any
 from .base import BaseColony, ColonyTask
 
 
-class ConsciousnessColony(BaseColony, timezone):
+class ConsciousnessColony(BaseColony):
     """Colony for consciousness and awareness processing"""
 
     def __init__(self, max_agents: int = 10):

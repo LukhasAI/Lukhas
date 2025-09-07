@@ -17,8 +17,8 @@ def render(photon):
     html.append("<div style='display:flex;gap:40px;'>")
     for n in nodes:
         html.append("<div style='border:1px solid #ccc;padding:8px;'>")
-        html.append(f"<h3>{n.get('label', '')}</h3>")
-        html.append(f"<div><strong>kind:</strong> {n.get('kind')}</div>")
+        html.append(f"<h3>{n.get('label', ''}</h3>")
+        html.append(f"<div><strong>kind:</strong> {n.get('kind'}</div>")
         props = n.get("properties", {})
         html.append("<div><em>properties</em><ul>")
         for k, v in props.items():

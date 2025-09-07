@@ -244,7 +244,7 @@ async def _setup_services():
 
     # Mock emotion service
     mock_emotion = Mock()
-    mock_emotion.analyze_text = AsyncMock(return_value={"emotions": {"joy": 0.5, "trust": 0.7, "anticipation": 0.6}})
+    mock_emotion.analyze_text = AsyncMock(return_value={"emotions": {"joy": 0.5, "trust": 0.7, "anticipation": 0.6})
 
     # Mock audit service
     mock_audit = Mock()
@@ -301,9 +301,9 @@ async def integrated_chat(request: IntegratedChatRequest):
             raise HTTPException(status_code=503, detail="Consciousness interface not available")
 
         # Generate IDs
-        session_id = request.session_id or f"session_{uuid.uuid4().hex[:8]}"
-        action_id = f"action_{uuid.uuid4().hex[:12]}"
-        decision_id = f"decision_{uuid.uuid4().hex[:12]}"
+        session_id = request.session_id or f"session_{uuid.uuid4(}.hex[:8]}"
+        action_id = f"action_{uuid.uuid4(}.hex[:12]}"
+        decision_id = f"decision_{uuid.uuid4(}.hex[:12]}"
 
         # Process through NL interface
         response_text = await nl_interface.process_input(
@@ -341,7 +341,7 @@ async def integrated_chat(request: IntegratedChatRequest):
                         try:
                             recent_feedback = await feedback_system.get_user_feedback_history(request.user_id, limit=5)
                             if recent_feedback:
-                                reasoning_steps.append(f"Incorporated {len(recent_feedback)} recent feedback items")
+                                reasoning_steps.append(f"Incorporated {len(recent_feedback} recent feedback items")
                         except BaseException:
                             pass
 
@@ -661,7 +661,7 @@ async def get_feedback_influence(user_id: str):
                         influence_data["influence_examples"].append(
                             {
                                 "decision_made": decision.get("output", {}).get("summary", "Decision made"),
-                                "because": f"On {feedback_item.timestamp.strftime('%B %d at %H:%M')}, you {_describe_feedback(feedback_item)}",
+                                "because": f"On {feedback_item.timestamp.strftime('%B %d at %H:%M')}, you {_describe_feedback(feedback_item}",
                                 "decision_type": decision.get("decision_type"),
                                 "confidence_boost": 0.1,  # Simulated confidence boost from feedback
                             }
@@ -727,7 +727,7 @@ def _describe_feedback(feedback_item):
         emoji = feedback_item.content.get("emoji", "")
         return f"reacted with {emoji}"
     elif feedback_item.feedback_type == FeedbackType.TEXT:
-        return f'said: "{feedback_item.content.get("text", "")[:50]}..."'
+        return f'said: "{feedback_item.content.get("text", ""}[:50]}..."'
     elif feedback_item.feedback_type == FeedbackType.QUICK:
         thumbs = "👍" if feedback_item.content.get("thumbs_up") else "👎"
         return f"gave a {thumbs}"

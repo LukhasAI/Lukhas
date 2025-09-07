@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Add LUKHAS to path
-sys.path.append(str(Path(__file__, timezone).parent.parent.parent))
+sys.path.append(str(Path(__file__).parent.parent.parent))
 
 try:
     from candidate.core.symbolic_tokens import SymbolicToken
@@ -44,7 +44,7 @@ class ClaudeContextMemory:
             tokens = []
             for msg in context_data.get("messages", []):
                 token = SymbolicToken(
-                    symbol=f"CLAUDE_{msg['role'].upper()}",
+                    symbol=f"CLAUDE_{msg['role'].upper(}",
                     content=msg["content"],
                     metadata={
                         "timestamp": msg.get("timestamp", datetime.now(timezone.utc).isoformat()),
@@ -97,7 +97,7 @@ class ClaudeContextMemory:
 
         with open(filepath, "w") as f:
             f.write(
-                f"# Claude Memory Integration Export\n**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+                f"# Claude Memory Integration Export\n**Generated**: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'}\n\n"
             )
 
             # Session info
@@ -110,8 +110,8 @@ class ClaudeContextMemory:
             # Messages
             f.write("## Conversation\n\n")
             for msg in context_data.get("messages", []):
-                f.write(f"### {msg.get('role', 'Unknown')}\n")
-                f.write(f"{msg.get('content', '')}\n\n")
+                f.write(f"### {msg.get('role', 'Unknown'}\n")
+                f.write(f"{msg.get('content', ''}\n\n")
 
             # Files modified
             if "files_modified" in context_data:

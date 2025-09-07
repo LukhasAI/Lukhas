@@ -67,7 +67,7 @@ class TestGuardianSystemAdapter:
             "message": "Discover a new book that might interest you.",
             "categories": ["books"],
         }
-        user_context = {"user_id": "test_user", "consent_preferences": {"opted_out_categories": []}}
+        user_context = {"user_id": "test_user", "consent_preferences": {"opted_out_categories": []}
 
         result = await guardian_adapter.check_content_ethics(clean_content, user_context)
 

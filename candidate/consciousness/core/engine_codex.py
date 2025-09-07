@@ -13,7 +13,7 @@ import numpy as np
 
 # Configure logging for consciousness events
 # ΛNOTE: Centralized logger for all consciousness-related events.
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 consciousness_logger = logging.getLogger("LUKHAS_CONSCIOUSNESS")
 
 
@@ -209,7 +209,7 @@ class AnthropicEthicsEngine:
             if score < 0.7:  # ΛNOTE: Threshold for flagging an ethical concern.
                 evaluation["violations"].append(f"{principle}: {score:.2f}")
                 evaluation["recommendations"].append(
-                    f"Improve {principle} by: {self._get_improvement_suggestion(principle)}"
+                    f"Improve {principle} by: {self._get_improvement_suggestion(principle}"
                 )
 
         evaluation["ethical_score"] /= len(self.ethical_principles)

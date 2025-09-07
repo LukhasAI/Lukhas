@@ -94,7 +94,7 @@ class ChaosInjector:
     @contextmanager
     def inject_failure(self, failure_type: ChaosFailureType, failure_rate: float = 0.1):
         """Context manager for injecting chaos failures"""
-        failure_id = f"{failure_type.value}_{time.time()}"
+        failure_id = f"{failure_type.value}_{time.time(}"
         self.active_failures[failure_id] = {"type": failure_type, "rate": failure_rate, "start_time": time.time()}
 
         try:
@@ -108,7 +108,7 @@ class ChaosInjector:
     @asynccontextmanager
     async def async_inject_failure(self, failure_type: ChaosFailureType, failure_rate: float = 0.1):
         """Async context manager for injecting chaos failures"""
-        failure_id = f"{failure_type.value}_{time.time()}"
+        failure_id = f"{failure_type.value}_{time.time(}"
         self.active_failures[failure_id] = {"type": failure_type, "rate": failure_rate, "start_time": time.time()}
 
         try:
@@ -367,14 +367,14 @@ class ChaosMockSystem:
                         # Success - no cascade
                         self.stored_experiences += 1
 
-                        return type("ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.8}})()
+                        return type("ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.8})()
 
                     except Exception:
                         # Memory fold failure occurred
                         self.cascade_failures += 1
                         # System should recover gracefully
                         return type(
-                            "ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.5, "recovery_mode": True}}
+                            "ChaosMemory", (), {"type": "MEMORY", "state": {"salience": 0.5, "recovery_mode": True}
                         )()
 
             def get_buffer_metrics(self):

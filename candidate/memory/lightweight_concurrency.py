@@ -109,7 +109,7 @@ class MemoryEfficientScheduler:
         self.active_count += 1
         self.total_memory_bytes += actor.__sizeof__()
 
-        logger.debug(f"Spawned actor {actor_id} with {actor.__sizeof__()} bytes")
+        logger.debug(f"Spawned actor {actor_id} with {actor.__sizeof__(} bytes")
         return actor
 
     async def send_message(self, actor_id: str, message: Any) -> None:
@@ -223,7 +223,7 @@ class MemoryEfficientScheduler:
             gc.collect()
 
         logger.debug(
-            f"Memory optimization: removed {len(dead_actors)} actors, "
+            f"Memory optimization: removed {len(dead_actors} actors, "
             f"total memory: {self.total_memory_bytes / 1_000_000:.2f}MB"
         )
 
@@ -303,7 +303,7 @@ class ActorPool:
         """Return actor to pool for reuse"""
         if len(self.available_actors) < self.pool_size:
             # Reset actor state
-            actor.actor_id = f"pool_{len(self.available_actors)}"
+            actor.actor_id = f"pool_{len(self.available_actors}"
             actor.behavior = lambda a, m: None
             actor.priority = ActorPriority.IDLE
             actor.mailbox.clear()

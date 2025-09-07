@@ -71,14 +71,14 @@ class DecisionTrace:
 
         explanation += "Reasoning:\n"
         for i, step in enumerate(self.reasoning_steps, 1):
-            explanation += f"{i}. {step.get('description', 'Processing step')}\n"
+            explanation += f"{i}. {step.get('description', 'Processing step'}\n"
 
         if self.alternatives_considered:
-            explanation += f"\nConsidered {len(self.alternatives_considered)} alternatives\n"
+            explanation += f"\nConsidered {len(self.alternatives_considered} alternatives\n"
 
         if self.feedback_received:
             avg_rating = sum(f.get("rating", 0) for f in self.feedback_received) / len(self.feedback_received)
-            explanation += f"\nUser feedback: {avg_rating:.1f}/5 from {len(self.feedback_received)} users\n"
+            explanation += f"\nUser feedback: {avg_rating:.1f}/5 from {len(self.feedback_received} users\n"
 
         return explanation
 
@@ -451,9 +451,9 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             if isinstance(value, (str, int, float, bool)):
                 summary[key] = value
             elif isinstance(value, list):
-                summary[key] = f"List with {len(value)} items"
+                summary[key] = f"List with {len(value} items"
             elif isinstance(value, dict):
-                summary[key] = f"Object with {len(value)} fields"
+                summary[key] = f"Object with {len(value} fields"
             else:
                 summary[key] = type(value).__name__
 
@@ -927,7 +927,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             del self.decision_traces[decision_id]
 
         if old_decisions:
-            logger.info(f"Cleaned up {len(old_decisions)} old decision traces")
+            logger.info(f"Cleaned up {len(old_decisions} old decision traces")
 
     async def create_alert(
         self,
@@ -938,7 +938,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
     ):
         """Create system alert"""
         alert = {
-            "alert_id": f"alert_{uuid.uuid4().hex[:8]}",
+            "alert_id": f"alert_{uuid.uuid4(}.hex[:8]}",
             "timestamp": datetime.now(timezone.utc),
             "type": alert_type,
             "severity": severity,

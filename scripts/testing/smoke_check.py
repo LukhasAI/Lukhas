@@ -67,7 +67,7 @@ def main() -> int:
     # Human-readable output
     for c in results["checks"]:
         status = "PASS" if c.get("ok") else "FAIL"
-        print(f"[{status}] {c.get('check')} -> {c.get('url')} ({c.get('status_code', 'n/a')})")
+        print(f"[{status}] {c.get('check')} -> {c.get('url')} ({c.get('status_code', 'n/a'})")
 
     return 0 if results["ok"] else 1
 

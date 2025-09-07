@@ -38,7 +38,7 @@ class ObservabilityCollector:
     def record_metric(self, actor_id: str, metric_name: str, value: Any):
         metric = ActorMetric(actor_id=actor_id, metric_name=metric_name, value=value)
         self._metrics[metric_name].append(metric)
-        self.log_file.write(f"{time.time()},{actor_id},{metric_name},{value}\n")
+        self.log_file.write(f"{time.time(},{actor_id},{metric_name},{value}\n")
 
     def get_metrics(self) -> dict[str, Any]:
         return {

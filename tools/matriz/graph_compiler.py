@@ -244,7 +244,7 @@ def compile_graph(
         "provenance": provenance,
         "execution": {"groups": groups, "edges": plan_edges},
         "triggers": _collect_triggers(graph),
-        "observability": {"trace_ids": "stable", "metrics_tags": {}},
+        "observability": {"trace_ids": "stable", "metrics_tags": {},
     }
 
     validation_report: dict[str, object] = {

@@ -15,7 +15,7 @@ from enum import Enum
 from typing import Optional
 
 
-class AttributionMethod(Enum, timezone):
+class AttributionMethod(Enum):
     AFFILIATE_LINK = "affiliate_link"
     S2S_POSTBACK = "s2s_postback"
     RECEIPT_MATCHING = "receipt_matching"
@@ -609,7 +609,7 @@ class S2SPostbackHandler:
 
     def _generate_postback_id(self) -> str:
         """Generate unique postback ID"""
-        return f"pb_{int(time.time())}_{hashlib.md5(str(time.time()).encode()).hexdigest()[:8]}"
+        return f"pb_{int(time.time())}_{hashlib.md5(str(time.time()).encode()).hexdigest(}[:8]}"
 
 
 # Usage example

@@ -37,10 +37,10 @@ class EmotionMemoryIntegration:
 
             self._memory_wrapper = get_memory_wrapper()
             self._memory_available = True
-            emit({"ntype": "emotion_memory_connected", "state": {"status": "success"}})
+            emit({"ntype": "emotion_memory_connected", "state": {"status": "success"})
         except (ImportError, Exception) as e:
             logger.debug(f"Memory integration unavailable: {e}")
-            emit({"ntype": "emotion_memory_unavailable", "state": {"error": str(e)}})
+            emit({"ntype": "emotion_memory_unavailable", "state": {"error": str(e)})
 
         try:
             # Try to connect to consciousness system
@@ -108,7 +108,7 @@ class EmotionMemoryIntegration:
 
         except Exception as e:
             logger.error(f"Failed to store emotional memory: {e}")
-            emit({"ntype": "emotion_memory_store_error", "state": {"error": str(e)}})
+            emit({"ntype": "emotion_memory_store_error", "state": {"error": str(e)})
             return False
 
     @instrument("emotion_recall_patterns")
@@ -152,7 +152,7 @@ class EmotionMemoryIntegration:
 
         except Exception as e:
             logger.error(f"Failed to recall emotional patterns: {e}")
-            emit({"ntype": "emotion_recall_error", "state": {"error": str(e)}})
+            emit({"ntype": "emotion_recall_error", "state": {"error": str(e)})
             return []
 
     @instrument("emotion_consciousness_sync")
@@ -240,7 +240,7 @@ class AdvancedEmotionWrapper:
 
         except Exception as e:
             logger.error(f"Advanced emotion initialization failed: {e}")
-            emit({"ntype": "advanced_emotion_init_error", "state": {"error": str(e)}})
+            emit({"ntype": "advanced_emotion_init_error", "state": {"error": str(e)})
             return False
 
     @instrument("advanced_emotion_process")
@@ -291,7 +291,7 @@ class AdvancedEmotionWrapper:
 
         except Exception as e:
             logger.error(f"Advanced emotion processing failed: {e}")
-            emit({"ntype": "advanced_emotion_process_error", "state": {"error": str(e)}})
+            emit({"ntype": "advanced_emotion_process_error", "state": {"error": str(e)})
             return {"error": str(e), "emotion": "neutral"}
 
     @instrument("advanced_mood_regulate")
@@ -337,7 +337,7 @@ class AdvancedEmotionWrapper:
 
         except Exception as e:
             logger.error(f"Advanced mood regulation failed: {e}")
-            emit({"ntype": "advanced_mood_regulate_error", "state": {"error": str(e)}})
+            emit({"ntype": "advanced_mood_regulate_error", "state": {"error": str(e)})
             return {"error": str(e), "regulation_applied": False}
 
     def get_emotional_insights(self) -> dict[str, Any]:
@@ -401,7 +401,7 @@ class AdvancedEmotionWrapper:
 
         except Exception as e:
             logger.error(f"Failed to generate emotional insights: {e}")
-            emit({"ntype": "emotional_insights_error", "state": {"error": str(e)}})
+            emit({"ntype": "emotional_insights_error", "state": {"error": str(e)})
             return {"error": str(e)}
 
 

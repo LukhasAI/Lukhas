@@ -70,7 +70,7 @@ TASK:
 TRAIT PROFILES:
 """
     for t in traits_list:
-        prompt += f"\n[{t['node']}]: {json.dumps(t['traits'])}"
+        prompt += f"\n[{t['node']}]: {json.dumps(t['traits']}"
 
     prompt += "\n\n---\nMETA-REFLECTIONS:\n"
     for r in reflections[-5:]:

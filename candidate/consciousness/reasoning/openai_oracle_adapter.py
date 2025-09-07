@@ -35,7 +35,7 @@ from typing import Any, Optional
 from candidate.bridge.openai_core_service import (
     ModelType,
     OpenAICoreService,
-    OpenAIRequest,, timezone)
+    OpenAIRequest)
 
 logger = logging.getLogger("ΛTRACE.oracle.openai_adapter")
 

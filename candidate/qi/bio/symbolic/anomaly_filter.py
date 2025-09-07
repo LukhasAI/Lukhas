@@ -696,7 +696,7 @@ class AnomalyFilterColony(BaseColony):
                 return f"Quantum coherence {anomaly_data['coherence']:.3f} indicates collapse event"
 
         elif anomaly["type"] == AnomalyType.SYMBOLIC_DRIFT and "conflict" in anomaly_data:
-            return f"Conflicting GLYPHs detected: {', '.join(anomaly_data['conflict'])}"
+            return f"Conflicting GLYPHs detected: {', '.join(anomaly_data['conflict']}"
 
         return "Anomaly detected with insufficient detail information"
 

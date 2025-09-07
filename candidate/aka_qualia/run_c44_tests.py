@@ -18,7 +18,7 @@ from pathlib import Path
 def run_command(cmd, description):
     """Run a command and return success status"""
     print(f"\n🧪 {description}")
-    print(f"   Command: {' '.join(cmd)}")
+    print(f"   Command: {' '.join(cmd}")
 
     start_time = time.time()
     try:
@@ -179,7 +179,7 @@ def main():
 
     print(f"📈 Overall: {passed_tests}/{total_tests} categories passed")
     print(
-        f"🔍 Critical: {len([r for r in results if r['critical']]) - critical_failures}/{len([r for r in results if r['critical']])} critical tests passed"
+        f"🔍 Critical: {len([r for r in results if r['critical']]) - critical_failures}/{len([r for r in results if r['critical']]} critical tests passed"
     )
 
     # Detailed results
@@ -216,7 +216,7 @@ def main():
     for test_file in test_files:
         path = Path(test_file)
         if path.exists():
-            print(f"   ✅ {path.name} - {path.stat().st_size} bytes")
+            print(f"   ✅ {path.name} - {path.stat(}.st_size} bytes")
         else:
             print(f"   ❌ {path.name} - MISSING")
 

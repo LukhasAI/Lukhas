@@ -32,7 +32,7 @@ try:
         BiometricData,
         CognitiveMetrics,
         ConsciousnessMapper,
-        ConsciousnessState,, timezone)
+        ConsciousnessState)
     from .biometric_integration import BiometricIntegrationManager, BiometricType
 except ImportError:
     print("Warning: LUKHAS core components not fully available. Some features may be limited.")
@@ -193,7 +193,7 @@ class BioSymbolicFusionEngine:
             Created EmotionalAnchor
         """
         anchor = EmotionalAnchor(
-            anchor_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16],
+            anchor_id=hashlib.sha256(f"{lambda_id}_{time.time(}".encode()).hexdigest()[:16],
             anchor_type=EmotionalAnchorType(anchor_data["type"]),
             symbolic_representation=anchor_data["symbol"],
             emotional_signature=anchor_data["emotional_signature"],
@@ -242,7 +242,7 @@ class BioSymbolicFusionEngine:
         )
 
         # Generate quantum signature for integrity
-        pattern_data = f"{symbolic_encoding}_{emotional_correlations}_{time.time()}"
+        pattern_data = f"{symbolic_encoding}_{emotional_correlations}_{time.time(}"
         qi_signature = hashlib.sha3_256(pattern_data.encode()).hexdigest()
 
         pattern = SymbolicBiometricPattern(

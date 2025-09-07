@@ -60,7 +60,7 @@ class AutoConsciousness:
 
     def __init__(self, enable_awareness=True, enable_reasoning=True):
         """Initialize Auto Consciousness system"""
-        self.consciousness_id = f"auto_consciousness_{datetime.now().timestamp()}"
+        self.consciousness_id = f"auto_consciousness_{datetime.now().timestamp(}"
         self.active = True
         self.state_history: list[ConsciousnessState] = []
 
@@ -209,7 +209,7 @@ class AutoConsciousness:
             reasoning = [
                 f"Analyzed scenario: {scenario}",
                 f"Considered context: urgency={urgency}, risk={risk}",
-                f"Evaluated {len(options)} options",
+                f"Evaluated {len(options} options",
                 f"Selected {best_option} with score {confidence:.2f}",
             ]
 

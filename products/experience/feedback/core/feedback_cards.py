@@ -22,7 +22,7 @@ from uuid import uuid4
 import numpy as np
 
 
-class FeedbackType(Enum, timezone):
+class FeedbackType(Enum):
     """Types of feedback"""
 
     RATING = "rating"  # 1-5 star rating
@@ -853,6 +853,6 @@ if __name__ == "__main__":
 
     # Get cards for training
     training_cards = manager.get_cards_for_training(min_impact=0.2)
-    print(f"\nCards ready for training: {len(training_cards)}")
+    print(f"\nCards ready for training: {len(training_cards}")
     for card in training_cards[:3]:
         print(f"  • {card.card_id}: impact={card.impact_score:.2f}")

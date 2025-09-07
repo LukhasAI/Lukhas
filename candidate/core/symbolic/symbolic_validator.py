@@ -249,7 +249,7 @@ class SymbolicIntegrationValidator(BaseValidator):
                     severity=ValidationSeverity.INFO,
                     validation_type=ValidationType.SYMBOLIC,
                     code="SYM006",
-                    message=f"Missing symbolic patterns: {', '.join(missing_patterns)}",
+                    message=f"Missing symbolic patterns: {', '.join(missing_patterns}",
                     suggestion="Implement symbolic integration patterns for better Lukhas compatibility",
                 )
             )
@@ -295,7 +295,7 @@ class SymbolicIntegrationValidator(BaseValidator):
                             severity=ValidationSeverity.INFO,
                             validation_type=ValidationType.SYMBOLIC,
                             code="SYM007",
-                            message=f"Missing recommended symbolic methods: {',                                                                              '.join(missing_methods)}",
+                            message=f"Missing recommended symbolic methods: {',                                                                              '.join(missing_methods}",
                             file_path=entry_path,
                             suggestion="Implement symbolic methods for enhanced Lukhas integration",
                         )
@@ -410,7 +410,7 @@ class EthicsValidator(BaseValidator):
                         severity=ValidationSeverity.WARNING,
                         validation_type=ValidationType.ETHICS,
                         code="ETH002",
-                        message=f"Missing ethical declarations: {', '.join(missing_ethics)}",
+                        message=f"Missing ethical declarations: {', '.join(missing_ethics}",
                         suggestion="Declare commitment to ethical principles in manifest",
                     )
                 )
@@ -442,7 +442,7 @@ class EthicsValidator(BaseValidator):
                                     severity=ValidationSeverity.WARNING,
                                     validation_type=ValidationType.ETHICS,
                                     code="ETH003",
-                                    message=f"Potential ethical violation ({violation_type}): {match.group()}",
+                                    message=f"Potential ethical violation ({violation_type}): {match.group(}",
                                     file_path=py_file,
                                     line_number=line_num,
                                     suggestion="Review code for ethical implications and ensure user consent",
@@ -662,7 +662,7 @@ class ComplianceValidator(BaseValidator):
                         severity=ValidationSeverity.WARNING,
                         validation_type=ValidationType.COMPLIANCE,
                         code=f"COMP{standard[:3]}001",
-                        message=f"{standard} compliance: Missing {category} controls: {', '.join(missing_controls)}",
+                        message=f"{standard} compliance: Missing {category} controls: {', '.join(missing_controls}",
                         suggestion=f"Implement missing {standard} {category} controls",
                     )
                 )
@@ -819,7 +819,7 @@ class SecurityValidator(BaseValidator):
                                     severity=severity,
                                     validation_type=ValidationType.SECURITY,
                                     code="SEC002",
-                                    message=f"Security risk ({risk_type}): {match.group()}",
+                                    message=f"Security risk ({risk_type}): {match.group(}",
                                     file_path=py_file,
                                     line_number=line_num,
                                     suggestion="Review code for security implications and implement safeguards",
@@ -1165,7 +1165,7 @@ class LucasSymbolicValidator:
         await self._calculate_overall_scores(result)
 
         self.logger.info(
-            f"Validation complete for {manifest.name}: Score {result.overall_score:.2f}, Issues: {len(result.issues)}"
+            f"Validation complete for {manifest.name}: Score {result.overall_score:.2f}, Issues: {len(result.issues}"
         )
 
         return result
@@ -1236,7 +1236,7 @@ Scores by Category:
 """
 
         for category, score in result.compliance_scores.items():
-            report += f"  {category.title()}: {score:.2f}/1.0\n"
+            report += f"  {category.title(}: {score:.2f}/1.0\n"
 
         report += f"""
 Specific Metrics:
@@ -1257,13 +1257,13 @@ Issues Summary:
                 issue_counts[severity] = count
 
         for severity, count in issue_counts.items():
-            report += f"  {severity.value.title()}: {count}\n"
+            report += f"  {severity.value.title(}: {count}\n"
 
         if result.issues:
             report += "\nDetailed Issues:\n" + "=" * 16 + "\n"
 
             for i, issue in enumerate(result.issues, 1):
-                report += f"\n{i}. [{issue.severity.value.upper()}] {issue.code}: {issue.message}\n"
+                report += f"\n{i}. [{issue.severity.value.upper(}] {issue.code}: {issue.message}\n"
 
                 if issue.file_path:
                     report += f"   File: {issue.file_path}"

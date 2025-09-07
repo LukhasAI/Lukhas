@@ -16,7 +16,7 @@ from enum import Enum
 from typing import Any
 
 
-class ComplianceLevel(Enum, timezone):
+class ComplianceLevel(Enum):
     """Compliance assessment levels"""
 
     COMPLIANT = "compliant"
@@ -156,7 +156,7 @@ class AIComplianceManager:
             # Log violations if any
             if result["violations"]:
                 self.violation_log.extend(result["violations"])
-                self.logger.warning(f"Compliance violations detected: {len(result['violations'])}")
+                self.logger.warning(f"Compliance violations detected: {len(result['violations']}")
 
             return result
 

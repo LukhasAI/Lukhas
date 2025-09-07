@@ -16,7 +16,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -128,7 +128,7 @@ class EntropyTracker:
                 if self.journal_entries:
                     self.current_state = self.journal_entries[-1].current_state
 
-                logger.info(f"📖 Loaded {len(self.journal_entries)} journal entries")
+                logger.info(f"📖 Loaded {len(self.journal_entries} journal entries")
             except Exception as e:
                 logger.warning(f"Could not load journal: {e}")
 
@@ -269,11 +269,11 @@ class EntropyTracker:
 
         # Log the transition
         logger.info(
-            f"📊 Transition: {self.TRUST_STATES.get(previous_state, previous_state)} → "
-            f"{self.TRUST_STATES.get(new_state, new_state)} "
+            f"📊 Transition: {self.TRUST_STATES.get(previous_state, previous_state} → "
+            f"{self.TRUST_STATES.get(new_state, new_state} "
             f"(entropy: {entropy_score:.3f}, drift: {drift_class})"
         )
-        logger.info(f"   Path: {' → '.join(symbolic_path)}")
+        logger.info(f"   Path: {' → '.join(symbolic_path}")
 
         return entry
 
@@ -391,13 +391,13 @@ def simulate_entropy_tracking():
     for transition_type, notes, tags in scenarios:
         entry = tracker.track_transition(transition_type, notes=notes, tags=tags)
 
-        print(f"\n📊 {transition_type.upper()}")
+        print(f"\n📊 {transition_type.upper(}")
         print(
-            f"   State: {tracker.TRUST_STATES.get(entry.previous_state, entry.previous_state)} → "
-            f"{tracker.TRUST_STATES.get(entry.current_state, entry.current_state)}"
+            f"   State: {tracker.TRUST_STATES.get(entry.previous_state, entry.previous_state} → "
+            f"{tracker.TRUST_STATES.get(entry.current_state, entry.current_state}"
         )
         print(f"   Entropy: {entry.entropy_score:.3f} ({entry.drift_class})")
-        print(f"   Path: {' → '.join(entry.symbolic_path)}")
+        print(f"   Path: {' → '.join(entry.symbolic_path}")
 
         # Brief pause for readability
         import time
@@ -411,7 +411,7 @@ def simulate_entropy_tracking():
     for key, value in stats.items():
         print(f"   {key}: {value}")
 
-    print(f"\n🌀 Drift Vector: {' → '.join(tracker.get_drift_vector())}")
+    print(f"\n🌀 Drift Vector: {' → '.join(tracker.get_drift_vector()}")
 
     # Export report
     report = tracker.export_report()

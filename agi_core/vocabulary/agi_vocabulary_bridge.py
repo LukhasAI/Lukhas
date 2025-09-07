@@ -258,7 +258,7 @@ class AGIVocabularyBridge:
     def format_agi_message(self, operation: str, details: str = "", include_cross_ref: bool = True) -> str:
         """Format a unified AGI message with cross-vocabulary enrichment."""
         agi_symbol = self.get_agi_symbol(operation)
-        base_message = f"{agi_symbol} AGI {operation.replace('_', ' ').title()}"
+        base_message = f"{agi_symbol} AGI {operation.replace('_', ' ').title(}"
 
         if details:
             base_message += f": {details}"
@@ -367,20 +367,20 @@ if __name__ == "__main__":
     print("=" * 50)
 
     # Test basic symbol retrieval
-    print(f"Chain start: {bridge.get_agi_symbol('chain_start')}")
-    print(f"Model consensus: {bridge.get_agi_symbol('model_consensus')}")
+    print(f"Chain start: {bridge.get_agi_symbol('chain_start'}")
+    print(f"Model consensus: {bridge.get_agi_symbol('model_consensus'}")
 
     # Test cross-vocabulary translation
-    print(f"Chain start → Dream: {bridge.translate_to_dream('chain_start')}")
-    print(f"Safety alert → Bio: {bridge.translate_to_bio('guardian_alert')}")
+    print(f"Chain start → Dream: {bridge.translate_to_dream('chain_start'}")
+    print(f"Safety alert → Bio: {bridge.translate_to_bio('guardian_alert'}")
 
     # Test message formatting
-    print(f"Formatted: {bridge.format_agi_message('chain_start', 'complex reasoning task')}")
+    print(f"Formatted: {bridge.format_agi_message('chain_start', 'complex reasoning task'}")
 
     # Test vocabulary validation
     issues = bridge.validate_vocabulary_consistency()
-    print(f"Unmapped operations: {len(issues['missing_mappings'])}")
-    print(f"Symbol conflicts: {len(issues['symbol_conflicts'])}")
+    print(f"Unmapped operations: {len(issues['missing_mappings']}")
+    print(f"Symbol conflicts: {len(issues['symbol_conflicts']}")
 
 """
 ╔══════════════════════════════════════════════════════════════════════════════════

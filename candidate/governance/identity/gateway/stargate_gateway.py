@@ -338,7 +338,7 @@ class StargateGateway:
         session_key = self._generate_session_key(payload)
 
         # Create secure channel
-        channel_id = f"stargate_{secrets.token_hex(16)}"
+        channel_id = f"stargate_{secrets.token_hex(16}"
 
         # Get full session data
         session_data = self.session_keys.get(payload.user_id, {})
@@ -423,7 +423,7 @@ class StargateGateway:
         entropy_score = len(set(entropy)) / len(entropy)  # Measure entropy quality
 
         # Construct key material with all components
-        key_material = f"{payload.user_id}|{payload.timestamp.isoformat()}|{tier}|"
+        key_material = f"{payload.user_id}|{payload.timestamp.isoformat(}|{tier}|"
         key_material_bytes = key_material.encode("utf-8") + entropy
 
         # Initialize both keys
@@ -454,7 +454,7 @@ class StargateGateway:
         public_verification_hash = shake.hexdigest(32)  # 32 bytes = 256 bits
 
         logger.info(f"🏛️ SHAKE256 public verification hash: {public_verification_hash[:16]}...")
-        logger.info(f"📊 Entropy score: {entropy_score:.3f}, Timestamp: {payload.timestamp.isoformat()}")
+        logger.info(f"📊 Entropy score: {entropy_score:.3f}, Timestamp: {payload.timestamp.isoformat(}")
 
         # Store both keys in session
         session_data = {
@@ -984,7 +984,7 @@ Wake up... but remember the dream. It holds the key.
         session_data = self.session_keys.get(payload.user_id, {})
 
         audit_data = {
-            "transmission_id": f"TX_{secrets.token_hex(8)}",
+            "transmission_id": f"TX_{secrets.token_hex(8}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "source": payload.source_agent,
             "target": payload.target_agent,
@@ -1116,7 +1116,7 @@ async def create_glyph_payload(
         symbolic_glyphs=["🧬", "🧿", "🔺", "🌌", "🔐"],
         cultural_signature=cultural_map.get(cultural_region, cultural_map["universal"]),
         consciousness_state=consciousness_state,
-        ethical_hash=f"trusthelix:{hashlib.sha256(prompt.encode()).hexdigest()[:12]}",
+        ethical_hash=f"trusthelix:{hashlib.sha256(prompt.encode()).hexdigest(}[:12]}",
         intent="cross-context symbolic communication",
         prompt_payload={
             "topic": prompt,
@@ -1172,7 +1172,7 @@ async def main():
 
     if response1.success:
         print("\n✅ Transmission successful!")
-        print(f"Filtered Glyphs: {''.join(response1.filtered_glyphs[:7])}")
+        print(f"Filtered Glyphs: {''.join(response1.filtered_glyphs[:7]}")
         print(f"Ethical Compliance: {response1.ethical_compliance:.2%}")
 
         if response1.audit_trail.get("consent_validated"):

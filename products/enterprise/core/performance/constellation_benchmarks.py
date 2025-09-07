@@ -403,7 +403,7 @@ class ConstellationFrameworkBenchmark:
             f"   Compliance Rate: {compliance_rate:.1f}% ({'✅' if compliance_rate == 100 else '⚠️'} Target: 100%)"
         )
         logger.info(f"   Average Drift: {avg_drift:.3f} ({'✅' if avg_drift < 0.15 else '⚠️'} Target: <0.15)")
-        logger.info(f"   Violations: {total_violations}/{len(test_cases)}")
+        logger.info(f"   Violations: {total_violations}/{len(test_cases}")
 
         return summary
 

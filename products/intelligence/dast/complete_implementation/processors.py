@@ -17,7 +17,7 @@ class TaskProcessor:
     📋 AI-powered task processing with intelligent categorization and optimization
     """
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.processing_patterns: dict[str, Any] = {}
         self.task_templates: dict[str, dict] = self._initialize_templates()
         self.processing_cache: dict[str, Any] = {}
@@ -552,7 +552,7 @@ class SolutionProcessor:
         """Generate unique solution ID"""
         import hashlib
 
-        content = f"{problem}{solution}{time.time()}"
+        content = f"{problem}{solution}{time.time(}"
         return hashlib.md5(content.encode()).hexdigest()[:12]
 
     def _categorize_solution(self, problem: str, solution: str) -> list[str]:

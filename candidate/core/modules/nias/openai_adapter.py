@@ -19,7 +19,7 @@ import cv2  # For image processing
 import numpy as np
 from openai import AsyncOpenAI
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class ModalityType(Enum):
@@ -165,7 +165,7 @@ class NIASOpenAIAdapter:
                             "content": [
                                 {
                                     "type": "text",
-                                    "text": f"Metadata: {json.dumps(stream.metadata)}",
+                                    "text": f"Metadata: {json.dumps(stream.metadata}",
                                 },
                                 {
                                     "type": "image_url",
@@ -448,7 +448,7 @@ class NIASOpenAIAdapter:
             parts.append(f"Click patterns: {behavioral_data['clicks']}")
 
         if "navigation" in behavioral_data:
-            parts.append(f"Navigation path: {' -> '.join(behavioral_data['navigation'])}")
+            parts.append(f"Navigation path: {' -> '.join(behavioral_data['navigation']}")
 
         if "dwell_times" in behavioral_data:
             parts.append(f"Dwell times: {behavioral_data['dwell_times']}")
@@ -572,7 +572,7 @@ class NIASOpenAIAdapter:
                         {
                             "role": "user",
                             # First 5 segments
-                            "content": f"Transcription: {transcription.text}\nSegments: {json.dumps(transcription.segments[:5])}",
+                            "content": f"Transcription: {transcription.text}\nSegments: {json.dumps(transcription.segments[:5]}",
                         },
                     ],
                 )
@@ -624,7 +624,7 @@ class NIASOpenAIAdapter:
     ) -> dict[str, Any]:
         """Intermediate fusion using cross-attention mechanisms"""
         # Prepare fusion prompt
-        fusion_data = {"user_context": user_context, "modalities": {}}
+        fusion_data = {"user_context": user_context, "modalities": {}
 
         for stream in processed_streams:
             fusion_data["modalities"][stream.modality.value] = stream.processed_data
@@ -777,7 +777,7 @@ class NIASOpenAIAdapter:
                 "cognitive_load": 0.5,
             },
             "cross_modal_insights": ["Basic fusion applied"],
-            "confidence_scores": {"overall": 0.6, "per_modality": {}},
+            "confidence_scores": {"overall": 0.6, "per_modality": {},
             "recommendations": ["Gather more data for accurate fusion"],
         }
 
@@ -799,7 +799,7 @@ class NIASOpenAIAdapter:
                     },
                     {
                         "role": "user",
-                        "content": f"Fusion result: {json.dumps(fusion_result)}\nUser context: {json.dumps(user_context)}",
+                        "content": f"Fusion result: {json.dumps(fusion_result)}\nUser context: {json.dumps(user_context}",
                     },
                 ],
                 temperature=0.7,
@@ -970,7 +970,7 @@ class NIASOpenAIAdapter:
     async def moderate_content(self, content: Union[str, list[str]]) -> dict[str, Any]:
         """Moderate content for safety using OpenAI moderation API"""
         if not self.client:
-            return {"flagged": False, "categories": {}}
+            return {"flagged": False, "categories": {}
 
         try:
             response = await self.client.moderations.create(input=content)

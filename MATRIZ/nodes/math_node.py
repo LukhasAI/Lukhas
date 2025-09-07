@@ -191,7 +191,7 @@ class MathNode(CognitiveNode):
                 },
             )
 
-            answer = f"The result is {self._format_result(result)}"
+            answer = f"The result is {self._format_result(result}"
 
         except Exception as e:
             return self._create_error_response(
@@ -356,21 +356,21 @@ class MathNode(CognitiveNode):
         """
         if isinstance(node, ast.Constant):
             if not isinstance(node.value, (int, float)):
-                raise ValueError(f"Invalid constant type: {type(node.value)}")
+                raise ValueError(f"Invalid constant type: {type(node.value}")
         elif isinstance(node, ast.Name):
             if node.id not in self.MATH_CONSTANTS:
                 raise ValueError(f"Unknown identifier: {node.id}")
         elif isinstance(node, ast.BinOp):
             if type(node.op) not in self.SUPPORTED_OPERATORS:
-                raise ValueError(f"Unsupported operator: {type(node.op)}")
+                raise ValueError(f"Unsupported operator: {type(node.op}")
             self._validate_ast_node(node.left)
             self._validate_ast_node(node.right)
         elif isinstance(node, ast.UnaryOp):
             if type(node.op) not in self.SUPPORTED_OPERATORS:
-                raise ValueError(f"Unsupported unary operator: {type(node.op)}")
+                raise ValueError(f"Unsupported unary operator: {type(node.op}")
             self._validate_ast_node(node.operand)
         else:
-            raise ValueError(f"Unsupported AST node type: {type(node)}")
+            raise ValueError(f"Unsupported AST node type: {type(node}")
 
     def _evaluate_expression(self, expression: str) -> Union[float, int]:
         """
@@ -441,7 +441,7 @@ class MathNode(CognitiveNode):
             op_func = self.SUPPORTED_OPERATORS[type(node.op)]
             return op_func(operand)
         else:
-            raise ValueError(f"Unsupported node type: {type(node)}")
+            raise ValueError(f"Unsupported node type: {type(node}")
 
     def _calculate_complexity(self, expression: str) -> float:
         """
@@ -654,7 +654,7 @@ if __name__ == "__main__":
 
         try:
             # Process the expression
-            result = math_node.process({"expression": expression, "context": {"test_case": i}})
+            result = math_node.process({"expression": expression, "context": {"test_case": i})
 
             # Validate output
             is_valid = math_node.validate_output(result)
@@ -680,7 +680,7 @@ if __name__ == "__main__":
             print(f"State: conf={state['confidence']:.3f}, sal={state['salience']:.3f}")
 
             if "result" in state and state["result"] is not None:
-                print(f"Result: {state['result']} ({state.get('result_type', 'unknown')})")
+                print(f"Result: {state['result']} ({state.get('result_type', 'unknown'})")
 
             if "complexity_score" in state:
                 print(f"Complexity: {state['complexity_score']:.3f}")
@@ -701,7 +701,7 @@ if __name__ == "__main__":
 
     print("\n" + "=" * 50)
     print(f"Test Results: {success_count}/{total_tests} passed ({success_count / total_tests * 100:.1f}%)")
-    print(f"Processing History: {len(math_node.get_trace())} MATRIZ nodes created")
+    print(f"Processing History: {len(math_node.get_trace()} MATRIZ nodes created")
 
     # Show deterministic behavior
     print("\nDeterministic Test:")

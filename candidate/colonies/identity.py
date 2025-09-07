@@ -12,7 +12,7 @@ from typing import Any
 from .base import BaseColony, ColonyTask
 
 
-class IdentityColony(BaseColony, timezone):
+class IdentityColony(BaseColony):
     """Colony for identity management and verification"""
 
     def __init__(self, max_agents: int = 8):
@@ -42,7 +42,7 @@ class IdentityColony(BaseColony, timezone):
         elif task_type == "authenticate":
             return {
                 "authenticated": True,
-                "session_id": f"session_{datetime.now(timezone.utc).timestamp()}",
+                "session_id": f"session_{datetime.now(timezone.utc).timestamp(}",
             }
         elif task_type == "register_identity":
             identity_id = payload.get("identity_id")

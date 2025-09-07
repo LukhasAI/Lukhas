@@ -51,7 +51,7 @@ def export_folds(
     path: Path,
     codec: str = DEFAULT_CODEC,
     compression_level: Optional[int] = None,
-    metadata: Optional[dict[str, Any]] = None,, timezone) -> dict[str, Any]:
+    metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """
     Export memory folds to LKF-Pack v1 format.
 
@@ -118,7 +118,7 @@ def export_folds(
 
         # Ensure entry has required fields
         if not isinstance(entry, dict):
-            logger.warning(f"Skipping non-dict entry: {type(entry)}")
+            logger.warning(f"Skipping non-dict entry: {type(entry}")
             continue
 
         # Pack the entry

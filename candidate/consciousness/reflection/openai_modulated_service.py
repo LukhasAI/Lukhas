@@ -23,7 +23,7 @@ from consciousness.reflection.openai_core_service import (
     OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-    OpenAIResponse,, timezone)
+    OpenAIResponse)
 
 logger = logging.getLogger(__name__)
 
@@ -442,7 +442,7 @@ async def demo():
         capability=OpenAICapability.TEXT_GENERATION,
         data={"prompt": "What should I do in case of fire?"},
     )
-    print(f"Urgent response: {response1.data.get('content', 'No content')[:100]}...")
+    print(f"Urgent response: {response1.data.get('content', 'No content'}[:100]}...")
 
     # 2. Complex request
     complexity_signal = Signal(name=SignalType.AMBIGUITY, source="demo", level=0.7)
@@ -453,7 +453,7 @@ async def demo():
         capability=OpenAICapability.TEXT_GENERATION,
         data={"prompt": "Explain consciousness"},
     )
-    print(f"Complex response: {response2.data.get('content', 'No content')[:100]}...")
+    print(f"Complex response: {response2.data.get('content', 'No content'}[:100]}...")
 
     # Get stats
     stats = service.get_modulation_stats()

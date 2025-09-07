@@ -201,7 +201,7 @@ class ComprehensiveAPIOrchestrator:
         self.daily_costs = {provider: 0.0 for provider in APIProvider}
 
         logger.info("🌐 Comprehensive API Orchestrator initialized")
-        logger.info(f"   Available providers: {list(self.bridges.keys())}")
+        logger.info(f"   Available providers: {list(self.bridges.keys()}")
         logger.info(f"   Orchestration enabled: {self.orchestrator is not None}")
 
     def _initialize_bridges(self, openai_key, anthropic_key, google_key, perplexity_key):
@@ -269,7 +269,7 @@ class ComprehensiveAPIOrchestrator:
             elif hasattr(bridge, "register_tools_from_dict"):
                 bridge.register_tools_from_dict(functions)
 
-        logger.info(f"📊 Registered {len(functions)} global functions")
+        logger.info(f"📊 Registered {len(functions} global functions")
 
     async def orchestrate(self, request: OrchestrationRequest) -> OrchestrationResponse:
         """
@@ -626,7 +626,7 @@ class ComprehensiveAPIOrchestrator:
                 # Simple ensemble: use primary but note consensus
                 ensemble_content = primary_result.get("content", "")
                 decision_rationale = (
-                    f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results)} providers"
+                    f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results} providers"
                 )
             else:
                 ensemble_content = primary_result.get("content", "")

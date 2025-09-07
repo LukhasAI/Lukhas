@@ -174,7 +174,7 @@ class BioCompoundGovernor:
         if len(self.stability_history) > 200:
             self.stability_history = self.stability_history[-200:]
 
-        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics) * 100:.1f}%")
+        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics} * 100:.1f}%")
         self.logger.info(f"   Energy Efficiency: {stability_metrics.energy_efficiency:.1f}%")
         self.logger.info(f"   Emotional Stability: {stability_metrics.emotional_stability * 100:.1f}%")
         self.logger.info(f"   Module Coherence: {stability_metrics.module_coherence * 100:.1f}%")

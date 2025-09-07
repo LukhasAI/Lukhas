@@ -383,7 +383,7 @@ async def main():
                 f"✅ Civilizational Impact: {demo_results.get('breakthrough_detection', {}).get('civilizational_impact', 0):.1f}/10"
             )
         else:
-            logger.error(f"Demo failed: {demo_results.get('error', 'Unknown error')}")
+            logger.error(f"Demo failed: {demo_results.get('error', 'Unknown error'}")
     else:
         logger.error("System not ready - some modules failed to initialize")
         logger.info(f"Verification results: {verification_results}")

@@ -132,7 +132,7 @@ def test_consciousness_ablation_framework():
         framework.test_component_disable("memory")
 
         results = framework.get_results()
-        print(f"✅ Ablation framework test completed: {len(results)} tests run")
+        print(f"✅ Ablation framework test completed: {len(results} tests run")
 
         for result in results:
             if result["status"] == "graceful_degradation":
@@ -266,7 +266,7 @@ def test_constellation_ethics_validation():
         validation_success = validator.validate_basic_principles(akaq)
 
         results = validator.get_results()
-        print(f"✅ Ethics validation completed: {len(results)} validations run")
+        print(f"✅ Ethics validation completed: {len(results} validations run")
 
         for result in results:
             if "overall_score" in result:

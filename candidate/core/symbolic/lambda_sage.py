@@ -55,7 +55,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 
 
 class ArchetypalFamily(Enum):
@@ -210,10 +210,10 @@ class ΛSage:
     6. Evolution Prediction - Long-range symbolic transformation modeling
     """
 
-    def __init__(:
+    def __init__(
         self,
         base_directory: str = "/Users/agi_dev/Downloads/Consolidation-Repo",
-        output_directory: str = None,
+        output_directory: str = None
     ):
         """
         Initialize ΛSAGE with system paths and archetypal knowledge base.
@@ -255,7 +255,7 @@ class ΛSage:
 
         self.logger.info("ΛSAGE initialized for archetypal resonance profiling")
 
-    def _initialize_archetypal_patterns(:
+    def _initialize_archetypal_patterns(
         self,
     ) -> dict[ArchetypalFamily, dict[str, Any]]:
         """Initialize Jungian archetypal pattern database."""
@@ -785,7 +785,7 @@ class ΛSage:
 
         return patterns
 
-    def _initialize_mythic_databases(:
+    def _initialize_mythic_databases(
         self,
     ) -> dict[MythicSystem, dict[str, Any]]:
         """Initialize cultural mythological symbol databases."""
@@ -1104,7 +1104,7 @@ class ΛSage:
             },
         }
 
-    def load_symbolic_archive(:
+    def load_symbolic_archive(
         self,
         dream_sessions: Optional[str] = None,
         memory_path: Optional[str] = None,
@@ -1148,12 +1148,12 @@ class ΛSage:
         self.symbolic_elements = elements[:limit]
 
         self.logger.info(
-            f"Loaded {len(self.symbolic_elements)} symbolic elements from {len({e.system_origin for e in self.symbolic_elements})} systems"
+            f"Loaded {len(self.symbolic_elements} symbolic elements from {len({e.system_origin for e in self.symbolic_elements})} systems"
         )
 
         return self.symbolic_elements
 
-    def _load_dream_symbols(:
+    def _load_dream_symbols(
         self, dream_sessions: str, limit: int
     ) -> list[SymbolicElement]:
         """Load symbolic elements from dream sessions."""
@@ -1187,7 +1187,7 @@ class ΛSage:
 
         return elements[:limit]
 
-    def _load_memory_symbols(:
+    def _load_memory_symbols(
         self, memory_path: str, limit: int
     ) -> list[SymbolicElement]:
         """Load symbolic elements from memory systems."""
@@ -1261,7 +1261,7 @@ class ΛSage:
 
         return elements[:limit]
 
-    def _extract_symbols_from_file(:
+    def _extract_symbols_from_file(
         self, file_path: Path, system_origin: str, keywords: list[str]
     ) -> list[SymbolicElement]:
         """Extract symbolic elements from a file using keyword patterns."""
@@ -1297,7 +1297,7 @@ class ΛSage:
 
         return elements
 
-    def _extract_glyph_patterns(:
+    def _extract_glyph_patterns(
         self, file_path: Path, limit: int
     ) -> list[SymbolicElement]:
         """Extract GLYPH patterns from log files."""
@@ -1328,7 +1328,7 @@ class ΛSage:
 
         return elements
 
-    def _load_from_taxonomy(:
+    def _load_from_taxonomy(
         self, taxonomy_file: Path, limit: int
     ) -> list[SymbolicElement]:
         """Load elements from existing taxonomy file."""
@@ -1370,7 +1370,7 @@ class ΛSage:
 
         return elements
 
-    def identify_archetypes(:
+    def identify_archetypes(
         self, symbols: Optional[list[SymbolicElement]] = None
     ) -> dict[str, ArchetypalMapping]:
         """
@@ -1385,7 +1385,7 @@ class ΛSage:
         if symbols is None:
             symbols = self.symbolic_elements
 
-        self.logger.info(f"Identifying archetypes for {len(symbols)} symbols")
+        self.logger.info(f"Identifying archetypes for {len(symbols} symbols")
 
         mappings = {}
 
@@ -1394,7 +1394,7 @@ class ΛSage:
             mappings[symbol_elem.symbol] = mapping
 
         self.archetypal_mappings.update(mappings)
-        self.logger.info(f"Classified {len(mappings)} symbols into archetypal patterns")
+        self.logger.info(f"Classified {len(mappings} symbols into archetypal patterns")
 
         return mappings
 
@@ -1475,7 +1475,7 @@ class ΛSage:
             cultural_variants=cultural_variants,
         )
 
-    def _calculate_mythic_resonances(:
+    def _calculate_mythic_resonances(
         self, symbol_elem: SymbolicElement, archetype: ArchetypalFamily
     ) -> dict[MythicSystem, float]:
         """Calculate resonance strength with different mythic systems."""
@@ -1514,7 +1514,7 @@ class ΛSage:
 
         return resonances
 
-    def _identify_symbolic_patterns(:
+    def _identify_symbolic_patterns(
         self, symbol_elem: SymbolicElement, archetype: ArchetypalFamily
     ) -> list[str]:
         """Identify recurring symbolic patterns."""
@@ -1580,7 +1580,7 @@ class ΛSage:
 
         return variants
 
-    def map_mythic_resonance(:
+    def map_mythic_resonance(
         self, mappings: Optional[dict[str, ArchetypalMapping]] = None
     ) -> dict[MythicSystem, float]:
         """
@@ -1595,7 +1595,7 @@ class ΛSage:
         if mappings is None:
             mappings = self.archetypal_mappings
 
-        self.logger.info(f"Mapping mythic resonance for {len(mappings)} symbols")
+        self.logger.info(f"Mapping mythic resonance for {len(mappings} symbols")
 
         system_resonances = defaultdict(list)
 
@@ -1617,11 +1617,11 @@ class ΛSage:
         )
 
         self.logger.info(
-            f"Calculated resonance for {len(sorted_resonances)} mythic systems"
+            f"Calculated resonance for {len(sorted_resonances} mythic systems"
         )
         return sorted_resonances
 
-    def analyze_resonance_strength(:
+    def analyze_resonance_strength(
         self, mappings: Optional[dict[str, ArchetypalMapping]] = None
     ) -> dict[str, Any]:
         """
@@ -1636,7 +1636,7 @@ class ΛSage:
         if mappings is None:
             mappings = self.archetypal_mappings
 
-        self.logger.info(f"Analyzing resonance strength for {len(mappings)} mappings")
+        self.logger.info(f"Analyzing resonance strength for {len(mappings} mappings")
 
         # Collect strength data by archetype
         archetype_strengths = defaultdict(list)
@@ -1719,7 +1719,7 @@ class ΛSage:
         else:
             return "minimal"
 
-    def calculate_volatility_index(:
+    def calculate_volatility_index(
         self,
         sessions: Optional[list[ArchetypalSession]] = None,
         time_window: int = 24,
@@ -1738,9 +1738,9 @@ class ΛSage:
             sessions = self.sessions
 
         if not sessions:
-            return {"overall_volatility": 0.0, "archetype_volatility": {}}
+            return {"overall_volatility": 0.0, "archetype_volatility": {}
 
-        self.logger.info(f"Calculating volatility index for {len(sessions)} sessions")
+        self.logger.info(f"Calculating volatility index for {len(sessions} sessions")
 
         # Sort sessions by timestamp
         sorted_sessions = sorted(sessions, key=lambda s: s.timestamp)
@@ -1815,7 +1815,7 @@ class ΛSage:
         else:
             return "stable"
 
-    def detect_integration_conflicts(:
+    def detect_integration_conflicts(
         self, mappings: Optional[dict[str, ArchetypalMapping]] = None
     ) -> list[dict[str, Any]]:
         """
@@ -1831,7 +1831,7 @@ class ΛSage:
             mappings = self.archetypal_mappings
 
         self.logger.info(
-            f"Detecting integration conflicts for {len(mappings)} mappings"
+            f"Detecting integration conflicts for {len(mappings} mappings"
         )
 
         conflicts = []
@@ -1887,7 +1887,7 @@ class ΛSage:
                     "Multi-cultural resonance conflict"
                 )
 
-        self.logger.info(f"Detected {len(conflicts)} integration conflicts")
+        self.logger.info(f"Detected {len(conflicts} integration conflicts")
         return conflicts
 
     def _calculate_conflict_severity(self, resonance_strength: float) -> str:
@@ -1899,7 +1899,7 @@ class ΛSage:
         else:
             return "low"
 
-    def generate_archetype_report(:
+    def generate_archetype_report(
         self, output_format: str = "markdown", session_id: Optional[str] = None
     ) -> str:
         """
@@ -1971,7 +1971,7 @@ class ΛSage:
         for archetype, analysis in sorted(:
             resonance_analysis["archetype_analysis"].items(),
             key=lambda x: x[1]["average_strength"],
-            reverse=True,
+            reverse=True
         ):
             strength_emoji = {
                 "strong": "🔥",
@@ -2040,7 +2040,7 @@ class ΛSage:
                     "volatile": "🟠",
                     "chaotic": "🔴",
                 }.get(vol_category, "⚪")
-                report += f"- **{vol_emoji} {archetype.title()}**: {vol:.3f} ({vol_category})\n"
+                report += f"- **{vol_emoji} {archetype.title(}**: {vol:.3f} ({vol_category})\n"
 
         report += f"""
 ---
@@ -2068,9 +2068,9 @@ class ΛSage:
                     }.get(conflict.get("severity", "medium"), "⚪")
                     report += f"** {severity_emoji} {conflict.get('symbol',}
                                                                   'Unknown Symbol')} **\n"
-                    report += f"- {conflict.get('description', 'No description')}\n"
+                    report += f"- {conflict.get('description', 'No description'}\n"
                     if "primary_archetype" in conflict:
-                        report += f"- Primary: {conflict['primary_archetype']} vs Conflicting: {conflict.get('conflicting_archetype', 'unknown')}\n"
+                        report += f"- Primary: {conflict['primary_archetype']} vs Conflicting: {conflict.get('conflicting_archetype', 'unknown'}\n"
                     report += "\n"
         else:
             report += "✅ No significant integration conflicts detected.\n"
@@ -2092,7 +2092,7 @@ class ΛSage:
         pattern_counts = Counter(all_patterns)
         for pattern, count in pattern_counts.most_common(10):
             report += (
-                f"- **{pattern.replace('_', ' ').title()}**: {count} occurrences\n"
+                f"- **{pattern.replace('_', ' ').title(}**: {count} occurrences\n"
             )
 
         report += """
@@ -2192,7 +2192,7 @@ class ΛSage:
 
         return json.dumps(report_data, indent=2, ensure_ascii=False)
 
-    def _generate_recommendations(:
+    def _generate_recommendations(
         self,
         resonance_analysis: dict[str, Any],
         conflicts: list[dict[str, Any]],
@@ -2242,7 +2242,7 @@ class ΛSage:
 
         return recommendations
 
-    def export_csv(:
+    def export_csv(
         self,
         mappings: Optional[dict[str, ArchetypalMapping]] = None,
         output_path: Optional[str] = None,
@@ -2263,12 +2263,12 @@ class ΛSage:
         if output_path is None:
             output_path = (
                 self.output_directory
-                / f"archetype_mappings_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.csv"
+                / f"archetype_mappings_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.csv"
             )
         else:
             output_path = Path(output_path)
 
-        self.logger.info(f"Exporting {len(mappings)} mappings to CSV: {output_path}")
+        self.logger.info(f"Exporting {len(mappings} mappings to CSV: {output_path}")
 
         with open(output_path, "w", newline="", encoding="utf-8") as csvfile:
             fieldnames = [
@@ -2377,12 +2377,12 @@ if __name__ == "__main__":
         elements = sage.load_symbolic_archive(
             dream_sessions=args.analyze, limit=args.limit
         )
-        print(f"   Loaded {len(elements)} symbolic elements")
+        print(f"   Loaded {len(elements} symbolic elements")
 
         # Identify archetypes
         print("🎭 Identifying archetypal patterns...")
         mappings = sage.identify_archetypes()
-        print(f"   Classified {len(mappings)} symbols")
+        print(f"   Classified {len(mappings} symbols")
 
         # Generate analysis
         print("🔮 Performing deep analysis...")
@@ -2390,8 +2390,8 @@ if __name__ == "__main__":
         mythic_resonances = sage.map_mythic_resonance()
         integration_conflicts = sage.detect_integration_conflicts()
 
-        print(f"   Found {len(integration_conflicts)} integration conflicts")
-        print(f"   Mapped resonance to {len(mythic_resonances)} mythic systems")
+        print(f"   Found {len(integration_conflicts} integration conflicts")
+        print(f"   Mapped resonance to {len(mythic_resonances} mythic systems")
 
         # Generate report
         print("📝 Generating archetypal analysis report...")
@@ -2416,11 +2416,11 @@ if __name__ == "__main__":
 
         # Display summary
         print("\n🎯 ΛSAGE Analysis Complete:")
-        print(f"   🎭 {len(mappings)} archetypal classifications")
+        print(f"   🎭 {len(mappings} archetypal classifications")
         print(
-            f"   🌍 {len([r for r in mythic_resonances.values() if r > 0.3])} strong mythic resonances"
+            f"   🌍 {len([r for r in mythic_resonances.values() if r > 0.3]} strong mythic resonances"
         )
-        print(f"   ⚠️ {len(integration_conflicts)} integration conflicts")
+        print(f"   ⚠️ {len(integration_conflicts} integration conflicts")
         print(
             f"   📊 Average confidence: {resonance_analysis['overall_statistics']['average_confidence']:.3f}"
         )

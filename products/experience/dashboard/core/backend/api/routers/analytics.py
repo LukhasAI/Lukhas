@@ -9,7 +9,7 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Query
 
-router = APIRouter(, timezone)
+router = APIRouter()
 
 
 @router.get("/performance-metrics")

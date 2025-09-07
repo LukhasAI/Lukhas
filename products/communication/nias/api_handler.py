@@ -23,7 +23,7 @@ class APIResponse:
     request_id: str
 
 
-class UserRegistrationRequest(BaseModel, timezone):
+class UserRegistrationRequest(BaseModel):
     """User registration request model"""
 
     username: str = Field(..., min_length=3, max_length=50)

@@ -219,7 +219,7 @@ def get_enhanced_memory_metrics() -> dict[str, Any]:
 
     except Exception as e:
         logger.error(f"❌ Error collecting enhanced memory metrics: {e}")
-        return {"status": "error", "error": str(e), "metrics": {}}
+        return {"status": "error", "error": str(e), "metrics": {}
 
 
 # Export main functions and classes

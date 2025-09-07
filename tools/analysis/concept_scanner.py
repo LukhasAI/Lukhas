@@ -93,7 +93,7 @@ class LukhasConceptScanner:
             # Search for concepts in code
             for concept in self.core_concepts:
                 # Case-insensitive search
-                pattern = re.compile(rf"\b{re.escape(concept)}\b", re.IGNORECASE)
+                pattern = re.compile(rf"\b{re.escape(concept}\b", re.IGNORECASE)
                 matches = pattern.finditer(content)
 
                 for match in matches:
@@ -229,7 +229,7 @@ def main():
     # Print summary
     print("\n📊 LUKHAS CONCEPT SUMMARY:")
     print(f"   Total concept instances found: {report['total_concepts_found']}")
-    print(f"   Unique concepts in use: {report['unique_concepts_used']}/{len(scanner.core_concepts)}")
+    print(f"   Unique concepts in use: {report['unique_concepts_used']}/{len(scanner.core_concepts}")
 
     print("\n🔝 TOP 10 MOST USED CONCEPTS:")
     for concept, count in report["concepts_by_frequency"][:10]:

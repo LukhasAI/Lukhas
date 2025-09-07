@@ -40,7 +40,7 @@ class Console:
     CURSOR_SHOW = "\033[?25h"
 
     @staticmethod
-    def move_cursor(row: int, col: int, timezone) -> str:
+    def move_cursor(row: int, col: int) -> str:
         return f"\033[{row};{col}H"
 
     @staticmethod
@@ -287,7 +287,7 @@ class HeartbeatVisualizer:
             print(Console.move_cursor(5, 20), end="")
             print(Console.CLEAR_LINE, end="")
             print(
-                f"{Console.CYAN}Current State:{Console.RESET} {pattern['color']}{self.current_state.title()}{Console.RESET}",
+                f"{Console.CYAN}Current State:{Console.RESET} {pattern['color']}{self.current_state.title(}{Console.RESET}",
                 end="",
             )
 

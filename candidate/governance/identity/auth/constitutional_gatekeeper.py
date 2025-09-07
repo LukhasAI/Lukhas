@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure constitutional logging
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 constitutional_logger = logging.getLogger("LUKHAS_CONSTITUTIONAL")
 
 

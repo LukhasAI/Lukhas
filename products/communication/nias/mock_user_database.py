@@ -1196,7 +1196,7 @@ if __name__ == "__main__":
     print("=" * 80)
 
     users = db.generate_all_users()
-    print(f"\n✅ Generated {len(users)} user profiles")
+    print(f"\n✅ Generated {len(users} user profiles")
 
     for user in users:
         print(f"\n👤 {user['name']} ({user['age']})")
@@ -1205,7 +1205,7 @@ if __name__ == "__main__":
         print(f"   Expected: {user['expected_behavior']}")
 
     edge_cases = db.generate_edge_cases()
-    print(f"\n⚠️  Generated {len(edge_cases)} edge cases for testing")
+    print(f"\n⚠️  Generated {len(edge_cases} edge cases for testing")
 
     for case in edge_cases:
         print(f"\n🔍 {case['case_id']}")

@@ -13,7 +13,7 @@ from pathlib import Path
 
 class ModuleEnhancer:
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.modules = {
             'core': {
                 'description': 'Central nervous system - GLYPH engine, symbolic processing',
@@ -67,7 +67,7 @@ class ModuleEnhancer:
 
         def enhance_module(self, module_name, module_info):
             """Enhance a single module"""
-        print(f"\n🔧 Enhancing {module_name.upper()} module...")
+        print(f"\n🔧 Enhancing {module_name.upper(} module...")
 
         # Create directory structure
         self.create_directory_structure(module_name)
@@ -96,7 +96,7 @@ class ModuleEnhancer:
         # Create __init__.py for submodules
         self.ensure_submodule_init(module_name, module_info)
 
-        print(f"✅ {module_name.upper()} module enhanced!")
+        print(f"✅ {module_name.upper(} module enhanced!")
 
     def create_directory_structure(self, module_name):
         """Create all necessary directories"""
@@ -330,7 +330,7 @@ docs:
         submodules = {module_info['submodules']}
                                                     for submodule in submodules:
             # This will raise ImportError if submodule doesn't exist
-            exec(f"from {module_name} import {{submodule}}")
+            exec(f"from {module_name} import {{submodule}")
 
                                                         def test_module_manifest_exists(self):
                                                             """Test that MODULE_MANIFEST.json exists and is valid"""
@@ -355,10 +355,10 @@ docs:
         import os
 
         submodule_path = os.path.join(os.path.dirname(__file__), '..', submodule)
-        assert os.path.exists(submodule_path), f"Submodule {{submodule}} directory not found"
+        assert os.path.exists(submodule_path), f"Submodule {{submodule} directory not found"
 
         init_path = os.path.join(submodule_path, '__init__.py')
-        assert os.path.exists(init_path), f"Submodule {{submodule}} missing __init__.py"
+        assert os.path.exists(init_path), f"Submodule {{submodule} missing __init__.py"
                                                                     '''
 
                                                                     with open(f"{module_name}/tests/unit/test_core.py", 'w') as f:
@@ -413,7 +413,7 @@ docs:
 
                                                                                     def main():
                                                                                         """Basic {module_name} usage"""
-    print(f"Using {{module_name.upper()}} module")
+    print(f"Using {{module_name.upper(} module")
 
     # TODO: Add actual usage examples
 
@@ -451,7 +451,7 @@ docs:
             'dopamine': 0.5,
             'serotonin': 0.5,
             'oxytocin': 0.3
-        }}
+        }
 
                                                                                                         def simulate_stress_response(self):
                                                                                                             """Simulate system under stress"""
@@ -472,13 +472,13 @@ docs:
 
                                                                                                                 def run_demo(self):
                                                                                                                     """Run the full demonstration"""
-        print(f"{{module_name.upper()}} Neuroplastic Demo")
+        print(f"{{module_name.upper(} Neuroplastic Demo")
         print("=" * 50)
 
-        print(f"Initial hormone levels: {{self.hormone_levels}}")
+        print(f"Initial hormone levels: {{self.hormone_levels}")
 
         self.simulate_stress_response()
-        print(f"Stress hormone levels: {{self.hormone_levels}}")
+        print(f"Stress hormone levels: {{self.hormone_levels}")
 
         self.demonstrate_hybrid_components()
 
@@ -505,7 +505,7 @@ docs:
                                                                                                                                 - [{module_name}](./{module_name}.md) - Main module interface
 
                                                                                                                                 ### Submodules
-                                                                                                                                {''.join(f"- [{module_name}.{sub}](./{sub}.md) - {sub.title()} functionality\n" for sub in module_info['submodules']).rstrip()}
+                                                                                                                                {''.join(f"- [{module_name}.{sub}](./{sub}.md) - {sub.title(} functionality\n" for sub in module_info['submodules']).rstrip()}
 
                                                                                                                                 ## Quick Reference
 
@@ -552,7 +552,7 @@ docs:
                                                                                                                                     ### Colony Propagation
                                                                                                                                     ```python
                                                                                                                                     # Create signal
-                                                                                                                                    signal = {{'type': 'update', 'data': changes}}
+                                                                                                                                    signal = {{'type': 'update', 'data': changes}
 
                                                                                                                                     # Propagate through colony
                                                                                                                                     response = module.colony.propagate(signal)
@@ -594,15 +594,15 @@ docs:
                                                                                                                                         with open('{module_name}/MODULE_MANIFEST.json', 'r') as f:
     manifest = json.load(f)
 
-                                                                                                                                            print(f"Module version: {{manifest['version']}}")
-                                                                                                                                            print(f"Submodules: {{list(manifest['submodules'].keys())}}")
+                                                                                                                                            print(f"Module version: {{manifest['version']}")
+                                                                                                                                            print(f"Submodules: {{list(manifest['submodules'].keys()}")
                                                                                                                                             ```
 
                                                                                                                                             ## Key Concepts
 
                                                                                                                                             ### Submodules
                                                                                                                                             The {module_name} module contains these submodules:
-                                                                                                                                            {''.join(f"- **{sub}** - {sub.title()} functionality\n" for sub in module_info['submodules']).rstrip()}
+                                                                                                                                            {''.join(f"- **{sub}** - {sub.title(} functionality\n" for sub in module_info['submodules']).rstrip()}
 
                                                                                                                                             ### Neuroplastic Features
                                                                                                                                             - Responds to hormone levels (cortisol, dopamine, etc.)
@@ -729,7 +729,7 @@ docs:
                                                                                                                                                                                                 def propagate(self, signal):
                                                                                                                                                                                                     """Propagate signal through colony"""
         # TODO: Implement propagation
-                                                                                                                                                                                                    return {{'colony': self.colony_id, 'signal': signal}}
+                                                                                                                                                                                                    return {{'colony': self.colony_id, 'signal': signal}
 
                                                                                                                                                                                                 # Initialize colony
                                                                                                                                                                                                 colony = {submodule.title()}Colony()

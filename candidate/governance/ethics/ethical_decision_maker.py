@@ -237,7 +237,7 @@ class AdvancedEthicalDecisionMaker:
             Comprehensive ethical decision with full analysis
         """
         start_time = datetime.now()
-        decision_id = f"eth_dec_{uuid.uuid4().hex[:8]}"
+        decision_id = f"eth_dec_{uuid.uuid4(}.hex[:8]}"
 
         try:
             logger.info(f"⚖️ Making ethical decision: {decision_id}")
@@ -324,7 +324,7 @@ class AdvancedEthicalDecisionMaker:
 
             # Return conservative fallback decision
             fallback_decision = ComprehensiveEthicalDecision(
-                decision_id=f"fallback_{uuid.uuid4().hex[:8]}",
+                decision_id=f"fallback_{uuid.uuid4(}.hex[:8]}",
                 context=context,
                 available_options=available_options,
                 chosen_option="refuse_action",
@@ -355,7 +355,7 @@ class AdvancedEthicalDecisionMaker:
                 # Create minimal analysis for failed framework
                 analyses.append(
                     EthicalAnalysis(
-                        analysis_id=f"failed_{framework.value}_{uuid.uuid4().hex[:8]}",
+                        analysis_id=f"failed_{framework.value}_{uuid.uuid4(}.hex[:8]}",
                         framework=framework,
                         score=0.5,  # Neutral score
                         reasoning=f"Analysis failed: {e!s}",
@@ -370,7 +370,7 @@ class AdvancedEthicalDecisionMaker:
     ) -> EthicalAnalysis:
         """Analyze options using specific ethical framework"""
 
-        analysis_id = f"{framework.value}_{uuid.uuid4().hex[:8]}"
+        analysis_id = f"{framework.value}_{uuid.uuid4(}.hex[:8]}"
 
         if framework == EthicalFramework.CONSTITUTIONAL:
             return await self._constitutional_analysis(analysis_id, context, options)
@@ -425,7 +425,7 @@ class AdvancedEthicalDecisionMaker:
 
         reasoning = f"Constitutional analysis selected '{best_option}' with score {best_score:.2f}. "
         if violations:
-            reasoning += f"Detected violations: {', '.join(violations[:3])}"
+            reasoning += f"Detected violations: {', '.join(violations[:3]}"
         else:
             reasoning += "No constitutional violations detected."
 
@@ -598,7 +598,7 @@ class AdvancedEthicalDecisionMaker:
 
             option_scores[option] = max(0.0, min(1.0, virtue_score))
             if aligned_virtues:
-                virtue_alignments.append(f"{option}: {', '.join(aligned_virtues)}")
+                virtue_alignments.append(f"{option}: {', '.join(aligned_virtues}")
 
         best_option = max(option_scores.keys(), key=lambda x: option_scores[x])
         best_score = option_scores[best_option]
@@ -1025,17 +1025,17 @@ class AdvancedEthicalDecisionMaker:
                 framework_conflicts.append(analysis.framework.value)
 
         if framework_agreements:
-            reasoning_parts.append(f"Strong support from frameworks: {', '.join(framework_agreements[:3])}.")
+            reasoning_parts.append(f"Strong support from frameworks: {', '.join(framework_agreements[:3]}.")
 
         if framework_conflicts:
-            reasoning_parts.append(f"Concerns raised by frameworks: {', '.join(framework_conflicts[:2])}.")
+            reasoning_parts.append(f"Concerns raised by frameworks: {', '.join(framework_conflicts[:2]}.")
 
         # Add constitutional compliance
         if decision.constitutional_compliance:
             reasoning_parts.append("Decision complies with all constitutional principles.")
         else:
             reasoning_parts.append(
-                f"Constitutional concerns: {len(decision.constitutional_violations)} violations detected."
+                f"Constitutional concerns: {len(decision.constitutional_violations} violations detected."
             )
 
         # Add stakeholder considerations
@@ -1070,7 +1070,7 @@ class AdvancedEthicalDecisionMaker:
         if context.get("historical_context"):
             memory_factors.append("Historical context and memory patterns considered")
         if len(self.decision_history) > 0:
-            memory_factors.append(f"Decision informed by {len(self.decision_history)} previous decisions")
+            memory_factors.append(f"Decision informed by {len(self.decision_history} previous decisions")
         decision.memory_implications = memory_factors
 
         # ⭐ Vision implications - Orientation toward horizon
@@ -1124,7 +1124,7 @@ class AdvancedEthicalDecisionMaker:
             quantum_factors.append("Uncertainty and ambiguity resolution mechanisms engaged")
         if len(decision.alternative_options) > 1:
             quantum_factors.append(
-                f"Quantum decision space explored across {len(decision.alternative_options)} possibilities"
+                f"Quantum decision space explored across {len(decision.alternative_options} possibilities"
             )
         decision.quantum_implications = quantum_factors
 

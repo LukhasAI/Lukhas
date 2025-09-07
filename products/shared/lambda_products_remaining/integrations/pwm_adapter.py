@@ -19,7 +19,7 @@ from plugins.plugin_base import (
     LukhasPlugin,
     PluginManifest,
     PluginPriority,
-    PluginStatus,, timezone)
+    PluginStatus)
 
 # Add Lukhas  to path
 lukhas_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
@@ -90,7 +90,7 @@ class LambdaProductsPlugin(Plugin):
     async def process(self, input_data: Any) -> Any:
         """Process data through Lambda Product"""
         if not self.initialized:
-            raise RuntimeError(f"{self.get_plugin_name()} not initialized")
+            raise RuntimeError(f"{self.get_plugin_name(} not initialized")
         return await self.lambda_plugin.process(input_data)
 
     async def health_check(self) -> dict[str, Any]:

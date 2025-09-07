@@ -427,17 +427,17 @@ def main():
     # Show errors by type
     for error_type, errors in report["errors_by_type"].items():
         if errors:
-            print(f"\n❌ {error_type.replace('_', ' ').title()} ({len(errors)}):")
+            print(f"\n❌ {error_type.replace('_', ' ').title()} ({len(errors}):")
             for error in errors[:5]:
                 print(f"   • {error['file']}:{error['line']} - {error['error']}")
             if len(errors) > 5:
-                print(f"   ... and {len(errors) - 5} more")
+                print(f"   ... and {len(errors} - 5} more")
 
     # Show common patterns
     print("\n📋 Common Patterns:")
     for pattern, modules in report["common_patterns"].items():
         if modules:
-            print(f"   {pattern.replace('_', ' ').title()}: {len(modules)}")
+            print(f"   {pattern.replace('_', ' ').title()}: {len(modules}")
 
     # Generate and show fixes
     fixes = generate_fixes(report)
@@ -454,7 +454,7 @@ def main():
     with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 
-    print(f"\n💾 Detailed report saved to: {report_path.relative_to(PROJECT_ROOT)}")
+    print(f"\n💾 Detailed report saved to: {report_path.relative_to(PROJECT_ROOT}")
 
     return report["total_errors"]
 

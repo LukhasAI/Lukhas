@@ -163,7 +163,7 @@ class CausalIdentityTracker:
             emotional_context = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
 
         # Generate unique causal origin ID
-        causal_origin_id = hashlib.sha256(f"{fold_key}_{datetime.now(timezone.utc).isoformat()}_{intent_tag}".encode()).hexdigest()[
+        causal_origin_id = hashlib.sha256(f"{fold_key}_{datetime.now(timezone.utc).isoformat(}_{intent_tag}".encode()).hexdigest()[
             :16
         ]
 
@@ -252,7 +252,7 @@ class CausalIdentityTracker:
 
         # Generate anchor ID based on symbolic signature and type
         anchor_id = hashlib.sha256(
-            f"{anchor_type.value}_{symbolic_signature}_{datetime.now(timezone.utc).isoformat()}".encode()
+            f"{anchor_type.value}_{symbolic_signature}_{datetime.now(timezone.utc).isoformat(}".encode()
         ).hexdigest()[:12]
 
         # Calculate stability score based on emotional resonance and protection level
@@ -419,7 +419,7 @@ class CausalIdentityTracker:
             if "critical_points" in lineage_analysis:
                 for critical_point in lineage_analysis["critical_points"]:
                     if critical_point.get("severity") == "critical":
-                        trauma_markers.append(f"cascade_failure_{critical_point.get('fold_key', 'unknown')}")
+                        trauma_markers.append(f"cascade_failure_{critical_point.get('fold_key', 'unknown'}")
 
         # Update trauma markers in relevant causal origins
         for origin in related_origins:
@@ -460,7 +460,7 @@ class CausalIdentityTracker:
 
         # Generate recovery link ID
         recovery_link_id = hashlib.sha256(
-            f"recovery_{source_fold_key}_{target_fold_key}_{datetime.now(timezone.utc).isoformat()}".encode()
+            f"recovery_{source_fold_key}_{target_fold_key}_{datetime.now(timezone.utc).isoformat(}".encode()
         ).hexdigest()[:12]
 
         # Track recovery causation in lineage tracker
@@ -603,7 +603,7 @@ class CausalIdentityTracker:
 
     def _generate_event_chain_hash(self, fold_key: str, causal_origin_id: str) -> str:
         """Generate a hash for event chain integrity."""
-        content = f"{fold_key}_{causal_origin_id}_{datetime.now(timezone.utc).isoformat()}"
+        content = f"{fold_key}_{causal_origin_id}_{datetime.now(timezone.utc).isoformat(}"
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
     def _calculate_temporal_link(self, fold_key: str) -> str:
@@ -665,7 +665,7 @@ class CausalIdentityTracker:
                 return chain_id
 
         # Create new chain
-        return hashlib.sha256(f"chain_{fold_key}_{datetime.now(timezone.utc).isoformat()}".encode()).hexdigest()[:12]
+        return hashlib.sha256(f"chain_{fold_key}_{datetime.now(timezone.utc).isoformat(}".encode()).hexdigest()[:12]
 
     def _load_existing_data(self):
         """Load existing data from persistent storage."""

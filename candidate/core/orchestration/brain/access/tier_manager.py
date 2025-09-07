@@ -26,7 +26,7 @@ from fastapi import HTTPException
 # ── Tier Definitions ──────────────────────────────────────────
 
 TIERS = {
-    1: "Tier 1 - Public Access (Minimal Capture, timezone)",
+    1: "Tier 1 - Public Access (Minimal Capture)",
     2: "Tier 2 - Symbolic Seed Pairing",
     3: "Tier 3 - Seed + Face ID (Verified Pair)",
     4: "Tier 4 - Core Trust (Seed + Face ID + Backup Phrase)",

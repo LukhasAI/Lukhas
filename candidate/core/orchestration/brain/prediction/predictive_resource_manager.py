@@ -446,7 +446,7 @@ class PredictiveResourceManager:
         ]
 
         if stable_resources:
-            opportunities.append(f"Underutilized resources: {', '.join(stable_resources)}")
+            opportunities.append(f"Underutilized resources: {', '.join(stable_resources}")
 
         # Look for highly variable usage (optimization potential)
         variable_resources = [
@@ -455,7 +455,7 @@ class PredictiveResourceManager:
 
         if variable_resources:
             opportunities.append(
-                f"Variable usage patterns in: {', '.join(variable_resources)} - potential for optimization"
+                f"Variable usage patterns in: {', '.join(variable_resources} - potential for optimization"
             )
 
         return opportunities

@@ -662,7 +662,7 @@ class CapabilityEvaluationFramework:
         """
 
         try:
-            profile_id = f"PROFILE_{system_name}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+            profile_id = f"PROFILE_{system_name}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
             # Get relevant measurements
             if measurements:
@@ -1279,7 +1279,7 @@ class CapabilityEvaluationFramework:
         measurements = list(self.capability_measurements.values())
 
         return {
-            "report_id": f"AGI_READINESS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            "report_id": f"AGI_READINESS_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             "report_timestamp": datetime.now(timezone.utc).isoformat(),
             "executive_summary": {
                 "agi_detection_readiness": "advanced",

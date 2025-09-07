@@ -199,7 +199,7 @@ class SnapshotRedirectionController:
             "redirect_triggered": True,
             "reason": "emotional velocity spike",
             "cause": cause,
-            "linked_reasoning_trace": f"reasoning_trace_{datetime.now(timezone.utc).timestamp()}",
+            "linked_reasoning_trace": f"reasoning_trace_{datetime.now(timezone.utc).timestamp(}",
             "new_narrative": narrative,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "severity": severity,
@@ -301,4 +301,4 @@ class SnapshotRedirectionController:
         """
         commentary = f"This redirection was predicted due to compounding emotional drift (Δ={drift_score:.2f}) and entropy rise. Stabilization is advised."
         with open("dream/logs/redirect_reasoning_commentary.log", "a") as f:
-            f.write(f"[{datetime.now(timezone.utc).isoformat()}] {commentary}\n")
+            f.write(f"[{datetime.now(timezone.utc).isoformat(}] {commentary}\n")

@@ -152,7 +152,7 @@ class QIEthicsMeshIntegrator:
         Returns:
             Unified ethics field with mesh coherence metrics
         """
-        logger.debug(f"Integrating ethics mesh from {len(subsystem_states)} subsystems")
+        logger.debug(f"Integrating ethics mesh from {len(subsystem_states} subsystems")
 
         # Convert raw states to EthicalState objects
         ethical_states = {}
@@ -318,7 +318,7 @@ class QIEthicsMeshIntegrator:
             "timestamp": time.time(),
         }
 
-        logger.debug(f"Entanglement matrix calculated: {len(entanglements)} pairs, avg_strength={avg_entanglement:.3f}")
+        logger.debug(f"Entanglement matrix calculated: {len(entanglements} pairs, avg_strength={avg_entanglement:.3f}")
 
         return matrix_result
 
@@ -368,7 +368,7 @@ class QIEthicsMeshIntegrator:
             divergence_zones: List of conflicted module pairs
             unified_field: Optional full mesh state
         """
-        logger.info(f"Emitting ethics feedback: coherence={coherence_score:.3f}, conflicts={len(divergence_zones)}")
+        logger.info(f"Emitting ethics feedback: coherence={coherence_score:.3f}, conflicts={len(divergence_zones}")
 
         # Determine signal types to emit based on conditions
         signals_to_emit = []
@@ -681,7 +681,7 @@ class QIEthicsMeshIntegrator:
         return {
             "active_subsystems": list(self.subsystem_states.keys()),
             "entanglement_pairs": len(self.entanglement_matrix),
-            "last_update": max((s.timestamp for s in self.subsystem_states.values()), default=0),
+            "last_update": max((s.timestamp for s in self.subsystem_states.values()), default=0},
             "safety_thresholds": {
                 "drift_warning": self.drift_warning_threshold,
                 "drift_emergency": self.drift_emergency_threshold,

@@ -465,7 +465,7 @@ class SymbolicQuarantineSanctum:
 
             # Create repair protocol instance
             protocol = RepairProtocol(
-                protocol_id=f"REPAIR_{uuid.uuid4().hex[:8]}",
+                protocol_id=f"REPAIR_{uuid.uuid4(}.hex[:8]}",
                 protocol_type=protocol_type,
                 target_entry_id=entry_id,
                 execution_timestamp=datetime.now(timezone.utc).isoformat(),
@@ -886,7 +886,7 @@ class SymbolicQuarantineSanctum:
                 protocol_stats[protocol_type]["successes"] += 1
 
         return {
-            "sanctum_id": f"ΛSANCTUM_{int(time.time())}",
+            "sanctum_id": f"ΛSANCTUM_{int(time.time()}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "summary": {
                 "total_quarantines": self.stats["total_quarantines"],
@@ -968,7 +968,7 @@ class SymbolicQuarantineSanctum:
             # Create finding if contamination detected
             if contamination_score > 0.5:
                 finding = {
-                    "entry_id": entry.get("entry_id", f"unknown_{uuid.uuid4().hex[:8]}"),
+                    "entry_id": entry.get("entry_id", f"unknown_{uuid.uuid4(}.hex[:8]}"),
                     "contamination_score": contamination_score,
                     "contamination_reasons": contamination_reasons,
                     "threat_level": self._assess_threat_level(contamination_score),
@@ -982,7 +982,7 @@ class SymbolicQuarantineSanctum:
                     await self.quarantine_entry(
                         finding["entry_id"],
                         entry,
-                        f"Auto-quarantine: {', '.join(contamination_reasons)}",
+                        f"Auto-quarantine: {', '.join(contamination_reasons}",
                         source_system="ΛSANCTUM_SCANNER",
                         threat_level=ThreatLevel(finding["threat_level"]),
                     )
@@ -1636,8 +1636,8 @@ def main():
                 print(json.dumps(findings, indent=2))
             else:
                 print("\n📊 Contamination Scan Results")
-                print(f"Entries scanned: {len(entries)}")
-                print(f"Contamination found: {len(findings)}")
+                print(f"Entries scanned: {len(entries}")
+                print(f"Contamination found: {len(findings}")
 
                 for finding in findings:
                     print(f"\n🚨 {finding['entry_id']}")
@@ -1693,7 +1693,7 @@ def main():
                 lines.append("")
                 lines.append("## 📊 Summary")
                 for key, value in report["summary"].items():
-                    lines.append(f"- **{key.replace('_', ' ').title()}:** {value}")
+                    lines.append(f"- **{key.replace('_', ' ').title(}:** {value}")
                 lines.append("")
 
                 if report.get("status_distribution"):

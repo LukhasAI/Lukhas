@@ -39,7 +39,7 @@ from .auth_governance_policies import auth_governance_policy_engine
 from .auth_guardian_integration import AuthenticationGuardian, AuthEventType
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 

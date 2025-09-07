@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class ClinicalDecisionSupport(GlyphIntegrationMixin):

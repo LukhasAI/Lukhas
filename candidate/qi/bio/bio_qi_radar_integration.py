@@ -142,7 +142,7 @@ class BioQuantumRadarMetrics:
 
         for brain_type in brain_types:
             # Extract brain-specific data from reasoning result
-            brain_key = f"{brain_type.lower()}_brain"
+            brain_key = f"{brain_type.lower(}_brain"
             brain_result = reasoning_result.get("brain_results", {}).get(brain_key, {})
 
             confidence = brain_result.get("confidence", np.random.uniform(0.6, 0.8))
@@ -438,12 +438,12 @@ class BioQuantumRadarVisualizer:
                     r=values + [values[0]],
                     theta=dimensions + [dimensions[0]],
                     fill="toself",
-                    fillcolor=f"rgba{self._hex_to_rgba(color, 0.3)}",
+                    fillcolor=f"rgba{self._hex_to_rgba(color, 0.3}",
                     line={"color": color, "width": 2},
                     mode="lines+markers",
                     marker={"size": 6, "color": color},
                     name=f"{brain_name} Brain",
-                    hovertemplate=f"<b>{brain_name} - %{{theta}}</b><br>Value: %{{r:.3f}}<extra></extra>",
+                    hovertemplate=f"<b>{brain_name} - %{{theta}</b><br>Value: %{{r:.3f}<extra></extra>",
                 ),
                 row=row,
                 col=col,
@@ -647,8 +647,8 @@ class BioQuantumRadarIntegration:
 
             self.logger.info(
                 f"Bio-Quantum reasoning with radar analytics completed. "
-                f"Confidence: {reasoning_result.get('confidence', 0):.3f}, "
-                f"Coherence: {reasoning_result.get('coherence', 0):.3f}"
+                f"Confidence: {reasoning_result.get('confidence', 0}:.3f}, "
+                f"Coherence: {reasoning_result.get('coherence', 0}:.3f}"
             )
 
             return result

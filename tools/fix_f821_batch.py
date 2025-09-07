@@ -68,7 +68,7 @@ def fix_timezone_imports(file_path):
                 # Add timezone to existing datetime import
                 content = re.sub(
                     r"from datetime import ([^)]+)",
-                    lambda m: f"from datetime import {m.group(1).rstrip()}, timezone",
+                    lambda m: f"from datetime import {m.group(1).rstrip(}, timezone",
                     content,
                     count=1
                 )
@@ -188,14 +188,14 @@ def fix_typing_imports(file_path):
                     all_imports = sorted(list(typing_imports) + missing)
                     content = re.sub(
                         r"from typing import .+",
-                        f'from typing import {", ".join(all_imports)}',
+                        f'from typing import {", ".join(all_imports}',
                         content,
                         count=1
                     )
                 else:
                     # Add new typing import
                     lines = content.split("\n")
-                    import_line = f'from typing import {", ".join(missing)}'
+                    import_line = f'from typing import {", ".join(missing}'
 
                     # Find where to insert
                     insert_pos = 0
@@ -225,9 +225,9 @@ def main():
     violations = get_f821_violations()
     patterns = analyze_undefined_patterns(violations)
 
-    print(f"Found F821 violations for {len(patterns)} undefined names")
+    print(f"Found F821 violations for {len(patterns} undefined names")
     for name, files in list(patterns.items())[:10]:
-        print(f"  {name}: {len(files)} files")
+        print(f"  {name}: {len(files} files")
 
     # Focus on most common issues
     fixed_files = set()
@@ -235,7 +235,7 @@ def main():
 
     # Fix timezone issues
     if "timezone" in patterns:
-        print(f"\n🕒 Fixing timezone issues in {len(patterns['timezone'])} files...")
+        print(f"\n🕒 Fixing timezone issues in {len(patterns['timezone']} files...")
         for file_path in patterns["timezone"][:50]:  # Limit batch size
             if fix_timezone_imports(file_path):
                 fixed_files.add(file_path)
@@ -243,7 +243,7 @@ def main():
 
     # Fix logger issues  
     if "logger" in patterns:
-        print(f"\n📝 Fixing logger issues in {len(patterns['logger'])} files...")
+        print(f"\n📝 Fixing logger issues in {len(patterns['logger']} files...")
         for file_path in patterns["logger"][:30]:  # Smaller batch
             if fix_logger_declarations(file_path):
                 fixed_files.add(file_path)
@@ -253,13 +253,13 @@ def main():
     typing_names = ["Set", "Dict", "List", "Optional", "Union", "Any"]
     for name in typing_names:
         if name in patterns:
-            print(f"\n🔤 Fixing {name} typing issues in {len(patterns[name])} files...")
+            print(f"\n🔤 Fixing {name} typing issues in {len(patterns[name]} files...")
             for file_path in patterns[name][:20]:  # Small batch
                 if fix_typing_imports(file_path):
                     fixed_files.add(file_path)
                     total_fixed += 1
 
-    print(f"\n🎉 Fixed F821 issues in {len(fixed_files)} unique files")
+    print(f"\n🎉 Fixed F821 issues in {len(fixed_files} unique files")
 
     # Show sample of fixed files
     for file_path in list(fixed_files)[:10]:

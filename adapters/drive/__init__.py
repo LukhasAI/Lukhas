@@ -291,7 +291,7 @@ class DriveAdapter(ServiceAdapter):
 
         try:
             if self.mock_mode:
-                watch_id = f"drive_watch_{datetime.now(timezone.utc).timestamp()}"
+                watch_id = f"drive_watch_{datetime.now(timezone.utc).timestamp(}"
             else:
                 watch_id = await self._setup_drive_watch(watch_request)
 

@@ -389,11 +389,11 @@ def main():
     print("\n=== Key Hybrid Subdirectories ===")
     for module, data in hybrid_map["modules"].items():
         if data["hybrid_components"]:
-            print(f"\n{module.upper()}:")
+            print(f"\n{module.upper(}:")
             for subdir, info in data["hybrid_components"].items():
                 print(f"  {subdir}:")
-                print(f"    - Cross-refs: {', '.join(info['cross_refs'].keys())}")
-                print(f"    - Concepts: {', '.join(info['concepts'])}")
+                print(f"    - Cross-refs: {', '.join(info['cross_refs'].keys()}")
+                print(f"    - Concepts: {', '.join(info['concepts']}")
 
 
 if __name__ == "__main__":

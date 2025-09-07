@@ -17,7 +17,7 @@ from datetime import datetime
 from typing import Any
 
 # Set up logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class PracticalIntegrationHub:
@@ -290,7 +290,7 @@ if __name__ == "__main__":
         print("🏗️  Phase 1 Goals:")
         for goal, achieved in status["phase_1_goals"].items():
             status_icon = "✅" if achieved else "❌"
-            print(f"   {status_icon} {goal.replace('_', ' ').title()}")
+            print(f"   {status_icon} {goal.replace('_', ' ').title(}")
 
         # Test request processing
         print("\n🧪 Testing Request Processing...")

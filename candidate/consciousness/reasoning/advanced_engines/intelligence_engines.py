@@ -420,7 +420,7 @@ class LukhasAutonomousGoalEngine:
 
         # Add goals to active list
         for goal in goals:
-            goal["id"] = f"goal_{len(self.active_goals)}"
+            goal["id"] = f"goal_{len(self.active_goals}"
             goal["created"] = datetime.now(timezone.utc).isoformat()
             goal["status"] = "active"
             self.active_goals.append(goal)
@@ -719,7 +719,7 @@ class LukhasNarrativeIntelligenceEngine:
         if subsystem_responses:
             active_subsystems = list(subsystem_responses.keys())
             narrative_parts.append(
-                f"I engaged {len(active_subsystems)} specialized subsystems: {', '.join(active_subsystems)}"
+                f"I engaged {len(active_subsystems)} specialized subsystems: {', '.join(active_subsystems}"
             )
 
         # Causal explanation

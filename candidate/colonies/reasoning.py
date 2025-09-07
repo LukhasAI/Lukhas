@@ -192,7 +192,7 @@ class ReasoningColony(BaseColony):
             parts1 = fact1.split("->")
             parts2 = fact2.split("->")
             if len(parts1) == 2 and len(parts2) == 2:
-                return f"{parts1[0].strip()}->{parts2[1].strip()}"
+                return f"{parts1[0].strip()}->{parts2[1].strip(}"
         return None
 
     def _matches_modus_ponens(self, fact: str, implication: str) -> bool:
@@ -231,7 +231,7 @@ class ReasoningColony(BaseColony):
                 time_diff = event2.get("timestamp", 0) - event1.get("timestamp", 0)
                 if 0 < time_diff < 3600:  # Within 1 hour
                     strength = max(0, 1.0 - (time_diff / 3600))
-                    chain = f"{event1.get('name', 'unknown')}->{event2.get('name', 'unknown')}"
+                    chain = f"{event1.get('name', 'unknown')}->{event2.get('name', 'unknown'}"
                     result["causal_chains"].append(chain)
                     result["strength"][chain] = strength
 

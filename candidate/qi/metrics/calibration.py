@@ -215,7 +215,7 @@ def reliability_svg(task: str | None=None, width=640, height=320) -> str:
     lines = [f"<rect width='{W}' height='{H}' fill='#0f1115'/>",
              f"<line x1='{pad}' y1='{H-pad}' x2='{W-pad}' y2='{H-pad}' stroke='#444'/>",
              f"<line x1='{pad}' y1='{H-pad}' x2='{pad}' y2='{pad}' stroke='#444'/>",
-             f"<text x='{pad}' y='{pad-12}' fill='#9aa5b1' font-size='12' font-family='monospace'>ECE={ece:.4f}  T={T:.3f}  {('task='+task) if task else 'global'}</text>"]
+             f"<text x='{pad}' y='{pad-12}' fill='#9aa5b1' font-size='12' font-family='monospace'>ECE={ece:.4f}  T={T:.3f}  {('task='+task} if task else 'global'}</text>"]
     # y-scale 0..1
     # draw ideal diagonal
     lines.append(f"<line x1='{pad}' y1='{H-pad}' x2='{W-pad}' y2='{pad}' stroke=')  # 2a74ff' stroke-dasharray='4 3' opacity='0.6'/>"
@@ -235,9 +235,9 @@ def reliability_svg(task: str | None=None, width=640, height=320) -> str:
         def Y(v): return H - pad - v*(H-2*pad)
         x = cx
         # conf marker
-        lines.append(f"<circle cx='{x-6}' cy='{Y(conf)}' r='3' fill='#9aa5b1'/>")
+        lines.append(f"<circle cx='{x-6}' cy='{Y(conf}' r='3' fill='#9aa5b1'/>")
         # acc marker
-        lines.append(f"<circle cx='{x+6}' cy='{Y(acc)}' r='3' fill='#3ddc97'/>")
+        lines.append(f"<circle cx='{x+6}' cy='{Y(acc}' r='3' fill='#3ddc97'/>")
         # bin boundary
         if i>0:
             xb = pad + i*barW
@@ -246,7 +246,7 @@ def reliability_svg(task: str | None=None, width=640, height=320) -> str:
         if i%2==0:
             pct = int(b["upper"]*100)
             lines.append(f"<text x='{cx-8}' y='{H-pad+14}' fill=')  # 777' font-size='10' font-family='monospace'>{pct}%</text>"
-    return f"<svg width='{W}' height='{H}' viewBox='0 0 {W} {H}' xmlns='http://www.w3.org/2000/svg'>{''.join(lines)}</svg>"
+    return f"<svg width='{W}' height='{H}' viewBox='0 0 {W} {H}' xmlns='http://www.w3.org/2000/svg'>{''.join(lines}</svg>"
 
 # ------------- CLI -------------
 def main():

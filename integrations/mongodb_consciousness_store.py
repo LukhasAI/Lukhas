@@ -22,7 +22,7 @@ from typing import Any, Optional
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import TEXT, IndexModel
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class LUKHASConsciousnessStore:
@@ -168,7 +168,7 @@ class LUKHASConsciousnessStore:
             await self._prevent_memory_cascade()
 
         fold_doc = {
-            "fold_id": f"fold_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+            "fold_id": f"fold_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             "content": content,
             "fold_type": fold_type,  # experience, learning, emotional, causal
             "importance_score": importance_score,
@@ -192,7 +192,7 @@ class LUKHASConsciousnessStore:
         low_importance_folds = (
             await self.collections["memory_folds"]
             .find(
-                {"importance_score": {"$lt": 0.3}},
+                {"importance_score": {"$lt": 0.3},
                 sort=[("importance_score", 1), ("last_accessed", 1)],
             )
             .limit(50)
@@ -206,9 +206,9 @@ class LUKHASConsciousnessStore:
 
             # Remove from active memory
             fold_ids = [fold["fold_id"] for fold in low_importance_folds]
-            await self.collections["memory_folds"].delete_many({"fold_id": {"$in": fold_ids}})
+            await self.collections["memory_folds"].delete_many({"fold_id": {"$in": fold_ids})
 
-            logger.info(f"🛡️ Cascade prevention: Archived {len(fold_ids)} low-importance folds")
+            logger.info(f"🛡️ Cascade prevention: Archived {len(fold_ids} low-importance folds")
 
     async def update_consciousness_state(
         self,
@@ -245,13 +245,13 @@ class LUKHASConsciousnessStore:
 
         conversations = (
             await self.collections["conversations"]
-            .find(search_filter, {"score": {"$meta": "textScore"}})
+            .find(search_filter, {"score": {"$meta": "textScore"})
             .sort([("score", {"$meta": "textScore"})])
             .limit(limit)
             .to_list(length=limit)
         )
 
-        logger.info(f"🔍 Found {len(conversations)} conversations for query: '{query}'")
+        logger.info(f"🔍 Found {len(conversations} conversations for query: '{query}'")
         return conversations
 
     async def get_memory_context(self, fold_type: Optional[str] = None, limit: int = 20) -> list[dict[str, Any]]:
@@ -273,7 +273,7 @@ class LUKHASConsciousnessStore:
         for fold in memory_folds:
             await self.collections["memory_folds"].update_one(
                 {"fold_id": fold["fold_id"]},
-                {"$inc": {"access_count": 1}, "$set": {"last_accessed": datetime.now(timezone.utc)}},
+                {"$inc": {"access_count": 1}, "$set": {"last_accessed": datetime.now(timezone.utc)},
             )
 
         return memory_folds
@@ -288,7 +288,7 @@ class LUKHASConsciousnessStore:
             await self.collections["conversations"]
             .aggregate(
                 [
-                    {"$match": {"timestamp": {"$gte": start_date}}},
+                    {"$match": {"timestamp": {"$gte": start_date},
                     {
                         "$group": {
                             "_id": None,

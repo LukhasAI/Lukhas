@@ -30,7 +30,7 @@ class MemoryNode:
 
     def store(self, **kwargs) -> str:
         """Store a new memory entry."""
-        memory_id = f"mem_{int(time.time())}_{len(self.short_term_memory)}"
+        memory_id = f"mem_{int(time.time())}_{len(self.short_term_memory}"
 
         memory_entry = {
             "id": memory_id,

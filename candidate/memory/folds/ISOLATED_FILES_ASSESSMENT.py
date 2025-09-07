@@ -20,7 +20,7 @@ from typing import Any
 
 
 class IsolatedFilesAssessor:
-    def __init__(self, timezone):
+    def __init__(self):
         self.valuable_keywords = [
             "prototype",
             "experiment",
@@ -75,7 +75,7 @@ class IsolatedFilesAssessor:
             report = json.load(f)
 
         isolated_files = report.get("isolated_files", [])
-        print(f"🔍 Assessing {len(isolated_files)} isolated files...")
+        print(f"🔍 Assessing {len(isolated_files} isolated files...")
 
         assessment = {
             "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
@@ -177,10 +177,10 @@ def main():
     # Print summary
     print("\n📊 ASSESSMENT SUMMARY:")
     print(f"   Total isolated files: {assessment['total_isolated']}")
-    print(f"   Valuable prototypes: {len(assessment['valuable_prototypes'])}")
-    print(f"   Archive candidates: {len(assessment['archive_candidates'])}")
-    print(f"   Syntax errors: {len(assessment['syntax_errors'])}")
-    print(f"   Needs review: {len(assessment['needs_review'])}")
+    print(f"   Valuable prototypes: {len(assessment['valuable_prototypes']}")
+    print(f"   Archive candidates: {len(assessment['archive_candidates']}")
+    print(f"   Syntax errors: {len(assessment['syntax_errors']}")
+    print(f"   Needs review: {len(assessment['needs_review']}")
 
     # Show valuable prototypes
     if assessment["valuable_prototypes"]:

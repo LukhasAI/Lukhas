@@ -450,7 +450,7 @@ class DynamicQRGLYPHEngine:
         ]
 
         combined = "|".join(components)
-        return f"QRGLYPH_{hashlib.sha256(combined.encode()).hexdigest()[:16]}"
+        return f"QRGLYPH_{hashlib.sha256(combined.encode()).hexdigest(}[:16]}"
 
     def _generate_attention_signature(self, consciousness_state: str) -> str:
         """Generate attention signature based on consciousness state"""
@@ -464,7 +464,7 @@ class DynamicQRGLYPHEngine:
         }
 
         base_signature = signatures.get(consciousness_state, "neutral|observant|present")
-        return hashlib.sha256(f"{base_signature}|{time.time()}".encode()).hexdigest()[:32]
+        return hashlib.sha256(f"{base_signature}|{time.time(}".encode()).hexdigest()[:32]
 
     def _select_cultural_symbols(self, cultural_context: dict[str, Any]) -> list[str]:
         """Select culturally appropriate symbols"""
@@ -500,7 +500,7 @@ class DynamicQRGLYPHEngine:
 
     def _generate_rotation_sequence(self) -> str:
         """Generate rotation sequence identifier"""
-        return f"ROT_{int(time.time())}_{secrets.token_hex(4)}"
+        return f"ROT_{int(time.time())}_{secrets.token_hex(4}"
 
     def _get_glyph_lifetime(self, glyph_type: GLYPHType) -> timedelta:
         """Get lifetime for GLYPH type"""
@@ -620,8 +620,8 @@ async def main():
     print(f"✅ GLYPH ID: {qrglyph.glyph_id}")
     print(f"🎭 Type: {qrglyph.metadata.glyph_type.value}")
     print(f"🧠 Consciousness: {qrglyph.metadata.consciousness_binding['state']}")
-    print(f"🌏 Cultural Symbols: {' '.join(qrglyph.metadata.cultural_symbols)}")
-    print(f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.now(tz=timezone.utc)).seconds} seconds")
+    print(f"🌏 Cultural Symbols: {' '.join(qrglyph.metadata.cultural_symbols}")
+    print(f"⏱️ Expires in: {(qrglyph.metadata.expiration_time - datetime.now(tz=timezone.utc)}.seconds} seconds")
 
     # Serialize to base64
     qrglyph_base64 = qrglyph.to_base64()

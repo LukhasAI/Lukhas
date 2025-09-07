@@ -16,7 +16,8 @@ from .node_interface import (
     CognitiveNode,
     NodeReflection,
     NodeState,
-    NodeTrigger,, timezone)
+    NodeTrigger
+)
 
 
 @dataclass
@@ -240,11 +241,11 @@ class CognitiveOrchestrator:
         chain = []
         for node in self.matriz_graph.values():
             if node["type"] == "INTENT":
-                chain.append(f"Understood intent: {node['state'].get('intent', 'unknown')}")
+                chain.append(f"Understood intent: {node['state'].get('intent', 'unknown'}")
             elif node["type"] == "DECISION":
-                chain.append(f"Decision: {node['state'].get('decision', 'unknown')}")
+                chain.append(f"Decision: {node['state'].get('decision', 'unknown'}")
             elif node["type"] == "REFLECTION":
-                chain.append(f"Reflection: {node['state'].get('reflection_type', 'unknown')}")
+                chain.append(f"Reflection: {node['state'].get('reflection_type', 'unknown'}")
         return chain
 
     def get_causal_chain(self, node_id: str) -> list[dict]:

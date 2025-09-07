@@ -214,7 +214,7 @@ class FutureImportFixer:
         print(f"✅ Files fixed: {self.fixes_applied}")
         
         if self.errors:
-            print(f"\n⚠️ Errors: {len(self.errors)}")
+            print(f"\n⚠️ Errors: {len(self.errors}")
             for error in self.errors[:5]:
                 print(f"   {error}")
 

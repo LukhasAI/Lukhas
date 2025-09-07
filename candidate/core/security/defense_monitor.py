@@ -514,7 +514,7 @@ class DefenseMonitor:
     def _generate_event_id(self) -> str:
         """Generate unique event ID"""
         timestamp = str(int(time.time() * 1000000))
-        return f"evt_{hashlib.sha256(timestamp.encode()).hexdigest()[:16]}"
+        return f"evt_{hashlib.sha256(timestamp.encode()).hexdigest(}[:16]}"
 
 
 # Global defense monitor instance

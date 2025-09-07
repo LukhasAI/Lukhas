@@ -105,7 +105,7 @@ def demo_memory_operations():
         scene_id = memory.save(
             user_id=f"demo_user_{i}",
             scene=scene,
-            glyphs=[{"key": f"demo_glyph_{i}", "attrs": {}}],
+            glyphs=[{"key": f"demo_glyph_{i}", "attrs": {}],
             policy={"gain": 0.8},
             metrics={"drift_phi": 0.05 * i},
             cfg_version="c5_demo",
@@ -114,13 +114,13 @@ def demo_memory_operations():
 
         # Simulate retrieval
         history = memory.history(user_id=f"demo_user_{i}", limit=1)
-        print(f"  📚 Retrieved {len(history)} scenes from history")
+        print(f"  📚 Retrieved {len(history} scenes from history")
 
     # Update memory metrics
     obs.update_memory_storage("noop", "scenes", len(test_scenes) * 512)
     obs.update_system_health("memory", True)
 
-    print(f"  ✅ Memory operations completed ({len(test_scenes)} scenes)")
+    print(f"  ✅ Memory operations completed ({len(test_scenes} scenes)")
     return len(test_scenes)
 
 
@@ -170,7 +170,7 @@ def test_prometheus_metrics():
     metrics_data = obs.export_prometheus_metrics()
     metrics_text = metrics_data.decode("utf-8")
 
-    print(f"  📊 Exported {len(metrics_text)} characters of metrics data")
+    print(f"  📊 Exported {len(metrics_text} characters of metrics data")
     print("  📋 Sample metrics:")
 
     lines = metrics_text.split("\n")
@@ -189,7 +189,7 @@ def main():
     # Check observability system health
     obs = get_observability()
     health = obs.health_check()
-    print(f"🏥 Observability Health: {json.dumps(health, indent=2)}")
+    print(f"🏥 Observability Health: {json.dumps(health, indent=2}")
     print()
 
     results = {}

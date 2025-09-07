@@ -89,7 +89,7 @@ class SecretManager:
                 raise ValueError("Master key required for production")
 
             # Use a derived key for development
-            system_info = f"{os.getenv('USER', 'lukhas')}-{Path.home()}"
+            system_info = f"{os.getenv('USER', 'lukhas')}-{Path.home(}"
             master_key = base64.b64encode(system_info.encode()).decode()
 
         # Derive encryption key
@@ -159,7 +159,7 @@ class SecretManager:
 
         # Try alternative environment variable patterns
         alt_patterns = [
-            f"LUKHAS_{secret_name.upper()}",
+            f"LUKHAS_{secret_name.upper(}",
             secret_name,
             secret_name.replace("_", "-").upper(),
         ]

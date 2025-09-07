@@ -168,7 +168,7 @@ class QITunnelingEthics:
 
         for dimension, state in collapsed_ethics.items():
             if not state.get("decision", True):
-                recommendations.append(f"Consider {dimension.replace('_', ' ')} implications")
+                recommendations.append(f"Consider {dimension.replace('_', ' '} implications")
 
         if not recommendations:
             recommendations.append("Ethical evaluation passed")
@@ -1054,7 +1054,7 @@ class MetaCognitiveOrchestrator:
         if "qi_bio" in results:
             qb = results["qi_bio"]
             base_content += "🧬 Quantum-Bio Integration:\n"
-            base_content += f"   • Identity: {qb.get('identity_hash', 'N/A')[:8]}...\n"
+            base_content += f"   • Identity: {qb.get('identity_hash', 'N/A'}[:8]}...\n"
             base_content += f"   • Resource Efficiency: {qb.get('resources', {}).get('efficiency', 0):.2f}\n"
             base_content += f"   • Coupling Strength: {qb.get('coupling', {}).get('coupling_strength', 0):.2f}\n"
 
@@ -1243,7 +1243,7 @@ class EnhancedAGIBot:
         return (
             "I understand your request, but I must provide a response that adheres to safety guidelines. "
             "I'm designed to be helpful while ensuring ethical and safe interactions. "
-            f"Compliance issues detected: {', '.join(compliance_result.get('violations', []))}"
+            f"Compliance issues detected: {', '.join(compliance_result.get('violations', [])}"
         )
 
     def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):

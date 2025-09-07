@@ -72,7 +72,7 @@ class SelfHealingSystem:
 
         self.logs_path.mkdir(exist_ok=True)
 
-        log_file = self.logs_path / f"self_healing_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.log"
+        log_file = self.logs_path / f"self_healing_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}.log"
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
@@ -93,7 +93,7 @@ class SelfHealingSystem:
                     config_data = json.load(f)
 
                 self.healing_history = [HealingAction(**action) for action in config_data.get("healing_history", [])]
-                self.logger.info(f"Loaded {len(self.healing_history)} healing actions from history")
+                self.logger.info(f"Loaded {len(self.healing_history} healing actions from history")
             except Exception as e:
                 self.logger.error(f"Failed to load healing config: {e}")
                 self.healing_history = []
@@ -180,7 +180,7 @@ class SelfHealingSystem:
                     }
                 )
 
-        self.logger.info(f"Found {len(issues)} naming issues")
+        self.logger.info(f"Found {len(issues} naming issues")
         return issues
 
     async def detect_empty_directories(self) -> list[dict[str, Any]]:
@@ -210,7 +210,7 @@ class SelfHealingSystem:
                         }
                     )
 
-        self.logger.info(f"Found {len(empty_dirs)} empty directories")
+        self.logger.info(f"Found {len(empty_dirs} empty directories")
         return empty_dirs
 
     def _categorize_empty_directory(self, dir_path: Path) -> str:
@@ -297,7 +297,7 @@ class SelfHealingSystem:
                     }
                 )
 
-        self.logger.info(f"Found {len(inconsistencies)} brand inconsistencies")
+        self.logger.info(f"Found {len(inconsistencies} brand inconsistencies")
         return inconsistencies
 
     async def fix_naming_issue(self, issue: dict[str, Any]) -> HealingAction:
@@ -307,7 +307,7 @@ class SelfHealingSystem:
 
         if not suggested_name or suggested_name == issue["current_name"]:
             return HealingAction(
-                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
                 action_type="naming_fix",
                 target=issue["path"],
                 description="Skipped - no valid suggestion",
@@ -324,7 +324,7 @@ class SelfHealingSystem:
             current_path.rename(new_path)
 
             action = HealingAction(
-                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
                 action_type="naming_fix",
                 target=issue["path"],
                 description=f"Renamed {issue['current_name']} → {suggested_name}",
@@ -339,7 +339,7 @@ class SelfHealingSystem:
 
         except Exception as e:
             action = HealingAction(
-                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"naming_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
                 action_type="naming_fix",
                 target=issue["path"],
                 description=f"Failed: {e!s}",
@@ -362,7 +362,7 @@ class SelfHealingSystem:
                 # Create a simple __init__.py
                 init_file = dir_path / "__init__.py"
                 init_file.write_text(
-                    f'"""\n{dir_path.name.replace("_", " ").title()} module\nPart of LUKHAS AI consciousness technology platform\n"""\n'
+                    f'"""\n{dir_path.name.replace("_", " ").title(} module\nPart of LUKHAS AI consciousness technology platform\n"""\n'
                 )
                 action_description = "Created __init__.py placeholder"
 
@@ -439,7 +439,7 @@ if __name__ == "__main__":
                 action_description = "Marked for manual review"
 
             action = HealingAction(
-                action_id=f"empty_dir_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"empty_dir_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
                 action_type="empty_directory",
                 target=empty_dir["path"],
                 description=action_description,
@@ -452,7 +452,7 @@ if __name__ == "__main__":
 
         except Exception as e:
             action = HealingAction(
-                action_id=f"empty_dir_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"empty_dir_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
                 action_type="empty_directory",
                 target=empty_dir["path"],
                 description=f"Failed: {e!s}",
@@ -470,7 +470,7 @@ if __name__ == "__main__":
 
         try:
             # For now, just log the issue (actual content fixing would require more sophisticated NLP)
-            action_description = f"Identified brand issues: {', '.join(issues)}"
+            action_description = f"Identified brand issues: {', '.join(issues}"
 
             # Update voice coherence if it's low
             if "low_voice_coherence" in issues:
@@ -482,7 +482,7 @@ if __name__ == "__main__":
                 )
 
             action = HealingAction(
-                action_id=f"brand_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"brand_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
                 action_type="brand_consistency",
                 target=f"content_{content_id}",
                 description=action_description,
@@ -495,7 +495,7 @@ if __name__ == "__main__":
 
         except Exception as e:
             action = HealingAction(
-                action_id=f"brand_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}",
+                action_id=f"brand_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
                 action_type="brand_consistency",
                 target=f"content_{content_id}",
                 description=f"Failed: {e!s}",

@@ -23,7 +23,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-sys.path.append(str(Path(__file__, timezone).parent.parent.parent.parent / "organized/ai-core/brain/brain"))
+sys.path.append(str(Path(__file__).parent.parent.parent.parent / "organized/ai-core/brain/brain"))
 try:
     from MultiBrainSymphony import SpecializedBrainCore
 except ImportError:
@@ -294,7 +294,7 @@ class GPTOSSBrainSpecialist(SpecializedBrainCore):
 
         # Add recent context
         for ctx in self.context_window[-5:]:
-            context_parts.append(f"Previous: {ctx.get('summary', '')}")
+            context_parts.append(f"Previous: {ctx.get('summary', ''}")
 
         # Add current data context
         if "context" in data:
@@ -586,11 +586,11 @@ async def test_gpt_oss_brain():
         result = await brain.process_with_reasoning(test_data)
 
         print("✅ Processing complete")
-        print(f"Confidence: {result.get('confidence', 0):.2%}")
-        print(f"Latency: {result.get('latency_ms', 0)}ms")
+        print(f"Confidence: {result.get('confidence', 0}:.2%}")
+        print(f"Latency: {result.get('latency_ms', 0}ms")
 
         if "reasoning" in result and "key_insights" in result["reasoning"]:
-            print(f"Insights: {len(result['reasoning']['key_insights'])} found")
+            print(f"Insights: {len(result['reasoning']['key_insights']} found")
             for insight in result["reasoning"]["key_insights"][:2]:
                 print(f"  - {insight[:100]}...")
 

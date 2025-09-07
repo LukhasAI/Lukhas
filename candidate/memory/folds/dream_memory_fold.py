@@ -151,7 +151,7 @@ class DreamMemoryFold:
         fold = self.active_folds[fold_id]
 
         # Generate snapshot ID
-        snapshot_id = f"{fold_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        snapshot_id = f"{fold_id}_{datetime.now().strftime('%Y%m%d_%H%M%S'}"
 
         # Get drift metrics if available
         drift_metrics = {}
@@ -219,7 +219,7 @@ class DreamMemoryFold:
                 await self._persist_snapshot(snapshot)
 
             fold.last_sync = datetime.now()
-            logger.info(f"Synchronized fold {fold_id} with {len(fold.snapshots)} snapshots")
+            logger.info(f"Synchronized fold {fold_id} with {len(fold.snapshots} snapshots")
             return True
 
         except Exception as e:

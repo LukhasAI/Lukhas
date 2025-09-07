@@ -170,14 +170,14 @@ class NHSProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get NHS patient summary care record"""
-        return {"nhs_number": patient_id, "summary_care_record": {}, "gp_practice": {}}
+        return {"nhs_number": patient_id, "summary_care_record": {}, "gp_practice": {}
 
     async def book_appointment(
         self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
     ) -> dict[str, Any]:
         """Book NHS appointment via e-Referral Service"""
         return {
-            "booking_reference": f"NHS-{patient_id}-{datetime.now(timezone.utc).isoformat()}",
+            "booking_reference": f"NHS-{patient_id}-{datetime.now(timezone.utc).isoformat(}",
             "status": "confirmed",
         }
 
@@ -271,7 +271,7 @@ class SASProvider(BaseHealthcareProvider):
 
     async def get_patient_record(self, patient_id: str) -> dict[str, Any]:
         """Get Historia de Salud from Diraya"""
-        return {"nuhsa": patient_id, "historia_salud": {}, "centro_salud": {}}
+        return {"nuhsa": patient_id, "historia_salud": {}, "centro_salud": {}
 
     async def book_appointment(
         self, patient_id: str, specialty: str, preferred_time: Optional[datetime] = None
@@ -510,7 +510,7 @@ class ProviderRegistry:
         # Global private providers
         self.register_provider(AXAProvider())
 
-        logger.info(f"Initialized {len(self.providers)} healthcare providers")
+        logger.info(f"Initialized {len(self.providers} healthcare providers")
 
     def register_provider(self, provider: BaseHealthcareProvider):
         """Register a healthcare provider"""

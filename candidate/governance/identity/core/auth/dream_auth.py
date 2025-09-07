@@ -221,7 +221,7 @@ class DreamAuthenticationEngine:
 
         # Create dream pattern
         pattern = DreamPattern(
-            pattern_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16],
+            pattern_id=hashlib.sha256(f"{lambda_id}_{time.time(}".encode()).hexdigest()[:16],
             dream_state=DreamStateType(dream_data.get("dream_state", "rem")),
             symbolic_content=symbolic_content,
             emotional_signature=emotional_signature,
@@ -247,7 +247,7 @@ class DreamAuthenticationEngine:
                 emotional_index=(
                     sum(emotional_signature.values()) / len(emotional_signature) if emotional_signature else 0.5
                 ),
-                summary=f"User {lambda_id} registered dream pattern with {len(symbolic_content)} symbols",
+                summary=f"User {lambda_id} registered dream pattern with {len(symbolic_content} symbols",
                 dream_id=pattern.pattern_id,
             )
         except Exception as e:
@@ -301,7 +301,7 @@ class DreamAuthenticationEngine:
 
         # Create dream seed
         seed = DreamSeed(
-            seed_id=hashlib.sha256(f"{lambda_id}_{time.time()}".encode()).hexdigest()[:16],
+            seed_id=hashlib.sha256(f"{lambda_id}_{time.time(}".encode()).hexdigest()[:16],
             symbolic_prompt=symbolic_prompt,
             expected_elements=expected_elements,
             consciousness_target=consciousness_target,
@@ -576,14 +576,14 @@ class DreamAuthenticationEngine:
         """Generate symbolic prompt for dream challenge"""
         prompts = [
             f"In your dreams tonight, seek the wisdom of the {expected_elements[0]}",
-            f"Let your dreams reveal the connection between {expected_elements[0]} and {expected_elements[1] if len(expected_elements) > 1 else 'light'}",
-            f"Dream of a journey where you encounter {', '.join(expected_elements)}",
+            f"Let your dreams reveal the connection between {expected_elements[0]} and {expected_elements[1] if len(expected_elements} > 1 else 'light'}",
+            f"Dream of a journey where you encounter {', '.join(expected_elements}",
         ]
 
         if difficulty > 0.8:
-            return f"In the deepest meditation of sleep, unite your consciousness with the eternal symbols: {', '.join(expected_elements)}. Let your lucid awareness dance with these archetypal forms."
+            return f"In the deepest meditation of sleep, unite your consciousness with the eternal symbols: {', '.join(expected_elements}. Let your lucid awareness dance with these archetypal forms."
         elif difficulty > 0.5:
-            return f"Tonight, dream lucidly of {', '.join(expected_elements)}. Be aware that you are dreaming and interact consciously with these symbols."
+            return f"Tonight, dream lucidly of {', '.join(expected_elements}. Be aware that you are dreaming and interact consciously with these symbols."
         else:
             return random.choice(prompts)
 

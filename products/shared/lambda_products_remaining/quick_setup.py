@@ -65,7 +65,7 @@ async def main():
             products_registered = await adapter.auto_register_all_products()
 
             if products_registered:
-                print(f"✅ Successfully registered {len(products_registered)} Lambda Products with ")
+                print(f"✅ Successfully registered {len(products_registered} Lambda Products with ")
                 for product in products_registered:
                     print(f"   - {product}")
             else:
@@ -150,7 +150,7 @@ async def main():
 
     print("\n✅ Lambda Products successfully installed!")
     print("\n📍 Installation Location:")
-    print(f"   {Path(__file__).parent}")
+    print(f"   {Path(__file__}.parent}")
 
     print("\n🔧 Configuration:")
     print("   - Plugin System: ACTIVE")

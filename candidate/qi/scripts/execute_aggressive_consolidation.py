@@ -10,7 +10,7 @@ import shutil
 from datetime import datetime
 
 
-def load_consolidation_plan(, timezone):
+def load_consolidation_plan():
     """Load the consolidation plan"""
     plan_path = "docs/planning/_AGGRESSIVE_CONSOLIDATION_PLAN.json"
     with open(plan_path) as f:
@@ -137,7 +137,7 @@ class {submodule.title()}Colony:
             'dopamine': 0.5,
             'serotonin': 0.5,
             'oxytocin': 0.3
-        }}
+        }
 
     def propagate(self, signal: Dict[str, Any]) -> Dict[str, Any]:
         """Propagate signal through colony"""
@@ -145,7 +145,7 @@ class {submodule.title()}Colony:
             'colony_id': self.colony_id,
             'signal': signal,
             'hormone_modulation': self.hormone_state
-        }}
+        }
 
 # Initialize colony
 colony = {submodule.title()}Colony()
@@ -331,7 +331,7 @@ def main():
     # Step 4: Check for import updates needed
     print("\n🔍 Checking imports...")
     updates = update_imports()
-    print(f"  ⚠️ Found {len(updates)} files needing import updates")
+    print(f"  ⚠️ Found {len(updates} files needing import updates")
 
     # Summary
     print("\n" + "=" * 50)
@@ -340,7 +340,7 @@ def main():
     print(f"  - Module manifests created: {manifests}")
     print(f"  - Hybrid components linked: {hybrids}")
     print(f"  - Files consolidated: {moved}")
-    print(f"  - Import updates needed: {len(updates)}")
+    print(f"  - Import updates needed: {len(updates}")
 
     # Save consolidation report
     report = {

@@ -12,7 +12,7 @@ from typing import Any
 from .base import BaseColony, ColonyTask
 
 
-class MemoryColony(BaseColony, timezone):
+class MemoryColony(BaseColony):
     """Colony for memory operations and retrieval"""
 
     def __init__(self, max_agents: int = 12):
@@ -34,7 +34,7 @@ class MemoryColony(BaseColony, timezone):
         payload = task.payload
 
         if task_type == "store_memory":
-            memory_id = f"mem_{datetime.now(timezone.utc).timestamp()}"
+            memory_id = f"mem_{datetime.now(timezone.utc).timestamp(}"
             self.memory_store[memory_id] = {
                 "content": payload,
                 "stored_at": datetime.now(timezone.utc),

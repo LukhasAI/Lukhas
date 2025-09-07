@@ -216,7 +216,7 @@ class OptimizedOpenAIClient:
         )
 
         self.cache[key] = entry
-        logger.debug(f"Added to cache: {key[:8]}... (size: {len(self.cache)})")
+        logger.debug(f"Added to cache: {key[:8]}... (size: {len(self.cache})")
 
     async def _check_rate_limits(self, model: str, estimated_tokens: int) -> bool:
         """
@@ -242,7 +242,7 @@ class OptimizedOpenAIClient:
         if len(recent_requests) >= limits["rpm"]:
             self.stats["rate_limited"] += 1
             wait_time = 60 - (current_time - recent_requests[0])
-            logger.warning(f"Rate limit: {len(recent_requests)} requests in last minute, waiting {wait_time:.1f}s")
+            logger.warning(f"Rate limit: {len(recent_requests} requests in last minute, waiting {wait_time:.1f}s")
             return False
 
         # Check tokens per minute
@@ -431,7 +431,7 @@ class OptimizedOpenAIClient:
         with open(cache_file, "w") as f:
             json.dump(cache_data, f)
 
-        logger.info(f"Saved {len(self.cache)} cache entries to disk")
+        logger.info(f"Saved {len(self.cache} cache entries to disk")
 
     def _load_cache(self):
         """Load cache from disk"""
@@ -460,7 +460,7 @@ class OptimizedOpenAIClient:
                 if not entry.is_expired():
                     self.cache[key] = entry
 
-            logger.info(f"Loaded {len(self.cache)} cache entries from disk")
+            logger.info(f"Loaded {len(self.cache} cache entries from disk")
 
         except Exception as e:
             logger.error(f"Failed to load cache: {e}")

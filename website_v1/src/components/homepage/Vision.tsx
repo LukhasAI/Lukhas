@@ -1,7 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { VISION_POINTS } from '@/lib/constants';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
 export default function Vision() {
   return (
@@ -18,7 +20,7 @@ export default function Vision() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
             {VISION_POINTS.map((point, index) => (
               <div 
                 key={index}
@@ -36,6 +38,17 @@ export default function Vision() {
                 </p>
               </div>
             ))}
+          </div>
+          
+          <div className="text-center">
+            <Button 
+              href="/vision"
+              variant="secondary"
+              className="inline-flex items-center gap-2 px-6 py-3 border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/10"
+            >
+              Explore Our Full Vision
+              <ArrowRight className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </div>

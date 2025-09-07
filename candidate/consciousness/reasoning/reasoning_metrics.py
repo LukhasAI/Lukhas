@@ -16,7 +16,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 @dataclass

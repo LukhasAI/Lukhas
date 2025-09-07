@@ -117,7 +117,7 @@ class LambdaConsentManager:
         # Record revocation in history
         metadata = {"revocation_reason": "user_request"}
         history_hash = self.history_manager.record_consent_event(
-            user_id, "revoked", {consent_scope: {"granted": False}}, metadata
+            user_id, "revoked", {consent_scope: {"granted": False}, metadata
         )
 
         # Generate updated symbolic representation

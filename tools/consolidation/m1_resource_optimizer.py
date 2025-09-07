@@ -67,7 +67,7 @@ class M1ResourceOptimizer:
     ):
         """Consolidate directories with memory constraints"""
         print("🎯 M1-Optimized Consolidation Starting...")
-        print(f"Memory: {self.get_memory_usage()['available_gb']:.1f}GB available")
+        print(f"Memory: {self.get_memory_usage(}['available_gb']:.1f}GB available")
 
         for source, target in zip(source_dirs, target_dirs.values()):
             self._consolidate_directory_chunked(source, target)
@@ -256,8 +256,8 @@ def main():
 
     is_m1 = platform.machine() == "arm64" and platform.system() == "Darwin"
 
-    print(f"\n💻 System: {platform.platform()}")
-    print(f"🎯 M1 Optimized: {'Yes' if is_m1 else 'No (Generic mode)'}")
+    print(f"\n💻 System: {platform.platform(}")
+    print(f"🎯 M1 Optimized: {'Yes' if is_m1 else 'No (Generic mode}'}")
 
     # Initialize components
     optimizer = M1ResourceOptimizer()
@@ -281,7 +281,7 @@ def main():
         if module_path.exists():
             preservation = preserver.preserve_living_connections(module_path)
             print(
-                f"   {module}: {len(preservation['preserved_concepts'])} living concepts"
+                f"   {module}: {len(preservation['preserved_concepts']} living concepts"
             )
 
     # Check modular services
@@ -291,7 +291,7 @@ def main():
     for service, info in service_report.items():
         status = "✅" if info["exists"] else "⚠️"
         print(
-            f"   {status} {service}: {len(info['modules_found'])}/{len(info['modules_found']) + len(info['missing_modules'])} modules"
+            f"   {status} {service}: {len(info['modules_found'])}/{len(info['modules_found']) + len(info['missing_modules']} modules"
         )
 
     # Create optimization config

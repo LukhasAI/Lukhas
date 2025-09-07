@@ -29,7 +29,7 @@ from typing import Any, Optional
 from ΛBot_auditor import ΛBotAuditor
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ΛBot_Advanced_Reasoning")
 
 # Add brain system to path
@@ -184,7 +184,7 @@ class ΛBotAdvancedReasoningOrchestrator:
         Uses the Bio-Quantum Symbolic Reasoning Engine to analyze
         code changes, security implications, and architectural impact.
         """
-        request_id = f"pr_{repository.replace('/', '_')}_{pr_number}_{int(time.time())}"
+        request_id = f"pr_{repository.replace('/', '_')}_{pr_number}_{int(time.time()}"
         start_time = time.time()
 
         # Create reasoning request
@@ -693,7 +693,7 @@ if __name__ == "__main__":
     print(f"Analysis complete: {result.request_id}")
     print(f"Processing time: {result.processing_time:.2f}s")
     if result.recommendations:
-        print(f"Recommendations: {len(result.recommendations)}")
+        print(f"Recommendations: {len(result.recommendations}")
 
     # Print status
     status = orchestrator.get_reasoning_status()

@@ -310,7 +310,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             messages.append(
                 {
                     "role": "system",
-                    "content": f"Context: {json.dumps(context)}",
+                    "content": f"Context: {json.dumps(context}",
                 }
             )
 
@@ -353,7 +353,7 @@ class UnifiedOpenAIClient(LLMWrapper):
             },
             {
                 "role": "user",
-                "content": f"Analyze the ethical implications of: {action}\nContext: {json.dumps(context)}",
+                "content": f"Analyze the ethical implications of: {action}\nContext: {json.dumps(context}",
             },
         ]
 

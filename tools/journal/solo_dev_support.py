@@ -19,7 +19,7 @@ class SoloDeveloperSupport:
     Provides pair programming, motivation tracking, and burnout prevention
     """
 
-    def __init__(self, journal_engine: Optional[JournalEngine] = None, timezone):
+    def __init__(self, journal_engine: Optional[JournalEngine] = None):
         self.journal = journal_engine or JournalEngine()
         self.assistant = LearningAssistant(self.journal)
         self.detector = PatternDetector(self.journal)
@@ -243,7 +243,7 @@ class SoloDeveloperSupport:
 
         if recent_wins:
             motivations.append(
-                f"You've had {len(recent_wins)} wins this week! Keep the momentum! 🔥"
+                f"You've had {len(recent_wins} wins this week! Keep the momentum! 🔥"
             )
 
         return random.choice(motivations)
@@ -592,7 +592,7 @@ Remember: The duck is patient. Take your time. Often the answer comes while expl
                 break
 
         if hours < 1:
-            return f"{int(hours * 60)} minutes"
+            return f"{int(hours * 60} minutes"
         else:
             return f"{hours} hours"
 

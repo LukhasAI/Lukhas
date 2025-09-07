@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from candidate.orchestration.brain.unified_cognitive_orchestrator import (
-    UnifiedCognitiveOrchestrator,, timezone)
+    UnifiedCognitiveOrchestrator)
 from lukhas.core.adapters.module_service_adapter import register_service_adapters
 from lukhas.core.adapters.seven_agent_adapter import register_seven_agent_services
 from lukhas.core.container.service_container import ServiceContainer, get_container
@@ -321,7 +321,7 @@ class LUKHASBootstrap:
             dream = self.services.get("dream")
             if dream:
                 dream_result = await dream.generate_dream(seed={"concept": "integration", "emotion": "curiosity"})
-                logger.info(f"  ✓ Generated dream: {dream_result.get('dream_id')}")
+                logger.info(f"  ✓ Generated dream: {dream_result.get('dream_id'}")
 
             # 4. Analyze emotion
             emotion = self.services.get("emotion")

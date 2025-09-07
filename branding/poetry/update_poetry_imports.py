@@ -55,7 +55,7 @@ if __name__ == "__main__":
     updated = update_imports("/Users/agi_dev/LOCAL-REPOS/Lukhas")
 
     if updated:
-        print(f"\nUpdated {len(updated)} files:")
+        print(f"\nUpdated {len(updated} files:")
         for file in updated:
             print(f"  - {file}")
     else:

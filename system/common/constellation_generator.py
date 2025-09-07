@@ -27,7 +27,7 @@ class ConstellationContent:
 class ConstellationGenerator:
     """Generates content using LUKHAS Constellation Framework Navigation System"""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.framework_path = Path(__file__).parent / "communication_framework.json"
         self.framework = self._load_framework()
 

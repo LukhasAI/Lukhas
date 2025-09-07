@@ -228,7 +228,7 @@ class EmotionVector:
 
     def __str__(self) -> str:
         primary = self.get_primary_emotion() or "Neutral"
-        return f"{primary.capitalize()} (V:{self.valence:.2f}, A:{self.arousal:.2f}, D:{self.dominance:.2f}, I:{self.intensity:.2f})"
+        return f"{primary.capitalize(} (V:{self.valence:.2f}, A:{self.arousal:.2f}, D:{self.dominance:.2f}, I:{self.intensity:.2f})"
 
 
 @lukhas_tier_required(1)  # Conceptual tier for the manager
@@ -289,7 +289,7 @@ class EmotionalMemory:
     ) -> dict[str, Any]:
         # ΛTRACE: Processing new experience for emotional impact.
         log.debug(
-            f"Processing experience. type={experience_content.get('type')}, intensity={event_intensity}, has_explicit_emotion={bool(explicit_emotion_values)}"
+            f"Processing experience. type={experience_content.get('type')}, intensity={event_intensity}, has_explicit_emotion={bool(explicit_emotion_values}"
         )
 
         # ΛSEED: The experience content and explicit emotions are seeds for this specific emotional memory.
@@ -315,7 +315,7 @@ class EmotionalMemory:
 
         affect_delta = self.current_emotion.intensity - EmotionVector.from_dict(state_before_update).intensity
         log.info(
-            f"Affect delta tracked. delta={affect_delta}, previous_intensity={EmotionVector.from_dict(state_before_update).intensity}, new_intensity={self.current_emotion.intensity}"
+            f"Affect delta tracked. delta={affect_delta}, previous_intensity={EmotionVector.from_dict(state_before_update}.intensity}, new_intensity={self.current_emotion.intensity}"
         )
 
         ts_utc = datetime.now(timezone.utc)
@@ -347,7 +347,7 @@ class EmotionalMemory:
         if len(self.emotional_memories) > self.max_memories:
             evicted = self.emotional_memories.pop(0)
             log.debug(
-                f"EmotionalMemory_evicted_oldest_entry. evicted_ts={evicted.get('ts_utc_iso')}, new_count={len(self.emotional_memories)}, max_memories={self.max_memories}"
+                f"EmotionalMemory_evicted_oldest_entry. evicted_ts={evicted.get('ts_utc_iso')}, new_count={len(self.emotional_memories}, max_memories={self.max_memories}"
             )  # ΛCAUTION #ΛTEMPORAL_HOOK
 
         self._update_emotion_associations(mem_entry)  # Link concepts in experience to the triggered emotion.
@@ -368,7 +368,7 @@ class EmotionalMemory:
     def _infer_emotion_from_experience(self, experience: dict[str, Any]) -> EmotionVector:
         # ΛTRACE: Inferring emotion from experience (stubbed).
         log.debug(
-            f"Inferring emotion from experience (stub). experience_type={experience.get('type')}, content_preview={str(experience.get('text', ''))[:50]}"
+            f"Inferring emotion from experience (stub). experience_type={experience.get('type')}, content_preview={str(experience.get('text', '')}[:50]}"
         )
         values = dict.fromkeys(EmotionVector.DIMENSIONS, 0.0)
         text = str(experience.get("text", "")).lower()  # Basic text analysis
@@ -387,7 +387,7 @@ class EmotionalMemory:
         # ΛTRACE: Emotion inference complete (stub).
         inferred_vector = EmotionVector(values)
         log.debug(
-            f"Emotion inferred (stub). primary_inferred={inferred_vector.get_primary_emotion()}, intensity={inferred_vector.intensity}"
+            f"Emotion inferred (stub). primary_inferred={inferred_vector.get_primary_emotion(}, intensity={inferred_vector.intensity}"
         )
         return inferred_vector
 
@@ -517,7 +517,7 @@ class EmotionalMemory:
                         f"ΛCASCADE_RISK: Identity→emotion cascade detected. "
                         f"identity_change={identity_change_magnitude}, "
                         f"emotion_volatility={emotion_volatility}, "
-                        f"cascade_count={len(recent_cascades)}"
+                        f"cascade_count={len(recent_cascades}"
                     )
 
         return False
@@ -567,9 +567,9 @@ class EmotionalMemory:
 
         log.info(
             f"ΛFUSE_ACTIVATED: Emergency stabilization complete. "
-            f"new_emotion={self.current_emotion.get_primary_emotion()}, "
+            f"new_emotion={self.current_emotion.get_primary_emotion(}, "
             f"stabilization_factor={stabilization_factor}, "
-            f"cooldown_until={datetime.fromtimestamp(self._fuse_cooldown_until)}"
+            f"cooldown_until={datetime.fromtimestamp(self._fuse_cooldown_until}"
         )
 
     # LUKHAS_TAG: emotion_fuse_break
@@ -605,7 +605,7 @@ class EmotionalMemory:
 
         if is_active:
             log.debug(
-                f"ΛFUSE_ACTIVE: Circuit breaker in cooldown until {datetime.fromtimestamp(self._fuse_cooldown_until)}"
+                f"ΛFUSE_ACTIVE: Circuit breaker in cooldown until {datetime.fromtimestamp(self._fuse_cooldown_until}"
             )
 
         return is_active
@@ -668,7 +668,7 @@ class EmotionalMemory:
         )
         if len(self.emotional_history) > 168:
             self.emotional_history.pop(0)  # Keep roughly last 7 days if 1 log/hr
-        log.debug(f"Emotional history log updated. total_history_entries={len(self.emotional_history)}")
+        log.debug(f"Emotional history log updated. total_history_entries={len(self.emotional_history}")
 
     # ΛEXPOSE: This method could be part of an API for observing the AGI's
     # emotional reaction.
@@ -676,7 +676,7 @@ class EmotionalMemory:
     def get_emotional_response(self, stimulus_content: dict[str, Any]) -> dict[str, Any]:
         # ΛTRACE: Generating emotional response to stimulus.
         log.debug(
-            f"Generating emotional response. stimulus_type={stimulus_content.get('type')}, content_preview={str(stimulus_content)[:100]}"
+            f"Generating emotional response. stimulus_type={stimulus_content.get('type')}, content_preview={str(stimulus_content}[:100]}"
         )
         processed_info = self.process_experience(stimulus_content)  # This updates current_emotion
 
@@ -702,7 +702,7 @@ class EmotionalMemory:
         }
         # ΛTRACE: Emotional response generated.
         log.info(
-            f"Emotional response generated. primary_expressed_emotion={response['primary_expressed_emotion']}, internal_primary_emotion={internal_reaction_vec.get_primary_emotion()}"
+            f"Emotional response generated. primary_expressed_emotion={response['primary_expressed_emotion']}, internal_primary_emotion={internal_reaction_vec.get_primary_emotion(}"
         )
         return response
 
@@ -757,7 +757,7 @@ class EmotionalMemory:
             # "emotion_sequence_preview": [assoc['emotion'] for assoc in associations[-3:]]
         }
         log.info(
-            f"EmotionalMemory_associated_emotion_retrieved. concept={normalized_concept}, primary_emotion={primary_associated_emotion}, num_associations={len(associations)}, last_assoc_timestamp={last_assoc_ts}"
+            f"EmotionalMemory_associated_emotion_retrieved. concept={normalized_concept}, primary_emotion={primary_associated_emotion}, num_associations={len(associations}, last_assoc_timestamp={last_assoc_ts}"
         )
         return result
 
@@ -796,11 +796,11 @@ class EmotionalMemory:
             except Exception:  # Catching broader exceptions for timestamp parsing issues
                 # ΛTRACE: Warning - skipping history entry due to invalid timestamp.
                 log.warning(
-                    f"Skipping emotional history entry (invalid timestamp or format). entry_preview={str(entry)[:100]}"
+                    f"Skipping emotional history entry (invalid timestamp or format). entry_preview={str(entry}[:100]}"
                 )
                 continue
         # ΛTRACE: Emotional history retrieval complete.
-        log.debug(f"Emotional history retrieval complete. retrieved_entries_count={len(recent_log)}")
+        log.debug(f"Emotional history retrieval complete. retrieved_entries_count={len(recent_log}")
         return recent_log
 
     # ΛTAG: core, affect, delta, drift
@@ -867,7 +867,7 @@ class EmotionalMemory:
 
         # ΛTRACE: Affect delta applied
         log.info(
-            f"Affect delta applied. drift_magnitude={drift_magnitude}, new_valence={self.current_emotion.valence}, intensity_change={self.current_emotion.intensity - previous_emotion.intensity}, previous_emotion={previous_emotion.to_dict()}, current_emotion={self.current_emotion.to_dict()}"
+            f"Affect delta applied. drift_magnitude={drift_magnitude}, new_valence={self.current_emotion.valence}, intensity_change={self.current_emotion.intensity - previous_emotion.intensity}, previous_emotion={previous_emotion.to_dict()}, current_emotion={self.current_emotion.to_dict(}"
         )
 
         return drift_data
@@ -945,7 +945,7 @@ class EmotionalMemory:
 
         # ΛTRACE: Symbolic affect trace generated
         log.info(
-            f"Symbolic affect trace generated. symbolic_state={symbolic_state}, pattern_count={len(affect_patterns)}"
+            f"Symbolic affect trace generated. symbolic_state={symbolic_state}, pattern_count={len(affect_patterns}"
         )
 
         return trace_data

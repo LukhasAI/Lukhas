@@ -54,7 +54,7 @@ from typing import Any, Callable, Optional
 from dashboard.core.universal_adaptive_dashboard import (
     AdaptiveTab,
     DashboardContext,
-    TabPriority,, timezone)
+    TabPriority)
 
 logger = logging.getLogger("ΛTRACE.dynamic_tab_system")
 
@@ -133,7 +133,7 @@ class DynamicTabSystem:
 
     def __init__(self, dashboard_context: DashboardContext):
         self.dashboard_context = dashboard_context
-        self.logger = logger.bind(system_id=f"tab_system_{int(datetime.now(timezone.utc).timestamp())}")
+        self.logger = logger.bind(system_id=f"tab_system_{int(datetime.now(timezone.utc).timestamp()}")
 
         # Tab registry and state
         self.registered_tabs: dict[str, AdaptiveTab] = {}
@@ -445,7 +445,7 @@ class DynamicTabSystem:
             # Ethics complexity rules
             TabBehaviorRule(
                 rule_id="ethics_complex_decision_support",
-                trigger_conditions={"ethics_complexity": {"min": 0.7}},
+                trigger_conditions={"ethics_complexity": {"min": 0.7},
                 visibility_action="show",
                 priority_adjustment=1,
                 confidence_threshold=0.7,

@@ -21,7 +21,7 @@ from datetime import datetime
 # from edge_tts import Communicate  # TODO: Install or implement edge_tts
 
 # Initialize logger
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Symbolic tier/narrator voice mapping (expand as needed)
 VOICE_MAP = {

@@ -29,9 +29,9 @@ else:
 
     for entry in reversed(logs[-25:]):
         st.markdown("---")
-        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp')}")
-        st.markdown(f"**🔍 Reason:** {entry.get('reason')}")
-        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier')})")
+        st.markdown(f"**⏱️ Timestamp:** {entry.get('timestamp'}")
+        st.markdown(f"**🔍 Reason:** {entry.get('reason'}")
+        st.markdown(f"**🧑‍💼 User:** {entry.get('user')} (Tier {entry.get('tier'})")
         st.markdown("**🧩 Actions Taken:**")
         st.code(", ".join(entry.get("actions_taken", [])), language="bash")
 

@@ -34,7 +34,7 @@ from typing import Any, Callable, Optional
 
 from candidate.core.common import get_logger
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class PolicyType(Enum):
@@ -309,7 +309,7 @@ class PolicyRuleEngine:
             try:
                 # Simple validation - could be more sophisticated
                 expression = rule.condition_logic.replace("AND", "True").replace("OR", "False")
-                eval(expression, {"__builtins__": {}}, {})
+                eval(expression, {"__builtins__": {}, {})
             except:
                 errors.append("Invalid condition logic expression")
 
@@ -387,7 +387,7 @@ class PolicyRuleEngine:
                             expression = expression.replace(f"C{i}", str(result))
 
                         # Evaluate the expression
-                        return eval(expression, {"__builtins__": {}}, {})
+                        return eval(expression, {"__builtins__": {}, {})
                     except:
                         logger.error(f"Failed to evaluate custom condition logic for rule {rule.rule_id}")
                         return False
@@ -702,7 +702,7 @@ class PolicyEnforcementEngine:
             )
         )
 
-        logger.info(f"✅ Initialized {len(self.rule_engine.rules)} standard policy rules")
+        logger.info(f"✅ Initialized {len(self.rule_engine.rules} standard policy rules")
 
     async def evaluate_policies(
         self, context: dict[str, Any], operation: str = "general", user_id: Optional[str] = None
@@ -719,7 +719,7 @@ class PolicyEnforcementEngine:
             Policy evaluation result with actions and violations
         """
         evaluation_start = datetime.now(timezone.utc)
-        evaluation_id = f"eval_{uuid.uuid4().hex[:8]}"
+        evaluation_id = f"eval_{uuid.uuid4(}.hex[:8]}"
 
         logger.debug(f"🔍 Evaluating policies: {evaluation_id}")
 
@@ -783,7 +783,7 @@ class PolicyEnforcementEngine:
 
             logger.debug(
                 f"✅ Policy evaluation completed: {evaluation_id} "
-                f"(action: {final_action.value}, violations: {len(violations)})"
+                f"(action: {final_action.value}, violations: {len(violations})"
             )
 
             return result
@@ -794,7 +794,7 @@ class PolicyEnforcementEngine:
             # Return conservative result on error
             evaluation_time = (datetime.now(timezone.utc) - evaluation_start).total_seconds()
             return PolicyEvaluationResult(
-                evaluation_id=f"error_{uuid.uuid4().hex[:8]}",
+                evaluation_id=f"error_{uuid.uuid4(}.hex[:8]}",
                 context=context,
                 final_action=PolicyAction.ESCALATE,
                 action_reason=f"Policy evaluation error: {e!s}",
@@ -904,7 +904,7 @@ class PolicyEnforcementEngine:
     async def _create_violation(self, rule: PolicyRule, context: dict[str, Any]) -> PolicyViolation:
         """Create a policy violation from triggered rule"""
 
-        violation_id = f"viol_{uuid.uuid4().hex[:8]}"
+        violation_id = f"viol_{uuid.uuid4(}.hex[:8]}"
 
         # Collect evidence from context
         evidence = []
@@ -1051,7 +1051,7 @@ class PolicyEnforcementEngine:
         ]
         if critical_violations:
             highest_priority_action = PolicyAction.DENY
-            action_reasons.insert(0, f"{len(critical_violations)} critical violations")
+            action_reasons.insert(0, f"{len(critical_violations} critical violations")
 
         return highest_priority_action, " | ".join(action_reasons[:3])
 
@@ -1159,7 +1159,7 @@ class PolicyEnforcementEngine:
         """Export comprehensive policy report"""
 
         report = {
-            "report_id": f"policy_report_{uuid.uuid4().hex[:8]}",
+            "report_id": f"policy_report_{uuid.uuid4(}.hex[:8]}",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "policy_status": await self.get_policy_status(),
             "active_policies": [

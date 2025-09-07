@@ -356,7 +356,7 @@ class ConsciousnessStorytellingSystem:
             adaptation = audience_adaptations.get(audience, audience_adaptations["general_public"])
 
             variations[audience] = ConsciousnessStory(
-                title=f"{base_story.title} - {audience.title()} Edition",
+                title=f"{base_story.title} - {audience.title(} Edition",
                 archetype=base_story.archetype,
                 target_audience=audience,
                 emotional_journey=base_story.emotional_journey,
@@ -500,19 +500,19 @@ if __name__ == "__main__":
     for principle, description in storytelling_system.storytelling_philosophy.items():
         print(f"  {principle}: {description[:80]}...")
 
-    print(f"\n🎭 Story Archetypes: {len(storytelling_system.story_archetypes)} consciousness archetypes created")
-    print(f"📚 Narrative Frameworks: {len(storytelling_system.narrative_frameworks)} story frameworks developed")
-    print(f"🎨 Brand Mythology: {len(storytelling_system.brand_mythology)} mythology elements established")
-    print(f"📝 Content Templates: {len(content_templates)} story templates ready")
+    print(f"\n🎭 Story Archetypes: {len(storytelling_system.story_archetypes} consciousness archetypes created")
+    print(f"📚 Narrative Frameworks: {len(storytelling_system.narrative_frameworks} story frameworks developed")
+    print(f"🎨 Brand Mythology: {len(storytelling_system.brand_mythology} mythology elements established")
+    print(f"📝 Content Templates: {len(content_templates} story templates ready")
 
     print("\n🚀 Master Brand Story:")
     print(f"  Title: {master_story.title}")
     print(f"  Archetype: {master_story.archetype.value}")
     print(f"  Key Message: {master_story.key_message}")
 
-    print(f"\n📊 Story Variations: {len(story_variations)} audience-specific stories created")
+    print(f"\n📊 Story Variations: {len(story_variations} audience-specific stories created")
     for audience, story in story_variations.items():
-        print(f"  {audience.title()}: {story.call_to_action}")
+        print(f"  {audience.title(}: {story.call_to_action}")
 
     print("\n🏆 Consciousness Technology Storytelling System: COMPLETE")
     print("Ready for emotionally compelling consciousness technology narratives")

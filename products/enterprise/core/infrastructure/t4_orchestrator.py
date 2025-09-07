@@ -204,7 +204,7 @@ class T4EnterpriseOrchestrator:
             logger.info("✅ T4 Enterprise Stack initialized successfully")
             logger.info(f"   System Status: {self.system_status.value}")
             logger.info(
-                f"   Services Online: {len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY])}"
+                f"   Services Online: {len([s for s in self.services.values() if s.health == T4ServiceHealth.HEALTHY]}"
             )
 
             return True
@@ -339,7 +339,7 @@ class T4EnterpriseOrchestrator:
                 },
             )
             logger.info("   ✅ Safety systems initialized")
-            logger.info(f"   Constitutional AI drift threshold: {self.constitutional_ai.get_drift_threshold()}")
+            logger.info(f"   Constitutional AI drift threshold: {self.constitutional_ai.get_drift_threshold(}")
 
         except Exception as e:
             logger.error(f"Failed to initialize safety stack: {e}")
@@ -446,10 +446,10 @@ class T4EnterpriseOrchestrator:
                 }
 
             else:
-                return {"health": T4ServiceHealth.UNKNOWN, "details": {"status": "not_checked"}}
+                return {"health": T4ServiceHealth.UNKNOWN, "details": {"status": "not_checked"}
 
         except Exception as e:
-            return {"health": T4ServiceHealth.CRITICAL, "details": {"error": str(e)}}
+            return {"health": T4ServiceHealth.CRITICAL, "details": {"error": str(e)}
 
     async def get_enterprise_metrics(self) -> T4EnterpriseMetrics:
         """Get comprehensive T4 enterprise metrics"""
@@ -775,7 +775,7 @@ async def main():
 
         print("\n📈 T4 Enterprise Metrics Summary:")
         print("=" * 50)
-        print(f"System Status: {orchestrator.system_status.value.upper()}")
+        print(f"System Status: {orchestrator.system_status.value.upper(}")
         print(f"Enterprise Readiness: {metrics.enterprise_readiness:.1f}%")
         print(f"SLA Compliance: {'✅ COMPLIANT' if metrics.sla_compliance else '❌ VIOLATION'}")
         print("")

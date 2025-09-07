@@ -174,8 +174,8 @@ class InsecureRandomFixer:
             return
 
         print(f"\n🚨 Found {total_files} files with insecure random usage:")
-        print(f"   📍 {len(results['critical'])} security-critical files")
-        print(f"   📍 {len(results['normal'])} normal files")
+        print(f"   📍 {len(results['critical']} security-critical files")
+        print(f"   📍 {len(results['normal']} normal files")
 
         print("\n🛡️ Fixing CRITICAL security files first:")
         for file_path, issues, _ in results["critical"]:
@@ -185,7 +185,7 @@ class InsecureRandomFixer:
             self.fix_file(file_path)
             self.files_processed += 1
 
-        print(f"\n📝 Fixing remaining {len(results['normal'])} files:")
+        print(f"\n📝 Fixing remaining {len(results['normal']} files:")
         for file_path, issues, _ in results["normal"]:
             print(f"\n📁 {file_path}")
             for issue in issues:

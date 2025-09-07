@@ -52,7 +52,7 @@ import sys
 from datetime import datetime
 from typing import Any, Optional
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__, timezone)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 try:
     from identity.interface import IdentityClient
@@ -150,7 +150,7 @@ class QIService:
             # Update quantum-like state
             self._update_quantum_like_state(computation_results)
 
-            computation_id = f"qcomp_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            computation_id = f"qcomp_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
 
             # Log quantum computation
             self.identity_client.log_activity(
@@ -228,7 +228,7 @@ class QIService:
             )
 
             # Register entangled pair
-            entanglement_id = f"entangle_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            entanglement_id = f"entangle_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
             entangled_pair = {
                 "entanglement_id": entanglement_id,
                 "systems": target_systems,
@@ -310,7 +310,7 @@ class QIService:
             # Create consciousness-quantum bridge
             bridge_results = self._create_consciousness_quantum_bridge(consciousness_state, qi_interface)
 
-            bridge_id = f"qbridge_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            bridge_id = f"qbridge_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
 
             # Log quantum consciousness bridge
             self.identity_client.log_activity(
@@ -378,7 +378,7 @@ class QIService:
             # Create superposition-like state
             superposition_results = self._create_quantum_superposition(superposition_states, collapse_probability)
 
-            superposition_id = f"qsuper_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            superposition_id = f"qsuper_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
 
             # Store superposition state
             self.qi_like_state["superposition_states"][superposition_id] = {
@@ -456,7 +456,7 @@ class QIService:
             # Update quantum-like state based on observation
             self._apply_observation_effects(observation_results)
 
-            observation_id = f"qobs_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            observation_id = f"qobs_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}_{user_id}"
 
             # Log quantum observation
             self.identity_client.log_activity(
@@ -703,11 +703,11 @@ if __name__ == "__main__":
         "Shor_factorization",
         [complex(1, 0), complex(0, 1), complex(0.707, 0.707)],
     )
-    print(f"Quantum computation: {computation_result.get('success', False)}")
+    print(f"Quantum computation: {computation_result.get('success', False}")
 
     # Test entanglement-like correlation
     entanglement_result = qi.qi_entangle(test_user, "Bell_state", ["consciousness_module", "memory_module"], 0.95)
-    print(f"Quantum entanglement: {entanglement_result.get('success', False)}")
+    print(f"Quantum entanglement: {entanglement_result.get('success', False}")
 
     # Test quantum consciousness bridge
     bridge_result = qi.consciousness_quantum_bridge(
@@ -715,11 +715,11 @@ if __name__ == "__main__":
         {"elements": ["awareness", "introspection", "metacognition"]},
         "coherent",
     )
-    print(f"Quantum consciousness bridge: {bridge_result.get('success', False)}")
+    print(f"Quantum consciousness bridge: {bridge_result.get('success', False}")
 
     # Test quantum metrics
     metrics_result = qi.get_quantum_metrics(test_user, True)
-    print(f"Quantum metrics: {metrics_result.get('success', False)}")
+    print(f"Quantum metrics: {metrics_result.get('success', False}")
 
 
 # ══════════════════════════════════════════════════════════════════════════════

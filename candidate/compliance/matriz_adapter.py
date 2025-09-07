@@ -27,7 +27,7 @@ class ComplianceMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-COMP-{uuid.uuid4().hex[:8]}",
+            "id": f"LT-COMP-{uuid.uuid4(}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.95),
@@ -45,7 +45,7 @@ class ComplianceMatrizAdapter:
                     "compliance:consent",
                 ],
                 "tenant": "system",
-                "trace_id": f"LT-COMP-{int(time.time())}",
+                "trace_id": f"LT-COMP-{int(time.time()}",
                 "consent_scopes": ["system:compliance", "system:audit"],
                 **(provenance_extra or {}),
             },
@@ -172,7 +172,7 @@ class ComplianceMatrizAdapter:
 
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        filename = f"{node['id']}_{int(time.time())}.json"
+        filename = f"{node['id']}_{int(time.time()}.json"
         filepath = output_dir / filename
 
         with open(filepath, "w") as f:

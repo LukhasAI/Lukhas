@@ -146,7 +146,7 @@ class IdentityCoreBridge:
 
             if differences:
                 await self.resolve_differences(differences)
-                logger.info(f"Synchronized {len(differences)} state differences")
+                logger.info(f"Synchronized {len(differences} state differences")
 
             return True
 

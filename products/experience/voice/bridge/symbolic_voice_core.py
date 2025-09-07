@@ -115,7 +115,7 @@ def speak(text, traits=None):
         try:
             with open(audio_file, "wb") as f:
                 f.write(response.content)
-            logger.info(f"🔉 Audio saved at: {audio_file} ({len(response.content)} bytes)")
+            logger.info(f"🔉 Audio saved at: {audio_file} ({len(response.content} bytes)")
 
             script_path = "/tmp/play_last_audio.sh"
             with open(script_path, "w") as script:

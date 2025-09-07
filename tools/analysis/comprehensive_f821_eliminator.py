@@ -271,7 +271,7 @@ class ComprehensiveF821Eliminator:
                     if self.fix_file(py_file, analysis):
                         self.files_modified += 1
                         self.fixes_applied += len(analysis['violations'])
-                        print(f"  ✅ {py_file.relative_to(directory.parent)}")
+                        print(f"  ✅ {py_file.relative_to(directory.parent}")
                         
             except Exception as e:
                 self.errors.append(f"Error processing {py_file}: {e}")
@@ -314,7 +314,7 @@ class ComprehensiveF821Eliminator:
         print(f"🔧 Fixes applied: {self.fixes_applied}")
         
         if self.errors:
-            print(f"\n⚠️ Errors: {len(self.errors)}")
+            print(f"\n⚠️ Errors: {len(self.errors}")
             for error in self.errors[:5]:
                 print(f"   {error}")
         

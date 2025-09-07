@@ -90,7 +90,7 @@ async def run_comprehensive_gdpr_tests():
         cursor = store.connection.cursor()
         cursor.execute(
             "INSERT INTO vector_cache (id, user_id, embedding_key, vector_data, metadata, expiry) VALUES (?, ?, ?, ?, ?, ?)",
-            ("shadow_test", "other_user", "key", b"data", f'{{"leaked_user": "{user_id}"}}', 9999999999),
+            ("shadow_test", "other_user", "key", b"data", f'{{"leaked_user": "{user_id}"}', 9999999999),
         )
         store.connection.commit()
 

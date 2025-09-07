@@ -370,7 +370,7 @@ def main():
 
             if hunter.hits:
                 all_hits.extend(hunter.hits)
-                print(f"✅ Found {len(hunter.hits)} potential hits in {directory}")
+                print(f"✅ Found {len(hunter.hits} potential hits in {directory}")
             else:
                 print(f"❌ No hits found in {directory}")
 

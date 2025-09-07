@@ -592,7 +592,7 @@ if __name__ == "__main__":
     timestamp = crypto_system.generate_crypto_timestamp()
     print(f"Timestamp: {timestamp.timestamp_iso}")
     print(f"Nonce: {timestamp.nonce}")
-    print(f"Signature valid: {crypto_system.verify_timestamp_signature(timestamp)}")
+    print(f"Signature valid: {crypto_system.verify_timestamp_signature(timestamp}")
 
     # Test hash generation
     print("\n🔐 Testing multi-hash generation...")
@@ -600,7 +600,7 @@ if __name__ == "__main__":
     hash_record = crypto_system.generate_multi_hash(test_data, timestamp)
     print(f"Primary hash: {hash_record.primary_hash[:32]}...")
     print(f"Salt: {hash_record.salt[:16]}...")
-    print(f"Secondary hashes: {len(hash_record.secondary_hashes)}")
+    print(f"Secondary hashes: {len(hash_record.secondary_hashes}")
 
     # Test hash verification
     print("\n✅ Testing hash verification...")

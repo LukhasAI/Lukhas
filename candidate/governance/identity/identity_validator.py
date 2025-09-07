@@ -199,7 +199,7 @@ class AdvancedIdentityValidator:
         Returns:
             Identity validation result
         """
-        validation_id = f"id_val_{uuid.uuid4().hex[:8]}"
+        validation_id = f"id_val_{uuid.uuid4(}.hex[:8]}"
         context = context or {}
         start_time = datetime.now(tz=timezone.utc)
 
@@ -601,7 +601,7 @@ class AdvancedIdentityValidator:
         """Create biometric profile (stub)."""
         _ = identity_data
         profile = BiometricProfile(
-            user_id=user_id, profile_id=f"bp_{uuid.uuid4().hex[:6]}", created_at=datetime.now(tz=timezone.utc)
+            user_id=user_id, profile_id=f"bp_{uuid.uuid4(}.hex[:6]}", created_at=datetime.now(tz=timezone.utc)
         )
         self.biometric_profiles[user_id] = profile
         return profile

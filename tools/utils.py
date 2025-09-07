@@ -41,7 +41,7 @@ def run_command(
         cmd = cmd.split()
 
     try:
-        logger.debug(f"Running command: {' '.join(cmd)}")
+        logger.debug(f"Running command: {' '.join(cmd}")
         result = subprocess.run(cmd, cwd=cwd, capture_output=capture_output, text=True, timeout=timeout)
 
         if result.returncode != 0:

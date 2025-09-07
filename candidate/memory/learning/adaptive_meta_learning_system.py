@@ -209,7 +209,7 @@ class AdaptiveMetaLearningSystem:
             },
         }
 
-        logger.info(f"🔧 Initialized {len(strategies)} learning strategies")
+        logger.info(f"🔧 Initialized {len(strategies} learning strategies")
         return strategies
 
     def _extract_learning_features(self, context: dict, available_data: dict) -> dict:

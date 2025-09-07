@@ -687,7 +687,7 @@ class GlobalInstitutionalModule(ABC):
 
         return (
             f"This processing has achieved institutional-grade compliance with "
-            f"average score {avg_score:.1f}% across {len(compliance_scores)} jurisdictions. "
+            f"average score {avg_score:.1f}% across {len(compliance_scores} jurisdictions. "
             f"Minimum compliance score: {min_score:.1f}%. "
             f"Ready for enterprise and government deployment."
         )

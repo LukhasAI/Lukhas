@@ -11,9 +11,9 @@ import os
 from datetime import datetime
 
 
-def enhance_module(module_name, description, timezone):
+def enhance_module(module_name, description):
     """Enhance a single module with proper structure"""
-    print(f"\n🔧 Enhancing {module_name.upper()} module...")
+    print(f"\n🔧 Enhancing {module_name.upper(} module...")
 
     # Create directories
     dirs = [

@@ -26,7 +26,7 @@ from typing import Any, Optional
 
 @dataclass
 class LUKHASIdentity:
-    """Represents a LUKHAS Identity (ΛiD, timezone)"""
+    """Represents a LUKHAS Identity (ΛiD)"""
 
     lid_number: str  # e.g., "ΛiD#001847"
     symbolic_phrase: str  # e.g., "carrot cake + lioness"
@@ -225,7 +225,7 @@ class LUKHASIDBuilder:
     def _generate_session_token(self, identity: LUKHASIdentity) -> str:
         """Generate quantum-resistant session token"""
         # Combine identity elements
-        token_data = f"{identity.lid_number}:{identity.tier_level}:{datetime.now(timezone.utc).isoformat()}"
+        token_data = f"{identity.lid_number}:{identity.tier_level}:{datetime.now(timezone.utc).isoformat(}"
 
         # Add quantum entropy
         qi_salt = secrets.token_bytes(16)
@@ -352,7 +352,7 @@ def create_lukhas_auth_demo():
         print(f"   ΛiD: {result['lid']}")
         print(f"   Phrase: {result['phrase']}")
         print(f"   Tier: {result['tier_info']['symbol']} {result['tier_info']['name']}")
-        print(f"   Access: {', '.join(result['tier_info']['access'])}")
+        print(f"   Access: {', '.join(result['tier_info']['access']}")
 
         # Demo 2: Authenticate
         print("\n2️⃣ Authenticating with phrase...")

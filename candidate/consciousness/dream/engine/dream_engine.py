@@ -97,7 +97,7 @@ class DreamEngine:
             return False
 
         pattern = list(repeated[0])
-        task_id = f"dream-fork-{uuid.uuid4().hex[:8]}"
+        task_id = f"dream-fork-{uuid.uuid4(}.hex[:8]}"
         task_data = {
             "type": "dreamscapes_nested",
             "pattern": pattern,

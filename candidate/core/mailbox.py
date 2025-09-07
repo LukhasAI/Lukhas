@@ -451,7 +451,7 @@ class PersistentMailbox(BoundedMailbox):
                     )
 
                 self._last_persist_time = time.time()
-                logger.debug(f"Persisted {len(messages)} messages to {self.persistence_path}")
+                logger.debug(f"Persisted {len(messages} messages to {self.persistence_path}")
 
             except Exception as e:
                 logger.error(f"Failed to persist mailbox: {e}")
@@ -477,7 +477,7 @@ class PersistentMailbox(BoundedMailbox):
                 message = ActorMessage(**msg_dict)
                 await self.put(message)
 
-            logger.info(f"Restored {len(messages)} messages from {self.persistence_path}")
+            logger.info(f"Restored {len(messages} messages from {self.persistence_path}")
             return len(messages)
 
         except FileNotFoundError:
@@ -683,7 +683,7 @@ async def demo_enhanced_mailbox():
             self.register_handler("process", self._handle_process)
 
         async def _handle_process(self, message: ActorMessage):
-            print(f"Processing {message.message_type} with priority {message.payload.get('priority', 'NORMAL')}")
+            print(f"Processing {message.message_type} with priority {message.payload.get('priority', 'NORMAL'}")
             await asyncio.sleep(0.1)  # Simulate work
             return {"processed": True}
 

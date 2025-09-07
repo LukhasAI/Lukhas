@@ -29,7 +29,7 @@ from pathlib import Path
 from typing import Optional
 
 # Add ethics module to path
-sys.path.insert(0, str(Path(__file__, timezone).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     from red_team import LUKHASRedTeamProtocol

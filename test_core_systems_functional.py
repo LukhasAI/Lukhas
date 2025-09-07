@@ -22,7 +22,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Add project root to path for imports
-sys.path.insert(0, str(Path(__file__, timezone).parent))
+sys.path.insert(0, str(Path(__file__).parent))
 
 
 class TestCoreSystems(unittest.TestCase):
@@ -77,7 +77,7 @@ class TestCoreSystems(unittest.TestCase):
         python_files = list(core_path.glob("**/*.py"))
         self.assertGreater(len(python_files), 0, "Core should contain Python files")
 
-        print(f"✅ Core structure verified: {len(python_files)} files found")
+        print(f"✅ Core structure verified: {len(python_files} files found")
 
     def test_symbolic_processing_capability(self):
         """Test symbolic processing capabilities"""
@@ -111,7 +111,7 @@ class TestCoreSystems(unittest.TestCase):
                     orchestration_files.extend(list(path.glob("**/*.py")))
 
             self.assertGreater(len(orchestration_files), 0, "Should have orchestration files")
-            print(f"✅ Orchestration files found: {len(orchestration_files)}")
+            print(f"✅ Orchestration files found: {len(orchestration_files}")
 
         except Exception as e:
             self.fail(f"Orchestration test failed: {e}")
@@ -130,7 +130,7 @@ class TestCoreSystems(unittest.TestCase):
                     trinity_files.extend(keyword_files)
 
             self.assertGreater(len(trinity_files), 0, "Should have Trinity Framework files")
-            print(f"✅ Trinity Framework files found: {len(trinity_files)}")
+            print(f"✅ Trinity Framework files found: {len(trinity_files}")
 
         except Exception as e:
             self.fail(f"Trinity Framework test failed: {e}")
@@ -166,7 +166,7 @@ class TestIdentitySystems(unittest.TestCase):
 
                 python_files = list(identity_path.glob("**/*.py"))
                 self.assertGreater(len(python_files), 0, "Identity should contain Python files")
-                print(f"✅ Identity structure verified: {len(python_files)} files")
+                print(f"✅ Identity structure verified: {len(python_files} files")
 
         except Exception as e:
             self.fail(f"Identity module test failed: {e}")
@@ -190,7 +190,7 @@ class TestIdentitySystems(unittest.TestCase):
                     continue
 
             self.assertGreater(len(lambda_files), 0, "Should have ΛID related files")
-            print(f"✅ ΛID system files found: {len(lambda_files)}")
+            print(f"✅ ΛID system files found: {len(lambda_files}")
 
         except Exception as e:
             self.fail(f"ΛID system test failed: {e}")
@@ -281,7 +281,7 @@ class TestMemorySystems(unittest.TestCase):
 
                 python_files = list(memory_path.glob("**/*.py"))
                 self.assertGreater(len(python_files), 0, "Memory should contain Python files")
-                print(f"✅ Memory structure verified: {len(python_files)} files")
+                print(f"✅ Memory structure verified: {len(python_files} files")
 
         except Exception as e:
             self.fail(f"Memory module test failed: {e}")
@@ -393,7 +393,7 @@ class TestConsciousnessSystems(unittest.TestCase):
 
                 python_files = list(consciousness_path.glob("**/*.py"))
                 self.assertGreater(len(python_files), 0, "Consciousness should contain Python files")
-                print(f"✅ Consciousness structure verified: {len(python_files)} files")
+                print(f"✅ Consciousness structure verified: {len(python_files} files")
 
         except Exception as e:
             self.fail(f"Consciousness module test failed: {e}")
@@ -507,7 +507,7 @@ class TestSuiteRunner:
         total_tests = 0
 
         for test_name, test_class in test_classes:
-            print(f"\n🧪 TESTING {test_name.upper()}")
+            print(f"\n🧪 TESTING {test_name.upper(}")
             print("-" * 60)
 
             # Create test suite

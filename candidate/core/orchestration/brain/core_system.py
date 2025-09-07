@@ -55,7 +55,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-# Core AGI imports (consolidated logic, timezone)
+# Core AGI imports (consolidated logic)
 try:
     from .attention.qi_attention import QIInspiredAttention
     from .compliance.ethical_engine import \
@@ -152,7 +152,7 @@ class AGIBot:
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
         self.initialization_time = datetime.now(timezone.utc)
-        self.subsystem_id = f"LUKHAS-AI-AGI-{uuid.uuid4().hex[:8]}"
+        self.subsystem_id = f"LUKHAS-AI-AGI-{uuid.uuid4(}.hex[:8]}"
 
         # Core capability level
         self.capability_level = AGICapabilityLevel.QUANTUM_BIOLOGICAL
@@ -342,7 +342,7 @@ class AGIBot:
         except Exception as e:
             logger.error(f"AGI processing error: {e}")
             return AGIResponse(
-                content=f"AGI processing error: {str(e)}",
+                content=f"AGI processing error: {str(e}",
                 confidence=0.1,
                 capability_level=AGICapabilityLevel.BASIC,
                 reasoning_path=["error_handling"],
@@ -384,7 +384,7 @@ class AGIBot:
 
         return components
 
-    def _update_conversation_history(:
+    def _update_conversation_history(
         self, prompt: str, response: str, reasoning_path: list[str]
     ):
         """Update conversation history with reasoning path"""
@@ -402,11 +402,11 @@ class AGIBot:
         if len(self.conversation_history) > 50:
             self.conversation_history = self.conversation_history[-50:]
 
-    def _update_learning_memory(:
+    def _update_learning_memory(
         self, prompt: str, context: dict[str, Any], reasoning_path: list[str]
     ):
         """Update learning memory based on interaction patterns"""
-        learning_key = f"pattern_{len(self.learning_memory)}"
+        learning_key = f"pattern_{len(self.learning_memory}"
         self.learning_memory[learning_key] = {
             "prompt_pattern": prompt[:50],  # First 50 chars for pattern recognition
             "context_keys": list(context.keys()) if context else [],

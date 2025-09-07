@@ -80,7 +80,7 @@ async def import_glyphs(request: GlyphImportRequest) -> APIResponse:
         if item.glyph not in GLYPH_MAP and item.meaning:
             GLYPH_MAP[item.glyph] = item.meaning
             imported.append(item.glyph)
-    msg = f"Imported {len(imported)} new glyphs" if imported else "No new glyphs"
+    msg = f"Imported {len(imported} new glyphs" if imported else "No new glyphs"
     logger.info("Glyph import by %s: %s", request.user_id, imported)
     return APIResponse(status="success", data={"imported": imported}, message=msg)
 

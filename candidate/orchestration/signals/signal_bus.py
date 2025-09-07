@@ -174,7 +174,7 @@ class SignalBus:
                     self.active_signals.discard(signal)
 
                 if expired:
-                    logger.debug(f"Cleaned up {len(expired)} expired signals")
+                    logger.debug(f"Cleaned up {len(expired} expired signals")
 
                 await asyncio.sleep(1)  # Cleanup every second
 

@@ -113,7 +113,7 @@ class OneiricHook:
                 logger.warning(f"HTTP feedback failed: {e}")
                 self.http_failures += 1
 
-        logger.debug(f"Applied policy to scene: {len(hints)} hints generated")
+        logger.debug(f"Applied policy to scene: {len(hints} hints generated")
         return hints
 
     def _compute_tempo_hint(self, scene: PhenomenalScene, policy: RegulationPolicy) -> float:

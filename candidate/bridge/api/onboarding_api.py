@@ -110,7 +110,7 @@ else:
 
 def _generate_request_id(prefix: str = "req") -> str:
     """Generates a simple unique request ID for logging purposes."""
-    return f"{prefix}_{int(time.time()*1000)}_{random.randint(100,999)}"
+    return f"{prefix}_{int(time.time()*1000)}_{random.randint(100,999}"
 
 # --- Enhanced Onboarding API Routes ---
 # All routes are conditional on `app` being successfully imported.
@@ -160,7 +160,7 @@ if app:  # Check if app is defined (i.e., import was successful):
                     "session_id"
                 )  # Store in Flask session
                 logger.info(
-                    f"ΛTRACE ({request_id}): Enhanced onboarding session started successfully. Session ID: {result.get('session_id')}, Current Stage: {result.get('current_stage')}."
+                    f"ΛTRACE ({request_id}): Enhanced onboarding session started successfully. Session ID: {result.get('session_id')}, Current Stage: {result.get('current_stage'}."
                 )
                 return api_response(
                     success=True,
@@ -177,7 +177,7 @@ if app:  # Check if app is defined (i.e., import was successful):
                 )
             else:
                 logger.warning(
-                    f"ΛTRACE ({request_id}): Failed to start onboarding session. Reason: {result.get('error', 'Unknown error from manager')}."
+                    f"ΛTRACE ({request_id}): Failed to start onboarding session. Reason: {result.get('error', 'Unknown error from manager'}."
                 )
                 return (
                     api_response(
@@ -247,7 +247,7 @@ if app:
 
             stage_data = data.get("stage_data", {})
             logger.debug(
-                f"ΛTRACE ({request_id}): Progressing onboarding for session ID '{session_id}'. Stage data received: {bool(stage_data)}."
+                f"ΛTRACE ({request_id}): Progressing onboarding for session ID '{session_id}'. Stage data received: {bool(stage_data}."
             )
 
             if not onboarding_manager:
@@ -269,16 +269,16 @@ if app:
 
             if result.get("success"):
                 logger.info(
-                    f"ΛTRACE ({request_id}): Onboarding session '{session_id}' progressed. New stage: {result.get('current_stage')}, Completion: {result.get('completion_percentage')}%"
+                    f"ΛTRACE ({request_id}): Onboarding session '{session_id}' progressed. New stage: {result.get('current_stage')}, Completion: {result.get('completion_percentage'}%"
                 )
                 return api_response(
                     success=True,
                     data=result,
-                    message=f"Successfully progressed to stage: {result.get('current_stage')}",
+                    message=f"Successfully progressed to stage: {result.get('current_stage'}",
                 )
             else:
                 logger.warning(
-                    f"ΛTRACE ({request_id}): Failed to progress onboarding session '{session_id}'. Reason: {result.get('error', 'Unknown manager error')}."
+                    f"ΛTRACE ({request_id}): Failed to progress onboarding session '{session_id}'. Reason: {result.get('error', 'Unknown manager error'}."
                 )
                 return (
                     api_response(
@@ -356,7 +356,7 @@ if app:
             if result.get("success"):
                 session.pop("onboarding_session_id", None)  # Clear from Flask session
                 logger.info(
-                    f"ΛTRACE ({request_id}): Enhanced onboarding completed for session '{session_id}'. ΛiD: {result.get('lambda_id', 'N/A')[:15]}..., Tier: {result.get('tier_level')}."
+                    f"ΛTRACE ({request_id}): Enhanced onboarding completed for session '{session_id}'. ΛiD: {result.get('lambda_id', 'N/A')[:15]}..., Tier: {result.get('tier_level'}."
                 )
                 return api_response(
                     success=True,
@@ -365,7 +365,7 @@ if app:
                 )
             else:
                 logger.warning(
-                    f"ΛTRACE ({request_id}): Failed to complete onboarding for session '{session_id}'. Reason: {result.get('error', 'Unknown manager error')}."
+                    f"ΛTRACE ({request_id}): Failed to complete onboarding for session '{session_id}'. Reason: {result.get('error', 'Unknown manager error'}."
                 )
                 return (
                     api_response(
@@ -423,7 +423,7 @@ if app:
 
             if result.get("success"):
                 logger.info(
-                    f"ΛTRACE ({request_id}): Onboarding status for session '{session_id}' retrieved. Current stage: {result.get('current_stage')}."
+                    f"ΛTRACE ({request_id}): Onboarding status for session '{session_id}' retrieved. Current stage: {result.get('current_stage'}."
                 )
                 return api_response(
                     success=True,
@@ -432,7 +432,7 @@ if app:
                 )
             else:
                 logger.warning(
-                    f"ΛTRACE ({request_id}): Failed to get onboarding status for session '{session_id}'. Reason: {result.get('error', 'Unknown manager error')}."
+                    f"ΛTRACE ({request_id}): Failed to get onboarding status for session '{session_id}'. Reason: {result.get('error', 'Unknown manager error'}."
                 )
                 # 404 if session not found by manager, otherwise potentially 400 or 500
                 status_code = (
@@ -581,7 +581,7 @@ if app:
                 },
             }
             logger.info(
-                f"ΛTRACE ({request_id}): Successfully retrieved {len(personality_templates_data)} personality templates."
+                f"ΛTRACE ({request_id}): Successfully retrieved {len(personality_templates_data} personality templates."
             )
             return api_response(
                 success=True,
@@ -710,7 +710,7 @@ if app:
                 },
             }
             logger.info(
-                f"ΛTRACE ({request_id}): Successfully retrieved {len(cultural_templates_data)} cultural templates."
+                f"ΛTRACE ({request_id}): Successfully retrieved {len(cultural_templates_data} cultural templates."
             )
             return api_response(
                 success=True,

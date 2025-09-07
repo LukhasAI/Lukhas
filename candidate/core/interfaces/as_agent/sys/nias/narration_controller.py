@@ -68,13 +68,13 @@ def print_debug_narration_summary():
     entries = fetch_narration_entries()
     filtered = filter_narration_queue(entries, tier_limit)
 
-    print(f"🔊 Narration-ready entries for Tier {tier_limit}: {len(filtered)}")
+    print(f"🔊 Narration-ready entries for Tier {tier_limit}: {len(filtered}")
     for e in filtered:
         print(
-            f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {','"}
+            f" • ID: {e.get('id')} | Emoji: {e.get('emoji'} | Tags: {','"}
     '.join(e.get('tags', []))}"
         )
-        print(f"   📝 Summary: {e.get('summary', '—')}")
+        print(f"   📝 Summary: {e.get('summary', '—'}")
         print()
 
 if __name__ == "__main__":

@@ -1010,7 +1010,7 @@ class AsyncInferenceClient:
         ...             "location": {"type": "string"},
         ...             "activity": {"type": "string"},
         ...             "animals_seen": {"type": "integer", "minimum": 1, "maximum": 5},
-        ...             "animals": {"type": "array", "items": {"type": "string"}},
+        ...             "animals": {"type": "array", "items": {"type": "string"},
         ...         },
         ...         "required": ["location", "activity", "animals_seen", "animals"],
         ...     },
@@ -2367,7 +2367,7 @@ class AsyncInferenceClient:
         ...                 "location": {"type": "string"},
         ...                 "activity": {"type": "string"},
         ...                 "animals_seen": {"type": "integer", "minimum": 1, "maximum": 5},
-        ...                 "animals": {"type": "array", "items": {"type": "string"}},
+        ...                 "animals": {"type": "array", "items": {"type": "string"},
         ...             },
         ...             "required": ["location", "activity", "animals_seen", "animals"],
         ...         },
@@ -2438,7 +2438,7 @@ class AsyncInferenceClient:
             if len(ignored_parameters) > 0:
                 warnings.warn(
                     "API endpoint/model for text-generation is not served via TGI. Ignoring following parameters:"
-                    f" {', '.join(ignored_parameters)}.",
+                    f" {', '.join(ignored_parameters}.",
                     UserWarning,
                     stacklevel=2,
                 )

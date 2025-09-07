@@ -13,7 +13,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class DriftState(Enum):
@@ -51,7 +51,7 @@ class GlyphMutation:
 
     def compute_hash(self) -> str:
         """Compute immutable hash of this mutation"""
-        content = f"{self.timestamp.isoformat()}|{self.from_glyph}|{self.to_glyph}|{self.action}|{self.user_id}"
+        content = f"{self.timestamp.isoformat(}|{self.from_glyph}|{self.to_glyph}|{self.action}|{self.user_id}"
         return hashlib.sha3_256(content.encode()).hexdigest()[:16]
 
 
@@ -203,7 +203,7 @@ class SymbolicMutationTree:
 
         # Create consent node
         node = ConsentNode(
-            node_id=f"{user_id}_{datetime.now(timezone.utc).timestamp()}",
+            node_id=f"{user_id}_{datetime.now(timezone.utc).timestamp(}",
             glyphs=mutated_glyphs,
             action=action,
             outcome=outcome,
@@ -219,7 +219,7 @@ class SymbolicMutationTree:
         self.active_paths[user_id] = node
 
         logger.info(f"🔄 Action tracked: {action} → drift: {self.current_drift:.3f} ({drift_delta:+.3f})")
-        logger.info(f"🎭 Glyphs mutated: {' '.join(glyphs)} → {' '.join(mutated_glyphs)}")
+        logger.info(f"🎭 Glyphs mutated: {' '.join(glyphs)} → {' '.join(mutated_glyphs}")
 
         return mutated_glyphs, self.current_drift
 
@@ -291,9 +291,9 @@ class SymbolicMutationTree:
         lines = ["🌳 TrustHelix Consent Tree"]
         lines.append("=" * 40)
         lines.append(f"Genesis: {self.genesis_hash[:16]}...")
-        lines.append(f"Current Drift: {self.current_drift:.3f} {self.get_drift_state().value}")
-        lines.append(f"Mutations: {len(self.mutation_history)}")
-        lines.append(f"Entropy: {self.calculate_entropy():.3f}")
+        lines.append(f"Current Drift: {self.current_drift:.3f} {self.get_drift_state(}.value}")
+        lines.append(f"Mutations: {len(self.mutation_history}")
+        lines.append(f"Entropy: {self.calculate_entropy(}:.3f}")
         lines.append("")
 
         # Show recent mutations
@@ -325,5 +325,5 @@ if __name__ == "__main__":
 
     # Show results
     print(helix.visualize_tree())
-    print(f"\nFinal glyphs: {' '.join(glyphs)}")
-    print(f"Final drift state: {helix.get_drift_state().value}")
+    print(f"\nFinal glyphs: {' '.join(glyphs}")
+    print(f"Final drift state: {helix.get_drift_state(}.value}")

@@ -159,10 +159,10 @@ echo "⚠️  PRESERVED FILES:"
 
     # List preserved high-value files
     if categories["high_value_keep"]:
-        script += f'echo "  - {len(categories["high_value_keep"])} high-value AI/AGI modules preserved"\n'
+        script += f'echo "  - {len(categories["high_value_keep"]} high-value AI/AGI modules preserved"\n'
 
     if categories["needs_manual_review"]:
-        script += f'echo "  - {len(categories["needs_manual_review"])} files need manual review"\n'
+        script += f'echo "  - {len(categories["needs_manual_review"]} files need manual review"\n'
 
     script += """
 echo ""
@@ -187,19 +187,19 @@ def main():
     print("\n📊 SAFE CLEANUP ANALYSIS")
     print("=" * 60)
 
-    print(f"\n🛡️ HIGH VALUE - MUST KEEP: {len(categories['high_value_keep'])} files")
+    print(f"\n🛡️ HIGH VALUE - MUST KEEP: {len(categories['high_value_keep']} files")
     for file in categories["high_value_keep"][:5]:
         print(f"  ✓ {file}")
 
-    print(f"\n⚠️ NEEDS MANUAL REVIEW: {len(categories['needs_manual_review'])} files")
+    print(f"\n⚠️ NEEDS MANUAL REVIEW: {len(categories['needs_manual_review']} files")
     for file in categories["needs_manual_review"][:5]:
         print(f"  ? {file}")
 
     print("\n✅ SAFE TO ARCHIVE:")
-    print(f"  - Test workspace files: {len(categories['test_workspace_files'])}")
-    print(f"  - Documentation examples: {len(categories['documentation_examples'])}")
-    print(f"  - Duplicate implementations: {len(categories['duplicate_implementations'])}")
-    print(f"  - Low value files: {len(categories['truly_safe_to_archive'])}")
+    print(f"  - Test workspace files: {len(categories['test_workspace_files']}")
+    print(f"  - Documentation examples: {len(categories['documentation_examples']}")
+    print(f"  - Duplicate implementations: {len(categories['duplicate_implementations']}")
+    print(f"  - Low value files: {len(categories['truly_safe_to_archive']}")
 
     # Generate safe cleanup script
     script = generate_safe_cleanup_script(categories)
@@ -240,7 +240,7 @@ def main():
     )
 
     print(f"\n💾 Files safe to archive: {safe_count}")
-    print(f"🛡️ Files preserved: {len(categories['high_value_keep']) + len(categories['needs_manual_review'])}")
+    print(f"🛡️ Files preserved: {len(categories['high_value_keep']) + len(categories['needs_manual_review']}")
 
 
 if __name__ == "__main__":

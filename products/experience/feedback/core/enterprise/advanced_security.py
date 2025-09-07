@@ -199,7 +199,7 @@ class AdvancedSecuritySystem(CoreInterface):
         session_key = self._derive_session_key(user_id, session_id)
 
         # Create integrity hash
-        integrity_data = f"{user_id}:{session_id}:{datetime.now(timezone.utc).isoformat()}"
+        integrity_data = f"{user_id}:{session_id}:{datetime.now(timezone.utc).isoformat(}"
         integrity_hash = self._create_integrity_hash(integrity_data)
 
         context = SecurityContext(

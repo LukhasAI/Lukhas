@@ -15,7 +15,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, timezone)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -345,7 +345,7 @@ class QIResonanceGlyph:
 
             frames.append(frame)
 
-        logger.info(f"🎬 Generated {len(frames)} animation frames ({animation_type})")
+        logger.info(f"🎬 Generated {len(frames} animation frames ({animation_type})")
         return frames
 
     def _rotate_matrix(self, matrix: np.ndarray, angle: float) -> np.ndarray:

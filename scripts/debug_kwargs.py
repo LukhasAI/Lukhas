@@ -32,8 +32,8 @@ async def debug_kwargs_issue():
         print(f"   ✅ Direct: compliance_frameworks = {direct_event.compliance_frameworks}")
 
         # Test 2: Check hasattr
-        print(f"   🔍 hasattr(AuditEvent, 'compliance_frameworks'): {hasattr(AuditEvent, 'compliance_frameworks')}")
-        print(f"   🔍 hasattr(AuditEvent, 'compliance_relevant'): {hasattr(AuditEvent, 'compliance_relevant')}")
+        print(f"   🔍 hasattr(AuditEvent, 'compliance_frameworks'): {hasattr(AuditEvent, 'compliance_frameworks'}")
+        print(f"   🔍 hasattr(AuditEvent, 'compliance_relevant'): {hasattr(AuditEvent, 'compliance_relevant'}")
 
         # Test 3: Simulate the kwargs filtering
         kwargs = {

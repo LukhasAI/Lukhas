@@ -249,7 +249,7 @@ class GmailHeadersAdapter(ServiceAdapter):
         await self.verify_capability_token(capability_token, required_scopes)
 
         # In production: set up Gmail push notifications
-        watch_id = f"gmail_watch_{datetime.now(timezone.utc).timestamp()}"
+        watch_id = f"gmail_watch_{datetime.now(timezone.utc).timestamp(}"
 
         await self._log_operation(
             "watch_resources",

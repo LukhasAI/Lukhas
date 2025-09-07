@@ -281,7 +281,7 @@ class TagManager:
 
     def get_tag_stats(self) -> dict[str, Any]:
         """Get statistics about managed tags."""
-        stats = {"total_tags": len(self.tags), "by_scope": {}, "by_permission": {}}
+        stats = {"total_tags": len(self.tags), "by_scope": {}, "by_permission": {}
 
         # Count by scope
         for scope in TagScope:

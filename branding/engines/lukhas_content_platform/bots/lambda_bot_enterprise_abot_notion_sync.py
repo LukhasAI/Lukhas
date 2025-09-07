@@ -253,7 +253,7 @@ class ABotNotionSync:
         self._save_report(report)
 
         logger.info(
-            f"Daily report generated successfully with {len(recommendations)} recommendations and {len(alerts)} alerts"
+            f"Daily report generated successfully with {len(recommendations)} recommendations and {len(alerts} alerts"
         )
         return report
 
@@ -293,8 +293,8 @@ class ABotNotionSync:
             notion_data = {
                 "Date": report.date,
                 "Financial Status": "✅ Healthy" if not report.alerts else "⚠️ Issues",
-                "Current Balance": f"${report.financial_data.get('current_balance', 0):.4f}",
-                "Efficiency Score": f"{report.financial_data.get('efficiency_score', 0):.1f}%",
+                "Current Balance": f"${report.financial_data.get('current_balance', 0}:.4f}",
+                "Efficiency Score": f"{report.financial_data.get('efficiency_score', 0}:.1f}%",
                 "AI Services": report.ai_routing_data.get("available_services", 0),
                 "System Health": report.system_health.get("status", "unknown"),
                 "Recommendations": len(report.recommendations),
@@ -344,10 +344,10 @@ class ABotNotionSync:
         print(f"\n📊 LUKHAS AI ΛBot Daily Sync Complete - {report.date}")
         print("=" * 50)
         print(f"💰 Financial Status: {'✅ Healthy' if not report.alerts else '⚠️ Issues'}")
-        print(f"🤖 AI Services: {report.ai_routing_data.get('available_services', 0)} available")
-        print(f"🏥 System Health: {report.system_health.get('status', 'unknown').title()}")
-        print(f"💡 Recommendations: {len(report.recommendations)}")
-        print(f"🚨 Alerts: {len(report.alerts)}")
+        print(f"🤖 AI Services: {report.ai_routing_data.get('available_services', 0} available")
+        print(f"🏥 System Health: {report.system_health.get('status', 'unknown').title(}")
+        print(f"💡 Recommendations: {len(report.recommendations}")
+        print(f"🚨 Alerts: {len(report.alerts}")
         print(f"🔄 Notion Sync: {'✅ Success' if success else '❌ Failed'}")
 
         if report.alerts:

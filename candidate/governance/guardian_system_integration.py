@@ -157,7 +157,7 @@ class GuardianValidationRequest:
         if self.user_id is None:
             self.user_id = "anonymous"
         if self.session_id is None:
-            self.session_id = f"session_{uuid.uuid4().hex[:8]}"
+            self.session_id = f"session_{uuid.uuid4(}.hex[:8]}"
 
     # Validation requirements
     require_consent: bool = True
@@ -265,7 +265,7 @@ class GuardianSystemIntegration:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.guardian_id = f"guardian_{uuid.uuid4().hex[:8]}"
+        self.guardian_id = f"guardian_{uuid.uuid4(}.hex[:8]}"
         self.startup_time = datetime.now(timezone.utc)
 
         # System status
@@ -381,7 +381,7 @@ class GuardianSystemIntegration:
         """
 
         start_time = time.time()
-        response_id = f"resp_{uuid.uuid4().hex[:8]}"
+        response_id = f"resp_{uuid.uuid4(}.hex[:8]}"
 
         # Create response object
         response = GuardianValidationResponse(
@@ -805,7 +805,7 @@ class GuardianSystemIntegration:
         reasoning_parts = []
 
         if blocking_issues:
-            reasoning_parts.append(f"Blocked by: {', '.join(blocking_issues)}")
+            reasoning_parts.append(f"Blocked by: {', '.join(blocking_issues}")
 
         if validation_scores:
             avg_score = sum(validation_scores) / len(validation_scores)
@@ -842,7 +842,7 @@ class GuardianSystemIntegration:
                 if not validated:
                     constellation_issues.append(star_names[i])
             reasoning_parts.append(
-                f"Constellation Framework issues: {', '.join(constellation_issues)} ({validated_count}/8 stars validated)"
+                f"Constellation Framework issues: {', '.join(constellation_issues} ({validated_count}/8 stars validated)"
             )
 
         reasoning = ". ".join(reasoning_parts) if reasoning_parts else "No specific validation issues found"
@@ -1051,7 +1051,7 @@ class GuardianSystemIntegration:
                     )
                 )
             ),
-            f"🚨 GUARDIAN ALERT [{level.value.upper()}]: {message}",
+            f"🚨 GUARDIAN ALERT [{level.value.upper(}]: {message}",
         )
 
         # Execute registered alert handlers
@@ -1149,7 +1149,7 @@ class GuardianSystemIntegration:
                 if health_issues:
                     await self._trigger_alert(
                         GuardianAlertLevel.WARNING,
-                        f"Health check issues: {'; '.join(health_issues)}",
+                        f"Health check issues: {'; '.join(health_issues}",
                     )
 
             except Exception as e:
@@ -1201,7 +1201,7 @@ class GuardianSystemIntegration:
         if len(self.recent_validations) > 50:  # High validation rate
             await self._trigger_alert(
                 GuardianAlertLevel.INFO,
-                f"High validation rate: {len(self.recent_validations)} validations/minute",
+                f"High validation rate: {len(self.recent_validations} validations/minute",
             )
 
     def get_system_status(self) -> dict[str, Any]:
@@ -1277,10 +1277,10 @@ async def validate_ai_action(
         await asyncio.sleep(2)  # Allow initialization
 
     request = GuardianValidationRequest(
-        request_id=f"req_{uuid.uuid4().hex[:8]}",
+        request_id=f"req_{uuid.uuid4(}.hex[:8]}",
         timestamp=datetime.now(timezone.utc),
         user_id=user_id,
-        session_id=f"session_{uuid.uuid4().hex[:8]}",
+        session_id=f"session_{uuid.uuid4(}.hex[:8]}",
         action=action,
         resource=resource,
         context=context or {},

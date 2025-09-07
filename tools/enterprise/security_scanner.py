@@ -26,7 +26,7 @@ structlog.configure(
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_logger_name,
         structlog.stdlib.add_log_level,
-        structlog.stdlib.PositionalArgumentsFormatter(, timezone),
+        structlog.stdlib.PositionalArgumentsFormatter(),
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.processors.StackInfoRenderer(),
         structlog.processors.format_exc_info,
@@ -479,7 +479,7 @@ class SecurityScanner:
 
     def _generate_scan_id(self) -> str:
         """Generate unique scan ID"""
-        return f"scan_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{os.urandom(4).hex()}"
+        return f"scan_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{os.urandom(4).hex(}"
 
     def _save_results(self, results: dict[str, Any]):
         """Save scan results to file"""

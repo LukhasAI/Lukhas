@@ -22,7 +22,7 @@ import psutil
 
 from lukhas.governance.intelligence_safety_validator import (
     SafetyLevel,
-    get_safety_validator,, timezone)
+    get_safety_validator)
 from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
     IntelligenceRequestType,
@@ -445,7 +445,7 @@ class LukhasIntelligenceBenchmarking:
             payload={
                 "request": f"Form autonomous goals for performance optimization iteration {iteration}",
                 "meta_analysis": {"complexity": "high", "priority": "optimization"},
-                "subsystem_responses": {"performance": {"current": 0.8, "target": 0.95}},
+                "subsystem_responses": {"performance": {"current": 0.8, "target": 0.95},
             },
             priority=6,
             timeout=config.timeout,
@@ -940,7 +940,7 @@ class LukhasIntelligenceBenchmarking:
     def set_baseline_metrics(self, metrics: dict[str, float]):
         """Set baseline metrics for comparison"""
         self.baseline_metrics = metrics
-        logger.info(f"✅ Baseline metrics set: {list(metrics.keys())}")
+        logger.info(f"✅ Baseline metrics set: {list(metrics.keys()}")
 
     async def export_benchmark_results(self, file_path: str):
         """Export benchmark results to file"""
@@ -1028,7 +1028,7 @@ if __name__ == "__main__":
         print("📊 Benchmark Results:")
         print(f"Duration: {result.total_duration:.2f}s")
         print(f"Success Rate: {result.successful_iterations}/{result.iterations_completed}")
-        print(f"Recommendations: {len(result.recommendations)}")
+        print(f"Recommendations: {len(result.recommendations}")
 
         for rec in result.recommendations:
             print(f"  • {rec}")

@@ -26,7 +26,7 @@ from candidate.core.common import get_logger
 from ethics.seedra import get_seedra
 from symbolic.core import Symbol, SymbolicDomain, SymbolicType, get_symbolic_vocabulary
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class EthicalPrinciple(Enum):
@@ -418,7 +418,7 @@ class SharedEthicsEngine:
     async def create_ethical_symbol(self, decision: EthicalDecision) -> Symbol:
         """Create a symbolic representation of the ethical decision"""
         symbol = Symbol(
-            id=f"ethics_{decision.timestamp.timestamp()}",
+            id=f"ethics_{decision.timestamp.timestamp(}",
             domain=SymbolicDomain.ETHICS,
             type=SymbolicType.COMPOSITE,
             name=f"ethical_{decision.decision_type.value}",

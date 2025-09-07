@@ -378,7 +378,7 @@ class PQCCryptoEngine:
 
             # Check signature size
             if len(signature.signature) != params["sig_size"]:
-                logger.error(f"Invalid signature size: expected {params['sig_size']}, got {len(signature.signature)}")
+                logger.error(f"Invalid signature size: expected {params['sig_size']}, got {len(signature.signature}")
                 return False
 
             # In simulation mode, verify by checking signature was created with same inputs

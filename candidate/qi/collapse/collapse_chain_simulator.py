@@ -71,7 +71,7 @@ class CollapseChainSimulator:
         ).hexdigest()
         with open("orchestration/brain/DRIFT_LOG.md", "a") as f:
             f.write(
-                f"| {datetime.now(timezone.utc).isoformat()} | Collapse Simulation | Drift Trigger: {drift_trigger}, Outcome Hash: {outcome_hash} |\n"
+                f"| {datetime.now(timezone.utc).isoformat(} | Collapse Simulation | Drift Trigger: {drift_trigger}, Outcome Hash: {outcome_hash} |\n"
             )
 
     async def run_simulation_suite(self) -> None:

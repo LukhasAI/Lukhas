@@ -210,11 +210,11 @@ class VocabularyIntegrationService:
         translated_symbol = self.translate_for_module(operation, target_module)
 
         if target_module == "dream":
-            return f"{translated_symbol} Dream-guided {operation.replace('_', ' ')}: {details}"
+            return f"{translated_symbol} Dream-guided {operation.replace('_', ' '}: {details}"
         elif target_module == "bio":
-            return f"{translated_symbol} Bio-enhanced {operation.replace('_', ' ')}: {details}"
+            return f"{translated_symbol} Bio-enhanced {operation.replace('_', ' '}: {details}"
         else:
-            return f"{translated_symbol} {operation.replace('_', ' ')}: {details}"
+            return f"{translated_symbol} {operation.replace('_', ' '}: {details}"
 
     def get_vocabulary_health(self) -> dict[str, Any]:
         """
@@ -343,7 +343,7 @@ if __name__ == "__main__":
     # Test analytics export
     analytics = service.export_vocabulary_analytics()
     print(
-        f"Most frequent operation: {max(analytics['operation_frequency'], key=analytics['operation_frequency'].get) if analytics['operation_frequency'] else 'None'}"
+        f"Most frequent operation: {max(analytics['operation_frequency'], key=analytics['operation_frequency'].get} if analytics['operation_frequency'] else 'None'}"
     )
 
 """

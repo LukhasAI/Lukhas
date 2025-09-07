@@ -54,7 +54,7 @@ class FeedbackStore:
     def hmac_id(self, value: str) -> str:
         """Generate HMAC SHA3-512 of value."""
         h = hmac.new(self._hmac_key, value.encode(), hashlib.sha3_512)
-        return f"hmac_sha3_512:{h.hexdigest()}"
+        return f"hmac_sha3_512:{h.hexdigest(}"
 
     def append_feedback(self, feedback_data: dict[str, Any]) -> str:
         """Append feedback to JSONL with fsync."""

@@ -606,7 +606,7 @@ class WorkflowOrchestrator:
         Trinity Framework compliance and transparent step-by-step processing.
         """
         start_time = datetime.now(timezone.utc)
-        decision_id = f"meg_decision_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        decision_id = f"meg_decision_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
 
         logger.info(
             "ΛTRACE_MEG_DECISION_ORCHESTRATION",
@@ -739,7 +739,7 @@ class WorkflowOrchestrator:
         explanations with step-by-step narrative generation and transparency.
         """
         start_time = datetime.now(timezone.utc)
-        explanation_id = f"xil_explain_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        explanation_id = f"xil_explain_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
 
         logger.info(
             "ΛTRACE_XIL_EXPLANATION_ORCHESTRATION",
@@ -917,7 +917,7 @@ class WorkflowOrchestrator:
         with contextual decision framing and escalation pathways.
         """
         start_time = datetime.now(timezone.utc)
-        hitlo_context_id = f"hitlo_ctx_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        hitlo_context_id = f"hitlo_ctx_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
 
         logger.info(
             "ΛTRACE_HITLO_CONTEXT_ORCHESTRATION",
@@ -1103,7 +1103,7 @@ class WorkflowOrchestrator:
         chains into ethical decision frameworks with transparency and accountability.
         """
         start_time = datetime.now(timezone.utc)
-        causal_ethical_id = f"causal_eth_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        causal_ethical_id = f"causal_eth_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
 
         logger.info(
             "ΛTRACE_CAUSAL_ETHICAL_ORCHESTRATION",
@@ -1278,7 +1278,7 @@ class WorkflowOrchestrator:
         with comprehensive data protection and compliance frameworks.
         """
         start_time = datetime.now(timezone.utc)
-        privacy_context_id = f"privacy_ctx_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
+        privacy_context_id = f"privacy_ctx_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S'}"
 
         logger.info(
             "ΛTRACE_PRIVACY_CONTEXT_ORCHESTRATION",

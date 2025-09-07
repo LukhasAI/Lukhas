@@ -29,7 +29,7 @@ LOG_PATH = "logs/emergency_log.jsonl"
 DIGEST_OUTPUT = "logs/weekly_compliance_digest.md"
 
 
-def load_emergency_logs(, timezone):
+def load_emergency_logs():
     if not os.path.exists(LOG_PATH):
         return []
     with open(LOG_PATH) as f:

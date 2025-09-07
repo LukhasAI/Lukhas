@@ -84,7 +84,7 @@ def run_narration_queue_builder():
         print("🌀 No dreams queued for narration.")
     else:
         save_to_queue(narratables)
-        print(f"🎙 {len(narratables)} dreams added to narration queue.")
+        print(f"🎙 {len(narratables} dreams added to narration queue.")
 
 
 run_narration_queue_builder()

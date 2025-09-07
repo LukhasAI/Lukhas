@@ -443,7 +443,7 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
         """
         Evaluate an action against ethical principles.
         """
-        self.instance_logger.info(f"Evaluating action: {action.get('type', 'unknown')}")
+        self.instance_logger.info(f"Evaluating action: {action.get('type', 'unknown'}")
 
         scores = {}
         violations = []
@@ -588,7 +588,7 @@ class DefaultEthicsEngine(AnthropicEthicsEngine):
         # Add general recommendations for low scores
         low_scoring = [name for name, score in scores.items() if score < 0.5]
         if low_scoring:
-            recommendations.append(f"Critical attention needed for: {', '.join(low_scoring)}")
+            recommendations.append(f"Critical attention needed for: {', '.join(low_scoring}")
 
         return list(set(recommendations))  # Remove duplicates
 
@@ -753,7 +753,7 @@ class SelfAwareAdaptationModule:
         # Update timestamp
         new_state.last_update = datetime.utcnow()
 
-        self.instance_logger.debug(f"State adapted: {new_state.to_dict()}")
+        self.instance_logger.debug(f"State adapted: {new_state.to_dict(}")
         return new_state
 
 
@@ -1317,7 +1317,7 @@ async def test_consciousness_engine():
     ]
 
     result = await engine.authenticate_with_consciousness("test_user_3", unethical_data)
-    print(f"Ethical violations: {len(result['ethical_evaluation']['violations'])}")
+    print(f"Ethical violations: {len(result['ethical_evaluation']['violations']}")
     if result["ethical_evaluation"]["violations"]:
         print("Violations detected:")
         for violation in result["ethical_evaluation"]["violations"]:
@@ -1328,7 +1328,7 @@ async def test_consciousness_engine():
     status = engine.get_system_status()
     print(f"Consciousness state awareness: {status['consciousness_state']['awareness_level']:.2f}")
     print(f"Recent success rate: {status['recent_performance']['success_rate']:.2f}")
-    print(f"Components active: {list(status['components'].keys())}")
+    print(f"Components active: {list(status['components'].keys()}")
 
     # Test 5: Agent Registration and Communication
     print("\nTest 5: Agent Registration and Communication")
@@ -1343,7 +1343,7 @@ async def test_consciousness_engine():
 
     # Test consciousness broadcast
     broadcast_result = await engine.broadcast_consciousness_state()
-    print(f"Consciousness broadcast: {len(broadcast_result)} agents reached")
+    print(f"Consciousness broadcast: {len(broadcast_result} agents reached")
 
     # Test agent message processing
     test_message = {
@@ -1382,7 +1382,7 @@ async def test_consciousness_engine():
     print("\nTest 8: Trinity Framework Status")
     trinity_status = status["trinity_framework"]
     for component, status_msg in trinity_status.items():
-        print(f"{component.capitalize()}: {status_msg}")
+        print(f"{component.capitalize(}: {status_msg}")
 
     bio_processing = status["bio_inspired_processing"]
     print(f"Bio-oscillator cycles: {bio_processing['adaptation_cycles']}")

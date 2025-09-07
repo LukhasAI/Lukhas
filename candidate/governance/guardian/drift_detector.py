@@ -38,7 +38,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class DriftType(Enum):
@@ -304,7 +304,7 @@ class AdvancedDriftDetector:
         try:
             # Create default baselines for different drift types
             for drift_type in DriftType:
-                baseline_id = f"baseline_{drift_type.value}_{uuid.uuid4().hex[:8]}"
+                baseline_id = f"baseline_{drift_type.value}_{uuid.uuid4(}.hex[:8]}"
 
                 baseline = {
                     "baseline_id": baseline_id,
@@ -327,7 +327,7 @@ class AdvancedDriftDetector:
 
                 self.baselines[f"{drift_type.value}_default"] = baseline
 
-            logger.info(f"✅ Established {len(self.baselines)} baseline measurements")
+            logger.info(f"✅ Established {len(self.baselines} baseline measurements")
 
         except Exception as e:
             logger.error(f"❌ Failed to establish baselines: {e}")
@@ -357,7 +357,7 @@ class AdvancedDriftDetector:
                     },
                 }
 
-            logger.info(f"✅ Initialized {len(self.statistical_models)} statistical models")
+            logger.info(f"✅ Initialized {len(self.statistical_models} statistical models")
 
         except Exception as e:
             logger.error(f"❌ Failed to initialize statistical models: {e}")
@@ -458,7 +458,7 @@ class AdvancedDriftDetector:
     ) -> dict[str, Any]:
         """Create new baseline from current data"""
 
-        baseline_id = f"baseline_{drift_type.value}_{source_system}_{uuid.uuid4().hex[:8]}"
+        baseline_id = f"baseline_{drift_type.value}_{source_system}_{uuid.uuid4(}.hex[:8]}"
 
         # For testing or when current data looks abnormal, use reasonable defaults
         baseline_values = current_data.copy()
@@ -503,7 +503,7 @@ class AdvancedDriftDetector:
         baseline_key = f"{drift_type.value}_{source_system}"
         self.baselines[baseline_key] = baseline
 
-        logger.info(f"📊 Created new baseline: {baseline_id} (adjusted for testing: {'test' in source_system.lower()})")
+        logger.info(f"📊 Created new baseline: {baseline_id} (adjusted for testing: {'test' in source_system.lower(})")
         return baseline
 
     def _calculate_statistical_profile(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -611,7 +611,7 @@ class AdvancedDriftDetector:
         Returns:
             Drift measurement result
         """
-        measurement_id = f"drift_{uuid.uuid4().hex[:8]}"
+        measurement_id = f"drift_{uuid.uuid4(}.hex[:8]}"
         context = context or {}
 
         try:
@@ -1232,7 +1232,7 @@ class AdvancedDriftDetector:
 
         if not period_measurements:
             return DriftReport(
-                report_id=f"report_{uuid.uuid4().hex[:8]}",
+                report_id=f"report_{uuid.uuid4(}.hex[:8]}",
                 generated_at=datetime.now(timezone.utc),
                 time_period=time_period,
                 overall_drift_score=0.0,
@@ -1277,7 +1277,7 @@ class AdvancedDriftDetector:
             preventive_measures.append("Implement additional safeguards")
 
         report = DriftReport(
-            report_id=f"report_{uuid.uuid4().hex[:8]}",
+            report_id=f"report_{uuid.uuid4(}.hex[:8]}",
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             overall_drift_score=overall_drift_score,

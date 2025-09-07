@@ -200,14 +200,14 @@ def validate_proto_bounds(proto: dict[str, Any]) -> list[str]:
         if value is None:
             errors.append(f"Missing required field: {field}")
         elif not isinstance(value, (int, float)):
-            errors.append(f"Field {field} must be numeric, got {type(value).__name__}")
+            errors.append(f"Field {field} must be numeric, got {type(value}.__name__}")
         elif not (min_val <= value <= max_val):
             errors.append(f"Field {field}={value} out of bounds [{min_val}, {max_val}]")
 
     # Check colorfield format
     colorfield = proto.get("colorfield")
     if colorfield and not isinstance(colorfield, str):
-        errors.append(f"colorfield must be string, got {type(colorfield).__name__}")
+        errors.append(f"colorfield must be string, got {type(colorfield}.__name__}")
     elif colorfield and "/" not in colorfield:
         errors.append("colorfield must contain '/' separator (e.g., 'aka/red')")
 

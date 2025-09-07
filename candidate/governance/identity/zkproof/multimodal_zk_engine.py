@@ -31,7 +31,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class ZKCircuitType(Enum):
@@ -288,7 +288,7 @@ class MultiModalZKEngine:
 
             # Create consciousness binding
             consciousness_binding = hashlib.sha3_256(
-                f"{commitment_hash}|{consciousness_data.get('state', 'unknown')}".encode()
+                f"{commitment_hash}|{consciousness_data.get('state', 'unknown'}".encode()
             ).hexdigest()[:32]
 
             commitment = BiometricCommitment(
@@ -542,7 +542,7 @@ class MultiModalZKEngine:
 
     def _generate_proof_id(self) -> str:
         """Generate unique proof ID"""
-        return f"ZKP_T5_{secrets.token_hex(16)}"
+        return f"ZKP_T5_{secrets.token_hex(16}"
 
     def _generate_verification_key(
         self, user_commitment: str, biometric_commitments: list[BiometricCommitment]
@@ -667,10 +667,10 @@ async def main():
     )
 
     print(f"✅ Proof ID: {proof.proof_id}")
-    print(f"🧬 Biometric Modalities: {len(proof.biometric_commitments)}")
+    print(f"🧬 Biometric Modalities: {len(proof.biometric_commitments}")
     print(f"🧠 Consciousness Score: {proof.consciousness_proof['coherence_score']}")
     print(f"⚖️ Constitutional Alignment: {constitutional_responses['alignment_score']}")
-    print(f"⏱️ Valid for: {proof.validity_window.total_seconds()} seconds")
+    print(f"⏱️ Valid for: {proof.validity_window.total_seconds(} seconds")
 
     # Verify proof
     print("\n📍 Verifying T5 ZK Proof...")
@@ -694,7 +694,7 @@ async def main():
             status = "✅" if result else "❌"
             print(f"  {status} {check}: {result}")
     else:
-        print(f"❌ Verification Failed: {verification_data.get('error')}")
+        print(f"❌ Verification Failed: {verification_data.get('error'}")
 
 
 if __name__ == "__main__":

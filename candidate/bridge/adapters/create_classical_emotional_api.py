@@ -121,7 +121,7 @@ class ClassicalEmotionEngine:
     async def analyze_emotional_coherence(self, context: ClassicalEmotionalContext) -> ClassicalCoherenceResponse:
         """Analyze emotional coherence using classical methods"""
 
-        analysis_id = f"classical_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        analysis_id = f"classical_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
         # Extract emotions using chosen model
         emotional_state = await self._extract_emotions(context.text, context.emotion_model)

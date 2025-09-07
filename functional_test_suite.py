@@ -4,10 +4,10 @@
 Tests actual functionality, not just imports
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 
-def test_memory_functionality(, timezone):
+def test_memory_functionality():
     """Test memory system actual functionality"""
     print("🧠 MEMORY SYSTEM FUNCTIONAL TEST:")
     print("-" * 35)
@@ -49,7 +49,7 @@ def test_agent_functionality():
         # Test agent status
         status = get_agent_system_status()
         print(f"   Status: {status}")
-        print(f'✅ Agent status check: {status.get("operational_status") == "READY"}')
+        print(f'✅ Agent status check: {status.get("operational_status")} == "READY"')
 
         # Test core agent availability
         print(f'✅ Core agents available: {status.get("core_agents", False)}')

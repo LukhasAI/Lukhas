@@ -176,17 +176,17 @@ class DocHeaderGenerator:
     def generate_header(self, info: dict) -> str:
         """Generate a 3-line docstring header"""
         # Line 1: Module name and package
-        line1 = f"{info['package'].title()}.{info['name']} - {info['purpose']}"
+        line1 = f"{info['package'].title(}.{info['name']} - {info['purpose']}"
 
         # Line 2: Key exports
         exports = []
         if info["classes"]:
-            exports.append(f"{len(info['classes'])} classes")
+            exports.append(f"{len(info['classes']} classes")
         if info["functions"]:
-            exports.append(f"{len(info['functions'])} functions")
+            exports.append(f"{len(info['functions']} functions")
         if not exports:
             exports.append("Package module")
-        line2 = f"Provides: {', '.join(exports)}"
+        line2 = f"Provides: {', '.join(exports}"
 
         # Line 3: Trinity component
         line3 = f"Trinity: {info['trinity_component']} Component"
@@ -278,9 +278,9 @@ class DocHeaderGenerator:
                         f.write("```\n\n")
 
                         if item["info"]["classes"]:
-                            f.write(f"**Classes**: {', '.join(item['info']['classes'])}\n\n")
+                            f.write(f"**Classes**: {', '.join(item['info']['classes']}\n\n")
                         if item["info"]["functions"]:
-                            f.write(f"**Functions**: {', '.join(item['info']['functions'])}\n\n")
+                            f.write(f"**Functions**: {', '.join(item['info']['functions']}\n\n")
                 else:
                     for path in self.report["processed"]:
                         f.write(f"- `{path}`\n")

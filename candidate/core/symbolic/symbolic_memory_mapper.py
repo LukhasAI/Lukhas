@@ -135,7 +135,7 @@ class SymbolicMemoryMapper:
         # TODO: Create bridge-compatible memory structures
         # TODO: Establish memory coherence protocols
 
-        map_id = f"map_{len(self.memory_maps)}"
+        map_id = f"map_{len(self.memory_maps}"
         return map_id
 
     def map_to_core_structures(self, map_id: str) -> dict[str, Any]:

@@ -28,7 +28,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 # Configure logging
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 # Import personality components
 try:

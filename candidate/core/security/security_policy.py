@@ -402,7 +402,7 @@ class SecurityPolicyFramework:
         for rule in policy.rules:
             if self._evaluate_rule_condition(rule["condition"], context):
                 violation = PolicyViolation(
-                    violation_id=f"viol_{int(datetime.now(timezone.utc).timestamp())}_{rule['rule_id']}",
+                    violation_id=f"viol_{int(datetime.now(timezone.utc).timestamp()}_{rule['rule_id']}",
                     policy_id=policy_id,
                     severity=PolicyViolationSeverity(rule["severity"]),
                     description=f"Rule violated: {rule['name']} - {rule['description']}",
@@ -672,7 +672,7 @@ def example_usage():
 
     # List policies
     policies = framework.list_policies()
-    print(f"📋 Total policies loaded: {len(policies)}")
+    print(f"📋 Total policies loaded: {len(policies}")
 
     # Test policy evaluation
     print("\n🧪 Testing policy evaluation...")
@@ -684,13 +684,13 @@ def example_usage():
         operation="read",
         data_classification=DataClassification.CONFIDENTIAL,
     )
-    print(f"Data access violations: {len(violations)}")
+    print(f"Data access violations: {len(violations}")
 
     # Test AI model policy
     ai_violations = evaluate_ai_model_policy(
         model_name="test_model_v1", training_data_contains_pii=True, bias_validation=False, safety_validation=True
     )
-    print(f"AI model violations: {len(ai_violations)}")
+    print(f"AI model violations: {len(ai_violations}")
 
     # Generate security report
     report = framework.generate_security_report()

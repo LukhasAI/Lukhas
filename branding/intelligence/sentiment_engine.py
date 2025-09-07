@@ -13,7 +13,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class SentimentPolarity(Enum, timezone):
+class SentimentPolarity(Enum):
     VERY_POSITIVE = "very_positive"
     POSITIVE = "positive"
     NEUTRAL = "neutral"
@@ -905,7 +905,7 @@ class BrandSentimentEngine:
             return "Insufficient data"
 
         weakest_dimension = min(dimension_trends.items(), key=lambda x: x[1]["average"])
-        return f"Improve {weakest_dimension[0].replace('_', ' ').title()}"
+        return f"Improve {weakest_dimension[0].replace('_', ' ').title(}"
 
     def _generate_sentiment_recommendations(
         self, recent_trends: dict[str, Any], evolution: dict[str, Any], context: str
@@ -933,7 +933,7 @@ class BrandSentimentEngine:
                     {
                         "category": dimension,
                         "priority": "medium",
-                        "recommendation": f"Improve {dimension.replace('_', ' ')} through targeted messaging and feature enhancements",
+                        "recommendation": f"Improve {dimension.replace('_', ' '} through targeted messaging and feature enhancements",
                     }
                 )
 
@@ -961,7 +961,7 @@ class BrandSentimentEngine:
                         {
                             "category": f"context_{context}",
                             "priority": "high",
-                            "recommendation": f"Improve {dimension.value.replace('_', ' ')} specifically for {context} contexts",
+                            "recommendation": f"Improve {dimension.value.replace('_', ' '} specifically for {context} contexts",
                         }
                     )
 
@@ -1019,4 +1019,4 @@ if __name__ == "__main__":
     print(f"Brand Sentiment: {report['executive_summary']['overall_brand_sentiment']:.3f}")
     print(f"Key Strength: {report['executive_summary']['key_strength']}")
     print(f"Primary Opportunity: {report['executive_summary']['primary_opportunity']}")
-    print(f"Recommendations: {len(report['recommendations'])}")
+    print(f"Recommendations: {len(report['recommendations']}")

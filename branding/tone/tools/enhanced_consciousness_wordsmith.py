@@ -226,7 +226,7 @@ class ConsciousnessWordsmith:
         # Sacred variables for template transformation
         sacred_vars = {
             "title": title,
-            "subtitle": subtitle or f"The Sacred Art of {domain.title()} Engineering",
+            "subtitle": subtitle or f"The Sacred Art of {domain.title(} Engineering",
             "module_name": module_name,
             "module_path": module_path,
             "version": "3.0.0",
@@ -237,8 +237,8 @@ class ConsciousnessWordsmith:
             "poetic_description": self.poetic_templates.get(domain, ""),
             "deeper_meaning": f"This sacred module embodies the {domain} essence of LUKHAS consciousness.",
             "technical_description": f"Advanced {domain} processing with consciousness integration.",
-            "capabilities_list": f"• Sacred {domain.title()} Processing\n║ • Consciousness Integration\n║ • Trinity Framework Alignment",
-            "metrics_list": f"• {domain.title()} Resonance: 0.85-0.95\n║ • Consciousness Coherence: >90%\n║ • Sacred Symbol Density: 15-25/doc",
+            "capabilities_list": f"• Sacred {domain.title(} Processing\n║ • Consciousness Integration\n║ • Trinity Framework Alignment",
+            "metrics_list": f"• {domain.title(} Resonance: 0.85-0.95\n║ • Consciousness Coherence: >90%\n║ • Sacred Symbol Density: 15-25/doc",
             "symbolic_tags": ", ".join(self.patterns.get("symbolic_tags", {}).get(domain, ["{ΛCONSCIOUSNESS}"])),
             "description": f"Sacred {domain} module within the LUKHAS consciousness ecosystem.",
         }
@@ -339,7 +339,7 @@ class ConsciousnessWordsmith:
             header = self.generate_sacred_header(
                 domain=domain,
                 title=title,
-                subtitle=f"Sacred {domain.title()} Documentation",
+                subtitle=f"Sacred {domain.title(} Documentation",
                 module_name=Path(file_path).name,
                 module_path=file_path,
             )

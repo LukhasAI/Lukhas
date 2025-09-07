@@ -11,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 class AuditEngine:
@@ -48,7 +48,7 @@ class AuditEngine:
             stdout, stderr = await process.communicate()
 
             if process.returncode != 0:
-                logger.error(f"Audit failed: {stderr.decode()}")
+                logger.error(f"Audit failed: {stderr.decode(}")
                 return {
                     "status": "failed",
                     "message": stderr.decode(),

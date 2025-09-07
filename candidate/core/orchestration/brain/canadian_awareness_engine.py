@@ -228,7 +228,7 @@ class CanadianOutput(GlobalInstitutionalOutput):
 def canadian_audit_log(
     event: str,
     data: dict[str, Any],
-    jurisdiction: ProvincialJurisdiction = ProvincialJurisdiction.FEDERAL,
+    jurisdiction: ProvincialJurisdiction = ProvincialJurisdiction.FEDERAL
 ):
     """Canadian-specific audit logging with provincial jurisdiction tracking."""
     audit_entry = {
@@ -265,7 +265,7 @@ class CanadianPrivacyModule:
         """Return the Canadian module type."""
         return "canadian_privacy_protection"
 
-    def _evaluate_jurisdictional_compliance(:
+    def _evaluate_jurisdictional_compliance(
         self,
         jurisdiction: Jurisdiction,
         result: dict[str, Any],
@@ -387,7 +387,7 @@ class CanadianPrivacyModule:
 
         return min(score, 100.0)
 
-    def _assess_consumer_rights(:
+    def _assess_consumer_rights(
         self, inputs: CanadianInput
     ) -> list[CPPAConsumerRights]:
         """Assess available CPPA consumer rights."""
@@ -696,7 +696,7 @@ if __name__ == "__main__":
     result = engine.process_awareness(test_input)
     print("🇨🇦 Canadian Awareness Engine - Compliance Test")
     print(f"PIPEDA Compliance Score: {result.pipeda_compliance_score}/100")
-    print(f"Consumer Rights Available: {len(result.consumer_rights_available)}")
+    print(f"Consumer Rights Available: {len(result.consumer_rights_available}")
     print(f"Provincial Status: {result.provincial_compliance_status}")
     print(f"AI Assessment Required: {result.ai_impact_assessment_required}")
     print(
@@ -707,4 +707,4 @@ if __name__ == "__main__":
     certification = certify_canadian_compliance()
     print(f"\n✅ Certification: {certification['certification']}")
     print(f"Compliance Level: {certification['compliance_level']}")
-    print(f"Regulations: {', '.join(certification['regulations'])}")
+    print(f"Regulations: {', '.join(certification['regulations']}")

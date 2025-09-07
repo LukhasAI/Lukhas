@@ -36,7 +36,7 @@ try:
     BRAIN_COMPONENTS_AVAILABLE = True
 except ImportError:
     # Fallback mock implementations for standalone operation
-    print("🔄 Abstract Reasoning Brain: Running in standalone mode (brain components not available, timezone)")
+    print("🔄 Abstract Reasoning Brain: Running in standalone mode (brain components not available)")
 
     class MockBrainCore:
         """Mock brain core for standalone operation"""
@@ -478,7 +478,7 @@ class BioQuantumSymbolicReasoner:
         context = context or {}
 
         logger.info(
-            f"🧠⚛️ Starting Bio-Quantum Abstract Reasoning for: {problem_space.get('description', 'Unknown problem')}"
+            f"🧠⚛️ Starting Bio-Quantum Abstract Reasoning for: {problem_space.get('description', 'Unknown problem'}"
         )
 
         try:

@@ -65,7 +65,7 @@ class LambdaConnectivityResolver:
         # Voice Profiling
         self.create_voice_profiling()
 
-        print(f"✅ Created {len(self.modules_created)} core modules")
+        print(f"✅ Created {len(self.modules_created} core modules")
 
     def create_bio_symbolic_module(self):
         """Create standardized bio_symbolic module."""
@@ -504,7 +504,7 @@ voice_modulator = VoiceModulator()
         for file_path, broken_imports_str in broken_imports.items():
             self.fix_file_imports(file_path, broken_imports_str)
 
-        print(f"✅ Fixed imports in {len(self.import_fixes)} files")
+        print(f"✅ Fixed imports in {len(self.import_fixes} files")
 
     def fix_file_imports(self, file_path, broken_imports_str):
         """Fix imports in a specific file."""
@@ -556,8 +556,8 @@ voice_modulator = VoiceModulator()
         if broken_import in fixes:
             # Replace the broken import line
             import_patterns = [
-                rf"^\s*import\s+{re.escape(broken_import)}.*$",
-                rf"^\s*from\s+{re.escape(broken_import)}\s+import.*$",
+                rf"^\s*import\s+{re.escape(broken_import}.*$",
+                rf"^\s*from\s+{re.escape(broken_import}\s+import.*$",
             ]
 
             for pattern in import_patterns:
@@ -586,7 +586,7 @@ voice_modulator = VoiceModulator()
             if has_python_files and not has_init:
                 self.create_init_file(root_path)
 
-        print(f"✅ Created {len(self.init_files_created)} __init__.py files")
+        print(f"✅ Created {len(self.init_files_created} __init__.py files")
 
     def create_init_file(self, directory_path):
         """Create __init__.py file for a directory."""
@@ -596,7 +596,7 @@ voice_modulator = VoiceModulator()
         dir_name = directory_path.name
 
         # Basic __init__.py content
-        init_content = f'"""\n{dir_name.title()} Module\n{"=" * (len(dir_name) + 7)}\nAuto-generated module initialization for lukhas system connectivity.\n"""\n\n# Auto-generated for 100% connectivity\n'
+        init_content = f'"""\n{dir_name.title()} Module\n{"=" * (len(dir_name) + 7}\nAuto-generated module initialization for lukhas system connectivity.\n"""\n\n# Auto-generated for 100% connectivity\n'
 
         self.write_file(init_path, init_content)
         self.init_files_created.append(str(init_path))

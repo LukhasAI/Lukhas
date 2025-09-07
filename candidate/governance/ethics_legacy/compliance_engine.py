@@ -439,9 +439,9 @@ class ComplianceEngine:
                 removed = set(self.ethical_constraints) - set(settings["ethical_constraints"])
                 self.ethical_constraints = settings["ethical_constraints"]
                 if added:
-                    changes.append(f"Added ethical constraints: {', '.join(added)}")
+                    changes.append(f"Added ethical constraints: {', '.join(added}")
                 if removed:
-                    changes.append(f"Removed ethical constraints: {', '.join(removed)}")
+                    changes.append(f"Removed ethical constraints: {', '.join(removed}")
 
         if "voice_data_compliance" in settings:
             if self.voice_data_compliance != settings["voice_data_compliance"]:
@@ -763,7 +763,7 @@ class ComplianceEngine:
             result["flagged_constraints"].append("ensure_value_alignment")
             result["risk_level"] = "medium"
             result["recommendations"].append(
-                f"Content touches on sensitive topics: {', '.join(detected_topics)}. Ensure balanced treatment."
+                f"Content touches on sensitive topics: {', '.join(detected_topics}. Ensure balanced treatment."
             )
 
         # Check for manipulative language patterns

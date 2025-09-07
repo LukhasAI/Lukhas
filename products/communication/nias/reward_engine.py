@@ -12,7 +12,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
-class RewardType(Enum, timezone):
+class RewardType(Enum):
     """Types of rewards users can earn"""
 
     CREDITS = "credits"

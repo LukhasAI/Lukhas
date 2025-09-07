@@ -33,7 +33,7 @@ except ImportError:
     class ΛTraceLogger:
         def trace_event(self, event, data, security_tier=1, encrypt=False):
             logger.info(f"🔍 TRACE: {event} - {data}")
-            return f"trace_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+            return f"trace_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
 
 logger = logging.getLogger("ΛBotSecurityHealer")
@@ -183,7 +183,7 @@ class ΛBotAutonomousSecurityHealer:
         container_vulns = await self._scan_container_dependencies()
         vulnerabilities.extend(container_vulns)
 
-        logger.info(f"🎯 Found {len(vulnerabilities)} total vulnerabilities")
+        logger.info(f"🎯 Found {len(vulnerabilities} total vulnerabilities")
         return vulnerabilities
 
     async def _scan_python_dependencies(self) -> list[SecurityVulnerability]:
@@ -392,7 +392,7 @@ class ΛBotAutonomousSecurityHealer:
         # Add test commands
         test_commands = [
             "python -m pip check",  # Check dependency conflicts
-            f"python -c 'import {vuln.package.replace('-', '_')}'",  # Test import
+            f"python -c 'import {vuln.package.replace('-', '_'}'",  # Test import
             "python -m pytest tests/ -x --tb=short",  # Run tests if they exist
         ]
 
@@ -442,7 +442,7 @@ class ΛBotAutonomousSecurityHealer:
 
     async def _execute_autonomous_fixes(self, fix_plans: list[SecurityFix]) -> list[SecurityFix]:
         """Execute fixes autonomously with safety checks"""
-        logger.info(f"🔧 Autonomously executing {len(fix_plans)} security fixes...")
+        logger.info(f"🔧 Autonomously executing {len(fix_plans} security fixes...")
 
         executed_fixes = []
 
@@ -581,7 +581,7 @@ class ΛBotAutonomousSecurityHealer:
             return f"🔒 Security fix: Upgrade {fix.vulnerability.package} to {fix.vulnerability.fixed_version}\n\nResolves {fix.vulnerability.cve_id or 'security vulnerability'}: {fix.vulnerability.description}"
         else:
             package_list = ", ".join([fix.vulnerability.package for fix in fixes])
-            return f"🔒 Security fixes: Autonomous upgrade of {len(fixes)} packages\n\nPackages updated: {package_list}\n\nAll fixes applied and tested automatically by LUKHAS AI ΛBot Autonomous Security Healer"
+            return f"🔒 Security fixes: Autonomous upgrade of {len(fixes} packages\n\nPackages updated: {package_list}\n\nAll fixes applied and tested automatically by LUKHAS AI ΛBot Autonomous Security Healer"
 
     async def _update_learning_patterns(self, fix_results: list[SecurityFix]):
         """Update AI learning patterns based on fix results"""
@@ -641,7 +641,7 @@ class ΛBotAutonomousSecurityHealer:
 
     async def _measure_performance_impact(self) -> dict[str, Any]:
         """Measure performance impact of fixes"""
-        return {"impact": "minimal", "metrics": {}}
+        return {"impact": "minimal", "metrics": {}
 
     async def _save_learning_patterns(self):
         """Save learning patterns for future use"""

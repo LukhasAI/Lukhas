@@ -146,7 +146,7 @@ class TestBioSystems:
                 if concept in file_content:
                     found_concepts.append(concept)
 
-        assert len(found_concepts) > 0, f"Bio system should contain bio-inspired concepts. Found: {set(found_concepts)}"
+        assert len(found_concepts) > 0, f"Bio system should contain bio-inspired concepts. Found: {set(found_concepts}"
 
     def test_bio_optimization_algorithms(self):
         """Test bio-inspired optimization algorithms"""
@@ -257,7 +257,7 @@ class TestMonitoringSystems:
 
         assert (
             len(found_concepts) > 0
-        ), f"Monitoring system should contain monitoring concepts. Found: {set(found_concepts)}"
+        ), f"Monitoring system should contain monitoring concepts. Found: {set(found_concepts}"
 
     def test_consciousness_monitoring(self):
         """Test consciousness monitoring and analytics"""
@@ -465,7 +465,7 @@ class TestToolsSystems:
                             utility_tools.append(py_file)
                             break
 
-            assert len(utility_tools) > 0, f"Should have utility tools. Found: {len(utility_tools)} tools"
+            assert len(utility_tools) > 0, f"Should have utility tools. Found: {len(utility_tools} tools"
 
             # Test utility functionality
             for tool in utility_tools[:5]:  # Test first 5 tools
@@ -588,7 +588,7 @@ def run_priority3_tests():
         TestCrossSystemIntegration,
     ]
 
-    results = {"total_tests": 0, "passed_tests": 0, "failed_tests": 0, "skipped_tests": 0, "system_results": {}}
+    results = {"total_tests": 0, "passed_tests": 0, "failed_tests": 0, "skipped_tests": 0, "system_results": {}
 
     for test_class in test_classes:
         system_name = test_class.__name__.replace("Test", "").replace("Systems", " System")

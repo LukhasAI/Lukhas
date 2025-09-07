@@ -34,9 +34,9 @@ def main():
         result = asyncio.run(audit_file_implementation(file_path))
 
         if result:
-            print(f"📊 Current Score: {result.get('score', 'N/A')}")
-            print(f"📈 Target Score: {result.get('target_score', 'N/A')}")
-            print(f"📋 Status: {result.get('status', 'N/A')}")
+            print(f"📊 Current Score: {result.get('score', 'N/A'}")
+            print(f"📈 Target Score: {result.get('target_score', 'N/A'}")
+            print(f"📋 Status: {result.get('status', 'N/A'}")
             print("=" * 60)
 
             if "improvements" in result:

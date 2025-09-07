@@ -292,7 +292,7 @@ class VIVOXNeuroplasticLearner:
             # Prune old patterns if needed
             await self._prune_patterns()
 
-            logger.debug(f"Learned from regulation: {len(tags)} tags generated")
+            logger.debug(f"Learned from regulation: {len(tags} tags generated")
             return tags
 
         except Exception as e:
@@ -339,7 +339,7 @@ class VIVOXNeuroplasticLearner:
             return best_match
 
         # Create new pattern
-        pattern_id = f"pattern_{len(self.learned_patterns)}_{int(datetime.now(timezone.utc).timestamp())}"
+        pattern_id = f"pattern_{len(self.learned_patterns)}_{int(datetime.now(timezone.utc).timestamp()}"
 
         triggers = self._extract_triggers(regulation_response, context)
 

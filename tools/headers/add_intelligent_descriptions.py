@@ -159,7 +159,7 @@ Generate a description that makes quantum physics feel like poetry and poetry fe
         equals = "=" * len(module_title)
 
         features = code_analysis["qi_features"]
-        feature_text = f"quantum {', '.join(features[:2])}" if features else "quantum-inspired processing"
+        feature_text = f"quantum {', '.join(features[:2]}" if features else "quantum-inspired processing"
 
         return f"""
 {module_title}

@@ -8,7 +8,7 @@ from typing import Any, Optional
 class ComplianceRegistry:
     """Central registry for LUCAS AGI compliance management"""
 
-    def __init__(self, registry_path: Optional[str] = None, timezone):
+    def __init__(self, registry_path: Optional[str] = None):
         self.logger = logging.getLogger("compliance_registry")
         self.registry_path = registry_path or Path(__file__).parent / "compliance_data"
         self.registry_path.mkdir(exist_ok=True)

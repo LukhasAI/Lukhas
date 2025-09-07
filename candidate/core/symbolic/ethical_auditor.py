@@ -67,7 +67,7 @@ import openai
 # Import LUKHAS core modules
 try:
     from lukhas.consciousness.dream.oneiric.oneiric_core.analysis.drift_score import (
-        SymbolicTrustScorer,, timezone)
+        SymbolicTrustScorer)
     from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
         AIConstitutionChecker,
         EmotionalSecureLogger,
@@ -486,7 +486,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             )
 
         # Save to audit directory
-        audit_file = self.audit_dir / f"{result.module.replace('/', '_')}_{result.audit_hash}.json"
+        audit_file = self.audit_dir / f"{result.module.replace('/', '_'}_{result.audit_hash}.json"
         audit_data = {
             "result": asdict(result),
             "full_response": full_response,

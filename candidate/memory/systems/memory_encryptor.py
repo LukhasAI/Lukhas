@@ -112,7 +112,7 @@ def encrypt_memory(
         return False
 
     # Using a more unique temp name to avoid clashes if function is called rapidly
-    temp_json_name = f"temp_lucas_mem_{uuid.uuid4().hex[:12]}.json"  # Increased uniqueness
+    temp_json_name = f"temp_lucas_mem_{uuid.uuid4(}.hex[:12]}.json"  # Increased uniqueness
     temp_json_path = temp_dir / temp_json_name
 
     encryption_successful = False

@@ -22,7 +22,7 @@ def apply_fixes():
     with open("api_fixes.json") as f:
         fixes_data = json.load(f)
 
-    print(f"🔧 Applying {len(fixes_data['fixes'])} fixes...")
+    print(f"🔧 Applying {len(fixes_data['fixes']} fixes...")
 
     # Group fixes by file
     fixes_by_file = {}

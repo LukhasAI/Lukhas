@@ -163,13 +163,13 @@ class SymbolicThemeClusterer:
         motifs = []
         dream_sessions = self._load_dream_sessions(dream_dir, limit)
 
-        logger.info(f"Extracting motifs from {len(dream_sessions)} dream sessions")
+        logger.info(f"Extracting motifs from {len(dream_sessions} dream sessions")
 
         for session in dream_sessions:
             session_motifs = self._extract_session_motifs(session)
             motifs.extend(session_motifs)
 
-        logger.info(f"Extracted {len(motifs)} total motif instances")
+        logger.info(f"Extracted {len(motifs} total motif instances")
         return [asdict(motif) for motif in motifs]
 
     def _load_dream_sessions(self, directory: str, limit: int) -> list[dict]:
@@ -463,7 +463,7 @@ class SymbolicThemeClusterer:
         if not motifs:
             return {}
 
-        logger.info(f"Clustering {len(motifs)} motifs by similarity")
+        logger.info(f"Clustering {len(motifs} motifs by similarity")
 
         # Convert dict motifs back to objects for processing
         motif_objects = [MotifInstance(**motif) for motif in motifs]
@@ -482,7 +482,7 @@ class SymbolicThemeClusterer:
         else:
             clusters = self._simple_clustering(similarity_matrix, motif_objects)
 
-        logger.info(f"Created {len(clusters)} thematic clusters")
+        logger.info(f"Created {len(clusters} thematic clusters")
         return clusters
 
     def _build_cooccurrence_matrix(
@@ -714,7 +714,7 @@ class SymbolicThemeClusterer:
         """Return human-readable summaries of each theme, with core symbols and emotional tone."""
         summaries = []
 
-        logger.info(f"Summarizing {len(clusters)} theme clusters")
+        logger.info(f"Summarizing {len(clusters} theme clusters")
 
         for theme_name, symbols in clusters.items():
             if theme_name == "unclustered":
@@ -735,12 +735,12 @@ class SymbolicThemeClusterer:
             )
 
             # Create summary
-            summary = f"**{theme_name.upper()}** ({dominant_emotion})\n"
-            summary += f"Core symbols: {', '.join(core_symbols)}\n"
+            summary = f"**{theme_name.upper(}** ({dominant_emotion})\n"
+            summary += f"Core symbols: {', '.join(core_symbols}\n"
             if supporting_symbols:
-                summary += f"Supporting symbols: {', '.join(supporting_symbols)}\n"
-            summary += f"Emotional tone: {dominant_emotion} ({emotional_tone.get(dominant_emotion, 0.0):.2f})\n"
-            summary += f"Symbol count: {len(symbols)}\n"
+                summary += f"Supporting symbols: {', '.join(supporting_symbols}\n"
+            summary += f"Emotional tone: {dominant_emotion} ({emotional_tone.get(dominant_emotion, 0.0}:.2f})\n"
+            summary += f"Symbol count: {len(symbols}\n"
 
             summaries.append(summary)
 
@@ -786,7 +786,7 @@ class SymbolicThemeClusterer:
         if len(history) < 2:
             return {"transitions": [], "patterns": []}
 
-        logger.info(f"Tracking theme transitions across {len(history)} sessions")
+        logger.info(f"Tracking theme transitions across {len(history} sessions")
 
         transitions = []
         timeline = []
@@ -975,10 +975,10 @@ class SymbolicThemeClusterer:
         lines.append("=" * 50)
         lines.append("")
         lines.append(
-            f"**Analysis Date:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
+            f"**Analysis Date:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'}"
         )
         lines.append(
-            f"**Total Themes Identified:** {len([k for k in clusters if k != 'unclustered'])}"
+            f"**Total Themes Identified:** {len([k for k in clusters if k != 'unclustered']}"
         )
         lines.append("")
 
@@ -996,7 +996,7 @@ class SymbolicThemeClusterer:
             lines.append("#)  #  Unclustered Symbols"
             lines.append("")
             lines.append("The following symbols did not form clear thematic clusters:")
-            lines.append(f"```\n{', '.join(clusters['unclustered'])}\n```")
+            lines.append(f"```\n{', '.join(clusters['unclustered']}\n```")
             lines.append("")
 
         # Analysis notes
@@ -1091,8 +1091,8 @@ def main():
     print("\n" + "=" * 60)
     print("SYMBOLIC THEME ANALYSIS SUMMARY")
     print("=" * 60)
-    print(f"Total Motifs Analyzed: {len(motifs)}")
-    print(f"Themes Identified: {len([k for k in clusters if k != 'unclustered'])}")
+    print(f"Total Motifs Analyzed: {len(motifs}")
+    print(f"Themes Identified: {len([k for k in clusters if k != 'unclustered']}")
     print()
 
     for summary in summaries[:5]:  # Show top 5 themes
@@ -1101,7 +1101,7 @@ def main():
     if transition_data:
         print("THEME TRANSITIONS:")
         print(f"Total Sessions: {transition_data['total_sessions']}")
-        print(f"Theme Changes: {len(transition_data['transitions'])}")
+        print(f"Theme Changes: {len(transition_data['transitions']}")
         for pattern in transition_data["patterns"]:
             print(f"- {pattern}")
 

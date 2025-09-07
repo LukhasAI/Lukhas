@@ -27,7 +27,7 @@ from candidate.core.common import get_logger
 
 from .voice_profiling import VoiceProfile, VoiceProfileManager
 
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 
 class VoicePersonalityIntegrator:

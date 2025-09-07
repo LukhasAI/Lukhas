@@ -31,7 +31,7 @@ class ModuleMigrator:
                 with open(py_file, encoding="utf-8") as f:
                     for line_no, line in enumerate(f, 1):
                         if pattern.search(line):
-                            illegal.append(f"{py_file.relative_to(self.root)}:{line_no}: {line.strip()}")
+                            illegal.append(f"{py_file.relative_to(self.root)}:{line_no}: {line.strip(}")
             except Exception as e:
                 print(f"Error reading {py_file}: {e}")
 
@@ -67,7 +67,7 @@ class ModuleMigrator:
                     with open(py_file, encoding="utf-8") as f:
                         for _line_no, line in enumerate(f, 1):
                             if pattern.search(line):
-                                imports.append(f"{py_file.relative_to(module_path)}")
+                                imports.append(f"{py_file.relative_to(module_path}")
                                 break
                 except:
                     pass
@@ -226,20 +226,20 @@ def main():
         report = migrator.generate_report(module_name)
 
         print(f"\n=== Migration Report for {module_name} ===")
-        print(f"Files: {report.get('files', 0)}")
-        print(f"Tests: {report.get('test_count', 0)}")
-        print(f"MATRIZ Compliant: {'Yes' if report.get('matriz_compliant') else 'No'}")
-        print(f"Ready for Migration: {'Yes' if report.get('ready') else 'No'}")
+        print(f"Files: {report.get('files', 0}")
+        print(f"Tests: {report.get('test_count', 0}")
+        print(f"MATRIZ Compliant: {'Yes' if report.get('matriz_compliant'} else 'No'}")
+        print(f"Ready for Migration: {'Yes' if report.get('ready'} else 'No'}")
 
         if report.get("illegal_imports"):
-            print(f"\nIllegal Imports ({len(report['illegal_imports'])}):")
+            print(f"\nIllegal Imports ({len(report['illegal_imports']}):")
             for imp in report["illegal_imports"][:5]:
                 print(f"  - {imp}")
 
         if report.get("circular_deps"):
             print("\nCircular Dependencies:")
             for dep, files in report["circular_deps"].items():
-                print(f"  {module_name} → {dep}: {len(files)} files")
+                print(f"  {module_name} → {dep}: {len(files} files")
 
     else:
         print("Invalid command or missing module name")

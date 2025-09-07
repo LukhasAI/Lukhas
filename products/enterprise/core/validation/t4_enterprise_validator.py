@@ -24,7 +24,7 @@ from typing import Any, Optional
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime, timezone)s [%(levelname)s] %(name)s: %(message)s",
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
         logging.FileHandler("t4_enterprise_validation.log"),
@@ -913,7 +913,7 @@ class T4EnterpriseValidator:
         # Show failed tests
         failed_results = [r for r in report.validation_results if not r.passed]
         if failed_results:
-            print(f"\n❌ Failed Tests ({len(failed_results)}):")
+            print(f"\n❌ Failed Tests ({len(failed_results}):")
             for result in failed_results:
                 print(f"   • {result.test_name}: {result.error_message or 'Failed'}")
 

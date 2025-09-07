@@ -140,7 +140,7 @@ class EmergencySimulator:
             logger.warning("🚨 EMERGENCY CONDITION TRIGGERED")
             logger.warning(f"   Entropy: {metrics['entropy_score']:.3f} > 0.95")
             logger.warning(f"   Velocity: {metrics['entropy_velocity']:.3f} > 0.1")
-            logger.warning(f"   Symbolic: {'→'.join(metrics['symbolic_pattern'])}")
+            logger.warning(f"   Symbolic: {'→'.join(metrics['symbolic_pattern']}")
 
             # Log emergency trigger to audit
             await self._log_emergency_trigger(metrics)
@@ -169,7 +169,7 @@ class EmergencySimulator:
         }
 
         # Save to Guardian audit log
-        audit_file = self.guardian_audit_dir / f"emergency_trigger_{int(time.time())}.json"
+        audit_file = self.guardian_audit_dir / f"emergency_trigger_{int(time.time()}.json"
         with open(audit_file, "w") as f:
             json.dump(audit_entry, f, indent=2)
 
@@ -269,7 +269,7 @@ class EmergencySimulator:
         }
 
         # Save report
-        report_file = self.guardian_audit_dir / f"emergency_simulation_report_{int(time.time())}.json"
+        report_file = self.guardian_audit_dir / f"emergency_simulation_report_{int(time.time()}.json"
         with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 

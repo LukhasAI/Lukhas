@@ -51,7 +51,7 @@ class SymbolicTraceMap:
             self.trace_map[symbol_id] = []
 
         node = {
-            "node_id": f"{node_type}_{uuid.uuid4().hex[:8]}",
+            "node_id": f"{node_type}_{uuid.uuid4(}.hex[:8]}",
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "node_type": node_type,
             "metadata": metadata or {},

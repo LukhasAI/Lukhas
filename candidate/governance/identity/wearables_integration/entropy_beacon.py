@@ -16,7 +16,7 @@ import streamlit as st
 class EntropyBeacon:
     """Broadcasts low-level entropy signals from wearable devices with AGI resilience."""
 
-    def __init__(self, timezone):
+    def __init__(self):
         self.broadcasting = False
         self.contribution_history = []
         self.signing_key = nacl.signing.SigningKey.generate()
@@ -41,7 +41,7 @@ class EntropyBeacon:
 
     def generate_entropy_fingerprint(self, session_id):
         """Generate a cryptographically unique signature tied to the session."""
-        return hashlib.sha256(f"{session_id}-{self.get_current_time()}".encode()).hexdigest()
+        return hashlib.sha256(f"{session_id}-{self.get_current_time(}".encode()).hexdigest()
 
     def assign_entropy_weight(self, session_id, relevance):
         """Assign session-specific entropy weights based on relevance."""

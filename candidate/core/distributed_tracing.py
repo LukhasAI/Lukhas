@@ -561,11 +561,11 @@ def demo_distributed_tracing():
 
     # Get traces by operation
     analysis_traces = collector.get_traces_by_operation("agent.analyze_data")
-    print(f"\nFound {len(analysis_traces)} traces for analyze_data operation")
+    print(f"\nFound {len(analysis_traces} traces for analyze_data operation")
 
     if analysis_traces:
         trace = analysis_traces[0]
-        print(f"Trace {trace['trace_id']} has {len(trace['spans'])} spans")
+        print(f"Trace {trace['trace_id']} has {len(trace['spans']} spans")
 
         for span_data in trace["spans"]:
             print(f"  - {span_data['operation_name']} ({span_data['duration']:.3f}s)")

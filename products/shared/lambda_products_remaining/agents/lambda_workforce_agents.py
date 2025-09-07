@@ -21,7 +21,7 @@ from .autonomous_agent_framework import (
     AgentGoal,
     AgentPriority,
     AgentTask,
-    AutonomousAgent,, timezone)
+    AutonomousAgent)
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +78,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         for _i in range(random.randint(1, 10)):
             emotional_data["intervention_needed"].append(
                 {
-                    "employee_id": f"emp_{random.randint(1000, 9999)}",
+                    "employee_id": f"emp_{random.randint(1000, 9999}",
                     "risk_level": random.choice(["low", "medium", "high"]),
                     "recommended_action": random.choice(
                         [
@@ -111,7 +111,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
             if risk_score > threshold:
                 at_risk_employees.append(
                     {
-                        "employee_id": f"emp_{random.randint(1000, 9999)}",
+                        "employee_id": f"emp_{random.randint(1000, 9999}",
                         "risk_score": risk_score,
                         "factors": random.sample(
                             [
@@ -175,7 +175,7 @@ class NIASEmotionalIntelligenceAgent(AutonomousAgent):
         intervention_type = params.get("type", "general")
 
         intervention = {
-            "id": f"intervention_{datetime.now(timezone.utc).timestamp()}",
+            "id": f"intervention_{datetime.now(timezone.utc).timestamp(}",
             "type": intervention_type,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "target_employees": random.randint(10, 50),
@@ -556,7 +556,7 @@ class LambdaWorkforceOrchestrator:
 
             asyncio.create_task(agent.run())
 
-        logger.info(f"Deployed {len(self.agents)} Lambda agents for workforce automation")
+        logger.info(f"Deployed {len(self.agents} Lambda agents for workforce automation")
 
     def calculate_roi(self) -> dict[str, Any]:
         """Calculate ROI of Lambda AI Workforce"""

@@ -60,7 +60,7 @@ def main():
             print("📖 Full ETHICS.md Preview:\n")
             lines = f.readlines()
             for line in lines:
-                print(f"  {line.strip()}")
+                print(f"  {line.strip(}")
     except FileNotFoundError:
         print("❌ ETHICS.md file not found.")
 

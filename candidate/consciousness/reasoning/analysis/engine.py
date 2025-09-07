@@ -132,7 +132,7 @@ class LucasAnalyzeEngine:
     """
 
     def __init__(self, config: Optional[Any] = None):  # Changed LucasConfig to Any due to potential import issues
-        self.logger = logger.bind(engine_instance_id=f"LAE_{time.monotonic_ns()}")
+        self.logger = logger.bind(engine_instance_id=f"LAE_{time.monotonic_ns(}")
         self.logger.info("Initializing LucasAnalyzeEngine instance.")
 
         # ΛNOTE: Config handling assumes LucasConfig.get_default() or passed config.
@@ -397,7 +397,7 @@ class LucasAnalyzeEngine:
                 "Unsupported data type for preparation.",
                 input_type=type(data_input).__name__,
             )
-            raise ValueError(f"Unsupported data type: {type(data_input)}")
+            raise ValueError(f"Unsupported data type: {type(data_input}")
 
     # AINFER: Generates a profile of the data including shape, types, missing
     # values, etc.
@@ -925,11 +925,11 @@ class LucasAnalyzeEngine:
         summary_parts: list[str] = []
         if question:
             summary_parts.append(f"Regarding your question: '{question}':")
-        summary_parts.append(f"Key findings from the analysis ({len(insights)} insights identified):")
+        summary_parts.append(f"Key findings from the analysis ({len(insights} insights identified):")
         for i, insight in enumerate(insights[:3], 1):  # Top 3
-            summary_parts.append(f"{i}. {insight.get('message', 'An insight was found.')}")
+            summary_parts.append(f"{i}. {insight.get('message', 'An insight was found.'}")
         if len(insights) > 3:
-            summary_parts.append(f"...and {len(insights) - 3} more detailed insights available.")
+            summary_parts.append(f"...and {len(insights} - 3} more detailed insights available.")
 
         final_summary = "\n".join(summary_parts)
         self.logger.info("Analysis summary generated.", length=len(final_summary))

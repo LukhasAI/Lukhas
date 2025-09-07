@@ -40,7 +40,7 @@ def run_reflection():
     with open("logs/lukhas_daily_reflection_log.txt", "a") as log_file:
         from datetime import datetime
 
-        timestamp = datetime.now(, timezone).strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_file.write(f"[{timestamp}] Daily reflection triggered.\n")
 
 

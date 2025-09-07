@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -199,7 +199,7 @@ class ConsentPathLogger:
         self._save_entry(entry)
 
         # Log symbolic notation
-        logger.info(f"✓ Consent logged: {entry.to_symbolic_notation()} [hash: {entry.consent_hash[:8]}...]")
+        logger.info(f"✓ Consent logged: {entry.to_symbolic_notation(} [hash: {entry.consent_hash[:8]}...]")
 
         return entry
 
@@ -291,8 +291,8 @@ class ConsentPathLogger:
             # Create visual representation
             drift_indicator = "🟢" if entry.drift_score < 0.3 else "🟡" if entry.drift_score < 0.7 else "🔴"
 
-            lines.append(f"\n[{i + 1}] {entry.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
-            lines.append(f"    {entry.to_symbolic_notation()}")
+            lines.append(f"\n[{i + 1}] {entry.timestamp.strftime('%Y-%m-%d %H:%M:%S'}")
+            lines.append(f"    {entry.to_symbolic_notation(}")
             lines.append(f"    Drift: {drift_indicator} {entry.drift_score:.3f}")
             lines.append(f"    Hash: {entry.consent_hash[:16]}...")
 

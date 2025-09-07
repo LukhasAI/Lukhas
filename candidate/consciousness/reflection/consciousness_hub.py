@@ -99,7 +99,7 @@ from typing import Any, Callable, Optional
 from candidate.core.common import get_logger
 
 # Set up logger first
-logger = get_logger(__name__, timezone)
+logger = get_logger(__name__)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 🌌 Quantum-Bio Consciousness Integration Components 🌌
@@ -298,7 +298,7 @@ class ConsciousnessHub:
             config: Optional configuration parameters for consciousness tuning
         """
         self.name = "consciousness_orchestration_hub"
-        self.consciousness_id = f"consciousness_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
+        self.consciousness_id = f"consciousness_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}"
 
         # Core Consciousness Infrastructure
         self.services: dict[str, Any] = {}

@@ -72,7 +72,7 @@ class RedundancyRemover:
             except Exception:
                 pass
 
-        logger.info(f"   Found {len(files_to_update)} files with logger setup")
+        logger.info(f"   Found {len(files_to_update} files with logger setup")
 
         # Process each file
         import re
@@ -130,7 +130,7 @@ class RedundancyRemover:
                     self.modified_files.add(py_file)
                     modified += 1
                     logger.info(
-                        f"   {'Would modify' if self.dry_run else 'Modified'}: {py_file.relative_to(self.root_path)}"
+                        f"   {'Would modify' if self.dry_run else 'Modified'}: {py_file.relative_to(self.root_path}"
                     )
 
             except Exception as e:
@@ -230,7 +230,7 @@ class RedundancyRemover:
                                     for imp_line in imports:
                                         all_imports.update(imp.strip() for imp in imp_line.split(","))
                                     if all_imports:
-                                        new_lines.append(f"from {module} import {', '.join(sorted(all_imports))}")
+                                        new_lines.append(f"from {module} import {', '.join(sorted(all_imports)}")
                                 else:
                                     for imp in imports:
                                         new_lines.append(f"from {module} import {imp}")
@@ -292,7 +292,7 @@ class RedundancyRemover:
                 unused = imports - used_names
 
                 if unused and len(unused) < len(imports):  # Don't remove all imports
-                    logger.info(f"   Found {len(unused)} unused imports in {py_file.relative_to(self.root_path)}")
+                    logger.info(f"   Found {len(unused)} unused imports in {py_file.relative_to(self.root_path}")
                     cleaned += 1
 
             except Exception:
@@ -381,7 +381,7 @@ class RedundancyRemover:
 
     def run(self):
         """Run redundancy removal"""
-        logger.info(f"🧹 Starting Redundancy Removal {'(DRY RUN)' if self.dry_run else ''}")
+        logger.info(f"🧹 Starting Redundancy Removal {'(DRY RUN}' if self.dry_run else ''}")
         logger.info("=" * 80)
 
         if not self.dry_run:
@@ -402,7 +402,7 @@ class RedundancyRemover:
         logger.info("=" * 80)
         logger.info(f"Mode: {'DRY RUN' if self.dry_run else 'ACTUAL REMOVAL'}")
         logger.info(f"Total removals: {self.removed_count}")
-        logger.info(f"Files modified: {len(self.modified_files)}")
+        logger.info(f"Files modified: {len(self.modified_files}")
         if not self.dry_run:
             logger.info(f"Backup location: {self.backup_dir}")
         logger.info("Report saved: docs/reports/redundancy_removal_report.json")

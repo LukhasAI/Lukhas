@@ -264,7 +264,7 @@ class DriftDashboard:
             self._create_alert(
                 component="PREDICTIVE_MONITOR",
                 severity=DriftSeverity.CASCADE,
-                message=f"Predictive model indicates critical drift in {lookahead_prediction['summary'].get('time_to_critical', 'unknown')} minutes",
+                message=f"Predictive model indicates critical drift in {lookahead_prediction['summary'].get('time_to_critical', 'unknown'} minutes",
             )
 
         logger.info(
@@ -343,7 +343,7 @@ class DriftDashboard:
         if action_type not in self.remediation_triggers:
             raise ValueError(f"Unknown remediation type: {action_type}")
 
-        action_id = f"REM_{int(time.time() * 1000)}"
+        action_id = f"REM_{int(time.time() * 1000}"
 
         action = RemediationAction(
             action_id=action_id,
@@ -438,7 +438,7 @@ class DriftDashboard:
                 self._create_alert(
                     component=component.upper(),
                     severity=DriftSeverity.WARNING,
-                    message=f"{component.capitalize()} drift exceeds threshold: {value:.3f}",
+                    message=f"{component.capitalize(} drift exceeds threshold: {value:.3f}",
                 )
 
         # Cascade alerts
@@ -463,7 +463,7 @@ class DriftDashboard:
 
         if alert_key not in self.active_alerts:
             alert = DriftAlert(
-                alert_id=f"ALERT_{int(time.time() * 1000)}",
+                alert_id=f"ALERT_{int(time.time() * 1000}",
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 severity=severity,
                 component=component,

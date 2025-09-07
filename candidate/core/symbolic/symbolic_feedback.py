@@ -692,7 +692,7 @@ class Symbolicfeedbacksystem:
     def _generate_loop_id(self, context: SymbolicContext) -> str:
         """Generate unique loop ID"""
         timestamp = datetime.now(timezone.utc).isoformat()
-        raw_data = f"LOOP-{context.value}-{timestamp}-{len(self.feedback_loops)}"
+        raw_data = f"LOOP-{context.value}-{timestamp}-{len(self.feedback_loops}"
         return hashlib.sha256(raw_data.encode()).hexdigest()[:8]
 
     def _analyze_performance_patterns(
@@ -896,7 +896,7 @@ class Symbolicfeedbacksystem:
             recommendations.append(
                 {
                     "priority": "medium",
-                    "message": f"Low confidence patterns detected: {', '.join(low_confidence_patterns[:3])}",
+                    "message": f"Low confidence patterns detected: {', '.join(low_confidence_patterns[:3]}",
                     "action": "pattern_reinforcement",
                 }
             )
@@ -1011,6 +1011,6 @@ if __name__ == "__main__":
 
     # Get optimization insights
     insights = feedback_system.get_optimization_insights()
-    print(f"Generated {len(insights['optimization_recommendations'])} optimization recommendations")
+    print(f"Generated {len(insights['optimization_recommendations']} optimization recommendations")
 
     print("Symbolic Feedback System demonstration completed!")

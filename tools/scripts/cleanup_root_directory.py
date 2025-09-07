@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 class RootDirectoryCleaner:
-    def __init__(self, timezone):
+    def __init__(self):
         self.timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         self.moves = []
 
@@ -62,7 +62,7 @@ class RootDirectoryCleaner:
             if os.path.isfile(item) and item not in self.allowed_root_files:
                 root_files.append(item)
 
-        print(f"Found {len(root_files)} files in root that should be moved")
+        print(f"Found {len(root_files} files in root that should be moved")
         return root_files
 
     def categorize_file(self, filename):
@@ -163,7 +163,7 @@ class RootDirectoryCleaner:
         for directory in directories:
             Path(directory).mkdir(parents=True, exist_ok=True)
 
-        print(f"✅ Created/verified {len(directories)} directories")
+        print(f"✅ Created/verified {len(directories} directories")
 
     def generate_report(self):
         """Generate cleanup report"""
@@ -215,7 +215,7 @@ def main():
         return
 
     # Move files
-    print(f"\n📦 Moving {len(files_to_move)} files...")
+    print(f"\n📦 Moving {len(files_to_move} files...")
     for filename in files_to_move:
         destination = cleaner.categorize_file(filename)
         print(f"  Moving {filename} -> {destination}")
@@ -225,14 +225,14 @@ def main():
     print("\n🗑️  Cleaning up empty directories...")
     removed = cleaner.cleanup_empty_directories()
     if removed:
-        print(f"  Removed {len(removed)} empty directories")
+        print(f"  Removed {len(removed} empty directories")
 
     # Generate report
     print("\n📋 Generating report...")
     cleaner.generate_report()
 
     print("\n✅ Cleanup Complete!")
-    print(f"  - Files moved: {len(cleaner.moves)}")
+    print(f"  - Files moved: {len(cleaner.moves}")
     print("  - Report saved: docs/reports/status/ROOT_CLEANUP_REPORT.md")
 
 

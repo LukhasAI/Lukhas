@@ -14,7 +14,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 
-class ValidationError(Exception, timezone):
+class ValidationError(Exception):
     """Custom validation error with detailed information"""
 
     def __init__(self, field: str, message: str, value: Any = None):
@@ -424,7 +424,7 @@ class APIValidator:
             return errors[0]
 
         error_messages = [f"{e.field}: {e.message}" for e in errors]
-        return ValidationError("multiple_fields", f"Validation failed: {'; '.join(error_messages)}")
+        return ValidationError("multiple_fields", f"Validation failed: {'; '.join(error_messages}")
 
     async def validate_with_retry(
         self,

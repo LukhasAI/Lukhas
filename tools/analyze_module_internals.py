@@ -71,7 +71,7 @@ class ModuleInternalAnalyzer:
             "total_files": len(all_files),
             "connected_files": len(connected_files),
             "orphaned_files": len(orphaned_files),
-            "connection_rate": f"{len(connected_files) / len(all_files) * 100:.1f}%",
+            "connection_rate": f"{len(connected_files) / len(all_files} * 100:.1f}%",
             "entry_points": list(entry_points),
             "high_value_orphans": high_value_orphans[:10],  # Top 10
             "sample_orphans": list(orphaned_files)[:20],
@@ -225,7 +225,7 @@ class ModuleInternalAnalyzer:
                 print(f"\n❌ {module}: {data['error']}")
                 continue
 
-            print(f"\n📦 {module.upper()}")
+            print(f"\n📦 {module.upper(}")
             print(f"  Total files: {data['total_files']}")
             print(f"  Connected: {data['connected_files']} ({data['connection_rate']})")
             print(f"  Orphaned: {data['orphaned_files']}")

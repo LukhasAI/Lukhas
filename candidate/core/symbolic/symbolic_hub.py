@@ -49,7 +49,7 @@ class SymbolicHub:
         self._register_neural_symbolic_services()
 
         self.is_initialized = True
-        logger.info(f"Symbolic hub initialized with {len(self.services)} services")
+        logger.info(f"Symbolic hub initialized with {len(self.services} services")
 
     def _register_core_symbolic_services(self):
         """Register core symbolic services"""
@@ -246,7 +246,7 @@ class SymbolicHub:
 
     async def health_check(self) -> dict[str, Any]:
         """Health check for all registered symbolic services"""
-        health = {"status": "healthy", "services": {}}
+        health = {"status": "healthy", "services": {}
 
         for name, service in self.services.items():
             try:

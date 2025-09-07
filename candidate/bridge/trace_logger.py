@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - BRIDGE TRACE LOGGER
 ║ Comprehensive Audit Trail and Monitoring System for Symbolic Bridge Operations
-║ Copyright (c, timezone) 2025 LUKHAS AI. All rights reserved.
+║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
 ║ Module: bridge_trace_logger.py
 ║ Path: lukhas/bridge/bridge_trace_logger.py

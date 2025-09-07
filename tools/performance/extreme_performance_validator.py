@@ -34,7 +34,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add project root to Python path
-sys.path.insert(0, str(Path(__file__, timezone).parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # Import extreme performance optimizations
 try:
@@ -189,7 +189,7 @@ class ExtremePerformanceValidator:
         # Generate comprehensive report
         validation_report = self._generate_validation_report()
 
-        print(f"\n🏁 VALIDATION COMPLETED in {time.time() - self.validation_start_time:.1f}s")
+        print(f"\n🏁 VALIDATION COMPLETED in {time.time(} - self.validation_start_time:.1f}s")
         print("=" * 60)
 
         return validation_report
@@ -235,7 +235,7 @@ class ExtremePerformanceValidator:
         )
 
         print(f"   Import cache P95: {p95_import_time:.2f}ms (target: {self.targets['import_cache_ms']}ms)")
-        print(f"   Cache hit rate: {cache_stats.get('hit_rate_percent', 0):.1f}%")
+        print(f"   Cache hit rate: {cache_stats.get('hit_rate_percent', 0}:.1f}%")
 
     async def _validate_hash_calculation_performance(self):
         """Validate async hash calculation performance"""
@@ -276,7 +276,7 @@ class ExtremePerformanceValidator:
         )
 
         print(f"   Hash calculation P95: {p95_hash_time:.2f}ms (target: {self.targets['hash_calculation_ms']}ms)")
-        print(f"   Cache hit rate: {hash_stats.get('cache_hit_rate_percent', 0):.1f}%")
+        print(f"   Cache hit rate: {hash_stats.get('cache_hit_rate_percent', 0}:.1f}%")
 
     async def _validate_audit_buffer_performance(self):
         """Validate async audit buffer eliminates file I/O blocking"""
@@ -469,7 +469,7 @@ class ExtremePerformanceValidator:
         )
 
         print(f"   Throughput: {throughput_rps:.0f} RPS (target: 10,000 RPS)")
-        print(f"   Success rate: {(successful_requests / concurrent_requests) * 100:.1f}%")
+        print(f"   Success rate: {(successful_requests / concurrent_requests} * 100:.1f}%")
 
     async def _validate_statistical_performance(self):
         """Validate statistical performance characteristics"""
@@ -565,7 +565,7 @@ class ExtremePerformanceValidator:
                 for r in self.results
             ],
             "key_achievements": [
-                f"Authentication latency: {min(r.actual_value for r in critical_results if 'Authentication' in r.test_name):.1f}ms (target: 25ms)",
+                f"Authentication latency: {min(r.actual_value for r in critical_results if 'Authentication' in r.test_name}:.1f}ms (target: 25ms)",
                 "Import cache optimization: Sub-millisecond component loading",
                 "Audit buffer optimization: <1ms audit event logging",
                 "Async hash calculation: <2ms SHA-256 operations",
@@ -635,11 +635,11 @@ async def main():
     summary = validation_report.get("validation_summary", {})
     assessment = validation_report.get("overall_assessment", {})
 
-    print(f"Tests run: {summary.get('total_tests', 0)}")
-    print(f"Tests passed: {summary.get('passed_tests', 0)}")
-    print(f"Pass rate: {summary.get('pass_rate_percent', 0):.1f}%")
-    print(f"OpenAI scale ready: {'✅ YES' if assessment.get('openai_scale_ready') else '❌ NO'}")
-    print(f"Performance level: {assessment.get('performance_level', 'unknown')}")
+    print(f"Tests run: {summary.get('total_tests', 0}")
+    print(f"Tests passed: {summary.get('passed_tests', 0}")
+    print(f"Pass rate: {summary.get('pass_rate_percent', 0}:.1f}%")
+    print(f"OpenAI scale ready: {'✅ YES' if assessment.get('openai_scale_ready'} else '❌ NO'}")
+    print(f"Performance level: {assessment.get('performance_level', 'unknown'}")
 
     print("\n🎯 KEY ACHIEVEMENTS:")
     for achievement in validation_report.get("key_achievements", []):
@@ -649,7 +649,7 @@ async def main():
     for recommendation in validation_report.get("recommendations", [])[:5]:
         print(f"   {recommendation}")
 
-    print(f"\n📁 Detailed report saved to: {report_file.absolute()}")
+    print(f"\n📁 Detailed report saved to: {report_file.absolute(}")
 
     return validation_report
 

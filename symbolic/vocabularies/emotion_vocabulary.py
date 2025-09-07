@@ -56,8 +56,8 @@ def get_guardian_weight(emotion: str) -> float:
 
 
 if __name__ == "__main__":
-    print(f"Joy: {get_emotion_symbol('joy')}")
-    print(f"Sadness: {get_emotion_symbol('sadness')}")
-    print(f"Anger: {get_emotion_symbol('anger')}")
-    print(f"Fear: {get_emotion_symbol('fear')}")
-    print(f"Guardian weight of anger: {get_guardian_weight('anger')}")
+    print(f"Joy: {get_emotion_symbol('joy'}")
+    print(f"Sadness: {get_emotion_symbol('sadness'}")
+    print(f"Anger: {get_emotion_symbol('anger'}")
+    print(f"Fear: {get_emotion_symbol('fear'}")
+    print(f"Guardian weight of anger: {get_guardian_weight('anger'}")

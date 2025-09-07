@@ -97,7 +97,7 @@ class EntropyCalculator:
         # Considers element diversity, uniqueness, and security strength
         """
         logger.info(
-            f"ΛTRACE: Calculating vault entropy for {len(symbolic_vault)} elements"
+            f"ΛTRACE: Calculating vault entropy for {len(symbolic_vault} elements"
         )
 
         if not symbolic_vault:
@@ -323,7 +323,7 @@ class EntropyCalculator:
 
         return min(semantic_score, 1.0)
 
-    def _calculate_cultural_entropy(:
+    def _calculate_cultural_entropy(
         self, value: str, cultural_context: Optional[str]
     ) -> float:
         """Calculate entropy bonus for cultural diversity."""

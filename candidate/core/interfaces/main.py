@@ -24,7 +24,7 @@ from lukhas.core.interfaces.voice.edge_voice import speak
 LOG_PATH = "core/logging/symbolic_output_log.jsonl"
 
 
-def log_event(source, event, tier="sys", timezone):
+def log_event(timezone, source, event, tier="sys"):
     entry = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "event": event,

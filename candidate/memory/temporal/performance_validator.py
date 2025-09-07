@@ -33,7 +33,7 @@ PERFORMANCE_CLAIMS = {
     "bio_symbolic_coherence": {
         "claimed": 102.22,
         "unit": "percent",
-        "description": "Bio-symbolic coherence (>100% via quantum enhancement, timezone)",
+        "description": "Bio-symbolic coherence (>100% via quantum enhancement)",
     },
     "dream_exploration_speed": {
         "claimed": 500,
@@ -240,7 +240,7 @@ class PerformanceValidator:
             "summary": {
                 "total_metrics": len(validations),
                 "validated": validated_count,
-                "validation_rate": f"{(validated_count / len(validations) * 100):.1f}%",
+                "validation_rate": f"{(validated_count / len(validations) * 100}:.1f}%",
             },
             "recommendations": self._generate_recommendations(validations),
         }
@@ -316,9 +316,9 @@ def main():
         status = "✅" if validation["validated"] else "⚠️"
         print(f"{status} {validation['metric']}")
         if "actual" in validation:
-            print(f"   Claimed: {validation.get('claimed', 'N/A')}")
+            print(f"   Claimed: {validation.get('claimed', 'N/A'}")
             print(f"   Actual: {validation['actual']}")
-        print(f"   Note: {validation.get('note', '')}")
+        print(f"   Note: {validation.get('note', ''}")
         print()
 
     # Save report

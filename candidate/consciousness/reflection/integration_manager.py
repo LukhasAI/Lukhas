@@ -33,7 +33,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime, timezone)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("LukhasAGIIntegration")
 
 
@@ -271,7 +271,7 @@ class LukhasAGIIntegrationManager:
             await self.initialize_complete_integration()
 
         processing_start = datetime.now(timezone.utc)
-        request_id = f"unified_{int(processing_start.timestamp())}"
+        request_id = f"unified_{int(processing_start.timestamp()}"
 
         logger.info(f" Processing unified AGI request: {request_id}")
 
@@ -677,7 +677,7 @@ async def main():
             return 1
 
         print(" AGI integration initialized successfully")
-        print(f"Integration Status: {lukhas_agi_integration_manager.get_integration_status()}")
+        print(f"Integration Status: {lukhas_agi_integration_manager.get_integration_status(}")
 
         # Test unified processing
         print("\n Testing unified AGI processing...")
@@ -686,7 +686,7 @@ async def main():
             {"test_mode": True},
         )
 
-        print(f" Test completed: {test_result.get('request_id')}")
+        print(f" Test completed: {test_result.get('request_id'}")
         print(f"Processing time: {test_result.get('performance', {}).get('processing_time', 0):.2f}s")
         print(f"System coherence: {test_result.get('integration_insights', {}).get('system_coherence_score', 0):.2%}")
 

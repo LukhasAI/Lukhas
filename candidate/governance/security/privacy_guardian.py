@@ -23,7 +23,7 @@ from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
-logger = logging.getLogger(__name__, timezone)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -361,7 +361,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                         classification.governance_validated = classification_data.get("governance_validated", True)
                     self.data_classifications[classification.classification_id] = classification
 
-                logger.info(f"Loaded {len(self.privacy_policies)} privacy policies with governance validation")
+                logger.info(f"Loaded {len(self.privacy_policies} privacy policies with governance validation")
             else:
                 self._create_default_policies()
 
@@ -1293,7 +1293,7 @@ if __name__ == "__main__":
             print(
                 f"   ⚛️🧠🛡️ Trinity protection: {classification_result['protection_requirements']['trinity_protection']}"
             )
-            print(f"   🔍 Sensitive patterns: {', '.join(classification_result['sensitive_patterns'])}")
+            print(f"   🔍 Sensitive patterns: {', '.join(classification_result['sensitive_patterns']}")
             print(
                 f"   📊 Trinity impact: I:{classification_result['trinity_impact']['identity']:.1f} C:{classification_result['trinity_impact']['consciousness']:.1f} G:{classification_result['trinity_impact']['guardian']:.1f}"
             )

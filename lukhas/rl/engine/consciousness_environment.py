@@ -113,8 +113,8 @@ class ConsciousnessEnvironment:
         """Render environment state"""
         if mode == "human":
             print(f"Step: {self.current_step}/{self.max_steps}")
-            print(f"State norm: {np.linalg.norm(self.state):.3f}")
-            print(f"Consciousness norm: {np.linalg.norm(self.consciousness_state):.3f}")
+            print(f"State norm: {np.linalg.norm(self.state}:.3f}")
+            print(f"Consciousness norm: {np.linalg.norm(self.consciousness_state}:.3f}")
         return None
 
     def close(self) -> None:
