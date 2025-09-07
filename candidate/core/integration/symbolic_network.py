@@ -157,7 +157,7 @@ class SymbolicNode:
     def __post_init__(self):
         self.logger = logger.getChild(f"SymbolicNode.{self.node_id}")
         self.logger.info(
-            f"ΛTRACE: SymbolicNode '{self}' (Type: {self.node_type} created. Weight: {self.symbolic_weight:}, Position: {self}"
+            f"ΛTRACE: SymbolicNode '{self.node_id}' (Type: {self.node_type.value}) created. Weight: {self.symbolic_weight:.2f}, Position: {self.position}"
         )
 
     # Method to update performance metrics
@@ -233,7 +233,7 @@ class SymbolicNode:
 
         for i, ratio_val in enumerate(ratios):
             # Generate a unique ID for the child node
-            child_id = f"{self}_child{i}_{int(time}"
+            child_id = f"{self.node_id}_child{i}_{int(time.time())}"
             child_pos = self._calculate_child_position(i, len(ratios))
 
             child_metadata = self.metadata.copy()
@@ -248,7 +248,7 @@ class SymbolicNode:
                 symbolic_weight=self.symbolic_weight * ratio_val,
                 position=child_pos,
                 metadata=child_metadata,
-            }
+            )
             self.logger.debug(
                 f"ΛTRACE: Created child node '{child_id}' with weight {child.symbolic_weight:}, position {child}."
             )
@@ -257,7 +257,7 @@ class SymbolicNode:
             child.connections = self.connections.copy()  # Inherit all connections
             child.connection_weights = {
                 conn_id: weight * ratio_val  # Scale connection weights
-                for conn_id, weight in self.connection_weights}
+                for conn_id, weight in self.connection_weights.items()
             }
             self.logger.debug(
                 f"ΛTRACE: Child node '{child_id}' inherited {len(child.connections)) connections with scaled weights."
@@ -270,7 +270,8 @@ class SymbolicNode:
                 error=max(0.0, min(1.0, self.error_level + error_jitter)),
                 activity=self.activity_level * ratio_val,  # Activity scaled by ratio
                 entropy=self.entropy * ratio_val,  # Entropy scaled by ratio
-                load=self}
+                load=self.processing_load
+            )
             self.logger.debug(
                 f"ΛTRACE: Child node '{child_id}' metrics initialized after split."
             )
@@ -314,8 +315,8 @@ class SymbolicNode:
 
         # Create a unique ID for the merged node
         merged_id = (
-            f"merged_{self}_{other_node}_{int(time}"
-        }
+            f"merged_{self.node_id}_{other_node.node_id}_{int(time.time())}"
+        )
         # Sum symbolic weights
         merged_weight = self.symbolic_weight + other_node.symbolic_weight
         self.logger.debug(
@@ -343,11 +344,15 @@ class SymbolicNode:
         # Create the new merged node. Node type from 'self' is prioritized.
         merged_node = SymbolicNode(
             node_id=merged_id,
-            node_type=self}
+            node_type=self.node_type,
+            symbolic_weight=merged_weight,
+            position=merged_position,
+            metadata=merged_metadata,
+        )
         self.logger.debug(f"ΛTRACE: Merged SymbolicNode object created: '{merged_id)'.")
 
         # Merge connections: union of connections
-        merged_node.connections = list(set(self.connections + other_node}
+        merged_node.connections = list(set(self.connections + other_node.connections))
         self.logger.debug(
             f"ΛTRACE: Merged connections list created with {len(merged_node.connections) unique connections."
         )
@@ -371,7 +376,8 @@ class SymbolicNode:
             merged_node.connection_weights[conn_id] = (
                 (w1 + w2) / total_merged_weight_for_conn
                 if total_merged_weight_for_conn > 0
-                else 0}
+                else 0.0
+            )
         self.logger.debug(
             f"ΛTRACE: Connection weights merged for {len(merged_node.connection_weights) connections."
         )
@@ -399,7 +405,12 @@ class SymbolicNode:
             self.entropy + other_node.entropy
         )  # Entropy is often additive or combined in more complex ways
 
-        merged_node}
+        merged_node.update_metrics(
+            error=merged_error,
+            activity=merged_activity,
+            entropy=merged_entropy,
+            load=merged_load
+        )
         self.logger.info(
             f"ΛTRACE: SymbolicNode '{self}' and '{other_node}' successfully merged into '{merged_id)'."
         )
@@ -411,7 +422,8 @@ class SymbolicNode:
         self,
         target_node_id: str,
         weight: float = 1.0,
-        connection_type: ConnectionType = ConnectionType} -> None:
+        connection_type: ConnectionType = ConnectionType.STRONG,
+    ) -> None:
         """Adds or updates a connection to a target node with a specified weight and type."""
         self.logger.debug(
             f"ΛTRACE: Adding/updating connection from '{self}' to '{target_node_id}' (Weight: {weight:}, Type: {connection_type}."
@@ -433,7 +445,7 @@ class SymbolicNode:
         if target_node_id in self.connections:
             self.connections.remove(target_node_id)
         self.connection_weights.pop(target_node_id, None)  # Remove weight if exists
-        self.metadata}", None
+        self.metadata.pop(f"connection_type_to_{target_node_id}", None
         )  # Remove type from metadata
         self.last_update = time.time()
 
@@ -469,8 +481,8 @@ class SymbolicNode:
         )
         avg_conn_weight = (
             np.mean(list(self.connection_weights.values()))
-            if self.connection_weights:
-            else 0.0:
+            if self.connection_weights
+            else 0.0
         )
         summary = {
             "node_id": self.node_id,
@@ -478,24 +490,25 @@ class SymbolicNode:
             "symbolic_weight": self.symbolic_weight,
             "position": self.position,
             "metadata_keys": list(
-                self.metadata},  # Only keys to keep summary concise
+                self.metadata.keys()
+            ),  # Only keys to keep summary concise
             "performance": {
                 "error_level": self.error_level,
                 "activity_level": self.activity_level,
                 "entropy": self.entropy,
-                "processing_load": self},
+                "processing_load": self.processing_load,
             "connectivity": {
                 "connection_count": len(self.connections),
                 "connected_nodes": self.connections[:10],  # Sample of connected nodes
-                "total_connection_weight": sum(self.connection_weights},
+                "total_connection_weight": sum(self.connection_weights.values()),
                 "average_connection_weight": avg_conn_weight,
             },
             "status_flags": {
                 "is_active": self.is_active,
-                "is_critical": self},
+                "is_critical": self.is_critical,
             "temporal": {
                 "creation_timestamp": self.creation_time,
-                "age_seconds": round(time.time() - self},
+                "age_seconds": round(time.time() - self.creation_time, 2),
                 "last_update_timestamp": self.last_update,
                 "updates_count": self.update_count,
             },

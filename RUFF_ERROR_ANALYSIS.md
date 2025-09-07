@@ -109,6 +109,7 @@ Most common patterns:
 - candidate/aka_qualia/test_c5_observability.py: Fixed brace issues in f-strings and a list literal; compiled. [CLAIMED BY: Codex]
 - candidate/api/admin.py: Repaired HTML rendering helpers (_badge, _sparkline) and several f-strings; refactored _page to avoid brace-escaping; compiled. [CLAIMED BY: Codex]
 - candidate/consciousness/reflection/id_reasoning_engine.py: Initialized logger properly before use and adjusted child logger binding; compiled. [CLAIMED BY: Codex]
+- candidate/memory/systems/meta_learning_patterns.py: Fixed multiple f-string brace errors, regex formatting, and ID generation f-strings; compiled. [CLAIMED BY: Codex]
 
 Impact: Eliminates a substantial subset of SyntaxError/F-string (F821-adjacent) sources and reduces Ruff error surface in the above modules.
 

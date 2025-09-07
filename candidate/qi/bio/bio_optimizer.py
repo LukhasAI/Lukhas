@@ -184,19 +184,19 @@ except ImportError as e:
 
     class MockQIBioCoordinator:
         async def process_bio_quantum(self, data: Any, context: Any) -> Any:
-            return {"output": data, "metadata": {"status": "mocked_bq_coord"}
+            return {"output": data, "metadata": {"status": "mocked_bq_coord"}}
 
-    if "BioOrchestrator" not in globals() or BioOrchestrator is Any:
+    if "BioOrchestrator" not in globals() or BioOrchestrator == Any:
         BioOrchestrator = MockBioOrchestrator  # type: ignore
-    if "QIBioOscillator" not in globals() or QIBioOscillator is Any:
+    if "QIBioOscillator" not in globals() or QIBioOscillator == Any:
         QIBioOscillator = MockQIBioOscillator  # type: ignore
-    if "QILikeState" not in globals() or QILikeState is Any:
+    if "QILikeState" not in globals() or QILikeState == Any:
         QILikeState = QILikeState  # type: ignore
-    if "QIConfig" not in globals() or QIConfig is Any:
+    if "QIConfig" not in globals() or QIConfig == Any:
         QIConfig = QIConfig  # type: ignore
-    if "QIAwarenessSystem" not in globals() or QIAwarenessSystem is Any:
+    if "QIAwarenessSystem" not in globals() or QIAwarenessSystem == Any:
         QIAwarenessSystem = MockQuantumAwarenessSystem  # type: ignore
-    if "QIDreamAdapter" not in globals() or QIDreamAdapter is Any:
+    if "QIDreamAdapter" not in globals() or QIDreamAdapter == Any:
         QIDreamAdapter = MockQuantumDreamAdapter  # type: ignore
     if "QIBioCoordinator" not in globals() or QIBioCoordinator is Any:
         QIBioCoordinator = MockQIBioCoordinator  # type: ignore
@@ -384,7 +384,7 @@ class QIBioOptimizationAdapter:
                 "current_quantum_like_state_snapshot": (
                     asdict(prepared_q_state) if isinstance(prepared_q_state, QILikeState) else str(prepared_q_state)
                 ),
-                "optimization_run_id": f"qbo_run_{self.optimization_cycles_completed_total}_{int(datetime.now(timezone.utc).timestamp(}}",
+                "optimization_run_id": f"qbo_run_{self.optimization_cycles_completed_total}_{int(datetime.now(timezone.utc).timestamp())}",
                 "total_cycles_completed_by_adapter": self.optimization_cycles_completed_total,
             }
         except Exception as e:
