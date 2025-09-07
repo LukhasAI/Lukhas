@@ -448,7 +448,7 @@ if __name__ == "__main__":
         await bridge.register_agi_service("chain_of_thought", cot)
         await bridge.register_agi_service("model_router", router)
 
-        print(f"Registered services: {list(bridge.registered_services.keys()}")
+        print(f"Registered services: {list(bridge.registered_services.keys())}")
 
         # Test health checks
         health = await bridge.health_check_all_services()

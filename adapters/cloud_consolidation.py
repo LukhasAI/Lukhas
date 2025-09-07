@@ -192,7 +192,7 @@ class CloudConsolidationService:
                     {
                         "type": "remove_duplicates",
                         "description": (
-                            f"Remove {len(group.files)} - 1} duplicate files, "
+                            f"Remove {len(group.files) - 1} duplicate files, "
                             f"save {self._format_bytes(group.redundant_size)}"
                         ),
                         "files": [f.id for f in group.files[1:]],  # Keep first, remove rest

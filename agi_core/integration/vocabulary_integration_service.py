@@ -343,7 +343,7 @@ if __name__ == "__main__":
     # Test analytics export
     analytics = service.export_vocabulary_analytics()
     print(
-        f"Most frequent operation: {max(analytics['operation_frequency'], key=analytics['operation_frequency'].get)} if analytics['operation_frequency'] else 'None'}"
+        f"Most frequent operation: {max(analytics['operation_frequency'], key=analytics['operation_frequency'].get) if analytics['operation_frequency'] else 'None'}"
     )
 
 """

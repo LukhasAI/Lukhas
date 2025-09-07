@@ -905,13 +905,13 @@ async def demonstrate_system_optimization():
     print(f"   Baseline API Response Time: {metrics.baseline_performance['performance']['api_response_time_ms']:.1f}ms")
     print(f"   Current API Response Time: {metrics.current_performance['performance']['api_response_time_ms']:.1f}ms")
     print(
-        f"   Improvement Potential: {metrics.improvement_percentage['performance'].get('api_response_time_ms', 0)}:.1f}%"
+        f"   Improvement Potential: {metrics.improvement_percentage['performance'].get('api_response_time_ms', 0):.1f}%"
     )
 
     print("\n🧠 Consciousness Metrics:")
     print(f"   Coherence Score: {metrics.current_performance['consciousness']['coherence_score']:.2f}")
     print(f"   Dream Integration: {metrics.current_performance['consciousness']['dream_integration']:.2f}")
-    print(f"   Improvement Potential: {metrics.improvement_percentage['consciousness'].get('coherence_score', 0)}:.1f}%")
+    print(f"   Improvement Potential: {metrics.improvement_percentage['consciousness'].get('coherence_score', 0):.1f}%")
 
     print("\n🔍 Primary Bottlenecks:")
     for bottleneck in metrics.bottleneck_analysis["primary_bottlenecks"]:
