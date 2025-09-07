@@ -26,6 +26,24 @@
 html, body {
   background: var(--background);
   color: var(--text-primary);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
+/* Helvetica Neue Typography System */
+.font-helvetica-ultralight {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 100;
+}
+
+.font-helvetica-light {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 200;
+}
+
+.font-helvetica-regular {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
 }
 
 /* Glass helper: add .glass-on on <html> via applyTheme(theme, true) */
