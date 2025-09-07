@@ -5,11 +5,11 @@ import pytest
 def test_memory_wrapper_initializes():
     from lukhas.memory import MemoryWrapper
 
-    MemoryWrapper()
-# MemoryWrapper uses different method names, test what actually exists
-assert mw is not None
-# Test if the wrapper has basic functionality
-assert hasattr(mw, "__class__")
+    mw = MemoryWrapper()
+    # MemoryWrapper uses different method names, test what actually exists
+    assert mw is not None
+    # Test if the wrapper has basic functionality
+    assert hasattr(mw, "__class__")
 
 
 @pytest.mark.no_mock

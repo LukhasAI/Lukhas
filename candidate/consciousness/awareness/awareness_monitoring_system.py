@@ -876,7 +876,7 @@ class AwarenessMonitoringSystem:
 
             if high_load_count > len(load_scores) * 0.3:  # >30% high load
                 insight = ConsciousnessInsight(
-                    insight_id=f"insight_{uuid.uuid4()}.hex[:8]}",
+                    insight_id=f"insight_{uuid.uuid4().hex[:8]}",
                     insight_type="load_management",
                     title="Frequent High Cognitive Load",
                     description=f"High cognitive load detected in {high_load_count}/{len(load_scores)} measurements",
@@ -1019,7 +1019,7 @@ class AwarenessMonitoringSystem:
 
         if not period_snapshots:
             return AwarenessReport(
-                report_id=f"report_{uuid.uuid4()}.hex[:8]}",
+                report_id=f"report_{uuid.uuid4().hex[:8]}",
                 generated_at=datetime.now(timezone.utc),
                 time_period=time_period,
                 total_snapshots=0,
@@ -1070,7 +1070,7 @@ class AwarenessMonitoringSystem:
 
         # Create report
         report = AwarenessReport(
-            report_id=f"report_{uuid.uuid4()}.hex[:8]}",
+            report_id=f"report_{uuid.uuid4().hex[:8]}",
             generated_at=datetime.now(timezone.utc),
             time_period=time_period,
             total_snapshots=len(period_snapshots),

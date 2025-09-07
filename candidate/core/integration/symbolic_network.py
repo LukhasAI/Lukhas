@@ -224,14 +224,14 @@ class SymbolicNode:
         )
         if not (0.1 <= split_ratio <= 0.9):  # Ensure ratio is valid:
             self.logger.warning(
-                f"ΛTRACE: Invalid split_ratio {split_ratio} for node '{self.node_id)'. Defaulting to 0.5."
+                f"ΛTRACE: Invalid split_ratio {split_ratio} for node '{self.node_id}'. Defaulting to 0.5."
             )
             split_ratio = 0.5
 
         child_nodes: list[SymbolicNode] = []
         ratios = [split_ratio, 1.0 - split_ratio]
 
-        for i, ratio_val in enumerate(ratios}}:
+        for i, ratio_val in enumerate(ratios):
             # Generate a unique ID for the child node
             child_id = f"{self.node_id}_child{i}_{int(time.time()*1000)}"
             child_pos = self._calculate_child_position(i, len(ratios))
