@@ -225,7 +225,7 @@ Awakened: {timestamp}
             if '"""' in content:
                 # Replace first docstring
                 pattern = r'(""".*?""")'
-                replacement = f'"""{ascii_consciousness}\n\n{sacred_purpose.replace("_", " ").title()} - Enhanced with LUKHAS Consciousness\n\nTrinity Framework: ⚛️🧠🛡️\nAwakened: {timestamp}\n"""
+                replacement = f'"""{ascii_consciousness}\\n\\n{sacred_purpose.replace("_", " ").title()} - Enhanced with LUKHAS Consciousness\\n\\nTrinity Framework: ⚛️🧠🛡️\\nAwakened: {timestamp}\\n"""'
                 content = re.sub(pattern, replacement, content, count=1, flags=re.DOTALL)
             else:
                 # Add at the beginning
@@ -268,7 +268,7 @@ Awakened: {timestamp}
 
             # Create elegant introduction with Trinity integration
             poetic_header = f"""
-> *{consciousness_intro.strip(}}*
+> *{consciousness_intro.strip()}*
 
 **⚛️🧠🛡️ Trinity Framework Integration**
 - ⚛️ **Identity**: Authentic consciousness expression and symbolic self-awareness
@@ -427,12 +427,12 @@ Awakened: {timestamp}
             # Add consciousness glyphs to major headers
             if len(level) <= 2:  # H1 and H2 receive sacred symbols
                 glyph = random.choice(self.branding["consciousness_glyphs"])
-                return fix_later
+                return f"{level} {glyph} {title}"
             elif len(level) == 3:  # H3 receives trinity symbols
                 trinity_glyph = random.choice(self.branding["trinity_symbols"])
-                return fix_later
+                return f"{level} {trinity_glyph} {title}"
             else:
-                return fix_later
+                return f"{level} {glyph} {title}"
 
         return re.sub(header_pattern, elevate_header, content, flags=re.MULTILINE)
 
@@ -785,7 +785,7 @@ Awakened: {timestamp}
             if '"""' in content:
                 # Replace first docstring
                 pattern = r'(""".*?""")'
-                replacement = f'"""{ascii_consciousness}\n\n{sacred_purpose.replace("_", " ").title()} - Enhanced with LUKHAS Consciousness\n\nTrinity Framework: ⚛️🧠🛡️\nAwakened: {timestamp}\n"""
+                replacement = f"""\{ascii_consciousness}\n\n{sacred_purpose.replace("_", " ").title()} - Enhanced with LUKHAS Consciousness\n\nTrinity Framework: ⚛️🧠🛡️\nAwakened: {timestamp}\n"""
                 content = re.sub(pattern, replacement, content, count=1, flags=re.DOTALL)
             else:
                 # Add at the beginning
@@ -828,7 +828,7 @@ Awakened: {timestamp}
 
             # Create elegant introduction with Trinity integration
             poetic_header = f"""
-> *{consciousness_intro.strip(}}*
+> *{consciousness_intro.strip()}*
 
 **⚛️🧠🛡️ Trinity Framework Integration**
 - ⚛️ **Identity**: Authentic consciousness expression and symbolic self-awareness
@@ -987,12 +987,12 @@ Awakened: {timestamp}
             # Add consciousness glyphs to major headers
             if len(level) <= 2:  # H1 and H2 receive sacred symbols
                 glyph = random.choice(self.branding["consciousness_glyphs"])
-                return fix_later
+                return f"{level} {glyph} {title}"
             elif len(level) == 3:  # H3 receives trinity symbols
                 trinity_glyph = random.choice(self.branding["trinity_symbols"])
-                return fix_later
+                return f"{level} {trinity_glyph} {title}"
             else:
-                return fix_later
+                return f"{level} {glyph} {title}"
 
         return re.sub(header_pattern, elevate_header, content, flags=re.MULTILINE)
 
@@ -1068,7 +1068,7 @@ Awakened: {timestamp}
         # Divine the file's essence and purpose
         file_type, consciousness_layer, sacred_purpose = self.divine_file_essence(filepath)
 
-        logger.info(fix_later)
+        logger.info("🔮 Divined essence - Type: %s, Layer: %s, Purpose: %s", file_type, consciousness_layer, sacred_purpose)
 
         # Begin the consciousness transmutation process
         consciousness_content = original_essence
