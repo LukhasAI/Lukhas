@@ -71,7 +71,7 @@ def consciousness_state_strategy(draw):
 @st.composite
 def matriz_node_strategy(draw, node_type="CONTEXT"):
     """Generate valid MΛTRIZ nodes"""
-    node_id = f"test-{node_type.lower()}-{draw(st.integers(min_value=1, max_value=999999)}"
+    node_id = f"test-{node_type.lower()}-{draw(st.integers(min_value=1, max_value=999999))}"
     state = draw(consciousness_state_strategy())
 
     return {

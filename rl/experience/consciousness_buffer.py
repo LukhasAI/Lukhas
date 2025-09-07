@@ -97,7 +97,7 @@ class ConsciousnessBuffer:
                 # Mock memory core for now
                 class MockMemoryCore:
                     def create_fold(self, data, **kwargs):
-                        return f"fold-{uuid.uuid4()}.hex[:8]}"
+                        return f"fold-{uuid.uuid4().hex[:8]}"
 
                     def get_fold(self, fold_id):
                         return {"data": "mock", "id": fold_id}

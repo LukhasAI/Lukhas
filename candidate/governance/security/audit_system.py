@@ -966,7 +966,7 @@ class ComprehensiveAuditSystem:
         """Verify integrity of audit trail"""
 
         verification_result = {
-            "verification_id": f"verify_{uuid.uuid4()}.hex[:8]}",
+            "verification_id": f"verify_{uuid.uuid4().hex[:8]}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_events_checked": 0,
             "integrity_violations": 0,

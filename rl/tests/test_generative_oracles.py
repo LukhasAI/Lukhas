@@ -716,7 +716,7 @@ async def test_oracle_evolution_judgment():
     print("\n🔄 Oracle Evolution Judgment Test:")
     print(f"   Evolution verdict: {evolution_judgment.verdict.value}")
     print(f"   Confidence: {evolution_judgment.confidence:.3f}")
-    print(f"   Evolution quality: {evolution_judgment.metrics.get('overall_evolution_quality', 0.0)}:.3f}")
+    print(f"   Evolution quality: {evolution_judgment.metrics.get('overall_evolution_quality', 0.0):.3f}")
     print(f"   Violations: {len(evolution_judgment.violations)}")
     print(f"   Warnings: {len(evolution_judgment.warnings)}")
 
