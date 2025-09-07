@@ -49,7 +49,7 @@ def create_business_strategy(domain: str, objectives: list[str], timeline: str =
             "timeline": timeline,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "status": "created",
-            "strategy_id": f"strategy_{domain}_{hash(str(objectives)}",
+            "strategy_id": f"strategy_{domain}_{hash(str(objectives))}",
         }
         logger.info(f"Business strategy created for {domain}")
         return strategy
@@ -71,7 +71,7 @@ def analyze_business_metrics(domain: str, metrics: dict[str, Any]) -> dict[str, 
             "insights": {
                 "key_metrics": list(metrics.keys()),
                 "metric_count": len(metrics),
-                "analysis_summary": f"Analysis of {len(metrics} metrics for {domain}",
+                "analysis_summary": f"Analysis of {len(metrics)} metrics for {domain}",
             },
             "recommendations": [
                 f"Focus on key performance indicators for {domain}",

@@ -332,7 +332,7 @@ class P2PChannel:
             energy_saved = broker_energy_cost - direct_energy_cost
             self.transfer_stats["energy_saved"] += energy_saved
 
-            logger.debug(f"Sent {len(data} bytes to {remote_node_id} via P2P")
+            logger.debug(f"Sent {len(data)} bytes to {remote_node_id} via P2P")
             return True
 
         except Exception as e:

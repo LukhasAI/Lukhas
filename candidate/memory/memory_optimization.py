@@ -903,8 +903,8 @@ async def demonstrate_memory_optimization():
         compact.append(i)
         regular.append(i)
 
-    print(f"Compact list memory: {compact.memory_usage(} bytes")
-    print(f"Regular list memory: {sys.getsizeof(regular) + sum(sys.getsizeof(i) for i in regular} bytes")
+    print(f"Compact list memory: {compact.memory_usage()} bytes")
+    print(f"Regular list memory: {sys.getsizeof(regular) + sum(sys.getsizeof(i) for i in regular)} bytes")
 
     # Bloom filter for membership testing
     bloom = BloomFilter(expected_items=10000, false_positive_rate=0.01)
@@ -912,9 +912,9 @@ async def demonstrate_memory_optimization():
     for i in range(1000):
         bloom.add(f"item_{i}")
 
-    print(f"\nBloom filter memory: {bloom.memory_usage(} bytes for 1000 items")
-    print(f"Contains 'item_500': {bloom.contains('item_500'}")
-    print(f"Contains 'item_5000': {bloom.contains('item_5000'}")
+    print(f"\nBloom filter memory: {bloom.memory_usage()} bytes for 1000 items")
+    print(f"Contains 'item_500': {bloom.contains('item_500')}")
+    print(f"Contains 'item_5000': {bloom.contains('item_5000')}")
 
     # Stop monitoring
     await optimizer.stop_monitoring()

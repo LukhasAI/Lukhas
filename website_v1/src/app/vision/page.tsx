@@ -96,9 +96,9 @@ export default function VisionPage() {
   const timelineRef = useRef(null);
   const conceptsRef = useRef(null);
   
-  const heroInView = useInView(heroRef, { threshold: 0.3 });
-  const timelineInView = useInView(timelineRef, { threshold: 0.1 });
-  const conceptsInView = useInView(conceptsRef, { threshold: 0.2 });
+  const heroInView = useInView(heroRef, { amount: 0.3 });
+  const timelineInView = useInView(timelineRef, { amount: 0.1 });
+  const conceptsInView = useInView(conceptsRef, { amount: 0.2 });
 
   useEffect(() => {
     const interval = setInterval(() => {

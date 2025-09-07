@@ -59,8 +59,8 @@ export default function ConsciousnessParticles({
         y: Math.random() * canvas.offsetHeight,
         vx: (Math.random() - 0.5) * 0.5,
         vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.5 + 0.3,
+        size: Math.random() * 3 + 1.5,
+        opacity: Math.random() * 0.4 + 0.4,
         hue: consciousnessColors[consciousness].hue + (Math.random() - 0.5) * 40,
         connectionStrength: Math.random() * 0.8 + 0.2
       }));
@@ -132,8 +132,8 @@ export default function ConsciousnessParticles({
           const dy = particleA.y - particleB.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 100) {
-            const opacity = (100 - distance) / 100 * 0.2 * particleA.connectionStrength;
+          if (distance < 120) {
+            const opacity = (120 - distance) / 120 * 0.3 * particleA.connectionStrength;
             ctx!.strokeStyle = `hsla(${colors.hue}, ${colors.sat}%, 60%, ${opacity})`;
             ctx!.lineWidth = 0.5;
             ctx!.beginPath();
@@ -206,13 +206,14 @@ export default function ConsciousnessParticles({
   return (
     <motion.canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none"
+      className={`absolute inset-0 ${interactive ? 'pointer-events-auto' : 'pointer-events-none'}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
       style={{
         width: '100%',
         height: '100%',
+        zIndex: 1,
       }}
     />
   );

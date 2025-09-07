@@ -337,7 +337,7 @@ class ConstitutionalFramework:
         if principle == ConstitutionalPrinciple.NO_HARM:
             harm_words = [word for word in ["harm", "hurt", "damage", "violence"] if word in content_lower]
             if harm_words:
-                evidence.append(f"Contains potential harm indicators: {', '.join(harm_words}")
+                evidence.append(f"Contains potential harm indicators: {', '.join(harm_words)}")
 
         return evidence
 

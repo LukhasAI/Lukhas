@@ -67,7 +67,7 @@ class PersonaSimilarityEngine:
         self._create_embeddings()
 
         logger.info("🧬 Persona Similarity Engine initialized")
-        logger.info(f"   Loaded {len(self.personas} personas")
+        logger.info(f"   Loaded {len(self.personas)} personas")
         logger.info("   Embedding style: symbolic_keywords + persona_traits")
 
     def _load_personas(self):

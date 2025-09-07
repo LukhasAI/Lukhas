@@ -98,7 +98,7 @@ def create_colony(colony_type: str, colony_id: str, capabilities: Optional[list[
         Instance of the requested colony type
     """
     if colony_type not in colony_types:
-        raise ValueError(f"Unknown colony type: {colony_type}. Available: {list(colony_types.keys()}")
+        raise ValueError(f"Unknown colony type: {colony_type}. Available: {list(colony_types.keys())}")
 
     colony_class = colony_types[colony_type]
     return colony_class(colony_id, capabilities or [])

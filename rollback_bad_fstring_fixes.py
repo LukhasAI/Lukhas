@@ -21,7 +21,7 @@ def rollback_bad_fstring_patterns(content):
         fixes += len(matches)
     
     # Pattern 2: Fix cases where } got duplicated in variable names
-    # f"...{len(something}..." -> f"...{len(something)}..."
+    # f"...{len(something))}..." -> f"...{len(something)))}..."
     pattern2 = r'(f["\'])([^"\']*)\{([a-zA-Z_][a-zA-Z0-9_]*\([^}]*)\}\}([^"\']*)\1'
     matches = re.findall(pattern2, content)
     if matches:

@@ -144,7 +144,7 @@ class EnhancedMemoryManager:
 
     def __init__(self, base_path: Optional[str] = None):
         # Initialize logger with manager ID
-        self.manager_id = f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S'}"
+        self.manager_id = f"mem_mgr_{datetime.now(timezone.utc).strftime('%H%M%S')}"
         if structlog:
             self.logger = logger.bind(manager_id=self.manager_id)
         else:
@@ -214,7 +214,7 @@ class EnhancedMemoryManager:
         """
         # ΛPHASE_NODE: Store Memory Operation Start
         effective_memory_id = (
-            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_'}"
+            memory_id or f"memory_{datetime.now(timezone.utc).isoformat().replace(':', '-').replace('+', '_')}"
         )  # Ensure filename safe ID
         self.logger.info(
             "Attempting to store memory.",

@@ -27,7 +27,8 @@
       "Bash(npm install:*)",
       "Bash(make test:*)",
       "Bash(cat:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(touch:*)"
     ],
     "deny": [],
     "ask": []

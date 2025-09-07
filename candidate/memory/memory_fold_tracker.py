@@ -289,12 +289,12 @@ class MemoryFoldTracker:
         # Collapses
         if len(collapses) > 2:
             risk_score += 0.3
-            risk_factors.append(f"Multiple collapses ({len(collapses})")
+            risk_factors.append(f"Multiple collapses ({len(collapses)})")
 
         # Trinity voids
         if len(voids) > 3:
             risk_score += 0.2
-            risk_factors.append(f"Trinity voids ({len(voids} sessions)")
+            risk_factors.append(f"Trinity voids ({len(voids)} sessions)")
 
         # Determine risk level
         if risk_score >= 0.7:
@@ -429,7 +429,7 @@ class MemoryFoldTracker:
 
             glyph_timeline.append(
                 {
-                    "window": f"sessions_{i}-{min(i + window_size - 1, len(sessions) - 1}",
+                    "window": f"sessions_{i}-{min(i + window_size - 1, len(sessions) - 1)}",
                     "total_glyphs": total_glyphs,
                     "unique_glyphs": unique_glyphs,
                     "trinity_ratio": (trinity_count / total_glyphs if total_glyphs > 0 else 0),

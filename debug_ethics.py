@@ -36,12 +36,12 @@ def debug_ethics_enforcement():
     print(f"Scene exists: {scene is not None}")
 
     if scene:
-        print(f"Scene has risk: {hasattr(scene, 'risk'}")
+        print(f"Scene has risk: {hasattr(scene, 'risk')}")
         if hasattr(scene, "risk") and scene.risk:
             print(f"Risk score: {scene.risk.score}")
             print(f"Risk severity: {scene.risk.severity}")
 
-        print(f"Scene has transform_chain: {hasattr(scene, 'transform_chain'}")
+        print(f"Scene has transform_chain: {hasattr(scene, 'transform_chain')}")
         if hasattr(scene, "transform_chain"):
             print(f"Transform chain: {scene.transform_chain}")
             if scene.transform_chain:

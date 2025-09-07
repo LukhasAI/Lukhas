@@ -57,7 +57,7 @@ def scan_consciousness_security() -> dict[str, Any]:
         scanning_path = Path(__file__).parent / "scanning"
 
         scan_results = {
-            "scan_id": f"consciousness_scan_{int(datetime.now(timezone.utc).timestamp()}",
+            "scan_id": f"consciousness_scan_{int(datetime.now(timezone.utc).timestamp())}",
             "scan_type": "consciousness_security",
             "started_at": datetime.now(timezone.utc).isoformat(),
             "status": "running",
