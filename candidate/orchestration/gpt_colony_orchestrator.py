@@ -14,8 +14,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 from candidate.core.colonies.consensus_mechanisms import ColonyConsensus
 
 # Import our components

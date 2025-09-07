@@ -5,8 +5,6 @@ Perfect harmony between biological and symbolic
 """
 from pathlib import Path
 
-import streamlit as st
-
 
 def consolidate_bio_symbolic_coherence():
     """Consolidate bio_symbolic_coherence into unified system"""

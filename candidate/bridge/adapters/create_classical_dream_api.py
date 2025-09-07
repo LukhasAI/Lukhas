@@ -4,17 +4,13 @@ LUKHAS Classical Dream API - Non-Quantum Alternative
 Provides dream-based exploration without quantum interference
 """
 import hashlib
-import random
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-
-from consciousness.qi import qi
 
 app = FastAPI(
     title="LUKHAS Classical Dream API",

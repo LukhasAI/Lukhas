@@ -5,10 +5,6 @@ Quantum-inspired SGI processing core
 """
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 def consolidate_quantum_sgi_core():
     """Consolidate qi_sgi_core into unified system"""

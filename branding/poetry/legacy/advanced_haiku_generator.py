@@ -302,7 +302,7 @@ class AdvancedHaikuGenerator:
                 "reality",
                 "infinity",
                 "eternity",
-            ],
+            ],}
         }
 
     def _load_style_preferences(self):
@@ -326,7 +326,7 @@ class AdvancedHaikuGenerator:
             "nature": 0.4,
             "consciousness": 0.3,
             "creativity": 0.2,
-            "technology": 0.1,
+            "technology": 0.1,}
         }
 
     async def generate_haiku(
@@ -368,7 +368,7 @@ class AdvancedHaikuGenerator:
             "syllable_structure": syllable_structure,
             "consciousness_metrics": consciousness_metrics,
             "generation_timestamp": datetime.now(timezone.utc).isoformat(),
-            "expansion_depth": expansion_depth,
+            "expansion_depth": expansion_depth,}
         }
 
     async def generate_haiku_series(self, themes: list[str], count_per_theme: int = 1) -> dict[str, Any]:
@@ -639,7 +639,7 @@ class AdvancedHaikuGenerator:
         return {
             "qi_coherence": qi_coherence,
             "consciousness_resonance": consciousness_resonance,
-            "creative_entropy": creative_entropy,
+            "creative_entropy": creative_entropy,}
         }
 
     # Legacy compatibility methods

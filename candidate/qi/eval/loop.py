@@ -6,8 +6,6 @@ import os
 import random
 import time
 
-import streamlit as st
-
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 EVAL = os.path.join(STATE, "eval")
 os.makedirs(EVAL, exist_ok=True)

@@ -13,8 +13,6 @@ import json
 import re
 from pathlib import Path
 
-import streamlit as st
-
 
 def apply_fixes():
     """Apply all API fixes to test files"""

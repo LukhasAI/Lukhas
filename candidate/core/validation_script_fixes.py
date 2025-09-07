@@ -11,8 +11,6 @@ Fixes the remaining API mismatches in research_validation_pack.py:
 import re
 from pathlib import Path
 
-import streamlit as st
-
 
 def fix_validation_script():
     """Apply all remaining fixes to the validation script"""

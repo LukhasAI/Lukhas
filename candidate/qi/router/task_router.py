@@ -6,10 +6,7 @@ import json
 import os
 from typing import Any
 
-import streamlit as st
 import yaml  # pip install pyyaml
-
-from consciousness.qi import qi
 
 # Reuse your confidence-based planner
 from qi.router.confidence_router import ConfidenceRouter

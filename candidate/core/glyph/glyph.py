@@ -30,8 +30,6 @@ For more information, visit: https://lukhas.ai
 """
 from datetime import timezone
 
-import streamlit as st
-
 # ΛTRACE: Core glyph engine initialization
 # ΛORIGIN_AGENT: Claude Code
 # ΛTASK_ID: Task 14 - GLYPH Engine Integration

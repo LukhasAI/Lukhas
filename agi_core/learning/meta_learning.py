@@ -6,10 +6,10 @@ to learn how to learn more effectively across different domains and tasks.
 """
 
 import logging
-from datetime import datetime, timezone
-from typing import Any, Optional
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ LearningStrategy = MetaLearningStrategy
 @dataclass
 class MetaLearningContext:
     """Context for meta-learning operations."""
-    
+
     domain: str
     task_type: str
     strategy: MetaLearningStrategy
@@ -43,7 +43,7 @@ class MetaLearningContext:
 @dataclass
 class MetaLearningResult:
     """Result of meta-learning operation."""
-    
+
     context_id: str
     performance_metrics: dict[str, float]
     learned_parameters: dict[str, Any]
@@ -67,7 +67,7 @@ MetaLearningInsight = MetaLearningResult
 # Export main classes and functions
 __all__ = [
     "MetaLearner",
-    "MetaLearningStrategy", 
+    "MetaLearningStrategy",
     "LearningStrategy",
     "MetaLearningContext",
     "MetaLearningResult",

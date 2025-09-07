@@ -4,7 +4,6 @@ Original: emotion_mapper_alt.py
 Advanced: emotion_mapper_alt.py
 Integration Date: 2025-05-31T07:55:28.113945
 """
-import streamlit as st
 
 LUKHAS = {
     "name": "Lukhas",

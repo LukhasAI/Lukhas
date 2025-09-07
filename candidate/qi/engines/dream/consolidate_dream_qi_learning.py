@@ -5,8 +5,6 @@ Multi-parallel scenario generation for self-training
 """
 from pathlib import Path
 
-import streamlit as st
-
 
 def consolidate_dream_quantum_learning():
     """Consolidate dream_quantum_learning into unified system"""

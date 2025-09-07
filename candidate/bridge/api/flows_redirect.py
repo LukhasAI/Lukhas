@@ -9,7 +9,6 @@ import builtins
 import contextlib
 import logging
 
-import streamlit as st
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 

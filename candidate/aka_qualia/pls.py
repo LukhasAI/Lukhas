@@ -10,10 +10,7 @@ Designed for rapid iteration and clear monotonicity guarantees.
 Future versions can replace with learned models while maintaining interface.
 """
 import random
-import time
 from typing import Any, Optional
-
-import streamlit as st
 
 from .models import AgencyFeel, PLSLatent, ProtoQualia, TemporalFeel
 

@@ -5,8 +5,6 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 from typing import Any
 
-import streamlit as st
-
 from .awareness import BioAwareness
 from .oscillator import get_orchestrator
 from .symbolic import get_symbolic_processor

@@ -38,10 +38,7 @@
 # Module imports
 import logging
 import sys
-import time
 from typing import Optional
-
-import streamlit as st
 
 # Module constants
 MODULE_VERSION = "1.0.0"

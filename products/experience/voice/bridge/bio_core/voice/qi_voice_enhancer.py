@@ -8,8 +8,6 @@ import logging
 from dataclasses import dataclass
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 from ...voice_integrator import VoiceIntegrator
 from ..oscillator.orchestrator import BioOrchestrator
 from ..oscillator.qi_layer import QIBioOscillator

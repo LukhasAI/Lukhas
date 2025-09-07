@@ -3,8 +3,6 @@ import os
 from datetime import datetime, timezone
 from typing import Optional
 
-import streamlit as st
-
 
 class FederatedLearningManager:
     """

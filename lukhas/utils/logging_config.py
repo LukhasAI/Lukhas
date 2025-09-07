@@ -13,8 +13,6 @@ Production-ready logging system with:
 Author: LUKHAS AI T4 Team
 Version: 1.0.0
 """
-import streamlit as st
-
 import logging
 import logging.config
 import os
@@ -25,6 +23,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, ClassVar, Optional
 
+import streamlit as st
 import structlog
 from pythonjsonlogger import jsonlogger
 

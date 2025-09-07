@@ -3,10 +3,7 @@ Redis cache client for real-time data
 """
 import asyncio
 import logging
-import time
 from typing import Any, Optional
-
-import streamlit as st
 
 logger = logging.getLogger(__name__)
 

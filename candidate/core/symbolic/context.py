@@ -6,8 +6,6 @@ This module provides the SymbolicContext enum without dependencies for easier im
 """
 from enum import Enum
 
-import streamlit as st
-
 
 class SymbolicContext(Enum):
     """Context types for symbolic operations"""

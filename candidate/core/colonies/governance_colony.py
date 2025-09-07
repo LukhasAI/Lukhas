@@ -9,8 +9,6 @@ from collections import deque
 from datetime import datetime, timezone
 from typing import Any
 
-import streamlit as st
-
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.efficient_communication import MessagePriority
 from candidate.core.swarm import SwarmAgent

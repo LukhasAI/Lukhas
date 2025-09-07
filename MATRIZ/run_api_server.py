@@ -6,7 +6,6 @@ Start the FastAPI server with development-friendly settings without sys.path hac
 import argparse
 import sys
 
-import streamlit as st
 import uvicorn
 
 

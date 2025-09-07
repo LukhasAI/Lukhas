@@ -8,11 +8,7 @@ integration strategy.
 import json
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any, Optional
 
 
 @dataclass

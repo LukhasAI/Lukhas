@@ -11,12 +11,9 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
-import streamlit as st
-
 from candidate.core.container.service_container import ServiceContainer
 from candidate.core.interfaces import CoreInterface
 from candidate.core.symbolic_engine import SymbolicEffect, SymbolicEvent
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

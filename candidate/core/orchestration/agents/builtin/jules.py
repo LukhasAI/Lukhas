@@ -2,7 +2,6 @@
 
 ΛTAG: builtin_jules_agent
 """
-import streamlit as st
 
 from ..base import OrchestrationAgent
 from ..types import AgentCapability, AgentContext, AgentResponse

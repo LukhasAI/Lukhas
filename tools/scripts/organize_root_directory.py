@@ -7,8 +7,6 @@ Moves files from root to appropriate subdirectories.
 import shutil
 from pathlib import Path
 
-import streamlit as st
-
 
 def organize_root():
     root = Path("/Users/agi_dev/Lukhas")

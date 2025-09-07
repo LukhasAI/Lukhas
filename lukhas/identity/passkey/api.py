@@ -1,8 +1,6 @@
 import os
 from typing import Any
 
-import streamlit as st
-
 from lukhas.observability.matriz_decorators import instrument
 
 from .registry import get_provider

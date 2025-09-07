@@ -12,8 +12,6 @@ import argparse
 import hashlib
 import json
 
-import streamlit as st
-
 MANIFEST_PATH = "dao/manifest.json"
 LICENSE_PATH = "LICENSE.txt"
 VERSION_ID = "v0.1.0"

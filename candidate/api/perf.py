@@ -4,7 +4,6 @@ import time
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 from fastapi import APIRouter, Body, Header, HTTPException, Query
 
 router = APIRouter(prefix="/ops/perf", tags=["Perf"])

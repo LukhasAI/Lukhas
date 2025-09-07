@@ -37,9 +37,7 @@
 ║ Symbolic Tags: {ΛBIO}, {ΛHEALTH}, {ΛAUTH}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
 
-import streamlit as st
 
 # Bio status symbols
 BIO_SYMBOLS = {

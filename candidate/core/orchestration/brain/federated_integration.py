@@ -14,10 +14,6 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 from datetime import timezone
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 """
 Meta-Learning Enhancement System - Federated Learning Integration
 ================================================================

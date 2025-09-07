@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import Optional
 
 """
 Bio Module Consolidation Tool
@@ -10,10 +9,6 @@ import shutil
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 class BioConsolidator:

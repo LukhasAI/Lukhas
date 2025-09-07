@@ -1,6 +1,5 @@
 from typing import Optional
 
-import streamlit as st
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field

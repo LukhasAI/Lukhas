@@ -12,8 +12,6 @@ import sys
 import time
 from pathlib import Path
 
-import streamlit as st
-
 
 def test_basic_imports():
     """Test that all required components can be imported"""

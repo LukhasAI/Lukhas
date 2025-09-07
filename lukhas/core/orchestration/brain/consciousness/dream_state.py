@@ -5,15 +5,15 @@ Date: 2025-01-27
 Description: Dream state management for consciousness processing.
 """
 
-from typing import Dict, Any, Optional
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, Optional
 
 
 class DreamStateType(Enum):
     """Types of dream states."""
     REM = "rem"
-    NREM = "nrem" 
+    NREM = "nrem"
     LUCID = "lucid"
     NIGHTMARE = "nightmare"
     REFLECTION = "reflection"
@@ -60,7 +60,7 @@ class DreamStateManager:
         if self.current_state:
             self.current_state.end_state()
             self.state_history.append(self.current_state)
-        
+
         self.current_state = DreamState(state_type)
         return self.current_state
 

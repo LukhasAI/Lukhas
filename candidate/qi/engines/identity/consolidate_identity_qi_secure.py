@@ -5,8 +5,6 @@ Quantum-resistant identity and access
 """
 from pathlib import Path
 
-import streamlit as st
-
 
 def consolidate_identity_quantum_secure():
     """Consolidate identity_quantum_secure into unified system"""

@@ -1,80 +1,118 @@
 #!/usr/bin/env python3
 """
-Fix F-string Formatting Errors
-Fix issues where I accidentally changed { to ( in f-strings during mass fixes
+Custom F-String Error Fixer
+Targets the most common f-string syntax errors in the LUKHAS codebase
 """
-
-import os
 import re
+import sys
 from pathlib import Path
 
 
-def fix_fstring_patterns(content):
-    """Fix f-string formatting errors"""
-    fixes = 0
+class FStringFixer:
+    def __init__(self):
+        self.fixed_count = 0
+        self.failed_count = 0
 
-    # Pattern 1: f"...{variable}..." -> f"...{variable}..."
-    pattern1 = r'f"([^"]*)\{([^}]+)\)([^"]*)"'
-    matches = re.findall(pattern1, content)
-    if matches:
-        content = re.sub(pattern1, r'f"\1{\2}\3"', content)
-        fixes += len(matches)
+    def fix_single_brace(self, line: str) -> str:
+        """Fix single '}' without matching '{' in f-strings"""
+        if 'f"' in line or "f'" in line:
+            # Pattern to find single } that should be escaped
+            # Look for } not preceded by { and not already escaped
+            pattern = r"(?<![{])}(?!})"
+            # Replace with escaped version
+            line = re.sub(pattern, "}}", line)
+        return line
 
-    # Pattern 2: f'...{variable}...' -> f'...{variable}...'
-    pattern2 = r"f'([^']*)\{([^}]+)\)([^']*)'"
-    matches = re.findall(pattern2, content)
-    if matches:
-        content = re.sub(pattern2, r"f'\1{\2}\3'", content)
-        fixes += len(matches)
+    def fix_mismatched_parens_in_fstring(self, line: str) -> str:
+        """Fix f-string: closing parenthesis '}' does not match opening parenthesis '('"""
+        # Pattern: f"...{expression(...)}"
+        # Common issue: f"...{len(something} - 10}"
+        pattern = r'(f["\'].*?\{[^}]*\([^)]*)(})'
 
-    return content, fixes
+        def replacer(match):
+            content = match.group(1)
+            # Count unmatched opening parens
+            open_parens = content.count("(") - content.count(")")
+            if open_parens > 0:
+                return content + ")" * open_parens + "}"
+            return match.group(0)
 
-def process_files():
-    """Process all Python files to fix f-string errors"""
-    total_files_fixed = 0
-    total_fixes = 0
+        return re.sub(pattern, replacer, line)
 
-    print("🔧 Fixing f-string formatting errors...")
+    def fix_unterminated_fstring(self, line: str) -> str:
+        """Fix unterminated f-strings"""
+        # Check if line has f" or f' but no closing quote
+        if 'f"' in line:
+            if line.count('"') % 2 != 0:
+                line = line.rstrip() + '"\n'
+        elif "f'" in line:
+            if line.count("'") % 2 != 0:
+                line = line.rstrip() + "'\n"
+        return line
 
-    for root, dirs, files in os.walk("."):
-        # Skip certain directories
-        skip_dirs = {".venv", "__pycache__", ".git", "node_modules", ".pytest_cache"}
-        dirs[:] = [d for d in dirs if d not in skip_dirs]
+    def fix_file(self, filepath: Path) -> bool:
+        """Fix all f-string errors in a file"""
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                lines = f.readlines()
 
-        for file in files:
-            if not file.endswith(".py"):
-                continue
+            fixed_lines = []
+            changed = False
 
-            file_path = Path(root) / file
+            for line in lines:
+                original = line
 
-            try:
-                with open(file_path, encoding="utf-8") as f:
-                    original_content = f.read()
+                # Apply fixes in order
+                line = self.fix_mismatched_parens_in_fstring(line)
+                line = self.fix_single_brace(line)
+                line = self.fix_unterminated_fstring(line)
 
-                fixed_content, fixes_made = fix_fstring_patterns(original_content)
+                if line != original:
+                    changed = True
 
-                if fixes_made > 0:
-                    with open(file_path, "w", encoding="utf-8") as f:
-                        f.write(fixed_content)
+                fixed_lines.append(line)
 
-                    total_files_fixed += 1
-                    total_fixes += fixes_made
+            if changed:
+                with open(filepath, "w", encoding="utf-8") as f:
+                    f.writelines(fixed_lines)
+                self.fixed_count += 1
+                return True
 
-                    print(f"✅ {file_path}: {fixes_made} f-string fixes")
+            return False
 
-            except Exception:
-                continue
+        except Exception as e:
+            print(f"Error processing {filepath}: {e}")
+            self.failed_count += 1
+            return False
 
-    return total_files_fixed, total_fixes
+    def fix_directory(self, directory: str) -> None:
+        """Fix all Python files in a directory"""
+        path = Path(directory)
+        python_files = list(path.rglob("*.py"))
+
+        print(f"Found {len(python_files)} Python files in {directory}")
+
+        for i, filepath in enumerate(python_files, 1):
+            if i % 100 == 0:
+                print(f"Processing file {i}/{len(python_files)}...")
+
+            self.fix_file(filepath)
+
+        print(f"\nResults:")
+        print(f"  Fixed: {self.fixed_count} files")
+        print(f"  Failed: {self.failed_count} files")
+        print(f"  Unchanged: {len(python_files) - self.fixed_count - self.failed_count} files")
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python fix_fstring_errors.py <directory>")
+        sys.exit(1)
+
+    directory = sys.argv[1]
+    fixer = FStringFixer()
+    fixer.fix_directory(directory)
+
 
 if __name__ == "__main__":
-    print("🔧 F-STRING ERROR FIXER")
-    print("=" * 50)
-
-    files_fixed, total_fixes = process_files()
-
-    print("=" * 50)
-    print("📊 F-STRING FIX RESULTS:")
-    print(f"  📁 Files fixed: {files_fixed}")
-    print(f"  🔧 Total fixes: {total_fixes}")
-    print("=" * 50)
+    main()

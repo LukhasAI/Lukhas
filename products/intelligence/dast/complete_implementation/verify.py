@@ -6,8 +6,6 @@ Quick verification that all modules can be imported and initialized
 import os
 import sys
 
-import streamlit as st
-
 # Add current directory to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_dir)

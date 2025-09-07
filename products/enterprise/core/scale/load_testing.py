@@ -2,8 +2,6 @@
 from dataclasses import dataclass
 from enum import Enum
 
-import streamlit as st
-
 
 class ExperimentType(Enum):
     SCALE = "SCALE"

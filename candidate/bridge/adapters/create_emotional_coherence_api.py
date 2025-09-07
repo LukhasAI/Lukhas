@@ -6,11 +6,8 @@ Adds genuine emotional understanding to any AI response
 from typing import Optional
 
 import numpy as np
-import streamlit as st
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-
-from consciousness.qi import qi
 
 app = FastAPI(
     title="LUKHAS Emotional Coherence API",

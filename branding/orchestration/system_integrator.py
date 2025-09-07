@@ -10,8 +10,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 
 @dataclass
 class SystemIntegration:
@@ -366,7 +364,7 @@ class LukhasUnifiedContentPlatform:
             'recent_generations': recent_activity,
             'analytics_entries': len(analytics),
             'trinity_integration': True,
-            'database_connected': True
+            'database_connected': True}
         }
 
     def get_premium_features(self) -> list:
@@ -504,7 +502,7 @@ class LukhasUnifiedDocEngine:
             'doc_type': doc_type,
             'voice_coherence': voice_coherence,
             'knowledge_items_used': len(related_content),
-            'trinity_integrated': True
+            'trinity_integrated': True}
         }
 
     def _calculate_voice_coherence(self, content: str) -> float:
@@ -566,7 +564,7 @@ class LukhasUnifiedDocEngine:
             'available_formats': len(self.get_available_formats()),
             'knowledge_base_items': len(db.get_all_content(1000)),
             'trinity_integration': True,
-            'database_connected': True
+            'database_connected': True}
         }
 
 if __name__ == "__main__":

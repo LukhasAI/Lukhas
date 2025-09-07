@@ -5,7 +5,6 @@ import pathlib
 import sys
 from collections.abc import Iterable
 
-import streamlit as st
 from jsonschema import Draft202012Validator
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]

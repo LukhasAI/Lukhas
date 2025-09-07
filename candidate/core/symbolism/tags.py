@@ -3,8 +3,6 @@ Symbolic tags for agent colonies.
 """
 from enum import Enum
 
-import streamlit as st
-
 
 class TagScope(Enum):
     """

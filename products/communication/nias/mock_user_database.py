@@ -4,10 +4,7 @@ Rich Mock User Database for NIAS Testing
 Includes realistic shopping data from major retailers and ethical edge cases
 """
 import random
-import time
 from typing import Any, Optional
-
-import streamlit as st
 
 
 class MockUserDatabase:

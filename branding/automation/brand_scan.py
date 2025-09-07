@@ -24,8 +24,6 @@ import sys
 from collections.abc import Iterable
 from pathlib import Path
 
-import streamlit as st
-
 ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path.cwd()
 
 INCLUDE_EXT = {".md", ".txt", ".rst", ".html"}

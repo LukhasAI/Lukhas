@@ -9,7 +9,6 @@ Memory Services API Example
 """
 import asyncio
 
-import streamlit as st
 from memory_services import MemoryQuery, MemoryServicesAPI, MemoryStore
 
 

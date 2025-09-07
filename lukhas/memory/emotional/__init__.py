@@ -20,11 +20,11 @@ class EmotionalMemory:
     Emotional Memory class for dream-emotion bridge integration.
     Provides interface for emotional memory storage and retrieval.
     """
-    
+
     def __init__(self):
         self.memories = []
         self.emotion_triggers = {}
-        
+
     def store(self, content: Any, emotion_type: str, intensity: float) -> str:
         """Store emotional memory"""
         memory_id = f"EM_{datetime.now(timezone.utc).timestamp()}"
@@ -37,14 +37,14 @@ class EmotionalMemory:
         }
         self.memories.append(memory)
         return memory_id
-        
+
     def get_by_emotion(self, emotion_type: str) -> List[Dict]:
         """Get memories by emotion type"""
         return [m for m in self.memories if m["emotion_type"] == emotion_type]
-        
+
     def trigger_replay(self, emotion_type: str, threshold: float = 0.5) -> List[Dict]:
         """Trigger replay of emotional memories above threshold"""
-        return [m for m in self.memories 
+        return [m for m in self.memories
                 if m["emotion_type"] == emotion_type and m["intensity"] >= threshold]
 
 
@@ -319,7 +319,7 @@ def get_emotional_state() -> dict[str, float]:
 # Export public interface
 __all__ = [
     "EmotionalMemory",
-    "EmotionalMemoryManager", 
+    "EmotionalMemoryManager",
     "get_emotional_memory_manager",
     "get_emotional_state",
     "store_emotion",

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import Optional
 
 """
 Candidate → Lukhas promotion helper (safe, auditable).
@@ -31,8 +30,6 @@ import sys
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-
-import streamlit as st
 
 REWRITE_IMPORT = re.compile(r"\bfrom\s+candidate\.(?P<rest>\S+)\s+import\s")
 REWRITE_IMPORT2 = re.compile(r"\bimport\s+candidate(?P<rest>(\.|\s).*)")

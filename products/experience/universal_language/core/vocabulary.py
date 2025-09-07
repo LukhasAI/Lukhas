@@ -6,12 +6,9 @@ Consolidates all domain vocabularies from scattered implementations.
 """
 import json
 import logging
-import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
-
-import streamlit as st
 
 from universal_language.core import Concept, Symbol, SymbolicDomain
 from universal_language.glyph import get_glyph_engine

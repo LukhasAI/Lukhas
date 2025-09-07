@@ -8,8 +8,6 @@ of the Actor Model, which is the foundation for the agents in the Symbiotic Swar
 import queue
 import threading
 
-import streamlit as st
-
 
 class Actor:
     """

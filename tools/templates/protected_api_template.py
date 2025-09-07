@@ -7,18 +7,14 @@ Copy this template when creating new API endpoints.
 """
 # Configure logging
 import logging
-import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
 from pydantic import BaseModel
-
-from consciousness.qi import qi
 
 # LUKHAS Identity Integration - REQUIRED
 from identity.middleware import (

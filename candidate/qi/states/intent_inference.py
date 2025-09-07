@@ -14,10 +14,6 @@ Integration Date: 2025-05-31T07:55:29.968898
 # intent_inference.py
 from collections import Counter
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 def infer_intent(memory_log):
     print("\n[IntentInference] Analyzing decision trend...")

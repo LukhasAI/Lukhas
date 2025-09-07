@@ -29,7 +29,6 @@ of information that exists in the liminal spaces of perception itself.
 import hashlib
 import json
 import logging
-import random
 import secrets
 import time
 import zlib
@@ -39,11 +38,8 @@ from enum import Enum
 from typing import Any, Optional, Union
 
 import numpy as np
-import streamlit as st
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-
-from consciousness.qi import qi
 
 # Optional advanced libraries
 try:

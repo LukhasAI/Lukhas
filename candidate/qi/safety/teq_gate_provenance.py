@@ -8,9 +8,6 @@ import time
 import uuid
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
 from qi.provenance.receipts_hub import emit_receipt
 from qi.safety.teq_gate import GateResult, TEQCoupler
 

@@ -5,10 +5,10 @@ from __future__ import annotations
 import time
 
 import torch
-from tagging import SimpleTagResolver
 
 from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.symbolism.tags import TagPermission, TagScope
+from tagging import SimpleTagResolver
 
 # ΛTAG: vectorized_tag_ops
 # Provides GPU-optional batched tag propagation and reasoning utilities.

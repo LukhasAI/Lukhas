@@ -8,7 +8,6 @@ cognitive nodes and their relationships in various ways.
 import time
 from typing import Any, Optional
 
-import streamlit as st
 from graph_viewer import MATRIZGraphViewer
 
 

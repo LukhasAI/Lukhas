@@ -6,11 +6,7 @@ Central registry for dependency injection to break circular dependencies.
 import logging
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
-from typing import Any, Callable, List, Optional, TypeVar
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any, Callable, Optional, TypeVar
 
 logger = logging.getLogger(__name__)
 

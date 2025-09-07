@@ -4,11 +4,8 @@ Original: intent_adapter.py
 Advanced: intent_adapter.py
 Integration Date: 2025-05-31T07:55:29.987363
 """
-import time
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 """
 Quantum-biological adapter for intent processing that integrates UnifiedNode

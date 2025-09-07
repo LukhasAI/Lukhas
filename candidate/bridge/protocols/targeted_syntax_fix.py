@@ -12,8 +12,6 @@ import os
 import re
 import shutil
 
-import streamlit as st
-
 
 def fix_specific_files():
     """Fix specific known syntax errors"""

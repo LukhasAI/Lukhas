@@ -6,8 +6,6 @@ Integration Date: 2025-05-31T07:55:30.568236
 """
 import json
 
-import streamlit as st
-
 # TODO: Enable when hub dependencies are resolved
 # from dast.integration.dast_integration_hub import get_dast_integration_hub
 

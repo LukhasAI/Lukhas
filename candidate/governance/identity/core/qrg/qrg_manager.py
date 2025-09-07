@@ -22,7 +22,6 @@
 import hashlib
 import json
 import logging
-import random
 import time
 from dataclasses import dataclass
 from enum import Enum
@@ -30,10 +29,7 @@ from typing import Any, Optional
 
 import numpy as np
 import qrcode
-import streamlit as st
 from PIL import Image, ImageDraw
-
-from consciousness.qi import qi
 
 # Replaced insecure random with secure random for identity security
 from lukhas.security import secure_random

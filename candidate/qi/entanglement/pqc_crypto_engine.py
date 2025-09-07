@@ -20,19 +20,15 @@ Status: ENHANCED - Full implementation with fallback to simulation mode
 import hashlib
 import logging
 import os
-import random
 import secrets
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict
+from typing import Any
 
-import streamlit as st
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
-
-from consciousness.qi import qi
 
 # Try to import liboqs, fall back to enhanced simulation if not available
 try:

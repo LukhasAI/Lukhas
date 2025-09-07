@@ -29,10 +29,7 @@ intent, user trust tier, emotional state, and memory alignment.
             but not explicitly implemented in the provided stubs.
             Error handling for missing keys in `user_profile` could be more robust.
 """
-import logging
-from typing import Dict, Optional
 
-import streamlit as st
 
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

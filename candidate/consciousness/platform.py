@@ -3,9 +3,8 @@ Consciousness Platform Module
 Provides unified platform for consciousness system orchestration.
 """
 
-import asyncio
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ConsciousnessPlatform:

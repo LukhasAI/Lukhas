@@ -2,10 +2,7 @@
 
 Re-exports canonical entropy implementation from `lambda_id_entropy.py`.
 """
-import random
 from datetime import timezone
-
-import streamlit as st
 
 from .lambda_id_entropy import EntropyCalculator
 

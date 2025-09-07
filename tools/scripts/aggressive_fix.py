@@ -8,8 +8,6 @@ import sys
 import time
 from pathlib import Path
 
-import streamlit as st
-
 
 def aggressive_fix_directory(directory: str):
     """Aggressively fix all issues in a directory"""

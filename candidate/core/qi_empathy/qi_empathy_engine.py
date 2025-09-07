@@ -5,12 +5,7 @@ This module understands and mirrors human consciousness at a qi level,
 analyzing emotional resonance from multi-modal inputs.
 """
 import random
-import time
 from typing import Any
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 # Placeholder classes for external emotion AI APIs

@@ -7,8 +7,6 @@ This script provides examples and options for different designs.
 """
 from pathlib import Path
 
-import streamlit as st
-
 
 class BotStatusDesigner:
     """Customizable status bar designer for LUKHAS AI ΛBot."""

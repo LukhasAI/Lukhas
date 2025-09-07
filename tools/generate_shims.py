@@ -4,13 +4,8 @@ Generate compatibility shims for LUKHAS AI migration
 Creates backward-compatible imports with deprecation warnings
 """
 import sqlite3
-import time
 from datetime import datetime
 from pathlib import Path
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 SHIM_TEMPLATE = '''"""
 Compatibility shim for {old_module}

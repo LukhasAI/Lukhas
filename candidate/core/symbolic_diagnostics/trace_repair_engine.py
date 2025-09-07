@@ -33,10 +33,7 @@
 ║ Symbolic Tags: {ΛTRACE}, {ΛREPAIR}, {ΛDIAGNOSTICS}, {ΛINTEGRITY}, {ΛCORE}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
 from typing import Any
-
-import streamlit as st
 
 
 class TraceRepairEngine:

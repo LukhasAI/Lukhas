@@ -716,9 +716,9 @@ async def test_communication_enhancement():
         mode=CommunicationMode.EMPATHETIC,
         target_audience="stressed_developer",
         context={"emotional_state": {"stress": 0.8, "openness": 0.6},
-        constraints=["supportive", "non_judgmental"],
-        goals=["stress_reduction", "encouragement"],
-        emotional_tone="calm",
+                 "constraints": ["supportive", "non_judgmental"],
+                 "goals": ["stress_reduction", "encouragement"],
+                 "emotional_tone": "calm"},
     )
 
     result = await enhancer.process_communication_query(empathy_query)
@@ -740,7 +740,7 @@ async def test_communication_enhancement():
     print("\n🎯 AGI-Enhanced NIAS Test:")
     print(f"   Enhanced Message: {nias_result['enhanced_message']}")
     print(f"   Confidence: {nias_result['confidence']:.2f}")
-    print(f"   Emotional Impact: {list(nias_result['emotional_impact'].keys(}}")
+    print(f"   Emotional Impact: {list(nias_result['emotional_impact'].keys())}")
 
     # Test ABAS enhancement
     abas = AGIEnhancedABAS()

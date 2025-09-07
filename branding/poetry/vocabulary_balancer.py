@@ -12,11 +12,8 @@ This ensures rich, varied expression by:
 """
 import random
 import re
-import time
 from collections import Counter
-from typing import List, Optional
-
-import streamlit as st
+from typing import Optional
 
 
 class VocabularyBalancer:

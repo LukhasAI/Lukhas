@@ -1,7 +1,5 @@
 from typing import Any
 
-import streamlit as st
-
 
 class NullWebAuthnProvider:
     """Local, deterministic verification; does NOT touch network or PII."""

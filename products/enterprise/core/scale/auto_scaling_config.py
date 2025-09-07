@@ -1,8 +1,6 @@
 # Placeholder for T4AutoScalingManager
 from dataclasses import dataclass
 
-import streamlit as st
-
 
 @dataclass
 class T4ScalingConfig:

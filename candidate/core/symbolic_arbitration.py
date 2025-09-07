@@ -8,8 +8,6 @@ the swarm.
 """
 from collections import defaultdict
 
-import streamlit as st
-
 
 class TagConflictResolver:
     """

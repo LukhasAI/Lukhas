@@ -11,7 +11,6 @@ preserving the 84% F821 reduction achievement.
 import ast
 import re
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
 
 
 class SurgicalSyntaxRecovery:

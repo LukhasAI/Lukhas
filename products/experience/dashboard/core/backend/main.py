@@ -10,13 +10,10 @@ from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from typing import Any
 
-import streamlit as st
 import uvicorn
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 
-from api.routers import analytics, audit, governance, realtime, safety
 from infrastructure.cache.redis_client import init_redis
 from infrastructure.database.connection import init_db
 

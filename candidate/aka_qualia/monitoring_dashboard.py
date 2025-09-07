@@ -7,15 +7,12 @@ Real-time monitoring dashboard for the Aka Qualia consciousness processing pipel
 Provides web-based visualization of metrics, alerts, and system health.
 """
 import json
-import logging
 import threading
 import time
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from typing import Any, List
+from typing import Any
 from urllib.parse import urlparse
-
-import streamlit as st
 
 from observability import CONTENT_TYPE_LATEST, get_observability
 

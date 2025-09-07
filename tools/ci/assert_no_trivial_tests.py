@@ -2,8 +2,6 @@ import re
 import sys
 from pathlib import Path
 
-import streamlit as st
-
 PATS = [r"\bassert\s+True\b", r"^\s*pass\s*(#.*)?$", r"^\s*print\("]
 bad = []
 for f in Path("tests").rglob("*.py"):

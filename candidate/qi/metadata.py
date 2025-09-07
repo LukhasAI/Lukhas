@@ -28,10 +28,6 @@ For documentation and support: https://lukhas.ai/docs
 """
 from datetime import timezone
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 __module_name__ = "Quantum Metadata"
 __version__ = "2.0.0"
 __tier__ = 2

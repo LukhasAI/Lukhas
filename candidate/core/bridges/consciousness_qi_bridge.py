@@ -3,12 +3,7 @@ Consciousness-Quantum Bridge
 Bidirectional communication bridge between Consciousness and Quantum systems
 """
 import logging
-import time
 from typing import Any
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

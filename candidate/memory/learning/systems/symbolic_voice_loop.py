@@ -5,7 +5,6 @@ from datetime import datetime, timezone
 
 import openai
 import speech_recognition as sr
-import streamlit as st
 from dream_generator import generate_dreams  # hypothetical dream engine
 from voice import speak  # COVE/Lukhas voice output
 

@@ -3,13 +3,10 @@ log = logging.getLogger(__name__)
 LUKHAS Enhanced API System
 Unified API with proper authentication, service integration, and error handling
 """
-import logging
-import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
 import structlog
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware

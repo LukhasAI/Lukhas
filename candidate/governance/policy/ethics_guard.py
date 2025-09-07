@@ -12,10 +12,7 @@ Lukhas Ethics Guard - Legal Compliance Assistant
 Provides ethical compliance checking and safety monitoring for AI systems.
 """
 import datetime
-import time
-from typing import Any, Dict, List, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 
 class LegalComplianceAssistant:

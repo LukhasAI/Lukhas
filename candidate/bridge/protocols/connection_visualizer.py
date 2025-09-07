@@ -16,8 +16,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-import streamlit as st
-
 
 def load_all_specifications() -> dict[str, Any]:
     """Load all JSON specifications."""

@@ -208,7 +208,7 @@ class FoldLineageTracker:
                 lineage.append({"id": node.parent_fold, "event": "derived", "metadata": {}})
             else:
                 lineage.append({"id": "genesis", "event": "creation", "metadata": {}})
-            
+
             lineage.append({"id": fold_key, "event": "current", "metadata": {}})
 
         return lineage

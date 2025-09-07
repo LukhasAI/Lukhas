@@ -5,8 +5,6 @@ Integrated emotion-feeling-memory system
 """
 from pathlib import Path
 
-import streamlit as st
-
 
 def consolidate_emotion_feeling_memory():
     """Consolidate emotion_feeling_memory into unified system"""

@@ -2,7 +2,6 @@
 🧠 LUKHAS Brain Systems Integration Bridge
 Unified access to all cognitive and reasoning systems
 """
-import streamlit as st
 
 from candidate.orchestration.brain.lukhas_brain import LUKHASBrain
 from candidate.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (

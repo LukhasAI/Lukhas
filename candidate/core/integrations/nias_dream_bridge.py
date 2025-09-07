@@ -12,10 +12,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
 from openai import AsyncOpenAI
-
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

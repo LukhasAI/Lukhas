@@ -9,10 +9,9 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 from candidate.core.colonies.memory_colony import MemoryColony
 from candidate.core.common import get_logger

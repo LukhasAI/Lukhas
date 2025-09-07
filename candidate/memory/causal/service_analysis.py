@@ -17,8 +17,6 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-import streamlit as st
-
 # ΛTAG: digital_friction
 
 

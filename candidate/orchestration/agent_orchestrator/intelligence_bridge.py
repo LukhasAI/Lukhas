@@ -24,7 +24,8 @@ from lukhas.consciousness.reasoning.advanced_engines.intelligence_engines import
     LukhasMetaCognitiveEngine,
     LukhasNarrativeIntelligenceEngine,
     LukhasSubsystemOrchestrator,
-    LukhasTheoryOfMindEngine)
+    LukhasTheoryOfMindEngine,
+)
 
 logger = logging.getLogger("LUKHAS.Orchestration.Agent.Bridge")
 

@@ -2,7 +2,6 @@ import json
 import logging
 import os
 
-import streamlit as st
 import structlog
 
 log = logging.getLogger(__name__)

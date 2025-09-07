@@ -6,8 +6,6 @@ Demonstrates the automated content generator with mock database functionality
 import sys
 from pathlib import Path
 
-import streamlit as st
-
 
 # Mock the database integration to avoid dependency issues
 class MockDatabase:

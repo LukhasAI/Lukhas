@@ -44,8 +44,6 @@
 """
 from typing import Any, Optional
 
-import streamlit as st
-
 # Dummy memory store for placeholder
 _RECENT_INTERACTIONS = []
 MAX_RECENT_INTERACTIONS = 10

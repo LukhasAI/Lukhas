@@ -11,8 +11,6 @@ while maintaining backward compatibility.
 import time
 from enum import Enum
 
-import streamlit as st
-
 from candidate.core.fault_tolerance import SupervisionStrategy
 from candidate.core.minimal_actor import Actor
 

@@ -8,10 +8,6 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 class LukhasConceptScanner:
     def __init__(self):

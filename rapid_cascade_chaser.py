@@ -8,7 +8,7 @@ import ast
 import os
 import re
 import subprocess
-from typing import Optional, Tuple
+from typing import Optional
 
 
 class RapidCascadeChaser:

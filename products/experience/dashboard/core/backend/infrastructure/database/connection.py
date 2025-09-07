@@ -4,10 +4,7 @@ Using PostgreSQL with TimescaleDB for time-series metrics
 """
 import asyncio
 import logging
-import time
 from typing import Optional
-
-import streamlit as st
 
 logger = logging.getLogger(__name__)
 

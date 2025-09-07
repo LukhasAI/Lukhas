@@ -13,8 +13,6 @@ Integration Points:
 from dataclasses import dataclass
 from typing import Any, Optional
 
-import streamlit as st
-
 # Planned imports for WALLET integration
 # from products.lambda_pack.lambda_core.WALLET.identity_manager import IdentityManager
 # from products.lambda_pack.lambda_core.WALLET.symbolic_vault import SymbolicVault

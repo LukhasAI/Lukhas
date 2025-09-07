@@ -2,8 +2,6 @@ import re
 import sys
 from pathlib import Path
 
-import streamlit as st
-
 bad = []
 for f in Path("tests").rglob("*.py"):
     s = f.read_text(errors="ignore")

@@ -855,7 +855,7 @@ def services():
             click.echo(f"   Factual: {service.factual_accuracy}")
             click.echo(f"   Streaming: {'✅' if service.supports_streaming else '❌'}")
             click.echo(
-                f"   Best For: {', '.join([str(s).replace('TaskType.', '').lower(} for s in service.strengths]}"
+                f"   Best For: {', '.join([str(s).replace('TaskType.', '').lower(} for s in service.strengths]))}"
             )
 
             # Check if service is available

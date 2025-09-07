@@ -5,8 +5,6 @@ Handles the evolution and adaptation of knowledge over time.
 from datetime import datetime, timezone
 from typing import Optional
 
-import streamlit as st
-
 
 class KnowledgeNode:
     def __init__(self, content: str, metadata: dict):

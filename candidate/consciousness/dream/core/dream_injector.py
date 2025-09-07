@@ -16,7 +16,6 @@ import json
 import os
 
 import jsonschema
-import streamlit as st
 from jsonschema import validate
 
 try:

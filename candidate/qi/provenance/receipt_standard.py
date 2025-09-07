@@ -5,11 +5,7 @@ import hashlib
 import json
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any
 
 # Merkle + Ed25519 (same primitives you already use)
 _HAS_PROV = True

@@ -4,9 +4,7 @@ Identity System Connector
 Ensures all systems properly integrate with identity and safety checks.
 """
 import functools
-from typing import Any, Callable
-
-import streamlit as st
+from typing import Callable
 
 from candidate.orchestration.integration_hub import get_integration_hub
 from identity.audit_logger import AuditLogger

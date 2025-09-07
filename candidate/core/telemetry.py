@@ -9,8 +9,6 @@ from contextlib import contextmanager
 from functools import wraps
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 try:
     from opentelemetry import trace
     from opentelemetry.exporter.otlp.proto.grpc import trace_exporter

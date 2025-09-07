@@ -6,8 +6,6 @@ Integration Date: 2025-05-31T07:55:28.201511
 """
 import json
 
-import streamlit as st
-
 
 def validate_compliance(image_path: str) -> bool:
     with open(image_path, "rb") as f:

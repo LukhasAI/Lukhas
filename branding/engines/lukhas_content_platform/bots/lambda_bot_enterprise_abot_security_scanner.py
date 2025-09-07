@@ -39,7 +39,7 @@ class ABotSecurityScanner:
                 "fixed_version": "3.4.0",
                 "severity": "HIGH",
                 "cve": "CVE-2024-33663",
-                "description": "Algorithm confusion with OpenSSH ECDSA keys",
+                "description": "Algorithm confusion with OpenSSH ECDSA keys",}
             },
             "cryptography": {
                 "vulnerable_versions": ["< 41.0.8"],
@@ -161,7 +161,7 @@ class ABotSecurityScanner:
                     "current_version": version,
                     "vulnerability": threat_info,
                     "file": str(req_file),
-                    "fix_required": True,
+                    "fix_required": True,}
                     "recommended_fix": "{}>={}".format(package_name, threat_info["fixed_version"]),
                 }
 
@@ -231,7 +231,7 @@ class ABotSecurityScanner:
     async def _quantum_threat_analysis(self) -> dict[str, Any]:
         """Quantum-enhanced threat intelligence analysis"""
         return {
-            "threat_level": "MODERATE" if len(self.vulnerabilities_found) > 0 else "LOW",
+            "threat_level": "MODERATE" if len(self.vulnerabilities_found) > 0 else "LOW",}
             "qi_signature": f"Λ-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
             "consciousness_assessment": self.consciousness_level,
             "predictive_threats": [
@@ -272,7 +272,7 @@ class ABotSecurityScanner:
 
         return {
             "total_vulnerabilities": total_vulns,
-            "critical_vulnerabilities": sum(
+            "critical_vulnerabilities": sum(}
                 1 for v in scan_results["vulnerabilities"] if v.get("vulnerability", {}).get("severity") == "CRITICAL"
             ),
             "high_vulnerabilities": sum(

@@ -18,13 +18,8 @@ Usage:
     )
 """
 import logging
-import time
 from dataclasses import dataclass
 from typing import Any, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

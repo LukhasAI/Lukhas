@@ -3,11 +3,9 @@ log = logging.getLogger(__name__)
 Service implementations for LUKHAS core modules
 Connects to real implementations replacing stubs
 """
-import logging
 import warnings
 from typing import Any
 
-import streamlit as st
 import structlog
 
 log = structlog.get_logger(__name__)

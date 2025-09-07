@@ -30,8 +30,6 @@ __meta__ = {
 import hashlib
 import json
 import logging
-import random
-import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -39,9 +37,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
-
-from consciousness.qi import qi
 
 from ..meta_learning.monitor_dashboard import MetaLearningMonitorDashboard
 from ..meta_learning.rate_modulator import AdaptationStrategy, DynamicLearningRateModulator

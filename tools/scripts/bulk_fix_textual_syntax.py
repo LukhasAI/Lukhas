@@ -13,8 +13,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import streamlit as st
-
 
 def process_text(text: str) -> str:
     # Core normalization: broken "# " → "# "

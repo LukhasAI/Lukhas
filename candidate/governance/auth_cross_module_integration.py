@@ -27,10 +27,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # LUKHAS imports
 try:
     from ..core.glyph.glyph_engine import GlyphEngine

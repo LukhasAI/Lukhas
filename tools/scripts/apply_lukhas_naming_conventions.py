@@ -8,10 +8,6 @@ import re
 import shutil
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 class LukhasNamingApplicator:
     def __init__(self):

@@ -3,11 +3,9 @@ DocuTutor Plugin Integration with Lukhas AGI
 Implements core integration patterns for connecting with Lukhas's systems.
 """
 import logging
-import time
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
 from pydantic import BaseModel
 
 # Import Lukhas interfaces (these would be provided by Lukhas AGI)

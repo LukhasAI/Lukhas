@@ -7,13 +7,9 @@ with GDPR Article 17 (Right to Erasure). Provides comprehensive logging
 and verification of data removal.
 """
 import argparse
-import logging
 import sys
-import time
 from datetime import datetime, timezone
 from pathlib import Path
-
-import streamlit as st
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))

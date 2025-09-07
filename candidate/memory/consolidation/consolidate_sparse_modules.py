@@ -15,8 +15,6 @@ import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 # Consolidation mapping from the plan
 CONSOLIDATION_MAP = {
     "red_team": {

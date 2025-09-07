@@ -7,8 +7,6 @@ experiences feel magical.
 import logging
 from typing import Any
 
-import streamlit as st
-
 # ΛTAG: dream_ingestion_interface
 logger = logging.getLogger("dream.immersive_ingestion")
 

@@ -6,10 +6,8 @@ import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List
 
 import speech_recognition as sr
-import streamlit as st
 from openai import OpenAI
 from traits.trait_manager import load_traits
 from voice.lukhas_voice import speak

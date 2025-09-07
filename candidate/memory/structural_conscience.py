@@ -4,7 +4,6 @@ Original location: ./memory/structural_conscience.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/memory/structural_conscience.py
 """
-import streamlit as st
 
 
 # Placeholder to prevent import errors

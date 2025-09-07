@@ -59,7 +59,9 @@
       "Bash(.venv/bin/pytest tests/candidate/core/collective/test_collective_intelligence.py -v --tb=short)",
       "Bash(.venv/bin/pytest tests/lukhas/core/test_distributed_tracing_coverage.py -v --tb=short)",
       "Bash(.venv/bin/pytest tests/core/test_imports_touch.py -v)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(bash tools/ci/nightly_autofix.sh:*)",
+      "Bash(.venv/bin/ruff check:*)"
     ],
     "deny": [],
     "ask": []

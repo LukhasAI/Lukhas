@@ -8,8 +8,6 @@ import asyncio
 import sys
 import time
 
-import streamlit as st
-
 
 def test_orchestration_components():
     """Test that all orchestration components can be imported and initialized"""

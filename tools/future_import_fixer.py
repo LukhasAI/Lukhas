@@ -8,9 +8,7 @@ __future__ imports MUST be at the very beginning of the file (after docstring)
 before any other imports or code.
 """
 import ast
-import re
 from pathlib import Path
-from typing import List
 
 
 class FutureImportFixer:

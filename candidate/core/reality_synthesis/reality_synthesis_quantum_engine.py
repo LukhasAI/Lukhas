@@ -7,8 +7,6 @@ reality layers, from the physical to the dream world.
 import random
 from typing import Any
 
-import streamlit as st
-
 
 # Placeholder classes for external reality-layer APIs
 class ARConsciousnessSDK:

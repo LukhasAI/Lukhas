@@ -9,10 +9,6 @@ right after the ASCII art in all Python files.
 import re
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # Pattern to find the ASCII art ending
 ASCII_END_PATTERN = re.compile(r"(╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝)\n", re.MULTILINE)
 

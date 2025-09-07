@@ -12,7 +12,6 @@ Measures message throughput and demonstrates energy-efficient computation.
 import asyncio
 import time
 
-import streamlit as st
 from event_bus import *  # TODO: Specify imports
 from minimal_actor import *  # TODO: Specify imports
 

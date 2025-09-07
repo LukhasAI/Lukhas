@@ -10,8 +10,6 @@ import sys
 import time
 from typing import Optional
 
-import streamlit as st
-
 
 # Console control sequences
 class Console:

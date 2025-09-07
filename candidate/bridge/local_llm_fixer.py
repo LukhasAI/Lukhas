@@ -15,7 +15,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import aiohttp
-import streamlit as st
 
 logger = logging.getLogger(__name__)
 

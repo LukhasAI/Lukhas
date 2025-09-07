@@ -12,9 +12,7 @@ Integration Date: 2025-05-31T07:55:28.221604
 """
 import logging
 from datetime import datetime, timezone
-from typing import Dict, Optional
-
-import streamlit as st
+from typing import Optional
 
 from .symbolic_core import SymbolicWorld  # Added import
 

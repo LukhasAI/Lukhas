@@ -4,10 +4,7 @@ This shows how modules can send stress signals and adapt to hormonal states.
 """
 import asyncio
 import random
-import time
 from typing import Any
-
-import streamlit as st
 
 
 class EndocrineAwareModule:

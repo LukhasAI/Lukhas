@@ -6,7 +6,6 @@ LUKHAS Focused Syntax Fixer - Targeted approach for high-frequency errors
 import ast
 import re
 from pathlib import Path
-from typing import List, Set
 
 
 def is_lukhas_project_file(file_path: str) -> bool:

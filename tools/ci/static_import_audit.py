@@ -6,8 +6,6 @@ import re
 from collections.abc import Iterable
 from pathlib import Path
 
-import streamlit as st
-
 
 def find_missing_imports(roots: Iterable[Path]) -> list[dict]:
     pat = re.compile(r"^\s*(from|import)\s+([A-Za-z0-9_\.]+)")

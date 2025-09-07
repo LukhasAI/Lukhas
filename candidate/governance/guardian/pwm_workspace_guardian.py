@@ -26,8 +26,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-import streamlit as st
-
 try:
     from core import EthicalDecision, EthicalSeverity, GovernanceAction, LucasGovernanceModule
 except ImportError:

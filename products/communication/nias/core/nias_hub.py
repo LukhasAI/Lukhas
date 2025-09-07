@@ -6,8 +6,6 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
-
 from ..event_system.event_bus import NIASEventType, get_global_nias_event_bus
 
 logger = logging.getLogger(__name__)

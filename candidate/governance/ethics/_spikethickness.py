@@ -1,10 +1,8 @@
 #                   --- THIS FILE IS AUTO-GENERATED ---
 # Modifications will be overwitten the next time code generation run.
 
-import time
 
 import _plotly_utils.basevalidators as _bv
-import streamlit as st
 
 # TAG:governance
 # TAG:ethics

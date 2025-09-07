@@ -5,7 +5,6 @@ Advanced: dao_node.py
 Integration Date: 2025-05-31T07:55:28.135494
 """
 import logging
-import random
 
 # packages/core/src/nodes/dao_node.py
 import time
@@ -13,7 +12,6 @@ import uuid
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 
 class DAOGovernanceNode:

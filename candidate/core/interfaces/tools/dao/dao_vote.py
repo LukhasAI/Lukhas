@@ -14,8 +14,6 @@ import logging
 import os
 from datetime import datetime, timezone
 
-import streamlit as st
-
 VOTE_LOG_PATH = "dao/attestations/dao_votes_log.jsonl"
 TIER = 5  # Simulated high-trust vote
 

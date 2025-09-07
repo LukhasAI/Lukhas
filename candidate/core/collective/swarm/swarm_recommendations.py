@@ -7,8 +7,6 @@ consciousness clusters, finding what has elevated similar users.
 import random
 from typing import Any
 
-import streamlit as st
-
 
 class SwarmRecommendationSystem:
     """

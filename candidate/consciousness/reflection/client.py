@@ -21,9 +21,6 @@ import typing
 import warnings
 from contextlib import asynccontextmanager, contextmanager
 from types import TracebackType
-from typing import Dict
-
-import streamlit as st
 
 from .__version__ import __version__
 from ._auth import Auth, BasicAuth, FunctionAuth

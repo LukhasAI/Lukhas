@@ -7,10 +7,6 @@ import json
 import os
 from datetime import datetime, timezone
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 class RootDirectoryAuditor:
     def __init__(self):

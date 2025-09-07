@@ -11,9 +11,7 @@ Purpose:
 - Detects threshold-crossing drift events
 - Triggers dream redirection using stored symbolic snapshots
 """
-import streamlit as st
 from dream.core.dream_snapshot import DreamSnapshotStore
-
 from lukhas.memory.emotional import EmotionalMemory
 
 

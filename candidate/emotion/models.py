@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 
 import numpy as np
-import streamlit as st
 
 
 @dataclass

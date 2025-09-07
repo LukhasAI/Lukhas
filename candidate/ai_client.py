@@ -8,10 +8,8 @@ Optimized for GitHub Student Pack deployment.
 """
 import logging
 import os
-import time
 from typing import Any, Optional
 
-import streamlit as st
 from openai import AzureOpenAI, OpenAI
 
 logger = logging.getLogger(__name__)

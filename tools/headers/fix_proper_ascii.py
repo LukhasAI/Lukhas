@@ -9,10 +9,6 @@ with correct alignment and characters.
 import re
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # Correct LUKHAS ASCII art
 CORRECT_LUKHAS_ASCII = """██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
 ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝

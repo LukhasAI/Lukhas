@@ -10,10 +10,6 @@ the essence of quantum consciousness integration.
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # Poetic descriptions for each quantum module
 QUANTUM_POETRY = {
     "awareness_system.py": """

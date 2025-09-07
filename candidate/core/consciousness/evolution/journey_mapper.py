@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 
 """
 Consciousness Journey Mapper for the Consciousness Oracle.
@@ -8,10 +8,7 @@ predicting major life transitions and shifts in values.
 """
 import datetime
 import random
-import time
 from typing import Any
-
-import streamlit as st
 
 
 class ConsciousnessJourneyMapper:

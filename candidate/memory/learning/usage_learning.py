@@ -5,8 +5,6 @@ Adapts and evolves based on how users interact with documentation.
 from collections import defaultdict
 from datetime import datetime, timezone
 
-import streamlit as st
-
 
 class UserInteraction:
     def __init__(self, user_id: str, doc_id: str, interaction_type: str, metadata: dict):

@@ -28,10 +28,6 @@ For more information, visit: https://lukhas.ai
 import json
 import os
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 FLASHBACK_LOG_PATH = "logs/flashbacks/flashback_trace.jsonl"
 
 

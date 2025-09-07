@@ -1,8 +1,6 @@
 import logging
 from datetime import timezone
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 """
 
@@ -69,9 +67,8 @@ except ImportError:
 
 # Import LUKHAS modules
 try:
-    from dream.core.dream_memory_manager import DreamMemoryManager
-
     from candidate.core.glyph.glyphs import Glyph
+    from dream.core.dream_memory_manager import DreamMemoryManager
     from ethics.ethical_drift_detector import EthicalDriftDetector
     from symbolic.drift.symbolic_drift_tracker import DriftPhase, DriftScore
 except ImportError:

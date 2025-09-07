@@ -3,11 +3,8 @@
 Base Parser Module for ΛLens
 Abstract base class for all file parsers
 """
-import time
 from abc import ABC, abstractmethod
 from typing import Any
-
-import streamlit as st
 
 
 class BaseParser(ABC):

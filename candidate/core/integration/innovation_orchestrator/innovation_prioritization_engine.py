@@ -4,9 +4,7 @@ Innovation Prioritization Engine
 Prioritizes innovations based on impact and feasibility.
 """
 import logging
-from typing import Any, List
-
-import streamlit as st
+from typing import Any
 
 from lukhas.core.interfaces import CoreInterface
 

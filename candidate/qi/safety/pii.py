@@ -4,8 +4,6 @@ import re
 from collections.abc import Iterable
 from dataclasses import dataclass
 
-import streamlit as st
-
 
 @dataclass
 class PIIHit:

@@ -771,7 +771,7 @@ class SocialMediaOrchestrator:
             "total_approved": len(approved_posts),
             "live_posting_used": use_live_apis,
             "posting_results": results,
-            "platforms_configured": sum(1 for p in self.platforms.values() if p.live_posting) if use_live_apis else 0,
+            "platforms_configured": sum(1 for p in self.platforms.values() if p.live_posting) if use_live_apis else 0,}
         }
 
     def get_content_analytics(self) -> dict[str, Any]:
@@ -806,7 +806,7 @@ class SocialMediaOrchestrator:
             "trinity_integration": "⚛️🧠🛡️ Active",
             "live_posting_enabled": self.live_posting_enabled,
             "platforms_configured_for_live": live_platforms,
-            "api_integration_status": "🚀 LIVE" if self.live_posting_enabled else "🎭 SIMULATION",
+            "api_integration_status": "🚀 LIVE" if self.live_posting_enabled else "🎭 SIMULATION",}
         }
 
     def get_api_status(self) -> dict[str, Any]:
@@ -814,7 +814,7 @@ class SocialMediaOrchestrator:
         if not self.api_manager:
             return {
                 "api_manager_available": False,
-                "live_posting_enabled": False,
+                "live_posting_enabled": False,}
                 "platforms": {},
                 "message": "Live API integration not available",
             }

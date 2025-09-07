@@ -17,8 +17,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 from consciousness.qi import qi
 
 logger = logging.getLogger("ΛTRACE.quantized_cycles")

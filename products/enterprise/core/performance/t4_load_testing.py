@@ -17,7 +17,6 @@ from dataclasses import dataclass
 from typing import Any, Optional
 
 import aiohttp
-import streamlit as st
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

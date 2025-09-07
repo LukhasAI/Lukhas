@@ -12,8 +12,6 @@ Helps diagnose issues with language detection and status bar display
 import json
 from pathlib import Path
 
-import streamlit as st
-
 
 def check_vscode_config():
     """Check VS Code configuration for language and status bar settings"""

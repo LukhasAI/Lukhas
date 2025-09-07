@@ -7,8 +7,6 @@ based on consent and mutual benefit.
 import random
 from typing import Any
 
-import streamlit as st
-
 
 class AltruisticAdRouter:
     """

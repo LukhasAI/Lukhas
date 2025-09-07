@@ -1,4 +1,3 @@
-from typing import Optional
 
 # core/interfaces/custom_llm.py
 # ΛAGENT: Jules-[01]
@@ -19,13 +18,10 @@ details and authentication for custom Large Language Models compatible with Chat
           Fern generations. If changes are needed, consider modifying the API definition
           from which this file is generated.
 """
-import logging
 import typing
-from typing import Dict
 
 # AIMPORTS_START
 import pydantic  # ΛDEP: pydantic
-import streamlit as st
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 
 from ..core.pydantic_utilities import IS_PYDANTIC_V2  # ΛDEP: project-specific

@@ -28,9 +28,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, List, Optional
-
-import streamlit as st
+from typing import Any, Callable, Optional
 
 # Performance optimization imports
 import uvloop  # High-performance event loop

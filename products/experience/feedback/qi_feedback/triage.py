@@ -8,9 +8,6 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
 from qi.feedback.schema import FeedbackCluster
 from qi.feedback.store import get_store
 

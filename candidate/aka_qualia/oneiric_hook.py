@@ -11,12 +11,10 @@ Connects AKA QUALIA regulation policies to the existing LUKHAS oneiric/dream sys
 enabling closed-loop phenomenological control with narrative feedback.
 """
 import logging
-import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from urllib.parse import urljoin
 
 import requests
-import streamlit as st
 
 from candidate.aka_qualia.models import PhenomenalScene, RegulationPolicy
 from candidate.aka_qualia.palette import get_safe_palette_recommendation

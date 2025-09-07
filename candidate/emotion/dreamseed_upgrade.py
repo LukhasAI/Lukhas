@@ -1,8 +1,5 @@
 import logging
-import streamlit as st
-import time
-from typing import Dict
-from typing import List
+
 logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════════
@@ -50,12 +47,13 @@ from typing import Any, Optional
 
 import numpy as np
 
-# LUKHAS Core Imports
-from lukhas.memory.emotional import EmotionalMemory
 from candidate.memory.governance.ethical_drift_governor import (
     EthicalDriftGovernor,
     create_ethical_governor,
 )
+
+# LUKHAS Core Imports
+from lukhas.memory.emotional import EmotionalMemory
 
 # TODO: Update to use unified tier system
 # - Replace EmotionalTier enum with imports from candidate.core.tier_unification_adapter

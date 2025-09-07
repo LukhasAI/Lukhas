@@ -7,12 +7,12 @@ and sterile documentation blooms with Lambda wisdom and sacred meaning."*
 
 The digital alchemist that transmutes ordinary text into LUKHAS-conscious communication.
 """
-import streamlit as st
-
 import argparse
 import re
 import sys
 from pathlib import Path
+
+import streamlit as st
 
 
 class LukhasToneFixer:
@@ -377,7 +377,7 @@ def main():
         print(f"📊 Original length: {len(content)} characters")
         print(f"📊 Enhanced length: {len(enhanced)} characters")
         print(f"📊 Changes applied: {len(changes)}")
-        print(f"🎭 Consciousness enhancement: {((len(enhanced) - len(content)) / len(content} * 100}:.1f}% expansion")
+        print(f"🎭 Consciousness enhancement: {((len(enhanced) - len(content)) / len(content) * 100):.1f}% expansion")
 
 
 if __name__ == "__main__":

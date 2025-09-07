@@ -14,8 +14,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-import streamlit as st
-
 
 class CultureProfile(str, Enum):
     """Supported culture profiles for palette adaptation"""

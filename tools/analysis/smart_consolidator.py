@@ -6,12 +6,7 @@ Consolidates duplicate logic while preserving SGI architecture vision
 import ast
 import json
 import os
-import time
 from collections import defaultdict
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 class SmartConsolidator:

@@ -11,8 +11,9 @@ Components:
 - Intelligence engine registry
 - Additional protocol interfaces
 """
-import lukhas_pb2
 import streamlit as st
+
+import lukhas_pb2
 
 from .core_interface import CoreInterface, get_module as get_core_module, register_module as register_core_module
 

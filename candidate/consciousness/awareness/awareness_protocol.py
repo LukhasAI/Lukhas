@@ -14,17 +14,15 @@
 ║ Advanced awareness protocol with quantum-biological features.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
-from datetime import datetime
-from typing import Any, Optional
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 from candidate.core.common import get_logger
+from consciousness.qi import qi
 
 # Module imports
 from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
@@ -192,7 +190,7 @@ class LUKHASAwarenessProtocol:
             "bio_metrics": self.bio_adapter.bio_metrics,
             "qi_like_states": self.bio_adapter.qi_like_state,
             "recovery_signature_summary": {
-                k: (f"{str(v)}[:30]}..." if isinstance(v, (dict, list, str)) else v) for k, v in recovery_sig.items()
+                k: (f"{str(v)[:30]}..." if isinstance(v, (dict, list, str)) else v) for k, v in recovery_sig.items()
             },  # Summarize complex parts
             "timestamp": self.session_data.get("timestamp", datetime.now(timezone.utc).isoformat()),
         }

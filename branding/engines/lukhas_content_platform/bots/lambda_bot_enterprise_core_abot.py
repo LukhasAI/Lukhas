@@ -646,7 +646,7 @@ class CoreABot:
                 "max_consciousness": self.limits.max_consciousness_state.value,
                 "coding_complexity_limit": self.limits.self_coding_complexity_limit,
                 "api_connections_limit": self.limits.api_connections_limit,
-                "requests_per_hour": self.limits.requests_per_hour,
+                "requests_per_hour": self.limits.requests_per_hour,}
             },
             "upgrade_opportunities": len(self.upgrade_prompts_shown),
         }

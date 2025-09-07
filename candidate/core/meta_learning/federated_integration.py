@@ -8,8 +8,6 @@ This is a placeholder until the full federated learning system is developed.
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class FederationStrategy(Enum):
     """Federated learning strategies"""

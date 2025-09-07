@@ -13,8 +13,6 @@ import time
 from datetime import datetime, timezone
 from typing import Callable, Optional, Union
 
-import streamlit as st
-
 from .exceptions import ModuleTimeoutError
 from .logger import get_logger
 

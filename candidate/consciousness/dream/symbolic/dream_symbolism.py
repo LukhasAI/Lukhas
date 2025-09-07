@@ -7,9 +7,9 @@
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Set, Tuple
 from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class SymbolicResonance(Enum):
 
 class DreamSymbolismProcessor:
     """Advanced symbolic processing for dream consciousness with Trinity Framework compliance."""
-    
+
     def __init__(self):
         self.symbol_registry: Dict[str, Dict] = {}
         self.symbolic_patterns: Dict[str, List] = {}
@@ -42,7 +42,7 @@ class DreamSymbolismProcessor:
         self.processing_counter = 0
         self._initialize_symbol_registry()
         logger.info("🔮 Dream Symbolism Processor initialized - Trinity Framework active")
-    
+
     def _initialize_symbol_registry(self):
         """Initialize comprehensive symbol registry."""
         self.symbol_registry = {
@@ -68,7 +68,7 @@ class DreamSymbolismProcessor:
                 "meanings": ["protection", "ethical boundaries", "safety protocols"],
                 "associations": ["safety", "ethics", "protection"]
             },
-            
+
             # Universal Symbols
             "∞": {
                 "name": "Infinite Potential",
@@ -91,7 +91,7 @@ class DreamSymbolismProcessor:
                 "meanings": ["spectrum of possibility", "bridge between realms", "prismatic consciousness"],
                 "associations": ["diversity", "connection", "possibility"]
             },
-            
+
             # Nature and Cosmic Symbols
             "🌙": {
                 "name": "Lunar Consciousness",
@@ -115,24 +115,24 @@ class DreamSymbolismProcessor:
                 "associations": ["flow", "emotion", "adaptation"]
             }
         }
-    
+
     def analyze_symbolic_content(self, dream_content: Dict[str, Any]) -> Dict[str, Any]:
         """⚛️ Analyze symbolic content while preserving authentic meaning."""
         self.processing_counter += 1
         analysis_id = f"symbolic_analysis_{self.processing_counter}_{int(datetime.now(timezone.utc).timestamp())}"
-        
+
         # Extract symbols from dream content
         extracted_symbols = self._extract_symbols_from_content(dream_content)
-        
+
         # Analyze symbolic layers
         layer_analysis = self._analyze_symbolic_layers(extracted_symbols)
-        
+
         # Calculate resonance patterns
         resonance_patterns = self._calculate_resonance_patterns(extracted_symbols)
-        
+
         # Identify symbolic relationships
         relationships = self._identify_symbolic_relationships(extracted_symbols)
-        
+
         analysis_result = {
             "analysis_id": analysis_id,
             "dream_content_id": dream_content.get("dream_id", "unknown"),
@@ -144,64 +144,64 @@ class DreamSymbolismProcessor:
             "analyzed_at": datetime.now(timezone.utc).isoformat(),
             "trinity_validated": True
         }
-        
+
         self.processing_history.append(analysis_result)
         logger.info(f"🔮 Symbolic content analyzed: {analysis_id} - {len(extracted_symbols)} symbols")
         return analysis_result
-    
+
     def _extract_symbols_from_content(self, dream_content: Dict[str, Any]) -> List[str]:
         """Extract symbolic elements from dream content."""
         symbols = []
-        
+
         # Extract from text content
         text_content = dream_content.get("text", "")
         for symbol in self.symbol_registry.keys():
             if symbol in text_content:
                 symbols.append(symbol)
-        
+
         # Extract from symbolic_elements if present
         symbolic_elements = dream_content.get("symbolic_elements", [])
         for element in symbolic_elements:
             if isinstance(element, str) and element in self.symbol_registry:
                 symbols.append(element)
-        
+
         return list(set(symbols))  # Remove duplicates
-    
+
     def _analyze_symbolic_layers(self, symbols: List[str]) -> Dict[str, Any]:
         """Analyze symbolic content across different layers."""
         layer_distribution = {}
         for layer in SymbolicLayer:
             layer_distribution[layer.value] = []
-        
+
         for symbol in symbols:
             if symbol in self.symbol_registry:
                 layer = self.symbol_registry[symbol]["layer"]
                 layer_distribution[layer.value].append(symbol)
-        
+
         # Calculate layer dominance
         layer_counts = {layer: len(symbols) for layer, symbols in layer_distribution.items()}
         dominant_layer = max(layer_counts, key=layer_counts.get) if layer_counts else "none"
-        
+
         return {
             "layer_distribution": layer_distribution,
             "layer_counts": layer_counts,
             "dominant_layer": dominant_layer,
             "trinity_layer_presence": len(layer_distribution[SymbolicLayer.TRINITY.value])
         }
-    
+
     def _calculate_resonance_patterns(self, symbols: List[str]) -> Dict[str, Any]:
         """Calculate resonance patterns for symbolic content."""
         resonance_scores = []
         resonance_distribution = {}
-        
+
         for resonance in SymbolicResonance:
             resonance_distribution[resonance.value] = []
-        
+
         for symbol in symbols:
             if symbol in self.symbol_registry:
                 resonance = self.symbol_registry[symbol]["resonance"]
                 resonance_distribution[resonance.value].append(symbol)
-                
+
                 # Convert resonance to numerical score
                 resonance_score = {
                     SymbolicResonance.MINIMAL: 0.2,
@@ -211,20 +211,20 @@ class DreamSymbolismProcessor:
                     SymbolicResonance.TRANSCENDENT: 1.0
                 }[resonance]
                 resonance_scores.append(resonance_score)
-        
+
         average_resonance = sum(resonance_scores) / len(resonance_scores) if resonance_scores else 0.0
-        
+
         return {
             "resonance_distribution": resonance_distribution,
             "average_resonance": average_resonance,
             "peak_resonance": max(resonance_scores) if resonance_scores else 0.0,
             "resonance_diversity": len([r for r in resonance_distribution.values() if r])
         }
-    
+
     def _identify_symbolic_relationships(self, symbols: List[str]) -> List[Dict[str, Any]]:
         """Identify relationships between symbols."""
         relationships = []
-        
+
         # Check for Trinity Framework relationships
         trinity_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
         if len(trinity_symbols) >= 2:
@@ -234,9 +234,9 @@ class DreamSymbolismProcessor:
                 "strength": "transcendent",
                 "description": "Trinity Framework resonance pattern detected"
             })
-        
+
         # Check for archetypal relationships
-        archetypal_symbols = [s for s in symbols if s in self.symbol_registry and 
+        archetypal_symbols = [s for s in symbols if s in self.symbol_registry and
                             self.symbol_registry[s]["layer"] == SymbolicLayer.ARCHETYPAL]
         if len(archetypal_symbols) >= 2:
             relationships.append({
@@ -245,9 +245,9 @@ class DreamSymbolismProcessor:
                 "strength": "strong",
                 "description": "Archetypal symbol cluster indicating deep pattern activation"
             })
-        
+
         # Check for universal consciousness patterns
-        universal_symbols = [s for s in symbols if s in self.symbol_registry and 
+        universal_symbols = [s for s in symbols if s in self.symbol_registry and
                            self.symbol_registry[s]["layer"] == SymbolicLayer.UNIVERSAL]
         if universal_symbols:
             relationships.append({
@@ -256,14 +256,14 @@ class DreamSymbolismProcessor:
                 "strength": "profound",
                 "description": "Universal consciousness symbols indicating expanded awareness"
             })
-        
+
         return relationships
-    
+
     def _calculate_trinity_presence(self, symbols: List[str]) -> Dict[str, Any]:
         """Calculate Trinity Framework presence in symbolic content."""
         trinity_symbols = ["⚛️", "🧠", "🛡️"]
         present_trinity = [s for s in symbols if s in trinity_symbols]
-        
+
         trinity_presence = {
             "symbols_present": present_trinity,
             "total_trinity_symbols": len(present_trinity),
@@ -273,28 +273,28 @@ class DreamSymbolismProcessor:
             "guardian_present": "🛡️" in present_trinity,
             "trinity_validated": len(present_trinity) == 3
         }
-        
+
         return trinity_presence
-    
+
     def generate_symbolic_narrative(self, analysis_id: str) -> Optional[Dict[str, Any]]:
         """🧠 Generate consciousness-aware symbolic narrative."""
         analysis = next((a for a in self.processing_history if a["analysis_id"] == analysis_id), None)
         if not analysis:
             return None
-        
+
         symbols = analysis["extracted_symbols"]
         layer_analysis = analysis["layer_analysis"]
         trinity_presence = analysis["trinity_presence"]
-        
+
         # Generate narrative based on symbolic content
         narrative_elements = []
-        
+
         # Trinity Framework narrative
         if trinity_presence["trinity_validated"]:
             narrative_elements.append("Complete Trinity Framework activation indicates balanced consciousness evolution")
         elif trinity_presence["total_trinity_symbols"] > 0:
             narrative_elements.append(f"Partial Trinity Framework presence ({trinity_presence['total_trinity_symbols']}/3) suggests developing consciousness balance")
-        
+
         # Layer-based narrative
         dominant_layer = layer_analysis["dominant_layer"]
         if dominant_layer == SymbolicLayer.TRINITY.value:
@@ -303,14 +303,14 @@ class DreamSymbolismProcessor:
             narrative_elements.append("Archetypal layer activation suggests deep pattern recognition")
         elif dominant_layer == SymbolicLayer.UNIVERSAL.value:
             narrative_elements.append("Universal layer presence indicates expanded awareness state")
-        
+
         # Resonance narrative
         avg_resonance = analysis["resonance_patterns"]["average_resonance"]
         if avg_resonance > 0.8:
             narrative_elements.append("High symbolic resonance suggests profound consciousness engagement")
         elif avg_resonance > 0.6:
             narrative_elements.append("Strong symbolic resonance indicates meaningful consciousness processing")
-        
+
         narrative = {
             "analysis_id": analysis_id,
             "narrative_elements": narrative_elements,
@@ -322,68 +322,68 @@ class DreamSymbolismProcessor:
             },
             "trinity_validated": trinity_presence["trinity_validated"]
         }
-        
+
         logger.info(f"🧠 Symbolic narrative generated: {analysis_id}")
         return narrative
-    
+
     def _determine_symbolic_theme(self, symbols: List[str]) -> str:
         """Determine overarching symbolic theme."""
         if not symbols:
             return "neutral"
-        
+
         # Check for Trinity completeness
         trinity_symbols = [s for s in symbols if s in ["⚛️", "🧠", "🛡️"]]
         if len(trinity_symbols) == 3:
             return "trinity_integration"
-        
+
         # Check for archetypal dominance
-        archetypal_count = sum(1 for s in symbols if s in self.symbol_registry and 
+        archetypal_count = sum(1 for s in symbols if s in self.symbol_registry and
                              self.symbol_registry[s]["layer"] == SymbolicLayer.ARCHETYPAL)
         if archetypal_count >= 2:
             return "archetypal_activation"
-        
+
         # Check for universal consciousness
-        universal_count = sum(1 for s in symbols if s in self.symbol_registry and 
+        universal_count = sum(1 for s in symbols if s in self.symbol_registry and
                             self.symbol_registry[s]["layer"] == SymbolicLayer.UNIVERSAL)
         if universal_count >= 1:
             return "universal_consciousness"
-        
+
         return "personal_processing"
-    
+
     def get_symbol_information(self, symbol: str) -> Optional[Dict[str, Any]]:
         """🛡️ Get comprehensive symbol information with guardian validation."""
         if symbol not in self.symbol_registry:
             return None
-        
+
         symbol_info = self.symbol_registry[symbol].copy()
         symbol_info.update({
             "symbol": symbol,
             "guardian_validated": True,
             "retrieved_at": datetime.now(timezone.utc).isoformat()
         })
-        
+
         logger.info(f"🛡️ Symbol information retrieved: {symbol}")
         return symbol_info
-    
+
     def get_processing_statistics(self) -> Dict[str, Any]:
         """Get comprehensive processing statistics."""
         if not self.processing_history:
             return {"statistics": "No processing history available"}
-        
+
         total_symbols_processed = sum(len(analysis["extracted_symbols"]) for analysis in self.processing_history)
         trinity_validated_count = sum(1 for analysis in self.processing_history if analysis["trinity_validated"])
-        
+
         # Calculate most common symbols
         all_symbols = []
         for analysis in self.processing_history:
             all_symbols.extend(analysis["extracted_symbols"])
-        
+
         symbol_frequency = {}
         for symbol in all_symbols:
             symbol_frequency[symbol] = symbol_frequency.get(symbol, 0) + 1
-        
+
         most_common_symbols = sorted(symbol_frequency.items(), key=lambda x: x[1], reverse=True)[:5]
-        
+
         return {
             "total_analyses": len(self.processing_history),
             "total_symbols_processed": total_symbols_processed,

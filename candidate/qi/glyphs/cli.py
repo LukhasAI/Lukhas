@@ -12,10 +12,6 @@ import hashlib
 import json
 import sys
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 from .embed import auto_embed_seal, auto_extract_seal
 from .seal import GlyphSigner, policy_fingerprint_from_files
 from .verify import GlyphVerifier, verify_compact_seal

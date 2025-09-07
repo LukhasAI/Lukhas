@@ -1,7 +1,5 @@
 import logging
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 # webrtc_peer_sync.py
 # Implements WebRTC peer-to-peer sync fallback

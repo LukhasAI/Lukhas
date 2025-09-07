@@ -1,4 +1,3 @@
-from typing import Optional
 
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
@@ -6,7 +5,6 @@ Original: memory_handler.py
 Advanced: memory_handler.py
 Integration Date: 2025-05-31T07:55:30.383476
 """
-import streamlit as st
 
 memory_handler.py
 """

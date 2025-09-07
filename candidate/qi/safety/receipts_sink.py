@@ -10,11 +10,7 @@ import sys
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any
 
 STATE_DIR = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE_DIR, "provenance", "receipts")

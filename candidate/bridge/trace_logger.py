@@ -40,12 +40,9 @@ from datetime import datetime, timezone
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 import json
-import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.trace_logger")

@@ -6,9 +6,9 @@ Trinity Framework: ⚛️🧠🛡️
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
-from enum import Enum
 from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 
@@ -34,13 +34,13 @@ class LukhasMessage:
     target: str
     payload: Dict[str, Any]
     message_id: str
-    
+
     def __post_init__(self):
         if not self.message_id:
             self.message_id = f"MSG_{datetime.now(timezone.utc).timestamp()}"
 
 
-@dataclass 
+@dataclass
 class ConsciousnessState:
     """Consciousness state message"""
     awareness_level: float
@@ -48,7 +48,7 @@ class ConsciousnessState:
     memory_load: float
     emotional_state: Dict[str, float]
     qi_coherence: float
-    
+
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
             message_type=MessageType.CONSCIOUSNESS_STATE,
@@ -69,7 +69,7 @@ class DreamSequence:
     symbolic_content: Dict[str, Any]
     emotional_triggers: List[Dict[str, Any]]
     lucidity_level: float
-    
+
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
             message_type=MessageType.DREAM_SEQUENCE,
@@ -91,7 +91,7 @@ class ParallelRealityState:
     causal_chain: List[Dict[str, Any]]
     ethical_score: float
     safety_metrics: Dict[str, float]
-    
+
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
             message_type=MessageType.PARALLEL_REALITY,
@@ -111,7 +111,7 @@ class EmotionTrigger:
     trigger_context: Dict[str, Any]
     memory_associations: List[str]
     dream_replay_candidates: List[str]
-    
+
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
             message_type=MessageType.EMOTION_TRIGGER,
@@ -132,7 +132,7 @@ class MemoryFold:
     compression_ratio: float
     accessibility_score: float
     causal_links: List[str]
-    
+
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
             message_type=MessageType.MEMORY_FOLD,
@@ -153,7 +153,7 @@ class IdentityValidation:
     confidence_score: float
     validation_context: Dict[str, Any]
     trinity_compliance: Dict[str, bool]
-    
+
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
             message_type=MessageType.IDENTITY_VALIDATION,
@@ -174,7 +174,7 @@ class GuardianAlert:
     recommended_actions: List[str]
     affected_systems: List[str]
     drift_metrics: Dict[str, float]
-    
+
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
             message_type=MessageType.GUARDIAN_ALERT,
@@ -195,7 +195,7 @@ class QiFlux:
     coherence: float
     entanglement_state: Dict[str, Any]
     quantum_signature: str
-    
+
     def to_message(self, source: str, target: str) -> LukhasMessage:
         return LukhasMessage(
             message_type=MessageType.QI_FLUX,
@@ -209,15 +209,15 @@ class QiFlux:
 
 class LukhasProtocol:
     """LUKHAS protocol handler"""
-    
+
     def __init__(self):
         self.message_handlers = {}
         self.active_channels = set()
-        
+
     def register_handler(self, message_type: MessageType, handler_func):
         """Register message handler"""
         self.message_handlers[message_type] = handler_func
-        
+
     def send_message(self, message: LukhasMessage) -> bool:
         """Send message through protocol"""
         try:
@@ -227,7 +227,7 @@ class LukhasProtocol:
         except Exception as e:
             logger.error(f"Failed to send message: {e}")
             return False
-            
+
     def receive_message(self, message: LukhasMessage) -> bool:
         """Receive and process message"""
         try:
@@ -278,7 +278,7 @@ def send_parallel_reality(source: str, target: str, reality: ParallelRealityStat
 # Export public interface
 __all__ = [
     "MessageType",
-    "LukhasMessage", 
+    "LukhasMessage",
     "ConsciousnessState",
     "DreamSequence",
     "ParallelRealityState",
@@ -290,6 +290,6 @@ __all__ = [
     "LukhasProtocol",
     "get_protocol",
     "send_consciousness_state",
-    "send_dream_sequence", 
+    "send_dream_sequence",
     "send_parallel_reality",
 ]

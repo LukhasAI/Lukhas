@@ -4,9 +4,7 @@ Original: lukhas_brain.py
 Advanced: lukhas_brain.py
 Integration Date: 2025-05-31T07:55:27.773116
 """
-import streamlit as st
 
-from consciousness.qi import qi
 
 """
 Enhanced LUKHAS Brain - Integrated from Advanced Systems

@@ -12,8 +12,6 @@ Common ethics-related functions used across the AGI system.
 """
 from typing import Any
 
-import streamlit as st
-
 
 class EthicsUtils:
     """Shared ethics utility functions."""

@@ -11,7 +11,6 @@ Original location: ./reasoning/scaffold_modules_reasoning_engine.py
 Quarantined: 20250802_203919
 Error: Check quarantine/20250802_203919/reasoning/scaffold_modules_reasoning_engine.py
 """
-import streamlit as st
 
 
 # Placeholder to prevent import errors

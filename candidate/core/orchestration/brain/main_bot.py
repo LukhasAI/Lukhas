@@ -22,8 +22,6 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 
-import streamlit as st
-
 from .attention.qi_attention import QIInspiredAttention
 from .compliance.ethical_engine import ComplianceEngine
 

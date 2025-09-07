@@ -1,9 +1,6 @@
 import logging
-import random
 from datetime import datetime, timezone
 from typing import Optional
-
-import streamlit as st
 
 from ..data_manager.crud_operations import DataManagerCRUD
 from ..diagnostic_engine.engine import DiagnosticEngine

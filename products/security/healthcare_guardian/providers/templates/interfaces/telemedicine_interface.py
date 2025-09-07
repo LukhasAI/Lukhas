@@ -7,8 +7,6 @@ Providers must implement these interfaces to enable virtual consultations.
 from abc import ABC, abstractmethod
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class TelemedicineInterface(ABC):
     """Abstract base class for telemedicine platform integration"""

@@ -8,14 +8,11 @@ import asyncio
 import json
 import logging
 import os
-import time
 import uuid
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, ClassVar, List, Optional, Union
-
-import streamlit as st
+from typing import Any, ClassVar, Optional, Union
 
 try:
     from openai import AsyncOpenAI, OpenAI  # type: ignore

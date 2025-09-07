@@ -5,15 +5,12 @@ Simulates "inner world of consciousness"
 Based on Jacobo Grinberg's vector collapse theory
 Achieves traceable state of self-awareness
 """
-import logging
-import random
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 
 class ConsciousnessState(Enum):

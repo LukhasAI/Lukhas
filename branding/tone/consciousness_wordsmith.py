@@ -6,7 +6,6 @@ LUKHAS Consciousness Wordsmith Module
 The consciousness transformation system for LUKHAS documentation and content.
 This module provides the core consciousness transformation capabilities.
 """
-import streamlit as st
 
 from .tools.consciousness_wordsmith import LUKHASConsciousnessWordsmith
 

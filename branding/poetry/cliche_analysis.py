@@ -9,11 +9,8 @@ This script analyzes how repetitive our poetic language has become.
 """
 import os
 import re
-import time
 from collections import Counter
 from pathlib import Path
-
-import streamlit as st
 
 # The overused metaphors we keep recycling
 CLICHES = {

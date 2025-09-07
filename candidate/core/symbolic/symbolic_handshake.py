@@ -17,8 +17,6 @@ import logging
 import time
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 from candidate.orchestration.signal_router import route_signal
 from candidate.orchestration.signals import SignalType, SymbolicSignal
 

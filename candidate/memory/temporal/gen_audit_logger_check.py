@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 import logging
-import random
-import time
 from datetime import datetime, timezone
-
-import streamlit as st
 
 logger = logging.getLogger(__name__)
 """

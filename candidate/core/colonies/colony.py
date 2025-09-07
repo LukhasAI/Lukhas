@@ -10,8 +10,6 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-import streamlit as st
-
 from candidate.orchestration.signals.homeostasis import HomeostasisController
 
 # Import our signal system

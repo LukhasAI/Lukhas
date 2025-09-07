@@ -730,7 +730,7 @@ class FileService:
                 "filename": file_data["filename"],
                 "file_type": file_type,
                 "file_size": file_data["file_size"],
-                "url": s3_url,
+                "url": s3_url,}
             }
 
         except Exception as e:
@@ -972,7 +972,7 @@ async def apply_amendment(request: AmendmentRequest, current_user=Depends(get_cu
     return {
         "original_content": request.content,
         "amendment": request.amendment,
-        "updated_content": updated_content,
+        "updated_content": updated_content,}
     }
 
 
@@ -1217,7 +1217,7 @@ async def health_check():
             "database": "connected",
             "redis": "connected",
             "openai": "configured" if OPENAI_API_KEY else "not_configured",
-            "s3": "configured" if AWS_ACCESS_KEY_ID else "not_configured",
+            "s3": "configured" if AWS_ACCESS_KEY_ID else "not_configured",}
         },
     }
 

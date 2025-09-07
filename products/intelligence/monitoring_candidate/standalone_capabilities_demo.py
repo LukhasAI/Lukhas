@@ -12,8 +12,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
-import streamlit as st
-
 
 class PlasticityTriggerType(Enum):
     STRESS_ADAPTATION = "stress_adaptation"

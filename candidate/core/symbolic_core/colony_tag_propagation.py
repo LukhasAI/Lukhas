@@ -1,7 +1,6 @@
 from typing import Any, Optional
 
 import networkx as nx
-import streamlit as st
 
 # TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation
 # Current import issues: lukhas.core.colonies.base_colony not available in candidate lane

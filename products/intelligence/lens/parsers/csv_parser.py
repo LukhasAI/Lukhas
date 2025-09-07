@@ -5,9 +5,7 @@ Handles CSV files and extracts tabular data
 """
 import csv
 import re
-from typing import Any, Dict, List
-
-import streamlit as st
+from typing import Any
 
 from .base_parser import BaseParser
 

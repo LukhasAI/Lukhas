@@ -26,8 +26,6 @@ import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
-import streamlit as st
-
 try:
     from fastapi import FastAPI, HTTPException, Request, status
     from fastapi.middleware.cors import CORSMiddleware

@@ -736,7 +736,7 @@ class ΛBAS:
         if user_id not in self.user_attention_states:
             raise ValueError(f"User {user_id} not registered")
 
-        boundary_id = f"{user_id}-custom-{uuid.uuid4()}.hex[:8]}"
+        boundary_id = f"{user_id}-custom-{uuid.uuid4().hex[:8]}"
 
         boundary = AttentionBoundary(
             id=boundary_id,

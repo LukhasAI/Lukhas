@@ -3,16 +3,12 @@
 NIΛS Vendor Portal & SDK - Commercial vendor integration for dream commerce
 Part of the Lambda Products Suite by LUKHAS AI
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -524,6 +520,6 @@ class VendorPortal:
         """Generate SDK code for vendor integration"""
         if vendor_id not in self.vendors:
             return ""
-        
+
         # Temporarily disabled due to f-string template issues
         return f"# SDK generation temporarily disabled for {language}"

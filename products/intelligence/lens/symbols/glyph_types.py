@@ -9,8 +9,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class SymbolType(Enum):
     """Types of symbols in the dashboard"""

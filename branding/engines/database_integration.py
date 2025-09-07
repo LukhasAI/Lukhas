@@ -4,12 +4,9 @@ LUKHAS AI Database Integration Layer
 Provides real-time database connectivity for all unified systems
 """
 import sqlite3
-import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
-
-import streamlit as st
 
 
 class LukhasDatabaseIntegration:

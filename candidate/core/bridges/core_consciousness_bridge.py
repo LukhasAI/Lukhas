@@ -4,8 +4,6 @@ Bidirectional communication between the core and consciousness systems.
 """
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class CoreConsciousnessBridge:
     """Bridge connecting core and consciousness modules."""

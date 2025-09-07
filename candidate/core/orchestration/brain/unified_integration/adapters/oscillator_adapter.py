@@ -6,10 +6,6 @@ Integration Date: 2025-05-31T07:55:29.986615
 """
 from datetime import timezone
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 """
 Bio-inspired oscillator adapter that manages rhythm-based processing and
 component synchronization using quantum-biological metaphors.

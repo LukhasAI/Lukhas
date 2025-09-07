@@ -101,7 +101,7 @@ class BrandingStructureAnalyzer:
         return {
             "total_directories": len(directories),
             "empty_directories": empty_dirs,
-            "directory_details": directories,
+            "directory_details": directories,}
         }
 
     def _analyze_code_components(self) -> dict[str, Any]:
@@ -324,7 +324,7 @@ class BrandingStructureAnalyzer:
                 "Predictive brand analytics",
                 "Automated crisis management",
                 "Cross-platform orchestration",
-            ],
+            ],}
         }
 
     def generate_analysis_report(self) -> str:

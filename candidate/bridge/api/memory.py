@@ -50,7 +50,6 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 

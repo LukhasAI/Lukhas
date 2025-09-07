@@ -10,8 +10,6 @@ import time
 from enum import Enum
 from typing import Any
 
-import streamlit as st
-
 # Golden Trio imports
 try:
     from dast.integration.dast_integration_hub import DASTIntegrationHub

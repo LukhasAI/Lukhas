@@ -10,14 +10,9 @@ A massively enriched vocabulary system combining:
 - Cross-cultural poetic forms
 """
 import random
-import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 class PoeticForm(Enum):

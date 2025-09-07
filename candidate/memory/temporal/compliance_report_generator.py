@@ -23,7 +23,6 @@ from datetime import datetime, timezone
 
 import matplotlib.pyplot as plt
 import pandas as pd
-import streamlit as st
 
 
 def load_drift_logs(file_path):

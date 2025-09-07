@@ -51,8 +51,6 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 DREAM_LOG = Path("core/logs/dream_log.jsonl", timezone)
 QUEUE_FILE = Path("core/logs/narration_queue.jsonl")
 

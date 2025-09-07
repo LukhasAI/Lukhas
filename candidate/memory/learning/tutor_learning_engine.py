@@ -4,7 +4,6 @@ Tests for the TutorEngine component.
 from typing import Any
 
 import pytest
-import streamlit as st
 from docututor.symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph
 from docututor.tutoring_engine.tutor import (
     DifficultyLevel,

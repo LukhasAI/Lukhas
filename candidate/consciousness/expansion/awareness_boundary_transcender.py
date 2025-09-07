@@ -4,14 +4,10 @@ Awareness Boundary Transcender
 Transcends the boundaries of conventional awareness.
 """
 import logging
-import time
 from dataclasses import dataclass
 from typing import Any
 
-import streamlit as st
-
 from candidate.core.interfaces import CoreInterface
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

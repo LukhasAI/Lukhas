@@ -34,7 +34,6 @@ into something fundamentally unbreakable. This is the patent that changes everyt
 import hashlib
 import json
 import logging
-import random
 import time
 from collections import deque
 from dataclasses import dataclass, field
@@ -44,9 +43,6 @@ from threading import Lock
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
-
-from consciousness.qi import qi
 
 # Advanced animation libraries
 try:

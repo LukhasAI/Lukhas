@@ -4,8 +4,6 @@ import site
 from collections.abc import Iterable
 from pathlib import Path
 
-import streamlit as st
-
 
 def find_repo_root(start: Path | None = None) -> Path:
     """Return the repo root by walking up until a known marker is found.

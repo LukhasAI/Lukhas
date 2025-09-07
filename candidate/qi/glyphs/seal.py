@@ -12,11 +12,7 @@ import json
 import time
 import uuid
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any
 
 
 @dataclass

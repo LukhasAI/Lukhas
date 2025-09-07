@@ -2,17 +2,12 @@
 LUKHAS Event Contracts - Typed events for professional module communication
 Replaces direct module calls with well-defined event contracts
 """
-import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import IntEnum
 from typing import Any, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 class EventPriority(IntEnum):

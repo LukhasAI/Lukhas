@@ -3,8 +3,6 @@ from __future__ import annotations
 import random
 from dataclasses import dataclass
 
-from consciousness.qi import qi
-
 
 @dataclass
 class QIFlux:

@@ -7,13 +7,10 @@ ensuring proper MΛTRIZ signal emission at all consciousness boundaries
 and enabling seamless inter-module communication.
 """
 import logging
-import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
-
-import streamlit as st
 
 from .bio_symbolic_processor import get_bio_symbolic_processor
 from .consciousness_signal_router import get_consciousness_router

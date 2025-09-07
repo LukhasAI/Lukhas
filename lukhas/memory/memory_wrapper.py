@@ -7,8 +7,6 @@ import os
 import time
 from typing import Any, Optional
 
-import streamlit as st
-
 try:
     from lukhas.observability.matriz_decorators import matriz_record
 

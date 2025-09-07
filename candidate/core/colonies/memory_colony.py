@@ -11,8 +11,6 @@ from collections import defaultdict, deque
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
-
 from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.efficient_communication import MessagePriority
 from lukhas.core.swarm import SwarmAgent

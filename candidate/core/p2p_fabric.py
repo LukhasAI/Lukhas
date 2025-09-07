@@ -9,8 +9,6 @@ the central event broker for data-intensive tasks.
 import socket
 import threading
 
-import streamlit as st
-
 
 class P2PNode:
     def __init__(self, host, port):

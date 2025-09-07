@@ -16,7 +16,6 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 import numpy as np
-import streamlit as st
 
 logger = logging.getLogger(__name__)
 

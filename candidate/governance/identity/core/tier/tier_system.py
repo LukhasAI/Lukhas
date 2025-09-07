@@ -6,8 +6,6 @@ wrapping the tier validator for easier use by other modules.
 """
 from typing import Any, Union
 
-import streamlit as st
-
 from .tier_validator import TierValidator
 
 # Initialize a global tier validator instance

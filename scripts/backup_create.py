@@ -9,7 +9,6 @@ import pathlib
 import sys
 import tarfile
 from datetime import datetime
-from typing import Optional
 
 
 def sha256_file(p: str) -> str:

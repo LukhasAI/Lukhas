@@ -5,8 +5,6 @@ Auto-generated connector that integrates isolated components
 import logging
 from typing import Any
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 
 

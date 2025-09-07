@@ -10,9 +10,7 @@ import logging
 # Simple adapter for dream engine integration
 from typing import Any
 
-import streamlit as st
-
-from ..unified_integration import MessageType, UnifiedIntegration
+from ..unified_integration import UnifiedIntegration
 
 logger = logging.getLogger("dream_adapter")
 

@@ -48,7 +48,6 @@ import time
 from typing import Optional
 
 import numpy as np
-import streamlit as st
 
 from candidate.core.common import get_logger
 

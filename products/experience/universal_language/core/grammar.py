@@ -11,8 +11,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional, Union
 
-import streamlit as st
-
 from universal_language.core import Concept, Symbol, SymbolicDomain
 
 logger = logging.getLogger(__name__)

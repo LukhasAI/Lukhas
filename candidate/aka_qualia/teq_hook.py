@@ -7,11 +7,9 @@ TEQ Guardian Integration - Ethical Oversight for Phenomenological Processing
 Implements configurable severity-based assessment and enforcement for proto-qualia
 with transparent, auditable decision-making aligned with Guardian System v1.0.0.
 """
-import time
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 import yaml
 
 from .models import PhenomenalScene, ProtoQualia, RiskProfile, SeverityLevel

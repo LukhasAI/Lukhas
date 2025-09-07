@@ -4,8 +4,6 @@ Common interfaces to break circular dependencies
 from abc import ABC, abstractmethod
 from typing import Any
 
-import streamlit as st
-
 
 class EthicsCheckable(ABC):
     """Interface for ethics-checkable components"""

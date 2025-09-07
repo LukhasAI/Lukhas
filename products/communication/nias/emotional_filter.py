@@ -7,9 +7,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 from .nias_core import EmotionalState, SymbolicMessage
 

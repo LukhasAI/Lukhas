@@ -40,8 +40,6 @@
 """
 import logging
 
-import streamlit as st
-
 from lukhas.branding.terminology import normalize_output
 
 # Module imports

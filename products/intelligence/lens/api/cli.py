@@ -11,8 +11,6 @@ import argparse
 import sys
 from pathlib import Path
 
-import streamlit as st
-
 
 def add_repo_root_to_path():
     # Locate repo root by searching upward for pyproject.toml or .git

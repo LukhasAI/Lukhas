@@ -11,8 +11,6 @@ import os
 import time
 from typing import Optional
 
-import streamlit as st
-
 # NewRelic Python Agent Configuration
 NEWRELIC_CONFIG = {
     "app_name": "LUKHAS AI Production",

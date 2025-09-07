@@ -6,7 +6,7 @@ Trinity Framework Vocabulary and Symbolic Mappings
 # Core Trinity Framework Terms
 TRINITY_TERMS = {
     "IDENTITY": "⚛️",
-    "CONSCIOUSNESS": "🧠", 
+    "CONSCIOUSNESS": "🧠",
     "GUARDIAN": "🛡️",
     "LAMBDA_ID": "ΛID",
     "LAMBDA_TRACE": "ΛTRACE",
@@ -33,7 +33,7 @@ CONSCIOUSNESS_VOCAB = {
 # System Component Mapping
 COMPONENT_TERMS = {
     "vivox": "VIVOX Consciousness Evolution System",
-    "identity": "ΛID Identity Management Framework", 
+    "identity": "ΛID Identity Management Framework",
     "memory": "Consciousness Memory and Pattern System",
     "quantum": "Quantum-Inspired Processing Engine",
     "bio": "Bio-Inspired Optimization Framework",
@@ -44,7 +44,7 @@ COMPONENT_TERMS = {
 # Symbolic Glyphs for UI/UX
 SYMBOLIC_GLYPHS = {
     "success": "✅",
-    "warning": "⚠️", 
+    "warning": "⚠️",
     "error": "❌",
     "info": "ℹ️",
     "consciousness": "🧠",
@@ -74,26 +74,26 @@ def normalize_output(text: str, add_glyphs: bool = True) -> str:
     """Normalize system output with symbolic branding."""
     if not text:
         return text
-    
+
     if add_glyphs:
         # Add consciousness glyph to system messages
-        if any(term in text.lower() for term in ['consciousness', 'awareness', 'identity']):
+        if any(term in text.lower() for term in ["consciousness", "awareness", "identity"]):
             text = f"{get_glyph('consciousness')} {text}"
-        elif any(term in text.lower() for term in ['error', 'failed', 'exception']):
+        elif any(term in text.lower() for term in ["error", "failed", "exception"]):
             text = f"{get_glyph('error')} {text}"
-        elif any(term in text.lower() for term in ['success', 'complete', 'ready']):
+        elif any(term in text.lower() for term in ["success", "complete", "ready"]):
             text = f"{get_glyph('success')} {text}"
-    
+
     return text
 
 # Export main terminology elements
 __all__ = [
-    'TRINITY_TERMS',
-    'CONSCIOUSNESS_VOCAB', 
-    'COMPONENT_TERMS',
-    'SYMBOLIC_GLYPHS',
-    'get_term_definition',
-    'get_glyph',
-    'get_trinity_symbol',
-    'normalize_output'
+    "TRINITY_TERMS",
+    "CONSCIOUSNESS_VOCAB",
+    "COMPONENT_TERMS",
+    "SYMBOLIC_GLYPHS",
+    "get_term_definition",
+    "get_glyph",
+    "get_trinity_symbol",
+    "normalize_output"
 ]

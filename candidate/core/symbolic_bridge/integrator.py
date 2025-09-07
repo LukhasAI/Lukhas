@@ -1,7 +1,5 @@
 import logging
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 # GLYPH Consciousness Communication - Symbolic Bridge Integrator
 # Purpose: Centralized bridge for consciousness-to-consciousness communication across distributed nodes

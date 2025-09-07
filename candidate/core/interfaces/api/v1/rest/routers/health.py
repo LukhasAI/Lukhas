@@ -1,6 +1,4 @@
-import time
 
-import streamlit as st
 from fastapi import APIRouter
 from interfaces.api.v1.rest.models import HealthStatus
 

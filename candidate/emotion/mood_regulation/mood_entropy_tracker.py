@@ -1,7 +1,6 @@
 from collections import deque
 
 import numpy as np
-import streamlit as st
 
 
 class MoodEntropyTracker:

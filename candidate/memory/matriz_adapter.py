@@ -2,7 +2,6 @@
 MATRIZ Adapter for Memory Module
 Emits MATRIZ-compliant nodes for memory and fold events
 """
-import streamlit as st
 
 import json
 import time

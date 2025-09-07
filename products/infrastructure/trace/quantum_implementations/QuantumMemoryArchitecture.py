@@ -17,13 +17,10 @@
 │   3. Retrieve memories using QI associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
-from typing import Dict, Optional
+from typing import Optional
 
 import numpy as np
-import streamlit as st
 from qiskit import QuantumCircuit
-
-from consciousness.qi import qi
 
 
 class QIAssociativeMemoryBank:

@@ -12,8 +12,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 
 @dataclass
 class ConsolidationResult:

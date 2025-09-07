@@ -8,8 +8,6 @@ import sys
 import time
 from pathlib import Path
 
-import streamlit as st
-
 
 def fix_directory(directory: str, max_files: int = 10):
     """Fix issues in a specific directory, processing files in batches"""

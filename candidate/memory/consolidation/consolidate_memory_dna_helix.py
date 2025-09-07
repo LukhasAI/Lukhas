@@ -5,8 +5,6 @@ DNA-like immutable memory with emotional vectors
 """
 from pathlib import Path
 
-import streamlit as st
-
 
 def consolidate_memory_dna_helix():
     """Consolidate memory_dna_helix into unified system"""

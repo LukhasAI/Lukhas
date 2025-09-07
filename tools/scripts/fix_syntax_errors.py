@@ -3,7 +3,6 @@
 import ast
 import os
 from pathlib import Path
-from typing import List
 
 # List of files with known EOL string literal issues
 files_to_fix = [

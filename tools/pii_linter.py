@@ -7,8 +7,6 @@ import pathlib
 import re
 import sys
 
-import streamlit as st
-
 # PII Detection Patterns
 PII = [
     # SSN-like patterns (XXX-XX-XXXX)

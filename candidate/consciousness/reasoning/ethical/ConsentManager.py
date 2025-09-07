@@ -14,9 +14,7 @@
 │   3. Connects with ethics and override modules                             │
 └────────────────────────────────────────────────────────────────────────────┘
 """
-from typing import Optional
 
-import streamlit as st
 from lucas_config import TIER_PERMISSIONS
 
 # ----------------------------

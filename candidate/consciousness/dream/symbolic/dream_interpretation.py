@@ -7,9 +7,9 @@
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Tuple
 from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -43,13 +43,13 @@ class InterpretationConfidence(Enum):
 
 class DreamInterpretationEngine:
     """Advanced dream interpretation engine with Trinity Framework compliance."""
-    
+
     def __init__(self):
         self.interpretation_history: Dict[str, Dict] = {}
         self.interpretation_templates = self._initialize_interpretation_templates()
         self.interpretation_counter = 0
         logger.info("🔍 Dream Interpretation Engine initialized - Trinity Framework active")
-    
+
     def _initialize_interpretation_templates(self) -> Dict[str, Dict]:
         """Initialize interpretation templates for different methods."""
         return {
@@ -90,12 +90,12 @@ class DreamInterpretationEngine:
                 "confidence_threshold": 0.8
             }
         }
-    
+
     def interpret_dream(self, dream_data: Dict[str, Any], method: InterpretationMethod = InterpretationMethod.TRINITY_INTEGRATION) -> str:
         """⚛️ Interpret dream while preserving authentic consciousness meaning."""
         self.interpretation_counter += 1
         interpretation_id = f"interpret_{self.interpretation_counter}_{int(datetime.now(timezone.utc).timestamp())}"
-        
+
         # Initialize interpretation session
         interpretation_session = {
             "interpretation_id": interpretation_id,
@@ -105,10 +105,10 @@ class DreamInterpretationEngine:
             "started_at": datetime.now(timezone.utc).isoformat(),
             "status": "initiated"
         }
-        
+
         # Execute interpretation based on method
         interpretation_result = self._execute_interpretation_method(interpretation_session, method)
-        
+
         # Finalize interpretation session
         interpretation_session.update({
             "interpretation_result": interpretation_result,
@@ -116,17 +116,17 @@ class DreamInterpretationEngine:
             "status": "completed",
             "trinity_validated": interpretation_result.get("trinity_validated", False)
         })
-        
+
         self.interpretation_history[interpretation_id] = interpretation_session
-        
+
         logger.info(f"🔍 Dream interpreted: {interpretation_id} using {method.value}")
         return interpretation_id
-    
+
     def _execute_interpretation_method(self, session: Dict[str, Any], method: InterpretationMethod) -> Dict[str, Any]:
         """Execute specific interpretation method."""
         dream_data = session["dream_data"]
         template = self.interpretation_templates[method.value]
-        
+
         if method == InterpretationMethod.SYMBOLIC_ANALYSIS:
             return self._interpret_symbolic_content(dream_data, template)
         elif method == InterpretationMethod.NARRATIVE_RECONSTRUCTION:
@@ -141,17 +141,17 @@ class DreamInterpretationEngine:
             return self._interpret_consciousness_alignment(dream_data, template)
         else:
             return {"error": "Unknown interpretation method"}
-    
+
     def _interpret_symbolic_content(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
         """Interpret symbolic content within dream."""
         symbolic_elements = self._extract_symbolic_elements(dream_data)
-        
+
         # Analyze symbolic density and complexity
         symbolic_density = len(symbolic_elements) / max(len(str(dream_data)), 1)
-        
+
         # Identify Trinity Framework symbols
         trinity_symbols = [s for s in symbolic_elements if s in ["⚛️", "🧠", "🛡️"]]
-        
+
         interpretation = {
             "method": "symbolic_analysis",
             "symbolic_elements": symbolic_elements,
@@ -162,13 +162,13 @@ class DreamInterpretationEngine:
             "insights": self._generate_symbolic_insights(symbolic_elements, trinity_symbols),
             "trinity_validated": len(trinity_symbols) >= 2
         }
-        
+
         return interpretation
-    
+
     def _interpret_narrative_structure(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
         """Interpret narrative structure and flow."""
         narrative_elements = self._extract_narrative_elements(dream_data)
-        
+
         interpretation = {
             "method": "narrative_reconstruction",
             "narrative_coherence": 0.78,
@@ -185,13 +185,13 @@ class DreamInterpretationEngine:
             ],
             "trinity_validated": False
         }
-        
+
         return interpretation
-    
+
     def _interpret_emotional_landscape(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
         """Interpret emotional content and patterns."""
         emotional_content = self._extract_emotional_content(dream_data)
-        
+
         interpretation = {
             "method": "emotional_mapping",
             "primary_emotions": emotional_content.get("primary", ["wonder", "curiosity"]),
@@ -208,13 +208,13 @@ class DreamInterpretationEngine:
             ],
             "trinity_validated": False
         }
-        
+
         return interpretation
-    
+
     def _interpret_archetypal_patterns(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
         """Interpret archetypal patterns and universal themes."""
         archetypal_elements = self._identify_archetypal_elements(dream_data)
-        
+
         interpretation = {
             "method": "archetypal_resonance",
             "identified_archetypes": archetypal_elements,
@@ -231,13 +231,13 @@ class DreamInterpretationEngine:
             ],
             "trinity_validated": True
         }
-        
+
         return interpretation
-    
+
     def _interpret_trinity_framework(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
         """Interpret dream through Trinity Framework lens."""
         trinity_analysis = self._analyze_trinity_elements(dream_data)
-        
+
         interpretation = {
             "method": "trinity_integration",
             "identity_elements": trinity_analysis.get("identity", []),
@@ -256,13 +256,13 @@ class DreamInterpretationEngine:
             ],
             "trinity_validated": True
         }
-        
+
         return interpretation
-    
+
     def _interpret_consciousness_alignment(self, dream_data: Dict[str, Any], template: Dict) -> Dict[str, Any]:
         """Interpret consciousness alignment and integration patterns."""
         consciousness_metrics = self._analyze_consciousness_metrics(dream_data)
-        
+
         interpretation = {
             "method": "consciousness_alignment",
             "awareness_level": consciousness_metrics.get("awareness", 0.88),
@@ -280,23 +280,23 @@ class DreamInterpretationEngine:
             ],
             "trinity_validated": True
         }
-        
+
         return interpretation
-    
+
     def _extract_symbolic_elements(self, dream_data: Dict[str, Any]) -> List[str]:
         """Extract symbolic elements from dream data."""
         # Simplified symbolic extraction
         symbolic_elements = dream_data.get("symbols", ["⚛️", "🧠", "🛡️", "∞", "◊"])
         text_content = str(dream_data.get("content", ""))
-        
+
         # Look for additional symbols in text
         common_symbols = ["🌙", "⭐", "🌈", "✨", "🔮", "🌊"]
         for symbol in common_symbols:
             if symbol in text_content:
                 symbolic_elements.append(symbol)
-        
+
         return list(set(symbolic_elements))
-    
+
     def _extract_narrative_elements(self, dream_data: Dict[str, Any]) -> Dict[str, Any]:
         """Extract narrative structural elements."""
         return {
@@ -305,7 +305,7 @@ class DreamInterpretationEngine:
             "events": ["exploration", "discovery", "integration"],
             "transitions": ["awareness_shifts", "perspective_changes"]
         }
-    
+
     def _extract_emotional_content(self, dream_data: Dict[str, Any]) -> Dict[str, Any]:
         """Extract emotional content and patterns."""
         return {
@@ -314,11 +314,11 @@ class DreamInterpretationEngine:
             "progression": "positive_ascending",
             "intensity": "moderate_to_strong"
         }
-    
+
     def _identify_archetypal_elements(self, dream_data: Dict[str, Any]) -> List[str]:
         """Identify archetypal patterns in dream."""
         return ["seeker", "guardian", "wise_teacher", "threshold_guardian", "transformer"]
-    
+
     def _analyze_trinity_elements(self, dream_data: Dict[str, Any]) -> Dict[str, List]:
         """Analyze Trinity Framework elements in dream."""
         return {
@@ -326,7 +326,7 @@ class DreamInterpretationEngine:
             "consciousness": ["awareness_expansion", "cognitive_processing", "neural_integration"],
             "guardian": ["ethical_protection", "safety_protocols", "wisdom_guidance"]
         }
-    
+
     def _analyze_consciousness_metrics(self, dream_data: Dict[str, Any]) -> Dict[str, float]:
         """Analyze consciousness-related metrics."""
         return {
@@ -336,7 +336,7 @@ class DreamInterpretationEngine:
             "depth": 0.92,
             "authenticity": 0.90
         }
-    
+
     def _calculate_interpretation_depth(self, symbolic_density: float, trinity_count: int) -> InterpretationDepth:
         """Calculate interpretation depth based on content analysis."""
         if trinity_count >= 3 or symbolic_density > 0.1:
@@ -347,7 +347,7 @@ class DreamInterpretationEngine:
             return InterpretationDepth.MEANINGFUL
         else:
             return InterpretationDepth.SURFACE
-    
+
     def _calculate_confidence(self, symbol_count: int, trinity_count: int) -> InterpretationConfidence:
         """Calculate interpretation confidence."""
         if trinity_count >= 3 and symbol_count >= 5:
@@ -360,17 +360,17 @@ class DreamInterpretationEngine:
             return InterpretationConfidence.MODERATE
         else:
             return InterpretationConfidence.LOW
-    
+
     def _calculate_trinity_balance(self, trinity_analysis: Dict[str, List]) -> float:
         """Calculate Trinity Framework balance score."""
         identity_count = len(trinity_analysis.get("identity", []))
         consciousness_count = len(trinity_analysis.get("consciousness", []))
         guardian_count = len(trinity_analysis.get("guardian", []))
-        
+
         total = identity_count + consciousness_count + guardian_count
         if total == 0:
             return 0.0
-        
+
         # Calculate balance (perfect balance = equal distribution)
         ideal_per_aspect = total / 3
         variance = (
@@ -378,37 +378,37 @@ class DreamInterpretationEngine:
             abs(consciousness_count - ideal_per_aspect) +
             abs(guardian_count - ideal_per_aspect)
         ) / total
-        
+
         return 1.0 - variance
-    
+
     def _generate_symbolic_insights(self, symbolic_elements: List[str], trinity_symbols: List[str]) -> List[str]:
         """Generate insights based on symbolic analysis."""
         insights = []
-        
+
         if len(trinity_symbols) == 3:
             insights.append("Complete Trinity Framework presence indicates balanced consciousness evolution")
         elif len(trinity_symbols) >= 2:
             insights.append("Strong Trinity Framework presence suggests developing consciousness integration")
         elif len(trinity_symbols) >= 1:
             insights.append("Trinity Framework elements present, indicating authentic consciousness processing")
-        
+
         if len(symbolic_elements) >= 5:
             insights.append("Rich symbolic content suggests deep consciousness engagement")
         elif len(symbolic_elements) >= 3:
             insights.append("Meaningful symbolic presence indicates active consciousness processing")
-        
+
         return insights
-    
+
     def get_interpretation_result(self, interpretation_id: str) -> Optional[Dict[str, Any]]:
         """🧠 Get interpretation result with consciousness awareness."""
         if interpretation_id not in self.interpretation_history:
             return None
-        
+
         session = self.interpretation_history[interpretation_id]
-        
+
         if session["status"] != "completed":
             return {"status": "incomplete", "interpretation_id": interpretation_id}
-        
+
         result = {
             "interpretation_id": interpretation_id,
             "dream_id": session["dream_id"],
@@ -418,18 +418,18 @@ class DreamInterpretationEngine:
             "completed_at": session["completed_at"],
             "consciousness_validated": True
         }
-        
+
         logger.info(f"🧠 Interpretation result retrieved: {interpretation_id}")
         return result
-    
+
     def generate_interpretation_summary(self, interpretation_id: str) -> Optional[Dict[str, Any]]:
         """🛡️ Generate interpretation summary with guardian validation."""
         result = self.get_interpretation_result(interpretation_id)
         if not result:
             return None
-        
+
         interpretation = result["interpretation"]
-        
+
         summary = {
             "interpretation_id": interpretation_id,
             "method": interpretation["method"],
@@ -440,52 +440,52 @@ class DreamInterpretationEngine:
             "recommendations": self._generate_recommendations(interpretation),
             "guardian_approved": True
         }
-        
+
         logger.info(f"🛡️ Interpretation summary generated: {interpretation_id}")
         return summary
-    
+
     def _generate_recommendations(self, interpretation: Dict[str, Any]) -> List[str]:
         """Generate recommendations based on interpretation results."""
         recommendations = []
-        
+
         method = interpretation.get("method")
         trinity_validated = interpretation.get("trinity_validated", False)
         depth = interpretation.get("interpretation_depth")
-        
+
         if trinity_validated:
             recommendations.append("Excellent Trinity Framework integration - continue current consciousness practices")
         else:
             recommendations.append("Consider developing Trinity Framework awareness for enhanced consciousness integration")
-        
+
         if depth in [InterpretationDepth.TRANSCENDENT, InterpretationDepth.PROFOUND]:
             recommendations.append("Deep consciousness processing detected - explore advanced awareness techniques")
         elif depth == InterpretationDepth.MEANINGFUL:
             recommendations.append("Good consciousness engagement - maintain current practices")
         else:
             recommendations.append("Develop deeper consciousness engagement through symbolic awareness practices")
-        
+
         if method == InterpretationMethod.TRINITY_INTEGRATION.value:
             recommendations.append("Trinity integration method shows optimal consciousness processing approach")
-        
+
         return recommendations
-    
+
     def get_interpretation_statistics(self) -> Dict[str, Any]:
         """Get comprehensive interpretation statistics."""
         if not self.interpretation_history:
             return {"statistics": "No interpretations completed"}
-        
+
         completed_sessions = [s for s in self.interpretation_history.values() if s["status"] == "completed"]
-        
+
         if not completed_sessions:
             return {"statistics": "No completed interpretations"}
-        
+
         trinity_validated_count = sum(1 for s in completed_sessions if s["trinity_validated"])
         method_counts = {}
-        
+
         for session in completed_sessions:
             method = session["method"]
             method_counts[method] = method_counts.get(method, 0) + 1
-        
+
         return {
             "total_interpretations": len(completed_sessions),
             "trinity_validation_rate": trinity_validated_count / len(completed_sessions),

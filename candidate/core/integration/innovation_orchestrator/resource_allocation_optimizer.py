@@ -6,8 +6,6 @@ Optimizes resource allocation across innovation engines.
 import logging
 from typing import Any
 
-import streamlit as st
-
 from lukhas.core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)

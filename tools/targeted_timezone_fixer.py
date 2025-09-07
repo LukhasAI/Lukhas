@@ -8,7 +8,6 @@ that need UTC datetime functionality.
 import ast
 import re
 from pathlib import Path
-from typing import List, Set
 
 
 class TargetedTimezoneFixer:

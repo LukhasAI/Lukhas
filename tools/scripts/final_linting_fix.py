@@ -8,8 +8,6 @@ import re
 import subprocess
 from pathlib import Path
 
-import streamlit as st
-
 
 def run_command(cmd: list[str], cwd: str = ".") -> tuple[int, str, str]:
     """Run a command and return exit code, stdout, stderr"""

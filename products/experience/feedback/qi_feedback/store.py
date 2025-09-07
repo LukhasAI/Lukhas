@@ -12,10 +12,6 @@ import time
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 _ORIG_OPEN = builtins.open
 
 # Storage paths

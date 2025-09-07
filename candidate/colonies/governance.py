@@ -3,11 +3,8 @@ LUKHAS AI Colony System - Governance Colony
 Ethical oversight and governance through distributed agents
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
-import logging
 from datetime import datetime, timezone
 from typing import Any
-
-import streamlit as st
 
 from .base import BaseColony, ColonyAgent, ColonyRole, ColonyTask
 

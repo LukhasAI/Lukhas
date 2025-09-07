@@ -3,8 +3,6 @@ import os
 import time
 from pathlib import Path
 
-import streamlit as st
-
 _BASE = Path(os.getenv("LUKHAS_ANALYTICS_DIR", ".lukhas_analytics"))
 _USAGE = _BASE / "tool_usage.jsonl"
 _INC = _BASE / "incidents.jsonl"

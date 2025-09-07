@@ -26,9 +26,7 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-import streamlit as st
 
-from consciousness.qi import qi
 
 __module_name__ = "Quantum Quantum Engine"
 __version__ = "2.0.0"

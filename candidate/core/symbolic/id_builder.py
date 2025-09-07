@@ -17,10 +17,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # LUKHAS-ID Components from the vision
 
 

@@ -21,8 +21,6 @@ import sys
 from collections.abc import Iterable
 from pathlib import Path
 
-import streamlit as st
-
 SYSPATH_PATTERNS = (re.compile(r"\bsys\.path\.(insert|append|extend)\s*\(\s*"),)
 STAR_IMPORT_PATTERN = re.compile(r"^\s*from\s+\S+\s+import\s+\*\s*(#.*)?$")
 

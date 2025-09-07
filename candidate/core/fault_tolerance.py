@@ -1,8 +1,6 @@
 import time
 from enum import Enum
 
-import streamlit as st
-
 
 class SupervisionStrategy(Enum):
     RESTART = 1

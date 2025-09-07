@@ -29,8 +29,6 @@
 """
 import logging
 
-import streamlit as st
-
 # Configure module logger
 logger = logging.getLogger(__name__)
 

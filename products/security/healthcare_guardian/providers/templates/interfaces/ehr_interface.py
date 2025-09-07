@@ -4,12 +4,9 @@ EHR Interface Template for Health Advisor Provider Plugin
 This module defines the required interfaces for EHR system integration.
 Providers must implement these interfaces to ensure compatibility.
 """
-import time
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Any, Optional
-
-import streamlit as st
 
 
 class EHRInterface(ABC):

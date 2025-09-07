@@ -9,8 +9,6 @@ Calculates the symbolic drift score based on ethical and cognitive metrics.
 from dataclasses import dataclass
 from typing import Any
 
-import streamlit as st
-
 
 @dataclass
 class DriftScore:

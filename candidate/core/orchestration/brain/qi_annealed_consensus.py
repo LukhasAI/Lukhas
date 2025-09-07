@@ -7,14 +7,10 @@ Integration Date: 2025-05-31T07:55:27.752287
 import json
 import logging
 import os
-import random
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
-
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

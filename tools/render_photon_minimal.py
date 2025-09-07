@@ -6,8 +6,6 @@ Usage: python3 tools/render_photon_minimal.py examples/photon_users.json > /tmp/
 import json
 import sys
 
-import streamlit as st
-
 
 def render(photon):
     title = photon.get("title", "Photon Preview")

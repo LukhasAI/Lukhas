@@ -4,8 +4,6 @@
 """
 from abc import ABC, abstractmethod
 
-import streamlit as st
-
 from .types import AgentCapability, AgentContext, AgentResponse
 
 

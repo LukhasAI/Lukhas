@@ -21,7 +21,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 import psutil
 import pytest
-import streamlit as st
 
 from .conftest import create_test_glyph, create_test_scene, create_varying_scene
 

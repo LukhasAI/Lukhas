@@ -9,8 +9,6 @@ include both keys where necessary for backwards compatibility.
 from collections.abc import Mapping
 from typing import Any, Optional
 
-import streamlit as st
-
 
 def canonicalize_id_from_kwargs(kwargs: Mapping[str, Any]) -> Optional[str]:
     """Return canonical `lid` value from a kwargs-like mapping.

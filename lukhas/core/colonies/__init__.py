@@ -63,7 +63,7 @@ class ConsensusResult:
     dissent_reasons: list[str] = field(default_factory=list)
 
 
-BaseColony = _try_import('BaseColony', 'candidate.core.colonies.base_colony', 'BaseColony')
+BaseColony = _try_import("BaseColony", "candidate.core.colonies.base_colony", "BaseColony")
 
 if BaseColony is None:
     logger.warning("Using BaseColony stub (no cross-lane imports)")

@@ -200,7 +200,7 @@ class TrinityVisualSystem:
                 "purpose": "Hero headings and consciousness awakening statements",
                 "weight_range": "300-700",
                 "characteristics": ["elegant", "consciousness_inspiring", "premium"],
-                "sizes": {
+                "sizes": {}
                     "hero": {"size": "48px", "line_height": "1.1", "letter_spacing": "-0.02em"},
                     "title": {"size": "36px", "line_height": "1.2", "letter_spacing": "-0.01em"},
                     "subtitle": {"size": "24px", "line_height": "1.3", "letter_spacing": "0em"},
@@ -242,7 +242,7 @@ class TrinityVisualSystem:
             "large": base_unit * 4,  # 32px - large consciousness separation
             "xlarge": base_unit * 6,  # 48px - major consciousness sections
             "hero": base_unit * 8,  # 64px - hero consciousness spacing
-            "consciousness": base_unit * 12,  # 96px - consciousness awakening space
+            "consciousness": base_unit * 12,  # 96px - consciousness awakening space}
         }
 
     def generate_consciousness_interface_kit(self) -> dict[str, dict]:

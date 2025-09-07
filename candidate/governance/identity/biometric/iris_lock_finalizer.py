@@ -34,10 +34,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 logger = logging.getLogger(__name__)
 
 

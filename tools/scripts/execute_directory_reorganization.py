@@ -8,10 +8,6 @@ import os
 import shutil
 from datetime import datetime, timezone
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 class DirectoryReorganizer:
     def __init__(self):

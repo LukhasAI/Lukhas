@@ -11,10 +11,7 @@ Original: dream_log.py
 Advanced: dream_log.py
 Integration Date: 2025-05-31T07:55:28.204794
 """
-import logging
 from datetime import timezone
-
-import streamlit as st
 
 """
 dream_log.py

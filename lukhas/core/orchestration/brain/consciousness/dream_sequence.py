@@ -5,8 +5,8 @@ Date: 2025-01-27
 Description: Dream sequence orchestration for consciousness processing.
 """
 
-from typing import List, Dict, Any
 from datetime import datetime
+from typing import Any, Dict
 
 
 class DreamSequence:

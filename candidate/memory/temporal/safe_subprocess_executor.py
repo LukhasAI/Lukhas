@@ -12,10 +12,7 @@ Prevents system interference that causes VS Code logout issues
 """
 import os
 import subprocess
-import time
 from typing import Any, Optional
-
-import streamlit as st
 
 
 class SafeSubprocessExecutor:

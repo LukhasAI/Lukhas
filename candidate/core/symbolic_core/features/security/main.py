@@ -4,7 +4,6 @@
 # ΛPROVED_BY: GRDM
 # ΛUDIT: Added demo main
 
-import streamlit as st
 
 from .glyph_redactor_engine import GlyphRedactorEngine
 

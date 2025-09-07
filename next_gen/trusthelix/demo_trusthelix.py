@@ -4,9 +4,6 @@ TrustHelix Demo - Shows the complete ethical audit system in action
 """
 import asyncio
 import logging
-import time
-
-import streamlit as st
 
 from core.consent_path import ConsentPathLogger
 from core.drift_tracker import DriftTracker

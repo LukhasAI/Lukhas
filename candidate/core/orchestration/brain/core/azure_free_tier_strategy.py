@@ -11,10 +11,7 @@
 │ - Compliance Alignment: EU AI Act, GDPR, OECD AI Principles   │
 ╰────────────────────────────────────────────────────────────────╯
 """
-import time
 from datetime import date
-
-import streamlit as st
 
 
 class AzureFreeStrategy:

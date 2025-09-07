@@ -4,10 +4,7 @@ Original: adaptive_interface_generator.py
 Advanced: adaptive_interface_generator.py
 Integration Date: 2025-05-31T07:55:28.137208
 """
-import time
 from typing import Optional
-
-import streamlit as st
 
 
 class AdaptiveInterfaceGenerator:

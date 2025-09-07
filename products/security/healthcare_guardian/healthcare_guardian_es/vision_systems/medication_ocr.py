@@ -7,13 +7,10 @@ Specialized for Spanish medication labels and elderly users
 import hashlib
 import logging
 import re
-import time
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any, Optional
-
-import streamlit as st
 
 logger = logging.getLogger(__name__)
 

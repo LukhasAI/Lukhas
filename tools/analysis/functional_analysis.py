@@ -6,10 +6,7 @@ Analyzes functional capabilities, dependencies, and operational readiness
 import ast
 import json
 import re
-import time
 from pathlib import Path
-
-import streamlit as st
 
 
 class FunctionalAnalyzer:

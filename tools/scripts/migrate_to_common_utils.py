@@ -2,11 +2,8 @@
 """
 Migration script to update imports to use common utilities
 """
-import logging
 import re
 from pathlib import Path
-
-import streamlit as st
 
 
 def update_imports_in_file(file_path: Path):

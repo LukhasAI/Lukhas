@@ -7,7 +7,6 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 import aiohttp
-import streamlit as st
 
 
 class LUKHASClient:

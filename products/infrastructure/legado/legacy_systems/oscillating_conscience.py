@@ -1,5 +1,4 @@
 log = logging.getLogger(__name__)
-import logging
 
 """Oscillator-based ethical dynamics controller."""
 

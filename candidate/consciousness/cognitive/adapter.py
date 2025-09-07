@@ -17,7 +17,6 @@
 import asyncio
 import json
 import logging
-import random
 import threading
 import time
 from abc import ABC, abstractmethod
@@ -30,7 +29,6 @@ from typing import Any, Optional, Union
 
 # Module imports
 import numpy as np
-import streamlit as st
 
 from candidate.core.common import get_logger
 

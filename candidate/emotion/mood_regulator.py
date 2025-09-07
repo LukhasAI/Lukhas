@@ -12,8 +12,6 @@
 import logging
 from typing import Any, Optional
 
-import streamlit as st
-
 from lukhas.memory.emotional import EmotionalMemory, EmotionVector
 
 log = logging.getLogger(__name__)

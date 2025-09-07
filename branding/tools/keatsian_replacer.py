@@ -52,7 +52,7 @@ class KeatsianReplacer:
             r"world-changing": "gently transformative",
             r"revolutionary impact": "patient cultivation",
             r"paradigm shift": "new way of seeing",
-            r"disruptive innovation": "unexpected connections",
+            r"disruptive innovation": "unexpected connections",}
         }
 
     def _get_keatsian_definitions(self) -> dict[str, dict]:
@@ -65,7 +65,7 @@ class KeatsianReplacer:
                     "the capacity to remain in uncertainty, mystery, and doubt "
                     "without fleeing to premature conclusions."
                 ),
-                "essence": "A mirror where logic and imagination meet",
+                "essence": "A mirror where logic and imagination meet",}
             },
             "MΛTRIZ": {
                 "short": "From Shadow to Resonance",

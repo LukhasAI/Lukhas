@@ -8,8 +8,6 @@ import subprocess
 import sys
 import time
 
-import streamlit as st
-
 # API configurations
 APIS = [
     {

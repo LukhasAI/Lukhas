@@ -1,4 +1,3 @@
-import streamlit as st
 
 """Minimal memory evolution stub"""
 

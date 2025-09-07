@@ -8,10 +8,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # Required structure for standardized modules
 REQUIRED_STRUCTURE = {
     "files": [

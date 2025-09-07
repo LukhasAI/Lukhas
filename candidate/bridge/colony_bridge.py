@@ -1,8 +1,6 @@
 import asyncio
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 from candidate.bridge.message_bus import MessageBus
 from candidate.core.colonies.base_colony import BaseColony
 

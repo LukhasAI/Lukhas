@@ -10,8 +10,6 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)

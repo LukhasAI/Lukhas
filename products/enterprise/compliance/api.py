@@ -3,9 +3,8 @@ LUKHAS Data Protection API
 ========================
 FastAPI endpoints for data protection services.
 """
-from typing import Any, List, Optional
+from typing import Any, Optional
 
-import streamlit as st
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 

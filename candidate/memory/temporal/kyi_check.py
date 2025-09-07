@@ -16,8 +16,6 @@
 """
 from datetime import datetime, timezone
 
-import streamlit as st
-
 # ── Placeholder in-memory interaction record ────────────────────
 
 interaction_registry = {}

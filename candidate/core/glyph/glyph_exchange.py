@@ -16,9 +16,8 @@ import json
 import logging
 import zlib
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
-import streamlit as st
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 

@@ -15,8 +15,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
 
-import streamlit as st
-
 # Import other compliance modules
 from ..eu_ai_act.compliance_validator import AISystemProfile, EUAIActValidator
 from ..gdpr.data_protection_validator import DataProcessingActivity, GDPRValidator

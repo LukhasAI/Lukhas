@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import timezone
 
 """
 
@@ -13,13 +13,8 @@ Provides quantum-based dream processing and adaptation capabilities.
 """
 import math
 import random
-import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any, Optional
 
 
 @dataclass

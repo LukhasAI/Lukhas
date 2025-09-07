@@ -9,9 +9,7 @@ import logging
 from datetime import datetime, timezone
 
 # Simple adapter for awareness system integration
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 from ..unified_integration import MessageType, UnifiedIntegration
 

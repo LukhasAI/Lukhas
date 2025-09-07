@@ -23,8 +23,6 @@ ENHANCEMENT: Added professional structure and improved documentation
 """
 from datetime import datetime, timezone
 
-import streamlit as st
-
 
 class SymbolicEngine:
     """

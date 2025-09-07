@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any, Optional
 
 import psutil
-import streamlit as st
 
 logger = logging.getLogger("ΛTRACE.tools.performance", timezone)
 

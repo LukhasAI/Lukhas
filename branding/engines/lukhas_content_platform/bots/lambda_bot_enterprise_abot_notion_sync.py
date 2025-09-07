@@ -108,7 +108,7 @@ class ABotNotionSync:
                 "error": str(e),
                 "current_balance": 0.10,
                 "daily_budget": 0.10,
-                "status": "error",
+                "status": "error",}
             }
 
     def get_ai_routing_data(self) -> dict[str, Any]:

@@ -15,10 +15,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 class QRAuthMode(Enum):
     """QR Authentication modes"""

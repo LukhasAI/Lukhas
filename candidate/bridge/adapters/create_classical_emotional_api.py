@@ -5,17 +5,13 @@ from typing import Any
 LUKHAS Classical Emotional Intelligence API - Non-Quantum Alternative
 Bio-symbolic emotional processing without quantum enhancement
 """
-import time
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
 import numpy as np
-import streamlit as st
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-
-from consciousness.qi import qi
 
 app = FastAPI(
     title="LUKHAS Classical Emotional Intelligence API",

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
-import time
+
 logger = logging.getLogger(__name__)
 """
 Parallel Reality Safety Framework
@@ -519,7 +518,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
     def _extract_structure(self, state: Any) -> str:
         """Extract structure signature of state"""
         if isinstance(state, dict):
-            items_str = ','.join(sorted(k + ':' + self._extract_structure(v) for k, v in state.items()))
+            items_str = ",".join(sorted(k + ":" + self._extract_structure(v) for k, v in state.items()))
             return f"dict({items_str})"
         elif isinstance(state, list):
             return f"list[{len(state)}]"

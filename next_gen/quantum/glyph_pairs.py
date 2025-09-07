@@ -8,17 +8,12 @@ import contextlib
 import hashlib
 import json
 import logging
-import random
 import secrets
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

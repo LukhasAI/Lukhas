@@ -23,7 +23,6 @@
 ║ and dynamic tone shaping.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
 
 from candidate.core.lukhas_emotion_log import get_emotion_state
 

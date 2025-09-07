@@ -15,13 +15,10 @@ Integration with lukhas-id:
 - Actions are logged for full audit trails
 - Consent is checked for sensitive evaluations
 """
-import logging
 import os
 import sys
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 # Add parent directory to path for identity interface
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))

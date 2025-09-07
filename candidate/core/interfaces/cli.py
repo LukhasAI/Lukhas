@@ -13,8 +13,6 @@ import os
 import sys
 from datetime import datetime, timezone
 
-import streamlit as st
-
 # Initialize logger
 logger = logging.getLogger(__name__)
 

@@ -11,10 +11,7 @@ import re
 from pathlib import Path
 
 import openai
-import streamlit as st
 from dotenv import load_dotenv
-
-from consciousness.qi import qi
 
 # Load environment variables
 load_dotenv(Path(__file__).parent.parent.parent / ".env")

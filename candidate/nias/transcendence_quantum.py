@@ -6,8 +6,6 @@ unified platform for consciousness evolution through ethical advertising.
 """
 from typing import Any
 
-import streamlit as st
-
 from candidate.core.collective.collective_ad_mind import CollectiveAdMind
 from candidate.core.consciousness.oracle.oracle import ConsciousnessOracle
 from candidate.core.consciousness_ascension.consciousness_ascension_catalyst_engine import (

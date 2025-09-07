@@ -11,8 +11,6 @@ import time
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
-
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)

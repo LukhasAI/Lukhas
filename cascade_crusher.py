@@ -7,7 +7,6 @@ Aggressively target the cascade blockers one by one with immediate testing
 import ast
 import os
 import subprocess
-from typing import List, Tuple
 
 
 class CascadeCrusher:

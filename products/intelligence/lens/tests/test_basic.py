@@ -9,8 +9,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-import streamlit as st
-
 sys.path.insert(0, str(Path(__file__).parent))
 
 from lens_core import ΛLens

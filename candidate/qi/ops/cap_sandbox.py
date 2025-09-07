@@ -13,10 +13,6 @@ from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 AUDIT_DIR = os.path.join(STATE, "audit")
 os.makedirs(AUDIT_DIR, exist_ok=True)

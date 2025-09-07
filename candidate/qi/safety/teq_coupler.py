@@ -5,12 +5,7 @@ from __future__ import annotations
 import builtins
 import json
 import os
-import time
 from typing import Any
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open
 

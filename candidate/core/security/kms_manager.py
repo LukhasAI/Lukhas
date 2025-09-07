@@ -12,16 +12,11 @@ import os
 import re
 import secrets
 import subprocess
-import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 # For Vault integration
 try:

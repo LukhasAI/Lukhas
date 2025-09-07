@@ -19,14 +19,10 @@ Usage:
         # Proceed with operation
         client.log_activity("memory_access", user_id, {"operation": "read"})
 """
-import logging
 import os
 import sys
-import time
 from datetime import datetime, timezone
 from typing import Any
-
-import streamlit as st
 
 # Add lukhas-id to path for imports
 lukhas_id_path = os.path.join(os.path.dirname(__file__), "lukhas-id")

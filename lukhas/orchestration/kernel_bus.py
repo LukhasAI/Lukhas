@@ -17,8 +17,6 @@ from collections import defaultdict, deque
 from enum import Enum
 from typing import Any, Callable
 
-import streamlit as st
-
 from lukhas.observability.matriz_decorators import instrument
 
 logger = logging.getLogger(__name__)

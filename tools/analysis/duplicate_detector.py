@@ -8,10 +8,6 @@ import json
 import os
 from collections import defaultdict
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 class DuplicateDetector:
     def __init__(self, root_path="."):

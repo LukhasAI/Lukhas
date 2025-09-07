@@ -23,7 +23,12 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.consciousness.reflection.openai_core_service import ModelType, OpenAICapability, OpenAICoreService, OpenAIRequest
+from candidate.consciousness.reflection.openai_core_service import (
+    ModelType,
+    OpenAICapability,
+    OpenAICoreService,
+    OpenAIRequest,
+)
 
 logger = logging.getLogger("ΛTRACE.consciousness.openai_adapter")
 

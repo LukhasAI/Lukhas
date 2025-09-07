@@ -5,8 +5,6 @@ Central nervous system orchestration
 """
 from pathlib import Path
 
-import streamlit as st
-
 
 def consolidate_orchestration_brain():
     """Consolidate orchestration_brain into unified system"""

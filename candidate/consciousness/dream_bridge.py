@@ -6,8 +6,6 @@ Implements the critical connection between dream synthesis and consciousness.
 import logging
 from typing import Any
 
-import streamlit as st
-
 try:
     from dream.engine import DreamEngine
 except ImportError:
@@ -48,13 +46,13 @@ class DreamConsciousnessBridge:
         # Process through consciousness if available
         if self.consciousness:
             consciousness_result = await self.consciousness.process_dream(dream_data)
-            
+
             # Update dream engine with consciousness feedback if available
             if self.dream_engine:
                 await self.dream_engine.update_from_consciousness(consciousness_result)
-            
+
             return consciousness_result
-        
+
         # Return empty result if consciousness bridge not available
         return {"status": "consciousness_bridge_unavailable", "dream_data": dream_data}
 
@@ -62,7 +60,7 @@ class DreamConsciousnessBridge:
         """Generate dreams from consciousness states."""
         if not self.consciousness or not self.dream_engine:
             return {"status": "components_unavailable", "consciousness_data": consciousness_data}
-            
+
         # Analyze consciousness state
         dream_seed = await self.consciousness.extract_dream_seed(consciousness_data)
 

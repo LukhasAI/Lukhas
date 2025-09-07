@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 import logging
 
@@ -43,12 +44,7 @@ import logging
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.core.common import get_logger

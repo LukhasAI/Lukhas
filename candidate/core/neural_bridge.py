@@ -5,8 +5,6 @@ Enables cross-module communication with hormone-based signaling
 from collections import defaultdict
 from typing import Any
 
-import streamlit as st
-
 
 class NeuroplasticBridge:
     """Central bridge for inter-module communication"""

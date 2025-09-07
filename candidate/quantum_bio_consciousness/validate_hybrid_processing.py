@@ -11,11 +11,8 @@ consciousness paradigms for unified constellation awareness.
 """
 import asyncio
 import logging
-import time
 from datetime import datetime, timezone
 from typing import Any
-
-import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

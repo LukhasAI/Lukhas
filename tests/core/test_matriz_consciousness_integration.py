@@ -21,7 +21,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "candidate" / "core
 # Test imports with graceful fallback
 try:
     from matriz_integrated_demonstration import run_matriz_demonstration
-    from orchestration.matriz_consciousness_coordinator import consciousness_coordinator
     from symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
 
     from consciousness.matriz_consciousness_state import (
@@ -33,6 +32,7 @@ try:
     )
     from governance.matriz_consciousness_governance import consciousness_governance_system
     from identity.matriz_consciousness_identity import consciousness_identity_manager
+    from orchestration.matriz_consciousness_coordinator import consciousness_coordinator
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:

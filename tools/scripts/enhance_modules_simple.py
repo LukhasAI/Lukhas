@@ -6,10 +6,6 @@ import json
 import os
 from datetime import datetime, timezone
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 def enhance_module(module_name, description):
     """Enhance a single module with proper structure"""

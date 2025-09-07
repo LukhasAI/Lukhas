@@ -4,10 +4,6 @@ Bidirectional communication bridge between Quantum and Memory systems
 import logging
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 logger = logging.getLogger(__name__)
 
 

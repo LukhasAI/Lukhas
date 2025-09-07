@@ -6,8 +6,6 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 from dataclasses import dataclass
 from typing import Any
 
-import streamlit as st
-
 __module__ = "bio.symbolic"
 __trinity__ = "⚛️🧠🛡️"
 

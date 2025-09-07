@@ -1,4 +1,3 @@
-from typing import Optional
 
 """
 ╭────────────────────────────────────────────────────────╮
@@ -15,8 +14,6 @@ import logging
 import os
 import subprocess
 from datetime import datetime, timezone
-
-import streamlit as st
 
 # from edge_tts import Communicate  # TODO: Install or implement edge_tts
 

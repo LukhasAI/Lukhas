@@ -9,8 +9,6 @@ import os
 from collections.abc import Iterator
 from contextlib import contextmanager
 
-import streamlit as st
-
 # Default flags (safe, conservative defaults)
 _DEFAULT_FLAGS: dict[str, bool] = {
     "TOOL_ANALYTICS": True,

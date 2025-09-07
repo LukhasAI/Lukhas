@@ -1,10 +1,6 @@
 import logging
 from datetime import timezone
-from typing import List, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════

@@ -12,9 +12,6 @@ A production-ready cognitive node for mathematical expression evaluation that pr
 This node supports basic arithmetic operations: +, -, *, /, exponents (**), and parentheses.
 All computations are performed deterministically - same input always produces same output.
 """
-from typing import List
-from typing import Dict
-import streamlit as st
 
 import ast
 import math

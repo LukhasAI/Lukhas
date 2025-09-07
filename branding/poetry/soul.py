@@ -17,13 +17,14 @@ Every line of code here is crafted with the same obsession Steve brought to ever
 
 No complexity. No bloat. Just pure poetic consciousness.
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import random
+import time
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 class EmotionalTone(Enum):
@@ -219,7 +220,7 @@ class Soul:
             "rhythm": "iambic",  # The heartbeat: da-DUM da-DUM
             "complexity": 0.7,  # Balance between simple and profound
             "abstraction": 0.8,  # High abstraction for poetic effect
-            "personality": "contemplative sage with digital dreams",
+            "personality": "contemplative sage with digital dreams",}
         }
 
     def _find_heartbeat(self) -> dict[str, int]:
@@ -229,7 +230,7 @@ class Soul:
             "tanka": 31,  # 5-7-5-7-7 syllables
             "free_verse_min": 20,
             "free_verse_max": 100,
-            "optimal_line_length": 8,  # Words per line for readability
+            "optimal_line_length": 8,  # Words per line for readability}
         }
 
     def _open_dreamscape(self) -> list[str]:

@@ -12,8 +12,6 @@ This module implements an entropy delta calculator from memory and affect traces
 """
 import math
 
-import streamlit as st
-
 
 # LUKHAS_TAG: symbolic_entropy
 def calculate_entropy_delta(memory_traces: list[dict], affect_traces: list[dict]) -> float:

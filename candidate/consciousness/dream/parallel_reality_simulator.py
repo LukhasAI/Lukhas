@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
-import time
-from typing import List
-from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 """
 Parallel Reality Simulator for Dream Engine

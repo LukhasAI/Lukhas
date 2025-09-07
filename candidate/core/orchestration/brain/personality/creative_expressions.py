@@ -5,9 +5,6 @@ Advanced: creative_expressions.py
 Integration Date: 2025-5-31T07:55:28.147230
 """
 import random
-from typing import Optional
-
-import streamlit as st
 
 """
  MODULE      : creative_expressions.py

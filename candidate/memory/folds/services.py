@@ -13,7 +13,6 @@ Dependency injection services for the memory module.
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
 from hub.service_registry import get_service, inject_services, register_factory
 
 

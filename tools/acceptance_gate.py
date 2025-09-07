@@ -10,8 +10,6 @@ import ast
 import os
 import sys
 
-import streamlit as st
-
 FORBIDDEN_ROOTS = ("candidate", "quarantine", "archive")
 ACCEPTED_ROOT = "lukhas"
 

@@ -33,13 +33,9 @@
 ║ Symbolic Tags: {ΛSTANDARD}, {ΛTEMPLATE}, {ΛCOMPLIANCE}
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
-import logging
-import time
 
 # HEADER TEMPLATE - Copy and customize for each module
-from typing import List, Optional
-
-import streamlit as st
+from typing import Optional
 
 HEADER_TEMPLATE = '''"""
 ═══════════════════════════════════════════════════════════════════════════════

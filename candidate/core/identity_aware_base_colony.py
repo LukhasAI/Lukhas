@@ -33,10 +33,6 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # Import base colony infrastructure
 try:
     from candidate.core.colonies.base_colony import BaseColony

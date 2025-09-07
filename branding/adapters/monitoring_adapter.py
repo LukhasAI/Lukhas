@@ -2,14 +2,15 @@
 LUKHAS Brand Monitoring Adapter - Trinity Framework (⚛️🧠🛡️)
 Smart interface to monitoring/ systems for brand-aware analytics and tracking
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Add monitoring module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "monitoring"))
@@ -24,7 +25,7 @@ except ImportError:
 
     class IntegratedMonitoringSystem:
         def collect_metrics(self, **kwargs) -> dict[str, Any]:
-            return {"status": "mock", "metrics": {}
+            return {"status": "mock", "metrics": {}}
 
     class AdaptiveMetricsCollector:
         def collect(self, metric_type: str) -> dict[str, Any]:
@@ -623,8 +624,8 @@ if __name__ == "__main__":
     print("Brand Monitoring Results:")
     print(f"Overall Brand Health: {result['overall_brand_health']['status']}")
     print(f"Health Score: {result['overall_brand_health']['overall_score']}")
-    print(f"Recommendations: {len(result['recommendations']}}")
+    print(f"Recommendations: {len(result['recommendations'])}")
 
     if result["brand_insights"]:
-        print(f"Key Findings: {len(result['brand_insights']['key_findings']}}")
-        print(f"Opportunities: {len(result['brand_insights']['opportunities']}}")
+        print(f"Key Findings: {len(result['brand_insights']['key_findings'])}")
+        print(f"Opportunities: {len(result['brand_insights']['opportunities'])}")

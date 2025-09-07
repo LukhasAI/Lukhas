@@ -4,9 +4,7 @@ Original: qi_engine.py
 Advanced: qi_engine.py
 Integration Date: 2025-05-31T07:55:28.283461
 """
-import streamlit as st
 
-from consciousness.qi import qi
 
 """
 📦 MODULE      : qi_engine.py

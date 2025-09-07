@@ -5,10 +5,7 @@ This module designs and measures experiences that are intended to
 measurably accelerate human consciousness evolution.
 """
 import random
-import time
 from typing import Any
-
-import streamlit as st
 
 
 # Placeholder classes for external consciousness research APIs

@@ -6,8 +6,6 @@ import os
 import re
 from pathlib import Path
 
-import streamlit as st
-
 
 def update_imports(root_dir):
     """Update poetry-related imports in Python files"""

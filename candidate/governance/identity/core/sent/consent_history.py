@@ -13,7 +13,6 @@ Features:
 - Zero-knowledge proof support (future)
 """
 
-import hashlib
 from datetime import datetime
 from typing import Optional
 

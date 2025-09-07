@@ -7,9 +7,9 @@
 """
 
 import logging
-from typing import Any, Dict, List, Optional
 from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -33,13 +33,13 @@ class VerificationStatus(Enum):
 
 class DreamVerificationColony:
     """Advanced dream verification system with Trinity Framework compliance."""
-    
+
     def __init__(self):
         self.verification_records: Dict[str, Dict] = {}
         self.verification_rules = self._initialize_verification_rules()
         self.verification_counter = 0
         logger.info("🔍 Dream Verification Colony initialized - Trinity Framework active")
-    
+
     def _initialize_verification_rules(self) -> Dict[str, Dict]:
         """Initialize verification rules for different levels."""
         return {
@@ -64,12 +64,12 @@ class DreamVerificationColony:
                 "trinity_requirement": True
             }
         }
-    
+
     def initiate_verification(self, dream_id: str, dream_data: Dict[str, Any], level: VerificationLevel = VerificationLevel.STANDARD) -> str:
         """⚛️ Initiate dream verification while preserving authenticity."""
         self.verification_counter += 1
         verification_id = f"verify_{self.verification_counter}_{int(datetime.now(timezone.utc).timestamp())}"
-        
+
         verification_record = {
             "verification_id": verification_id,
             "dream_id": dream_id,
@@ -80,37 +80,37 @@ class DreamVerificationColony:
             "verification_score": 0.0,
             "trinity_validated": False
         }
-        
+
         self.verification_records[verification_id] = verification_record
         logger.info(f"🔍 Dream verification initiated: {verification_id} for dream {dream_id} at level {level.value}")
         return verification_id
-    
+
     def execute_verification(self, verification_id: str) -> Dict[str, Any]:
         """🧠 Execute consciousness-aware verification process."""
         if verification_id not in self.verification_records:
             return {"error": "Verification not found"}
-        
+
         record = self.verification_records[verification_id]
         record["status"] = VerificationStatus.IN_PROGRESS.value
-        
+
         level = record["level"]
         rules = self.verification_rules[level]
         required_checks = rules["required_checks"]
-        
+
         # Execute verification checks
         check_results = {}
         for check_name in required_checks:
             check_results[check_name] = self._execute_check(check_name, record["dream_id"])
             record["checks_completed"].append(check_name)
-        
+
         # Calculate verification score
         total_score = sum(check_results.values())
         record["verification_score"] = total_score / len(check_results)
-        
+
         # Determine verification status
         threshold = rules["threshold_score"]
         trinity_required = rules["trinity_requirement"]
-        
+
         if record["verification_score"] >= threshold:
             if trinity_required and self._validate_trinity_compliance(record["dream_id"]):
                 record["status"] = VerificationStatus.TRINITY_APPROVED.value
@@ -119,9 +119,9 @@ class DreamVerificationColony:
                 record["status"] = VerificationStatus.VERIFIED.value
         else:
             record["status"] = VerificationStatus.FAILED.value
-        
+
         record["completed_at"] = datetime.now(timezone.utc).isoformat()
-        
+
         verification_result = {
             "verification_id": verification_id,
             "status": record["status"],
@@ -129,10 +129,10 @@ class DreamVerificationColony:
             "check_results": check_results,
             "trinity_validated": record["trinity_validated"]
         }
-        
+
         logger.info(f"🧠 Dream verification executed: {verification_id} - Status: {record['status']}")
         return verification_result
-    
+
     def _execute_check(self, check_name: str, dream_id: str) -> float:
         """Execute individual verification check."""
         # Simplified check implementations
@@ -145,21 +145,21 @@ class DreamVerificationColony:
             "trinity_compliance": 0.95,
             "guardian_validation": 0.92
         }
-        
+
         return check_scores.get(check_name, 0.7)
-    
+
     def _validate_trinity_compliance(self, dream_id: str) -> bool:
         """Validate Trinity Framework compliance."""
         # Simplified Trinity validation
         return True
-    
+
     def get_verification_status(self, verification_id: str) -> Dict[str, Any]:
         """🛡️ Get verification status with guardian protection."""
         if verification_id not in self.verification_records:
             return {"error": "Verification not found"}
-        
+
         record = self.verification_records[verification_id]
-        
+
         status_info = {
             "verification_id": verification_id,
             "dream_id": record["dream_id"],
@@ -170,29 +170,29 @@ class DreamVerificationColony:
             "trinity_validated": record["trinity_validated"],
             "guardian_approved": record["status"] in [VerificationStatus.VERIFIED.value, VerificationStatus.TRINITY_APPROVED.value]
         }
-        
+
         logger.info(f"🛡️ Verification status retrieved: {verification_id}")
         return status_info
-    
+
     def batch_verify_dreams(self, dream_ids: List[str], level: VerificationLevel = VerificationLevel.STANDARD) -> Dict[str, str]:
         """Batch verification for multiple dreams."""
         verification_ids = {}
-        
+
         for dream_id in dream_ids:
             verification_id = self.initiate_verification(dream_id, {}, level)
             self.execute_verification(verification_id)
             verification_ids[dream_id] = verification_id
-        
+
         logger.info(f"🔍 Batch verification completed for {len(dream_ids)} dreams")
         return verification_ids
-    
+
     def generate_verification_report(self, verification_id: str) -> Optional[Dict[str, Any]]:
         """Generate comprehensive verification report."""
         if verification_id not in self.verification_records:
             return None
-        
+
         record = self.verification_records[verification_id]
-        
+
         report = {
             "verification_id": verification_id,
             "dream_id": record["dream_id"],
@@ -210,17 +210,17 @@ class DreamVerificationColony:
             "recommendations": self._generate_recommendations(record),
             "report_generated_at": datetime.now(timezone.utc).isoformat()
         }
-        
+
         logger.info(f"📊 Verification report generated: {verification_id}")
         return report
-    
+
     def _generate_recommendations(self, record: Dict[str, Any]) -> List[str]:
         """Generate recommendations based on verification results."""
         recommendations = []
-        
+
         score = record["verification_score"]
         status = record["status"]
-        
+
         if status == VerificationStatus.TRINITY_APPROVED.value:
             recommendations.append("Excellent verification - dream meets highest Trinity Framework standards")
         elif status == VerificationStatus.VERIFIED.value:
@@ -229,10 +229,10 @@ class DreamVerificationColony:
             recommendations.append("Partial verification - address specific check failures")
         else:
             recommendations.append("Low verification score - comprehensive review recommended")
-        
+
         if not record["trinity_validated"]:
             recommendations.append("Enhance Trinity Framework integration for higher certification")
-        
+
         return recommendations
 
 

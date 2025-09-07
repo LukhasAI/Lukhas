@@ -8,8 +8,6 @@ import traceback
 from dataclasses import dataclass
 from typing import Any
 
-import streamlit as st
-
 
 @dataclass
 class TestResult:

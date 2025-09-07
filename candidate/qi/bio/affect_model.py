@@ -11,9 +11,7 @@ Bio Affect Model
 
 Provides simple emotional repair utilities for dream synthesis.
 """
-import streamlit as st
 
-from consciousness.qi import qi
 
 # ΛTAG: emotional_repair_model
 SADNESS_THRESHOLD = 0.6

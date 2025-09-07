@@ -4,12 +4,11 @@ LUKHAS AI Automated Content Generator
 Integrates with content platform to generate constellation-aligned content automatically
 Uses the comprehensive domain architectures and templates for consistent output
 """
-import streamlit as st
-from datetime import timezone
-
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
 
 # Import the content platform
 from .content_platform import ContentPlatform
@@ -536,6 +535,6 @@ if __name__ == "__main__":
     generator.save_generated_content_to_files(results)
 
     print("\n✨ Content generation complete!")
-    successful = len([r for r in results.values() if 'error' not in r])
-    failed = len([r for r in results.values() if 'error' in r])
+    successful = len([r for r in results.values() if "error" not in r])
+    failed = len([r for r in results.values() if "error" in r])
     print(f"📊 Results: {successful} successful, {failed} failed")

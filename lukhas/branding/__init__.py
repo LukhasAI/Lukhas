@@ -7,7 +7,7 @@ Official branding, terminology, and symbolic vocabulary for LUKHAS consciousness
 
 # Trinity Framework Symbols
 TRINITY_IDENTITY = "⚛️"
-TRINITY_CONSCIOUSNESS = "🧠"  
+TRINITY_CONSCIOUSNESS = "🧠"
 TRINITY_GUARDIAN = "🛡️"
 
 # Core LUKHAS Branding
@@ -29,7 +29,7 @@ LAMBDA_SYMBOLS = {
 # Brand Colors (as names for terminal output)
 COLORS = {
     "primary": "blue",
-    "secondary": "cyan", 
+    "secondary": "cyan",
     "accent": "green",
     "warning": "yellow",
     "error": "red",
@@ -59,7 +59,7 @@ def get_branding_info():
 # Export key components
 __all__ = [
     "TRINITY_IDENTITY",
-    "TRINITY_CONSCIOUSNESS", 
+    "TRINITY_CONSCIOUSNESS",
     "TRINITY_GUARDIAN",
     "LUKHAS_NAME",
     "LUKHAS_FULL_NAME",

@@ -25,8 +25,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-import streamlit as st
-
 # Add ethics module to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 

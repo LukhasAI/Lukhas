@@ -12,8 +12,6 @@ from datetime import datetime, timezone
 from enum import Enum, auto
 from typing import Any
 
-import streamlit as st
-
 from ethics.core import DecisionType, get_shared_ethics_engine
 from ethics.seedra import get_seedra
 from lukhas.core.audit.audit_decision_embedding_engine import DecisionAuditEngine

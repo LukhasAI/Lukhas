@@ -19,9 +19,6 @@ from datetime import datetime, timezone
 └────────────────────────────────────────────────────────────────────────────┘
 """
 import datetime
-import time
-
-import streamlit as st
 
 ARCHITECTURE_LOG_FILE = "logs/architecture/architecture_change_log.md"
 

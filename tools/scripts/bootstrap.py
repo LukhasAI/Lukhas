@@ -4,11 +4,6 @@ LUKHAS Bootstrap - System Startup Sequence
 Creates main.py and initializes the system for first run
 """
 import os
-import time
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 class LUKHASBootstrap:

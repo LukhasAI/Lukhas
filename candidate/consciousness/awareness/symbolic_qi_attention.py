@@ -12,14 +12,11 @@ Advanced: qi_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
 import logging
-import random
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 from bio.core import BioOrchestrator, ResourcePriority
-from consciousness.qi import qi
 
 # TODO: Re-enable when qi_attention is properly implemented
 # from candidate.orchestration.brain.attention.qi_attention import *

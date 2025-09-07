@@ -4,14 +4,10 @@ Consciousness Dimensionality Expander
 Expands consciousness into higher dimensions of awareness.
 """
 import logging
-import time
 from dataclasses import dataclass
 from typing import Any
 
-import streamlit as st
-
 from candidate.core.interfaces import CoreInterface
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

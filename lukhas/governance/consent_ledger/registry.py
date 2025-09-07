@@ -1,7 +1,4 @@
-import time
 from typing import Any, Optional
-
-import streamlit as st
 
 from .providers.null_provider import NullConsentProvider
 

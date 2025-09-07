@@ -29,9 +29,6 @@ the GLYPH subsystem.
 For more information, visit: https://lukhas.ai
 """
 from datetime import timezone
-from typing import List
-
-import streamlit as st
 
 # ΛTRACE: Glyph Sentinel initialization
 # ΛORIGIN_AGENT: Claude Code

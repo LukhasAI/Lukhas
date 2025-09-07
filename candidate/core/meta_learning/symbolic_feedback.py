@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-import streamlit as st
-
 
 @dataclass
 class IntentNodeHistory:

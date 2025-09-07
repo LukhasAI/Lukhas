@@ -19,12 +19,8 @@ Usage:
         # Proceed with operation
         client.log_activity("memory_access", user_id, {"operation": "read"})
 """
-import logging
-import time
 from datetime import datetime, timezone
 from typing import Any
-
-import streamlit as st
 
 # Lazy loading to avoid circular imports - import these modules only when needed
 

@@ -9,8 +9,6 @@ instead of "LUKHAS AI" or other incorrect variations.
 import re
 from pathlib import Path
 
-import streamlit as st
-
 # Correct LUKHAS ASCII art
 CORRECT_ASCII = """██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
 ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝

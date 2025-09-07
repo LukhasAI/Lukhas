@@ -6,8 +6,6 @@ Generates JSON model for the React UI
 import json
 from typing import Any
 
-import streamlit as st
-
 from ..symbols.glyph_types import GlyphSymbol
 
 

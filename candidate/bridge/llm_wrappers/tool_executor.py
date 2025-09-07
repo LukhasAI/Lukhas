@@ -6,8 +6,6 @@ monkeypatch without touching core executor internals.
 """
 from typing import Any
 
-import streamlit as st
-
 from candidate.tools.tool_executor import get_tool_executor
 
 

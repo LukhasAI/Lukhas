@@ -6,8 +6,6 @@ Monitors and analyzes global regulatory developments.
 import logging
 from typing import Any
 
-import streamlit as st
-
 from candidate.core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)

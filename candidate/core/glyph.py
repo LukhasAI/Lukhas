@@ -5,8 +5,6 @@ Please update imports to: lukhas.core.glyph
 """
 import warnings
 
-import streamlit as st
-
 from .glyph.glyph import *
 
 warnings.warn(

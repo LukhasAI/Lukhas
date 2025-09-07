@@ -11,11 +11,7 @@ import json
 import re
 import struct
 import zlib
-from typing import Any, Dict
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any
 
 
 # PNG chunk utilities

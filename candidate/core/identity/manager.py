@@ -30,8 +30,6 @@ import logging
 import uuid
 from datetime import datetime, timezone
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 
 

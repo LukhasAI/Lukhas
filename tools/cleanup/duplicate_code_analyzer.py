@@ -10,8 +10,6 @@ import os
 from collections import defaultdict
 from pathlib import Path
 
-import streamlit as st
-
 
 class DuplicateCodeAnalyzer:
     """Analyzes codebase for duplicates and conflicts"""

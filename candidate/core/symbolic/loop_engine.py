@@ -14,9 +14,7 @@ This creates symbol grounding through biological and quantum-inspired processes.
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, List, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 from bio.core import BioProcessor
 from lukhas.consciousness.bridge import ConsciousnessBridge

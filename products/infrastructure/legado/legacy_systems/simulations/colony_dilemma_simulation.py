@@ -1,4 +1,3 @@
-import streamlit as st
 
 """Simulate an ethical dilemma across colonies."""
 import logging

@@ -13,8 +13,6 @@ This module provides a protocol for symbolic trauma decompression.
 import asyncio
 import logging
 
-import streamlit as st
-
 from candidate.core.bio_systems.bio_oscillator import MoodOscillator
 from candidate.core.bio_systems.bio_simulation_controller import BioSimulationController
 

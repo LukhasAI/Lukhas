@@ -6,18 +6,18 @@ Simple wrapper for LUKHAS memory fold components
 """
 
 import logging
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 class HybridMemoryFold:
     """Simple hybrid memory fold for consciousness systems"""
-    
+
     def __init__(self):
         self.memory_store: Dict[str, Any] = {}
         self.vector_store: Dict[str, List[float]] = {}
         self.symbolic_store: Dict[str, Any] = {}
-        
+
     def store_memory(self, key: str, data: Any, vector: Optional[List[float]] = None) -> bool:
         """Store memory with optional vector representation"""
         try:
@@ -29,11 +29,11 @@ class HybridMemoryFold:
         except Exception as e:
             logger.error(f"❌ Failed to store memory {key}: {e}")
             return False
-            
+
     def retrieve_memory(self, key: str) -> Optional[Any]:
         """Retrieve memory by key"""
         return self.memory_store.get(key)
-        
+
     def fold_memories(self, keys: List[str]) -> Dict[str, Any]:
         """Fold multiple memories together"""
         folded = {}
@@ -59,7 +59,7 @@ except Exception as e:
 
 # Export main components
 __all__ = [
-    'HybridMemoryFold',
-    'VectorStorageLayer',
-    'create_hybrid_memory_fold'
+    "HybridMemoryFold",
+    "VectorStorageLayer",
+    "create_hybrid_memory_fold"
 ]

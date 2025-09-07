@@ -12,12 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import logging
 import threading
 import typing
 from dataclasses import dataclass  # For placeholder
-
-import streamlit as st
 
 # OpenTelemetry SDK Imports (Original)
 try:

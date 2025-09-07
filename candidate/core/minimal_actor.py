@@ -5,8 +5,6 @@ Implements encapsulated state, behavior, and asynchronous message passing.
 import queue
 import threading
 
-import streamlit as st
-
 
 class Actor:
     def __init__(self, behavior, state=None):

@@ -4,14 +4,10 @@ Competitive Landscape Controller
 Controls and manages competitive positioning strategies.
 """
 import logging
-import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, List
+from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
 from core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)

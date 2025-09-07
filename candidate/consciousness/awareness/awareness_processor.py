@@ -13,13 +13,11 @@ import logging
 lukhasAwarenessProcessor.py - Consciousness Component for LUKHAS AI System
 This component handles consciousness data processing functionality in the LUKHAS AI system.
 """
-from typing import Dict
-import streamlit as st
-from datetime import timezone
-
 import asyncio
-from datetime import datetime
-from typing import Any, Optional  # List not used in signatures but kept
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional  # List not used in signatures but kept
+
+import streamlit as st
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_processor", timezone)
@@ -508,7 +506,7 @@ class AwarenessProcessor:
 
     async def _generate_alert(self, source: str, severity: str, message: str, metric_value: float):
         """Generate and store awareness alert."""
-        alert_id = f"AWARE_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
+        alert_id = f"AWARE_{int(datetime.now(timezone.utc).timestamp() * 1000)}"
 
         alert = {
             "id": alert_id,

@@ -5,7 +5,6 @@ Usage: python3 tools/csv_profiler.py /path/to/file.csv
 """
 import csv
 import sys
-from typing import Dict
 
 
 def main():

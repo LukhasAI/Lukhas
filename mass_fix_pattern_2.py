@@ -4,7 +4,6 @@ Mass Fix Pattern 2: Malformed Function Definitions and Calls
 Fix patterns like: def function(): and function_call()
 """
 
-import os
 import re
 from pathlib import Path
 

@@ -1,0 +1,288 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.1, pluggy-1.6.0
+rootdir: /Users/agi_dev/LOCAL-REPOS/Lukhas
+configfile: pytest.ini
+testpaths: tests, rl/tests
+plugins: asyncio-1.1.0, xdist-3.8.0, httpx-0.35.0, anyio-4.10.0, Faker-37.6.0, cov-6.2.1, mock-3.14.1, hypothesis-6.138.14, postgresql-7.0.2
+asyncio: mode=auto, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 598 items / 17 errors / 6 skipped
+
+==================================== ERRORS ====================================
+__________ ERROR collecting tests/core/test_exceptions_additional.py ___________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/core/test_exceptions_additional.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/test_exceptions_additional.py:11: in <module>
+    from lukhas.core.common.exceptions import (
+E   ImportError: cannot import name 'GLYPHTokenError' from 'lukhas.core.common.exceptions' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/core/common/exceptions.py)
+______________ ERROR collecting tests/rl/test_consciousness_rl.py ______________
+ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/rl/test_consciousness_rl.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/rl/test_consciousness_rl.py:20: in <module>
+    from lukhas.rl.coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer, TrainingConfiguration
+lukhas/rl/__init__.py:14: in <module>
+    from .coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer
+lukhas/rl/coordination/__init__.py:9: in <module>
+    from .multi_agent_trainer import ConsciousnessModuleAgent, MultiAgentConsciousnessTrainer, TrainingConfiguration
+lukhas/rl/coordination/multi_agent_trainer.py:28: in <module>
+    from lukhas.rl.engine.policy_networks import ConsciousnessActorCritic
+lukhas/rl/engine/__init__.py:9: in <module>
+    from ..environments.consciousness_environment import (
+lukhas/rl/environments/__init__.py:8: in <module>
+    from .consciousness_environment import (
+lukhas/rl/environments/consciousness_environment.py:31: in <module>
+    from lukhas.emotion import EmotionalAwareness
+E   ImportError: cannot import name 'EmotionalAwareness' from 'lukhas.emotion' (/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/emotion/__init__.py)
+__________________ ERROR collecting tests/test_aka_qualia.py ___________________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_aka_qualia.py", line 535
+E       goals = {"maintain_wellbeing": True}
+E       ^
+E   SyntaxError: invalid syntax
+________________ ERROR collecting tests/test_basic_functions.py ________________
+tests/test_basic_functions.py:10: in <module>
+    assert mw is not None
+E   NameError: name 'mw' is not defined
+____________ ERROR collecting tests/test_core_memory_validation.py _____________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_core_memory_validation.py", line 148
+E       if hasattr(compressor, "compress_memory_fold"):
+E                                                     ^
+E   SyntaxError: invalid syntax
+_______________ ERROR collecting tests/test_e2e_audit_dryrun.py ________________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_e2e_audit_dryrun.py", line 96
+E       "consent_id": f"audit_consent_{hash(str(consent_data)} % 10000}",
+E                                                                       ^
+E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
+_________ ERROR collecting tests/test_guardian_integrated_platform.py __________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_guardian_integrated_platform.py", line 72
+E       result = await guardian_adapter.check_content_ethics(clean_content, user_context)
+E       ^
+E   SyntaxError: invalid syntax
+________________ ERROR collecting tests/test_guardian_system.py ________________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_guardian_system.py", line 639
+E       request_id=f"test_{uuid.uuid4()}.hex[:8]}",
+E                                                 ^
+E   SyntaxError: f-string: single '}' is not allowed
+__________________ ERROR collecting tests/test_integration.py __________________
+tests/test_integration.py:10: in <module>
+    assert mw is not None
+E   NameError: name 'mw' is not defined
+_ ERROR collecting tests/tools/scripts/test_generate_final_research_report.py __
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/tools/scripts/test_generate_final_research_report.py", line 25
+E       def _create_drift_test(path: Path) -> None:
+E       ^
+E   SyntaxError: invalid syntax
+____________ ERROR collecting tests/tools/test_dependency_hasher.py ____________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+tests/tools/test_dependency_hasher.py:14: in <module>
+    from tools.security.dependency_hasher import DependencyHasher
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/./tools/security/dependency_hasher.py", line 228
+E       content.append(f"# Generated at: {time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime()}")
+E                                                                                               ^
+E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
+_______ ERROR collecting tests/tools/test_tool_executor_comprehensive.py _______
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/tools/test_tool_executor_comprehensive.py", line 467
+E       )
+E       ^
+E   SyntaxError: closing parenthesis ')' does not match opening parenthesis '{' on line 466
+_______ ERROR collecting tests/universal_language/test_compositional.py ________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/universal_language/test_compositional.py", line 64
+E       comp._execute_line("# this is a comment", env)
+E       ^
+E   SyntaxError: invalid syntax
+_________ ERROR collecting tests/universal_language/test_multimodal.py _________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:359: in _rewrite_test
+    co = compile(tree, strfn, "exec", dont_inherit=True)
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/universal_language/test_multimodal.py", line 12
+E       return mod
+E       ^
+E   SyntaxError: 'return' outside function
+____________ ERROR collecting rl/tests/test_chaos_consciousness.py _____________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:687: in _import_module_using_spec
+    parent_module = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:687: in _import_module_using_spec
+    parent_module = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+<frozen importlib._bootstrap_external>:850: in exec_module
+    ???
+<frozen importlib._bootstrap>:228: in _call_with_frames_removed
+    ???
+rl/__init__.py:20: in <module>
+    from .engine.consciousness_environment import ConsciousnessEnvironment
+rl/engine/__init__.py:9: in <module>
+    from .consciousness_environment import ConsciousnessEnvironment
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/rl/engine/consciousness_environment.py", line 42
+E       id: str = field(default_factory=lambda: f"RL-{uuid.uuid4()}.hex[:8]}")
+E                                                                            ^
+E   SyntaxError: f-string: single '}' is not allowed
+__________ ERROR collecting rl/tests/test_consciousness_properties.py __________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/rl/tests/test_consciousness_properties.py", line 74
+E       node_id = f"test-{node_type.lower()}-{draw(st.integers(min_value=1, max_value=999999)}"
+E                                                                                              ^
+E   SyntaxError: f-string: closing parenthesis '}' does not match opening parenthesis '('
+_____________ ERROR collecting rl/tests/test_generative_oracles.py _____________
+.venv/lib/python3.9/site-packages/_pytest/python.py:498: in importtestmodule
+    mod = import_path(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:561: in import_path
+    mod = _import_module_using_spec(
+.venv/lib/python3.9/site-packages/_pytest/pathlib.py:725: in _import_module_using_spec
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:177: in exec_module
+    source_stat, co = _rewrite_test(fn, self.config)
+.venv/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test
+    tree = ast.parse(source, filename=strfn)
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/ast.py:50: in parse
+    return compile(source, filename, mode, flags,
+E     File "/Users/agi_dev/LOCAL-REPOS/Lukhas/rl/tests/test_generative_oracles.py", line 719
+E       print(f"   Evolution quality: {evolution_judgment.metrics.get('overall_evolution_quality', 0.0)}:.3f}")
+E                                                                                                             ^
+E   SyntaxError: f-string: single '}' is not allowed
+---- generated xml file: /Users/agi_dev/LOCAL-REPOS/Lukhas/test-results.xml ----
+=========================== short test summary info ============================
+ERROR tests/core/test_exceptions_additional.py
+ERROR tests/rl/test_consciousness_rl.py
+ERROR tests/test_aka_qualia.py
+ERROR tests/test_basic_functions.py - NameError: name 'mw' is not defined
+ERROR tests/test_core_memory_validation.py
+ERROR tests/test_e2e_audit_dryrun.py
+ERROR tests/test_guardian_integrated_platform.py
+ERROR tests/test_guardian_system.py
+ERROR tests/test_integration.py - NameError: name 'mw' is not defined
+ERROR tests/tools/scripts/test_generate_final_research_report.py
+ERROR tests/tools/test_dependency_hasher.py
+ERROR tests/tools/test_tool_executor_comprehensive.py
+ERROR tests/universal_language/test_compositional.py
+ERROR tests/universal_language/test_multimodal.py
+ERROR rl/tests/test_chaos_consciousness.py
+ERROR rl/tests/test_consciousness_properties.py
+ERROR rl/tests/test_generative_oracles.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 17 errors during collection !!!!!!!!!!!!!!!!!!!
+======================== 6 skipped, 17 errors in 10.29s ========================

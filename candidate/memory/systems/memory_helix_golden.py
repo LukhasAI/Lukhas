@@ -62,12 +62,8 @@ Version: 3.0
 Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 """
-import time
-from typing import Dict, List
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 __module_name__ = "Golden Helix Memory Mapper"
 __version__ = "3.0.0"

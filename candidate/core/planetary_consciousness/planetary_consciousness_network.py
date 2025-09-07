@@ -5,9 +5,7 @@ This module coordinates advertising with global consciousness evolution,
 analyzing global events, moods, and other planetary-scale phenomena.
 """
 import random
-from typing import Any, List
-
-import streamlit as st
+from typing import Any
 
 
 # Placeholder classes for external planetary-scale data APIs

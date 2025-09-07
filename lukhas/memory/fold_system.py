@@ -9,8 +9,6 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
 
-import streamlit as st
-
 try:
     from lukhas.observability.matriz_decorators import matriz_record
 

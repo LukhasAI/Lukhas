@@ -4,9 +4,7 @@ Original: mito_quantum_attention.py
 Advanced: mito_quantum_attention.py
 Integration Date: 2025-05-31T07:55:28.187065
 """
-import streamlit as st
 
-from consciousness.qi import qi
 
 """
 📦 MODULE      : qi_attention.py

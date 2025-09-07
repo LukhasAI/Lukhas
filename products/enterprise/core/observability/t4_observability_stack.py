@@ -11,11 +11,8 @@ import json
 import logging
 import os
 import socket
-import time
 from functools import wraps
 from typing import Optional
-
-import streamlit as st
 
 # Observability integrations
 try:

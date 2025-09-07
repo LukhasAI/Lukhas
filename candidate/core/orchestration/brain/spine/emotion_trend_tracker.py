@@ -7,8 +7,6 @@ Integration Date: 2025-05-31T07:55:28.100778
 import json
 from collections import defaultdict
 
-import streamlit as st
-
 
 def analyze_emotion_trends():
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")

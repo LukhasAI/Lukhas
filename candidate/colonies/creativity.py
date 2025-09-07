@@ -6,8 +6,6 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 import random
 from typing import Any
 
-import streamlit as st
-
 from .base import BaseColony, ColonyTask
 
 

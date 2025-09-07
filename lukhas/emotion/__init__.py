@@ -41,24 +41,24 @@ EMOTION_ACTIVE = True
 try:
     # Import from production lukhas.emotion system
     from lukhas.emotion.emotion_wrapper import AdvancedEmotionWrapper as EmotionWrapper, get_advanced_emotion_wrapper
-    from lukhas.observability.matriz_emit import emit
     from lukhas.observability.matriz_decorators import instrument
-    
+    from lukhas.observability.matriz_emit import emit
+
     # Create wrapper functions for missing functions
     def get_emotion_wrapper(*args, **kwargs):
         """Get emotion wrapper - delegates to advanced wrapper"""
         return get_advanced_emotion_wrapper()
-    
+
     def process_emotion(data, **kwargs):
         """Process emotion using advanced wrapper"""
         wrapper = get_advanced_emotion_wrapper()
-        return wrapper.process_emotion_with_memory(data) if hasattr(wrapper, 'process_emotion_with_memory') else {"status": "processed"}
-    
+        return wrapper.process_emotion_with_memory(data) if hasattr(wrapper, "process_emotion_with_memory") else {"status": "processed"}
+
     def regulate_mood(*args, **kwargs):
         """Regulate mood using advanced wrapper"""
         wrapper = get_advanced_emotion_wrapper()
-        return wrapper.regulate_mood_with_learning(*args, **kwargs) if hasattr(wrapper, 'regulate_mood_with_learning') else {"status": "regulated"}
-    
+        return wrapper.regulate_mood_with_learning(*args, **kwargs) if hasattr(wrapper, "regulate_mood_with_learning") else {"status": "regulated"}
+
     def track_valence(*args, **kwargs):
         """Track valence"""
         return {"valence": 0.0, "status": "tracked"}

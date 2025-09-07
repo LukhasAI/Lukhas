@@ -3,8 +3,6 @@ import json
 import sys
 from pathlib import Path
 
-import streamlit as st
-
 
 def changed_lines():
     # naive: list changed files (nightly branch vs main), line granularity optional

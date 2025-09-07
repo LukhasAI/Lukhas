@@ -5,8 +5,6 @@ Unified self-aware decision-making system
 """
 from pathlib import Path
 
-import streamlit as st
-
 
 def consolidate_consciousness_unification():
     """Consolidate consciousness_unification into unified system"""

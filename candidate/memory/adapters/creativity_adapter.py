@@ -41,8 +41,6 @@
 """
 from typing import Any, Optional
 
-import streamlit as st
-
 from ..systems.emotional_memory_manager import EmotionalModulator
 
 # Export for backward compatibility

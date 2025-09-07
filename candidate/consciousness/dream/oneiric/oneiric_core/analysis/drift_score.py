@@ -8,10 +8,7 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import time
-from typing import Dict
 
-import streamlit as st
 
 from ..db.user_repository import get_user_profile, update_drift_profile
 

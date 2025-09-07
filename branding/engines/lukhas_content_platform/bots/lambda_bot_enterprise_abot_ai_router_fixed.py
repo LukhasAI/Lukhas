@@ -206,7 +206,7 @@ class ABotIntelligentAIRouter:
             ),
         }
 
-        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services}} services")
+        logger.info(f"🤖 LUKHAS AI ΛBot Intelligent AI Router initialized with {len(self.services})} services")
 
     def _get_keychain_value(self, service: str) -> Optional[str]:
         """Get API key from Mac KeyChain"""
@@ -256,7 +256,7 @@ class ABotIntelligentAIRouter:
                 "service": "none",
                 "reason": "No AI services available",
                 "estimated_cost": 0.0,
-                "error": "No API keys found in KeyChain",
+                "error": "No API keys found in KeyChain",}
             }
 
         # Apply priority-based selection
@@ -301,7 +301,7 @@ class ABotIntelligentAIRouter:
             "service_id": best_service_id,
             "model": best_service.model,
             "keychain_service": best_service.keychain_service,
-            "estimated_cost": estimated_cost,
+            "estimated_cost": estimated_cost,}
             "reason": f"Selected {best_service.name}: Strong at {task_type.value}, {reason}",
             "task_type": task_type.value,
             "priority": priority,
@@ -381,7 +381,7 @@ def get_ai_router_status() -> dict:
             "available_services": available_services,
             "availability_percentage": (available_services / total_services) * 100 if total_services > 0 else 0,
             "cheapest_service": cheapest_service,
-            "most_expensive_service": most_expensive_service,
+            "most_expensive_service": most_expensive_service,}
         },
         "services_detail": services_status,
         "routing_analytics": analytics,
@@ -395,7 +395,7 @@ def get_ai_router_status() -> dict:
         "recommendations": [
             f"✅ {available_services}/{total_services} AI services available",
             (
-                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values(}}:.4f} per 1K tokens"
+                f"💰 Cost range: ${min(available_service_costs.values()):.4f} - ${max(available_service_costs.values(}}:.4f))} per 1K tokens"
                 if available_service_costs
                 else "❌ No services available"
             ),
@@ -413,7 +413,7 @@ if __name__ == "__main__":
 
     print("🤖 LUKHAS AI ΛBot Intelligent AI Router")
     print("=" * 50)
-    print(f"Available AI services: {len(router.services}}")
+    print(f"Available AI services: {len(router.services})}")
 
     # Show all services and their availability
     for service in router.services.values():

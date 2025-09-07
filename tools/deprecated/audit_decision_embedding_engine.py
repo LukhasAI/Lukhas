@@ -10,8 +10,6 @@ from functools import wraps
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 
 

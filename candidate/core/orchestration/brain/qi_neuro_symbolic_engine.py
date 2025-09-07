@@ -23,12 +23,9 @@ import hashlib
 import logging
 import uuid
 from datetime import datetime, timezone
-from typing import Dict, Optional
+from typing import Optional
 
 import numpy as np
-import streamlit as st
-
-from consciousness.qi import qi
 
 # LUKHAS core imports
 from ..lukhas_id_enhanced import AccessTier, LukhosIDManager

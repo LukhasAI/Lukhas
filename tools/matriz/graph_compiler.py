@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import timezone
+
 """
 MATRIZ Graph Compiler v0.1
 
@@ -15,8 +15,6 @@ Public API (importable for tests):
   - compile_graph(author: dict, inputs: list[tuple[path,str]]) -> tuple[dict, dict]
   - validate_invariants(author: dict) -> list[str]
 """
-import time
-import streamlit as st
 
 import argparse
 import hashlib

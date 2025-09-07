@@ -5,10 +5,9 @@ Advanced skill acquisition and mastery system for consciousness development.
 """
 
 from dataclasses import dataclass, field
-from typing import Any, Optional
-from enum import Enum
-import asyncio
 from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional
 
 
 class SkillLevel(Enum):
@@ -33,7 +32,7 @@ class LearningPhase(Enum):
 @dataclass
 class Skill:
     """Represents a skill being acquired."""
-    
+
     skill_id: str
     name: str
     description: str
@@ -51,7 +50,7 @@ class Skill:
 @dataclass
 class LearningSession:
     """Represents a learning session for skill acquisition."""
-    
+
     session_id: str
     skill_id: str
     duration_minutes: float
@@ -66,7 +65,7 @@ class LearningSession:
 @dataclass
 class SkillAcquisitionContext:
     """Context for skill acquisition operations."""
-    
+
     learning_style: str = "adaptive"
     practice_intensity: str = "moderate"
     feedback_frequency: str = "regular"
@@ -77,16 +76,16 @@ class SkillAcquisitionContext:
 
 class SkillAcquisitionEngine:
     """Advanced skill acquisition engine for consciousness development."""
-    
+
     def __init__(self, context: Optional[SkillAcquisitionContext] = None):
         """Initialize the skill acquisition engine."""
         self.context = context or SkillAcquisitionContext()
         self.skills: dict[str, Skill] = {}
         self.learning_sessions: list[LearningSession] = []
         self.acquisition_history: list[dict[str, Any]] = []
-        
+
     def register_skill(
-        self, 
+        self,
         skill_id: str,
         name: str,
         description: str,
@@ -101,9 +100,9 @@ class SkillAcquisitionEngine:
             target_level=target_level,
             prerequisites=prerequisites or []
         )
-        
+
         self.skills[skill_id] = skill
-        
+
         # Log skill registration
         self.acquisition_history.append({
             "event": "skill_registered",
@@ -112,11 +111,11 @@ class SkillAcquisitionEngine:
             "target_level": target_level.value,
             "timestamp": datetime.now(timezone.utc)
         })
-        
+
         return skill
-        
+
     async def practice_skill(
-        self, 
+        self,
         skill_id: str,
         duration_minutes: float,
         activities: Optional[list[str]] = None,
@@ -125,9 +124,9 @@ class SkillAcquisitionEngine:
         """Practice a skill and record the session."""
         if skill_id not in self.skills:
             raise ValueError(f"Skill '{skill_id}' not registered")
-            
+
         skill = self.skills[skill_id]
-        
+
         # Create learning session
         session = LearningSession(
             session_id=f"session_{len(self.learning_sessions)}",
@@ -136,25 +135,25 @@ class SkillAcquisitionEngine:
             activities=activities or [],
             performance_score=performance_score
         )
-        
+
         self.learning_sessions.append(session)
-        
+
         # Update skill progress
         skill.practice_hours += duration_minutes / 60.0
         skill.last_practiced = datetime.now(timezone.utc)
-        
+
         if performance_score is not None:
             # Update success rate (simple moving average)
             if skill.success_rate == 0.0:
                 skill.success_rate = performance_score
             else:
                 skill.success_rate = (skill.success_rate * 0.8) + (performance_score * 0.2)
-                
+
         # Check for level progression
         await self._evaluate_skill_progression(skill)
-        
+
         return session
-        
+
     async def _evaluate_skill_progression(self, skill: Skill) -> None:
         """Evaluate if a skill should progress to the next level."""
         progression_thresholds = {
@@ -164,20 +163,20 @@ class SkillAcquisitionEngine:
             SkillLevel.ADVANCED: (50.0, 0.8),   # 50 hours, 80% success
             SkillLevel.EXPERT: (100.0, 0.9),    # 100 hours, 90% success
         }
-        
+
         current_level = skill.current_level
         if current_level in progression_thresholds:
             hours_required, success_required = progression_thresholds[current_level]
-            
-            if (skill.practice_hours >= hours_required and 
+
+            if (skill.practice_hours >= hours_required and
                 skill.success_rate >= success_required):
-                
+
                 # Progress to next level
                 levels = list(SkillLevel)
                 current_index = levels.index(current_level)
                 if current_index < len(levels) - 1:
                     skill.current_level = levels[current_index + 1]
-                    
+
                     # Log progression
                     self.acquisition_history.append({
                         "event": "level_progression",
@@ -188,15 +187,15 @@ class SkillAcquisitionEngine:
                         "success_rate": skill.success_rate,
                         "timestamp": datetime.now(timezone.utc)
                     })
-                    
+
     def get_skill_progress(self, skill_id: str) -> Optional[dict[str, Any]]:
         """Get detailed progress information for a skill."""
         if skill_id not in self.skills:
             return None
-            
+
         skill = self.skills[skill_id]
         sessions = [s for s in self.learning_sessions if s.skill_id == skill_id]
-        
+
         return {
             "skill": skill,
             "total_sessions": len(sessions),
@@ -207,7 +206,7 @@ class SkillAcquisitionEngine:
             "recent_sessions": sessions[-5:] if sessions else [],
             "level_progress": self._calculate_level_progress(skill)
         }
-        
+
     def _calculate_level_progress(self, skill: Skill) -> dict[str, Any]:
         """Calculate progress towards next level."""
         progression_thresholds = {
@@ -217,18 +216,18 @@ class SkillAcquisitionEngine:
             SkillLevel.ADVANCED: (50.0, 0.8),
             SkillLevel.EXPERT: (100.0, 0.9),
         }
-        
+
         current_level = skill.current_level
         if current_level not in progression_thresholds:
             return {"progress": 1.0, "status": "master_level"}
-            
+
         hours_required, success_required = progression_thresholds[current_level]
-        
+
         hours_progress = min(skill.practice_hours / hours_required, 1.0)
         success_progress = min(skill.success_rate / success_required, 1.0)
-        
+
         overall_progress = (hours_progress + success_progress) / 2.0
-        
+
         return {
             "progress": overall_progress,
             "hours_progress": hours_progress,
@@ -236,11 +235,11 @@ class SkillAcquisitionEngine:
             "hours_needed": max(0, hours_required - skill.practice_hours),
             "success_needed": max(0, success_required - skill.success_rate)
         }
-        
+
     def get_all_skills(self) -> list[Skill]:
         """Get all registered skills."""
         return list(self.skills.values())
-        
+
     def get_learning_sessions(self, skill_id: Optional[str] = None) -> list[LearningSession]:
         """Get learning sessions, optionally filtered by skill."""
         if skill_id is None:
@@ -256,7 +255,7 @@ async def quick_skill_practice(
 ) -> LearningSession:
     """Quick skill practice for simple use cases."""
     engine = SkillAcquisitionEngine()
-    
+
     # Register skill if not exists
     skill_id = skill_name.lower().replace(" ", "_")
     skill = engine.register_skill(
@@ -264,7 +263,7 @@ async def quick_skill_practice(
         name=skill_name,
         description=f"Quick practice of {skill_name}"
     )
-    
+
     # Practice the skill
     return await engine.practice_skill(
         skill_id=skill_id,

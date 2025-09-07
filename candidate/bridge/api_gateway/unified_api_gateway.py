@@ -42,7 +42,6 @@ import time
 from contextlib import asynccontextmanager
 from typing import Any, Optional
 
-import streamlit as st
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware

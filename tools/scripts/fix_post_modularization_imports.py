@@ -6,10 +6,6 @@ Fixes import issues post-modularization.
 """
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # Import mappings discovered during analysis
 IMPORT_MAPPINGS = {
     "memory.glyph_memory_integration": "core.glyph.glyph_memory_integration",

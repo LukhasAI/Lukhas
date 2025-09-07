@@ -25,11 +25,9 @@
 ║ Returns a unified sentiment score and label.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import time
 from typing import Optional
 
 import numpy as np
-import streamlit as st
 
 # Dummy imports for illustration; replace with actual model imports
 # from emotion.text_sentiment import analyze_text_sentiment

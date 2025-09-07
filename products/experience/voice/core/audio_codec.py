@@ -15,7 +15,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 
@@ -329,7 +329,7 @@ class LUKHASAudioCodecManager:
 
             # Emit GLYPH event
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", 
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness",
                 "audio.encoding.completed",
                 {
                     "codec": codec.value,
@@ -344,7 +344,7 @@ class LUKHASAudioCodecManager:
         except Exception as e:
             self.logger.error(f"Audio encoding failed: {e!s}")
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", 
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness",
                 "audio.encoding.error", {"codec": codec.value, "error": str(e)})
             raise
 
@@ -391,7 +391,7 @@ class LUKHASAudioCodecManager:
 
             # Emit GLYPH event
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", 
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness",
                 "audio.decoding.completed",
                 {
                     "codec": codec.value,
@@ -407,7 +407,7 @@ class LUKHASAudioCodecManager:
         except Exception as e:
             self.logger.error(f"Audio decoding failed: {e!s}")
             # Create GLYPH event
-            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", 
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness",
                 "audio.decoding.error", {"codec": codec.value, "error": str(e)})
             raise
 

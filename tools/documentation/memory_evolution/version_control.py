@@ -5,9 +5,7 @@ Handles versioning, change tracking, and evolution of documentation.
 import hashlib
 import json
 import time
-from typing import List, Optional
-
-import streamlit as st
+from typing import Optional
 
 
 class DocVersion:

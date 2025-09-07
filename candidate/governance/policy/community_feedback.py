@@ -1,4 +1,3 @@
-import streamlit as st
 
 """Utility module applying community proposals to ethics configuration."""
 

@@ -17,8 +17,6 @@ import time
 from pathlib import Path
 from typing import Any
 
-import streamlit as st
-
 
 class WaveCTestRunner:
     """Test runner for Wave C6 ablation and ethics validation"""

@@ -4,8 +4,6 @@ Secure Logging Utilities for LUKHAS AI
 Provides security-aware logging that automatically redacts sensitive information
 and follows security best practices for audit trails and compliance.
 """
-import time
-import streamlit as st
 
 import hashlib
 import logging

@@ -23,10 +23,6 @@ import warnings
 from dataclasses import dataclass
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 logger = logging.getLogger(__name__)
 
 # Core branding constants and functions - integrated directly

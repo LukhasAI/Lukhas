@@ -18,11 +18,10 @@ import logging
 import math
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import cv2
 import numpy as np
-import streamlit as st
 
 logger = logging.getLogger(__name__)
 

@@ -17,11 +17,9 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.symbolism.tags import TagPermission, TagScope
-from consciousness.qi import qi
 
 logger = logging.getLogger("ΛTRACE.bio.anomaly", timezone)
 

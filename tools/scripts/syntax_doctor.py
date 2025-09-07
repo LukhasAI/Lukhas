@@ -2,14 +2,11 @@
 """
 Syntax Doctor - Automatically fixes common Python syntax errors
 """
-import streamlit as st
-from datetime import timezone
-
 import ast
 import os
 import re
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -340,7 +337,7 @@ def main():
         for f in remaining[:10]:
             print(f"  - {f}")
         if len(remaining) > 10:
-            print(f"  ... and {len(remaining} - 10} more")
+            print(f"  ... and {len(remaining) - 10} more")
 
 
 if __name__ == "__main__":

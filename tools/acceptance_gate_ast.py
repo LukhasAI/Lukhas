@@ -20,8 +20,6 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-import streamlit as st
-
 REPO = pathlib.Path(__file__).resolve().parents[1]
 ACCEPTED = REPO / "lukhas"
 BANNED = ("candidate", "quarantine", "archive")

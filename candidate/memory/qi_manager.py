@@ -73,8 +73,6 @@ from datetime import datetime  # Added timedelta
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
-
 try:
     import structlog
 except ImportError:

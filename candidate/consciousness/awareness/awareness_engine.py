@@ -38,11 +38,7 @@
 import asyncio
 import logging
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional  # List not used in signatures but kept
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any, Optional  # List not used in signatures but kept
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_engine")

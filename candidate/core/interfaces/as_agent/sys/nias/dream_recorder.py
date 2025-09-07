@@ -1,4 +1,3 @@
-from typing import Optional
 
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
@@ -7,8 +6,6 @@ Advanced: dream_recorder.py
 Integration Date: 2025-05-31T07:55:30.562286
 """
 from datetime import timezone
-
-import streamlit as st
 
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮

@@ -1,7 +1,6 @@
 import asyncio
 import logging
 
-import streamlit as st
 import structlog
 
 log = logging.getLogger(__name__)

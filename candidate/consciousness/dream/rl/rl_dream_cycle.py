@@ -11,8 +11,6 @@ symbolic entanglements and resulting value drift.
 from trace.drift_metrics import DriftTracker, compute_drift_score
 from typing import Any
 
-import streamlit as st
-
 
 # ΛTAG: RL_DREAM_LOOP
 class RLDreamCycle:

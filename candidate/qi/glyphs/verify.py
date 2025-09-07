@@ -11,10 +11,6 @@ import sys
 from datetime import timezone
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 def fetch_cached_jwks(issuer: str) -> Optional[dict[str, Any]]:
     """

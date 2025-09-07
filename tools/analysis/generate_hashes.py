@@ -10,10 +10,6 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 def calculate_sha3_512(file_path: Path) -> str:
     """Calculate SHA3-512 hash of file"""

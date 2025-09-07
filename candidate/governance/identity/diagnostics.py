@@ -1,8 +1,6 @@
 # Placeholder script to (re)create the DAO directory structure and empty files.
 import os
 
-import streamlit as st
-
 base_dir = "/Users/grdm_admin/LUClukhasS_Lukhas_ID_SYSTEMS/dao"
 proposals_dir = os.path.join(base_dir, "proposals")
 files_to_create = [

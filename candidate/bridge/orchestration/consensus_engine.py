@@ -42,9 +42,7 @@ import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, List, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.orchestration.consensus")

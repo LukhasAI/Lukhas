@@ -11,8 +11,6 @@ from __future__ import annotations
 
 import re
 
-import streamlit as st
-
 _REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
     # Lukhas AGI -> Lukhas AI (various caseings)
     (re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE), "Lukhas AI"),

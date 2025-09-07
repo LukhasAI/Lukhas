@@ -6,25 +6,24 @@ Links to enhanced swarm implementations for consciousness coordination
 """
 
 # Import from the enhanced swarm implementation
-from typing import Any
 
 try:
     # Prefer the candidate enhanced swarm when available
     from candidate.core.enhanced_swarm import (
+        AgentColony,
         AgentState,
         CapabilityLevel,
         SwarmAgent,
-        AgentColony,
         SwarmNetwork,
     )
 
     # Re-export everything the enhanced module provides
     __all__ = [
-        'AgentState',
-        'CapabilityLevel',
-        'SwarmAgent',
-        'AgentColony',
-        'SwarmNetwork',
+        "AgentState",
+        "CapabilityLevel",
+        "SwarmAgent",
+        "AgentColony",
+        "SwarmNetwork",
     ]
 except Exception:
     # Minimal local stubs to satisfy imports when enhanced module not present
@@ -54,9 +53,9 @@ except Exception:
             self.colonies = {}
 
     __all__ = [
-        'AgentState',
-        'CapabilityLevel',
-        'SwarmAgent',
-        'AgentColony',
-        'SwarmNetwork',
+        "AgentState",
+        "CapabilityLevel",
+        "SwarmAgent",
+        "AgentColony",
+        "SwarmNetwork",
     ]

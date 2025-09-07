@@ -5,8 +5,6 @@ Trinity Framework: ⚛️🧠🛡️
 """
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class ActorRef:
     """Reference to an actor (enables location transparency)"""

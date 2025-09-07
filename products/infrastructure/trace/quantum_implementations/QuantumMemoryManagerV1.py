@@ -7,9 +7,7 @@ retrieval, and consolidation, with integration to voice and dream processing.
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 from ...core.unified_integration import UnifiedIntegration
 from ..oscillator.orchestrator import BioOrchestrator

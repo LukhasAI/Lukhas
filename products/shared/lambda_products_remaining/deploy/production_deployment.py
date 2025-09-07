@@ -13,9 +13,6 @@ from enum import Enum
 from typing import Any
 
 import psutil
-import streamlit as st
-
-from consciousness.qi import qi
 
 # Configure structured logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")

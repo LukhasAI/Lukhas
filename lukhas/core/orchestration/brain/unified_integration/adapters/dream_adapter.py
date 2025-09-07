@@ -16,8 +16,8 @@ TRINITY FRAMEWORK:
 """
 
 import logging
-from typing import Any, Dict, Optional
 from datetime import datetime, timezone
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -27,12 +27,12 @@ class DreamAdapter:
     Advanced dream state adapter for consciousness orchestration.
     Provides Trinity Framework-compliant dream state management.
     """
-    
+
     def __init__(self):
         self.active_dreams: Dict[str, Any] = {}
         self.dream_counter = 0
         logger.info("🌙 Dream Adapter initialized - Trinity Framework active")
-    
+
     def initiate_dream_state(self, user_context: Optional[Dict] = None) -> str:
         """
         ⚛️ Identity-aware dream state initiation.
@@ -45,7 +45,7 @@ class DreamAdapter:
         """
         self.dream_counter += 1
         dream_id = f"dream_{self.dream_counter}_{int(datetime.now(timezone.utc).timestamp())}"
-        
+
         self.active_dreams[dream_id] = {
             "id": dream_id,
             "status": "active",
@@ -53,10 +53,10 @@ class DreamAdapter:
             "context": user_context or {},
             "trinity_compliance": True
         }
-        
+
         logger.info(f"🌙 Dream state initiated: {dream_id}")
         return dream_id
-    
+
     def process_dream_content(self, dream_id: str, content: Any) -> Dict[str, Any]:
         """
         🧠 Consciousness-aware dream content processing.
@@ -71,7 +71,7 @@ class DreamAdapter:
         if dream_id not in self.active_dreams:
             logger.warning(f"🚨 Unknown dream ID: {dream_id}")
             return {"error": "Unknown dream session"}
-        
+
         processed = {
             "dream_id": dream_id,
             "content": content,
@@ -79,10 +79,10 @@ class DreamAdapter:
             "status": "processed",
             "trinity_validated": True
         }
-        
+
         logger.info(f"🧠 Dream content processed for {dream_id}")
         return processed
-    
+
     def terminate_dream_state(self, dream_id: str) -> bool:
         """
         🛡️ Guardian-supervised dream state termination.
@@ -95,13 +95,13 @@ class DreamAdapter:
         """
         if dream_id not in self.active_dreams:
             return False
-        
+
         self.active_dreams[dream_id]["status"] = "terminated"
         self.active_dreams[dream_id]["terminated_at"] = datetime.now(timezone.utc).isoformat()
-        
+
         logger.info(f"🛡️ Dream state safely terminated: {dream_id}")
         return True
-    
+
     def get_active_dreams(self) -> Dict[str, Any]:
         """Return all active dream sessions."""
         return {k: v for k, v in self.active_dreams.items() if v["status"] == "active"}

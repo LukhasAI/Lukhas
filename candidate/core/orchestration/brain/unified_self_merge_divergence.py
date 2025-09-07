@@ -6,8 +6,6 @@ Integration Date: 2025-05-31T07:55:27.773754
 """
 from datetime import timezone
 
-import streamlit as st
-
 # lukhas_unified_self_merge_divergence.py
 """
 LUKHAS: Logical Unified Consciousness and Symbolism

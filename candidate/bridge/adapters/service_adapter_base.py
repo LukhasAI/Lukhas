@@ -11,7 +11,6 @@ Common resilience, telemetry, and consent validation for all adapters
 """
 import asyncio
 import contextlib
-import logging
 import os
 import sys
 import time
@@ -20,9 +19,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
-from typing import Any, List, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 # Add paths for LUKHAS AI module imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))

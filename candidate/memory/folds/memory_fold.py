@@ -93,11 +93,7 @@ Advanced Cognitive Architecture for Artificial General Intelligence
 Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
-import random
 from datetime import timezone
-from typing import Dict, List
-
-import streamlit as st
 
 __module_name__ = "Memory Fold Architecture"
 __version__ = "2.0.0"

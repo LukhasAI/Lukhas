@@ -24,8 +24,6 @@
 """
 from typing import Any, Optional
 
-import streamlit as st
-
 
 def route_signal(signal_type: str, payload: dict[str, Any], target: Optional[str] = None) -> dict[str, Any]:
     """Route a signal to appropriate handler.

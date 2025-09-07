@@ -13,7 +13,6 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import networkx as nx
-import streamlit as st
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")

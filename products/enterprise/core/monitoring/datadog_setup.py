@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import Optional
 
 """
 LUKHAS AI Datadog Setup and Configuration
@@ -18,8 +17,6 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
-
-import streamlit as st
 
 # Try importing Datadog client
 try:

@@ -12,11 +12,8 @@
 │ - Compliance Alignment: EU AI Act, GDPR, OECD AI Principles   │
 ╰────────────────────────────────────────────────────────────────╯
 """
-import logging
 import subprocess
 from typing import Optional
-
-import streamlit as st
 
 
 class LukhASAzureOpenAI:

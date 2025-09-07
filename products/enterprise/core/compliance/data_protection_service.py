@@ -9,7 +9,6 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional, Union
 
 import asyncpg
-import streamlit as st
 from pydantic import BaseModel
 
 try:

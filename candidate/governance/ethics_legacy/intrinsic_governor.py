@@ -1,9 +1,5 @@
 import asyncio
 
-import structlog
-
-from candidate.core.common import get_logger
-
 
 class IntrinsicEthicalGovernor:
     """Intrinsic governor that throttles computation when cycles spike."""
@@ -14,7 +10,7 @@ class IntrinsicEthicalGovernor:
 
 
 
- async def check_and_throttle(self, cycle_count: int) -> None:
-      if cycle_count % self.throttle_threshold == 0 and cycle_count > 0:
-           self.log.warning("[ΛBLOCKED] runaway process throttled", cycle=cycle_count)
+        async def check_and_throttle(self, cycle_count: int) -> None:
+            if cycle_count % self.throttle_threshold == 0 and cycle_count > 0:
+                self.log.warning("[ΛBLOCKED] runaway process throttled", cycle=cycle_count)
             await asyncio.sleep(self.cooldown)

@@ -4,11 +4,11 @@ sleep_cycle.py
 Triggers a symbolic sleep/dream cycle for Lucʌs.
 Logs a memory trace, folds it, seeds a dream, and stores the dream output.
 """
-import streamlit as st
-from dream.core.dream_log import dream_logger
 from modules.dream_seed import seed_dream
 from modules.fold_token import fold_trace
 from modules.memoria import log_trace
+
+from dream.core.dream_log import dream_logger
 
 # Step 1: Log a symbolic memory trace (simulate for now)
 trace = log_trace(

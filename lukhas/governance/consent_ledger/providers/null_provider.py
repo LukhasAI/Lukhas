@@ -1,7 +1,5 @@
 from typing import Any
 
-import streamlit as st
-
 
 class NullConsentProvider:
     """Safe, local, ephemeral provider; no network, no PII leaks."""

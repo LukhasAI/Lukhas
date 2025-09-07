@@ -6,7 +6,6 @@ Stores all collapses, hesitations, and moral rejections
 Forensically sound audit log of ethical cognition
 """
 import json
-import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -14,7 +13,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 
 class DecisionType(Enum):

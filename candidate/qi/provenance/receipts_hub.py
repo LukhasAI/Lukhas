@@ -6,12 +6,8 @@ import json
 import os
 import sys
 import time
-from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
 from qi.provenance.receipt_standard import build_receipt, to_json
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))

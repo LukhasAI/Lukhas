@@ -6,8 +6,6 @@ Generates glTF/WebXR scene descriptions
 import json
 from typing import Any
 
-import streamlit as st
-
 from ..symbols.glyph_types import GlyphSymbol
 
 

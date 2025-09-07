@@ -1,4 +1,3 @@
-from typing import Optional
 
 """
 LUKHAS [MODULE_NAME] Vocabulary Template
@@ -18,7 +17,6 @@ Usage:
 4. Add comprehensive examples
 5. Test symbol rendering
 """
-import streamlit as st
 
 # Module-specific imports if needed
 # from common import symbolic_helpers

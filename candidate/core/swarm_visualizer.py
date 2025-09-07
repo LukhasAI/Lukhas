@@ -8,8 +8,6 @@ Symbiotic Swarm using the Mermaid.js format.
 import random
 import time
 
-import streamlit as st
-
 from lukhas.core.swarm import SwarmHub
 
 

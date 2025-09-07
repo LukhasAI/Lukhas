@@ -7,8 +7,6 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
-
 # Guardian System Integration
 try:
     from candidate.governance.guardian_system import GuardianSystem

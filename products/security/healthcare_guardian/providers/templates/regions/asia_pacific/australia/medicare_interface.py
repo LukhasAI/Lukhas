@@ -4,9 +4,7 @@ Medicare Australia Integration Template
 This module provides integration points for Australia's Medicare system,
 including both public healthcare and pharmaceutical benefits scheme (PBS).
 """
-from typing import Any, Optional
-
-import streamlit as st
+from typing import Any
 
 from ...interfaces.ehr_interface import EHRInterface
 from ...security.security_utils import AuditLogger, EncryptionHandler

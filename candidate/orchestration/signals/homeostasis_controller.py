@@ -13,9 +13,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, List, Optional
-
-import streamlit as st
+from typing import Any, Callable, Optional
 
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 

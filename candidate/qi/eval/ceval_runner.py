@@ -16,7 +16,6 @@ from pathlib import Path
 from typing import Any
 
 import click
-import streamlit as st
 
 # Prometheus
 try:

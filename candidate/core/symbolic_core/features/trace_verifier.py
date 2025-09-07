@@ -7,8 +7,6 @@ Verifies symbolic traces against the AGENT_FLOW_MAP.md.
 """
 from typing import Any
 
-import streamlit as st
-
 
 class SymbolicTraceVerifier:
     """

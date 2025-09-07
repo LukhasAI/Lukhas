@@ -4,15 +4,11 @@ Minimal implementation to satisfy tests and control feature rollout
 """
 import functools
 import os
-import time
 import warnings
 from pathlib import Path
 from typing import Callable
 
-import streamlit as st
 import yaml
-
-from consciousness.qi import qi
 
 
 class FeatureFlags:

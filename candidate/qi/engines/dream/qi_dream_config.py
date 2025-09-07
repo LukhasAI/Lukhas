@@ -9,11 +9,8 @@
 🌙⚛️ Quantum-Enhanced Dream Processing Configuration
 Advanced superposition-like state for dream state processing
 """
-import time
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 # Quantum Dream Parameters
 QUANTUM_DREAM_CONFIG = {

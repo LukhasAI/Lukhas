@@ -6,8 +6,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class AgentCapability(Enum):
     """Capabilities that an orchestration agent can provide."""

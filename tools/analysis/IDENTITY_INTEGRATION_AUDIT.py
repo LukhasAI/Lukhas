@@ -7,10 +7,7 @@ Checks tier-based access control, login enforcement, and user ID linking.
 """
 import json
 import re
-import time
 from pathlib import Path
-
-import streamlit as st
 
 # Key modules that should have tier-based access control
 PROTECTED_MODULES = {

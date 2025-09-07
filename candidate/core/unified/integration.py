@@ -6,8 +6,6 @@ Minimal implementation to support system component integration.
 import logging
 from typing import Any, Callable
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 
 

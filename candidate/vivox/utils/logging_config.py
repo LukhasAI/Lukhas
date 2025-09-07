@@ -4,10 +4,7 @@ Provides performance-optimized logging with configurable levels
 """
 import logging
 import os
-import time
 from typing import Optional
-
-import streamlit as st
 
 # Environment-based logging level
 VIVOX_LOG_LEVEL = os.getenv("VIVOX_LOG_LEVEL", "INFO").upper()

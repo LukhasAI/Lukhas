@@ -2,14 +2,10 @@
 from __future__ import annotations
 
 import os
-from typing import Optional
 
-import streamlit as st
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse
 
-from consciousness.qi import qi
-from qi.safety.provenance_links import presign_for_record
 from qi.safety.provenance_receipts import write_receipt
 from qi.safety.provenance_uploader import load_record_by_sha
 

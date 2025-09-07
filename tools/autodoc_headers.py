@@ -8,8 +8,6 @@ import ast
 import os
 from pathlib import Path
 
-import streamlit as st
-
 
 class DocHeaderGenerator:
     """Generates documentation headers for Python modules"""

@@ -10,8 +10,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Callable, Optional, TypeVar, Union, cast
 
-import streamlit as st
-
 from ..container.service_container import ServiceLifetime, injectable
 from .contracts import DomainEvent, EventPriority
 

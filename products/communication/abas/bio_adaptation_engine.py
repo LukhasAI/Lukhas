@@ -7,8 +7,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
-import streamlit as st
-
 
 class BiometricType(Enum):
     """Types of biometric data"""

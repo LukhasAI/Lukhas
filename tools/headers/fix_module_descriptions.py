@@ -7,12 +7,7 @@ Fixes overly verbose descriptions and ensures they follow the
 3-4 line format with academic-poetic blend.
 """
 import re
-import time
 from pathlib import Path
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 # Pattern to find and replace existing descriptions
 VERBOSE_DESCRIPTION_PATTERN = re.compile(

@@ -10,7 +10,6 @@ Original: pattern_recognition.py
 Advanced: pattern_recognition.py
 Integration Date: 2025-05-31T07:55:28.224171
 """
-import streamlit as st
 
 """
 📦 MODULE      : pattern_recognition.py

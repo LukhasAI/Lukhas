@@ -14,8 +14,6 @@ Features:
 import json
 import re
 
-import streamlit as st
-
 
 class QRGParser:
     """Parse and validate QR-G codes"""

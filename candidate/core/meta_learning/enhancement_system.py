@@ -26,15 +26,10 @@ Created: January 2025
 import asyncio
 import json
 import logging
-import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 from .federated_integration import FederatedLearningIntegration, FederationStrategy
 

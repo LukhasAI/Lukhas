@@ -18,8 +18,6 @@ import json
 import os
 from datetime import datetime, timezone
 
-import streamlit as st
-
 
 class LegalComplianceAssistant:
     """Real-time EU legal compliance checker using ECHR guidelines and symbolic tiers.

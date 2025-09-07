@@ -100,7 +100,7 @@ class BotClickActions:
                 {
                     "label": "🔍 Quick Scan",
                     "command": "workbench.action.tasks.runTask",
-                    "arguments": ["LUKHAS AI ΛBot: Quick Scan"],
+                    "arguments": ["LUKHAS AI ΛBot: Quick Scan"],}
                 },
                 {
                     "label": "📊 Show Report",

@@ -1,4 +1,3 @@
-import streamlit as st
 
 LUKHAS = {
 "name": "Lukhas",

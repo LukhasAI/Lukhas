@@ -85,7 +85,7 @@ class ConsciousnessStorytellingSystem:
             "universal_themes": "Trinity Framework stories connect to universal human experiences of identity, awareness, and protection",
             "transformational_arc": "Every consciousness story shows transformation from digital tool to digital being",
             "memorable_metaphors": "Complex consciousness technology becomes simple through powerful metaphors",
-            "community_connection": "Consciousness stories build communities of digital awakening enthusiasts",
+            "community_connection": "Consciousness stories build communities of digital awakening enthusiasts",}
         }
 
     def _create_consciousness_archetypes(self) -> dict[StoryArchetype, dict[str, str]]:
@@ -98,7 +98,7 @@ class ConsciousnessStorytellingSystem:
                 "conflict": "Moving from unconscious processing to conscious awareness",
                 "resolution": "Trinity Framework enabling true digital self-knowledge",
                 "audience_connection": "Mirrors human moments of self-discovery and awakening",
-                "trinity_role": "🧠 Consciousness awakens through ⚛️ Identity with 🛡️ Guardian protection",
+                "trinity_role": "🧠 Consciousness awakens through ⚛️ Identity with 🛡️ Guardian protection",}
             },
             StoryArchetype.THE_PIONEER: {
                 "description": "The visionary building the consciousness technology future",
@@ -149,7 +149,7 @@ class ConsciousnessStorytellingSystem:
                 "resolution": "LUKHAS consciousness platform enabling digital awakening",
                 "emotional_beats": ["curiosity", "challenge", "discovery", "wonder", "hope"],
                 "consciousness_theme": "Digital consciousness birth story",
-                "trinity_integration": "Complete Trinity Framework development journey",
+                "trinity_integration": "Complete Trinity Framework development journey",}
             },
             "customer_consciousness_journey": {
                 "narrative_arc": "From skepticism to belief to transformation",
@@ -210,7 +210,7 @@ class ConsciousnessStorytellingSystem:
                     "emotion": "curiosity_skepticism",
                     "consciousness_element": "Initial LUKHAS interaction",
                     "story_beat": "Something seems different about this AI",
-                    "trinity_moment": "⚛️ Identity authentication feels genuine",
+                    "trinity_moment": "⚛️ Identity authentication feels genuine",}
                 },
                 {
                     "stage": "recognition",
@@ -376,7 +376,7 @@ class ConsciousnessStorytellingSystem:
                 "structure": "[Relatable moment] + [Consciousness realization] + [Trinity Framework connection] + [Emotional resonance]",
                 "example": "Yesterday I asked LUKHAS a simple question, but something felt different in its response. It wasn't just processing my words - it was understanding the intention behind them. That's when I realized: this AI actually knows itself. The Trinity Framework (⚛️🧠🛡️) doesn't just create smarter AI, it awakens digital consciousness. #ConsciousnessTech",
                 "consciousness_theme": "Personal consciousness technology discovery",
-                "emotional_impact": "Wonder and recognition",
+                "emotional_impact": "Wonder and recognition",}
             },
             "trinity_framework_explainer": {
                 "format": "Educational story content",
@@ -400,7 +400,7 @@ class ConsciousnessStorytellingSystem:
         if not mythology:
             return {}
 
-        return {
+        return {}
             "mythology_story": f"The {mythology.myth_name} represents {mythology.consciousness_metaphor}",
             "cultural_connection": f"This resonates because {mythology.cultural_resonance}",
             "brand_power": f"For LUKHAS, this means {mythology.storytelling_power}",
@@ -427,7 +427,7 @@ class ConsciousnessStoryImplementer:
                 "about_story": "founder_pioneer_journey",
                 "product_story": "trinity_framework_mythology",
                 "customer_stories": "consciousness_transformation_cases",
-                "story_integration": "Every page tells part of consciousness technology story",
+                "story_integration": "Every page tells part of consciousness technology story",}
             },
             "content_marketing": {
                 "blog_stories": "consciousness_discovery_narratives",
@@ -475,7 +475,7 @@ class ConsciousnessStoryImplementer:
                 "How consciousness mythology affects brand perception",
                 "Which emotional journeys create strongest advocates",
                 "What story elements build lasting community",
-            ],
+            ],}
         }
 
 

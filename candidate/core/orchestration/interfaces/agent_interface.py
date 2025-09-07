@@ -15,11 +15,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum, auto
-from typing import Any, Callable, Dict, Optional, Union
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any, Callable, Optional, Union
 
 logger = logging.getLogger(__name__)
 

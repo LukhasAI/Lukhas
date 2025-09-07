@@ -7,8 +7,6 @@ import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 
 class RootDirectoryCleaner:
     def __init__(self):

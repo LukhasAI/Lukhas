@@ -4,9 +4,7 @@ Original: healix_mapper.py
 Advanced: healix_mapper.py
 Integration Date: 2025-05-31T07:55:28.102498
 """
-import time
 
-import streamlit as st
 
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗

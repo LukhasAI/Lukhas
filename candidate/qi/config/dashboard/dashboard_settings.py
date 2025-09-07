@@ -1,4 +1,3 @@
-from typing import List
 
 """
 
@@ -13,9 +12,7 @@ Original: settings.py
 Advanced: settings.py
 Integration Date: 2025-05-31T07:55:27.732621
 """
-import streamlit as st
 
-from consciousness.qi import qi
 
 """
 ┌────────────────────────────────────────────────────────────────────────────┐

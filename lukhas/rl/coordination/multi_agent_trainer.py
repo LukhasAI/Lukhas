@@ -14,10 +14,9 @@ import logging
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
-import streamlit as st
 import torch
 import torch.nn as nn
 import torch.optim as optim

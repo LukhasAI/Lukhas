@@ -9,7 +9,6 @@ import time
 from datetime import datetime, timezone
 
 import nacl.signing
-import streamlit as st
 
 
 class EntropyBeacon:

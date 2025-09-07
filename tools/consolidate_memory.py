@@ -8,8 +8,6 @@ import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 
 class MemoryConsolidator:
     """Consolidate memory module variants"""

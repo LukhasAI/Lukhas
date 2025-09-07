@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Any
 
-import streamlit as st
-
 from lukhas.observability.matriz_decorators import instrument
 
 
@@ -11,7 +9,7 @@ from lukhas.observability.matriz_decorators import instrument
 def build_context(ctx_in: dict[str, Any], *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     if mode != "dry_run":
         _ = kwargs
-    
+
     base = {
         "session": {"id": ctx_in.get("session_id", "local")},
         "tenant": ctx_in.get("tenant", "default"),

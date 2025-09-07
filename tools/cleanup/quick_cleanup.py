@@ -5,12 +5,7 @@ Quick Cleanup Script for LUKHAS
 Focuses on main module duplicates and conflicts.
 """
 import shutil
-import time
 from pathlib import Path
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 def find_backup_directories() -> list[Path]:

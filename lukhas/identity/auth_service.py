@@ -13,11 +13,7 @@ import secrets
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, List, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any, Optional
 
 # Standard library fallback imports
 try:

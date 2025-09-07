@@ -5,13 +5,9 @@ Production-ready encryption replacing XOR placeholders
 import base64
 import json
 import os
-import random
-import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
-
-import streamlit as st
 
 # Try to import cryptography, provide fallbacks for testing
 try:

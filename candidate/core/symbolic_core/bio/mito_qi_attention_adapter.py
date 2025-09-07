@@ -3,10 +3,9 @@ Mitochondrial Quantum Attention Adapter
 Integrates PyTorch-based quantum attention components into the symbolic system
 """
 import logging
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
-import streamlit as st
 
 logger = logging.getLogger(__name__)
 

@@ -6,8 +6,6 @@ Handles plain text files and extracts content
 import re
 from typing import Any
 
-import streamlit as st
-
 from .base_parser import BaseParser
 
 

@@ -3,8 +3,6 @@ import time
 import uuid
 from typing import Any, Optional
 
-import streamlit as st
-
 from lukhas.observability.matriz_decorators import instrument
 
 from .registry import get_provider

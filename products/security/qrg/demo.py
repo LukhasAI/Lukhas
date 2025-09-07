@@ -12,13 +12,11 @@ Example:
     python demo.py --layer poetic --security-tier 5 --interactive
 """
 import argparse
-import random
 import sys
 import time
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 from qrg_core import ConsciousnessContext, QIResonanceGlyph
 from system_bridge import (
     LambdaIdIntegration,
@@ -26,7 +24,6 @@ from system_bridge import (
     SymbolicIdentity,
 )
 
-from consciousness.qi import qi
 from lukhas.qi.entropy import EntropyProfile, TrueQuantumRandomness
 
 # Add current directory to path for imports

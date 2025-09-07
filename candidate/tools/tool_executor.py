@@ -3,10 +3,6 @@ Tool Executor for OpenAI Function Calls
 ========================================
 Safe handlers for executing OpenAI tool calls with LUKHAS governance.
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import contextlib
 import hashlib
@@ -17,7 +13,7 @@ import re
 import shutil
 import tempfile
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import urlparse

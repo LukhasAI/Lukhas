@@ -2,7 +2,6 @@
 MATRIZ Adapter for Consciousness Module
 Emits MATRIZ-compliant nodes for consciousness and awareness events
 """
-import streamlit as st
 
 import json
 import time

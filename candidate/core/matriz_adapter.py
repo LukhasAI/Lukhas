@@ -2,7 +2,6 @@
 MATRIZ Adapter for Core Module
 Emits MATRIZ-compliant nodes for core system events
 """
-import streamlit as st
 
 import json
 import time

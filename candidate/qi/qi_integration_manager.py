@@ -26,12 +26,8 @@ Licensed under the LUKHAS Enterprise License.
 
 For documentation and support: https://lukhas.ai/docs
 """
-import time
-from typing import Dict
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 __module_name__ = "Quantum System"
 __version__ = "2.0.0"
@@ -44,10 +40,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
 
-from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
-
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from candidate.core.unified_integration import UnifiedIntegration
+from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
 from qi.awareness_system import AwarenessQuantumConfig, QuantumAwarenessSystem
 from qi.dast_orchestrator import DASTQuantumConfig, QuantumDASTOrchestrator
 

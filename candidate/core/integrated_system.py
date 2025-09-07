@@ -11,8 +11,6 @@ import logging
 import uuid
 from typing import Any, Optional
 
-import streamlit as st
-
 # MitochondriaModel is optional - create a simple placeholder if not available
 try:
     from bio.core.systems_mitochondria_model import MitochondriaModel

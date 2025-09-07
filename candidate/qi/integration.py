@@ -6,10 +6,6 @@ import logging
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 from .metrics.calibration import UncertaintyCalibrationEngine
 from .safety.teq_gate import TEQCoupler
 

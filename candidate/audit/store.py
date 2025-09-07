@@ -4,8 +4,6 @@ import threading
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
-
 _AUDIT_LOCK = threading.Lock()
 _AUDIT_DIR = Path(os.getenv("LUKHAS_AUDIT_DIR", ".lukhas_audit"))
 _AUDIT_FILE = _AUDIT_DIR / "audit.jsonl"

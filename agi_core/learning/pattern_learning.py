@@ -5,10 +5,9 @@ Advanced pattern recognition and learning system for consciousness development.
 """
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
-from enum import Enum
-import asyncio
 from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 
 class PatternType(Enum):
@@ -24,7 +23,7 @@ class PatternType(Enum):
 @dataclass
 class Pattern:
     """Represents a learned pattern."""
-    
+
     pattern_id: str
     pattern_type: PatternType
     structure: dict[str, Any]
@@ -43,7 +42,7 @@ LearningPattern = Pattern
 @dataclass
 class PatternLearningContext:
     """Context for pattern learning operations."""
-    
+
     learning_mode: str = "adaptive"
     confidence_threshold: float = 0.7
     max_patterns: int = 1000
@@ -54,36 +53,36 @@ class PatternLearningContext:
 
 class PatternLearningEngine:
     """Advanced pattern learning engine for consciousness development."""
-    
+
     def __init__(self, context: Optional[PatternLearningContext] = None):
         """Initialize the pattern learning engine."""
         self.context = context or PatternLearningContext()
         self.learned_patterns: Dict[str, Pattern] = {}
         self.pattern_relationships: Dict[str, Set[str]] = {}
         self.learning_history: List[Dict[str, Any]] = []
-        
+
     async def learn_pattern(
-        self, 
-        data: Any, 
+        self,
+        data: Any,
         pattern_type: PatternType,
         pattern_id: Optional[str] = None
     ) -> Pattern:
         """Learn a new pattern from data."""
         if pattern_id is None:
             pattern_id = f"{pattern_type.value}_{len(self.learned_patterns)}"
-            
+
         # Extract pattern structure (simplified)
         structure = await self._extract_pattern_structure(data, pattern_type)
-        
+
         pattern = Pattern(
             pattern_id=pattern_id,
             pattern_type=pattern_type,
             structure=structure,
             confidence=self._calculate_confidence(data, pattern_type)
         )
-        
+
         self.learned_patterns[pattern_id] = pattern
-        
+
         # Log learning event
         self.learning_history.append({
             "event": "pattern_learned",
@@ -92,54 +91,54 @@ class PatternLearningEngine:
             "confidence": pattern.confidence,
             "timestamp": datetime.now(timezone.utc)
         })
-        
+
         return pattern
-        
+
     async def recognize_pattern(
-        self, 
-        data: Any, 
+        self,
+        data: Any,
         pattern_types: Optional[List[PatternType]] = None
     ) -> List[Tuple[Pattern, float]]:
         """Recognize patterns in new data."""
         if pattern_types is None:
             pattern_types = list(PatternType)
-            
+
         recognized = []
-        
+
         for pattern in self.learned_patterns.values():
             if pattern.pattern_type in pattern_types:
                 similarity = await self._calculate_similarity(data, pattern)
                 if similarity >= self.context.confidence_threshold:
                     recognized.append((pattern, similarity))
-                    
+
         # Sort by similarity (highest first)
         recognized.sort(key=lambda x: x[1], reverse=True)
         return recognized
-        
+
     async def update_pattern(
-        self, 
-        pattern_id: str, 
+        self,
+        pattern_id: str,
         new_data: Any,
         learning_rate: Optional[float] = None
     ) -> Optional[Pattern]:
         """Update an existing pattern with new data."""
         if pattern_id not in self.learned_patterns:
             return None
-            
+
         pattern = self.learned_patterns[pattern_id]
         rate = learning_rate or self.context.learning_rate
-        
+
         # Update pattern structure (simplified)
         await self._update_pattern_structure(pattern, new_data, rate)
-        
+
         pattern.frequency += 1
         pattern.last_seen = datetime.now(timezone.utc)
-        
+
         return pattern
-        
+
     async def _extract_pattern_structure(
-        self, 
-        data: Any, 
+        self,
+        data: Any,
         pattern_type: PatternType
     ) -> Dict[str, Any]:
         """Extract pattern structure from data."""
@@ -152,25 +151,25 @@ class PatternLearningEngine:
             return {"behavior": str(data)}
         else:
             return {"raw_data": str(data)}
-            
+
     def _calculate_confidence(self, data: Any, pattern_type: PatternType) -> float:
         """Calculate confidence level for a pattern."""
         # Simplified confidence calculation
         base_confidence = 0.5
-        
-        if hasattr(data, '__len__'):
+
+        if hasattr(data, "__len__"):
             # Longer sequences tend to be more reliable
             length_factor = min(len(data) / 100.0, 0.3)
             base_confidence += length_factor
-            
+
         return min(base_confidence, 1.0)
-        
+
     async def _calculate_similarity(self, data: Any, pattern: Pattern) -> float:
         """Calculate similarity between data and a learned pattern."""
         # Simplified similarity calculation
         data_str = str(data)
         pattern_str = str(pattern.structure)
-        
+
         # Basic string similarity (simplified)
         if data_str == pattern_str:
             return 1.0
@@ -178,11 +177,11 @@ class PatternLearningEngine:
             return 0.8
         else:
             return 0.3
-            
+
     async def _update_pattern_structure(
-        self, 
-        pattern: Pattern, 
-        new_data: Any, 
+        self,
+        pattern: Pattern,
+        new_data: Any,
         learning_rate: float
     ) -> None:
         """Update pattern structure with new data."""
@@ -197,7 +196,7 @@ PatternLearner = PatternLearningEngine
 
 # Convenience functions for quick pattern learning
 async def quick_pattern_learning(
-    data: Any, 
+    data: Any,
     pattern_type: PatternType = PatternType.SEQUENTIAL
 ) -> Pattern:
     """Quick pattern learning for simple use cases."""

@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 # Phase C: Sustainable Coverage Strategy - High Impact Working Modules
 # Target: 35% coverage by focusing on modules that consistently import and test well

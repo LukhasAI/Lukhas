@@ -8,12 +8,9 @@ a unified interface for external systems to interact with quantum.
 """
 import asyncio
 import logging
-from typing import Any, List, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 from candidate.core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
-from consciousness.qi import qi
 from qi.bio.bio_optimizer import (
     MockBioOrchestrator,
     MockQIBioCoordinator,

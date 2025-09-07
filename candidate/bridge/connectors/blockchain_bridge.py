@@ -3,8 +3,6 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 # Simple witness chain anchoring mechanism
 ANCHOR_LOG = Path(os.environ.get("LUKHAS_BLOCKCHAIN_ANCHOR", "anchor_log.json", timezone))
 

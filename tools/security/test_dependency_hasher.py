@@ -7,8 +7,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-import streamlit as st
-
 # Add parent to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 

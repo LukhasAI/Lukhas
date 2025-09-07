@@ -7,8 +7,6 @@ import subprocess
 from collections import defaultdict
 from pathlib import Path
 
-import streamlit as st
-
 
 def get_flake8_issues(directory: str) -> dict:
     """Get all flake8 issues for a directory"""

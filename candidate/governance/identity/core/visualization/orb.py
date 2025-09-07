@@ -17,13 +17,10 @@ Version: 1.0.0
 """
 import hashlib
 import math
-import random
 import time
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
-
-import streamlit as st
 
 # Color mappings for different states
 CONSCIOUSNESS_COLORS = {

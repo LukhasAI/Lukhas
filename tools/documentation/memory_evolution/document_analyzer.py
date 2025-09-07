@@ -5,8 +5,6 @@ Analyzes document structure and quality metrics.
 import re
 from collections import Counter
 
-import streamlit as st
-
 
 class DocumentStructureAnalyzer:
     def __init__(self):

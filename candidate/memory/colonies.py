@@ -5,8 +5,6 @@ Please update imports to: lukhas.accepted.memory.colonies
 """
 import warnings
 
-import streamlit as st
-
 try:
     from lukhas.accepted.memory.colonies import *
 except ImportError:

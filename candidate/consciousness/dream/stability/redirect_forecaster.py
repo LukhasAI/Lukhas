@@ -4,10 +4,9 @@ Author: Jules 03
 Date: 2025-07-19
 Description: Predicts the likelihood of a dream redirect being needed in the next cycle.
 """
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 
 class RedirectForecaster:

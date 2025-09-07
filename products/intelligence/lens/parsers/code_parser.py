@@ -6,8 +6,6 @@ Handles source code files and extracts functions, classes, and structure
 import re
 from typing import Any
 
-import streamlit as st
-
 from .base_parser import BaseParser
 
 

@@ -13,9 +13,6 @@
 """
 import json
 import random
-from typing import Optional
-
-import streamlit as st
 
 
 # Enhanced NeuroHaikuGenerator with federated learning integration

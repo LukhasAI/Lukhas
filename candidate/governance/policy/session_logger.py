@@ -26,7 +26,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import pytz
-import streamlit as st
 
 LOG_PATH = Path("logs/session_log.jsonl")
 POLICY_PATH = Path("secure_context_policy.json")

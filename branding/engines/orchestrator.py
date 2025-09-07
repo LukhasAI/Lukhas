@@ -8,8 +8,6 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 sys.path.append(str(Path(__file__).parent))
 
 from database_integration import db

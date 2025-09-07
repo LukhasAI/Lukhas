@@ -5,8 +5,6 @@ This module defines the different levels of AI capability that the system can ac
 """
 from enum import Enum
 
-import streamlit as st
-
 
 class AGICapabilityLevel(Enum):
     """Defines different levels of AI capability"""

@@ -1,4 +1,3 @@
-from typing import Dict
 
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
@@ -10,9 +9,6 @@ import logging
 from datetime import datetime, timezone
 
 import numpy as np
-import streamlit as st
-
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

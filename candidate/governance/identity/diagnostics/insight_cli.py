@@ -1,4 +1,3 @@
-from typing import Optional
 
 """
 ++
@@ -17,11 +16,8 @@ Usage:
 import argparse
 import json
 import os
-import time
 from collections import Counter
 from statistics import mean
-
-import streamlit as st
 
 FEEDBACK_LOG = "core/logs/feedback_log.jsonl"
 

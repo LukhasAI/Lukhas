@@ -6,8 +6,6 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 from datetime import datetime, timezone
 from typing import Any
 
-import streamlit as st
-
 from .base import BaseColony, ColonyTask, get_colony_registry
 
 

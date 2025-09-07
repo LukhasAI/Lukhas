@@ -5,9 +5,6 @@ Reads and displays symbolic dream logs from data/dream_log.jsonl.
 """
 import json
 import os
-import time
-
-import streamlit as st
 
 DREAM_LOG_PATH = "data/dream_log.jsonl"
 

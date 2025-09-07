@@ -1,7 +1,4 @@
-import time
 from datetime import datetime, timezone
-
-import streamlit as st
 
 
 class Memoria:

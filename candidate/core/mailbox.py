@@ -19,8 +19,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 from .actor_system import Actor, ActorMessage
 
 logger = logging.getLogger(__name__)

@@ -8,9 +8,7 @@ import asyncio
 import logging
 
 # Simple adapter for voice integration
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 from ..unified_integration import MessageType, UnifiedIntegration
 

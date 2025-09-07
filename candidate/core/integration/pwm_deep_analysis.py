@@ -14,8 +14,6 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-import streamlit as st
-
 
 class ConnectivityAnalyzer:
     def __init__(self, root_path="."):

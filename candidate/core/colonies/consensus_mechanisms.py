@@ -15,8 +15,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 # Import our signal system
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 

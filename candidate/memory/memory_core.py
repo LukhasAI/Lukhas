@@ -1,5 +1,6 @@
 """Memory core component for symbolic trace management."""
 import logging
+
 logger = logging.getLogger(__name__)
 
 from dataclasses import dataclass

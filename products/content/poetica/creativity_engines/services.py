@@ -5,7 +5,6 @@ Dependency injection services for the creativity module.
 """
 from typing import Any, Optional
 
-import streamlit as st
 from hub.service_registry import get_service, inject_services, register_factory
 
 

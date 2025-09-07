@@ -6,13 +6,8 @@ Identifies and maps all files for aggressive modular consolidation
 import ast
 import json
 import os
-import time
 from collections import defaultdict
 from datetime import datetime, timezone
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 class AggressiveConsolidator:

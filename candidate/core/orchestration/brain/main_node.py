@@ -10,8 +10,6 @@ import logging
 import sys
 from datetime import datetime, timezone
 
-import streamlit as st
-
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,

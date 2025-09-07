@@ -8,7 +8,6 @@ Created: 2025-07-27
 Author: Jules
 Status: DRAFT
 """
-import streamlit as st
 
 EMOTION_VOCABULARY = {
     "joy": {

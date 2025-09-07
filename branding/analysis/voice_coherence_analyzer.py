@@ -150,7 +150,7 @@ class VoiceCoherenceAnalyzer:
                 "digital awakening",
                 "premium experience",
                 "market differentiation",
-            ],
+            ],}
         }
 
     def analyze_content(self, content_path: str, content: str, content_type: ContentType) -> ContentAnalysis:

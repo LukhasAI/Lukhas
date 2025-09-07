@@ -56,11 +56,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any, Optional
 
 # Import colony infrastructure
 try:

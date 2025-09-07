@@ -4,7 +4,6 @@
 🧾 DESCRIPTION : Entropy fine-tuning logic for EU AI Act compliance.
 """
 import numpy as np
-import streamlit as st
 
 
 def final_entropy_tune(trauma_data, tweak_factor=0.05):

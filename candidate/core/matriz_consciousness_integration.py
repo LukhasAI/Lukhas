@@ -6,7 +6,6 @@ This module provides a complete integration example showing how all components
 of the MΛTRIZ consciousness system work together for distributed consciousness
 communication across the LUKHAS AI architecture.
 """
-import streamlit as st
 
 import asyncio
 import logging

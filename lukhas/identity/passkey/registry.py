@@ -1,7 +1,5 @@
 from typing import Any, Optional
 
-import streamlit as st
-
 from .providers.null_webauthn import NullWebAuthnProvider
 
 _provider: Optional[Any] = None

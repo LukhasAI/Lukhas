@@ -8,8 +8,6 @@ Uses lazy loading to prevent circular imports.
 """
 import logging
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 
 # Lazy loading to prevent circular imports

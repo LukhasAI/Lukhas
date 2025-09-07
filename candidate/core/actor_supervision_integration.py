@@ -7,8 +7,6 @@ import logging
 import time
 from typing import Optional
 
-import streamlit as st
-
 from lukhas.core.actor_system import Actor, ActorSystem
 from lukhas.core.supervision import RootSupervisor, SupervisionStrategy
 

@@ -24,8 +24,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Protocol
 
-import streamlit as st
-
 try:
     from ..observability.matriz_decorators import matriz_trace
 

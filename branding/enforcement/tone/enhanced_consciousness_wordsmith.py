@@ -143,7 +143,7 @@ class ConsciousnessWordsmith:
                 "quantum": "ΛQUANTUM",
                 "bio": "ΛBIO",
                 "api": "ΛAPI",
-                "trace": "ΛTRACE",
+                "trace": "ΛTRACE",}
             },
             "sacred_symbols": {
                 "consciousness": "🧠",

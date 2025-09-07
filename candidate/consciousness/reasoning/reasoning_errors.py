@@ -1,7 +1,6 @@
 # Desc: Custom error types for the reasoning module.
 # LUKHAS_TAG: reasoning_error
 
-import streamlit as st
 
 from candidate.core.common import LukhasError
 

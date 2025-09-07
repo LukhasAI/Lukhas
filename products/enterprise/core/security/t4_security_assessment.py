@@ -12,7 +12,6 @@ import importlib.util
 import json
 import logging
 import os
-import random
 import re
 import subprocess
 import time
@@ -20,8 +19,6 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
-
-import streamlit as st
 
 # Security scanning availability (avoid unused imports)
 BANDIT_AVAILABLE = importlib.util.find_spec("bandit") is not None

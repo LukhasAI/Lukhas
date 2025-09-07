@@ -1,6 +1,4 @@
-import time
 
-import streamlit as st
 
 # 📦 MODULE      : lukhas_awareness_protocol.py
 # 🧾 DESCRIPTION : Context-aware tier fallback + symbolic awareness for post-recovery access

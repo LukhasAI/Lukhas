@@ -6,12 +6,7 @@ Advanced poetic devices and literary techniques to enrich LUKHAS expression.
 Combines traditional poetry craft with LUKHAS-specific innovations.
 """
 import random
-import time
-from typing import List, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Optional
 
 
 class PoeticTechniques:

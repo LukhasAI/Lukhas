@@ -5,8 +5,6 @@ Test script for ΛLens API functionality
 import os
 import sys
 
-import streamlit as st
-
 # Add the current directory and api to the path
 current_dir = os.path.dirname(__file__)
 api_dir = os.path.join(current_dir, "api")

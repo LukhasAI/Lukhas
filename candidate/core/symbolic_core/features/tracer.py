@@ -7,13 +7,10 @@ Symbolic Tracer
 Traces symbolic events and ΛTAG activity within the LUKHAS system.
 """
 import json
-import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Optional
-
-import streamlit as st
 
 
 @dataclass

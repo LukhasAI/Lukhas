@@ -14,7 +14,6 @@ import sys
 from datetime import datetime, timezone
 from uuid import uuid4
 
-import streamlit as st
 from modules.voice.lukhas_voice_agent import speak
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))

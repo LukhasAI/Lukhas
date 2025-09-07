@@ -14,9 +14,7 @@
 🔍 SCOPE      : Operates across emotional, ethical, cognitive subsystems.
                 - Feeds into compliance drift and audit logs.
 """
-import time
 
-import streamlit as st
 from lucas_governance.policy_manager import (
     determine_active_regulations,
     log_active_regulations,

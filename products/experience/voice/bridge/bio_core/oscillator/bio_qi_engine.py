@@ -7,16 +7,12 @@ creating a Bio-Quantum-Inspired Symbolic Reasoning Engine that orchestrates the 
 Symphony Architecture for advanced abstract reasoning capabilities.
 """
 import logging
-import random
 import time
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
-
-from consciousness.qi import qi
 
 # Import existing LUKHlukhasS multi-brain components - with graceful fallback
 try:

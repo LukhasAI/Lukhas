@@ -2,7 +2,6 @@
 """
 T4 System Validation - Simple test file with TODO markers.
 """
-import streamlit as st
 
 
 def example_function():

@@ -1,4 +1,3 @@
-from typing import Optional
 
 """
 ┌─────────────────────────────────────────────────────────────┐
@@ -12,7 +11,6 @@ from typing import Optional
 │   - Optional: Streamlit, rich                                │
 └─────────────────────────────────────────────────────────────┘
 """
-import streamlit as st
 
 
 def launch_lukhas():

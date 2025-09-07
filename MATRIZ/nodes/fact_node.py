@@ -13,9 +13,6 @@ A production-ready cognitive node for factual knowledge retrieval that provides:
 This node handles factual questions about geography, history, science, and general knowledge.
 All responses include confidence scoring and complete provenance tracking.
 """
-from typing import List
-from typing import Dict
-import streamlit as st
 
 import difflib
 import re

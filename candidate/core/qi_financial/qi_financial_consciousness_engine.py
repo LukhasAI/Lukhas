@@ -7,10 +7,6 @@ transacting based on consciousness contribution and collective abundance.
 import random
 from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 # Placeholder classes for post-monetary economic systems
 class ConsciousnessBlockchain:

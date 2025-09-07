@@ -51,9 +51,7 @@
 """
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict
-
-import streamlit as st
+from typing import Any
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.symbolic_dream")

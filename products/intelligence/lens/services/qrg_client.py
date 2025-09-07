@@ -4,10 +4,7 @@ QRG Client for ΛLens
 Quantum Relational Graph integration
 """
 import asyncio
-import time
 from typing import Any, Optional
-
-import streamlit as st
 
 
 class QRGClient:

@@ -8,10 +8,7 @@ import random
 import time
 from typing import Any
 
-import streamlit as st
 import yaml
-
-from consciousness.qi import qi
 
 from .teq_gate import TEQCoupler
 

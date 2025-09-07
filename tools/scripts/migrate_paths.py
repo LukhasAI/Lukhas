@@ -6,8 +6,6 @@ Updates all scripts to use the new directory structure
 import re
 from pathlib import Path
 
-import streamlit as st
-
 # Import the path manager
 from lukhas_paths import paths
 

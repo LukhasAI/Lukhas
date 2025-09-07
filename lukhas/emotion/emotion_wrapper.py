@@ -7,9 +7,6 @@ LUKHAS AI Emotion Wrapper
 Advanced emotion wrapper that integrates with memory and consciousness systems.
 Provides budget-optimized emotion processing with memory integration.
 """
-import time
-import streamlit as st
-
 import logging
 from typing import Any, Optional
 
@@ -226,17 +223,17 @@ class AdvancedEmotionWrapper:
             "anxious": ["worried", "nervous", "anxious", "stressed", "concerned"],
             "calm": ["calm", "peaceful", "relaxed", "serene", "content"]
         }
-        
+
         text = input_data.lower()
         detected_emotion = "neutral"
         confidence = 0.5
-        
+
         for emotion, keywords in emotions.items():
             if any(keyword in text for keyword in keywords):
                 detected_emotion = emotion
                 confidence = 0.8
                 break
-                
+
         return {
             "emotion": detected_emotion,
             "confidence": confidence,
@@ -253,10 +250,10 @@ class AdvancedEmotionWrapper:
             "focused": ["concentration", "mindfulness", "clarity"],
             "happy": ["positive_thinking", "gratitude", "joy_induction"]
         }
-        
+
         target = target_state or "calm"
         strategies = regulation_strategies.get(target, ["general_wellness"])
-        
+
         return {
             "target_state": target,
             "strategies_applied": strategies,

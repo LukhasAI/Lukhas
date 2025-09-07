@@ -15,11 +15,6 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 import logging
 from datetime import timezone
-from typing import Dict, List
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 """
 Quantum-aware dream adapter for LUKHAS AI system.

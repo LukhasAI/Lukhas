@@ -5,10 +5,7 @@ This module syncs with real-time biometric data to understand and predict
 a user's consciousness state from a biological perspective.
 """
 import random
-import time
 from typing import Any
-
-import streamlit as st
 
 
 # Placeholder classes for external biometric APIs

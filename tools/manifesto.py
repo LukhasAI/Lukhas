@@ -1,6 +1,4 @@
-import random
 
-import streamlit as st
 
 # ===============================================================
 # 📂 FILE: tools/manifesto.py

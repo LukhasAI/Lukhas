@@ -6,8 +6,6 @@ import random
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-import streamlit as st
-
 
 class DreamStatistics:
     """Mock DreamStatistics class"""

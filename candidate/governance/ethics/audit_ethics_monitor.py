@@ -11,8 +11,6 @@ Quick audit script for ethics monitor without terminal complications.
 """
 import sys
 
-import streamlit as st
-
 sys.path.append("/Users/A_G_I/L_U_K_H_A_C_O_X")
 
 

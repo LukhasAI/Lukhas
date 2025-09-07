@@ -14,12 +14,10 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 # Import colony infrastructure
 from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
-from candidate.core.enhanced_swarm import AgentCapability
-from candidate.core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
+from candidate.core.enhanced_swarm import AgentCapability, AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import identity events
 try:

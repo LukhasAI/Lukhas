@@ -8,10 +8,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import click
-import streamlit as st
 import yaml
-
-from consciousness.qi import qi
 
 
 class ConfigBuilder:

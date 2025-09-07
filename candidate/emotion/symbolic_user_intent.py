@@ -11,8 +11,6 @@ import re
 import uuid
 from dataclasses import dataclass, field
 
-import streamlit as st
-
 
 @dataclass
 class UserIntent:

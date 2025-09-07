@@ -1,5 +1,4 @@
 # mypy: allow-untyped-defs
-import streamlit as st
 import torch
 
 

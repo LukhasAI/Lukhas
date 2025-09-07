@@ -6,8 +6,6 @@ Fixes internal imports within candidate/ modules
 import re
 from pathlib import Path
 
-import streamlit as st
-
 
 def fix_imports_in_file(file_path):
     """Fix imports in a single candidate file"""

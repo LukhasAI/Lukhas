@@ -4,8 +4,6 @@ import argparse
 import json
 import os
 
-import streamlit as st
-
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 
 

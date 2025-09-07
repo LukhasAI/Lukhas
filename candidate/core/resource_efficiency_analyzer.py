@@ -29,7 +29,6 @@ from typing import Any
 
 import numpy as np
 import psutil
-import streamlit as st
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

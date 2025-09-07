@@ -6,8 +6,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-import streamlit as st
-
 
 def todo_count():
     p = Path("reports/todos/index.json")

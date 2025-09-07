@@ -98,7 +98,7 @@ class LukhasBrandVoiceProfiles:
                 "trinity_emphasis": {
                     "identity": "authentic consciousness representation",
                     "consciousness": "deep awareness and understanding",
-                    "guardian": "ethical foundation and protection",
+                    "guardian": "ethical foundation and protection",}
                 },
             },
             "helpful_companion": {
@@ -309,7 +309,7 @@ class LukhasBrandVoiceProfiles:
         return {
             VoiceContext.USER_ONBOARDING: {
                 "primary_profile": "helpful_companion",
-                "secondary_profile": "consciousness_ambassador",
+                "secondary_profile": "consciousness_ambassador",}
                 "blend_ratio": {"primary": 0.7, "secondary": 0.3},
                 "context_adaptations": {
                     "increase_warmth": 0.1,
@@ -445,7 +445,7 @@ class LukhasBrandVoiceProfiles:
                     "simplify_language": 0.2,
                     "increase_warmth": 0.15,
                     "reduce_technical_jargon": 0.3,
-                    "enhance_accessibility": 0.2,
+                    "enhance_accessibility": 0.2,}
                 },
                 "communication_priorities": [
                     "clear and simple explanations",
@@ -604,7 +604,7 @@ class LukhasBrandVoiceProfiles:
                 "tone_modifiers": {
                     "authenticity": 0.9,
                     "personal_connection": 0.8,
-                    "consciousness_awareness": 0.85,
+                    "consciousness_awareness": 0.85,}
                 },
             },
             "consciousness": {
@@ -929,7 +929,7 @@ class LukhasBrandVoiceProfiles:
             "recommended_secondary": context_config["secondary_profile"],
             "blend_ratio": context_config["blend_ratio"],
             "key_messages": context_config["key_messages"],
-            "adaptations": context_config["context_adaptations"],
+            "adaptations": context_config["context_adaptations"],}
         }
 
     def get_audience_recommendations(self, audience: AudienceType) -> dict[str, Any]:
@@ -944,7 +944,7 @@ class LukhasBrandVoiceProfiles:
             "audience": audience.value,
             "voice_adjustments": audience_config["voice_adjustments"],
             "communication_priorities": audience_config["communication_priorities"],
-            "avoid_patterns": audience_config["avoid_patterns"],
+            "avoid_patterns": audience_config["avoid_patterns"],}
         }
 
 

@@ -2,8 +2,6 @@ import os
 import pathlib
 import sys
 
-import streamlit as st
-
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 pkg = ROOT / "lukhas"
 assert pkg.exists() and (pkg / "__init__.py").exists(), "lukhas package missing"

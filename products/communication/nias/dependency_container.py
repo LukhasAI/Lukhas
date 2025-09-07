@@ -5,13 +5,10 @@ Provides service registration, resolution, and lifecycle management
 """
 import asyncio
 import inspect
-import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
-
-import streamlit as st
+from typing import Any, Callable, Optional
 
 
 class ServiceLifecycle(Enum):

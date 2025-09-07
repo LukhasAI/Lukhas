@@ -16,10 +16,6 @@ Features:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import logging
@@ -27,7 +23,7 @@ import math
 import random
 import time
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 

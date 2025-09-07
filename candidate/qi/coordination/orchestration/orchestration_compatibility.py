@@ -22,10 +22,6 @@ Created: 2025-07-26
 """
 import warnings
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 # New module location
 NEW_MODULE = "lukhas.bio.systems.orchestration"
 

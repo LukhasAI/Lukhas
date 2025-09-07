@@ -7,8 +7,6 @@ Ensures symbolic memory collapses maintain structural and semantic integrity.
 """
 from dataclasses import dataclass
 
-import streamlit as st
-
 from candidate.core.symbolic.symbolic_tracer import SymbolicTracer
 
 

@@ -14,11 +14,9 @@ Privacy and compliance tests covering:
 
 Target: 100% regulatory compliance validation
 """
-import logging
 import time
 
 import pytest
-import streamlit as st
 
 from .conftest import create_test_glyph, create_test_scene
 

@@ -4,13 +4,12 @@ Core dream processing and generation engine for LUKHAS AI
 Trinity Framework: ⚛️🧠🛡️
 """
 
-import asyncio
 import logging
 import uuid
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
-from enum import Enum
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +79,7 @@ class DreamEngine:
     
     Generates, processes, and manages dream sequences with consciousness integration.
     """
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize dream engine"""
         self.config = config or {}
@@ -88,19 +87,19 @@ class DreamEngine:
         self.dream_templates: Dict[DreamType, Dict[str, Any]] = {}
         self.element_generators: Dict[str, Any] = {}
         self.state = DreamState.INITIALIZING
-        
+
         # Configuration
         self.max_active_dreams = self.config.get("max_active_dreams", 3)
         self.default_duration = self.config.get("default_duration", 20.0)  # minutes
         self.lucidity_threshold = self.config.get("lucidity_threshold", 0.7)
-        
+
         # Initialize components
         self._initialize_templates()
         self._initialize_generators()
-        
+
         self.state = DreamState.ACTIVE
         logger.info("Dream Engine initialized successfully")
-        
+
     def _initialize_templates(self):
         """Initialize dream type templates"""
         self.dream_templates = {
@@ -161,7 +160,7 @@ class DreamEngine:
                 "memory_integration": 0.9
             }
         }
-        
+
     def _initialize_generators(self):
         """Initialize element generators"""
         self.element_generators = {
@@ -173,7 +172,7 @@ class DreamEngine:
             "action": self._generate_action,
             "dialogue": self._generate_dialogue
         }
-        
+
     async def generate_dream(
         self,
         dream_type: DreamType,
@@ -193,34 +192,34 @@ class DreamEngine:
         """
         if len(self.active_dreams) >= self.max_active_dreams:
             raise RuntimeError("Maximum active dreams reached")
-            
+
         sequence_id = f"dream_{uuid.uuid4().hex[:8]}"
         duration = duration or self.default_duration
-        
+
         logger.info(f"Generating {dream_type.value} dream: {sequence_id}")
-        
+
         # Get template for dream type
         template = self.dream_templates[dream_type]
-        
+
         # Generate dream elements
         elements = await self._generate_elements(dream_type, context, template)
-        
+
         # Create narrative arc
         narrative_arc = await self._generate_narrative_arc(elements, template)
-        
+
         # Generate emotional journey
         emotional_journey = await self._generate_emotional_journey(
             elements, context.emotional_state, template
         )
-        
+
         # Calculate consciousness integration
         consciousness_integration = await self._calculate_consciousness_integration(
             elements, context, template
         )
-        
+
         # Determine lucidity level
         lucidity_level = await self._calculate_lucidity_level(context, template)
-        
+
         # Create dream sequence
         dream_sequence = DreamSequence(
             sequence_id=sequence_id,
@@ -233,14 +232,14 @@ class DreamEngine:
             duration_estimate=duration,
             lucidity_level=lucidity_level
         )
-        
+
         # Store active dream
         self.active_dreams[sequence_id] = dream_sequence
-        
+
         logger.info(f"Dream generated: {sequence_id} ({len(elements)} elements, {lucidity_level:.2f} lucidity)")
-        
+
         return dream_sequence
-        
+
     async def _generate_elements(
         self,
         dream_type: DreamType,
@@ -250,27 +249,27 @@ class DreamEngine:
         """Generate dream elements based on type and context"""
         elements = []
         element_count = int(template.get("symbol_density", 0.5) * 20) + 5  # 5-25 elements
-        
+
         # Generate base elements
         for i in range(element_count):
             element_type = self._select_element_type(template, context)
             generator = self.element_generators.get(element_type, self._generate_generic)
-            
+
             element = await generator(dream_type, context, template)
             elements.append(element)
-            
+
         # Add memory-based elements if relevant
         if template.get("memory_integration", 0.0) > 0.5:
             memory_elements = await self._generate_memory_elements(context, template)
             elements.extend(memory_elements)
-            
+
         return elements
-        
+
     def _select_element_type(self, template: Dict[str, Any], context: DreamContext) -> str:
         """Select appropriate element type based on template and context"""
         # Simple weighted selection based on dream focus
         focus = template.get("focus", "balanced")
-        
+
         if focus == "symbolic_meaning":
             return "symbol" if len(context.recent_memories) % 3 == 0 else "object"
         elif focus == "memory_processing":
@@ -283,7 +282,7 @@ class DreamEngine:
             # Balanced selection
             types = ["character", "object", "scene", "emotion", "symbol", "action"]
             return types[len(context.recent_memories) % len(types)]
-            
+
     async def _generate_character(
         self,
         dream_type: DreamType,
@@ -303,7 +302,7 @@ class DreamEngine:
             symbolic_meaning="aspect_of_self" if dream_type == DreamType.SYMBOLIC else None,
             emotional_weight=0.7
         )
-        
+
     async def _generate_object(
         self,
         dream_type: DreamType,
@@ -323,7 +322,7 @@ class DreamEngine:
             symbolic_meaning="transformation" if dream_type == DreamType.SYMBOLIC else None,
             emotional_weight=0.4
         )
-        
+
     async def _generate_scene(
         self,
         dream_type: DreamType,
@@ -343,7 +342,7 @@ class DreamEngine:
             symbolic_meaning="life_stage" if dream_type == DreamType.SYMBOLIC else None,
             emotional_weight=0.6
         )
-        
+
     async def _generate_emotion(
         self,
         dream_type: DreamType,
@@ -353,7 +352,7 @@ class DreamEngine:
         """Generate emotional element"""
         # Select emotion based on context
         dominant_emotion = max(context.emotional_state.items(), key=lambda x: x[1])[0] if context.emotional_state else "calm"
-        
+
         return DreamElement(
             element_id=f"emotion_{uuid.uuid4().hex[:6]}",
             element_type="emotion",
@@ -366,7 +365,7 @@ class DreamEngine:
             symbolic_meaning="emotional_growth" if dream_type == DreamType.HEALING else None,
             emotional_weight=0.9
         )
-        
+
     async def _generate_symbol(
         self,
         dream_type: DreamType,
@@ -376,7 +375,7 @@ class DreamEngine:
         """Generate symbolic element"""
         symbols = ["water", "bridge", "door", "mirror", "tree", "spiral", "light", "shadow"]
         symbol = symbols[len(context.recent_memories) % len(symbols)]
-        
+
         return DreamElement(
             element_id=f"symbol_{uuid.uuid4().hex[:6]}",
             element_type="symbol",
@@ -389,7 +388,7 @@ class DreamEngine:
             symbolic_meaning=f"represents_{symbol}_archetype",
             emotional_weight=0.8
         )
-        
+
     async def _generate_action(
         self,
         dream_type: DreamType,
@@ -409,7 +408,7 @@ class DreamEngine:
             symbolic_meaning="choice_point" if dream_type == DreamType.CONSCIOUSNESS_EXPLORATION else None,
             emotional_weight=0.5
         )
-        
+
     async def _generate_dialogue(
         self,
         dream_type: DreamType,
@@ -429,7 +428,7 @@ class DreamEngine:
             symbolic_meaning="inner_voice" if dream_type == DreamType.CONSCIOUSNESS_EXPLORATION else None,
             emotional_weight=0.6
         )
-        
+
     async def _generate_generic(
         self,
         dream_type: DreamType,
@@ -446,7 +445,7 @@ class DreamEngine:
             },
             emotional_weight=0.3
         )
-        
+
     async def _generate_memory_elements(
         self,
         context: DreamContext,
@@ -454,7 +453,7 @@ class DreamEngine:
     ) -> List[DreamElement]:
         """Generate elements based on recent memories"""
         memory_elements = []
-        
+
         for i, memory in enumerate(context.recent_memories[:3]):  # Limit to 3 memories
             element = DreamElement(
                 element_id=f"memory_{i}_{uuid.uuid4().hex[:6]}",
@@ -469,9 +468,9 @@ class DreamEngine:
                 emotional_weight=memory.get("emotional_intensity", 0.5)
             )
             memory_elements.append(element)
-            
+
         return memory_elements
-        
+
     async def _generate_narrative_arc(
         self,
         elements: List[DreamElement],
@@ -479,7 +478,7 @@ class DreamEngine:
     ) -> List[str]:
         """Generate narrative arc connecting dream elements"""
         narrative_style = template.get("narrative_style", "linear")
-        
+
         if narrative_style == "linear":
             return [f"sequence_{i}" for i in range(len(elements))]
         elif narrative_style == "abstract":
@@ -490,7 +489,7 @@ class DreamEngine:
             return [f"choice_point_{i}" if i%3==0 else f"sequence_{i}" for i in range(len(elements))]
         else:
             return [f"arc_{i}" for i in range(len(elements))]
-            
+
     async def _generate_emotional_journey(
         self,
         elements: List[DreamElement],
@@ -499,14 +498,14 @@ class DreamEngine:
     ) -> List[Tuple[str, float]]:
         """Generate emotional journey through dream"""
         journey = []
-        
+
         # Start with base emotional state
         if base_emotional_state:
             primary_emotion = max(base_emotional_state.items(), key=lambda x: x[1])
             journey.append(primary_emotion)
         else:
             journey.append(("calm", 0.5))
-            
+
         # Add emotional transitions based on elements
         for i, element in enumerate(elements):
             if element.element_type == "emotion":
@@ -519,9 +518,9 @@ class DreamEngine:
                     journey.append(("curiosity", 0.6))
                 else:
                     journey.append(("wonder", 0.7))
-                    
+
         return journey
-        
+
     async def _calculate_consciousness_integration(
         self,
         elements: List[DreamElement],
@@ -537,7 +536,7 @@ class DreamEngine:
             "self_reflection_opportunities": sum(1 for e in elements if e.element_type in ["symbol", "emotion"]),
             "total_elements": len(elements)
         }
-        
+
         # Calculate overall integration score
         integration["integration_score"] = (
             integration["awareness_level"] * 0.3 +
@@ -545,9 +544,9 @@ class DreamEngine:
             integration["symbolic_density"] * 0.2 +
             integration["emotional_processing"] * 0.2
         )
-        
+
         return integration
-        
+
     async def _calculate_lucidity_level(
         self,
         context: DreamContext,
@@ -555,7 +554,7 @@ class DreamEngine:
     ) -> float:
         """Calculate lucidity level for dream"""
         base_lucidity = context.consciousness_level
-        
+
         # Adjust based on dream type template
         if template.get("focus") == "conscious_control":
             base_lucidity += 0.3
@@ -563,17 +562,17 @@ class DreamEngine:
             base_lucidity += 0.2
         elif template.get("narrative_style") == "interactive":
             base_lucidity += 0.2
-            
+
         # Clamp to valid range
         return max(0.0, min(1.0, base_lucidity))
-        
+
     async def process_dream(self, sequence_id: str) -> Dict[str, Any]:
         """Process an active dream sequence"""
         if sequence_id not in self.active_dreams:
             raise ValueError(f"Dream sequence {sequence_id} not found")
-            
+
         dream = self.active_dreams[sequence_id]
-        
+
         # Simulate dream processing
         processing_result = {
             "sequence_id": sequence_id,
@@ -583,19 +582,19 @@ class DreamEngine:
             "emotional_resolution": self._process_emotions(dream),
             "consciousness_updates": self._update_consciousness(dream)
         }
-        
+
         logger.info(f"Processed dream: {sequence_id}")
         return processing_result
-        
+
     def _extract_insights(self, dream: DreamSequence) -> List[str]:
         """Extract insights from dream sequence"""
         insights = []
-        
+
         # Analyze symbolic elements
         symbols = [e for e in dream.elements if e.element_type == "symbol"]
         if symbols:
             insights.append(f"Symbolic theme: {symbols[0].properties.get('symbol_type', 'transformation')}")
-            
+
         # Analyze emotional journey
         if dream.emotional_journey:
             primary_emotions = [e[0] for e in dream.emotional_journey]
@@ -603,16 +602,16 @@ class DreamEngine:
                 insights.append("Complex emotional processing detected")
             else:
                 insights.append(f"Focused on {primary_emotions[0]} emotions")
-                
+
         # Consciousness integration insights
         integration_score = dream.consciousness_integration.get("integration_score", 0.5)
         if integration_score > 0.8:
             insights.append("High consciousness integration achieved")
         elif integration_score < 0.3:
             insights.append("Low consciousness integration - processing needed")
-            
+
         return insights
-        
+
     def _consolidate_memories(self, dream: DreamSequence) -> Dict[str, Any]:
         """Consolidate memories from dream"""
         return {
@@ -620,7 +619,7 @@ class DreamEngine:
             "integration_quality": dream.consciousness_integration.get("memory_integration", 0.5),
             "new_associations": len(dream.elements) // 3  # Rough estimate
         }
-        
+
     def _process_emotions(self, dream: DreamSequence) -> Dict[str, Any]:
         """Process emotions from dream"""
         emotional_elements = [e for e in dream.elements if e.element_type == "emotion"]
@@ -629,7 +628,7 @@ class DreamEngine:
             "emotional_intensity": sum(e.emotional_weight for e in emotional_elements) / len(emotional_elements) if emotional_elements else 0.0,
             "resolution_achieved": dream.dream_type == DreamType.HEALING
         }
-        
+
     def _update_consciousness(self, dream: DreamSequence) -> Dict[str, Any]:
         """Update consciousness based on dream"""
         return {
@@ -637,39 +636,39 @@ class DreamEngine:
             "self_awareness_growth": dream.consciousness_integration.get("self_reflection_opportunities", 0) / 10,
             "integration_advancement": dream.consciousness_integration.get("integration_score", 0.5)
         }
-        
+
     async def end_dream(self, sequence_id: str) -> Dict[str, Any]:
         """End an active dream sequence"""
         if sequence_id not in self.active_dreams:
             raise ValueError(f"Dream sequence {sequence_id} not found")
-            
+
         dream = self.active_dreams[sequence_id]
-        
+
         # Final processing
         final_result = await self.process_dream(sequence_id)
-        
+
         # Archive the dream
         archived_dream = {
             "sequence": dream,
             "final_processing": final_result,
             "ended_at": datetime.now(timezone.utc)
         }
-        
+
         # Remove from active dreams
         del self.active_dreams[sequence_id]
-        
+
         logger.info(f"Dream ended: {sequence_id}")
         return archived_dream
-        
+
     def get_active_dreams(self) -> List[str]:
         """Get list of active dream sequence IDs"""
         return list(self.active_dreams.keys())
-        
+
     def get_dream_info(self, sequence_id: str) -> Optional[Dict[str, Any]]:
         """Get information about a dream sequence"""
         if sequence_id not in self.active_dreams:
             return None
-            
+
         dream = self.active_dreams[sequence_id]
         return {
             "sequence_id": sequence_id,
@@ -710,7 +709,7 @@ async def generate_dream(
         dream_goals=[],
         constraints={}
     )
-    
+
     engine = get_dream_engine()
     return await engine.generate_dream(dream_type, context, duration)
 
@@ -724,7 +723,7 @@ async def process_dream_sequence(sequence_id: str) -> Dict[str, Any]:
 # Export public interface
 __all__ = [
     "DreamType",
-    "DreamState", 
+    "DreamState",
     "DreamElement",
     "DreamSequence",
     "DreamContext",

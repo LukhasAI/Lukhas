@@ -3,14 +3,12 @@ VIVOX Symbolic Proteome
 AlphaFold2-inspired memory protein folding system
 Models memory traces as symbolic amino acid chains
 """
-import random
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
 
 class MisfoldingType(Enum):

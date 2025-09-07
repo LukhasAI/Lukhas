@@ -1,9 +1,7 @@
-from typing import Dict
 
 """
 Symbolic utilities for dream and emotion processing.
 """
-import streamlit as st
 
 
 def tier_label(tier):

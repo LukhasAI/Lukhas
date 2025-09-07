@@ -8,12 +8,9 @@ from __future__ import annotations
 
 import logging
 import os
-import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional, Protocol
-
-import streamlit as st
+from typing import Any, Protocol
 
 # Configure logging
 logger = logging.getLogger(__name__)

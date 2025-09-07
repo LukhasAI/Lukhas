@@ -5,9 +5,7 @@ A web-based dream interpreter with multi-language support
 """
 import json
 import os
-import time
 
-import streamlit as st
 from dream_interpreter import DreamInterpreter
 from flask import Flask, jsonify, render_template, request
 

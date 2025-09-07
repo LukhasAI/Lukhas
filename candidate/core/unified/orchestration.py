@@ -6,8 +6,6 @@ Minimal implementation to support dream and consciousness systems.
 import logging
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 logger = logging.getLogger(__name__)
 
 

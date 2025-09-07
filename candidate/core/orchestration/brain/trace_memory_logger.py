@@ -6,9 +6,6 @@ Advanced: trace_memoria_logger.py
 Integration Date: 2025-05-31T07:55:27.785635
 """
 from datetime import timezone
-from typing import List
-
-import streamlit as st
 
 """
 TRACE MEMORY LOGGER

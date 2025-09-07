@@ -16,11 +16,6 @@ import csv
 import datetime
 import json
 import os
-import time
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 class ComplianceMonitor:

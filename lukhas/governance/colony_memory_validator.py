@@ -37,8 +37,6 @@
 ║ ΛTAG: ΛVALIDATION, ΛCOLONY, ΛCONSENSUS, ΛBYZANTINE, ΛINTEGRITY
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 import asyncio
 import hashlib
 import logging
@@ -48,6 +46,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
 from uuid import uuid4
+
+import streamlit as st
 
 from .interfaces.memory_interface import (
     MemoryOperation,

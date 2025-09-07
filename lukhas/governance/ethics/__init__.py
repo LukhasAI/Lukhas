@@ -7,24 +7,23 @@ Constitutional AI Framework Integration
 
 from .ethics_engine import (
     ConstitutionalFramework,
-    SafetyMonitor, 
+    EthicalDecision,
+    EthicalSeverity,
     EthicsEngine,
     SafetyChecker,
-    EthicalDecision,
-    EthicalSeverity
+    SafetyMonitor,
 )
 
 # Also create constitutional_ai module for compatibility
-from .ethics_engine import ConstitutionalFramework, SafetyMonitor
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI Ethics Team"
 
 __all__ = [
-    'ConstitutionalFramework',
-    'SafetyMonitor', 
-    'EthicsEngine',
-    'SafetyChecker',
-    'EthicalDecision',
-    'EthicalSeverity'
+    "ConstitutionalFramework",
+    "SafetyMonitor",
+    "EthicsEngine",
+    "SafetyChecker",
+    "EthicalDecision",
+    "EthicalSeverity"
 ]

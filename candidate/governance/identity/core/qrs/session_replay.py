@@ -5,7 +5,6 @@ Session Replay Manager
 Manages session replay functionality for QR-G paired devices.
 Handles secure session restoration and continuity.
 """
-import streamlit as st
 
 
 class SessionReplayManager:

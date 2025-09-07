@@ -22,21 +22,20 @@ Author: Lukhas AI Research Team
 Version: 2.0.0 - Elevated Edition
 Date: June 2025
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import json
 import logging
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Protocol
 
+import streamlit as st
 from pydantic import BaseModel, Field
+
+from consciousness.qi import qi
 
 # ——— Configuration & Utilities —————————————————————————————— #
 
@@ -1595,7 +1594,7 @@ if __name__ == "__main__":
 
     emo_output = engine.process_awareness(AwarenessType.EMOTIONAL, emo_input)
     print(f"Emotional Alignment Score: {emo_output.alignment.score:.2f}")
-    print(f"Widget Animation Style: {emo_output.data.get('widget_animation_style', {)})}")
+    print(f"Widget Animation Style: {emo_output.data.get('widget_animation_style')}")
 
     # Test Social Awareness
     print("\n=== Social Awareness Test ===")
@@ -1611,7 +1610,7 @@ if __name__ == "__main__":
 
     soc_output = engine.process_awareness(AwarenessType.SOCIAL, soc_input)
     print(f"Social Alignment Score: {soc_output.alignment.score:.2f}")
-    print(f"Group Analysis: {soc_output.data.get('group_analysis', {)})}")
+    print(f"Group Analysis: {soc_output.data.get('group_analysis')}")
 
     # System Status
     print("\n=== Lukhas Awareness System Status ===")

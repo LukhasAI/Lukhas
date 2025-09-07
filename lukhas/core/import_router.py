@@ -12,11 +12,7 @@ This module provides a future-proof import system that handles:
 import importlib
 import importlib.util
 import logging
-from typing import Any, ClassVar, List, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
+from typing import Any, ClassVar, Optional
 
 logger = logging.getLogger(__name__)
 

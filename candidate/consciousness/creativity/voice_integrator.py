@@ -9,8 +9,6 @@ import time
 from dataclasses import dataclass
 from typing import Any, Optional
 
-import streamlit as st
-
 from ..bio_core.oscillator.orchestrator import BioOrchestrator
 from ..bio_core.voice.qi_voice_enhancer import QIVoiceEnhancer, VoiceQuantumConfig
 from ..security.voice_safety_guard import VoiceSafetyGuard

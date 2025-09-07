@@ -15,7 +15,6 @@ Status: AGI CONSCIOUSNESS MONITORING
 import asyncio
 from datetime import datetime, timezone
 
-import streamlit as st
 from ΛBot_agi_core import ConsciousnessLevel, ΛBotAGICore
 from ΛBot_elite_orchestrator import ΛBotEliteOrchestrator
 

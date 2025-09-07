@@ -7,8 +7,6 @@ cohesive interface.
 """
 from typing import Any
 
-import streamlit as st
-
 from ..evolution.journey_mapper import ConsciousnessJourneyMapper
 from .prediction_engine import PredictionEngine
 from .receptivity_windows import ReceptivityWindowCalculator

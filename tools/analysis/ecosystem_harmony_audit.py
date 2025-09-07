@@ -8,14 +8,9 @@ import ast
 import json
 import os
 import statistics
-import time
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 
 class EcosystemHarmonyAuditor:

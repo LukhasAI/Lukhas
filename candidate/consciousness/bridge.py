@@ -3,8 +3,7 @@ Consciousness Bridge Module
 Provides connectivity between consciousness components and external systems.
 """
 
-import asyncio
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class ConsciousnessBridge:

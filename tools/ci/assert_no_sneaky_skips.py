@@ -2,8 +2,6 @@ import re
 import sys
 from pathlib import Path
 
-import streamlit as st
-
 rx = r"@pytest\.mark\.(skip|skipif|xfail).*?(?:reason\s*=\s*['\"]).*?(temporary|flaky|todo|agent|llm)['\"]"
 bad = []
 for f in Path("tests").rglob("*.py"):

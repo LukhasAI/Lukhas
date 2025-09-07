@@ -9,13 +9,8 @@ This module provides the integration points between:
 - Production nucleus (lukhas/lukhas/identity)
 """
 import logging
-import time
 from pathlib import Path
 from typing import Any
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 # Add paths for dynamic imports
 LUKHAS_ROOT = Path(__file__).parent.parent.parent

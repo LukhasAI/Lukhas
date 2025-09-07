@@ -56,20 +56,19 @@ TRINITY: ⚛️🧠🛡️
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import argparse
 import logging
 import random
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
+import streamlit as st
 import yaml
+
+from consciousness.qi import qi
 
 # Configure the consciousness logger
 logging.basicConfig(level=logging.INFO, format="🧠 %(asctime)s - %(name)s - %(levelname)s - %(message)s")

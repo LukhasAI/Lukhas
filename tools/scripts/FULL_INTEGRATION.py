@@ -10,8 +10,6 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 # Set up paths
 LUKHAS_H = Path(__file__).parent
 LAMBDA_PRODUCTS_PATH = LUKHAS_H / "lambda_products_pack"

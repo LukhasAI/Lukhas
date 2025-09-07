@@ -5,8 +5,6 @@ Please update imports to: lukhas.accepted.adapters.base
 """
 import warnings
 
-import streamlit as st
-
 from lukhas.accepted.adapters.base import *
 
 warnings.warn(

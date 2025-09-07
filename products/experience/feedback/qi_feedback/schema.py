@@ -1,15 +1,12 @@
 # path: qi/feedback/schema.py
 from __future__ import annotations
 
-import time
 import uuid
 from datetime import datetime
-from typing import Any, List, Literal
+from typing import Any, Literal
 
-import streamlit as st
 from pydantic import BaseModel, Field, validator
 
-from consciousness.qi import qi
 from qi.safety.constants import ALLOWED_STYLES, MAX_THRESHOLD_SHIFT
 
 

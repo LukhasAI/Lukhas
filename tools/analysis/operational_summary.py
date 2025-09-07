@@ -6,8 +6,6 @@ Creates a clear summary of what's working vs what's just connected
 import json
 from pathlib import Path
 
-import streamlit as st
-
 
 def load_analysis_reports():
     """Load all analysis reports"""

@@ -9,7 +9,6 @@ import os
 from datetime import datetime, timezone
 
 import openai
-import streamlit as st
 
 from candidate.orchestration.brain.spine.trait_manager import load_traits
 from symbolic.lukhas_unified_self import run as unified_self_run

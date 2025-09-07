@@ -6,8 +6,6 @@ Integration Date: 2025-05-31T07:55:30.491390
 """
 from datetime import timezone
 
-import streamlit as st
-
 """
 ┌────────────────────────────────────────────────────────────────────────────┐
 │ MODULE         : lukhas_affiliate_log.py                                    │

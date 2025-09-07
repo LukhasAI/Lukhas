@@ -16,8 +16,8 @@ TRINITY FRAMEWORK:
 """
 
 import logging
-from typing import Any, Dict, List, Optional
 from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -27,13 +27,13 @@ class DreamOrchestrator:
     Master orchestrator for dream consciousness systems.
     Provides Trinity Framework-compliant dream lifecycle management.
     """
-    
+
     def __init__(self):
         self.active_sessions: Dict[str, Dict] = {}
         self.orchestration_history: List[Dict] = []
         self.session_counter = 0
         logger.info("🎭 Dream Orchestrator initialized - Trinity Framework active")
-    
+
     def orchestrate_dream_session(self, user_context: Optional[Dict] = None,
                                 dream_type: str = "lucid") -> str:
         """
@@ -48,7 +48,7 @@ class DreamOrchestrator:
         """
         self.session_counter += 1
         session_id = f"orch_{self.session_counter}_{int(datetime.now(timezone.utc).timestamp())}"
-        
+
         session_config = {
             "session_id": session_id,
             "type": dream_type,
@@ -62,12 +62,12 @@ class DreamOrchestrator:
                 "consciousness_link_active": False
             }
         }
-        
+
         self.active_sessions[session_id] = session_config
-        
+
         logger.info(f"🎭 Dream session orchestration initiated: {session_id}")
         return session_id
-    
+
     def coordinate_consciousness_integration(self, session_id: str) -> Dict[str, Any]:
         """
         🧠 Consciousness-aware orchestration coordination.
@@ -81,26 +81,26 @@ class DreamOrchestrator:
         if session_id not in self.active_sessions:
             logger.warning(f"🚨 Unknown session: {session_id}")
             return {"error": "Unknown session"}
-        
+
         session = self.active_sessions[session_id]
-        
+
         # Simulate component activation
         session["components"]["adapter_active"] = True
         session["components"]["memory_bridge_active"] = True
         session["components"]["consciousness_link_active"] = True
         session["status"] = "coordinated"
         session["coordinated_at"] = datetime.now(timezone.utc).isoformat()
-        
+
         coordination_result = {
             "session_id": session_id,
             "coordination_status": "complete",
             "active_components": sum(session["components"].values()),
             "trinity_validated": True
         }
-        
+
         logger.info(f"🧠 Consciousness integration coordinated for {session_id}")
         return coordination_result
-    
+
     def monitor_dream_health(self, session_id: str) -> Dict[str, Any]:
         """
         🛡️ Guardian-supervised dream session health monitoring.
@@ -113,9 +113,9 @@ class DreamOrchestrator:
         """
         if session_id not in self.active_sessions:
             return {"error": "Session not found", "health_status": "unknown"}
-        
+
         session = self.active_sessions[session_id]
-        
+
         health_metrics = {
             "session_id": session_id,
             "uptime": self._calculate_uptime(session["started_at"]),
@@ -124,10 +124,10 @@ class DreamOrchestrator:
             "ethical_status": "validated",
             "overall_health": "excellent"
         }
-        
+
         logger.info(f"🛡️ Dream health monitored for {session_id}")
         return health_metrics
-    
+
     def conclude_orchestration(self, session_id: str) -> Dict[str, Any]:
         """
         🎭 Graceful orchestration conclusion with full cleanup.
@@ -140,15 +140,15 @@ class DreamOrchestrator:
         """
         if session_id not in self.active_sessions:
             return {"error": "Session not found"}
-        
+
         session = self.active_sessions[session_id]
         session["status"] = "concluded"
         session["concluded_at"] = datetime.now(timezone.utc).isoformat()
-        
+
         # Archive session
         self.orchestration_history.append(session.copy())
         del self.active_sessions[session_id]
-        
+
         conclusion_summary = {
             "session_id": session_id,
             "conclusion_status": "successful",
@@ -156,16 +156,16 @@ class DreamOrchestrator:
             "archived": True,
             "trinity_validated": True
         }
-        
+
         logger.info(f"🎭 Dream orchestration concluded: {session_id}")
         return conclusion_summary
-    
+
     def _calculate_uptime(self, start_time_iso: str) -> str:
         """Calculate session uptime."""
-        start_time = datetime.fromisoformat(start_time_iso.replace('Z', '+00:00'))
+        start_time = datetime.fromisoformat(start_time_iso.replace("Z", "+00:00"))
         uptime = datetime.now(timezone.utc) - start_time
         return str(uptime)
-    
+
     def get_orchestration_status(self) -> Dict[str, Any]:
         """Get overall orchestration system status."""
         return {

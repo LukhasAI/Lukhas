@@ -15,17 +15,13 @@ Advanced emotional state recognition and adaptation system implementing VAD
 analysis for consciousness-aware quantum resonance glyph generation.
 """
 import logging
-import random
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
-
-from consciousness.qi import qi
 
 # Optional imports for advanced consciousness detection
 try:

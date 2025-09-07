@@ -5,8 +5,6 @@ Please update imports to: lukhas.accepted.memory.compression
 """
 import warnings
 
-import streamlit as st
-
 try:
     from lukhas.accepted.memory.compression import *
 except ImportError:

@@ -4,8 +4,6 @@ Common base classes and utilities for governance module
 from abc import ABC, abstractmethod
 from typing import Any
 
-import streamlit as st
-
 
 class BaseLukhasModule(ABC):
     """Base class for all LUKHAS modules"""

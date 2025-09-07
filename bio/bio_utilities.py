@@ -6,8 +6,8 @@ Bio-inspired utility functions and classes for LUKHAS consciousness systems
 """
 
 import logging
-from typing import Dict, Any, Optional, List
 from enum import Enum
+from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
 
@@ -21,16 +21,16 @@ class FatigueLevel(Enum):
 
 class BioUtilities:
     """Bio-inspired utility functions for consciousness systems"""
-    
+
     def __init__(self):
         self.fatigue_level = FatigueLevel.FRESH
         self.energy_level = 1.0
         self.adaptation_rate = 0.1
-        
+
     def calculate_fatigue(self, workload: float, duration: float) -> FatigueLevel:
         """Calculate fatigue level based on workload and duration"""
         fatigue_score = workload * duration * 0.1
-        
+
         if fatigue_score < 0.2:
             return FatigueLevel.FRESH
         elif fatigue_score < 0.4:
@@ -41,26 +41,26 @@ class BioUtilities:
             return FatigueLevel.HIGH
         else:
             return FatigueLevel.EXHAUSTED
-            
+
     def adapt_to_environment(self, environment_data: Dict[str, Any]) -> float:
         """Bio-inspired adaptation to environment changes"""
         adaptation_score = 0.5  # Base adaptation
-        
+
         # Simple adaptation logic
-        if environment_data.get('complexity', 0) > 0.7:
+        if environment_data.get("complexity", 0) > 0.7:
             adaptation_score *= 0.8  # Reduce adaptation for high complexity
-        if environment_data.get('stability', 1.0) < 0.3:
+        if environment_data.get("stability", 1.0) < 0.3:
             adaptation_score *= 0.9  # Reduce adaptation for low stability
-            
+
         return min(1.0, max(0.0, adaptation_score))
-        
+
     def get_energy_status(self) -> Dict[str, Any]:
         """Get current energy and fatigue status"""
         return {
-            'energy_level': self.energy_level,
-            'fatigue_level': self.fatigue_level.name,
-            'adaptation_rate': self.adaptation_rate,
-            'status': 'operational' if self.energy_level > 0.2 else 'low_energy'
+            "energy_level": self.energy_level,
+            "fatigue_level": self.fatigue_level.name,
+            "adaptation_rate": self.adaptation_rate,
+            "status": "operational" if self.energy_level > 0.2 else "low_energy"
         }
 
 # Module-level utility functions
@@ -76,8 +76,8 @@ def bio_adapt(environment: Dict[str, Any]) -> float:
 
 # Export main components
 __all__ = [
-    'BioUtilities',
-    'FatigueLevel', 
-    'fatigue_level',
-    'bio_adapt'
+    "BioUtilities",
+    "FatigueLevel",
+    "fatigue_level",
+    "bio_adapt"
 ]

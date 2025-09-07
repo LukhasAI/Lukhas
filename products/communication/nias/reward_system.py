@@ -15,8 +15,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class RewardType(Enum):
     """Types of rewards available in the system"""

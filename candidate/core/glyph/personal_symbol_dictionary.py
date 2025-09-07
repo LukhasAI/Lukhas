@@ -6,17 +6,15 @@ User-specific symbolic communication and personalization.
 Based on GPT5 audit recommendations.
 """
 import pickle
-import random
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
-import streamlit as st
 from sklearn.metrics.pairwise import cosine_similarity
 
 

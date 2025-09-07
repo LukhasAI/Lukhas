@@ -6,8 +6,6 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-import streamlit as st
-
 ROOT = Path(os.getcwd())
 
 

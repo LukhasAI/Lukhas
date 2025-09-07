@@ -1,8 +1,6 @@
 from collections.abc import Iterator
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class LegacyStore:
     """Abstract interface for the existing memory store."""

@@ -32,7 +32,6 @@
 ║ Symbolic Tags: {ΛIDENTITY}, {ΛAUTH}, {ΛTIER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
 
 IDENTITY_SYMBOLIC_VOCABULARY = {
     # Core Identity Concepts

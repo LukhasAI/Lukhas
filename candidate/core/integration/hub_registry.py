@@ -11,10 +11,6 @@ Central registry for all system hubs
 import logging
 from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 logger = logging.getLogger(__name__)
 
 

@@ -13,9 +13,7 @@ import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, Optional
-
-import streamlit as st
+from typing import Any, Optional
 
 logger = logging.getLogger("Lambda.NIΛS.UserData")
 

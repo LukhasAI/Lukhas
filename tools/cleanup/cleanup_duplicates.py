@@ -2,9 +2,7 @@
 """
 Auto-generated cleanup script for duplicate code
 """
-import streamlit as st
 
-from consciousness.qi import qi
 
 
 def cleanup_duplicates():

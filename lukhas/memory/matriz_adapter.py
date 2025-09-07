@@ -7,8 +7,6 @@ import time
 import uuid
 from typing import Any, Optional
 
-import streamlit as st
-
 try:
     from lukhas.observability.matriz_decorators import matriz_record
     from lukhas.observability.matriz_emit import emit, make_node

@@ -5,10 +5,7 @@ from __future__ import annotations
 import builtins
 import os
 
-import streamlit as st
 from fastapi import FastAPI, Header, HTTPException, Query
-
-from consciousness.qi import qi
 
 _ORIG_OPEN = builtins.open
 

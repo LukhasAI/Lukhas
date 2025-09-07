@@ -9,8 +9,6 @@ import time
 import uuid
 from typing import Any, Callable, Optional
 
-import streamlit as st
-
 """
 LegacyAdapter - Compatibility layer for existing LUKHAS components
 

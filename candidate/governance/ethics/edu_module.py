@@ -22,7 +22,6 @@
 ║ It is intended to track LUKHAS's own educational progress.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: edu_module.py

@@ -13,8 +13,6 @@ from functools import wraps
 from pathlib import Path
 from typing import Any, Optional, Union
 
-import streamlit as st
-
 
 def get_logger(name: str) -> logging.Logger:
     """Get a configured logger instance for tools"""
