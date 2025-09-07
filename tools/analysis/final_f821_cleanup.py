@@ -312,8 +312,9 @@ class FinalF821Cleanup:
                     break
             
             print(f"📈 Current F821 violations: {baseline_count}")
-        except:
+        except Exception as exc:  # ΛTAG: baseline_recovery
             baseline_count = 1638
+            print(f"⚠️ Failed to get baseline count: {exc}")
         
         # Get files with violations
         files_with_violations = self.get_files_with_violations()
@@ -349,15 +350,15 @@ class FinalF821Cleanup:
             
             print(f"📊 Final F821 violations: {final_count}")
             print(f"📉 Phase 3 reduction: {reduction}")
-            print(f"🎯 TOTAL REDUCTION: {total_reduction} ({((total_reduction/5364}*100}:.1f}%)}")
+            print(f"🎯 TOTAL REDUCTION: {total_reduction} ({(total_reduction / 5364) * 100:.1f}%)")
             
             if total_reduction >= 3500:
                 print("🏆 MASSIVE SUCCESS! Exceeded all targets!")
             elif total_reduction >= 2000:
                 print("🎯 EXCELLENT! Major elimination achieved!")
                 
-        except:
-            print("⚠️ Could not get final count")
+        except Exception as exc:  # ΛTAG: final_count_failure
+            print(f"⚠️ Could not get final count: {exc}")
 
 
 def main():
