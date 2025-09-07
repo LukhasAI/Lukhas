@@ -703,7 +703,7 @@ class ConsentManager(GlyphIntegrationMixin):
             symbols = self.TRUST_SYMBOLS["governance_approved"]
 
         return TrustPath(
-            path_id=f"temp_{request.requester}_{int(time.time()}",
+            path_id=f"temp_{request.requester}_{int(time.time())}",
             source="unknown",
             target=request.requester,
             trust_score=min(1.0, base_trust),
