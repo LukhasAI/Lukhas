@@ -10,7 +10,7 @@ import logging
 # 📄 MODULE: voice_system_integrator.py
 # 🔎 PURPOSE: Integrated voice system combining voice profiling and synthesis
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-05-08 • ✍️ AUTHOR: LUKHAS AGI
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 # Import voice systems

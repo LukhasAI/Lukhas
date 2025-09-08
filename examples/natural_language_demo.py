@@ -7,7 +7,7 @@ Interactive demonstration of conversational consciousness system.
 
 import asyncio
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 from core.common import get_logger
 from lukhas.consciousness.interfaces.natural_language_interface import (

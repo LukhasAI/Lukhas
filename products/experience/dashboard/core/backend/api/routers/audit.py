@@ -3,7 +3,7 @@ Audit Router - Comprehensive code quality and system health monitoring
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 

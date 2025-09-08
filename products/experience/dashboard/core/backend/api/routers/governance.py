@@ -3,7 +3,7 @@ Governance Router - Compliance, ethics, and policy management
 Following DeepMind's approach to responsible AI governance
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from typing import Any
 
 from fastapi import APIRouter, HTTPException

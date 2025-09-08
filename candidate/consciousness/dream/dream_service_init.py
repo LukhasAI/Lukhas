@@ -76,7 +76,7 @@ def initialize_consciousness_services():
 
         class MockParallelRealitySimulator:
             async def create_simulation(self, origin_scenario, branch_count=3):
-                from datetime import datetime
+                from datetime import datetime, timezone
 
                 from consciousness.dream.parallel_reality_simulator import RealityBranch, RealityType
 

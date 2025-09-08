@@ -15,6 +15,15 @@ from enum import Enum
 from typing import Any
 
 # Add workspace core to path
+
+def fix_later(*args, **kwargs):
+    """TODO(symbol-resolver): implement missing functionality
+    
+    This is a placeholder for functionality that needs to be implemented.
+    Replace this stub with the actual implementation.
+    """
+    raise NotImplementedError("fix_later is not yet implemented - replace with actual functionality")
+
 sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core", timezone)
 sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot")
 

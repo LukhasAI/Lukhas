@@ -3,7 +3,7 @@ Safety Router - AGI safety and alignment monitoring
 Following Anthropic's Constitutional AI principles
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from typing import Any
 
 from fastapi import APIRouter

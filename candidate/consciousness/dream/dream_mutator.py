@@ -23,7 +23,7 @@ For more information, visit: https://lukhas.ai
 import json
 import os
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 
 DREAM_LOG_PATH = "logs/dream_log.jsonl"
 

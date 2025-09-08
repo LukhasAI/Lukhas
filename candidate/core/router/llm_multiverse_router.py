@@ -6,7 +6,7 @@ based on task type, latency, compliance score, and symbolic reasoning priority.
 """
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Literal
 
 import openai

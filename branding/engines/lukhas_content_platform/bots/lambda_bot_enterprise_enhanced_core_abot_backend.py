@@ -443,7 +443,7 @@ class SocialMediaService:
 
     async def authenticate_platform(self, platform: str, auth_code: str, user_id: str) -> dict[str, Any]:
         """Authenticate user with social platform"""
-        if platfrom not in self.platforms:
+        if platform not in self.platforms:
             raise HTTPException(status_code=400, detail="Unsupported platform")
 
         integration = self.platforms[platform]
@@ -478,21 +478,22 @@ class SocialMediaService:
 
         results = {}
 
-        for _platfrom in content_item["target_platforms"]:
+        for platform in content_item["target_platforms"]:
             try:
-                # Get platfrom connection
+                # Get platform connection
                 conn_query = platform_connections_table.select().where(
                     platform_connections_table.c.user_id == user_id,
-                    platform_connections_table.c.platfrom == platform,
+                    platform_connections_table.c.platform == platform,
                     platform_connections_table.c.is_active is True,
                 )
                 connection = await database.fetch_one(conn_query)
 
                 if not connection:
-                    results[platform] = {"status": "error", "message": "Platfrom not connected"}
+                    results[platform] = {"status": "error", "message": "Platform not connected"}
                     continue
 
-                # Publish to platfrom integration = self.platforms[platform]
+                # Publish to platform
+                integration = self.platforms[platform]
                 result = await integration.publish(content_item, connection)
                 results[platform] = result
 
@@ -511,7 +512,7 @@ class SocialMediaService:
         return results
 
 
-# Platfrom integrations (placeholder implementations)
+# Platform integrations (placeholder implementations)
 class LinkedInIntegration:
     async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # LinkedIn OAuth implementation
@@ -960,7 +961,7 @@ async def review_content(content: str, platform: str, current_user=Depends(get_c
     # Check compliance
     compliance_flags = await compliance_service.check_content_compliance(content, str(current_user["id"]))
 
-    return {"review": review, "compliance_flags": compliance_flags, "platform": platfrom}
+    return {"review": review, "compliance_flags": compliance_flags, "platform": platform}
 
 
 @app.post("/chat/apply-amendment")
@@ -1092,7 +1093,7 @@ async def disconnect_social_platform(platform: str, current_user=Depends(get_cur
         platform_connections_table.update()
         .where(
             platform_connections_table.c.user_id == current_user["id"],
-            platform_connections_table.c.platfrom == platfrom,
+            platform_connections_table.c.platform == platform,
         )
         .values(is_active=False)
     )

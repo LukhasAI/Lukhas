@@ -5,7 +5,7 @@ Migrates critical modules from archive to accepted lane with compatibility shims
 """
 
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Base paths

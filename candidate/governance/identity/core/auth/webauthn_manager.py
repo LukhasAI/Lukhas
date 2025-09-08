@@ -18,7 +18,7 @@ import base64
 import json
 import secrets
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from typing import Any, Optional
 
 try:

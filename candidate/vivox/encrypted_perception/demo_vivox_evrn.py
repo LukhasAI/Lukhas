@@ -8,7 +8,7 @@ import asyncio
 import hashlib as demo_hashlib
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 import numpy as np
 from vivox.encrypted_perception import (

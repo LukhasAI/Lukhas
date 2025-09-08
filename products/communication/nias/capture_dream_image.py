@@ -4,7 +4,7 @@ Capture and save DALL-E 3 generated dream images
 """
 
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests

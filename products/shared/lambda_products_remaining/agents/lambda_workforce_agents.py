@@ -14,7 +14,7 @@ import asyncio
 import json
 import logging
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from .autonomous_agent_framework import AgentGoal, AgentPriority, AgentTask, AutonomousAgent

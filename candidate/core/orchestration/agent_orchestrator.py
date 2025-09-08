@@ -19,8 +19,17 @@
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
+try:
+    from lukhas.async_manager import get_orchestration_manager, TaskPriority
+    from lukhas.async_utils import create_managed_task
+except ImportError:
+    # Fallback for development
+    get_orchestration_manager = lambda: None
+    TaskPriority = None
+    create_managed_task = lambda coro, **kwargs: asyncio.create_task(coro)
 
 from .interfaces.agent_interface import AgentCapability, AgentContext, AgentInterface, AgentMessage, AgentStatus
 from .interfaces.orchestration_protocol import (
@@ -106,10 +115,22 @@ class AgentOrchestrator:
             if self.config.get("auto_discover_plugins", True):
                 await self._initialize_plugins()
 
-            # Start background tasks
-            asyncio.create_task(self._heartbeat_loop())
-            asyncio.create_task(self._task_scheduler())
-            asyncio.create_task(self._health_monitor())
+            # Start background tasks with managed tasks
+            create_managed_task(
+                self._heartbeat_loop(),
+                name="orchestrator_heartbeat",
+                component="orchestration.agent_orchestrator"
+            )
+            create_managed_task(
+                self._task_scheduler(),
+                name="orchestrator_scheduler", 
+                component="orchestration.agent_orchestrator"
+            )
+            create_managed_task(
+                self._health_monitor(),
+                name="orchestrator_health_monitor",
+                component="orchestration.agent_orchestrator"
+            )
 
             self.is_running = True
             self._logger.info("Orchestrator initialization complete")
@@ -180,8 +201,12 @@ class AgentOrchestrator:
                         self.agent_capabilities[capability] = set()
                     self.agent_capabilities[capability].add(agent_id)
 
-                # Start agent message handler
-                asyncio.create_task(self._handle_agent_messages(agent))
+                # Start agent message handler with managed task
+                create_managed_task(
+                    self._handle_agent_messages(agent),
+                    name=f"agent_handler_{agent.agent_id}",
+                    component="orchestration.agent_orchestrator"
+                )
 
                 self._logger.info(f"Registered agent: {agent.metadata.name} ({agent_id})")
 
@@ -289,8 +314,12 @@ class AgentOrchestrator:
                     # Send task to agent
                     agent.context.active_tasks.append(task.task_id)
 
-                    # Create task execution coroutine
-                    asyncio.create_task(self._execute_agent_task(agent, task))
+                    # Create task execution coroutine with managed task
+                    create_managed_task(
+                        self._execute_agent_task(agent, task),
+                        name=f"agent_task_{task.task_id}",
+                        component="orchestration.agent_orchestrator"
+                    )
 
                     self._logger.info(f"Task {task.task_id} assigned to agent {agent_id}")
                 else:

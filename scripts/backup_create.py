@@ -8,7 +8,7 @@ import os
 import pathlib
 import sys
 import tarfile
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def sha256_file(p: str) -> str:

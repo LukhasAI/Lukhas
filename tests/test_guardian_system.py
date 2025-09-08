@@ -17,7 +17,7 @@ import asyncio
 import tempfile
 import time
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import pytest

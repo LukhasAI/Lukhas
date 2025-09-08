@@ -39,7 +39,7 @@ def log_emotion(state, source="manual"):
     Returns:
     - dict: updated emotion state
     """
-    from datetime import datetime
+    from datetime import datetime, timezone
 
     entry = {
         "state": state,
@@ -58,7 +58,7 @@ def decay_emotion(threshold_minutes=60):
     Parameters:
     - threshold_minutes (int): Time since last emotion to trigger decay
     """
-    from datetime import datetime, timedelta
+    from datetime import datetime, timezone, timedelta
 
     if not emotion_db["log"]:
         return

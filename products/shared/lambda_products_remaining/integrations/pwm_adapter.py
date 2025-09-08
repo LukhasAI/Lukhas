@@ -9,7 +9,7 @@ plugin registry and module registry systems.
 
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional

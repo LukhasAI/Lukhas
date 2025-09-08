@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
 def mock_dp_service():
     """Mock data protection service"""
     service = Mock(spec=DataProtectionService)
-    from datetime import datetime
+    from datetime import datetime, timezone
 
     from enterprise.compliance.data_protection_service import ProtectionPolicy
 

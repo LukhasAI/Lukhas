@@ -4,7 +4,7 @@ Realtime Router - WebSocket and real-time data streaming
 
 import asyncio
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect

@@ -8,7 +8,7 @@ Automated content generation using the 8-star navigation system.
 import json
 import re
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 

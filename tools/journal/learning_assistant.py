@@ -5,7 +5,7 @@ Your AI-powered technical mentor and companion
 """
 
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from typing import Any, Optional
 
 from .decision_tracker import DecisionTracker

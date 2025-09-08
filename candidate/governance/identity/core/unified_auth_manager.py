@@ -30,7 +30,7 @@ import secrets
 # Import our quantum-safe ΛiD system
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional, Union

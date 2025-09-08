@@ -13,7 +13,7 @@ Saves the current Claude Code conversation context to a file for later reference
 
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 

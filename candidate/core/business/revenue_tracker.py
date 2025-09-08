@@ -7,7 +7,7 @@ tracking conversions and managing ethical earnings distribution.
 
 import hashlib
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from typing import Optional
 
 

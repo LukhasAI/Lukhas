@@ -9,7 +9,7 @@ All tests run in dry-run mode with no external dependencies or side effects.
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 

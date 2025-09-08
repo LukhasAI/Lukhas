@@ -20,7 +20,7 @@
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from candidate.consciousness.reflection.openai_core_service import (

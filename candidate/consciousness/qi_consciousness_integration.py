@@ -490,7 +490,7 @@ class QICreativeConsciousness:
     # awareness terms.
     def _enhance_haiku_consciousness(self, base_haiku: str, theme: str) -> str:
         self.instance_logger.debug(
-            f"ΛTRACE: Internal: Enhancing haiku '{base_haiku.splitlines()}[0]}...' for theme '{theme}'."
+            f"ΛTRACE: Internal: Enhancing haiku '{base_haiku.splitlines()[0]}...' for theme '{theme}'."
         )
         # This is a simplistic enhancement, real version would be more nuanced
         lines = base_haiku.split("\n")

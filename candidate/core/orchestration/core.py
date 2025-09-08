@@ -41,6 +41,13 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+try:
+    from lukhas.async_manager import get_orchestration_manager, TaskPriority
+except ImportError:
+    # Fallback for development
+    get_orchestration_manager = lambda: None
+    TaskPriority = None
+
 # Configure module logger
 logger = logging.getLogger(__name__)
 
@@ -344,8 +351,26 @@ class OrchestrationCore:
         logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
 
     async def _initiate_consciousness_loop(self):
-        """Start the main consciousness simulation loop."""
-        asyncio.create_task(self._consciousness_loop())
+        """Start the main consciousness simulation loop with proper task management."""
+        task_manager = get_orchestration_manager()
+        
+        if task_manager:
+            consciousness_task = task_manager.create_task(
+                self._consciousness_loop(),
+                name="consciousness_simulation",
+                priority=TaskPriority.CRITICAL,
+                component="orchestration.core",
+                description="Main consciousness simulation loop",
+                consciousness_context="orchestration_core"
+            )
+            # Store task for potential shutdown
+            if not hasattr(self, 'orchestration_tasks'):
+                self.orchestration_tasks = set()
+            self.orchestration_tasks.add(consciousness_task)
+        else:
+            # Fallback for development
+            asyncio.create_task(self._consciousness_loop())
+            
         logger.info("Consciousness simulation loop initiated")
 
     async def _consciousness_loop(self):

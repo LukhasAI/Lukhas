@@ -4,7 +4,7 @@ Bridge SEEDRA/Guardian ethics with VIVOX.MAE
 """
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Callable, Optional
 
 # VIVOX imports

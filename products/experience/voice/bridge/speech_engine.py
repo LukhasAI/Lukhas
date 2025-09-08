@@ -19,7 +19,7 @@ SYMBOLIC TAGS: ΛSPEECH, ΛSYNTHESIS, ΛVOICE, ΛTTS, ΛCOMMUNICATION
 """
 
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 # Initialize structured logger
