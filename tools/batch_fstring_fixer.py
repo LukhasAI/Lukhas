@@ -181,7 +181,7 @@ class SafeFStringFixer:
 
     def run_batch_fix(self, root_dir: str = ".", file_patterns: List[str] = None, batch_size: int = 50):
         """Run the batch fixing process."""
-        print(f"🔧 LUKHAS F-String Batch Fixer")
+        print("🔧 LUKHAS F-String Batch Fixer")
         print(f"Mode: {'DRY RUN' if self.dry_run else 'LIVE FIX'}")
         print(f"Root directory: {root_dir}")
         print(f"Backup files: {self.create_backups}")
@@ -204,14 +204,14 @@ class SafeFStringFixer:
         results = self.process_files(files, batch_size)
 
         # Summary
-        print(f"\n📊 Summary:")
+        print("\n📊 Summary:")
         print(f"   Total files: {results['total_files']}")
         print(f"   Processed: {results['processed']}")
         print(f"   Fixed: {results['fixed']}")
         print(f"   Failed: {results['failed']}")
 
         if results["fixes"]:
-            print(f"\n🔧 Fixes applied:")
+            print("\n🔧 Fixes applied:")
             for fix in results["fixes"][:10]:  # Show first 10
                 print(f"   {fix['file']}: {len(fix['fixes'])} fixes")
             if len(results["fixes"]) > 10:

@@ -404,7 +404,7 @@ if __name__ == "__main__":
             generated_dream_text, dream_metadata=dream_meta_info
         )
         log.info(
-            f"🛌 Dream narrative & metadata saved.", log_file=str(path_to_saved_log)
+            "🛌 Dream narrative & metadata saved.", log_file=str(path_to_saved_log)
         )
     else:
         log.error("LUKHAS failed to generate a dream narrative during demo execution.")

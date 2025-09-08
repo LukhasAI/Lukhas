@@ -703,7 +703,7 @@ async def demo_enhanced_integration():
 
     # Show final status
     status = brain.get_comprehensive_status()
-    print(f"\n🎼 Final Status:")
+    print("\n🎼 Final Status:")
     print(f"Symphony available: {status['components']['symphony_orchestrator']}")
     print(f"Total memories: {status['memory_stats']['total_memories']}")
     print(f"Emotional memories: {status['memory_stats']['emotional_memories']}")

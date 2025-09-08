@@ -308,8 +308,8 @@ def main():
     with open('/Users/agi_dev/LOCAL-REPOS/Lukhas/automated_fixing_report.txt', 'w') as f:
         f.write(report)
 
-    print(f"✅ Automated fixing complete!")
-    print(f"📊 Report saved to: automated_fixing_report.txt")
+    print("✅ Automated fixing complete!")
+    print("📊 Report saved to: automated_fixing_report.txt")
 
 if __name__ == "__main__":
     main()

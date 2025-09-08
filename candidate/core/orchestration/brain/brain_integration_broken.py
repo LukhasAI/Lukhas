@@ -610,35 +610,40 @@ class EnhancedBrainIntegration:
             "agi_enhancements": {}
         }
 
-                                                                                                                                                                                                                                                    try:
-                                                                                                                                                                                                                                                        pass
+        try:
             # Stage 1: Compliance and Ethics Pre-Check
-                                                                                                                                                                                                                                                    if self.advanced_agi_available:
+            if self.advanced_agi_available:
                 # Compliance validation
-                                                                                                                                                                                                                                                        if hasattr(self, 'compliance_manager'):
-                    compliance_result = await self.compliance_manager.validate_ai_action(
-                        {"action": "process_input", "data": input_data}, context
+                if hasattr(self, 'compliance_manager'):
+                    compliance_result = (
+                        await self.compliance_manager.validate_ai_action(
+                            {"action": "process_input", "data": input_data}, context
+                        )
                     )
                     result["agi_enhancements"]["compliance"] = compliance_result
                     self.stats["compliance_checks"] += 1
 
                     # Block processing if critical compliance violation
-                                                                                                                                                                                                                                                            if compliance_result.get("level") == "CRITICAL":
+                    if compliance_result.get("level") == "CRITICAL":
                         result["status"] = "blocked"
                         result["reason"] = "compliance_violation"
-                                                                                                                                                                                                                                                                return result
+                        return result
 
                 # Ethical evaluation
-                                                                                                                                                                                                                                                            if hasattr(self, 'ethical_hierarchy'):
-                    ethical_result = await self.ethical_hierarchy.evaluate_ethical_decision(
-                        input_data, context
+                if hasattr(self, 'ethical_hierarchy'):
+                    ethical_result = (
+                        await self.ethical_hierarchy.evaluate_ethical_decision(
+                            input_data, context
+                        )
                     )
                     result["agi_enhancements"]["ethics"] = ethical_result
                     self.stats["ethical_evaluations"] += 1
 
                     # Warn if ethical concerns detected
-                                                                                                                                                                                                                                                                if ethical_result.get("severity") in ["WARNING", "CRITICAL"]:
-                        result["ethical_warnings"] = ethical_result.get("concerns", [])
+                    if ethical_result.get("severity") in ["WARNING", "CRITICAL"]:
+                        result["ethical_warnings"] = ethical_result.get(
+                            "concerns", []
+                        )
 
             # Stage 2: Enhanced Memory and Context Processing
                                                                                                                                                                                                                                                                     if hasattr(self, 'enhanced_memory_manager'):

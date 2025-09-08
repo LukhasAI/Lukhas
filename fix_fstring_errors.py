@@ -98,7 +98,7 @@ class FStringFixer:
 
             self.fix_file(filepath)
 
-        print(f"\nResults:")
+        print("\nResults:")
         print(f"  Fixed: {self.fixed_count} files")
         print(f"  Failed: {self.failed_count} files")
         print(f"  Unchanged: {len(python_files) - self.fixed_count - self.failed_count} files")

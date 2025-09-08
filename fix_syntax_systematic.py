@@ -177,7 +177,7 @@ def main():
             stats["total_import_fixes"] += result["import_fixes"]
             stats["total_fixes"] += result["total_fixes"]
 
-    print(f"\nResults:")
+    print("\nResults:")
     print(f"  Fixed: {stats['fixed']} files")
     print(f"  Unchanged: {stats['unchanged']} files")
     print(f"  Errors: {stats['errors']} files")
