@@ -73,9 +73,20 @@ class IdentityImportBridge:
 
     def _install_hooks(self) -> None:
         """Install import hooks for backward compatibility"""
+        # CRITICAL FIX: Don't override real identity module
         if "identity" not in sys.modules:
             # Create virtual identity module
             sys.modules["identity"] = self
+        else:
+            # Check if existing module is the real identity module
+            existing = sys.modules["identity"]
+            if hasattr(existing, "get_identity_status") and callable(getattr(existing, "get_identity_status")):
+                logger.info("Real identity module already exists - not overriding")
+                return
+            else:
+                # Override if it's not the real module
+                logger.info("Overriding non-functional identity module")
+                sys.modules["identity"] = self
 
     def __getattr__(self, name: str) -> Any:
         """Handle attribute access for identity.* imports"""
@@ -176,9 +187,17 @@ except ImportError:
     # Fallback to the simple bridge
     _bridge = IdentityImportBridge()
 
-    # Ensure identity module exists in sys.modules
+    # CRITICAL FIX: Ensure identity module exists but don't override real one
     if "identity" not in sys.modules:
         sys.modules["identity"] = _bridge
+    else:
+        # Check if existing module is the real identity module
+        existing = sys.modules["identity"]
+        if not (hasattr(existing, "get_identity_status") and callable(getattr(existing, "get_identity_status"))):
+            logger.info("Overriding non-functional identity module with bridge")
+            sys.modules["identity"] = _bridge
+        else:
+            logger.info("Real identity module already loaded - not overriding")
 
     # Also install common submodules
     for old_path in IMPORT_MAPPINGS:
@@ -189,7 +208,9 @@ except ImportError:
                 parent_path = ".".join(parts[:i])
                 if parent_path not in sys.modules:
                     if parent_path == "identity":
-                        sys.modules[parent_path] = _bridge
+                        # Only set if we don't have the real identity module
+                        if not (hasattr(sys.modules.get("identity", None), "get_identity_status")):
+                            sys.modules[parent_path] = _bridge
                     else:
                         sys.modules[parent_path] = IdentitySubmoduleBridge(parent_path)
 

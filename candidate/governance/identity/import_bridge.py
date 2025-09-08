@@ -54,6 +54,18 @@ class IdentityModuleFinder(importlib.abc.MetaPathFinder):
         if not fullname.startswith("identity"):
             return None
 
+        # CRITICAL FIX: Handle root 'identity' module specially
+        if fullname == "identity":
+            # Check if the real identity module exists by checking the path directly
+            # Don't use importlib.util.find_spec to avoid circular import
+            import os
+            identity_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), "identity", "__init__.py")
+            if os.path.exists(identity_path):
+                logger.debug(f"Preserving real identity module from {identity_path}")
+                return None  # Let default import mechanism handle it
+            else:
+                logger.debug("Real identity module not found, creating virtual module")
+
         # Check if we have a direct mapping
         if fullname in IMPORT_MAPPINGS:
             new_name = IMPORT_MAPPINGS[fullname]
@@ -192,6 +204,17 @@ def install_identity_bridge():
     # Check if already installed
     for finder in sys.meta_path:
         if isinstance(finder, IdentityModuleFinder):
+            return
+
+    # CRITICAL FIX: Don't override existing real identity module in sys.modules
+    if "identity" in sys.modules:
+        existing_identity = sys.modules["identity"]
+        # Check if it's the real identity module (has get_identity_status function)
+        if hasattr(existing_identity, "get_identity_status") and callable(getattr(existing_identity, "get_identity_status")):
+            logger.info("Real identity module already loaded - preserving it")
+            # Still install the bridge for submodules, but preserve the root module
+            sys.meta_path.insert(0, IdentityModuleFinder())
+            logger.info("Identity import bridge installed (preserving existing identity module)")
             return
 
     # Install our custom finder at the beginning of meta_path
