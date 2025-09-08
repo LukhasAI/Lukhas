@@ -208,7 +208,7 @@ class SmartNamingRefactor:
         print("\n✅ Refactoring complete!")
         print(f"   Files processed: {len(python_files)}")
         print(f"   Files changed: {refactored_count}")
-        print(f"   Total changes: {sum(len(c.get('changes', [])) for c in self.changes_made}")
+        print(f"   Total changes: {sum(len(c.get('changes', [])) for c in self.changes_made)}")
 
         if self.dry_run:
             print("\n⚠️  This was a DRY RUN. No files were actually modified.")

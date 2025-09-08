@@ -157,7 +157,7 @@ def create_comprehensive_research_report():
                     "average_drift": audit_data["executive_summary"]["overall_drift_average"],
                     "average_trinity": audit_data["executive_summary"]["overall_trinity_average"],
                     "intervention_rate": (
-                        f"{(audit_data['executive_summary']['total_guardian_interventions'] / audit_data['metadata']['total_tests'] * 100)}:.1f}%"
+                        f"{(audit_data['executive_summary']['total_guardian_interventions'] / audit_data['metadata']['total_tests'] * 100):.1f}%"
                         if audit_data["metadata"]["total_tests"] > 0
                         else "N/A"
                     ),
