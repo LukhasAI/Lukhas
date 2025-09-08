@@ -183,7 +183,7 @@ def generate_todo_report(all_todos: list[dict]) -> str:
         f"Total TODOs: {len(all_todos)}",
     ]
 
-    for todo_type, todos in sorted(by_type.items()}:
+    for todo_type, todos in sorted(by_type.items()):
         report_lines.append(f"- T4-{todo_type}: {len(todos)}")
 
     report_lines.append("")
