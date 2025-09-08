@@ -55,7 +55,7 @@ from typing import Any, Dict, Optional  # Added Any, Optional
 import streamlit as st
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection", timezone)
+logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection")
 logger.info("ΛTRACE: Initializing reflective_introspection module.")
 
 
