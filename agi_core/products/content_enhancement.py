@@ -504,8 +504,8 @@ class ContentProductsEnhancer:
 
             # Create haiku with dream logic
             line1 = f"{associations[0] if associations else query.topic} dissolves"  # 5 syllables
-            line2 = f"into {associations[1] if len(associations)} > 1 else 'pure awareness'} flowing like dreams"  # 7 syllables
-            line3 = f"{associations[2] if len(associations)} > 2 else 'silence'} remains"  # 5 syllables
+            line2 = f"into {associations[1] if len(associations) > 1 else 'pure awareness'} flowing like dreams"  # 7 syllables
+            line3 = f"{associations[2] if len(associations) > 2 else 'silence'} remains"  # 5 syllables
 
             return f"{line1}\n{line2}\n{line3}"
 
@@ -681,7 +681,7 @@ class ContentProductsEnhancer:
             f"we find the fusion of {', '.join(fusion_concepts[:3])}. "
             f"This conceptual merger reveals new possibilities: "
             f"What if {fusion_concepts[0] if fusion_concepts else 'awareness'} "
-            f"and {fusion_concepts[1] if len(fusion_concepts)} > 1 else 'understanding'} "
+            f"and {fusion_concepts[1] if len(fusion_concepts) > 1 else 'understanding'} "
             f"were not separate phenomena, but expressions of a single, "
             f"more fundamental reality? In this fusion, {query.topic} "
             f"transcends its boundaries and becomes something unprecedented."

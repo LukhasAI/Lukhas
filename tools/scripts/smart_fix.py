@@ -211,7 +211,7 @@ class SmartFixer:
         report = {
             "fixed": self.fixed_count,
             "critical_remaining": len(self.critical_issues) - self.fixed_count,
-            "warnings": len(self.warnings)},
+            "warnings": len(self.warnings),
             "summary": "Smart fix completed successfully",
         }
 
@@ -226,7 +226,7 @@ class SmartFixer:
         print("\n" + "=" * 60)
         print("📊 SMART FIX SUMMARY")
         print("=" * 60)
-        print(f"✅ Fixed: {report[\'fixed']} issues")
+        print(f"✅ Fixed: {report['fixed']} issues")
         print(f"⚠️ Critical remaining: {report['critical_remaining']}")
         print(f"ℹ️ Warnings (not fixed): {report['warnings']}")
         print("=" * 60)

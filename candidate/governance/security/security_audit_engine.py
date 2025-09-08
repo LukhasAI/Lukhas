@@ -172,14 +172,14 @@ class SecretDetector:
                     line_num = content[: match.start()].count("\n") + 1
 
                     finding = SecurityFinding(
-                        id=f"secret_{hashlib.md5(f'{file_path}}:{line_num}:{secret_type}'.encode()).hexdigest()[:12]}",
+                        id=f"secret_{hashlib.md5(f'{file_path}:{line_num}:{secret_type}'.encode()).hexdigest()[:12]}",
                         type=VulnerabilityType.SECRET_EXPOSURE,
                         level=(
                             SecurityLevel.HIGH
                             if secret_type in ["private_key", "aws_key"]
                             else SecurityLevel.MEDIUM
                         ),
-                        title=f"Potential {secret_type.replace('_', ' ').title(}} Exposure",
+                        title=f"Potential {secret_type.replace('_', ' ').title()} Exposure",
                         description=f"Detected potential {secret_type} in file",
                         file_path=file_path,
                         line_number=line_num,
@@ -226,7 +226,7 @@ class DependencyScanner:
             # Parse requirements
             for line in content.split("\n"):
                 line = line.strip()
-                if not line or line.startswith(")  # ":
+                if not line or line.startswith("#"):
                     continue
 
                 # Extract package name and version
@@ -240,7 +240,7 @@ class DependencyScanner:
                     vulnerable_versions = self.known_vulnerabilities[package.lower()]
                     if version in vulnerable_versions:
                         finding = SecurityFinding(
-                            id=f"dep_{hashlib.md5(f'{package}}:{version}'.encode()).hexdigest()[:12]}",
+                            id=f"dep_{hashlib.md5(f'{package}:{version}'.encode()).hexdigest()[:12]}",
                             type=VulnerabilityType.DEPENDENCY_VULN,
                             level=SecurityLevel.HIGH,
                             title=f"Vulnerable Dependency: {package}",
