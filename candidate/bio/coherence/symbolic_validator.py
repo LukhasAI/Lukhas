@@ -87,7 +87,7 @@ class BiologicalProcess(Enum):
 class BioRhythm:
     """Bio-rhythmic pattern for coherence validation"""
 
-    rhythm_id: str = field(default_factory=lambda: f"rhythm_{uuid.uuid4()}.hex[:8]}")
+    rhythm_id: str = field(default_factory=lambda: f"rhythm_{uuid.uuid4().hex[:8]}")
     oscillator_type: OscillatorType = OscillatorType.GAMMA
     frequency_hz: float = 40.0  # Base frequency
     amplitude: float = 1.0  # Signal strength
@@ -192,7 +192,7 @@ class CoherenceValidationConfig:
 class CoherenceReport:
     """Comprehensive coherence validation report"""
 
-    validation_id: str = field(default_factory=lambda: f"cohval_{uuid.uuid4()}.hex[:8]}")
+    validation_id: str = field(default_factory=lambda: f"cohval_{uuid.uuid4().hex[:8]}")
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     # Overall coherence
@@ -253,7 +253,7 @@ class BioSymbolicCoherenceValidator:
     def __init__(self, config: Optional[CoherenceValidationConfig] = None):
         """Initialize bio-symbolic coherence validator"""
         self.config = config or CoherenceValidationConfig()
-        self.validator_id = f"biosym_{uuid.uuid4()}.hex[:8]}"
+        self.validator_id = f"biosym_{uuid.uuid4().hex[:8]}"
         self.version = "1.0.0"
 
         # Bio-rhythmic oscillators
