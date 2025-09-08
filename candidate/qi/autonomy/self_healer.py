@@ -193,7 +193,7 @@ def plan_proposals(signals: dict[str, Any], *, config_targets: list[str]) -> lis
             return props
 
         cur_sum = _file_checksum(target)
-        patch = {"router": {"task_specific": {"risk_bias": min(1.0, 0.1 + max(0, (0.85 - mean)))}
+        patch = {"router": {"task_specific": {"risk_bias": min(1.0, 0.1 + max(0, (0.85 - mean)))}}}
         rationale = f"Weighted mean {mean:.3f}, failures {fails}; propose biasing safer routes slightly."
         pid = _sha({"target": target, "patch": patch, "t": int(_now())})
         prop = ChangeProposal(

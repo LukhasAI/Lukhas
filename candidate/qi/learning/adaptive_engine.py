@@ -133,7 +133,7 @@ class AdaptiveLearningEngine:
         cands: list[CandidateConfig] = []
         for t, _ in low:
             for delta in (-0.05, -0.02, 0.02, 0.05):
-                patch = {"router": {"task_specific": {t: {"threshold": ("$add", delta)}}
+                patch = {"router": {"task_specific": {t: {"threshold": ("$add", delta)}}}}
                 cid = _sha({"t": t, "delta": delta, "file": target_file, "ts": int(_now())})
                 cands.append(
                     CandidateConfig(
@@ -162,7 +162,7 @@ class AdaptiveLearningEngine:
         cands = []
         for t, _ in low:
             for tool in ("reranker", "web_search", "policy_explain"):
-                patch = {"router": {"task_specific": {t: {"tools": {"enable": {tool: True}}}
+                patch = {"router": {"task_specific": {t: {"tools": {"enable": {tool: True}}}}}}
                 cid = _sha({"t": t, "tool": tool, "file": target_file, "ts": int(_now())})
                 cands.append(
                     CandidateConfig(

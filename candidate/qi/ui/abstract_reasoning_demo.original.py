@@ -157,7 +157,7 @@ async def demonstrate_abstract_reasoning() -> None:
     """
     # Human-readable comment: Entry point for the main abstract reasoning
     # demonstration sequence.
-    req_id_main_demo = f"demo_main_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
+    req_id_main_demo = f"demo_main_{int(datetime.now(timezone.utc).timestamp()) * 1000}"
     demo_logger = logger.bind(request_id=req_id_main_demo, demo_stage="main_reasoning_showcase")
 
     demo_logger.info("ΛTRACE: Starting LUKHAS Bio-Quantum Symbolic Reasoning Engine Demo.")
@@ -203,7 +203,7 @@ async def demonstrate_abstract_reasoning() -> None:
                     "government_agencies",
                     "environmental_groups",
                     "tech_innovators",
-                ],}
+                ],
             },  # Renamed
             reasoning_mode="creative_holistic_problem_solving",  # Renamed
             request_id=f"{req_id_main_demo}_ex1",
@@ -311,7 +311,7 @@ async def demonstrate_advanced_features() -> None:
     """Demonstrates advanced features, including direct core access and detailed metrics if components are available."""
     # Human-readable comment: Showcases direct interaction with core
     # components and advanced metrics.
-    req_id_adv_demo = f"demo_adv_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
+    req_id_adv_demo = f"demo_adv_{int(datetime.now(timezone.utc).timestamp()) * 1000}"
     adv_logger = logger.bind(request_id=req_id_adv_demo, demo_stage="advanced_features")
 
     adv_logger.info(" ")
@@ -351,7 +351,7 @@ async def demonstrate_advanced_features() -> None:
                     "computational_speed",
                     "solution_accuracy",
                     "scalability_potential",
-                ],}
+                ],
             },
             "designated_reasoning_type": "qi_algorithm_design_and_optimization",  # Renamed
         }
@@ -400,7 +400,7 @@ async def scientific_research_example() -> None:
     """Demonstrates using the abstract reasoning engine for scientific research hypothesis generation if components are available."""
     # Human-readable comment: Illustrates application in scientific hypothesis
     # generation.
-    req_id = f"demo_sci_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
+    req_id = f"demo_sci_{int(datetime.now(timezone.utc).timestamp()) * 1000}"
     sci_logger = logger.bind(request_id=req_id, demo_stage="scientific_research")
     sci_logger.info(" ")
     sci_logger.info("🔬 Starting Scientific Research Use Case Demo")
@@ -416,7 +416,7 @@ async def scientific_research_example() -> None:
             "Orch OR theory",
             "entanglement-like correlation in brain",
             "microtubules",
-        ],}
+        ],
     }
     result = await reason_about(
         problem_data=research_problem_data,
@@ -435,7 +435,7 @@ async def business_strategy_example() -> None:
     """Demonstrates using the abstract reasoning engine for business strategy formulation if components are available."""
     # Human-readable comment: Illustrates application in formulating business
     # strategies.
-    req_id = f"demo_biz_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
+    req_id = f"demo_biz_{int(datetime.now(timezone.utc).timestamp()) * 1000}"
     biz_logger = logger.bind(request_id=req_id, demo_stage="business_strategy")
     biz_logger.info(" ")
     biz_logger.info("💼 Starting Business Strategy Use Case Demo")
@@ -447,13 +447,13 @@ async def business_strategy_example() -> None:
     strategy_problem_data: dict[str, Any] = {
         "description": "Formulate a market entry strategy for a new Quantum AI product in the FinTech sector.",
         "domain": "business_strategy_and_innovation",
-        "target_market_segment": "quantitative_hedge_funds",}
+        "target_market_segment": "quantitative_hedge_funds",
     }
     result = await reason_about(
         problem_data=strategy_problem_data,
         context_info={
             "industry_focus": "fintech_quant_trading",
-            "time_horizon": "2_years",}
+            "time_horizon": "2_years",
         },
         request_id=req_id,
     )
@@ -468,7 +468,7 @@ async def business_strategy_example() -> None:
 async def creative_design_example() -> None:
     """Demonstrates using the abstract reasoning engine for innovative creative design tasks if components are available."""
     # Human-readable comment: Illustrates application in creative design and innovation.
-    req_id = f"demo_design_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
+    req_id = f"demo_design_{int(datetime.now(timezone.utc).timestamp()) * 1000}"
     design_logger = logger.bind(request_id=req_id, demo_stage="creative_design")
     design_logger.info(" ")
     design_logger.info("🎨 Starting Creative Design Use Case Demo")
@@ -484,13 +484,13 @@ async def creative_design_example() -> None:
             "seamless_integration",
             "minimal_cognitive_load",
             "adaptive_feedback",
-        ],}
+        ],
     }
     result = await reason_about(
         problem_data=design_problem_data,
         context_info={
             "target_users": "creative_professionals_and_researchers",
-            "technology_stack_preference": "webxr_pytorch",}
+            "technology_stack_preference": "webxr_pytorch",
         },
         request_id=req_id,
     )
@@ -505,7 +505,7 @@ async def creative_design_example() -> None:
 async def run_all_demonstrations_sequentially() -> None:  # Renamed for clarity
     """Runs all defined demonstration examples for the abstract reasoning engine in sequence."""
     # Human-readable comment: Orchestrates the execution of all demo scenarios.
-    req_id_run_all = f"demo_run_all_{int(datetime.now(timezone.utc).timestamp(} * 1000}"
+    req_id_run_all = f"demo_run_all_{int(datetime.now(timezone.utc).timestamp()) * 1000}"
     run_all_logger = logger.bind(request_id=req_id_run_all, demo_stage="full_suite_execution")
 
     run_all_logger.info("🚀 Starting Comprehensive Bio-Quantum Reasoning Demonstration Suite.")
