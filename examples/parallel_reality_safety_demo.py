@@ -242,7 +242,7 @@ class SafetyDemo:
 
         print(f"\nCheckpoint 1 created: {checkpoint1.checkpoint_id}")
         print(f"  Risk score: {checkpoint1.risk_score:.2f}")
-        print(f"  Hash: {checkpoint1.to_hash()}[:16]}...")
+        print(f"  Hash: {checkpoint1.to_hash()[:16]}...")
 
         # Make risky exploration
         print("\nMaking risky exploration...")

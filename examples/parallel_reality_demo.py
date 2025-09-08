@@ -116,8 +116,8 @@ class ParallelRealityDemo:
         for i, branch in enumerate(simulation.branches):
             print(f"\n  Branch {i + 1}: {branch.branch_id}")
             print(f"    Probability: {branch.probability:.3f}")
-            print(f"    Quantum shift: {branch.divergence_point.get('qi_shift', 0)}:.3f}")
-            print(f"    Coherence: {branch.divergence_point.get('coherence', 0)}:.3f}")
+            print(f"    Quantum shift: {branch.divergence_point.get('qi_shift', 0):.3f}")
+            print(f"    Coherence: {branch.divergence_point.get('coherence', 0):.3f}")
 
         # Explore deepest branch
         highest_prob_branch = max(simulation.branches, key=lambda b: b.probability)
@@ -168,7 +168,7 @@ class ParallelRealityDemo:
             print(f"\n  Framework: {framework}")
             print(f"    Branch: {branch.branch_id}")
             print(f"    Ethical score: {branch.ethical_score:.3f}")
-            print(f"    Value shift: {branch.divergence_point.get('value_shift', 0)}:.3f}")
+            print(f"    Value shift: {branch.divergence_point.get('value_shift', 0):.3f}")
 
         # Find most ethically sound branch
         best_ethical = max(simulation.branches, key=lambda b: b.ethical_score)
@@ -277,7 +277,7 @@ class ParallelRealityDemo:
 
             print("\nMerging branches:")
             for branch in merge_candidates:
-                print(f"  {branch.branch_id}: novelty={branch.divergence_point.get('novelty_factor', 0)}:.2f}")
+                print(f"  {branch.branch_id}: novelty={branch.divergence_point.get('novelty_factor', 0):.2f}")
 
             # Perform merge
             merged = await self.simulator.merge_realities(simulation.simulation_id, branch_ids)
@@ -337,7 +337,7 @@ class ParallelRealityDemo:
 
         print(f"\nSelected reality: {selected.branch_id}")
         print(f"  Prediction horizon: {selected.divergence_point.get('prediction_horizon')}")
-        print(f"  Confidence: {selected.divergence_point.get('confidence', 0)}:.2f}")
+        print(f"  Confidence: {selected.divergence_point.get('confidence', 0):.2f}")
         print(f"  Probability: {selected.probability:.3f}")
 
         # Show insights

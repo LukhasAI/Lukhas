@@ -53,7 +53,7 @@ def scan_syntax_errors():
     print(f"  📁 Total Python files: {total_files}")
     print(f"  ❌ Files with syntax errors: {files_with_errors}")
     print(f"  ✅ Clean files: {total_files - files_with_errors}")
-    print(f"  🎯 Success rate: {((total_files - files_with_errors) / total_files * 100}:.1f}%")
+    print(f"  🎯 Success rate: {((total_files - files_with_errors) / total_files * 100):.1f}%")
 
     if error_details:
         print("\n🚨 REMAINING ERRORS:")

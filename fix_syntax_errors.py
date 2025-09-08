@@ -45,7 +45,7 @@ def fix_unclosed_parentheses(content: str) -> str:
             # Convert to proper logger statement
             stripped = line.strip()
             if not stripped.startswith("logger."):
-                line = line.replace(stripped, f'        logger.info("{stripped.rstrip("}"}")')
+                line = line.replace(stripped, f'        logger.info("{stripped.rstrip("}")}")')
 
         fixed_lines.append(line)
 

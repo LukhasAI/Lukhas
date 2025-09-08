@@ -22,9 +22,9 @@ def test_import(timezone, module_name, description=""):
             __import__(module_name)
         return True, "✅ OPERATIONAL"
     except ImportError as e:
-        return False, f"❌ ImportError: {str(e}[:40]}..."
+        return False, f"❌ ImportError: {str(e)[:40]}..."
     except AttributeError as e:
-        return False, f"❌ AttributeError: {str(e}[:40]}..."
+        return False, f"❌ AttributeError: {str(e)[:40]}..."
     except Exception as e:
         return False, f"❌ {type(e).__name__}: {str(e}[:40]}..."
 

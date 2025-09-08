@@ -6,7 +6,7 @@ Based on entropy class and glyph recurrence patterns
 import json
 import logging
 from collections import Counter, deque
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional

@@ -77,7 +77,7 @@ class TestIdentitySystem:
             print("    👤 Testing user registration...")
 
             # Test passkey registration
-            user_id = f"test_user_{uuid.uuid4()}.hex[:8]}"
+            user_id = f"test_user_{uuid.uuid4().hex[:8]}"
             self.user_ids.append(user_id)
 
             reg_result = register_passkey(

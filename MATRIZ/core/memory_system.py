@@ -1169,7 +1169,7 @@ if __name__ == "__main__":
 
     # Final statistics
     print("\n" + "=" * 50)
-    print(f"Test Results: {success_count}/{len(test_cases)} passed ({success_count / len(test_cases)}  * 100:.1f}%)")
+    print(f"Test Results: {success_count}/{len(test_cases)} passed ({success_count / len(test_cases) * 100:.1f}%)")
 
     # Show memory system statistics
     stats_result = memory_system.process({"operation": "stats"})
@@ -1179,7 +1179,7 @@ if __name__ == "__main__":
     print(f"Memory Counts: {stats['memory_counts']}")
     print(f"Utilization: {stats['utilization']}")
     print(f"Operations: {stats['operations']}")
-    print(f"Processing History: {len(memory_system.get_trace()} MATRIZ nodes created")
+    print(f"Processing History: {len(memory_system.get_trace())} MATRIZ nodes created")
 
     # Test direct memory operations
     print("\nDirect Memory Operations Test:")
@@ -1212,7 +1212,7 @@ if __name__ == "__main__":
 
     for memory in retrieved:
         print(f"  - {memory.memory_type.value}: {memory.confidence:.2f} conf, {memory.salience:.2f} sal")
-        print(f"    Content: {str(memory.content)}[:60]}...")
+        print(f"    Content: {str(memory.content)[:60]}...")
         print(f"    Tags: {memory.tags}")
 
     print("\nFinal memory counts:")

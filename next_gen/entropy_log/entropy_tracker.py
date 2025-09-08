@@ -411,7 +411,7 @@ def simulate_entropy_tracking():
     for key, value in stats.items():
         print(f"   {key}: {value}")
 
-    print(f"\n🌀 Drift Vector: {' → '.join(tracker.get_drift_vector()}")
+    print(f"\n🌀 Drift Vector: {' → '.join(tracker.get_drift_vector())}")
 
     # Export report
     report = tracker.export_report()

@@ -89,10 +89,10 @@ class TestAPIBackendSystems(unittest.TestCase):
         try:
             # Mock API endpoint testing
             mock_endpoints = {
-                "/health": {"method": "GET", "response": {"status": "healthy"},
-                "/consciousness": {"method": "GET", "response": {"state": "active"},
-                "/identity/auth": {"method": "POST", "response": {"authenticated": True},
-                "/memory/store": {"method": "POST", "response": {"stored": True},
+                "/health": {"method": "GET", "response": {"status": "healthy"}},
+                "/consciousness": {"method": "GET", "response": {"state": "active"}},
+                "/identity/auth": {"method": "POST", "response": {"authenticated": True}},
+                "/memory/store": {"method": "POST", "response": {"stored": True}},
             }
 
             # Test endpoint structure

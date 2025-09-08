@@ -588,7 +588,7 @@ def run_priority3_tests():
         TestCrossSystemIntegration,
     ]
 
-    results = {"total_tests": 0, "passed_tests": 0, "failed_tests": 0, "skipped_tests": 0, "system_results": {}
+    results = {"total_tests": 0, "passed_tests": 0, "failed_tests": 0, "skipped_tests": 0, "system_results": {}}
 
     for test_class in test_classes:
         system_name = test_class.__name__.replace("Test", "").replace("Systems", " System")

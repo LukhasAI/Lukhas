@@ -603,7 +603,7 @@ class GuardianDashboard:
             )
 
             # Uptime
-            uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60)}:02d}"
+            uptime_str = f"{int(self.current_metrics.uptime // 3600):02d}:{int((self.current_metrics.uptime % 3600) // 60):02d}:{int(self.current_metrics.uptime % 60):02d}"
             print(Console.move_cursor(8, 5), end="")
             print(f"Uptime: {Console.CYAN}{uptime_str}{Console.RESET}", end="")
 
@@ -752,7 +752,7 @@ class GuardianDashboard:
         # Prediction results
         print(Console.move_cursor(7, 5), end="")
         print(
-            f"Prediction Confidence: {analysis.get('prediction_confidence', 0)}:.1%}",
+            f"Prediction Confidence: {analysis.get('prediction_confidence', 0):.1%}",
             end="",
         )
 

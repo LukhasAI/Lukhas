@@ -47,7 +47,7 @@ async def demonstrate_basic_memory():
     print("🌊 Memory has drifted:")
     print(f"   Original: {' → '.join(origin_glyphs)}")
     print(f"   Current:  {' → '.join(drifted_glyphs)}")
-    print(f"   Drift score: {memory.helix_core.calculate_drift()}:.3f}")
+    print(f"   Drift score: {memory.helix_core.calculate_drift():.3f}")
 
     # Repair memory
     if memory.helix_core.should_repair():
@@ -57,7 +57,7 @@ async def demonstrate_basic_memory():
         repaired = list(memory.helix_core.current.sequence)
         print("✅ Memory repaired:")
         print(f"   Repaired: {' → '.join(repaired)}")
-        print(f"   New drift: {memory.helix_core.calculate_drift()}:.3f}")
+        print(f"   New drift: {memory.helix_core.calculate_drift():.3f}")
 
         # Show repair history
         repair = memory.helix_core.repair_history[-1]
@@ -98,8 +98,8 @@ async def demonstrate_multi_context_memory():
 
     # Calculate multi-dimensional coherence
     print("\n🔮 Memory coherence analysis:")
-    print(f"   Core drift: {memory.helix_core.calculate_drift()}:.3f}")
-    print(f"   Entropy: {memory.origin_strand.entropy()}:.3f}")
+    print(f"   Core drift: {memory.helix_core.calculate_drift():.3f}")
+    print(f"   Entropy: {memory.origin_strand.entropy():.3f}")
     print("   Immutability: ✅ Origin preserved")
 
 
@@ -206,7 +206,7 @@ async def demonstrate_memory_vault():
         )
 
         print("\n🌊 Trauma memory drift detected:")
-        print(f"   Drift level: {trauma_memory.helix_core.calculate_drift()}:.3f}")
+        print(f"   Drift level: {trauma_memory.helix_core.calculate_drift():.3f}")
 
         # Use consensus repair from other episodic memories
         print("   🤝 Attempting consensus repair...")
@@ -260,7 +260,7 @@ async def demonstrate_gdpr_compliance():
     memory.lock("GDPR Article 17 - User request for erasure")
 
     print(f"   Memory locked: {memory.locked}")
-    print(f"   Lock reason: {[t for t in memory.tags if t.startswith('locked:')}]}")
+    print(f"   Lock reason: {[t for t in memory.tags if t.startswith('locked:')]}")
 
     # Attempt access after lock
     print("\n❌ Attempting access after lock:")
@@ -327,7 +327,7 @@ async def demonstrate_repair_loop():
             print("   ⚠️  Drift exceeds threshold!")
             print("   ⏳ Waiting for auto-repair...")
             await asyncio.sleep(2)
-            print(f"   ✅ Post-repair drift: {helix.calculate_drift()}:.3f}")
+            print(f"   ✅ Post-repair drift: {helix.calculate_drift():.3f}")
 
     await repair_loop.stop()
 

@@ -8,6 +8,7 @@ import streamlit as st
 import asyncio
 import json
 import logging
+import sys
 import time
 import uuid
 from dataclasses import asdict, dataclass, field
@@ -555,7 +556,7 @@ class ConsentEscalationResolver:
         for rule in sorted_rules:
             try:
                 # Evaluate rule condition
-                if eval(rule.condition, {"__builtins__": {}, eval_context):
+                if eval(rule.condition, {"__builtins__": {}}, eval_context):
                     logger.info(f"Escalation rule '{rule.rule_id}' triggered for request {request.id}")
 
                     return {

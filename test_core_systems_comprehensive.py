@@ -342,7 +342,7 @@ class TestGLYPHCommunication:
 
             # Test successful response
             response = create_response_glyph(
-                request=request, symbol=GLYPHSymbol.SUCCESS, payload={"user_data": {"name": "Test User", "tier": 1}
+                request=request, symbol=GLYPHSymbol.SUCCESS, payload={"user_data": {"name": "Test User", "tier": 1}}
             )
 
             if response.source != request.target:

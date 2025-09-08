@@ -415,7 +415,7 @@ async def test_consciousness_performance_benchmarks():
         logger.info("📊 Concurrent processing results:")
         logger.info(f"   - Total time for 10 concurrent: {total_concurrent_time:.2f}ms")
         logger.info(f"   - Average individual time: {avg_individual_time:.2f}ms")
-        logger.info(f"   - Concurrency efficiency: {(avg_individual_time * 10)} / total_concurrent_time:.2f}x")
+        logger.info(f"   - Concurrency efficiency: {(avg_individual_time * 10) / total_concurrent_time:.2f}x")
         logger.info(f"   - All tests successful: {all(r['status'] == 'success' for r in concurrent_results)}")
 
         print("✅ PERFORMANCE BENCHMARKS: COMPLETED")

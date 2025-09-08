@@ -272,7 +272,7 @@ class EnterpriseDemo:
 
         print(f"\n✅ Processed {len(feedback_batch)} feedback items")
         print(f"   Total time: {processing_time:.2f} seconds")
-        print(f"   Rate: {len(feedback_batch)} / processing_time:.1f} feedback/second")
+        print(f"   Rate: {len(feedback_batch) / processing_time:.1f} feedback/second")
 
         # Show scale metrics
         if self.unified_system.scale_infrastructure:

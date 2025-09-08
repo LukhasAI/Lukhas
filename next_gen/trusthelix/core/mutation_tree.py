@@ -291,9 +291,9 @@ class SymbolicMutationTree:
         lines = ["🌳 TrustHelix Consent Tree"]
         lines.append("=" * 40)
         lines.append(f"Genesis: {self.genesis_hash[:16]}...")
-        lines.append(f"Current Drift: {self.current_drift:.3f} {self.get_drift_state()}.value}")
+        lines.append(f"Current Drift: {self.current_drift:.3f} {self.get_drift_state().value}")
         lines.append(f"Mutations: {len(self.mutation_history)}")
-        lines.append(f"Entropy: {self.calculate_entropy()}:.3f}")
+        lines.append(f"Entropy: {self.calculate_entropy():.3f}")
         lines.append("")
 
         # Show recent mutations
@@ -326,4 +326,4 @@ if __name__ == "__main__":
     # Show results
     print(helix.visualize_tree())
     print(f"\nFinal glyphs: {' '.join(glyphs)}")
-    print(f"Final drift state: {helix.get_drift_state()}.value}")
+    print(f"Final drift state: {helix.get_drift_state().value}")

@@ -174,7 +174,7 @@ class ConsciousnessBroadcaster:
 
         # Create privacy mask
         mask_content = f"{new_state}_{datetime.now(timezone.utc).isoformat()}_{random.random()}"
-        privacy_mask = f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest()}[:16]}..."
+        privacy_mask = f"SHA3-256:{hashlib.sha3_256(mask_content.encode()).hexdigest()[:16]}..."
 
         return ConsciousnessState(
             current_state=new_state,

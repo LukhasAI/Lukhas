@@ -212,7 +212,7 @@ class IntegratedLukhasDemo:
 
         # System health
         health = dashboard["system_health"]
-        print(f"\n🏥 System Status: {(health['operational'] and 'Operational')} or 'Degraded'}")
+        print(f"\n🏥 System Status: {('Operational' if health['operational'] else 'Degraded')}")
 
         # Feedback summary
         if dashboard.get("feedback_summary"):

@@ -100,7 +100,7 @@ async def test_consciousness_emergence():
         logger.info("✅ Performance test complete:")
         logger.info(f"   - Average cycle time: {avg_cycle_time:.2f}ms")
         logger.info(f"   - Average coherence: {avg_coherence:.3f}")
-        logger.info(f"   - Coherence range: {min(coherence_scores):.3f} - {max(coherence_scores)}:.3f}")
+        logger.info(f"   - Coherence range: {min(coherence_scores):.3f} - {max(coherence_scores):.3f}")
 
         # Final system status
         final_status = system.get_system_status()
