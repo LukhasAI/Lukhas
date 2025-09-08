@@ -1,0 +1,31 @@
+{
+  "name": "lukhas-trinity-mcp",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "LUKHAS AI Trinity Framework MCP Server for Claude Desktop - Access to Identity (Anchor), Consciousness (Processing), Guardian (Protection) systems and full 8-star Constellation Framework",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node --loader ts-node/esm src/server.ts",
+    "lint": "eslint . --ext .ts",
+    "test": "node --loader ts-node/esm scripts/test.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.8",
+    "fs-extra": "^11.2.0",
+    "yaml": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.12.12",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
+  },
+  "ts-node": {
+    "esm": true
+  }
+}

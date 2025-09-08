@@ -133,7 +133,7 @@ class ToolLearner:
     async def learn_tool_usage(self, context: ToolLearningContext) -> ToolLearningResult:
         """Learn optimal tool usage for a given context."""
         
-        learning_id = f"tool_learn_{int(datetime.now(timezone.utc).timestamp() * 1000}"
+        learning_id = f"tool_learn_{int(datetime.now(timezone.utc).timestamp() * 1000)}"
         
         try:
             # Analyze historical performance

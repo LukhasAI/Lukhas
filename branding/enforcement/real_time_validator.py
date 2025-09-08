@@ -3,11 +3,14 @@ LUKHAS Real-Time Brand Validator - Trinity Framework (⚛️🧠🛡️)
 Live brand compliance checking and automatic correction system
 """
 import asyncio
+import logging
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+logger = logging.getLogger(__name__)
 
 
 

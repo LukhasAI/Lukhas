@@ -1,7 +1,7 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { statRel, listDir, searchFiles, getFile, SearchSchema } from "./fsTools.js";
+import { getFile, listDir, searchFiles, SearchSchema, statRel } from "./fsTools.js";
 
 const server = new Server(
   {

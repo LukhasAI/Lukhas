@@ -196,7 +196,7 @@ async def chat(request: ChatRequest):
         )
 
         # Get or create session ID
-        session_id = request.session_id or f"session_{uuid.uuid4(}.hex[:8]}"
+        session_id = request.session_id or f"session_{uuid.uuid4().hex[:8]}"
 
         # Get metadata if available
         metadata = None

@@ -188,9 +188,8 @@ def show_development_timeline():
         for task in tasks:
             print(f"  • {task}")
 
-    print(
-        f"\n📊 Current Status: Phase 1 Complete - {len(timeline['✅ Phase 1 - Core Infrastructure (COMPLETED)']} major components delivered"
-    )
+    phase_1_count = len(timeline['✅ Phase 1 - Core Infrastructure (COMPLETED)'])
+    print(f"\n📊 Current Status: Phase 1 Complete - {phase_1_count} major components delivered")
     print("🎯 Ready for Phase 2 integration and testing!")
 
 

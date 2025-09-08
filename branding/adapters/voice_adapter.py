@@ -75,7 +75,7 @@ try:
             marker = emotion_markers.get(emotion, "")
             end_marker = "</prosody>" if marker else ""
 
-            return f"{marker}{content}{end_marker}"
+            return f"{marker}{text}{end_marker}"
 
     class VoiceIntegration:
         def __init__(self):

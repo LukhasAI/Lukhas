@@ -193,8 +193,8 @@ class BrandAutomationEngine:
         # Log results
         db.log_system_activity(
             "brand_automation",
-            "voice_coherence_check",
-            fix_later,
+            "voice_coherence_check", 
+            "automated_processing",
             fixes_applied,
         )
 
@@ -320,7 +320,7 @@ class BrandAutomationEngine:
                 post_id = db.save_generated_content(
                     system_name="social_automation",
                     content_type=f"{platform}_post",
-                    title=fix_later,
+                    title=f"Generated {platform} post",
                     content=post_content,
                     voice_coherence=85.0,
                 )
@@ -496,7 +496,7 @@ class BrandAutomationEngine:
                     task.success_rate = max(task.success_rate - 5, 0.0)
 
             except Exception as e:
-                self.logger.error(fix_later)
+                self.logger.error(f"Brand automation error: {e}")
                 cycle_results[task.task_id] = {"error": str(e)}
                 task.success_rate = max(task.success_rate - 10, 0.0)
 
@@ -579,7 +579,7 @@ async def main():
         if "error" not in result:
             print(f"   ✅ {task_id}: Success")
         else:
-            print(fix_later)
+            print(f"   ❌ {task_id}: Failed")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Brand Automation Active")
 

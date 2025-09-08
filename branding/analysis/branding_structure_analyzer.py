@@ -145,7 +145,7 @@ class BrandingStructureAnalyzer:
                 }
 
             except Exception as e:
-                print(fix_later)
+                print(f"Error in branding structure analysis: {e}")
 
         return {"classes": classes, "functions": functions, "modules": modules}
 

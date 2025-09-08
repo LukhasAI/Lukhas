@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-log = logging.getLogger(__name__)
 import logging
+
+logger = logging.getLogger(__name__)
 
 
 

@@ -205,7 +205,7 @@ async def main():
     options = InitializationOptions(
         server_name="lukhas-consciousness",
         server_version="1.0.0",
-        capabilities={"resources": {}, "tools": {},
+        capabilities={"resources": {}, "tools": {}},
     )
 
     # Run server

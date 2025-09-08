@@ -1,13 +1,26 @@
-import path from "node:path";
-import fs from "fs-extra";
 import fg from "fast-glob";
-import { z } from "zod";
-import stripBom from "strip-bom";
+import fs from "fs-extra";
 import lunr from "lunr";
+import path from "node:path";
+import stripBom from "strip-bom";
+import { z } from "zod";
 
 const ROOT = process.env.MCP_FS_ROOT || "/Users/agi_dev/LOCAL-REPOS/Lukhas";
 const MAX_BYTES = parseInt(process.env.MCP_MAX_BYTES || "2097152"); // 2 MB read cap
-const TEXT_EXT = new Set([".md", ".txt", ".ts", ".tsx", ".js", ".jsx", ".py", ".json", ".yaml", ".yml", ".toml", ".css", ".scss"]);
+const TEXT_EXT = new Set([
+  // Documentation & Text
+  ".md", ".txt", ".rst", ".adoc",
+  // Source Code
+  ".ts", ".tsx", ".js", ".jsx", ".py", ".rs", ".go", ".java", ".cpp", ".c", ".h",
+  // Configuration Files
+  ".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".config",
+  // Web & Styling
+  ".css", ".scss", ".sass", ".less", ".html", ".htm", ".xml", ".svg",
+  // Build & Package Configs
+  ".lock", ".gitignore", ".gitattributes", ".editorconfig", ".prettierrc",
+  // Other Config Extensions
+  ".properties", ".env.example", ".env.template", ".env.sample"
+]);
 
 // Security: Denylist sensitive paths
 const DENYLIST = ["secrets/", "keys/", ".env", ".env.*", "*.key", "*.pem", "*.p12"];

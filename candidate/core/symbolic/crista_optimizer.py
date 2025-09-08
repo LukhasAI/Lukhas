@@ -350,7 +350,7 @@ class SymbolicNetwork:
         # ΛNOTE: Relinking logic for drifted edges is currently basic (removal).
         # Future enhancements could include finding nearest neighbors.
         self.logger.info(
-            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections}."
+            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections)}."
         )
 
 
@@ -396,13 +396,13 @@ class TopologyManager:
             / max(num_nodes, 1),  # Avoid division by zero
             "avg_error": (
                 np.mean([node.error_level for node in self.network.nodes.values()])
-                if num_nodes:
-                else 0.0:
+                if num_nodes
+                else 0.0
             ),
             "avg_activity": (
                 np.mean([node.activity_level for node in self.network.nodes.values()])
-                if num_nodes:
-                else 0.0:
+                if num_nodes
+                else 0.0
             ),
             "total_entropy": sum(node.entropy for node in self.network.nodes.values()),
         }
@@ -509,7 +509,7 @@ class CristaOptimizer:
         if error_signal > self.config.fission_threshold:
             result = self._induce_fission()
             operation_type_str = OptimizationMode.FISSION.value
-        elif (:
+        elif (
             error_signal < self.config.fusion_threshold
         ):  # Assuming error can be low, indicating underutilization
             result = self._induce_fusion()
@@ -601,7 +601,7 @@ class CristaOptimizer:
                 # Remove original node and add its children to the network
                 self.network.remove_node(node.node_id)
                 for child in child_nodes:
-                    self.network.add_node(child}
+                    self.network.add_node(child)
                 nodes_split_count += 1
             else:
                 self.logger.warning(
@@ -659,7 +659,7 @@ class CristaOptimizer:
         )
 
         self.logger.info(
-            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}. Nodes affected: {nodes_affected_count}."
+            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs)}. Nodes affected: {nodes_affected_count}."
         )
         return {
             "success": True,

@@ -428,7 +428,7 @@ class VoiceCoherenceAnalyzer:
                 coherence_scores.append(analysis.coherence_metrics.overall_coherence)
 
             except Exception as e:
-                print(fix_later)
+                print(f"Error in voice coherence analysis: {e}")
 
         # Calculate system-wide metrics
         if coherence_scores:
@@ -465,7 +465,7 @@ class VoiceCoherenceAnalyzer:
                         if file_path.stat().st_size < 1024 * 1024:
                             content_files.append(file_path)
         except Exception as e:
-            print(fix_later)
+            print(f"Error scanning content files: {e}")
 
         return content_files[:20]  # Limit to 20 files per system for performance
 

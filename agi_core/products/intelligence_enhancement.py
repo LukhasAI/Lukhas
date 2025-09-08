@@ -625,7 +625,7 @@ class AGIEnhancedArgus:
             insights = [
                 {
                     "type": "monitoring_overview",
-                    "description": f"System health analysis with {len(monitoring_data.get('metrics', {)}))} metrics",
+                    "description": f"System health analysis with {len(monitoring_data.get('metrics', {}))} metrics",
                     "details": {
                         "total_metrics": len(monitoring_data.get("metrics", {})),
                         "anomalies_detected": len(anomaly_analysis.get("anomalies", [])),

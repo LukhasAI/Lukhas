@@ -5,15 +5,19 @@
   "private": true,
   "scripts": {
     "build": "tsc -p .",
-    "start": "ts-node src/server.ts",
+    "start": "node --loader ts-node/esm src/server.ts",
+    "start:oauth": "node --loader ts-node/esm src/server-oauth-basic.ts",
+    "start:ultimate": "node --loader ts-node/esm src/ultimateServer.ts",
+    "start:ultimate-built": "node dist/ultimateServer.js",
     "lint": "eslint . --ext .ts",
-    "smoke": "ts-node scripts/smoke.ts",
-    "fuzz": "ts-node scripts/fuzz.ts"
+    "smoke": "node --loader ts-node/esm scripts/smoke.ts",
+    "fuzz": "node --loader ts-node/esm scripts/fuzz.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
+    "jose": "^5.10.0",
     "lunr": "^2.3.9",
     "p-limit": "^5.0.0",
     "strip-bom": "^5.0.0",
@@ -28,5 +32,8 @@
     "eslint": "^9.5.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.0"
+  },
+  "ts-node": {
+    "esm": true
   }
 }

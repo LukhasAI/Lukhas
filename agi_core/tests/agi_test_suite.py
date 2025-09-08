@@ -353,7 +353,7 @@ class AGITestSuite:
             self.current_results = None
 
         logger.info(f"AGI test suite completed: {suite_id}")
-        logger.info(f"Overall score: {result.overall_score:.3f}, Pass rate: {result.get_pass_rate()}:.3f}")
+        logger.info(f"Overall score: {result.overall_score:.3f}, Pass rate: {result.get_pass_rate():.3f}")
 
         return result
 

@@ -97,7 +97,7 @@ def get_api_status():
         "module": "LUKHAS API",
         "total_apis": total_count,
         "available_apis": available_count,
-        "availability_rate": f"{(available_count/total_count}*100:.1f}%",
+        "availability_rate": f"{(available_count/total_count)*100:.1f}%",
         "trinity_compliance": "⚛️🧠🛡️",
         "apis": API_REGISTRY
     }

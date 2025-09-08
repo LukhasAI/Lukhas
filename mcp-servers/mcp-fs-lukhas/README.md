@@ -1,14 +1,23 @@
 # mcp-fs-lukhas
 
-MCP FileSystem server exposing read-only, safe tools for the Lukhas repo:
+MCP FileSystem server exposing comprehensive read-only audit tools for the Lukhas repo:
 
 - **stat(rel)** - Get metadata about a file or directory
 - **list_dir(rel)** - List entries in a directory 
-- **search(query, glob?, limit?)** - Full-text search across allowed text files
-- **get_file(rel)** - Retrieve a small text file
+- **search(query, glob?, limit?)** - Full-text search across all allowed file types
+- **get_file(rel)** - Retrieve text files with automatic credential redaction
 
 Root is hard-locked to `/Users/agi_dev/LOCAL-REPOS/Lukhas`.
-Binary files and large files are blocked. Path traversal is prevented.
+Optimized for **comprehensive config and code auditing** by AI assistants.
+
+## 📁 Supported File Types (Comprehensive Config Audit)
+
+**Source Code:** `.ts`, `.tsx`, `.js`, `.jsx`, `.py`, `.rs`, `.go`, `.java`, `.cpp`, `.c`, `.h`
+**Configuration:** `.json`, `.yaml`, `.yml`, `.toml`, `.ini`, `.cfg`, `.conf`, `.config`, `.properties`
+**Build Files:** `.lock`, `.gitignore`, `.gitattributes`, `.editorconfig`, `.prettierrc`
+**Documentation:** `.md`, `.txt`, `.rst`, `.adoc`
+**Web/Styling:** `.css`, `.scss`, `.sass`, `.less`, `.html`, `.htm`, `.xml`, `.svg`
+**Safe Environment Templates:** `.env.example`, `.env.template`, `.env.sample`
 
 ## Security Features
 
@@ -110,7 +119,35 @@ Once connected, try these commands in a fresh ChatGPT conversation:
 
 4. **Find patterns:**
    ```
+   4. **Find patterns:**
+   ```
    Search for "Trinity Framework" and show me the top 3 most relevant files
+   ```
+
+## Threat Model Notes
+
+**Goal:** Read-only, bounded, non-exfiltrating connector for safe AI access to LUKHAS codebase.
+
+**Assumptions:** 
+- The AI model can request arbitrary files by relative path
+- We restrict access to allowlisted root directory only
+- File size and type restrictions prevent abuse
+
+**Defenses:**
+- **Path traversal guard** - Resolves and validates all paths
+- **Denylist enforcement** - Blocks sensitive directories and files  
+- **Credential redaction** - Strips secrets from file contents
+- **Rate limiting** - Prevents request flooding
+- **Size/type caps** - Limits resource consumption
+- **Audit logging** - Tracks all access attempts
+- **No write tools** - Read-only access only
+
+**Residual Risks:**
+- Secrets stored inside allowed text files may be visible
+- Consider keeping secrets outside repo or in `.git-crypt`/external vault
+- AI model could request large numbers of files (mitigated by rate limiting)
+
+## Architecture
    ```
 
 ## Threat Model Notes

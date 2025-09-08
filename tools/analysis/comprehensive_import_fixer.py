@@ -360,16 +360,16 @@ class ImportErrorFixer:
                 init_file = current_path / "__init__.py"
                 if not init_file.exists():
                     with open(init_file, "w", encoding="utf-8") as f:
-                        f.write(f\'"""\n{part.title()} Module\n"""\n\n\')
+                        f.write(f'"""\n{part.title()} Module\n"""\n\n')
 
-                    logger.info(f"✅ Created module structure: {current_path.relative_to(self.root_path}}")
+                    logger.info(f"✅ Created module structure: {current_path.relative_to(self.root_path)}")
 
     def report_external_modules(self, external_modules: dict[str, list[str]]) -> None:
         """Report external modules that need to be installed"""
         if external_modules:
             logger.info("📦 External modules that may need installation:")
             for module_name, files in list(external_modules.items())[:10]:  # Show first 10
-                logger.info(f"   • {module_name} (used in {len(files}} files)")
+                logger.info(f"   • {module_name} (used in {len(files)} files)")
 
     def create_missing_init_files(self) -> None:
         """Create missing __init__.py files"""

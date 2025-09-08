@@ -431,7 +431,7 @@ def main():
             for error in errors[:5]:
                 print(f"   • {error['file']}:{error['line']} - {error['error']}")
             if len(errors) > 5:
-                print(f"   ... and {len(errors)} - 5} more")
+                print(f"   ... and {len(errors) - 5} more")
 
     # Show common patterns
     print("\n📋 Common Patterns:")

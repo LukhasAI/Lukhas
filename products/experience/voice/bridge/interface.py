@@ -244,7 +244,7 @@ class VoiceNode:
             text = "Hello, I am Lukhas."
 
         # Create synthesis ID for tracking
-        synthesis_id = f"synth_{int(time.time())}_{str(uuid.uuid4()}[:8]}"
+        synthesis_id = f"synth_{int(time.time())}_{str(uuid.uuid4())[:8]}"
 
         # Safety check first
         safety_result = self.safety_filter.check_content(text, context)
@@ -284,8 +284,8 @@ class VoiceNode:
                         "emotion": emotion,
                         "context": {
                             k: v
-                            for k, v in context.items():
-                            if isinstance(v, (str, int, float, bool)):
+                            for k, v in context.items()
+                            if isinstance(v, (str, int, float, bool))
                         },
                     }
                 )
@@ -320,7 +320,7 @@ class VoiceNode:
                         )
 
                 # Check if we should be curious about pronunciation
-                if random.random() < 0.15 and context.get(:
+                if random.random() < 0.15 and context.get(
                     "enable_word_curiosity", True
                 ):
                     curious_word = self.memory_helix.get_curious_word()
@@ -377,7 +377,7 @@ class VoiceNode:
         self.last_used_profile = profile
 
         # Generate unique audio ID
-        audio_id = f"lukhas_voice_{int(time.time())}_{str(uuid.uuid4()}[:8]}"
+        audio_id = f"lukhas_voice_{int(time.time())}_{str(uuid.uuid4())[:8]}"
 
         # Get voice parameters based on emotion and profile
         voice_params = self._get_voice_parameters(profile, emotion, actor)
@@ -412,7 +412,7 @@ class VoiceNode:
 
         # Try synthesis with selected provider
         try:
-            if (:
+            if (
                 selected_provider == "elevenlabs"
                 and self.voice_providers["elevenlabs"]["enabled"]
             ):
@@ -423,14 +423,14 @@ class VoiceNode:
                 # Generate audio file path
 
                 logger.info(
-                    f"Synthesized voice with ElevenLabs, profile {profile.name},"
-                    emotion {emotion}"
+                    f"Synthesized voice with ElevenLabs, profile {profile.name}, "
+                    f"emotion {emotion}"
                 )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path
                 synthesis_entry["audio_id"] = audio_id
 
-            elif (:
+            elif (
                 selected_provider == "coqui"
                 and self.voice_providers["coqui"]["enabled"]
             ):
@@ -438,14 +438,14 @@ class VoiceNode:
                 self.voice_providers["coqui"]
 
                 logger.info(
-                    f"Synthesized voice with Coqui TTS, profile {profile.name},
-                    emotion {emotion}"
+                    f"Synthesized voice with Coqui TTS, profile {profile.name}, "
+                    f"emotion {emotion}"
                 )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path
                 synthesis_entry["audio_id"] = audio_id
 
-            elif (:
+            elif (
                 selected_provider == "edge_tts"
                 and self.voice_providers["edge_tts"]["enabled"]
             ):
@@ -453,8 +453,8 @@ class VoiceNode:
                 self.voice_providers["edge_tts"]
 
                 logger.info(
-                    f"Synthesized voice with Edge TTS, profile {profile.name},
-                    emotion {emotion}"
+                    f"Synthesized voice with Edge TTS, profile {profile.name}, "
+                    f"emotion {emotion}"
                 )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path
@@ -463,8 +463,8 @@ class VoiceNode:
             else:
                 # Fallback to system TTS
                 logger.info(
-                    f"Synthesized voice with system TTS, profile {profile.name},
-                    emotion {emotion}"
+                    f"Synthesized voice with system TTS, profile {profile.name}, "
+                    f"emotion {emotion}"
                 )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path
@@ -479,8 +479,8 @@ class VoiceNode:
             try:
                 # This would use system TTS
                 logger.info(
-                    f"Falling back to system TTS, profile {profile.name},
-                    emotion {emotion}"
+                    f"Falling back to system TTS, profile {profile.name}, "
+                    f"emotion {emotion}"
                 )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path.replace(
@@ -493,8 +493,8 @@ class VoiceNode:
                 logger.error(f"System TTS fallback failed: {e2}")
                 synthesis_entry["status"] = "error"
                 synthesis_entry["message"] = (
-                    f"All synthesis methods failed. Original error: {e},
-                    Fallback error: {e2}"
+                    f"All synthesis methods failed. Original error: {e}, "
+                    f"Fallback error: {e2}"
                 )
                 return synthesis_entry
 
@@ -637,7 +637,7 @@ class VoiceNode:
             ),
             "providers": {
                 name: {"enabled": config["enabled"]}
-                for name, config in self.voice_providers.items():
+                for name, config in self.voice_providers.items()
             },
         }
 
@@ -688,7 +688,7 @@ class VoiceNode:
 
         return provider
 
-    def _get_voice_parameters(:
+    def _get_voice_parameters(
         self, profile: VoiceProfile, emotion: str, actor: str
     ) -> dict[str, Any]:
         """
@@ -818,8 +818,8 @@ class VoiceNode:
 
             country_code = (
                 location.get("country_code")
-                if isinstance(location, dict):
-                else str(location)[:2].upper():
+                if isinstance(location, dict)
+                else str(location)[:2].upper()
             )
             if country_code in accent_map:
                 logger.debug(
@@ -828,7 +828,7 @@ class VoiceNode:
                 return accent_map[country_code]
 
         # If no accent detected but we have a memory helix with accent data
-        if (:
+        if (
             self.memory_helix
             and hasattr(self.memory_helix, "accent_memory")
             and self.memory_helix.accent_memory
@@ -836,7 +836,7 @@ class VoiceNode:
             # Use the most common accent in our memory
             accent_counts = {
                 name: len(data.get("example_words", []))
-                for name, data in self.memory_helix.accent_memory.items():
+                for name, data in self.memory_helix.accent_memory.items()
             }
 
             if accent_counts:

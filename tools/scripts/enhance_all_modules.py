@@ -310,8 +310,7 @@ docs:
                                         sys.path.insert(0, str(Path(__file__).parent.parent))
                                         '''
 
-                                        with open(f"{module_name}/tests/__init__.py",
-    'w') as f:
+        with open(f"{module_name}/tests/__init__.py", 'w') as f:
             f.write(test_init)
 
         # Unit test example
@@ -355,13 +354,13 @@ docs:
         import os
 
         submodule_path = os.path.join(os.path.dirname(__file__), '..', submodule)
-        assert os.path.exists(submodule_path), f"Submodule {{submodule} directory not found"
+        assert os.path.exists(submodule_path), f"Submodule {submodule} directory not found"
 
         init_path = os.path.join(submodule_path, '__init__.py')
-        assert os.path.exists(init_path), f"Submodule {{submodule} missing __init__.py"
-                                                                    '''
+        assert os.path.exists(init_path), f"Submodule {submodule} missing __init__.py"
+        '''
 
-                                                                    with open(f"{module_name}/tests/unit/test_core.py", 'w') as f:
+        with open(f"{module_name}/tests/unit/test_core.py", 'w') as f:
             f.write(unit_test)
 
         # Integration test example

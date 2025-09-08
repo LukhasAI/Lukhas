@@ -1,4 +1,4 @@
-import { statRel, listDir, searchFiles, getFile } from "../src/fsTools.js";
+import { getFile, listDir, searchFiles, statRel } from "../src/fsTools.js";
 
 async function smokeTest() {
   console.log("🧪 Running smoke tests for mcp-fs-lukhas...\n");

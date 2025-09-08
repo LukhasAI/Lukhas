@@ -389,7 +389,7 @@ class LearningAssistant:
         if kb_results["concepts"]:
             confidence += 0.1
 
-        return min(confidence, 0.95# Cap at 95%
+        return min(confidence, 0.95)  # Cap at 95%
 
     def _format_sources(
         self, entries: list[JournalEntry], kb_results: dict[str, Any]
@@ -531,20 +531,20 @@ class LearningAssistant:
 
         # Increase based on experience
         if len(skill_entries) > 0:
-            level += min(len(skill_entries) // 5, 3# Up to +3 for frequency
+            level += min(len(skill_entries) // 5, 3)  # Up to +3 for frequency
 
         # Check for successful applications
         successes = [
             e for e in skill_entries if e.metadata.get("category") == "success"
         ]
         if successes:
-            level += min(len(successes) // 2, 3# Up to +3 for successes
+            level += min(len(successes) // 2, 3)  # Up to +3 for successes
 
         # Check for teaching/explaining (higher level skill)
         explanations = [
             e
-            for e in skill_entries:
-            if "explain" in e.content.lower() or "how" in e.content.lower():
+            for e in skill_entries
+            if "explain" in e.content.lower() or "how" in e.content.lower()
         ]
         if explanations:
             level += 1
@@ -553,8 +553,8 @@ class LearningAssistant:
         complex_indicators = ["advanced", "complex", "optimize", "architect", "design"]
         complex_entries = [
             e
-            for e in skill_entries:
-            if any(ind in e.content.lower() for ind in complex_indicators):
+            for e in skill_entries
+            if any(ind in e.content.lower() for ind in complex_indicators)
         ]
         if complex_entries:
             level += 1
@@ -595,7 +595,7 @@ class LearningAssistant:
 
         growth_rate = (
             (current_level - first_level) / max(time_span, 1) * 30
-        # Per month
+        )  # Per month
 
         return {
             "trend": "improving" if growth_rate > 0 else "stable",
@@ -677,7 +677,7 @@ class LearningAssistant:
             milestone = {
                 "week": week + 1,
                 "milestone": self._generate_weekly_milestone(goals, week),
-                "check_in": f"Reflect on {goals[week % len(goals)}]} progress",
+                "check_in": f"Reflect on {goals[week % len(goals)]} progress",
             }
             plan["weekly_milestones"].append(milestone)
 
@@ -869,7 +869,7 @@ class LearningAssistant:
         # Pick based on day
         import random
 
-        random.seed(datetime.now(timezone.utc).toordinal()# Same tip for same day
+        random.seed(datetime.now(timezone.utc).toordinal())  # Same tip for same day
         return random.choice(tips)
 
     def mentor_response(self, situation: str) -> str:
@@ -888,7 +888,7 @@ class LearningAssistant:
             return self._mentor_for_failures(situation)
         elif any(
             word in situation_lower
-            for word in ["choice", "decide", "option", "alternative"]:
+            for word in ["choice", "decide", "option", "alternative"]
         ):
             return self._mentor_for_decisions(situation)
         elif any(

@@ -244,7 +244,7 @@ async def _setup_services():
 
     # Mock emotion service
     mock_emotion = Mock()
-    mock_emotion.analyze_text = AsyncMock(return_value={"emotions": {"joy": 0.5, "trust": 0.7, "anticipation": 0.6})
+    mock_emotion.analyze_text = AsyncMock(return_value={"emotions": {"joy": 0.5, "trust": 0.7, "anticipation": 0.6}})
 
     # Mock audit service
     mock_audit = Mock()
@@ -301,9 +301,9 @@ async def integrated_chat(request: IntegratedChatRequest):
             raise HTTPException(status_code=503, detail="Consciousness interface not available")
 
         # Generate IDs
-        session_id = request.session_id or f"session_{uuid.uuid4(}.hex[:8]}"
-        action_id = f"action_{uuid.uuid4(}.hex[:12]}"
-        decision_id = f"decision_{uuid.uuid4(}.hex[:12]}"
+        session_id = request.session_id or f"session_{uuid.uuid4().hex[:8]}"
+        action_id = f"action_{uuid.uuid4().hex[:12]}"
+        decision_id = f"decision_{uuid.uuid4().hex[:12]}"
 
         # Process through NL interface
         response_text = await nl_interface.process_input(

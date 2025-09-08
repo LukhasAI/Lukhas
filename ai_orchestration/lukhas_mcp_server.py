@@ -269,7 +269,7 @@ class LUKHASConsciousnessMCP:
                                 "type": "string",
                                 "description": "Task description",
                             },
-                            "modules": {"type": "array", "items": {"type": "string"},
+                            "modules": {"type": "array", "items": {"type": "string"}},
                             "priority": {
                                 "type": "string",
                                 "enum": [

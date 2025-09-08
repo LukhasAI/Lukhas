@@ -440,7 +440,7 @@ class ChainOfThought:
             reasoning=assessment,
             confidence=final_confidence,
             evidence=[
-                f"Step confidences: {[round(c, 2} for c in step_confidences]}",
+                f"Step confidences: {[round(c, 2) for c in step_confidences]}",
                 f"Dream contributions: {chain.dream_contributions}",
                 f"Total assumptions: {assumption_count}",
             ],

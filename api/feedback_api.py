@@ -282,7 +282,7 @@ async def submit_quick_feedback(request: QuickFeedbackRequest):
 
         # Convert to standard feedback
         rating = 5 if request.thumbs_up else 1
-        session_id = request.session_id or f"quick_{uuid.uuid4(}.hex[:8]}"
+        session_id = request.session_id or f"quick_{uuid.uuid4().hex[:8]}"
 
         feedback_id = await feedback_system.collect_feedback(
             user_id=request.user_id,

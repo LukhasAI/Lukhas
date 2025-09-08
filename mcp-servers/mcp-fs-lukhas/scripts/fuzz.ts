@@ -1,4 +1,4 @@
-import { statRel, listDir, getFile } from "../src/fsTools.js";
+import { getFile, listDir, statRel } from "../src/fsTools.js";
 
 async function fuzzTest() {
   console.log("🔥 Running fuzz tests for mcp-fs-lukhas...\n");
