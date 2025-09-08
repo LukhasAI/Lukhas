@@ -5,12 +5,12 @@ LUKHAS AI ΛBot Status Bar Customizer
 Interactive tool to customize your LUKHAS AI ΛBot status bar appearance and behavior.
 Apply changes instantly to see the results.
 """
-import streamlit as st
-
 import json
 import sys
 from datetime import datetime
 from pathlib import Path
+
+import streamlit as st
 
 
 class BotCustomizer:
@@ -315,11 +315,11 @@ class BotCustomizer:
             "tooltip": f"LUKHAS AI ΛBot Quality Monitor - Click for {action.get('name', 'actions')}",
             "color": f"{colors.get('success', '#28a745')}",
             "command": f"{action.get('command', 'workbench.action.tasks.runTask')}",
-            "arguments": action.get('args', []),
+            "arguments": action.get("args", []),
             "priority": 100,
             "alignment": "left"
         }
-        
+
         return f"# Auto-generated widget configuration\nwidget_data = {widget_data}"
 
     def restart_status_bar(self):

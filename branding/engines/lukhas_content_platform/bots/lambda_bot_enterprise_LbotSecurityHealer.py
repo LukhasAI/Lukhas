@@ -5,8 +5,6 @@ Revolutionary AI-powered security vulnerability resolution system
 This system doesn't just detect security issues - it autonomously fixes them'
 with intelligence, safety checks, and comprehensive testing.
 """
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -14,11 +12,11 @@ import re
 import subprocess
 import warnings
 from dataclasses import dataclass
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
+import streamlit as st
 from packaging import version
 
 # Suppress pkg_resources deprecation warning

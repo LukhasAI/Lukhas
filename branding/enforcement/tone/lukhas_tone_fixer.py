@@ -3,11 +3,11 @@
 LUKHAS Tone Fixer - Trinity Framework Auto-correction (⚛️🧠🛡️)
 Automatic tone fixing for LUKHAS consciousness platform
 """
-import streamlit as st
-
 import sys
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 
 class LukhasToneFixer:

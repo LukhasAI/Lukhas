@@ -1,8 +1,10 @@
-from typing import Dict
 import logging
-import streamlit as st
 import random
 import time
+from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 import base64
 import hashlib

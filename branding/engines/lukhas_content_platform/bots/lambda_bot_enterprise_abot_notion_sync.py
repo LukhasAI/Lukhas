@@ -2,15 +2,14 @@
 LUKHAS AI ΛBot Comprehensive Notion Sync System
 Automatically generates and syncs daily reports with financial, AI routing, and system health data
 """
-import streamlit as st
-
 import json
 import logging
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
-from datetime import timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

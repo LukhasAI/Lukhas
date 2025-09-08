@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 log = logging.getLogger(__name__)
 import logging
-import streamlit as st
 import random
 import time
 from typing import List
+
+import streamlit as st
+
 from consciousness.qi import qi
+
 logger = logging.getLogger(__name__)
 
 """
@@ -663,7 +666,7 @@ class QICertificateManager:
         try:
             old_cert_content = self.certificates.get(old_cert_id)
             if old_cert_content:
-                timestamp = datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')
+                timestamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S%f")
                 backup_filename = (
                     self.cert_store_path
                     / f"{old_cert_id}_backup_{timestamp}.qcert"

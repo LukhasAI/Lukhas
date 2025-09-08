@@ -3,17 +3,15 @@ Dropbox Service Adapter Implementation
 Agent 3: Service Adapter Integration Specialist
 Implements OAuth2, file operations, resilience, and telemetry
 """
-from typing import List
-import time
-import streamlit as st
-
 import asyncio
 import hashlib
 import json
+import time
 from datetime import datetime, timezone
-from typing import Optional
+from typing import List, Optional
 
 import aiohttp
+import streamlit as st
 
 from candidate.bridge.adapters.service_adapter_base import (
     BaseServiceAdapter,

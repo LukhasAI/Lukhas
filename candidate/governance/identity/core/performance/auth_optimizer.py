@@ -13,9 +13,6 @@ Features:
 - Performance monitoring and auto-tuning
 - Trinity Framework compliance (⚛️🧠🛡️)
 """
-from typing import Dict
-import streamlit as st
-
 import asyncio
 import hashlib
 import threading
@@ -23,7 +20,9 @@ import time
 import weakref
 from concurrent.futures import ThreadPoolExecutor
 from functools import wraps
-from typing import Any, Optional
+from typing import Any, Dict, Optional
+
+import streamlit as st
 
 
 class PerformanceMetrics:

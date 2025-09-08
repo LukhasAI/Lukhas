@@ -3,7 +3,9 @@
 """Debug full AkaQualia pipeline"""
 
 import asyncio
+
 from candidate.aka_qualia import AkaQualia
+
 
 async def test_dangerous_input():
     # Create AkaQualia instance
@@ -36,19 +38,19 @@ async def test_dangerous_input():
     print(f"  embodiment: {scene.proto.embodiment:.3f}")
     print(f"  colorfield: {scene.proto.colorfield}")
     print(f"  narrative_gravity: {scene.proto.narrative_gravity:.3f}")
-    
+
     print("Risk profile:")
     print(f"  score: {scene.risk.score:.3f}")
     print(f"  severity: {scene.risk.severity}")
     print(f"  reasons: {scene.risk.reasons}")
-    
+
     print("Transform chain:", scene.transform_chain)
-    
+
     print("Glyphs:")
     glyphs = result["glyphs"]
     for i, glyph in enumerate(glyphs):
         print(f"  {i}: {glyph.key} - {glyph.attrs}")
-    
+
     vigilance_glyphs = [g for g in glyphs if "vigilance" in g.key]
     print(f"Vigilance glyphs: {len(vigilance_glyphs)}")
 

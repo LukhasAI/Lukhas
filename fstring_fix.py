@@ -76,10 +76,10 @@ def iter_python_files(root: Path, includes, excludes):
 def is_fstring_prefix(prefix: str) -> bool:
     # Valid f-string prefixes: f, F, rf, fr, rF, Fr, etc., but we skip raw forms to be safe.
     prefix_lower = prefix.lower()
-    if 'f' not in prefix_lower:
+    if "f" not in prefix_lower:
         return False
     # Raw f-strings (rf/fr) have tricky escapes; skip them for safety
-    if 'r' in prefix_lower:
+    if "r" in prefix_lower:
         return False
     return True
 
@@ -99,7 +99,7 @@ def find_fstring_spans(line: str):
             q = ch
             j = i + 1
             while j < n:
-                if line[j] == '\\':
+                if line[j] == "\\":
                     j += 2
                     continue
                 if line[j] == q:
@@ -122,7 +122,7 @@ def find_fstring_spans(line: str):
                     # Find the end of the string
                     k = j + 1
                     while k < n:
-                        if line[k] == '\\':
+                        if line[k] == "\\":
                             k += 2
                             continue
                         if line[k] == q:
@@ -136,7 +136,7 @@ def find_fstring_spans(line: str):
                     # Skip this string (either not f, or triple; consume it)
                     k = j + (3 if is_triple else 1)
                     while k < n:
-                        if line[k] == '\\':
+                        if line[k] == "\\":
                             k += 2
                             continue
                         # End for triple vs single
@@ -167,8 +167,8 @@ def simple_expression_ok(s: str) -> bool:
     while i < n:
         c = s[i]
         # Handle escaped literal braces
-        if c == '{':
-            if i + 1 < n and s[i+1] == '{':
+        if c == "{":
+            if i + 1 < n and s[i+1] == "{":
                 i += 2
                 continue
             depth += 1
@@ -177,8 +177,8 @@ def simple_expression_ok(s: str) -> bool:
                 return False
             i += 1
             continue
-        if c == '}':
-            if i + 1 < n and s[i+1] == '}':
+        if c == "}":
+            if i + 1 < n and s[i+1] == "}":
                 i += 2
                 continue
             depth -= 1
@@ -198,13 +198,13 @@ def missing_closing_braces_count(s: str) -> int:
     n = len(s)
     for i in range(n):
         c = s[i]
-        if c == '{':
-            if i + 1 < n and s[i+1] == '{':
+        if c == "{":
+            if i + 1 < n and s[i+1] == "{":
                 i += 1
                 continue
             depth += 1
-        elif c == '}':
-            if i + 1 < n and s[i+1] == '}':
+        elif c == "}":
+            if i + 1 < n and s[i+1] == "}":
                 i += 1
                 continue
             if depth > 0:
@@ -247,7 +247,7 @@ def fix_line(line: str):
             continue
 
         # Insert the missing number of '}' right before the closing quote.
-        fixed_inner = inner + ('}' * missing)
+        fixed_inner = inner + ("}" * missing)
         fixed_segment = segment[:first_quote_idx+1] + fixed_inner + segment[-1:]
         # Update line
         new_line = new_line[:start] + fixed_segment + new_line[end:]

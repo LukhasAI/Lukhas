@@ -100,14 +100,14 @@ except ImportError as e:
 # Compatibility class for EmotionalAwareness import
 class EmotionalAwareness:
     """Compatibility wrapper for emotional awareness functionality"""
-    
+
     def __init__(self):
         self.active = EMOTION_ACTIVE
-        
+
     def process_emotional_state(self, state: Any) -> dict[str, Any]:
         """Process emotional state data"""
         return process_emotion(state)
-        
+
     def get_awareness_level(self) -> float:
         """Get current emotional awareness level"""
         return 1.0 if EMOTION_ACTIVE else 0.0

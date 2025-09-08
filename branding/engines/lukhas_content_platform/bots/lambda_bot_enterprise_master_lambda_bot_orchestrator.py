@@ -4,18 +4,18 @@
 Ultimate LUKHAS AI ΛBot that coordinates all 4 Enhanced ΛBots for transcendent modularization
 Combines Multi-Brain Symphony, AGI Controller, Bio-Symbolic, and Quantum Consciousness
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import logging
 import sys
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Add Lukhas LUKHAS AI ΛBot path
 sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot", timezone)

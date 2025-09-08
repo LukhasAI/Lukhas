@@ -25,17 +25,17 @@ Features:
 #TAG:behavioral
 #TAG:trinity
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 import uuid
 from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

@@ -4,9 +4,6 @@
 Enhanced LUKHAS AI ΛBot with Bio-Rhythmic Multi-Brain Coordination
 Integrates workspace MultiBrainSymphony for agent synchronization
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import logging
 import sys
@@ -14,6 +11,10 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Add workspace core to path
 sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core")

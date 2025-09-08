@@ -14,18 +14,16 @@ Author: LUKHAS AI Systems
 Version: 2.0.0
 Last Updated: July 5, 2025
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import hashlib
 import json
 import re
 import time
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 from ..id_service.entropy_engine import EntropyEngine
 from ..id_service.lambd_id_validator import LambdaIDValidator

@@ -644,7 +644,7 @@ class PatternDetector:
                 occurrences = [
                     {
                         "timestamp": f["timestamp"],
-                        "context": f"Created {Path(f['path'])}.name}",
+                        "context": f"Created {Path(f['path']).name}",
                     }
                     for f in files[:10]
                 ]

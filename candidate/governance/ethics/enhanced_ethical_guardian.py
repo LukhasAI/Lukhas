@@ -4,14 +4,13 @@ Enhanced Ethical Guardian - Advanced ethical reflection and governance system
 Provides comprehensive ethical checks, reflection capabilities, and governance
 integration for the LUKHAS AI system with Constellation Framework compliance.
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 from ..common import GlyphIntegrationMixin
 

@@ -16,7 +16,8 @@ try:
         BrainIdentityConnector,
         MemoryAccessPolicy,
         MemoryIdentityIntegration,
-        MemoryOperation)
+        MemoryOperation,
+    )
 
     BRAIN_IDENTITY_AVAILABLE = True
 except ImportError as e:

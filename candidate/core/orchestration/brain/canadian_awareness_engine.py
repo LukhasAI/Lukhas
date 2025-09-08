@@ -39,11 +39,17 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+from pydantic import Field
+
 # Import global framework
 from identity.backend.app.institution_manager import (
-    DataCategory, GlobalInstitutionalInput, GlobalInstitutionalOutput,
-    Jurisdiction, LegalBasis, global_timestamp)
-from pydantic import Field
+    DataCategory,
+    GlobalInstitutionalInput,
+    GlobalInstitutionalOutput,
+    Jurisdiction,
+    LegalBasis,
+    global_timestamp,
+)
 
 # ——— Canadian-Specific Regulatory Framework ——————————————————————— #
 

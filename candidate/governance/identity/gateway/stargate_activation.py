@@ -17,8 +17,6 @@ Author: LUKHΛS AI Systems
 Version: 1.0.0 - Stargate Activation
 Created: 2025-08-03
 """
-import streamlit as st
-
 import asyncio
 import contextlib
 import logging
@@ -27,6 +25,8 @@ import random
 import sys
 from pathlib import Path
 from typing import Callable, Optional
+
+import streamlit as st
 
 # Try to import audio libraries
 try:

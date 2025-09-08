@@ -5,11 +5,10 @@ Wave C C5 Observability Integration Test
 
 Demonstrates the observability system integrated with Aka Qualia components.
 """
-import streamlit as st
-
 import json
 import time
 
+import streamlit as st
 from memory_noop import NoopMemory
 
 from monitoring_dashboard import MonitoringDashboard

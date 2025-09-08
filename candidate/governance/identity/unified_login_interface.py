@@ -26,18 +26,19 @@ Author: LUKHAS AI Systems & Claude Code
 Version: 3.0.0 - Revolutionary Experience
 Created: 2025-08-03
 """
-from consciousness.qi import qi
-import time
-import streamlit as st
-
 import asyncio
 import logging
 import secrets
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Import our revolutionary authentication system
 try:

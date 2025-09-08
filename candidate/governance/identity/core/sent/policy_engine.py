@@ -32,9 +32,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    from candidate.governance.consent_ledger.ledger_v1 import (
-        ConsentLedgerV1,
-        PolicyVerdict)
+    from candidate.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
 except ImportError:
     PolicyVerdict = None
     ConsentLedgerV1 = None

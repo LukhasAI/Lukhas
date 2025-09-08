@@ -14,6 +14,7 @@ CORE COMPONENT: This is the main cognitive processing engine, not a bot
 import hashlib
 import logging
 import os
+
 # Import our organized components
 import sys
 import uuid
@@ -26,8 +27,7 @@ if brain_dir not in sys.path:
     sys.path.insert(0, brain_dir)
 
 try:
-    from candidate.orchestration.brain.core.capability_levels import \
-        AGICapabilityLevel
+    from candidate.orchestration.brain.core.capability_levels import AGICapabilityLevel
     from candidate.orchestration.brain.core.response_types import AGIResponse
 except ImportError:
     # Fallback to basic classes if modules don't exist
@@ -50,8 +50,7 @@ except ImportError:
 
 # Optional imports - create fallbacks if modules don't exist
 try:
-    from candidate.bridge.llm_wrappers.unified_openai_client import \
-        UnifiedOpenAIClient
+    from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 
     lukhas_openai = UnifiedOpenAIClient()
     OPENAI_AVAILABLE = True
@@ -89,8 +88,7 @@ except ImportError:
 
 
 try:
-    from candidate.orchestration.agents.MetaCognitiveOrchestrator import \
-        MetaCognitiveOrchestrator
+    from candidate.orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
 except ImportError:
 
     class MetaCognitiveOrchestrator:
@@ -148,8 +146,7 @@ logger = logging.getLogger("CognitiveCore")
 
 # EU AI Act Transparency Integration
 try:
-    from eu_ai_transparency import (DecisionType, InfluenceLevel,
-                                    transparency_orchestrator)
+    from eu_ai_transparency import DecisionType, InfluenceLevel, transparency_orchestrator
 
     EU_TRANSPARENCY_AVAILABLE = True
     logger.info("🇪🇺 EU AI Act transparency system integrated")
@@ -218,8 +215,7 @@ class CognitiveEngine:
 
         # Initialize Enhanced Brain Integration System
         try:
-            from brain.enhanced_brain_integration import \
-                create_enhanced_brain_integration
+            from brain.enhanced_brain_integration import create_enhanced_brain_integration
 
             self.brain_integration = create_enhanced_brain_integration(config)
             logger.info("✅ Enhanced Brain Integration system connected to AI Bot")

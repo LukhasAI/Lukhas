@@ -20,12 +20,12 @@ import os
 import threading
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 # Configure logging
-logger = logging.getLogger("Enhanced.BrainIntegration", timezone)
+logger = logging.getLogger("Enhanced.BrainIntegration")
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
 handler.setFormatter(formatter)
@@ -54,39 +54,39 @@ except ImportError:
         SYMPHONY_AVAILABLE = False
         MultiBrainSymphonyOrchestrator = None
 
-                # Import core components with fallbacks
-                try:
+# Import core components with fallbacks
+try:
     from candidate.orchestration.brain.spine.fold_engine import (
         AGIMemory, MemoryFold, MemoryPriority, MemoryType)
-                    except ImportError:
+except ImportError:
     logger.warning("Core memory components not available - using fallbacks")
     AGIMemory = None
 
-                        try:
-                            #     from DASHBOARD.Λ_as_agent.core.memory_folds import create_memory_fold, recall_memory_folds  # TODO: Install or implement DASHBOARD
-                            # from DASHBOARD.as_agent.core.memory_folds import
-                            # create_memory_fold, recall_memory_folds  # TODO: Install
-                            # or implement DASHBOARD
-                            except ImportError:
+try:
+    # from DASHBOARD.Λ_as_agent.core.memory_folds import create_memory_fold, recall_memory_folds  # TODO: Install or implement DASHBOARD
+    # from DASHBOARD.as_agent.core.memory_folds import create_memory_fold, recall_memory_folds  # TODO: Install or implement DASHBOARD
+    pass  # Placeholder since imports are commented out
+except ImportError:
     logger.warning("Emotional memory folds not available")
     create_memory_fold = None
     recall_memory_folds = None
 
-                                try:
+try:
     from VOICE.voice_integrator import VoiceIntegrator
-                                    except ImportError:
+except ImportError:
     VoiceIntegrator = None
 
-                                        try:
+try:
     from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import \
         DreamReflectionLoop
-                                            except ImportError:
+except ImportError:
     DreamReflectionLoop = None
 
-                                                class EnhancedEmotionalProcessor:
-                                                    """Enhanced emotional processing with vector operations and voice integration"""
 
-                                                    def __init__(self):
+class EnhancedEmotionalProcessor:
+    """Enhanced emotional processing with vector operations and voice integration"""
+
+    def __init__(self):
         self.emotion_vectors = {
             "neutral": [0.0, 0.0, 0.0],
             "joy": [0.8, 0.9, 0.3],
@@ -109,39 +109,35 @@ except ImportError:
         self.emotional_history = []
         self.max_history = 50
 
-                                                        def update_emotional_state(self,
-    primary_emotion: str, intensity: float = None,
-                                                        secondary_emotions: Dict[str,
-    float] = None,
-                                                        metadata: Dict[str,
-    Any] = None) -> Dict[str, Any]:
-                                                        """Update emotional state with enhanced tracking"""
+    def update_emotional_state(self, primary_emotion: str, intensity: float = None,
+                              secondary_emotions: Dict[str, float] = None,
+                              metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+        """Update emotional state with enhanced tracking"""
 
         # Store previous state
         self.emotional_history.append(self.current_state.copy())
-                                                        if len(self.emotional_history) > self.max_history:
+        if len(self.emotional_history) > self.max_history:
             self.emotional_history = self.emotional_history[-self.max_history:]
 
         # Update state
-                                                            if primary_emotion in self.emotion_vectors:
+        if primary_emotion in self.emotion_vectors:
             self.current_state["primary_emotion"] = primary_emotion
 
-                                                                if intensity is not None:
+        if intensity is not None:
             self.current_state["intensity"] = max(0.0, min(1.0, intensity))
 
-                                                                    if secondary_emotions:
+        if secondary_emotions:
             valid_secondary = {
                 e: max(0.0, min(1.0, i))
-                                                                        for e,
-    i in secondary_emotions.items()
-                                                                        if e in self.emotion_vectors:
+                for e, i in secondary_emotions.items()
+                if e in self.emotion_vectors
             }
             self.current_state["secondary_emotions"] = valid_secondary
 
         self.current_state["last_updated"] = datetime.now(timezone.utc).isoformat()
 
         # Calculate stability based on emotional change
-                                                                        if self.emotional_history:
+        if self.emotional_history:
             previous = self.emotional_history[-1]
             distance = self._calculate_emotion_distance(
                 previous["primary_emotion"],
@@ -149,13 +145,13 @@ except ImportError:
             )
             self.current_state["stability"] = max(0.1, 1.0 - (distance / 2.0))
 
-                                                                            return self.current_state
+        return self.current_state
 
-                                                                        def _calculate_emotion_distance(self, emotion1: str, emotion2: str) -> float:
-                                                                            """Calculate distance between emotions in vector space"""
-                                                                            if emotion1 not in self.emotion_vectors:
+    def _calculate_emotion_distance(self, emotion1: str, emotion2: str) -> float:
+        """Calculate distance between emotions in vector space"""
+        if emotion1 not in self.emotion_vectors:
             emotion1 = "neutral"
-                                                                                if emotion2 not in self.emotion_vectors:
+        if emotion2 not in self.emotion_vectors:
             emotion2 = "neutral"
 
         vec1 = self.emotion_vectors[emotion1]
@@ -163,10 +159,10 @@ except ImportError:
 
         # Simple Euclidean distance
         distance = sum((a - b) ** 2 for a, b in zip(vec1, vec2)) ** 0.5
-                                                                                    return distance
+        return distance
 
-                                                                                def get_voice_modulation_params(self) -> Dict[str, Any]:
-                                                                                    """Generate voice modulation parameters based on emotional state"""
+    def get_voice_modulation_params(self) -> Dict[str, Any]:
+        """Generate voice modulation parameters based on emotional state"""
         emotion = self.current_state["primary_emotion"]
         intensity = self.current_state["intensity"]
 

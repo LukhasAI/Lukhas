@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 from typing import List
+
 """
 LUKHAS AI ΛBot Comprehensive CLI Integration
 Connects LUKHAS AI ΛBot PR Review with all documentation, web management,
 compliance, and content creation tools
 """
-import streamlit as st
-
 import asyncio
 import json
 import os
 import sys
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from pathlib import Path
 
 import click
+import streamlit as st
 
 # Add project root to path (repo-relative if available)
 try:

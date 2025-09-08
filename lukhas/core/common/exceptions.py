@@ -41,7 +41,7 @@ class GLYPHTokenError(LukhasError):
         details = kwargs.get("details", {})
         if token:
             details["token"] = token
-        
+
         super().__init__(message=message, error_code="GLYPH_TOKEN_ERROR", details=details)
 
 

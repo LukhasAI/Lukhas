@@ -27,26 +27,28 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union
 # Configure logging
 logger = logging.getLogger("Enhanced.BrainIntegration")
 handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
+formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from .MultiBrainSymphony import (DreamBrainSpecialist,
-                                     LearningBrainSpecialist,
-                                     MemoryBrainSpecialist,
-                                     MultiBrainSymphonyOrchestrator)
+    from .MultiBrainSymphony import (
+        DreamBrainSpecialist,
+        LearningBrainSpecialist,
+        MemoryBrainSpecialist,
+        MultiBrainSymphonyOrchestrator,
+    )
     SYMPHONY_AVAILABLE = True
 except ImportError:
     try:
         # External dependency import fallback
         from MultiBrainSymphony import (
-            MultiBrainSymphonyOrchestrator,
             DreamBrainSpecialist,
+            LearningBrainSpecialist,
             MemoryBrainSpecialist,
-            LearningBrainSpecialist
+            MultiBrainSymphonyOrchestrator,
         )
         SYMPHONY_AVAILABLE = True
     except ImportError:
@@ -64,19 +66,16 @@ try:
     from .ethics.ethical_hierarchy import EthicalHierarchy
     from .governance.dao_governance_node import DAOGovernanceNode
     from .memory.enhanced_memory_manager import EnhancedMemoryManager
-    from .meta_cognitive.reflective_introspection_system import \
-        ReflectiveIntrospectionSystem
-    from .prediction.predictive_resource_manager import \
-        PredictiveResourceManager
+    from .meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
+    from .prediction.predictive_resource_manager import PredictiveResourceManager
     from .reasoning.causal_reasoning_module import CausalReasoningModule
     ADVANCED_AGI_COMPONENTS = True
 except ImportError:
     try:
         from compliance.ai_compliance_manager import AIComplianceManager
-        from meta_cognitive.reflective_introspection_system import \
-            ReflectiveIntrospectionSystem
-        from prediction.predictive_resource_manager import \
-            PredictiveResourceManager
+        from meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
+        from prediction.predictive_resource_manager import PredictiveResourceManager
+
         from ethics.ethical_hierarchy import EthicalHierarchy
         from lukhas.governance.dao_governance_node import DAOGovernanceNode
         from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
@@ -96,8 +95,7 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from candidate.core.spine.fold_engine import (AGIMemory, MemoryFold,
-                                                  MemoryPriority, MemoryType)
+    from candidate.core.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
 except ImportError:
     try:
         # Commented out until CORE is available
@@ -132,8 +130,7 @@ except ImportError:
 
 # Import Lukhas_ID identity system
 try:
-    from ..Lukhas_ID import (AccessTier, ConsentLevel, get_current_user,
-                             unified_identity_manager, verify_tier_access)
+    from ..Lukhas_ID import AccessTier, ConsentLevel, get_current_user, unified_identity_manager, verify_tier_access
     IDENTITY_AVAILABLE = True
     logger.info("Lukhas_ID Identity system loaded successfully")
 except ImportError as e:
@@ -543,31 +540,31 @@ class EnhancedBrainIntegration:
 
         try:
             # Initialize compliance manager
-            if hasattr(self, 'compliance_manager') and hasattr(self.compliance_manager, 'initialize'):
+            if hasattr(self, "compliance_manager") and hasattr(self.compliance_manager, "initialize"):
                 await self.compliance_manager.initialize()
 
             # Initialize DAO governance
-            if hasattr(self, 'dao_governance') and hasattr(self.dao_governance, 'initialize'):
+            if hasattr(self, "dao_governance") and hasattr(self.dao_governance, "initialize"):
                 await self.dao_governance.initialize()
 
             # Initialize ethical hierarchy
-            if hasattr(self, 'ethical_hierarchy') and hasattr(self.ethical_hierarchy, 'initialize'):
+            if hasattr(self, "ethical_hierarchy") and hasattr(self.ethical_hierarchy, "initialize"):
                 await self.ethical_hierarchy.initialize()
 
             # Initialize meta-cognitive system
-            if hasattr(self, 'meta_cognitive_system') and hasattr(self.meta_cognitive_system, 'initialize'):
+            if hasattr(self, "meta_cognitive_system") and hasattr(self.meta_cognitive_system, "initialize"):
                 await self.meta_cognitive_system.initialize()
 
             # Initialize causal reasoning
-            if hasattr(self, 'causal_reasoning') and hasattr(self.causal_reasoning, 'initialize'):
+            if hasattr(self, "causal_reasoning") and hasattr(self.causal_reasoning, "initialize"):
                 await self.causal_reasoning.initialize()
 
             # Initialize enhanced memory manager
-            if hasattr(self, 'enhanced_memory_manager') and hasattr(self.enhanced_memory_manager, 'initialize'):
+            if hasattr(self, "enhanced_memory_manager") and hasattr(self.enhanced_memory_manager, "initialize"):
                 await self.enhanced_memory_manager.initialize()
 
             # Initialize predictive manager
-            if hasattr(self, 'predictive_manager') and hasattr(self.predictive_manager, 'initialize'):
+            if hasattr(self, "predictive_manager") and hasattr(self.predictive_manager, "initialize"):
                 await self.predictive_manager.initialize()
 
             logger.info("🎯 Advanced AI subsystems initialized successfully")
@@ -598,7 +595,7 @@ class EnhancedBrainIntegration:
             # Stage 1: Compliance and Ethics Pre-Check
             if self.advanced_agi_available:
                 # Compliance validation
-                if hasattr(self, 'compliance_manager'):
+                if hasattr(self, "compliance_manager"):
                     compliance_result = await self.compliance_manager.validate_ai_action(
                         {"action": "process_input", "data": input_data}, context
                     )
@@ -612,7 +609,7 @@ class EnhancedBrainIntegration:
                         return result
 
                 # Ethical evaluation
-                if hasattr(self, 'ethical_hierarchy'):
+                if hasattr(self, "ethical_hierarchy"):
                     ethical_result = await self.ethical_hierarchy.evaluate_ethical_decision(
                         input_data, context
                     )
@@ -624,7 +621,7 @@ class EnhancedBrainIntegration:
                         result["ethical_warnings"] = ethical_result.get("concerns", [])
 
             # Stage 2: Enhanced Memory and Context Processing
-            if hasattr(self, 'enhanced_memory_manager'):
+            if hasattr(self, "enhanced_memory_manager"):
                 memory_enhancement = await self.enhanced_memory_manager.process_with_context(
                     input_data, context
                 )
@@ -632,7 +629,7 @@ class EnhancedBrainIntegration:
                 self.stats["memory_enhancements"] += 1
 
             # Stage 3: Meta-Cognitive Reflection
-            if hasattr(self, 'meta_cognitive_system'):
+            if hasattr(self, "meta_cognitive_system"):
                 meta_reflection = await self.meta_cognitive_system.reflect_on_processing(
                     input_data, context, result
                 )
@@ -640,7 +637,7 @@ class EnhancedBrainIntegration:
                 self.stats["meta_cognitive_reflections"] += 1
 
             # Stage 4: Causal Reasoning
-            if hasattr(self, 'causal_reasoning'):
+            if hasattr(self, "causal_reasoning"):
                 causal_analysis = await self.causal_reasoning.analyze_causal_relationships(
                     input_data, context
                 )
@@ -648,7 +645,7 @@ class EnhancedBrainIntegration:
                 self.stats["causal_inferences"] += 1
 
             # Stage 5: Predictive Resource Management
-            if hasattr(self, 'predictive_manager'):
+            if hasattr(self, "predictive_manager"):
                 predictive_insights = await self.predictive_manager.predict_resource_needs(
                     input_data, context, result
                 )
@@ -665,7 +662,7 @@ class EnhancedBrainIntegration:
 
             # Stage 7: Governance Decision Making (for major decisions)
             if self.advanced_agi_available and context.get("requires_governance", False):
-                if hasattr(self, 'dao_governance'):
+                if hasattr(self, "dao_governance"):
                     governance_result = await self.dao_governance.evaluate_decision(
                         input_data, context, result
                     )
@@ -733,8 +730,8 @@ def create_enhanced_brain_integration(config: Dict[str, Any] = None) -> Enhanced
 
 # Export main classes and functions
 __all__ = [
-    'EnhancedBrainIntegration',
-    'EnhancedEmotionalProcessor', 
-    'EnhancedMemorySystem',
-    'create_enhanced_brain_integration'
+    "EnhancedBrainIntegration",
+    "EnhancedEmotionalProcessor",
+    "EnhancedMemorySystem",
+    "create_enhanced_brain_integration"
 ]

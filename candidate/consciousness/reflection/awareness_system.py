@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import time
 from typing import Dict
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 
 """
@@ -52,12 +54,12 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
-from dream.core import DreamPhase
 
 from bio.qi_layer import QIBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from candidate.core.unified.integration import UnifiedIntegration
 from consciousness.awareness.awareness_engine import AwarenessEngine
+from dream.core import DreamPhase
 from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
 from qi.processing_core import QIProcessingCore
 

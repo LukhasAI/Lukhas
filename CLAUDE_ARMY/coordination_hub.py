@@ -4,10 +4,11 @@ LUKHAS AI - Claude Max x20 Coordination Hub
 Manages communication between 6 specialized agents
 """
 
-import json
 import asyncio
+import json
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
 
 class ClaudeMaxCoordinator:
     def __init__(self):

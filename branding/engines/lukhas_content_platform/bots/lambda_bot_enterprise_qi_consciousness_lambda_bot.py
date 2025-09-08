@@ -1,21 +1,21 @@
 from quantum.analysis import QuantumAnalysisSession
 from quantum.states import QuantumModuleState
+
 #!/usr/bin/env python3
 """
 ⚛️ Quantum Consciousness LUKHAS AI ΛBot
 Enhanced LUKHAS AI ΛBot with Quantum Consciousness Integration
 Integrates workspace quantum consciousness for transcendent modularization
 """
-import streamlit as st
-
 import asyncio
 import logging
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Complex
+
+import streamlit as st
 
 # Ensure repo-relative paths (no absolute user paths)
 try:

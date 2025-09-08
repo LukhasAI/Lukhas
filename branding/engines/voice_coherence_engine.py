@@ -5,19 +5,18 @@ Real-time voice consistency and personality alignment system
 
 Target: 85%+ voice coherence across all LUKHAS AI communications
 """
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import re
 
 # Import LUKHAS brand components
 import sys
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
+
+import streamlit as st
 
 sys.path.append(str(Path(__file__).parent.parent))
 

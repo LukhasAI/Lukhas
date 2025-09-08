@@ -26,7 +26,7 @@ except ImportError:
     class MockStreamlit:
         def __init__(self):
             self.session_state = {}
-        
+
         def set_page_config(self, **kwargs): pass
         def error(self, msg): print(f"ERROR: {msg}")
         def stop(self): return
@@ -43,15 +43,15 @@ except ImportError:
         def columns(self, specs): return [MockColumn() for _ in specs]
         def text_area(self, label, value="", **kwargs): return value
         def selectbox(self, label, options, **kwargs): return options[0] if options else None
-    
+
     class MockTab:
         def __enter__(self): return self
         def __exit__(self, *args): pass
-    
+
     class MockColumn:
         def button(self, label, **kwargs): return False
         def markdown(self, content, **kwargs): print(f"COL MARKDOWN: {content[:50]}...")
-    
+
     st = MockStreamlit()
 from pathlib import Path
 

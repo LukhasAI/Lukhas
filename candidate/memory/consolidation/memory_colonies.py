@@ -14,8 +14,6 @@ Consolidated from 4 files:
 - memory/colonies/base_memory_colony.py
 - memory/colonies/episodic_memory_colony.py
 """
-import streamlit as st
-
 import logging
 import time
 from collections import defaultdict, deque
@@ -23,6 +21,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Import core systems with fallbacks
 try:

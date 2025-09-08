@@ -17,15 +17,12 @@ Author: LUKHΛS AI Systems
 Version: 3.1.0 - Quantum GLYPH Revolution
 Created: 2025-08-03
 """
-from consciousness.qi import qi
-import random
-import streamlit as st
-
 import asyncio
 import base64
 import hashlib
 import json
 import logging
+import random
 import secrets
 import time
 from dataclasses import dataclass
@@ -33,8 +30,11 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

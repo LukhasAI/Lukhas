@@ -13,9 +13,9 @@ Features:
 - ΛTRACE integration
 """
 import time
-import streamlit as st
-
 from typing import Optional
+
+import streamlit as st
 
 from .consent_history import ConsentHistoryManager
 from .symbolic_scopes import SymbolicScopesManager

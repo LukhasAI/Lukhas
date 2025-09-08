@@ -6,17 +6,17 @@ Advanced attention management and cognitive boundary protection
 Part of the Lambda Products Suite by LUKHAS AI
 Commercial Version - Ready for Enterprise Deployment
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import logging
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger("Lambda.ΛBAS", timezone)
 

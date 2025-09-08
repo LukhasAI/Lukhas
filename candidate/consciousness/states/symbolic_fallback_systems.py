@@ -17,16 +17,16 @@
 ║ Authors: LUKHAS Bio-Symbolic Team | Claude Code
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger("ΛTRACE.bio.fallback")
 

@@ -13,9 +13,7 @@ try:
     from candidate.bridge.adapters.drive_adapter import DriveAdapter
     from candidate.bridge.adapters.dropbox_adapter import DropboxAdapter
     from candidate.bridge.adapters.gmail_adapter import GmailAdapter
-    from candidate.bridge.adapters.service_adapter_base import (
-        BaseServiceAdapter,
-        CapabilityToken)
+    from candidate.bridge.adapters.service_adapter_base import BaseServiceAdapter, CapabilityToken
 except ImportError:
     BaseServiceAdapter = None
     CapabilityToken = None

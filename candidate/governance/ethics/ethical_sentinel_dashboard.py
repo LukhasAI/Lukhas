@@ -55,7 +55,7 @@ except ImportError:
     class MockStreamlit:
         def __init__(self):
             self.session_state = {}
-        
+
         def set_page_config(self, **kwargs): pass
         def markdown(self, content, **kwargs): print(f"MARKDOWN: {content[:50]}...")
         def error(self, msg): print(f"ERROR: {msg}")
@@ -72,17 +72,17 @@ except ImportError:
         def selectbox(self, label, options, **kwargs): return options[0] if options else None
         def button(self, label, **kwargs): return False
         def slider(self, label, min_val, max_val, value, **kwargs): return value
-        
+
     class MockColumn:
         def metric(self, label, value, **kwargs): print(f"COL METRIC: {label}: {value}")
         def plotly_chart(self, fig, **kwargs): print(f"COL CHART: {type(fig)}")
         def button(self, label, **kwargs): return False
-    
+
     class MockContainer:
         def __enter__(self): return self
         def __exit__(self, *args): pass
         def markdown(self, content, **kwargs): print(f"CONTAINER MARKDOWN: {content[:50]}...")
-    
+
     st = MockStreamlit()
 import asyncio
 import sys
@@ -94,8 +94,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from ethics.sentinel.ethical_drift_sentinel import (EscalationTier,
-                                                    EthicalDriftSentinel)
+from ethics.sentinel.ethical_drift_sentinel import EscalationTier, EthicalDriftSentinel
 
 # Add parent directory to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent

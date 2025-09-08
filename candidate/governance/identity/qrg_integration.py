@@ -19,9 +19,6 @@ Features:
 Author: LUKHAS AI System
 License: LUKHAS Commercial License
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import hashlib
 import logging
 import secrets
@@ -31,9 +28,15 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any
 
+import streamlit as st
+
+from consciousness.qi import qi
+
 # Import core system modules
 try:
     from backend.audit_logger import AuditLogger
+    from utils.cognitive_load_estimator import CognitiveLoadEstimator
+    from utils.cultural_safety_checker import CulturalSafetyChecker
 
     from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
@@ -45,8 +48,6 @@ try:
     from lukhas.consciousness.core_consciousness.qi_consciousness_visualizer import (
         QIConsciousnessVisualizer,
     )
-    from utils.cognitive_load_estimator import CognitiveLoadEstimator
-    from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:
     # Fallback for standalone operation
     print("⚠️ Core modules not available, using mock implementations")

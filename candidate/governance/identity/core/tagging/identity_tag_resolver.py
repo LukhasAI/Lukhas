@@ -19,10 +19,7 @@ import networkx as nx
 from candidate.core.tagging_system import Tag, TagManager, TagType
 
 # Import identity components
-from governance.identity.core.events import (
-    IdentityEventPublisher,
-    IdentityEventType,
-    get_identity_event_publisher)
+from governance.identity.core.events import IdentityEventPublisher, IdentityEventType, get_identity_event_publisher
 
 logger = logging.getLogger("LUKHAS_IDENTITY_TAG_RESOLVER")
 

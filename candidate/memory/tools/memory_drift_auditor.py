@@ -41,10 +41,10 @@
 """
 
 import argparse
-import logging
 import glob
 import hashlib
 import json
+import logging
 import os
 import re
 from collections import defaultdict

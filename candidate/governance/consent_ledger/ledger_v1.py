@@ -22,8 +22,6 @@ requirements with sub-second validation performance.
 
 Integrates with ΛID system, GLYPH communication protocol, and Constellation Framework (🌌 8-star navigation).
 """
-import streamlit as st
-
 import hashlib
 import hmac
 import json
@@ -39,6 +37,8 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 # Trinity Framework and LUKHAS integrations
 try:

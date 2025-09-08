@@ -19,7 +19,8 @@ from candidate.core.swarm import SwarmTask, TaskPriority
 from governance.identity.core.colonies import (
     BiometricVerificationColony,
     ConsciousnessVerificationColony,
-    DreamVerificationColony)
+    DreamVerificationColony,
+)
 
 # Import identity components
 from governance.identity.core.events import (

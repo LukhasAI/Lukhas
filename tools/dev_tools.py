@@ -50,7 +50,6 @@ except ImportError:
     sys.path.insert(0, str(cli_dir))
 
     from commands.base import BaseCommand
-
     from utils import (
         OutputFormatter,
         ProgressFormatter,

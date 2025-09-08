@@ -15,21 +15,20 @@ Features:
 Author: LUKHAS Identity Team
 Version: 1.0.0
 """
-from consciousness.qi import qi
-import streamlit as st
-from datetime import timezone
-
 import base64
 import hashlib
 import json
 import logging
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+import streamlit as st
 from PIL import Image
+
+from consciousness.qi import qi
 
 # Import LUKHAS components
 try:

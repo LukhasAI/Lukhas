@@ -4,16 +4,15 @@
 Enhanced LUKHAS AI ΛBot with Consciousness-Level Control Integration
 Integrates workspace AGI Controller for enterprise-grade modularization
 """
-import streamlit as st
-
 import asyncio
 import logging
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 # Ensure repo-relative paths (avoid absolute user paths)
 try:

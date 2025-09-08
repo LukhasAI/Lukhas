@@ -26,7 +26,7 @@ except ImportError:
     class MockStreamlit:
         def __init__(self):
             self.session_state = {}
-        
+
         def set_page_config(self, **kwargs): pass
         def error(self, msg): print(f"ERROR: {msg}")
         def stop(self): return
@@ -34,11 +34,11 @@ except ImportError:
         def sidebar(self): return self
         def tabs(self, tabs): return [MockTab() for _ in tabs]
         def header(self, msg): print(f"HEADER: {msg}")
-    
+
     class MockTab:
         def __enter__(self): return self
         def __exit__(self, *args): pass
-    
+
     st = MockStreamlit()
 from pathlib import Path
 

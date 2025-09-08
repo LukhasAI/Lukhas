@@ -26,7 +26,8 @@ try:
         generate_authentication_options,
         generate_registration_options,
         verify_authentication_response,
-        verify_registration_response)
+        verify_registration_response,
+    )
     from webauthn.helpers import structs
 
     WEBAUTHN_AVAILABLE = True

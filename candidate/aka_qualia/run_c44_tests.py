@@ -7,12 +7,12 @@ Wave C C4.4 Test Suite Runner
 Comprehensive test runner for the Wave C memory system with detailed reporting.
 Validates production readiness across all test categories.
 """
-import streamlit as st
-
 import subprocess
 import sys
 import time
 from pathlib import Path
+
+import streamlit as st
 
 
 def run_command(cmd, description):

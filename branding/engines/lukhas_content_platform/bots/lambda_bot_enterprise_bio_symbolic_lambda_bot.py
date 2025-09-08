@@ -4,19 +4,19 @@
 Enhanced LUKHAS AI ΛBot with Bio-Symbolic Pattern Recognition Integration
 Integrates workspace bio-symbolic processing for intelligent modularization
 """
-from consciousness.qi import qi
-import streamlit as st
 # type: ignore
-
 import asyncio
 import logging
 import sys
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Add workspace core to path
 sys.path.append("/Users/agi_dev/LOCAL-REPOS/Lukhas/core", timezone)

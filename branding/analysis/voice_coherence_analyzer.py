@@ -4,16 +4,16 @@ LUKHAS AI Voice Coherence Analyzer
 Analyzes existing content for voice coherence and brand alignment across content creation systems
 Measures progression toward elite 85%+ voice coherence targets
 """
-import time
-import streamlit as st
-
 import json
 import os
+import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
 
 
 class VoiceCoherenceLevel(Enum):

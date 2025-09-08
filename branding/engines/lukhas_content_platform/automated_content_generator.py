@@ -387,8 +387,8 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
         """Format features list with proper styling"""
         formatted_features = []
         for feature in features:
-            title = feature.get('title', 'Feature')
-            description = feature.get('description', 'Feature description')
+            title = feature.get("title", "Feature")
+            description = feature.get("description", "Feature description")
             formatted_features.append(f"**{title}**: {description}")
 
         return "\n\n".join(formatted_features)

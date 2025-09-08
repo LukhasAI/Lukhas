@@ -36,13 +36,10 @@ Features:
             emotion_entropy = -sum([v * np.log(v + 1e-10) for v in emotion_values if isinstance(v, (int, float)) and v > 0])
             entropy += emotion_entropy * 0.2ntum-resistant symbol encryption
 """
-from consciousness.qi import qi
-import time
-import random
-import streamlit as st
-
 import hashlib
 import json
+import random
+import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -50,6 +47,9 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
+
+from consciousness.qi import qi
 
 # Import existing GLYPH components
 from .glyph import EmotionVector, Glyph

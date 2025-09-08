@@ -24,18 +24,18 @@ Features:
 #TAG:observability
 #TAG:trinity
 """
-import time
-import streamlit as st
-
 import asyncio
 import logging
 import statistics
+import time
 import uuid
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

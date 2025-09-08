@@ -14,15 +14,13 @@ Implements advanced ethical reasoning with legal compliance frameworks.
 Based on Lukhas repository implementation with LUKHAS AI integration.
 Based on Lukhas repository implementation with lukhas AI integration.
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import logging
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 
 class EthicalPrinciple(Enum):

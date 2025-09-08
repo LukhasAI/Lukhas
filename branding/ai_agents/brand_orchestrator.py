@@ -2,14 +2,14 @@
 LUKHAS Brand Orchestrator AI Agent - Trinity Framework (⚛️🧠🛡️)
 Master AI agent for coordinating all brand systems and ensuring cohesive brand expression
 """
-import time
-import streamlit as st
-
 import asyncio
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Optional
+
+import streamlit as st
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))

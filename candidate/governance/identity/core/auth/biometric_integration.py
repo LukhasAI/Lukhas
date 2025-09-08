@@ -18,16 +18,15 @@
 ║ identity management across the LUKHAS ecosystem.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-from typing import List
-import streamlit as st
-
 import base64
 import hashlib
 import logging
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger("ΛTRACE.BiometricIntegration")
 

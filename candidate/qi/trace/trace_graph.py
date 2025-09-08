@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+
 # Use original open to avoid sandbox recursion
 import builtins
 import json
@@ -146,11 +147,11 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
 
     # Consent & capabilities cluster
     cc = []
-    if consent_id: 
+    if consent_id:
         cc.append(f"consent: {consent_id}")
-    if leases: 
+    if leases:
         cc.append(f"leases: {len(leases)}")
-    if risk_flags: 
+    if risk_flags:
         cc.append("risk: " + ", ".join(risk_flags[:4]))
     cc_label = "<br/>".join(cc) or "(none)"
     lines.append('  subgraph cluster_cons { label="Consent & Capabilities"; color="#DDE7F0";}')

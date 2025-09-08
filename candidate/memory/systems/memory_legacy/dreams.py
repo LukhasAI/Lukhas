@@ -26,11 +26,9 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 import structlog
-from candidate.core.common import get_logger
 
 # Module imports
-from candidate.core.common import (GuardianRejectionError, LukhasError,
-                                   MemoryDriftError)
+from candidate.core.common import GuardianRejectionError, LukhasError, MemoryDriftError, get_logger
 
 # Configure module logger
 logger = get_logger(__name__)

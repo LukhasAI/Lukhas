@@ -242,7 +242,7 @@ class DocumentationAnalytics:
         overall_recommendations = []
 
         for content_path in content_paths:
-            print(f"      📄 Analyzing: {Path(content_path)}.name}")
+            print(f"      📄 Analyzing: {Path(content_path).name}")
 
             # Analyze each quality metric
             file_scores = {}

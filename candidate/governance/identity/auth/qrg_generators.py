@@ -18,34 +18,34 @@ Author: LUKHAS QRG Development Team
 License: Proprietary - See LUKHAS_LICENSE.md
 Version: 2.0.0
 """
-from consciousness.qi import qi
-from typing import Dict
-import random
-import streamlit as st
-
 import base64
 import hashlib
 import json
+import random
 import secrets  # Used for secure random generation
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 import numpy as np
 import qrcode
+import streamlit as st
 from PIL import Image, ImageDraw
+
+from consciousness.qi import qi
 
 # Replaced insecure random with secure random for consistency
 from lukhas.security import secure_random
 
 # Import LUKHAS components
 try:
+    from utils.cultural_safety_checker import CulturalSafetyChecker
+
     from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
     from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
-    from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:
     print("Warning: LUKHAS core components not found. Running in standalone mode.")
 

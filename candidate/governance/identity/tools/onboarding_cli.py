@@ -18,14 +18,14 @@
 ║ mode for UI/UX testing or integrated with the backend for full end-to-end validation.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import streamlit as st
-
 #!/usr/bin/env python3
 import argparse
 import logging
 import sys
 import time
 from typing import Any, Optional
+
+import streamlit as st
 
 # LUKHAS Core Integration
 try:

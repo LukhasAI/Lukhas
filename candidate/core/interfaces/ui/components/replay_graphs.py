@@ -20,7 +20,6 @@ import streamlit as st
 
 from lukhas.core.utils.symbolic_utils import tier_label
 
-
 st.title("🌀 Replay Queue Visualizer")
 st.caption("Dreams selected for reflection or voice narration.")
 

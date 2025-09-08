@@ -57,7 +57,8 @@ from ..orchestration_src.human_in_the_loop_orchestrator import (
     DecisionPriority,
     DecisionStatus,
     HumanInTheLoopOrchestrator,
-    ReviewResponse)
+    ReviewResponse,
+)
 from .policy_engines.base import Decision, EthicsEvaluation
 
 logger = get_logger(__name__)
