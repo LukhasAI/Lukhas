@@ -340,10 +340,10 @@ def main():
         )
         suggestions_file.parent.mkdir(parents=True, exist_ok=True)
         with open(suggestions_file, "w") as f:
-            f.write("#  Suggested package additions based on import analysis\n"
-            f.write("#  Add these to requirements.txt as needed\n\n"
+            f.write("#  Suggested package additions based on import analysis\n")
+            f.write("#  Add these to requirements.txt as needed\n\n")
             f.write("\n".join(additions))
-        print(f"\n   Full list saved to: {suggestions_file.relative_to(PROJECT_ROOT}}")
+        print(f"\n   Full list saved to: {suggestions_file.relative_to(PROJECT_ROOT)}")
 
     print("\n✅ Import fixing complete!")
 

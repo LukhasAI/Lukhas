@@ -19,7 +19,7 @@ class WorkspaceCleanup:
         self.archive_dir = (
             Path.home()
             / "lukhas-archive"
-            / f"archive_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}}"
+            / f"archive_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
         )
         self.stats = {
             "files_archived": 0,
@@ -51,7 +51,7 @@ class WorkspaceCleanup:
 
                     if original.exists() or "_" in base_name:
                         duplicates.append(file)
-                        print(f"   Found duplicate: {file.relative_to(self.workspace}}")
+                        print(f"   Found duplicate: {file.relative_to(self.workspace)}")
 
         self.stats["duplicates_found"] = len(duplicates)
         return duplicates
@@ -89,7 +89,7 @@ class WorkspaceCleanup:
         for file in self.workspace.rglob("test_*.py"):
             if "tests" not in str(file.parent):
                 misplaced.append(file)
-                print(f"   Misplaced test: {file.relative_to(self.workspace}}")
+                print(f"   Misplaced test: {file.relative_to(self.workspace)}")
 
         return misplaced
 
@@ -242,7 +242,7 @@ class WorkspaceCleanup:
         with open(req_path, "w") as f:
             f.write("\n".join(core_requirements))
 
-        print(f"   ✅ Updated requirements.txt with {len(core_requirements}} packages")
+        print(f"   ✅ Updated requirements.txt with {len(core_requirements)} packages")
 
     def update_setup_py(self):
         """Update setup.py with current structure"""

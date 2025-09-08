@@ -228,9 +228,9 @@ Generated: {self.health_status['timestamp']}
 
             if status.get("exists"):
                 report += f"- Python Files: {status.get('py_files', 0)}\n"
-                report += f"- Has __init__.py: {'✅' if status.get('has_init')} else '❌'}\n"
-                report += f"- Has Tests: {'✅' if status.get('has_tests')} else '❌'}\n"
-                report += f"- Has Docs: {'✅' if status.get('has_docs')} else '❌'}\n"
+                report += f"- Has __init__.py: {'✅' if status.get('has_init') else '❌'}\n"
+                report += f"- Has Tests: {'✅' if status.get('has_tests') else '❌'}\n"
+                report += f"- Has Docs: {'✅' if status.get('has_docs') else '❌'}\n"
             else:
                 report += "- MODULE MISSING!\n"
 

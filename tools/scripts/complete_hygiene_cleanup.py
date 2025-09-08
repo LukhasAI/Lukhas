@@ -143,7 +143,7 @@ def complete_cleanup():
     print("\n" + "=" * 60)
     print("📊 CLEANUP SUMMARY")
     print("=" * 60)
-    print(f"Total renames: {len(changes}}")
+    print(f"Total renames: {len(changes)}")
     print(f"Import updates: {updated_files} files")
     print("\n✅ Complete hygiene cleanup finished!")
 
