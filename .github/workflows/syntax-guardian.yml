@@ -1,0 +1,125 @@
+name: Syntax Guardian - Mass Breakage Prevention
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run daily at 3:00 AM UTC to monitor syntax drift
+    - cron: '0 3 * * *'
+
+jobs:
+  syntax-guardian:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip'
+        
+    - name: Create virtual environment
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install --upgrade pip
+        
+    - name: Install ruff for syntax checking
+      run: |
+        source .venv/bin/activate
+        pip install ruff==0.6.7
+        
+    - name: Run Syntax Guardian
+      run: |
+        source .venv/bin/activate
+        python tools/ci/syntax_guardian.py
+        
+    - name: Upload syntax report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: syntax-guardian-report-${{ github.sha }}
+        path: syntax_guardian_report.json
+        retention-days: 30
+        
+    - name: Check for emergency status
+      if: failure()
+      run: |
+        echo "🚨 SYNTAX GUARDIAN ALERT: Mass breakage detected!"
+        echo "Check the syntax guardian report for recovery recommendations."
+        echo "Consider reverting recent changes or running recovery procedures."
+        
+    - name: Comment on PR (if applicable)
+      if: github.event_name == 'pull_request' && failure()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          
+          try {
+            const reportData = fs.readFileSync('syntax_guardian_report.json', 'utf8');
+            const report = JSON.parse(reportData);
+            
+            let comment = '🛡️ **Syntax Guardian Alert**\n\n';
+            comment += `Status: **${report.status.toUpperCase()}**\n\n`;
+            
+            comment += '📊 **Syntax Error Trends:**\n';
+            for (const [dir, analysis] of Object.entries(report.analysis)) {
+              const emoji = analysis.severity === 'emergency' ? '🚨' :
+                           analysis.severity === 'critical' ? '🔥' :
+                           analysis.severity === 'warning' ? '⚠️' : '✅';
+              comment += `${emoji} \`${dir}\`: ${analysis.current} errors (${analysis.delta >= 0 ? '+' : ''}${analysis.delta})\n`;
+            }
+            
+            if (report.recovery_plan && report.recovery_plan.length > 0) {
+              comment += '\n🔧 **Recovery Recommendations:**\n';
+              for (const step of report.recovery_plan) {
+                comment += `- ${step}\n`;
+              }
+            }
+            
+            comment += '\n---\n*This check helps prevent mass syntax breakage from automation experiments.*';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          } catch (error) {
+            console.log('Could not read or parse syntax report:', error.message);
+          }
+
+  syntax-trend-tracking:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    timeout-minutes: 5
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install ruff
+      run: pip install ruff==0.6.7
+        
+    - name: Generate syntax trend report
+      run: |
+        python tools/ci/syntax_guardian.py > syntax_trend_$(date +%Y%m%d).log
+        
+    - name: Archive trend report
+      uses: actions/upload-artifact@v3
+      with:
+        name: syntax-trends
+        path: syntax_trend_*.log
+        retention-days: 90

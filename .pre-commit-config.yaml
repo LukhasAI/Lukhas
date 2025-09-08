@@ -15,3 +15,11 @@ repos:
     hooks:
       - id: gitleaks
         args: ["--redact", "--report-format", "sarif", "--report-path", "gitleaks.sarif"]
+  - repo: local
+    hooks:
+      - id: syntax-guardian
+        name: Syntax Guardian - Mass Breakage Prevention
+        entry: python tools/ci/syntax_guardian.py --pre-commit
+        language: system
+        pass_filenames: false
+        always_run: true
