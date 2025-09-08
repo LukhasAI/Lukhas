@@ -183,3 +183,14 @@ class BioMatrizAdapter:
             json.dump(node, f, indent=2)
 
         return filepath
+
+
+# Convenience function for direct node creation
+def MATRIZ_bio_adapter_node(
+    node_type: str,
+    state: dict[str, float], 
+    labels: Optional[list[str]] = None,
+    provenance_extra: Optional[dict] = None,
+) -> dict[str, Any]:
+    """Create a MATRIZ-compliant node for bio events (convenience function)"""
+    return BioMatrizAdapter.create_node(node_type, state, labels, provenance_extra)
