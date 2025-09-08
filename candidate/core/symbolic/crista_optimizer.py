@@ -244,7 +244,7 @@ class SymbolicNetwork:
         low_activity_nodes = [
             node
             for node in self.nodes.values()
-            if node.activity_level < self.config.fusion_threshold:
+            if node.activity_level < self.config.fusion_threshold
         ]
 
         pairs: list[tuple[SymbolicNode, SymbolicNode]] = []
@@ -256,7 +256,7 @@ class SymbolicNetwork:
         # Limit to prevent excessive merging in one cycle
         limited_pairs = pairs[:5]
         self.logger.info(
-            f"ΛTRACE: Found {len(limited_pairs}} low activity pairs (limited to 5)."
+            f"ΛTRACE: Found {len(limited_pairs)} low activity pairs (limited to 5)."
         )
         return limited_pairs
 
@@ -267,7 +267,7 @@ class SymbolicNetwork:
         Merges specified pairs of nodes into single new nodes, combining their weights and connections.
         This simulates a fusion-like process for network efficiency.
         """
-        self.logger.info(f"ΛTRACE: Attempting to merge {len(node_pairs}} node pairs.")
+        self.logger.info(f"ΛTRACE: Attempting to merge {len(node_pairs)} node pairs.")
         merged_count = 0
         for node1, node2 in node_pairs:
             if node1.node_id in self.nodes and node2.node_id in self.nodes:
@@ -290,12 +290,11 @@ class SymbolicNetwork:
 
                 self.logger.info(
                     f"ΛTRACE: Successfully merged nodes '{node1.node_id}' and '{node2.node_id}' into '{merged_id}'."
-                }
+                )
                 merged_count += 1
             else:
                 self.logger.warning(
-                    f"ΛTRACE: Skipping merge for pair({node1.node_id},
-                                                      {node2.node_id}) as one or both no longer exist."
+                    f"ΛTRACE: Skipping merge for pair({node1.node_id}, {node2.node_id}) as one or both no longer exist."
                 )
         self.logger.info(f"ΛTRACE: Merged {merged_count} node pairs.")
 
@@ -322,8 +321,7 @@ class SymbolicNetwork:
             adjustment = entropy_diff * self.config.entropy_balance_weight
             node.entropy -= adjustment  # Adjust node's entropy
             self.logger.debug(
-                f"ΛTRACE: Node '{node.node_id}' entropy adjusted by {-adjustment: .4f},
-                new entropy: {node.entropy: .4f}."
+                f"ΛTRACE: Node '{node.node_id}' entropy adjusted by {-adjustment: .4f}, new entropy: {node.entropy: .4f}."
             )
         self.logger.info("ΛTRACE: Entropy balance pass completed.")
 
@@ -341,8 +339,8 @@ class SymbolicNetwork:
         # Filter out connections where source or destination node no longer exists
         valid_connections = [
             (src, dst)
-            for src, dst in self.connections:
-            if src in active_node_ids and dst in active_node_ids:
+            for src, dst in self.connections
+            if src in active_node_ids and dst in active_node_ids
         ]
         self.connections = valid_connections
         removed_count = original_connection_count - len(self.connections)
@@ -352,7 +350,7 @@ class SymbolicNetwork:
         # ΛNOTE: Relinking logic for drifted edges is currently basic (removal).
         # Future enhancements could include finding nearest neighbors.
         self.logger.info(
-            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections}}."
+            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections}."
         )
 
 
@@ -603,7 +601,7 @@ class CristaOptimizer:
                 # Remove original node and add its children to the network
                 self.network.remove_node(node.node_id)
                 for child in child_nodes:
-                    self.network.add_node(child}}
+                    self.network.add_node(child}
                 nodes_split_count += 1
             else:
                 self.logger.warning(
@@ -661,7 +659,7 @@ class CristaOptimizer:
         )
 
         self.logger.info(
-            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}}. Nodes affected: {nodes_affected_count}."
+            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}. Nodes affected: {nodes_affected_count}."
         )
         return {
             "success": True,
