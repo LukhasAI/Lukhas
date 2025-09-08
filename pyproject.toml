@@ -78,17 +78,20 @@ Issues = "https://github.com/LukhasAI/Lukhas/issues"
 packages = ["lukhas"]
 
 [tool.pytest.ini_options]
+minversion = "8.0"
 testpaths = ["tests"]
 pythonpath = ["."]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-q --disable-warnings --cov --cov-report=term-missing --cov-fail-under=30"
+addopts = "-q --strict-markers --disable-warnings"
 markers = [
-    "unit: Unit tests",
-    "integration: Integration tests",
+    "unit: fast, isolated tests",
+    "integration: touches I/O, network, or filesystem",
+    "contract: provider/consumer API checks",
+    "e2e: end-to-end journeys",
+    "slow: long-running tests",
     "security: Security tests",
-    "slow: Slow tests",
     "codex: CODEX automated fixes",
     "datetime: Datetime UTC compliance tests",
     "imports: Import structure validation",
@@ -97,6 +100,22 @@ markers = [
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["lukhas", "candidate"]
+branch = true
+omit = ["*/tests/*", "*/test_*"]
+
+[tool.coverage.report]
+fail_under = 30
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
 ]
 
 [tool.black]
