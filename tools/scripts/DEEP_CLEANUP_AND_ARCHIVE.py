@@ -179,7 +179,7 @@ class WorkspaceCleanup:
                     with open(req_file) as f:
                         for line in f:
                             line = line.strip()
-                            if line and not line.startswith("# ":
+                            if line and not line.startswith("# "):
                                 # Parse package name
                                 re.split(r"[<>=!]", line)[0]
                                 all_requirements.add(line)

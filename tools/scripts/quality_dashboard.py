@@ -486,7 +486,7 @@ class QualityDashboard:
         print(f"📝 Linting Issues: {metrics['flake8']['total'] + metrics['ruff']['total']}")
         print(f"🔍 Type Errors: {metrics['mypy']['errors']}")
         print(f"🧪 Test Coverage: {metrics['coverage']['coverage_percent']:.1f}%")
-        print(f"🔐 Security Issues: {sum(metrics['security'].values(}}")
+        print(f"🔐 Security Issues: {sum(metrics['security'].values())}")
         print(f"📊 Lines of Code: {metrics['loc']['code']:,}")
         print("=" * 60)
         print(f"\n✅ Dashboard saved to: {self.dashboard_file}")

@@ -269,7 +269,7 @@ class ImportFixer:
                 with open(req_path) as f:
                     for line in f:
                         line = line.strip()
-                        if line and not line.startswith("# ":
+                        if line and not line.startswith("# "):
                             package = line.split("==")[0].split(">=")[0].split("[")[0]
                             current_packages.add(package.lower())
 
@@ -323,7 +323,7 @@ def main():
 
     # Show errors
     if fixer.errors:
-        print(f"\n❌ Errors ({len(fixer.errors}}):")
+        print(f"\n❌ Errors ({len(fixer.errors)}):")
         for error in fixer.errors[:10]:
             print(f"   • {error}")
 

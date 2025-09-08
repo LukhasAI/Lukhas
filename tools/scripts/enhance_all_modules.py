@@ -816,14 +816,14 @@ docs:
         report_path = 'docs/reports/MODULE_ENHANCEMENT_REPORT.json'
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
 
-                                                                                                                                                                                                                        with open(report_path, 'w') as f:
+        with open(report_path, 'w') as f:
             json.dump(report, f, indent=2)
 
         print(f"\n📋 Enhancement report saved to: {report_path}")
 
-                                                                                                                                                                                                                            def main():
-    enhancer = ModuleEnhancer()
-    enhancer.run()
+    def main():
+        enhancer = ModuleEnhancer()
+        enhancer.run()
 
-                                                                                                                                                                                                                                if __name__ == "__main__":
-    main()
+    if __name__ == "__main__":
+        main()

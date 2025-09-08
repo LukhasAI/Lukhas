@@ -221,7 +221,7 @@ bridge = {module1.title()}{module2.title()}Bridge()
                     # Find functions
                     for node in ast.walk(tree):
                         if isinstance(node, ast.FunctionDef):
-                            sig = f"{node.name}({len(node.args.args}})"
+                            sig = f"{node.name}({len(node.args.args)})"
                             function_signatures[sig].append(
                                 {
                                     "file": str(py_file),
@@ -269,7 +269,7 @@ bridge = {module1.title()}{module2.title()}Bridge()
                     }
                 )
 
-        print(f"  ⚠️ Found {len(self.duplicates_found}} duplicate patterns")
+        print(f"  ⚠️ Found {len(self.duplicates_found)} duplicate patterns")
         return len(self.duplicates_found)
 
     def create_shared_utilities(self):
