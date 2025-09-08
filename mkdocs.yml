@@ -49,29 +49,37 @@ plugins:
 nav:
   - Overview: index.md
   - Concepts:
-      - MΛTRIZ Consciousness System: concepts/matriz-consciousness.md
       - Constellation Framework: concepts/constellation-framework.md  
       - Identity & Authentication: concepts/identity-system.md
       - Memory & Persistence: concepts/memory-system.md
       - Ethics & Governance: concepts/ethics-governance.md
       - Quantum-Bio Processing: concepts/quantum-bio.md
   - How-to:
-      - Quick Start: howto/oneiric-core-run.md
-      - Contributing: howto/contributing.md
-      - Code of Conduct: howto/code-of-conduct.md
+      - Quick Start: howto/quick-start.md
+      - Development Setup: howto/development-setup.md
+      - Testing Guide: howto/testing.md
+      - Deployment: howto/deployment.md
       - Contribute Docs: howto/contribute-docs.md
   - Reference:
       - API Overview: reference/index.md
+      - Core Modules: reference/core.md
+      - Lukhas Modules: reference/lukhas.md
+      - Candidate Modules: reference/candidate.md
+      - Configuration: reference/configuration.md
       - Claude Integration: reference/claude-integration.md
   - Decisions:
       - ADRs Overview: decisions/index.md
       - "ADR-0001 Choose MkDocs": decisions/ADR-0001-choose-mkdocs.md
   - Runbooks:
       - On-call Guide: runbooks/oncall.md
+      - Monitoring: runbooks/monitoring.md
+      - Troubleshooting: runbooks/troubleshooting.md
       - Security: runbooks/security.md
   - Changelogs:
       - Release Notes: changelogs/app.md
       - Change Log: changelogs/changelog.md
+  - Reports:
+      - Migration Report: reports/docs_reorg.md
 
 markdown_extensions:
   - pymdownx.highlight:
