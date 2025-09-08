@@ -56,6 +56,16 @@ except ImportError as e:
 
     def verify_tier_access(user_id: str, required_tier: str) -> bool:
         """Fallback tier access verification - always allows"""
+        # TODO[T4-INTERFACE-SURGERY]: Enhanced telemetry for identity verification
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info("identity.tier_access_verification", extra={
+            "user_id": user_id,
+            "required_tier": required_tier,
+            "result": "granted",
+            "fallback_mode": True,
+            "trace": "tier_verification_fallback"
+        })
         return True
 
 

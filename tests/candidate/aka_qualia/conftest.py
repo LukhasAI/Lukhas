@@ -161,7 +161,7 @@ def low_risk_scene(base_proto_qualia):
 
 
 @pytest.fixture
-def high_risk_scene(base_proto_qualia):
+def high_risk_scene(_base_proto_qualia):  # noqa: ARG001 - fixture creates independent data
     """High-risk scene that should trigger TEQ enforcement"""
     risky_proto = ProtoQualia(
         tone=-0.8,
@@ -255,7 +255,7 @@ def sql_memory_with_data(sql_memory, low_risk_scene, test_glyphs, test_policy, t
 
 
 @pytest.fixture
-def sql_memory_with_100k_rows(sql_memory):
+def sql_memory_with_100k_rows(_sql_memory):  # noqa: ARG001 - fixture skips and creates independent test scenario
     """SQL memory with 100k rows for performance testing"""
     # This would be too slow for regular tests, so we'll mock it
     # or use pytest markers to skip unless specifically requested

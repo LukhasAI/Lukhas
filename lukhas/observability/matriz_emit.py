@@ -27,6 +27,8 @@ def make_node(
         "version": 1,
         "schema_ref": "lukhas://schemas/matriz_node_v1.json",
         "id": f"LT-{uuid.uuid4()}",
+        "ntype": ntype,  # Node type for MATRIZ DNA classification
+        "state": state,  # Cognitive state vector for consciousness tracking
         "provenance": provenance,
     }
     if labels:

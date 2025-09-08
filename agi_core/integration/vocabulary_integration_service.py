@@ -48,10 +48,10 @@ except ImportError:
     format_agi_message = agi_bridge.format_agi_message
     get_vocabulary_context = agi_bridge.get_vocabulary_context
 
-    def translate_agi_to_dream(x):
+    def translate_agi_to_dream(_x):  # noqa: ARG001 - static translation mapping
         return "🌙"
 
-    def translate_agi_to_bio(x):
+    def translate_agi_to_bio(_x):  # noqa: ARG001 - static translation mapping
         return "🧠"
 
 

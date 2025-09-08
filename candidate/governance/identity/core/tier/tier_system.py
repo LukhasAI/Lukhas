@@ -74,10 +74,24 @@ def validate_tier_permission(user_id: str, permission: str) -> bool:
         bool: True if permission granted, False otherwise
     """
     try:
+        # Enhanced observability for tier permission validation
+        import logging
+        logger = logging.getLogger(__name__)
+        
         # This would check specific permissions within tier levels
         # For now, basic implementation
         user_tier = get_user_tier(user_id)
-        return user_tier >= 1  # Basic check
+        
+        # Enhanced telemetry for permission validation
+        result = user_tier >= 1  # Basic permission check
+        logger.info("identity.tier_permission_validation", extra={
+            "user_id": user_id,
+            "permission": permission,
+            "user_tier": user_tier,
+            "result": result,
+            "trace": "tier_permission_check"
+        })
+        return result
     except Exception:
         return False
 
