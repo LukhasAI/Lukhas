@@ -1,0 +1,57 @@
+{
+  "controlled_vocabulary": {
+    "status": [
+      "draft",
+      "review", 
+      "stable",
+      "deprecated"
+    ],
+    "facets": {
+      "layer": [
+        "gateway",
+        "orchestration", 
+        "integration",
+        "storage",
+        "ui"
+      ],
+      "domain": [
+        "symbolic",
+        "identity",
+        "ethics",
+        "time",
+        "async",
+        "metrics",
+        "consciousness",
+        "memory",
+        "quantum",
+        "bio",
+        "guardian"
+      ],
+      "audience": [
+        "dev",
+        "ops", 
+        "researcher",
+        "product"
+      ]
+    },
+    "tags": [
+      "overview",
+      "consciousness",
+      "platform",
+      "architecture",
+      "api",
+      "testing",
+      "deployment",
+      "security",
+      "performance",
+      "monitoring",
+      "troubleshooting",
+      "howto",
+      "concept",
+      "reference",
+      "adr",
+      "runbook",
+      "changelog"
+    ]
+  }
+}

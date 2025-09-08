@@ -1,0 +1,97 @@
+site_name: LUKHΛS AI - Distributed Consciousness Platform
+site_url: https://lukhas.ai
+site_description: Production-ready consciousness-aware AI platform with Constellation Framework
+
+docs_dir: docs_new
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+    - search.share
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple  
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search:
+      lang: en
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+            show_category_heading: true
+            members_order: source
+            filters: ["!^_"]
+
+nav:
+  - Overview: index.md
+  - Concepts:
+      - MΛTRIZ Consciousness System: concepts/matriz-consciousness.md
+      - Constellation Framework: concepts/constellation-framework.md  
+      - Identity & Authentication: concepts/identity-system.md
+      - Memory & Persistence: concepts/memory-system.md
+      - Ethics & Governance: concepts/ethics-governance.md
+      - Quantum-Bio Processing: concepts/quantum-bio.md
+  - How-to:
+      - Quick Start: howto/quick-start.md
+      - Development Setup: howto/development-setup.md
+      - Testing Guide: howto/testing.md
+      - Deployment: howto/deployment.md
+      - Contributing: howto/contributing.md
+      - Contribute Docs: howto/contribute-docs.md
+  - Reference:
+      - API Overview: reference/index.md
+      - Core Modules: reference/core.md
+      - Lukhas Modules: reference/lukhas.md  
+      - Candidate Modules: reference/candidate.md
+      - Configuration: reference/configuration.md
+  - Decisions:
+      - ADRs Overview: decisions/index.md
+      - "ADR-0001 Choose MkDocs": decisions/ADR-0001-choose-mkdocs.md
+  - Runbooks:
+      - On-call Guide: runbooks/oncall.md
+      - System Monitoring: runbooks/monitoring.md
+      - Troubleshooting: runbooks/troubleshooting.md
+  - Changelogs:
+      - Release Notes: changelogs/app.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
