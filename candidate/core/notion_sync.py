@@ -254,7 +254,7 @@ def sync_to_notion_legacy(doc_path: str, notion_page_id: str = "symbolic-notion-
     # Simulate push to Notion
     logger.info(f"📄 Document title: {data.get('overview', 'Untitled'}}")
     logger.info(f"📌 Target Notion Page ID: {notion_page_id}")
-    logger.info(f"🕓 Synced at: {datetime.date.today().isoformat(}}")
+    logger.info(f"🕓 Synced at: {datetime.date.today().isoformat()}")
 
     # Mocked success
     return {"status": "ok", "notion_page": notion_page_id}

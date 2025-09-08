@@ -595,7 +595,7 @@ class ExtremeAuthPerformanceOptimizer:
     ) -> dict[str, Any]:
         """Complete optimized authentication flow demonstrating all optimizations"""
         async with self.optimize_auth_operation(
-            f"full_auth_{operation}", f"auth_{agent_id}_{int(time.time()}"
+            f"full_auth_{operation}", f"auth_{agent_id}_{int(time.time())}"
         ) as metrics:
             # 1. OPTIMIZED COMPONENT LOADING (was 15-25ms, now <1ms)
             time.perf_counter()

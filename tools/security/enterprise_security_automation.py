@@ -279,7 +279,7 @@ class EnterprisSecurityScanner:
     ) -> SecurityScanResult:
         """Run comprehensive security scan"""
 
-        scan_id = f"scan_{int(time.time()}"
+        scan_id = f"scan_{int(time.time())}"
         started_at = datetime.now(timezone.utc)
 
         logger.info(f"🔍 Starting comprehensive security scan: {scan_id}")

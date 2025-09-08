@@ -316,7 +316,7 @@ class LUKHASTransmission:
 
         logger.info("   📡 LUKHAS Next Generation System Status:")
         logger.info(f"      Launch time: {self.launch_time.isoformat()}")
-        logger.info(f"      Uptime: {uptime.total_seconds()}:.1f} seconds")
+        logger.info(f"      Uptime: {uptime.total_seconds():.1f} seconds")
         logger.info(f"      Components: {running_components}/{total_components} running")
         logger.info("      System phase: Phase 5 - Guardian Integration")
         logger.info("")
@@ -340,7 +340,7 @@ class LUKHASTransmission:
     async def _save_transmission_record(self):
         """Save transmission launch record"""
         transmission_record = {
-            "transmission_id": f"lukhas_ng_phase5_{int(self.launch_time.timestamp()}",
+            "transmission_id": f"lukhas_ng_phase5_{int(self.launch_time.timestamp())}",
             "launch_time": self.launch_time.isoformat(),
             "completion_time": datetime.now(timezone.utc).isoformat(),
             "system_phase": "phase_5_guardian",

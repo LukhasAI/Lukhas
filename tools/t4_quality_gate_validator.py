@@ -383,7 +383,7 @@ class T4QualityGateValidator:
         self.results["metadata"]["duration_seconds"] = (datetime.now(timezone.utc) - self.start_time).total_seconds()
 
         # Save comprehensive report
-        report_path = RESULTS_DIR / f"t4_validation_report_{int(time.time()}.json"
+        report_path = RESULTS_DIR / f"t4_validation_report_{int(time.time())}.json"
         with open(report_path, "w") as f:
             json.dump(self.results, f, indent=2)
 

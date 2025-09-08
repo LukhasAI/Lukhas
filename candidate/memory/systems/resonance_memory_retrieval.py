@@ -311,7 +311,7 @@ class ResonanceGate:
                 {
                     "event": "memory_evicted",
                     "memory_id": memory_to_evict,
-                    "timestamp": current_time.isoformat(}},
+                    "timestamp": current_time.isoformat(),
                     "reason": "memory_limit_exceeded",
                 }
             )

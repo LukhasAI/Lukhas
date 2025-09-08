@@ -253,10 +253,12 @@ class EnhancedEmotionalProcessor:
             )
         }
 
-                                                                                            class EnhancedMemorySystem:
-                                                                                                """Enhanced memory system with emotional integration and dream consolidation"""
 
-                                                                                                def __init__(self, emotional_processor: EnhancedEmotionalProcessor, memory_path: str = "./enhanced_memory"):
+class EnhancedMemorySystem:
+    """Enhanced memory system with emotional integration and dream consolidation"""
+
+    def __init__(self, emotional_processor: EnhancedEmotionalProcessor, 
+                 memory_path: str = "./enhanced_memory"):
         self.emotional_processor = emotional_processor
         self.memory_path = memory_path
         os.makedirs(memory_path, exist_ok=True)
@@ -273,13 +275,15 @@ class EnhancedEmotionalProcessor:
             "retrievals": 0
         }
 
-                                                                                                    def store_memory_with_emotion(self, key: str, content: Any, emotion: str = None,
-                                tags: List[str] = None, priority: str = "medium",
-                                metadata: Dict[str, Any] = None) -> Dict[str, Any]:
-                                                                                                    """Store memory with emotional context"""
+    def store_memory_with_emotion(self, key: str, content: Any, 
+                                  emotion: str = None,
+                                  tags: List[str] = None, 
+                                  priority: str = "medium",
+                                  metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+        """Store memory with emotional context"""
 
         # Use current emotional state if none provided
-                                                                                                    if emotion is None:
+        if emotion is None:
             emotion = self.emotional_processor.current_state["primary_emotion"]
 
         memory_entry = {
@@ -291,29 +295,31 @@ class EnhancedEmotionalProcessor:
             "metadata": metadata or {},
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "access_count": 0,
-            "emotional_intensity": self.emotional_processor.current_state["intensity"]
+            "emotional_intensity": (
+                self.emotional_processor.current_state["intensity"]
+            )
         }
 
         # Store in memory
         self.memory_store[key] = memory_entry
 
         # Create emotional associations
-                                                                                                        if emotion not in self.emotional_associations:
+        if emotion not in self.emotional_associations:
             self.emotional_associations[emotion] = []
         self.emotional_associations[emotion].append(key)
 
         # Update statistics
         self.stats["total_memories"] += 1
-                                                                                                            if emotion != "neutral":
+        if emotion != "neutral":
             self.stats["emotional_memories"] += 1
 
         # Add to consolidation queue if high priority
-                                                                                                                if priority in ["high", "critical"]:
+        if priority in ["high", "critical"]:
             self.consolidation_queue.append(key)
 
         logger.info(f"Stored memory '{key}' with emotion '{emotion}'")
 
-                                                                                                                    return {
+        return {
             "status": "success",
             "key": key,
             "emotion": emotion,
@@ -321,62 +327,69 @@ class EnhancedEmotionalProcessor:
             "timestamp": memory_entry["timestamp"]
         }
 
-                                                                                                                def retrieve_with_emotional_context(self, key: str = None, target_emotion: str = None,
-                                                                                                                similarity_threshold: float = 0.7) -> Dict[str, Any]:
-                                                                                                                """Retrieve memories with emotional context"""
+    def retrieve_with_emotional_context(self, key: str = None, 
+                                         target_emotion: str = None,
+                                         similarity_threshold: float = 0.7
+                                         ) -> Dict[str, Any]:
+        """Retrieve memories with emotional context"""
 
         self.stats["retrievals"] += 1
 
-                                                                                                                if key and key in self.memory_store:
+        if key and key in self.memory_store:
             # Direct retrieval
             memory = self.memory_store[key]
             memory["access_count"] += 1
-                                                                                                                    return {
+            return {
                 "status": "success",
                 "memory": memory,
                 "retrieval_type": "direct"
             }
 
-                                                                                                                elif target_emotion:
+        elif target_emotion:
             # Emotional retrieval
             similar_memories = []
 
-                                                                                                                    for emotion, keys in self.emotional_associations.items():
-                distance = self.emotional_processor._calculate_emotion_distance(target_emotion, emotion)
-                                                                                                                        if distance <= (2.0 - similarity_threshold * 2.0):  # Convert threshold to distance:
-                                                                                                                        for memory_key in keys:
+            for emotion, keys in self.emotional_associations.items():
+                distance = self.emotional_processor._calculate_emotion_distance(
+                    target_emotion, emotion
+                )
+                # Convert threshold to distance
+                if distance <= (2.0 - similarity_threshold * 2.0):
+                    for memory_key in keys:
                         memory = self.memory_store[memory_key]
                         memory["emotional_distance"] = distance
                         similar_memories.append(memory)
 
             # Sort by emotional similarity and recency
-            similar_memories.sort(key=lambda m: (m.get("emotional_distance", 1.0),
-    m["timestamp"]))
+            similar_memories.sort(key=lambda m: (
+                m.get("emotional_distance", 1.0),
+                m["timestamp"]
+            ))
 
-                                                                                                                            return {
+            return {
                 "status": "success",
                 "memories": similar_memories[:10],  # Return top 10
                 "retrieval_type": "emotional_similarity",
                 "target_emotion": target_emotion
             }
 
-                                                                                                                        else:
-                                                                                                                            return {
+        else:
+            return {
                 "status": "error",
                 "message": "Either key or target_emotion must be provided"
             }
 
-                                                                                                                        def dream_consolidate_memories(self, max_memories: int = 50) -> Dict[str, Any]:
-                                                                                                                            """Consolidate memories through dream-like processing"""
+    def dream_consolidate_memories(self, max_memories: int = 50) -> Dict[str, Any]:
+        """Consolidate memories through dream-like processing"""
 
-                                                                                                                            if not self.consolidation_queue:
-                                                                                                                                return {"status": "no_memories_to_consolidate"}
+        if not self.consolidation_queue:
+            return {"status": "no_memories_to_consolidate"}
 
         consolidated_memories = []
 
         # Process memories in consolidation queue
-                                                                                                                            for key in self.consolidation_queue[:max_memories]:
-                                                                                                                                if key in self.memory_store:
+        for key in self.consolidation_queue[:max_memories]:
+            if key in self.memory_store:
                 memory = self.memory_store[key]
 
                 # Dream-like processing: create associations and strengthen important memories
@@ -384,7 +397,9 @@ class EnhancedEmotionalProcessor:
                     "original_key": key,
                     "content": memory["content"],
                     "emotion": memory["emotion"],
-                    "consolidation_strength": memory["emotional_intensity"] * memory["access_count"],
+                    "consolidation_strength": (
+                        memory["emotional_intensity"] * memory["access_count"]
+                    ),
                     "dream_associations": self._generate_dream_associations(memory),
                     "consolidated_at": datetime.now(timezone.utc).isoformat()
                 }
@@ -395,46 +410,49 @@ class EnhancedEmotionalProcessor:
         self.consolidation_queue = self.consolidation_queue[max_memories:]
         self.stats["consolidations"] += len(consolidated_memories)
 
-        logger.info(f"Consolidated {len(consolidated_memories)} memories through dream processing")
+        logger.info(
+            f"Consolidated {len(consolidated_memories)} memories through dream processing"
+        )
 
-                                                                                                                                    return {
+        return {
             "status": "success",
             "consolidated_count": len(consolidated_memories),
             "remaining_queue": len(self.consolidation_queue),
             "consolidated_memories": consolidated_memories
         }
 
-                                                                                                                                def _generate_dream_associations(self, memory: Dict[str, Any]) -> List[str]:
-                                                                                                                                    """Generate dream-like associations for memory consolidation"""
+    def _generate_dream_associations(self, memory: Dict[str, Any]) -> List[str]:
+        """Generate dream-like associations for memory consolidation"""
         associations = []
 
         # Find emotionally similar memories
         emotion = memory["emotion"]
-                                                                                                                                    if emotion in self.emotional_associations:
+        if emotion in self.emotional_associations:
             similar_keys = self.emotional_associations[emotion][:3]  # Top 3 similar
             associations.extend([f"emotional_link_{key}" for key in similar_keys])
 
         # Add content-based associations (simplified)
         content_str = str(memory["content"]).lower()
-                                                                                                                                        if "creative" in content_str:
+        if "creative" in content_str:
             associations.append("creativity_network")
-                                                                                                                                            if "memory" in content_str:
+        if "memory" in content_str:
             associations.append("meta_memory_network")
-                                                                                                                                                if "learning" in content_str:
+        if "learning" in content_str:
             associations.append("learning_network")
 
-                                                                                                                                                    return associations
+        return associations
 
-                                                                                                                                                class EnhancedBrainIntegration:
-                                                                                                                                                    """
+
+class EnhancedBrainIntegration:
+    """
     Enhanced Brain Integration System combining Multi-Brain Symphony with
     emotional memory processing, voice modulation, and dream consolidation.
 
     This is the superior replacement for the previous brain_integration.py
-                                                                                                                                                    """
+    """
 
-                                                                                                                                                    def __init__(self, config: Dict[str, Any] = None):
-                                                                                                                                                        """Initialize the Enhanced Brain Integration System"""
+    def __init__(self, config: Dict[str, Any] = None):
+        """Initialize the Enhanced Brain Integration System"""
 
         self.config = config or {}
         logger.info("🧠 Initializing Enhanced Brain Integration System")
@@ -444,46 +462,45 @@ class EnhancedEmotionalProcessor:
         self.memory_system = EnhancedMemorySystem(self.emotional_processor)
 
         # Initialize Multi-Brain Symphony if available
-                                                                                                                                                        if SYMPHONY_AVAILABLE:
-                                                                                                                                                            try:
+        if SYMPHONY_AVAILABLE:
+            try:
                 self.symphony_orchestrator = MultiBrainSymphonyOrchestrator(
                     emotional_oscillator=self.emotional_processor,
                     memory_integrator=self.memory_system
                 )
                 self.symphony_available = True
                 logger.info("🎼 Multi-Brain Symphony orchestrator integrated")
-                                                                                                                                                                except Exception as e:
+            except Exception as e:
                 logger.error(f"Failed to initialize symphony: {e}")
                 self.symphony_orchestrator = None
                 self.symphony_available = False
-                                                                                                                                                                    else:
+        else:
             self.symphony_orchestrator = None
             self.symphony_available = False
 
         # Initialize voice integration if available
-                                                                                                                                                                        try:
-                                                                                                                                                                            if VoiceIntegrator:
+        try:
+            if VoiceIntegrator:
                 self.voice_integrator = VoiceIntegrator()
-                                                                                                                                                                                else:
+            else:
                 self.voice_integrator = None
-                                                                                                                                                                                    except Exception as e:
+        except Exception as e:
             logger.warning(f"Voice integrator not available: {e}")
             self.voice_integrator = None
 
         # Initialize dream engine if available
-                                                                                                                                                                                        try:
-                                                                                                                                                                                            if DreamReflectionLoop:
+        try:
+            if DreamReflectionLoop:
                 self.dream_engine = DreamReflectionLoop()
-                                                                                                                                                                                                else:
+            else:
                 self.dream_engine = None
-                                                                                                                                                                                                    except Exception as e:
+        except Exception as e:
             logger.warning(f"Dream engine not available: {e}")
             self.dream_engine = None
 
         # Initialize advanced AI components if available
-                                                                                                                                                                                                        if ADVANCED_AGI_COMPONENTS:
-                                                                                                                                                                                                            try:
-                                                                                                                                                                                                                pass
+        if ADVANCED_AGI_COMPONENTS:
+            try:
                 # Compliance and governance systems
                 self.compliance_manager = AIComplianceManager(
                     region=self.config.get("region", "GLOBAL"),
@@ -504,10 +521,10 @@ class EnhancedEmotionalProcessor:
                 # Initialize AI subsystems
                 asyncio.create_task(self._initialize_agi_subsystems())
 
-                                                                                                                                                                                                            except Exception as e:
+            except Exception as e:
                 logger.error(f"Failed to initialize advanced AI components: {e}")
                 self.advanced_agi_available = False
-                                                                                                                                                                                                                else:
+        else:
             self.advanced_agi_available = False
             logger.warning("⚠️  Advanced AI components not available")
 
@@ -534,53 +551,53 @@ class EnhancedEmotionalProcessor:
         logger.info("✅ Enhanced Brain Integration System initialized successfully")
 
     async def _initialize_agi_subsystems(self):
-                                                                                                                                                                                                                    """Initialize the advanced AI subsystems asynchronously"""
-                                                                                                                                                                                                                    if not self.advanced_agi_available:
-                                                                                                                                                                                                                        return
+        """Initialize the advanced AI subsystems asynchronously"""
+        if not self.advanced_agi_available:
+            return
 
-                                                                                                                                                                                                                    try:
-                                                                                                                                                                                                                        pass
+        try:
             # Initialize compliance manager
-                                                                                                                                                                                                                    if hasattr(self.compliance_manager, 'initialize'):
+            if hasattr(self.compliance_manager, 'initialize'):
                 await self.compliance_manager.initialize()
 
             # Initialize DAO governance
-                                                                                                                                                                                                                        if hasattr(self.dao_governance, 'initialize'):
+            if hasattr(self.dao_governance, 'initialize'):
                 await self.dao_governance.initialize()
 
             # Initialize ethical hierarchy
-                                                                                                                                                                                                                            if hasattr(self.ethical_hierarchy, 'initialize'):
+            if hasattr(self.ethical_hierarchy, 'initialize'):
                 await self.ethical_hierarchy.initialize()
 
             # Initialize meta-cognitive system
-                                                                                                                                                                                                                                if hasattr(self.meta_cognitive_system, 'initialize'):
+            if hasattr(self.meta_cognitive_system, 'initialize'):
                 await self.meta_cognitive_system.initialize()
 
             # Initialize causal reasoning
-                                                                                                                                                                                                                                    if hasattr(self.causal_reasoning, 'initialize'):
+            if hasattr(self.causal_reasoning, 'initialize'):
                 await self.causal_reasoning.initialize()
 
             # Initialize enhanced memory manager
-                                                                                                                                                                                                                                        if hasattr(self.enhanced_memory_manager, 'initialize'):
+            if hasattr(self.enhanced_memory_manager, 'initialize'):
                 await self.enhanced_memory_manager.initialize()
 
             # Initialize predictive manager
-                                                                                                                                                                                                                                            if hasattr(self.predictive_manager, 'initialize'):
+            if hasattr(self.predictive_manager, 'initialize'):
                 await self.predictive_manager.initialize()
 
             logger.info("🎯 Advanced AI subsystems initialized successfully")
 
-                                                                                                                                                                                                                                                except Exception as e:
+        except Exception as e:
             logger.error(f"Failed to initialize AI subsystems: {e}")
             self.advanced_agi_available = False
 
-    async def process_with_agi_enhancement(self, input_data: Any, context: Dict[str,
-    Any] = None) -> Dict[str, Any]:
-                                                                                                                                                                                                                                                    """
+    async def process_with_agi_enhancement(self, input_data: Any, 
+                                           context: Dict[str, Any] = None
+                                           ) -> Dict[str, Any]:
+        """
         Enhanced processing that integrates all AI components including
         compliance, governance, ethics, meta-cognitive, reasoning, memory,
-    and prediction
-                                                                                                                                                                                                                                                    """
+        and prediction
+        """
         context = context or {}
         start_time = time.time()
 

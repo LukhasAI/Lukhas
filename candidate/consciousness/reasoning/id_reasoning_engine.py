@@ -646,7 +646,7 @@ class LukhasIdEnhancedReasoningEngine:
 
         # Generate quantum signature (mock for development)
         signature_data = self._generate_quantum_signature(
-            f"{user_id}|{component}|{action}|{datetime.now(timezone.utc).isoformat(}}"
+            f"{user_id}|{component}|{action}|{datetime.now(timezone.utc).isoformat()}"
         )
 
         qi_signature = QISignature(

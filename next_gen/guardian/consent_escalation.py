@@ -501,7 +501,7 @@ class ConsentEscalationResolver:
 
     async def _create_temporary_trust_path(self, request: ConsentRequest) -> TrustPath:
         """Create a temporary trust path for unknown requesters"""
-        path_id = f"temp_{request.requester}_{int(time.time()}"
+        path_id = f"temp_{request.requester}_{int(time.time())}"
 
         # Basic trust assessment based on context
         base_trust = 0.3  # Default for unknown requesters

@@ -292,7 +292,7 @@ class EnterprisePerformanceMonitor:
 
         Tests system performance under various load conditions up to 10K+ concurrent users.
         """
-        test_id = f"load_test_{int(time.time()}"
+        test_id = f"load_test_{int(time.time())}"
         start_time = time.time()
 
         self.logger.info(f"🧪 Starting load test: {test_id}")

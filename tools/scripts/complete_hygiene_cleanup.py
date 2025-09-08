@@ -150,7 +150,7 @@ def complete_cleanup():
     # Save change log
     log_path = workspace / "COMPLETE_HYGIENE_LOG.txt"
     with open(log_path, "w") as f:
-        f.write(f"Complete Hygiene Cleanup - {datetime.now(timezone.utc).isoformat(}}\n")
+        f.write(f"Complete Hygiene Cleanup - {datetime.now(timezone.utc).isoformat()}\n")
         f.write("=" * 60 + "\n\n")
         for old, new in changes:
             f.write(f"{old} → {new}\n")

@@ -470,7 +470,7 @@ Setup.py:
         report_path = self.workspace / "CLEANUP_REPORT.md"
         with open(report_path, "w") as f:
             f.write("# Workspace Cleanup Report\n\n")
-            f.write(f"**Date:** {datetime.now(timezone.utc).isoformat(}}\n\n")
+            f.write(f"**Date:** {datetime.now(timezone.utc).isoformat()}\n\n")
             f.write("## Statistics\n\n")
             for key, value in self.stats.items():
                 f.write(f"- **{key.replace('_', ' ').title(}}:** {value}\n")
