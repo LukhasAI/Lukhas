@@ -39,6 +39,7 @@ ignore = [
 "tools/**" = ["ANN"]
 "enterprise/**" = ["ANN"]
 "serve/ui/dashboard.py" = ["E501", "W291"]
+"branding/engines/lukhas_content_platform/bots/**" = ["F821"]  # subprocess string literals
 
 [lint.isort]
 known-first-party = ["lukhas", "matriz"]

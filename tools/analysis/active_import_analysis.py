@@ -6,15 +6,10 @@ Identifies import errors in the active LUKHAS  codebase (excluding archives).
 """
 import ast
 import importlib.util
-import logging
-import random
 import sys
-import time
 from collections import defaultdict
 from pathlib import Path
 from typing import Optional
-
-import streamlit as st
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent

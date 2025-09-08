@@ -443,12 +443,8 @@ if __name__ == "__main__":
 
     # Show status
     status = get_ai_router_status()
-    print(
-ai_router_processing_complete
-    )
+    print("🎯 AI Router processing complete - all systems operational")
     if status["services_overview"]["available_services"] > 0:
         print(f"💰 Cheapest: {status['services_overview']['cheapest_service']}")
         print(f"💎 Most Expensive: {status['services_overview']['most_expensive_service']}")
-        print(
-    ai_router_processing_complete
-        )
+        print("✅ AI Router status check complete")

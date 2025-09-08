@@ -15,18 +15,12 @@ import base64
 import hashlib
 import json
 import logging
-import random
 import secrets
-import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
-
-import streamlit as st
-
-from consciousness.qi import qi
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:

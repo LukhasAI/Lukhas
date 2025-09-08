@@ -5,7 +5,6 @@ Mass Restoration Script - Restore large batches of files from clean commits
 
 import json
 import subprocess
-from pathlib import Path
 
 
 def run_command(cmd):

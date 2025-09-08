@@ -4,7 +4,6 @@ Fix Streamlit (st) import issues across LUKHAS codebase
 Resolves F821 violations for st usage
 """
 import json
-import os
 from pathlib import Path
 
 

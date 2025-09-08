@@ -16,10 +16,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-import streamlit as st
-
-from consciousness.qi import qi
-
 
 # ANSI color codes for terminal output
 class Colors:

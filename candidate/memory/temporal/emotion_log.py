@@ -39,7 +39,7 @@ def log_emotion(state, source="manual"):
     Returns:
     - dict: updated emotion state
     """
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     entry = {
         "state": state,

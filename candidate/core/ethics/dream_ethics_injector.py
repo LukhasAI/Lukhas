@@ -39,8 +39,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import streamlit as st
-
 # Try to import from actual ethics module, fallback to mock
 try:
     from ethics import EthicalPolicy, EthicsEngine, PolicyViolation

@@ -11,7 +11,6 @@ Focus on ONLY the patterns we've proven successful in our 11 perfect elimination
 Targeting ONLY files with known patterns for maximum safety.
 """
 
-import os
 import re
 import subprocess
 from pathlib import Path

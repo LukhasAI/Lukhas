@@ -27,8 +27,6 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 # Repository root
 REPO_ROOT = Path(__file__).parent.parent
 RESULTS_DIR = REPO_ROOT / "out" / "t4_validation"

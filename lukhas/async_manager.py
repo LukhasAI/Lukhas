@@ -10,12 +10,11 @@ import asyncio
 import logging
 import time
 import uuid
-import weakref
 from collections.abc import Awaitable
 from contextlib import asynccontextmanager
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, Optional, Set, TypeVar
+from typing import Any, Dict, Optional, Set, TypeVar
 
 logger = logging.getLogger(__name__)
 

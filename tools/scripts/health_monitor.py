@@ -9,8 +9,6 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-import streamlit as st
-
 
 class SystemHealthMonitor:
     """The system's self-awareness - monitors health and reports issues"""

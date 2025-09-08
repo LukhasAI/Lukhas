@@ -73,7 +73,8 @@
       "Bash(.venv/bin/pytest tests/test_aka_qualia.py::TestT1T2Integration::test_status_and_logging tests/test_aka_qualia.py::TestT1T2Integration::test_deterministic_reproducibility -v)",
       "Bash(PYTHONPATH=. python3 -m pytest candidate/aka_qualia/tests/test_memory_integration.py::TestConcurrentOperations::test_concurrent_saves -v -s --tb=short)",
       "Bash(grep:*)",
-      "Bash(/usr/bin/python3:*)"
+      "Bash(/usr/bin/python3:*)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": []

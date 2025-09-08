@@ -13,18 +13,14 @@ Replaces and enhances the previous brain_integration.py with superior architectu
 """
 
 import asyncio
-import json
 import logging
-import math
 import os
-import threading
 import time
 import uuid
 
 # Configure logging
 from datetime import datetime, timezone
-from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List
 
 logger = logging.getLogger("Enhanced.BrainIntegration")
 handler = logging.StreamHandler()

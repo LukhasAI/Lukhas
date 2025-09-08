@@ -140,7 +140,7 @@ class BotClickActions:
 
         print("\n📱 SINGLE CLICK ACTIONS:")
         for name, config in self.action_templates.items():
-            print(fix_later)
+            print(f"  {name}: {config.get('description', 'No description')}")
 
         print("\n🔄 MULTI-ACTION SEQUENCES:")
         for name, actions in self.multi_actions.items():
@@ -154,7 +154,7 @@ class BotClickActions:
 
 # Usage examples
 if __name__ == "__main__":
-    actions = LambdaBotClickActions()
+    actions = BotClickActions()
     actions.print_all_options()
 
     print("\n💡 CUSTOMIZATION EXAMPLES:")
@@ -169,7 +169,7 @@ if __name__ == "__main__":
     ]
 
     for title, desc in examples:
-        print(fix_later)
+        print(f"  {title}: {desc}")
 
     print("\n🔧 To customize:")
     print("  1. Edit BotStatusBar.py")

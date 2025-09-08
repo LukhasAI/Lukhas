@@ -4,9 +4,7 @@ LUKHAS Symbol Resolution Tool
 Analyzes F821 violations and provides strategic resolution suggestions
 """
 import json
-import os
 from collections import defaultdict
-from typing import Dict, List, Set
 
 
 class LUKHASSymbolResolver:

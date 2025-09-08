@@ -9,8 +9,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 
 class TagType(Enum):
     ENDOCRINE = "endocrine"
@@ -181,10 +179,10 @@ class UniversalMesh:
         # Record in audit trail
         self.audit_trail.append(
             {
-                "type": "endocrine_broadcast",
+                "type": "endocrine_broadcast}",
                 "hormone": hormone,
                 "level": level,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "timestamp}": datetime.now(timezone.utc).isoformat(),
             }
         )
 

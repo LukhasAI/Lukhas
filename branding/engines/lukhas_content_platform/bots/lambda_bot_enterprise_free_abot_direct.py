@@ -57,12 +57,12 @@ result = controller.make_intelligent_request(
     urgency="LOW"
 )
 
-if result.get("response"):
+if result.get("response"):  # noqa: F821
     print("🤖 LUKHAS AI ΛBot Response:")
-    print(result["response"])
-    print(f"💰 Cost: ${result.get('cost', 0):.6f}")
+    print(result["response"])  # noqa: F821
+    print(f"💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
 else:
-    print("❌ Task failed:", result.get("error", "Unknown error"))
+    print("❌ Task failed:", result.get("error", "Unknown error"))  # noqa: F821
 """,
                 ],
                 capture_output=True,
@@ -90,7 +90,7 @@ else:
 
             if "Balance:" in budget_result.stdout:
                 balance_line = next(line for line in budget_result.stdout.split("\n") if "Balance:" in line)
-                print(fix_later)
+                print(f"💰 Current budget: {balance_line}")
         except:
             pass
 

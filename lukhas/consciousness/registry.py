@@ -26,7 +26,6 @@ capabilities built throughout the LUKHAS transformation phases.
 import asyncio
 import logging
 import uuid
-import weakref
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

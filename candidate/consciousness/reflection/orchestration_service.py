@@ -41,12 +41,6 @@ Key Consolidated Features:
 
 All operations respect user consent, tier access, and LUKHAS identity requirements.
 """
-from typing import Dict
-import logging
-import random
-import streamlit as st
-from datetime import timezone
-
 # === CONSOLIDATED IMPORTS ===
 # from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
 # from candidate.core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
@@ -66,7 +60,7 @@ import asyncio
 import os
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from interfaces.voice_interface import *

@@ -10,7 +10,6 @@ Comprehensive fixture setup for testing the C4 memory system with:
 - Test data generation
 - Performance benchmarking utilities
 """
-import streamlit as st
 
 import contextlib
 import tempfile
@@ -44,8 +43,8 @@ from candidate.aka_qualia.models import (
 def sqlite_engine():
     """In-memory SQLite engine for fast unit tests"""
     # Use file-based SQLite for threading tests, in-memory for others
-    import tempfile
     import os
+    import tempfile
     
     # Create a temporary database file
     fd, db_path = tempfile.mkstemp(suffix='.db')

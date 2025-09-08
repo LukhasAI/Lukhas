@@ -51,7 +51,7 @@ class Archiver:
     def restore(self, filename: str) -> Any:
         """Restore data from archive"""
         try:
-            with open(filename, "r") as f:
+            with open(filename) as f:
                 archived = json.load(f)
             return archived.get("data")
         except Exception as e:

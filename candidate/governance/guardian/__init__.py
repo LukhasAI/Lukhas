@@ -22,7 +22,7 @@ except ImportError as e:
             logger.warning("Using fallback GuardianValidator")
         
         async def validate_audio_operation(self, *args, **kwargs):
-            from .guardian_validator import ValidationResult, ValidationReport
+            from .guardian_validator import ValidationReport, ValidationResult
             return ValidationReport(
                 result=ValidationResult.APPROVED,
                 confidence_score=1.0,

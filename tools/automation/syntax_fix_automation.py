@@ -13,7 +13,6 @@ Systematic automation for fixing the most common syntax error patterns:
 Based on proven patterns from 11 consecutive perfect eliminations.
 """
 
-import os
 import re
 import subprocess
 from pathlib import Path

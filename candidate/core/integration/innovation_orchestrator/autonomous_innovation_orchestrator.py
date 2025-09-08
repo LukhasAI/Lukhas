@@ -12,11 +12,8 @@ import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, List, Optional
+from typing import Any, Optional
 
-import streamlit as st
-
-from consciousness.qi import qi
 from lukhas.core.container.service_container import ServiceContainer
 from lukhas.core.interfaces import CoreInterface
 from lukhas.core.symbolic_engine import SymbolicEffect, SymbolicEvent

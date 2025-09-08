@@ -47,13 +47,13 @@ result = controller.make_intelligent_request(
     urgency="HIGH"         # High urgency
 )
 
-if result.get("response"):
+if result.get("response"):  # noqa: F821
     print("🤖 LUKHAS AI ΛBot Forced Response:")
-    print(result["response"])
-    print(f"💰 Cost: ${result.get('cost', 0):.6f}")
-    print("force_abot_healing_processing")
+    print(result["response"])  # noqa: F821
+    print(f"💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
+    print("🔥 Force healing processing complete")
 else:
-    print("❌ Forced healing failed:", result.get("error", "Unknown error"))
+    print("❌ Forced healing failed:", result.get("error", "Unknown error"))  # noqa: F821
 """,
                 ],
                 capture_output=True,

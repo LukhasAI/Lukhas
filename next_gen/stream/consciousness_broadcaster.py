@@ -11,9 +11,8 @@ import random
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 
-import streamlit as st
 import websockets
 from websockets.server import WebSocketServerProtocol
 

@@ -13,8 +13,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
-
 from bio.bio_utilities import simulate_colony_self_repair
 from lukhas.core.actor_system import Actor, ActorMessage, ActorRef
 

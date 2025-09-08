@@ -2,7 +2,6 @@
 MATRIZ Adapter for Bio Module
 Emits MATRIZ-compliant nodes for bio-inspired processing events
 """
-import streamlit as st
 
 import json
 import time

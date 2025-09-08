@@ -14,18 +14,15 @@ import os  # LUKHAS_TAG: file_operations
 
 # ΛNOTE: Potentially for generating unique keys if not provided. Not used
 # currently for fold keys.
-import uuid
-from collections import defaultdict  # ΛTRACE: Used for efficient indexing in AGIMemory.
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 # For np.clip in importance calculation. #ΛCAUTION: Ensure numpy is a
 # managed dependency.
 import numpy as np
 import structlog  # ΛTRACE: Standardized logging.
 
-from candidate.core.common import get_logger
 from candidate.orchestration.brain.spine.fold_engine import AGIMemory
 
 22  # ═══════════════════════════════════════════════════

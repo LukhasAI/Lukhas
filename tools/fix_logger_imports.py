@@ -4,7 +4,6 @@ Fix logger/logging import issues across LUKHAS codebase
 Resolves F821 violations for logger and logging usage
 """
 import json
-import os
 from pathlib import Path
 
 

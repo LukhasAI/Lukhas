@@ -9,7 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 try:
-    from .symbolic_proteome import SymbolicProteome, MemoryProtein
+    from .symbolic_proteome import MemoryProtein, SymbolicProteome
     logger.info("Successfully imported SymbolicProteome")
     __all__ = ["SymbolicProteome", "MemoryProtein"]
 except ImportError as e:

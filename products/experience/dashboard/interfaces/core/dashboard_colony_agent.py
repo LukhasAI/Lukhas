@@ -48,8 +48,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
-import streamlit as st
-
 # LUKHAS colony system integration
 from lukhas.core.colonies.base_colony import BaseColony
 from lukhas.core.symbolism.tags import TagPermission, TagScope

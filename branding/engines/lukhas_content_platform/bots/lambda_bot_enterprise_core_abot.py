@@ -456,9 +456,7 @@ class CoreABot:
             # Update conversation history
             self._update_conversation_history(user_input, response)
 
-            logger.info(
-                "core_abot_processing"
-            )
+            logger.info(f"✅ Core ABot processing complete - Session: {self.session_id}")
 
             return response
 
@@ -662,7 +660,7 @@ async def demonstrate_core_lambda_bot():
         print(f"\n🎯 Testing {tier.value.upper()} tier:")
         print("-" * 30)
 
-        bot = CoreLambdaBot(tier)
+        bot = CoreABot(tier)
 
         # Test messages
         test_messages = [
@@ -688,10 +686,8 @@ async def demonstrate_core_lambda_bot():
         print("\n📊 Final Status:")
         print(f"   Consciousness: {status['consciousness_state']}")
         print(f"   Conversations: {status['conversation_count']}")
-        print("core_abot_processing")
-        print(
-            "core_abot_processing"
-        )
+        print(f"   API Connections: {status['api_connections_used']}/{status['limits']['api_connections_limit']}")
+        print(f"   Requests This Hour: {status['api_requests_this_hour']}/{status['limits']['requests_per_hour']}")
 
 
 if __name__ == "__main__":

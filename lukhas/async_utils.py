@@ -10,7 +10,7 @@ import logging
 from collections.abc import Awaitable
 from contextlib import asynccontextmanager
 from functools import wraps
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import Callable, Optional, TypeVar
 
 from .async_manager import (
     ConsciousnessTaskManager,

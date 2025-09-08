@@ -41,7 +41,7 @@ class LUKHASDNALink:
             )
             return response["choices"][0]["message"]["content"]
         except Exception as e:
-            return f"[Reflection Error] {str(e)}"
+            return f"[Reflection Error] {e!s}"
 
     def translate(self, text, target_language="en"):
         prompt = f"Translate the following text into {target_language}, preserving symbolic tone: \n\n{text}"
@@ -53,7 +53,7 @@ class LUKHASDNALink:
             )
             return response["choices"][0]["message"]["content"]
         except Exception as e:
-            return f"[Translation Error] {str(e)}"
+            return f"[Translation Error] {e!s}"
 
     def generate_opinion(self, topic, tone="philosophical"):
         prompt = (
@@ -67,7 +67,7 @@ class LUKHASDNALink:
             )
             return response["choices"][0]["message"]["content"]
         except Exception as e:
-            return f"[Opinion Error] {str(e)}"
+            return f"[Opinion Error] {e!s}"
 
     def learn_term_loop(self, unknown_term, context="", user_feedback_fn=None):
         """
@@ -124,7 +124,7 @@ class LUKHASDNALink:
             else:
                 return "❌ Learning aborted — Lukhas did not receive confirmation."
         except Exception as e:
-            return f"[Learn Loop Error] {str(e)}"
+            return f"[Learn Loop Error] {e!s}"
 
     def generate_email_draft(
         self, topic, recipient="someone", language="en", tone="formal"
@@ -159,7 +159,7 @@ class LUKHASDNALink:
 
             return content
         except Exception as e:
-            return f"[Email Draft Error] {str(e)}"
+            return f"[Email Draft Error] {e!s}"
 
     def generate_social_post(self, topic, platform="twitter", tone="symbolic"):
         """
@@ -178,7 +178,7 @@ class LUKHASDNALink:
             self._log_output("social_post", topic, content)
             return content
         except Exception as e:
-            return f"[Social Post Error] {str(e)}"
+            return f"[Social Post Error] {e!s}"
 
     def generate_text_message(self, recipient, emotion="friendly", purpose="check-in"):
         """
@@ -199,7 +199,7 @@ class LUKHASDNALink:
             )
             return content
         except Exception as e:
-            return f"[Text Message Error] {str(e)}"
+            return f"[Text Message Error] {e!s}"
 
     def reword_draft(self, text, style="poetic"):
         """
@@ -219,7 +219,7 @@ class LUKHASDNALink:
             self._log_output("rewritten_draft", style, content)
             return content
         except Exception as e:
-            return f"[Reword Draft Error] {str(e)}"
+            return f"[Reword Draft Error] {e!s}"
 
     def _log_output(self, type, input_data, output_data):
         try:
@@ -231,7 +231,7 @@ class LUKHASDNALink:
             with open("logs/lukhas_output_log.jsonl", "a") as f:
                 f.write(json.dumps(log_entry) + "\n")
         except Exception as log_err:
-            print(f"[Logging Error] {str(log_err)}")
+            print(f"[Logging Error] {log_err!s}")
 
 # ════════════════════════════════════════════════════════════════════════
 # 📘 USAGE EXAMPLES:

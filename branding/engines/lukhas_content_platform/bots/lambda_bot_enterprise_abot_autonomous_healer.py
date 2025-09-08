@@ -131,12 +131,12 @@ result = controller.make_intelligent_request(
     urgency="HIGH"
 )
 
-if result.get("response"):
+if result.get("response"):  # noqa: F821
     print("🤖 LUKHAS AI ΛBot SELF-ANALYSIS:")
-    print(result["response"])
-    print(f"\n💰 Analysis Cost: ${result.get('cost', 0):.6f}")
+    print(result["response"])  # noqa: F821
+    print(f"\n💰 Analysis Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
 else:
-    print("❌ Self-analysis failed:", result.get("error", "Unknown error"))
+    print("❌ Self-analysis failed:", result.get("error", "Unknown error"))  # noqa: F821
 ''',
                 ],
                 capture_output=True,
@@ -210,12 +210,12 @@ result = controller.make_intelligent_request(
     urgency="MEDIUM"
 )
 
-if result.get("response"):
+if result.get("response"):  # noqa: F821
     print("🔧 HEALING SOLUTION:")
-    print(result["response"])
-    print(f"\n💰 Cost: ${result.get('cost', 0):.6f}")
+    print(result["response"])  # noqa: F821
+    print(f"\n💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
 else:
-    print("❌ Healing failed:", result.get("error", "Unknown error"))
+    print("❌ Healing failed:", result.get("error", "Unknown error"))  # noqa: F821
 ''',
                     ],
                     capture_output=True,
@@ -245,7 +245,7 @@ else:
         improvement_cycles = 3
 
         for cycle in range(1, improvement_cycles + 1):
-            print(fix_later)
+            print(f"🌟 Starting improvement cycle {cycle}/{improvement_cycles}")
 
             improvement_prompt = f"""
             You are LUKHAS AI ΛBot in self-improvement cycle {cycle}. Based on your previous analysis and healing:
@@ -279,12 +279,12 @@ result = controller.make_intelligent_request(
     urgency="LOW"
 )
 
-if result.get("response"):
+if result.get("response"):  # noqa: F821
     print("🌟 SELF-IMPROVEMENT IDEAS:")
-    print(result["response"])
-    print(f"\\n💰 Cost: ${result.get('cost', 0):.6f}")
+    print(result["response"])  # noqa: F821
+    print(f"\\n💰 Cost: ${result.get('cost', 0):.6f}")  # noqa: F821
 else:
-    print("❌ Self-improvement failed:", result.get("error", "Unknown error"))
+    print("❌ Self-improvement failed:", result.get("error", "Unknown error"))  # noqa: F821
 ''',
                     ],
                     capture_output=True,
@@ -301,7 +301,7 @@ else:
 
             except Exception as e:
                 print(f"❌ Improvement cycle error: {e}")
-                self.log_healing_action(fix_later, 0)
+                self.log_healing_action(f"improvement_cycle_{cycle}_error", f"error: {e}", 0)
 
             time.sleep(3)
 
@@ -349,7 +349,7 @@ else:
             # Final status
             print("\n🏁 AUTONOMOUS HEALING SESSION COMPLETE")
             print(f"⏱️ Total time: {(time.time() - self.session_start):.1f} seconds")
-            print(fix_later)
+            print(f"📊 Total actions logged: {len(self.healing_log)}")
 
             # Final budget check
             try:
@@ -362,7 +362,7 @@ else:
 
                 if "Balance:" in result.stdout:
                     balance_line = next(line for line in result.stdout.split("\n") if "Balance:" in line)
-                    print(fix_later)
+                    print(f"💰 Final budget status: {balance_line}")
             except:
                 pass
 

@@ -23,10 +23,10 @@ identity coherence, and ethical alignment across all consciousness operations.
 import asyncio
 import logging
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 try:
     from lukhas.async_manager import TaskPriority, get_consciousness_manager
@@ -494,7 +494,6 @@ class TrinityFrameworkIntegrator:
         # In production, this would integrate with actual consciousness components
 
         import random
-        import time
 
         # Simulate thinking time (consciousness is not instantaneous)
         await asyncio.sleep(random.uniform(0.1, 0.3))

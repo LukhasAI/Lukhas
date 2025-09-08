@@ -6,7 +6,6 @@ Git Clean File Hunter - Find files that were error-free in past commits
 import json
 import subprocess
 from collections import defaultdict
-from pathlib import Path
 
 
 def run_command(cmd):
