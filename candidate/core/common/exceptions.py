@@ -259,6 +259,7 @@ def raise_guardian_rejection(
     message: str,
     ethics_violation: Optional[str] = None,
     suggestion: Optional[str] = None,
+    severity: Optional[str] = None,
 ) -> None:
     """Raise a Guardian rejection error"""
     raise GuardianRejectionError(

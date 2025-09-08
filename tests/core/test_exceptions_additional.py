@@ -32,22 +32,27 @@ class TestGuardianRejectionError:
     def test_raise_guardian_rejection_helper(self):
         """Test guardian rejection helper function."""
         with pytest.raises(GuardianRejectionError, match="Test rejection"):
-            raise_guardian_rejection("Test rejection", severity="high")
+            raise_guardian_rejection("Test rejection", suggestion="Try a different approach")
 
 class TestMemoryDriftError:
     def test_memory_drift_basic(self):
         """Test basic memory drift error."""
         with pytest.raises(MemoryDriftError):
-            raise MemoryDriftError("Memory drift threshold exceeded")
+            raise MemoryDriftError(
+                "Memory drift threshold exceeded", 
+                memory_id="test_memory",
+                drift_level=0.8,
+                threshold=0.5
+            )
 
     def test_raise_if_drift_excessive_helper(self):
         """Test drift checking helper function."""
         # Should not raise for acceptable drift
-        raise_if_drift_excessive(0.1, threshold=0.2)
+        raise_if_drift_excessive("test_memory", 0.1, threshold=0.2)
 
         # Should raise for excessive drift
         with pytest.raises(MemoryDriftError):
-            raise_if_drift_excessive(0.3, threshold=0.2)
+            raise_if_drift_excessive("test_memory", 0.3, threshold=0.2)
 
 class TestModuleTimeoutError:
     def test_module_timeout(self):
@@ -89,4 +94,10 @@ class TestCircuitBreakerError:
     def test_circuit_breaker_error(self):
         """Test circuit breaker error."""
         with pytest.raises(CircuitBreakerError):
-            raise CircuitBreakerError("Circuit breaker is open")
+            raise CircuitBreakerError(
+                "Circuit breaker is open",
+                service_name="test_service",
+                failure_count=5,
+                threshold=3,
+                reset_timeout=30.0
+            )

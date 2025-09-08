@@ -1,2 +1,0 @@
-# Temporary constraints to ensure wheel availability on macOS arm64
-psycopg2-binary==2.9.9

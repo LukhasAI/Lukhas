@@ -25,10 +25,11 @@ class NoopMemory(AkaqMemory):
     - Development/debugging where memory overhead should be minimal
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None, is_prod: bool = False, **kwargs):
         """Initialize no-op memory client"""
         self.driver = "noop"
         self.config = config or {}
+        self.is_prod = is_prod
 
         # Track operation counts for statistics
         self.save_calls = 0

@@ -1,0 +1,90 @@
+{
+  "include": [
+    "core",
+    "vivox",
+    "config",
+    "compliance",
+    "examples",
+    "lambda_products_pack/**",
+    "consciousness/**",
+    "orchestration/**",
+    "governance/**",
+    "api/**",
+    "bio/**",
+    "quantum/**",
+    "analytics/**",
+    "monitoring/**"
+  ],
+  "exclude": [
+    "recovery",
+    "._cleanup_archive",
+    "archive",
+    "tools",
+    "docs",
+    "**/tests",
+    "**/test_*.py",
+    "**/*_test.py",
+    "**/__pycache__",
+    "**/*.pyc",
+    "**/node_modules",
+    "**/.venv",
+    "**/.git"
+  ],
+  "defineConstant": {
+    "DEBUG": true,
+    "PRODUCTION": false,
+    "TRINITY_FRAMEWORK": true
+  },
+  "stubPath": "./typings",
+  "typeCheckingMode": "strict",
+  "useLibraryCodeForTypes": true,
+  "reportMissingImports": "error",
+  "reportMissingTypeStubs": "warning",
+  "reportOptionalMemberAccess": "error",
+  "reportOptionalCall": "error",
+  "reportOptionalIterable": "error",
+  "reportOptionalContextManager": "error",
+  "reportUntypedFunctionDecorator": "warning",
+  "reportUnusedImport": "warning",
+  "reportUnusedClass": "information",
+  "reportUnusedFunction": "information",
+  "reportUnusedVariable": "warning",
+  "reportDuplicateImport": "error",
+  "reportIncompatibleMethodOverride": "error",
+  "reportIncompatibleVariableOverride": "error",
+  "reportUnknownParameterType": "warning",
+  "reportUnknownVariableType": "information",
+  "reportUnknownMemberType": "information",
+  "reportMissingParameterType": "warning",
+  "reportMissingReturnType": "warning",
+  "reportUnnecessaryTypeIgnoreComment": "information",
+  "reportConstantRedefinition": "error",
+  "reportInvalidStubStatement": "error",
+  "reportIncompleteStub": "warning",
+  "reportPrivateUsage": "warning",
+  "reportTypeCommentUsage": "warning",
+  "reportUnknownLambdaType": "information",
+  "reportImplicitStringConcatenation": "warning",
+  "reportUnboundVariable": "error",
+  "reportUndefinedVariable": "error",
+  "pythonVersion": "3.9",
+  "pythonPlatform": "Darwin",
+  "venvPath": ".",
+  "venv": ".venv",
+  "executionEnvironments": [
+    {
+      "root": "lambda_products_pack",
+      "pythonVersion": "3.9",
+      "extraPaths": [
+        "lambda_products_pack/lambda_core",
+        "core",
+        "consciousness",
+        "orchestration"
+      ]
+    },
+    {
+      "root": "core",
+      "pythonVersion": "3.9"
+    }
+  ]
+}

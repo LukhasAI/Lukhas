@@ -169,6 +169,10 @@ def create_memory_client(driver: str = "noop", **kwargs) -> AkaqMemory:
     elif driver == "sql":
         from .memory_sql import SqlMemory
 
+        # Translate parameter names for compatibility
+        if "database" in kwargs:
+            kwargs["dsn"] = f"sqlite:///{kwargs.pop('database')}"
+        
         return SqlMemory(**kwargs)
     else:
         raise ValueError(f"Unknown memory driver: {driver}. Use 'noop' or 'sql'")

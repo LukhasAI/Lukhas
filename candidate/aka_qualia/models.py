@@ -20,6 +20,7 @@ class TemporalFeel(str, Enum):
     SUSPENDED = "suspended"
     URGENT = "urgent"
     MUNDANE = "mundane"
+    FLOWING = "flowing"
 
 
 class AgencyFeel(str, Enum):
@@ -28,6 +29,7 @@ class AgencyFeel(str, Enum):
     PASSIVE = "passive"
     ACTIVE = "active"
     SHARED = "shared"
+    EMPOWERED = "empowered"
 
 
 class SeverityLevel(str, Enum):

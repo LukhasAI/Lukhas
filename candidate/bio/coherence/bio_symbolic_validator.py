@@ -278,10 +278,18 @@ class BioSymbolicCoherenceValidator:
         self.synchronization_events = 0
         self.coherence_violations = 0
         self.critical_interventions = 0
+        self._sync_mode = False
 
         # Initialize systems
         self._initialize_bio_rhythmic_systems()
-        self._start_validation_loop()
+        
+        # Only start validation loop if in async context
+        try:
+            self._start_validation_loop()
+        except RuntimeError:
+            # No event loop available - use sync mode
+            logger.info("ΛTRACE: Running in sync mode - validation loop disabled")
+            self._sync_mode = True
 
         logger.info(f"ΛTRACE: Bio-Symbolic Coherence Validator initialized: {self.validator_id}")
 
