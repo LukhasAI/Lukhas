@@ -58,7 +58,7 @@ def decay_emotion(threshold_minutes=60):
     Parameters:
     - threshold_minutes (int): Time since last emotion to trigger decay
     """
-    from datetime import datetime, timezone, timedelta
+    from datetime import datetime, timedelta, timezone
 
     if not emotion_db["log"]:
         return

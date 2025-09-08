@@ -48,19 +48,19 @@ from torch.nn import functional as F
 import aioredis
 
 try:
-    from lukhas.async_manager import get_consciousness_manager, TaskPriority
+    from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.async_utils import run_background_task
 except ImportError:
     # Fallback for development
     get_consciousness_manager = lambda: None
     TaskPriority = None
-    
+
     # Safe fallback that stores task reference
     def run_background_task(coro, **kwargs):
         """Fallback implementation that properly manages task references."""
         task = asyncio.create_task(coro)
         # Store reference to prevent immediate GC
-        if not hasattr(run_background_task, '_tasks'):
+        if not hasattr(run_background_task, "_tasks"):
             run_background_task._tasks = set()
         run_background_task._tasks.add(task)
         task.add_done_callback(lambda t: run_background_task._tasks.discard(t))

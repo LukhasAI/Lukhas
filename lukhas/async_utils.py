@@ -7,22 +7,22 @@ designed for the distributed consciousness system's reliability requirements.
 
 import asyncio
 import logging
-from typing import Any, Awaitable, Callable, Optional, TypeVar, Union
 from contextlib import asynccontextmanager
 from functools import wraps
+from typing import Any, Awaitable, Callable, Optional, TypeVar, Union
 
 from .async_manager import (
     ConsciousnessTaskManager,
     TaskPriority,
-    get_consciousness_manager,
-    get_orchestration_manager,
     get_background_manager,
-    get_guardian_manager
+    get_consciousness_manager,
+    get_guardian_manager,
+    get_orchestration_manager,
 )
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 def consciousness_task(
     *,
@@ -57,7 +57,7 @@ def consciousness_task(
                     task_manager = get_background_manager()
             else:
                 task_manager = manager
-            
+
             coro = func(*args, **kwargs)
             return task_manager.create_task(
                 coro,
@@ -132,7 +132,7 @@ async def run_with_retry(
     """
     last_exception = None
     current_delay = delay
-    
+
     for attempt in range(max_retries + 1):
         try:
             coro = coro_factory()
@@ -148,7 +148,7 @@ async def run_with_retry(
                 current_delay *= backoff_factor
             else:
                 logger.error(f"Task '{name}' failed after {max_retries + 1} attempts: {e}")
-    
+
     raise last_exception
 
 @asynccontextmanager
@@ -170,9 +170,9 @@ async def consciousness_context(
     """
     if manager is None:
         manager = get_consciousness_manager()
-    
+
     tasks = []
-    
+
     class ContextTaskCreator:
         def create_task(
             self,
@@ -192,9 +192,9 @@ async def consciousness_context(
             )
             tasks.append(task)
             return task
-    
+
     ctx = ContextTaskCreator()
-    
+
     try:
         logger.debug(f"Starting consciousness context: {context_name}")
         yield ctx
@@ -205,13 +205,13 @@ async def consciousness_context(
             logger.info(f"Cleaning up {len(pending_tasks)} pending tasks from context '{context_name}'")
             for task in pending_tasks:
                 task.cancel()
-            
+
             # Wait for cancellation to complete
             try:
                 await asyncio.gather(*pending_tasks, return_exceptions=True)
             except Exception as e:
                 logger.warning(f"Error during task cleanup in context '{context_name}': {e}")
-        
+
         logger.debug(f"Consciousness context cleanup complete: {context_name}")
 
 async def gather_with_error_handling(
@@ -234,7 +234,7 @@ async def gather_with_error_handling(
     """
     try:
         results = await asyncio.gather(*awaitables, return_exceptions=return_exceptions)
-        
+
         if log_errors and return_exceptions:
             error_count = sum(1 for result in results if isinstance(result, Exception))
             if error_count > 0:
@@ -242,7 +242,7 @@ async def gather_with_error_handling(
                 for i, result in enumerate(results):
                     if isinstance(result, Exception):
                         logger.error(f"Task {i} in '{name}' failed: {result}")
-        
+
         return results
     except Exception as e:
         if log_errors:
@@ -270,7 +270,7 @@ async def run_background_task(
     """
     if manager is None:
         manager = get_background_manager()
-    
+
     return manager.create_task(
         coro,
         name=name,
@@ -301,7 +301,7 @@ async def run_consciousness_task(
         The created task
     """
     manager = get_consciousness_manager()
-    
+
     return manager.create_task(
         coro,
         name=name,
@@ -331,7 +331,7 @@ async def run_guardian_task(
         The created task
     """
     manager = get_guardian_manager()
-    
+
     return manager.create_task(
         coro,
         name=name,
@@ -355,7 +355,7 @@ async def create_managed_task(
     bare asyncio.create_task calls to managed tasks.
     """
     manager = get_background_manager()
-    
+
     return manager.create_task(
         coro,
         name=name,

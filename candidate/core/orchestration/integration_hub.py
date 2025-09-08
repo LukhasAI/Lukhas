@@ -11,19 +11,19 @@ from enum import Enum
 from typing import Any
 
 try:
-    from lukhas.async_manager import get_orchestration_manager, TaskPriority
+    from lukhas.async_manager import TaskPriority, get_orchestration_manager
     from lukhas.async_utils import create_managed_task
 except ImportError:
     # Fallback for development
     get_orchestration_manager = lambda: None
     TaskPriority = None
-    
+
     # Safe fallback that stores task reference
     def create_managed_task(coro, **kwargs):
         """Fallback implementation that properly manages task references."""
         task = asyncio.create_task(coro)
         # Store reference to prevent immediate GC
-        if not hasattr(create_managed_task, '_tasks'):
+        if not hasattr(create_managed_task, "_tasks"):
             create_managed_task._tasks = set()
         create_managed_task._tasks.add(task)
         task.add_done_callback(lambda t: create_managed_task._tasks.discard(t))
@@ -323,7 +323,7 @@ class SystemIntegrationHub:
     def _start_health_monitoring(self):
         """Start mito-inspired health monitoring with managed task"""
         task_manager = get_orchestration_manager()
-        
+
         if task_manager:
             health_task = task_manager.create_task(
                 self._health_monitor_loop(),
@@ -333,7 +333,7 @@ class SystemIntegrationHub:
                 description="Monitor integration hub system health"
             )
             # Store for potential cleanup
-            if not hasattr(self, 'integration_tasks'):
+            if not hasattr(self, "integration_tasks"):
                 self.integration_tasks = set()
             self.integration_tasks.add(health_task)
         else:
@@ -344,7 +344,7 @@ class SystemIntegrationHub:
                 component="orchestration.integration_hub"
             )
             # Store for potential cleanup
-            if not hasattr(self, 'integration_tasks'):
+            if not hasattr(self, "integration_tasks"):
                 self.integration_tasks = set()
             self.integration_tasks.add(fallback_task)
 

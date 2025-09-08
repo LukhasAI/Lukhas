@@ -23,7 +23,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    from lukhas.async_manager import get_orchestration_manager, TaskPriority
+    from lukhas.async_manager import TaskPriority, get_orchestration_manager
     from lukhas.async_utils import create_managed_task
 except ImportError:
     # Fallback for development

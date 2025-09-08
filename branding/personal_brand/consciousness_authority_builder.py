@@ -12,7 +12,6 @@ Inspired by Bhavik Sarkhedi's "Ohh My Brand" approach:
 from dataclasses import dataclass
 
 
-
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
     

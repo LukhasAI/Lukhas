@@ -5,11 +5,9 @@ Neuroscience-Inspired Memory System for Universal Language
 Implements hippocampal-like episodic memory and cortical semantic memory.
 Based on what Demis Hassabis/DeepMind would implement.
 """
-import random
-import streamlit as st
-
 import hashlib
 import logging
+import random
 import time
 from collections import deque
 from dataclasses import dataclass, field
@@ -17,6 +15,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 from universal_language.core import Symbol
 

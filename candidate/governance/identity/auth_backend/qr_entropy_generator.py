@@ -16,7 +16,7 @@ import io
 import json
 import secrets
 import time
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 import qrcode

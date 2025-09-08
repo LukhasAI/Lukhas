@@ -9,7 +9,6 @@ from enum import Enum
 from typing import Any, Optional
 
 
-
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
     

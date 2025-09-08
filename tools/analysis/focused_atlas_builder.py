@@ -44,13 +44,13 @@ class ModuleInfo:
 
 class FocusedAtlasBuilder:
     """Builds focused code atlas for LUKHAS consciousness architecture."""
-    
+
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path)
         self.symbols: Dict[str, SymbolInfo] = {}
         self.modules: Dict[str, ModuleInfo] = {}
         self.violations: Dict[str, List[dict]] = defaultdict(list)
-        
+
         # Focus on LUKHAS core directories
         self.focus_dirs = [
             "lukhas/", "candidate/", "consciousness/", "memory/", 
@@ -58,7 +58,7 @@ class FocusedAtlasBuilder:
             "quantum/", "bio/", "creativity/", "emotion/", "vivox/",
             "bridge/", "api/", "branding/", "agents/"
         ]
-        
+
         # LUKHAS consciousness keywords
         self.consciousness_keywords = {
             "consciousness", "lucid", "dream", "identity", "memory", "fold", 
@@ -70,30 +70,30 @@ class FocusedAtlasBuilder:
         """Run focused analysis."""
         print("🧬 LUKHAS Focused Code Atlas Analysis")
         print("=" * 50)
-        
+
         # 1. Collect violations
         print("📊 Collecting lint violations...")
         self.collect_violations()
-        
+
         # 2. Analyze focused Python files
         print("🔍 Analyzing focused Python modules...")
         self.analyze_focused_files()
-        
+
         # 3. Extract intent clues
         print("💭 Extracting intent clues...")
         self.extract_intent_clues()
-        
+
         # 4. Generate atlas
         print("📋 Generating focused atlas...")
         atlas = self.generate_atlas()
-        
+
         # 5. Generate per-rule indices
         print("📊 Generating violation indices...")
         self.generate_rule_indices()
-        
+
         # 6. Save results
         self.save_atlas(atlas)
-        
+
         print("🎉 Focused LUKHAS Code Atlas complete!")
 
     def collect_violations(self):
@@ -101,10 +101,10 @@ class FocusedAtlasBuilder:
         try:
             # Focus only on key directories to reduce noise
             focus_paths = [d for d in self.focus_dirs if (self.root_path / d).exists()]
-            
+
             if not focus_paths:
                 focus_paths = ["."]  # Fallback to current directory
-            
+
             for focus_path in focus_paths[:3]:  # Limit to first 3 to avoid timeout
                 print(f"  Checking violations in {focus_path}...")
                 result = subprocess.run(
@@ -113,41 +113,41 @@ class FocusedAtlasBuilder:
                     text=True,
                     timeout=30  # 30 second timeout per directory
                 )
-                
+
                 if result.stdout:
                     violations = json.loads(result.stdout)
                     for violation in violations:
                         rule_code = violation.get("code", "UNKNOWN")
                         self.violations[rule_code].append(violation)
-                        
+
         except subprocess.TimeoutExpired:
             print("⚠️ Ruff timeout - using partial results")
         except Exception as e:
             print(f"⚠️ Could not collect violations: {e}")
-            
+
         total_violations = sum(len(v) for v in self.violations.values())
         print(f"📋 Found {total_violations} violations across {len(self.violations)} rule types")
 
     def analyze_focused_files(self):
         """Analyze files in focus directories only."""
         python_files = []
-        
+
         # Get files from focus directories
         for focus_dir in self.focus_dirs:
             focus_path = self.root_path / focus_dir
             if focus_path.exists():
                 python_files.extend(focus_path.rglob("*.py"))
-        
+
         # Remove duplicates and limit for performance
         python_files = list(set(python_files))[:2000]  # Limit to 2000 files max
-        
+
         print(f"🔍 Analyzing {len(python_files)} focused Python files...")
-        
+
         analyzed = 0
         for i, py_file in enumerate(python_files):
             if i % 100 == 0:
                 print(f"Progress: {i}/{len(python_files)} files")
-                
+
             try:
                 if self.analyze_file(py_file):
                     analyzed += 1
@@ -155,7 +155,7 @@ class FocusedAtlasBuilder:
                 if any(pattern in str(py_file) for pattern in ["lukhas/", "candidate/"]):
                     if "syntax" not in str(e).lower():
                         print(f"⚠️ Error analyzing {py_file.name}: {e}")
-        
+
         print(f"✅ Successfully analyzed {analyzed} files")
 
     def analyze_file(self, file_path: Path) -> bool:
@@ -163,11 +163,11 @@ class FocusedAtlasBuilder:
         try:
             with open(file_path, encoding="utf-8", errors="ignore") as f:
                 content = f.read()
-            
+
             # Skip very large files
             if len(content) > 100000:  # Skip files > 100KB
                 return False
-                
+
             # Try to parse, skip on syntax errors
             try:
                 tree = ast.parse(content, filename=str(file_path))
@@ -183,7 +183,7 @@ class FocusedAtlasBuilder:
                     violations=[]
                 )
                 return False
-            
+
             # Initialize module info
             rel_path = str(file_path.relative_to(self.root_path))
             module_info = ModuleInfo(
@@ -194,7 +194,7 @@ class FocusedAtlasBuilder:
                 imports=[],
                 violations=[]
             )
-            
+
             # Analyze AST nodes
             for node in ast.walk(tree):
                 if isinstance(node, ast.FunctionDef):
@@ -203,18 +203,18 @@ class FocusedAtlasBuilder:
                         symbol_key = f"{rel_path}:{symbol_info.name}"
                         self.symbols[symbol_key] = symbol_info
                         module_info.symbols.append(symbol_key)
-                
+
                 elif isinstance(node, ast.ClassDef):
                     symbol_info = self.extract_symbol_info(node, file_path, content, "class")
                     if symbol_info:
                         symbol_key = f"{rel_path}:{symbol_info.name}"
                         self.symbols[symbol_key] = symbol_info
                         module_info.symbols.append(symbol_key)
-                
+
                 elif isinstance(node, (ast.Import, ast.ImportFrom)):
                     imports = self.extract_imports(node)
                     module_info.imports.extend(imports)
-            
+
             # Find violations for this module
             module_violations = []
             for rule_violations in self.violations.values():
@@ -222,10 +222,10 @@ class FocusedAtlasBuilder:
                     if rel_path in violation.get("filename", ""):
                         module_violations.append(violation)
             module_info.violations = module_violations
-            
+
             self.modules[rel_path] = module_info
             return True
-            
+
         except Exception as e:
             print(f"Error analyzing {file_path}: {e}")
             return False
@@ -235,7 +235,7 @@ class FocusedAtlasBuilder:
         try:
             name = node.name
             line_number = node.lineno
-            
+
             # Get signature
             if symbol_type == "function":
                 signature = f"{name}("
@@ -254,7 +254,7 @@ class FocusedAtlasBuilder:
                             bases.append(base.id)
                     if bases:
                         signature += f"({', '.join(bases)})"
-            
+
             # Get docstring
             docstring = ""
             if node.body and isinstance(node.body[0], ast.Expr):
@@ -263,7 +263,7 @@ class FocusedAtlasBuilder:
                     docstring = value.s[:200]
                 elif isinstance(value, ast.Constant) and isinstance(value.value, str):
                     docstring = value.value[:200]
-            
+
             # Check if it's a method (for functions)
             class_name = None
             if symbol_type == "function":
@@ -282,7 +282,7 @@ class FocusedAtlasBuilder:
                                     break
                                 elif prev_line and not prev_line.startswith(" "):
                                     break
-            
+
             return SymbolInfo(
                 name=name,
                 type=symbol_type,
@@ -293,7 +293,7 @@ class FocusedAtlasBuilder:
                 class_name=class_name,
                 issues=[]
             )
-            
+
         except Exception as e:
             print(f"Error extracting symbol info for {node.name}: {e}")
             return None
@@ -316,7 +316,7 @@ class FocusedAtlasBuilder:
     def extract_module_intent_clues(self, content: str, file_path: Path) -> List[str]:
         """Extract intent clues from module content."""
         clues = []
-        
+
         # Module docstring
         try:
             tree = ast.parse(content)
@@ -328,7 +328,7 @@ class FocusedAtlasBuilder:
                     clues.append(f"MODULE_DOC: {value.value[:150]}...")
         except Exception:
             pass
-        
+
         # Key comments and TODOs (sample first 50 lines to avoid performance issues)
         lines = content.split("\n")[:50]  
         for i, line in enumerate(lines):
@@ -339,19 +339,19 @@ class FocusedAtlasBuilder:
                     clues.append(f"TODO: {comment[:80]}")
                 elif any(keyword in comment.lower() for keyword in self.consciousness_keywords):
                     clues.append(f"CONSCIOUSNESS: {comment[:80]}")
-        
+
         # Path-based clues
         path_str = str(file_path).lower()
         for keyword in self.consciousness_keywords:
             if keyword in path_str:
                 clues.append(f"PATH_KEYWORD: {keyword}")
-        
+
         return clues[:10]  # Limit to 10 clues per module
 
     def determine_module_role(self, module_path: str) -> str:
         """Determine the role of a module using heuristics."""
         path_lower = module_path.lower()
-        
+
         # Direct path matching
         if "test" in path_lower:
             return "test"
@@ -371,32 +371,32 @@ class FocusedAtlasBuilder:
             return "experimental"
         elif "lukhas" in path_lower:
             return "production"
-        
+
         return "utility"
 
     def extract_intent_clues(self):
         """Extract intent clues from documentation files."""
         print("💭 Extracting documentation intent clues...")
-        
+
         doc_patterns = ["README*", "DESIGN*", "docs/**/*.md"]
         doc_files = []
-        
+
         for pattern in doc_patterns:
             doc_files.extend(self.root_path.glob(pattern))
-        
+
         # Limit to first 20 docs to avoid performance issues
         doc_files = doc_files[:20]
         print(f"📚 Processing {len(doc_files)} documentation files")
-        
+
         for doc_file in doc_files:
             try:
                 with open(doc_file, encoding="utf-8", errors="ignore") as f:
                     content = f.read()[:5000]  # Limit content size
-                
+
                 # Extract key architecture concepts
                 intent_clues = []
                 lines = content.split("\n")[:50]  # First 50 lines only
-                
+
                 for line in lines:
                     stripped = line.strip()
                     if len(stripped) > 20:  # Substantial content only
@@ -404,20 +404,20 @@ class FocusedAtlasBuilder:
                             intent_clues.append(f"DOC: {stripped[:100]}")
                         elif stripped.startswith("#") or stripped.startswith("-") or stripped.startswith("*"):
                             intent_clues.append(f"HEADER: {stripped[:100]}")
-                
+
                 # Associate with nearby modules (simplified)
                 doc_stem = doc_file.stem.lower()
                 for module_path, module_info in self.modules.items():
                     if doc_stem in module_path.lower() or any(doc_stem in clue.lower() for clue in module_info.intent_clues):
                         module_info.intent_clues.extend(intent_clues[:5])  # Limit to 5 clues
-                        
+
             except Exception as e:
                 print(f"Error reading doc {doc_file}: {e}")
 
     def generate_atlas(self) -> dict:
         """Generate the focused code atlas."""
         print("📋 Generating focused atlas...")
-        
+
         # Map violations to symbols
         for symbol_key, symbol_info in self.symbols.items():
             symbol_violations = []
@@ -429,7 +429,7 @@ class FocusedAtlasBuilder:
                             issue_flag = self.get_issue_flag(violation.get("code", ""))
                             if issue_flag not in symbol_info.issues:
                                 symbol_info.issues.append(issue_flag)
-        
+
         atlas = {
             "metadata": {
                 "generator": "LUKHAS Focused Code Atlas Builder",
@@ -448,7 +448,7 @@ class FocusedAtlasBuilder:
                 for role in set(m.role for m in self.modules.values())
             }
         }
-        
+
         return atlas
 
     def get_issue_flag(self, rule_code: str) -> str:
@@ -472,11 +472,11 @@ class FocusedAtlasBuilder:
         """Generate per-rule violation indices."""
         reports_dir = self.root_path / "reports"
         reports_dir.mkdir(exist_ok=True)
-        
+
         for rule_code, violations in self.violations.items():
             if violations:
                 index_file = reports_dir / f"idx_{rule_code}.json"
-                
+
                 rule_index = {
                     "rule_code": rule_code,
                     "description": self.get_rule_description(rule_code),
@@ -488,7 +488,7 @@ class FocusedAtlasBuilder:
                         if any(d in v.get("filename", "") for v in violations)
                     ]
                 }
-                
+
                 with open(index_file, "w") as f:
                     json.dump(rule_index, f, indent=2)
 
@@ -513,19 +513,19 @@ class FocusedAtlasBuilder:
         """Save the atlas to JSON file."""
         reports_dir = self.root_path / "reports"
         reports_dir.mkdir(exist_ok=True)
-        
+
         atlas_file = reports_dir / "code_atlas.json"
-        
+
         with open(atlas_file, "w") as f:
             json.dump(atlas, f, indent=2)
-        
+
         print(f"💾 Focused Code Atlas saved to: {atlas_file}")
         print(f"📊 Atlas Summary:")
         print(f"   • {len(atlas['symbols'])} symbols analyzed")
         print(f"   • {len(atlas['modules'])} modules processed")
         print(f"   • {atlas['metadata']['total_violations']} violations mapped")
         print(f"   • {len(atlas['module_roles'])} different module roles identified")
-        
+
         # Print top violation types
         violation_counts = atlas["violations_by_rule"]
         if violation_counts:
@@ -536,6 +536,6 @@ class FocusedAtlasBuilder:
 if __name__ == "__main__":
     print("🧬 LUKHAS Focused Code Atlas Builder")
     print("Building comprehensive code intelligence for consciousness architecture...")
-    
+
     builder = FocusedAtlasBuilder(".")
     builder.run()

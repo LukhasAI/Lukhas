@@ -36,7 +36,7 @@ from enum import Enum
 from typing import Any, Optional
 
 try:
-    from lukhas.async_manager import get_guardian_manager, TaskPriority
+    from lukhas.async_manager import TaskPriority, get_guardian_manager
     from lukhas.async_utils import run_guardian_task
 except ImportError:
     # Fallback for development
@@ -357,7 +357,7 @@ class AdvancedDriftDetector:
                 description="Constitutional AI compliance monitoring",
                 consciousness_context="constitutional_monitoring"
             )
-            
+
             # Track all monitoring tasks
             self.drift_tasks.update([
                 monitoring_task, pattern_task, forecasting_task, 
@@ -370,7 +370,7 @@ class AdvancedDriftDetector:
             forecasting_task = asyncio.create_task(self._forecasting_loop())
             cleanup_task = asyncio.create_task(self._cleanup_loop())
             constitutional_task = asyncio.create_task(self._constitutional_monitoring_loop())
-            
+
             # Track fallback tasks
             self.drift_tasks.update([
                 monitoring_task, pattern_task, forecasting_task, 

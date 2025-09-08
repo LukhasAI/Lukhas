@@ -13,7 +13,6 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
     

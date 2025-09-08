@@ -324,7 +324,7 @@ class ColonyDreamCoordinator:
             tasks = []
             for task_type in task_types:
                 task = ColonyDreamTask(
-                    task_id=f"{dream_id}_{task_type.value}_{uuid.uuid4()}.hex[:8]}",
+                    task_id=f"{dream_id}_{task_type.value}_{uuid.uuid4())}.hex[:8]}",
                     dream_id=dream_id,
                     task_type=task_type,
                     dream_data=dream_data,

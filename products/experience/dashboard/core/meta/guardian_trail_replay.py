@@ -8,9 +8,6 @@ Visualizes drift events, interventions, and healing sequences.
 
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import json
 import os
 import sys
@@ -18,6 +15,10 @@ import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 
 # ANSI color codes for terminal output

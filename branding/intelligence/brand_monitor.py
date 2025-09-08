@@ -8,7 +8,6 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 
-
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
     

@@ -4,7 +4,7 @@ Following OpenAI's approach to metrics and performance monitoring
 """
 
 import random
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 from fastapi import APIRouter, Query

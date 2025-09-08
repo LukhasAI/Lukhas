@@ -6,9 +6,10 @@
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
 
-import streamlit as st  # Dream export dashboard interface
 import json
 import os
+
+import streamlit as st  # Dream export dashboard interface
 
 DREAM_LOG_PATH = "core/logs/dream_log.jsonl"
 EXPORT_PATH = "exports/filtered_dreams.jsonl"

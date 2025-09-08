@@ -57,7 +57,7 @@ from enum import Enum
 from typing import Any, Optional
 
 try:
-    from lukhas.async_manager import get_consciousness_manager, TaskPriority
+    from lukhas.async_manager import TaskPriority, get_consciousness_manager
     from lukhas.async_utils import run_consciousness_task
 except ImportError:
     # Fallback for development
@@ -246,7 +246,7 @@ class MasterOrchestrator:
         self.is_running = False
         self.orchestrator_registry: dict[str, Any] = {}
         self.initialization_time = datetime.now(timezone.utc)
-        
+
         # Task management for consciousness operations
         self.task_manager = get_consciousness_manager()
         self.monitoring_tasks: set[asyncio.Task] = set()
@@ -997,7 +997,7 @@ class MasterOrchestrator:
     # Background monitoring tasks
     async def _start_monitoring_tasks(self):
         """Start background monitoring and maintenance tasks with proper lifecycle management"""
-        
+
         if self.task_manager and TaskPriority:
             # Health monitoring task - critical for system stability
             health_task = self.task_manager.create_task(

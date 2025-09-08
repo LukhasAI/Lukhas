@@ -19,7 +19,6 @@ from core.symbolic import VisualSymbol
 from ..core import AnalysisType, VisionProvider
 
 
-
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
     

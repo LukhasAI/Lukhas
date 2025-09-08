@@ -1,8 +1,8 @@
 # core/interfaces/logic/delegate_logic.py
+import logging
 from typing import Any
 
 import structlog  # ΛMODIFICATION: Added structlog for standardized logging
-import logging
 
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Enables the agent to act autonomously in delegated contexts based on pre-authorized intent, emotion tier, and memory alignment.

@@ -623,7 +623,7 @@ async def get_fold_status(
     # Enhanced telemetry for memory fold status queries
     import logging
     logger = logging.getLogger(__name__)
-    
+
     logger.info("api.memory_fold_status", extra={
         "fold_id": fold_id,
         "operation": "status_check", 

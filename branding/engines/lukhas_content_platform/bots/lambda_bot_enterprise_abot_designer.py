@@ -8,7 +8,6 @@ This script provides examples and options for different designs.
 from pathlib import Path
 
 
-
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
     

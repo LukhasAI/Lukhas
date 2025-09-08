@@ -187,7 +187,7 @@ class LukhasIdEnhancedReasoningEngine:
         # Calculate emotional similarity
         stored_vector = EmotionalMemoryVector(**{
             k: v for k, v in memory_record['emotional_vector'].items()
-            if k != 'timestamp':
+            if k != 'timestamp'
         })
 
         similarity = self._calculate_emotional_similarity(
@@ -603,7 +603,7 @@ class LukhasIdEnhancedReasoningEngine:
             return False
         return stored_gesture == provided_gesture
 
-    def _identity_core.resolve_access_tier(self, tier: AccessTier) -> List[str]:
+    def resolve_access_tier(self, tier: AccessTier) -> List[str]:
         """Get permissions based on access tier"""
         permissions = {
             AccessTier.TIER_1_BASIC: [
@@ -676,7 +676,7 @@ class LukhasIdEnhancedReasoningEngine:
         """Generate quantum-resistant signature (mock implementation)"""
         # In real implementation, this would use Dilithium or similar post-quantum
         # signature
-        signature_input = f"{data}|{self.qi_signer_id}|{secrets.token_hex(16}}"
+        signature_input = f"{data}|{self.qi_signer_id}|{secrets.token_hex(16)}"
         return hashlib.sha256(signature_input.encode()).hexdigest()
 
     async def get_user_permissions(self, session_token: str) -> Optional[List[str]]:
@@ -704,7 +704,7 @@ class LukhasIdEnhancedReasoningEngine:
             tier=self.users[user_id]['access_tier'],
             component="trauma_locked_memory",
             action="memory_storage",
-            decision_logic=f"Memory stored with emotional protection level {emotional_state.arousal + abs(emotional_state.valence}}:.2f}",
+            decision_logic=f"Memory stored with emotional protection level {emotional_state.arousal + abs(emotional_state.valence):.2f}",
             emotional_state=emotional_state,
             privacy_impact="Memory encrypted with user-specific emotional key"
         )
@@ -769,6 +769,7 @@ if __name__ == "__main__":
             'privacy_preferences': {
                 'data_retention_days': 365,
                 'share_anonymous_stats': False}
+        }
 
         user_id = await Lukhas_ID.register_user(user_data, AccessTier.TIER_2_ENHANCED)
         print(f"User registered: {user_id}")

@@ -36,7 +36,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    from lukhas.async_manager import get_guardian_manager, TaskPriority
+    from lukhas.async_manager import TaskPriority, get_guardian_manager
 except ImportError:
     # Fallback for development
     get_guardian_manager = lambda: None
@@ -260,7 +260,7 @@ class EnhancedGuardianSystem:
         # Task management for guardian system
         self.task_manager = get_guardian_manager()
         self.guardian_tasks = set()
-        
+
         # Initialize system with proper task management
         if self.task_manager:
             init_task = self.task_manager.create_task(
@@ -386,7 +386,7 @@ class EnhancedGuardianSystem:
                 description="Guardian drift monitoring loop",
                 consciousness_context="guardian_system"
             )
-            
+
             # Track all tasks for shutdown
             self.guardian_tasks.update([monitoring_task, health_task, drift_task])
         else:
@@ -1088,17 +1088,17 @@ class EnhancedGuardianSystem:
 
     async def shutdown(self):
         """Shutdown Guardian System with proper task cleanup"""
-        
+
         self.monitoring_active = False
         logger.info("🛑 Guardian System shutdown initiated")
-        
+
         # Cancel all guardian tasks
-        if hasattr(self, 'guardian_tasks') and self.guardian_tasks:
+        if hasattr(self, "guardian_tasks") and self.guardian_tasks:
             logger.info(f"Cancelling {len(self.guardian_tasks)} guardian tasks")
             for task in self.guardian_tasks:
                 if not task.done():
                     task.cancel()
-            
+
             # Wait for cancellation with timeout
             try:
                 await asyncio.wait_for(
@@ -1108,7 +1108,7 @@ class EnhancedGuardianSystem:
                 logger.info("✅ All guardian tasks cancelled successfully")
             except asyncio.TimeoutError:
                 logger.warning("⚠️ Some guardian tasks did not cancel within timeout")
-        
+
         logger.info("✅ Guardian System shutdown complete")
 
     async def get_system_metrics(self) -> dict[str, Any]:

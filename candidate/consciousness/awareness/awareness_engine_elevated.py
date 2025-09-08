@@ -458,11 +458,11 @@ def is_indoor_location(location: tuple[float, float]) -> bool:
     # Enhanced consciousness awareness with location telemetry
     import logging
     logger = logging.getLogger(__name__)
-    
+
     # Placeholder for sophisticated indoor/outdoor detection
     # Could use GPS accuracy, nearby WiFi networks, building databases, etc.
     result = True  # Default assumption for most office/home environments
-    
+
     # Enhanced observability for consciousness location awareness
     logger.info("consciousness.location_awareness", extra={
         "location_lat": location[0],
@@ -471,7 +471,7 @@ def is_indoor_location(location: tuple[float, float]) -> bool:
         "detection_method": "default_assumption",
         "trace": "consciousness_location_analysis"
     })
-    
+
     return result
 
 

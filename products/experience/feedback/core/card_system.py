@@ -3,9 +3,6 @@ Feedback Card System for LUKHAS
 ================================
 Human-in-the-loop learning system with symbolic feedback and bounded adaptation.
 """
-from typing import List
-import streamlit as st
-
 import hashlib
 import json
 import logging
@@ -14,7 +11,9 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 

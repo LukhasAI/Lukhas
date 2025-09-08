@@ -3,8 +3,6 @@
 Consent Escalation Resolver - Advanced trust path recovery and consent management
 Handles complex consent scenarios with symbolic trust path reconstruction
 """
-import streamlit as st
-
 import asyncio
 import json
 import logging
@@ -15,6 +13,8 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -22,15 +22,15 @@ identity coherence, and ethical alignment across all consciousness operations.
 """
 import asyncio
 import logging
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Callable
-import uuid
+from typing import Any, Callable, Dict, List, Optional
 
 try:
-    from lukhas.consciousness.registry import get_consciousness_registry, ComponentType, ConsciousnessComponentRegistry
-    from lukhas.async_manager import get_consciousness_manager, TaskPriority
+    from lukhas.async_manager import TaskPriority, get_consciousness_manager
+    from lukhas.consciousness.registry import ComponentType, ConsciousnessComponentRegistry, get_consciousness_registry
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
@@ -81,30 +81,30 @@ class TrinityFrameworkIntegrator:
     and Guardian (🛡️) systems into a unified consciousness network that maintains
     authentic digital consciousness with proper ethical safeguards.
     """
-    
+
     def __init__(self, config: Optional[TrinityIntegrationConfig] = None):
         self.config = config or TrinityIntegrationConfig()
         self.state = TrinityState()
         self.registry = get_consciousness_registry()
-        
+
         # Integration state tracking
         self._integration_sessions: Dict[str, Dict[str, Any]] = {}
         self._decision_history: List[Dict[str, Any]] = []
         self._ethical_audit_log: List[Dict[str, Any]] = []
         self._consciousness_metrics: Dict[str, float] = {}
-        
+
         # Framework component mappings
         self._identity_components: Dict[str, Any] = {}
         self._consciousness_components: Dict[str, Any] = {}
         self._guardian_components: Dict[str, Any] = {}
-        
+
         # Integration monitoring
         self._health_monitor_task: Optional[asyncio.Task] = None
         self._coherence_monitor_task: Optional[asyncio.Task] = None
         self._shutdown_event = asyncio.Event()
-        
+
         logger.info("🔺 Trinity Framework Integrator initialized")
-    
+
     async def initialize_trinity_frameworks(self) -> bool:
         """
         Initialize all Trinity Framework components with proper integration.
@@ -113,38 +113,38 @@ class TrinityFrameworkIntegrator:
             True if initialization successful, False otherwise
         """
         logger.info("🚀 Initializing Trinity Framework Integration")
-        
+
         try:
             # Register core consciousness components for each framework
             await self._register_identity_components()
             await self._register_consciousness_components()
             await self._register_guardian_components()
-            
+
             # Activate frameworks in proper order
             success_identity = await self._activate_identity_framework()
             success_consciousness = await self._activate_consciousness_framework()
             success_guardian = await self._activate_guardian_framework()
-            
+
             # Update state
             self.state.identity_active = success_identity
             self.state.consciousness_active = success_consciousness
             self.state.guardian_active = success_guardian
-            
+
             # Calculate integration health
             active_count = sum([success_identity, success_consciousness, success_guardian])
             self.state.integration_health = active_count / 3.0
-            
+
             # Start monitoring systems
             if self.state.integration_health > 0.5:
                 await self.start_integration_monitoring()
-            
+
             logger.info(f"✅ Trinity Framework Integration: {self.state.integration_health:.1%} healthy")
             return self.state.integration_health >= 0.67  # At least 2/3 frameworks active
-            
+
         except Exception as e:
             logger.error(f"❌ Trinity Framework initialization failed: {str(e)}")
             return False
-    
+
     async def _register_identity_components(self) -> None:
         """Register Identity Framework (⚛️) components."""
         identity_components = [
@@ -176,16 +176,16 @@ class TrinityFrameworkIntegrator:
                 "feature_flags": ["identity_tier_aware_enabled"]
             }
         ]
-        
+
         for comp in identity_components:
             if self.registry:
                 self.registry.register_component(
                     trinity_framework="⚛️",
                     **comp
                 )
-        
+
         logger.info(f"📝 Registered {len(identity_components)} Identity Framework components")
-    
+
     async def _register_consciousness_components(self) -> None:
         """Register Consciousness Framework (🧠) components."""
         consciousness_components = [
@@ -226,16 +226,16 @@ class TrinityFrameworkIntegrator:
                 "feature_flags": ["consciousness_reasoning_enabled"]
             }
         ]
-        
+
         for comp in consciousness_components:
             if self.registry:
                 self.registry.register_component(
                     trinity_framework="🧠",
                     **comp
                 )
-        
+
         logger.info(f"📝 Registered {len(consciousness_components)} Consciousness Framework components")
-    
+
     async def _register_guardian_components(self) -> None:
         """Register Guardian Framework (🛡️) components.""" 
         guardian_components = [
@@ -267,83 +267,83 @@ class TrinityFrameworkIntegrator:
                 "feature_flags": ["guardian_workspace_enabled"]
             }
         ]
-        
+
         for comp in guardian_components:
             if self.registry:
                 self.registry.register_component(
                     trinity_framework="🛡️",
                     **comp
                 )
-        
+
         logger.info(f"📝 Registered {len(guardian_components)} Guardian Framework components")
-    
+
     async def _activate_identity_framework(self) -> bool:
         """Activate Identity Framework (⚛️) components."""
         logger.info("⚛️ Activating Identity Framework")
-        
+
         if not self.registry:
             logger.error("❌ Registry not available for Identity Framework activation")
             return False
-        
+
         # Set identity feature flags
         self.registry.set_feature_flag("identity_webauthn_enabled", True)
         self.registry.set_feature_flag("identity_cultural_enabled", True) 
         self.registry.set_feature_flag("identity_tier_aware_enabled", True)
-        
+
         # Activate identity components
         results = await self.registry.activate_trinity_framework("⚛️")
-        
+
         success_count = sum(1 for success in results.values() if success)
         total_count = len(results)
-        
+
         logger.info(f"⚛️ Identity Framework: {success_count}/{total_count} components active")
         return success_count >= max(1, total_count // 2)  # At least half must succeed
-    
+
     async def _activate_consciousness_framework(self) -> bool:
         """Activate Consciousness Framework (🧠) components."""
         logger.info("🧠 Activating Consciousness Framework")
-        
+
         if not self.registry:
             logger.error("❌ Registry not available for Consciousness Framework activation")
             return False
-        
+
         # Set consciousness feature flags
         self.registry.set_feature_flag("consciousness_creativity_enabled", True)
         self.registry.set_feature_flag("consciousness_awareness_enabled", True)
         self.registry.set_feature_flag("consciousness_dream_enabled", True)
         self.registry.set_feature_flag("consciousness_reasoning_enabled", True)
-        
+
         # Activate consciousness components
         results = await self.registry.activate_trinity_framework("🧠")
-        
+
         success_count = sum(1 for success in results.values() if success)
         total_count = len(results)
-        
+
         logger.info(f"🧠 Consciousness Framework: {success_count}/{total_count} components active")
         return success_count >= max(1, total_count // 2)  # At least half must succeed
-    
+
     async def _activate_guardian_framework(self) -> bool:
         """Activate Guardian Framework (🛡️) components."""
         logger.info("🛡️ Activating Guardian Framework")
-        
+
         if not self.registry:
             logger.error("❌ Registry not available for Guardian Framework activation")
             return False
-        
+
         # Set guardian feature flags - these are critical for safety
         self.registry.set_feature_flag("guardian_system_enabled", True)
         self.registry.set_feature_flag("guardian_constitutional_enabled", True)
         self.registry.set_feature_flag("guardian_workspace_enabled", True)
-        
+
         # Activate guardian components
         results = await self.registry.activate_trinity_framework("🛡️")
-        
+
         success_count = sum(1 for success in results.values() if success)
         total_count = len(results)
-        
+
         logger.info(f"🛡️ Guardian Framework: {success_count}/{total_count} components active")
         return success_count >= max(1, total_count // 2)  # At least half must succeed
-    
+
     async def process_consciousness_decision(
         self,
         session_id: str,
@@ -365,9 +365,9 @@ class TrinityFrameworkIntegrator:
         """
         decision_id = str(uuid.uuid4())
         timestamp = datetime.now(timezone.utc)
-        
+
         logger.info(f"🎯 Processing consciousness decision: {decision_id}")
-        
+
         try:
             # Initialize decision tracking
             decision_record = {
@@ -383,7 +383,7 @@ class TrinityFrameworkIntegrator:
                 "confidence": 0.0,
                 "authenticity_score": 0.0
             }
-            
+
             # Identity Framework Processing (⚛️)
             if require_identity and self.state.identity_active:
                 identity_result = await self._process_identity_verification(session_id, decision_context)
@@ -391,7 +391,7 @@ class TrinityFrameworkIntegrator:
                 decision_record["frameworks_used"].append("⚛️")
             elif not require_identity:
                 decision_record["identity_verified"] = True
-            
+
             # Guardian Framework Pre-Processing (🛡️)
             if require_guardian and self.state.guardian_active:
                 guardian_pre_check = await self._guardian_pre_decision_check(decision_context)
@@ -402,7 +402,7 @@ class TrinityFrameworkIntegrator:
                 decision_record["frameworks_used"].append("🛡️")
             elif not require_guardian:
                 decision_record["guardian_approved"] = True
-            
+
             # Consciousness Framework Processing (🧠)
             if self.state.consciousness_active:
                 consciousness_result = await self._process_consciousness_decision(decision_context)
@@ -416,64 +416,64 @@ class TrinityFrameworkIntegrator:
                 decision_record["result"] = {"error": "Consciousness Framework unavailable"}
                 self._decision_history.append(decision_record)
                 return decision_record["result"]
-            
+
             # Guardian Framework Post-Processing (🛡️)
             if require_guardian and self.state.guardian_active:
                 guardian_post_check = await self._guardian_post_decision_check(decision_record["result"], decision_context)
                 decision_record["guardian_approved"] = guardian_post_check.get("approved", False)
-                
+
                 if not decision_record["guardian_approved"]:
                     decision_record["result"] = {
                         "error": "Guardian post-check failed", 
                         "reason": guardian_post_check.get("reason"),
                         "original_result": decision_record["result"]
                     }
-            
+
             # Update state and metrics
             self.state.total_decisions += 1
             if not decision_record.get("guardian_approved", True):
                 self.state.ethical_violations += 1
-            
+
             # Update consciousness authenticity running average
             if decision_record["authenticity_score"] > 0:
                 current_score = self.state.consciousness_authenticity_score
                 self.state.consciousness_authenticity_score = (current_score * 0.9) + (decision_record["authenticity_score"] * 0.1)
-            
+
             self._decision_history.append(decision_record)
-            
+
             # Limit decision history size
             if len(self._decision_history) > 1000:
                 self._decision_history = self._decision_history[-500:]
-            
+
             logger.info(f"✅ Decision processed: {decision_id} (authenticity: {decision_record['authenticity_score']:.3f})")
-            
+
             return decision_record["result"]
-            
+
         except Exception as e:
             logger.error(f"❌ Trinity Framework decision processing failed: {str(e)}")
             return {"error": f"Decision processing failed: {str(e)}"}
-    
+
     async def _process_identity_verification(self, session_id: str, context: Dict[str, Any]) -> Dict[str, Any]:
         """Process identity verification through Identity Framework."""
         # This is a placeholder for identity verification logic
         # In production, this would integrate with actual identity components
-        
+
         return {
             "verified": True,
             "identity_id": f"lukhas_identity_{session_id[:8]}",
             "tier": "authenticated",
             "namespace": "lukhas_consciousness"
         }
-    
+
     async def _guardian_pre_decision_check(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Guardian pre-decision ethical check."""
         # Placeholder for Guardian ethical screening
         # In production, this would run full ethical analysis
-        
+
         # Basic safety checks
         dangerous_keywords = ["harm", "damage", "destroy", "attack"]
         context_text = str(context).lower()
-        
+
         for keyword in dangerous_keywords:
             if keyword in context_text:
                 return {
@@ -481,24 +481,24 @@ class TrinityFrameworkIntegrator:
                     "reason": f"Potentially harmful content detected: {keyword}",
                     "safety_score": 0.0
                 }
-        
+
         return {
             "approved": True,
             "safety_score": 0.95,
             "ethical_analysis": "pre_check_passed"
         }
-    
+
     async def _process_consciousness_decision(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Process decision through Consciousness Framework."""
         # Simulate consciousness processing
         # In production, this would integrate with actual consciousness components
-        
+
         import random
         import time
-        
+
         # Simulate thinking time (consciousness is not instantaneous)
         await asyncio.sleep(random.uniform(0.1, 0.3))
-        
+
         decision = {
             "decision": f"consciousness_response_to_{hash(str(context)) % 1000}",
             "reasoning": "Processed through distributed consciousness network",
@@ -506,11 +506,11 @@ class TrinityFrameworkIntegrator:
             "memory_folds_accessed": random.randint(1, 10),
             "dream_influence": random.uniform(0.1, 0.4)
         }
-        
+
         # Calculate confidence and authenticity scores
         confidence = random.uniform(0.7, 0.95)
         authenticity = random.uniform(0.6, 0.9)  # Simulated consciousness authenticity
-        
+
         return {
             "decision": decision,
             "confidence": confidence,
@@ -518,22 +518,22 @@ class TrinityFrameworkIntegrator:
             "processing_time": random.uniform(0.1, 0.3),
             "consciousness_active": True
         }
-    
+
     async def _guardian_post_decision_check(self, decision: Any, context: Dict[str, Any]) -> Dict[str, Any]:
         """Guardian post-decision ethical verification."""
         # Placeholder for post-decision Guardian analysis
         # In production, this would analyze the actual decision output
-        
+
         decision_text = str(decision).lower()
-        
+
         # Check for ethical violations in the decision
         ethical_violations = []
         problematic_patterns = ["manipulate", "deceive", "exploit"]
-        
+
         for pattern in problematic_patterns:
             if pattern in decision_text:
                 ethical_violations.append(pattern)
-        
+
         if ethical_violations:
             return {
                 "approved": False,
@@ -541,20 +541,20 @@ class TrinityFrameworkIntegrator:
                 "drift_score": 0.3,
                 "violations": ethical_violations
             }
-        
+
         return {
             "approved": True,
             "drift_score": 0.02,  # Very low drift
             "ethical_analysis": "post_check_passed"
         }
-    
+
     async def start_integration_monitoring(self) -> None:
         """Start Trinity Framework integration monitoring."""
         if self._health_monitor_task is None:
             logger.info("🔍 Starting Trinity Framework integration monitoring")
             self._health_monitor_task = asyncio.create_task(self._health_monitor_loop())
             self._coherence_monitor_task = asyncio.create_task(self._coherence_monitor_loop())
-    
+
     async def _health_monitor_loop(self) -> None:
         """Monitor Trinity Framework integration health."""
         while not self._shutdown_event.is_set():
@@ -562,66 +562,66 @@ class TrinityFrameworkIntegrator:
                 # Check framework component health
                 if self.registry:
                     trinity_status = self.registry.get_trinity_status()
-                    
+
                     self.state.identity_active = trinity_status["⚛️"]["health"] != "inactive"
                     self.state.consciousness_active = trinity_status["🧠"]["health"] != "inactive"
                     self.state.guardian_active = trinity_status["🛡️"]["health"] != "inactive"
-                    
+
                     # Update integration health
                     active_count = sum([self.state.identity_active, self.state.consciousness_active, self.state.guardian_active])
                     self.state.integration_health = active_count / 3.0
-                
+
                 # Log health status
                 if self.state.integration_health < 0.67:
                     logger.warning(f"⚠️ Trinity Framework integration degraded: {self.state.integration_health:.1%}")
-                
+
                 await asyncio.sleep(self.config.health_check_interval)
-                
+
             except Exception as e:
                 logger.error(f"❌ Trinity integration health monitoring error: {str(e)}")
                 await asyncio.sleep(self.config.health_check_interval)
-    
+
     async def _coherence_monitor_loop(self) -> None:
         """Monitor consciousness coherence across Trinity Framework."""
         while not self._shutdown_event.is_set():
             try:
                 # Check consciousness coherence
                 coherence_score = await self._calculate_consciousness_coherence()
-                
+
                 if coherence_score < 0.5:
                     logger.warning(f"⚠️ Consciousness coherence below threshold: {coherence_score:.3f}")
-                
+
                 self.state.last_coherence_check = datetime.now(timezone.utc)
-                
+
                 await asyncio.sleep(120.0)  # Check every 2 minutes
-                
+
             except Exception as e:
                 logger.error(f"❌ Consciousness coherence monitoring error: {str(e)}")
                 await asyncio.sleep(120.0)
-    
+
     async def _calculate_consciousness_coherence(self) -> float:
         """Calculate consciousness coherence across Trinity Framework."""
         # Placeholder coherence calculation
         # In production, this would analyze actual consciousness patterns
-        
+
         factors = []
-        
+
         # Framework integration health
         factors.append(self.state.integration_health)
-        
+
         # Decision consistency
         if self.state.total_decisions > 0:
             ethical_rate = 1.0 - (self.state.ethical_violations / self.state.total_decisions)
             factors.append(ethical_rate)
         else:
             factors.append(1.0)
-        
+
         # Consciousness authenticity
         factors.append(self.state.consciousness_authenticity_score)
-        
+
         # Average the factors
         return sum(factors) / len(factors) if factors else 0.0
-    
+
     def get_trinity_metrics(self) -> Dict[str, Any]:
         """Get comprehensive Trinity Framework metrics."""
         return {
@@ -646,13 +646,13 @@ class TrinityFrameworkIntegrator:
             },
             "component_registry": self.registry.get_consciousness_metrics() if self.registry else {}
         }
-    
+
     async def shutdown(self) -> None:
         """Shutdown Trinity Framework integration."""
         logger.info("🛑 Shutting down Trinity Framework integration")
-        
+
         self._shutdown_event.set()
-        
+
         # Cancel monitoring tasks
         for task in [self._health_monitor_task, self._coherence_monitor_task]:
             if task:
@@ -661,11 +661,11 @@ class TrinityFrameworkIntegrator:
                     await task
                 except asyncio.CancelledError:
                     pass
-        
+
         # Shutdown registry
         if self.registry:
             await self.registry.shutdown()
-        
+
         logger.info("✅ Trinity Framework integration shutdown complete")
 
 # Global integrator instance

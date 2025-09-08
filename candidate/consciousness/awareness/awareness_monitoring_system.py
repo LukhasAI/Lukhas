@@ -35,7 +35,7 @@ from enum import Enum
 from typing import Any, Optional
 
 try:
-    from lukhas.async_manager import get_consciousness_manager, TaskPriority
+    from lukhas.async_manager import TaskPriority, get_consciousness_manager
 except ImportError:
     # Fallback for development
     get_consciousness_manager = lambda: None
@@ -288,7 +288,7 @@ class AwarenessMonitoringSystem:
         # Task manager for consciousness monitoring
         self.task_manager = get_consciousness_manager()
         self.monitoring_tasks = set()
-        
+
         # Initialize system with proper task management
         if self.task_manager:
             init_task = self.task_manager.create_task(
@@ -369,7 +369,7 @@ class AwarenessMonitoringSystem:
                     description="Clean up awareness monitoring data",
                     consciousness_context="awareness_monitoring"
                 )
-                
+
                 # Track all tasks for shutdown
                 self.monitoring_tasks.update([
                     awareness_task, pattern_task, insight_task, 
@@ -1187,14 +1187,14 @@ class AwarenessMonitoringSystem:
 
         self.monitoring_active = False
         logger.info("🛑 Consciousness Awareness Monitoring System shutdown initiated")
-        
+
         # Cancel all monitoring tasks
-        if hasattr(self, 'monitoring_tasks') and self.monitoring_tasks:
+        if hasattr(self, "monitoring_tasks") and self.monitoring_tasks:
             logger.info(f"Cancelling {len(self.monitoring_tasks)} monitoring tasks")
             for task in self.monitoring_tasks:
                 if not task.done():
                     task.cancel()
-            
+
             # Wait for cancellation with timeout
             try:
                 await asyncio.wait_for(
@@ -1204,7 +1204,7 @@ class AwarenessMonitoringSystem:
                 logger.info("✅ All monitoring tasks cancelled successfully")
             except asyncio.TimeoutError:
                 logger.warning("⚠️ Some monitoring tasks did not cancel within timeout")
-        
+
         logger.info("✅ Consciousness Awareness Monitoring System shutdown complete")
 
 

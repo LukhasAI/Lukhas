@@ -15,7 +15,7 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
-from candidate.core.common.glyph import GLYPHToken, GLYPHSymbol, create_glyph
+from candidate.core.common.glyph import GLYPHSymbol, GLYPHToken, create_glyph
 from candidate.core.common.logger import get_logger
 from candidate.governance.guardian import GuardianValidator
 

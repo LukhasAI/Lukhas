@@ -79,9 +79,9 @@ except ImportError:
         # Enhanced observability for memory fold verification
         import logging
         logger = logging.getLogger(__name__)
-        
+
         result = True  # Simple verification
-        
+
         # Enhanced telemetry for memory fold verification
         logger.info("memory.fold_verification", extra={
             "lkf_pack_path": str(path),
@@ -89,7 +89,7 @@ except ImportError:
             "verification_method": "basic_integrity_check",
             "trace": "memory_fold_verification"
         })
-        
+
         return result
 
 

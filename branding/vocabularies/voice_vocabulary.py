@@ -19,7 +19,6 @@ from core.symbolic import VoiceSymbol
 from ..core import VoiceEmotion, VoiceProvider
 
 
-
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
     

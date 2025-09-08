@@ -3,20 +3,17 @@
 Consciousness Broadcaster - Real-time WebSocket stream of consciousness states
 Emits live updates with privacy protection and GDPR compliance
 """
-from typing import List
-import streamlit as st
-from datetime import timezone
-
 import asyncio
 import hashlib
 import json
 import logging
 import random
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
+import streamlit as st
 import websockets
 from websockets.server import WebSocketServerProtocol
 

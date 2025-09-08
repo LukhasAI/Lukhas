@@ -1412,7 +1412,7 @@ class CognitiveProcessScheduler:
             synthesis = {
                 "type": "synthesis",
                 "inspiration_sources": inputs,
-                "novel_concept": f"concept_{uuid.uuid4()}.hex[:8]}",
+                "novel_concept": f"concept_{uuid.uuid4())}.hex[:8]}",
                 "attributes": [f"attr_{i}" for i in range(int(4 * randomness) + 2)],
                 "originality_score": np.random.uniform(0.7, 0.95),
             }

@@ -596,7 +596,7 @@ voice_modulator = VoiceModulator()
         dir_name = directory_path.name
 
         # Basic __init__.py content
-        init_content = f'"""\n{dir_name.title()} Module\n{"=" * (len(dir_name} + 7}\nAuto-generated module initialization for lukhas system connectivity.\n"""\n\n# Auto-generated for 100% connectivity\n'
+        init_content = f'"""\n{dir_name.title()} Module\n{"=" * (len(dir_name) + 7)}\nAuto-generated module initialization for lukhas system connectivity.\n"""\n\n# Auto-generated for 100% connectivity\n'
 
         self.write_file(init_path, init_content)
         self.init_files_created.append(str(init_path))

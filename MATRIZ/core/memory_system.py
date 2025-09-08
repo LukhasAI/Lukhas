@@ -17,10 +17,6 @@ This memory system follows the MATRIZ principles:
 - Deterministic behavior for reproducibility
 - Confidence and salience scoring for memory importance
 """
-from typing import List
-from typing import Dict
-import streamlit as st
-
 import hashlib
 import json
 import threading
@@ -30,7 +26,9 @@ from collections import deque
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
+
+import streamlit as st
 
 from .node_interface import (
     CognitiveNode,

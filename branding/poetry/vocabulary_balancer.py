@@ -16,7 +16,6 @@ from collections import Counter
 from typing import Optional
 
 
-
 def fix_later(*args, **kwargs):
     """TODO(symbol-resolver): implement missing functionality
     

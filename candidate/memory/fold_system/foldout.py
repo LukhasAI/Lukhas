@@ -220,7 +220,7 @@ def export_folds_streaming(
     # Enhanced observability for memory fold streaming
     import logging
     logger = logging.getLogger(__name__)
-    
+
     # Enhanced telemetry for streaming fold export
     logger.info("memory.fold_streaming_export", extra={
         "codec": codec,
@@ -229,11 +229,11 @@ def export_folds_streaming(
         "operation": "streaming_export_started",
         "trace": "memory_fold_streaming"
     })
-    
+
     # Similar implementation but optimized for streaming
     # Would write chunks to output_stream as they're ready
     # rather than accumulating everything in memory
-    
+
     # For now, return basic statistics with enhanced logging
     stats = {
         "exported_count": 0,
@@ -242,10 +242,10 @@ def export_folds_streaming(
         "compression_level": compression_level,
         "chunk_size": chunk_size
     }
-    
+
     # TODO[T4-INTERFACE-SURGERY]: Implement actual streaming with parameter usage
     # This stub now properly utilizes all parameters for telemetry
-    
+
     return stats
 
 
