@@ -39,16 +39,17 @@ try:
                                      MemoryBrainSpecialist,
                                      MultiBrainSymphonyOrchestrator)
     SYMPHONY_AVAILABLE = True
-    except ImportError:
-        try:
-        # from MultiBrainSymphony  # External dependency import (
+except ImportError:
+    try:
+        # from MultiBrainSymphony  # External dependency import
+        from MultiBrainSymphony import (
             MultiBrainSymphonyOrchestrator,
             DreamBrainSpecialist,
             MemoryBrainSpecialist,
             LearningBrainSpecialist
         )
         SYMPHONY_AVAILABLE = True
-            except ImportError:
+    except ImportError:
         logger.warning("MultiBrainSymphony components not available")
         SYMPHONY_AVAILABLE = False
         MultiBrainSymphonyOrchestrator = None

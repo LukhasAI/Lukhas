@@ -390,8 +390,8 @@ class TopologyManager:
         )
 
         self.logger.debug(
-            f"ΛTRACE: Efficiency factors: Connectivity={connectivity_factor: .2f},
-            Performance={performance_factor: .2f}, Structure={structure_factor: .2f}, PathPenalty={path_penalty: .2f}"
+            f"ΛTRACE: Efficiency factors: Connectivity={connectivity_factor:.2f}, "
+            f"Performance={performance_factor:.2f}, Structure={structure_factor:.2f}, PathPenalty={path_penalty:.2f}"
         )
 
         # Weights for each factor, summing to 1.0
@@ -415,10 +415,10 @@ class TopologyManager:
 
     def _get_neighbors(self, node_id_str: str) -> list[str]:
         """Gets all unique neighbors of a given node (nodes it's connected to or from)."""
-        self.logger.debug(f"ΛTRACE: Getting neighbors for node '{node_id_str)'.")
+        self.logger.debug(f"ΛTRACE: Getting neighbors for node '{node_id_str}'.")
         if node_id_str not in self.network.nodes:
             self.logger.warning(
-                f"ΛTRACE: Node '{node_id_str)' not found in network when getting neighbors."
+                f"ΛTRACE: Node '{node_id_str}' not found in network when getting neighbors."
             )
             return []
 
@@ -440,7 +440,8 @@ class TopologyManager:
         #         neighbors_set.add(conn_target)
 
         self.logger.debug(
-            f"ΛTRACE: Node '{node_id_str)' has {len(neighbors_set)} unique neighbors: {list(neighbors_set)[:5]}{'...' if len(neighbors_set) > 5 else ''}"
+            f"ΛTRACE: Node '{node_id_str}' has {len(neighbors_set)} unique neighbors: "
+            f"{list(neighbors_set)[:5]}{'...' if len(neighbors_set) > 5 else ''}"
         )
         return list(neighbors_set)
 
@@ -449,7 +450,7 @@ class TopologyManager:
     def _are_connected(self, node1_id: str, node2_id: str) -> bool:
         """Checks if two nodes are directly connected (in either direction)."""
         self.logger.debug(
-            f"ΛTRACE: Checking direct connection between '{node1_id)' and '{node2_id)'."
+            f"ΛTRACE: Checking direct connection between '{node1_id}' and '{node2_id}'."
         )
         # This check assumes connections list stores directed edges.
         # For an undirected sense (common in clustering coeff), check both directions.
@@ -466,11 +467,11 @@ class TopologyManager:
 
     def _bfs_distances(self, source_node_id: str) -> dict[str, int]:
         """Calculates shortest path distances from a source node using Breadth-First Search."""
-        self.logger.debug(f"ΛTRACE: Starting BFS from source node '{source_node_id)'.")
+        self.logger.debug(f"ΛTRACE: Starting BFS from source node '{source_node_id}'.")
         if source_node_id not in self.network.nodes:
             self.logger.warning(
                 f"ΛTRACE: Source node '{source_node_id}' for BFS not found in network."
-            }
+            )
             return {}
 
         distances: dict[str, int] = {source_node_id: 0}
@@ -483,7 +484,7 @@ class TopologyManager:
             head += 1
             current_node_dist = distances[current_node_id]
 
-            for neighbor_id in self._get_neighbors(:
+            for neighbor_id in self._get_neighbors(
                 current_node_id
             ):  # _get_neighbors already logs
                 if neighbor_id not in visited_nodes:
@@ -491,12 +492,11 @@ class TopologyManager:
                     distances[neighbor_id] = current_node_dist + 1
                     queue.append(neighbor_id)
                     self.logger.debug(
-                        f"ΛTRACE: BFS: Reached '{neighbor_id)' from '{source_node_id}',
-                        distance {distances[neighbor_id]}."
+                        f"ΛTRACE: BFS: Reached '{neighbor_id}' from '{source_node_id}', distance {distances[neighbor_id]}."
                     )
 
         self.logger.debug(
-            f"ΛTRACE: BFS from '{source_node_id)' complete. Found distances to {len(distances)}-1} other nodes."
+            f"ΛTRACE: BFS from '{source_node_id}' complete. Found distances to {len(distances)-1} other nodes."
         )
         return distances
 
@@ -527,7 +527,7 @@ class TopologyManager:
         # Priority 2: Low activity coupled with reasonable density might indicate fusion opportunity
         # Density check helps avoid fusing an already sparse network further.
         # Threshold for "reasonable density" can be tuned (e.g. > 0.1 or > 0.05)
-        if (:
+        if (
             current_metrics.avg_activity < self.network.config.fusion_threshold
             and current_metrics.connection_density > 0.05
         ):
@@ -540,7 +540,7 @@ class TopologyManager:
         # "Adaptive" could imply a more complex strategy or a mix, perhaps decided by CristaOptimizer itself.
         # Thresholds for "poor efficiency" (e.g. < 0.5) and "low clustering" (e.g.
         # < 0.3) can be tuned.
-        if (:
+        if (
             current_metrics.network_efficiency < 0.5
             or current_metrics.clustering_coefficient < 0.2
         ):
@@ -585,30 +585,31 @@ class TopologyManager:
             0.0, min(1.0, overall_health_score)
         )  # Clamp to [0,1]
         self.logger.debug(
-            f"ΛTRACE: Health components: ErrorScoreComp={error_score_component: .2f},
-            ActivityScoreComp={activity_score_component: .2f}, EfficiencyScoreComp={efficiency_score_component: .2f}. Overall Health Score: {overall_health_score: .2f}"
+            f"ΛTRACE: Health components: ErrorScoreComp={error_score_component:.2f}, "
+            f"ActivityScoreComp={activity_score_component:.2f}, EfficiencyScoreComp={efficiency_score_component:.2f}. "
+            f"Overall Health Score: {overall_health_score:.2f}"
         )
 
         # Determine health level based on score and potentially critical
         # individual metrics
-        if (:
+        if (
             current_metrics.avg_error
             > self.health_thresholds[NetworkHealth.POOR]["error_max"]
         ):  # If error is beyond "poor"
             health = NetworkHealth.CRITICAL
-        elif (:
+        elif (
             overall_health_score >= 0.8
             and current_metrics.avg_error
             < self.health_thresholds[NetworkHealth.EXCELLENT]["error_max"]
         ):  # Example: Excellent score AND low error
             health = NetworkHealth.EXCELLENT
-        elif (:
+        elif (
             overall_health_score >= 0.6
             and current_metrics.avg_error
             < self.health_thresholds[NetworkHealth.GOOD]["error_max"]
         ):
             health = NetworkHealth.GOOD
-        elif (:
+        elif (
             overall_health_score >= 0.4
             and current_metrics.avg_error
             < self.health_thresholds[NetworkHealth.FAIR]["error_max"]
@@ -650,8 +651,7 @@ class TopologyManager:
                 }
                 identified_bottlenecks.append(bottleneck_info)
                 self.logger.debug(
-                    f"ΛTRACE: Bottleneck(High Error): Node '{node.node_id}',
-                    Error: {node.error_level: .2f}"
+                    f"ΛTRACE: Bottleneck(High Error): Node '{node.node_id}', Error: {node.error_level:.2f}"
                 )
 
         # Bottleneck Type 2: Isolated nodes (very low degree/connectivity)
@@ -665,8 +665,8 @@ class TopologyManager:
             if degree < isolated_degree_threshold:
                 severity = (
                     1.0 - (degree / isolated_degree_threshold)
-                    if isolated_degree_threshold > 0:
-                    else 1.0:
+                    if isolated_degree_threshold > 0
+                    else 1.0
                 )
                 bottleneck_info = {
                     "type": "isolated_node",
@@ -677,8 +677,7 @@ class TopologyManager:
                 }
                 identified_bottlenecks.append(bottleneck_info)
                 self.logger.debug(
-                    f"ΛTRACE: Bottleneck(Isolated): Node '{node_id_str}',
-                    Degree: {degree}"
+                    f"ΛTRACE: Bottleneck(Isolated): Node '{node_id_str}', Degree: {degree}"
                 )
 
         # Bottleneck Type 3: Overconnected nodes (potential congestion points or "hubs")
@@ -691,9 +690,9 @@ class TopologyManager:
             5  # Don't flag nodes in very small/sparse nets as overconnected easily
         )
 
-        if avg_network_degree > 0:  # Only if average degree is meaningful:
+        if avg_network_degree > 0:  # Only if average degree is meaningful
             for node_id_str, degree in node_degrees_map.items():
-                if degree > max(:
+                if degree > max(
                     min_degree_for_overconnected_check,
                     avg_network_degree * overconnected_factor,
                 ):
@@ -702,8 +701,8 @@ class TopologyManager:
                             degree / (avg_network_degree * overconnected_factor),
                             1.0,
                         )
-                        if avg_network_degree > 0:
-                        else 0.5:
+                        if avg_network_degree > 0
+                        else 0.5
                     )
                     bottleneck_info = {
                         "type": "overconnected_node",
@@ -715,8 +714,8 @@ class TopologyManager:
                     }
                     identified_bottlenecks.append(bottleneck_info)
                     self.logger.debug(
-                        f"ΛTRACE: Bottleneck(Overconnected): Node '{node_id_str}',
-                        Degree: {degree}(Avg: {avg_network_degree: .2f})"
+                        f"ΛTRACE: Bottleneck(Overconnected): Node '{node_id_str}', "
+                        f"Degree: {degree} (Avg: {avg_network_degree:.2f})"
                     )
 
         # Sort bottlenecks by severity for prioritization
@@ -749,26 +748,23 @@ class TopologyManager:
         improvement_suggestions: list[str] = []
 
         # Density suggestions
-        if current_metrics.connection_density < 0.1:  # Threshold for "too sparse":
-            improvement_suggestions.append("Increase overall network connectivity
-                                           the network appears too sparse,
-                                           potentially leading to fragmentation."
-                                           )
+        if current_metrics.connection_density < 0.1:  # Threshold for "too sparse"
+            improvement_suggestions.append(
+                "Increase overall network connectivity; the network appears too sparse, potentially leading to fragmentation."
+            )
         elif current_metrics.connection_density > 0.8:  # Threshold for "too dense":
             improvement_suggestions.append(
                 "Consider reducing overall network connectivity if resource usage is high; the network is very dense."
             )
 
         # Clustering suggestions
-        if (:
-            current_metrics.clustering_coefficient < 0.2
-        ):  # Threshold for low local clustering
+        if current_metrics.clustering_coefficient < 0.2:  # Threshold for low local clustering
             improvement_suggestions.append(
                 "Improve local clustering by forming more triangular connections between nodes; this can enhance local information processing efficiency."
             )
 
         # Path length suggestions
-        if (:
+        if (
             current_metrics.average_path_length > 5.0
             and current_metrics.average_path_length != float("inf")
         ):  # Threshold for long paths
@@ -792,10 +788,10 @@ class TopologyManager:
             )
 
         # Efficiency suggestions
-        if current_metrics.network_efficiency < 0.4:  # Low overall efficiency:
-            improvement_suggestions.append("Optimize overall network efficiency by balancing connectivity,
-                                           performance(error / activity), and structural properties like path length and clustering."
-                                           )
+        if current_metrics.network_efficiency < 0.4:  # Low overall efficiency
+            improvement_suggestions.append(
+                "Optimize overall network efficiency by balancing connectivity, performance (error/activity), and structural properties like path length and clustering."
+            )
 
         if not improvement_suggestions:
             improvement_suggestions.append(
@@ -831,13 +827,13 @@ class TopologyManager:
             # Convert TopologyMetrics to dict if they are objects for consistent storage
             "metrics_before": (
                 metrics_before.__dict__
-                if isinstance(metrics_before, TopologyMetrics):
-                else metrics_before:
+                if isinstance(metrics_before, TopologyMetrics)
+                else metrics_before
             ),
             "metrics_after": (
                 metrics_after.__dict__
-                if isinstance(metrics_after, TopologyMetrics):
-                else metrics_after:
+                if isinstance(metrics_after, TopologyMetrics)
+                else metrics_after
             ),
             "success": optimization_result_dict.get("success", False),
             "nodes_affected": optimization_result_dict.get("nodes_affected", 0),
@@ -893,36 +889,25 @@ class TopologyManager:
         # Analyze error trend from 'metrics_after'
         avg_errors_after_ops = [
             op["metrics_after"]["avg_error"]
-            for op in recent_ops:
-            if op.get("metrics_after") and "avg_error" in op["metrics_after"]:
+            for op in recent_ops
+            if op.get("metrics_after") and "avg_error" in op["metrics_after"]
         ]
 
         error_trend_direction = "stable"
-        if (:
-            len(avg_errors_after_ops) >= 2
-        ):  # Need at least two points to determine a trend
-            # Simple linear regression slope could be used, or just compare start/end of window
-            # Comparing first half avg vs second half avg for robustness over just
-            # start/end points
-            first_half_avg_error = (
-                np.mean(avg_errors_after_ops[: len(avg_errors_after_ops) // 2])
-                if len(avg_errors_after_ops) >= 2:
-                else (avg_errors_after_ops[0] if avg_errors_after_ops else 0):
-            )
-            second_half_avg_error = (
-                np.mean(avg_errors_after_ops[len(avg_errors_after_ops) // 2:])
-                if len(avg_errors_after_ops) >= 2:
-                else (avg_errors_after_ops[0] if avg_errors_after_ops else 0):
-            )
+        if len(avg_errors_after_ops) >= 2:  # Need at least two points to determine a trend
+            # Compare first half avg vs second half avg for robustness
+            mid = len(avg_errors_after_ops) // 2
+            first_half_avg_error = np.mean(avg_errors_after_ops[:mid])
+            second_half_avg_error = np.mean(avg_errors_after_ops[mid:])
 
-            if (:
-                second_half_avg_error < first_half_avg_error * 0.95
-            ):  # Significant improvement (e.g. >5% reduction)
+            if second_half_avg_error < first_half_avg_error * 0.95:  # Significant improvement (>5% reduction)
                 error_trend_direction = "improving"
-            elif (:
-                second_half_avg_error > first_half_avg_error * 1.05
-            ):  # Significant degradation (e.g. >5% increase)
+            elif second_half_avg_error > first_half_avg_error * 1.05:  # Significant degradation (>5% increase)
                 error_trend_direction = "degrading"
+        else:
+            # Single point or none
+            first_half_avg_error = avg_errors_after_ops[0] if avg_errors_after_ops else 0.0
+            second_half_avg_error = first_half_avg_error
 
         dominant_op = None
         if operation_types_list:
@@ -931,8 +916,8 @@ class TopologyManager:
             dominant_op_counter = Counter(operation_types_list)
             dominant_op = (
                 dominant_op_counter.most_common(1)[0][0]
-                if dominant_op_counter:
-                else None:
+                if dominant_op_counter
+                else None
             )
 
         trends_summary = {

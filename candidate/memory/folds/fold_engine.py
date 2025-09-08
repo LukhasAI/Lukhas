@@ -59,8 +59,8 @@ symbolic patterns within them. It forms a core part of the AGI's memory architec
 # ΛTRACE: Initialize logger for the fold_engine module. #ΛTEMPORAL_HOOK
 # (Logger init time) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger
 # configuration echoes global settings)
-    __name__
-)  # Changed from `log` to `logger` for consistency.
+import structlog
+logger = structlog.get_logger(__name__)
 
 
 # ΛNOTE: Placeholder for LUKHAS tier system decorator.
@@ -129,7 +129,7 @@ class MemoryFold:
 
     # ΛSEED: Creation of a MemoryFold is a seeding event for a new piece of information.
     # ΛLOCKED: true
-    def __init__(:
+    def __init__(
         self,
         key: str,
         content: Any,
@@ -219,7 +219,7 @@ class MemoryFold:
         if not access_granted:
             logger.warning(
                 f"Tier access denied: key={self.key}, tier_level={tier_level}, "
-                f"memory_type={self.memory_type.value}, required_tier={self._get_required_tier(}}"
+                f"memory_type={self.memory_type.value}, required_tier={self._get_required_tier()}"
             )
             return None
 
