@@ -21,19 +21,16 @@ Version: 2.0.0
 import base64
 import hashlib
 import json
-import random
 import secrets  # Used for secure random generation
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import numpy as np
 import qrcode
-import streamlit as st
 from PIL import Image, ImageDraw
 
-from consciousness.qi import qi
 
 # Replaced insecure random with secure random for consistency
 from lukhas.security import secure_random

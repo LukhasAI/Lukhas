@@ -18,13 +18,10 @@ Every line of code here is crafted with the same obsession Steve brought to ever
 No complexity. No bloat. Just pure poetic consciousness.
 """
 import random
-import time
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 
 class EmotionalTone(Enum):

@@ -58,11 +58,9 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-import streamlit as st
 
-from consciousness.qi import qi
 from lukhas.core.common import get_logger
 
 # Add parent directory to path for imports

@@ -200,7 +200,7 @@ class EnhancedEmotionalProcessor:
         self.current_state["last_updated"] = datetime.now(timezone.utc).isoformat()
 
         # Calculate stability based on emotional change
-                                                                                    if self.emotional_history:
+        if self.emotional_history:
             previous = self.emotional_history[-1]
             distance = self._calculate_emotion_distance(
                 previous["primary_emotion"],
@@ -208,13 +208,13 @@ class EnhancedEmotionalProcessor:
             )
             self.current_state["stability"] = max(0.1, 1.0 - (distance / 2.0))
 
-                                                                                        return self.current_state
+        return self.current_state
 
-                                                                                    def _calculate_emotion_distance(self, emotion1: str, emotion2: str) -> float:
-                                                                                        """Calculate distance between emotions in vector space"""
-                                                                                        if emotion1 not in self.emotion_vectors:
+    def _calculate_emotion_distance(self, emotion1: str, emotion2: str) -> float:
+        """Calculate distance between emotions in vector space"""
+        if emotion1 not in self.emotion_vectors:
             emotion1 = "neutral"
-                                                                                            if emotion2 not in self.emotion_vectors:
+        if emotion2 not in self.emotion_vectors:
             emotion2 = "neutral"
 
         vec1 = self.emotion_vectors[emotion1]
@@ -222,10 +222,10 @@ class EnhancedEmotionalProcessor:
 
         # Simple Euclidean distance
         distance = sum((a - b) ** 2 for a, b in zip(vec1, vec2)) ** 0.5
-                                                                                                return distance
+        return distance
 
-                                                                                            def get_voice_modulation_params(self) -> Dict[str, Any]:
-                                                                                                """Generate voice modulation parameters based on emotional state"""
+    def get_voice_modulation_params(self) -> Dict[str, Any]:
+        """Generate voice modulation parameters based on emotional state"""
         emotion = self.current_state["primary_emotion"]
         intensity = self.current_state["intensity"]
 
@@ -239,15 +239,18 @@ class EnhancedEmotionalProcessor:
             "anticipation": {"pitch": 0.2, "speed": 0.1, "energy": 0.3}
         }
 
-        adjustments = emotion_adjustments.get(emotion, {"pitch": 0, "speed": 0,
-    "energy": 0})
+        adjustments = emotion_adjustments.get(
+            emotion, {"pitch": 0, "speed": 0, "energy": 0}
+        )
 
-                                                                                                return {
+        return {
             "pitch_adjustment": adjustments["pitch"] * intensity,
             "speed_adjustment": adjustments["speed"] * intensity,
             "energy_adjustment": adjustments["energy"] * intensity,
             "emphasis_level": 0.5 + (intensity * 0.3),
-            "pause_threshold": 0.3 + ((1.0 - self.current_state["stability"]) * 0.2)
+            "pause_threshold": (
+                0.3 + ((1.0 - self.current_state["stability"]) * 0.2)
+            )
         }
 
                                                                                             class EnhancedMemorySystem:

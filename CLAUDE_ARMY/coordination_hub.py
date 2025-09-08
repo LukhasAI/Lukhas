@@ -5,9 +5,6 @@ Manages communication between 6 specialized agents
 """
 
 import asyncio
-import json
-from pathlib import Path
-from typing import Any, Dict, List
 
 
 class ClaudeMaxCoordinator:

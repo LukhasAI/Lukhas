@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from typing import List
 
 """
 LUKHAS AI ΛBot Comprehensive CLI Integration
@@ -14,7 +13,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import click
-import streamlit as st
 
 # Add project root to path (repo-relative if available)
 try:

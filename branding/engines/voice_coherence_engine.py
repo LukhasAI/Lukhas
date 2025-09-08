@@ -16,7 +16,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 
 sys.path.append(str(Path(__file__).parent.parent))
 

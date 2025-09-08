@@ -20,7 +20,6 @@ TARGET: Support 100,000+ events/second with <1ms latency
 """
 import asyncio
 import json
-import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -28,7 +27,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 
 # Import extreme performance optimizations
 try:

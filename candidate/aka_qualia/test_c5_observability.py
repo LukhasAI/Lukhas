@@ -8,7 +8,6 @@ Demonstrates the observability system integrated with Aka Qualia components.
 import json
 import time
 
-import streamlit as st
 from memory_noop import NoopMemory
 
 from monitoring_dashboard import MonitoringDashboard

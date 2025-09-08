@@ -38,16 +38,16 @@ class SecurityIssueFixer:
             data = json.load(f)
 
         issues = data.get("results", [])
-        click.echo(f"📊 Found {len(issues}} total security issues")
+        click.echo(f"📊 Found {len(issues)} total security issues")
 
         # Filter by severity
         high_severity = [i for i in issues if i["issue_severity"] == "HIGH"]
         medium_severity = [i for i in issues if i["issue_severity"] == "MEDIUM"]
         low_severity = [i for i in issues if i["issue_severity"] == "LOW"]
 
-        click.echo(f"🔥 HIGH severity: {len(high_severity}} issues")
-        click.echo(f"⚠️  MEDIUM severity: {len(medium_severity}} issues")
-        click.echo(f"ℹ️  LOW severity: {len(low_severity}} issues")
+        click.echo(f"🔥 HIGH severity: {len(high_severity)} issues")
+        click.echo(f"⚠️  MEDIUM severity: {len(medium_severity)} issues")
+        click.echo(f"ℹ️  LOW severity: {len(low_severity)} issues")
 
         return high_severity, medium_severity, low_severity
 
@@ -262,7 +262,7 @@ Focus on practical, secure solutions that maintain functionality.
         """Fix high and medium priority security issues"""
 
         click.echo(
-            f"\n🔧 Starting automatic fixes for {len(high_issues)} HIGH and {len(medium_issues}} MEDIUM severity issues..."
+            f"\n🔧 Starting automatic fixes for {len(high_issues)} HIGH and {len(medium_issues)} MEDIUM severity issues..."
         )
 
         fixable_types = self.get_fixable_issue_types()
@@ -355,8 +355,8 @@ Focus on practical, secure solutions that maintain functionality.
         click.echo("\n📊 SECURITY FIX SUMMARY:")
         click.echo("=========================")
         click.echo(f"🎯 Issues addressed: {total_fixed}/{total_issues}")
-        click.echo(f"🔥 HIGH severity issues: {len([f for f in self.fixes_applied if f['severity'] == 'HIGH']}}")
-        click.echo(f"⚠️ MEDIUM severity issues: {len([f for f in self.fixes_applied if f['severity'] == 'MEDIUM']}}")
+        click.echo(f"🔥 HIGH severity issues: {len([f for f in self.fixes_applied if f['severity'] == 'HIGH'])}")
+        click.echo(f"⚠️ MEDIUM severity issues: {len([f for f in self.fixes_applied if f['severity'] == 'MEDIUM'])}")
 
         if self.fixes_applied:
             click.echo("\n✅ FIXED ISSUES:")
@@ -385,9 +385,9 @@ Focus on practical, secure solutions that maintain functionality.
         # Recommendations
         if len(low_issues) > 1000:
             click.echo("\n💡 RECOMMENDATIONS:")
-            click.echo(f"   • {len(low_issues}} LOW severity issues found")
+            click.echo(f"   • {len(low_issues)} LOW severity issues found")
             click.echo(
-                f"   • Most are 'assert_used' ({len([i for i in low_issues if i['test_name'] == 'assert_used']}}) - consider code review"
+                f"   • Most are 'assert_used' ({len([i for i in low_issues if i['test_name'] == 'assert_used'])}) - consider code review"
             )
             click.echo("   • Review test files and development code patterns")
             click.echo("   • Consider adding .bandit configuration to ignore test files")

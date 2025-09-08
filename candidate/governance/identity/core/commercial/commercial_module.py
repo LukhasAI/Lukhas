@@ -21,9 +21,8 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, Optional
 
-import streamlit as st
 
 from ..id_service.entropy_engine import EntropyEngine
 from ..id_service.lambd_id_validator import LambdaIDValidator

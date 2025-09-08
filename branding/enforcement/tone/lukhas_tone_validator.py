@@ -7,9 +7,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 
 class LukhasToneValidator:

@@ -604,7 +604,7 @@ async def example_usage():
 
     # List credentials
     all_creds = manager.list_credentials()
-    print(f"📋 Total credentials: {len(all_creds}}")
+    print(f"📋 Total credentials: {len(all_creds)}")
 
     # Test rotation
     success = await manager.rotate_credential(openai_key_id, "sk-new-rotated-key-9876543210")

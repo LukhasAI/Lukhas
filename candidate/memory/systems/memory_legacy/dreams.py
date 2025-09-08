@@ -28,7 +28,7 @@ import numpy as np
 import structlog
 
 # Module imports
-from candidate.core.common import GuardianRejectionError, LukhasError, MemoryDriftError, get_logger
+from candidate.core.common import LukhasError, get_logger
 
 # Configure module logger
 logger = get_logger(__name__)

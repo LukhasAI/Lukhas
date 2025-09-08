@@ -13,9 +13,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 # Add Lukhas LUKHAS AI ΛBot path
 sys.path.append("/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot", timezone)

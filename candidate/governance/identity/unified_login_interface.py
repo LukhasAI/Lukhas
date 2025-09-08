@@ -29,16 +29,13 @@ Created: 2025-08-03
 import asyncio
 import logging
 import secrets
-import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 # Import our revolutionary authentication system
 try:

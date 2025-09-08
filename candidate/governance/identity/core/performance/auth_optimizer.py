@@ -20,9 +20,8 @@ import time
 import weakref
 from concurrent.futures import ThreadPoolExecutor
 from functools import wraps
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-import streamlit as st
 
 
 class PerformanceMetrics:

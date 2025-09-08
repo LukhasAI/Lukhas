@@ -10,8 +10,6 @@ Uses sed for maximum safety and speed.
 """
 
 import subprocess
-import sys
-from pathlib import Path
 
 
 def find_and_fix_pattern(pattern_name: str, find_pattern: str, replace_pattern: str, dry_run: bool = True):

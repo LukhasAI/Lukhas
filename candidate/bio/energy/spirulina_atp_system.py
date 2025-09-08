@@ -12,17 +12,13 @@ RESEARCH VALIDATION: Priority #5 Bio-Symbolic Architecture Analysis
 Performance: 27.4 TFLOPS/W peak efficiency with 94% Virtuoso AGI alignment
 """
 import asyncio
-import random
-import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
 import numpy as np
-import streamlit as st
 
-from consciousness.qi import qi
 
 # Bio-inspired computation imports
 try:

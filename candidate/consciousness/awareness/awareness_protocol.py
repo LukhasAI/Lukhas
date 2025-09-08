@@ -17,12 +17,10 @@
 import asyncio
 import logging
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-import streamlit as st
 
 from candidate.core.common import get_logger
-from consciousness.qi import qi
 
 # Module imports
 from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter

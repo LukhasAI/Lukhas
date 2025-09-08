@@ -8,15 +8,12 @@ import json
 import logging
 import random
 import sys
-import time
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 # Live API integration imports
 try:

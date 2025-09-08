@@ -12,10 +12,8 @@ Features:
 - Zero-knowledge proof support
 - ΛTRACE integration
 """
-import time
 from typing import Optional
 
-import streamlit as st
 
 from .consent_history import ConsentHistoryManager
 from .symbolic_scopes import SymbolicScopesManager

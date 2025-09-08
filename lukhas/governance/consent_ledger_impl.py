@@ -38,7 +38,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-import streamlit as st
 
 from lukhas.identity.compat import ensure_both_id_keys
 

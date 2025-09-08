@@ -65,10 +65,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 import yaml
 
-from consciousness.qi import qi
 
 # Configure the consciousness logger
 logging.basicConfig(level=logging.INFO, format="🧠 %(asctime)s - %(name)s - %(levelname)s - %(message)s")

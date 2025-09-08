@@ -42,7 +42,7 @@ class T4CoreBatchProcessor:
                     if py_file.is_file():
                         core_files.append(str(py_file.relative_to(self.workspace)))
 
-        print(f"🔍 T4 LENS: Discovered {len(core_files}} core LUKHAS Python files")
+        print(f"🔍 T4 LENS: Discovered {len(core_files)} core LUKHAS Python files")
         return core_files
 
     def analyze_file_issues(self, file_path):
@@ -161,11 +161,11 @@ class T4CoreBatchProcessor:
         batch_files = core_files[start_idx : start_idx + self.batch_size]
 
         if not batch_files:
-            print(f"✅ All batches complete! Total files: {len(core_files}}")
+            print(f"✅ All batches complete! Total files: {len(core_files)}")
             return
 
-        print(f"📁 Batch {batch_num}: Processing {len(batch_files}} files")
-        print(f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files}} total")
+        print(f"📁 Batch {batch_num}: Processing {len(batch_files)} files")
+        print(f"📊 Range: {start_idx + 1}-{start_idx + len(batch_files)} of {len(core_files)} total")
         print("")
 
         # Process each file
@@ -178,7 +178,7 @@ class T4CoreBatchProcessor:
             # Analyze issues
             issues = self.analyze_file_issues(file_path)
             if issues:
-                print(f"    🔍 Issues found: {len(issues}}")
+                print(f"    🔍 Issues found: {len(issues)}")
                 for issue in issues[:3]:  # Show first 3 issues
                     print(f"      • {issue}")
                 total_issues += len(issues)
@@ -196,7 +196,7 @@ class T4CoreBatchProcessor:
         # Summary
         print("🎯 T4 LENS BATCH SUMMARY")
         print("-" * 25)
-        print(f"Files processed: {len(batch_files}}")
+        print(f"Files processed: {len(batch_files)}")
         print(f"Issues found: {total_issues}")
         print(f"Fixes applied: {total_fixes}")
         print(f"Next batch would be: {batch_num + 1}")

@@ -38,8 +38,6 @@ Features:
 """
 import hashlib
 import json
-import random
-import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -47,9 +45,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-import streamlit as st
 
-from consciousness.qi import qi
 
 # Import existing GLYPH components
 from .glyph import EmotionVector, Glyph

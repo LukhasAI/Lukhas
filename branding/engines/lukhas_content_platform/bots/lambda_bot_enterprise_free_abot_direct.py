@@ -6,7 +6,6 @@ import subprocess
 import sys
 import time
 
-import streamlit as st
 
 sys.path.append("/Users/A_G_I/Λ")
 

@@ -16,7 +16,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 
 from ..common import GlyphIntegrationMixin
 

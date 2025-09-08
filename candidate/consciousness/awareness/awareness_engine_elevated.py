@@ -32,10 +32,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional, Protocol
 
-import streamlit as st
 from pydantic import BaseModel, Field
 
-from consciousness.qi import qi
 
 # ——— Configuration & Utilities —————————————————————————————— #
 

@@ -10,7 +10,6 @@ import sys
 import time
 from datetime import datetime, timezone
 
-import streamlit as st
 
 sys.path.append("/Users/A_G_I/Λ", timezone)
 

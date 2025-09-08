@@ -12,7 +12,6 @@ import sys
 import time
 from pathlib import Path
 
-import streamlit as st
 
 
 def run_command(cmd, description):

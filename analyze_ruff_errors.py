@@ -5,9 +5,7 @@ Categorizes and prioritizes syntax errors from ruff check JSON output
 """
 
 import json
-import sys
 from collections import Counter, defaultdict
-from pathlib import Path
 
 
 def analyze_ruff_errors():

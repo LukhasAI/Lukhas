@@ -6,8 +6,6 @@
 A simplified version that uses local LLM + Ruff to fix code issues systematically.
 Focuses on the most critical issues first with safe, automated fixes.
 """
-import time
-import streamlit as st
 
 import json
 import os

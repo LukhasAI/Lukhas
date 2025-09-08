@@ -12,7 +12,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
 
-import streamlit as st
 from aethios.core.context_analyzer import ContextAnalyzer
 from aethios.interface.voice.emotional_fingerprinter import EmotionalFingerprinter
 from aethios.interface.voice.speech_processor import SpeechProcessor

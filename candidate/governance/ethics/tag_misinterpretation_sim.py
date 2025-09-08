@@ -1,7 +1,6 @@
 """Misinterpretation scenario simulator for ethical tags."""
 from __future__ import annotations
 
-import logging
 from typing import Any
 
 from candidate.core.common import get_logger

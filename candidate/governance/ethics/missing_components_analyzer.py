@@ -12,9 +12,7 @@ Identifies gaps in ethics, compliance, and governance that might exist in the pr
 """
 from pathlib import Path
 
-import streamlit as st
 
-from consciousness.qi import qi
 
 
 def analyze_missing_components():

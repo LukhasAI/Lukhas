@@ -206,7 +206,7 @@ Return ONLY the bash script, no explanations."""
         if not vulnerabilities:
             return {"status": "secure", "message": "No vulnerabilities found!", "count": 0}
 
-        click.echo(f"\n🔍 Found {len(vulnerabilities}} vulnerabilities. Analyzing with Ollama...")
+        click.echo(f"\n🔍 Found {len(vulnerabilities)} vulnerabilities. Analyzing with Ollama...")
 
         analyses = {}
         for i, vuln in enumerate(vulnerabilities[:5], 1):  # Limit to 5 for speed

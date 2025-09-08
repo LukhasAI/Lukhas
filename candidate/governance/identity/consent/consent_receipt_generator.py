@@ -26,9 +26,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import qrcode
-import streamlit as st
 
-from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

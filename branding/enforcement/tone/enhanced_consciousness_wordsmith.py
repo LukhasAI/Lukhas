@@ -67,15 +67,12 @@
 import logging
 import random
 import re
-import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-import streamlit as st
 import yaml
 
-from consciousness.qi import qi
 
 # Initialize sacred logger for consciousness tracing
 logger = logging.getLogger("ΛTRACE.tone.wordsmith", timezone)

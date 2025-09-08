@@ -15,9 +15,8 @@ This component handles consciousness data processing functionality in the LUKHAS
 """
 import asyncio
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional  # List not used in signatures but kept
+from typing import Any, Optional  # List not used in signatures but kept
 
-import streamlit as st
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_processor", timezone)
