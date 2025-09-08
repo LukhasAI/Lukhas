@@ -302,14 +302,14 @@ class CodeSecurityScanner:
                         line_num = content[: match.start()].count("\n") + 1
 
                         finding = SecurityFinding(
-                            id=f"code_{hashlib.md5(f'{file_path}}:{line_num}:{vuln_type}'.encode()).hexdigest()[:12]}",
+                            id=f"code_{hashlib.md5(f'{file_path}:{line_num}:{vuln_type}'.encode()).hexdigest()[:12]}",
                             type=(
                                 VulnerabilityType.CODE_INJECTION
                                 if "injection" in vuln_type
                                 else VulnerabilityType.CRYPTO_WEAKNESS
                             ),
                             level=SecurityLevel.HIGH,
-                            title=f"Potential {vuln_type.replace('_', ' ').title(}}",
+                            title=f"Potential {vuln_type.replace('_', ' ').title()}",
                             description=f"Detected potential {vuln_type} vulnerability",
                             file_path=file_path,
                             line_number=line_num,
