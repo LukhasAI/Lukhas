@@ -11,11 +11,12 @@ logger = logging.getLogger(__name__)
 try:
     from .validate_auth_implementation import (
         test_api_key_validation,
-        test_password_hashing,
-        test_bcrypt_integration
+        test_authentication_flows,
+        test_session_management,
+        test_security_compliance
     )
     logger.info("Successfully imported auth validation tools")
-    __all__ = ["test_api_key_validation", "test_password_hashing", "test_bcrypt_integration"]
+    __all__ = ["test_api_key_validation", "test_authentication_flows", "test_session_management", "test_security_compliance"]
 except ImportError as e:
     logger.warning(f"Could not import validation tools: {e}")
     __all__ = []
