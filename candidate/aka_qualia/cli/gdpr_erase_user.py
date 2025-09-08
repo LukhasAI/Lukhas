@@ -122,7 +122,7 @@ def log_erasure_audit(engine, user_id, user_id_hash, deleted_count, success):
             ),
             {
                 "user_id_hash": user_id_hash,
-                "metadata": f"{{'original_user_id': '{user_id}', 'deleted_count': {deleted_count}, 'success': {success}}",
+                "metadata": f"{{'original_user_id': '{user_id}', 'deleted_count': {deleted_count}, 'success': {success}}}",
                 "timestamp": datetime.now(timezone.utc),
             },
         )
