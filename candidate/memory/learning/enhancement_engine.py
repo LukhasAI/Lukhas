@@ -216,7 +216,7 @@ class VoiceMemoryBridge:
                     {
                         "pattern": pattern,
                         "occurrences": len(files),
-                        "files": [str(f.relative_to(self.workspace_root)) for f in files[:5]],
+                        "files": [str(f.relative_to(self.workspace_root)) for f in files[ 5]],
                     }
                 )
 

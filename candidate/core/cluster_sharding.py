@@ -11,7 +11,7 @@ class ShardManager:
     def __init__(self, num_shards: int = 10):
         self.num_shards = num_shards
         self.shards: dict[int, dict[str, Any]] = {i: {} for i in range(num_shards)}
-        logger.info(f"ΛTRACE: ShardManager initialized with {num_shards} shards")
+        logger.info(f"ΛTRACE ShardManager initialized with {num_shards} shards")
 
     def get_shard_id(self, actor_id: str) -> int:
         """Compute shard ID for a given actor."""

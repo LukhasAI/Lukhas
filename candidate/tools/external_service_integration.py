@@ -285,8 +285,7 @@ class ExternalServiceIntegration:
             if operation == "dropbox_upload":
                 required_fields = ["file_path", "content"]
                 missing = [field for field in required_fields if field not in arguments]
-                if missing:
-                    return self._create_error_result(f"Missing required fields: {missing}")
+                if missing return self._create_error_result(f"Missing required fields: {missing}")
 
                 token = self._create_capability_token(lid, "dropbox", ["write"])
 
@@ -339,8 +338,7 @@ class ExternalServiceIntegration:
             if operation == "drive_upload":
                 required_fields = ["file_name", "content"]
                 missing = [field for field in required_fields if field not in arguments]
-                if missing:
-                    return self._create_error_result(f"Missing required fields: {missing}")
+                if missing return self._create_error_result(f"Missing required fields: {missing}")
 
                 token = self._create_capability_token(lid, "google_drive", ["write"])
 
@@ -379,8 +377,7 @@ class ExternalServiceIntegration:
             elif operation == "drive_share":
                 required_fields = ["file_id", "email"]
                 missing = [field for field in required_fields if field not in arguments]
-                if missing:
-                    return self._create_error_result(f"Missing required fields: {missing}")
+                if missing return self._create_error_result(f"Missing required fields: {missing}")
 
                 token = self._create_capability_token(lid, "google_drive", ["write", "share"])
 

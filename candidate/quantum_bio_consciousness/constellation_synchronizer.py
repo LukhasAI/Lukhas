@@ -49,7 +49,7 @@ class QuantumConsciousnessSynchronizer:
             normalized_amplitudes = [a / norm for a in amplitudes]
 
             superposition = {
-                "consciousness_states": consciousness_states,
+                "consciousness_states" consciousness_states,
                 "amplitudes": normalized_amplitudes,
                 "coherence": self.coherence_threshold,
                 "constellation_modules": consciousness_modules,
@@ -152,8 +152,7 @@ class BioConsciousnessSynchronizer:
 
             return min(1.0, coherence)
 
-        except Exception:
-            return 0.5  # Default coherence
+        except Exception return 0.5  # Default coherence
 
     def maintain_homeostatic_consciousness(self, current_state: float, target_state: float = 0.75) -> dict[str, Any]:
         """Maintain homeostatic consciousness balance"""

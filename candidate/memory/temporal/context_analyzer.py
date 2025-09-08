@@ -233,7 +233,7 @@ class ContextAnalyzer:
 
         # Find related past interactions
         related_interactions = [m for m in memory if m.get("context", {}).get("intent") == current_intent][
-            :5
+             5
         ]  # Limit to 5 most recent
 
         return {

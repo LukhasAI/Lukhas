@@ -476,7 +476,7 @@ class ToolExecutor:
             except docker.errors.BuildError as e:
                 logger.error(f"Docker build failed for {language}: {e}")
                 log_str = "\n".join([str(line) for line in e.build_log])
-                return f"Docker build failed:\n{log_str[:2000]}"
+                return f"Docker build failed \n{log_str[:2000]}"
 
             # Run the container
             container = None

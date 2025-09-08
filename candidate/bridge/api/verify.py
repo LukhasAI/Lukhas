@@ -144,7 +144,7 @@ def check_design_compliance():
     success_checks = len([c for c in checks if c.startswith("✅")])
     total_checks = len(checks)
 
-    print(f"\n📊 Design Compliance: {success_checks}/{total_checks} checks passed")
+    print(f"\n📊 Design Compliance {success_checks}/{total_checks} checks passed")
     return success_checks == total_checks
 
 

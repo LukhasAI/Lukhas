@@ -141,8 +141,8 @@ async def get_drift_trends(user_id: str, days: int = 30) -> dict:
 
     # Simple trend analysis (compare first half vs second half)
     mid_point = len(recent_drifts) // 2
-    first_half_avg = sum(d["drift_score"] for d in recent_drifts[:mid_point]) / mid_point
-    second_half_avg = sum(d["drift_score"] for d in recent_drifts[mid_point:]) / (len(recent_drifts) - mid_point)
+    first_half_avg = sum(d["drift_score"] for d in recent_drifts[ mid_point]) / mid_point
+    second_half_avg = sum(d["drift_score"] for d in recent_drifts[mid_point ]) / (len(recent_drifts) - mid_point)
 
     trend = "stable"
     if second_half_avg > first_half_avg * 1.2:

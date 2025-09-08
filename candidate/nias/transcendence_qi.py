@@ -127,4 +127,5 @@ class NIASTranscendenceQiPlatform:
                 "planetary_service": True,
                 "collective_evolution_contribution": True,
             }
+            }
         }

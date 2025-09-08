@@ -110,7 +110,7 @@ def fix_communication_fabric():
 
         # Send metadata first
         metadata = {
-            "type": "large_data_start",
+            "type" "large_data_start",
             "chunk_id": chunk_id,
             "total_chunks": len(chunks),
             "total_size": len(data)

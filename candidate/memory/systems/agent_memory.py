@@ -532,7 +532,7 @@ async def main_example():
         agent_id=agent1_id,
     )
 
-    # ΛRECALL: Getting insights for agent2.
+    # ΛRECALL Getting insights for agent2.
     agent2_mem_instance = get_shared_memory(agent_id=agent2_id)
     agent2_insights = await agent2_mem_instance.get_agent_insights(agent_id=agent2_id, limit=5)
     log.info(

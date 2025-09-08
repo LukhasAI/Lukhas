@@ -34,7 +34,7 @@ def run_cli():
         limit = int(input("🔢 How many dreams to replay? (default 5): ").strip() or "5")
         tag_input = input("🔖 Filter by tag? (comma-separated, or ENTER to skip): ").strip()
         filter_tags = [t.strip() for t in tag_input.split(",")] if tag_input else None
-        replay_only = input("🔁 Only replay candidates? (y/N): ").strip().lower() == "y"
+        replay_only = input("🔁 Only replay candidates? (y/N) ").strip().lower() == "y"
         sort_axis = input("📊 Sort by emotion? (joy/stress/calm/longing) or ENTER to skip: ").strip().lower()
         sort_by = sort_axis if sort_axis in ["joy", "stress", "calm", "longing"] else None
         voice_suggested = input("🗣 Only dreams flagged for voice narration? (y/N): ").strip().lower() == "y"

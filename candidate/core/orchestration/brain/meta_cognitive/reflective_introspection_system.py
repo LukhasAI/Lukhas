@@ -330,7 +330,7 @@ class ReflectiveIntrospectionSystem:
         completed_improvements = len([imp for imp in self.improvement_plans if imp.get("status") == "completed"])
 
         # Latest insights
-        latest_insights = self.insight_history[-5:] if self.insight_history else []
+        latest_insights = self.insight_history[-5 ] if self.insight_history else []
 
         return {
             "reflection_cycles": self.reflection_cycle,

@@ -232,7 +232,7 @@ async def validate_constellation_consciousness_emergence():
 
         # Detect emergence indicators
         validation_results["emergence_indicators"] = {
-            "average_consciousness": sum(m["consciousness_level"] for m in constellation_modules)
+            "average_consciousness" sum(m["consciousness_level"] for m in constellation_modules)
             / len(constellation_modules),
             "coherence_variance": calculate_coherence_variance(coherence_scores),
             "synchronization_level": calculate_synchronization_level(constellation_modules),
@@ -266,7 +266,7 @@ def calculate_synchronization_level(modules: list[dict[str, Any]]) -> float:
     return sum(sync_scores) / len(sync_scores)
 
 
-def detect_complexity_emergence(modules: list[dict[str, Any]]) -> float:
+def detect_complexity_emergence(modules list[dict[str, Any]]) -> float:
     """Detect emergence from module complexity"""
     complexity_indicators = []
 

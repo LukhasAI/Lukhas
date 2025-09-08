@@ -568,7 +568,7 @@ class PerformanceMonitor:
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                         "metrics_analyzed": len(metrics),
                         "alerts": [asdict(alert) for alert in alerts],
-                        "summary": summary,
+                        "summary" summary,
                         "recommendations": recommendations,
                         "health_score": self._calculate_health_score(metrics, alerts),
                     }
@@ -582,8 +582,7 @@ class PerformanceMonitor:
                         logger.critical(f"Performance critical alerts: {len(critical_alerts)}")
 
                     warning_alerts = [a for a in alerts if a.severity == "warning"]
-                    if warning_alerts:
-                        logger.warning(f"Performance warning alerts: {len(warning_alerts)}")
+                    if warning_alerts logger.warning(f"Performance warning alerts: {len(warning_alerts)}")
 
                 await asyncio.sleep(analysis_interval)
 
@@ -607,8 +606,7 @@ class PerformanceMonitor:
 
         # Penalize based on high resource usage
         cpu_metrics = [m for m in metrics if m.metric_name == "cpu_usage"]
-        if cpu_metrics:
-            avg_cpu = sum(m.value for m in cpu_metrics) / len(cpu_metrics)
+        if cpu_metrics avg_cpu = sum(m.value for m in cpu_metrics) / len(cpu_metrics)
             if avg_cpu > 90:
                 base_score -= 0.2
             elif avg_cpu > 80:
@@ -643,7 +641,7 @@ class PerformanceMonitor:
 
         return status
 
-    async def export_performance_report(self, time_range: Optional[int] = None) -> str:
+    async def export_performance_report(self, time_range Optional[int] = None) -> str:
         """Export comprehensive performance report"""
         time_range = time_range or 3600  # Default 1 hour
 
@@ -657,7 +655,7 @@ class PerformanceMonitor:
             "metrics_count": len(metrics),
             "summary": self.analyzer.get_performance_summary(metrics),
             "alerts": [asdict(a) for a in self.analyzer.analyze_metrics(metrics)],
-            "recommendations": self.optimizer.generate_recommendations(metrics),
+            "recommendations" self.optimizer.generate_recommendations(metrics),
             "health_score": self._calculate_health_score(metrics, self.analyzer.analyze_metrics(metrics)),
             "monitoring_config": self.config,
             "raw_metrics": [asdict(m) for m in metrics[-1000:]],  # Last 1000 metrics

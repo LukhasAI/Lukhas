@@ -341,8 +341,7 @@ class SymbolicVaultScanner:
             }
 
             # Flag as stale if score is high
-            if staleness_score > 0.7 or (frequency < frequency_threshold and recent_count == 0):
-                stale_symbols[symbol] = symbol_stats[symbol]
+            if staleness_score > 0.7 or (frequency < frequency_threshold and recent_count == 0) stale_symbols[symbol] = symbol_stats[symbol]
                 stale_symbols[symbol]["classification"] = "STALE"
 
         logger.info(f"🚨 Found {len(stale_symbols)} stale symbols out of {len(self.symbol_registry)} total")
@@ -466,8 +465,7 @@ class SymbolicVaultScanner:
 
         # Entropy coherence (symbol distribution balance)
         symbol_frequencies = [len(occurrences) for occurrences in self.symbol_registry.values()]
-        if symbol_frequencies:
-            entropy = -sum(
+        if symbol_frequencies entropy = -sum(
                 (f / sum(symbol_frequencies)) * math.log2(f / sum(symbol_frequencies))
                 for f in symbol_frequencies
                 if f > 0
@@ -585,6 +583,7 @@ class SymbolicVaultScanner:
                     "stale_symbol_analysis": stale_analysis,
                     "missing_link_analysis": link_analysis,
                     "ΛVAULT_TAGS": ["ΛVAULT", "ΛHEALTH", "ΛSCAN", "ΛAUDIT"],
+                }
                 }
             }
             report_content = json.dumps(report_data, indent=2, ensure_ascii=False)
