@@ -207,8 +207,8 @@ class SymbolicNetwork:
             # Remove connections involving the deleted node
             self.connections = [
                 (src, dst)
-                for src, dst in self.connections:
-                if src != node_id and dst != node_id:
+                for src, dst in self.connections
+                if src != node_id and dst != node_id
             ]
             self.logger.info(
                 f"ΛTRACE: Node '{node_id}' and its connections removed from SymbolicNetwork."
@@ -225,10 +225,10 @@ class SymbolicNetwork:
         self.logger.debug("ΛTRACE: Identifying high error nodes.")
         nodes = [
             node
-            for node in self.nodes.values():
-            if node.error_level > self.config.fission_threshold:
+            for node in self.nodes.values()
+            if node.error_level > self.config.fission_threshold
         ]
-        self.logger.info(f"ΛTRACE: Found {len(nodes}} high error nodes.")
+        self.logger.info(f"ΛTRACE: Found {len(nodes)} high error nodes.")
         return nodes
 
     # Method to find low-activity pairs
@@ -243,7 +243,7 @@ class SymbolicNetwork:
         )
         low_activity_nodes = [
             node
-            for node in self.nodes.values():
+            for node in self.nodes.values()
             if node.activity_level < self.config.fusion_threshold:
         ]
 
