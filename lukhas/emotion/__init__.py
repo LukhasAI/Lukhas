@@ -67,19 +67,20 @@ try:
 
 except ImportError as e:
     logger.warning(f"⚠️  Could not import lukhas.emotion: {e}")
+    import_error = str(e)
 
     # Fallback placeholder functions
     def process_emotion(*args, **kwargs):
         """Fallback emotion processing"""
-        return {"status": "emotion_unavailable", "error": str(e)}
+        return {"status": "emotion_unavailable", "error": import_error}
 
     def regulate_mood(*args, **kwargs):
         """Fallback mood regulation"""
-        return {"status": "mood_regulation_unavailable", "error": str(e)}
+        return {"status": "mood_regulation_unavailable", "error": import_error}
 
     def track_valence(*args, **kwargs):
         """Fallback valence tracking"""
-        return {"status": "valence_tracking_unavailable", "error": str(e)}
+        return {"status": "valence_tracking_unavailable", "error": import_error}
 
     def get_emotion_wrapper(*args, **kwargs):
         """Fallback emotion wrapper"""

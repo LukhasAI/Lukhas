@@ -218,8 +218,8 @@ class GlyphEthicsValidator:
             self.blocked_operations.add(f"create_{glyph.id}")
 
         logger.info(
-            f"Glyph creation validation: {result.value}(ethical: {ethical_score: .3f},"
-                                                        safety: {safety_score: .3f})"
+            f"Glyph creation validation: {result.value} (ethical: {ethical_score:.3f}, "
+            f"safety: {safety_score:.3f})"
         )
 
         return report

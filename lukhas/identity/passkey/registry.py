@@ -7,7 +7,7 @@ _provider: Optional[Any] = None
 
 def register(provider: Any) -> None:
     global _provider
-_provider = provider
+    _provider = provider
 
 
 def get_provider(enabled: bool) -> Any:

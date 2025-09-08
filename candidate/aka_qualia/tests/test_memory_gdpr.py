@@ -18,6 +18,7 @@ import time
 
 import pytest
 
+from ..memories import sql_memory
 from .conftest import create_test_glyph, create_test_scene
 
 
