@@ -218,7 +218,7 @@ def save_and_display_summary():
     for system in no_coverage[:5]:  # Show first 5
         print(f"    • {system}")
     if len(no_coverage) > 5:
-        print(f"    • ... and {len(no_coverage)} - 5} more systems")
+        print(f"    • ... and {len(no_coverage) - 5} more systems")
 
     print()
 

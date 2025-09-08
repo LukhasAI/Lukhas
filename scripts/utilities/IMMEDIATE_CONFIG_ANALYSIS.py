@@ -66,7 +66,7 @@ def analyze_config_files():
         for f in files[:5]:  # Show first 5
             print(f"   - {f}")
         if len(files) > 5:
-            print(f"   ... and {len(files)} - 5} more")
+            print(f"   ... and {len(files) - 5} more")
 
     return categories
 

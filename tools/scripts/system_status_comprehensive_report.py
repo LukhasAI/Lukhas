@@ -238,7 +238,7 @@ class SystemHealthAnalyzer:
                             else response.text[:200]
                         ),
                     }
-                    logger.info(f"✅ {api_name}: Online ({response.elapsed.total_seconds()}:.3f}s)")
+                    logger.info(f"✅ {api_name}: Online ({response.elapsed.total_seconds():.3f}s)")
                 else:
                     api_results[api_name] = {
                         "status": "error",
@@ -659,7 +659,7 @@ def main():
         for i, issue in enumerate(report["issues_detected"][:10], 1):
             print(f"  {i}. {issue}")
         if len(report["issues_detected"]) > 10:
-            print(f"  ... and {len(report['issues_detected'])} - 10} more")
+            print(f"  ... and {len(report['issues_detected']) - 10} more")
 
     if report["recommendations"]:
         print(f"\n💡 RECOMMENDATIONS ({len(report['recommendations'])})")

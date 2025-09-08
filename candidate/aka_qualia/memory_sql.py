@@ -140,7 +140,7 @@ class SqlMemory(AkaqMemory):
                     affect_energy_after REAL,
                     affect_energy_diff REAL,
                     cfg_version TEXT,
-                    timestamp REAL DEFAULT (julianday('now'))
+                    ts REAL DEFAULT (julianday('now'))
                 )
             """
                 )
@@ -154,10 +154,10 @@ class SqlMemory(AkaqMemory):
                     glyph_id TEXT PRIMARY KEY,
                     scene_id TEXT,
                     user_id TEXT NOT NULL,
-                    glyph_key TEXT,
-                    glyph_attrs TEXT,
+                    key TEXT,
+                    attrs TEXT,
                     priority REAL,
-                    timestamp REAL DEFAULT (julianday('now')),
+                    ts REAL DEFAULT (julianday('now')),
                     FOREIGN KEY (scene_id) REFERENCES akaq_scene(scene_id)
                 )
             """
@@ -191,7 +191,7 @@ class SqlMemory(AkaqMemory):
             conn.execute(
                 text(
                     """
-                CREATE INDEX IF NOT EXISTS idx_akaq_scene_timestamp ON akaq_scene(timestamp)
+                CREATE INDEX IF NOT EXISTS idx_akaq_scene_ts ON akaq_scene(ts)
             """
                 )
             )
@@ -299,11 +299,11 @@ class SqlMemory(AkaqMemory):
                             scene_id, user_id, subject, object, proto, proto_vec, risk, context,
                             transform_chain, collapse_hash, drift_phi, congruence_index, neurosis_risk,
                             repair_delta, sublimation_rate, affect_energy_before, affect_energy_after,
-                            affect_energy_diff, cfg_version, timestamp
+                            affect_energy_diff, cfg_version, ts
                         ) VALUES (
                             :scene_id, :user_id, :subject, :object, :proto, :proto_vec, :risk, :context,
                             :transform_chain, :collapse_hash, :drift_phi, :congruence_index, :neurosis_risk,
-                            :repair_delta, :sublimation_rate, :E_before, :E_after, :E_diff, :cfg_version, :timestamp
+                            :repair_delta, :sublimation_rate, :E_before, :E_after, :E_diff, :cfg_version, :ts
                         )
                         """
                         ),
@@ -327,7 +327,7 @@ class SqlMemory(AkaqMemory):
                             "E_after": metrics.get("affect_energy_after"),
                             "E_diff": metrics.get("affect_energy_diff"),
                             "cfg_version": cfg_version,
-                            "timestamp": scene_timestamp,
+                            "ts": scene_timestamp,
                         },
                     )
 
@@ -337,16 +337,16 @@ class SqlMemory(AkaqMemory):
                         tx.execute(
                             text(
                                 """
-                                INSERT INTO akaq_glyph (glyph_id, scene_id, user_id, glyph_key, glyph_attrs, priority)
-                                VALUES (:glyph_id, :scene_id, :user_id, :glyph_key, :glyph_attrs, :priority)
+                                INSERT INTO akaq_glyph (glyph_id, scene_id, user_id, key, attrs, priority)
+                                VALUES (:glyph_id, :scene_id, :user_id, :key, :attrs, :priority)
                             """
                             ),
                             {
                                 "glyph_id": glyph_id,
                                 "scene_id": scene_id,
                                 "user_id": user_id,
-                                "glyph_key": glyph["key"],
-                                "glyph_attrs": json.dumps(glyph.get("attrs", {})),
+                                "key": glyph["key"],
+                                "attrs": json.dumps(glyph.get("attrs", {})),
                                 "priority": glyph.get("priority", 0.5),
                             },
                         )
@@ -388,10 +388,10 @@ class SqlMemory(AkaqMemory):
                     text(
                         """
                         SELECT scene_id, proto, risk, drift_phi, congruence_index,
-                               neurosis_risk, repair_delta, timestamp
+                               neurosis_risk, repair_delta, ts
                         FROM akaq_scene
-                        WHERE user_id = :user_id AND timestamp < :before_ts
-                        ORDER BY timestamp DESC
+                        WHERE user_id = :user_id AND ts < :before_ts
+                        ORDER BY ts DESC
                         LIMIT 1
                     """
                     ),
@@ -427,7 +427,7 @@ class SqlMemory(AkaqMemory):
 
             with self.engine.connect() as conn:
                 query = """
-                    SELECT scene_id, timestamp, proto, risk, context, drift_phi, congruence_index, neurosis_risk, subject, object
+                    SELECT scene_id, ts, proto, risk, context, drift_phi, congruence_index, neurosis_risk, subject, object
                     FROM akaq_scene
                     WHERE user_id = :user_id
                 """
@@ -435,10 +435,10 @@ class SqlMemory(AkaqMemory):
 
                 if since:
                     since_ts = since.timestamp()
-                    query += " AND timestamp > :since"
+                    query += " AND ts > :since"
                     params["since"] = since_ts
 
-                query += " ORDER BY timestamp DESC LIMIT :limit"
+                query += " ORDER BY ts DESC LIMIT :limit"
                 params["limit"] = limit
 
                 result = conn.execute(text(query), params)
@@ -485,11 +485,11 @@ class SqlMemory(AkaqMemory):
                 result = conn.execute(
                     text(
                         """
-                        SELECT s.scene_id, s.timestamp, s.proto, s.risk, s.subject, s.object, g.glyph_attrs
+                        SELECT s.scene_id, s.ts, s.proto, s.risk, s.subject, s.object, g.attrs
                         FROM akaq_glyph g
                         JOIN akaq_scene s ON g.scene_id = s.scene_id
-                        WHERE s.user_id = :user_id AND g.glyph_key = :key
-                        ORDER BY s.timestamp DESC
+                        WHERE s.user_id = :user_id AND g.key = :key
+                        ORDER BY s.ts DESC
                         LIMIT :limit
                     """
                     ),
@@ -524,7 +524,7 @@ class SqlMemory(AkaqMemory):
                 result = conn.execute(
                     text(
                         """
-                        SELECT scene_id, timestamp, proto, drift_phi, congruence_index
+                        SELECT scene_id, ts, proto, drift_phi, congruence_index
                         FROM akaq_scene
                         WHERE user_id = :user_id AND drift_phi IS NOT NULL
                         ORDER BY drift_phi DESC

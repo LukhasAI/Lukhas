@@ -230,7 +230,7 @@ class RedundancyRemover:
                                     for imp_line in imports:
                                         all_imports.update(imp.strip() for imp in imp_line.split(","))
                                     if all_imports:
-                                        new_lines.append(f"from {module} import {', '.join(sorted(all_imports)}")
+                                        new_lines.append(f"from {module} import {', '.join(sorted(all_imports))}")
                                 else:
                                     for imp in imports:
                                         new_lines.append(f"from {module} import {imp}")

@@ -4,6 +4,7 @@ Master AI agent for coordinating all brand systems and ensuring cohesive brand e
 """
 import asyncio
 import sys
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Optional
@@ -348,7 +349,7 @@ class BrandOrchestratorAgent:
         """
 
         start_time = datetime.now(timezone.utc)
-        orchestration_id = fix_later
+        orchestration_id = str(uuid.uuid4())
 
         # Set default quality requirements
         if quality_requirements is None:
@@ -753,7 +754,7 @@ class BrandOrchestratorAgent:
     async def _add_orchestration_task(self, task_type: str, data: dict[str, Any], priority: int = 3) -> None:
         """Add a task to the orchestration queue"""
 
-        task_id = fix_later
+        task_id = str(uuid.uuid4())
         task = BrandOrchestrationTask(task_id, task_type, priority, data)
 
         await self.task_queue.put(task)
@@ -1115,7 +1116,7 @@ if __name__ == "__main__":
 
         print(f"Active Orchestration: {status['active_orchestration']}")
         print(f"Tasks Processed: {status['orchestration_metrics']['tasks_processed']}")
-        print(fix_later)
+        print(f"Quality Score: {status['orchestration_metrics'].get('quality_score', 'N/A')}")
         print(f"Brand Consistency Score: {status['orchestration_metrics']['brand_consistency_score']:.3f}")
         print(f"System Health: {status['system_health']}")
 
@@ -1132,7 +1133,7 @@ if __name__ == "__main__":
         print(f"Crisis ID: {crisis_response['crisis_id']}")
         print(f"Crisis Severity: {crisis_response['crisis_assessment']['severity_level']}")
         print(f"Response Strategy: {crisis_response['response_strategy']['response_priority']}")
-        print(fix_later)
+        print(f"Response Actions: {len(crisis_response.get('response_actions', []))} actions")
         print(f"Resolution Status: {crisis_response['resolution_status']}")
 
     # Run the test

@@ -535,7 +535,7 @@ class EnterprisSecurityScanner:
                                 code_snippet=line.strip(),
                                 auto_fixable=True,
                                 fix_confidence=0.9,
-                                evidence=[f"High-entropy string: {match.group()}[:10]}..."],
+                                evidence=[f"High-entropy string: {match.group()[:10]}..."],
                                 remediation="Replace with environment variable or secure configuration",
                             )
 

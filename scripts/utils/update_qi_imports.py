@@ -48,4 +48,4 @@ print(f"Updated {len(updated_files)} files:")
 for f in updated_files[:10]:
     print(f"  {f}")
 if len(updated_files) > 10:
-    print(f"  ... and {len(updated_files)} - 10} more")
+    print(f"  ... and {len(updated_files) - 10} more")

@@ -61,7 +61,7 @@ def generate_qi_migration_report():
         print(f"   📋 {config_file.relative_to(base_path)}")
 
     if len(config_quantum_files) > 5:
-        print(f"   ... and {len(config_quantum_files)} - 5} more")
+        print(f"   ... and {len(config_quantum_files) - 5} more")
 
     # Check lukhas qi structure
     print("\n📁 LUKHAS QI Integration:")

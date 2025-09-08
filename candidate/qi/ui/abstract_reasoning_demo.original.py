@@ -190,7 +190,7 @@ async def demonstrate_abstract_reasoning() -> None:
                 "technological_integration",
                 "human_well_being",
                 "economic_viability",
-            ],  # Renamed
+            ],  # Renamed}
         }
         demo_logger.debug("ΛTRACE: Simple problem data defined.", problem_data=simple_problem_data)
 
@@ -203,7 +203,7 @@ async def demonstrate_abstract_reasoning() -> None:
                     "government_agencies",
                     "environmental_groups",
                     "tech_innovators",
-                ],
+                ],}
             },  # Renamed
             reasoning_mode="creative_holistic_problem_solving",  # Renamed
             request_id=f"{req_id_main_demo}_ex1",
@@ -339,7 +339,7 @@ async def demonstrate_advanced_features() -> None:
                     "protein_folding",
                 ],  # Renamed
                 "complexity_rating": "very_high",
-                "requires_mathematical_formalism": True,  # Renamed
+                "requires_mathematical_formalism": True,  # Renamed}
             },
             "operational_context": {  # Renamed
                 "required_technical_depth": "expert_level",
@@ -351,7 +351,7 @@ async def demonstrate_advanced_features() -> None:
                     "computational_speed",
                     "solution_accuracy",
                     "scalability_potential",
-                ],
+                ],}
             },
             "designated_reasoning_type": "qi_algorithm_design_and_optimization",  # Renamed
         }
@@ -416,7 +416,7 @@ async def scientific_research_example() -> None:
             "Orch OR theory",
             "entanglement-like correlation in brain",
             "microtubules",
-        ],
+        ],}
     }
     result = await reason_about(
         problem_data=research_problem_data,
@@ -447,13 +447,13 @@ async def business_strategy_example() -> None:
     strategy_problem_data: dict[str, Any] = {
         "description": "Formulate a market entry strategy for a new Quantum AI product in the FinTech sector.",
         "domain": "business_strategy_and_innovation",
-        "target_market_segment": "quantitative_hedge_funds",
+        "target_market_segment": "quantitative_hedge_funds",}
     }
     result = await reason_about(
         problem_data=strategy_problem_data,
         context_info={
             "industry_focus": "fintech_quant_trading",
-            "time_horizon": "2_years",
+            "time_horizon": "2_years",}
         },
         request_id=req_id,
     )
@@ -484,13 +484,13 @@ async def creative_design_example() -> None:
             "seamless_integration",
             "minimal_cognitive_load",
             "adaptive_feedback",
-        ],
+        ],}
     }
     result = await reason_about(
         problem_data=design_problem_data,
         context_info={
             "target_users": "creative_professionals_and_researchers",
-            "technology_stack_preference": "webxr_pytorch",
+            "technology_stack_preference": "webxr_pytorch",}
         },
         request_id=req_id,
     )

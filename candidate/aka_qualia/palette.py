@@ -244,6 +244,28 @@ def get_safe_palette_recommendation(current_colorfield: str, culture: str = "def
     return best_color or "neutral"
 
 
+def _japanese_to_english(japanese_color: str) -> str:
+    """
+    Convert Japanese color names to English equivalents.
+    
+    Args:
+        japanese_color: Japanese color name (e.g., "aka", "aoi", "midori")
+        
+    Returns:
+        English color name
+    """
+    japanese_to_english_map = {
+        "aka": "red",
+        "aoi": "blue", 
+        "midori": "green",
+        "kiiro": "yellow",
+        "murasaki": "purple",
+        "kuro": "black",
+        "shiro": "white"
+    }
+    return japanese_to_english_map.get(japanese_color, japanese_color)
+
+
 def compute_palette_harmony(colorfield1: str, colorfield2: str, culture: str = "default") -> float:
     """
     Compute harmony score between two colorfields (0.0-1.0).

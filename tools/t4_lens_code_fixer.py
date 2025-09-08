@@ -125,7 +125,7 @@ class T4LensCodeFixer:
                 for item in items[:3]:  # Show top 3
                     print(f"      {item}")
                 if len(items) > 3:
-                    print(f"      ... and {len(items)} - 3} more")
+                    print(f"      ... and {len(items) - 3} more")
 
         return categories
 

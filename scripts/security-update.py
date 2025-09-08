@@ -274,7 +274,7 @@ Automated security update by security-update.py
             print(f"     Fix: {vuln.get('fix_version', 'latest')}")
 
         if len(prioritized) > 5:
-            print(f"\n  ... and {len(prioritized)} - 5} more")
+            print(f"\n  ... and {len(prioritized) - 5} more")
 
         if not auto_update and not self.dry_run:
             response = input("\n💡 Apply security updates? (y/n): ")

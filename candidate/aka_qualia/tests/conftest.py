@@ -21,6 +21,7 @@ from unittest.mock import Mock
 
 import pytest
 from sqlalchemy import create_engine
+from sqlalchemy.pool import StaticPool
 
 from candidate.aka_qualia.core import AkaQualia
 from candidate.aka_qualia.memory_noop import NoopMemory
@@ -42,8 +43,31 @@ from candidate.aka_qualia.models import (
 @pytest.fixture
 def sqlite_engine():
     """In-memory SQLite engine for fast unit tests"""
-    engine = create_engine("sqlite:///:memory:", echo=False)
-    return engine
+    # Use file-based SQLite for threading tests, in-memory for others
+    import tempfile
+    import os
+    
+    # Create a temporary database file
+    fd, db_path = tempfile.mkstemp(suffix='.db')
+    os.close(fd)  # Close the file descriptor, but keep the file
+    
+    engine = create_engine(
+        f"sqlite:///{db_path}", 
+        echo=False,
+        connect_args={
+            "check_same_thread": False,  # Allow SQLite to be used across threads
+        },
+        poolclass=StaticPool,  # Use single connection pool
+    )
+    
+    yield engine
+    
+    # Cleanup: close engine and remove temp file
+    engine.dispose()
+    try:
+        os.unlink(db_path)
+    except Exception:
+        pass
 
 
 @pytest.fixture

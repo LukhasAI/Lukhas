@@ -204,7 +204,7 @@ def generate_ultimate_coverage_summary():
             "production_ready_systems": 12,
             "needs_minor_fixes": 3,
             "needs_major_development": 2,
-            "overall_readiness": f"{round((12/17}*100, 1}% of systems production-ready",
+            "overall_readiness": f"{round((12/17)*100, 1)}% of systems production-ready",
             "quality_gates_passed": [
                 "✅ Comprehensive functional testing infrastructure",
                 "✅ Trinity Framework compliance validation",

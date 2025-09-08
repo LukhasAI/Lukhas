@@ -4,7 +4,20 @@ LUKHAS Ecosystem Reinforcement Script
 Makes the system leaner, quicker to react, and more flexible
 without losing capabilities
 """
-from consciousness.qi import qi
+from            return {
+                'success': True,
+                'result': result,
+                'bridge': f'{module1}-{module2}'
+            }
+
+        except ImportError:
+            # Fallback if module not ready
+            logger.warning(f"{other_module} module not available")
+            return {
+                'success': False,
+                'error': 'Module not available',
+                'bridge': f'{module1}-{module2}'
+            }.qi import qi
 import streamlit as st
 from datetime import timezone
 

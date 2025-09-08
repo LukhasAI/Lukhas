@@ -98,7 +98,7 @@ def process_file(file_path: Path, auto_fix: bool = True) -> bool:
             for fix in fixes[:5]:  # Show first 5 fixes
                 print(f"     - {fix}")
             if len(fixes) > 5:
-                print(f"     ... and {len(fixes)} - 5} more")
+                print(f"     ... and {len(fixes) - 5} more")
 
             # Write fixed content
             with open(file_path, "w", encoding="utf-8") as f:
@@ -170,7 +170,7 @@ def main():
         for file in unfixed_files[:10]:
             print(f"   - {file}")
         if len(unfixed_files) > 10:
-            print(f"   ... and {len(unfixed_files)} - 10} more")
+            print(f"   ... and {len(unfixed_files) - 10} more")
 
     return len(unfixed_files) == 0
 
