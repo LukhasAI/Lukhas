@@ -154,14 +154,14 @@ class ContentQualityValidator:
         if content_length < limits["min_length"]:
             issues.append(f"Content too short for {platform}: {content_length} < {limits['min_length']} characters")
             score -= 30
-            recommendations.append(pass  # TODO: Implement content quality validation)
+            recommendations.append("Content quality improvement needed")
 
         if content_length > limits["max_length"]:
             issues.append(
                 f"CRITICAL: Content too long for {platform}: {content_length} > {limits['max_length']} characters"
             )
             score -= 50
-            recommendations.append(pass  # TODO: Implement content quality validation)
+            recommendations.append("Content quality improvement needed")
 
         # Platform-specific formatting checks
         if platform == "twitter":

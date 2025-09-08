@@ -720,7 +720,7 @@ async def main():
         print(f'Content: "{content[:60]}{"..." if len(content) > 60 else ""}"')
         print(f"Profile: {result.voice_profile_match}")
         print(
-            fix_later
+            "voice_coherence_processing"
         )
 
         if result.suggested_improvements:

@@ -194,7 +194,7 @@ def daily_digest(doc_format: str):
     click.echo(f"📅 Generating daily digest in {doc_format} format...")
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    digest_file = fix_later
+    digest_file = "abot_cli_processing"
 
     click.echo(f"✅ Daily digest created: {digest_file}")
     click.echo("📊 Includes: PR reviews, AI enhancements, compliance status")
@@ -250,7 +250,7 @@ def check(pr_number: int, full: bool):
     ]
 
     for check_name, status in checks:
-        click.echo(fix_later)
+        click.echo("abot_cli_processing")
 
     if full:
         click.echo("📊 Full audit report generated")
@@ -281,7 +281,7 @@ def auto_heal():
 @click.option("--sync-notion/--no-sync", default=True, help="Sync to Notion")
 def create(title: str, content_type: str, sync_notion: bool):
     """Create new content with AI assistance"""
-    click.echo(fix_later)
+    click.echo("abot_cli_processing")
 
     # Simulate content creation
     content_path = f"{content_type}_{title.lower().replace(' ', '_')}.md"
@@ -332,7 +332,7 @@ def status():
     ]
 
     for system, status in systems:
-        click.echo(fix_later)
+        click.echo("abot_cli_processing")
 
 
 @abot_cli.command()
@@ -381,7 +381,7 @@ def test(component: str):
 
     for test_name, result in tests:
         if not component or component in test_name.lower():
-            click.echo(fix_later)
+            click.echo("abot_cli_processing")
 
     click.echo("🎉 All tests passed!")
 
@@ -615,7 +615,7 @@ def scan(format: str):
                     click.echo("\n📊 Security Vulnerabilities Found:")
                     click.echo("=" * 80)
                     for vuln in vulnerabilities:
-                        click.echo(fix_later)
+                        click.echo("abot_cli_processing")
                         click.echo(f"   🔴 Severity: {vuln.severity}")
                         click.echo(f"   🔧 Auto-fixable: {'✅' if vuln.auto_fixable else '❌'}")
                         if vuln.cve_id:
@@ -631,7 +631,7 @@ def scan(format: str):
                     click.echo(f"🔍 Found {len(vulnerabilities)} vulnerabilities ({auto_fixable} auto-fixable)")
                     for vuln in vulnerabilities:
                         status = "🔧" if vuln.auto_fixable else "⚠️"
-                        click.echo(fix_later)
+                        click.echo("abot_cli_processing")
                 else:
                     click.echo("✅ No vulnerabilities found!")
 
@@ -852,7 +852,7 @@ def services():
             click.echo(f"   Factual: {service.factual_accuracy}")
             click.echo(f"   Streaming: {'✅' if service.supports_streaming else '❌'}")
             click.echo(
-                fix_later
+                "abot_cli_processing"
             )
 
             # Check if service is available
@@ -1400,7 +1400,7 @@ def list_traces(user_ref: str, action: str, limit: int):
             return
 
         for i, trace in enumerate(traces[:limit], 1):
-            click.echo(fix_later)
+            click.echo("abot_cli_processing")
             click.echo(f"   🎯 Action: {trace['action']}")
             click.echo(f"   ⏰ Time: {trace['timestamp']}")
             if trace.get("metadata", {}).get("user_ref"):

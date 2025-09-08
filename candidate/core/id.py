@@ -703,7 +703,7 @@ class LukhosIDManager:
             tier=self.users[user_id]["access_tier"],
             component="trauma_locked_memory",
             action="memory_storage",
-            decision_logic=f"Memory stored with emotional protection level {emotional_state.arousal + abs(emotional_state.valence)}:.2f}",
+            decision_logic=f"Memory stored with emotional protection level {emotional_state.arousal + abs(emotional_state.valence):.2f}",
             emotional_state=emotional_state,
             privacy_impact="Memory encrypted with user-specific emotional key",
         )

@@ -34,7 +34,7 @@ def generate_symbolic_id(prefix: str = "sym_") -> str:
     # ΛECHO: The generated ID is an echo of a request for uniqueness in the symbolic layer.
     """
     # ΛTRACE: Generating symbolic ID
-    symbolic_id = f"{prefix}{uuid.uuid4()}.hex}"
+    symbolic_id = f"{prefix}{uuid.uuid4().hex}"
     log.debug("Generated symbolic ID", id=symbolic_id, prefix=prefix)
     return symbolic_id
 

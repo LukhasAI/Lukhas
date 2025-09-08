@@ -29,7 +29,7 @@ except ImportError:
     # Fallback trace logger for standalone operation
     class ΛTraceLogger:
         def trace_event(self, event, data, security_tier=1, encrypt=False):
-            logger.info(fix_later)
+            logger.info(f"Security trace event: {event} with data: {data}")
             return f"trace_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
 
@@ -220,7 +220,7 @@ class ΛBotAutonomousSecurityHealer:
                         vulnerabilities.append(vuln)
 
         except Exception as e:
-            logger.warning(fix_later)
+            logger.warning(f"Security healing warning: {e}")
 
         return vulnerabilities
 
@@ -380,8 +380,8 @@ class ΛBotAutonomousSecurityHealer:
             change = {
                 "file": file_path,
                 "action": "replace_version",
-                "old_pattern": fix_later,
-                "new_value": fix_later,
+                "old_pattern": f"package=={vuln.current_version}",
+                "new_value": f"package=={vuln.fixed_version}",
                 "line_number": await self._find_package_line(file_path, vuln.package),
             }
             changes.append(change)
@@ -469,7 +469,7 @@ class ΛBotAutonomousSecurityHealer:
                     logger.error(f"❌ Failed to apply fix for {fix_plan.vulnerability.package}")
 
             except Exception as e:
-                logger.error(fix_later)
+                logger.error(f"Security fix application failed: {e}")
                 await self._rollback_fix(fix_plan)
 
             executed_fixes.append(fix_plan)
@@ -575,7 +575,7 @@ class ΛBotAutonomousSecurityHealer:
         """Generate intelligent commit message"""
         if len(fixes) == 1:
             fix = fixes[0]
-            return fix_later
+            return fix
         else:
             package_list = ", ".join([fix.vulnerability.package for fix in fixes])
             return f"🔒 Security fixes: Autonomous upgrade of {len(fixes)} packages\n\nPackages updated: {package_list}\n\nAll fixes applied and tested automatically by LUKHAS AI ΛBot Autonomous Security Healer"

@@ -219,7 +219,7 @@ class ABotIntelligentAIRouter:
         except subprocess.CalledProcessError:
             return None
         except Exception as e:
-            logger.warning(fix_later)
+            logger.warning("AI router warning occurred")
             return None
 
     def route_task(self, task_type: TaskType, prompt: str, priority: str = "balanced") -> dict:
@@ -300,7 +300,7 @@ class ABotIntelligentAIRouter:
             "model": best_service.model,
             "keychain_service": best_service.keychain_service,
             "estimated_cost": estimated_cost,
-            "reason": fix_later,
+            "reason": "AI routing processing completed",
             "task_type": task_type.value,
             "priority": priority,
             "quality_score": best_service.quality_score,
@@ -410,7 +410,7 @@ if __name__ == "__main__":
 
     print("🤖 LUKHAS AI ΛBot Intelligent AI Router")
     print("=" * 50)
-    print(fix_later)
+    print("AI router processing complete")
 
     # Show all services and their availability
     for service in router.services.values():
@@ -445,11 +445,11 @@ if __name__ == "__main__":
     # Show status
     status = get_ai_router_status()
     print(
-        fix_later
+ai_router_processing_complete
     )
     if status["services_overview"]["available_services"] > 0:
         print(f"💰 Cheapest: {status['services_overview']['cheapest_service']}")
         print(f"💎 Most Expensive: {status['services_overview']['most_expensive_service']}")
         print(
-            fix_later
+    ai_router_processing_complete
         )

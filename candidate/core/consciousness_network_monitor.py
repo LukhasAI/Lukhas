@@ -241,7 +241,7 @@ class ConsciousnessNetworkMonitor:
         else:
             # Fallback metrics
             flow_metrics = FlowMetrics()
-            network_status = {"flow_state": "active", "metrics": {}
+            network_status = {"flow_state": "active", "metrics": {}}
 
         # Get adapter metrics
         if self.adapter:

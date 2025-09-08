@@ -402,7 +402,7 @@ class SecurityPolicyFramework:
         for rule in policy.rules:
             if self._evaluate_rule_condition(rule["condition"], context):
                 violation = PolicyViolation(
-                    violation_id=f"viol_{int(datetime.now(timezone.utc).timestamp()}_{rule['rule_id']}",
+                    violation_id=f"viol_{int(datetime.now(timezone.utc).timestamp())}_{rule['rule_id']}",
                     policy_id=policy_id,
                     severity=PolicyViolationSeverity(rule["severity"]),
                     description=f"Rule violated: {rule['name']} - {rule['description']}",

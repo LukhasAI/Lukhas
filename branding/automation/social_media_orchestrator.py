@@ -209,10 +209,13 @@ class SocialMediaOrchestrator:
         ]
 
         selected_template = random.choice(insight_templates)
+        hook = selected_template["hook"]
+        body = selected_template["body"]
+        cta = selected_template["call_to_action"]
 
         # Build substantial post content
         full_content = (
-            pass  # TODO: Implement social media orchestration
+            f"{hook}\n\n{body}\n\n{cta}\n\n{self.trinity_branding}"
         )
 
         # Enhance with vocabulary transformation
@@ -275,10 +278,13 @@ class SocialMediaOrchestrator:
         ]
 
         selected_narrative = random.choice(dream_narratives)
+        hook = selected_narrative["hook"]
+        vision = selected_narrative["vision"]
+        reflection = selected_narrative["reflection"]
 
         # Build substantial Instagram post
         full_content = (
-            pass  # TODO: Implement social media orchestration
+            f"{hook}\n\n{vision}\n\n{reflection}\n\n{self.trinity_branding}"
         )
 
         # Enhance with vocabulary transformation
@@ -365,7 +371,7 @@ class SocialMediaOrchestrator:
             framework = commentary_frameworks[news_item["implications"]]
 
             # Build substantial commentary
-            full_content = pass  # TODO: Implement social media orchestration
+            full_content = f"{framework['perspective']}\n\n{framework['question']}\n\n{self.trinity_branding}"
 
             # Enhance with vocabulary transformation
             enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "analysis")
@@ -428,7 +434,7 @@ class SocialMediaOrchestrator:
         selected = random.choice(philosophy_templates)
 
         # Build substantial LinkedIn post
-        full_content = pass  # TODO: Implement social media orchestration
+        full_content = f"{selected['hook']}\n\n{selected['body']}\n\n{selected['reflection']}\n\n{self.trinity_branding}"
 
         # Enhance with vocabulary transformation
         enhanced_content = self.vocabulary.enhance_content_with_vocabulary(full_content, "philosophy")
@@ -489,7 +495,7 @@ class SocialMediaOrchestrator:
         selected = random.choice(technical_templates)
 
         # Build substantial Reddit post
-        full_content = pass  # TODO: Implement social media orchestration
+        full_content = f"{selected['hook']}\n\n{selected['explanation']}\n\n{selected['discussion']}\n\n{self.trinity_branding}"
 
         if "technical_note" in selected:
             full_content += f"\n\n**Technical details:**\n{selected['technical_note']}"
@@ -604,7 +610,7 @@ class SocialMediaOrchestrator:
                                 f"❌ Fallback quality rejected: {post.title} (Score: {quality_score.overall_score:.1f})"
                             )
             except Exception as e:
-                self.logger.error(pass  # TODO: Implement social media orchestration)
+                self.logger.error("Social media orchestration error occurred")
 
         # Add posts to queue for admin approval
         self.content_queue.extend(daily_posts)
@@ -649,7 +655,7 @@ class SocialMediaOrchestrator:
         db.log_system_activity(
             "social_orchestrator",
             "post_rejected",
-            pass  # TODO: Implement social media orchestration,
+            "Post rejected due to quality validation failure",
             0.0,
         )
         return True
@@ -674,7 +680,7 @@ class SocialMediaOrchestrator:
 
                 if use_live_apis and self.api_manager and platform_config and platform_config.live_posting:
                     # Live API posting
-                    self.logger.info(pass  # TODO: Implement social media orchestration)
+                    self.logger.info("Social media orchestration processing")
 
                     # Prepare media paths
                     media_paths = [post.media_path] if post.media_path and Path(post.media_path).exists() else None
@@ -701,13 +707,13 @@ class SocialMediaOrchestrator:
                             "live_posting": True,
                         }
 
-                        self.logger.info(pass  # TODO: Implement social media orchestration)
+                        self.logger.info("Social media orchestration processing")
 
                         # Log live publishing
                         db.log_system_activity(
                             "social_orchestrator",
                             "post_published_live",
-                            pass  # TODO: Implement social media orchestration,
+                            "Social media orchestration processing completed",
                             1.0,
                         )
                     else:
@@ -719,19 +725,19 @@ class SocialMediaOrchestrator:
                             "live_posting": True,
                         }
 
-                        self.logger.error(pass  # TODO: Implement social media orchestration)
+                        self.logger.error("Social media orchestration error occurred")
 
                         # Log live publishing failure
                         db.log_system_activity(
                             "social_orchestrator",
                             "post_failed_live",
-                            pass  # TODO: Implement social media orchestration,
+                            "Social media orchestration processing completed",
                             0.0,
                         )
 
                 else:
                     # Simulation mode
-                    self.logger.info(pass  # TODO: Implement social media orchestration)
+                    self.logger.info("Social media orchestration processing")
 
                     post.published = True
                     published_count += 1
@@ -747,12 +753,12 @@ class SocialMediaOrchestrator:
                     db.log_system_activity(
                         "social_orchestrator",
                         "post_published_sim",
-                        pass  # TODO: Implement social media orchestration,
+                        "Post successfully published in simulation mode",
                         1.0,
                     )
 
             except Exception as e:
-                self.logger.error(pass  # TODO: Implement social media orchestration)
+                self.logger.error("Social media orchestration error occurred")
                 failed_count += 1
                 results[post.post_id] = {
                     "success": False,
@@ -855,7 +861,7 @@ async def main():
 
     print("\n📊 Content Generated:")
     for post in posts:
-        print(pass  # TODO: Implement social media orchestration)
+        print(f"📝 {post.platform.upper()}: {post.title}")
         print(f"      Content: {post.content[:100]}...")
         print(f"      Type: {post.content_type}")
         print(f"      Media: {'Yes' if post.media_path else 'No'}")

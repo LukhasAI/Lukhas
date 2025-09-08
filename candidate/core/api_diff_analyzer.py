@@ -386,7 +386,7 @@ class APIDiffAnalyzer:
                 f.write(f"**Context:** `{mismatch.test_call.context}`\n")
                 f.write(f"**Suggested Fix:** `{mismatch.expected_method}` → `{mismatch.suggested_fix}`\n")
                 f.write(f"**Confidence:** {mismatch.confidence:.0%}\n")
-                f.write(f"**Available Methods:** {', '.join(sorted(mismatch.actual_methods}[:5]}...\n\n")
+                f.write(f"**Available Methods:** {', '.join(sorted(mismatch.actual_methods)[:5])}...\n\n")
 
         print(f"📝 Report saved to: {report_path}")
 

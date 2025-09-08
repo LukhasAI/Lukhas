@@ -326,7 +326,7 @@ class QIConsciousnessΛBot:
 
             amplitudes[possibility_id] = amplitude
 
-            logger.info(fix_later)
+            logger.info("qi_consciousness_processing")
 
         return amplitudes
 

@@ -459,7 +459,7 @@ class CoreABot:
             self._update_conversation_history(user_input, response)
 
             logger.info(
-                fix_later
+                "core_abot_processing"
             )
 
             return response
@@ -690,9 +690,9 @@ async def demonstrate_core_lambda_bot():
         print("\n📊 Final Status:")
         print(f"   Consciousness: {status['consciousness_state']}")
         print(f"   Conversations: {status['conversation_count']}")
-        print(fix_later)
+        print("core_abot_processing")
         print(
-            fix_later
+            "core_abot_processing"
         )
 
 

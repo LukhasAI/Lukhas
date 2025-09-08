@@ -798,7 +798,7 @@ if __name__ == "__main__":
         # Get response
         response = await coordinator.get_response(request_id)
         if response:
-            logger.info(f"Response: {json.dumps(asdict(response}, indent=2, default=str}")
+            logger.info(f"Response: {json.dumps(asdict(response), indent=2, default=str)}")
 
         # Get system status
         status = await coordinator.get_system_status()

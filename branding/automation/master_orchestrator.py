@@ -485,7 +485,7 @@ class MasterOrchestrator:
                 schedule.last_run = current_time.isoformat()
 
             except Exception as e:
-                self.logger.error(pass  # TODO: Implement orchestration logic)
+                self.logger.error(f"Orchestration system error: {e}")
                 cycle_results["systems_executed"].append(
                     {"system": schedule.system_name, "success": False, "error": str(e)}
                 )
@@ -599,7 +599,7 @@ async def main():
     for result in results["systems_executed"]:
         status_icon = "✅" if result.get("success") else "❌"
         duration = f"({result.get('duration', 0):.1f}s)" if "duration" in result else ""
-        print(pass  # TODO: Implement orchestration logic)
+        print(f"    {status_icon} {result['system']} {duration}")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Master Orchestration Complete")
 

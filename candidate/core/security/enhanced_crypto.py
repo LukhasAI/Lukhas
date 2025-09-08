@@ -475,7 +475,7 @@ async def example_usage():
 
         # Decrypt
         decrypted = await crypto.decrypt(ciphertext, key_id)
-        print(f"  ✅ Decrypted successfully: {decrypted.decode()} == test_data}")
+        print(f"  ✅ Decrypted successfully: {decrypted.decode()} == test_data")
 
         # Test key rotation
         new_key_id = crypto.rotate_key(key_id)

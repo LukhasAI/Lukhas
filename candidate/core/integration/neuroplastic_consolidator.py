@@ -178,7 +178,7 @@ try:
     # Components will be added here during consolidation
     pass
 except ImportError as e:
-    logger.warning(f"Failed to import some {module} components: {{e}")
+    logger.warning(f"Failed to import some {module} components: {e}")
 '''
 
             with open(connector_path, "w") as f:

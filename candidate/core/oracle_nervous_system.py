@@ -134,7 +134,7 @@ class OracleNervousSystem:
     """
 
     def __init__(self):
-        self.system_id = f"oracle_nervous_system_{int(time.time()}"
+        self.system_id = f"oracle_nervous_system_{int(time.time())}"
         self.logger = logger.bind(system_id=self.system_id)
 
         # Capability registry
@@ -742,7 +742,7 @@ async def predict(
     system = await get_oracle_nervous_system()
 
     request = NervousSystemRequest(
-        request_id=f"predict_{int(time.time()}",
+        request_id=f"predict_{int(time.time())}",
         capability_type=OracleCapabilityType.PREDICTION,
         context=context,
         time_horizon=time_horizon,
@@ -763,7 +763,7 @@ async def prophecy(
     system = await get_oracle_nervous_system()
 
     request = NervousSystemRequest(
-        request_id=f"prophecy_{int(time.time()}",
+        request_id=f"prophecy_{int(time.time())}",
         capability_type=OracleCapabilityType.PROPHECY,
         context=context,
         time_horizon=time_horizon,
@@ -779,7 +779,7 @@ async def dream(context: dict[str, Any], user_id: Optional[str] = None, **kwargs
     system = await get_oracle_nervous_system()
 
     request = NervousSystemRequest(
-        request_id=f"dream_{int(time.time()}",
+        request_id=f"dream_{int(time.time())}",
         capability_type=OracleCapabilityType.DREAM,
         context=context,
         user_id=user_id,
@@ -794,7 +794,7 @@ async def analyze(context: dict[str, Any], **kwargs) -> NervousSystemResponse:
     system = await get_oracle_nervous_system()
 
     request = NervousSystemRequest(
-        request_id=f"analyze_{int(time.time()}",
+        request_id=f"analyze_{int(time.time())}",
         capability_type=OracleCapabilityType.ANALYSIS,
         context=context,
         **kwargs,
@@ -808,7 +808,7 @@ async def temporal_reasoning(context: dict[str, Any], **kwargs) -> NervousSystem
     system = await get_oracle_nervous_system()
 
     request = NervousSystemRequest(
-        request_id=f"temporal_{int(time.time()}",
+        request_id=f"temporal_{int(time.time())}",
         capability_type=OracleCapabilityType.TEMPORAL,
         context=context,
         **kwargs,

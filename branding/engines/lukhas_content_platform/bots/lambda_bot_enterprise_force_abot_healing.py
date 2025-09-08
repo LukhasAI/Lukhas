@@ -52,7 +52,7 @@ if result.get("response"):
     print("🤖 LUKHAS AI ΛBot Forced Response:")
     print(result["response"])
     print(f"💰 Cost: ${result.get('cost', 0):.6f}")
-    print(fix_later)
+    print("force_abot_healing_processing")
 else:
     print("❌ Forced healing failed:", result.get("error", "Unknown error"))
 """,

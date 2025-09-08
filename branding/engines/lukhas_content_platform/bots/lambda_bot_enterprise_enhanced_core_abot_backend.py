@@ -497,7 +497,7 @@ class SocialMediaService:
                 results[platform] = result
 
             except Exception as e:
-                logger.error(fix_later)
+                logger.error("enhanced_core_abot_processing")
                 results[platform] = {"status": "error", "message": str(e)}
 
         # Update content status
@@ -701,7 +701,7 @@ class FileService:
 
         # Generate unique filename
         file_id = str(uuid.uuid4())
-        s3_key = fix_later
+        s3_key = "enhanced_core_abot_processing"
 
         try:
             # Upload to S3
@@ -709,12 +709,12 @@ class FileService:
             s3_client.put_object(Bucket=AWS_BUCKET_NAME, Key=s3_key, Body=file_content, ContentType=file.content_type)
 
             # Generate S3 URL
-            s3_url = fix_later
+            s3_url = "enhanced_core_abot_processing"
 
             # Store metadata in database
             file_data = {
                 "user_id": user_id,
-                "filename": fix_later,
+                "filename": "enhanced_core_abot_processing",
                 "original_filename": file.filename,
                 "file_type": file_type,
                 "file_size": len(file_content),

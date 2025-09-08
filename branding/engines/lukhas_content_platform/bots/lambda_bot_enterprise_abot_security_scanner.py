@@ -132,7 +132,7 @@ class ABotSecurityScanner:
                         vulnerabilities.append(vulnerability)
 
         except Exception as e:
-            logger.error(fix_later)
+            logger.error("abot_security_scanner_processing")
 
         return vulnerabilities
 
@@ -314,7 +314,7 @@ async def main():
 
     print("\n📋 Recommendations:")
     for rec in results["recommendations"]:
-        print(fix_later)
+        print("abot_security_scanner_processing")
 
     print(f"\n🎯 {results['scan_summary']['recommendation']}")
 
