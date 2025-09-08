@@ -646,39 +646,47 @@ class EnhancedBrainIntegration:
                         )
 
             # Stage 2: Enhanced Memory and Context Processing
-                                                                                                                                                                                                                                                                    if hasattr(self, 'enhanced_memory_manager'):
-                memory_enhancement = await self.enhanced_memory_manager.process_with_context(
-                    input_data, context
+            if hasattr(self, 'enhanced_memory_manager'):
+                memory_enhancement = (
+                    await self.enhanced_memory_manager.process_with_context(
+                        input_data, context
+                    )
                 )
                 result["agi_enhancements"]["memory"] = memory_enhancement
                 self.stats["memory_enhancements"] += 1
 
             # Stage 3: Meta-Cognitive Reflection
-                                                                                                                                                                                                                                                                        if hasattr(self, 'meta_cognitive_system'):
-                meta_reflection = await self.meta_cognitive_system.reflect_on_processing(
-                    input_data, context, result
+            if hasattr(self, 'meta_cognitive_system'):
+                meta_reflection = (
+                    await self.meta_cognitive_system.reflect_on_processing(
+                        input_data, context, result
+                    )
                 )
                 result["agi_enhancements"]["meta_cognitive"] = meta_reflection
                 self.stats["meta_cognitive_reflections"] += 1
 
             # Stage 4: Causal Reasoning
-                                                                                                                                                                                                                                                                            if hasattr(self, 'causal_reasoning'):
-                causal_analysis = await self.causal_reasoning.analyze_causal_relationships(
-                    input_data, context
+            if hasattr(self, 'causal_reasoning'):
+                causal_analysis = (
+                    await self.causal_reasoning.analyze_causal_relationships(
+                        input_data, context
+                    )
                 )
                 result["agi_enhancements"]["causal_reasoning"] = causal_analysis
                 self.stats["causal_inferences"] += 1
 
             # Stage 5: Predictive Resource Management
-                                                                                                                                                                                                                                                                                if hasattr(self, 'predictive_manager'):
-                predictive_insights = await self.predictive_manager.predict_resource_needs(
-                    input_data, context, result
+            if hasattr(self, 'predictive_manager'):
+                predictive_insights = (
+                    await self.predictive_manager.predict_resource_needs(
+                        input_data, context, result
+                    )
                 )
                 result["agi_enhancements"]["prediction"] = predictive_insights
                 self.stats["predictive_operations"] += 1
 
             # Stage 6: Original Symphony Processing (if available)
-                                                                                                                                                                                                                                                                                    if self.symphony_available:
+            if self.symphony_available:
                 symphony_result = await self.symphony_orchestrator.process_symphony(
                     input_data, context
                 )
@@ -686,10 +694,13 @@ class EnhancedBrainIntegration:
                 self.stats["symphony_processes"] += 1
 
             # Stage 7: Governance Decision Making (for major decisions)
-                                                                                                                                                                                                                                                                                        if self.advanced_agi_available and context.get("requires_governance", False):
-                                                                                                                                                                                                                                                                                            if hasattr(self, 'dao_governance'):
-                    governance_result = await self.dao_governance.evaluate_decision(
-                        input_data, context, result
+            if (self.advanced_agi_available and 
+                    context.get("requires_governance", False)):
+                if hasattr(self, 'dao_governance'):
+                    governance_result = (
+                        await self.dao_governance.evaluate_decision(
+                            input_data, context, result
+                        )
                     )
                     result["agi_enhancements"]["governance"] = governance_result
                     self.stats["governance_decisions"] += 1
@@ -700,34 +711,46 @@ class EnhancedBrainIntegration:
             # Update result status
             result["status"] = "completed"
             result["processing_time"] = time.time() - start_time
-            result["agi_integration"] = "full" if self.advanced_agi_available else "partial"
+            result["agi_integration"] = (
+                "full" if self.advanced_agi_available else "partial"
+            )
 
-                                                                                                                                                                                                                                                                                                return result
+            return result
 
-                                                                                                                                                                                                                                                                                            except Exception as e:
+        except Exception as e:
             logger.error(f"AI enhanced processing failed: {e}")
             result["status"] = "error"
             result["error"] = str(e)
             result["processing_time"] = time.time() - start_time
-                                                                                                                                                                                                                                                                                                return result
+            return result
 
-    async def _integrate_agi_results(self, result: Dict[str, Any], input_data: Any,
-    context: Dict[str, Any]) -> Dict[str, Any]:
-                                                                                                                                                                                                                                                                                            """Integrate results from all AI components into a coherent response"""
+    async def _integrate_agi_results(self, result: Dict[str, Any], 
+                                     input_data: Any,
+                                     context: Dict[str, Any]) -> Dict[str, Any]:
+        """Integrate results from all AI components into a coherent response"""
 
         # Extract key insights from each component
+        agi_enhancements = result.get("agi_enhancements", {})
         agi_insights = {
-            "compliance_status": result.get("agi_enhancements", {}).get("compliance",
-    {}).get("status", "unknown"),
-            "ethical_alignment": result.get("agi_enhancements", {}).get("ethics",
-    {}).get("alignment_score", 0.5),
-            "memory_relevance": result.get("agi_enhancements", {}).get("memory",
-    {}).get("relevance_score", 0.5),
-            "causal_confidence": result.get("agi_enhancements", {}).get("causal_reasoning", {}).get("confidence", 0.5),
-            "prediction_accuracy": result.get("agi_enhancements", {}).get("prediction",
-    {}).get("accuracy", 0.5),
-            "meta_awareness": result.get("agi_enhancements", {}).get("meta_cognitive",
-    {}).get("awareness_level", 0.5)
+            "compliance_status": (
+                agi_enhancements.get("compliance", {}).get("status", "unknown")
+            ),
+            "ethical_alignment": (
+                agi_enhancements.get("ethics", {}).get("alignment_score", 0.5)
+            ),
+            "memory_relevance": (
+                agi_enhancements.get("memory", {}).get("relevance_score", 0.5)
+            ),
+            "causal_confidence": (
+                agi_enhancements.get("causal_reasoning", {}).get("confidence", 0.5)
+            ),
+            "prediction_accuracy": (
+                agi_enhancements.get("prediction", {}).get("accuracy", 0.5)
+            ),
+            "meta_awareness": (
+                agi_enhancements.get("meta_cognitive", {})
+                .get("awareness_level", 0.5)
+            )
         }
 
         # Calculate overall AI intelligence score
@@ -735,11 +758,11 @@ class EnhancedBrainIntegration:
 
         # Generate integrated recommendations
         recommendations = []
-                                                                                                                                                                                                                                                                                            if agi_insights["compliance_status"] != "compliant":
+        if agi_insights["compliance_status"] != "compliant":
             recommendations.append("Review compliance requirements")
-                                                                                                                                                                                                                                                                                                if agi_insights["ethical_alignment"] < 0.7:
+        if agi_insights["ethical_alignment"] < 0.7:
             recommendations.append("Consider ethical implications")
-                                                                                                                                                                                                                                                                                                    if agi_insights["causal_confidence"] < 0.6:
+        if agi_insights["causal_confidence"] < 0.6:
             recommendations.append("Gather more causal evidence")
 
         result["agi_summary"] = {
@@ -749,4 +772,4 @@ class EnhancedBrainIntegration:
             "integration_complete": True
         }
 
-                                                                                                                                                                                                                                                                                                        return result
+        return result
