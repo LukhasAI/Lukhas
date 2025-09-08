@@ -92,7 +92,13 @@ def dump_state(output_path: str) -> dict[str, Any]:
             fold_count = 0
 
         # Create state dump
-        state_info = f"version:{__version__},folds:{fold_count},time:{time.time()}"
+        state = {
+            "version": __version__,
+            "folds": fold_count,
+            "checksum": hashlib.sha256(f"version:{__version__},folds:{fold_count},time:{time.time()}".encode()).hexdigest(),
+            "timestamp": time.time(),
+            "status": "memory_available",
+        }
 
     # Write to file
     try:
