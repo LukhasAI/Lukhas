@@ -110,7 +110,7 @@ def main():
 
     try:
         # Read the original file
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             original_content = f.read()
 
         print(f"Processing file: {file_path}")

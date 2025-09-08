@@ -18,6 +18,7 @@ import subprocess
 from pathlib import Path
 from typing import List, Tuple
 
+
 def apply_mechanical_fixes(content: str) -> str:
     """Apply mechanical f-string fixes using proven patterns"""
     
@@ -56,7 +57,7 @@ def fix_file_mechanically(file_path: str) -> bool:
     
     try:
         # Read original content
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             original_content = f.read()
         
         # Apply fixes
@@ -64,7 +65,7 @@ def fix_file_mechanically(file_path: str) -> bool:
         
         if fixed_content != original_content:
             # Write fixed content
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(fixed_content)
             
             # Test compilation
@@ -76,7 +77,7 @@ def fix_file_mechanically(file_path: str) -> bool:
                 return True
             else:
                 # Revert if compilation failed
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(original_content)
                 print(f"❌ Compilation failed for {file_path}, reverted")
                 print(f"Error: {result.stderr}")

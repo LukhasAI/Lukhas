@@ -8,7 +8,6 @@ from pathlib import Path
 from typing import Any
 
 
-
 class LukhasToneFixer:
     """LUKHAS Trinity Framework tone auto-fixer"""
 

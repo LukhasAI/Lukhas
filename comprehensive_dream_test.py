@@ -34,7 +34,7 @@ def test_dream_component(module_path):
         return True, f"Successfully imported {module_name}"
 
     except Exception as e:
-        return False, f"Failed to import {module_path}: {str(e)}"
+        return False, f"Failed to import {module_path}: {e!s}"
 
 def main():
     """Test all dream components"""

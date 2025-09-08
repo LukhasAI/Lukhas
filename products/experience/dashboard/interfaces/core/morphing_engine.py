@@ -52,9 +52,7 @@ from typing import Any, Callable, Optional
 from dashboard.core.dynamic_tab_system import DynamicTabSystem
 
 # Dashboard system imports
-from dashboard.core.universal_adaptive_dashboard import (
-    DashboardContext,
-    DashboardMorphState)
+from dashboard.core.universal_adaptive_dashboard import DashboardContext, DashboardMorphState
 
 logger = logging.getLogger("ΛTRACE.morphing_engine")
 

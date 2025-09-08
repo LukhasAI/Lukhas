@@ -19,6 +19,7 @@ import subprocess
 from pathlib import Path
 from typing import List, Tuple
 
+
 class AutomatedSyntaxFixer:
     """Automated syntax error fixer using proven patterns"""
     
@@ -37,11 +38,11 @@ class AutomatedSyntaxFixer:
                 "--select=E999", "--output-format=concise"
             ], capture_output=True, text=True, cwd=self.project_root)
             
-            lines = result.stderr.split('\n')
+            lines = result.stderr.split("\n")
             for line in lines:
                 if "syntax-error" in line:
                     # Extract count from format like "6182	    	syntax-error"
-                    parts = line.split('\t')
+                    parts = line.split("\t")
                     if parts and parts[0].isdigit():
                         return int(parts[0])
             return 0
@@ -52,25 +53,25 @@ class AutomatedSyntaxFixer:
     def apply_f_string_brace_fixes(self, file_path: Path) -> int:
         """Fix common f-string brace mismatches"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 
             original_content = content
             fixes_applied = 0
             
             # Pattern 1: {function(}} → {function()}  
-            pattern1 = re.compile(r'\{([^{}]*\([^{}]*)\}}')
+            pattern1 = re.compile(r"\{([^{}]*\([^{}]*)\}}")
             matches = list(pattern1.finditer(content))
             for match in matches:
                 # Only fix if it's clearly a function call with extra closing brace
                 inner = match.group(1)
-                if '(' in inner and not inner.endswith('()'):
+                if "(" in inner and not inner.endswith("()"):
                     content = content.replace(match.group(0), f"{{{inner}}}")
                     fixes_applied += 1
                     
             # Pattern 2: .hexdigest(}}[:N] → .hexdigest()}[:N]
-            pattern2 = re.compile(r'\.hexdigest\(\}\}\[')  
-            content = pattern2.sub('.hexdigest()}[', content)
+            pattern2 = re.compile(r"\.hexdigest\(\}\}\[")  
+            content = pattern2.sub(".hexdigest()}[", content)
             if pattern2.search(original_content):
                 fixes_applied += len(pattern2.findall(original_content))
             
@@ -82,15 +83,15 @@ class AutomatedSyntaxFixer:
                 
             # Pattern 4: CSS f-string brace fixes: } → }} in HTML templates
             # Only in f-string contexts (look for f""" ... css ... """)
-            if 'f"""' in content and 'style>' in content:
+            if 'f"""' in content and "style>" in content:
                 # Fix CSS property endings in f-strings
-                pattern4 = re.compile(r'(font-family: [^;}]+; margin: [^;}]+; )}(?!\})')
-                content = pattern4.sub(r'\1}}', content)
+                pattern4 = re.compile(r"(font-family: [^;}]+; margin: [^;}]+; )}(?!\})")
+                content = pattern4.sub(r"\1}}", content)
                 if pattern4.search(original_content):
                     fixes_applied += len(pattern4.findall(original_content))
                     
             if content != original_content:
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(content)
                 return fixes_applied
                 
@@ -102,7 +103,7 @@ class AutomatedSyntaxFixer:
     def apply_dictionary_brace_fixes(self, file_path: Path) -> int:
         """Fix missing dictionary closing braces"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 
             original_content = content
@@ -110,23 +111,23 @@ class AutomatedSyntaxFixer:
             
             # Pattern: {"key": value, → {"key": value},
             # Look for dictionary entries that end with comma space but no closing brace
-            lines = content.split('\n')
+            lines = content.split("\n")
             fixed_lines = []
             
             for i, line in enumerate(lines):
                 stripped = line.strip()
                 # Check if this looks like an incomplete dictionary entry
-                if (stripped.endswith(',') and 
-                    '"' in stripped and ':' in stripped and
+                if (stripped.endswith(",") and 
+                    '"' in stripped and ":" in stripped and
                     i + 1 < len(lines) and
-                    lines[i + 1].strip() in ['}', '},']):
+                    lines[i + 1].strip() in ["}", "},"]):
                     
                     # Check if the next line should be }}
                     next_line = lines[i + 1].strip()
-                    if next_line == '}' and i + 2 < len(lines):
+                    if next_line == "}" and i + 2 < len(lines):
                         # Look ahead to see if this is in an f-string context
                         lookahead = lines[i + 2].strip() if i + 2 < len(lines) else ""
-                        if lookahead == '}' or '"""' in lookahead:
+                        if lookahead == "}" or '"""' in lookahead:
                             # This is likely a missing brace in nested structure
                             fixed_lines.append(line)
                             fixed_lines.append(lines[i + 1])  # Keep the }
@@ -135,11 +136,11 @@ class AutomatedSyntaxFixer:
                 fixed_lines.append(line)
                 
             if fixed_lines != lines:
-                content = '\n'.join(fixed_lines)
+                content = "\n".join(fixed_lines)
                 fixes_applied = len(lines) - len(fixed_lines)
                 
             if content != original_content:
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(content)
                 return fixes_applied
                 
@@ -151,20 +152,20 @@ class AutomatedSyntaxFixer:
     def apply_comprehension_colon_fixes(self, file_path: Path) -> int:
         """Fix trailing colons in list/dict comprehensions"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 
             original_content = content
             
             # Pattern: for x in collection: → for x in collection (in comprehensions)
             # This is tricky as we need to identify comprehension contexts
-            pattern = re.compile(r'\[(.*?for\s+\w+\s+in\s+[^:]+):\s*([^\]]*)\]')
-            content = pattern.sub(r'[\1 \2]', content)
+            pattern = re.compile(r"\[(.*?for\s+\w+\s+in\s+[^:]+):\s*([^\]]*)\]")
+            content = pattern.sub(r"[\1 \2]", content)
             
             fixes_applied = len(pattern.findall(original_content))
             
             if content != original_content:
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(content)
                 return fixes_applied
                 
@@ -177,7 +178,7 @@ class AutomatedSyntaxFixer:
         """Test if file compiles successfully"""
         try:
             result = subprocess.run([
-                'python3', '-c', f'import py_compile; py_compile.compile("{file_path}", doraise=True)'
+                "python3", "-c", f'import py_compile; py_compile.compile("{file_path}", doraise=True)'
             ], capture_output=True, text=True, cwd=self.project_root)
             return result.returncode == 0
         except Exception:
@@ -185,7 +186,7 @@ class AutomatedSyntaxFixer:
             
     def process_file(self, file_path: Path) -> Tuple[int, bool]:
         """Process a single file with all fix patterns"""
-        if not file_path.suffix == '.py':
+        if not file_path.suffix == ".py":
             return 0, False
             
         print(f"Processing: {file_path.relative_to(self.project_root)}")

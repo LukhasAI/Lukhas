@@ -11,8 +11,6 @@ Inspired by Hiroki Asai's Apple design philosophy:
 from dataclasses import dataclass
 
 
-
-
 @dataclass
 class VisualElement:
     """Base class for all visual design elements"""

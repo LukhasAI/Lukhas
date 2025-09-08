@@ -47,7 +47,6 @@ from enum import Enum
 from typing import Any, Callable, Optional
 from uuid import uuid4
 
-
 from .interfaces.memory_interface import (
     MemoryOperation,
     ValidationResult,

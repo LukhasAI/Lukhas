@@ -8,11 +8,9 @@ Emits MATRIZ-compliant consciousness signals and bio-symbolic data for inter-mod
 - Real-time inter-module communication and monitoring
 - Trinity Framework (⚛️🧠🛡️) compliance validation
 """
-import random
-import streamlit as st
-
 import asyncio
 import json
+import random
 import time
 import uuid
 from dataclasses import dataclass, field
@@ -22,6 +20,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
+import streamlit as st
 
 # Import consciousness components
 try:

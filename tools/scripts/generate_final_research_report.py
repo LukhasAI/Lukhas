@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any, cast
 
 
-
 def load_latest_reports():
     """Load all the latest generated reports"""
     data_dir = Path("data")

@@ -39,7 +39,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
-
 # Guardian System Components
 try:
     from candidate.governance.consent_ledger.ledger_v1 import (

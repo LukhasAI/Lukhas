@@ -6,15 +6,16 @@
 
 
 import hashlib  # LUKHAS_TAG: memory_integrity
+
 # ΛNOTE: Used for potential serialization if content is complex, though
 # not directly in to_dict.
 import json
 import os  # LUKHAS_TAG: file_operations
+
 # ΛNOTE: Potentially for generating unique keys if not provided. Not used
 # currently for fold keys.
 import uuid
-from collections import \
-    defaultdict  # ΛTRACE: Used for efficient indexing in AGIMemory.
+from collections import defaultdict  # ΛTRACE: Used for efficient indexing in AGIMemory.
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
@@ -60,6 +61,7 @@ symbolic patterns within them. It forms a core part of the AGI's memory architec
 # (Logger init time) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger
 # configuration echoes global settings)
 import structlog
+
 logger = structlog.get_logger(__name__)
 
 
@@ -603,7 +605,7 @@ class MemoryFold:
             base_tier = max(base_tier - 1, 0)  # Collapsed memories easier to access
 
         # Adjust for drift score
-        if hasattr(self, 'driftScore') and self.driftScore > 0.5:
+        if hasattr(self, "driftScore") and self.driftScore > 0.5:
             base_tier = min(base_tier + 1, 5)  # High drift requires higher tier
 
         return base_tier
@@ -645,8 +647,8 @@ class MemoryFold:
             "symbolic_context": {
                 "associated_keys": list(self.associated_keys),
                 "tags": list(self.tags),
-                "drift_score": getattr(self, 'driftScore', 0.0),
-                "entropy_delta": getattr(self, 'entropyDelta', 0.0),
+                "drift_score": getattr(self, "driftScore", 0.0),
+                "entropy_delta": getattr(self, "entropyDelta", 0.0),
                 "collapse_hash": self.collapseHash
             },
             "entanglement_trace": {
@@ -748,7 +750,7 @@ def fold_dream_experience(
     dream_id: str,
     dream_content: str,
     dream_metadata: Dict[str, Any],
-    memory_manager: Optional['AGIMemory'] = None,
+    memory_manager: Optional["AGIMemory"] = None,
     emotional_memory: Optional[Any] = None
 ) -> Dict[str, Any]:
     """
@@ -955,7 +957,7 @@ def fold_dream_experience(
             for identity_sig in dream_trace.identity_signatures:
                 for related_memory in identity_sig.related_memories:
                     dream_fold.add_association(related_memory)
-                    if hasattr(memory_manager, 'get_fold'):
+                    if hasattr(memory_manager, "get_fold"):
                         related_fold = memory_manager.get_fold(related_memory)
                         if related_fold:
                             related_fold.add_association(dream_fold.key)
@@ -969,7 +971,7 @@ def fold_dream_experience(
         )
 
     except Exception as e:
-        logger.error(f"Dream folding failed: dream_id={dream_id}, error={str(e)}")
+        logger.error(f"Dream folding failed: dream_id={dream_id}, error={e!s}")
         folding_results["error"] = str(e)
         folding_results["safeguard_flags"].append("folding_process_error")
 
@@ -1056,7 +1058,7 @@ class MemoryIntegrityLedger:
         os.makedirs(os.path.dirname(cls.LEDGER_PATH), exist_ok=True)
         if cls._last_hash is None and os.path.exists(cls.LEDGER_PATH):
             try:
-                with open(cls.LEDGER_PATH, "r", encoding="utf-8") as f:
+                with open(cls.LEDGER_PATH, encoding="utf-8") as f:
                     for line in f:
                         pass
                     if line:

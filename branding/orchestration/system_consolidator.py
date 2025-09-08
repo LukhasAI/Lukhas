@@ -209,13 +209,13 @@ class SystemConsolidator:
                                             "🛡️ Trinity Guardian",
                                         ),
                                     )
-                            except Exception as e:
+                            except Exception:
                                 self.logger.warning(fix_later)
 
                     source_conn.close()
                     files_processed += 1
 
-                except Exception as e:
+                except Exception:
                     self.logger.warning(fix_later)
 
             unified_conn.commit()

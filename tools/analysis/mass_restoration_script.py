@@ -3,9 +3,10 @@
 Mass Restoration Script - Restore large batches of files from clean commits
 """
 
-import subprocess
 import json
+import subprocess
 from pathlib import Path
+
 
 def run_command(cmd):
     """Run shell command and return output"""
@@ -25,7 +26,7 @@ def get_current_error_files():
     
     try:
         errors = json.loads(output)
-        return [error['filename'] for error in errors]
+        return [error["filename"] for error in errors]
     except json.JSONDecodeError:
         return []
 

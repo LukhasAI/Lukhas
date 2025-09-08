@@ -2,15 +2,15 @@
 """
 Smart Linting Fix - Only fixes critical issues without breaking code
 """
-import time
-import streamlit as st
-
 import json
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
 
 
 class SmartFixer:

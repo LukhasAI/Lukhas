@@ -16,7 +16,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-
 sys.path.append(str(Path(__file__).parent.parent))
 
 from profiles.brand_voice_profiles import (

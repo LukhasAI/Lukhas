@@ -13,9 +13,9 @@ import re
 import subprocess
 import sys
 from collections import defaultdict
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Set, Optional, Any, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 
 @dataclass
@@ -53,17 +53,17 @@ class FocusedAtlasBuilder:
         
         # Focus on LUKHAS core directories
         self.focus_dirs = [
-            'lukhas/', 'candidate/', 'consciousness/', 'memory/', 
-            'identity/', 'governance/', 'core/', 'orchestration/',
-            'quantum/', 'bio/', 'creativity/', 'emotion/', 'vivox/',
-            'bridge/', 'api/', 'branding/', 'agents/'
+            "lukhas/", "candidate/", "consciousness/", "memory/", 
+            "identity/", "governance/", "core/", "orchestration/",
+            "quantum/", "bio/", "creativity/", "emotion/", "vivox/",
+            "bridge/", "api/", "branding/", "agents/"
         ]
         
         # LUKHAS consciousness keywords
         self.consciousness_keywords = {
-            'consciousness', 'lucid', 'dream', 'identity', 'memory', 'fold', 
-            'guardian', 'ethics', 'quantum', 'bio', 'matriz', 'glyph',
-            'constellation', 'drift', 'cascade', 'vivox', 'qualia'
+            "consciousness", "lucid", "dream", "identity", "memory", "fold", 
+            "guardian", "ethics", "quantum", "bio", "matriz", "glyph",
+            "constellation", "drift", "cascade", "vivox", "qualia"
         }
 
     def run(self):
@@ -103,7 +103,7 @@ class FocusedAtlasBuilder:
             focus_paths = [d for d in self.focus_dirs if (self.root_path / d).exists()]
             
             if not focus_paths:
-                focus_paths = ['.']  # Fallback to current directory
+                focus_paths = ["."]  # Fallback to current directory
             
             for focus_path in focus_paths[:3]:  # Limit to first 3 to avoid timeout
                 print(f"  Checking violations in {focus_path}...")
@@ -117,7 +117,7 @@ class FocusedAtlasBuilder:
                 if result.stdout:
                     violations = json.loads(result.stdout)
                     for violation in violations:
-                        rule_code = violation.get('code', 'UNKNOWN')
+                        rule_code = violation.get("code", "UNKNOWN")
                         self.violations[rule_code].append(violation)
                         
         except subprocess.TimeoutExpired:
@@ -152,7 +152,7 @@ class FocusedAtlasBuilder:
                 if self.analyze_file(py_file):
                     analyzed += 1
             except Exception as e:
-                if any(pattern in str(py_file) for pattern in ['lukhas/', 'candidate/']):
+                if any(pattern in str(py_file) for pattern in ["lukhas/", "candidate/"]):
                     if "syntax" not in str(e).lower():
                         print(f"⚠️ Error analyzing {py_file.name}: {e}")
         
@@ -161,7 +161,7 @@ class FocusedAtlasBuilder:
     def analyze_file(self, file_path: Path) -> bool:
         """Analyze a single Python file."""
         try:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(file_path, encoding="utf-8", errors="ignore") as f:
                 content = f.read()
             
             # Skip very large files
@@ -219,7 +219,7 @@ class FocusedAtlasBuilder:
             module_violations = []
             for rule_violations in self.violations.values():
                 for violation in rule_violations:
-                    if rel_path in violation.get('filename', ''):
+                    if rel_path in violation.get("filename", ""):
                         module_violations.append(violation)
             module_info.violations = module_violations
             
@@ -239,7 +239,7 @@ class FocusedAtlasBuilder:
             # Get signature
             if symbol_type == "function":
                 signature = f"{name}("
-                if hasattr(node, 'args'):
+                if hasattr(node, "args"):
                     args = []
                     for arg in node.args.args:
                         args.append(arg.arg)
@@ -247,7 +247,7 @@ class FocusedAtlasBuilder:
                 signature += ")"
             else:  # class
                 signature = f"class {name}"
-                if hasattr(node, 'bases') and node.bases:
+                if hasattr(node, "bases") and node.bases:
                     bases = []
                     for base in node.bases:
                         if isinstance(base, ast.Name):
@@ -268,19 +268,19 @@ class FocusedAtlasBuilder:
             class_name = None
             if symbol_type == "function":
                 # Simple heuristic: check indentation level
-                lines = content.split('\n')
+                lines = content.split("\n")
                 if line_number > 0 and line_number <= len(lines):
                     line = lines[line_number - 1]
-                    if line.startswith('    ') and not line.startswith('        '):
+                    if line.startswith("    ") and not line.startswith("        "):
                         # Likely a method (class-level indentation)
                         for i in range(line_number - 1, -1, -1):
                             if i < len(lines):
                                 prev_line = lines[i].strip()
-                                if prev_line.startswith('class '):
-                                    class_name = prev_line.split()[1].split('(')[0].rstrip(':')
+                                if prev_line.startswith("class "):
+                                    class_name = prev_line.split()[1].split("(")[0].rstrip(":")
                                     symbol_type = "method"
                                     break
-                                elif prev_line and not prev_line.startswith(' '):
+                                elif prev_line and not prev_line.startswith(" "):
                                     break
             
             return SymbolInfo(
@@ -330,12 +330,12 @@ class FocusedAtlasBuilder:
             pass
         
         # Key comments and TODOs (sample first 50 lines to avoid performance issues)
-        lines = content.split('\n')[:50]  
+        lines = content.split("\n")[:50]  
         for i, line in enumerate(lines):
             stripped = line.strip()
-            if stripped.startswith('#') and len(stripped) > 5:
+            if stripped.startswith("#") and len(stripped) > 5:
                 comment = stripped[1:].strip()
-                if any(keyword in comment.lower() for keyword in ['todo', 'fixme', 'bug', 'hack']):
+                if any(keyword in comment.lower() for keyword in ["todo", "fixme", "bug", "hack"]):
                     clues.append(f"TODO: {comment[:80]}")
                 elif any(keyword in comment.lower() for keyword in self.consciousness_keywords):
                     clues.append(f"CONSCIOUSNESS: {comment[:80]}")
@@ -353,26 +353,26 @@ class FocusedAtlasBuilder:
         path_lower = module_path.lower()
         
         # Direct path matching
-        if 'test' in path_lower:
-            return 'test'
-        elif any(pattern in path_lower for pattern in ['api', 'serve', 'endpoint']):
-            return 'api'
-        elif any(pattern in path_lower for pattern in ['orchestrat', 'hub', 'brain', 'kernel']):
-            return 'orchestrator'
-        elif any(pattern in path_lower for pattern in ['bridge', 'integrat', 'adapter']):
-            return 'integration'
-        elif any(pattern in path_lower for pattern in ['consciousness', 'dream', 'identity', 'memory']):
-            return 'consciousness_core'
-        elif any(pattern in path_lower for pattern in ['guardian', 'ethics', 'governance']):
-            return 'governance'
-        elif any(pattern in path_lower for pattern in ['quantum', 'bio']):
-            return 'advanced_processing'
-        elif 'candidate' in path_lower:
-            return 'experimental'
-        elif 'lukhas' in path_lower:
-            return 'production'
+        if "test" in path_lower:
+            return "test"
+        elif any(pattern in path_lower for pattern in ["api", "serve", "endpoint"]):
+            return "api"
+        elif any(pattern in path_lower for pattern in ["orchestrat", "hub", "brain", "kernel"]):
+            return "orchestrator"
+        elif any(pattern in path_lower for pattern in ["bridge", "integrat", "adapter"]):
+            return "integration"
+        elif any(pattern in path_lower for pattern in ["consciousness", "dream", "identity", "memory"]):
+            return "consciousness_core"
+        elif any(pattern in path_lower for pattern in ["guardian", "ethics", "governance"]):
+            return "governance"
+        elif any(pattern in path_lower for pattern in ["quantum", "bio"]):
+            return "advanced_processing"
+        elif "candidate" in path_lower:
+            return "experimental"
+        elif "lukhas" in path_lower:
+            return "production"
         
-        return 'utility'
+        return "utility"
 
     def extract_intent_clues(self):
         """Extract intent clues from documentation files."""
@@ -390,19 +390,19 @@ class FocusedAtlasBuilder:
         
         for doc_file in doc_files:
             try:
-                with open(doc_file, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(doc_file, encoding="utf-8", errors="ignore") as f:
                     content = f.read()[:5000]  # Limit content size
                 
                 # Extract key architecture concepts
                 intent_clues = []
-                lines = content.split('\n')[:50]  # First 50 lines only
+                lines = content.split("\n")[:50]  # First 50 lines only
                 
                 for line in lines:
                     stripped = line.strip()
                     if len(stripped) > 20:  # Substantial content only
                         if any(keyword in stripped.lower() for keyword in self.consciousness_keywords):
                             intent_clues.append(f"DOC: {stripped[:100]}")
-                        elif stripped.startswith('#') or stripped.startswith('-') or stripped.startswith('*'):
+                        elif stripped.startswith("#") or stripped.startswith("-") or stripped.startswith("*"):
                             intent_clues.append(f"HEADER: {stripped[:100]}")
                 
                 # Associate with nearby modules (simplified)
@@ -423,27 +423,27 @@ class FocusedAtlasBuilder:
             symbol_violations = []
             for rule_violations in self.violations.values():
                 for violation in rule_violations:
-                    if symbol_info.file_path in violation.get('filename', ''):
-                        line_no = violation.get('location', {}).get('row', 0)
+                    if symbol_info.file_path in violation.get("filename", ""):
+                        line_no = violation.get("location", {}).get("row", 0)
                         if abs(symbol_info.line_number - line_no) < 10:  # Within 10 lines
-                            issue_flag = self.get_issue_flag(violation.get('code', ''))
+                            issue_flag = self.get_issue_flag(violation.get("code", ""))
                             if issue_flag not in symbol_info.issues:
                                 symbol_info.issues.append(issue_flag)
         
         atlas = {
-            'metadata': {
-                'generator': 'LUKHAS Focused Code Atlas Builder',
-                'focus_directories': self.focus_dirs,
-                'total_modules': len(self.modules),
-                'total_symbols': len(self.symbols),
-                'total_violations': sum(len(v) for v in self.violations.values()),
-                'violation_types': list(self.violations.keys()),
-                'consciousness_keywords': list(self.consciousness_keywords)
+            "metadata": {
+                "generator": "LUKHAS Focused Code Atlas Builder",
+                "focus_directories": self.focus_dirs,
+                "total_modules": len(self.modules),
+                "total_symbols": len(self.symbols),
+                "total_violations": sum(len(v) for v in self.violations.values()),
+                "violation_types": list(self.violations.keys()),
+                "consciousness_keywords": list(self.consciousness_keywords)
             },
-            'symbols': {k: asdict(v) for k, v in self.symbols.items()},
-            'modules': {k: asdict(v) for k, v in self.modules.items()},
-            'violations_by_rule': {k: len(v) for k, v in self.violations.items()},
-            'module_roles': {
+            "symbols": {k: asdict(v) for k, v in self.symbols.items()},
+            "modules": {k: asdict(v) for k, v in self.modules.items()},
+            "violations_by_rule": {k: len(v) for k, v in self.violations.items()},
+            "module_roles": {
                 role: [k for k, v in self.modules.items() if v.role == role]
                 for role in set(m.role for m in self.modules.values())
             }
@@ -454,19 +454,19 @@ class FocusedAtlasBuilder:
     def get_issue_flag(self, rule_code: str) -> str:
         """Convert ruff rule code to issue flag."""
         flag_mapping = {
-            'ARG001': 'unused_func_arg',
-            'ARG002': 'unused_method_arg',
-            'F821': 'undefined_name',
-            'F401': 'unused_import',
-            'RUF006': 'dangling_async_task',
-            'B006': 'mutable_default',
-            'DTZ005': 'datetime_naive',
-            'DTZ003': 'datetime_utcnow',
-            'E402': 'import_not_top',
-            'F841': 'unused_variable',
-            'B007': 'unused_loop_var'
+            "ARG001": "unused_func_arg",
+            "ARG002": "unused_method_arg",
+            "F821": "undefined_name",
+            "F401": "unused_import",
+            "RUF006": "dangling_async_task",
+            "B006": "mutable_default",
+            "DTZ005": "datetime_naive",
+            "DTZ003": "datetime_utcnow",
+            "E402": "import_not_top",
+            "F841": "unused_variable",
+            "B007": "unused_loop_var"
         }
-        return flag_mapping.get(rule_code, f'rule_{rule_code}')
+        return flag_mapping.get(rule_code, f"rule_{rule_code}")
 
     def generate_rule_indices(self):
         """Generate per-rule violation indices."""
@@ -478,36 +478,36 @@ class FocusedAtlasBuilder:
                 index_file = reports_dir / f"idx_{rule_code}.json"
                 
                 rule_index = {
-                    'rule_code': rule_code,
-                    'description': self.get_rule_description(rule_code),
-                    'total_violations': len(violations),
-                    'violations': violations,
-                    'affected_files': list(set(v.get('filename', '') for v in violations)),
-                    'focus_directories_affected': [
+                    "rule_code": rule_code,
+                    "description": self.get_rule_description(rule_code),
+                    "total_violations": len(violations),
+                    "violations": violations,
+                    "affected_files": list(set(v.get("filename", "") for v in violations)),
+                    "focus_directories_affected": [
                         d for d in self.focus_dirs
-                        if any(d in v.get('filename', '') for v in violations)
+                        if any(d in v.get("filename", "") for v in violations)
                     ]
                 }
                 
-                with open(index_file, 'w') as f:
+                with open(index_file, "w") as f:
                     json.dump(rule_index, f, indent=2)
 
     def get_rule_description(self, rule_code: str) -> str:
         """Get description for rule code."""
         descriptions = {
-            'ARG001': 'Unused function argument',
-            'ARG002': 'Unused method argument', 
-            'F821': 'Undefined name',
-            'F401': 'Unused import',
-            'RUF006': 'Dangling async task',
-            'B006': 'Mutable default argument',
-            'DTZ005': 'Naive datetime usage',
-            'DTZ003': 'datetime.utcnow() usage',
-            'E402': 'Module level import not at top',
-            'F841': 'Unused local variable',
-            'B007': 'Unused loop control variable'
+            "ARG001": "Unused function argument",
+            "ARG002": "Unused method argument", 
+            "F821": "Undefined name",
+            "F401": "Unused import",
+            "RUF006": "Dangling async task",
+            "B006": "Mutable default argument",
+            "DTZ005": "Naive datetime usage",
+            "DTZ003": "datetime.utcnow() usage",
+            "E402": "Module level import not at top",
+            "F841": "Unused local variable",
+            "B007": "Unused loop control variable"
         }
-        return descriptions.get(rule_code, f'Rule {rule_code}')
+        return descriptions.get(rule_code, f"Rule {rule_code}")
 
     def save_atlas(self, atlas: dict):
         """Save the atlas to JSON file."""
@@ -516,7 +516,7 @@ class FocusedAtlasBuilder:
         
         atlas_file = reports_dir / "code_atlas.json"
         
-        with open(atlas_file, 'w') as f:
+        with open(atlas_file, "w") as f:
             json.dump(atlas, f, indent=2)
         
         print(f"💾 Focused Code Atlas saved to: {atlas_file}")
@@ -527,7 +527,7 @@ class FocusedAtlasBuilder:
         print(f"   • {len(atlas['module_roles'])} different module roles identified")
         
         # Print top violation types
-        violation_counts = atlas['violations_by_rule']
+        violation_counts = atlas["violations_by_rule"]
         if violation_counts:
             sorted_violations = sorted(violation_counts.items(), key=lambda x: x[1], reverse=True)
             print(f"   • Top violations: {', '.join([f'{k}({v})' for k, v in sorted_violations[:5]])}")

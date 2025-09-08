@@ -15,14 +15,14 @@ SUCCESS CRITERIA FROM PHASE 1:
 ✅ f'{nested_f_string}}' -> f'{nested_f_string}' (manual verification needed)
 """
 
+import json
+import logging
 import re
 import subprocess
-import json
 from pathlib import Path
-from typing import List, Tuple, Dict
-import logging
+from typing import Dict, List, Tuple
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 class RefinedSyntaxFixer:
@@ -31,11 +31,11 @@ class RefinedSyntaxFixer:
     def __init__(self, repo_root: str = "/Users/agi_dev/LOCAL-REPOS/Lukhas"):
         self.repo_root = Path(repo_root)
         self.stats = {
-            'files_processed': 0,
-            'files_fixed': 0,
-            'patterns_applied': 0,
-            'compilation_successes': 0,
-            'reverted_files': 0
+            "files_processed": 0,
+            "files_fixed": 0,
+            "patterns_applied": 0,
+            "compilation_successes": 0,
+            "reverted_files": 0
         }
         
         # REFINED PATTERNS: Only those proven to work in Phase 1
@@ -66,7 +66,7 @@ class RefinedSyntaxFixer:
             # Group by file and count
             file_errors = {}
             for error in errors:
-                filename = error['filename'].replace(str(self.repo_root) + '/', '')
+                filename = error["filename"].replace(str(self.repo_root) + "/", "")
                 if filename not in file_errors:
                     file_errors[filename] = []
                 file_errors[filename].append(error)
@@ -114,7 +114,7 @@ class RefinedSyntaxFixer:
             full_path = self.repo_root / file_path
             
             # Read original content
-            with open(full_path, 'r', encoding='utf-8') as f:
+            with open(full_path, encoding="utf-8") as f:
                 original_content = f.read()
             
             # Test original compilation status
@@ -131,7 +131,7 @@ class RefinedSyntaxFixer:
                 return False
             
             # Write fixed version
-            with open(full_path, 'w', encoding='utf-8') as f:
+            with open(full_path, "w", encoding="utf-8") as f:
                 f.write(fixed_content)
             
             # Test compilation
@@ -139,16 +139,16 @@ class RefinedSyntaxFixer:
             
             if compiles:
                 logger.info(f"  ✅ SUCCESS: {fix_count} patterns applied, compilation successful")
-                self.stats['compilation_successes'] += 1
-                self.stats['patterns_applied'] += fix_count
+                self.stats["compilation_successes"] += 1
+                self.stats["patterns_applied"] += fix_count
                 return True
             else:
                 # Revert on compilation failure
-                with open(full_path, 'w', encoding='utf-8') as f:
+                with open(full_path, "w", encoding="utf-8") as f:
                     f.write(original_content)
                 logger.warning(f"  ❌ REVERTED: Compilation failed after {fix_count} fixes")
                 logger.warning(f"     Error: {compile_error.strip()}")
-                self.stats['reverted_files'] += 1
+                self.stats["reverted_files"] += 1
                 return False
                 
         except Exception as e:
@@ -174,16 +174,16 @@ class RefinedSyntaxFixer:
         for i, (file_path, errors) in enumerate(file_errors[:max_files]):
             logger.info(f"\n[{i+1}/{min(max_files, len(file_errors))}] {file_path}")
             
-            self.stats['files_processed'] += 1
+            self.stats["files_processed"] += 1
             
             if self.fix_file_safely(file_path, len(errors)):
-                self.stats['files_fixed'] += 1
+                self.stats["files_fixed"] += 1
         
         return self.stats
     
     def generate_phase2_report(self) -> str:
         """Generate Phase 2 progress report"""
-        success_rate = (self.stats['files_fixed'] / max(1, self.stats['files_processed'])) * 100
+        success_rate = (self.stats["files_fixed"] / max(1, self.stats["files_processed"])) * 100
         
         report = f"""
 🚀 Phase 2: Refined Syntax Fixing Report
@@ -223,7 +223,7 @@ SAFETY ASSURANCE:
     
     def _generate_next_phase_recommendations(self) -> str:
         """Generate recommendations for next phase"""
-        success_rate = (self.stats['files_fixed'] / max(1, self.stats['files_processed'])) * 100
+        success_rate = (self.stats["files_fixed"] / max(1, self.stats["files_processed"])) * 100
         
         if success_rate > 75:
             return """
@@ -257,7 +257,7 @@ def main():
     print(report)
     
     # Save report
-    with open('/Users/agi_dev/LOCAL-REPOS/Lukhas/phase2_refined_report.txt', 'w') as f:
+    with open("/Users/agi_dev/LOCAL-REPOS/Lukhas/phase2_refined_report.txt", "w") as f:
         f.write(report)
     
     logger.info("✅ Phase 2 Complete - Refined Fixing Report Generated")

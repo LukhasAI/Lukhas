@@ -13,7 +13,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 from engines.database_integration import db
@@ -125,7 +124,7 @@ class SelfHealingSystem:
                 shutil.copytree(target_path, backup_dir)
                 self.logger.info(f"Created backup: {backup_dir}")
                 return backup_dir
-        except Exception as e:
+        except Exception:
             self.logger.error("Self-healing system error occurred")
 
         return None

@@ -22,11 +22,11 @@ def validate_atlas():
     print("=" * 50)
     
     # Load atlas
-    with open(atlas_file, 'r') as f:
+    with open(atlas_file) as f:
         atlas = json.load(f)
     
     # Validate structure
-    required_keys = ['metadata', 'symbols', 'modules', 'violations_by_rule', 'module_roles']
+    required_keys = ["metadata", "symbols", "modules", "violations_by_rule", "module_roles"]
     missing_keys = [key for key in required_keys if key not in atlas]
     
     if missing_keys:
@@ -36,7 +36,7 @@ def validate_atlas():
     print("✅ Atlas structure valid")
     
     # Validate metadata
-    metadata = atlas['metadata']
+    metadata = atlas["metadata"]
     print(f"📊 Metadata validation:")
     print(f"   • Generator: {metadata.get('generator', 'Unknown')}")
     print(f"   • Total modules: {metadata.get('total_modules', 0):,}")
@@ -45,14 +45,14 @@ def validate_atlas():
     print(f"   • Focus directories: {len(metadata.get('focus_directories', []))}")
     
     # Validate symbols
-    symbols = atlas['symbols']
+    symbols = atlas["symbols"]
     print(f"🔍 Symbol validation:")
     print(f"   • Total symbols: {len(symbols):,}")
     
     # Check symbol structure
     sample_symbols = list(symbols.values())[:5]
     for symbol in sample_symbols:
-        required_symbol_keys = ['name', 'type', 'file_path', 'line_number', 'signature']
+        required_symbol_keys = ["name", "type", "file_path", "line_number", "signature"]
         missing_symbol_keys = [key for key in required_symbol_keys if key not in symbol]
         if missing_symbol_keys:
             print(f"   ⚠️ Symbol missing keys: {missing_symbol_keys}")
@@ -60,18 +60,18 @@ def validate_atlas():
     # Check symbol types
     symbol_types = {}
     for symbol in symbols.values():
-        symbol_type = symbol.get('type', 'unknown')
+        symbol_type = symbol.get("type", "unknown")
         symbol_types[symbol_type] = symbol_types.get(symbol_type, 0) + 1
     
     print(f"   • Symbol types: {dict(symbol_types)}")
     
     # Validate modules
-    modules = atlas['modules']
+    modules = atlas["modules"]
     print(f"📁 Module validation:")
     print(f"   • Total modules: {len(modules):,}")
     
     # Check module roles
-    module_roles = atlas['module_roles']
+    module_roles = atlas["module_roles"]
     total_role_modules = sum(len(module_list) for module_list in module_roles.values())
     
     print(f"   • Module roles: {len(module_roles)} different roles")
@@ -81,7 +81,7 @@ def validate_atlas():
         print(f"     - {role}: {len(module_list)} modules")
     
     # Validate violations
-    violations = atlas['violations_by_rule']
+    violations = atlas["violations_by_rule"]
     print(f"🚨 Violation validation:")
     print(f"   • Total rule types: {len(violations)}")
     print(f"   • Total violations: {sum(violations.values()):,}")
@@ -101,7 +101,7 @@ def validate_atlas():
     # Check consistency
     index_rules = set()
     for index_file in index_files:
-        rule_code = index_file.stem.replace('idx_', '')
+        rule_code = index_file.stem.replace("idx_", "")
         index_rules.add(rule_code)
     
     atlas_rules = set(violations.keys())
@@ -118,12 +118,12 @@ def validate_atlas():
     
     # LUKHAS-specific validation
     print(f"🧬 LUKHAS consciousness validation:")
-    consciousness_keywords = metadata.get('consciousness_keywords', [])
+    consciousness_keywords = metadata.get("consciousness_keywords", [])
     print(f"   • Consciousness keywords tracked: {len(consciousness_keywords)}")
     
     consciousness_modules = 0
     for role, module_list in module_roles.items():
-        if any(keyword in role for keyword in ['consciousness', 'governance', 'advanced']):
+        if any(keyword in role for keyword in ["consciousness", "governance", "advanced"]):
             consciousness_modules += len(module_list)
     
     print(f"   • Consciousness-related modules: {consciousness_modules:,}")
@@ -136,7 +136,7 @@ def validate_atlas():
     
     for symbol in list(symbols.values())[:100]:  # Sample check
         total_paths += 1
-        file_path = Path(symbol.get('file_path', ''))
+        file_path = Path(symbol.get("file_path", ""))
         if file_path.exists():
             valid_paths += 1
     

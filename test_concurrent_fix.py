@@ -3,18 +3,18 @@
 Test script to verify the concurrent saves threading fix.
 """
 
+import json
 import os
+import queue
 import sys
 import tempfile
 import threading
-import queue
 import time
-import json
 from pathlib import Path
 
 # Add paths for imports
-sys.path.insert(0, '.')
-sys.path.insert(0, 'candidate/aka_qualia')
+sys.path.insert(0, ".")
+sys.path.insert(0, "candidate/aka_qualia")
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.pool import StaticPool
@@ -173,7 +173,7 @@ def test_concurrent_saves():
     """Test concurrent database operations similar to the actual test"""
     
     # Create database
-    fd, db_path = tempfile.mkstemp(suffix='.db')
+    fd, db_path = tempfile.mkstemp(suffix=".db")
     os.close(fd)
     
     engine = create_engine(
@@ -211,7 +211,7 @@ def test_concurrent_saves():
             print(f"Thread {thread_id} - Successfully saved scene {scene_id}")
             
         except Exception as e:
-            error_msg = f"Thread {thread_id} - Error: {str(e)}"
+            error_msg = f"Thread {thread_id} - Error: {e!s}"
             print(error_msg)
             error_queue.put((thread_id, str(e)))
     

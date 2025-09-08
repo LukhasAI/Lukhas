@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import logging
-import streamlit as st
 import random
+
+import streamlit as st
+
 logger = logging.getLogger(__name__)
 """
 LUKHAS Enterprise Security Automation

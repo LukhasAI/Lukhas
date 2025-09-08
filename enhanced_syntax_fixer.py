@@ -20,17 +20,17 @@ SAFETY PRINCIPLES:
 """
 
 import ast
-import re
-import sys
-import subprocess
 import json
 import logging
-from pathlib import Path
-from typing import List, Dict, Tuple, Optional, Set
+import re
+import subprocess
+import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 class EnhancedSyntaxFixer:
@@ -39,13 +39,13 @@ class EnhancedSyntaxFixer:
     def __init__(self, repo_root: str = "/Users/agi_dev/LOCAL-REPOS/Lukhas"):
         self.repo_root = Path(repo_root)
         self.stats = {
-            'files_processed': 0,
-            'files_fixed': 0,
-            'fstring_fixes': 0,
-            'comma_fixes': 0,
-            'quote_fixes': 0,
-            'compilation_failures': 0,
-            'reverted_files': 0
+            "files_processed": 0,
+            "files_fixed": 0,
+            "fstring_fixes": 0,
+            "comma_fixes": 0,
+            "quote_fixes": 0,
+            "compilation_failures": 0,
+            "reverted_files": 0
         }
         self.fixed_files = set()
         
@@ -61,28 +61,28 @@ class EnhancedSyntaxFixer:
             errors = json.loads(result.stdout) if result.stdout else []
             
             patterns = {
-                'fstring_errors': [],
-                'comma_errors': [], 
-                'quote_errors': [],
-                'other_errors': []
+                "fstring_errors": [],
+                "comma_errors": [], 
+                "quote_errors": [],
+                "other_errors": []
             }
             
             file_counts = {}
             
             for error in errors:
-                filename = error['filename'].replace(str(self.repo_root) + '/', '')
-                message = error['message']
+                filename = error["filename"].replace(str(self.repo_root) + "/", "")
+                message = error["message"]
                 
                 file_counts[filename] = file_counts.get(filename, 0) + 1
                 
-                if any(pattern in message for pattern in ['f-string', 'single \'}\'', 'unterminated string']):
-                    patterns['fstring_errors'].append((filename, message))
-                elif any(pattern in message for pattern in ['Expected \',\'', 'missing closing quote']):
-                    patterns['comma_errors'].append((filename, message))  
-                elif 'closing quote' in message:
-                    patterns['quote_errors'].append((filename, message))
+                if any(pattern in message for pattern in ["f-string", "single \'}\'", "unterminated string"]):
+                    patterns["fstring_errors"].append((filename, message))
+                elif any(pattern in message for pattern in ["Expected \',\'", "missing closing quote"]):
+                    patterns["comma_errors"].append((filename, message))  
+                elif "closing quote" in message:
+                    patterns["quote_errors"].append((filename, message))
                 else:
-                    patterns['other_errors'].append((filename, message))
+                    patterns["other_errors"].append((filename, message))
             
             # Add file counts for prioritization
             for pattern_list in patterns.values():
@@ -109,7 +109,7 @@ class EnhancedSyntaxFixer:
     def fix_fstring_braces(self, content: str) -> Tuple[str, int]:
         """Fix f-string brace issues - ultra conservative approach"""
         fixes = 0
-        lines = content.split('\n')
+        lines = content.split("\n")
         fixed_lines = []
         
         for line in lines:
@@ -120,8 +120,8 @@ class EnhancedSyntaxFixer:
             matches = pattern1.findall(new_line)
             for quote, middle, end_quote in matches:
                 if quote == end_quote:  # Matching quotes
-                    old_pattern = f'f{quote}{middle}' + '}' + end_quote
-                    new_pattern = f'f{quote}{middle}{end_quote}'
+                    old_pattern = f"f{quote}{middle}" + "}" + end_quote
+                    new_pattern = f"f{quote}{middle}{end_quote}"
                     new_line = new_line.replace(old_pattern, new_pattern, 1)
                     fixes += 1
             
@@ -129,34 +129,34 @@ class EnhancedSyntaxFixer:
             pattern2 = re.compile(r'f(["\'])([^"\']*\{[^}]*\})\}:')
             matches = pattern2.findall(new_line)
             for quote, middle in matches:
-                old_pattern = f'f{quote}{middle}' + '}:'
-                new_pattern = f'f{quote}{middle}:'
+                old_pattern = f"f{quote}{middle}" + "}:"
+                new_pattern = f"f{quote}{middle}:"
                 new_line = new_line.replace(old_pattern, new_pattern, 1)
                 fixes += 1
             
             # Pattern 3: Simple single } fixes in f-strings
             # Only fix if it's clearly a literal brace that should be escaped
-            if 'f-string: single \'}\'  is not allowed' in str(new_line):
+            if "f-string: single \'}\'  is not allowed" in str(new_line):
                 # Very conservative - only fix obvious cases
                 pattern3 = re.compile(r'f(["\'])([^"\']*)}(["\'])')
                 match = pattern3.search(new_line)
                 if match and match.group(1) == match.group(3):
                     quote, middle, end_quote = match.groups()
                     # Only if there's no { in the middle (not a real f-string expression)
-                    if '{' not in middle:
-                        old_pattern = f'f{quote}{middle}' + '}' + end_quote
-                        new_pattern = quote + middle + '}' + end_quote  # Remove f prefix
+                    if "{" not in middle:
+                        old_pattern = f"f{quote}{middle}" + "}" + end_quote
+                        new_pattern = quote + middle + "}" + end_quote  # Remove f prefix
                         new_line = new_line.replace(old_pattern, new_pattern, 1)
                         fixes += 1
             
             fixed_lines.append(new_line)
         
-        return '\n'.join(fixed_lines), fixes
+        return "\n".join(fixed_lines), fixes
     
     def fix_missing_commas(self, content: str) -> Tuple[str, int]:
         """Fix missing commas using AST validation"""
         fixes = 0
-        lines = content.split('\n')
+        lines = content.split("\n")
         fixed_lines = []
         
         for i, line in enumerate(lines):
@@ -165,11 +165,11 @@ class EnhancedSyntaxFixer:
             
             # Pattern 1: Function arguments without commas
             # Look for patterns like: func(arg1 arg2) -> func(arg1, arg2)
-            func_pattern = re.compile(r'(\w+)\(\s*(\w+)\s+(\w+)\s*\)')
+            func_pattern = re.compile(r"(\w+)\(\s*(\w+)\s+(\w+)\s*\)")
             matches = func_pattern.findall(line)
             for func_name, arg1, arg2 in matches:
-                old_pattern = f'{func_name}({arg1} {arg2})'
-                new_pattern = f'{func_name}({arg1}, {arg2})'
+                old_pattern = f"{func_name}({arg1} {arg2})"
+                new_pattern = f"{func_name}({arg1}, {arg2})"
                 new_line = new_line.replace(old_pattern, new_pattern, 1)
                 fixes += 1
             
@@ -183,7 +183,7 @@ class EnhancedSyntaxFixer:
             # Only accept the fix if the line structure looks reasonable
             if new_line != original_line:
                 # Basic validation - ensure we didn't break basic syntax
-                if new_line.count('(') == new_line.count(')') and new_line.count('{') == new_line.count('}'):
+                if new_line.count("(") == new_line.count(")") and new_line.count("{") == new_line.count("}"):
                     fixed_lines.append(new_line)
                 else:
                     fixed_lines.append(original_line)
@@ -191,12 +191,12 @@ class EnhancedSyntaxFixer:
             else:
                 fixed_lines.append(new_line)
         
-        return '\n'.join(fixed_lines), fixes
+        return "\n".join(fixed_lines), fixes
     
     def fix_string_quotes(self, content: str) -> Tuple[str, int]:
         """Fix missing closing quotes - single line only"""
         fixes = 0
-        lines = content.split('\n')
+        lines = content.split("\n")
         fixed_lines = []
         
         for line in lines:
@@ -229,7 +229,7 @@ class EnhancedSyntaxFixer:
             
             fixed_lines.append(new_line)
         
-        return '\n'.join(fixed_lines), fixes
+        return "\n".join(fixed_lines), fixes
     
     def fix_file_safely(self, file_path: str) -> bool:
         """Apply all fixes to a file with safety checks"""
@@ -237,7 +237,7 @@ class EnhancedSyntaxFixer:
         
         try:
             # Read original content
-            with open(full_path, 'r', encoding='utf-8') as f:
+            with open(full_path, encoding="utf-8") as f:
                 original_content = f.read()
             
             # Skip if already compiles
@@ -251,23 +251,23 @@ class EnhancedSyntaxFixer:
             
             # Phase 1: F-string fixes
             content, fstring_fixes = self.fix_fstring_braces(content)
-            self.stats['fstring_fixes'] += fstring_fixes
+            self.stats["fstring_fixes"] += fstring_fixes
             total_fixes += fstring_fixes
             
             # Phase 2: Comma fixes  
             content, comma_fixes = self.fix_missing_commas(content)
-            self.stats['comma_fixes'] += comma_fixes
+            self.stats["comma_fixes"] += comma_fixes
             total_fixes += comma_fixes
             
             # Phase 3: Quote fixes
             content, quote_fixes = self.fix_string_quotes(content) 
-            self.stats['quote_fixes'] += quote_fixes
+            self.stats["quote_fixes"] += quote_fixes
             total_fixes += quote_fixes
             
             # Only proceed if we made changes
             if content != original_content and total_fixes > 0:
                 # Write fixed content
-                with open(full_path, 'w', encoding='utf-8') as f:
+                with open(full_path, "w", encoding="utf-8") as f:
                     f.write(content)
                 
                 # Test compilation
@@ -277,11 +277,11 @@ class EnhancedSyntaxFixer:
                     return True
                 else:
                     # Revert on compilation failure
-                    with open(full_path, 'w', encoding='utf-8') as f:
+                    with open(full_path, "w", encoding="utf-8") as f:
                         f.write(original_content)
                     logger.warning(f"❌ Reverted {file_path} - compilation failed after fixes")
-                    self.stats['reverted_files'] += 1
-                    self.stats['compilation_failures'] += 1
+                    self.stats["reverted_files"] += 1
+                    self.stats["compilation_failures"] += 1
                     return False
             else:
                 logger.info(f"ℹ️  No applicable fixes for {file_path}")
@@ -313,10 +313,10 @@ class EnhancedSyntaxFixer:
                 if filename in self.fixed_files:
                     continue  # Already processed
                     
-                self.stats['files_processed'] += 1
+                self.stats["files_processed"] += 1
                 
                 if self.fix_file_safely(filename):
-                    self.stats['files_fixed'] += 1
+                    self.stats["files_fixed"] += 1
                     pattern_fixes += 1
             
             results[pattern_name] = pattern_fixes
@@ -326,8 +326,8 @@ class EnhancedSyntaxFixer:
     
     def generate_report(self) -> str:
         """Generate comprehensive fixing report"""
-        total_fixes = self.stats['fstring_fixes'] + self.stats['comma_fixes'] + self.stats['quote_fixes']
-        success_rate = (self.stats['files_fixed'] / max(1, self.stats['files_processed'])) * 100
+        total_fixes = self.stats["fstring_fixes"] + self.stats["comma_fixes"] + self.stats["quote_fixes"]
+        success_rate = (self.stats["files_fixed"] / max(1, self.stats["files_processed"])) * 100
         
         report = f"""
 Enhanced Syntax Fixer Report
@@ -387,7 +387,7 @@ def main():
     print(report)
     
     # Save detailed report
-    with open('/Users/agi_dev/LOCAL-REPOS/Lukhas/enhanced_syntax_report.txt', 'w') as f:
+    with open("/Users/agi_dev/LOCAL-REPOS/Lukhas/enhanced_syntax_report.txt", "w") as f:
         f.write(report)
     
     logger.info("✅ Phase 1 Complete - Enhanced Pattern Fixing")

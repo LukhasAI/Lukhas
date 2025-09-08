@@ -4,27 +4,28 @@ Direct test of the SqlMemory threading fix
 """
 
 import os
+import queue
 import sys
 import tempfile
 import threading
-import queue
 import time
 from pathlib import Path
 
 # Add the candidate path
-sys.path.insert(0, '.')
+sys.path.insert(0, ".")
 
 try:
     # Import the actual SqlMemory class
-    from candidate.aka_qualia.memory_sql import SqlMemory
     from sqlalchemy import create_engine
     from sqlalchemy.pool import StaticPool
+
+    from candidate.aka_qualia.memory_sql import SqlMemory
     
     def test_sql_memory_threading():
         """Test the actual SqlMemory class with threading"""
         
         # Create database
-        fd, db_path = tempfile.mkstemp(suffix='.db')
+        fd, db_path = tempfile.mkstemp(suffix=".db")
         os.close(fd)
         
         engine = create_engine(
@@ -92,7 +93,7 @@ try:
                 print(f"Thread {thread_id} - Successfully saved scene {scene_id}")
                 
             except Exception as e:
-                error_msg = f"Thread {thread_id} - Error: {str(e)}"
+                error_msg = f"Thread {thread_id} - Error: {e!s}"
                 print(error_msg)
                 error_queue.put((thread_id, str(e)))
         

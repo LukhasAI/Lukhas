@@ -51,10 +51,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 # Dashboard system imports
-from dashboard.core.universal_adaptive_dashboard import (
-    AdaptiveTab,
-    DashboardContext,
-    TabPriority)
+from dashboard.core.universal_adaptive_dashboard import AdaptiveTab, DashboardContext, TabPriority
 
 logger = logging.getLogger("ΛTRACE.dynamic_tab_system")
 

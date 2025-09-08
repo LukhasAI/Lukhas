@@ -3,10 +3,11 @@
 Git Clean File Hunter - Find files that were error-free in past commits
 """
 
-import subprocess
 import json
+import subprocess
 from collections import defaultdict
 from pathlib import Path
+
 
 def run_command(cmd):
     """Run shell command and return output"""
@@ -35,7 +36,7 @@ def get_syntax_errors_for_commit(commit_hash):
     
     try:
         errors = json.loads(output)
-        return [error['filename'] for error in errors]
+        return [error["filename"] for error in errors]
     except json.JSONDecodeError:
         return []
 
@@ -51,7 +52,7 @@ def find_clean_files_in_history():
     
     try:
         current_errors = json.loads(output)
-        current_error_files = set(error['filename'] for error in current_errors)
+        current_error_files = set(error["filename"] for error in current_errors)
     except json.JSONDecodeError:
         print("Failed to parse current errors")
         return
@@ -60,7 +61,7 @@ def find_clean_files_in_history():
     
     # Get last 5 commits to analyze
     commit_output, _ = run_command("git log --oneline -5")
-    commits = [line.split()[0] for line in commit_output.split('\n') if line]
+    commits = [line.split()[0] for line in commit_output.split("\n") if line]
     
     clean_file_opportunities = defaultdict(list)
     
@@ -103,7 +104,7 @@ def find_clean_files_in_history():
             f.write(f'echo "Restoring {file_path} from {most_recent_clean}..."\n')
             f.write(f'git checkout {most_recent_clean} -- "{file_path}"\n')
             f.write(f'python -c "import py_compile; py_compile.compile(\'{file_path}\', doraise=True)" && echo "✅ Compiles" || echo "❌ Still broken"\n')
-            f.write(f'\n')
+            f.write(f"\n")
         
         f.write('echo "Restoration complete! Check files and commit if successful."\n')
     

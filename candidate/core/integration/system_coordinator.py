@@ -55,10 +55,7 @@ try:
     from voice.processor import VoiceProcessor
 
     from candidate.core.identity.identity_manager import IdentityManager
-    from candidate.core.neural_architectures.neural_integrator import (
-        NeuralContext,
-        NeuralIntegrator,
-        NeuralMode)
+    from candidate.core.neural_architectures.neural_integrator import NeuralContext, NeuralIntegrator, NeuralMode
     from lukhas.consciousness.core_consciousness.consciousness_integrator import (
         ConsciousnessEvent,
         ConsciousnessIntegrator,

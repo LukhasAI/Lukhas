@@ -13,23 +13,24 @@ import re
 import subprocess
 from pathlib import Path
 
+
 def fix_systematic_patterns(content: str) -> tuple[str, int]:
     """Fix systematic bracket patterns"""
     fixes = 0
     
     # Pattern 1: .hexdigest()}}[:8]} -> .hexdigest()[:8]} 
-    pattern1_matches = len(re.findall(r'\.hexdigest\(\)\}+\[', content))
-    content = re.sub(r'\.hexdigest\(\)\}+\[', '.hexdigest()[', content)
+    pattern1_matches = len(re.findall(r"\.hexdigest\(\)\}+\[", content))
+    content = re.sub(r"\.hexdigest\(\)\}+\[", ".hexdigest()[", content)
     fixes += pattern1_matches
     
     # Pattern 2: .timestamp(}} -> .timestamp()}
-    pattern2_matches = len(re.findall(r'\.timestamp\(\)\}+', content))
-    content = re.sub(r'\.timestamp\(\)\}+', '.timestamp()', content)
+    pattern2_matches = len(re.findall(r"\.timestamp\(\)\}+", content))
+    content = re.sub(r"\.timestamp\(\)\}+", ".timestamp()", content)
     fixes += pattern2_matches
     
     # Pattern 3: {).get( -> {}).get(
-    pattern3_matches = len(re.findall(r'\{\)\.get\(', content))
-    content = re.sub(r'\{\)\.get\(', r'{}.get(', content)
+    pattern3_matches = len(re.findall(r"\{\)\.get\(", content))
+    content = re.sub(r"\{\)\.get\(", r"{}.get(", content)
     fixes += pattern3_matches
     
     # Pattern 4: Fix f-string expecting '}'
@@ -42,17 +43,17 @@ def fix_systematic_patterns(content: str) -> tuple[str, int]:
 def fix_file_brackets(file_path: str) -> bool:
     """Fix bracket patterns in a file"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             original = f.read()
         
         fixed, fix_count = fix_systematic_patterns(original)
         
         if fix_count > 0:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(fixed)
             
             # Test compilation
-            result = subprocess.run(['.venv/bin/python', '-m', 'py_compile', file_path], 
+            result = subprocess.run([".venv/bin/python", "-m", "py_compile", file_path], 
                                   capture_output=True, text=True, cwd=Path.cwd())
             
             if result.returncode == 0:
@@ -60,7 +61,7 @@ def fix_file_brackets(file_path: str) -> bool:
                 return True
             else:
                 # Revert
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(original)
                 print(f"❌ {file_path}: Reverted after {fix_count} fixes - {result.stderr.strip()}")
                 return False

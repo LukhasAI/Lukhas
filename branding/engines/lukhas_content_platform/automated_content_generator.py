@@ -8,7 +8,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-
 # Import the content platform
 from .content_platform import ContentPlatform
 

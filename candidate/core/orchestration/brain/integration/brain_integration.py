@@ -24,26 +24,28 @@ from typing import Any, Dict, List
 # Configure logging
 logger = logging.getLogger("Enhanced.BrainIntegration")
 handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s: %(message)s')
+formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from .MultiBrainSymphony import (DreamBrainSpecialist,
-                                     LearningBrainSpecialist,
-                                     MemoryBrainSpecialist,
-                                     MultiBrainSymphonyOrchestrator)
+    from .MultiBrainSymphony import (
+        DreamBrainSpecialist,
+        LearningBrainSpecialist,
+        MemoryBrainSpecialist,
+        MultiBrainSymphonyOrchestrator,
+    )
     SYMPHONY_AVAILABLE = True
 except ImportError:
     try:
         # from MultiBrainSymphony  # External dependency import
         from MultiBrainSymphony import (
-            MultiBrainSymphonyOrchestrator,
             DreamBrainSpecialist,
+            LearningBrainSpecialist,
             MemoryBrainSpecialist,
-            LearningBrainSpecialist
+            MultiBrainSymphonyOrchestrator,
         )
         SYMPHONY_AVAILABLE = True
     except ImportError:
@@ -53,8 +55,7 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from candidate.orchestration.brain.spine.fold_engine import (
-        AGIMemory, MemoryFold, MemoryPriority, MemoryType)
+    from candidate.orchestration.brain.spine.fold_engine import AGIMemory, MemoryFold, MemoryPriority, MemoryType
 except ImportError:
     logger.warning("Core memory components not available - using fallbacks")
     AGIMemory = None
@@ -74,8 +75,7 @@ except ImportError:
     VoiceIntegrator = None
 
 try:
-    from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import \
-        DreamReflectionLoop
+    from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import DreamReflectionLoop
 except ImportError:
     DreamReflectionLoop = None
 
@@ -693,7 +693,7 @@ async def demo_enhanced_integration():
         result = await brain.process_with_symphony(test_input)
         print(f"Processing: {result['processing_type']}")
 
-        if result['processing_type'] == 'symphony_enhanced':
+        if result["processing_type"] == "symphony_enhanced":
             print(f"Coordination Quality: {result['coordination_quality']:.2f}")
             print(f"Insights: {len(result['symphony_result'].get('synthesized_insights', []))}")
 

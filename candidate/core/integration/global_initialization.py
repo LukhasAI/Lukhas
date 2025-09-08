@@ -8,12 +8,13 @@
 Global System Initialization
 Coordinated initialization of all system hubs and cross-system connections
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import logging
 from typing import Any
+
+import streamlit as st
+
+from consciousness.qi import qi
 
 logger = logging.getLogger(__name__)
 

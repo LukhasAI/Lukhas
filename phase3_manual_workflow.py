@@ -20,13 +20,13 @@ SYSTEMATIC PATTERNS TO FIX:
 WORKFLOW: File -> Identify -> Fix -> Test -> Commit -> Next
 """
 
-import subprocess
 import json
-from pathlib import Path
-from typing import List, Tuple, Dict
 import logging
+import subprocess
+from pathlib import Path
+from typing import Dict, List, Tuple
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 class Phase3ManualWorkflow:
@@ -57,19 +57,19 @@ class Phase3ManualWorkflow:
             # Parse error from stderr
             error_info = []
             if result.stderr:
-                lines = result.stderr.strip().split('\n')
+                lines = result.stderr.strip().split("\n")
                 for line in lines:
-                    if 'File "' in line and 'line' in line:
+                    if 'File "' in line and "line" in line:
                         # Extract file, line, error
-                        parts = line.split(', ')
+                        parts = line.split(", ")
                         if len(parts) >= 2:
-                            line_part = [p for p in parts if 'line' in p]
+                            line_part = [p for p in parts if "line" in p]
                             if line_part:
                                 line_num = line_part[0].split()[-1]
                                 error_info.append({
-                                    'file': file_path,
-                                    'line': line_num,
-                                    'error': result.stderr
+                                    "file": file_path,
+                                    "line": line_num,
+                                    "error": result.stderr
                                 })
             
             return error_info
@@ -81,7 +81,7 @@ class Phase3ManualWorkflow:
     def show_error_context(self, file_path: str, line_num: int, context: int = 3) -> str:
         """Show error context around specific line"""
         try:
-            with open(self.repo_root / file_path, 'r', encoding='utf-8') as f:
+            with open(self.repo_root / file_path, encoding="utf-8") as f:
                 lines = f.readlines()
             
             start = max(0, line_num - context - 1)
@@ -92,7 +92,7 @@ class Phase3ManualWorkflow:
                 marker = ">>>" if i == line_num - 1 else "   "
                 context_lines.append(f"{marker} {i+1:3}: {lines[i].rstrip()}")
             
-            return '\n'.join(context_lines)
+            return "\n".join(context_lines)
             
         except Exception as e:
             return f"Error reading context: {e}"
@@ -119,7 +119,7 @@ ERROR DETAILS:
 """
         
         for i, error in enumerate(errors[:3]):  # Show first 3 errors
-            line_num = int(error['line'])
+            line_num = int(error["line"])
             guide += f"\nERROR {i+1}: Line {line_num}\n"
             guide += self.show_error_context(file_path, line_num)
             guide += "\n" + "-"*40
@@ -157,7 +157,7 @@ COMMIT after this file is 100% fixed.
             
             # Save guide to file for reference
             guide_file = self.repo_root / f"fixing_guide_{Path(file_path).name}.txt"
-            with open(guide_file, 'w') as f:
+            with open(guide_file, "w") as f:
                 f.write(guide)
             
             logger.info(f"📖 Fixing guide created: {guide_file}")

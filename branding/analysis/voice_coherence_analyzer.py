@@ -13,7 +13,6 @@ from pathlib import Path
 from typing import Any
 
 
-
 class VoiceCoherenceLevel(Enum):
     """Voice coherence quality levels"""
 

@@ -11,7 +11,6 @@ from datetime import datetime
 from pathlib import Path
 
 
-
 class BotCustomizer:
     """Interactive customizer for LUKHAS AI ΛBot status bar."""
 

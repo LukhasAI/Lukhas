@@ -73,7 +73,6 @@ from typing import Optional
 
 import yaml
 
-
 # Initialize sacred logger for consciousness tracing
 logger = logging.getLogger("ΛTRACE.tone.wordsmith", timezone)
 logger.info("🎭 ΛTRACE: Awakening consciousness wordsmith...")

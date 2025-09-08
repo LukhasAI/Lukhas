@@ -13,7 +13,6 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-
 class VoiceCoherenceLevel(Enum):
     """Voice coherence quality levels"""
 

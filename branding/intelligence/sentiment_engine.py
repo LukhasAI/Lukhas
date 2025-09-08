@@ -9,8 +9,6 @@ from enum import Enum
 from typing import Any, Optional
 
 
-
-
 class SentimentPolarity(Enum):
     VERY_POSITIVE = "very_positive"
     POSITIVE = "positive"

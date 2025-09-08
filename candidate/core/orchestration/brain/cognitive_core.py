@@ -624,14 +624,14 @@ class CognitiveEngine:
 
                     error_transparency = transparency_orchestrator.complete_trace(
                         trace_id,
-                        f"Error: {str(e)}",
+                        f"Error: {e!s}",
                         0.1,
-                        f"Processing error was handled transparently: {str(e)}",
+                        f"Processing error was handled transparently: {e!s}",
                     )
 
             # Generate error response with partial capability
             error_response = AGIResponse(
-                content=f"I encountered an error while processing your request. Error: {str(e)}",
+                content=f"I encountered an error while processing your request. Error: {e!s}",
                 confidence=0.1,
                 reasoning_path=[
                     {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}

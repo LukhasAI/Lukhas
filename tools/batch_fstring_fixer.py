@@ -83,7 +83,7 @@ class SafeFStringFixer:
     def validate_syntax(self, file_path: Path) -> bool:
         """Validate Python syntax of file."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
             compile(content, str(file_path), "exec")
             return True
@@ -96,7 +96,7 @@ class SafeFStringFixer:
     def fix_file(self, file_path: Path) -> Tuple[bool, List[str], str]:
         """Fix f-string patterns in a single file."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             original_content = content

@@ -7,8 +7,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-
-
 # Add monitoring module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "monitoring"))
 

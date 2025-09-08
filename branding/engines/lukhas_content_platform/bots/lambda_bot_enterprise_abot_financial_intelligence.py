@@ -9,7 +9,6 @@ import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 
-
 logger = logging.getLogger("ABotFinancialIntelligence")
 
 

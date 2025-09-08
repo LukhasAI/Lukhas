@@ -10,6 +10,7 @@ import re
 import subprocess
 from pathlib import Path
 
+
 def fix_specific_patterns(content: str) -> str:
     """Fix specific f-string bracket patterns"""
     
@@ -18,7 +19,7 @@ def fix_specific_patterns(content: str) -> str:
     content = re.sub(r'f"([^"]*\{[^}]*)\}"', r'f"\1"', content)
     
     # Pattern 2: {variable}} -> {variable} (inside f-strings)
-    content = re.sub(r'(\{[^{}]*)\}([^}]*)', r'\1\2', content)
+    content = re.sub(r"(\{[^{}]*)\}([^}]*)", r"\1\2", content)
     
     return content
 
@@ -28,7 +29,7 @@ def fix_file(file_path: str) -> bool:
     
     try:
         # Read original
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             original = f.read()
         
         # Apply fixes
@@ -36,7 +37,7 @@ def fix_file(file_path: str) -> bool:
         
         if fixed != original:
             # Write fixed version
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(fixed)
             
             # Test compilation
@@ -48,7 +49,7 @@ def fix_file(file_path: str) -> bool:
                 return True
             else:
                 # Revert and try manual approach
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(original)
                 print(f"❌ Pattern fixes failed, trying manual approach...")
                 return False

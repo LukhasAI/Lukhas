@@ -14,7 +14,6 @@ emotional expression, and vocal communication.
 from dataclasses import dataclass
 from typing import Any
 
-
 from core.symbolic import VoiceSymbol
 
 from ..core import VoiceEmotion, VoiceProvider

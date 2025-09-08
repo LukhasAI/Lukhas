@@ -59,7 +59,7 @@ def find_and_fix_files():
 
         if compile_result.returncode != 0 and "closing parenthesis" in compile_result.stderr and "does not match" in compile_result.stderr:
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read()
 
                 fixed_content = fix_fstring_specific_issues(content)
@@ -93,7 +93,7 @@ def find_and_fix_files():
 def manual_fix_file(file_path):
     """Manual fix for specific f-string closing parenthesis issues"""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             lines = f.readlines()
 
         modified = False

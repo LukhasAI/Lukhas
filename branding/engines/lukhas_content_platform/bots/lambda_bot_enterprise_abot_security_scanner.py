@@ -12,8 +12,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-
-
 logger = logging.getLogger("ABotSecurityScanner", timezone)
 
 
@@ -131,7 +129,7 @@ class ABotSecurityScanner:
                     if vulnerability:
                         vulnerabilities.append(vulnerability)
 
-        except Exception as e:
+        except Exception:
             logger.error("abot_security_scanner_processing")
 
         return vulnerabilities

@@ -8,7 +8,6 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 
-
 class BrandIntelligenceMonitor:
     """
     Elite brand monitoring system that provides real-time brand intelligence,

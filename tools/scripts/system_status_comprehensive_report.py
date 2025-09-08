@@ -10,8 +10,6 @@ Trinity Framework: ⚛️🧠🛡️
 Date: August 5, 2025
 Purpose: Research documentation and publishing
 """
-import streamlit as st
-
 import json
 import logging
 import os
@@ -21,6 +19,8 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+
+import streamlit as st
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

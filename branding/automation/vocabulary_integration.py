@@ -90,7 +90,7 @@ class VocabularyIntegration:
                     with open(vocab_file) as f:
                         yaml.safe_load(f)
                     vocabulary_files.append(vocab_file.name)
-                except Exception as e:
+                except Exception:
                     self.logger.warning("vocabulary_integration_processing")
 
         # Load Python vocabulary files

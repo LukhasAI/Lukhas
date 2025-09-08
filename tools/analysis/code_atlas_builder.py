@@ -9,6 +9,7 @@ Maps architecture, call graphs, intent clues, and violation patterns.
 Created for LUKHAS consciousness architecture transformation project.
 """
 
+import argparse
 import ast
 import json
 import os
@@ -16,10 +17,9 @@ import re
 import subprocess
 import sys
 from collections import defaultdict
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Set, Optional, Any, Tuple, Union
-import argparse
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 
 @dataclass
@@ -75,18 +75,18 @@ class CodeAtlasBuilder:
         
         # LUKHAS-specific patterns
         self.consciousness_keywords = {
-            'consciousness', 'lucid', 'dream', 'identity', 'memory', 'fold', 
-            'guardian', 'ethics', 'quantum', 'bio', 'MATRIZ', 'MATRIZ', 'glyph',
-            'constellation', 'drift', 'cascade', 'vivox', 'qualia', 'aka_qualia'
+            "consciousness", "lucid", "dream", "identity", "memory", "fold", 
+            "guardian", "ethics", "quantum", "bio", "MATRIZ", "MATRIZ", "glyph",
+            "constellation", "drift", "cascade", "vivox", "qualia", "aka_qualia"
         }
         
         # Module role patterns
         self.role_patterns = {
-            'orchestrator': ['orchestrat', 'hub', 'brain', 'kernel', 'coordinator', 'primary'],
-            'integration': ['integrat', 'bridge', 'connector', 'adapter', 'wrapper'],
-            'adapter': ['adapter', 'client', 'api', 'service', 'external'],
-            'domain_model': ['model', 'entity', 'schema', 'data', 'storage'],
-            'test_helper': ['test', 'mock', 'fixture', 'helper', 'util']
+            "orchestrator": ["orchestrat", "hub", "brain", "kernel", "coordinator", "primary"],
+            "integration": ["integrat", "bridge", "connector", "adapter", "wrapper"],
+            "adapter": ["adapter", "client", "api", "service", "external"],
+            "domain_model": ["model", "entity", "schema", "data", "storage"],
+            "test_helper": ["test", "mock", "fixture", "helper", "util"]
         }
 
     def analyze_codebase(self):
@@ -128,7 +128,7 @@ class CodeAtlasBuilder:
             if result.stdout:
                 violations = json.loads(result.stdout)
                 for violation in violations:
-                    rule_code = violation.get('code', 'UNKNOWN')
+                    rule_code = violation.get("code", "UNKNOWN")
                     self.violations[rule_code].append(violation)
                     
             print(f"📋 Found {len(sum(self.violations.values(), []))} total violations")
@@ -141,9 +141,9 @@ class CodeAtlasBuilder:
         """Analyze all Python files for functions, classes, and structure."""
         # Focus on LUKHAS core modules and exclude problematic paths
         exclude_patterns = [
-            '.cleanenv/', '.venv/', '__pycache__/', '.git/',
-            'node_modules/', 'venv/', 'env/', '.pytest_cache/',
-            'site-packages/', 'dist/', 'build/'
+            ".cleanenv/", ".venv/", "__pycache__/", ".git/",
+            "node_modules/", "venv/", "env/", ".pytest_cache/",
+            "site-packages/", "dist/", "build/"
         ]
         
         python_files = []
@@ -162,18 +162,18 @@ class CodeAtlasBuilder:
                 self.analyze_file(py_file)
             except Exception as e:
                 # Only print errors for non-syntax issues or critical files
-                if any(pattern in str(py_file) for pattern in ['lukhas/', 'candidate/', 'core/', 'consciousness/']):
+                if any(pattern in str(py_file) for pattern in ["lukhas/", "candidate/", "core/", "consciousness/"]):
                     if "f-string" not in str(e) and "invalid syntax" not in str(e):
                         print(f"⚠️ Error analyzing {py_file}: {e}")
 
     def analyze_file(self, file_path: Path):
         """Analyze a single Python file."""
         try:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(file_path, encoding="utf-8", errors="ignore") as f:
                 content = f.read()
             
             # Skip files with known syntax issues
-            if any(issue in content for issue in ['f-string:', 'closing parenthesis', 'invalid syntax']):
+            if any(issue in content for issue in ["f-string:", "closing parenthesis", "invalid syntax"]):
                 # Try to parse anyway but catch syntax errors
                 pass
                 
@@ -254,15 +254,15 @@ class CodeAtlasBuilder:
             class_name = None
             
             # Find parent class if any
-            lines = content.split('\n')
+            lines = content.split("\n")
             for i in range(node.lineno - 1, -1, -1):
                 if i < len(lines):
                     line = lines[i].strip()
-                    if line.startswith('class '):
-                        class_name = line.split()[1].split('(')[0].rstrip(':')
+                    if line.startswith("class "):
+                        class_name = line.split()[1].split("(")[0].rstrip(":")
                         is_method = True
                         break
-                    elif line and not line.startswith(' ') and not line.startswith('\t'):
+                    elif line and not line.startswith(" ") and not line.startswith("\t"):
                         break
             
             return FunctionInfo(
@@ -353,12 +353,12 @@ class CodeAtlasBuilder:
             pass
         
         # Comments and TODOs
-        lines = content.split('\n')
+        lines = content.split("\n")
         for i, line in enumerate(lines):
             stripped = line.strip()
-            if stripped.startswith('#'):
+            if stripped.startswith("#"):
                 comment = stripped[1:].strip()
-                if any(keyword in comment.lower() for keyword in ['todo', 'fixme', 'hack', 'bug']):
+                if any(keyword in comment.lower() for keyword in ["todo", "fixme", "hack", "bug"]):
                     clues.append(f"TODO_L{i+1}: {comment[:100]}")
                 elif any(keyword in comment.lower() for keyword in self.consciousness_keywords):
                     clues.append(f"CONSCIOUSNESS_L{i+1}: {comment[:100]}")
@@ -379,7 +379,7 @@ class CodeAtlasBuilder:
         
         for module_path, module_info in self.modules.items():
             try:
-                with open(self.root_path / module_path, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(self.root_path / module_path, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                 
                 tree = ast.parse(content)
@@ -434,16 +434,16 @@ class CodeAtlasBuilder:
     def analyze_string_reference(self, node, module_path: str):
         """Analyze string references that might be function names."""
         try:
-            if hasattr(node, 'value'):
+            if hasattr(node, "value"):
                 string_val = node.value
-            elif hasattr(node, 's'):
+            elif hasattr(node, "s"):
                 string_val = node.s
             else:
                 return
                 
             if isinstance(string_val, str):
                 # Look for function-like patterns in strings
-                if re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', string_val):
+                if re.match(r"^[a-zA-Z_][a-zA-Z0-9_]*$", string_val):
                     # Might be a function name
                     caller_func = self.find_containing_function(node.lineno, module_path)
                     if caller_func:
@@ -482,7 +482,7 @@ class CodeAtlasBuilder:
         
         for doc_file in doc_files:
             try:
-                with open(doc_file, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(doc_file, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                 
                 # Extract key concepts
@@ -502,12 +502,12 @@ class CodeAtlasBuilder:
         """Extract intent clues from documentation content."""
         clues = []
         
-        lines = content.split('\n')
+        lines = content.split("\n")
         for i, line in enumerate(lines):
             stripped = line.strip()
             
             # Headers and important sections
-            if stripped.startswith('#') or stripped.startswith('=') or stripped.startswith('-'):
+            if stripped.startswith("#") or stripped.startswith("=") or stripped.startswith("-"):
                 if len(stripped) > 5:
                     clues.append(f"DOC_HEADER: {stripped[:100]}")
             
@@ -519,7 +519,7 @@ class CodeAtlasBuilder:
                     break
             
             # Architecture patterns
-            if any(pattern in lower_line for pattern in ['architecture', 'design', 'pattern', 'structure']):
+            if any(pattern in lower_line for pattern in ["architecture", "design", "pattern", "structure"]):
                 if len(stripped) > 15:
                     clues.append(f"ARCHITECTURE: {stripped[:100]}")
         
@@ -544,31 +544,31 @@ class CodeAtlasBuilder:
                     return role
         
         # Check content patterns
-        all_text = ' '.join(module_info.intent_clues).lower()
+        all_text = " ".join(module_info.intent_clues).lower()
         
-        if 'test' in path_lower or any('test' in clue.lower() for clue in module_info.intent_clues):
-            return 'test_helper'
+        if "test" in path_lower or any("test" in clue.lower() for clue in module_info.intent_clues):
+            return "test_helper"
         
-        if any(pattern in all_text for pattern in ['orchestrat', 'coordinate', 'manage', 'control']):
-            return 'orchestrator'
+        if any(pattern in all_text for pattern in ["orchestrat", "coordinate", "manage", "control"]):
+            return "orchestrator"
         
-        if any(pattern in all_text for pattern in ['integrat', 'connect', 'bridge', 'adapt']):
-            return 'integration'
+        if any(pattern in all_text for pattern in ["integrat", "connect", "bridge", "adapt"]):
+            return "integration"
         
-        if any(pattern in all_text for pattern in ['model', 'entity', 'schema', 'data']):
-            return 'domain_model'
+        if any(pattern in all_text for pattern in ["model", "entity", "schema", "data"]):
+            return "domain_model"
         
         # LUKHAS-specific roles
-        if any(keyword in all_text for keyword in ['consciousness', 'dream', 'identity', 'memory']):
-            return 'consciousness_component'
+        if any(keyword in all_text for keyword in ["consciousness", "dream", "identity", "memory"]):
+            return "consciousness_component"
         
-        if any(keyword in all_text for keyword in ['guardian', 'ethics', 'drift']):
-            return 'governance_component'
+        if any(keyword in all_text for keyword in ["guardian", "ethics", "drift"]):
+            return "governance_component"
         
-        if any(keyword in path_lower for keyword in ['api', 'serve', 'endpoint']):
-            return 'api_component'
+        if any(keyword in path_lower for keyword in ["api", "serve", "endpoint"]):
+            return "api_component"
         
-        return 'unknown'
+        return "unknown"
 
     def map_violations_to_symbols(self):
         """Map lint violations to specific functions and classes."""
@@ -576,8 +576,8 @@ class CodeAtlasBuilder:
         
         for rule_code, violations in self.violations.items():
             for violation in violations:
-                file_path = violation.get('filename', '')
-                line_no = violation.get('location', {}).get('row', 0)
+                file_path = violation.get("filename", "")
+                line_no = violation.get("location", {}).get("row", 0)
                 
                 # Find affected function or class
                 affected_symbol = None
@@ -608,20 +608,20 @@ class CodeAtlasBuilder:
     def get_issue_flag(self, rule_code: str, violation: dict) -> str:
         """Convert ruff rule code to issue flag."""
         flag_mapping = {
-            'ARG001': 'unused_func_arg',
-            'ARG002': 'unused_method_arg', 
-            'F821': 'undefined_name',
-            'F401': 'unused_import',
-            'RUF006': 'dangling_task',
-            'B006': 'mutable_default',
-            'DTZ005': 'datetime_naive',
-            'DTZ003': 'datetime_utcnow',
-            'E402': 'import_not_top',
-            'F841': 'unused_variable',
-            'B007': 'unused_loop_var'
+            "ARG001": "unused_func_arg",
+            "ARG002": "unused_method_arg", 
+            "F821": "undefined_name",
+            "F401": "unused_import",
+            "RUF006": "dangling_task",
+            "B006": "mutable_default",
+            "DTZ005": "datetime_naive",
+            "DTZ003": "datetime_utcnow",
+            "E402": "import_not_top",
+            "F841": "unused_variable",
+            "B007": "unused_loop_var"
         }
         
-        return flag_mapping.get(rule_code, f'rule_{rule_code}')
+        return flag_mapping.get(rule_code, f"rule_{rule_code}")
 
     def generate_atlas(self) -> dict:
         """Generate the complete code atlas."""
@@ -639,18 +639,18 @@ class CodeAtlasBuilder:
                         other_func_info.callers.append(func_key)
         
         atlas = {
-            'metadata': {
-                'generated_by': 'LUKHAS Code Atlas Builder',
-                'total_files': len(self.modules),
-                'total_functions': len(self.functions),
-                'total_classes': len(self.classes),
-                'total_violations': sum(len(v) for v in self.violations.values()),
-                'violation_rules': list(self.violations.keys())
+            "metadata": {
+                "generated_by": "LUKHAS Code Atlas Builder",
+                "total_files": len(self.modules),
+                "total_functions": len(self.functions),
+                "total_classes": len(self.classes),
+                "total_violations": sum(len(v) for v in self.violations.values()),
+                "violation_rules": list(self.violations.keys())
             },
-            'functions': {k: asdict(v) for k, v in self.functions.items()},
-            'classes': {k: asdict(v) for k, v in self.classes.items()},
-            'modules': {k: asdict(v) for k, v in self.modules.items()},
-            'violations_summary': {k: len(v) for k, v in self.violations.items()}
+            "functions": {k: asdict(v) for k, v in self.functions.items()},
+            "classes": {k: asdict(v) for k, v in self.classes.items()},
+            "modules": {k: asdict(v) for k, v in self.modules.items()},
+            "violations_summary": {k: len(v) for k, v in self.violations.items()}
         }
         
         return atlas
@@ -667,14 +667,14 @@ class CodeAtlasBuilder:
                 index_file = reports_dir / f"idx_{rule_code}.json"
                 
                 rule_index = {
-                    'rule_code': rule_code,
-                    'total_violations': len(violations),
-                    'violations': violations,
-                    'affected_files': list(set(v.get('filename', '') for v in violations)),
-                    'description': self.get_rule_description(rule_code)
+                    "rule_code": rule_code,
+                    "total_violations": len(violations),
+                    "violations": violations,
+                    "affected_files": list(set(v.get("filename", "") for v in violations)),
+                    "description": self.get_rule_description(rule_code)
                 }
                 
-                with open(index_file, 'w') as f:
+                with open(index_file, "w") as f:
                     json.dump(rule_index, f, indent=2)
                     
                 print(f"📄 Created index for {rule_code}: {len(violations)} violations")
@@ -682,20 +682,20 @@ class CodeAtlasBuilder:
     def get_rule_description(self, rule_code: str) -> str:
         """Get human-readable description of a rule."""
         descriptions = {
-            'ARG001': 'Unused function argument',
-            'ARG002': 'Unused method argument',
-            'F821': 'Undefined name',
-            'F401': 'Unused import',
-            'RUF006': 'Dangling async task',
-            'B006': 'Mutable default argument',
-            'DTZ005': 'Naive datetime usage',
-            'DTZ003': 'datetime.utcnow() usage',
-            'E402': 'Module level import not at top of file',
-            'F841': 'Local variable assigned but never used',
-            'B007': 'Loop control variable not used within loop body'
+            "ARG001": "Unused function argument",
+            "ARG002": "Unused method argument",
+            "F821": "Undefined name",
+            "F401": "Unused import",
+            "RUF006": "Dangling async task",
+            "B006": "Mutable default argument",
+            "DTZ005": "Naive datetime usage",
+            "DTZ003": "datetime.utcnow() usage",
+            "E402": "Module level import not at top of file",
+            "F841": "Local variable assigned but never used",
+            "B007": "Loop control variable not used within loop body"
         }
         
-        return descriptions.get(rule_code, f'Rule {rule_code}')
+        return descriptions.get(rule_code, f"Rule {rule_code}")
 
     def save_atlas(self, atlas: dict):
         """Save the complete atlas to JSON file."""
@@ -704,7 +704,7 @@ class CodeAtlasBuilder:
         
         atlas_file = reports_dir / "code_atlas.json"
         
-        with open(atlas_file, 'w') as f:
+        with open(atlas_file, "w") as f:
             json.dump(atlas, f, indent=2)
         
         print(f"💾 Code Atlas saved to: {atlas_file}")
@@ -729,9 +729,9 @@ class CodeAtlasBuilder:
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Build LUKHAS Code Atlas')
-    parser.add_argument('--root', default='.', help='Root directory to analyze')
-    parser.add_argument('--limit-files', type=int, help='Limit number of files to analyze (for testing)')
+    parser = argparse.ArgumentParser(description="Build LUKHAS Code Atlas")
+    parser.add_argument("--root", default=".", help="Root directory to analyze")
+    parser.add_argument("--limit-files", type=int, help="Limit number of files to analyze (for testing)")
     
     args = parser.parse_args()
     

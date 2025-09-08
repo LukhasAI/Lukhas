@@ -13,8 +13,6 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-
-
 class StoryArchetype(Enum):
     """Story archetypes for consciousness technology narratives"""
 

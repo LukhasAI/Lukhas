@@ -20,14 +20,14 @@ import uuid
 from typing import Any, Optional
 
 from candidate.core.common import get_logger
+
 # Import relevant components
 from candidate.core.voice_profiling import VoiceProfile, VoiceProfileManager
 from candidate.core.voice_safety_guard import VoiceSafetyFilter
 
 # Import personality integration
 try:
-    from candidate.core.personality.voice_personality import \
-        VoicePersonalityIntegrator
+    from candidate.core.personality.voice_personality import VoicePersonalityIntegrator
 
     PERSONALITY_AVAILABLE = True
 except ImportError:

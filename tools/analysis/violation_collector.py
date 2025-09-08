@@ -7,9 +7,9 @@ Collects and processes lint violations to supplement the Code Atlas.
 """
 
 import json
+import re
 import subprocess
 import sys
-import re
 from collections import defaultdict
 from pathlib import Path
 
@@ -29,27 +29,27 @@ def collect_violations():
         
         if result.stdout:
             # Parse text format violations
-            lines = result.stdout.strip().split('\n')
+            lines = result.stdout.strip().split("\n")
             current_violation = {}
             
             for line in lines:
                 # Match file:line:col: CODE message pattern
-                match = re.match(r'^([^:]+):(\d+):(\d+):\s+(\w+)\s+(.+)', line)
+                match = re.match(r"^([^:]+):(\d+):(\d+):\s+(\w+)\s+(.+)", line)
                 if match:
                     filename, line_no, col, code, message = match.groups()
                     
                     violation = {
-                        'filename': filename,
-                        'location': {'row': int(line_no), 'column': int(col)},
-                        'code': code,
-                        'message': message,
-                        'rule_description': get_rule_description(code)
+                        "filename": filename,
+                        "location": {"row": int(line_no), "column": int(col)},
+                        "code": code,
+                        "message": message,
+                        "rule_description": get_rule_description(code)
                     }
                     
                     violations[code].append(violation)
         
         # Also try JSON format for some directories
-        focus_dirs = ['lukhas', 'candidate', 'consciousness', 'core']
+        focus_dirs = ["lukhas", "candidate", "consciousness", "core"]
         for focus_dir in focus_dirs:
             if Path(focus_dir).exists():
                 try:
@@ -63,7 +63,7 @@ def collect_violations():
                     if result.stdout:
                         json_violations = json.loads(result.stdout)
                         for violation in json_violations:
-                            code = violation.get('code', 'UNKNOWN')
+                            code = violation.get("code", "UNKNOWN")
                             violations[code].append(violation)
                             
                 except Exception as e:
@@ -82,24 +82,24 @@ def collect_violations():
 def get_rule_description(code):
     """Get description for ruff rule code."""
     descriptions = {
-        'B007': 'Loop control variable not used within loop body',
-        'PERF102': 'When using only dict values, use values() method',
-        'ARG001': 'Unused function argument',
-        'ARG002': 'Unused method argument',
-        'F821': 'Undefined name',
-        'F401': 'Unused import',
-        'RUF006': 'Dangling async task',
-        'B006': 'Mutable default argument',
-        'DTZ005': 'Naive datetime usage',
-        'DTZ003': 'datetime.utcnow() usage', 
-        'E402': 'Module level import not at top',
-        'F841': 'Unused local variable',
-        'F811': 'Redefinition of unused name',
-        'UP032': 'Use f-string instead of format call',
-        'E501': 'Line too long',
-        'W291': 'Trailing whitespace'
+        "B007": "Loop control variable not used within loop body",
+        "PERF102": "When using only dict values, use values() method",
+        "ARG001": "Unused function argument",
+        "ARG002": "Unused method argument",
+        "F821": "Undefined name",
+        "F401": "Unused import",
+        "RUF006": "Dangling async task",
+        "B006": "Mutable default argument",
+        "DTZ005": "Naive datetime usage",
+        "DTZ003": "datetime.utcnow() usage", 
+        "E402": "Module level import not at top",
+        "F841": "Unused local variable",
+        "F811": "Redefinition of unused name",
+        "UP032": "Use f-string instead of format call",
+        "E501": "Line too long",
+        "W291": "Trailing whitespace"
     }
-    return descriptions.get(code, f'Rule {code}')
+    return descriptions.get(code, f"Rule {code}")
 
 
 def generate_violation_indices(violations):
@@ -122,17 +122,17 @@ def generate_violation_indices(violations):
                     unique_violations.append(violation)
             
             rule_index = {
-                'rule_code': rule_code,
-                'description': get_rule_description(rule_code),
-                'total_violations': len(unique_violations),
-                'violations': unique_violations,
-                'affected_files': list(set(v.get('filename', '') for v in unique_violations)),
-                'lukhas_files': [f for f in set(v.get('filename', '') for v in unique_violations) 
-                               if 'lukhas/' in f or 'candidate/' in f],
-                'severity': get_severity(rule_code)
+                "rule_code": rule_code,
+                "description": get_rule_description(rule_code),
+                "total_violations": len(unique_violations),
+                "violations": unique_violations,
+                "affected_files": list(set(v.get("filename", "") for v in unique_violations)),
+                "lukhas_files": [f for f in set(v.get("filename", "") for v in unique_violations) 
+                               if "lukhas/" in f or "candidate/" in f],
+                "severity": get_severity(rule_code)
             }
             
-            with open(index_file, 'w') as f:
+            with open(index_file, "w") as f:
                 json.dump(rule_index, f, indent=2)
             
             indices_created += 1
@@ -143,15 +143,15 @@ def generate_violation_indices(violations):
 
 def get_severity(rule_code):
     """Get severity level for rule code."""
-    high_severity = {'F821', 'F401', 'RUF006', 'B006', 'DTZ005'}
-    medium_severity = {'ARG001', 'ARG002', 'E402', 'F841', 'F811'}
+    high_severity = {"F821", "F401", "RUF006", "B006", "DTZ005"}
+    medium_severity = {"ARG001", "ARG002", "E402", "F841", "F811"}
     
     if rule_code in high_severity:
-        return 'high'
+        return "high"
     elif rule_code in medium_severity:
-        return 'medium'
+        return "medium"
     else:
-        return 'low'
+        return "low"
 
 
 def update_atlas_with_violations(violations):
@@ -159,26 +159,26 @@ def update_atlas_with_violations(violations):
     atlas_file = Path("reports/code_atlas.json")
     
     if atlas_file.exists():
-        with open(atlas_file, 'r') as f:
+        with open(atlas_file) as f:
             atlas = json.load(f)
         
         # Update metadata
         total_violations = sum(len(v) for v in violations.values())
-        atlas['metadata']['total_violations'] = total_violations
-        atlas['metadata']['violation_types'] = list(violations.keys())
+        atlas["metadata"]["total_violations"] = total_violations
+        atlas["metadata"]["violation_types"] = list(violations.keys())
         
         # Add violations summary
-        atlas['violations_by_rule'] = {k: len(v) for k, v in violations.items()}
+        atlas["violations_by_rule"] = {k: len(v) for k, v in violations.items()}
         
         # Add severity breakdown
         severity_breakdown = defaultdict(int)
         for rule_code, rule_violations in violations.items():
             severity = get_severity(rule_code)
             severity_breakdown[severity] += len(rule_violations)
-        atlas['violations_by_severity'] = dict(severity_breakdown)
+        atlas["violations_by_severity"] = dict(severity_breakdown)
         
         # Save updated atlas
-        with open(atlas_file, 'w') as f:
+        with open(atlas_file, "w") as f:
             json.dump(atlas, f, indent=2)
         
         print(f"✅ Updated code_atlas.json with {total_violations} violations")

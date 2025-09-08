@@ -8,8 +8,6 @@ from pathlib import Path
 from typing import Any
 
 
-
-
 class LukhasToneValidator:
     """LUKHAS Trinity Framework tone validation"""
 

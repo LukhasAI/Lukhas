@@ -9,9 +9,6 @@ Real-time consciousness signal routing, state synchronization, and network coord
 - Real-time consciousness network health monitoring
 - Bio-symbolic data flow optimization
 """
-from typing import List
-import streamlit as st
-
 import asyncio
 import logging
 import time
@@ -19,9 +16,10 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, List, Optional
 
 import numpy as np
+import streamlit as st
 
 # Import enhanced MATRIZ components
 from .enhanced_matriz_adapter import (

@@ -6,18 +6,17 @@ breakthrough generation without human intervention.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
-from consciousness.qi import qi
-from typing import List
-import streamlit as st
-
 import asyncio
 import logging
 import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, List, Optional
 
+import streamlit as st
+
+from consciousness.qi import qi
 from lukhas.core.container.service_container import ServiceContainer
 from lukhas.core.interfaces import CoreInterface
 from lukhas.core.symbolic_engine import SymbolicEffect, SymbolicEvent

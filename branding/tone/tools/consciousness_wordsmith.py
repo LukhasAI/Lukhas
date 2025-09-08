@@ -67,7 +67,6 @@ from typing import Any, Optional
 
 import yaml
 
-
 # Configure the consciousness logger
 logging.basicConfig(level=logging.INFO, format="🧠 %(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ConsciousnessWordsmith")

@@ -12,7 +12,6 @@ import contextlib
 import tempfile
 from pathlib import Path
 
-
 from candidate.aka_qualia.core import AkaQualia
 from candidate.aka_qualia.memory_noop import NoopMemory
 

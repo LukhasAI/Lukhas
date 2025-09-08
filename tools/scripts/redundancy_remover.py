@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
-from typing import Dict
-from typing import List
-from typing import Optional
+from typing import Dict, List, Optional
+
 """
  Redundancy Remover
 =====================
 Safely removes identified redundant code while preserving functionality.
 """
-import time
-import streamlit as st
-
 import ast
 import json
 import logging
 import shutil
+import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")

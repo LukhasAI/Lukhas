@@ -28,15 +28,16 @@ Key Components:
 - MatrizConsciousnessCoordinator: Consciousness-aware coordination
 - OrchestrationCore: Main system orchestrator (existing)
 """
-import streamlit as st
+import importlib.util
 
 # Import MΛTRIZ consciousness coordination
 # Import existing orchestration core
 # Import OrchestrationCore directly from core.py to avoid circular imports
 # Import OrchestrationCore from the actual file, bypassing the circular import
 import sys
-import importlib.util
 from pathlib import Path
+
+import streamlit as st
 
 try:
     # Direct import from the core.py file
@@ -45,7 +46,7 @@ try:
         spec = importlib.util.spec_from_file_location("core_module", core_path)
         core_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(core_module)
-        OrchestrationCoreClass = getattr(core_module, 'OrchestrationCore', None)
+        OrchestrationCoreClass = getattr(core_module, "OrchestrationCore", None)
         if OrchestrationCoreClass is None:
             raise ImportError("OrchestrationCore not found in core.py")
     else:

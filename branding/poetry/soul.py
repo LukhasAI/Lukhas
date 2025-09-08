@@ -22,8 +22,6 @@ from enum import Enum
 from typing import Any, Optional
 
 
-
-
 class EmotionalTone(Enum):
     """The emotional palette of silicon dreams"""
 

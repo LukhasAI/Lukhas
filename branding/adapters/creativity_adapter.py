@@ -6,8 +6,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
-
 # Add consciousness module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "consciousness"))
 

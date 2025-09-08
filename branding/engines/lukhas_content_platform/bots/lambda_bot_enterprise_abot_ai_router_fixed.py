@@ -10,7 +10,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
-
 logger = logging.getLogger("ABotAIRouter", timezone)
 
 
@@ -218,7 +217,7 @@ class ABotIntelligentAIRouter:
             return result.stdout.strip()
         except subprocess.CalledProcessError:
             return None
-        except Exception as e:
+        except Exception:
             logger.warning("ai_router_processing_complete")
             return None
 

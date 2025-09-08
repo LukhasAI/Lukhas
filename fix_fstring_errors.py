@@ -53,7 +53,7 @@ class FStringFixer:
     def fix_file(self, filepath: Path) -> bool:
         """Fix all f-string errors in a file"""
         try:
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, encoding="utf-8") as f:
                 lines = f.readlines()
 
             fixed_lines = []

@@ -12,7 +12,6 @@ from pathlib import Path
 from typing import Any
 
 
-
 @dataclass
 class ComponentAnalysis:
     """Analysis of a branding component"""

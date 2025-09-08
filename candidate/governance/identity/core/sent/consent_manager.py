@@ -14,7 +14,6 @@ Features:
 """
 from typing import Optional
 
-
 from .consent_history import ConsentHistoryManager
 from .symbolic_scopes import SymbolicScopesManager
 

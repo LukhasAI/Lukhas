@@ -7,7 +7,6 @@ import subprocess
 import sys
 import time
 
-
 sys.path.append("/Users/A_G_I/Λ")
 
 
@@ -96,7 +95,7 @@ def free_abot_session():
 
                 except subprocess.TimeoutExpired:
                     print(f"⏱️ Task {task_type} timed out - LUKHAS AI ΛBot moving on")
-                except Exception as e:
+                except Exception:
                     print("free_abot_mode_processing")
 
                 task_index += 1

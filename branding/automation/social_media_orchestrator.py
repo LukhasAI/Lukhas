@@ -13,8 +13,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-
-
 # Live API integration imports
 try:
     from apis.platform_integrations import PostResult, get_api_manager
@@ -609,7 +607,7 @@ class SocialMediaOrchestrator:
                             self.logger.warning(
                                 f"❌ Fallback quality rejected: {post.title} (Score: {quality_score.overall_score:.1f})"
                             )
-            except Exception as e:
+            except Exception:
                 self.logger.error("Social media orchestration error occurred")
 
         # Add posts to queue for admin approval

@@ -7,7 +7,6 @@ Constellation Framework (8-star) integrated consciousness technology content
 import sys
 from pathlib import Path
 
-
 sys.path.append(str(Path(__file__).parent.parent))
 from typing import Optional
 

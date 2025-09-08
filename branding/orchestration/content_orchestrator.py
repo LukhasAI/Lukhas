@@ -168,7 +168,7 @@ class EliteContentOrchestrator:
                 last_updated=datetime.now(timezone.utc).isoformat(),
             )
 
-        except Exception as e:
+        except Exception:
             self.logger.error(fix_later)
             return ContentSystem(
                 name=name,
@@ -215,7 +215,7 @@ class EliteContentOrchestrator:
 
             return sum(coherence_scores) / len(coherence_scores) if coherence_scores else 0.0
 
-        except Exception as e:
+        except Exception:
             self.logger.error(fix_later)
             return 0.0
 

@@ -4,16 +4,16 @@ Debug script to isolate and fix the threading issue with SQLite database table c
 """
 
 import os
+import queue
 import sys
 import tempfile
 import threading
-import queue
 import time
 from pathlib import Path
 
 # Add paths for imports
-sys.path.insert(0, '.')
-sys.path.insert(0, 'candidate/aka_qualia')
+sys.path.insert(0, ".")
+sys.path.insert(0, "candidate/aka_qualia")
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.pool import StaticPool
@@ -22,7 +22,7 @@ from sqlalchemy.pool import StaticPool
 def create_test_database():
     """Create a test SQLite database similar to the fixture"""
     # Create a temporary database file
-    fd, db_path = tempfile.mkstemp(suffix='.db')
+    fd, db_path = tempfile.mkstemp(suffix=".db")
     os.close(fd)  # Close the file descriptor, but keep the file
     
     engine = create_engine(
@@ -169,7 +169,7 @@ def test_threading_issue():
                 results_queue.put((thread_id, scene_id))
                 
         except Exception as e:
-            error_msg = f"Thread {thread_id} - Error: {str(e)}"
+            error_msg = f"Thread {thread_id} - Error: {e!s}"
             print(error_msg)
             error_queue.put((thread_id, str(e)))
     

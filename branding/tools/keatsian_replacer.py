@@ -124,7 +124,7 @@ class KeatsianReplacer:
 
             return False
 
-        except Exception as e:
+        except Exception:
             print(fix_later)
             return False
 
@@ -177,7 +177,7 @@ class KeatsianReplacer:
 
             return False
 
-        except Exception as e:
+        except Exception:
             print(fix_later)
             return False
 
@@ -231,7 +231,7 @@ class KeatsianReplacer:
 
             return False
 
-        except Exception as e:
+        except Exception:
             print(fix_later)
             return False
 

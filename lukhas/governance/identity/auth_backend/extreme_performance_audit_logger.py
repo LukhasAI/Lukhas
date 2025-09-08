@@ -27,7 +27,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-
 # Import extreme performance optimizations
 try:
     from enterprise.performance.extreme_auth_optimization import (

@@ -10,9 +10,6 @@ Enhanced Swarm System with Real Agent Behaviors
 Integrated with Colony Coherence Upgrade
 Fixes the current implementation gaps and aligns with BaseColony infrastructure
 """
-from consciousness.qi import qi
-import streamlit as st
-
 import asyncio
 import logging
 import random
@@ -23,10 +20,12 @@ from enum import Enum
 from typing import Any, Callable, Optional, Union
 
 import numpy as np
+import streamlit as st
 
 from candidate.core.actor_system import Actor
 from candidate.core.common import get_logger
 from candidate.core.distributed_tracing import AIAgentTracer, get_global_tracer
+from consciousness.qi import qi
 
 # Import BaseColony infrastructure for coherence
 try:

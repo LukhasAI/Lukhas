@@ -34,7 +34,6 @@ from typing import Any, Optional, Protocol
 
 from pydantic import BaseModel, Field
 
-
 # ——— Configuration & Utilities —————————————————————————————— #
 
 

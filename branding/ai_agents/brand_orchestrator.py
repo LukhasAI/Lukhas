@@ -9,7 +9,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
 

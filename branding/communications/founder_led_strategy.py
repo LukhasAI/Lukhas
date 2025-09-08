@@ -13,8 +13,6 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 
 
-
-
 @dataclass
 class CommunicationChannel:
     """Communication channel for founder-led strategy"""

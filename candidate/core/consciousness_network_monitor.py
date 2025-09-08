@@ -10,18 +10,16 @@ Advanced monitoring, analytics, and visualization for consciousness data flows
 - Cascade prevention effectiveness tracking
 - Network topology visualization and analysis
 """
-from typing import List
-from typing import Dict
-import time
-import streamlit as st
-
 import asyncio
 import logging
+import time
 from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Optional
+from typing import Dict, List, Optional
+
+import streamlit as st
 
 from .consciousness_data_flow import ConsciousnessDataFlowManager, FlowMetrics
 

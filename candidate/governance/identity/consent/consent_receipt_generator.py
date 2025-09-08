@@ -27,7 +27,6 @@ from typing import Any, Optional
 
 import qrcode
 
-
 logger = logging.getLogger(__name__)
 
 

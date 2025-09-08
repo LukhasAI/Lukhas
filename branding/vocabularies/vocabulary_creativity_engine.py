@@ -14,7 +14,6 @@ image interpretation, and visual communication.
 from dataclasses import dataclass
 from typing import Any
 
-
 from core.symbolic import VisualSymbol
 
 from ..core import AnalysisType, VisionProvider

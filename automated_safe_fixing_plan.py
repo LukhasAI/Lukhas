@@ -18,16 +18,16 @@ SUCCESS CRITERIA:
 - Conservative approach - skip complex cases
 """
 
-import re
-import sys
-import subprocess
-from pathlib import Path
-from typing import List, Dict, Tuple
 import json
 import logging
+import re
+import subprocess
+import sys
+from pathlib import Path
+from typing import Dict, List, Tuple
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 class SafeFStringFixer:
@@ -36,11 +36,11 @@ class SafeFStringFixer:
     def __init__(self, repo_root: str = "/Users/agi_dev/LOCAL-REPOS/Lukhas"):
         self.repo_root = Path(repo_root)
         self.stats = {
-            'files_processed': 0,
-            'files_fixed': 0,
-            'errors_fixed': 0,
-            'files_skipped': 0,
-            'compilation_successes': 0
+            "files_processed": 0,
+            "files_fixed": 0,
+            "errors_fixed": 0,
+            "files_skipped": 0,
+            "compilation_successes": 0
         }
 
     def get_syntax_error_files(self) -> List[Tuple[str, int]]:
@@ -57,7 +57,7 @@ class SafeFStringFixer:
             file_counts = {}
 
             for error in errors:
-                filename = error['filename'].replace(str(self.repo_root) + '/', '')
+                filename = error["filename"].replace(str(self.repo_root) + "/", "")
                 file_counts[filename] = file_counts.get(filename, 0) + 1
 
             return sorted(file_counts.items(), key=lambda x: x[1], reverse=True)
@@ -78,7 +78,7 @@ class SafeFStringFixer:
 
     def apply_rule_a1_drop_f_prefix(self, content: str) -> str:
         """Rule A.1: Drop f-prefix when no real expressions exist"""
-        lines = content.split('\n')
+        lines = content.split("\n")
         fixed_lines = []
         changes = 0
 
@@ -95,13 +95,13 @@ class SafeFStringFixer:
                 has_real_expressions = False
                 i = 0
                 while i < len(f_string_content):
-                    if f_string_content[i] == '{':
-                        if i + 1 < len(f_string_content) and f_string_content[i + 1] == '{':
+                    if f_string_content[i] == "{":
+                        if i + 1 < len(f_string_content) and f_string_content[i + 1] == "{":
                             i += 2  # Skip {{ literal
                         else:
                             # Look for closing }
                             j = i + 1
-                            while j < len(f_string_content) and f_string_content[j] != '}':
+                            while j < len(f_string_content) and f_string_content[j] != "}":
                                 j += 1
                             if j < len(f_string_content):
                                 # Found a real expression
@@ -121,7 +121,7 @@ class SafeFStringFixer:
 
         if changes > 0:
             logger.info(f"Rule A.1: Dropped f-prefix from {changes} strings")
-        return '\n'.join(fixed_lines)
+        return "\n".join(fixed_lines)
 
     def apply_rule_a2_escape_literal_braces(self, content: str) -> str:
         """Rule A.2: Escape literal braces in f-strings"""
@@ -135,10 +135,10 @@ class SafeFStringFixer:
             string_content = match.group(2)
 
             # Fix single } not closing an expression
-            fixed_content = re.sub(r'(?<!})}}(?!})', '}}', string_content)
+            fixed_content = re.sub(r"(?<!})}}(?!})", "}}", string_content)
             if fixed_content != string_content:
                 changes += 1
-                return f'f{quote_char}{fixed_content}{quote_char}'
+                return f"f{quote_char}{fixed_content}{quote_char}"
 
             return f_string
 
@@ -151,7 +151,7 @@ class SafeFStringFixer:
 
     def apply_rule_a3_close_strings_and_fields(self, content: str) -> str:
         """Rule A.3: Close strings and balance f-string fields (single-line only)"""
-        lines = content.split('\n')
+        lines = content.split("\n")
         fixed_lines = []
         changes = 0
 
@@ -161,9 +161,9 @@ class SafeFStringFixer:
             # Fix common patterns found in the manual fixes
             patterns = [
                 # Fix extra closing parenthesis after }
-                (r'\{([^}]+)\}\)', r'{\1}'),
+                (r"\{([^}]+)\}\)", r"{\1}"),
                 # Fix missing closing parenthesis in function calls within f-strings
-                (r'\{([^}]+)\(([^)]*)\}', r'{\1(\2)}'),
+                (r"\{([^}]+)\(([^)]*)\}", r"{\1(\2)}"),
                 # Fix single } that should be }}
                 (r'f["\'][^"\']*\{[^}]*\}["\']', lambda m: self._balance_f_string_braces(m.group(0))),
             ]
@@ -181,7 +181,7 @@ class SafeFStringFixer:
 
         if changes > 0:
             logger.info(f"Rule A.3: Fixed {changes} string/field closures")
-        return '\n'.join(fixed_lines)
+        return "\n".join(fixed_lines)
 
     def _balance_f_string_braces(self, f_string: str) -> str:
         """Helper to balance braces in an f-string"""
@@ -194,7 +194,7 @@ class SafeFStringFixer:
 
         try:
             # Read original content
-            with open(full_path, 'r', encoding='utf-8') as f:
+            with open(full_path, encoding="utf-8") as f:
                 original_content = f.read()
 
             # Test original compilation
@@ -211,17 +211,17 @@ class SafeFStringFixer:
             # Only save if changes were made
             if content != original_content:
                 # Write fixed content
-                with open(full_path, 'w', encoding='utf-8') as f:
+                with open(full_path, "w", encoding="utf-8") as f:
                     f.write(content)
 
                 # Test compilation
                 if self.test_compilation(str(full_path)):
                     logger.info(f"✅ Successfully fixed {file_path}")
-                    self.stats['compilation_successes'] += 1
+                    self.stats["compilation_successes"] += 1
                     return True
                 else:
                     # Revert if compilation failed
-                    with open(full_path, 'w', encoding='utf-8') as f:
+                    with open(full_path, "w", encoding="utf-8") as f:
                         f.write(original_content)
                     logger.warning(f"❌ Fix failed compilation test for {file_path} - reverted")
                     return False
@@ -243,13 +243,13 @@ class SafeFStringFixer:
         # Process top files
         for file_path, error_count in error_files[:max_files]:
             logger.info(f"Processing {file_path} ({error_count} errors)")
-            self.stats['files_processed'] += 1
+            self.stats["files_processed"] += 1
 
             if self.fix_file(file_path):
-                self.stats['files_fixed'] += 1
-                self.stats['errors_fixed'] += error_count
+                self.stats["files_fixed"] += 1
+                self.stats["errors_fixed"] += error_count
             else:
-                self.stats['files_skipped'] += 1
+                self.stats["files_skipped"] += 1
 
         return self.stats
 
@@ -305,7 +305,7 @@ def main():
     print(report)
 
     # Save report to file
-    with open('/Users/agi_dev/LOCAL-REPOS/Lukhas/automated_fixing_report.txt', 'w') as f:
+    with open("/Users/agi_dev/LOCAL-REPOS/Lukhas/automated_fixing_report.txt", "w") as f:
         f.write(report)
 
     print("✅ Automated fixing complete!")

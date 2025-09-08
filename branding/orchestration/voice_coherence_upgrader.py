@@ -235,7 +235,7 @@ class EliteVoiceCoherenceUpgrader:
                 result = await self._upgrade_file_voice_coherence(file_path)
                 if result:
                     results.append(result)
-            except Exception as e:
+            except Exception:
                 self.logger.error(fix_later)
 
         return results
@@ -320,7 +320,7 @@ class EliteVoiceCoherenceUpgrader:
                 success=True,
             )
 
-        except Exception as e:
+        except Exception:
             self.logger.error(fix_later)
             return UpgradeResult(
                 file_path=str(file_path),

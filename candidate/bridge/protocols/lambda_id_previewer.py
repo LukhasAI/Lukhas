@@ -31,6 +31,7 @@ from typing import Any, Optional
 
 from ..id_service.entropy_engine import EntropyEngine
 from ..id_service.lambd_id_validator import LambdaIDValidator
+
 # Import core modules
 from ..lambd_id_service import LambdaIDService
 
@@ -353,7 +354,7 @@ class PublicLambdaIDPreviewer:
                 result.educational_content = self._get_educational_content(result)
 
         except Exception as e:
-            result.errors.append(f"Analysis error: {str(e)}")
+            result.errors.append(f"Analysis error: {e!s}")
 
         return result
 
@@ -778,7 +779,7 @@ class PublicLambdaIDPreviewer:
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Demo generation failed: {str(e)}",
+                "error": f"Demo generation failed: {e!s}",
             }
 
     def get_tier_comparison(self) -> dict[str, Any]:
@@ -906,7 +907,7 @@ class PublicLambdaIDPreviewer:
                 analysis["suggestions"].append("Start with the lambda symbol: LUKHAS")
 
         except Exception as e:
-            analysis["format_validation"]["errors"].append(f"Analysis error: {str(e)}")
+            analysis["format_validation"]["errors"].append(f"Analysis error: {e!s}")
 
         return analysis
 

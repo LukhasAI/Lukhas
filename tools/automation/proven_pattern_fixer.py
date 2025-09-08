@@ -16,11 +16,12 @@ import re
 import subprocess
 from pathlib import Path
 
+
 def fix_f_string_hexdigest_pattern(content: str) -> tuple[str, int]:
     """Fix the proven hexdigest pattern: .hexdigest(}}[: → .hexdigest()}["""
-    pattern = re.compile(r'\.hexdigest\(\}\}\[')
+    pattern = re.compile(r"\.hexdigest\(\}\}\[")
     fixes = len(pattern.findall(content))
-    content = pattern.sub('.hexdigest()}[', content)
+    content = pattern.sub(".hexdigest()}[", content)
     return content, fixes
 
 def fix_float_nan_pattern(content: str) -> tuple[str, int]:
@@ -32,19 +33,19 @@ def fix_float_nan_pattern(content: str) -> tuple[str, int]:
 
 def fix_css_f_string_braces(content: str) -> tuple[str, int]:
     """Fix CSS f-string brace escaping: ; } → ; }}"""
-    if 'f"""' not in content or '<style>' not in content:
+    if 'f"""' not in content or "<style>" not in content:
         return content, 0
         
     # Only fix CSS property endings that need escaping
-    pattern = re.compile(r'(:\s*[^;}]+;\s*)}(?!\})')
+    pattern = re.compile(r"(:\s*[^;}]+;\s*)}(?!\})")
     fixes = len(pattern.findall(content))
-    content = pattern.sub(r'\1}}', content)
+    content = pattern.sub(r"\1}}", content)
     return content, fixes
 
 def fix_known_patterns_only(file_path: Path) -> tuple[int, bool]:
     """Apply ONLY proven patterns that we know work"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
             
         original_content = content
@@ -61,12 +62,12 @@ def fix_known_patterns_only(file_path: Path) -> tuple[int, bool]:
         total_fixes += fixes3
         
         if content != original_content:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(content)
                 
             # Test compilation
             result = subprocess.run([
-                'python3', '-c', f'import py_compile; py_compile.compile("{file_path}", doraise=True)'
+                "python3", "-c", f'import py_compile; py_compile.compile("{file_path}", doraise=True)'
             ], capture_output=True, text=True)
             
             if result.returncode == 0:

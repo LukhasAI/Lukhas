@@ -11,7 +11,7 @@ def fix_file_syntax(file_path):
     print(f"Processing: {file_path}")
 
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
     except Exception as e:
         print(f"Error reading {file_path}: {e}")

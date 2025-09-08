@@ -7,7 +7,6 @@ from enum import Enum
 from typing import Any, Optional
 
 
-
 class VoiceContext(Enum):
     USER_ONBOARDING = "user_onboarding"
     TECHNICAL_DOCUMENTATION = "technical_documentation"

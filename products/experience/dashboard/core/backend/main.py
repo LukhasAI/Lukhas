@@ -13,6 +13,7 @@ from typing import Any
 import uvicorn
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
+
 from infrastructure.cache.redis_client import init_redis
 from infrastructure.database.connection import init_db
 

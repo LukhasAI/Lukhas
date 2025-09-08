@@ -114,7 +114,7 @@ def fix_import_errors(content: str) -> tuple[str, int]:
 def fix_file(filepath: Path) -> dict:
     """Fix a single Python file"""
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             original = f.read()
 
         content = original

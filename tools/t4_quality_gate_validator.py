@@ -19,8 +19,6 @@ Usage:
 
 Author: LUKHAS AI Testing & DevOps Specialist (Agent #3)
 """
-import streamlit as st
-
 import argparse
 import json
 import subprocess
@@ -28,6 +26,8 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+import streamlit as st
 
 # Repository root
 REPO_ROOT = Path(__file__).parent.parent
