@@ -597,18 +597,15 @@ class AdaptiveAGIDemo:
             return "Quantum computing leverages quantum-inspired mechanics principles to process information in ways classical computers cannot. It uses qubits that can exist in multiple states simultaneously, potentially solving certain problems exponentially faster."
 
         elif "help" in input_lower or "can you do" in input_lower:
-            return "In this demo, I can showcase voice processing, compliance features,
-    adaptive interfaces, and image generation capabilities. What aspect would you like to explore?"
+            return "In this demo, I can showcase voice processing, compliance features, adaptive interfaces, and image generation capabilities. What aspect would you like to explore?"
 
-       elif "image" in input_lower or "picture" in input_lower:
-            return "I would generate an image based on your description,
-    but this is just a simulation. In the full system, you'd see a relevant visualization here."
+        elif "image" in input_lower or "picture" in input_lower:
+            return "I would generate an image based on your description, but this is just a simulation. In the full system, you'd see a relevant visualization here."
 
-       elif "adapt" in input_lower or "interface" in input_lower:
-            return "The adaptive interface adjusts to your cognitive style,
-    expertise level, and situational context. It might use more visual elements for visual thinkers or structured information for analytical thinkers."
+        elif "adapt" in input_lower or "interface" in input_lower:
+            return "The adaptive interface adjusts to your cognitive style, expertise level, and situational context. It might use more visual elements for visual thinkers or structured information for analytical thinkers."
 
-       elif (:
+        elif (
             "compliance" in input_lower
             or "privacy" in input_lower
             or "ethics" in input_lower
@@ -616,7 +613,7 @@ class AdaptiveAGIDemo:
             return "Our system integrates compliance features that ensure GDPR adherence, implement ethical constraints, and manage privacy preferences. Voice data receives special protection as potentially biometric information."
 
         else:
-            return f"I understand you're saying something about '{input_text)'. In the full system, I would provide a meaningful response using our neuro-symbolic engine."
+            return f"I understand you're saying something about '{input_text}'. In the full system, I would provide a meaningful response using our neuro-symbolic engine."
 
 
 async def main():
@@ -626,7 +623,7 @@ async def main():
 
 if __name__ == "__main__":
     try:
-        asyncio.run(main()}
+        asyncio.run(main())
     except Exception as e:
         logger.critical(f"Fatal error in demo: {e}")
         sys.exit(1)
