@@ -787,7 +787,7 @@ class APIDocumentationGenerator:
                     request_item["request"]["header"].append(
                         {
                             "key": "Authorization",
-                            "value": "Bearer {{access_token}",
+                            "value": "Bearer {{access_token}}",
                         }
                     )
 
