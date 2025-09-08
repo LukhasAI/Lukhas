@@ -1,0 +1,32 @@
+
+🎯 MANUAL FIXING GUIDE: candidate/governance/security/security_audit_engine.py
+============================================================
+
+STRATEGY: Fix ONE error at a time, test compilation after each fix
+
+SYSTEMATIC PATTERNS TO LOOK FOR:
+1. Extra closing braces in f-strings
+2. .hexdigest() with extra braces 
+3. .timestamp() with extra braces
+4. Dictionary get() bracket mismatches
+
+ERROR DETAILS:
+
+ERROR 1: Line 113
+    110: 
+    111:     def __init__(self):
+    112:         self.patterns = {
+>>> 113:             "api_key": [}
+    114:                 r'(?i)api[_-]?key["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
+    115:                 r'(?i)apikey["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
+    116:             ],
+----------------------------------------
+
+FIXING WORKFLOW:
+1. Edit the file to fix the FIRST error only
+2. Run: .venv/bin/python -m py_compile candidate/governance/security/security_audit_engine.py  
+3. If success: move to next error
+4. If fail: revert and try different approach
+5. Repeat until all errors fixed
+
+COMMIT after this file is 100% fixed.

@@ -110,7 +110,7 @@ class SecretDetector:
 
     def __init__(self):
         self.patterns = {
-            "api_key": [}
+            "api_key": [
                 r'(?i)api[_-]?key["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
                 r'(?i)apikey["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
             ],
@@ -209,7 +209,7 @@ class DependencyScanner:
         self.known_vulnerabilities = {
             "requests": ["2.25.1", "2.26.0"],  # Example vulnerable versions
             "urllib3": ["1.26.5"],
-            "pillow": ["8.2.0", "8.3.1"],}
+            "pillow": ["8.2.0", "8.3.1"],
         }
 
     async def scan_requirements(self, requirements_file: str) -> list[SecurityFinding]:
@@ -281,7 +281,7 @@ class CodeSecurityScanner:
                 r"md5\s*\(",
                 r"sha1\s*\(",
                 r"DES\s*\(",
-            ],}
+            ],
         }
 
     def scan_file(self, file_path: str) -> list[SecurityFinding]:
@@ -351,7 +351,7 @@ class AdapterSecurityAuditor:
                 r"(?i)admin[_\s]*=[_\s]*(?:true|True|1)",
                 r"(?i)root[_\s]+access",
                 r"(?i)superuser[_\s]*=[_\s]*(?:true|True|1)",
-            ],}
+            ],
         }
 
     async def audit_adapter_security(self, adapter_path: str) -> list[SecurityFinding]:

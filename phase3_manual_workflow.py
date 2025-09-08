@@ -110,10 +110,10 @@ class Phase3ManualWorkflow:
 STRATEGY: Fix ONE error at a time, test compilation after each fix
 
 SYSTEMATIC PATTERNS TO LOOK FOR:
-1. f'{{variable}}' -> f'{{variable}}' (remove extra }} )
-2. .hexdigest()}}[:8]} -> .hexdigest()[:8]} 
-3. .timestamp()}} -> .timestamp()}
-4. {{).get( -> {{}}.get(
+1. Extra closing braces in f-strings
+2. .hexdigest() with extra braces 
+3. .timestamp() with extra braces
+4. Dictionary get() bracket mismatches
 
 ERROR DETAILS:
 """
