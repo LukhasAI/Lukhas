@@ -40,7 +40,7 @@ def extract_public_vocabulary(lexicon_path="LUKHAS_LEXICON.md", output_path="voc
         """**Philosophy**: "Uncertainty as fertile ground" — welcoming ambiguity as resource, not flaw.\n\n"""
     )
     public_content += "**Validation**: ✅ All content passes author-reference guard\n\n"
-    public_content += f"*Generated from LUKHAS_LEXICON.md on {Path().absolute()}.name}*"
+    public_content += f"*Generated from LUKHAS_LEXICON.md on {Path().absolute().name}*"
 
     # Create output directory if needed
     output_file = Path(output_path)

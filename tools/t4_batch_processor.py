@@ -227,7 +227,7 @@ class T4BatchProcessor:
 
         print(f"📈 After:  {after_count} total issues")
         print(f"✅ Fixed:  {validation['improvement']} issues")
-        print(f"📋 Artifact: {Path(artifact_path)}.name}")
+        print(f"📋 Artifact: {Path(artifact_path).name}")
 
         # T4 Lens Summary
         self.print_t4_validation(validation)

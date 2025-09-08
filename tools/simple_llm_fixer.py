@@ -153,7 +153,7 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
             code = issue.get("code", "")
             message = issue.get("message", "")
 
-            print(f"\n🔧 [{i}/{len(issues)}] {Path(file_path)}.name}:{line_num}")
+            print(f"\n🔧 [{i}/{len(issues)}] {Path(file_path).name}:{line_num}")
             print(f"   Issue: {code} - {message}")
 
             if dry_run:
