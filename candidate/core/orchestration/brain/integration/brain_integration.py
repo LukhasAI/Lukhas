@@ -599,40 +599,39 @@ class EnhancedBrainIntegration:
 
         self.consolidation_running = True
 
-                                                                                                                                                                                                                                                        def consolidation_loop():
+        def consolidation_loop():
             logger.info(f"🌙 Starting dream consolidation loop (every {interval_minutes} minutes)")
 
-                                                                                                                                                                                                                                                            while self.consolidation_running:
-                                                                                                                                                                                                                                                                try:
+            while self.consolidation_running:
+                try:
                     result = self.memory_system.dream_consolidate_memories()
-                                                                                                                                                                                                                                                                    if result["status"] == "success":
+                    if result["status"] == "success":
                         self.stats["dream_consolidations"] += 1
                         logger.info(f"Dream consolidation: {result['consolidated_count']} memories processed")
 
-                                                                                                                                                                                                                                                                        except Exception as e:
+                except Exception as e:
                     logger.error(f"Dream consolidation error: {e}")
 
                 # Sleep with interruption checking
-                                                                                                                                                                                                                                                                            for _ in range(interval_minutes * 60):
-                                                                                                                                                                                                                                                                                if not self.consolidation_running:
-                                                                                                                                                                                                                                                                                    break
+                for _ in range(interval_minutes * 60):
+                    if not self.consolidation_running:
+                        break
                     time.sleep(1)
 
-        self.consolidation_thread = threading.Thread(target=consolidation_loop,
-    daemon=True)
+        self.consolidation_thread = threading.Thread(target=consolidation_loop, daemon=True)
         self.consolidation_thread.start()
 
-                                                                                                                                                                                                                                                                                return True
+        return True
 
-                                                                                                                                                                                                                                                                            def stop_dream_consolidation(self) -> bool:
-                                                                                                                                                                                                                                                                                """Stop background dream consolidation"""
-                                                                                                                                                                                                                                                                                if self.consolidation_running:
+    def stop_dream_consolidation(self) -> bool:
+        """Stop background dream consolidation"""
+        if self.consolidation_running:
             self.consolidation_running = False
-                                                                                                                                                                                                                                                                                    return True
-                                                                                                                                                                                                                                                                                return False
+            return True
+        return False
 
-                                                                                                                                                                                                                                                                            def get_comprehensive_status(self) -> Dict[str, Any]:
-                                                                                                                                                                                                                                                                                """Get comprehensive status of all brain systems"""
+    def get_comprehensive_status(self) -> Dict[str, Any]:
+        """Get comprehensive status of all brain systems"""
 
         status = {
             "system_active": True,
@@ -651,18 +650,18 @@ class EnhancedBrainIntegration:
         }
 
         # Add symphony status if available
-                                                                                                                                                                                                                                                                                if self.symphony_available and self.symphony_orchestrator:
-                                                                                                                                                                                                                                                                                    try:
+        if self.symphony_available and self.symphony_orchestrator:
+            try:
                 status["symphony_status"] = self.symphony_orchestrator.get_symphony_status()
-                                                                                                                                                                                                                                                                                        except Exception as e:
+            except Exception as e:
                 status["symphony_status"] = {"error": str(e)}
 
-                                                                                                                                                                                                                                                                                            return status
+        return status
 
-                                                                                                                                                                                                                                                                                        # Factory function for easy integration
+# Factory function for easy integration
 
-                                                                                                                                                                                                                                                                                        def create_enhanced_brain_integration(config: Dict[str, Any] = None) -> EnhancedBrainIntegration:
-                                                                                                                                                                                                                                                                                            """
+def create_enhanced_brain_integration(config: Dict[str, Any] = None) -> EnhancedBrainIntegration:
+    """
     Factory function to create Enhanced Brain Integration system
 
     Args:
@@ -670,12 +669,12 @@ class EnhancedBrainIntegration:
 
     Returns:
         EnhancedBrainIntegration instance
-                                                                                                                                                                                                                                                                                            """
-                                                                                                                                                                                                                                                                                            return EnhancedBrainIntegration(config)
+    """
+    return EnhancedBrainIntegration(config)
 
-                                                                                                                                                                                                                                                                                        # Demonstration
-                                                                                                                                                                                                                                                                                        async def demo_enhanced_integration():
-                                                                                                                                                                                                                                                                                        """Demonstrate the Enhanced Brain Integration system"""
+# Demonstration
+async def demo_enhanced_integration():
+    """Demonstrate the Enhanced Brain Integration system"""
 
     print("🧠 Enhanced Brain Integration Demo")
 
@@ -691,20 +690,19 @@ class EnhancedBrainIntegration:
     ]
 
     # Process each input
-                                                                                                                                                                                                                                                                                        for i, test_input in enumerate(test_inputs):
+    for i, test_input in enumerate(test_inputs):
         print(f"\n--- Test {i+1}: {test_input['type']} ---")
 
         result = await brain.process_with_symphony(test_input)
         print(f"Processing: {result['processing_type']}")
 
-                                                                                                                                                                                                                                                                                            if result['processing_type'] == 'symphony_enhanced':
+        if result['processing_type'] == 'symphony_enhanced':
             print(f"Coordination Quality: {result['coordination_quality']:.2f}")
-            print(f"Insights: {len(result['symphony_result'].get('synthesized_insights',}}
-    []))}")
+            print(f"Insights: {len(result['symphony_result'].get('synthesized_insights', []))}")
 
         # Test speech
         speech_result = brain.speak_with_emotion(test_input["content"])
-        print(f"Speech emotion: {speech_result.get('current_emotion', 'unknown'}}")
+        print(f"Speech emotion: {speech_result.get('current_emotion', 'unknown')}")
 
     # Show final status
     status = brain.get_comprehensive_status()
@@ -714,5 +712,5 @@ class EnhancedBrainIntegration:
     print(f"Emotional memories: {status['memory_stats']['emotional_memories']}")
     print(f"Symphony processes: {status['processing_stats']['symphony_processes']}")
 
-                                                                                                                                                                                                                                                                                                if __name__ == "__main__":
+if __name__ == "__main__":
     asyncio.run(demo_enhanced_integration())
