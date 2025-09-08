@@ -247,7 +247,7 @@ class FeedbackCardSystem:
 
         # Create feedback card
         card = FeedbackCard(
-            card_id=f"card_{int(time.time(} * 1000}",
+            card_id=f"card_{int(time.time()) * 1000}",
             action_id=action_id,
             rating=FeedbackRating(rating),
             note=note,
@@ -334,7 +334,7 @@ class FeedbackCardSystem:
             for (param, value), count in param_counts.most_common(3):
                 if count >= 3:  # Minimum frequency
                     pattern = PatternSet(
-                        pattern_id=f"pref_{param}_{value}_{int(time.time()}",
+                        pattern_id=f"pref_{param}_{value}_{int(time.time())}",
                         pattern_type="preference",
                         frequency=count,
                         confidence=count / len(excellent_cards),
@@ -361,7 +361,7 @@ class FeedbackCardSystem:
             for theme, theme_cards in note_themes.items():
                 if len(theme_cards) >= 2:
                     pattern = PatternSet(
-                        pattern_id=f"correct_{theme}_{int(time.time()}",
+                        pattern_id=f"correct_{theme}_{int(time.time())}",
                         pattern_type="correction",
                         frequency=len(theme_cards),
                         confidence=len(theme_cards) / len(poor_cards),
@@ -413,7 +413,7 @@ class FeedbackCardSystem:
             return None
 
         update = PolicyUpdate(
-            update_id=f"update_{int(time.time()}",
+            update_id=f"update_{int(time.time())}",
             timestamp=time.time(),
             pattern_ids=[p.pattern_id for p in patterns],
         )

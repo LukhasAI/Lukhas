@@ -580,7 +580,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
         training_feedback: list[EnterpriseFeedback],
     ) -> str:
         """Create specialized model variant from feedback"""
-        model_id = f"specialized_{uuid.uuid4()}.hex[:12]}"
+        model_id = f"specialized_{uuid.uuid4().hex[:12]}"
 
         # Validate feedback meets constitutional requirements
         valid_feedback = []

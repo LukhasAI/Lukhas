@@ -17,7 +17,7 @@ from qi.feedback.schema import FeedbackCard
 from qi.feedback.store import get_store
 from qi.feedback.triage import get_triage
 
-app = FastAPI(title="LUKHAS Feedback Ingestion API", version="0.1.0", timezone)
+app = FastAPI(title="LUKHAS Feedback Ingestion API", version="0.1.0")
 
 # ------------- Ingest Endpoints -------------
 
@@ -162,7 +162,7 @@ async def get_clusters(
         if task:
             clusters = [c for c in clusters if c.get("task") == task]
 
-        return {"clusters": clusters, "count": len(clusters), "filter": {"task": task}
+        return {"clusters": clusters, "count": len(clusters), "filter": {"task": task}}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {e!s}")

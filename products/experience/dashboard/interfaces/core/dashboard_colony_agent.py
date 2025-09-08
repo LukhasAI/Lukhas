@@ -108,7 +108,7 @@ class DashboardColonyAgent(BaseColony):
 
     def __init__(self, agent_role: DashboardAgentRole = DashboardAgentRole.COORDINATOR):
         super().__init__(
-            colony_id=f"dashboard_{agent_role.value}_{int(datetime.now(timezone.utc).timestamp()}",
+            colony_id=f"dashboard_{agent_role.value}_{int(datetime.now(timezone.utc).timestamp())}",
             capabilities=[
                 "dashboard_coordination",
                 "cross_colony_intelligence",

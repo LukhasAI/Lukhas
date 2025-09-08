@@ -124,7 +124,7 @@ class UniversalAdaptiveDashboard:
     """
 
     def __init__(self, dashboard_id: Optional[str] = None):
-        self.dashboard_id = dashboard_id or f"universal_dashboard_{int(time.time()}"
+        self.dashboard_id = dashboard_id or f"universal_dashboard_{int(time.time())}"
         self.logger = logger.bind(dashboard_id=self.dashboard_id)
 
         # Core adaptive systems integration

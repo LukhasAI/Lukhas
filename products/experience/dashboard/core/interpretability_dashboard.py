@@ -938,7 +938,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
     ):
         """Create system alert"""
         alert = {
-            "alert_id": f"alert_{uuid.uuid4()}.hex[:8]}",
+            "alert_id": f"alert_{uuid.uuid4().hex[:8]}",
             "timestamp": datetime.now(timezone.utc),
             "type": alert_type,
             "severity": severity,

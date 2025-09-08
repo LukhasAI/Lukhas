@@ -147,7 +147,7 @@ class DashboardFallbackSystem:
     """
 
     def __init__(self):
-        self.system_id = f"fallback_system_{int(datetime.now(timezone.utc).timestamp()}"
+        self.system_id = f"fallback_system_{int(datetime.now(timezone.utc).timestamp())}"
         self.logger = logger.bind(system_id=self.system_id)
 
         # Integration with existing LUKHAS systems

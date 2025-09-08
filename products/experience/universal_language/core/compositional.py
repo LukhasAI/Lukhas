@@ -218,7 +218,7 @@ class SymbolComposer:
             parts = symbol.name.split("+")
             for part in parts:
                 component = Symbol(
-                    id=f"COMPONENT_{hashlib.sha256(part.encode()).hexdigest()}[:8]}",
+                    id=f"COMPONENT_{hashlib.sha256(part.encode()).hexdigest()[:8]}",
                     domain=symbol.domain,
                     name=part.strip(),
                     value=part.strip(),
@@ -256,7 +256,7 @@ class SymbolComposer:
         }
 
         return Symbol(
-            id=f"COMPOSED_{hashlib.sha256(combined_name.encode()).hexdigest()}[:8]}",
+            id=f"COMPOSED_{hashlib.sha256(combined_name.encode()).hexdigest()[:8]}",
             domain=primary_domain,
             name=combined_name,
             value=combined_name,
@@ -287,7 +287,7 @@ class SymbolComposer:
             name = f"{symbols[0].name}-{symbols[1].name}"
 
         return Symbol(
-            id=f"BLEND_{hashlib.sha256(name.encode()).hexdigest()}[:8]}",
+            id=f"BLEND_{hashlib.sha256(name.encode()).hexdigest()[:8]}",
             domain=SymbolicDomain.EMOTION,
             name=name,
             value=name,
@@ -303,7 +303,7 @@ class SymbolComposer:
         sequence_name = "→".join(s.name for s in symbols)
 
         return Symbol(
-            id=f"SEQ_{hashlib.sha256(sequence_name.encode()).hexdigest()}[:8]}",
+            id=f"SEQ_{hashlib.sha256(sequence_name.encode()).hexdigest()[:8]}",
             domain=SymbolicDomain.ACTION,
             name=sequence_name,
             value=sequence_name,

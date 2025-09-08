@@ -207,7 +207,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             raise LukhasError("Scale infrastructure not operational")
 
         # Generate tracking ID
-        tracking_id = f"{channel.value}_{uuid.uuid4()}.hex[:12]}"
+        tracking_id = f"{channel.value}_{uuid.uuid4().hex[:12]}"
 
         # Determine optimal region
         region = await self._determine_optimal_region(feedback.user_id)
@@ -318,7 +318,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
 
         # Create batch
         batch = FeedbackBatch(
-            batch_id=f"batch_{uuid.uuid4()}.hex[:12]}",
+            batch_id=f"batch_{uuid.uuid4().hex[:12]}",
             items=[item["feedback"] for item in batch_items],
             processing_tier=batch_items[0]["tier"],
             created_at=datetime.now(timezone.utc),

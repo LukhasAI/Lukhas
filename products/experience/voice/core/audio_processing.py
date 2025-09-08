@@ -488,7 +488,7 @@ class AudioProcessingChain:
             try:
                 current_buffer = await processor.process(current_buffer)
             except Exception as e:
-                self.logger.error(f"Processor {type(processor)}.__name__} failed: {e!s}")
+                self.logger.error(f"Processor {type(processor).__name__} failed: {e!s}")
                 # Continue with unprocessed buffer
                 pass
 
@@ -675,7 +675,7 @@ class LUKHASAudioProcessor:
             self.logger.error(f"Audio processing failed: {e!s}")
 
             # Create GLYPH event
-        glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {"audio.processing.error", {"error": str(e), "quality": quality.value})
+            glyph_token = create_glyph(GLYPHSymbol.CREATE, "voice_pipeline", "consciousness", {"type": "audio.processing.error", "error": str(e), "quality": quality.value})
 
             return audio_data, {
                 "success": False,

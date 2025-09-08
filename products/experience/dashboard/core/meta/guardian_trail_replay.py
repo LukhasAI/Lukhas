@@ -285,7 +285,7 @@ def print_summary(events: list[dict[str, Any]]):
     for severity, count in sorted(severities.items()):
         color = get_severity_color(severity)
         bar = "█" * count
-        print(f"  {color}{severity.capitalize()}:<8}{Colors.RESET} {bar} ({count})")
+        print(f"  {color}{severity.capitalize():>8}{Colors.RESET} {bar} ({count})")
 
     # Collect all glyphs used
     all_glyphs = set()
@@ -295,7 +295,7 @@ def print_summary(events: list[dict[str, Any]]):
             all_glyphs.update(event["intervention"].get("glyphs", []))
 
     print("\nSymbolic Vocabulary Used:")
-    print(f"{Colors.CYAN}{' '.join(sorted(all_glyphs)}{Colors.RESET}")
+    print(f"{Colors.CYAN}{' '.join(sorted(all_glyphs))}{Colors.RESET}")
 
 
 def replay_mode(events: list[dict[str, Any]]):

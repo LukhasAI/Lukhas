@@ -290,7 +290,7 @@ class UserFeedbackSystem(CoreInterface):
             raise ValidationError("Please wait before submitting more feedback")
 
         # Create feedback item
-        feedback_id = f"feedback_{uuid.uuid4()}.hex[:12]}"
+        feedback_id = f"feedback_{uuid.uuid4().hex[:12]}"
         timestamp = datetime.now(timezone.utc)
 
         feedback_item = FeedbackItem(

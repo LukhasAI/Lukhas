@@ -152,7 +152,7 @@ class SelfHealingManager:
     """
 
     def __init__(self):
-        self.manager_id = f"healing_manager_{int(datetime.now(timezone.utc).timestamp()}"
+        self.manager_id = f"healing_manager_{int(datetime.now(timezone.utc).timestamp())}"
         self.logger = logger.bind(manager_id=self.manager_id)
 
         # Integrate existing LUKHAS systems
@@ -366,7 +366,7 @@ class SelfHealingManager:
 
         # Create healing task
         healing_task = HealingTask(
-            task_id=f"healing_{component_id}_{int(datetime.now(timezone.utc).timestamp()}",
+            task_id=f"healing_{component_id}_{int(datetime.now(timezone.utc).timestamp())}",
             component_id=component_id,
             healing_strategy=strategy,
             priority=priority,
@@ -400,7 +400,7 @@ class SelfHealingManager:
     ) -> HealingPlan:
         """Create a comprehensive healing plan for multiple components."""
 
-        plan_id = f"healing_plan_{int(datetime.now(timezone.utc).timestamp()}"
+        plan_id = f"healing_plan_{int(datetime.now(timezone.utc).timestamp())}"
         healing_tasks = []
 
         # Analyze each component and create healing tasks
@@ -561,7 +561,7 @@ class SelfHealingManager:
 
         total_components = len(self.component_health)
         if total_components == 0:
-            return {"overall_health": "unknown", "components": {}
+            return {"overall_health": "unknown", "components": {}}
 
         # Calculate health distribution
         health_distribution = {}

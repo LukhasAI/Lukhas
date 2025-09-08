@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
 import streamlit as st
 import time
@@ -9,8 +11,6 @@ Integrated Monitoring System
 Central integration hub that connects all monitoring components with the existing
 SignalBus and HomeostasisController to create a unified monitoring ecosystem.
 """
-
-from __future__ import annotations
 
 import asyncio
 from collections import defaultdict, deque
@@ -92,7 +92,7 @@ except Exception:
                 pass
 
             def get_adaptation_statistics(self):
-                return {"total_adaptations": 0, "success_rates": {}
+                return {"total_adaptations": 0, "success_rates": {}}
 
         @dataclass
         class AdaptationPlan:  # type: ignore
