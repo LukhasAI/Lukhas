@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+
 # Import core systems with fallbacks
 try:
     from candidate.core.colonies.memory_colony_enhanced import EnhancedMemoryColony

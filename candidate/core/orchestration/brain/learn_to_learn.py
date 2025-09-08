@@ -272,7 +272,7 @@ class MetaLearningSystem:
         """Update meta-parameters based on learning history"""
         # Adjust exploration rate based on learning progress
         if len(self.performance_history) >= 10:
-            recent_variance = np.var([p.get("overall_score", 0) for p in self.performance_history[-10 ]])
+            recent_variance = np.var([p.get("overall_score", 0) for p in self.performance_history[-10:]])
             # More variance = more exploration needed
             self.exploration_rate = min(0.3, max(0.05, recent_variance * 2))
 
@@ -304,8 +304,8 @@ class MetaLearningSystem:
 
         # Look at trend of performance over time
         if len(self.performance_history) >= 5:
-            recent = [p.get("overall_score", 0) for p in self.performance_history[-5 ]]
-            earlier = [p.get("overall_score", 0) for p in self.performance_history[ -5]]
+            recent = [p.get("overall_score", 0) for p in self.performance_history[-5:]]
+            earlier = [p.get("overall_score", 0) for p in self.performance_history[:-5]]
 
             if earlier and recent:
                 avg_recent = sum(recent) / len(recent)

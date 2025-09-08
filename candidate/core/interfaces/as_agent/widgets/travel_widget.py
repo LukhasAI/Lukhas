@@ -24,7 +24,7 @@ Integration Date: 2025-05-31T07:55:30.487056
 """
 
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 
 def suggest_travel_action(

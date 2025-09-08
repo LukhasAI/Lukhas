@@ -6,7 +6,7 @@ Professional pattern to avoid rewriting existing code
 import asyncio
 import logging
 from collections.abc import AsyncIterator
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from lukhas.core.container.service_container import ServiceLifetime, injectable
@@ -88,7 +88,7 @@ class MemoryServiceAdapter(IMemoryService):
         try:
             from candidate.orchestration.symbolic_kernel_bus import kernel_bus
 
-            # Event bus initialization handled by kernel_bus import
+            EventBus()
             event = MemoryFoldCreated(
                 source_module="memory",
                 fold_id=fold_id,

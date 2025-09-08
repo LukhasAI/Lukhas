@@ -34,6 +34,7 @@ from typing import Any, Optional, Protocol
 
 from pydantic import BaseModel, Field
 
+
 # ——— Configuration & Utilities —————————————————————————————— #
 
 
@@ -455,24 +456,9 @@ def is_sustainable_location(location: tuple[float, float]) -> bool:
 
 def is_indoor_location(location: tuple[float, float]) -> bool:
     """Symbolic reasoning: Determine if location is likely indoor."""
-    # Enhanced consciousness awareness with location telemetry
-    import logging
-    logger = logging.getLogger(__name__)
-
     # Placeholder for sophisticated indoor/outdoor detection
     # Could use GPS accuracy, nearby WiFi networks, building databases, etc.
-    result = True  # Default assumption for most office/home environments
-
-    # Enhanced observability for consciousness location awareness
-    logger.info("consciousness.location_awareness", extra={
-        "location_lat": location[0],
-        "location_lon": location[1],
-        "is_indoor": result,
-        "detection_method": "default_assumption",
-        "trace": "consciousness_location_analysis"
-    })
-
-    return result
+    return True  # Default assumption for most office/home environments
 
 
 def qi_anomaly_check(noise: float, temperature: float) -> bool:

@@ -157,7 +157,8 @@ class MemoryManager:
             original_count = len(self.memories[user_id])
             self.memories[user_id] = [memory for memory in self.memories[user_id] if memory["timestamp"] > cutoff_date]
             removed_count = original_count - len(self.memories[user_id])
-            if removed_count > 0 self.logger.info(f"Removed {removed_count} old interactions for user {user_id}")
+            if removed_count > 0:
+                self.logger.info(f"Removed {removed_count} old interactions for user {user_id}")
 
     def _calculate_importance(self, context: dict[str, Any]) -> float:
         """Calculate the importance score of an interaction based on context."""

@@ -34,9 +34,12 @@
 ║ Symbolic Tags: {ΛETHICS}, {ΛDREAM}, {ΛGUARDIAN}, {ΛALIGNMENT}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
+from datetime import timezone
+
 import asyncio
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 # Try to import from actual ethics module, fallback to mock
@@ -334,7 +337,7 @@ class DreamEthicsInjector:
             if ann.alignment_score > 0.7:
                 insights.append(
                     f"The '{ann.tag}' aspect strongly aligns with core values "
-                    f"of {next(iter(self.core_principles.keys()))}"
+                    f"of {next(iter(self.core_principles.keys()}"
                 )
             elif ann.alignment_score < -0.5:
                 insights.append(f"The '{ann.tag}' element requires ethical transformation to align with system values")

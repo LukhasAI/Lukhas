@@ -9,6 +9,9 @@ Real-time consciousness signal routing, state synchronization, and network coord
 - Real-time consciousness network health monitoring
 - Bio-symbolic data flow optimization
 """
+from typing import List
+import streamlit as st
+
 import asyncio
 import logging
 import time
@@ -394,7 +397,7 @@ class ConsciousnessDataFlowManager:
                 "sync_operation": "network_synchronization",
                 "sync_timestamp": datetime.now(timezone.utc).isoformat(),
             },
-            trinity_compliance={"framework_compliance": {"validation_passed": True}},
+            trinity_compliance={"framework_compliance": {"validation_passed": True},
         )
 
         # Route to all connected modules that support synchronization
@@ -592,7 +595,7 @@ class ConsciousnessDataFlowManager:
     async def _activate_cascade_prevention(self, risk_level: float) -> None:
         """Activate cascade prevention measures"""
 
-        prevention_id = f"CASCADE_PREV_{int(time.time())}"
+        prevention_id = f"CASCADE_PREV_{int(time.time()}"
         self.cascade_monitors[prevention_id] = True
 
         logger.warning(f"🛡️ Activating cascade prevention (risk: {risk_level:.2f})")

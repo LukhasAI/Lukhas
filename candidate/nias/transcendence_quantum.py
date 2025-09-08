@@ -129,5 +129,4 @@ class NIASTranscendenceQuantumPlatform:
                 "planetary_service": True,
                 "collective_evolution_contribution": True,
             }
-            }
         }

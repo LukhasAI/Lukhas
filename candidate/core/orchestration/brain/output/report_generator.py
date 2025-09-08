@@ -26,7 +26,7 @@ def load_previous_reflections():
     # Load last 3 meta-reflections
     with open("logs/lukhas_meta_reflection_history.jsonl") as file:
         lines = file.readlines()
-    return [json.loads(line) for line in lines[-3 ]]
+    return [json.loads(line) for line in lines[-3:]]
 
 
 def generate_report():

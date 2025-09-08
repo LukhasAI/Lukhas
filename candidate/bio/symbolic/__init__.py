@@ -19,7 +19,7 @@ try:
 	mod = importlib.util.module_from_spec(spec)
 	loader.exec_module(mod)
 
-	get_symbolic_processor = mod.get_symbolic_processor
+	get_symbolic_processor = getattr(mod, "get_symbolic_processor")
 	__all__ = ["get_symbolic_processor"]
 except Exception as e:
 	logger.warning(f"Failed to load symbolic implementation: {e}")

@@ -9,15 +9,9 @@ Simple, working shared memory for multi-agent collaboration.
 
 import asyncio
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
-
-try:
-    from lukhas.async_utils import create_managed_task
-except ImportError:
-    # Fallback for development
-    create_managed_task = lambda coro, **kwargs: asyncio.create_task(coro)
 
 
 class AgentMemory:
@@ -72,11 +66,7 @@ def append_to_shared_memory(agent_id: str, event_type: str, data: dict[str, Any]
     """Legacy function for backward compatibility"""
     try:
         memory = AgentMemory(agent_id)
-        create_managed_task(
-            memory.append_memory(event_type, data),
-            name="memory_append",
-            component="memory.simple"
-        )
+        asyncio.create_task(memory.append_memory(event_type, data))
         return True
     except Exception:
         return False

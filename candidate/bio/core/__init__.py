@@ -24,7 +24,7 @@ try:
     core_mod = importlib.util.module_from_spec(spec)
     loader.exec_module(core_mod)
 
-    BioEngine = core_mod.BioEngine
+    BioEngine = getattr(core_mod, "BioEngine")
     __all__ = ["BioEngine"]
 except Exception as e:
     logger.warning(f"Could not import BioEngine: {e}")

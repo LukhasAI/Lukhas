@@ -7,12 +7,14 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import logging
 import os
 import sys
 from enum import Enum
 from pathlib import Path
 from typing import Optional  # Dict, Any, List not in signatures, but good for context
+import streamlit as st
+import time
+import logging
 
 # Initialize logger for ΛTRACE
 
@@ -182,7 +184,7 @@ class LukhusAI:
                     f"ΛTRACE: AI response received (from dict output). Length: {len(response_content)}."
                 )
                 self.instance_logger.debug(
-                    f"ΛTRACE: Full AI dict result: {result if debug else {'output_preview': response_content[:100] + '...'}}"
+                    f"ΛTRACE: Full AI dict result: {result if debug else {'output_preview': response_content[:100] + '...'}"
                 )
                 return str(response_content)  # Ensure string
             elif isinstance(result, str):
@@ -190,12 +192,12 @@ class LukhusAI:
                 self.instance_logger.debug(f"ΛTRACE: Full AI string result (first 100): {result[:100] + '...'}")
                 return result
             else:
-                unexpected_type_msg = f"[{self.component_name}] AI router returned unexpected result type: {type(result)}. Content: {str(result)[:200]}"
+                unexpected_type_msg = f"[{self.component_name}] AI router returned unexpected result type: {type(result)}. Content: {str(result)}[:200]}"
                 self.instance_logger.error(f"ΛTRACE: {unexpected_type_msg}")
                 return unexpected_type_msg
 
         except Exception as e:
-            error_msg = f"[{self.component_name}] AI Error during multiverse_route call: {type(e).__name__} - {e!s}"
+            error_msg = f"[{self.component_name}] AI Error during multiverse_route call: {type(e)}.__name__} - {e!s}"
             self.instance_logger.error(f"ΛTRACE: {error_msg}", exc_info=True)
             return error_msg
 

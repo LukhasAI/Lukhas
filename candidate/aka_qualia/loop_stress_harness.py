@@ -22,6 +22,7 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Optional
 
+
 from candidate.aka_qualia.core import AkaQualia
 
 

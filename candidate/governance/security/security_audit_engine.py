@@ -111,16 +111,16 @@ class SecretDetector:
     def __init__(self):
         self.patterns = {
             "api_key": [
-                r'(?i)api[_-]?key["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20})',
-                r'(?i)apikey["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20})',
+                r'(?i)api[_-]?key["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
+                r'(?i)apikey["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
             ],
             "password": [
-                r'(?i)password["\']?\s*[:=]\s*["\']?([^"\'\s]{8})',
-                r'(?i)passwd["\']?\s*[:=]\s*["\']?([^"\'\s]{8})',
+                r'(?i)password["\']?\s*[:=]\s*["\']?([^"\'\s]{8,})',
+                r'(?i)passwd["\']?\s*[:=]\s*["\']?([^"\'\s]{8,})',
             ],
             "token": [
-                r'(?i)token["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20})',
-                r"(?i)bearer\s+([a-zA-Z0-9_-]{20})",
+                r'(?i)token["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
+                r"(?i)bearer\s+([a-zA-Z0-9_-]{20,})",
             ],
             "aws_key": [
                 r"AKIA[0-9A-Z]{16}",
@@ -135,8 +135,8 @@ class SecretDetector:
                 r'(?i)openai[_-]?api[_-]?key["\']?\s*[:=]\s*["\']?(sk-[a-zA-Z0-9]{48})',
             ],
             "anthropic_key": [
-                r"sk-ant-[a-zA-Z0-9-_]{95}",
-                r'(?i)anthropic[_-]?api[_-]?key["\']?\s*[:=]\s*["\']?(sk-ant-[a-zA-Z0-9-_]{95})',
+                r"sk-ant-[a-zA-Z0-9-_]{95,}",
+                r'(?i)anthropic[_-]?api[_-]?key["\']?\s*[:=]\s*["\']?(sk-ant-[a-zA-Z0-9-_]{95,})',
             ],
             "jwt_token": [
                 r"eyJ[a-zA-Z0-9_-]+\.eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+",
@@ -380,7 +380,7 @@ class AdapterSecurityAuditor:
             if "check_consent" not in content:
                 findings.append(
                     SecurityFinding(
-                        id=f"adapter_missing_consent_{hashlib.md5(adapter_path.encode()).hexdigest()}[:8]",
+                        id=f"adapter_missing_consent_{hashlib.md5(adapter_path.encode()).hexdigest(}}[:8]}",
                         type=VulnerabilityType.POLICY_VIOLATION,
                         level=SecurityLevel.HIGH,
                         title="Missing Consent Verification",
@@ -394,7 +394,7 @@ class AdapterSecurityAuditor:
             if "audit_trail" not in content and "telemetry" not in content:
                 findings.append(
                     SecurityFinding(
-                        id=f"adapter_missing_audit_{hashlib.md5(adapter_path.encode()).hexdigest()}[:8]",
+                        id=f"adapter_missing_audit_{hashlib.md5(adapter_path.encode()).hexdigest(}}[:8]}",
                         type=VulnerabilityType.POLICY_VIOLATION,
                         level=SecurityLevel.MEDIUM,
                         title="Missing Audit Trail Logging",
@@ -416,7 +416,7 @@ class AdapterSecurityAuditor:
 
                         findings.append(
                             SecurityFinding(
-                                id=f"adapter_{pattern_type}_{hashlib.md5(f'{adapter_path}:{line_num}'.encode()).hexdigest()[:12]}",
+                                id=f"adapter_{pattern_type}_{hashlib.md5(f'{adapter_path}}:{line_num}'.encode()).hexdigest()[:12]}",
                                 type=VulnerabilityType.POLICY_VIOLATION,
                                 level=(
                                     SecurityLevel.HIGH
@@ -424,7 +424,7 @@ class AdapterSecurityAuditor:
                                     in ["dangerous_operations", "privilege_escalation"]
                                     else SecurityLevel.MEDIUM
                                 ),
-                                title=f"Potential {pattern_type.replace('_', ' ').title()}",
+                                title=f"Potential {pattern_type.replace('_', ' ').title(}}",
                                 description=f"Detected potential {pattern_type} in adapter code",
                                 file_path=adapter_path,
                                 line_number=line_num,
@@ -459,7 +459,7 @@ class SecurityAuditEngine:
 
     async def run_comprehensive_audit(self) -> SecurityAuditReport:
         """Run comprehensive security audit"""
-        audit_id = f"audit_{int(time.time())}_{secrets.token_hex(4)}"
+        audit_id = f"audit_{int(time.time())}_{secrets.token_hex(4}}"
         timestamp = datetime.now(timezone.utc).isoformat()
 
         self.logger.info(f"Starting comprehensive security audit: {audit_id}")
@@ -517,7 +517,7 @@ class SecurityAuditEngine:
             compliance_status=compliance_status,
         )
 
-        self.logger.info(f"Security audit completed: {len(findings)} findings")
+        self.logger.info(f"Security audit completed: {len(findings}} findings")
         return report
 
     async def _scan_for_secrets(self) -> list[SecurityFinding]:
@@ -533,7 +533,7 @@ class SecurityAuditEngine:
             ".yaml",
             ".yml",
             ".env",
-            ".config",
+            ".config",}
         }
 
         # Directories to skip
@@ -544,7 +544,7 @@ class SecurityAuditEngine:
             ".venv",
             "venv",
             "dist",
-            "build",
+            "build",}
         }
 
         for root, dirs, files in os.walk(self.project_root):
@@ -629,7 +629,7 @@ class SecurityAuditEngine:
                 # Check for overly permissive configurations
                 if "admin: true" in content or "superuser: true" in content:
                     finding = SecurityFinding(
-                        id=f"access_{hashlib.md5(str(config_file).encode()).hexdigest()}[:8]",
+                        id=f"access_{hashlib.md5(str(config_file).encode()).hexdigest(}}[:8]}",
                         type=VulnerabilityType.ACCESS_CONTROL,
                         level=SecurityLevel.MEDIUM,
                         title="Potentially Overly Permissive Access Control",
@@ -680,7 +680,7 @@ class SecurityAuditEngine:
         if not self.guardian_system:
             return {
                 "status": "unavailable",
-                "reason": "Guardian System not initialized",
+                "reason": "Guardian System not initialized",}
             }
 
         try:
@@ -688,7 +688,7 @@ class SecurityAuditEngine:
             return {
                 "status": "active" if status["active"] else "inactive",
                 "components": status["components"],
-                "availability": status,
+                "availability": status,}
             }
         except Exception as e:
             return {"status": "error", "reason": str(e)}
@@ -700,7 +700,7 @@ class SecurityAuditEngine:
             "critical": 0,
             "high": 0,
             "medium": 0,
-            "low": 0,
+            "low": 0,}
         }
 
         for finding in findings:
@@ -775,7 +775,7 @@ class SecurityAuditEngine:
             "secure_coding_practices": True,
             "access_control_standards": True,
             "audit_trail_requirements": True,
-            "encryption_standards": True,
+            "encryption_standards": True,}
         }
 
         # Check for compliance violations

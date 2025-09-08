@@ -6,6 +6,10 @@ breakthrough generation without human intervention.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 """
+from consciousness.qi import qi
+from typing import List
+import streamlit as st
+
 import asyncio
 import logging
 import time
@@ -121,7 +125,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
         # Create new cycle
         self.current_cycle = InnovationCycle(
-            cycle_id=f"cycle_{int(time.time())}",
+            cycle_id=f"cycle_{int(time.time()}",
             start_time=datetime.now(timezone.utc),
             end_time=None,
             opportunities_identified=0,

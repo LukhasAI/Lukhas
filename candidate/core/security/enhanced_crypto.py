@@ -5,6 +5,10 @@ Production-grade cryptographic implementation with key management,
 secure defaults, and compliance with modern security standards.
 Replaces legacy XOR encryption with proper cryptographic primitives.
 """
+from typing import List
+import time
+import streamlit as st
+
 import base64
 import os
 import secrets
@@ -471,7 +475,7 @@ async def example_usage():
 
         # Decrypt
         decrypted = await crypto.decrypt(ciphertext, key_id)
-        print(f"  ✅ Decrypted successfully: {decrypted.decode()} == test_data")
+        print(f"  ✅ Decrypted successfully: {decrypted.decode()} == test_data}")
 
         # Test key rotation
         new_key_id = crypto.rotate_key(key_id)

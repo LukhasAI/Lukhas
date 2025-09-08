@@ -18,7 +18,7 @@ import os
 # Import our organized components
 import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Optional
 
 # Add brain directory to path for imports
@@ -624,14 +624,14 @@ class CognitiveEngine:
 
                     error_transparency = transparency_orchestrator.complete_trace(
                         trace_id,
-                        f"Error: {e!s}",
+                        f"Error: {str(e)}",
                         0.1,
-                        f"Processing error was handled transparently: {e!s}",
+                        f"Processing error was handled transparently: {str(e)}",
                     )
 
             # Generate error response with partial capability
             error_response = AGIResponse(
-                content=f"I encountered an error while processing your request. Error: {e!s}",
+                content=f"I encountered an error while processing your request. Error: {str(e)}",
                 confidence=0.1,
                 reasoning_path=[
                     {"error": str(e), "timestamp": datetime.now(timezone.utc).isoformat()}

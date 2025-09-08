@@ -13,52 +13,6 @@ from candidate.core.colonies.base_colony import BaseColony
 logger = logging.getLogger(__name__)
 
 
-class Archiver:
-    """
-    Simple archiver class for basic archiving operations.
-    
-    This is a simplified version that provides basic archiving functionality
-    without the full symbolic shell archiving features.
-    """
-    
-    def __init__(self, output_dir: str = "/tmp"):
-        self.output_dir = output_dir
-        self.archived_items = []
-    
-    def archive(self, data: Any, name: str = None) -> str:
-        """Archive data with optional name"""
-        if name is None:
-            name = f"archive_{int(time.time())}"
-        
-        filename = f"{self.output_dir}/{name}.json"
-        
-        try:
-            with open(filename, "w") as f:
-                json.dump({"data": data, "timestamp": time.time()}, f, indent=2)
-            
-            self.archived_items.append(filename)
-            logger.info(f"Archived data to {filename}")
-            return filename
-            
-        except Exception as e:
-            logger.error(f"Failed to archive data: {e}")
-            return ""
-    
-    def list_archives(self) -> list[str]:
-        """List all archived items"""
-        return self.archived_items.copy()
-    
-    def restore(self, filename: str) -> Any:
-        """Restore data from archive"""
-        try:
-            with open(filename) as f:
-                archived = json.load(f)
-            return archived.get("data")
-        except Exception as e:
-            logger.error(f"Failed to restore from {filename}: {e}")
-            return None
-
-
 class SymbolicShellArchiver:
     """
     Creates periodic snapshots of the full symbolic state.

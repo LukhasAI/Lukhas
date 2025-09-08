@@ -5,7 +5,7 @@ Leveraging Claude Code's capabilities with LUKHAS's consciousness
 """
 
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
 

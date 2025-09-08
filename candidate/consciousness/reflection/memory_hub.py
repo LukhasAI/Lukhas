@@ -17,7 +17,7 @@ a unified interface for external systems to interact with memory.
 
 import asyncio
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge

@@ -21,9 +21,11 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+
 # Cryptography imports should remain at module top to satisfy linters
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
+
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 MOCK_HASH_FOR_TESTING = "mock_blake2b_hash_for_testing"

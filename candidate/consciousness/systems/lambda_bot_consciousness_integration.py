@@ -5,7 +5,7 @@ Provides integration wrapper for connecting the ΛBot consciousness monitor to t
 
 import asyncio
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.common import get_logger

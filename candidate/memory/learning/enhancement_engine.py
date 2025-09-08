@@ -10,7 +10,7 @@ Your lukhas system is already sophisticated - let's make it even better!
 """
 
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -216,7 +216,7 @@ class VoiceMemoryBridge:
                     {
                         "pattern": pattern,
                         "occurrences": len(files),
-                        "files": [str(f.relative_to(self.workspace_root)) for f in files[ 5]],
+                        "files": [str(f.relative_to(self.workspace_root)) for f in files[:5]],
                     }
                 )
 

@@ -18,7 +18,7 @@ Integration Date: 2025-05-31T07:55:27.749623
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime
 
 FLASHBACK_LOG_PATH = "logs/flashbacks/flashback_trace.jsonl"
 OUTPUT_LOG = "logs/expressions/lukhas_expression_log.jsonl"

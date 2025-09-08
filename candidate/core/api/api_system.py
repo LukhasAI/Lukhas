@@ -1,10 +1,8 @@
+log = logging.getLogger(__name__)
 """
 LUKHAS Enhanced API System
 Unified API with proper authentication, service integration, and error handling
 """
-import logging
-
-logger = logging.getLogger(__name__)
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from typing import Any, Optional

@@ -4,7 +4,7 @@ Shows best practices for comprehensive audit logging
 """
 
 import asyncio
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any
 
 from lukhas.core.audit import (

@@ -26,6 +26,7 @@ import sys
 from pathlib import Path
 from typing import Callable, Optional
 
+
 # Try to import audio libraries
 try:
     import winsound

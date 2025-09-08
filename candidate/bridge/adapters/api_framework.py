@@ -3,7 +3,6 @@
 LUKHAS Enterprise API Framework
 Production-grade API with versioning, type safety, and OpenAPI documentation
 """
-import asyncio
 import hashlib
 import logging
 import uuid
@@ -523,9 +522,9 @@ async def get_metrics():
     response_model=APIResponse[MemoryFoldResponse],
 )
 async def fold_memory_v1(
-    _request: MemoryFoldRequest,
-    _user: dict[str, Any] = Depends(get_current_user),
-    _req: Request = None,
+    request: MemoryFoldRequest,
+    user: dict[str, Any] = Depends(get_current_user),
+    req: Request = None,
 ) -> APIResponse[MemoryFoldResponse]:
     """
     Fold memory with emotional context (DEPRECATED - Use v2)
@@ -616,19 +615,10 @@ async def fold_memory_v2(
 )
 async def get_fold_status(
     fold_id: str,
-    _user: dict[str, Any] = Depends(get_current_user),
-    _req: Request = None,
+    user: dict[str, Any] = Depends(get_current_user),
+    req: Request = None,
 ) -> APIResponse[MemoryFoldResponse]:
     """Get status of memory fold operation"""
-    # Enhanced telemetry for memory fold status queries
-    import logging
-    logger = logging.getLogger(__name__)
-
-    logger.info("api.memory_fold_status", extra={
-        "fold_id": fold_id,
-        "operation": "status_check",
-        "trace": "memory_fold_status_api"
-    })
 
     # Mock implementation - would check actual status
     response = MemoryFoldResponse(

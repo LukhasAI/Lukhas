@@ -28,6 +28,9 @@
 ║ • Bio-Rhythmic Entrainment: Synchronization across consciousness layers
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
+from datetime import timezone
+
 import asyncio
 import logging
 import math
@@ -36,12 +39,12 @@ import time
 import uuid
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
 # Configure bio-symbolic logging
-logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator")
+logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator", timezone)
 logger.info("ΛTRACE: Initializing Bio-Symbolic Coherence Validation System v1.0.0")
 
 
@@ -84,7 +87,7 @@ class BiologicalProcess(Enum):
 class BioRhythm:
     """Bio-rhythmic pattern for coherence validation"""
 
-    rhythm_id: str = field(default_factory=lambda: f"rhythm_{uuid.uuid4().hex[:8]}")
+    rhythm_id: str = field(default_factory=lambda: f"rhythm_{uuid.uuid4()}.hex[:8]}")
     oscillator_type: OscillatorType = OscillatorType.GAMMA
     frequency_hz: float = 40.0  # Base frequency
     amplitude: float = 1.0  # Signal strength
@@ -189,7 +192,7 @@ class CoherenceValidationConfig:
 class CoherenceReport:
     """Comprehensive coherence validation report"""
 
-    validation_id: str = field(default_factory=lambda: f"cohval_{uuid.uuid4().hex[:8]}")
+    validation_id: str = field(default_factory=lambda: f"cohval_{uuid.uuid4()}.hex[:8]}")
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     # Overall coherence
@@ -250,7 +253,7 @@ class BioSymbolicCoherenceValidator:
     def __init__(self, config: Optional[CoherenceValidationConfig] = None):
         """Initialize bio-symbolic coherence validator"""
         self.config = config or CoherenceValidationConfig()
-        self.validator_id = f"biosym_{uuid.uuid4().hex[:8]}"
+        self.validator_id = f"biosym_{uuid.uuid4()}.hex[:8]}"
         self.version = "1.0.0"
 
         # Bio-rhythmic oscillators
@@ -267,6 +270,9 @@ class BioSymbolicCoherenceValidator:
         self.metabolic_monitors: dict[str, float] = {}
         self.plasticity_trackers: dict[str, float] = {}
         self.homeostatic_controllers: dict[str, float] = {}
+        
+        # Sync mode fallback for environments without event loop
+        self._sync_mode = False
 
         # Trinity Framework integration
         self.identity_coherence_tracker = IdentityCoherenceTracker()
@@ -278,18 +284,17 @@ class BioSymbolicCoherenceValidator:
         self.synchronization_events = 0
         self.coherence_violations = 0
         self.critical_interventions = 0
-        self._sync_mode = False
 
         # Initialize systems
         self._initialize_bio_rhythmic_systems()
-        
-        # Only start validation loop if in async context
         try:
             self._start_validation_loop()
-        except RuntimeError:
-            # No event loop available - use sync mode
-            logger.info("ΛTRACE: Running in sync mode - validation loop disabled")
-            self._sync_mode = True
+        except RuntimeError as e:
+            if "There is no current event loop" in str(e):
+                logger.warning("ΛTRACE: No event loop available, enabling sync mode")
+                self._sync_mode = True
+            else:
+                raise
 
         logger.info(f"ΛTRACE: Bio-Symbolic Coherence Validator initialized: {self.validator_id}")
 

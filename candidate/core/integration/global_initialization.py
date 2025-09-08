@@ -8,6 +8,9 @@
 Global System Initialization
 Coordinated initialization of all system hubs and cross-system connections
 """
+from consciousness.qi import qi
+import streamlit as st
+
 import asyncio
 import logging
 from typing import Any
@@ -205,7 +208,7 @@ class GlobalSystemInitializer:
 
     async def _verify_system_health(self) -> dict[str, Any]:
         """Verify health of all initialized systems"""
-        health_status = {"overall": "healthy", "hubs": {}, "bridges": {}}
+        health_status = {"overall": "healthy", "hubs": {}, "bridges": {}
 
         # Check hub health
         hub_modules = {

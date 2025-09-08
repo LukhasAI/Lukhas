@@ -4,7 +4,7 @@ Professional initialization of all services and adapters
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from candidate.orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator

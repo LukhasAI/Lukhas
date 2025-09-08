@@ -2,6 +2,7 @@
 MATRIZ Adapter for Bio Module
 Emits MATRIZ-compliant nodes for bio-inspired processing events
 """
+import streamlit as st
 
 import json
 import time
@@ -26,7 +27,7 @@ class BioMatrizAdapter:
 
         node = {
             "version": 1,
-            "id": f"LT-BIO-{uuid.uuid4().hex[:8]}",
+            "id": f"LT-BIO-{uuid.uuid4()}.hex[:8]}",
             "type": node_type,
             "state": {
                 "confidence": state.get("confidence", 0.75),
@@ -183,14 +184,3 @@ class BioMatrizAdapter:
             json.dump(node, f, indent=2)
 
         return filepath
-
-
-# Convenience function for direct node creation
-def MATRIZ_bio_adapter_node(
-    node_type: str,
-    state: dict[str, float], 
-    labels: Optional[list[str]] = None,
-    provenance_extra: Optional[dict] = None,
-) -> dict[str, Any]:
-    """Create a MATRIZ-compliant node for bio events (convenience function)"""
-    return BioMatrizAdapter.create_node(node_type, state, labels, provenance_extra)

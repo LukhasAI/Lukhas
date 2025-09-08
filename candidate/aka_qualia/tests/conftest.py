@@ -10,6 +10,7 @@ Comprehensive fixture setup for testing the C4 memory system with:
 - Test data generation
 - Performance benchmarking utilities
 """
+import streamlit as st
 
 import contextlib
 import tempfile
@@ -43,8 +44,8 @@ from candidate.aka_qualia.models import (
 def sqlite_engine():
     """In-memory SQLite engine for fast unit tests"""
     # Use file-based SQLite for threading tests, in-memory for others
-    import os
     import tempfile
+    import os
     
     # Create a temporary database file
     fd, db_path = tempfile.mkstemp(suffix='.db')
@@ -255,7 +256,7 @@ def test_metrics():
         qualia_novelty=0.73,
         repair_delta=0.05,
         timestamp=time.time(),
-        episode_id=f"test_episode_{int(time.time())}",
+        episode_id=f"test_episode_{int(time.time()}",
     )
 
 
@@ -374,7 +375,7 @@ def create_test_scene(**overrides) -> dict[str, Any]:
 
 def create_test_glyph(key: str = "test:glyph", **attrs) -> dict[str, Any]:
     """Create test glyph data"""
-    return {"key": key, "attrs": {"tone": 0.0, "risk_score": 0.1, **attrs}}
+    return {"key": key, "attrs": {"tone": 0.0, "risk_score": 0.1, **attrs}
 
 
 def create_varying_scene(scene_id: str) -> dict[str, Any]:

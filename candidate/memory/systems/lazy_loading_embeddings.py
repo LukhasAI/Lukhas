@@ -1,4 +1,3 @@
-logger = logging.getLogger(__name__)
 #!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -47,7 +46,7 @@ import sqlite3
 import threading
 from collections import OrderedDict
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional, Union
 

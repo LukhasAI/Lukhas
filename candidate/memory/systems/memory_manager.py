@@ -1020,7 +1020,7 @@ async def demo_advanced_memory_manager():
         )
 
         logger.info("AdvancedMemoryManager_Demo_Retrieving_By_Emotion_Eureka")
-        # ΛCAUTION Relies on `fold_engine.retrieve_by_emotion` which is conceptual.
+        # ΛCAUTION: Relies on `fold_engine.retrieve_by_emotion` which is conceptual.
         eureka_memories_list = await adv_mem_manager.retrieve_by_emotion(emotion="eureka", intensity_threshold=0.9)
         logger.info(
             "AdvancedMemoryManager_Demo_Eureka_Memories",

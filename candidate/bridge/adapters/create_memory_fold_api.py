@@ -5,7 +5,7 @@ Adds causal chain preservation and temporal navigation to any AI system
 """
 
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Optional
 
 import numpy as np
@@ -94,7 +94,7 @@ class QIMemoryEngine:
         """Create a new memory fold in the helix"""
 
         # Generate unique fold ID
-        fold_id = f"fold_{uuid.uuid4().hex[:8]}_{int(datetime.now(timezone.utc).timestamp())}"
+        fold_id = f"fold_{uuid.uuid4().hex[:8]}_{int(datetime.now(timezone.utc).timestamp()}"
 
         # Calculate quantum state based on emotional vector
         qi_state = self._calculate_quantum_state(memory_input.emotional_state, memory_input.importance)

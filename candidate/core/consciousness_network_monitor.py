@@ -10,6 +10,11 @@ Advanced monitoring, analytics, and visualization for consciousness data flows
 - Cascade prevention effectiveness tracking
 - Network topology visualization and analysis
 """
+from typing import List
+from typing import Dict
+import time
+import streamlit as st
+
 import asyncio
 import logging
 from collections import deque
@@ -236,7 +241,7 @@ class ConsciousnessNetworkMonitor:
         else:
             # Fallback metrics
             flow_metrics = FlowMetrics()
-            network_status = {"flow_state": "active", "metrics": {}}
+            network_status = {"flow_state": "active", "metrics": {}
 
         # Get adapter metrics
         if self.adapter:

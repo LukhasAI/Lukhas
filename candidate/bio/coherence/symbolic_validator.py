@@ -28,6 +28,9 @@
 ║ • Bio-Rhythmic Entrainment: Synchronization across consciousness layers
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+import streamlit as st
+from datetime import timezone
+
 import asyncio
 import logging
 import math
@@ -36,12 +39,12 @@ import time
 import uuid
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
 # Configure bio-symbolic logging
-logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator")
+logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator", timezone)
 logger.info("ΛTRACE: Initializing Bio-Symbolic Coherence Validation System v1.0.0")
 
 
@@ -84,7 +87,7 @@ class BiologicalProcess(Enum):
 class BioRhythm:
     """Bio-rhythmic pattern for coherence validation"""
 
-    rhythm_id: str = field(default_factory=lambda: f"rhythm_{uuid.uuid4().hex[:8]}")
+    rhythm_id: str = field(default_factory=lambda: f"rhythm_{uuid.uuid4()}.hex[:8]}")
     oscillator_type: OscillatorType = OscillatorType.GAMMA
     frequency_hz: float = 40.0  # Base frequency
     amplitude: float = 1.0  # Signal strength
@@ -189,7 +192,7 @@ class CoherenceValidationConfig:
 class CoherenceReport:
     """Comprehensive coherence validation report"""
 
-    validation_id: str = field(default_factory=lambda: f"cohval_{uuid.uuid4().hex[:8]}")
+    validation_id: str = field(default_factory=lambda: f"cohval_{uuid.uuid4()}.hex[:8]}")
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     # Overall coherence
@@ -250,7 +253,7 @@ class BioSymbolicCoherenceValidator:
     def __init__(self, config: Optional[CoherenceValidationConfig] = None):
         """Initialize bio-symbolic coherence validator"""
         self.config = config or CoherenceValidationConfig()
-        self.validator_id = f"biosym_{uuid.uuid4().hex[:8]}"
+        self.validator_id = f"biosym_{uuid.uuid4()}.hex[:8]}"
         self.version = "1.0.0"
 
         # Bio-rhythmic oscillators

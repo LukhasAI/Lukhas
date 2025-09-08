@@ -11,7 +11,7 @@ import json
 import math
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 import numpy as np

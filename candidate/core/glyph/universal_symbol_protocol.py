@@ -46,6 +46,7 @@ from typing import Any, Optional
 
 import numpy as np
 
+
 # Import existing GLYPH components
 from .glyph import EmotionVector, Glyph
 

@@ -19,6 +19,7 @@ from typing import Any
 
 import numpy as np
 
+
 # Bio-inspired computation imports
 try:
     import scipy.optimize
@@ -210,7 +211,7 @@ class BiohybridCapacitorArray:
         self.average_retention = np.mean([cap.retention_efficiency for cap in self.capacitors])
 
         print(f"🔋 Biohybrid Capacitor Array initialized ({array_size} units)")
-        print(f"   - Total capacity {self.total_capacity:.1f} J")
+        print(f"   - Total capacity: {self.total_capacity:.1f} J")
         print(f"   - Average retention: {self.average_retention:.1%}")
         print("   - Storage density: 9.8 J/cm³ (research-validated)")
 

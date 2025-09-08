@@ -20,7 +20,7 @@ Status: ACTIVE ✅
 import os
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import datetime
 
 
 def run_security_review():

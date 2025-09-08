@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:27.789512
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 

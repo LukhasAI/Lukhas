@@ -181,7 +181,7 @@ class GuardianValidator:
                 result=ValidationResult.DENIED,
                 confidence_score=0.0,
                 validation_time_ms=(time.time() - start_time) * 1000,
-                issues_found=[f"Validation error: {e!s}"],
+                issues_found=[f"Validation error: {str(e)}"],
                 recommendations=["Review audio operation parameters"],
                 metadata={"error": str(e)}
             )

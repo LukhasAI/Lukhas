@@ -5,7 +5,7 @@ Provides integration wrapper for connecting the brain identity connector to the 
 
 import logging
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.common import get_logger

@@ -13,7 +13,7 @@ Supports bio-symbolic colonies, oracle integration, and consciousness distributi
 
 import asyncio
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from candidate.core.colonies.base_colony import BaseColony

@@ -34,12 +34,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-try:
-    from lukhas.async_manager import TaskPriority, get_consciousness_manager
-except ImportError:
-    # Fallback for development
-    get_consciousness_manager = lambda: None
-    TaskPriority = None
 
 logger = logging.getLogger(__name__)
 
@@ -285,36 +279,8 @@ class AwarenessMonitoringSystem:
         self.insight_generator = None
         self.calibration_engine = None
 
-        # Task manager for consciousness monitoring
-        self.task_manager = get_consciousness_manager()
-        self.monitoring_tasks = set()
-
-        # Initialize system with proper task management
-        if self.task_manager:
-            init_task = self.task_manager.create_task(
-                self._initialize_monitoring_system(),
-                name="awareness_monitoring_init",
-                priority=TaskPriority.CRITICAL,
-                component="consciousness.awareness",
-                description="Initialize awareness monitoring system",
-                consciousness_context="awareness_monitoring"
-            )
-            self.monitoring_tasks.add(init_task)
-        else:
-            # Fallback for development - use managed task if available
-            fallback_manager = get_consciousness_manager()
-            if fallback_manager and TaskPriority:
-                fallback_task = fallback_manager.create_task(
-                    self._initialize_monitoring_system(),
-                    name="awareness_monitoring_fallback_init",
-                    priority=TaskPriority.CRITICAL,
-                    component="consciousness.awareness",
-                    description="Fallback initialization for awareness monitoring"
-                )
-                self.monitoring_tasks.add(fallback_task)
-            else:
-                # Last resort: bare task (development only)
-                asyncio.create_task(self._initialize_monitoring_system())
+        # Initialize system
+        asyncio.create_task(self._initialize_monitoring_system())
 
         logger.info("🧠 Consciousness Awareness Monitoring System initialized")
 
@@ -327,61 +293,12 @@ class AwarenessMonitoringSystem:
             await self._initialize_insight_generator()
             await self._initialize_calibration_engine()
 
-            # Start monitoring loops with proper task management
-            if self.task_manager:
-                awareness_task = self.task_manager.create_task(
-                    self._awareness_monitoring_loop(),
-                    name="awareness_monitoring",
-                    priority=TaskPriority.CRITICAL,
-                    component="consciousness.awareness",
-                    description="Monitor consciousness awareness levels",
-                    consciousness_context="awareness_monitoring"
-                )
-                pattern_task = self.task_manager.create_task(
-                    self._pattern_detection_loop(),
-                    name="pattern_detection",
-                    priority=TaskPriority.CRITICAL,
-                    component="consciousness.awareness",
-                    description="Detect awareness patterns",
-                    consciousness_context="awareness_monitoring"
-                )
-                insight_task = self.task_manager.create_task(
-                    self._insight_generation_loop(),
-                    name="insight_generation",
-                    priority=TaskPriority.HIGH,
-                    component="consciousness.awareness",
-                    description="Generate awareness insights",
-                    consciousness_context="awareness_monitoring"
-                )
-                calibration_task = self.task_manager.create_task(
-                    self._calibration_loop(),
-                    name="awareness_calibration",
-                    priority=TaskPriority.HIGH,
-                    component="consciousness.awareness",
-                    description="Calibrate awareness thresholds",
-                    consciousness_context="awareness_monitoring"
-                )
-                cleanup_task = self.task_manager.create_task(
-                    self._cleanup_loop(),
-                    name="awareness_cleanup",
-                    priority=TaskPriority.NORMAL,
-                    component="consciousness.awareness",
-                    description="Clean up awareness monitoring data",
-                    consciousness_context="awareness_monitoring"
-                )
-
-                # Track all tasks for shutdown
-                self.monitoring_tasks.update([
-                    awareness_task, pattern_task, insight_task,
-                    calibration_task, cleanup_task
-                ])
-            else:
-                # Fallback for development
-                asyncio.create_task(self._awareness_monitoring_loop())
-                asyncio.create_task(self._pattern_detection_loop())
-                asyncio.create_task(self._insight_generation_loop())
-                asyncio.create_task(self._calibration_loop())
-                asyncio.create_task(self._cleanup_loop())
+            # Start monitoring loops
+            asyncio.create_task(self._awareness_monitoring_loop())
+            asyncio.create_task(self._pattern_detection_loop())
+            asyncio.create_task(self._insight_generation_loop())
+            asyncio.create_task(self._calibration_loop())
+            asyncio.create_task(self._cleanup_loop())
 
             logger.info("✅ Awareness monitoring loops started")
 
@@ -1183,29 +1100,10 @@ class AwarenessMonitoringSystem:
         return self.system_metrics.copy()
 
     async def shutdown(self):
-        """Shutdown awareness monitoring system with proper task cleanup"""
+        """Shutdown awareness monitoring system"""
 
         self.monitoring_active = False
         logger.info("🛑 Consciousness Awareness Monitoring System shutdown initiated")
-
-        # Cancel all monitoring tasks
-        if hasattr(self, "monitoring_tasks") and self.monitoring_tasks:
-            logger.info(f"Cancelling {len(self.monitoring_tasks)} monitoring tasks")
-            for task in self.monitoring_tasks:
-                if not task.done():
-                    task.cancel()
-
-            # Wait for cancellation with timeout
-            try:
-                await asyncio.wait_for(
-                    asyncio.gather(*self.monitoring_tasks, return_exceptions=True),
-                    timeout=5.0
-                )
-                logger.info("✅ All monitoring tasks cancelled successfully")
-            except asyncio.TimeoutError:
-                logger.warning("⚠️ Some monitoring tasks did not cancel within timeout")
-
-        logger.info("✅ Consciousness Awareness Monitoring System shutdown complete")
 
 
 # Export main classes

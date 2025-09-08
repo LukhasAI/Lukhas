@@ -1,5 +1,5 @@
 import logging
-
+import streamlit as st
 logger = logging.getLogger(__name__)
 """
 
@@ -724,7 +724,7 @@ class ReplayController:
 
     async def create_debugging_checkpoint(self, description: str) -> str:
         """Create a system-wide checkpoint for debugging"""
-        checkpoint_id = f"checkpoint_{int(time.time())}"
+        checkpoint_id = f"checkpoint_{int(time.time()}"
 
         # Take snapshots of all actors
         snapshot_tasks = []

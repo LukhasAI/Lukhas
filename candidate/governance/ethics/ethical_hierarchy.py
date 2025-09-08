@@ -21,6 +21,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
+
 class EthicalPrinciple(Enum):
     """Core ethical principles"""
 

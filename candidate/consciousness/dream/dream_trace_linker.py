@@ -240,7 +240,7 @@ class DreamTraceLinker:
 
         # Generate trace ID
         # Changed from MD5 for security
-        trace_id = f"ΛTRACE::MEM.{hashlib.sha256(f'{dream_id}_{datetime.now(timezone.utc)}'.encode()).hexdigest()[:5].upper()}"
+        trace_id = f"ΛTRACE::MEM.{hashlib.sha256(f\'{dream_id)}_{datetime.now(timezone.utc}}\'.encode()).hexdigest()[:5].upper()}"
 
         # Extract GLYPH signatures
         glyph_signatures = self._extract_glyph_signatures(dream_content, dream_metadata)
@@ -271,7 +271,7 @@ class DreamTraceLinker:
         # Create dream trace link
         dream_trace = DreamTraceLink(
             link_id=hashlib.sha256(  # Changed from MD5 for security
-                f"{dream_id}_{trace_id}_{datetime.now(timezone.utc)}".encode()
+                f"{dream_id}_{trace_id}_{datetime.now(timezone.utc}}".encode()
             ).hexdigest()[:12],
             dream_id=dream_id,
             trace_id=trace_id,

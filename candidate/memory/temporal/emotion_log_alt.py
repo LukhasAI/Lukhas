@@ -28,7 +28,7 @@ DEPENDENCIES:
 
 # Sample emotion log structure
 import atexit
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 from cryptography.fernet import Fernet
 

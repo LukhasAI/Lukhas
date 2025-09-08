@@ -1,6 +1,7 @@
 """Tool Usage Analytics & Incident Tracking ⚛️🛡️
 Tracks actual tool invocations and blocks disallowed attempts.
 """
+import streamlit as st
 
 import hashlib
 import json
@@ -85,9 +86,9 @@ class ToolAnalytics:
         # Check if analytics is disabled via flag
         if not get_flags().get("tool_analytics", True):
             # Return a dummy ID but don't track
-            return f"tool_{uuid.uuid4().hex[:8]}"
+            return f"tool_{uuid.uuid4()}.hex[:8]}"
 
-        call_id = f"tool_{uuid.uuid4().hex[:8]}"
+        call_id = f"tool_{uuid.uuid4()}.hex[:8]}"
         self.active_calls[call_id] = ToolCall(tool_name=tool_name, arguments=arguments, start_time=time.time())
         return call_id
 

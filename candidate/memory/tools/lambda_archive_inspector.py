@@ -1,7 +1,5 @@
 import logging
 
-logger = logging.getLogger(__name__)
-
 #!/usr/bin/env python3
 """
 ```plaintext
@@ -582,7 +580,7 @@ class LambdaArchiveInspector:
         """
         # Create report structure
         report = ArchiveReport(
-            report_id=f"ΛARCHIVE_{int(time.time())}",
+            report_id=f"ΛARCHIVE_{int(time.time()}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             vault_directory=str(self.vault_directory),
             scan_duration=0.0,  # Will be updated by caller
@@ -1178,15 +1176,15 @@ class LambdaArchiveInspector:
         """Generate markdown format report."""
         md = []
 
-        md.append("# 🏛️ ΛARCHIVE FORENSIC MEMORY REPORT")
-        md.append("")
+        md.append(")  #  🏛️ ΛARCHIVE FORENSIC MEMORY REPORT"
+        md.append(")
         md.append(f"**Report ID:** `{report.report_id}`")
         md.append(f"**Timestamp:** {report.timestamp}")
         md.append(f"**Vault Directory:** `{report.vault_directory}`")
         md.append(f"**Scan Duration:** {report.scan_duration:.2f}s")
         md.append("")
 
-        md.append("## 📊 Executive Summary")
+        md.append("#)  #  📊 Executive Summary"
         md.append("")
         md.append(f"- **Total Entries Scanned:** {report.total_entries}")
         md.append(f"- **Anomalies Detected:** {report.anomalies_detected}")
@@ -1196,27 +1194,27 @@ class LambdaArchiveInspector:
         md.append("")
 
         if report.entropy_analysis:
-            md.append("## 🌀 Entropy Analysis")
+            md.append("#)  #  🌀 Entropy Analysis"
             md.append("")
             md.append(
-                f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0):.3f}"
+                f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0)}:.3f}"
             )
             md.append(
-                f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0):.2%}"
+                f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0)}:.2%}"
             )
             md.append(
-                f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0):.3f}"
+                f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0)}:.3f}"
             )
             md.append("")
 
         if report.anomalies:
-            md.append("## 🚨 Detected Anomalies")
+            md.append("#)  #  🚨 Detected Anomalies"
             md.append("")
 
             for anomaly in sorted(
                 report.anomalies, key=lambda a: a.severity, reverse=True
             )[:10]:
-                md.append("##")
+                md.append(f"##")
                 md.append(f"- **ID:** `{anomaly.anomaly_id}`")
                 md.append(f"- **Severity:** {anomaly.severity:.3f}")
                 md.append(f"- **Description:** {anomaly.description}")
@@ -1226,7 +1224,7 @@ class LambdaArchiveInspector:
                 md.append("")
 
         if report.recommendations:
-            md.append("## 💡 Recommendations")
+            md.append("#)  #  💡 Recommendations"
             md.append("")
             for i, rec in enumerate(report.recommendations, 1):
                 md.append(f"{i}. {rec}")

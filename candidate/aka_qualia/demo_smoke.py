@@ -15,6 +15,7 @@ import os
 import time
 from typing import Any
 
+
 from candidate.aka_qualia.core import AkaQualia
 from candidate.aka_qualia.glyphs import map_scene_to_glyphs
 from candidate.aka_qualia.models import (

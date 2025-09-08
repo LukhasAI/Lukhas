@@ -30,6 +30,8 @@ class NoopMemory(AkaqMemory):
         self.driver = "noop"
         self.config = config or {}
         self.is_prod = is_prod
+        # Accept but ignore additional kwargs for compatibility
+        _ = kwargs
 
         # Track operation counts for statistics
         self.save_calls = 0

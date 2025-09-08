@@ -7,7 +7,7 @@ This component handles orchestration functionality in the AI consciousness compu
 
 import asyncio
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 

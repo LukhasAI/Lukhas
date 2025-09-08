@@ -22,7 +22,7 @@ import logging
 import os
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime
 
 # Configure logging
 logging.basicConfig(

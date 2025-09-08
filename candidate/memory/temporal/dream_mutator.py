@@ -19,7 +19,7 @@ Integration Date: 2025-05-31T07:55:27.770763
 import json
 import os
 import random
-from datetime import datetime, timezone
+from datetime import datetime
 
 DREAM_LOG_PATH = "logs/dream_log.jsonl"
 

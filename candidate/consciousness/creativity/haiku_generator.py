@@ -54,7 +54,7 @@ import asyncio
 import random
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 

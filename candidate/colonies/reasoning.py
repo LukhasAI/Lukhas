@@ -222,7 +222,7 @@ class ReasoningColony(BaseColony):
         result["temporal_order"] = [e.get("name", "unknown") for e in sorted_events]
 
         # Identify potential causal chains
-        for i, event1 in enumerate(sorted_events[ -1]):
+        for i, event1 in enumerate(sorted_events[:-1]):
             for event2 in sorted_events[i + 1 :]:
                 # Simple causal strength based on temporal proximity
                 time_diff = event2.get("timestamp", 0) - event1.get("timestamp", 0)

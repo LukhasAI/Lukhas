@@ -10,6 +10,9 @@ Enhanced Swarm System with Real Agent Behaviors
 Integrated with Colony Coherence Upgrade
 Fixes the current implementation gaps and aligns with BaseColony infrastructure
 """
+from consciousness.qi import qi
+import streamlit as st
+
 import asyncio
 import logging
 import random
@@ -493,7 +496,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
     async def process_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Process a task using colony agents with consensus."""
-        task_id = task.get("task_id", f"task_{int(time.time())}")
+        task_id = task.get("task_id", f"task_{int(time.time()}")
         task_type = task.get("type", "general")
         required_consensus = task.get("required_consensus", 0.6)
 
@@ -1173,7 +1176,7 @@ async def demonstrate_enhanced_swarm():
 
     print("=== Enhanced Swarm System Created ===")
     print(f"Colonies: {len(swarm.colonies)}")
-    print(f"Total Agents: {sum(len(c.agents) for c in swarm.colonies.values())}")
+    print(f"Total Agents: {sum(len(c.agents) for c in swarm.colonies.values()}")
 
     # Execute some tasks
     tasks = [
@@ -1228,7 +1231,7 @@ async def demonstrate_enhanced_swarm():
         if patterns:
             print(f"\nEmergent patterns in {colony.colony_id}:")
             for pattern in patterns:
-                print(f"  - {pattern['type']}: {pattern.get('num_clusters', pattern.get('diversity', 'detected'))}")
+                print(f"  - {pattern['type']}: {pattern.get('num_clusters', pattern.get('diversity', 'detected')}")
 
     # Get final status
     print("\n=== Final Swarm Status ===")
@@ -1247,7 +1250,7 @@ async def demonstrate_enhanced_swarm():
     print(f"Agent: {agent_status['agent_id']}")
     print(f"State: {agent_status['state']}")
     print(f"Energy: {agent_status['energy']:.2f}")
-    print(f"Capabilities: {list(agent_status['capabilities'].keys())}")
+    print(f"Capabilities: {list(agent_status['capabilities'].keys()}")
     print(f"Tasks Completed: {agent_status['tasks_completed']}")
 
 

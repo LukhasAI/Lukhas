@@ -616,7 +616,7 @@ LUKHAS AI Monitoring System
     ) -> Alert:
         """Create a new alert"""
 
-        alert_id = f"alert_{uuid.uuid4().hex[:12]}"
+        alert_id = f"alert_{uuid.uuid4()}.hex[:12]}"
         tags = tags or {}
         metadata = metadata or {}
         affected_systems = affected_systems or []

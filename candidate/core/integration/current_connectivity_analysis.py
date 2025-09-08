@@ -13,7 +13,7 @@ Analyzes the current state of module connectivity and identifies isolated files
 import ast
 import json
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 

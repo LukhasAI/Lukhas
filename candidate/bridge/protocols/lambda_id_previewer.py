@@ -31,7 +31,6 @@ from typing import Any, Optional
 
 from ..id_service.entropy_engine import EntropyEngine
 from ..id_service.lambd_id_validator import LambdaIDValidator
-
 # Import core modules
 from ..lambd_id_service import LambdaIDService
 
@@ -266,7 +265,7 @@ class PublicLambdaIDPreviewer:
             },
         }
 
-    def preview_lambda_id(
+    def preview_lambda_id(:
         self, lambda_id: str, include_educational: bool = True
     ) -> PreviewResult:
         """
@@ -313,8 +312,8 @@ class PublicLambdaIDPreviewer:
 
             result.is_valid = (
                 validation_result.valid
-                if hasattr(validation_result, "valid")
-                else validation_result.get("valid", False)
+                if hasattr(validation_result, "valid"):
+                else validation_result.get("valid", False):
             )
             result.validation_details = self._format_validation_details(
                 validation_result
@@ -354,7 +353,7 @@ class PublicLambdaIDPreviewer:
                 result.educational_content = self._get_educational_content(result)
 
         except Exception as e:
-            result.errors.append(f"Analysis error: {e!s}")
+            result.errors.append(f"Analysis error: {str(e}}")
 
         return result
 
@@ -387,7 +386,8 @@ class PublicLambdaIDPreviewer:
 
         # Enterprise format:
         # LUKHAS⬟{brand}-{division}-{tier}-{timestamp}-{symbolic}-{entropy}
-        enterprise_pattern = r"^ LUKHAS⬟([A - Z0 - 9]{2, 8}) - ([A - Z]{2, 3}) - (\d) - ([A - F0 - 9]{3,4}) - (.) - ([A - F0 - 9]{3, 4})$"
+        enterprise_pattern = r"^ LUKHAS⬟([A - Z0 - 9]{2, 8}) - ([A - Z]{2, 3}) - (\d) - ([A - F0 - 9]{3,"
+                                                                                                      4}) - (.) - ([A - F0 - 9]{3, 4})$"
 
         # Check formats
         if re.match(standard_pattern, lambda_id):
@@ -429,7 +429,7 @@ class PublicLambdaIDPreviewer:
                 },
             }
         else:
-            return {"type": "invalid", "components": {}}
+            return {"type": "invalid", "components": {}
 
     def _validate_commercial_lambda_id(self, lambda_id: str) -> dict[str, Any]:
         """Validate commercial ΛiD (with mock validation for public preview)."""
@@ -463,7 +463,7 @@ class PublicLambdaIDPreviewer:
             "errors": [],
         }
 
-    def _extract_tier(
+    def _extract_tier(:
         self, lambda_id: str, format_info: dict[str, Any]
     ) -> Optional[int]:
         """Extract tier information from ΛiD."""
@@ -491,7 +491,7 @@ class PublicLambdaIDPreviewer:
                 "errors": ["Unknown validation result format"],
             }
 
-    def _generate_analysis(
+    def _generate_analysis(:
         self,
         lambda_id: str,
         format_info: dict[str, Any],
@@ -572,7 +572,7 @@ class PublicLambdaIDPreviewer:
         else:
             return "poor"
 
-    def _get_security_recommendations(
+    def _get_security_recommendations(:
         self, entropy_analysis: dict[str, Any]
     ) -> list[str]:
         """Get security recommendations based on entropy analysis."""
@@ -615,7 +615,7 @@ class PublicLambdaIDPreviewer:
         }
         return benefits.get(subtype, [])
 
-    def _generate_suggestions(
+    def _generate_suggestions(:
         self,
         lambda_id: str,
         format_info: dict[str, Any],
@@ -649,7 +649,7 @@ class PublicLambdaIDPreviewer:
 
         return suggestions
 
-    def _generate_warnings(
+    def _generate_warnings(:
         self,
         lambda_id: str,
         format_info: dict[str, Any],
@@ -712,14 +712,14 @@ class PublicLambdaIDPreviewer:
             demos.append(
                 {
                     "id": demo_id,
-                    "description": f"Commercial {commercial_type.title()} Example",
+                    "description": f"Commercial {commercial_type.title(}} Example",
                     "category": "commercial_demo",
                 }
             )
 
         return demos
 
-    def generate_demo_lambda_id(
+    def generate_demo_lambda_id(:
         self, tier: int = 2, format_type: str = "standard"
     ) -> dict[str, Any]:
         """Generate a demo ΛiD for educational purposes."""
@@ -779,7 +779,7 @@ class PublicLambdaIDPreviewer:
         except Exception as e:
             return {
                 "success": False,
-                "error": f"Demo generation failed: {e!s}",
+                "error": f"Demo generation failed: {str(e}}",
             }
 
     def get_tier_comparison(self) -> dict[str, Any]:
@@ -800,7 +800,7 @@ class PublicLambdaIDPreviewer:
             },
             "symbolic_character_access": {
                 tier: info["symbolic_chars"]
-                for tier, info in self.educational_content["tier_explanations"].items()
+                for tier, info in self.educational_content["tier_explanations"].items():
             },
             "upgrade_paths": {
                 tier: {
@@ -809,18 +809,18 @@ class PublicLambdaIDPreviewer:
                         self.educational_content["tier_explanations"][tier + 1][
                             "features"
                         ]
-                        if tier < 5
-                        else []
+                        if tier < 5:
+                        else []:
                     ),
                     "new_symbols": (
                         self.educational_content["tier_explanations"][tier + 1][
                             "symbolic_chars"
                         ]
-                        if tier < 5
-                        else []
+                        if tier < 5:
+                        else []:
                     ),
                 }
-                for tier in range(6)
+                for tier in range(6):
             },
         }
 
@@ -887,7 +887,7 @@ class PublicLambdaIDPreviewer:
                         tier_info = self.educational_content["tier_explanations"][tier]
                         analysis["next_character_suggestions"] = [
                             f"Use {char} for tier {tier}"
-                            for char in tier_info["symbolic_chars"][:3]
+                            for char in tier_info["symbolic_chars"][:3]:
                         ]
                     else:
                         analysis["format_validation"]["errors"].append(
@@ -907,7 +907,7 @@ class PublicLambdaIDPreviewer:
                 analysis["suggestions"].append("Start with the lambda symbol: LUKHAS")
 
         except Exception as e:
-            analysis["format_validation"]["errors"].append(f"Analysis error: {e!s}")
+            analysis["format_validation"]["errors"].append(f"Analysis error: {str(e}}")
 
         return analysis
 
@@ -921,7 +921,8 @@ class PublicLambdaIDPreviewer:
                     "description": "Preview and analyze a ΛiD",
                     "parameters": {
                         "lambda_id": "ΛiD string to analyze",
-                        "include_educational": "Include educational content(optional, default: true)",
+                        "include_educational": "Include educational content(optional,
+                                                                            default: true)",
                     },
                     "rate_limit": "100 requests per hour per IP",
                 },
@@ -931,7 +932,8 @@ class PublicLambdaIDPreviewer:
                     "description": "Generate demo ΛiD for education",
                     "parameters": {
                         "tier": "Tier level 0-5 (optional, default: 2)",
-                        "format": "Format type: standard or commercial(optional, default: standard)",
+                        "format": "Format type: standard or commercial(optional,
+                                                                       default: standard)",
                     },
                     "rate_limit": "50 requests per hour per IP",
                 },

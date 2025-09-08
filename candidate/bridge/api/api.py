@@ -24,10 +24,14 @@
 ║ primary gateway for all identity-related operations.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
+
 import logging
 import os  # Added for ENV variable access example for API version
 import time
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum  # Added for QRGType fallback
 from typing import Any, Optional
 
@@ -436,7 +440,7 @@ class BiometricVerifyRequest(BaseModel if FASTAPI_AVAILABLE else object):  # typ
 
 
 if FASTAPI_AVAILABLE and BaseModel.__subclasses__():  # Check if any Pydantic models were actually defined
-    logger.info(f"ΛTRACE: Defined {len(BaseModel.__subclasses__())} Pydantic models for API.")
+    logger.info(f"ΛTRACE: Defined {len(BaseModel.__subclasses__()} Pydantic models for API.")
 elif FASTAPI_AVAILABLE:
     logger.warning("ΛTRACE: Pydantic BaseModel is available, but no subclasses (models) were defined in this scope.")
 else:
@@ -593,7 +597,7 @@ class LukhasUnifiedAPI:
         # Example for get_profile_endpoint - needs an _get_profile_endpoint_impl method
         # Human-readable comment: FastAPI route to get ΛiD profile.
         @self.app.get(
-            f"{api_v2_prefix}/profile/{{{{lambda_id}}}}",
+            f"{api_v2_prefix}/profile/{{lambda_id}",
             summary="Get ΛiD Profile",
             tags=["ΛiD Management"],
         )
@@ -627,7 +631,7 @@ class LukhasUnifiedAPI:
     # Human-readable comment: Implementation logic for ΛiD creation endpoint.
     async def _create_lambda_id_endpoint_impl(self, request_data: UserProfileRequest) -> dict[str, Any]:
         """Core logic for creating a new LUKHAS ΛiD, including QRG integration if enabled."""
-        request_id = f"create_lid_{int(time.time()) * 1000}"  # Simple request ID
+        request_id = f"create_lid_{int(time.time(} * 1000}"  # Simple request ID
         self.logger.info(
             f"ΛTRACE ({request_id}): Processing ΛiD creation request. Input emoji: {request_data.favorite_emoji}"
         )
@@ -694,7 +698,7 @@ class LukhasUnifiedAPI:
     # Human-readable comment: Implementation logic for symbolic authentication endpoint.
     async def _authenticate_symbolic_endpoint_impl(self, request_data: SymbolicAuthRequest) -> dict[str, Any]:
         """Core logic for symbolic authentication of a LUKHAS ΛiD."""
-        request_id = f"auth_sym_{int(time.time()) * 1000}"
+        request_id = f"auth_sym_{int(time.time(} * 1000}"
         self.logger.info(
             f"ΛTRACE ({request_id}): Processing symbolic authentication for ΛiD '{request_data.lambda_id[:10]}...'. Requested Tier: {request_data.requested_tier}"
         )

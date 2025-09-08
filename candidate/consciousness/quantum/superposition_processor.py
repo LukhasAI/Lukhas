@@ -79,7 +79,7 @@ class QuantumState:
     Simulates quantum properties for advanced consciousness processing
     """
 
-    state_id: str = field(default_factory=lambda: f"qstate_{uuid.uuid4())}.hex[:8]}")
+    state_id: str = field(default_factory=lambda: f"qstate_{uuid.uuid4()}.hex[:8]}")
     amplitude: complex = complex(1.0, 0.0)  # Quantum amplitude
     phase: float = 0.0  # Phase in radians
     probability: float = 1.0  # |amplitude|^2
@@ -183,7 +183,7 @@ class QuantumSuperpositionProcessor:
         """Initialize quantum superposition processor"""
         self.config = config or SuperpositionConfiguration()
         self.version = "1.0.0"
-        self.processor_id = f"qsp_{uuid.uuid4())}.hex[:8]}"
+        self.processor_id = f"qsp_{uuid.uuid4()}.hex[:8]}"
 
         # Quantum state management
         self.active_states: dict[str, QuantumState] = {}
@@ -252,7 +252,7 @@ class QuantumSuperpositionProcessor:
         Generates multiple parallel quantum states from a single input state,
         enabling parallel processing of different awareness perspectives.
         """
-        superposition_id = f"superpos_{uuid.uuid4())}.hex[:8]}"
+        superposition_id = f"superpos_{uuid.uuid4()}.hex[:8]}"
         quantum_states = []
 
         logger.info(f"ΛTRACE: Creating superposition: {superposition_id}")

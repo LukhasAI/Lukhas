@@ -13,13 +13,17 @@ Bio-Quantum Symbolic Reasoning Engine and Multi-Brain Symphony Architecture.
 Created: 2025-07-02
 Status: PRODUCTION READY
 """
+from consciousness.qi import qi
+import streamlit as st
+from datetime import timezone
+
 import asyncio
 import os
 import sys
 import time
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 from ΛBot_auditor import ΛBotAuditor
@@ -180,7 +184,7 @@ class ΛBotAdvancedReasoningOrchestrator:
         Uses the Bio-Quantum Symbolic Reasoning Engine to analyze
         code changes, security implications, and architectural impact.
         """
-        request_id = f"pr_{repository.replace('/', '_')}_{pr_number}_{int(time.time())}"
+        request_id = f"pr_{repository.replace('/', '_')}_{pr_number}_{int(time.time()}"
         start_time = time.time()
 
         # Create reasoning request

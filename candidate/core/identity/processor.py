@@ -22,7 +22,7 @@ This component handles identity functionality in the AI consciousness computing 
 
 import asyncio
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 

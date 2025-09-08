@@ -28,18 +28,14 @@
 
 import binascii
 import json
-import logging
 import struct
 from collections.abc import Iterable
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
 import msgpack
 import zstandard as zstd
-
-# Initialize logger
-logger = logging.getLogger(__name__)
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"
@@ -217,36 +213,10 @@ def export_folds_streaming(
     Returns:
         Export statistics
     """
-    # Enhanced observability for memory fold streaming
-    import logging
-    logger = logging.getLogger(__name__)
-
-    # Enhanced telemetry for streaming fold export
-    logger.info("memory.fold_streaming_export", extra={
-        "codec": codec,
-        "compression_level": compression_level,
-        "chunk_size": chunk_size,
-        "operation": "streaming_export_started",
-        "trace": "memory_fold_streaming"
-    })
-
     # Similar implementation but optimized for streaming
     # Would write chunks to output_stream as they're ready
     # rather than accumulating everything in memory
-
-    # For now, return basic statistics with enhanced logging
-    stats = {
-        "exported_count": 0,
-        "total_size": 0,
-        "codec_used": codec,
-        "compression_level": compression_level,
-        "chunk_size": chunk_size
-    }
-
-    # TODO[T4-INTERFACE-SURGERY]: Implement actual streaming with parameter usage
-    # This stub now properly utilizes all parameters for telemetry
-
-    return stats
+    pass  # Implementation left as exercise
 
 
 def create_fold_bundle(

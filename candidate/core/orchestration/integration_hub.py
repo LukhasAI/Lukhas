@@ -10,25 +10,6 @@ import time
 from enum import Enum
 from typing import Any
 
-try:
-    from lukhas.async_manager import TaskPriority, get_orchestration_manager
-    from lukhas.async_utils import create_managed_task
-except ImportError:
-    # Fallback for development
-    get_orchestration_manager = lambda: None
-    TaskPriority = None
-
-    # Safe fallback that stores task reference
-    def create_managed_task(coro, **kwargs):
-        """Fallback implementation that properly manages task references."""
-        task = asyncio.create_task(coro)
-        # Store reference to prevent immediate GC
-        if not hasattr(create_managed_task, "_tasks"):
-            create_managed_task._tasks = set()
-        create_managed_task._tasks.add(task)
-        task.add_done_callback(lambda t: create_managed_task._tasks.discard(t))
-        return task
-
 # Golden Trio imports
 try:
     from dast.integration.dast_integration_hub import DASTIntegrationHub
@@ -245,23 +226,11 @@ class SystemIntegrationHub:
         self._update_phase("core_systems", time.time())
 
     def _connect_golden_trio(self):
-        """Connect DAST, ABAS, NIAS through TrioOrchestrator with managed tasks"""
-        # Register each hub with trio orchestrator using managed tasks
-        create_managed_task(
-            self.trio_orchestrator.register_component("dast", self.dast_hub),
-            name="register_dast",
-            component="orchestration.integration_hub"
-        )
-        create_managed_task(
-            self.trio_orchestrator.register_component("abas", self.abas_hub),
-            name="register_abas",
-            component="orchestration.integration_hub"
-        )
-        create_managed_task(
-            self.trio_orchestrator.register_component("nias", self.nias_hub),
-            name="register_nias",
-            component="orchestration.integration_hub"
-        )
+        """Connect DAST, ABAS, NIAS through TrioOrchestrator"""
+        # Register each hub with trio orchestrator
+        asyncio.create_task(self.trio_orchestrator.register_component("dast", self.dast_hub))
+        asyncio.create_task(self.trio_orchestrator.register_component("abas", self.abas_hub))
+        asyncio.create_task(self.trio_orchestrator.register_component("nias", self.nias_hub))
 
         # Connect to ethics for oversight
         self.dast_hub.register_component("ethics_service", "ethics/service.py", self.ethics_service)
@@ -321,32 +290,8 @@ class SystemIntegrationHub:
         self.last_sync_time[system_id] = current_time
 
     def _start_health_monitoring(self):
-        """Start mito-inspired health monitoring with managed task"""
-        task_manager = get_orchestration_manager()
-
-        if task_manager:
-            health_task = task_manager.create_task(
-                self._health_monitor_loop(),
-                name="integration_health_monitor",
-                priority=TaskPriority.HIGH,
-                component="orchestration.integration_hub",
-                description="Monitor integration hub system health"
-            )
-            # Store for potential cleanup
-            if not hasattr(self, "integration_tasks"):
-                self.integration_tasks = set()
-            self.integration_tasks.add(health_task)
-        else:
-            # Fallback for development - use managed task fallback
-            fallback_task = create_managed_task(
-                self._health_monitor_loop(),
-                name="integration_health_monitor_fallback",
-                component="orchestration.integration_hub"
-            )
-            # Store for potential cleanup
-            if not hasattr(self, "integration_tasks"):
-                self.integration_tasks = set()
-            self.integration_tasks.add(fallback_task)
+        """Start mito-inspired health monitoring"""
+        asyncio.create_task(self._health_monitor_loop())
 
     async def _health_monitor_loop(self):
         """Monitor system health using mito-inspired patterns"""

@@ -10,6 +10,11 @@ Date: May 30, 2025 | Updated: July 27, 2025
 Version: v1.0.0-integration | Consolidated from 4 duplicate files
 Compliance: EU AI Act, GDPR, US NIST AI Framework
 """
+from consciousness.qi import qi
+import time
+import random
+import streamlit as st
+
 import asyncio
 import base64
 import hashlib
@@ -698,7 +703,7 @@ class LukhosIDManager:
             tier=self.users[user_id]["access_tier"],
             component="trauma_locked_memory",
             action="memory_storage",
-            decision_logic=f"Memory stored with emotional protection level {emotional_state.arousal + abs(emotional_state.valence):.2f}",
+            decision_logic=f"Memory stored with emotional protection level {emotional_state.arousal + abs(emotional_state.valence)}:.2f}",
             emotional_state=emotional_state,
             privacy_impact="Memory encrypted with user-specific emotional key",
         )

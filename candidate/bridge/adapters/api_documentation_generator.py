@@ -1,5 +1,6 @@
 import logging
-
+import streamlit as st
+from typing import List
 logger = logging.getLogger(__name__)
 """
 AI-Powered API Documentation Generator
@@ -775,7 +776,7 @@ class APIDocumentationGenerator:
                             }
                         ],
                         "url": {
-                            "raw": f"{{{{base_url}}}}{endpoint.path}",
+                            "raw": f"{{{{base_url}{endpoint.path}",
                             "host": ["{{base_url}"],
                             "path": endpoint.path.strip("/").split("/"),
                         },
@@ -786,7 +787,7 @@ class APIDocumentationGenerator:
                     request_item["request"]["header"].append(
                         {
                             "key": "Authorization",
-                            "value": "Bearer {{access_token}}",
+                            "value": "Bearer {{access_token}",
                         }
                     )
 
@@ -874,18 +875,18 @@ class APIDocumentationGenerator:
 <head>
     <title>{documentation.title}</title>
     <style>
-        body {{ font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }}
-        h1, h2, h3 {{ color: #333; }}
-        .endpoint {{ border: 1px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 5px; }}
-        .method {{ display: inline-block; padding: 5px 10px; border-radius: 3px; color: white; font-weight: bold; }}
-        .get {{ background-color: #61affe; }}
-        .post {{ background-color: #49cc90; }}
-        .put {{ background-color: #fca130; }}
-        .delete {{ background-color: #f93e3e; }}
-        table {{ border-collapse: collapse; width: 100%; }}
-        th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
-        th {{ background-color: #f2f2f2; }}
-        code {{ background-color: #f5f5f5; padding: 2px 4px; border-radius: 3px; }}
+        body {{ font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1, h2, h3 {{ color: #333; }
+        .endpoint {{ border: 1px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 5px; }
+        .method {{ display: inline-block; padding: 5px 10px; border-radius: 3px; color: white; font-weight: bold; }
+        .get {{ background-color: #61affe; }
+        .post {{ background-color: #49cc90; }
+        .put {{ background-color: #fca130; }
+        .delete {{ background-color: #f93e3e; }
+        table {{ border-collapse: collapse; width: 100%; }
+        th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th {{ background-color: #f2f2f2; }
+        code {{ background-color: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
     </style>
 </head>
 <body>

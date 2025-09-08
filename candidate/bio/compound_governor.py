@@ -10,6 +10,9 @@ INTEGRATES:
 RESEARCH VALIDATION: All Top 5 Priority Research Insights Unified
 Performance: Maintains 99.8% system stability across all consciousness modules
 """
+import time
+import streamlit as st
+
 import asyncio
 import logging
 from dataclasses import dataclass
@@ -171,10 +174,10 @@ class BioCompoundGovernor:
         if len(self.stability_history) > 200:
             self.stability_history = self.stability_history[-200:]
 
-        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics) * 100:.1f}%")
+        self.logger.info(f"🧬 System Stability: {self._calculate_overall_stability(stability_metrics)}  * 100:.1f}%")
         self.logger.info(f"   Energy Efficiency: {stability_metrics.energy_efficiency:.1f}%")
-        self.logger.info(f"   Emotional Stability: {stability_metrics.emotional_stability * 100:.1f}%")
-        self.logger.info(f"   Module Coherence: {stability_metrics.module_coherence * 100:.1f}%")
+        self.logger.info(f"   Emotional Stability: {stability_metrics.emotional_stability  * 100:.1f}%")
+        self.logger.info(f"   Module Coherence: {stability_metrics.module_coherence  * 100:.1f}%")
 
         return stability_metrics
 
@@ -384,7 +387,7 @@ class BioCompoundGovernor:
         if not self.stability_history:
             return {"status": "no_data", "message": "No stability history available"}
 
-        recent_stability = [record["overall_stability"] for record in self.stability_history[-20 ]]
+        recent_stability = [record["overall_stability"] for record in self.stability_history[-20:]]
         avg_stability = np.mean(recent_stability)
         stability_trend = (
             "improving" if len(recent_stability) > 1 and recent_stability[-1] > recent_stability[0] else "stable"

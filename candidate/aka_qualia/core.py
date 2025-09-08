@@ -1041,7 +1041,3 @@ class AkaQualia:
             Prometheus metrics in exposition format
         """
         return self.metrics_collector.get_metrics()
-
-
-# Alias for legacy compatibility
-QualiaSupervisor = AkaQualia

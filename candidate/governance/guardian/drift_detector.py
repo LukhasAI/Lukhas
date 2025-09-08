@@ -35,14 +35,6 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-try:
-    from lukhas.async_manager import TaskPriority, get_guardian_manager
-    from lukhas.async_utils import run_guardian_task
-except ImportError:
-    # Fallback for development
-    get_guardian_manager = lambda: None
-    TaskPriority = None
-    run_guardian_task = lambda coro, **kwargs: asyncio.create_task(coro)
 
 logger = logging.getLogger(__name__)
 
@@ -280,25 +272,8 @@ class AdvancedDriftDetector:
             DetectionMethod.BEHAVIORAL: True,
         }
 
-        # Task management for drift detection
-        self.task_manager = get_guardian_manager()
-        self.drift_tasks: set = set()
-
-        # Initialize system with proper task management
-        if self.task_manager and TaskPriority:
-            init_task = self.task_manager.create_task(
-                self._initialize_drift_detection(),
-                name="drift_detector_init",
-                priority=TaskPriority.CRITICAL,
-                component="governance.guardian.drift_detector",
-                description="Initialize drift detection system",
-                consciousness_context="drift_monitoring"
-            )
-            self.drift_tasks.add(init_task)
-        else:
-            # Fallback for development
-            init_task = asyncio.create_task(self._initialize_drift_detection())
-            self.drift_tasks.add(init_task)
+        # Initialize system
+        asyncio.create_task(self._initialize_drift_detection())
 
         logger.info(f"🔍 Advanced Drift Detector initialized (threshold: {self.drift_threshold})")
 
@@ -314,68 +289,12 @@ class AdvancedDriftDetector:
         # Initialize constitutional AI integration
         await self._initialize_constitutional_ai()
 
-        # Start monitoring loops with proper task management
-        if self.task_manager and TaskPriority:
-            # Create managed monitoring tasks
-            monitoring_task = self.task_manager.create_task(
-                self._drift_monitoring_loop(),
-                name="drift_monitoring_loop",
-                priority=TaskPriority.CRITICAL,
-                component="governance.guardian.drift_detector",
-                description="Main drift monitoring loop",
-                consciousness_context="drift_monitoring"
-            )
-            pattern_task = self.task_manager.create_task(
-                self._pattern_analysis_loop(),
-                name="drift_pattern_analysis",
-                priority=TaskPriority.HIGH,
-                component="governance.guardian.drift_detector",
-                description="Pattern analysis for drift detection",
-                consciousness_context="drift_monitoring"
-            )
-            forecasting_task = self.task_manager.create_task(
-                self._forecasting_loop(),
-                name="drift_forecasting",
-                priority=TaskPriority.NORMAL,
-                component="governance.guardian.drift_detector",
-                description="Drift forecasting and prediction",
-                consciousness_context="drift_monitoring"
-            )
-            cleanup_task = self.task_manager.create_task(
-                self._cleanup_loop(),
-                name="drift_detector_cleanup",
-                priority=TaskPriority.LOW,
-                component="governance.guardian.drift_detector",
-                description="Cleanup and maintenance tasks",
-                consciousness_context="drift_monitoring"
-            )
-            constitutional_task = self.task_manager.create_task(
-                self._constitutional_monitoring_loop(),
-                name="constitutional_monitoring",
-                priority=TaskPriority.CRITICAL,
-                component="governance.guardian.drift_detector",
-                description="Constitutional AI compliance monitoring",
-                consciousness_context="constitutional_monitoring"
-            )
-
-            # Track all monitoring tasks
-            self.drift_tasks.update([
-                monitoring_task, pattern_task, forecasting_task,
-                cleanup_task, constitutional_task
-            ])
-        else:
-            # Fallback for development
-            monitoring_task = asyncio.create_task(self._drift_monitoring_loop())
-            pattern_task = asyncio.create_task(self._pattern_analysis_loop())
-            forecasting_task = asyncio.create_task(self._forecasting_loop())
-            cleanup_task = asyncio.create_task(self._cleanup_loop())
-            constitutional_task = asyncio.create_task(self._constitutional_monitoring_loop())
-
-            # Track fallback tasks
-            self.drift_tasks.update([
-                monitoring_task, pattern_task, forecasting_task,
-                cleanup_task, constitutional_task
-            ])
+        # Start monitoring loops
+        asyncio.create_task(self._drift_monitoring_loop())
+        asyncio.create_task(self._pattern_analysis_loop())
+        asyncio.create_task(self._forecasting_loop())
+        asyncio.create_task(self._cleanup_loop())
+        asyncio.create_task(self._constitutional_monitoring_loop())
 
     async def _establish_baselines(self):
         """Establish baseline measurements for drift detection"""

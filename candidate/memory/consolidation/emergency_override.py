@@ -6,7 +6,7 @@
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime
 
 from settings_loader import get_setting
 

@@ -1,5 +1,3 @@
-import logging
-
 # core/interfaces/as_agent/utils/constants.py
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Centralized symbolic constants for NIAS, DAST, ABAS, and other LUKHAS subsystems.

@@ -3,7 +3,7 @@ VIVOX Ethical Precedent Seeds
 Common ethical scenarios to bootstrap the precedent database
 """
 
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any
 
 from ..moral_alignment.vivox_mae_core import ActionProposal, MAEDecision

@@ -46,14 +46,18 @@
 ║ • Cybernetic Control Theory (Wiener, 1948)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+from typing import Dict
+import streamlit as st
+from datetime import timezone
+
 import asyncio  # For tier decorator placeholder
 import logging
 from collections import defaultdict, deque  # Added defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from typing import Any, Optional  # Added Any, Optional
 
 # Initialize logger for ΛTRACE
-logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection")
+logger = logging.getLogger("ΛTRACE.consciousness.cognitive.reflective_introspection", timezone)
 logger.info("ΛTRACE: Initializing reflective_introspection module.")
 
 
@@ -159,7 +163,7 @@ class ReflectiveIntrospectionSystem:
         """
         log_user_id = user_id or self.user_id_context
         self.instance_logger.info(
-            f"ΛTRACE: Logging interaction for user '{log_user_id}'. Data keys: {list(interaction_data.keys())}"
+            f"ΛTRACE: Logging interaction for user '{log_user_id}'. Data keys: {list(interaction_data.keys()}"
         )
         if not isinstance(interaction_data, dict):
             self.instance_logger.warning(
@@ -274,7 +278,7 @@ class ReflectiveIntrospectionSystem:
 
         adaptation_rate_score = improvements_count / (len(interactions) - 1) if (len(interactions) - 1) > 0 else 1.0
         self.instance_logger.debug(
-            f"ΛTRACE: Adaptation rate calculated: {adaptation_rate_score:.2f} ({improvements_count} improvements / {len(interactions) - 1} pairs)."
+            f"ΛTRACE: Adaptation rate calculated: {adaptation_rate_score:.2f} ({improvements_count} improvements / {len(interactions)} - 1} pairs)."
         )
         return adaptation_rate_score
 

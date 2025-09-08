@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+
 from ..common import GlyphIntegrationMixin
 
 logger = logging.getLogger(__name__)

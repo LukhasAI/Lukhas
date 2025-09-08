@@ -35,13 +35,6 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
 
-try:
-    from lukhas.async_manager import TaskPriority, get_guardian_manager
-except ImportError:
-    # Fallback for development
-    get_guardian_manager = lambda: None
-    TaskPriority = None
-
 logger = logging.getLogger(__name__)
 
 
@@ -257,37 +250,8 @@ class EnhancedGuardianSystem:
         self.monitoring_active = True
         self.monitoring_interval = 1.0  # seconds
 
-        # Task management for guardian system
-        self.task_manager = get_guardian_manager()
-        self.guardian_tasks = set()
-
-        # Initialize system with proper task management
-        if self.task_manager:
-            init_task = self.task_manager.create_task(
-                self._initialize_guardian_system(),
-                name="guardian_system_init",
-                priority=TaskPriority.CRITICAL,
-                component="governance.guardian",
-                description="Initialize Guardian System v1.0.0",
-                consciousness_context="guardian_system"
-            )
-            self.guardian_tasks.add(init_task)
-        else:
-            # Fallback for development - use managed task
-            fallback_manager = get_guardian_manager()
-            if fallback_manager and TaskPriority:
-                fallback_task = fallback_manager.create_task(
-                    self._initialize_guardian_system(),
-                    name="guardian_system_fallback_init",
-                    priority=TaskPriority.CRITICAL,
-                    component="governance.guardian",
-                    description="Fallback initialization for guardian system"
-                )
-                self.guardian_tasks.add(fallback_task)
-            else:
-                # Last resort: bare task (development only)
-                init_task = asyncio.create_task(self._initialize_guardian_system())
-                self.guardian_tasks.add(init_task)
+        # Initialize system
+        asyncio.create_task(self._initialize_guardian_system())
 
         logger.info("🛡️ Enhanced Guardian System v1.0.0 initialized")
 
@@ -360,67 +324,10 @@ class EnhancedGuardianSystem:
         for agent in default_agents:
             await self.register_guardian_agent(agent)
 
-        # Start monitoring loops with proper task management
-        if self.task_manager:
-            monitoring_task = self.task_manager.create_task(
-                self._monitoring_loop(),
-                name="guardian_monitoring",
-                priority=TaskPriority.CRITICAL,
-                component="governance.guardian",
-                description="Guardian system monitoring loop",
-                consciousness_context="guardian_system"
-            )
-            health_task = self.task_manager.create_task(
-                self._health_check_loop(),
-                name="guardian_health_check",
-                priority=TaskPriority.CRITICAL,
-                component="governance.guardian",
-                description="Guardian health check loop",
-                consciousness_context="guardian_system"
-            )
-            drift_task = self.task_manager.create_task(
-                self._drift_monitoring_loop(),
-                name="guardian_drift_monitoring",
-                priority=TaskPriority.CRITICAL,
-                component="governance.guardian",
-                description="Guardian drift monitoring loop",
-                consciousness_context="guardian_system"
-            )
-
-            # Track all tasks for shutdown
-            self.guardian_tasks.update([monitoring_task, health_task, drift_task])
-        else:
-            # Fallback for development - use managed tasks
-            fallback_manager = get_guardian_manager()
-            if fallback_manager and TaskPriority:
-                monitoring_fallback = fallback_manager.create_task(
-                    self._monitoring_loop(),
-                    name="guardian_monitoring_fallback",
-                    priority=TaskPriority.CRITICAL,
-                    component="governance.guardian",
-                    description="Guardian monitoring fallback"
-                )
-                health_fallback = fallback_manager.create_task(
-                    self._health_check_loop(),
-                    name="guardian_health_fallback",
-                    priority=TaskPriority.HIGH,
-                    component="governance.guardian",
-                    description="Guardian health check fallback"
-                )
-                drift_fallback = fallback_manager.create_task(
-                    self._drift_monitoring_loop(),
-                    name="guardian_drift_monitoring_fallback",
-                    priority=TaskPriority.HIGH,
-                    component="governance.guardian",
-                    description="Guardian drift monitoring fallback"
-                )
-                self.guardian_tasks.update([monitoring_fallback, health_fallback, drift_fallback])
-            else:
-                # Last resort: bare tasks (development only)
-                monitoring_task = asyncio.create_task(self._monitoring_loop())
-                health_task = asyncio.create_task(self._health_check_loop())
-                drift_task = asyncio.create_task(self._drift_monitoring_loop())
-                self.guardian_tasks.update([monitoring_task, health_task, drift_task])
+        # Start monitoring loops
+        asyncio.create_task(self._monitoring_loop())
+        asyncio.create_task(self._health_check_loop())
+        asyncio.create_task(self._drift_monitoring_loop())
 
     async def register_guardian_agent(self, agent: GuardianAgent) -> bool:
         """Register a new Guardian agent"""
@@ -1085,31 +992,6 @@ class EnhancedGuardianSystem:
                 datetime.now(timezone.utc) - datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
             ).total_seconds(),
         }
-
-    async def shutdown(self):
-        """Shutdown Guardian System with proper task cleanup"""
-
-        self.monitoring_active = False
-        logger.info("🛑 Guardian System shutdown initiated")
-
-        # Cancel all guardian tasks
-        if hasattr(self, "guardian_tasks") and self.guardian_tasks:
-            logger.info(f"Cancelling {len(self.guardian_tasks)} guardian tasks")
-            for task in self.guardian_tasks:
-                if not task.done():
-                    task.cancel()
-
-            # Wait for cancellation with timeout
-            try:
-                await asyncio.wait_for(
-                    asyncio.gather(*self.guardian_tasks, return_exceptions=True),
-                    timeout=10.0  # Longer timeout for critical guardian tasks
-                )
-                logger.info("✅ All guardian tasks cancelled successfully")
-            except asyncio.TimeoutError:
-                logger.warning("⚠️ Some guardian tasks did not cancel within timeout")
-
-        logger.info("✅ Guardian System shutdown complete")
 
     async def get_system_metrics(self) -> dict[str, Any]:
         """Get system performance metrics"""

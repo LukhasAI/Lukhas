@@ -36,6 +36,7 @@ from enum import Enum
 from typing import Any, Optional
 
 
+
 class ConstellationStar(Enum):
     """Constellation Framework stars"""
 

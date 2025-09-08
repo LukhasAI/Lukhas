@@ -256,7 +256,7 @@ def _japanese_to_english(japanese_color: str) -> str:
     """
     japanese_to_english_map = {
         "aka": "red",
-        "aoi": "blue",
+        "aoi": "blue", 
         "midori": "green",
         "kiiro": "yellow",
         "murasaki": "purple",

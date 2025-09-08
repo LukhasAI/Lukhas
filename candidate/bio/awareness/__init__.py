@@ -21,8 +21,8 @@ try:
 	loader.exec_module(mod)
 
 	# Re-export commonly expected symbols
-	BioAwareness = mod.BioAwareness
-	AwarenessState = mod.AwarenessState
+	BioAwareness = getattr(mod, "BioAwareness")
+	AwarenessState = getattr(mod, "AwarenessState")
 	__all__ = ["BioAwareness", "AwarenessState"]
 except Exception as e:
 	logger.warning(f"Failed to load awareness implementation: {e}")

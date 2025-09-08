@@ -9,7 +9,7 @@ import gzip
 import json
 import struct
 from collections.abc import Iterable
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 

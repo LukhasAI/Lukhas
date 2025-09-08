@@ -597,7 +597,7 @@ def handle_rate_limit_exceeded_on_bp(e):  # Renamed:
 
 
 @lambd_id_bp.errorhandler(404)  # This handles 404s *within* this blueprint's prefix
-def handle_not_found_on_bp(_e):
+def handle_not_found_on_bp(e):  # Renamed:
     """Handles 404 Not Found errors for routes under lambd_id_bp."""
     req_id = _get_req_id("err404")
     logger.warning(
@@ -619,7 +619,7 @@ def handle_not_found_on_bp(_e):
 
 
 @lambd_id_bp.errorhandler(405)  # Method Not Allowed within this blueprint
-def handle_method_not_allowed_on_bp(_e):
+def handle_method_not_allowed_on_bp(e):  # Renamed:
     """Handles 405 Method Not Allowed errors for routes under lambd_id_bp."""
     req_id = _get_req_id("err405")
     logger.warning(

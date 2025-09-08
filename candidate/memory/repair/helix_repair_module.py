@@ -1,5 +1,3 @@
-import logging
-
 log = logging.getLogger(__name__)
 
 """Autonomous repair routines for the Healix memory helix."""

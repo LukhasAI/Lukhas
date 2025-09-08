@@ -1,10 +1,8 @@
+log = logging.getLogger(__name__)
 """
 Service implementations for LUKHAS core modules
 Connects to real implementations replacing stubs
 """
-import logging
-
-logger = logging.getLogger(__name__)
 import warnings
 from typing import Any
 

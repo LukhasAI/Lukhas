@@ -15,7 +15,7 @@ Supported SSO Methods:
 import hashlib
 import json
 import secrets
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from typing import Optional
 
 
@@ -561,7 +561,7 @@ class LambdaSSOEngine:
                     raise ValueError(f"Missing required field: {field}")
 
             # Validate expiration
-            from datetime import datetime, timezone
+            from datetime import datetime
 
             expires_at = datetime.fromisoformat(glyph_payload["expires_at"])
             if datetime.now(timezone.utc) > expires_at:

@@ -27,7 +27,7 @@ def display_flashback_preview():
     trace_path = "logs/flashbacks/flashback_trace.jsonl"
     if os.path.exists(trace_path):
         with open(trace_path, encoding="utf-8") as f:
-            lines = [json.loads(line) for line in f if line.strip()][-2 ]
+            lines = [json.loads(line) for line in f if line.strip()][-2:]
             logger.debug("Displaying last flashbacks")
             print("🧠 Last Flashbacks:")  # Keep UI output
             for fb in lines:

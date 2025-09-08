@@ -203,7 +203,7 @@ class ResearchAwarenessInput(BaseModel):
     """Research-focused awareness input with experimental capabilities."""
 
     # Core research metadata
-    research_id: str = Field(default_factory=lambda: f"research_{uuid.uuid4())}.hex[:8]}")
+    research_id: str = Field(default_factory=lambda: f"research_{uuid.uuid4()}.hex[:8]}")
     experiment_id: Optional[str] = None
     participant_id: Optional[str] = None
     session_id: Optional[str] = None
@@ -725,7 +725,7 @@ class ResearchAwarenessEngine:
                 "ethics_level": self.config.ethics_level.value,
                 "data_sharing_level": self.config.data_sharing_level.value,
             },
-            f"init_{uuid.uuid4())}.hex[:8]}",
+            f"init_{uuid.uuid4()}.hex[:8]}",
         )
 
     def conduct_research(self, inputs: ResearchAwarenessInput) -> ResearchAwarenessOutput:

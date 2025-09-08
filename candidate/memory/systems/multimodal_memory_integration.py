@@ -4,7 +4,7 @@ Provides integration wrapper for connecting the multimodal memory support to the
 """
 
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional, Union
 

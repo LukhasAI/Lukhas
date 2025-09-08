@@ -32,6 +32,7 @@ from typing import Any, Optional
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
 
+
 logger = logging.getLogger(__name__)
 
 

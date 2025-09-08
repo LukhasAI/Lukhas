@@ -17,6 +17,7 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional  # List not used in signatures but kept
 
+
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.awareness_processor", timezone)
 logger.info("ΛTRACE: Initializing awareness_processor module.")

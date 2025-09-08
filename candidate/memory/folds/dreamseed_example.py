@@ -1,5 +1,6 @@
 import logging
-
+import streamlit as st
+import time
 logger = logging.getLogger(__name__)
 """
 
@@ -159,7 +160,7 @@ def demonstrate_dreamseed_integration():
     print("✅ Dream Folding Completed:")
     print(f"   • Success: {folding_result['success']}")
     print(f"   • Created Folds: {len(folding_result['created_folds'])}")
-    print(f"   • Processing Stages: {list(folding_result['processing_stages'].keys())}")
+    print(f"   • Processing Stages: {list(folding_result['processing_stages'].keys()}")
     print(f"   • Drift Metrics: {folding_result['drift_metrics']['dream_drift_score']:.3f}")
     print(f"   • Stability Score: {folding_result['drift_metrics']['overall_stability']:.3f}")
     print(f"   • Safeguard Flags: {folding_result['safeguard_flags']}")
@@ -224,7 +225,7 @@ def demonstrate_dreamseed_integration():
     print(f"   • Success Rate: {dream_analytics['success_rate']:.1%}")
     print(f"   • Average Entanglement: {dream_analytics['average_entanglement_level']:.2f}")
     print(f"   • Tier Distribution: {dict(dream_analytics['tier_distribution'])}")
-    print(f"   • Top GLYPHs: {dict(list(dream_analytics['glyph_usage'].items())[:3])}")
+    print(f"   • Top GLYPHs: {dict(list(dream_analytics['glyph_usage'].items()}[:3]}")
 
     # Example 6: System Health Monitoring
     print("\n📍 EXAMPLE 6: Memory Health Dashboard")
@@ -249,7 +250,7 @@ def demonstrate_dreamseed_integration():
 
     print("✅ Safeguard System Status:")
     print(f"   • Session ID: {session_analytics['session_id']}")
-    print(f"   • Total GLYPH Usage: {sum(session_analytics['total_glyph_usage'].values())}")
+    print(f"   • Total GLYPH Usage: {sum(session_analytics['total_glyph_usage'].values()}")
     print(f"   • Entangled Dreams: {session_analytics['entangled_dreams']}")
     print(f"   • Recursive Amplification Events: {session_analytics['recursive_amplification_events']}")
 

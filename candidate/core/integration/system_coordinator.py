@@ -43,7 +43,7 @@ import uuid
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
@@ -55,7 +55,10 @@ try:
     from voice.processor import VoiceProcessor
 
     from candidate.core.identity.identity_manager import IdentityManager
-    from candidate.core.neural_architectures.neural_integrator import NeuralContext, NeuralIntegrator, NeuralMode
+    from candidate.core.neural_architectures.neural_integrator import (
+        NeuralContext,
+        NeuralIntegrator,
+        NeuralMode)
     from lukhas.consciousness.core_consciousness.consciousness_integrator import (
         ConsciousnessEvent,
         ConsciousnessIntegrator,
@@ -795,7 +798,7 @@ if __name__ == "__main__":
         # Get response
         response = await coordinator.get_response(request_id)
         if response:
-            logger.info(f"Response: {json.dumps(asdict(response), indent=2, default=str)}")
+            logger.info(f"Response: {json.dumps(asdict(response}, indent=2, default=str}")
 
         # Get system status
         status = await coordinator.get_system_status()

@@ -534,8 +534,7 @@ if FASTAPI_AVAILABLE:
 
         # Validate functions before registration
         try:
-            # TODO: Implement proper validator integration
-            validator = None  # get_validator() - placeholder until validator is implemented
+            validator = get_validator()
             if validator:
                 validation_result = await validator.validate_request(
                     "function_registration",

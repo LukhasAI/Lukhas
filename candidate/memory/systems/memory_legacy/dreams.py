@@ -240,7 +240,7 @@ def generate_dream_narrative(
         mem_frags_str = "\n".join(
             [f"- Content Preview: {str(mem.get('content', mem))[:75]}..." for mem in sampled_memories]
         )
-        prompt_text_parts.append("\n\nRecent memory fragments \n" + mem_frags_str)
+        prompt_text_parts.append("\n\nRecent memory fragments:\n" + mem_frags_str)
     final_dream_user_prompt = "".join(prompt_text_parts)
 
     api_messages = [

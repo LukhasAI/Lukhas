@@ -37,6 +37,7 @@ from datetime import datetime, timezone
 from functools import wraps
 from typing import Any, Callable, Optional
 
+
 try:
     from ..security.secure_logging import get_security_logger
     from .constitutional_ai import DecisionContext, get_constitutional_framework
@@ -727,19 +728,6 @@ async def evaluate_decision_with_guardian(
             user_id="user_123"
         )
     """
-    # Enhanced telemetry for Guardian system integration
-    import logging
-    logger = logging.getLogger(__name__)
-
-    # Enhanced observability for guardian decision evaluation
-    logger.info("guardian.decision_evaluation", extra={
-        "decision_type": decision_type.value if hasattr(decision_type, "value") else str(decision_type),
-        "user_id": user_id,
-        "has_decision_data": bool(decision_data),
-        "decision_data_keys": list(decision_data.keys()) if decision_data else [],
-        "trace": "guardian_decision_evaluation"
-    })
-
     middleware = get_integration_middleware()
     return await middleware._evaluate_with_guardian(decision_type, decision_data, ExplanationType.STANDARD)
 

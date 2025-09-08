@@ -8,7 +8,7 @@ import builtins
 import contextlib
 import json
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Optional
 
 # VIVOX imports

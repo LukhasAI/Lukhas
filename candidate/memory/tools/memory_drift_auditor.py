@@ -828,7 +828,7 @@ class MemoryDriftAuditor:
         # Determine overall trend
         if len(entropy_analysis["entropy_trajectory"]) >= 3:
             recent_entropies = [
-                pt["entropy"] for pt in entropy_analysis["entropy_trajectory"][-3 ]
+                pt["entropy"] for pt in entropy_analysis["entropy_trajectory"][-3:]
             ]
             if all(
                 recent_entropies[i] > recent_entropies[i - 1]
@@ -1069,7 +1069,7 @@ class MemoryDriftAuditor:
         return identity_analysis
 
     def _calculate_identity_change(
-        self, snapshot1 dict[str, Any], snapshot2: dict[str, Any]
+        self, snapshot1: dict[str, Any], snapshot2: dict[str, Any]
     ) -> float:
         """Calculate identity change score between two snapshots."""
         content1 = str(snapshot1.get("content", "")).lower()
@@ -1095,7 +1095,8 @@ class MemoryDriftAuditor:
         identity_content2 = [kw for kw in identity_keywords if kw in content2]
 
         # Calculate content overlap
-        if not identity_content1 and not identity_content2 return 0.0
+        if not identity_content1 and not identity_content2:
+            return 0.0
 
         intersection = set(identity_content1).intersection(set(identity_content2))
         union = set(identity_content1).union(set(identity_content2))
@@ -1838,7 +1839,7 @@ class MemoryDriftAuditor:
                     [e for e in self.collapse_events if e.get("severity") != "critical"]
                 ),
             },
-            "integrity_status" {
+            "integrity_status": {
                 "overall_health": self._assess_overall_health(),
                 "critical_issues": len(
                     [

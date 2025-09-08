@@ -14,7 +14,7 @@ This module connects:
 - Security engines - Security-aware ethical decisions
 """
 
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum
 from typing import Any
 

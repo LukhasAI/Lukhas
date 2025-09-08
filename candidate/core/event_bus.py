@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -163,7 +164,7 @@ class EventBus:
         coordination_metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """Start coordinated dream processing session."""
-        correlation_id = f"dream_coordination_{dream_id}_{uuid.uuid4().hex[:8]}"
+        correlation_id = f"dream_coordination_{dream_id}_{uuid.uuid4()}.hex[:8]}"
 
         # Publish dream coordination start event
         await self.publish_dream_event(

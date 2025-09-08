@@ -22,7 +22,7 @@ try:
     from candidate.core.modules.nias.dream_recorder import record_dream_message
 except ImportError:
     # Create a placeholder if the module doesn't exist
-    def record_dream_message(*_args, **_kwargs):
+    def record_dream_message(*args, **kwargs):
         return {"status": "recorded", "message": "placeholder_recording"}
 
 

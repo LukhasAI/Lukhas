@@ -161,7 +161,7 @@ class GlyphMemoryBridge:
             list(set().union(*[g.semantic_tags for g in glyph_objects])) if glyph_objects else []
         )
 
-        logger.info(f"Created glyph-indexed memory {memory_key[:10]}... with {len(glyph_objects)} glyphs")
+        logger.info(f"Created glyph-indexed memory: {memory_key[:10]}... with {len(glyph_objects)} glyphs")
         return memory_fold
 
     def recall_by_glyph(

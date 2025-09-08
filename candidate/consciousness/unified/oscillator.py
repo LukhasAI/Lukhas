@@ -355,7 +355,7 @@ class AbstractReasoningBrainOscillator:
         success_rate = successful_events / len(coherence_values)
 
         # Recent performance (last 10 events)
-        recent_events = self.synchronization_events[-10 ]
+        recent_events = self.synchronization_events[-10:]
         recent_coherence = [event.get("master_coherence", 0.0) for event in recent_events]
         recent_avg = sum(recent_coherence) / len(recent_coherence) if recent_coherence else 0.0
 

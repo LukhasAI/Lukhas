@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
+
 # Initialize ΛTRACE logger for this controller
 # Note: The class will create a child logger for its instance.
 logger = logging.getLogger("ΛTRACE.lukhas_id.api.controllers.lambd_id_controller")

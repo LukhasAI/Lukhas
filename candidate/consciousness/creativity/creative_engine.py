@@ -47,25 +47,6 @@ from torch.nn import functional as F
 
 import aioredis
 
-try:
-    from lukhas.async_manager import TaskPriority, get_consciousness_manager
-    from lukhas.async_utils import run_background_task
-except ImportError:
-    # Fallback for development
-    get_consciousness_manager = lambda: None
-    TaskPriority = None
-
-    # Safe fallback that stores task reference
-    def run_background_task(coro, **kwargs):
-        """Fallback implementation that properly manages task references."""
-        task = asyncio.create_task(coro)
-        # Store reference to prevent immediate GC
-        if not hasattr(run_background_task, "_tasks"):
-            run_background_task._tasks = set()
-        run_background_task._tasks.add(task)
-        task.add_done_callback(lambda t: run_background_task._tasks.discard(t))
-        return task
-
 # Type definitions
 T = TypeVar("T")
 CreativeOutput = TypeVar("CreativeOutput")
@@ -431,14 +412,9 @@ class EnterpriseNeuralHaikuGenerator:
                 # Cache result
                 await self._cache_result(cache_key, final_haiku, metrics)
 
-                # Update federated learning with proper task management
+                # Update federated learning
                 if self.config.enable_federated_learning:
-                    # Use managed task for federated learning update
-                    await run_background_task(
-                        self._update_federated_model(final_haiku, context),
-                        name="federated_learning_update",
-                        description=f"Update federated model for user {context.user_id}"
-                    )
+                    asyncio.create_task(self._update_federated_model(final_haiku, context))
 
                 # Record metrics
                 HAIKU_GENERATION_TIME.observe(total_time / 1000)
