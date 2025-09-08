@@ -54,7 +54,17 @@ except ImportError:
     # Fallback for development
     get_consciousness_manager = lambda: None
     TaskPriority = None
-    run_background_task = lambda coro, **kwargs: asyncio.create_task(coro)
+    
+    # Safe fallback that stores task reference
+    def run_background_task(coro, **kwargs):
+        """Fallback implementation that properly manages task references."""
+        task = asyncio.create_task(coro)
+        # Store reference to prevent immediate GC
+        if not hasattr(run_background_task, '_tasks'):
+            run_background_task._tasks = set()
+        run_background_task._tasks.add(task)
+        task.add_done_callback(lambda t: run_background_task._tasks.discard(t))
+        return task
 
 # Type definitions
 T = TypeVar("T")

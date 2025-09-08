@@ -56,6 +56,15 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+try:
+    from lukhas.async_manager import get_consciousness_manager, TaskPriority
+    from lukhas.async_utils import run_consciousness_task
+except ImportError:
+    # Fallback for development
+    get_consciousness_manager = lambda: None
+    TaskPriority = None
+    run_consciousness_task = lambda coro, **kwargs: asyncio.create_task(coro)
+
 # Import orchestration components
 try:
     from candidate.orchestration.bio_symbolic_orchestrator import (
@@ -237,6 +246,10 @@ class MasterOrchestrator:
         self.is_running = False
         self.orchestrator_registry: dict[str, Any] = {}
         self.initialization_time = datetime.now(timezone.utc)
+        
+        # Task management for consciousness operations
+        self.task_manager = get_consciousness_manager()
+        self.monitoring_tasks: set[asyncio.Task] = set()
 
         self.logger.info("Master orchestrator initialized")
 
@@ -983,20 +996,61 @@ class MasterOrchestrator:
 
     # Background monitoring tasks
     async def _start_monitoring_tasks(self):
-        """Start background monitoring and maintenance tasks"""
+        """Start background monitoring and maintenance tasks with proper lifecycle management"""
+        
+        if self.task_manager and TaskPriority:
+            # Health monitoring task - critical for system stability
+            health_task = self.task_manager.create_task(
+                self._health_monitoring_loop(),
+                name="master_orchestrator_health_monitoring",
+                priority=TaskPriority.CRITICAL,
+                component="consciousness.reflection.master_orchestrator",
+                description="System health monitoring for master orchestrator",
+                consciousness_context="orchestration_monitoring"
+            )
+            self.monitoring_tasks.add(health_task)
 
-        # Health monitoring task
-        asyncio.create_task(self._health_monitoring_loop())
+            # Performance monitoring task
+            perf_task = self.task_manager.create_task(
+                self._performance_monitoring_loop(),
+                name="master_orchestrator_performance_monitoring",
+                priority=TaskPriority.HIGH,
+                component="consciousness.reflection.master_orchestrator",
+                description="Performance monitoring and metrics collection",
+                consciousness_context="orchestration_monitoring"
+            )
+            self.monitoring_tasks.add(perf_task)
 
-        # Performance monitoring task
-        asyncio.create_task(self._performance_monitoring_loop())
+            # Request processing loop
+            request_task = self.task_manager.create_task(
+                self._request_processing_loop(),
+                name="master_orchestrator_request_processing",
+                priority=TaskPriority.HIGH,
+                component="consciousness.reflection.master_orchestrator",
+                description="Main request processing loop",
+                consciousness_context="orchestration_processing"
+            )
+            self.monitoring_tasks.add(request_task)
 
-        # Request processing loop
-        asyncio.create_task(self._request_processing_loop())
-
-        # LUKHAS cycle monitoring
-        if self.config.get("lukhas_cycle_tracking", True):
-            asyncio.create_task(self._lukhas_cycle_monitoring_loop())
+            # LUKHAS cycle monitoring
+            if self.config.get("lukhas_cycle_tracking", True):
+                cycle_task = self.task_manager.create_task(
+                    self._lukhas_cycle_monitoring_loop(),
+                    name="master_orchestrator_lukhas_cycle_monitoring",
+                    priority=TaskPriority.NORMAL,
+                    component="consciousness.reflection.master_orchestrator",
+                    description="LUKHAS cycle phase tracking and monitoring",
+                    consciousness_context="consciousness_cycle_monitoring"
+                )
+                self.monitoring_tasks.add(cycle_task)
+        else:
+            # Fallback for development
+            self.logger.warning("Task manager unavailable, using fallback task creation")
+            self.monitoring_tasks.add(asyncio.create_task(self._health_monitoring_loop()))
+            self.monitoring_tasks.add(asyncio.create_task(self._performance_monitoring_loop()))
+            self.monitoring_tasks.add(asyncio.create_task(self._request_processing_loop()))
+            if self.config.get("lukhas_cycle_tracking", True):
+                self.monitoring_tasks.add(asyncio.create_task(self._lukhas_cycle_monitoring_loop()))
 
     async def _health_monitoring_loop(self):
         """Background task for monitoring system health"""

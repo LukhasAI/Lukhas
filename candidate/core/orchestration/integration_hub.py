@@ -17,7 +17,17 @@ except ImportError:
     # Fallback for development
     get_orchestration_manager = lambda: None
     TaskPriority = None
-    create_managed_task = lambda coro, **kwargs: asyncio.create_task(coro)
+    
+    # Safe fallback that stores task reference
+    def create_managed_task(coro, **kwargs):
+        """Fallback implementation that properly manages task references."""
+        task = asyncio.create_task(coro)
+        # Store reference to prevent immediate GC
+        if not hasattr(create_managed_task, '_tasks'):
+            create_managed_task._tasks = set()
+        create_managed_task._tasks.add(task)
+        task.add_done_callback(lambda t: create_managed_task._tasks.discard(t))
+        return task
 
 # Golden Trio imports
 try:
@@ -327,8 +337,16 @@ class SystemIntegrationHub:
                 self.integration_tasks = set()
             self.integration_tasks.add(health_task)
         else:
-            # Fallback for development
-            asyncio.create_task(self._health_monitor_loop())
+            # Fallback for development - use managed task fallback
+            fallback_task = create_managed_task(
+                self._health_monitor_loop(),
+                name="integration_health_monitor_fallback",
+                component="orchestration.integration_hub"
+            )
+            # Store for potential cleanup
+            if not hasattr(self, 'integration_tasks'):
+                self.integration_tasks = set()
+            self.integration_tasks.add(fallback_task)
 
     async def _health_monitor_loop(self):
         """Monitor system health using mito-inspired patterns"""

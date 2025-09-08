@@ -273,8 +273,21 @@ class EnhancedGuardianSystem:
             )
             self.guardian_tasks.add(init_task)
         else:
-            # Fallback for development
-            asyncio.create_task(self._initialize_guardian_system())
+            # Fallback for development - use managed task
+            fallback_manager = get_guardian_manager()
+            if fallback_manager and TaskPriority:
+                fallback_task = fallback_manager.create_task(
+                    self._initialize_guardian_system(),
+                    name="guardian_system_fallback_init",
+                    priority=TaskPriority.CRITICAL,
+                    component="governance.guardian",
+                    description="Fallback initialization for guardian system"
+                )
+                self.guardian_tasks.add(fallback_task)
+            else:
+                # Last resort: bare task (development only)
+                init_task = asyncio.create_task(self._initialize_guardian_system())
+                self.guardian_tasks.add(init_task)
 
         logger.info("🛡️ Enhanced Guardian System v1.0.0 initialized")
 
@@ -377,10 +390,37 @@ class EnhancedGuardianSystem:
             # Track all tasks for shutdown
             self.guardian_tasks.update([monitoring_task, health_task, drift_task])
         else:
-            # Fallback for development
-            asyncio.create_task(self._monitoring_loop())
-            asyncio.create_task(self._health_check_loop())
-            asyncio.create_task(self._drift_monitoring_loop())
+            # Fallback for development - use managed tasks
+            fallback_manager = get_guardian_manager()
+            if fallback_manager and TaskPriority:
+                monitoring_fallback = fallback_manager.create_task(
+                    self._monitoring_loop(),
+                    name="guardian_monitoring_fallback",
+                    priority=TaskPriority.CRITICAL,
+                    component="governance.guardian",
+                    description="Guardian monitoring fallback"
+                )
+                health_fallback = fallback_manager.create_task(
+                    self._health_check_loop(),
+                    name="guardian_health_fallback",
+                    priority=TaskPriority.HIGH,
+                    component="governance.guardian",
+                    description="Guardian health check fallback"
+                )
+                drift_fallback = fallback_manager.create_task(
+                    self._drift_monitoring_loop(),
+                    name="guardian_drift_monitoring_fallback",
+                    priority=TaskPriority.HIGH,
+                    component="governance.guardian",
+                    description="Guardian drift monitoring fallback"
+                )
+                self.guardian_tasks.update([monitoring_fallback, health_fallback, drift_fallback])
+            else:
+                # Last resort: bare tasks (development only)
+                monitoring_task = asyncio.create_task(self._monitoring_loop())
+                health_task = asyncio.create_task(self._health_check_loop())
+                drift_task = asyncio.create_task(self._drift_monitoring_loop())
+                self.guardian_tasks.update([monitoring_task, health_task, drift_task])
 
     async def register_guardian_agent(self, agent: GuardianAgent) -> bool:
         """Register a new Guardian agent"""

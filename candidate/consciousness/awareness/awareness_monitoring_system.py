@@ -301,8 +301,20 @@ class AwarenessMonitoringSystem:
             )
             self.monitoring_tasks.add(init_task)
         else:
-            # Fallback for development
-            asyncio.create_task(self._initialize_monitoring_system())
+            # Fallback for development - use managed task if available
+            fallback_manager = get_consciousness_manager()
+            if fallback_manager and TaskPriority:
+                fallback_task = fallback_manager.create_task(
+                    self._initialize_monitoring_system(),
+                    name="awareness_monitoring_fallback_init",
+                    priority=TaskPriority.CRITICAL,
+                    component="consciousness.awareness",
+                    description="Fallback initialization for awareness monitoring"
+                )
+                self.monitoring_tasks.add(fallback_task)
+            else:
+                # Last resort: bare task (development only)
+                asyncio.create_task(self._initialize_monitoring_system())
 
         logger.info("🧠 Consciousness Awareness Monitoring System initialized")
 

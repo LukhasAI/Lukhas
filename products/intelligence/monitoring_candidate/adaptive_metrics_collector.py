@@ -23,9 +23,24 @@ from typing import Any, Callable, Optional
 try:
     from lukhas.async_utils import create_managed_task, run_background_task
 except ImportError:
-    # Fallback for development
-    create_managed_task = lambda coro, **kwargs: asyncio.create_task(coro)
-    run_background_task = lambda coro, **kwargs: asyncio.create_task(coro)
+    # Fallback for development - safe implementations
+    def create_managed_task(coro, **kwargs):
+        """Fallback implementation that properly manages task references."""
+        task = asyncio.create_task(coro)
+        if not hasattr(create_managed_task, '_tasks'):
+            create_managed_task._tasks = set()
+        create_managed_task._tasks.add(task)
+        task.add_done_callback(lambda t: create_managed_task._tasks.discard(t))
+        return task
+    
+    def run_background_task(coro, **kwargs):
+        """Fallback implementation that properly manages task references."""
+        task = asyncio.create_task(coro)
+        if not hasattr(run_background_task, '_tasks'):
+            run_background_task._tasks = set()
+        run_background_task._tasks.add(task)
+        task.add_done_callback(lambda t: run_background_task._tasks.discard(t))
+        return task
 
 import structlog
 

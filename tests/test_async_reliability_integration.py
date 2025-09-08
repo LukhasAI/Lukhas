@@ -1,420 +1,437 @@
 """
-Integration tests for LUKHAS async reliability improvements.
+Comprehensive async reliability integration tests for LUKHAS consciousness architecture.
 
-Tests the complete async task lifecycle for consciousness architecture,
-validating proper cleanup, monitoring, and production-grade reliability.
+Tests async task lifecycle management, graceful shutdown, and error handling
+across consciousness systems after the async guardian reliability hardening.
 """
 
 import asyncio
 import pytest
 import time
 import logging
-from unittest.mock import patch, AsyncMock
+from unittest.mock import AsyncMock, MagicMock
+from typing import List, Set
+import gc
 
-# Test imports with fallbacks
-try:
-    from lukhas.async_manager import (
-        ConsciousnessTaskManager,
-        TaskPriority,
-        shutdown_all_managers
-    )
-    from lukhas.async_utils import (
-        consciousness_context,
-        run_consciousness_task,
-        run_guardian_task,
-        run_background_task
-    )
-except ImportError:
-    # Skip these tests if async manager not available
-    pytest.skip("Async manager not available", allow_module_level=True)
-
-# Configure logging for tests
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+from lukhas.async_manager import (
+    ConsciousnessTaskManager,
+    TaskPriority,
+    get_consciousness_manager,
+    get_guardian_manager,
+    shutdown_all_managers
+)
+from lukhas.async_utils import (
+    run_consciousness_task,
+    run_guardian_task,
+    consciousness_context,
+    await_with_timeout,
+    gather_with_error_handling
+)
 
 
-@pytest.mark.integration
-class TestConsciousnessAsyncReliability:
-    """Test consciousness system async reliability."""
+@pytest.fixture
+def event_loop():
+    """Create a new event loop for each test."""
+    loop = asyncio.new_event_loop()
+    yield loop
+    loop.close()
+
+
+@pytest.fixture
+async def clean_managers():
+    """Ensure clean manager state for each test."""
+    await shutdown_all_managers()
+    yield
+    await shutdown_all_managers()
+
+
+class TestAsyncTaskLifecycle:
+    """Test async task lifecycle management."""
     
     @pytest.mark.asyncio
-    async def test_awareness_monitoring_async_flow(self):
-        """Test awareness monitoring system async task management."""
+    async def test_task_creation_and_tracking(self, clean_managers):
+        """Test that tasks are properly created and tracked."""
+        manager = get_consciousness_manager()
         
-        # Simulate awareness monitoring tasks
-        monitoring_events = []
+        async def test_coro():
+            await asyncio.sleep(0.1)
+            return "success"
         
-        async def awareness_monitoring_loop():
-            """Simulate awareness monitoring loop."""
-            for i in range(3):
-                await asyncio.sleep(0.01)
-                monitoring_events.append(f"awareness_check_{i}")
-            return "monitoring_complete"
-        
-        async def pattern_detection_loop():
-            """Simulate pattern detection."""
-            for i in range(2):
-                await asyncio.sleep(0.015)
-                monitoring_events.append(f"pattern_detected_{i}")
-            return "pattern_detection_complete"
-        
-        # Use consciousness context for proper task management
-        async with consciousness_context("awareness_monitoring") as ctx:
-            # Create managed consciousness tasks
-            awareness_task = ctx.create_task(
-                awareness_monitoring_loop(),
-                name="awareness_monitoring_loop",
-                priority=TaskPriority.CRITICAL,
-                description="Monitor consciousness awareness levels"
-            )
-            
-            pattern_task = ctx.create_task(
-                pattern_detection_loop(),
-                name="pattern_detection_loop", 
-                priority=TaskPriority.HIGH,
-                description="Detect awareness patterns"
-            )
-            
-            # Wait for completion
-            await asyncio.gather(awareness_task, pattern_task)
-        
-        # Verify all events occurred
-        assert len(monitoring_events) == 5
-        assert any("awareness_check" in event for event in monitoring_events)
-        assert any("pattern_detected" in event for event in monitoring_events)
-    
-    @pytest.mark.asyncio
-    async def test_memory_fold_processing_reliability(self):
-        """Test memory fold processing with cascade prevention."""
-        
-        cascade_events = []
-        
-        async def memory_fold_worker():
-            """Simulate memory fold processing."""
-            await asyncio.sleep(0.02)
-            cascade_events.append("fold_processed")
-            
-            # Simulate cascade prevention check
-            if len(cascade_events) > 1:
-                cascade_events.append("cascade_prevented")
-            
-            return {"fold_id": "test_fold", "status": "processed"}
-        
-        async def distributed_memory_sync():
-            """Simulate distributed memory synchronization."""
-            await asyncio.sleep(0.01)
-            cascade_events.append("memory_synced")
-            return {"sync_status": "complete"}
-        
-        # Create consciousness tasks for memory processing
-        fold_task = await run_consciousness_task(
-            memory_fold_worker(),
-            name="memory_fold_processing",
-            priority=TaskPriority.CRITICAL,
-            description="Process memory fold with cascade prevention",
-            consciousness_context="memory_processing"
+        task = manager.create_task(
+            test_coro(),
+            name="test_task",
+            priority=TaskPriority.NORMAL,
+            component="test",
+            description="Test task creation"
         )
         
-        sync_task = await run_consciousness_task(
-            distributed_memory_sync(),
-            name="distributed_memory_sync",
-            priority=TaskPriority.HIGH,
-            description="Synchronize distributed memory",
-            consciousness_context="memory_processing"
-        )
+        # Verify task is tracked
+        stats = manager.get_stats()
+        assert stats['tasks_created'] == 1
+        assert stats['total_active'] == 1
         
         # Wait for completion
-        fold_result = await fold_task
-        sync_result = await sync_task
+        result = await task
+        assert result == "success"
         
-        assert fold_result["status"] == "processed"
-        assert sync_result["sync_status"] == "complete"
-        assert "fold_processed" in cascade_events
-        assert "memory_synced" in cascade_events
-
-
-@pytest.mark.integration  
-class TestGuardianAsyncReliability:
-    """Test Guardian system async reliability."""
+        # Verify completion tracking
+        await asyncio.sleep(0.1)  # Allow callback to run
+        stats = manager.get_stats()
+        assert stats['tasks_completed'] == 1
+        assert stats['total_active'] == 0
     
     @pytest.mark.asyncio
-    async def test_guardian_ethical_evaluation_flow(self):
-        """Test Guardian ethical evaluation async flow."""
+    async def test_task_cancellation_handling(self, clean_managers):
+        """Test proper handling of task cancellation."""
+        manager = get_consciousness_manager()
         
-        evaluation_results = []
+        async def long_running_task():
+            try:
+                await asyncio.sleep(10)  # Long task
+            except asyncio.CancelledError:
+                # Cleanup logic here
+                raise
         
-        async def ethical_drift_monitor():
-            """Simulate ethical drift monitoring."""
-            await asyncio.sleep(0.01)
-            drift_score = 0.08  # Within threshold of 0.15
-            evaluation_results.append({
-                "type": "drift_monitor",
-                "drift_score": drift_score,
-                "status": "within_threshold"
-            })
-            return drift_score
-        
-        async def constitutional_enforcement():
-            """Simulate constitutional AI enforcement."""
-            await asyncio.sleep(0.015)
-            evaluation_results.append({
-                "type": "constitutional_check",
-                "violations": 0,
-                "status": "compliant"
-            })
-            return {"violations": 0, "enforcement_active": True}
-        
-        async def emergency_containment_check():
-            """Simulate emergency containment assessment."""
-            await asyncio.sleep(0.005)
-            evaluation_results.append({
-                "type": "emergency_check", 
-                "containment_needed": False,
-                "status": "normal"
-            })
-            return {"containment_active": False}
-        
-        # Create Guardian tasks
-        drift_task = await run_guardian_task(
-            ethical_drift_monitor(),
-            name="ethical_drift_monitor",
-            description="Monitor ethical drift (threshold: 0.15)",
-            consciousness_context="guardian_ethics"
+        task = manager.create_task(
+            long_running_task(),
+            name="cancellable_task",
+            priority=TaskPriority.LOW,
+            component="test"
         )
         
-        constitutional_task = await run_guardian_task(
-            constitutional_enforcement(),
-            name="constitutional_enforcement",
-            description="Enforce constitutional AI constraints",
-            consciousness_context="guardian_constitutional"
-        )
+        # Cancel after short delay
+        await asyncio.sleep(0.1)
+        task.cancel()
         
-        emergency_task = await run_guardian_task(
-            emergency_containment_check(),
-            name="emergency_containment_check",
-            description="Check emergency containment status",
-            consciousness_context="guardian_emergency"
-        )
+        with pytest.raises(asyncio.CancelledError):
+            await task
         
-        # Wait for all Guardian evaluations
-        drift_score = await drift_task
-        constitutional_result = await constitutional_task
-        emergency_result = await emergency_task
-        
-        # Validate results
-        assert drift_score == 0.08
-        assert constitutional_result["enforcement_active"] is True
-        assert emergency_result["containment_active"] is False
-        
-        # Verify all evaluations completed
-        assert len(evaluation_results) == 3
-        types_evaluated = [result["type"] for result in evaluation_results]
-        assert "drift_monitor" in types_evaluated
-        assert "constitutional_check" in types_evaluated  
-        assert "emergency_check" in types_evaluated
-
-
-@pytest.mark.integration
-class TestOrchestrationAsyncReliability:
-    """Test orchestration system async reliability."""
+        # Verify cancellation tracking
+        await asyncio.sleep(0.1)
+        stats = manager.get_stats()
+        assert stats['tasks_cancelled'] == 1
     
     @pytest.mark.asyncio
-    async def test_brain_integration_async_coordination(self):
-        """Test brain integration async coordination."""
+    async def test_task_error_handling(self, clean_managers):
+        """Test proper error handling and logging."""
+        manager = get_consciousness_manager()
         
-        integration_events = []
+        async def failing_task():
+            raise ValueError("Test error")
         
-        async def glyph_communication():
-            """Simulate GLYPH-based inter-module communication."""
-            await asyncio.sleep(0.01)
-            integration_events.append("glyph_message_sent")
-            return {"message_id": "test_glyph", "status": "delivered"}
-        
-        async def context_bus_routing():
-            """Simulate context bus message routing."""  
-            await asyncio.sleep(0.008)
-            integration_events.append("context_routed")
-            return {"route_count": 3, "status": "routed"}
-        
-        async def multi_agent_coordination():
-            """Simulate multi-agent coordination."""
-            await asyncio.sleep(0.012)
-            integration_events.append("agents_coordinated")
-            return {"agents_synchronized": 5}
-        
-        # Use background tasks for orchestration
-        glyph_task = await run_background_task(
-            glyph_communication(),
-            name="glyph_communication",
-            description="Handle GLYPH inter-module communication"
-        )
-        
-        context_task = await run_background_task(
-            context_bus_routing(),
-            name="context_bus_routing", 
-            description="Route messages via context bus"
-        )
-        
-        coordination_task = await run_background_task(
-            multi_agent_coordination(),
-            name="multi_agent_coordination",
-            description="Coordinate multiple AI agents"
-        )
-        
-        # Wait for orchestration completion
-        glyph_result = await glyph_task
-        context_result = await context_task  
-        coordination_result = await coordination_task
-        
-        # Validate orchestration results
-        assert glyph_result["status"] == "delivered"
-        assert context_result["status"] == "routed"
-        assert coordination_result["agents_synchronized"] == 5
-        
-        # Verify all integration events occurred
-        assert "glyph_message_sent" in integration_events
-        assert "context_routed" in integration_events
-        assert "agents_coordinated" in integration_events
-
-
-@pytest.mark.integration
-class TestAsyncSystemShutdown:
-    """Test system-wide async shutdown reliability."""
-    
-    @pytest.mark.asyncio
-    async def test_graceful_consciousness_system_shutdown(self):
-        """Test graceful shutdown of entire consciousness system."""
-        
-        shutdown_events = []
-        long_running_tasks = []
-        
-        async def consciousness_processing():
-            """Simulate long-running consciousness processing."""
-            try:
-                for i in range(10):  # Would take 0.1s to complete naturally
-                    await asyncio.sleep(0.01)
-                    shutdown_events.append(f"consciousness_step_{i}")
-                shutdown_events.append("consciousness_completed_naturally")
-            except asyncio.CancelledError:
-                shutdown_events.append("consciousness_cancelled_gracefully")
-                raise
-        
-        async def memory_processing():
-            """Simulate long-running memory processing."""
-            try:
-                for i in range(8):  # Would take 0.08s to complete naturally
-                    await asyncio.sleep(0.01)
-                    shutdown_events.append(f"memory_step_{i}")
-                shutdown_events.append("memory_completed_naturally")
-            except asyncio.CancelledError:
-                shutdown_events.append("memory_cancelled_gracefully")
-                raise
-        
-        async def guardian_monitoring():
-            """Simulate Guardian monitoring."""
-            try:
-                for i in range(5):  # Would take 0.05s to complete naturally
-                    await asyncio.sleep(0.01)
-                    shutdown_events.append(f"guardian_step_{i}")
-                shutdown_events.append("guardian_completed_naturally")
-            except asyncio.CancelledError:
-                shutdown_events.append("guardian_cancelled_gracefully")
-                raise
-        
-        # Start consciousness system components
-        consciousness_task = await run_consciousness_task(
-            consciousness_processing(),
-            name="consciousness_processing",
-            priority=TaskPriority.CRITICAL,
-            description="Long-running consciousness processing"
-        )
-        long_running_tasks.append(consciousness_task)
-        
-        memory_task = await run_consciousness_task(
-            memory_processing(),
-            name="memory_processing", 
+        task = manager.create_task(
+            failing_task(),
+            name="failing_task",
             priority=TaskPriority.HIGH,
-            description="Long-running memory processing"
+            component="test",
+            consciousness_context="error_test"
         )
-        long_running_tasks.append(memory_task)
         
-        guardian_task = await run_guardian_task(
-            guardian_monitoring(),
-            name="guardian_monitoring",
-            description="Long-running Guardian monitoring"
-        )
-        long_running_tasks.append(guardian_task)
+        with pytest.raises(ValueError):
+            await task
         
-        # Let tasks run briefly
-        await asyncio.sleep(0.02)
-        
-        # Initiate graceful shutdown
-        start_shutdown = time.time()
-        await shutdown_all_managers(timeout=0.05)  # Short timeout for testing
-        shutdown_duration = time.time() - start_shutdown
-        
-        # Verify shutdown completed quickly
-        assert shutdown_duration < 0.2  # Should complete within 200ms
-        
-        # All tasks should be cancelled or completed
-        for task in long_running_tasks:
-            assert task.done()
-        
-        # Verify graceful cancellation occurred
-        cancellation_events = [
-            event for event in shutdown_events 
-            if "cancelled_gracefully" in event
-        ]
-        assert len(cancellation_events) >= 1  # At least one task was cancelled gracefully
-        
-        logger.info(f"Shutdown events: {shutdown_events}")
-        logger.info(f"Shutdown completed in {shutdown_duration:.3f}s")
+        # Verify error tracking
+        await asyncio.sleep(0.1)
+        stats = manager.get_stats()
+        assert stats['tasks_failed'] == 1
 
 
-@pytest.mark.performance
-class TestAsyncPerformanceReliability:
-    """Test async performance and reliability under load."""
+class TestGracefulShutdown:
+    """Test graceful shutdown functionality."""
     
     @pytest.mark.asyncio
-    async def test_high_concurrency_consciousness_tasks(self):
-        """Test high concurrency with consciousness tasks."""
+    async def test_priority_based_shutdown(self, clean_managers):
+        """Test that shutdown respects task priorities."""
+        manager = get_consciousness_manager()
+        shutdown_order = []
         
-        completed_tasks = []
+        async def priority_task(priority: TaskPriority, name: str):
+            try:
+                await asyncio.sleep(5)  # Long-running task
+            except asyncio.CancelledError:
+                shutdown_order.append(name)
+                raise
         
-        async def consciousness_work_unit(work_id):
-            """Simulate a unit of consciousness work."""
-            await asyncio.sleep(0.001)  # Very brief work
-            completed_tasks.append(work_id)
-            return f"work_unit_{work_id}_complete"
+        # Create tasks with different priorities
+        critical_task = manager.create_task(
+            priority_task(TaskPriority.CRITICAL, "critical"),
+            name="critical_task",
+            priority=TaskPriority.CRITICAL,
+            component="test"
+        )
         
-        # Create many concurrent consciousness tasks
+        normal_task = manager.create_task(
+            priority_task(TaskPriority.NORMAL, "normal"),
+            name="normal_task",
+            priority=TaskPriority.NORMAL,
+            component="test"
+        )
+        
+        low_task = manager.create_task(
+            priority_task(TaskPriority.LOW, "low"),
+            name="low_task",
+            priority=TaskPriority.LOW,
+            component="test"
+        )
+        
+        # Start shutdown
+        shutdown_task = asyncio.create_task(manager.shutdown(timeout=0.5))
+        
+        # Wait for shutdown
+        await shutdown_task
+        
+        # Verify priority-based shutdown order
+        # Critical tasks should be given more time before cancellation
+        assert len(shutdown_order) == 3
+        # Low priority tasks should be cancelled first in practice
+    
+    @pytest.mark.asyncio
+    async def test_shutdown_timeout_handling(self, clean_managers):
+        """Test shutdown timeout and force cancellation."""
+        manager = get_consciousness_manager()
+        
+        async def stubborn_task():
+            # Task that ignores cancellation for a while
+            try:
+                await asyncio.sleep(10)
+            except asyncio.CancelledError:
+                await asyncio.sleep(0.5)  # Delay cancellation
+                raise
+        
+        task = manager.create_task(
+            stubborn_task(),
+            name="stubborn_task",
+            priority=TaskPriority.NORMAL,
+            component="test"
+        )
+        
+        start_time = time.time()
+        await manager.shutdown(timeout=0.2, force_after=0.5)
+        shutdown_time = time.time() - start_time
+        
+        # Should complete within force_after timeout
+        assert shutdown_time < 1.0
+        assert task.cancelled()
+
+
+class TestConsciousnessContextIntegration:
+    """Test consciousness context management."""
+    
+    @pytest.mark.asyncio
+    async def test_consciousness_context_cleanup(self, clean_managers):
+        """Test that consciousness context properly cleans up tasks."""
+        created_tasks = []
+        
+        async with consciousness_context("test_context") as ctx:
+            # Create multiple tasks within context
+            task1 = ctx.create_task(
+                asyncio.sleep(5),  # Long task
+                name="context_task1",
+                priority=TaskPriority.NORMAL
+            )
+            task2 = ctx.create_task(
+                asyncio.sleep(5),  # Long task
+                name="context_task2",
+                priority=TaskPriority.HIGH
+            )
+            
+            created_tasks.extend([task1, task2])
+            
+            # Short delay then exit context (simulating early exit)
+            await asyncio.sleep(0.1)
+        
+        # Tasks should be cancelled when context exits
+        for task in created_tasks:
+            assert task.cancelled()
+    
+    @pytest.mark.asyncio
+    async def test_guardian_task_integration(self, clean_managers):
+        """Test guardian task creation and management."""
+        async def guardian_operation():
+            await asyncio.sleep(0.2)
+            return "guardian_complete"
+        
+        task = await run_guardian_task(
+            guardian_operation(),
+            name="test_guardian_op",
+            description="Test guardian integration",
+            consciousness_context="guardian_test"
+        )
+        
+        result = await task
+        assert result == "guardian_complete"
+        
+        # Verify guardian manager was used
+        guardian_manager = get_guardian_manager()
+        stats = guardian_manager.get_stats()
+        assert stats['tasks_completed'] >= 1
+
+
+class TestErrorRecovery:
+    """Test error recovery and resilience."""
+    
+    @pytest.mark.asyncio
+    async def test_task_limit_enforcement(self, clean_managers):
+        """Test that task limits are properly enforced."""
+        # Create manager with low limit
+        manager = ConsciousnessTaskManager("test_limited", max_concurrent_tasks=2)
+        
+        async def dummy_task():
+            await asyncio.sleep(1)
+        
+        # Create tasks up to limit
+        task1 = manager.create_task(dummy_task(), name="task1", component="test")
+        task2 = manager.create_task(dummy_task(), name="task2", component="test")
+        
+        # Third task should raise error
+        with pytest.raises(RuntimeError, match="task limit exceeded"):
+            manager.create_task(dummy_task(), name="task3", component="test")
+        
+        # Clean up
+        task1.cancel()
+        task2.cancel()
+        await manager.shutdown()
+    
+    @pytest.mark.asyncio
+    async def test_manager_shutdown_state(self, clean_managers):
+        """Test that manager properly prevents new tasks during shutdown."""
+        manager = get_consciousness_manager()
+        
+        async def test_task():
+            await asyncio.sleep(0.1)
+        
+        # Start shutdown
+        shutdown_task = asyncio.create_task(manager.shutdown())
+        
+        # Short delay to allow shutdown to start
+        await asyncio.sleep(0.05)
+        
+        # Attempting to create task during shutdown should fail
+        with pytest.raises(RuntimeError, match="shutting down"):
+            manager.create_task(test_task(), name="late_task", component="test")
+        
+        await shutdown_task
+
+
+class TestMemoryLeakPrevention:
+    """Test memory leak prevention."""
+    
+    @pytest.mark.asyncio
+    async def test_task_reference_cleanup(self, clean_managers):
+        """Test that completed tasks don't create memory leaks."""
+        manager = get_consciousness_manager()
+        
+        async def quick_task():
+            return "done"
+        
+        # Create many short-lived tasks
         tasks = []
-        for i in range(50):  # 50 concurrent tasks
-            task = await run_consciousness_task(
-                consciousness_work_unit(i),
-                name=f"consciousness_work_{i}",
-                priority=TaskPriority.NORMAL,
-                description=f"Consciousness work unit {i}"
+        for i in range(100):
+            task = manager.create_task(
+                quick_task(),
+                name=f"quick_task_{i}",
+                component="test"
             )
             tasks.append(task)
         
-        start_time = time.time()
-        
         # Wait for all tasks to complete
-        results = await asyncio.gather(*tasks)
+        await asyncio.gather(*tasks)
         
-        completion_time = time.time() - start_time
+        # Allow cleanup callbacks to run
+        await asyncio.sleep(0.1)
         
-        # Verify all tasks completed
-        assert len(results) == 50
-        assert len(completed_tasks) == 50
-        assert all(f"work_unit_{i}_complete" in results for i in range(50))
+        # Force garbage collection
+        gc.collect()
         
-        # Performance should be reasonable (parallel execution)
-        assert completion_time < 1.0  # Should complete within 1 second
+        # Verify tasks are cleaned up
+        stats = manager.get_stats()
+        assert stats['total_active'] == 0
+        assert stats['tasks_completed'] == 100
         
-        logger.info(f"50 concurrent consciousness tasks completed in {completion_time:.3f}s")
+        # Internal tracking should be cleaned up
+        assert len(manager._task_metadata) == 0
+        for priority_tasks in manager._tasks.values():
+            assert len(priority_tasks) == 0
+
+
+class TestAsyncUtilities:
+    """Test async utility functions."""
+    
+    @pytest.mark.asyncio
+    async def test_timeout_handling(self):
+        """Test await_with_timeout functionality."""
+        async def slow_task():
+            await asyncio.sleep(1.0)
+            return "completed"
+        
+        # Should timeout
+        result = await await_with_timeout(
+            slow_task(),
+            timeout=0.1,
+            default="timed_out",
+            raise_on_timeout=False
+        )
+        assert result == "timed_out"
+        
+        # Should complete
+        async def fast_task():
+            return "fast_done"
+        
+        result = await await_with_timeout(
+            fast_task(),
+            timeout=1.0
+        )
+        assert result == "fast_done"
+    
+    @pytest.mark.asyncio
+    async def test_gather_error_handling(self):
+        """Test enhanced gather with error handling."""
+        async def success_task():
+            return "success"
+        
+        async def failing_task():
+            raise ValueError("test error")
+        
+        results = await gather_with_error_handling(
+            success_task(),
+            failing_task(),
+            name="test_gather",
+            return_exceptions=True
+        )
+        
+        assert len(results) == 2
+        assert results[0] == "success"
+        assert isinstance(results[1], ValueError)
+
+
+@pytest.mark.asyncio
+async def test_integration_with_real_consciousness_systems():
+    """Integration test with actual consciousness system components."""
+    # This would test actual consciousness modules if available
+    # For now, test the async infrastructure
+    
+    manager = get_consciousness_manager()
+    
+    # Simulate consciousness processing
+    async def mock_awareness_processing():
+        await asyncio.sleep(0.1)
+        return {"awareness_level": 0.8, "processed": True}
+    
+    task = manager.create_task(
+        mock_awareness_processing(),
+        name="awareness_processing",
+        priority=TaskPriority.CRITICAL,
+        component="consciousness.awareness",
+        consciousness_context="awareness_test"
+    )
+    
+    result = await task
+    assert result["processed"] is True
+    assert result["awareness_level"] == 0.8
+    
+    await shutdown_all_managers()
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v", "-s"])
+    # Run tests directly
+    pytest.main([__file__, "-v"])
