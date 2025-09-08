@@ -263,9 +263,13 @@ __all__ = [
     "initialize_qi_module",
     "make_quantum_decision",
     # Processing functions
-    "process_quantum_inspired",
+    "process_quantum_inspired", 
     "validate_qi_module",
+    "QI",  # Add QI class export
 ]
+
+# Create QI alias for the main class
+QI = QIWrapper()
 
 # Conditional exports for when full wrapper is available
 if _QI_WRAPPER_AVAILABLE:

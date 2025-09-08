@@ -41,7 +41,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure bio-symbolic logging
-logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator", timezone)
+logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator")
 logger.info("ΛTRACE: Initializing Bio-Symbolic Coherence Validation System v1.0.0")
 
 
