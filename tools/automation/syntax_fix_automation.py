@@ -33,7 +33,7 @@ class AutomatedSyntaxFixer:
         """Get current syntax error count using ruff"""
         try:
             result = subprocess.run([
-                ".venv/bin/ruff", "check", 
+                ".venv/bin/ruff", "check",
                 "branding/", "candidate/", "tools/", "products/", "matriz/", "next_gen/", "lukhas/",
                 "--select=E999", "--output-format=concise"
             ], capture_output=True, text=True, cwd=self.project_root)
@@ -59,7 +59,7 @@ class AutomatedSyntaxFixer:
             original_content = content
             fixes_applied = 0
 
-            # Pattern 1: {function(}} → {function()}  
+            # Pattern 1: {function(}} → {function()}
             pattern1 = re.compile(r"\{([^{}]*\([^{}]*)\}}")
             matches = list(pattern1.finditer(content))
             for match in matches:
@@ -70,7 +70,7 @@ class AutomatedSyntaxFixer:
                     fixes_applied += 1
 
             # Pattern 2: .hexdigest(}}[:N] → .hexdigest()}[:N]
-            pattern2 = re.compile(r"\.hexdigest\(\}\}\[")  
+            pattern2 = re.compile(r"\.hexdigest\(\}\}\[")
             content = pattern2.sub(".hexdigest()}[", content)
             if pattern2.search(original_content):
                 fixes_applied += len(pattern2.findall(original_content))
@@ -117,7 +117,7 @@ class AutomatedSyntaxFixer:
             for i, line in enumerate(lines):
                 stripped = line.strip()
                 # Check if this looks like an incomplete dictionary entry
-                if (stripped.endswith(",") and 
+                if (stripped.endswith(",") and
                     '"' in stripped and ":" in stripped and
                     i + 1 < len(lines) and
                     lines[i + 1].strip() in ["}", "},"]):
@@ -186,7 +186,7 @@ class AutomatedSyntaxFixer:
 
     def process_file(self, file_path: Path) -> Tuple[int, bool]:
         """Process a single file with all fix patterns"""
-        if not file_path.suffix == ".py":
+        if file_path.suffix != ".py":
             return 0, False
 
         print(f"Processing: {file_path.relative_to(self.project_root)}")

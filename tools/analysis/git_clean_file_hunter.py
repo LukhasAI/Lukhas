@@ -84,7 +84,7 @@ def find_clean_files_in_history():
         reverse=True
     )
 
-    print(f"\n🎯 CLEAN FILE RESTORATION OPPORTUNITIES:")
+    print("\n🎯 CLEAN FILE RESTORATION OPPORTUNITIES:")
     print(f"Found {len(sorted_opportunities)} files that were clean in past commits")
 
     # Show top restoration candidates
@@ -104,11 +104,11 @@ def find_clean_files_in_history():
             f.write(f'echo "Restoring {file_path} from {most_recent_clean}..."\n')
             f.write(f'git checkout {most_recent_clean} -- "{file_path}"\n')
             f.write(f'python -c "import py_compile; py_compile.compile(\'{file_path}\', doraise=True)" && echo "✅ Compiles" || echo "❌ Still broken"\n')
-            f.write(f"\n")
+            f.write("\n")
 
         f.write('echo "Restoration complete! Check files and commit if successful."\n')
 
-    print(f"\n📝 Created restoration script: tools/analysis/clean_file_restoration_script.sh")
+    print("\n📝 Created restoration script: tools/analysis/clean_file_restoration_script.sh")
     return sorted_opportunities
 
 if __name__ == "__main__":

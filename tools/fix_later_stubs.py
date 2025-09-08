@@ -35,7 +35,7 @@ def fix_later_stubs():
             continue
 
         try:
-            with open(abs_path, "r", encoding="utf-8") as f:
+            with open(abs_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Replace fix_later with proper stub
@@ -65,9 +65,9 @@ def fix_later_stubs():
                         continue
 
                     # Skip imports and comments
-                    if (stripped.startswith("import ") or 
-                        stripped.startswith("from ") or 
-                        stripped.startswith("#") or 
+                    if (stripped.startswith("import ") or
+                        stripped.startswith("from ") or
+                        stripped.startswith("#") or
                         not stripped):
                         insertion_point = i + 1
                     else:

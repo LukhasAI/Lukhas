@@ -91,7 +91,7 @@ def get_rule_description(code):
         "RUF006": "Dangling async task",
         "B006": "Mutable default argument",
         "DTZ005": "Naive datetime usage",
-        "DTZ003": "datetime.utcnow() usage", 
+        "DTZ003": "datetime.utcnow() usage",
         "E402": "Module level import not at top",
         "F841": "Unused local variable",
         "F811": "Redefinition of unused name",
@@ -127,7 +127,7 @@ def generate_violation_indices(violations):
                 "total_violations": len(unique_violations),
                 "violations": unique_violations,
                 "affected_files": list(set(v.get("filename", "") for v in unique_violations)),
-                "lukhas_files": [f for f in set(v.get("filename", "") for v in unique_violations) 
+                "lukhas_files": [f for f in set(v.get("filename", "") for v in unique_violations)
                                if "lukhas/" in f or "candidate/" in f],
                 "severity": get_severity(rule_code)
             }

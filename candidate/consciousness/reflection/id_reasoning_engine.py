@@ -1215,7 +1215,7 @@ if __name__ == "__main__":
 
         user_data = {  # AIDENTITY_BRIDGE (Mock user data)
             "emoji_seed": "🔥🌟💎🚀",
-            "biometric_hash": hashlib.sha256("mock_biometric_data".encode()).hexdigest(),
+            "biometric_hash": hashlib.sha256(b"mock_biometric_data").hexdigest(),
             "consent_given": True,
             # ΛTEMPORAL_HOOK (Consent state)
             "consent_records": {"data_processing": True, "personalization": True, "analytics": False},

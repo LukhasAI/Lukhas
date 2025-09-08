@@ -215,11 +215,43 @@ def verify_tier_access(user_id: str, required_tier: str) -> bool:
     return client.verify_user_access(user_id, required_tier)
 
 
+# Create auth module stub for compatibility
+class AuthModule:
+    """Auth module compatibility stub"""
+    
+    def __getattr__(self, name: str):
+        from . import import_bridge
+        return getattr(import_bridge, name, None) or self._create_auth_fallback(name)
+    
+    def _create_auth_fallback(self, name: str):
+        """Create fallback for auth components"""
+        logger.warning(f"Creating auth fallback for {name}")
+        
+        if "Logger" in name or "Audit" in name:
+            class FallbackLogger:
+                def __init__(self, *args, **kwargs):
+                    pass
+                def log(self, *args, **kwargs):
+                    pass
+                def audit(self, *args, **kwargs):
+                    pass
+            return FallbackLogger
+        
+        # Generic fallback class
+        class FallbackAuth:
+            def __init__(self, *args, **kwargs):
+                pass
+        return FallbackAuth
+
+# Export auth module
+auth = AuthModule()
+
 # Core module exports
 __all__ = [
     "IMPORT_MAPPINGS",
     "IdentityClient",
     "IdentityImportBridge",
+    "auth",
     "get_identity_client",
     "verify_tier_access",
 ]

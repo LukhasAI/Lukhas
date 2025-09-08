@@ -13,6 +13,26 @@ from typing import Any, Optional
 logger = logging.getLogger(__name__)
 
 
+class Tag:
+    """
+    Simple tag class for basic symbolic operations.
+    
+    This is a simplified version of SymbolicTag for basic use cases
+    where full symbolic tag functionality is not required.
+    """
+    
+    def __init__(self, name: str, value: Any = None, scope: str = "local"):
+        self.name = name
+        self.value = value
+        self.scope = scope
+    
+    def __str__(self) -> str:
+        return f"Tag({self.name}={self.value})"
+    
+    def __repr__(self) -> str:
+        return f"Tag(name='{self.name}', value={self.value!r}, scope='{self.scope}')"
+
+
 class TagScope(Enum):
     """
     Defines the scope of a symbolic tag within the LUKHAS AI system.

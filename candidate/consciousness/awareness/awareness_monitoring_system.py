@@ -372,7 +372,7 @@ class AwarenessMonitoringSystem:
 
                 # Track all tasks for shutdown
                 self.monitoring_tasks.update([
-                    awareness_task, pattern_task, insight_task, 
+                    awareness_task, pattern_task, insight_task,
                     calibration_task, cleanup_task
                 ])
             else:

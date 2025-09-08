@@ -51,7 +51,7 @@ class ComponentType(Enum):
 
     # ⚛️ Identity Components
     IDENTITY_AUTH = "identity_auth"
-    IDENTITY_NAMESPACE = "identity_namespace" 
+    IDENTITY_NAMESPACE = "identity_namespace"
     IDENTITY_TIER_AWARE = "identity_tier_aware"
 
     # 🧠 Consciousness Components
@@ -256,7 +256,7 @@ class ConsciousnessComponentRegistry:
                 component_instance = module.create_component()
             else:
                 # Fallback: look for main class
-                main_classes = [obj for name, obj in module.__dict__.items() 
+                main_classes = [obj for name, obj in module.__dict__.items()
                                if isinstance(obj, type) and not name.startswith("_")]
                 if main_classes:
                     component_instance = main_classes[0]()
@@ -293,7 +293,7 @@ class ConsciousnessComponentRegistry:
             return True
 
         except Exception as e:
-            logger.error(f"❌ Failed to activate {metadata.name}: {str(e)}")
+            logger.error(f"❌ Failed to activate {metadata.name}: {e!s}")
             if component_id in self._components:
                 self._components[component_id].status = ComponentStatus.FAILED
                 self._components[component_id].error_count += 1
@@ -390,7 +390,7 @@ class ConsciousnessComponentRegistry:
 
         if hasattr(instance.instance, "__dict__"):
             component_methods = dir(instance.instance)
-            consciousness_score = sum(1 for indicator in consciousness_indicators 
+            consciousness_score = sum(1 for indicator in consciousness_indicators
                                     if any(indicator in method for method in component_methods))
 
             # Require at least 2 consciousness indicators for authenticity
@@ -417,14 +417,14 @@ class ConsciousnessComponentRegistry:
                     except Exception as e:
                         instance.error_count += 1
                         instance.last_error = str(e)
-                        logger.error(f"❌ Health check error for {instance.metadata.name}: {str(e)}")
+                        logger.error(f"❌ Health check error for {instance.metadata.name}: {e!s}")
 
                 instance.last_health_check = datetime.now(timezone.utc)
 
                 await asyncio.sleep(self._health_check_interval)
 
             except Exception as e:
-                logger.error(f"❌ Component lifecycle monitoring error: {str(e)}")
+                logger.error(f"❌ Component lifecycle monitoring error: {e!s}")
                 await asyncio.sleep(self._health_check_interval)
 
     def set_feature_flag(self, flag: str, enabled: bool) -> None:
@@ -487,7 +487,7 @@ class ConsciousnessComponentRegistry:
                 await asyncio.sleep(60.0)  # Check every minute
 
             except Exception as e:
-                logger.error(f"❌ Health monitoring error: {str(e)}")
+                logger.error(f"❌ Health monitoring error: {e!s}")
                 await asyncio.sleep(60.0)
 
     async def shutdown(self) -> None:
@@ -530,7 +530,7 @@ class ConsciousnessComponentRegistry:
             return True
 
         except Exception as e:
-            logger.error(f"❌ Error deactivating {instance.metadata.name}: {str(e)}")
+            logger.error(f"❌ Error deactivating {instance.metadata.name}: {e!s}")
             instance.status = ComponentStatus.FAILED
             return False
 

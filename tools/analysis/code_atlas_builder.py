@@ -75,8 +75,8 @@ class CodeAtlasBuilder:
 
         # LUKHAS-specific patterns
         self.consciousness_keywords = {
-            "consciousness", "lucid", "dream", "identity", "memory", "fold", 
-            "guardian", "ethics", "quantum", "bio", "MATRIZ", "MATRIZ", "glyph",
+            "consciousness", "lucid", "dream", "identity", "memory", "fold",
+            "guardian", "ethics", "quantum", "bio", "MATRIZ", "glyph",
             "constellation", "drift", "cascade", "vivox", "qualia", "aka_qualia"
         }
 
@@ -609,7 +609,7 @@ class CodeAtlasBuilder:
         """Convert ruff rule code to issue flag."""
         flag_mapping = {
             "ARG001": "unused_func_arg",
-            "ARG002": "unused_method_arg", 
+            "ARG002": "unused_method_arg",
             "F821": "undefined_name",
             "F401": "unused_import",
             "RUF006": "dangling_task",
@@ -708,7 +708,7 @@ class CodeAtlasBuilder:
             json.dump(atlas, f, indent=2)
 
         print(f"💾 Code Atlas saved to: {atlas_file}")
-        print(f"📊 Atlas contains:")
+        print("📊 Atlas contains:")
         print(f"   - {len(atlas['functions'])} functions")
         print(f"   - {len(atlas['classes'])} classes")
         print(f"   - {len(atlas['modules'])} modules")

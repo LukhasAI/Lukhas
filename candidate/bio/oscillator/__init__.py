@@ -20,8 +20,8 @@ try:
 	mod = importlib.util.module_from_spec(spec)
 	loader.exec_module(mod)
 
-	get_orchestrator = getattr(mod, "get_orchestrator")
-	BioOrchestrator = getattr(mod, "BioOrchestrator")
+	get_orchestrator = mod.get_orchestrator
+	BioOrchestrator = mod.BioOrchestrator
 	__all__ = ["get_orchestrator", "BioOrchestrator"]
 except Exception as e:
 	logger.warning(f"Failed to load oscillator implementation: {e}")

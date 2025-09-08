@@ -7,9 +7,10 @@ designed for the distributed consciousness system's reliability requirements.
 
 import asyncio
 import logging
+from collections.abc import Awaitable
 from contextlib import asynccontextmanager
 from functools import wraps
-from typing import Any, Awaitable, Callable, Optional, TypeVar, Union
+from typing import Any, Callable, Optional, TypeVar, Union
 
 from .async_manager import (
     ConsciousnessTaskManager,

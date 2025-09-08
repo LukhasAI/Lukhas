@@ -523,9 +523,9 @@ async def get_metrics():
     response_model=APIResponse[MemoryFoldResponse],
 )
 async def fold_memory_v1(
-    _request: MemoryFoldRequest,  # noqa: ARG001 - deprecated API endpoint 
-    _user: dict[str, Any] = Depends(get_current_user),  # noqa: ARG001 - deprecated API endpoint
-    _req: Request = None,  # noqa: ARG001 - deprecated API endpoint
+    _request: MemoryFoldRequest,
+    _user: dict[str, Any] = Depends(get_current_user),
+    _req: Request = None,
 ) -> APIResponse[MemoryFoldResponse]:
     """
     Fold memory with emotional context (DEPRECATED - Use v2)
@@ -616,8 +616,8 @@ async def fold_memory_v2(
 )
 async def get_fold_status(
     fold_id: str,
-    _user: dict[str, Any] = Depends(get_current_user),  # noqa: ARG001 - user context for future auth
-    _req: Request = None,  # noqa: ARG001 - request context for future metadata
+    _user: dict[str, Any] = Depends(get_current_user),
+    _req: Request = None,
 ) -> APIResponse[MemoryFoldResponse]:
     """Get status of memory fold operation"""
     # Enhanced telemetry for memory fold status queries
@@ -626,7 +626,7 @@ async def get_fold_status(
 
     logger.info("api.memory_fold_status", extra={
         "fold_id": fold_id,
-        "operation": "status_check", 
+        "operation": "status_check",
         "trace": "memory_fold_status_api"
     })
 

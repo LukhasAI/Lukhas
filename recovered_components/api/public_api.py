@@ -16,7 +16,7 @@ import base64
 import logging
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import uvicorn
@@ -152,7 +152,7 @@ class ChatRequest(BaseModel):
             "example": {
                 "message": "What is consciousness technology?",
                 "session_id": "session_123",
-                "context": {"user_preferences": {"style": "detailed"},
+                "context": {"user_preferences": {"style": "detailed"}},
             }
         }
     )

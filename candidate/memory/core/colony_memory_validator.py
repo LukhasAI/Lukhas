@@ -48,7 +48,10 @@ from enum import Enum
 from typing import Any, Callable, Optional
 from uuid import uuid4
 
-from .interfaces.memory_interface import MemoryOperation, ValidationResult
+from .interfaces.memory_interface import (
+    MemoryOperation,
+    ValidationResult,
+)
 
 # Module logger
 logger = logging.getLogger(__name__)
@@ -429,7 +432,9 @@ class ColonyMemoryValidator:
             success = True
             validation_result = ValidationResult.VALID
             content_hash = (
-                hashlib.md5(str(request.operation.content).encode()).hexdigest() if request.operation.content else None
+                hashlib.sha256()  #  Changed from MD5 for securitystr(request.operation.content.encode()).hexdigest()
+                if request.operation.content
+                else None
             )
 
             # Simulate occasional failures based on trust score

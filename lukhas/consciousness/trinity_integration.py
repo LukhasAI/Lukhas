@@ -45,7 +45,7 @@ logger = logging.getLogger(__name__)
 class TrinityFramework(Enum):
     """Trinity Framework components."""
     IDENTITY = "⚛️"      # Identity and authentication systems
-    CONSCIOUSNESS = "🧠"  # Core consciousness and awareness systems  
+    CONSCIOUSNESS = "🧠"  # Core consciousness and awareness systems
     GUARDIAN = "🛡️"      # Ethical oversight and safety systems
 
 @dataclass
@@ -142,7 +142,7 @@ class TrinityFrameworkIntegrator:
             return self.state.integration_health >= 0.67  # At least 2/3 frameworks active
 
         except Exception as e:
-            logger.error(f"❌ Trinity Framework initialization failed: {str(e)}")
+            logger.error(f"❌ Trinity Framework initialization failed: {e!s}")
             return False
 
     async def _register_identity_components(self) -> None:
@@ -160,7 +160,7 @@ class TrinityFrameworkIntegrator:
             {
                 "component_id": "identity_cultural_profile",
                 "component_type": ComponentType.IDENTITY_NAMESPACE,
-                "name": "Cultural Profile Manager", 
+                "name": "Cultural Profile Manager",
                 "description": "Cultural context and profile management for identity coherence",
                 "module_path": "candidate.governance.identity.auth.cultural_profile_manager",
                 "activation_priority": 20,
@@ -237,7 +237,7 @@ class TrinityFrameworkIntegrator:
         logger.info(f"📝 Registered {len(consciousness_components)} Consciousness Framework components")
 
     async def _register_guardian_components(self) -> None:
-        """Register Guardian Framework (🛡️) components.""" 
+        """Register Guardian Framework (🛡️) components."""
         guardian_components = [
             {
                 "component_id": "guardian_system_orchestrator",
@@ -262,7 +262,7 @@ class TrinityFrameworkIntegrator:
                 "component_type": ComponentType.GUARDIAN_DRIFT,
                 "name": "Workspace Guardian Monitor",
                 "description": "Workspace-level security and ethical drift monitoring",
-                "module_path": "candidate.governance.guardian.workspace_guardian", 
+                "module_path": "candidate.governance.guardian.workspace_guardian",
                 "activation_priority": 12,
                 "feature_flags": ["guardian_workspace_enabled"]
             }
@@ -287,7 +287,7 @@ class TrinityFrameworkIntegrator:
 
         # Set identity feature flags
         self.registry.set_feature_flag("identity_webauthn_enabled", True)
-        self.registry.set_feature_flag("identity_cultural_enabled", True) 
+        self.registry.set_feature_flag("identity_cultural_enabled", True)
         self.registry.set_feature_flag("identity_tier_aware_enabled", True)
 
         # Activate identity components
@@ -424,7 +424,7 @@ class TrinityFrameworkIntegrator:
 
                 if not decision_record["guardian_approved"]:
                     decision_record["result"] = {
-                        "error": "Guardian post-check failed", 
+                        "error": "Guardian post-check failed",
                         "reason": guardian_post_check.get("reason"),
                         "original_result": decision_record["result"]
                     }
@@ -450,8 +450,8 @@ class TrinityFrameworkIntegrator:
             return decision_record["result"]
 
         except Exception as e:
-            logger.error(f"❌ Trinity Framework decision processing failed: {str(e)}")
-            return {"error": f"Decision processing failed: {str(e)}"}
+            logger.error(f"❌ Trinity Framework decision processing failed: {e!s}")
+            return {"error": f"Decision processing failed: {e!s}"}
 
     async def _process_identity_verification(self, session_id: str, context: Dict[str, Any]) -> Dict[str, Any]:
         """Process identity verification through Identity Framework."""
@@ -578,7 +578,7 @@ class TrinityFrameworkIntegrator:
                 await asyncio.sleep(self.config.health_check_interval)
 
             except Exception as e:
-                logger.error(f"❌ Trinity integration health monitoring error: {str(e)}")
+                logger.error(f"❌ Trinity integration health monitoring error: {e!s}")
                 await asyncio.sleep(self.config.health_check_interval)
 
     async def _coherence_monitor_loop(self) -> None:
@@ -596,7 +596,7 @@ class TrinityFrameworkIntegrator:
                 await asyncio.sleep(120.0)  # Check every 2 minutes
 
             except Exception as e:
-                logger.error(f"❌ Consciousness coherence monitoring error: {str(e)}")
+                logger.error(f"❌ Consciousness coherence monitoring error: {e!s}")
                 await asyncio.sleep(120.0)
 
     async def _calculate_consciousness_coherence(self) -> float:

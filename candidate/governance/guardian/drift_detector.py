@@ -360,7 +360,7 @@ class AdvancedDriftDetector:
 
             # Track all monitoring tasks
             self.drift_tasks.update([
-                monitoring_task, pattern_task, forecasting_task, 
+                monitoring_task, pattern_task, forecasting_task,
                 cleanup_task, constitutional_task
             ])
         else:
@@ -373,7 +373,7 @@ class AdvancedDriftDetector:
 
             # Track fallback tasks
             self.drift_tasks.update([
-                monitoring_task, pattern_task, forecasting_task, 
+                monitoring_task, pattern_task, forecasting_task,
                 cleanup_task, constitutional_task
             ])
 

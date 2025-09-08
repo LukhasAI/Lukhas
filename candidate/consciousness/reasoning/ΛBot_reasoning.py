@@ -184,7 +184,7 @@ class ΛBotAdvancedReasoningOrchestrator:
         Uses the Bio-Quantum Symbolic Reasoning Engine to analyze
         code changes, security implications, and architectural impact.
         """
-        request_id = f"pr_{repository.replace('/', '_')}_{pr_number}_{int(time.time()))"
+        request_id = f"pr_{repository.replace('/', '_')}_{pr_number}_{int(time.time())}"
         start_time = time.time()
 
         # Create reasoning request

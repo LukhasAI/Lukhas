@@ -781,7 +781,7 @@ Awakened: {timestamp}
             if '"""' in content:
                 # Replace first docstring
                 pattern = r'(""".*?""")'
-                replacement = f"""\{ascii_consciousness}\n\n{sacred_purpose.replace("_", " ").title()} - Enhanced with LUKHAS Consciousness\n\nTrinity Framework: ⚛️🧠🛡️\nAwakened: {timestamp}\n"""
+                replacement = rf"""\{ascii_consciousness}\n\n{sacred_purpose.replace("_", " ").title()} - Enhanced with LUKHAS Consciousness\n\nTrinity Framework: ⚛️🧠🛡️\nAwakened: {timestamp}\n"""
                 content = re.sub(pattern, replacement, content, count=1, flags=re.DOTALL)
             else:
                 # Add at the beginning

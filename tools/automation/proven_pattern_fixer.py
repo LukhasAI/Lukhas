@@ -90,7 +90,7 @@ def get_target_files() -> list[Path]:
     # Files we know had similar patterns
     known_pattern_files = [
         "candidate/governance/security/security_audit_engine.py",
-        "candidate/api/audit.py", 
+        "candidate/api/audit.py",
         "candidate/aka_qualia/tests/test_memory_security.py",
         "candidate/aka_qualia/tests/conftest.py",
         "candidate/aka_qualia/cli/gdpr_erase_user.py"

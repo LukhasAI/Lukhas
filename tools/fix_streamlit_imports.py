@@ -32,7 +32,7 @@ def fix_streamlit_imports():
             continue
 
         try:
-            with open(abs_path, "r", encoding="utf-8") as f:
+            with open(abs_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Check if file already imports streamlit

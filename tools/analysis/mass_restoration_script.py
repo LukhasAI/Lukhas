@@ -68,7 +68,7 @@ def restore_files_in_batches(commit_hash, batch_size=50):
 
         print(f"  Batch complete: {len(batch)} files restored")
 
-    print(f"\n🎯 MASS RESTORATION COMPLETE:")
+    print("\n🎯 MASS RESTORATION COMPLETE:")
     print(f"Total files restored: {total_restored}")
     print(f"Successful restorations: {len(successful_restorations)}")
 

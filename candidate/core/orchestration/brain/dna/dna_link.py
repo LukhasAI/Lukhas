@@ -44,9 +44,8 @@ class LUKHASDNALink:
             return f"[Reflection Error] {str(e)}"
 
     def translate(self, text, target_language="en"):
-        prompt = f"Translate the following text into {target_language},"
-    preserving symbolic tone: \n\n{text}"
-       try:
+        prompt = f"Translate the following text into {target_language}, preserving symbolic tone: \n\n{text}"
+        try:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
@@ -121,7 +120,7 @@ class LUKHASDNALink:
                 }
                 with open("logs/memory_hash.jsonl", "a") as f:
                     f.write(json.dumps(memory_record) + "\n")
-                return f"🧠 Term '{unknown_term)' learned and stored."
+                return f"🧠 Term '{unknown_term}' learned and stored."
             else:
                 return "❌ Learning aborted — Lukhas did not receive confirmation."
         except Exception as e:

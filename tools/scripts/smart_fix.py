@@ -201,7 +201,7 @@ class SmartFixer:
 
         if code != 0:
             print("⚠️ Some fixes may have introduced syntax errors!")
-            print("Run 'git diff\' to review changes")
+            print("Run 'git diff' to review changes")
             return False
 
         return True

@@ -53,7 +53,7 @@ class FocusedAtlasBuilder:
 
         # Focus on LUKHAS core directories
         self.focus_dirs = [
-            "lukhas/", "candidate/", "consciousness/", "memory/", 
+            "lukhas/", "candidate/", "consciousness/", "memory/",
             "identity/", "governance/", "core/", "orchestration/",
             "quantum/", "bio/", "creativity/", "emotion/", "vivox/",
             "bridge/", "api/", "branding/", "agents/"
@@ -61,7 +61,7 @@ class FocusedAtlasBuilder:
 
         # LUKHAS consciousness keywords
         self.consciousness_keywords = {
-            "consciousness", "lucid", "dream", "identity", "memory", "fold", 
+            "consciousness", "lucid", "dream", "identity", "memory", "fold",
             "guardian", "ethics", "quantum", "bio", "matriz", "glyph",
             "constellation", "drift", "cascade", "vivox", "qualia"
         }
@@ -330,7 +330,7 @@ class FocusedAtlasBuilder:
             pass
 
         # Key comments and TODOs (sample first 50 lines to avoid performance issues)
-        lines = content.split("\n")[:50]  
+        lines = content.split("\n")[:50]
         for i, line in enumerate(lines):
             stripped = line.strip()
             if stripped.startswith("#") and len(stripped) > 5:
@@ -496,7 +496,7 @@ class FocusedAtlasBuilder:
         """Get description for rule code."""
         descriptions = {
             "ARG001": "Unused function argument",
-            "ARG002": "Unused method argument", 
+            "ARG002": "Unused method argument",
             "F821": "Undefined name",
             "F401": "Unused import",
             "RUF006": "Dangling async task",
@@ -520,7 +520,7 @@ class FocusedAtlasBuilder:
             json.dump(atlas, f, indent=2)
 
         print(f"💾 Focused Code Atlas saved to: {atlas_file}")
-        print(f"📊 Atlas Summary:")
+        print("📊 Atlas Summary:")
         print(f"   • {len(atlas['symbols'])} symbols analyzed")
         print(f"   • {len(atlas['modules'])} modules processed")
         print(f"   • {atlas['metadata']['total_violations']} violations mapped")

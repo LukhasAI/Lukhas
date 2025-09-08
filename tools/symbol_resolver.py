@@ -19,7 +19,7 @@ class LUKHASSymbolResolver:
         self.file_patterns = defaultdict(int)
         self.consciousness_tiers = {
             "TIER_1_CORE": ["candidate/consciousness", "candidate/memory", "lukhas/identity", "candidate/bio", "governance"],
-            "TIER_2_INTEGRATION": ["orchestration/brain", "bridge", "api", "visualization"],  
+            "TIER_2_INTEGRATION": ["orchestration/brain", "bridge", "api", "visualization"],
             "TIER_3_EXPERIMENTAL": ["candidate/core", "products/", "branding/", "tools/"]
         }
 
@@ -79,7 +79,7 @@ class LUKHASSymbolResolver:
         # Common typos
         typo_patterns = {
             "platfrom": "platform",
-            "integeration": "integration", 
+            "integeration": "integration",
             "consciousnes": "consciousness",
             "managment": "management",
             "procesing": "processing"

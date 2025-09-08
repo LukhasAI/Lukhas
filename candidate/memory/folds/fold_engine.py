@@ -60,7 +60,6 @@ symbolic patterns within them. It forms a core part of the AGI's memory architec
 # ΛTRACE: Initialize logger for the fold_engine module. #ΛTEMPORAL_HOOK
 # (Logger init time) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger
 # configuration echoes global settings)
-import structlog
 
 logger = structlog.get_logger(__name__)
 
@@ -595,9 +594,7 @@ class MemoryFold:
         base_tier = tier_requirements.get(self.memory_type, 1)
 
         # Adjust for priority
-        if self.priority == MemoryPriority.CRITICAL:
-            base_tier = min(base_tier + 1, 5)
-        elif self.priority == MemoryPriority.HIGH:
+        if self.priority == MemoryPriority.CRITICAL or self.priority == MemoryPriority.HIGH:
             base_tier = min(base_tier + 1, 5)
 
         # Adjust for collapse state

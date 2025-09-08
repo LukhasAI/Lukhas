@@ -37,7 +37,7 @@ def validate_atlas():
 
     # Validate metadata
     metadata = atlas["metadata"]
-    print(f"📊 Metadata validation:")
+    print("📊 Metadata validation:")
     print(f"   • Generator: {metadata.get('generator', 'Unknown')}")
     print(f"   • Total modules: {metadata.get('total_modules', 0):,}")
     print(f"   • Total symbols: {metadata.get('total_symbols', 0):,}")
@@ -46,7 +46,7 @@ def validate_atlas():
 
     # Validate symbols
     symbols = atlas["symbols"]
-    print(f"🔍 Symbol validation:")
+    print("🔍 Symbol validation:")
     print(f"   • Total symbols: {len(symbols):,}")
 
     # Check symbol structure
@@ -67,7 +67,7 @@ def validate_atlas():
 
     # Validate modules
     modules = atlas["modules"]
-    print(f"📁 Module validation:")
+    print("📁 Module validation:")
     print(f"   • Total modules: {len(modules):,}")
 
     # Check module roles
@@ -82,20 +82,20 @@ def validate_atlas():
 
     # Validate violations
     violations = atlas["violations_by_rule"]
-    print(f"🚨 Violation validation:")
+    print("🚨 Violation validation:")
     print(f"   • Total rule types: {len(violations)}")
     print(f"   • Total violations: {sum(violations.values()):,}")
 
     # Check top violations
     sorted_violations = sorted(violations.items(), key=lambda x: x[1], reverse=True)
-    print(f"   • Top 5 violations:")
+    print("   • Top 5 violations:")
     for rule, count in sorted_violations[:5]:
         print(f"     - {rule}: {count:,} violations")
 
     # Validate index files
     reports_dir = Path("reports")
     index_files = list(reports_dir.glob("idx_*.json"))
-    print(f"📋 Index file validation:")
+    print("📋 Index file validation:")
     print(f"   • Total index files: {len(index_files)}")
 
     # Check consistency
@@ -117,7 +117,7 @@ def validate_atlas():
         print(f"   ✅ All {len(atlas_rules)} rules have corresponding indices")
 
     # LUKHAS-specific validation
-    print(f"🧬 LUKHAS consciousness validation:")
+    print("🧬 LUKHAS consciousness validation:")
     consciousness_keywords = metadata.get("consciousness_keywords", [])
     print(f"   • Consciousness keywords tracked: {len(consciousness_keywords)}")
 
@@ -130,7 +130,7 @@ def validate_atlas():
     print(f"   • Consciousness coverage: {consciousness_modules/len(modules)*100:.1f}%")
 
     # File path validation
-    print(f"🔗 File path validation:")
+    print("🔗 File path validation:")
     valid_paths = 0
     total_paths = 0
 
@@ -146,7 +146,7 @@ def validate_atlas():
     print("\n🎉 Atlas Validation Complete!")
     print(f"✅ Code Atlas successfully maps {len(symbols):,} symbols across {len(modules):,} modules")
     print(f"✅ Comprehensive violation analysis of {sum(violations.values()):,} issues")
-    print(f"✅ Strategic intelligence ready for consciousness-aware transformation")
+    print("✅ Strategic intelligence ready for consciousness-aware transformation")
 
     return True
 

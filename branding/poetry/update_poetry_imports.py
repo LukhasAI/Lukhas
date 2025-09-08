@@ -42,7 +42,7 @@ def update_imports(root_dir):
                             f.write(content)
                         updated_files.append(str(filepath))
 
-                except Exception as e:
+                except Exception:
                     pass  # TODO: Implement poetry imports
 
     return updated_files

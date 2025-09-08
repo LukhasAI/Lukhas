@@ -1216,7 +1216,7 @@ class LambdaArchiveInspector:
             for anomaly in sorted(
                 report.anomalies, key=lambda a: a.severity, reverse=True
             )[:10]:
-                md.append(f"##")
+                md.append("##")
                 md.append(f"- **ID:** `{anomaly.anomaly_id}`")
                 md.append(f"- **Severity:** {anomaly.severity:.3f}")
                 md.append(f"- **Description:** {anomaly.description}")

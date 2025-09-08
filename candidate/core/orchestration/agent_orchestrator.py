@@ -123,7 +123,7 @@ class AgentOrchestrator:
             )
             create_managed_task(
                 self._task_scheduler(),
-                name="orchestrator_scheduler", 
+                name="orchestrator_scheduler",
                 component="orchestration.agent_orchestrator"
             )
             create_managed_task(

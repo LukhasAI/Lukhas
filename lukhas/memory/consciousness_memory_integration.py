@@ -80,7 +80,7 @@ class EmotionalContext:
     dominance: float    # Sense of control (0.0 to 1.0)
     confidence: float = 1.0  # Confidence in emotional assessment
 
-@dataclass  
+@dataclass
 class MemoryFold:
     """Individual memory fold in the consciousness system."""
     fold_id: str
@@ -184,7 +184,7 @@ class ConsciousnessMemoryIntegrator:
             return integration_success
 
         except Exception as e:
-            logger.error(f"❌ Memory-Consciousness integration failed: {str(e)}")
+            logger.error(f"❌ Memory-Consciousness integration failed: {e!s}")
             return False
 
     async def _register_memory_components(self) -> None:
@@ -533,8 +533,8 @@ class ConsciousnessMemoryIntegrator:
         risk_factors.append(emotional_intensity * 0.3)
 
         # Recent similar folds increase cascade risk
-        recent_similar = sum(1 for f in self._memory_folds.values() 
-                           if f.fold_type == fold.fold_type and 
+        recent_similar = sum(1 for f in self._memory_folds.values()
+                           if f.fold_type == fold.fold_type and
                            (datetime.now(timezone.utc) - f.creation_timestamp).total_seconds() < 3600)
         similarity_risk = min(1.0, recent_similar / 10.0)
         risk_factors.append(similarity_risk * 0.3)
@@ -616,7 +616,7 @@ class ConsciousnessMemoryIntegrator:
                 await asyncio.sleep(10.0)  # Consolidation every 10 seconds
 
             except Exception as e:
-                logger.error(f"❌ Memory consolidation error: {str(e)}")
+                logger.error(f"❌ Memory consolidation error: {e!s}")
                 await asyncio.sleep(10.0)
 
     async def _cascade_monitoring_loop(self) -> None:
@@ -624,7 +624,7 @@ class ConsciousnessMemoryIntegrator:
         while not self._shutdown_event.is_set():
             try:
                 high_risk_folds = [
-                    f for f in self._memory_folds.values() 
+                    f for f in self._memory_folds.values()
                     if f.cascade_risk > self.cascade_threshold
                 ]
 
@@ -637,7 +637,7 @@ class ConsciousnessMemoryIntegrator:
                 await asyncio.sleep(30.0)  # Monitor every 30 seconds
 
             except Exception as e:
-                logger.error(f"❌ Cascade monitoring error: {str(e)}")
+                logger.error(f"❌ Cascade monitoring error: {e!s}")
                 await asyncio.sleep(30.0)
 
     async def _memory_health_loop(self) -> None:
@@ -652,7 +652,7 @@ class ConsciousnessMemoryIntegrator:
                 await asyncio.sleep(60.0)  # Health check every minute
 
             except Exception as e:
-                logger.error(f"❌ Memory health monitoring error: {str(e)}")
+                logger.error(f"❌ Memory health monitoring error: {e!s}")
                 await asyncio.sleep(60.0)
 
     async def _memory_health_check(self) -> bool:
@@ -707,9 +707,9 @@ class ConsciousnessMemoryIntegrator:
         return candidates
 
     async def _rank_memory_results(
-        self, 
-        candidates: List[str], 
-        query: Dict[str, Any], 
+        self,
+        candidates: List[str],
+        query: Dict[str, Any],
         emotional_weight: float,
         context: Optional[str]
     ) -> List[Tuple[str, MemoryFold, float]]:
@@ -733,9 +733,9 @@ class ConsciousnessMemoryIntegrator:
         return ranked_results
 
     async def _calculate_relevance_score(
-        self, 
-        fold: MemoryFold, 
-        query: Dict[str, Any], 
+        self,
+        fold: MemoryFold,
+        query: Dict[str, Any],
         emotional_weight: float,
         context: Optional[str]
     ) -> float:
@@ -796,7 +796,7 @@ class ConsciousnessMemoryIntegrator:
                 "access_log_size": len(self._access_log)
             },
             "fold_distribution": {
-                fold_type.value: len(fold_ids) 
+                fold_type.value: len(fold_ids)
                 for fold_type, fold_ids in self._fold_indices.items()
             },
             "cascade_history": list(self._cascade_history)[-10:],  # Last 10 events

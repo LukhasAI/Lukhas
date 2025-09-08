@@ -11,10 +11,11 @@ import logging
 import time
 import uuid
 import weakref
+from collections.abc import Awaitable
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Awaitable, Callable, Dict, Optional, Set, TypeVar
+from typing import Any, Callable, Dict, Optional, Set, TypeVar
 
 logger = logging.getLogger(__name__)
 
@@ -239,7 +240,7 @@ class ConsciousnessTaskManager:
     def get_stats(self) -> Dict[str, Any]:
         """Get task manager statistics."""
         active_tasks = {
-            priority.value: len(tasks) 
+            priority.value: len(tasks)
             for priority, tasks in self._tasks.items()
         }
 
@@ -324,7 +325,7 @@ async def shutdown_all_managers(timeout: float = 30.0) -> None:
 
     # Shutdown in parallel
     shutdown_tasks = [
-        manager.shutdown(timeout) 
+        manager.shutdown(timeout)
         for manager in _task_managers.values()
     ]
 

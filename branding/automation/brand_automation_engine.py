@@ -192,7 +192,7 @@ class BrandAutomationEngine:
         # Log results
         db.log_system_activity(
             "brand_automation",
-            "voice_coherence_check", 
+            "voice_coherence_check",
             "automated_processing",
             fixes_applied,
         )

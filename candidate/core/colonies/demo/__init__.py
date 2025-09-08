@@ -74,4 +74,4 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] in demos:
         demos[sys.argv[1]]()
     else:
-        print(f"Usage: python -m core.colonies.demo {{'|'.join(demos.keys())}}")
+        print("Usage: python -m core.colonies.demo {'|'.join(demos.keys())}")
