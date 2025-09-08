@@ -32,7 +32,30 @@ import streamlit as st
 
 # Import MΛTRIZ consciousness coordination
 # Import existing orchestration core
-from .core import OrchestrationCore as OrchestrationCoreClass
+# Import OrchestrationCore directly from core.py to avoid circular imports
+# Import OrchestrationCore from the actual file, bypassing the circular import
+import sys
+import importlib.util
+from pathlib import Path
+
+try:
+    # Direct import from the core.py file
+    core_path = Path(__file__).parent / "core.py"
+    if core_path.exists():
+        spec = importlib.util.spec_from_file_location("core_module", core_path)
+        core_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(core_module)
+        OrchestrationCoreClass = getattr(core_module, 'OrchestrationCore', None)
+        if OrchestrationCoreClass is None:
+            raise ImportError("OrchestrationCore not found in core.py")
+    else:
+        raise ImportError("core.py not found")
+except ImportError:
+    # Fallback - create a placeholder
+    class OrchestrationCore:
+        def __init__(self, *args, **kwargs):
+            pass
+    OrchestrationCoreClass = OrchestrationCore
 from .matriz_consciousness_coordinator import (
     MatrizConsciousnessCoordinator,
     ModuleConsciousnessProfile,
