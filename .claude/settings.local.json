@@ -74,7 +74,16 @@
       "Bash(PYTHONPATH=. python3 -m pytest candidate/aka_qualia/tests/test_memory_integration.py::TestConcurrentOperations::test_concurrent_saves -v -s --tb=short)",
       "Bash(grep:*)",
       "Bash(/usr/bin/python3:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(/bashes)",
+      "Bash(PYTHONPATH=. pytest tests_new/ -v)",
+      "Bash(.venv/bin/pytest tests_new/ -v --tb=short)",
+      "Bash(.venv/bin/pytest tests_new/unit/ -q --tb=line)",
+      "Bash(PYTHONPATH=. .venv/bin/pytest tests_new/unit/test_example_unit.py -v)",
+      "Bash(mkdocs build:*)",
+      "Bash(.venv/bin/mkdocs build --strict --config-file mkdocs.yml)",
+      "Bash(.venv/bin/mkdocs build --strict --config-file mkdocs.yml --site-dir site_test)",
+      "Bash(.venv/bin/pytest tests_new/unit/test_example_unit.py -v)"
     ],
     "deny": [],
     "ask": []
