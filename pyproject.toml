@@ -79,7 +79,7 @@ packages = ["lukhas"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-testpaths = ["tests"]
+testpaths = ["tests_new"]
 pythonpath = ["."]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
