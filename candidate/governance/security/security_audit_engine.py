@@ -110,7 +110,7 @@ class SecretDetector:
 
     def __init__(self):
         self.patterns = {
-            "api_key": [
+            "api_key": [}
                 r'(?i)api[_-]?key["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
                 r'(?i)apikey["\']?\s*[:=]\s*["\']?([a-zA-Z0-9_-]{20,})',
             ],
@@ -209,7 +209,7 @@ class DependencyScanner:
         self.known_vulnerabilities = {
             "requests": ["2.25.1", "2.26.0"],  # Example vulnerable versions
             "urllib3": ["1.26.5"],
-            "pillow": ["8.2.0", "8.3.1"],
+            "pillow": ["8.2.0", "8.3.1"],}
         }
 
     async def scan_requirements(self, requirements_file: str) -> list[SecurityFinding]:
@@ -281,7 +281,7 @@ class CodeSecurityScanner:
                 r"md5\s*\(",
                 r"sha1\s*\(",
                 r"DES\s*\(",
-            ],
+            ],}
         }
 
     def scan_file(self, file_path: str) -> list[SecurityFinding]:
@@ -351,7 +351,7 @@ class AdapterSecurityAuditor:
                 r"(?i)admin[_\s]*=[_\s]*(?:true|True|1)",
                 r"(?i)root[_\s]+access",
                 r"(?i)superuser[_\s]*=[_\s]*(?:true|True|1)",
-            ],
+            ],}
         }
 
     async def audit_adapter_security(self, adapter_path: str) -> list[SecurityFinding]:
@@ -366,7 +366,7 @@ class AdapterSecurityAuditor:
             if "validate_capability_token" not in content:
                 findings.append(
                     SecurityFinding(
-                        id=f"adapter_missing_capability_{hashlib.md5(adapter_path.encode()).hexdigest(}}[:8]}",
+                        id=f"adapter_missing_capability_{hashlib.md5(adapter_path.encode()).hexdigest()[:8]}",
                         type=VulnerabilityType.ACCESS_CONTROL,
                         level=SecurityLevel.HIGH,
                         title="Missing Capability Token Validation",
@@ -533,7 +533,7 @@ class SecurityAuditEngine:
             ".yaml",
             ".yml",
             ".env",
-            ".config",
+            ".config",}
         }
 
         # Directories to skip
@@ -544,7 +544,7 @@ class SecurityAuditEngine:
             ".venv",
             "venv",
             "dist",
-            "build",
+            "build",}
         }
 
         for root, dirs, files in os.walk(self.project_root):
@@ -680,7 +680,7 @@ class SecurityAuditEngine:
         if not self.guardian_system:
             return {
                 "status": "unavailable",
-                "reason": "Guardian System not initialized",
+                "reason": "Guardian System not initialized",}
             }
 
         try:
@@ -688,7 +688,7 @@ class SecurityAuditEngine:
             return {
                 "status": "active" if status["active"] else "inactive",
                 "components": status["components"],
-                "availability": status,
+                "availability": status,}
             }
         except Exception as e:
             return {"status": "error", "reason": str(e)}
@@ -700,7 +700,7 @@ class SecurityAuditEngine:
             "critical": 0,
             "high": 0,
             "medium": 0,
-            "low": 0,
+            "low": 0,}
         }
 
         for finding in findings:
@@ -775,7 +775,7 @@ class SecurityAuditEngine:
             "secure_coding_practices": True,
             "access_control_standards": True,
             "audit_trail_requirements": True,
-            "encryption_standards": True,
+            "encryption_standards": True,}
         }
 
         # Check for compliance violations
