@@ -684,7 +684,7 @@ class MetaLearningSystem:
         self.federated_learning.register_model(
             "user_preferences",
             "preference",
-            {"attention_weights": {"visual": 0.5, "auditory": 0.3, "textual": 0.2},
+            {"attention_weights": {"visual": 0.5, "auditory": 0.3, "textual": 0.2}},
         )
 
         # Interface adaptation model
@@ -704,7 +704,7 @@ class MetaLearningSystem:
         self.federated_learning.register_model(
             "cognitive_style",
             "cognitive",
-            {"reasoning_weights": {"analytical": 0.5, "intuitive": 0.5},
+            {"reasoning_weights": {"analytical": 0.5, "intuitive": 0.5}},
         )
 
     def optimize_learning_approach(self, context: dict, available_data: dict) -> dict:

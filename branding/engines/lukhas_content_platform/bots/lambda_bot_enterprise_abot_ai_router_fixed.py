@@ -299,7 +299,7 @@ class ABotIntelligentAIRouter:
             "model": best_service.model,
             "keychain_service": best_service.keychain_service,
             "estimated_cost": estimated_cost,
-            "reason": "ai_router_processing_complete",
+            "reason": reason,
             "task_type": task_type.value,
             "priority": priority,
             "quality_score": best_service.quality_score,
@@ -354,7 +354,7 @@ def get_ai_router_status() -> dict:
     # Get routing analytics from the global router
     try:
         analytics = router.get_routing_analytics()
-    except:
+    except (AttributeError, TypeError, KeyError):
         analytics = {"total_requests": 0, "service_usage": {}}
 
     # Find cheapest and most expensive available services

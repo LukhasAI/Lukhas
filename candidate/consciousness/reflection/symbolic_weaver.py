@@ -598,7 +598,7 @@ class SymbolicWeaver:
 
             fragment_data = {
                 "content": content,
-                "timestamp": datetime.fromtimestamp(file_path.stat(, tz=timezone.utc).st_mtime).isoformat(),
+                "timestamp": datetime.fromtimestamp(file_path.stat().st_mtime, tz=timezone.utc).isoformat(),
                 "source": "text_log",
                 "metadata": {"filename": file_path.name, "size": len(content)},
             }
@@ -628,7 +628,7 @@ class SymbolicWeaver:
         coherence_score = self._calculate_fragment_coherence(content, symbols, emotions)
 
         fragment = SymbolicFragment(
-            fragment_id=f"FRAG_{int(time.time())}_{hash(content)} % 10000}",
+            fragment_id=f"FRAG_{int(time.time())}_{hash(content) % 10000}",
             timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
             source=source_type,
             content=content,
@@ -873,7 +873,7 @@ class SymbolicWeaver:
         logger.info(f"Synthesizing narrative thread from {len(fragment_sequence)} fragments")
 
         # Generate thread ID and metadata
-        thread_id = f"THREAD_{int(time.time())}_{hash(str(fragment_sequence)} % 10000}"
+        thread_id = f"THREAD_{int(time.time())}_{hash(str(fragment_sequence)) % 10000}"
 
         # Analyze narrative elements
         protagonist_elements = self._identify_protagonist_elements(fragment_sequence)
@@ -1043,7 +1043,7 @@ class SymbolicWeaver:
                 resonance_score = self._calculate_motif_resonance(symbol, occurrences)
 
                 motif = NarrativeMotif(
-                    motif_id=f"MOTIF_{symbol}_{hash(symbol)} % 1000}",
+                    motif_id=f"MOTIF_{symbol}_{hash(symbol) % 1000}",
                     symbol_pattern=[symbol],
                     occurrences=occurrences,
                     first_seen=min(f.timestamp for f in occurrences),
@@ -1953,7 +1953,7 @@ This thread weaves together {len(thread.fragments)} symbolic fragments into a co
         map_lines.append(f"Ethical Alignment:   {thread.ethical_alignment:.3f}")
         map_lines.append(f"Fragment Count:      {len(thread.fragments)}")
         map_lines.append(f"Motif Count:         {len(thread.recurring_motifs)}")
-        map_lines.append(f"Symbol Diversity:    {len({s for f in thread.fragments for s in f.symbols)})}")
+        map_lines.append(f"Symbol Diversity:    {len({s for f in thread.fragments for s in f.symbols})}")
         map_lines.append(f"Thread Hash:         {thread.thread_hash}")
 
         map_lines.append("")

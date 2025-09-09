@@ -87,7 +87,16 @@
       "Bash(npx tsc:*)",
       "Bash(cp:*)",
       "Bash(claude mcp:*)",
-      "Bash(LUKHAS_ROOT=/Users/agi_dev/LOCAL-REPOS/Lukhas node build/server.js)"
+      "Bash(LUKHAS_ROOT=/Users/agi_dev/LOCAL-REPOS/Lukhas node build/server.js)",
+      "WebSearch",
+      "Read(//Users/agi_dev/Library/Application Support/Claude/**)",
+      "Bash(npm run smoke:*)",
+      "Bash(npm run build:*)",
+      "Bash(timeout 3 npm run start)",
+      "Bash(gtimeout 3 npm run start)",
+      "Bash(timeout 3 npm run start:http)",
+      "Bash(gtimeout 3 npm run start:http)",
+      "Bash(dig:*)"
     ],
     "deny": [],
     "ask": []

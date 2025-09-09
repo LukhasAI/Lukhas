@@ -273,7 +273,7 @@ class SoloDeveloperSupport:
         work_hours = 8
         self.config["work_session_reminders"]["break_interval"]
 
-        start_hour = max(current_hour, 9# Don't suggest starting before 9am
+        start_hour = max(current_hour, 9)  # Don't suggest starting before 9am
 
         for i in range(work_hours):
             hour = start_hour + i

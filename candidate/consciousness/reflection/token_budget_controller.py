@@ -253,7 +253,7 @@ class TokenBudgetController:
                 budget_to_add = unused_budget + (self.DAILY_BUDGET_LIMIT * (days_passed - 1))
 
                 self.logger.info(
-                    f"💰 ΛBot Daily Budget: ${unused_budget:.4f} unused + ${self.DAILY_BUDGET_LIMIT * (days_passed - 1)}:.4f} new"
+                    f"💰 ΛBot Daily Budget: ${unused_budget:.4f} unused + ${self.DAILY_BUDGET_LIMIT * (days_passed - 1):.4f} new"
                 )
 
             # Add to accumulated credits (capped at MAX_ACCUMULATED_CREDITS)

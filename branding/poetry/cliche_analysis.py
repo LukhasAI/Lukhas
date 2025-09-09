@@ -152,7 +152,7 @@ def analyze_vocabulary_usage(directory: Path):
                                 count = len(re.findall(r"\b" + word.lower() + r"\b", content))
                                 if count > 0:
                                     unique_counts[word] += count
-                except:
+                except (IOError, OSError, UnicodeDecodeError):
                     continue
 
     return cliche_counts, unique_counts, total_files
@@ -214,6 +214,7 @@ def generate_report():
 
     for word, count in mock_unique:
         bar = "▓" * (count // 20)
+        print(f"{word:<20} {count:>3} {bar}")
         print(fix_later)
 
     print("\n\n📈 THE PROBLEM:")

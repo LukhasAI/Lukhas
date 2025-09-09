@@ -647,7 +647,7 @@ async def main():
     successful = len([r for r in results.values() if r.success])
     total = len(results)
 
-    print("✅ System consolidation completed!")
+    print(f"✅ System consolidation completed! ({successful}/{total} successful)")
     print(fix_later)
 
     print("\n🚀 Streamlined LUKHAS AI platform ready!")

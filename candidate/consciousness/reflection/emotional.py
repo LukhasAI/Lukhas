@@ -315,7 +315,7 @@ class EmotionalMemory:
 
         affect_delta = self.current_emotion.intensity - EmotionVector.from_dict(state_before_update).intensity
         log.info(
-            f"Affect delta tracked. delta={affect_delta}, previous_intensity={EmotionVector.from_dict(state_before_update)}.intensity}, new_intensity={self.current_emotion.intensity}"
+            f"Affect delta tracked. delta={affect_delta}, previous_intensity={EmotionVector.from_dict(state_before_update).intensity}, new_intensity={self.current_emotion.intensity}"
         )
 
         ts_utc = datetime.now(timezone.utc)
@@ -368,7 +368,7 @@ class EmotionalMemory:
     def _infer_emotion_from_experience(self, experience: dict[str, Any]) -> EmotionVector:
         # ΛTRACE: Inferring emotion from experience (stubbed).
         log.debug(
-            f"Inferring emotion from experience (stub). experience_type={experience.get('type')}, content_preview={str(experience.get('text', '')}[:50]}"
+            f"Inferring emotion from experience (stub). experience_type={experience.get('type')}, content_preview={str(experience.get('text', ''))[:50]}"
         )
         values = dict.fromkeys(EmotionVector.DIMENSIONS, 0.0)
         text = str(experience.get("text", "")).lower()  # Basic text analysis
@@ -676,7 +676,7 @@ class EmotionalMemory:
     def get_emotional_response(self, stimulus_content: dict[str, Any]) -> dict[str, Any]:
         # ΛTRACE: Generating emotional response to stimulus.
         log.debug(
-            f"Generating emotional response. stimulus_type={stimulus_content.get('type')}, content_preview={str(stimulus_content)}[:100]}"
+            f"Generating emotional response. stimulus_type={stimulus_content.get('type')}, content_preview={str(stimulus_content)[:100]}"
         )
         processed_info = self.process_experience(stimulus_content)  # This updates current_emotion
 
@@ -796,7 +796,7 @@ class EmotionalMemory:
             except Exception:  # Catching broader exceptions for timestamp parsing issues
                 # ΛTRACE: Warning - skipping history entry due to invalid timestamp.
                 log.warning(
-                    f"Skipping emotional history entry (invalid timestamp or format). entry_preview={str(entry)}[:100]}"
+                    f"Skipping emotional history entry (invalid timestamp or format). entry_preview={str(entry)[:100]}"
                 )
                 continue
         # ΛTRACE: Emotional history retrieval complete.

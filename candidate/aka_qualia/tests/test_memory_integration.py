@@ -262,7 +262,7 @@ class TestDatabaseSchemaValidation:
                 indexes = conn.execute(index_query).fetchall()
                 # Note: This will fail on SQLite, but would work on PostgreSQL
                 # For SQLite, we'd need a different query
-            except:
+            except (sqlalchemy.exc.DatabaseError, sqlalchemy.exc.OperationalError):
                 # SQLite doesn't have pg_indexes, use sqlite_master
                 sqlite_index_query = text(
                     """

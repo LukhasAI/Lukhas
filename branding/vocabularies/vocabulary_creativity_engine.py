@@ -1002,7 +1002,7 @@ class VocabularyCreativityEngine:
         else:
             confidence_symbol = "⚠️"
 
-        return fix_later
+        return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
 
         for obj in detected_objects:
             if obj.lower() in object_symbolism:

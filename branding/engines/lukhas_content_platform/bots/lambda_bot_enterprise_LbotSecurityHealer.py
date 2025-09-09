@@ -607,7 +607,7 @@ class ΛBotAutonomousSecurityHealer:
                 for line_num, line in enumerate(f, 1):
                     if package in line and not line.strip().startswith("#"):
                         return line_num
-        except:
+        except (IOError, OSError, UnicodeDecodeError):
             pass
         return 0
 

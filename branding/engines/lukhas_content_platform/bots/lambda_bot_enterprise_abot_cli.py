@@ -194,7 +194,7 @@ def daily_digest(doc_format: str):
     click.echo(f"📅 Generating daily digest in {doc_format} format...")
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    digest_file = "abot_cli_processing"
+    digest_file = f"abot_cli_processing_{today}"
 
     click.echo(f"✅ Daily digest created: {digest_file}")
     click.echo("📊 Includes: PR reviews, AI enhancements, compliance status")
@@ -442,7 +442,7 @@ def setup_env():
 
 
 @lambda_id.command()
-def security_status():
+def lid_security_status():
     """Check ΛiD security system status"""
     click.echo("🛡️ ΛiD Security System Status")
     click.echo("=" * 40)
@@ -631,7 +631,7 @@ def scan(format: str):
                     click.echo(f"🔍 Found {len(vulnerabilities)} vulnerabilities ({auto_fixable} auto-fixable)")
                     for vuln in vulnerabilities:
                         status = "🔧" if vuln.auto_fixable else "⚠️"
-                        click.echo("abot_cli_processing")
+                        click.echo(f"{status} {vuln.package}: {vuln.description}")
                 else:
                     click.echo("✅ No vulnerabilities found!")
 
@@ -642,7 +642,7 @@ def scan(format: str):
 
 
 @security.command()
-def status():
+def security_status():
     """📊 Show security status and healing history"""
     click.echo("📊 LUKHAS AI ΛBot Security Status")
     click.echo("=====================")
@@ -735,7 +735,7 @@ jobs:
 
 # AI Router Commands
 @ai.command()
-def status():
+def ai_status():
     """Check multi-AI routing system status"""
     try:
         from lukhas_ai_lambda_bot.core.abot_ai_router import (
@@ -1002,7 +1002,7 @@ def budget():
     help="Urgency level",
 )
 @click.option("--force", is_flag=True, help="Force the call even if LUKHAS AI ΛBot recommends conservation")
-def test(prompt: str, urgency: str, force: bool):
+def openai_test(prompt: str, urgency: str, force: bool):
     """Test OpenAI with LUKHAS AI ΛBot's intelligent financial controls"""
     try:
         from lukhas_ai_lambda_bot.core.openai_intelligent_controller import (
@@ -1066,7 +1066,7 @@ def reset():
 
 
 @openai.command()
-def notion_sync():
+def financial_notion_sync():
     """Sync LUKHAS AI ΛBot's financial intelligence to Notion"""
     try:
         from lukhas_ai_lambda_bot.core.openai_intelligent_controller import (

@@ -20,7 +20,7 @@ def get_abot_status():
             cwd="/Users/A_G_I/Λ",
         )
         return result.stdout
-    except:
+    except (subprocess.CalledProcessError, OSError, FileNotFoundError):
         return "Status unavailable"
 
 

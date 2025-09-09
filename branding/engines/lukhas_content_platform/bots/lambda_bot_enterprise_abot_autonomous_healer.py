@@ -363,7 +363,7 @@ else:
                 if "Balance:" in result.stdout:
                     balance_line = next(line for line in result.stdout.split("\n") if "Balance:" in line)
                     print(f"💰 Final budget status: {balance_line}")
-            except:
+            except (StopIteration, AttributeError):
                 pass
 
         except KeyboardInterrupt:

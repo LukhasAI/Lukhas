@@ -830,7 +830,7 @@ class VisionaryAGIOrchestrator:
         self.logger.info("🌟 'The future belongs to those who prepare for it today.'")
         self.logger.info(f"🌟 Mode: {self.mode.name}")
         self.logger.info(f"🌟 Consciousness: {self.current_consciousness_level.name}")
-        self.logger.info(f"🌟 Vision Score: {self.metrics.overall_vision_score()}:.2f}")
+        self.logger.info(f"🌟 Vision Score: {self.metrics.overall_vision_score():.2f}")
         self.logger.info("🌟 " + "=" * 60)
 
     async def _log_inaugural_message(self):

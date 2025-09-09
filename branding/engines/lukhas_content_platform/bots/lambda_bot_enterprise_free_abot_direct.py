@@ -91,7 +91,7 @@ else:
             if "Balance:" in budget_result.stdout:
                 balance_line = next(line for line in budget_result.stdout.split("\n") if "Balance:" in line)
                 print(f"💰 Current budget: {balance_line}")
-        except:
+        except (StopIteration, AttributeError, subprocess.CalledProcessError):
             pass
 
         time.sleep(5)  # Brief pause between tasks

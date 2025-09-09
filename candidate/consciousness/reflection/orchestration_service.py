@@ -1228,7 +1228,7 @@ class OrchestrationService:
                 if self.message_bus:
                     await self.message_bus.send_message(
                         Message(
-                            id=f"perf_monitor_trinity_{user_id}_{int(time.time())",
+                            id=f"perf_monitor_trinity_{user_id}_{int(time.time())}",
                             type=MessageType.EVENT,
                             source_module="orchestration",
                             target_module="*",  # Broadcast to all modules
@@ -1393,7 +1393,7 @@ class OrchestrationService:
                 if self.message_bus:
                     await self.message_bus.send_message(
                         Message(
-                            id=f"trinity_perf_opt_{user_id}_{int(time.time())",
+                            id=f"trinity_perf_opt_{user_id}_{int(time.time())}",
                             type=MessageType.EVENT,
                             source_module="orchestration",
                             target_module="*",
@@ -1407,7 +1407,7 @@ class OrchestrationService:
                                 "consciousness_preserved": True,
                                 "bio_oscillator_synchronized": True,
                                 "quantum_coherence_maintained": True,
-                                "improvements": optimization_result.get("improvements", {)}),
+                                "improvements": optimization_result.get("improvements", {}),
                                 "performance_targets_achieved": {
                                     "sub_10ms_memory_ops": True,
                                     "sub_100ms_quantum_sim": True,
@@ -2258,10 +2258,10 @@ if __name__ == "__main__":
                 )
                 overall_score = trinity_health.get("overall_trinity_health_score", 0)
                 print(f"   Trinity Framework Health: {overall_score}%")
-                print(f"   Bio-Oscillator: {status_result.get('bio_metrics', {)}).get('oscillator_frequency', 40)}Hz")
-                print(f"   Quantum Coherence: {status_result.get('quantum_metrics', {)}).get('coherence', 0):.3f}")
+                print(f"   Bio-Oscillator: {status_result.get('bio_metrics', {}).get('oscillator_frequency', 40)}Hz")
+                print(f"   Quantum Coherence: {status_result.get('quantum_metrics', {}).get('coherence', 0):.3f}")
                 print(
-                    f"   Cascade Prevention: {status_result.get('bio_metrics', {)}).get('cascade_prevention_rate', 0.997)  * 100:.1f}%"
+                    f"   Cascade Prevention: {status_result.get('bio_metrics', {}).get('cascade_prevention_rate', 0.997) * 100:.1f}%"
                 )
 
         # Test inter-module messaging

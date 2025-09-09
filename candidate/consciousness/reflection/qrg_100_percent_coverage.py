@@ -345,8 +345,8 @@ class TestQRGCulturalValidation(unittest.TestCase):
     def test_cultural_safety_edge_cases(self):
         """Test cultural safety with edge cases"""
         edge_cases = [
-            {"region": "", "preferences": {},
-            {"region": "unknown_culture", "preferences": {"invalid": "value"},
+            {"region": "", "preferences": {}},
+            {"region": "unknown_culture", "preferences": {"invalid": "value"}},
             {"region": None, "preferences": None},
         ]
 
@@ -654,12 +654,12 @@ def run_100_percent_coverage_suite():
     if result.failures:
         print("\n❌ Test Failures:")
         for test, error in result.failures:
-            print(f"   • {test}: {error.split('AssertionError:')[-1].strip(}[:100])}...")
+            print(f"   • {test}: {error.split('AssertionError:')[-1].strip()[:100]}...")
 
     if result.errors:
         print("\n🚨 Test Errors:")
         for test, error in result.errors:
-            print(f"   • {test}: {error.split('Error:')[-1].strip(}[:100])}...")
+            print(f"   • {test}: {error.split('Error:')[-1].strip()[:100]}...")
 
     # Coverage analysis
     print("\n🎯 Coverage Analysis:")

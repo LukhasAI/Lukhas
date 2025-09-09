@@ -1,0 +1,17 @@
+{
+  "clients": {
+    "chatgpt-desktop": {
+      "servers": {
+        "lukhas-fs": {
+          "command": "npm",
+          "args": ["run", "start"],
+          "env": {
+            "NODE_ENV": "production",
+            "MCP_FS_ROOT": "/Users/agi_dev/LOCAL-REPOS/Lukhas",
+            "MCP_MAX_BYTES": "2097152"
+          }
+        }
+      }
+    }
+  }
+}

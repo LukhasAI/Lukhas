@@ -889,7 +889,7 @@ Run `python engines/lukhas_unified_orchestrator.py` to see:
 
 async def main():
     """Main integration execution"""
-    integrator = UnifiedSystemIntegrator()
+    integrator = SystemIntegrator()
 
     print("🔗 LUKHAS AI System Integrator")
     print("=" * 50)
@@ -899,7 +899,7 @@ async def main():
 
     success_count = len([v for v in results.values() if v])
 
-    print("✅ System integration completed!")
+    print(f"✅ System integration completed! ({success_count} successful)")
     print(fix_later)
 
     print("\n🚀 Run the orchestrator to test integration:")

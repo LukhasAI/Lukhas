@@ -1,7 +1,8 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { getFile, listDir, searchFiles, SearchSchema, statRel } from "./fsTools.js";
+import { z } from "zod";
+import { statRel, listDir, searchFiles, getFile, SearchSchema, readRange, ReadRangeSchema } from "./fsTools.js";
 
 const server = new Server(
   {
@@ -82,6 +83,28 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           },
           required: ["rel"]
         }
+      },
+      {
+        name: "read_range",
+        description: "Read a range of bytes from a text file. For large files, use this instead of get_file.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            rel: {
+              type: "string",
+              description: "Relative path to file"
+            },
+            offset: {
+              type: "number",
+              description: "Byte offset to start reading from (>= 0)"
+            },
+            length: {
+              type: "number", 
+              description: "Number of bytes to read (0-65536)"
+            }
+          },
+          required: ["rel", "offset", "length"]
+        }
       }
     ]
   };
@@ -128,6 +151,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "get_file": {
         const rel = String(request.params.arguments?.rel);
         const res = await getFile(rel);
+        return {
+          content: [{ type: "text", text: JSON.stringify(res, null, 2) }]
+        };
+      }
+      
+      case "read_range": {
+        const parsed = ReadRangeSchema.safeParse({
+          rel: request.params.arguments?.rel,
+          offset: request.params.arguments?.offset,
+          length: request.params.arguments?.length
+        });
+        if (!parsed.success) {
+          return {
+            content: [{ type: "text", text: `Invalid args: ${parsed.error.message}` }]
+          };
+        }
+        const { rel, offset, length } = parsed.data;
+        const res = await readRange(rel, offset, length);
         return {
           content: [{ type: "text", text: JSON.stringify(res, null, 2) }]
         };

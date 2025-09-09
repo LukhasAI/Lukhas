@@ -1,5 +1,6 @@
 import fg from "fast-glob";
 import fs from "fs-extra";
+import * as fsPromises from "node:fs/promises";
 import lunr from "lunr";
 import path from "node:path";
 import stripBom from "strip-bom";
@@ -8,22 +9,42 @@ import { z } from "zod";
 const ROOT = process.env.MCP_FS_ROOT || "/Users/agi_dev/LOCAL-REPOS/Lukhas";
 const MAX_BYTES = parseInt(process.env.MCP_MAX_BYTES || "2097152"); // 2 MB read cap
 const TEXT_EXT = new Set([
-  // Documentation & Text
-  ".md", ".txt", ".rst", ".adoc",
-  // Source Code
-  ".ts", ".tsx", ".js", ".jsx", ".py", ".rs", ".go", ".java", ".cpp", ".c", ".h",
-  // Configuration Files
-  ".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".config",
-  // Web & Styling
-  ".css", ".scss", ".sass", ".less", ".html", ".htm", ".xml", ".svg",
-  // Build & Package Configs
-  ".lock", ".gitignore", ".gitattributes", ".editorconfig", ".prettierrc",
-  // Other Config Extensions
-  ".properties", ".env.example", ".env.template", ".env.sample"
+  // Restricted allowlist as specified
+  ".md", ".txt", ".ts", ".tsx", ".js", ".jsx", ".py", ".json", ".yaml", ".yml", ".toml", ".css", ".scss"
 ]);
 
-// Security: Denylist sensitive paths
-const DENYLIST = ["secrets/", "keys/", ".env", ".env.*", "*.key", "*.pem", "*.p12"];
+// --- denylist & helpers ---
+const DENYLIST = [
+  ".env", ".env.local", ".env.*", "secrets/", "keys/", "id_rsa", "id_ed25519", "*.pem", "*.key"
+];
+
+function isDenied(rel: string) {
+  const lower = rel.toLowerCase();
+  // cheap glob-ish checks
+  if (lower.includes("secrets/") || lower.includes("keys/")) return true;
+  if (lower.endsWith("/id_rsa") || lower.endsWith("/id_ed25519")) return true;
+  if (lower.endsWith(".pem") || lower.endsWith(".key")) return true;
+  if (lower === ".env" || lower.startsWith(".env")) return true;
+  return false;
+}
+
+// sanitize + redact
+const ANSI_RE = /\x1B\[[0-9;]*[A-Za-z]/g;                    // strip ANSI escapes
+const TAG_RE  = /<\/?(script|style)[^>]*>|<\s*iframe[^>]*>/gi; // strip active HTML
+const AWS_RE  = /AKIA[0-9A-Z]{16}/g;                        // AWS Access Key
+const GHP_RE  = /ghp_[A-Za-z0-9]{36,}/g;                    // GitHub PAT
+const API_RE  = /api[_-]?key\s*[:=]\s*["']?[A-Za-z0-9_\-]{16,}/gi; // generic API key-ish
+
+export function sanitizeAndRedact(text: string) {
+  let t = text.replace(ANSI_RE, "").replace(TAG_RE, "");
+  let redacted = false;
+  const before = t;
+  t = t.replace(AWS_RE, "REDACTED_AWS_KEY")
+       .replace(GHP_RE, "REDACTED_GITHUB_PAT")
+       .replace(API_RE, "REDACTED_API_KEY");
+  if (t !== before) redacted = true;
+  return { text: t, redacted };
+}
 
 // Rate limiting: Simple token bucket
 class TokenBucket {
@@ -68,43 +89,7 @@ const QuerySchema = z.string().min(1).max(1000).refine(
   { message: "Invalid control characters in query" }
 );
 
-// Security: Credential redaction
-function redact(text: string): { text: string; redacted: boolean } {
-  let redacted = false;
-  let result = text;
-  
-  // AWS keys
-  result = result.replace(/AKIA[0-9A-Z]{16}/g, () => { redacted = true; return "[REDACTED-AWS-KEY]"; });
-  
-  // GitHub tokens
-  result = result.replace(/ghp_[A-Za-z0-9]{36,}/g, () => { redacted = true; return "[REDACTED-GITHUB-TOKEN]"; });
-  
-  // Generic API keys
-  result = result.replace(/api[_-]?key\s*[:=]\s*["\']?[A-Za-z0-9_\-]{16,}["\']?/gi, () => { 
-    redacted = true; 
-    return "[REDACTED-API-KEY]"; 
-  });
-  
-  // Strip ANSI escapes
-  result = result.replace(/\x1b\[[0-9;]*m/g, "");
-  
-  // Strip HTML/script tags
-  result = result.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "[REDACTED-SCRIPT]");
-  result = result.replace(/<[^>]+>/g, "");
-  
-  return { text: result, redacted };
-}
-
-// Security: Check denylist
-function isDenylisted(rel: string): boolean {
-  return DENYLIST.some(pattern => {
-    if (pattern.includes("*")) {
-      const regex = new RegExp(pattern.replace(/\*/g, ".*"));
-      return regex.test(rel);
-    }
-    return rel.includes(pattern);
-  });
-}
+// Removed old redact and isDenylisted functions - replaced with isDenied and sanitizeAndRedact above
 
 // Logging helper
 function logOperation(tool: string, args: any, duration: number, resultInfo: any, denied = false, redacted = false) {
@@ -142,7 +127,7 @@ export const statRel = withRateLimit(async (rel: string) => {
   try {
     const validatedRel = PathSchema.parse(rel || ".");
     
-    if (isDenylisted(validatedRel)) {
+    if (isDenied(validatedRel)) {
       logOperation("stat", { rel }, Date.now() - start, null, true);
       throw new Error("Access denied: path is denylisted");
     }
@@ -164,7 +149,7 @@ export const listDir = withRateLimit(async (rel: string) => {
   try {
     const validatedRel = PathSchema.parse(rel || ".");
     
-    if (isDenylisted(validatedRel)) {
+    if (isDenied(validatedRel)) {
       logOperation("list_dir", { rel }, Date.now() - start, null, true);
       throw new Error("Access denied: path is denylisted");
     }
@@ -182,7 +167,7 @@ export const listDir = withRateLimit(async (rel: string) => {
     }));
     
     // Filter out denylisted entries
-    const filteredMeta = meta.filter((entry: any) => !isDenylisted(entry.rel));
+    const filteredMeta = meta.filter((entry: any) => !isDenied(entry.rel));
     
     logOperation("list_dir", { rel }, Date.now() - start, { count: filteredMeta.length });
     return filteredMeta;
@@ -218,7 +203,7 @@ export async function buildIndex(globPattern: string) {
   const docs: { id: string; rel: string; text: string }[] = [];
 
   for (const rel of files) {
-    if (isDenylisted(rel)) continue;
+    if (isDenied(rel)) continue;
     
     const full = resolveSafe(rel);
     try {
@@ -260,32 +245,50 @@ export const searchFiles = withRateLimit(async (query: string, globPattern: stri
   }
 });
 
-export const getFile = withRateLimit(async (rel: string) => {
-  const start = Date.now();
-  try {
-    const validatedRel = PathSchema.parse(rel);
-    
-    if (isDenylisted(validatedRel)) {
-      logOperation("get_file", { rel }, Date.now() - start, null, true);
-      throw new Error("Access denied: path is denylisted");
-    }
-    
-    const full = resolveSafe(validatedRel);
-    const st = await fs.stat(full);
-    if (!st.isFile()) throw new Error("Not a file");
-    if (st.size > MAX_BYTES) throw new Error(`File too large (> ${MAX_BYTES} bytes)`);
-    const ext = path.extname(full).toLowerCase();
-    if (!TEXT_EXT.has(ext)) throw new Error("Binary or unsupported text type blocked");
-    
-    const text = stripBom(await fs.readFile(full, "utf8"));
-    const { text: cleanText, redacted: wasRedacted } = redact(text);
-    
-    const result = { rel: validatedRel, size: st.size, mtime: st.mtimeMs, text: cleanText, redacted: wasRedacted };
-    
-    logOperation("get_file", { rel }, Date.now() - start, { size: st.size }, false, wasRedacted);
-    return result;
-  } catch (error) {
-    logOperation("get_file", { rel }, Date.now() - start, null, false, false);
-    throw error;
-  }
+export async function getFile(rel: string) {
+  if (isDenied(rel)) throw new Error("Path blocked by denylist");
+  const full = resolveSafe(rel);
+  const st = await fs.stat(full);
+  if (!st.isFile()) throw new Error("Not a file");
+  if (st.size > MAX_BYTES) throw new Error(`File too large (> ${MAX_BYTES} bytes)`);
+  const ext = path.extname(full).toLowerCase();
+  if (!TEXT_EXT.has(ext)) throw new Error("Binary or unsupported text type blocked");
+  const raw = await fs.readFile(full, "utf8");
+  const { text, redacted } = sanitizeAndRedact(stripBom(raw));
+  return { rel, size: st.size, mtime: st.mtimeMs, text, redacted };
+}
+
+export const ReadRangeSchema = z.object({
+  rel: z.string().min(1),
+  offset: z.number().int().min(0),
+  length: z.number().int().min(1).max(64 * 1024) // 64 KB cap
 });
+
+export async function readRange(rel: string, offset: number, length: number) {
+  if (isDenied(rel)) throw new Error("Path blocked by denylist");
+  const full = resolveSafe(rel);
+  const st = await fs.stat(full);
+  if (!st.isFile()) throw new Error("Not a file");
+  const ext = path.extname(full).toLowerCase();
+  if (!TEXT_EXT.has(ext)) throw new Error("Binary or unsupported text type blocked");
+
+  // clamp to file bounds
+  const end = Math.min(st.size, offset + length);
+  const actualLen = Math.max(0, end - offset);
+  if (actualLen === 0) {
+    return { rel, offset, length: 0, chunk: "", eof: offset >= st.size, redacted: false };
+  }
+
+  // read only the requested slice
+  const fileHandle = await fsPromises.open(full, "r");
+  try {
+    const buf = Buffer.allocUnsafe(actualLen);
+    await fileHandle.read(buf, 0, actualLen, offset);
+    const raw = buf.toString("utf8");
+    const { text, redacted } = sanitizeAndRedact(stripBom(raw));
+    const eof = end >= st.size;
+    return { rel, offset, length: actualLen, chunk: text, eof, redacted };
+  } finally {
+    await fileHandle.close();
+  }
+}

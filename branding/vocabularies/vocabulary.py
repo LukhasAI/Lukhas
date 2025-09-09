@@ -128,14 +128,14 @@ class DreamOperation:
         """Symbol for phase transitions."""
         from_sym = DREAM_PHASE_SYMBOLS.get(from_phase, "❓")
         to_sym = DREAM_PHASE_SYMBOLS.get(to_phase, "❓")
-        return fix_later
+        return f"{from_sym} ➜ {to_sym}"
 
     @staticmethod
     def pattern_discovered(pattern_type: str, confidence: float) -> str:
         """Symbol for pattern discovery."""
         symbol = PATTERN_SYMBOLS.get(pattern_type, "🔍 Unknown Pattern")
         intensity = "🔥" if confidence > 0.8 else "⭐" if confidence > 0.6 else "✨"
-        return fix_later
+        return f"{symbol} {intensity}"
 
     @staticmethod
     def insight_generated(insight_type: str) -> str:

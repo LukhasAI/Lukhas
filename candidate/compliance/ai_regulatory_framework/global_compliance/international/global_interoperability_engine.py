@@ -86,7 +86,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         # Initialize LUKHAS integration
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
-        except:
+        except (KeyError, AttributeError, ImportError):
             from candidate.orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()

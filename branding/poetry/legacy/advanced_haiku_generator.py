@@ -425,7 +425,7 @@ class AdvancedHaikuGenerator:
         line2 = random.choice(templates["line2_7"])
         line3 = random.choice(templates["line3_5"])
 
-        return fix_later
+        return f"{line1}\n{line2}\n{line3}"
 
     def _expand_haiku(self, haiku: str, depth: int) -> str:
         """Apply neural expansion rules to enhance the haiku"""
@@ -461,7 +461,7 @@ class AdvancedHaikuGenerator:
         if len(modifiers) > 0:
             modifier = random.choice(modifiers)
             # Insert modifier preserving syllable count
-            return fix_later
+            return f"{modifier} {line}"
         return line
 
     def _infuse_emotion(self, line: str) -> str:
@@ -469,7 +469,7 @@ class AdvancedHaikuGenerator:
         emotions = self.symbolic_db.get("emotion_words", ["serene", "profound"])
         if len(emotions) > 0:
             emotion = random.choice(emotions)
-            return fix_later
+            return f"{line}, {emotion}"
         return line
 
     def _create_juxtaposition(self, line: str) -> str:
@@ -480,7 +480,7 @@ class AdvancedHaikuGenerator:
         contrast_words = self.symbolic_db.get("contrast_words", ["yet silence"])
         if len(contrast_words) > 0:
             contrast = random.choice(contrast_words)
-            return fix_later
+            return f"{line} {contrast}"
         return line
 
     def _ensure_syllable_structure(self, haiku: str) -> str:

@@ -598,6 +598,28 @@ We use a **3-Layer Tone System** to communicate authentically:
 - **Lane Discipline**: Enforced separation between development and stable code
 
 ### **Running Tests**
+
+#### **🧠 Consciousness Test Suite (Comprehensive)**
+*Post Nuclear Syntax Error Elimination Campaign - September 9, 2025*
+
+```bash
+# Quick consciousness validation (2-5 seconds)
+python tests/consciousness/run_consciousness_tests.py --quick
+
+# Full consciousness test suite (30-60 seconds)
+python tests/consciousness/run_consciousness_tests.py --full --verbose
+
+# Trinity Framework compliance (⚛️🧠🛡️)
+python tests/consciousness/run_consciousness_tests.py --trinity
+
+# Syntax error regression prevention
+python tests/consciousness/run_consciousness_tests.py --regression
+
+# Generate detailed HTML reports
+python tests/consciousness/run_consciousness_tests.py --html
+```
+
+#### **General Test Suite**
 ```bash
 # Full test suite
 pytest tests/ -v
@@ -609,6 +631,14 @@ pytest tests/governance/ -v
 
 # Quick smoke test
 make smoke
+```
+
+#### **Agent Coordination Tests**
+```bash
+# Available VS Code tasks for agent coordination:
+# 🧪 Run All Consciousness Tests
+# ⚛️ Validate Complete Trinity Framework  
+# 🛡️ Complete Guardian System Health Check
 ```
 
 ### **Quality Standards**

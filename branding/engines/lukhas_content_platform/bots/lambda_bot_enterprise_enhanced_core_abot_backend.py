@@ -702,7 +702,7 @@ class FileService:
 
         # Generate unique filename
         file_id = str(uuid.uuid4())
-        s3_key = "enhanced_core_abot_processing"
+        s3_key = f"enhanced_core_abot_processing_{file_id}"
 
         try:
             # Upload to S3
