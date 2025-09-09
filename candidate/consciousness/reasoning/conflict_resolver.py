@@ -870,7 +870,7 @@ class SymbolicConflictResolver:
             confidence_adjustment=0.1,
             entropy_adjustment=-0.1,
             resolution_success=True,
-            audit_trail={"veto_scoring": {f.fragment_id: score for f, score in scored_fragments},
+            audit_trail={"veto_scoring": {f.fragment_id: score for f, score in scored_fragments}},
         )
 
     def _apply_suppress_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:
@@ -1046,7 +1046,7 @@ class SymbolicConflictResolver:
             confidence_adjustment=-0.3,
             entropy_adjustment=0.2,
             resolution_success=True,
-            audit_trail={"reconciliation_weights": {f.fragment_id: w for f, w in zip(fragments, weights)},
+            audit_trail={"reconciliation_weights": {f.fragment_id: w for f, w in zip(fragments, weights)}},
         )
 
     def _apply_isolate_strategy(self, report: ContradictionReport, resolution_id: str) -> ConflictResolutionResult:

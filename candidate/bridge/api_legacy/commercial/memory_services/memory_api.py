@@ -298,7 +298,7 @@ async def example_memory_usage():
     print(f"Found {len(results)} memories")
 
     # Update memory
-    success = await memory_api.update(memory_id, {"metadata": {"summary": "Discussed modular design"})
+    success = await memory_api.update(memory_id, {"metadata": {"summary": "Discussed modular design"}})
     print(f"Update success: {success}")
 
     # Get statistics

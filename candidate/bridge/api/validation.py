@@ -835,7 +835,7 @@ class ComprehensiveAPIValidator:
 
         logger.info(f"🔍 Starting validation: {validation_id}")
         logger.info(f"   Type: {request_type}")
-        logger.info(f"   Context: {context.get('type', 'general')} if context else 'none'}")
+        logger.info(f"   Context: {context.get('type', 'general') if context else 'none'}")
 
         try:
             # Authentication validation

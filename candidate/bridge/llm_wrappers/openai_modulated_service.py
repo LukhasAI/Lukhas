@@ -147,7 +147,7 @@ class OpenAIModulatedService:
         # Build tools from allowlist
         openai_tools = []
         analytics = get_analytics()
-        audit_id = f"audit_{task or 'general'}_{int(time.time(} * 1000)}"
+        audit_id = f"audit_{task or 'general'}_{int(time.time()) * 1000}"
         tool_incidents = []
 
         if params and params.tool_allowlist:
@@ -314,7 +314,7 @@ class OpenAIModulatedService:
             async for chunk in response:  # type: ignore
                 first = chunk
                 break
-            response = first or {"choices": [{"message": {"content": ""}]}
+            response = first or {"choices": [{"message": {"content": ""}}]}
 
         # Post-moderation via Guardian
         self._post_moderation_check(cast(dict[str, Any], response))
@@ -439,7 +439,7 @@ class OpenAIModulatedService:
             # Post moderation on full text (best-effort)
             full = "".join(buffer)
             try:
-                self._post_moderation_check({"choices": [{"message": {"content": full}]})
+                self._post_moderation_check({"choices": [{"message": {"content": full}}]})
             except PermissionError:
                 self.metrics["moderation_blocks"] += 1
                 logger.warning("Post-moderation flagged streamed content")

@@ -444,7 +444,7 @@ class EnhancedDreamEngine:
         duration = datetime.now(timezone.utc) - self.current_cycle["start_time"]
         memories = self.current_cycle["memories_processed"]
 
-        logger.info(f"Dream cycle completed: Duration={duration.total_seconds()}:.1f}s, Memories={memories}")
+        logger.info(f"Dream cycle completed: Duration={duration.total_seconds():.1f}s, Memories={memories}")
 
     async def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
@@ -734,7 +734,7 @@ async def process_dream(request: DreamRequest):
         dream_engine = get_dream_engine()
 
         # Generate unique dream ID
-        dream_id = f"dream_{int(start_time.timestamp(} * 1000)}"
+        dream_id = f"dream_{int(start_time.timestamp()) * 1000}"
 
         # Process the dream
         if hasattr(dream_engine, "process_dream"):

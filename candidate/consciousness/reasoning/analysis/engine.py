@@ -929,7 +929,7 @@ class LucasAnalyzeEngine:
         for i, insight in enumerate(insights[:3], 1):  # Top 3
             summary_parts.append(f"{i}. {insight.get('message', 'An insight was found.')}")
         if len(insights) > 3:
-            summary_parts.append(f"...and {len(insights)} - 3} more detailed insights available.")
+            summary_parts.append(f"...and {len(insights) - 3} more detailed insights available.")
 
         final_summary = "\n".join(summary_parts)
         self.logger.info("Analysis summary generated.", length=len(final_summary))

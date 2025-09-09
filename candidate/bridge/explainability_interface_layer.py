@@ -797,7 +797,7 @@ class FormalProofGenerator(ExplanationGenerator):
             lines.append(f"{step['step']}. {step['statement']}")
 
         lines.append(f"\n**Therefore:** {proof.conclusion}")
-        lines.append(f"**Confidence:** {proof.validity_score  * 100:.1f}%")
+        lines.append(f"**Confidence:** {proof.validity_score * 100:.1f}%")
 
         return "\n".join(lines)
 
@@ -1413,7 +1413,7 @@ class ExplainabilityInterfaceLayer:
 
                 fallback_data = f"{explanation.explanation_id}:{explanation.timestamp.isoformat()}:{explanation.natural_language[:100]}"
                 fallback_hash = hashlib.sha256(fallback_data.encode()).hexdigest()[:16]
-                return f"FALLBACK_SIG_{int(time.time())_{fallback_hash}"
+                return f"FALLBACK_SIG_{int(time.time())}_{fallback_hash}"
             except Exception:
                 return "SIGNING_FAILED"
 

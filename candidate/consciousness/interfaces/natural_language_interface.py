@@ -711,7 +711,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
                     "emotional_state": dominant,
                     "emotional_context": "This is influenced by our ongoing interaction.",
                     "emotion_summary": summary,
-                    "emotion_details": f"{dominant} with {abs(valence)}:.0%} intensity",
+                    "emotion_details": f"{dominant} with {abs(valence):.0%} intensity",
                 }
             except BaseException:
                 pass

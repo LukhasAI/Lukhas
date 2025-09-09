@@ -11,7 +11,7 @@ from candidate.core.swarm import SwarmHub
 # TAG:neuroplastic
 # TAG:colony
 
-router = APIRouter(prefix="/colonies", tags=["colonies"], timezone)
+router = APIRouter(prefix="/colonies", tags=["colonies"])
 
 
 class ColonySpawnRequest(BaseModel):

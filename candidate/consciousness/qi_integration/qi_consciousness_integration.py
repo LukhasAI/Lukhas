@@ -330,9 +330,9 @@ class QICreativeConsciousness:
 
         # Social post templates with consciousness themes
         if boost > 1.15:
-            post = f"🧠✨ Exploring {theme} through the lens of quantum consciousness reveals infinite possibilities. When we elevate our awareness, every aspect of {theme} becomes a gateway to deeper understanding. #QIConsciousness " ', '')} #ConsciousLiving""
+            post = f"🧠✨ Exploring {theme} through the lens of quantum consciousness reveals infinite possibilities. When we elevate our awareness, every aspect of {theme} becomes a gateway to deeper understanding. #QIConsciousness #ConsciousLiving"
         else:
-            post = f"🌟 {theme} becomes so much more meaningful when we approach it with conscious awareness. Every moment is an opportunity for deeper insight. " ', '')} #Consciousness #Mindfulness"
+            post = f"🌟 {theme} becomes so much more meaningful when we approach it with conscious awareness. Every moment is an opportunity for deeper insight. #Consciousness #Mindfulness"
 
         return post
 

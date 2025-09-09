@@ -495,7 +495,7 @@ async def demo_dream_creation():
         )
 
         print(f"Dream created: {dream['dream_id']}")
-        print(f"Narrative: {dream.get('enhanced_narrative', {)}).get('full_text', 'N/A')[:200]}...")
+        print(f"Narrative: {dream.get('enhanced_narrative', {}).get('full_text', 'N/A')[:200]}...")
 
         if "generated_image" in dream:
             print(f"Image saved: {dream['generated_image']['path']}")

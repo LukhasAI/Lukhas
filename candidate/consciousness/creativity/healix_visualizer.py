@@ -176,7 +176,7 @@ class HealixVisualizer:
                     "title": "Memory Depth",
                 },
                 "bgcolor": "rgba(240, 248, 255, 0.1)",
-                "camera": {"eye": {"x": 1.5, "y": 1.5, "z": 1.5},
+                "camera": {"eye": {"x": 1.5, "y": 1.5, "z": 1.5}},
             },
             paper_bgcolor="white",
             font={"color": "#2E4057"},
@@ -520,7 +520,7 @@ class HealixVisualizer:
             ax.set_ylim(-2, 2)
             ax.set_aspect("equal")
             ax.set_title(
-                f"Memory Evolution: {memory_id[:30]}...\nFrame {frame}/{len(mutations} + 1)}",
+                f"Memory Evolution: {memory_id[:30]}...\nFrame {frame}/{len(mutations) + 1}",
                 fontsize=14,
                 fontweight="bold",
             )

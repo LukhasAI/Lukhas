@@ -245,7 +245,7 @@ class GPTIntegrationLayer:
                 annotated_parts.append(f"{self.drift_markers['start']}{orig_sent}{self.drift_markers['end']}")
 
         # Add drift metadata comment
-        drift_metadata = f"\n<!-- DRIFT_METADATA: primary_issue={diagnosis.get('primary_issue', 'unknown')}, severity={diagnosis.get('severity', 0)}:.2f} -->"
+        drift_metadata = f"\n<!-- DRIFT_METADATA: primary_issue={diagnosis.get('primary_issue', 'unknown')}, severity={diagnosis.get('severity', 0):.2f} -->"
 
         return " ".join(annotated_parts) + drift_metadata
 

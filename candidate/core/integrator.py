@@ -433,7 +433,7 @@ class EnhancedCoreIntegrator:
                     message_id=message_uid,
                 )
                 raise AttributeError(
-                    f"Target component '{target_id}' of type '{type(target_instance)}.__name__}' cannot handle messages."
+                    f"Target component '{target_id}' of type '{type(target_instance).__name__}' cannot handle messages."
                 )
         except PermissionError as pe:
             log.error(
@@ -496,7 +496,7 @@ class EnhancedCoreIntegrator:
 
         status_report = {
             "timestamp_utc_iso": timestamp_now_iso,
-            "integrator_instance_id": f"ECI_{hex(id(self)}[-6:]}",  # Slightly longer ID
+            "integrator_instance_id": f"ECI_{hex(id(self))[-6:]}",  # Slightly longer ID
             "registered_components_count": len(self.components),
             "component_statuses_snapshot": self.component_status.copy(),
             "event_subscribers_count": sum(len(subs_list) for subs_list in self.event_subscribers.values()),

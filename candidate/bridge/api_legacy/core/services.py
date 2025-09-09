@@ -319,10 +319,10 @@ class IdentityAPIService(APIServiceBase):
             "verified": verified,
             "agent_id": agent_id,
             "tier": tier,
-            "permissions": self._identity_core.resolve_access_tier(tier)
+            "permissions": self._resolve_access_tier(tier)
         }
 
-    def _identity_core.resolve_access_tier(self, tier: int) -> List[str]:
+    def _resolve_access_tier(self, tier: int) -> List[str]:
         """Get permissions for a tier"""
         tier_permissions = {
             0: [],

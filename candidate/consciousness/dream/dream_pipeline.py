@@ -451,7 +451,7 @@ async def demo_pipeline():
         # Generate a symbolic dream
         print("\n🧬 Generating symbolic dream...")
         dream3 = await pipeline.generate_dream_from_text("quantum consciousness exploration", dream_type="symbolic")
-        print(f"Symbolic elements: {dream3.get('symbolic_elements', {)})}")
+        print(f"Symbolic elements: {dream3.get('symbolic_elements', {})}")
 
         # Get analytics
         print("\n📊 Dream Analytics:")

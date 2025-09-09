@@ -162,22 +162,22 @@ class TrueCoreAnalyzer:
 
             f.write(f"- **Total Files in lukhas/:** {total_files}\n")
             f.write(
-                f"- **True AI Core:** {len(self.categories['true_core'])} files ({len(self.categories['true_core'])} / total_files  * 100:.1f}%)\n"
+                f"- **True AI Core:** {len(self.categories['true_core'])} files ({len(self.categories['true_core']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **External Packages:** {len(self.categories['external_packages'])} files ({len(self.categories['external_packages'])} / total_files  * 100:.1f}%)\n"
+                f"- **External Packages:** {len(self.categories['external_packages'])} files ({len(self.categories['external_packages']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Interface Bloat:** {len(self.categories['interface_bloat'])} files ({len(self.categories['interface_bloat'])} / total_files  * 100:.1f}%)\n"
+                f"- **Interface Bloat:** {len(self.categories['interface_bloat'])} files ({len(self.categories['interface_bloat']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Documentation:** {len(self.categories['documentation'])} files ({len(self.categories['documentation'])} / total_files  * 100:.1f}%)\n"
+                f"- **Documentation:** {len(self.categories['documentation'])} files ({len(self.categories['documentation']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Configuration:** {len(self.categories['configuration'])} files ({len(self.categories['configuration'])} / total_files  * 100:.1f}%)\n"
+                f"- **Configuration:** {len(self.categories['configuration'])} files ({len(self.categories['configuration']) / total_files * 100:.1f}%)\n"
             )
             f.write(
-                f"- **Unknown/Review:** {len(self.categories['unknown'])} files ({len(self.categories['unknown'])} / total_files  * 100:.1f}%)\n\n"
+                f"- **Unknown/Review:** {len(self.categories['unknown'])} files ({len(self.categories['unknown']) / total_files * 100:.1f}%)\n\n"
             )
 
             # True Core Analysis
@@ -196,7 +196,7 @@ class TrueCoreAnalyzer:
                     for file in sorted(files)[:5]:  # Show first 5
                         f.write(f"- `{file}`\n")
                     if len(files) > 5:
-                        f.write(f"- ... and {len(files)} - 5} more files\n")
+                        f.write(f"- ... and {len(files) - 5} more files\n")
                     f.write("\n")
 
             # External Packages

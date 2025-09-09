@@ -7,11 +7,11 @@
   "python.testing.cwd": "${workspaceFolder}",
   "python.envFile": "${workspaceFolder}/.env",
 
-  // Formatter/Linter = Ruff
-  "editor.formatOnSave": true,
+  // Formatter/Linter = Ruff (TEMPORARILY DISABLED FOR MANUAL FIXES)
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.ruff": "always",
-    "source.organizeImports.ruff": "always"
+    // "source.fixAll.ruff": "always",
+    // "source.organizeImports.ruff": "always"
   },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff"

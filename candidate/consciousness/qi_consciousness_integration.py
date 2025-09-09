@@ -490,7 +490,7 @@ class QICreativeConsciousness:
     # awareness terms.
     def _enhance_haiku_consciousness(self, base_haiku: str, theme: str) -> str:
         self.instance_logger.debug(
-            f"ΛTRACE: Internal: Enhancing haiku '{base_haiku.splitlines()}[0]}...' for theme '{theme}'."
+            f"ΛTRACE: Internal: Enhancing haiku '{base_haiku.splitlines()[0]}...' for theme '{theme}'."
         )
         # This is a simplistic enhancement, real version would be more nuanced
         lines = base_haiku.split("\n")
@@ -553,8 +553,8 @@ class QICreativeConsciousness:
         )
         # Simplified fallback
         if boost > 1.15:
-            return f"🧠✨ Exploring {theme} via quantum consciousness! #QIConsciousness " ', '')}""
-        return f"🌟 {theme} with conscious awareness. #Consciousness " ', '')}"
+            return f"🧠✨ Exploring {theme} via quantum consciousness! #QIConsciousness"
+        return f"🌟 {theme} with conscious awareness. #Consciousness"
 
     # Human-readable comment: Generates a consciousness-enhanced story.
     async def _generate_conscious_story(
@@ -740,7 +740,7 @@ async def main_example():  # Renamed from main
     )
     print(haiku_result_data.get("generated_content"))
     print(
-        f"Consciousness Boost Applied: {haiku_result_data.get('applied_consciousness_metrics', {)}).get('applied_consciousness_boost'):.3f}"
+        f"Consciousness Boost Applied: {haiku_result_data.get('applied_consciousness_metrics', {}).get('applied_consciousness_boost'):.3f}"
     )
 
     logger.info("ΛTRACE Demo: Generating Conscious Article...")

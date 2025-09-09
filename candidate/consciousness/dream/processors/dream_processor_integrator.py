@@ -96,7 +96,7 @@ class DreamProcessorIntegration:
 
     def _analyze_emotional_context(self, dream_state: dict[str, Any]) -> dict[str, Any]:
         """Analyze emotional context and resonance"""
-        context = {"primary_emotion": None, "intensity": 0.0, "secondary_emotions": {}
+        context = {"primary_emotion": None, "intensity": 0.0, "secondary_emotions": {}}
 
         # Extract emotional context from resonance
         if "resonance" in dream_state:

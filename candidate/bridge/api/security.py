@@ -301,7 +301,7 @@ class APIKeyManager:
             raise ValueError("Invalid API key for rotation")
 
         # Generate new key
-        new_key = f"lukhas-{int(time.time())}-{hashlib.sha256(f\'{user_id)}{time.time()}\'.encode()).hexdigest()[:12]}"
+        new_key = f"lukhas-{int(time.time())}-{hashlib.sha256(f'{user_id}{time.time()}'.encode()).hexdigest()[:12]}"
 
         # Copy settings from old key
         old_data = self.api_keys[old_key].copy()

@@ -326,10 +326,8 @@ async def assess_awareness(request: AwarenessAssessmentRequest):
 
         if request.assessment_type == "comprehensive":
             awareness_assessment["detailed_analysis"] = {
-                "memory_coherence": f"Access to {stats.get('total_folds',")}
-                                                           0)} memory folds",
-                "emotional_integration": f"Processing {stats.get('unique_emotions',)}
-                                                                 0)} unique emotions",
+                "memory_coherence": f"Access to {stats.get('total_folds', 0)} memory folds",
+                "emotional_integration": f"Processing {stats.get('unique_emotions', 0)} unique emotions",
                 "dream_synthesis": "Advanced consolidation operational",
                 "cross_system_resonance": "All modules synchronized",
             }

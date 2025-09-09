@@ -16,12 +16,11 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 
 from candidate.core.common import get_logger
-from lukhas.branding_bridge import (
 from memory import memory_manager
 
 # Import LUKHAS AI branding system for API responses
 try:
-
+    from lukhas.branding_bridge import (
         BrandContext,
         get_brand_voice,
         get_system_signature,

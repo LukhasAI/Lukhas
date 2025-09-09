@@ -660,7 +660,7 @@ def create_module_structure(module_name: str, module_config: dict[str, Any]):
     # Generate detailed concepts description
     lukhas_concepts_detailed = "\n".join(
         [
-            f"## {concept.replace('_', ' ').title()}\n{module_config.get('concept_descriptions', {)}).get(concept, 'Core LUKHAS concept integrated into this module.')}\n"
+            f"## {concept.replace('_', ' ').title()}\n{module_config.get('concept_descriptions', {}).get(concept, 'Core LUKHAS concept integrated into this module.')}\n"
             for concept in lukhas_concepts
         ]
     )
@@ -796,7 +796,7 @@ def generate_module(
     print(f"✅ Module '{module_name}' generated successfully!")
     print(f"📁 Location: {module_path}")
     print(
-        f"🧬 LUKHAS concepts: {', '.join(template_vars['lukhas_concepts'].split(', ')}"
+        f"🧬 LUKHAS concepts: {', '.join(template_vars['lukhas_concepts'].split(', '))}"
     )
     print("\n📋 Next steps:")
     print(f"  1. cd {module_path}")

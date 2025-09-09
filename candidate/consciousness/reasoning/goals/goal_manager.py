@@ -88,7 +88,7 @@ class GoalManagementNode:
                     "action": "retrieve_information",
                     "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
-                {"action": "formulate_response", "parameters": {},
+                {"action": "formulate_response", "parameters": {}},
             ],
         }
 
@@ -101,8 +101,8 @@ class GoalManagementNode:
                     "action": "analyze_task",
                     "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
-                {"action": "execute_task", "parameters": {},
-                {"action": "verify_completion", "parameters": {},
+                {"action": "execute_task", "parameters": {}},
+                {"action": "verify_completion", "parameters": {}},
             ],
         }
 
@@ -115,7 +115,7 @@ class GoalManagementNode:
                     "action": "analyze_context",
                     "parameters": intent_data.get("action_plan", {}).get("parameters", {}),
                 },
-                {"action": "generate_response", "parameters": {},
+                {"action": "generate_response", "parameters": {}},
             ],
         }
 

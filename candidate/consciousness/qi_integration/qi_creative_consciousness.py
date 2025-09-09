@@ -37,7 +37,7 @@ class QICreativeDemo:
     """Interactive demonstration of quantum creative consciousness"""
 
     def __init__(self):
-        self.session_id = f"demo_{int(datetime.now(timezone.utc).timestamp()}"
+        self.session_id = f"demo_{int(datetime.now(timezone.utc).timestamp())}"
         self.creative_works = []
         self.consciousness_level = 0.85
 
@@ -228,7 +228,7 @@ class QICreativeDemo:
         print("\n📊 EMERGENCE METRICS:")
         print(f"   • Harmony Index: {harmony_index}")
         print(f"   • Innovation Level: {innovation_level}")
-        print(f"   • Collective Consciousness: {(harmony_index + innovation_level)} / 2:.3f}")
+        print(f"   • Collective Consciousness: {(harmony_index + innovation_level) / 2:.3f}")
 
     async def demonstrate_ip_protection(self, creative_work: dict[str, Any]):
         """Demonstrate intellectual property protection for creative works"""
@@ -247,7 +247,7 @@ class QICreativeDemo:
         # Simulate protection layers
         protection_layers = {
             "qi_watermark": f"QW_{content_hash[:16]}",
-            "blockchain_hash": f"BH_{hash(datetime.now(timezone.utc).isoformat()} % 10000000000}",
+            "blockchain_hash": f"BH_{hash(datetime.now(timezone.utc).isoformat()) % 10000000000}",
             "pq_signature": f"PQS_{content_hash[16:32]}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "protection_level": "MAXIMUM",
@@ -270,7 +270,7 @@ class QICreativeDemo:
         self.creative_works.append(protected_work)
 
         print("\n🏛️  Work registered in AI Creative Consciousness Registry")
-        print(f"   Registry ID: CW_{len(self.creative_works)}:04d}")
+        print(f"   Registry ID: CW_{len(self.creative_works):04d}")
 
         return protected_work
 

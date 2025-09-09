@@ -49,7 +49,7 @@ except ImportError:
 
         def remember(self, content: Any, metadata=None):
             key = str(uuid.uuid4())
-            self.storage[key] = {"content": content, "metadata": metadata or {}
+            self.storage[key] = {"content": content, "metadata": metadata or {}}
             return key
 
         def recall(self, key: str):
@@ -595,7 +595,7 @@ class CreativeReasoningAgent(ReasoningAgent):
                                 "novelty_score": novelty,
                                 "confidence": 0.6 * novelty,  # Creative insights have moderate confidence
                                 "symbols": self._extract_symbols(insight),
-                                "new_symbols": [f"ΛCREATIVE_{uuid.uuid4(}.hex[:6]}"],
+                                "new_symbols": [f"ΛCREATIVE_{uuid.uuid4().hex[:6]}"],
                             )}
                         )
 

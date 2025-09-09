@@ -211,8 +211,8 @@ Examples:
                 print("📈 SYMBOLIC TRENDS")
                 print("-" * 30)
                 print(f"Unique symbols: {trends.get('total_unique_tags', 'N/A')}")
-                print(f"Average frequency: {trends.get('average_frequency', 'N/A')}:.1f}")
-                print(f"Average volatility: {trends.get('average_volatility', 'N/A')}:.3f}")
+                print(f"Average frequency: {trends.get('average_frequency', 'N/A'):.1f}")
+                print(f"Average volatility: {trends.get('average_volatility', 'N/A'):.3f}")
 
                 if trends.get("volatile_symbols"):
                     print(f"Most volatile: {', '.join(trends['volatile_symbols'][:3])}")

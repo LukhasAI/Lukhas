@@ -864,11 +864,11 @@ if __name__ == "__main__":
     results = asyncio.run(run_orchestration_tests())
 
     print("\n📈 Test Results Summary:")
-    print(f"  Total Tests: {results.get('summary', {)}).get('total_tests', 0)}")
-    print(f"  Passed: {results.get('summary', {)}).get('passed', 0)}")
-    print(f"  Failed: {results.get('summary', {)}).get('failed', 0)}")
-    print(f"  Success Rate: {results.get('summary', {)}).get('success_rate', 0):.1%}")
-    print(f"  Total Time: {results.get('total_time_ms', 0)}:.2f}ms")
+    print(f"  Total Tests: {results.get('summary', {}).get('total_tests', 0)}")
+    print(f"  Passed: {results.get('summary', {}).get('passed', 0)}")
+    print(f"  Failed: {results.get('summary', {}).get('failed', 0)}")
+    print(f"  Success Rate: {results.get('summary', {}).get('success_rate', 0):.1%}")
+    print(f"  Total Time: {results.get('total_time_ms', 0):.2f}ms")
 
     # Save results to file
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")

@@ -34,8 +34,8 @@ try:
     from .unified_api import api_response  # `app` is the Flask app instance
     from .unified_api import app
 
-    logger.info("ΛTRACE: Successfully imported EnhancedOnboardingManager, OnboardingStage,"
-                OnboardingPersonality, and unified_api components(app, api_response)."
+    logger.info("ΛTRACE: Successfully imported EnhancedOnboardingManager, OnboardingStage, "
+                "OnboardingPersonality, and unified_api components(app, api_response)."
                 )
 except ImportError as e:
     logger.error(
@@ -67,7 +67,7 @@ except ImportError as e:
 
     # If `app` from unified_api cannot be imported, this module cannot define routes on it.
     # This is a critical failure for this file's purpose.
-    if (:
+    if (
         "app" not in locals() or "api_response" not in locals()
     ):  # Check if app was successfully imported
         logger.critical(
@@ -80,7 +80,7 @@ except ImportError as e:
 
         # type: ignore
 
-        def api_response(:
+        def api_response(
             success: bool,
             data: Optional[dict[str, Any]] = None,
             message: Optional[str] = None,

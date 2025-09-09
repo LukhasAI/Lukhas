@@ -86,7 +86,7 @@ def narrate_dreams(limit=3):
         print(f"   🗣 '{summary or 'A quiet dream passed — undefined, but felt.'}'")
         print(f"   🎙️ Voice Profile: {voice}")
         print(
-            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy', 0):.1f} joy and {ev.get('calm', 0)}:.1f} calm.'"
+            f"   💬 'Let this dream echo — it held a trace of {ev.get('joy', 0):.1f} joy and {ev.get('calm', 0):.1f} calm.'"
         )
         print("   💤 … (End of symbolic voice segment)")
 

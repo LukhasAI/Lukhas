@@ -1328,7 +1328,7 @@ async def test_consciousness_engine():
     status = engine.get_system_status()
     print(f"Consciousness state awareness: {status['consciousness_state']['awareness_level']:.2f}")
     print(f"Recent success rate: {status['recent_performance']['success_rate']:.2f}")
-    print(f"Components active: {list(status['components'].keys()}")
+    print(f"Components active: {list(status['components'].keys())}")
 
     # Test 5: Agent Registration and Communication
     print("\nTest 5: Agent Registration and Communication")

@@ -1673,7 +1673,7 @@ async def demonstrate_consciousness():
         # Demonstrate reflection
         logger.info("\n--- Self-Reflection ---")
         reflection = await consciousness.reflect_on_experience()
-        logger.info(f"Patterns identified: {list(reflection['patterns_identified'].keys()}")
+        logger.info(f"Patterns identified: {list(reflection['patterns_identified'].keys())}")
         logger.info(f"Wisdom: {reflection['wisdom_extracted'][0]}")
 
         # Final metrics
