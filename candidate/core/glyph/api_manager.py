@@ -262,7 +262,7 @@ class VeriFoldGlyphGenerator:
     # 4A90E2" stroke-width="3" fill="none"/>'
     {140 + i * 20} L200, {180 + i * 20}" stroke="
     elif role == "lawyer":
-        symbols += f'< polygon points ="190, {150 + i * 20} 210, {150 + i * 20} 205,
+        symbols += f'< polygon points ="190, {150 + i * 20} 210, {150 + i * 20} 205,'
     {170 + i * 20} 195, {170 + i * 20}" fill="  # B8860B" opacity="0.7"/>'
     # Add more roles as needed
     return symbols

@@ -559,7 +559,7 @@ async def main():
 
     events = await audit_logger.query(start_time, end_time, actor_id="user123")
 
-    print(f"Found {len(events}} events for user123")
+    print(f"Found {len(events} events for user123")
 
     # Verify integrity
     integrity = await audit_logger.verify_integrity(start_time, end_time)

@@ -17,6 +17,7 @@ import os
 from datetime import datetime
 
 from memory_log_filter import filter_by_date_range, filter_by_tag, summarize_recent
+from datetime import timezone
 
 lukhas_context_sync.py
 # ════════════════════════════════════════════════════════════════════════

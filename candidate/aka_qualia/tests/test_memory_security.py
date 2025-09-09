@@ -214,11 +214,11 @@ class TestFaultInjection:
         # Test with various types of malformed data
         corrupt_scenarios = [
             # Invalid JSON-like structures
-            {"proto": {"tone": float("inf")}},  # Infinite values
+            {"proto": {"tone": float("inf")},  # Infinite values
             {"proto": {"tone": float("nan")}},  # NaN values
             {"context": {"recursive": None}},  # Circular references would be handled by JSON serializer
             # Extremely nested data
-            {"context": {"level_" + str(i): {"data": f"level_{i}"} for i in range(1000)}},
+            {"context": {"level_" + str(i): {"data": f"level_{i}"} for i in range(1000)},
             # Invalid UTF-8 sequences (if applicable)
             {"subject": "test\x00\x01\x02"},  # Null bytes and control characters
         ]

@@ -1,4 +1,5 @@
 import logging
+from datetime import timezone
 
 #!/usr/bin/env python3
 """
@@ -883,7 +884,7 @@ class ΛDependaBoT(BotProtocol):
         """Check for problematic Unicode characters."""
         problematic_chars = {
             "\u2554",
-            "\u2019",
+            "'",
             "\u201c",
             "\u201d",  # Box drawing, smart quotes
             "\ufeff",  # BOM
@@ -896,7 +897,7 @@ class ΛDependaBoT(BotProtocol):
         # Replace problematic Unicode characters
         replacements = {
             "\u2554": "#",  # Box drawing -> comment
-            "\u2019": "'",  # Smart quote -> regular quote
+            "'": "'",  # Smart quote -> regular quote
             "\u201c": '"',  # Smart quote -> regular quote
             "\u201d": '"',  # Smart quote -> regular quote
             "\ufeff": "",  # Remove BOM

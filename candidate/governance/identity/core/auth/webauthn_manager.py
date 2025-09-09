@@ -20,6 +20,7 @@ import secrets
 import time
 from datetime import datetime, timedelta
 from typing import Any, Optional
+from datetime import timezone
 
 try:
     from webauthn import (

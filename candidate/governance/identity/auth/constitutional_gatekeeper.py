@@ -15,6 +15,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
+from datetime import timezone
 
 # Configure constitutional logging
 logging.basicConfig(level=logging.INFO)

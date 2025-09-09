@@ -11,6 +11,7 @@ from typing import Any, Optional
 from .journal_engine import JournalEngine
 from .learning_assistant import LearningAssistant
 from .pattern_detector import PatternDetector
+from datetime import timezone
 
 
 class SoloDeveloperSupport:

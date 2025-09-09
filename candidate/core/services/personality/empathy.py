@@ -85,7 +85,7 @@ def trait_bar(trait_name, value):
     bar = "█" * int(value * 10)
     space = " " * (10 - len(bar))
     emoji = EMOJI_MAP.get(trait_name, "")
-    return f"{trait_name.upper()}:18}: {bar}{space}  ({value:.2f}) {emoji}"
+    return f"{trait_name.upper():18}: {bar}{space}  ({value:.2f}) {emoji}"
 
 
 def display_visual_traits():

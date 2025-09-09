@@ -15,6 +15,7 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
+from datetime import timezone
 
 
 def get_claude_context():

@@ -54,6 +54,7 @@ import numpy as np
 from candidate.core.common import get_logger
 
 from ..bio_core.bio_symbolic import CardiolipinEncoder, CristaFilter, ProtonGradient, QIAttentionGate
+from datetime import timezone
 
 logger = get_logger(__name__)
 

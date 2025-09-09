@@ -67,6 +67,7 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+from datetime import timezone
 
 # Internal imports
 try:

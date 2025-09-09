@@ -15,6 +15,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 import numpy as np
+from datetime import timezone
 
 
 @dataclass

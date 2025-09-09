@@ -100,7 +100,7 @@ class OllamaManager:
             models_path = Path.home() / ".ollama" / "models"
             if models_path.exists():
                 size = sum(f.stat().st_size for f in models_path.rglob("*") if f.is_file())
-                health["disk_usage"] = f"{size / (1024**3}}:.2f} GB"
+                health["disk_usage"] = f"{size / (1024**3}:.2f} GB"
         except:
             pass
 
@@ -270,7 +270,7 @@ class OllamaManager:
                 if line:
                     # Parse progress if available
                     if "pulling" in line.lower() or "%" in line:
-                        print(f"  {line.strip(}}")
+                        print(f"  {line.strip(}")
 
             process.wait()
 
@@ -530,11 +530,11 @@ async def main():
     config_path = Path(".env.ollama")
     with open(config_path, "w") as f:
         for key, value in config.items():
-            f.write(f"{key.upper(}}={value}\n")
+            f.write(f"{key.upper(}={value}\n")
 
     print("\n" + "=" * 50)
     print("✅ Management Complete!")
-    print(f"   Models Installed: {len(results['health_check'].get('models_loaded', 0}}")
+    print(f"   Models Installed: {len(results['health_check'].get('models_loaded', 0}")
     print(f"   Status: {results['health_check']['status']}")
     print(f"   Config saved to: {config_path}")
 

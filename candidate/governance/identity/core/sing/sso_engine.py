@@ -17,6 +17,7 @@ import json
 import secrets
 from datetime import datetime, timedelta
 from typing import Optional
+from datetime import timezone
 
 
 class LambdaSSOEngine:

@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 from candidate.core.common import get_logger
+from datetime import timezone
 
 # Configure module logger
 logger = get_logger(__name__)

@@ -13,6 +13,7 @@ from typing import Any, Optional
 
 # VIVOX imports
 from ..memory_expansion.vivox_me_core import EmotionalDNA, MemoryHelixEntry, VIVOXMemoryExpansion
+from datetime import timezone
 
 
 @dataclass

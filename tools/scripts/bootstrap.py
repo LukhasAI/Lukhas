@@ -119,7 +119,7 @@ class LUKHAS:
                 print("\\nUse 'exit' to quit properly")
             except Exception as e:
                 logger.error(f"Error: {e}" {name}: {status}"")
-            print(f"Status: {info.get('status'}}"' not found}"...")
+            print(f"Status: {info.get('status'}"' not found}"...")
 
         self.is_running = False
         logger.info("✅ LUKHAS shutdown complete")

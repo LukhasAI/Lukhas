@@ -301,7 +301,7 @@ class SecurityComplianceChecker:
         for check_name, check_result in results["checks"].items():
             report.extend(
                 [
-                    f"##"_', ' ').title()}",
+                    f"##"_', ' ').title()}",'
                     f"**Status:** {check_result['status']}",
                     "",
                 ]

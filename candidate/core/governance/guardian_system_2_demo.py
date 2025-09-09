@@ -476,7 +476,7 @@ class GuardianSystem2Demo:
         print(f"  Components Connected: {sum(status['components'].values()}/3")
         print(f"  Monitored Functions: {status['monitoring']['monitored_functions']}")
         print(f"  Total Integrations: {status['performance']['total_integrations']}")
-        print(f"  Average Processing Time: {status['performance'].get('average_processing_time_ms', 0)}:.1f}ms")
+        print(f"  Average Processing Time: {status['performance'].get('average_processing_time_ms', 0):.1f}ms")
 
         print("\n🌉 LUKHAS integration demonstration completed")
 
@@ -522,7 +522,7 @@ class GuardianSystem2Demo:
         total_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         print(f"\nReal-time monitoring completed in {total_time:.1f}ms")
-        print(f"Average per operation: {total_time / len(operations)}:.1f}ms")
+        print(f"Average per operation: {total_time / len(operations):.1f}ms")
 
         # System status summary
         guardian_status = await self.guardian_system.get_system_status()

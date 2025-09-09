@@ -63,6 +63,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import openai
+from datetime import timezone
 
 # Import LUKHAS core modules
 try:

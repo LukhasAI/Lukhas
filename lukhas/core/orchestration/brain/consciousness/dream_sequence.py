@@ -7,6 +7,7 @@ Description: Dream sequence orchestration for consciousness processing.
 
 from datetime import datetime
 from typing import Any, Dict
+from datetime import timezone
 
 
 class DreamSequence:

@@ -528,7 +528,7 @@ class MemoryReplayer:
                 "sequences_created": self.sequences_created,
                 "sessions_started": self.sessions_started,
                 "total_replay_time": f"{self.total_replay_time:.1f}s",
-                "avg_session_duration": f"{self.total_replay_time / max(self.sessions_started, 1)}:.1f}s",
+                "avg_session_duration": f"{self.total_replay_time / max(self.sessions_started, 1):.1f}s",
             },
             "configuration": {
                 "max_active_sessions": self.max_active_sessions,

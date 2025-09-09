@@ -1557,7 +1557,7 @@ class MetaLearningPatternSystem:
                 # Extract context around error
                 import re
 
-                pattern = rf".{{0,30}}{re.escape(indicator)}{{0,30}}"
+                pattern = rf".{{0,30}{re.escape(indicator)}{{0,30}"
                 matches = re.findall(pattern, content_lower)
                 if matches:
                     errors.extend(matches)
@@ -1587,7 +1587,7 @@ class MetaLearningPatternSystem:
             if indicator in content_lower:
                 import re
 
-                pattern = rf".{{0,30}}{re.escape(indicator)}{{0,30}}"
+                pattern = rf".{{0,30}{re.escape(indicator)}{{0,30}"
                 matches = re.findall(pattern, content_lower)
                 if matches:
                     corrections.extend(matches)

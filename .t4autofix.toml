@@ -138,9 +138,9 @@ import_replacements = [
 
 # Common docstring issues
 docstring_patterns = [
-    ["\"\"\"\"\"\"", '"""'],  # Six quotes to three
+    ['""""""', '"""'],  # Six quotes to three
     ["''''''", "'''"],      # Six single quotes to three
-    ["\"\"", '"""'],         # Incomplete docstring
+    ['""', '"""']         # Incomplete docstring
 ]
 
 [syntax_validation]

@@ -647,8 +647,8 @@ class BioQuantumRadarIntegration:
 
             self.logger.info(
                 f"Bio-Quantum reasoning with radar analytics completed. "
-                f"Confidence: {reasoning_result.get('confidence', 0)}:.3f}, "
-                f"Coherence: {reasoning_result.get('coherence', 0)}:.3f}"
+                f"Confidence: {reasoning_result.get('confidence', 0):.3f}, "
+                f"Coherence: {reasoning_result.get('coherence', 0):.3f}"
             )
 
             return result

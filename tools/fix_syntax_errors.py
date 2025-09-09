@@ -141,8 +141,8 @@ class PythonSyntaxFixer:
         replacements = {
             "\u201c": '"',  # Left double quotation mark
             "\u201d": '"',  # Right double quotation mark
-            "\u2018": "'",  # Left single quotation mark
-            "\u2019": "'",  # Right single quotation mark
+            "'": "'",  # Left single quotation mark
+            "'": "'",  # Right single quotation mark
             '"': '"',  # Another right double quote variant
             """'""": "'",  # Another right single quote variant
         }

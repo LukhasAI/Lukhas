@@ -21,7 +21,7 @@ class CriticalSyntaxFixer:
         content = re.sub(r'(f"[^"]*\{[^}]+)\}(\[:?\d+\])\}', r"\1\2}", content)
         content = re.sub(r"(f'[^']*\{[^}]+)\}(\[:?\d+\])\}", r"\1\2}", content)
 
-        # Pattern 2: f"...{var}:.3f}" -> f"...{var:.3f}"
+        # Pattern 2: f"...{var:.3f}" -> f"...{var:.3f}"
         content = re.sub(r'(f"[^"]*\{[^}]+)\}(\:[.\d]+f)\}', r"\1\2}", content)
         content = re.sub(r"(f'[^']*\{[^}]+)\}(\:[.\d]+f)\}", r"\1\2}", content)
 

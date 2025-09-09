@@ -17,6 +17,7 @@ from candidate.core.enhanced_swarm import EnhancedSwarmHub
 # Import swarm infrastructure
 from candidate.core.swarm import SwarmTask, TaskPriority
 from governance.identity.core.colonies import (
+from datetime import timezone
     BiometricVerificationColony,
     ConsciousnessVerificationColony,
     DreamVerificationColony,

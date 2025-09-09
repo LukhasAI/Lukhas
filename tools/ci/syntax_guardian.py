@@ -19,6 +19,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple
+from datetime import timezone
 
 # Error thresholds for mass breakage detection
 SYNTAX_ERROR_THRESHOLDS = {

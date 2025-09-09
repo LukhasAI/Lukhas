@@ -27,6 +27,7 @@ import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 from ..core.pydantic_utilities import IS_PYDANTIC_V2  # ΛDEP: project-specific
 from ..core.unchecked_base_model import UncheckedBaseModel  # ΛDEP: project-specific
 from .conv_ai_secret_locator import ConvAiSecretLocator
+import logging
 
 # AIMPORTS_END
 

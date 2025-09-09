@@ -399,7 +399,7 @@ class DNAHealixCore:
         """Validate repaired strand meets safety constraints"""
         # Check entropy
         if repaired.entropy() < self.entropy_threshold:
-            logger.warning(f"⚠️ Low entropy {repaired.entropy()}:.3f}, using origin")
+            logger.warning(f"⚠️ Low entropy {repaired.entropy():.3f}, using origin")
             return self.origin
 
         # Check not empty
@@ -500,7 +500,7 @@ class MemoryHelix:
         self.locked = False  # For GDPR compliance
 
     def __repr__(self) -> str:
-        return f"MemoryHelix({self.memory_id}, drift={self.helix_core.calculate_drift()}:.3f})"
+        return f"MemoryHelix({self.memory_id}, drift={self.helix_core.calculate_drift():.3f})"
 
     def access(self) -> dict[str, Any]:
         """Access memory with tracking"""
@@ -673,14 +673,14 @@ if __name__ == "__main__":
     memory.mutate(drifted_glyphs)
 
     print(f"\n🌊 After drift: {' → '.join(drifted_glyphs)}")
-    print(f"📊 Drift score: {memory.helix_core.calculate_drift()}:.3f}")
+    print(f"📊 Drift score: {memory.helix_core.calculate_drift():.3f}")
 
     # Repair
     if memory.helix_core.should_repair():
         print("\n🛠 Initiating repair...")
         memory.helix_core.repair(RepairMethod.PARTIAL_HEAL)
         print(f"✅ Repaired: {' → '.join(memory.helix_core.current.sequence)}")
-        print(f"📊 New drift: {memory.helix_core.calculate_drift()}:.3f}")
+        print(f"📊 New drift: {memory.helix_core.calculate_drift():.3f}")
 
     # Show repair history
     if memory.helix_core.repair_history:

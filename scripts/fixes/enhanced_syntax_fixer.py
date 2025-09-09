@@ -28,6 +28,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
+from datetime import timezone
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -115,7 +116,7 @@ class EnhancedSyntaxFixer:
         for line in lines:
             new_line = line
             
-            # Pattern 1: f'{variable}}' -> f'{variable}' (extra closing brace)
+            # Pattern 1: f'{variable}' -> f'{variable}' (extra closing brace)
             pattern1 = re.compile(r'f(["\'])([^"\']*\{[^}]*\})\}(["\'])')
             matches = pattern1.findall(new_line)
             for quote, middle, end_quote in matches:
@@ -125,7 +126,7 @@ class EnhancedSyntaxFixer:
                     new_line = new_line.replace(old_pattern, new_pattern, 1)
                     fixes += 1
             
-            # Pattern 2: f'{variable}}:' -> f'{variable}:' (extra brace before colon)
+            # Pattern 2: f'{variable}:' -> f'{variable}:' (extra brace before colon)
             pattern2 = re.compile(r'f(["\'])([^"\']*\{[^}]*\})\}:')
             matches = pattern2.findall(new_line)
             for quote, middle in matches:

@@ -440,6 +440,6 @@ if __name__ == "__main__":
     print("===================")
     print("Quantum-Biological Artificial General Intelligence System")
     print("Features: Meta - cognition, Multi - modal Reasoning, Quantum Attention,"
-          Ethical Compliance"
+          Ethical Compliance""
           )
     print("\nUsage: from brain.agi_bot import AGIBot")

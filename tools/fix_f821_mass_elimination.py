@@ -241,7 +241,7 @@ class F821MassEliminator:
         
         logger.info("=" * 60)
         logger.info("🎯 ELITE F821 MASS ELIMINATION COMPLETE!")
-        logger.info(f"⏱️  Duration: {duration.total_seconds()}:.2f} seconds")
+        logger.info(f"⏱️  Duration: {duration.total_seconds():.2f} seconds")
         logger.info(f"📊 Files processed: {len(self.processed_files)}")
         logger.info(f"❌ Files failed: {len(self.failed_files)}")
         logger.info("📈 Import fixes applied:")

@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 from memory.systems.healix_memory_core import HealixMemoryCore
+import logging
 
 
 class HelixRepairModule:

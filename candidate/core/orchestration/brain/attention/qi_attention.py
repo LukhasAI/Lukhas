@@ -8,6 +8,7 @@ import copy
 from datetime import datetime
 
 import numpy as np
+from datetime import timezone
 
 
 class QIInspiredAttention:

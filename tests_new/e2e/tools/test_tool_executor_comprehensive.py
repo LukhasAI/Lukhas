@@ -494,7 +494,7 @@ class TestIntegration:
         for i in range(3):
             await orchestrator.execute_with_orchestration(
                 "retrieve_knowledge",
-                f'{{"query": "performance test {i}"}}',
+                f'{{"query": "performance test {i}"}',
                 {"lid": f"perf_user_{i}"},
             )
 

@@ -21,6 +21,7 @@ from lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice im
 
 # Voice components
 from .voice_parameter import VoiceParameter
+from datetime import timezone
 
 try:
     from tools.documentation.memory_evolution.voice_synthesis import (

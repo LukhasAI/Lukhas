@@ -204,7 +204,7 @@ class QRSManager:
 
             logger.info(
                 f"ΛTRACE: ΛiD created successfully - Tier {tier_level},"
-                Entropy: {entropy_score: .3f}"
+                Entropy: {entropy_score: .3f}""
             )
             return result
 

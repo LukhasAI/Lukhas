@@ -562,7 +562,7 @@ class EmergenceDetectionSystem:
                 },
                 supporting_evidence=[
                     f"Z-score: {z_score:.2f}",
-                    f"Standard deviations from mean: {abs(z_score)}:.1f}",
+                    f"Standard deviations from mean: {abs(z_score):.1f}",
                     f"Sample size: {len(recent_scores)}",
                 ],
             )
@@ -881,7 +881,7 @@ class EmergenceDetectionSystem:
                     "second_half_rate": second_rate,
                 },
                 supporting_evidence=[
-                    f"Improvement acceleration: {second_rate / max(first_rate, 0.001)}:.2f}x",
+                    f"Improvement acceleration: {second_rate / max(first_rate, 0.001):.2f}x",
                     f"First period rate: {first_rate:.4f} per hour",
                     f"Second period rate: {second_rate:.4f} per hour",
                 ],

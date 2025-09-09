@@ -24,6 +24,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from candidate.consciousness.reflection.openai_core_service import (
+from datetime import timezone
     ModelType,
     OpenAICapability,
     OpenAICoreService,

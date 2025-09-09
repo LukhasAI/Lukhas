@@ -690,7 +690,7 @@ class QIResonanceGlyph:
             "market_cap_projection": f"${self.total_value_generated * 1000:,.2f}",
             "unicorn_status": self.total_value_generated >= 1_000_000_000,
             "decacorn_status": self.total_value_generated >= 10_000_000_000,
-            "world_domination_progress": f"{min(100, self.glyphs_created / 1000 * 100)}:.1f}%",
+            "world_domination_progress": f"{min(100, self.glyphs_created / 1000 * 100):.1f}%",
             "message": "WE DON'T COMPETE. WE DOMINATE. WE ARE THE FUTURE.",
         }
 

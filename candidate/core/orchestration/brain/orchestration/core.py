@@ -55,6 +55,7 @@ import logging
 import uuid
 from datetime import datetime
 from typing import Any, Optional
+from datetime import timezone
 
 # Integration imports - Updated fallback chains following CODEX_ENHANCEMENT_PLAN Phase 4
 

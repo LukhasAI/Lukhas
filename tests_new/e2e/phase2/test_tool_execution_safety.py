@@ -155,8 +155,8 @@ print(f"Computation took {end - start} seconds")
         # Test that containers are properly isolated
         isolation_test_code = """
 import os
-print(f"Current user: {os.getuid(}}")
-print(f"Available commands: {os.listdir('/usr/bin'}}[:5]}")
+print(f"Current user: {os.getuid(}")
+print(f"Available commands: {os.listdir('/usr/bin'}[:5]}")
 """
 
         result = await docker_sandbox.execute_python_code(isolation_test_code)

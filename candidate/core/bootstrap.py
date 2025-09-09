@@ -12,6 +12,7 @@ from lukhas.core.adapters.module_service_adapter import register_service_adapter
 from lukhas.core.adapters.seven_agent_adapter import register_seven_agent_services
 from lukhas.core.container.service_container import ServiceContainer, get_container
 from lukhas.core.events.contracts import (
+from datetime import timezone
     ConsciousnessStateChanged,
     DreamGenerated,
     MemoryFoldCreated,

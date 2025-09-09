@@ -156,7 +156,7 @@ class SafeFStringFixer:
         print(f"Files successfully fixed: {success_count}")
         print(f"Total fixes applied: {self.fixes_applied}")
         print(f"Validation failures: {self.validation_failures}")
-        print(f"Success rate: {(success_count/self.files_processed*100}:.1f}%")
+        print(f"Success rate: {(success_count/self.files_processed*100:.1f}%")
 
         return success_count > 0
 

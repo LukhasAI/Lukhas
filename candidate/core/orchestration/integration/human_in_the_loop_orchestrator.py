@@ -1270,7 +1270,7 @@ class HumanInTheLoopOrchestrator:
             )
 
             # Return basic explanation to maintain workflow continuity
-            return f"AI Analysis: Decision type '{context.decision_type}' with confidence {getattr(context, 'ai_confidence', 0.0)}:.2f}. Full explanation temporarily unavailable."
+            return f"AI Analysis: Decision type '{context.decision_type}' with confidence {getattr(context, 'ai_confidence', 0.0):.2f}. Full explanation temporarily unavailable."
 
     async def _generate_human_explanation(self, decision: DecisionRecord) -> str:
         """Generate human-readable explanation of the final decision."""

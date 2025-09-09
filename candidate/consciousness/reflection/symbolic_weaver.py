@@ -44,6 +44,7 @@ from typing import Any, Optional
 
 import numpy as np
 from dream.modifiers.qi_like_state_modifier import QILikeStateModifier
+from datetime import timezone
 
 # Configure structured logging
 logging.basicConfig(level=logging.INFO)

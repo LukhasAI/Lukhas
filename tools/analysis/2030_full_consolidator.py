@@ -321,7 +321,7 @@ class LUKHAS2030Consolidator:
                 "current_files": total_current_files,
                 "current_lines": total_current_lines,
                 "potential_lines_saved": total_lines_saved,
-                "overall_reduction": f"{(total_lines_saved / total_current_lines * 100)}:.0f}%",
+                "overall_reduction": f"{(total_lines_saved / total_current_lines * 100):.0f}%",
             },
             "systems": self.analysis_results,
             "implementation_plan": self._generate_implementation_plan(),

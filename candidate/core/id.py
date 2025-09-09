@@ -26,6 +26,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
+from datetime import timezone
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:

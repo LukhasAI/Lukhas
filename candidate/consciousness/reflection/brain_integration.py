@@ -34,6 +34,8 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 from candidate.core.common import get_logger
+from datetime import timezone
+import logging
 
 # Configure logging
 logger = logging.getLogger("lucas.brain", timezone)

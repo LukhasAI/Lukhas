@@ -232,7 +232,7 @@ async def main():
         print("✅ Sistema Demo Test: PASSED")
         demo_data = demo_results.get("demo_results", {})
         print(f"   - Total signals: {demo_data.get('total_signals_processed', 0)}")
-        print(f"   - Network health: {demo_data.get('final_network_health', 0)}:.3f}")
+        print(f"   - Network health: {demo_data.get('final_network_health', 0):.3f}")
     else:
         print("❌ Sistema Demo Test: FAILED")
         print(f"   - Error: {demo_results.get('error', 'Unknown error')}")

@@ -43,6 +43,7 @@ from openai import AsyncOpenAI, OpenAI
 
 # Internal imports
 from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+from datetime import timezone
 
 logger = logging.getLogger("ΛTRACE.dream.openai_integration")
 

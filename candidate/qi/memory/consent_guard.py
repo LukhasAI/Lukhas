@@ -13,6 +13,7 @@ import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Any
+from datetime import timezone
 
 
 @dataclass

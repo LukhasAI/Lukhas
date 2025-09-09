@@ -12,6 +12,7 @@ import time
 import streamlit as st
 
 from consciousness.qi import qi
+from datetime import timezone
 
 """
 Enhanced AI Bot - True Artificial General Intelligence System

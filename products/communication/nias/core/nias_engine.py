@@ -494,7 +494,7 @@ class NIASEngine:
                         }
 
                         logger.debug(
-                            f"DΛST symbolic processing for {user_id}: {len(symbolic_context.get('symbolic_tags', []))} symbols, coherence {symbolic_context.get('coherence_score', 0)}:.2f}"
+                            f"DΛST symbolic processing for {user_id}: {len(symbolic_context.get('symbolic_tags', []))} symbols, coherence {symbolic_context.get('coherence_score', 0):.2f}"
                         )
                         return {"processed_message": processed_message}
 
