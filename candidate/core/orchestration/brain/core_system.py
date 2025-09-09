@@ -152,7 +152,7 @@ class AGIBot:
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
         self.initialization_time = datetime.now(timezone.utc)
-        self.subsystem_id = f"LUKHAS-AI-AGI-{uuid.uuid4()}.hex[:8]}"
+        self.subsystem_id = f"LUKHAS-AI-AGI-{uuid.uuid4().hex[:8]}"
 
         # Core capability level
         self.capability_level = AGICapabilityLevel.QUANTUM_BIOLOGICAL

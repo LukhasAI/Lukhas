@@ -1091,7 +1091,7 @@ if __name__ == "__main__":
         # Get response
         response = await controller.get_response(request_id)
         if response:
-            print(f"Response: {json.dumps(asdict(response}, indent=2, default=str}")
+            print(f"Response: {json.dumps(asdict(response}, indent=2, default=str)}")
 
         # Get AGI status including compliance
         status = await controller.get_agi_status()

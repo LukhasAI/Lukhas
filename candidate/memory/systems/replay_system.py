@@ -547,7 +547,7 @@ class MemoryReplayer:
         for memory_fold_id in memory_fold_ids:
             # Mock snapshot creation (would integrate with actual memory system)
             snapshot = MemorySnapshot(
-                snapshot_id=f"snap_{uuid.uuid4()}.hex[:6]}",
+                snapshot_id=f"snap_{uuid.uuid4().hex[:6]}",
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 memory_fold_id=memory_fold_id,
                 content={"mock_content": f"Content for {memory_fold_id}"},

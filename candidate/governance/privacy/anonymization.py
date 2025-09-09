@@ -394,7 +394,7 @@ class AdvancedAnonymizationEngine:
             Tuple of (anonymized_dataset, result)
         """
         start_time = datetime.now(timezone.utc)
-        operation_id = f"anon_{uuid.uuid4()}.hex[:8]}"
+        operation_id = f"anon_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
         try:

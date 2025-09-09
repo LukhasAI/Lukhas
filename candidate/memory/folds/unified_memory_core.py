@@ -371,7 +371,7 @@ class ConsolidatedUnifiedmemorycore:
         fold_key = f"fold_{memory_id}_{int(time.time(} * 1000}"
 
         return MemoryOperation(
-            operation_id=f"op_{int(time.time(} * 1000000}",
+            operation_id=f"op_{int(time.time(} * 1000000)}",
             operation_type=operation_type,
             memory_id=memory_id,
             fold_key=fold_key,

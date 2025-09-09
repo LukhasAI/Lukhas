@@ -452,7 +452,7 @@ class ConsciousnessService:
                     "requested_awareness_level_key": requested_awareness_level_key,
                     "error_message": error_message_str,
                     "exception_class": type(e}.__name__,
-                },
+                )},
             )
             return {"success": False, "error": error_message_str}
 

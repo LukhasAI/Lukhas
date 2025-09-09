@@ -680,7 +680,7 @@ class MemoryEmotionalIntegrator:
             common_tags = cluster["common_tags"]
 
             # Create a consolidated memory for the cluster
-            consolidated_key = f"consolidated_{int(time.time())}_{uuid.uuid4(}}.hex[:6]}"
+            consolidated_key = f"consolidated_{int(time.time())}_{uuid.uuid4(}.hex[:6])}"
 
             # Check cluster for emotional content
             emotional_context = self.context_reasoner.analyze_emotional_context(cluster_keys)
@@ -943,7 +943,7 @@ class LucasBrainIntegration:
         if action == "store_memory":
             # Store memory with emotional context
             result = self.memory_emotional.store_memory_with_emotion(
-                key=content.get("key", f"memory_{int(time.time(}}"),
+                key=content.get("key", f"memory_{int(time.time()}"),
                 content=content.get("content"),
                 emotion=content.get("emotion"),
                 tags=content.get("tags"),

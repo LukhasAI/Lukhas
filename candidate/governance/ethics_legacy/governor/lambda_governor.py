@@ -303,7 +303,7 @@ class LambdaGovernor:
 
             # Create response
             response = ArbitrationResponse(
-                response_id=f"RESP_{uuid.uuid4()}.hex[:8]}",
+                response_id=f"RESP_{uuid.uuid4().hex[:8]}",
                 signal_id=signal.signal_id,
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 decision=decision,
@@ -355,7 +355,7 @@ class LambdaGovernor:
 
             # Return emergency response
             return ArbitrationResponse(
-                response_id=f"EMERGENCY_{uuid.uuid4()}.hex[:8]}",
+                response_id=f"EMERGENCY_{uuid.uuid4().hex[:8]}",
                 signal_id=signal.signal_id,
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 decision=ActionDecision.FREEZE,
@@ -576,7 +576,7 @@ class LambdaGovernor:
             response: Governor arbitration response
         """
         notification = {
-            "notification_id": f"NOTIFY_{uuid.uuid4()}.hex[:8]}",
+            "notification_id": f"NOTIFY_{uuid.uuid4().hex[:8]}",
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "source": "ΛGOVERNOR",
             "type": "intervention_decision",
@@ -646,7 +646,7 @@ class LambdaGovernor:
     async def _execute_intervention(self, response: ArbitrationResponse) -> InterventionExecution:
         """Execute the authorized intervention."""
         execution = InterventionExecution(
-            execution_id=f"EXEC_{uuid.uuid4()}.hex[:8]}",
+            execution_id=f"EXEC_{uuid.uuid4().hex[:8]}",
             response_id=response.response_id,
             timestamp=datetime.now(timezone.utc).isoformat(),
             decision=response.decision,
@@ -865,7 +865,7 @@ class LambdaGovernor:
             return None
 
         return {
-            "rollback_id": f"ROLLBACK_{uuid.uuid4()}.hex[:8]}",
+            "rollback_id": f"ROLLBACK_{uuid.uuid4().hex[:8]}",
             "created": datetime.now(timezone.utc).isoformat(),
             "intervention_type": decision.value,
             "affected_symbols": signal.symbol_ids,
@@ -927,7 +927,7 @@ def create_escalation_signal(
     """Create an escalation signal for governor processing."""
 
     return EscalationSignal(
-        signal_id=f"ESC_{uuid.uuid4()}.hex[:8]}",
+        signal_id=f"ESC_{uuid.uuid4().hex[:8]}",
         timestamp=datetime.now(timezone.utc).isoformat(),
         source_module=source_module,
         priority=priority,

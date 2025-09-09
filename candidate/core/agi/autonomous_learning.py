@@ -502,7 +502,7 @@ class AutonomousLearningPipeline:
         """Generate unique goal ID"""
         import uuid
 
-        return f"learn_{uuid.uuid4()}.hex[:8]}"
+        return f"learn_{uuid.uuid4().hex[:8]}"
 
 
 class KnowledgeSynthesizer:

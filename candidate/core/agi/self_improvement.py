@@ -315,7 +315,7 @@ class SelfImprovementEngine:
         """Generate unique goal ID"""
         import uuid
 
-        return f"goal_{uuid.uuid4()}.hex[:8]}"
+        return f"goal_{uuid.uuid4().hex[:8]}"
 
     def _select_strategy(self, domain: ImprovementDomain, current: float, target: float) -> str:
         """Select improvement strategy based on gap"""

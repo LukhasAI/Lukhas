@@ -121,7 +121,7 @@ class OnboardingSession:
 
     def create_session(self, user_info: dict[str, Any], referral_code: Optional[str] = None) -> dict[str, Any]:
         """Create new onboarding session"""
-        session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4()}.hex[:8]}"
+        session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}"
 
         session_data = {
             "session_id": session_id,
@@ -404,7 +404,7 @@ if FASTAPI_AVAILABLE:
         """Start the user onboarding process"""
         request_id = f"onboard_start_{int(time.time(} * 1000}"
 
-        logger.info(f"🚀 Starting onboarding: {request_id}")
+        logger.info(f"🚀 Starting onboarding: {request_id)}")
         logger.info(f"   User info keys: {list(request.user_info.keys()} if request.user_info else []}")
         logger.info(f"   Referral code: {request.referral_code is not None}")
 
@@ -462,7 +462,7 @@ if FASTAPI_AVAILABLE:
         """Set up user tier based on profile and requirements"""
         request_id = f"onboard_tier_{int(time.time(} * 1000}"
 
-        logger.info(f"🎯 Setting up tier: {request_id}")
+        logger.info(f"🎯 Setting up tier: {request_id)}")
         logger.info(f"   Session: {request.session_id}")
         logger.info(f"   Experience: {request.experience_level}")
         logger.info(f"   Use cases: {request.use_cases}")
@@ -551,7 +551,7 @@ if FASTAPI_AVAILABLE:
         """Collect and validate user consent with HIPAA compliance support"""
         request_id = f"onboard_consent_{int(time.time(} * 1000}"
 
-        logger.info(f"📝 Collecting consent: {request_id}")
+        logger.info(f"📝 Collecting consent: {request_id)}")
         logger.info(f"   Session: {request.session_id}")
         logger.info(f"   Consent types: {list(request.consent_choices.keys()}")
 
@@ -647,7 +647,7 @@ if FASTAPI_AVAILABLE:
         """Complete the onboarding process and activate user account"""
         request_id = f"onboard_complete_{int(time.time(} * 1000}"
 
-        logger.info(f"🏁 Completing onboarding: {request_id}")
+        logger.info(f"🏁 Completing onboarding: {request_id)}")
         logger.info(f"   Session: {request.session_id}")
         logger.info(f"   Completed steps: {request.completed_steps}")
 
@@ -681,7 +681,7 @@ if FASTAPI_AVAILABLE:
                 )
 
             # Generate ΛiD and API key
-            lambda_id = f"λ-{int(time.time() * 1000)}-{uuid.uuid4()}.hex[:8]}"
+            lambda_id = f"λ-{int(time.time() * 1000)}-{uuid.uuid4().hex[:8]}"
             assigned_tier = session.get("assigned_tier", "LAMBDA_TIER_1")
             api_key = session_manager.generate_api_key(lambda_id, assigned_tier)
 

@@ -226,7 +226,7 @@ class DreamIntegrator:
 
             # Create fragment
             fragment = DreamFragment(
-                fragment_id=f"frag_{uuid.uuid4()}.hex[:6]}",
+                fragment_id=f"frag_{uuid.uuid4().hex[:6]}",
                 dream_id=dream_id,
                 content=content,
                 memory_sources=memory_sources or [],

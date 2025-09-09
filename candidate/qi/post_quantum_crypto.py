@@ -225,8 +225,8 @@ class PostQuantumCryptoEngine:
         return True, {
             "timestamp_verified": bool(timestamp),
             "proof_type": "hybrid" if self.hybrid_mode else "pure_quantum",
-            "security_level": str(SecurityLevel.NIST_5.name}},
-        }
+            "security_level": str(SecurityLevel.NIST_5.name},
+        )}
 
     def create_identity_proof(
         self, identity_attributes: dict[str, Any], include_timestamp: bool = True

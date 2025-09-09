@@ -130,7 +130,7 @@ class DecisionExplanation:
                     "",
                     "System State:",
                     f"  Hormonal Profile: {self._format_hormonal_state()}",
-                    f"  Active Tags: {', '.join(sorted(self.relevant_tags}[:5]}",
+                    f"  Active Tags: {', '.join(sorted(self.relevant_tags}[:5])}",
                 ]
             )
 

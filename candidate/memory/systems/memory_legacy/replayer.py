@@ -237,7 +237,7 @@ if __name__ == "__main__":
             try:
                 with open(dummy_log_file_path, "w", encoding="utf-8") as f:
                     dummy_dream_entry = {
-                        "dream_log_id": f"placeholder_dream_{uuid.uuid4()}.hex[:6]}",
+                        "dream_log_id": f"placeholder_dream_{uuid.uuid4().hex[:6]}",
                         "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                         "dream_narrative_text": "A placeholder dream about replayed echoes.",
                         "extracted_visual_prompts": [],

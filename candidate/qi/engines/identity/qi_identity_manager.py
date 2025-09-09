@@ -531,7 +531,7 @@ class QIIdentityManager:
 
         nist_level = nist_level_map[security_level]
         key_pair = self.qi_key_manager.generate_key_pair(nist_level)
-        key_id = f"qi_key_{user_id}_{int(time.time()}"
+        key_id = f"qi_key_{user_id}_{int(time.time())"
 
         # Store key pair (in production, this would be in secure storage)
         self.qi_key_manager.store_key_pair(key_id, key_pair)
@@ -554,7 +554,7 @@ class QIIdentityManager:
 
             return False
         except Exception as e:
-            self.logger.error(f"Quantum credential verification failed: {e}")
+            self.logger.error(f"Quantum credential verification failed: {e)}")
             return False
 
     async def _calculate_identity_generation(self, parent_identity_id: str) -> int:

@@ -390,7 +390,7 @@ def main():
 
     print("\n✅ Consolidation Complete!")
     print(f"  - Connections made: {consolidator.connections_made}")
-    print(f"  - Total changes: {len(consolidator.changes}}")
+    print(f"  - Total changes: {len(consolidator.changes)}")
 
     print("\n📊 Module Summary:")
     for module, summary in report["module_summary"].items():

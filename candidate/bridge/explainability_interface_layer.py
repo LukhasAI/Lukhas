@@ -304,7 +304,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
     ) -> ExplanationOutput:
         """Generate multi-modal explanation output"""
 
-        explanation_id = f"explanation_{uuid.uuid4()}.hex[:8]}"
+        explanation_id = f"explanation_{uuid.uuid4().hex[:8]}"
         output = ExplanationOutput(
             explanation_id=explanation_id,
             request_id=request.request_id,
@@ -1413,7 +1413,7 @@ class ExplainabilityInterfaceLayer:
 
                 fallback_data = f"{explanation.explanation_id}:{explanation.timestamp.isoformat()}:{explanation.natural_language[:100]}"
                 fallback_hash = hashlib.sha256(fallback_data.encode()).hexdigest()[:16]
-                return f"FALLBACK_SIG_{int(time.time()}_{fallback_hash}"
+                return f"FALLBACK_SIG_{int(time.time())_{fallback_hash}"
             except Exception:
                 return "SIGNING_FAILED"
 

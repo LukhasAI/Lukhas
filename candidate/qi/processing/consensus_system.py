@@ -288,7 +288,7 @@ class QIConsensusSystem:
         self._validate_quantum_like_state(proposed_state)
 
         # Create proposal
-        proposal_id = f"prop_{component_id}_{int(time.time(} * 1000}"
+        proposal_id = f"prop_{component_id}_{int(time.time(} * 1000)}"
         proposal = ConsensusProposal(
             proposal_id=proposal_id,
             proposer_id=component_id,

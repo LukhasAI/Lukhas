@@ -642,7 +642,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
     async def _generate_governance_threat(self, issue_type: str):
         """Generate governance-specific threat"""
-        threat_id = f"GOV-{int(time.time()}"
+        threat_id = f"GOV-{int(time.time())"
 
         threat = ThreatEvent(
             id=threat_id,

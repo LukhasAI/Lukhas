@@ -56,7 +56,7 @@ class BaseModule(ABC):
         """
         self.module_name = module_name
         self.module_type = module_type
-        self.module_id = f"{module_name}_{uuid.uuid4()}.hex[:8]}"
+        self.module_id = f"{module_name}_{uuid.uuid4().hex[:8]}"
 
         # Core components
         self.logger = get_module_logger(f"{module_type}.{module_name}")

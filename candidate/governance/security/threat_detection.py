@@ -321,7 +321,7 @@ class BehavioralAnalyzer:
             unusual_resources = accessed_resources - profile.typical_resources
             if unusual_resources:
                 score += 0.4 * min(1.0, len(unusual_resources) / 3)
-                details.append(f"Access to unusual resources: {', '.join(list(unusual_resources}[:3]}")
+                details.append(f"Access to unusual resources: {', '.join(list(unusual_resources}[:3])}")
 
             # Check for bulk access (potential data exfiltration)
             if len(accessed_resources) > len(profile.typical_resources) * 2:
@@ -589,7 +589,7 @@ class PatternRecognizer:
         if confidence >= pattern["confidence_threshold"]:
             # Create threat event
             threat_event = ThreatEvent(
-                event_id=f"threat_{uuid.uuid4()}.hex[:8]}",
+                event_id=f"threat_{uuid.uuid4().hex[:8]}",
                 timestamp=datetime.now(timezone.utc),
                 threat_type=pattern["threat_type"],
                 threat_level=self._calculate_threat_level(confidence),
@@ -1111,7 +1111,7 @@ class ComprehensiveThreatDetection:
             Analysis result with threat assessment
         """
 
-        analysis_id = f"analysis_{uuid.uuid4()}.hex[:8]}"
+        analysis_id = f"analysis_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
         try:

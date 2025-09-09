@@ -1228,7 +1228,7 @@ class OrchestrationService:
                 if self.message_bus:
                     await self.message_bus.send_message(
                         Message(
-                            id=f"perf_monitor_trinity_{user_id}_{int(time.time()}",
+                            id=f"perf_monitor_trinity_{user_id}_{int(time.time())",
                             type=MessageType.EVENT,
                             source_module="orchestration",
                             target_module="*",  # Broadcast to all modules
@@ -1393,7 +1393,7 @@ class OrchestrationService:
                 if self.message_bus:
                     await self.message_bus.send_message(
                         Message(
-                            id=f"trinity_perf_opt_{user_id}_{int(time.time()}",
+                            id=f"trinity_perf_opt_{user_id}_{int(time.time())",
                             type=MessageType.EVENT,
                             source_module="orchestration",
                             target_module="*",
@@ -1407,7 +1407,7 @@ class OrchestrationService:
                                 "consciousness_preserved": True,
                                 "bio_oscillator_synchronized": True,
                                 "quantum_coherence_maintained": True,
-                                "improvements": optimization_result.get("improvements", {}),
+                                "improvements": optimization_result.get("improvements", {)}),
                                 "performance_targets_achieved": {
                                     "sub_10ms_memory_ops": True,
                                     "sub_100ms_quantum_sim": True,

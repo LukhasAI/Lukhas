@@ -56,7 +56,7 @@ class ContextHandoff:
     Preserves state between workflow steps
     """
 
-    handoff_id: str = field(default_factory=lambda: f"CTX-{uuid.uuid4()}.hex}")
+    handoff_id: str = field(default_factory=lambda: f"CTX-{uuid.uuid4().hex}")
     source_step: str = ""
     target_step: str = ""
     context_data: dict[str, Any] = field(default_factory=dict)
@@ -240,7 +240,7 @@ class ContextBusOrchestrator:
         Execute multi-step workflow with policy enforcement at each step
         Implements <250ms context handoff target
         """
-        workflow_id = f"WF-{uuid.uuid4()}.hex}"
+        workflow_id = f"WF-{uuid.uuid4().hex}"
 
         # Initialize workflow
         self.workflows[workflow_id] = {

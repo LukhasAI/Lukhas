@@ -93,14 +93,14 @@ class NeuroSymbolicIntegration:
 
             async def register_user(self, user_data, access_tier):
                 """Mock user registration"""
-                user_id = f"mock_user_{uuid.uuid4()}.hex[:8]}"
+                user_id = f"mock_user_{uuid.uuid4().hex[:8]}"
                 self.users[user_id] = user_data
                 return user_id
 
             async def authenticate_user(self, user_id, credentials):
                 """Mock user authentication"""
                 if user_id in self.users:
-                    session_token = f"session_{uuid.uuid4()}.hex[:16]}"
+                    session_token = f"session_{uuid.uuid4().hex[:16]}"
                     session = {
                         "user_id": user_id,
                         "session_token": session_token,
@@ -221,7 +221,7 @@ class NeuroSymbolicIntegration:
 
         # Generate session if not provided
         if not user_id:
-            user_id = f"anonymous_{uuid.uuid4()}.hex[:8]}"
+            user_id = f"anonymous_{uuid.uuid4().hex[:8]}"
 
         if not session_token:
             session_token = await self._create_anonymous_session(user_id)
@@ -270,7 +270,7 @@ class NeuroSymbolicIntegration:
 
     async def _create_anonymous_session(self, user_id: str) -> str:
         """Create an anonymous session for processing"""
-        session_token = f"anon_session_{uuid.uuid4()}.hex[:16]}"
+        session_token = f"anon_session_{uuid.uuid4().hex[:16]}"
 
         # Register with mock ID manager
         session = {
@@ -379,7 +379,7 @@ class NeuroSymbolicIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        user_id = user_id or f"anonymous_{uuid.uuid4()}.hex[:8]}"
+        user_id = user_id or f"anonymous_{uuid.uuid4().hex[:8]}"
         session_token = await self._create_anonymous_session(user_id)
 
         try:
@@ -438,7 +438,7 @@ class NeuroSymbolicIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        user_id = user_id or f"anonymous_{uuid.uuid4()}.hex[:8]}"
+        user_id = user_id or f"anonymous_{uuid.uuid4().hex[:8]}"
         session_token = await self._create_anonymous_session(user_id)
 
         try:

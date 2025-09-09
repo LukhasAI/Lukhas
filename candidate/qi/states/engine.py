@@ -77,7 +77,7 @@ except ImportError:
 class MemoryNode:
     """Represents a node in the memory DAG with enhanced metadata."""
 
-    node_id: str = field(default_factory=lambda: f"node_{uuid.uuid4()}.hex[:12]}")
+    node_id: str = field(default_factory=lambda: f"node_{uuid.uuid4().hex[:12]}")
     content_hash: str = ""
     content: Any = None  # Actual memory content
     emotional_weight: float = 0.0

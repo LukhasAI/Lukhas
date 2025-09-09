@@ -142,7 +142,7 @@ class CausalReasoningModule:
                             - "error" (str, optional): Error message if processing failed.
         """
         # Generate a unique request ID using UTC timestamp for better traceability.
-        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f\'}}"
+        processing_request_id = f"reason_causal_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f\')}"
         reason_logger = self.logger.bind(
             request_id=processing_request_id
         )  # Bind request_id for all logs in this method
@@ -391,7 +391,7 @@ class CausalReasoningModule:
             current_chain_details = {
                 "chain_elements_data": [current_element_data],  # Renamed key
                 "chain_base_confidence_score": current_element_data["base_confidence_score"],  # Renamed key
-            }
+            )}
 
             # Heuristic linking: Try to append other elements if their content shows some overlap.
             # This is a very basic similarity measure.

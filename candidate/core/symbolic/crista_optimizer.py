@@ -256,7 +256,7 @@ class SymbolicNetwork:
         # Limit to prevent excessive merging in one cycle
         limited_pairs = pairs[:5]
         self.logger.info(
-            f"ΛTRACE: Found {len(limited_pairs}} low activity pairs (limited to 5)."
+            f"ΛTRACE: Found {len(limited_pairs)} low activity pairs (limited to 5)."
         )
         return limited_pairs
 
@@ -267,7 +267,7 @@ class SymbolicNetwork:
         Merges specified pairs of nodes into single new nodes, combining their weights and connections.
         This simulates a fusion-like process for network efficiency.
         """
-        self.logger.info(f"ΛTRACE: Attempting to merge {len(node_pairs}} node pairs.")
+        self.logger.info(f"ΛTRACE: Attempting to merge {len(node_pairs)} node pairs.")
         merged_count = 0
         for node1, node2 in node_pairs:
             if node1.node_id in self.nodes and node2.node_id in self.nodes:
@@ -352,7 +352,7 @@ class SymbolicNetwork:
         # ΛNOTE: Relinking logic for drifted edges is currently basic (removal).
         # Future enhancements could include finding nearest neighbors.
         self.logger.info(
-            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections}}."
+            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections)}."
         )
 
 
@@ -661,7 +661,7 @@ class CristaOptimizer:
         )
 
         self.logger.info(
-            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}}. Nodes affected: {nodes_affected_count}."
+            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs}. Nodes affected: {nodes_affected_count)}."
         )
         return {
             "success": True,

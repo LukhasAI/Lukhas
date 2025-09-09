@@ -276,7 +276,7 @@ class MemoryModule(BaseModule):
         metadata: Optional[dict[str, Any]] = None,
         encrypt_override: Optional[bool] = None,
     ) -> str:
-        mem_id = f"mem_{uuid.uuid4()}.hex[:12]}"
+        mem_id = f"mem_{uuid.uuid4().hex[:12]}"
         ts_utc = datetime.now(timezone.utc).isoformat()
         # ΛTRACE: Storing new memory.
         # type: ignore

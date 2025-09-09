@@ -333,7 +333,7 @@ class PromptModulator:
 
         # Add parameter summary
         explanations.append(
-            f"Parameters: temp={params.get('temperature', 0):.2f}, safety={params.get('safety_mode', 'unknown'}}"
+            f"Parameters: temp={params.get('temperature', 0):.2f}, safety={params.get('safety_mode', 'unknown')}"
         )
 
         return "; ".join(explanations)

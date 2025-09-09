@@ -426,7 +426,7 @@ class EthicalDriftSentinel:
         severity = self._determine_severity(risk_score)
 
         violation = EthicalViolation(
-            violation_id=f"VIOL_{int(time.time(} * 1000}_{symbol_id[:8]}",
+            violation_id=f"VIOL_{int(time.time(} * 1000}_{symbol_id[:8])}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             symbol_id=symbol_id,
             violation_type=violation_type,
@@ -462,7 +462,7 @@ class EthicalDriftSentinel:
                 "symbol_id": violation.symbol_id,
                 "freeze_duration": 300,  # 5 minutes
                 "reason": f"CASCADE_LOCK: {violation.violation_type.value}",
-            }
+            )}
         elif violation.severity == EscalationTier.CRITICAL:
             action_type = "collapse_prevention"
             params = {
@@ -627,7 +627,7 @@ class EthicalDriftSentinel:
 
             # Create system-wide violation
             system_violation = EthicalViolation(
-                violation_id=f"VIOL_SYSTEM_{int(time.time(} * 1000}",
+                violation_id=f"VIOL_SYSTEM_{int(time.time(} * 1000)}",
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 symbol_id="SYSTEM",
                 violation_type=ViolationType.CASCADE_RISK,

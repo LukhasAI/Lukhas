@@ -616,7 +616,7 @@ LUKHAS AI Monitoring System
     ) -> Alert:
         """Create a new alert"""
 
-        alert_id = f"alert_{uuid.uuid4()}.hex[:12]}"
+        alert_id = f"alert_{uuid.uuid4().hex[:12]}"
         tags = tags or {}
         metadata = metadata or {}
         affected_systems = affected_systems or []
@@ -760,7 +760,7 @@ LUKHAS AI Monitoring System
         """Create compliance audit trail entry"""
 
         for regulation in alert.applicable_regulations:
-            entry_id = f"audit_{uuid.uuid4()}.hex[:12]}"
+            entry_id = f"audit_{uuid.uuid4().hex[:12]}"
 
             # Determine violation severity
             violation_severity = (
@@ -1151,7 +1151,7 @@ LUKHAS AI Monitoring System
     async def _create_acknowledgment_audit_entry(self, alert: Alert, user_id: Optional[str]):
         """Create audit entry for alert acknowledgment"""
 
-        entry_id = f"audit_{uuid.uuid4()}.hex[:12]}"
+        entry_id = f"audit_{uuid.uuid4().hex[:12]}"
 
         audit_entry = ComplianceAuditEntry(
             entry_id=entry_id,
@@ -1186,7 +1186,7 @@ LUKHAS AI Monitoring System
     ):
         """Create audit entry for alert resolution"""
 
-        entry_id = f"audit_{uuid.uuid4()}.hex[:12]}"
+        entry_id = f"audit_{uuid.uuid4().hex[:12]}"
 
         audit_entry = ComplianceAuditEntry(
             entry_id=entry_id,

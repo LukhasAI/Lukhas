@@ -1081,12 +1081,12 @@ if __name__ == "__main__":
     # First call - cache miss
     start = time.time()
     result1 = cache.get("compute_100", lambda: expensive_computation(100))
-    print(f"   First call (miss): {time.time()} - start:.3f}s, result={result1}")
+    print(f"   First call (miss): {time.time()) - start:.3f}s, result={result1}")
 
     # Second call - cache hit
     start = time.time()
     result2 = cache.get("compute_100", lambda: expensive_computation(100))
-    print(f"   Second call (hit): {time.time()} - start:.3f}s, result={result2}")
+    print(f"   Second call (hit): {time.time()) - start:.3f}s, result={result2}")
     print(f"   Cache metrics: {cache.get_metrics()}\n")
 
     # 2. Object pooling
@@ -1112,7 +1112,7 @@ if __name__ == "__main__":
     for _i in range(5):
         obj = pool.acquire()
         objects.append(obj)
-    print(f"   Acquired 5 objects: {time.time()} - start:.3f}s")
+    print(f"   Acquired 5 objects: {time.time()) - start:.3f}s")
 
     # Release back to pool
     for obj in objects:
@@ -1122,7 +1122,7 @@ if __name__ == "__main__":
     start = time.time()
     for _i in range(5):
         obj = pool.acquire()
-    print(f"   Reacquired 5 objects: {time.time()} - start:.3f}s")
+    print(f"   Reacquired 5 objects: {time.time()) - start:.3f}s")
     print(f"   Pool metrics: {pool.get_metrics()}\n")
 
     # 3. Computation reuse
@@ -1138,11 +1138,11 @@ if __name__ == "__main__":
     # Calculate fibonacci numbers
     start = time.time()
     fib30 = fibonacci(30)
-    print(f"   Fibonacci(30) first: {time.time()} - start:.3f}s, result={fib30}")
+    print(f"   Fibonacci(30) first: {time.time()) - start:.3f}s, result={fib30}")
 
     start = time.time()
     fib30_cached = fibonacci(30)
-    print(f"   Fibonacci(30) cached: {time.time()} - start:.3f}s, result={fib30_cached}")
+    print(f"   Fibonacci(30) cached: {time.time()) - start:.3f}s, result={fib30_cached}")
     print(f"   Reuse metrics: {reuse.get_metrics()}\n")
 
     # 4. Resource optimization report

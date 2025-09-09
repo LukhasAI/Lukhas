@@ -48,7 +48,7 @@ def run_rem_cycle():
         folded = fold_trace(trace)
         dream = seed_dream(folded)
         dream_logger.log_dream(
-            dream_id=f"rem_phase_{i + 1}_{folded.get('token_id', 'unknown'}}",
+            dream_id=f"rem_phase_{i + 1}_{folded.get('token_id', 'unknown')}",
             content=dream,
             metadata={
                 "source_token": folded.get("token_id"),

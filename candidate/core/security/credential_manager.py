@@ -286,7 +286,7 @@ class SecureCredentialManager:
         try:
             # Store old credential as backup
             old_file = self.storage_path / f"{credential_id}.enc"
-            backup_file = self.storage_path / f"{credential_id}.backup_{int(datetime.now(timezone.utc).timestamp(}}"
+            backup_file = self.storage_path / f"{credential_id}.backup_{int(datetime.now(timezone.utc).timestamp()}"
             if old_file.exists():
                 old_file.rename(backup_file)
 
@@ -594,7 +594,7 @@ async def example_usage():
     # Retrieve credentials
     openai_key = await manager.retrieve_credential(openai_key_id)
     if openai_key:
-        print(f"✅ Retrieved OpenAI key: {openai_key.decode(}}[:20]}...")
+        print(f"✅ Retrieved OpenAI key: {openai_key.decode(}[:20])}...")
 
     # Test convenience functions
     await store_api_key("anthropic", "sk-ant-test-key", "test")

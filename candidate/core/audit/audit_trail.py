@@ -726,7 +726,7 @@ class AuditTrail:
 
     def _generate_event_id(self) -> str:
         """Generate unique event ID"""
-        return f"{self.session_id}-{self.event_count:08d}-{uuid.uuid4()}.hex[:8]}"
+        return f"{self.session_id}-{self.event_count:08d}-{uuid.uuid4().hex[:8]}"
 
     def _calculate_checksum(self, event: AuditEvent) -> str:
         """Calculate checksum for event integrity"""

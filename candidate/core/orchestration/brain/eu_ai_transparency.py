@@ -242,7 +242,7 @@ class TransparencyOrchestrator:
         context: Optional[dict[str, Any]] = None,
     ) -> str:
         """Start a new decision trace and return trace ID"""
-        trace_id = f"{decision_type.value}_{int(time.time())}_{uuid.uuid4()}.hex[:8]}"
+        trace_id = f"{decision_type.value}_{int(time.time())}_{uuid.uuid4().hex[:8]}"
 
         trace = DecisionTrace(trace_id, decision_type, user_input, context)
         self.active_traces[trace_id] = trace

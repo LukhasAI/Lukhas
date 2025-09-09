@@ -541,7 +541,7 @@ class SelfHealingSystem:
         """Generate unique failure ID"""
         import uuid
 
-        return f"fail_{uuid.uuid4()}.hex[:8]}"
+        return f"fail_{uuid.uuid4().hex[:8]}"
 
 
 class CircuitBreaker:

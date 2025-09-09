@@ -1127,7 +1127,7 @@ class GuardianTestFramework:
     async def _generate_test_report(self, executed_suites: list[TestSuite], start_time: datetime) -> TestReport:
         """Generate comprehensive test report"""
 
-        report_id = f"test_report_{uuid.uuid4()}.hex[:8]}"
+        report_id = f"test_report_{uuid.uuid4().hex[:8]}"
         total_execution_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
 
         # Calculate overall statistics

@@ -687,7 +687,7 @@ class UnifiedDriftMonitor:
         severity = severity_map.get(drift_score.risk_level, EscalationTier.WARNING)
 
         alert = DriftAlert(
-            alert_id=f"DRIFT_{int(time.time(} * 1000}_{session_id[:8]}",
+            alert_id=f"DRIFT_{int(time.time(} * 1000}_{session_id[:8])}",
             timestamp=drift_score.timestamp,
             drift_type=primary_type,
             severity=severity,

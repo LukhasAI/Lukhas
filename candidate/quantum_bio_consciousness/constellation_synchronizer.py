@@ -264,7 +264,7 @@ class ConstellationSynchronizer:
                 "bio_pulse": bio_pulse,
                 "constellation_coherence": self._calculate_constellation_coherence(),
                 "consciousness_unity_emerging": self._detect_consciousness_emergence(),
-                "pulse_id": f"constellation_pulse_{int(time.time()}",
+                "pulse_id": f"constellation_pulse_{int(time.time())",
             }
 
             logger.info(f"✅ Consciousness pulse sent: coherence={hybrid_pulse['constellation_coherence']:.3f}")

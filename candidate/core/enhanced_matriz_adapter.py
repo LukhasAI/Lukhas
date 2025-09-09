@@ -77,7 +77,7 @@ class ConsciousnessSignal:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     source_module: str = "core"
     target_modules: list[str] = field(default_factory=list)
-    signal_id: str = field(default_factory=lambda: f"SIG-{uuid.uuid4()}.hex[:12]}")
+    signal_id: str = field(default_factory=lambda: f"SIG-{uuid.uuid4().hex[:12]}")
 
 
 @dataclass
@@ -255,7 +255,7 @@ class EnhancedMatrizAdapter:
         )
 
         # Store pattern for future reference
-        pattern_key = f"{consciousness_id}_{signal_type.value}_{int(time.time()}"
+        pattern_key = f"{consciousness_id}_{signal_type.value}_{int(time.time())"
         self.bio_patterns[pattern_key] = pattern
 
         return {

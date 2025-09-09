@@ -236,7 +236,7 @@ class UnifiedMemoryManager:
         try:
             # Generate memory ID if not provided
             if memory_id is None:
-                memory_id = f"{user_id}_{int(time.time())}_{uuid.uuid4()}.hex[:8]}"
+                memory_id = f"{user_id}_{int(time.time())}_{uuid.uuid4().hex[:8]}"
 
             # Create memory entry
             now = time.time()

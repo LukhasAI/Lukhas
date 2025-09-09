@@ -146,7 +146,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
 
     widget["visual_style"] = {
         "background_color": tier_colors.get(user_tier, ")  # cccccc",
-        "emoji_header": f"{tier_emojis.get(user_tier, '')} {props.get('label',"}
+        "emoji_header": f"{tier_emojis.get(user_tier, '')} {props.get('label',")}
                                                                       widget_type.capitalize())} Assistant",
         "tier_color": tier_colors.get(user_tier, ")  # cccccc",
     }

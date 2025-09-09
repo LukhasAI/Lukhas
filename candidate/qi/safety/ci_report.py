@@ -49,7 +49,7 @@ def render_markdown(report: dict) -> str:
     return "\n".join(lines)
 
 def main():
-    out_json = os.environ.get("SAFETY_CI_JSON") or os.path.expanduser(f"{os.environ.get('LUKHAS_STATE', os.path.expanduser('~/.lukhas/state'}}/safety_ci.json")
+    out_json = os.environ.get("SAFETY_CI_JSON") or os.path.expanduser(f"{os.environ.get('LUKHAS_STATE', os.path.expanduser('~/.lukhas/state')}/safety_ci.json")
     if not os.path.exists(out_json):
         print(f"Cannot find report JSON at {out_json}", file=sys.stderr)
         sys.exit(1)

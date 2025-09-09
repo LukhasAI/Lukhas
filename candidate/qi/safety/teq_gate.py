@@ -173,7 +173,7 @@ class TEQCoupler:
             return (
                 False,
                 "PII present but not masked.",
-                f"Mask fields: {fields or list(pii.keys(}} before processing.",
+                f"Mask fields: {fields or list(pii.keys()} before processing.",
             )
         return (True, "", "")
 
@@ -197,7 +197,7 @@ class TEQCoupler:
         if blocked:
             return (
                 False,
-                f"Content policy violation: {sorted(blocked}}.",
+                f"Content policy violation: {sorted(blocked)}.",
                 "Route to human review or sanitize content.",
             )
         return (True, "", "")

@@ -378,7 +378,7 @@ class AGITelemetrySystem:
         """Generate unique alert ID"""
         import uuid
 
-        return f"alert_{uuid.uuid4()}.hex[:8]}"
+        return f"alert_{uuid.uuid4().hex[:8]}"
 
 
 class TraceContext:

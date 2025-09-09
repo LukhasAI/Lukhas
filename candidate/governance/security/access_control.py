@@ -514,7 +514,7 @@ class SessionManager:
     ) -> AccessSession:
         """Create a new access session"""
 
-        session_id = f"sess_{uuid.uuid4()}.hex}"
+        session_id = f"sess_{uuid.uuid4().hex}"
         expires_at = datetime.now(timezone.utc) + self.session_timeout
 
         session = AccessSession(
@@ -886,7 +886,7 @@ class AccessControlEngine:
         """
 
         context = context or {}
-        request_id = f"req_{uuid.uuid4()}.hex[:8]}"
+        request_id = f"req_{uuid.uuid4().hex[:8]}"
 
         try:
             # Get session
@@ -1128,7 +1128,7 @@ class AccessControlEngine:
         """Audit access control event"""
 
         audit_entry = AccessAuditEntry(
-            audit_id=f"audit_{uuid.uuid4()}.hex[:8]}",
+            audit_id=f"audit_{uuid.uuid4().hex[:8]}",
             event_type=event_type,
             user_id=user_id or "unknown",
             session_id=session_id,
@@ -1187,7 +1187,7 @@ class AccessControlEngine:
                     return False, None, "User already exists"
 
             # Generate user ID
-            user_id = f"user_{uuid.uuid4()}.hex[:8]}"
+            user_id = f"user_{uuid.uuid4().hex[:8]}"
 
             # Hash password
             password_hash = hashlib.sha256(password.encode()).hexdigest()
@@ -1290,7 +1290,7 @@ class AccessControlEngine:
         """Generate comprehensive access control report"""
 
         report = {
-            "report_id": f"access_report_{uuid.uuid4()}.hex[:8]}",
+            "report_id": f"access_report_{uuid.uuid4().hex[:8]}",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "system_status": await self.get_access_status(),
             "recent_activity": [

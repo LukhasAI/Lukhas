@@ -595,10 +595,10 @@ class ConsciousnessDataFlowManager:
     async def _activate_cascade_prevention(self, risk_level: float) -> None:
         """Activate cascade prevention measures"""
 
-        prevention_id = f"CASCADE_PREV_{int(time.time()}"
+        prevention_id = f"CASCADE_PREV_{int(time.time())"
         self.cascade_monitors[prevention_id] = True
 
-        logger.warning(f"🛡️ Activating cascade prevention (risk: {risk_level:.2f})")
+        logger.warning(f"🛡️ Activating cascade prevention (risk: {risk_level:.2f)})")
 
         # Implement cascade prevention measures
         if risk_level > 0.7:

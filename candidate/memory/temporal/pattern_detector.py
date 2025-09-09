@@ -428,7 +428,7 @@ class PatternDetector:
                 {
                     "timestamp": d["timestamp"],
                     "context": f"Worked on {len(d['topics'])} different topics: {', '.join(list(d['topics']}[:3]}...",
-                }
+                )}
                 for d in high_switch_days[:10]
             ]
 

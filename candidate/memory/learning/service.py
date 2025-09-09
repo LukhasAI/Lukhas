@@ -309,7 +309,7 @@ class LearningService:
                 "targets": behavior_targets,
                 "strategy": adaptation_strategy,
                 "success_rate": adaptation_results.get("success_rate", 0.0},
-            }
+            )}
             self.knowledge_base["adaptation_history"].append(adaptation_record)
 
             adaptation_id = f"adapt_{datetime.now(timezone.utc)}.strftime('%Y%m%d_%H%M%S%f'}_{user_id}"
@@ -340,7 +340,7 @@ class LearningService:
                 "adapted_at": datetime.now(timezone.utc).isoformat(},
             }
         except Exception as e:
-            error_msg = f"Behavior adaptation error: {e!s}"
+            error_msg = f"Behavior adaptation error: {e!s)}"
             # TRACE: Behavior adaptation error.
             logger.error(
                 "behavior_adaptation_error",
@@ -458,7 +458,7 @@ class LearningService:
                     "source_count": len(knowledge_sources},
                     "synthesis_method": synthesis_method,
                     "error": error_msg,
-                },
+                )},
             )
             return {"success": False, "error": error_msg}
 

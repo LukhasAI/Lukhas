@@ -256,7 +256,7 @@ class MemoryServicesAPI:
 
     def _generate_id(self) -> str:
         """Generate unique memory ID"""
-        return f"mem_{uuid.uuid4()}.hex[:12]}"
+        return f"mem_{uuid.uuid4().hex[:12]}"
 
 
 # Example usage

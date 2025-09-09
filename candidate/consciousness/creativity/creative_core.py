@@ -40,7 +40,7 @@ class CreativeCore:
             "intensity": intensity,
             "timestamp": time.time(),
             "creative_potential": min(1.0, intensity * 1.2),
-            "unique_id": f"{source_type}_{int(time.time()}",
+            "unique_id": f"{source_type}_{int(time.time())",
         }
 
         self.inspiration_sources[inspiration["unique_id"]] = inspiration

@@ -703,7 +703,7 @@ class MemoryFold:
         self.entropyDelta = new_importance - self._calculate_initial_importance()
         if self.driftScore > 0.3:
             self.collapseHash = hashlib.md5(
-                f"{self.key}_{datetime.now(timezone.utc}}".encode()
+                f"{self.key}_{datetime.now(timezone.utc)}".encode()
             ).hexdigest()[:8]
             # Log significant drift events to integrity ledger
             MemoryIntegrityLedger.log_drift_event(
@@ -834,7 +834,7 @@ def fold_dream_experience(:
 
         # Create primary dream fold
         dream_fold = MemoryFold(
-            key=f"DREAM_{dream_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}}",
+            key=f"DREAM_{dream_id}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}",
             content={
                 "dream_content": dream_content,
                 "dream_metadata": dream_metadata,
@@ -844,7 +844,7 @@ def fold_dream_experience(:
                     "symbolic_origin_id": dream_trace.symbolic_origin_id,
                     "entanglement_level": dream_trace.entanglement_level
                 }
-            },
+            )},
             memory_type=memory_type,
             priority=MemoryPriority.HIGH if dream_trace.entanglement_level > 8 else MemoryPriority.MEDIUM,
             owner_id="DREAMSEED_SYSTEM",
@@ -853,9 +853,9 @@ def fold_dream_experience(:
 
         # Add dream-specific tags
         dream_fold.add_tag("dream_experience")
-        dream_fold.add_tag(f"tier_{dream_trace.tier_gate.lower(}}")
+        dream_fold.add_tag(f"tier_{dream_trace.tier_gate.lower()}")
         for glyph in dream_trace.glyphs:
-            dream_fold.add_tag(f"glyph_{glyph.lower(}}")
+            dream_fold.add_tag(f"glyph_{glyph.lower()}")
 
         folding_results["created_folds"].append({
             "fold_key": dream_fold.key,
@@ -969,7 +969,7 @@ def fold_dream_experience(:
         )
 
     except Exception as e:
-        logger.error(f"Dream folding failed: dream_id={dream_id}, error={str(e}}")
+        logger.error(f"Dream folding failed: dream_id={dream_id}, error={str(e)}")
         folding_results["error"] = str(e)
         folding_results["safeguard_flags"].append("folding_process_error")
 

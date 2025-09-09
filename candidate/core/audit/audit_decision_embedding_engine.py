@@ -237,7 +237,7 @@ class DecisionAuditColony:
 
     async def _create_recovery_checkpoint(self, context: DecisionContext) -> str:
         """Create system state checkpoint for potential rollback"""
-        checkpoint_id = f"checkpoint_{context.decision_id}_{int(time.time()}"
+        checkpoint_id = f"checkpoint_{context.decision_id}_{int(time.time())"
         # Implementation would capture system state
         return checkpoint_id
 
@@ -279,7 +279,7 @@ class UniversalDecisionInterceptor:
         """
 
         self.decision_counter += 1
-        decision_id = f"decision_{self.decision_counter}_{int(time.time()}"
+        decision_id = f"decision_{self.decision_counter}_{int(time.time())"
 
         # Capture pre-decision context
         context = await self._capture_decision_context(

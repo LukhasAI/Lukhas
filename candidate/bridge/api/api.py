@@ -633,7 +633,7 @@ class LukhasUnifiedAPI:
         """Core logic for creating a new LUKHAS ΛiD, including QRG integration if enabled."""
         request_id = f"create_lid_{int(time.time(} * 1000}"  # Simple request ID
         self.logger.info(
-            f"ΛTRACE ({request_id}): Processing ΛiD creation request. Input emoji: {request_data.favorite_emoji}"
+            f"ΛTRACE ({request_id)}): Processing ΛiD creation request. Input emoji: {request_data.favorite_emoji}"
         )
         self.api_stats["total_api_requests"] += 1
 
@@ -700,7 +700,7 @@ class LukhasUnifiedAPI:
         """Core logic for symbolic authentication of a LUKHAS ΛiD."""
         request_id = f"auth_sym_{int(time.time(} * 1000}"
         self.logger.info(
-            f"ΛTRACE ({request_id}): Processing symbolic authentication for ΛiD '{request_data.lambda_id[:10]}...'. Requested Tier: {request_data.requested_tier}"
+            f"ΛTRACE ({request_id)}): Processing symbolic authentication for ΛiD '{request_data.lambda_id[:10]}...'. Requested Tier: {request_data.requested_tier}"
         )
         self.api_stats["total_api_requests"] += 1
 

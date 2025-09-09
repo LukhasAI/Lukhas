@@ -112,13 +112,13 @@ try:
         print(result)
     else:
         # Handle unexpected result types gracefully
-        print(f"Router Error: Unexpected result type from multiverse_route: {{type(result)}. Content: {{str(result}}[:200]}")
+        print(f"Router Error: Unexpected result type from multiverse_route: {{type(result)}. Content: {{str(result}[:200])}")
 
 except ImportError as ie:
     print(f"Router Error: Failed to import 'multiverse_route'. Check LUKHAS_AI_ROUTER_PATH and module structure. Details: {{ie}")
 except Exception as e:
     # Print a generic error message including the type of exception
-    print(f"Router Error: An exception occurred in the router script: {{type(e}}.__name__} - {{e}")
+    print(f"Router Error: An exception occurred in the router script: {{type(e}.__name__} - {{e)}")
 """
         logger.debug(f"ΛTRACE: Executing dynamic Python script for AI routing:\n---\n{python_script[:300]}...\n---")
 
@@ -132,12 +132,12 @@ except Exception as e:
 
             if process.returncode == 0:
                 logger.info(
-                    f"ΛTRACE: AI router request successful. Output (first 100 chars): '{process.stdout.strip(}}[:100]}...'"
+                    f"ΛTRACE: AI router request successful. Output (first 100 chars): '{process.stdout.strip(}[:100])}...'"
                 )
                 return process.stdout.strip()
             else:
-                error_message = f"Router execution error (Code {process.returncode}): {process.stderr.strip(}}"
-                logger.error(f"ΛTRACE: {error_message}")
+                error_message = f"Router execution error (Code {process.returncode}): {process.stderr.strip(}"
+                logger.error(f"ΛTRACE: {error_message)}")
                 return error_message
 
         except subprocess.TimeoutExpired:

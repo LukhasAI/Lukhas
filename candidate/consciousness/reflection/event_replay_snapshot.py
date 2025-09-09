@@ -561,7 +561,7 @@ class EventSourcedActor(Actor):
         """Record a state change event"""
         if self.event_store and not self.replay_mode:
             event = Event(
-                event_id=f"{self.actor_id}_state_{time.time()}",
+                event_id=f"{self.actor_id}_state_{time.time())",
                 event_type=EventType.STATE_CHANGED,
                 actor_id=self.actor_id,
                 timestamp=time.time(),
@@ -578,14 +578,14 @@ class EventSourcedActor(Actor):
     async def take_snapshot(self, event_id: Optional[str] = None):
         """Take a snapshot of current state"""
         if self.snapshot_store:
-            event_id = event_id or f"manual_{time.time()}"
+            event_id = event_id or f"manual_{time.time())"
             snapshot = ActorStateSnapshot.create_from_actor(self, event_id)
             await self.snapshot_store.save_snapshot(snapshot)
 
             # Record snapshot event
             if self.event_store:
                 event = Event(
-                    event_id=f"snapshot_{event_id}",
+                    event_id=f"snapshot_{event_id)}",
                     event_type=EventType.SNAPSHOT_TAKEN,
                     actor_id=self.actor_id,
                     timestamp=time.time(),
@@ -724,7 +724,7 @@ class ReplayController:
 
     async def create_debugging_checkpoint(self, description: str) -> str:
         """Create a system-wide checkpoint for debugging"""
-        checkpoint_id = f"checkpoint_{int(time.time()}"
+        checkpoint_id = f"checkpoint_{int(time.time())"
 
         # Take snapshots of all actors
         snapshot_tasks = []

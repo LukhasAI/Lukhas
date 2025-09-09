@@ -548,7 +548,7 @@ class HealixVisualizer:
             ax.set_ylim(-2, 2)
             ax.set_aspect("equal")
             ax.set_title(
-                f"Memory Evolution: {memory_id[:30]}...\nFrame {frame}/{len(mutations}}+1}",
+                f"Memory Evolution: {memory_id[:30]}...\nFrame {frame}/{len(mutations}+1)}",
                 fontsize=14,
                 fontweight="bold",
             )

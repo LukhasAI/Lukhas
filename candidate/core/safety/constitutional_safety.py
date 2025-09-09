@@ -366,7 +366,7 @@ class NIASConstitutionalSafety:
                 },
                 {
                     "role": "user",
-                    "content": f"Constitution: {json.dumps(context['constitution'])}\n\nAction: {json.dumps(context['action_data']}}",
+                    "content": f"Constitution: {json.dumps(context['constitution'])}\n\nAction: {json.dumps(context['action_data']}",
                 },
             ],
             functions=[
@@ -402,7 +402,7 @@ class NIASConstitutionalSafety:
                     },
                 }
             ],
-            function_call={"name": "analyze_principles"},
+            function_call={"name": "analyze_principles")},
             temperature=0.3,
         )
 
@@ -461,12 +461,12 @@ class NIASConstitutionalSafety:
 
         if initial_eval["primary_concerns"]:
             explanation_parts.append(
-                f"Primary concerns: {', '.join(initial_eval['primary_concerns']}}."
+                f"Primary concerns: {', '.join(initial_eval['primary_concerns'])}."
             )
 
         if principle_eval["violated_principles"]:
             explanation_parts.append(
-                f"Violates principles: {', '.join(principle_eval['violated_principles']}}."
+                f"Violates principles: {', '.join(principle_eval['violated_principles'])}."
             )
 
         return " ".join(explanation_parts)

@@ -177,8 +177,8 @@ class SymbolicReasoner:
                 rule_id = f"Rule_{i}"
                 conclusion_id = f"Conc_{conclusion_counter}"
 
-                rule_label = f"Rule {i}\\nPattern: {self._format_props(rule['pattern'])}\\nDerives: {self._format_props(rule['conclusion']}}\\nRule Confidence: {rule['confidence']:.2f}"
-                dot_lines.append(f'  {rule_id} [label="{rule_label}", fillcolor="#F5F6CE"];')
+                rule_label = f"Rule {i}\\nPattern: {self._format_props(rule['pattern'])}\\nDerives: {self._format_props(rule['conclusion']}\\nRule Confidence: {rule['confidence']:.2f}"
+                dot_lines.append(f'  {rule_id} [label="{rule_label)}", fillcolor="#F5F6CE"];')
                 dot_lines.append(f'  S_{symbol.name} -> {rule_id} [label="matches (score: {match_score:.2f})"];')
 
                 derived_conclusion_props = rule["conclusion"]
@@ -194,8 +194,8 @@ class SymbolicReasoner:
                 }
                 conclusions.append(conclusion_data)
 
-                conc_label = f"Conclusion {conclusion_counter}\\n{self._format_props(derived_conclusion_props}}\\nConfidence: {conclusion_data['overall_confidence']:.2f}"
-                dot_lines.append(f'  {conclusion_id} [label="{conc_label}", fillcolor="#D0F5A9", shape=ellipse];')
+                conc_label = f"Conclusion {conclusion_counter}\\n{self._format_props(derived_conclusion_props}\\nConfidence: {conclusion_data['overall_confidence']:.2f}"
+                dot_lines.append(f'  {conclusion_id} [label="{conc_label)}", fillcolor="#D0F5A9", shape=ellipse];')
                 dot_lines.append(f'  {rule_id} -> {conclusion_id} [label="leads to"];')
 
                 conclusion_counter += 1
@@ -204,7 +204,7 @@ class SymbolicReasoner:
         dot_graph_str = "\\n".join(dot_lines)
 
         logger.info(
-            f"Reasoning for symbol '{symbol.name}' generated {len(conclusions}} conclusions. DOT graph created."
+            f"Reasoning for symbol '{symbol.name}' generated {len(conclusions)} conclusions. DOT graph created."
         )
 
         return {"conclusions": conclusions, "dot_graph": dot_graph_str}

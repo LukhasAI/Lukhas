@@ -172,7 +172,7 @@ def recall_memories(
     log.info(f"Found {len(mem_files)} potential memory files to process.")
 
     for enc_file_path in mem_files:
-        dec_temp_name = f"temp_decrypted_{enc_file_path.stem}_{uuid.uuid4()}.hex[:8]}.json"
+        dec_temp_name = f"temp_decrypted_{enc_file_path.stem}_{uuid.uuid4().hex[:8]}.json"
         dec_temp_path = temp_decrypt_dir / dec_temp_name
         try:
             log.debug(

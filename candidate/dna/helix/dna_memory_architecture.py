@@ -119,7 +119,7 @@ class MemoryNode:
     """
 
     # Mandatory fields (immutable)
-    id: str = field(default_factory=lambda: f"node_{uuid4().hex[:8]}_{int(time.time()}")
+    id: str = field(default_factory=lambda: f"node_{uuid4().hex[:8]}_{int(time.time())")
     type: NodeType = NodeType.MEMORY
     created_at: datetime = field(default_factory=datetime.now)
     content_hash: str = ""  # SHA-256 of content for integrity

@@ -510,14 +510,14 @@ async def stats():
         return {
             "api_calls": log_count,
             "errors": error_count,
-            "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0}}:.1f}%",
+            "error_rate": f"{(error_count / log_count * 100 if log_count > 0 else 0}:.1f}%",
             "embedding_engine": embedding_stats,
             "healer_engine": healer_stats,
             "trinity_active": True,
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Stats error: {e!s}")
+        raise HTTPException(status_code=500, detail=f"Stats error: {e!s)}")
 
 
 # ---- Memory Endpoints ----

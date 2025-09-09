@@ -254,7 +254,7 @@ class MemoryManager:
 
             # Store recognized patterns as new memories
             for pattern in patterns.get("patterns", []):
-                pattern_key = f"dream_pattern_{uuid.uuid4()}.hex[:8]}"
+                pattern_key = f"dream_pattern_{uuid.uuid4().hex[:8]}"
                 self.store(
                     key=pattern_key,
                     data={

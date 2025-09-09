@@ -580,7 +580,7 @@ class LambdaArchiveInspector:
         """
         # Create report structure
         report = ArchiveReport(
-            report_id=f"ΛARCHIVE_{int(time.time()}",
+            report_id=f"ΛARCHIVE_{int(time.time())",
             timestamp=datetime.now(timezone.utc).isoformat(),
             vault_directory=str(self.vault_directory),
             scan_duration=0.0,  # Will be updated by caller

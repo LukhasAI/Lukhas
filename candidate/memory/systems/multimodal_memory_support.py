@@ -214,7 +214,7 @@ class ImageProcessor:
                 original_size=original_size,
                 processed_size=image.size,
                 compression_ratio=compression_ratio,
-                size_reduction=f"{(1 - len(processed_data} / original_bytes}  * 100:.1f}%",
+                size_reduction=f"{(1 - len(processed_data} / original_bytes}  * 100:.1f)}%",
             )
 
             return processed_data, metadata

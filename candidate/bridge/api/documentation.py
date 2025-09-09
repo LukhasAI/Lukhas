@@ -538,8 +538,8 @@ if __name__ == "__main__":
     export_openapi_spec(output_file="lukhas_api_openapi.json")
 
     print("Documentation generated successfully!")
-    print(f"OpenAPI spec has {len(docs['openapi_spec'].get('paths', {}}))} endpoints")
-    print(f"SDK examples for {len(docs['sdk_info']['sdk_languages']}} languages")
+    print(f"OpenAPI spec has {len(docs['openapi_spec'].get('paths', {)}))} endpoints")
+    print(f"SDK examples for {len(docs['sdk_info']['sdk_languages'])} languages")
 
 # Export main components
 __all__ = [

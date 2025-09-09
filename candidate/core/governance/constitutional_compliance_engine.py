@@ -634,7 +634,7 @@ class ConstitutionalComplianceEngine:
             return self._create_disabled_result()
 
         start_time = datetime.now(timezone.utc)
-        result_id = f"ccr_{uuid.uuid4()}.hex[:8]}"
+        result_id = f"ccr_{uuid.uuid4().hex[:8]}"
 
         try:
             logger.debug(f"🏛️ Performing compliance check {result_id}: {decision_context.value}")
@@ -707,7 +707,7 @@ class ConstitutionalComplianceEngine:
     def _create_disabled_result(self) -> ComplianceResult:
         """Create result when compliance engine is disabled"""
         return ComplianceResult(
-            result_id=f"disabled_{uuid.uuid4()}.hex[:8]}",
+            result_id=f"disabled_{uuid.uuid4().hex[:8]}",
             overall_compliant=True,  # Pass through when disabled
             overall_compliance_score=1.0,
             compliance_level=ComplianceLevel.COMPLIANT,
@@ -778,7 +778,7 @@ class ConstitutionalComplianceEngine:
     ) -> ComplianceCheck:
         """Perform individual rule compliance check"""
 
-        check_id = f"cc_{uuid.uuid4()}.hex[:8]}"
+        check_id = f"cc_{uuid.uuid4().hex[:8]}"
         violations = []
 
         try:

@@ -172,7 +172,7 @@ class SecretDetector:
                     line_num = content[: match.start()].count("\n") + 1
 
                     finding = SecurityFinding(
-                        id=f"secret_{hashlib.md5(f'{file_path}:{line_num}:{secret_type}'.encode()).hexdigest()[:12]}",
+                        id=f"secret_{hashlib.md5(f'{file_path}:{line_num}:{secret_type)}'.encode()).hexdigest()[:12]}",
                         type=VulnerabilityType.SECRET_EXPOSURE,
                         level=(
                             SecurityLevel.HIGH
@@ -240,7 +240,7 @@ class DependencyScanner:
                     vulnerable_versions = self.known_vulnerabilities[package.lower()]
                     if version in vulnerable_versions:
                         finding = SecurityFinding(
-                            id=f"dep_{hashlib.md5(f'{package}:{version}'.encode()).hexdigest()[:12]}",
+                            id=f"dep_{hashlib.md5(f'{package}:{version)}'.encode()).hexdigest()[:12]}",
                             type=VulnerabilityType.DEPENDENCY_VULN,
                             level=SecurityLevel.HIGH,
                             title=f"Vulnerable Dependency: {package}",
@@ -302,7 +302,7 @@ class CodeSecurityScanner:
                         line_num = content[: match.start()].count("\n") + 1
 
                         finding = SecurityFinding(
-                            id=f"code_{hashlib.md5(f'{file_path}:{line_num}:{vuln_type}'.encode()).hexdigest()[:12]}",
+                            id=f"code_{hashlib.md5(f'{file_path}:{line_num}:{vuln_type)}'.encode()).hexdigest()[:12]}",
                             type=(
                                 VulnerabilityType.CODE_INJECTION
                                 if "injection" in vuln_type
@@ -380,7 +380,7 @@ class AdapterSecurityAuditor:
             if "check_consent" not in content:
                 findings.append(
                     SecurityFinding(
-                        id=f"adapter_missing_consent_{hashlib.md5(adapter_path.encode()).hexdigest(}}[:8]}",
+                        id=f"adapter_missing_consent_{hashlib.md5(adapter_path.encode()).hexdigest(}[:8])}",
                         type=VulnerabilityType.POLICY_VIOLATION,
                         level=SecurityLevel.HIGH,
                         title="Missing Consent Verification",
@@ -394,7 +394,7 @@ class AdapterSecurityAuditor:
             if "audit_trail" not in content and "telemetry" not in content:
                 findings.append(
                     SecurityFinding(
-                        id=f"adapter_missing_audit_{hashlib.md5(adapter_path.encode()).hexdigest(}}[:8]}",
+                        id=f"adapter_missing_audit_{hashlib.md5(adapter_path.encode()).hexdigest(}[:8])}",
                         type=VulnerabilityType.POLICY_VIOLATION,
                         level=SecurityLevel.MEDIUM,
                         title="Missing Audit Trail Logging",
@@ -416,7 +416,7 @@ class AdapterSecurityAuditor:
 
                         findings.append(
                             SecurityFinding(
-                                id=f"adapter_{pattern_type}_{hashlib.md5(f'{adapter_path}}:{line_num}'.encode()).hexdigest()[:12]}",
+                                id=f"adapter_{pattern_type}_{hashlib.md5(f'{adapter_path}:{line_num)}'.encode()).hexdigest()[:12]}",
                                 type=VulnerabilityType.POLICY_VIOLATION,
                                 level=(
                                     SecurityLevel.HIGH
@@ -424,8 +424,8 @@ class AdapterSecurityAuditor:
                                     in ["dangerous_operations", "privilege_escalation"]
                                     else SecurityLevel.MEDIUM
                                 ),
-                                title=f"Potential {pattern_type.replace('_', ' ').title(}}",
-                                description=f"Detected potential {pattern_type} in adapter code",
+                                title=f"Potential {pattern_type.replace('_', ' ').title(}",
+                                description=f"Detected potential {pattern_type)} in adapter code",
                                 file_path=adapter_path,
                                 line_number=line_num,
                                 evidence=match.group(0),
@@ -459,7 +459,7 @@ class SecurityAuditEngine:
 
     async def run_comprehensive_audit(self) -> SecurityAuditReport:
         """Run comprehensive security audit"""
-        audit_id = f"audit_{int(time.time())}_{secrets.token_hex(4}}"
+        audit_id = f"audit_{int(time.time())}_{secrets.token_hex(4)}"
         timestamp = datetime.now(timezone.utc).isoformat()
 
         self.logger.info(f"Starting comprehensive security audit: {audit_id}")
@@ -517,7 +517,7 @@ class SecurityAuditEngine:
             compliance_status=compliance_status,
         )
 
-        self.logger.info(f"Security audit completed: {len(findings}} findings")
+        self.logger.info(f"Security audit completed: {len(findings)} findings")
         return report
 
     async def _scan_for_secrets(self) -> list[SecurityFinding]:
@@ -629,7 +629,7 @@ class SecurityAuditEngine:
                 # Check for overly permissive configurations
                 if "admin: true" in content or "superuser: true" in content:
                     finding = SecurityFinding(
-                        id=f"access_{hashlib.md5(str(config_file).encode()).hexdigest(}}[:8]}",
+                        id=f"access_{hashlib.md5(str(config_file).encode()).hexdigest(}[:8])}",
                         type=VulnerabilityType.ACCESS_CONTROL,
                         level=SecurityLevel.MEDIUM,
                         title="Potentially Overly Permissive Access Control",

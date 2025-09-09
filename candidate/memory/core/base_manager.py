@@ -264,7 +264,7 @@ class BaseMemoryManager(ABC):
 
             # Add Λ-trace signature for enhanced tracking
             l_signature = hashlib.sha256(
-                f"{self.__class__.__name__}_{timestamp}_{uuid.uuid4()}.hex[:8]}".encode()
+                f"{self.__class__.__name__}_{timestamp}_{uuid.uuid4().hex[:8]}".encode()
             ).hexdigest()[:16]
 
             memory_id = f"{prefix}_{timestamp}_Λ{l_signature}"

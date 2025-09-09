@@ -195,7 +195,7 @@ class SymbolicEngine:
                                 including identified logical chains, valid logic,
         confidence, and timestamp.
         """
-        request_id = f"sym_reason_{int(datetime.now(timezone.utc).timestamp(} * 1000}"  # Ensure UTC
+        request_id = f"sym_reason_{int(datetime.now(timezone.utc).timestamp(} * 1000)}"  # Ensure UTC
         method_logger = self.logger.bind(request_id=request_id, operation="reason")
         method_logger.info("Starting symbolic reasoning.", input_keys=list(input_data.keys()))
 
@@ -428,7 +428,7 @@ class SymbolicEngine:
                 "base_confidence": element_data["base_confidence"],
                 "relation_type": "element_assertion",  # Default type, can be refined
                 "chain_id": chain_id,
-            }
+            )}
             # Simple pairwise relatedness check (can be expanded)
             # for other_idx, other_element_data in enumerate(logical_elements):
             #     if i != other_idx and self._elements_related(element_data, other_element_data):

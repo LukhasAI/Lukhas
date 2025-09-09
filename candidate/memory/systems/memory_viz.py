@@ -325,7 +325,7 @@ def trace(data):
                 return free_names.pop()
             r, m = next_name // 26, next_name % 26
             next_name += 1
-            return f"{chr(ord('a'} + m}{'' if r == 0 else r}"
+            return f"{chr(ord('a'} + m}{'' if r == 0 else r)}"
 
         def find_segment(addr):
             for name, saddr, size in segment_intervals:

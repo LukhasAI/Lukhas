@@ -1386,7 +1386,7 @@ class EnergyConsensusProtocol:
 
     async def propose_energy_transfer(self, source_node: str, target_node: str, amount: float, reason: str) -> bool:
         """Propose energy transfer between nodes"""
-        proposal_id = f"transfer_{uuid.uuid4()}.hex[:8]}"
+        proposal_id = f"transfer_{uuid.uuid4().hex[:8]}"
 
         proposal = {
             "id": proposal_id,

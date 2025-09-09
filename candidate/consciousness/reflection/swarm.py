@@ -496,11 +496,11 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
     async def process_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Process a task using colony agents with consensus."""
-        task_id = task.get("task_id", f"task_{int(time.time()}")
+        task_id = task.get("task_id", f"task_{int(time.time())")
         task_type = task.get("type", "general")
         required_consensus = task.get("required_consensus", 0.6)
 
-        self.logger.info(f"Processing task {task_id} of type {task_type}")
+        self.logger.info(f"Processing task {task_id} of type {task_type)}")
 
         # Integrate with BaseColony event sourcing if available
         if BASE_COLONY_AVAILABLE and hasattr(self, "aggregate") and hasattr(self.aggregate, "start_task"):
@@ -695,10 +695,10 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
 
     async def execute_colony_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task using colony's collective intelligence."""
-        task_id = task.get("id", f"task-{time.time()}")
+        task_id = task.get("id", f"task-{time.time())")
         task_type = task.get("type", "unknown")
 
-        self.logger.info(f"Colony {self.colony_id} executing task {task_id}")
+        self.logger.info(f"Colony {self.colony_id} executing task {task_id)}")
 
         # Find capable agents
         capable_agents = []
@@ -993,10 +993,10 @@ class EnhancedSwarmHub:
 
     async def execute_swarm_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """Execute task using the entire swarm."""
-        task_id = task.get("id", f"swarm-task-{time.time()}")
+        task_id = task.get("id", f"swarm-task-{time.time())")
         required_capabilities = task.get("required_capabilities", [])
 
-        self.logger.info(f"Swarm executing task {task_id}")
+        self.logger.info(f"Swarm executing task {task_id)}")
 
         # Find suitable colonies
         suitable_colonies = []

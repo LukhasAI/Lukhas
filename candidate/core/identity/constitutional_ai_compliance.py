@@ -140,7 +140,7 @@ class PrincipleEvaluation:
 class ConstitutionalValidationResult:
     """Result of constitutional AI validation"""
 
-    validation_id: str = field(default_factory=lambda: f"cv-{uuid.uuid4()}.hex[:12]}")
+    validation_id: str = field(default_factory=lambda: f"cv-{uuid.uuid4().hex[:12]}")
     decision_context: ConstitutionalValidationContext = None
 
     # Overall compliance

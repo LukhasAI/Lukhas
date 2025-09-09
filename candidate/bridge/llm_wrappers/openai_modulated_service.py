@@ -147,7 +147,7 @@ class OpenAIModulatedService:
         # Build tools from allowlist
         openai_tools = []
         analytics = get_analytics()
-        audit_id = f"audit_{task or 'general'}_{int(time.time(} * 1000}"
+        audit_id = f"audit_{task or 'general'}_{int(time.time(} * 1000)}"
         tool_incidents = []
 
         if params and params.tool_allowlist:
@@ -670,7 +670,7 @@ async def _run_modulated_completion_impl(
 
     ctx_snips = ctx_snips or []
     endocrine_signals = endocrine_signals or {}
-    audit_id = audit_id or f"A-{uuid.uuid4()}.hex[:8]}"
+    audit_id = audit_id or f"A-{uuid.uuid4().hex[:8]}"
 
     # Ensure we have a client with a chat_completion coroutine.
     # Accept three shapes:

@@ -136,7 +136,7 @@ class TraumaLockSystem:
         memory_json = json.dumps(memory_data)
 
         # Generate encryption key specific to this memory
-        memory_id = memory_data.get("id", f"mem_{int(time.time()}")
+        memory_id = memory_data.get("id", f"mem_{int(time.time())")
         memory_key = self._derive_memory_key(memory_id)
 
         # Generate secure vector

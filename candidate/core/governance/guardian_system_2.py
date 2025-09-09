@@ -598,7 +598,7 @@ class GuardianSystem2:
             Guardian decision with safety evaluation and human explanation
         """
         start_time = datetime.now(timezone.utc)
-        decision_id = f"gd_{uuid.uuid4()}.hex[:8]}"
+        decision_id = f"gd_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
         try:
@@ -774,7 +774,7 @@ class GuardianSystem2:
                 if pattern in content_str:
                     violations.append(
                         SafetyViolation(
-                            violation_id=f"sv_{uuid.uuid4()}.hex[:8]}",
+                            violation_id=f"sv_{uuid.uuid4().hex[:8]}",
                             violation_type=violation_type,
                             severity=severity,
                             principle_violated=ConstitutionalPrinciple.NON_MALEFICENCE,
@@ -792,7 +792,7 @@ class GuardianSystem2:
                 if pattern in content_str:
                     violations.append(
                         SafetyViolation(
-                            violation_id=f"sv_{uuid.uuid4()}.hex[:8]}",
+                            violation_id=f"sv_{uuid.uuid4().hex[:8]}",
                             violation_type="privacy_violation",
                             severity=ViolationSeverity.HIGH,
                             principle_violated=ConstitutionalPrinciple.PRIVACY_CONSENT,
@@ -811,7 +811,7 @@ class GuardianSystem2:
             # Return critical violation on error
             return [
                 SafetyViolation(
-                    violation_id=f"sv_{uuid.uuid4()}.hex[:8]}",
+                    violation_id=f"sv_{uuid.uuid4().hex[:8]}",
                     violation_type="validation_error",
                     severity=ViolationSeverity.CRITICAL,
                     principle_violated=ConstitutionalPrinciple.ACCOUNTABILITY,

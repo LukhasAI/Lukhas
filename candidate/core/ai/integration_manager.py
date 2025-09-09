@@ -535,7 +535,7 @@ class TaskTemplates:  # Static methods, no init needed
     @staticmethod
     def code_analysis(file_paths: list[str], analysis_focus: str = "modularization") -> AITask:  # Renamed, more params
         return AITask(
-            id=f"code_analysis_{Path(file_paths[0]).stem if file_paths else 'general'}_{uuid.uuid4()}.hex[:6]}",
+            id=f"code_analysis_{Path(file_paths[0]).stem if file_paths else 'general'}_{uuid.uuid4().hex[:6]}",
             type="code_analysis",
             prompt=f"Analyze code for architecture, dependencies, security, "
             f"optimization. Focus on {analysis_focus}.",

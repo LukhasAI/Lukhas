@@ -326,7 +326,7 @@ class ConsciousnessWebAuthnManager:
     def _generate_consciousness_challenge(self, identity_id: str, context: dict[str, Any]) -> dict[str, Any]:
         """Generate consciousness-enhanced authentication challenge"""
 
-        session_id = f"cs_{uuid.uuid4()}.hex[:16]}"
+        session_id = f"cs_{uuid.uuid4().hex[:16]}"
         challenge_bytes = secrets.token_bytes(32)
         challenge_b64 = base64.urlsafe_b64encode(challenge_bytes).decode()
 

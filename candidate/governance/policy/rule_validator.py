@@ -288,7 +288,7 @@ class AdvancedRuleValidator:
             Comprehensive validation report
         """
         start_time = datetime.now(timezone.utc)
-        validation_id = f"val_{uuid.uuid4()}.hex[:8]}"
+        validation_id = f"val_{uuid.uuid4().hex[:8]}"
         context = context or {}
 
         try:
@@ -401,7 +401,7 @@ class AdvancedRuleValidator:
             if isinstance(report_or_exception, Exception):
                 # Create error report for failed validation
                 results[rule_id] = ValidationReport(
-                    validation_id=f"err_{uuid.uuid4()}.hex[:8]}",
+                    validation_id=f"err_{uuid.uuid4().hex[:8]}",
                     rule_id=rule_id,
                     target_data=target_data,
                     context=context,
