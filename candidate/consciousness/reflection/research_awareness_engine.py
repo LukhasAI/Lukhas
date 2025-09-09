@@ -1039,15 +1039,15 @@ if __name__ == "__main__":
 
     print("\n🔮 Quantum Results:")
     if result.qi_results:
-        print(f"  • Quantum Advantage: {result.qi_results.get('qi_advantage', 'N/A')}:.3f}")
-        print(f"  • Coherence Time: {result.qi_results.get('decoherence_time', 'N/A')}:.1f}")
+        print(f"  • Quantum Advantage: {result.qi_results.get('qi_advantage', 'N/A'):.3f}")
+        print(f"  • Coherence Time: {result.qi_results.get('decoherence_time', 'N/A'):.1f}")
 
     print("\n🧠 Bio-Symbolic Insights:")
     if result.bio_symbolic_insights:
         patterns = result.bio_symbolic_insights.get("patterns_detected", [])
         print(f"  • Patterns Detected: {len(patterns)}")
         emergent = result.bio_symbolic_insights.get("emergent_properties", [])
-        print(f"  • Emergent Properties: {', '.join(emergent)} if emergent else 'None'}")
+        print(f"  • Emergent Properties: {', '.join(emergent) if emergent else 'None'}")
 
     print("\n🐝 Swarm Coordination:")
     if result.swarm_coordination_metrics:

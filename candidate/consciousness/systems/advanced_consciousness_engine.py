@@ -664,7 +664,7 @@ class AdvancedConsciousnessEngine:
                 "drift_data": drift_data,
                 "healing_applied": True,
                 "healing_result": healing_result,
-                "healing_annotation": f"[[HEALED: drift_score={drift_analysis.get('symbolic_drift_score')}:.3f}]]",
+                "healing_annotation": f"[[HEALED: drift_score={drift_analysis.get('symbolic_drift_score'):.3f}]]",
             }
         else:
             return {"drift_data": drift_data, "healing_applied": False, "healing_result": None}

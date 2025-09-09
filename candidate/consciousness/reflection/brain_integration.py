@@ -107,13 +107,13 @@ except ImportError:
         TIER_5 = 5
 
 try:
-#     from BIO_SYMBOLIC.qi_attention import QIAttention  # TODO: Install or implement BIO_SYMBOLIC
+    pass  # from BIO_SYMBOLIC.qi_attention import QIAttention  # TODO: Install or implement BIO_SYMBOLIC
 except ImportError:
     logger.warning("Could not import qi attention. Cognitive integration will be limited.")
     QIAttention = None
 
 try:
-#     from AID.dream_engine.dream_reflection_loop import DreamReflectionLoop  # TODO: Install or implement AID
+    pass  # from AID.dream_engine.dream_reflection_loop import DreamReflectionLoop  # TODO: Install or implement AID
 except ImportError:
     logger.warning("Could not import dream reflection loop. Dream integration will be limited.")
     DreamReflectionLoop = None
@@ -232,8 +232,8 @@ class EmotionalOscillator:
             # Filter invalid emotions and normalize intensities
             valid_secondary = {
                 e: max(0.0, min(1.0, i))
-                for e, i in secondary_emotions.items():
-                if e in self.emotion_vector.emotion_vectors:
+                for e, i in secondary_emotions.items()
+                if e in self.emotion_vector.emotion_vectors
             }
             self.current_state["secondary_emotions"] = valid_secondary
 

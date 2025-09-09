@@ -451,8 +451,8 @@ class ConsciousnessService:
                 {
                     "requested_awareness_level_key": requested_awareness_level_key,
                     "error_message": error_message_str,
-                    "exception_class": type(e}.__name__,
-                )},
+                    "exception_class": type(e).__name__,
+                },
             )
             return {"success": False, "error": error_message_str}
 
@@ -516,7 +516,7 @@ class ConsciousnessService:
                 requested_depth_level,
                 introspection_method_type,
             )
-            introspection_event_id = f"introspect_{datetime.now(timezone.utc)}.strftime('%Y%m%d%H%M%S%f\'}_{user_id}"
+            introspection_event_id = f"introspect_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful introspection activity.
             activity_log_details = {
@@ -633,7 +633,7 @@ class ConsciousnessService:
                             {
                                 "advanced_consciousness_metrics": self._get_advanced_consciousness_metrics_internal(),
                                 "recent_cognitive_trace_summary": self._get_cognitive_trace_summary_internal(),
-                                "current_awareness_pattern_analysis": self._analyze_current_awareness_patterns_internal()},
+                                "current_awareness_pattern_analysis": self._analyze_current_awareness_patterns_internal()
                             }
                         )
                         report_state_data["report_detail_level"] = "detailed_with_consent"
@@ -765,7 +765,7 @@ class ConsciousnessService:
             self.current_internal_state["current_focus_intensity"] = focus_intensity_level  # Added to state
             self.current_internal_state["last_state_update_timestamp_utc"] = datetime.now(timezone.utc).isoformat()
 
-            attention_event_id = f"focusapply_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f\')}_{user_id}"
+            attention_event_id = f"focusapply_{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S%f')}_{user_id}"
 
             # Log successful attention direction.
             activity_log_details = {
@@ -807,7 +807,7 @@ class ConsciousnessService:
                     "focus_targets": new_focus_targets,
                     "intensity": focus_intensity_level,
                     "error_message": error_message_str,
-                    "exception_class": type(e)}.__name__,
+                    "exception_class": type(e).__name__,
                 },
             )
             return {"success": False, "error": error_message_str}
@@ -943,7 +943,7 @@ class ConsciousnessService:
 
         # Simulate insights and metrics based on processing depth.
         return {
-            "processed_input_element_count": len(input_data_stream.get("elements", [])},
+            "processed_input_element_count": len(input_data_stream.get("elements", [])),
             "generated_awareness_insights": [
                 f"Simulated insight from '{processing_level_key}' processing of input element X."
             ],

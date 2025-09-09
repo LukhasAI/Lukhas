@@ -271,7 +271,7 @@ class LukhasAGIIntegrationManager:
             await self.initialize_complete_integration()
 
         processing_start = datetime.now(timezone.utc)
-        request_id = f"unified_{int(processing_start.timestamp()}"
+        request_id = f"unified_{int(processing_start.timestamp())}"
 
         logger.info(f" Processing unified AGI request: {request_id}")
 
@@ -687,8 +687,8 @@ async def main():
         )
 
         print(f" Test completed: {test_result.get('request_id')}")
-        print(f"Processing time: {test_result.get('performance', {)}).get('processing_time', 0):.2f}s")
-        print(f"System coherence: {test_result.get('integration_insights', {)}).get('system_coherence_score', 0):.2%}")
+        print(f"Processing time: {test_result.get('performance', {}).get('processing_time', 0):.2f}s")
+        print(f"System coherence: {test_result.get('integration_insights', {}).get('system_coherence_score', 0):.2%}")
 
         # Keep running for demonstration
         await asyncio.sleep(60)

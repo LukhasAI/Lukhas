@@ -209,7 +209,7 @@ class ReflectionLayer:
     """
 
     def __init__(self, guardian_config: Optional[dict[str, Any]] = None):
-        self.layer_id = f"REFLECTION_LAYER_{int(datetime.now(timezone.utc).timestamp()}"
+        self.layer_id = f"REFLECTION_LAYER_{int(datetime.now(timezone.utc).timestamp())}"
         self.config = guardian_config or {}
 
         # Setup logging first

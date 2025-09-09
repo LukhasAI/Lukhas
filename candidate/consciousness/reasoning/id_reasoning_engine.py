@@ -187,7 +187,7 @@ class LukhasIdEnhancedReasoningEngine:
         # Calculate emotional similarity
         stored_vector = EmotionalMemoryVector(**{
             k: v for k, v in memory_record['emotional_vector'].items()
-            if k != 'timestamp':
+            if k != 'timestamp'
         })
 
         similarity = self._calculate_emotional_similarity(

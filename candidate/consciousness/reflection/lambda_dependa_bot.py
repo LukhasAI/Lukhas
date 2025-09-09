@@ -1892,7 +1892,7 @@ async def main():
         print(f"🔬 Quantum Modularity Score: {report.qi_modularity_score:.3f}")
         print(f"🧠 Architectural Insights: {len(report.architectural_insights)}")
         print(f"📊 Dependency Profiles: {len(report.dependency_profiles)}")
-        print(f"🛣️  Optimization Actions: {len(report.optimization_roadmap.get('immediate_actions', [])}")
+        print(f"🛣️  Optimization Actions: {len(report.optimization_roadmap.get('immediate_actions', []))}")
         print()
 
         # Show key insights

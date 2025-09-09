@@ -306,13 +306,13 @@ class UnifiedDreamSeedEmotionEngine:
 
         # Create unified access context
         session_id = context.get(
-            "session_id", f"session_{hashlib.sha256(  }"
-        }}
+            "session_id", f"session_{hashlib.sha256(str(lambda_tier).encode()).hexdigest()[:8]}"
+        )
 
         # Get user consent status
         consent_grants = {}
         if self.identity_client:
-            required_consents = UNIFIED_TIER_ACCESS_MATRIX.get(lambda_tier, {)}).get(
+            required_consents = UNIFIED_TIER_ACCESS_MATRIX.get(lambda_tier, {}).get(
                 "consent_required", []
             )
             for consent_type in required_consents:
@@ -385,12 +385,12 @@ class UnifiedDreamSeedEmotionEngine:
             # Create new context
             self.assign_unified_emotional_tier(user_id, context)
             access_context = self.session_contexts.get(
-                f"session_{hashlib.sha256(  }"
-            }}
+                f"session_{hashlib.sha256(str(user_id).encode()).hexdigest()[:8]}"
+            )
 
         if not access_context:
             raise ValueError(
-                f"Could not establish emotional access context for user {user_id)}"
+                f"Could not establish emotional access context for user {user_id}"
             )
 
         # Check tier permissions

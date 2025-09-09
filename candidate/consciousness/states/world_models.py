@@ -143,7 +143,7 @@ class TemporalDynamicsModel:
         """Model temporal dynamics from historical states"""
         try:
             if len(history) < 2:
-                return {"status": "insufficient_data", "patterns": {}
+                return {"status": "insufficient_data", "patterns": {}}
 
             # Analyze temporal patterns
             patterns = await self._extract_temporal_patterns(history)
@@ -617,7 +617,7 @@ class WorldModels:
         """Get comprehensive analysis of current world model"""
         try:
             if not self.world_states:
-                return {"status": "no_data", "analysis": {}
+                return {"status": "no_data", "analysis": {}}
 
             current_state = self.world_states[-1]
 

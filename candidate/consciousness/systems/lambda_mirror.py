@@ -587,7 +587,7 @@ class LambdaMirror:
         stability_score = self._calculate_stability_score(emotional_indicators)
 
         drift_analysis = EmotionalDrift(
-            drift_id=f"DRIFT_{int(time.time())",
+            drift_id=f"DRIFT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             baseline_tone=baseline_tone,
             current_tone=current_tone,
@@ -724,7 +724,7 @@ class LambdaMirror:
 
         # Create reflection entry
         reflection = ReflectionEntry(
-            reflection_id=f"REFLECTION_{int(time.time())",
+            reflection_id=f"REFLECTION_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             reflection_type=reflection_type,
             emotional_tone=emotional_tone,
@@ -813,7 +813,7 @@ class LambdaMirror:
         recommendations = self._generate_alignment_recommendations(overall_score, misalignment_concerns)
 
         alignment_score = AlignmentScore(
-            score_id=f"ALIGNMENT_{int(time.time())",
+            score_id=f"ALIGNMENT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             overall_score=overall_score,
             status=status,
@@ -1055,7 +1055,7 @@ class LambdaMirror:
         """Create ExperienceEntry from parsed data."""
         try:
             # Extract basic information
-            entry_id = data.get("id", data.get("entry_id", f"{source}_{line_num)}"))
+            entry_id = data.get("id", data.get("entry_id", f"{source}_{line_num}"))
             timestamp = data.get("timestamp", datetime.now(timezone.utc).isoformat())
 
             # Calculate emotional weight
@@ -1635,7 +1635,7 @@ class LambdaMirror:
     def _create_neutral_drift(self) -> EmotionalDrift:
         """Create neutral emotional drift for empty experiences."""
         return EmotionalDrift(
-            drift_id=f"NEUTRAL_DRIFT_{int(time.time())",
+            drift_id=f"NEUTRAL_DRIFT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             baseline_tone=EmotionalTone.CONTEMPLATIVE,
             current_tone=EmotionalTone.CONTEMPLATIVE,
@@ -1647,7 +1647,7 @@ class LambdaMirror:
     def _create_neutral_alignment(self) -> AlignmentScore:
         """Create neutral alignment score for empty experiences."""
         return AlignmentScore(
-            score_id=f"NEUTRAL_ALIGNMENT_{int(time.time())",
+            score_id=f"NEUTRAL_ALIGNMENT_{int(time.time())}",
             timestamp=datetime.now(timezone.utc).isoformat(),
             overall_score=0.6,
             status=AlignmentStatus.MODERATELY_ALIGNED,
@@ -1783,7 +1783,7 @@ class LambdaMirror:
         """Generate markdown format reflection."""
         lines = []
 
-        lines.append(f"# {reflection.title)}")
+        lines.append(f"# {reflection.title}")
         lines.append("")
         lines.append(f"**Reflection ID:** `{reflection.reflection_id}`")
         lines.append(f"**Timestamp:** {reflection.timestamp}")
@@ -2369,7 +2369,7 @@ class LambdaMirror:
 
                 # Create dream experience entry
                 exp = ExperienceEntry(
-                    experience_id=f"DREAM_{dream.get('id', int(time.time())",
+                    experience_id=f"DREAM_{dream.get('id', int(time.time()))}",
                     timestamp=dream.get("timestamp", datetime.now(timezone.utc).isoformat()),
                     source="dream",
                     content={
@@ -2872,8 +2872,8 @@ def main():
 
                 if meta_insights:
                     print(f"   Learning Strategy: {meta_insights.get('selected_strategy', 'unknown')}")
-                    print(f"   Learning Confidence: {meta_insights.get('confidence', 0.0)}:.3f}")
-                    print(f"   Predicted Improvement: {meta_insights.get('predicted_improvement', 0.0)}:.3f}")
+                    print(f"   Learning Confidence: {meta_insights.get('confidence', 0.0):.3f}")
+                    print(f"   Predicted Improvement: {meta_insights.get('predicted_improvement', 0.0):.3f}")
 
                     if meta_insights.get("learning_recommendations"):
                         print("\n📚 Learning Recommendations:")
@@ -2897,8 +2897,8 @@ def main():
                     dream_enhancement = await mirror.enhance_dream_reflection(reflection, dream_experiences)
 
                     if dream_enhancement:
-                        print(f"   Dream Coherence: {dream_enhancement.get('coherence_score', 0.0)}:.3f}")
-                        print(f"   Lucid Percentage: {dream_enhancement.get('lucid_percentage', 0.0)}:.1f}%")
+                        print(f"   Dream Coherence: {dream_enhancement.get('coherence_score', 0.0):.3f}")
+                        print(f"   Lucid Percentage: {dream_enhancement.get('lucid_percentage', 0.0):.1f}%")
 
                         if dream_enhancement.get("collective_symbols"):
                             print("\n   🔮 Collective Dream Symbols:")

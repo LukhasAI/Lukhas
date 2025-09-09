@@ -141,7 +141,7 @@ class BioSymbolicOrchestrator(BaseColony):
         self.fallback_manager = get_fallback_manager()
 
         logger.info(f"🎼 BioSymbolicOrchestrator '{orchestrator_id}' initialized")
-        logger.info(f"Colonies: {list(self.colonies.keys()}")
+        logger.info(f"Colonies: {list(self.colonies.keys())}")
         logger.info(f"Coherence target: {self.coherence_target:.2%}")
 
     async def execute_task(self, task_id: str, task_data: dict[str, Any]) -> dict[str, Any]:

@@ -394,9 +394,9 @@ class LUKHASCoreIntegrator:
                 "source": source_component,
                 "timestamp": time.time(),
                 "message_type": message_type.value,
-                "message_id": f"{int(time.time(} * 1000}-{self.system_state['message_count']}",
+                "message_id": f"{int(time.time()) * 1000}-{self.system_state['message_count']}",
             },
-        )}
+        }
 
         try:
             handler_to_call: Optional[Callable[[dict[str, Any]], Any]] = None
@@ -413,7 +413,7 @@ class LUKHASCoreIntegrator:
                 )
                 response = handler_to_call(message_envelope)
                 self.instance_logger.info(
-                    f"ΛTRACE: Message processed by '{target_component}'. Response type: {type(response)}.__name__}."
+                    f"ΛTRACE: Message processed by '{target_component}'. Response type: {type(response).__name__}."
                 )
                 return (
                     response
@@ -472,9 +472,9 @@ class LUKHASCoreIntegrator:
             "metadata": {
                 "source": source_component,
                 "timestamp": time.time(),
-                "event_id": f"evt-{int(time.time(} * 1000}",
+                "event_id": f"evt-{int(time.time()) * 1000}",
             },
-        )}
+        }
 
         self._log_symbolic_trace(
             {
@@ -575,7 +575,7 @@ class LUKHASCoreIntegrator:
 
         except ImportError as e_imp:
             self.instance_logger.error(
-                f"ΛTRACE: Could not import awareness protocol. Check path in config: '{self.config.get('component_paths', {)}).get('awareness')}'. Error: {e_imp}",
+                f"ΛTRACE: Could not import awareness protocol. Check path in config: '{self.config.get('component_paths', {}).get('awareness')}'. Error: {e_imp}",
                 exc_info=True,
             )
             return False
@@ -629,11 +629,11 @@ class LUKHASCoreIntegrator:
 
         elif alert_type == "security_violation":
             self.instance_logger.warning(
-                f"ΛTRACE: Security violation detected by awareness protocol: {alert_data.get('description', 'No description')."
+                f"ΛTRACE: Security violation detected by awareness protocol: {alert_data.get('description', 'No description')}"
             )
             self.broadcast_event("security_violation", alert_data, "awareness")
 
-        self.instance_logger.debug(f"ΛTRACE: Awareness alert '{alert_type)}' processed.")
+        self.instance_logger.debug(f"ΛTRACE: Awareness alert '{alert_type}' processed.")
         return {"status": "processed", "timestamp": time.time()}
 
     # Human-readable comment: Internal check if an action is permitted based
