@@ -288,7 +288,7 @@ class TraceSummaryBuilder:
             if self.current_style == "technical":
                 narrative_parts.append(
                     f"\nFinal conclusion: {self._summarize_node(conclusion)} "
-                    f"(confidence: {conclusion.metadata.get('confidence', 0.0)}:.2f})"
+                    f"(confidence: {conclusion.metadata.get('confidence', 0.0):.2f})"
                 )
             else:
                 narrative_parts.append(f"\nConclusion: {self._summarize_node(conclusion)}")

@@ -258,7 +258,7 @@ async def quick_skill_practice(
 
     # Register skill if not exists
     skill_id = skill_name.lower().replace(" ", "_")
-    skill = engine.register_skill(
+    engine.register_skill(
         skill_id=skill_id,
         name=skill_name,
         description=f"Quick practice of {skill_name}"

@@ -603,7 +603,7 @@ async def main():
         client = "✅" if info["client_initialized"] else "❌"
         library = "✅" if info["library_available"] else "❌"
 
-        print("Platform integration operation completed")
+        print(f"  {platform}: Credentials {credentials} | Client {client} | Library {library}")
 
     # Test posting (only if credentials are available)
     test_content = "🧠 Testing LUKHAS AI consciousness technology platform integration! The Trinity Framework (⚛️🧠🛡️) ensures our AI systems maintain authentic, aware, and ethical operation. What aspects of conscious AI development interest you most? #ConsciousnessTechnology #LUKHASIA"

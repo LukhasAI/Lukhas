@@ -312,7 +312,7 @@ class ΛBotAutonomousSecurityHealer:
             elif "== " in vulnerable_pattern:
                 exact_vuln = vulnerable_pattern.replace("== ", "").strip()
                 return version.parse(current_version) == version.parse(exact_vuln)
-        except:
+        except (ValueError, TypeError, AttributeError):
             return False
         return False
 
@@ -334,7 +334,7 @@ class ΛBotAutonomousSecurityHealer:
                 confidence += 0.4  # Patch upgrade
             elif current_ver.major == fixed_ver.major:
                 confidence += 0.2  # Minor upgrade
-        except:
+        except (ValueError, TypeError, AttributeError):
             pass
 
         # Lower confidence for high severity issues (need more careful handling)

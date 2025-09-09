@@ -533,7 +533,7 @@ class LUKHASConsciousnessMCP:
                     if py_file.stat().st_size < 5000:  # Only small files
                         try:
                             file_info["preview"] = py_file.read_text()[:1000]
-                        except:
+                        except Exception:
                             file_info["preview"] = "Could not read file"
 
                     context["files"].append(file_info)

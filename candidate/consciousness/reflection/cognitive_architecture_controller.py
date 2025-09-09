@@ -1853,9 +1853,9 @@ if __name__ == "__main__":
     # Test 5: Decision making
     print("\nTest 5: Decision Making")
     options = [
-        {"name": "option_a", "scores": {"cost": 0.3, "benefit": 0.8},
-        {"name": "option_b", "scores": {"cost": 0.6, "benefit": 0.9},
-        {"name": "option_c", "scores": {"cost": 0.2, "benefit": 0.4},
+        {"name": "option_a", "scores": {"cost": 0.3, "benefit": 0.8}},
+        {"name": "option_b", "scores": {"cost": 0.6, "benefit": 0.9}},
+        {"name": "option_c", "scores": {"cost": 0.2, "benefit": 0.4}},
     ]
     criteria = {"cost": -0.4, "benefit": 0.6}  # Negative weight for cost
     decision = controller.decide(options, criteria)

@@ -40,7 +40,7 @@ class ClaudeMaxCoordinator:
     async def parallel_development(self):
         """Run agents in parallel for development"""
         tasks = []
-        for agent_key, agent_name in self.agents.items():
+        for agent_name in self.agents.values():
             task = asyncio.create_task(self.agent_work(agent_name))
             tasks.append(task)
 

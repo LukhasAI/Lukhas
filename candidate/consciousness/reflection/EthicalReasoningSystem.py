@@ -2091,7 +2091,7 @@ async def main():
         "maxim": "Share user data when it improves services",
         "high_stakes": False,
         "incomplete_information": False,
-        "cultural_context": {"western": {"privacy_emphasis": "high"},
+        "cultural_context": {"western": {"privacy_emphasis": "high"}},
         "stakeholder_preferences": {
             "users": {"privacy": 0.9, "service_quality": 0.6},
             "company": {"efficiency": 0.8, "user_satisfaction": 0.7},

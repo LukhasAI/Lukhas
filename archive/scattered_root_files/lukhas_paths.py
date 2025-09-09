@@ -1,5 +1,3 @@
-from lukhas_paths import paths
-
 #!/usr/bin/env python3
 """
 LUKHAS AI Path Manager

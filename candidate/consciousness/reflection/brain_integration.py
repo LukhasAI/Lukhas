@@ -46,9 +46,14 @@ logger.setLevel(logging.INFO)
 # Import core memory components - using try/except to handle potential import errors
 try:
     # Import the sophisticated memory fold engine
-#     from CORE.spine.fold_engine import (  # TODO: Install or implement CORE
-        AGIMemory, MemoryFold, MemoryType, MemoryPriority, ContextReasoner
-    )
+    # from CORE.spine.fold_engine import (  # TODO: Install or implement CORE
+    #     AGIMemory, MemoryFold, MemoryType, MemoryPriority, ContextReasoner
+    # )
+    AGIMemory = None
+    MemoryFold = None  
+    MemoryType = None
+    MemoryPriority = None
+    ContextReasoner = None
 except ImportError:
     logger.warning("Could not import fold_engine. Memory integration will be limited.")
     AGIMemory = None
@@ -59,12 +64,16 @@ except ImportError:
 
 try:
     # Import the emotional memory components
-#     from DASHBOARD.lucas_as_agent.core.memory_folds import (  # TODO: Install or implement DASHBOARD
-        create_memory_fold,
-        recall_memory_folds,
-        calculate_emotion_distance,
-        emotion_vectors,
-    )
+    # from DASHBOARD.lucas_as_agent.core.memory_folds import (  # TODO: Install or implement DASHBOARD
+    #     create_memory_fold,
+    #     recall_memory_folds,
+    #     calculate_emotion_distance,
+    #     emotion_vectors,
+    # )
+    create_memory_fold = None
+    recall_memory_folds = None
+    calculate_emotion_distance = None
+    emotion_vectors = None
 except ImportError:
     logger.warning("Could not import emotional memory folds. Emotional memory will be limited.")
     create_memory_fold = None
@@ -74,9 +83,11 @@ except ImportError:
 
 try:
     # Import advanced memory manager
-#     from CORE.memory_learning.memory_manager import (  # TODO: Install or implement CORE
-        MemoryManager, MemoryAccessError
-    )
+    # from CORE.memory_learning.memory_manager import (  # TODO: Install or implement CORE
+    #     MemoryManager, MemoryAccessError
+    # )
+    MemoryManager = None
+    MemoryAccessError = None
 except ImportError:
     logger.warning("Could not import lukhas.memory manager. Access control will be limited.")
     MemoryManager = None
@@ -680,7 +691,7 @@ class MemoryEmotionalIntegrator:
             common_tags = cluster["common_tags"]
 
             # Create a consolidated memory for the cluster
-            consolidated_key = f"consolidated_{int(time.time())}_{uuid.uuid4(}.hex[:6])}"
+            consolidated_key = f"consolidated_{int(time.time())}_{uuid.uuid4().hex[:6]}"
 
             # Check cluster for emotional content
             emotional_context = self.context_reasoner.analyze_emotional_context(cluster_keys)
@@ -943,7 +954,7 @@ class LucasBrainIntegration:
         if action == "store_memory":
             # Store memory with emotional context
             result = self.memory_emotional.store_memory_with_emotion(
-                key=content.get("key", f"memory_{int(time.time()}"),
+                key=content.get("key", f"memory_{int(time.time())}"),
                 content=content.get("content"),
                 emotion=content.get("emotion"),
                 tags=content.get("tags"),

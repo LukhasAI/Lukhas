@@ -596,7 +596,7 @@ class CreativeReasoningAgent(ReasoningAgent):
                                 "confidence": 0.6 * novelty,  # Creative insights have moderate confidence
                                 "symbols": self._extract_symbols(insight),
                                 "new_symbols": [f"ΛCREATIVE_{uuid.uuid4().hex[:6]}"],
-                            )}
+                            }
                         )
 
         return connections
@@ -940,7 +940,7 @@ class ReasoningColony:
                 # Extract unique elements
                 unique_words = set(insight.content.split()) - set(base.content.split())
                 if unique_words:
-                    merged_content += f" Additionally: {' '.join(list(unique_words}[:5])}"
+                    merged_content += f" Additionally: {' '.join(list(unique_words)[:5])}"
 
         # Combine symbols
         all_symbols = set()
@@ -957,7 +957,7 @@ class ReasoningColony:
 
         # Store each conclusion
         for conclusion in consensus["conclusions"]:
-            key = f"consensus_{query.query_id}_{uuid.uuid4(}.hex[:8])}"
+            key = f"consensus_{query.query_id}_{uuid.uuid4().hex[:8]}"
 
             content = {
                 "type": "reasoning_consensus",

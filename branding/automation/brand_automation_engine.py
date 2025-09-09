@@ -450,7 +450,7 @@ class BrandAutomationEngine:
                 created_at = datetime.fromisoformat(content.get("created_at", ""))
                 if created_at < thirty_days_ago:
                     outdated_count += 1
-            except:
+            except (ValueError, TypeError):
                 pass
 
         if outdated_count > 0:

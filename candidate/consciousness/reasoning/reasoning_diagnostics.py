@@ -316,9 +316,9 @@ class ReasoningDiagnostics:
 
             # Test various edge cases
             test_cases = [
-                {"text": "", "context": {},  # Empty input
-                {"text": "A and not A", "context": {},  # Contradiction
-                {"text": "If P then Q, P", "context": {},  # Simple deduction
+                {"text": "", "context": {}},  # Empty input
+                {"text": "A and not A", "context": {}},  # Contradiction
+                {"text": "If P then Q, P", "context": {}},  # Simple deduction
             ]
 
             for i, test_case in enumerate(test_cases):

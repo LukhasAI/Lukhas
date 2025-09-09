@@ -216,7 +216,7 @@ class SystemAwareness:
                 "value": self.awareness_state["consciousness_level"],
                 "threshold": self.health_thresholds["consciousness"],
             },
-            "resources": {"status": "healthy", "metrics": {},
+            "resources": {"status": "healthy", "metrics": {}},
             "errors": {
                 "status": "healthy",
                 "count": len(self.awareness_state["error_state"]),
