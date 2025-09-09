@@ -222,8 +222,8 @@ class NIASEngine:
         tier = user_context.get("tier", "T3")
 
         processing_session = {
-            "session_id": f"nias_proc_{uuid.uuid4()}.hex[:8]}",
-            "message_id": message.get("message_id", f"msg_{uuid.uuid4()}.hex[:8]}"),
+            "session_id": f"nias_proc_{uuid.uuid4().hex[:8]}",
+            "message_id": message.get("message_id", f"msg_{uuid.uuid4().hex[:8]}"),
             "user_id": user_id,
             "tier": tier,
             "start_time": datetime.now(timezone.utc).isoformat(),
@@ -755,7 +755,7 @@ class NIASEngine:
         # Placeholder for ΛSYMBOLIC integration
         return {
             "authenticated": True,
-            "symbolic_signature": f"lukhas_sym_{uuid.uuid4()}.hex[:8]}",
+            "symbolic_signature": f"lukhas_sym_{uuid.uuid4().hex[:8]}",
             "auth_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
@@ -766,7 +766,7 @@ class NIASEngine:
         defer_until: datetime,
     ):
         """Defer message for later processing"""
-        defer_id = f"defer_{uuid.uuid4()}.hex[:8]}"
+        defer_id = f"defer_{uuid.uuid4().hex[:8]}"
 
         self.deferred_messages[defer_id] = {
             "defer_id": defer_id,

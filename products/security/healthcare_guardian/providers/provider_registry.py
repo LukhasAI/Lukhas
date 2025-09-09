@@ -510,7 +510,7 @@ class ProviderRegistry:
         # Global private providers
         self.register_provider(AXAProvider())
 
-        logger.info(f"Initialized {len(self.providers}} healthcare providers")
+        logger.info(f"Initialized {len(self.providers)} healthcare providers")
 
     def register_provider(self, provider: BaseHealthcareProvider):
         """Register a healthcare provider"""

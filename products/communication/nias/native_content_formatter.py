@@ -554,7 +554,7 @@ class NativeContentFormatter:
         """Generate unique content ID"""
         import uuid
 
-        return f"native_{uuid.uuid4()}.hex[:8]}"
+        return f"native_{uuid.uuid4().hex[:8]}"
 
     def _generate_natural_timestamp(self) -> str:
         """Generate natural-looking timestamp"""

@@ -89,7 +89,7 @@ class LambdaVaultCore:
     def __init__(self, lambda_id: str, vault_type: LambdaVaultType = LambdaVaultType.PERSONAL):
         self.lambda_id = lambda_id
         self.vault_type = vault_type
-        self.vault_id = f"λ-vault-{uuid.uuid4()}.hex[:8]}"
+        self.vault_id = f"λ-vault-{uuid.uuid4().hex[:8]}"
 
         # Lambda-enhanced access layers
         self.access_layers = {tier.value: tier.name.lower() for tier in LambdaVaultTier}
@@ -126,7 +126,7 @@ class LambdaVaultCore:
     ) -> str:
         """Register Lambda-enhanced environmental trigger for symbolic access"""
         trigger_hash = self._hash_trigger_data(trigger_data)
-        trigger_id = f"λ-trigger-{uuid.uuid4()}.hex[:8]}"
+        trigger_id = f"λ-trigger-{uuid.uuid4().hex[:8]}"
 
         trigger = LambdaEnvironmentalTrigger(
             trigger_type=trigger_type,
@@ -192,7 +192,7 @@ class LambdaVaultCore:
         symbolic_context: Optional[dict[str, Any]] = None,
     ) -> LambdaVaultMemory:
         """Encrypt memory with Lambda-enhanced symbolic environmental anchoring"""
-        memory_id = f"λ-mem-{uuid.uuid4()}.hex[:8]}"
+        memory_id = f"λ-mem-{uuid.uuid4().hex[:8]}"
 
         # Create Lambda-encrypted memory package
         encrypted_memory = LambdaVaultMemory(
@@ -501,7 +501,7 @@ class LambdaVaultCore:
         """Log Lambda security event"""
         self.security_events.append(
             {
-                "λ_event_id": f"λ-event-{uuid.uuid4()}.hex[:8]}",
+                "λ_event_id": f"λ-event-{uuid.uuid4().hex[:8]}",
                 "λ_timestamp": datetime.now(timezone.utc).isoformat(),
                 "λ_event_type": event_type,
                 "λ_description": description,

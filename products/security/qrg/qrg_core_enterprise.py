@@ -416,7 +416,7 @@ class QIResonanceGlyph:
 
         # Create the BILLION DOLLAR glyph
         glyph = QIGlyph(
-            glyph_id=f"QRG_{int(time.time(} * 1000000}_{security_tier}",
+            glyph_id=f"QRG_{int(time.time(} * 1000000}_{security_tier)}",
             visual_matrix=visual_matrix,
             animation_frames=animation_frames,
             qi_signature=qi_signature,
@@ -455,7 +455,7 @@ class QIResonanceGlyph:
         🚀 CEO: This signature is worth more than Fort Knox
         """
         # Combine identity with quantum entropy
-        signature_input = f"{identity}_{security_tier}_{time.time()}"
+        signature_input = f"{identity}_{security_tier}_{time.time())"
         signature_bytes = signature_input.encode()
 
         # Mix with quantum entropy (MAXIMUM RANDOMNESS)
@@ -659,13 +659,13 @@ class QIResonanceGlyph:
         base_patents = [
             f"QUANTUM_RESONANCE_METHOD_{identity[:8]}",
             f"CONSCIOUSNESS_AUTHENTICATION_{security_tier}",
-            f"CIRCULAR_QR_ENCODING_{int(time.time()}",
+            f"CIRCULAR_QR_ENCODING_{int(time.time())",
             f"TEMPORAL_VALIDATION_{identity[:8]}",
             f"STEGANOGRAPHIC_IDENTITY_{security_tier}",
-            f"HOLOGRAPHIC_AUTH_{int(time.time()}",
+            f"HOLOGRAPHIC_AUTH_{int(time.time())",
             f"EMOTION_ADAPTIVE_SECURITY_{identity[:8]}",
             f"POST_QUANTUM_IDENTITY_{security_tier}",
-            f"SOVEREIGN_DIGITAL_RIGHTS_{int(time.time()}",
+            f"SOVEREIGN_DIGITAL_RIGHTS_{int(time.time())",
             f"MARKET_DISRUPTION_SYSTEM_{security_tier}",
         ]
 
@@ -710,7 +710,7 @@ class PatentFactory:
     """Generates patents automatically"""
 
     def generate(self, innovation: str) -> str:
-        return f"PATENT_{innovation}_{int(time.time()}"
+        return f"PATENT_{innovation}_{int(time.time())"
 
 
 class MarketDominator:

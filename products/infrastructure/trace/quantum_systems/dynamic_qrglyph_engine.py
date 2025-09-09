@@ -459,7 +459,7 @@ class DynamicQRGLYPHEngine:
         }
 
         base_signature = signatures.get(consciousness_state, "neutral|observant|present")
-        return hashlib.sha256(f"{base_signature}|{time.time()}".encode()).hexdigest()[:32]
+        return hashlib.sha256(f"{base_signature}|{time.time())".encode()).hexdigest()[:32]
 
     def _select_cultural_symbols(self, cultural_context: dict[str, Any]) -> list[str]:
         """Select culturally appropriate symbols"""

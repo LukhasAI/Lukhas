@@ -304,7 +304,7 @@ async def process_alerts():
     if memory_drift > DASHBOARD_CONFIG["alert_thresholds"]["drift_critical"]:
         new_alerts.append(
             {
-                "id": f"drift_{int(time.time()}",
+                "id": f"drift_{int(time.time())",
                 "type": "critical",
                 "title": "Critical Memory Drift Detected",
                 "message": f"Memory drift score {memory_drift:.2f} exceeds critical threshold",
@@ -318,7 +318,7 @@ async def process_alerts():
     if cpu_percent > 90:
         new_alerts.append(
             {
-                "id": f"cpu_{int(time.time()}",
+                "id": f"cpu_{int(time.time())",
                 "type": "warning",
                 "title": "High CPU Usage",
                 "message": f"CPU usage at {cpu_percent:.1f}%",
@@ -332,7 +332,7 @@ async def process_alerts():
     if response_time > DASHBOARD_CONFIG["alert_thresholds"]["response_time_slow"]:
         new_alerts.append(
             {
-                "id": f"perf_{int(time.time()}",
+                "id": f"perf_{int(time.time())",
                 "type": "warning",
                 "title": "Slow API Response Time",
                 "message": f"Average response time {response_time}ms exceeds threshold",

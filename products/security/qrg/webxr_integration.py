@@ -373,7 +373,7 @@ class WebXRIntegration:
             "identity": identity,
             "qi_signature": f"QS-{hash(identity)} % 1000000:06d}",
             "visual_matrix": np.random.randint(0, 256, (64, 64, 3), dtype=np.uint8),
-            "consciousness_fingerprint": f"CF-{hash(identity + str(time.time()} % 1000000:06d}",
+            "consciousness_fingerprint": f"CF-{hash(identity + str(time.time()) % 1000000:06d}",
         }
 
     def _generate_holographic_layers(

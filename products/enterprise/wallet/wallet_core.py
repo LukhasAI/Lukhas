@@ -253,7 +253,7 @@ class WΛLLET:
             New NFTToken object
         """
         # Generate token ID
-        token_id = f"lambda-{uuid.uuid4()}.hex[:16]}"
+        token_id = f"lambda-{uuid.uuid4().hex[:16]}"
 
         # Create NFT
         nft = NFTToken(

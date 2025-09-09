@@ -603,7 +603,7 @@ class NeuroplasticLearningOrchestrator:
         plan = AdaptationPlan(rule=rule, trigger_event=trigger_event)
 
         exp = AdaptationExperiment(
-            experiment_id=f"exp_{int(time.time(} * 1000}",
+            experiment_id=f"exp_{int(time.time(} * 1000)}",
             hypothesis=hypothesis,
             adaptation_plan=plan,
             control_group="control",
@@ -1022,7 +1022,7 @@ class NeuroplasticLearningOrchestrator:
 
         exp = AdaptationExperiment(
             experiment_id=f"{experiment_type}_{int(time.time(} * 1000}",
-            hypothesis=f"Hypothesis: {experiment_type} under context {list(context.keys()}[:2]}",
+            hypothesis=f"Hypothesis: {experiment_type)} under context {list(context.keys()}[:2]}",
             adaptation_plan=plan,
             control_group="control",
             test_duration=timedelta(minutes=2),
@@ -1237,7 +1237,7 @@ class KnowledgeConsolidator:
             return None  # Not successful enough for insight
 
         insight = LearningInsight(
-            insight_id=f"consolidated_{exp_type}_{int(time.time()}",
+            insight_id=f"consolidated_{exp_type}_{int(time.time())",
             category="consolidated_knowledge",
             description=f"Effective {exp_type} patterns learned from {len(experiments)} experiments",
             confidence_score=success_rate,

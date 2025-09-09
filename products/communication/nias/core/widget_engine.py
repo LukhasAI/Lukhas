@@ -200,7 +200,7 @@ class WidgetEngine:
             template = self._get_widget_template(tier, widget_type)
 
             # Generate unique widget ID
-            widget_id = f"widget_{uuid.uuid4()}.hex[:8]}"
+            widget_id = f"widget_{uuid.uuid4().hex[:8]}"
 
             # Build widget configuration
             widget_config = {
@@ -460,7 +460,7 @@ class WidgetEngine:
     async def _generate_fallback_widget(self, message: dict[str, Any], tier: str) -> dict[str, Any]:
         """Generate a simple fallback widget if main generation fails"""
         return {
-            "widget_id": f"fallback_{uuid.uuid4()}.hex[:8]}",
+            "widget_id": f"fallback_{uuid.uuid4().hex[:8]}",
             "type": WidgetType.BASIC_CARD.value,
             "tier": tier,
             "created_at": datetime.now(timezone.utc).isoformat(),
@@ -517,7 +517,7 @@ class WidgetEngine:
 
             # Record interaction
             interaction_record = {
-                "interaction_id": f"int_{uuid.uuid4()}.hex[:8]}",
+                "interaction_id": f"int_{uuid.uuid4().hex[:8]}",
                 "widget_id": widget_id,
                 "user_id": user_id,
                 "interaction_type": interaction_type,

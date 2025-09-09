@@ -172,7 +172,7 @@ class UnifiedMessageProcessor:
         """
 
         self.session_counter += 1
-        session_id = f"unified_{self.session_counter}_{uuid.uuid4()}.hex[:8]}"
+        session_id = f"unified_{self.session_counter}_{uuid.uuid4().hex[:8]}"
 
         # Create unified processing context
         context = UnifiedProcessingContext(

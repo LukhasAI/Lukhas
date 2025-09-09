@@ -100,7 +100,7 @@ class QRGAdapter:
         """Generate high-quality reasoning using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"qrg_{hashlib.md5(f\'{request.content)}_{time.time(}}\'.encode()).hexdigest()[:12]}"
+        request_id = f"qrg_{hashlib.md5(f\'{request.content)}_{time.time()}\'.encode()).hexdigest()[:12]}"
 
         # Create QRG-specific prompt
         enhanced_data = {
@@ -308,7 +308,7 @@ class NIASAdapter:
         """Perform neural intelligence analysis using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"nias_{hashlib.md5(f\'{request.content)}_{time.time(}}\'.encode()).hexdigest()[:12]}"
+        request_id = f"nias_{hashlib.md5(f\'{request.content)}_{time.time()}\'.encode()).hexdigest()[:12]}"
 
         # Create NIAS-specific prompt
         enhanced_data = {
@@ -524,7 +524,7 @@ class ABASAdapter:
         """Perform business analysis using GPT-OSS"""
 
         start_time = time.time()
-        request_id = f"abas_{hashlib.md5(f\'{request.content)}_{time.time(}}\'.encode()).hexdigest()[:12]}"
+        request_id = f"abas_{hashlib.md5(f\'{request.content)}_{time.time()}\'.encode()).hexdigest()[:12]}"
 
         # Create business analysis prompt
         enhanced_data = {
@@ -768,7 +768,7 @@ class DASTAdapter:
         """Perform data analytics and strategic thinking"""
 
         start_time = time.time()
-        request_id = f"dast_{hashlib.md5(f\'{request.content)}_{time.time(}}\'.encode()).hexdigest()[:12]}"
+        request_id = f"dast_{hashlib.md5(f\'{request.content)}_{time.time()}\'.encode()).hexdigest()[:12]}"
 
         # Create data analytics prompt
         enhanced_data = {
@@ -1088,8 +1088,8 @@ async def test_lambda_products_adapter():
             print(f"Confidence: {response.confidence:.2%}")
             print(f"Processing Time: {response.processing_time_ms}ms")
             print(f"Symbolic Signature: {response.symbolic_signature}")
-            print(f"Insights: {len(response.insights}} generated")
-            print(f"Recommendations: {len(response.recommendations}} provided")
+            print(f"Insights: {len(response.insights)} generated")
+            print(f"Recommendations: {len(response.recommendations)} provided")
 
         except Exception as e:
             print(f"❌ {request.product_type.name} processing failed: {e}")

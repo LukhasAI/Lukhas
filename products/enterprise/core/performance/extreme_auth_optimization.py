@@ -721,7 +721,7 @@ class ExtremeAuthPerformanceOptimizer:
                 "improvement_vs_target": (
                     f"{((self.target_p95_latency_ms - p95} / self.target_p95_latency_ms * 100}:.1f}%"
                     if p95 <= self.target_p95_latency_ms
-                    else f"{((p95 - self.target_p95_latency_ms} / self.target_p95_latency_ms * 100}:.1f}% OVER target"
+                    else f"{((p95 - self.target_p95_latency_ms} / self.target_p95_latency_ms * 100}:.1f)}% OVER target"
                 ),
             },
             "component_performance": component_stats,

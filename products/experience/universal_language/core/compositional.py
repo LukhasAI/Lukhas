@@ -688,7 +688,7 @@ class SymbolProgramSynthesizer:
 
     def _generate_program_id(self) -> str:
         """Generate unique program ID"""
-        return f"PROG_{int(time.time(} * 1000}"
+        return f"PROG_{int(time.time(} * 1000)}"
 
 
 # Singleton instances

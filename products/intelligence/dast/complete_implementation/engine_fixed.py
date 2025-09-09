@@ -310,7 +310,7 @@ class LucasDASTEngine:
         """AI-powered task creation with intelligent analysis"""
 
         # Generate unique task ID
-        task_id = hashlib.md5(f"{request}{time.time()}".encode()).hexdigest()[:12]
+        task_id = hashlib.md5(f"{request}{time.time())".encode()).hexdigest()[:12]
 
         # AI-powered task analysis
         ai_analysis = await self._analyze_task_request(request, context)
@@ -352,7 +352,7 @@ class LucasDASTEngine:
         if self.task_intelligence:
             try:
                 return await self.task_intelligence.analyze_task(
-                    {"title": request, "description": request, "context": context}
+                    {"title": request, "description": request, "context": context)}
                 )
             except:
                 pass  # Fallback to simple analysis

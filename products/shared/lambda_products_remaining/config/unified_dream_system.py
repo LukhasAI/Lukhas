@@ -250,7 +250,7 @@ class UnifiedDreamSystem:
         # Mock implementation - would use actual hyperspace simulator
         for i in range(3):  # Generate 3 scenarios
             scenario = DreamScenario(
-                id=f"scenario_{uuid.uuid4()}.hex[:8]}",
+                id=f"scenario_{uuid.uuid4().hex[:8]}",
                 type=DreamType.HYPERSPACE,
                 dimensions=["time", "probability", "emotion"],
                 probability=0.3 + (i * 0.2),
@@ -280,7 +280,7 @@ class UnifiedDreamSystem:
                 break
 
             seed = DreamSeed(
-                id=f"seed_{uuid.uuid4()}.hex[:8]}",
+                id=f"seed_{uuid.uuid4().hex[:8]}",
                 brand_id=context.get("brand_id"),
                 symbolic_elements=["λ", "∞", "Ω"],
                 resonance_score=scenario.probability * 0.8,
