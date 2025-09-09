@@ -1148,7 +1148,7 @@ class ΛSage:
         self.symbolic_elements = elements[:limit]
 
         self.logger.info(
-            f"Loaded {len(self.symbolic_elements)} symbolic elements from {len({e.system_origin for e in self.symbolic_elements})} systems"
+            f"Loaded {len(self.symbolic_elements)} symbolic elements from {len({e.system_origin for e in self.symbolic_elements)})} systems"
         )
 
         return self.symbolic_elements
@@ -2261,12 +2261,12 @@ class ΛSage:
         if output_path is None:
             output_path = (
                 self.output_directory
-                / f"archetype_mappings_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S'}}.csv"
+                / f"archetype_mappings_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.csv"
             )
         else:
             output_path = Path(output_path)
 
-        self.logger.info(f"Exporting {len(mappings}} mappings to CSV: {output_path}")
+        self.logger.info(f"Exporting {len(mappings} mappings to CSV: {output_path)}")
 
         with open(output_path, "w", newline="", encoding="utf-8") as csvfile:
             fieldnames = [
@@ -2375,12 +2375,12 @@ if __name__ == "__main__":
         elements = sage.load_symbolic_archive(
             dream_sessions=args.analyze, limit=args.limit
         )
-        print(f"   Loaded {len(elements}} symbolic elements")
+        print(f"   Loaded {len(elements)} symbolic elements")
 
         # Identify archetypes
         print("🎭 Identifying archetypal patterns...")
         mappings = sage.identify_archetypes()
-        print(f"   Classified {len(mappings}} symbols")
+        print(f"   Classified {len(mappings)} symbols")
 
         # Generate analysis
         print("🔮 Performing deep analysis...")
@@ -2388,8 +2388,8 @@ if __name__ == "__main__":
         mythic_resonances = sage.map_mythic_resonance()
         integration_conflicts = sage.detect_integration_conflicts()
 
-        print(f"   Found {len(integration_conflicts}} integration conflicts")
-        print(f"   Mapped resonance to {len(mythic_resonances}} mythic systems")
+        print(f"   Found {len(integration_conflicts)} integration conflicts")
+        print(f"   Mapped resonance to {len(mythic_resonances)} mythic systems")
 
         # Generate report
         print("📝 Generating archetypal analysis report...")
@@ -2414,11 +2414,11 @@ if __name__ == "__main__":
 
         # Display summary
         print("\n🎯 ΛSAGE Analysis Complete:")
-        print(f"   🎭 {len(mappings}} archetypal classifications")
+        print(f"   🎭 {len(mappings)} archetypal classifications")
         print(
             f"   🌍 {len([r for r in mythic_resonances.values() if r > 0.3])} strong mythic resonances"
         )
-        print(f"   ⚠️ {len(integration_conflicts}} integration conflicts")
+        print(f"   ⚠️ {len(integration_conflicts)} integration conflicts")
         print(
             f"   📊 Average confidence: {resonance_analysis['overall_statistics']['average_confidence']:.3f}"
         )

@@ -78,7 +78,7 @@ class MemoryFold:
     Represents a unit of conscious memory with quantum-bio properties
     """
 
-    fold_id: str = field(default_factory=lambda: f"fold_{uuid.uuid4()}.hex[:8]}")
+    fold_id: str = field(default_factory=lambda: f"fold_{uuid.uuid4().hex[:8]}")
     fold_type: FoldType = FoldType.EPISODIC
     content: Any = None
 
@@ -118,7 +118,7 @@ class MemoryFold:
 class ReflectionContext:
     """Context for memory reflection operations"""
 
-    reflection_id: str = field(default_factory=lambda: f"reflection_{uuid.uuid4()}.hex[:8]}")
+    reflection_id: str = field(default_factory=lambda: f"reflection_{uuid.uuid4().hex[:8]}")
     trigger_type: str = "automatic"  # automatic, query-driven, dream-state
     depth_level: int = 1  # 1-5 reflection depth
     time_horizon: float = 3600.0  # Seconds to look back

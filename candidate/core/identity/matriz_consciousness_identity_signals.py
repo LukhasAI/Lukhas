@@ -241,10 +241,10 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     self._update_emission_metrics("authentication_request", start_time)
 
                     # Create correlation mapping
-                    correlation_key = f"auth_request_{identity_id}_{int(time.time()}"
+                    correlation_key = f"auth_request_{identity_id}_{int(time.time())"
                     self.signal_correlation_map[correlation_key] = [signal.signal_id]
 
-                    logger.info(f"🔐 Emitted authentication request signal: {signal.signal_id} for {identity_id}")
+                    logger.info(f"🔐 Emitted authentication request signal: {signal.signal_id} for {identity_id)}")
                     return signal
                 else:
                     logger.error(f"❌ Authentication request signal validation failed for {identity_id}")
